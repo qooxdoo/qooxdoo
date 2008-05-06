@@ -35,6 +35,8 @@ qx.Class.define("qx.ui.slider.Slider",
   construct : function(orientation)
   {
     this.base(arguments, orientation);
+
+    this.addListener("keypress", this._onKeypress);
   },
 
 
@@ -48,10 +50,19 @@ qx.Class.define("qx.ui.slider.Slider",
 
   properties :
   {
+    // overridden
     appearance :
     {
       refine : true,
       init : "slider"
+    },
+
+
+    // overridden
+    focusable :
+    {
+      refine : true,
+      init : true
     }
   },
 
@@ -66,54 +77,50 @@ qx.Class.define("qx.ui.slider.Slider",
 
   members :
   {
-    _onKeypressSlider : function(e)
+    /**
+     * Event handler for keypress events.
+     *
+     * Adds support for arrow keys, page up, page down, home and end keys.
+     *
+     */
+    _onKeypress : function(e)
     {
       var isHorizontal = this.getOrientation() === "horizontal";
+      var backward = isHorizontal ? "Left" : "Up";
+      var forward = isHorizontal ? "Right" : "Down";
 
       switch(e.getKeyIdentifier())
       {
-        case "Right":
-          if (!isHorizontal) {
-            break;
-          }
-          this.scrollStepForward();
-          e.stopPropagation();
+        case forward:
+          this.slideForward();
           break;
 
-        case "Left":
-          if (!isHorizontal) {
-            break;
-          }
-          this.scrollStepBack();
-          e.stopPropagation();
-          break;
-
-        case "Down":
-          if (isHorizontal) {
-            break;
-          }
-          this.scrollStepForward();
-          e.stopPropagation();
-          break;
-
-        case "Up":
-          if (isHorizontal) {
-            break;
-          }
-          this.scrollStepBack();
-          e.stopPropagation();
+        case backward:
+          this.slideBack();
           break;
 
         case "PageDown":
-          this.scrollPageForward();
-          e.stopPropagation();
+          this.slidePageForward();
           break;
 
         case "PageUp":
-          this.scrollPageBack();
-          e.stopPropagation();
+          this.slidePageBack();
           break;
+
+        case "Home":
+          this.slideToBegin();
+          break;
+
+        case "End":
+          this.slideToEnd();
+          break;
+
+        default:
+          return;
       }
+
+      // Stop processed events
+      e.stop();
     }
   }
 });

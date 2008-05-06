@@ -771,7 +771,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       {
         return {
           backgroundColor : "background-light",
-          decorator : "inset"
+          decorator : states.focused ? "focused-inset" : "inset"
         }
       }
     },
