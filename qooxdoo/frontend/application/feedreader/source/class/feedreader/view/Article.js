@@ -20,7 +20,7 @@
 
 qx.Class.define("feedreader.view.Article",
 {
-  extend : qx.legacy.ui.basic.Terminator,
+  extend : qx.ui.embed.HtmlEmbed,
 
 
 
@@ -33,11 +33,10 @@ qx.Class.define("feedreader.view.Article",
 
   construct : function(article)
   {
-    qx.legacy.ui.basic.Terminator.call(this);
-
-    this.setHtmlProperty("className", "blogEntry");
-    this.setDimension("100%", "100%");
-    this.setBorder("line-top");
+    this.base(arguments);
+    
+    this.setCssClass("blogEntry");
+    this.setDecorator("line-top");    
   },
 
 
@@ -79,19 +78,15 @@ qx.Class.define("feedreader.view.Article",
      * @param propData {var} Property configuration map
      * @return {Boolean} TODOC
      */
-    _applyArticle : function(propValue, propOldValue, propData)
-    {
-      if (this._isCreated)
-      {
-        var element = this.getElement();
-        element.innerHTML = this.getHtml();
-
-        var links = element.getElementsByTagName("a");
-
-        for (var i=0; i<links.length; i++) {
-          links[i].target = "_blank";
-        }
-      }
+    _applyArticle : function(propValue, propOldValue, propData) {
+      
+      this.setHtml(this.__getArticleHtml());
+      
+      //var links = element.getElementsByTagName("a");
+      //for (var i=0; i<links.length; i++) {
+      //  links[i].target = "_blank";
+      //}
+      
 
       return true;
     },
@@ -103,7 +98,7 @@ qx.Class.define("feedreader.view.Article",
      * @type member
      * @return {string | var} TODOC
      */
-    getHtml : function()
+    __getArticleHtml : function()
     {
       var item = this.getArticle();
 
@@ -130,7 +125,7 @@ qx.Class.define("feedreader.view.Article",
       html.add("<a target='_blank' href='");
       html.add(item.link);
       html.add("'>");
-      html.add(this.tr("read more ..."));
+      html.add("read more ...");
       html.add("</a>");
 
       html.add("</div>");
