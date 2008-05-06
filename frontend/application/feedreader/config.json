@@ -1,29 +1,31 @@
 {
+  "include" :
+  {
+    "appconf" : "../../tool/data/config/application.json"
+  },
+
   "jobs" :
   {
     "common" :
     {
       "let" :
       {
-        "APPLICATION_NAMESPACE": "feedreader",
-        "QOOXDOO_PATH": "../..",
-        "QOOXDOO_URI": "../${QOOXDOO_PATH}"
+        "ROOT"           : ".",
+        "APPLICATION"    : "feedreader",
+        "QOOXDOO_PATH"   : "../../framework",
+        "QOOXDOO_URI"    : "../${QOOXDOO_PATH}"
       },
 
       "library" :
       [
         {
-          "namespace": "qx",
-          "encoding" : "utf-8",
-          "path"     : "${QOOXDOO_PATH}/framework/source",
-          "uri"      : "${QOOXDOO_URI}/framework/source"
+          "manifest" : "${QOOXDOO_PATH}/Manifest.json",
+          "uri"      : "${QOOXDOO_URI}"
         },
 
         {
-          "namespace": "${APPLICATION_NAMESPACE}",
-          "encoding" : "utf-8",
-          "path"     : "./source",
-          "uri"      : "../source"
+          "manifest" : "Manifest.json",
+          "uri"      : ".."
         }
       ],
 
@@ -35,7 +37,7 @@
         "qx.application" : "feedreader.Application",
         "qx.resourceUri" : "${QOOXDOO_URI}/framework/source/resource",
         "qx.legacy.theme"       : "qx.legacy.theme.Ext",
-        "${APPLICATION_NAMESPACE}.resourceUri" : "./resource/${APPLICATION_NAMESPACE}"
+        "${APPLICATION}.resourceUri" : "./resource/${APPLICATION}"
       },
 
       "localize" :
@@ -50,9 +52,20 @@
     },
 
 
-    "source" :
+    "source1" :
     {
       "extend" : ["common"],
+
+      "script" :
+      {
+        "file" : "./source/script/feedreader.js"
+      }
+    },
+
+
+    "source" :
+    {
+      "extend" : ["common", "appconf/jobs/source"],
 
       "script" :
       {
@@ -67,8 +80,8 @@
 
       "compile" :
       {
-        "file" : "./build/script/${APPLICATION_NAMESPACE}.js",
-        "uri"  : "script/${APPLICATION_NAMESPACE}.js"
+        "file" : "./build/script/${APPLICATION}.js",
+        "uri"  : "script/${APPLICATION}.js"
       }
     },
 

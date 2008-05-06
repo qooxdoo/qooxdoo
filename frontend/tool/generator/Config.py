@@ -264,19 +264,21 @@ class Config:
         def _expandString(s, mapstr, mapbin):
             assert isinstance(s, types.StringTypes)
             macro = ""
+            sub   = ""
             possiblyBin = re.match(r'^\${(.*)}$', s)   # look for '${...}' as a bin replacement
             if possiblyBin:
                 macro = possiblyBin.group(1)
             if macro and (macro in mapbin.keys()):
                 sub = mapbin[macro]
-                return sub
             else:
                 templ = string.Template(s)
                 sub = templ.safe_substitute(mapstr)
-                return sub
+            return sub
 
         def _expandMacrosInValues(configElem, maps):
-            """ apply macro expansion in strings recursively """
+            """ apply macro expansion on arbitrary values; takes care of recursive data like
+                lists and dicts; only actually applies macros when a string is encountered on 
+                the way """
             # arrays
             if isinstance(configElem, types.ListType):
                 for e in range(len(configElem)):
@@ -312,19 +314,26 @@ class Config:
 
 
         def _expandMacrosInLet(letDict):
-            """ takes dict with macro definitions and expands all of them within the dict"""
+            """ do macro expansion within the "let" dict """
 
             keys = letDict.keys()
             for k in keys:
                 kval = letDict[k]
+                # construct a temp. dict of translation maps, for later calls to _expand* funcs
+                if isinstance(kval, types.StringTypes):
+                    kdicts = {'str': {k:kval}, 'bin': {}}
+                else:
+                    kdicts = {'str': {}, 'bin': {k:kval}}
+                # cycle through other keys of this dict
                 for k1 in keys:
-                    if (k != k1 and isinstance(letDict[k1], types.StringTypes) 
-                                and letDict[k1].find(r'${')>-1):
-                        if isinstance(kval, types.StringTypes):
-                            letDict[k1] = _expandString(letDict[k1], {k:kval}, {})
-                        else:
-                            letDict[k1] = _expandString(letDict[k1], {}, {k:kval})
-                        console.debug("expanding: %s ==> %s" % (k1, letDict[k1]))
+                    if k != k1: # no expansion with itself!
+                        if isinstance(letDict[k1], types.StringTypes): # the current target is a string
+                            if (letDict[k1].find(r'${')>-1): # ...with macro references
+                                letDict[k1] = _expandString(letDict[k1], kdicts['str'], kdicts['bin'])
+                                console.debug("expanding: %s ==> %s" % (k1, str(letDict[k1])))
+                        else:           # the current target is a non-string, maybe compositional
+                            _expandMacrosInValues(letDict[k1], kdicts) # _expandMacrosInValues can handle them all
+                            console.debug("expanding: %s ==> %s" % (k1, str(letDict[k1])))
             return letDict
 
 
