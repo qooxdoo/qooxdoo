@@ -288,7 +288,8 @@ qx.Class.define("qx.ui.core.LayoutItem",
     {
       check : [ "left", "center", "right" ],
       nullable : true,
-      apply : "_applyAlign"
+      apply : "_applyAlign",
+      themeable: true
     },
 
 
@@ -303,7 +304,8 @@ qx.Class.define("qx.ui.core.LayoutItem",
     {
       check : [ "top", "middle", "bottom", "baseline" ],
       nullable : true,
-      apply : "_applyAlign"
+      apply : "_applyAlign",
+      themeable: true
     }
   },
 
