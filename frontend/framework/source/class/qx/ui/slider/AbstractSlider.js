@@ -565,7 +565,7 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
       // Fast path (using qx.html.Element API)
       // Is this too hacky? (Maybe OK here, but not suggested for wide usage ;)
       // Still a bad choice for initial rendering. Fabian?
-      this._knob.getContainerElement().setStyle(property, (inset + position) + "px");
+      this._knob.getContainerElement().setStyle(property, (inset + position) + "px", true);
       //qx.ui.core.queue.Manager.flush();
     },
 
