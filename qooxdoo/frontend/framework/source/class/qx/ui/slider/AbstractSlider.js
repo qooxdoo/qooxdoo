@@ -168,10 +168,10 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
     /**
      *
      */
-    knobSize :
+    knobFactor :
     {
       check : "Number",
-      apply : "_applyKnobSize",
+      apply : "_applyKnobFactor",
       nullable : true
     }
   },
@@ -202,7 +202,7 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
      */
     _onMouseDown : function(e)
     {
-      var isHorizontal = this.getOrientation() === "horizontal";
+      var isHorizontal = this.__isHorizontal;
       var knob = this._knob;
 
       var locationProperty = isHorizontal ? "left" : "top";
@@ -300,7 +300,7 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
     {
       if (this.__dragMode)
       {
-        var dragStop = this.getOrientation() === "horizontal" ?
+        var dragStop = this.__isHorizontal ?
           e.getDocumentLeft() : e.getDocumentTop();
         var position = dragStop - this.__dragOffset;
 
@@ -354,16 +354,17 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
      */
     _onResize : function(e)
     {
-      this._updateKnobSize();
-
+      // Update sliding space
       var availSize = this.getComputedInnerSize();
       var knobSize = this._knob.getBounds();
-      var sizeProperty = this.getOrientation() === "horizontal" ? "width" : "height";
+      if (this.__isHorizontal) {
+        this.__slidingSpace = availSize.width - knobSize.width;
+      } else {
+        this.__slidingSpace = availSize.height - knobSize.height;
+      }
 
-      // Update sliding space
-      this.__availSlidingSpace = availSize[sizeProperty] - knobSize[sizeProperty];
-
-      // Sync knob position
+      // Sync knob position and size
+      this._updateKnobSize();
       this._updateKnobPosition();
     },
 
@@ -390,8 +391,12 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
     ---------------------------------------------------------------------------
     */
 
+    /** {Boolean} Whether the slider is layouted horizontally */
+    __isHorizontal : false,
+
+
     /** {Integer} Available space for knob to slide on, computed on resize of the widget */
-    __availSlidingSpace : 0,
+    __slidingSpace : 0,
 
 
     /**
@@ -404,7 +409,7 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
      */
     __computeTrackingEnd : function(e)
     {
-      var isHorizontal = this.getOrientation() === "horizontal";
+      var isHorizontal = this.__isHorizontal;
       var cursorLocation = isHorizontal ? e.getDocumentLeft() : e.getDocumentTop();
       var sliderLocation = this._sliderLocation;
       var knobLocation = this._knobLocation;
@@ -480,7 +485,7 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
     _positionToValue : function(position)
     {
       // Reading available space
-      var avail = this.__availSlidingSpace;
+      var avail = this.__slidingSpace;
 
       // Protect undefined value (before initial resize) and division by zero
       if (avail == null || avail == 0) {
@@ -514,7 +519,7 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
     _valueToPosition : function(value)
     {
       // Reading available space
-      var avail = this.__availSlidingSpace;
+      var avail = this.__slidingSpace;
       if (avail == null) {
         return 0;
       }
@@ -566,7 +571,7 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
      */
     _setKnobPosition : function(position)
     {
-      if (this.getOrientation() === "horizontal") {
+      if (this.__isHorizontal) {
         var props = {left:position};
       } else {
         var props = {top:position};
@@ -576,12 +581,18 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
     },
 
 
-
+    /**
+     * Reconfigures the size of the knob depending on
+     * the optionally defined {@link #knobFactor}.
+     *
+     * @type member
+     * @return {void}
+     */
     _updateKnobSize : function()
     {
       // Compute knob size
-      var knobSize = this.getKnobSize();
-      if (knobSize == null) {
+      var knobFactor = this.getKnobFactor();
+      if (knobFactor == null) {
         return;
       }
 
@@ -598,10 +609,10 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
       }
 
       // Read size property
-      if (this.getOrientation() === "horizontal") {
-        this._knob.setWidth(Math.round(knobSize * avail.width));
+      if (this.__isHorizontal) {
+        this._knob.setWidth(Math.round(knobFactor * avail.width));
       } else {
-        this._knob.setHeight(Math.round(knobSize * avail.height));
+        this._knob.setHeight(Math.round(knobFactor * avail.height));
       }
     },
 
@@ -728,19 +739,18 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
     // property apply
     _applyOrientation : function(value, old)
     {
-      var isHorizontal = value === "horizontal";
       var knob = this._knob;
 
-      this.setAllowStretchX(isHorizontal);
-      this.setAllowStretchY(!isHorizontal);
-
-      if (isHorizontal)
+      this.__isHorizontal = value === "horizontal";
+      if (this.__isHorizontal)
       {
         this.removeState("vertical");
         knob.removeState("vertical");
 
         this.addState("horizontal");
         knob.addState("horizontal");
+
+        knob.setLayoutProperties({top:0, right:null, bottom:0});
       }
       else
       {
@@ -749,11 +759,7 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
 
         this.addState("vertical");
         knob.addState("vertical");
-      }
 
-      if (isHorizontal) {
-        knob.setLayoutProperties({top:0, right:null, bottom:0});
-      } else {
         knob.setLayoutProperties({right:0, bottom:null, left:0});
       }
 
@@ -761,7 +767,7 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
     },
 
 
-    _applyKnobSize : function(value, old)
+    _applyKnobFactor : function(value, old)
     {
       if (value != null)
       {
@@ -769,7 +775,7 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
       }
       else
       {
-        if (this.getOrientation() === "horizontal") {
+        if (this.__isHorizontal) {
           this._knob.resetWidth();
         } else {
           this._knob.resetHeight();
