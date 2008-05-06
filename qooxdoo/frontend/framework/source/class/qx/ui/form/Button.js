@@ -58,6 +58,8 @@ qx.Class.define("qx.ui.form.Button",
   },
 
 
+
+
   /*
   *****************************************************************************
      PROPERTIES
@@ -71,7 +73,7 @@ qx.Class.define("qx.ui.form.Button",
     {
       check : "String",
       nullable : true,
-      event : "changeValue"
+      event : "change"
     },
 
     // overridden
@@ -88,6 +90,7 @@ qx.Class.define("qx.ui.form.Button",
       init : true
     }
   },
+
 
 
 
