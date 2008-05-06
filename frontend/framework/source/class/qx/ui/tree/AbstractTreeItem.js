@@ -482,13 +482,23 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
       if (!this._open) {
         return false;
       }
-/*
+
       var tree = this.getTree();
       if (!tree.getRootOpenClose())
       {
-        if (tree.getHideRoot)
+        if (tree.getHideRoot()) {
+          if (tree.getRoot() == this.getParent()) {
+            return false;
+          }
+        }
+        else
+        {
+          if (tree.getRoot() == this) {
+            return false;
+          }
+        }
       }
-*/
+
       return this.isOpenable();
     },
 
