@@ -482,7 +482,13 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
       if (!this._open) {
         return false;
       }
-
+/*
+      var tree = this.getTree();
+      if (!tree.getRootOpenClose())
+      {
+        if (tree.getHideRoot)
+      }
+*/
       return this.isOpenable();
     },
 
@@ -545,7 +551,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
         level += 1;
       }
 
-      // don't count the hidden rot node in the tree widget
+      // don't count the hidden root node in the tree widget
       if (tree.getHideRoot()) {
         level -= 1;
       }

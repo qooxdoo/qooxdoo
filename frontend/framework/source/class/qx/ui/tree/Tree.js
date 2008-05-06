@@ -402,12 +402,6 @@ qx.Class.define("qx.ui.tree.Tree",
     },
 
 
-    // interface implementation
-    getSelectables : function() {
-      return this.getRoot().getItems(true, false, this.getHideRoot());
-    },
-
-
     /**
      * Returns all children of the tree.
      *
