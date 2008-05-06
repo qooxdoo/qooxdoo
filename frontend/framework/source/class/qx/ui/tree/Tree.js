@@ -43,7 +43,6 @@
 qx.Class.define("qx.ui.tree.Tree",
 {
   extend : qx.ui.core.ScrollArea,
-  implement : qx.ui.core.selection.IContainer,
 
 
 
