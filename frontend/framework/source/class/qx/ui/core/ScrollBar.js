@@ -47,7 +47,6 @@ qx.Class.define("qx.ui.core.ScrollBar",
     this._slider.setAllowStretchX(true);
     this._slider.setAllowStretchY(true);
     this._slider.addListener("change", this._onChangeSlider, this);
-    this._slider.addListener("resize", this._onResizeSlider, this);
 
 
     // Top/Left Button
@@ -239,34 +238,16 @@ qx.Class.define("qx.ui.core.ScrollBar",
     },
 
 
-    _onResizeSlider : function(e) {
-      this.__updateSliderSize();
-    },
-
-
     /**
      * Updates the slider size and computes the new slider maximum.
      */
     __updateSliderSize : function()
     {
-      var size = this._slider.getComputedInnerSize();
-      if (!size) {
-        return;
-      }
+      var outer = this.getContainerSize();
+      var inner = this.getContentSize();
 
-      var isHorizontal = this.getOrientation() === "horizontal";
-      var scrollSize = isHorizontal ? size.width : size.height;
-
-      this._slider.setMaximum(Math.max(0, this.getContentSize() - this.getContainerSize()));
-
-      // compute and set new slider size
-      var sliderSize = Math.min(scrollSize, Math.round(scrollSize * this.getContainerSize() / this.getContentSize()));
-
-      if (isHorizontal) {
-        this._slider._knob.setWidth(sliderSize);
-      } else {
-        this._slider._knob.setHeight(sliderSize);
-      }
+      this._slider.setMaximum(Math.max(0, inner - outer));
+      this._slider.setKnobSize(outer / inner);
     },
 
 

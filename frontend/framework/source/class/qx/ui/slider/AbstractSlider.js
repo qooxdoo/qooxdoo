@@ -82,7 +82,7 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
 
     // Resize handling
     this.addListener("resize", this._onResize, this);
-    this._knob.addListener("resize", this._onResize, this);
+    this._knob.addListener("resize", this._onKnobResize, this);
   },
 
 
@@ -162,6 +162,17 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
     {
       check : "Integer",
       init : 10
+    },
+
+
+    /**
+     *
+     */
+    knobSize :
+    {
+      check : "Number",
+      apply : "_applyKnobSize",
+      nullable : true
     }
   },
 
@@ -343,6 +354,8 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
      */
     _onResize : function(e)
     {
+      this._updateKnobSize();
+
       var availSize = this.getComputedInnerSize();
       var knobSize = this._knob.getBounds();
       var sizeProperty = this.getOrientation() === "horizontal" ? "width" : "height";
@@ -352,6 +365,19 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
 
       // Sync knob position
       this._updateKnobPosition();
+    },
+
+
+    /**
+     * Listener of resize event for both the slider itself and the knob.
+     *
+     * @type member
+     * @param e {qx.event.type.Data} Incoming event object
+     * @return {void}
+     */
+    _onKnobResize : function(e)
+    {
+      this._onResize(e);
     },
 
 
@@ -551,6 +577,36 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
 
 
 
+    _updateKnobSize : function()
+    {
+      // Compute knob size
+      var knobSize = this.getKnobSize();
+      if (knobSize == null) {
+        return;
+      }
+
+      // Read range and protect division by zero
+      var range = this.getMaximum() - this.getMinimum();
+      if (range == 0) {
+        return;
+      }
+
+      // Ignore when not rendered yet
+      var avail = this.getComputedInnerSize();
+      if (avail == null) {
+        return;
+      }
+
+      // Read size property
+      if (this.getOrientation() === "horizontal") {
+        this._knob.setWidth(Math.round(knobSize * avail.width));
+      } else {
+        this._knob.setHeight(Math.round(knobSize * avail.height));
+      }
+    },
+
+
+
 
 
     /*
@@ -702,6 +758,23 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
       }
 
       this._updateKnobPosition();
+    },
+
+
+    _applyKnobSize : function(value, old)
+    {
+      if (value != null)
+      {
+        this._updateKnobSize();
+      }
+      else
+      {
+        if (this.getOrientation() === "horizontal") {
+          this._knob.resetWidth();
+        } else {
+          this._knob.resetHeight();
+        }
+      }
     },
 
 
