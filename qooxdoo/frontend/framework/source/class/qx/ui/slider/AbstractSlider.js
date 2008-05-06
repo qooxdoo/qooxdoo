@@ -88,7 +88,11 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
     },
 
 
-    /** The current slider value */
+    /**
+     * The current slider value.
+     *
+     * To configure the value please use {@link #slideTo} instead.
+     */
     value :
     {
       check : "Integer",
@@ -111,7 +115,8 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
 
 
     /**
-     * The maximum slider value. This value must be larger than {@link #minimum}.
+     * The maximum slider value (may be nagative). This value must be larger
+     * than {@link #minimum}.
      */
     maximum :
     {
@@ -121,7 +126,10 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
     },
 
 
-    /** The amount to increment on each event. Typically corresponds to the user pressing an arrow key. */
+    /**
+     * The amount to increment on each event. Typically corresponds
+     * to the user pressing an arrow key.
+     */
     singleStep :
     {
       check : "Integer",
@@ -129,7 +137,10 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
     },
 
 
-    /** The amount to increment on each event. Typically corresponds to the user pressing PageUp or PageDown. */
+    /**
+     * The amount to increment on each event. Typically corresponds
+     * to the user pressing PageUp or PageDown.
+     */
     pageStep :
     {
       check : "Integer",
@@ -191,7 +202,7 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
         this.__trackingDirection = cursorLocation <= knobLocation ? -1 : 1;
 
         // Compute end value
-        this._computeTrackingEnd(e);
+        this.__computeTrackingEnd(e);
 
         // Initialize timer (when needed)
         if (!this.__timer)
@@ -205,7 +216,7 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
       }
 
       // Register move listener
-      this.addListener("mousemove", this._onKnobMove);
+      this.addListener("mousemove", this._onMouseMove);
 
       // Activate capturing
       this.capture();
@@ -224,9 +235,6 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
     {
       if (this.__dragMode)
       {
-        // Remove move listener again
-        this.removeListener("mousemove", this._onKnobMove);
-
         // Release capture mode
         this.releaseCapture();
 
@@ -245,7 +253,35 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
         // Cleanup status flags
         delete this.__trackingMode;
         delete this.__trackingDirection;
-        delete this.__trackingValue;
+        delete this.__trackingEnd;
+      }
+
+      // Remove move listener again
+      this.removeListener("mousemove", this._onMouseMove);
+    },
+
+
+    /**
+     * Listener of mousmove event for the knob. Only used in drag mode.
+     *
+     * @type member
+     * @param e {qx.event.type.Mouse} Incoming event object
+     * @return {void}
+     */
+    _onMouseMove : function(e)
+    {
+      if (this.__dragMode)
+      {
+        var dragStop = this.getOrientation() === "horizontal" ?
+          e.getDocumentLeft() : e.getDocumentTop();
+        var position = dragStop - this.__dragOffset;
+
+        this.slideTo(this._positionToValue(position));
+      }
+      else if (this.__trackingMode)
+      {
+        // Update tracking end on mousemove
+        this.__computeTrackingEnd(e);
       }
     },
 
@@ -271,41 +307,13 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
       }
 
       // Stop at tracking position (where the mouse is pressed down)
-      var toBegin = this.__trackingDirection == -1;
-      if ((toBegin && value <= this.__trackingValue) || (!toBegin && value >= this.__trackingValue))
-      {
-        this.slideTo(this.__trackingValue);
+      var slideBack = this.__trackingDirection == -1;
+      if ((slideBack && value <= this.__trackingEnd) || (!slideBack && value >= this.__trackingEnd)) {
+        value = this.__trackingEnd;
       }
-      else
-      {
-        // Finally, slide to the desired position
-        this.slideTo(value);
-      }
-    },
 
-
-    /**
-     * Listener of mousmove event for the knob. Only used in drag mode.
-     *
-     * @type member
-     * @param e {qx.event.type.Mouse} Incoming event object
-     * @return {void}
-     */
-    _onKnobMove : function(e)
-    {
-      if (this.__dragMode)
-      {
-        var isHorizontal = this.getOrientation() === "horizontal";
-        var dragStop = isHorizontal ? e.getDocumentLeft() : e.getDocumentTop();
-        var position = dragStop - this.__dragOffset;
-
-        this.slideTo(this._positionToValue(position));
-      }
-      else if (this.__trackingMode)
-      {
-        // Update tracking end on mousemove
-        this._computeTrackingEnd(e);
-      }
+      // Finally, slide to the desired position
+      this.slideTo(value);
     },
 
 
@@ -318,7 +326,7 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
      */
     _onMouseWheel : function(e)
     {
-      this.slideBy(e.getWheelDelta() * this.getSingleStep());
+      this.slideBy(e.getWheelDelta() * this.getSingleStep() * -1);
       e.stopPropagation();
     },
 
@@ -357,8 +365,15 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
     __availSlidingSpace : 0,
 
 
-
-    _computeTrackingEnd : function(e)
+    /**
+     * Computes the value where the tracking should end depending on
+     * the current mouse position.
+     *
+     * @type member
+     * @param e {qx.event.type.Mouse} Incoming mouse event
+     * @return {void}
+     */
+    __computeTrackingEnd : function(e)
     {
       var isHorizontal = this.getOrientation() === "horizontal";
       var cursorLocation = isHorizontal ? e.getDocumentLeft() : e.getDocumentTop();
@@ -374,39 +389,49 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
       }
 
       // Compute stop value
-      var value = this._snapValue(this._positionToValue(position), slideBack, true);
+      var value = this._snapValue(this._positionToValue(position), slideBack);
 
       // Follow direction directive
-      if (this.__trackingValue == null || (this.__trackingDirection == -1 && value <= this.__trackingValue) || (this.__trackingDirection == 1 && value >= this.__trackingValue)) {
-        this.__trackingValue = value;
+      if (this.__trackingEnd == null || (this.__trackingDirection == -1 && value <= this.__trackingEnd) || (this.__trackingDirection == 1 && value >= this.__trackingEnd)) {
+        this.__trackingEnd = value;
       }
+
+      this._trackingEndPosition = position;
     },
 
 
-    _snapValue : function(value, up, page)
+    /**
+     * Snaps the given value into the single step configured
+     * stepping.
+     *
+     * @type member
+     * @param value {Integer} Value to use
+     * @param back {Boolean?false} Whether the
+     *   rounding should happen (ceil vs. floor)
+     * @return {Integer} Snapped value
+     */
+    _snapValue : function(value, back)
     {
-      var block = page ? this.getPageStep() : this.getSingleStep();
+      var block = this.getSingleStep();
 
-      // Adding minium to value to allow snapping from initial point
-      var min = this.getMinimum();
-      value += min;
-
-      if (up) {
+      if (back) {
         value = Math.ceil(value / block) * block;
       } else {
         value = Math.floor(value / block) * block;
       }
-
-      // Substract minimum again
-      value -= min;
 
       return value;
     },
 
 
     /**
+     * Converts the given position to a value.
      *
+     * Does not respect single or page step.
      *
+     * @type member
+     * @param position {Integer} Position to use
+     * @return {Integer} Resulting value (rounded)
      */
     _positionToValue : function(position)
     {
@@ -435,8 +460,12 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
 
 
     /**
+     * Converts the given value to a position to place
+     * the knob to.
      *
-     *
+     * @type member
+     * @param value {Integer} Value to use
+     * @return {Integer} Computed position (rounded)
      */
     _valueToPosition : function(value)
     {
@@ -471,19 +500,27 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
 
 
     /**
+     * Updates the knob position following the currently configured
+     * value. Useful on reflows where the dimensions of the slider
+     * itself have been modified.
      *
-     *
+     * @type member
+     * @return {void}
      */
     _updateKnobPosition : function() {
-      this._setSliderPosition(this._valueToPosition(this.getValue()));
+      this._setKnobPosition(this._valueToPosition(this.getValue()));
     },
 
 
     /**
+     * Moves the knob to the given position.
      *
-     *
+     * @type member
+     * @param position {Integer} Any valid posititon (needs to be
+     *   greater or equal than zero)
+     * @return {void}
      */
-    _setSliderPosition : function(position)
+    _setKnobPosition : function(position)
     {
       if (this.getOrientation() === "horizontal") {
         var props = {left:position};
@@ -505,8 +542,32 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
     */
 
     /**
+     * Slides backward to the minimum value
      *
+     * @type member
+     * @return {void}
+     */
+    slideToBegin : function() {
+      this.slideTo(this.getMinimum());
+    },
+
+
+    /**
+     * Slides forward to the maximum value
      *
+     * @type member
+     * @return {void}
+     */
+    slideToEnd : function() {
+      this.slideTo(this.getMaximum());
+    },
+
+
+    /**
+     * Slides forward (right or bottom depending on orientation)
+     *
+     * @type member
+     * @return {void}
      */
     slideForward : function() {
       this.slideBy(this.getSingleStep());
@@ -514,8 +575,10 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
 
 
     /**
+     * Slides backward (to left or top depending on orientation)
      *
-     *
+     * @type member
+     * @return {void}
      */
     slideBack : function() {
       this.slideBy(-this.getSingleStep());
@@ -523,8 +586,10 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
 
 
     /**
+     * Slides a page forward (to right or bottom depending on orientation)
      *
-     *
+     * @type member
+     * @return {void}
      */
     slidePageForward : function() {
       this.slideBy(this.getPageStep());
@@ -532,8 +597,10 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
 
 
     /**
+     * Slides a page backward (to left or top depending on orientation)
      *
-     *
+     * @type member
+     * @return {void}
      */
     slidePageBack : function() {
       this.slideBy(-this.getPageStep());
@@ -541,8 +608,13 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
 
 
     /**
+     * Slides by the given offset.
      *
+     * This method works with the value, not with the coordinate.
      *
+     * @type member
+     * @param offset {Integer} Offset to scroll by
+     * @return {void}
      */
     slideBy : function(offset) {
       this.slideTo(this.getValue() + offset);
@@ -550,8 +622,14 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
 
 
     /**
+     * Slides to the given value
      *
+     * This method works with the value, not with the coordinate.
      *
+     * @type member
+     * @param value {Integer} Scroll to a value between the defined
+     *   minimum and maximum.
+     * @return {void}
      */
     slideTo : function(value)
     {
@@ -563,7 +641,6 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
 
       this.setValue(this._snapValue(value));
     },
-
 
 
 
