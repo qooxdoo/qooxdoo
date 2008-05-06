@@ -67,7 +67,6 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
     this.addListener("mousedown", this._onMouseDown, this);
     this.addListener("mouseup", this._onMouseUp, this);
     this.addListener("losecapture", this._onMouseUp, this);
-    this.addListener("mousewheel", this._onMouseWheel, this);
 
     // Create knob
     this._knob = new qx.ui.core.Widget();
@@ -332,20 +331,6 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
 
       // Finally, slide to the desired position
       this.slideTo(value);
-    },
-
-
-    /**
-     * Listener of mousewheel event
-     *
-     * @type member
-     * @param e {qx.event.type.Mouse} Incoming event object
-     * @return {void}
-     */
-    _onMouseWheel : function(e)
-    {
-      this.slideBy(e.getWheelDelta() * this.getSingleStep() * -1);
-      e.stopPropagation();
     },
 
 
