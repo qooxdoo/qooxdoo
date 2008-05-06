@@ -185,7 +185,8 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
       if (!this._label)
       {
         this._label = new qx.ui.basic.Label().set({
-          appearance: this.getAppearance() + "-label"
+          appearance: this.getAppearance() + "-label",
+          alignY: "middle"
         });
       }
 
@@ -203,7 +204,8 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
       if (!this._icon)
       {
         this._icon = new qx.ui.basic.Image().set({
-          appearance: this.getAppearance() + "-icon"
+          appearance: this.getAppearance() + "-icon",
+          alignY: "middle"
         });
         this.__updateIcon();
       }
@@ -278,7 +280,9 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
     {
       if (!this._open)
       {
-        this._open = new qx.ui.tree.FolderOpenButton();
+        this._open = new qx.ui.tree.FolderOpenButton().set({
+          alignY: "middle"
+        });
         this._open.addListener("changeOpen", this._onChangeOpen, this);
         this._open.addListener("resize", this._updateIndent, this);
       }
@@ -287,7 +291,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
         this._remove(this._open);
       }
 
-      this._add(this._open, {align: "middle"});
+      this._add(this._open);
     },
 
 
@@ -317,7 +321,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
         this._remove(icon);
       }
 
-      this._add(icon, {align: "middle"});
+      this._add(icon);
       this._iconAdded = true;
     },
 
@@ -343,7 +347,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
         label.setContent(this.getLabel());
       }
 
-      this._add(label, {align: "middle"});
+      this._add(label);
       this._labelAdded = true;
     },
 
@@ -359,7 +363,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
     {
       this.base(arguments, state);
 
-      var children = this.getChildren();
+      var children = this._getChildren();
       for (var i=0,l=children.length; i<l; i++)
       {
         var child = children[i];
@@ -375,7 +379,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
     {
       this.base(arguments, state);
 
-      var children = this.getChildren();
+      var children = this._getChildren();
       for (var i=0,l=children.length; i<l; i++)
       {
         var child = children[i];
@@ -463,7 +467,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
       var openMode = this.getOpenSymbolMode();
       return (
         openMode === "always" ||
-        openMode === "never" && this.hasChildren()
+        openMode === "auto" && this.hasChildren()
       );
     },
 
