@@ -56,7 +56,6 @@ qx.Class.define("demobrowser.DemoBrowser",
     this._useProfile = false;
 
     // Commands
-    qx.Class.include(qx.event.Command, qx.core.MUserData);
     this.__makeCommands();
 
     // Header Pane
