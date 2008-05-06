@@ -91,6 +91,14 @@ qx.Class.define("qx.ui.basic.Label",
     },
 
 
+    textAlign :
+    {
+      check : ["left", "center", "right"],
+      nullable : true,
+      apply : "_applyTextAlign"
+    },
+
+
     // overridden
     appearance :
     {
@@ -179,6 +187,13 @@ qx.Class.define("qx.ui.basic.Label",
     _applyFont : function(value, old) {
       qx.theme.manager.Font.getInstance().connect(this.__styleFont, this, value);
     },
+
+
+    // property apply
+    _applyTextAlign : function(value, old) {
+      this._contentElement.setStyle("textAlign", value);
+    },
+
 
 
 
