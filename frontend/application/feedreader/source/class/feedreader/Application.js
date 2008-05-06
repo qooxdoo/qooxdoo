@@ -121,6 +121,8 @@ qx.Class.define("feedreader.Application",
 
       // Load data file
       qx.event.Timer.once(this._load, this, 0);
+      
+      
       self = this;
     },
 
@@ -308,7 +310,7 @@ qx.Class.define("feedreader.Application",
 
       // Create the list view
       this._listView = new feedreader.view.List(this);
-      vBoxComposite.add(this._listView, {flex: 1});            
+      vBoxComposite.add(this._listView, {flex: 1});
 
       // Create article view
       this._articleView = new feedreader.view.Article();
