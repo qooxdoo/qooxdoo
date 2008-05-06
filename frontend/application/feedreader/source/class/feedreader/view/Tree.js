@@ -41,7 +41,7 @@ qx.Class.define("feedreader.view.Tree",
     this.setHideRoot(true);
     this.setRoot(this._root);
 
-    this.getManager().addListener("change", this._onChangeSelection, this);
+    this.getManager().addListener("change", this._onChangeSelection, this);    
     this.refresh();
   },
 
