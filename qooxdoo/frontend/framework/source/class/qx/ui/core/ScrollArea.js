@@ -106,16 +106,10 @@ qx.Class.define("qx.ui.core.ScrollArea",
     },
 
 
-    /**
-     * The scroll content's line height. This infromation will be used to compute
-     * the scroll steps.
-     */
     lineHeight :
     {
       check : "Integer",
-      init : 22,
-      event : "changeLineHeight",
-      apply : "_applyLineHeight"
+      init : 22
     }
   },
 
@@ -193,11 +187,9 @@ qx.Class.define("qx.ui.core.ScrollArea",
       var scrollbar = new qx.ui.core.ScrollBar(orientation);
 
       scrollbar.exclude();
-      scrollbar.addListener(
-        "change",
-        orientation == "horizontal" ? this._onHorizontalScroll :this._onVerticalScroll,
-        this
-      );
+      scrollbar.addListener("change", orientation == "horizontal" ?
+        this._onHorizontalScroll : this._onVerticalScroll, this);
+
       scrollbar.addListener("changeVisibility", this._onChangeScrollBarVisibility, this);
 
       if (orientation == "horizontal")
@@ -206,9 +198,9 @@ qx.Class.define("qx.ui.core.ScrollArea",
       }
       else
       {
-        scrollbar.setLineStep(this.getLineHeight());
         this._add(scrollbar, {row: 0, column: 1});
       }
+
       this._scrollbars[orientation] = scrollbar;
       return scrollbar;
     },
@@ -222,15 +214,18 @@ qx.Class.define("qx.ui.core.ScrollArea",
     _setCornerVisibility : function(isVisible)
     {
       var corner = this._corner;
+
       if (isVisible)
       {
         if (!corner) {
           corner = this._getCornerWidget();
         }
+
         corner.show();
       }
-      else {
-        corner && corner.exclude();
+      else if (corner)
+      {
+        corner.exclude();
       }
     },
 
@@ -283,6 +278,7 @@ qx.Class.define("qx.ui.core.ScrollArea",
           };
         }
       }
+
       return {
         height: 0,
         width: 0
@@ -311,7 +307,7 @@ qx.Class.define("qx.ui.core.ScrollArea",
         return {
           height: 0,
           width: 0
-        }
+        };
       }
     },
 
@@ -321,16 +317,6 @@ qx.Class.define("qx.ui.core.ScrollArea",
       SCROLL SUPPORT
     ---------------------------------------------------------------------------
     */
-
-
-    // property apply
-    _applyLineHeight : function(value, old)
-    {
-      if (this._scrollbars.vertical) {
-        this._scrollbars.vertical.setLineStep(value);
-      }
-    },
-
 
     /**
      * Scrolls the element's content to the given left coordinate
@@ -484,16 +470,13 @@ qx.Class.define("qx.ui.core.ScrollArea",
      */
     _onMousewheel : function(e)
     {
-      var wheelIncrement = Math.round(-e.getWheelDelta());
-      if (wheelIncrement == 0) {
-        wheelIncrement = wheelIncrement <= 0 ? -1 : 1;
-      }
-      this._scrollPane.scrollTopBy(wheelIncrement * this.getLineHeight(), true);
+      this._scrollPane.scrollTopBy(e.getWheelDelta() * this.getLineHeight() * -1, true);
 
       var computedTop = this._scrollPane.getScrollTop();
       if (this._scrollbars.vertical || computedTop !== 0) {
         this._getScrollBar("vertical").setValue(computedTop);
       }
+
       e.stopPropagation();
     },
 

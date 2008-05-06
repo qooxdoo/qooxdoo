@@ -52,7 +52,7 @@ qx.Class.define("qx.ui.core.ScrollBar",
       appearance : "scrollbar-button",
       focusable: false
     });
-    this._btnBegin.addListener("execute", this._scrollBegin, this);
+    this._btnBegin.addListener("execute", this._onExecuteBegin, this);
 
 
     // Bottom/Right Button
@@ -60,7 +60,7 @@ qx.Class.define("qx.ui.core.ScrollBar",
       appearance : "scrollbar-button",
       focusable: false
     });
-    this._btnEnd.addListener("execute", this._scrollEnd, this);
+    this._btnEnd.addListener("execute", this._onExecuteEnd, this);
 
 
     // Add children
@@ -77,8 +77,8 @@ qx.Class.define("qx.ui.core.ScrollBar",
     }
 
 
-    // Initialize step size
-    this.initLineStep();
+    // Initialize page step
+    this.initPageStep();
   },
 
 
@@ -92,6 +92,14 @@ qx.Class.define("qx.ui.core.ScrollBar",
 
   properties :
   {
+    // overridden
+    appearance :
+    {
+      refine : true,
+      init : "scrollbar"
+    },
+
+
     /**
      * The scroll bar orientation
      */
@@ -140,19 +148,22 @@ qx.Class.define("qx.ui.core.ScrollBar",
     /**
      * The amount to scroll if the user clicks on one of the arrow buttons.
      */
-    lineStep :
+    singleStep :
     {
       check : "Integer",
       init : 22,
-      apply : "_applyLineStep"
+      apply : "_applySingleStep"
     },
 
 
-    // overridden
-    appearance :
+    /**
+     * The amount to scroll if the user clicks on the page control (scrollbar background)
+     */
+    pageStep :
     {
-      refine : true,
-      init : "scrollbar"
+      check : "Integer",
+      init : 110,
+      apply : "_applyPageStep"
     }
   },
 
@@ -168,74 +179,6 @@ qx.Class.define("qx.ui.core.ScrollBar",
 
   members :
   {
-    _scrollBegin : function() {
-      this._slider.slideBy(-this.getLineStep());
-    },
-
-    _scrollEnd : function() {
-      this._slider.slideBy(this.getLineStep());
-    },
-
-
-    /**
-     * Change listener for sider value changes.
-     *
-     * @param e {qx.event.type.Change} The change event object
-     */
-    _onChangeSlider : function(e) {
-      this.setValue(e.getValue());
-    },
-
-
-    // property apply
-    _applyOrientation : function(value, old)
-    {
-      // Dispose old layout
-      var oldLayout = this._getLayout();
-      if (oldLayout) {
-        oldLayout.dispose();
-      }
-
-      // Reconfigure
-      if (value === "horizontal")
-      {
-        this._setLayout(new qx.ui.layout.HBox);
-
-        this.setAllowStretchX(true);
-        this.setAllowStretchY(false);
-
-        this.addState("horizontal");
-        this.removeState("vertical");
-
-        this._btnBegin.addState("left");
-        this._btnBegin.removeState("up");
-
-        this._btnEnd.addState("right");
-        this._btnEnd.removeState("down");
-      }
-      else
-      {
-        this._setLayout(new qx.ui.layout.VBox);
-
-        this.setAllowStretchX(false);
-        this.setAllowStretchY(true);
-
-        this.addState("vertical");
-        this.removeState("horizontal");
-
-        this._btnBegin.addState("up");
-        this._btnBegin.removeState("left");
-
-        this._btnEnd.addState("down");
-        this._btnEnd.removeState("right");
-      }
-
-
-      // Sync slider orientation
-      this._slider.setOrientation(value);
-    },
-
-
     /**
      * Updates the slider size and computes the new slider maximum.
      */
@@ -254,13 +197,92 @@ qx.Class.define("qx.ui.core.ScrollBar",
 
     /*
     ---------------------------------------------------------------------------
+      EVENT LISTENER
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Executed when the up/left button is executed (pressed)
+     *
+     * @param e {qx.event.type.Event} Execute event of the button
+     */
+    _onExecuteBegin : function() {
+      this._slider.slideBy(-this.getSingleStep());
+    },
+
+
+    /**
+     * Executed when the down/right button is executed (pressed)
+     *
+     * @param e {qx.event.type.Event} Execute event of the button
+     */
+    _onExecuteEnd : function() {
+      this._slider.slideBy(this.getSingleStep());
+    },
+
+
+    /**
+     * Change listener for sider value changes.
+     *
+     * @param e {qx.event.type.Change} The change event object
+     */
+    _onChangeSlider : function(e) {
+      this.setValue(e.getValue());
+    },
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
       PROPERTY APPLY ROUTINES
     ---------------------------------------------------------------------------
     */
 
     // property apply
+    _applyOrientation : function(value, old)
+    {
+      // Dispose old layout
+      var oldLayout = this._getLayout();
+      if (oldLayout) {
+        oldLayout.dispose();
+      }
+
+      // TODO: Cache layout instances?
+
+      // Reconfigure
+      if (value === "horizontal")
+      {
+        this._setLayout(new qx.ui.layout.HBox);
+
+        this.setAllowStretchX(true);
+        this.setAllowStretchY(false);
+
+        this.replaceState("vertical", "horizontal");
+        this._btnBegin.replaceState("up", "left");
+        this._btnEnd.replaceState("down", "right");
+      }
+      else
+      {
+        this._setLayout(new qx.ui.layout.VBox);
+
+        this.setAllowStretchX(false);
+        this.setAllowStretchY(true);
+
+        this.replaceState("horizontal", "vertical");
+        this._btnBegin.replaceState("left", "up");
+        this._btnEnd.replaceState("right", "down");
+      }
+
+      // Sync slider orientation
+      this._slider.setOrientation(value);
+    },
+
+
+    // property apply
     _applyValue : function(value, old) {
-      this._slider.setValue(value);
+      this._slider.slideTo(value);
     },
 
 
@@ -277,8 +299,14 @@ qx.Class.define("qx.ui.core.ScrollBar",
 
 
     // property apply
-    _applyLineStep : function(value, old) {
+    _applySingleStep : function(value, old) {
+      // empty implementation
+    },
 
+
+    // property apply
+    _applyPageStep : function(value, old) {
+      this._slider.setPageStep(value);
     }
   }
 });
