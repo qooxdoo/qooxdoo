@@ -263,6 +263,8 @@ class Config:
 
         def _expandString(s, mapstr, mapbin):
             assert isinstance(s, types.StringTypes)
+            if s.find(r'${') == -1:  # optimization: no macro -> return
+                return s
             macro = ""
             sub   = ""
             possiblyBin = re.match(r'^\${(.*)}$', s)   # look for '${...}' as a bin replacement
@@ -278,27 +280,23 @@ class Config:
         def _expandMacrosInValues(configElem, maps):
             """ apply macro expansion on arbitrary values; takes care of recursive data like
                 lists and dicts; only actually applies macros when a string is encountered on 
-                the way """
+                the way (look for calls to _expandString())"""
+            result = configElem  # intialize result
             # arrays
             if isinstance(configElem, types.ListType):
                 for e in range(len(configElem)):
-                    if ((isinstance(configElem[e], types.StringTypes) and
-                            configElem[e].find(r'${')>-1)):
-                        old = configElem[e]
-                        configElem[e] = _expandString(configElem[e], maps['str'], maps['bin'])
-                        console.debug("expanding: %s ==> %s" % (old, str(configElem[e])))
-                    elif isinstance(configElem[e], (types.DictType, types.ListType)):
-                        _expandMacrosInValues(configElem[e], maps)
+                    enew = _expandMacrosInValues(configElem[e], maps)
+                    if enew != configElem[e]:
+                        console.debug("expanding: %s ==> %s" % (str(configElem[e]), str(enew)))
+                        configElem[e] = enew
             # dicts
             elif isinstance(configElem, types.DictType):
                 for e in configElem:
                     # expand in values
-                    if ((isinstance(configElem[e], types.StringTypes) and
-                            configElem[e].find(r'${')>-1)):
-                        configElem[e] = _expandString(configElem[e], maps['str'], maps['bin'])
-                        console.debug("expanding: %s ==> %s" % (str(e), str(configElem[e])))
-                    elif isinstance(configElem[e], (types.DictType, types.ListType)):
-                        _expandMacrosInValues(configElem[e], maps)
+                    enew = _expandMacrosInValues(configElem[e], maps)
+                    if enew != configElem[e]:
+                        console.debug("expanding: %s ==> %s" % (str(configElem[e]), str(enew)))
+                        configElem[e] = enew
 
                     # expand in keys
                     if ((isinstance(e, types.StringTypes) and
@@ -308,9 +306,15 @@ class Config:
                         del configElem[e]
                         console.debug("expanding key: %s ==> %s" % (e, enew))
 
+            # strings
+            elif isinstance(configElem, types.StringTypes):
+                result = _expandString(configElem, maps['str'], maps['bin'])
+
             # leave everything else alone
             else:
-                pass
+                result = configElem
+
+            return result
 
 
         def _expandMacrosInLet(letDict):
@@ -327,13 +331,10 @@ class Config:
                 # cycle through other keys of this dict
                 for k1 in keys:
                     if k != k1: # no expansion with itself!
-                        if isinstance(letDict[k1], types.StringTypes): # the current target is a string
-                            if (letDict[k1].find(r'${')>-1): # ...with macro references
-                                letDict[k1] = _expandString(letDict[k1], kdicts['str'], kdicts['bin'])
-                                console.debug("expanding: %s ==> %s" % (k1, str(letDict[k1])))
-                        else:           # the current target is a non-string, maybe compositional
-                            _expandMacrosInValues(letDict[k1], kdicts) # _expandMacrosInValues can handle them all
-                            console.debug("expanding: %s ==> %s" % (k1, str(letDict[k1])))
+                        enew = _expandMacrosInValues(letDict[k1], kdicts)
+                        if enew != letDict[k1]:
+                            console.debug("expanding: %s ==> %s" % (k1, str(enew)))
+                            letDict[k1] = enew
             return letDict
 
 
