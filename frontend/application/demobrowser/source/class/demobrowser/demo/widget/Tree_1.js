@@ -237,9 +237,14 @@ qx.Class.define("demobrowser.demo.widget.Tree_1",
       var vShowSelectedItems = new qx.ui.form.Button("Show Selected Items");
       pane.add(vShowSelectedItems, {row: row++, column: 1});
 
-      vShowSelectedItems.addListener("execute", function(e) {
-        alert(("" + tree.getSelectedItems()).replace(",", "\n", "g"));
-      });
+      vShowSelectedItems.addListener("execute", function(e)
+      {
+        if (this.getSelectionMode() === "single") {
+          alert(this.getSelection());
+        } else {
+          alert(this.getSelection().toString().replace(",", "\n", "g"));
+        }
+      }, tree);
 
 
 
