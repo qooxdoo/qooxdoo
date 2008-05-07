@@ -43,19 +43,15 @@ qx.Class.define("qx.ui.form.List",
     this.base(arguments);
 
     // Create content
-    this.__content = new qx.ui.container.Composite();
-    this.__content.setAllowShrinkX(false);
-    this.__content.setAllowShrinkY(false);
+    var content = this.__content = new qx.ui.container.Composite();
+    content.setAllowShrinkX(false);
+    content.setAllowShrinkY(false);
 
     // Add to scrollpane
-    this._scrollPane.setContent(this.__content);
+    this._scrollPane.setContent(content);
 
     // Apply orientation
-    if (!!horizontal) {
-      this.setOrientation("horizontal");
-    } else {
-      this.initOrientation();
-    }
+    horizontal ? this.setOrientation("horizontal") : this.initOrientation();
 
     // Add keypress listener
     this.addListener("keypress", this._onKeyPress);
@@ -143,17 +139,15 @@ qx.Class.define("qx.ui.form.List",
     // property apply
     _applyOrientation : function(value, old)
     {
-      var horizontal = value === "horizontal";
-
       // Create new layout
+      var horizontal = value === "horizontal";
       var layout = horizontal ? new qx.ui.layout.HBox : new qx.ui.layout.VBox;
 
-      // Replace layout
-      this.__content.setLayout(layout);
-
-      // Reconfigure content
-      this.__content.setAllowGrowX(!horizontal);
-      this.__content.setAllowGrowY(horizontal);
+      // Configure content
+      var content = this.__content;
+      content.setLayout(layout);
+      content.setAllowGrowX(!horizontal);
+      content.setAllowGrowY(horizontal);
     },
 
 
@@ -180,8 +174,6 @@ qx.Class.define("qx.ui.form.List",
         for (var i=0; i<items.length; i++) {
           items[i].fireEvent("action");
         }
-
-        return;
       }
     }
   },
