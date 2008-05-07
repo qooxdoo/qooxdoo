@@ -163,7 +163,7 @@ qx.Class.define("qx.ui.core.selection.Widget",
 
 
     // overridden
-    _scrollSelectableIntoView : function(item) {
+    _scrollItemIntoView : function(item) {
       return;
     },
 
