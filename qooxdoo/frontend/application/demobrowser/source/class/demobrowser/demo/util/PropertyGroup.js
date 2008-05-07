@@ -82,7 +82,7 @@ qx.Class.define("demobrowser.demo.util.PropertyGroup",
           formItem.add(widget);
           this._add(widget, {row: row++, column:1});
         }
-        formItem.addListener("changeSelected", this._createOnEnumPropertyChange(prop, formItem), this);
+        formItem.addListener("change", this._createOnEnumPropertyChange(prop, formItem), this);
       }
       else if (type == "string")
       {

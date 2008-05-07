@@ -131,7 +131,7 @@ qx.Class.define("demobrowser.demo.widget.List_1",
 
       var rbm = new qx.ui.core.RadioManager(mode1, mode2, mode3);
 
-      rbm.addListener("changeSelected", function(e) {
+      rbm.addListener("change", function(e) {
         l1.setSelectionMode(e.getValue().getValue());
       });
 
@@ -155,11 +155,21 @@ qx.Class.define("demobrowser.demo.widget.List_1",
 
       var rbm = new qx.ui.core.RadioManager(show1, show2, show3);
 
-      rbm.addListener("changeSelected", function(e)
+      rbm.addListener("change", function(e)
       {
         for( var i=0; i<l1.getChildren().length; i++ ) {
           l1.getChildren()[i].setShow(e.getValue().getValue());
         }
+      });
+
+
+
+
+      var drag1 = new qx.ui.form.CheckBox("Enable drag selection");
+      this.getRoot().add(drag1, {left: 180, top: 180});
+
+      drag1.addListener("change", function(e) {
+        l1.setDragSelection(e.getValue());
       });
     }
   }
