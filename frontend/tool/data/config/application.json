@@ -13,7 +13,7 @@
       "let" :
       {
         "ROOT"         : ".",
-        "QOOXDOO_PATH" : "../..",
+        "QOOXDOO_PATH" : "../../framework",
         "QOOXDOO_URI"  : "../${QOOXDOO_PATH}",
         "BUILD_PATH"   : "${ROOT}/build"
       },

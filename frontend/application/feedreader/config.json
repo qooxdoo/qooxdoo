@@ -11,10 +11,7 @@
     {
       "let" :
       {
-        "ROOT"           : ".",
-        "APPLICATION"    : "feedreader",
-        "QOOXDOO_PATH"   : "../../framework",
-        "QOOXDOO_URI"    : "../${QOOXDOO_PATH}"
+        "APPLICATION"    : "feedreader"
       },
 
       "include" : ["feedreader.*", "qx.theme.Classic"],
@@ -36,17 +33,6 @@
     },
 
 
-    "source1" :
-    {
-      "extend" : ["common"],
-
-      "script" :
-      {
-        "file" : "./source/script/feedreader.js"
-      }
-    },
-
-
     "source" :
     {
       "extend" : ["common", "appconf/jobs/source"]
@@ -55,13 +41,7 @@
 
     "build" :
     {
-      "extend" : ["common"],
-
-      "compile" :
-      {
-        "file" : "./build/script/${APPLICATION}.js",
-        "uri"  : "script/${APPLICATION}.js"
-      }
+      "extend" : ["common", "appconf/jobs/build"]
     },
 
 
