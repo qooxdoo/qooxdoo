@@ -413,7 +413,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
           textColor : states.selected ? "text-selected" : "undefined",
           decorator : states.selected
             ? new qx.ui.decoration.Single().set({
-              backgroundImage : "decoration/source/selection.png",
+              backgroundImage : "decoration/selection.png",
               backgroundRepeat : "scale",
               widthBottom: 1,
               colorBottom: "#dedede"

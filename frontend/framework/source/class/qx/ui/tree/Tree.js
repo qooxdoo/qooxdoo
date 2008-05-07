@@ -73,9 +73,9 @@ qx.Class.define("qx.ui.tree.Tree",
     this.addListener("mousedown", manager.handleMouseDown, manager);
     this.addListener("mouseup", manager.handleMouseUp, manager);
     this.addListener("losecapture", manager.handleLoseCapture, manager);
+    this.addListener("keypress", manager.handleKeyPress, manager);
 
     this.addListener("keydown", this._onKeydown);
-    this.addListener("keypress", manager.handleKeyPress, manager);
   },
 
 
