@@ -317,6 +317,18 @@ qx.Class.define("qx.ui.table.Table",
       event : "changeRowHeight"
     },
 
+    /**
+     * Force line height to match row height.  May be disabled if cell
+     * renderers being used wish to render multiple lines of data within a
+     * cell.  (With the default setting, all but the first of multiple lines
+     * of data will not be visible.)
+     */
+    forceLineHeight :
+    {
+      check : "Boolean",
+      init  : true
+    },
+
     /** The height of the header cells. */
     headerCellHeight :
     {

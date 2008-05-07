@@ -674,7 +674,9 @@ qx.Class.define("qx.ui.table.pane.Pane",
           [
             "<div style='",
             "width: ", rowWidth, "px;",
-            "line-height: ", rowHeight, "px;",
+            (table.getForceLineHeight()
+             ? "line-height: " + rowHeight + "px;"
+             : ""),
             "overflow: hidden;",
             "'>",
             this._getRowsHtml(firstRow, rowCount),
