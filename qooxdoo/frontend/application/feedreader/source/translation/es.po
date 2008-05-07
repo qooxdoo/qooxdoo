@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: feedreader\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-04-30 14:58+0200\n"
+"POT-Creation-Date: 2008-05-07 07:59+0200\n"
 "PO-Revision-Date: 2007-01-24 20:54+0100\n"
 "Last-Translator: Carsten Rammoser <carsten@rammoser.com>\n"
 "Language-Team:  <camilo.aguilar@gmail.com>\n"
@@ -30,25 +30,17 @@ msgstr ""
 msgid "OK"
 msgstr ""
 
-#: source/class/feedreader/view/Article.js:133
-msgid "read more ..."
-msgstr "leer más ..."
+#~ msgid "read more ..."
+#~ msgstr "leer más ..."
 
-#: source/class/feedreader/view/Table.js:36
-msgid "Subject"
-msgstr "Asunto"
+#~ msgid "Subject"
+#~ msgstr "Asunto"
 
-#: source/class/feedreader/view/Table.js:37
-msgid "Date"
-msgstr "Fecha"
+#~ msgid "Date"
+#~ msgstr "Fecha"
 
-#: source/class/feedreader/view/Table.js:38
-msgid "ID"
-msgstr ""
-
-#: source/class/feedreader/view/Tree.js:27
-msgid "News feeds"
-msgstr "Feeds de noticias"
+#~ msgid "News feeds"
+#~ msgstr "Feeds de noticias"
 
 #, fuzzy
 #~ msgid "Add feed"
