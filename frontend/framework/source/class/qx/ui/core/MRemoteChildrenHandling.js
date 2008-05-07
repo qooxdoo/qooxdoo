@@ -55,11 +55,11 @@ qx.Mixin.define("qx.ui.core.MRemoteChildrenHandling",
 
 
     /**
-     * Adds a new child widget.
+     * Adds a new child item.
      *
      * @type member
-     * @param child {LayoutItem} the widget to add.
-     * @param options {Map?null} Optional layout data for widget.
+     * @param child {LayoutItem} the item to add.
+     * @param options {Map?null} Optional layout data for item.
      * @return {Widget} This object (for chaining support)
      */
     add : function(child, options) {
@@ -68,10 +68,10 @@ qx.Mixin.define("qx.ui.core.MRemoteChildrenHandling",
 
 
     /**
-     * Remove the given child widget.
+     * Remove the given child item.
      *
      * @type member
-     * @param child {LayoutItem} the widget to remove
+     * @param child {LayoutItem} the item to remove
      * @return {Widget} This object (for chaining support)
      */
     remove : function(child) {
@@ -91,8 +91,8 @@ qx.Mixin.define("qx.ui.core.MRemoteChildrenHandling",
 
 
     /**
-     * Returns the index position of the given widget if it is
-     * a child widget. Otherwise it returns <code>-1</code>.
+     * Returns the index position of the given item if it is
+     * a child item. Otherwise it returns <code>-1</code>.
      *
      * This method works on the widget's children list. Some layout managers
      * (e.g. {@link qx.ui.layout.HBox}) use the children order as additional
@@ -100,9 +100,9 @@ qx.Mixin.define("qx.ui.core.MRemoteChildrenHandling",
      * ignore the children order for the layout process.
      *
      * @type member
-     * @param child {LayoutItem} the widget to query for
+     * @param child {LayoutItem} the item to query for
      * @return {Integer} The index position or <code>-1</code> when
-     *   the given widget is no child of this layout.
+     *   the given item is no child of this layout.
      */
     indexOf : function(child) {
       return this.getChildrenContainer().indexOf(child);
@@ -110,7 +110,7 @@ qx.Mixin.define("qx.ui.core.MRemoteChildrenHandling",
 
 
     /**
-     * Add a child widget at the specified index
+     * Add a child at the specified index
      *
      * This method works on the widget's children list. Some layout managers
      * (e.g. {@link qx.ui.layout.HBox}) use the children order as additional
@@ -118,9 +118,9 @@ qx.Mixin.define("qx.ui.core.MRemoteChildrenHandling",
      * ignore the children order for the layout process.
      *
      * @type member
-     * @param child {LayoutItem} widget to add
-     * @param index {Integer} Index, at which the widget will be inserted
-     * @param options {Map?null} Optional layout data for widget.
+     * @param child {LayoutItem} item to add
+     * @param index {Integer} Index, at which the item will be inserted
+     * @param options {Map?null} Optional layout data for item.
      */
     addAt : function(child, index, options) {
       return this.getChildrenContainer().addAt(child, index, options);
@@ -128,7 +128,7 @@ qx.Mixin.define("qx.ui.core.MRemoteChildrenHandling",
 
 
     /**
-     * Add a widget before another already inserted widget
+     * Add a item before another already inserted item
      *
      * This method works on the widget's children list. Some layout managers
      * (e.g. {@link qx.ui.layout.HBox}) use the children order as additional
@@ -136,9 +136,9 @@ qx.Mixin.define("qx.ui.core.MRemoteChildrenHandling",
      * ignore the children order for the layout process.
      *
      * @type member
-     * @param child {LayoutItem} widget to add
-     * @param before {LayoutItem} widget before the new widget will be inserted.
-     * @param options {Map?null} Optional layout data for widget.
+     * @param child {LayoutItem} item to add
+     * @param before {LayoutItem} item before the new item will be inserted.
+     * @param options {Map?null} Optional layout data for item.
      */
     addBefore : function(child, before, options) {
       return this.getChildrenContainer().addBefore(child, before, options);
@@ -146,7 +146,7 @@ qx.Mixin.define("qx.ui.core.MRemoteChildrenHandling",
 
 
     /**
-     * Add a widget after another already inserted widget
+     * Add a item after another already inserted item
      *
      * This method works on the widget's children list. Some layout managers
      * (e.g. {@link qx.ui.layout.HBox}) use the children order as additional
@@ -154,9 +154,9 @@ qx.Mixin.define("qx.ui.core.MRemoteChildrenHandling",
      * ignore the children order for the layout process.
      *
      * @type member
-     * @param child {LayoutItem} widget to add
-     * @param after {LayoutItem} widget, after which the new widget will be inserted
-     * @param options {Map?null} Optional layout data for widget.
+     * @param child {LayoutItem} item to add
+     * @param after {LayoutItem} item, after which the new item will be inserted
+     * @param options {Map?null} Optional layout data for item.
      */
     addAfter : function(child, after, options) {
       return this.getChildrenContainer().addAfter(child, after, options);
@@ -164,7 +164,7 @@ qx.Mixin.define("qx.ui.core.MRemoteChildrenHandling",
 
 
     /**
-     * Remove the widget at the specified index.
+     * Remove the item at the specified index.
      *
      * This method works on the widget's children list. Some layout managers
      * (e.g. {@link qx.ui.layout.HBox}) use the children order as additional
@@ -172,7 +172,7 @@ qx.Mixin.define("qx.ui.core.MRemoteChildrenHandling",
      * ignore the children order for the layout process.
      *
      * @type member
-     * @param index {Integer} Index of the widget to remove.
+     * @param index {Integer} Index of the item to remove.
      */
     removeAt : function(index) {
       return this.getChildrenContainer().removeAt(index);
