@@ -76,7 +76,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      *
      * * single: One element is selected
      * * multi: Multi items could be selected. Also allows empty selections.
-     * * additive: Easy Web-2.0 selection mode. Allows multiple selections without modifiers.
+     * * additive: Easy Web-2.0 selection mode. Allows multiple selections without modifier keys.
      */
     mode :
     {
@@ -90,30 +90,10 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      * Enable drag selection (multi selection of items through
      * dragging the mouse in pressed states)
      */
-    dragSelection :
+    drag :
     {
       check : "Boolean",
       init : true
-    },
-
-
-    /**
-     * The currently selected lead item. Mostly used internally
-     */
-    leadItem :
-    {
-      nullable : true,
-      apply : "_applyLeadItem"
-    },
-
-
-    /**
-     * The currently selected anchor item. Mostly used internally
-     */
-    anchorItem :
-    {
-      nullable : true,
-      apply : "_applyAnchorItem"
     }
   },
 
@@ -129,6 +109,115 @@ qx.Class.define("qx.ui.core.selection.Abstract",
 
   members :
   {
+    /*
+    ---------------------------------------------------------------------------
+      USER APIS
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Selects all items of the managed object.
+     *
+     * @type member
+     * @return {void}
+     */
+    selectAll : function()
+    {
+      this._selectAllItems();
+      this._fireChange();
+    },
+
+
+    // TODO
+
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      LEAD/ANCHOR SUPPORT
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Sets the lead item. Generally the item which was last modified
+     * by the user (clicked on etc.)
+     *
+     * @type member
+     * @param value {Object} Any valid item or <code>null</code>
+     * @return {void}
+     */
+    _setLeadItem : function(value)
+    {
+      var old = this.__leadItem;
+
+      if (old) {
+        this._styleSelectable(old, "lead", false);
+      }
+
+      if (value) {
+        this._styleSelectable(value, "lead", true);
+      }
+
+      this.__leadItem = value;
+    },
+
+
+    /**
+     * Returns the current lead item. Generally the item which was last modified
+     * by the user (clicked on etc.)
+     *
+     * @type member
+     * @return {Object} The lead item or <code>null</code>
+     */
+    _getLeadItem : function() {
+      return this.__leadItem || null;
+    },
+
+
+    /**
+     * Sets the anchor item. This is the item which is the starting
+     * point for all range selections. Normally this is the item which was
+     * clicked on the last time without any modifier keys pressed.
+     *
+     * @type member
+     * @param value {Object} Any valid item or <code>null</code>
+     * @return {void}
+     */
+    _setAnchorItem : function(value)
+    {
+      var old = this.__anchorItem;
+
+      if (old) {
+        this._styleSelectable(old, "anchor", false);
+      }
+
+      if (value) {
+        this._styleSelectable(value, "anchor", true);
+      }
+
+      this.__anchorItem = value;
+    },
+
+
+    /**
+     * Returns the current anchor item. This is the item which is the starting
+     * point for all range selections. Normally this is the item which was
+     * clicked on the last time without any modifier keys pressed.
+     *
+     * @type member
+     * @return {Object} The anchor item or <code>null</code>
+     */
+    _getAnchorItem : function() {
+      return this.__anchorItem || null;
+    },
+
+
+
+
+
     /*
     ---------------------------------------------------------------------------
       BASIC SUPPORT
@@ -396,37 +485,12 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     // property apply
     _applySelectionMode : function(value, old)
     {
-      this.resetLeadItem();
-      this.resetAnchorItem();
+      this._setLeadItem(null);
+      this._setAnchorItem(null);
 
       this._clearSelection();
     },
 
-
-    // property apply
-    _applyLeadItem : function(value, old)
-    {
-      if (old) {
-        this._styleSelectable(old, "lead", false);
-      }
-
-      if (value) {
-        this._styleSelectable(value, "lead", true);
-      }
-    },
-
-
-    // property apply
-    _applyAnchorItem : function(value, old)
-    {
-      if (old) {
-        this._styleSelectable(old, "anchor", false);
-      }
-
-      if (value) {
-        this._styleSelectable(value, "anchor", true);
-      }
-    },
 
 
 
@@ -456,6 +520,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
       // Be sure that item is in view
       this._scrollSelectableIntoView(item);
 
+
       // Read in keyboard modifiers
       var isCtrlPressed = event.isCtrlPressed() || (qx.bom.client.Platform.MAC && event.isMetaPressed());
       var isShiftPressed = event.isShiftPressed();
@@ -468,21 +533,21 @@ qx.Class.define("qx.ui.core.selection.Abstract",
           break;
 
         case "additive":
-          this.setLeadItem(item);
-          this.setAnchorItem(item);
+          this._setLeadItem(item);
+          this._setAnchorItem(item);
           this._toggleInSelection(item);
           break;
 
         case "multi":
           // Update lead item
-          this.setLeadItem(item);
+          this._setLeadItem(item);
 
           // Create/Update range selection
           if (isShiftPressed)
           {
-            var anchor = this.getAnchorItem();
+            var anchor = this._getAnchorItem();
             if (!anchor) {
-              this.setAnchorItem(anchor = this.getFirstItem());
+              this._setAnchorItem(anchor = this.getFirstItem());
             }
 
             this._selectItemRange(anchor, item, isCtrlPressed);
@@ -491,22 +556,23 @@ qx.Class.define("qx.ui.core.selection.Abstract",
           // Toggle in selection
           else if (isCtrlPressed)
           {
-            this.setAnchorItem(item);
+            this._setAnchorItem(item);
             this._toggleInSelection(item);
           }
 
           // Replace current selection
           else
           {
-            this.setAnchorItem(item);
+            this._setAnchorItem(item);
             this._setSelectedItem(item);
           }
 
           break;
       }
 
+
       // Drag selection
-      if (this.getDragSelection() && this.getMode() !== "single" && !isShiftPressed && !isCtrlPressed)
+      if (this.getDrag() && this.getMode() !== "single" && !isShiftPressed && !isCtrlPressed)
       {
         // Cache location/scroll data
         this._frameLocation = this._getLocation();
@@ -520,6 +586,10 @@ qx.Class.define("qx.ui.core.selection.Abstract",
         this._inCapture = true;
         this._capture();
       }
+
+
+      // Fire change event as needed
+      this._fireChange();
     },
 
 
@@ -639,7 +709,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
 
     _cleanup : function()
     {
-      if (!this.getDragSelection() && this._inCapture) {
+      if (!this.getDrag() && this._inCapture) {
         return;
       }
 
@@ -692,7 +762,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
 
 
       // Cache anchor
-      var anchor = this.getAnchorItem();
+      var anchor = this._getAnchorItem();
 
 
       // Process X-coordinate
@@ -777,8 +847,12 @@ qx.Class.define("qx.ui.core.selection.Abstract",
         // Improve performance. This mode does not rely
         // on full ranges as it always extend the old
         // selection/deselection.
-        this.setAnchorItem(lead);
+        this._setAnchorItem(lead);
       }
+
+
+      // Fire change event as needed
+      this._fireChange();
     },
 
 
@@ -830,7 +904,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
       }
       else if (key === "Space")
       {
-        var lead = this.getLeadItem();
+        var lead = this._getLeadItem();
         if (lead && !isShiftPressed)
         {
           if (isCtrlPressed || mode === "additive") {
@@ -845,7 +919,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
         if (mode === "single") {
           current = this._getSelectedItem();
         } else {
-          current = this.getLeadItem();
+          current = this._getLeadItem();
         }
 
         var first = this._getFirstSelectable();
@@ -918,24 +992,24 @@ qx.Class.define("qx.ui.core.selection.Abstract",
               break;
 
             case "additive":
-              this.setLeadItem(next);
+              this._setLeadItem(next);
               break;
 
             case "multi":
               if (isShiftPressed)
               {
-                var anchor = this.getAnchorItem();
+                var anchor = this._getAnchorItem();
                 if (!anchor) {
-                  this.setAnchorItem(anchor = this._getFirstSelectable());
+                  this._setAnchorItem(anchor = this._getFirstSelectable());
                 }
 
-                this.setLeadItem(next);
+                this._setLeadItem(next);
                 this._selectItemRange(anchor, next, isCtrlPressed);
               }
               else
               {
-                this.setAnchorItem(next);
-                this.setLeadItem(next);
+                this._setAnchorItem(next);
+                this._setLeadItem(next);
 
                 if (!isCtrlPressed) {
                   this._setSelectedItem(next);
@@ -954,8 +1028,13 @@ qx.Class.define("qx.ui.core.selection.Abstract",
         return;
       }
 
+
       // Stop processed events
       event.stop();
+
+
+      // Fire change event as needed
+      this._fireChange();
     },
 
 
@@ -1091,6 +1170,16 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     },
 
 
+    _fireChange : function()
+    {
+      if (this.__selectionModified)
+      {
+        this.fireEvent("change");
+        delete this.__selectionModified;
+      }
+    },
+
+
 
 
 
@@ -1109,6 +1198,8 @@ qx.Class.define("qx.ui.core.selection.Abstract",
       {
         this._selection[hash] = item;
         this._styleSelectable(item, "selected", true);
+
+        this.__selectionModified = true;
       }
     },
 
@@ -1127,6 +1218,8 @@ qx.Class.define("qx.ui.core.selection.Abstract",
         delete this._selection[hash];
         this._styleSelectable(item, "selected", false);
       }
+
+      this.__selectionModified = true;
     },
 
 
@@ -1138,6 +1231,8 @@ qx.Class.define("qx.ui.core.selection.Abstract",
       {
         delete this._selection[hash];
         this._styleSelectable(item, "selected", false);
+
+        this.__selectionModified = true;
       }
     }
   },
