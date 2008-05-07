@@ -83,6 +83,7 @@ qx.Mixin.define("qx.ui.core.MRemoteChildrenHandling",
      * Remove all children.
      *
      * @type member
+     * @return {void}
      */
     removeAll : function() {
       return this.getChildrenContainer().removeAll();
@@ -99,7 +100,7 @@ qx.Mixin.define("qx.ui.core.MRemoteChildrenHandling",
      * ignore the children order for the layout process.
      *
      * @type member
-     * @param child {Widget} the widget to query for
+     * @param child {LayoutItem} the widget to query for
      * @return {Integer} The index position or <code>-1</code> when
      *   the given widget is no child of this layout.
      */
