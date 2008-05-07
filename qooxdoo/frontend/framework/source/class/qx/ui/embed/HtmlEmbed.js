@@ -64,7 +64,12 @@ qx.Class.define("qx.ui.embed.HtmlEmbed",
       event : "changeHtml"
     },
     
-    /** The css classname for the html embed */
+    /** 
+     * The css classname for the html embed. 
+     * <b>IMPORTANT</b> Paddings and borders does not work 
+     * in the css class. These ttyles coause conflicts with
+     * the layout engine.
+     */
     cssClass :
     {
       check : "String",
@@ -110,6 +115,8 @@ qx.Class.define("qx.ui.embed.HtmlEmbed",
     _applyHtml : function(value, old)
     {
       this.getContentElement().setAttribute("html", value);
+      this.getContentElement().setStyle("padding", "0px");
+      this.getContentElement().setStyle("border", "none");
     },
 
 
