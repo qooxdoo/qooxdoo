@@ -440,7 +440,7 @@ class Generator:
         bootBlocks = []
         bootBlocks.append(self.generateSettingsCode(settings, format))
         bootBlocks.append(self.generateVariantsCode(variants, format))
-        bootBlocks.append(self.generateResourceUriCode(libs, format))
+        bootBlocks.append(self.generateLibInfoCode(libs, format))
         bootBlocks.append(self.generateImageInfoCode(settings, libs, format))
         bootBlocks.append(self.generateTranslationCode(self._translationMaps, format))
         bootBlocks.append(self.generateCompiledPackageCode(fileUri, parts, packages, boot, variants, settings, format))
@@ -514,7 +514,7 @@ class Generator:
         sourceBlocks = []
         sourceBlocks.append(self.generateSettingsCode(settings, format))
         sourceBlocks.append(self.generateVariantsCode(variants, format))
-        sourceBlocks.append(self.generateResourceUriCode(self._config.get("library",[]),format))        
+        sourceBlocks.append(self.generateLibInfoCode(self._config.get("library",[]),format))        
         sourceBlocks.append(self.generateImageInfoCode(settings, libs, format))
         sourceBlocks.append(self.generateTranslationCode(self._translationMaps, format))
         sourceBlocks.append(self.generateSourcePackageCode(parts, packages, boot, format))
@@ -652,11 +652,11 @@ class Generator:
         return result
 
 
-    def generateResourceUriCode(self, libs, format):
-        result = 'if(!window.qxresourceuris)qxresourceuris={};'
+    def generateLibInfoCode(self, libs, format):
+        result = 'if(!window.qxlibinfo)qxlibinfo={};'
 
         for lib in libs:
-            result += 'qxresourceuris["%s"]="%s";' % (lib['namespace'], 
+            result += 'qxlibinfo["%s"]={"resuri":"%s"};' % (lib['namespace'], 
                                                   os.path.join(lib['uri'],lib['resource']))
         return result
 
