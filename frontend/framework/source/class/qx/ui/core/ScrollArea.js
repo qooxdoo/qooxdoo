@@ -163,6 +163,7 @@ qx.Class.define("qx.ui.core.ScrollArea",
         if (!scrollbar) {
           scrollbar = this._getScrollBar(orientation);
         }
+
         scrollbar.show();
       }
       else if (scrollbar)
@@ -193,17 +194,13 @@ qx.Class.define("qx.ui.core.ScrollArea",
 
       scrollbar.addListener("changeVisibility", this._onChangeScrollBarVisibility, this);
 
-      if (orientation == "horizontal")
-      {
+      if (orientation == "horizontal") {
         this._add(scrollbar, {row: 1, column: 0});
-      }
-      else
-      {
+      } else {
         this._add(scrollbar, {row: 0, column: 1});
       }
 
-      this._scrollbars[orientation] = scrollbar;
-      return scrollbar;
+      return this._scrollbars[orientation] = scrollbar;
     },
 
 

@@ -74,7 +74,7 @@ qx.Class.define("qx.ui.core.RadioManager",
     {
       nullable : true,
       apply : "_applySelected",
-      event : "changeSelected",
+      event : "change",
       check : "qx.ui.core.IRadioItem"
     }
   },

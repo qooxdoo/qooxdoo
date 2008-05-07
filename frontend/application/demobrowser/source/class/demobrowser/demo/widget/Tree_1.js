@@ -144,7 +144,7 @@ qx.Class.define("demobrowser.demo.widget.Tree_1",
         pane.add(radioButton, {row: row++, column: 1})
       }
 
-      modeMgr.addListener("changeSelected", function(e) {
+      modeMgr.addListener("change", function(e) {
         tree.setOpenMode(e.getValue().getValue());
       });
 

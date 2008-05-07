@@ -84,6 +84,18 @@ qx.Mixin.define("qx.ui.core.MSelectionHandling",
       check : [ "single", "multi", "additive" ],
       init : "single",
       apply : "_applySelectionMode"
+    },
+
+
+    /**
+     * Whether drag selection (multi selection of items through
+     * dragging the mouse in pressed states) should be enabled.
+     */
+    dragSelection :
+    {
+      check : "Boolean",
+      init : false,
+      apply : "_applyDragSelection"
     }
   },
 
@@ -224,6 +236,12 @@ qx.Mixin.define("qx.ui.core.MSelectionHandling",
     // property apply
     _applySelectionMode : function(value, old) {
       this.__manager.setMode(value);
+    },
+
+
+    // property apply
+    _applyDragSelection : function(value, old) {
+      this.__manager.setDrag(value);
     },
 
 
