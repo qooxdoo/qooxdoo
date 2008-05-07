@@ -49,7 +49,7 @@ qx.Class.define("qx.ui.core.ScrollArea",
 
     this._scrollbars = {};
 
-    this.addListener("mousewheel", this._onMousewheel, this);
+    this.addListener("mousewheel", this._onMouseWheel, this);
   },
 
 
@@ -468,7 +468,7 @@ qx.Class.define("qx.ui.core.ScrollArea",
      *
      * @param e {qx.event.type.Mouse} The mouse wheel event
      */
-    _onMousewheel : function(e)
+    _onMouseWheel : function(e)
     {
       this._scrollPane.scrollTopBy(e.getWheelDelta() * this.getLineHeight() * -1, true);
 
@@ -477,7 +477,7 @@ qx.Class.define("qx.ui.core.ScrollArea",
         this._getScrollBar("vertical").setValue(computedTop);
       }
 
-      e.stopPropagation();
+      e.stop();
     },
 
 
@@ -490,10 +490,8 @@ qx.Class.define("qx.ui.core.ScrollArea",
      * @param e {qx.event.type.Change} Event object
      * @return {void}
      */
-    _onResize : function(e)
-    {
+    _onResize : function(e) {
       this._computeOverflow();
-      this._syncScrollBars();
     },
 
 
@@ -533,38 +531,6 @@ qx.Class.define("qx.ui.core.ScrollArea",
     */
 
     /**
-     * Updates the maximum property for all scrollbars. This is required
-     * after any resize event to keep the range up-to-date.
-     *
-     * @type member
-     */
-    _syncScrollBars : function()
-    {
-      // Update scrollbar maximum for visible scrollbars
-      var content = this._scrollPane.getContent();
-
-      if (!content) {
-        return;
-      }
-
-      var paneSize = this._scrollPane.getBounds();
-      var contentSize = content.getBounds();
-
-      if (this._isScrollBarVisible("horizontal"))
-      {
-        this._scrollbars.horizontal.setContentSize(contentSize.width);
-        this._scrollbars.horizontal.setContainerSize(paneSize.width);
-      }
-
-      if (this._isScrollBarVisible("vertical"))
-      {
-        this._scrollbars.vertical.setContentSize(contentSize.height);
-        this._scrollbars.vertical.setContainerSize(paneSize.height);
-      }
-    },
-
-
-    /**
      * Computes whether the content overflows and updates the scroll bars
      *
      * @type member
@@ -576,6 +542,7 @@ qx.Class.define("qx.ui.core.ScrollArea",
       {
         this._setScrollBarVisibility("horizontal", false);
         this._setScrollBarVisibility("vertical", false);
+
         return;
       }
 
@@ -631,6 +598,32 @@ qx.Class.define("qx.ui.core.ScrollArea",
         var scrollY = contentSize.height > (innerSize.height - scrollBarHeight);
 
         this._setScrollBarVisibility("vertical", scrollY);
+      }
+
+
+      // Correcting scroll position at last change
+      var maxScrollLeft = Math.max(0, contentSize.width - innerSize.width);
+      if (this.getScrollLeft() > maxScrollLeft) {
+        this.setScrollLeft(maxScrollLeft);
+      }
+
+      var maxScrollTop = Math.max(0, contentSize.height - innerSize.height);
+      if (this.getScrollTop() > maxScrollTop) {
+        this.setScrollTop(maxScrollTop);
+      }
+
+
+      // Update scrollbar internals
+      if (this._isScrollBarVisible("horizontal"))
+      {
+        this._scrollbars.horizontal.setContentSize(contentSize.width);
+        this._scrollbars.horizontal.setContainerSize(innerSize.width);
+      }
+
+      if (this._isScrollBarVisible("vertical"))
+      {
+        this._scrollbars.vertical.setContentSize(contentSize.height);
+        this._scrollbars.vertical.setContainerSize(innerSize.height);
       }
     },
 

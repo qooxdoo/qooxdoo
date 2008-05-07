@@ -142,6 +142,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     selectItem : function(item)
     {
       this._setSelectedItem(item);
+      this._scrollItemIntoView(item);
       this._fireChange();
     },
 
@@ -513,8 +514,8 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      * @param item {var} Any item
      * @return {void}
      */
-    _scrollSelectableIntoView : function(item) {
-      throw new Error("Abstract method call: _scrollSelectableIntoView()");
+    _scrollItemIntoView : function(item) {
+      throw new Error("Abstract method call: _scrollItemIntoView()");
     },
 
 
@@ -636,7 +637,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
       }
 
       // Be sure that item is in view
-      this._scrollSelectableIntoView(item);
+      this._scrollItemIntoView(item);
 
 
       // Read in keyboard modifiers
@@ -1145,7 +1146,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
               break;
           }
 
-          this._scrollSelectableIntoView(next);
+          this._scrollItemIntoView(next);
         }
       }
       else

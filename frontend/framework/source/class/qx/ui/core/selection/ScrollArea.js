@@ -96,7 +96,7 @@ qx.Class.define("qx.ui.core.selection.ScrollArea",
 
 
     // overridden
-    _scrollSelectableIntoView : function(item) {
+    _scrollItemIntoView : function(item) {
       this._widget.scrollItemIntoView(item);
     }
   }
