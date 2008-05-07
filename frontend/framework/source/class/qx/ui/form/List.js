@@ -216,7 +216,8 @@ qx.Class.define("qx.ui.form.List",
      */
     _onSelectionChange : function(e)
     {
-      this.fireEvent("change");
+      // Fire an identically configured event again
+      this.fireDataEvent("change", e.getData());
     },
 
 
