@@ -373,12 +373,15 @@ qx.Class.define("feedreader.Application",
      */
     _applySelectedFeed : function(value, old)
     {
-      if (old) {
+      if (old)
+      {
         // Store old selection
         old.selection = this._listView.indexOf(this._listView.getSelection());
+        old.offset = this._listView.getScrollTop();
       }
 
-      if (value) {
+      if (value)
+      {
         // Update the list with new data
         this._listView.removeAll();
         for (var i = 0; i < value.items.length; i++) {
@@ -388,22 +391,26 @@ qx.Class.define("feedreader.Application",
           this._listView.add(listItem);
         }
 
-
-        if (value.selection != null) {
+        if (value.selection != null)
+        {
           // If a selection was stored, recover it
           this._listView.select(this._listView.getChildren()[value.selection]);
+          this._listView.setScrollTop(value.offset);
+
           delete value.selection;
-
-        } else {
-
+          delete value.offset;
+        }
+        else
+        {
           // Initially select first article
           var firstItem = this._listView.getChildren()[0];
           if (firstItem) {
             this._listView.select(firstItem);
           }
         }
-
-      } else {
+      }
+      else
+      {
         // Clean up model
         this._listView.removeAll();
 
