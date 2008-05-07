@@ -36,9 +36,9 @@ qx.Class.define("demobrowser.demo.widget.List_1",
     {
       this.base(arguments);
 
-      var l1 = new qx.ui.form.List("multi");
+      var l1 = new qx.ui.form.List;
 
-      l1.set({ height: 300, width: 150 });
+      l1.set({ height: 300, width: 150, selectionMode : "multi" });
 
       var item;
       for( var i=1; i<=25; i++ )
@@ -51,16 +51,14 @@ qx.Class.define("demobrowser.demo.widget.List_1",
 
       this.getRoot().add(l1, {left: 20, top: 20});
 
-      l1.addListener("change", function(e) {
-        this.debug("Changed selection: " + e.getData());
-      });
 
 
 
 
-      var l2 = new qx.ui.form.List("single");
 
-      l2.set({ height: 200, width: 150 });
+      var l2 = new qx.ui.form.List;
+
+      l2.set({ height: 200, width: 150, selectionMode : "single" });
 
       var l2l = [ "red", "violett", "rose", "blue", "green", "cyan", "magenta", "yellow", "brown", "orange", "black", "white", "grey", "gray", "brown" ];
 
@@ -70,15 +68,13 @@ qx.Class.define("demobrowser.demo.widget.List_1",
 
       this.getRoot().add(l2, {left: 400, top: 120});
 
-      l2.addListener("change", function(e) {
-        this.debug("Changed selection: " + e.getData());
-      });
 
 
 
-      var l3 = new qx.ui.form.List("additive");
 
-      l3.set({ height: 200, width: 150 });
+      var l3 = new qx.ui.form.List;
+
+      l3.set({ height: 200, width: 150, selectionMode : "additive" });
 
       var l3l = [ "Leon","Lukas","Luca","Finn","Tim","Felix","Jonas","Luis",
       "Maximilian","Julian","Max","Paul","Niclas","Jan","Ben","Elias","Jannick",
@@ -93,15 +89,13 @@ qx.Class.define("demobrowser.demo.widget.List_1",
 
       this.getRoot().add(l3, {left: 600, top: 120});
 
-      l3.addListener("change", function(e) {
-        this.debug("Changed selection: " + e.getData());
-      });
 
 
 
-      var l4 = new qx.ui.form.List("multi", true);
 
-      l4.set({ width: 550 });
+      var l4 = new qx.ui.form.List(true);
+
+      l4.set({ width: 550, selectionMode : "multi" });
 
       var l4l = [ "audio-card.png","audio-input-microphone.png","battery.png",
       "camera-photo.png","camera-web.png","computer.png","display.png",
@@ -117,9 +111,7 @@ qx.Class.define("demobrowser.demo.widget.List_1",
 
       this.getRoot().add(l4, {left: 20, top: 370});
 
-      l4.addListener("change", function(e) {
-        this.debug("Changed selection: " + e.getData());
-      });
+
 
 
 
