@@ -186,7 +186,7 @@ qx.Class.define("qx.ui.layout.HBox",
       var children = this._getLayoutChildren();
       var length = children.length;
       var enableFlex = false;
-      var reuse = this.__widths && this.__widths.length != length;
+      var reuse = this.__widths && this.__widths.length != length && this._flexs && this._widths;
       var props;
 
       // Sparse array (keep old one if lengths has not been modified)
