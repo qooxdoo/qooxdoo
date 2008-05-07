@@ -43,12 +43,10 @@ qx.Class.define("qx.ui.form.List",
     this.base(arguments);
 
     // Create content
-    var content = this.__content = new qx.ui.container.Composite();
-    content.setAllowShrinkX(false);
-    content.setAllowShrinkY(false);
+    this.__content = new qx.ui.container.Composite();
 
     // Add to scrollpane
-    this._scrollPane.setContent(content);
+    this._scrollPane.setContent(this.__content);
 
     // Apply orientation
     horizontal ? this.setOrientation("horizontal") : this.initOrientation();
@@ -117,6 +115,7 @@ qx.Class.define("qx.ui.form.List",
 
 
 
+
     /*
     ---------------------------------------------------------------------------
       WIDGET API
@@ -127,6 +126,7 @@ qx.Class.define("qx.ui.form.List",
     getChildrenContainer : function() {
       return this.__content;
     },
+
 
 
 
