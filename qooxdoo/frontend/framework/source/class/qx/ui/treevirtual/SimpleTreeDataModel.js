@@ -887,14 +887,35 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
         switch(attribute)
         {
         case "bSelected":
+          var nRowIndex = this.getRowFromNodeId(nodeId);
+          var selectionModel = this.getTree().getSelectionModel();
+          var TV = qx.ui.treevirtual.TreeVirtual;
+          var bChangeSelection =
+            (typeof(nRowIndex) === "number" &&
+             this.getTree().getSelectionMode() != TV.SelectionMode.NONE);
+
           // The selected state is changing. Keep track of what is selected
           if (attributes[attribute])
           {
             this._selections[nodeId] = true;
+
+            // Add selection range for node
+            if (bChangeSelection &&
+                ! selectionModel.isSelectedIndex(nRowIndex))
+            {
+              selectionModel.setSelectionInterval(nRowIndex, nRowIndex);
+            }
           }
           else
           {
             delete this._selections[nodeId];
+
+            // Delete selection range for node
+            if (bChangeSelection &&
+                selectionModel.isSelectedIndex(nRowIndex))
+            {
+              selectionModel.removeSelectionInterval(nRowIndex, nRowIndex);
+            }
           }
           break;
 
