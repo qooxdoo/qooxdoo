@@ -112,7 +112,7 @@ qx.Class.define("qx.ui.slider.Slider",
      */
     _onMouseWheel : function(e)
     {
-      this.slideBy(e.getWheelDelta() * this.getSingleStep() * -1);
+      this.slideBy(-e.getWheelDelta() * this.getSingleStep());
       e.stopPropagation();
     },
 
