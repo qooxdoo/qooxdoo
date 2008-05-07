@@ -230,7 +230,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     getSelection : function()
     {
       if (this.getMode() === "single") {
-        return [this._getSelectedItem()];
+        return this._getSelectedItem();
       }
 
       return qx.lang.Object.getValues(this.__selection);
