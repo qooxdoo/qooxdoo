@@ -42,10 +42,6 @@ qx.Class.define("qx.ui.core.selection.Abstract",
 
     // {Map} Interal selection storage
     this._selection = {};
-
-    // Timer
-    this._scrollTimer = new qx.event.Timer(100);
-    this._scrollTimer.addListener("interval", this._onInterval, this);
   },
 
 
@@ -151,8 +147,16 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     },
 
 
+    /**
+     * Finds the selectable instance from any given target inside
+     * the connected widget.
+     *
+     * @type member
+     * @param target {Object} The event target
+     * @return {Object} The resulting selectable
+     */
     _getSelectableFromTarget : function(target) {
-      return target;
+      return this._isSelectable(target) ? target : null;
     },
 
 
@@ -434,6 +438,14 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     ---------------------------------------------------------------------------
     */
 
+    /**
+     * This method should be connected to the <code>mousedown</code> event
+     * of the managed object.
+     *
+     * @type member
+     * @param event {qx.event.type.Mouse} A valid mouse event
+     * @return {void}
+     */
     handleMouseDown : function(event)
     {
       var item = this._getSelectableFromTarget(event.getTarget());
@@ -511,16 +523,40 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     },
 
 
+    /**
+     * This method should be connected to the <code>mouseup</code> event
+     * of the managed object.
+     *
+     * @type member
+     * @param event {qx.event.type.Mouse} A valid mouse event
+     * @return {void}
+     */
     handleMouseUp : function(event) {
       this._cleanup();
     },
 
 
+    /**
+     * This method should be connected to the <code>losecapture</code> event
+     * of the managed object.
+     *
+     * @type member
+     * @param event {qx.event.type.Mouse} A valid mouse event
+     * @return {void}
+     */
     handleLoseCapture : function(event) {
       this._cleanup();
     },
 
 
+    /**
+     * This method should be connected to the <code>mousemove</code> event
+     * of the managed object.
+     *
+     * @type member
+     * @param event {qx.event.type.Mouse} A valid mouse event
+     * @return {void}
+     */
     handleMouseMove : function(event)
     {
       // Only relevant when capturing is enabled
@@ -574,6 +610,14 @@ qx.Class.define("qx.ui.core.selection.Abstract",
       }
 
 
+      // Dynamically create required timer instance
+      if (!this._scrollTimer)
+      {
+        this._scrollTimer = new qx.event.Timer(100);
+        this._scrollTimer.addListener("interval", this._onInterval, this);
+      }
+
+
       // Start interval
       this._scrollTimer.start();
 
@@ -608,7 +652,9 @@ qx.Class.define("qx.ui.core.selection.Abstract",
       this._releaseCapture();
 
       // Stop timer
-      this._scrollTimer.stop();
+      if (this._scrollTimer) {
+        this._scrollTimer.stop();
+      }
     },
 
 
