@@ -1,3 +1,4 @@
+// generic application.json
 {
   "include" : 
   {
@@ -20,15 +21,13 @@
       "library" :
       [
         {
-          "encoding" : "utf-8",
-          "path"     : "${QOOXDOO_PATH}/framework/source",
-          "uri"      : "${QOOXDOO_URI}/framework/source"
+          "manifest" : "${QOOXDOO_PATH}/Manifest.json",
+          "uri"      : "${QOOXDOO_URI}"
         },
 
         {
-          "encoding" : "utf-8",
-          "path"     : "${ROOT}/source",
-          "uri"      : "../source"
+          "manifest" : "${ROOT}/Manifest.json",
+          "uri"      : ".."
         }
       ],
 
@@ -42,6 +41,7 @@
       {
         "qx.version"                 : "0.8",
         "qx.application"             : "${APPLICATION}.Application",
+        "qx.resourceUri"             : "${QOOXDOO_URI}/framework/source/resource",
         "${APPLICATION}.resourceUri" : "resource"
       },
 
