@@ -2114,7 +2114,7 @@ qx.Class.define("qx.legacy.ui.core.Widget",
      * @type member
      * @return {qx.legacy.ui.core.Widget[]} all children
      */
-    getLayoutChildren : function() {
+    _getChildren : function() {
       return this.getChildren();
     },
 

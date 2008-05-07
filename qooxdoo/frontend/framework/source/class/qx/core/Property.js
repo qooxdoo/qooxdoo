@@ -1222,9 +1222,9 @@ qx.Class.define("qx.core.Property",
 
         // Refresh children
         // Require the parent/children interface
-        if (config.inheritable && members.getLayoutChildren)
+        if (config.inheritable && members._getChildren)
         {
-          code.push('var a=this.getLayoutChildren();if(a)for(var i=0,l=a.length;i<l;i++){');
+          code.push('var a=this._getChildren();if(a)for(var i=0,l=a.length;i<l;i++){');
           code.push('if(a[i].', this.$$method.refresh[name], ')a[i].', this.$$method.refresh[name], '(backup);');
           code.push('}');
         }
