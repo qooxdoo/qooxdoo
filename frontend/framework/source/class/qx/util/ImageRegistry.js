@@ -54,14 +54,15 @@ qx.Class.define("qx.util.ImageRegistry",
       }
       
       var imageinfo = {};
-      var qxresourceuris = window.qxresourceuris || {};
+      var qxlibinfo = window.qxlibinfo || {};
       
       function macroexpand(dict, str)
       {
+        // dict = { 'libnamespace' : {'resuri': "...", ...}, "libnamespace1" : ...}
         var lstr = str;
         for (var key in dict)
         {
-          lstr = lstr.replace('${'+key+'}', dict[key]);
+          lstr = lstr.replace('${'+key+'}', dict[key]['resuri']);
         }
         return lstr;
       }
@@ -69,11 +70,11 @@ qx.Class.define("qx.util.ImageRegistry",
       for (var key in qximageinfo)
       {
         var val  = qximageinfo[key];  // val = [width, height, type [, mappeduri, left, top]]
-        key = macroexpand(qxresourceuris, key)
+        key = macroexpand(qxlibinfo, key)
         if (val.length == 3) {
           var nval = [key, 0, 0, val[0], val[1], val[2]];
         } else {
-          val[3] = macroexpand(qxresourceuris, val[3]);
+          val[3] = macroexpand(qxlibinfo, val[3]);
           var nval = [val[3], val[4], val[5], val[0], val[1], val[2]];
         }
         imageinfo[key] = nval;
