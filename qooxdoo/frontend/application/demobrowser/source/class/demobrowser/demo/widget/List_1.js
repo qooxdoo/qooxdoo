@@ -52,7 +52,7 @@ qx.Class.define("demobrowser.demo.widget.List_1",
       this.getRoot().add(l1, {left: 20, top: 20});
 
       l1.addListener("change", function(e) {
-        this.debug("Changed selection!");
+        this.debug("Changed selection: " + e.getData());
       });
 
 
@@ -71,7 +71,7 @@ qx.Class.define("demobrowser.demo.widget.List_1",
       this.getRoot().add(l2, {left: 400, top: 120});
 
       l2.addListener("change", function(e) {
-        this.debug("Changed selection!");
+        this.debug("Changed selection: " + e.getData());
       });
 
 
@@ -94,7 +94,7 @@ qx.Class.define("demobrowser.demo.widget.List_1",
       this.getRoot().add(l3, {left: 600, top: 120});
 
       l3.addListener("change", function(e) {
-        this.debug("Changed selection!");
+        this.debug("Changed selection: " + e.getData());
       });
 
 
@@ -118,7 +118,7 @@ qx.Class.define("demobrowser.demo.widget.List_1",
       this.getRoot().add(l4, {left: 20, top: 370});
 
       l4.addListener("change", function(e) {
-        this.debug("Changed selection!");
+        this.debug("Changed selection: " + e.getData());
       });
 
 

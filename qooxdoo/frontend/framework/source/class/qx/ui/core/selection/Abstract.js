@@ -41,7 +41,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     this.base(arguments);
 
     // {Map} Interal selection storage
-    this._selection = {};
+    this.__selection = {};
   },
 
 
@@ -55,8 +55,8 @@ qx.Class.define("qx.ui.core.selection.Abstract",
 
   events :
   {
-    /** Fires after the selection was modified */
-    change : "qx.event.type.Event"
+    /** Fires after the selection was modified. Contains the selection under the data property. */
+    change : "qx.event.type.Data"
   },
 
 
@@ -82,7 +82,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     {
       check : [ "single", "multi", "additive" ],
       init : "single",
-      apply : "_applySelectionMode"
+      apply : "_applyMode"
     },
 
 
@@ -128,7 +128,112 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     },
 
 
-    // TODO
+    /**
+     * Selects the given item. Replaces current selection
+     * completely with the new item.
+     *
+     * Use {@link #addItem} instead if you want to add new
+     * items to an existing selection.
+     *
+     * @type member
+     * @param item {Object} Any valid item
+     * @return {void}
+     */
+    selectItem : function(item)
+    {
+      this._setSelectedItem(item);
+      this._fireChange();
+    },
+
+
+    /**
+     * Adds the given item to the existing selection.
+     *
+     * Use {@link #selectItem} instead if you want to replace
+     * the current selection.
+     *
+     * @type member
+     * @param item {Object} Any valid item
+     * @return {void}
+     */
+    addItem : function(item)
+    {
+      if (this.getMode() === "single") {
+        this._setSelectedItem(item);
+      } else {
+        this._addToSelection(item);
+      }
+
+      this._fireChange();
+    },
+
+
+    /**
+     * Removes the given item from the selection.
+     *
+     * Use {@link #clearSelection} when you want to clear
+     * the whole selection at once.
+     *
+     * @type member
+     * @param item {Object} Any valid item
+     * @return {void}
+     */
+    removeItem : function(item)
+    {
+      this._removeFromSelection(item);
+      this._fireChange();
+    },
+
+
+    /**
+     * Selects an item range between two given items.
+     *
+     * @type member
+     * @param begin {Object} Item to start with
+     * @param end {Object} Item to end at
+     * @return {void}
+     */
+    selectItemRange : function(begin, end)
+    {
+      this._selectItemRange(begin, end);
+      this._fireChange();
+    },
+
+
+    /**
+     * Clears the whole selection at once. Also
+     * resets the lead and anchor items and their
+     * styles.
+     *
+     * @type member
+     * @return {void}
+     */
+    clearSelection : function()
+    {
+      this._clearSelection();
+      this._setLeadItem(null);
+      this._setAnchorItem(null);
+
+      this._fireChange();
+    },
+
+
+    /**
+     * Returns the currently selected item/items. Returns the
+     * item itself when in <code>single</code> selection mode.
+     * Otherwise an array with the selected items will be returned.
+     *
+     * @type member
+     * @return {Object|Object[]} The item or a list of items.
+     */
+    getSelection : function()
+    {
+      if (this.getMode() === "single") {
+        return this._getSelectedItem();
+      }
+
+      return qx.lang.Object.getValues(this.__selection);
+    },
 
 
 
@@ -483,7 +588,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     */
 
     // property apply
-    _applySelectionMode : function(value, old)
+    _applyMode : function(value, old)
     {
       this._setLeadItem(null);
       this._setAnchorItem(null);
@@ -1059,7 +1164,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
 
     _clearSelection : function()
     {
-      var selection = this._selection;
+      var selection = this.__selection;
       for (var hash in selection) {
         this._removeFromSelection(selection[hash]);
       }
@@ -1073,7 +1178,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
       // Remove items which are not in the detected range
       if (!extend)
       {
-        var selected = this._selection;
+        var selected = this.__selection;
         var mapped = this.__rangeToMap(range);
 
         for (var hash in selected)
@@ -1135,7 +1240,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     _isItemSelected : function(item)
     {
       var hash = this._selectableToHashCode(item);
-      return !!this._selection[hash];
+      return !!this.__selection[hash];
     },
 
 
@@ -1148,8 +1253,8 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      */
     _getSelectedItem : function()
     {
-      for (var hash in this._selection) {
-        return this._selection[hash];
+      for (var hash in this.__selection) {
+        return this.__selection[hash];
       }
 
       return null;
@@ -1170,15 +1275,6 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     },
 
 
-    _fireChange : function()
-    {
-      if (this.__selectionModified)
-      {
-        this.fireEvent("change");
-        delete this.__selectionModified;
-      }
-    },
-
 
 
 
@@ -1194,9 +1290,9 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     {
       var hash = this._selectableToHashCode(item);
 
-      if (!this._selection[hash])
+      if (!this.__selection[hash])
       {
-        this._selection[hash] = item;
+        this.__selection[hash] = item;
         this._styleSelectable(item, "selected", true);
 
         this.__selectionModified = true;
@@ -1208,14 +1304,14 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     {
       var hash = this._selectableToHashCode(item);
 
-      if (!this._selection[hash])
+      if (!this.__selection[hash])
       {
-        this._selection[hash] = item;
+        this.__selection[hash] = item;
         this._styleSelectable(item, "selected", true);
       }
       else
       {
-        delete this._selection[hash];
+        delete this.__selection[hash];
         this._styleSelectable(item, "selected", false);
       }
 
@@ -1227,12 +1323,22 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     {
       var hash = this._selectableToHashCode(item);
 
-      if (this._selection[hash])
+      if (this.__selection[hash])
       {
-        delete this._selection[hash];
+        delete this.__selection[hash];
         this._styleSelectable(item, "selected", false);
 
         this.__selectionModified = true;
+      }
+    },
+
+
+    _fireChange : function()
+    {
+      if (this.__selectionModified)
+      {
+        this.fireDataEvent("change", this.getSelection());
+        delete this.__selectionModified;
       }
     }
   },
@@ -1249,6 +1355,6 @@ qx.Class.define("qx.ui.core.selection.Abstract",
   destruct : function()
   {
     this._disposeObjects("_scrollTimer");
-    this._disposeFields("_selection");
+    this._disposeFields("__selection");
   }
 });
