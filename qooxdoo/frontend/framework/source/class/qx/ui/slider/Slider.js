@@ -61,7 +61,7 @@ qx.Class.define("qx.ui.slider.Slider",
   {
     this.base(arguments, orientation);
 
-    this.addListener("keypress", this._onKeypress);
+    this.addListener("keypress", this._onKeyPress);
     this.addListener("mousewheel", this._onMouseWheel, this);
   },
 
@@ -126,7 +126,7 @@ qx.Class.define("qx.ui.slider.Slider",
      * @param e {qx.event.type.Keypress} Incoming keypress event
      * @return {void}
      */
-    _onKeypress : function(e)
+    _onKeyPress : function(e)
     {
       var isHorizontal = this.getOrientation() === "horizontal";
       var backward = isHorizontal ? "Left" : "Up";
