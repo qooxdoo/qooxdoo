@@ -985,6 +985,14 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     },
 
 
+    /**
+     * This method should be connected to the <code>keypress</code> event
+     * of the managed object.
+     *
+     * @type member
+     * @param event {qx.event.type.KeySequence} A valid key sequence event
+     * @return {void}
+     */
     handleKeyPress : function(event)
     {
       var current, next;
