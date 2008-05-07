@@ -84,11 +84,26 @@ qx.Class.define("qx.ui.embed.Iframe",
 
   properties :
   {
+
+    /**
+     * Source URL of the iframe.
+     */
     source :
     {
       check : "String",
       apply : "_applySource"
+    },
+
+    /**
+     * Whether the iframe's content pane should have scroll bars
+     */
+    scrolling :
+    {
+      check : ["yes", "no", "auto"],
+      init  : "auto",
+      apply : "_applyScrolling"
     }
+
   },
 
 
@@ -106,11 +121,13 @@ qx.Class.define("qx.ui.embed.Iframe",
     _createContentElement : function() {
       return new qx.html.Iframe(this._source);
     },
+
     /*
     ---------------------------------------------------------------------------
       METHODS
     ---------------------------------------------------------------------------
     */
+
 
     /**
      * Get the DOM window object of an iframe.
@@ -122,6 +139,7 @@ qx.Class.define("qx.ui.embed.Iframe",
       return this.getContentElement().getWindow();
     },
 
+
     /**
      * Get the DOM document object of an iframe.
      *
@@ -131,6 +149,7 @@ qx.Class.define("qx.ui.embed.Iframe",
     {
       return this.getContentElement().getDocument();
     },
+
 
     /**
      * Get the HTML body element of the iframe.
@@ -152,10 +171,31 @@ qx.Class.define("qx.ui.embed.Iframe",
     _applySource : function(value, old)
     {
       this.getContentElement().setSource(value);
+    },
+
+
+    _applyScrolling : function(value, old)
+    {
+      var overflowValue;
+
+      switch(value)
+      {
+        case "yes":
+          overflowValue = "visible";
+        break;
+
+        case "no":
+          overflowValue = "hidden";
+        break;
+
+        default:
+          overflowValue = "auto";
+        break;
+      }
+
+      this.getContentElement().setStyle("overflowX", overflowValue)
+      this.getContentElement().setStyle("overflowY", overflowValue)
     }
-
-
-
 
 
     /*
