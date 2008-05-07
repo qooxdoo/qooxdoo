@@ -85,11 +85,11 @@ qx.Class.define("feedreader.view.Article",
       
       var html = this.__getArticleHtml().get();
       this.setHtml(html);
-      
-      var element = this.getContentElement().getDomElement();
-      
+        
+          
+      var element = this.getContentElement().getDomElement();      
       var links = element.getElementsByTagName("a");
-      for (var i=0; i<links.length; i++) {
+      for (var i = 0; i < links.length; i++) {
         links[i].target = "_blank";
       }
 

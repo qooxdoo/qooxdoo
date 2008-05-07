@@ -32,23 +32,13 @@ qx.Class.define("feedreader.view.List",
     this.setDecorator(null);
     this.setMinHeight(100);
 
-    l = this;
     // Add selection listener
-    // this.getSelectionModel().addListener("changeSelection", this._onChangeSelection, this);
+    this.addListener("change", this._onChangeSelection, this);
     
-    this.addListener("click", this.test, this);
   },
 
   members :
-  {
-    
-    test : function(e) {
-      var feed = this._controller.getSelectedFeed();
-      // var itemId = feed.items[0];
-      // feed.selected = itemId;
-      this._controller.setSelectedArticle(feed.items[1]);
-    },
-    
+  {    
     /**
      * TODOC
      *
@@ -58,21 +48,15 @@ qx.Class.define("feedreader.view.List",
      */
     _onChangeSelection : function(e)
     {
-      var selectedEntry = this.getSelectionModel().getAnchorSelectionIndex();
+      var itemData = e.getData();
       var feed = this._controller.getSelectedFeed();
 
-      if (selectedEntry >= 0)
+      // If this is undefined, the data is not yet ready...
+      if (itemData)
       {
-        var itemData = this.getTableModel().getRowData(selectedEntry);
-
-        // If this is undefined, the data is not yet ready...
-        if (itemData)
-        {
-          var itemId = itemData[2];
-
-          feed.selected = itemId;
-          this._controller.setSelectedArticle(feed.items[itemId]);
-        }
+        var id = itemData.getUserData("id");
+        // feed.selected = itemId;
+        this._controller.setSelectedArticle(feed.items[id]);
       }
     }
   }
