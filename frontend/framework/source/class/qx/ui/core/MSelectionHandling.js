@@ -132,6 +132,18 @@ qx.Mixin.define("qx.ui.core.MSelectionHandling",
 
 
     /**
+     * Detects whether the given item is currently selected.
+     *
+     * @type member
+     * @param item {var} Any valid selectable item
+     * @return {Boolean} Whether the item is selected
+     */
+    isSelected : function(item) {
+      this.__manager.isSelected(item);
+    },
+
+
+    /**
      * Adds the given item to the existing selection.
      *
      * Use {@link #selectItem} instead if you want to replace
