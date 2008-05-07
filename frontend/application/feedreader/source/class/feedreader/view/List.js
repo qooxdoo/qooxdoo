@@ -15,6 +15,7 @@
    Authors:
      * Fabian Jakobs (fjakobs)
      * Sebastian Werner (wpbasti)
+     * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
 
@@ -22,40 +23,43 @@ qx.Class.define("feedreader.view.List",
 {
   extend : qx.ui.form.List,
 
+
   construct : function(controller)
   {
     this.base(arguments);
     // Establish controller link
     this._controller = controller;
     
+    // set the properties of the list
     this.setSelectionMode("single");
     this.setDecorator(null);
     this.setMinHeight(100);
 
     // Add selection listener
     this.addListener("change", this._onChangeSelection, this);
-    
   },
+
 
   members :
   {    
+    
     /**
-     * TODOC
-     *
-     * @type member
-     * @param e {Event} TODOC
-     * @return {void}
+     * Event handler for the change event of the selection.
+     * 
+     * @param e {qx.event.type.Data} The data event of the list managers change. 
      */
     _onChangeSelection : function(e)
     {
-      var itemData = e.getData();
+      // get the selected item
+      var item = e.getData();
+      // get the selected feed
       var feed = this._controller.getSelectedFeed();
 
       // If this is undefined, the data is not yet ready...
-      if (itemData)
+      if (item)
       {
+        // tell the controller to set the selected article
         var id = itemData.getUserData("id");
-        // feed.selected = itemId;
         this._controller.setSelectedArticle(feed.items[id]);
       }
     }

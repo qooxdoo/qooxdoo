@@ -15,6 +15,7 @@
    Authors:
      * Fabian Jakobs (fjakobs)
      * Sebastian Werner (wpbasti)
+     * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
 
@@ -27,12 +28,13 @@
 
 qx.Class.define("feedreader.PreferenceWindow",
 {
-  extend : qx.legacy.ui.window.Window,
+  extend : qx.ui.window.Window,
 
   construct : function()
   {
-    this.base(arguments, this.tr("Preferences"), "icon/16/apps/preferences-theme.png");
-
+    this.base(arguments, "Preferences", "icon/16/apps/preferences-theme.png");
+    
+    // set the properties of the window
     this.set(
     {
       modal         : true,
@@ -40,87 +42,49 @@ qx.Class.define("feedreader.PreferenceWindow",
       showMaximize  : false,
       allowMaximize : false
     });
-
-    this.addToDocument();
-
+    
+    // Create the content with a helper
     this._addContent();
   },
 
   members :
   {
+
     /**
-     * TODOC
-     *
-     * @type member
-     * @return {void}
+     * Adds the content of the window.
      */
     _addContent : function()
     {
-      var winLayout = new qx.legacy.ui.layout.VerticalBoxLayout();
+      // set the layout of the window
+      this.setLayout(new qx.ui.layout.VBox());
 
-      winLayout.set(
-      {
-        width   : "100%",
-        height  : "auto",
-        spacing : 5,
-        padding : 5
-      });
+      // create and add a groupbox
+      var groupBox = new qx.ui.groupbox.GroupBox("Theme");
+      groupBox.setMargin(5);
+      this.add(groupBox);
+      groupBox.getPane().setLayout(new qx.ui.layout.VBox());        
 
-      this.add(winLayout);
+      // create the radio buttons for the themes
+      var button_classic = new qx.ui.form.RadioButton("Classic");
+      button_classic.setChecked(true);
+      var button_modern = new qx.ui.form.RadioButton("Modern");
 
-      var gb = new qx.legacy.ui.groupbox.GroupBox(this.tr("Theme"));
+      // create and apply the radio manager
+      var radioManager = new qx.ui.core.RadioManager();
+      radioManager.add(button_modern, button_classic);
+      
+      // add the buttons to the groupbox
+      groupBox.getPane().add(button_classic);
+      groupBox.getPane().add(button_modern);
 
-      gb.set(
-      {
-        height : "auto",
-        width  : "100%"
-      });
-
-      winLayout.add(gb);
-
-      var vb = new qx.legacy.ui.layout.VerticalBoxLayout();
-      gb.add(vb);
-
-      // var btn_classic = new qx.legacy.ui.form.RadioButton("Classic");
-      var btn_ext = new qx.legacy.ui.form.RadioButton("Ext");
-      btn_ext.setChecked(true);
-      var rm = new qx.legacy.ui.selection.RadioManager();
-      rm.add(btn_classic, btn_ext);
-      vb.add(btn_classic, btn_ext);
-
-      var hb = new qx.legacy.ui.layout.HorizontalBoxLayout();
-
-      hb.set(
-      {
-        width                   : "100%",
-        horizontalChildrenAlign : "right",
-        spacing                 : 5,
-        paddingRight            : 3
-      });
-
-      var btn_cancel = new qx.legacy.ui.form.Button(this.tr("Cancel"));
-      btn_cancel.addListener("execute", this.close, this);
-      var btn_ok = new qx.legacy.ui.form.Button(this.tr("OK"));
-
-      btn_ok.addListener("execute", function()
-      {
-        if (btn_ext.getChecked()) {
-          qx.legacy.theme.manager.Meta.getInstance().setTheme(qx.legacy.theme.Ext);
-        } else {
-          qx.legacy.theme.manager.Meta.getInstance().setTheme(qx.legacy.theme.ClassicRoyale);
+      // register the listener for the theme changes
+      radioManager.addListener("changeSelected", function(e) {
+        if (e.getValue() == button_classic) {
+          alert("Apply classic theme.");
+        } else if (e.getValue() == button_modern) {
+          alert("Apply modern theme.");
         }
-
-        this.close();
-      },
-      this);
-
-      hb.add(btn_cancel);
-      hb.add(btn_ok);
-
-      winLayout.add(hb);
-
-      this._prefWindow = this;
-      this.addListener("appear", this.centerToBrowser, this);
+      }, this);
     }
   }
 });

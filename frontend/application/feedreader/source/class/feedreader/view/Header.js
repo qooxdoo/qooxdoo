@@ -15,6 +15,7 @@
    Authors:
      * Fabian Jakobs (fjakobs)
      * Sebastian Werner (wpbasti)
+     * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
 

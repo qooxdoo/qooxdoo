@@ -15,6 +15,7 @@
    Authors:
      * Fabian Jakobs (fjakobs)
      * Sebastian Werner (wpbasti)
+     * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
 
@@ -26,8 +27,10 @@ qx.Class.define("feedreader.view.Tree",
   {
     this.base(arguments, "News feeds");
 
+    // save the reference to the controller
     this._controller = controller;
-
+    
+    // set the properties of the tree
     this.set(
     {
       width    : 200,
@@ -41,26 +44,30 @@ qx.Class.define("feedreader.view.Tree",
     this.setHideRoot(true);
     this.setRoot(this._root);
 
-    this.getManager().addListener("change", this._onChangeSelection, this);    
+    // register the change listener
+    this.getManager().addListener("change", this._onChangeSelection, this);
+    
+    // refresh the tree view    
     this.refresh();
   },
 
   members :
   {
+
     /**
-     * TODOC
-     *
-     * @type member
-     * @return {void}
+     * Invokes a refresh of the tree. 
+     * This includes getting the feeds of the controller and
+     * creation of a tree folder for every feed.
      */
     refresh : function()
     {
+      // get the feeds
       var db = this._controller.getFeeds();
 
-      // TODO remove old folders?
-
+      // go threw all feeds
       for (var url in db) 
       {
+        // create and add a folder for every feed
         var folder = new qx.ui.tree.TreeFolder(db[url].title);
         folder.setUserData("url", url);
         this.getRoot().add(folder);
@@ -69,19 +76,18 @@ qx.Class.define("feedreader.view.Tree",
 
 
     /**
-     * TODOC
-     *
-     * @type member
-     * @param e {Event} TODOC
-     * @return {void}
+     * Event handler for the change event of the tree selection.
+     * 
+     * @param e {qx.event.type.Data} The data event of the tree managers change.
      */
     _onChangeSelection : function(e)
     {
-      var controller = this._controller;
+      // get the url of the item
       var item = e.getData();
       var url = item.getUserData("url");
 
-      controller.selectFeed(url);
+      // tell the controller to select the new feed
+      this._controller.selectFeed(url);
     }
   }
 });

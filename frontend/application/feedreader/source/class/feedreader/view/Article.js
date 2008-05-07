@@ -15,6 +15,7 @@
    Authors:
      * Fabian Jakobs (fjakobs)
      * Sebastian Werner (wpbasti)
+     * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
 
@@ -23,21 +24,18 @@ qx.Class.define("feedreader.view.Article",
   extend : qx.ui.embed.HtmlEmbed,
 
 
-
-
   /*
   *****************************************************************************
      CONSTRUCTOR
   *****************************************************************************
   */
-
   construct : function(article)
   {
     this.base(arguments);
     
+    // set the styles and properties
     this.setCssClass("blogEntry");
     this.setDecorator("line-top");
-    
     this.setMinHeight(300);
     this.setPadding(30);
   },
@@ -53,6 +51,9 @@ qx.Class.define("feedreader.view.Article",
 
   properties :
   {
+    /**
+     * The current article.
+     */
     article :
     {
       apply    : "_applyArticle",
@@ -72,45 +73,47 @@ qx.Class.define("feedreader.view.Article",
 
   members :
   {
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param propValue {var} Current value
-     * @param propOldValue {var} Previous value
-     * @param propData {var} Property configuration map
-     * @return {Boolean} TODOC
-     */
-    _applyArticle : function(propValue, propOldValue, propData) {
-      
-      var html = this.__getArticleHtml().get();
+
+    // property apply
+    _applyArticle : function(value, old) 
+    {
+      // set the given article to html
+      var html = this.__getArticleHtml();
       this.setHtml(html);
-        
-          
-      var element = this.getContentElement().getDomElement();      
+      
+      // flush all elements (neede to access the content of the dom element)
+      qx.html.Element.flush();      
+      
+      // get the dom element containing the html of the article
+      var element = this.getContentElement().getDomElement();  
+      // get all links          
       var links = element.getElementsByTagName("a");
+      // set the targets of all links to _blank
       for (var i = 0; i < links.length; i++) {
         links[i].target = "_blank";
       }
-
-      return true;
     },
 
 
     /**
-     * TODOC
-     *
-     * @type member
-     * @return {string | var} TODOC
+     * Helper method which uses the set article and builds
+     * a html view of it. Ths string containing the html will
+     * be returned.
+     * If no article is set, an emptys string will be returned.
+     * 
+     * @return {String} The formated article as a html string.
      */
     __getArticleHtml : function()
     {
+      // get the article
       var item = this.getArticle();
-
+      
+      // return an empty string if no article is set 
       if (!item) {
         return "";
       }
 
+      // build the article html using a StringBuilder
       var html = new qx.util.StringBuilder();
 
       html.add("<div id='_blogEntry'>");
@@ -135,7 +138,7 @@ qx.Class.define("feedreader.view.Article",
 
       html.add("</div>");
 
-      return html;
+      return html.get();
     }
   }
 });
