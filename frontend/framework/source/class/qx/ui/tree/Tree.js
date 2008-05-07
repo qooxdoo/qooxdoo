@@ -43,7 +43,7 @@
 qx.Class.define("qx.ui.tree.Tree",
 {
   extend : qx.ui.core.ScrollArea,
-
+  include : [ qx.ui.core.MSelectionHandling ],
 
 
   /*
@@ -64,16 +64,8 @@ qx.Class.define("qx.ui.tree.Tree",
 
     this._scrollPane.setContent(content);
 
-    var manager = this._manager = new qx.ui.tree.SelectionManager(this);
-
     this.initOpenMode();
     this.initRootOpenClose();
-
-    this.addListener("mousemove", manager.handleMouseMove, manager);
-    this.addListener("mousedown", manager.handleMouseDown, manager);
-    this.addListener("mouseup", manager.handleMouseUp, manager);
-    this.addListener("losecapture", manager.handleLoseCapture, manager);
-    this.addListener("keypress", manager.handleKeyPress, manager);
 
     this.addListener("keydown", this._onKeydown);
   },
@@ -182,6 +174,22 @@ qx.Class.define("qx.ui.tree.Tree",
 
   members :
   {
+    /*
+    ---------------------------------------------------------------------------
+      SELECTION API
+    ---------------------------------------------------------------------------
+    */
+
+    /** {Class} Pointer to the selection manager to use */
+    SELECTION_MANAGER : qx.ui.tree.SelectionManager,
+
+
+    /*
+    ---------------------------------------------------------------------------
+      WIDGET API
+    ---------------------------------------------------------------------------
+    */
+
     /**
      * Get the widget, which containes the root tree item. This widget must
      * have a vertical box layout.
@@ -253,60 +261,6 @@ qx.Class.define("qx.ui.tree.Tree",
       if (value) {
         this._scrollPane.getContent().setPadding(value);
       }
-    },
-
-
-    /*
-    ---------------------------------------------------------------------------
-      MANAGER BINDING
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * Accessor method for the selection manager
-     *
-     * @type member
-     * @return {qx.ui.selection.SelectionManager} TODOC
-     */
-    getManager : function() {
-      return this._manager;
-    },
-
-
-    /**
-     * Sets the selected tree item.
-     *
-     * @type member
-     * @param treeItem {AbstractTreeItem} the tree item to select
-     */
-    setSelectedElement : function(treeItem)
-    {
-      var manager = this.getManager();
-
-      manager.setSelectedItem(treeItem);
-      manager.setLeadItem(treeItem);
-    },
-
-
-    /**
-     * Returns the first selected list item.
-     *
-     * @type member
-     * @return {qx.ui.form.ListItem|null} Selected item or null
-     */
-    getSelectedItem : function() {
-      return this.getSelectedItems()[0] || null;
-    },
-
-
-    /**
-     * Returns all selected list items (uses the selection manager).
-     *
-     * @type member
-     * @return {Array} Returns all selected list items.
-     */
-    getSelectedItems : function() {
-      return this._manager.getSelectedItems();
     },
 
 
