@@ -24,7 +24,7 @@
 qx.Class.define("qx.ui.form.List",
 {
   extend : qx.ui.core.ScrollArea,
-  include : [ qx.ui.core.MRemoteChildrenHandling ],
+  include : [ qx.ui.core.MRemoteChildrenHandling, qx.ui.core.MSelectionHandling ],
 
 
 
@@ -36,10 +36,9 @@ qx.Class.define("qx.ui.form.List",
   */
 
   /**
-   * @param mode {String?"single"} The selection mode to use ({@link #selectionMode})
    * @param horizontal {Boolean?false} Whether the list should be horizontal.
    */
-  construct : function(mode, horizontal)
+  construct : function(horizontal)
   {
     this.base(arguments);
 
@@ -58,39 +57,9 @@ qx.Class.define("qx.ui.form.List",
       this.initOrientation();
     }
 
-    // Create selection manager
-    this.__manager = new qx.ui.core.selection.ScrollArea(this);
-    this.__manager.addListener("change", this._onSelectionChange, this);
-
-    // Apply selection mode
-    if (mode != null) {
-      this.setSelectionMode(mode);
-    }
-
-    // Add event listeners
-    this.addListener("mousedown", this._onMouseDown);
-    this.addListener("mouseup", this._onMouseUp);
-    this.addListener("mousemove", this._onMouseMove);
-    this.addListener("losecapture", this._onLoseCapture);
+    // Add keypress listener
     this.addListener("keypress", this._onKeyPress);
   },
-
-
-
-
-
-  /*
-  *****************************************************************************
-     EVENTS
-  *****************************************************************************
-  */
-
-  events :
-  {
-    /** Fires after the selection was modified */
-    change : "qx.event.type.Event"
-  },
-
 
 
 
@@ -120,20 +89,6 @@ qx.Class.define("qx.ui.form.List",
 
 
     /**
-     * The selection mode to use.
-     *
-     * For further details please have a look at:
-     * {@link qx.ui.core.selection.Abstract#mode}
-     */
-    selectionMode :
-    {
-      check : [ "single", "multi", "additive" ],
-      init : "single",
-      apply : "_applySelectionMode"
-    },
-
-
-    /**
      * Whether the list should be rendered horizontal or vertical.
      */
     orientation :
@@ -157,15 +112,33 @@ qx.Class.define("qx.ui.form.List",
   {
     /*
     ---------------------------------------------------------------------------
-      PROPERTY APPLY ROUTINES
+      SELECTION API
     ---------------------------------------------------------------------------
     */
 
-    // property apply
-    _applySelectionMode : function(value, old) {
-      this.__manager.setMode(value);
+    /** {Class} Pointer to the selection manager to use */
+    SELECTION_MANAGER : qx.ui.core.selection.ScrollArea,
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      WIDGET API
+    ---------------------------------------------------------------------------
+    */
+
+    // overridden
+    getChildrenContainer : function() {
+      return this.__content;
     },
 
+
+
+    /*
+    ---------------------------------------------------------------------------
+      PROPERTY APPLY ROUTINES
+    ---------------------------------------------------------------------------
+    */
 
     // property apply
     _applyOrientation : function(value, old)
@@ -185,90 +158,11 @@ qx.Class.define("qx.ui.form.List",
 
 
 
-
-
-    /*
-    ---------------------------------------------------------------------------
-      WIDGET API
-    ---------------------------------------------------------------------------
-    */
-
-    // overridden
-    getChildrenContainer : function() {
-      return this.__content;
-    },
-
-
-
-
-
     /*
     ---------------------------------------------------------------------------
       EVENT HANDLER
     ---------------------------------------------------------------------------
     */
-
-    /**
-     * Event listener for <code>change</code> event on selection manager.
-     *
-     * @type member
-     * @param e {qx.event.type.Data} Data event
-     * @return {void}
-     */
-    _onSelectionChange : function(e)
-    {
-      // Fire an identically configured event again
-      this.fireDataEvent("change", e.getData());
-    },
-
-
-    /**
-     * Event listener for <code>mousedown</code> events.
-     *
-     * @type member
-     * @param e {qx.event.type.Mouse} Mousedown event
-     * @return {void}
-     */
-    _onMouseDown : function(e) {
-      this.__manager.handleMouseDown(e);
-    },
-
-
-    /**
-     * Event listener for <code>mouseup</code> events.
-     *
-     * @type member
-     * @param e {qx.event.type.Mouse} Mousedown event
-     * @return {void}
-     */
-    _onMouseUp : function(e) {
-      this.__manager.handleMouseUp(e);
-    },
-
-
-    /**
-     * Event listener for <code>mousemove</code> events.
-     *
-     * @type member
-     * @param e {qx.event.type.Mouse} Mousedown event
-     * @return {void}
-     */
-    _onMouseMove : function(e) {
-      this.__manager.handleMouseMove(e);
-    },
-
-
-    /**
-     * Event listener for <code>losecapture</code> events.
-     *
-     * @type member
-     * @param e {qx.event.type.Mouse} Losecapture event
-     * @return {void}
-     */
-    _onLoseCapture : function(e) {
-      this.__manager.handleLoseCapture(e);
-    },
-
 
     /**
      * Event listener for <code>keypress</code> events.
@@ -282,16 +176,13 @@ qx.Class.define("qx.ui.form.List",
       // Execute action on press <ENTER>
       if (e.getKeyIdentifier() == "Enter" && !e.isAltPressed())
       {
-        var items = this.__manager.getSelectedItems();
+        var items = this._manager.getSelectedItems();
         for (var i=0; i<items.length; i++) {
           items[i].fireEvent("action");
         }
 
         return;
       }
-
-      // Give control to selectionManager
-      this.__manager.handleKeyPress(e);
     }
   },
 
@@ -305,6 +196,6 @@ qx.Class.define("qx.ui.form.List",
   */
 
   destruct : function() {
-    this._disposeObjects("__manager", "__content");
+    this._disposeObjects("__content");
   }
 });
