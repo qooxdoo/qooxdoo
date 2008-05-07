@@ -236,6 +236,19 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     },
 
 
+    /**
+     * Detects whether the given item is currently selected.
+     *
+     * @type member
+     * @param item {var} Any valid selectable item
+     * @return {Boolean} Whether the item is selected
+     */
+    isItemSelected : function(item)
+    {
+      var hash = this._selectableToHashCode(item);
+      return !!this.__selection[hash];
+    },
+
 
 
 
@@ -943,7 +956,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
       {
         // Behavior depends on the fact whether the
         // anchor item is selected or not
-        if (this._isItemSelected(anchor)) {
+        if (this.isItemSelected(anchor)) {
           this._selectItemRange(anchor, lead, true);
         } else {
           this._deselectItemRange(anchor, lead);
@@ -1237,20 +1250,6 @@ qx.Class.define("qx.ui.core.selection.Abstract",
       SINGLE ITEM QUERY AND MODIFICATION
     ---------------------------------------------------------------------------
     */
-
-    /**
-     * Detects whether the given item is currently selected.
-     *
-     * @type member
-     * @param item {var} Any valid selectable item
-     * @return {Boolean} Whether the item is selected
-     */
-    _isItemSelected : function(item)
-    {
-      var hash = this._selectableToHashCode(item);
-      return !!this.__selection[hash];
-    },
-
 
     /**
      * Returns the first selected item. Only makes sense
