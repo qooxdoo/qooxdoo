@@ -166,6 +166,8 @@ qx.Class.define("demobrowser.demo.widget.List_1",
 
 
       var drag1 = new qx.ui.form.CheckBox("Enable drag selection");
+      drag1.setChecked(true);
+
       this.getRoot().add(drag1, {left: 180, top: 180});
 
       drag1.addListener("change", function(e) {

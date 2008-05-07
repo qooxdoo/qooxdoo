@@ -17,12 +17,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#module(ui_tabview)
-
-************************************************************************ */
-
 /**
  * @appearance tab-view-page
  */
@@ -30,15 +24,18 @@ qx.Class.define("qx.ui.tabview.Page",
 {
   extend : qx.ui.container.Composite,
 
+
+
   /*
   *****************************************************************************
      CONSTRUCTOR
   *****************************************************************************
   */
-  construct : function(label, icon) {
+
+  construct : function(label, icon)
+  {
     this.base(arguments);
     this._button = this._createButton(label, icon);
-    
   },
 
 
@@ -48,8 +45,9 @@ qx.Class.define("qx.ui.tabview.Page",
      MEMBERS
   *****************************************************************************
   */
-  members : {
 
+  members :
+  {
     /**
      * Returns the button used within this page. This method is used by
      * the TabView to access the button.
@@ -71,14 +69,18 @@ qx.Class.define("qx.ui.tabview.Page",
      * @param icon {String} Path to the icon.
      * @return {qx.ui.form.RadioButton} The created button.
      */
-    _createButton: function(label, icon) {
+    _createButton: function(label, icon)
+    {
       var button = new qx.ui.form.RadioButton(label);
+
       // set the icon if a icon path is available
       if (icon) {
         button.setIcon(icon);
       }
+
       // add a listener for hiding and showing the sites
-      button.addListener("changeChecked", function(e) {
+      button.addListener("change", function(e)
+      {
         if (e.getValue()) {
           this.show();
         } else {
@@ -96,9 +98,7 @@ qx.Class.define("qx.ui.tabview.Page",
 //      !this.getView().getAlignTabsToLeft() ? this.addState("alignRight") : this.removeState("alignRight");
 //      this.getView().getPlaceBarOnTop() ? this.addState("barTop") : this.removeState("barTop");
 //      !this.getView().getPlaceBarOnTop() ? this.addState("barBottom") : this.removeState("barBottom");
-      
-      
-      
+
       return button;
     },
 
@@ -117,13 +117,15 @@ qx.Class.define("qx.ui.tabview.Page",
   },
 
 
+
+
   /*
   *****************************************************************************
      DESTRUCTOR
   *****************************************************************************
   */
+
   destruct : function() {
     this._disposeObjects("_button");
   }
-
 });
