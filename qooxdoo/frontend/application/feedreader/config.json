@@ -11,7 +11,7 @@
     {
       "let" :
       {
-        "APPLICATION"    : "feedreader"
+        "APPLICATION" : "feedreader"
       },
 
       "cache" :
@@ -25,11 +25,11 @@
     {
       "extend"  : ["common"],
 
-      "include" : ["feedreader.*", "qx.theme.Classic"],
+      "include" : ["feedreader.*", "qx.theme.Classic", "qx.theme.Modern"],
 
       "settings" :
       {
-        "qx.legacy.theme"       : "qx.legacy.theme.Ext"
+        "qx.theme" : "qx.theme.Modern"
       },
 
       "localize" :
