@@ -121,9 +121,6 @@ qx.Class.define("feedreader.Application",
 
       // Load data file
       qx.event.Timer.once(this._load, this, 0);
-      
-      
-      self = this;
     },
 
     _load : function()
@@ -369,36 +366,39 @@ qx.Class.define("feedreader.Application",
      */
     _applySelectedFeed : function(value, old)
     {
-      if (old)
-      {
+      if (old) {
         // Store old selection
-//        old.selection = this._tableView.getSelectionModel().getAnchorSelectionIndex();
+        old.selection = this._listView.indexOf(this._listView.getSelection());
       }
 
-      if (value)
-      {
-        // Update model with new data
-//        this._tableView.getTableModel().setDataAsMapArray(value.items);
+      if (value) {
+        // Update the list with new data
+        this._listView.removeAll();
         for (var i = 0; i < value.items.length; i++) {
           var title = value.items[i].title;
-          this._listView.add(new qx.ui.form.ListItem(title));
+          var listItem = new qx.ui.form.ListItem(title);
+          listItem.setUserData("id", i);
+          this._listView.add(listItem);
         }
   
 
-        if (value.selection != null)
-        {
+        if (value.selection != null) {
           // If a selection was stored, recover it
-//          this._tableView.getSelectionModel().setSelectionInterval(value.selection, value.selection);
+          this._listView.select(this._listView.getChildren()[value.selection]);
           delete value.selection;
-        }
-        else
-        {
+          
+        } else {
+          
           // Initially select first article
-//          this._tableView.getSelectionModel().setSelectionInterval(0, 0);
+          var firstItem = this._listView.getChildren()[0];
+          if (firstItem) {
+            this._listView.select(firstItem);
+          }
         }
+        
       } else {
         // Clean up model
-//        this._tableView.getTableModel().setDataAsMapArray([]);
+        this._listView.removeAll();
 
         // Clean up article
         this._articleView.resetArticle();
