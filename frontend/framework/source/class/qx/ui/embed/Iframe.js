@@ -112,17 +112,31 @@ qx.Class.define("qx.ui.embed.Iframe",
     ---------------------------------------------------------------------------
     */
 
-
+    /**
+     * Get the DOM window object of an iframe.
+     *
+     * @return {DOMWindow} The DOM window object of the iframe.
+     */
     getWindow : function()
     {
       return this.getContentElement().getWindow();
     },
 
+    /**
+     * Get the DOM document object of an iframe.
+     *
+     * @return {DOMDocument} The DOM document object of the iframe.
+     */
     getDocument : function()
     {
       return this.getContentElement().getDocument();
     },
 
+    /**
+     * Get the HTML body element of the iframe.
+     *
+     * @return {Element} The DOM node of the <code>body</code> element of the iframe.
+     */
     getBody : function()
     {
       return this.getContentElement().getBody();
