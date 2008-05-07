@@ -72,8 +72,7 @@ qx.Class.define("qx.ui.form.Button",
     value :
     {
       check : "String",
-      nullable : true,
-      event : "change"
+      nullable : true
     },
 
     // overridden

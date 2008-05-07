@@ -22,7 +22,7 @@
  *
  * If the user presses the button by clicking on ito pressing the enter or
  * space key, the button toggles beweteen the pressed an not pressed states.
- * There is no execute event, only a {@link qx.ui.form.ToggleButton#changeChecked} event.
+ * There is no execute event, only a {@link qx.ui.form.ToggleButton#change} event.
  *
  * @appearance button
  * @state abandoned
@@ -87,7 +87,7 @@ qx.Class.define("qx.ui.form.ToggleButton",
       check: "Boolean",
       init: false,
       apply: "_applyChecked",
-      event: "changeChecked"
+      event: "change"
     },
 
     // overridden
