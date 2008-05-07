@@ -176,9 +176,9 @@ qx.Class.define("qx.ui.core.EventHandler",
         return;
       }
 
-      // Ignore all events except "mouseover" and "mouseout" in the disabled state.
+      // Ignore most events in the disabled state.
       var type = domEvent.getType();
-      if (!(widgetTarget.isEnabled() || this.__ignoreDisabled[type])) {
+      if (!(currentWidget.isEnabled() || this.__ignoreDisabled[type])) {
         return;
       }
 
@@ -189,7 +189,7 @@ qx.Class.define("qx.ui.core.EventHandler",
       // Load listeners
       var capture = domEvent.getEventPhase() == qx.event.type.Event.CAPTURING_PHASE;
       var listeners = this.__manager.getListeners(currentWidget, type, capture);
-      if (!listeners) {
+      if (!listeners || listeners.length === 0) {
         return;
       }
 
