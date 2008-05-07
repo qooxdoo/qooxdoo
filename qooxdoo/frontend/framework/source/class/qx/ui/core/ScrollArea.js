@@ -37,18 +37,21 @@ qx.Class.define("qx.ui.core.ScrollArea",
   {
     this.base(arguments);
 
+    // Create 'fixed' grow layout
     var grid = new qx.ui.layout.Grid();
     grid.setColumnFlex(0, 1);
     grid.setRowFlex(0, 1);
     this._setLayout(grid);
 
+    // Create internal scrolling pane
     var scrollPane = this._scrollPane = new qx.ui.core.ScrollPane();
-    scrollPane.addListener("resize", this._onResize, this);
-    scrollPane.addListener("resizeContent", this._onResize, this);
+    scrollPane.addListener("change", this._onPaneChange, this);
     this._add(scrollPane, {row: 0, column: 0});
 
+    // Data structure for scrollbars
     this._scrollbars = {};
 
+    // Mousewheel listener to scroll vertically
     this.addListener("mousewheel", this._onMouseWheel, this);
   },
 
@@ -162,11 +165,9 @@ qx.Class.define("qx.ui.core.ScrollArea",
         }
         scrollbar.show();
       }
-      else
+      else if (scrollbar)
       {
-        if (scrollbar) {
-          scrollbar.exclude();
-        }
+        scrollbar.exclude();
       }
     },
 
@@ -251,6 +252,9 @@ qx.Class.define("qx.ui.core.ScrollArea",
     },
 
 
+
+
+
     /*
     ---------------------------------------------------------------------------
       PUBLIC API
@@ -310,6 +314,9 @@ qx.Class.define("qx.ui.core.ScrollArea",
         };
       }
     },
+
+
+
 
 
     /*
@@ -430,8 +437,8 @@ qx.Class.define("qx.ui.core.ScrollArea",
       if (hAlign == "left" && scrollLeft > left) {
         this.setScrollLeft(left);
       }
-
     },
+
 
 
 
@@ -448,7 +455,7 @@ qx.Class.define("qx.ui.core.ScrollArea",
      * @param e {qx.event.type.Change} The scroll event object
      */
     _onHorizontalScroll : function(e) {
-      this._scrollPane.setScrollLeft(e.getValue(), true);
+      this._scrollPane.setScrollLeft(e.getValue());
     },
 
 
@@ -459,7 +466,7 @@ qx.Class.define("qx.ui.core.ScrollArea",
      * @param e {qx.event.type.Change} The scroll event object
      */
     _onVerticalScroll : function(e) {
-      this._scrollPane.setScrollTop(e.getValue(), true);
+      this._scrollPane.setScrollTop(e.getValue());
     },
 
 
@@ -477,6 +484,7 @@ qx.Class.define("qx.ui.core.ScrollArea",
         this._getScrollBar("vertical").setValue(computedTop);
       }
 
+      // Stop bubbling and native event
       e.stop();
     },
 
@@ -490,7 +498,7 @@ qx.Class.define("qx.ui.core.ScrollArea",
      * @param e {qx.event.type.Change} Event object
      * @return {void}
      */
-    _onResize : function(e) {
+    _onPaneChange : function(e) {
       this._computeOverflow();
     },
 
