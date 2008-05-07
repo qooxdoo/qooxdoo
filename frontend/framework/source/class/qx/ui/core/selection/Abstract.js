@@ -449,7 +449,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     handleMouseDown : function(event)
     {
       var item = this._getSelectableFromTarget(event.getTarget());
-      if (!item || !this._isSelectable(item)) {
+      if (!item) {
         return;
       }
 
@@ -663,7 +663,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
       // Scroll by defined block size
       this._scrollBy(this._scrollStepX, this._scrollStepY);
 
-      // TODO: Optimization: Detect real scroll changes first
+      // TODO: Optimization: Detect real scroll changes first?
 
       // Update scroll cache
       this._frameScroll = this._getScroll();
@@ -880,7 +880,6 @@ qx.Class.define("qx.ui.core.selection.Abstract",
               break;
 
             case "PageUp":
-
               //next =
               break;
 

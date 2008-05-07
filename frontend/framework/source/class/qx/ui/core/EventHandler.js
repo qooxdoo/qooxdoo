@@ -100,7 +100,7 @@ qx.Class.define("qx.ui.core.EventHandler",
       // appear events
       appear : 1,
       disappear : 1,
-      
+
       // iframe load
       load : 1
     },
