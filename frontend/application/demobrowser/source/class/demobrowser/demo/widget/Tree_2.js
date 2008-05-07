@@ -41,7 +41,7 @@ qx.Class.define("demobrowser.demo.widget.Tree_2",
         height: 500
       });
 
-      this.getRoot().add(tree, 20, 48);
+      this.getRoot().add(tree, {left: 20, top: 48});
       var root = this.configureTreeItem(new qx.ui.tree.TreeFolder(), "Root");
       root.setOpen(true);
       tree.setRoot(root);

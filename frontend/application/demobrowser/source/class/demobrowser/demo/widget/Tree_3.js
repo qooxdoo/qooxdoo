@@ -35,20 +35,19 @@ qx.Class.define("demobrowser.demo.widget.Tree_3",
       this.base(arguments);
       qx.theme.manager.Meta.getInstance().setTheme(qx.theme.Modern);
 
-      this._container = new qx.ui.core.Widget().set({
-        layout: new qx.ui.layout.HBox().set({
-          spacing: 20
-        }),
+      this._container = new qx.ui.container.Composite(new qx.ui.layout.HBox().set({
+        spacing: 20
+      })).set({
         padding: 30
       });
       this.getRoot().add(this._container);
 
 
       var tree = this.getTree();
-      this._container.getLayout().add(tree);
+      this._container.add(tree);
       this._tree = tree;
 
-      this._container.getLayout().add(this.getCommandFrame());
+      this._container.add(this.getCommandFrame());
     },
 
 
@@ -111,58 +110,60 @@ qx.Class.define("demobrowser.demo.widget.Tree_3",
       var grid = new qx.ui.layout.Grid();
       grid.setHorizontalSpacing(3);
       grid.setVerticalSpacing(5);
-      commandFrame.getPane().setLayout(grid);
+
+      var pane = commandFrame.getPane();
+      pane.setLayout(grid);
 
 
       var row = 0;
-      grid.add(new qx.ui.basic.Label("New tree item name: ").set({
+      pane.add(new qx.ui.basic.Label("New tree item name: ").set({
         paddingTop: 4
-      }), row, 0);
+      }), {row: row, column: 0});
       this.inputItemName = new qx.ui.form.TextField("Hello");
-      grid.add(this.inputItemName, row++, 1);
+      pane.add(this.inputItemName, {row: row++, column: 1});
 
 
       this.btnAddFolder = new qx.ui.form.Button("Add folder");
       this.btnAddFolder.addListener("execute", this._addFolder, this);
-      grid.add(this.btnAddFolder, row++, 0, {colSpan: 2});
+      pane.add(this.btnAddFolder, {row: row++, column: 0, colSpan: 2});
 
       this.btnAddFile = new qx.ui.form.Button("Add file");
       this.btnAddFile.addListener("execute", this._addFile, this);
-      grid.add(this.btnAddFile, row++, 0, {colSpan: 2});
+      pane.add(this.btnAddFile, {row: row++, column: 0, colSpan: 2});
 
       this.btnAddAfter = new qx.ui.form.Button("Add after");
       this.btnAddAfter.addListener("execute", this._addAfter, this);
-      grid.add(this.btnAddAfter, row++, 0, {colSpan: 2});
+      pane.add(this.btnAddAfter, {row: row++, column: 0, colSpan: 2});
 
       this.btnAddBefore = new qx.ui.form.Button("Add before");
       this.btnAddBefore.addListener("execute", this._addBefore, this);
-      grid.add(this.btnAddBefore, row++, 0, {colSpan: 2});
+      pane.add(this.btnAddBefore, {row: row++, column: 0, colSpan: 2});
 
       this.btnAddBegin = new qx.ui.form.Button("Add at begin");
       this.btnAddBegin.addListener("execute", this._addBegin, this);
-      grid.add(this.btnAddBegin, row++, 0, {colSpan: 2});
+      pane.add(this.btnAddBegin, {row: row++, column: 0, colSpan: 2});
 
 
-      grid.add(new qx.ui.core.Spacer(5, 5), row++, 0);
+      pane.add(new qx.ui.core.Spacer(5, 5), {row: row++, column: 0});
 
       this.btnRemove = new qx.ui.form.Button("Remove tree item");
       this.btnRemove.addListener("execute", this._removeTreeItem, this);
-      grid.add(this.btnRemove, row++, 0, {colSpan: 2});
+      pane.add(this.btnRemove, {row: row++, column: 0, colSpan: 2});
 
       this.btnRemoveAll = new qx.ui.form.Button("Remove all children");
       this.btnRemoveAll.addListener("execute", this._removeAll, this);
-      grid.add(this.btnRemoveAll, row++, 0, {colSpan: 2});
+      pane.add(this.btnRemoveAll, {row: row++, column: 0, colSpan: 2});
 
 
-      grid.add(new qx.ui.core.Spacer(5, 5), row++, 0);
+      pane.add(new qx.ui.core.Spacer(5, 5), {row: row++, column: 0});
 
       this.btnMoveToParent = new qx.ui.form.Button("Move to parent");
       this.btnMoveToParent.addListener("execute", this._moveToParent, this);
-      grid.add(this.btnMoveToParent, row++, 0, {colSpan: 2});
+      pane.add(this.btnMoveToParent, {row: row++, column: 0, colSpan: 2});
 
 
-      grid.add(new qx.ui.core.Spacer(5, 5), row++, 0);
-      grid.add(new qx.ui.basic.Label("Show open button:"), row, 0);
+      pane.add(new qx.ui.core.Spacer(5, 5), {row: row++, column: 0});
+      pane.add(new qx.ui.basic.Label("Show open button:"), {row: row, column: 0});
       var modes = ["always", "never", "auto"];
       this.showOpenButtons = {};
 
@@ -176,26 +177,21 @@ qx.Class.define("demobrowser.demo.widget.Tree_3",
         });
         this.showOpenButtons[mode] = radioButton;
         this.mgrShowRootOpen.add(radioButton);
-        grid.add(radioButton, row++, 1)
+        pane.add(radioButton, {row: row++, column: 1})
       }
 
       this.mgrShowRootOpen.addListener("changeSelected", this._onChangeShowOpen, this);
 
 
-      grid.add(new qx.ui.core.Spacer(5, 5), row++, 0);
+      pane.add(new qx.ui.core.Spacer(5, 5), {row: row++, column: 0});
 
       this.btnReset = new qx.ui.form.Button("Reset tree");
       this.btnReset.addListener("execute", this._resetTree, this);
-      grid.add(this.btnReset, row++, 0, {colSpan: 2});
+      pane.add(this.btnReset, {row: row++, column: 0, colSpan: 2});
 
 
       this._tree.getManager().addListener("changeSelection", this._updateControls, this);
-      this._updateControls();
-
-
-
-
-
+      //this._updateControls();
 
       return commandFrame;
     },
