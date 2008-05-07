@@ -135,8 +135,17 @@
       "let" :
       {
         "ROOT" : "../apiviewer",
-        "BUILD_PATH" : "./api"
-      }
+        "BUILD_PATH" : "./api",
+        "API_INCLUDE" : ["qx.*", "${APPLICATION}.*"]
+      },
+
+      "library" :
+      [
+        {
+          "manifest" : "Manifest.json",
+          "uri"      : ".."
+        }
+      ]
     }
   }
 }
