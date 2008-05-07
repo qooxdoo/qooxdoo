@@ -46,8 +46,21 @@ qx.Class.define("qx.util.ImageRegistry",
     __registry : {},
 
 
+    _macroexpand : function(dict, str)
+    {
+      // dict = { 'libnamespace' : {'resuri': "...", ...}, "libnamespace1" : ...}
+      var lstr = str;
+      for (var key in dict)
+      {
+        lstr = lstr.replace('${'+key+'}', dict[key]['resuri']);
+      }
+      return lstr;
+    },
+
+
     _padQxImageInfo : function(qximageinfo)
     {
+      // we just need to expand library namespace macros
       if (!qximageinfo)
       {
         return {};
@@ -55,29 +68,15 @@ qx.Class.define("qx.util.ImageRegistry",
       
       var imageinfo = {};
       var qxlibinfo = window.qxlibinfo || {};
-      
-      function macroexpand(dict, str)
-      {
-        // dict = { 'libnamespace' : {'resuri': "...", ...}, "libnamespace1" : ...}
-        var lstr = str;
-        for (var key in dict)
-        {
-          lstr = lstr.replace('${'+key+'}', dict[key]['resuri']);
-        }
-        return lstr;
-      }
 
       for (var key in qximageinfo)
       {
         var val  = qximageinfo[key];  // val = [width, height, type [, mappeduri, left, top]]
-        key = macroexpand(qxlibinfo, key)
-        if (val.length == 3) {
-          var nval = [key, 0, 0, val[0], val[1], val[2]];
-        } else {
-          val[3] = macroexpand(qxlibinfo, val[3]);
-          var nval = [val[3], val[4], val[5], val[0], val[1], val[2]];
+        key = this._macroexpand(qxlibinfo, key)
+        if (val.length > 3) {
+          val[3] = this._macroexpand(qxlibinfo, val[3]);
         }
-        imageinfo[key] = nval;
+        imageinfo[key] = val;
       }
 
       return imageinfo;
@@ -107,9 +106,15 @@ qx.Class.define("qx.util.ImageRegistry",
       // use clipped images unless the image is PNG and the browser IE6
       var Engine = qx.bom.client.Engine;
       if (isPng && Engine.MSHTML && Engine.VERSION < 7) {
-        this.__registry[iconUri] = [iconUri, 0, 0, width, height];
+        this.__registry[iconUri] = [width, height, "type"];
       } else {
-        this.__registry[iconUri] = [mappedUri, xOffset, yOffset, width, height];
+        if (iconUri == mappedUri)
+        {
+          this.__registry[iconUri] = [width, height, "type"];
+        } else
+        {
+          this.__registry[iconUri] = [width, height, "type", mappedUri, xOffset, yOffset];
+        }
       }
     },
 
@@ -137,12 +142,22 @@ qx.Class.define("qx.util.ImageRegistry",
      */
     resolve : function(iconUri)
     {
-      var value = this.__registry[qx.util.AliasManager.getInstance().resolve(iconUri)];
-      if (value == null) {
+      var resUri = qx.util.AliasManager.getInstance().resolve(iconUri);
+      var val    = this.__registry[resUri];
+      if (val == null) {
         throw new Error("Could not resolve icon uri: " + iconUri);
+      } else 
+      {
+        // val = [width, height, type [, mappeduri, left, top]]
+        if (val.length == 3)
+        {
+          var nval = [resUri, 0, 0, val[0], val[1], val[2]];
+        } else {
+          var nval = [val[3], val[4], val[5], val[0], val[1], val[2]];
+        }
       }
 
-      return value;
+      return nval;
     }
   },
 
