@@ -29,7 +29,7 @@ qx.Class.define("feedreader.view.Tree",
 
     // save the reference to the controller
     this._controller = controller;
-    
+
     // set the properties of the tree
     this.set(
     {
@@ -37,7 +37,7 @@ qx.Class.define("feedreader.view.Tree",
       padding  : 5,
       decorator: "line-right"
     });
-    
+
     // add the root folder
     this._root = new qx.ui.tree.TreeFolder("Feeds");
     this._root.setOpen(true);
@@ -45,9 +45,9 @@ qx.Class.define("feedreader.view.Tree",
     this.setRoot(this._root);
 
     // register the change listener
-    this.getManager().addListener("change", this._onChangeSelection, this);
-    
-    // refresh the tree view    
+    this.addListener("change", this._onChangeSelection, this);
+
+    // refresh the tree view
     this.refresh();
   },
 
@@ -55,7 +55,7 @@ qx.Class.define("feedreader.view.Tree",
   {
 
     /**
-     * Invokes a refresh of the tree. 
+     * Invokes a refresh of the tree.
      * This includes getting the feeds of the controller and
      * creation of a tree folder for every feed.
      */
@@ -65,7 +65,7 @@ qx.Class.define("feedreader.view.Tree",
       var db = this._controller.getFeeds();
 
       // go threw all feeds
-      for (var url in db) 
+      for (var url in db)
       {
         // create and add a folder for every feed
         var folder = new qx.ui.tree.TreeFolder(db[url].title);
@@ -77,7 +77,7 @@ qx.Class.define("feedreader.view.Tree",
 
     /**
      * Event handler for the change event of the tree selection.
-     * 
+     *
      * @param e {qx.event.type.Data} The data event of the tree managers change.
      */
     _onChangeSelection : function(e)
