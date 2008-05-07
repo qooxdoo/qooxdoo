@@ -45,22 +45,12 @@ qx.Class.define("qx.ui.toolbar.RadioButton",
     },
 
 
-    /**
-     * The name of the radio group. All the radio elements in a group (registered by the same manager)
-     *  have the same name (and could have a different value).
-     */
-    name :
+    /** A user provided value, which is assosiated with the form widget. */
+    value :
     {
       check : "String",
-      event : "changeName"
-    },
-
-
-    /** Prohibit the deselction of the checked radio button when clicked on it. */
-    disableUncheck :
-    {
-      check : "Boolean",
-      init : false
+      nullable : true,
+      event : "change"
     }
   },
 
@@ -77,7 +67,7 @@ qx.Class.define("qx.ui.toolbar.RadioButton",
   {
     /*
     ---------------------------------------------------------------------------
-      APPLY ROUTINES
+      PROPERTY APPLY ROUTINES
     ---------------------------------------------------------------------------
     */
 
@@ -92,10 +82,10 @@ qx.Class.define("qx.ui.toolbar.RadioButton",
     {
       this.base(arguments, value, old);
 
-      var vManager = this.getManager();
+      var manager = this.getManager();
 
-      if (vManager) {
-        vManager.setItemChecked(this, value);
+      if (manager) {
+        manager.setItemChecked(this, value);
       }
     },
 
@@ -117,38 +107,5 @@ qx.Class.define("qx.ui.toolbar.RadioButton",
         value.add(this);
       }
     }
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      EVENTS
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param e {Event} TODOC
-     * @return {void}
-     */
-/*    _onmouseup : function(e)
-    {
-      this.setCapture(false);
-
-      if (!this.hasState("abandoned"))
-      {
-        this.addState("over");
-        this.setChecked(this.getDisableUncheck() || !this.getChecked());
-        this.execute();
-      }
-
-      this.removeState("abandoned");
-      this.removeState("pressed");
-
-      e.stopPropagation();
-    }*/
   }
 });
