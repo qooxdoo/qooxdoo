@@ -1410,6 +1410,8 @@ qx.Class.define("qx.ui.core.Widget",
      * @type member
      * @param child {LayoutItem} widget to add
      * @param index {Integer} Index, at which the widget will be inserted
+     * @param options {Map?null} Optional layout data for widget.
+     * @return {void}
      */
     _addAt : function(child, index, options)
     {
@@ -1435,7 +1437,8 @@ qx.Class.define("qx.ui.core.Widget",
      * @type member
      * @param child {LayoutItem} widget to add
      * @param before {LayoutItem} widget before the new widget will be inserted.
-     * @param index {Integer} Index, at which the widget will be inserted
+     * @param options {Map?null} Optional layout data for widget.
+     * @return {void}
      */
     _addBefore : function(child, before, options)
     {
@@ -1454,7 +1457,8 @@ qx.Class.define("qx.ui.core.Widget",
      * @type member
      * @param vChild {LayoutItem} widget to add
      * @param after {LayoutItem} widgert, after which the new widget will be inserted
-     * @param index {Integer} Index, at which the widget will be inserted
+     * @param options {Map?null} Optional layout data for widget.
+     * @return {void}
      */
     _addAfter : function(child, after, options)
     {
@@ -1486,6 +1490,7 @@ qx.Class.define("qx.ui.core.Widget",
      *
      * @type member
      * @param index {Integer} Index of the widget to remove.
+     * @return {void}
      */
     _removeAt : function(index)
     {
@@ -1500,6 +1505,7 @@ qx.Class.define("qx.ui.core.Widget",
      * Remove all children.
      *
      * @type member
+     * @return {void}
      */
     _removeAll : function()
     {
