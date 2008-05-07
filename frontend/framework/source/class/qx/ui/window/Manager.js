@@ -73,13 +73,14 @@ qx.Class.define("qx.ui.window.Manager",
         value.setActive(true);
       }
 
-      if (old && old.getModal()) {
-        old.getTopLevelWidget().release(old);
-      }
+      // TODO 
+//      if (old && old.getModal()) {
+//        old.getTopLevelWidget().release(old);
+//      }
 
-      if (value && value.getModal()) {
-        value.getTopLevelWidget().block(value);
-      }
+//      if (value && value.getModal()) {
+//        value.getTopLevelWidget().block(value);
+//      }
     },
 
 

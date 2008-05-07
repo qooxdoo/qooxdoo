@@ -476,10 +476,11 @@ qx.Class.define("qx.ui.window.Window",
       if (vOpener != null) {
         this.setOpener(vOpener);
       }
-
-      if (this.getCentered()) {
-        this.centerToBrowser();
-      }
+      
+      // TODO
+//      if (this.getCentered()) {
+//        this.centerToBrowser();
+//      }
 
       this.show();
     },
