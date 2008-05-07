@@ -36,7 +36,7 @@ qx.Class.define("qx.ui.toolbar.RadioButton",
 
   properties :
   {
-    /** The assigned qx.ui.core.RadioManager which handles the switching between registered buttons */
+    /** The assigned {@link qx.ui.core.RadioManager} which handles the switching between registered buttons */
     manager :
     {
       check : "qx.ui.core.RadioManager",
