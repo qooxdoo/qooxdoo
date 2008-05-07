@@ -140,6 +140,14 @@ qx.Class.define("qx.bom.Iframe",
       return doc ? doc.getElementsByTagName("body")[0] : null;
     },
 
+    /**
+     * Sets iframe's source attribute to given value 
+     *
+     * @type static
+     * @param iframe {Element} DOM element of the iframe.
+     * @param source {String} URL to be set.
+     * @signature function(iframe, source)
+     */
     setSource : function(iframe, source)
     {
 

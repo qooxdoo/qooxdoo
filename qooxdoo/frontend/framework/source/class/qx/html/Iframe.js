@@ -78,6 +78,14 @@ qx.Class.define("qx.html.Iframe",
     ---------------------------------------------------------------------------
     */
 
+
+    /**
+     * Get the DOM window object of an iframe.
+     *
+     * @type static
+     * @param vIframe {Element} DOM element of the iframe.
+     * @return {DOMWindow} The DOM window object of the iframe.
+     */
     getWindow : function()
     {
       if (this._element)
@@ -88,6 +96,14 @@ qx.Class.define("qx.html.Iframe",
       }
     },
 
+
+    /**
+     * Get the DOM document object of an iframe.
+     *
+     * @type static
+     * @param vIframe {Element} DOM element of the iframe.
+     * @return {DOMDocument} The DOM document object of the iframe.
+     */
     getDocument : function()
     {
       if (this._element) {
@@ -97,6 +113,14 @@ qx.Class.define("qx.html.Iframe",
       }
     },
 
+
+    /**
+     * Get the HTML body element of the iframe.
+     *
+     * @type static
+     * @param vIframe {Element} DOM element of the iframe.
+     * @return {Element} The DOM node of the <code>body</code> element of the iframe.
+     */
     getBody : function()
     {
       if (this._element) {
@@ -106,6 +130,13 @@ qx.Class.define("qx.html.Iframe",
       }
     },
 
+
+    /**
+     * Sets iframe's source attribute to given value 
+     *
+     * @type static
+     * @param source {String} URL to be set.
+     */
     setSource : function(source)
     {
       this._setProperty("source", source);
