@@ -118,7 +118,7 @@ qx.Class.define("demobrowser.demo.widget.Tree_1",
 
       pane.add(tCurrentInput, {row: row++, column: 1});
 
-      tree.getManager().addListener("change", function(e) {
+      tree.addListener("change", function(e) {
         tCurrentInput.setValue(e.getData()[0].getLabelObject().getContent());
       });
 
@@ -153,19 +153,19 @@ qx.Class.define("demobrowser.demo.widget.Tree_1",
       pane.add(new qx.ui.basic.Label("Selection:"), {row: row, column: 0});
 
       var btnMultiSelect = new qx.ui.form.CheckBox("Enable Multi-Selection");
-      btnMultiSelect.setChecked(tree.getManager().getMode() == "multi");
+      btnMultiSelect.setChecked(tree.getSelectionMode() == "multi");
       pane.add(btnMultiSelect, {row: row++, column: 1});
 
       btnMultiSelect.addListener("changeChecked", function(e) {
         var enable = e.getValue();
-        tree.getManager().setMode(enable ? "multi": "single");
+        tree.setSelectionMode(enable ? "multi": "single");
         if (!enable) {
           btnDragSelect.setChecked(false);
         }
       });
 
 
-
+/*
       var btnDragSelect = new qx.ui.form.CheckBox("Enable Drag-Selection");
       btnDragSelect.setChecked(tree.getManager().getDragSelection());
       pane.add(btnDragSelect, {row: row++, column: 1});
@@ -177,19 +177,7 @@ qx.Class.define("demobrowser.demo.widget.Tree_1",
           btnMultiSelect.setChecked(true);
         }
       });
-
-
-
-      var btnDeselect = new qx.ui.form.CheckBox("Allow Deselection");
-      //btnDeselect.setChecked(tree.getManager().getCanDeselect());
-      pane.add(btnDeselect, {row: row++, column: 1});
-
-      btnDeselect.addListener("changeChecked", function(e) {
-        return;
-        tree.getManager().setCanDeselect(e.getValue());
-      });
-
-
+*/
 
       pane.add(new qx.ui.core.Spacer(spacerSize, spacerSize), {row: row++, column: 0});
       pane.add(new qx.ui.basic.Label("Root node:"), {row: row, column: 0});
