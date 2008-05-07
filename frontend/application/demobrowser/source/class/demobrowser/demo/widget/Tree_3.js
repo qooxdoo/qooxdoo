@@ -180,7 +180,7 @@ qx.Class.define("demobrowser.demo.widget.Tree_3",
         pane.add(radioButton, {row: row++, column: 1})
       }
 
-      this.mgrShowRootOpen.addListener("changeSelected", this._onChangeShowOpen, this);
+      this.mgrShowRootOpen.addListener("change", this._onChangeShowOpen, this);
 
 
       pane.add(new qx.ui.core.Spacer(5, 5), {row: row++, column: 0});

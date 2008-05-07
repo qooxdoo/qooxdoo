@@ -18,11 +18,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-
-************************************************************************ */
-var w1;
 qx.Class.define("demobrowser.demo.widget.Iframe_1",
 {
   extend : qx.application.Standalone,
@@ -39,32 +34,30 @@ qx.Class.define("demobrowser.demo.widget.Iframe_1",
     {
       this.base(arguments);
 
+
+
       //----------
-      // qx.ui.embed.Iframe
+      // frame
       //----------
 
-      w1 = new qx.ui.embed.Iframe();
+      frame = new qx.ui.embed.Iframe();
       var d = this.getRoot();
-      w1.addListener("load", function(e) {
+      frame.addListener("load", function(e) {
         this.debug("Loaded: " + this.getSource());
       });
-      // elastic
-      w1.setSource("http://www.gmx.de");
 
-      d.add(w1, {
+      // elastic
+      frame.setSource("http://www.gmx.de");
+
+      d.add(frame, {
         top : 100,
         right : 20,
         bottom : 20,
         left : 20
-      } );
+      });
 
 
-      function changeURL(e) {
-        this.setSource(e.getData());
-      };
 
-      // make qx.ui.embed.Iframe react to event "surfTo" via function changeURL()
-      this.addListener("surfTo", changeURL, w1);
 
       //-------------
       // radio group
@@ -72,22 +65,19 @@ qx.Class.define("demobrowser.demo.widget.Iframe_1",
 
       var rd1 = new qx.ui.form.RadioButton("GMX").set({value: "http://www.gmx.de"});
       var rd2 = new qx.ui.form.RadioButton("web.de").set({value:"http://www.web.de"});
-/*
-      rd1.set( { left: 20, top: 48, checked: true } );
-      rd2.set( { left: 120, top: 48 } );
-*/
-      rd1.setChecked(true);
-      var rbm = new qx.ui.core.RadioManager(rd1, rd2);
 
-      // elements of radio group fire event "surfTo"
-      rbm.addListener("changeSelected", function(e)
-      {
-        this.dispatchEvent( new qx.event.type.DataEvent("surfTo", e.getValue().getValue() ) );
-      }, this);
+      rd1.setChecked(true);
+
+      var rbm = new qx.ui.core.RadioManager(rd1, rd2);
+      rbm.addListener("change", function(e) {
+        this.setSource(e.getValue().getValue());
+      }, frame);
+
       d.add(rd1, {
         left : 20,
         top : 48
-      })
+      });
+
       d.add(rd2, {
         left : 120,
         top : 48
