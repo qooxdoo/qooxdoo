@@ -5,7 +5,7 @@
 #  http://qooxdoo.org
 #
 #  Copyright:
-#    2006-2007 1&1 Internet AG, Germany, http://www.1und1.de
+#    2007 1&1 Internet AG, Germany, http://www.1und1.de
 #
 #  License:
 #    LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -13,39 +13,18 @@
 #    See the LICENSE file in the project's top-level directory for details.
 #
 #  Authors:
-#    * Sebastian Werner (wpbasti)
-#    * Andreas Ecker (ecker)
-#    * Fabian Jakobs (fjakobs)
+#    * Thomas Herchenroeder (thron7)
 #
 ################################################################################
 
-################################################################################
-# SETTINGS
-################################################################################
+.PHONY: source build api
 
-QOOXDOO_PATH = ../../..
-APPLICATION_NAMESPACE = feedreader
-APPLICATION_API_TITLE = FeedReader
-APPLICATION_FILES = index.html
-APPLICATION_RESOURCE_FILTER = true
-APPLICATION_COMPLETE_SOURCE = false
-APPLICATION_PUBLISH_PATH = root@qooxdoo.org:/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$(APPLICATION_NAMESPACE)
-APPLICATION_BUILD_LOG_LEVEL = error
-APPLICATION_THEME=qx.theme.Classic
-
-#APPLICATION_LOCALES = en de tr it es sv ru fr
-APPLICATION_LOCALES = de es en
+source:
+	@../../tool/generator.py -c config.json -j source
 
 
+# use old Makefile for other targets
+%: force
+	@$(MAKE) -s -f Makefile.gen1 $@
 
-################################################################################
-# INCLUDE CORE
-################################################################################
-
-ifneq ($(QOOXDOO_PATH),PLEASE_DEFINE_QOOXDOO_PATH)
-	include $(QOOXDOO_PATH)/frontend/framework/tool/make/targets.mk
-	include $(QOOXDOO_PATH)/frontend/framework/tool/make/application.mk
-endif
-
-error:
-	@echo "  * Please configure QOOXDOO_PATH"
+force: ;
