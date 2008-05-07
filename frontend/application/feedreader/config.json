@@ -14,6 +14,17 @@
         "APPLICATION"    : "feedreader"
       },
 
+      "cache" :
+      {
+        "path" : "../../cache"
+      }
+    },
+
+
+    "common-builds" :  // this is for source/build versions
+    {
+      "extend"  : ["common"],
+
       "include" : ["feedreader.*", "qx.theme.Classic"],
 
       "settings" :
@@ -24,81 +35,25 @@
       "localize" :
       {
         "locales" : ["en", "de", "es", "it"]
-      },
-
-      "cache" :
-      {
-        "path" : "../../cache"
       }
     },
 
 
     "source" :
     {
-      "extend" : ["common", "appconf/jobs/source"]
+      "extend" : ["common-builds", "appconf/jobs/source"]
     },
 
 
     "build" :
     {
-      "extend" : ["common", "appconf/jobs/build"]
+      "extend" : ["common-builds", "appconf/jobs/build"]
     },
 
 
-    "api-data" :
+    "api" :
     {
-      "extend" : ["common"],
-
-      "api" :
-      {
-        "path" : "./api/script"
-      }
-
-    },
-
-
-    "api-build" :
-    {
-      "extend" : ["common"],
-
-      /*
-      "library" :
-      [
-        {
-          "encoding" : "utf-8",
-          "path"     : "../../framework/source",
-          "uri"      : "../../../framework/source"
-        },
-
-        {
-          "encoding" : "utf-8",
-          "path"     : "${QOOXDOO_PATH}/application/apiviewer/source",
-          "uri"      : "../${QOOXDOO_PATH}/application/apiviewer/source"
-        }
-      ],
-      */
-
-      "include" : ["apiviewer.Application"],
-
-      "settings" :
-      {
-        "qx.application" : "apiviewer.Application",
-        "qx.resourceUri" : "${QOOXDOO_URI}/framework/source/resource",
-        "qx.minLogLevel" : "700",
-        "apiviewer.resourceUri" : "./resource/apiviewer",
-        "apiviewer.title": "Generator2 API Viewer"
-       },
-
-      "variants" :
-      {
-        "qx.debug" : ["off"]
-      },
-
-      "compile" :
-      {
-        "file" : "./api/script/apiviewer.js",
-        "uri"  : "script/apiviewer.js"
-      }
+      "extend": ["common", "appconf/jobs/api"]
     }
   }
 }

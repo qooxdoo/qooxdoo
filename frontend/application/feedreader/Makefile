@@ -25,6 +25,9 @@ source:
 build:
 	@../../tool/generator.py -c config.json -j build
 
+api:
+	@../../tool/generator.py -c config.json -j api
+
 
 # use old Makefile for other targets
 %: force
