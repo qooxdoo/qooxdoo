@@ -19,12 +19,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#module(ui_basic)
-
-************************************************************************ */
-
 qx.Class.define("qx.ui.embed.HtmlEmbed",
 {
   extend : qx.ui.core.Widget,
@@ -63,10 +57,10 @@ qx.Class.define("qx.ui.embed.HtmlEmbed",
       apply : "_applyHtml",
       event : "changeHtml"
     },
-    
-    /** 
-     * The css classname for the html embed. 
-     * <b>IMPORTANT</b> Paddings and borders does not work 
+
+    /**
+     * The css classname for the html embed.
+     * <b>IMPORTANT</b> Paddings and borders does not work
      * in the css class. These ttyles coause conflicts with
      * the layout engine.
      */
@@ -75,7 +69,7 @@ qx.Class.define("qx.ui.embed.HtmlEmbed",
       check : "String",
       init : "",
       apply : "_applyCssClass"
-    },    
+    },
 
 
     /** Block inheritance as default for font property */
@@ -134,7 +128,7 @@ qx.Class.define("qx.ui.embed.HtmlEmbed",
     _applyFont : function(value, old) {
       qx.theme.manager.Font.getInstance().connect(this.__styleFont, this, value);
     },
-    
+
     /**
      * Utility method to render the given font.
      *
@@ -168,9 +162,9 @@ qx.Class.define("qx.ui.embed.HtmlEmbed",
      */
     _styleTextColor : function(value) {
       if (value) {
-        this.getContentElement().setStyle("color", value);       
+        this.getContentElement().setStyle("color", value);
       } else {
-        this.getContentElement().removeStyle("color");       
+        this.getContentElement().removeStyle("color");
       }
     }
   }
