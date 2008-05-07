@@ -41,7 +41,7 @@
       {
         "qx.version"                 : "0.8",
         "qx.application"             : "${APPLICATION}.Application",
-        "qx.resourceUri"             : "${QOOXDOO_URI}/framework/source/resource",
+        "qx.resourceUri"             : "${QOOXDOO_URI}/source/resource",
         "${APPLICATION}.resourceUri" : "resource"
       },
 
@@ -55,11 +55,6 @@
     "source-script" :
     {
       "extend" : ["common"],
-
-      "settings" :
-      {
-        "qx.resourceUri" : "${QOOXDOO_URI}/framework/source/resource"
-      },
 
       "script" :
       {
