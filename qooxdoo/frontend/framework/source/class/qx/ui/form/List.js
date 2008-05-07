@@ -110,6 +110,7 @@ qx.Class.define("qx.ui.form.List",
       init : "list"
     },
 
+
     // overridden
     focusable :
     {
