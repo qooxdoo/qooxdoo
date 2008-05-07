@@ -75,6 +75,10 @@ qx.Class.define("qx.ui.core.Widget",
     // Store "weak" reference to the widget in the DOM element.
     this._containerElement.setAttribute("$$widget", this.toHashCode());
 
+    if (qx.core.Variant.isSet("qx.debug", "on")) {
+      this._containerElement.setAttribute("qxClass", this.classname);
+    }
+
     // Children array
     this.__children = [];
 
@@ -1186,13 +1190,6 @@ qx.Class.define("qx.ui.core.Widget",
       el.setStyle("position", "absolute");
       el.setStyle("zIndex", 0);
 
-      // Omit IE specific dotted outline border
-      if (qx.core.Variant.isSet("qx.client", "mshtml")) {
-        el.setAttribute("hideFocus", "true");
-      } else {
-        el.setStyle("outline", "none");
-      }
-
       return el;
     },
 
@@ -2281,8 +2278,17 @@ qx.Class.define("qx.ui.core.Widget",
      * @param e {qx.event.type.Focus} Focus event
      * @return {void}
      */
-    _onFocus : function(e) {
+    _onFocus : function(e)
+    {
       this.addState("focused");
+
+      // Omit IE specific dotted outline border
+      var el = this._containerElement;
+      if (qx.core.Variant.isSet("qx.client", "mshtml")) {
+        el.setAttribute("hideFocus", "true");
+      } else {
+        el.setStyle("outline", "none");
+      }
     },
 
 
