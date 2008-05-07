@@ -1,3 +1,4 @@
+// Feedreader - config.json
 {
   "include" :
   {
@@ -16,28 +17,11 @@
         "QOOXDOO_URI"    : "../${QOOXDOO_PATH}"
       },
 
-      "library" :
-      [
-        {
-          "manifest" : "${QOOXDOO_PATH}/Manifest.json",
-          "uri"      : "${QOOXDOO_URI}"
-        },
-
-        {
-          "manifest" : "Manifest.json",
-          "uri"      : ".."
-        }
-      ],
-
-
       "include" : ["feedreader.*", "qx.theme.Classic"],
 
       "settings" :
       {
-        "qx.application" : "feedreader.Application",
-        "qx.resourceUri" : "${QOOXDOO_URI}/framework/source/resource",
-        "qx.legacy.theme"       : "qx.legacy.theme.Ext",
-        "${APPLICATION}.resourceUri" : "./resource/${APPLICATION}"
+        "qx.legacy.theme"       : "qx.legacy.theme.Ext"
       },
 
       "localize" :
@@ -65,12 +49,7 @@
 
     "source" :
     {
-      "extend" : ["common", "appconf/jobs/source"],
-
-      "script" :
-      {
-        "file" : "./source/script/feedreader.js"
-      }
+      "extend" : ["common", "appconf/jobs/source"]
     },
 
 
@@ -102,6 +81,7 @@
     {
       "extend" : ["common"],
 
+      /*
       "library" :
       [
         {
@@ -116,6 +96,7 @@
           "uri"      : "../${QOOXDOO_PATH}/application/apiviewer/source"
         }
       ],
+      */
 
       "include" : ["apiviewer.Application"],
 
