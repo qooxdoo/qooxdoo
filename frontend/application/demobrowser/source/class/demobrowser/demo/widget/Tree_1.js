@@ -172,7 +172,7 @@ qx.Class.define("demobrowser.demo.widget.Tree_1",
 
       btnDragSelect.addListener("changeChecked", function(e) {
         var enable = e.getValue();
-        tree.getManager().setDragSelection(enable);
+        tree.getManager().setDrag(enable);
         if (enable) {
           btnMultiSelect.setChecked(true);
         }

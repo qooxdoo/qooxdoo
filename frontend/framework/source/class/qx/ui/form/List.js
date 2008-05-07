@@ -60,6 +60,7 @@ qx.Class.define("qx.ui.form.List",
 
     // Create selection manager
     this.__manager = new qx.ui.core.selection.ScrollArea(this);
+    this.__manager.addListener("change", this._onSelectionChange, this);
 
     // Apply selection mode
     if (mode != null) {
@@ -67,12 +68,29 @@ qx.Class.define("qx.ui.form.List",
     }
 
     // Add event listeners
-    this.addListener("mousedown", this._onmousedown);
-    this.addListener("mouseup", this._onmouseup);
-    this.addListener("mousemove", this._onmousemove);
-    this.addListener("losecapture", this._onlosecapture);
-    this.addListener("keypress", this._onkeypress);
+    this.addListener("mousedown", this._onMouseDown);
+    this.addListener("mouseup", this._onMouseUp);
+    this.addListener("mousemove", this._onMouseMove);
+    this.addListener("losecapture", this._onLoseCapture);
+    this.addListener("keypress", this._onKeyPress);
   },
+
+
+
+
+
+  /*
+  *****************************************************************************
+     EVENTS
+  *****************************************************************************
+  */
+
+  events :
+  {
+    /** Fires after the selection was modified */
+    change : "qx.event.type.Event"
+  },
+
 
 
 
@@ -190,13 +208,26 @@ qx.Class.define("qx.ui.form.List",
     */
 
     /**
+     * Event listener for <code>change</code> event on selection manager.
+     *
+     * @type member
+     * @param e {qx.event.type.Data} Data event
+     * @return {void}
+     */
+    _onSelectionChange : function(e)
+    {
+      this.fireEvent("change");
+    },
+
+
+    /**
      * Event listener for <code>mousedown</code> events.
      *
      * @type member
      * @param e {qx.event.type.Mouse} Mousedown event
      * @return {void}
      */
-    _onmousedown : function(e) {
+    _onMouseDown : function(e) {
       this.__manager.handleMouseDown(e);
     },
 
@@ -208,7 +239,7 @@ qx.Class.define("qx.ui.form.List",
      * @param e {qx.event.type.Mouse} Mousedown event
      * @return {void}
      */
-    _onmouseup : function(e) {
+    _onMouseUp : function(e) {
       this.__manager.handleMouseUp(e);
     },
 
@@ -220,7 +251,7 @@ qx.Class.define("qx.ui.form.List",
      * @param e {qx.event.type.Mouse} Mousedown event
      * @return {void}
      */
-    _onmousemove : function(e) {
+    _onMouseMove : function(e) {
       this.__manager.handleMouseMove(e);
     },
 
@@ -232,7 +263,7 @@ qx.Class.define("qx.ui.form.List",
      * @param e {qx.event.type.Mouse} Losecapture event
      * @return {void}
      */
-    _onlosecapture : function(e) {
+    _onLoseCapture : function(e) {
       this.__manager.handleLoseCapture(e);
     },
 
@@ -244,7 +275,7 @@ qx.Class.define("qx.ui.form.List",
      * @param e {qx.event.type.KeyEvent} keyPress event
      * @return {void}
      */
-    _onkeypress : function(e)
+    _onKeyPress : function(e)
     {
       // Execute action on press <ENTER>
       if (e.getKeyIdentifier() == "Enter" && !e.isAltPressed())
