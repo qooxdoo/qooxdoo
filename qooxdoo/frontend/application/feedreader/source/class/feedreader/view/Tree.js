@@ -78,7 +78,7 @@ qx.Class.define("feedreader.view.Tree",
     _onChangeSelection : function(e)
     {
       var controller = this._controller;
-      var item = e.getData()[0];
+      var item = e.getData();
       var url = item.getUserData("url");
 
       controller.selectFeed(url);
