@@ -94,6 +94,13 @@ qx.Class.define("feedreader.Application",
     {
       this.base(arguments);
 
+      // Add log appenders
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        qx.log.appender.Native;
+        qx.log.appender.Console;
+      }
+
       // Initialize data field
       this._feeds = {};
 
@@ -117,7 +124,7 @@ qx.Class.define("feedreader.Application",
       qx.io.remote.RequestQueue.getInstance().setMaxConcurrentRequests(10);
 
       // Create Application Layout
-      this._createLayout();  
+      this._createLayout();
 
       // Load data file
       qx.event.Timer.once(this._load, this, 0);
@@ -380,22 +387,22 @@ qx.Class.define("feedreader.Application",
           listItem.setUserData("id", i);
           this._listView.add(listItem);
         }
-  
+
 
         if (value.selection != null) {
           // If a selection was stored, recover it
           this._listView.select(this._listView.getChildren()[value.selection]);
           delete value.selection;
-          
+
         } else {
-          
+
           // Initially select first article
           var firstItem = this._listView.getChildren()[0];
           if (firstItem) {
             this._listView.select(firstItem);
           }
         }
-        
+
       } else {
         // Clean up model
         this._listView.removeAll();
@@ -497,7 +504,7 @@ qx.Class.define("feedreader.Application",
       try {
         // Normalize json feed data to item list
         var items = feedreader.FeedParser.parseFeed(json);
-        
+
         // Post processing items
         for (var i=0, l=items.length; i<l; i++) {
           if (items[i].date) {
