@@ -186,7 +186,7 @@ qx.Class.define("qx.ui.layout.VBox",
       var children = this._getLayoutChildren();
       var length = children.length;
       var enableFlex = false;
-      var reuse = this.__heights && this.__heights.length != length;
+      var reuse = this.__heights && this.__heights.length != length && this._flexs && this._heights;
       var props;
 
       // Sparse array (keep old one if lengths has not been modified)
