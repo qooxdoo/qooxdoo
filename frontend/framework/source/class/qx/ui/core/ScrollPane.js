@@ -22,7 +22,7 @@
  * This class represents a scrollable pane. This means that this widget
  * may contains content which is bigger than the available (inner)
  * dimensions of this widget. The widget also offer methods to control
- * the scrolling position. This widget can only have excactly one child.
+ * the scrolling position. It can only have excactly one child.
  */
 qx.Class.define("qx.ui.core.ScrollPane",
 {
@@ -39,8 +39,11 @@ qx.Class.define("qx.ui.core.ScrollPane",
   {
     this.base(arguments);
 
-    // Automatically configure a "fixed" scroll layout.
+    // Automatically configure a "fixed" grow layout.
     this._setLayout(new qx.ui.layout.Grow());
+
+    // Add resize listener to "translate" event
+    this.addListener("resize", this._onChange);
   },
 
 
@@ -54,8 +57,8 @@ qx.Class.define("qx.ui.core.ScrollPane",
 
   events :
   {
-    /** Fired on resize of the content widget (after layouting). */
-    resizeContent : "qx.event.type.Data"
+    /** Fired on resize of both the container or the content. */
+    change : "qx.event.type.Event"
   },
 
 
@@ -88,13 +91,13 @@ qx.Class.define("qx.ui.core.ScrollPane",
       if (old)
       {
         this._remove(old);
-        old.removeListener("resize", this._onContentResize, this);
+        old.removeListener("resize", this._onChange, this);
       }
 
       if (content)
       {
         this._add(content);
-        content.addListener("resize", this._onContentResize, this);
+        content.addListener("resize", this._onChange, this);
       }
 
       return content || null;
@@ -112,14 +115,23 @@ qx.Class.define("qx.ui.core.ScrollPane",
     },
 
 
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      EVENT LISTENER
+    ---------------------------------------------------------------------------
+    */
+
     /**
-     * Event listener for resize event of content
+     * Event listener for resize event of content and  container
      *
      * @type member
      * @param e {Event} Resize event object
      */
-    _onContentResize : function(e) {
-      this.fireDataEvent("resizeContent", e.getData());
+    _onChange : function(e) {
+      this.fireDataEvent("change");
     },
 
 
@@ -173,6 +185,7 @@ qx.Class.define("qx.ui.core.ScrollPane",
      */
     setScrollTop : function(value)
     {
+      // TODO: Implement API in qx.html.Element
       var el = this._contentElement.getDomElement();
       if (el) {
         el.scrollTop = value;
@@ -207,8 +220,8 @@ qx.Class.define("qx.ui.core.ScrollPane",
         return;
       }
 
-      var oldLeft = this.getScrollLeft();
-      this.setScrollLeft(oldLeft + left);
+      var old = this.getScrollLeft();
+      this.setScrollLeft(old + left);
     },
 
 
@@ -225,8 +238,8 @@ qx.Class.define("qx.ui.core.ScrollPane",
         return;
       }
 
-      var oldTop = this.getScrollTop();
-      this.setScrollTop(oldTop + top);
+      var old = this.getScrollTop();
+      this.setScrollTop(old + top);
     }
   }
 });
