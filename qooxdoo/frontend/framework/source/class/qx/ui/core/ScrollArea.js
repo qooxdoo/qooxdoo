@@ -392,7 +392,7 @@ qx.Class.define("qx.ui.core.ScrollArea",
       vAlign = vAlign || "top";
 
       // This method can only work after the item has been rendered
-      // If this is not the case wiat for the item's resize event and
+      // If this is not the case wait for the item's resize event and
       // try again.
       if (!item.getBounds()) {
         item.addListener("resize", function(e)
@@ -427,7 +427,9 @@ qx.Class.define("qx.ui.core.ScrollArea",
 
       var scrollLeft = this.getScrollLeft();
 
-      if (scrollLeft + containerSize.width < left + itemSize.width) {
+      if (scrollLeft + containerSize.width < left + itemSize.width)
+      {
+        var scrollLeft = left + itemSize.width - containerSize.width;
         this.setScrollLeft(left + itemSize.width - containerSize.width);
       }
 
