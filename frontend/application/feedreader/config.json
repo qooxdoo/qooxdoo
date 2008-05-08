@@ -29,7 +29,8 @@
 
       "settings" :
       {
-        "qx.theme" : "qx.theme.Classic"
+        "qx.theme" : "qx.theme.Modern",
+        "qx.resourceUri" : "${QOOXDOO_URI}/source/resource"
       },
 
       "localize" :

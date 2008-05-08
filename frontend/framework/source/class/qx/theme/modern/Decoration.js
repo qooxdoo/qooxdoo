@@ -209,6 +209,86 @@ qx.Theme.define("qx.theme.modern.Decoration",
         outerColor: "border",
         innerColor: "focus"
       }
+    },
+    
+    "line-right" :
+    {
+      decorator : qx.ui.decoration.Single,
+
+      style :
+      {
+        widthRight : 1,
+        colorRight : "border-dark-shadow"
+      }
+    },
+    
+    "line-top" :
+    {
+      decorator : qx.ui.decoration.Single,
+
+      style :
+      {
+        widthTop : 1,
+        colorTop : "border-dark-shadow"
+      }
+    },
+    
+    "line-bottom" :
+    {
+      decorator : qx.ui.decoration.Single,
+
+      style :
+      {
+        widthBottom : 1,
+        colorBottom : "border-dark-shadow"
+      }
+    },
+    
+    "toolbar" :
+    {
+      decorator : qx.ui.decoration.Double,
+      
+      style :
+      {
+        width : 1,
+        innerWidthBottom : 1,
+        
+        color : "#c1c1c1",
+        innerColorBottom : "#8a8a8a",
+        
+        style : "solid",
+        backgroundImage : "decoration/toolbar/toolbar-gradient.png",
+        backgroundRepeat : "scale"
+      }
+    },
+    
+    "toolbar-separator" :
+    {
+      decorator : qx.ui.decoration.Single,
+      
+      style :
+      {
+        widthLeft : 1,
+        widthRight : 1,
+        
+        colorLeft : "#b8b8b8",
+        colorRight : "#f4f4f4",
+        
+        style : "solid"
+      }
+    },
+    
+    "toolbar-part-handle" :
+    {
+      decorator : qx.ui.decoration.Uniform,
+      
+      style :
+      {
+        width : 0,
+        
+        backgroundImage : "decoration/toolbar/toolbar-handle.png",
+        backgroundRepeat : "no-repeat"
+      }
     }
   }
 });

@@ -35,6 +35,8 @@ qx.Theme.define("qx.theme.modern.Color",
     "text-disabled" : [ 107, 106, 110 ],
 
     "border" : "#2D405A",
+    "border-dark-shadow" : "#4d4d4d",
+    
     "focus" : "#92B1DC",
 
     "pane" : "#ededed",

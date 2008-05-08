@@ -27,6 +27,7 @@
 #embed(feedreader.images/*)
 
 #include(qx.theme.Classic)
+#include(qx.theme.Modern)
 
 #asset(feedreader/css/*)
 #asset(feedreader/images/*)
@@ -263,7 +264,7 @@ qx.Class.define("feedreader.Application",
       // Create horizontal spliter
       var hBox = new qx.ui.layout.HBox();
       var hBoxComposite = new qx.ui.container.Composite(hBox);
-      hBoxComposite.setBackgroundColor("blue");
+      
       dockLayoutComposite.add(hBoxComposite, {edge: "center"});
 
       // Create tree view
