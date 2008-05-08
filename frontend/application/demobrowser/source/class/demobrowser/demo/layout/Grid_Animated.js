@@ -69,15 +69,17 @@ qx.Class.define("demobrowser.demo.layout.Grid_Animated",
         widget.set({
             backgroundColor : "orange"
         });
+        
+        var bounds = widget.getBounds();
 
         effects.push(new demobrowser.demo.layout.PropertyAnimation(widget, "width").set({
-          from: 50,
+          from: bounds.width,
           to: 200,
           duration: duration,
           transition: "sinodial"
         }));
         effects.push(new demobrowser.demo.layout.PropertyAnimation(widget, "height").set({
-          from: 50,
+          from: bounds.height,
           to: 200,
           duration: duration,
           transition: "sinodial"
