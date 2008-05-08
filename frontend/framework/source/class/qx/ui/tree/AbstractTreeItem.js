@@ -881,7 +881,10 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
       }
 
       if (tree.getSelection().length == 0) {
-        tree.addToSelection(tree.getItems(true, false, tree.getHideRoot())[0]);
+        var items = tree.getItems(true, false, tree.getHideRoot());
+        if (items.length > 0) {
+          tree.addToSelection(items[0]);          
+        }
       }
     },
 
