@@ -51,7 +51,7 @@ qx.Class.define("feedreader.view.List",
     _onChangeSelection : function(e)
     {
       // get the selected item
-      var item = e.getData();
+      var item = e.getData()[0];
       // get the selected feed
       var feed = this._controller.getSelectedFeed();
 
