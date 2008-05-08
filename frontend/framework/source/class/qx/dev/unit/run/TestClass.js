@@ -39,9 +39,9 @@ qx.Class.define("qx.dev.unit.run.TestClass",
       return;
     }
 
-    if (!qx.Class.isSubClassOf(clazz, qx.dev.unit.TestCase))
+    if (!qx.Class.isSubClassOf(clazz, qx.dev.unit.test.TestCase))
     {
-      this.addFail("Sub class check.", "The test class '" + clazz.classname + "'is not a sub class of 'qx.dev.unit.TestCase'");
+      this.addFail("Sub class check.", "The test class '" + clazz.classname + "'is not a sub class of 'qx.dev.unit.test.TestCase'");
       return;
     }
 

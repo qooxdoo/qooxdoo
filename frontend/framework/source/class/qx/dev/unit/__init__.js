@@ -9,7 +9,7 @@
  * * Add test classes to your application. Those test classes have to comply
  *   with the following constraints:
  *   * They have to be in the namespace of your application
- *   * They have to inherit from *qx.dev.unit.TestCase*
+ *   * They have to inherit from *qx.dev.unit.test.TestCase*
  *   * They have to define member functions with names starting with test*; these
  *     methods will be available as individual tests
  *   * Apart from that you are free to add other member functions, properties
@@ -20,7 +20,7 @@
  *     exceptions are used. No exception means the test went fine, throwing an
  *     exception from the test method signals a failure. Return values from the
  *     test methods are not evaluated. To model your test method behaviour, you
- *     can use the methods inherited from qx.dev.unit.TestCase which encapsulate
+ *     can use the methods inherited from qx.dev.unit.test.TestCase which encapsulate
  *     exceptions in the form of assertions:
  *     * <b>assert, assertFalse, assertEquals, assertNumber</b>, ... - These functions
  *       take values which are compared (either among each other or to some
@@ -29,7 +29,7 @@
  *     * A similar list of methods of the form <b>assert*DebugOn</b> is available,
  *       which are only evaluated if the debug variant qx.debug is on (see
  *       Variants).
- *     * See the documentation for the {@link qx.dev.unit.TestCase} class for more
+ *     * See the documentation for the {@link qx.dev.unit.test.TestCase} class for more
  *       information on the available assertions.
  *  * Run *make test* from the directory of your application Makefile. This will
  *    generate the appropriate test application for you, which will be available
