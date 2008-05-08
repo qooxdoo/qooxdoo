@@ -81,7 +81,22 @@ qx.Class.define("qx.ui.layout.Dock",
 {
   extend : qx.ui.layout.Abstract,
 
+  /**
+   * @param spacingX {Integer?0} The horizontal spacing. Sets {@link #spacingX}.
+   * @param spacingY {Integer?0} The vertical spacing. Sets {@link #spacingY}.
+   */
+  construct : function(spacingX, spacingY)
+  {
+    this.base(arguments);
 
+    if (spacingX) {
+      this.setSpacingX(spacingX);
+    }
+
+    if (spacingY) {
+      this.setSpacingY(spacingY);
+    }
+  },
 
 
   /*

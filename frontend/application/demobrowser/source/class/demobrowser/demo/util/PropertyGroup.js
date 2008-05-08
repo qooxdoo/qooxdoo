@@ -28,9 +28,7 @@ qx.Class.define("demobrowser.demo.util.PropertyGroup",
 
     this._properties = propertyDescription;
 
-    var layout = new qx.ui.layout.Grid();
-    layout.setVerticalSpacing(5);
-    layout.setHorizontalSpacing(10);
+    var layout = new qx.ui.layout.Grid(10, 5);
     layout.setColumnAlign(0, "right", "top");
     layout.setColumnMinWidth(0, 110);
     this._setLayout(layout);

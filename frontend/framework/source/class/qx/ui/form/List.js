@@ -141,7 +141,7 @@ qx.Class.define("qx.ui.form.List",
     {
       // Create new layout
       var horizontal = value === "horizontal";
-      var layout = horizontal ? new qx.ui.layout.HBox : new qx.ui.layout.VBox;
+      var layout = horizontal ? new qx.ui.layout.HBox() : new qx.ui.layout.VBox();
 
       // Configure content
       var content = this.__content;
