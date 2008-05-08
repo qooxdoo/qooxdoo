@@ -59,7 +59,9 @@ qx.Class.define("qx.util.DeferredCallManager",
      */
     schedule : function(deferredCall)
     {
-      if (this.__timeoutId == null) {
+      if (this.__timeoutId == null)
+      {
+        // this.debug("Configure timeout...");
         this.__timeoutId = window.setTimeout(this.__timeoutWrapper, 0);
       }
 
@@ -87,7 +89,8 @@ qx.Class.define("qx.util.DeferredCallManager",
 
       // the flush is currently running and the call is already
       // scheduled -> remove it from the current queue
-      if (this.__currentQueue && this.__currentQueue[callKey]) {
+      if(this.__currentQueue && this.__currentQueue[callKey])
+      {
         this.__currentQueue[callKey] = null;
         return;
       }
@@ -95,8 +98,9 @@ qx.Class.define("qx.util.DeferredCallManager",
       delete this.__calls[callKey];
 
       // stop timer if no other calls are waiting
-      if  (qx.lang.Object.isEmpty(this.__calls) && this.__timeoutId != null)
+      if(qx.lang.Object.isEmpty(this.__calls) && this.__timeoutId != null)
       {
+        // this.debug("Clear timeout...");
         window.clearTimeout(this.__timeoutId);
         this.__timeoutId = null;
       }

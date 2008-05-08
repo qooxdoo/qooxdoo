@@ -17,9 +17,11 @@
 
 ************************************************************************ */
 
-/*
+/* ************************************************************************
+
 #require(qx.util.DeferredCallManager)
-*/
+
+************************************************************************ */
 
 /**
  * This class represents a wrapper for functions, which should be called after
@@ -50,7 +52,7 @@ qx.Class.define("qx.util.DeferredCall",
 
     this.__callback = callback;
     this.__context = context || null;
-    this._manager = qx.util.DeferredCallManager.getInstance();
+    this.__manager = qx.util.DeferredCallManager.getInstance();
   },
 
 
@@ -67,7 +69,7 @@ qx.Class.define("qx.util.DeferredCall",
      * Prevent the callback from being called.
      */
     cancel : function() {
-      this._manager.cancel(this);
+      this.__manager.cancel(this);
     },
 
 
@@ -75,7 +77,7 @@ qx.Class.define("qx.util.DeferredCall",
      * Issue a deferred call of the callback.
      */
     schedule : function() {
-      this._manager.schedule(this);
+      this.__manager.schedule(this);
     },
 
 
@@ -85,7 +87,6 @@ qx.Class.define("qx.util.DeferredCall",
     call : function() {
       this.__context ? this.__callback.apply(this.__context) : this.__callback();
     }
-
   },
 
 
@@ -99,6 +100,6 @@ qx.Class.define("qx.util.DeferredCall",
   destruct : function(callback, context)
   {
     this.cancel();
-    this._disposeFields("__context", "__callback");
+    this._disposeFields("__context", "__callback", "__manager");
   }
 });

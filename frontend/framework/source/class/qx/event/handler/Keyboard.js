@@ -20,6 +20,12 @@
 
 ************************************************************************ */
 
+/* ************************************************************************
+
+#require(qx.event.handler.UserAction)
+
+************************************************************************ */
+
 /**
  * This class provides unified key event handler for Internet Explorer,
  * Firefox, Opera and Safari.
@@ -51,15 +57,17 @@ qx.Class.define("qx.event.handler.Keyboard",
 
     // Define shorthands
     this._manager = manager;
-
-    this._lastUpDownType = {};
+    this._window = manager.getWindow();
 
     // Gecko ignore keyevents when not explicitely clicked in the document.
     if (qx.core.Variant.isSet("qx.client", "gecko")) {
-      this._root = manager.getWindow();
+      this._root = this._window;
     } else {
-      this._root = manager.getWindow().document.documentElement;
+      this._root = this._window.document.documentElement;
     }
+
+    // Internal sequence cache
+    this._lastUpDownType = {};
 
     // Initialize observer
     this._initKeyObserver();
@@ -188,6 +196,9 @@ qx.Class.define("qx.event.handler.Keyboard",
       if (target) {
         this._manager.dispatchEvent(target, event);
       }
+
+      // Fire user action event
+      qx.event.Registration.fireEvent(this._window, "useraction");
     },
 
 
@@ -208,6 +219,9 @@ qx.Class.define("qx.event.handler.Keyboard",
 
       var event = qx.event.Registration.createEvent(type, qx.event.type.KeySequence, [domEvent, target, keyIdentifier]);
       this._manager.dispatchEvent(target, event);
+
+      // Fire user action event
+      qx.event.Registration.fireEvent(this._window, "useraction");
     },
 
 
@@ -742,7 +756,7 @@ qx.Class.define("qx.event.handler.Keyboard",
   destruct : function()
   {
     this._stopKeyObserver();
-    this._disposeFields("_manager", "_root");
+    this._disposeFields("_manager", "_window", "_root");
   },
 
 

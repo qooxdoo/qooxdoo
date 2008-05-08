@@ -18,6 +18,12 @@
 
 ************************************************************************ */
 
+/* ************************************************************************
+
+#require(qx.event.handler.UserAction)
+
+************************************************************************ */
+
 /**
  * This class performs the auto flush of all layout relevant queues.
  */
@@ -25,11 +31,11 @@ qx.Class.define("qx.ui.core.queue.Manager",
 {
   statics :
   {
-    /** {Boolean} TODOC */
+    /** {Boolean} Whether a flush was scheduled */
     __scheduled : false,
 
 
-    /** {Map} TODOC */
+    /** {Map} Internal data structure for the current job list */
     __jobs : {},
 
 
@@ -43,14 +49,15 @@ qx.Class.define("qx.ui.core.queue.Manager",
      */
     scheduleFlush : function(job)
     {
-      var clazz = qx.ui.core.queue.Manager;
+      // Sometimes not executed in context, fix this
+      var self = qx.ui.core.queue.Manager;
 
-      clazz.__jobs[job] = true;
+      self.__jobs[job] = true;
 
-      if (!clazz.__scheduled)
+      if (!self.__scheduled)
       {
-        clazz.__deferredCall.schedule();
-        clazz.__scheduled = true;
+        self.__deferredCall.schedule();
+        self.__scheduled = true;
       }
     },
 
@@ -64,9 +71,21 @@ qx.Class.define("qx.ui.core.queue.Manager",
      */
     flush : function()
     {
+      // Sometimes not executed in context, fix this
       var self = qx.ui.core.queue.Manager;
-      var jobs = self.__jobs;
 
+      // Stop when already executed
+      if (self.__inFlush) {
+        return;
+      }
+
+      self.__inFlush = true;
+
+      // Cancel timeout if called manually
+      self.__deferredCall.cancel();
+
+      // Process jobs
+      var jobs = self.__jobs;
       while (jobs.widget || jobs.appearance || jobs.decorator || jobs.layout)
       {
         // No else blocks here because each flush can influence the
@@ -74,53 +93,25 @@ qx.Class.define("qx.ui.core.queue.Manager",
         if (jobs.widget)
         {
           delete jobs.widget;
-
-          var start = new Date;
           qx.ui.core.queue.Widget.flush();
-
-          var time = new Date - start;
-          if (time > 10) {
-            qx.log.Logger.debug(self, "Widget runtime: " + (time) + "ms");
-          }
         }
 
         if (jobs.appearance)
         {
           delete jobs.appearance;
-
-          var start = new Date;
           qx.ui.core.queue.Appearance.flush();
-
-          var time = new Date - start;
-          if (time > 10) {
-            qx.log.Logger.debug(self, "Appearance runtime: " + (time) + "ms");
-          }
         }
 
         if (jobs.decorator)
         {
           delete jobs.decorator;
-
-          var start = new Date;
           qx.ui.core.queue.Decorator.flush();
-
-          var time = new Date - start;
-          if (time > 10) {
-            qx.log.Logger.debug(self, "Decorator runtime: " + (time) + "ms");
-          }
         }
 
         if (jobs.layout)
         {
           delete jobs.layout;
-
-          var start = new Date;
           qx.ui.core.queue.Layout.flush();
-
-          var time = new Date - start;
-          if (time > 10) {
-            qx.log.Logger.debug(self, "Layout runtime: " + (time) + "ms");
-          }
         }
       }
 
@@ -129,29 +120,17 @@ qx.Class.define("qx.ui.core.queue.Manager",
       if (jobs.element)
       {
         delete jobs.element;
-
-        var start = new Date;
         qx.html.Element.flush();
-
-        var time = new Date - start;
-        if (time > 10) {
-          qx.log.Logger.debug(self, "Element runtime: " + (time) + "ms");
-        }
       }
 
       if (jobs.dispose)
       {
         delete jobs.dispose;
-
-        var start = new Date;
         qx.ui.core.queue.Dispose.flush();
-
-        var time = new Date - start;
-        if (time > 10) {
-          qx.log.Logger.debug(self, "Dispose runtime: " + (time) + "ms");
-        }
       }
 
+      // Clear flag
+      self.__inFlush = false;
     }
   },
 
@@ -173,5 +152,8 @@ qx.Class.define("qx.ui.core.queue.Manager",
     // This is quite a hack, but allows us to force other flushes
     // before the HTML element flush.
     qx.html.Element._scheduleFlush = statics.scheduleFlush;
+
+    // Register to user action
+    qx.event.Registration.addListener(window, "useraction", statics.flush);
   }
 });
