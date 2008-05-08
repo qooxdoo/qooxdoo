@@ -417,16 +417,6 @@ qx.Class.define("qx.ui.window.Window",
       return this._pane;
     },
 
-    /**
-     * Accessor method for the pane sub widget
-     *
-     * @type member
-     * @return {qx.ui.container.Composite} pane sub widget
-     */
-    getPane : function() {
-      return this._pane;
-    },
-
 
     /**
      * Accessor method for the captionbar sub widget
@@ -476,7 +466,7 @@ qx.Class.define("qx.ui.window.Window",
       if (vOpener != null) {
         this.setOpener(vOpener);
       }
-      
+
       // TODO
 //      if (this.getCentered()) {
 //        this.centerToBrowser();
