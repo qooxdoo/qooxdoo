@@ -871,18 +871,17 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
         return;
       }
 
-      var selectedItems = tree.getSelectedItems();
-      var mgr = tree.getManager();
+      var selectedItems = tree.getSelection();
       for (var i=0,l=selectedItems.length; i<l; i++)
       {
         var treeItem = selectedItems[i];
         if (treeItem.getTree() !== tree) {
-          mgr.setItemSelected(treeItem, false);
+          tree.removeFromSelection(treeItem);
         }
       }
 
-      if (tree.getSelectedItems().length == 0) {
-        mgr.setItemSelected(mgr.getFirst(), true);
+      if (tree.getSelection().length == 0) {
+        tree.addToSelection(tree.getItems(true, false, tree.getHideRoot()));
       }
     },
 
