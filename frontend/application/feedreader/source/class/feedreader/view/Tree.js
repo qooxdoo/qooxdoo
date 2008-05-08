@@ -64,11 +64,15 @@ qx.Class.define("feedreader.view.Tree",
       // get the feeds
       var db = this._controller.getFeeds();
 
+      // remove old folders
+      this.getRoot().removeAll();
+
       // go threw all feeds
       for (var url in db)
       {
         // create and add a folder for every feed
         var folder = new qx.ui.tree.TreeFolder(db[url].title);
+        folder.setIcon("icon/22/apps/internet-feed-reader.png");
         folder.setUserData("url", url);
         this.getRoot().add(folder);
       }
@@ -84,10 +88,13 @@ qx.Class.define("feedreader.view.Tree",
     {
       // get the url of the item
       var item = e.getData()[0];
-      var url = item.getUserData("url");
-
-      // tell the controller to select the new feed
-      this._controller.selectFeed(url);
+      
+      if (item) {
+        var url = item.getUserData("url");
+    
+        // tell the controller to select the new feed
+        this._controller.selectFeed(url);                
+      }
     }
   }
 });

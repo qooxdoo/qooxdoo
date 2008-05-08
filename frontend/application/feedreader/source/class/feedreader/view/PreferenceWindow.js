@@ -26,7 +26,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("feedreader.PreferenceWindow",
+qx.Class.define("feedreader.view.PreferenceWindow",
 {
   extend : qx.ui.window.Window,
 
@@ -78,7 +78,7 @@ qx.Class.define("feedreader.PreferenceWindow",
       groupBox.add(button_modern);
 
       // register the listener for the theme changes
-      radioManager.addListener("changeSelected", function(e) {
+      radioManager.addListener("change", function(e) {
         if (e.getValue() == button_classic) {
           alert("Apply classic theme.");
         } else if (e.getValue() == button_modern) {
