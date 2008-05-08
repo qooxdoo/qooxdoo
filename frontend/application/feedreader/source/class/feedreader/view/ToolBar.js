@@ -45,6 +45,9 @@ qx.Class.define("feedreader.view.ToolBar",
   {
     this.base(arguments);
     
+    // Apply style
+    this.setDecorator("line-bottom");
+
     // Link for controller
     this._controller = controller;
 
@@ -62,7 +65,7 @@ qx.Class.define("feedreader.view.ToolBar",
     addFeedCmd.addListener("execute", this._controller.showAddFeed, this._controller);
 
     var removeFeedCmd = new qx.event.Command("Control+D");
-    removeFeedCmd.addListener("execute", this._controller.showRemoveFeed, this._controller);
+    removeFeedCmd.addListener("execute", this._controller.removeFeed, this._controller);
     // /////////////////////////////
     
     // Add buttons /////////////////
