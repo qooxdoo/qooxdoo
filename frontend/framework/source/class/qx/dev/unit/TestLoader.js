@@ -26,7 +26,7 @@
 #asset(qx.dev.unit.run/data/*)
 ************************************************************************ */
 
-qx.Class.define("qx.dev.unit.run.TestLoader",
+qx.Class.define("qx.dev.unit.TestLoader",
 {
   extend : qx.application.Native,
 
@@ -81,7 +81,7 @@ qx.Class.define("qx.dev.unit.run.TestLoader",
   {
     suite :
     {
-      check    : "qx.dev.unit.run.TestSuite",
+      check    : "qx.dev.unit.TestSuite",
       nullable : true
     }
   },
@@ -153,7 +153,7 @@ qx.Class.define("qx.dev.unit.run.TestLoader",
      */
     setTestNamespace : function(namespace)
     {
-      var suite = new qx.dev.unit.run.TestSuite();
+      var suite = new qx.dev.unit.TestSuite();
       suite.add(namespace);
       this.setSuite(suite);
     },
@@ -167,7 +167,7 @@ qx.Class.define("qx.dev.unit.run.TestLoader",
      */
     runJsUnit : function()
     {
-      var testResult = new qx.dev.unit.run.JsUnitTestResult();
+      var testResult = new qx.dev.unit.JsUnitTestResult();
       this.getSuite().run(testResult);
       testResult.exportToJsUnit();
     },
@@ -183,7 +183,7 @@ qx.Class.define("qx.dev.unit.run.TestLoader",
     {
       console.log(this.getTestDescriptions());
 
-      var testResult = new qx.dev.unit.run.TestResult();
+      var testResult = new qx.dev.unit.TestResult();
 
       testResult.addListener("failure", function(e)
       {

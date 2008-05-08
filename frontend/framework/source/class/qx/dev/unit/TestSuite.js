@@ -17,7 +17,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.dev.unit.run.TestSuite",
+qx.Class.define("qx.dev.unit.TestSuite",
 {
   extend : qx.core.Object,
 
@@ -121,7 +121,7 @@ qx.Class.define("qx.dev.unit.run.TestSuite",
      * @return {void}
      */
     addTestFunction : function(name, fcn) {
-      this.__tests.push(new qx.dev.unit.run.TestFunction(null, name, fcn));
+      this.__tests.push(new qx.dev.unit.TestFunction(null, name, fcn));
     },
 
 
@@ -134,7 +134,7 @@ qx.Class.define("qx.dev.unit.run.TestSuite",
      * @return {void}
      */
     addTestMethod : function(clazz, functionName) {
-      this.__tests.push(new qx.dev.unit.run.TestFunction(clazz, functionName));
+      this.__tests.push(new qx.dev.unit.TestFunction(clazz, functionName));
     },
 
 
@@ -218,7 +218,7 @@ qx.Class.define("qx.dev.unit.run.TestSuite",
       {
         var test = this.__tests[i];
 
-        if (test instanceof qx.dev.unit.run.TestFunction) {
+        if (test instanceof qx.dev.unit.TestFunction) {
           methods.push(test);
         }
       }
