@@ -45,7 +45,7 @@ qx.Class.define("demobrowser.demo.animation.Scroll_1",
       var animScrollDown = new qx.fx.effect.core.Scroll(myElement).set(
       {
         y          : 100,
-        transition : "sinoidal"
+        transition : "sinodial"
       });
 
       var animScrollUp = new qx.fx.effect.core.Scroll(myElement).set(
@@ -63,7 +63,7 @@ qx.Class.define("demobrowser.demo.animation.Scroll_1",
       var animScrollRight = new qx.fx.effect.core.Scroll(myElement).set(
       {
         x          : 100,
-        transition : "sinoidal"
+        transition : "sinodial"
       });
 
       var animScrollTo = new qx.fx.effect.core.Scroll(myElement).set(
