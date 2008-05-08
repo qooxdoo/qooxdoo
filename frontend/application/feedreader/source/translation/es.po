@@ -14,22 +14,6 @@ msgstr ""
 "X-Poedit-Language: Spanish\n"
 "X-Poedit-Country: COLOMBIA\n"
 
-#: source/class/feedreader/PreferenceWindow.js:34
-msgid "Preferences"
-msgstr ""
-
-#: source/class/feedreader/PreferenceWindow.js:71
-msgid "Theme"
-msgstr ""
-
-#: source/class/feedreader/PreferenceWindow.js:101
-msgid "Cancel"
-msgstr ""
-
-#: source/class/feedreader/PreferenceWindow.js:103
-msgid "OK"
-msgstr ""
-
 #~ msgid "read more ..."
 #~ msgstr "leer más ..."
 
