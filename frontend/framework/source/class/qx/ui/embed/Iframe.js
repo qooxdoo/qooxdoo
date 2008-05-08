@@ -95,13 +95,23 @@ qx.Class.define("qx.ui.embed.Iframe",
     },
 
     /**
-     * Whether the iframe's content pane should have scroll bars
+     * Whether the iframe's should have vertical scroll bars.
      */
-    scrolling :
+    overflowX :
     {
-      check : ["yes", "no", "auto"],
-      init  : "auto",
-      apply : "_applyScrolling"
+      check : ["hidden", "visible", "scroll"],
+      init  : "hidden",
+      apply : "_applyOverflowX"
+    },
+
+    /**
+     * Whether the iframe's should have horizontal scroll bars.
+     */
+    overflowY :
+    {
+      check : ["hidden", "visible", "scroll"],
+      init  : "hidden",
+      apply : "_applyOverflowY"
     }
 
   },
@@ -174,27 +184,14 @@ qx.Class.define("qx.ui.embed.Iframe",
     },
 
 
-    _applyScrolling : function(value, old)
+    _applyOverflowX : function(value, old)
     {
-      var overflowValue;
+      this.getContentElement().setStyle("overflowX", value)
+    },
 
-      switch(value)
-      {
-        case "yes":
-          overflowValue = "visible";
-        break;
-
-        case "no":
-          overflowValue = "hidden";
-        break;
-
-        default:
-          overflowValue = "auto";
-        break;
-      }
-
-      this.getContentElement().setStyle("overflowX", overflowValue)
-      this.getContentElement().setStyle("overflowY", overflowValue)
+    _applyOverflowY : function(value, old)
+    {
+      this.getContentElement().setStyle("overflowY", value)
     }
 
 
