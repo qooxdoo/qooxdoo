@@ -142,17 +142,17 @@ qx.Class.define("feedreader.Application",
 
     /**
      * Getter for the feeds database.
-     * 
+     *
      * @return {Map} A map containing all feeds.
      */
     getFeeds : function() {
       return this._feeds;
     },
 
-    
+
     /**
      * Returns the feed addressed by the given url.
-     * 
+     *
      * @param url {String} The url of the feed to return.
      * @return {Map} Map containing the feed which belongs to the given url.
      */
@@ -329,7 +329,7 @@ qx.Class.define("feedreader.Application",
       if (old)
       {
         // Store old selection
-        old.selection = this._listView.indexOf(this._listView.getSelection());
+        old.selection = this._listView.indexOf(this._listView.getSelectedItem());
         old.offset = this._listView.getScrollTop();
       }
 
