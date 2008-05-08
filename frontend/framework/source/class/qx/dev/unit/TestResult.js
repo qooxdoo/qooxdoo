@@ -17,7 +17,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.dev.unit.run.TestResult",
+qx.Class.define("qx.dev.unit.TestResult",
 {
   extend : qx.core.Object,
 
