@@ -17,7 +17,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("testrunner.TestSuite",
+qx.Class.define("qx.dev.unit.run.TestSuite",
 {
   extend : qx.core.Object,
 
@@ -121,7 +121,7 @@ qx.Class.define("testrunner.TestSuite",
      * @return {void}
      */
     addTestFunction : function(name, fcn) {
-      this.__tests.push(new testrunner.TestFunction(null, name, fcn));
+      this.__tests.push(new qx.dev.unit.run.TestFunction(null, name, fcn));
     },
 
 
@@ -134,7 +134,7 @@ qx.Class.define("testrunner.TestSuite",
      * @return {void}
      */
     addTestMethod : function(clazz, functionName) {
-      this.__tests.push(new testrunner.TestFunction(clazz, functionName));
+      this.__tests.push(new qx.dev.unit.run.TestFunction(clazz, functionName));
     },
 
 
@@ -146,7 +146,7 @@ qx.Class.define("testrunner.TestSuite",
      * @return {void}
      */
     addTestClass : function(clazz) {
-      this.__tests.push(new testrunner.TestClass(clazz));
+      this.__tests.push(new qx.dev.unit.run.TestClass(clazz));
     },
 
 
@@ -195,7 +195,7 @@ qx.Class.define("testrunner.TestSuite",
       {
         var test = this.__tests[i];
 
-        if (test instanceof testrunner.TestClass) {
+        if (test instanceof qx.dev.unit.run.TestClass) {
           classes.push(test);
         }
       }
@@ -218,7 +218,7 @@ qx.Class.define("testrunner.TestSuite",
       {
         var test = this.__tests[i];
 
-        if (test instanceof testrunner.TestFunction) {
+        if (test instanceof qx.dev.unit.run.TestFunction) {
           methods.push(test);
         }
       }
