@@ -70,6 +70,18 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     "popup" : {
     },
+    
+    "iframe" :
+    {
+      style : function(states)
+      {
+        return {
+          backgroundColor : "white",
+          decorator : "inset"
+        };
+      }
+    },
+    
 
 
     /*

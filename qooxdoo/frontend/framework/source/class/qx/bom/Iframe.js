@@ -55,6 +55,18 @@ qx.Class.define("qx.bom.Iframe",
       var attributes = attributes ? qx.lang.Object.copy(attributes) : {};
       attributes.onload = "qx.event.handler.Iframe.onevent(this)";
 
+      attributes.frameBorder = "0";
+      attributes.frameSpacing = "0";
+
+      attributes.marginWidth = "0";
+      attributes.marginHeight = "0";
+
+      attributes.hspace = "0";
+      attributes.vspace = "0";
+
+      attributes.border = "0";
+      attributes.allowTransparency = "true";      
+      
       return qx.bom.Element.create("iframe", attributes, win);
     },
 
