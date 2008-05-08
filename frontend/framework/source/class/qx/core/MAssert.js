@@ -23,7 +23,7 @@
 
 ************************************************************************ */
 
-qx.Mixin.define("qx.dev.unit.test.MAssert",
+qx.Mixin.define("qx.core.MAssert",
 {
   members :
   {
@@ -116,7 +116,7 @@ qx.Mixin.define("qx.dev.unit.test.MAssert",
     __assert : function(condition, comment, failMsg)
     {
       if (!condition) {
-        throw new qx.dev.unit.test.AssertionError(comment, failMsg);
+        throw new qx.core.AssertionError(comment, failMsg);
       }
     },
 

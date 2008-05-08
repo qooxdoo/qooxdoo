@@ -646,7 +646,7 @@ qx.Class.define("qx.core.Object",
   {
     // add asserts into each debug build
     if (qx.core.Variant.isSet("qx.debug", "on")) {
-      qx.Class.include(statics, qx.dev.unit.test.MAssert);
+      qx.Class.include(statics, qx.core.MAssert);
     }
   },
 
