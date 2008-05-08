@@ -199,13 +199,16 @@ qx.Class.define("qx.ui.decoration.Grid",
         '<div style="position:absolute;top:0;left:0;',
         'width:', leftWidth,
         'px;height:', topWidth,
-        'px;background:url(', tl[0] ,') no-repeat ', tl[1], 'px ', tl[2], 'px;"></div>'
+        'px;background:url(', tl[0] ,') no-repeat ', tl[1], 'px 6px;"></div>'
       );
       html.push(
         '<div style="position:absolute;top:0;',
         'left:', leftWidth,
-        'px;height:',topWidth,
-        'px;background:url(', t[0] ,') repeat-x ', t[1], 'px ', t[2], 'px;"></div>'
+        'px;height:',topWidth+'px;',
+        'background-position-x: '+t[1] + 0.1, 'px;',
+        'background-position-y: '+t[2], 'px;',
+        'background-image:url(', t[0] ,');',
+        'background-repeat: repeat-x;"></div>'
       );
       html.push(
         '<div style="position:absolute;top:0;right:0;',
@@ -246,7 +249,11 @@ qx.Class.define("qx.ui.decoration.Grid",
         'px;', qx.bom.element.Clip.compile({left: -r[1], width: rightWidth}),'"/>'
       );
 
-      return this.__markup = html.join("");
+      var ret = this.__markup = html.join("");; 
+      
+      console.info(ret)
+      
+      return ret;
     },
 
 
