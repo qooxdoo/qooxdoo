@@ -51,7 +51,7 @@ qx.Class.define("demobrowser.demo.animation.Transition_1",
         linear      : "Linear is the default transition for many effects.",
         easeInQuad  : "EaseInQuad will accelerate exponentially.",
         easeOutQuad : "EaseOutQuad will slow down exponentially.",
-        sinoidal    : "Sinoidal transition will accelerate sinusoidal.",
+        sinodial    : "Sinodial transition will accelerate sinusoidal.",
         reverse     : "Reverse behaves like linear, but in the opposite direction.",
         wobble      : "Wobble will bounce the element forwards and backwards.",
         spring      : "Spring will overshoot the target and then move back."
