@@ -17,7 +17,7 @@
      * Fabian Jakobs (fjakobs)
 
 ************************************************************************ */
-
+var frame;
 qx.Class.define("demobrowser.demo.widget.Iframe_1",
 {
   extend : qx.application.Standalone,

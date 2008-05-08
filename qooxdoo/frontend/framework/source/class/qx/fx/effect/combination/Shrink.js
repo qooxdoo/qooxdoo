@@ -88,10 +88,10 @@ qx.Class.define("qx.fx.effect.combination.Shrink",
      */
     moveTransition :
     {
-      init : "sinoidal",
+      init : "sinodial",
 
       // keep this in sync with qx.fx.Transition!
-      check  : ["linear", "easeInQuad", "easeOutQuad", "sinoidal", "reverse", "flicker", "wobble", "pulse", "spring", "none", "full"]
+      check  : ["linear", "easeInQuad", "easeOutQuad", "sinodial", "reverse", "flicker", "wobble", "pulse", "spring", "none", "full"]
     },
 
     /**
@@ -99,10 +99,10 @@ qx.Class.define("qx.fx.effect.combination.Shrink",
      */
     scaleTransition :
     {
-      init : "sinoidal",
+      init : "sinodial",
 
       // keep this in sync with qx.fx.Transition!
-      check  : ["linear", "easeInQuad", "easeOutQuad", "sinoidal", "reverse", "flicker", "wobble", "pulse", "spring", "none", "full"]
+      check  : ["linear", "easeInQuad", "easeOutQuad", "sinodial", "reverse", "flicker", "wobble", "pulse", "spring", "none", "full"]
     },
 
     /**

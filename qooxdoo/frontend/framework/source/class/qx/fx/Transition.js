@@ -113,7 +113,7 @@ qx.Class.define("qx.fx.Transition",
      * @param pos {Number} Effect position in duration
      * @return {Number} Modified effect position
      */
-    sinoidal : function(pos)
+    sinodial : function(pos)
     {
       return ( -Math.cos(pos * Math.PI) / 2 ) + 0.5;
     },
