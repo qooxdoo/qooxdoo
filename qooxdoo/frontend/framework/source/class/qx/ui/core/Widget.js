@@ -5976,7 +5976,9 @@ qx.Class.define("qx.ui.core.Widget",
 
       if (old) {
         vMgr.setCaptureWidget(null);
-      } else if (value) {
+      }
+      
+      if (value) {
         vMgr.setCaptureWidget(this);
       }
     },
