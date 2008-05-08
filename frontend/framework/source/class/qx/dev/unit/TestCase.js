@@ -17,7 +17,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.dev.unit.test.TestCase",
+qx.Class.define("qx.dev.unit.TestCase",
 {
   extend  : qx.core.Object,
 
