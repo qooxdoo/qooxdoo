@@ -1777,7 +1777,7 @@ qx.Class.define("qx.html.Element",
         }
 
         var key = this.__generateListenerId(type, listener, self, capture);
-        if (this.__eventValues[key]) 
+        if (this.__eventValues[key])
         {
           this.warn("A listener of this configuration does already exist!");
           return false;
@@ -1814,7 +1814,7 @@ qx.Class.define("qx.html.Element",
       else
       {
         var key = this.__generateListenerId(type, listener, self, capture);
-        if (!this.__eventValues || !this.__eventValues[key]) 
+        if (!this.__eventValues || !this.__eventValues[key])
         {
           this.warn("A listener of this configuration does not exist!");
           return false;
@@ -1857,7 +1857,7 @@ qx.Class.define("qx.html.Element",
 
   /*
   *****************************************************************************
-     DESTRUCT
+     DEFER
   *****************************************************************************
   */
 
