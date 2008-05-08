@@ -17,9 +17,9 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.dev.unit.run.JsUnitTestResult",
+qx.Class.define("qx.dev.unit.JsUnitTestResult",
 {
-  extend : qx.dev.unit.run.TestResult,
+  extend : qx.dev.unit.TestResult,
 
 
 
