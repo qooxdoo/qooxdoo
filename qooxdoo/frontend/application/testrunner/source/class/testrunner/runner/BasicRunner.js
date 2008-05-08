@@ -17,6 +17,11 @@
 
 ************************************************************************ */
 
+/*
+#optional(testrunner.TestLoader)
+#optional(testrunner.TestResult)
+*/
+
 qx.Class.define("testrunner.runner.BasicRunner",
 {
   extend : qx.ui.layout.VerticalBoxLayout,
@@ -64,21 +69,20 @@ qx.Class.define("testrunner.runner.BasicRunner",
       {
         var test = e.getData();
         this.debug("Test '" + test.getFullName() + "' started.");
-      });
+      }, this);
 
       testResult.addEventListener("failure", function(e)
       {
         var ex = e.getData().exception;
         var test = e.getData().test;
         this.error("Test '" + test.getFullName() + "' failed: " + ex.getMessage() + " - " + ex.getComment());
-      });
+      }, this);
 
-      // this.error(ex.getStackTrace());
       testResult.addEventListener("error", function(e)
       {
         var ex = e.getData().exception;
         this.error("The test '" + e.getData().test.getFullName() + "' had an error: " + ex, ex);
-      });
+      },this);
 
       this.debug(testLoader.getTestDescriptions());
       gb.setEnabled(true);
@@ -115,5 +119,10 @@ qx.Class.define("testrunner.runner.BasicRunner",
     hb.add(this.input, this.run);
     gb.add(hb);
     this.add(gb);
+  },
+
+  members :
+  {
+    load: function() {}
   }
 });
