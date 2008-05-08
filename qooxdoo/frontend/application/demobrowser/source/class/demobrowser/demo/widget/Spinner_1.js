@@ -29,13 +29,11 @@ qx.Class.define("demobrowser.demo.widget.Spinner_1",
     {
       this.base(arguments);
 
-      var layout = new qx.ui.layout.Grid();
+      var layout = new qx.ui.layout.Grid(10, 8);
       layout.setColumnAlign(0, "left", "middle");
       layout.setColumnAlign(1, "right", "middle");
       layout.setColumnAlign(2, "left", "middle");
       layout.setColumnAlign(3, "left", "middle");
-      layout.setHorizontalSpacing(10);
-      layout.setVerticalSpacing(8);
 
       var container = new qx.ui.container.Composite(layout).set({
         padding: 10

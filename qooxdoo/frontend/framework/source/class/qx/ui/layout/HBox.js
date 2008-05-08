@@ -96,6 +96,23 @@ qx.Class.define("qx.ui.layout.HBox",
   extend : qx.ui.layout.Abstract,
 
 
+  /**
+   * @param spacing {Integer?0} The spacing between child widgets {@link #spacing}.
+   * @param alignX {String?"left"} Horizontal alignment of the whole children
+   *     block {@link #alignX}.
+   */
+  construct : function(spacing, alignX)
+  {
+    this.base(arguments);
+
+    if (spacing) {
+      this.setSpacing(spacing);
+    }
+
+    if (alignX) {
+      this.setAlignX(alignX);
+    }
+  },
 
 
   /*

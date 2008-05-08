@@ -30,11 +30,9 @@ qx.Class.define("demobrowser.demo.ui.Decoration_3",
 
       qx.theme.manager.Meta.getInstance().setTheme(qx.theme.Modern);
 
-      var layout = new qx.ui.layout.Grid();
+      var layout = new qx.ui.layout.Grid(9, 5);
       layout.setColumnAlign(0, "right", "top");
       layout.setColumnAlign(2, "right", "top");
-      layout.setHorizontalSpacing(9);
-      layout.setVerticalSpacing(5);
       layout.setColumnWidth(1, 160);
       layout.setColumnWidth(2, 72);
       layout.setColumnWidth(3, 108);

@@ -65,8 +65,8 @@ qx.Class.define("testrunner.test.ui.Grid",
       this.assertSize(this._gridWidget, 400, 200);
 
       // spacing
-      this._gridLayout.setVerticalSpacing(10);
-      this._gridLayout.setHorizontalSpacing(20);
+      this._gridLayout.setSpacingY(10);
+      this._gridLayout.setSpacingX(20);
       this.assertSize(this._gridWidget, 420, 210);
     },
 
@@ -77,8 +77,8 @@ qx.Class.define("testrunner.test.ui.Grid",
       var c = this._getFixedWidget();
       var d = this._getFixedWidget();
 
-      this._gridLayout.setVerticalSpacing(10);
-      this._gridLayout.setHorizontalSpacing(20);
+      this._gridLayout.setSpacingY(10);
+      this._gridLayout.setSpacingX(20);
 
       // initial layout:
       // ab
@@ -113,8 +113,8 @@ qx.Class.define("testrunner.test.ui.Grid",
       var c = this._getFixedWidget();
       var d = this._getFixedWidget();
 
-      this._gridLayout.setVerticalSpacing(10);
-      this._gridLayout.setHorizontalSpacing(20);
+      this._gridLayout.setSpacingY(10);
+      this._gridLayout.setSpacingX(20);
 
       // initial layout:
       // ab

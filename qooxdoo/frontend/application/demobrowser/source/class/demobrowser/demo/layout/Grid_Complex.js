@@ -41,10 +41,7 @@ qx.Class.define("demobrowser.demo.layout.Grid_Complex",
         backgroundColor: "yellow"
       });
 
-      var layout = new qx.ui.layout.Grid();
-      layout.setVerticalSpacing(20);
-      layout.setHorizontalSpacing(5);
-      box.setLayout(layout);
+      box.setLayout(new qx.ui.layout.Grid(5, 20));
 
       box.add(new qx.ui.core.Widget().set({
         decorator: "black",

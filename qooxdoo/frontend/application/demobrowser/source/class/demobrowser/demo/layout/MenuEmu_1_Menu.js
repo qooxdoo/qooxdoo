@@ -6,10 +6,8 @@ qx.Class.define("demobrowser.demo.layout.MenuEmu_1_Menu",
   {
     this.base(arguments);
 
-    var layout = new qx.ui.layout.Grid();
+    var layout = new qx.ui.layout.Grid(0, 2);
     layout.setColumnFlex(0, 1);
-    layout.setVerticalSpacing(2);
-    layout.setHorizontalSpacing(0);
     this._setLayout(layout);
 
     this.setDecorator("black");

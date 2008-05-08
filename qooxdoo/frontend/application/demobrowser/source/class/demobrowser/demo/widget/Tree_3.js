@@ -107,12 +107,8 @@ qx.Class.define("demobrowser.demo.widget.Tree_3",
     {
       var commandFrame = new qx.ui.groupbox.GroupBox("Control");
 
-      var grid = new qx.ui.layout.Grid();
-      grid.setHorizontalSpacing(3);
-      grid.setVerticalSpacing(5);
-
       var pane = commandFrame.getPane();
-      pane.setLayout(grid);
+      pane.setLayout(new qx.ui.layout.Grid(3, 5));
 
 
       var row = 0;

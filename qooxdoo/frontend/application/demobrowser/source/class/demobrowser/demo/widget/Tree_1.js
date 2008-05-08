@@ -100,12 +100,8 @@ qx.Class.define("demobrowser.demo.widget.Tree_1",
       var commandFrame = new qx.ui.groupbox.GroupBox("Control");
       var spacerSize = 4;
 
-      var grid = new qx.ui.layout.Grid();
-      grid.setHorizontalSpacing(3);
-      grid.setVerticalSpacing(5);
-
       var pane = commandFrame.getPane();
-      pane.setLayout(grid);
+      pane.setLayout(new qx.ui.layout.Grid(5, 3));
 
       var row = 0;
       pane.add(new qx.ui.basic.Label("Selection: ").set({
