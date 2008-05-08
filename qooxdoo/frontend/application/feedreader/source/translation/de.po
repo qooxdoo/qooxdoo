@@ -14,21 +14,14 @@ msgstr ""
 "X-Generator: KBabel 1.11.4\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: source/class/feedreader/PreferenceWindow.js:34
-msgid "Preferences"
-msgstr "Einstellungen"
+#~ msgid "Preferences"
+#~ msgstr "Einstellungen"
 
-#: source/class/feedreader/PreferenceWindow.js:71
-msgid "Theme"
-msgstr ""
+#~ msgid "Cancel"
+#~ msgstr "Abbruch"
 
-#: source/class/feedreader/PreferenceWindow.js:101
-msgid "Cancel"
-msgstr "Abbruch"
-
-#: source/class/feedreader/PreferenceWindow.js:103
-msgid "OK"
-msgstr "OK"
+#~ msgid "OK"
+#~ msgstr "OK"
 
 #~ msgid "read more ..."
 #~ msgstr "weitere Informationen ..."
