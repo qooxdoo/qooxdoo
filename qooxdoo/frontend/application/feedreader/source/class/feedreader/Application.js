@@ -88,6 +88,8 @@ qx.Class.define("feedreader.Application",
     {
       this.base(arguments);
 
+      self = this;
+
       // Add log appenders
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
@@ -99,7 +101,7 @@ qx.Class.define("feedreader.Application",
       this._feeds = {};
 
       // Initialialize date format
-      this._dateFormat = new qx.util.format.DateFormat;
+      this._dateFormat = new qx.util.format.DateFormat();
       // Add some static feeds
       this.addFeed("qooxdoo News", "http://feeds.feedburner.com/qooxdoo/news/content");
       this.addFeed("Mozilla Developer News", "http://developer.mozilla.org/devnews/index.php/feed/");
@@ -164,36 +166,54 @@ qx.Class.define("feedreader.Application",
     },
 
 
-
+    /**
+     * Returns the feed with the given title.
+     * If no feed could be found, null will be returned.
+     * 
+     * @param title {String} The title of the searched feed.
+     * @return The searched feed.
+     */
     getFeedDataByTitle : function(title)
     {
       var db = this._feeds;
       var entry;
-
+      
+      // go threw all feeds
       for (var url in db)
       {
         entry = db[url];
 
         if (entry.title == title) {
+          // return the feed if the title matches
           return db[url];
         }
       }
 
-      return null;
+      // return null, if no feed could be found with the fitting title
+      return null;  
     },
 
 
-
+    /**
+     * Adds a feed to the feeds database.
+     * 
+     * @param title {String} The title of the feed.
+     * @param url {String} The url to the feed. 
+     */
     addFeed : function(title, url)
     {
+      // get the database
       var db = this._feeds;
 
+      // if the feed already exists
       if (db[url])
       {
+        // alert the user and return
         alert("The feed " + title + " is already in your subscription list.");
         return;
       }
 
+      // Add the feed to the database
       db[url] =
       {
         title  : title,
@@ -202,21 +222,31 @@ qx.Class.define("feedreader.Application",
         added  : new Date
       };
 
+      // if there is already a tree
       if (this._treeView) {
-        this._treeView.refreshView();
+        // refresh it
+        this._treeView.refresh();
       }
     },
 
 
-
+    /**
+     * Removes the feed stored with the given url.
+     * If no feed is stored with the given url, an error 
+     * will be thrown.
+     * 
+     * @param url {String} The url of the feed which should be removed.
+     */
     removeFeed : function(url)
     {
-      var db = this._feeds;
+      var db = this._feeds;      
 
+      // if the feed could be found
       if (db[url])
       {
+        // delete it
         delete db[url];
-
+        // refresh the tree
         if (this._treeView) {
           this._treeView.refreshView();
         }
@@ -228,13 +258,16 @@ qx.Class.define("feedreader.Application",
     },
 
 
-
+    /**
+     * Selects the feed stored with the given url.
+     * 
+     * @param url {String} The url of the feed to select. 
+     */
     selectFeed : function(url)
     {
       var value = this._feeds[url];
       value ? this.setSelectedFeed(value) : this.resetSelectedFeed();
     },
-
 
 
 
@@ -245,7 +278,7 @@ qx.Class.define("feedreader.Application",
     */
 
     /**
-     * Creates the core layout
+     * Creates the core layout.
      */
     _createLayout : function()
     {
@@ -292,29 +325,60 @@ qx.Class.define("feedreader.Application",
      */
     showPreferences : function()
     {
+      // if the window is not created
       if (!this._prefWindow) {
-        this._prefWindow = new feedreader.PreferenceWindow();
+        // create it
+        this._prefWindow = new feedreader.view.PreferenceWindow();
         this.getRoot().add(this._prefWindow);
       }
-
+      // open the window
       this._prefWindow.open();
     },
 
 
-
+    /**
+     * Shows the about popup for the application.
+     */
     showAbout : function() {
       alert("qooxdoo based feed reader");
     },
 
 
-
+    /**
+     * 
+     */
     showAddFeed : function() {
-      alert("Missing implementation");
+      // if the window is not created
+      if (!this._addFeedWindow) {
+        // create it
+        this._addFeedWindow = new feedreader.view.AddFeedWindow(this);
+        this.getRoot().add(this._addFeedWindow);
+      }
+      // open the window
+      this._addFeedWindow.open();
     },
 
 
-    showRemoveFeed : function() {
-      alert("Missing implementation");
+    /** 
+     * Removes the current selected feed from the view.
+     */
+    removeFeed : function() {
+      var currentSelectedFolder = this._treeView.getSelectedItem();
+      // is a feed is selected
+      if (currentSelectedFolder) {
+        // remove the feed from the db
+        var url = currentSelectedFolder.getUserData("url");
+        if (this._feeds[url]) {
+          delete this._feeds[url];
+        } 
+        // remove the folder from the tree
+        this._treeView.getRoot().remove(currentSelectedFolder);
+        
+        // reset the list view 
+        this._listView.removeAll();
+        // reset the article view
+        this._articleView.setArticle(null);
+      }
     },
 
 
@@ -345,7 +409,7 @@ qx.Class.define("feedreader.Application",
           this._listView.add(listItem);
         }
 
-        if (value.selection != null)
+        if (value.selection >= 0)
         {
           // If a selection was stored, recover it
           this._listView.select(this._listView.getChildren()[value.selection]);
@@ -388,12 +452,17 @@ qx.Class.define("feedreader.Application",
     ---------------------------------------------------------------------------
     */
 
-
+    /**
+     * Reloads the feed readers including all feeds.
+     */
     reload : function() {
       this._fetchData();
     },
 
 
+    /**
+     * Fetches the feed data using the qooxdoo proxy.
+     */
     _fetchData : function()
     {
       var db = this._feeds;
@@ -402,6 +471,8 @@ qx.Class.define("feedreader.Application",
       for (var url in db)
       {
         entry = db[url];
+        
+        
 
         // Redirect request through proxy (required for cross-domain loading)
         // The proxy also translates the data from XML to JSON
@@ -430,15 +501,18 @@ qx.Class.define("feedreader.Application",
      * JSON processing a display updates after specific feed data
      * arrives.
      *
-     * @type member
      * @param url {String} The URL which was loaded
      * @param response {qx.io.remote.Response} Response object
-     * @return {void}
      */
     _loadJsonFeed : function(url, response)
     {
       // Link to feed entry
       var feed = this._feeds[url];
+      
+      // if the feed has already been deleted
+      if (!feed) {
+        return;
+      }
 
       // Read content
       var json = response.getContent();
