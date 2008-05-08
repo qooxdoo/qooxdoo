@@ -45,9 +45,6 @@ qx.Class.define("feedreader.view.ToolBar",
   {
     this.base(arguments);
     
-    // Apply style
-    this.setDecorator("line-bottom");
-
     // Link for controller
     this._controller = controller;
 
