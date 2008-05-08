@@ -45,8 +45,8 @@ qx.Class.define("qx.ui.embed.Iframe",
     this._source = source;
     this.base(arguments);
 
-    qx.event.Registration.addListener(document, "mousedown", this._showBlockerElement, this, true);
-    qx.event.Registration.addListener(document, "mouseup", this._hideBlockerElement, this, true);
+    qx.event.Registration.addListener(document, "mousedown", this.block, this, true);
+    qx.event.Registration.addListener(document, "mouseup", this.release, this, true);
     
     this._blockerElement = this._createBlockerElement();
     this._containerElement.add(this._blockerElement);
@@ -169,16 +169,6 @@ qx.Class.define("qx.ui.embed.Iframe",
       return new qx.html.Iframe(this._source);
     },
 
-    _showBlockerElement : function()
-    {
-      this._blockerElement.setStyle("display", "block");
-    },
-
-    _hideBlockerElement : function()
-    {
-      this._blockerElement.setStyle("display", "none");
-    },
-    
     _createBlockerElement : function()
     {
       var el = new qx.html.Element("div");
@@ -256,6 +246,21 @@ qx.Class.define("qx.ui.embed.Iframe",
       return this.getContentElement().getName();
     },
 
+    block : function()
+    {
+      this._blockerElement.setStyle("display", "block");
+    },
+
+    release : function()
+    {
+      this._blockerElement.setStyle("display", "none");
+    },
+    
+    reload : function()
+    {
+      this.getContentElement().reload();
+    },
+    
     /*
     ---------------------------------------------------------------------------
       APPLY ROUTINES

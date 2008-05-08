@@ -193,6 +193,21 @@ qx.Class.define("qx.bom.Iframe",
       catch(ex) {
         qx.log.Logger.warn("Iframe source could not be set! This may be related to AdBlock Plus Firefox Extension.");
       }
+    },
+
+    queryCurrentUrl : function(iframe)
+    {
+      var doc = this.getDocument(iframe);
+
+      try
+      {
+        if (doc && doc.location) {
+          return doc.location.href;
+        }
+      }
+      catch(ex) {};
+
+      return null;
     }
 
   }
