@@ -212,12 +212,22 @@ qx.Mixin.define("qx.ui.core.MSelectionHandling",
 
 
     /**
-     * Returns the currently selected item/items. Returns the
-     * item itself when in <code>single</code> selection mode.
-     * Otherwise an array with the selected items will be returned.
+     * Get the selected item. This method does only work in <code>single</code>
+     * selection mode.
      *
      * @type member
-     * @return {Object|Object[]} The item or a list of items.
+     * @return {Object} The selected item.
+     */
+    getSelectedItem : function() {
+      return this.__manager.getSelectedItem();
+    },
+
+
+    /**
+     * Returns an array of currently selected items.
+     *
+     * @type member
+     * @return {Object[]} The item or a list of items.
      */
     getSelection : function() {
       return this.__manager.getSelection();

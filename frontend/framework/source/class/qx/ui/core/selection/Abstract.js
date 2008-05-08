@@ -220,17 +220,34 @@ qx.Class.define("qx.ui.core.selection.Abstract",
 
 
     /**
-     * Returns the currently selected item/items. Returns the
-     * item itself when in <code>single</code> selection mode.
-     * Otherwise an array with the selected items will be returned.
+     * Get the selected item. This method does only work in <code>single</code>
+     * selection mode.
      *
      * @type member
-     * @return {Object|Object[]} The item or a list of items.
+     * @return {Object} The selected item.
+     */
+    getSelectedItem : function()
+    {
+      if (this.getMode() === "single") {
+        return this._getSelectedItem() || null;
+      } else {
+        throw new Error("The method 'getSelectedItem' woks only in single selection mode");
+      }
+    },
+
+
+    /**
+     * Returns an array of currently selected items.
+     *
+     * @type member
+     * @return {Object[]} The item or a list of items.
      */
     getSelection : function()
     {
-      if (this.getMode() === "single") {
-        return this._getSelectedItem();
+      if (this.getMode() === "single")
+      {
+        var selected = this._getSelectedItem();
+        return selected ? [selected] : [];
       }
 
       return qx.lang.Object.getValues(this.__selection);
