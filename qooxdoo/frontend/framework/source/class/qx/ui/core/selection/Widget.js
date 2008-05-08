@@ -299,6 +299,17 @@ qx.Class.define("qx.ui.core.selection.Widget",
       }
 
       return null;
+    },
+
+
+    // overridden
+    _getPage : function(lead, up)
+    {
+      if (up) {
+        return this._getFirstSelectable();
+      } else {
+        return this._getLastSelectable();
+      }
     }
   },
 

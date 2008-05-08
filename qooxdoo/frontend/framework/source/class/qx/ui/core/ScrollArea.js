@@ -372,6 +372,51 @@ qx.Class.define("qx.ui.core.ScrollArea",
     },
 
 
+
+    getItemTop : function(item)
+    {
+      var pane = this._scrollPane;
+      var top = 0;
+
+      do
+      {
+        top += item.getBounds().top;
+        item = item.getLayoutParent();
+      }
+      while (item && item !== pane);
+
+      return top;
+    },
+
+
+    getItemLeft : function(item)
+    {
+      var pane = this._scrollPane;
+      var left = 0;
+
+      do
+      {
+        left += item.getBounds().left;
+        item = item.getLayoutParent();
+      }
+      while (item && item !== pane);
+
+      return left;
+    },
+
+
+
+    getScrollHeight : function()
+    {
+      return this._scrollPane.getBounds().height;
+    },
+
+    getScrollWidth : function()
+    {
+      return this._scrollPane.getBounds().width;
+    },
+
+
     /**
      * Scroll a widget, which is nested somewhere inside of this scroll area,
      * into the visible part of the scroll area.

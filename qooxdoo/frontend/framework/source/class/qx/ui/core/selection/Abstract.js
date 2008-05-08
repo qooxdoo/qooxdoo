@@ -230,9 +230,9 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     {
       if (this.getMode() === "single") {
         return this._getSelectedItem() || null;
-      } else {
-        throw new Error("The method 'getSelectedItem' woks only in single selection mode");
       }
+
+      throw new Error("The method getSelectedItem() is only supported in single selection mode!");
     },
 
 
@@ -242,14 +242,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      * @type member
      * @return {Object[]} The item or a list of items.
      */
-    getSelection : function()
-    {
-      if (this.getMode() === "single")
-      {
-        var selected = this._getSelectedItem();
-        return selected ? [selected] : [];
-      }
-
+    getSelection : function() {
       return qx.lang.Object.getValues(this.__selection);
     },
 
@@ -565,7 +558,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      * @type member
      * @param item1 {var} First item
      * @param item2 {var} Second item
-     * @return {Boolean} <code>true</code> when the item is selectable
+     * @return {Array} List of items
      */
     _getSelectableRange : function(item1, item2) {
       throw new Error("Abstract method call: _getSelectableRange()");
@@ -602,12 +595,27 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      * @param item {var} Any item
      * @param relation {String} A valid relation: <code>above</code>,
      *    <code>right</code>, <code>under</code> or <code>left</code>
-     * @return {Boolean} The related item
+     * @return {var} The related item
      */
     _getRelatedSelectable : function(item, relation) {
       throw new Error("Abstract method call: _getRelatedSelectable()");
     },
 
+
+    /**
+     * Returns the item which should be selected on pageUp/pageDown.
+     *
+     * May also scroll to the needed position.
+     *
+     * @type member
+     * @param lead {var} The current lead item
+     * @param up {Boolean?false} Which page key was pressed:
+     *   <code>up</code> or <code>down</code>.
+     * @return {void}
+     */
+    _getPage : function(lead, up) {
+      throw new Error("Abstract method call: _getPage()");
+    },
 
 
 
@@ -1098,11 +1106,11 @@ qx.Class.define("qx.ui.core.selection.Abstract",
               break;
 
             case "PageUp":
-              //next =
+              next = this._getPage(current, true);
               break;
 
             case "PageDown":
-              //next =
+              next = this._getPage(current, false);
               break;
           }
         }
