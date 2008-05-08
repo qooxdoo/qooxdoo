@@ -59,7 +59,7 @@ qx.Class.define("feedreader.view.List",
       if (item)
       {
         // tell the controller to set the selected article
-        var id = itemData.getUserData("id");
+        var id = item.getUserData("id");
         this._controller.setSelectedArticle(feed.items[id]);
       }
     }
