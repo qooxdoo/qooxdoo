@@ -152,6 +152,29 @@ qx.Class.define("qx.html.Iframe",
      */
     getSource : function() {
       return this._getProperty("source");
+    },
+
+
+    /**
+     * Sets iframe's name attribute to given value 
+     *
+     * @param source {String} Name to be set.
+     */
+    setName : function(name)
+    {
+      this.setAttribute("name", name);
+      return this;
+    },
+
+
+    /**
+     * Get the current name.
+     *
+     * @type member
+     * @return {String} The iframe's name.
+     */
+    getName : function() {
+      return this.setAttribute("name");
     }
 
 

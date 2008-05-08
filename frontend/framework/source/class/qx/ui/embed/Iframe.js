@@ -95,6 +95,16 @@ qx.Class.define("qx.ui.embed.Iframe",
     },
 
     /**
+     * Name of the iframe.
+     */
+    frameName :
+    {
+      check : "String",
+      init : "",
+      apply : "_applyFrameName"
+    },
+    
+    /**
      * Whether the iframe's should have vertical scroll bars.
      */
     overflowX :
@@ -132,6 +142,16 @@ qx.Class.define("qx.ui.embed.Iframe",
       return new qx.html.Iframe(this._source);
     },
 
+    
+    _createBlockerElement : function()
+    {
+      var el = new qx.html.Element("div");
+
+      el.setStyle("overflow", "hidden");
+
+      return el;
+    },
+    
     /*
     ---------------------------------------------------------------------------
       METHODS
@@ -171,6 +191,26 @@ qx.Class.define("qx.ui.embed.Iframe",
       return this.getContentElement().getBody();
     },
 
+    /**
+     * Sets iframe's name attribute to given value 
+     *
+     * @param source {String} Name to be set.
+     */
+    setName : function(name)
+    {
+      return this.getContentElement().setName(name);
+    },
+
+
+    /**
+     * Get the current name.
+     *
+     * @type member
+     * @return {String} The iframe's name.
+     */
+    getName : function() {
+      return this.getContentElement().getName();
+    },
 
     /*
     ---------------------------------------------------------------------------
@@ -183,6 +223,10 @@ qx.Class.define("qx.ui.embed.Iframe",
       this.getContentElement().setSource(value);
     },
 
+    _applyFrameName : function(value, old)
+    {
+      this.getContentElement().setAttribute("name", value);
+    },
 
     _applyOverflowX : function(value, old)
     {

@@ -182,5 +182,6 @@ qx.Class.define("qx.bom.Iframe",
         qx.log.Logger.warn("Iframe source could not be set! This may be related to AdBlock Plus Firefox Extension.");
       }
     }
+
   }
 });
