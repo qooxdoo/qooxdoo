@@ -36,14 +36,6 @@ qx.Class.define("qx.ui.toolbar.PartHandle",
   construct : function()
   {
     this.base(arguments);
-
-    this._setLayout(new qx.ui.layout.Canvas())
-    this.setWidth(10);
-    this.setHeight(0);
-
-    var line = new qx.ui.core.Widget();
-    line.setAppearance("toolbar-part-handle-line");
-    this._add(line, {left:3, top:2, right:3, bottom:2});
   },
 
 
@@ -62,5 +54,19 @@ qx.Class.define("qx.ui.toolbar.PartHandle",
       refine : true,
       init : "toolbar-part-handle"
     }
-  }
+  },
+  
+  members : 
+  {
+    _getContentHint : function()
+    {
+      return {
+        /* 
+         * Set the height to override the default value. 
+         * The width of this widget is controlled by the appearance theme.
+         */
+        height : 0
+      };
+    }  
+  }  
 });

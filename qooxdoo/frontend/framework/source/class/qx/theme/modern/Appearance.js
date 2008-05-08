@@ -390,6 +390,90 @@ qx.Theme.define("qx.theme.modern.Appearance",
         };
       }
     },
+    
+    "list-item" :
+    {
+      style : function(states)
+      {
+        return {
+          padding   : 4,
+          textColor : states.selected ? "text-selected" : "undefined",
+          decorator : states.selected
+            ? new qx.ui.decoration.Single().set({
+              backgroundImage : "decoration/selection.png",
+              backgroundRepeat : "scale",
+              widthBottom: 1,
+              colorBottom: "#dedede"
+            })
+            : new qx.ui.decoration.Single().set({
+              widthBottom: 1,
+              colorBottom: "#dedede"
+            }),
+        };
+      }
+    },
+    
+    
+    /*
+    ---------------------------------------------------------------------------
+      TOOLBAR
+    ---------------------------------------------------------------------------
+    */
+    
+    "toolbar" :
+    {
+      style : function(states)
+      {
+        return {
+          decorator : "toolbar"
+        };
+      }
+    },
+    
+    "toolbar-button" :
+    {
+      style : function(states)
+      {
+        return {
+          padding : 8
+        };
+      }
+    },
+    
+    "toolbar-separator" :
+    {
+      style : function(states)
+      {
+        return {
+          decorator : "toolbar-separator",
+          margin    : 7,
+          width     : 0,
+          height    : 0
+        };
+      }
+    },
+    
+    "toolbar-part" :
+    {
+      style : function(states)
+      {
+        return {
+          
+        };        
+      }
+    },
+    
+    "toolbar-part-handle" :
+    {
+      style : function(states)
+      {
+        return {
+          decorator : "toolbar-part-handle",
+          width     : 7
+        };        
+      }
+    },
+        
 
 
     /*
@@ -477,6 +561,23 @@ qx.Theme.define("qx.theme.modern.Appearance",
             ? "decoration/tree/tree-open.png"
             : "decoration/tree/tree-closed.png"
         }
+      }
+    },
+    
+    
+    /*
+    ---------------------------------------------------------------------------
+      TOOL-TIP
+    ---------------------------------------------------------------------------
+    */
+    
+    "tool-tip" :
+    {
+      style : function(states)
+      {
+        return {
+          
+        };
       }
     }
 

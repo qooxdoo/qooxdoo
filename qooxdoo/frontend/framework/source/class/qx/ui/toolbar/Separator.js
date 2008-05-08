@@ -38,17 +38,6 @@ qx.Class.define("qx.ui.toolbar.Separator",
   construct : function()
   {
     this.base(arguments);
-
-    // TODO: Should be solved in a decorator
-    this._setLayout(new qx.ui.layout.Canvas());
-
-    var line = new qx.ui.core.Widget();
-    line.setAppearance("toolbar-separator-line");
-    this._add(line, {left:3, top:2, right:5, bottom:2});
-
-    this.setWidth(8);
-    // Important: Reset default height
-    this.setHeight(0);
   },
 
 
@@ -67,5 +56,16 @@ qx.Class.define("qx.ui.toolbar.Separator",
       refine : true,
       init : "toolbar-separator"
     }
+  },
+  
+  members : 
+  {
+    _getContentHint : function()
+    {
+      return {
+        width : 0,
+        height : 0
+      };
+    }  
   }
 });
