@@ -83,7 +83,7 @@ qx.Class.define("feedreader.view.Tree",
     _onChangeSelection : function(e)
     {
       // get the url of the item
-      var item = e.getData();
+      var item = e.getData()[0];
       var url = item.getUserData("url");
 
       // tell the controller to select the new feed
