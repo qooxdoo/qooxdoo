@@ -342,17 +342,12 @@ qx.Class.define("qx.fx.Base",
      * perform the acutal changes on element
      * properties.
      *
-     * Fires "update" event.
-     *
      * @param position {Number} Animation setp
      * as Number between 0 and 1.
      *
      */
     update : function(position)
     {
-      if (this.hasListener()) {
-        this.fireEvent("update");
-      }
     },
 
 
@@ -417,6 +412,8 @@ qx.Class.define("qx.fx.Base",
      * @param pos {Number} Effect's step on duration between
      * 0 (just started) and 1 (finished). The longer the duration
      * is, the lower is each step.
+     *
+     * Fires "update" event.
      */
     render : function(pos)
     {
@@ -447,6 +444,10 @@ qx.Class.define("qx.fx.Base",
 
         this.afterUpdateInternal();
         this.afterUpdate();
+
+        if (this.hasListener("update")) {
+          this.fireEvent("update");
+        }
       }
     },
 
