@@ -17,7 +17,6 @@
      * Fabian Jakobs (fjakobs)
 
 ************************************************************************ */
-
 qx.Class.define("demobrowser.demo.bom.Iframe_1",
 {
   extend : qx.application.Native,
@@ -28,7 +27,7 @@ qx.Class.define("demobrowser.demo.bom.Iframe_1",
     {
       this.base(arguments);
 
-      var iframe = qx.bom.Iframe.create({
+      iframe = qx.bom.Iframe.create({
         name : "testFrame",
         src : "http://google.com"
       });

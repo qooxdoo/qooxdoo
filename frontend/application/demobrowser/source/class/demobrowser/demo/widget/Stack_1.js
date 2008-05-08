@@ -175,7 +175,7 @@ qx.Class.define("demobrowser.demo.widget.Stack_1",
         self.move = new qx.fx.effect.core.Move(dom);
 
         self.move.setX(0);
-        self.move.setTransition("sinoidal");
+        self.move.setTransition("sinodial");
 
 
         var dom = self._old.getContainerElement().getDomElement();
@@ -184,7 +184,7 @@ qx.Class.define("demobrowser.demo.widget.Stack_1",
         self.move2 = new qx.fx.effect.core.Move(dom);
 
         self.move2.setX(goRight ? dom.offsetWidth : -dom.offsetWidth);
-        self.move2.setTransition("sinoidal");
+        self.move2.setTransition("sinodial");
 
         self.move.start();
         self.move2.start();
@@ -277,7 +277,7 @@ qx.Class.define("demobrowser.demo.widget.Stack_1",
         var move = new qx.fx.effect.core.Move(dom);
 
         move.setY(0);
-        move.setTransition("sinoidal");
+        move.setTransition("sinodial");
 
         fade.setFrom(0);
         fade.setTo(1);
