@@ -98,6 +98,125 @@ qx.Class.define("qx.ui.core.selection.ScrollArea",
     // overridden
     _scrollItemIntoView : function(item) {
       this._widget.scrollItemIntoView(item);
+    },
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      QUERY SUPPORT
+    ---------------------------------------------------------------------------
+    */
+
+    // overridden
+    _getPage : function(lead, up)
+    {
+      var widget = this._widget;
+
+      var selectables = this._getSelectables();
+      var length = selectables.length;
+      var start = selectables.indexOf(lead);
+
+      if (start === -1) {
+        return null;
+      }
+
+      var scrollTop = widget.getScrollTop();
+      var innerHeight = widget.getComputedInnerSize().height;
+
+      var found;
+      var itemTop, itemHeight;
+
+      if (up)
+      {
+        var min = scrollTop;
+        var i=start;
+
+        // Loop required to scroll pages up dynamically
+        while(1)
+        {
+          // Iterate through all selectables from start
+          for (; i>=0; i--)
+          {
+            top = this._widget.getItemTop(selectables[i]);
+            height = selectables[i].getBounds().height;
+
+            // This item is out of the visible block
+            if (top < min)
+            {
+              // Use previous one
+              found = i+1;
+              break;
+            }
+          }
+
+          // Nothing found. Return first item.
+          if (found == null)
+          {
+            var first = this._getFirstSelectable();
+            return first == lead ? null : first;
+          }
+
+          // Found item, but is identical to start or even before start item
+          // Update max height to try on next page
+          if (found >= start)
+          {
+            // Reduce by innerHeight, height of the lead item, and the scrollTop of the lead item
+            min -= innerHeight - lead.getBounds().height - (this._widget.getItemTop(lead) - scrollTop);
+
+            found = null;
+            continue;
+          }
+
+          // Return selectable
+          return selectables[found];
+        }
+      }
+      else
+      {
+        var max = innerHeight + scrollTop;
+        var i=start;
+
+        // Loop required to scroll pages down dynamically
+        while(1)
+        {
+          // Iterate through all selectables from start
+          for (; i<length; i++)
+          {
+            top = this._widget.getItemTop(selectables[i]);
+            height = selectables[i].getBounds().height;
+
+            // This item is out of the visible block
+            if ((top + height) > max)
+            {
+              // Use previous one
+              found = i-1;
+              break;
+            }
+          }
+
+          // Nothing found. Return last item.
+          if (found == null)
+          {
+            var last = this._getLastSelectable();
+            return last == lead ? null : last;
+          }
+
+          // Found item, but is identical to start or even before start item
+          // Update max height to try on next page
+          if (found <= start)
+          {
+            max += innerHeight - selectables[found].getBounds().height;
+            found = null;
+            continue;
+          }
+
+          // Return selectable
+          return selectables[found];
+        }
+      }
     }
   }
 });
