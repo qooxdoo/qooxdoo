@@ -28,6 +28,11 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
 {
   extend : qx.ui.core.Widget,
 
+  include : [
+    qx.ui.core.MRemoteChildrenHandling,
+    qx.ui.core.MRemoteLayoutHandling
+  ],
+
 
   /*
   *****************************************************************************
@@ -117,7 +122,8 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
      * @type member
      * @return {void}
      */
-    _createFrameObject : function() {
+    _createFrameObject : function()
+    {
       this._frameObject = new qx.ui.container.Composite();
       this._frameObject.setAppearance("group-box-frame");
 
@@ -134,7 +140,8 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
      * Apply method for applying the legend position. It calls the
      * {@link _repositionFrame} method.
      */
-    _applyLegendPosition: function(e) {
+    _applyLegendPosition: function(e)
+    {
       if (this._legendObject.getBounds()) {
         this._repositionFrame();
       }
@@ -145,7 +152,8 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
      * Repositions the frame of the group box dependent on the
      * {@link legendPosition} property.
      */
-    _repositionFrame: function() {
+    _repositionFrame: function()
+    {
       // get the current height of the legend
       var height = this._legendObject.getBounds().height;
       // check for the property legend position
@@ -165,12 +173,13 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
 
 
     /**
-     * Accessor method for the pane sub widget.
+     * The children container needed by the {@link qx.ui.core.MRemoteChildrenHandling}
+     * mixin
      *
      * @type member
-     * @return {qx.ui.core.Widget} pane widget
+     * @return {qx.ui.container.Composite} pane sub widget
      */
-    getPane: function() {
+    getChildrenContainer : function() {
       return this._frameObject;
     },
 

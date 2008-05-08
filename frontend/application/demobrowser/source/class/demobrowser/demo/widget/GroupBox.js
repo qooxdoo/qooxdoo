@@ -43,17 +43,16 @@ qx.Class.define("demobrowser.demo.widget.GroupBox",
       this.getRoot().addMain(container);
 
       // create the first group box
-      var box1 = new qx.ui.groupbox.GroupBox("Code Assist", "icon/16/apps/accessories-text-editor.png");      
+      var box1 = new qx.ui.groupbox.GroupBox("Code Assist", "icon/16/apps/accessories-text-editor.png");
       box1.setLegendPosition("top");
       container.add(box1);
 
       // create and add the content of the first group box
-      var pane = box1.getPane()
-      pane.setLayout(new qx.ui.layout.VBox());
-      pane.setPadding(13);
-      pane.add(new qx.ui.form.CheckBox("Show debugging content"));
-      pane.add(new qx.ui.form.CheckBox("Enable code completion"));
-      pane.add(new qx.ui.form.CheckBox("Show debugging console"));
+      box1.setLayout(new qx.ui.layout.VBox());
+      box1.getChildrenContainer().setPadding(13);
+      box1.add(new qx.ui.form.CheckBox("Show debugging content"));
+      box1.add(new qx.ui.form.CheckBox("Enable code completion"));
+      box1.add(new qx.ui.form.CheckBox("Show debugging console"));
 
 
       // create the second group box
@@ -61,11 +60,10 @@ qx.Class.define("demobrowser.demo.widget.GroupBox",
       container.add(box2);
 
       // create and add the content of the second group box
-      var pane2 = box2.getPane()
-      pane2.setLayout(new qx.ui.layout.HBox());
+      box2.setLayout(new qx.ui.layout.HBox());
       var textField = new qx.ui.form.TextField("");
       textField.setWidth(200);
-      pane2.add(textField);
+      box2.add(textField);
 
 
       // Add a listener to the checkbox
@@ -87,11 +85,10 @@ qx.Class.define("demobrowser.demo.widget.GroupBox",
       manager.add(box3.getLegendObject());
 
       // create and add the content of the third group box
-      var pane3 = box3.getPane()
-      pane3.setLayout(new qx.ui.layout.HBox());
+      box3.setLayout(new qx.ui.layout.HBox());
       var textField2 = new qx.ui.form.TextField("");
       textField2.setWidth(200);
-      pane3.add(textField2);
+      box3.add(textField2);
 
       // Add a listener to the radio button
       box3.getLegendObject().addListener("changeChecked", function(e) {
