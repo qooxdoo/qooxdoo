@@ -44,6 +44,12 @@ qx.Class.define("qx.ui.embed.Iframe",
   {
     this._source = source;
     this.base(arguments);
+
+    qx.event.Registration.addListener(document, "mousedown", this._showBlockerElement, this, true);
+    qx.event.Registration.addListener(document, "mouseup", this._hideBlockerElement, this, true);
+    
+    this._blockerElement = this._createBlockerElement();
+    this._containerElement.add(this._blockerElement);
   },
 
 
@@ -84,7 +90,13 @@ qx.Class.define("qx.ui.embed.Iframe",
 
   properties :
   {
-
+    // overridden
+    appearance :
+    {
+      refine : true,
+      init : "iframe"
+    },
+    
     /**
      * Source URL of the iframe.
      */
@@ -137,17 +149,49 @@ qx.Class.define("qx.ui.embed.Iframe",
 
   members :
   {
+    
+    // overridden
+    renderLayout : function(left, top, width, height)
+    {
+      this.base(arguments, left, top, width, height);
+      
+      var pixel = "px";
+      var insets = this.getInsets();
+
+      this._blockerElement.setStyle("left", insets.left + pixel);
+      this._blockerElement.setStyle("top", insets.top + pixel);
+      this._blockerElement.setStyle("width", (width - insets.left - insets.right) + pixel);
+      this._blockerElement.setStyle("height", (height - insets.top - insets.bottom) + pixel);
+    },
+    
     // overridden
     _createContentElement : function() {
       return new qx.html.Iframe(this._source);
     },
 
+    _showBlockerElement : function()
+    {
+      this._blockerElement.setStyle("display", "block");
+    },
+
+    _hideBlockerElement : function()
+    {
+      this._blockerElement.setStyle("display", "none");
+    },
     
     _createBlockerElement : function()
     {
       var el = new qx.html.Element("div");
 
-      el.setStyle("overflow", "hidden");
+      el.setStyle("zIndex", 20);
+      el.setStyle("position", "absolute");
+      el.setStyle("display", "none");
+
+      if (qx.bom.client.Engine.MSHTML)
+      {
+        el.setStyle("backgroundColor", "white");
+        el.setStyle("filter", "Alpha(Opacity=0)");
+      }
 
       return el;
     },
