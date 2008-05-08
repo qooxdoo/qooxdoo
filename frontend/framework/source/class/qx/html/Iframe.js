@@ -175,6 +175,15 @@ qx.Class.define("qx.html.Iframe",
      */
     getName : function() {
       return this.setAttribute("name");
+    },
+    
+    reload : function()
+    {
+      if (this._element) {
+        var url = this.getSource();
+        this.setSource("http://example.com");
+        this.setSource(url);
+      }
     }
 
 
