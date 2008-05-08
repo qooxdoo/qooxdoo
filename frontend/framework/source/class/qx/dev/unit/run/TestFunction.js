@@ -17,7 +17,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("testrunner.TestFunction",
+qx.Class.define("qx.dev.unit.run.TestFunction",
 {
   extend : qx.core.Object,
 

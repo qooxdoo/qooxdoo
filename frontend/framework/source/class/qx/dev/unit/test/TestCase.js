@@ -17,14 +17,14 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.dev.unit.TestCase",
+qx.Class.define("qx.dev.unit.test.TestCase",
 {
   extend  : qx.core.Object,
 
   defer : function(statics)
   {
     if (qx.core.Variant.isSet("qx.debug", "off")) {
-      qx.Class.include(statics, qx.dev.unit.MAssert);
+      qx.Class.include(statics, qx.dev.unit.test.MAssert);
     }
   }
 });

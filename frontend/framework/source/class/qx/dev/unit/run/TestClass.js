@@ -17,9 +17,9 @@
 
 ************************************************************************ */
 
-qx.Class.define("testrunner.TestClass",
+qx.Class.define("qx.dev.unit.run.TestClass",
 {
-  extend : testrunner.TestSuite,
+  extend : qx.dev.unit.run.TestSuite,
 
 
 
