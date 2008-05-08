@@ -19,6 +19,12 @@
 
 ************************************************************************ */
 
+/* ************************************************************************
+
+#require(qx.event.handler.UserAction)
+
+************************************************************************ */
+
 /**
  * This class provides a unified mouse event handler for Internet Explorer,
  * Firefox, Opera and Safari
@@ -49,7 +55,8 @@ qx.Class.define("qx.event.handler.Mouse",
 
     // Define shorthands
     this._manager = manager;
-    this._root = manager.getWindow().document.documentElement;
+    this._window = manager.getWindow();
+    this._root = this._window.document.documentElement;
 
     // Initialize observers
     this._initButtonObserver();
@@ -149,6 +156,9 @@ qx.Class.define("qx.event.handler.Mouse",
       }
 
       qx.event.Registration.fireEvent(target, type||domEvent.type, qx.event.type.Mouse, [domEvent, true]);
+
+      // Fire user action event
+      qx.event.Registration.fireEvent(this._window, "useraction");
     },
 
 
@@ -513,7 +523,7 @@ qx.Class.define("qx.event.handler.Mouse",
     this._stopMoveObserver();
     this._stopWheelObserver();
 
-    this._disposeFields("_manager", "_root");
+    this._disposeFields("_manager", "_window", "_root");
   },
 
 

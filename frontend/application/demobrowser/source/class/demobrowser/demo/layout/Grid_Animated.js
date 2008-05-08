@@ -55,9 +55,10 @@ qx.Class.define("demobrowser.demo.layout.Grid_Animated",
         }
 
         var effects = [];
-        var duration = 1;
+        var duration = 0.3;
 
-        if (this._active) {
+        if (this._active)
+        {
           this._active.set({
             backgroundColor : "green",
             width: 50,
@@ -73,13 +74,13 @@ qx.Class.define("demobrowser.demo.layout.Grid_Animated",
           from: 50,
           to: 200,
           duration: duration,
-          transition: "spring"
+          transition: "sinodial"
         }));
         effects.push(new demobrowser.demo.layout.PropertyAnimation(widget, "height").set({
           from: 50,
           to: 200,
           duration: duration,
-          transition: "spring"
+          transition: "sinodial"
         }));
 
         var effect = new qx.fx.effect.core.Parallel(effects[0], effects[1]);

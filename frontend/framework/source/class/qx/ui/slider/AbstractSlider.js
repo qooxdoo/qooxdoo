@@ -559,13 +559,11 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
      */
     _setKnobPosition : function(position)
     {
-      var property = this.__isHorizontal ? "left" : "top";
-
-      // Fast path (using qx.html.Element API)
-      // Is this too hacky? (Maybe OK here, but not suggested for wide usage ;)
-      // Still a bad choice for initial rendering. Fabian?
-      this._knob.getContainerElement().setStyle(property, position + "px", true);
-      //qx.ui.core.queue.Manager.flush();
+      if (this.__isHorizontal) {
+        this._knob.setLayoutProperties({left:position});
+      } else {
+        this._knob.setLayoutProperties({top:position});
+      }
     },
 
 
