@@ -12,19 +12,3 @@ msgstr ""
 "Content-Type: text/plain; charset=ASCII\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-
-#: source/class/feedreader/PreferenceWindow.js:34
-msgid "Preferences"
-msgstr ""
-
-#: source/class/feedreader/PreferenceWindow.js:71
-msgid "Theme"
-msgstr ""
-
-#: source/class/feedreader/PreferenceWindow.js:101
-msgid "Cancel"
-msgstr ""
-
-#: source/class/feedreader/PreferenceWindow.js:103
-msgid "OK"
-msgstr ""
