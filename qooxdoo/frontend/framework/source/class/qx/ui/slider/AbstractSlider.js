@@ -559,11 +559,25 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
      */
     _setKnobPosition : function(position)
     {
+      // Use DOM Element
+      var container = this._knob.getContainerElement();
+      if (this.__isHorizontal) {
+        container.setStyle("left", position+"px", true);
+      } else {
+        container.setStyle("top", position+"px", true);
+      }
+
+      // Alternative: Use layout system
+      // Not used because especially in IE7/Firefox2 the
+      // direct element manipulation is a lot faster
+
+      /*
       if (this.__isHorizontal) {
         this._knob.setLayoutProperties({left:position});
       } else {
         this._knob.setLayoutProperties({top:position});
       }
+      */
     },
 
 
