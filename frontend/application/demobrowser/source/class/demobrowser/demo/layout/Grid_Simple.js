@@ -28,10 +28,7 @@ qx.Class.define("demobrowser.demo.layout.Grid_Simple",
     {
       this.base(arguments);
 
-      var box = new qx.ui.layout.HBox();
-      box.setSpacing(10);
-
-      var container = new qx.ui.container.Composite(box);
+      var container = new qx.ui.container.Composite(new qx.ui.layout.HBox(10));
       container.setPadding(20);
 
       this.getRoot().addMain(container);
@@ -45,11 +42,7 @@ qx.Class.define("demobrowser.demo.layout.Grid_Simple",
     getGrid1 : function()
     {
       // auto size
-      var layout = new qx.ui.layout.Grid();
-      layout.setVerticalSpacing(20);
-      layout.setHorizontalSpacing(10);
-
-      var container = new qx.ui.container.Composite(layout).set({
+      var container = new qx.ui.container.Composite(new qx.ui.layout.Grid(10, 20)).set({
         decorator: "black",
         backgroundColor: "yellow",
         allowGrowX: false,

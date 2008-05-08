@@ -29,8 +29,11 @@ qx.Class.define("demobrowser.demo.layout.HBoxLayout_2",
       this.base(arguments);
 
       // auto size + negative margins
-      var box = new qx.ui.layout.HBox();
-      var container = (new qx.ui.container.Composite(box)).set({decorator: "black", backgroundColor: "yellow", height:80});
+      var container = new qx.ui.container.Composite(new qx.ui.layout.HBox()).set({
+        decorator: "black",
+        backgroundColor: "yellow",
+        height:80}
+      );
 
       var w1 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "blue", maxHeight: 50, alignY:"top"});
       var w2 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green", maxHeight: 50, alignY:"middle"});

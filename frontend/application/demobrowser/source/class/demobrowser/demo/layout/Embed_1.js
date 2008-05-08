@@ -81,9 +81,7 @@ qx.Class.define("demobrowser.demo.layout.Embed_1",
         backgroundColor: "yellow"
       });
 
-      var layout = new qx.ui.layout.Grid();
-      layout.setVerticalSpacing(20);
-      layout.setHorizontalSpacing(10);
+      var layout = new qx.ui.layout.Grid(10, 20);
       layout.setRowFlex(0, 1);
       layout.setColumnFlex(0, 1);
       box.setLayout(layout);

@@ -95,12 +95,26 @@ qx.Class.define("qx.ui.layout.Grid",
   *****************************************************************************
   */
 
-  construct : function()
+  /**
+   * @param spacingX {Integer?0} The horizontal spacing between grid cells.
+   *     Sets {@link #spacingX}.
+   * @param spacingY {Integer?0} The vertical spacing between grid cells.
+   *     Sets {@link #spacingY}.
+   */
+  construct : function(spacingX, spacingY)
   {
     this.base(arguments);
 
     this.__rowData = [];
     this.__colData = [];
+
+    if (spacingX) {
+      this.setSpacingX(spacingX);
+    }
+
+    if (spacingY) {
+      this.setSpacingY(spacingY);
+    }
   },
 
 
@@ -117,7 +131,7 @@ qx.Class.define("qx.ui.layout.Grid",
     /**
      * The horizontal spacing between grid cells.
      */
-    horizontalSpacing :
+    spacingX :
     {
       check : "Integer",
       init : 0,
@@ -128,7 +142,7 @@ qx.Class.define("qx.ui.layout.Grid",
     /**
      * The vertical spacing between grid cells.
      */
-    verticalSpacing :
+    spacingY :
     {
       check : "Integer",
       init : 0,
@@ -301,8 +315,8 @@ qx.Class.define("qx.ui.layout.Grid",
      */
     setSpacing : function(spacing)
     {
-      this.setVerticalSpacing(spacing);
-      this.setHorizontalSpacing(spacing);
+      this.setSpacingY(spacing);
+      this.setSpacingX(spacing);
     },
 
 
@@ -760,7 +774,7 @@ qx.Class.define("qx.ui.layout.Grid",
      */
     _fixHeightsRowSpan : function(rowHeights)
     {
-      var vSpacing = this.getVerticalSpacing();
+      var vSpacing = this.getSpacingY();
 
       for (var i=0, l=this.__rowSpans.length; i<l; i++)
       {
@@ -856,7 +870,7 @@ qx.Class.define("qx.ui.layout.Grid",
      */
     _fixWidthsColSpan : function(colWidths)
     {
-      var hSpacing = this.getHorizontalSpacing();
+      var hSpacing = this.getSpacingX();
 
       for (var i=0, l=this.__colSpans.length; i<l; i++)
       {
@@ -1177,8 +1191,8 @@ qx.Class.define("qx.ui.layout.Grid",
       }
 
       var Util = qx.ui.layout.Util;
-      var hSpacing = this.getHorizontalSpacing();
-      var vSpacing = this.getVerticalSpacing();
+      var hSpacing = this.getSpacingX();
+      var vSpacing = this.getSpacingY();
 
       // calculate column widths
       var prefWidths = this._getColWidths();
@@ -1319,8 +1333,8 @@ qx.Class.define("qx.ui.layout.Grid",
         height += row.height;
       }
 
-      var spacingX = this.getHorizontalSpacing() * (colWidths.length - 1);
-      var spacingY = this.getVerticalSpacing() * (rowHeights.length - 1);
+      var spacingX = this.getSpacingX() * (colWidths.length - 1);
+      var spacingY = this.getSpacingY() * (rowHeights.length - 1);
 
       var hint = {
         minWidth : minWidth + spacingX,

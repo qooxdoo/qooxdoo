@@ -40,10 +40,7 @@ qx.Class.define("demobrowser.demo.layout.DockLayout_7",
 
 
       // default layout, auto-sized
-      var dock = new qx.ui.layout.Dock();
-      dock.setSpacingX(3);
-      dock.setSpacingY(10);
-      var widget = (new qx.ui.container.Composite(dock)).set(
+      var widget = new qx.ui.container.Composite(new qx.ui.layout.Dock(3, 10)).set(
       {
         decorator: "black",
         backgroundColor: "yellow"
@@ -67,9 +64,7 @@ qx.Class.define("demobrowser.demo.layout.DockLayout_7",
 
 
       // y-axis first, auto-sized
-      var dock = new qx.ui.layout.Dock();
-      dock.setSpacingX(3);
-      dock.setSpacingY(10);
+      var dock = new qx.ui.layout.Dock(3, 10);
       dock.setSort("y");
 
       var widget = (new qx.ui.container.Composite(dock)).set(
@@ -97,9 +92,7 @@ qx.Class.define("demobrowser.demo.layout.DockLayout_7",
 
 
       // x-axis first, auto-sized
-      var dock = new qx.ui.layout.Dock();
-      dock.setSpacingX(3);
-      dock.setSpacingY(10);
+      var dock = new qx.ui.layout.Dock(3, 10);
       dock.setSort("x");
 
       var widget = (new qx.ui.container.Composite(dock)).set(

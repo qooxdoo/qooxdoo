@@ -254,7 +254,7 @@ qx.Class.define("qx.ui.core.ScrollBar",
       // Reconfigure
       if (value === "horizontal")
       {
-        this._setLayout(new qx.ui.layout.HBox);
+        this._setLayout(new qx.ui.layout.HBox());
 
         this.setAllowStretchX(true);
         this.setAllowStretchY(false);
@@ -265,7 +265,7 @@ qx.Class.define("qx.ui.core.ScrollBar",
       }
       else
       {
-        this._setLayout(new qx.ui.layout.VBox);
+        this._setLayout(new qx.ui.layout.VBox());
 
         this.setAllowStretchX(false);
         this.setAllowStretchY(true);

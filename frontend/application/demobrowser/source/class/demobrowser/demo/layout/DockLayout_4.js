@@ -37,8 +37,7 @@ qx.Class.define("demobrowser.demo.layout.DockLayout_4",
 
 
       // default layout, flex growing
-      var dock = new qx.ui.layout.Dock();
-      var widget = (new qx.ui.container.Composite(dock)).set(
+      var widget = new qx.ui.container.Composite(new qx.ui.layout.Dock()).set(
       {
         decorator: "black",
         backgroundColor: "yellow",
