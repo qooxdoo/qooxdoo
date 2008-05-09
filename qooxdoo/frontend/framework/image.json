@@ -135,6 +135,17 @@
                 "${RESPATH}/${MODERN}/form/radiobutton-*.png"
               ],
              "layout" : "horizontal"
+          },
+          
+          "${RESPATH}/${MODERN}/window-combined.png":
+          {
+            "input"  : 
+              [
+                "${RESPATH}/${MODERN}/window/close-*.png",
+                "${RESPATH}/${MODERN}/window/minimize-*.png",
+                "${RESPATH}/${MODERN}/window/maximize-*.png"
+              ],
+             "layout" : "horizontal"
           }
         }
       }
