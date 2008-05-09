@@ -275,6 +275,7 @@ qx.Class.define("qx.ui.decoration.Beveled",
         "width" : null,
         "height" : null
       });
+      element.removeAll();
     },
 
 
