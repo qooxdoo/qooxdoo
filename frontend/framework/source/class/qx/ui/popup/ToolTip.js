@@ -24,7 +24,6 @@
  *
  * *Example*
  * <pre class="javascript">
- *
  * var widget = new qx.ui.form.Button("save");
  *
  * var tooltip = new qx.ui.popup.ToolTip("Save the opened file");
@@ -198,12 +197,12 @@ qx.Class.define("qx.ui.popup.ToolTip",
 
       if (isVisible)
       {
-          this._stopShowTimer();
-          this._startHideTimer();
+          this.stopShowTimer();
+          this.startHideTimer();
       }
       else
       {
-        this._stopHideTimer();
+        this.stopHideTimer();
       }
     },
 
@@ -293,10 +292,11 @@ qx.Class.define("qx.ui.popup.ToolTip",
      * Utility method to start the timer for the show interval
      * (if the timer is disabled)
      *
+     * @internal
      * @type member
      * @return {void}
      */
-    _startShowTimer : function()
+    startShowTimer : function()
     {
       if (!this._showTimer.getEnabled()) {
         this._showTimer.start();
@@ -308,10 +308,11 @@ qx.Class.define("qx.ui.popup.ToolTip",
      * Utility method to start the timer for the hide interval
      * (if the timer is disabled)
      *
+     * @internal
      * @type member
      * @return {void}
      */
-    _startHideTimer : function()
+    startHideTimer : function()
     {
       if (!this._hideTimer.getEnabled()) {
         this._hideTimer.start();
@@ -323,10 +324,11 @@ qx.Class.define("qx.ui.popup.ToolTip",
      * Utility method to stop the timer for the show interval
      * (if the timer is enabled)
      *
+     * @internal
      * @type member
      * @return {void}
      */
-    _stopShowTimer : function()
+    stopShowTimer : function()
     {
       if (this._showTimer.getEnabled()) {
         this._showTimer.stop();
@@ -338,10 +340,11 @@ qx.Class.define("qx.ui.popup.ToolTip",
      * Utility method to stop the timer for the hide interval
      * (if the timer is enabled)
      *
+     * @internal
      * @type member
      * @return {void}
      */
-    _stopHideTimer : function()
+    stopHideTimer : function()
     {
       if (this._hideTimer.getEnabled()) {
         this._hideTimer.stop();
@@ -383,6 +386,8 @@ qx.Class.define("qx.ui.popup.ToolTip",
      */
     _onshowtimer : function(e)
     {
+      console.log("show timer");
+      this.stopShowTimer();
       var mousePos = this.__mgr.getLastMousePosition();
       this.setLocation(
         mousePos.left + this.getMousePointerOffsetX(),

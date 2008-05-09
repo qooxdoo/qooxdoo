@@ -95,13 +95,13 @@ qx.Class.define("qx.ui.popup.ToolTipManager",
       {
         old.hide();
 
-        old._stopShowTimer();
-        old._stopHideTimer();
+        old.stopShowTimer();
+        old.stopHideTimer();
       }
 
       // If new tooltip is not null, set it up and start the timer
       if (value) {
-        value._startShowTimer();
+        value.startShowTimer();
       }
     },
 
@@ -150,15 +150,21 @@ qx.Class.define("qx.ui.popup.ToolTipManager",
     __onMouseOverRoot : function(e)
     {
       var vTarget = e.getTarget();
-      var vToolTip;
+      var tooltip;
 
       // Search first parent which has a tooltip
-      while (vTarget != null && !(vToolTip = vTarget.getToolTip())) {
+      while (vTarget != null)
+      {
+        var tooltip = vTarget.getToolTip();
+        if (tooltip) {
+          break;
+        }
+
         vTarget = vTarget.getLayoutParent();
       }
 
       // Set Property
-      this.setCurrentToolTip(vToolTip);
+      this.setCurrentToolTip(tooltip);
     },
 
 
@@ -175,16 +181,16 @@ qx.Class.define("qx.ui.popup.ToolTipManager",
       var vTarget = e.getTarget();
       var vRelatedTarget = e.getRelatedTarget();
 
-      var vToolTip = this.getCurrentToolTip();
+      var tooltip = this.getCurrentToolTip();
 
       // If there was a tooltip and
       // - the destination target is the current tooltip
       //   or
       // - the current tooltip contains the destination target
       if (
-        vToolTip && (
-          vRelatedTarget == vToolTip ||
-          qx.ui.core.Widget.contains(vToolTip, vRelatedTarget)
+        tooltip && (
+          vRelatedTarget == tooltip ||
+          qx.ui.core.Widget.contains(tooltip, vRelatedTarget)
         )
       ) {
         return;
@@ -196,7 +202,7 @@ qx.Class.define("qx.ui.popup.ToolTipManager",
       }
 
       // If there was a tooltip and there is no new one
-      if (vToolTip && !vRelatedTarget) {
+      if (tooltip && !vRelatedTarget) {
         this.setCurrentToolTip(null);
       }
     },
@@ -221,12 +227,12 @@ qx.Class.define("qx.ui.popup.ToolTipManager",
     __onFocusinRoot : function(e)
     {
       var vTarget = e.getTarget();
-      var vToolTip = vTarget.getToolTip();
+      var tooltip = vTarget.getToolTip();
 
       // Only set new tooltip if focus widget
       // has one
-      if (vToolTip != null) {
-        this.setCurrentToolTip(vToolTip);
+      if (tooltip != null) {
+        this.setCurrentToolTip(tooltip);
       }
     },
 
@@ -247,11 +253,11 @@ qx.Class.define("qx.ui.popup.ToolTipManager",
         return;
       }
 
-      var vToolTip = this.getCurrentToolTip();
+      var tooltip = this.getCurrentToolTip();
 
       // Only set to null if blured widget is the
       // one which has created the current tooltip
-      if (vToolTip && vToolTip == vTarget.getToolTip()) {
+      if (tooltip && tooltip == vTarget.getToolTip()) {
         this.setCurrentToolTip(null);
       }
     }
