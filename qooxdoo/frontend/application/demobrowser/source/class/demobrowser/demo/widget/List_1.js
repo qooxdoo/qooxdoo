@@ -58,12 +58,25 @@ qx.Class.define("demobrowser.demo.widget.List_1",
 
       var l2 = new qx.ui.form.List;
 
-      l2.set({ height: 200, width: 150, selectionMode : "single" });
+      l2.set({ height: 200, width: 150, selectionMode : "single", spacing : 1 });
 
-      var l2l = [ "red", "violett", "rose", "blue", "green", "cyan", "magenta", "yellow", "brown", "orange", "black", "white", "grey", "gray", "brown" ];
+      var l2l = [ "black", "silver", "gray", "maroon",
+        "red", "purple", "fuchsia", "green", "lime", "olive",
+        "yellow", "navy", "blue", "teal", "aqua", "magenta",
+        "orange", "brown" ];
 
-      for (var i=0; i<l2l.length; i++) {
-        l2.add(new qx.ui.form.ListItem(l2l[i]));
+      var decorator = new qx.ui.decoration.Uniform();
+      decorator.set({width:1, style:"solid", color:"#898989"});
+
+      var item2;
+      for (var i=0; i<l2l.length; i++)
+      {
+        item2 = new qx.ui.form.ListItem(l2l[i]);
+        //item2.setTextColor(l2l[i]);
+        //item2.setHeight(20+Math.round(Math.random()*50));
+        //item2.setDecorator(decorator);
+
+        l2.add(item2);
       };
 
       this.getRoot().add(l2, {left: 400, top: 120});

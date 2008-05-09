@@ -113,22 +113,20 @@ qx.Class.define("qx.ui.core.selection.ScrollArea",
     // overridden
     _getPage : function(lead, up)
     {
-      var widget = this._widget;
-
       var selectables = this._getSelectables();
       var length = selectables.length;
       var start = selectables.indexOf(lead);
 
+      // Given lead is not a selectable?!?
       if (start === -1) {
-        return null;
+        throw new Error("Invalid lead item: " + lead);
       }
 
+      var widget = this._widget;
       var scrollTop = widget.getScrollTop();
       var innerHeight = widget.getComputedInnerSize().height;
 
       var found;
-      var itemTop, itemHeight;
-
       if (up)
       {
         var min = scrollTop;
@@ -160,12 +158,14 @@ qx.Class.define("qx.ui.core.selection.ScrollArea",
           }
 
           // Found item, but is identical to start or even before start item
-          // Update max height to try on next page
+          // Update min positon and try on previous page
           if (found >= start)
           {
-            // Reduce by innerHeight, height of the lead item, and the scrollTop of the lead item
-            min -= innerHeight - lead.getBounds().height - (this._widget.getItemTop(lead) - scrollTop);
-
+            // Reduce min by the distance of the lead item to the visible
+            // bottom edge. This is needed instead of a simple substraction
+            // of the inner height to keep the last lead visible on page key
+            // presses. This is the behavior of native toolkits as well.
+            min -= innerHeight + scrollTop - this._widget.getItemBottom(lead);
             found = null;
             continue;
           }
@@ -205,10 +205,14 @@ qx.Class.define("qx.ui.core.selection.ScrollArea",
           }
 
           // Found item, but is identical to start or even before start item
-          // Update max height to try on next page
+          // Update max position and try on next page
           if (found <= start)
           {
-            max += innerHeight - selectables[found].getBounds().height;
+            // Extend max by the distance of the lead item to the visible
+            // top edge. This is needed instead of a simple addition
+            // of the inner height to keep the last lead visible on page key
+            // presses. This is the behavior of native toolkits as well.
+            max += this._widget.getItemTop(lead);
             found = null;
             continue;
           }

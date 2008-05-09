@@ -389,6 +389,12 @@ qx.Class.define("qx.ui.core.ScrollArea",
     },
 
 
+    getItemBottom : function(item) {
+      return this.getItemTop(item) + item.getBounds().height;
+    },
+
+
+
     getItemLeft : function(item)
     {
       var pane = this._scrollPane;
@@ -402,6 +408,11 @@ qx.Class.define("qx.ui.core.ScrollArea",
       while (item && item !== pane);
 
       return left;
+    },
+
+
+    getItemRight : function(item) {
+      return this.getItemLeft(item) + item.getBounds().width;
     },
 
 
