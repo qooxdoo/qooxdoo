@@ -581,6 +581,163 @@ qx.Theme.define("qx.theme.modern.Appearance",
           
         };
       }
+    },
+    
+    
+    /*
+    ---------------------------------------------------------------------------
+      WINDOW
+    ---------------------------------------------------------------------------
+    */
+    
+    "window" :
+    {
+      style : function(states)
+      {
+        return {
+          backgroundColor : "#adadad",
+          decorator : states.active ? new qx.ui.decoration.Uniform().set({
+            width : 1,
+            color : "#00204d",
+            style : "solid"
+          }) : new qx.ui.decoration.Uniform().set({
+            width : 1,
+            color : "#4d4d4d",
+            style : "solid"
+          })
+        };
+      }
+    },
+    
+    "window-resize-frame" :
+    {
+      style : function(states)
+      {
+        return {
+          
+        };
+      }
+    },
+    
+    "window-captionbar" :
+    {
+      style : function(states)
+      {
+        return {
+          decorator : states.active ? new qx.ui.decoration.Single().set({
+            widthBottom : 1,
+            colorBottom : "#6d6d6d",
+            backgroundImage : "decoration/window/captionbar-active-bg.png",
+            backgroundRepeat : "scale"            
+          }) : new qx.ui.decoration.Single().set({
+            widthBottom : 1,
+            colorBottom : "#6d6d6d",
+            backgroundImage : "decoration/window/captionbar-inactive-bg.png",
+            backgroundRepeat : "scale"
+          }),
+          
+          textColor : states.active ? "#ffffff" : "#4a4a4a"
+        };
+      }
+    },
+    
+    "window-captionbar-icon" :
+    {
+      style : function(states)
+      {
+        return {
+          padding : 5
+        };
+      }
+    },
+    
+    "window-captionbar-title" :
+    {
+      style : function(states)
+      {
+        return {
+          padding   : [ 6, 8, 5, 8 ]
+        };
+      }
+    },
+    
+    "window-captionbar-button" :
+    {
+      style : function(states)
+      {
+        return {
+          margin  : 4
+        };
+      }
+    },
+    
+    "window-captionbar-minimize-button" :
+    {
+      include : "window-captionbar-button",
+      
+      style : function(states)
+      {
+        return {
+          icon : states.active ? "decoration/window/minimize-active.png" : "decoration/window/minimize-inactive.png"
+        };
+      }
+    },
+    
+    "window-captionbar-restore-button" :
+    {
+      include : "window-captionbar-button",
+      
+      style : function(states)
+      {
+        return {
+          icon : states.active ? "decoration/window/restore-active.png" : "decoration/window/restore-inactive.png"
+        };
+      }
+    },
+    
+    "window-captionbar-maximize-button" :
+    {
+      include : "window-captionbar-button",
+      
+      style : function(states)
+      {
+        return {
+          icon : states.active ? "decoration/window/maximize-active.png" : "decoration/window/maximize-inactive.png"
+        };
+      }
+    },
+    
+    "window-captionbar-close-button" :
+    {
+      include : "window-captionbar-button",
+     
+      style : function(states)
+      {
+        return {
+          icon : states.active ? "decoration/window/close-active.png" : "decoration/window/close-inactive.png"
+        };
+      }
+    },
+    
+    "window-statusbar" :
+    {
+      style : function(states)
+      {
+        return {
+          padding   : 2,
+          decorator : "window-statusbar"
+        };
+      }
+    },
+    
+    "window-statusbar-text" :
+    {
+      style : function(states)
+      {
+        return {
+          textColor : "text"   
+        };
+      }
     }
 
   }
