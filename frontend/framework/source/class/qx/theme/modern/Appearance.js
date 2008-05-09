@@ -408,7 +408,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
             : new qx.ui.decoration.Single().set({
               widthBottom: 1,
               colorBottom: "#dedede"
-            }),
+            })
         };
       }
     },
