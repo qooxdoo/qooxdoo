@@ -35,6 +35,9 @@ qx.Class.define("qx.html.Iframe",
 
   events:
   {
+    /**
+     * The "load" event is fired after the iframe content has successfully been loaded.
+     */
     "load" : "qx.event.type.Event"
   },
    
@@ -82,8 +85,7 @@ qx.Class.define("qx.html.Iframe",
     /**
      * Get the DOM window object of an iframe.
      *
-     * @type static
-     * @param vIframe {Element} DOM element of the iframe.
+     * @type member
      * @return {DOMWindow} The DOM window object of the iframe.
      */
     getWindow : function()
@@ -100,8 +102,7 @@ qx.Class.define("qx.html.Iframe",
     /**
      * Get the DOM document object of an iframe.
      *
-     * @type static
-     * @param vIframe {Element} DOM element of the iframe.
+     * @type member
      * @return {DOMDocument} The DOM document object of the iframe.
      */
     getDocument : function()
@@ -117,8 +118,7 @@ qx.Class.define("qx.html.Iframe",
     /**
      * Get the HTML body element of the iframe.
      *
-     * @type static
-     * @param vIframe {Element} DOM element of the iframe.
+     * @type member
      * @return {Element} The DOM node of the <code>body</code> element of the iframe.
      */
     getBody : function()
@@ -134,7 +134,7 @@ qx.Class.define("qx.html.Iframe",
     /**
      * Sets iframe's source attribute to given value 
      *
-     * @type static
+     * @type member
      * @param source {String} URL to be set.
      */
     setSource : function(source)
@@ -158,7 +158,8 @@ qx.Class.define("qx.html.Iframe",
     /**
      * Sets iframe's name attribute to given value 
      *
-     * @param source {String} Name to be set.
+     * @type member
+     * @param name {String} Name to be set.
      */
     setName : function(name)
     {
@@ -176,12 +177,19 @@ qx.Class.define("qx.html.Iframe",
     getName : function() {
       return this.setAttribute("name");
     },
-    
+
+
+    /**
+     * Reloads iframe
+     * 
+     * @type member
+     */
     reload : function()
     {
-      if (this._element) {
+      if (this._element)
+      {
         var url = this.getSource();
-        this.setSource("http://example.com");
+        this.setSource(null);
         this.setSource(url);
       }
     }
