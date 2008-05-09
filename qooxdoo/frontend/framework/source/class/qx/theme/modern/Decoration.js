@@ -152,7 +152,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
       }
     },
 
-    "button-ckecked" :
+    "button-checked" :
     {
       decorator : qx.ui.decoration.Grid,
 
@@ -258,6 +258,38 @@ qx.Theme.define("qx.theme.modern.Decoration",
         
         style : "solid",
         backgroundImage : "decoration/toolbar/toolbar-gradient.png",
+        backgroundRepeat : "scale"
+      }
+    },
+    
+    "toolbar-button-hovered" :
+    {
+      decorator : qx.ui.decoration.Beveled,
+      
+      style :
+      {
+        width : 2,
+        
+        outerColor : "#b6b6b6",
+        innerColor : "#f8f8f8",
+        
+        backgroundImage : "decoration/form/button-c.png",
+        backgroundRepeat : "scale"
+      }
+    },
+    
+    "toolbar-button-checked" :
+    {
+      decorator : qx.ui.decoration.Beveled,
+      
+      style :
+      {
+        width : 2,
+        
+        outerColor : "#b6b6b6",
+        innerColor : "#f8f8f8",
+        
+        backgroundImage : "decoration/form/button-checked-c.png",
         backgroundRepeat : "scale"
       }
     },
