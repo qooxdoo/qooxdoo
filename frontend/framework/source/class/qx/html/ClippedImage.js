@@ -38,97 +38,8 @@ qx.Class.define("qx.html.ClippedImage",
   construct : function()
   {
     this.base(arguments);
-
     this.setStyle("overflow", "hidden");
   },
-
-
-
-
-
-  /*
-  *****************************************************************************
-     STATICS
-  *****************************************************************************
-  */
-
-  statics :
-  {
-    /**
-     * Get the CSS styles to display the image. The arguments
-     * <code>yOffset</code> and <code>yOffset</code> have no effect for
-     * PNG files in IE6.
-     *
-     * @static
-     * @signature function(source, xOffset, yOffset)
-     * @param source {String} The URL of the image to display
-     * @param xOffset {Integer?0} The horizontal offset of the image inside of
-     *     the image element.
-     * @param yOffset {Integer?0} The vertical offset of the image inside of
-     *     the image element.
-     * @return {Map} a mapping of CSS property names to CSS values
-     */
-    getStyles : qx.core.Variant.select("qx.client",
-    {
-      "mshtml" : function(source, xOffset, yOffset)
-      {
-        var filter = "";
-        var styles = {};
-
-        var isPng = qx.lang.String.endsWith(source, ".png");
-        var Engine = qx.bom.client.Engine;
-        var isIE6 = Engine.MSHTML && Engine.VERSION < 7;
-
-        // IE 6 can display PNGs with alpha channel only using the
-        // alpha image loader. Since the alpha image loader has no offset
-        // property the IconManager will map all images to themself in IE6.
-
-        if (isPng && isIE6) {
-          filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" + source + "',sizingMethod='crop')";
-        } else {
-          var styles = this.__getStylesStandardCss(source, xOffset, yOffset);
-        }
-
-        if (isIE6) {
-          styles.filter = filter;
-        }
-
-        return styles;
-      },
-
-      "default" : function(source, xOffset, yOffset) {
-        return this.__getStylesStandardCss(source, xOffset, yOffset);
-      }
-    }),
-
-
-    /**
-     * Get the CSS styles to display the image (using standard CSS)
-     *
-     * @static
-     * @param source {String} The URL of the image to display
-     * @param xOffset {Integer?0} The horizontal offset of the image inside of
-     *     the image element.
-     * @param yOffset {Integer?0} The vertical offset of the image inside of
-     *     the image element.
-     * @return {Map} a mapping of CSS property names to CSS values
-     */
-    __getStylesStandardCss : function(source, xOffset, yOffset)
-    {
-      xOffset = xOffset || 0;
-      yOffset = yOffset || 0;
-
-      var styles = {
-        backgroundImage: "url(" + source + ")",
-        backgroundPosition: xOffset + "px " + yOffset + "px",
-        backgroundRepeat: "repeat"
-      };
-
-      return styles;
-    }
-  },
-
-
 
 
   /*
@@ -161,7 +72,8 @@ qx.Class.define("qx.html.ClippedImage",
       this.__width = sprite[3];
       this.__height = sprite[4];
 
-      this.setStyles(qx.html.ClippedImage.getStyles(sprite[0], sprite[1], sprite[2]));
+      var styles = qx.bom.element.Background.getStyles(null, sprite[0], "repeat", sprite[1], sprite[2]);
+      this.setStyles(styles);
 
       if (resize !== false)
       {
