@@ -16,6 +16,6 @@
  *
  * *External Documentation*
  *
- * <a href='http://qooxdoo.org/documentation/0.8/toolbar' target='_blank'>
+ * <a href='http://qooxdoo.org/documentation/0.8/widget/toolbar' target='_blank'>
  * Documentation of this widget in the qooxdoo wiki.</a>
  */
