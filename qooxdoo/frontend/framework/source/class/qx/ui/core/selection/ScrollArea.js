@@ -125,8 +125,8 @@ qx.Class.define("qx.ui.core.selection.ScrollArea",
       var widget = this._widget;
       var scrollTop = widget.getScrollTop();
       var innerHeight = widget.getComputedInnerSize().height;
+      var top, bottom, found;
 
-      var found;
       if (up)
       {
         var min = scrollTop;
@@ -138,8 +138,7 @@ qx.Class.define("qx.ui.core.selection.ScrollArea",
           // Iterate through all selectables from start
           for (; i>=0; i--)
           {
-            top = this._widget.getItemTop(selectables[i]);
-            height = selectables[i].getBounds().height;
+            top = widget.getItemTop(selectables[i]);
 
             // This item is out of the visible block
             if (top < min)
@@ -165,7 +164,7 @@ qx.Class.define("qx.ui.core.selection.ScrollArea",
             // bottom edge. This is needed instead of a simple substraction
             // of the inner height to keep the last lead visible on page key
             // presses. This is the behavior of native toolkits as well.
-            min -= innerHeight + scrollTop - this._widget.getItemBottom(lead);
+            min -= innerHeight + scrollTop - widget.getItemBottom(lead);
             found = null;
             continue;
           }
@@ -185,11 +184,10 @@ qx.Class.define("qx.ui.core.selection.ScrollArea",
           // Iterate through all selectables from start
           for (; i<length; i++)
           {
-            top = this._widget.getItemTop(selectables[i]);
-            height = selectables[i].getBounds().height;
+            bottom = widget.getItemBottom(selectables[i]);
 
             // This item is out of the visible block
-            if ((top + height) > max)
+            if (bottom > max)
             {
               // Use previous one
               found = i-1;
@@ -212,7 +210,7 @@ qx.Class.define("qx.ui.core.selection.ScrollArea",
             // top edge. This is needed instead of a simple addition
             // of the inner height to keep the last lead visible on page key
             // presses. This is the behavior of native toolkits as well.
-            max += this._widget.getItemTop(lead);
+            max += widget.getItemTop(lead);
             found = null;
             continue;
           }

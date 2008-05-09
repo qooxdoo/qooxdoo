@@ -1799,8 +1799,8 @@ qx.Class.define("qx.ui.core.Widget",
 
       // only force a layout update if visibility change from/to "exclude"
       var parent = this._parent;
-      if (this._parent && (old === "excluded" || value === "excluded")) {
-        this._parent.invalidateLayoutChildren();
+      if (parent && (old === "excluded" || value === "excluded")) {
+        parent.invalidateLayoutChildren();
       }
     },
 
@@ -2042,7 +2042,6 @@ qx.Class.define("qx.ui.core.Widget",
         // TODO: This procedure may be problematic when introducing sub-widgets
         var oldAppearanceProperties = manager.styleFrom(old, this.__states) || {};
 
-        var unstyleList = [];
         for (var prop in oldAppearanceProperties)
         {
           if (!newAppearanceProperties || !(prop in newAppearanceProperties)) {

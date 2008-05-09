@@ -649,7 +649,7 @@ qx.Class.define("qx.ui.core.ScrollArea",
       else if (autoX)
       {
         // We need to respect the scrollbar of the orthogonal axis when visible
-        var scrollBarWidth = vScrollBar.isVisible() ? this._getScrollBar("vertical").getSizeHint().width : 0;
+        var scrollBarWidth = this._getScrollBar("vertical").isVisible() ? this._getScrollBar("vertical").getSizeHint().width : 0;
         var scrollX = contentSize.width > (innerSize.width - scrollBarWidth);
 
         this._setScrollBarVisibility("horizontal", scrollX);
@@ -657,7 +657,7 @@ qx.Class.define("qx.ui.core.ScrollArea",
       else if (autoY)
       {
         // We need to respect the scrollbar of the orthogonal axis when visible
-        var scrollBarHeight = hScrollBar.isVisible() ? this._getScrollBar("horizontal").getSizeHint().height : 0;
+        var scrollBarHeight = this._getScrollBar("horizontal").isVisible() ? this._getScrollBar("horizontal").getSizeHint().height : 0;
         var scrollY = contentSize.height > (innerSize.height - scrollBarHeight);
 
         this._setScrollBarVisibility("vertical", scrollY);
