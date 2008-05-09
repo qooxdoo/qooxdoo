@@ -384,12 +384,6 @@ qx.Class.define("qx.ui.tree.Tree",
 
 
     // interface implementation
-    getInnerHeight : function() {
-      return this.getVisibleContentSize().height;
-    },
-
-
-    // interface implementation
     getItemOffset : function(item)
     {
       var pos = item.getBounds();
