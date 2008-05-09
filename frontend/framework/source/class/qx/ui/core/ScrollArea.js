@@ -68,44 +68,42 @@ qx.Class.define("qx.ui.core.ScrollArea",
   properties :
   {
     /**
-     * The policy, when the horizontal scroll bar should be shown.
+     * The policy, when the horizontal scrollbar should be shown.
      * <ul>
-     *   <li><b>auto</b>: Show scroll bar on demand</li>
-     *   <li><b>on</b>: Always show the scroll bar</li>
-     *   <li><b>off</b>: Never show the scroll bar</li>
+     *   <li><b>auto</b>: Show scrollbar on demand</li>
+     *   <li><b>on</b>: Always show the scrollbar</li>
+     *   <li><b>off</b>: Never show the scrollbar</li>
      * </ul>
      */
-    overflowX :
+    scrollbarX :
     {
       check : ["auto", "on", "off"],
       init : "auto",
-      apply : "_applyOverflowX",
-      event : "changeOverflowX"
+      apply : "_applyScrollBarY"
     },
 
 
     /**
-     * The policy, when the horizontal scroll bar should be shown.
+     * The policy, when the horizontal scrollbar should be shown.
      * <ul>
-     *   <li><b>auto</b>: Show scroll bar on demand</li>
-     *   <li><b>on</b>: Always show the scroll bar</li>
-     *   <li><b>off</b>: Never show the scroll bar</li>
+     *   <li><b>auto</b>: Show scrollbar on demand</li>
+     *   <li><b>on</b>: Always show the scrollbar</li>
+     *   <li><b>off</b>: Never show the scrollbar</li>
      * </ul>
      */
-    overflowY :
+    scrollbarY :
     {
       check : ["auto", "on", "off"],
       init : "auto",
-      apply : "_applyOverflowY",
-      event : "changeOverflowY"
+      apply : "_applyScrollBarY"
     },
 
 
     /**
      * Group property, to set the overflow of both scroll bars.
      */
-    overflow : {
-      group : [ "overflowX", "overflowY" ]
+    scrollbar : {
+      group : [ "scrollbarX", "scrollbarY" ]
     },
 
 
@@ -504,7 +502,7 @@ qx.Class.define("qx.ui.core.ScrollArea",
     */
 
     /**
-     * Event handler for the scroll event of the horizontal scroll bar
+     * Event handler for the scroll event of the horizontal scrollbar
      *
      * @type member
      * @param e {qx.event.type.Change} The scroll event object
@@ -515,7 +513,7 @@ qx.Class.define("qx.ui.core.ScrollArea",
 
 
     /**
-     * Event handler for the scroll event of the vertical scroll bar
+     * Event handler for the scroll event of the vertical scrollbar
      *
      * @type member
      * @param e {qx.event.type.Change} The scroll event object
@@ -554,7 +552,7 @@ qx.Class.define("qx.ui.core.ScrollArea",
      * @return {void}
      */
     _onPaneChange : function(e) {
-      this._computeOverflow();
+      this._computeScrollbars();
     },
 
 
@@ -598,7 +596,7 @@ qx.Class.define("qx.ui.core.ScrollArea",
      *
      * @type member
      */
-    _computeOverflow : function()
+    _computeScrollbars : function()
     {
       var content = this._scrollPane.getContent();
       if (!content)
@@ -614,8 +612,8 @@ qx.Class.define("qx.ui.core.ScrollArea",
       var contentSize = content.getBounds();
 
       // Read auto values
-      var autoX = this.getOverflowX() === "auto";
-      var autoY = this.getOverflowY() === "auto";
+      var autoX = this.getScrollbarX() === "auto";
+      var autoY = this.getScrollbarY() === "auto";
 
       if (autoX && autoY)
       {
@@ -701,10 +699,10 @@ qx.Class.define("qx.ui.core.ScrollArea",
     */
 
     // property apply
-    _applyOverflowX : function(value, old)
+    _applyScrollBarX : function(value, old)
     {
       if (value === "auto") {
-        this._computeOverflow();
+        this._computeScrollbars();
       } else {
         this._setScrollBarVisibility("horizontal", value === "on");
       }
@@ -712,10 +710,10 @@ qx.Class.define("qx.ui.core.ScrollArea",
 
 
     // property apply
-    _applyOverflowY : function(value, old)
+    _applyScrollBarY : function(value, old)
     {
       if (value === "auto") {
-        this._computeOverflow();
+        this._computeScrollbars();
       } else {
         this._setScrollBarVisibility("vertical", value === "on");
       }
