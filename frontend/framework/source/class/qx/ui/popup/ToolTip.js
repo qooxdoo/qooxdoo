@@ -386,7 +386,6 @@ qx.Class.define("qx.ui.popup.ToolTip",
      */
     _onshowtimer : function(e)
     {
-      console.log("show timer");
       this.stopShowTimer();
       var mousePos = this.__mgr.getLastMousePosition();
       this.setLocation(
