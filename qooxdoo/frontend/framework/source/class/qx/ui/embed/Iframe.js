@@ -40,6 +40,10 @@ qx.Class.define("qx.ui.embed.Iframe",
   *****************************************************************************
   */
 
+  /**
+   * Creates a new instance of Iframe.
+   * @param source {String} URL which should initally set.
+   */
   construct : function(source)
   {
     this._source = source;
@@ -61,26 +65,11 @@ qx.Class.define("qx.ui.embed.Iframe",
 
   events:
   {
+    /**
+     * The "load" event is fired after the iframe content has successfully been loaded.
+     */
     "load" : "qx.event.type.Event"
   },
-
-
-
-
-
-  /*
-  *****************************************************************************
-     STATICS
-  *****************************************************************************
-  */
-
-  statics :
-  {
-
-  },
-
-
-
 
   /*
   *****************************************************************************
@@ -169,6 +158,11 @@ qx.Class.define("qx.ui.embed.Iframe",
       return new qx.html.Iframe(this._source);
     },
 
+    /**
+     * Creates <div> element which is aligned over iframe node to avoid losing mouse events.
+     * @type member
+     * @return {Object} Blocker element node
+     */
     _createBlockerElement : function()
     {
       var el = new qx.html.Element("div");
@@ -225,16 +219,6 @@ qx.Class.define("qx.ui.embed.Iframe",
       return this.getContentElement().getBody();
     },
 
-    /**
-     * Sets iframe's name attribute to given value 
-     *
-     * @param source {String} Name to be set.
-     */
-    setName : function(name)
-    {
-      return this.getContentElement().setName(name);
-    },
-
 
     /**
      * Get the current name.
@@ -246,16 +230,33 @@ qx.Class.define("qx.ui.embed.Iframe",
       return this.getContentElement().getName();
     },
 
+    /**
+     * Cover the iframe with a transparent blocker div element. This prevents
+     * mouse or key events to be handled by the iframe. To release the blocker
+     * use {@link #release}.
+     *
+     * @type member
+     */
     block : function()
     {
       this._blockerElement.setStyle("display", "block");
     },
 
+    /**
+     * Release the blocker set by {@link #block}.
+     *
+     * @type member
+     */
     release : function()
     {
       this._blockerElement.setStyle("display", "none");
     },
-    
+
+    /**
+     * Reload the contents of the iframe.
+     *
+     * @type member
+     */
     reload : function()
     {
       this.getContentElement().reload();
@@ -267,42 +268,29 @@ qx.Class.define("qx.ui.embed.Iframe",
     ---------------------------------------------------------------------------
     */
 
+    // property apply
     _applySource : function(value, old)
     {
       this.getContentElement().setSource(value);
     },
 
+    // property apply
     _applyFrameName : function(value, old)
     {
       this.getContentElement().setAttribute("name", value);
     },
 
+    // property apply
     _applyOverflowX : function(value, old)
     {
       this.getContentElement().setStyle("overflowX", value)
     },
 
+    // property apply
     _applyOverflowY : function(value, old)
     {
       this.getContentElement().setStyle("overflowY", value)
     }
-
-
-    /*
-    ---------------------------------------------------------------------------
-      EVENT HANDLER
-    ---------------------------------------------------------------------------
-    */
-
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      LOAD STATUS
-    ---------------------------------------------------------------------------
-    */
 
   },
 
@@ -317,6 +305,7 @@ qx.Class.define("qx.ui.embed.Iframe",
 
   destruct : function()
   {
+    this._disposeObjects("_blockerElement")
   }
 
 });

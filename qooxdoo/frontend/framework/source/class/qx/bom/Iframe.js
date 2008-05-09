@@ -195,6 +195,13 @@ qx.Class.define("qx.bom.Iframe",
       }
     },
 
+    /**
+     * Returns the current (served) URL inside the iframe
+     *
+     * @type static
+     * @param iframe {Element} DOM element of the iframe.
+     * @return {String} Returns the location href or null (if a query is not possible/allowed)
+     */
     queryCurrentUrl : function(iframe)
     {
       var doc = this.getDocument(iframe);
