@@ -90,6 +90,16 @@ qx.Class.define("qx.ui.form.List",
       check : ["horizontal", "vertical"],
       init : "vertical",
       apply : "_applyOrientation"
+    },
+
+
+    /** Spacing between the items */
+    spacing :
+    {
+      check : "Integer",
+      init : 0,
+      apply : "_applySpacing",
+      themeable : true
     }
   },
 
@@ -148,7 +158,18 @@ qx.Class.define("qx.ui.form.List",
       content.setLayout(layout);
       content.setAllowGrowX(!horizontal);
       content.setAllowGrowY(horizontal);
+
+      // Configure spacing
+      this._applySpacing(this.getSpacing());
     },
+
+
+    // property apply
+    _applySpacing : function(value, old) {
+      this.__content.getLayout().setSpacing(value);
+    },
+
+
 
 
 
