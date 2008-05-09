@@ -22,9 +22,26 @@
 
 /**
  * Container widget for internal frames (iframes).
- *
  * An iframe can display any HTML page inside the widget.
  *
+ * *Example*
+ *
+ * Here is a little example of how to use the widget.
+ *
+ * <pre class='javascript'>
+ * var document = this.getRoot();
+ * var iframe = new qx.ui.toolbar.Iframe("http://www.qooxdoo.org");
+ * document.add(iframe);
+ * </pre>
+ *
+ * This example demonstrates how to create a toolbar and a toolbar buttons.
+ * The button will be added to the toolbar in the last line.
+ *
+ * *External Documentation*
+ *
+ * <a href='http://qooxdoo.org/documentation/0.8/widget/iframe' target='_blank'>
+ * Documentation of this widget in the qooxdoo wiki.</a>
+ * 
  * @appearance iframe
  */
 qx.Class.define("qx.ui.embed.Iframe",
