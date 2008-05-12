@@ -78,20 +78,16 @@ qx.Class.define("qx.ui.table.cellrenderer.Number",
       var method;
       if (value) {
         method = function(cellInfo) {
-          if (cellInfo.value) {
-            // I don't think we need to escape the resulting string, as I
-            // don't know of any decimal or separator which use a character
-            // which needs escaping. It is much more plausible to have a
-            // prefix, postfix containing such characters but those can be
-            // (should be) added in their escaped form to the number format.
-            return value.format(cellInfo.value);
-          } else {
-            return "";
-          }
+          // I don't think we need to escape the resulting string, as I
+          // don't know of any decimal or separator which use a character
+          // which needs escaping. It is much more plausible to have a
+          // prefix, postfix containing such characters but those can be
+          // (should be) added in their escaped form to the number format.
+          return value.format(cellInfo.value || "0");
         }
       } else {
         method = function(cellInfo) {
-          return cellInfo.value || "";
+          return cellInfo.value || "0";
         }
       }
       // dynamically override _getContentHtml method
