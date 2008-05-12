@@ -42,7 +42,7 @@
           var rowData = [];
           var testval;
           for (var row = 0; row < rowCount; row++) {
-            testval = (nextId % 5 == 0 ? null : nextId);
+            testval = (nextId > 0 && nextId % 5 == 0 ? null : nextId);
             rowData.push([ nextId, testval, testval ]);
             ++nextId;
           }
