@@ -79,6 +79,15 @@ qx.Class.define("qx.application.AbstractGui",
 
       this.__root = this._createRootWidget();
     },
+    
+    
+    finalize : function() {
+      this.render();
+    },
+    
+    render : function() {
+      qx.ui.core.queue.Manager.flush();
+    },
 
 
     // interface method
