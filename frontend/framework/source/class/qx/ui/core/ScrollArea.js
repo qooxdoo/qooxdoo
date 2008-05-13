@@ -143,7 +143,7 @@ qx.Class.define("qx.ui.core.ScrollArea",
           control = new qx.ui.core.ScrollBar("horizontal");
 
           control.exclude();
-          control.addListener("change", this._onScrollX, this);
+          control.addListener("scroll", this._onScrollX, this);
           control.addListener("changeVisibility", this._onChangeScrollbarXVisibility, this);
 
           this._add(control, {row: 1, column: 0});
@@ -154,7 +154,7 @@ qx.Class.define("qx.ui.core.ScrollArea",
           control = new qx.ui.core.ScrollBar("vertical");
 
           control.exclude();
-          control.addListener("change", this._onScrollY, this);
+          control.addListener("scroll", this._onScrollY, this);
           control.addListener("changeVisibility", this._onChangeScrollbarYVisibility, this);
 
           this._add(control, {row: 0, column: 1});
@@ -470,7 +470,7 @@ qx.Class.define("qx.ui.core.ScrollArea",
      * @return {void}
      */
     _onScrollX : function(e) {
-      this._getChildControl("pane").setScrollLeft(e.getValue());
+      this._getChildControl("pane").setScrollLeft(e.getData());
     },
 
 
@@ -482,7 +482,7 @@ qx.Class.define("qx.ui.core.ScrollArea",
      * @return {void}
      */
     _onScrollY : function(e) {
-      this._getChildControl("pane").setScrollTop(e.getValue());
+      this._getChildControl("pane").setScrollTop(e.getData());
     },
 
 
@@ -638,8 +638,8 @@ qx.Class.define("qx.ui.core.ScrollArea",
         var barX = this._getChildControl("scrollbarX");
 
         barX.show();
-        barX.setContainerSize(paneWidth);
-        barX.setContentSize(scrollWidth);
+        barX.setMaximum(Math.max(0, scrollWidth - paneWidth));
+        barX.setKnobFactor(paneWidth / scrollWidth);
       }
       else
       {
@@ -651,8 +651,8 @@ qx.Class.define("qx.ui.core.ScrollArea",
         var barY = this._getChildControl("scrollbarY");
 
         barY.show();
-        barY.setContainerSize(paneHeight);
-        barY.setContentSize(scrollHeight);
+        barY.setMaximum(Math.max(0, scrollHeight - paneHeight));
+        barY.setKnobFactor(paneHeight / scrollHeight);
       }
       else
       {
