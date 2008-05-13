@@ -43,16 +43,66 @@ qx.Class.define("demobrowser.demo.layout.ScrollArea_3",
       this.getRoot().add(scrollArea, {left: 10, top: 10});
       scrollArea.setContent(this.generateBox());
 
-      var toggle = new qx.ui.form.Button("Toggle size");
-
-      var grow = true;
-      toggle.addListener("execute", function()
+      // Area size toggle
+      var toggle1 = new qx.ui.form.Button("Toggle pane");
+      var grow1 = true;
+      toggle1.addListener("execute", function()
       {
-        scrollArea.setHeight(grow ? 300 : 200);
-        grow = !grow;
+        scrollArea.setHeight(grow1 ? 300 : 200);
+        grow1 = !grow1;
+      });
+      this.getRoot().add(toggle1, {left: 330, top: 20});
+
+      // Content size toggle
+      var toggle2 = new qx.ui.form.Button("Toggle content");
+      var grow2 = true;
+      toggle2.addListener("execute", function()
+      {
+        scrollArea.getContent().setHeight(grow2 ? 100 : 300);
+        grow2 = !grow2;
+      });
+      this.getRoot().add(toggle2, {left: 430, top: 20});
+
+      // Scrollbar change
+      var mgr1 = this.generateScrollbarConfig("ScrollbarX:", 100);
+      var mgr2 = this.generateScrollbarConfig("ScrollbarY:", 120);
+
+      mgr1.addListener("change", function(e) {
+        scrollArea.setScrollbarX(e.getValue().getValue());
       });
 
-      this.getRoot().add(toggle, {left: 10, top: 400});
+      mgr2.addListener("change", function(e) {
+        scrollArea.setScrollbarY(e.getValue().getValue());
+      });
+    },
+
+    generateScrollbarConfig : function(label, top)
+    {
+      var composite = new qx.ui.container.Composite(new qx.ui.layout.HBox(6));
+      var label = new qx.ui.basic.Label(label);
+
+      label.setMarginRight(20);
+
+      var radio1 = new qx.ui.form.RadioButton("Auto");
+      var radio2 = new qx.ui.form.RadioButton("On");
+      var radio3 = new qx.ui.form.RadioButton("Off");
+
+      radio1.setValue("auto");
+      radio2.setValue("on");
+      radio3.setValue("off");
+
+      radio1.setChecked(true);
+
+      var mgr = new qx.ui.core.RadioManager(radio1, radio2, radio3);
+
+      composite.add(label);
+      composite.add(radio1);
+      composite.add(radio2);
+      composite.add(radio3);
+
+      this.getRoot().add(composite, {left: 330, top: top});
+
+      return mgr;
     },
 
     generateBox : function()

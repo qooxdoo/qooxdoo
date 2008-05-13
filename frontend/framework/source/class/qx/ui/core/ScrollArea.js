@@ -45,14 +45,14 @@ qx.Class.define("qx.ui.core.ScrollArea",
 
     // Create internal scrolling pane
     var scrollPane = this._scrollPane = new qx.ui.core.ScrollPane();
-    scrollPane.addListener("change", this._onPaneChange, this);
+    scrollPane.addListener("update", this._onUpdate, this);
     this._add(scrollPane, {row: 0, column: 0});
-
-    // Data structure for scrollbars
-    this._scrollbars = {};
 
     // Mousewheel listener to scroll vertically
     this.addListener("mousewheel", this._onMouseWheel, this);
+
+    // NEW
+    this.__childControls = {};
   },
 
 
@@ -79,7 +79,7 @@ qx.Class.define("qx.ui.core.ScrollArea",
     {
       check : ["auto", "on", "off"],
       init : "auto",
-      apply : "_applyScrollBarY"
+      apply : "_applyScrollBar"
     },
 
 
@@ -95,7 +95,7 @@ qx.Class.define("qx.ui.core.ScrollArea",
     {
       check : ["auto", "on", "off"],
       init : "auto",
-      apply : "_applyScrollBarY"
+      apply : "_applyScrollBar"
     },
 
 
@@ -127,187 +127,98 @@ qx.Class.define("qx.ui.core.ScrollArea",
 
   members :
   {
-    /**
-     * Returns whether the scrollbar is visible
-     *
-     * @param orientation {String} selects the scrollbar to check. Either
-     *     <code>"horizontal"</code> or <code>"vertical"</code>.
-     * @return {Boolean} Whether the selected scrollbar is visible
-     */
-    _isScrollBarVisible : function(orientation)
-    {
-      var scrollbar = this._scrollbars[orientation];
-      if (!scrollbar) {
-        return false;
-      }
-
-      return scrollbar.getVisibility() === "visible";
-    },
-
-
-    /**
-     * Sets the scrollbar's visibility
-     *
-     * @param orientation {String} selects the scrollbar to update. Either
-     *     <code>"horizontal"</code> or <code>"vertical"</code>.
-     * @param isVisible {Boolean} Whether the scrollbar should be visible
-     */
-    _setScrollBarVisibility : function(orientation, isVisible)
-    {
-      var scrollbar = this._scrollbars[orientation];
-
-      if (isVisible)
-      {
-        if (!scrollbar) {
-          scrollbar = this._getScrollBar(orientation);
-        }
-
-        scrollbar.show();
-      }
-      else if (scrollbar)
-      {
-        scrollbar.exclude();
-      }
-    },
-
-
-    /**
-     * Get a scrollbar instance. Create the instance if neccesary.
-     *
-     * @param orientation {String} selects the scrollbar to get. Either
-     *     <code>"horizontal"</code> or <code>"vertical"</code>.
-     * @return {qx.ui.core.ScrollBar} The scrollbar
-     */
-    _getScrollBar : function(orientation)
-    {
-      if (this._scrollbars[orientation]) {
-        return this._scrollbars[orientation];
-      }
-
-      var scrollbar = new qx.ui.core.ScrollBar(orientation);
-
-      scrollbar.exclude();
-      scrollbar.addListener("change", orientation == "horizontal" ?
-        this._onHorizontalScroll : this._onVerticalScroll, this);
-
-      scrollbar.addListener("changeVisibility", this._onChangeScrollBarVisibility, this);
-
-      if (orientation == "horizontal") {
-        this._add(scrollbar, {row: 1, column: 0});
-      } else {
-        this._add(scrollbar, {row: 0, column: 1});
-      }
-
-      return this._scrollbars[orientation] = scrollbar;
-    },
-
-
-    /**
-     * Sets the corner widget's visibility
-     *
-     * @param isVisible {Boolean} Whether the corner widget should be visible
-     */
-    _setCornerVisibility : function(isVisible)
-    {
-      var corner = this._corner;
-
-      if (isVisible)
-      {
-        if (!corner) {
-          corner = this._getCornerWidget();
-        }
-
-        corner.show();
-      }
-      else if (corner)
-      {
-        corner.exclude();
-      }
-    },
-
-
-    /**
-     * Get the corner widget instance. Create the instance if neccesary.
-     *
-     * @return {qx.ui.core.Widget} The corner widget
-     */
-    _getCornerWidget : function()
-    {
-      var corner = this._corner = new qx.ui.core.Widget().set({
-        appearance : "scroll-pane-corner",
-        width : 0,
-        height : 0
-      });
-
-      corner.exclude();
-      this._add(corner, {row: 1, column: 1});
-
-      this._corner = corner;
-      return corner;
-    },
-
-
-
-
-
     /*
     ---------------------------------------------------------------------------
-      PUBLIC API
+      CHILD CONTROL SUPPORT
     ---------------------------------------------------------------------------
     */
 
-    /**
-     * Compute the size of the scroll content.
-     *
-     * @return {Map} A map with <code>height</code> and <code>width</code> keys
-     *     containing the size of the scroll content
-     */
-    getContentSize : function()
-    {
-      var content = this._scrollPane.getContent();
+    _hasChildControl : function(id) {
+      return !!this.__childControls[id];
+    },
 
-      if (content)
-      {
-        var layout = content.getBounds();
-        if (layout)
-        {
-          return {
-            height: layout.height,
-            width: layout.width
-          };
-        }
+    _getChildControl : function(id, create)
+    {
+      var control = this.__childControls[id];
+      if (control) {
+        return control;
       }
 
-      return {
-        height: 0,
-        width: 0
+      if (!create) {
+        return null;
+      }
+
+      this.debug("Create child control: " + id);
+      return this.__childControls[id] = this._createChildControl(id);
+    },
+
+    _showChildControl : function(id)
+    {
+      var control = this._getChildControl(id, true);
+      control.show();
+    },
+
+    _excludeChildControl : function(id)
+    {
+      var control = this._getChildControl(id);
+      if (control) {
+        control.exclude();
       }
     },
 
-
-    /**
-     * Compute the size of the scroll content's visible area.
-     *
-     * @return {Map} A map with <code>height</code> and <code>width</code> keys
-     *     containing the visible size of the scroll area
-     */
-    getVisibleContentSize : function()
+    _isChildControlVisible : function(id)
     {
-      var layout = this._scrollPane.getComputedInnerSize();
-      if (layout)
-      {
-        return {
-          height: layout.height,
-          width: layout.width
-        };
+      var control = this._getChildControl(id);
+      if (control) {
+        return control.isVisible();
       }
-      else
+
+      return false;
+    },
+
+    _createChildControl : function(id)
+    {
+      var control = null;
+
+      switch(id)
       {
-        return {
-          height: 0,
-          width: 0
-        };
+        case "scrollbarX":
+          control = new qx.ui.core.ScrollBar("horizontal");
+
+          control.exclude();
+          control.addListener("change", this._onScrollX, this);
+          control.addListener("changeVisibility", this._onChangeScrollbarXVisibility, this);
+
+          this._add(control, {row: 1, column: 0});
+          break;
+
+
+        case "scrollbarY":
+          control = new qx.ui.core.ScrollBar("vertical");
+
+          control.exclude();
+          control.addListener("change", this._onScrollY, this);
+          control.addListener("changeVisibility", this._onChangeScrollbarYVisibility, this);
+
+          this._add(control, {row: 0, column: 1});
+          break;
+
+
+        case "corner":
+          control = new qx.ui.core.Widget();
+
+          control.exclude();
+          control.setAppearance("scrollarea-corner");
+
+          this._add(control, {row: 1, column: 1});
+          break;
+
+
+        default:
+          throw new Error("Unsupported control: " + id);
       }
+
+      return control;
     },
 
 
@@ -325,12 +236,14 @@ qx.Class.define("qx.ui.core.ScrollArea",
      *
      * @type member
      * @param value {Integer} The vertical position to scroll to.
-     * @param direct {Boolean?false} Whether the value should be applied
-     *   directly (without queueing).
      * @return {void}
      */
-    setScrollLeft : function(value, direct) {
-      this._getScrollBar("horizontal").setValue(value);
+    setScrollLeft : function(value)
+    {
+      var scrollbar = this._getChildControl("scrollbarX")
+      if (scrollbar) {
+        scrollbar.setValue(value);
+      }
     },
 
 
@@ -340,8 +253,14 @@ qx.Class.define("qx.ui.core.ScrollArea",
      * @type member
      * @return {Integer} Horizontal scroll position
      */
-    getScrollLeft : function() {
-      return this._scrollPane.getScrollLeft();
+    getScrollLeft : function()
+    {
+      var scrollbar = this._getChildControl("scrollbarX")
+      if (scrollbar) {
+        return scrollbar.getValue();
+      }
+
+      return 0;
     },
 
 
@@ -350,12 +269,14 @@ qx.Class.define("qx.ui.core.ScrollArea",
      *
      * @type member
      * @param value {Integer} The horizontal position to scroll to.
-     * @param direct {Boolean?false} Whether the value should be applied
-     *   directly (without queueing).
      * @return {void}
      */
-    setScrollTop : function(value, direct) {
-      this._getScrollBar("vertical").setValue(value);
+    setScrollTop : function(value)
+    {
+      var scrollbar = this._getChildControl("scrollbarY")
+      if (scrollbar) {
+        scrollbar.setValue(value);
+      }
     },
 
 
@@ -365,11 +286,25 @@ qx.Class.define("qx.ui.core.ScrollArea",
      * @type member
      * @return {Integer} Vertical scroll position
      */
-    getScrollTop : function() {
-      return this._scrollPane.getScrollTop();
+    getScrollTop : function()
+    {
+      var scrollbar = this._getChildControl("scrollbarY")
+      if (scrollbar) {
+        return scrollbar.getValue();
+      }
+
+      return 0;
     },
 
 
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      ITEM LOCATION SUPPORT
+    ---------------------------------------------------------------------------
+    */
 
     getItemTop : function(item)
     {
@@ -390,7 +325,6 @@ qx.Class.define("qx.ui.core.ScrollArea",
     getItemBottom : function(item) {
       return this.getItemTop(item) + item.getBounds().height;
     },
-
 
 
     getItemLeft : function(item)
@@ -415,16 +349,73 @@ qx.Class.define("qx.ui.core.ScrollArea",
 
 
 
-    getScrollHeight : function()
+
+
+    /*
+    ---------------------------------------------------------------------------
+      SCROLL DIMENSIONS
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Full available inner width, the maximum available space
+     * when no scrollbars are rendered.
+     *
+     * @type member
+     * @return {Integer} The inner width of the scrollarea (excluding decoration)
+     */
+    getInnerWidth : function()
     {
-      return this._scrollPane.getBounds().height;
+      var inner = this.getComputedInnerSize();
+      return inner ? inner.width : 0;
+    },
+
+
+    /**
+     * Full available inner width, the maximum available space
+     * when no scrollbars are rendered.
+     *
+     * @type member
+     * @return {Integer} The inner width of the scrollarea (excluding decoration)
+     */
+    getInnerHeight : function()
+    {
+      var inner = this.getComputedInnerSize();
+      return inner ? inner.height : 0;
+    },
+
+    getPaneWidth : function() {
+      var pane = this._scrollPane.getBounds();
+      return pane ? pane.width : 0;
+    },
+
+    getPaneHeight : function()
+    {
+      var pane = this._scrollPane.getBounds();
+      return pane ? pane.height : 0;
     },
 
     getScrollWidth : function()
     {
-      return this._scrollPane.getBounds().width;
+      var scroll = this._scrollPane.getContent().getBounds();
+      return scroll ? scroll.width : 0;
     },
 
+    getScrollHeight : function()
+    {
+      var scroll = this._scrollPane.getContent().getBounds();
+      return scroll ? scroll.height : 0;
+    },
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      ITEM INTO VIEW
+    ---------------------------------------------------------------------------
+    */
 
     /**
      * Scroll a widget, which is nested somewhere inside of this scroll area,
@@ -506,8 +497,9 @@ qx.Class.define("qx.ui.core.ScrollArea",
      *
      * @type member
      * @param e {qx.event.type.Change} The scroll event object
+     * @return {void}
      */
-    _onHorizontalScroll : function(e) {
+    _onScrollX : function(e) {
       this._scrollPane.setScrollLeft(e.getValue());
     },
 
@@ -517,8 +509,9 @@ qx.Class.define("qx.ui.core.ScrollArea",
      *
      * @type member
      * @param e {qx.event.type.Change} The scroll event object
+     * @return {void}
      */
-    _onVerticalScroll : function(e) {
+    _onScrollY : function(e) {
       this._scrollPane.setScrollTop(e.getValue());
     },
 
@@ -527,59 +520,70 @@ qx.Class.define("qx.ui.core.ScrollArea",
      * Event handler for the mouse wheel
      *
      * @param e {qx.event.type.Mouse} The mouse wheel event
+     * @return {void}
      */
     _onMouseWheel : function(e)
     {
-      this._scrollPane.scrollTopBy(e.getWheelDelta() * this.getLineHeight() * -1, true);
+      var scrollbar = this._getChildControl("scrollbarY");
+      if (scrollbar)
+      {
+        // The pane is scrolled by the event on the scrollbar
+        scrollbar.scrollBy(e.getWheelDelta() * this.getLineHeight() * -1);
 
-      var computedTop = this._scrollPane.getScrollTop();
-      if (this._scrollbars.vertical || computedTop !== 0) {
-        this._getScrollBar("vertical").setValue(computedTop);
+        // Stop bubbling and native event
+        e.stop();
       }
-
-      // Stop bubbling and native event
-      e.stop();
     },
 
 
     /**
-     * Listener for resize event. This event is fired after the
-     * first flush of the element which leads to another queueing
-     * when the changes modify the visibility of the scroll buttons.
+     * Event handler for pane and content resize events
      *
-     * @type member
-     * @param e {qx.event.type.Change} Event object
+     * @param e {qx.event.type.Event} Resize event
      * @return {void}
      */
-    _onPaneChange : function(e) {
+    _onUpdate : function(e) {
       this._computeScrollbars();
     },
 
 
     /**
-     * Listener for scrollbar visibility changes of the scrollbars.
-     * Controls the scroll offset and the visibility of the corner
-     * widget.
+     * Event handler for visibility changes of horizontal scrollbar.
      *
-     * @type member
-     * @param e {qx.event.type.Change} Event object
+     * @param e {qx.event.type.Event} Property change event
      * @return {void}
      */
-    _onChangeScrollBarVisibility : function(e)
+    _onChangeScrollbarXVisibility : function(e)
     {
-      var target = e.getTarget();
+      var showX = this._isChildControlVisible("scrollbarX");
+      var showY = this._isChildControlVisible("scrollbarY");
 
-      var hVisible = this._isScrollBarVisible("horizontal");
-      var vVisible = this._isScrollBarVisible("vertical");
-
-      if (target == this._scrollbars.horizontal && !hVisible) {
+      if (!showX) {
         this._scrollPane.setScrollLeft(0);
-      } else if (target == this._scrollbars.vertical && !vVisible) {
+      }
+
+      showX && showY ? this._showChildControl("corner") : this._excludeChildControl("corner");
+    },
+
+
+    /**
+     * Event handler for visibility changes of horizontal scrollbar.
+     *
+     * @param e {qx.event.type.Event} Property change event
+     * @return {void}
+     */
+    _onChangeScrollbarYVisibility : function(e)
+    {
+      var showX = this._isChildControlVisible("scrollbarX");
+      var showY = this._isChildControlVisible("scrollbarY");
+
+      if (!showY) {
         this._scrollPane.setScrollTop(0);
       }
 
-      this._setCornerVisibility(hVisible && vVisible);
+      showX && showY ? this._showChildControl("corner") : this._excludeChildControl("corner");
     },
+
 
 
 
@@ -592,100 +596,75 @@ qx.Class.define("qx.ui.core.ScrollArea",
     */
 
     /**
-     * Computes whether the content overflows and updates the scroll bars
+     * Computes the visibility state for scrollbars.
      *
      * @type member
+     * @return {void}
      */
     _computeScrollbars : function()
     {
       var content = this._scrollPane.getContent();
       if (!content)
       {
-        this._setScrollBarVisibility("horizontal", false);
-        this._setScrollBarVisibility("vertical", false);
+        this._excludeChildControl("scrollbarX");
+        this._excludeChildControl("scrollbarY");
 
         return;
       }
 
-      // Read dimension data
-      var innerSize = this.getComputedInnerSize();
-      var contentSize = content.getBounds();
+      var clientWidth = this.getInnerWidth();
+      var clientHeight = this.getInnerHeight();
 
-      // Read auto values
-      var autoX = this.getScrollbarX() === "auto";
-      var autoY = this.getScrollbarY() === "auto";
+      var paneWidth = this.getPaneWidth();
+      var paneHeight = this.getPaneHeight();
 
-      if (autoX && autoY)
+      var scrollWidth = this.getScrollWidth();
+      var scrollHeight = this.getScrollHeight();
+
+      var scrollbarX = this.getScrollbarX();
+      var scrollbarY = this.getScrollbarY();
+
+      if (scrollbarX === "auto" && scrollbarY === "auto")
       {
-        var scrollX = true;
-        var scrollY = true;
+        // Check if the container is big enough to show
+        // the full content.
+        var showX = scrollWidth > clientWidth;
+        var showY = scrollHeight > clientHeight;
 
-        var moreWidth = contentSize.width > innerSize.width;
-        var moreHeight = contentSize.height > innerSize.height;
+        // Dependency check
+        // We need a special intelligence here when only one
+        // of the autosized axis requires a scrollbar
+        // This scrollbar may then influence the need
+        // for the other one as well.
+        if ((showX || showY) && !(showX && showY))
+        {
+          if (showX) {
+            showY = scrollHeight > paneHeight;
+          } else if (showY) {
+            showX = scrollWidth > paneWidth;
+          }
+        }
+      }
+      else
+      {
+        var showX = scrollbarX === "on";
+        var showY = scrollbarY === "on";
 
-        // If both axes have more content than free space, switch
-        // both scrollbars to the same visibility
-        if (moreWidth === moreHeight) {
-          scrollX = scrollY = moreWidth;
+        // Check auto values afterwards with already
+        // corrected client dimensions
+        if (scrollWidth > (showX ? paneWidth : clientWidth) && scrollbarX === "auto") {
+          showX = true;
         }
 
-        // More content on x-axis than available width
-        // Note: scrollX is already true
-        else if (moreWidth) {
-          scrollY = contentSize.height > (innerSize.height - this._getScrollBar("horizontal").getSizeHint().height);
+        if (scrollHeight > (showX ? paneHeight : clientHeight) && scrollbarY === "auto") {
+          showY = true;
         }
-
-        // More content on y-axis than available height
-        // Note: scrollY is already true
-        else {
-          scrollX = contentSize.width > (innerSize.width - this._getScrollBar("vertical").getSizeHint().width);
-        }
-
-        this._setScrollBarVisibility("horizontal", scrollX);
-        this._setScrollBarVisibility("vertical", scrollY);
-      }
-      else if (autoX)
-      {
-        // We need to respect the scrollbar of the orthogonal axis when visible
-        var scrollBarWidth = this._getScrollBar("vertical").isVisible() ? this._getScrollBar("vertical").getSizeHint().width : 0;
-        var scrollX = contentSize.width > (innerSize.width - scrollBarWidth);
-
-        this._setScrollBarVisibility("horizontal", scrollX);
-      }
-      else if (autoY)
-      {
-        // We need to respect the scrollbar of the orthogonal axis when visible
-        var scrollBarHeight = this._getScrollBar("horizontal").isVisible() ? this._getScrollBar("horizontal").getSizeHint().height : 0;
-        var scrollY = contentSize.height > (innerSize.height - scrollBarHeight);
-
-        this._setScrollBarVisibility("vertical", scrollY);
       }
 
+      // this.debug("Scrollbars: " + showX + ", " + showY);
 
-      // Correcting scroll position at last change
-      var maxScrollLeft = Math.max(0, contentSize.width - innerSize.width);
-      if (this.getScrollLeft() > maxScrollLeft) {
-        this.setScrollLeft(maxScrollLeft);
-      }
-
-      var maxScrollTop = Math.max(0, contentSize.height - innerSize.height);
-      if (this.getScrollTop() > maxScrollTop) {
-        this.setScrollTop(maxScrollTop);
-      }
-
-
-      // Update scrollbar internals
-      if (this._isScrollBarVisible("horizontal"))
-      {
-        this._scrollbars.horizontal.setContentSize(contentSize.width);
-        this._scrollbars.horizontal.setContainerSize(innerSize.width);
-      }
-
-      if (this._isScrollBarVisible("vertical"))
-      {
-        this._scrollbars.vertical.setContentSize(contentSize.height);
-        this._scrollbars.vertical.setContainerSize(innerSize.height);
-      }
+      showX ? this._showChildControl("scrollbarX") : this._excludeChildControl("scrollbarX");
+      showY ? this._showChildControl("scrollbarY") : this._excludeChildControl("scrollbarY");
     },
 
 
@@ -699,24 +678,8 @@ qx.Class.define("qx.ui.core.ScrollArea",
     */
 
     // property apply
-    _applyScrollBarX : function(value, old)
-    {
-      if (value === "auto") {
-        this._computeScrollbars();
-      } else {
-        this._setScrollBarVisibility("horizontal", value === "on");
-      }
-    },
-
-
-    // property apply
-    _applyScrollBarY : function(value, old)
-    {
-      if (value === "auto") {
-        this._computeScrollbars();
-      } else {
-        this._setScrollBarVisibility("vertical", value === "on");
-      }
+    _applyScrollBar : function(value, old) {
+      this._computeScrollbars();
     }
   }
 });
