@@ -21,7 +21,6 @@
 /* ************************************************************************
 
 #asset(qx/icon/Oxygen/32/apps/photo-album.png)
-#asset(qx/icon/Oxygen/32/apps/office-writer.png)
 
 ************************************************************************ */
 
@@ -67,7 +66,7 @@ qx.Class.define("demobrowser.demo.widget.Popup",
 
       button.addListener("click", function(e)
       {
-        popup.setLocation(e.getViewportLeft() + 3, e.getViewportTop() + 3);
+        popup.moveTo(e.getViewportLeft() + 3, e.getViewportTop() + 3);
         popup.show();
         popup.bringToFront();
       }, this);
@@ -95,7 +94,7 @@ qx.Class.define("demobrowser.demo.widget.Popup",
 
       button.addListener("click", function(e)
       {
-        popup.setLocation(e.getViewportLeft() + 3, e.getViewportTop() + 3);
+        popup.moveTo(e.getViewportLeft() + 3, e.getViewportTop() + 3);
         popup.show();
         popup.bringToFront();
       }, this);
