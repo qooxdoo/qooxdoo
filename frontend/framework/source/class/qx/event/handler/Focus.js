@@ -463,8 +463,8 @@ qx.Class.define("qx.event.handler.Focus",
         this._document.removeEventListener("mousedown", this.__onNativeMouseDownWrapper, true);
         this._document.removeEventListener("mouseup", this.__onNativeMouseUpWrapper, true);
 
-        this._window.removeEventListener("focus", this.__onNativeFocusWrapper, false);
-        this._window.removeEventListener("blur", this.__onNativeBlurWrapper, false);
+        this._window.removeEventListener("focus", this.__onNativeFocusWrapper, true);
+        this._window.removeEventListener("blur", this.__onNativeBlurWrapper, true);
       },
 
       "mshtml" : function()
