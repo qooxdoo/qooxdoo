@@ -81,6 +81,20 @@ qx.Class.define("qx.ui.basic.Atom",
     },
 
 
+    /**
+     * Switches between rich HTML and text content. The text mode (<code>false</code>) supports
+     * advanced features like ellipsis when the available space is not
+     * enough. HTML mode (<code>true</code>) supports multi-line content and all the
+     * markup features of HTML content.
+     */
+    rich :
+    {
+      check : "Boolean",
+      init : false,
+      apply : "_applyRich"
+    },
+
+
     /** Any URI String supported by qx.ui.basic.Image to display a icon */
     icon :
     {
@@ -181,9 +195,18 @@ qx.Class.define("qx.ui.basic.Atom",
       {
         this._label = new qx.ui.basic.Label(value);
         this._label.setAnonymous(true);
+        this._label.setRich(this.getRich());
       }
 
       this._handleLabel();
+    },
+
+
+    _applyRich : function(value, old)
+    {
+      if (this._label) {
+        this._label.setRich(value);
+      }
     },
 
 
