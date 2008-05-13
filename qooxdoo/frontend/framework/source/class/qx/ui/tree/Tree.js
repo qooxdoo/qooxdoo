@@ -62,7 +62,7 @@ qx.Class.define("qx.ui.tree.Tree",
       allowShrinkY: false
     });
 
-    this._scrollPane.setContent(content);
+    this._setContent(content);
 
     this.initOpenMode();
     this.initRootOpenClose();
@@ -197,7 +197,7 @@ qx.Class.define("qx.ui.tree.Tree",
      * @return {qx.ui.core.Widget} the children container
      */
     getChildrenContainer : function() {
-      return this._scrollPane.getContent();
+      return this._getContent();
     },
 
 
@@ -259,7 +259,7 @@ qx.Class.define("qx.ui.tree.Tree",
     _applyContentPadding : function(value, old)
     {
       if (value) {
-        this._scrollPane.getContent().setPadding(value);
+        this._getContent().setPadding(value);
       }
     },
 
@@ -396,7 +396,7 @@ qx.Class.define("qx.ui.tree.Tree",
       {
         top += item.getBounds().top;
         var item = item.getLayoutParent();
-        if (item == this._scrollPane.getContent()) {
+        if (item == this._getContent()) {
           return top;
         }
       }
