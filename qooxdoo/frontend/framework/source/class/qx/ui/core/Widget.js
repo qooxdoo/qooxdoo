@@ -2421,9 +2421,7 @@ qx.Class.define("qx.ui.core.Widget",
 
   destruct : function()
   {
-    // TODO: Is this all?
-
     this._disposeArray("__children");
-    this._disposeObjects("__states", "_containerElement", "_contentElement");
+    this._disposeObjects("__states", "_containerElement", "_contentElement", "_decorationElement");
   }
 });
