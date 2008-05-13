@@ -2440,7 +2440,7 @@ qx.Class.define("qx.ui.core.Widget",
         throw new Error("Child control '" + id + "' already created!");
       }
 
-      this.debug("Create child control: " + id);
+      // this.debug("Create child control: " + id);
       var control = this._createChildControlImpl(id);
 
       if (!control) {
@@ -2461,7 +2461,7 @@ qx.Class.define("qx.ui.core.Widget",
         controls[id].dispose();
       }
 
-      this.__childControls = null;
+      delete this.__childControls;
     },
 
 
