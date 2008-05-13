@@ -110,9 +110,16 @@ qx.Class.define("qx.ui.tabview.Page",
      * @param value {boolean} The new value.
      * @param old {boolean} The old value.
      */
-    _applyEnabled: function(value, old) {
+    _applyEnabled: function(value, old)
+    {
       this.base(arguments, value, old);
-      this._button.setEnabled(value);
+
+      // since enabled is inheritable value may be null
+      if (value == null) {
+        this._button.resetEnabled();
+      } else {
+        this._button.setEnabled(value);
+      }
     }
   },
 

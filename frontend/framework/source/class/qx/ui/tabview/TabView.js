@@ -41,7 +41,7 @@ qx.Class.define("qx.ui.tabview.TabView",
     this._pane = this._createPane();
 
     this._add(this._bar);
-    this._add(this._pane);
+    this._add(this._pane, {flex: 1});
     this._setLayout(new qx.ui.layout.VBox());
   },
 
@@ -95,7 +95,8 @@ qx.Class.define("qx.ui.tabview.TabView",
      *
      * @param page {qx.ui.tabview.Page} The page which should be added.
      */
-    add: function(page) {
+    add: function(page)
+    {
       // add the button to the bar
       this._bar.add(page.getButton());
       // add the button to the radio manager
@@ -128,7 +129,8 @@ qx.Class.define("qx.ui.tabview.TabView",
      *
      * @return {qx.ui.tabview.Page} The current visible page.
      */
-    getCurrentPage: function () {
+    getCurrentPage: function ()
+    {
       if (this._pane.getLayoutChildren().length == 1) {
         return this._pane.getLayoutChildren()[0];
       }
@@ -142,7 +144,8 @@ qx.Class.define("qx.ui.tabview.TabView",
      *
      * @return {qx.ui.core.Widget} A widget configured as tabview bar.
      */
-    _createBar: function() {
+    _createBar: function()
+    {
       var bar = new qx.ui.container.Composite();
       bar.setLayout(new qx.ui.layout.HBox());
       bar.setAppearance("tab-view-bar");
