@@ -379,7 +379,7 @@ qx.Class.define("qx.ui.popup.ToolTip",
       }
 
       return top;
-    },
+    }
   },
 
 
