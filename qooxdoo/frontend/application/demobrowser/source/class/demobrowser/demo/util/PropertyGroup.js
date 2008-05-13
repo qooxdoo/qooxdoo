@@ -47,7 +47,7 @@ qx.Class.define("demobrowser.demo.util.PropertyGroup",
       if (nullable)
       {
         var nullWidget = new qx.ui.form.CheckBox("null");
-        nullWidget.addListener("changeChecked", this._createOnNullPropertyChange(prop), this);
+        nullWidget.addListener("change", this._createOnNullPropertyChange(prop), this);
 
         this._add(nullWidget, {row: row, column: 2});
         this._properties[prop].nullWidget = nullWidget;
@@ -65,7 +65,7 @@ qx.Class.define("demobrowser.demo.util.PropertyGroup",
       else if (type == "bool")
       {
         var formItem = new qx.ui.form.CheckBox();
-        formItem.addListener("changeChecked", this._createOnBoolPropertyChange(prop), this);
+        formItem.addListener("change", this._createOnBoolPropertyChange(prop), this);
         this._add(formItem, {row: row++, column: 1});
       }
       else if (type == "enum")

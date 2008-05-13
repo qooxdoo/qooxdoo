@@ -37,7 +37,7 @@ qx.Class.define("demobrowser.demo.util.PropertyEditor",
     var pane = new qx.ui.container.Composite().set({
       padding: [20, 14]
     });
-    this._scrollPane.setContent(pane);
+    this._setContent(pane);
     this._pane = pane;
 
 
