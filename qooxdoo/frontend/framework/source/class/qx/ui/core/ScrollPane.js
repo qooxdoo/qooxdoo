@@ -43,7 +43,7 @@ qx.Class.define("qx.ui.core.ScrollPane",
     this._setLayout(new qx.ui.layout.Grow());
 
     // Add resize listener to "translate" event
-    this.addListener("resize", this._onChange);
+    this.addListener("resize", this._onUpdate);
   },
 
 
@@ -58,7 +58,7 @@ qx.Class.define("qx.ui.core.ScrollPane",
   events :
   {
     /** Fired on resize of both the container or the content. */
-    change : "qx.event.type.Event"
+    update : "qx.event.type.Event"
   },
 
 
@@ -91,13 +91,13 @@ qx.Class.define("qx.ui.core.ScrollPane",
       if (old)
       {
         this._remove(old);
-        old.removeListener("resize", this._onChange, this);
+        old.removeListener("resize", this._onUpdate, this);
       }
 
       if (content)
       {
         this._add(content);
-        content.addListener("resize", this._onChange, this);
+        content.addListener("resize", this._onUpdate, this);
       }
 
       return content || null;
@@ -130,11 +130,9 @@ qx.Class.define("qx.ui.core.ScrollPane",
      * @type member
      * @param e {Event} Resize event object
      */
-    _onChange : function(e) {
-      this.fireDataEvent("change");
+    _onUpdate : function(e) {
+      this.fireEvent("update");
     },
-
-
 
 
 
