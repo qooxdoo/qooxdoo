@@ -62,7 +62,7 @@ qx.Class.define("qx.ui.slider.Slider",
     this.base(arguments, orientation);
 
     this.addListener("keypress", this._onKeyPress);
-    this.addListener("mousewheel", this._onMouseWheel, this);
+    this.addListener("mousewheel", this._onMouseWheel);
   },
 
 
@@ -103,6 +103,12 @@ qx.Class.define("qx.ui.slider.Slider",
 
   members :
   {
+    /*
+    ---------------------------------------------------------------------------
+      EVENT HANDLER
+    ---------------------------------------------------------------------------
+    */
+
     /**
      * Listener of mousewheel event
      *
@@ -113,7 +119,7 @@ qx.Class.define("qx.ui.slider.Slider",
     _onMouseWheel : function(e)
     {
       this.slideBy(-e.getWheelDelta() * this.getSingleStep());
-      e.stopPropagation();
+      e.stop();
     },
 
 

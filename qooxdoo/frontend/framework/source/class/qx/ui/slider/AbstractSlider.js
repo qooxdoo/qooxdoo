@@ -81,8 +81,8 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
     }
 
     // Resize handling
-    this.addListener("resize", this._onResize, this);
-    this._knob.addListener("resize", this._onResize, this);
+    this.addListener("resize", this._onUpdate, this);
+    this._knob.addListener("resize", this._onUpdate, this);
   },
 
 
@@ -352,7 +352,7 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
      * @param e {qx.event.type.Data} Incoming event object
      * @return {void}
      */
-    _onResize : function(e)
+    _onUpdate : function(e)
     {
       // Update sliding space
       var availSize = this.getComputedInnerSize();
