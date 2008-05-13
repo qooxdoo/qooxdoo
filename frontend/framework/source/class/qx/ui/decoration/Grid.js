@@ -123,6 +123,45 @@ qx.Class.define("qx.ui.decoration.Grid",
       check : "Boolean",
       init : true,
       apply : "_changeBorderVisibility"
+    },
+    
+    /** Width of the left inset */
+    insetLeft :
+    {
+      check : "Number",
+      init  : 0,
+      apply : "_changeInset"
+    },
+    
+    /** Width of the right inset */
+    insetRight :
+    {
+      check : "Number",
+      init  : 0,
+      apply : "_changeInset"
+    },
+    
+    /** Width of the bottom inset */
+    insetBottom :
+    {
+      check : "Number",
+      init  : 0,
+      apply : "_changeInset"
+    },
+    
+    /** Width of the top inset */
+    insetTop :
+    {
+      check : "Number",
+      init  : 0,
+      apply : "_changeInset"
+    },
+    
+    /** Property group for insets */
+    insets :
+    {
+      group : [ "insetTop", "insetRight", "insetBottom", "insetLeft" ],
+      mode  : "shorthand"
     }
   },
 
@@ -148,6 +187,10 @@ qx.Class.define("qx.ui.decoration.Grid",
     _changeBorderVisibility : function(value)
     {
       this.__markup = null;
+      qx.ui.core.queue.Decorator.add(this);
+    },
+    
+    _changeInset : function(value) {
       qx.ui.core.queue.Decorator.add(this);
     },
 
@@ -255,8 +298,6 @@ qx.Class.define("qx.ui.decoration.Grid",
 
       var ret = this.__markup = html.join("");;
 
-      console.info(ret)
-
       return ret;
     },
 
@@ -346,11 +387,14 @@ qx.Class.define("qx.ui.decoration.Grid",
     // interface implementation
     getInsets : function()
     {
-      if (!this.__insets) {
-        this.__computeMarkup();
-      }
-
-      return this.__insets;
+      var insets = {
+        left : this.getInsetLeft(),
+        right : this.getInsetRight(),
+        bottom : this.getInsetBottom(),
+        top : this.getInsetTop()
+      };
+      
+      return insets;
     }
   }
 });
