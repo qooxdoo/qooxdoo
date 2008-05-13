@@ -44,7 +44,6 @@ qx.Class.define("qx.ui.core.ScrollBar",
     // Create slider
     this._slider = new qx.ui.slider.AbstractSlider(orientation);
     this._slider.setAppearance("scrollbar-slider");
-    this._slider.setSingleStep(20);
     this._slider.setPageStep(100);
     this._slider.addListener("change", this._onChangeSlider, this);
 
@@ -127,6 +126,16 @@ qx.Class.define("qx.ui.core.ScrollBar",
       check : [ "horizontal", "vertical" ],
       init : "horizontal",
       apply : "_applyOrientation"
+    },
+
+
+    /**
+     * Step
+     */
+    singleStep :
+    {
+      check : "Integer",
+      init : 20
     }
   },
 
@@ -164,14 +173,6 @@ qx.Class.define("qx.ui.core.ScrollBar",
       return this._slider.getMaximum();
     },
 
-    setSingleStep : function(value) {
-      return this._slider.setSingleStep(value);
-    },
-
-    getSingleStep : function() {
-      return this._slider.getSingleStep();
-    },
-
     setPageStep : function(value) {
       return this._slider.setPageStep(value);
     },
@@ -188,7 +189,7 @@ qx.Class.define("qx.ui.core.ScrollBar",
       return this._slider.slideBy(offset);
     },
 
-    getScroll : function() {
+    getPosition : function() {
       return this._slider.getValue();
     },
 
@@ -231,7 +232,7 @@ qx.Class.define("qx.ui.core.ScrollBar",
      * @return {void}
      */
     _onChangeSlider : function(e) {
-      this.fireDataEvent("scroll", this.getScroll());
+      this.fireDataEvent("scroll", this.getPosition());
     },
 
 

@@ -212,7 +212,7 @@ qx.Class.define("qx.ui.core.ScrollArea",
     {
       var scrollbar = this._getChildControl("scrollbarX", true);
       if (scrollbar) {
-        scrollbar.setValue(value);
+        scrollbar.scrollTo(value);
       }
     },
 
@@ -227,7 +227,7 @@ qx.Class.define("qx.ui.core.ScrollArea",
     {
       var scrollbar = this._getChildControl("scrollbarX", true);
       if (scrollbar) {
-        return scrollbar.getValue();
+        return scrollbar.getPosition();
       }
 
       return 0;
@@ -245,7 +245,7 @@ qx.Class.define("qx.ui.core.ScrollArea",
     {
       var scrollbar = this._getChildControl("scrollbarY", true);
       if (scrollbar) {
-        scrollbar.setValue(value);
+        scrollbar.scrollTo(value);
       }
     },
 
@@ -260,7 +260,7 @@ qx.Class.define("qx.ui.core.ScrollArea",
     {
       var scrollbar = this._getChildControl("scrollbarY", true);
       if (scrollbar) {
-        return scrollbar.getValue();
+        return scrollbar.getPosition();
       }
 
       return 0;
