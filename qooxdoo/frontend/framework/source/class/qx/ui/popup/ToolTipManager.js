@@ -29,23 +29,28 @@ qx.Class.define("qx.ui.popup.ToolTipManager",
   extend : qx.core.Object,
 
 
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
   construct : function()
   {
     this.base(arguments);
 
     var root = qx.core.Init.getApplication().getRoot();
 
-    this.__lastMousePos = {
-      left: 0,
-      top: 0
-    };
-
+    // Register events
     root.addListener("mousemove", this.__onMouseMoveRoot, this, true);
     root.addListener("mouseover", this.__onMouseOverRoot, this, true);
     root.addListener("mouseout", this.__onMouseOutRoot, this, true);
-    root.addListener("focusin", this.__onFocusinRoot, this, true);
-    root.addListener("focusout", this.__onFocusoutRoot, this, true);
+    root.addListener("focusin", this.__onFocusInRoot, this, true);
+    root.addListener("focusout", this.__onFocusOutRoot, this, true);
   },
+
+
 
 
   /*
@@ -57,7 +62,7 @@ qx.Class.define("qx.ui.popup.ToolTipManager",
   properties :
   {
     /** Holds the current ToolTip instance */
-    currentToolTip :
+    toolTip :
     {
       check : "qx.ui.popup.ToolTip",
       nullable : true,
@@ -78,7 +83,7 @@ qx.Class.define("qx.ui.popup.ToolTipManager",
   {
     /*
     ---------------------------------------------------------------------------
-      APPLY ROUTINES
+      PROPERTY APPLY ROUTINES
     ---------------------------------------------------------------------------
     */
 
@@ -108,23 +113,42 @@ qx.Class.define("qx.ui.popup.ToolTipManager",
 
 
 
+
+
     /*
     ---------------------------------------------------------------------------
-      EVENT INTERFACE: MOUSE
+      UTILITIES
     ---------------------------------------------------------------------------
     */
+
+    /**
+     * The viewport position of the last mouse move event.
+     *
+     * @return {Integer} Left viewport coordinate of the last move event.
+     */
+    getLastLeft : function() {
+      return this.__lastLeft;
+    },
 
 
     /**
      * The viewport position of the last mouse move event.
      *
-     * @return {Map} a map with the <code>left</code> and <code>right</code>
-     *     viewport voordinate of the last move event.
+     * @return {Integer} Top viewport coordinate of the last move event.
      */
-    getLastMousePosition : function() {
-      return this.__lastMousePos;
+    getLastTop : function() {
+      return this.__lastTop;
     },
 
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      MOUSE EVENT HANDLER
+    ---------------------------------------------------------------------------
+    */
 
     /**
      * Global mouse move event handler
@@ -133,8 +157,8 @@ qx.Class.define("qx.ui.popup.ToolTipManager",
      */
     __onMouseMoveRoot : function(e)
     {
-      this.__lastMousePos.left = e.getViewportLeft();
-      this.__lastMousePos.top = e.getViewportTop();
+      this.__lastLeft = e.getViewportLeft();
+      this.__lastTop = e.getViewportTop();
     },
 
 
@@ -149,22 +173,22 @@ qx.Class.define("qx.ui.popup.ToolTipManager",
      */
     __onMouseOverRoot : function(e)
     {
-      var vTarget = e.getTarget();
+      var target = e.getTarget();
       var tooltip;
 
       // Search first parent which has a tooltip
-      while (vTarget != null)
+      while (target != null)
       {
-        var tooltip = vTarget.getToolTip();
+        var tooltip = target.getToolTip();
         if (tooltip) {
           break;
         }
 
-        vTarget = vTarget.getLayoutParent();
+        target = target.getLayoutParent();
       }
 
       // Set Property
-      this.setCurrentToolTip(tooltip);
+      this.setToolTip(tooltip);
     },
 
 
@@ -178,32 +202,27 @@ qx.Class.define("qx.ui.popup.ToolTipManager",
      */
     __onMouseOutRoot : function(e)
     {
-      var vTarget = e.getTarget();
-      var vRelatedTarget = e.getRelatedTarget();
+      var target = e.getTarget();
+      var related = e.getRelatedTarget();
 
-      var tooltip = this.getCurrentToolTip();
+      var tooltip = this.getToolTip();
 
       // If there was a tooltip and
       // - the destination target is the current tooltip
       //   or
       // - the current tooltip contains the destination target
-      if (
-        tooltip && (
-          vRelatedTarget == tooltip ||
-          qx.ui.core.Widget.contains(tooltip, vRelatedTarget)
-        )
-      ) {
+      if (tooltip && (related == tooltip || qx.ui.core.Widget.contains(tooltip, related))) {
         return;
       }
 
       // If the destination target exists and the target contains it
-      if (vRelatedTarget && vTarget && qx.ui.core.Widget.contains(vTarget, vRelatedTarget)) {
+      if (related && target && qx.ui.core.Widget.contains(target, related)) {
         return;
       }
 
       // If there was a tooltip and there is no new one
-      if (tooltip && !vRelatedTarget) {
-        this.setCurrentToolTip(null);
+      if (tooltip && !related) {
+        this.setToolTip(null);
       }
     },
 
@@ -212,7 +231,7 @@ qx.Class.define("qx.ui.popup.ToolTipManager",
 
     /*
     ---------------------------------------------------------------------------
-      EVENT INTERFACE: FOCUS
+      FOCUS EVENT HANDLER
     ---------------------------------------------------------------------------
     */
 
@@ -224,15 +243,15 @@ qx.Class.define("qx.ui.popup.ToolTipManager",
      * @param e {qx.event.type.Focus} focus event
      * @return {void}
      */
-    __onFocusinRoot : function(e)
+    __onFocusInRoot : function(e)
     {
-      var vTarget = e.getTarget();
-      var tooltip = vTarget.getToolTip();
+      var target = e.getTarget();
+      var tooltip = target.getToolTip();
 
       // Only set new tooltip if focus widget
       // has one
       if (tooltip != null) {
-        this.setCurrentToolTip(tooltip);
+        this.setToolTip(tooltip);
       }
     },
 
@@ -245,20 +264,20 @@ qx.Class.define("qx.ui.popup.ToolTipManager",
      * @param e {qx.event.type.Focus} blur event
      * @return {void}
      */
-    __onFocusoutRoot : function(e)
+    __onFocusOutRoot : function(e)
     {
-      var vTarget = e.getTarget();
+      var target = e.getTarget();
 
-      if (!vTarget) {
+      if (!target) {
         return;
       }
 
-      var tooltip = this.getCurrentToolTip();
+      var tooltip = this.getToolTip();
 
       // Only set to null if blured widget is the
       // one which has created the current tooltip
-      if (tooltip && tooltip == vTarget.getToolTip()) {
-        this.setCurrentToolTip(null);
+      if (tooltip && tooltip == target.getToolTip()) {
+        this.setToolTip(null);
       }
     }
   }

@@ -611,12 +611,15 @@ qx.Class.define("qx.ui.window.Window",
      */
     _sendTo : function()
     {
-      var vAll = qx.lang.Object.getValues(this.getWindowManager().getAll()).sort(function(a, b) { return a.getZIndex() - b.getZIndex() });
-      var vLength = vAll.length;
-      var vIndex = this._minZIndex;
+      var list = this.getWindowManager().getAll();
 
-      for (var i=0; i<vLength; i++) {
-        vAll[i].setZIndex(vIndex++);
+      list.sort(function(a, b) {
+        return a.getZIndex() - b.getZIndex()
+      });
+
+      var zindex = this._minZIndex;
+      for (var i=0, l=list.length; i<l; i++) {
+        list[i].setZIndex(zindex++);
       }
     },
 

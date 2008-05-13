@@ -46,7 +46,7 @@ qx.Class.define("qx.util.Set",
   {
     this.base(arguments);
 
-    this._objects = {};
+    this.__objects = {};
   },
 
 
@@ -79,7 +79,7 @@ qx.Class.define("qx.util.Set",
       }
 
       var hash = qx.core.ObjectRegistry.toHashCode(vObject);
-      this._objects[hash] = vObject;
+      this.__objects[hash] = vObject;
       return hash;
     },
 
@@ -96,7 +96,7 @@ qx.Class.define("qx.util.Set",
       }
 
       var hash = qx.core.ObjectRegistry.toHashCode(vObject);
-      delete this._objects[hash];
+      delete this.__objects[hash];
     },
 
 
@@ -108,7 +108,7 @@ qx.Class.define("qx.util.Set",
     has : function(vObject)
     {
       var hash = qx.core.ObjectRegistry.toHashCode(vObject);
-      return this._objects[hash] !== undefined;
+      return this.__objects[hash] !== undefined;
     },
 
 
@@ -122,7 +122,7 @@ qx.Class.define("qx.util.Set",
     get : function(vObject)
     {
       var hash = qx.core.ObjectRegistry.toHashCode(vObject);
-      return this._objects[hash];
+      return this.__objects[hash];
     },
 
 
@@ -134,8 +134,8 @@ qx.Class.define("qx.util.Set",
      * @return {Object|undefined} The registered object or undefined if the
      *   object is not registered.
      */
-    getByHash : function(hash) {
-      return this._objects[hash];
+    fromHashCode : function(hash) {
+      return this.__objects[hash];
     },
 
 
@@ -146,7 +146,7 @@ qx.Class.define("qx.util.Set",
      * @return {var} TODOC
      */
     getAll : function() {
-      return this._objects;
+      return qx.lang.Object.getValues(this.__objects);
     }
   },
 
@@ -160,6 +160,6 @@ qx.Class.define("qx.util.Set",
   */
 
   destruct : function() {
-    this._disposeMap("_objects");
+    this._disposeMap("__objects");
   }
 });
