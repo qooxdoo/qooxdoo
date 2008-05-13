@@ -246,7 +246,9 @@ qx.Class.define("qx.ui.core.EventHandler",
         elem = target.getContentElement();
       }
 
-      elem.removeListener(type, this._dispatchEvent, this, capture);
+      if (!elem.isDisposed()) {
+        elem.removeListener(type, this._dispatchEvent, this, capture);
+      }
     }
   },
 
