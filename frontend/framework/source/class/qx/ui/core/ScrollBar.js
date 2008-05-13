@@ -44,6 +44,8 @@ qx.Class.define("qx.ui.core.ScrollBar",
     // Create slider
     this._slider = new qx.ui.slider.AbstractSlider(orientation);
     this._slider.setAppearance("scrollbar-slider");
+    this._slider.setSingleStep(20);
+    this._slider.setPageStep(100);
     this._slider.addListener("change", this._onChangeSlider, this);
 
 
@@ -75,11 +77,28 @@ qx.Class.define("qx.ui.core.ScrollBar",
     } else {
       this.initOrientation();
     }
-
-
-    // Initialize page step
-    this.initPageStep();
   },
+
+
+
+
+
+
+  /*
+  *****************************************************************************
+     EVENTS
+  *****************************************************************************
+  */
+
+  events :
+  {
+    /**
+     * Fired when the scrollbar value is changed. Contains the current
+     * scroll position.
+     */
+    scroll : "qx.event.type.DataEvent"
+  },
+
 
 
 
@@ -108,62 +127,6 @@ qx.Class.define("qx.ui.core.ScrollBar",
       check : [ "horizontal", "vertical" ],
       init : "horizontal",
       apply : "_applyOrientation"
-    },
-
-
-    /**
-     * The current scroll position
-     */
-    value :
-    {
-      check : "Integer",
-      init : 0,
-      apply : "_applyValue",
-      event : "change"
-    },
-
-
-    /**
-     * The size of the scroll content
-     */
-    contentSize :
-    {
-      check : "Integer",
-      init : 100,
-      apply : "_applyContentSize"
-    },
-
-
-    /**
-     * The size of the scroll container
-     */
-    containerSize :
-    {
-      check : "Integer",
-      init: 50,
-      apply : "_applyContainerSize"
-    },
-
-
-    /**
-     * The amount to scroll if the user clicks on one of the arrow buttons.
-     */
-    singleStep :
-    {
-      check : "Integer",
-      init : 22,
-      apply : "_applySingleStep"
-    },
-
-
-    /**
-     * The amount to scroll if the user clicks on the page control (scrollbar background)
-     */
-    pageStep :
-    {
-      check : "Integer",
-      init : 110,
-      apply : "_applyPageStep"
     }
   },
 
@@ -179,16 +142,54 @@ qx.Class.define("qx.ui.core.ScrollBar",
 
   members :
   {
-    /**
-     * Updates the slider size and computes the new slider maximum.
-     */
-    __updateSliderSize : function()
-    {
-      var outer = this.getContainerSize();
-      var inner = this.getContentSize();
+    /*
+    ---------------------------------------------------------------------------
+      SLIDER REDIRECT
+    ---------------------------------------------------------------------------
+    */
 
-      this._slider.setMaximum(Math.max(0, inner - outer));
-      this._slider.setKnobFactor(outer / inner);
+    setKnobFactor : function(value) {
+      return this._slider.setKnobFactor(value);
+    },
+
+    getKnobFactor : function() {
+      return this._slider.getKnobFactor();
+    },
+
+    setMaximum : function(value) {
+      return this._slider.setMaximum(value);
+    },
+
+    getMaximum : function() {
+      return this._slider.getMaximum();
+    },
+
+    setSingleStep : function(value) {
+      return this._slider.setSingleStep(value);
+    },
+
+    getSingleStep : function() {
+      return this._slider.getSingleStep();
+    },
+
+    setPageStep : function(value) {
+      return this._slider.setPageStep(value);
+    },
+
+    getPageStep : function() {
+      return this._slider.getPageStep();
+    },
+
+    scrollTo : function(position) {
+      return this._slider.slideTo(position);
+    },
+
+    scrollBy : function(offset) {
+      return this._slider.slideBy(offset);
+    },
+
+    getScroll : function() {
+      return this._slider.getValue();
     },
 
 
@@ -205,9 +206,10 @@ qx.Class.define("qx.ui.core.ScrollBar",
      * Executed when the up/left button is executed (pressed)
      *
      * @param e {qx.event.type.Event} Execute event of the button
+     * @return {void}
      */
     _onExecuteBegin : function() {
-      this._slider.slideBy(-this.getSingleStep());
+      this.scrollBy(-this.getSingleStep());
     },
 
 
@@ -215,9 +217,10 @@ qx.Class.define("qx.ui.core.ScrollBar",
      * Executed when the down/right button is executed (pressed)
      *
      * @param e {qx.event.type.Event} Execute event of the button
+     * @return {void}
      */
     _onExecuteEnd : function() {
-      this._slider.slideBy(this.getSingleStep());
+      this.scrollBy(this.getSingleStep());
     },
 
 
@@ -225,9 +228,10 @@ qx.Class.define("qx.ui.core.ScrollBar",
      * Change listener for sider value changes.
      *
      * @param e {qx.event.type.Change} The change event object
+     * @return {void}
      */
     _onChangeSlider : function(e) {
-      this.setValue(e.getValue());
+      this.fireDataEvent("scroll", this.getScroll());
     },
 
 
@@ -248,8 +252,6 @@ qx.Class.define("qx.ui.core.ScrollBar",
       if (oldLayout) {
         oldLayout.dispose();
       }
-
-      // TODO: Cache layout instances?
 
       // Reconfigure
       if (value === "horizontal")
@@ -277,36 +279,6 @@ qx.Class.define("qx.ui.core.ScrollBar",
 
       // Sync slider orientation
       this._slider.setOrientation(value);
-    },
-
-
-    // property apply
-    _applyValue : function(value, old) {
-      this._slider.slideTo(value);
-    },
-
-
-    // property apply
-    _applyContentSize : function(value, old) {
-      this.__updateSliderSize();
-    },
-
-
-    // property apply
-    _applyContainerSize : function(value, old) {
-      this.__updateSliderSize();
-    },
-
-
-    // property apply
-    _applySingleStep : function(value, old) {
-      // empty implementation
-    },
-
-
-    // property apply
-    _applyPageStep : function(value, old) {
-      this._slider.setPageStep(value);
     }
   }
 });
