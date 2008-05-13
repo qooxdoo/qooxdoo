@@ -19,7 +19,7 @@
 ************************************************************************ */
 
 /**
- * A scroll bar for the scroll pane.
+ * A scroll bar.
  */
 qx.Class.define("qx.ui.core.ScrollBar",
 {
