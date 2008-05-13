@@ -195,7 +195,6 @@ qx.Class.define("qx.ui.core.ScrollArea",
 
 
 
-
     /*
     ---------------------------------------------------------------------------
       SCROLL SUPPORT
@@ -632,24 +631,32 @@ qx.Class.define("qx.ui.core.ScrollArea",
         }
       }
 
-      // this.debug("Scrollbars: " + showX + ", " + showY);
-
-      showX ? this._showChildControl("scrollbarX") : this._excludeChildControl("scrollbarX");
-      showY ? this._showChildControl("scrollbarY") : this._excludeChildControl("scrollbarY");
-
       // Update scrollbars
+      // this.debug("Scrollbars: " + showX + ", " + showY);
       if (showX)
       {
         var barX = this._getChildControl("scrollbarX");
+
+        barX.show();
         barX.setContainerSize(paneWidth);
         barX.setContentSize(scrollWidth);
+      }
+      else
+      {
+        this._excludeChildControl("scrollbarX");
       }
 
       if (showY)
       {
         var barY = this._getChildControl("scrollbarY");
+
+        barY.show();
         barY.setContainerSize(paneHeight);
         barY.setContentSize(scrollHeight);
+      }
+      else
+      {
+        this._excludeChildControl("scrollbarY");
       }
     },
 
