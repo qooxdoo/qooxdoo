@@ -2368,6 +2368,98 @@ qx.Class.define("qx.ui.core.Widget",
 
 
 
+
+
+    /*
+    ---------------------------------------------------------------------------
+      CHILD CONTROL SUPPORT
+    ---------------------------------------------------------------------------
+    */
+
+    _hasChildControl : function(id)
+    {
+      if (!this.__childControls) {
+        return false;
+      }
+
+      return !!this.__childControls[id];
+    },
+
+    _getChildControl : function(id, create)
+    {
+      if (!this.__childControls)
+      {
+        if (create) {
+          this.__childControls = {};
+        } else {
+          return null;
+        }
+      }
+
+      var control = this.__childControls[id];
+      if (control) {
+        return control;
+      }
+
+      if (!create) {
+        return null;
+      }
+
+      return this._createChildControl(id);
+    },
+
+    _showChildControl : function(id)
+    {
+      var control = this._getChildControl(id, true);
+      control.show();
+    },
+
+    _excludeChildControl : function(id)
+    {
+      var control = this._getChildControl(id);
+      if (control) {
+        control.exclude();
+      }
+    },
+
+    _isChildControlVisible : function(id)
+    {
+      var control = this._getChildControl(id);
+      if (control) {
+        return control.isVisible();
+      }
+
+      return false;
+    },
+
+    _createChildControl : function(id)
+    {
+      if (!this.__childControls) {
+        this.__childControls = {};
+      } else if (this.__childControls[id]) {
+        throw new Error("Child control '" + id + "' already created!");
+      }
+
+      this.debug("Create child control: " + id);
+      var control = this._createChildControlImpl(id);
+
+      if (!control) {
+        throw new Error("Unsupported control: " + id);
+      }
+
+      return this.__childControls[id] = control;
+    },
+
+    _createChildControlImpl : function() {
+      return null;
+    },
+
+
+
+
+
+
+
     /*
     ---------------------------------------------------------------------------
       ENHANCED DISPOSE SUPPORT
