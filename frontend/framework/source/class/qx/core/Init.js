@@ -64,12 +64,15 @@ qx.Class.define("qx.core.Init",
 
       if (clazz)
       {
-        var start = new Date;
-
         this.__application = new clazz;
-        this.__application.main();
 
-        qx.log.Logger.debug(this, "Initialization runtime: " + (new Date - start) + "ms");
+        var start = new Date;
+        this.__application.main();
+        qx.log.Logger.debug(this, "Main runtime: " + (new Date - start) + "ms");
+        
+        var start = new Date;
+        this.__application.finalize();        
+        qx.log.Logger.debug(this, "Finalize runtime: " + (new Date - start) + "ms");
       }
     },
 

@@ -31,6 +31,16 @@ qx.Interface.define("qx.application.IApplication",
 
 
     /**
+     * Called when the application's main method was executed to handle 
+     * "final" tasks like rendering or retrieving data.
+     *
+     * @type member
+     * @return {void}
+     */
+    finalize : function() {},
+    
+    
+    /**
      * This method contains the last code which is run inside the page and may contain cleanup code.
      *
      * @type member
