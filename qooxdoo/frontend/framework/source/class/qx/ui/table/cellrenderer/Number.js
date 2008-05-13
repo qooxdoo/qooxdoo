@@ -62,6 +62,25 @@ qx.Class.define("qx.ui.table.cellrenderer.Number",
       check : "qx.util.format.NumberFormat",
       init : null,
       apply : "_applyNumberFormat"
+    },
+
+    /**
+     * Function to optionally alter the value to be formatted.  Typically,
+     * this Number renderer should always render a number, as the name
+     * implies.  The function in this property can be modified, for example,
+     * if one wants a null value to display as an empty string instead of as
+     * the value "0".  (Note, however, that if you also specify a non-null
+     * numberFormat, that numberFormat may alter the display of the value
+     * yielding something other than an empty string for a null value.)
+     *
+     */
+    valueModifier :
+    {
+      check : "Function",
+      init  : function(value)
+      {
+        return value || "0";
+      }
     }
   },
 
@@ -83,11 +102,11 @@ qx.Class.define("qx.ui.table.cellrenderer.Number",
           // which needs escaping. It is much more plausible to have a
           // prefix, postfix containing such characters but those can be
           // (should be) added in their escaped form to the number format.
-          return value.format(cellInfo.value || "0");
+          return value.format(this.getValueModifier()(cellInfo.value));
         }
       } else {
         method = function(cellInfo) {
-          return cellInfo.value || "0";
+          return this.getValueModifier()(cellInfo.value);
         }
       }
       // dynamically override _getContentHtml method
