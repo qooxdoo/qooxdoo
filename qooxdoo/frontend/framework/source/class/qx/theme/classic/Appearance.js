@@ -70,7 +70,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     "popup" : {
     },
-    
+
     "iframe" :
     {
       style : function(states)
@@ -81,7 +81,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
         };
       }
     },
-    
+
 
 
     /*
@@ -711,9 +711,16 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
-    "scroll-pane-corner" :
+    "scrollarea-corner" :
     {
-
+      style : function()
+      {
+        return {
+          backgroundColor : "background",
+          width : 0,
+          height : 0
+        }
+      }
     },
 
     "scrollbar-slider" :
