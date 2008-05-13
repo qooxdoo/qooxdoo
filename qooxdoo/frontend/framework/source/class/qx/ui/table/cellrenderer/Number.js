@@ -67,12 +67,21 @@ qx.Class.define("qx.ui.table.cellrenderer.Number",
     /**
      * Function to optionally alter the value to be formatted.  Typically,
      * this Number renderer should always render a number, as the name
-     * implies.  The function in this property can be modified, for example,
+     * implies.
+     *
+     * The function in this property can be modified, for example,
      * if one wants a null value to display as an empty string instead of as
      * the value "0".  (Note, however, that if you also specify a non-null
      * numberFormat, that numberFormat may alter the display of the value
      * yielding something other than an empty string for a null value.)
      *
+     * To obtain the above behavior, one might use this function as the value
+     * of the valueModifier property:
+     *
+     *     function(value)
+     *     {
+     *       return (value === null ? "" : (value || "0"));
+     *     }
      */
     valueModifier :
     {
