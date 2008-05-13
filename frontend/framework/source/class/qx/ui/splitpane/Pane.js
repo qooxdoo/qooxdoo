@@ -216,8 +216,8 @@ qx.Class.define("qx.ui.splitpane.Pane",
      * Sets given widget as first area.
      *
      * @type member
-     * @param {qx.core.ui.Widget} Widget
-     * @return {Bool} true on sucess, false on failure 
+     * @param widget {qx.core.ui.Widget} Widget
+     * @return {Bool} true on sucess, false on failure
      */
     setFirst : function(widget)
     {
@@ -229,8 +229,8 @@ qx.Class.define("qx.ui.splitpane.Pane",
      * Sets given widget as second area.
      *
      * @type member
-     * @param {qx.core.ui.Widget} Widget
-     * @return {Bool} true on sucess, false on failure 
+     * @param widget {qx.core.ui.Widget} Widget
+     * @return {Bool} true on sucess, false on failure
      */
     setSecond : function(widget)
     {
