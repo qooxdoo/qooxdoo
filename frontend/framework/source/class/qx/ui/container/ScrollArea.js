@@ -58,7 +58,7 @@ qx.Class.define("qx.ui.container.ScrollArea",
      * @return {void}
      */
     setContent : function(value) {
-      this._scrollPane.setContent(value);
+      this._setContent(value);
     },
 
 
@@ -69,7 +69,7 @@ qx.Class.define("qx.ui.container.ScrollArea",
      * @return {qx.ui.core.Widget}
      */
     getContent : function() {
-      return this._scrollPane.getContent();
+      return this._getContent();
     }
   }
 });
