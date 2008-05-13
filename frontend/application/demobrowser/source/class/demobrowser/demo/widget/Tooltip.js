@@ -20,8 +20,8 @@
 
 /* ************************************************************************
 
-#asset(qx/icon/Oxygen/32/apps/photo-album.png)
-#asset(qx/icon/Oxygen/32/apps/office-writer.png)
+#asset(qx/icon/Oxygen/16/actions/help-about.png)
+#asset(qx/icon/Oxygen/32/actions/help-about.png)
 
 ************************************************************************ */
 
@@ -102,9 +102,9 @@ qx.Class.define("demobrowser.demo.widget.Tooltip",
       var tt3 = new qx.ui.popup.ToolTip("Hello World #3", "icon/16/actions/help-about.png");
       c4.setToolTip(tt3);
 
-      var tt4 = new qx.ui.popup.ToolTip("Such a great tooltip with a (show) timeout of 50ms.", "icon/32/apps/graphics-snapshot.png");
+      var tt4 = new qx.ui.popup.ToolTip("Such a great tooltip with a (show) timeout of 50ms.", "icon/32/actions/help-about.png");
       c5.setToolTip(tt4);
-      tt4.setShowInterval(50);
+      tt4.setShowTimeout(50);
     }
   }
 });

@@ -36,6 +36,7 @@ qx.Class.define("qx.ui.popup.Popup",
   extend : qx.ui.container.Composite,
 
 
+
   /*
   *****************************************************************************
      CONSTRUCTOR
@@ -45,13 +46,20 @@ qx.Class.define("qx.ui.popup.Popup",
   construct : function(layout)
   {
     this.base(arguments, layout);
-    this.hide();
 
-    var root = qx.core.Init.getApplication().getRoot();
-    root.add(this);
+    // Excluded by default
+    this.exclude();
 
-    this.initRestrictToPageOnOpen();
+    // Automatically add to application's root
+    qx.core.Init.getApplication().getRoot().add(this);
+
+    // Resize listener
+    this.addListener("resize", this._onMove);
+    this.addListener("move", this._onMove);
   },
+
+
+
 
 
   /*
@@ -62,174 +70,68 @@ qx.Class.define("qx.ui.popup.Popup",
 
   properties :
   {
-    /**
-     * Whether to let the system decide when to hide the popup. Setting
-     *  this to false gives you better control but it also requires you
-     *  to handle the closing of the popup.
-     */
-    autoHide :
-    {
-      check : "Boolean",
-      init : true
-    },
-
-
-    /**
-     * Whether the popup should be restricted to the visible area of the page when opened.
-     */
-    restrictToPageOnOpen :
-    {
-      check : "Boolean",
-      init : true,
-      apply : "_applyRestrictToPageOnOpen"
-    },
-
-    /**
-     * The minimum offset to the left of the page too keep when
-     * {@link #restrictToPageOnOpen} is true (in pixels).
-     */
-    restrictToPageLeft :
-    {
-      check : "Integer",
-      init : 0
-    },
-
-
-    /**
-     * The minimum offset to the right of the page too keep when
-     * {@link #restrictToPageOnOpen} is true (in pixels).
-     */
-    restrictToPageRight :
-    {
-      check : "Integer",
-      init : 0
-    },
-
-
-    /**
-     * The minimum offset to the top of the page too keep when
-     * {@link #restrictToPageOnOpen} is true (in pixels).
-     */
-    restrictToPageTop :
-    {
-      check : "Integer",
-      init : 0
-    },
-
-
-    /**
-     * The minimum offset to the bottom of the page too keep when
-     * {@link #restrictToPageOnOpen} is true (in pixels).
-     */
-    restrictToPageBottom :
-    {
-      check : "Integer",
-      init : 0
-    },
-
-
     // overridden
     appearance :
     {
       refine : true,
       init : "popup"
+    },
+
+
+    /**
+     * Whether to let the system decide when to hide the popup. Setting
+     * this to false gives you better control but it also requires you
+     * to handle the closing of the popup.
+     */
+    autoHide :
+    {
+      check : "Boolean",
+      init : true
     }
   },
 
 
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
   members :
   {
-    __showTimeStamp : (new Date(0)).valueOf(),
-    __hideTimeStamp : (new Date(0)).valueOf(),
-
+    /*
+    ---------------------------------------------------------------------------
+      PROPERTY APPLY ROUTINES
+    ---------------------------------------------------------------------------
+    */
 
     // overridden
     _applyVisibility : function(value, old)
     {
       this.base(arguments, value, old);
 
-      var isVisible = value == "visible";
-
-      if (isVisible)
+      var mgr = qx.ui.popup.PopupManager.getInstance();
+      if (value === "visible")
       {
-        if (this.getRestrictToPageOnOpen()) {
-          this._correctPosition();
-        }
-
-        qx.ui.popup.PopupManager.getInstance().add(this);
-        qx.ui.popup.PopupManager.getInstance().update(this);
-
-        this.__showTimeStamp = (new Date).valueOf();
+        mgr.add(this);
         this.bringToFront();
       }
       else
       {
-        qx.ui.popup.PopupManager.getInstance().remove(this);
-        this.__hideTimeStamp = (new Date).valueOf();
+        mgr.remove(this);
       }
     },
 
 
-    // property apply
-    _applyRestrictToPageOnOpen : function(value, old)
-    {
-      if (value) {
-        this.addListener("appear", this._correctPosition, this);
-      } else {
-        this.removeListener("appear", this._correctPosition, this);
-      }
-    },
 
-
-    /**
-     * This methods corrects the popup's position if {@link restrictToPageOnOpen}
-     * is set to <code>true</code> and the popup is outside of the viewport.
-     */
-    _correctPosition : function()
-    {
-      var clientWidth = qx.bom.Viewport.getWidth();
-      var clientHeight = qx.bom.Viewport.getHeight();
-      var scrollTop = qx.bom.Viewport.getScrollTop();
-      var scrollLeft = qx.bom.Viewport.getScrollLeft();
-
-      var restrictToPageLeft = this.getRestrictToPageLeft() + scrollLeft;
-      var restrictToPageRight = this.getRestrictToPageRight() - scrollLeft;
-      var restrictToPageTop = this.getRestrictToPageTop() + scrollTop;
-      var restrictToPageBottom = this.getRestrictToPageBottom() - scrollTop;
-
-      var bounds = this.getBounds();
-      var left = bounds.left;
-      var top = bounds.top;
-      var width = bounds.width;
-      var height = bounds.height;
-
-      // NOTE: We check right and bottom first, because top and left should have
-      //       priority, when both sides are violated.
-      if (left + width > clientWidth - restrictToPageRight) {
-        left = clientWidth - restrictToPageRight - width;
-      }
-
-      if (top + height > clientHeight - restrictToPageBottom) {
-        top = clientHeight - restrictToPageBottom - height;
-      }
-
-      if (left < restrictToPageLeft) {
-        left = restrictToPageLeft;
-      }
-
-      if (top < restrictToPageTop) {
-        top = restrictToPageTop;
-      }
-
-      if (left != bounds.left || top != bounds.top) {
-        this.setLocation(left, top);
-      }
-    },
 
 
     /*
     ---------------------------------------------------------------------------
-      ZIndex Positioning
+      ZINDEX SUPPORT
     ---------------------------------------------------------------------------
     */
 
@@ -274,9 +176,11 @@ qx.Class.define("qx.ui.popup.Popup",
      */
     _sendTo : function()
     {
-      var popups = qx.lang.Object.getValues(qx.ui.popup.PopupManager.getInstance().getAll());
+      var popups = qx.ui.popup.PopupManager.getInstance().getAll();
 
-      var all = popups.sort(function(a, b) { return a.getZIndex() - b.getZIndex() });
+      var all = popups.sort(function(a, b) {
+        return a.getZIndex() - b.getZIndex()
+      });
 
       var index = this._minZIndex;
 
@@ -286,107 +190,96 @@ qx.Class.define("qx.ui.popup.Popup",
     },
 
 
-    /*
-    ---------------------------------------------------------------------------
-      TIMESTAMP HANDLING
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * Utility method to get the current showTimeStamp
-     *
-     * @type member
-     * @return {Number} Timestamp
-     */
-    getShowTimeStamp : function() {
-      return this.__showTimeStamp;
-    },
-
-
-    /**
-     * Utility method to get the current showTimeStamp
-     *
-     * @type member
-     * @return {Number} Timestamp
-     */
-    getHideTimeStamp : function() {
-      return this.__hideTimeStamp;
-    },
 
 
     /*
     ---------------------------------------------------------------------------
-      UTILITIES
+      USER API
     ---------------------------------------------------------------------------
     */
 
-    /**
-     * Positions the popup at the guvenpage location
-     *
-     * @param left {Integer} The popup's left location
-     * @param top {Integer} The popup's top location
-     */
-    setLocation : function(left, top)
+    moveTo : function(left, top)
     {
       this.setLayoutProperties({
-        left: left,
-        top: top
+        left : left,
+        top : top
       });
     },
 
 
-    /**
-     * Positions the popup relative to a reference. The reference can be either
-     * a widget or a DOM element.
-     *
-     * @type member
-     * @param reference {qx.ui.core.Widget|Element} Reference DOM element/widget.
-     * @param offsetX {Integer ? 0} Offset in pixels in X direction (optional).
-     * @param offsetY {Integer ? 0} Offset in pixels in Y direction (optional).
-     */
-    positionRelativeTo : function(reference, offsetX, offsetY)
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      EVENT LISTENERS
+    ---------------------------------------------------------------------------
+    */
+
+    _onMove : function(e)
     {
-      var el = reference;
+      var bounds = this.getBounds();
 
-      if (reference instanceof qx.ui.core.Widget)
-      {
-        el = reference.getContainerElement().getDomElement();
+      // Normalize coordinates
+      var left = this._normalizeLeft(bounds.left);
+      var top = this._normalizeTop(bounds.top);
 
-        // if the widget has not yet been rendered, wait for the resize event
-        // and try again
-        if (!el)
-        {
-          this.addListenerOnce("resize", this.positionRelativeTo, this);
-          return;
-        }
+      // Detect changes and apply them
+      if (left != bounds.left || top != bounds.top) {
+        this.setLayoutProperties({ left: left, top: top });
       }
-
-      var elementPos = qx.bom.element.Location.get(el);
-      this.setLocation(
-        elementPos.left + (offsetX || 0),
-        elementPos.top + (offsetY || 0)
-      );
     },
 
 
-    /**
-     * Centeres the popup in the browser window.
-     *
-     * @type member
-     */
-    centerToBrowser : function()
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      HELPER
+    ---------------------------------------------------------------------------
+    */
+
+    _normalizeLeft : function(left)
     {
-      var size = this.getSizeHint();
+      var bounds = this.getBounds();
+      var parentBounds = this.getLayoutParent().getBounds();
 
-      var clientWidth = qx.bom.Viewport.getWidth();
-      var clientHeight = qx.bom.Viewport.getHeight();
+      if (!bounds || !parentBounds) {
+        return left;
+      }
 
-      var left = (clientWidth - size.width) / 2;
-      var top = (clientHeight - size.height) / 2;
+      if (bounds.left < 0) {
+        return 0;
+      } else if ((bounds.left + bounds.width) > parentBounds.width) {
+        return parentBounds.width - bounds.width;
+      }
 
-      this.setLocation(left, top);
+      return left;
+    },
+
+
+    _normalizeTop : function(top)
+    {
+      var bounds = this.getBounds();
+      var parentBounds = this.getLayoutParent().getBounds();
+
+      if (!bounds || !parentBounds) {
+        return top;
+      }
+
+      if (bounds.top < 0) {
+        return 0;
+      } else if ((bounds.top + bounds.height) > parentBounds.height) {
+        return parentBounds.height - bounds.height;
+      }
+
+      return top;
     }
   },
+
+
 
 
   /*
@@ -395,10 +288,7 @@ qx.Class.define("qx.ui.popup.Popup",
   *****************************************************************************
   */
 
-  destruct : function()
-  {
+  destruct : function() {
     qx.ui.popup.PopupManager.getInstance().remove(this);
-
-    this._disposeFields("__showTimeStamp", "__hideTimeStamp");
   }
 });

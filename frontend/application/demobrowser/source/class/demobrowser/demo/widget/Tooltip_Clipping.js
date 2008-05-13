@@ -20,8 +20,8 @@
 
 /* ************************************************************************
 
-#asset(qx/icon/Oxygen/32/apps/photo-album.png)
-#asset(qx/icon/Oxygen/32/apps/office-writer.png)
+#asset(qx/icon/Oxygen/16/actions/help-about.png)
+#asset(qx/icon/Oxygen/32/actions/help-about.png)
 
 ************************************************************************ */
 
@@ -35,7 +35,7 @@ qx.Class.define("demobrowser.demo.widget.Tooltip_Clipping",
     {
       this.base(arguments);
 
-      var tooltip = new qx.ui.popup.ToolTip("Tooltip");
+      var tooltip = new qx.ui.popup.ToolTip("Quite a long tool tip", "icon/32/actions/help-about.png");
 
       var c1 = new qx.ui.basic.Atom("Hover me").set({
         backgroundColor: "#BDD2EF",

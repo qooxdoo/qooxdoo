@@ -21,13 +21,19 @@
 /**
  * This singleton is used to manager multiple instances of popups and their
  * state.
- *
- * @internal
  */
 qx.Class.define("qx.ui.popup.PopupManager",
 {
   type : "singleton",
   extend : qx.util.Set,
+
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
 
   construct : function()
   {
@@ -35,9 +41,13 @@ qx.Class.define("qx.ui.popup.PopupManager",
 
     var root = qx.core.Init.getApplication().getRoot();
 
+    // Register events
     root.addListener("mousedown", this.__onUpdateEvent, this, true);
     qx.bom.Element.addListener(window, "blur", this.__onUpdateEvent, this);
   },
+
+
+
 
 
   /*
@@ -55,32 +65,18 @@ qx.Class.define("qx.ui.popup.PopupManager",
      */
     __onUpdateEvent : function(e)
     {
-      var target = e.getTarget();
-      this.update(target instanceof qx.ui.core.Widget ? target : null);
-    },
+      var target = e.getType() === "blur" ? null : e.getTarget();
+      var obj, list = this.getAll();
 
-
-    /**
-     * Updates all registered popups
-     *
-     * @type member
-     * @param vTarget {qx.ui.popup.Popup} current widget
-     * @return {void}
-     */
-    update : function(vTarget)
-    {
-      var vPopup, vHashCode;
-      var vAll = this.getAll();
-
-      for (vHashCode in vAll)
+      for (var i=0, l=list.length; i<l; i++)
       {
-        vPopup = vAll[vHashCode];
+        obj = list[i];
 
-        if (!vPopup.getAutoHide() || vTarget == vPopup || qx.ui.core.Widget.contains(vPopup, vTarget)) {
+        if (!obj.getAutoHide() || target == obj || qx.ui.core.Widget.contains(obj, target)) {
           continue;
         }
 
-        vPopup.hide();
+        obj.hide();
       }
     }
   }
