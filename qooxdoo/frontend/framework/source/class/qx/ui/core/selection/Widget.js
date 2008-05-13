@@ -323,6 +323,6 @@ qx.Class.define("qx.ui.core.selection.Widget",
   */
 
   destruct : function() {
-    this.disposeFields("_widget");
+    this._disposeFields("_widget");
   }
 });
