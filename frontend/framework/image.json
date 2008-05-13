@@ -28,51 +28,69 @@
         "images" :
         {
          // this is the input file
-          "${RESPATH}/${MODERN}/source/button-checked-focused.png" :
+          "${RESPATH}/source/Modern/button-checked-focused.png" :
           {
-            "prefix" : "../form/button-checked-focused",
+            "prefix" : "../../${MODERN}/form/button-checked-focused",
             "border-width" : 4
           },
-          "${RESPATH}/${MODERN}/source/button-checked.png" :
+          "${RESPATH}/source/Modern/button-checked.png" :
           {
-            "prefix" : "../form/button-checked",
+            "prefix" : "../../${MODERN}/form/button-checked",
             "border-width" : 4
           },
-          "${RESPATH}/${MODERN}/source/button-preselected-focused.png" :
+          "${RESPATH}/source/Modern/button-preselected-focused.png" :
           {
-            "prefix" : "../form/button-preselected-focused",
+            "prefix" : "../../${MODERN}/form/button-preselected-focused",
             "border-width" : 4
           },
-          "${RESPATH}/${MODERN}/source/button-preselected.png" :
+          "${RESPATH}/source/Modern/button-preselected.png" :
           {
-            "prefix" : "../form/button-preselected",
+            "prefix" : "../../${MODERN}/form/button-preselected",
             "border-width" : 4
           },
-          "${RESPATH}/${MODERN}/source/button-pressed.png" :
+          "${RESPATH}/source/Modern/button-pressed.png" :
           {
-            "prefix" : "../form/button-pressed",
+            "prefix" : "../../${MODERN}/form/button-pressed",
             "border-width" : 4
           },
-          "${RESPATH}/${MODERN}/source/button-hovered.png" :
+          "${RESPATH}/source/Modern/button-hovered.png" :
           {
-            "prefix" : "../form/button-hovered",
+            "prefix" : "../../${MODERN}/form/button-hovered",
             "border-width" : 4
           },
-          "${RESPATH}/${MODERN}/source/button-focused.png" :
+          "${RESPATH}/source/Modern/button-focused.png" :
           {
-            "prefix" : "../form/button-focused",
+            "prefix" : "../../${MODERN}/form/button-focused",
             "border-width" : 4
           },
-          "${RESPATH}/${MODERN}/source/button.png" :
+          "${RESPATH}/source/Modern/button.png" :
           {
-            "prefix" : "../form/button",
+            "prefix" : "../../${MODERN}/form/button",
             "border-width" : 4
           },
           // pane split
-          "${RESPATH}/${MODERN}/source/pane.png" :
+          "${RESPATH}/source/Modern/pane.png" :
           {
-            "prefix" : "../pane/pane",
+            "prefix" : "../../${MODERN}/pane/pane",
             "border-width" : 6
+          },
+          // window background split
+          "${RESPATH}/source/Modern/window-background.png" :
+          {
+            "prefix" : "../../${MODERN}/window/background",
+            "border-width" : 14
+          },
+          // window captionbar active split
+          "${RESPATH}/source/Modern/window-captionbar-active.png" :
+          {
+            "prefix" : "../../${MODERN}/window/captionbar-active",
+            "border-width" : 5
+          },
+          // window captionbar inactive split
+          "${RESPATH}/source/Modern/window-captionbar-inactive.png" :
+          {
+            "prefix" : "../../${MODERN}/window/captionbar-inactive",
+            "border-width" : 5
           }
         }
       }
@@ -146,7 +164,26 @@
                 "${RESPATH}/${MODERN}/window/maximize-*.png"
               ],
              "layout" : "horizontal"
-          }
+          },
+          
+          "${RESPATH}/${MODERN}/window-background-tb-combined.png":
+          {
+            "input"  : 
+              [
+                "${RESPATH}/${MODERN}/window/background-t*.png",
+                "${RESPATH}/${MODERN}/window/background-b*.png"
+              ],
+             "layout" : "vertical"
+          },
+
+          "${RESPATH}/${MODERN}/window-background-lr-combined.png":
+          {
+            "input"  : 
+              [
+                "${RESPATH}/${MODERN}/window/background-[lr].png"
+              ],
+             "layout" : "horizontal"
+          }          
         }
       }
     }

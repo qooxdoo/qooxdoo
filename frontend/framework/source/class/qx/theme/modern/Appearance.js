@@ -223,6 +223,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
+          padding : [ 4, 10 ],
           legendPosition : "top"
         };
       }
@@ -595,16 +596,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          backgroundColor : "#adadad",
-          decorator : states.active ? new qx.ui.decoration.Uniform().set({
-            width : 1,
-            color : "#00204d",
-            style : "solid"
-          }) : new qx.ui.decoration.Uniform().set({
-            width : 1,
-            color : "#4d4d4d",
-            style : "solid"
-          })
+          backgroundColor : "#ff0000", //"#a9a9a9",
+          decorator       : "window"
         };
       }
     },
@@ -624,18 +617,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          decorator : states.active ? new qx.ui.decoration.Single().set({
-            widthBottom : 1,
-            colorBottom : "#6d6d6d",
-            backgroundImage : "decoration/window/captionbar-active-bg.png",
-            backgroundRepeat : "scale"            
-          }) : new qx.ui.decoration.Single().set({
-            widthBottom : 1,
-            colorBottom : "#6d6d6d",
-            backgroundImage : "decoration/window/captionbar-inactive-bg.png",
-            backgroundRepeat : "scale"
-          }),
-          
+          decorator : states.active ? "window-captionbar-active" : "window-captionbar-inactive",
+          padding   : [ -4, 0, -6, 0 ],
           textColor : states.active ? "#ffffff" : "#4a4a4a"
         };
       }
@@ -646,7 +629,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          padding : 5
+          margin : [ 5, 0, 5, 5 ]
         };
       }
     },
@@ -656,7 +639,11 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          padding   : [ 6, 8, 5, 8 ]
+          margin   : [ 6, 8, 5, 8 ],
+          font : new qx.bom.Font().set({
+            family : [ "Lucida Grande", "Tahoma", "Verdana", "Bitstream Vera Sans", "Liberation Sans" ],
+            size : 12
+          })
         };
       }
     },

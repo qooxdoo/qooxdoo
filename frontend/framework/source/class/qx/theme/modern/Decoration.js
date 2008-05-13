@@ -363,14 +363,39 @@ qx.Theme.define("qx.theme.modern.Decoration",
     
     "window" : 
     {
-      decorator : qx.ui.decoration.Uniform,
+      decorator : qx.ui.decoration.Grid,
       
       style :
       {
-        width : 1,
+        baseImage : "decoration/window/background.png",
+        insets    : [ 3, 8, 8, 4 ]
+        
+    /*    width : 1,
         color : "#4d4d4d",
-        style : "solid"
+        style : "solid"*/
       }
+    },
+    
+    "window-captionbar-active" :
+    {
+      decorator : qx.ui.decoration.Grid,
+      
+      style :
+      {
+        baseImage : "decoration/window/captionbar-active.png",
+        insets    : [ 3, 8, 8, 4 ]
+      }      
+    },
+    
+    "window-captionbar-inactive" :
+    {
+      decorator : qx.ui.decoration.Grid,
+      
+      style :
+      {
+        baseImage : "decoration/window/captionbar-inactive.png",
+        insets    : [ 3, 8, 8, 4 ]
+      }      
     },
     
     "window-statusbar" :
