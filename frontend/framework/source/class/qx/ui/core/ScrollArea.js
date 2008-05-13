@@ -665,6 +665,21 @@ qx.Class.define("qx.ui.core.ScrollArea",
 
       showX ? this._showChildControl("scrollbarX") : this._excludeChildControl("scrollbarX");
       showY ? this._showChildControl("scrollbarY") : this._excludeChildControl("scrollbarY");
+
+      // Update scrollbars
+      if (showX)
+      {
+        var barX = this._getChildControl("scrollbarX");
+        barX.setContainerSize(paneWidth);
+        barX.setContentSize(scrollWidth);
+      }
+
+      if (showY)
+      {
+        var barY = this._getChildControl("scrollbarY");
+        barY.setContainerSize(paneHeight);
+        barY.setContentSize(scrollHeight);
+      }
     },
 
 
