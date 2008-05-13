@@ -1330,7 +1330,7 @@ qx.Class.define("qx.html.Element",
         return qx.bom.Element.focus(el);
       }
 
-      this.debug("focus() for uncreated element!");
+      // this.debug("focus() for uncreated element!");
 
       //qx.html.Element._actions.focus = this;
       //qx.html.Element._scheduleFlush("element");
@@ -1365,7 +1365,7 @@ qx.Class.define("qx.html.Element",
         return qx.bom.Element.activate(el);
       }
 
-      this.debug("activate() for uncreated element!");
+      // this.debug("activate() for uncreated element!");
 
       //qx.html.Element._actions.activate = this;
       //qx.html.Element._scheduleFlush("element");
@@ -1397,7 +1397,7 @@ qx.Class.define("qx.html.Element",
         return qx.bom.Element.capture(el);
       }
 
-      this.debug("capture() for uncreated element!");
+      // this.debug("capture() for uncreated element!");
 
       //qx.html.Element._actions.capture = this;
       //qx.html.Element._scheduleFlush("element");
