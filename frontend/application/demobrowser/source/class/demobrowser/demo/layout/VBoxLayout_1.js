@@ -29,10 +29,8 @@ qx.Class.define("demobrowser.demo.layout.VBoxLayout_1",
       this.base(arguments);
 
       // auto size
-      var box = new qx.ui.layout.VBox();
+      var box = new qx.ui.layout.VBox(5);
       var container = (new qx.ui.container.Composite(box)).set({decorator: "black", backgroundColor: "yellow"});
-
-      box.setSpacing(5);
 
       container.add((new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"}));
       container.add((new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"}));
