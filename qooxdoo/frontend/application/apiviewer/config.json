@@ -7,7 +7,7 @@
       "let" :
       {
         "ROOT"         : ".",
-        "APPLICATION"  : "apiviewer",
+        "APIVIEWER"  : "apiviewer",
         "QOOXDOO_PATH" : "../../framework",
         "QOOXDOO_URI"  : "../${QOOXDOO_PATH}",
 				"API_INCLUDE"  : ["qx.*"],
@@ -30,7 +30,7 @@
 
       "settings" :
       {
-        "qx.application"  : "${APPLICATION}.Application",
+        "qx.application"  : "${APIVIEWER}.Application",
         "qx.resourceUri"  : "${QOOXDOO_URI}/source/resource",
         "qx.legacy.theme" : "qx.legacy.theme.ClassicRoyale",
         "qx.version"      : "TODO"
@@ -46,16 +46,16 @@
     "source-script" :
     {
       "extend" : ["common"],
-      "include" : ["${APPLICATION}.*","qx.legacy.theme.ClassicRoyale"],
+      "include" : ["${APIVIEWER}.*","qx.legacy.theme.ClassicRoyale"],
 
       "settings" :
       {
-        "${APPLICATION}.resourceUri" : "./resource"
+        "${APIVIEWER}.resourceUri" : "./resource"
       },
 
       "script" :
       {
-        "file" : "./source/script/${APPLICATION}.js"
+        "file" : "./source/script/${APIVIEWER}.js"
       }
     },
 
@@ -73,18 +73,18 @@
     "build-script" :
     {
       "extend" : ["common"],
-      "include" : ["${APPLICATION}.*","qx.legacy.theme.ClassicRoyale"],
+      "include" : ["${APIVIEWER}.*","qx.legacy.theme.ClassicRoyale"],
 
       "settings" :
       {
-        "${APPLICATION}.resourceUri" : "./resource"
+        "${APIVIEWER}.resourceUri" : "./resource"
       },
 
       "compile" :
       {
-        "file" : "${BUILD_PATH}/script/${APPLICATION}.js",
+        "file" : "${BUILD_PATH}/script/${APIVIEWER}.js",
         "format" : "on",
-        "uri"  : "script/${APPLICATION}.js"
+        "uri"  : "script/${APIVIEWER}.js"
       }
     },
 
