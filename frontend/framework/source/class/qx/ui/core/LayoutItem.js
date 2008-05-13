@@ -381,6 +381,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
       if (flowHeight != null && flowHeight !== this.__computedHeightForWidth)
       {
         this.__computedHeightForWidth = flowHeight;
+        this.__computedLayout = null;
 
         // Re-add to layout queue
         qx.ui.core.queue.Layout.add(this);
