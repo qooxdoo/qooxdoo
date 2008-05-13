@@ -2385,15 +2385,15 @@ qx.Class.define("qx.ui.core.Widget",
       return !!this.__childControls[id];
     },
 
-    _getChildControl : function(id, create)
+    _getChildControl : function(id, notcreate)
     {
       if (!this.__childControls)
       {
-        if (create) {
-          this.__childControls = {};
-        } else {
+        if (notcreate) {
           return null;
         }
+
+        this.__childControls = {};
       }
 
       var control = this.__childControls[id];
@@ -2401,7 +2401,7 @@ qx.Class.define("qx.ui.core.Widget",
         return control;
       }
 
-      if (!create) {
+      if (notcreate) {
         return null;
       }
 
@@ -2410,13 +2410,13 @@ qx.Class.define("qx.ui.core.Widget",
 
     _showChildControl : function(id)
     {
-      var control = this._getChildControl(id, true);
+      var control = this._getChildControl(id);
       control.show();
     },
 
     _excludeChildControl : function(id)
     {
-      var control = this._getChildControl(id);
+      var control = this._getChildControl(id, true);
       if (control) {
         control.exclude();
       }
@@ -2424,7 +2424,7 @@ qx.Class.define("qx.ui.core.Widget",
 
     _isChildControlVisible : function(id)
     {
-      var control = this._getChildControl(id);
+      var control = this._getChildControl(id, true);
       if (control) {
         return control.isVisible();
       }
@@ -2453,6 +2453,17 @@ qx.Class.define("qx.ui.core.Widget",
     _createChildControlImpl : function() {
       return null;
     },
+
+    _disposeChildControls : function()
+    {
+      var controls = this.__childControls;
+      for (var id in controls) {
+        controls[id].dispose();
+      }
+
+      this.__childControls = null;
+    },
+
 
 
 
@@ -2513,6 +2524,7 @@ qx.Class.define("qx.ui.core.Widget",
 
   destruct : function()
   {
+    this._disposeChildControls();
     this._disposeArray("__children");
     this._disposeObjects("__states", "_containerElement", "_contentElement", "_decorationElement");
   }
