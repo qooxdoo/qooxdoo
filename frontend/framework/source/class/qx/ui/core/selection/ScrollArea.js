@@ -54,8 +54,12 @@ qx.Class.define("qx.ui.core.selection.ScrollArea",
     */
 
     // overridden
-    _getDimension : function() {
-      return this._widget._scrollPane.getComputedInnerSize();
+    _getDimension : function()
+    {
+      return {
+        width : this._widget.getPaneWidth(),
+        height : this._widget.getPaneHeight()
+      };
     },
 
 
