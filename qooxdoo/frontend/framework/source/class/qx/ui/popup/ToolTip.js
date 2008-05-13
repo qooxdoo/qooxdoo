@@ -397,29 +397,6 @@ qx.Class.define("qx.ui.popup.ToolTip",
     },
 
 
-    // overridden
-    hide : function()
-    {
-      var el = this.getContainerElement().getDomElement();
-
-      if (!el) {
-        return this.base(arguments);
-      }
-
-      var args = arguments;
-      var fade = new qx.fx.effect.core.Fade(el).set({
-        duration: 0.3
-      });
-      fade.addListener("finish", function(e)
-      {
-        this.getContainerElement().setStyle("opacity", 1);
-        this.base(args);
-      }, this);
-
-      fade.start();
-    },
-
-
     /**
      * Callback method for the "interval" event of the hide timer.<br/>
      * Hides the tooltip by calling the corresponding {@link #hide} method.
