@@ -50,9 +50,6 @@ qx.Class.define("qx.ui.core.ScrollArea",
 
     // Mousewheel listener to scroll vertically
     this.addListener("mousewheel", this._onMouseWheel, this);
-
-    // NEW
-    this.__childControls = {};
   },
 
 
@@ -133,52 +130,9 @@ qx.Class.define("qx.ui.core.ScrollArea",
     ---------------------------------------------------------------------------
     */
 
-    _hasChildControl : function(id) {
-      return !!this.__childControls[id];
-    },
-
-    _getChildControl : function(id, create)
+    _createChildControlImpl : function(id)
     {
-      var control = this.__childControls[id];
-      if (control) {
-        return control;
-      }
-
-      if (!create) {
-        return null;
-      }
-
-      this.debug("Create child control: " + id);
-      return this.__childControls[id] = this._createChildControl(id);
-    },
-
-    _showChildControl : function(id)
-    {
-      var control = this._getChildControl(id, true);
-      control.show();
-    },
-
-    _excludeChildControl : function(id)
-    {
-      var control = this._getChildControl(id);
-      if (control) {
-        control.exclude();
-      }
-    },
-
-    _isChildControlVisible : function(id)
-    {
-      var control = this._getChildControl(id);
-      if (control) {
-        return control.isVisible();
-      }
-
-      return false;
-    },
-
-    _createChildControl : function(id)
-    {
-      var control = null;
+      var control = this.base(arguments, id);
 
       switch(id)
       {
@@ -212,10 +166,6 @@ qx.Class.define("qx.ui.core.ScrollArea",
 
           this._add(control, {row: 1, column: 1});
           break;
-
-
-        default:
-          throw new Error("Unsupported control: " + id);
       }
 
       return control;
