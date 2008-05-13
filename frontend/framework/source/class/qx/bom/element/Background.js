@@ -74,8 +74,6 @@ qx.Class.define("qx.bom.element.Background",
 
       cssStr.push(";");
 
-      console.log(cssStr.join(""))
-
       return cssStr.join("");
     },
 
