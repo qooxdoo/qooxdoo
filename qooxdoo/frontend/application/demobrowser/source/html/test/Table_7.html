@@ -102,8 +102,8 @@
           renderer.setValueModifier(function(value)
                                     {
                                       return (value === null
-                                              ? "" :
-                                              (value || "0"));
+                                              ? ""
+                                              : (value || "0"));
                                     });
           tcm.setDataCellRenderer(2, renderer);
         };
