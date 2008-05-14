@@ -48,6 +48,13 @@ qx.Class.define("qx.legacy.application.Gui",
 
 
     // interface method
+    finalize : function()
+    {
+      // empty
+    },
+
+
+    // interface method
     terminate : function()
     {
       // empty
