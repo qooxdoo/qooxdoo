@@ -21,19 +21,12 @@
 
 /* ************************************************************************
 
-#embed(qx.icontheme/22/actions/dialog-ok.png)
-#embed(qx.icontheme/22/actions/dialog-cancel.png)
-#embed(qx.icontheme/22/actions/help-about.png)
-#embed(qx.icontheme/22/actions/view-refresh.png)
-#embed(qx.icontheme/22/apps/preferences-theme.png)
-#embed(qx.icontheme/22/apps/preferences-locale.png)
-
-#asset(qx/icon/Oxygen/22/actions/dialog-ok.png)
-#asset(qx/icon/Oxygen/22/actions/dialog-cancel.png)
-#asset(qx/icon/Oxygen/22/actions/help-about.png)
-#asset(qx/icon/Oxygen/22/actions/view-refresh.png)
-#asset(qx/icon/Oxygen/22/apps/preferences-theme.png)
-#asset(qx/icon/Oxygen/22/apps/preferences-locale.png)
+#asset(qx/icon/Tango/22/actions/dialog-ok.png)
+#asset(qx/icon/Tango/22/actions/dialog-cancel.png)
+#asset(qx/icon/Tango/22/actions/help-about.png)
+#asset(qx/icon/Tango/22/actions/view-refresh.png)
+#asset(qx/icon/Tango/22/apps/preferences-theme.png)
+#asset(qx/icon/Tango/22/apps/preferences-locale.png)
 
 ************************************************************************ */
 
@@ -44,7 +37,7 @@ qx.Class.define("feedreader.view.ToolBar",
   construct : function(controller)
   {
     this.base(arguments);
-    
+
     // Apply style
     this.setDecorator("line-bottom");
 
@@ -67,7 +60,7 @@ qx.Class.define("feedreader.view.ToolBar",
     var removeFeedCmd = new qx.event.Command("Control+D");
     removeFeedCmd.addListener("execute", this._controller.removeFeed, this._controller);
     // /////////////////////////////
-    
+
     // Add buttons /////////////////
     var addBtn = new qx.ui.toolbar.Button("Add feed", "icon/22/actions/dialog-ok.png");
     addBtn.setCommand(addFeedCmd);
@@ -76,7 +69,7 @@ qx.Class.define("feedreader.view.ToolBar",
     var removeBtn = new qx.ui.toolbar.Button("Remove feed", "icon/22/actions/dialog-cancel.png");
     removeBtn.setCommand(removeFeedCmd);
     this.add(removeBtn);
-    
+
     // Add a sepearator
     this.add(new qx.ui.toolbar.Separator());
 
@@ -84,9 +77,9 @@ qx.Class.define("feedreader.view.ToolBar",
     reloadBtn.setCommand(reloadCmd);
     reloadBtn.setToolTip(new qx.ui.popup.ToolTip("Reload the feeds. (" + reloadCmd.toString() + ")"));
     this.add(reloadBtn);
-    
+
     // Add a sepearator
-    this.add(new qx.ui.toolbar.Separator());    
+    this.add(new qx.ui.toolbar.Separator());
 
     var prefBtn = new qx.ui.toolbar.Button("Preferences", "icon/22/apps/preferences-theme.png");
     prefBtn.setCommand(prefCmd);
@@ -102,5 +95,5 @@ qx.Class.define("feedreader.view.ToolBar",
     this.add(about_btn);
     // /////////////////////////////
   }
-  
+
 });
