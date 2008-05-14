@@ -82,7 +82,7 @@ qx.Class.define("qx.ui.layout.Grow",
     verifyLayoutProperty : qx.core.Variant.select("qx.debug",
     {
       "on" : function(item, name, value) {
-        this.assert(false, "The property'"+name+"' is not supported by the atom layout!");
+        this.assert(false, "The property '"+name+"' is not supported by the atom layout!");
       },
 
       "off" : null
