@@ -62,34 +62,6 @@ qx.Class.define("qx.ui.table.cellrenderer.Number",
       check : "qx.util.format.NumberFormat",
       init : null,
       apply : "_applyNumberFormat"
-    },
-
-    /**
-     * Function to optionally alter the value to be formatted.  Typically,
-     * this Number renderer should always render a number, as the name
-     * implies.
-     *
-     * The function in this property can be modified, for example,
-     * if one wants a null value to display as an empty string instead of as
-     * the value "0".  (Note, however, that if you also specify a non-null
-     * numberFormat, that numberFormat may alter the display of the value
-     * yielding something other than an empty string for a null value.)
-     *
-     * To obtain the above behavior, one might use this function as the value
-     * of the valueModifier property:
-     *
-     *     function(value)
-     *     {
-     *       return (value === null ? "" : (value || "0"));
-     *     }
-     */
-    valueModifier :
-    {
-      check : "Function",
-      init  : function(value)
-      {
-        return value || "0";
-      }
     }
   },
 
@@ -106,16 +78,20 @@ qx.Class.define("qx.ui.table.cellrenderer.Number",
       var method;
       if (value) {
         method = function(cellInfo) {
-          // I don't think we need to escape the resulting string, as I
-          // don't know of any decimal or separator which use a character
-          // which needs escaping. It is much more plausible to have a
-          // prefix, postfix containing such characters but those can be
-          // (should be) added in their escaped form to the number format.
-          return value.format(this.getValueModifier()(cellInfo.value));
+          if (cellInfo.value || cellInfo.value == 0) {
+            // I don't think we need to escape the resulting string, as I
+            // don't know of any decimal or separator which use a character
+            // which needs escaping. It is much more plausible to have a
+            // prefix, postfix containing such characters but those can be
+            // (should be) added in their escaped form to the number format.
+            return value.format(cellInfo.value);
+          } else {
+            return "";
+          }
         }
       } else {
         method = function(cellInfo) {
-          return this.getValueModifier()(cellInfo.value);
+          return cellInfo.value == 0 ? "0" : (cellInfo.value || "");
         }
       }
       // dynamically override _getContentHtml method

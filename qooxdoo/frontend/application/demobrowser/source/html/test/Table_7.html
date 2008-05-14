@@ -99,12 +99,6 @@
 
           // Display a formatted number in column 2
           var renderer = new qx.ui.table.cellrenderer.Number();
-          renderer.setValueModifier(function(value)
-                                    {
-                                      return (value === null
-                                              ? ""
-                                              : (value || "0"));
-                                    });
           tcm.setDataCellRenderer(2, renderer);
         };
 
