@@ -109,21 +109,21 @@ qx.Class.define("qx.ui.layout.Split",
 
       var children = this._getLayoutChildren();
       var length = children.length;
+      var flexibles = [];
 
-      var left, top, width, height;
+      var left, top, width, height, i;
       var child, hint;
 
       // vertical
       if (this.__orientation === "vertical")
       {
         var allocatedHeight = 0;
-        var flexibles = [];
-        for (var i=0; i<length; i++)
+        for (i=0; i<length; i++)
         {
           hint = children[i].getSizeHint();
           size = children[i].getLayoutProperties().size;
           
-          //
+          // flex size
           if (size != null)
           {
             flexibles[i]=
@@ -143,10 +143,9 @@ qx.Class.define("qx.ui.layout.Split",
         }
         
         var result = Util.computeFlexOffsets(flexibles, availHeight, allocatedHeight);
-        console.debug("Result", result)
         
         top = 0;
-        for (var i=0; i<length; i++)
+        for (i=0; i<length; i++)
         {
           child = children[i];
           hint = child.getSizeHint();
@@ -157,10 +156,7 @@ qx.Class.define("qx.ui.layout.Split",
             height = hint.height;
           }
           
-          this.debug("Height[" + i + "]: " + height)
-          
           width = Math.min(hint.maxWidth, Math.max(hint.minWidth, availWidth));
-          
           child.renderLayout(0, top, width, height);
 
           top += height;
@@ -170,7 +166,50 @@ qx.Class.define("qx.ui.layout.Split",
       // horizontal
       else
       {
+        var allocatedWidth = 0;
+        for (i=0; i<length; i++)
+        {
+          hint = children[i].getSizeHint();
+          size = children[i].getLayoutProperties().size;
+          
+          // flex size
+          if (size != null)
+          {
+            flexibles[i]=
+            {
+              min : hint.minWidth,
+              value : hint.minWidth,
+              max : hint.maxWidth,
+              flex : size
+            };
+            
+            allocatedWidth += hint.minWidth;
+          }
+          else
+          {
+            allocatedWidth += hint.width;
+          }
+        }
+        
+        var result = Util.computeFlexOffsets(flexibles, availWidth, allocatedWidth);
+        
+        left = 0;
+        for (var i=0; i<length; i++)
+        {
+          child = children[i];
+          hint = child.getSizeHint();
+          
+          if (result[i] != null) {
+            width = hint.minWidth + result[i].offset;
+          } else {
+            width = hint.width;
+          }
+          
+          height = Math.min(hint.maxHeight, Math.max(hint.minHeight, availHeight));
+          child.renderLayout(left, 0, width, height);
 
+          left += width;
+        }
       }
     },
 
