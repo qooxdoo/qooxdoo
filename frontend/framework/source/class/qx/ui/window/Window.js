@@ -1213,6 +1213,7 @@ qx.Class.define("qx.ui.window.Window",
 
       // compute locations
       var paLoc = qx.bom.element.Location.get(pl, "scroll");
+      var location = qx.bom.element.Location.get(this.getContainerElement().getDomElement());
       var bounds = this.getBounds();
 
       this._dragSession =
@@ -1221,6 +1222,8 @@ qx.Class.define("qx.ui.window.Window",
         top: bounds.top,
         width: bounds.width,
         height: bounds.height,
+
+        elementLocation: location,
 
         parentAvailableAreaLeft : paLoc.left + 5,
         parentAvailableAreaTop : paLoc.top + 5,
@@ -1240,9 +1243,13 @@ qx.Class.define("qx.ui.window.Window",
 
         case "frame":
           var frame = this._getFrame();
-          this.getLayoutParent().add(frame);
           frame.show();
-          frame.setUserBounds(bounds.left, bounds.top, bounds.width, bounds.height);
+          frame.setUserBounds(
+            location.left,
+            location.top,
+            location.right-location.left,
+            location.bottom - location.top
+          );
           frame.setZIndex(this.getZIndex() + 1);
           break;
       }
@@ -1344,8 +1351,8 @@ qx.Class.define("qx.ui.window.Window",
 
         case "frame":
           this._getFrame().setUserBounds(
-            s.lastX,
-            s.lastY,
+            s.elementLocation.left + dragOffsetLeft,
+            s.elementLocation.top + dragOffsetTop,
             s.width,
             s.height
           );
