@@ -514,6 +514,10 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
      */
     _updateIndent : function()
     {
+      if (!this.getTree()) {
+        return;
+      }
+      
       var openWidth = 0;
 
       if (this._open)
