@@ -89,7 +89,7 @@ qx.Class.define("qx.bom.element.Overflow",
      * @return {String} CSS string
      */
     compileX : function(value) {
-      return this._compile("overflowX", value);
+      return this._compile("overflow-x", value);
     },
 
 
@@ -101,7 +101,7 @@ qx.Class.define("qx.bom.element.Overflow",
      * @return {String} CSS string
      */
     compileY : function(value) {
-      return this._compile("overflowY", value);
+      return this._compile("overflow-y", value);
     },
 
 
