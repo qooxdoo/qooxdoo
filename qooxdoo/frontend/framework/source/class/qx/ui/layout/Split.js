@@ -66,8 +66,8 @@ qx.Class.define("qx.ui.layout.Split",
     /** The position of the icon in relation to the text */
     align :
     {
-      check : [ "left", "top", "right", "bottom" ],
-      init : "left",
+      check : [ "vertical", "horizontal" ],
+      init : "vertical",
       apply  : "_applyLayoutChange"
     }
   },
@@ -92,8 +92,10 @@ qx.Class.define("qx.ui.layout.Split",
     // overridden
     verifyLayoutProperty : qx.core.Variant.select("qx.debug",
     {
-      "on" : function(item, name, value) {
-        this.assert(false, "The property'"+name+"' is not supported by the atom layout!");
+      "on" : function(item, name, value)
+      {
+        this.assert(name == "mode" || name == "size", "The property '"+name+"' is not supported by the split layout!");
+        // TODO
       },
 
       "off" : null
@@ -109,25 +111,15 @@ qx.Class.define("qx.ui.layout.Split",
       var children = this._getLayoutChildren();
       var length = children.length;
 
+      var start = 0;
+      var end = length;
+      var increment = 1;
+
       var left, top, width, height;
       var child, hint;
 
-      // reverse ordering
-      if (align === "bottom" || align === "right")
-      {
-        var start = length-1;
-        var end = -1;
-        var increment = -1;
-      }
-      else
-      {
-        var start = 0;
-        var end = length;
-        var increment = 1;
-      }
-
       // vertical
-      if (align == "top" || align == "bottom")
+      if (align == "vertical")
       {
         top = 0;
         for (var i=start; i!=end; i+=increment)
@@ -169,71 +161,33 @@ qx.Class.define("qx.ui.layout.Split",
     {
       var children = this._getLayoutChildren();
       var length = children.length;
-      var hint, result;
+      var hint, result, child;
 
-      // Fast path for only one child
-      if (length === 1)
+      var minWidth=0, width=0;
+      var minHeight=0, height=0;
+
+      var align = this.getAlign();
+
+      for (var i=0; i<length; i++)
       {
-        var hint = children[0].getSizeHint();
+        hint = children[i].getSizeHint();
 
-        // Work on a copy, but do not respect max
-        // values as a Atom can be rendered bigger
-        // than its content.
-        result = {
-          width : hint.width,
-          height : hint.height,
-          minWidth : hint.minWidth,
-          minHeight : hint.minHeight
-        };
+        // Max of widths
+        width = Math.max(width, hint.width);
+        minWidth = Math.max(minWidth, hint.minWidth);
+
+        // Sum of heights
+        height += hint.height;
+        minHeight += hint.minHeight;
       }
-      else
-      {
-        var minWidth=0, width=0;
-        var minHeight=0, height=0;
 
-        var align = this.getAlign();
-
-        if (align === "top" || align === "bottom")
-        {
-          for (var i=0; i<length; i++)
-          {
-            hint = children[i].getSizeHint();
-
-            // Max of widths
-            width = Math.max(width, hint.width);
-            minWidth = Math.max(minWidth, hint.minWidth);
-
-            // Sum of heights
-            height += hint.height;
-            minHeight += hint.minHeight;
-          }
-
-        }
-        else
-        {
-          for (var i=0; i<length; i++)
-          {
-            hint = children[i].getSizeHint();
-
-            // Max of heights
-            height = Math.max(height, hint.height);
-            minHeight = Math.max(minHeight, hint.minHeight);
-
-            // Sum of widths
-            width += hint.width;
-            minWidth += hint.minWidth;
-          }
-
-        }
-
-        // Build hint
-        result = {
-          minWidth : minWidth,
-          width : width,
-          minHeight : minHeight,
-          height : height
-        };
-      }
+      // Build hint
+      result = {
+        minWidth : minWidth,
+        width : width,
+        minHeight : minHeight,
+        height : height
+      };
 
       return result;
     }
