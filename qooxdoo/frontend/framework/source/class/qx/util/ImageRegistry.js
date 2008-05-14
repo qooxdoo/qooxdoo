@@ -30,9 +30,15 @@ qx.Class.define("qx.util.ImageRegistry",
 
   construct : function ()
   {
+    this.base(arguments);
+
     this.__registry = this._padQxImageInfo(window.qximageinfo);
     //this.__registry = window.qximageinfo || {};
   },
+
+
+
+
 
   /*
   *****************************************************************************
@@ -65,7 +71,7 @@ qx.Class.define("qx.util.ImageRegistry",
       {
         return {};
       }
-      
+
       var imageinfo = {};
       var qxlibinfo = window.qxlibinfo || {};
 
@@ -146,7 +152,7 @@ qx.Class.define("qx.util.ImageRegistry",
       var val    = this.__registry[resUri];
       if (val == null) {
         throw new Error("Could not resolve icon uri: " + iconUri);
-      } else 
+      } else
       {
         // val = [width, height, type [, mappeduri, left, top]]
         if (val.length == 3)
