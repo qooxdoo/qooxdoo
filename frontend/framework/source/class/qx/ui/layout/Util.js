@@ -52,9 +52,9 @@ qx.Class.define("qx.ui.layout.Util",
       var remaining = Math.abs(avail - used);
       var roundingOffset, currentOffset;
 
-      var result = {};
-
+      
       // Preprocess data
+      var result = {};
       for (key in flexibles)
       {
         child = flexibles[key];
