@@ -278,7 +278,8 @@ qx.Class.define("qx.ui.core.queue.Layout",
                 oldSizeHint.maxHeight !== newSizeHint.maxHeight
               );
             }
-            else {
+            else
+            {
               hintChanged = true;
             }
           }
