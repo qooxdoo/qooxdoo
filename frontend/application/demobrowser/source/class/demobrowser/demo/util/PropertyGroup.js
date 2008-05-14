@@ -33,6 +33,11 @@ qx.Class.define("demobrowser.demo.util.PropertyGroup",
     layout.setColumnMinWidth(0, 110);
     this._setLayout(layout);
 
+    this.set({
+      allowShrinkX: false,
+      allowShrinkY: false
+    });
+
     var row = 0;
 
     for (var prop in this._properties)
