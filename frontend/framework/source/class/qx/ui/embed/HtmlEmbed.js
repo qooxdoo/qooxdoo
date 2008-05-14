@@ -22,7 +22,9 @@
 qx.Class.define("qx.ui.embed.HtmlEmbed",
 {
   extend : qx.ui.core.Widget,
-  include : qx.ui.core.MNativeOverflow,
+  include : [qx.ui.core.MNativeOverflow],
+
+
 
   /*
   *****************************************************************************
@@ -53,9 +55,9 @@ qx.Class.define("qx.ui.embed.HtmlEmbed",
     html :
     {
       check : "String",
-      init : "",
       apply : "_applyHtml",
-      event : "changeHtml"
+      event : "changeHtml",
+      nullable : true
     },
 
     /**
@@ -105,18 +107,28 @@ qx.Class.define("qx.ui.embed.HtmlEmbed",
     ---------------------------------------------------------------------------
     */
 
-
+    // property apply
     _applyHtml : function(value, old)
     {
-      this.getContentElement().setAttribute("html", value);
-      this.getContentElement().setStyle("padding", "0px");
-      this.getContentElement().setStyle("border", "none");
+      var elem = this.getContentElement();
+
+      // Insert HTML content
+      elem.setAttribute("html", value||"");
+
+      // Local style override problematic sections applied through
+      // a optional classname
+      elem.setStyle("padding", "0px");
+      elem.setStyle("border", "none");
     },
 
 
+    // property apply
     _applyCssClass : function (value, old) {
       this.getContentElement().setAttribute("class", value);
     },
+
+
+
 
     /*
     ---------------------------------------------------------------------------
@@ -129,6 +141,7 @@ qx.Class.define("qx.ui.embed.HtmlEmbed",
       qx.theme.manager.Font.getInstance().connect(this.__styleFont, this, value);
     },
 
+
     /**
      * Utility method to render the given font.
      *
@@ -138,7 +151,6 @@ qx.Class.define("qx.ui.embed.HtmlEmbed",
      */
     __styleFont : function(font)
     {
-      // Apply
       var styles = font ? font.getStyles() : qx.bom.Font.getDefaultStyles();
       this._contentElement.setStyles(styles);
     },
@@ -153,14 +165,16 @@ qx.Class.define("qx.ui.embed.HtmlEmbed",
     */
 
     _applyTextColor : function(value, old) {
-      qx.theme.manager.Color.getInstance().connect(this._styleTextColor, this, value);
+      qx.theme.manager.Color.getInstance().connect(this.__styleTextColor, this, value);
     },
+
 
     /**
      * @type member
      * @param value {var} any acceptable CSS color property
      */
-    _styleTextColor : function(value) {
+    __styleTextColor : function(value)
+    {
       if (value) {
         this.getContentElement().setStyle("color", value);
       } else {
