@@ -28,6 +28,7 @@ qx.Theme.define("qx.theme.modern.Color",
   colors :
   {
     "background" : "#dfdfdf",
+    "background-light" : "#F2F2F2",
 
     "label" : "#333333",
     "text" : "black",
@@ -36,7 +37,7 @@ qx.Theme.define("qx.theme.modern.Color",
 
     "border" : "#2D405A",
     "border-dark-shadow" : "#4d4d4d",
-    
+
     "focus" : "#92B1DC",
 
     "pane" : "#ededed",
