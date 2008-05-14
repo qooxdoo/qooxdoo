@@ -150,7 +150,7 @@ qx.Class.define("qx.util.AliasManager",
      * @param path {String} input path
      * @return {String} resulting path (with interpreted aliases)
      */
-    resolve : function(path)
+    resolveBase : function(path)
     {
       // TODO: Optimize preprocess call, does not really
       // need to be a separate function
@@ -159,6 +159,28 @@ qx.Class.define("qx.util.AliasManager",
       }
 
       return this._dynamic[path] || path;
+    },
+
+
+// TODO: Cleanup the whole thing
+    resolve : function(path)
+    {
+      if (path == null) {
+        return null;
+      }
+
+      // Process aliases / detect full URL
+      path = this.resolveBase(path);
+
+      var libinfo = window.qxlibinfo;
+      if (libinfo)
+      {
+        for (var ns in libinfo) {
+          path = path.replace(new RegExp("^" + ns+"/"), libinfo[ns].resuri + "/" + ns + "/");
+        }
+      }
+
+      return path;
     }
   },
 
