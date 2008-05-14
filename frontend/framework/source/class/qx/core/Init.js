@@ -57,7 +57,7 @@ qx.Class.define("qx.core.Init",
      */
     __ready : function()
     {
-      qx.log.Logger.debug(this, "Loaded in: " + (new Date - qx.Bootstrap.LOADSTART) + "ms");
+      qx.log.Logger.debug(this, "Load runtime: " + (new Date - qx.Bootstrap.LOADSTART) + "ms");
 
       var app = qx.core.Setting.get("qx.application");
       var clazz = qx.Class.getByName(app);
@@ -69,9 +69,9 @@ qx.Class.define("qx.core.Init",
         var start = new Date;
         this.__application.main();
         qx.log.Logger.debug(this, "Main runtime: " + (new Date - start) + "ms");
-        
+
         var start = new Date;
-        this.__application.finalize();        
+        this.__application.finalize();
         qx.log.Logger.debug(this, "Finalize runtime: " + (new Date - start) + "ms");
       }
     },
