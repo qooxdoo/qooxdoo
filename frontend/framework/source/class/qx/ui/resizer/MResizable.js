@@ -52,16 +52,26 @@ qx.Mixin.define("qx.ui.resizer.MResizable",
 
   properties :
   {
-    /** It is resizable in the left direction. */
+    /**
+     * It is resizable in the left direction.
+     *
+     * Note: This does only work if the widget is added to a
+     * {@link qx.ui.layout.Basic} or {@link qx.ui.layout.Canvas} layout.
+     */
     resizableWest :
     {
       check : "Boolean",
-      init : true,
+      init : false,
       apply : "_applyResizable"
     },
 
 
-    /** It is resizable in the top direction. */
+    /**
+     * It is resizable in the top direction.
+     *
+     * Note: This does only work if the widget is added to a
+     * {@link qx.ui.layout.Basic} or {@link qx.ui.layout.Canvas} layout.
+     */
     resizableNorth :
     {
       check : "Boolean",
@@ -70,7 +80,9 @@ qx.Mixin.define("qx.ui.resizer.MResizable",
     },
 
 
-    /** It is resizable in the right direction. */
+    /**
+     * It is resizable in the right direction.
+     */
     resizableEast :
     {
       check : "Boolean",
@@ -79,11 +91,13 @@ qx.Mixin.define("qx.ui.resizer.MResizable",
     },
 
 
-    /** It is resizable in the bottom direction. */
+    /**
+     * It is resizable in the bottom direction.
+     */
     resizableSouth :
     {
       check : "Boolean",
-      init : true,
+      init : false,
       apply : "_applyResizable"
     },
 
