@@ -29,12 +29,10 @@ qx.Class.define("feedreader.view.List",
     this.base(arguments);
     // Establish controller link
     this._controller = controller;
-    
+
     // set the properties of the list
     this.setSelectionMode("single");
     this.setDecorator(null);
-    this.setMinHeight(100);
-    this.setHeight(200);
 
     // Add selection listener
     this.addListener("change", this._onChangeSelection, this);
@@ -42,12 +40,12 @@ qx.Class.define("feedreader.view.List",
 
 
   members :
-  {    
-    
+  {
+
     /**
      * Event handler for the change event of the selection.
-     * 
-     * @param e {qx.event.type.Data} The data event of the list managers change. 
+     *
+     * @param e {qx.event.type.Data} The data event of the list managers change.
      */
     _onChangeSelection : function(e)
     {

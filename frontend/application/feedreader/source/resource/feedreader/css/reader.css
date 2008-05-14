@@ -29,6 +29,10 @@
   padding: 0;
 }
 
+.blogEntry .container{
+  padding: 30px;
+}
+
 .blogEntry h1.blog {
   font-family: "Trebuchet MS", "Lucida Grande", Verdana, sans-serif;
   color: #134275;
