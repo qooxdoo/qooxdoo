@@ -103,12 +103,12 @@ qx.Class.define("feedreader.Application",
       // Initialialize date format
       this._dateFormat = new qx.util.format.DateFormat();
       // Add some static feeds
-      this.addFeed("qooxdoo News", "http://feeds.feedburner.com/qooxdoo/news/content");
-      this.addFeed("Mozilla Developer News", "http://developer.mozilla.org/devnews/index.php/feed/");
-      this.addFeed("JScript Team Blog", "http://blogs.msdn.com/jscript/rss.xml");
-      this.addFeed("Daring Fireball", "http://daringfireball.net/index.xml");
-      this.addFeed("Surfin' Safari", "http://webkit.org/blog/?feed=rss2");
-      this.addFeed("Ajaxian", "http://feeds.feedburner.com/ajaxian");
+      this.addFeed("qooxdoo News", "http://feeds.feedburner.com/qooxdoo/news/content", true);
+      this.addFeed("Mozilla Developer News", "http://developer.mozilla.org/devnews/index.php/feed/", true);
+      this.addFeed("JScript Team Blog", "http://blogs.msdn.com/jscript/rss.xml", true);
+      this.addFeed("Daring Fireball", "http://daringfireball.net/index.xml", true);
+      this.addFeed("Surfin' Safari", "http://webkit.org/blog/?feed=rss2", true);
+      this.addFeed("Ajaxian", "http://feeds.feedburner.com/ajaxian", true);
 
       // Define alias for custom resource path
       qx.util.AliasManager.getInstance().add("feedreader", qx.core.Setting.get("feedreader.resourceUri") + "/feedreader");
@@ -200,7 +200,7 @@ qx.Class.define("feedreader.Application",
      * @param title {String} The title of the feed.
      * @param url {String} The url to the feed. 
      */
-    addFeed : function(title, url)
+    addFeed : function(title, url, predefined)
     {
       // get the database
       var db = this._feeds;
@@ -216,46 +216,54 @@ qx.Class.define("feedreader.Application",
       // Add the feed to the database
       db[url] =
       {
-        title  : title,
-        items  : [],
-        loader : qx.lang.Function.bind(this._loadJsonFeed, this, url),
-        added  : new Date
+        title      : title,
+        items      : [],
+        loader     : qx.lang.Function.bind(this._loadJsonFeed, this, url),
+        added      : new Date,
+        predefined : predefined,
+        loading    : false,
+        url        : url
       };
 
       // if there is already a tree
       if (this._treeView) {
-        // refresh it
-        this._treeView.refresh();
+        // add the feed to the tree
+        this._treeView.addFeed(url);
+        // get the data for the feed
+        this._fetchDataForFeed(url);
       }
     },
+    
 
-
-    /**
-     * Removes the feed stored with the given url.
-     * If no feed is stored with the given url, an error 
-     * will be thrown.
-     * 
-     * @param url {String} The url of the feed which should be removed.
+    /** 
+     * Removes the current selected feed from the view.
      */
-    removeFeed : function(url)
-    {
-      var db = this._feeds;      
-
-      // if the feed could be found
-      if (db[url])
-      {
-        // delete it
-        delete db[url];
-        // refresh the tree
-        if (this._treeView) {
-          this._treeView.refreshView();
+    removeFeed : function() {
+      var currentSelectedFolder = this._treeView.getSelectedItem();
+      // is a feed is selected
+      if (currentSelectedFolder) {
+        var currentUrl = currentSelectedFolder.getUserData("url");
+        if (currentUrl && this._feeds[currentUrl].predefined) {
+          alert("Can not remove static feeds.");
+          return;
         }
-
-        return;
+        // remove the feed from the db
+        var url = currentSelectedFolder.getUserData("url");
+        if (this._feeds[url]) {
+          delete this._feeds[url];
+        } 
+        
+        if (currentSelectedFolder.getParent() != this._treeView.getRoot()) {
+          // remove the folder from the tree
+          currentSelectedFolder.getParent().remove(currentSelectedFolder);      
+        }
+        
+        // reset the list view 
+        this._listView.removeAll();
+        // reset the article view
+        this._articleView.setArticle(null);
       }
-
-      throw new Error("The feed could not be found!");
-    },
+    },    
 
 
     /**
@@ -266,6 +274,15 @@ qx.Class.define("feedreader.Application",
     selectFeed : function(url)
     {
       var value = this._feeds[url];
+      
+      // if the selected feed is loading
+      if (value && value.loading) {
+        // if the list is shown
+        if (this._stack.getSelected != this._listView) {
+          // show the loading image
+          this._stack.next();
+        }
+      }
       value ? this.setSelectedFeed(value) : this.resetSelectedFeed();
     },
 
@@ -310,9 +327,36 @@ qx.Class.define("feedreader.Application",
       vBoxComposite.setBackgroundColor("white");
       hBoxComposite.add(vBoxComposite, {flex: 1});
 
+      // Create the vBox for the list and header of the list
+      var listVBox = new qx.ui.layout.VBox();
+      var listVBoxComposite = new qx.ui.container.Composite(listVBox);      
+      vBoxComposite.add(listVBoxComposite, {flex: 1});
+
+      // Create the header of the list      
+      var listHeader = new qx.ui.basic.Label("Posts");
+      listHeader.setBackgroundColor("#EEEEEE");
+      listHeader.setPadding(5);
+      listHeader.setDecorator("line-bottom");
+      listHeader.setAllowGrowX(true);
+      listHeader.setFont("bold");
+      listVBoxComposite.add(listHeader);
+
+      // Create the stack for the list      
+      this._stack = new qx.ui.container.Stack();
+      listVBoxComposite.add(this._stack, {flex: 1});
+      
       // Create the list view
       this._listView = new feedreader.view.List(this);
-      vBoxComposite.add(this._listView, {flex: 1});
+      this._stack.add(this._listView);
+      
+      // Create the loading image for the list
+      var imageHBoxComposite = new qx.ui.container.Composite(new qx.ui.layout.HBox(0, "center"));
+      imageHBoxComposite.setBackgroundColor("#EEEEEE");
+      this._listLoadImage = new qx.ui.basic.Image("feedreader/images/loading66.gif");
+      this._listLoadImage.setPadding(10);
+      this._listLoadImage.setAlignY("middle");
+      imageHBoxComposite.add(this._listLoadImage);      
+      this._stack.add(imageHBoxComposite);
 
       // Create article view
       this._articleView = new feedreader.view.Article();
@@ -356,29 +400,6 @@ qx.Class.define("feedreader.Application",
       }
       // open the window
       this._addFeedWindow.open();
-    },
-
-
-    /** 
-     * Removes the current selected feed from the view.
-     */
-    removeFeed : function() {
-      var currentSelectedFolder = this._treeView.getSelectedItem();
-      // is a feed is selected
-      if (currentSelectedFolder) {
-        // remove the feed from the db
-        var url = currentSelectedFolder.getUserData("url");
-        if (this._feeds[url]) {
-          delete this._feeds[url];
-        } 
-        // remove the folder from the tree
-        this._treeView.getRoot().remove(currentSelectedFolder);
-        
-        // reset the list view 
-        this._listView.removeAll();
-        // reset the article view
-        this._articleView.setArticle(null);
-      }
     },
 
 
@@ -456,45 +477,68 @@ qx.Class.define("feedreader.Application",
      * Reloads the feed readers including all feeds.
      */
     reload : function() {
+      // if a feed is selected
+      if (this.getSelectedFeed()) {
+        // if the list is on the screen
+        if (this._stack.getSelected() == this._listView) {
+          // show the loading image
+          this._stack.next();
+        }
+      }
       this._fetchData();
     },
 
 
     /**
-     * Fetches the feed data using the qooxdoo proxy.
+     * Fetches all feed data using the qooxdoo proxy.
      */
     _fetchData : function()
     {
-      var db = this._feeds;
-      var proxy, entry, req;
-
-      for (var url in db)
+      for (var url in this._feeds)
       {
-        entry = db[url];
-        
-        
-
-        // Redirect request through proxy (required for cross-domain loading)
-        // The proxy also translates the data from XML to JSON
-        proxy = "http://resources.qooxdoo.org/proxy.php?mode=jsonp&proxy=" + encodeURIComponent(url);
-
-        // Create request object
-        req = new qx.io.remote.Request(proxy, "GET", qx.legacy.util.Mime.TEXT);
-
-        // Json data is useable cross-domain (in fact it is jsonp in this case)
-        req.setCrossDomain(true);
-
-        // Wait longer on slow connections (normally always a lot of data)
-        req.setTimeout(30000);
-
-        // Add the listener
-        req.addListener("completed", entry.loader);
-
-        // And finally send the request
-        req.send();
+        this._fetchDataForFeed(url);
       }
     },
 
+
+    /**
+     * Fetches the feed data for the given url.
+     * @param url {String} The url to the feed.
+     */
+    _fetchDataForFeed : function(url) 
+    {
+      var db = this._feeds;
+      var proxy, entry, req;
+      entry = db[url];
+      
+      // mark the feed as loading
+      entry.loading = true;
+      
+      // replace the folder icon
+      var folder = this._treeView.getFolderByUrl(url);
+      if (folder) {
+        folder.setIcon("feedreader/images/loading22.gif");
+      }
+
+      // Redirect request through proxy (required for cross-domain loading)
+      // The proxy also translates the data from XML to JSON
+      proxy = "http://resources.qooxdoo.org/proxy.php?mode=jsonp&proxy=" + encodeURIComponent(url);
+
+      // Create request object
+      req = new qx.io.remote.Request(proxy, "GET", qx.legacy.util.Mime.TEXT);
+
+      // Json data is useable cross-domain (in fact it is jsonp in this case)
+      req.setCrossDomain(true);
+
+      // Wait longer on slow connections (normally always a lot of data)
+      req.setTimeout(30000);
+
+      // Add the listener
+      req.addListener("completed", entry.loader);
+
+      // And finally send the request
+      req.send();      
+    },
 
     /**
      * This is used as a callback from {@link _fetchFeeds} to handle
@@ -536,10 +580,33 @@ qx.Class.define("feedreader.Application",
         if (this.getSelectedFeed() == feed) {
           this._applySelectedFeed(feed);
         }
+        
+        // change the tree icon (finished loading)
+        var folder = this._treeView.getFolderByUrl(url);
+        folder.setIcon("icon/22/apps/internet-feed-reader.png");  
+              
+        // if the list is not shown
+        if (this._stack.getSelected() != this._listView) {
+          // if a feed is selected
+          if (this.getSelectedFeed()) {
+            var selectedUrl = this.getSelectedFeed().url;
+            // if the current feed is selected            
+            if (selectedUrl == url) {
+              // show the list
+              this._stack.next();
+            }            
+          }
+        }
+        // mark the feed as not loading
+        feed.loading = false;
       }
       catch(ex)
       {
-        this.error("Could not parse feed: " + url);
+        var treeFolder = this._treeView.getFolderByUrl(url);
+        if (treeFolder) {
+          this._treeView.getRoot().remove(treeFolder);
+          alert("Could not parse feed: " + url);
+        }
       }
     }
   },
@@ -567,6 +634,6 @@ qx.Class.define("feedreader.Application",
   destruct : function()
   {
     this._disposeFields("_feeds");
-    this._disposeObjects("_toolbarView", "_headerView", "_listView", "_articleView", "_treeView");
+    this._disposeObjects("_listLoadImage", "_stack", "_toolbarView", "_headerView", "_listView", "_articleView", "_treeView");
   }
 });

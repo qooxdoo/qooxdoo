@@ -34,7 +34,6 @@ qx.Class.define("feedreader.view.Tree",
     this.set(
     {
       width    : 200,
-      padding  : 5,
       decorator: "line-right"
     });
 
@@ -42,7 +41,16 @@ qx.Class.define("feedreader.view.Tree",
     this._root = new qx.ui.tree.TreeFolder("Feeds");
     this._root.setOpen(true);
     this.setHideRoot(true);
+    this.setRootOpenClose(true);
     this.setRoot(this._root);
+    
+    // add the subfolders
+    this._staticFeedsFolder = new qx.ui.tree.TreeFolder("Static Feeds");
+    this._staticFeedsFolder.setOpen(true);
+    this.getRoot().add(this._staticFeedsFolder);
+    this._userFeedsFolder = new qx.ui.tree.TreeFolder("User Feeds");
+    this._userFeedsFolder.setOpen(true);
+    this.getRoot().add(this._userFeedsFolder);
 
     // register the change listener
     this.addListener("change", this._onChangeSelection, this);
@@ -60,22 +68,65 @@ qx.Class.define("feedreader.view.Tree",
      * creation of a tree folder for every feed.
      */
     refresh : function()
-    {
+    {     
       // get the feeds
       var db = this._controller.getFeeds();
 
       // remove old folders
-      this.getRoot().removeAll();
+      this._staticFeedsFolder.removeAll();
+      this._userFeedsFolder.removeAll();
 
       // go threw all feeds
       for (var url in db)
       {
         // create and add a folder for every feed
         var folder = new qx.ui.tree.TreeFolder(db[url].title);
-        folder.setIcon("icon/22/apps/internet-feed-reader.png");
+        folder.setIcon("feedreader/images/loading22.gif");
         folder.setUserData("url", url);
-        this.getRoot().add(folder);
+        if (db[url].predefined) {
+          this._staticFeedsFolder.add(folder);
+        } else {
+          this._userFeedsFolder.add(folder);
+        }
       }
+    },
+    
+    
+    addFeed : function(url) 
+    {
+      // get the feeds
+      var db = this._controller.getFeeds();
+      
+      // create and add a folder for the feed
+      var folder = new qx.ui.tree.TreeFolder(db[url].title);
+      folder.setIcon("feedreader/images/loading22.gif");
+      folder.setUserData("url", url);
+      if (db[url].predefined) {
+        this._staticFeedsFolder.add(folder);
+      } else {
+        this._userFeedsFolder.add(folder);
+      }      
+    },
+    
+    
+    /**
+     * Returns the tree folder associated with the given url.
+     * If no folder is associated with the url, null will be returned. 
+     *   
+     * @param url {String} The url of the feed.
+     * @return {qx.ui.tree.AbstractTreeItem | null} The tree folder or null.
+     */
+    getFolderByUrl : function(url) 
+    {
+      // get all folders (recursive)
+      var folders = this.getItems(true);
+      for (var i = 0; i < folders.length; i++) {
+          var folderUrl = folders[i].getUserData("url");
+          if (folderUrl == url) {
+            return folders[i];
+          }
+      }
+      return null;
     },
 
 

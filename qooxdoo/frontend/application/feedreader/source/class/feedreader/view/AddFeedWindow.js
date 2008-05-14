@@ -101,8 +101,7 @@ qx.Class.define("feedreader.view.AddFeedWindow",
         
         this._controller.addFeed(title, url);
         
-        this.close();
-        this._controller.reload();
+        this.close();        
         
       }, this);
     }

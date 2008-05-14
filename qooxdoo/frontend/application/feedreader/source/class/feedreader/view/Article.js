@@ -36,7 +36,6 @@ qx.Class.define("feedreader.view.Article",
     // set the styles and properties
     this.setCssClass("blogEntry");
     this.setDecorator("line-top");
-    this.setMinHeight(300);
     this.setPadding(30);
   },
 
