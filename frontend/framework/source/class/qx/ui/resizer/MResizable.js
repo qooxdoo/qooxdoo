@@ -152,19 +152,26 @@ qx.Mixin.define("qx.ui.resizer.MResizable",
 
 
     /**
-     * Get the widget, which draws the resize/move frame
+     * Get the widget, which draws the resize/move frame. The resize frame is
+     * shared by all widgets and is added to the root widget.
      *
      * @return {qx.ui.core.Widget} The resize frame
      */
     _getFrame : function()
     {
-      if (this.__frame) {
-        return this.__frame;
+      var MResizable = qx.ui.resizer.MResizable;
+      if (MResizable.__frame) {
+        return MResizable.__frame;
       }
-      this.__frame = new qx.ui.core.Widget();
-      this.__frame.setAppearance("resizer-frame");
 
-      return this.__frame;
+      var frame = new qx.ui.core.Widget();
+      frame.setAppearance("resizer-frame");
+      frame.exclude();
+
+      qx.core.Init.getApplication().getRoot().add(frame);
+
+      MResizable.__frame = frame;
+      return frame;
     },
 
 
@@ -189,6 +196,7 @@ qx.Mixin.define("qx.ui.resizer.MResizable",
       //this.getTopLevelWidget().setGlobalCursor(this.getCursor());
 
       var bounds = this.getBounds();
+      var location = qx.bom.element.Location.get(this.getContainerElement().getDomElement());
 
       // handle frame and translucently
       switch(this.getResizeMethod())
@@ -199,9 +207,13 @@ qx.Mixin.define("qx.ui.resizer.MResizable",
 
         case "frame":
           var frame = this._getFrame();
-          this.getLayoutParent().add(frame);
           frame.show();
-          frame.setUserBounds(bounds.left, bounds.top, bounds.width, bounds.height);
+          frame.setUserBounds(
+            location.left,
+            location.top,
+            location.right-location.left,
+            location.bottom - location.top
+          );
           frame.setZIndex(this.getZIndex() + 1);
           break;
       }
@@ -214,6 +226,7 @@ qx.Mixin.define("qx.ui.resizer.MResizable",
         left: bounds.left,
         width: bounds.width,
         height: bounds.height,
+        elementLocation: location,
 
         right: right,
         bottom: bottom,
@@ -259,7 +272,9 @@ qx.Mixin.define("qx.ui.resizer.MResizable",
         case "frame":
           this._getFrame().hide();
 
-//          this.setLayoutProperties({"left" : s.lastLeft, "top" : s.lastTop});
+          if (s.lastLeft !== s.left || s.lastTop !== s.top) {
+            this.setLayoutProperties({"left" : s.lastLeft, "top" : s.lastTop});
+          }
           this.setWidth(s.lastWidth);
           this.setHeight(s.lastHeight);
           break;
@@ -406,7 +421,12 @@ qx.Mixin.define("qx.ui.resizer.MResizable",
           break;
 
         case "frame":
-          this._getFrame().setUserBounds(s.lastLeft, s.lastTop, s.lastWidth, s.lastHeight);
+          this._getFrame().setUserBounds(
+            s.elementLocation.left + s.lastLeft - s.left,
+            s.elementLocation.top + s.lastTop - s.top,
+            s.lastWidth,
+            s.lastHeight
+          );
       }
 
       // stop event
