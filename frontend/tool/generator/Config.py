@@ -1,3 +1,25 @@
+#!/usr/bin/env python
+
+################################################################################
+#
+#  qooxdoo - the new era of web development
+#
+#  http://qooxdoo.org
+#
+#  Copyright:
+#    2006-2008 1&1 Internet AG, Germany, http://www.1und1.de
+#
+#  License:
+#    LGPL: http://www.gnu.org/licenses/lgpl.html
+#    EPL: http://www.eclipse.org/org/documents/epl-v10.php
+#    See the LICENSE file in the project's top-level directory for details.
+#
+#  Authors:
+#    * Sebastian Werner (wpbasti)
+#    * Thomas Herchenroeder (thron7)
+#
+################################################################################
+
 import os, sys, re, types, string, copy
 import simplejson
 
@@ -388,7 +410,20 @@ class Config:
                 if config[job].has_key('library'):
                     newlib = config[job]['library']
                     for lib in newlib:
-                        manifest = Manifest(lib['manifest'])
+                        # handle downloads
+                        manifest = lib['manifest']
+                        manipath = os.path.dirname(manifest)
+                        manifile = os.path.basename(manifest)
+                        if manipath.startswith("contrib://"):
+                            contrib = manipath.replace("contrib://","")
+                            if config[job].has_key('cache-downloads'):
+                                contribCachePath = config[job]['cache-downloads']
+                            else:
+                                contribCachePath = "cache-downloads"
+                            download_contrib(contrib, contribCachePath)
+                            manifest = os.path.join(contribCachePath, contrib, manifile)
+                        # get the local Manifest
+                        manifest = Manifest(manifest)
                         lib = manifest.patchLibEntry(lib)
 
         console.outdent()

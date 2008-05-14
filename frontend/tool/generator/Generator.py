@@ -19,7 +19,7 @@
 #
 ################################################################################
 
-import re, os, sys, zlib, optparse, types, subprocess
+import re, os, sys, zlib, optparse, types
 
 from misc import filetool, textutil, idlist
 from ecmascript import treegenerator, tokenizer, compiler
@@ -35,6 +35,7 @@ from generator.TreeCompiler import TreeCompiler
 from generator.LibraryPath import LibraryPath
 from generator.ImageInfo import ImageInfo, ImgInfoFmt
 from generator.ImageClipping import ImageClipping
+from generator.ShellCmd import ShellCmd
 import simplejson
 from robocopy import robocopy
 
@@ -66,7 +67,7 @@ class Generator:
         self._partBuilder    = PartBuilder(self._console, self._depLoader, self._treeCompiler)
         self._imageInfo      = ImageInfo(self._console, self._cache)
         self._resourceHandler= _ResourceHandler(self)
-        self._shellCmd       = _ShellCmd(self)
+        self._shellCmd       = ShellCmd()
         self._imageClipper   = ImageClipping(self._console, self._cache)
 
         # Start job
@@ -1171,59 +1172,6 @@ class _ResourceHandler(object):
 
         result = expMacRec(res)
         return result
-
-
-class _ShellCmd(object):
-    def __init__(self, generatorobj):
-        self._genobj = generatorobj
-
-    
-    def eval_wait(self, rcode):
-        lb = (rcode << 8) >> 8 # get low-byte from 16-bit word
-        if (lb == 0):  # check low-byte for signal
-            rc = rcode >> 8  # high-byte has exit code
-        else:
-            rc = lb  # return signal/coredump val
-        return rc
-
-
-    def execute(self,cmd):
-        # subprocess-based version
-        p = subprocess.Popen(cmd, shell=True,
-                             # problems in python 2.4.4 with passing std streams (?)
-                             #stdout=sys.stdout,
-                             #stderr=subprocess.STDOUT
-                             #stderr=sys.stderr
-                             )
-        return p.wait()
-
-
-    def execute_piped(cmd):
-        p = subprocess.Popen(cmd, shell=True,
-                             stdout=subprocess.PIPE,
-                             stderr=subprocess.PIPE,
-                             universal_newlines=True)
-        output, errout = p.communicate()
-        rcode = p.returncode
-
-        return (rcode, output, errout)
-
-
-    def execute1(self, shellcmd):
-        # os-based version; bombs intermittendly due to os.wait() coming too late
-        (cin,couterr) = os.popen4(shellcmd)
-        cin.close()  # no need to pass data to child
-        couterrNo = couterr.fileno()
-        stdoutNo  = sys.stdout.fileno()
-        while(1):
-            buf = os.read(couterrNo,50)
-            if buf == "":
-                break
-            os.write(stdoutNo,buf)
-        (pid,rcode) = os.wait()  # wish: (os.wait())[1] >> 8 -- unreliable on Windows
-        rc = self.eval_wait(rcode)
-
-        return rc
 
 
 class Path (object):
