@@ -94,7 +94,7 @@ qx.Class.define("qx.ui.layout.Split",
     {
       "on" : function(item, name, value)
       {
-        this.assert(name == "mode" || name == "size", "The property '"+name+"' is not supported by the split layout!");
+        //this.assert(name == "mode" || name == "size", "The property '"+name+"' is not supported by the split layout!");
         // TODO
       },
 
@@ -110,50 +110,67 @@ qx.Class.define("qx.ui.layout.Split",
       var children = this._getLayoutChildren();
       var length = children.length;
 
-      var start = 0;
-      var end = length;
-      var increment = 1;
-
-      var left, top, width, height, i;
+      var left, top, width, height;
       var child, hint;
 
       // vertical
       if (this.__orientation === "vertical")
       {
+        var allocatedHeight = 0;
+        var flexibles = [];
+        for (var i=0; i<length; i++)
+        {
+          hint = children[i].getSizeHint();
+          size = children[i].getLayoutProperties().size;
+          
+          //
+          if (size != null)
+          {
+            flexibles[i]=
+            {
+              min : hint.minHeight,
+              value : hint.minHeight,
+              max : hint.maxHeight,
+              flex : size
+            };
+            
+            allocatedHeight += hint.minHeight;
+          }
+          else
+          {
+            allocatedHeight += hint.height;
+          }
+        }
+        
+        var result = Util.computeFlexOffsets(flexibles, availHeight, allocatedHeight);
+        console.debug("Result", result)
+        
         top = 0;
-        for (i=start; i!=end; i+=increment)
+        for (var i=0; i<length; i++)
         {
           child = children[i];
-
           hint = child.getSizeHint();
           
-          console.info(i, hint)
+          if (result[i] != null) {
+            height = hint.minHeight + result[i].offset;
+          } else {
+            height = hint.height;
+          }
           
-          width = Math.min(hint.maxWidth, Math.max(availWidth, hint.minWidth));
+          this.debug("Height[" + i + "]: " + height)
+          
+          width = Math.min(hint.maxWidth, Math.max(hint.minWidth, availWidth));
+          
+          child.renderLayout(0, top, width, height);
 
-          left = Util.computeHorizontalAlignOffset("center", width, availWidth);
-          child.renderLayout(left, top, width, hint.height);
-
-          top += hint.height;
+          top += height;
         }
       }
 
       // horizontal
       else
       {
-        left = 0;
-        for (i=start; i!=end; i+=increment)
-        {
-          child = children[i];
 
-          hint = child.getSizeHint();
-          height = Math.min(hint.maxHeight, Math.max(availHeight, hint.minHeight));
-
-          top = Util.computeVerticalAlignOffset("middle", hint.height, availHeight);
-          child.renderLayout(left, top, hint.width, height);
-
-          left += hint.width;
-        }
       }
     },
 

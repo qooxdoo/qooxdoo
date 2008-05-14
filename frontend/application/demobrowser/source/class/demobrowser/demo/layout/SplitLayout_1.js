@@ -32,14 +32,16 @@ qx.Class.define("demobrowser.demo.layout.SplitLayout_1",
       var container = new qx.ui.container.Composite(new qx.ui.layout.Split("vertical")).set({
         decorator: "black",
         backgroundColor: "yellow",
-        padding : 5
+        padding : 5,
+        height: 500
       });
 
       container.add(new qx.ui.core.Widget().set({
         decorator: "black",
         backgroundColor: "green",
-        height : 200
-      }), {mode: "first"});
+        height : 200,
+        minHeight : 20
+      }), {mode: "first", size: 1});
       container.add(new qx.ui.core.Widget().set({
         decorator: "black", 
         backgroundColor: "blue",
@@ -48,7 +50,7 @@ qx.Class.define("demobrowser.demo.layout.SplitLayout_1",
       container.add(new qx.ui.core.Widget().set({
         decorator: "black",
         backgroundColor: "green"
-      }), {mode: "second", size: "1*"});
+      }), {mode: "second", size: 2});
       
 
       this.getRoot().add(container, {left:10, top:10});
