@@ -172,7 +172,7 @@ qx.Class.define("qx.ui.layout.Grid",
           "rowSpan" : 1,
           "colSpan" : 1
         }
-        this.assert(layoutProperties[name] == 1, "The property'"+name+"' is not supported by the grid layout!");
+        this.assert(layoutProperties[name] == 1, "The property '"+name+"' is not supported by the grid layout!");
         this.assertInteger(value);
         this.assert(value >= 0, "Value must be positive");
       },

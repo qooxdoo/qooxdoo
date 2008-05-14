@@ -91,7 +91,7 @@ qx.Class.define("qx.ui.layout.Basic",
     {
       "on" : function(item, name, value)
       {
-        this.assert(name == "left" || name == "top", "The property'"+name+"' is not supported by the canvas layout!");
+        this.assert(name == "left" || name == "top", "The property '"+name+"' is not supported by the canvas layout!");
         this.assertInteger(value);
       },
 
