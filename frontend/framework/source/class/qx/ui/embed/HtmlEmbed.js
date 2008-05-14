@@ -22,7 +22,7 @@
 qx.Class.define("qx.ui.embed.HtmlEmbed",
 {
   extend : qx.ui.core.Widget,
-
+  include : qx.ui.core.MNativeOverflow,
 
   /*
   *****************************************************************************
