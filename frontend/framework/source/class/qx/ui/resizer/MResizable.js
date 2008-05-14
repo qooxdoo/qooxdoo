@@ -75,7 +75,7 @@ qx.Mixin.define("qx.ui.resizer.MResizable",
     resizableNorth :
     {
       check : "Boolean",
-      init : true,
+      init : false,
       apply : "_applyResizable"
     },
 
@@ -97,7 +97,7 @@ qx.Mixin.define("qx.ui.resizer.MResizable",
     resizableSouth :
     {
       check : "Boolean",
-      init : false,
+      init : true,
       apply : "_applyResizable"
     },
 
@@ -259,7 +259,7 @@ qx.Mixin.define("qx.ui.resizer.MResizable",
         case "frame":
           this._getFrame().hide();
 
-          this.setLayoutProperties({"left" : s.lastLeft, "top" : s.lastTop});
+//          this.setLayoutProperties({"left" : s.lastLeft, "top" : s.lastTop});
           this.setWidth(s.lastWidth);
           this.setHeight(s.lastHeight);
           break;
@@ -373,24 +373,27 @@ qx.Mixin.define("qx.ui.resizer.MResizable",
 
       var hint = this.getSizeHint();
 
+      var maxWidth = this.getMaxWidth() != null ? hint.maxWidth : Infinity;
+      var maxHeight = this.getMaxHeight() != null ? hint.maxHeight : Infinity;
+
       if (this._resizeWest)
       {
-        s.lastWidth = qx.lang.Number.limit(s.width - mouseOffsetLeft, hint.minWidth, hint.maxWidth);
+        s.lastWidth = qx.lang.Number.limit(s.width - mouseOffsetLeft, hint.minWidth, maxWidth);
         s.lastLeft = s.left + s.width - s.lastWidth;
       }
       else if (this._resizeEast)
       {
-        s.lastWidth = qx.lang.Number.limit(s.width + mouseOffsetLeft, hint.minWidth, hint.maxWidth);
+        s.lastWidth = qx.lang.Number.limit(s.width + mouseOffsetLeft, hint.minWidth, maxWidth);
       }
 
       if (this._resizeNorth)
       {
-        s.lastHeight = qx.lang.Number.limit(s.height - mouseOffsetTop, hint.minHeight, hint.maxHeight);
+        s.lastHeight = qx.lang.Number.limit(s.height - mouseOffsetTop, hint.minHeight, maxHeight);
         s.lastTop = s.top + s.height - s.lastHeight;
       }
       else if (this._resizeSouth)
       {
-        s.lastHeight = qx.lang.Number.limit(s.height + mouseOffsetTop, hint.minHeight, hint.maxHeight);
+        s.lastHeight = qx.lang.Number.limit(s.height + mouseOffsetTop, hint.minHeight, maxHeight);
       }
 
       switch(this.getResizeMethod())
