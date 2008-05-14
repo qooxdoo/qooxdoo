@@ -596,12 +596,6 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
         return;
       }
 
-      // Read range and protect division by zero
-      var range = this.getMaximum() - this.getMinimum();
-      if (range == 0) {
-        return;
-      }
-
       // Ignore when not rendered yet
       var avail = this.getComputedInnerSize();
       if (avail == null) {
