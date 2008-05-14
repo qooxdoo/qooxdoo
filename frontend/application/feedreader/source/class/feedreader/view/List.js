@@ -34,6 +34,7 @@ qx.Class.define("feedreader.view.List",
     this.setSelectionMode("single");
     this.setDecorator(null);
     this.setMinHeight(100);
+    this.setHeight(200);
 
     // Add selection listener
     this.addListener("change", this._onChangeSelection, this);
