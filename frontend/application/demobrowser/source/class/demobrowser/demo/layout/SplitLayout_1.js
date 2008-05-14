@@ -32,14 +32,14 @@ qx.Class.define("demobrowser.demo.layout.SplitLayout_1",
       var container = new qx.ui.container.Composite(new qx.ui.layout.Split("vertical")).set({
         decorator: "black",
         backgroundColor: "yellow",
-        height: 400,
-        width: 600
+        padding : 5
       });
 
       container.add(new qx.ui.core.Widget().set({
         decorator: "black",
-        backgroundColor: "green"
-      }), {mode: "first", size: 200});
+        backgroundColor: "green",
+        height : 200
+      }), {mode: "first"});
       container.add(new qx.ui.core.Widget().set({
         decorator: "black", 
         backgroundColor: "blue",
