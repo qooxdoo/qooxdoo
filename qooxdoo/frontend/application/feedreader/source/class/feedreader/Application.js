@@ -169,7 +169,7 @@ qx.Class.define("feedreader.Application",
     /**
      * Returns the feed with the given title.
      * If no feed could be found, null will be returned.
-     * 
+     *
      * @param title {String} The title of the searched feed.
      * @return The searched feed.
      */
@@ -177,7 +177,7 @@ qx.Class.define("feedreader.Application",
     {
       var db = this._feeds;
       var entry;
-      
+
       // go threw all feeds
       for (var url in db)
       {
@@ -190,15 +190,15 @@ qx.Class.define("feedreader.Application",
       }
 
       // return null, if no feed could be found with the fitting title
-      return null;  
+      return null;
     },
 
 
     /**
      * Adds a feed to the feeds database.
-     * 
+     *
      * @param title {String} The title of the feed.
-     * @param url {String} The url to the feed. 
+     * @param url {String} The url to the feed.
      */
     addFeed : function(title, url, predefined)
     {
@@ -233,56 +233,64 @@ qx.Class.define("feedreader.Application",
         this._fetchDataForFeed(url);
       }
     },
-    
 
-    /** 
+
+    /**
      * Removes the current selected feed from the view.
      */
-    removeFeed : function() {
+    removeFeed : function()
+    {
       var currentSelectedFolder = this._treeView.getSelectedItem();
+
       // is a feed is selected
-      if (currentSelectedFolder) {
+      if (currentSelectedFolder)
+      {
         var currentUrl = currentSelectedFolder.getUserData("url");
         if (currentUrl && this._feeds[currentUrl].predefined) {
           alert("Can not remove static feeds.");
           return;
         }
+
         // remove the feed from the db
         var url = currentSelectedFolder.getUserData("url");
         if (this._feeds[url]) {
           delete this._feeds[url];
-        } 
-        
-        if (currentSelectedFolder.getParent() != this._treeView.getRoot()) {
-          // remove the folder from the tree
-          currentSelectedFolder.getParent().remove(currentSelectedFolder);      
         }
-        
-        // reset the list view 
+
+        // remove the folder from the tree
+        if (currentSelectedFolder.getParent() != this._treeView.getRoot()) {
+          currentSelectedFolder.getParent().remove(currentSelectedFolder);
+        }
+
+        // reset the list view
         this._listView.removeAll();
+
         // reset the article view
         this._articleView.setArticle(null);
       }
-    },    
+    },
 
 
     /**
      * Selects the feed stored with the given url.
-     * 
-     * @param url {String} The url of the feed to select. 
+     *
+     * @param url {String} The url of the feed to select.
      */
     selectFeed : function(url)
     {
       var value = this._feeds[url];
-      
+
       // if the selected feed is loading
-      if (value && value.loading) {
+      if (value && value.loading)
+      {
         // if the list is shown
-        if (this._stack.getSelected != this._listView) {
+        if (this._stack.getSelected != this._listView)
+        {
           // show the loading image
           this._stack.next();
         }
       }
+
       value ? this.setSelectedFeed(value) : this.resetSelectedFeed();
     },
 
@@ -314,7 +322,7 @@ qx.Class.define("feedreader.Application",
       // Create horizontal spliter
       var hBox = new qx.ui.layout.HBox();
       var hBoxComposite = new qx.ui.container.Composite(hBox);
-      
+
       dockLayoutComposite.add(hBoxComposite, {edge: "center"});
 
       // Create tree view
@@ -329,10 +337,10 @@ qx.Class.define("feedreader.Application",
 
       // Create the vBox for the list and header of the list
       var listVBox = new qx.ui.layout.VBox();
-      var listVBoxComposite = new qx.ui.container.Composite(listVBox);      
+      var listVBoxComposite = new qx.ui.container.Composite(listVBox);
       vBoxComposite.add(listVBoxComposite, {flex: 1});
 
-      // Create the header of the list      
+      // Create the header of the list
       var listHeader = new qx.ui.basic.Label("Posts");
       listHeader.setBackgroundColor("#EEEEEE");
       listHeader.setPadding(5);
@@ -341,21 +349,21 @@ qx.Class.define("feedreader.Application",
       listHeader.setFont("bold");
       listVBoxComposite.add(listHeader);
 
-      // Create the stack for the list      
+      // Create the stack for the list
       this._stack = new qx.ui.container.Stack();
       listVBoxComposite.add(this._stack, {flex: 1});
-      
+
       // Create the list view
       this._listView = new feedreader.view.List(this);
       this._stack.add(this._listView);
-      
+
       // Create the loading image for the list
       var imageHBoxComposite = new qx.ui.container.Composite(new qx.ui.layout.HBox(0, "center"));
       imageHBoxComposite.setBackgroundColor("#EEEEEE");
       this._listLoadImage = new qx.ui.basic.Image("feedreader/images/loading66.gif");
       this._listLoadImage.setPadding(10);
       this._listLoadImage.setAlignY("middle");
-      imageHBoxComposite.add(this._listLoadImage);      
+      imageHBoxComposite.add(this._listLoadImage);
       this._stack.add(imageHBoxComposite);
 
       // Create article view
@@ -389,7 +397,7 @@ qx.Class.define("feedreader.Application",
 
 
     /**
-     * 
+     *
      */
     showAddFeed : function() {
       // if the window is not created
@@ -505,15 +513,15 @@ qx.Class.define("feedreader.Application",
      * Fetches the feed data for the given url.
      * @param url {String} The url to the feed.
      */
-    _fetchDataForFeed : function(url) 
+    _fetchDataForFeed : function(url)
     {
       var db = this._feeds;
       var proxy, entry, req;
       entry = db[url];
-      
+
       // mark the feed as loading
       entry.loading = true;
-      
+
       // replace the folder icon
       var folder = this._treeView.getFolderByUrl(url);
       if (folder) {
@@ -537,7 +545,7 @@ qx.Class.define("feedreader.Application",
       req.addListener("completed", entry.loader);
 
       // And finally send the request
-      req.send();      
+      req.send();
     },
 
     /**
@@ -552,7 +560,7 @@ qx.Class.define("feedreader.Application",
     {
       // Link to feed entry
       var feed = this._feeds[url];
-      
+
       // if the feed has already been deleted
       if (!feed) {
         return;
@@ -580,21 +588,21 @@ qx.Class.define("feedreader.Application",
         if (this.getSelectedFeed() == feed) {
           this._applySelectedFeed(feed);
         }
-        
+
         // change the tree icon (finished loading)
         var folder = this._treeView.getFolderByUrl(url);
-        folder.setIcon("icon/22/apps/internet-feed-reader.png");  
-              
+        folder.setIcon("icon/22/apps/internet-feed-reader.png");
+
         // if the list is not shown
         if (this._stack.getSelected() != this._listView) {
           // if a feed is selected
           if (this.getSelectedFeed()) {
             var selectedUrl = this.getSelectedFeed().url;
-            // if the current feed is selected            
+            // if the current feed is selected
             if (selectedUrl == url) {
               // show the list
               this._stack.next();
-            }            
+            }
           }
         }
         // mark the feed as not loading
