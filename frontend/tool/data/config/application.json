@@ -1,6 +1,6 @@
 // generic application.json
 {
-  "include" : 
+  "include" :
   {
     "apiconf": "../../../application/apiviewer/config.json"
   },
@@ -39,15 +39,8 @@
 
       "settings" :
       {
-        "qx.version"                 : "0.8",
-        "qx.application"             : "${APPLICATION}.Application",
-        "qx.resourceUri"             : "${QOOXDOO_URI}/source/resource",
-        "${APPLICATION}.resourceUri" : "resource"
-      },
-
-      "cache" :
-      {
-        "path" : "../../cache"
+        "qx.version"     : "0.8",
+        "qx.application" : "${APPLICATION}.Application"
       }
     },
 
@@ -55,6 +48,12 @@
     "source-script" :
     {
       "extend" : ["common"],
+
+      "settings" :
+      {
+        "qx.resourceUri"             : "${QOOXDOO_URI}/source/resource",
+        "${APPLICATION}.resourceUri" : "../source/resource"
+      },
 
       "script" :
       {
@@ -65,7 +64,7 @@
 
     "source" :
     {
-      "run" : 
+      "run" :
       [
         "source-script"
       ]
@@ -78,7 +77,8 @@
 
       "settings" :
       {
-        "qx.resourceUri" : "resource"
+        "qx.resourceUri" : "resource",
+        "${APPLICATION}.resourceUri" : "resource"
       },
 
       "compile" :
@@ -119,11 +119,11 @@
 
     "build" :
     {
-      "run" : 
-      [ 
-        "build-resources", 
-        "build-script", 
-        "build-files" 
+      "run" :
+      [
+        "build-resources",
+        "build-script",
+        "build-files"
       ]
     },
 
@@ -131,7 +131,7 @@
     "api" :
     {
       "extend" : ["apiconf/jobs/build"],
-      
+
       "let" :
       {
         "ROOT" : "../apiviewer",
