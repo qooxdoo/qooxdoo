@@ -31,11 +31,9 @@ qx.Class.define("feedreader.view.Tree",
     this._controller = controller;
 
     // set the properties of the tree
-    this.set(
-    {
-      width    : 200,
-      decorator: "line-right"
-    });
+    this.setBackgroundColor("white");
+    this.setWidth(200);
+    this.setDecorator("line-right");
 
     // add the root folder
     this._root = new qx.ui.tree.TreeFolder("Feeds");
@@ -43,7 +41,7 @@ qx.Class.define("feedreader.view.Tree",
     this.setHideRoot(true);
     this.setRootOpenClose(true);
     this.setRoot(this._root);
-    
+
     // add the subfolders
     this._staticFeedsFolder = new qx.ui.tree.TreeFolder("Static Feeds");
     this._staticFeedsFolder.setOpen(true);
@@ -68,7 +66,7 @@ qx.Class.define("feedreader.view.Tree",
      * creation of a tree folder for every feed.
      */
     refresh : function()
-    {     
+    {
       // get the feeds
       var db = this._controller.getFeeds();
 
@@ -90,13 +88,13 @@ qx.Class.define("feedreader.view.Tree",
         }
       }
     },
-    
-    
-    addFeed : function(url) 
+
+
+    addFeed : function(url)
     {
       // get the feeds
       var db = this._controller.getFeeds();
-      
+
       // create and add a folder for the feed
       var folder = new qx.ui.tree.TreeFolder(db[url].title);
       folder.setIcon("feedreader/images/loading22.gif");
@@ -105,18 +103,18 @@ qx.Class.define("feedreader.view.Tree",
         this._staticFeedsFolder.add(folder);
       } else {
         this._userFeedsFolder.add(folder);
-      }      
+      }
     },
-    
-    
+
+
     /**
      * Returns the tree folder associated with the given url.
-     * If no folder is associated with the url, null will be returned. 
-     *   
+     * If no folder is associated with the url, null will be returned.
+     *
      * @param url {String} The url of the feed.
      * @return {qx.ui.tree.AbstractTreeItem | null} The tree folder or null.
      */
-    getFolderByUrl : function(url) 
+    getFolderByUrl : function(url)
     {
       // get all folders (recursive)
       var folders = this.getItems(true);
@@ -139,12 +137,12 @@ qx.Class.define("feedreader.view.Tree",
     {
       // get the url of the item
       var item = e.getData()[0];
-      
+
       if (item) {
         var url = item.getUserData("url");
-    
+
         // tell the controller to select the new feed
-        this._controller.selectFeed(url);                
+        this._controller.selectFeed(url);
       }
     }
   }

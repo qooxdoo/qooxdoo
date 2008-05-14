@@ -21,8 +21,7 @@
 
 /* ************************************************************************
 
-#embed(qx.icontheme/16/apps/preferences-theme.png)
-#asset(qx/icon/Oxygen/16/apps/preferences-theme.png)
+#asset(qx/icon/Tango/16/apps/preferences-theme.png)
 
 ************************************************************************ */
 
@@ -65,44 +64,44 @@ qx.Class.define("feedreader.view.AddFeedWindow",
       var layout = new qx.ui.layout.Grid();
       layout.setSpacing(10);
       this.setLayout(layout);
-      
+
       var titleLabel = new qx.ui.basic.Label("Title:");
       var titleTextfield = new qx.ui.form.TextField();
       var urlLabel = new qx.ui.basic.Label("URL:");
       var urlTextField = new qx.ui.form.TextField();
       urlTextField.setWidth(250);
-      
+
       this.add(titleLabel, {row: 0, column: 0});
       this.add(titleTextfield, {row: 0, column: 1});
       this.add(urlLabel, {row: 1, column: 0});
       this.add(urlTextField, {row: 1, column: 1});
-      
+
       var addButton = new qx.ui.form.Button("Add", "icon/16/actions/dialog-apply.png");
       addButton.setAllowGrowX(false);
       addButton.setAlignX("right");
-      
+
       this.add(addButton, {row: 2, column: 0, colSpan: 2});
-      
+
       addButton.addListener("execute", function(e) {
         var title = titleTextfield.getValue();
         var url = urlTextField.getValue();
-        
+
         // break if no title is given
         if (title == "") {
           alert("Please enter a title.");
           return;
         }
-        
+
         // break if no url is given
         if (url == "") {
           alert("Please enter a url.");
-          return;          
+          return;
         }
-        
+
         this._controller.addFeed(title, url);
-        
-        this.close();        
-        
+
+        this.close();
+
       }, this);
     }
   }
