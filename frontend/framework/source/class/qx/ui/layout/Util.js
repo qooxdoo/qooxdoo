@@ -313,7 +313,7 @@ qx.Class.define("qx.ui.layout.Util",
         }
 
         // Add spacing
-        gaps += (spacing * (l-1))
+        gaps += (spacing * (l-1));
       }
 
       return gaps;
@@ -361,7 +361,7 @@ qx.Class.define("qx.ui.layout.Util",
         }
 
         // Add spacing
-        gaps += (spacing * (l-1))
+        gaps += (spacing * (l-1));
       }
 
       return gaps;
