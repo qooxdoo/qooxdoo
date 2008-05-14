@@ -51,8 +51,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
       {
         return {
           backgroundColor : "background",
-          textColor : "label",
-          font : "default"
+          textColor       : "label",
+          font            : "default"
         };
       }
     },
@@ -64,7 +64,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          // textColor : "label"
+          //paddingTop : 4
+          //textColor  : "label"
         };
       }
     },
@@ -82,31 +83,40 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         var base = "decoration/";
-        var decorator;
+        var decorator, textColor;
 
         if (states.checked && states.focused) {
           decorator = "button-checked-focused";
+          textColor = "text";
         } else if (states.checked) {
           decorator = "button-checked";
+          textColor = "text";
         } else if (states.pressed) {
           decorator = "button-pressed";
+          textColor = "#001533";
         } else if (states.hovered) {
           decorator = "button-hovered";
+          textColor = "#001533";
         } else if (states.preselected && states.focused) {
           decorator = "button-preselected-focused";
+          textColor = "#001533";
         } else if (states.preselected) {
           decorator = "button-preselected";
+          textColor = "#001533";
         } else if (states.focused) {
           decorator = "button-focused";
+          textColor = "text";
         } else {
           decorator = "button";
+          textColor = "text";
         }
 
         return {
-          align: "top",
-          textColor: "black",
-          font: "default",
-          decorator: decorator
+          padding    : 2,
+          align      : "left",
+          textColor  : textColor,
+          font       : "default",
+          decorator  : decorator
         };
       }
     },
@@ -234,12 +244,12 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          padding : [1, 0, 1, 0],
+          padding   : [1, 0, 1, 0],
           textColor : "#314a6e",
-          font : new qx.bom.Font().set({
+          font      : new qx.bom.Font().set({
             family : [ "Lucida Grande", "Tahoma", "Verdana", "Bitstream Vera Sans", "Liberation Sans" ],
-            size : 12,
-            bold : true
+            size   : 12,
+            bold   : true
           })
         };
       }
@@ -596,7 +606,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          backgroundColor : "#ff0000", //"#a9a9a9",
+          backgroundColor : "#a9a9a9",
           decorator       : "window"
         };
       }
@@ -629,7 +639,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          margin : [ 5, 0, 5, 5 ]
+          margin : [ 4, 0, 2, 2 ]
         };
       }
     },
@@ -639,11 +649,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          margin   : [ 6, 8, 5, 8 ],
-          font : new qx.bom.Font().set({
-            family : [ "Lucida Grande", "Tahoma", "Verdana", "Bitstream Vera Sans", "Liberation Sans" ],
-            size : 12
-          })
+          margin : [ 7, 8, 0, 4 ],
+          font   : "default"
         };
       }
     },
@@ -653,7 +660,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          margin  : 4
+          margin  : [ 8, 4, 4, 4 ]
         };
       }
     },
@@ -711,8 +718,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          padding   : 2,
-          decorator : "window-statusbar"
+          paddingLeft : 2,
+          decorator   : "window-statusbar"
         };
       }
     },
@@ -722,6 +729,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
+          font      : "medium",
           textColor : "text"   
         };
       }

@@ -31,7 +31,7 @@ qx.Theme.define("qx.theme.modern.Color",
     "background-light" : "#F2F2F2",
 
     "label" : "#333333",
-    "text" : "black",
+    "text" : "#1a1a1a",
     "input-text" : "black",
     "text-disabled" : [ 107, 106, 110 ],
 
