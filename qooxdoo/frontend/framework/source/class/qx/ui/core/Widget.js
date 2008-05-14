@@ -1240,7 +1240,8 @@ qx.Class.define("qx.ui.core.Widget",
     {
       var el = new qx.html.Element("div");
 
-      el.setStyle("overflow", "hidden");
+      el.setStyle("overflowX", "hidden");
+      el.setStyle("overflowY", "hidden");
 
       return el;
     },

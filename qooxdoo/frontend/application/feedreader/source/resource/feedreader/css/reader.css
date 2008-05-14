@@ -48,10 +48,6 @@
   margin-left: 24px;
 }
 
-.blogEntry {
-	overflow: auto;
-}
-
 .blogEntry div.date {
   font-weight: bold;
   color: #1D65B3;
