@@ -1045,6 +1045,32 @@ qx.Theme.define("qx.theme.classic.Appearance",
           padding : [ 1, 4 ]
         };
       }
+    },
+
+    /*
+    ---------------------------------------------------------------------------
+      RESIZER
+    ---------------------------------------------------------------------------
+    */
+
+    "resizer" :
+    {
+      style : function(states)
+      {
+        return {
+          decorator : "outset"
+        };
+      }
+    },
+
+    "resizer-frame" :
+    {
+      style : function(states)
+      {
+        return {
+          decorator : "dark-shadow"
+        };
+      }
     }
   }
 });
