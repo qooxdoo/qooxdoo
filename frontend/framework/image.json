@@ -91,6 +91,12 @@
           {
             "prefix" : "../../${MODERN}/window/captionbar-inactive",
             "border-width" : 5
+          },
+          // window statusbar split
+          "${RESPATH}/source/Modern/window-statusbar.png" :
+          {
+            "prefix" : "../../${MODERN}/window/statusbar",
+            "border-width" : 4
           }
         }
       }

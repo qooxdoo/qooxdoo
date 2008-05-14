@@ -112,7 +112,8 @@ qx.Theme.define("qx.theme.modern.Decoration",
       decorator : qx.ui.decoration.Grid,
 
       style : {
-        baseImage : "decoration/pane/pane.png"
+        baseImage : "decoration/pane/pane.png",
+        insets    : [ 0, 2, 3, 0 ]
       }
     },
 
@@ -189,7 +190,8 @@ qx.Theme.define("qx.theme.modern.Decoration",
       decorator : qx.ui.decoration.Grid,
 
       style : {
-        baseImage : "decoration/form/button.png"
+        baseImage : "decoration/form/button.png",
+        insets    : 2
       }
     },
 
@@ -198,7 +200,8 @@ qx.Theme.define("qx.theme.modern.Decoration",
       decorator : qx.ui.decoration.Grid,
 
       style : {
-        baseImage : "decoration/form/button-focused.png"
+        baseImage : "decoration/form/button-focused.png",
+        insets    : 2
       }
     },
 
@@ -207,7 +210,8 @@ qx.Theme.define("qx.theme.modern.Decoration",
       decorator : qx.ui.decoration.Grid,
 
       style : {
-        baseImage : "decoration/form/button-hovered.png"
+        baseImage : "decoration/form/button-hovered.png",
+        insets    : 2
       }
     },
 
@@ -216,7 +220,8 @@ qx.Theme.define("qx.theme.modern.Decoration",
       decorator : qx.ui.decoration.Grid,
 
       style : {
-        baseImage : "decoration/form/button-pressed.png"
+        baseImage : "decoration/form/button-pressed.png",
+        insets    : 2
       }
     },
 
@@ -225,7 +230,8 @@ qx.Theme.define("qx.theme.modern.Decoration",
       decorator : qx.ui.decoration.Grid,
 
       style : {
-        baseImage : "decoration/form/button-checked.png"
+        baseImage : "decoration/form/button-checked.png",
+        insets    : 2
       }
     },
 
@@ -234,7 +240,8 @@ qx.Theme.define("qx.theme.modern.Decoration",
       decorator : qx.ui.decoration.Grid,
 
       style : {
-        baseImage : "decoration/form/button-checked-focused.png"
+        baseImage : "decoration/form/button-checked-focused.png",
+        insets    : 2
       }
     },
 
@@ -243,7 +250,8 @@ qx.Theme.define("qx.theme.modern.Decoration",
       decorator : qx.ui.decoration.Grid,
 
       style : {
-        baseImage : "decoration/form/button-default.png"
+        baseImage : "decoration/form/button-default.png",
+        insets    : 2
       }
     },
 
@@ -252,7 +260,8 @@ qx.Theme.define("qx.theme.modern.Decoration",
       decorator : qx.ui.decoration.Grid,
 
       style : {
-        baseImage : "decoration/form/button-default-focused.png"
+        baseImage : "decoration/form/button-default-focused.png",
+        insets    : 2
       }
     },
 
@@ -418,15 +427,12 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
     "window-statusbar" :
     {
-      decorator : qx.ui.decoration.Single,
-
+      decorator : qx.ui.decoration.Grid,
+      
       style :
       {
-        widthTop : 1,
-        color : "#4d4d4d",
-        style : "solid",
-        backgroundImage : "decoration/window/statusbar-bg.png",
-        backgroundRepeat : "scale"
+        baseImage : "decoration/window/statusbar.png",
+        insets    : 4
       }
     }
   }
