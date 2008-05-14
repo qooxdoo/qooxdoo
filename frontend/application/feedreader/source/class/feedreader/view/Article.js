@@ -32,11 +32,10 @@ qx.Class.define("feedreader.view.Article",
   construct : function(article)
   {
     this.base(arguments);
-    
+
     // set the styles and properties
     this.setCssClass("blogEntry");
     this.setDecorator("line-top");
-    this.setPadding(30);
     this.setOverflowY("scroll");
   },
 
@@ -75,18 +74,18 @@ qx.Class.define("feedreader.view.Article",
   {
 
     // property apply
-    _applyArticle : function(value, old) 
+    _applyArticle : function(value, old)
     {
       // set the given article to html
       var html = this.__getArticleHtml();
       this.setHtml(html);
-      
+
       // flush all elements (neede to access the content of the dom element)
-      qx.html.Element.flush();      
-      
+      qx.html.Element.flush();
+
       // get the dom element containing the html of the article
-      var element = this.getContentElement().getDomElement();  
-      // get all links          
+      var element = this.getContentElement().getDomElement();
+      // get all links
       var links = element.getElementsByTagName("a");
       // set the targets of all links to _blank
       for (var i = 0; i < links.length; i++) {
@@ -100,15 +99,15 @@ qx.Class.define("feedreader.view.Article",
      * a html view of it. Ths string containing the html will
      * be returned.
      * If no article is set, an emptys string will be returned.
-     * 
+     *
      * @return {String} The formated article as a html string.
      */
     __getArticleHtml : function()
     {
       // get the article
       var item = this.getArticle();
-      
-      // return an empty string if no article is set 
+
+      // return an empty string if no article is set
       if (!item) {
         return "";
       }
@@ -116,26 +115,11 @@ qx.Class.define("feedreader.view.Article",
       // build the article html using a StringBuilder
       var html = new qx.util.StringBuilder();
 
-      html.add("<div id='_blogEntry'>");
-
-      html.add("<h1 class='blog'>");
-      html.add(item.title);
-      html.add("</h1>");
-
-      html.add("<div class='date'>");
-      html.add(item.date);
-      html.add("</div>");
-
-      html.add("<div class='description'>");
-      html.add(item.content);
-      html.add("</div>");
-
-      html.add("<a target='_blank' href='");
-      html.add(item.link);
-      html.add("'>");
-      html.add("read more ...");
-      html.add("</a>");
-
+      html.add("<div class='container'>");
+      html.add("<h1 class='blog'>", item.title, "</h1>");
+      html.add("<div class='date'>", item.date, "</div>");
+      html.add("<div class='description'>", item.content, "</div>");
+      html.add("<a target='_blank' href='", item.link, "'>read more ...</a>");
       html.add("</div>");
 
       return html.get();
