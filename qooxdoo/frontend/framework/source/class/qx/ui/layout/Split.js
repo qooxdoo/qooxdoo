@@ -114,14 +114,14 @@ qx.Class.define("qx.ui.layout.Split",
       var end = length;
       var increment = 1;
 
-      var left, top, width, height;
+      var left, top, width, height, i;
       var child, hint;
 
       // vertical
       if (this.__orientation === "vertical")
       {
         top = 0;
-        for (var i=start; i!=end; i+=increment)
+        for (i=start; i!=end; i+=increment)
         {
           child = children[i];
 
@@ -142,7 +142,7 @@ qx.Class.define("qx.ui.layout.Split",
       else
       {
         left = 0;
-        for (var i=start; i!=end; i+=increment)
+        for (i=start; i!=end; i+=increment)
         {
           child = children[i];
 
@@ -179,21 +179,9 @@ qx.Class.define("qx.ui.layout.Split",
           hint = children[i].getSizeHint();
           var props = children[i].getLayoutProperties();
 
-          if (props.size != null)
-          {
-            if (typeof props.size == "number")
-            {
-              // Sum of widths
-              width += props.size;
-              minWidth += props.size;
-            }
-            else
-            {
-              // Sum of widths
-              width += hint.width;
-              minWidth += hint.minWidth;
-            }
-          }
+          // Sum of widths
+          width += hint.width;
+          minWidth += hint.minWidth;
 
           // Max of heights
           height = Math.max(height, hint.height);
@@ -207,21 +195,9 @@ qx.Class.define("qx.ui.layout.Split",
           hint = children[i].getSizeHint();
           var props = children[i].getLayoutProperties();
 
-          if (props.size != null)
-          {
-            if (typeof props.size == "number")
-            {
-              // Sum of heights
-              height += props.size;
-              minHeight += props.size;
-            }
-            else
-            {
-              // Sum of heights
-              height += hint.height;
-              minHeight += hint.minHeight;
-            }
-          }
+          // Sum of heights
+          height += hint.height;
+          minHeight += hint.minHeight;
 
           // Max of widths
           width = Math.max(width, hint.width);
