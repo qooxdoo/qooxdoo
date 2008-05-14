@@ -16,6 +16,7 @@
 
       "cache" :
       {
+        // use qooxdoo wide cache folder
         "path" : "../../cache"
       }
     },
