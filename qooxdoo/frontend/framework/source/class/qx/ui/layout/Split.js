@@ -20,16 +20,11 @@
 ************************************************************************ */
 
 /**
- * A atom layout. Used to place an image and label in relation
- * to each other. Useful to create buttons, list items, etc.
+ * ...
  *
  * *Features*
  *
- * * Vertical and horizontal mode (using {@link #align})
- * * Sorting options to place first child on top/left or bottom/right (using {@link #align})
- * * Automatically middles/centers content to the available space
- * * Auto-sizing
- * * Supports more than two children (will be processed the same way like the previous ones)
+ * * ...
  *
  * *Item Properties*
  *
@@ -37,11 +32,11 @@
  *
  * *Notes*
  *
- * * Does not support margins and alignment of {@link qx.ui.core.LayoutItem}.
+ * * ...
  *
  * *External Documentation*
  *
- * <a href='http://qooxdoo.org/documentation/0.8/layout/atom'>
+ * <a href='http://qooxdoo.org/documentation/0.8/layout/split'>
  * Extended documentation</a> and links to demos of this layout in the qooxdoo wiki.
  *
  * *Alternative Names*
@@ -53,6 +48,21 @@ qx.Class.define("qx.ui.layout.Split",
   extend : qx.ui.layout.Abstract,
 
 
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  construct : function(orientation)
+  {
+    this.base(arguments);
+
+    this.__orientation = (orientation == "vertical") ? "vertical" : "horizontal";
+  },
+
+
+
 
 
   /*
@@ -61,16 +71,6 @@ qx.Class.define("qx.ui.layout.Split",
   *****************************************************************************
   */
 
-  properties :
-  {
-    /** The position of the icon in relation to the text */
-    align :
-    {
-      check : [ "vertical", "horizontal" ],
-      init : "vertical",
-      apply  : "_applyLayoutChange"
-    }
-  },
 
 
 
@@ -107,7 +107,6 @@ qx.Class.define("qx.ui.layout.Split",
     {
       var Util = qx.ui.layout.Util;
 
-      var align = this.getAlign();
       var children = this._getLayoutChildren();
       var length = children.length;
 
@@ -119,7 +118,7 @@ qx.Class.define("qx.ui.layout.Split",
       var child, hint;
 
       // vertical
-      if (align == "vertical")
+      if (this.__orientation === "vertical")
       {
         top = 0;
         for (var i=start; i!=end; i+=increment)
@@ -127,6 +126,9 @@ qx.Class.define("qx.ui.layout.Split",
           child = children[i];
 
           hint = child.getSizeHint();
+          
+          console.info(i, hint)
+          
           width = Math.min(hint.maxWidth, Math.max(availWidth, hint.minWidth));
 
           left = Util.computeHorizontalAlignOffset("center", width, availWidth);
@@ -161,24 +163,70 @@ qx.Class.define("qx.ui.layout.Split",
     {
       var children = this._getLayoutChildren();
       var length = children.length;
-      var hint, result, child;
-
+      var hint, result, child, i;
+      var flexibles = [];
+      var flexOffsets;
+      
       var minWidth=0, width=0;
       var minHeight=0, height=0;
 
-      var align = this.getAlign();
+      var allocatedWidth = 0, allocatedHeight = 0;
 
-      for (var i=0; i<length; i++)
+      if (this.__orientation === "horizontal")
       {
-        hint = children[i].getSizeHint();
+        for (i=0; i<length; i++)
+        {
+          hint = children[i].getSizeHint();
+          var props = children[i].getLayoutProperties();
 
-        // Max of widths
-        width = Math.max(width, hint.width);
-        minWidth = Math.max(minWidth, hint.minWidth);
+          if (props.size != null)
+          {
+            if (typeof props.size == "number")
+            {
+              // Sum of widths
+              width += props.size;
+              minWidth += props.size;
+            }
+            else
+            {
+              // Sum of widths
+              width += hint.width;
+              minWidth += hint.minWidth;
+            }
+          }
 
-        // Sum of heights
-        height += hint.height;
-        minHeight += hint.minHeight;
+          // Max of heights
+          height = Math.max(height, hint.height);
+          minHeight = Math.max(minWidth, hint.minHeight);
+        }
+      }
+      else
+      {
+        for (i=0; i<length; i++)
+        {
+          hint = children[i].getSizeHint();
+          var props = children[i].getLayoutProperties();
+
+          if (props.size != null)
+          {
+            if (typeof props.size == "number")
+            {
+              // Sum of heights
+              height += props.size;
+              minHeight += props.size;
+            }
+            else
+            {
+              // Sum of heights
+              height += hint.height;
+              minHeight += hint.minHeight;
+            }
+          }
+
+          // Max of widths
+          width = Math.max(width, hint.width);
+          minWidth = Math.max(minWidth, hint.minWidth);
+        }
       }
 
       // Build hint
