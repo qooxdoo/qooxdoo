@@ -43,7 +43,8 @@ qx.Class.define("qx.ui.window.Window",
 
   include : [
     qx.ui.core.MRemoteChildrenHandling,
-    qx.ui.core.MRemoteLayoutHandling
+    qx.ui.core.MRemoteLayoutHandling,
+    qx.ui.resizer.MResizable
   ],
 
 
@@ -59,6 +60,9 @@ qx.Class.define("qx.ui.window.Window",
 
     // Init Window Manager
     this.setWindowManager(vWindowManager || qx.ui.window.Window.getDefaultWindowManager());
+
+    this.setResizableNorth(true);
+    this.setResizableWest(true);
 
     // layout
     this._setLayout(new qx.ui.layout.VBox());
@@ -79,7 +83,8 @@ qx.Class.define("qx.ui.window.Window",
     cb.add(ct);
 
     // spacer
-    cb.add(new qx.ui.core.Spacer(), {flex: 1});
+    this._captionFlex = new qx.ui.core.Spacer();
+    cb.add(this._captionFlex, {flex: 1});
 
     // minimize
     var bm = this._minimizeButton = new qx.ui.form.Button();
@@ -662,13 +667,7 @@ qx.Class.define("qx.ui.window.Window",
     ---------------------------------------------------------------------------
     */
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param value {var} Current value
-     * @param old {var} Previous value
-     */
+    // property apply
     _applyActive : function(value, old)
     {
       if (old)
@@ -716,13 +715,7 @@ qx.Class.define("qx.ui.window.Window",
     },
 
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param value {var} Current value
-     * @param old {var} Previous value
-     */
+    // property apply
     _applyModal : function(value, old)
     {
       // Inform blocker
@@ -734,68 +727,41 @@ qx.Class.define("qx.ui.window.Window",
     },
 
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param value {var} Current value
-     * @param old {var} Previous value
-     * @return {var} TODOC
-     */
+    // property apply
     _applyAllowClose : function(value, old) {
       this._closeButtonManager();
     },
 
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param value {var} Current value
-     * @param old {var} Previous value
-     * @return {var} TODOC
-     */
+    // property apply
     _applyAllowMaximize : function(value, old) {
       this._maximizeButtonManager();
     },
 
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param value {var} Current value
-     * @param old {var} Previous value
-     * @return {var} TODOC
-     */
+    // property apply
     _applyAllowMinimize : function(value, old) {
       this._minimizeButtonManager();
     },
 
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param value {var} Current value
-     * @param old {var} Previous value
-     */
+    // property apply
     _applyMode : function(value, old)
     {
       switch(value)
       {
         case "minimized":
-          this._disableResize = true;
+          this.setDisableResize(true);
           this._minimize();
           break;
 
         case "maximized":
-          this._disableResize = true;
+          this.setDisableResize(true);
           this._maximize();
           break;
 
         default:
-          delete this._disableResize;
+          this.setDisableResize(false);
           switch(old)
           {
             case "maximized":
@@ -810,13 +776,7 @@ qx.Class.define("qx.ui.window.Window",
     },
 
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param value {var} Current value
-     * @param old {var} Previous value
-     */
+    // property apply
     _applyShowCaption : function(value, old)
     {
       if (value) {
@@ -827,30 +787,18 @@ qx.Class.define("qx.ui.window.Window",
     },
 
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param value {var} Current value
-     * @param old {var} Previous value
-     */
+    // property apply
     _applyShowIcon : function(value, old)
     {
       if (value) {
-        this._captionBar.addAtBegin(this._captionIcon);
+        this._captionBar.addAt(this._captionIcon, 0);
       } else {
         this._captionBar.remove(this._captionIcon);
       }
     },
 
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param value {var} Current value
-     * @param old {var} Previous value
-     */
+    // property apply
     _applyShowStatusbar : function(value, old)
     {
       if (value) {
@@ -861,30 +809,18 @@ qx.Class.define("qx.ui.window.Window",
     },
 
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param value {var} Current value
-     * @param old {var} Previous value
-     */
+    // property apply
     _applyShowClose : function(value, old)
     {
       if (value) {
-        this._captionBar.addAtEnd(this._closeButton);
+        this._captionBar.add(this._closeButton);
       } else {
         this._captionBar.remove(this._closeButton);
       }
     },
 
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param value {var} Current value
-     * @param old {var} Previous value
-     */
+    // property apply
     _applyShowMaximize : function(value, old)
     {
       if (value)
@@ -905,13 +841,7 @@ qx.Class.define("qx.ui.window.Window",
     },
 
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param value {var} Current value
-     * @param old {var} Previous value
-     */
+    // property apply
     _applyShowMinimize : function(value, old)
     {
       if (value) {
@@ -950,7 +880,7 @@ qx.Class.define("qx.ui.window.Window",
      */
     _maximizeButtonManager : function()
     {
-      var b = this.getAllowMaximize() && this.getResizable() && this._computedMaxWidthTypeNull && this._computedMaxHeightTypeNull;
+      var b = this.getAllowMaximize() && this.isResizable() && this._computedMaxWidthTypeNull && this._computedMaxHeightTypeNull;
 
       if (this._maximizeButton) {
         b === false ? this._maximizeButton.setEnabled(false) : this._maximizeButton.resetEnabled();
@@ -962,79 +892,25 @@ qx.Class.define("qx.ui.window.Window",
     },
 
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param value {var} Current value
-     * @param old {var} Previous value
-     */
+    // property apply
     _applyStatus : function(value, old) {
       this._statusText.setText(value);
     },
 
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param value {var} Current value
-     * @param old {var} Previous value
-     * @return {void} TODOC
-     */
-    _applyMaxWidth : function(value, old)
-    {
-      this.base(arguments, value);
-      this._maximizeButtonManager();
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param value {var} Current value
-     * @param old {var} Previous value
-     * @return {void} TODOC
-     */
-    _applyMaxHeight : function(value, old)
-    {
-      this.base(arguments, value);
-      this._maximizeButtonManager();
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param value {var} Current value
-     * @param old {var} Previous value
-     * @return {var} TODOC
-     */
+    // property apply
     _applyResizable : function(value, old) {
       this._maximizeButtonManager();
     },
 
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param value {var} Current value
-     * @param old {var} Previous value
-     */
+    // property apply
     _applyCaption : function(value, old) {
       this._captionTitle.setContent(value);
     },
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param value {var} Current value
-     * @param old {var} Previous value
-     */
+
+    // property apply
     _applyIcon : function(value, old) {
       this._captionIcon.setSource(value);
     },
@@ -1363,14 +1239,11 @@ qx.Class.define("qx.ui.window.Window",
           break;
 
         case "frame":
-          var f = this._frame;
-
-          if (f.getLayoutParent() != this.getLayoutParent()) {
-            this.getLayoutParent().add(f);
-          }
-
-          f.setUserBounds(bounds);
-          f.setZIndex(this.getZIndex() + 1);
+          var frame = this._getFrame();
+          this.getLayoutParent().add(frame);
+          frame.show();
+          frame.setUserBounds(bounds.left, bounds.top, bounds.width, bounds.height);
+          frame.setZIndex(this.getZIndex() + 1);
           break;
       }
     },
@@ -1414,7 +1287,7 @@ qx.Class.define("qx.ui.window.Window",
           break;
 
         case "frame":
-          this.getLayoutParent().remove(this._frame);
+          this._getFrame().hide();
           break;
       }
 
@@ -1456,12 +1329,28 @@ qx.Class.define("qx.ui.window.Window",
       s.lastX = s.left + dragOffsetLeft;
       s.lastY = s.top + dragOffsetTop;
 
-      this.setUserBounds(
-        s.lastX,
-        s.lastY,
-        s.width,
-        s.height
-      );
+      // handle frame and translucently
+      switch(this.getMoveMethod())
+      {
+        case "translucent":
+        case "opaque":
+          this.setUserBounds(
+            s.lastX,
+            s.lastY,
+            s.width,
+            s.height
+          );
+          break;
+
+        case "frame":
+          this._getFrame().setUserBounds(
+            s.lastX,
+            s.lastY,
+            s.width,
+            s.height
+          );
+          break;
+      }
     },
 
 
