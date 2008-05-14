@@ -47,6 +47,7 @@
 qx.Class.define("qx.ui.embed.Iframe",
 {
   extend : qx.ui.core.Widget,
+  include : qx.ui.core.MNativeOverflow,
 
 
 
@@ -120,26 +121,6 @@ qx.Class.define("qx.ui.embed.Iframe",
       check : "String",
       init : "",
       apply : "_applyFrameName"
-    },
-    
-    /**
-     * Whether the iframe's should have vertical scroll bars.
-     */
-    overflowX :
-    {
-      check : ["hidden", "visible", "scroll"],
-      init  : "hidden",
-      apply : "_applyOverflowX"
-    },
-
-    /**
-     * Whether the iframe's should have horizontal scroll bars.
-     */
-    overflowY :
-    {
-      check : ["hidden", "visible", "scroll"],
-      init  : "hidden",
-      apply : "_applyOverflowY"
     }
 
   },
@@ -295,18 +276,6 @@ qx.Class.define("qx.ui.embed.Iframe",
     _applyFrameName : function(value, old)
     {
       this.getContentElement().setAttribute("name", value);
-    },
-
-    // property apply
-    _applyOverflowX : function(value, old)
-    {
-      this.getContentElement().setStyle("overflowX", value)
-    },
-
-    // property apply
-    _applyOverflowY : function(value, old)
-    {
-      this.getContentElement().setStyle("overflowY", value)
     }
 
   },
