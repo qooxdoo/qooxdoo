@@ -33,6 +33,7 @@ qx.Class.define("feedreader.view.List",
     // set the properties of the list
     this.setSelectionMode("single");
     this.setDecorator(null);
+    this.setBackgroundColor("white");
 
     // Add selection listener
     this.addListener("change", this._onChangeSelection, this);
