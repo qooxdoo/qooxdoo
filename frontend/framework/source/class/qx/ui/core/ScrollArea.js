@@ -632,7 +632,6 @@ qx.Class.define("qx.ui.core.ScrollArea",
       }
 
       // Update scrollbars
-      // this.debug("Scrollbars: " + showX + ", " + showY);
       if (showX)
       {
         var barX = this._getChildControl("scrollbarX");
