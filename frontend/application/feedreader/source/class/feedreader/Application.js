@@ -21,11 +21,6 @@
 
 /* ************************************************************************
 
-#resource(feedreader.css:feedreader/css)
-#resource(feedreader.images:feedreader/images)
-#embed(feedreader.css/*)
-#embed(feedreader.images/*)
-
 #include(qx.theme.Classic)
 #include(qx.theme.Modern)
 
@@ -312,8 +307,8 @@ qx.Class.define("feedreader.Application",
       var dockLayoutComposite = new qx.ui.container.Composite(dockLayout);
       this.getRoot().addMain(dockLayoutComposite, true);
       // Create header
-      this._headerView = new feedreader.view.Header();
-      dockLayoutComposite.add(this._headerView, {edge: "north"});
+      // this._headerView = new feedreader.view.Header();
+      // dockLayoutComposite.add(this._headerView, {edge: "north"});
 
       // Create toolbar
       this._toolBarView = new feedreader.view.ToolBar(this);
