@@ -28,6 +28,10 @@
 
 ************************************************************************ */
 
+/**
+ * The Resizer widget acts as a wrapper of another widget.  It allows the child
+ * widget to be resized by the end user.
+ */
 qx.Class.define("demobrowser.demo.widget.Resizer",
 {
   extend : qx.application.Standalone,
@@ -38,59 +42,60 @@ qx.Class.define("demobrowser.demo.widget.Resizer",
     {
       this.base(arguments);
 
-      var box = new qx.ui.layout.HBox();
-      box.setSpacing(10);
+      var container = new qx.ui.container.Composite(new qx.ui.layout.Grid(10, 10));
 
-      var container = new qx.ui.container.Composite(box);
-      container.setPadding(20);
+      container.add(this._getResizerList(), {row: 0, column: 0, colSpan: 2});
+      container.add(this._getResizer(), {row: 1, column: 0});
+      container.add(this._getResizer(), {row: 1, column: 1});
+      container.add(this._getResizer(), {row: 2, column: 0});
+      container.add(this._getResizer(), {row: 2, column: 1});
 
-      this.getRoot().add(container);
+      this.getRoot().add(container, {left: 30, top: 50});
+    },
 
-      var img1 = "icon/48/apps/video-player.png";
-      var img2 = "icon/48/apps/internet-mail.png";
-      var img3 = "icon/48/apps/internet-web-browser.png";
-      var img4 = "icon/48/apps/photo-album.png";
-      var img5 = "icon/48/apps/office-writer.png";
 
-      container.add(new qx.ui.basic.Atom("Juhu1", img1).set({
-        backgroundColor : "#dedede",
-        decorator : "black",
-        padding : 5,
+    _getResizerList : function()
+    {
+      var list = new qx.ui.form.List().set({
+        width: 100,
+        height: 200,
+        minWidth: 50,
+        minHeight: 100
+      });
+
+      for (var i = 0; i < 100; i++) {
+        list.add(new qx.ui.form.ListItem('Option number '+i));
+      }
+
+      var resizer = new qx.ui.resizer.Resizer().set({
+        allowGrowX: false,
         allowGrowY: false
-      }));
+      });
+      resizer.setLayout(new qx.ui.layout.Canvas());
+      resizer.add(list, {top: 0, right: 0, bottom: 0, left: 0});
 
-      container.add(new qx.ui.basic.Atom("Juhu2", img2).set({
-        backgroundColor : "#dedede",
-        decorator : "black",
-        align : "top",
-        padding : 5,
-        allowGrowY: false,
-        enabled : false
-      }));
+      return resizer;
+    },
 
-      container.add(new qx.ui.basic.Atom("Juhu3", img3).set({
-        backgroundColor : "#dedede",
-        decorator : "black",
-        align : "right",
-        padding : 5,
+
+    _getResizer : function()
+    {
+      var tArea = new qx.ui.form.TextArea;
+      tArea.setValue("Resize me\nI'm resizable");
+
+      var resizer = new qx.ui.resizer.Resizer().set({
+        minWidth: 100,
+        minHeight: 50,
+        width: 200,
+        height: 100,
+        allowGrowX: false,
         allowGrowY: false
-      }));
+      });
 
-      container.add(new qx.ui.basic.Atom("Juhu4", img4).set({
-        backgroundColor : "#dedede",
-        decorator : "black",
-        align : "bottom",
-        padding : 5,
-        allowGrowY: false
-      }));
+      resizer.setLayout(new qx.ui.layout.Canvas());
+      resizer.add(tArea, {top: 0, right: 0, bottom: 0, left: 0});
 
-      container.add(new qx.ui.basic.Atom("Juhu5", img5).set({
-        backgroundColor : "#dedede",
-        decorator : "black",
-        show : "icon",
-        padding : 5,
-        allowGrowY: false
-      }));
+      return resizer;
     }
   }
 });
