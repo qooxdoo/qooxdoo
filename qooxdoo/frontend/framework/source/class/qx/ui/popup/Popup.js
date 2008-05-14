@@ -168,8 +168,8 @@ qx.Class.define("qx.ui.popup.Popup",
 
     /**
      * Resets the zIndex of all registered popups and menus
-     * (getting the instances via the {@link qx.legacy.ui.popup.PopupManager} and
-     * the {@link qx.legacy.ui.menu.Manager}) one higher than the defined minimum zIndex.
+     * (getting the instances via the {@link qx.ui.popup.PopupManager} and
+     * the {@link qx.ui.menu.Manager}) one higher than the defined minimum zIndex.
      *
      * @type member
      * @return {void}
