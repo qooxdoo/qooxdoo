@@ -903,6 +903,10 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
       for (var i=0, l=arguments.length; i<l; i++)
       {
         var treeItem = arguments[i];
+        if (this._children.indexOf(treeItem) == -1) {
+          this.warn("Cannot remove treeitem '"+treeItem+"'. It is not a child of this tree item.");
+          return;
+        }
 
         var container = this.getChildrenContainer();
 
