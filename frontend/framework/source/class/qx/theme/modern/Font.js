@@ -39,6 +39,12 @@ qx.Theme.define("qx.theme.modern.Font",
       family : [ "Lucida Grande", "Tahoma", "Verdana", "Bitstream Vera Sans", "Liberation Sans" ],
       bold : true
     },
+    
+    "medium" :
+    {
+      size   : 10,
+      family : [ "Lucida Grande", "Tahoma", "Verdana", "Bitstream Vera Sans", "Liberation Sans" ]
+    },
 
     "large" :
     {
