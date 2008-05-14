@@ -77,9 +77,12 @@ qx.Class.define("feedreader.view.AddFeedWindow",
       this.add(urlTextField, {row: 1, column: 1});
 
       var addButton = new qx.ui.form.Button("Add", "icon/16/actions/dialog-apply.png");
-      addButton.setAllowGrowX(false);
-      addButton.setAlignX("right");
-
+      addButton.set({
+        alignX     : "right",
+        allowGrowX : false,
+        minWidth   : 80
+      });
+      
       this.add(addButton, {row: 2, column: 0, colSpan: 2});
 
       addButton.addListener("execute", function(e) {
