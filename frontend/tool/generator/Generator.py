@@ -669,7 +669,7 @@ class Generator:
         imgpatt  = re.compile(r'\.(png|jpeg|jpg|gif)$', re.I)
         skippatt = re.compile(r'\.(meta|py)$', re.I)
 
-        self._console.info("Analysing images...")
+        self._console.info("Analysing assets...")
         self._console.indent()
 
         # some helper functions
