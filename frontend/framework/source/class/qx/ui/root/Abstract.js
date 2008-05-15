@@ -92,12 +92,6 @@ qx.Class.define("qx.ui.root.Abstract",
 
 
     // overridden
-    isLayoutRoot : function() {
-      return true;
-    },
-
-
-    // overridden
     isFocusRoot : function() {
       return true;
     }
