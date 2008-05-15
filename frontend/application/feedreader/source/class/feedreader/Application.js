@@ -27,12 +27,14 @@
 #asset(feedreader/css/*)
 #asset(feedreader/images/*)
 
-************************************************************************ */
+#asset(qx/icon/Tango/22/apps/internet-feed-reader.png)
 
+************************************************************************ */
 
 qx.Class.define("feedreader.Application",
 {
   extend : qx.application.Standalone,
+
 
 
   /*
@@ -106,7 +108,7 @@ qx.Class.define("feedreader.Application",
       this.addFeed("Ajaxian", "http://feeds.feedburner.com/ajaxian", true);
 
       // Define alias for custom resource path
-      qx.util.AliasManager.getInstance().add("feedreader", qx.core.Setting.get("feedreader.resourceUri") + "/feedreader");
+      //qx.util.AliasManager.getInstance().add("feedreader", qx.core.Setting.get("feedreader.resourceUri") + "/feedreader");
 
       // Include CSS file
       qx.bom.Stylesheet.includeFile(qx.util.AliasManager.getInstance().resolve("feedreader/css/reader.css"));
@@ -337,7 +339,7 @@ qx.Class.define("feedreader.Application",
 
       // Create the header of the list
       var listHeader = new qx.ui.basic.Label("Posts");
-      listHeader.setBackgroundColor("#EEEEEE");
+      listHeader.setBackgroundColor("background-light");
       listHeader.setPadding(5);
       listHeader.setDecorator("line-bottom");
       listHeader.setAllowGrowX(true);
@@ -354,9 +356,8 @@ qx.Class.define("feedreader.Application",
 
       // Create the loading image for the list
       var imageHBoxComposite = new qx.ui.container.Composite(new qx.ui.layout.HBox(0, "center"));
-      imageHBoxComposite.setBackgroundColor("#EEEEEE");
+      imageHBoxComposite.setBackgroundColor("background-light");
       this._listLoadImage = new qx.ui.basic.Image("feedreader/images/loading66.gif");
-      this._listLoadImage.setPadding(10);
       this._listLoadImage.setAlignY("middle");
       imageHBoxComposite.add(this._listLoadImage);
       this._stack.add(imageHBoxComposite);
@@ -415,40 +416,23 @@ qx.Class.define("feedreader.Application",
     // property apply
     _applySelectedFeed : function(value, old)
     {
-      if (old)
-      {
-        // Store old selection
-        old.selection = this._listView.indexOf(this._listView.getSelectedItem());
-        old.offset = this._listView.getScrollTop();
-      }
-
       if (value)
       {
         // Update the list with new data
         this._listView.removeAll();
-        for (var i = 0; i < value.items.length; i++) {
+
+        for (var i = 0; i < value.items.length; i++)
+        {
           var title = value.items[i].title;
           var listItem = new qx.ui.form.ListItem(title);
           listItem.setUserData("id", i);
           this._listView.add(listItem);
         }
 
-        if (value.selection >= 0)
-        {
-          // If a selection was stored, recover it
-          this._listView.select(this._listView.getChildren()[value.selection]);
-          this._listView.setScrollTop(value.offset);
-
-          delete value.selection;
-          delete value.offset;
-        }
-        else
-        {
-          // Initially select first article
-          var firstItem = this._listView.getChildren()[0];
-          if (firstItem) {
-            this._listView.select(firstItem);
-          }
+        // Initially select first article
+        var firstItem = this._listView.getChildren()[0];
+        if (firstItem) {
+          this._listView.select(firstItem);
         }
       }
       else
