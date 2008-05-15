@@ -71,11 +71,6 @@ qx.Class.define("qx.ui.root.Page",
 
   members :
   {
-    // adds major widget (left top edge)
-    addMain : function(child) {
-      this._add(child, {left:0, top: 0});
-    },
-
     // overridden
     _createContainerElement : function()
     {

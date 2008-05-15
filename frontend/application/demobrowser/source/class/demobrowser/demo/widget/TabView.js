@@ -44,7 +44,7 @@ qx.Class.define("demobrowser.demo.widget.TabView",
       container.setPadding(20);
       container.setLayout(boxLayout);
 
-      this.getRoot().addMain(container);
+      this.getRoot().add(container, {left:0,top:0});
 
       tabView = new qx.ui.tabview.TabView();
       tabView.setWidth(500);
