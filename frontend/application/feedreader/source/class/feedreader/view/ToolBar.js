@@ -23,10 +23,9 @@
 
 #asset(qx/icon/Tango/22/actions/dialog-ok.png)
 #asset(qx/icon/Tango/22/actions/dialog-cancel.png)
-#asset(qx/icon/Tango/22/actions/help-about.png)
 #asset(qx/icon/Tango/22/actions/view-refresh.png)
 #asset(qx/icon/Tango/22/apps/preferences-theme.png)
-#asset(qx/icon/Tango/22/apps/preferences-locale.png)
+#asset(qx/icon/Tango/22/actions/help-about.png)
 
 ************************************************************************ */
 
@@ -38,30 +37,29 @@ qx.Class.define("feedreader.view.ToolBar",
   {
     this.base(arguments);
 
+
     // Apply style
     this.setDecorator("line-bottom");
 
-    // Link for controller
-    this._controller = controller;
 
-    // Define commands /////////////
+    // Define commands
     var reloadCmd = new qx.event.Command("Control+R");
-    reloadCmd.addListener("execute", this._controller.reload, this._controller);
+    reloadCmd.addListener("execute", controller.reload, controller);
 
     var aboutCmd = new qx.event.Command("F1");
-    aboutCmd.addListener("execute", this._controller.showAbout, this._controller);
+    aboutCmd.addListener("execute", controller.showAbout, controller);
 
     var prefCmd = new qx.event.Command("Control+P");
-    prefCmd.addListener("execute", this._controller.showPreferences, this._controller);
+    prefCmd.addListener("execute", controller.showPreferences, controller);
 
     var addFeedCmd = new qx.event.Command("Control+A");
-    addFeedCmd.addListener("execute", this._controller.showAddFeed, this._controller);
+    addFeedCmd.addListener("execute", controller.showAddFeed, controller);
 
     var removeFeedCmd = new qx.event.Command("Control+D");
-    removeFeedCmd.addListener("execute", this._controller.removeFeed, this._controller);
-    // /////////////////////////////
+    removeFeedCmd.addListener("execute", controller.removeFeed, controller);
 
-    // Add buttons /////////////////
+
+    // Add/Remove buttons
     var addBtn = new qx.ui.toolbar.Button("Add feed", "icon/22/actions/dialog-ok.png");
     addBtn.setCommand(addFeedCmd);
     this.add(addBtn);
@@ -70,30 +68,37 @@ qx.Class.define("feedreader.view.ToolBar",
     removeBtn.setCommand(removeFeedCmd);
     this.add(removeBtn);
 
+
     // Add a sepearator
     this.add(new qx.ui.toolbar.Separator());
 
+
+    // Reload button
     var reloadBtn = new qx.ui.toolbar.Button("Reload", "icon/22/actions/view-refresh.png");
     reloadBtn.setCommand(reloadCmd);
     reloadBtn.setToolTip(new qx.ui.popup.ToolTip("Reload the feeds. (" + reloadCmd.toString() + ")"));
     this.add(reloadBtn);
 
+
     // Add a sepearator
     this.add(new qx.ui.toolbar.Separator());
 
+
+    // Preferences button
     var prefBtn = new qx.ui.toolbar.Button("Preferences", "icon/22/apps/preferences-theme.png");
     prefBtn.setCommand(prefCmd);
     prefBtn.setToolTip(new qx.ui.popup.ToolTip("Open preferences window."));
     this.add(prefBtn);
 
+
     // Add a spacer
     this.addSpacer();
 
+
+    // About button
     var about_btn = new qx.ui.toolbar.Button("Help", "icon/22/actions/help-about.png");
     about_btn.setCommand(aboutCmd);
     about_btn.setToolTip(new qx.ui.popup.ToolTip("(" + aboutCmd.toString() + ")"));
     this.add(about_btn);
-    // /////////////////////////////
   }
-
 });
