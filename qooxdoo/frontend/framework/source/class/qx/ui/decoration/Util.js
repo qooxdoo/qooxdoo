@@ -23,12 +23,6 @@
  */
 qx.Class.define("qx.ui.decoration.Util",
 {
-  /*
-  *****************************************************************************
-     STATICS
-  *****************************************************************************
-  */
-
   statics :
   {
     /**
@@ -44,31 +38,21 @@ qx.Class.define("qx.ui.decoration.Util",
      */
     updateSize : function(decorationElement, width, height, horizontalInsets, verticalInsets)
     {
-      var elWidth = width;
-      var elHeight = height;
-
-      var useContentBox = false;
-
       if (qx.core.Variant.isSet("qx.client", "mshtml"))
       {
         if (qx.bom.client.Feature.CONTENT_BOX)
         {
-          elWidth -= horizontalInsets;
-          elHeight -= verticalInsets;
-          useContentBox = true;
+          width -= horizontalInsets;
+          height -= verticalInsets;
         }
       }
-
-      var styles = {};
-      if (!useContentBox) {
-        styles.boxSizing = "border-box"
+      else
+      {
+        decorationElement.setStyle("boxSizing", "border-box");
       }
 
-      styles.width = elWidth + "px";
-      styles.height = elHeight + "px";
-
-      decorationElement.setStyles(styles);
+      decorationElement.setStyle("width", width + "px");
+      decorationElement.setStyle("height", height + "px");
     }
   }
-
 });
