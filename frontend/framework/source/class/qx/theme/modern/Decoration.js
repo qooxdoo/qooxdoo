@@ -22,7 +22,6 @@
 
 /* ************************************************************************
 
-#resource(qx.icontheme:qx/decoration/Modern)
 #asset(qx/decoration/Modern/*)
 
 ************************************************************************ */
@@ -428,7 +427,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
     "window-statusbar" :
     {
       decorator : qx.ui.decoration.Grid,
-      
+
       style :
       {
         baseImage : "decoration/window/statusbar.png",

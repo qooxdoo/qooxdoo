@@ -56,36 +56,41 @@ qx.Class.define("feedreader.view.PreferenceWindow",
      */
     _addContent : function()
     {
-      // set the layout of the window
+      // Set the layout of the window
       this.setLayout(new qx.ui.layout.VBox());
 
-      // create and add a groupbox
+      // Create and add a groupbox
       var groupBox = new qx.ui.groupbox.GroupBox("Theme");
       groupBox.setMargin(5);
-      this.add(groupBox);
       groupBox.setLayout(new qx.ui.layout.VBox());
+      this.add(groupBox);
 
-      // create the radio buttons for the themes
+      // Create the radio buttons for the themes
       var button_classic = new qx.ui.form.RadioButton("Classic");
-      button_classic.setChecked(true);
-      var button_modern = new qx.ui.form.RadioButton("Modern");
+      button_classic.setValue(qx.theme.Classic.name);
 
-      // create and apply the radio manager
+      var button_modern = new qx.ui.form.RadioButton("Modern");
+      button_modern.setValue(qx.theme.Modern.name);
+      button_modern.setChecked(true);
+
+      // Create and apply the radio manager
       var radioManager = new qx.ui.core.RadioManager();
       radioManager.add(button_modern, button_classic);
 
-      // add the buttons to the groupbox
+      // Add the buttons to the groupbox
       groupBox.add(button_classic);
       groupBox.add(button_modern);
 
-      // register the listener for the theme changes
-      radioManager.addListener("change", function(e) {
-        if (e.getValue() == button_classic) {
-          alert("Apply classic theme.");
-        } else if (e.getValue() == button_modern) {
-          alert("Apply modern theme.");
-        }
-      }, this);
+      // Register the listener for the theme changes
+      radioManager.addListener("change", this._onThemeChange, this);
+    },
+
+
+    _onThemeChange : function(e)
+    {
+      var mgr = qx.theme.manager.Meta.getInstance();
+      var clazz = qx.Theme.getByName(e.getValue().getValue());
+      mgr.setTheme(clazz);
     }
   }
 });

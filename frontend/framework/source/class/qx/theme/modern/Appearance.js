@@ -25,7 +25,6 @@
 #asset(qx/icon/Tango/16/places/folder-open.png)
 #asset(qx/icon/Tango/16/places/folder.png)
 #asset(qx/icon/Tango/16/mimetypes/text-plain.png)
-#use(qx.theme.modern.Sprites)
 
 ************************************************************************* */
 
@@ -35,7 +34,6 @@
 qx.Theme.define("qx.theme.modern.Appearance",
 {
   title : "Modern",
-  //extend : qx.theme.classic.Appearance,
 
   appearances :
   {

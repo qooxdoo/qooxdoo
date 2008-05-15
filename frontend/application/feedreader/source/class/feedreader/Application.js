@@ -21,12 +21,7 @@
 
 /* ************************************************************************
 
-#include(qx.theme.Classic)
-#include(qx.theme.Modern)
-
-#asset(feedreader/css/*)
-#asset(feedreader/images/*)
-
+#asset(feedreader/*)
 #asset(qx/icon/Tango/22/apps/internet-feed-reader.png)
 
 ************************************************************************ */
