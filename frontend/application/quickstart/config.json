@@ -1,0 +1,38 @@
+{
+  "jobs" :
+  {
+    "build" :
+    {
+      "library" :
+      [
+        {
+          "manifest" : "../../framework/Manifest.json"
+        }
+      ],
+
+      // use qooxdoo wide cache folder
+      "cache" :
+      {
+        "path" : "../../cache"
+      },
+
+      // hard include all qooxdoo classes, except legacy stuff
+      "include" : ["qx.*"],
+      "exclude" : ["=qx.legacy.*"],
+
+      // enable debug build
+      "variants" :
+      {
+        "qx.debug" : ["off"]
+      },
+
+      // only support compile target
+      "compile" :
+      {
+        "file" : "build/script/qx.js",
+        "uri"  : "script/qx.js",
+        "optimize" : ["basecalls", "variables", "privates"]
+      }
+    }
+  }
+}
