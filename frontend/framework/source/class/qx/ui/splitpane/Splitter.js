@@ -22,6 +22,6 @@
 
 qx.Class.define("qx.ui.splitpane.Splitter",
 {
-  extend : qx.core.Object
+  extend : qx.ui.core.Widget
   
 });
