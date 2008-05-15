@@ -308,9 +308,6 @@ qx.Class.define("feedreader.Application",
       var dockLayout = new qx.ui.layout.Dock();
       var dockLayoutComposite = new qx.ui.container.Composite(dockLayout);
       this.getRoot().addMain(dockLayoutComposite, true);
-      // Create header
-      // this._headerView = new feedreader.view.Header();
-      // dockLayoutComposite.add(this._headerView, {edge: "north"});
 
       // Create toolbar
       this._toolBarView = new feedreader.view.ToolBar(this);
@@ -335,7 +332,7 @@ qx.Class.define("feedreader.Application",
       // Create the vBox for the list and header of the list
       var listVBox = new qx.ui.layout.VBox();
       var listVBoxComposite = new qx.ui.container.Composite(listVBox);
-      vBoxComposite.add(listVBoxComposite, {flex: 1});
+      vBoxComposite.add(listVBoxComposite, {flex: 1, height : "40%"});
 
       // Create the header of the list
       var listHeader = new qx.ui.basic.Label("Posts");
@@ -364,7 +361,7 @@ qx.Class.define("feedreader.Application",
 
       // Create article view
       this._articleView = new feedreader.view.Article();
-      vBoxComposite.add(this._articleView, {flex: 2});
+      vBoxComposite.add(this._articleView, {flex: 1, height : "60%"});
     },
 
 

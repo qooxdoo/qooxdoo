@@ -39,7 +39,9 @@ qx.Class.define("feedreader.view.PreferenceWindow",
       modal         : true,
       showMinimize  : false,
       showMaximize  : false,
-      allowMaximize : false
+      allowMaximize : false,
+      width         : 200,
+      height        : 200
     });
 
     // Create the content with a helper
