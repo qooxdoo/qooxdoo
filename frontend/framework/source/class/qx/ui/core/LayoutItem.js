@@ -425,18 +425,6 @@ qx.Class.define("qx.ui.core.LayoutItem",
 
 
     /**
-     * Whether the item is a layout root. If the item is a layout root,
-     * layout changes inside the item will not be propagated up to the
-     * layout root's parent.
-     *
-     * @return {Boolean} Whether the item is a layout root.
-     */
-    isLayoutRoot : function() {
-      return false;
-    },
-
-
-    /**
      * Whether the element should be rendered.
      *
      * @return {Boolean} Whether the item should be rendered.
