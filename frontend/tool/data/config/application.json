@@ -33,8 +33,7 @@
 
       "include" :
       [
-        "${APPLICATION}.Application",
-        "qx.legacy.theme.ClassicRoyale"
+        "${APPLICATION}.Application"
       ],
 
       "settings" :
@@ -51,6 +50,7 @@
 
       "settings" :
       {
+        // resource compat to 0.7.x
         "qx.resourceUri"             : "${QOOXDOO_URI}/source/resource",
         "${APPLICATION}.resourceUri" : "../source/resource"
       },
@@ -77,8 +77,14 @@
 
       "settings" :
       {
+        // resource compat to 0.7.x
         "qx.resourceUri" : "resource",
         "${APPLICATION}.resourceUri" : "resource"
+      },
+
+      "variants" :
+      {
+        "qx.debug" : ["off"]
       },
 
       "compile" :
