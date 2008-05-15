@@ -94,8 +94,12 @@ qx.Class.define("qx.ui.layout.Split",
     {
       "on" : function(item, name, value)
       {
-        //this.assert(name == "mode" || name == "size", "The property '"+name+"' is not supported by the split layout!");
-        // TODO
+        this.assert(name == "mode" || name == "size", "The property '"+name+"' is not supported by the split layout!");
+        if (name == "mode") {
+          this.assertInArray(value, ["first", "second", "splitter"]);
+        } else if (name == "size") {
+          this.assertNumber(value);
+        }
       },
 
       "off" : null
