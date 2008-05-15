@@ -69,7 +69,7 @@ qx.Class.define("qx.ui.core.queue.Layout",
         }
 
         // overflow areas or qx.ui.root.*
-        if (widget.isLayoutRoot() && !widget.hasUserBounds())
+        if (widget.isRootWidget() && !widget.hasUserBounds())
         {
           // This is a real root widget. Set its size to its preferred size.
           var hint = widget.getSizeHint();
@@ -247,7 +247,7 @@ qx.Class.define("qx.ui.core.queue.Layout",
           var widget = levels[level][hash];
 
           // This is a real layout root. Add it directly to the list
-          if (level == 0 || widget.isLayoutRoot() || widget.hasUserBounds())
+          if (level == 0 || widget.isRootWidget() || widget.hasUserBounds())
           {
             sortedQueue.push(widget);
             widget.invalidateLayoutCache();
