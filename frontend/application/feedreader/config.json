@@ -1,9 +1,9 @@
-// Feedreader - config.json
 {
   "include" :
   {
     "appconf" : "../../tool/data/config/application.json"
   },
+
 
   "jobs" :
   {
@@ -22,11 +22,12 @@
     },
 
 
-    "common-builds" :  // this is for source/build versions
+    // this is for source/build versions
+    "common-builds" :
     {
       "extend"  : ["common"],
 
-      "include" : ["feedreader.*", "qx.theme.Classic", "qx.theme.Modern"],
+      "include" : ["feedreader.Application"],
 
       "settings" :
       {
@@ -35,7 +36,9 @@
 
       "localize" :
       {
-        "locales" : ["en", "de", "es", "it"]
+        // does not work yet correctly
+        // "locales" : ["en", "de", "es", "it"]
+        "locales" : [ "en" ]
       }
     },
 
