@@ -21,7 +21,10 @@
 
 /* ************************************************************************
 
-#asset(qx/icon/Tango/16/apps/preferences-theme.png)
+#asset(qx/icon/Tango/16/actions/document-new.png)
+#asset(qx/icon/Tango/16/actions/dialog-apply.png)
+#asset(qx/icon/Oxygen/16/actions/document-new.png)
+#asset(qx/icon/Oxygen/16/actions/dialog-apply.png)
 
 ************************************************************************ */
 

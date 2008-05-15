@@ -23,6 +23,7 @@
 
 #asset(feedreader/*)
 #asset(qx/icon/Tango/22/apps/internet-feed-reader.png)
+#asset(qx/icon/Oxygen/22/apps/internet-feed-reader.png)
 
 ************************************************************************ */
 
