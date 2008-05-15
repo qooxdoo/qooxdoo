@@ -442,7 +442,7 @@ class Generator:
         bootBlocks.append(self.generateSettingsCode(settings, format))
         bootBlocks.append(self.generateVariantsCode(variants, format))
         bootBlocks.append(self.generateLibInfoCode(libs, format))
-        bootBlocks.append(self.generateImageInfoCode(settings, libs, format))
+        bootBlocks.append(self.generateResourceInfoCode(settings, libs, format))
         bootBlocks.append(self.generateTranslationCode(self._translationMaps, format))
         bootBlocks.append(self.generateCompiledPackageCode(fileUri, parts, packages, boot, variants, settings, format))
 
@@ -516,7 +516,7 @@ class Generator:
         sourceBlocks.append(self.generateSettingsCode(settings, format))
         sourceBlocks.append(self.generateVariantsCode(variants, format))
         sourceBlocks.append(self.generateLibInfoCode(self._config.get("library",[]),format))        
-        sourceBlocks.append(self.generateImageInfoCode(settings, libs, format))
+        sourceBlocks.append(self.generateResourceInfoCode(settings, libs, format))
         sourceBlocks.append(self.generateTranslationCode(self._translationMaps, format))
         sourceBlocks.append(self.generateSourcePackageCode(parts, packages, boot, format))
 
@@ -662,10 +662,12 @@ class Generator:
         return result
 
 
-    def generateImageInfoCode(self, settings, libs, format=False):
+    def generateResourceInfoCode(self, settings, libs, format=False):
         """Pre-calculate image information (e.g. sizes)"""
         data = {}
-        imgpatt = re.compile(r'\.(png|jpeg|gif)$', re.I)
+        resdata = {}
+        imgpatt  = re.compile(r'\.(png|jpeg|jpg|gif)$', re.I)
+        skippatt = re.compile(r'\.(meta|py)$', re.I)
 
         self._console.info("Analysing images...")
         self._console.indent()
@@ -722,42 +724,51 @@ class Generator:
             libresuri = os.path.join(lib['uri'],lib['resource'])
             resourceList = self._resourceHandler.findAllResources([lib], self._getDefaultResourceFilter())
             # resourceList = [[file1,uri1],[file2,uri2],...]
-            for resource in (x for x in resourceList if imgpatt.search(x[0])):
-                imgpath= resource[0]
-                imguri = resource[1]
-                imageInfo = self._imageInfo.getImageInfo(imgpath)
-                # use an ImgInfoFmt object, to abstract from flat format
-                imgfmt = ImgInfoFmt()
-                imgfmt.lib = lib['namespace']
-                if not 'type' in imageInfo:
-                    self._console.error("Unable to get image info from file: %s" % imgpath)
-                    sys.exit(1)
-                imgfmt.type = imageInfo['type']
-                ## replace lib uri with lib namespace
+            for resource in resourceList:
                 ##assetId = replaceWithNamespace(imguri, libresuri, lib['namespace'])
-                assetId = extractAssetPart(libresuri, imguri)
+                assetId = extractAssetPart(libresuri, resource[1])
 
-                # check for a combined image and process the contained images
-                meta_fname = os.path.splitext(imgpath)[0]+'.meta'
-                if os.path.exists(meta_fname):  # add included imgs
-                    processCombinedImg(data, meta_fname, imguri, assetId, imgfmt)
-                
-                # add this image directly
-                # imageInfo = {width, height, filetype}
-                if not 'width' in imageInfo or not 'height' in imageInfo:
-                    self._console.error("Unable to get image info from file: %s" % imgpath)
-                    sys.exit(1)
-                imgfmt.width, imgfmt.height, imgfmt.type = (
-                    imageInfo['width'], imageInfo['height'], imageInfo['type'])
-                # check if img is already registered as part of a combined image
-                if assetId in data:
-                    x = ImgInfoFmt()
-                    x.fromFlat(data[assetId])
-                    if x.mappedId:
-                        continue  # don't overwrite the combined entry
-                data[assetId] = imgfmt.flatten()
+                if imgpatt.search(resource[0]): # handle images
+                    imgpath= resource[0]
+                    imguri = resource[1]
+                    imageInfo = self._imageInfo.getImageInfo(imgpath)
+                    # use an ImgInfoFmt object, to abstract from flat format
+                    imgfmt = ImgInfoFmt()
+                    imgfmt.lib = lib['namespace']
+                    if not 'type' in imageInfo:
+                        self._console.error("Unable to get image info from file: %s" % imgpath)
+                        sys.exit(1)
+                    imgfmt.type = imageInfo['type']
+
+                    # check for a combined image and process the contained images
+                    meta_fname = os.path.splitext(imgpath)[0]+'.meta'
+                    if os.path.exists(meta_fname):  # add included imgs
+                        processCombinedImg(data, meta_fname, imguri, assetId, imgfmt)
+                    
+                    # add this image directly
+                    # imageInfo = {width, height, filetype}
+                    if not 'width' in imageInfo or not 'height' in imageInfo:
+                        self._console.error("Unable to get image info from file: %s" % imgpath)
+                        sys.exit(1)
+                    imgfmt.width, imgfmt.height, imgfmt.type = (
+                        imageInfo['width'], imageInfo['height'], imageInfo['type'])
+                    # check if img is already registered as part of a combined image
+                    if assetId in data:
+                        x = ImgInfoFmt()
+                        x.fromFlat(data[assetId])
+                        if x.mappedId:
+                            continue  # don't overwrite the combined entry
+                    data[assetId] = imgfmt.flatten()
+
+                elif skippatt.search(resource[0]):
+                    continue
+
+                else:  # handle other resources
+                    resdata[assetId] = lib['namespace']
 
         result = 'if(!window.qximageinfo)qximageinfo=' + simplejson.dumps(data,ensure_ascii=False) + ";"
+        if format: result += '\n'
+        result += 'if(!window.qxresourceinfo)qxresourceinfo=' + simplejson.dumps(resdata,ensure_ascii=False) + ";"
             
         self._console.outdent()
 
