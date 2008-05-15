@@ -41,7 +41,7 @@ qx.Class.define("demobrowser.demo.widget.SplitPane_simple",
 
       // //frame.setEdge(20);
       // the splitpane itself
-      var splitpane = new qx.ui.splitpane.Pane("horizontal", "1*", "2*");
+      var splitpane = new qx.ui.splitpane.Pane("horizontal", 1, 2);
 
       // //splitpane.setEdge(0);
       splitpane.setLiveResize(true);
