@@ -50,7 +50,7 @@ qx.Class.define("feedreader.view.Tree",
     this.setRoot(this._root);
 
     // Add the subfolders
-    this._staticFeedsFolder = new qx.ui.tree.TreeFolder("Static Feeds");
+    this._staticFeedsFolder = new qx.ui.tree.TreeFolder("Default Feeds");
     this._staticFeedsFolder.setOpen(true);
     this.getRoot().add(this._staticFeedsFolder);
     this._userFeedsFolder = new qx.ui.tree.TreeFolder("User Feeds");
@@ -96,7 +96,8 @@ qx.Class.define("feedreader.view.Tree",
         var folder = new qx.ui.tree.TreeFolder(db[url].title);
         folder.setIcon("feedreader/images/loading22.gif");
         folder.setUserData("url", url);
-        if (db[url].predefined) {
+
+        if (db[url].category === "default") {
           this._staticFeedsFolder.add(folder);
         } else {
           this._userFeedsFolder.add(folder);
@@ -114,7 +115,7 @@ qx.Class.define("feedreader.view.Tree",
       var folder = new qx.ui.tree.TreeFolder(db[url].title);
       folder.setIcon("feedreader/images/loading22.gif");
       folder.setUserData("url", url);
-      if (db[url].predefined) {
+      if (db[url].category === "default") {
         this._staticFeedsFolder.add(folder);
       } else {
         this._userFeedsFolder.add(folder);
@@ -133,12 +134,15 @@ qx.Class.define("feedreader.view.Tree",
     {
       // get all folders (recursive)
       var folders = this.getItems(true);
-      for (var i = 0; i < folders.length; i++) {
-          var folderUrl = folders[i].getUserData("url");
-          if (folderUrl == url) {
-            return folders[i];
-          }
+
+      for (var i = 0; i < folders.length; i++)
+      {
+        var folderUrl = folders[i].getUserData("url");
+        if (folderUrl == url) {
+          return folders[i];
+        }
       }
+
       return null;
     },
 

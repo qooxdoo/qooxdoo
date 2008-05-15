@@ -101,12 +101,17 @@ qx.Class.define("feedreader.Application",
       this._dateFormat = new qx.util.format.DateFormat();
 
       // Add some static feeds
-      this.addFeed("qooxdoo News", "http://feeds.feedburner.com/qooxdoo/news/content", true);
-      this.addFeed("Mozilla Developer News", "http://developer.mozilla.org/devnews/index.php/feed/", true);
-      this.addFeed("JScript Team Blog", "http://blogs.msdn.com/jscript/rss.xml", true);
-      this.addFeed("Daring Fireball", "http://daringfireball.net/index.xml", true);
-      this.addFeed("Surfin' Safari", "http://webkit.org/blog/?feed=rss2", true);
-      this.addFeed("Ajaxian", "http://feeds.feedburner.com/ajaxian", true);
+      this.addFeed("qooxdoo News", "http://feeds.feedburner.com/qooxdoo/news/content", "default");
+      this.addFeed("Mozilla Developer News", "http://developer.mozilla.org/devnews/index.php/feed/", "default");
+      this.addFeed("JScript Team Blog", "http://blogs.msdn.com/jscript/rss.xml", "default");
+      this.addFeed("Daring Fireball", "http://daringfireball.net/index.xml", "default");
+      this.addFeed("Surfin' Safari", "http://webkit.org/blog/?feed=rss2", "default");
+      this.addFeed("Ajaxian", "http://feeds.feedburner.com/ajaxian", "default");
+
+      this.addFeed("Heise", "http://www.heise.de/newsticker/heise-atom.xml", "user");
+      this.addFeed("A List Apart", "http://www.alistapart.com/rss.xml", "user");
+      this.addFeed("Apple Insider", "http://www.appleinsider.com/appleinsider.rss", "user");
+      this.addFeed("Opera Desktop Blog", "http://my.opera.com/desktopteam/xml/rss/blog/", "user");
 
       // Create application layout
       this._createLayout();
@@ -121,9 +126,6 @@ qx.Class.define("feedreader.Application",
      */
     _load : function()
     {
-      // Increase parallel requests
-      qx.io.remote.RequestQueue.getInstance().setMaxConcurrentRequests(10);
-
       // Fetch feed data
       this._fetchData();
     },
@@ -194,7 +196,7 @@ qx.Class.define("feedreader.Application",
      * @param title {String} The title of the feed.
      * @param url {String} The url to the feed.
      */
-    addFeed : function(title, url, predefined)
+    addFeed : function(title, url, category)
     {
       // get the database
       var db = this._feeds;
@@ -214,7 +216,7 @@ qx.Class.define("feedreader.Application",
         items      : [],
         loader     : qx.lang.Function.bind(this._loadJsonFeed, this, url),
         added      : new Date,
-        predefined : predefined,
+        category   : category,
         loading    : false,
         url        : url
       };
@@ -241,11 +243,6 @@ qx.Class.define("feedreader.Application",
       if (currentSelectedFolder)
       {
         var currentUrl = currentSelectedFolder.getUserData("url");
-        if (currentUrl && this._feeds[currentUrl].predefined)
-        {
-          alert("Can not remove static feeds.");
-          return;
-        }
 
         // remove the feed from the db
         var url = currentSelectedFolder.getUserData("url");
@@ -289,6 +286,7 @@ qx.Class.define("feedreader.Application",
 
       value ? this.setSelectedFeed(value) : this.resetSelectedFeed();
     },
+
 
 
 
@@ -558,17 +556,17 @@ qx.Class.define("feedreader.Application",
         return;
       }
 
-      // Read content
-      var json = response.getContent();
-
-
       try
       {
+        // Read content
+        var json = response.getContent();
+
         // Normalize json feed data to item list
         var items = feedreader.FeedParser.parseFeed(json);
 
-        // Post processing items
-        for (var i=0, l=items.length; i<l; i++) {
+        // Post processing date items
+        for (var i=0, l=items.length; i<l; i++)
+        {
           if (items[i].date) {
             items[i].date = this._dateFormat.format(items[i].date);
           }
@@ -607,12 +605,8 @@ qx.Class.define("feedreader.Application",
       }
       catch(ex)
       {
-        var treeFolder = this._treeView.getFolderByUrl(url);
-        if (treeFolder)
-        {
-          this._treeView.getRoot().remove(treeFolder);
-          alert("Could not parse feed: " + url);
-        }
+        this.error("Could not process feed: " + url);
+        this.error(ex);
       }
     }
   },
