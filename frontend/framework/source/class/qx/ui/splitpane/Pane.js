@@ -13,16 +13,14 @@
      See the LICENSE file in the project's top-level directory for details.
 
    Authors:
-     * Volker Pauli (vpauli)
      * Sebastian Werner (wpbasti)
-     * Carsten Lergenmueller (carstenL)
      * Jonathan Rass (jonathan_rass)
 
  ************************************************************************ */
 
 qx.Class.define("qx.ui.splitpane.Pane",
 {
-  extend : qx.ui.container.Composite,
+  extend : qx.ui.core.Widget,
 
 
 
@@ -53,70 +51,47 @@ qx.Class.define("qx.ui.splitpane.Pane",
   {
     this.base(arguments);
 
-    // CREATE INNER BOX LAYOUT
-    var box = this._box = new qx.legacy.ui.layout.BoxLayout;
-
-    this.add(
-      box,
-      {
-        top    : 0,
-        left   : 0,
-        right  : 0,
-        bottom : 0
-      }
-    );
-
-    /*
-     the splitpane itself is a boxlayout resides on top of a canvas for easier computing of positional values
-     -----------------------------------------------------------------------------------
-    | box                                                                               |
-    | ---------------------------  ---  ----------------------------------------------- |
-    | |                         |  | |  |                                             | |
-    | | firstArea               |  |s|  | secondArea                                  | |
-    | |                         |  |p|  |                                             | |
-    | |                         |  |l|  |                                             | |
-    | |                         |  |i|  |                                             | |
-    | |                         |  |t|  |                                             | |
-    | |                         |  |t|  |                                             | |
-    | |                         |  |e|  |                                             | |
-    | |                         |  |r|  |                                             | |
-    | |                         |  | |  |                                             | |
-    | ---------------------------  ---  ----------------------------------------------- |
-     -----------------------------------------------------------------------------------
-     */
-
-    // CREATE SLIDER
+    // Create and add container
+    var container = this.__container = new qx.ui.container.Composite(new qx.ui.layout.Split(orientation));
+    this._add(container);
+    
+    // Create and add slider
     this._slider = new qx.ui.splitpane.Slider(this);
-    this.add(this._slider);
+    this._add(this._slider);
 
-    // CREATE SPLITTER
+    // Create splitter
     this._splitter = new qx.ui.splitpane.Splitter(this);
 
-    // CREATE AREAS
+    // Create areas
     this._firstArea = new qx.ui.container.Composite(new qx.ui.layout.Canvas());
     this._secondArea = new qx.ui.container.Composite(new qx.ui.layout.Canvas());
 
-    // FILL BOX
-    box.add(this._firstArea, this._splitter, this._secondArea);
+    // Add widgets to container
+    container.add(
+      this._firstArea,
+      {
+        mode : "first",
+        size : firstSize
+      }
+    );
+    
+    container.add(
+      this._splitter,
+      {
+        mode : "splitter"
+      }
+    );
+    
+    container.add(
+      this._secondArea,
+      {
+        mode : "second",
+        size : secondSize
+      }
+    );
 
-    // APPLY ORIENTATION
-    if (orientation != null) {
-      this.setOrientation(orientation);
-    }
-
-    // APPLY DIMENSIONS
-    if (firstSize != null) {
-      this.setFirstSize(firstSize);
-    } else {
-      this.initFirstSize();
-    }
-
-    if (secondSize != null) {
-      this.setSecondSize(secondSize);
-    } else {
-      this.initSecondSize();
-    }
-
+    // Add container to widget
+    this._add(container)
   },
 
 
