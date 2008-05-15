@@ -37,6 +37,7 @@ qx.Class.define("feedreader.view.Article",
     this.setCssClass("blogEntry");
     this.setDecorator("line-top");
     this.setOverflowY("scroll");
+    this.setBackgroundColor("#FFFCE8");
   },
 
 
