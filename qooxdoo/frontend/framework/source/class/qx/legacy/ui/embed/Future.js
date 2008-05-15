@@ -86,7 +86,7 @@ qx.Class.define("qx.legacy.ui.embed.Future",
         }
 
         if (value) {
-          this._root.addMain(value);
+          this._root.add(value);
         }
       }
     },
@@ -128,7 +128,7 @@ qx.Class.define("qx.legacy.ui.embed.Future",
     _changeInnerHeight : function(vNew, vOld)
     {
       this.base(arguments, vNew, vOld);
-      this.setPaneHeight(this.getBoxHeight());
+      this._setPaneHeight(this.getBoxHeight());
     },
 
 
@@ -147,7 +147,7 @@ qx.Class.define("qx.legacy.ui.embed.Future",
      *
      * @param height {Integer} new height
      */
-    setPaneHeight : function(height) {
+    _setPaneHeight : function(height) {
       this._root.setHeight(height);
     },
 
@@ -168,7 +168,7 @@ qx.Class.define("qx.legacy.ui.embed.Future",
       }
 
       this._setPaneWidth(this.getBoxWidth());
-      this.setPaneHeight(this.getBoxHeight());
+      this._setPaneHeight(this.getBoxHeight());
     }
   },
 

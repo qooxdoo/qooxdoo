@@ -70,7 +70,7 @@ qx.Class.define("demobrowser.demo.layout.CanvasLayout_1",
       container.add(w5, {top:50, right:50});
       container.add(w6, {right:50, bottom:50});
 
-      this.getRoot().addMain(container, true);
+      this.getRoot().add(container, {edge:0});
     }
   }
 });

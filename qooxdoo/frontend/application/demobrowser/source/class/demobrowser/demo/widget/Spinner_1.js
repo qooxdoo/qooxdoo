@@ -38,7 +38,7 @@ qx.Class.define("demobrowser.demo.widget.Spinner_1",
       var container = new qx.ui.container.Composite(layout).set({
         padding: 10
       });
-      this.getRoot().addMain(container);
+      this.getRoot().add(container, {left:0,top:0});
 
       var row = 0;
 

@@ -34,9 +34,6 @@ qx.Class.define("demobrowser.demo.util.LayoutApplication",
         minHeight: 10,
         minWidth: 10
       });
-      root.addMain = function(child, stretch) {
-        root.add(child, stretch ? {left:0, top:0, right:0, bottom:0} : {left:0, top:0});
-      }
 
       editor = new demobrowser.demo.util.PropertyEditor(root);
       root.addListener("click", this._onClickRoot, this);
@@ -47,7 +44,7 @@ qx.Class.define("demobrowser.demo.util.LayoutApplication",
       this._root = root;
       this._editor = editor;
 
-      qx.application.Standalone.prototype.getRoot.call(this).addMain(frame, true);
+      qx.application.Standalone.prototype.getRoot.call(this).add(frame, {edge:0});
     },
 
 

@@ -45,7 +45,7 @@ qx.Class.define("demobrowser.demo.widget.Button_1",
       var container = new qx.ui.container.Composite(box);
       container.setPadding(20);
 
-      this.getRoot().addMain(container);
+      this.getRoot().add(container, {left:0,top:0});
 
       var img1 = "icon/48/apps/video-player.png";
       var img2 = "icon/48/apps/internet-mail.png";

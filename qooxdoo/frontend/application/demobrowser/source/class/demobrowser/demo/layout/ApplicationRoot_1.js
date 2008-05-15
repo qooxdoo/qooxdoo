@@ -57,7 +57,7 @@ qx.Class.define("demobrowser.demo.layout.ApplicationRoot_1",
       container.add(w3);
       container.add(w4);
 
-      this.getRoot().addMain(container, true);
+      this.getRoot().add(container, {edge:0});
     }
   }
 });
