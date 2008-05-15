@@ -316,10 +316,13 @@ qx.Class.define("qx.ui.decoration.Single",
      */
     _getStyles : function(width, height)
     {
-      if (this.getBackgroundRepeat() !== "scale") {
-        var bgImage = qx.util.AliasManager.getInstance().resolve(this.getBackgroundImage());
+      var bgRepeat = this.getBackgroundRepeat();
+      var bgImage = null;
+
+      if (bgRepeat === "scale") {
+        bgRepeat = null;
       } else {
-        bgImage = "";
+        bgImage = qx.util.AliasManager.getInstance().resolve(this.getBackgroundImage());
       }
 
       var styles =
@@ -337,7 +340,7 @@ qx.Class.define("qx.ui.decoration.Single",
         "borderLeftStyle": this.getStyleLeft() || "none",
         "borderLeftColor": this.__colorLeft,
         "backgroundImage": bgImage ? "url(" + bgImage + ")" : null,
-        "backgroundRepeat": this.getBackgroundRepeat()
+        "backgroundRepeat": bgRepeat
       };
 
       return styles;

@@ -107,7 +107,7 @@ qx.Class.define("qx.bom.element.Background",
 
         var styles = this.__getStylesStandardCss(color, image, repeat, positionX, positionY, attachment);
 
-        var isPng = qx.lang.String.endsWith(source, ".png");
+        var isPng = qx.lang.String.endsWith(image, ".png");
         var isIE6 = qx.bom.client.Engine.VERSION < 7;
 
         // IE 6 can display PNGs with alpha channel only using the
