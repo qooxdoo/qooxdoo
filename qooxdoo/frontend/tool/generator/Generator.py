@@ -570,7 +570,7 @@ class Generator:
             subconfigs = self._imageClipper.combine(image, input, layout)
             for sub in subconfigs:
                 x = ImgInfoFmt()
-                x.mappeduri, x.left, x.top, x.width, x.height, x.type = (
+                x.mappedId, x.left, x.top, x.width, x.height, x.type = (
                    sub['combined'], sub['left'], sub['top'], sub['width'], sub['height'], sub['type'])
                 config[sub['file']] = x.flatten()
             # store meta data for this combined image
@@ -678,6 +678,11 @@ class Generator:
             imgshorturi = os.path.join("${%s}" % libns, imgsfx)
             return imgshorturi
 
+        def extractAssetPart(libresuri, imguri):
+            pre,libsfx,imgsfx = Path.getCommonPrefix(libresuri, imguri) # split libresuri from imguri
+            if imgsfx[0] == os.sep: imgsfx = imgsfx[1:]  # strip leading '/'
+            return imgsfx                # use the bare img suffix as its asset Id
+
         def normalizeImgUri(uriFromMetafile, trueCombinedUri, combinedUriFromMetafile):
             # get the "wrong" prefix (in mappedUriPrefix)
             trueUriPrefix, mappedUriPrefix, sfx = Path.getCommonSuffix(trueCombinedUri, combinedUriFromMetafile)
@@ -687,7 +692,8 @@ class Generator:
             normalUri = trueUriPrefix + uriSuffix
             return normalUri
         
-        def processCombinedImg(data, meta_fname, cimguri, cimgshorturi):
+        def processCombinedImg(data, meta_fname, cimguri, cimgshorturi, cimgfmt):
+            assert cimgfmt.lib, cimgfmt.type
             # read meta file
             mfile = open(meta_fname)
             imgDict = simplejson.loads(mfile.read())
@@ -698,11 +704,15 @@ class Generator:
                 # have to normalize the uri's from the meta file
                 # cimguri is relevant, like: "../../framework/source/resource/qx/decoration/Modern/panel-combined.png"
                 # mimg is an uri from when the meta file was generated, like: "./source/resource/qx/decoration/Modern/..."
-                mimguri = normalizeImgUri(mimg, cimguri, mimgspec.mappeduri)
-                # replace lib uri with lib namespace in mimguri
-                mimgshorturi = replaceWithNamespace(mimguri, libresuri, lib['namespace'])
+                mimguri = normalizeImgUri(mimg, cimguri, mimgspec.mappedId)
+                ## replace lib uri with lib namespace in mimguri
+                ##mimgshorturi = replaceWithNamespace(mimguri, libresuri, cimgfmt.lib)
+                mimgshorturi = extractAssetPart(libresuri, mimguri)
 
-                mimgspec.mappeduri = cimgshorturi        # correct the mapped uri of the combined image
+                mimgspec.mappedId = cimgshorturi        # correct the mapped uri of the combined image
+                mimgspec.lib      = cimgfmt.lib
+                mimgspec.mtype    = cimgfmt.type
+                mimgspec.mlib     = cimgfmt.lib
                 data[mimgshorturi] = mimgspec.flatten()  # this information takes precedence over existing
 
 
@@ -716,29 +726,37 @@ class Generator:
                 imgpath= resource[0]
                 imguri = resource[1]
                 imageInfo = self._imageInfo.getImageInfo(imgpath)
-
-                # imageInfo = {width, height, filetype}
-                if not 'width' in imageInfo or not 'height' in imageInfo or not 'type' in imageInfo:
-                    self._console.error("Unable to get image info from file: %s" % resource[0])
-                    sys.exit(1)
                 # use an ImgInfoFmt object, to abstract from flat format
                 imgfmt = ImgInfoFmt()
-                imgfmt.width, imgfmt.height, imgfmt.type = (
-                    imageInfo['width'], imageInfo['height'], imageInfo['type'])
-                # replace lib uri with lib namespace
-                imgshorturi = replaceWithNamespace(imguri, libresuri, lib['namespace'])
-                # check if img is already registered as part of a combined image
-                if imgshorturi in data:
-                    x = ImgInfoFmt(data[imgshorturi])
-                    if x.mappeduri:
-                        continue  # don't overwrite the combined entry
-                data[imgshorturi] = imgfmt.flatten()
+                imgfmt.lib = lib['namespace']
+                if not 'type' in imageInfo:
+                    self._console.error("Unable to get image info from file: %s" % imgpath)
+                    sys.exit(1)
+                imgfmt.type = imageInfo['type']
+                ## replace lib uri with lib namespace
+                ##assetId = replaceWithNamespace(imguri, libresuri, lib['namespace'])
+                assetId = extractAssetPart(libresuri, imguri)
 
                 # check for a combined image and process the contained images
                 meta_fname = os.path.splitext(imgpath)[0]+'.meta'
                 if os.path.exists(meta_fname):  # add included imgs
-                    processCombinedImg(data, meta_fname, imguri, imgshorturi)
+                    processCombinedImg(data, meta_fname, imguri, assetId, imgfmt)
                 
+                # add this image directly
+                # imageInfo = {width, height, filetype}
+                if not 'width' in imageInfo or not 'height' in imageInfo:
+                    self._console.error("Unable to get image info from file: %s" % imgpath)
+                    sys.exit(1)
+                imgfmt.width, imgfmt.height, imgfmt.type = (
+                    imageInfo['width'], imageInfo['height'], imageInfo['type'])
+                # check if img is already registered as part of a combined image
+                if assetId in data:
+                    x = ImgInfoFmt()
+                    x.fromFlat(data[assetId])
+                    if x.mappedId:
+                        continue  # don't overwrite the combined entry
+                data[assetId] = imgfmt.flatten()
+
         result = 'if(!window.qximageinfo)qximageinfo=' + simplejson.dumps(data,ensure_ascii=False) + ";"
             
         self._console.outdent()

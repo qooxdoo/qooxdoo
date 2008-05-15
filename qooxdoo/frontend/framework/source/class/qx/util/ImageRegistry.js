@@ -62,6 +62,20 @@ qx.Class.define("qx.util.ImageRegistry",
       }
       return lstr;
     },
+    
+    
+    _libexpand : function(dict, str, libns)
+    {
+      var lstr = str;
+      if (libns in dict)
+      {
+        lstr = dict[libns]['resuri'] + "/" + str;
+      } else
+      {
+        throw new Error("Unable to look up library namespace: " + libns);
+      }
+      return lstr;
+    },
 
 
     _padQxImageInfo : function(qximageinfo)
@@ -77,10 +91,11 @@ qx.Class.define("qx.util.ImageRegistry",
 
       for (var key in qximageinfo)
       {
-        var val  = qximageinfo[key];  // val = [width, height, type [, mappeduri, left, top]]
-        key = this._macroexpand(qxlibinfo, key)
-        if (val.length > 3) {
-          val[3] = this._macroexpand(qxlibinfo, val[3]);
+        var val  = qximageinfo[key];  // val = [width, height, type, lib [, mappeduri, left, top, type, lib]]
+        //key = this._macroexpand(qxlibinfo, key)
+        key = this._libexpand(qxlibinfo, key, val[3])
+        if (val.length > 4) {
+          val[4] = this._libexpand(qxlibinfo, val[4], val[8]);
         }
         imageinfo[key] = val;
       }
@@ -156,12 +171,12 @@ qx.Class.define("qx.util.ImageRegistry",
       }
       else
       {
-        // val = [width, height, type [, mappeduri, left, top]]
-        if (val.length == 3)
+        // val = [width, height, type, lib [, mappeduri, left, top, type, lib]]
+        if (val.length == 4)
         {
           var nval = [resUri, 0, 0, val[0], val[1], val[2]];
         } else {
-          var nval = [val[3], val[4], val[5], val[0], val[1], val[2]];
+          var nval = [val[4], val[5], val[6], val[0], val[1], val[2]];
         }
       }
 
