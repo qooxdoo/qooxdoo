@@ -63,6 +63,8 @@ qx.Class.define("feedreader.Application",
   },
 
 
+
+
   /*
   *****************************************************************************
      MEMBERS
@@ -130,6 +132,8 @@ qx.Class.define("feedreader.Application",
       // Fetch feed data
       this._fetchData();
     },
+
+
 
 
     /*
@@ -363,6 +367,15 @@ qx.Class.define("feedreader.Application",
     },
 
 
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      PUBLIC API
+    ---------------------------------------------------------------------------
+    */
+
     /**
      * Opens the preferences window
      */
@@ -390,16 +403,21 @@ qx.Class.define("feedreader.Application",
     /**
      *
      */
-    showAddFeed : function() {
+    showAddFeed : function()
+    {
       // if the window is not created
-      if (!this._addFeedWindow) {
+      if (!this._addFeedWindow)
+      {
         // create it
         this._addFeedWindow = new feedreader.view.AddFeedWindow(this);
         this.getRoot().add(this._addFeedWindow);
       }
+
       // open the window
       this._addFeedWindow.open();
     },
+
+
 
 
     /*
@@ -467,6 +485,7 @@ qx.Class.define("feedreader.Application",
           this._stack.next();
         }
       }
+
       this._fetchData();
     },
 
@@ -476,8 +495,7 @@ qx.Class.define("feedreader.Application",
      */
     _fetchData : function()
     {
-      for (var url in this._feeds)
-      {
+      for (var url in this._feeds) {
         this._fetchDataForFeed(url);
       }
     },
@@ -521,6 +539,7 @@ qx.Class.define("feedreader.Application",
       // And finally send the request
       req.send();
     },
+
 
     /**
      * This is used as a callback from {@link _fetchFeeds} to handle
@@ -568,17 +587,21 @@ qx.Class.define("feedreader.Application",
         folder.setIcon("icon/22/apps/internet-feed-reader.png");
 
         // if the list is not shown
-        if (this._stack.getSelected() != this._listView) {
+        if (this._stack.getSelected() != this._listView)
+        {
           // if a feed is selected
-          if (this.getSelectedFeed()) {
+          if (this.getSelectedFeed())
+          {
             var selectedUrl = this.getSelectedFeed().url;
             // if the current feed is selected
-            if (selectedUrl == url) {
+            if (selectedUrl == url)
+            {
               // show the list
               this._stack.next();
             }
           }
         }
+
         // mark the feed as not loading
         feed.loading = false;
       }
@@ -598,24 +621,14 @@ qx.Class.define("feedreader.Application",
 
   /*
   *****************************************************************************
-     SETTINGS
-  *****************************************************************************
-  */
-
-  settings : { "feedreader.resourceUri" : "./resource" },
-
-
-
-
-  /*
-  *****************************************************************************
      DESTRUCTOR
   *****************************************************************************
   */
 
   destruct : function()
   {
+    this._disposeObjects("_listLoadImage", "_stack", "_toolbarView",
+      "_headerView", "_listView", "_articleView", "_treeView");
     this._disposeFields("_feeds");
-    this._disposeObjects("_listLoadImage", "_stack", "_toolbarView", "_headerView", "_listView", "_articleView", "_treeView");
   }
 });

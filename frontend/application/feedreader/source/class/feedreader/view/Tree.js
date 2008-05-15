@@ -23,26 +23,33 @@ qx.Class.define("feedreader.view.Tree",
 {
   extend : qx.ui.tree.Tree,
 
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
   construct : function(controller)
   {
     this.base(arguments, "News feeds");
 
-    // save the reference to the controller
+    // Save the reference to the controller
     this._controller = controller;
 
-    // set the properties of the tree
+    // Set the properties of the tree
     this.setBackgroundColor("white");
     this.setWidth(200);
     this.setDecorator("line-right");
 
-    // add the root folder
+    // Add the root folder
     this._root = new qx.ui.tree.TreeFolder("Feeds");
     this._root.setOpen(true);
     this.setHideRoot(true);
     this.setRootOpenClose(true);
     this.setRoot(this._root);
 
-    // add the subfolders
+    // Add the subfolders
     this._staticFeedsFolder = new qx.ui.tree.TreeFolder("Static Feeds");
     this._staticFeedsFolder.setOpen(true);
     this.getRoot().add(this._staticFeedsFolder);
@@ -50,16 +57,24 @@ qx.Class.define("feedreader.view.Tree",
     this._userFeedsFolder.setOpen(true);
     this.getRoot().add(this._userFeedsFolder);
 
-    // register the change listener
+    // Register the change listener
     this.addListener("change", this._onChangeSelection, this);
 
-    // refresh the tree view
+    // Refresh the tree view
     this.refresh();
   },
 
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
   members :
   {
-
     /**
      * Invokes a refresh of the tree.
      * This includes getting the feeds of the controller and
