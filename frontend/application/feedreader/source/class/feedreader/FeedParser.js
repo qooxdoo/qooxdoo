@@ -18,22 +18,36 @@
 
 ************************************************************************ */
 
+/**
+ * Helper class to convert JSON feed data to an application
+ * useable JavaScript array.
+ */
 qx.Class.define("feedreader.FeedParser",
 {
   statics :
   {
+    /** {qx.util.format.DateFormat} 1st RSS data format standard */
     _rssDate1 : new qx.util.format.DateFormat("EEE, d MMM yyyy HH:mm:ss Z", "en_US"),
+
+    /** {qx.util.format.DateFormat} 2nd RSS data format standard */
     _rssDate2 : new qx.util.format.DateFormat("EEE, d MMM yyyy HH:mm:ss z", "en_US"),
+
+    /** {qx.util.format.DateFormat} 1st Atom data format standard */
     _atomDate1 : new qx.util.format.DateFormat("yyyy-MM-d'T'HH:mm:ss'Z'", "en_US"),
+
+    /** {qx.util.format.DateFormat} 2nd Atom data format standard */
     _atomDate2 : new qx.util.format.DateFormat("yyyy-MM-d'T'HH:mm:ssZ", "en_US"),
 
 
     /**
-     * TODOC
+     * Parses a json converted feed into an normalized easily
+     * useable list of posts.
+     *
+     * Automatically detects Atom and RSS feeds.
      *
      * @type static
-     * @param json {var} TODOC
-     * @return {var} TODOC
+     * @param json {Object} Incoming json data
+     * @return {Map[]} List of posts
      */
     parseFeed : function(json)
     {
@@ -42,10 +56,16 @@ qx.Class.define("feedreader.FeedParser",
       if (json)
       {
         if (json.channel) {
-          items = this.normalizeRssFeed(json);
+          items = this._normalizeRssFeed(json);
         } else if (json.entry) {
-          items = this.normalizeAtomFeed(json);
+          items = this._normalizeAtomFeed(json);
+        } else {
+          throw new Error("Unknown feed format!");
         }
+      }
+      else
+      {
+        throw new Error("Invalid json: " + json);
       }
 
       return items;
@@ -53,13 +73,14 @@ qx.Class.define("feedreader.FeedParser",
 
 
     /**
-     * TODOC
+     * Converts json RSS channel list to JavaScript array.
+     * Also parses date of RSS feed to a JavaScript date object.
      *
      * @type static
-     * @param json {var} TODOC
-     * @return {var} TODOC
+     * @param json {Object} Incoming json data
+     * @return {Map[]} List of posts
      */
-    normalizeRssFeed : function(json)
+    _normalizeRssFeed : function(json)
     {
       var items = [];
 
@@ -82,17 +103,17 @@ qx.Class.define("feedreader.FeedParser",
         // Handle parse problems
         if (!(date instanceof Date))
         {
-          this.warn("RSS Date Error: " + date);
+          throw new Error("RSS Date Error: " + date);
           date = null;
         }
 
         items.push(
         {
-          title   : entry.title,
+          title   : entry.title || null,
           author  : "",
           date    : date,
-          content : entry.description,
-          link    : entry.link,
+          content : entry.description || null,
+          link    : entry.link || null,
           id      : i
         });
       }
@@ -102,20 +123,21 @@ qx.Class.define("feedreader.FeedParser",
 
 
     /**
-     * TODOC
+     * Converts json atom entry list to JavaScript array.
+     * Also parses date of atom feed to a JavaScript date object.
      *
      * @type static
-     * @param json {var} TODOC
-     * @return {var} TODOC
+     * @param json {Object} Incoming json data
+     * @return {Map[]} List of posts
      */
-    normalizeAtomFeed : function(json)
+    _normalizeAtomFeed : function(json)
     {
       var items = [];
 
       for (var i=0, a=json.entry, l=a.length; i<l; i++)
       {
         var entry = a[i];
-        var date = entry.published || entry.created;
+        var date = entry.updated || entry.published || entry.created;
 
         try {
           date = this._atomDate1.parse(date);
@@ -130,17 +152,17 @@ qx.Class.define("feedreader.FeedParser",
         // Handle parse problems
         if (!(date instanceof Date))
         {
-          this.warn("Atom Date Error: " + date);
+          throw new Error("Atom Date Error: " + date);
           date = null;
         }
 
         items.push(
         {
-          title   : entry.title,
-          author  : entry.author.name,
+          title   : entry.title || entry.summary || null,
+          author  : entry.author ? entry.author.name || null : null,
           date    : date,
-          content : entry.content,
-          link    : entry.link["@attributes"].href,
+          content : entry.content || entry.summary || null,
+          link    : entry.link["@attributes"] ? entry.link["@attributes"].href || null : null,
           id      : i
         });
       }
