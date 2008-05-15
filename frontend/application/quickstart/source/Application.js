@@ -9,11 +9,11 @@
 ************************************************************************ */
 
 /**
- * Your application
+ * Sample application
  */
 qx.Class.define("Application",
 {
-  extend : qx.application.Abstract,
+  extend : qx.application.Standalone,
 
   members :
   {
@@ -23,17 +23,16 @@ qx.Class.define("Application",
       this.base(arguments);
 
       // Create button
-      var button1 = new qx.legacy.ui.form.Button("First Button", "./button.png");
+      var button1 = new qx.ui.form.Button("First Button", "./button.png");
 
-      // Set button location
-      button1.setTop(50);
-      button1.setLeft(50);
-
-      // Add button to document
-      button1.addToDocument();
+      // Add button to document with coordinates
+      this.getRoot().add(button1, {
+        left : 50,
+        top : 50
+      });
 
       // Add an event listener
-      button1.addEventListener("execute", function(e) {
+      button1.addListener("execute", function(e) {
         alert("Hello World!");
       });
     }
