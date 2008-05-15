@@ -29,6 +29,14 @@ qx.Class.define("feedreader.view.AddFeedWindow",
 {
   extend : qx.ui.window.Window,
 
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
   construct : function(controller)
   {
     this.base(arguments, "Add a feed", "icon/16/actions/document-new.png");
@@ -52,6 +60,15 @@ qx.Class.define("feedreader.view.AddFeedWindow",
     // Create the content with a helper
     this._addContent();
   },
+
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
 
   members :
   {
@@ -82,7 +99,7 @@ qx.Class.define("feedreader.view.AddFeedWindow",
         allowGrowX : false,
         minWidth   : 80
       });
-      
+
       this.add(addButton, {row: 2, column: 0, colSpan: 2});
 
       addButton.addListener("execute", function(e) {
