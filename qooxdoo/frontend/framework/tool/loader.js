@@ -11,7 +11,9 @@ window.qxloader =
   runningScripts : {},
   loadedScripts : {},
 
-  callbackList : [],
+  //Maps part names to array of callback descriptor structures. One structure for each 
+  //callback interested in events for the part with given name.
+  __callbacksByPartname : {},
 
   scriptQueue : [],
   inFlushQueue : false,
@@ -76,8 +78,8 @@ window.qxloader =
 
       if (callback)
       {
-        for (var i=0, a=this.callbackList, l=a.length; i<l; i++)
-        {
+        for (var i=0, a=this.__getCallbacksForPart(name), l=a.length; i<l; i++)
+        {          
           if (a[i].callback == callback && a[i].self == self)
           {
             this._log("Callback is already registered.");
@@ -86,7 +88,7 @@ window.qxloader =
         }
 
         // this._log("Registering callback");
-        this.callbackList.push({
+        this.__getCallbacksForPart(name).push({
           callback : callback,
           self : self || null
         });
@@ -142,7 +144,7 @@ window.qxloader =
     if (callback)
     {
       // this._log("Registering callback");
-      this.callbackList.push({
+      this.__getCallbacksForPart(name).push({
         callback : callback,
         self : self || null
       });
@@ -184,8 +186,8 @@ window.qxloader =
       this.inFlushQueue = false;
 
       // Execute callbacks
-      var callbacks = this.callbackList.concat();
-      this.callbackList.length = 0;
+      var callbacks = this.__getCallbacksForPart(part).concat();
+      delete this.__callbacksByPartname[part];
       for (var i=0, l=callbacks.length; i<l; i++) {
         callbacks[i].callback.call(callbacks[i].self);
       }
@@ -268,6 +270,25 @@ window.qxloader =
     } else {
       window.detachEvent("onload", qxloader._pageLoad);
     }
+  },
+
+  /**
+   * Returns the array holding callbacks interested in events for part with given name.
+   * Array may be modified and is guaranteed not be null (if unknown / new part name
+   * is given, an empty array will be created and returned).
+   * 
+   * @param {String} part name
+   * @return {Map[]} array of callback descriptor structures 
+   * 
+   */
+  __getCallbacksForPart : function(partName)   
+  {
+    var array = this.__callbacksByPartname[partName];
+    if (array == null){
+      array = [];
+      this.__callbacksByPartname[partName] = array;
+    }
+    return array;
   },
 
 
