@@ -65,20 +65,27 @@ class ImageInfo(object):
 class ImgInfoFmt(object):
     "Class to hide image meta info encoding"
     def __init__(self, *arrspec, **kwspec):
-        self.width = self.height = self.type = self.mappeduri = self.left = self.top = None
+        self.width = self.height = self.type = self.mappedId = self.left = self.top = None
+        # this part of the constructor supports the img format as used in the 
+        # .meta files: [width, height, type [, mapped, off-x, off-y]]
         if arrspec:
+            # if the constructor is called with positional arguments, these will be only one,
+            # which is an array
             serialspec = arrspec[0]
             self.width     = serialspec[0]
             self.height    = serialspec[1]
             self.type      = serialspec[2]
+            # see if this is part of a combined image
             if len(serialspec)>3:
-                self.mappeduri = serialspec[3]
+                self.mappedId = serialspec[3]
                 self.left      = serialspec[4]
                 self.top       = serialspec[5]
+            # but init those members anyway, so they are not undefined
             else:
-                self.mappeduri = None
+                self.mappedId = None
                 self.left      = None
                 self.top       = None
+        # if there are (additional) keyword args, use them
         if kwspec:
             self.__init_kw(self, **kwspec)
 
@@ -87,21 +94,44 @@ class ImgInfoFmt(object):
             if kw == 'width':
                 self.width = kwspec[kw]
             elif kw == 'height':
-                self.width = kwspec[kw]
+                self.height = kwspec[kw]
             elif kw == 'type':
-                self.width = kwspec[kw]
-            elif kw == 'mappeduri':
-                self.width = kwspec[kw]
+                self.type = kwspec[kw]
+            elif kw == 'mappedId':
+                self.mappedId = kwspec[kw]
             elif kw == 'left':
-                self.width = kwspec[kw]
+                self.left = kwspec[kw]
             elif kw == 'top':
-                self.width = kwspec[kw]
+                self.top = kwspec[kw]
+            elif kw == 'lib':
+                self.lib = kwspec[kw]
             else:
                 raise NameError, "No such object member: %s" % kw
 
     def flatten(self):
-        #return [self.mappeduri, self.left, self.top, self.width, self.height, self.type]
-        a = [self.width, self.height, self.type]
-        if self.mappeduri:
-            a.extend([self.mappeduri, self.left, self.top])
+        #return [self.mappedId, self.left, self.top, self.width, self.height, self.type]
+        a = [self.width, self.height, self.type, self.lib]
+        if self.mappedId:
+            a.extend([self.mappedId, self.left, self.top, self.mtype, self.mlib])
         return a
+
+    def fromFlat(self, flatspec):
+        # this method supports the format as produced in flatten() -- keep in sync!
+        self.width     = flatspec[0]
+        self.height    = flatspec[1]
+        self.type      = flatspec[2]
+        self.lib       = flatspec[3]
+        # see if this is part of a combined image
+        if len(flatspec)>4:
+            self.mappedId  = flatspec[4]
+            self.left      = flatspec[5]
+            self.top       = flatspec[6]
+            self.mtype     = flatspec[7]
+            self.mlib      = flatspec[8]
+        # but init those members anyway, so they are not undefined
+        else:
+            self.mappedId  = None
+            self.left      = None
+            self.top       = None
+            self.mtype     = None
+            self.mlib      = None
