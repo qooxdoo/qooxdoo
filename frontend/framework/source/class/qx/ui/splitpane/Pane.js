@@ -53,6 +53,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
 
     this.__orientation = orientation == "vertical" ? "vertical" : "horizontal";
     this.__minSplitterSize = 5;
+    this.__splitterCoords = {};
     
     // Create and add container
     this._setLayout(new qx.ui.layout.Split(this.__orientation));
@@ -73,9 +74,10 @@ qx.Class.define("qx.ui.splitpane.Pane",
     // Create areas
     this._firstArea = new qx.ui.core.Widget().set({
       decorator: "black",
-      backgroundColor: "green",
+      backgroundColor: "yellow",
       height : 200,
-      minHeight : 20
+      minHeight : 20,
+      minWidht: 40
     });
 
     this._secondArea = new qx.ui.core.Widget().set({
@@ -149,16 +151,6 @@ qx.Class.define("qx.ui.splitpane.Pane",
       refine : true,
       init : "splitpane"
     },
-
-    /**
-     * The layout method for the splitpane. If true, the content will updated immediatly.
-     */
-    liveResize :
-    {
-      check : "Boolean",
-      init : false
-    },
-
 
     /**
      * The size of the first (left/top) area.
@@ -300,7 +292,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
        * Check if splitter widget is big enough to be be easily clicked on 
        */
       if(
-          (this.__orientation == "horizontal"  && qx.bom.element.Dimension.getHeight(splitterElement) > this.__minSplitterSize) ||
+          (this.__orientation == "horizontal" && qx.bom.element.Dimension.getHeight(splitterElement) > this.__minSplitterSize) ||
           (qx.bom.element.Dimension.getWidth(splitterElement) > this.__minSplitterSize)
       ){
 
@@ -318,6 +310,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
         /*
          * Check if mouse is near to splitter 
          */
+        //TODO
       }
       
       
@@ -344,6 +337,8 @@ qx.Class.define("qx.ui.splitpane.Pane",
         );
         this._slider.setZIndex(this._splitter.getZIndex() + 1);
 
+        this.__splitterCoords.top = bounds.top;
+        this.__splitterCoords.left = bounds.left;
         this.__isMouseDown = true;
       }
 
@@ -351,7 +346,21 @@ qx.Class.define("qx.ui.splitpane.Pane",
 
     __mouseUp : function(evt)
     {
-      this._slider.exclude();
+      var paneElement = this.getContainerElement().getDomElement();
+      var paneLocation = qx.bom.element.Location.get(paneElement);
+
+      if(this.__orientation == "horizontal")
+      {
+        //debugger;
+        this._firstArea.setWidth(evt.getDocumentLeft() - paneLocation.left);
+        this._secondArea.setWidth(0);
+      }
+      else
+      {
+        ;;
+      }
+      
+      //this._slider.exclude();
       this.__isMouseDown = false;
     },
 
@@ -360,7 +369,16 @@ qx.Class.define("qx.ui.splitpane.Pane",
 
       if(this.__isMouseDown)
       {
-        console.warn("moving", evt)  
+        var sliderElement = this._slider.getContainerElement().getDomElement();
+        var paneElement = this.getContainerElement().getDomElement();
+        var paneLocation = qx.bom.element.Location.get(paneElement);
+
+        if (this.__orientation == "horizontal") {
+          qx.bom.element.Style.set(sliderElement, "left", (evt.getDocumentLeft() - paneLocation.left) + "px");
+        } else {
+          qx.bom.element.Style.set(sliderElement, "top", (evt.getDocumentTop() - paneLocation.top) + "px");
+        }
+        
       }
 
       // stop event
