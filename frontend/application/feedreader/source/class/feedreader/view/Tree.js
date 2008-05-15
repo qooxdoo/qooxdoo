@@ -53,6 +53,7 @@ qx.Class.define("feedreader.view.Tree",
     this._staticFeedsFolder = new qx.ui.tree.TreeFolder("Default Feeds");
     this._staticFeedsFolder.setOpen(true);
     this.getRoot().add(this._staticFeedsFolder);
+
     this._userFeedsFolder = new qx.ui.tree.TreeFolder("User Feeds");
     this._userFeedsFolder.setOpen(true);
     this.getRoot().add(this._userFeedsFolder);
@@ -157,11 +158,9 @@ qx.Class.define("feedreader.view.Tree",
       // get the url of the item
       var item = e.getData()[0];
 
+      // tell the controller to select the new feed
       if (item) {
-        var url = item.getUserData("url");
-
-        // tell the controller to select the new feed
-        this._controller.selectFeed(url);
+        this._controller.selectFeed(item.getUserData("url"));
       }
     }
   }
