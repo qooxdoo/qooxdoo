@@ -74,6 +74,10 @@ qx.Class.define("qx.core.Init",
         this.__application.finalize();
         qx.log.Logger.debug(this, "Finalize runtime: " + (new Date - start) + "ms");
       }
+      else
+      {
+        qx.log.Logger.warn("Missing application class: " + app);
+      }
     },
 
 
