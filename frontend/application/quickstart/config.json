@@ -26,12 +26,24 @@
         "qx.debug" : ["off"]
       },
 
+      // Static application class (which is not included in build)
+      "settings" :
+      {
+        "qx.application" : "Application"
+      },
+
       // only support compile target
       "compile" :
       {
         "file" : "build/script/qx.js",
         "uri"  : "script/qx.js",
         "optimize" : ["basecalls", "variables", "privates"]
+      },
+
+      "copy-files" :
+      {
+        "files" : ["index.html","button.png","Application.js"],
+        "target" : "build"
       }
     }
   }
