@@ -33,6 +33,14 @@ qx.Class.define("feedreader.view.ToolBar",
 {
   extend : qx.ui.toolbar.ToolBar,
 
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
   construct : function(controller)
   {
     this.base(arguments);
