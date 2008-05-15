@@ -332,7 +332,7 @@ qx.Class.define("feedreader.Application",
       // Create the vBox for the list and header of the list
       var listVBox = new qx.ui.layout.VBox();
       var listVBoxComposite = new qx.ui.container.Composite(listVBox);
-      vBoxComposite.add(listVBoxComposite, {flex: 1, height : "40%"});
+      vBoxComposite.add(listVBoxComposite, {flex: 1, height : "30%"});
 
       // Create the header of the list
       var listHeader = new qx.ui.basic.Label("Posts");
@@ -361,7 +361,7 @@ qx.Class.define("feedreader.Application",
 
       // Create article view
       this._articleView = new feedreader.view.Article();
-      vBoxComposite.add(this._articleView, {flex: 1, height : "60%"});
+      vBoxComposite.add(this._articleView, {flex: 1, height : "70%"});
     },
 
 
