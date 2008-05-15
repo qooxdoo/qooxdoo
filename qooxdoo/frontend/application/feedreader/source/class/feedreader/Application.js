@@ -99,6 +99,7 @@ qx.Class.define("feedreader.Application",
 
       // Initialialize date format
       this._dateFormat = new qx.util.format.DateFormat();
+
       // Add some static feeds
       this.addFeed("qooxdoo News", "http://feeds.feedburner.com/qooxdoo/news/content", true);
       this.addFeed("Mozilla Developer News", "http://developer.mozilla.org/devnews/index.php/feed/", true);
@@ -107,19 +108,10 @@ qx.Class.define("feedreader.Application",
       this.addFeed("Surfin' Safari", "http://webkit.org/blog/?feed=rss2", true);
       this.addFeed("Ajaxian", "http://feeds.feedburner.com/ajaxian", true);
 
-      // Define alias for custom resource path
-      //qx.util.AliasManager.getInstance().add("feedreader", qx.core.Setting.get("feedreader.resourceUri") + "/feedreader");
-
-      // Include CSS file
-      qx.bom.Stylesheet.includeFile(qx.util.AliasManager.getInstance().resolve("feedreader/css/reader.css"));
-
-      // Increase parallel requests
-      qx.io.remote.RequestQueue.getInstance().setMaxConcurrentRequests(10);
-
-      // Create Application Layout
+      // Create application layout
       this._createLayout();
 
-      // Load data file
+      // Load data (lazy)
       qx.event.Timer.once(this._load, this, 0);
     },
 
@@ -129,6 +121,9 @@ qx.Class.define("feedreader.Application",
      */
     _load : function()
     {
+      // Increase parallel requests
+      qx.io.remote.RequestQueue.getInstance().setMaxConcurrentRequests(10);
+
       // Fetch feed data
       this._fetchData();
     },
@@ -225,7 +220,8 @@ qx.Class.define("feedreader.Application",
       };
 
       // if there is already a tree
-      if (this._treeView) {
+      if (this._treeView)
+      {
         // add the feed to the tree
         this._treeView.addFeed(url);
         // get the data for the feed
@@ -245,7 +241,8 @@ qx.Class.define("feedreader.Application",
       if (currentSelectedFolder)
       {
         var currentUrl = currentSelectedFolder.getUserData("url");
-        if (currentUrl && this._feeds[currentUrl].predefined) {
+        if (currentUrl && this._feeds[currentUrl].predefined)
+        {
           alert("Can not remove static feeds.");
           return;
         }
@@ -475,11 +472,14 @@ qx.Class.define("feedreader.Application",
     /**
      * Reloads the feed readers including all feeds.
      */
-    reload : function() {
+    reload : function()
+    {
       // if a feed is selected
-      if (this.getSelectedFeed()) {
+      if (this.getSelectedFeed())
+      {
         // if the list is on the screen
-        if (this._stack.getSelected() == this._listView) {
+        if (this._stack.getSelected() == this._listView)
+        {
           // show the loading image
           this._stack.next();
         }
@@ -562,7 +562,8 @@ qx.Class.define("feedreader.Application",
       var json = response.getContent();
 
 
-      try {
+      try
+      {
         // Normalize json feed data to item list
         var items = feedreader.FeedParser.parseFeed(json);
 
@@ -607,7 +608,8 @@ qx.Class.define("feedreader.Application",
       catch(ex)
       {
         var treeFolder = this._treeView.getFolderByUrl(url);
-        if (treeFolder) {
+        if (treeFolder)
+        {
           this._treeView.getRoot().remove(treeFolder);
           alert("Could not parse feed: " + url);
         }

@@ -73,20 +73,16 @@ qx.Class.define("feedreader.FeedParser",
         }
         catch(ex)
         {
-          //console.debug(ex);
           try {
             date = this._rssDate2.parse(date);
           }
-          catch(ex1)
-          {
-            //console.debug(ex1);
-          }
+          catch(ex1) {}
         }
 
         // Handle parse problems
         if (!(date instanceof Date))
         {
-          console.warn("RSS Date Error: " + date);
+          this.warn("RSS Date Error: " + date);
           date = null;
         }
 
@@ -134,7 +130,7 @@ qx.Class.define("feedreader.FeedParser",
         // Handle parse problems
         if (!(date instanceof Date))
         {
-          // console.debug("ATOM Date Error: " + date);
+          this.warn("Atom Date Error: " + date);
           date = null;
         }
 
