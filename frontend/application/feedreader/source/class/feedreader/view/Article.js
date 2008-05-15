@@ -33,7 +33,10 @@ qx.Class.define("feedreader.view.Article",
   {
     this.base(arguments);
 
-    // set the styles and properties
+    // Include CSS file
+    qx.bom.Stylesheet.includeFile(qx.util.AliasManager.getInstance().resolve("feedreader/css/reader.css"));
+
+    // Configure
     this.setCssClass("blogEntry");
     this.setDecorator("line-top");
     this.setOverflowY("scroll");
