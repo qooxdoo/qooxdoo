@@ -51,23 +51,40 @@ qx.Class.define("qx.ui.splitpane.Pane",
   {
     this.base(arguments);
 
+    this.__orientation = orientation == "vertical" ? "vertical" : "horizontal";
+    this.__minSplitterSize = 5;
+    
     // Create and add container
-    var container = this.__container = new qx.ui.container.Composite(new qx.ui.layout.Split(orientation));
-    this._add(container);
+    this._setLayout(new qx.ui.layout.Split(this.__orientation));
     
     // Create and add slider
     this._slider = new qx.ui.splitpane.Slider(this);
+    this._slider.setBackgroundColor("red");
+    this._slider.setOpacity(0.5)
+    this._slider.exclude();
     this._add(this._slider);
 
     // Create splitter
-    this._splitter = new qx.ui.splitpane.Splitter(this);
+    this._splitter = new qx.ui.splitpane.Splitter(this).set({
+      width : 5,
+      backgroundColor : "#ababab"
+    });
 
     // Create areas
-    this._firstArea = new qx.ui.container.Composite(new qx.ui.layout.Canvas());
-    this._secondArea = new qx.ui.container.Composite(new qx.ui.layout.Canvas());
+    this._firstArea = new qx.ui.core.Widget().set({
+      decorator: "black",
+      backgroundColor: "green",
+      height : 200,
+      minHeight : 20
+    });
+
+    this._secondArea = new qx.ui.core.Widget().set({
+      decorator: "black",
+      backgroundColor: "green"
+    });
 
     // Add widgets to container
-    container.add(
+    this._add(
       this._firstArea,
       {
         mode : "first",
@@ -75,14 +92,14 @@ qx.Class.define("qx.ui.splitpane.Pane",
       }
     );
     
-    container.add(
+    this._add(
       this._splitter,
       {
         mode : "splitter"
       }
     );
     
-    container.add(
+    this._add(
       this._secondArea,
       {
         mode : "second",
@@ -90,8 +107,27 @@ qx.Class.define("qx.ui.splitpane.Pane",
       }
     );
 
-    // Add container to widget
-    this._add(container)
+    
+    this.__isMouseDown = false,
+    
+    /*
+     * Add events to widgets
+     */
+
+    /*
+     * Note that mouseUp and mouseDown events are added to the widget itself because 
+     * if the splitter is smaller than 5 pixels in length or height it is difficult
+     * to click on it.
+     * By adding events to the widget the splitter can be activated if the cursor is
+     * near to the splitter widget.
+     */
+    this.addListener("mousedown", this.__mouseDown, this);
+    this.addListener("mouseup", this.__mouseUp, this);
+
+    this.addListener("mousemove", this.__mouseMove, this);
+    
+    
+    // TODO: losecapture needed?
   },
 
 
@@ -114,8 +150,6 @@ qx.Class.define("qx.ui.splitpane.Pane",
       init : "splitpane"
     },
 
-
-
     /**
      * The layout method for the splitpane. If true, the content will updated immediatly.
      */
@@ -127,24 +161,12 @@ qx.Class.define("qx.ui.splitpane.Pane",
 
 
     /**
-     * The orientation of the splitpane control. Allowed values are "horizontal" (default) and "vertical".
-     */
-    orientation :
-    {
-      check : [ "horizontal", "vertical" ],
-      apply : "_applyOrientation",
-      init : "horizontal",
-      nullable : true
-    },
-
-
-    /**
      * The size of the first (left/top) area.
      */
     firstSize :
     {
       apply : "_applyFirstSize",
-      init : "1*"
+      init : 1
     },
 
 
@@ -154,7 +176,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
     secondSize :
     {
       apply : "_applySecondSize",
-      init : "1*"
+      init : 1
     },
 
 
@@ -164,7 +186,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
     splitterSize :
     {
       check : "Integer",
-      init : 4,
+      init : 5,
       apply : "_applySplitterSize",
       themeable : true
     }
@@ -254,227 +276,110 @@ qx.Class.define("qx.ui.splitpane.Pane",
     ---------------------------------------------------------------------------
     */
 
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param value {var} Current value
-     * @param old {var} Previous value
-     */
-    _applyOrientation : function(value, old)
-    {
-      // sync orientation to layout
-      this._box.setOrientation(value);
-
-      switch(old)
-      {
-        case "horizontal":
-          // remove old listeners
-          this._splitter.removeListener("mousedown", this._onSplitterMouseDownX, this);
-          this._splitter.removeListener("mousemove", this._onSplitterMouseMoveX, this);
-          this._splitter.removeListener("mouseup", this._onSplitterMouseUpX, this);
-
-          // reconfigure states
-          this._splitter.removeState("horizontal");
-
-          // reset old dimensions
-          this._firstArea.setWidth(null);
-          this._secondArea.setWidth(null);
-          this._splitter.setWidth(null);
-
-          break;
-
-        case "vertical":
-          // remove old listeners
-          this._splitter.removeListener("mousedown", this._onSplitterMouseDownY, this);
-          this._splitter.removeListener("mousemove", this._onSplitterMouseMoveY, this);
-          this._splitter.removeListener("mouseup", this._onSplitterMouseUpY, this);
-
-          // reconfigure states
-          this._splitter.removeState("vertical");
-
-          // reset old dimensions
-          this._firstArea.setHeight(null);
-          this._secondArea.setHeight(null);
-          this._splitter.setHeight(null);
-
-          break;
-      }
-
-      switch(value)
-      {
-        case "horizontal":
-          // add new listeners
-          this._splitter.addListener("mousemove", this._onSplitterMouseMoveX, this);
-          this._splitter.addListener("mousedown", this._onSplitterMouseDownX, this);
-          this._splitter.addListener("mouseup", this._onSplitterMouseUpX, this);
-
-          // reconfigure states
-          this._splitter.addState("horizontal");
-
-          break;
-
-        case "vertical":
-          // add new listeners
-          this._splitter.addListener("mousedown", this._onSplitterMouseDownY, this);
-          this._splitter.addListener("mousemove", this._onSplitterMouseMoveY, this);
-          this._splitter.addListener("mouseup", this._onSplitterMouseUpY, this);
-
-          // reconfigure states
-          this._splitter.addState("vertical");
-
-          break;
-      }
-
-      // apply new dimensions
-      this._syncFirstSize();
-      this._syncSecondSize();
-      this._syncSplitterSize();
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param value {var} Current value
-     * @param old {var} Previous value
-     */
-    _applyFirstSize : function(value, old) {
-      this._syncFirstSize();
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param value {var} Current value
-     * @param old {var} Previous value
-     */
-    _applySecondSize : function(value, old) {
-      this._syncSecondSize();
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param value {var} Current value
-     * @param old {var} Previous value
-     */
-    _applySplitterSize : function(value, old) {
-      this._syncSplitterSize();
-    },
-
-
-
     /*
     ---------------------------------------------------------------------------
       EVENTS
     ---------------------------------------------------------------------------
     */
 
-    /**
-     * Initializes drag session in case of a mousedown event on splitter in a horizontal splitpane.
-     *
-     * @type member
-     * @param e {qx.legacy.event.type.MouseEvent} The event itself.
-     * @return {void}
-     */
-    _onSplitterMouseDownX : function(e)
+    __mouseDown : function(evt)
     {
+
+      if (!evt.isLeftPressed()) {
+        return;
+      }
+
+      var splitterElement = this._splitter.getContainerElement().getDomElement();
+      var splitterElementBounds = qx.bom.element.Location.get(splitterElement);
+      var left = evt.getDocumentLeft();
+      var top = evt.getDocumentTop();
+
+      var splitterClicked = false;
+
+      /*
+       * Check if splitter widget is big enough to be be easily clicked on 
+       */
+      if(
+          (this.__orientation == "horizontal"  && qx.bom.element.Dimension.getHeight(splitterElement) > this.__minSplitterSize) ||
+          (qx.bom.element.Dimension.getWidth(splitterElement) > this.__minSplitterSize)
+      ){
+
+        /* Check if cursor is on splitter */
+        if(
+            ( (left >= splitterElementBounds.left) && (left <= splitterElementBounds.right) ) &&
+            ( (top >= splitterElementBounds.top) && (top <= splitterElementBounds.bottom) )
+        ){
+          splitterClicked = true;
+        }
+
+      }
+      else
+      {
+        /*
+         * Check if mouse is near to splitter 
+         */
+      }
+      
+      
+/*
+      if(
+        this._near(evt.getDocumentLeft(), qx.bom.element.Location.getLeft(splitterElement)) &&
+        this._near(evt.getDocumentTop(), qx.bom.element.Location.getTop(splitterElement))
+      ){
+        console.warn("yeeeeeee")
+      }
+*/
+
+      if(splitterClicked)
+      {
+
+        var bounds = this._splitter.getBounds();    
+        this._slider.show();
+
+        this._slider.setUserBounds(
+          bounds.left,
+          bounds.top,
+          bounds.width,
+          bounds.height
+        );
+        this._slider.setZIndex(this._splitter.getZIndex() + 1);
+
+        this.__isMouseDown = true;
+      }
+
     },
 
-
-    /**
-     * Initializes drag session in case of a mousedown event on splitter in a vertical splitpane.
-     *
-     * @type member
-     * @param e {qx.legacy.event.type.MouseEvent} The event itself.
-     * @return {void}
-     */
-    _onSplitterMouseDownY : function(e)
+    __mouseUp : function(evt)
     {
+      this._slider.exclude();
+      this.__isMouseDown = false;
     },
 
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void}
-     */
-    _commonMouseDown : function()
+    __mouseMove : function(evt)
     {
+
+      if(this.__isMouseDown)
+      {
+        console.warn("moving", evt)  
+      }
+
+      // stop event
+      evt.stopPropagation();
     },
 
-
     /**
-     * Move the splitter in case of a mousemove event on splitter in a horizontal splitpane.
+     * Checks whether the two arguments are near to each other. Returns true if
+     * the absolute difference is less than five.
      *
-     * @type member
-     * @param e {qx.legacy.event.type.MouseEvent} The event itself.
-     * @return {void}
+     * @param p {Integer} first value
+     * @param e {Integer} second value
+     * @return {Bollean} Whether the two arguments are near to each other
      */
-    _onSplitterMouseMoveX : function(e)
-    {
-    },
-
-
-    /**
-     * Move the splitter in case of a mousemove event on splitter in a vertical splitpane.
-     *
-     * @type member
-     * @param e {qx.legacy.event.type.MouseEvent} The event itself.
-     * @return {void}
-     */
-    _onSplitterMouseMoveY : function(e)
-    {
-    },
-
-
-    /**
-     * Ends the drag session and computes the new dimensions of panes in case of a mouseup event on splitter in a horizontal splitpane.
-     *
-     * @type member
-     * @param e {qx.legacy.event.type.MouseEvent} The event itself.
-     * @return {void}
-     */
-    _onSplitterMouseUpX : function(e)
-    {
-    },
-
-
-    /**
-     * Ends the drag session and computes the new dimensions of panes in case of a mouseup event on splitter in a vertical splitpane.
-     *
-     * @type member
-     * @param e {qx.legacy.event.type.MouseEvent} The event itself.
-     * @return {void}
-     */
-    _onSplitterMouseUpY : function(e)
-    {
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void}
-     */
-    _commonMouseUp : function()
-    {
-
+    _near : function(p, e) {
+      return e > (p - 5) && e < (p + 5);
     }
 
-
   },
-
-
 
 
   /*

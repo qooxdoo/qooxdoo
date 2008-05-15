@@ -37,7 +37,7 @@ qx.Class.define("demobrowser.demo.widget.SplitPane_simple",
       var doc = this.getRoot();
       var frame = new qx.ui.container.Composite(new qx.ui.layout.Canvas());
 
-      doc.add(frame);
+      doc.add(frame, {left : 40, top : 60});
 
       // //frame.setEdge(20);
       // the splitpane itself
