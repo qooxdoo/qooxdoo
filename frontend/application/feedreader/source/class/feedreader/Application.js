@@ -307,9 +307,8 @@ qx.Class.define("feedreader.Application",
     _createLayout : function()
     {
       // Create main layout
-      var dockLayout = new qx.ui.layout.Dock();
-      var dockLayoutComposite = new qx.ui.container.Composite(dockLayout);
-      this.getRoot().addMain(dockLayoutComposite, true);
+      var dockLayoutComposite = new qx.ui.container.Composite(new qx.ui.layout.Dock());
+      this.getRoot().add(dockLayoutComposite, {edge:0});
 
       // Create toolbar
       this._toolBarView = new feedreader.view.ToolBar(this);

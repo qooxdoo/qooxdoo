@@ -64,7 +64,7 @@ qx.Class.define("demobrowser.demo.layout.BasicLayout_2",
       container.add(w3, {left:350, top:50});
       container.add(w4, {left:50, top:200});
 
-      this.getRoot().addMain(container);
+      this.getRoot().add(container, {left:0,top:0});
     }
   }
 });

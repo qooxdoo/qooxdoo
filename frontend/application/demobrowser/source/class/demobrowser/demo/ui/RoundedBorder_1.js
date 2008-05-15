@@ -34,7 +34,7 @@ qx.Class.define("demobrowser.demo.ui.RoundedBorder_1",
       var container = new qx.ui.container.Composite(layout);
       container.setPadding(20);
 
-      this.getRoot().addMain(container);
+      this.getRoot().add(container, {left:0,top:0});
 
       qx.theme.manager.Color.getInstance().setTheme(qx.theme.classic.Color);
       qx.theme.manager.Decoration.getInstance().setTheme(demobrowser.demo.ui.RoundedBorder_1_Theme);

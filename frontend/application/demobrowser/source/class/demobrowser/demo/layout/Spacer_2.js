@@ -38,7 +38,7 @@ qx.Class.define("demobrowser.demo.layout.Spacer_2",
       var container = new qx.ui.container.Composite(layout);
       container.setPadding(20);
 
-      this.getRoot().addMain(container, true);
+      this.getRoot().add(container, {edge:0});
 
       container.add(this.getGrid1());
       container.add(this.getGrid2());

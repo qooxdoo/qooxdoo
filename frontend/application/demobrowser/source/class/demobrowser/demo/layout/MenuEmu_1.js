@@ -65,7 +65,7 @@ qx.Class.define("demobrowser.demo.layout.MenuEmu_1",
       menu.add(new MenuItem("Close ...", "Ctrl-W"));
       container.add(menu, {row: 1, column: 0});
 
-      this.getRoot().addMain(container, true);
+      this.getRoot().add(container, {edge:0});
     }
   }
 });

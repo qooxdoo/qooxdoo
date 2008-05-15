@@ -31,7 +31,7 @@ qx.Class.define("demobrowser.demo.layout.Grid_Simple",
       var container = new qx.ui.container.Composite(new qx.ui.layout.HBox(10));
       container.setPadding(20);
 
-      this.getRoot().addMain(container);
+      this.getRoot().add(container, {left:0,top:0});
 
       container.add(this.getGrid1());
       container.add(this.getGrid2());

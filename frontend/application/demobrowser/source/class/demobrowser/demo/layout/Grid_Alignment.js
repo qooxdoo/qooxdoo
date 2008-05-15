@@ -37,7 +37,7 @@ qx.Class.define("demobrowser.demo.layout.Grid_Alignment",
       var container = new qx.ui.container.Composite(layout);
       container.setPadding(20);
 
-      this.getRoot().addMain(container);
+      this.getRoot().add(container, {left:0,top:0});
 
       container.add(this.getCellAlignGrid(), {row: 0, column: 0});
       container.add(this.getRowColumnAlignGrid(), {row: 0, column: 1});

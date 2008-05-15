@@ -39,7 +39,7 @@ qx.Class.define("demobrowser.demo.widget.Image_1",
 
       var container = new qx.ui.container.Composite(layout);
       container.setPadding(20);
-      this.getRoot().addMain(container);
+      this.getRoot().add(container, {left:0,top:0});
 
       var mgr = qx.util.ImageRegistry.getInstance();
       var base = qx.core.Setting.get("demobrowser.resourceUri") + "/demobrowser/demo/icons/"

@@ -42,7 +42,7 @@ qx.Class.define("demobrowser.demo.ui.Decoration_2",
       var container = new qx.ui.container.Composite(containerLayout);
       container.setPadding(20);
 
-      this.getRoot().addMain(container);
+      this.getRoot().add(container, {left:0,top:0});
 
 
       // Grid 1

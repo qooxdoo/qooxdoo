@@ -107,12 +107,13 @@ qx.Class.define("qx.ui.layout.Canvas",
       {
         var layoutProperties =
         {
-          "top" : 1,
-          "left" : 1,
-          "bottom" : 1,
-          "right" : 1,
-          "width" : 1,
-          "height" : 1
+          top : 1,
+          left : 1,
+          bottom : 1,
+          right : 1,
+          width : 1,
+          height : 1,
+          edge : 1
         };
 
         this.assert(layoutProperties[name] == 1, "The property '"+name+"' is not supported by the canvas layout!");
@@ -167,22 +168,22 @@ qx.Class.define("qx.ui.layout.Canvas",
         //   Processing location
         // **************************************
 
-        left = props.left;
+        left = props.left || props.edge;
         if (left && typeof left === "string") {
           left = Math.round(parseFloat(left) * availWidth / 100);
         }
 
-        right = props.right;
+        right = props.right || props.edge;
         if (right && typeof right === "string") {
           right = Math.round(parseFloat(right) * availWidth / 100);
         }
 
-        top = props.top;
+        top = props.top || props.edge;
         if (top && typeof top === "string") {
           top = Math.round(parseFloat(top) * availHeight / 100);
         }
 
-        bottom = props.bottom;
+        bottom = props.bottom || props.edge;
         if (bottom && typeof bottom === "string") {
           bottom = Math.round(parseFloat(bottom) * availHeight / 100);
         }
@@ -301,6 +302,8 @@ qx.Class.define("qx.ui.layout.Canvas",
       var children = this._getLayoutChildren();
       var child, props, hint;
 
+      var left, top, right, bottom;
+
       for (var i=0,l=children.length; i<l; i++)
       {
         child = children[i];
@@ -317,16 +320,18 @@ qx.Class.define("qx.ui.layout.Canvas",
         width = hint.width+marginX;
         minWidth = hint.minWidth+marginX;
 
-        if (props.left && typeof props.left === "number")
+        left = props.left || props.edge;
+        if (left && typeof left === "number")
         {
-          width += props.left;
-          minWidth += props.left;
+          width += left;
+          minWidth += left;
         }
 
-        if (props.right && typeof props.right === "number")
+        right = props.right || props.edge;
+        if (right && typeof right === "number")
         {
-          width += props.right;
-          minWidth += props.right;
+          width += right;
+          minWidth += right;
         }
 
         neededWidth = Math.max(neededWidth, width);
@@ -337,16 +342,18 @@ qx.Class.define("qx.ui.layout.Canvas",
         height = hint.height+marginY;
         minHeight = hint.minHeight+marginY;
 
-        if (props.top && typeof props.top === "number")
+        top = props.top || props.edge;
+        if (top && typeof top === "number")
         {
-          height += props.top;
-          minHeight += props.top;
+          height += top;
+          minHeight += top;
         }
 
-        if (props.bottom && typeof props.bottom === "number")
+        bottom = props.bottom || props.edge;
+        if (bottom && typeof bottom === "number")
         {
-          height += props.bottom;
-          minHeight += props.bottom;
+          height += bottom;
+          minHeight += bottom;
         }
 
         neededHeight = Math.max(neededHeight, height);

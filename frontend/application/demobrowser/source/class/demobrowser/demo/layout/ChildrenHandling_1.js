@@ -70,7 +70,7 @@ qx.Class.define("demobrowser.demo.layout.ChildrenHandling_1",
 
       container.add(buttons);
 
-      this.getRoot().addMain(container);
+      this.getRoot().add(container, {left:0,top:0});
     },
 
     createRemoveButton : function(widget, widgetIndex)

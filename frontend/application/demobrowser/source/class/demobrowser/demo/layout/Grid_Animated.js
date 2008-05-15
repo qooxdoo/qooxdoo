@@ -34,7 +34,7 @@ qx.Class.define("demobrowser.demo.layout.Grid_Animated",
       var container = new qx.ui.container.Composite(layout);
       container.setPadding(20);
 
-      this.getRoot().addMain(container);
+      this.getRoot().add(container, {left:0,top:0});
 
       container.add(this.getAnimGrid(), {row: 0, column: 0});
     },
@@ -69,7 +69,7 @@ qx.Class.define("demobrowser.demo.layout.Grid_Animated",
         widget.set({
             backgroundColor : "orange"
         });
-        
+
         var bounds = widget.getBounds();
 
         effects.push(new demobrowser.demo.layout.PropertyAnimation(widget, "width").set({
