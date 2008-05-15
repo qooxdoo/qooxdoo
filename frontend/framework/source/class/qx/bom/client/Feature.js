@@ -77,16 +77,16 @@ qx.Bootstrap.define("qx.bom.client.Feature",
       this.STANDARD_MODE = document.compatMode === "CSS1Compat";
       this.QUIRKS_MODE = !this.STANDARD_MODE;
 
-      this.CONTENT_BOX = !!(!qx.bom.client.Engine.MSHTML || this.STANDARD_MODE);
+      this.CONTENT_BOX = !qx.bom.client.Engine.MSHTML || this.STANDARD_MODE;
       this.BORDER_BOX = !this.CONTENT_BOX;
 
       this.SVG = document.implementation && document.implementation.hasFeature && document.implementation.hasFeature("org.w3c.dom.svg", "1.0");
       this.CANVAS = !!window.CanvasRenderingContext2D;
       this.VML = qx.bom.client.Engine.MSHTML;
-      
+
       this.AIR = navigator.userAgent.indexOf("adobeair") !== -1;
       this.GEARS = !!(window.google && google.gears);
-      
+
       this.XPATH = !!document.evaluate;
     }
   },
