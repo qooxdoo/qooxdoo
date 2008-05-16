@@ -27,6 +27,7 @@ qx.Class.define("feedreader.model.Article",
   extend : qx.core.Object,
 
 
+
   /*
   *****************************************************************************
      PROPERTIES
@@ -39,36 +40,40 @@ qx.Class.define("feedreader.model.Article",
     title :
     {
       check : "String",
-      event : "change"
+      event : "dataModified"
     },
+
 
     /** Author of the article */
     author  :
     {
       check : "String",
       nullable : true,
-      event : "change"
+      event : "dataModified"
     },
+
 
     /** Publishing date */
     date :
     {
       check : "Date",
-      event : "change"
+      event : "dataModified"
     },
+
 
     /** HTML content of the article */
     content :
     {
       check : "String",
-      event : "change"
+      event : "dataModified"
     },
+
 
     /** URL to the article */
     link :
     {
       check : "String",
-      event : "change"
+      event : "dataModified"
     }
   }
 });

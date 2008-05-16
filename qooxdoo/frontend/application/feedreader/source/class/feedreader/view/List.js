@@ -33,7 +33,7 @@ qx.Class.define("feedreader.view.List",
   *****************************************************************************
   */
 
-  construct : function()
+  construct : function(feedList)
   {
     this.base(arguments);
 
@@ -70,6 +70,9 @@ qx.Class.define("feedreader.view.List",
   },
 
 
+
+
+
   /*
   *****************************************************************************
      PROPERTIES
@@ -88,6 +91,9 @@ qx.Class.define("feedreader.view.List",
   },
 
 
+
+
+
   /*
   *****************************************************************************
      MEMBERS
@@ -102,12 +108,12 @@ qx.Class.define("feedreader.view.List",
       this._list.removeAll();
 
       if (old) {
-        old.removeListener("changeState", this._onChangeStateFeed, this);
+        old.removeListener("stateModified", this._onFeedStateModified, this);
       }
 
       if (value)
       {
-        value.addListener("changeState", this._onChangeStateFeed, this);
+        value.addListener("stateModified", this._onFeedStateModified, this);
         this._updateFeedState();
       }
     },
@@ -118,7 +124,7 @@ qx.Class.define("feedreader.view.List",
      *
      * @param e {qx.event.type.Change} The change event
      */
-    _onChangeStateFeed : function(e) {
+    _onFeedStateModified : function(e) {
       this._updateFeedState();
     },
 
