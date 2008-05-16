@@ -82,6 +82,7 @@ qx.Class.define("feedreader.view.List",
     feed :
     {
       check : "feedreader.model.Feed",
+      nullable : true,
       apply : "_applyFeed"
     }
   },
