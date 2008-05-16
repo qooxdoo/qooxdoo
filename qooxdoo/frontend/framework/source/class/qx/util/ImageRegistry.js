@@ -96,7 +96,6 @@ qx.Class.define("qx.util.ImageRegistry",
       {
         if (! key.match(this.__imgPatt))
         {
-          console.info("skipping asset: "+key);
           continue; // skip non-images
         }
         var val  = qximageinfo[key];  // val = [width, height, type, lib [, mappeduri, left, top, type, lib]]
