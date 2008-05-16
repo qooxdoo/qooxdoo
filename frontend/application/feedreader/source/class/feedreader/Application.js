@@ -35,6 +35,7 @@ qx.Class.define("feedreader.Application",
   extend : qx.application.Standalone,
 
 
+
   /*
   *****************************************************************************
      PROPERTIES
@@ -44,21 +45,24 @@ qx.Class.define("feedreader.Application",
   properties :
   {
     /** The current selected feed */
-    selectedFeed :
+    feed :
     {
       check    : "feedreader.model.Feed",
       nullable : true,
-      apply    : "_applySelectedFeed"
+      apply    : "_applyFeed"
     },
 
+
     /** The current selected article */
-    selectedArticle :
+    article :
     {
       check    : "feedreader.model.Article",
       nullable : true,
-      apply    : "_applySelectedArticle"
+      apply    : "_applyArticle"
     }
   },
+
+
 
 
   /*
@@ -101,10 +105,10 @@ qx.Class.define("feedreader.Application",
 
       // Set initial feed and article
       var feed = this._feedList.getSelected();
-      this.setSelectedFeed(feed);
+      this.setFeed(feed);
 
       if (feed) {
-        this.setSelectedArticle(feed.getSelected());
+        this.setArticle(feed.getSelected());
       }
     },
 
@@ -119,12 +123,13 @@ qx.Class.define("feedreader.Application",
     },
 
 
+
+
     /*
     ---------------------------------------------------------------------------
       MODEL RELATED
     ---------------------------------------------------------------------------
     */
-
 
     /**
      * Initialize the feed data model
@@ -149,7 +154,7 @@ qx.Class.define("feedreader.Application",
 
       this._feedList = list;
 
-      list.addListener("changeSelected", this._onChangeSelectedFeed, this);
+      list.addListener("changeSelected", this._onChangeFeed, this);
     },
 
 
@@ -158,23 +163,23 @@ qx.Class.define("feedreader.Application",
      *
      * @param e {qx.event.type.Data} The data event of the feed list change.
      */
-    _onChangeSelectedFeed : function(e)
+    _onChangeFeed : function(e)
     {
       var feed = e.getValue();
       var oldFeed = e.getOldValue();
 
       if (oldFeed) {
-        oldFeed.removeListener("changeSelected", this._onChangeSelectedArticle, this);
+        oldFeed.removeListener("changeSelected", this._onChangeArticle, this);
       }
 
-      this.setSelectedFeed(feed);
+      this.setFeed(feed);
 
       if (feed)
       {
-        feed.addListener("changeSelected", this._onChangeSelectedArticle, this);
+        feed.addListener("changeSelected", this._onChangeArticle, this);
 
         var selectedArticle = feed.getSelected();
-        this.setSelectedArticle(selectedArticle);
+        this.setArticle(selectedArticle);
       }
     },
 
@@ -184,10 +189,10 @@ qx.Class.define("feedreader.Application",
      *
      * @param e {qx.event.type.Data} The data event of the article change.
      */
-    _onChangeSelectedArticle : function(e)
+    _onChangeArticle : function(e)
     {
       var article = e.getValue();
-      this.setSelectedArticle(article);
+      this.setArticle(article);
     },
 
 
@@ -375,7 +380,7 @@ qx.Class.define("feedreader.Application",
     */
 
     // property apply
-    _applySelectedFeed : function(value, old)
+    _applyFeed : function(value, old)
     {
       this._listView.setFeed(value);
       this.getCommand("removeFeed").setEnabled(!!(value && value.getCategory() !== "static"));
@@ -383,7 +388,7 @@ qx.Class.define("feedreader.Application",
 
 
     // property apply
-    _applySelectedArticle : function(value, old)
+    _applyArticle : function(value, old)
     {
       if (value) {
         this._articleView.setArticle(value);
