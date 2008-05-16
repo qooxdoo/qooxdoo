@@ -431,7 +431,7 @@ qx.Class.define("qx.bom.element.Location",
 
     /**
      * Computes the location of the given element in context of
-     * the document dimenions.
+     * the document dimensions.
      *
      * Supported modes:
      *
