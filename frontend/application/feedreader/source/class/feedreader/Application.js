@@ -19,14 +19,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#asset(feedreader/*)
-#asset(qx/icon/Tango/22/apps/internet-feed-reader.png)
-#asset(qx/icon/Oxygen/22/apps/internet-feed-reader.png)
-
-************************************************************************ */
-
 /**
  * The feed reader's main application class.
  */
@@ -103,13 +95,19 @@ qx.Class.define("feedreader.Application",
       // Create application layout
       this._createLayout();
 
-      // Set initial feed and article
-      var feed = this._feedList.getSelected();
-      this.setFeed(feed);
+      // Add static feeds
+      this._feedList.addFeed(new feedreader.model.Feed("qooxdoo News", "http://feeds.feedburner.com/qooxdoo/news/content", "static"));
+      this._feedList.addFeed(new feedreader.model.Feed("Mozilla Developer News", "http://developer.mozilla.org/devnews/index.php/feed/", "static"));
+      this._feedList.addFeed(new feedreader.model.Feed("JScript Team Blog", "http://blogs.msdn.com/jscript/rss.xml", "static"));
+      this._feedList.addFeed(new feedreader.model.Feed("Daring Fireball", "http://daringfireball.net/index.xml", "static"));
+      this._feedList.addFeed(new feedreader.model.Feed("Surfin' Safari", "http://webkit.org/blog/?feed=rss2", "static"));
+      this._feedList.addFeed(new feedreader.model.Feed("Ajaxian", "http://feeds.feedburner.com/ajaxian", "static"));
 
-      if (feed) {
-        this.setArticle(feed.getSelected());
-      }
+      // Add user feeds
+      this._feedList.addFeed(new feedreader.model.Feed("Heise", "http://www.heise.de/newsticker/heise-atom.xml", "user"));
+      this._feedList.addFeed(new feedreader.model.Feed("A List Apart", "http://www.alistapart.com/rss.xml", "user"));
+      this._feedList.addFeed(new feedreader.model.Feed("Apple Insider", "http://www.appleinsider.com/appleinsider.rss", "user"));
+      this._feedList.addFeed(new feedreader.model.Feed("Opera Desktop Blog", "http://my.opera.com/desktopteam/xml/rss/blog/", "user"));
     },
 
 
@@ -136,25 +134,10 @@ qx.Class.define("feedreader.Application",
      */
     _initializeModel : function()
     {
-      var list = new feedreader.model.FeedList();
+      this._feedList = new feedreader.model.FeedList();
 
-      // add static feeds
-      list.addFeed(new feedreader.model.Feed("qooxdoo News", "http://feeds.feedburner.com/qooxdoo/news/content", "static"));
-      list.addFeed(new feedreader.model.Feed("Mozilla Developer News", "http://developer.mozilla.org/devnews/index.php/feed/", "static"));
-      list.addFeed(new feedreader.model.Feed("JScript Team Blog", "http://blogs.msdn.com/jscript/rss.xml", "static"));
-      list.addFeed(new feedreader.model.Feed("Daring Fireball", "http://daringfireball.net/index.xml", "static"));
-      list.addFeed(new feedreader.model.Feed("Surfin' Safari", "http://webkit.org/blog/?feed=rss2", "static"));
-      list.addFeed(new feedreader.model.Feed("Ajaxian", "http://feeds.feedburner.com/ajaxian", "static"));
-
-      // add user feeds
-      list.addFeed(new feedreader.model.Feed("Heise", "http://www.heise.de/newsticker/heise-atom.xml", "user"));
-      list.addFeed(new feedreader.model.Feed("A List Apart", "http://www.alistapart.com/rss.xml", "user"));
-      list.addFeed(new feedreader.model.Feed("Apple Insider", "http://www.appleinsider.com/appleinsider.rss", "user"));
-      list.addFeed(new feedreader.model.Feed("Opera Desktop Blog", "http://my.opera.com/desktopteam/xml/rss/blog/", "user"));
-
-      this._feedList = list;
-
-      list.addListener("changeSelected", this._onChangeFeed, this);
+      // Register listener
+      this._feedList.addListener("change", this._onSelectFeed, this);
     },
 
 
@@ -163,20 +146,20 @@ qx.Class.define("feedreader.Application",
      *
      * @param e {qx.event.type.Data} The data event of the feed list change.
      */
-    _onChangeFeed : function(e)
+    _onSelectFeed : function(e)
     {
       var feed = e.getValue();
       var oldFeed = e.getOldValue();
 
       if (oldFeed) {
-        oldFeed.removeListener("changeSelected", this._onChangeArticle, this);
+        oldFeed.removeListener("change", this._onSelectArticle, this);
       }
 
       this.setFeed(feed);
 
       if (feed)
       {
-        feed.addListener("changeSelected", this._onChangeArticle, this);
+        feed.addListener("change", this._onSelectArticle, this);
 
         var selectedArticle = feed.getSelected();
         this.setArticle(selectedArticle);
@@ -189,16 +172,18 @@ qx.Class.define("feedreader.Application",
      *
      * @param e {qx.event.type.Data} The data event of the article change.
      */
-    _onChangeArticle : function(e)
+    _onSelectArticle : function(e)
     {
       var article = e.getValue();
       this.setArticle(article);
     },
 
 
+
+
     /*
     ---------------------------------------------------------------------------
-      GUI RELATED INTERNAL API
+      GUI RELATED
     ---------------------------------------------------------------------------
     */
 
@@ -241,6 +226,8 @@ qx.Class.define("feedreader.Application",
     },
 
 
+
+
     /*
     ---------------------------------------------------------------------------
       COMMANDS
@@ -248,7 +235,7 @@ qx.Class.define("feedreader.Application",
     */
 
     /**
-     * initialize commands
+     * Initialize commands (shortcuts, ...)
      */
     _initializeCommands : function()
     {
@@ -282,6 +269,9 @@ qx.Class.define("feedreader.Application",
     getCommand : function(commandId) {
       return this.__commands[commandId];
     },
+
+
+
 
 
     /*
@@ -349,7 +339,7 @@ qx.Class.define("feedreader.Application",
      * Shows the about popup for the application.
      */
     showAbout : function() {
-      alert("qooxdoo based feed reader");
+      alert("FeedReader (qooxdoo powered)");
     },
 
 
@@ -409,9 +399,7 @@ qx.Class.define("feedreader.Application",
 
   destruct : function()
   {
-    this._disposeObjects(
-      "_toolbarView", "_listView", "_articleView", "_treeView",
-      "_feedList"
-    );
+    this._disposeObjects("_toolbarView", "_listView", "_articleView",
+      "_treeView", "_feedList");
   }
 });

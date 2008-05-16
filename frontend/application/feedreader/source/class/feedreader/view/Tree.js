@@ -19,6 +19,14 @@
 
 ************************************************************************ */
 
+/* ************************************************************************
+
+#asset(feedreader/*)
+#asset(qx/icon/Tango/22/apps/internet-feed-reader.png)
+#asset(qx/icon/Oxygen/22/apps/internet-feed-reader.png)
+
+************************************************************************ */
+
 /**
  * this class displays the feed list as tree
  */
@@ -70,8 +78,9 @@ qx.Class.define("feedreader.view.Tree",
     this._refresh();
 
     // Listen for model changes
-    feedList.addListener("change", this._refresh, this);
-    feedList.addListener("changeSelected", this._onChangeList, this);
+    feedList.addListener("add", this._refresh, this);
+    feedList.addListener("remove", this._refresh, this);
+    feedList.addListener("change", this._onSelectFeed, this);
   },
 
 
@@ -103,7 +112,7 @@ qx.Class.define("feedreader.view.Tree",
       {
         var feed = feeds[i];
 
-        feed.addListener("changeState", this._onFeedChangeState, this);
+        feed.addListener("stateModified", this._onFeedStateModified, this);
 
         // create and add a folder for every feed
         var folder = new qx.ui.tree.TreeFolder(feed.getTitle());
@@ -141,7 +150,7 @@ qx.Class.define("feedreader.view.Tree",
      *
      * @param e {qx.event.type.Change} The change event
      */
-    _onFeedChangeState : function(e)
+    _onFeedStateModified : function(e)
     {
       var feed = e.getTarget();
       var folder = this.getFolder(feed);
@@ -186,7 +195,8 @@ qx.Class.define("feedreader.view.Tree",
       // get the feed of the item
       var item = e.getData()[0];
 
-      if (item) {
+      if (item)
+      {
         var feed = item.getUserData("feed");
 
         // tell the controller to select the new feed
@@ -200,7 +210,7 @@ qx.Class.define("feedreader.view.Tree",
      *
      * @param e {qx.event.type.Data} The data event of the feed list change.
      */
-    _onChangeList : function(e)
+    _onSelectFeed : function(e)
     {
       var feed = e.getValue();
 
@@ -209,6 +219,7 @@ qx.Class.define("feedreader.view.Tree",
         if (this.getSelection()[0].getUserData("feed")) {
           this.clearSelection();
         }
+
         return;
       }
 

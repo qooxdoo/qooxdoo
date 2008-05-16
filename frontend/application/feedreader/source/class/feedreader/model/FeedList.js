@@ -27,6 +27,7 @@ qx.Class.define("feedreader.model.FeedList",
   extend : qx.core.Object,
 
 
+
   /*
   *****************************************************************************
      CONSTRUCTOR
@@ -36,8 +37,12 @@ qx.Class.define("feedreader.model.FeedList",
   construct : function()
   {
     this.base(arguments);
+
+    // {Array} Internal feed storage
     this.__feeds = [];
   },
+
+
 
 
   /*
@@ -48,9 +53,14 @@ qx.Class.define("feedreader.model.FeedList",
 
   events :
   {
-    /** fired on data changes in the feed model */
-    "change" : "qx.event.type.Event"
+    /** fired on addition of new feeds */
+    "add" : "qx.event.type.Event",
+
+    /** fired on removal of feeds */
+    "remove" : "qx.event.type.Event"
   },
+
+
 
 
   /*
@@ -67,9 +77,18 @@ qx.Class.define("feedreader.model.FeedList",
       check : "feedreader.model.Feed",
       nullable : true,
       init : null,
-      event : "changeSelected"
+      event : "change"
     }
   },
+
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
 
   members :
   {
@@ -91,7 +110,11 @@ qx.Class.define("feedreader.model.FeedList",
     addFeed : function(feed)
     {
       this.__feeds.push(feed);
-      this.fireEvent("change");
+      this.fireEvent("add");
+
+      if (!this.getSelected()) {
+        this.setSelected(feed);
+      }
     },
 
 
@@ -103,11 +126,11 @@ qx.Class.define("feedreader.model.FeedList",
     removeFeed : function(feed)
     {
       qx.lang.Array.remove(this.__feeds, feed);
+      this.fireEvent("remove");
 
       if (this.getSelected() == feed) {
         this.setSelected(null);
       }
-      this.fireEvent("change");
     }
   }
 })

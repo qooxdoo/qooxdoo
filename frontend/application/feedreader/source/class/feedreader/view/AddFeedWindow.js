@@ -92,9 +92,9 @@ qx.Class.define("feedreader.view.AddFeedWindow",
       this.setLayout(layout);
 
       var titleLabel = new qx.ui.basic.Label("Title:");
-      var titleTextfield = new qx.ui.form.TextField();
+      var titleTextfield = this._titleTextfield = new qx.ui.form.TextField();
       var urlLabel = new qx.ui.basic.Label("URL:");
-      var urlTextField = new qx.ui.form.TextField();
+      var urlTextField = this._urlTextfield = new qx.ui.form.TextField();
       urlTextField.setWidth(250);
 
       this.add(titleLabel, {row: 0, column: 0});
@@ -110,28 +110,36 @@ qx.Class.define("feedreader.view.AddFeedWindow",
       });
 
       this.add(addButton, {row: 2, column: 0, colSpan: 2});
+      addButton.addListener("execute", this._addFeed, this);
+    },
 
-      addButton.addListener("execute", function(e) {
-        var title = titleTextfield.getValue();
-        var url = urlTextField.getValue();
 
-        // break if no title is given
-        if (title == "") {
-          alert("Please enter a title.");
-          return;
-        }
+    /**
+     * Handles button clicks on 'Add' button
+     *
+     * @param e {qx.event.type.Event} Execute event
+     */
+    _addFeed : function(e)
+    {
+      var title = this._titleTextfield.getValue();
+      var url = this._urlTextfield.getValue();
 
-        // break if no url is given
-        if (url == "") {
-          alert("Please enter a url.");
-          return;
-        }
+      // break if no title is given
+      if (title == "")
+      {
+        alert("Please enter a title.");
+        return;
+      }
 
-        this._controller.addFeed(title, url);
+      // break if no url is given
+      if (url == "")
+      {
+        alert("Please enter a url.");
+        return;
+      }
 
-        this.close();
-
-      }, this);
+      this._controller.addFeed(title, url);
+      this.close();
     }
   }
 });

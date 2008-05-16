@@ -33,6 +33,14 @@ qx.Class.define("feedreader.view.PreferenceWindow",
 {
   extend : qx.ui.window.Window,
 
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
   construct : function()
   {
     this.base(arguments, "Preferences", "icon/16/apps/preferences-theme.png");
@@ -52,9 +60,17 @@ qx.Class.define("feedreader.view.PreferenceWindow",
     this._addContent();
   },
 
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
   members :
   {
-
     /**
      * Adds the content of the window.
      */
