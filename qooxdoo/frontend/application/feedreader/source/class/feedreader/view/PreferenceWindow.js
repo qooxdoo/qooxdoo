@@ -26,6 +26,9 @@
 
 ************************************************************************ */
 
+/**
+ * The feed reader preference window
+ */
 qx.Class.define("feedreader.view.PreferenceWindow",
 {
   extend : qx.ui.window.Window,
@@ -87,6 +90,11 @@ qx.Class.define("feedreader.view.PreferenceWindow",
     },
 
 
+    /**
+     * Event handler. Called on a selcetion change on the radio buttons.
+     *
+     * @param e {qx.event.type.Event} The event object
+     */
     _onThemeChange : function(e)
     {
       var mgr = qx.theme.manager.Meta.getInstance();

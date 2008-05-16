@@ -19,16 +19,23 @@
 
 ************************************************************************ */
 
+/**
+ * The list displayes the articles of a feed as a list.
+ */
 qx.Class.define("feedreader.view.List",
 {
   extend : qx.ui.core.Widget,
 
 
-  construct : function(feedList)
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  construct : function()
   {
     this.base(arguments);
-
-    this._feedList = feedList;
 
     this._setLayout(new qx.ui.layout.VBox());
 
@@ -63,8 +70,15 @@ qx.Class.define("feedreader.view.List",
   },
 
 
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+
   properties :
   {
+    /** The feed to display in the list */
     feed :
     {
       check : "feedreader.model.Feed",
@@ -73,35 +87,50 @@ qx.Class.define("feedreader.view.List",
   },
 
 
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
   members :
   {
+    // property apply
     _applyFeed : function(value, old)
     {
       this._list.removeAll();
 
       if (old) {
-        old.removeListener("changeStatus", this._onChangeStatusFeed, this);
+        old.removeListener("changeState", this._onChangeStateFeed, this);
       }
 
       if (value)
       {
-        value.addListener("changeStatus", this._onChangeStatusFeed, this);
-        this._updateFeedStatus();
+        value.addListener("changeState", this._onChangeStateFeed, this);
+        this._updateFeedState();
       }
     },
 
 
-    _onChangeStatusFeed : function(e) {
-      this._updateFeedStatus();
+    /**
+     * Event listener. Called if the loading state of the feed changes
+     *
+     * @param e {qx.event.type.Change} The change event
+     */
+    _onChangeStateFeed : function(e) {
+      this._updateFeedState();
     },
 
 
-    _updateFeedStatus : function()
+    /**
+     * Visualizes the loading state of the feed
+     */
+    _updateFeedState : function()
     {
       var feed = this.getFeed();
-      var status = feed.getStatus();
+      var state = feed.getState();
 
-      if (status == "loaded")
+      if (state == "loaded")
       {
         this._stack.setSelected(this._list);
 
@@ -120,7 +149,7 @@ qx.Class.define("feedreader.view.List",
           }
         }
       }
-      else if (status == "loading")
+      else if (state == "loading")
       {
         this._stack.setSelected(this._listLoadImage);
       }
@@ -142,9 +171,8 @@ qx.Class.define("feedreader.view.List",
         // get the article model
         var article = item.getUserData("article");
 
-        // get the selected feed and select the article
-        var feed = this._feedList.getSelected();
-        feed.setSelected(article);
+        // get the feed and select the article
+        this.getFeed().setSelected(article);
       }
     }
   }

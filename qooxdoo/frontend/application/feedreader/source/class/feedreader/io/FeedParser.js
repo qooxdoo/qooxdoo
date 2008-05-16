@@ -22,7 +22,7 @@
  * Helper class to convert JSON feed data to an application
  * useable JavaScript array.
  */
-qx.Class.define("feedreader.FeedParser",
+qx.Class.define("feedreader.io.FeedParser",
 {
   statics :
   {
@@ -82,7 +82,7 @@ qx.Class.define("feedreader.FeedParser",
      */
     _normalizeRssFeed : function(json)
     {
-      var items = [];
+      var articles = [];
 
       for (var i=0, a=json.channel.item, l=a.length; i<l; i++)
       {
@@ -107,18 +107,18 @@ qx.Class.define("feedreader.FeedParser",
           date = null;
         }
 
-        items.push(
-        {
-          title   : entry.title || null,
-          author  : "",
-          date    : date,
+        var feed = new feedreader.model.Feed();
+        feed.set({
+          title : entry.title || null,
+          author : "",
+          date : date,
           content : entry.description || null,
-          link    : entry.link || null,
-          id      : i
+          link : entry.link || null
         });
+        articles.push(article)
       }
 
-      return items;
+      return articles;
     },
 
 
@@ -132,7 +132,7 @@ qx.Class.define("feedreader.FeedParser",
      */
     _normalizeAtomFeed : function(json)
     {
-      var items = [];
+      var articles = [];
 
       for (var i=0, a=json.entry, l=a.length; i<l; i++)
       {
@@ -156,18 +156,19 @@ qx.Class.define("feedreader.FeedParser",
           date = null;
         }
 
-        items.push(
-        {
-          title   : entry.title || entry.summary || null,
-          author  : entry.author ? entry.author.name || null : null,
-          date    : date,
+        var feed = new feedreader.model.Feed();
+        feed.set({
+          title : entry.title || entry.summary || null,
+          author : entry.author ? entry.author.name || null : null,
+          date : date,
           content : entry.content || entry.summary || null,
-          link    : entry.link["@attributes"] ? entry.link["@attributes"].href || null : null,
-          id      : i
+          link : entry.link["@attributes"] ? entry.link["@attributes"].href || null : null
         });
+
+        articles.push(feed);
       }
 
-      return items;
+      return articles;
     }
   }
 });

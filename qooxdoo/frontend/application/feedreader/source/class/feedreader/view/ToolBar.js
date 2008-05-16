@@ -35,6 +35,9 @@
 
 ************************************************************************ */
 
+/**
+ * The main tool bar widget
+ */
 qx.Class.define("feedreader.view.ToolBar",
 {
   extend : qx.ui.toolbar.ToolBar,
@@ -47,6 +50,9 @@ qx.Class.define("feedreader.view.ToolBar",
   *****************************************************************************
   */
 
+  /**
+   * @param controller {feedreader.Application} The main application class
+   */
   construct : function(controller)
   {
     this.base(arguments);
