@@ -1416,7 +1416,7 @@ qx.Bootstrap.define("qx.Class",
         {
           // new keyword check
           if (!(this instanceof clazz)) {
-            throw new Error("Please initialize ', name, ' objects using the new keyword!");
+            throw new Error("Please initialize '" + name + "' objects using the new keyword!");
           }
 
           // add abstract and singleton checks
