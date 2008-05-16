@@ -49,6 +49,7 @@ qx.Class.define("feedreader.Application",
       apply    : "_applySelectedFeed"
     },
 
+
     /** The current selected article */
     selectedArticle :
     {
@@ -96,6 +97,9 @@ qx.Class.define("feedreader.Application",
       // Initialialize date format
       this._dateFormat = new qx.util.format.DateFormat();
 
+      // Create application layout
+      this._createLayout();
+
       // Add some static feeds
       this.addFeed("qooxdoo News", "http://feeds.feedburner.com/qooxdoo/news/content", "default");
       this.addFeed("Mozilla Developer News", "http://developer.mozilla.org/devnews/index.php/feed/", "default");
@@ -108,23 +112,19 @@ qx.Class.define("feedreader.Application",
       this.addFeed("A List Apart", "http://www.alistapart.com/rss.xml", "user");
       this.addFeed("Apple Insider", "http://www.appleinsider.com/appleinsider.rss", "user");
       this.addFeed("Opera Desktop Blog", "http://my.opera.com/desktopteam/xml/rss/blog/", "user");
-
-      // Create application layout
-      this._createLayout();
-
-      // Load data (lazy)
-      qx.event.Timer.once(this._load, this, 0);
     },
 
 
     /**
      * Invokes a fetching of the data.
      */
-    _load : function()
+    finalize : function()
     {
-      // Fetch feed data
+      this.base(arguments);
+
       this._fetchData();
     },
+
 
 
 
