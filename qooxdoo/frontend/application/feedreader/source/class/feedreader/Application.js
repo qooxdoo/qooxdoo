@@ -90,18 +90,16 @@ qx.Class.define("feedreader.Application",
         qx.log.appender.Console;
       }
 
-      qx.util.AliasManager.getInstance().add("feedreader", qx.core.Setting.get("feedreader.resourceUri") + "/feedreader");
-
-      // initialize the model
+      // Initialize the model
       this._initializeModel();
 
-      // initialize commands
+      // Initialize commands
       this._initializeCommands();
 
       // Create application layout
       this._createLayout();
 
-      // set initial feed and article
+      // Set initial feed and article
       var feed = this._feedList.getSelected();
       this.setSelectedFeed(feed);
 
