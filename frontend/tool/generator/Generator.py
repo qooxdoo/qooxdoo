@@ -572,7 +572,7 @@ class Generator:
                 x = ImgInfoFmt()
                 x.mappedId, x.left, x.top, x.width, x.height, x.type = (
                    sub['combined'], sub['left'], sub['top'], sub['width'], sub['height'], sub['type'])
-                config[sub['file']] = x.flatten()
+                config[sub['file']] = x.meta_format()  # this could use 'flatten()' eventually!
             # store meta data for this combined image
             bname = os.path.basename(image)
             ri = bname.rfind('.')

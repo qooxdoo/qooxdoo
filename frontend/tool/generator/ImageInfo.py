@@ -108,8 +108,14 @@ class ImgInfoFmt(object):
             else:
                 raise NameError, "No such object member: %s" % kw
 
+    def meta_format(self):
+        # return data suitable for .meta file
+        a = [self.width, self.height, self.type]
+        if self.mappedId:
+            a.extend([self.mappedId, self.left, self.top])
+        return a
+
     def flatten(self):
-        #return [self.mappedId, self.left, self.top, self.width, self.height, self.type]
         a = [self.width, self.height, self.type, self.lib]
         if self.mappedId:
             a.extend([self.mappedId, self.left, self.top, self.mtype, self.mlib])
