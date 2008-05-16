@@ -32,7 +32,7 @@ qx.Class.define("qx.util.ImageRegistry",
   {
     this.base(arguments);
 
-    this.__registry = this._padQxImageInfo(window.qximageinfo);
+    this.__registry = this._padQxImageInfo(window.qxresourceinfo);
     //this.__registry = window.qximageinfo || {};
   },
 
@@ -50,6 +50,9 @@ qx.Class.define("qx.util.ImageRegistry",
   {
     /** {Map} the shared image registry */
     __registry : {},
+    
+    /** {RegExp} detect image names */
+   __imgPatt : new RegExp('\.(png|gif|jpeg|jpg)$', 'i'),
 
 
     _macroexpand : function(dict, str)
@@ -91,6 +94,10 @@ qx.Class.define("qx.util.ImageRegistry",
 
       for (var key in qximageinfo)
       {
+        if (! key.match(self.__imgPatt))
+        {
+          continue; // skip non-images  
+        }
         var val  = qximageinfo[key];  // val = [width, height, type, lib [, mappeduri, left, top, type, lib]]
         //key = this._macroexpand(qxlibinfo, key)
         key = this._libexpand(qxlibinfo, key, val[3])
