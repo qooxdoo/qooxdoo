@@ -117,7 +117,7 @@ qx.Class.define("feedreader.view.Tree",
         folder.setIcon("feedreader/images/loading22.gif");
       } else if (status == "loaded") {
         folder.setIcon("icon/22/apps/internet-feed-reader.png");
-      } else {
+      } else if (folder.getParent()) {
         folder.getParent().remove(folder);
       }
     },

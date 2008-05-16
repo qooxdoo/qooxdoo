@@ -6,7 +6,7 @@ qx.Class.define("feedreader.model.FeedList",
   construct : function()
   {
     this.base(arguments);
-    this.__feeds = {};
+    this.__feeds = [];
   },
 
   events :
@@ -31,19 +31,15 @@ qx.Class.define("feedreader.model.FeedList",
       return qx.lang.Object.getValues(this.__feeds);
     },
 
-    getFeedByUrl : function(url) {
-      return this.__feeds[url];
-    },
-
     addFeed : function(feed)
     {
-      this.__feeds[feed.getUrl()] = feed;
+      this.__feeds.push(feed);
       this.fireEvent("change");
     },
 
     removeFeed : function(feed)
     {
-      delete this.__feeds[feed.getUrl()];
+      qx.lang.Array.remove(this.__feeds, feed);
 
       if (this.getSelected() == feed) {
         this.setSelected(null);
