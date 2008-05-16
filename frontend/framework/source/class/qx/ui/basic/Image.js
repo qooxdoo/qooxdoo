@@ -204,6 +204,7 @@ qx.Class.define("qx.ui.basic.Image",
       }
 
       var Registry = qx.util.ImageRegistry.getInstance();
+      var ImageLoader = qx.io2.ImageLoader;
 
       // Detect if the image registry knows this image
       if (Registry.has(source))

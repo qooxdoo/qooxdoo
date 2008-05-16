@@ -50,7 +50,7 @@ qx.Class.define("qx.util.ImageRegistry",
   {
     /** {Map} the shared image registry */
     __registry : {},
-    
+
     /** {RegExp} detect image names */
    __imgPatt : new RegExp('\.(png|gif|jpeg|jpg)$', 'i'),
 
@@ -65,8 +65,8 @@ qx.Class.define("qx.util.ImageRegistry",
       }
       return lstr;
     },
-    
-    
+
+
     _libexpand : function(dict, str, libns)
     {
       var lstr = str;
@@ -97,7 +97,7 @@ qx.Class.define("qx.util.ImageRegistry",
         if (! key.match(this.__imgPatt))
         {
           console.info("skipping asset: "+key);
-          continue; // skip non-images  
+          continue; // skip non-images
         }
         var val  = qximageinfo[key];  // val = [width, height, type, lib [, mappeduri, left, top, type, lib]]
         //key = this._macroexpand(qxlibinfo, key)
@@ -126,21 +126,26 @@ qx.Class.define("qx.util.ImageRegistry",
      */
     register : function(iconUri, mappedUri, xOffset, yOffset, width, height)
     {
-      var isPng = qx.lang.String.endsWith(iconUri, ".png");
-
+      // Protect overwriting
       if (this.__registry[iconUri]) {
-        // this.warn("Overwriting entry: " + iconUri);
+        return;
       }
 
-      // use clipped images unless the image is PNG and the browser IE6
+      var isPng = qx.lang.String.endsWith(iconUri, ".png");
+
+      // Use clipped images unless the image is PNG and the browser IE6
       var Engine = qx.bom.client.Engine;
-      if (isPng && Engine.MSHTML && Engine.VERSION < 7) {
+      if (isPng && Engine.MSHTML && Engine.VERSION < 7)
+      {
         this.__registry[iconUri] = [width, height, "type"];
-      } else {
+      }
+      else
+      {
         if (iconUri == mappedUri)
         {
           this.__registry[iconUri] = [width, height, "type"];
-        } else
+        }
+        else
         {
           this.__registry[iconUri] = [width, height, "type", mappedUri, xOffset, yOffset];
         }
