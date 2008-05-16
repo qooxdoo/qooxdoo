@@ -1,4 +1,4 @@
-qx.Class.define("feedreader.model.FeedLoader",
+qx.Class.define("feedreader.FeedLoader",
 {
   extend : qx.core.Object,
   type : "singleton",
