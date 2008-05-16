@@ -22,13 +22,15 @@
 
 import os, sys, re, types, string, copy
 import simplejson
+from generator.ShellCmd import ShellCmd
 
 class Config:
     def __init__(self, console, data, path=""):
         # init members
-        self._console = console
-        self._data    = None
-        self._fname   = None
+        self._console  = console
+        self._data     = None
+        self._fname    = None
+        self._shellCmd = ShellCmd()
         # dispatch on argument
         if isinstance(data, (types.DictType, types.ListType)):
             self.__init__data(data, path)
@@ -417,17 +419,40 @@ class Config:
                         if manipath.startswith("contrib://"):
                             contrib = manipath.replace("contrib://","")
                             if config[job].has_key('cache-downloads'):
-                                contribCachePath = config[job]['cache-downloads']
+                                contribCachePath = config[job]['cache-downloads']['path']
                             else:
                                 contribCachePath = "cache-downloads"
-                            download_contrib(contrib, contribCachePath)
+                            self._download_contrib(newlib, contrib, contribCachePath)
                             manifest = os.path.join(contribCachePath, contrib, manifile)
+                            lib['manifest'] = manifest  # patch 'manifest' entry to download path
                         # get the local Manifest
                         manifest = Manifest(manifest)
                         lib = manifest.patchLibEntry(lib)
 
         console.outdent()
-                    
+
+
+    def _download_contrib(self, libs, contrib, contribCache):
+        # try to find $FRAMEWORK/tool/modules/download-contrib.py
+        dl_script    = "download-contrib.py"
+        self._console.info("Downloading contribs...")
+        self._console.indent()
+        for lib in libs:
+            path = os.path.dirname(lib['manifest'])
+            pathToScript = os.path.join(path, "tool", "modules", dl_script)
+            self._console.info("trying download script: " + pathToScript)
+            if os.path.exists(pathToScript):
+                break
+        else:
+            self._console.warn("Unable to locate download script for contribs: " + dl_script)
+            sys.exit(1)
+            
+        cmd = "python %s --contrib %s --contrib-cache %s" % tuple(
+                    x.replace(" ","\ ") for x in (pathToScript, contrib, contribCache))
+        rc = self._shellCmd.execute(cmd)
+        self._console.outdent()
+        return rc
+
 
 
 
