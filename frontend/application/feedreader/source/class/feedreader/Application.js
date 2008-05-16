@@ -167,11 +167,11 @@ qx.Class.define("feedreader.Application",
         oldFeed.removeListener("changeSelected", this._onChangeSelectedArticle, this);
       }
 
+      this.setSelectedFeed(feed);
+
       if (feed)
       {
         feed.addListener("changeSelected", this._onChangeSelectedArticle, this);
-
-        this.setSelectedFeed(feed);
 
         var selectedArticle = feed.getSelected();
         this.setSelectedArticle(selectedArticle);
@@ -378,7 +378,7 @@ qx.Class.define("feedreader.Application",
     _applySelectedFeed : function(value, old)
     {
       this._listView.setFeed(value);
-      this.getCommand("remove").setEnabled(!!(value && value.getCategory() !== "static"));
+      this.getCommand("removeFeed").setEnabled(!!(value && value.getCategory() !== "static"));
     },
 
 
