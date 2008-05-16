@@ -19,6 +19,9 @@
 
 ************************************************************************ */
 
+/**
+ * this class displays the feed list as tree
+ */
 qx.Class.define("feedreader.view.Tree",
 {
   extend : qx.ui.tree.Tree,
@@ -30,9 +33,12 @@ qx.Class.define("feedreader.view.Tree",
   *****************************************************************************
   */
 
+  /**
+   * @param feedList {feedreader.model.FeedList} the feed list to display
+   */
   construct : function(feedList)
   {
-    this.base(arguments, "News feeds");
+    this.base(arguments);
 
     this._feedList = feedList;
 
@@ -96,11 +102,11 @@ qx.Class.define("feedreader.view.Tree",
       {
         var feed = feeds[i];
 
-        feed.addListener("changeStatus", this._onFeedChangeStatus, this);
+        feed.addListener("changeState", this._onFeedChangeState, this);
 
         // create and add a folder for every feed
         var folder = new qx.ui.tree.TreeFolder(feed.getTitle());
-        this._updateFolderStatus(folder, feed.getStatus());
+        this._updateFolderState(folder, feed.getState());
         folder.setUserData("feed", feed);
         if (feed.getCategory() == "static") {
           this._staticFeedsFolder.add(folder);
@@ -111,11 +117,17 @@ qx.Class.define("feedreader.view.Tree",
     },
 
 
-    _updateFolderStatus : function(folder, status)
+    /**
+     * Visualizes the loading state of the feed folder
+     *
+     * @param folder {qx.ui.tree.TreeFolder} the folder to update
+     * @param state {String} the loading state of the feed
+     */
+    _updateFolderState : function(folder, state)
     {
-      if (status == "new" || status == "loading") {
+      if (state == "new" || state == "loading") {
         folder.setIcon("feedreader/images/loading22.gif");
-      } else if (status == "loaded") {
+      } else if (state == "loaded") {
         folder.setIcon("icon/22/apps/internet-feed-reader.png");
       } else if (folder.getParent()) {
         folder.getParent().remove(folder);
@@ -123,20 +135,31 @@ qx.Class.define("feedreader.view.Tree",
     },
 
 
-    _onFeedChangeStatus : function(e)
+    /**
+     * Event handler. Called on loading state changes of a feed.
+     *
+     * @param e {qx.event.type.Change} The change event
+     */
+    _onFeedChangeState : function(e)
     {
       var feed = e.getTarget();
       var folder = this.getFolder(feed);
-      var status = e.getValue();
+      var state = e.getValue();
 
       if (!folder) {
         return;
       }
 
-      this._updateFolderStatus(folder, status);
+      this._updateFolderState(folder, state);
     },
 
 
+    /**
+     * Get the folder widget for the given feed
+     *
+     * @param feed {feedreader.model.Feed} feed to get the folder widget for
+     * @return {qx.ui.tree.TreeFolder} the folder widget
+     */
     getFolder : function(feed)
     {
       // get all folders (recursive)
@@ -170,6 +193,12 @@ qx.Class.define("feedreader.view.Tree",
       }
     },
 
+
+    /**
+     * Event handler for the change event of feed list.
+     *
+     * @param e {qx.event.type.Data} The data event of the feed list change.
+     */
     _onChangeSelectionModel : function(e)
     {
       var feed = e.getValue();

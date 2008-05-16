@@ -28,6 +28,9 @@
 
 ************************************************************************ */
 
+/**
+ * Add new feed window
+ */
 qx.Class.define("feedreader.view.AddFeedWindow",
 {
   extend : qx.ui.window.Window,
@@ -40,6 +43,9 @@ qx.Class.define("feedreader.view.AddFeedWindow",
   *****************************************************************************
   */
 
+  /**
+   * @param controller {feedreader.Application} The main application class
+   */
   construct : function(controller)
   {
     this.base(arguments, "Add a feed", "icon/16/actions/document-new.png");

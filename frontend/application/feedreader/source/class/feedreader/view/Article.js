@@ -19,6 +19,9 @@
 
 ************************************************************************ */
 
+/**
+ * This widgets displays a feed article
+ */
 qx.Class.define("feedreader.view.Article",
 {
   extend : qx.ui.embed.HtmlEmbed,
@@ -29,7 +32,8 @@ qx.Class.define("feedreader.view.Article",
      CONSTRUCTOR
   *****************************************************************************
   */
-  construct : function(article)
+
+  construct : function()
   {
     this.base(arguments);
 
