@@ -53,6 +53,7 @@ qx.Mixin.define("qx.ui.core.MExecutable",
     command :
     {
       check : "qx.event.Command",
+      apply : "_applyCommand",
       nullable : true
     }
   },
@@ -81,6 +82,31 @@ qx.Mixin.define("qx.ui.core.MExecutable",
       }
 
       this.fireEvent("execute");
+    },
+
+
+    // property apply
+    _applyCommand : function(value, old)
+    {
+      if (old) {
+        old.removeListener("changeEnabled", this._onChangeEnabledCommand, this);
+      }
+
+      if (value)
+      {
+        value.addListener("changeEnabled", this._onChangeEnabledCommand, this);
+        this.setEnabled(value.getEnabled());
+      }
+    },
+
+
+    /**
+     * Event Listener. Listen for enabled changes in the assiciated command
+     *
+     * @param e {qx.event.type.Change} The change event
+     */
+    _onChangeEnabledCommand : function(e) {
+      this.setEnabled(e.getValue());
     }
   }
 });
