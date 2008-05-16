@@ -48,7 +48,7 @@ qx.Class.define("feedreader.view.Tree",
     this.setDecorator("line-right");
 
     // Add the root folder
-    this._root = new qx.ui.tree.TreeFolder("Feeds");
+    this._root = new qx.ui.tree.TreeFolder;
     this._root.setOpen(true);
     this.setHideRoot(true);
     this.setRootOpenClose(true);
@@ -58,6 +58,7 @@ qx.Class.define("feedreader.view.Tree",
     this._staticFeedsFolder = new qx.ui.tree.TreeFolder("Static Feeds");
     this._staticFeedsFolder.setOpen(true);
     this.getRoot().add(this._staticFeedsFolder);
+
     this._userFeedsFolder = new qx.ui.tree.TreeFolder("User Feeds");
     this._userFeedsFolder.setOpen(true);
     this.getRoot().add(this._userFeedsFolder);
@@ -68,9 +69,9 @@ qx.Class.define("feedreader.view.Tree",
     // Refresh the tree view
     this._refresh();
 
-    // listen for model changes
+    // Listen for model changes
     feedList.addListener("change", this._refresh, this);
-    feedList.addListener("changeSelected", this._onChangeSelectionModel, this);
+    feedList.addListener("changeSelected", this._onChangeList, this);
   },
 
 
@@ -199,7 +200,7 @@ qx.Class.define("feedreader.view.Tree",
      *
      * @param e {qx.event.type.Data} The data event of the feed list change.
      */
-    _onChangeSelectionModel : function(e)
+    _onChangeList : function(e)
     {
       var feed = e.getValue();
 
