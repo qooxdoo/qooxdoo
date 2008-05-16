@@ -151,7 +151,7 @@ qx.Class.define("feedreader.Application",
      * @param url {String} The url of the feed to return.
      * @return {Map} Map containing the feed which belongs to the given url.
      */
-    getFeedDataByUrl : function(url)
+    getFeedByUrl : function(url)
     {
       var db = this._feeds;
       return db[url] || null;
@@ -165,7 +165,7 @@ qx.Class.define("feedreader.Application",
      * @param title {String} The title of the searched feed.
      * @return The searched feed.
      */
-    getFeedDataByTitle : function(title)
+    getFeedByTitle : function(title)
     {
       var db = this._feeds;
       var entry;
@@ -175,9 +175,9 @@ qx.Class.define("feedreader.Application",
       {
         entry = db[url];
 
+        // return the feed if the title matches
         if (entry.title == title) {
-          // return the feed if the title matches
-          return db[url];
+          return entry;
         }
       }
 
@@ -210,7 +210,7 @@ qx.Class.define("feedreader.Application",
       {
         title      : title,
         items      : [],
-        loader     : qx.lang.Function.bind(this._loadJsonFeed, this, url),
+        loader     : qx.lang.Function.bind(this._fetchFeedCallback, this, url),
         added      : new Date,
         category   : category,
         loading    : false,
@@ -223,7 +223,7 @@ qx.Class.define("feedreader.Application",
         // add the feed to the tree
         this._treeView.addFeed(url);
         // get the data for the feed
-        this._fetchDataForFeed(url);
+        this._fetchFeed(url);
       }
     },
 
@@ -489,7 +489,7 @@ qx.Class.define("feedreader.Application",
     _fetchData : function()
     {
       for (var url in this._feeds) {
-        this._fetchDataForFeed(url);
+        this._fetchFeed(url);
       }
     },
 
@@ -498,7 +498,7 @@ qx.Class.define("feedreader.Application",
      * Fetches the feed data for the given url.
      * @param url {String} The url to the feed.
      */
-    _fetchDataForFeed : function(url)
+    _fetchFeed : function(url)
     {
       var db = this._feeds;
       var proxy, entry, req;
@@ -542,7 +542,7 @@ qx.Class.define("feedreader.Application",
      * @param url {String} The URL which was loaded
      * @param response {qx.io.remote.Response} Response object
      */
-    _loadJsonFeed : function(url, response)
+    _fetchFeedCallback : function(url, response)
     {
       // Link to feed entry
       var feed = this._feeds[url];
