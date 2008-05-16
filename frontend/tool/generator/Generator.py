@@ -664,8 +664,9 @@ class Generator:
 
     def generateResourceInfoCode(self, settings, libs, format=False):
         """Pre-calculate image information (e.g. sizes)"""
-        data = {}
-        resdata = {}
+        data    = {}
+        resdata = data
+        result  = ""
         imgpatt  = re.compile(r'\.(png|jpeg|jpg|gif)$', re.I)
         skippatt = re.compile(r'\.(meta|py)$', re.I)
 
@@ -766,8 +767,8 @@ class Generator:
                 else:  # handle other resources
                     resdata[assetId] = lib['namespace']
 
-        result = 'if(!window.qximageinfo)qximageinfo=' + simplejson.dumps(data,ensure_ascii=False) + ";"
-        if format: result += '\n'
+        #result = 'if(!window.qximageinfo)qximageinfo=' + simplejson.dumps(data,ensure_ascii=False) + ";"
+        #if format: result += '\n'
         result += 'if(!window.qxresourceinfo)qxresourceinfo=' + simplejson.dumps(resdata,ensure_ascii=False) + ";"
             
         self._console.outdent()
