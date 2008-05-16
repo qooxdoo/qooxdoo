@@ -107,8 +107,8 @@ qx.Class.define("feedreader.io.FeedParser",
           date = null;
         }
 
-        var feed = new feedreader.model.Feed();
-        feed.set({
+        var article = new feedreader.model.Article();
+        article.set({
           title : entry.title || null,
           author : "",
           date : date,
@@ -156,8 +156,8 @@ qx.Class.define("feedreader.io.FeedParser",
           date = null;
         }
 
-        var feed = new feedreader.model.Feed();
-        feed.set({
+        var article = new feedreader.model.Article();
+        article.set({
           title : entry.title || entry.summary || null,
           author : entry.author ? entry.author.name || null : null,
           date : date,
@@ -165,7 +165,7 @@ qx.Class.define("feedreader.io.FeedParser",
           link : entry.link["@attributes"] ? entry.link["@attributes"].href || null : null
         });
 
-        articles.push(feed);
+        articles.push(article);
       }
 
       return articles;

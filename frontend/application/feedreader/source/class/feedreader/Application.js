@@ -92,11 +92,22 @@ qx.Class.define("feedreader.Application",
 
       qx.util.AliasManager.getInstance().add("feedreader", qx.core.Setting.get("feedreader.resourceUri") + "/feedreader");
 
-      // create the model
-      this._createModel();
+      // initialize the model
+      this._initializeModel();
+
+      // initialize commands
+      this._initializeCommands();
 
       // Create application layout
       this._createLayout();
+
+      // set initial feed and article
+      var feed = this._feedList.getSelected();
+      this.setSelectedFeed(feed);
+
+      if (feed) {
+        this.setSelectedArticle(feed.getSelected());
+      }
     },
 
 
@@ -120,9 +131,11 @@ qx.Class.define("feedreader.Application",
     /**
      * Initialize the feed data model
      */
-    _createModel : function()
+    _initializeModel : function()
     {
       var list = new feedreader.model.FeedList();
+
+      // add static feeds
       list.addFeed(new feedreader.model.Feed("qooxdoo News", "http://feeds.feedburner.com/qooxdoo/news/content", "static"));
       list.addFeed(new feedreader.model.Feed("Mozilla Developer News", "http://developer.mozilla.org/devnews/index.php/feed/", "static"));
       list.addFeed(new feedreader.model.Feed("JScript Team Blog", "http://blogs.msdn.com/jscript/rss.xml", "static"));
@@ -130,6 +143,7 @@ qx.Class.define("feedreader.Application",
       list.addFeed(new feedreader.model.Feed("Surfin' Safari", "http://webkit.org/blog/?feed=rss2", "static"));
       list.addFeed(new feedreader.model.Feed("Ajaxian", "http://feeds.feedburner.com/ajaxian", "static"));
 
+      // add user feeds
       list.addFeed(new feedreader.model.Feed("Heise", "http://www.heise.de/newsticker/heise-atom.xml", "user"));
       list.addFeed(new feedreader.model.Feed("A List Apart", "http://www.alistapart.com/rss.xml", "user"));
       list.addFeed(new feedreader.model.Feed("Apple Insider", "http://www.appleinsider.com/appleinsider.rss", "user"));
@@ -224,7 +238,47 @@ qx.Class.define("feedreader.Application",
     },
 
 
+    /*
+    ---------------------------------------------------------------------------
+      COMMANDS
+    ---------------------------------------------------------------------------
+    */
 
+    /**
+     * initialize commands
+     */
+    _initializeCommands : function()
+    {
+      var commands = {};
+
+      commands.reload = new qx.event.Command("Control+R");
+      commands.reload.addListener("execute", this.reload, this);
+
+      commands.about = new qx.event.Command("F1");
+      commands.about.addListener("execute", this.showAbout, this);
+
+      commands.preferences = new qx.event.Command("Control+P");
+      commands.preferences.addListener("execute", this.showPreferences, this);
+
+      commands.addFeed = new qx.event.Command("Control+A");
+      commands.addFeed.addListener("execute", this.showAddFeed, this);
+
+      commands.removeFeed = new qx.event.Command("Control+D");
+      commands.removeFeed.addListener("execute", this.removeFeed, this);
+
+      this.__commands = commands;
+    },
+
+
+    /**
+     * Get the command with the given command id
+     *
+     * @param commandId {String} the command's command id
+     * @return {qx.event.Command} The command
+     */
+    getCommand : function(commandId) {
+      return this.__commands[commandId];
+    },
 
 
     /*
@@ -323,8 +377,10 @@ qx.Class.define("feedreader.Application",
     */
 
     // property apply
-    _applySelectedFeed : function(value, old) {
+    _applySelectedFeed : function(value, old)
+    {
       this._listView.setFeed(value);
+      this.getCommand("remove").setEnabled(!!(value && value.getCategory() !== "static"));
     },
 
 
