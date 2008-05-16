@@ -428,7 +428,7 @@ qx.Class.define("feedreader.Application",
         {
           var title = value.items[i].title;
           var listItem = new qx.ui.form.ListItem(title);
-          listItem.setUserData("id", i);
+          listItem.setValue(""+i);
           this._listView.add(listItem);
         }
 
