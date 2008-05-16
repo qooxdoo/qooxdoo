@@ -182,7 +182,7 @@ qx.Class.define("feedreader.view.Tree",
      */
     _onChangeSelectionView : function(e)
     {
-      // get the url of the item
+      // get the feed of the item
       var item = e.getData()[0];
 
       if (item) {
@@ -203,8 +203,12 @@ qx.Class.define("feedreader.view.Tree",
     {
       var feed = e.getValue();
 
-      if (!feed) {
-        this.clearSelection();
+      if (!feed)
+      {
+        if (this.getSelection()[0].getUserData("feed")) {
+          this.clearSelection();
+        }
+        return;
       }
 
       var folder = this.getFolder(feed);
