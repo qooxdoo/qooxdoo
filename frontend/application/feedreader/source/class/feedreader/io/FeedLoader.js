@@ -28,6 +28,7 @@ qx.Class.define("feedreader.io.FeedLoader",
   type : "singleton",
 
 
+
   /*
   *****************************************************************************
      MEMBERS

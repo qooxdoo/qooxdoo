@@ -27,6 +27,8 @@ qx.Class.define("feedreader.model.Feed",
   extend : qx.core.Object,
 
 
+
+
   /*
   *****************************************************************************
      CONSTRUCTOR
@@ -41,14 +43,18 @@ qx.Class.define("feedreader.model.Feed",
   construct: function(title, url, category)
   {
     this.base(arguments);
+
     this.set({
       url: url,
       title: title,
       category : category || ""
     });
 
+    // {Array} Internal article list
     this.__articles = [];
   },
+
+
 
 
   /*
@@ -59,9 +65,12 @@ qx.Class.define("feedreader.model.Feed",
 
   events :
   {
-    /** fired on data changes in the feed model */
-    "change" : "qx.event.type.Event"
+    /** fired when new articles are added */
+    "add" : "qx.event.type.Event"
   },
+
+
+
 
 
   /*
@@ -78,39 +87,46 @@ qx.Class.define("feedreader.model.Feed",
       check : "feedreader.model.Article",
       nullable : true,
       init : null,
-      event : "changeSelected"
+      event : "change"
     },
+
 
     /** The feed URL */
     url :
     {
       check : "String",
-      event : "change"
+      event : "dataModified"
     },
+
 
     /** The feed title */
     title :
     {
       check : "String",
-      event : "change"
+      event : "dataModified"
     },
+
 
     /** The feed category */
     category :
     {
       check : "String",
       init : "",
-      event : "change"
+      event : "dataModified"
     },
+
 
     /** The current loading state */
     state :
     {
       check : ["new", "loading", "loaded", "error"],
       init : "new",
-      event : "changeState"
+      event : "stateModified"
     }
   },
+
+
+
 
 
   /*
@@ -129,7 +145,7 @@ qx.Class.define("feedreader.model.Feed",
     addArticle : function(article)
     {
       this.__articles.push(article);
-      this.fireEvent("change");
+      this.fireEvent("add");
     },
 
 
