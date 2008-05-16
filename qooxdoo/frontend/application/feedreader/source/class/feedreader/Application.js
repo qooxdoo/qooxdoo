@@ -227,7 +227,7 @@ qx.Class.define("feedreader.Application",
       var feed = new feedreader.model.Feed(title, url, category);
       this._feedList.addFeed(feed);
 
-      var loader = feedreader.model.FeedLoader.getInstance();
+      var loader = feedreader.FeedLoader.getInstance();
       loader.load(feed);
     },
 
@@ -249,7 +249,7 @@ qx.Class.define("feedreader.Application",
      */
     reload : function()
     {
-      var loader = feedreader.model.FeedLoader.getInstance();
+      var loader = feedreader.FeedLoader.getInstance();
       loader.loadAll(this._feedList);
     },
 
