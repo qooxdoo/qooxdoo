@@ -32,7 +32,6 @@ qx.Class.define("feedreader.Application",
   extend : qx.application.Standalone,
 
 
-
   /*
   *****************************************************************************
      PROPERTIES
@@ -44,22 +43,19 @@ qx.Class.define("feedreader.Application",
     /** The current selected feed */
     selectedFeed :
     {
-      check    : "Object",
+      check    : "feedreader.model.Feed",
       nullable : true,
       apply    : "_applySelectedFeed"
     },
 
-
     /** The current selected article */
     selectedArticle :
     {
-      check    : "Object",
+      check    : "feedreader.model.Article",
       nullable : true,
       apply    : "_applySelectedArticle"
     }
   },
-
-
 
 
   /*
@@ -91,27 +87,13 @@ qx.Class.define("feedreader.Application",
         qx.log.appender.Console;
       }
 
-      // Initialize data field
-      this._feeds = {};
+      qx.util.AliasManager.getInstance().add("feedreader", qx.core.Setting.get("feedreader.resourceUri") + "/feedreader");
 
-      // Initialialize date format
-      this._dateFormat = new qx.util.format.DateFormat();
+      // create the model
+      this._createModel();
 
       // Create application layout
       this._createLayout();
-
-      // Add some static feeds
-      this.addFeed("qooxdoo News", "http://feeds.feedburner.com/qooxdoo/news/content", "default");
-      this.addFeed("Mozilla Developer News", "http://developer.mozilla.org/devnews/index.php/feed/", "default");
-      this.addFeed("JScript Team Blog", "http://blogs.msdn.com/jscript/rss.xml", "default");
-      this.addFeed("Daring Fireball", "http://daringfireball.net/index.xml", "default");
-      this.addFeed("Surfin' Safari", "http://webkit.org/blog/?feed=rss2", "default");
-      this.addFeed("Ajaxian", "http://feeds.feedburner.com/ajaxian", "default");
-
-      this.addFeed("Heise", "http://www.heise.de/newsticker/heise-atom.xml", "user");
-      this.addFeed("A List Apart", "http://www.alistapart.com/rss.xml", "user");
-      this.addFeed("Apple Insider", "http://www.appleinsider.com/appleinsider.rss", "user");
-      this.addFeed("Opera Desktop Blog", "http://my.opera.com/desktopteam/xml/rss/blog/", "user");
     },
 
 
@@ -121,169 +103,63 @@ qx.Class.define("feedreader.Application",
     finalize : function()
     {
       this.base(arguments);
-
-      this._fetchData();
+      this.reload();
     },
-
-
-
 
 
     /*
     ---------------------------------------------------------------------------
-      FEED MANAGMENT
+      MODEL RELATED
     ---------------------------------------------------------------------------
     */
 
-    /**
-     * Getter for the feeds database.
-     *
-     * @return {Map} A map containing all feeds.
-     */
-    getFeeds : function() {
-      return this._feeds;
+    _createModel : function()
+    {
+      var list = new feedreader.model.FeedList();
+      list.addFeed(new feedreader.model.Feed("qooxdoo News", "http://feeds.feedburner.com/qooxdoo/news/content", "static"));
+      list.addFeed(new feedreader.model.Feed("Mozilla Developer News", "http://developer.mozilla.org/devnews/index.php/feed/", "static"));
+      list.addFeed(new feedreader.model.Feed("JScript Team Blog", "http://blogs.msdn.com/jscript/rss.xml", "static"));
+      list.addFeed(new feedreader.model.Feed("Daring Fireball", "http://daringfireball.net/index.xml", "static"));
+      list.addFeed(new feedreader.model.Feed("Surfin' Safari", "http://webkit.org/blog/?feed=rss2", "static"));
+      list.addFeed(new feedreader.model.Feed("Ajaxian", "http://feeds.feedburner.com/ajaxian", "static"));
+
+      list.addFeed(new feedreader.model.Feed("Heise", "http://www.heise.de/newsticker/heise-atom.xml", "user"));
+      list.addFeed(new feedreader.model.Feed("A List Apart", "http://www.alistapart.com/rss.xml", "user"));
+      list.addFeed(new feedreader.model.Feed("Apple Insider", "http://www.appleinsider.com/appleinsider.rss", "user"));
+      list.addFeed(new feedreader.model.Feed("Opera Desktop Blog", "http://my.opera.com/desktopteam/xml/rss/blog/", "user"));
+
+      this._feedList = list;
+
+      list.addListener("changeSelected", this._onChangeSelectedFeed, this);
     },
 
 
-    /**
-     * Returns the feed addressed by the given url.
-     *
-     * @param url {String} The url of the feed to return.
-     * @return {Map} Map containing the feed which belongs to the given url.
-     */
-    getFeedByUrl : function(url)
+    _onChangeSelectedFeed : function(e)
     {
-      var db = this._feeds;
-      return db[url] || null;
-    },
+      var feed = e.getValue();
+      var oldFeed = e.getOldValue();
 
-
-    /**
-     * Returns the feed with the given title.
-     * If no feed could be found, null will be returned.
-     *
-     * @param title {String} The title of the searched feed.
-     * @return The searched feed.
-     */
-    getFeedByTitle : function(title)
-    {
-      var db = this._feeds;
-      var entry;
-
-      // go threw all feeds
-      for (var url in db)
-      {
-        entry = db[url];
-
-        // return the feed if the title matches
-        if (entry.title == title) {
-          return entry;
-        }
+      if (oldFeed) {
+        oldFeed.removeListener("changeSelected", this._onChangeSelectedArticle, this);
       }
 
-      // return null, if no feed could be found with the fitting title
-      return null;
-    },
-
-
-    /**
-     * Adds a feed to the feeds database.
-     *
-     * @param title {String} The title of the feed.
-     * @param url {String} The url to the feed.
-     */
-    addFeed : function(title, url, category)
-    {
-      // get the database
-      var db = this._feeds;
-
-      // if the feed already exists
-      if (db[url])
+      if (feed)
       {
-        // alert the user and return
-        alert("The feed " + title + " is already in your subscription list.");
-        return;
-      }
+        feed.addListener("changeSelected", this._onChangeSelectedArticle, this);
 
-      // Add the feed to the database
-      db[url] =
-      {
-        title      : title,
-        items      : [],
-        loader     : qx.lang.Function.bind(this._fetchFeedCallback, this, url),
-        added      : new Date,
-        category   : category,
-        loading    : false,
-        url        : url
-      };
+        this.setSelectedFeed(feed);
 
-      // if there is already a tree
-      if (this._treeView)
-      {
-        // add the feed to the tree
-        this._treeView.addFeed(url);
-        // get the data for the feed
-        this._fetchFeed(url);
+        var selectedArticle = feed.getSelected();
+        this.setSelectedArticle(selectedArticle);
       }
     },
 
 
-    /**
-     * Removes the current selected feed from the view.
-     */
-    removeFeed : function()
+    _onChangeSelectedArticle : function(e)
     {
-      var currentSelectedFolder = this._treeView.getSelectedItem();
-
-      // is a feed is selected
-      if (currentSelectedFolder)
-      {
-        var currentUrl = currentSelectedFolder.getUserData("url");
-
-        // remove the feed from the db
-        var url = currentSelectedFolder.getUserData("url");
-        if (this._feeds[url]) {
-          delete this._feeds[url];
-        }
-
-        // remove the folder from the tree
-        if (currentSelectedFolder.getParent() != this._treeView.getRoot()) {
-          currentSelectedFolder.getParent().remove(currentSelectedFolder);
-        }
-
-        // reset the list view
-        this._listView.removeAll();
-
-        // reset the article view
-        this._articleView.setArticle(null);
-      }
+      var article = e.getValue();
+      this.setSelectedArticle(article);
     },
-
-
-    /**
-     * Selects the feed stored with the given url.
-     *
-     * @param url {String} The url of the feed to select.
-     */
-    selectFeed : function(url)
-    {
-      var value = this._feeds[url];
-
-      // if the selected feed is loading
-      if (value && value.loading)
-      {
-        // if the list is shown
-        if (this._stack.getSelected != this._listView)
-        {
-          // show the loading image
-          this._stack.next();
-        }
-      }
-
-      value ? this.setSelectedFeed(value) : this.resetSelectedFeed();
-    },
-
-
 
 
     /*
@@ -312,7 +188,7 @@ qx.Class.define("feedreader.Application",
       dockLayoutComposite.add(hBoxComposite, {edge: "center"});
 
       // Create tree view
-      this._treeView = new feedreader.view.Tree(this);
+      this._treeView = new feedreader.view.Tree(this._feedList);
       hBoxComposite.add(this._treeView);
 
       // Create vertical spliter
@@ -321,35 +197,9 @@ qx.Class.define("feedreader.Application",
       vBoxComposite.setBackgroundColor("white");
       hBoxComposite.add(vBoxComposite, {flex: 1});
 
-      // Create the vBox for the list and header of the list
-      var listVBox = new qx.ui.layout.VBox();
-      var listVBoxComposite = new qx.ui.container.Composite(listVBox);
-      vBoxComposite.add(listVBoxComposite, {flex: 1, height : "30%"});
-
-      // Create the header of the list
-      var listHeader = new qx.ui.basic.Label("Posts");
-      listHeader.setBackgroundColor("background-light");
-      listHeader.setPadding(5);
-      listHeader.setDecorator("line-bottom");
-      listHeader.setAllowGrowX(true);
-      listHeader.setFont("bold");
-      listVBoxComposite.add(listHeader);
-
-      // Create the stack for the list
-      this._stack = new qx.ui.container.Stack();
-      listVBoxComposite.add(this._stack, {flex: 1});
-
       // Create the list view
-      this._listView = new feedreader.view.List(this);
-      this._stack.add(this._listView);
-
-      // Create the loading image for the list
-      var imageHBoxComposite = new qx.ui.container.Composite(new qx.ui.layout.HBox(0, "center"));
-      imageHBoxComposite.setBackgroundColor("background-light");
-      this._listLoadImage = new qx.ui.basic.Image("feedreader/images/loading66.gif");
-      this._listLoadImage.setAlignY("middle");
-      imageHBoxComposite.add(this._listLoadImage);
-      this._stack.add(imageHBoxComposite);
+      this._listView = new feedreader.view.List(this._feedList);
+      vBoxComposite.add(this._listView, {flex: 1, height : "30%"});
 
       // Create article view
       this._articleView = new feedreader.view.Article();
@@ -365,6 +215,44 @@ qx.Class.define("feedreader.Application",
       PUBLIC API
     ---------------------------------------------------------------------------
     */
+
+    /**
+     * Adds a feed to the feeds database.
+     *
+     * @param title {String} The title of the feed.
+     * @param url {String} The url to the feed.
+     */
+    addFeed : function(title, url, category)
+    {
+      var feed = new feedreader.model.Feed(title, url, category);
+      this._feedList.addFeed(feed);
+
+      var loader = feedreader.model.FeedLoader.getInstance();
+      loader.load(feed);
+    },
+
+
+    /**
+     * Removes the current selected feed from the view.
+     */
+    removeFeed : function()
+    {
+      var feed = this._feedList.getSelected();
+      if (feed && feed.getCategory() !== "static") {
+        this._feedList.removeFeed(feed);
+      }
+    },
+
+
+    /**
+     * Reloads the feed readers including all feeds.
+     */
+    reload : function()
+    {
+      var loader = feedreader.model.FeedLoader.getInstance();
+      loader.loadAll(this._feedList);
+    },
+
 
     /**
      * Opens the preferences window
@@ -417,192 +305,18 @@ qx.Class.define("feedreader.Application",
     */
 
     // property apply
-    _applySelectedFeed : function(value, old)
-    {
-      if (value)
-      {
-        // Update the list with new data
-        this._listView.removeAll();
-
-        for (var i = 0; i < value.items.length; i++)
-        {
-          var title = value.items[i].title;
-          var listItem = new qx.ui.form.ListItem(title);
-          listItem.setValue(""+i);
-          this._listView.add(listItem);
-        }
-
-        // Initially select first article
-        var firstItem = this._listView.getChildren()[0];
-        if (firstItem) {
-          this._listView.select(firstItem);
-        }
-      }
-      else
-      {
-        // Clean up model
-        this._listView.removeAll();
-
-        // Clean up article
-        this._articleView.resetArticle();
-      }
+    _applySelectedFeed : function(value, old) {
+      this._listView.setFeed(value);
     },
 
 
     // property apply
-    _applySelectedArticle : function(value, old) {
-      this._articleView.setArticle(value);
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      DATA RELATED INTERNAL API
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * Reloads the feed readers including all feeds.
-     */
-    reload : function()
+    _applySelectedArticle : function(value, old)
     {
-      // if a feed is selected
-      if (this.getSelectedFeed())
-      {
-        // if the list is on the screen
-        if (this._stack.getSelected() == this._listView)
-        {
-          // show the loading image
-          this._stack.next();
-        }
-      }
-
-      this._fetchData();
-    },
-
-
-    /**
-     * Fetches all feed data using the qooxdoo proxy.
-     */
-    _fetchData : function()
-    {
-      for (var url in this._feeds) {
-        this._fetchFeed(url);
-      }
-    },
-
-
-    /**
-     * Fetches the feed data for the given url.
-     * @param url {String} The url to the feed.
-     */
-    _fetchFeed : function(url)
-    {
-      var db = this._feeds;
-      var proxy, entry, req;
-      entry = db[url];
-
-      // mark the feed as loading
-      entry.loading = true;
-
-      // replace the folder icon
-      var folder = this._treeView.getFolderByUrl(url);
-      if (folder) {
-        folder.setIcon("feedreader/images/loading22.gif");
-      }
-
-      // Redirect request through proxy (required for cross-domain loading)
-      // The proxy also translates the data from XML to JSON
-      proxy = "http://resources.qooxdoo.org/proxy.php?mode=jsonp&proxy=" + encodeURIComponent(url);
-
-      // Create request object
-      req = new qx.io.remote.Request(proxy, "GET", qx.legacy.util.Mime.TEXT);
-
-      // Json data is useable cross-domain (in fact it is jsonp in this case)
-      req.setCrossDomain(true);
-
-      // Wait longer on slow connections (normally always a lot of data)
-      req.setTimeout(30000);
-
-      // Add the listener
-      req.addListener("completed", entry.loader);
-
-      // And finally send the request
-      req.send();
-    },
-
-
-    /**
-     * This is used as a callback from {@link _fetchFeeds} to handle
-     * JSON processing a display updates after specific feed data
-     * arrives.
-     *
-     * @param url {String} The URL which was loaded
-     * @param response {qx.io.remote.Response} Response object
-     */
-    _fetchFeedCallback : function(url, response)
-    {
-      // Link to feed entry
-      var feed = this._feeds[url];
-
-      // if the feed has already been deleted
-      if (!feed) {
-        return;
-      }
-
-      try
-      {
-        // Read content
-        var json = response.getContent();
-
-        // Normalize json feed data to item list
-        var items = feedreader.FeedParser.parseFeed(json);
-
-        // Post processing date items
-        for (var i=0, l=items.length; i<l; i++)
-        {
-          if (items[i].date) {
-            items[i].date = this._dateFormat.format(items[i].date);
-          }
-        }
-
-        // Store items
-        feed.items = items;
-
-        // Update display
-        if (this.getSelectedFeed() == feed) {
-          this._applySelectedFeed(feed);
-        }
-
-        // change the tree icon (finished loading)
-        var folder = this._treeView.getFolderByUrl(url);
-        folder.setIcon("icon/22/apps/internet-feed-reader.png");
-
-        // if the list is not shown
-        if (this._stack.getSelected() != this._listView)
-        {
-          // if a feed is selected
-          if (this.getSelectedFeed())
-          {
-            var selectedUrl = this.getSelectedFeed().url;
-            // if the current feed is selected
-            if (selectedUrl == url)
-            {
-              // show the list
-              this._stack.next();
-            }
-          }
-        }
-
-        // mark the feed as not loading
-        feed.loading = false;
-      }
-      catch(ex)
-      {
-        this.error("Could not process feed: " + url);
-        this.error(ex);
+      if (value) {
+        this._articleView.setArticle(value);
+      } else {
+        this._articleView.resetArticle();
       }
     }
   },
@@ -618,8 +332,9 @@ qx.Class.define("feedreader.Application",
 
   destruct : function()
   {
-    this._disposeObjects("_listLoadImage", "_stack", "_toolbarView",
-      "_headerView", "_listView", "_articleView", "_treeView");
-    this._disposeFields("_feeds");
+    this._disposeObjects(
+      "_toolbarView", "_listView", "_articleView", "_treeView",
+      "_feedList"
+    );
   }
 });
