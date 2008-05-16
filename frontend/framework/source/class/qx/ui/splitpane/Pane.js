@@ -53,7 +53,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
 
     this.__orientation = orientation == "vertical" ? "vertical" : "horizontal";
     this.__minSplitterSize = 5;
-    this.__splitterCoords = {};
+    this.__sizes = {};
     
     // Create and add container
     this._setLayout(new qx.ui.layout.Split(this.__orientation));
@@ -76,13 +76,15 @@ qx.Class.define("qx.ui.splitpane.Pane",
       decorator: "black",
       backgroundColor: "yellow",
       height : 200,
-      minHeight : 20,
-      minWidht: 40
+      minWidth : 10,
+      maxWidth : 150
     });
 
     this._secondArea = new qx.ui.core.Widget().set({
       decorator: "black",
-      backgroundColor: "green"
+      backgroundColor: "green",
+      minWidth : 10,
+      maxWidth : 180
     });
 
     // Add widgets to container
@@ -124,12 +126,11 @@ qx.Class.define("qx.ui.splitpane.Pane",
      * near to the splitter widget.
      */
     this.addListener("mousedown", this.__mouseDown, this);
+
     this.addListener("mouseup", this.__mouseUp, this);
+    this.addListener("losecapture", this.__mouseUp, this);
 
     this.addListener("mousemove", this.__mouseMove, this);
-    
-    
-    // TODO: losecapture needed?
   },
 
 
@@ -310,18 +311,17 @@ qx.Class.define("qx.ui.splitpane.Pane",
         /*
          * Check if mouse is near to splitter 
          */
+        /*
+        if(
+            this._near(evt.getDocumentLeft(), qx.bom.element.Location.getLeft(splitterElement)) &&
+            this._near(evt.getDocumentTop(), qx.bom.element.Location.getTop(splitterElement))
+          ){
+            console.warn("yeeeeeee")
+          }
+          */
         //TODO
       }
       
-      
-/*
-      if(
-        this._near(evt.getDocumentLeft(), qx.bom.element.Location.getLeft(splitterElement)) &&
-        this._near(evt.getDocumentTop(), qx.bom.element.Location.getTop(splitterElement))
-      ){
-        console.warn("yeeeeeee")
-      }
-*/
 
       if(splitterClicked)
       {
@@ -337,54 +337,108 @@ qx.Class.define("qx.ui.splitpane.Pane",
         );
         this._slider.setZIndex(this._splitter.getZIndex() + 1);
 
-        this.__splitterCoords.top = bounds.top;
-        this.__splitterCoords.left = bounds.left;
         this.__isMouseDown = true;
+        
+        this.capture();
       }
 
     },
 
-    __mouseUp : function(evt)
-    {
-      var paneElement = this.getContainerElement().getDomElement();
-      var paneLocation = qx.bom.element.Location.get(paneElement);
-
-      if(this.__orientation == "horizontal")
-      {
-        //debugger;
-        this._firstArea.setWidth(evt.getDocumentLeft() - paneLocation.left);
-        this._secondArea.setWidth(0);
-      }
-      else
-      {
-        ;;
-      }
-      
-      //this._slider.exclude();
-      this.__isMouseDown = false;
-    },
 
     __mouseMove : function(evt)
     {
-
       if(this.__isMouseDown)
       {
         var sliderElement = this._slider.getContainerElement().getDomElement();
         var paneElement = this.getContainerElement().getDomElement();
         var paneLocation = qx.bom.element.Location.get(paneElement);
+        
+        var firstHint = this._firstArea.getSizeHint();
+        var secondHint = this._secondArea.getSizeHint();
+        
+        var firstWidth, secondWidth, firstHeight, secondHeight;
 
-        if (this.__orientation == "horizontal") {
-          qx.bom.element.Style.set(sliderElement, "left", (evt.getDocumentLeft() - paneLocation.left) + "px");
-        } else {
-          qx.bom.element.Style.set(sliderElement, "top", (evt.getDocumentTop() - paneLocation.top) + "px");
+        if (this.__orientation == "horizontal")
+        {
+
+          firstWidth = evt.getDocumentLeft() - paneLocation.left;
+          secondWidth = paneLocation.right - evt.getDocumentLeft();
+
+          if(
+              firstWidth > 0 &&
+              secondWidth > 0 &&
+
+              firstWidth > firstHint.minWidth &&
+              firstWidth < firstHint.maxWidth &&
+
+              secondWidth > secondHint.minWidth &&
+              secondWidth < secondHint.maxWidth
+          ){
+            qx.bom.element.Style.set(sliderElement, "left", firstWidth + "px");
+
+            this.__sizes = {
+              first : firstWidth - this._slider.getBounds().width,
+              second : secondWidth
+            }
+
+          }
+
+        }
+        else
+        {
+          
+          firstHeight = evt.getDocumentTop() - paneLocation.top;
+          secondHeight = paneLocation.right - evt.getDocumentLeft();
+
+          if(
+              firstHeight > 0 &&
+              secondHeight > 0 &&
+
+              firstHeight > firstHint.minHeight &&
+              firstHeight < firstHint.maxheight &&
+
+              secondHeight > secondHint.minHeight &&
+              secondHeight < secondHint.maxheight              
+          ){
+            qx.bom.element.Style.set(sliderElement, "top", firstHeight + "px");
+
+            this.__sizes = {
+              first : firstHeight - this._slider.getBounds().height,
+              second : secondHeight
+            }
+
+          }
+
         }
         
       }
-
-      // stop event
-      evt.stopPropagation();
     },
 
+
+    __mouseUp : function(evt)
+    {
+      if(this.__isMouseDown)
+      {
+
+        if(this.__orientation == "horizontal")
+        {
+          this._firstArea.setWidth(this.__sizes.first);
+          this._secondArea.setWidth(this.__sizes.second);
+        }
+        else
+        {
+          this._firstArea.setHeight(this.__sizes.first);
+          this._secondArea.setHeight(this.__sizes.second);
+        }
+        
+        this._slider.exclude();
+        this.__isMouseDown = false;
+        this.releaseCapture();
+      }
+
+    },
+
+    
     /**
      * Checks whether the two arguments are near to each other. Returns true if
      * the absolute difference is less than five.

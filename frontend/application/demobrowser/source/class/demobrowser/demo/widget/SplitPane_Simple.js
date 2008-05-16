@@ -44,7 +44,6 @@ qx.Class.define("demobrowser.demo.widget.SplitPane_Simple",
       var splitpane = new qx.ui.splitpane.Pane("horizontal", 1, 2);
 
       // //splitpane.setEdge(0);
-      splitpane.setLiveResize(true);
       frame.add(splitpane);
       return;
 
