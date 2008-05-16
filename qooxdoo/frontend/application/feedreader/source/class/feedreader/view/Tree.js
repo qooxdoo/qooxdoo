@@ -30,12 +30,11 @@ qx.Class.define("feedreader.view.Tree",
   *****************************************************************************
   */
 
-  construct : function(controller)
+  construct : function(feedList)
   {
     this.base(arguments, "News feeds");
 
-    // Save the reference to the controller
-    this._controller = controller;
+    this._feedList = feedList;
 
     // Set the properties of the tree
     this.setBackgroundColor("white");
@@ -50,19 +49,22 @@ qx.Class.define("feedreader.view.Tree",
     this.setRoot(this._root);
 
     // Add the subfolders
-    this._staticFeedsFolder = new qx.ui.tree.TreeFolder("Default Feeds");
+    this._staticFeedsFolder = new qx.ui.tree.TreeFolder("Static Feeds");
     this._staticFeedsFolder.setOpen(true);
     this.getRoot().add(this._staticFeedsFolder);
-
     this._userFeedsFolder = new qx.ui.tree.TreeFolder("User Feeds");
     this._userFeedsFolder.setOpen(true);
     this.getRoot().add(this._userFeedsFolder);
 
     // Register the change listener
-    this.addListener("change", this._onChangeSelection, this);
+    this.addListener("change", this._onChangeSelectionView, this);
 
     // Refresh the tree view
-    this.refresh();
+    this._refresh();
+
+    // listen for model changes
+    feedList.addListener("change", this._refresh, this);
+    feedList.addListener("changeSelected", this._onChangeSelectionModel, this);
   },
 
 
@@ -81,24 +83,26 @@ qx.Class.define("feedreader.view.Tree",
      * This includes getting the feeds of the controller and
      * creation of a tree folder for every feed.
      */
-    refresh : function()
+    _refresh : function()
     {
-      // get the feeds
-      var db = this._controller.getFeeds();
-
       // remove old folders
       this._staticFeedsFolder.removeAll();
       this._userFeedsFolder.removeAll();
 
-      // go threw all feeds
-      for (var url in db)
-      {
-        // create and add a folder for every feed
-        var folder = new qx.ui.tree.TreeFolder(db[url].title);
-        folder.setIcon("feedreader/images/loading22.gif");
-        folder.setUserData("url", url);
+      var feeds = this._feedList.getFeeds();
 
-        if (db[url].category === "default") {
+      // go threw all feeds
+      for (var i=0; i<feeds.length; i++)
+      {
+        var feed = feeds[i];
+
+        feed.addListener("changeStatus", this._onFeedChangeStatus, this);
+
+        // create and add a folder for every feed
+        var folder = new qx.ui.tree.TreeFolder(feed.getTitle());
+        this._updateFolderStatus(folder, feed.getStatus());
+        folder.setUserData("feed", feed);
+        if (feed.getCategory() == "static") {
           this._staticFeedsFolder.add(folder);
         } else {
           this._userFeedsFolder.add(folder);
@@ -107,43 +111,43 @@ qx.Class.define("feedreader.view.Tree",
     },
 
 
-    addFeed : function(url)
+    _updateFolderStatus : function(folder, status)
     {
-      // get the feeds
-      var db = this._controller.getFeeds();
-
-      // create and add a folder for the feed
-      var folder = new qx.ui.tree.TreeFolder(db[url].title);
-      folder.setIcon("feedreader/images/loading22.gif");
-      folder.setUserData("url", url);
-      if (db[url].category === "default") {
-        this._staticFeedsFolder.add(folder);
+      if (status == "new" || status == "loading") {
+        folder.setIcon("feedreader/images/loading22.gif");
+      } else if (status == "loaded") {
+        folder.setIcon("icon/22/apps/internet-feed-reader.png");
       } else {
-        this._userFeedsFolder.add(folder);
+        folder.getParent().remove(folder);
       }
     },
 
 
-    /**
-     * Returns the tree folder associated with the given url.
-     * If no folder is associated with the url, null will be returned.
-     *
-     * @param url {String} The url of the feed.
-     * @return {qx.ui.tree.AbstractTreeItem | null} The tree folder or null.
-     */
-    getFolderByUrl : function(url)
+    _onFeedChangeStatus : function(e)
+    {
+      var feed = e.getTarget();
+      var folder = this.getFolder(feed);
+      var status = e.getValue();
+
+      if (!folder) {
+        return;
+      }
+
+      this._updateFolderStatus(folder, status);
+    },
+
+
+    getFolder : function(feed)
     {
       // get all folders (recursive)
       var folders = this.getItems(true);
-
       for (var i = 0; i < folders.length; i++)
       {
-        var folderUrl = folders[i].getUserData("url");
-        if (folderUrl == url) {
+        var folderFeed = folders[i].getUserData("feed");
+        if (folderFeed == feed) {
           return folders[i];
         }
       }
-
       return null;
     },
 
@@ -153,14 +157,34 @@ qx.Class.define("feedreader.view.Tree",
      *
      * @param e {qx.event.type.Data} The data event of the tree managers change.
      */
-    _onChangeSelection : function(e)
+    _onChangeSelectionView : function(e)
     {
       // get the url of the item
       var item = e.getData()[0];
 
-      // tell the controller to select the new feed
       if (item) {
-        this._controller.selectFeed(item.getUserData("url"));
+        var feed = item.getUserData("feed");
+
+        // tell the controller to select the new feed
+        this._feedList.setSelected(feed);
+      }
+    },
+
+    _onChangeSelectionModel : function(e)
+    {
+      var feed = e.getValue();
+
+      if (!feed) {
+        this.clearSelection();
+      }
+
+      var folder = this.getFolder(feed);
+      if (!folder) {
+        this.clearSelection();
+      }
+
+      if (this.getSelectedItem() != folder) {
+        this.addToSelection(folder);
       }
     }
   }

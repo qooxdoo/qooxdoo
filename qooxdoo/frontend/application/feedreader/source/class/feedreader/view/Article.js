@@ -76,7 +76,6 @@ qx.Class.define("feedreader.view.Article",
 
   members :
   {
-
     // property apply
     _applyArticle : function(value, old)
     {
@@ -109,10 +108,10 @@ qx.Class.define("feedreader.view.Article",
     __getArticleHtml : function()
     {
       // get the article
-      var item = this.getArticle();
+      var article = this.getArticle();
 
       // return an empty string if no article is set
-      if (!item) {
+      if (!article) {
         return "";
       }
 
@@ -120,10 +119,10 @@ qx.Class.define("feedreader.view.Article",
       var html = new qx.util.StringBuilder();
 
       html.add("<div class='container'>");
-      html.add("<h1 class='blog'>", item.title, "</h1>");
-      html.add("<div class='date'>", item.date, "</div>");
-      html.add("<div class='description'>", item.content, "</div>");
-      html.add("<a target='_blank' href='", item.link, "'>read more ...</a>");
+      html.add("<h1 class='blog'>", article.getTitle(), "</h1>");
+      html.add("<div class='date'>", article.getDate(), "</div>");
+      html.add("<div class='description'>", article.getContent(), "</div>");
+      html.add("<a target='_blank' href='", article.getLink(), "'>read more ...</a>");
       html.add("</div>");
 
       return html.get();
