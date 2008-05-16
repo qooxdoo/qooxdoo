@@ -136,17 +136,17 @@ qx.Class.define("qx.util.ImageRegistry",
       var Engine = qx.bom.client.Engine;
       if (isPng && Engine.MSHTML && Engine.VERSION < 7)
       {
-        this.__registry[iconUri] = [width, height, "type"];
+        this.__registry[iconUri] = [width, height, "type", "lib"];
       }
       else
       {
         if (iconUri == mappedUri)
         {
-          this.__registry[iconUri] = [width, height, "type"];
+          this.__registry[iconUri] = [width, height, "type", "lib"];
         }
         else
         {
-          this.__registry[iconUri] = [width, height, "type", mappedUri, xOffset, yOffset];
+          this.__registry[iconUri] = [width, height, "type", "lib", mappedUri, xOffset, yOffset, "mtype", "mlib"];
         }
       }
     },
