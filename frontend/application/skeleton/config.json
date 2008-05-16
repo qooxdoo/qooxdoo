@@ -7,7 +7,8 @@
       {
          "QOOXDOO_PATH" : "../../framework" ,
          "QOOXDOO_URI"  : "../${QOOXDOO_PATH}" ,
-         "APPLICATION" : "custom"
+         "CONTRIB_CACHE": ".",
+         "APPLICATION"  : "custom"
       },
 
       "library" :
@@ -15,6 +16,18 @@
         {
           "manifest"     : "${QOOXDOO_PATH}/Manifest.json",
           "uri"          : "${QOOXDOO_URI}"
+        },
+
+        /*
+        {
+          "manifest"     : "../../../../qooxdoo-contrib.trunk/SkeletonApplication/trunk/Manifest.json",
+          "uri"          : "../../../../../qooxdoo-contrib.trunk/SkeletonApplication/trunk"
+        },
+        */
+
+        {
+          "manifest"     : "contrib:\/\/SkeletonApplication/trunk/Manifest.json",
+          "uri"          : "../${CONTRIB_CACHE}/SkeletonApplication/trunk"
         },
 
         {
@@ -32,12 +45,18 @@
       "include" :
       [
         "${APPLICATION}.Application",
+        "skeletonapplication.Application",
         "qx.theme.Classic"
       ],
 
       "cache" :
       {
         "path" : "../../cache"
+      },
+
+      "cache-downloads" :
+      {
+        "path" : "${CONTRIB_CACHE}"
       }
     },
 
