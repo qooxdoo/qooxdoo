@@ -27,6 +27,9 @@
 
 ************************************************************************ */
 
+/**
+ * The feed reader's main application class.
+ */
 qx.Class.define("feedreader.Application",
 {
   extend : qx.application.Standalone,
@@ -113,6 +116,10 @@ qx.Class.define("feedreader.Application",
     ---------------------------------------------------------------------------
     */
 
+
+    /**
+     * Initialize the feed data model
+     */
     _createModel : function()
     {
       var list = new feedreader.model.FeedList();
@@ -134,6 +141,11 @@ qx.Class.define("feedreader.Application",
     },
 
 
+    /**
+     * Event handler for the change event of feed list.
+     *
+     * @param e {qx.event.type.Data} The data event of the feed list change.
+     */
     _onChangeSelectedFeed : function(e)
     {
       var feed = e.getValue();
@@ -155,6 +167,11 @@ qx.Class.define("feedreader.Application",
     },
 
 
+    /**
+     * Event handler. Called on a change of the selected article in the data model.
+     *
+     * @param e {qx.event.type.Data} The data event of the article change.
+     */
     _onChangeSelectedArticle : function(e)
     {
       var article = e.getValue();
@@ -221,19 +238,20 @@ qx.Class.define("feedreader.Application",
      *
      * @param title {String} The title of the feed.
      * @param url {String} The url to the feed.
+     * @param category {String?""} The category of the new feed
      */
     addFeed : function(title, url, category)
     {
       var feed = new feedreader.model.Feed(title, url, category);
       this._feedList.addFeed(feed);
 
-      var loader = feedreader.FeedLoader.getInstance();
+      var loader = feedreader.io.FeedLoader.getInstance();
       loader.load(feed);
     },
 
 
     /**
-     * Removes the current selected feed from the view.
+     * Removes the currently selected selected feed from the view.
      */
     removeFeed : function()
     {
@@ -249,7 +267,7 @@ qx.Class.define("feedreader.Application",
      */
     reload : function()
     {
-      var loader = feedreader.FeedLoader.getInstance();
+      var loader = feedreader.io.FeedLoader.getInstance();
       loader.loadAll(this._feedList);
     },
 
@@ -279,7 +297,7 @@ qx.Class.define("feedreader.Application",
 
 
     /**
-     *
+     * Opens the "add feed" window
      */
     showAddFeed : function()
     {
