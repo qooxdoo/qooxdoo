@@ -585,7 +585,9 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-
+          padding : 5,
+          backgroundColor : "#ffffdd",
+          decorator : "tooltip"
         };
       }
     },

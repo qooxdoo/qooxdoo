@@ -378,7 +378,22 @@ qx.Theme.define("qx.theme.modern.Decoration",
     },
 
 
-
+    /*
+    ---------------------------------------------------------------------------
+      TOOLTIP
+    ---------------------------------------------------------------------------
+    */
+   "tooltip" : 
+   {
+     decorator : qx.ui.decoration.Single,
+     
+     style :
+     {
+       width : 1,
+       color : "#d1d1d1",
+       style : "solid"
+     }
+   },
 
 
     /*
