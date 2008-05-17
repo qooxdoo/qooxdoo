@@ -30,6 +30,6 @@
 qx.Theme.define("qx.theme.icon.Tango",
 {
   title : "Tango",
-  resource : qx.core.Setting.get("qx.resourceUri") + "/qx/icon/Tango",
+  resource : "qx/icon/Tango",
   icons : {}
 });

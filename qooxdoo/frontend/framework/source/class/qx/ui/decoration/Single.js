@@ -322,7 +322,7 @@ qx.Class.define("qx.ui.decoration.Single",
       if (bgRepeat === "scale") {
         bgRepeat = null;
       } else {
-        bgImage = qx.util.AliasManager.getInstance().resolve(this.getBackgroundImage());
+        bgImage = qx.util.ImageRegistry.getInstance().toUri(qx.util.AliasManager.getInstance().resolve(this.getBackgroundImage()));
       }
 
       var styles =
@@ -349,7 +349,7 @@ qx.Class.define("qx.ui.decoration.Single",
 
     _updateScaledImage : function(el, width, height)
     {
-      var bgImage = qx.util.AliasManager.getInstance().resolve(this.getBackgroundImage());
+      var bgImage = qx.util.ImageRegistry.getInstance().toUri(qx.util.AliasManager.getInstance().resolve(this.getBackgroundImage()));
       if (!bgImage || this.getBackgroundRepeat() !== "scale")
       {
         el.removeAll();

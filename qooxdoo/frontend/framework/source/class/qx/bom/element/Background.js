@@ -14,12 +14,15 @@
 
    Authors:
      * Fabian Jakobs (fjakobs)
+     * Sebastian Werner (wpbasti)
 
 ************************************************************************ */
 
 /**
- * The background class contains methods to compute and set the background CSS
- * of a DOM element. It handles transparent PNGs in IE6 and fixes a background
+ * The background class contains methods to compute and set the background image
+ * of a DOM element. 
+ * 
+ * It handles transparent PNGs in IE6 and fixes a background
  * position issue in Firefox 2.
  */
 qx.Class.define("qx.bom.element.Background",
@@ -29,28 +32,23 @@ qx.Class.define("qx.bom.element.Background",
     /**
      * Compiles the background into a CSS compatible string.
      *
-     * @param color {String?null} A CSS color string as background color
-     * @param image {String?null} The URL of the background image
+     * @param source {String?null} The URL of the background image
      * @param repeat {String?null} The background repeat property. valid values
      *     are <code>repeat</code>, <code>repeat-x</code>,
      *     <code>repeat-y</code>, <code>no-repeat</code>
-     * @param positionX {Integer?null} The horizontal offset of the image inside of
+     * @param left {Integer?null} The horizontal offset of the image inside of
      *     the image element.
-     * @param positionY {Integer?null} The vertical offset of the image inside of
+     * @param top {Integer?null} The vertical offset of the image inside of
      *     the image element.
      * @param attachment {String?null} Sets whether a background image is fixed or
      *   scrolls with the rest of the page. Valid calues are <code>scroll</code>
      *   <code>fixed</code>.
      * @return {String} CSS string
      */
-    compile : function(color, image, repeat, positionX, positionY, attachment)
+    compile : function(source, repeat, left, top, attachment)
     {
-      var styles = this.getStyles(color, image, repeat, positionX, positionY, attachment);
-
+      var styles = this.getStyles(source, repeat, left, top, attachment);
       var cssStr = ["background:"];
-      if (color) {
-        cssStr.push(color, " ");
-      }
 
       if (styles.backgroundImage) {
         cssStr.push(styles.backgroundImage, " ");
@@ -80,19 +78,18 @@ qx.Class.define("qx.bom.element.Background",
 
     /**
      * Get the CSS styles to display the image. The arguments
-     * <code>positionX</code> and <code>positionY</code> have no effect for
+     * <code>left</code> and <code>top</code> have no effect for
      * PNG files in IE6. All parameters are optional.
      *
      * @static
-     * @signature function(color, image, repeat, positionX, positionY, attachment)
-     * @param color {String?null} A CSS color string as background color
-     * @param image {String?null} The URL of the background image
+     * @signature function(source, repeat, left, top, attachment)
+     * @param source {String?null} The URL of the background image
      * @param repeat {String?null} The background repeat property. valid values
      *     are <code>repeat</code>, <code>repeat-x</code>,
      *     <code>repeat-y</code>, <code>no-repeat</code>
-     * @param positionX {Integer?null} The horizontal offset of the image inside of
+     * @param left {Integer?null} The horizontal offset of the image inside of
      *     the image element.
-     * @param positionY {Integer?null} The vertical offset of the image inside of
+     * @param top {Integer?null} The vertical offset of the image inside of
      *     the image element.
      * @param attachment {String?null} Sets whether a background image is fixed or
      *   scrolls with the rest of the page. Valid calues are <code>scroll</code>
@@ -101,13 +98,13 @@ qx.Class.define("qx.bom.element.Background",
      */
     getStyles : qx.core.Variant.select("qx.client",
     {
-      "mshtml" : function(color, image, repeat, positionX, positionY, attachment)
+      "mshtml" : function(source, repeat, left, top, attachment)
       {
         var filter = "";
 
-        var styles = this.__getStylesStandardCss(color, image, repeat, positionX, positionY, attachment);
+        var styles = this.__getStylesStandardCss(source, repeat, left, top, attachment);
 
-        var isPng = qx.lang.String.endsWith(image, ".png");
+        var isPng = qx.lang.String.endsWith(source, ".png");
         var isIE6 = qx.bom.client.Engine.VERSION < 7;
 
         // IE 6 can display PNGs with alpha channel only using the
@@ -124,25 +121,23 @@ qx.Class.define("qx.bom.element.Background",
         return styles;
       },
 
-      "gecko" : function(color, image, repeat, positionX, positionY, attachment)
+      "gecko" : function(source, repeat, left, top, attachment)
       {
-        var styles = this.__getStylesStandardCss(color, image, repeat, positionX, positionY, attachment);
+        var styles = this.__getStylesStandardCss(source, repeat, left, top, attachment);
 
         // work around FF2 background-position bug
         // (switches to “50%” default when x and y offsets are equal)
         // https://bugzilla.mozilla.org/show_bug.cgi?id=258080
-        if (qx.bom.client.Engine.VERSION < 1.9 && styles.backgroundPosition)
-        {
-          if (positionX == positionY) {
-            styles.backgroundPosition = positionX + "px " + (positionY + 0.01) + "px";
-          }
+        if (qx.bom.client.Engine.VERSION < 1.9 && styles.backgroundPosition && left == top) {
+          styles.backgroundPosition = left + "px " + (top + 0.01) + "px";
         }
+        
         return styles;
       },
 
 
-      "default" : function(color, image, repeat, positionX, positionY, attachment) {
-        return this.__getStylesStandardCss(color, image, repeat, positionX, positionY, attachment);
+      "default" : function(source, repeat, left, top, attachment) {
+        return this.__getStylesStandardCss(source, repeat, left, top, attachment);
       }
     }),
 
@@ -150,31 +145,29 @@ qx.Class.define("qx.bom.element.Background",
     /**
      * Get standard css background styles
      *
-     * @param color {String?null} A CSS color string as background color
-     * @param image {String?null} The URL of the background image
+     * @param source {String?null} The URL of the background image
      * @param repeat {String?null} The background repeat property. valid values
      *     are <code>repeat</code>, <code>repeat-x</code>,
      *     <code>repeat-y</code>, <code>no-repeat</code>
-     * @param positionX {Integer?null} The horizontal offset of the image inside of
+     * @param left {Integer?null} The horizontal offset of the image inside of
      *     the image element.
-     * @param positionY {Integer?null} The vertical offset of the image inside of
+     * @param top {Integer?null} The vertical offset of the image inside of
      *     the image element.
      * @param attachment {String?null} Sets whether a background image is fixed or
      *   scrolls with the rest of the page. Valid calues are <code>scroll</code>
      *   <code>fixed</code>.
      */
-    __getStylesStandardCss : function(color, image, repeat, positionX, positionY, attachment)
+    __getStylesStandardCss : function(source, repeat, left, top, attachment)
     {
       var hasOffset = !(
-        positionX === undefined ||
-        positionY === undefined ||
-        (positionX === 0 && positionY === 0)
+        left === undefined ||
+        top === undefined ||
+        (left === 0 && top === 0)
       );
 
       var styles = {
-        backgroundColor: color || "",
-        backgroundImage: image ? "url(" + image + ")" : "",
-        backgroundPosition: hasOffset ? positionX + "px " + positionY + "px" : "",
+        backgroundImage: source ? "url(" + source + ")" : "",
+        backgroundPosition: hasOffset ? left + "px " + top + "px" : "",
         backgroundRepeat: repeat || "",
         backgroundAttachment: attachment || ""
       };
@@ -187,22 +180,21 @@ qx.Class.define("qx.bom.element.Background",
      * Set the background on the given DOM element
      *
      * @param element {Element} The element to modify
-     * @param color {String?null} A CSS color string as background color
-     * @param image {String?null} The URL of the background image
+     * @param source {String?null} The URL of the background image
      * @param repeat {String?null} The background repeat property. valid values
      *     are <code>repeat</code>, <code>repeat-x</code>,
      *     <code>repeat-y</code>, <code>no-repeat</code>
-     * @param positionX {Integer?null} The horizontal offset of the image inside of
+     * @param left {Integer?null} The horizontal offset of the image inside of
      *     the image element.
-     * @param positionY {Integer?null} The vertical offset of the image inside of
+     * @param top {Integer?null} The vertical offset of the image inside of
      *     the image element.
      * @param attachment {String?null} Sets whether a background image is fixed or
      *   scrolls with the rest of the page. Valid calues are <code>scroll</code>
      *   <code>fixed</code>.
      */
-    set : function(element, color, image, repeat, positionX, positionY, attachment)
+    set : function(element, source, repeat, left, top, attachment)
     {
-      var styles = this.getStyles(color, image, repeat, positionX, positionY, attachment);
+      var styles = this.getStyles(source, repeat, left, top, attachment);
 
       for (var key in styles)
       {
