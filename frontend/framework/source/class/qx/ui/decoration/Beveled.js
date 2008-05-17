@@ -217,6 +217,9 @@ qx.Class.define("qx.ui.decoration.Beveled",
 
       var outerStyle = "1px solid " + this.__outerColor;
       var innerStyle = "1px solid " + this.__innerColor;
+      
+      var bgId = qx.util.AliasManager.getInstance().resolve(this.getBackgroundImage());
+      var bgSource = qx.util.ImageRegistry.getInstance().toUri(bgId);
 
 
       // Colors
@@ -230,7 +233,7 @@ qx.Class.define("qx.ui.decoration.Beveled",
       vert.setStyle("borderBottom", outerStyle);
 
       inner.setStyle("backgroundColor", backgroundColor || this.__backgroundColor || null);
-      inner.setAttribute("src", qx.util.AliasManager.getInstance().resolve(this.getBackgroundImage()));
+      inner.setAttribute("src", bgSource);
 
       overlay.setStyle("border", innerStyle);
       overlay.setStyle("opacity", this.getInnerOpacity());

@@ -29,6 +29,7 @@ qx.Class.define("qx.html.ClippedImage",
 
 
 
+
   /*
   *****************************************************************************
      CONSTRUCTOR
@@ -38,8 +39,11 @@ qx.Class.define("qx.html.ClippedImage",
   construct : function()
   {
     this.base(arguments);
+    
     this.setStyle("overflow", "hidden");
   },
+
+
 
 
   /*
@@ -50,10 +54,6 @@ qx.Class.define("qx.html.ClippedImage",
 
   members :
   {
-    __width : 0,
-    __height : 0,
-
-
     /**
      * Sets the image source. The image must be registered using
      * {@link qx.util.ImageRegistry#register} before.
@@ -64,15 +64,33 @@ qx.Class.define("qx.html.ClippedImage",
      */
     setSource : function(source, resize)
     {
-      var sprite = qx.util.ImageRegistry.getInstance().resolve(source);
-      if (!sprite) {
-        throw new Error("The image '" + source + "' must be registered at the qx.util.ImageRegistry!");
+      var data = qx.util.ImageRegistry.getInstance().get(source);
+      if (!data) {
+        throw new Error("The image '" + source + "' must be registered at qx.util.ImageRegistry!");
       }
-
-      this.__width = sprite[3];
-      this.__height = sprite[4];
-
-      var styles = qx.bom.element.Background.getStyles(null, sprite[0], "repeat", sprite[1], sprite[2]);
+      
+      this.__width = data[0];
+      this.__height = data[1];
+      
+      // Have clipped data available
+      if (data.length > 4)
+      {
+        source = data[4];
+        
+        var xpos = data[5];
+        var ypos = data[6];
+        var format = data[7];
+      }
+      else
+      {
+        var xpos = 0;
+        var ypos = 0;
+        var format = data[2];
+      }
+      
+      var url = qx.util.ImageRegistry.getInstance().toUri(source);
+      var styles = qx.bom.element.Background.getStyles(url, "repeat", xpos, ypos, format);
+      
       this.setStyles(styles);
 
       if (resize !== false)
@@ -81,7 +99,7 @@ qx.Class.define("qx.html.ClippedImage",
         this.setStyle("height", this.__height + "px");
       }
 
-      this._source = source;
+      this.__source = source;
       return this;
     },
 
@@ -109,7 +127,7 @@ qx.Class.define("qx.html.ClippedImage",
      * @return {String} The image source
      */
     getSource : function() {
-      return this._source;
+      return this.__source || null;
     },
 
 
@@ -119,7 +137,7 @@ qx.Class.define("qx.html.ClippedImage",
      * @return {String} The image width
      */
     getWidth : function() {
-      return this.__width;
+      return this.__width || 0;
     },
 
 
@@ -129,7 +147,7 @@ qx.Class.define("qx.html.ClippedImage",
      * @return {String} The image height
      */
     getHeight : function() {
-      return this.__height;
+      return this.__height || 0;
     }
   }
 });

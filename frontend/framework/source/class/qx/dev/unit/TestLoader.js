@@ -17,35 +17,9 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#module(core)
-#resource(qx.dev.unit.run.data:qx.dev.unit.run/data)
-#embed(qx.dev.unit.run.data/*)
-
-#asset(qx.dev.unit.run/data/*)
-************************************************************************ */
-
 qx.Class.define("qx.dev.unit.TestLoader",
 {
   extend : qx.application.Native,
-
-
-
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
-  construct : function()
-  {
-    this.base(arguments);
-
-    // Define alias for custom resource path
-    qx.util.AliasManager.getInstance().add("testrunner", qx.core.Setting.get("testrunner.resourceUri"));
-  },
-
 
 
 
@@ -286,18 +260,5 @@ qx.Class.define("qx.dev.unit.TestLoader",
         }
       }
     }
-  },
-
-
-
-
-  /*
-  *****************************************************************************
-     SETTINGS
-  *****************************************************************************
-  */
-
-  settings : {
-    "testrunner.resourceUri" : "./resource"
   }
 });

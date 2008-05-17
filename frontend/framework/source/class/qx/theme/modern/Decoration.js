@@ -32,7 +32,7 @@
 qx.Theme.define("qx.theme.modern.Decoration",
 {
   title : "Modern",
-  resource : qx.core.Setting.get("qx.resourceUri") + "/qx/decoration/Modern",
+  resource : "qx/decoration/Modern",
 
   decorations :
   {

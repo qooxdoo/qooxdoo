@@ -32,8 +32,8 @@ qx.Class.define("qx.util.ImageRegistry",
   {
     this.base(arguments);
 
-    this.__registry = this._padQxImageInfo(window.qxresourceinfo);
-    //this.__registry = window.qximageinfo || {};
+    // {Map} the shared image registry
+    this.__registry = window.qxresourceinfo || {};
   },
 
 
@@ -48,69 +48,6 @@ qx.Class.define("qx.util.ImageRegistry",
 
   members :
   {
-    /** {Map} the shared image registry */
-    __registry : {},
-
-    /** {RegExp} detect image names */
-   __imgPatt : new RegExp('\.(png|gif|jpeg|jpg)$', 'i'),
-
-
-    _macroexpand : function(dict, str)
-    {
-      // dict = { 'libnamespace' : {'resuri': "...", ...}, "libnamespace1" : ...}
-      var lstr = str;
-      for (var key in dict)
-      {
-        lstr = lstr.replace('${'+key+'}', dict[key]['resuri']);
-      }
-      return lstr;
-    },
-
-
-    _libexpand : function(dict, str, libns)
-    {
-      var lstr = str;
-      if (libns in dict)
-      {
-        lstr = dict[libns]['resuri'] + "/" + str;
-      } else
-      {
-        throw new Error("Unable to look up library namespace: " + libns);
-      }
-      return lstr;
-    },
-
-
-    _padQxImageInfo : function(qximageinfo)
-    {
-      // we just need to expand library namespace macros
-      if (!qximageinfo)
-      {
-        return {};
-      }
-
-      var imageinfo = {};
-      var qxlibinfo = window.qxlibinfo || {};
-
-      for (var key in qximageinfo)
-      {
-        if (! key.match(this.__imgPatt))
-        {
-          continue; // skip non-images
-        }
-        var val  = qximageinfo[key];  // val = [width, height, type, lib [, mappeduri, left, top, type, lib]]
-        //key = this._macroexpand(qxlibinfo, key)
-        key = this._libexpand(qxlibinfo, key, val[3])
-        if (val.length > 4) {
-          val[4] = this._libexpand(qxlibinfo, val[4], val[8]);
-        }
-        imageinfo[key] = val;
-      }
-
-      return imageinfo;
-    },
-
-
     /**
      * Register information about an image.
      *
@@ -129,6 +66,9 @@ qx.Class.define("qx.util.ImageRegistry",
       if (this.__registry[iconUri]) {
         return;
       }
+      
+      //this.debug("Register not yet supported: " + iconUri);
+      return;
 
       var isPng = qx.lang.String.endsWith(iconUri, ".png");
 
@@ -153,48 +93,80 @@ qx.Class.define("qx.util.ImageRegistry",
 
 
     /**
-     * Whether the image registry has informations about the given
-     * image URL.
+     * Whether the registry has informations about the given resource.
      *
      * @type member
-     * @param iconUri {String} The icon to get the information for
-     * @return {Boolean} <code>true</code> when the image is known.
+     * @param uri {String} The resource to get the information for
+     * @return {Boolean} <code>true</code> when the resource is known.
      */
-    has : function(iconUri) {
-      return !!this.__registry[iconUri];
+    has : function(uri) {
+      return !!this.__registry[uri];
     },
 
 
     /**
-     * Get information about an icon.
+     * Get information about an resource.
      *
-     * @param iconUri {String} The icon to get the information for
-     * @return {Array} An array containing the following icon properties:
-     *   <code>mappedUri</code>, <code>xOffset</code>, <code>yOffset</code>,
-     *   <code>width</code>, <code>height</code>.
+     * @param uri {String} The resource to get the information for
+     * @return {Array} Registered data
      */
-    resolve : function(iconUri)
+    get : function(uri) {
+      return this.__registry[uri] || null;
+    },
+    
+    
+    // only used in grid decoration currently
+    getClipped : function(id)
     {
-      var resUri = qx.util.AliasManager.getInstance().resolve(iconUri);
-      var val = this.__registry[resUri];
-
-      if (val == null) {
-        throw new Error("Could not resolve icon uri: " + iconUri);
+      var entry = this.__registry[id];
+      if (!entry) {
+        return null;
+      }
+      
+      var width = entry[0];
+      var height = entry[1];      
+      
+      if (entry.length > 4) 
+      {
+        var uri = entry[4];
+        var left = entry[5];
+        var top = entry[6];        
       }
       else
       {
-        // val = [width, height, type, lib [, mappeduri, left, top, type, lib]]
-        if (val.length == 4)
-        {
-          var nval = [resUri, 0, 0, val[0], val[1], val[2]];
-        } else {
-          var nval = [val[4], val[5], val[6], val[0], val[1], val[2]];
-        }
+        var uri = id;
+        var left = 0;
+        var top = 0;
       }
+      
+      return [uri, left, top, width, height];
+    },
+    
+    
+    toUri : function(id)
+    {
+      if (id == null) {
+        return null;
+      }
+      
+      var entry = this.__registry[id];
 
-      return nval;
+      if (!entry) 
+      {
+        this.debug("Oops: Missing image: " + id);
+        return id;
+      }
+      
+      if (typeof entry === "string") {
+        var lib = entry
+      } else {
+        var lib = entry[3];
+      }
+      
+      return window.qxlibinfo[lib].resuri + "/" + id;
     }
   },
+
 
 
   /*
@@ -206,5 +178,4 @@ qx.Class.define("qx.util.ImageRegistry",
   destruct : function() {
     this._disposeObjects("__registry");
   }
-
 });

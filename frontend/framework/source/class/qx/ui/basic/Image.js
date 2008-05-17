@@ -286,6 +286,7 @@ qx.Class.define("qx.ui.basic.Image",
       // Remove flag
       delete this.__preLoading;
 
+      /*
       // Dynamically register image
       if (size) {
         qx.util.ImageRegistry.getInstance().register(source, source, 0, 0, size.width, size.height);
@@ -295,6 +296,9 @@ qx.Class.define("qx.ui.basic.Image",
 
       // Update image (again)
       this._syncSource(source);
+      */
+      
+      this.debug("Dynamic image: " + source + " not yet supported!");
     }
   }
 });
