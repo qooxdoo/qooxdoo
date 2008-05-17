@@ -203,7 +203,7 @@ qx.Class.define("qx.ui.basic.Image",
         return;
       }
 
-      var Registry = qx.util.ImageRegistry.getInstance();
+      var Registry = qx.util.ResourceManager;
       var ImageLoader = qx.io2.ImageLoader;
 
       // Detect if the image registry knows this image
@@ -289,7 +289,7 @@ qx.Class.define("qx.ui.basic.Image",
       /*
       // Dynamically register image
       if (size) {
-        qx.util.ImageRegistry.getInstance().register(source, source, 0, 0, size.width, size.height);
+        qx.util.ResourceManager.register(source, source, 0, 0, size.width, size.height);
       } else {
         this.warn("Image could not be loaded: " + source);
       }
