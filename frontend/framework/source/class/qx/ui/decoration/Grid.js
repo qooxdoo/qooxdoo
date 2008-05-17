@@ -241,27 +241,26 @@ qx.Class.define("qx.ui.decoration.Grid",
       rightImageWidth = rightCombined ? rightCombined[3] : r[3];
       
       
-    
       // Top: left, center, right
       html.push(
         '<div style="position:absolute;top:0;left:0;',
         'width:', leftWidth,
         'px;height:', topWidth, "px;",
-        qx.bom.element.Background.compile(mgr.toUri(tl[0]), "repeat-x", tl[1], tl[2]),
+        qx.bom.element.Background.compile(tl[0], "repeat-x", tl[1], tl[2]),
         '"></div>'
       );
       html.push(
         '<div style="position:absolute;top:0;',
         'left:', leftWidth,
         'px;height:',topWidth, 'px;',
-        qx.bom.element.Background.compile(mgr.toUri(t[0]), "repeat-x", t[1], t[2]),
+        qx.bom.element.Background.compile(t[0], "repeat-x", t[1], t[2]),
         '"></div>'
       );
       html.push(
         '<div style="position:absolute;top:0;right:0;',
         'width:', rightWidth,
         'px;height:', topWidth, "px;",
-        qx.bom.element.Background.compile(mgr.toUri(tr[0]), "repeat-x", tr[1], tr[2]),
+        qx.bom.element.Background.compile(tr[0], "repeat-x", tr[1], tr[2]),
         '"></div>'
       );
       
@@ -270,21 +269,21 @@ qx.Class.define("qx.ui.decoration.Grid",
         '<div style="position:absolute;bottom:0;left:0;',
         'width:', leftWidth,
         'px;height:', bottomWidth, "px;",
-        qx.bom.element.Background.compile(mgr.toUri(bl[0]), "repeat-x", bl[1], bl[2]),
+        qx.bom.element.Background.compile(bl[0], "repeat-x", bl[1], bl[2]),
         '"></div>'
       );
       html.push(
         '<div style="position:absolute;bottom:0;',
         'left:', leftWidth,
         'px;height:', bottomWidth, "px;",
-        qx.bom.element.Background.compile(mgr.toUri(b[0]), "repeat-x", b[1], b[2]),
+        qx.bom.element.Background.compile(b[0], "repeat-x", b[1], b[2]),
         '"></div>'
       );
       html.push(
         '<div style="position:absolute;bottom:0;right:0;',
         'width:', rightWidth,
         'px;height:', bottomWidth, "px;",
-        qx.bom.element.Background.compile(mgr.toUri(br[0]), "repeat-x", br[1], br[2]),
+        qx.bom.element.Background.compile(br[0], "repeat-x", br[1], br[2]),
         '"></div>'
       );
       
@@ -305,9 +304,7 @@ qx.Class.define("qx.ui.decoration.Grid",
         'px;', qx.bom.element.Clip.compile({left: -r[1], width: rightWidth}),'"/>'
       );
 
-      var ret = this.__markup = html.join("");
-
-      return ret;
+      return this.__markup = html.join("");
     },
 
 

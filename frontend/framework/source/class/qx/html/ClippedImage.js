@@ -20,8 +20,6 @@
 
 /**
  * A ClippedImage wraps a DOM element, which displays a clipped image.
- * All images shown with this class must be registered using
- * {@link qx.util.ResourceManager#register} before.
  */
 qx.Class.define("qx.html.ClippedImage",
 {
@@ -55,8 +53,7 @@ qx.Class.define("qx.html.ClippedImage",
   members :
   {
     /**
-     * Sets the image source. The image must be registered using
-     * {@link qx.util.ResourceManager#register} before.
+     * Sets the image source. 
      *
      * @param source {String} the image URL
      * @param resize {Boolean?true} Whether the element should be resized to
@@ -77,20 +74,16 @@ qx.Class.define("qx.html.ClippedImage",
       {
         source = data[4];
         
-        var xpos = data[5];
-        var ypos = data[6];
-        var format = data[7];
+        var left = data[5];
+        var top = data[6];
       }
       else
       {
-        var xpos = 0;
-        var ypos = 0;
-        var format = data[2];
+        var left = 0;
+        var top = 0;
       }
       
-      var url = qx.util.ResourceManager.toUri(source);
-      var styles = qx.bom.element.Background.getStyles(url, "repeat", xpos, ypos, format);
-      
+      var styles = qx.bom.element.Background.getStyles(source, "repeat", left, top);
       this.setStyles(styles);
 
       if (resize !== false)
