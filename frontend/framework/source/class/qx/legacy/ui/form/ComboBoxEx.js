@@ -19,11 +19,8 @@
 
 /* ************************************************************************
 
-#embed(qx.icontheme/16/actions/edit-find.png)
 #asset(qx/icon/Oxygen/16/actions/edit-find.png)
-#embed(qx.icontheme/16/actions/dialog-ok.png)
 #asset(qx/icon/Oxygen/16/actions/dialog-ok.png)
-#embed(qx.icontheme/16/actions/dialog-cancel.png)
 #asset(qx/icon/Oxygen/16/actions/dialog-cancel.png)
 
 ************************************************************************ */

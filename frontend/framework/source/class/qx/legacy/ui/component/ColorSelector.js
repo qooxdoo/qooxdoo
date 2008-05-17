@@ -20,13 +20,9 @@
 
 /* ************************************************************************
 
-#embed(qx.widgettheme/colorselector/*)
 #asset(qx/decoration/Classic/colorselector/*)
-#embed(qx.icontheme/16/actions/dialog-cancel.png)
 #asset(qx/icon/Oxygen/16/actions/dialog-cancel.png)
-#embed(qx.icontheme/16/actions/dialog-ok.png)
 #asset(qx/icon/Oxygen/16/actions/dialog-ok.png)
-#embed(qx.static/image/dotted_white.gif)
 #asset(qx/static/image/dotted_white.gif)
 
 ************************************************************************ */

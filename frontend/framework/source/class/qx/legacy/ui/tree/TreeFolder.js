@@ -22,9 +22,7 @@
 
 /* ************************************************************************
 
-#embed(qx.icontheme/16/places/folder-open.png)
 #asset(qx/icon/Oxygen/16/places/folder-open.png)
-#embed(qx.icontheme/16/places/folder.png)
 #asset(qx/icon/Oxygen/16/places/folder.png)
 
 ************************************************************************ */
