@@ -682,7 +682,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          icon : states.active ? "decoration/window/restore-active.png" : "decoration/window/restore-inactive.png"
+          // icons seems to be missing in resource folder, Alex?
+          //icon : states.active ? "decoration/window/restore-active.png" : "decoration/window/restore-inactive.png"
         };
       }
     },
