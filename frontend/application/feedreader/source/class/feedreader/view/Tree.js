@@ -98,7 +98,6 @@ qx.Class.define("feedreader.view.Tree",
      */
     _onFeedAdded : function(e)
     {
-      this.debug("E: " + e)
       var feed = e.getData();
       feed.addListener("stateModified", this._onFeedStateModified, this);
 
