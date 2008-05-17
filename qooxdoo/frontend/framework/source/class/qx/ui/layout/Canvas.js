@@ -168,22 +168,22 @@ qx.Class.define("qx.ui.layout.Canvas",
         //   Processing location
         // **************************************
 
-        left = props.left || props.edge;
+        left = props.left != null ? props.left : props.edge;
         if (left && typeof left === "string") {
           left = Math.round(parseFloat(left) * availWidth / 100);
         }
 
-        right = props.right || props.edge;
+        right = props.right != null ? props.right : props.edge;
         if (right && typeof right === "string") {
           right = Math.round(parseFloat(right) * availWidth / 100);
         }
 
-        top = props.top || props.edge;
+        top = props.top != null ? props.top : props.edge;
         if (top && typeof top === "string") {
           top = Math.round(parseFloat(top) * availHeight / 100);
         }
 
-        bottom = props.bottom || props.edge;
+        bottom = props.bottom != null ? props.bottom : props.edge;
         if (bottom && typeof bottom === "string") {
           bottom = Math.round(parseFloat(bottom) * availHeight / 100);
         }
@@ -320,14 +320,14 @@ qx.Class.define("qx.ui.layout.Canvas",
         width = hint.width+marginX;
         minWidth = hint.minWidth+marginX;
 
-        left = props.left || props.edge;
+        left = props.left != null ? props.left : props.edge;
         if (left && typeof left === "number")
         {
           width += left;
           minWidth += left;
         }
 
-        right = props.right || props.edge;
+        right = props.right != null ? props.right : props.edge;
         if (right && typeof right === "number")
         {
           width += right;
@@ -342,14 +342,14 @@ qx.Class.define("qx.ui.layout.Canvas",
         height = hint.height+marginY;
         minHeight = hint.minHeight+marginY;
 
-        top = props.top || props.edge;
+        top = props.top != null ? props.top : props.edge;
         if (top && typeof top === "number")
         {
           height += top;
           minHeight += top;
         }
 
-        bottom = props.bottom || props.edge;
+        bottom = props.bottom != null ? props.bottom : props.edge;
         if (bottom && typeof bottom === "number")
         {
           height += bottom;
