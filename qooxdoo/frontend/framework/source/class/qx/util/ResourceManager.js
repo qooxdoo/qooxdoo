@@ -100,7 +100,7 @@ qx.Bootstrap.define("qx.util.ResourceManager",
     // internal structure:
     // images: [width, height, format, library, [clipped, left, top]]
     // other: library
-    getClippedImage : function(id)
+    getClipped : function(id)
     {
       var entry = this.__registry[id];
       if (!entry) {
@@ -109,6 +109,7 @@ qx.Bootstrap.define("qx.util.ResourceManager",
       
       var width = entry[0];
       var height = entry[1];      
+      var format = entry[2];
       
       if (entry.length > 4) 
       {
@@ -123,18 +124,23 @@ qx.Bootstrap.define("qx.util.ResourceManager",
         var top = 0;
       }
       
-      return [id, left, top, width, height];
+      return [id, left, top, width, height, format];
     },
     
     
     toUri : function(id)
     {
       if (id == null) {
-        return null;
+        return id;
       }
       
       var entry = this.__registry[id];
 
+      if (!entry) {
+        qx.log.Logger.debug(this, "Missing information about: " + id)
+        return id;
+      }
+      
       if (typeof entry === "string") {
         var lib = entry
       } else {
