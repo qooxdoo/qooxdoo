@@ -58,7 +58,7 @@ qx.Class.define("demobrowser.demo.widget.List_1",
 
       var l2 = new qx.ui.form.List;
 
-      l2.set({ height: 200, width: 150, selectionMode : "single", spacing : 1 });
+      l2.set({ width: 150, selectionMode : "single", spacing : 1 });
 
       var l2l = [ "black", "silver", "gray", "maroon",
         "red", "purple", "fuchsia", "green", "lime", "olive",
@@ -87,7 +87,7 @@ qx.Class.define("demobrowser.demo.widget.List_1",
 
       var l3 = new qx.ui.form.List;
 
-      l3.set({ height: 200, width: 150, selectionMode : "additive" });
+      l3.set({ width: 150, selectionMode : "additive" });
 
       var l3l = [ "Leon","Lukas","Luca","Finn","Tim","Felix","Jonas","Luis",
       "Maximilian","Julian","Max","Paul","Niclas","Jan","Ben","Elias","Jannick",
@@ -108,7 +108,7 @@ qx.Class.define("demobrowser.demo.widget.List_1",
 
       var l4 = new qx.ui.form.List(true);
 
-      l4.set({ width: 550, selectionMode : "multi" });
+      l4.set({ width: 550, selectionMode : "multi", height : null });
 
       var l4l = [ "audio-card.png","audio-input-microphone.png","battery.png",
       "camera-photo.png","camera-web.png","computer.png","display.png",
