@@ -20,17 +20,11 @@
 
 /* ************************************************************************
 
-#embed(qx.icontheme/16/places/folder-open.png)
 #asset(qx/icon/Oxygen/16/places/folder-open.png)
-#embed(qx.icontheme/16/places/folder.png)
 #asset(qx/icon/Oxygen/16/places/folder.png)
-#embed(qx.icontheme/16/actions/document-open.png)
 #asset(qx/icon/Oxygen/16/actions/document-open.png)
-#embed(qx.icontheme/16/actions/document-new.png)
 #asset(qx/icon/Oxygen/16/actions/document-new.png)
-#embed(qx.widgettheme/tree/*)
 #asset(qx/decoration/Classic/tree/*)
-#embed(qx.static/blank.gif)
 #asset(qx/static/blank.gif)
 
 ************************************************************************ */

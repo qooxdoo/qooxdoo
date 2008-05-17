@@ -21,9 +21,6 @@
 
 /* ************************************************************************
 
-#embed(qx.widgettheme/tree/*)
-#asset(qx/decoration/Classic/tree/*)
-#embed(qx.icontheme/16/actions/document-new.png)
 #asset(qx/icon/Oxygen/16/actions/document-new.png)
 
 ************************************************************************ */
