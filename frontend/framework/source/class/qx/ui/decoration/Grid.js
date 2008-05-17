@@ -200,16 +200,16 @@ qx.Class.define("qx.ui.decoration.Grid",
       var images = this.__images || this.__computeImages();
 
       // Resolve image data
-      var reg = qx.util.ImageRegistry.getInstance();
-      var tl = reg.getClipped(images.tl);
-      var t  = reg.getClipped(images.t);
-      var tr = reg.getClipped(images.tr);
-      var bl = reg.getClipped(images.bl);
-      var b  = reg.getClipped(images.b);
-      var br = reg.getClipped(images.br);
-      var l  = reg.getClipped(images.l);
-      var c  = reg.getClipped(images.c);
-      var r  = reg.getClipped(images.r);
+      var mgr = qx.util.ResourceManager;
+      var tl = mgr.getClipped(images.tl);
+      var t  = mgr.getClipped(images.t);
+      var tr = mgr.getClipped(images.tr);
+      var bl = mgr.getClipped(images.bl);
+      var b  = mgr.getClipped(images.b);
+      var br = mgr.getClipped(images.br);
+      var l  = mgr.getClipped(images.l);
+      var c  = mgr.getClipped(images.c);
+      var r  = mgr.getClipped(images.r);
       
 
       // Store dimensions
@@ -234,35 +234,34 @@ qx.Class.define("qx.ui.decoration.Grid",
       var pixel = "px";
       var html = [];
 
-      var leftCombined = reg.getClipped(l[0]);
+      var leftCombined = mgr.getClipped(l[0]);
       leftImageWidth = leftCombined ? leftCombined[3] : l[3];
 
-      var rightCombined = reg.getClipped(r[0]);
+      var rightCombined = mgr.getClipped(r[0]);
       rightImageWidth = rightCombined ? rightCombined[3] : r[3];
       
       
-      var Registry = qx.util.ImageRegistry.getInstance();
-      
+    
       // Top: left, center, right
       html.push(
         '<div style="position:absolute;top:0;left:0;',
         'width:', leftWidth,
         'px;height:', topWidth, "px;",
-        qx.bom.element.Background.compile(Registry.toUri(tl[0]), "repeat-x", tl[1], tl[2]),
+        qx.bom.element.Background.compile(mgr.toUri(tl[0]), "repeat-x", tl[1], tl[2]),
         '"></div>'
       );
       html.push(
         '<div style="position:absolute;top:0;',
         'left:', leftWidth,
         'px;height:',topWidth, 'px;',
-        qx.bom.element.Background.compile(Registry.toUri(t[0]), "repeat-x", t[1], t[2]),
+        qx.bom.element.Background.compile(mgr.toUri(t[0]), "repeat-x", t[1], t[2]),
         '"></div>'
       );
       html.push(
         '<div style="position:absolute;top:0;right:0;',
         'width:', rightWidth,
         'px;height:', topWidth, "px;",
-        qx.bom.element.Background.compile(Registry.toUri(tr[0]), "repeat-x", tr[1], tr[2]),
+        qx.bom.element.Background.compile(mgr.toUri(tr[0]), "repeat-x", tr[1], tr[2]),
         '"></div>'
       );
       
@@ -271,37 +270,37 @@ qx.Class.define("qx.ui.decoration.Grid",
         '<div style="position:absolute;bottom:0;left:0;',
         'width:', leftWidth,
         'px;height:', bottomWidth, "px;",
-        qx.bom.element.Background.compile(Registry.toUri(bl[0]), "repeat-x", bl[1], bl[2]),
+        qx.bom.element.Background.compile(mgr.toUri(bl[0]), "repeat-x", bl[1], bl[2]),
         '"></div>'
       );
       html.push(
         '<div style="position:absolute;bottom:0;',
         'left:', leftWidth,
         'px;height:', bottomWidth, "px;",
-        qx.bom.element.Background.compile(Registry.toUri(b[0]), "repeat-x", b[1], b[2]),
+        qx.bom.element.Background.compile(mgr.toUri(b[0]), "repeat-x", b[1], b[2]),
         '"></div>'
       );
       html.push(
         '<div style="position:absolute;bottom:0;right:0;',
         'width:', rightWidth,
         'px;height:', bottomWidth, "px;",
-        qx.bom.element.Background.compile(Registry.toUri(br[0]), "repeat-x", br[1], br[2]),
+        qx.bom.element.Background.compile(mgr.toUri(br[0]), "repeat-x", br[1], br[2]),
         '"></div>'
       );
       
       // Middle: left, center, right
       html.push(
-        '<img src="', Registry.toUri(l[0]), '" style="position:absolute;left:' + l[1] + 'px;',
+        '<img src="', mgr.toUri(l[0]), '" style="position:absolute;left:' + l[1] + 'px;',
         'top:', topWidth,
         'px;width:', leftImageWidth,
         'px;', qx.bom.element.Clip.compile({left: -l[1], width: leftWidth}),'"/>'
       );
       html.push(
-        '<img src="', Registry.toUri(c[0]), '" style="position:absolute;',
+        '<img src="', mgr.toUri(c[0]), '" style="position:absolute;',
         'top:', topWidth, 'px;left:', leftWidth, 'px;"/>'
       );
       html.push(
-        '<img src="', Registry.toUri(r[0]), '" style="position:absolute;',
+        '<img src="', mgr.toUri(r[0]), '" style="position:absolute;',
         'right:', rightWidth - (rightImageWidth + r[1]) , 'px;top:', topWidth, 'px;width:', rightImageWidth,
         'px;', qx.bom.element.Clip.compile({left: -r[1], width: rightWidth}),'"/>'
       );
