@@ -52,6 +52,8 @@ qx.Class.define("qx.bom.element.Background",
      */
     compile : function(source, repeat, left, top)
     {
+      // Correcting buggy Firefox background-position implementation
+      // Have problems with identical values
       var Engine = qx.bom.client.Engine;
       if (Engine.GECKO && Engine.VERSION < 1.9 && left == top && left != null) {
         top += 0.01;
@@ -61,11 +63,12 @@ qx.Class.define("qx.bom.element.Background",
         var position = (left == null ? "0px" : left + "px") + " " + (top == null ? "0px" : top + "px")
       }
       
+      // Updating template
       var tmpl = this.__tmpl;
+      
       tmpl[1] = qx.util.ResourceManager.toUri(source);
       tmpl[4] = position;
       tmpl[7] = repeat;
-      console.debug("STYLE: " + tmpl.join(""))
 
       return tmpl.join("");      
     },
