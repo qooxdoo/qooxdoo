@@ -38,7 +38,7 @@ qx.Class.define("feedreader.view.Article",
     this.base(arguments);
 
     // Include CSS file
-    qx.bom.Stylesheet.includeFile(qx.util.AliasManager.getInstance().resolve("feedreader/css/reader.css"));
+    qx.bom.Stylesheet.includeFile("feedreader/css/reader.css");
 
     // Configure
     this.setCssClass("blogEntry");
@@ -92,8 +92,10 @@ qx.Class.define("feedreader.view.Article",
 
       // get the dom element containing the html of the article
       var element = this.getContentElement().getDomElement();
+      
       // get all links
       var links = element.getElementsByTagName("a");
+      
       // set the targets of all links to _blank
       for (var i = 0; i < links.length; i++) {
         links[i].target = "_blank";

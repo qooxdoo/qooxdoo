@@ -139,16 +139,18 @@ qx.Class.define("feedreader.view.List",
 
       if (state == "loaded")
       {
+        this._list.removeAll();
         this._stack.setSelected(this._list);
 
         var articles = feed.getArticles();
         var selected = feed.getSelected();
 
-        for (var i=0; i<articles.length; i++)
+        for (var i=0, l=articles.length; i<l; i++)
         {
           var article = articles[i];
           var listItem = new qx.ui.form.ListItem(article.getTitle());
           listItem.setUserData("article", article);
+          
           this._list.add(listItem);
 
           if (article == selected) {
