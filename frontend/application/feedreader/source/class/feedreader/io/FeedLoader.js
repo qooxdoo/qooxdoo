@@ -95,10 +95,13 @@ qx.Class.define("feedreader.io.FeedLoader",
       {
         // Read content
         var json = response.getContent();
-        try {
-          // Normalize json feed data to item list
+        try 
+        {
+          // Clear old articles
+          feed.clearArticles();
+          
+          // Normalize json feed data to article list
           var articles = feedreader.io.FeedParser.parseFeed(json);
-
           for (var i=0; i<articles.length; i++) {
             feed.addArticle(articles[i]);
           }
