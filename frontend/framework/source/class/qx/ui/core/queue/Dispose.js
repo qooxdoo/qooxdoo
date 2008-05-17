@@ -47,7 +47,7 @@ qx.Class.define("qx.ui.core.queue.Dispose",
       }
 
       this.__queue[widget.$$hash] = widget;
-      qx.ui.core.QueueManager.scheduleFlush("dispose");
+      qx.ui.core.queue.Manager.scheduleFlush("dispose");
     },
 
 
