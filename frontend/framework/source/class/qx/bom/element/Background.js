@@ -22,13 +22,21 @@
  * The background class contains methods to compute and set the background image
  * of a DOM element. 
  * 
- * It handles transparent PNGs in IE6 and fixes a background
- * position issue in Firefox 2.
+ * It fixes a background position issue in Firefox 2.
  */
 qx.Class.define("qx.bom.element.Background",
 {
   statics :
   {
+    /** {Array} Internal helper to improve compile performance */
+    __tmpl : 
+    [
+      "background-image:url(", null, ");", 
+      "background-position:", null, ";",
+      "background-repeat:", null, ";"
+    ],
+    
+    
     /**
      * Compiles the background into a CSS compatible string.
      *
@@ -40,112 +48,33 @@ qx.Class.define("qx.bom.element.Background",
      *     the image element.
      * @param top {Integer?null} The vertical offset of the image inside of
      *     the image element.
-     * @param attachment {String?null} Sets whether a background image is fixed or
-     *   scrolls with the rest of the page. Valid calues are <code>scroll</code>
-     *   <code>fixed</code>.
      * @return {String} CSS string
      */
-    compile : function(source, repeat, left, top, attachment)
+    compile : function(source, repeat, left, top)
     {
-      var styles = this.getStyles(source, repeat, left, top, attachment);
-      var cssStr = ["background:"];
-
-      if (styles.backgroundImage) {
-        cssStr.push(styles.backgroundImage, " ");
+      var Engine = qx.bom.client.Engine;
+      if (Engine.GECKO && Engine.VERSION < 1.9 && left == top && left != null) {
+        top += 0.01;
       }
-
-      if (repeat) {
-        cssStr.push(repeat, " ");
+      
+      if (left != null || top != null) {
+        var position = (left == null ? "0px" : left + "px") + " " + (top == null ? "0px" : top + "px")
       }
+      
+      var tmpl = this.__tmpl;
+      tmpl[1] = qx.util.ResourceManager.toUri(source);
+      tmpl[4] = position;
+      tmpl[7] = repeat;
+      console.debug("STYLE: " + tmpl.join(""))
 
-      if (attachment) {
-        cssStr.push(attachment);
-      }
-
-      if (styles.backgroundPosition) {
-        cssStr.push(styles.backgroundPosition, " ");
-      }
-
-      if (styles.filter) {
-        cssStr.push(";filter:", styles.filter);
-      }
-
-      cssStr.push(";");
-
-      return cssStr.join("");
+      return tmpl.join("");      
     },
-
-
-    /**
-     * Get the CSS styles to display the image. The arguments
-     * <code>left</code> and <code>top</code> have no effect for
-     * PNG files in IE6. All parameters are optional.
-     *
-     * @static
-     * @signature function(source, repeat, left, top, attachment)
-     * @param source {String?null} The URL of the background image
-     * @param repeat {String?null} The background repeat property. valid values
-     *     are <code>repeat</code>, <code>repeat-x</code>,
-     *     <code>repeat-y</code>, <code>no-repeat</code>
-     * @param left {Integer?null} The horizontal offset of the image inside of
-     *     the image element.
-     * @param top {Integer?null} The vertical offset of the image inside of
-     *     the image element.
-     * @param attachment {String?null} Sets whether a background image is fixed or
-     *   scrolls with the rest of the page. Valid calues are <code>scroll</code>
-     *   <code>fixed</code>.
-     * @return {Map} a mapping of CSS property names to CSS values
-     */
-    getStyles : qx.core.Variant.select("qx.client",
-    {
-      "mshtml" : function(source, repeat, left, top, attachment)
-      {
-        var filter = "";
-
-        var styles = this.__getStylesStandardCss(source, repeat, left, top, attachment);
-
-        var isPng = qx.lang.String.endsWith(source, ".png");
-        var isIE6 = qx.bom.client.Engine.VERSION < 7;
-
-        // IE 6 can display PNGs with alpha channel only using the
-        // alpha image loader. Since the alpha image loader has no offset
-        // property the IconManager will map all images to themself in IE6.
-
-        if (isPng && isIE6)
-        {
-          filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='" + source + "',sizingMethod='crop')";
-          delete styles.backgroundImage;
-          delete styles.backgroundPosition;
-        }
-
-        return styles;
-      },
-
-      "gecko" : function(source, repeat, left, top, attachment)
-      {
-        var styles = this.__getStylesStandardCss(source, repeat, left, top, attachment);
-
-        // work around FF2 background-position bug
-        // (switches to “50%” default when x and y offsets are equal)
-        // https://bugzilla.mozilla.org/show_bug.cgi?id=258080
-        if (qx.bom.client.Engine.VERSION < 1.9 && styles.backgroundPosition && left == top) {
-          styles.backgroundPosition = left + "px " + (top + 0.01) + "px";
-        }
-        
-        return styles;
-      },
-
-
-      "default" : function(source, repeat, left, top, attachment) {
-        return this.__getStylesStandardCss(source, repeat, left, top, attachment);
-      }
-    }),
 
 
     /**
      * Get standard css background styles
      *
-     * @param source {String?null} The URL of the background image
+     * @param source {String} The URL of the background image
      * @param repeat {String?null} The background repeat property. valid values
      *     are <code>repeat</code>, <code>repeat-x</code>,
      *     <code>repeat-y</code>, <code>no-repeat</code>
@@ -153,26 +82,23 @@ qx.Class.define("qx.bom.element.Background",
      *     the image element.
      * @param top {Integer?null} The vertical offset of the image inside of
      *     the image element.
-     * @param attachment {String?null} Sets whether a background image is fixed or
-     *   scrolls with the rest of the page. Valid calues are <code>scroll</code>
-     *   <code>fixed</code>.
      */
-    __getStylesStandardCss : function(source, repeat, left, top, attachment)
+    getStyles : function(source, repeat, left, top)
     {
-      var hasOffset = !(
-        left === undefined ||
-        top === undefined ||
-        (left === 0 && top === 0)
-      );
+      var Engine = qx.bom.client.Engine;
+      if (Engine.GECKO && Engine.VERSION < 1.9 && left == top && left != null) {
+        top += 0.01;
+      }
+      
+      if (left != null || top != null) {
+        var position = (left == null ? "0px" : left + "px") + " " + (top == null ? "0px" : top + "px")
+      }
 
-      var styles = {
-        backgroundImage: source ? "url(" + source + ")" : "",
-        backgroundPosition: hasOffset ? left + "px " + top + "px" : "",
-        backgroundRepeat: repeat || "",
-        backgroundAttachment: attachment || ""
+      return {
+        backgroundImage: "url(" + qx.util.ResourceManager.toUri(source) + ")",
+        backgroundPosition: position || null,
+        backgroundRepeat: repeat || null
       };
-
-      return styles;
     },
 
 
@@ -188,18 +114,12 @@ qx.Class.define("qx.bom.element.Background",
      *     the image element.
      * @param top {Integer?null} The vertical offset of the image inside of
      *     the image element.
-     * @param attachment {String?null} Sets whether a background image is fixed or
-     *   scrolls with the rest of the page. Valid calues are <code>scroll</code>
-     *   <code>fixed</code>.
      */
-    set : function(element, source, repeat, left, top, attachment)
+    set : function(element, source, repeat, left, top)
     {
-      var styles = this.getStyles(source, repeat, left, top, attachment);
-
-      for (var key in styles)
-      {
-        var value = styles[key];
-        element.style[key] = value;
+      var styles = this.getStyles(source, repeat, left, top);
+      for (var prop in styles) {
+        element.style[prop] = styles[prop];
       }
     }
   }
