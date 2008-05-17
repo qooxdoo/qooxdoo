@@ -201,15 +201,16 @@ qx.Class.define("qx.ui.decoration.Grid",
 
       // Resolve image data
       var reg = qx.util.ImageRegistry.getInstance();
-      var tl = reg.resolve(images.tl);
-      var t  = reg.resolve(images.t);
-      var tr = reg.resolve(images.tr);
-      var bl = reg.resolve(images.bl);
-      var b  = reg.resolve(images.b);
-      var br = reg.resolve(images.br);
-      var l  = reg.resolve(images.l);
-      var c  = reg.resolve(images.c);
-      var r  = reg.resolve(images.r);
+      var tl = reg.getClipped(images.tl);
+      var t  = reg.getClipped(images.t);
+      var tr = reg.getClipped(images.tr);
+      var bl = reg.getClipped(images.bl);
+      var b  = reg.getClipped(images.b);
+      var br = reg.getClipped(images.br);
+      var l  = reg.getClipped(images.l);
+      var c  = reg.getClipped(images.c);
+      var r  = reg.getClipped(images.r);
+      
 
       // Store dimensions
       this.__insets =
@@ -226,77 +227,86 @@ qx.Class.define("qx.ui.decoration.Grid",
       var bottomWidth = this.__insets.bottom;
       var leftWidth = this.__insets.left;
       var rightWidth = this.__insets.right;
+      
 
       // Create edges and vertical sides
       // Order: tl, t, tr, bl, b, bt, l, c, r
       var pixel = "px";
       var html = [];
 
-      var leftCombined = reg.resolve(l[0]);
+      var leftCombined = reg.getClipped(l[0]);
       leftImageWidth = leftCombined ? leftCombined[3] : l[3];
 
-      var rightCombined = reg.resolve(r[0]);
+      var rightCombined = reg.getClipped(r[0]);
       rightImageWidth = rightCombined ? rightCombined[3] : r[3];
-
+      
+      
+      var Registry = qx.util.ImageRegistry.getInstance();
+      
+      // Top: left, center, right
       html.push(
         '<div style="position:absolute;top:0;left:0;',
         'width:', leftWidth,
         'px;height:', topWidth, "px;",
-        qx.bom.element.Background.compile(null, tl[0], "repeat-x", tl[1], tl[2]),
+        qx.bom.element.Background.compile(Registry.toUri(tl[0]), "repeat-x", tl[1], tl[2]),
         '"></div>'
       );
       html.push(
         '<div style="position:absolute;top:0;',
         'left:', leftWidth,
         'px;height:',topWidth, 'px;',
-        qx.bom.element.Background.compile(null, t[0], "repeat-x", t[1], t[2]),
+        qx.bom.element.Background.compile(Registry.toUri(t[0]), "repeat-x", t[1], t[2]),
         '"></div>'
       );
       html.push(
         '<div style="position:absolute;top:0;right:0;',
         'width:', rightWidth,
         'px;height:', topWidth, "px;",
-        qx.bom.element.Background.compile(null, tr[0], "repeat-x", tr[1], tr[2]),
+        qx.bom.element.Background.compile(Registry.toUri(tr[0]), "repeat-x", tr[1], tr[2]),
         '"></div>'
       );
+      
+      // Bottom: left, center, right      
       html.push(
         '<div style="position:absolute;bottom:0;left:0;',
         'width:', leftWidth,
         'px;height:', bottomWidth, "px;",
-        qx.bom.element.Background.compile(null, bl[0], "repeat-x", bl[1], bl[2]),
+        qx.bom.element.Background.compile(Registry.toUri(bl[0]), "repeat-x", bl[1], bl[2]),
         '"></div>'
       );
       html.push(
         '<div style="position:absolute;bottom:0;',
         'left:', leftWidth,
         'px;height:', bottomWidth, "px;",
-        qx.bom.element.Background.compile(null, b[0], "repeat-x", b[1], b[2]),
+        qx.bom.element.Background.compile(Registry.toUri(b[0]), "repeat-x", b[1], b[2]),
         '"></div>'
       );
       html.push(
         '<div style="position:absolute;bottom:0;right:0;',
         'width:', rightWidth,
         'px;height:', bottomWidth, "px;",
-        qx.bom.element.Background.compile(null, br[0], "repeat-x", br[1], br[2]),
+        qx.bom.element.Background.compile(Registry.toUri(br[0]), "repeat-x", br[1], br[2]),
         '"></div>'
       );
+      
+      // Middle: left, center, right
       html.push(
-        '<img src="', l[0], '" style="position:absolute;left:' + l[1] + 'px;',
+        '<img src="', Registry.toUri(l[0]), '" style="position:absolute;left:' + l[1] + 'px;',
         'top:', topWidth,
         'px;width:', leftImageWidth,
         'px;', qx.bom.element.Clip.compile({left: -l[1], width: leftWidth}),'"/>'
       );
       html.push(
-        '<img src="', c[0], '" style="position:absolute;',
+        '<img src="', Registry.toUri(c[0]), '" style="position:absolute;',
         'top:', topWidth, 'px;left:', leftWidth, 'px;"/>'
       );
       html.push(
-        '<img src="', r[0], '" style="position:absolute;',
+        '<img src="', Registry.toUri(r[0]), '" style="position:absolute;',
         'right:', rightWidth - (rightImageWidth + r[1]) , 'px;top:', topWidth, 'px;width:', rightImageWidth,
         'px;', qx.bom.element.Clip.compile({left: -r[1], width: rightWidth}),'"/>'
       );
 
-      var ret = this.__markup = html.join("");;
+      var ret = this.__markup = html.join("");
 
       return ret;
     },
@@ -304,7 +314,7 @@ qx.Class.define("qx.ui.decoration.Grid",
 
     __computeImages : function()
     {
-      var base = this.getBaseImage();
+      var base = qx.util.AliasManager.getInstance().resolve(this.getBaseImage());
       var split = /(.*)(\.[a-z]+)$/.exec(base);
       var prefix = split[1];
       var ext = split[2];
@@ -349,7 +359,7 @@ qx.Class.define("qx.ui.decoration.Grid",
       if (!content) {
         var content = element._element ? element._element : this.__createInnerElement();
       }
-
+      
       var pixel = "px";
 
       // Sync width/height of outer element
