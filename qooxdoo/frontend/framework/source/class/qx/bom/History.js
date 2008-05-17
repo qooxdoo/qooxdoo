@@ -35,7 +35,6 @@
 
 /* ************************************************************************
 
-#embed(qx.static/history/helper.html)
 #asset(qx/static/history/helper.html)
 
 ************************************************************************ */
@@ -87,8 +86,7 @@ qx.Class.define("qx.bom.History",
       this._iframe.style.top = "-1000px";
 
       document.body.appendChild(this._iframe);
-      var src = qx.util.AliasManager.getInstance().resolve("static/history/helper.html");
-      this._iframe.src = src;
+      this._iframe.src = qx.util.ResourceManager.toUri("qx/static/history/helper.html");
 
       this._titles = {};
       this._state = decodeURIComponent(this.__getHash());

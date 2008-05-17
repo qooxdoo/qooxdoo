@@ -24,7 +24,6 @@
 
 /* ************************************************************************
 
-#embed(qx.static/image/blank.gif)
 #asset(qx/static/image/blank.gif)
 
 ************************************************************************ */
@@ -602,7 +601,7 @@ qx.Class.define("qx.io.remote.transport.Iframe",
       // Reset source to a blank image for gecko
       // Otherwise it will switch into a load-without-end behaviour
       if (qx.core.Variant.isSet("qx.client", "gecko")) {
-        this._frame.src = qx.util.AliasManager.getInstance().resolve("static/image/blank.gif");
+        this._frame.src = qx.util.ResourceManager.toUri("qx/static/image/blank.gif");
       }
 
       // Finally remove element node

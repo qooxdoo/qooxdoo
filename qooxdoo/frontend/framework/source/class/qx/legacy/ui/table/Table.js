@@ -19,7 +19,6 @@
 
 /* ************************************************************************
 
-#embed(qx.widgettheme/table/select-column-order.png)
 #asset(qx/decoration/Classic/table/select-column-order.png)
 
 ************************************************************************ */
