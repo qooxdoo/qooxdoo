@@ -74,13 +74,10 @@ qx.Class.define("feedreader.view.Tree",
     // Register the change listener
     this.addListener("change", this._onChangeSelectionView, this);
 
-    // Refresh the tree view
-    this._refresh();
-
     // Listen for model changes
-    feedList.addListener("add", this._refresh, this);
-    feedList.addListener("remove", this._refresh, this);
-    feedList.addListener("change", this._onSelectFeed, this);
+    feedList.addListener("add", this._onFeedAdded, this);
+    feedList.addListener("remove", this._onFeedRemoved, this);
+    feedList.addListener("change", this._onFeedSelected, this);
   },
 
 
@@ -95,35 +92,39 @@ qx.Class.define("feedreader.view.Tree",
   members :
   {
     /**
-     * Invokes a refresh of the tree.
-     * This includes getting the feeds of the controller and
-     * creation of a tree folder for every feed.
+     * Executed on addition of a feed from the list.
+     *
+     * @param e {qx.event.type.DataEvent} Incoming data event. Contains the added feed.
      */
-    _refresh : function()
+    _onFeedAdded : function(e)
     {
-      // remove old folders
-      this._staticFeedsFolder.removeAll();
-      this._userFeedsFolder.removeAll();
+      this.debug("E: " + e)
+      var feed = e.getData();
+      feed.addListener("stateModified", this._onFeedStateModified, this);
 
-      var feeds = this._feedList.getFeeds();
+      // create and add a folder for every feed
+      var folder = new qx.ui.tree.TreeFolder(feed.getTitle());
+      
+      this._updateFolderState(folder, feed.getState());
+      folder.setUserData("feed", feed);
+      
+      if (feed.getCategory() == "static") {
+        this._staticFeedsFolder.add(folder);
+      } else {
+        this._userFeedsFolder.add(folder);
+      }      
+    },
+    
 
-      // go threw all feeds
-      for (var i=0; i<feeds.length; i++)
-      {
-        var feed = feeds[i];
-
-        feed.addListener("stateModified", this._onFeedStateModified, this);
-
-        // create and add a folder for every feed
-        var folder = new qx.ui.tree.TreeFolder(feed.getTitle());
-        this._updateFolderState(folder, feed.getState());
-        folder.setUserData("feed", feed);
-        if (feed.getCategory() == "static") {
-          this._staticFeedsFolder.add(folder);
-        } else {
-          this._userFeedsFolder.add(folder);
-        }
-      }
+    /**
+     * Executed on removal of a feed from the list.
+     * 
+     * @param e {qx.event.type.DataEvent} Incoming data event. Contains the remove feed.
+     */
+    _onFeedRemoved : function(e)
+    {
+      var feed = e.getData();
+      this.getFolder(feed).destroy();
     },
 
 
@@ -181,6 +182,7 @@ qx.Class.define("feedreader.view.Tree",
           return folders[i];
         }
       }
+      
       return null;
     },
 
@@ -210,7 +212,7 @@ qx.Class.define("feedreader.view.Tree",
      *
      * @param e {qx.event.type.Data} The data event of the feed list change.
      */
-    _onSelectFeed : function(e)
+    _onFeedSelected : function(e)
     {
       var feed = e.getValue();
 

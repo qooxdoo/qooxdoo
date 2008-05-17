@@ -54,10 +54,10 @@ qx.Class.define("feedreader.model.FeedList",
   events :
   {
     /** fired on addition of new feeds */
-    "add" : "qx.event.type.Event",
+    "add" : "qx.event.type.DataEvent",
 
     /** fired on removal of feeds */
-    "remove" : "qx.event.type.Event"
+    "remove" : "qx.event.type.DataEvent"
   },
 
 
@@ -110,7 +110,7 @@ qx.Class.define("feedreader.model.FeedList",
     addFeed : function(feed)
     {
       this.__feeds.push(feed);
-      this.fireEvent("add");
+      this.fireDataEvent("add", feed);
 
       if (!this.getSelected()) {
         this.setSelected(feed);
@@ -126,7 +126,7 @@ qx.Class.define("feedreader.model.FeedList",
     removeFeed : function(feed)
     {
       qx.lang.Array.remove(this.__feeds, feed);
-      this.fireEvent("remove");
+      this.fireDataEvent("remove", feed);
 
       if (this.getSelected() == feed) {
         this.setSelected(null);
