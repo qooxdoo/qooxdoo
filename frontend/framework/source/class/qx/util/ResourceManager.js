@@ -13,41 +13,23 @@
      See the LICENSE file in the project's top-level directory for details.
 
    Authors:
+     * Sebastian Werner (wpbasti)
      * Fabian Jakobs (fjakobs)
 
 ************************************************************************ */
 
 /**
- * The image registry contains information about image sizes and information about
- * clipped images. The {@link qx.ui.basic.Image} class uses this information to
- * render images.
+ * Contains information about images (size, format, clipping, ...) and
+ * other resources like CSS files, local data, ...
  */
-qx.Class.define("qx.util.ImageRegistry",
+qx.Bootstrap.define("qx.util.ResourceManager",
 {
-  extend : qx.core.Object,
-  type : "singleton",
-
-
-  construct : function ()
+  statics :
   {
-    this.base(arguments);
-
-    // {Map} the shared image registry
-    this.__registry = window.qxresourceinfo || {};
-  },
-
-
-
-
-
-  /*
-  *****************************************************************************
-     MEMBERS
-  *****************************************************************************
-  */
-
-  members :
-  {
+    /** {Map} the shared image registry */
+    __registry : window.qxresourceinfo || {},
+    
+    
     /**
      * Register information about an image.
      *
@@ -95,28 +77,30 @@ qx.Class.define("qx.util.ImageRegistry",
     /**
      * Whether the registry has informations about the given resource.
      *
-     * @type member
-     * @param uri {String} The resource to get the information for
+     * @param id {String} The resource to get the information for
      * @return {Boolean} <code>true</code> when the resource is known.
      */
-    has : function(uri) {
-      return !!this.__registry[uri];
+    has : function(id) {
+      return !!this.__registry[id];
     },
 
 
     /**
      * Get information about an resource.
      *
-     * @param uri {String} The resource to get the information for
+     * @param id {String} The resource to get the information for
      * @return {Array} Registered data
      */
-    get : function(uri) {
-      return this.__registry[uri] || null;
+    getData : function(id) {
+      return this.__registry[id] || null;
     },
     
     
     // only used in grid decoration currently
-    getClipped : function(id)
+    // internal structure:
+    // images: [width, height, format, library, [clipped, left, top]]
+    // other: library
+    getClippedImage : function(id)
     {
       var entry = this.__registry[id];
       if (!entry) {
@@ -128,18 +112,18 @@ qx.Class.define("qx.util.ImageRegistry",
       
       if (entry.length > 4) 
       {
-        var uri = entry[4];
+        id = entry[4];
+        
         var left = entry[5];
         var top = entry[6];        
       }
       else
       {
-        var uri = id;
         var left = 0;
         var top = 0;
       }
       
-      return [uri, left, top, width, height];
+      return [id, left, top, width, height];
     },
     
     
@@ -151,12 +135,6 @@ qx.Class.define("qx.util.ImageRegistry",
       
       var entry = this.__registry[id];
 
-      if (!entry) 
-      {
-        this.debug("Oops: Missing image: " + id);
-        return id;
-      }
-      
       if (typeof entry === "string") {
         var lib = entry
       } else {
@@ -165,17 +143,5 @@ qx.Class.define("qx.util.ImageRegistry",
       
       return window.qxlibinfo[lib].resuri + "/" + id;
     }
-  },
-
-
-
-  /*
-  *****************************************************************************
-     DESTRUCTOR
-  *****************************************************************************
-  */
-
-  destruct : function() {
-    this._disposeObjects("__registry");
   }
 });

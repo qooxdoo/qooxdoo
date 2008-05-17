@@ -219,7 +219,7 @@ qx.Class.define("qx.ui.decoration.Beveled",
       var innerStyle = "1px solid " + this.__innerColor;
       
       var bgId = qx.util.AliasManager.getInstance().resolve(this.getBackgroundImage());
-      var bgSource = qx.util.ImageRegistry.getInstance().toUri(bgId);
+      var bgSource = qx.util.ResourceManager.toUri(bgId);
 
 
       // Colors
