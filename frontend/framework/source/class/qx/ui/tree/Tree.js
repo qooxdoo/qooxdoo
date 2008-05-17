@@ -417,12 +417,13 @@ qx.Class.define("qx.ui.tree.Tree",
     },
 
 
+
+
     /*
     ---------------------------------------------------------------------------
       MOUSE EVENT HANDLER
     ---------------------------------------------------------------------------
     */
-
 
     /**
      * Returns the tree item, which contains the given widget.
@@ -494,6 +495,8 @@ qx.Class.define("qx.ui.tree.Tree",
         e.stopPropagation();
       }
     },
+
+
 
 
     /*
