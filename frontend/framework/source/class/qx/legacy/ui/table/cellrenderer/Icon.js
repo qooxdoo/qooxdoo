@@ -44,7 +44,7 @@ qx.Class.define("qx.legacy.ui.table.cellrenderer.Icon",
   construct : function()
   {
     this.base(arguments);
-    this.IMG_BLANK_URL = qx.util.AliasManager.getInstance().resolve("static/image/blank.gif");
+    this.IMG_BLANK_URL = qx.util.ResourceManager.toUri("qx/static/image/blank.gif");
 
     var clazz = this.self(arguments);
     if (!clazz.stylesheet)
