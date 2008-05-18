@@ -21,8 +21,8 @@
 /* ************************************************************************
 
 #asset(qx/decoration/Classic/colorselector/*)
-#asset(qx/icon/Oxygen/16/actions/dialog-cancel.png)
-#asset(qx/icon/Oxygen/16/actions/dialog-ok.png)
+#asset(qx/icon/Compat/16/actions/dialog-cancel.png)
+#asset(qx/icon/Compat/16/actions/dialog-ok.png)
 #asset(qx/static/image/dotted_white.gif)
 
 ************************************************************************ */

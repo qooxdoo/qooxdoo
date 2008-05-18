@@ -57,12 +57,14 @@ qx.Class.define("qx.theme.manager.Icon",
 
   members :
   {
+    // property apply
     _applyTheme : function(value, old)
     {
       if (qx.theme.manager.Meta.getInstance().getAutoSync()) {
         this.syncIconTheme();
       }
     },
+    
 
     /**
      * Sync dependend objects with internal database
