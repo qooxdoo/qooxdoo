@@ -6102,7 +6102,7 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     },
 
     _styleBackgroundImage : function(value) {
-      value ? this.setStyleProperty("backgroundImage", "url(" + value + ")") : this.removeStyleProperty("backgroundImage");
+      value ? this.setStyleProperty("backgroundImage", "url(" + qx.util.ResourceManager.toUri(value) + ")") : this.removeStyleProperty("backgroundImage");
     },
 
 

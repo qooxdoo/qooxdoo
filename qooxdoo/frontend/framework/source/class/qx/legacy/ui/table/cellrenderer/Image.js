@@ -81,7 +81,7 @@ qx.Class.define("qx.legacy.ui.table.cellrenderer.Image",
       if (cellInfo.value == "") {
         imageHints.url = this.IMG_BLANK_URL;
       } else {
-        imageHints.url = this._am.resolve(cellInfo.value);
+        imageHints.url = qx.util.ResourceManager.toUri(this._am.resolve(cellInfo.value));
       }
 
       return imageHints;
