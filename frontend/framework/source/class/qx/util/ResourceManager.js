@@ -135,9 +135,7 @@ qx.Bootstrap.define("qx.util.ResourceManager",
       }
       
       var entry = this.__registry[id];
-
       if (!entry) {
-        qx.log.Logger.debug(this, "Missing information about: " + id)
         return id;
       }
       
