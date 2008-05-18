@@ -20,6 +20,9 @@
 
 qx.Mixin.define("qx.legacy.application.MGuiCompat",
 {
+  include : [qx.locale.MTranslation],
+  
+  
   /*
   *****************************************************************************
      MEMBERS
