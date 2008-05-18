@@ -30,47 +30,15 @@ qx.Bootstrap.define("qx.util.ResourceManager",
     __registry : window.qxresourceinfo || {},
     
     
-    /**
-     * Register information about an image.
-     *
-     * @param iconUri {String} The URI of the image to register information about.
-     * @param mappedUri {String} The image URI, which should be used to display
-     *     the image. This can be either the same as the image URI or the URI
-     *     of a combined image containing several images.
-     * @param xOffset {Integer} The horizontal start offset of the image.
-     * @param yOffset {Integer} The vertical start offset of the image.
-     * @param width {Integer} The image width
-     * @param height {Integer} The image height
-     */
-    register : function(iconUri, mappedUri, xOffset, yOffset, width, height)
+    registerImage : function(uri, width, height)
     {
       // Protect overwriting
-      if (this.__registry[iconUri]) {
+      if (this.__registry[uri]) {
         return;
       }
       
-      //this.debug("Register not yet supported: " + iconUri);
-      return;
-
-      var isPng = qx.lang.String.endsWith(iconUri, ".png");
-
-      // Use clipped images unless the image is PNG and the browser IE6
-      var Engine = qx.bom.client.Engine;
-      if (isPng && Engine.MSHTML && Engine.VERSION < 7)
-      {
-        this.__registry[iconUri] = [width, height, "type", "lib"];
-      }
-      else
-      {
-        if (iconUri == mappedUri)
-        {
-          this.__registry[iconUri] = [width, height, "type", "lib"];
-        }
-        else
-        {
-          this.__registry[iconUri] = [width, height, "type", "lib", mappedUri, xOffset, yOffset, "mtype", "mlib"];
-        }
-      }
+      this.debug("Dynamically registering: " + uri);
+      this.__registry[uri] = [width, height];
     },
 
 
@@ -111,17 +79,20 @@ qx.Bootstrap.define("qx.util.ResourceManager",
       var height = entry[1];      
       var format = entry[2];
       
-      if (entry.length > 4) 
+      // format non-clipped: width, height, type, lib
+      if (entry.length < 5)
+      {
+        var left = 0;
+        var top = 0;
+      }
+      
+      // format clipped: width, height, type, lib, left, top
+      else
       {
         id = entry[4];
         
         var left = entry[5];
         var top = entry[6];        
-      }
-      else
-      {
-        var left = 0;
-        var top = 0;
       }
       
       return [id, left, top, width, height, format];
@@ -139,12 +110,21 @@ qx.Bootstrap.define("qx.util.ResourceManager",
         return id;
       }
       
-      if (typeof entry === "string") {
+      if (typeof entry === "string") 
+      {
         var lib = entry
-      } else {
+      } 
+      else 
+      {
         var lib = entry[3];
+        
+        // no lib reference
+        // may mean that the image has been registered dynamically
+        if (!lib) {
+          return id;
+        }
       }
-      
+
       return window.qxlibinfo[lib].resuri + "/" + id;
     }
   }
