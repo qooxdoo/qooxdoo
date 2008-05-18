@@ -25,6 +25,9 @@ qx.Class.define("demobrowser.demo.util.PropertyEditor",
   construct : function()
   {
     this.base(arguments);
+    
+    // Force ScrollArea to have an auto-width
+    this.setWidth(null);
 
     this._editorGroups = {};
     
