@@ -39,15 +39,8 @@
 
       "settings" :
       {
-        "qx.version" : "0.8-pre2",
-        "qx.application" : "${APPLICATION}.Application",
-        "${APPLICATION}.resourceUri" : "resource"
-      },
-
-      "themes" :
-      {
-        "qx.icontheme" : ["Oxygen"],
-        "qx.theme"     : ["Modern"]
+        "qx.version" : "0.8-alpha1",
+        "qx.application" : "${APPLICATION}.Application"
       },
 
       "cache" :
@@ -60,11 +53,6 @@
     "source-script" :
     {
       "extend" : ["common"],
-
-      "settings" :
-      {
-        "qx.resourceUri" : "${QOOXDOO_URI}/source/resource"
-      },
 
       "script" :
       {
@@ -121,11 +109,6 @@
     "build-script" :
     {
       "extend" : ["common"],
-
-      "settings" :
-      {
-        "qx.resourceUri" : "resource"
-      },
 
       "compile" :
       {
@@ -238,12 +221,7 @@
           "manifest" : "Manifest.json",
           "uri"      : ".."
         }
-      ],
-
-      "settings" :
-      {
-        "demobrowser.resourceUri" : "./resource"
-      }
+      ]
     },
 
 
