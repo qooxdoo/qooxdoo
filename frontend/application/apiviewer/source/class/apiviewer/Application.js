@@ -54,7 +54,8 @@ qx.Class.define("apiviewer.Application",
       qx.Class.include(qx.legacy.ui.core.Widget, apiviewer.MWidgetRegistry);
 
       // Define alias for custom resource path
-      qx.util.AliasManager.getInstance().add("api", qx.core.Setting.get("apiviewer.resourceUri") + "/apiviewer");
+      // TODO: Should be removed
+      qx.util.AliasManager.getInstance().add("api", "apiviewer");
 
       // Include CSS file
       qx.bom.Stylesheet.includeFile(qx.util.AliasManager.getInstance().resolve("api/css/apiviewer.css"));
@@ -77,19 +78,6 @@ qx.Class.define("apiviewer.Application",
       // Finally load the data
       this.controller.load("script/apidata.js");
     }
-  },
-
-
-
-
-  /*
-  *****************************************************************************
-     SETTINGS
-  *****************************************************************************
-  */
-
-  settings : {
-    "apiviewer.resourceUri" : "./resource"
   },
 
 
