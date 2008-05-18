@@ -60,6 +60,13 @@ qx.Class.define("showcase.Application",
     main : function()
     {
       this.base(arguments);
+      
+      // Include log appenders into debug build
+      if (qx.core.Variant.isSet("qx.debug", "on")) 
+      {
+        qx.log.appender.Native;
+        qx.log.appender.Console;        
+      }
 
       var barView = new qx.legacy.ui.pageview.buttonview.ButtonView;
 
