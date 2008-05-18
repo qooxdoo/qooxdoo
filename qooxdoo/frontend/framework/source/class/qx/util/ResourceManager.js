@@ -37,7 +37,7 @@ qx.Bootstrap.define("qx.util.ResourceManager",
         return;
       }
       
-      this.debug("Dynamically registering: " + uri);
+      qx.log.Logger.debug("Dynamically registering: " + uri);
       this.__registry[uri] = [width, height];
     },
 
