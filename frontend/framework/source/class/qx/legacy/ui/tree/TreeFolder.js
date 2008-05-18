@@ -22,8 +22,8 @@
 
 /* ************************************************************************
 
-#asset(qx/icon/Oxygen/16/places/folder-open.png)
-#asset(qx/icon/Oxygen/16/places/folder.png)
+#asset(qx/icon/Compat/16/status/folder-open.png)
+#asset(qx/icon/Compat/16/places/folder.png)
 
 ************************************************************************ */
 
@@ -153,7 +153,7 @@ qx.Class.define("qx.legacy.ui.tree.TreeFolder",
     iconSelected :
     {
       refine : true,
-      init : "icon/16/places/folder-open.png"
+      init : "icon/16/status/folder-open.png"
     },
 
 

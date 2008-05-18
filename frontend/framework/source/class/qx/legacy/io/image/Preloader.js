@@ -76,7 +76,7 @@ qx.Class.define("qx.legacy.io.image.Preloader",
 
     // Set Source
     this._source = imageUrl;
-    this._element.src = imageUrl;
+    this._element.src = qx.util.ResourceManager.toUri(imageUrl);
 
     // Set PNG State
     if (qx.core.Variant.isSet("qx.client", "mshtml")) {
