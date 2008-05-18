@@ -20,11 +20,10 @@
 
 /* ************************************************************************
 
-#asset(qx/icon/Oxygen/16/places/folder-open.png)
-#asset(qx/icon/Oxygen/16/places/folder.png)
-#asset(qx/icon/Oxygen/16/actions/document-open.png)
-#asset(qx/icon/Oxygen/16/actions/document-new.png)
-#asset(qx/decoration/Classic/tree/*)
+#asset(qx/icon/Compat/16/status/folder-open.png)
+#asset(qx/icon/Compat/16/places/folder.png)
+#asset(qx/icon/Compat/16/actions/document-open.png)
+#asset(qx/icon/Compat/16/actions/document-new.png)
 #asset(qx/static/blank.gif)
 
 ************************************************************************ */
@@ -284,7 +283,7 @@ qx.Class.define("qx.legacy.ui.treevirtual.SimpleTreeDataCellRenderer",
         {
           imageUrl =
             (node.bSelected
-             ? "icon/16/places/folder-open.png"
+             ? "icon/16/status/folder-open.png"
              : "icon/16/places/folder.png");
         }
       }
