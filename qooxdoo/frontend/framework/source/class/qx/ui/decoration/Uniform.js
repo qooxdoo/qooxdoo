@@ -105,12 +105,11 @@ qx.Class.define("qx.ui.decoration.Uniform",
     {
       if (changes.style || changes.init)
       {
-        var bgImage = qx.util.ResourceManager.toUri(qx.util.AliasManager.getInstance().resolve(this.getBackgroundImage()));
-        element.setStyles({
-          border: this.getWidth() + "px " + this.getStyle() + " " + (this.__color || ""),
-          backgroundImage: bgImage ? "url(" + bgImage + ")" : null,
-          backgroundRepeat: this.getBackgroundRepeat()
-        });
+        element.setStyle("border", this.getWidth() + "px " + this.getStyle() + " " + (this.__color || ""));
+        
+        var imageId = qx.util.AliasManager.getInstance().resolve(this.getBackgroundImage());
+        var bgStyles = qx.bom.element.Background.getStyles(imageId, this.getBackgroundRepeat());
+        element.setStyles(bgStyles);
       }
 
       if (changes.bgcolor || changes.init) {
