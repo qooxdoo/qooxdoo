@@ -41,16 +41,7 @@ qx.Class.define("demobrowser.demo.widget.Image_1",
       container.setPadding(20);
       this.getRoot().add(container, {left:0,top:0});
 
-      var mgr = qx.util.ImageRegistry.getInstance();
-      var base = qx.core.Setting.get("demobrowser.resourceUri") + "/demobrowser/demo/icons/"
-
-      mgr.register(base + "feed-reader.png", base + "feed-reader.png", 0, 0, 48, 48);
-      mgr.register(base + "graphics-viewer-document.png", base + "graphics-viewer-document.png", 0, 0, 48, 48);
-      mgr.register(base + "format-justify-fill.png", base + "format.png", -48, 0, 16, 16);
-      mgr.register(base + "format-justify-left.png", base + "format.png", -64, 0, 16, 16);
-      mgr.register(base + "multimedia-player.png", base + "multimedia-player.png", 0, 0, 128, 128);
-      mgr.register(base + "multimedia-player-disabled.png", base + "multimedia-player-disabled.png", 0, 0, 128, 128);
-
+      var base = "demobrowser/demo/icons/"
       container.add(new qx.ui.basic.Image(base + "feed-reader.png"));
       container.add(new qx.ui.basic.Image(base + "graphics-viewer-document.png"));
       container.add(new qx.ui.basic.Image(base + "format-justify-fill.png"));
