@@ -20,14 +20,7 @@
 
 /* ************************************************************************
 
-#resource(demobrowser.css:demobrowser/css)
-#resource(demobrowser.image:demobrowser/image)
-
-#embed(qx.icontheme/16/*)
-#embed(demobrowser.image/*)
-#embed(demobrowser.css/*)
-
-#asset(qx/icon/Oxygen/16/*)
+#asset(qx/icon/Compat/16/*)
 #asset(demobrowser/image/*)
 #asset(demobrowser/css/*)
 
