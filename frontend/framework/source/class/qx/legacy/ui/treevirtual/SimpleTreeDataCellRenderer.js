@@ -50,8 +50,8 @@ qx.Class.define("qx.legacy.ui.treevirtual.SimpleTreeDataCellRenderer",
 
     // Base URL used for indent images
     var Am = qx.util.AliasManager;
-    this.WIDGET_TREE_URI = Am.getInstance().resolve("widget/tree/");
-    this.STATIC_IMAGE_URI = Am.getInstance().resolve("static/image/");
+    this.WIDGET_TREE_URI = qx.util.ResourceManager.toUri(Am.getInstance().resolve("widget/tree/line.gif")).replace("line.gif", "");
+    this.STATIC_IMAGE_URI = qx.util.ResourceManager.toUri("qx/static/image/blank.gif").replace("blank.gif", "");
 
     // Get the preloader manager singleton
     var preloader = qx.legacy.io.image.PreloaderManager.getInstance();
@@ -188,12 +188,12 @@ qx.Class.define("qx.legacy.ui.treevirtual.SimpleTreeDataCellRenderer",
             '" style="filter:' +
             "progid:DXImageTransform.Microsoft.AlphaImageLoader(" +
             "  src='" +
-            Am.getInstance().resolve(urlAndToolTip.url) +
+            qx.util.ResourceManager.toUri(Am.getInstance().resolve(urlAndToolTip.url)) +
             "',sizingMethod='scale')";
         }
       else
         {
-          var imageUrl = Am.getInstance().resolve(urlAndToolTip.url);
+          var imageUrl = qx.util.ResourceManager.toUri(Am.getInstance().resolve(urlAndToolTip.url));
           html += imageUrl + '" style="';
         }
 

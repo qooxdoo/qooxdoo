@@ -555,7 +555,7 @@ qx.Class.define("qx.legacy.ui.embed.Iframe",
       var currentSource = this.getSource();
 
       if (currentSource == null || currentSource === "") {
-        currentSource = qx.util.AliasManager.getInstance().resolve("static/html/blank.html");
+        currentSource = qx.util.ResourceManager.toUri("qx/static/html/blank.html");
       }
 
       this._isLoaded = false;
