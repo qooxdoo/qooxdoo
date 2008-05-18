@@ -58,7 +58,7 @@ def main(dist, scan):
       if not firstItem:
         res += ",\n"
 
-      res += '{\"nr\":"%s",\"title\":"%s",\"name\":"%s",\"desc\":"%s"}' % (nr, title, item, "TODO")
+      res += '{\"nr\":"%s",\"title\":"%s",\"name\":"%s"}' % (nr, title, item)
       lastbasename = basename
       firstItem = False
 
