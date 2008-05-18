@@ -67,7 +67,7 @@ qx.Class.define("feedreader.io.FeedLoader",
       proxy = "http://resources.qooxdoo.org/proxy.php?mode=jsonp&proxy=" + encodeURIComponent(feed.getUrl());
 
       // Create request object
-      req = new qx.io.remote.Request(proxy, "GET", qx.legacy.util.Mime.TEXT);
+      req = new qx.io.remote.Request(proxy, "GET", "text/plain");
 
       // Json data is useable cross-domain (in fact it is jsonp in this case)
       req.setCrossDomain(true);
