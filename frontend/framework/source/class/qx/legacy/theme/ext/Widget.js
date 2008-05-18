@@ -22,8 +22,7 @@
 
 /* ************************************************************************
 
-#require(qx.util.AliasManager)
-#resource(qx.widgettheme:qx/decoration/Ext)
+#asset(qx/decoration/Ext/*)
 
 ************************************************************************* */
 
@@ -33,6 +32,6 @@
 qx.Theme.define("qx.legacy.theme.ext.Widget",
 {
   title : "Ext",
-  resource : qx.core.Setting.get("qx.resourceUri") + "/qx/decoration/Ext",
+  resource : "qx/decoration/Ext",
   widgets : {}
 });

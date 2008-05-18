@@ -20,10 +20,9 @@
 
 /* ************************************************************************
 
-#require(qx.util.AliasManager)
-#resource(qx.widgettheme:qx/decoration/Classic)
+#asset(qx/decoration/Classic/*)
 
-************************************************************************ */
+************************************************************************* */
 
 /**
  * Default qooxdoo widget theme
@@ -31,6 +30,6 @@
 qx.Theme.define("qx.legacy.theme.classic.Widget",
 {
   title : "Windows",
-  resource : qx.core.Setting.get("qx.resourceUri") + "/qx/decoration/Classic",
+  resource : "qx/decoration/Classic",
   widgets : {}
 });
