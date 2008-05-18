@@ -64,7 +64,7 @@ qx.Class.define("qx.log.appender.Console",
         '.qxconsole .control{background:#cdcdcd;border-bottom:1px solid black;padding:4px 8px;}',
         '.qxconsole .control a{text-decoration:none;color:black;}',
         
-        '.qxconsole .messages{background:white;height:100%;width:100%;overflow-y:scroll;}',
+        '.qxconsole .messages{background:white;height:100%;width:100%;overflow:auto;}',
         '.qxconsole .messages div{padding:0px 4px;}',
         
         '.qxconsole .messages .user-command{color:blue}',
@@ -174,7 +174,7 @@ qx.Class.define("qx.log.appender.Console",
     process : function(entry)
     {
       // Append new content
-      this.__log.appendChild(this.__toHtml(entry));
+      this.__log.appendChild(qx.log.appender.Util.toHtml(entry));
 
       // Scroll down
       this.__scrollDown();
@@ -186,135 +186,6 @@ qx.Class.define("qx.log.appender.Console",
      */
     __scrollDown : function() {
       this.__log.scrollTop = this.__log.scrollHeight;
-    },
-
-
-    /**
-     * Converts a single log entry to HTML
-     *
-     * @type static
-     * @signature function(entry)
-     * @param entry {Map} The entry to process
-     * @return {void}
-     */
-    __toHtml : function(entry)
-    {
-      var output = [];
-      var item, msg, sub, list;
-
-      output.push("<span class='offset'>", this.__formatOffset(entry.offset), "</span> ");
-
-      if (entry.object)
-      {
-        var obj = qx.core.ObjectRegistry.fromHashCode(entry.object);
-        if (obj) {
-          output.push("<span class='object' title='Object instance with hash code: " + obj.$$hash + "'>", obj.classname, "[" , obj.$$hash, "]</span>: ");
-        }
-      }
-      else if (entry.clazz)
-      {
-        output.push("<span class='object'>" + entry.clazz.classname, "</span>: ");
-      }
-
-      var items = entry.items;
-      for (var i=0, il=items.length; i<il; i++)
-      {
-        item = items[i];
-        msg = item.text;
-
-        if (msg instanceof Array)
-        {
-          var list = [];
-          
-          for (var j=0, jl=msg.length; j<jl; j++)
-          {
-            sub = msg[j];
-            if (typeof sub === "string") {
-              list.push("<span>" + this.__escapeHTML(sub) + "</span>");
-            } else if (sub.key) {
-              list.push("<span class='type-key'>" + sub.key + "</span>:<span class='type-" + sub.type + "'>" + this.__escapeHTML(sub.text) + "</span>");
-            } else {
-              list.push("<span class='type-" + sub.type + "'>" + this.__escapeHTML(sub.text) + "</span>");
-            }
-          }
-
-          output.push("<span class='type-" + item.type + "'>");
-
-          if (item.type === "map") {
-            output.push("{", list.join(", "), "}");
-          } else {
-            output.push("[", list.join(", "), "]");
-          }
-
-          output.push("</span>");
-        }
-        else
-        {
-          output.push("<span class='type-" + item.type + "'>" + this.__escapeHTML(msg) + "</span> ");
-        }
-      }
-
-      var wrapper = document.createElement("DIV");
-      wrapper.innerHTML = output.join("");
-      wrapper.className = "level-" + entry.level;
-
-      return wrapper;
-    },
-
-
-    /**
-     * Formats a numeric time offset to 8 characters.
-     *
-     * @type static
-     * @param offset {Integer} Current offset value
-     * @param length {Integer?8} Refine the length
-     * @return {String} Padded string
-     */
-    __formatOffset : function(offset, length)
-    {
-      var str = offset.toString();
-      var diff = (length||6) - str.length;
-      var pad = "";
-
-      for (var i=0; i<diff; i++) {
-        pad += "0";
-      }
-
-      return pad+str;
-    },
-
-
-    /**
-     * Escapes the HTML in the given value
-     *
-     * @type static
-     * @param value {String} value to escape
-     * @return {String} escaped value
-     */
-    __escapeHTML : function(value) {
-      return String(value).replace(/[<>&"']/g, this.__escapeHTMLReplace);
-    },
-
-
-    /**
-     * Internal replacement helper for HTML escape.
-     *
-     * @type static
-     * @param ch {String} Single item to replace.
-     * @return {String} Replaced item
-     */
-    __escapeHTMLReplace : function(ch)
-    {
-      var map =
-      {
-        "<" : "&lt;",
-        ">" : "&gt;",
-        "&" : "&amp;",
-        "'" : "&#39;",
-        '"' : "&quot;"
-      };
-
-      return map[ch] || "?";
     },
 
 
@@ -422,7 +293,7 @@ qx.Class.define("qx.log.appender.Console",
      * @return {void}
      */
     __onResize : function(e) {
-      this.__log.style.height = (this.__main.offsetHeight - this.__main.firstChild.offsetHeight - this.__main.lastChild.offsetHeight - 2) + "px";
+      this.__log.style.height = (this.__main.clientHeight - this.__main.firstChild.offsetHeight - this.__main.lastChild.offsetHeight) + "px";
     },
 
 
