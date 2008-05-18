@@ -328,11 +328,11 @@ qx.Class.define("qx.legacy.ui.form.ComboBox",
     _applySelected : function(value, old)
     {
       this._fromSelected = true;
-
+      
       // only do this if we called setSelected seperatly
       // and not from the property "value".
       if (!this._fromValue) {
-        this.setValue(value ? value.getValue() : "");
+        this.setValue(value ? value.getLabel().toString() : "");
       }
 
       // reset manager cache
