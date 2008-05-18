@@ -184,7 +184,7 @@ qx.Class.define("demobrowser.DemoBrowser",
     {
       var header = new qx.legacy.ui.embed.HtmlEmbed("<h1>" + "<span>" + "qooxdoo Demo Browser" + "</span>" + "</h1>" + "<div class='version'>qooxdoo " + qx.core.Setting.get("qx.version") + "</div>");
       header.setHtmlProperty("id", "header");
-      header.setStyleProperty("background", "#134275 url(" + qx.util.AliasManager.getInstance().resolve("demobrowser/image/colorstrip.gif") + ") top left repeat-x");
+      header.setStyleProperty("background", "#134275 url(" + qx.util.ResourceManager.toUri("demobrowser/image/colorstrip.gif") + ") top left repeat-x");
       header.setHeight(70);
       return header;
     },
@@ -775,14 +775,18 @@ qx.Class.define("demobrowser.DemoBrowser",
         border   : "dark-shadow",
         font     : "monospace"
       });
+      
+      this.logappender = new qx.log.appender.Element();
+      this.logelem = document.createElement("DIV");
+      this.logappender.setElement(this.logelem);
+      
+      var appearFunc = function(e) 
+      {
+        this.f2.getElement().appendChild(this.logelem);
+        this.f2.removeListener("appear", appearFunc, this);
+      };
 
-      this.logappender = new qx.legacy.log.appender.HtmlElement;
-      this.logger = new qx.legacy.log.Logger("Demo Browser");
-      this.logger.addAppender(this.logappender);
-
-      this.f2.addListener("appear", function(e) {
-        this.logappender.setElement(this.f2.getElement());
-      }, this);
+      this.f2.addListener("appear", appearFunc, this);
 
       // Third Page
       // -- Tab Button
@@ -1255,7 +1259,6 @@ qx.Class.define("demobrowser.DemoBrowser",
 
       // Clear log
       this.logappender.clear();
-      this.logger.info("load demo: " + value);
 
       this._currentSampleUrl == url ? this.f1.reload() : this.f1.setSource(url);
 
@@ -1315,6 +1318,9 @@ qx.Class.define("demobrowser.DemoBrowser",
         // update state on example change
         var sample = path.slice(-2).join('~');
         this._history.addToHistory(sample, title);
+        
+        // register appender
+        fwindow.qx.log.Logger.register(this.logappender);
 
         // load sample source code
         if (this._currentSampleUrl != this.defaultUrl)
@@ -1702,7 +1708,7 @@ qx.Class.define("demobrowser.DemoBrowser",
 
   destruct : function()
   {
-    this._disposeFields("widgets", "tests", "_sampleToTreeNodeMap", "tree", "__states");
+    this._disposeFields("widgets", "tests", "_sampleToTreeNodeMap", "tree", "__states", "logelem");
     this._disposeObjects("header", "mainsplit", "tree1", "left", "runbutton", "toolbar", "f1", "f2", "logger", "_history", "logappender", '_cmdObjectSummary', '_cmdRunSample', '_cmdPrevSample', '_cmdNextSample', '_cmdSampleInOwnWindow', '_cmdLoadProfile', '_cmdProfile', '_cmdShowLastProfile', '_cmdDisposeSample', '_cmdNamespacePollution');
   }
 });
