@@ -776,7 +776,12 @@ qx.Class.define("demobrowser.DemoBrowser",
         font     : "monospace"
       });
       
+      // Create appender and unregister from this logger 
+      // (we are interesed in demo messages only)
       this.logappender = new qx.log.appender.Element();
+      qx.log.Logger.unregister(this.logappender);
+
+      // Directly create DOM element to use
       this.logelem = document.createElement("DIV");
       this.logappender.setElement(this.logelem);
       
@@ -1029,7 +1034,7 @@ qx.Class.define("demobrowser.DemoBrowser",
     {
       this._sampleToTreeNodeMap = {};
       var _sampleToTreeNodeMap = this._sampleToTreeNodeMap;
-      var _initialSection    = "ui";
+      var _initialSection    = "widget";
 
       // set a section to open initially
       var state   = this._history.getState();
@@ -1083,24 +1088,6 @@ qx.Class.define("demobrowser.DemoBrowser",
             t = new qx.legacy.ui.tree.TreeFile(that.polish(currNode.label), "demobrowser/image/method_public18.gif");
             var fullName = currNode.pwd().slice(1).join("/") + "/" + currNode.label;
             _sampleToTreeNodeMap[fullName] = t;
-
-            desc = currNode.desc;
-
-            // force reduced margins
-            desc = desc.replace(/<p>/g, '<p style="margin:4px 0;padding:0">');
-            desc = desc.replace(/<ul>/g, '<ul style="margin:4px 0;padding:0">');
-            desc = desc.replace(/<ol>/g, '<ol style="margin:4px 0;padding:0">');
-
-            if (qx.core.Variant.isSet("qx.client", "mshtml")) {
-              desc = '<div style="width:200px">' + desc + '</div>';
-            } else {
-              desc = '<div style="max-width:200px">' + desc + '</div>';
-            }
-
-            tt = new qx.legacy.ui.popup.ToolTip(desc, "icon/32/actions/help-contents.png");
-            tt.getAtom().getLabelObject().setWrap(true);
-            tt.setShowInterval(200);
-            t.setToolTip(tt);
           }
 
           // make connections
@@ -1341,7 +1328,6 @@ qx.Class.define("demobrowser.DemoBrowser",
       }
       this.widgets["outputviews.demopage.button"].setLabel(tabName);
       // this.widgets["outputviews.demopage.button"].setLabel(this.polish(path[path.length - 1]));
-      this.debug("Demo loaded...");
 
       if (this.isPlayAll())
       {
@@ -1431,11 +1417,8 @@ qx.Class.define("demobrowser.DemoBrowser",
       req.setTimeout(180000);
       req.setProhibitCaching(false);
 
-      req.addListener("completed", function(evt) {
-        // debuging time
-        var loadEnd = new Date();
-        this.debug("Time to load page source from server: " + (loadEnd.getTime() - loadStart.getTime()) + "ms");
-
+      req.addListener("completed", function(evt) 
+      {
         // get the content of the request
         var content = evt.getContent();
         // if there is a content
@@ -1494,26 +1477,15 @@ qx.Class.define("demobrowser.DemoBrowser",
 
       req.addListener("completed", function(evt)
       {
-        var loadEnd = new Date();
-        this.debug("Time to load data from server: " + (loadEnd.getTime() - loadStart.getTime()) + "ms");
-
         var content = evt.getContent();
 
-        var start = new Date();
         var treeData = eval(content);
-
-        var end = new Date();
-        this.debug("Time to eval tree data: " + (end.getTime() - start.getTime()) + "ms");
 
         // give the browser a chance to update its UI before doing more
         qx.event.Timer.once(function()
         {
           this.tests.handler = new demobrowser.TreeDataHandler(treeData);
-
-          var start = new Date();
           this.leftReloadTree();
-          var end = new Date();
-          this.debug("Time to build/display tree: " + (end.getTime() - start.getTime()) + "ms");
 
           // read initial state
           var state = this._history.getState();
