@@ -29,64 +29,47 @@ class TreeLoader:
         return tokens
 
 
-    def getTree(self, fileId):
+    def getTree(self, fileId, variants=None):
         fileEntry = self._classes[fileId]
         filePath = fileEntry["path"]
 
-        cacheId = "tree-%s" % fileId
+        if variants:
+            cacheId = "tree-%s-%s" % (fileId, idlist.toString(variants))
+        else:
+            cacheId = "tree-%s" % fileId
+            
         tree = self._cache.read(cacheId, filePath)
         if tree != None:
             return tree
 
-        self._console.debug("Generating tree: %s..." % fileId)
-        self._console.indent()
+        # Lookup for unoptimized tree
+        if variants != None:
+            cacheId = "tree-%s" % fileId
+            tree = self._cache.read(cacheId, filePath)
 
-        tokens = self.getTokens(fileId)
+        # Tree still undefined?, create it!
+        if tree == None:
+            tokens = self.getTokens(fileId)
+            self._console.debug("Generating tree: %s..." % fileId)
+            self._console.indent()
 
-        try:
-            tree = treegenerator.createSyntaxTree(tokens)
-        except treegenerator.SyntaxException, detail:
-            self._console.error("%s" % detail)
-            sys.exit(1)
-
-        self._console.outdent()
-
-        self._cache.write(cacheId, tree)
-        return tree
-
-
-    def getVariantsTree(self, fileId, variants=None):
-        if variants == None or len(variants) == 0:
-            return self.getTree(fileId)
-
-        fileEntry = self._classes[fileId]
-        filePath = fileEntry["path"]
-
-        cacheId = "varianttree-%s-%s" % (fileId, idlist.toString(variants))
-        tree = self._cache.read(cacheId, filePath)
-        if tree != None:
-            if tree == "unmodified":
-                return self.getTree(fileId)
-
-            return tree
-
-        tree = self.getTree(fileId)
-
-        self._console.debug("Select variants: %s..." % fileId)
-        self._console.indent()
+            try:
+                tree = treegenerator.createSyntaxTree(tokens)
+            except treegenerator.SyntaxException, detail:
+                self._console.error("%s" % detail)
+                sys.exit(1)
+            
+            self._console.outdent()
+            self._console.debug("Selecting variants: %s..." % fileId)
+            self._console.indent()
 
         # Call variant optimizer
-        modified = variantoptimizer.search(tree, variants, fileId)
-
-        if not modified:
-            self._console.debug("Store unmodified hint.")
+        if variants != None:
+            variantoptimizer.search(tree, variants, fileId)
 
         self._console.outdent()
 
         # Store result into cache
-        if modified:
-            self._cache.write(cacheId, tree)
-        else:
-            self._cache.write(cacheId, "unmodified")
+        self._cache.write(cacheId, tree)
 
         return tree

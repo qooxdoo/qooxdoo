@@ -215,7 +215,7 @@ class DependencyLoader:
         loadtimeDeps = []
         runtimeDeps = []
 
-        tree = self._treeLoader.getVariantsTree(fileId, variants)
+        tree = self._treeLoader.getTree(fileId, variants)
         self._analyzeClassDepsNode(fileId, tree, loadtimeDeps, runtimeDeps, False)
 
         return loadtimeDeps, runtimeDeps
