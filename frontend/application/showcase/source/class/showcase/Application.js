@@ -21,28 +21,21 @@
 
 /* ************************************************************************
 
-#embed(qx.icontheme/16/*)
-#embed(qx.icontheme/22/*)
-#embed(qx.icontheme/32/*)
-#embed(qx.icontheme/48/*)
-
-#asset(qx/icon/Oxygen/16/*)
-#asset(qx/icon/Oxygen/22/*)
-#asset(qx/icon/Oxygen/32/*)
-#asset(qx/icon/Oxygen/48/*)
+#asset(qx/icon/Compat/16/*)
+#asset(qx/icon/Compat/22/*)
+#asset(qx/icon/Compat/32/*)
+#asset(qx/icon/Compat/48/*)
 
 #use(qx.legacy.theme.ClassicRoyale)
 #use(qx.legacy.theme.ClassicLunaBlue)
 #use(qx.legacy.theme.ClassicLunaGreen)
 #use(qx.legacy.theme.ClassicLunaSilver)
-#use(qx.legacy.theme.Ext)
 
 ************************************************************************ */
 
 qx.Class.define("showcase.Application",
 {
   extend : qx.legacy.application.Gui,
-
 
   events :
   {
@@ -80,17 +73,16 @@ qx.Class.define("showcase.Application",
 
       this._states = {};
 
-      this._createPage(barView, "Form", "icon/32/apps/office-writer.png", this._createFormDemo);
+      this._createPage(barView, "Form", "icon/32/apps/accessories-text-editor.png", this._createFormDemo);
       this._createPage(barView, "Tooltip", "icon/32/actions/system-run.png", this._createTooltipDemo);
-      this._createPage(barView, "Menu and Toolbar", "icon/32/devices/camera-web.png", this._createToolbarDemo);
+      this._createPage(barView, "Menu and Toolbar", "icon/32/devices/video-display.png", this._createToolbarDemo);
       this._createPage(barView, "Tab", "icon/32/places/user-desktop.png", this._createTabDemo, true);
-      this._createPage(barView, "Tree", "icon/32/apps/office-database.png", this._createTreeDemo);
-      this._createPage(barView, "List", "icon/32/categories/engineering.png", this._createListDemo);
-      this._createPage(barView, "ListView", "icon/32/categories/graphics.png", this._createListViewDemo);
-      this._createPage(barView, "Table", "icon/32/categories/multimedia.png", this._createTableDemo, true);
-      this._createPage(barView, "SplitPane", "icon/32/apps/office-writer.png", this._createSplitPaneDemo, true);
-      this._createPage(barView, "Localization", "icon/32/apps/utilities-file-archiver.png", this._createLocalizationDemo);
-      this._createPage(barView, "Native Window", "icon/32/devices/camera-web.png", this._createNativeWindowDemo);
+      this._createPage(barView, "Tree", "icon/32/actions/view-pane-tree.png", this._createTreeDemo);
+      this._createPage(barView, "List", "icon/32/actions/view-pane-detailed.png", this._createListDemo);
+      this._createPage(barView, "ListView", "icon/32/actions/view-pane-icon.png", this._createListViewDemo);
+      this._createPage(barView, "Table", "icon/32/actions/view-pane-column.png", this._createTableDemo, true);
+      this._createPage(barView, "SplitPane", "icon/32/actions/view-pane-text.png", this._createSplitPaneDemo, true);
+      this._createPage(barView, "Localization", "icon/32/apps/accessories-archiver.png", this._createLocalizationDemo);
       this._createPage(barView, "Internal Window", "icon/32/apps/preferences-desktop-theme.png", this._createInternalWindowDemo, true);
       this._createPage(barView, "Themes", "icon/32/apps/preferences-desktop-wallpaper.png", this._createThemesDemo);
 
@@ -239,7 +231,7 @@ qx.Class.define("showcase.Application",
       combo.add(new qx.legacy.ui.form.ListItem("PDA")); // , "icon/16/pda.png"));
       combo.add(new qx.legacy.ui.form.ListItem("Printer")); // , "icon/16/devices/printer.png"));
       combo.add(new qx.legacy.ui.form.ListItem("Scanner")); // , "icon/16/devices/scanner.png"));
-      combo.add(new qx.legacy.ui.form.ListItem("TV")); // , "icon/16/devices/camera-web.png"));
+      combo.add(new qx.legacy.ui.form.ListItem("TV")); // , "icon/16/devices/video-display.png"));
       gl.add(combo, 1, 2);
 
       gl.add(new qx.legacy.ui.basic.Label("E-Mail"), 0, 3);
@@ -308,7 +300,7 @@ qx.Class.define("showcase.Application",
       c1.setToolTip(new qx.legacy.ui.popup.ToolTip("Look at this"));
       main.add(c1);
 
-      var c2 = new qx.legacy.ui.basic.Atom("Hover me", "icon/32/apps/utilities-file-archiver.png");
+      var c2 = new qx.legacy.ui.basic.Atom("Hover me", "icon/32/apps/accessories-archiver.png");
       c2.setPadding(5);
       c2.setBorder("outset");
       c2.setBackgroundColor("#D1DFAD");
@@ -347,7 +339,7 @@ qx.Class.define("showcase.Application",
       var mb1_02 = new qx.legacy.ui.menu.Button("Open", "icon/16/actions/document-open.png");
       var mb1_03 = new qx.legacy.ui.menu.Button("Save", "icon/16/actions/document-save.png");
       var mb1_04 = new qx.legacy.ui.menu.Button("Save as", "icon/16/actions/document-save-as.png");
-      var mb1_05 = new qx.legacy.ui.menu.Button("Close", "icon/16/apps/preferences-desktop-accessibility.png");
+      var mb1_05 = new qx.legacy.ui.menu.Button("Close", "icon/16/actions/stop.png");
       var mb1_06 = new qx.legacy.ui.menu.Button("Restore last saved", "icon/16/actions/view-refresh.png");
       m1.add(mb1_01, mb1_02, mb1_03, mb1_04, mb1_05, mb1_06);
 
@@ -535,7 +527,7 @@ qx.Class.define("showcase.Application",
       var rbm = new qx.legacy.ui.selection.RadioManager(null, [ radio1, radio2, radio3 ]);
 
       rbm.addListener("changeSelected", function(e) {
-        this.fireDataEvent("changeLayout", e.getValue().getValue());
+        this.dispatchEvent(new qx.event.type.Data("changeLayout", e.getValue().getValue()));
       }, this);
 
       // Alignment
@@ -563,7 +555,7 @@ qx.Class.define("showcase.Application",
       button.setHorizontalAlign("center");
 
       button.addListener("execute", function(e) {
-        this.fireDataEvent("changeSize", 22);
+        this.dispatchEvent(new qx.event.type.Data("changeSize", 22));
       }, this);
 
       vert.add(button);
@@ -572,7 +564,7 @@ qx.Class.define("showcase.Application",
       button.setHorizontalAlign("center");
 
       button.addListener("execute", function(e) {
-        this.fireDataEvent("changeSize", 32);
+        this.dispatchEvent(new qx.event.type.Data("changeSize", 32));
       }, this);
 
       vert.add(button);
@@ -735,11 +727,11 @@ qx.Class.define("showcase.Application",
 
       main.add(bs);
 
-      var bsb1 = new qx.legacy.ui.pageview.buttonview.Button("Display", "icon/16/devices/camera-web.png");
+      var bsb1 = new qx.legacy.ui.pageview.buttonview.Button("Display", "icon/16/devices/video-display.png");
       var bsb2 = new qx.legacy.ui.pageview.buttonview.Button("Colorize", "icon/16/actions/format-color.png");
       var bsb3 = new qx.legacy.ui.pageview.buttonview.Button("Icons", "icon/16/apps/preferences-desktop-theme.png");
       var bsb4 = new qx.legacy.ui.pageview.buttonview.Button("Applications", "icon/16/actions/system-run.png");
-      var bsb5 = new qx.legacy.ui.pageview.buttonview.Button("System", "icon/16/devices/camera-web.png");
+      var bsb5 = new qx.legacy.ui.pageview.buttonview.Button("System", "icon/16/devices/video-display.png");
 
       bsb1.setChecked(true);
 
@@ -1470,16 +1462,16 @@ qx.Class.define("showcase.Application",
         else
         {
           var el = this.getElement();
-          m1.setLeft(qx.legacy.html.Location.getPageBoxLeft(el));
-          m1.setTop(qx.legacy.html.Location.getPageBoxBottom(el));
+          m1.setLeft(qx.html.Location.getPageBoxLeft(el));
+          m1.setTop(qx.html.Location.getPageBoxBottom(el));
           m1.show();
         }
 
-        estopPropagation();
+        e.setPropagationStopped(true);
       });
 
       w1.addListener("mousedown", function(e) {
-        estopPropagation();
+        e.setPropagationStopped(true);
       });
 
       controls.add(w1);
@@ -1489,8 +1481,8 @@ qx.Class.define("showcase.Application",
 
       mybtn.addListener("execute", function()
       {
-        mypop.setTop(qx.legacy.html.Location.getPageBoxBottom(this.getElement()));
-        mypop.setLeft(qx.legacy.html.Location.getPageBoxLeft(this.getElement()));
+        mypop.setTop(qx.html.Location.getPageBoxBottom(this.getElement()));
+        mypop.setLeft(qx.html.Location.getPageBoxLeft(this.getElement()));
         mypop.show();
       });
 
@@ -1619,231 +1611,6 @@ qx.Class.define("showcase.Application",
       // update info box
       qx.locale.Manager.getInstance().addListener("changeLocale", this.updateLocaleInformation, this);
       this.updateLocaleInformation();
-
-      return main;
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {var} TODOC
-     */
-    _createNativeWindowDemo : function()
-    {
-      var main = new qx.legacy.ui.layout.VerticalBoxLayout;
-      main.setPadding(10);
-
-      main.set(
-      {
-        width   : "auto",
-        height  : "auto",
-        spacing : 5
-      });
-
-      var win = new qx.legacy.util.NativeWindow("http://qooxdoo.org");
-      win.setDimension(600, 400);
-
-      var openBt = new qx.legacy.ui.form.Button("Open Native Window", "icon/16/apps/office-spreadsheet.png");
-
-      openBt.addListener("click", function() {
-        win.open();
-      });
-
-      main.add(openBt);
-
-      // Initial Settings
-      var fs1 = new qx.legacy.ui.groupbox.GroupBox("Initial Settings");
-
-      fs1.set(
-      {
-        width  : 250,
-        height : "auto"
-      });
-
-      main.add(fs1);
-
-      var vert = new qx.legacy.ui.layout.VerticalBoxLayout;
-
-      vert.set(
-      {
-        width  : "auto",
-        height : "auto"
-      });
-
-      fs1.add(vert);
-
-      var chk1 = new qx.legacy.ui.form.CheckBox("Resizeable");
-      chk1.setChecked(true);
-
-      chk1.addListener("changeChecked", function(e) {
-        win.setResizable(e.getValue());
-      });
-
-      var chk2 = new qx.legacy.ui.form.CheckBox("Show Statusbar");
-      chk2.setChecked(false);
-
-      chk2.addListener("changeChecked", function(e) {
-        win.setShowStatusbar(e.getValue());
-      });
-
-      var chk3 = new qx.legacy.ui.form.CheckBox("Show Menubar");
-      chk3.setChecked(false);
-
-      chk3.addListener("changeChecked", function(e) {
-        win.setShowMenubar(e.getValue());
-      });
-
-      var chk4 = new qx.legacy.ui.form.CheckBox("Show Location");
-      chk4.setChecked(false);
-
-      chk4.addListener("changeChecked", function(e) {
-        win.setShowLocation(e.getValue());
-      });
-
-      var chk5 = new qx.legacy.ui.form.CheckBox("Show Toolbar");
-      chk5.setChecked(false);
-
-      chk5.addListener("changeChecked", function(e) {
-        win.setShowToolbar(e.getValue());
-      });
-
-      var chk6 = new qx.legacy.ui.form.CheckBox("Allow Scrollbars");
-      chk6.setChecked(true);
-
-      chk6.addListener("changeChecked", function(e) {
-        win.setAllowScrollbars(e.getValue());
-      });
-
-      var chk7 = new qx.legacy.ui.form.CheckBox("Modal");
-      chk7.setChecked(false);
-
-      chk7.addListener("changeChecked", function(e) {
-        win.setModal(e.getValue());
-      });
-
-      var chk8 = new qx.legacy.ui.form.CheckBox("Dependent");
-      chk8.setChecked(true);
-
-      chk8.addListener("changeChecked", function(e) {
-        win.setDependent(e.getValue());
-      });
-
-      vert.add(chk1, chk2, chk3, chk4, chk5, chk6, chk7, chk8);
-
-      // Runtime Settings
-      var fs2 = new qx.legacy.ui.groupbox.GroupBox("Runtime Settings");
-
-      fs2.set(
-      {
-        width  : 250,
-        height : "auto"
-      });
-
-      main.add(fs2);
-
-      var vert = new qx.legacy.ui.layout.VerticalBoxLayout;
-
-      vert.set(
-      {
-        width   : "auto",
-        height  : "auto",
-        spacing : 2
-      });
-
-      fs2.add(vert);
-
-      var tf1 = new qx.legacy.ui.form.TextField("http://qooxdoo.org");
-      tf1.setWidth(150);
-
-      var setUrlBt = new qx.legacy.ui.form.Button("Set Url", "icon/16/actions/dialog-ok.png");
-
-      setUrlBt.addListener("click", function() {
-        win.setUrl(tf1.getValue());
-      });
-
-      var hor = new qx.legacy.ui.layout.HorizontalBoxLayout;
-
-      hor.set(
-      {
-        width                 : "auto",
-        height                : "auto",
-        spacing               : 5,
-        verticalChildrenAlign : "middle",
-        marginBottom          : 10
-      });
-
-      vert.add(hor);
-      hor.add(tf1, setUrlBt);
-
-      var tf2 = new qx.legacy.ui.form.TextField("600");
-      tf2.setWidth(50);
-
-      var btn2 = new qx.legacy.ui.form.Button("Set Width", "icon/16/actions/dialog-ok.png");
-
-      btn2.addListener("click", function() {
-        win.setWidth(parseInt(tf2.getValue()));
-      });
-
-      var hor = new qx.legacy.ui.layout.HorizontalBoxLayout;
-
-      hor.set(
-      {
-        width                 : "auto",
-        height                : "auto",
-        spacing               : 5,
-        verticalChildrenAlign : "middle"
-      });
-
-      vert.add(hor);
-      hor.add(tf2, btn2);
-
-      var tf3 = new qx.legacy.ui.form.TextField("400");
-      tf3.setWidth(50);
-
-      var btn3 = new qx.legacy.ui.form.Button("Set Height", "icon/16/actions/dialog-ok.png");
-
-      btn3.addListener("click", function() {
-        win.setHeight(parseInt(tf3.getValue()));
-      });
-
-      var hor = new qx.legacy.ui.layout.HorizontalBoxLayout;
-
-      hor.set(
-      {
-        width                 : "auto",
-        height                : "auto",
-        spacing               : 5,
-        verticalChildrenAlign : "middle",
-        marginBottom          : 10
-      });
-
-      vert.add(hor);
-      hor.add(tf3, btn3);
-
-      var btn4 = new qx.legacy.ui.form.Button("Center to screen", "icon/16/devices/camera-web.png");
-      btn4.setWidth("100%");
-
-      btn4.addListener("click", function() {
-        win.centerToScreen();
-      });
-
-      var btn5 = new qx.legacy.ui.form.Button("Center to screen area", "icon/16/devices/camera-web.png");
-      btn5.setWidth("100%");
-
-      btn5.addListener("click", function() {
-        win.centerToScreenArea();
-      });
-
-      var btn6 = new qx.legacy.ui.form.Button("Center to opener", "icon/16/devices/camera-web.png");
-      btn6.setWidth("100%");
-
-      btn6.addListener("click", function() {
-        win.centerToOpener();
-      });
-
-      vert.add(btn4, btn5, btn6);
 
       return main;
     },
@@ -2203,8 +1970,6 @@ qx.Class.define("showcase.Application",
       wm2.add(btn3, btn4, icon1, warn1);
 
       // Icon & Color Themes
-      // qx.legacy.util.ThemeList.createIconButtons(w3, 20, 248);
-      // qx.legacy.util.ThemeList.createColorButtons(w3, 4, 58);
       w1.open();
       w2.open();
       w3.open();
@@ -2234,9 +1999,6 @@ qx.Class.define("showcase.Application",
       var info = new qx.legacy.ui.basic.Atom("Click on one of the buttons and then view the " + "other tabs to see the changes", "icon/32/actions/system-run.png");
       info.setLocation(0, 0);
       win.add(info);
-
-      // output meta theme list
-      qx.legacy.util.ThemeList.createMetaButtons(win.getPane(), 0, 50);
 
       // Put the window in lower right corner
       win.set(
