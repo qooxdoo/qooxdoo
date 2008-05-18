@@ -49,7 +49,7 @@ class TreeCompiler:
         if compiled != None:
             return compiled
 
-        tree = self._treeLoader.getVariantsTree(fileId, variants)
+        tree = self._treeLoader.getTree(fileId, variants)
 
         if len(optimize) > 0:
             # Protect original before optimizing
@@ -74,17 +74,17 @@ class TreeCompiler:
         variantsId = idlist.toString(variants)
         cacheId = "compiledsize-%s-%s" % (fileId, variantsId)
 
-        size = self._cache.read(cacheId, filePath)
+        size = self._cache.readmulti(cacheId, filePath)
         if size != None:
             return size
 
-        tree = self._treeLoader.getVariantsTree(fileId, variants)
+        tree = self._treeLoader.getTree(fileId, variants)
 
         self._console.debug("Computing compiled size: %s..." % fileId)
         compiled = self.compileTree(tree)
         size = len(compiled)
 
-        self._cache.write(cacheId, size)
+        self._cache.writemulti(cacheId, size)
         return size
 
 

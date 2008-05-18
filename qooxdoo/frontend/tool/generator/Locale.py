@@ -244,7 +244,7 @@ class Locale:
         self._console.debug("Looking for localizable strings: %s..." % fileId)
         self._console.indent()
 
-        tree = self._treeLoader.getVariantsTree(fileId, variants)
+        tree = self._treeLoader.getTree(fileId, variants)
 
         try:
             strings = self._findStrings(tree, [])
