@@ -139,7 +139,7 @@ qx.Class.define("demobrowser.DemoBrowser",
 
   statics :
   {
-    Img_PlayAll_Default : "icon/16/actions/go-last.png",
+    Img_PlayAll_Default : "icon/16/actions/media-seek-forward.png",
     Img_PlayAll_Stop    : "icon/16/actions/media-playback-stop.png"
   },
 
@@ -610,7 +610,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       gb.setEnabled(false);
 
       // profiling
-      var sb0 = new qx.legacy.ui.toolbar.CheckBox("Profile", "icon/16/apps/office-calendar.png", this._cmdProfile.getUserData("checked"));
+      var sb0 = new qx.legacy.ui.toolbar.CheckBox("Profile", "icon/16/apps/accessories-alarm.png", this._cmdProfile.getUserData("checked"));
       gb.add(sb0);
 
       this.__bindCommand(sb0, this._cmdProfile);
@@ -618,7 +618,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       this.widgets["toolbar.profile"] = sb0;
 
       // object summary
-      var sb1 = new qx.legacy.ui.toolbar.Button("Object Summary", "icon/16/apps/office-spreadsheet.png");
+      var sb1 = new qx.legacy.ui.toolbar.Button("Object Summary", "icon/16/apps/accessories-magnifier.png");
       gb.add(sb1);
 
       sb1.set(
@@ -632,7 +632,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       sb1.setToolTip(new qx.legacy.ui.popup.ToolTip("Sample Object Summary"));
 
       // -- sample: global pollution
-      var sb2 = new qx.legacy.ui.toolbar.Button("Global Pollution", "icon/16/places/network-workgroup.png");
+      var sb2 = new qx.legacy.ui.toolbar.Button("Global Pollution", "icon/16/places/www.png");
       gb.add(sb2);
       this.__bindCommand(sb2, this._cmdNamespacePollution)
 
@@ -747,7 +747,7 @@ qx.Class.define("demobrowser.DemoBrowser",
 
 
       // Second Page
-      var bsb2 = new qx.legacy.ui.pageview.tabview.Button("Log", "icon/16/apps/utilities-log-viewer.png");
+      var bsb2 = new qx.legacy.ui.pageview.tabview.Button("Log", "icon/16/mimetypes/text-ascii.png");
       buttview.getBar().add(bsb2);
 
       var p2 = new qx.legacy.ui.pageview.tabview.Page(bsb2);
@@ -812,7 +812,7 @@ qx.Class.define("demobrowser.DemoBrowser",
 
       // Fourth Page
       // -- Tab Button
-      var bsb4 = new qx.legacy.ui.pageview.tabview.Button("Javascript Code", "icon/16/mimetypes/text-plain.png");
+      var bsb4 = new qx.legacy.ui.pageview.tabview.Button("Javascript Code", "icon/16/apps/graphics-snapshot.png");
       buttview.getBar().add(bsb4);
 
       // -- Tab Pane
@@ -866,7 +866,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       this.widgets["treeview"] = buttview;
 
       // full view
-      var bsb1 = new qx.legacy.ui.pageview.buttonview.Button("Full Tree", "icon/16/apps/office-database.png");
+      var bsb1 = new qx.legacy.ui.pageview.buttonview.Button("Full Tree", "icon/16/actions/view-pane-tree.png");
       buttview.getBar().add(bsb1);
       this.widgets["treeview.bsb1"] = bsb1;
       bsb1.setShow("icon");
@@ -914,7 +914,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       this);
 
       // flat view
-      var bsb2 = new qx.legacy.ui.pageview.buttonview.Button("Flat Tree", "icon/16/apps/office-writer.png");
+      var bsb2 = new qx.legacy.ui.pageview.buttonview.Button("Flat Tree", "icon/16/actions/view-pane-text.png");
 
       // buttview.getBar().add(bsb2);
       this.widgets["treeview.bsb2"] = bsb2;
