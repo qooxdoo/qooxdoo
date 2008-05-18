@@ -286,19 +286,15 @@ qx.Class.define("qx.ui.basic.Image",
       // Remove flag
       delete this.__preLoading;
 
-      /*
       // Dynamically register image
       if (size) {
-        qx.util.ResourceManager.register(source, source, 0, 0, size.width, size.height);
+        qx.util.ResourceManager.registerImage(source, size.width, size.height);
       } else {
         this.warn("Image could not be loaded: " + source);
       }
 
       // Update image (again)
       this._syncSource(source);
-      */
-      
-      this.debug("Dynamic image: " + source + " not yet supported!");
     }
   }
 });

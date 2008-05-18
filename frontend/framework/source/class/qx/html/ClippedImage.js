@@ -66,6 +66,8 @@ qx.Class.define("qx.html.ClippedImage",
         throw new Error("The image '" + source + "' must be registered at qx.util.ResourceManager!");
       }
       
+      // TODO: Use ImageLoader instead of forced registry!
+      
       this.__width = data[0];
       this.__height = data[1];
       
