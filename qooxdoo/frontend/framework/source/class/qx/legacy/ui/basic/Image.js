@@ -51,7 +51,7 @@ qx.Class.define("qx.legacy.ui.basic.Image",
   {
     this.base(arguments);
 
-    this._blank = qx.util.AliasManager.getInstance().resolve("static/image/blank.gif");
+    this._blank = qx.util.ResourceManager.toUri("qx/static/image/blank.gif");
 
     // Source
     if (vSource != null) {
@@ -532,7 +532,7 @@ qx.Class.define("qx.legacy.ui.basic.Image",
         var i = this._image;
         var pl = this.getPreloader();
 
-        var source = pl && pl.isLoaded() ? pl.getSource() : this._blank;
+        var source = pl && pl.isLoaded() ? qx.util.ResourceManager.toUri(pl.getSource()) : this._blank;
 
         if (pl && pl.getIsPng() && this.getEnabled())
         {
@@ -549,7 +549,7 @@ qx.Class.define("qx.legacy.ui.basic.Image",
       "default" : function()
       {
         var pl = this.getPreloader();
-        var source = pl && pl.isLoaded() ? pl.getSource() : this._blank;
+        var source = pl && pl.isLoaded() ? qx.util.ResourceManager.toUri(pl.getSource()) : this._blank;
 
         this._image.src = source;
       }
