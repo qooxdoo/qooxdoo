@@ -18,16 +18,9 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#require(qx.util.AliasManager)
-#resource(qx.icontheme:qx/icon/Oxygen)
-
-************************************************************************ */
-
 qx.Theme.define("qx.legacy.theme.icon.Nuvola",
 {
   title : "Nuvola",
-  resource : qx.core.Setting.get("qx.resourceUri") + "/qx/icon/Oxygen",
+  resource : "qx/icon/Compat",
   icons : {}
 });
