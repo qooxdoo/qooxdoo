@@ -462,15 +462,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       }
     },
 
-    "toolbar-part" :
-    {
-      style : function(states)
-      {
-        return {
-
-        };
-      }
-    },
+    "toolbar-part" : {},
 
     "toolbar-part-handle" :
     {
