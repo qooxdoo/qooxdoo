@@ -14,7 +14,7 @@ qx.Theme.define("demobrowser.demo.ui.BackgroundImage_1_Appearance",
     {
       style : function(states)
       {
-        var root = qx.core.Setting.get("demobrowser.resourceUri") + "/demobrowser/demo/";
+        var root = "/demobrowser/demo/";
         return {
           padding: states.pressed ? [11, 10, 9, 10] : 10,
           backgroundColor: states.pressed ? "pressed" : states.hovered ? "hovered" : "normal",
@@ -55,7 +55,7 @@ qx.Theme.define("demobrowser.demo.ui.BackgroundImage_1_Appearance",
     {
       style : function(states)
       {
-        var root = qx.core.Setting.get("demobrowser.resourceUri") + "/demo/";
+        var root = "/demo/";
         return {
           width: 126,
           height: 35,
