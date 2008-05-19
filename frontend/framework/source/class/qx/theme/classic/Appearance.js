@@ -465,21 +465,9 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          width : 10
-        };
-      }
-    },
-
-    "toolbar-part-handle-line" :
-    {
-      style : function(states)
-      {
-        return {
-          // top    : 2,
-          // left   : 3,
-          // bottom : 2,
-          // width  : 4,
-          decorator : "outset-thin"
+          decorator : "toolbar-part-handle",
+          width     : 4,
+          margin    : [ 3, 2 ]
         };
       }
     },
@@ -489,7 +477,9 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          width : 8
+          width     : 1,
+          margin    : [ 3, 2 ],
+          decorator : "divider-horizontal"
         };
       }
     },

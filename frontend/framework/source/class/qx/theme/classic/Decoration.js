@@ -291,6 +291,24 @@ qx.Theme.define("qx.theme.classic.Decoration",
         width : 1,
         color : "tooltip-text"
       }
+    },
+    
+    
+    "toolbar-part-handle" :
+    {
+      decorator : qx.ui.decoration.Single,
+      
+      style :
+      {
+        width : 1,
+        backgroundColor : "background",
+        style : "solid",
+        
+        colorTop    : "#ffffff",
+        colorLeft   : "#ffffff",
+        colorRight  : "#a7a6aa",
+        colorBottom : "#a7a6aa"        
+      }
     }
 
   }
