@@ -20,14 +20,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#module(apiviewer)
-#embed(apiviewer.image/*)
-
-#asset(apiviewer/image/*)
-************************************************************************ */
-
 /**
  * A util class for handling the documentation tree.
  */
@@ -278,124 +270,124 @@ qx.Class.define("apiviewer.TreeUtil",
 
 
     /** {string} The URL of the blank icon. */
-    ICON_BLANK : "api/image/blank.gif",
+    ICON_BLANK : "apiviewer/image/blank.gif",
 
     /** {string} The URL of the info icon. */
-    ICON_INFO : "api/image/information18.png",
+    ICON_INFO : "apiviewer/image/information18.png",
 
     /** {string} The URL of the search icon. */
-    ICON_SEARCH : "api/image/search18.png",
+    ICON_SEARCH : "apiviewer/image/search18.png",
 
     /** {string} The URL of the overlay "abstract". */
-    OVERLAY_ABSTRACT : "api/image/overlay_abstract18.gif",
+    OVERLAY_ABSTRACT : "apiviewer/image/overlay_abstract18.gif",
 
     /** {string} The URL of the overlay "error". */
-    OVERLAY_ERROR : "api/image/overlay_error18.gif",
+    OVERLAY_ERROR : "apiviewer/image/overlay_error18.gif",
 
     /** {string} The URL of the overlay "inherited". */
-    OVERLAY_INHERITED : "api/image/overlay_inherited18.gif",
+    OVERLAY_INHERITED : "apiviewer/image/overlay_inherited18.gif",
 
     /** {string} The URL of the overlay "overridden". */
-    OVERLAY_OVERRIDDEN : "api/image/overlay_overridden18.gif",
+    OVERLAY_OVERRIDDEN : "apiviewer/image/overlay_overridden18.gif",
 
     /** {string} The URL of the overlay "themeable". */
-    OVERLAY_THEMEABLE : "api/image/overlay_themeable18.gif",
+    OVERLAY_THEMEABLE : "apiviewer/image/overlay_themeable18.gif",
 
     /** {string} The URL of the overlay "static". */
-    OVERLAY_STATIC : "api/image/overlay_static18.gif",
+    OVERLAY_STATIC : "apiviewer/image/overlay_static18.gif",
 
     /** {string} The URL of the overlay "warning". */
-    OVERLAY_WARN : "api/image/overlay_warning18.gif",
+    OVERLAY_WARN : "apiviewer/image/overlay_warning18.gif",
 
     /** {string} The URL of the overlay "mixin". */
-    OVERLAY_MIXIN : "api/image/overlay_mixin18.gif",
+    OVERLAY_MIXIN : "apiviewer/image/overlay_mixin18.gif",
 
     /** {string} The icon URL of a package. */
-    ICON_PACKAGE : "api/image/package18.gif",
+    ICON_PACKAGE : "apiviewer/image/package18.gif",
 
     /** {string} The icon URL of a package with warning. */
-    ICON_PACKAGE_WARN : "api/image/package_warning18.gif",
+    ICON_PACKAGE_WARN : "apiviewer/image/package_warning18.gif",
 
     /** {string} The icon URL of a class. */
-    ICON_CLASS : "api/image/class18.gif",
+    ICON_CLASS : "apiviewer/image/class18.gif",
 
     /** {string} The icon URL of a class with warning. */
-    ICON_CLASS_WARN : "api/image/class_warning18.gif",
+    ICON_CLASS_WARN : "apiviewer/image/class_warning18.gif",
 
     /** {string} The icon URL of a class with error. */
-    ICON_CLASS_ERROR : "api/image/class_warning18.gif",
+    ICON_CLASS_ERROR : "apiviewer/image/class_warning18.gif",
 
     /** {string} The icon URL of a static class. */
-    ICON_CLASS_STATIC : "api/image/class_static18.gif",
+    ICON_CLASS_STATIC : "apiviewer/image/class_static18.gif",
 
     /** {string} The icon URL of a static class with warning. */
-    ICON_CLASS_STATIC_WARN : "api/image/class_static_warning18.gif",
+    ICON_CLASS_STATIC_WARN : "apiviewer/image/class_static_warning18.gif",
 
     /** {string} The icon URL of a static class with error. */
-    ICON_CLASS_STATIC_ERROR : "api/image/class_static_warning18.gif",
+    ICON_CLASS_STATIC_ERROR : "apiviewer/image/class_static_warning18.gif",
 
     /** {string} The icon URL of an abstract class. */
-    ICON_CLASS_ABSTRACT : "api/image/class_abstract18.gif",
+    ICON_CLASS_ABSTRACT : "apiviewer/image/class_abstract18.gif",
 
     /** {string} The icon URL of an abstract class with warning. */
-    ICON_CLASS_ABSTRACT_WARN : "api/image/class_abstract_warning18.gif",
+    ICON_CLASS_ABSTRACT_WARN : "apiviewer/image/class_abstract_warning18.gif",
 
     /** {string} The icon URL of an abstract class with error. */
-    ICON_CLASS_ABSTRACT_ERROR : "api/image/class_abstract_warning18.gif",
+    ICON_CLASS_ABSTRACT_ERROR : "apiviewer/image/class_abstract_warning18.gif",
 
     /** {string} The icon URL of an singleton class. */
-    ICON_CLASS_SINGLETON : "api/image/class_singleton18.gif",
+    ICON_CLASS_SINGLETON : "apiviewer/image/class_singleton18.gif",
 
     /** {string} The icon URL of an singleton class with warning. */
-    ICON_CLASS_SINGLETON_WARN : "api/image/class_singleton_warning18.gif",
+    ICON_CLASS_SINGLETON_WARN : "apiviewer/image/class_singleton_warning18.gif",
 
     /** {string} The icon URL of an singleton class with error. */
-    ICON_CLASS_SINGLETON_ERROR : "api/image/class_singleton_warning18.gif",
+    ICON_CLASS_SINGLETON_ERROR : "apiviewer/image/class_singleton_warning18.gif",
 
     /** {string} The icon URL of a property. */
-    ICON_PROPERTY_PUB : "api/image/property18.gif",
+    ICON_PROPERTY_PUB : "apiviewer/image/property18.gif",
 
     /** {string} The icon URL of a protected property. */
-    ICON_PROPERTY_PROT : "api/image/property_protected18.gif",
+    ICON_PROPERTY_PROT : "apiviewer/image/property_protected18.gif",
 
     /** {string} The icon URL of a private property. */
-    ICON_PROPERTY_PRIV : "api/image/property_private18.gif",
+    ICON_PROPERTY_PRIV : "apiviewer/image/property_private18.gif",
 
     /** {string} The icon URL of an event. */
-    ICON_EVENT : "api/image/event18.gif",
+    ICON_EVENT : "apiviewer/image/event18.gif",
 
     /** {string} The icon URL of an interface. */
-    ICON_INTERFACE : "api/image/interface18.gif",
+    ICON_INTERFACE : "apiviewer/image/interface18.gif",
 
     /** {string} The icon URL of an interface. */
-    ICON_INTERFACE_WARN : "api/image/interface_warning18.gif",
+    ICON_INTERFACE_WARN : "apiviewer/image/interface_warning18.gif",
 
     /** {string} The icon URL of an mixin. */
-    ICON_MIXIN : "api/image/mixin18.gif",
+    ICON_MIXIN : "apiviewer/image/mixin18.gif",
 
     /** {string} The icon URL of an mixin. */
-    ICON_MIXIN_WARN : "api/image/mixin_warning18.gif",
+    ICON_MIXIN_WARN : "apiviewer/image/mixin_warning18.gif",
 
     /** {string} The icon URL of a public method. */
-    ICON_METHOD_PUB : "api/image/method_public18.gif",
+    ICON_METHOD_PUB : "apiviewer/image/method_public18.gif",
 
     /** {string} The icon URL of a public inherited method. */
-    ICON_METHOD_PUB_INHERITED : "api/image/method_public_inherited18.gif",
+    ICON_METHOD_PUB_INHERITED : "apiviewer/image/method_public_inherited18.gif",
 
     /** {string} The icon URL of a constructor. */
-    ICON_CTOR : "api/image/constructor18.gif",
+    ICON_CTOR : "apiviewer/image/constructor18.gif",
 
     /** {string} The icon URL of a protected method. */
-    ICON_METHOD_PROT : "api/image/method_protected18.gif",
+    ICON_METHOD_PROT : "apiviewer/image/method_protected18.gif",
 
     /** {string} The icon URL of a protected method. */
-    ICON_METHOD_PRIV : "api/image/method_private18.gif",
+    ICON_METHOD_PRIV : "apiviewer/image/method_private18.gif",
 
     /** {string} The icon URL of a constant. */
-    ICON_CONSTANT : "api/image/constant18.gif",
+    ICON_CONSTANT : "apiviewer/image/constant18.gif",
 
     /** {string} The icon URL of an appearance. */
-    ICON_APPEARANCE : "api/image/constant18.gif"
+    ICON_APPEARANCE : "apiviewer/image/constant18.gif"
   },
 
 

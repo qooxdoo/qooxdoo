@@ -20,12 +20,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#module(apiviewer)
-
-************************************************************************ */
-
 qx.Class.define("apiviewer.ui.panels.InfoPanel", {
 
   type : "abstract",
@@ -795,7 +789,7 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
       {
         // This node has details -> Show the detail button
         html.add(
-          '<img src="', qx.util.AliasManager.getInstance().resolve("api/image/open.gif"),
+          '<img src="', qx.util.ResourceManager.toUri("apiviewer/image/open.gif"),
           '" onclick="', this.__encodeObject(this), ".toggleShowItemDetails('",
           node.getName(), "'" ,
           ((parentNode != currentDocNode) ? ",'" + parentNode.getFullName() + "'" : ""),
@@ -872,7 +866,7 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
       var html = new qx.util.StringBuilder('<div class="info-panel"><h2>');
       html.add(
         '<img class="openclose" src="',
-        qx.util.AliasManager.getInstance().resolve('api/image/' + (this.getIsOpen() ? 'close.gif' : 'open.gif')),
+        qx.util.ResourceManager.toUri('apiviewer/image/' + (this.getIsOpen() ? 'close.gif' : 'open.gif')),
         '" onclick="', this.__encodeObject(viewer),
         '.togglePanelVisibility(' + this.__encodeObject(this), ')"/> ',
         '<span onclick="', this.__encodeObject(viewer),
@@ -1167,7 +1161,7 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
 
         // Update the close/open image
         var opencloseImgElem = textDiv.parentNode.previousSibling.firstChild;
-        opencloseImgElem.src = qx.util.AliasManager.getInstance().resolve(showDetails ? 'api/image/close.gif' : 'api/image/open.gif');
+        opencloseImgElem.src = qx.util.ResourceManager.toUri(showDetails ? 'apiviewer/image/close.gif' : 'apiviewer/image/open.gif');
 
         // Update content
         textDiv.innerHTML = this.getItemTextHtml(node, this.getDocNode(), showDetails);

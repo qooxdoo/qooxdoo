@@ -20,13 +20,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#module(apiviewer)
-
-************************************************************************ */
-
-
 qx.Class.define("apiviewer.ui.AbstractViewer",
 {
   extend : qx.legacy.ui.embed.HtmlEmbed,
@@ -234,7 +227,7 @@ qx.Class.define("apiviewer.ui.AbstractViewer",
         panel.setIsOpen(!panel.getIsOpen());
 
         var imgElem = panel.getTitleElement().getElementsByTagName("img")[0];
-        imgElem.src = qx.util.AliasManager.getInstance().resolve(panel.getIsOpen() ? 'api/image/close.gif' : 'api/image/open.gif');
+        imgElem.src = panel.getIsOpen() ? 'apiviewer/image/close.gif' : 'apiviewer/image/open.gif';
 
         panel.update(this, this.getDocNode()
         );
