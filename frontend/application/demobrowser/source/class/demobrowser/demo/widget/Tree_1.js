@@ -118,7 +118,7 @@ qx.Class.define("demobrowser.demo.widget.Tree_1",
         if (this.getSelectionMode() === "multi") {
           tCurrentInput.setValue(e.getData().length + " items");
         } else {
-          tCurrentInput.setValue(e.getData().getLabelObject().getContent());
+          tCurrentInput.setValue(e.getData()[0].getLabelObject().getContent());
         }
       });
 
