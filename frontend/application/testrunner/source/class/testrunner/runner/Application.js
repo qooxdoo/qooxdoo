@@ -20,17 +20,8 @@
 
 /* ************************************************************************
 
-#module(testrunner)
-#resource(testrunner.css:testrunner/css)
-#resource(testrunner.image:testrunner/image)
-
-#embed(qx.icontheme/16/*)
-#embed(testrunner.image/*)
-#embed(testrunner.css/*)
-
-#asset(qx/icon/Oxygen/16/*)
-#asset(testrunner/image/*)
-#asset(testrunner/css/*)
+#asset(qx/icon/Compat/16/*)
+#asset(testrunner/*)
 
 ************************************************************************ */
 
@@ -51,34 +42,26 @@ qx.Class.define("testrunner.runner.Application",
 
   members :
   {
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void}
-     */
+    // overridden
     main : function()
     {
       this.base(arguments);
 
-      // Define alias for custom resource path
-      qx.util.AliasManager.getInstance().add("testrunner", qx.core.Setting.get("testrunner.resourceUri") + "/testrunner");
-
       // Include CSS file
-      qx.bom.Stylesheet.includeFile(qx.util.AliasManager.getInstance().resolve("testrunner/css/testrunner.css"));
+      qx.bom.Stylesheet.includeFile("testrunner/css/testrunner.css");
 
       // Initialize the viewer
       this.viewer = new testrunner.runner.TestRunner;
 
       // this.viewer = new testrunner.runner.BasicRunner;
       this.viewer.addToDocument();
-
-      // Load iframe file
-      qx.event.Timer.once(this._load, this, 0);
     },
 
-    _load : function()
+    // overridden
+    finalize : function()
     {
+      this.base(arguments);
+      
       // Finally load the data
       this.viewer.load();
     }
@@ -88,18 +71,11 @@ qx.Class.define("testrunner.runner.Application",
 
   /*
   *****************************************************************************
-     SETTINGS
+     DESTRUCTOR
   *****************************************************************************
   */
 
-  settings : {
-    "testrunner.resourceUri" : "./resource"
-  },
-
-
-  destruct : function ()
-  {
+  destruct : function () {
     this._disposeObjects("viewer");
   }
-
 });
