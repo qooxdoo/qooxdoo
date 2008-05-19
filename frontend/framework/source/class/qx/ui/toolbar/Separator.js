@@ -20,7 +20,6 @@
 
 /**
  * @appearance toolbar-separator
- * @appearance toolbar-separator-line {qx.ui.basic.Terminator}
  */
 qx.Class.define("qx.ui.toolbar.Separator",
 {
