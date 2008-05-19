@@ -91,7 +91,7 @@ qx.Class.define("apiviewer.Viewer",
       header.setStyleProperty(
         "background",
         "#134275 url(" +
-        qx.util.AliasManager.getInstance().resolve("apiviewer/image/colorstrip.gif") +
+        qx.util.ResourceManager.toUri("apiviewer/image/colorstrip.gif") +
         ") top left repeat-x"
       );
       header.setHeight(70);
