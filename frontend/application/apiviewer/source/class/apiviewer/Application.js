@@ -22,12 +22,7 @@
 
 /* ************************************************************************
 
-#module(apiviewer)
-#resource(apiviewer.css:apiviewer/css)
-#resource(apiviewer.image:apiviewer/image)
-#embed(apiviewer.css/*)
-
-#asset(apiviewer/css/*)
+#asset(apiviewer/*)
 
 ************************************************************************ */
 
@@ -53,12 +48,8 @@ qx.Class.define("apiviewer.Application",
 
       qx.Class.include(qx.legacy.ui.core.Widget, apiviewer.MWidgetRegistry);
 
-      // Define alias for custom resource path
-      // TODO: Should be removed
-      qx.util.AliasManager.getInstance().add("api", "apiviewer");
-
       // Include CSS file
-      qx.bom.Stylesheet.includeFile(qx.util.AliasManager.getInstance().resolve("api/css/apiviewer.css"));
+      qx.bom.Stylesheet.includeFile("apiviewer/css/apiviewer.css");
 
       // preload images
       var preloader = new qx.legacy.io.image.PreloaderSystem(apiviewer.TreeUtil.PRELOAD_IMAGES);
