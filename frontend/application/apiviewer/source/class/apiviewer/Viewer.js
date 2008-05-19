@@ -20,15 +20,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#module(apiviewer)
-#embed(qx.icontheme/22/apps/utilities-file-archiver.png)
-
-#asset(qx/icon/Oxygen/22/apps/utilities-log-viewer.png)
-
-************************************************************************ */
-
 /**
  * The GUI definition of the API viewer.
  *
@@ -100,7 +91,7 @@ qx.Class.define("apiviewer.Viewer",
       header.setStyleProperty(
         "background",
         "#134275 url(" +
-        qx.util.AliasManager.getInstance().resolve("api/image/colorstrip.gif") +
+        qx.util.AliasManager.getInstance().resolve("apiviewer/image/colorstrip.gif") +
         ") top left repeat-x"
       );
       header.setHeight(70);
@@ -192,7 +183,7 @@ qx.Class.define("apiviewer.Viewer",
       part.add(createButton(
         "Expand",
         qx.legacy.ui.toolbar.CheckBox,
-        "api/image/property18.gif",
+        "apiviewer/image/property18.gif",
         "Expand properties",
         false,
         "btn_expand"
@@ -200,7 +191,7 @@ qx.Class.define("apiviewer.Viewer",
       part.add(createButton(
         "Inherited",
         qx.legacy.ui.toolbar.CheckBox,
-        "api/image/method_public_inherited18.gif",
+        "apiviewer/image/method_public_inherited18.gif",
         "Show inherited items",
         false,
         "btn_inherited"
@@ -208,7 +199,7 @@ qx.Class.define("apiviewer.Viewer",
       part.add(createButton(
         "Protected",
         qx.legacy.ui.toolbar.CheckBox,
-        "api/image/method_protected18.gif",
+        "apiviewer/image/method_protected18.gif",
         "Show protected items",
         false,
         "btn_protected"
@@ -216,7 +207,7 @@ qx.Class.define("apiviewer.Viewer",
       part.add(createButton(
         "Private",
         qx.legacy.ui.toolbar.CheckBox,
-        "api/image/method_private18.gif",
+        "apiviewer/image/method_private18.gif",
         "Show private/internal items",
         false,
         "btn_private"

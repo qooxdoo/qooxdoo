@@ -20,12 +20,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#module(apiviewer)
-
-************************************************************************ */
-
 /**
  * Shows the class details.
  */
@@ -177,7 +171,7 @@ qx.Class.define("apiviewer.ui.ClassViewer",
     createImageHtml : function(imgUrl, tooltip, styleAttributes)
     {
       if (typeof imgUrl == "string") {
-        return '<img src="' + qx.util.AliasManager.getInstance().resolve(imgUrl) + '" class="img"' + (styleAttributes ? ' style="' + styleAttributes + '"' : "") + '/>';
+        return '<img src="' + qx.util.ResourceManager.toUri(imgUrl) + '" class="img"' + (styleAttributes ? ' style="' + styleAttributes + '"' : "") + '/>';
       }
       else
       {
@@ -217,7 +211,7 @@ qx.Class.define("apiviewer.ui.ClassViewer",
           html += ' title="' + toolTip + '"';
         }
 
-        html += ' style="position:absolute;top:0px;left:0px" src="' + qx.util.AliasManager.getInstance().resolve(imgUrlArr[i]) + '"/>';
+        html += ' style="position:absolute;top:0px;left:0px" src="' + qx.util.ResourceManager.toUri(imgUrlArr[i]) + '"/>';
       }
 
       html += '</span>';
@@ -419,14 +413,14 @@ qx.Class.define("apiviewer.ui.ClassViewer",
 
       var classHierarchy = classNode.getClassHierarchy();
 
-      classHtml.add(ClassViewer.createImageHtml("api/image/class18.gif"), "Object<br/>");
+      classHtml.add(ClassViewer.createImageHtml("apiviewer/image/class18.gif"), "Object<br/>");
       var indent = 0;
 
       for (var i=classHierarchy.length-1; i>=0; i--)
       {
         classHtml.add('<div>');
         classHtml.add(
-          ClassViewer.createImageHtml("api/image/nextlevel.gif", null, "margin-left:" + indent + "px"),
+          ClassViewer.createImageHtml("apiviewer/image/nextlevel.gif", null, "margin-left:" + indent + "px"),
           ClassViewer.createImageHtml(apiviewer.TreeUtil.getIconUrl(classHierarchy[i]))
         );
 
@@ -460,7 +454,7 @@ qx.Class.define("apiviewer.ui.ClassViewer",
       var ClassViewer = apiviewer.ui.ClassViewer;
 
       // Create the interface hierarchy
-      var EMPTY_CELL = ClassViewer.createImageHtml("api/image/blank.gif", null, "width:18px");
+      var EMPTY_CELL = ClassViewer.createImageHtml("apiviewer/image/blank.gif", null, "width:18px");
 
       var generateTree = function(nodes, first)
       {
@@ -474,9 +468,9 @@ qx.Class.define("apiviewer.ui.ClassViewer",
           var classNode = nodes[nodeIndex];
           if (!first) {
             if (nodeIndex == nodes.length-1) {
-              line.add(ClassViewer.createImageHtml("api/image/nextlevel.gif"));
+              line.add(ClassViewer.createImageHtml("apiviewer/image/nextlevel.gif"));
             } else {
-              line.add(ClassViewer.createImageHtml("api/image/cross.gif"));
+              line.add(ClassViewer.createImageHtml("apiviewer/image/cross.gif"));
             }
           } else {
             if (!first) {
@@ -510,7 +504,7 @@ qx.Class.define("apiviewer.ui.ClassViewer",
                   lines.push(EMPTY_CELL + subLines[i]);
                 }
               } else {
-                lines.push(ClassViewer.createImageHtml("api/image/vline.gif") + subLines[i]);
+                lines.push(ClassViewer.createImageHtml("apiviewer/image/vline.gif") + subLines[i]);
               }
             }
           }
