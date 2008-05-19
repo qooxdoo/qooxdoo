@@ -207,8 +207,8 @@ qx.Class.define("qx.fx.Base",
     /**
      * Apply method for duration. Should be overwritten if needed.
      * @type member
-     * @param value {var} Current value
-     * @param old {var} Previous value
+     * @param value {Number} Current value
+     * @param old {Number} Previous value
      **/
     _applyDuration : function(value, old){},
 
@@ -339,10 +339,10 @@ qx.Class.define("qx.fx.Base",
      * step of the animation.
      *
      * Sub classes will overwrite this to
-     * perform the acutal changes on element
+     * perform the actual changes on element
      * properties.
      *
-     * @param position {Number} Animation setp
+     * @param position {Number} Animation setup
      * as Number between 0 and 1.
      *
      */
@@ -453,7 +453,7 @@ qx.Class.define("qx.fx.Base",
 
 
     /**
-     * Ivokes update() if effect's remaining duration is
+     * Invokes update() if effect's remaining duration is
      * bigger than zero, or ends the effect otherwise.
      *
      * @param timePos {Number} Effect's step on duration between
