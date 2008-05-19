@@ -422,9 +422,10 @@ class Generator:
         settings = self.getSettings()
 
         # Get resource list
+        buildRoot= self._config.get('compile/target', "build")
         buildUri = self._config.get('compile/resourceUri', ".")
         libs = [{
-                 'path':'./build', 
+                 'path': buildRoot, 
                  'namespace':'build',
                  'class' : 'build',
                  'resource': 'resource',

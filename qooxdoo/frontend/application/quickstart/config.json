@@ -35,6 +35,7 @@
       // only support compile target
       "compile" :
       {
+        "target" : "build",
         "file" : "build/script/qx.js",
         "uri"  : "script/qx.js",
         "optimize" : ["basecalls", "variables", "privates"]

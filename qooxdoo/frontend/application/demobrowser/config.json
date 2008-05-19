@@ -119,6 +119,7 @@
 
       "compile" :
       {
+        "target" : "build",
         "file" : "./build/script/${APPLICATION}.js",
         "uri"  : "script/${APPLICATION}.js"
       }
