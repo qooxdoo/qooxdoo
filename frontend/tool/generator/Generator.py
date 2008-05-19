@@ -336,8 +336,7 @@ class Generator:
             # construct a path to the source root for the resources
             #  (to be used later as a stripp-off from the resource source path)
             libpath = os.path.join(lib['path'],lib['resource'])
-            if libpath.startswith('.'+os.sep):
-                libpath = libpath[2:]
+            libpath = os.path.normpath(libpath)
 
             # get relevant resources for this lib
             resList  = self._resourceHandler.findAllResources([lib], self._getDefaultResourceFilter())
