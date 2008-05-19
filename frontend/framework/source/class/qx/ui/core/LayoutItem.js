@@ -380,8 +380,8 @@ qx.Class.define("qx.ui.core.LayoutItem",
       var flowHeight = this.getHeight() == null && this._hasHeightForWidth() ? this._getHeightForWidth(width) : null;
       if (flowHeight != null && flowHeight !== this.__computedHeightForWidth)
       {
+        // This variable is used in the next compution of the size hint
         this.__computedHeightForWidth = flowHeight;
-        // this.__computedLayout = null;
 
         // Re-add to layout queue
         qx.ui.core.queue.Layout.add(this);
