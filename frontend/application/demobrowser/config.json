@@ -43,6 +43,12 @@
         "qx.application" : "${APPLICATION}.Application"
       },
 
+      "themes" :
+      {
+        "qx.icontheme" : ["Oxygen"],
+        "qx.theme"     : ["Modern"]
+      },
+
       "cache" :
       {
         "path" : "../../cache"
