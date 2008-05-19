@@ -89,6 +89,7 @@
 
       "compile" :
       {
+        "target" : "${BUILD_PATH}",
         "file" : "${BUILD_PATH}/script/${APPLICATION}.js",
         "uri"  : "script/${APPLICATION}.js",
         "optimize" : ["basecalls", "variables", "privates"]
