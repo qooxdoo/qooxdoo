@@ -118,7 +118,7 @@ class ImgInfoFmt(object):
     def flatten(self):
         a = [self.width, self.height, self.type, self.lib]
         if self.mappedId:
-            a.extend([self.mappedId, self.left, self.top, self.mtype, self.mlib])
+            a.extend([self.mappedId, self.left, self.top])
         return a
 
     def fromFlat(self, flatspec):
@@ -132,8 +132,8 @@ class ImgInfoFmt(object):
             self.mappedId  = flatspec[4]
             self.left      = flatspec[5]
             self.top       = flatspec[6]
-            self.mtype     = flatspec[7]
-            self.mlib      = flatspec[8]
+            self.mtype     = None       # currently not used
+            self.mlib      = None       # currently not used
         # but init those members anyway, so they are not undefined
         else:
             self.mappedId  = None
