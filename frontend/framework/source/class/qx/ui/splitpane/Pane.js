@@ -54,14 +54,14 @@ qx.Class.define("qx.ui.splitpane.Pane",
     this.__orientation = orientation == "vertical" ? "vertical" : "horizontal";
     this.__minSplitterSize = 5;
     this.__sizes = {};
-    
+
     // Create and add container
     this._setLayout(new qx.ui.layout.Split(this.__orientation));
-    
+
     // Create and add slider
     this._slider = new qx.ui.splitpane.Slider(this);
     this._slider.setBackgroundColor("red");
-    this._slider.setOpacity(0.5)
+    this._slider.setOpacity(0.5);
     this._slider.exclude();
     this._add(this._slider);
 
@@ -95,14 +95,14 @@ qx.Class.define("qx.ui.splitpane.Pane",
         size : firstSize
       }
     );
-    
+
     this._add(
       this._splitter,
       {
         mode : "splitter"
       }
     );
-    
+
     this._add(
       this._secondArea,
       {
@@ -111,15 +111,15 @@ qx.Class.define("qx.ui.splitpane.Pane",
       }
     );
 
-    
-    this.__isMouseDown = false,
-    
+
+    this.__isMouseDown = false;
+
     /*
      * Add events to widgets
      */
 
     /*
-     * Note that mouseUp and mouseDown events are added to the widget itself because 
+     * Note that mouseUp and mouseDown events are added to the widget itself because
      * if the splitter is smaller than 5 pixels in length or height it is difficult
      * to click on it.
      * By adding events to the widget the splitter can be activated if the cursor is
@@ -290,7 +290,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
       var splitterClicked = false;
 
       /*
-       * Check if splitter widget is big enough to be be easily clicked on 
+       * Check if splitter widget is big enough to be be easily clicked on
        */
       if(
           (this.__orientation == "horizontal" && qx.bom.element.Dimension.getHeight(splitterElement) > this.__minSplitterSize) ||
@@ -309,7 +309,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
       else
       {
         /*
-         * Check if mouse is near to splitter 
+         * Check if mouse is near to splitter
          */
         /*
         if(
@@ -321,12 +321,12 @@ qx.Class.define("qx.ui.splitpane.Pane",
           */
         //TODO
       }
-      
+
 
       if(splitterClicked)
       {
 
-        var bounds = this._splitter.getBounds();    
+        var bounds = this._splitter.getBounds();
         this._slider.show();
 
         this._slider.setUserBounds(
@@ -338,7 +338,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
         this._slider.setZIndex(this._splitter.getZIndex() + 1);
 
         this.__isMouseDown = true;
-        
+
         this.capture();
       }
 
@@ -352,10 +352,10 @@ qx.Class.define("qx.ui.splitpane.Pane",
         var sliderElement = this._slider.getContainerElement().getDomElement();
         var paneElement = this.getContainerElement().getDomElement();
         var paneLocation = qx.bom.element.Location.get(paneElement);
-        
+
         var firstHint = this._firstArea.getSizeHint();
         var secondHint = this._secondArea.getSizeHint();
-        
+
         var firstWidth, secondWidth, firstHeight, secondHeight;
 
         if (this.__orientation == "horizontal")
@@ -386,7 +386,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
         }
         else
         {
-          
+
           firstHeight = evt.getDocumentTop() - paneLocation.top;
           secondHeight = paneLocation.right - evt.getDocumentLeft();
 
@@ -398,7 +398,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
               firstHeight < firstHint.maxheight &&
 
               secondHeight > secondHint.minHeight &&
-              secondHeight < secondHint.maxheight              
+              secondHeight < secondHint.maxheight
           ){
             qx.bom.element.Style.set(sliderElement, "top", firstHeight + "px");
 
@@ -410,7 +410,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
           }
 
         }
-        
+
       }
     },
 
@@ -430,7 +430,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
           this._firstArea.setHeight(this.__sizes.first);
           this._secondArea.setHeight(this.__sizes.second);
         }
-        
+
         this._slider.exclude();
         this.__isMouseDown = false;
         this.releaseCapture();
@@ -438,7 +438,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
 
     },
 
-    
+
     /**
      * Checks whether the two arguments are near to each other. Returns true if
      * the absolute difference is less than five.
