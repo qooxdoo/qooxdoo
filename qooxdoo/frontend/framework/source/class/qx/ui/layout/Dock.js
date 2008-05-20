@@ -155,8 +155,17 @@ qx.Class.define("qx.ui.layout.Dock",
     {
       "on" : function(item, name, value)
       {
-        this.assertIdentical("edge", name, "The property '"+name+"' is not supported by the dock layout!");
-        this.assertInArray(value, ["north", "south", "west", "east", "center"]);
+        this.assert(name === "flex" || name === "edge", "The property '"+name+"' is not supported by the dock layout!");
+
+        if (name === "edge")
+        {
+          this.assertInArray(value, ["north", "south", "west", "east", "center"]);
+        }
+        else if (name === "flex")
+        {
+          this.assertNumber(value);
+          this.assert(value >= 0);
+        }
       },
 
       "off" : null
