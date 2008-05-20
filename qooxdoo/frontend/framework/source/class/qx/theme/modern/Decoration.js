@@ -96,6 +96,17 @@ qx.Theme.define("qx.theme.modern.Decoration",
         colorBottom : "border-dark-shadow"
       }
     },
+    
+    "dark-shadow" :
+    {
+      decorator: qx.ui.decoration.Uniform,
+
+      style :
+      {
+        width : 1,
+        color : "border-dark-shadow"
+      }
+    },
 
 
 
@@ -447,18 +458,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
       {
         baseImage : "decoration/window/statusbar.png",
         insets    : 4
-      }
-    },
-    
-    "resizer-frame" :
-    {
-      decorator : qx.ui.decoration.Single,
-      
-      style :
-      {
-        width : 1,
-        color : "border-dark-shadow",
-        style : "solid"
       }
     }
   }
