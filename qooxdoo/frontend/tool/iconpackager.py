@@ -157,9 +157,9 @@ def getPixmap(scale, size):
     if SVG == "rsvg.cmd":
         svgreturn = subprocess.Popen(["rsvg-convert", "-w", str(size), "-h", str(size), "-a", "-o", pngtmp.name, scale], stderr=outtmp, stdout=outtmp).wait()
     elif SVG == "inkscape.cmd":
-        svgreturn = subprocess.Popen(["inkscape", "-z", "-w", str(size), "-h", str(size), "-z", "-e", pngtmp.name, "-f", scale], stderr=outtmp, stdout=outtmp).wait()
+        svgreturn = subprocess.Popen(["inkscape", "--export-background-opacity=0", "--export-dpi=72", "-z", "-w", str(size), "-h", str(size), "-z", "-e", pngtmp.name, "-f", scale], stderr=outtmp, stdout=outtmp).wait()
     elif SVG == "inkscape.mac":
-        svgreturn = subprocess.Popen(["/Applications/Inkscape.app/Contents/Resources/bin/inkscape", "-z", "-w", str(size), "-h", str(size), "-e", pngtmp.name, "-f", scale], stderr=outtmp, stdout=outtmp).wait()
+        svgreturn = subprocess.Popen(["/Applications/Inkscape.app/Contents/Resources/bin/inkscape", "--export-background-opacity=0", "--export-dpi=72", "-z", "-w", str(size), "-h", str(size), "-e", pngtmp.name, "-f", scale], stderr=outtmp, stdout=outtmp).wait()
     elif SVG == "batik.local":
         svgreturn = subprocess.Popen(["java", "-jar", "batik/batik-rasterizer.jar", "-w", str(size), "-h", str(size), "-m", "image/png", "-d", pngtmp.name, scale], stderr=outtmp, stdout=outtmp).wait()
     else:
