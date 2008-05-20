@@ -725,7 +725,16 @@ qx.Theme.define("qx.theme.modern.Appearance",
           textColor : "text"
         };
       }
+    },
+    
+    "resizer-frame" :
+    {
+      style : function(states)
+      {
+        return {
+          decorator : "resizer-frame"
+        }
+      } 
     }
-
   }
 });
