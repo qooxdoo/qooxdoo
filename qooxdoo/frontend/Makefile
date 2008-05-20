@@ -537,9 +537,12 @@ release-sdk-unix-collect:
 	@$(CMD_DIR) $(RELEASE_SDK_UNIX)/frontend/framework
 	@$(CMD_SYNC_OFFLINE) --exclude .cache --exclude tool/icon/themes --exclude tool/icon/temp framework/* $(RELEASE_SDK_UNIX)/frontend/framework
 
+	@echo "  * Synchronizing tools..."
+	@svn export tool $(RELEASE_SDK_UNIX)/frontend/tool
+
 	@echo "  * Copying remaining SDK files..."
 	@for ITEM in $(SDK_COPY); do \
-	  cp -f $$ITEM $(RELEASE_SDK_UNIX)/frontend/$$ITEM; \
+	  cp -rf $$ITEM $(RELEASE_SDK_UNIX)/frontend/$$ITEM; \
 	done
 	
 	@echo "  * Switching to Unix line endings..."
@@ -579,9 +582,12 @@ release-sdk-dos-collect:
 	@$(CMD_DIR) $(RELEASE_SDK_DOS)/frontend/framework
 	@$(CMD_SYNC_OFFLINE) --exclude .cache --exclude tool/icon/themes --exclude tool/icon/temp framework/* $(RELEASE_SDK_DOS)/frontend/framework
 
+	@echo "  * Synchronizing tools..."
+	@svn export tool $(RELEASE_SDK_DOS)/frontend/tool
+
 	@echo "  * Copying remaining SDK files..."
 	@for ITEM in $(SDK_COPY); do \
-	  cp -f $$ITEM $(RELEASE_SDK_DOS)/frontend/$$ITEM; \
+	  cp -rf $$ITEM $(RELEASE_SDK_DOS)/frontend/$$ITEM; \
 	done
 
 	@echo "  * Switching to DOS line endings..."
