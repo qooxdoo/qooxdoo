@@ -28,7 +28,7 @@
     {
       "extend"  : ["common"],
 
-      "include" : ["custom.Application"],
+      "include" : ["custom.Application", "qx.theme.Modern"],
 
       "settings" :
       {
