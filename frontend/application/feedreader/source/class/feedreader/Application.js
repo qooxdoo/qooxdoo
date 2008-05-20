@@ -200,10 +200,8 @@ qx.Class.define("feedreader.Application",
       this._toolBarView = new feedreader.view.ToolBar(this);
       dockLayoutComposite.add(this._toolBarView, {edge: "north"});
 
-      // Create horizontal spliter
-      var hBox = new qx.ui.layout.HBox();
-      var hBoxComposite = new qx.ui.container.Composite(hBox);
-
+      // Create horizontal splitter
+      var hBoxComposite = new qx.ui.container.Composite(new qx.ui.layout.HBox());
       dockLayoutComposite.add(hBoxComposite, {edge: "center"});
 
       // Create tree view
@@ -211,9 +209,7 @@ qx.Class.define("feedreader.Application",
       hBoxComposite.add(this._treeView);
 
       // Create vertical spliter
-      var vBox = new qx.ui.layout.VBox();
-      var vBoxComposite = new qx.ui.container.Composite(vBox);
-      vBoxComposite.setBackgroundColor("white");
+      var vBoxComposite = new qx.ui.container.Composite(new qx.ui.layout.VBox());
       hBoxComposite.add(vBoxComposite, {flex: 1});
 
       // Create the list view
