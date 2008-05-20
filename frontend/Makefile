@@ -535,11 +535,11 @@ release-sdk-unix-collect:
 
 	@echo "  * Synchronizing framework..."
 	@$(CMD_DIR) $(RELEASE_SDK_UNIX)/frontend/framework
-	@$(CMD_SYNC_OFFLINE) --exclude .cache --exclude tool/icon/themes --exclude tool/icon/temp framework/* $(RELEASE_SDK_UNIX)/frontend/framework
+	@$(CMD_SYNC_OFFLINE) --exclude *.pyo --exclude *.pyc --exclude .cache --exclude tool/icon/themes --exclude tool/icon/temp framework/* $(RELEASE_SDK_UNIX)/frontend/framework
 
 	@echo "  * Synchronizing tools..."
 	@$(CMD_DIR) $(RELEASE_SDK_UNIX)/frontend/tool
-	@$(CMD_SYNC_OFFLINE) tool/* $(RELEASE_SDK_UNIX)/frontend/tool
+	@$(CMD_SYNC_OFFLINE) --exclude *.pyo --exclude *.pyc tool/* $(RELEASE_SDK_UNIX)/frontend/tool
 
 	@echo "  * Copying remaining SDK files..."
 	@for ITEM in $(SDK_COPY); do \
@@ -581,11 +581,11 @@ release-sdk-dos-collect:
 
 	@echo "  * Synchronizing framework..."
 	@$(CMD_DIR) $(RELEASE_SDK_DOS)/frontend/framework
-	@$(CMD_SYNC_OFFLINE) --exclude .cache --exclude tool/icon/themes --exclude tool/icon/temp framework/* $(RELEASE_SDK_DOS)/frontend/framework
+	@$(CMD_SYNC_OFFLINE) --exclude *.pyo --exclude *.pyc --exclude .cache --exclude tool/icon/themes --exclude tool/icon/temp framework/* $(RELEASE_SDK_DOS)/frontend/framework
 
 	@echo "  * Synchronizing tools..."
 	@$(CMD_DIR) $(RELEASE_SDK_DOS)/frontend/tool
-	@$(CMD_SYNC_OFFLINE) tool/* $(RELEASE_SDK_DOS)/frontend/tool
+	@$(CMD_SYNC_OFFLINE) --exclude *.pyo --exclude *.pyc tool/* $(RELEASE_SDK_DOS)/frontend/tool
 
 
 	@echo "  * Copying remaining SDK files..."
