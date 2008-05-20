@@ -38,7 +38,7 @@
 
       "settings" :
       {
-        "qx.version"     : "0.8",
+        "qx.version"     : "0.8-alpha1",
         "qx.application" : "${APPLICATION}.Application"
       }
     },
