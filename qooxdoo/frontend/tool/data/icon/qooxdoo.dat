@@ -84,8 +84,6 @@ actions/media-skip-forward
 actions/object-rotate-left
 actions/object-rotate-right
 actions/object-flip-horizontal
-
-# TODO: still missing in oxygen, but work in progress
 actions/object-flip-vertical
 
 actions/process-stop
