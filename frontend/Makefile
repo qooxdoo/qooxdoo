@@ -62,18 +62,18 @@ SDK_COPY = Makefile application/Makefile application/index.html
 ################################################################################
 
 source:
-	@for APPLICATION in $(APPLICATIONS); do $(MAKE) -s -C $$APPLICATION source || exit 1; done
+	@for APPLICATION in $(APPLICATIONS); do $(MAKE) -s -C application/$$APPLICATION source || exit 1; done
 
 build:
-	@for APPLICATION in $(APPLICATIONS); do $(MAKE) -s -C $$APPLICATION build || exit 1; done
+	@for APPLICATION in $(APPLICATIONS); do $(MAKE) -s -C application/$$APPLICATION build || exit 1; done
 
 clean:
-	@for APPLICATION in $(APPLICATIONS); do $(MAKE) -s -C $$APPLICATION clean || exit 1; done
+	@for APPLICATION in $(APPLICATIONS); do $(MAKE) -s -C application/$$APPLICATION clean || exit 1; done
 	@$(CMD_REMOVE) application/*.tar.gz application/*.zip
 	@$(MAKE) -s release-clean
 
 distclean:
-	@for APPLICATION in $(APPLICATIONS); do $(MAKE) -s -C $$APPLICATION distclean || exit 1; done
+	@for APPLICATION in $(APPLICATIONS); do $(MAKE) -s -C application/$$APPLICATION distclean || exit 1; done
 	@$(CMD_REMOVE) application/*.tar.gz application/*.zip
 	@$(MAKE) -s release-distclean
 	@$(MAKE) -s framework-distclean
