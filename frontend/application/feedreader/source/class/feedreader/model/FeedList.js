@@ -98,7 +98,7 @@ qx.Class.define("feedreader.model.FeedList",
      * @return {feedreader.model.Feed[]} a list of all feeds.
      */
     getFeeds : function() {
-      return qx.lang.Object.getValues(this.__feeds);
+      return this.__feeds;
     },
 
 
