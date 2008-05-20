@@ -369,11 +369,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
         this.assertInteger(height, "Wrong 'height' argument. " + msg);
       }
 
-      // Dynamically create data structure for computed layout
-      var computed = this.__computedLayout;
-      if (!computed) {
-        computed = this.__computedLayout = {};
-      }
+
 
       // Height for width support
       // Results into a relayout which means that width/height is applied in the next iteration.
@@ -392,6 +388,12 @@ qx.Class.define("qx.ui.core.LayoutItem",
       // Detect size changes
       else
       {
+        // Dynamically create data structure for computed layout
+        var computed = this.__computedLayout;
+        if (!computed) {
+          computed = this.__computedLayout = {};
+        }
+
         // Detect changes
         var changes = {};
 
