@@ -5,10 +5,12 @@
     http://qooxdoo.org
 
     Copyright:
-      2007 by Tartan Solutions, Inc, http://www.tartansolutions.com
+      2007 Tartan Solutions, Inc, http://www.tartansolutions.com
 
     License:
-      LGPL 2.1: http://www.gnu.org/licenses/lgpl.html
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
 
     Authors:
       * Dan Hummon

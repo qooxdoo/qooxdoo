@@ -24,7 +24,7 @@
        Version 1.8.1
 
      Copyright:
-       (c) 2008 Thomas Fuchs
+       2008 Thomas Fuchs
 
      License:
        MIT: http://www.opensource.org/licenses/mit-license.php
@@ -33,18 +33,17 @@
        Thomas Fuchs
 
 
-   * Easing eqoutations
+   * Easing equations
        http://www.robertpenner.com/easing/
 
      Copyright:
-       (c) 2001 Robert Penner
+       2001 Robert Penner
 
      License:
-       BSD: TODO
+       BSD: http://www.opensource.org/licenses/bsd-license.php
 
      Author:
        Robert Penner
-
 
 ************************************************************************ */
 
