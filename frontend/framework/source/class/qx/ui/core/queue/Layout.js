@@ -254,34 +254,27 @@ qx.Class.define("qx.ui.core.queue.Layout",
             continue;
           }
 
-          // if the widget has not yet been rendered, add its parent to the queue
-          if (!widget.getBounds())
+          // compare old size hint to new size hint
+          var oldSizeHint = widget.getSizeHint(false);
+
+          if (oldSizeHint)
           {
-            hintChanged = true
+            widget.invalidateLayoutCache();
+            var newSizeHint = widget.getSizeHint();
+
+            var hintChanged = (
+              !widget.getBounds() ||
+              oldSizeHint.minWidth !== newSizeHint.minWidth ||
+              oldSizeHint.width !== newSizeHint.width ||
+              oldSizeHint.maxWidth !== newSizeHint.maxWidth ||
+              oldSizeHint.minHeight !== newSizeHint.minHeight ||
+              oldSizeHint.height !== newSizeHint.height ||
+              oldSizeHint.maxHeight !== newSizeHint.maxHeight
+            );
           }
           else
           {
-            // compare old size hint to new size hint
-            var oldSizeHint = widget.getSizeHint(false);
-
-            if (oldSizeHint)
-            {
-              widget.invalidateLayoutCache();
-              var newSizeHint = widget.getSizeHint();
-
-              var hintChanged = (
-                oldSizeHint.minWidth !== newSizeHint.minWidth ||
-                oldSizeHint.width !== newSizeHint.width ||
-                oldSizeHint.maxWidth !== newSizeHint.maxWidth ||
-                oldSizeHint.minHeight !== newSizeHint.minHeight ||
-                oldSizeHint.height !== newSizeHint.height ||
-                oldSizeHint.maxHeight !== newSizeHint.maxHeight
-              );
-            }
-            else
-            {
-              hintChanged = true;
-            }
+            hintChanged = true;
           }
 
           if (hintChanged)
