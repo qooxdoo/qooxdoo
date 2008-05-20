@@ -1,114 +1,67 @@
 {
+  "include" :
+  {
+    "appconf" : "../../tool/data/config/application.json"
+  },
+
+
   "jobs" :
   {
     "common" :
     {
       "let" :
       {
-         "QOOXDOO_PATH" : "../../framework" ,
-         "QOOXDOO_URI"  : "../${QOOXDOO_PATH}" ,
-         "CONTRIB_CACHE": ".",
-         "APPLICATION"  : "custom"
+        "APPLICATION" : "custom",
+        "QOOXDOO_PATH": "../../framework"
       },
-
-      "library" :
-      [
-        {
-          "manifest"     : "${QOOXDOO_PATH}/Manifest.json",
-          "uri"          : "${QOOXDOO_URI}"
-        },
-
-        /*
-        {
-          "manifest"     : "../../../../qooxdoo-contrib.trunk/SkeletonApplication/trunk/Manifest.json",
-          "uri"          : "../../../../../qooxdoo-contrib.trunk/SkeletonApplication/trunk"
-        },
-        */
-
-        {
-          "manifest"     : "contrib:\/\/SkeletonApplication/trunk/Manifest.json",
-          "uri"          : "../${CONTRIB_CACHE}/SkeletonApplication/trunk"
-        },
-
-        {
-          "manifest"     : "Manifest.json",
-          "uri"          : ".."
-        }
-      ],
-
-      "settings" :
-      {
-        "qx.application" : "${APPLICATION}.Application",
-        "qx.resourceUri" : "${QOOXDOO_URI}/source/resource"
-      },
-
-      "include" :
-      [
-        "${APPLICATION}.Application",
-        "skeletonapplication.Application",
-        "qx.theme.Classic"
-      ],
 
       "cache" :
       {
+        // use qooxdoo wide cache folder
         "path" : "../../cache"
+      }
+    },
+
+
+    // this is for source/build versions
+    "common-builds" :
+    {
+      "extend"  : ["common"],
+
+      "include" : ["custom.Application"],
+
+      "settings" :
+      {
+        "qx.theme" : "qx.theme.Modern"
       },
 
-      "cache-downloads" :
+      "localize" :
       {
-        "path" : "${CONTRIB_CACHE}"
+        "locales" : [ "en" ]
       }
     },
 
-    "source-script" :
-    {
-      "extend" : ["common"],
-
-      "script" :
-      {
-        "file" : "./source/script/${APPLICATION}.js"
-      }
-    },
 
     "source" :
     {
-      "run" :
-      [
-        "source-script"
-      ]
+      "extend" : ["common-builds", "appconf/jobs/source"]
     },
 
-    "build-script" :
-    {
-      "extend" : ["common"],
-
-      "compile" :
-      {
-        "target" : "build",
-        "file" : "./build/script/${APPLICATION}.js",
-        "uri"  : "script/${APPLICATION}.js"
-      }
-    },
-
-    "build-files" :
-    {
-      "extend" : ["common"],
-      "copy-files" :
-      {
-        "files" :
-        [
-          "index.html"
-        ]
-      }
-    },
 
     "build" :
     {
-      "run" :
-      [
-        "build-files",
-        "build-script"
-      ]
+      "extend" : ["common-builds", "appconf/jobs/build"]
+    },
+
+
+    "api" :
+    {
+      "extend": ["common", "appconf/jobs/api"],
+
+      "let" :
+      {
+        "ROOT" : "${QOOXDOO_PATH}/../application/apiviewer"
+      }
     }
   }
 }
