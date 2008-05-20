@@ -538,7 +538,8 @@ release-sdk-unix-collect:
 	@$(CMD_SYNC_OFFLINE) --exclude .cache --exclude tool/icon/themes --exclude tool/icon/temp framework/* $(RELEASE_SDK_UNIX)/frontend/framework
 
 	@echo "  * Synchronizing tools..."
-	@svn export tool $(RELEASE_SDK_UNIX)/frontend/tool
+	@$(CMD_DIR) $(RELEASE_SDK_UNIX)/frontend/tool
+	@$(CMD_SYNC_OFFLINE) tool/* $(RELEASE_SDK_UNIX)/frontend/tool
 
 	@echo "  * Copying remaining SDK files..."
 	@for ITEM in $(SDK_COPY); do \
@@ -583,7 +584,9 @@ release-sdk-dos-collect:
 	@$(CMD_SYNC_OFFLINE) --exclude .cache --exclude tool/icon/themes --exclude tool/icon/temp framework/* $(RELEASE_SDK_DOS)/frontend/framework
 
 	@echo "  * Synchronizing tools..."
-	@svn export tool $(RELEASE_SDK_DOS)/frontend/tool
+	@$(CMD_DIR) $(RELEASE_SDK_DOS)/frontend/tool
+	@$(CMD_SYNC_OFFLINE) tool/* $(RELEASE_SDK_DOS)/frontend/tool
+
 
 	@echo "  * Copying remaining SDK files..."
 	@for ITEM in $(SDK_COPY); do \
