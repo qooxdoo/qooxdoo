@@ -37,15 +37,14 @@ class TreeLoader:
             cacheId = "tree-%s-%s" % (fileId, idlist.toString(variants))
         else:
             cacheId = "tree-%s" % fileId
-            
+
         tree = self._cache.read(cacheId, filePath)
         if tree != None:
             return tree
 
         # Lookup for unoptimized tree
         if variants != None:
-            cacheId = "tree-%s" % fileId
-            tree = self._cache.read(cacheId, filePath)
+            tree = self._cache.read("tree-%s" % fileId, filePath)
 
         # Tree still undefined?, create it!
         if tree == None:
@@ -58,7 +57,7 @@ class TreeLoader:
             except treegenerator.SyntaxException, detail:
                 self._console.error("%s" % detail)
                 sys.exit(1)
-            
+
             self._console.outdent()
             self._console.debug("Selecting variants: %s..." % fileId)
             self._console.indent()
