@@ -727,14 +727,31 @@ qx.Theme.define("qx.theme.modern.Appearance",
       }
     },
     
+    
+    /*
+    ---------------------------------------------------------------------------
+      RESIZER
+    ---------------------------------------------------------------------------
+    */
+
+    "resizer" :
+    {
+      style : function(states)
+      {
+        return {
+          decorator : "outset"
+        };
+      }
+    },
+
     "resizer-frame" :
     {
       style : function(states)
       {
         return {
-          decorator : "resizer-frame"
-        }
-      } 
+          decorator : "dark-shadow"
+        };
+      }
     }
   }
 });
