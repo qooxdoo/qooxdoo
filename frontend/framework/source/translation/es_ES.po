@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: qooxdoo framework\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-04-03 14:26+0200\n"
+"POT-Creation-Date: 2008-05-20 17:10+0200\n"
 "PO-Revision-Date: 2006-12-18 14:30+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -18,7 +18,7 @@ msgid "Automatic"
 msgstr ""
 
 #: class/qx/legacy/ui/component/ColorPopup.js:229
-#: class/qx/legacy/ui/component/ColorSelector.js:417
+#: class/qx/legacy/ui/component/ColorSelector.js:413
 msgid "Preview (Old/New)"
 msgstr ""
 
@@ -30,85 +30,85 @@ msgstr ""
 msgid "Color Selector"
 msgstr ""
 
-#: class/qx/legacy/ui/component/ColorSelector.js:233
+#: class/qx/legacy/ui/component/ColorSelector.js:229
 msgid "Cancel"
 msgstr ""
 
-#: class/qx/legacy/ui/component/ColorSelector.js:234
+#: class/qx/legacy/ui/component/ColorSelector.js:230
 msgid "OK"
 msgstr ""
 
-#: class/qx/legacy/ui/component/ColorSelector.js:347
+#: class/qx/legacy/ui/component/ColorSelector.js:343
 msgid "Presets"
 msgstr ""
 
-#: class/qx/legacy/ui/component/ColorSelector.js:398
+#: class/qx/legacy/ui/component/ColorSelector.js:394
 msgid "Details"
 msgstr ""
 
-#: class/qx/legacy/ui/component/ColorSelector.js:452
+#: class/qx/legacy/ui/component/ColorSelector.js:448
 msgid "Hex"
 msgstr ""
 
-#: class/qx/legacy/ui/component/ColorSelector.js:481
+#: class/qx/legacy/ui/component/ColorSelector.js:477
 msgid "RGB"
 msgstr ""
 
-#: class/qx/legacy/ui/component/ColorSelector.js:516
+#: class/qx/legacy/ui/component/ColorSelector.js:512
 msgid "HSB"
 msgstr ""
 
-#: class/qx/legacy/ui/component/DateChooser.js:86
+#: class/qx/legacy/ui/component/DateChooser.js:85
 msgid "Last year"
 msgstr ""
 
-#: class/qx/legacy/ui/component/DateChooser.js:93
+#: class/qx/legacy/ui/component/DateChooser.js:92
 msgid "Last month"
 msgstr ""
 
-#: class/qx/legacy/ui/component/DateChooser.js:99
+#: class/qx/legacy/ui/component/DateChooser.js:98
 msgid "Next month"
 msgstr ""
 
-#: class/qx/legacy/ui/component/DateChooser.js:105
+#: class/qx/legacy/ui/component/DateChooser.js:104
 msgid "Next year"
 msgstr ""
 
-#: class/qx/legacy/ui/component/DateChooserButton.js:62
+#: class/qx/legacy/ui/component/DateChooserButton.js:61
 msgid "Choose a date"
 msgstr ""
 
-#: class/qx/legacy/ui/form/ComboBoxEx.js:272
+#: class/qx/legacy/ui/form/ComboBoxEx.js:269
 msgid "Description"
 msgstr ""
 
-#: class/qx/legacy/ui/form/ComboBoxEx.js:272
+#: class/qx/legacy/ui/form/ComboBoxEx.js:269
 msgid "ID"
 msgstr ""
 
-#: class/qx/legacy/ui/form/ComboBoxEx.js:956
+#: class/qx/legacy/ui/form/ComboBoxEx.js:953
 msgid "Search"
 msgstr ""
 
-#: class/qx/legacy/ui/form/ComboBoxEx.js:1072
+#: class/qx/legacy/ui/form/ComboBoxEx.js:1069
 msgid "Case sensitive"
 msgstr ""
 
-#: class/qx/legacy/ui/form/ComboBoxEx.js:1114
+#: class/qx/legacy/ui/form/ComboBoxEx.js:1111
 msgid "Search next occurrence"
 msgstr ""
 
-#: class/qx/legacy/ui/form/ComboBoxEx.js:1158
+#: class/qx/legacy/ui/form/ComboBoxEx.js:1155
 msgid "Search items in list"
 msgstr ""
 
-#: class/qx/legacy/ui/table/Table.js:1523
+#: class/qx/legacy/ui/table/Table.js:1522
 msgid "one row"
 msgid_plural "%1 rows"
 msgstr[0] ""
 msgstr[1] ""
 
-#: class/qx/legacy/ui/table/Table.js:1525
+#: class/qx/legacy/ui/table/Table.js:1524
 msgid "one of one row"
 msgid_plural "%1 of %2 rows"
 msgstr[0] ""
