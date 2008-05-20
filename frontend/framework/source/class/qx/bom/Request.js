@@ -17,13 +17,13 @@
 
    ======================================================================
 
-   This class contains code based on the wonderful work of:
+   This class contains code based on the work of:
 
    * Sergey Ilinsky
      http://www.ilinsky.com
 
      Copyright:
-       (c) 2007, Sergey Ilinsky
+       2007 Sergey Ilinsky
 
      License:
        MIT: http://www.opensource.org/licenses/mit-license.php
@@ -32,9 +32,9 @@
        * Sergey Ilinsky
 
      Comment:
-       Sergey has allowed us, infact me, Sebastian Werner, to use
-       his Apache licensed software and put it under a MIT license.
-       This change makes it compabible to LGPL/GPL. Thank you again.
+       Sergey has allowed us to use his code under a MIT license 
+       by written consent (original code under Apache license). 
+       Thanks again.
 
 ************************************************************************ */
 
