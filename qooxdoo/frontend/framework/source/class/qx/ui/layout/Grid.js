@@ -788,8 +788,7 @@ qx.Class.define("qx.ui.layout.Grid",
         var prefSpanHeight = vSpacing * (widgetProps.rowSpan - 1);
         var minSpanHeight = prefSpanHeight;
 
-        var prefRowFlex = {};
-        var minRowFlex = {};
+        var rowFlexes = {};
 
         for (var j=0; j<widgetProps.rowSpan; j++)
         {
@@ -800,16 +799,7 @@ qx.Class.define("qx.ui.layout.Grid",
           if (rowFlex > 0)
           {
             // compute flex array for the preferred height
-            prefRowFlex[row] =
-            {
-              min : rowHeight.minHeight,
-              value : rowHeight.height,
-              max : rowHeight.maxHeight,
-              flex: rowFlex
-            };
-
-            // compute flex array for the min height
-            minRowFlex[row] =
+            rowFlexes[row] =
             {
               min : rowHeight.minHeight,
               value : rowHeight.height,
@@ -827,7 +817,7 @@ qx.Class.define("qx.ui.layout.Grid",
         if (prefSpanHeight < hint.height)
         {
           var rowIncrements = qx.ui.layout.Util.computeFlexOffsets(
-            prefRowFlex, hint.height, prefSpanHeight
+            rowFlexes, hint.height, prefSpanHeight
           );
 
           for (var j=0; j<widgetProps.rowSpan; j++)
@@ -842,7 +832,7 @@ qx.Class.define("qx.ui.layout.Grid",
         if (minSpanHeight < hint.minHeight)
         {
           var rowIncrements = qx.ui.layout.Util.computeFlexOffsets(
-            minRowFlex, hint.minHeight, minSpanHeight
+            rowFlexes, hint.minHeight, minSpanHeight
           );
 
           for (var j=0; j<widgetProps.rowSpan; j++)
@@ -884,8 +874,7 @@ qx.Class.define("qx.ui.layout.Grid",
         var prefSpanWidth = hSpacing * (widgetProps.colSpan - 1);
         var minSpanWidth = prefSpanWidth;
 
-        var prefColFlex = {};
-        var minColFlex = {};
+        var colFlexes = {};
 
         var offset;
 
@@ -898,19 +887,10 @@ qx.Class.define("qx.ui.layout.Grid",
           // compute flex array for the preferred width
           if (colFlex > 0)
           {
-            prefColFlex[col] =
+            colFlexes[col] =
             {
-              min : colWidth.width,
-              value : colWidth.maxWidth,
-              max : colWidth.maxWidth,
-              flex: colFlex
-            };
-
-            // compute flex array for the min width
-            minColFlex[col] =
-            {
-              min: colWidth.minWidth,
-              value : colWidth.maxWidth,
+              min : colWidth.minWidth,
+              value : colWidth.width,
               max : colWidth.maxWidth,
               flex: colFlex
             };
@@ -925,7 +905,7 @@ qx.Class.define("qx.ui.layout.Grid",
         if (prefSpanWidth < hint.width)
         {
           var colIncrements = qx.ui.layout.Util.computeFlexOffsets(
-            prefColFlex, prefSpanWidth, hint.width
+            colFlexes, hint.width, prefSpanWidth
           );
 
           for (var j=0; j<widgetProps.colSpan; j++)
@@ -940,7 +920,7 @@ qx.Class.define("qx.ui.layout.Grid",
         if (minSpanWidth < hint.minWidth)
         {
           var colIncrements = qx.ui.layout.Util.computeFlexOffsets(
-            minColFlex, minSpanWidth, hint.minWidth
+            colFlexes, hint.minWidth, minSpanWidth
           );
 
           for (var j=0; j<widgetProps.colSpan; j++)
