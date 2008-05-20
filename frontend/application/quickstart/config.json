@@ -23,7 +23,7 @@
       // enable debug build
       "variants" :
       {
-        "qx.debug" : ["off"]
+        "qx.debug" : ["on"]
       },
 
       // Static application class (which is not included in build)
@@ -38,6 +38,7 @@
         "target" : "build",
         "file" : "build/script/qx.js",
         "uri"  : "script/qx.js",
+        "format" : "on",
         "optimize" : ["basecalls", "variables", "privates"]
       },
 
