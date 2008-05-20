@@ -48,7 +48,7 @@ RELEASE_BUILD_DOS = release/temp/build/dos/qooxdoo-$(FRAMEWORK_VERSION)-build
 RELEASE_SDK_UNIX = release/temp/sdk/unix/qooxdoo-$(FRAMEWORK_VERSION)-sdk
 RELEASE_SDK_DOS = release/temp/sdk/dos/qooxdoo-$(FRAMEWORK_VERSION)-sdk
 
-APPLICATIONS = apiviewer demobrowser feedreader quickstart showcase testrunner
+APPLICATIONS = apiviewer demobrowser feedreader showcase testrunner
 SDK_COPY = Makefile application/Makefile application/index.html
 
 
@@ -545,9 +545,9 @@ release-sdk-unix-collect:
 	@for ITEM in $(SDK_COPY); do \
 	  cp -rf $$ITEM $(RELEASE_SDK_UNIX)/frontend/$$ITEM; \
 	done
-	
+
 	@echo "  * Switching to Unix line endings..."
-	@$(CMD_FIND) $(RELEASE_SDK_UNIX) $(FILES_TEXT) $(CMD_ANY2UNIX)	
+	@$(CMD_FIND) $(RELEASE_SDK_UNIX) $(FILES_TEXT) $(CMD_ANY2UNIX)
 
 release-sdk-unix-archive:
 	@echo "  * Synchronizing quickstart & skeleton..."
