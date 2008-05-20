@@ -62,27 +62,23 @@ SDK_COPY = Makefile application/Makefile application/index.html
 ################################################################################
 
 source:
-	@$(MAKE) -s -C application source
+	@for APPLICATION in $(APPLICATIONS); do $(MAKE) -s -C $$APPLICATION source || exit 1; done
 
 build:
-	@$(MAKE) -s -C application build
+	@for APPLICATION in $(APPLICATIONS); do $(MAKE) -s -C $$APPLICATION build || exit 1; done
 
-api:
-	@$(MAKE) -s -C application api
+clean:
+	@for APPLICATION in $(APPLICATIONS); do $(MAKE) -s -C $$APPLICATION clean || exit 1; done
+	@$(CMD_REMOVE) application/*.tar.gz application/*.zip
+	@$(MAKE) -s release-clean
 
-all:
-	@$(MAKE) -s -C application all
+distclean:
+	@for APPLICATION in $(APPLICATIONS); do $(MAKE) -s -C $$APPLICATION distclean || exit 1; done
+	@$(CMD_REMOVE) application/*.tar.gz application/*.zip
+	@$(MAKE) -s release-distclean
+	@$(MAKE) -s framework-distclean
 
-locales:
-	@$(MAKE) -s -C application locales
-
-pretty: framework-pretty
-	@$(MAKE) -s -C application pretty
-
-fix: framework-fix
-	@$(MAKE) -s -C application fix
-
-publish:
+publish: build
 	@echo "  * Preparing index.html..."
 	@$(CMD_DIR) temp/
 	@cat application/index.html | \
@@ -91,18 +87,11 @@ publish:
 	@echo "  * Syncing index.html..."
 	@$(CMD_SYNC_ONLINE) temp/index.html root@qooxdoo.org:/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/
 	@$(CMD_REMOVE) temp
-	@$(MAKE) -s -C application publish
-
-clean:
-	@$(MAKE) -s -C application clean
-	@$(CMD_REMOVE) application/*.tar.gz application/*.zip
-	@$(MAKE) -s release-clean
-
-distclean:
-	@$(MAKE) -s -C application distclean
-	@$(CMD_REMOVE) application/*.tar.gz application/*.zip
-	@$(MAKE) -s release-distclean
-	@$(MAKE) -s framework-distclean
+	@echo "  * Syncing applications..."
+	@for APPLICATION in $(APPLICATIONS); do \
+	  echo "    - $$APPLICATION..."; \
+	  rsync --checksum --compress --recursive --delete --inplace --links --safe-links --exclude .svn application/$$APPLICATION/build/* root@qooxdoo.org:/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$APPLICATION || exit 1; \
+	done
 
 skeleton: skeleton-dos skeleton-unix
 quickstart: quickstart-dos quickstart-unix
