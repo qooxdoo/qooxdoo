@@ -398,7 +398,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       {
         return {
           decorator : states.focused ? "focus-line" : "black",
-          backgroundColor : states.focused ? "#F0F4FA" : "#eeeeee"
+          backgroundColor : states.focused ? "#F0F4FA" : "white"
         };
       }
     },
