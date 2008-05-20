@@ -56,13 +56,11 @@ qx.Class.define("feedreader.view.List",
     this._list = new qx.ui.form.List()
     this._list.setSelectionMode("single");
     this._list.setDecorator(null);
-    this._list.setBackgroundColor("white");
     this._list.addListener("change", this._onChangeSelectionView, this);
     this._stack.add(this._list);
 
     // Create the loading image for the list
     this._listLoadImage = new qx.ui.container.Composite(new qx.ui.layout.HBox(0, "center"));
-    this._listLoadImage.setBackgroundColor("background-light");
     loadImage = new qx.ui.basic.Image("feedreader/images/loading66.gif");
     loadImage.setAlignY("middle");
     this._listLoadImage.add(loadImage);
@@ -150,7 +148,7 @@ qx.Class.define("feedreader.view.List",
           var article = articles[i];
           var listItem = new qx.ui.form.ListItem(article.getTitle());
           listItem.setUserData("article", article);
-          
+
           this._list.add(listItem);
 
           if (article == selected) {
