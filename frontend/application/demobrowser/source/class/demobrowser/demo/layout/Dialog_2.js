@@ -32,18 +32,17 @@ qx.Class.define("demobrowser.demo.layout.Dialog_2",
       this.base(arguments);
       this.getRoot().setPadding(20);
 
-      var dialog = new qx.ui.container.Composite().set({
+      var layout = new qx.ui.layout.Grid();
+      layout.setColumnFlex(0, 1);
+      layout.setRowFlex(0, 1);
+      layout.setSpacing(10);
+
+      var dialog = new qx.ui.container.Composite(layout).set({
          backgroundColor: "#EEE",
          decorator: "black",
          padding: 10
       });
       this.getRoot().add(dialog);
-
-      var layout = new qx.ui.layout.Grid();
-      layout.setColumnFlex(0, 1);
-      layout.setRowFlex(0, 1);
-      layout.setSpacing(10);
-      dialog.setLayout(layout);
 
       var pane = this.getPane();
       dialog.add(pane, {row: 0, column: 0, colSpan: 3});
@@ -89,16 +88,12 @@ qx.Class.define("demobrowser.demo.layout.Dialog_2",
 
     getPane : function()
     {
-      var pane = new qx.ui.container.Composite().set({
+      var pane = new qx.ui.container.Composite(new qx.ui.layout.VBox(14)).set({
         backgroundColor : "#FFF",
         width: 600,
         decorator: "black",
         padding: 10
       });
-
-      var vbox = new qx.ui.layout.VBox;
-      vbox.setSpacing(14);
-      pane.setLayout(vbox);
 
       var label1 = new qx.ui.basic.Label().set({
         rich: true,
