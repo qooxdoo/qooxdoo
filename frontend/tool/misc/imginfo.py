@@ -115,7 +115,7 @@ class JpegFile(ImgFile):
             elif marker == 0xFFD9:
                 return None
 
-            self.fp.seek(length-2, 1)  # SEEK_CUR (2.5)
+            self.fp.seek(length-2, 1)  # 1 = SEEK_CUR (2.5)
 
 
 class ImgInfo(object):
