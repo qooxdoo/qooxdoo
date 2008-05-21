@@ -64,15 +64,25 @@ qx.Class.define("demobrowser.demo.animation.Webinale_2",
       layout2.setColumnAlign(0, "right", "top");
       layout2.setColumnAlign(2, "right", "top");
 
-      var layout2 = new qx.ui.layout.VBox();
+      var layout2 = new qx.ui.layout.Grid(3, 4);
+      layout2.setColumnWidth(0, 150);
+      layout2.setColumnWidth(1, 115);
+      layout2.setColumnWidth(2, 115);
+      layout2.setRowHeight(2, 15);
+      layout2.setRowAlign(3, "center", "middle");
+
+			var label1 = new qx.ui.basic.Label('Do you want to save the changes you made in the document "Untitled"?');
+			
+			var label2 = new qx.ui.basic.Label("Your changes will be lost if you don't save them.");
 
 			this.__dialog = new qx.ui.container.Composite(layout2).set({
         decorator: "pane",
-        padding: 16,
-        width:500,
-        height:150,
+        padding: 16,	
         backgroundColor: "pane"
       });
+			
+			this.__dialog.add(label1, { row: 0, column : 0, colSpan : 3});
+			this.__dialog.add(label2, { row: 1, column : 0, colSpan : 3});
       
       var buttons = [
       	"Don't save",
@@ -83,10 +93,19 @@ qx.Class.define("demobrowser.demo.animation.Webinale_2",
       for(var i=0; i<buttons.length; i++)
       {
       	var tmp = new qx.ui.form.Button(buttons[i]);
-	      this.__dialog.add(tmp);
+      	tmp.setAllowStretchX(false);
+	      this.__dialog.add(tmp, {row: 3, column : i});
 	      tmp.addListener("execute", this.hideDialog, this);
       }
 
+      
+      var button1 = new qx.ui.form.Button("close");
+      button1.setAllowStretchX(false);
+      button1.setAlignX("right");
+
+      button1.addListener("execute", this.showDialog, this);
+      
+      this.__container.add(button1);
       
       var text = "Lorem ipsum dolor sit amet, consectetuer sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.\n\nDuis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.\n\nUt wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi";
       
@@ -98,24 +117,20 @@ qx.Class.define("demobrowser.demo.animation.Webinale_2",
         height: 250
       }));
       
-      var button1 = new qx.ui.form.Button("close");
-      
-      button1.addListener("execute", this.showDialog, this);
-      
-      this.__container.add(button1);
-      
+
       this.getRoot().add(this.__dialog, {
-        left:120,
-        top:60,
+        left:48,
+        top:125,
       });
 
-			this.__dialog.setOpacity(0);
       this.__dialog.addListener("appear", this.__prepareEffects, this);
+      
+      this.__container.addListener("appear", function(){
+	      this.__dialog.setVisibility("hidden");
+      }, this);
 
-//			this.__dialog.include();      
-//			debugger;
 //      this.__dialog.setVisibility("visible");
-      //this.__dialog.setVisibility("hidden");
+      //
 
     }
   }
