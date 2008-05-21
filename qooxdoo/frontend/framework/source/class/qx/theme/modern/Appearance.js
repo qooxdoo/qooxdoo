@@ -557,11 +557,27 @@ qx.Theme.define("qx.theme.modern.Appearance",
     {
       style : function(states)
       {
+        var icon;
+        if (states.selected && states.opened)
+        {
+          icon = "decoration/tree/tree-open-selected.png"; 
+        }
+        else if (states.selected && !states.opened)
+        {
+          icon = "decoration/tree/tree-closed-selected.png";
+        }
+        else if (states.opened)
+        {
+          icon = "decoration/tree/tree-open.png";
+        }
+        else
+        {
+          icon = "decoration/tree/tree-closed.png";
+        }
+        
         return {
           padding : [0, 5, 0, 2],
-          source : states.opened
-            ? "decoration/tree/tree-open.png"
-            : "decoration/tree/tree-closed.png"
+          source  : icon
         }
       }
     },
