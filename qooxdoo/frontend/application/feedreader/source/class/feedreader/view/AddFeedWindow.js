@@ -62,10 +62,6 @@ qx.Class.define("feedreader.view.AddFeedWindow",
       allowMaximize : false
     });
 
-    // set the paddings
-    this.getChildrenContainer().setPadding(16);
-    this.getChildrenContainer().setPaddingBottom(10);
-
     // Create the content with a helper
     this._addContent();
   },
@@ -87,28 +83,37 @@ qx.Class.define("feedreader.view.AddFeedWindow",
      */
     _addContent : function()
     {
+      var groupBox = new qx.ui.groupbox.GroupBox("Feed Information");
+      groupBox.setMargin(10, 4);
+      this.setLayout(new qx.ui.layout.Canvas);
+      this.add(groupBox, {edge:0});
+
       var layout = new qx.ui.layout.Grid();
       layout.setSpacing(10);
-      this.setLayout(layout);
+      groupBox.setLayout(layout);
 
       var titleLabel = new qx.ui.basic.Label("Title:");
       var titleTextfield = this._titleTextfield = new qx.ui.form.TextField();
+
       var urlLabel = new qx.ui.basic.Label("URL:");
       var urlTextField = this._urlTextfield = new qx.ui.form.TextField();
-      urlTextField.setWidth(250);
 
-      this.add(titleLabel, {row: 0, column: 0});
-      this.add(titleTextfield, {row: 0, column: 1});
-      this.add(urlLabel, {row: 1, column: 0});
-      this.add(urlTextField, {row: 1, column: 1});
+      groupBox.add(titleLabel, {row: 0, column: 0});
+      groupBox.add(titleTextfield, {row: 0, column: 1});
+      groupBox.add(urlLabel, {row: 1, column: 0});
+      groupBox.add(urlTextField, {row: 1, column: 1});
 
+      // Increase width
+      urlTextField.setWidth(200);
+
+      // Right aligned button
       var addButton = new qx.ui.form.Button("Add", "icon/16/actions/dialog-apply.png");
       addButton.set({
         alignX     : "right",
         allowGrowX : false
       });
 
-      this.add(addButton, {row: 2, column: 0, colSpan: 2});
+      groupBox.add(addButton, {row: 2, column: 0, colSpan: 2});
       addButton.addListener("execute", this._addFeed, this);
     },
 
