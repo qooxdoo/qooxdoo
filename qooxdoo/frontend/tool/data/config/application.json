@@ -48,13 +48,6 @@
     {
       "extend" : ["common"],
 
-      "settings" :
-      {
-        // resource compat to 0.7.x
-        "qx.resourceUri"             : "${QOOXDOO_URI}/source/resource",
-        "${APPLICATION}.resourceUri" : "../source/resource"
-      },
-
       "script" :
       {
         "file" : "${ROOT}/source/script/${APPLICATION}.js"
@@ -74,13 +67,6 @@
     "build-script" :
     {
       "extend" : ["common"],
-
-      "settings" :
-      {
-        // resource compat to 0.7.x
-        "qx.resourceUri" : "resource",
-        "${APPLICATION}.resourceUri" : "resource"
-      },
 
       "variants" :
       {
