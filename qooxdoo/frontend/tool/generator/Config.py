@@ -416,7 +416,7 @@ class Config:
                         manifest = lib['manifest']
                         manipath = os.path.dirname(manifest)
                         manifile = os.path.basename(manifest)
-                        if manipath.startswith("contrib://"):
+                        if manipath.startswith("contrib://"): # it's a contrib:// lib
                             contrib = manipath.replace("contrib://","")
                             if config[job].has_key('cache-downloads'):
                                 contribCachePath = config[job]['cache-downloads']['path']
@@ -425,6 +425,8 @@ class Config:
                             self._download_contrib(newlib, contrib, contribCachePath)
                             manifest = os.path.join(contribCachePath, contrib, manifile)
                             lib['manifest'] = manifest  # patch 'manifest' entry to download path
+                        else:  # patch the path which is local to the current config
+                            pass # TODO: use manipath and config._dirname, or fix it when including the config
                         # get the local Manifest
                         manifest = Manifest(manifest)
                         lib = manifest.patchLibEntry(lib)
