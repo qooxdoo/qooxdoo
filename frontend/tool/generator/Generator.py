@@ -22,6 +22,7 @@
 import re, os, sys, zlib, optparse, types
 
 from misc import filetool, textutil, idlist
+from misc.Path import Path
 from ecmascript import treegenerator, tokenizer, compiler
 from ecmascript.optimizer import variableoptimizer
 from ecmascript.optimizer import privateoptimizer
@@ -658,7 +659,7 @@ class Generator:
 
         for lib in libs:
             result += 'qxlibinfo["%s"]={"resuri":"%s"};' % (lib['namespace'], 
-                                                  self._posifyPath(os.path.join(lib['uri'],lib['resource'])))
+                                                  Path.posifyPath(os.path.join(lib['uri'],lib['resource'])))
         return result
 
 
@@ -728,7 +729,7 @@ class Generator:
             for resource in resourceList:
                 ##assetId = replaceWithNamespace(imguri, libresuri, lib['namespace'])
                 assetId = extractAssetPart(libresuri, resource[1])
-                assetId = self._posifyPath(assetId)
+                assetId = Path.posifyPath(assetId)
 
                 if imgpatt.search(resource[0]): # handle images
                     imgpath= resource[0]
@@ -1051,13 +1052,6 @@ class Generator:
             return self._resourceHandler.filterResourcesByFilepath() 
 
 
-    def _posifyPath(self, path):
-        "replace '\' with '/' in strings"
-        posix_sep = '/'
-        npath = path.replace(os.sep, posix_sep)
-        return npath
-
-
 
 class _ResourceHandler(object):
     def __init__(self, generatorobj):
@@ -1123,7 +1117,7 @@ class _ResourceHandler(object):
         if not self._resList:
             self._resList = self._getResourcelistFromClasslist(classes)  # get consolidated resource list
         def filter(respath):
-            respath = self._posifyPath(respath)
+            respath = Path.posifyPath(respath)
             for res in self._resList:
                 res1 = res
                 if re.search(res1, respath):  # this might need a better 'match' algorithm
@@ -1209,53 +1203,4 @@ class _ResourceHandler(object):
 
         result = expMacRec(res)
         return result
-
-    def _posifyPath(self, path):
-        "replace '\' with '/' in strings"
-        posix_sep = '/'
-        npath = path.replace(os.sep, posix_sep)
-        return npath
-
-
-class Path (object):
-    '''provide extra path functions beyond os.path'''
-    def _getCommonSuffix(p1, p2):
-        '''computes the common suffix of path1, path2, and returns the two different prefixes
-           and the common suffix'''
-        pre1 = pre2 = suffx = ""
-        if (len(p1) == 0 or len(p2) == 0): return p1,p2,""
-        for i in range(1,len(p1)):
-            if i > len(p2):
-                break
-            elif p1[-i] == p2[-i]:
-                suffx = p1[-i] + suffx
-            else:
-                break
-        pre1 = p1[:-i+1]
-        pre2 = p2[:-i+1]
-
-        return pre1, pre2, suffx
-
-    getCommonSuffix = staticmethod(_getCommonSuffix)
-
-
-    def _getCommonPrefix(p1, p2):
-        '''computes the common prefix of p1, p2, and returns the common prefix and the two
-           different suffixes'''
-        pre = sfx1 = sfx2 = ""
-        if (len(p1) == 0 or len(p2) == 0): return "",p1,p2
-        for i in range(len(p1)):
-            if i > len(p2):
-                break
-            elif p1[i] == p2[i]:
-                pre += p1[i]
-            else:
-                i -= 1  # correct i, since the loop ends differently with range() or !=
-                break
-        sfx1 = p1[i+1:]
-        sfx2 = p2[i+1:]
-
-        return pre,sfx1,sfx2
-
-    getCommonPrefix = staticmethod(_getCommonPrefix)
 
