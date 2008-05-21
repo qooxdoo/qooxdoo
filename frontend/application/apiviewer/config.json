@@ -33,7 +33,7 @@
         "qx.application"  : "${APIVIEWER}.Application",
         "qx.resourceUri"  : "${QOOXDOO_URI}/source/resource",
         "qx.legacy.theme" : "qx.legacy.theme.ClassicRoyale",
-        "qx.version"      : "0.8-alpha1"
+        "qx.version"      : "0.8-alpha2"
       },
 
       "cache" :
@@ -62,8 +62,8 @@
 
     "source" :
     {
-      "run" : 
-      [ 
+      "run" :
+      [
         "source-script",
         "source-data"
       ]
@@ -120,10 +120,10 @@
 
     "build" :
     {
-      "run" : 
-      [ 
-        "build-resources", 
-        "build-script", 
+      "run" :
+      [
+        "build-resources",
+        "build-script",
         "build-files",
         "build-data"
       ]
