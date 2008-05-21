@@ -19,7 +19,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("demobrowser.demo.animation.Webinale_3",
+qx.Class.define("demobrowser.demo.animation.Tree_Highlight",
 {
   extend : qx.application.Standalone,
 

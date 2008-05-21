@@ -17,7 +17,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("demobrowser.demo.animation.Webinale_1",
+qx.Class.define("demobrowser.demo.animation.Login_Sample",
 {
   extend : qx.application.Standalone,
 
