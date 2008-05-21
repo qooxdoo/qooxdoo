@@ -65,13 +65,14 @@ qx.Class.define("demobrowser.demo.animation.Webinale_2",
       layout2.setColumnAlign(2, "right", "top");
 
       var layout2 = new qx.ui.layout.Grid(3, 4);
-      layout2.setColumnWidth(0, 150);
-      layout2.setColumnWidth(1, 115);
-      layout2.setColumnWidth(2, 115);
-      layout2.setRowHeight(2, 15);
+      layout2.setColumnWidth(0, 120);
+      layout2.setColumnWidth(1, 110);
+      layout2.setColumnWidth(2, 110);
+      layout2.setRowHeight(2, 10);
       layout2.setRowAlign(3, "center", "middle");
 
-			var label1 = new qx.ui.basic.Label('Do you want to save the changes you made in the document "Untitled"?');
+			var label1 = new qx.ui.basic.Label('<b "font-size:12pt;">Do you want to save the changes you made in the document "Untitled"?</b>');
+			label1.setRich(true);
 			
 			var label2 = new qx.ui.basic.Label("Your changes will be lost if you don't save them.");
 
@@ -119,8 +120,8 @@ qx.Class.define("demobrowser.demo.animation.Webinale_2",
       
 
       this.getRoot().add(this.__dialog, {
-        left:48,
-        top:125,
+        left:65,
+        top:125
       });
 
       this.__dialog.addListener("appear", this.__prepareEffects, this);
