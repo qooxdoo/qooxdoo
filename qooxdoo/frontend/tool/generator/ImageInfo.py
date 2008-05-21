@@ -118,7 +118,7 @@ class ImgInfoFmt(object):
     def flatten(self):
         a = [self.width, self.height, self.type, self.lib]
         if self.mappedId:
-            a.extend([self.mappedId, self.left, self.top])
+            a.extend([self._posifyPath(self.mappedId), self.left, self.top])
         return a
 
     def fromFlat(self, flatspec):
@@ -141,3 +141,11 @@ class ImgInfoFmt(object):
             self.top       = None
             self.mtype     = None
             self.mlib      = None
+
+    def _posifyPath(self, path):
+        "replace '\' with '/' in strings"
+        posix_sep = '/'
+        npath = path.replace(os.sep, posix_sep)
+        return npath
+
+
