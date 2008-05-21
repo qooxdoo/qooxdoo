@@ -712,6 +712,7 @@ class Generator:
                 ## replace lib uri with lib namespace in mimguri
                 ##mimgshorturi = replaceWithNamespace(mimguri, libresuri, cimgfmt.lib)
                 mimgshorturi = extractAssetPart(libresuri, mimguri)
+                mimgshorturi = Path.posifyPath(mimgshorturi)
 
                 mimgspec.mappedId = cimgshorturi        # correct the mapped uri of the combined image
                 mimgspec.lib      = cimgfmt.lib
@@ -816,7 +817,7 @@ class Generator:
         for packageId, packages in enumerate(packages):
             packageUris = []
             for fileId in packages:
-                packageUris.append('"%s"' % self._classes[fileId]["uri"])
+                packageUris.append('"%s"' % Path.posifyPath(self._classes[fileId]["uri"]))
 
             allUris.append("[" + ",".join(packageUris) + "]")
 
