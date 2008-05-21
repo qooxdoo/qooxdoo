@@ -32,8 +32,8 @@ qx.Class.define("demobrowser.demo.animation.Webinale_2",
 
 		showDialog : function()
 		{
-			this.__dialog.setOpacity(1);
-			this.__showEffect.start();
+      this.__dialog.setZIndex(1);
+      this.__showEffect.start();
 		},
 
 
@@ -79,12 +79,14 @@ qx.Class.define("demobrowser.demo.animation.Webinale_2",
 			this.__dialog = new qx.ui.container.Composite(layout2).set({
         decorator: "pane",
         padding: 16,	
-        backgroundColor: "pane"
+        backgroundColor: "pane",
+        zIndex : -1
       });
 			
 			this.__dialog.add(label1, { row: 0, column : 0, colSpan : 3});
 			this.__dialog.add(label2, { row: 1, column : 0, colSpan : 3});
       
+			
       var buttons = [
       	"Don't save",
       	"Cancel",
@@ -103,6 +105,7 @@ qx.Class.define("demobrowser.demo.animation.Webinale_2",
       var button1 = new qx.ui.form.Button("close");
       button1.setAllowStretchX(false);
       button1.setAlignX("right");
+      button1.setMarginBottom(15);
 
       button1.addListener("execute", this.showDialog, this);
       
@@ -124,14 +127,7 @@ qx.Class.define("demobrowser.demo.animation.Webinale_2",
         top:125
       });
 
-      this.__dialog.addListener("appear", this.__prepareEffects, this);
-      
-      this.__container.addListener("appear", function(){
-	      this.__dialog.setVisibility("hidden");
-      }, this);
-
-//      this.__dialog.setVisibility("visible");
-      //
+      this.__container.addListenerOnce("appear", this.__prepareEffects, this);
 
     }
   }
