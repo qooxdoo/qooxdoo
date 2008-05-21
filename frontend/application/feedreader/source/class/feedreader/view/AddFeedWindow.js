@@ -105,8 +105,7 @@ qx.Class.define("feedreader.view.AddFeedWindow",
       var addButton = new qx.ui.form.Button("Add", "icon/16/actions/dialog-apply.png");
       addButton.set({
         alignX     : "right",
-        allowGrowX : false,
-        minWidth   : 80
+        allowGrowX : false
       });
 
       this.add(addButton, {row: 2, column: 0, colSpan: 2});
@@ -121,10 +120,8 @@ qx.Class.define("feedreader.view.AddFeedWindow",
      */
     _addFeed : function(e)
     {
-      var title = this._titleTextfield.getValue();
-      var url = this._urlTextfield.getValue();
-
       // break if no title is given
+      var title = this._titleTextfield.getValue();
       if (title == "")
       {
         alert("Please enter a title.");
@@ -132,6 +129,7 @@ qx.Class.define("feedreader.view.AddFeedWindow",
       }
 
       // break if no url is given
+      var url = this._urlTextfield.getValue();
       if (url == "")
       {
         alert("Please enter a url.");
