@@ -17,7 +17,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("demobrowser.demo.animation.Webinale_2",
+qx.Class.define("demobrowser.demo.animation.Save_Dialog",
 {
   extend : qx.application.Standalone,
 
