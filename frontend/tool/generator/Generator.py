@@ -658,7 +658,7 @@ class Generator:
 
         for lib in libs:
             result += 'qxlibinfo["%s"]={"resuri":"%s"};' % (lib['namespace'], 
-                                                  os.path.join(lib['uri'],lib['resource']))
+                                                  self._posifyPath(os.path.join(lib['uri'],lib['resource'])))
         return result
 
 
@@ -728,6 +728,7 @@ class Generator:
             for resource in resourceList:
                 ##assetId = replaceWithNamespace(imguri, libresuri, lib['namespace'])
                 assetId = extractAssetPart(libresuri, resource[1])
+                assetId = self._posifyPath(assetId)
 
                 if imgpatt.search(resource[0]): # handle images
                     imgpath= resource[0]
@@ -1050,6 +1051,13 @@ class Generator:
             return self._resourceHandler.filterResourcesByFilepath() 
 
 
+    def _posifyPath(self, path):
+        "replace '\' with '/' in strings"
+        posix_sep = '/'
+        npath = path.replace(os.sep, posix_sep)
+        return npath
+
+
 
 class _ResourceHandler(object):
     def __init__(self, generatorobj):
@@ -1114,10 +1122,9 @@ class _ResourceHandler(object):
 
         if not self._resList:
             self._resList = self._getResourcelistFromClasslist(classes)  # get consolidated resource list
-        respatt = re.compile(r'[^/]+?/')  # everything before the first slash
         def filter(respath):
+            respath = self._posifyPath(respath)
             for res in self._resList:
-                #res1 = respatt.sub('',res,1)  # strip off e.g 'qx.icontheme/'...
                 res1 = res
                 if re.search(res1, respath):  # this might need a better 'match' algorithm
                     return True
@@ -1202,6 +1209,12 @@ class _ResourceHandler(object):
 
         result = expMacRec(res)
         return result
+
+    def _posifyPath(self, path):
+        "replace '\' with '/' in strings"
+        posix_sep = '/'
+        npath = path.replace(os.sep, posix_sep)
+        return npath
 
 
 class Path (object):
