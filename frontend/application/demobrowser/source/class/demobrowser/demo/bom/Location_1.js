@@ -37,6 +37,10 @@ qx.Class.define("demobrowser.demo.bom.Location_1",
 
   statics :
   {
+    num : function(elem, style) {
+      return parseInt(qx.bom.element.Style.get(elem, style, qx.bom.element.Style.COMPUTED_MODE, false), 10);
+    },
+
     jump : function(event)
     {
       if (!event) {
@@ -48,6 +52,10 @@ qx.Class.define("demobrowser.demo.bom.Location_1",
       if (event.preventDefault) {
         event.preventDefault();
       }
+
+      function num(elem, style) {
+        return parseInt(qx.bom.element.Style.get(elem, style, qx.bom.element.Style.COMPUTED_MODE, false), 10);
+      };
 
       var href = this.href;
       var id = href.substr(href.indexOf('#')+1);
@@ -67,8 +75,8 @@ qx.Class.define("demobrowser.demo.bom.Location_1",
       else
       {
         var clazz = qx.bom.element.Location;
-        moveable.style.width = (location.right - location.left - clazz.__num(moveable, "borderLeftWidth") - clazz.__num(moveable, "borderRightWidth")) + "px";
-        moveable.style.height = (location.bottom - location.top - clazz.__num(moveable, "borderTopWidth") - clazz.__num(moveable, "borderBottomWidth")) + "px";
+        moveable.style.width = (location.right - location.left - num(moveable, "borderLeftWidth") - num(moveable, "borderRightWidth")) + "px";
+        moveable.style.height = (location.bottom - location.top - num(moveable, "borderTopWidth") - num(moveable, "borderBottomWidth")) + "px";
       }
 
       return false;
