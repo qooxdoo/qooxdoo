@@ -51,9 +51,7 @@ qx.Class.define("feedreader.view.PreferenceWindow",
       modal         : true,
       showMinimize  : false,
       showMaximize  : false,
-      allowMaximize : false,
-      width         : 200,
-      height        : 200
+      allowMaximize : false
     });
 
     // Create the content with a helper
@@ -81,7 +79,8 @@ qx.Class.define("feedreader.view.PreferenceWindow",
 
       // Create and add a groupbox
       var groupBox = new qx.ui.groupbox.GroupBox("Theme");
-      groupBox.setMargin(5);
+      groupBox.setMargin(10, 4);
+      groupBox.setMinWidth(150);
       groupBox.setLayout(new qx.ui.layout.VBox());
       this.add(groupBox);
 
