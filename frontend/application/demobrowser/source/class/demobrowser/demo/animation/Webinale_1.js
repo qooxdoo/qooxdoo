@@ -74,7 +74,8 @@ qx.Class.define("demobrowser.demo.animation.Webinale_1",
         paddingTop: 3
       }), {row: 1, column : 1});
 
-			var button1 = this.__okButton =  new qx.ui.form.Button("OK");
+			var button1 = this.__okButton =  new qx.ui.form.Button("Login");
+			button1.setAllowStretchX(false);
 
 			this.__container.addListener("appear", this.__prepareEffect, this);
 
