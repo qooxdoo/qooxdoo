@@ -484,20 +484,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
-    "toolbar-separator-line" :
-    {
-      style : function(states)
-      {
-        return {
-          // top    : 2,
-          // left   : 3,
-          // width  : "auto",
-          // bottom : 2,
-          decorator : "divider-horizontal"
-        };
-      }
-    },
-
     "toolbar-button" :
     {
       style : function(states)
@@ -520,13 +506,9 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
         return {
           cursor  : "default",
-          // spacing : 4,
-          // width           : "auto",
-          decorator       : border,
-          padding         : padding,
-          // verticalChildrenAlign : "middle",
-          backgroundColor       : states.abandoned ? "button-abandoned" : states.checked ? "background-light" : "button"
-          //backgroundImage       : states.checked && !states.over ? "static/image/dotted_white.gif" : null
+          decorator : border,
+          padding : padding,
+          backgroundColor : states.abandoned ? "button-abandoned" : states.checked ? "background-light" : "button"
         };
       }
     },
