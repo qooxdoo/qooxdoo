@@ -106,7 +106,7 @@ qx.Class.define("qx.util.StringBuilder",
         // create an <iframe>
         this._frame = document.createElement("iframe");
         this._frame.style.visibility = "hidden";
-        this._frame.src = qx.io.Alias.getInstance().resolve("static/stringbuilder/helper.html")
+        this._frame.src = qx.io.Alias.getInstance().resolve("static/stringbuilder/helper.html");
         document.body.appendChild(this._frame);
       },
 
