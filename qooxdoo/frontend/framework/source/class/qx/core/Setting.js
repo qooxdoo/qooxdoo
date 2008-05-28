@@ -133,6 +133,17 @@ qx.Class.define("qx.core.Setting",
 
 
     /**
+     * checks if a setting is set or not
+     * 
+     * @param key {Boolean}
+     */
+    isSet : function (key)
+    {
+      return this.__settings[key] !== undefined;
+    },
+
+
+    /**
      * Import settings from global qxsettings into current environment
      *
      * @type static

@@ -42,8 +42,7 @@ qx.Class.define("qx.io.Alias",
     // Contains defined aliases (like icons/, widgets/, application/, ...)
     this._aliases = {};
 
-    // Define static alias from setting
-    this.add("static", qx.core.Setting.get("qx.resourceUri") + "/static");
+    this._addStatic();
   },
 
 
@@ -57,6 +56,20 @@ qx.Class.define("qx.io.Alias",
 
   members :
   {
+
+    /**
+     * Define static alias from setting, if the custom staticUri setting is set
+     * we use it as alias else we take default resourceUri + /static
+     * 
+     * @type member
+     * @return {void}
+     */
+    _addStatic : function ()
+    {
+      this.add("static", qx.core.Setting.isSet("qx.staticUri") ? qx.core.Setting.get("qx.staticUri") : qx.core.Setting.get("qx.resourceUri") + "/static");
+    },
+
+
     /**
      * pre process incoming dynamic value
      *
