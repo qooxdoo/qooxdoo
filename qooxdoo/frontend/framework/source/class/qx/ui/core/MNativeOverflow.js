@@ -20,12 +20,10 @@
 ************************************************************************ */
 
 /**
- * This mixin is included by all widgets, which support an 'execute' like
- * buttons or menu entries.
+ * This mixin is included by all widgets which supports native overflowing.
  */
 qx.Mixin.define("qx.ui.core.MNativeOverflow",
 {
-
   /*
   *****************************************************************************
      PROPERTIES
@@ -35,25 +33,27 @@ qx.Mixin.define("qx.ui.core.MNativeOverflow",
   properties :
   {
     /**
-     * Whether the iframe's should have vertical scroll bars.
+     * Whether the widget should have vertical scrollbars.
      */
     overflowX :
     {
       check : ["hidden", "visible", "scroll"],
-      init  : "hidden",
+      nullable : true,
       apply : "_applyOverflowX"
     },
 
     /**
-     * Whether the iframe's should have horizontal scroll bars.
+     * Whether the widget should have horizontal scrollbars.
      */
     overflowY :
     {
       check : ["hidden", "visible", "scroll"],
-      init  : "hidden",
+      nullable : true,
       apply : "_applyOverflowY"
     }
   },
+
+
 
 
 
@@ -66,14 +66,13 @@ qx.Mixin.define("qx.ui.core.MNativeOverflow",
   members :
   {
     // property apply
-    _applyOverflowX : function(value, old)
-    {
+    _applyOverflowX : function(value) {
       this.getContentElement().setStyle("overflowX", value);
     },
 
+
     // property apply
-    _applyOverflowY : function(value, old)
-    {
+    _applyOverflowY : function(value) {
       this.getContentElement().setStyle("overflowY", value);
     }
   }
