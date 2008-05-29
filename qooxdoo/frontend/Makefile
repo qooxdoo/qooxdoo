@@ -66,14 +66,15 @@ build:
 
 clean:
 	@for APPLICATION in $(APPLICATIONS); do $(MAKE) -s -C application/$$APPLICATION clean || exit 1; done
+	@$(MAKE) -s -C framework clean
 	@$(CMD_REMOVE) application/*.zip
-	@$(MAKE) -s release-clean
+	@$(CMD_REMOVE) release/temp
 
 distclean:
 	@for APPLICATION in $(APPLICATIONS); do $(MAKE) -s -C application/$$APPLICATION distclean || exit 1; done
+	@$(MAKE) -s -C framework distclean
 	@$(CMD_REMOVE) application/*.zip
-	@$(MAKE) -s release-distclean
-	@$(MAKE) -s framework-distclean
+	@$(CMD_REMOVE) release
 
 publish: build
 	@echo "  * Preparing index.html..."
@@ -231,28 +232,7 @@ exec-skeleton-archive:
 # RELEASE TARGETS
 ################################################################################
 
-release-clean:
-	@echo
-	@echo "****************************************************************************"
-	@echo "  CLEANING UP RELEASE"
-	@echo "****************************************************************************"
-	@echo "  * Cleaning up..."
-	@$(CMD_REMOVE) release/temp
-
-release-distclean:
-	@echo
-	@echo "****************************************************************************"
-	@echo "  CLEANING UP RELEASE COMPLETELY"
-	@echo "****************************************************************************"
-	@echo "  * Cleaning up..."
-	@$(CMD_REMOVE) release
-
-
-
-
 release: release-sdk release-build release-quickstart
-
-
 
 release-build: build release-build-info release-build
 
