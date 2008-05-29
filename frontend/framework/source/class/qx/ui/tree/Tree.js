@@ -223,10 +223,6 @@ qx.Class.define("qx.ui.tree.Tree",
 
         value.setVisibility(this.getHideRoot() ? "excluded" : "visible");
         value.recursiveAddToWidgetQueue();
-
-        // as a heuristic use the height of the root item as line height
-        var rootHeight = value.getSizeHint().height;
-        this.setLineHeight(rootHeight);
       }
     },
 
