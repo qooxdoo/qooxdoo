@@ -231,11 +231,27 @@ qx.Class.define("qx.ui.core.ScrollArea",
      * @param value {Integer} The vertical position to scroll to.
      * @return {void}
      */
-    setScrollLeft : function(value)
+    scrollToX : function(value)
     {
       var scrollbar = this._getChildControl("scrollbarX", true);
       if (scrollbar) {
         scrollbar.scrollTo(value);
+      }
+    },
+
+
+    /**
+     * Scrolls the element's content by the given left offset
+     *
+     * @type member
+     * @param value {Integer} The vertical position to scroll to.
+     * @return {void}
+     */
+    scrollByX : function(value)
+    {
+      var scrollbar = this._getChildControl("scrollbarX", true);
+      if (scrollbar) {
+        scrollbar.scrollBy(value);
       }
     },
 
@@ -246,14 +262,10 @@ qx.Class.define("qx.ui.core.ScrollArea",
      * @type member
      * @return {Integer} Horizontal scroll position
      */
-    getScrollLeft : function()
+    getScrollX : function()
     {
       var scrollbar = this._getChildControl("scrollbarX", true);
-      if (scrollbar) {
-        return scrollbar.getPosition();
-      }
-
-      return 0;
+      return scrollbar ? scrollbar.getPosition() : 0;
     },
 
 
@@ -264,11 +276,27 @@ qx.Class.define("qx.ui.core.ScrollArea",
      * @param value {Integer} The horizontal position to scroll to.
      * @return {void}
      */
-    setScrollTop : function(value)
+    scrollToY : function(value)
     {
       var scrollbar = this._getChildControl("scrollbarY", true);
       if (scrollbar) {
         scrollbar.scrollTo(value);
+      }
+    },
+
+
+    /**
+     * Scrolls the element's content by the given top offset
+     *
+     * @type member
+     * @param value {Integer} The horizontal position to scroll to.
+     * @return {void}
+     */
+    scrollByY : function(value)
+    {
+      var scrollbar = this._getChildControl("scrollbarY", true);
+      if (scrollbar) {
+        scrollbar.scrollBy(value);
       }
     },
 
@@ -279,14 +307,10 @@ qx.Class.define("qx.ui.core.ScrollArea",
      * @type member
      * @return {Integer} Vertical scroll position
      */
-    getScrollTop : function()
+    getScrollY : function()
     {
       var scrollbar = this._getChildControl("scrollbarY", true);
-      if (scrollbar) {
-        return scrollbar.getPosition();
-      }
-
-      return 0;
+      return scrollbar ? scrollbar.getPosition() : 0;
     },
 
 
@@ -452,27 +476,27 @@ qx.Class.define("qx.ui.core.ScrollArea",
         item = item.getLayoutParent();
       } while (item && item !== content);
 
-      var scrollTop = this.getScrollTop();
+      var scrollTop = this.getScrollY();
       var containerSize = this._getChildControl("pane").getBounds();
 
       if (scrollTop + containerSize.height < top + itemSize.height) {
-        this.setScrollTop(top + itemSize.height - containerSize.height);
+        this.scrollToY(top + itemSize.height - containerSize.height);
       }
 
-      if (vAlign == "top" && this.getScrollTop() > top) {
-        this.setScrollTop(top);
+      if (vAlign == "top" && this.getScrollY() > top) {
+        this.scrollToY(top);
       }
 
-      var scrollLeft = this.getScrollLeft();
+      var scrollLeft = this.getScrollX();
 
       if (scrollLeft + containerSize.width < left + itemSize.width)
       {
         var scrollLeft = left + itemSize.width - containerSize.width;
-        this.setScrollLeft(left + itemSize.width - containerSize.width);
+        this.scrollToX(left + itemSize.width - containerSize.width);
       }
 
       if (hAlign == "left" && scrollLeft > left) {
-        this.setScrollLeft(left);
+        this.scrollToX(left);
       }
     },
 
@@ -493,7 +517,7 @@ qx.Class.define("qx.ui.core.ScrollArea",
      * @return {void}
      */
     _onScrollX : function(e) {
-      this._getChildControl("pane").setScrollLeft(e.getData());
+      this._getChildControl("pane").scrollToX(e.getData());
     },
 
 
@@ -505,7 +529,7 @@ qx.Class.define("qx.ui.core.ScrollArea",
      * @return {void}
      */
     _onScrollY : function(e) {
-      this._getChildControl("pane").setScrollTop(e.getData());
+      this._getChildControl("pane").scrollToY(e.getData());
     },
 
 
@@ -517,15 +541,11 @@ qx.Class.define("qx.ui.core.ScrollArea",
      */
     _onMouseWheel : function(e)
     {
-      var scrollbar = this._getChildControl("scrollbarY");
-      if (scrollbar)
-      {
-        // The pane is scrolled by the event on the scrollbar
-        scrollbar.scrollBy(e.getWheelDelta() * -20);
+      // The pane is scrolled by the event on the scrollbar
+      this.scrollByY(e.getWheelDelta() * -20);
 
-        // Stop bubbling and native event
-        e.stop();
-      }
+      // Stop bubbling and native event
+      e.stop();
     },
 
 
@@ -541,7 +561,7 @@ qx.Class.define("qx.ui.core.ScrollArea",
       var showY = this._isChildControlVisible("scrollbarY");
 
       if (!showX) {
-        this._getChildControl("pane").setScrollLeft(0);
+        this.scrollToX(0);
       }
 
       showX && showY ? this._showChildControl("corner") : this._excludeChildControl("corner");
@@ -560,7 +580,7 @@ qx.Class.define("qx.ui.core.ScrollArea",
       var showY = this._isChildControlVisible("scrollbarY");
 
       if (!showY) {
-        this._getChildControl("pane").setScrollTop(0);
+        this.scrollToY(0);
       }
 
       showX && showY ? this._showChildControl("corner") : this._excludeChildControl("corner");
