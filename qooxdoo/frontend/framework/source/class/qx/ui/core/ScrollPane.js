@@ -150,7 +150,7 @@ qx.Class.define("qx.ui.core.ScrollPane",
      * @param value {Integer} The vertical position to scroll to.
      * @return {void}
      */
-    setScrollLeft : function(value)
+    scrollToX : function(value)
     {
       // TODO: Implement API in qx.html.Element
       var el = this._contentElement.getDomElement();
@@ -166,7 +166,7 @@ qx.Class.define("qx.ui.core.ScrollPane",
      * @type member
      * @return {Integer} Horizontal scroll position
      */
-    getScrollLeft : function()
+    getScrollX : function()
     {
       // TODO: Implement API in qx.html.Element
       var el = this._contentElement.getDomElement();
@@ -181,7 +181,7 @@ qx.Class.define("qx.ui.core.ScrollPane",
      * @param value {Integer} The horizontal position to scroll to.
      * @return {void}
      */
-    setScrollTop : function(value)
+    scrollToY : function(value)
     {
       // TODO: Implement API in qx.html.Element
       var el = this._contentElement.getDomElement();
@@ -197,7 +197,7 @@ qx.Class.define("qx.ui.core.ScrollPane",
      * @type member
      * @return {Integer} Vertical scroll position
      */
-    getScrollTop : function()
+    getScrollY : function()
     {
       // TODO: Implement API in qx.html.Element
       var el = this._contentElement.getDomElement();
@@ -209,17 +209,16 @@ qx.Class.define("qx.ui.core.ScrollPane",
      * Scrolls the element's content horizontally by the given amount.
      *
      * @type member
-     * @param left {Integer?0} Amount to scroll
+     * @param x {Integer?0} Amount to scroll
      * @return {void}
      */
-    scrollLeftBy : function(left)
+    scrollByX : function(x)
     {
-      if (!left) {
+      if (!x) {
         return;
       }
 
-      var old = this.getScrollLeft();
-      this.setScrollLeft(old + left);
+      this.scrollToX(this.getScrollX() + x);
     },
 
 
@@ -227,17 +226,16 @@ qx.Class.define("qx.ui.core.ScrollPane",
      * Scrolls the element's content vertically by the given amount.
      *
      * @type member
-     * @param top {Integer?0} Amount to scroll
+     * @param y {Integer?0} Amount to scroll
      * @return {void}
      */
-    scrollTopBy : function(top)
+    scrollByY : function(y)
     {
-      if (!top) {
+      if (!y) {
         return;
       }
 
-      var old = this.getScrollTop();
-      this.setScrollTop(old + top);
+      this.scrollToY(this.getScrollY() + y);
     }
   }
 });
