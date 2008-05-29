@@ -560,7 +560,7 @@ Affected Classes:
 WARNING: The JavaScript files will be pretty printed. You can customize the
          pretty printer using the PRETTY_PRINT_OPTIONS variable in your
          Makefile. You can find a complete list of pretty printing options
-         at http://qooxdoo.org/documentation/articles/code_style."""
+         at http://qooxdoo.org/documentation/0.7/code_style."""
 
     choice = raw_input("""
 NOTE:    It is advised to do a 'make distclean' before migrating any files.
