@@ -18,14 +18,9 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-
-************************************************************************ */
-
 /**
  * A set is a collection of unordered objects, which are identified using
- * the object's hash code returned by {@link qx.core.ObjectRegistry.toHashCode}.
+ * the object's hash code returned by {@link qx.core.ObjectRegistry#toHashCode}.
  *
  * Each object is only added once to the set.
  */
@@ -46,6 +41,7 @@ qx.Class.define("qx.util.Set",
   {
     this.base(arguments);
 
+    // {Map} Internal storage of objects
     this.__objects = {};
   },
 
