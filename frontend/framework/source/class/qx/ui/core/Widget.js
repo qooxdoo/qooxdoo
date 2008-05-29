@@ -75,6 +75,7 @@ qx.Class.define("qx.ui.core.Widget",
     // Store "weak" reference to the widget in the DOM element.
     this._containerElement.setAttribute("$$widget", this.toHashCode());
 
+    // Add class name hint for better debugging
     if (qx.core.Variant.isSet("qx.debug", "on")) {
       this._containerElement.setAttribute("qxClass", this.classname);
     }
@@ -642,8 +643,10 @@ qx.Class.define("qx.ui.core.Widget",
         if (parent == child) {
           return true;
         }
+
         child = child.getLayoutParent();
       }
+
       return false;
     }
   },
@@ -1453,7 +1456,7 @@ qx.Class.define("qx.ui.core.Widget",
      * Add a widget after another already inserted widget
      *
      * @type member
-     * @param vChild {LayoutItem} widget to add
+     * @param child {LayoutItem} widget to add
      * @param after {LayoutItem} widgert, after which the new widget will be inserted
      * @param options {Map?null} Optional layout data for widget.
      * @return {void}
@@ -1657,7 +1660,7 @@ qx.Class.define("qx.ui.core.Widget",
      * Callback for decoration manager connection
      *
      * @type member
-     * @param decorator {qx.ui.decoration.IDecorator} the decorator object
+     * @param value {qx.ui.decoration.IDecorator} the decorator object
      * @return {void}
      */
     _styleDecorator : function(value)
@@ -1909,7 +1912,7 @@ qx.Class.define("qx.ui.core.Widget",
      * Sets a state.
      *
      * @type member
-     * @param state {var} TODOC
+     * @param state {String} The state to add
      * @return {void}
      */
     addState : function(state)
@@ -2166,7 +2169,6 @@ qx.Class.define("qx.ui.core.Widget",
     },
 
 
-
     getFocusRoot : function()
     {
       var parent = this;
@@ -2377,6 +2379,13 @@ qx.Class.define("qx.ui.core.Widget",
     ---------------------------------------------------------------------------
     */
 
+    /**
+     * Whether the given ID is assigned to a child control.
+     *
+     * @type member
+     * @param id {String} ID of the child control
+     * @return {Boolean} <code>true</code> when the child control is registered.
+     */
     _hasChildControl : function(id)
     {
       if (!this.__childControls) {
@@ -2386,6 +2395,17 @@ qx.Class.define("qx.ui.core.Widget",
       return !!this.__childControls[id];
     },
 
+
+    /**
+     * Returns the child control from the given ID. Returns
+     * <code>null</code> when the child control is unknown.
+     *
+     * @type member
+     * @param id {String} ID of the child control
+     * @param notcreate {Boolean?false} Whether the child control
+     *    should not be created dynamically if not yet available.
+     * @return {qx.ui.core.Widget} Child control
+     */
     _getChildControl : function(id, notcreate)
     {
       if (!this.__childControls)
@@ -2402,19 +2422,35 @@ qx.Class.define("qx.ui.core.Widget",
         return control;
       }
 
-      if (notcreate) {
+      if (notcreate === true) {
         return null;
       }
 
       return this._createChildControl(id);
     },
 
+
+    /**
+     * Shows the given child control by ID
+     *
+     * @type member
+     * @param id {String} ID of the child control
+     * @return {void}
+     */
     _showChildControl : function(id)
     {
       var control = this._getChildControl(id);
       control.show();
     },
 
+
+    /**
+     * Excludes the given child control by ID
+     *
+     * @type member
+     * @param id {String} ID of the child control
+     * @return {void}
+     */
     _excludeChildControl : function(id)
     {
       var control = this._getChildControl(id, true);
@@ -2423,6 +2459,14 @@ qx.Class.define("qx.ui.core.Widget",
       }
     },
 
+
+    /**
+     * Whether the given child control is visible.
+     *
+     * @type member
+     * @param id {String} ID of the child control
+     * @return {Boolean} <code>true</code> when the child control is visible.
+     */
     _isChildControlVisible : function(id)
     {
       var control = this._getChildControl(id, true);
@@ -2433,6 +2477,18 @@ qx.Class.define("qx.ui.core.Widget",
       return false;
     },
 
+
+    /**
+     * Force the creation of the given child control by ID.
+     *
+     * Do not override this method! Override {@link #_createChildControlImpl}
+     * instead if you need to support new controls.
+     *
+     * @type member
+     * @param id {String} ID of the child control
+     * @return {qx.ui.core.Widget} The created control
+     * @throws when the control was created before
+     */
     _createChildControl : function(id)
     {
       if (!this.__childControls) {
@@ -2451,13 +2507,34 @@ qx.Class.define("qx.ui.core.Widget",
       return this.__childControls[id] = control;
     },
 
+
+    /**
+     * Internal method to create child controls. This method
+     * should be overwritten by classes which extends this one
+     * to support new child control types.
+     *
+     * @type member
+     * @return {qx.ui.core.Widget} The created control or <code>null</code>
+     */
     _createChildControlImpl : function() {
       return null;
     },
 
+
+    /**
+     * Dispose all registered controls. This is automatically
+     * executed by the widget.
+     *
+     * @type member
+     * @return {void}
+     */
     _disposeChildControls : function()
     {
       var controls = this.__childControls;
+      if (!controls) {
+        return;
+      }
+
       for (var id in controls) {
         controls[id].dispose();
       }
@@ -2496,21 +2573,6 @@ qx.Class.define("qx.ui.core.Widget",
 
       qx.ui.core.queue.Dispose.add(this);
     }
-  },
-
-
-
-
-
-  /*
-  *****************************************************************************
-     SETTINGS
-  *****************************************************************************
-  */
-
-  settings :
-  {
-    "qx.layoutDebug" : "off"
   },
 
 
