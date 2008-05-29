@@ -112,13 +112,6 @@ qx.Class.define("qx.ui.core.ScrollArea",
      */
     scrollbar : {
       group : [ "scrollbarX", "scrollbarY" ]
-    },
-
-
-    lineHeight :
-    {
-      check : "Integer",
-      init : 22
     }
   },
 
@@ -150,7 +143,7 @@ qx.Class.define("qx.ui.core.ScrollArea",
         case "pane":
           control = new qx.ui.core.ScrollPane();
 
-          control.addListener("update", this._onUpdate, this);
+          control.addListener("update", this._computeScrollbars, this);
           this._add(control, {row: 0, column: 0});
           break;
 
@@ -199,11 +192,25 @@ qx.Class.define("qx.ui.core.ScrollArea",
     ---------------------------------------------------------------------------
     */
 
+    /**
+     * Sets the content of the area.
+     *
+     * @type member
+     * @param content {qx.ui.core.Widget} The new content or <code>null</code>
+     * @return {qx.ui.core.Widget} The content (incoming value)
+     */
     _setContent : function(content) {
       return this._getChildControl("pane").setContent(content);
     },
 
-    _getContent : function(content) {
+
+    /**
+     * Returns the content of the area.
+     *
+     * @type member
+     * @return {qx.ui.core.Widget} The content
+     */
+    _getContent : function() {
       return this._getChildControl("pane").getContent();
     },
 
@@ -514,22 +521,11 @@ qx.Class.define("qx.ui.core.ScrollArea",
       if (scrollbar)
       {
         // The pane is scrolled by the event on the scrollbar
-        scrollbar.scrollBy(e.getWheelDelta() * this.getLineHeight() * -1);
+        scrollbar.scrollBy(e.getWheelDelta() * -20);
 
         // Stop bubbling and native event
         e.stop();
       }
-    },
-
-
-    /**
-     * Event handler for pane and content resize events
-     *
-     * @param e {qx.event.type.Event} Resize event
-     * @return {void}
-     */
-    _onUpdate : function(e) {
-      this._computeScrollbars();
     },
 
 
