@@ -76,8 +76,8 @@ qx.Class.define("qx.ui.core.selection.ScrollArea",
     _getScroll : function()
     {
       return {
-        left : this._widget.getScrollLeft(),
-        top : this._widget.getScrollTop()
+        left : this._widget.getScrollX(),
+        top : this._widget.getScrollY()
       };
     },
 
@@ -87,15 +87,8 @@ qx.Class.define("qx.ui.core.selection.ScrollArea",
     {
       var widget = this._widget;
 
-      // TODO: Implement scrollBy in ScrollArea
-
-      if (xoff != 0) {
-        widget.setScrollLeft(widget.getScrollLeft() + xoff);
-      }
-
-      if (yoff != 0) {
-        widget.setScrollTop(widget.getScrollTop() + yoff);
-      }
+      widget.scrollByX(xoff);
+      widget.scrollByY(yoff);
     },
 
 
@@ -127,7 +120,7 @@ qx.Class.define("qx.ui.core.selection.ScrollArea",
       }
 
       var widget = this._widget;
-      var scrollTop = widget.getScrollTop();
+      var scrollTop = widget.getScrollY();
       var innerHeight = widget.getComputedInnerSize().height;
       var top, bottom, found;
 
