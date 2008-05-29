@@ -46,7 +46,7 @@ RELEASE_BUILD = release/temp/build/qooxdoo-$(FRAMEWORK_VERSION)-build
 RELEASE_SDK = release/temp/sdk/qooxdoo-$(FRAMEWORK_VERSION)-sdk
 
 APPLICATIONS = apiviewer demobrowser feedreader showcase testrunner
-SDK_COPY = Makefile application/Makefile application/index.html
+SDK_COPY = Makefile application/index.html
 
 
 
@@ -234,15 +234,13 @@ exec-skeleton-archive:
 
 release: release-sdk release-build release-quickstart
 
-release-build: build release-build-info release-build
+release-build: build release-build-info release-build-collect quickstart release-build-archive
 
 release-build-info:
 	@echo
 	@echo "****************************************************************************"
 	@echo "  GENERATING BUILD VERSION OF RELEASE $(FRAMEWORK_VERSION)"
 	@echo "****************************************************************************"
-
-release-build: release-build-collect quickstart release-build-archive
 
 release-build-collect:
 	@echo
@@ -292,15 +290,13 @@ release-build-archive:
 
 
 
-release-sdk: distclean release-sdk-info release-sdk
+release-sdk: distclean release-sdk-info release-sdk-collect skeleton quickstart release-sdk-archive
 
 release-sdk-info:
 	@echo
 	@echo "****************************************************************************"
 	@echo "  GENERATING SDK VERSION OF RELEASE $(FRAMEWORK_VERSION)"
 	@echo "****************************************************************************"
-
-release-sdk: release-sdk-collect skeleton quickstart release-sdk-archive
 
 release-sdk-collect:
 	@echo
@@ -354,15 +350,12 @@ release-sdk-archive:
 
 
 
-release-quickstart: quickstart release-quickstart-info release-quickstart
-
-release-quickstart-info:
+release-quickstart: quickstart
 	@echo
 	@echo "****************************************************************************"
 	@echo "  GENERATING QUICKSTART VERSION OF RELEASE $(FRAMEWORK_VERSION)"
 	@echo "****************************************************************************"
 
-release-quickstart:
 	@echo
 	@echo "  SYNCHRONISATION OF QUICKSTART RELEASE"
 	@echo "----------------------------------------------------------------------------"
