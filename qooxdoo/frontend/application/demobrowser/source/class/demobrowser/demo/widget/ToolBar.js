@@ -27,7 +27,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("demobrowser.demo.widget.ToolBar_1",
+qx.Class.define("demobrowser.demo.widget.ToolBar",
 {
   extend : qx.application.Standalone,
 

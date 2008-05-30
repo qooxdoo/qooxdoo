@@ -29,7 +29,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("demobrowser.demo.widget.Button_1",
+qx.Class.define("demobrowser.demo.widget.Button",
 {
   extend : qx.application.Standalone,
 

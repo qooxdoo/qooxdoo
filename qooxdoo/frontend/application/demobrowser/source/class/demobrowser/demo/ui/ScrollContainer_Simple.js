@@ -18,7 +18,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("demobrowser.demo.layout.ScrollArea_1",
+qx.Class.define("demobrowser.demo.ui.ScrollContainer_Simple",
 {
   extend : qx.application.Standalone,
 

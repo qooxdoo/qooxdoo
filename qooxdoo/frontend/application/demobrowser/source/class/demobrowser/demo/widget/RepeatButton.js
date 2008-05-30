@@ -25,7 +25,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("demobrowser.demo.widget.RepeatButton_1",
+qx.Class.define("demobrowser.demo.widget.RepeatButton",
 {
   extend : qx.application.Standalone,
 

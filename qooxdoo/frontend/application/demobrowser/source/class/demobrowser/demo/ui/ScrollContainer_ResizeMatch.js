@@ -18,7 +18,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("demobrowser.demo.layout.ScrollArea_2",
+qx.Class.define("demobrowser.demo.ui.ScrollContainer_ResizeMatch",
 {
   extend : qx.application.Standalone,
 

@@ -24,7 +24,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("demobrowser.demo.widget.Image_1",
+qx.Class.define("demobrowser.demo.widget.Image",
 {
   extend : qx.application.Standalone,
 

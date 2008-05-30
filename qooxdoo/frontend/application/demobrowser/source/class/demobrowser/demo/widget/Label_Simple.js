@@ -18,7 +18,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("demobrowser.demo.widget.Label_1",
+qx.Class.define("demobrowser.demo.widget.Label_Simple",
 {
   extend : qx.application.Standalone,
 

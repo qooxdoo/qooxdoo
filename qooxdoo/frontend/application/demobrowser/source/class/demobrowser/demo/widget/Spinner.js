@@ -19,7 +19,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("demobrowser.demo.widget.Spinner_1",
+qx.Class.define("demobrowser.demo.widget.Spinner",
 {
   extend : qx.application.Standalone,
 
