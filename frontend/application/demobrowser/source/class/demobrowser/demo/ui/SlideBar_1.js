@@ -35,7 +35,7 @@ qx.Class.define("demobrowser.demo.ui.SlideBar_1",
         padding : 10
       });
 
-      slideBar.setContent(this.generateBoxes());
+      slideBar.add(this.generateBoxes());
 
       var toggle = new qx.ui.basic.Label("Toggle size").set({
         padding : 5,

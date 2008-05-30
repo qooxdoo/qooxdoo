@@ -41,7 +41,7 @@ qx.Class.define("demobrowser.demo.layout.ScrollArea_3",
       });
 
       this.getRoot().add(scrollArea, {left: 10, top: 10});
-      scrollArea.setContent(this.generateBox());
+      scrollArea.add(this.generateBox());
 
       // Area size toggle
       var toggle1 = new qx.ui.form.Button("Toggle pane");
@@ -58,7 +58,7 @@ qx.Class.define("demobrowser.demo.layout.ScrollArea_3",
       var grow2 = true;
       toggle2.addListener("execute", function()
       {
-        scrollArea.getContent().setHeight(grow2 ? 100 : 300);
+        scrollArea.getChild().setHeight(grow2 ? 100 : 300);
         grow2 = !grow2;
       });
       this.getRoot().add(toggle2, {left: 430, top: 20});
