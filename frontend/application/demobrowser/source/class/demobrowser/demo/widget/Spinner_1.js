@@ -102,7 +102,7 @@ qx.Class.define("demobrowser.demo.widget.Spinner_1",
 
 
       // ----- Spinner 7 -----
-      var s7 = new qx.ui.form.Spinner(0, 2000, 3000);
+      var s7 = new qx.ui.form.Spinner(1900,2000,3000);
       s7.setSingleStep(0.5);
       // Number format Test
       var nf = new qx.util.format.NumberFormat();
@@ -112,7 +112,7 @@ qx.Class.define("demobrowser.demo.widget.Spinner_1",
       container.add(new qx.ui.basic.Label("With number format"), {column: 0, row: row});
       container.add(new qx.ui.basic.Label("3000"), {column: 1, row: row});
       container.add(s7, {column: 2, row: row});
-      container.add(new qx.ui.basic.Label("0"), {column: 3, row: row++});
+      container.add(new qx.ui.basic.Label("1900"), {column: 3, row: row++});
     }
   }
 });

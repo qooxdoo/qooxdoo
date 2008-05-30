@@ -261,7 +261,9 @@ qx.Class.define("qx.ui.form.Spinner",
      * @param value {Number} The new value of the min property
      * @param old {Number} The old value of the min property
      */
-    _applyMin : function(value, old) {
+    _applyMin : function(value, old)
+    {
+      this.setMax(Math.max(this.getMax(), value));
       this.setValue(Math.max(this.getValue(), value));
     },
 
@@ -276,7 +278,9 @@ qx.Class.define("qx.ui.form.Spinner",
      * @param value {Number} The new value of the max property
      * @param old {Number} The old value of the max property
      */
-    _applyMax : function(value, old) {
+    _applyMax : function(value, old)
+    {
+      this.setMin(Math.min(this.getMin(), value));
       this.setValue(Math.min(this.getValue(), value));
     },
 
