@@ -18,7 +18,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("demobrowser.demo.ui.BackgroundImage_1",
+qx.Class.define("demobrowser.demo.ui.BackgroundImage",
 {
   extend : qx.application.Standalone,
 
@@ -28,9 +28,9 @@ qx.Class.define("demobrowser.demo.ui.BackgroundImage_1",
     {
       this.base(arguments);
 
-      qx.Theme.patch(qx.theme.classic.Color, demobrowser.demo.ui.BackgroundImage_1_Color);
-      qx.Theme.patch(qx.theme.classic.Decoration, demobrowser.demo.ui.BackgroundImage_1_Decoration);
-      qx.Theme.patch(qx.theme.classic.Appearance, demobrowser.demo.ui.BackgroundImage_1_Appearance);
+      qx.Theme.patch(qx.theme.classic.Color, demobrowser.demo.ui.BackgroundImage_Color);
+      qx.Theme.patch(qx.theme.classic.Decoration, demobrowser.demo.ui.BackgroundImage_Decoration);
+      qx.Theme.patch(qx.theme.classic.Appearance, demobrowser.demo.ui.BackgroundImage_Appearance);
 
       // Toggle themes to refresh color list
       qx.theme.manager.Meta.getInstance().setTheme(qx.theme.Modern);

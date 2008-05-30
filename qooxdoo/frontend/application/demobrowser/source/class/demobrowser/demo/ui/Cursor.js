@@ -18,7 +18,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("demobrowser.demo.ui.Cursor_1",
+qx.Class.define("demobrowser.demo.ui.Cursor",
 {
   extend : qx.application.Standalone,
 
