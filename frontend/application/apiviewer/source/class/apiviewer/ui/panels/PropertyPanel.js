@@ -24,61 +24,67 @@ qx.Class.define("apiviewer.ui.panels.PropertyPanel", {
 
   extend: apiviewer.ui.panels.InfoPanel,
 
-  members : {
+  members :
+  {
+    __createGeneratedMethodsHtml : function(node, currentClassDocNode)
+    {
+      if (node.isRefined()) {
+        return "";
+      }
 
-    __createGeneratedMethodsHtml : function(node, currentClassDocNode) {
-        if (node.getPropertyType() == "legacy" || node.getPropertyType() == "cached" || node.isRefined()) {
-          return "";
-        }
+      if (node.isPrivate()) {
+        var access = "__";
+        var name = node.getName().substring(2);
+      } else if (node.isProtected()) {
+        access = "_";
+        name = node.getName().substring(1);
+      } else {
+        access = "";
+        name = node.getName();
+      }
 
-        if (node.isPrivate()) {
-          var access = "__";
-          var name = node.getName().substring(2);
-        } else if (node.isProtected()) {
-          access = "_";
-          name = node.getName().substring(1);
-        } else {
-          access = "";
-          name = node.getName();
-        }
-        name = qx.lang.String.firstUp(name);
+      name = qx.lang.String.firstUp(name);
 
-        var generatedMethods = [];
+      var generatedMethods = [];
 
-        if (node.getPropertyType() == "fast")
+      if (node.getPropertyType() == "fast")
+      {
+        generatedMethods.push("{@link #" + access + "get" + name + "}</td><td> Get the property value.");
+      }
+      else
+      {
+        generatedMethods.push("{@link #" + access + "set" + name + "}</td><td> Set the property value.");
+
+        if (!node.isPropertyGroup())
         {
           generatedMethods.push("{@link #" + access + "get" + name + "}</td><td> Get the property value.");
+          generatedMethods.push("{@link #" + access + "init" + name + "}</td><td> Call apply method with the init value.");
         }
-        else
+
+        generatedMethods.push("{@link #" + access + "reset" + name + "}</td><td> Reset the property value.");
+
+        if (node.getType() == "Boolean")
         {
-          generatedMethods.push("{@link #" + access + "set" + name + "}</td><td> Set the property value.");
-
-          if (!node.isPropertyGroup())
-          {
-            generatedMethods.push("{@link #" + access + "get" + name + "}</td><td> Get the property value.");
-            generatedMethods.push("{@link #" + access + "init" + name + "}</td><td> Call apply method with the init value.");
-          }
-
-          generatedMethods.push("{@link #" + access + "reset" + name + "}</td><td> Reset the property value.");
-
-          if (node.getType() == "Boolean") {
-            generatedMethods.push("{@link #" + access + "toggle" + name + "}</td><td> Toggle the property value.");
-            generatedMethods.push("{@link #" + access + "is" + name + "}</td><td> Check whether the property equals <code>true</code>.");
-          }
+          generatedMethods.push("{@link #" + access + "toggle" + name + "}</td><td> Toggle the property value.");
+          generatedMethods.push("{@link #" + access + "is" + name + "}</td><td> Check whether the property equals <code>true</code>.");
         }
-        var textHtml = new qx.util.StringBuilder();
-        textHtml.add('<div class="item-detail-headline">', "Generated methods:", '</div>', '<div class="item-detail-text">');
-        textHtml.add("<table><tr><td>");
-        textHtml.add(generatedMethods.join("</td></tr><tr><td>"));
-        textHtml.add("</td></tr></table>");
-        textHtml.add('</div>');
-        return apiviewer.ui.panels.InfoPanel.resolveLinkAttributes(textHtml.get(), currentClassDocNode);
+      }
+
+      var textHtml = new qx.util.StringBuilder();
+      textHtml.add('<div class="item-detail-headline">', "Generated methods:", '</div>', '<div class="item-detail-text">');
+      textHtml.add("<table><tr><td>");
+      textHtml.add(generatedMethods.join("</td></tr><tr><td>"));
+      textHtml.add("</td></tr></table>");
+      textHtml.add('</div>');
+
+      return apiviewer.ui.panels.InfoPanel.resolveLinkAttributes(textHtml.get(), currentClassDocNode);
     },
 
 
     __createAttributesHtml : function(node)
     {
       var attributes = [];
+
       if (node.isNullable()) {
         attributes.push("This property allows 'null' values");
       }
@@ -137,15 +143,13 @@ qx.Class.define("apiviewer.ui.panels.PropertyPanel", {
     },
 
 
-    getItemTypeHtml : function(node)
-    {
+    getItemTypeHtml : function(node) {
       return apiviewer.ui.panels.InfoPanel.createTypeHtml(node, "var");
     },
 
 
-    getItemTitleHtml : function(node)
-    {
-       return apiviewer.ui.panels.InfoPanel.setTitleClass(node, node.getName());
+    getItemTitleHtml : function(node) {
+      return apiviewer.ui.panels.InfoPanel.setTitleClass(node, node.getName());
     },
 
 
@@ -173,7 +177,9 @@ qx.Class.define("apiviewer.ui.panels.PropertyPanel", {
         var allowedValue = null;
 
         var possibleValues = qx.lang.Array.clone(node.getPossibleValues());
-        if (possibleValues.length > 0) {
+
+        if (possibleValues.length > 0)
+        {
           if (node.isNullable()) {
             possibleValues.push("null");
           }
@@ -185,8 +191,6 @@ qx.Class.define("apiviewer.ui.panels.PropertyPanel", {
           allowedValue = "instances of " + node.getClassname();
         } else if (node.getInstance()) {
           allowedValue = "instances of " + node.getInstance() + " or sub classes";
-        } else if (node.getUnitDetection()) {
-          allowedValue = "units: " + node.getUnitDetection();
         } else if (node.getType()) {
           allowedValue = "any " + node.getType();
         }
@@ -209,7 +213,8 @@ qx.Class.define("apiviewer.ui.panels.PropertyPanel", {
         }
 
         // Add default value
-        if (!node.isPropertyGroup()) {
+        if (!node.isPropertyGroup())
+        {
           textHtml.add(
             '<div class="item-detail-headline">', "Init value:", '</div>',
             '<div class="item-detail-text">',
@@ -220,24 +225,9 @@ qx.Class.define("apiviewer.ui.panels.PropertyPanel", {
           );
         }
 
-        // Add get alias
-        if (node.getGetAlias()) {
-          textHtml.add(
-            '<div class="item-detail-headline">', "Get alias:", '</div>',
-            '<div class="item-detail-text">', node.getGetAlias(), '</div>'
-          );
-        }
-
-        // Add set alias
-        if (node.getSetAlias()) {
-          textHtml.add(
-            '<div class="item-detail-headline">', "Set alias:", '</div>',
-            '<div class="item-detail-text">', node.getSetAlias(), '</div>'
-          );
-        }
-
         // add event
-        if (node.getEvent() && !node.isRefined()) {
+        if (node.getEvent() && !node.isRefined())
+        {
           textHtml.add(
             '<div class="item-detail-headline">', "Change event:", '</div>',
             '<div class="item-detail-text">',
@@ -249,7 +239,8 @@ qx.Class.define("apiviewer.ui.panels.PropertyPanel", {
         }
 
         // add apply method
-        if (node.getApplyMethod() && !node.isRefined()) {
+        if (node.getApplyMethod() && !node.isRefined())
+        {
           textHtml.add(
             '<div class="item-detail-headline">', "Apply method:", '</div>',
             '<div class="item-detail-text">',

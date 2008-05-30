@@ -503,7 +503,8 @@ qx.Class.define("apiviewer.dao.Class",
      */
     getItemList : function(listName)
     {
-      var methodMap = {
+      var methodMap =
+      {
         "events" : "getEvents",
         "constructor": "getConstructor",
         "properties" : "getProperties",
@@ -514,6 +515,7 @@ qx.Class.define("apiviewer.dao.Class",
         "superInterfaces" : "getSuperInterfaces",
         "superMixins" : "getSuperMixins"
       };
+
       if (listName == "constructor") {
         return this.getConstructor() ? [this.getConstructor()] : [];
       } else {
