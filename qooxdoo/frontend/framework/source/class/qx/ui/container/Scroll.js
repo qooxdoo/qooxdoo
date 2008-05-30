@@ -34,7 +34,7 @@ qx.Class.define("qx.ui.container.Scroll",
     this.base(arguments);
 
     if (content) {
-      this.setContent(content);
+      this.add(content);
     }
   },
 
