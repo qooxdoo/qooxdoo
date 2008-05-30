@@ -57,8 +57,8 @@ qx.Class.define("qx.ui.container.Scroll",
      * @param value {qx.ui.core.Widget} Widget to insert
      * @return {void}
      */
-    setContent : function(value) {
-      this._setContent(value);
+    add : function(value) {
+      this._getChildControl("pane").add(value);
     },
 
 
@@ -66,10 +66,11 @@ qx.Class.define("qx.ui.container.Scroll",
      * Returns the content of the scroll area.
      *
      * @type member
+     * @param value {qx.ui.core.Widget} Widget to remove
      * @return {qx.ui.core.Widget}
      */
-    getContent : function() {
-      return this._getContent();
+    remove : function() {
+      this._getChildControl("pane").remove(widget);
     }
   }
 });
