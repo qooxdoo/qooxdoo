@@ -17,16 +17,12 @@
 
 ************************************************************************ */
 
-qx.Class.define("apiviewer.dao.Property", {
+qx.Class.define("apiviewer.dao.Property",
+{
   extend : apiviewer.dao.ClassItem,
 
-  construct : function(classDocNode, parentClass, listName)
+  members :
   {
-    this.base(arguments, classDocNode, parentClass, listName);
-  },
-
-  members : {
-
     getTypes : function()
     {
       var result = this.base(arguments);
@@ -65,19 +61,12 @@ qx.Class.define("apiviewer.dao.Property", {
     },
 
 
-    getClassname : function()
-    {
+    getClassname : function() {
       return this._docNode.attributes.classname;
     },
 
-    getInstance : function()
-    {
+    getInstance : function() {
       return this._docNode.attributes.instance;
-    },
-
-    getUnitDetection : function()
-    {
-      return this._docNode.attributes.unitDetection;
     },
 
     getPossibleValues : function()
@@ -103,11 +92,9 @@ qx.Class.define("apiviewer.dao.Property", {
       return [];
     },
 
-    isPropertyGroup : function()
-    {
-      return this.getDocNode()._docNode.attributes.group ? true : false;
+    isPropertyGroup : function() {
+      return !!this.getDocNode()._docNode.attributes.group;
     },
-
 
     getType : function()
     {
@@ -129,63 +116,36 @@ qx.Class.define("apiviewer.dao.Property", {
     },
 
 
-    getPropertyType : function()
-    {
+    getPropertyType : function() {
       return this.getDocNode()._docNode.attributes.propertyType || "new";
     },
 
-
-    getEvent : function()
-    {
+    getEvent : function() {
       return this.getDocNode()._docNode.attributes.event;
     },
 
-
-    getApplyMethod : function()
-    {
+    getApplyMethod : function() {
       return this.getDocNode()._docNode.attributes.apply;
     },
 
-    isNullable : function()
-    {
+    isNullable : function() {
       return this.getDocNode()._docNode.attributes.allowNull || false;
     },
 
-    getDefaultValue : function()
-    {
+    getDefaultValue : function() {
       return this._docNode.attributes.defaultValue;
     },
 
-    getGetAlias : function()
-    {
-      return this._docNode.attributes.getAlias;
-    },
-
-    getSetAlias : function()
-    {
-      return this._docNode.attributes.setAlias;
-    },
-
-    isInheritable : function()
-    {
+    isInheritable : function() {
       return this.getDocNode()._docNode.attributes.inheritable || false;
     },
 
-    isThemeable : function()
-    {
+    isThemeable : function() {
       return this.getDocNode()._docNode.attributes.themeable || false;
     },
 
-    isRefined : function()
-    {
+    isRefined : function() {
       return this._docNode.attributes.refine || false;
-    },
-
-    isOldProperty : function()
-    {
-      return this.getPropertyType() !== "new";
     }
-
   }
-
 });
