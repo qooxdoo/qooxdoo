@@ -18,7 +18,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("demobrowser.demo.ui.Stress_1",
+qx.Class.define("demobrowser.demo.ui.Stress",
 {
   extend : qx.application.Standalone,
 

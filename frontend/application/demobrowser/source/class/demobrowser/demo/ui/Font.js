@@ -18,7 +18,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("demobrowser.demo.ui.Font_1",
+qx.Class.define("demobrowser.demo.ui.Font",
 {
   extend : qx.application.Standalone,
 

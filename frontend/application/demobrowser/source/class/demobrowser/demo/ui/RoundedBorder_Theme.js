@@ -18,7 +18,7 @@
 
 ************************************************************************ */
 
-qx.Theme.define("demobrowser.demo.ui.RoundedBorder_1_Theme",
+qx.Theme.define("demobrowser.demo.ui.RoundedBorder_Theme",
 {
   title : "Test Decorations",
 

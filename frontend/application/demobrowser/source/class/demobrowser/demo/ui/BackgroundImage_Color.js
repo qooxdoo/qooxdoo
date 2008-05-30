@@ -1,4 +1,4 @@
-qx.Theme.define("demobrowser.demo.ui.BackgroundImage_1_Color",
+qx.Theme.define("demobrowser.demo.ui.BackgroundImage_Color",
 {
   title: "Shaded Buttons - Colors",
 
