@@ -18,7 +18,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("demobrowser.demo.layout.ResizeEvent_1",
+qx.Class.define("demobrowser.demo.ui.ResizeEvent",
 {
   extend : qx.application.Standalone,
 
