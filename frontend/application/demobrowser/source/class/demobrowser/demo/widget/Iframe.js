@@ -18,7 +18,7 @@
 
 ************************************************************************ */
 var frame;
-qx.Class.define("demobrowser.demo.widget.Iframe_1",
+qx.Class.define("demobrowser.demo.widget.Iframe",
 {
   extend : qx.application.Standalone,
 

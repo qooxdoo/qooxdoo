@@ -28,7 +28,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("demobrowser.demo.widget.Atom_1",
+qx.Class.define("demobrowser.demo.widget.Atom",
 {
   extend : qx.application.Standalone,
 

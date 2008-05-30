@@ -25,7 +25,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("demobrowser.demo.widget.Stack_1",
+qx.Class.define("demobrowser.demo.widget.StackContainer",
 {
   extend : qx.application.Standalone,
 

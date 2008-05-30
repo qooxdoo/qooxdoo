@@ -18,7 +18,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("demobrowser.demo.layout.InlineRoot_1",
+qx.Class.define("demobrowser.demo.root.Inline",
 {
   extend : qx.application.Inline,
 
