@@ -723,13 +723,6 @@ qx.Class.define("qx.core.Property",
 
 
 
-
-      // [1] INTEGRATE ERROR HELPER METHOD
-
-
-
-
-
       // [2] PRE CONDITIONS
 
       if (qx.core.Variant.isSet("qx.debug", "on"))
@@ -737,7 +730,7 @@ qx.Class.define("qx.core.Property",
         code.push('var prop=qx.core.Property;');
 
         if (variant === "init") {
-          code.push('if(this.$$initialized)prop.error(this,0,"'+name+'","'+variant+'",value);');
+          code.push('if(this.$$initialized)prop.error(this,0,"', name, '","', variant, '",value);');
         }
 
         if (variant === "refresh")
@@ -749,15 +742,15 @@ qx.Class.define("qx.core.Property",
         else if (incomingValue)
         {
           // Check argument length
-          code.push('if(arguments.length!==1)prop.error(this,1,"'+name+'","'+variant+'",value);');
+          code.push('if(arguments.length!==1)prop.error(this,1,"', name, '","', variant, '",value);');
 
           // Undefined check
-          code.push('if(value===undefined)prop.error(this,2,"'+name+'","'+variant+'",value);');
+          code.push('if(value===undefined)prop.error(this,2,"', name, '","', variant, '",value);');
         }
         else
         {
           // Check argument length
-          code.push('if(arguments.length!==0)prop.error(this,3,"'+name+'","'+variant+'",value);');
+          code.push('if(arguments.length!==0)prop.error(this,3,"', name, '","', variant, '",value);');
         }
       }
       else
@@ -768,7 +761,7 @@ qx.Class.define("qx.core.Property",
 
         // Undefined check
         if (variant === "set") {
-          code.push('if(value===undefined)prop.error(this,2,"'+name+'","'+variant+'",value);');
+          code.push('if(value===undefined)prop.error(this,2,"', name, '","', variant, '",value);');
         }
       }
 
@@ -817,63 +810,66 @@ qx.Class.define("qx.core.Property",
 
       // Enable checks in debugging mode or then generating the setter
 
-      if (incomingValue && (qx.core.Variant.isSet("qx.debug", "on") || variant === "set"))
+      if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        // Null check
-        if (!config.nullable) {
-          code.push('if(value===null)prop.error(this,4,"'+name+'","'+variant+'",value);');
-        }
-
-        // Processing check definition
-        if (config.check !== undefined)
+        if (incomingValue)
         {
-          // Accept "null"
-          if (config.nullable) {
-            code.push('if(value!==null)');
+          // Null check
+          if (!config.nullable) {
+            code.push('if(value===null)prop.error(this,4,"', name, '","', variant, '",value);');
           }
 
-          // Inheritable properties always accept "inherit" as value
-          if (config.inheritable) {
-            code.push('if(value!==inherit)');
-          }
+          // Processing check definition
+          if (config.check !== undefined)
+          {
+            // Accept "null"
+            if (config.nullable) {
+              code.push('if(value!==null)');
+            }
 
-          code.push('if(');
+            // Inheritable properties always accept "inherit" as value
+            if (config.inheritable) {
+              code.push('if(value!==inherit)');
+            }
 
-          if (this.__checks[config.check] !== undefined)
-          {
-            code.push('!(', this.__checks[config.check], ')');
-          }
-          else if (qx.Class.isDefined(config.check))
-          {
-            code.push('!(value instanceof ', config.check, ')');
-          }
-          else if (qx.Interface && qx.Interface.isDefined(config.check))
-          {
-            code.push('!(value && qx.Class.hasInterface(value.constructor, ', config.check, '))');
-          }
-          else if (typeof config.check === "function")
-          {
-            code.push('!', clazz.classname, '.$$properties.', name);
-            code.push('.check.call(this, value)');
-          }
-          else if (typeof config.check === "string")
-          {
-            code.push('!(', config.check, ')');
-          }
-          else if (config.check instanceof Array)
-          {
-            // reconfigure for faster access trough map usage
-            config.checkMap = qx.lang.Object.fromArray(config.check);
+            code.push('if(');
 
-            code.push(clazz.classname, '.$$properties.', name);
-            code.push('.checkMap[value]===undefined');
-          }
-          else
-          {
-            throw new Error("Could not add check to property " + name + " of class " + clazz.classname);
-          }
+            if (this.__checks[config.check] !== undefined)
+            {
+              code.push('!(', this.__checks[config.check], ')');
+            }
+            else if (qx.Class.isDefined(config.check))
+            {
+              code.push('!(value instanceof ', config.check, ')');
+            }
+            else if (qx.Interface && qx.Interface.isDefined(config.check))
+            {
+              code.push('!(value && qx.Class.hasInterface(value.constructor, ', config.check, '))');
+            }
+            else if (typeof config.check === "function")
+            {
+              code.push('!', clazz.classname, '.$$properties.', name);
+              code.push('.check.call(this, value)');
+            }
+            else if (typeof config.check === "string")
+            {
+              code.push('!(', config.check, ')');
+            }
+            else if (config.check instanceof Array)
+            {
+              // reconfigure for faster access trough map usage
+              config.checkMap = qx.lang.Object.fromArray(config.check);
 
-          code.push(')prop.error(this,5,"'+name+'","'+variant+'",value);');
+              code.push(clazz.classname, '.$$properties.', name);
+              code.push('.checkMap[value]===undefined');
+            }
+            else
+            {
+              throw new Error("Could not add check to property " + name + " of class " + clazz.classname);
+            }
+
+            code.push(')prop.error(this,5,"', name, '","', variant, '",value);');
+          }
         }
       }
 
