@@ -46,7 +46,7 @@ qx.Class.define("qx.ui.form.List",
     this.__content = new qx.ui.container.Composite();
 
     // Add to scrollpane
-    this._setContent(this.__content);
+    this._getChildControl("pane").add(this.__content);
 
     // Apply orientation
     horizontal ? this.setOrientation("horizontal") : this.initOrientation();

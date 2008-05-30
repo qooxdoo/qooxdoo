@@ -56,13 +56,13 @@ qx.Class.define("qx.ui.tree.Tree",
   {
     this.base(arguments);
 
-    var content = new qx.ui.container.Composite(new qx.ui.layout.VBox()).set({
+    this.__content = new qx.ui.container.Composite(new qx.ui.layout.VBox()).set({
       allowShrinkY: false,
       allowGrowX: true,
       allowShrinkY: false
     });
 
-    this._setContent(content);
+    this._getChildControl("pane").add(this.__content);
 
     this.initOpenMode();
     this.initRootOpenClose();
@@ -197,7 +197,7 @@ qx.Class.define("qx.ui.tree.Tree",
      * @return {qx.ui.core.Widget} the children container
      */
     getChildrenContainer : function() {
-      return this._getContent();
+      return this.__content;
     },
 
 
@@ -255,7 +255,7 @@ qx.Class.define("qx.ui.tree.Tree",
     _applyContentPadding : function(value, old)
     {
       if (value) {
-        this._getContent().setPadding(value);
+        this.__content.setPadding(value);
       }
     },
 
@@ -392,7 +392,7 @@ qx.Class.define("qx.ui.tree.Tree",
       {
         top += item.getBounds().top;
         var item = item.getLayoutParent();
-        if (item == this._getContent()) {
+        if (item == this.__content) {
           return top;
         }
       }
