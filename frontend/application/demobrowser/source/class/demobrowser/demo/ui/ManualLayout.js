@@ -18,7 +18,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("demobrowser.demo.layout.ManualLayout_1",
+qx.Class.define("demobrowser.demo.ui.ManualLayout",
 {
   extend : qx.application.Standalone,
 

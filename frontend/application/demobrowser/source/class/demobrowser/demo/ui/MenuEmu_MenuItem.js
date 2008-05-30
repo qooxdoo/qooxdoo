@@ -1,11 +1,11 @@
-qx.Class.define("demobrowser.demo.layout.MenuEmu_1_MenuItem",
+qx.Class.define("demobrowser.demo.ui.MenuEmu_MenuItem",
 {
   extend : qx.core.Object,
 
   construct : function(text, shortcut)
   {
     this.base(arguments);
-    var MenuItem = demobrowser.demo.layout.MenuEmu_1_MenuItem;
+    var MenuItem = demobrowser.demo.layout.MenuEmu_MenuItem;
 
     this._text = new qx.ui.basic.Label(text);
     this._text.setPadding(4);

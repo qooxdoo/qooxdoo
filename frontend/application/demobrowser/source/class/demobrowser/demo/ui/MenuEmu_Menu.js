@@ -1,4 +1,4 @@
-qx.Class.define("demobrowser.demo.layout.MenuEmu_1_Menu",
+qx.Class.define("demobrowser.demo.ui.MenuEmu_Menu",
 {
   extend : qx.ui.core.Widget,
 

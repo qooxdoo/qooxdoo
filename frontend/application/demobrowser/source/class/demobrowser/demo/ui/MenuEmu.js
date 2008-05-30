@@ -21,7 +21,7 @@
 /**
  * Proof of concept that the grid can be used for menus.
  */
-qx.Class.define("demobrowser.demo.layout.MenuEmu_1",
+qx.Class.define("demobrowser.demo.ui.MenuEmu",
 {
   extend : qx.application.Standalone,
 
@@ -31,8 +31,8 @@ qx.Class.define("demobrowser.demo.layout.MenuEmu_1",
     {
       this.base(arguments);
 
-      var MenuItem = demobrowser.demo.layout.MenuEmu_1_MenuItem;
-      var Menu = demobrowser.demo.layout.MenuEmu_1_Menu;
+      var MenuItem = demobrowser.demo.layout.MenuEmu_MenuItem;
+      var Menu = demobrowser.demo.layout.MenuEmu_Menu;
 
       this.getRoot().setPadding(20);
 
