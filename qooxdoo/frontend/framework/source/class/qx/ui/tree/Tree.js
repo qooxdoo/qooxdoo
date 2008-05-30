@@ -318,7 +318,7 @@ qx.Class.define("qx.ui.tree.Tree",
      * @type member
      * @param recursive {Boolean ? false} whether children of subfolder should be
      * included
-     * @param invisible {Boolean ? true} whether invisible children should be included
+     * @param invisible {Boolean ? false} whether invisible children should be included
      * @return {AbstractTreeElement[]} list of children
      */
     getItems : function(recursive, invisible)
