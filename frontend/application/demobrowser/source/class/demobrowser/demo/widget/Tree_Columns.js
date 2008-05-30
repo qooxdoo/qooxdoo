@@ -26,7 +26,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("demobrowser.demo.widget.Tree_2",
+qx.Class.define("demobrowser.demo.widget.Tree_Columns",
 {
   extend : qx.application.Standalone,
 
