@@ -915,7 +915,7 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
       for (var classIndex=0; classIndex<classNodes.length; classIndex ++)
       {
         var currClassNode = classNodes[classIndex];
-        var currNodeArr = currClassNode.getItemList(this.getListName());
+        var currNodeArr = currClassNode.getItemList(listName);
         if (
           listName == "events" ||
           listName == "properties" ||
@@ -1009,15 +1009,6 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
           var name1 = obj1.getName();
           var name2 = obj2.getName();
 
-          /*
-          if (obj1.getFromProperty && obj1.getFromProperty()) {
-            var name1 = obj1.getFromProperty().getName();
-          }
-
-          if (obj2.getFromProperty && obj2.getFromProperty()) {
-            var name2 = obj2.getFromProperty().getName();
-          }
-          */
           return name1.toLowerCase() < name2.toLowerCase() ? -1 : 1;
         }
         else
@@ -1093,15 +1084,13 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
 
 
     /** DOM node of the title of the panel */
-    getTitleElement : function()
-    {
+    getTitleElement : function() {
       return this._titleElement;
     },
 
 
     /** DOM node of the body of the panel */
-    getBodyElement : function()
-    {
+    getBodyElement : function() {
       return this._bodyElement;
     },
 
@@ -1170,12 +1159,13 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
       }
       catch(exc)
       {
-        this.error("Toggling item details failed", exc);
+        this.error("Toggling item details failed");
+        this.error(exc);
       }
     }
-
-
   },
+
+
 
 
   /*
