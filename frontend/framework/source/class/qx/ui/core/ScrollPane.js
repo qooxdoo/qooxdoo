@@ -79,28 +79,45 @@ qx.Class.define("qx.ui.core.ScrollPane",
     */
 
     /**
-     * Configures the content of the scroll pane.
+     * Configures the content of the scroll pane. Replaces any existing child
+     * with the newly given one.
      *
      * @type member
-     * @param content {qx.ui.core.Widget?null} The content widget of the pane
-     * @return {qx.ui.core.Widget|null} The current layout content
+     * @param widget {qx.ui.core.Widget?null} The content widget of the pane
+     * @return {void}
      */
-    setContent : function(content)
+    add : function(widget)
     {
-      var old = this.getContent();
+      var old = this._getChildren()[0];
       if (old)
       {
         this._remove(old);
         old.removeListener("resize", this._onUpdate, this);
       }
 
-      if (content)
+      if (widget)
       {
-        this._add(content);
-        content.addListener("resize", this._onUpdate, this);
+        this._add(widget);
+        widget.addListener("resize", this._onUpdate, this);
       }
+    },
 
-      return content || null;
+
+    /**
+     * Removes the given widget from the content. The pane is empty
+     * afterwards as only one child is supported by the pane.
+     *
+     * @type member
+     * @param widget {qx.ui.core.Widget?null} The content widget of the pane
+     * @return {void}
+     */
+    remove : function(widget)
+    {
+      if (widget)
+      {
+        this._remove(widget);
+        widget.removeListener("resize", this._onUpdate, this);
+      }
     },
 
 
@@ -110,7 +127,7 @@ qx.Class.define("qx.ui.core.ScrollPane",
      * @type member
      * @return {qx.ui.core.Widget|null} The current layout content
      */
-    getContent : function() {
+    getChild : function() {
       return this._getChildren()[0] || null;
     },
 

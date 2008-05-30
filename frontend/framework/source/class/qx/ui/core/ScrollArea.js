@@ -187,37 +187,6 @@ qx.Class.define("qx.ui.core.ScrollArea",
 
 
 
-    /*
-    ---------------------------------------------------------------------------
-      CONTENT SUPPORT
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * Sets the content of the area.
-     *
-     * @type member
-     * @param content {qx.ui.core.Widget} The new content or <code>null</code>
-     * @return {qx.ui.core.Widget} The content (incoming value)
-     */
-    _setContent : function(content) {
-      return this._getChildControl("pane").setContent(content);
-    },
-
-
-    /**
-     * Returns the content of the area.
-     *
-     * @type member
-     * @return {qx.ui.core.Widget} The content
-     */
-    _getContent : function() {
-      return this._getChildControl("pane").getContent();
-    },
-
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -415,13 +384,13 @@ qx.Class.define("qx.ui.core.ScrollArea",
 
     getScrollWidth : function()
     {
-      var scroll = this._getChildControl("pane").getContent().getBounds();
+      var scroll = this._getChildControl("pane").getChild().getBounds();
       return scroll ? scroll.width : 0;
     },
 
     getScrollHeight : function()
     {
-      var scroll = this._getChildControl("pane").getContent().getBounds();
+      var scroll = this._getChildControl("pane").getChild().getBounds();
       return scroll ? scroll.height : 0;
     },
 
@@ -467,7 +436,7 @@ qx.Class.define("qx.ui.core.ScrollArea",
       }
 
       var itemSize = item.getBounds();
-      var content = this._getChildControl("pane").getContent();
+      var content = this._getChildControl("pane").getChild();
       var left = 0;
       var top = 0;
       do {
@@ -608,7 +577,7 @@ qx.Class.define("qx.ui.core.ScrollArea",
      */
     _computeScrollbars : function()
     {
-      var content = this._getChildControl("pane").getContent();
+      var content = this._getChildControl("pane").getChild();
       if (!content)
       {
         this._excludeChildControl("scrollbarX");
