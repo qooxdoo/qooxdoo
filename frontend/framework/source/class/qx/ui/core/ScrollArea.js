@@ -134,6 +134,7 @@ qx.Class.define("qx.ui.core.ScrollArea",
     ---------------------------------------------------------------------------
     */
 
+    // overridden
     _createChildControlImpl : function(id)
     {
       var control = this.base(arguments, id);
