@@ -26,7 +26,7 @@ qx.Class.define("testrunner.test.ui.Insets",
     testPadding : function()
     {
       var widget = new qx.ui.core.Widget();
-      this.getRoot().getLayout().add(widget);
+      this.getRoot().add(widget);
 
       this.assertPadding(widget, 0, 0, 0, 0);
 
@@ -40,7 +40,7 @@ qx.Class.define("testrunner.test.ui.Insets",
       widget.setPadding(2, 5);
       this.assertPadding(widget, 2,5,2,5);
 
-      this.getRoot().getLayout().remove(widget);
+      this.getRoot().remove(widget);
       widget.dispose();
     },
 
@@ -48,9 +48,9 @@ qx.Class.define("testrunner.test.ui.Insets",
     testDecoration : function()
     {
       var widget = new qx.ui.core.Widget();
-      this.getRoot().getLayout().add(widget);
+      this.getRoot().add(widget);
 
-      var deco = new qx.ui.decoration.Basic(0);
+      var deco = new qx.ui.decoration.Single(0);
       widget.setDecorator(deco);
       this.assertPadding(widget, 0, 0, 0, 0);
 
@@ -63,7 +63,7 @@ qx.Class.define("testrunner.test.ui.Insets",
       deco.setWidth(1, 2, 3, 4);
       this.assertPadding(widget, 1, 2, 3, 4);
 
-      this.getRoot().getLayout().remove(widget);
+      this.getRoot().remove(widget);
       widget.dispose();
     },
 
@@ -71,11 +71,11 @@ qx.Class.define("testrunner.test.ui.Insets",
     testInsets : function()
     {
       var widget = new qx.ui.core.Widget();
-      this.getRoot().getLayout().add(widget);
+      this.getRoot().add(widget);
 
       this.assertPadding(widget, 0, 0, 0, 0);
 
-      var deco = new qx.ui.decoration.Basic(1);
+      var deco = new qx.ui.decoration.Single(1);
       widget.setDecorator(deco);
       this.assertPadding(widget, 1, 1, 1, 1);
 
@@ -90,7 +90,7 @@ qx.Class.define("testrunner.test.ui.Insets",
       widget.setDecorator(null);
       this.assertPadding(widget, 1, 4, 16, 64);
 
-      this.getRoot().getLayout().remove(widget);
+      this.getRoot().remove(widget);
       widget.dispose();
     }
   }

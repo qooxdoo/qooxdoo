@@ -1669,6 +1669,11 @@ qx.Class.define("qx.ui.core.Widget",
       var old = this.__decorator;
       this.__decorator = value;
 
+      var oldInsets = this.__oldInsets;
+      var newInsets = value ? value.getInsets() : null;
+      this.__oldInsets = qx.lang.Object.copy(newInsets);
+
+
       // Shorthands
       var containerElement = this._containerElement;
       var decorationElement = this._decorationElement;
@@ -1676,8 +1681,6 @@ qx.Class.define("qx.ui.core.Widget",
       // When both values are set (transition)
       if (old && value)
       {
-        var oldInsets = old.getInsets();
-        var newInsets = value.getInsets();
         var classChanged = old.classname !== value.classname;
         var insetsChanged = oldInsets.top !== newInsets.top ||
                             oldInsets.right !== newInsets.right ||
@@ -1740,6 +1743,12 @@ qx.Class.define("qx.ui.core.Widget",
           value.render(decorationElement, bounds.width, bounds.height,
             this.__backgroundColor, {init:classChanged, style:true});
         }
+      }
+      else
+      {
+        // reset insets
+        this.__updateInsets = true;
+        qx.ui.core.queue.Layout.add(this);
       }
     },
 
