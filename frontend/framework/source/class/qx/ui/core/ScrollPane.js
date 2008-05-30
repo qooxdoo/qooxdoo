@@ -212,12 +212,7 @@ qx.Class.define("qx.ui.core.ScrollPane",
      * @param x {Integer?0} Amount to scroll
      * @return {void}
      */
-    scrollByX : function(x)
-    {
-      if (!x) {
-        return;
-      }
-
+    scrollByX : function(x) {
       this.scrollToX(this.getScrollX() + x);
     },
 
@@ -229,12 +224,7 @@ qx.Class.define("qx.ui.core.ScrollPane",
      * @param y {Integer?0} Amount to scroll
      * @return {void}
      */
-    scrollByY : function(y)
-    {
-      if (!y) {
-        return;
-      }
-
+    scrollByY : function(y) {
       this.scrollToY(this.getScrollY() + y);
     }
   }

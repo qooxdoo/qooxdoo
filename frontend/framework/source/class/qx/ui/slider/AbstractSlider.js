@@ -108,11 +108,13 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
     /**
      * The current slider value.
      *
-     * To configure the value please use {@link #slideTo} instead.
+     * Strictly validates according to {@link #minimum} and {@link #maximum}.
+     * Do not apply any value correction. If you depend on this please use
+     * {@link #slideTo} instead.
      */
     value :
     {
-      check : "Integer",
+      check : "typeof value==='number'&&value>=this.getMinimum()&&value<=this.getMaximum()",
       init : 0,
       apply : "_applyValue",
       event : "change"
@@ -156,7 +158,7 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
 
     /**
      * The amount to increment on each event. Typically corresponds
-     * to the user pressing PageUp or PageDown.
+     * to the user pressing <code>PageUp</code> or <code>PageDown</code>.
      */
     pageStep :
     {
@@ -166,7 +168,8 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
 
 
     /**
-     *
+     * Factor to apply to the width/height of the knob in relation
+     * to the dimension of the underlying area.
      */
     knobFactor :
     {

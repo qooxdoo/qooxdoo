@@ -517,7 +517,7 @@ qx.Class.define("qx.ui.core.ScrollArea",
      * @return {void}
      */
     _onScrollX : function(e) {
-      this._getChildControl("pane").scrollToX(e.getData());
+      this._getChildControl("pane").scrollToX(e.getValue());
     },
 
 
@@ -529,7 +529,7 @@ qx.Class.define("qx.ui.core.ScrollArea",
      * @return {void}
      */
     _onScrollY : function(e) {
-      this._getChildControl("pane").scrollToY(e.getData());
+      this._getChildControl("pane").scrollToY(e.getValue());
     },
 
 
@@ -541,8 +541,10 @@ qx.Class.define("qx.ui.core.ScrollArea",
      */
     _onMouseWheel : function(e)
     {
-      // The pane is scrolled by the event on the scrollbar
-      this.scrollByY(e.getWheelDelta() * -20);
+      var scrollbar = this._getChildControl("scrollbarY", true);
+      if (scrollbar) {
+        scrollbar.scrollBySteps(-e.getWheelDelta());
+      }
 
       // Stop bubbling and native event
       e.stop();

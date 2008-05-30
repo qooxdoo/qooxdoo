@@ -85,25 +85,6 @@ qx.Class.define("qx.ui.core.ScrollBar",
 
   /*
   *****************************************************************************
-     EVENTS
-  *****************************************************************************
-  */
-
-  events :
-  {
-    /**
-     * Fired when the scrollbar value is changed. Contains the current
-     * scroll position.
-     */
-    scroll : "qx.event.type.DataEvent"
-  },
-
-
-
-
-
-  /*
-  *****************************************************************************
      PROPERTIES
   *****************************************************************************
   */
@@ -130,12 +111,65 @@ qx.Class.define("qx.ui.core.ScrollBar",
 
 
     /**
-     * Step
+     * The maximum value (difference between available size and
+     * content size).
+     */
+    maximum :
+    {
+      check : "PositiveInteger",
+      apply : "_applyMaximum",
+      init : 100
+    },
+
+
+    /**
+     * Position of the scrollbar (which means the scroll left/top of the
+     * attached area's pane)
+     *
+     * Strictly validates according to {@link #maximum}.
+     * Do not apply any correction. If you depend on this please use
+     * {@link #scrollTo} instead.
+     */
+    position :
+    {
+      check : "typeof value==='number'&&value>=0&&value<=this.getMaximum()",
+      init : 0,
+      apply : "_applyPosition",
+      event : "scroll"
+    },
+
+
+    /**
+     * Step size for each click on the up/down or left/right buttons.
      */
     singleStep :
     {
       check : "Integer",
       init : 20
+    },
+
+
+    /**
+     * The amount to increment on each event. Typically corresponds
+     * to the user pressing <code>PageUp</code> or <code>PageDown</code>.
+     */
+    pageStep :
+    {
+      check : "Integer",
+      init : 10,
+      apply : "_applyPageStep"
+    },
+
+
+    /**
+     * Factor to apply to the width/height of the knob in relation
+     * to the dimension of the underlying area.
+     */
+    knobFactor :
+    {
+      check : "PositiveNumber",
+      apply : "_applyKnobFactor",
+      nullable : true
     }
   },
 
@@ -153,44 +187,113 @@ qx.Class.define("qx.ui.core.ScrollBar",
   {
     /*
     ---------------------------------------------------------------------------
-      SLIDER REDIRECT
+      PROPERTY APPLY ROUTINES
     ---------------------------------------------------------------------------
     */
 
-    setKnobFactor : function(value) {
-      return this._slider.setKnobFactor(value);
+    // property apply
+    _applyMaximum : function(value) {
+      this._slider.setMaximum(value);
     },
 
-    getKnobFactor : function() {
-      return this._slider.getKnobFactor();
+
+    // property apply
+    _applyPosition : function(value) {
+      this._slider.setValue(value);
     },
 
-    setMaximum : function(value) {
-      return this._slider.setMaximum(value);
+
+    // property apply
+    _applyKnobFactor : function(value) {
+      this._slider.setKnobFactor(value);
     },
 
-    getMaximum : function() {
-      return this._slider.getMaximum();
+
+    // property apply
+    _applyPageStep : function(value) {
+      this._slider.setPageStep(value);
     },
 
-    setPageStep : function(value) {
-      return this._slider.setPageStep(value);
+
+    // property apply
+    _applyOrientation : function(value, old)
+    {
+      // Dispose old layout
+      var oldLayout = this._getLayout();
+      if (oldLayout) {
+        oldLayout.dispose();
+      }
+
+      // Reconfigure
+      if (value === "horizontal")
+      {
+        this._setLayout(new qx.ui.layout.HBox());
+
+        this.setAllowStretchX(true);
+        this.setAllowStretchY(false);
+
+        this.replaceState("vertical", "horizontal");
+        this._btnBegin.replaceState("up", "left");
+        this._btnEnd.replaceState("down", "right");
+      }
+      else
+      {
+        this._setLayout(new qx.ui.layout.VBox());
+
+        this.setAllowStretchX(false);
+        this.setAllowStretchY(true);
+
+        this.replaceState("horizontal", "vertical");
+        this._btnBegin.replaceState("left", "up");
+        this._btnEnd.replaceState("right", "down");
+      }
+
+      // Sync slider orientation
+      this._slider.setOrientation(value);
     },
 
-    getPageStep : function() {
-      return this._slider.getPageStep();
-    },
 
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      METHOD REDIRECTION TO SLIDER
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Scrolls to the given position.
+     *
+     * This method automatically corrects the given position to respect
+     * the {@link #maximum}.
+     */
     scrollTo : function(position) {
       return this._slider.slideTo(position);
     },
 
+
+    /**
+     * Scrolls by the given offset.
+     *
+     * This method automatically corrects the given position to respect
+     * the {@link #maximum}.
+     */
     scrollBy : function(offset) {
       return this._slider.slideBy(offset);
     },
 
-    getPosition : function() {
-      return this._slider.getValue();
+
+    /**
+     * Scrolls by the given number of steps following the value of {@link #stepSize}.
+     *
+     * This method automatically corrects the given position to respect
+     * the {@link #maximum}.
+     */
+    scrollBySteps : function(steps)
+    {
+      var size = this.getSingleStep();
+      this._slider.slideBy(steps * size);
     },
 
 
@@ -232,54 +335,7 @@ qx.Class.define("qx.ui.core.ScrollBar",
      * @return {void}
      */
     _onChangeSlider : function(e) {
-      this.fireDataEvent("scroll", this.getPosition());
-    },
-
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      PROPERTY APPLY ROUTINES
-    ---------------------------------------------------------------------------
-    */
-
-    // property apply
-    _applyOrientation : function(value, old)
-    {
-      // Dispose old layout
-      var oldLayout = this._getLayout();
-      if (oldLayout) {
-        oldLayout.dispose();
-      }
-
-      // Reconfigure
-      if (value === "horizontal")
-      {
-        this._setLayout(new qx.ui.layout.HBox());
-
-        this.setAllowStretchX(true);
-        this.setAllowStretchY(false);
-
-        this.replaceState("vertical", "horizontal");
-        this._btnBegin.replaceState("up", "left");
-        this._btnEnd.replaceState("down", "right");
-      }
-      else
-      {
-        this._setLayout(new qx.ui.layout.VBox());
-
-        this.setAllowStretchX(false);
-        this.setAllowStretchY(true);
-
-        this.replaceState("horizontal", "vertical");
-        this._btnBegin.replaceState("left", "up");
-        this._btnEnd.replaceState("right", "down");
-      }
-
-      // Sync slider orientation
-      this._slider.setOrientation(value);
+      this.setPosition(e.getValue());
     }
   }
 });
