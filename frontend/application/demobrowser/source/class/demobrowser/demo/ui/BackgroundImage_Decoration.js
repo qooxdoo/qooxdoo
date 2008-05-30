@@ -4,7 +4,7 @@
 
 ************************************************************************ */
 
-qx.Theme.define("demobrowser.demo.ui.BackgroundImage_1_Decoration",
+qx.Theme.define("demobrowser.demo.ui.BackgroundImage_Decoration",
 {
   title: "Shaded Buttons - Decorations",
 
@@ -17,7 +17,7 @@ qx.Theme.define("demobrowser.demo.ui.BackgroundImage_1_Decoration",
         width: 1,
         color: "#334563",
         style: "solid",
-        backgroundImage: "demobrowser/demo/" + "background/gradient.png",
+        backgroundImage: "demobrowser/demo/background/gradient.png",
         backgroundRepeat: "repeat-x"
       }
     },
@@ -29,7 +29,7 @@ qx.Theme.define("demobrowser.demo.ui.BackgroundImage_1_Decoration",
         width: 1,
         color: "#334563",
         style: "solid",
-        backgroundImage: "demobrowser/demo/" + "background/gradient-pressed.png",
+        backgroundImage: "demobrowser/demo/background/gradient-pressed.png",
         backgroundRepeat: "repeat-x"
       }
     },
@@ -45,7 +45,7 @@ qx.Theme.define("demobrowser.demo.ui.BackgroundImage_1_Decoration",
         width: 1,
         color: "#334563",
         style: "solid",
-        backgroundImage: "demobrowser/demo/" + "background/gradient.png",
+        backgroundImage: "demobrowser/demo/background/gradient.png",
         backgroundRepeat: "repeat-x"
       }
     },
@@ -60,7 +60,7 @@ qx.Theme.define("demobrowser.demo.ui.BackgroundImage_1_Decoration",
         width: 1,
         color: "#334563",
         style: "solid",
-        backgroundImage: "demobrowser/demo/" + "background/gradient-pressed.png",
+        backgroundImage: "demobrowser/demo/background/gradient-pressed.png",
         backgroundRepeat: "repeat-x"
       }
     },
@@ -76,7 +76,7 @@ qx.Theme.define("demobrowser.demo.ui.BackgroundImage_1_Decoration",
         innerWidth: 1,
         color : [ "border-light-shadow", "border-dark", "border-dark", "border-light-shadow" ],
         innerColor : [ "border-light", "border-dark-shadow", "border-dark-shadow", "border-light" ],
-        backgroundImage: "demobrowser/demo/" + "background/gradient.png",
+        backgroundImage: "demobrowser/demo/background/gradient.png",
         backgroundRepeat: "repeat-x"
       }
     },
@@ -91,7 +91,7 @@ qx.Theme.define("demobrowser.demo.ui.BackgroundImage_1_Decoration",
         innerWidth: 1,
         color : [ "border-dark-shadow", "border-light", "border-light", "border-dark-shadow" ],
         innerColor : [ "border-dark", "border-light-shadow", "border-light-shadow", "border-dark" ],
-        backgroundImage: "demobrowser/demo/" + "background/gradient-pressed.png",
+        backgroundImage: "demobrowser/demo/background/gradient-pressed.png",
         backgroundRepeat: "repeat-x"
       }
     }

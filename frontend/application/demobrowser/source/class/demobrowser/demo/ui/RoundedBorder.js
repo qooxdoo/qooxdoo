@@ -18,7 +18,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("demobrowser.demo.ui.RoundedBorder_1",
+qx.Class.define("demobrowser.demo.ui.RoundedBorder",
 {
   extend : qx.application.Standalone,
 
@@ -37,7 +37,7 @@ qx.Class.define("demobrowser.demo.ui.RoundedBorder_1",
       this.getRoot().add(container, {left:0,top:0});
 
       qx.theme.manager.Color.getInstance().setTheme(qx.theme.classic.Color);
-      qx.theme.manager.Decoration.getInstance().setTheme(demobrowser.demo.ui.RoundedBorder_1_Theme);
+      qx.theme.manager.Decoration.getInstance().setTheme(demobrowser.demo.ui.RoundedBorder_Theme);
 
       container.add(this.getGrid1());
     },
@@ -45,7 +45,7 @@ qx.Class.define("demobrowser.demo.ui.RoundedBorder_1",
 
     getGrid1 : function()
     {
-      var theme = demobrowser.demo.ui.RoundedBorder_1_Theme;
+      var theme = demobrowser.demo.ui.RoundedBorder_Theme;
 
       qx.theme.manager.Color.getInstance().setTheme(qx.theme.classic.Color);
       qx.theme.manager.Decoration.getInstance().setTheme(theme);

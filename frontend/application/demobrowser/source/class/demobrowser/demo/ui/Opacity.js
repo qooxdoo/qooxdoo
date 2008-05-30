@@ -18,7 +18,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("demobrowser.demo.ui.Opacity_1",
+qx.Class.define("demobrowser.demo.ui.Opacity",
 {
   extend : qx.application.Standalone,
 
