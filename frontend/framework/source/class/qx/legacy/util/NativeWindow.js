@@ -91,7 +91,7 @@ qx.Class.define("qx.legacy.util.NativeWindow",
     },
 
 
-    /** The outer width of the window. */
+    /** The inner width of the window. */
     width :
     {
       check : "Number",
@@ -100,7 +100,7 @@ qx.Class.define("qx.legacy.util.NativeWindow",
     },
 
 
-    /** The outer height of the window. */
+    /** The inner height of the window. */
     height :
     {
       check : "Number",
