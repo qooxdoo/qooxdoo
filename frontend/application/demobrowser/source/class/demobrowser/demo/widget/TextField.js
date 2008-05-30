@@ -18,7 +18,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("demobrowser.demo.widget.Input_1",
+qx.Class.define("demobrowser.demo.widget.TextField",
 {
   extend : qx.application.Standalone,
 

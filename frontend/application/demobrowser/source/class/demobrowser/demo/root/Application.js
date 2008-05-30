@@ -18,7 +18,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("demobrowser.demo.layout.ApplicationRoot_1",
+qx.Class.define("demobrowser.demo.root.Application",
 {
   extend : qx.application.Standalone,
 

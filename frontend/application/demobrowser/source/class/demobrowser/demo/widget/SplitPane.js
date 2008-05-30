@@ -18,7 +18,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("demobrowser.demo.widget.SplitPane_Simple",
+qx.Class.define("demobrowser.demo.widget.SplitPane",
 {
   extend : qx.application.Standalone,
 
@@ -28,7 +28,7 @@ qx.Class.define("demobrowser.demo.widget.SplitPane_Simple",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     main : function()
     {

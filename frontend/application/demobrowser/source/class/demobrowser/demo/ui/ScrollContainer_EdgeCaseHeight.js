@@ -23,7 +23,7 @@
  * however requires a higher width than the available width. This means it creates
  * a horizontal scrollbar and this way stoles the height the required size.
  */
-qx.Class.define("demobrowser.demo.layout.ScrollArea_4",
+qx.Class.define("demobrowser.demo.ui.ScrollContainer_EdgeCaseHeight",
 {
   extend : qx.application.Standalone,
 
