@@ -72,13 +72,13 @@ qx.Class.define("demobrowser.demo.layout.Grid_Animated",
 
         var bounds = widget.getBounds();
 
-        effects.push(new demobrowser.demo.layout.PropertyAnimation(widget, "width").set({
+        effects.push(new demobrowser.demo.layout.Grid_Animated_Property(widget, "width").set({
           from: bounds.width,
           to: 200,
           duration: duration,
           transition: "sinodial"
         }));
-        effects.push(new demobrowser.demo.layout.PropertyAnimation(widget, "height").set({
+        effects.push(new demobrowser.demo.layout.Grid_Animated_Property(widget, "height").set({
           from: bounds.height,
           to: 200,
           duration: duration,

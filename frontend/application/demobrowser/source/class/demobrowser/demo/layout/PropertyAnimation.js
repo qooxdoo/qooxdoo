@@ -1,4 +1,4 @@
-qx.Class.define("demobrowser.demo.layout.PropertyAnimation",
+qx.Class.define("demobrowser.demo.layout.Grid_Animated_Property",
 {
   extend : qx.fx.Base,
 
