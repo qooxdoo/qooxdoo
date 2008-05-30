@@ -109,46 +109,48 @@ def recoverEscape(s):
 
 
 
-def parseElement(element):
+def parseElement(element, tokens=[]):
+    # to be consistent with other worker 'parse*' routines, this should be passed
+    # and extend the tokens[] array, rather than just returning new tokens (postponed)
     global parseUniqueId
     global parseLine
     global parseColumn
 
     if config.JSRESERVED.has_key(element):
         # print "PROTECTED: %s" % JSRESERVED[content]
-        obj = { "type" : "reserved", "detail" : config.JSRESERVED[element], "source" : element, "line" : parseLine, "column" : parseColumn, "id" : parseUniqueId }
+        tok = { "type" : "reserved", "detail" : config.JSRESERVED[element], "source" : element, "line" : parseLine, "column" : parseColumn, "id" : parseUniqueId }
 
     elif element in config.JSBUILTIN:
         # print "BUILTIN: %s" % content
-        obj = { "type" : "builtin", "detail" : "", "source" : element, "line" : parseLine, "column" : parseColumn, "id" : parseUniqueId }
+        tok = { "type" : "builtin", "detail" : "", "source" : element, "line" : parseLine, "column" : parseColumn, "id" : parseUniqueId }
 
     elif R_NUMBER.search(element):
         # print "NUMBER: %s" % content
-        obj = { "type" : "number", "detail" : "int", "source" : element, "line" : parseLine, "column" : parseColumn, "id" : parseUniqueId }
+        tok = { "type" : "number", "detail" : "int", "source" : element, "line" : parseLine, "column" : parseColumn, "id" : parseUniqueId }
 
     elif element.startswith("__"):
         # print "PRIVATE NAME: %s" % content
-        obj = { "type" : "name", "detail" : "private", "source" : element, "line" : parseLine, "column" : parseColumn, "id" : parseUniqueId }
+        tok = { "type" : "name", "detail" : "private", "source" : element, "line" : parseLine, "column" : parseColumn, "id" : parseUniqueId }
 
     elif element.startswith("_"):
         # print "PROTECTED NAME: %s" % content
-        obj = { "type" : "name", "detail" : "protected", "source" : element, "line" : parseLine, "column" : parseColumn, "id" : parseUniqueId }
+        tok = { "type" : "name", "detail" : "protected", "source" : element, "line" : parseLine, "column" : parseColumn, "id" : parseUniqueId }
 
     elif len(element) > 0:
         # print "PUBLIC NAME: %s" % content
-        obj = { "type" : "name", "detail" : "public", "source" : element, "line" : parseLine, "column" : parseColumn, "id" : parseUniqueId }
+        tok = { "type" : "name", "detail" : "public", "source" : element, "line" : parseLine, "column" : parseColumn, "id" : parseUniqueId }
 
     parseColumn += len(element)
 
-    return obj
+    return tok
 
 
-def parsePart(part):
+def parsePart(part, tokens=[]):
     global parseUniqueId
     global parseLine
     global parseColumn
 
-    tokens = []
+    #tokens = []
     element = ""
 
     for line in R_NEWLINE.split(part):
@@ -186,11 +188,13 @@ def parsePart(part):
 
                             element = ""
 
-                        # look behind
-                        if (    (tokens[-1]['detail'] != 'int')   and
+                        # look behind: this is only a regexp if there is nothing
+                        # preceding it which makes it something else
+                        if (    len(tokens) == 0 or (
+                                (tokens[-1]['detail'] != 'int')   and
                                 (tokens[-1]['detail'] != 'float') and
                                 (tokens[-1]['detail'] != 'RP')    and
-                                (tokens[-1]['detail'] != 'public')):
+                                (tokens[-1]['detail'] != 'public'))):
                             tokens.append({ "type" : "regexp", "detail" : "", "source" : recoverEscape(mo.group(0)), "id" : parseUniqueId, "line" : parseLine, "column" : parseColumn })
                             parseColumn += len(mo.group(0))
                             i += len(mo.group(0))
@@ -238,7 +242,8 @@ def parseFragmentLead(content, fragment, tokens):
     pos = content.find(fragment)
 
     if pos > 0:
-        tokens.extend(parsePart(recoverEscape(content[0:pos])))
+        #tokens.extend(parsePart(recoverEscape(content[0:pos])))
+        parsePart(recoverEscape(content[0:pos]), tokens)
 
     return content[pos+len(fragment):]
 
@@ -417,7 +422,8 @@ def parseStream(content, uniqueId=""):
             else:
                 print "Type:None!"
 
-    tokens.extend(parsePart(recoverEscape(content)))
+    #tokens.extend(parsePart(recoverEscape(content)))
+    parsePart(recoverEscape(content), tokens)
     tokens.append({ "type" : "eof", "source" : "", "detail" : "", "id" : parseUniqueId, "line" : parseLine, "column" : parseColumn })
 
     return tokens
