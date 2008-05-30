@@ -18,7 +18,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("demobrowser.demo.ui.SlideBar_1",
+qx.Class.define("demobrowser.demo.widget.SlideBar",
 {
   extend : qx.application.Standalone,
 
