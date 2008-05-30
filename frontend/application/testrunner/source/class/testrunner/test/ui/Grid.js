@@ -26,17 +26,17 @@ qx.Class.define("testrunner.test.ui.Grid",
 
     setUp : function()
     {
-      this._gridWidget = new qx.ui.core.Widget();
+      this._gridWidget = new qx.ui.container.Composite();
       this._gridLayout = new qx.ui.layout.Grid();
 
       this._gridWidget.setLayout(this._gridLayout);
-      this.getRoot().getLayout().add(this._gridWidget);
+      this.getRoot().add(this._gridWidget);
     },
 
 
     tearDown : function()
     {
-      this.getRoot().getLayout().remove(this._gridWidget);
+      this.getRoot().remove(this._gridWidget);
       this._gridWidget.dispose();
     },
 
@@ -58,10 +58,10 @@ qx.Class.define("testrunner.test.ui.Grid",
 
     testAutoSize : function()
     {
-      this._gridLayout.add(this._getFixedWidget(), 0, 0);
-      this._gridLayout.add(this._getFixedWidget(), 0, 1);
-      this._gridLayout.add(this._getFixedWidget(), 1, 0);
-      this._gridLayout.add(this._getFixedWidget(), 1, 1);
+      this._gridWidget.add(this._getFixedWidget(), {row: 0, column: 0});
+      this._gridWidget.add(this._getFixedWidget(), {row: 0, column: 1});
+      this._gridWidget.add(this._getFixedWidget(), {row: 1, column: 0});
+      this._gridWidget.add(this._getFixedWidget(), {row: 1, column: 1});
       this.assertSize(this._gridWidget, 400, 200);
 
       // spacing
@@ -83,25 +83,25 @@ qx.Class.define("testrunner.test.ui.Grid",
       // initial layout:
       // ab
       // cd
-      this._gridLayout.add(a, 0, 0);
-      this._gridLayout.add(b, 0, 1);
-      this._gridLayout.add(c, 1, 0);
-      this._gridLayout.add(d, 1, 1);
+      this._gridWidget.add(a, {row: 0, column: 0});
+      this._gridWidget.add(b, {row: 0, column: 1});
+      this._gridWidget.add(c, {row: 1, column: 0});
+      this._gridWidget.add(d, {row: 1, column: 1});
       this.assertSize(this._gridWidget, 420, 210);
 
       // layout:
       // a
       // c
-      this._gridLayout.remove(b);
-      this._gridLayout.remove(d);
+      this._gridWidget.remove(b);
+      this._gridWidget.remove(d);
       this.assertSize(this._gridWidget, 200, 210);
 
       // layout:
       // a, d, b, c
-      this._gridLayout.remove(c);
-      this._gridLayout.add(d, 0, 1);
-      this._gridLayout.add(b, 0, 2);
-      this._gridLayout.add(c, 0, 3);
+      this._gridWidget.remove(c);
+      this._gridWidget.add(d, {row: 0, column: 1});
+      this._gridWidget.add(b, {row: 0, column: 2});
+      this._gridWidget.add(c, {row: 0, column: 3});
       this.assertSize(this._gridWidget, 860, 100);
     },
 
@@ -119,10 +119,10 @@ qx.Class.define("testrunner.test.ui.Grid",
       // initial layout:
       // ab
       // cd
-      this._gridLayout.add(a, 0, 0);
-      this._gridLayout.add(b, 0, 1);
-      this._gridLayout.add(c, 1, 0);
-      this._gridLayout.add(d, 1, 1);
+      this._gridWidget.add(a, {row: 0, column: 0});
+      this._gridWidget.add(b, {row: 0, column: 1});
+      this._gridWidget.add(c, {row: 1, column: 0});
+      this._gridWidget.add(d, {row: 1, column: 1});
       this.assertSize(this._gridWidget, 420, 210);
 
       // layout:
@@ -173,10 +173,10 @@ qx.Class.define("testrunner.test.ui.Grid",
       var c = new qx.ui.core.Widget();
       var d = new qx.ui.core.Widget();
 
-      this._gridLayout.add(a, 0, 0);
-      this._gridLayout.add(b, 0, 1);
-      this._gridLayout.add(c, 1, 0);
-      this._gridLayout.add(d, 1, 1);
+      this._gridWidget.add(a, {row: 0, column: 0});
+      this._gridWidget.add(b, {row: 0, column: 1});
+      this._gridWidget.add(c, {row: 1, column: 0});
+      this._gridWidget.add(d, {row: 1, column: 1});
 
       this.assertSize(a, 70, 40);
       this.assertSize(b, 290, 40);
