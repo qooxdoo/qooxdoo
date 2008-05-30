@@ -33,22 +33,22 @@ qx.Class.define("demobrowser.demo.layout.ScrollArea_4",
     {
       this.base(arguments);
 
-      scrollArea = new qx.ui.container.Scroll();
-      scrollArea.set({
+      scrollContainer = new qx.ui.container.Scroll();
+      scrollContainer.set({
         width: 200,
         height: 300,
         backgroundColor : "yellow"
       });
 
-      this.getRoot().add(scrollArea, {left: 10, top: 10});
-      scrollArea.add(this.generateBox());
+      this.getRoot().add(scrollContainer, {left: 10, top: 10});
+      scrollContainer.add(this.generateBox());
 
       // Area size toggle
       var toggle1 = new qx.ui.form.Button("Toggle pane");
       var grow1 = true;
       toggle1.addListener("execute", function()
       {
-        scrollArea.setWidth(grow1 ? 300 : 200);
+        scrollContainer.setWidth(grow1 ? 300 : 200);
         grow1 = !grow1;
       });
       this.getRoot().add(toggle1, {left: 330, top: 20});
@@ -58,7 +58,7 @@ qx.Class.define("demobrowser.demo.layout.ScrollArea_4",
       var grow2 = true;
       toggle2.addListener("execute", function()
       {
-        scrollArea.getChild().setWidth(grow2 ? 100 : 300);
+        scrollContainer.getChild().setWidth(grow2 ? 100 : 300);
         grow2 = !grow2;
       });
       this.getRoot().add(toggle2, {left: 430, top: 20});
@@ -68,11 +68,11 @@ qx.Class.define("demobrowser.demo.layout.ScrollArea_4",
       var mgr2 = this.generateScrollbarConfig("ScrollbarY:", 120);
 
       mgr1.addListener("change", function(e) {
-        scrollArea.setScrollbarX(e.getValue().getValue());
+        scrollContainer.setScrollbarX(e.getValue().getValue());
       });
 
       mgr2.addListener("change", function(e) {
-        scrollArea.setScrollbarY(e.getValue().getValue());
+        scrollContainer.setScrollbarY(e.getValue().getValue());
       });
     },
 
