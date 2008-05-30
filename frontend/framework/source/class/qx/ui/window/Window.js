@@ -199,6 +199,28 @@ qx.Class.define("qx.ui.window.Window",
 
 
 
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+
+  events :
+  {
+    /** Fired if the window is closed */
+    "close" : "qx.event.type.Event",
+
+    /** Fired if the window is minimized */
+    "minimize" : "qx.event.type.Event",
+
+    /** Fired if the window is maximized */
+    "maximize" : "qx.event.type.Event",
+
+    /** Fired if the window is restored from a minimized or maximized state */
+    "restore" : "qx.event.type.Event"
+  },
+
+
 
   /*
   *****************************************************************************
@@ -511,8 +533,10 @@ qx.Class.define("qx.ui.window.Window",
      * @type member
      * @return {void}
      */
-    maximize : function() {
+    maximize : function()
+    {
       this.setMode("maximized");
+      this.fireEvent("maximize");
     },
 
 
@@ -522,8 +546,10 @@ qx.Class.define("qx.ui.window.Window",
      * @type member
      * @return {void}
      */
-    minimize : function() {
+    minimize : function()
+    {
       this.setMode("minimized");
+      this.fireEvent("minimize");
     },
 
 
@@ -535,6 +561,7 @@ qx.Class.define("qx.ui.window.Window",
      */
     restore : function() {
       this.setMode(null);
+      this.fireEvent("restore");
     },
 
 
@@ -1178,6 +1205,8 @@ qx.Class.define("qx.ui.window.Window",
       this._closeButton.removeState("pressed");
       this._closeButton.removeState("abandoned");
       this._closeButton.removeState("over");
+
+      this.fireEvent("close");
 
       e.stopPropagation();
     },
