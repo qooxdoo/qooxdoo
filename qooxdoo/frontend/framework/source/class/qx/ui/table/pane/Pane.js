@@ -129,12 +129,12 @@ qx.Class.define("qx.ui.table.pane.Pane",
     {
       this.base(arguments);
 
-      if (this._updateWantedWhileInvisible)
+      if (this._updateWantedWhileNotCreated)
       {
-        // We are visible now and an update was wanted while we were invisible
+        // We are created now and an update was wanted before we were created.
         // -> Do the update now
         this._updateContent();
-        this._updateWantedWhileInvisible = false;
+        this._updateWantedWhileNotCreated = false;
       }
     },
 
@@ -363,9 +363,9 @@ qx.Class.define("qx.ui.table.pane.Pane",
         this.__rowCacheClear();
       }
 
-      if (!this.isSeeable())
+      if (!this.isCreated())
       {
-        this._updateWantedWhileInvisible = true;
+        this._updateWantedWhileNotCreated = true;
         return;
       }
 
