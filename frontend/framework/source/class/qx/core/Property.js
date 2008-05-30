@@ -131,8 +131,8 @@ qx.Class.define("qx.core.Property",
 
       "Number"    : 'typeof value === "number" && isFinite(value)',
       "Integer"   : 'typeof value === "number" && isFinite(value) && value%1 === 0',
-      "Float"     : 'typeof value === "number" && isFinite(value)',
-      "Double"    : 'typeof value === "number" && isFinite(value)',
+      "PositiveNumber" : 'typeof value === "number" && isFinite(value) && value >= 0',
+      "PositiveInteger" : 'typeof value === "number" && isFinite(value) && value >= 0 && value%1 === 0',
 
       "Error"     : 'value instanceof Error',
       "RegExp"    : 'value instanceof RegExp',
