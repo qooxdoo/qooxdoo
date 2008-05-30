@@ -127,8 +127,8 @@ qx.Class.define("qx.ui.core.ScrollBar",
      * attached area's pane)
      *
      * Strictly validates according to {@link #maximum}.
-     * Do not apply any correction. If you depend on this please use
-     * {@link #scrollTo} instead.
+     * Does not apply any correction to the incoming value. If you depend
+     * on this, please use {@link #scrollTo} instead.
      */
     position :
     {
@@ -267,9 +267,13 @@ qx.Class.define("qx.ui.core.ScrollBar",
      *
      * This method automatically corrects the given position to respect
      * the {@link #maximum}.
+     *
+     * @type member
+     * @param position {Integer} Scroll to this position. Must be greater zero.
+     * @return {void}
      */
     scrollTo : function(position) {
-      return this._slider.slideTo(position);
+      this._slider.slideTo(position);
     },
 
 
@@ -278,9 +282,13 @@ qx.Class.define("qx.ui.core.ScrollBar",
      *
      * This method automatically corrects the given position to respect
      * the {@link #maximum}.
+     *
+     * @type member
+     * @param offset {Integer} Scroll by this offset
+     * @return {void}
      */
     scrollBy : function(offset) {
-      return this._slider.slideBy(offset);
+      this._slider.slideBy(offset);
     },
 
 
@@ -289,6 +297,10 @@ qx.Class.define("qx.ui.core.ScrollBar",
      *
      * This method automatically corrects the given position to respect
      * the {@link #maximum}.
+     *
+     * @type member
+     * @param steps {Integer} Number of steps
+     * @return {void}
      */
     scrollBySteps : function(steps)
     {
@@ -312,7 +324,7 @@ qx.Class.define("qx.ui.core.ScrollBar",
      * @param e {qx.event.type.Event} Execute event of the button
      * @return {void}
      */
-    _onExecuteBegin : function() {
+    _onExecuteBegin : function(e) {
       this.scrollBy(-this.getSingleStep());
     },
 
@@ -323,7 +335,7 @@ qx.Class.define("qx.ui.core.ScrollBar",
      * @param e {qx.event.type.Event} Execute event of the button
      * @return {void}
      */
-    _onExecuteEnd : function() {
+    _onExecuteEnd : function(e) {
       this.scrollBy(this.getSingleStep());
     },
 

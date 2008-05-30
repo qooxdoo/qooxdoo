@@ -109,8 +109,8 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
      * The current slider value.
      *
      * Strictly validates according to {@link #minimum} and {@link #maximum}.
-     * Do not apply any value correction. If you depend on this please use
-     * {@link #slideTo} instead.
+     * Do not apply any value correction to the incoming value. If you depend
+     * on this, please use {@link #slideTo} instead.
      */
     value :
     {
