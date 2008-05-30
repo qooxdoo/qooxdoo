@@ -21,7 +21,7 @@
 /**
  * An implementation of a dialog layout using a grid.
  */
-qx.Class.define("demobrowser.demo.layout.Dialog_2",
+qx.Class.define("demobrowser.demo.layout.Dialog_Resize",
 {
   extend : qx.application.Standalone,
 
