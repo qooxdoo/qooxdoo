@@ -18,7 +18,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("demobrowser.demo.widget.Label_MultiLine",
+qx.Class.define("demobrowser.demo.ui.HeightForWidth",
 {
   extend : qx.application.Standalone,
 
