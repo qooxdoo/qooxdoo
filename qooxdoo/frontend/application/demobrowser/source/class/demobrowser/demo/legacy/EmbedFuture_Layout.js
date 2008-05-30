@@ -27,7 +27,7 @@
 /**
  * This example embeds a 0.8 ui widget into a legacy qooxdoo layout.
  */
-qx.Class.define("demobrowser.demo.ui.EmbedFuture_Layout",
+qx.Class.define("demobrowser.demo.legacy.EmbedFuture_Layout",
 {
   extend : qx.application.Inline,
   include : [qx.legacy.application.MGuiCompat],

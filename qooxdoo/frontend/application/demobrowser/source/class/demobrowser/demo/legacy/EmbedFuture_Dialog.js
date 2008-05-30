@@ -29,7 +29,7 @@
  * This example embeds a top level dialog based on the 0.8 ui widgets into a
  * legacy qooxdoo application.
  */
-qx.Class.define("demobrowser.demo.ui.EmbedFuture_Dialog",
+qx.Class.define("demobrowser.demo.legacy.EmbedFuture_Dialog",
 {
   extend : qx.application.Inline,
   include : [qx.legacy.application.MGuiCompat],
