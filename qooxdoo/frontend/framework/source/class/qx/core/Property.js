@@ -574,10 +574,6 @@ qx.Class.define("qx.core.Property",
       var msg = "Error in property " + property + " of class " + classname +
         " in method " + this.$$method[variant][property] + " with incoming value '" + value + "': ";
 
-      // Additional object error before throwing exception because gecko
-      // often has issues to throw the error correctly in the debug console otherwise
-      obj.error(msg + (this.__errors[id] || "Unknown reason: " + id));
-
       throw new Error(msg + (this.__errors[id] || "Unknown reason: " + id));
     },
 
