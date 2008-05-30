@@ -55,8 +55,7 @@ qx.Class.define("qx.ui.view.HSlideBar",
     this._rightButton.addListener("click", this._scrollLeft, this);
 
     this._scrollPane = new qx.ui.core.ScrollPane();
-    this._scrollPane.addListener("resize", this._onResize, this);
-    this._scrollPane.addListener("resizeContent", this._onResize, this);
+    this._scrollPane.addListener("update", this._onResize, this);
 
     // Add children to layout
     this._add(this._leftButton);
@@ -83,19 +82,8 @@ qx.Class.define("qx.ui.view.HSlideBar",
      * @param value {qx.ui.core.Widget} Widget to insert
      * @return {void}
      */
-    setContent : function(value) {
-      this._scrollPane.setContent(value);
-    },
-
-
-    /**
-     * Returns the content of the scroll area.
-     *
-     * @type member
-     * @return {qx.ui.core.Widget}
-     */
-    getContent : function() {
-      return this._scrollPane.getContent() || null;
+    add : function(value) {
+      this._scrollPane.add(value);
     },
 
 
@@ -110,7 +98,7 @@ qx.Class.define("qx.ui.view.HSlideBar",
      */
     _onResize : function(e)
     {
-      var content = this._scrollPane.getContent();
+      var content = this._scrollPane.getChild();
       if (!content) {
         return;
       }
@@ -154,7 +142,7 @@ qx.Class.define("qx.ui.view.HSlideBar",
       this._leftButton.exclude();
       this._rightButton.exclude();
 
-      this._scrollPane.setScrollLeft(0);
+      this._scrollPane.scrollToX(0);
     },
 
 
@@ -165,7 +153,7 @@ qx.Class.define("qx.ui.view.HSlideBar",
      * @return {void}
      */
     _scrollLeft : function() {
-      this._scrollPane.scrollLeftBy(20, true);
+      this._scrollPane.scrollByX(20);
     },
 
 
@@ -176,7 +164,7 @@ qx.Class.define("qx.ui.view.HSlideBar",
      * @return {void}
      */
     _scrollRight : function() {
-      this._scrollPane.scrollLeftBy(-20, true);
+      this._scrollPane.scrollByX(-20);
     }
   }
 });
