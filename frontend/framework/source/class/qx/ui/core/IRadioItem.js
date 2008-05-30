@@ -35,7 +35,10 @@ qx.Interface.define("qx.ui.core.IRadioItem",
      *
      *  @param value {Boolean} whether the item should be enabled
      */
-    setEnabled : function(value) { this.assertType(value, "boolean") },
+    setEnabled : function(value) {
+      this.assertType(value, "boolean");
+    },
+
 
     /**
      * Get whether the item is enabled
@@ -44,19 +47,24 @@ qx.Interface.define("qx.ui.core.IRadioItem",
      */
     getEnabled : function() {},
 
+
     /**
      * Set whether the item is checked
      *
      *  @param value {Boolean} whether the item should be checked
      */
-    setChecked : function(value) { this.assertType(value, "boolean") },
+    setChecked : function(value) {
+      this.assertType(value, "boolean");
+    },
+
 
     /**
      * Get whether the item is checked
      *
      * @return {Boolean} whether the item it checked
      */
-    getChecked : function(value) {},
+    getChecked : function() {},
+
 
     /**
      * The item's user set value
@@ -65,13 +73,17 @@ qx.Interface.define("qx.ui.core.IRadioItem",
      */
     getValue : function() {},
 
+
     /**
      * Set the radio manager, which manages this item
      *
      * @param value {qx.ui.core.RadioManager} The radio manager, which should
      *     manage the item.
      */
-    setManager : function(value) { this.assertInstance(value, qx.ui.core.RadioManager); },
+    setManager : function(value) {
+      this.assertInstance(value, qx.ui.core.RadioManager);
+    },
+
 
     /**
      * Get the radio manager, which manages this item
