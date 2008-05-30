@@ -31,8 +31,8 @@ qx.Class.define("demobrowser.demo.ui.MenuEmu",
     {
       this.base(arguments);
 
-      var MenuItem = demobrowser.demo.layout.MenuEmu_MenuItem;
-      var Menu = demobrowser.demo.layout.MenuEmu_Menu;
+      var MenuItem = demobrowser.demo.ui.MenuEmu_MenuItem;
+      var Menu = demobrowser.demo.ui.MenuEmu_Menu;
 
       this.getRoot().setPadding(20);
 
