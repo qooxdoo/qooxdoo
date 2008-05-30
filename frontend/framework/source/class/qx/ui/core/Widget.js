@@ -2514,9 +2514,10 @@ qx.Class.define("qx.ui.core.Widget",
      * to support new child control types.
      *
      * @type member
+     * @param id {String} ID of the child control
      * @return {qx.ui.core.Widget} The created control or <code>null</code>
      */
-    _createChildControlImpl : function() {
+    _createChildControlImpl : function(id) {
       return null;
     },
 
