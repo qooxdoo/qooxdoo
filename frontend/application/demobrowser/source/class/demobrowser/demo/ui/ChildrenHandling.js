@@ -18,7 +18,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("demobrowser.demo.layout.ChildrenHandling_1",
+qx.Class.define("demobrowser.demo.ui.ChildrenHandling",
 {
   extend : qx.application.Standalone,
 

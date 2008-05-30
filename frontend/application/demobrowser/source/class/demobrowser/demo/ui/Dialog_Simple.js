@@ -21,7 +21,7 @@
 /**
  * An implementation of a dialog layout using a grid.
  */
-qx.Class.define("demobrowser.demo.layout.Dialog_Simple",
+qx.Class.define("demobrowser.demo.ui.Dialog_Simple",
 {
   extend : qx.application.Standalone,
 
