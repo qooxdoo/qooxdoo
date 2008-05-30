@@ -25,7 +25,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("demobrowser.demo.widget.Tooltip_Clipping",
+qx.Class.define("demobrowser.demo.ui.Popup_PositionFix",
 {
   extend : qx.application.Standalone,
 
