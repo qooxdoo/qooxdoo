@@ -125,16 +125,25 @@ qx.Class.define("qx.legacy.ui.table.celleditor.ComboBox",
       var list = cellEditor.getList();
       if ( this.getListData() )
       {
-        this.getListData().forEach(function(row){
-          if ( row instanceof Array )
-          {
-            list.add( new qx.legacy.ui.form.ListItem ( row[0],row[1],row[2]));
+        var selectedItem;
+
+        this.getListData().forEach(function(row)
+        {
+          if ( row instanceof Array ) {
+            var item = new qx.ui.form.ListItem ( row[0],row[1],row[2]);
+          } else {
+            var item = new qx.ui.form.ListItem (row,null,row)
           }
-          else
-          {
-            list.add( new qx.legacy.ui.form.ListItem ( row,null,row ));
+          list.add(item);
+
+          if (cellInfo.value == item.getValue()) {
+            var selectedItem = item;
           }
-        })
+        });
+
+        if (selectedItem) {
+          cellEditor.setSelected(selectedItem);
+        }
       }
 
       return cellEditor;
