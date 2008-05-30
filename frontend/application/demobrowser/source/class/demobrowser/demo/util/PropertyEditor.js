@@ -25,22 +25,22 @@ qx.Class.define("demobrowser.demo.util.PropertyEditor",
   construct : function()
   {
     this.base(arguments);
-    
+
     // Force ScrollArea to have an auto-width
     this.setWidth(null);
 
     this._editorGroups = {};
-    
+
     var decor = new qx.ui.decoration.Single();
     decor.setLeft(1, "solid", "black");
-    
+
     this.setDecorator(decor);
     this.setBackgroundColor("white");
-    
+
     var pane = new qx.ui.container.Composite().set({
       padding: [20, 14]
     });
-    this._setContent(pane);
+    this._getChildControl("pane").add(pane);
     this._pane = pane;
 
 

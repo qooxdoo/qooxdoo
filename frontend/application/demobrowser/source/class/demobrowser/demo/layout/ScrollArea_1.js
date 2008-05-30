@@ -35,7 +35,7 @@ qx.Class.define("demobrowser.demo.layout.ScrollArea_1",
         backgroundColor : "yellow"
       });
 
-      scrollArea.setContent(this.generateBoxes());
+      scrollArea.add(this.generateBoxes());
       this.getRoot().add(scrollArea, {left: 10, top: 10});
 
       var toggle = new qx.ui.form.Button("Toggle size").set({
