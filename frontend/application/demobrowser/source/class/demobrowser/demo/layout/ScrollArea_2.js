@@ -28,23 +28,23 @@ qx.Class.define("demobrowser.demo.layout.ScrollArea_2",
     {
       this.base(arguments);
 
-      scrollArea = new qx.ui.container.Scroll();
-      scrollArea.set({
+      scrollContainer = new qx.ui.container.Scroll();
+      scrollContainer.set({
         width: 200,
         height: 200,
         backgroundColor : "yellow"
       });
 
-      this.getRoot().add(scrollArea, {left: 10, top: 10});
-      scrollArea.add(this.generateBox());
+      this.getRoot().add(scrollContainer, {left: 10, top: 10});
+      scrollContainer.add(this.generateBox());
 
       var toggle = new qx.ui.form.Button("Toggle size");
 
       var grow = true;
       toggle.addListener("execute", function()
       {
-        scrollArea.setWidth(grow ? 300 : 200);
-        scrollArea.setHeight(grow ? 300 : 200);
+        scrollContainer.setWidth(grow ? 300 : 200);
+        scrollContainer.setHeight(grow ? 300 : 200);
         grow = !grow;
       });
 

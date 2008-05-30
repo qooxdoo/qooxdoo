@@ -51,14 +51,16 @@ qx.Class.define("qx.ui.container.Scroll",
   members :
   {
     /**
-     * Sets the content of the scroll area.
+     * Sets the content of the scroll container. Scroll containers
+     * may only have one child, so it always replaces the current
+     * child with the given one.
      *
      * @type member
-     * @param value {qx.ui.core.Widget} Widget to insert
+     * @param widget {qx.ui.core.Widget} Widget to insert
      * @return {void}
      */
-    add : function(value) {
-      this._getChildControl("pane").add(value);
+    add : function(widget) {
+      this._getChildControl("pane").add(widget);
     },
 
 
@@ -66,11 +68,25 @@ qx.Class.define("qx.ui.container.Scroll",
      * Returns the content of the scroll area.
      *
      * @type member
-     * @param value {qx.ui.core.Widget} Widget to remove
+     * @param widget {qx.ui.core.Widget} Widget to remove
      * @return {qx.ui.core.Widget}
      */
     remove : function() {
       this._getChildControl("pane").remove(widget);
+    },
+
+
+    /**
+     * Returns the content of the scroll container.
+     *
+     * Scroll containers may only have one child. This
+     * method returns exactly this one child or <code>null</code>.
+     *
+     * @type member
+     * @return {qx.ui.core.Widget} The child
+     */
+    getChild : function() {
+      return this._getChildControl("pane").getChild();
     }
   }
 });
