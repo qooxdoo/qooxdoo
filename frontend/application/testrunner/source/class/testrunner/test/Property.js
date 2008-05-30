@@ -10,7 +10,7 @@
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
      EPL: http://www.eclipse.org/org/documents/epl-v10.php
-     See the LICENSE file in the project's top-level directory for details.
+     See the LICENSE file in the project's top_-level directory for details.
 
    Authors:
      * Fabian Jakobs (fjakobs)
@@ -45,20 +45,6 @@ qx.Class.define("testrunner.test.Property",
       this.assertFunction(inst.resetPublicProp, "public reset");
       this.assertUndefined(inst.togglePublicProp, "public toggler");
       this.assertUndefined(inst.stylePublicProp, "public style");
-
-      // Protected setter/getter etc.
-      this.assertFunction(inst._setProtectedProp, "protected setter");
-      this.assertFunction(inst._getProtectedProp, "protected getter");
-      this.assertFunction(inst._resetProtectedProp, "protected reset");
-      this.assertUndefined(inst._toggleProtectedProp, "protected toggler");
-      this.assertUndefined(inst._styleProtectedProp, "protected style");
-
-      // Private setter/getter etc.
-      this.assertFunction(inst.__setPrivateProp, "private setter");
-      this.assertFunction(inst.__getPrivateProp, "private getter");
-      this.assertFunction(inst.__resetPrivateProp, "private reset");
-      this.assertUndefined(inst.__togglePrivateProp, "private toggler");
-      this.assertUndefined(inst.__stylePrivateProp, "private style");
 
       // Boolean property
       this.assertFunction(inst.toggleBooleanProp, "boolean toggler");
@@ -151,28 +137,28 @@ qx.Class.define("testrunner.test.Property",
       ch2.add(chh1, chh2, chh3);
 
       // Simple: Only inheritance, no local values
-      this.assertTrue(pa._setEnabled(true), "a1");
-      this.assertTrue(pa._getEnabled(), "a2");
-      this.assertTrue(ch1._getEnabled(), "a3");
-      this.assertTrue(ch2._getEnabled(), "a4");
-      this.assertTrue(ch3._getEnabled(), "a5");
-      this.assertTrue(chh1._getEnabled(), "a6");
-      this.assertTrue(chh2._getEnabled(), "a7");
-      this.assertTrue(chh3._getEnabled(), "a8");
+      this.assertTrue(pa.setEnabled_(true), "a1");
+      this.assertTrue(pa.getEnabled_(), "a2");
+      this.assertTrue(ch1.getEnabled_(), "a3");
+      this.assertTrue(ch2.getEnabled_(), "a4");
+      this.assertTrue(ch3.getEnabled_(), "a5");
+      this.assertTrue(chh1.getEnabled_(), "a6");
+      this.assertTrue(chh2.getEnabled_(), "a7");
+      this.assertTrue(chh3.getEnabled_(), "a8");
 
       // Enabling local value
-      this.assertFalse(ch2._setEnabled(false), "b1");
-      this.assertFalse(ch2._getEnabled(), "b2");
-      this.assertFalse(chh1._getEnabled(), "b3");
-      this.assertFalse(chh2._getEnabled(), "b4");
-      this.assertFalse(chh3._getEnabled(), "b5");
+      this.assertFalse(ch2.setEnabled_(false), "b1");
+      this.assertFalse(ch2.getEnabled_(), "b2");
+      this.assertFalse(chh1.getEnabled_(), "b3");
+      this.assertFalse(chh2.getEnabled_(), "b4");
+      this.assertFalse(chh3.getEnabled_(), "b5");
 
       // Reset local value
-      this.assertUndefined(ch2._resetEnabled(), "c1");
-      this.assertTrue(ch2._getEnabled(), "c2");
-      this.assertTrue(chh1._getEnabled(), "c3");
-      this.assertTrue(chh2._getEnabled(), "c4");
-      this.assertTrue(chh3._getEnabled(), "c5");
+      this.assertUndefined(ch2.resetEnabled_(), "c1");
+      this.assertTrue(ch2.getEnabled_(), "c2");
+      this.assertTrue(chh1.getEnabled_(), "c3");
+      this.assertTrue(chh2.getEnabled_(), "c4");
+      this.assertTrue(chh3.getEnabled_(), "c5");
 
       this.debug("Done: testInheritance");
     },
@@ -191,28 +177,28 @@ qx.Class.define("testrunner.test.Property",
       var ch2 = new testrunner.test.Layout;
       var ch3 = new testrunner.test.Layout;
 
-      this.assertIdentical(pa._getEnabled(), null, "d1");
-      this.assertIdentical(ch1._getEnabled(), null, "d2");
-      this.assertIdentical(ch2._getEnabled(), null, "d3");
-      this.assertIdentical(ch3._getEnabled(), null, "d4");
+      this.assertIdentical(pa.getEnabled_(), null, "d1");
+      this.assertIdentical(ch1.getEnabled_(), null, "d2");
+      this.assertIdentical(ch2.getEnabled_(), null, "d3");
+      this.assertIdentical(ch3.getEnabled_(), null, "d4");
 
       ch1.setParent(pa);
 
-      this.assertTrue(pa._setEnabled(true), "a1");  // ch1 gets enabled, too
-      this.assertFalse(ch3._setEnabled(false), "a2");
+      this.assertTrue(pa.setEnabled_(true), "a1");  // ch1 gets enabled_, too
+      this.assertFalse(ch3.setEnabled_(false), "a2");
 
-      this.assertTrue(pa._getEnabled(), "b1");
-      this.assertTrue(ch1._getEnabled(), "b2");
-      this.assertIdentical(ch2._getEnabled(), null, "b3");
-      this.assertFalse(ch3._getEnabled(), "b4");
+      this.assertTrue(pa.getEnabled_(), "b1");
+      this.assertTrue(ch1.getEnabled_(), "b2");
+      this.assertIdentical(ch2.getEnabled_(), null, "b3");
+      this.assertFalse(ch3.getEnabled_(), "b4");
 
-      ch2.setParent(pa);  // make ch2 enabled through inheritance
+      ch2.setParent(pa);  // make ch2 enabled_ through inheritance
       ch3.setParent(pa);  // keep ch2 disabled, user value has higher priority
 
-      this.assertTrue(pa._getEnabled(), "c1");
-      this.assertTrue(ch1._getEnabled(), "c2");
-      this.assertTrue(ch2._getEnabled(), "c3");
-      this.assertFalse(ch3._getEnabled(), "c4");
+      this.assertTrue(pa.getEnabled_(), "c1");
+      this.assertTrue(ch1.getEnabled_(), "c2");
+      this.assertTrue(ch2.getEnabled_(), "c3");
+      this.assertFalse(ch3.getEnabled_(), "c4");
     },
 
 
@@ -323,8 +309,6 @@ qx.Class.define("testrunner.test.PropertyHelper",
 
     // protection
     publicProp : { nullable : true },
-    _protectedProp : { nullable : true },
-    __privateProp : { nullable : true },
 
     // types
     stringProp :
@@ -416,31 +400,31 @@ qx.Class.define("testrunner.test.PropertyHelper",
 
 qx.Class.define("testrunner.test.Layout",
 {
-  extend : qx.legacy.ui.layout.CanvasLayout,
+  extend : qx.legacy.ui.core.Parent,
 
   properties :
   {
-    _enabled : { inheritable : true },
+    enabled_ : { inheritable : true },
 
-    _width :
+    width_ :
     {
       inheritable : true,
       themeable   : true
     },
 
-    _height :
+    height_ :
     {
       inheritable : true,
       themeable   : true
     },
 
-    _left :
+    left_ :
     {
       inheritable : true,
       themeable   : true
     },
 
-    _top :
+    top_ :
     {
       inheritable : true,
       themeable   : true

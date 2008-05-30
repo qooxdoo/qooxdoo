@@ -27,47 +27,51 @@ qx.Class.define("testrunner.test.ui.Layout",
     {
       var numRuns = 500;
 
-      for (var i=0; i<numRuns; i++)
+      for (var run=0; run<numRuns; run++)
       {
         var len = Math.round(Math.random() * 20) + 1;
+        var sumMin = 0;
+        var sumMax = 0;
+        var sumValue = 0;
         var flexibles = [];
-        var sumWeights = 0;
-        var sumPotentials = 0;
-        var potentialBackup = [];
+
+        //var potentialBackup = [];
         for (var j=0; j<len; j++)
         {
+          var min = Math.round(Math.random() * 20);
+          var max = min + Math.round(Math.random() * 50) + 1;
+          var value = min + Math.round(Math.random() * (max - min));
+
+          sumMax += max;
+          sumMin += min;
+          sumValue += value;
+
           flexibles[j] = {
-            id : j,
-            potential : Math.round(Math.random() * 50),
+            min: min,
+            value: value,
+            max: max,
             flex : Math.ceil(Math.random() * 5) // flex range from 1 .. 5
           }
-          sumWeights += flexibles[j].flex;
-          sumPotentials += flexibles[j].potential;
-          potentialBackup[j] = flexibles[j].potential;
         }
 
-        var sum = Math.round(Math.random() * 500);
+        var availWidth = Math.round(Math.random() * 500);
 
-        var partitions = qx.ui.layout.Util.computeFlexOffsets(flexibles, sum);
+        var result = qx.ui.layout.Util.computeFlexOffsets(flexibles, availWidth, sumValue);
 
-        var partSum = 0;
-        for (var j=0; j<len; j++) {
-          partSum += partitions[j];
-        }
-
-        if (sumWeights > 0)
+        // check sum
+        var sum = 0;
+        for (var i in result)
         {
-          // check sum
-          if (sumPotentials <= sum) {
-            this.assertEquals(sumPotentials, partSum, "The sum must not be larger than the sum of all potentials.");
-          } else {
-            this.assertEquals(sum, partSum, "The sum of the paritions must match the original value.");
-          }
+          var newSize = flexibles[i].value + result[i].offset;
+          sum += newSize;
+          this.assert(flexibles[i].min <= newSize);
+          this.assert(flexibles[i].max >= newSize);
+        }
 
-          // check restrictions
-          for (var j=0; j<len; j++) {
-            this.assertTrue(potentialBackup[j] >= partitions[j]);
-          }
+        if (availWidth !== sum) {
+          this.assert(sum == sumMin || sum == sumMax);
+        } else {
+          this.assertEquals(availWidth, sum);
         }
       }
     },
@@ -80,43 +84,52 @@ qx.Class.define("testrunner.test.ui.Layout",
     {
       var numRuns = 500;
 
-      for (var i=0; i<numRuns; i++)
+      for (var run=0; run<numRuns; run++)
       {
         var len = Math.round(Math.random() * 20) + 1;
-        var flexibles = [];
+        var sumMin = 0;
+        var sumMax = 0;
+        var sumValue = 0;
         var sumWeights = 0;
-        var sumPotentials = 0;
-        var potentialBackup = [];
+        var flexibles = [];
+
         for (var j=0; j<len; j++)
         {
+          var min = 0;
+          var max = 32000;
+          var value = Math.round(Math.random() * 20);
+
+          sumMax += max;
+          sumMin += min;
+          sumValue += value;
+
           flexibles[j] = {
-            id : j,
-            potential : 32000, // unlimited
-            flex : Math.ceil(Math.random() * 5) // flex range from 1 .. 5
+            min: min,
+            value: value,
+            max: max,
+            flex : 1 + Math.ceil(Math.random() * 5) // flex range from 1 .. 5
           }
           sumWeights += flexibles[j].flex;
-          potentialBackup[j] = flexibles[j].potential;
         }
 
-        var sum = Math.round(Math.random() * 500);
-        var partitions = qx.ui.layout.Util.computeFlexOffsets(flexibles, sum);
+        var availWidth = sumValue + Math.round(Math.random() * 100);
+        var result = qx.ui.layout.Util.computeFlexOffsets(flexibles, availWidth, sumValue);
 
-        var partSum = 0;
-        for (var j=0; j<len; j++) {
-          partSum += partitions[j];
+        var offsets = 0;
+        for (var i in result) {
+          offsets += result[i].offset;
         }
 
-        if (sumWeights > 0) {
-          this.assertEquals(sum, partSum, "The sum of the paritions must match the original value.");
-
-          var unit = sum / sumWeights;
-          for (var j=0; j<len; j++) {
-            var error = partitions[j] - (unit * flexibles[j].flex);
-            this.assertTrue(Math.abs(error) <= 1, "The error must be at most one pixel");
+        if (sumWeights > 0)
+        {
+          var unit = offsets / sumWeights;
+          for (var j in result)
+          {
+            var error = result[j].offset - (unit * flexibles[j].flex);
+            this.assertTrue(Math.abs(error) <= 1, "The error must be at most one pixel!");
           }
         }
       }
     }
-
   }
 });

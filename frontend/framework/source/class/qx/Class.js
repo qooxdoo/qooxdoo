@@ -1421,7 +1421,7 @@ qx.Bootstrap.define("qx.Class",
 
           // add abstract and singleton checks
           if (type === "abstract") {
-            if(this.classname===name.classname) {
+            if(this.classname===name) {
               throw new Error("The class '," + name + "' is abstract! It is not possible to instantiate it.");
             }
           } else if (type === "singleton") {
