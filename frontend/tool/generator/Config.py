@@ -31,6 +31,7 @@ class Config:
         self._data     = None
         self._fname    = None
         self._shellCmd = ShellCmd()
+        
         # dispatch on argument
         if isinstance(data, (types.DictType, types.ListType)):
             self.__init__data(data, path)
@@ -57,28 +58,25 @@ class Config:
         self._fname = os.path.abspath(fname)
         self._dirname = os.path.dirname(self._fname)
 
-    def getData(self):
-        if self._data:
-            return self._data
-        else:
-            return None
-
     def get(self, key, default=None, confmap=None):
         """Returns a (possibly nested) data element from dict <conf>
         """
+        
         if confmap:
             data = confmap
         else:
             data = self._data
+            
         splits = key.split("/")
-
-        for item in splits:
-            if isinstance(data, types.DictType) and data.has_key(item):
-                data = data[item]
+        for part in splits:
+            if part == "." or part == "":
+                pass
+            elif isinstance(data, types.DictType) and data.has_key(part):
+                data = data[part]
             else:
-                return self._normalizeConfig(default)
+                return default
 
-        return self._normalizeConfig(data)
+        return data
         
 
     def set(self, key, content, AddKeys=False, confmap=None):
@@ -119,30 +117,17 @@ class Config:
         return Config(self._console, self.get(key, {}), self._dirname)
         
     
-    def _normalizeConfig(self, value):
-        if hasattr(value, "lower"):
-            if value.lower() in [ "1", "on", "true", "yes", "enabled" ]:
-                return True
-
-            if value.lower() in [ "0", "off", "false", "no", "disabled" ]:
-                return False
-
-        return value
-        
-    def getJobsMap(self, default=None):
-        if 'jobs' in self._data:
-            return self._data['jobs']
-        else:
-            return default
-
+    # wpbasti: specific to top level configs. Should be done in a separate class
     def resolveIncludes(self, includeTrace=[]):
         config  = self._data
-        jobsmap = self.getJobsMap()
+        jobsmap = self.get("jobs")
+
         if self._fname:   # we stem from a file
             includeTrace.append(self._fname)   # expand the include trace
+            
         if config.has_key('include'):
             for namespace, fname in config['include'].iteritems():
-                #cycle check
+                # cycle check
                 if os.path.abspath(fname) in includeTrace:
                     self._console.warn("Include config already seen: %s" % str(includeTrace+[os.path.abspath(fname)]))
                     sys.exit(1)
@@ -152,14 +137,15 @@ class Config:
                     fpath = os.path.normpath(os.path.join(self._dirname, fname))
                 else:
                     fpath = fname
+                    
                 econfig = Config(self._console, fpath)
                 econfig.resolveIncludes(includeTrace)   # recursive include
-                #for ejob in econfig['jobs']:
-                #    _resolveEntry(console, econfig['jobs'], ejob)
-                jobsmap[namespace] = econfig.getData() # external config becomes namespace'd entry in jobsmap
+                jobsmap[namespace] = econfig.get(".") # external config becomes namespace'd entry in jobsmap
 
+
+    # wpbasti: specific to top level configs. Should be done in a separate class
     def resolveExtendsAndRuns(self, joblist):
-        jobsmap = self.getJobsMap()
+        jobsmap = self.get("jobs")
         console = self._console
         console.info("Resolving jobs...")
         console.indent()
@@ -176,6 +162,7 @@ class Config:
     def _mapMerge(self, source, target):
         """merge source map into target, but don't overwrite existing
            keys in target (unlike .update())"""
+        # wpbasti: Why not just use update() in reversed order (maybe copy target first)???
         t = target.copy()
         for (k,v) in source.items():
             if not t.has_key(k):
@@ -191,19 +178,25 @@ class Config:
             if entry.has_key("run"):
                 sublist = []
                 for subjob in entry["run"]:
+                    
                     # make new job map job::subjob as copy of job, but extend[subjob]
                     newjobname = job + '::' + subjob.replace('/','::')
                     newjob = entry.copy()
                     del newjob['run']       # remove 'run' key
+                    
                     # we assume the initial 'run' job has already been resolved, so
                     # we reset it here and set the 'extend' to the subjob
                     if newjob.has_key('resolved'): del newjob['resolved']
                     newjob['extend'] = [subjob] # extend subjob
+                    
                     # add to config
                     jobsmap[newjobname] = newjob
+                    
                     # add to job list
                     sublist.append(newjobname)
-                jobs[i:i+1] = sublist  # replace old job by subjobs list
+                    
+                # replace old job by subjobs list
+                jobs[i:i+1] = sublist  
                 j = j + len(sublist) - 1
             i += 1
 
@@ -256,13 +249,17 @@ class Config:
                         sys.exit(1)
 
                     pjob = self.get(entry, None, jobcontext )
+                    
                     # resolve 'extend'
                     _resolveEntry(console, jobcontext, entry, entryTrace + [job])
+                    
                     # prepare for 'run'
                     if pjob.has_key('run') and entry.rfind('/')>-1:
+                        
                         # prefix job names
                         eparent = entry[:entry.rfind('/')]
                         pjob['run'] = ["/".join([eparent,x]) for x in pjob['run']]
+                        
                     _mergeEntry(data, pjob)
 
             data["resolved"] = True
@@ -283,7 +280,7 @@ class Config:
 
     def resolveMacros(self, jobs):
         console = self._console
-        config  = self.getJobsMap()
+        config  = self.get("jobs")
 
         def _expandString(s, mapstr, mapbin):
             assert isinstance(s, types.StringTypes)
@@ -306,6 +303,7 @@ class Config:
                 lists and dicts; only actually applies macros when a string is encountered on 
                 the way (look for calls to _expandString())"""
             result = configElem  # intialize result
+            
             # arrays
             if isinstance(configElem, types.ListType):
                 for e in range(len(configElem)):
@@ -313,6 +311,7 @@ class Config:
                     if enew != configElem[e]:
                         console.debug("expanding: %s ==> %s" % (str(configElem[e]), str(enew)))
                         configElem[e] = enew
+                        
             # dicts
             elif isinstance(configElem, types.DictType):
                 for e in configElem:
@@ -347,11 +346,13 @@ class Config:
             keys = letDict.keys()
             for k in keys:
                 kval = letDict[k]
+                
                 # construct a temp. dict of translation maps, for later calls to _expand* funcs
                 if isinstance(kval, types.StringTypes):
                     kdicts = {'str': {k:kval}, 'bin': {}}
                 else:
                     kdicts = {'str': {}, 'bin': {k:kval}}
+                    
                 # cycle through other keys of this dict
                 for k1 in keys:
                     if k != k1: # no expansion with itself!
@@ -371,9 +372,11 @@ class Config:
                 sys.exit(1)
             else:
                 if config[job].has_key('let'):
+                    
                     # exand macros in the let
                     config[job]['let'] = _expandMacrosInLet(config[job]['let'])
                     cfglet = config[job]['let']
+                    
                     # separate strings from other values
                     letmaps = {}
                     letmaps['str'] = {}
@@ -383,12 +386,14 @@ class Config:
                             letmaps['str'][k] = cfglet[k]
                         else:
                             letmaps['bin'][k] = cfglet[k]
+                            
                     # apply dict to other values
                     _expandMacrosInValues(config[job], letmaps)
 
         console.outdent()
 
 
+    # wpbasti: specific to file loading => Should be a separate class
     def _stripComments(self,jsonstr):
         eolComment = re.compile(r'//.*$', re.M)
         mulComment = re.compile(r'/\*.*?\*/', re.S)
@@ -397,8 +402,9 @@ class Config:
         return result
 
 
+    # wpbasti: specific to top level config => Should be a separate class
     def resolveLibs(self, jobs):
-        config  = self.getJobsMap()
+        config  = self.get("jobs")
         console = self._console
 
         console.info("Resolving libs/manifests...")
@@ -416,6 +422,9 @@ class Config:
                         manifest = lib['manifest']
                         manipath = os.path.dirname(manifest)
                         manifile = os.path.basename(manifest)
+                        
+                        # wpbasti: Seems a bit crazy to handle this here
+                        # What's about to process all "remote" manifest initially on file loading?
                         if manipath.startswith("contrib://"): # it's a contrib:// lib
                             contrib = manipath.replace("contrib://","")
                             if config[job].has_key('cache-downloads'):
@@ -427,6 +436,7 @@ class Config:
                             lib['manifest'] = manifest  # patch 'manifest' entry to download path
                         else:  # patch the path which is local to the current config
                             pass # TODO: use manipath and config._dirname, or fix it when including the config
+                            
                         # get the local Manifest
                         manifest = Manifest(manifest)
                         lib = manifest.patchLibEntry(lib)
@@ -436,6 +446,7 @@ class Config:
 
     def _download_contrib(self, libs, contrib, contribCache):
         # try to find $FRAMEWORK/tool/modules/download-contrib.py
+        # wpbasti: Really want to use the old module here???
         dl_script    = "download-contrib.py"
         self._console.info("Downloading contribs...")
         self._console.indent()
@@ -480,6 +491,7 @@ class Job(object):
             #    target[key] = _listPrepend(source[key],target[key])
             
             # merge 'settings' and 'let' key rather than shadowing
+            # wpbasti: What's about variants, use and require => they are all comparable to settings
             if (key in ['settings','let']) and target.has_key(key):
                 target[key] = self._mapMerge(source[key],target[key])
             if not target.has_key(key):

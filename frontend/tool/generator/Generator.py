@@ -45,7 +45,16 @@ memcache = {}
 
 
 class Generator:
-    def __init__(self, config, console, variants, settings, require, use):
+    def __init__(self, config, console):
+        variants = config.get("variants", {})
+        settings = config.get("settings", {})
+        require = config.get("require", {})
+        use = config.get("use", {})
+        
+        print variants
+        print settings
+
+        
         self._config = config
         self._console = console
         self._variants = variants
