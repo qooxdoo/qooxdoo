@@ -72,7 +72,6 @@ class Cache:
                 return None
 
         try:
-            # print "IO-Read: %s" % cacheFile
             content = cPickle.load(open(cacheFile, 'rb'))
 
             if memory:
@@ -91,7 +90,6 @@ class Cache:
 
         if writeToFile:
             try:
-                # print "IO-Write: %s" % cacheFile
                 cPickle.dump(content, open(cacheFile, 'wb'), 2)
     
             except (IOError, EOFError, cPickle.PickleError, cPickle.PicklingError):
