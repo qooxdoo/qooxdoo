@@ -11,24 +11,6 @@ class TreeLoader:
         self._console = console
 
 
-    def getTokens(self, fileId):
-        fileEntry = self._classes[fileId]
-        filePath = fileEntry["path"]
-        fileEncoding = fileEntry["encoding"]
-
-        cacheId = "tokens-%s" % fileId
-        tokens = self._cache.read(cacheId, filePath)
-        if tokens != None:
-            return tokens
-
-        self._console.debug("Generating tokens: %s..." % fileId)
-        fileContent = filetool.read(filePath, fileEncoding)
-        tokens = tokenizer.parseStream(fileContent, fileId)
-
-        self._cache.write(cacheId, tokens)
-        return tokens
-
-
     def getTree(self, fileId, variants=None):
         fileEntry = self._classes[fileId]
         filePath = fileEntry["path"]
@@ -48,7 +30,14 @@ class TreeLoader:
 
         # Tree still undefined?, create it!
         if tree == None:
-            tokens = self.getTokens(fileId)
+            self._console.debug("Parsing file: %s..." % fileId)
+            self._console.indent()
+
+            fileEntry = self._classes[fileId]
+            fileContent = filetool.read(fileEntry["path"], fileEntry["encoding"])
+            tokens = tokenizer.parseStream(fileContent, fileId)
+            
+            self._console.outdent()
             self._console.debug("Generating tree: %s..." % fileId)
             self._console.indent()
 
