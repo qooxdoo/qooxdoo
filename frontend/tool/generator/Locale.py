@@ -131,19 +131,14 @@ class Locale:
             result = {}
             for path in data[entry]:
                 self._console.debug("Reading file: %s" % path)
-                self._console.indent()
 
                 po = polib.pofile(path)
                 po.merge(pot)
-
                 translated = po.translated_entries()
-                percent = po.percent_translated()
-                self._console.debug("%s translated entries (%s%%)" % (len(translated), percent))
-                self._console.outdent()
+                
                 result.update(self.entriesToDict(translated))
 
             self._console.debug("Formatting %s entries" % len(result))
-            #blocks[entry] = self.msgfmt(result)
             blocks[entry] = result
             self._console.outdent()
 
@@ -199,9 +194,9 @@ class Locale:
         
         result = {}
         for classId in content:
-            strings = self.getStrings(classId, variants)
+            translation = self.getTranslation(classId, variants)
 
-            for source in strings:
+            for source in translation:
                 msgid = source["id"]
 
                 if result.has_key(msgid):
@@ -223,47 +218,47 @@ class Locale:
                     "column" : source["column"]
                 })
 
-        self._console.debug("Package contains %s unique strings" % len(result))
+        self._console.debug("Package contains %s unique translation strings" % len(result))
         self._console.outdent()
         return result
 
 
 
-    def getStrings(self, fileId, variants):
+    def getTranslation(self, fileId, variants):
         fileEntry = self._classes[fileId]
         filePath = fileEntry["path"]
 
         variantsId = idlist.toString(variants)
 
-        cacheId = "locale-%s-%s" % (fileId, variantsId)
+        cacheId = "translation-%s-%s" % (fileId, variantsId)
 
-        strings = self._cache.readmulti(cacheId, filePath)
-        if strings != None:
-            return strings
+        translation = self._cache.readmulti(cacheId, filePath)
+        if translation != None:
+            return translation
 
-        self._console.debug("Looking for localizable strings: %s..." % fileId)
+        self._console.debug("Looking for translation strings: %s..." % fileId)
         self._console.indent()
 
         tree = self._treeLoader.getTree(fileId, variants)
 
         try:
-            strings = self._findStrings(tree, [])
+            translation = self._findTranslationBlocks(tree, [])
         except NameError, detail:
-            self._console.error("Could not extract localizable strings from %s!" % fileId)
+            self._console.error("Could not extract translation from %s!" % fileId)
             self._console.error("%s" % detail)
             sys.exit(1)
 
-        if len(strings) > 0:
-            self._console.debug("Found %s localizable strings" % len(strings))
+        if len(translation) > 0:
+            self._console.debug("Found %s translation strings" % len(translation))
 
         self._console.outdent()
-        self._cache.writemulti(cacheId, strings)
+        self._cache.writemulti(cacheId, translation)
 
-        return strings
+        return translation
 
 
 
-    def _findStrings(self, node, strings):
+    def _findTranslationBlocks(self, node, translation):
         if node.type == "call":
             oper = node.getChild("operand", False)
             if oper:
@@ -272,18 +267,18 @@ class Locale:
                     varname = (treeutil.assembleVariable(var))[0]
                     for entry in [ ".tr", ".trn", ".trc", ".marktr" ]:
                         if varname.endswith(entry):
-                            self._addString(entry[1:], strings, node, var)
+                            self._addTranslationBlock(entry[1:], translation, node, var)
                             break
 
         if node.hasChildren():
             for child in node.children:
-                self._findStrings(child, strings)
+                self._findTranslationBlocks(child, translation)
 
-        return strings
+        return translation
 
 
 
-    def _addString(self, method, data, node, var):
+    def _addTranslationBlock(self, method, data, node, var):
         entry = {
             "method" : method,
             "line" : node.get("line"),
