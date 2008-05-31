@@ -55,6 +55,8 @@ class LibraryPath:
         uri = self._config.get("uri", path)
         encoding = self._config.get("encoding", "utf-8")
 
+        # wpbasti: What exactly happens here. How exactly is the overriding?
+        
         #classPath = os.path.join(path, self._classFolder)
         classPath = os.path.join(path, self._config.get("class",""))
         #classUri = uri + "/" + self._classFolder
