@@ -99,11 +99,12 @@ def processVariantSelect(callNode, variantMap):
                     break
                 if key == "default":
                     default = value
+                    
         if not found:
             if default != None:
                 callNode.parent.replaceChild(callNode, default)
             else:
-                log("Error", "No default case found!", callNode)
+                log("Error", "No default case found (%s:%s)!" % (variantGroup, fullKey), callNode)
                 sys.exit(1)
         return True
 
