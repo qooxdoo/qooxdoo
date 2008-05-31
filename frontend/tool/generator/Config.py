@@ -88,6 +88,7 @@ class Config:
             container = self._data
         splits = key.split("/")
 
+        # wpbasti: What should this do?
         for item in splits[:-1]:
             if isinstance(container, types.DictType):
                 if container.has_key(item):
@@ -137,7 +138,10 @@ class Config:
                     fpath = os.path.normpath(os.path.join(self._dirname, fname))
                 else:
                     fpath = fname
-                    
+        
+                # wpbasti:
+                # If top level configs are a separate class they can do some of this magic automatically
+                # e.g. calling resolveIncludes()
                 econfig = Config(self._console, fpath)
                 econfig.resolveIncludes(includeTrace)   # recursive include
                 jobsmap[namespace] = econfig.get(".") # external config becomes namespace'd entry in jobsmap
@@ -170,6 +174,10 @@ class Config:
         return t
 
 
+    # wpbasti: specific to top level configs. Should be done in a separate class
+    # Also: Can we do this resolving without a jobs map? Normally, if this is a separate
+    # class for handling top-level configs it should be quite easy. To complete resolve
+    # all dynamic stuff before finally starting the first jobs still make sense in my opinion
     def _resolveRuns(self, console, jobsmap, jobs):
         i,j = 0, len(jobs)
         while i<j:
@@ -201,7 +209,9 @@ class Config:
             i += 1
 
 
+    # wpbasti: specific to top level configs. Should be done in a separate class
     def _resolveExtends(self, console, config, jobs):
+        # wpbasti: you know of list1+list2 option?
         def _listPrepend(source, target):
             """returns new list with source prepended to target"""
             l = target[:]
@@ -216,6 +226,7 @@ class Config:
                     target[key] = _listPrepend(source[key],target[key])
                 
                 # merge 'settings' and 'let' key rather than shadowing
+                # wpbasti: variants listed here, but missing somewhere else. Still missing use and require keys.
                 if (key in ['variants','settings','let']) and target.has_key(key):
                     target[key] = self._mapMerge(source[key],target[key])
                 if not target.has_key(key):
@@ -268,16 +279,8 @@ class Config:
             _resolveEntry(console, config, job)
 
 
-    def _resolveExtends1(self, console, config, jobs):
-        # <jobs> is a list of names
-        for job in jobs:
-            #_resolveEntry(console, config, job)
-            jobdata = self.get(job)
-            jjob = Job(jobdata, self)  # create a job object
-            jjob.resolveExtend(console, config, entryTrace=[]) # manipulate it
-            self.set(job, jjob.getData())  # put the data back into the config
-
-
+    # wpbasti: In my thinking specific to Jobs? Isn't it? Would a as-late-as-possible resolvement hurt?
+    # Or is this already used in run, include, extend sections anywhere? And needed?
     def resolveMacros(self, jobs):
         console = self._console
         config  = self.get("jobs")
@@ -348,6 +351,7 @@ class Config:
                 kval = letDict[k]
                 
                 # construct a temp. dict of translation maps, for later calls to _expand* funcs
+                # wpbasti: Crazy stuff: Could be find some better variable names here. Seems to be optimized for size already ;)
                 if isinstance(kval, types.StringTypes):
                     kdicts = {'str': {k:kval}, 'bin': {}}
                 else:
@@ -366,6 +370,7 @@ class Config:
         console.info("Resolving macros...")
         console.indent()
 
+        # wpbasti: Iteration through all jobs would also solve this extra-if which is not needed then anymore
         for job in jobs:
             if not config.has_key(job):
                 console.warn("No such job: %s" % job)
@@ -447,6 +452,8 @@ class Config:
     def _download_contrib(self, libs, contrib, contribCache):
         # try to find $FRAMEWORK/tool/modules/download-contrib.py
         # wpbasti: Really want to use the old module here???
+        # Should this really require us to do shell commands. Not a good think in my opinion
+        # Need a cleaner way here. Maybe a custom class under "generator"
         dl_script    = "download-contrib.py"
         self._console.info("Downloading contribs...")
         self._console.indent()
@@ -468,7 +475,7 @@ class Config:
 
 
 
-
+# wpbasti: TODO: Put into separate file
 class Job(object):
     def __init__(self, data, config=None):
         self._data   = data
@@ -539,7 +546,7 @@ class Job(object):
         return self
 
 
-
+# wpbasti: TODO: Put into separate file
 class Manifest(object):
     def __init__(self, path):
         mf = open(path)

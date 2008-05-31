@@ -49,6 +49,9 @@ def main():
     parser.add_option("-q", "--quiet", action="store_true", dest="quiet", default=False, help="Quiet output mode (Extra quiet).")
     parser.add_option("-v", "--verbose", action="store_true", dest="verbose", default=False, help="Verbose output mode (Extra verbose).")
     parser.add_option("-l", "--logfile", dest="logfile", metavar="FILENAME", default=None, type="string", help="Log file")
+    
+    # wpbasti: TODO: Add option to insert arbitrary number of macros values
+    # Could also be an good replacement for the four in the following listed options
 
     # Dynamic options (currently not supported)
     #parser.add_option("--setting", action="extend", dest="settings", metavar="KEY:VALUE", type="string", default=[], help="Used settings")
@@ -85,6 +88,7 @@ def main():
     if len(options.jobs) == 0:
         listJobs(availableJobs)
         sys.exit(1)
+        
     else:
         for job in options.jobs:
             if job not in availableJobs:
