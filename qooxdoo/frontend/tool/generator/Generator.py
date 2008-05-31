@@ -41,6 +41,8 @@ import simplejson
 from robocopy import robocopy
 
 
+# Used for library data caching in memory 
+# Reduces execution time for multi-job calls
 memcache = {}
 
 
@@ -388,18 +390,17 @@ class Generator:
         
         
     def runShellCommands(self):
-        if not self._config.get("shell/command", False):
+        if not self._config.get("shell/command"):
             return
 
         shellcmd = self._config.get("shell/command", "")
-        if shellcmd:
-            rc = 0
-            self._console.info("Executing shell command \"%s\"..." % shellcmd)
-            self._console.indent()
-            rc = self._shellCmd.execute(shellcmd)
-            self._console.debug("exist status from shell command: %s" % repr(rc))
+        rc = 0
 
-            self._console.outdent()
+        self._console.info("Executing shell command \"%s\"..." % shellcmd)
+        self._console.indent()
+        rc = self._shellCmd.execute(shellcmd)
+        self._console.debug("Exit status from shell command: %s" % repr(rc))
+        self._console.outdent()
 
 
     def runCompiled(self, parts, packages, boot, variants):
@@ -1052,7 +1053,7 @@ class Generator:
             return self._resourceHandler.filterResourcesByFilepath() 
 
 
-
+# wpbasti: TODO: Put this into a separate file
 class _ResourceHandler(object):
     def __init__(self, generatorobj):
         self._genobj  = generatorobj
