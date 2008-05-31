@@ -45,8 +45,6 @@ class ApiLoader:
             
         packageEntry = self._docs[packageId]
         
-        # self._console.debug("Processing package docs: %s" % packageId)
-
         text = filetool.read(packageEntry["path"])
         node = api.createPackageDoc(text, packageId)
         
