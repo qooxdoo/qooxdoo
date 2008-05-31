@@ -46,23 +46,13 @@ memcache = {}
 
 class Generator:
     def __init__(self, config, console):
-        variants = config.get("variants", {})
-        settings = config.get("settings", {})
-        require = config.get("require", {})
-        use = config.get("use", {})
-        
-        print variants
-        print settings
-
-        
         self._config = config
         self._console = console
-        self._variants = variants
-        self._settings = settings
-
-        # Merge config deps and runtime deps
-        require = self._mergeDicts(require, config.get("require", {}))
-        use = self._mergeDicts(use, config.get("use", {}))
+        self._variants = {}
+        self._settings = {}
+        
+        require = config.get("require", {})
+        use = config.get("use", {})
 
         # Scanning given library paths
         self.scanLibrary(config.extract("library"))
@@ -624,7 +614,7 @@ class Generator:
 
         for key in variantsRuntime:
             variants[key] = [variantsRuntime[key]]
-
+            
         return variants
 
 
