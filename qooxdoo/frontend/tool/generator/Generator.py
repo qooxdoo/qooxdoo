@@ -295,6 +295,10 @@ class Generator:
 
 
     def runTranslation(self, parts, packages, variants):
+        # wpbasti: This is mainly an option for source/compile and not a separate job
+        # Should be handled this way!
+        # Still locales are also needed for the locale update process (bring po files in sync with source code)
+        # Double definition is also not nice.
         locales = self._config.get("localize/locales")
 
         if locales == None:
@@ -308,6 +312,11 @@ class Generator:
             self._console.debug("Package: %s" % pos)
             self._console.indent()
 
+            # wpbasti: TODO: This code includes localization in every package. Bad idea.
+            # This needs further work
+            # Would also be better to let the translation code nothing know about parts
+            # Another thing: Why not generate both structures in different js-objects
+            # It's totally easy in JS to build a wrapper. 
             pac_dat = self._locale.generatePackageData(classes, variants, locales)
             loc_dat = self._locale.getLocalizationData(locales)
             packageTranslation.append(self._mergeDicts(pac_dat,loc_dat))
@@ -390,6 +399,9 @@ class Generator:
         
         
     def runShellCommands(self):
+        # wpbasti:
+        # rename trigger from "shell" to "execute-commands"?
+        # Should contain a list of commands instead
         if not self._config.get("shell/command"):
             return
 
@@ -404,6 +416,8 @@ class Generator:
 
 
     def runCompiled(self, parts, packages, boot, variants):
+        # wpbasti:
+        # Renamed trigger from "compile" to "compile-script"?
         if not self._config.get("compile/file"):
             return
 
@@ -425,6 +439,9 @@ class Generator:
         # Get resource list
         buildRoot= self._config.get('compile/target', "build")
         buildUri = self._config.get('compile/resourceUri', ".")
+        
+        # wpbasti: What the hell is this? 
+        # Still not understand why it's needed to copy files first. Should be definitely separated from each other.
         libs = [{
                  'path': buildRoot, 
                  'namespace':'build',
@@ -439,6 +456,7 @@ class Generator:
         # Generating boot script
         self._console.info("Generating boot script...")
 
+        # wpbasti: Most of this stuff is identical between source/compile. Put together somewhere else.
         bootBlocks = []
         bootBlocks.append(self.generateSettingsCode(settings, format))
         bootBlocks.append(self.generateVariantsCode(variants, format))
@@ -450,7 +468,6 @@ class Generator:
         if format:
             bootContent = "\n\n".join(bootBlocks)
         else:
-            #bootContent = self._optimizeJavaScript("".join(bootBlocks))
             bootContent = "".join(bootBlocks)
 
         # Resolve file name variables
@@ -467,6 +484,7 @@ class Generator:
 
 
         # Generating packages
+        # TODO: Parts should be unknown at this stage. Would make code somewhat cleaner.
         self._console.info("Generating packages...")
         self._console.indent()
 
@@ -552,11 +570,13 @@ class Generator:
 
         images = self._config.get("slice-images/images", {})
         for image, imgspec in images.iteritems():
+            # wpbasti: Rename: Border => Inset as in qooxdoo JS code
             prefix       = imgspec['prefix']
             border_width = imgspec['border-width']
             self._imageClipper.slice(image, prefix, border_width)
         
-    
+
+    # wpbasti: Contains too much low level code. Separate logic into extra class to keep this method a bit cleaner
     def runImageCombining(self):
         """Go through a list of images and create them as combination of other images"""
         if not self._config.get("combine-images", False):
@@ -574,7 +594,9 @@ class Generator:
                 x.mappedId, x.left, x.top, x.width, x.height, x.type = (
                    sub['combined'], sub['left'], sub['top'], sub['width'], sub['height'], sub['type'])
                 config[sub['file']] = x.meta_format()  # this could use 'flatten()' eventually!
+
             # store meta data for this combined image
+            # wpbasti: Don't write to the image source folder. This is bad style. Let's find a better place.
             bname = os.path.basename(image)
             ri = bname.rfind('.')
             if ri > -1:
@@ -592,6 +614,7 @@ class Generator:
     ######################################################################
 
     def getSettings(self):
+        # TODO: Runtime settings support is currently missing
         settings = {}
         settingsConfig = self._config.get("settings", {})
         settingsRuntime = self._settings
@@ -606,6 +629,7 @@ class Generator:
 
 
     def getVariants(self):
+        # TODO: Runtime variants support is currently missing
         variants = {}
         variantsConfig = self._config.get("variants", {})
         variantsRuntime = self._variants
@@ -655,6 +679,8 @@ class Generator:
 
 
     def generateLibInfoCode(self, libs, format):
+        # wpbasti: The whole wording "libinfo" is not that optimal. Suggesting rename to "qxlibraries"
+        # Also: "resuri" to "resourceUri"
         result = 'if(!window.qxlibinfo)qxlibinfo={};'
 
         for lib in libs:
@@ -724,6 +750,7 @@ class Generator:
         # main
 
         for lib in libs:
+            # wpbasti: The whole filtering idea could be simplified now as we always filter according to the defined assets? Any vetos?
             libresuri = os.path.join(lib['uri'],lib['resource'])
             resourceList = self._resourceHandler.findAllResources([lib], self._getDefaultResourceFilter())
             # resourceList = [[file1,uri1],[file2,uri2],...]
@@ -736,6 +763,7 @@ class Generator:
                     imgpath= resource[0]
                     imguri = resource[1]
                     imageInfo = self._imageInfo.getImageInfo(imgpath)
+                    
                     # use an ImgInfoFmt object, to abstract from flat format
                     imgfmt = ImgInfoFmt()
                     imgfmt.lib = lib['namespace']
@@ -770,8 +798,9 @@ class Generator:
                 else:  # handle other resources
                     resdata[assetId] = lib['namespace']
 
-        #result = 'if(!window.qximageinfo)qximageinfo=' + simplejson.dumps(data,ensure_ascii=False) + ";"
-        #if format: result += '\n'
+
+        # wpbasti: Image data is not part relevant yet.
+        # Also: Simpejson does no allow unformatted output as far as I know. This result into additional spaces which is suboptimal.
         result += 'if(!window.qxresourceinfo)qxresourceinfo=' + simplejson.dumps(resdata,ensure_ascii=False) + ";"
             
         self._console.outdent()
@@ -779,6 +808,7 @@ class Generator:
         return result
 
 
+    # wpbasti: Rename to generateLocalesCode
     def generateTranslationCode(self, translationMaps, format=False):
         if translationMaps == None:
             return ""
@@ -793,13 +823,17 @@ class Generator:
                 result += "\n"
 
             value = locales[key]
-            result += 'qxlocales["%s"]=' % (key,)
+            result += 'qxlocales["%s"]=' % (key)
             result += simplejson.dumps(value)
             result += ';'
 
         return result
 
 
+    # wpbasti: This needs a lot of work. What's about the generation of a small bootstrap script
+    # from normal qooxdoo classes (include io2.ScriptLoader) and starting the variant selection etc.
+    # from there. This would be somewhat comparable to the GWT way.
+    # Finally "loader.js" should be completely removed.
     def generateSourcePackageCode(self, parts, packages, boot, format=False):
         if not parts:
             return ""
@@ -1004,15 +1038,18 @@ class Generator:
 
     def _computeContentSize(self, content):
         # Convert to utf-8 first
-        uni = unicode(content).encode("utf-8")
+        content = unicode(content).encode("utf-8")
 
         # Calculate sizes
-        origSize = len(uni) / 1024
-        compressedSize = len(zlib.compress(uni, 9)) / 1024
+        origSize = len(content)
+        compressedSize = len(zlib.compress(content, 9))
 
-        return "%sKB / %sKB" % (origSize, compressedSize)
+        return "%sKB / %sKB" % (origSize/1024, compressedSize/1024)
 
 
+    # wpbasti: TODO: Clean up compiler. Maybe split-off pretty-printing. These hard-hacked options, the pure
+    # need of them is bad. Maybe options could be stored easier in a json-like config map instead of command line 
+    # args. This needs a rework of the compiler which is not that easy.
     def _optimizeJavaScript(self, code):
         restree = treegenerator.createSyntaxTree(tokenizer.parseStream(code))
         variableoptimizer.search(restree)
@@ -1029,7 +1066,8 @@ class Generator:
         return compiler.compile(restree, options)
 
 
-
+    # wpbasti: Does robocopy really help us here? Is it modified largely. Does this only mean modifications
+    # for qooxdoo or code improvements as well? Do we need to give them back to the community of robocopy?
     def _copyResources(self, srcPath, targPath):
         # targPath *has* to be directory  -- there is now way of telling a
         # non-existing target file from a non-existing target directory :-)
@@ -1040,6 +1078,7 @@ class Generator:
         copier.do_work()
 
 
+    # wpbasti: Clean this stuff up. No need anymore. Assets are needed in the current implementation.
     def _getDefaultResourceFilter(self, useAssets=True):
         '''Just a utility function to easily switch between resource filters in
            all invocations to findAllResources(); also shows how a filter argument
@@ -1175,6 +1214,10 @@ class _ResourceHandler(object):
         return result
 
 
+    # wpbasti: Isn't this something for the config class?
+    # Do we have THE final solution for these kind of variables yet?
+    # The support for macros, themes, variants and all the types of variables make me somewhat crazy.
+    # Makes it complicated for users as well.
     def _expandMacrosInMeta(self, res):
         themeinfo = self._genobj._config.get('themes',{})
 
