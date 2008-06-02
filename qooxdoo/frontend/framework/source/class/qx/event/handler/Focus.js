@@ -109,7 +109,22 @@ qx.Class.define("qx.event.handler.Focus",
   statics :
   {
     /** {Integer} Priority of this handler */
-    PRIORITY : qx.event.Registration.PRIORITY_NORMAL
+    PRIORITY : qx.event.Registration.PRIORITY_NORMAL,
+
+
+    /** {Map} Supported event types */
+    SUPPORTED_TYPES :
+    {
+      focus : 1,
+      blur : 1,
+      focusin : 1,
+      focusout : 1,
+      activate : 1,
+      deactivate : 1
+    },
+
+    /** {Integer} Whether the method "canHandleEvent" must be called */
+    IGNORE_CAN_HANDLE : true
   },
 
 
@@ -131,9 +146,7 @@ qx.Class.define("qx.event.handler.Focus",
     */
 
     // interface implementation
-    canHandleEvent : function(target, type) {
-      return this._eventTypes[type];
-    },
+    canHandleEvent : function(target, type) {},
 
 
     // interface implementation
@@ -241,17 +254,6 @@ qx.Class.define("qx.event.handler.Focus",
       HELPER
     ---------------------------------------------------------------------------
     */
-
-    /** {Map} Internal data structure with all supported event types */
-    _eventTypes :
-    {
-      focus : 1,
-      blur : 1,
-      focusin : 1,
-      focusout : 1,
-      activate : 1,
-      deactivate : 1
-    },
 
 
     /**

@@ -150,7 +150,7 @@ qx.Class.define("testrunner.test.event.Bubbling",
       Reg.addListener(this.c_1_1, "bubble", function() { called.push("c_1_1a")}, this, true);
       Reg.addListener(this.c_1_1, "bubble", function() { called.push("c_1_1b")}, this);
 
-      Reg.addListener(this.c_2, "bubble", function() { called.push("c_2a")}, true);
+      Reg.addListener(this.c_2, "bubble", function() { called.push("c_2a")}, this, true);
       Reg.addListener(this.c_2, "bubble", function() { called.push("c_2b")}, this);
 
       // fire event on c_1
@@ -211,7 +211,6 @@ qx.Class.define("testrunner.test.event.Bubbling",
 
 
     _preventDefault : function(e) {
-      console.log("non cancel");
       e.preventDefault();
     },
 

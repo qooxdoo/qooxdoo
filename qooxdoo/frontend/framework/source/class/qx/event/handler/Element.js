@@ -61,7 +61,24 @@ qx.Class.define("qx.event.handler.Element",
   statics :
   {
     /** {Integer} Priority of this handler */
-    PRIORITY : qx.event.Registration.PRIORITY_NORMAL
+    PRIORITY : qx.event.Registration.PRIORITY_NORMAL,
+
+
+    /** {Map} Supported event types */
+    SUPPORTED_TYPES :
+    {
+      abort : true,    // Image elements
+      scroll : true,
+      select : true,
+      reset : true,    // Form Elements
+      submit : true   // Form Elements
+    },
+
+    /** {Integer} Which target check to use */
+    TARGET_CHECK : qx.event.IEventHandler.TARGET_DOMNODE,
+
+    /** {Integer} Whether the method "canHandleEvent" must be called */
+    IGNORE_CAN_HANDLE : true
   },
 
 
@@ -83,9 +100,7 @@ qx.Class.define("qx.event.handler.Element",
     */
 
     // interface implementation
-    canHandleEvent : function(target, type) {
-      return this.__eventTypes[type] && target.nodeType !== undefined;
-    },
+    canHandleEvent : function(target, type) {},
 
 
     // interface implementation
@@ -117,31 +132,6 @@ qx.Class.define("qx.event.handler.Element",
 
       delete this._registeredEvents[id];
     },
-
-
-
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      HELPER
-    ---------------------------------------------------------------------------
-    */
-
-    /** {Map} Internal data structure with all supported BOM element events */
-    __eventTypes :
-    {
-      abort : true,    // Image elements
-      scroll : true,
-      select : true,
-      reset : true,    // Form Elements
-      submit : true   // Form Elements
-    },
-
-
-
 
 
 

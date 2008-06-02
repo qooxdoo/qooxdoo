@@ -25,10 +25,27 @@
  */
 qx.Interface.define("qx.event.IEventHandler",
 {
+  statics :
+  {
+    /** {Integer} The event target must be a dom node */
+    TARGET_DOMNODE: 1,
+
+    /** {Integer} The event target must be a window object */
+    TARGET_WINDOW : 2,
+
+    /** {Integer} The event target must be a qooxdoo object */
+    TARGET_OBJECT: 3
+  },
+
+
   members :
   {
     /**
-     * Whether the event handler can handle events of the given type.
+     * Whether the event handler can handle events of the given type. If the
+     * event handler class has a static variable called <code>IGNORE_CAN_HANDLE</code>
+     * with the value <code>true</code> this function is not called. Whether the
+     * handler can handle the event is them only determined by the static variables
+     * <code>SUPPORTED_TYPES</code> and <code>TARGET_CHECK</code>.
      *
      * @param target {var} The target to, which the event handler should
      *     be attached

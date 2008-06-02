@@ -45,6 +45,9 @@ qx.Class.define("qx.event.handler.Application",
   {
     this.base(arguments);
 
+    // Define shorthands
+    this._window = manager.getWindow();
+
     // Initialize observers
     this._initObserver();
 
@@ -67,6 +70,22 @@ qx.Class.define("qx.event.handler.Application",
   {
     /** {Integer} Priority of this handler */
     PRIORITY : qx.event.Registration.PRIORITY_NORMAL,
+
+
+    /** {Map} Supported event types */
+    SUPPORTED_TYPES :
+    {
+      ready : 1,
+      shutdown : 1
+    },
+
+
+    /** {Integer} Which target check to use */
+    TARGET_CHECK : qx.event.IEventHandler.TARGET_WINDOW,
+
+
+    /** {Integer} Whether the method "canHandleEvent" must be called */
+    IGNORE_CAN_HANDLE : true,
 
 
     /**
@@ -105,9 +124,7 @@ qx.Class.define("qx.event.handler.Application",
     */
 
     // interface implementation
-    canHandleEvent : function(target, type) {
-      return target === window && this._eventTypes[type];
-    },
+    canHandleEvent : function(target, type) {},
 
 
     // interface implementation
@@ -119,23 +136,6 @@ qx.Class.define("qx.event.handler.Application",
     // interface implementation
     unregisterEvent : function(target, type, capture) {
       // Nothing needs to be done here
-    },
-
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      HELPER
-    ---------------------------------------------------------------------------
-    */
-
-    /** {Map} Internal data structure with all supported event types */
-    _eventTypes :
-    {
-      ready : 1,
-      shutdown : 1
     },
 
 

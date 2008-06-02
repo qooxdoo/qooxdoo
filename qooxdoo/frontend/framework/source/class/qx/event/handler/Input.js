@@ -88,7 +88,20 @@ qx.Class.define("qx.event.handler.Input",
   statics :
   {
     /** {Integer} Priority of this handler */
-    PRIORITY : qx.event.Registration.PRIORITY_FIRST
+    PRIORITY : qx.event.Registration.PRIORITY_FIRST,
+
+    /** {Map} Supported event types */
+    SUPPORTED_TYPES :
+    {
+      input : 1,
+      change : 1
+    },
+
+    /** {Integer} Which target check to use */
+    TARGET_CHECK : qx.event.IEventHandler.TARGET_DOMNODE,
+
+    /** {Integer} Whether the method "canHandleEvent" must be called */
+    IGNORE_CAN_HANDLE : false
   },
 
 
@@ -112,10 +125,6 @@ qx.Class.define("qx.event.handler.Input",
     // interface implementation
     canHandleEvent : function(target, type)
     {
-      if (!this.__eventTypes[type] || target.nodeType === undefined) {
-        return false;
-      }
-      
       var lower = target.tagName.toLowerCase();
 
       if (type === "input" && (lower === "input" || lower === "textarea")) {
@@ -222,23 +231,6 @@ qx.Class.define("qx.event.handler.Input",
     }),
 
 
-
-
-    /*
-    ---------------------------------------------------------------------------
-      HELPER
-    ---------------------------------------------------------------------------
-    */
-
-    /** {Map} Internal data structure with all supported BOM element events */
-    __eventTypes :
-    {
-      input : 1,
-      change : 1
-    },
-        
-    
-    
 
     /*
     ---------------------------------------------------------------------------

@@ -295,6 +295,10 @@ qx.Bootstrap.define("qx.event.Manager",
           throw new Error("Invalid listener for event '"+type+"': " + listener);
         }
 
+        if (self !== undefined && typeof self !== "object") {
+          throw new Error("Invalid context for callback: " + self);
+        }
+
         if (capture !== undefined && typeof capture !== "boolean") {
           throw new Error("Capture flags needs to be boolean!");
         }
@@ -331,11 +335,55 @@ qx.Bootstrap.define("qx.event.Manager",
 
 
     /**
+     * Get the event handler class matching the given event target and type
+     *
+     * @param target {var} The event target
+     * @param type {String} The event type
+     * @return {qx.event.IEventHandler|null} The best matching event handler or
+     *     <code>null</code>.
+     */
+    getEventHandler : function(target, type)
+    {
+      var classes = qx.event.Registration.getHandlers();
+      var instance;
+
+      for (var i=0, l=classes.length; i<l; i++)
+      {
+        var clazz = classes[i];
+
+        // shortcut type check
+        var supportedTypes = clazz.SUPPORTED_TYPES;
+        if (supportedTypes && !supportedTypes[type]) {
+          continue;
+        }
+
+        // chortcut target check
+        var IEventHandler = qx.event.IEventHandler;
+        var targetCheck = clazz.TARGET_CHECK;
+        if (targetCheck)
+        {
+          if (targetCheck === IEventHandler.TARGET_DOMNODE && target.nodeType === undefined) {
+            continue;
+          } else if (targetCheck === IEventHandler.TARGET_WINDOW && target !== this.__window) {
+            continue;
+          } else if (targetCheck === IEventHandler.TARGET_OBJECT && !(target instanceof qx.core.Object)) {
+            continue;
+          }
+        }
+
+        instance = this.getHandler(classes[i]);
+        if (clazz.IGNORE_CAN_HANDLE || instance.canHandleEvent(target, type)) {
+          return instance;
+        }
+      }
+
+      return null;
+    },
+
+
+    /**
      * This method is called each time an event listener for one of the
      * supported events is added using {qx.event.Manager#addListener}.
-     *
-     * TODO: This is a hugh performance leak losing about 40% of initial element
-     * queue flush runtime. This needs optimization. Ideas welcome :)
      *
      * @type member
      * @param target {Object} Any valid event target
@@ -346,18 +394,12 @@ qx.Bootstrap.define("qx.event.Manager",
      */
     __registerAtHandler : function(target, type, capture)
     {
-      var classes = qx.event.Registration.getHandlers();
-      var instance;
+      var handler = this.getEventHandler(target, type);
 
-      for (var i=0, l=classes.length; i<l; i++)
+      if (handler)
       {
-        instance = this.getHandler(classes[i]);
-
-        if (instance.canHandleEvent(target, type))
-        {
-          instance.registerEvent(target, type, capture);
-          return;
-        }
+        handler.registerEvent(target, type, capture);
+        return;
       }
 
       if (qx.core.Variant.isSet("qx.debug", "on")) {
@@ -478,18 +520,12 @@ qx.Bootstrap.define("qx.event.Manager",
      */
     __unregisterAtHandler : function(target, type, capture)
     {
-      var classes = qx.event.Registration.getHandlers();
-      var instance;
+      var handler = this.getEventHandler(target, type);
 
-      for (var i=0, l=classes.length; i<l; i++)
+      if (handler)
       {
-        instance = this.getHandler(classes[i]);
-
-        if (instance.canHandleEvent(target, type))
-        {
-          instance.unregisterEvent(target, type, capture);
-          return;
-        }
+        handler.unregisterEvent(target, type, capture);
+        return;
       }
 
       if (qx.core.Variant.isSet("qx.debug", "on")) {
