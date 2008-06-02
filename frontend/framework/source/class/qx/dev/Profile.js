@@ -24,10 +24,9 @@
  * using this class.
  *
  * To enable profiling this class must be loaded <b>before</b> <code>qx.Class</code> is
- * loaded. This can be achieved by adding the parameter
- * <code>--add-require qx.Class:qx.dev.Profile</code> to the generator call building the
- * applications. Further more the variant <code>qx.aspect</code> must be set to
- * <code>on</code>.
+ * loaded. This can be achieved by making <code>qx.core.Aspect</code> and
+ * <code>qx.dev.Profile</code> and loadtime dependency of <code>qx.Class</code>.
+ * Further more the variant <code>qx.aspect</code> must be set to <code>on</code>.
  */
 qx.Bootstrap.define("qx.dev.Profile",
 {
@@ -111,15 +110,21 @@ qx.Bootstrap.define("qx.dev.Profile",
       this.normalizeProfileData();
       this.stop();
       var data = qx.lang.Object.getValues(this.__profileData);
-      data = data.sort(function(a,b) { return a.calibratedOwnTime<b.calibratedOwnTime ? 1: -1});
-      data = data.slice(0,maxLength || 20);
+
+      data = data.sort(function(a,b) {
+        return a.calibratedOwnTime<b.calibratedOwnTime ? 1: -1
+      });
+
+      data = data.slice(0, maxLength || 20);
 
       var str = ["<table><tr><th>Name</th><th>Type</th><th>Own time</th><th>Avg time</th><th>calls</th></tr>"];
-      for (var i=0; i<data.length; i++) {
+      for (var i=0; i<data.length; i++)
+      {
         var profData = data[i];
         if (profData.name == "qx.core.Aspect.__calibrateHelper") {
           continue;
         }
+
         str.push("<tr><td>");
         str.push(profData.name+"()");
         str.push("</td><td>");
@@ -132,10 +137,12 @@ qx.Bootstrap.define("qx.dev.Profile",
         str.push(profData.callCount);
         str.push("</td></tr>");
       }
+
       str.push("</table>");
 
       var win = window.open("about:blank", "profileLog");
       var doc = win.document;
+
       doc.open();
       doc.write("<html><body>");
       doc.write(str.join(""));
@@ -151,25 +158,32 @@ qx.Bootstrap.define("qx.dev.Profile",
      * @param count {Integer} Number of iterations to measure.
      * @return {Number} Overhead of a wrapped function call in milliseconds.
      */
-    __calibrate : function(count) {
+    __calibrate : function(count)
+    {
       var code = ["var fcn = function(){ var fcn=qx.dev.Profile.__calibrateHelper;"];
       for (var i=0; i<count; i++) {
         code.push("fcn();");
       }
+
       code.push("};");
       eval(code.join(""));
       var start = new Date();
+
       fcn();
+
       var end = new Date();
       var profTime = end - start;
 
-      var code = [
+      var code =
+      [
         "var plainFunc = function() {};",
         "var fcn = function(){ var fcn=plainFunc;"
       ];
+
       for (var i=0; i<count; i++) {
         code.push("fcn();");
       }
+
       code.push("};");
       eval(code.join(""));
 
@@ -197,8 +211,11 @@ qx.Bootstrap.define("qx.dev.Profile",
       if (this.__callOverhead == undefined) {
         this.__callOverhead = this.__calibrate(this.__calibrateCount);
       }
-      for (var key in this.__profileData) {
+
+      for (var key in this.__profileData)
+      {
         var profileData = this.__profileData[key];
+
         profileData.calibratedOwnTime = Math.max(profileData.ownTime - (profileData.subRoutineCalls * this.__callOverhead), 0);
         profileData.calibratedAvgTime = profileData.calibratedOwnTime / profileData.callCount;
       }
@@ -214,15 +231,20 @@ qx.Bootstrap.define("qx.dev.Profile",
      *                      {@link qx.core.Aspect#addAdvice}
      * @param args {Arguments} The arguments passed to the wrapped function
      */
-    profileBefore : function(fullName, fcn, type, args) {
+    profileBefore : function(fullName, fcn, type, args)
+    {
       var me = qx.dev.Profile;
+
       if (!me.__doProfile) {
         return;
       }
-      var callData = {
+
+      var callData =
+      {
         subRoutineTime : 0,
         subRoutineCalls : 0
       };
+
       me.__callStack.push(callData);
       callData.startTime = new Date();
     },
@@ -238,33 +260,40 @@ qx.Bootstrap.define("qx.dev.Profile",
      * @param args {Arguments} The arguments passed to the wrapped function
      * @param returnValue {var} return value of the wrapped function.
      */
-    profileAfter : function(fullName, fcn, type, args, returnValue) {
+    profileAfter : function(fullName, fcn, type, args, returnValue)
+    {
       var me = qx.dev.Profile;
       if (!me.__doProfile) {
         return;
       }
+
       var endTime = new Date();
       var callData = me.__callStack.pop();
       var totalTime = endTime - callData.startTime;
       var ownTime = totalTime - callData.subRoutineTime;
 
-      if (me.__callStack.length > 0) {
+      if (me.__callStack.length > 0)
+      {
         var lastCall = me.__callStack[me.__callStack.length-1];
         lastCall.subRoutineTime += totalTime;
         lastCall.subRoutineCalls += 1;
       }
 
       var fcnKey = fullName + " (" + type + ")";
-      if(me.__profileData[fcnKey] === undefined) {
-        me.__profileData[fcnKey] = {
+
+      if (me.__profileData[fcnKey] === undefined)
+      {
+        me.__profileData[fcnKey] =
+        {
           totalTime: 0,
           ownTime: 0,
           callCount: 0,
           subRoutineCalls: 0,
           name: fullName,
           type : type
-        }
+        };
       }
+
       var functionData = me.__profileData[fcnKey];
       functionData.totalTime += totalTime;
       functionData.ownTime += ownTime;
@@ -276,6 +305,9 @@ qx.Bootstrap.define("qx.dev.Profile",
 
   defer : function(statics)
   {
+    // debug
+    qx.log.Logger.debug("Enable profiling layer...");
+
     // profile
     qx.core.Aspect.addAdvice("before", "*", "", statics.profileBefore);
     qx.core.Aspect.addAdvice("after", "*", "", statics.profileAfter);
@@ -283,10 +315,13 @@ qx.Bootstrap.define("qx.dev.Profile",
     statics.__calibrateHelper = qx.core.Aspect.wrap("qx.dev.Profile.__calibrateHelper", statics.__calibrateHelper, "static");
     qx.core.Aspect.wrap = qx.core.Aspect.wrap("qx.core.Aspect.wrap", qx.core.Aspect.wrap, "static");
 
+    // Binding of already loaded classes
     for (var classname in qx.Bootstrap.$$registry)
     {
       var statics = qx.Bootstrap.$$registry[classname];
-      for (var key in statics) {
+
+      for (var key in statics)
+      {
         // only functions, no regexps
         if (statics[key] instanceof Function) {
           statics[key] = qx.core.Aspect.wrap(classname + "." + key, statics[key], "static");
