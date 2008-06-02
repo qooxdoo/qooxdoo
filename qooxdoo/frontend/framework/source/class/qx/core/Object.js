@@ -424,7 +424,9 @@ qx.Class.define("qx.core.Object",
       }
 
       return this.__userData[key];
-    }
+    },
+
+
 
 
 
@@ -704,6 +706,7 @@ qx.Class.define("qx.core.Object",
 
   destruct : function()
   {
+    //console.debug("Disposing...");
     // Cleanup event listeners
     qx.event.Registration.removeAllListeners(this);
 
