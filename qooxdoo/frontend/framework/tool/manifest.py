@@ -18,6 +18,18 @@
 #
 ################################################################################
 
+##
+# NAME
+#  manifest.py -- generate generator options for contribs
+#
+# DESCRIPTION
+#  used by the make system to generate suitable generator options to generate
+#  and include contributions (e.g. --class-path's); parses the Manifest.js files
+#  to that end; expects all contribs/includes on local fs
+#
+##
+
+
 import os
 import sys
 import codecs
