@@ -36,7 +36,7 @@ qx.Bootstrap.define("qx.dev.Profile",
     __callStack : [],
     __doProfile : true,
     __callOverhead : undefined,
-    __calibrateCount : 4000,
+    __calibrateCount : 1000,
 
 
     /**
@@ -156,38 +156,23 @@ qx.Bootstrap.define("qx.dev.Profile",
      */
     __calibrate : function(count)
     {
-      var code = ["var fcn = function(){ var fcn=qx.dev.Profile.__calibrateHelper;"];
+      // Measure unwrapped function
+      var empty = function() {};
+      var start = new Date;
       for (var i=0; i<count; i++) {
-        code.push("fcn();");
+        empty();
       }
+      var plainTime = new Date - start;
 
-      code.push("};");
-      eval(code.join(""));
-      var start = new Date();
-
-      fcn();
-
-      var end = new Date();
-      var profTime = end - start;
-
-      var code =
-      [
-        "var plainFunc = function() {};",
-        "var fcn = function(){ var fcn=plainFunc;"
-      ];
-
+      // Measure wrapped function
+      var empty = this.__calibrateHelper;
+      var start = new Date;
       for (var i=0; i<count; i++) {
-        code.push("fcn();");
+        empty();
       }
+      var profTime = new Date - start;
 
-      code.push("};");
-      eval(code.join(""));
-
-      var start = new Date();
-      fcn();
-      var end = new Date();
-      var plainTime = end - start;
-
+      // Compute per call overhead
       return ((profTime - plainTime) / count);
     },
 
