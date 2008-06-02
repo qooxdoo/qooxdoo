@@ -68,7 +68,6 @@ qx.Class.define("testrunner.test.Dom",
 
       this.assertTrue(qx.dom.Hierarchy.contains(document, document.body));
       this.assertTrue(qx.dom.Hierarchy.contains(test1, test2));
-      console.log(document.body.innerHTML);
       this.assertTrue(qx.dom.Hierarchy.contains(test1, test4));
 
       this.assertTrue(qx.dom.Hierarchy.contains(document, test2));
