@@ -32,19 +32,15 @@
  * &#35;ignore(auto-require)
  * </pre>
  *
- * To enable profiling the class must be loaded <b>before</b> <code>qx.Class</code> is
- * loaded. This can be achieved by adding the parameter
- * <code>--add-require qx.Class:your.AspectClass</code> to the generator call building the
- * applications. Further more the variant <code>qx.aspect</code> must be set to
- * <code>on</code>.
- *
  * One example for a qooxdoo aspect is profiling ({@link qx.dev.Profile}).
  */
 qx.Bootstrap.define("qx.core.Aspect",
 {
   statics :
   {
+    /** {Array} Registry for all known aspect wishes */
     __registry : [],
+
 
     /**
      * This function is used by {@link qx.Class#define} to wrap all statics, members and
@@ -59,18 +55,15 @@ qx.Bootstrap.define("qx.core.Aspect",
      */
     wrap : function(fullName, fcn, type)
     {
-      if (!qx.core.Setting.get("qx.enableAspect")) {
-        return fcn;
-      }
-
       var before = [];
       var after = [];
+      var reg = this.__registry;
 
-      for (var i=0; i<this.__registry.length; i++)
+      for (var i=0; i<reg.length; i++)
       {
-        var aspect = this.__registry[i];
+        var aspect = reg[i];
 
-        if (fullName.match(aspect.re) && (type == aspect.type || aspect.type == "*"))
+        if ((type == aspect.type || aspect.type == "*") && fullName.match(aspect.re))
         {
           var pos = aspect.pos;
 
@@ -131,8 +124,8 @@ qx.Bootstrap.define("qx.core.Aspect",
      */
     addAdvice : function(position, type, nameRegExp, fcn)
     {
-      if (position != "before" && position != "after") {
-        throw new Error("Unknown position: '"+position+"'");
+      if (position !== "before" && position !== "after") {
+        throw new Error("Unknown position: '" + position + "'");
       }
 
       this.__registry.push({
@@ -142,9 +135,5 @@ qx.Bootstrap.define("qx.core.Aspect",
         fcn: fcn
       });
     }
-  },
-
-  defer : function() {
-    qx.core.Setting.define("qx.enableAspect", false);
   }
 });
