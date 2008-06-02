@@ -41,6 +41,16 @@ qx.Class.define("qx.event.handler.Iframe",
     /** {Integer} Priority of this handler */
     PRIORITY : qx.event.Registration.PRIORITY_FIRST,
 
+    /** {Map} Supported event types */
+    SUPPORTED_TYPES : {
+      load: 1
+    },
+
+    /** {Integer} Which target check to use */
+    TARGET_CHECK : qx.event.IEventHandler.TARGET_DOMNODE,
+
+    /** {Integer} Whether the method "canHandleEvent" must be called */
+    IGNORE_CAN_HANDLE : false,
 
     /**
      * Internal function called by iframes created using {@link qx.bom.Iframe}.
@@ -73,15 +83,8 @@ qx.Class.define("qx.event.handler.Iframe",
     */
 
     // interface implementation
-    canHandleEvent : function(target, type)
-    {
-      var canHandle =  (
-          target.nodeType !== undefined &&
-          type === "load" &&
-          target.tagName.toLowerCase() === "iframe"
-      );
-    
-      return canHandle;
+    canHandleEvent : function(target, type) {
+      return target.tagName.toLowerCase() === "iframe"
     },
 
 

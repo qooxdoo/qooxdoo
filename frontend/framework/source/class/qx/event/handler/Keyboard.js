@@ -89,6 +89,24 @@ qx.Class.define("qx.event.handler.Keyboard",
     PRIORITY : qx.event.Registration.PRIORITY_NORMAL,
 
 
+    /** {Map} Supported event types */
+    SUPPORTED_TYPES :
+    {
+      keyup : 1,
+      keydown : 1,
+      keypress : 1,
+      keyinput : 1
+    },
+
+
+    /** {Integer} Which target check to use */
+    TARGET_CHECK : qx.event.IEventHandler.TARGET_DOMNODE,
+
+
+    /** {Integer} Whether the method "canHandleEvent" must be called */
+    IGNORE_CAN_HANDLE : true,
+
+
     /**
      * Checks whether a given string is a valid keyIdentifier
      *
@@ -145,9 +163,7 @@ qx.Class.define("qx.event.handler.Keyboard",
     */
 
     // interface implementation
-    canHandleEvent : function(target, type) {
-      return target.nodeType !== undefined && this.__keyEvents[type];
-    },
+    canHandleEvent : function(target, type) {},
 
 
     // interface implementation
@@ -164,22 +180,11 @@ qx.Class.define("qx.event.handler.Keyboard",
 
 
 
-
-
     /*
     ---------------------------------------------------------------------------
       HELPER
     ---------------------------------------------------------------------------
     */
-
-    /** {Map} Internal data structure with all supported keyboard events */
-    __keyEvents :
-    {
-      keyup : 1,
-      keydown : 1,
-      keypress : 1,
-      keyinput : 1
-    },
 
 
     /**

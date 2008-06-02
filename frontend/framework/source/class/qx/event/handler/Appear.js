@@ -67,6 +67,22 @@ qx.Class.define("qx.event.handler.Appear",
     PRIORITY : qx.event.Registration.PRIORITY_NORMAL,
 
 
+    /** {Map} Supported event types */
+    SUPPORTED_TYPES :
+    {
+      appear : true,
+      disappear : true
+    },
+
+
+    /** {Integer} Which target check to use */
+    TARGET_CHECK : qx.event.IEventHandler.TARGET_DOMNODE,
+
+
+    /** {Integer} Whether the method "canHandleEvent" must be called */
+    IGNORE_CAN_HANDLE : true,
+
+
     /** {Map} Stores all appear manager instances */
     __instances : {},
 
@@ -106,9 +122,7 @@ qx.Class.define("qx.event.handler.Appear",
     */
 
     // interface implementation
-    canHandleEvent : function(target, type) {
-      return this._eventTypes[type] && target.nodeType === 1;
-    },
+    canHandleEvent : function(target, type) {},
 
 
     // interface implementation
@@ -170,23 +184,6 @@ qx.Class.define("qx.event.handler.Appear",
           this.__manager.dispatchEvent(elem, evt);
         }
       }
-    },
-
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      HELPER
-    ---------------------------------------------------------------------------
-    */
-
-    /** {Map} Internal data structure with all supported BOM element events */
-    _eventTypes :
-    {
-      appear : true,
-      disappear : true
     }
   },
 

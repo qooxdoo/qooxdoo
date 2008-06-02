@@ -39,7 +39,16 @@ qx.Class.define("qx.event.handler.Object",
   statics :
   {
     /** {Integer} Priority of this handler */
-    PRIORITY : qx.event.Registration.PRIORITY_NORMAL
+    PRIORITY : qx.event.Registration.PRIORITY_NORMAL,
+
+    /** {Map} Supported event types */
+    SUPPORTED_TYPES : null,
+
+    /** {Integer} Which target check to use */
+    TARGET_CHECK : qx.event.IEventHandler.TARGET_OBJECT,
+
+    /** {Integer} Whether the method "canHandleEvent" must be called */
+    IGNORE_CAN_HANDLE : false
   },
 
 
@@ -62,7 +71,7 @@ qx.Class.define("qx.event.handler.Object",
 
     // interface implementation
     canHandleEvent : function(target, type) {
-      return target instanceof qx.core.Object && qx.Class.supportsEvent(target.constructor, type);
+      return qx.Class.supportsEvent(target.constructor, type);
     },
 
 

@@ -76,7 +76,27 @@ qx.Class.define("qx.event.handler.Mouse",
   statics :
   {
     /** {Integer} Priority of this handler */
-    PRIORITY : qx.event.Registration.PRIORITY_NORMAL
+    PRIORITY : qx.event.Registration.PRIORITY_NORMAL,
+
+    /** {Map} Supported event types */
+    SUPPORTED_TYPES :
+    {
+      mousemove : 1,
+      mouseover : 1,
+      mouseout : 1,
+      mousedown : 1,
+      mouseup : 1,
+      click : 1,
+      dblclick : 1,
+      contextmenu : 1,
+      mousewheel : 1
+    },
+
+    /** {Integer} Which target check to use */
+    TARGET_CHECK : qx.event.IEventHandler.TARGET_DOMNODE,
+
+    /** {Integer} Whether the method "canHandleEvent" must be called */
+    IGNORE_CAN_HANDLE : true
   },
 
 
@@ -98,9 +118,7 @@ qx.Class.define("qx.event.handler.Mouse",
     */
 
     // interface implementation
-    canHandleEvent : function(target, type) {
-      return target.nodeType !== undefined && this.__mouseEvents[type];
-    },
+    canHandleEvent : function(target, type) {},
 
 
     // interface implementation
@@ -124,22 +142,6 @@ qx.Class.define("qx.event.handler.Mouse",
       HELPER
     ---------------------------------------------------------------------------
     */
-
-    /** {Map} Internal data structure with all supported mouse events */
-    __mouseEvents :
-    {
-      mousemove : 1,
-      mouseover : 1,
-      mouseout : 1,
-
-      mousedown : 1,
-      mouseup : 1,
-      click : 1,
-      dblclick : 1,
-      contextmenu : 1,
-
-      mousewheel : 1
-    },
 
 
     /**

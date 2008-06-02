@@ -96,7 +96,18 @@ qx.Class.define("qx.event.handler.DomReady",
   statics :
   {
     /** {Integer} Priority of this handler */
-    PRIORITY : qx.event.Registration.PRIORITY_FIRST
+    PRIORITY : qx.event.Registration.PRIORITY_FIRST,
+
+    /** {Map} Supported event types */
+    SUPPORTED_TYPES : {
+      domready : true
+    },
+
+    /** {Integer} Which target check to use */
+    TARGET_CHECK : qx.event.IEventHandler.TARGET_WINDOW,
+
+    /** {Integer} Whether the method "canHandleEvent" must be called */
+    IGNORE_CAN_HANDLE : true
   },
 
 
@@ -117,9 +128,7 @@ qx.Class.define("qx.event.handler.DomReady",
     */
 
     // interface implementation
-    canHandleEvent : function(target, type) {
-      return this._window === target && type === "domready";
-    },
+    canHandleEvent : function(target, type) {},
 
     // interface implementation
     registerEvent : function(target, type, capture) {
