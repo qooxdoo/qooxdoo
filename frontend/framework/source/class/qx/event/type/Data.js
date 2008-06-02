@@ -45,7 +45,7 @@ qx.Class.define("qx.event.type.Data",
      */
     init : function(data)
     {
-      this.base(arguments);
+      this.base(arguments, false, false);
 
       this._data = data;
 

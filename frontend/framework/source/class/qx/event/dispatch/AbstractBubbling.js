@@ -102,7 +102,6 @@ qx.Class.define("qx.event.dispatch.AbstractBubbling",
       var listener, context;
       var currentTarget;
 
-
       // Cache list for AT_TARGET
       var targetList = [];
 
@@ -143,6 +142,7 @@ qx.Class.define("qx.event.dispatch.AbstractBubbling",
         }
 
         bubbleListeners = manager.getListeners(parent, type, false);
+
         if (bubbleListeners)
         {
           bubbleList.push(bubbleListeners);

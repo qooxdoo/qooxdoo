@@ -51,7 +51,7 @@ qx.Class.define("qx.event.type.KeyInput",
      */
     init : function(domEvent, target, charCode)
     {
-      this.base(arguments, domEvent, true, target);
+      this.base(arguments, domEvent, target, null, true, true);
 
       this._charCode = charCode;
 

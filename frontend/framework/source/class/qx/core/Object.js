@@ -340,13 +340,15 @@ qx.Class.define("qx.core.Object",
      *
      * @type member
      * @param evt {qx.event.type.Event} event to dispatch
-     * @return {Boolean} whether the event default was prevented or not. Returns true, when the event was NOT prevented.
+     * @return {Boolean} whether the event default was prevented or not.
+     *     Returns true, when the event was NOT prevented.
      */
     dispatchEvent : function(evt)
     {
       if (!this.$$disposed) {
-        this.__Registration.dispatchEvent(this, evt);
+        return this.__Registration.dispatchEvent(this, evt);
       }
+      return true;
     },
 
 
@@ -358,13 +360,16 @@ qx.Class.define("qx.core.Object",
      * @param clazz {Class?qx.event.type.Event} The event class
      * @param args {Array?null} Arguments, which will be passed to
      *       the event's init method.
+     * @return {Boolean} whether the event default was prevented or not.
+     *     Returns true, when the event was NOT prevented.
      * @return {void}
      */
     fireEvent : function(type, clazz, args)
     {
       if (!this.$$disposed) {
-        this.__Registration.fireEvent(this, type, clazz, args);
+        return this.__Registration.fireEvent(this, type, clazz, args);
       }
+      return true;
     },
 
 
@@ -374,13 +379,15 @@ qx.Class.define("qx.core.Object",
      * @type member
      * @param type {String} Event type to fire
      * @param data {var} User defined data attached to the event object
-     * @return {void}
+     * @return {Boolean} whether the event default was prevented or not.
+     *     Returns true, when the event was NOT prevented.
      */
     fireDataEvent : function(type, data)
     {
       if (!this.$$disposed) {
-        this.__Registration.fireEvent(this, type, qx.event.type.Data, [data]);
+        return this.__Registration.fireEvent(this, type, qx.event.type.Data, [data]);
       }
+      return true;
     },
 
 

@@ -82,6 +82,30 @@ qx.Bootstrap.define("qx.bom.Event",
 
 
     /**
+     * Computes the related target from the native DOM event
+     *
+     * @param e {Event} Native DOM event object
+     * @return {Element} The related target
+     * @signature function(e)
+     */
+    getRelatedTarget : qx.core.Variant.select("qx.client",
+    {
+      "mshtml" : function(e)
+      {
+        if (e.type === "mouseover") {
+          return e.fromEvent;
+        } else {
+          return e.toElement;
+        }
+      },
+
+      "default" : function(e) {
+        return e.relatedTarget;
+      }
+    }),
+
+
+    /**
      * Prevent the native default of the event to be processed.
      *
      * This is useful to stop native keybindings, native selection

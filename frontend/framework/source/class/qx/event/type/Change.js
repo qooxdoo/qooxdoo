@@ -46,7 +46,7 @@ qx.Class.define("qx.event.type.Change",
      */
     init : function(value, old)
     {
-      this.base(arguments);
+      this.base(arguments, false, false);
 
       this._value = value;
       this._old = old;

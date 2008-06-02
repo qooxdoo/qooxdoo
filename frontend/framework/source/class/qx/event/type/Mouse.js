@@ -42,12 +42,12 @@ qx.Class.define("qx.event.type.Mouse",
   {
 
     // overridden
-    init : function(nativeEvent, bubbles, target, relatedTarget)
+    init : function(nativeEvent, target, relatedTarget, canBubble, cancelable)
     {
-      this.base(arguments, nativeEvent, bubbles, target, relatedTarget);
+      this.base(arguments, nativeEvent, target, relatedTarget, canBubble, cancelable);
 
       if (!relatedTarget) {
-        this.__computeRelatedTarget();
+        this._relatedTarget = qx.bom.Event.getRelatedTarget(nativeEvent);
       }
 
       return this;
@@ -71,14 +71,6 @@ qx.Class.define("qx.event.type.Mouse",
         1 : "middle"
       }
     }),
-
-
-    // overridden
-    preventDefault : function()
-    {
-      this.warn("Calling preventDefault() on mouse events is not supported anymore. There should normally do need to do this!");
-      this.trace();
-    },
 
 
     // overridden
@@ -160,27 +152,6 @@ qx.Class.define("qx.event.type.Mouse",
     getRelatedTarget : function() {
       return this._relatedTarget;
     },
-
-
-    /**
-     * Computes the related target from the native DOM event
-     */
-    __computeRelatedTarget : qx.core.Variant.select("qx.client",
-    {
-      "mshtml" : function()
-      {
-        var ev = this._native;
-        if (ev.type === "mouseover") {
-          this._relatedTarget = ev.fromEvent;
-        } else {
-          this._relatedTarget = ev.toElement;
-        }
-      },
-
-      "default" : function() {
-        this._relatedTarget = this._native.relatedTarget;
-      }
-    }),
 
 
     /**
