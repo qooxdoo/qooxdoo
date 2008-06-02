@@ -47,9 +47,9 @@ qx.Bootstrap.define("qx.core.Aspect",
      * constructors.
      *
      * @param fullName {String} Full name of the function including the class name.
+     * @param fcn {Function} function to wrap.
      * @param type {String} Type of the wrapped function. One of "member", "static",
      *          "constructor", "destructor" or "property".
-     * @param fcn {Function} function to wrap.
      *
      * @return {Function} wrapped function
      */
@@ -94,7 +94,10 @@ qx.Bootstrap.define("qx.core.Aspect",
         wrapper.base = fcn.base;
       }
 
-      return fcn.wrapper = wrapper;
+      fcn.wrapper = wrapper
+      wrapper.original = fcn;
+
+      return wrapper;
     },
 
 
