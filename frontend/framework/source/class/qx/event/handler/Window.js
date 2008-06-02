@@ -66,7 +66,25 @@ qx.Class.define("qx.event.handler.Window",
   statics :
   {
     /** {Integer} Priority of this handler */
-    PRIORITY : qx.event.Registration.PRIORITY_NORMAL
+    PRIORITY : qx.event.Registration.PRIORITY_NORMAL,
+
+
+    /** {Map} Supported event types */
+    SUPPORTED_TYPES :
+    {
+      error : 1,
+      load : 1,
+      beforeunload : 1,
+      unload : 1,
+      resize : 1,
+      scroll : 1
+    },
+
+    /** {Integer} Which target check to use */
+    TARGET_CHECK : qx.event.IEventHandler.TARGET_WINDOW,
+
+    /** {Integer} Whether the method "canHandleEvent" must be called */
+    IGNORE_CAN_HANDLE : true
   },
 
 
@@ -88,9 +106,7 @@ qx.Class.define("qx.event.handler.Window",
     */
 
     // interface implementation
-    canHandleEvent : function(target, type) {
-      return target == this._window && this._eventTypes[type];
-    },
+    canHandleEvent : function(target, type) {},
 
 
     // interface implementation
@@ -103,30 +119,6 @@ qx.Class.define("qx.event.handler.Window",
     unregisterEvent : function(target, type, capture) {
       // Nothing needs to be done here
     },
-
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      HELPER
-    ---------------------------------------------------------------------------
-    */
-
-    /** {Map} Internal data structure with all supported event types */
-    _eventTypes :
-    {
-      error : 1,
-      load : 1,
-      beforeunload : 1,
-      unload : 1,
-      resize : 1,
-      scroll : 1
-    },
-
-
-
 
 
 
@@ -146,8 +138,9 @@ qx.Class.define("qx.event.handler.Window",
     _initWindowObserver : function()
     {
       this._onNativeWrapper = qx.lang.Function.listener(this._onNative, this);
+      var types = qx.event.handler.Window.SUPPORTED_TYPES;
 
-      for (var key in this._eventTypes) {
+      for (var key in types) {
         qx.bom.Event.addNativeListener(this._window, key, this._onNativeWrapper);
       }
     },
@@ -161,7 +154,9 @@ qx.Class.define("qx.event.handler.Window",
      */
     _stopWindowObserver : function()
     {
-      for (var key in this._eventTypes) {
+      var types = qx.event.handler.Window.SUPPORTED_TYPES;
+
+      for (var key in types) {
         qx.bom.Event.removeNativeListener(this._window, key, this._onNativeWrapper);
       }
     },

@@ -64,7 +64,18 @@ qx.Class.define("qx.event.handler.UserAction",
   statics :
   {
     /** {Integer} Priority of this handler */
-    PRIORITY : qx.event.Registration.PRIORITY_NORMAL
+    PRIORITY : qx.event.Registration.PRIORITY_NORMAL,
+
+    /** {Map} Supported event types */
+    SUPPORTED_TYPES : {
+      useraction : 1
+    },
+
+    /** {Integer} Which target check to use */
+    TARGET_CHECK : qx.event.IEventHandler.TARGET_WINDOW,
+
+    /** {Integer} Whether the method "canHandleEvent" must be called */
+    IGNORE_CAN_HANDLE : true
   },
 
 
@@ -86,9 +97,7 @@ qx.Class.define("qx.event.handler.UserAction",
     */
 
     // interface implementation
-    canHandleEvent : function(target, type) {
-      return target == this._window && type === "useraction";
-    },
+    canHandleEvent : function(target, type) {},
 
 
     // interface implementation

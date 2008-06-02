@@ -61,7 +61,30 @@ qx.Class.define("qx.event.handler.DragDrop",
   statics :
   {
     /** {Integer} Priority of this handler */
-    PRIORITY : qx.event.Registration.PRIORITY_NORMAL
+    PRIORITY : qx.event.Registration.PRIORITY_NORMAL,
+
+    /** {Map} Supported event types */
+    SUPPORTED_TYPES :
+    {
+      "dragstart": true,
+      "drag": true,
+      "dragend": true,
+      "dragenter": true,
+      "dragleave": true,
+      "drop" : true,
+      "dragstart": true,
+      "drag": true,
+      "dragenter": true,
+      "dragleave": true,
+      "drop" : true,
+      "dragend": true
+    },
+
+    /** {Integer} Which target check to use */
+    TARGET_CHECK : qx.event.IEventHandler.TARGET_DOMNODE,
+
+    /** {Integer} Whether the method "canHandleEvent" must be called */
+    IGNORE_CAN_HANDLE : true
   },
 
 
@@ -161,9 +184,7 @@ qx.Class.define("qx.event.handler.DragDrop",
 
 
     // interface implementation
-    canHandleEvent : function(target, type) {
-      return this.__sourceEventTypes[type] || this.__targetEventTypes[type];
-    },
+    canHandleEvent : function(target, type) {},
 
 
     // interface implementation

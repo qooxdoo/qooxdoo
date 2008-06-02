@@ -39,7 +39,23 @@ qx.Class.define("qx.event.handler.Capture",
   statics :
   {
     /** {Integer} Priority of this handler */
-    PRIORITY : qx.event.Registration.PRIORITY_NORMAL
+    PRIORITY : qx.event.Registration.PRIORITY_NORMAL,
+
+
+    /** {Map} Supported event types */
+    SUPPORTED_TYPES :
+    {
+      capture : true,
+      losecapture : true
+    },
+
+
+    /** {Integer} Which target check to use */
+    TARGET_CHECK : qx.event.IEventHandler.TARGET_DOMNODE,
+
+
+    /** {Integer} Whether the method "canHandleEvent" must be called */
+    IGNORE_CAN_HANDLE : true
   },
 
 
@@ -61,9 +77,7 @@ qx.Class.define("qx.event.handler.Capture",
     */
 
     // interface implementation
-    canHandleEvent : function(target, type) {
-      return this._eventTypes[type] && target.nodeType !== undefined;
-    },
+    canHandleEvent : function(target, type) {},
 
 
     // interface implementation
@@ -75,23 +89,6 @@ qx.Class.define("qx.event.handler.Capture",
     // interface implementation
     unregisterEvent : function(target, type, capture) {
       // Nothing needs to be done here
-    },
-
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      HELPER
-    ---------------------------------------------------------------------------
-    */
-
-    /** {Map} Internal data structure with all supported element events */
-    _eventTypes :
-    {
-      capture : true,
-      losecapture : true
     }
   },
 
