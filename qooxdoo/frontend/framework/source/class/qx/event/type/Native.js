@@ -34,19 +34,25 @@ qx.Class.define("qx.event.type.Native",
      *
      * @type member
      * @param nativeEvent {Event} The DOM event to use
-     * @param bubbles {Boolean} Whether the event should bubble up the element
-     *     hierarchy.
      * @param target {Object} The event target
-     * @param relatedTarget {Object} The related event target
+     * @param relatedTarget {Object?null} The related event target
+     * @param canBubble {Boolean?false} Whether or not the event is a bubbling event.
+     *     If the event is bubbling, the bubbling can be stopped using
+     *     {@link #stopPropagation}
+     * @param cancelable {Boolean?false} Whether or not an event can have its default
+     *     action prevented. The default action can either be the browser's
+     *     default action of a native event (e.g. open the context menu on a
+     *     right click) or the default action of a qooxdoo class (e.g. close
+     *     the window widget). The default action can be prevented by calling
+     *     {@link #preventDefault}
      * @return {qx.event.type.Event} The initialized event instance
      */
-    init : function(nativeEvent, bubbles, target, relatedTarget)
+    init : function(nativeEvent, target, relatedTarget, canBubble, cancelable)
     {
-      this.base(arguments);
+      this.base(arguments, canBubble, cancelable);
 
-      this._bubbles = !!bubbles;
-      this._target = target || nativeEvent.target || nativeEvent.srcElement;
-      this._relatedTarget = relatedTarget || nativeEvent.relatedTarget || nativeEvent.fromElement;
+      this._target = target || qx.bom.Event.getTarget(nativeEvent);
+      this._relatedTarget = relatedTarget || qx.bom.Event.getRelatedTarget(nativeEvent);
 
       if (nativeEvent.timeStamp) {
         this._timeStamp = nativeEvent.timeStamp;
@@ -75,7 +81,9 @@ qx.Class.define("qx.event.type.Native",
      * @type member
      * @return {void}
      */
-    preventDefault : function() {
+    preventDefault : function()
+    {
+      this.base(arguments);
       qx.bom.Event.preventDefault(this._native);
     },
 

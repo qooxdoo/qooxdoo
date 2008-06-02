@@ -154,7 +154,7 @@ qx.Bootstrap.define("qx.event.Manager",
     */
 
     /**
-     * Get a copy of all event listeners for the given combination 
+     * Get a copy of all event listeners for the given combination
      * of target, event type and phase.
      *
      * This method is especially useful and thoughtfor event handlers to
@@ -172,14 +172,14 @@ qx.Bootstrap.define("qx.event.Manager",
     {
       var targetKey = qx.core.ObjectRegistry.toHashCode(target);
       var targetMap = this.__listeners[targetKey];
-      
+
       if (!targetMap) {
         return null;
       }
 
       var entryKey = type + (capture ? "|capture" : "|bubble");
       var entryList = targetMap[entryKey];
-      
+
       return entryList ? entryList.concat() : null;
     },
 
@@ -199,18 +199,18 @@ qx.Bootstrap.define("qx.event.Manager",
     {
       var targetKey = qx.core.ObjectRegistry.toHashCode(target);
       var targetMap = this.__listeners[targetKey];
-      
+
       if (!targetMap) {
         return false;
       }
 
       var entryKey = type + (capture ? "|capture" : "|bubble");
       var entryList = targetMap[entryKey];
-      
+
       if (!entryList) {
         return false;
       }
-      
+
       return entryList.length > 0;
     },
 
@@ -230,7 +230,7 @@ qx.Bootstrap.define("qx.event.Manager",
      * @param target {Object} Any valid event target
      * @param list {Map} A map where every listener has a unique key.
      * @return {void}
-     */     
+     */
     importListeners : function(target, list)
     {
       var targetKey = qx.core.ObjectRegistry.toHashCode(target);
@@ -239,11 +239,11 @@ qx.Bootstrap.define("qx.event.Manager",
       for (var listKey in list)
       {
         var item = list[listKey];
-        
+
         var entryKey = item.type + (item.capture ? "|capture" : "|bubble");
         var entryList = targetMap[entryKey];
-      
-        if (!entryList) 
+
+        if (!entryList)
         {
           entryList = targetMap[entryKey] = [];
 
@@ -258,7 +258,7 @@ qx.Bootstrap.define("qx.event.Manager",
         {
           handler : item.listener,
           context : item.self
-        });      
+        });
       }
     },
 
@@ -302,14 +302,14 @@ qx.Bootstrap.define("qx.event.Manager",
 
       var targetKey = qx.core.ObjectRegistry.toHashCode(target);
       var targetMap = this.__listeners[targetKey];
-      
+
       if (!targetMap) {
         targetMap = this.__listeners[targetKey] = {};
       }
 
       var entryKey = type + (capture ? "|capture" : "|bubble");
       var entryList = targetMap[entryKey];
-      
+
       if (!entryList) {
         entryList = targetMap[entryKey] = [];
       }
@@ -352,7 +352,7 @@ qx.Bootstrap.define("qx.event.Manager",
       for (var i=0, l=classes.length; i<l; i++)
       {
         instance = this.getHandler(classes[i]);
-        
+
         if (instance.canHandleEvent(target, type))
         {
           instance.registerEvent(target, type, capture);
@@ -400,17 +400,17 @@ qx.Bootstrap.define("qx.event.Manager",
           throw new Error("Capture flags needs to be boolean!");
         }
       }
-      
+
       var targetKey = qx.core.ObjectRegistry.toHashCode(target);
       var targetMap = this.__listeners[targetKey];
-      
+
       if (!targetMap) {
         return false;
       }
 
       var entryKey = type + (capture ? "|capture" : "|bubble");
       var entryList = targetMap[entryKey];
-      
+
       if (!entryList) {
         return false;
       }
@@ -451,10 +451,10 @@ qx.Bootstrap.define("qx.event.Manager",
         if (targetMap[entryKey].length > 0)
         {
           split = entryKey.split('|');
-        
+
           type = split[0];
           capture = split[1] === "capture";
-        
+
           this.__unregisterAtHandler(target, type, capture);
         }
       }
@@ -515,9 +515,10 @@ qx.Bootstrap.define("qx.event.Manager",
      * @type member
      * @param target {Object} Any valid event target
      * @param event {qx.event.type.Event} The event object to dispatch. The event
-     *       object must be obtained using {@link qx.event.Registration#createEvent}
-     *       and initialized using {@link qx.event.type.Event#init}.
-     * @return {void}
+     *     object must be obtained using {@link qx.event.Registration#createEvent}
+     *     and initialized using {@link qx.event.type.Event#init}.
+     * @return {Boolean} whether the event default was prevented or not.
+     *     Returns true, when the event was NOT prevented.
      * @throws an error if there is no dispatcher for the event
      */
     dispatchEvent : function(target, event)
@@ -566,8 +567,13 @@ qx.Bootstrap.define("qx.event.Manager",
         return;
       }
 
+      // check whether "preventDefault" has been called
+      var preventDefault = event.getDefaultPrevented();
+
       // Release the event instance to the event pool
       qx.event.Pool.getInstance().poolObject(event);
+
+      return !preventDefault;
     }
   }
 });

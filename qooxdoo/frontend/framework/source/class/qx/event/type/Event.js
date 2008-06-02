@@ -77,9 +77,18 @@ qx.Class.define("qx.event.type.Event",
      * it can be dispatched.
      *
      * @type member
+     * @param canBubble {Boolean?false} Whether or not the event is a bubbling event.
+     *     If the event is bubbling, the bubbling can be stopped using
+     *     {@link #stopPropagation}
+     * @param cancelable {Boolean?false} Whether or not an event can have its default
+     *     action prevented. The default action can either be the browser's
+     *     default action of a native event (e.g. open the context menu on a
+     *     right click) or the default action of a qooxdoo class (e.g. close
+     *     the window widget). The default action can be prevented by calling
+     *     {@link #preventDefault}
      * @return {qx.event.type.Event} The initialized event instance
      */
-    init : function()
+    init : function(canBubble, cancelable)
     {
       this._type = null;
       this._target = null;
@@ -87,7 +96,9 @@ qx.Class.define("qx.event.type.Event",
       this._relatedTarget = null;
       this._originalTarget = null;
       this._stopPropagation = false;
-      this._bubbles = false;
+      this._preventDefault = false;
+      this._bubbles = canBubble || false;
+      this._cancelable = cancelable || false;
       this._timeStamp = (new Date()).getTime();
       this._eventPhase = null;
 
@@ -121,9 +132,14 @@ qx.Class.define("qx.event.type.Event",
       clone._originalTarget = this._originalTarget;
       clone._stopPropagation = this._stopPropagation;
       clone._bubbles = this._bubbles;
+      clone._preventDefault = this._preventDefault;
+      clone._cancelable = this._cancelable;
 
       return clone;
     },
+
+
+
 
 
     /**
@@ -135,7 +151,11 @@ qx.Class.define("qx.event.type.Event",
      * @type member
      * @return {void}
      */
-    stopPropagation : function() {
+    stopPropagation : function()
+    {
+      if (qx.core.Variant.isSet("qx.debug", "on")) {
+        this.assertTrue(this._bubbles, "Cannot stop propagation on a non bubbling event: " + this.getType());
+      }
       this._stopPropagation = true;
     },
 
@@ -147,7 +167,34 @@ qx.Class.define("qx.event.type.Event",
      * @return {Boolean} Whether further propagation has been stopped.
      */
     getPropagationStopped : function() {
-      return this._stopPropagation;
+      return !!this._stopPropagation;
+    },
+
+
+    /**
+     * Prevent the default action of cancelable events, e.g. opening the context
+     * menu, ...
+     *
+     * @type member
+     * @return {void}
+     */
+    preventDefault : function()
+    {
+      if (qx.core.Variant.isSet("qx.debug", "on")) {
+        this.assertTrue(this._cancelable, "Cannot prevent default action on a non cancelable event: " + this.getType());
+      }
+      this._preventDefault = true;
+    },
+
+
+    /**
+     * Get whether the default action has been prevented
+     *
+     * @tape member
+     * @return {Boolean} Whether the default action has benn prevented
+     */
+    getDefaultPrevented : function() {
+      return !!this._preventDefault;
     },
 
 
@@ -332,6 +379,29 @@ qx.Class.define("qx.event.type.Event",
      */
     setBubbles : function(bubbles) {
       this._bubbles = bubbles;
+    },
+
+
+    /**
+     * Get whether the event is cancelable
+     *
+     * @type member
+     * @return {Boolean} Whether the event is cancelable
+     */
+    isCancelable : function() {
+      return this._cancelable;
+    },
+
+
+    /**
+     * Set whether the event is cancelable
+     *
+     * @type member
+     * @param cancelable {Boolean} Whether the event is cancelable
+     * @return {void}
+     */
+    setCancelable : function(cancelable) {
+      this._cancelable = cancelable;
     }
   },
 

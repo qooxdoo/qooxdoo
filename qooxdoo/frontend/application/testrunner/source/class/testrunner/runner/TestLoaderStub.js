@@ -97,7 +97,7 @@ qx.Class.define("testrunner.runner.TestLoaderStub",
           var testFunction = function() {};
 
           var failTest = function() {
-            throw new qx.dev.unit.AssertionError("Unknown error!", "Crazy error.");
+            throw new qx.core.AssertionError("Unknown error!", "Crazy error.");
           };
 
           var fcn = testClass.tests[j] == "testAddRemovelistItem" ? failTest : testFunction;

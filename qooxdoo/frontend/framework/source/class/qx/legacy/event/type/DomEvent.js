@@ -34,6 +34,7 @@ qx.Class.define("qx.legacy.event.type.DomEvent",
   construct : function(vType, vDomEvent, vDomTarget, vTarget, vOriginalTarget)
   {
     this.base(arguments);
+    this.init(true, true);
 
     this.setType(vType);
     this.setDomEvent(vDomEvent);
