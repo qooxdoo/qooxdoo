@@ -112,7 +112,11 @@ class Generator:
 
         for entry in library.iter():
             key = entry.get("path")
-            if memcache.has_key(key):
+            # TODO: had to disable caching here ('and False'), since the same library can
+            # be used by different jobs with different uri (example: testrunner and its tests);
+            # solution: uri shouldn't be used in the LibraryPath object at all, but provided by
+            # the job; all other attribs (namespace, path, encoding, ...) seem to be stable
+            if memcache.has_key(key) and False:
                 self._console.debug("Use memory cache for %s" % key)
                 path = memcache[key]
             else:
@@ -848,9 +852,9 @@ class Generator:
 
         # Translate URI data to JavaScript
         allUris = []
-        for packageId, packages in enumerate(packages):
+        for packageId, package in enumerate(packages):
             packageUris = []
-            for fileId in packages:
+            for fileId in package:
                 packageUris.append('"%s"' % Path.posifyPath(self._classes[fileId]["uri"]))
 
             allUris.append("[" + ",".join(packageUris) + "]")
