@@ -42,6 +42,19 @@
       }
     },
 
+    "profiling" :
+    {
+      "variants" :
+      {
+        "qx.aspects" : ["on"]
+      },
+
+      "require" :
+      {
+        "qx.Class" : [ "qx.core.Aspect", "qx.dev.Profile" ]
+      }
+    },
+
 
     "source" :
     {
