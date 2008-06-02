@@ -1,0 +1,265 @@
+// Testrunner - config.json
+{
+  "include" :
+  {
+    "appconf": "../../tool/data/config/application.json"
+  },
+
+  "jobs" :
+  {
+    "common" :
+    {
+      "let" :
+      {
+        "APPLICATION"  : "testrunner",
+        "QOOXDOO_PATH" : "../../framework",
+        "QOOXDOO_URI"  : "../${QOOXDOO_PATH}"
+      },
+
+      "library" :
+      [
+        {
+          "manifest" : "${QOOXDOO_PATH}/Manifest.json",
+          "uri"      : "${QOOXDOO_URI}"
+          /* mind that the final uri will be computed from this 'uri' + the 
+             'class' info from the manifest */
+        },
+
+        {
+          "manifest" : "Manifest.json",
+          "uri"      : ".."
+        }
+      ],
+
+      "include" :
+      [
+        "${APPLICATION}.runner.Application",
+        "qx.legacy.theme.ClassicRoyale"
+      ],
+
+      "settings" :
+      {
+        "qx.version" : "0.8-alpha1",
+        "qx.application" : "${APPLICATION}.runner.Application"
+      },
+
+      "themes" :
+      {
+        "qx.icontheme" : ["Oxygen"],
+        "qx.theme"     : ["Modern"]
+      },
+
+      "cache" :
+      {
+        "path" : "../../cache"
+      }
+    },
+
+
+    "common-tests" :
+    {
+      "let" :
+      {
+        "QOOXDOO_PATH" : "../../framework"
+      },
+
+      "library" :
+      [
+        {
+          "manifest" : "${QOOXDOO_PATH}/Manifest.json",
+          "uri"      : "../../${QOOXDOO_PATH}"
+        },
+
+        {
+          "manifest" : "Manifest.json",
+          "uri"      : "../.."
+        }
+      ],
+
+      "include" : ["testrunner.TestLoader", "testrunner.test.*"],
+
+      "localize": 
+      {
+        "locales" : [ "en" ]
+      },
+
+      "cache" :
+      {
+        "path" : "../../cache"
+      }
+    },
+
+
+    "source-script" :
+    {
+      "extend" : ["common"],
+
+      "script" :
+      {
+        "file" : "./source/script/${APPLICATION}.js"
+      }
+    },
+
+
+    "source-tests" :
+    {
+      "extend" : ["common-tests"],
+
+      "script" :
+      {
+        "file" : "./source/script/tests.js"
+      }
+    },
+
+
+    "source" :
+    {
+      "run" :
+      [
+        "source-script",
+        "source-tests"
+      ]
+    },
+
+
+    "source-data" :
+    {
+      "extend" : ["common"],
+
+      "shell" :
+      {
+        "command" : "tool/gendata.py ./source/script/demodata.js ./source/demo"
+      }
+    },
+
+
+    "source-demo-jobs" :
+    {
+      "extend" : ["common"],
+
+      "shell" :
+      {
+        "command" : "tool/genjson.py source/script"
+      }
+    },
+
+
+    "source-demos" :
+    {
+      "extend" : ["common"],
+
+      "shell" :
+      {
+        "command" : "../../../frontend/tool/generator.py -c ./tool/demo_dyn.json -j source"
+      }
+    },
+
+
+    "build-script" :
+    {
+      "extend" : ["common"],
+
+      "compile" :
+      {
+        "target" : "build",
+        "file" : "./build/script/${APPLICATION}.js",
+        "uri"  : "script/${APPLICATION}.js"
+      }
+    },
+
+
+    "build-files" :
+    {
+      "extend" : ["common"],
+
+      "copy-files" :
+      {
+        "files" :
+        [
+          "index.html",
+          "demo"
+        ],
+
+        "target" : "build"
+      }
+    },
+
+
+    "build-resources":
+    {
+      "extend" : ["common"],
+
+      "include" :
+      [
+        "qx.legacy.theme.ClassicRoyale",
+        "testrunner.*"
+      ],
+
+      "copy-resources" :
+      {
+        "target" : "build"
+      }
+    },
+
+
+    "build-data" :
+    {
+      "extend" : ["common"],
+
+      "shell" :
+      {
+        "command" : "tool/gendata.py ./build/script/demodata.js ./source/demo"
+      }
+    },
+
+
+    "build-demo-jobs" :
+    {
+      "extend" : ["common"],
+
+      "shell" :
+      {
+        "command" : "tool/genjson.py build/script"
+      }
+    },
+
+
+    /* generate a build version of the demo apps */
+    "build-demos" :
+    {
+      "extend" : ["common"],
+
+      "shell" :
+      {
+        "command" : "../../../frontend/tool/generator.py -c ./tool/demo_dyn.json -j build"
+      }
+    },
+
+
+    // putting it all together ...
+    "build" :
+    {
+      "run" :
+      [
+        /* this all has to be done for the build */
+        "build-data",
+        "build-demo-jobs",
+        "build-resources",
+        "build-files",
+        "build-script",
+        "build-demos"
+      ]
+    },
+
+
+    "api" :
+    {
+      "extend": ["common", "appconf/jobs/api"],
+
+      "let" :
+      {
+        "ROOT" : "${QOOXDOO_PATH}/../application/apiviewer"
+      }
+    }
+  }
+}
