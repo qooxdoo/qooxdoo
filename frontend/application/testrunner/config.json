@@ -21,8 +21,6 @@
         {
           "manifest" : "${QOOXDOO_PATH}/Manifest.json",
           "uri"      : "${QOOXDOO_URI}"
-          /* mind that the final uri will be computed from this 'uri' + the 
-             'class' info from the manifest */
         },
 
         {
@@ -90,6 +88,8 @@
     },
 
 
+    // -- source jobs ------------------------------------------
+
     "source-script" :
     {
       "extend" : ["common"],
@@ -122,51 +122,7 @@
     },
 
 
-    "source-data" :
-    {
-      "extend" : ["common"],
-
-      "shell" :
-      {
-        "command" : "tool/gendata.py ./source/script/demodata.js ./source/demo"
-      }
-    },
-
-
-    "source-demo-jobs" :
-    {
-      "extend" : ["common"],
-
-      "shell" :
-      {
-        "command" : "tool/genjson.py source/script"
-      }
-    },
-
-
-    "source-demos" :
-    {
-      "extend" : ["common"],
-
-      "shell" :
-      {
-        "command" : "../../../frontend/tool/generator.py -c ./tool/demo_dyn.json -j source"
-      }
-    },
-
-
-    "build-script" :
-    {
-      "extend" : ["common"],
-
-      "compile" :
-      {
-        "target" : "build",
-        "file" : "./build/script/${APPLICATION}.js",
-        "uri"  : "script/${APPLICATION}.js"
-      }
-    },
-
+    // -- build jobs -------------------------------------------
 
     "build-files" :
     {
@@ -177,7 +133,7 @@
         "files" :
         [
           "index.html",
-          "demo"
+          "html"
         ],
 
         "target" : "build"
@@ -202,55 +158,45 @@
     },
 
 
-    "build-data" :
+    "build-script" :
     {
       "extend" : ["common"],
 
-      "shell" :
+      "compile" :
       {
-        "command" : "tool/gendata.py ./build/script/demodata.js ./source/demo"
+        "target" : "build",
+        "file" : "./build/script/${APPLICATION}.js",
+        "uri"  : "script/${APPLICATION}.js"
       }
     },
 
 
-    "build-demo-jobs" :
+    "build-tests" :
     {
-      "extend" : ["common"],
+      "extend" : ["common-tests"],
 
-      "shell" :
+      "compile" :
       {
-        "command" : "tool/genjson.py build/script"
+        "target" : "build",
+        "file" : "./build/script/tests.js",
+        "uri"  : "../script/tests.js"
       }
     },
 
 
-    /* generate a build version of the demo apps */
-    "build-demos" :
-    {
-      "extend" : ["common"],
-
-      "shell" :
-      {
-        "command" : "../../../frontend/tool/generator.py -c ./tool/demo_dyn.json -j build"
-      }
-    },
-
-
-    // putting it all together ...
     "build" :
     {
       "run" :
       [
-        /* this all has to be done for the build */
-        "build-data",
-        "build-demo-jobs",
         "build-resources",
         "build-files",
         "build-script",
-        "build-demos"
+        "build-tests"
       ]
     },
 
+
+    // -- api --------------------------------------------------
 
     "api" :
     {
