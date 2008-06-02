@@ -58,24 +58,18 @@ qx.Bootstrap.define("qx.core.Aspect",
       var before = [];
       var after = [];
       var reg = this.__registry;
+      var entry;
 
       for (var i=0; i<reg.length; i++)
       {
-        var aspect = reg[i];
+        entry = reg[i];
 
-        if ((type == aspect.type || aspect.type == "*") && fullName.match(aspect.re))
-        {
-          var pos = aspect.pos;
-
-          if (pos == "before") {
-            before.push(aspect.fcn);
-          } else {
-            after.push(aspect.fcn);
-          }
+        if ((entry.type == null || type == entry.type || entry.type == "*") && (entry.name == null || fullName.match(entry.name))) {
+          entry.pos == -1 ? before.push(entry.fcn) : after.push(entry.fcn);
         }
       }
 
-      if (before.length == 0 && after.length == 0) {
+      if (before.length === 0 && after.length === 0) {
         return fcn;
       }
 
@@ -94,14 +88,13 @@ qx.Bootstrap.define("qx.core.Aspect",
         return ret;
       }
 
-      if (type != "static")
+      if (type !== "static")
       {
         wrapper.self = fcn.self;
         wrapper.base = fcn.base;
       }
 
-      fcn.wrapper = wrapper;
-      return wrapper;
+      return fcn.wrapper = wrapper;
     },
 
 
@@ -109,30 +102,28 @@ qx.Bootstrap.define("qx.core.Aspect",
      * Register a function to be called just before or after each time
      * one of the selected functions is called.
      *
-     * @param position {String} One of "before" or "after". Whether the function
-     *     should be called before or after the wrapped function.
-     * @param type {String} Type of the wrapped function. One of "member",
-     *     "static", "constructor", "destructor", "property" or "*".
-     * @param nameRegExp {String|RegExp} Each function, with a full name matching
-     *     this pattern (using <code>fullName.match(nameRegExp)</code>) will be
-     *     wrapped.
      * @param fcn {Function} Function to be called just before or after any of the
      *     selected functions is called. If position is "before" the functions
      *     supports the same signature as {@link qx.dev.Profile#profileBefore}. If
      *     position is "after" it supports the same signature as
      *     {@link qx.dev.Profile#profileAfter}.
+     * @param position {String?"after"} One of "before" or "after". Whether the function
+     *     should be called before or after the wrapped function.
+     * @param type {String?null} Type of the wrapped function. One of "member",
+     *     "static", "constructor", "destructor", "property" or "*". <code>null</code>
+     *     is handled identical to "*".
+     * @param name {String|RegExp?null} Each function, with a full name matching
+     *     this pattern (using <code>fullName.match(name)</code>) will be
+     *     wrapped.
      */
-    addAdvice : function(position, type, nameRegExp, fcn)
+    addAdvice : function(fcn, position, type, name)
     {
-      if (position !== "before" && position !== "after") {
-        throw new Error("Unknown position: '" + position + "'");
-      }
-
-      this.__registry.push({
-        pos: position,
+      this.__registry.push(
+      {
+        fcn: fcn,
+        pos: position === "before" ? -1 : 1,
         type: type,
-        re: nameRegExp,
-        fcn: fcn
+        name: name
       });
     }
   }

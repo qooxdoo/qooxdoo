@@ -25,7 +25,7 @@
  *
  * To enable profiling this class must be loaded <b>before</b> <code>qx.Class</code> is
  * loaded. This can be achieved by making <code>qx.core.Aspect</code> and
- * <code>qx.dev.Profile</code> and loadtime dependency of <code>qx.Class</code>.
+ * <code>qx.dev.Profile</code> a load time dependency of <code>qx.Class</code>.
  * Further more the variant <code>qx.aspect</code> must be set to <code>on</code>.
  */
 qx.Bootstrap.define("qx.dev.Profile",
@@ -53,8 +53,7 @@ qx.Bootstrap.define("qx.dev.Profile",
     /**
      * Stop profiling.
      */
-    stop : function()
-    {
+    stop : function() {
       this.__doProfile = false;
     },
 
@@ -63,7 +62,7 @@ qx.Bootstrap.define("qx.dev.Profile",
      * Return the profiling data as JSON data structure.
      *
      * Example:
-     *   <pre class="javascript">
+     * <pre class="javascript">
      * {
      *   "qx.core.ObjectRegistry.toHashCode (static)":{
      *     *     "totalTime":3,
@@ -103,30 +102,27 @@ qx.Bootstrap.define("qx.dev.Profile",
      * Show profiling results in a popup window. The results are sorted by the
      * function's own time.
      *
-     * @param maxLength {Integer} maximum number of entries to display.
+     * @param maxLength {Integer?100} maximum number of entries to display.
      */
-    openProfileWindow : function(maxLength)
+    showResults : function(maxLength)
     {
-      this.normalizeProfileData();
       this.stop();
-      var data = qx.lang.Object.getValues(this.__profileData);
+      this.normalizeProfileData();
 
+      var data = qx.lang.Object.getValues(this.__profileData);
       data = data.sort(function(a,b) {
         return a.calibratedOwnTime<b.calibratedOwnTime ? 1: -1
       });
 
-      data = data.slice(0, maxLength || 20);
+      data = data.slice(0, maxLength || 100);
 
       var str = ["<table><tr><th>Name</th><th>Type</th><th>Own time</th><th>Avg time</th><th>calls</th></tr>"];
       for (var i=0; i<data.length; i++)
       {
         var profData = data[i];
-        if (profData.name == "qx.core.Aspect.__calibrateHelper") {
-          continue;
-        }
 
         str.push("<tr><td>");
-        str.push(profData.name+"()");
+        str.push(profData.name, "()");
         str.push("</td><td>");
         str.push(profData.type);
         str.push("</td><td>");
@@ -144,7 +140,7 @@ qx.Bootstrap.define("qx.dev.Profile",
       var doc = win.document;
 
       doc.open();
-      doc.write("<html><body>");
+      doc.write("<html><head><style type='text/css'>body{font-family:monospace;font-size:11px;background:white;color:black;}</style></head><body>");
       doc.write(str.join(""));
       doc.write("</body></html>");
       doc.close();
@@ -305,28 +301,11 @@ qx.Bootstrap.define("qx.dev.Profile",
 
   defer : function(statics)
   {
-    // debug
-    qx.log.Logger.debug("Enable profiling layer...");
+    // Inform user
+    qx.log.Logger.debug("Enable global profiling...");
 
-    // profile
-    qx.core.Aspect.addAdvice("before", "*", "", statics.profileBefore);
-    qx.core.Aspect.addAdvice("after", "*", "", statics.profileAfter);
-
-    statics.__calibrateHelper = qx.core.Aspect.wrap("qx.dev.Profile.__calibrateHelper", statics.__calibrateHelper, "static");
-    qx.core.Aspect.wrap = qx.core.Aspect.wrap("qx.core.Aspect.wrap", qx.core.Aspect.wrap, "static");
-
-    // Binding of already loaded classes
-    for (var classname in qx.Bootstrap.$$registry)
-    {
-      var statics = qx.Bootstrap.$$registry[classname];
-
-      for (var key in statics)
-      {
-        // only functions, no regexps
-        if (statics[key] instanceof Function) {
-          statics[key] = qx.core.Aspect.wrap(classname + "." + key, statics[key], "static");
-        }
-      }
-    }
+    // Add advices for profiling
+    qx.core.Aspect.addAdvice(statics.profileBefore, "before");
+    qx.core.Aspect.addAdvice(statics.profileAfter, "after");
   }
 });
