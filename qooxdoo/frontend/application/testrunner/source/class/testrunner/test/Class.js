@@ -365,7 +365,7 @@ qx.Class.define("testrunner.test.Class",
            */
           _bar : function()
           {
-            console.log("%o", arguments.callee.context);
+            //console.log("%o", arguments.callee.context);
             this.__foo();
           },
 
