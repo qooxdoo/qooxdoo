@@ -58,9 +58,6 @@ qx.Class.define("feedreader.view.ToolBar",
     this.base(arguments);
 
 
-    // Apply style
-    this.setDecorator("line-bottom");
-
     // Add/Remove buttons
     var addBtn = new qx.ui.toolbar.Button("Add feed", "icon/22/actions/dialog-ok.png");
     addBtn.setCommand(controller.getCommand("addFeed"));
