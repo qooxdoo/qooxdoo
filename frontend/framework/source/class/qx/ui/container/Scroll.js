@@ -23,6 +23,7 @@ qx.Class.define("qx.ui.container.Scroll",
   extend : qx.ui.core.ScrollArea,
 
 
+
   /*
   *****************************************************************************
      CONSTRUCTOR
@@ -71,7 +72,7 @@ qx.Class.define("qx.ui.container.Scroll",
      * @param widget {qx.ui.core.Widget} Widget to remove
      * @return {qx.ui.core.Widget}
      */
-    remove : function() {
+    remove : function(widget) {
       this._getChildControl("pane").remove(widget);
     },
 
