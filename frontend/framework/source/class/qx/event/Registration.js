@@ -215,10 +215,11 @@ qx.Bootstrap.define("qx.event.Registration",
      * @param event {qx.event.type.Event} The event object to dispatch. The event
      *       object must be obtained using {@link #createEvent} and initialized
      *       using {@link qx.event.type.Event#init}.
-     * @return {void}
+     * @return {Boolean} whether the event default was prevented or not.
+     *     Returns true, when the event was NOT prevented.
      */
     dispatchEvent : function(target, event) {
-      this.getManager(target).dispatchEvent(target, event);
+      return this.getManager(target).dispatchEvent(target, event);
     },
 
 
@@ -231,12 +232,14 @@ qx.Bootstrap.define("qx.event.Registration",
      * @param clazz {Class?qx.event.type.Event} The event class
      * @param args {Array?null} Arguments, which will be passed to
      *       the event's init method.
+     * @return {Boolean} whether the event default was prevented or not.
+     *     Returns true, when the event was NOT prevented.
      * @see #createEvent
      */
     fireEvent : function(target, type, clazz, args)
     {
       var evt = this.createEvent(type, clazz, args);
-      this.getManager(target).dispatchEvent(target, evt);
+      return this.getManager(target).dispatchEvent(target, evt);
     },
 
 

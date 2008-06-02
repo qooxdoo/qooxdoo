@@ -268,10 +268,7 @@ qx.Class.define("qx.event.handler.Focus",
     {
       var Registration = qx.event.Registration;
 
-      var evt = Registration.createEvent(type, qx.event.type.Focus);
-      evt.setBubbles(bubbles);
-      evt.setRelatedTarget(related);
-
+      var evt = Registration.createEvent(type, qx.event.type.Focus, [target, related, bubbles]);
       Registration.dispatchEvent(target, evt);
     },
 
