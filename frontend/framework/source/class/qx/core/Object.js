@@ -706,7 +706,6 @@ qx.Class.define("qx.core.Object",
 
   destruct : function()
   {
-    //console.debug("Disposing...");
     // Cleanup event listeners
     qx.event.Registration.removeAllListeners(this);
 
