@@ -1238,7 +1238,9 @@ qx.Bootstrap.define("qx.Class",
 
         // Added helper stuff to functions
         // Hint: Could not use typeof function because RegExp objects are functions, too
-        if (base !== false && member instanceof Function)
+        // Protect to apply base property and aspect support on special attributes e.g.
+        // classes which are function like as well.
+        if (base !== false && member instanceof Function && member.$$type == null)
         {
           // Configure extend (named base here)
           // Hint: proto[key] is not yet overwritten here
@@ -1530,14 +1532,16 @@ qx.Bootstrap.define("qx.Class",
 
   defer : function(statics)
   {
-    // Wrap own static methods as well
-    if (qx.core.Variant.isSet("qx.aspects", "on"))
+    // Binding of already loaded bootstrap classes
+    for (var classname in qx.Bootstrap.$$registry)
     {
+      var statics = qx.Bootstrap.$$registry[classname];
+
       for (var key in statics)
       {
         // only functions, no regexps
         if (statics[key] instanceof Function) {
-          statics[key] = qx.core.Aspect.wrap("qx.Class." + key, statics[key], "static");
+          statics[key] = qx.core.Aspect.wrap(classname + "." + key, statics[key], "static");
         }
       }
     }
