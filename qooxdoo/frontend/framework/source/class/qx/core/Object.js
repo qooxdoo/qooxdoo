@@ -42,7 +42,7 @@
 qx.Class.define("qx.core.Object",
 {
   extend : Object,
-  include : qx.core.MUserData,
+
 
 
   /*
@@ -388,6 +388,48 @@ qx.Class.define("qx.core.Object",
 
     /*
     ---------------------------------------------------------------------------
+      USER DATA
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Store user defined data inside the object.
+     *
+     * @type member
+     * @param key {String} the key
+     * @param value {Object} the value of the user data
+     * @return {void}
+     */
+    setUserData : function(key, value)
+    {
+      if (!this.__userData) {
+        this.__userData = {};
+      }
+
+      this.__userData[key] = value;
+    },
+
+
+    /**
+     * Load user defined data from the object
+     *
+     * @type member
+     * @param key {String} the key
+     * @return {Object} the user data
+     */
+    getUserData : function(key)
+    {
+      if (!this.__userData) {
+        return null;
+      }
+
+      return this.__userData[key];
+    }
+
+
+
+    /*
+    ---------------------------------------------------------------------------
       DEBUG
     ---------------------------------------------------------------------------
     */
@@ -670,6 +712,9 @@ qx.Class.define("qx.core.Object",
 
     // Cleanup object registry
     qx.core.ObjectRegistry.unregister(this);
+
+    // Cleanup user data
+    this._disposeFields("__userData");
 
     // Cleanup properties
     // TODO: Is this really needed for non DOM/JS links?
