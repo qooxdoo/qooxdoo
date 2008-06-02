@@ -60,13 +60,13 @@ qx.Class.define("qx.log.appender.Console",
       var style =
       [
         '.qxconsole{z-index:10000;width:600px;height:300px;top:0px;right:0px;position:absolute;border-left:1px solid black;color:black;border-bottom:1px solid black;color:black;font-family:Consolas,Monaco,monospace;font-size:11px;line-height:1.2;}',
-        
+
         '.qxconsole .control{background:#cdcdcd;border-bottom:1px solid black;padding:4px 8px;}',
         '.qxconsole .control a{text-decoration:none;color:black;}',
-        
+
         '.qxconsole .messages{background:white;height:100%;width:100%;overflow:auto;}',
         '.qxconsole .messages div{padding:0px 4px;}',
-        
+
         '.qxconsole .messages .user-command{color:blue}',
         '.qxconsole .messages .user-result{background:white}',
         '.qxconsole .messages .user-error{background:#FFE2D5}',
@@ -84,7 +84,7 @@ qx.Class.define("qx.log.appender.Console",
         '.qxconsole .messages .type-class{color:#5F3E8A;font-weight:bold}',
         '.qxconsole .messages .type-instance{color:#565656;font-weight:bold}',
         '.qxconsole .messages .type-stringify{color:#565656;font-weight:bold}',
-        
+
         '.qxconsole .command{background:white;padding:2px 4px;border-top:1px solid black;}',
         '.qxconsole .command input{width:100%;border:0 none;font-family:Consolas,Monaco,monospace;font-size:11px;line-height:1.2;}',
         '.qxconsole .command input:focus{outline:none;}'
@@ -179,8 +179,8 @@ qx.Class.define("qx.log.appender.Console",
       // Scroll down
       this.__scrollDown();
     },
-    
-    
+
+
     /**
      * Automatically scroll down to the last line
      */
@@ -256,7 +256,7 @@ qx.Class.define("qx.log.appender.Console",
       }
 
       var command = document.createElement("div");
-      command.innerHTML = this.__escapeHTML(">>> " + value);
+      command.innerHTML = qx.log.appender.Util.escapeHTML(">>> " + value);
       command.className = "user-command";
 
       this.__history.push(value);
