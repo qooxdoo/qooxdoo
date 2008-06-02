@@ -1251,7 +1251,6 @@ qx.Bootstrap.define("qx.Class",
           if (qx.core.Variant.isSet("qx.aspects", "on")) {
             member = qx.core.Aspect.wrap(clazz.classname + "." + key, member, "member");
           }
-
         }
 
         // Attach member
@@ -1408,7 +1407,8 @@ qx.Bootstrap.define("qx.Class",
      */
     __wrapConstructor : function(construct, name, type)
     {
-      var wrapper = function() {
+      var wrapper = function()
+      {
         // We can access the class/statics using arguments.callee
         var clazz=arguments.callee.constructor;
 
@@ -1420,11 +1420,14 @@ qx.Bootstrap.define("qx.Class",
           }
 
           // add abstract and singleton checks
-          if (type === "abstract") {
+          if (type === "abstract")
+          {
             if(this.classname===name) {
               throw new Error("The class '," + name + "' is abstract! It is not possible to instantiate it.");
             }
-          } else if (type === "singleton") {
+          }
+          else if (type === "singleton")
+          {
             if (!clazz.$$allowconstruct) {
               throw new Error("The class '" + name + "' is a singleton! It is not possible to instantiate it directly. Use the static getInstance() method instead.");
             }
@@ -1440,7 +1443,8 @@ qx.Bootstrap.define("qx.Class",
         if (clazz.$$includes)
         {
           var mixins=clazz.$$flatIncludes;
-          for (var i=0, l=mixins.length; i<l; i++) {
+          for (var i=0, l=mixins.length; i<l; i++)
+          {
             if (mixins[i].$$constructor) {
               mixins[i].$$constructor.apply(this,arguments);
             }
@@ -1448,13 +1452,17 @@ qx.Bootstrap.define("qx.Class",
         }
 
         // Mark instance as initialized
-        if(this.classname===name.classname)this.$$initialized=true;;
+        if(this.classname===name.classname) {
+          this.$$initialized=true;
+        }
 
         // Return optional return value
-        return retval;;
-      }
+        return retval;
+      };
 
 
+      // ALTERNATIVE CODE FOR NON-IPHONES
+      // Seems to be a problem in a restricted environment. Needs further investigation.
 
       /*
       var code = [];
@@ -1496,7 +1504,8 @@ qx.Bootstrap.define("qx.Class",
       var wrapper = new Function(code.join(""));
       */
 
-      if (qx.core.Variant.isSet("qx.aspects", "on")) {
+      if (qx.core.Variant.isSet("qx.aspects", "on"))
+      {
         var aspectWrapper = qx.core.Aspect.wrap(name, wrapper, "constructor");
         wrapper.$$original = construct;
         wrapper.constructor = aspectWrapper;
@@ -1521,7 +1530,7 @@ qx.Bootstrap.define("qx.Class",
 
   defer : function(statics)
   {
-    // profiling
+    // Wrap own static methods as well
     if (qx.core.Variant.isSet("qx.aspects", "on"))
     {
       for (var key in statics)
