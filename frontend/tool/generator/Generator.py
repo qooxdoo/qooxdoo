@@ -111,12 +111,9 @@ class Generator:
         self._translations = {}
 
         for entry in library.iter():
-            key = entry.get("path")
-            # TODO: had to disable caching here ('and False'), since the same library can
-            # be used by different jobs with different uri (example: testrunner and its tests);
-            # solution: uri shouldn't be used in the LibraryPath object at all, but provided by
-            # the job; all other attribs (namespace, path, encoding, ...) seem to be stable
-            if memcache.has_key(key) and False:
+            key  = entry.get("path")
+            luri = os.path.join(entry.get("uri"), entry.get("class"))
+            if memcache.has_key(key):
                 self._console.debug("Use memory cache for %s" % key)
                 path = memcache[key]
             else:
@@ -125,7 +122,16 @@ class Generator:
             namespace = path.getNamespace()
 
             self._namespaces.append(namespace)
-            self._classes.update(path.getClasses())
+            classes = path.getClasses()
+            # patch uri with current value
+            # TODO: have to patch the 'uri' value of classes, since the same library can
+            # be used by different jobs with different uri (example: testrunner and its tests);
+            # solution: uri shouldn't be used in the LibraryPath object at all, but provided by
+            # the job; all other attribs (namespace, path, encoding, ...) seem to be stable
+            for clazz in classes.values():
+                clazz['uri'] = os.path.join(luri, clazz['relpath'])
+                clazz['uri'] = Path.posifyPath(clazz['uri'])
+            self._classes.update(classes)
             self._docs.update(path.getDocs())
             self._translations[namespace] = path.getTranslations()
 
