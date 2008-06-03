@@ -167,13 +167,8 @@ qx.Class.define("qx.ui.core.ScrollPane",
      * @param value {Integer} The vertical position to scroll to.
      * @return {void}
      */
-    scrollToX : function(value)
-    {
-      // TODO: Implement API in qx.html.Element
-      var el = this._contentElement.getDomElement();
-      if (el) {
-        el.scrollLeft = value;
-      }
+    scrollToX : function(value) {
+      this._contentElement.scrollToX(value);
     },
 
 
@@ -183,11 +178,8 @@ qx.Class.define("qx.ui.core.ScrollPane",
      * @type member
      * @return {Integer} Horizontal scroll position
      */
-    getScrollX : function()
-    {
-      // TODO: Implement API in qx.html.Element
-      var el = this._contentElement.getDomElement();
-      return el ? el.scrollLeft : 0;
+    getScrollX : function() {
+      return this._contentElement.getScrollX();
     },
 
 
@@ -198,13 +190,8 @@ qx.Class.define("qx.ui.core.ScrollPane",
      * @param value {Integer} The horizontal position to scroll to.
      * @return {void}
      */
-    scrollToY : function(value)
-    {
-      // TODO: Implement API in qx.html.Element
-      var el = this._contentElement.getDomElement();
-      if (el) {
-        el.scrollTop = value;
-      }
+    scrollToY : function(value){
+      this._contentElement.scrollToY(value);
     },
 
 
@@ -214,11 +201,8 @@ qx.Class.define("qx.ui.core.ScrollPane",
      * @type member
      * @return {Integer} Vertical scroll position
      */
-    getScrollY : function()
-    {
-      // TODO: Implement API in qx.html.Element
-      var el = this._contentElement.getDomElement();
-      return el ? el.scrollTop : 0;
+    getScrollY : function() {
+      return this._contentElement.getScrollY();
     },
 
 

@@ -456,7 +456,7 @@ qx.Class.define("qx.ui.core.ScrollArea",
      * The method scrolls the given item into view (y-axis only).
      *
      * @type static
-     * @param element {qx.ui.core.Widget} Item to scroll into view
+     * @param item {qx.ui.core.Widget} Item to scroll into view
      * @param align {String?null} Alignment of the element. Allowed values:
      *   <code>top</code> or <code>bottom</code>. Could also be null.
      *   Without a given alignment the method tries to scroll the widget
