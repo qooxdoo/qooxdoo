@@ -372,90 +372,32 @@ qx.Class.define("qx.ui.core.ScrollArea",
 
     /*
     ---------------------------------------------------------------------------
-      SCROLL DIMENSIONS
+      MORE DIMENSIONS
     ---------------------------------------------------------------------------
     */
 
     /**
-     * Full available inner width, the maximum available space
-     * when no scrollbars are rendered.
+     * The size of the pane. This is the available space for the content.
+     * This already substracts a optionally visible scrollbars.
      *
      * @type member
-     * @return {Integer} The inner width of the scrollarea
+     * @return {Map} Size of the pane (keys: <code>width</code> and <code>height</code>)
      */
-    getInnerWidth : function()
-    {
-      var inner = this.getInnerSize();
-      return inner ? inner.width : 0;
+    getPaneSize : function() {
+      return this._getChildControl("pane").getBounds();
     },
 
 
     /**
-     * Full available inner width, the maximum available space
-     * when no scrollbars are rendered.
+     * The size (identical with the preferred size) of of the content.
      *
      * @type member
-     * @return {Integer} The inner width of the scrollarea
+     * @return {Map} Size of the content (keys: <code>width</code> and <code>height</code>)
      */
-    getInnerHeight : function()
-    {
-      var inner = this.getInnerSize();
-      return inner ? inner.height : 0;
+    getScrollSize : function() {
+      return this._getChildControl("pane").getChild().getBounds();
     },
 
-
-    /**
-     * The width of the pane. This is the available space for the content.
-     * This already substracts a optionally visible vertical scrollbar.
-     *
-     * @type member
-     * @return {Integer} Width of the pane
-     */
-    getPaneWidth : function()
-    {
-      var pane = this._getChildControl("pane").getBounds();
-      return pane ? pane.width : 0;
-    },
-
-
-    /**
-     * The height of the pane. This is the available space for the content.
-     * This already substracts a optionally visible horizontal scrollbar.
-     *
-     * @type member
-     * @return {Integer} Width of the pane
-     */
-    getPaneHeight : function()
-    {
-      var pane = this._getChildControl("pane").getBounds();
-      return pane ? pane.height : 0;
-    },
-
-
-    /**
-     * The width (identical with the preferred width) of of the content.
-     *
-     * @type member
-     * @return {Integer} Width of the content
-     */
-    getScrollWidth : function()
-    {
-      var scroll = this._getChildControl("pane").getChild().getBounds();
-      return scroll ? scroll.width : 0;
-    },
-
-
-    /**
-     * The height (identical with the preferred height) of of the content.
-     *
-     * @type member
-     * @return {Integer} Height of the content
-     */
-    getScrollHeight : function()
-    {
-      var scroll = this._getChildControl("pane").getChild().getBounds();
-      return scroll ? scroll.height : 0;
-    },
 
 
 
@@ -649,16 +591,9 @@ qx.Class.define("qx.ui.core.ScrollArea",
         return;
       }
 
-      var inner = this.getInnerSize();
-
-      var innerWidth = inner.width;
-      var innerHeight = inner.height;
-
-      var paneWidth = this.getPaneWidth();
-      var paneHeight = this.getPaneHeight();
-
-      var scrollWidth = this.getScrollWidth();
-      var scrollHeight = this.getScrollHeight();
+      var innerSize = this.getInnerSize();
+      var paneSize = this.getPaneSize();
+      var scrollSize = this.getScrollSize();
 
       var scrollbarX = this.getScrollbarX();
       var scrollbarY = this.getScrollbarY();
@@ -667,8 +602,8 @@ qx.Class.define("qx.ui.core.ScrollArea",
       {
         // Check if the container is big enough to show
         // the full content.
-        var showX = scrollWidth > innerWidth;
-        var showY = scrollHeight > innerHeight;
+        var showX = scrollSize.width > innerSize.width;
+        var showY = scrollSize.height > innerSize.height;
 
         // Dependency check
         // We need a special intelligence here when only one
@@ -678,9 +613,9 @@ qx.Class.define("qx.ui.core.ScrollArea",
         if ((showX || showY) && !(showX && showY))
         {
           if (showX) {
-            showY = scrollHeight > paneHeight;
+            showY = scrollSize.height > paneSize.height;
           } else if (showY) {
-            showX = scrollWidth > paneWidth;
+            showX = scrollSize.width > paneSize.width;
           }
         }
       }
@@ -691,11 +626,11 @@ qx.Class.define("qx.ui.core.ScrollArea",
 
         // Check auto values afterwards with already
         // corrected client dimensions
-        if (scrollWidth > (showX ? paneWidth : innerWidth) && scrollbarX === "auto") {
+        if (scrollSize.width > (showX ? paneSize.width : innerSize.width) && scrollbarX === "auto") {
           showX = true;
         }
 
-        if (scrollHeight > (showX ? paneHeight : innerHeight) && scrollbarY === "auto") {
+        if (scrollSize.height > (showX ? paneSize.height : innerSize.height) && scrollbarY === "auto") {
           showY = true;
         }
       }
@@ -706,8 +641,8 @@ qx.Class.define("qx.ui.core.ScrollArea",
         var barX = this._getChildControl("scrollbarX");
 
         barX.show();
-        barX.setMaximum(Math.max(0, scrollWidth - paneWidth));
-        barX.setKnobFactor(paneWidth / scrollWidth);
+        barX.setMaximum(Math.max(0, scrollSize.width - paneSize.width));
+        barX.setKnobFactor(paneSize.width / scrollSize.width);
       }
       else
       {
@@ -719,8 +654,8 @@ qx.Class.define("qx.ui.core.ScrollArea",
         var barY = this._getChildControl("scrollbarY");
 
         barY.show();
-        barY.setMaximum(Math.max(0, scrollHeight - paneHeight));
-        barY.setKnobFactor(paneHeight / scrollHeight);
+        barY.setMaximum(Math.max(0, scrollSize.height - paneSize.height));
+        barY.setKnobFactor(paneSize.height / scrollSize.height);
       }
       else
       {
