@@ -1193,8 +1193,6 @@ qx.Class.define("qx.ui.window.Window",
       this._minimizeButton.removeState("pressed");
       this._minimizeButton.removeState("abandoned");
       this._minimizeButton.removeState("over");
-
-      e.stopPropagation();
     },
 
 
@@ -1215,8 +1213,6 @@ qx.Class.define("qx.ui.window.Window",
       this._restoreButton.removeState("pressed");
       this._restoreButton.removeState("abandoned");
       this._restoreButton.removeState("over");
-
-      e.stopPropagation();
     },
 
 
@@ -1237,8 +1233,6 @@ qx.Class.define("qx.ui.window.Window",
       this._maximizeButton.removeState("pressed");
       this._maximizeButton.removeState("abandoned");
       this._maximizeButton.removeState("over");
-
-      e.stopPropagation();
     },
 
 
@@ -1259,8 +1253,6 @@ qx.Class.define("qx.ui.window.Window",
       this._closeButton.removeState("pressed");
       this._closeButton.removeState("abandoned");
       this._closeButton.removeState("over");
-
-      e.stopPropagation();
     },
 
 
