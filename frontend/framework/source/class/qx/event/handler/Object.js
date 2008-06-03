@@ -39,7 +39,7 @@ qx.Class.define("qx.event.handler.Object",
   statics :
   {
     /** {Integer} Priority of this handler */
-    PRIORITY : qx.event.Registration.PRIORITY_NORMAL,
+    PRIORITY : qx.event.Registration.PRIORITY_LAST,
 
     /** {Map} Supported event types */
     SUPPORTED_TYPES : null,
