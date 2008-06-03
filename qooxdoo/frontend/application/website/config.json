@@ -50,7 +50,7 @@
         "qx.aspects" : ["off"]
       },
 
-      "compile" :
+      "compile-dist" :
       {
         "file" : "script/bom.js",
         "optimize" : [ "variables", "basecalls", "privates" ],

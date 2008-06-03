@@ -53,7 +53,7 @@
         "${APIVIEWER}.resourceUri" : "./resource"
       },
 
-      "script" :
+      "compile-source" :
       {
         "file" : "./source/script/${APIVIEWER}.js"
       }
@@ -80,7 +80,7 @@
         "${APIVIEWER}.resourceUri" : "./resource"
       },
 
-      "compile" :
+      "compile-dist" :
       {
 				"target" : "${BUILD_PATH}",
         "file" : "${BUILD_PATH}/script/${APIVIEWER}.js",
