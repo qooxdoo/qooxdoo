@@ -96,7 +96,7 @@ qx.Class.define("qx.event.handler.DomReady",
   statics :
   {
     /** {Integer} Priority of this handler */
-    PRIORITY : qx.event.Registration.PRIORITY_FIRST,
+    PRIORITY : qx.event.Registration.PRIORITY_NORMAL,
 
     /** {Map} Supported event types */
     SUPPORTED_TYPES : {

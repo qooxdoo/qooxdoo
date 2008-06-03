@@ -51,22 +51,10 @@ qx.Class.define("qx.ui.core.EventHandler",
   statics :
   {
     /** {Integer} Priority of this handler */
-    PRIORITY : qx.event.Registration.PRIORITY_FIRST
-  },
+    PRIORITY : qx.event.Registration.PRIORITY_FIRST,
 
-
-
-
-  /*
-  *****************************************************************************
-     MEMBERS
-  *****************************************************************************
-  */
-
-  members :
-  {
-    /** {Map} Events which are supported */
-    __supported :
+    /** {Map} Supported event types */
+    SUPPORTED_TYPES :
     {
       // mouse events
       mousemove : 1,
@@ -105,7 +93,21 @@ qx.Class.define("qx.ui.core.EventHandler",
       load : 1
     },
 
+    /** {Integer} Whether the method "canHandleEvent" must be called */
+    IGNORE_CAN_HANDLE : false
+  },
 
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
+  members :
+  {
     /** {Map} Map of events which should be fired independently from being disabled */
     __ignoreDisabled :
     {
@@ -120,12 +122,7 @@ qx.Class.define("qx.ui.core.EventHandler",
 
 
     // interface implementation
-    canHandleEvent : function(target, type)
-    {
-      if (!this.__supported[type]) {
-        return false;
-      }
-
+    canHandleEvent : function(target, type) {
       return target instanceof qx.ui.core.Widget;
     },
 
