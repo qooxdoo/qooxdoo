@@ -56,6 +56,8 @@ qx.Bootstrap.define("qx.event.Manager",
     // The handler and dispatcher instances
     this.__handlers = {};
     this.__dispatchers = {};
+
+    this.__handlerCache = {};
   },
 
 
@@ -93,7 +95,7 @@ qx.Bootstrap.define("qx.event.Manager",
 
       // Dispose data fields
       this.__listeners = this.__window = this.__handlers =
-      this.__dispatchers = this.__disposeWrapper = null;
+      this.__dispatchers = this.__disposeWrapper = this.__handlerCache = null;
     },
 
 
@@ -344,6 +346,37 @@ qx.Bootstrap.define("qx.event.Manager",
      */
     getEventHandler : function(target, type)
     {
+      var key;
+      var isDomNode = false;
+      var isWindow = false;
+      var isObject = false;
+
+      if (target.nodeType === 1)
+      {
+        isDomNode = true;
+        key = "DOM_" + target.tagName.toLowerCase() + "_" + type;
+      }
+      else if (target === this.__window)
+      {
+        isWindow = true;
+        key = "WIN_" + type;
+      }
+      else if (target.classname)
+      {
+        isObject = true;
+        key = "QX_" + target.classname + "_" + type;
+      }
+      else
+      {
+        key = "UNKNOWN_" + target + "_" + type;
+      }
+
+      var cache = this.__handlerCache;
+      if (cache[key]) {
+        return cache[key];
+      }
+
+
       var classes = qx.event.Registration.getHandlers();
       var instance;
 
@@ -362,17 +395,19 @@ qx.Bootstrap.define("qx.event.Manager",
         var targetCheck = clazz.TARGET_CHECK;
         if (targetCheck)
         {
-          if (targetCheck === IEventHandler.TARGET_DOMNODE && target.nodeType === undefined) {
+          if (targetCheck === IEventHandler.TARGET_DOMNODE && !isDomNode) {
             continue;
-          } else if (targetCheck === IEventHandler.TARGET_WINDOW && target !== this.__window) {
+          } else if (targetCheck === IEventHandler.TARGET_WINDOW && !isWindow) {
             continue;
-          } else if (targetCheck === IEventHandler.TARGET_OBJECT && !(target instanceof qx.core.Object)) {
+          } else if (targetCheck === IEventHandler.TARGET_OBJECT && !isObject) {
             continue;
           }
         }
 
         instance = this.getHandler(classes[i]);
-        if (clazz.IGNORE_CAN_HANDLE || instance.canHandleEvent(target, type)) {
+        if (clazz.IGNORE_CAN_HANDLE || instance.canHandleEvent(target, type))
+        {
+          cache[key] = instance;
           return instance;
         }
       }

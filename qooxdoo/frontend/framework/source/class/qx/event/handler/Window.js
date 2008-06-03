@@ -68,7 +68,6 @@ qx.Class.define("qx.event.handler.Window",
     /** {Integer} Priority of this handler */
     PRIORITY : qx.event.Registration.PRIORITY_NORMAL,
 
-
     /** {Map} Supported event types */
     SUPPORTED_TYPES :
     {
