@@ -358,7 +358,7 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
     _onUpdate : function(e)
     {
       // Update sliding space
-      var availSize = this.getComputedInnerSize();
+      var availSize = this.getInnerSize();
       var knobSize = this._knob.getBounds();
       if (this.__isHorizontal) {
         this.__slidingSpace = availSize.width - knobSize.width;
@@ -600,7 +600,7 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
       }
 
       // Ignore when not rendered yet
-      var avail = this.getComputedInnerSize();
+      var avail = this.getInnerSize();
       if (avail == null) {
         return;
       }
