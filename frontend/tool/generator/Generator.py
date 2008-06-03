@@ -360,7 +360,7 @@ class Generator:
             libpath = os.path.normpath(libpath)
 
             # get relevant resources for this lib
-            resList  = self._resourceHandler.findAllResources([lib], self._getDefaultResourceFilter())
+            resList  = self._resourceHandler.findAllResources([lib], self._resourceHandler.filterResourcesByClasslist(self._classList))
 
             # for each needed resource
             for res in resList:
@@ -461,7 +461,7 @@ class Generator:
                  'uri': buildUri, 
                  'encoding':'utf-8'
             }]  # use what's in the 'build' tree -- this depends on resource copying!!
-        #resourceList = self._resourceHandler.findAllResources(libs, self._getDefaultResourceFilter())
+        #resourceList = self._resourceHandler.findAllResources(libs, self._resourceHandler.filterResourcesByClasslist(self._classList))
 
         # Generating boot script
         self._console.info("Generating boot script...")
@@ -538,7 +538,7 @@ class Generator:
 
         # Get resource list
         libs = self._config.get("library", [])
-        #resourceList = self._resourceHandler.findAllResources(libs, self._getDefaultResourceFilter())
+        #resourceList = self._resourceHandler.findAllResources(libs, self._resourceHandler.filterResourcesByClasslist(self._classList))
         
         # Add data from settings, variants and packages
         sourceBlocks = []
@@ -758,9 +758,9 @@ class Generator:
         # main
 
         for lib in libs:
-            # wpbasti: The whole filtering idea could be simplified now as we always filter according to the defined assets? Any vetos?
             libresuri = os.path.join(lib['uri'],lib['resource'])
-            resourceList = self._resourceHandler.findAllResources([lib], self._getDefaultResourceFilter())
+            resourceList = self._resourceHandler.findAllResources([lib], 
+                                self._resourceHandler.filterResourcesByClasslist(self._classList))
             # resourceList = [[file1,uri1],[file2,uri2],...]
             for resource in resourceList:
                 ##assetId = replaceWithNamespace(imguri, libresuri, lib['namespace'])
@@ -1086,19 +1086,6 @@ class Generator:
         copier.do_work()
 
 
-    # wpbasti: Clean this stuff up. No need anymore. Assets are needed in the current implementation.
-    def _getDefaultResourceFilter(self, useAssets=True):
-        '''Just a utility function to easily switch between resource filters in
-           all invocations to findAllResources(); also shows how a filter argument
-           might look like'''
-        #return None
-        if useAssets: # this was the old 'resource-filter : true' config setting
-            # select a resource whether it is used by a class
-            return self._resourceHandler.filterResourcesByClasslist(self._classList)
-        else:
-            #return self._resourceHandler.filterResourcesByFilepath(re.compile(r'.*/qx/icon/.*'), lambda x: not x) # only res paths that do *not* match '/qx/icon/'
-            return self._resourceHandler.filterResourcesByFilepath() 
-
 
 # wpbasti: TODO: Put this into a separate file
 class _ResourceHandler(object):
@@ -1179,7 +1166,9 @@ class _ResourceHandler(object):
         """Returns a filter function that takes a resource path and returns
            True/False, depending on whether the resource should be included.
            <filepatt> pattern to match against a resource path, <inversep> if
-           the match result should be reversed (for exclusions)"""
+           the match result should be reversed (for exclusions); example:
+               filterResourcesByFilepath(re.compile(r'.*/qx/icon/.*'), lambda x: not x)
+           returns only res paths that do *not* match '/qx/icon/'"""
         if not filepatt:
             #filepatt = re.compile(r'\.(?:png|jpeg|gif)$', re.I)
             filepatt = re.compile(r'.*/resource/.*')
