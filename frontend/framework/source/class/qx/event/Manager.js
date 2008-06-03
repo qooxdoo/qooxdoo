@@ -344,7 +344,7 @@ qx.Bootstrap.define("qx.event.Manager",
      * @return {qx.event.IEventHandler|null} The best matching event handler or
      *     <code>null</code>.
      */
-    getEventHandler : function(target, type)
+    _findHandler : function(target, type)
     {
       var key;
       var isDomNode = false;
@@ -430,7 +430,7 @@ qx.Bootstrap.define("qx.event.Manager",
      */
     __registerAtHandler : function(target, type, capture)
     {
-      var handler = this.getEventHandler(target, type);
+      var handler = this._findHandler(target, type);
 
       if (handler)
       {
@@ -556,7 +556,7 @@ qx.Bootstrap.define("qx.event.Manager",
      */
     __unregisterAtHandler : function(target, type, capture)
     {
-      var handler = this.getEventHandler(target, type);
+      var handler = this._findHandler(target, type);
 
       if (handler)
       {
