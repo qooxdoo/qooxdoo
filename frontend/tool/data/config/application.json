@@ -48,7 +48,7 @@
     {
       "extend" : ["common"],
 
-      "script" :
+      "compile-source" :
       {
         "file" : "${ROOT}/source/script/${APPLICATION}.js"
       }
@@ -73,7 +73,7 @@
         "qx.debug" : ["off"]
       },
 
-      "compile" :
+      "compile-dist" :
       {
         "target" : "${BUILD_PATH}",
         "file" : "${BUILD_PATH}/script/${APPLICATION}.js",
