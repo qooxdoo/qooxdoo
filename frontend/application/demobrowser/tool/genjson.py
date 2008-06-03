@@ -68,7 +68,7 @@ def main():
     JSON = open(fJSON,"w")
     JSON.write('{\n  "jobs":\n  {\n')
 
-    jsontmplf = open(os.path.join('tool','json.tmpl'),"rU")
+    jsontmplf = open(os.path.join('tool','tmpl.json'),"rU")
     json_tmpl = jsontmplf.read()
 
     for html in htmlfiles(os.path.join('source','demo')):

@@ -51,7 +51,7 @@
         "qx.application" : "XXX"
       },
 
-      "script" :
+      "compile-source" :
       {
         "file" : "source/script/XXX.js"
       }
@@ -71,7 +71,7 @@
         "qx.debug" : ["off"]
       },
 
-      "compile" :
+      "compile-dist" :
       {
         "file" : "build/script/XXX.js",
         "uri"  : "../../script/XXX.js",
