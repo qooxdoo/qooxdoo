@@ -70,19 +70,24 @@ qx.Class.define("demobrowser.demo.widget.Window",
       tabview.add(new qx.ui.tabview.Page("Future"));
       win.add(tabview, {flex: 1});
 
-      var handler = function(e)
-      {
-        console.log(e.getType(), e.getTarget());
-        if (e.isCancelable())
-        {
-          if (window.confirm("Cancel event '"+e.getType()+"'?")) {
-            e.preventDefault();
-          }
-        }
-      }
-
+      win.addListener("beforeClose", this.cancelHandler, this);
+      win.addListener("beforeRestore", this.cancelHandler, this);
+      win.addListener("beforeMinimize", this.cancelHandler, this);
+      win.addListener("beforeMaximize", this.cancelHandler, this);
 
       return win;
+    },
+
+
+    cancelHandler : function(e)
+    {
+      //console.log(e.getType(), e.getTarget());
+      if (e.isCancelable())
+      {
+        if (!window.confirm("Really '" + e.getType() + "' window?")) {
+          e.preventDefault();
+        }
+      }
     },
 
 
