@@ -411,7 +411,8 @@ qx.Class.define("qx.ui.core.ScrollArea",
      * @type member
      * @return {Integer} Width of the pane
      */
-    getPaneWidth : function() {
+    getPaneWidth : function()
+    {
       var pane = this._getChildControl("pane").getBounds();
       return pane ? pane.width : 0;
     },
