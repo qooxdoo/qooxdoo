@@ -87,7 +87,7 @@ qx.Class.define("qx.ui.core.ScrollArea",
     {
       check : ["auto", "on", "off"],
       init : "auto",
-      apply : "_applyScrollBar"
+      apply : "_computeScrollbars"
     },
 
 
@@ -103,7 +103,7 @@ qx.Class.define("qx.ui.core.ScrollArea",
     {
       check : ["auto", "on", "off"],
       init : "auto",
-      apply : "_applyScrollBar"
+      apply : "_computeScrollbars"
     },
 
 
@@ -369,7 +369,6 @@ qx.Class.define("qx.ui.core.ScrollArea",
 
 
 
-
     /*
     ---------------------------------------------------------------------------
       MORE DIMENSIONS
@@ -401,8 +400,6 @@ qx.Class.define("qx.ui.core.ScrollArea",
 
 
 
-
-
     /*
     ---------------------------------------------------------------------------
       ITEM INTO VIEW
@@ -410,68 +407,72 @@ qx.Class.define("qx.ui.core.ScrollArea",
     */
 
     /**
-     * Scroll a widget, which is nested somewhere inside of this scroll area,
-     * into the visible part of the scroll area.
+     * The method scrolls the given item into view.
      *
-     * @param item {qx.ui.core.Widget} widget to scroll into view
-     * @param hAlign {String?"top"} Valid values: <code>top</code> and
-     *     <code>bottom</code>.If the item's height is larger than the
-     *     scroll area's height, this value sets, whether the top or the or the
-     *     bottom of the item becomes visible.
-     * @param vAlign {String?"left"} Valid values: <code>left</code> and
-     *     <code>right</code>.If the item's width is larger than the
-     *     scroll area's width, this value sets, whether the left or the or the
-     *     right part of the item becomes visible.
+     * @type static
+     * @param item {qx.ui.core.Widget} Item to scroll into view
+     * @param alignX {String?null} Alignment of the item. Allowed values:
+     *   <code>left</code> or <code>right</code>. Could also be null.
+     *   Without a given alignment the method tries to scroll the widget
+     *   with the minimum effort needed.
+     * @param alignY {String?null} Alignment of the item. Allowed values:
+     *   <code>top</code> or <code>bottom</code>. Could also be null.
+     *   Without a given alignment the method tries to scroll the widget
+     *   with the minimum effort needed.
      */
-    scrollItemIntoView : function(item, hAlign, vAlign)
+    scrollItemIntoView : function(item, alignX, alignY)
     {
-      hAlign = hAlign || "left";
-      vAlign = vAlign || "top";
+      this.scrollItemIntoViewX(item, alignX);
+      this.scrollItemIntoViewY(item, alignY);
+    },
 
-      // This method can only work after the item has been rendered
-      // If this is not the case wait for the item's resize event and
-      // try again.
-      if (!item.getBounds()) {
-        item.addListener("resize", function(e)
-        {
-          item.removeListener("resize", arguments.callee, this);
-          this.scrollItemIntoView(item);
-        }, this);
-        return;
-      }
 
+    /**
+     * The method scrolls the given item into view (x-axis only).
+     *
+     * @type static
+     * @param item {qx.ui.core.Widget} Item to scroll into view
+     * @param align {String?null} Alignment of the item. Allowed values:
+     *   <code>left</code> or <code>right</code>. Could also be null.
+     *   Without a given alignment the method tries to scroll the widget
+     *   with the minimum effort needed.
+     */
+    scrollItemIntoViewX : function(item, align)
+    {
+      var paneSize = this.getPaneSize();
+      var scrollPos = this.getScrollX();
       var itemSize = item.getBounds();
-      var content = this._getChildControl("pane").getChild();
-      var left = 0;
-      var top = 0;
-      do {
-        var pos = item.getBounds();
-        left += pos.left;
-        top += pos.top;
-        item = item.getLayoutParent();
-      } while (item && item !== content);
+      var itemPos = this.getItemLeft(item);
 
-      var scrollTop = this.getScrollY();
-      var containerSize = this._getChildControl("pane").getBounds();
-
-      if (scrollTop + containerSize.height < top + itemSize.height) {
-        this.scrollToY(top + itemSize.height - containerSize.height);
+      if (align === "left" || (align == null && itemPos < scrollPos)) {
+        this.scrollToX(itemPos);
+      } else if (align === "right" || (align == null && (itemPos + itemSize.width) > (paneSize.width + scrollPos))) {
+        this.scrollToX(itemPos + itemSize.width - paneSize.width);
       }
+    },
 
-      if (vAlign == "top" && this.getScrollY() > top) {
-        this.scrollToY(top);
-      }
 
-      var scrollLeft = this.getScrollX();
+    /**
+     * The method scrolls the given item into view (y-axis only).
+     *
+     * @type static
+     * @param element {qx.ui.core.Widget} Item to scroll into view
+     * @param align {String?null} Alignment of the element. Allowed values:
+     *   <code>top</code> or <code>bottom</code>. Could also be null.
+     *   Without a given alignment the method tries to scroll the widget
+     *   with the minimum effort needed.
+     */
+    scrollItemIntoViewY : function(item, align)
+    {
+      var paneSize = this.getPaneSize();
+      var scrollPos = this.getScrollY();
+      var itemSize = item.getBounds();
+      var itemPos = this.getItemTop(item);
 
-      if (scrollLeft + containerSize.width < left + itemSize.width)
-      {
-        var scrollLeft = left + itemSize.width - containerSize.width;
-        this.scrollToX(left + itemSize.width - containerSize.width);
-      }
-
-      if (hAlign == "left" && scrollLeft > left) {
-        this.scrollToX(left);
+      if (align === "top" || (align == null && itemPos < scrollPos)) {
+        this.scrollToY(itemPos);
+      } else if (align === "bottom" || (align == null && (itemPos + itemSize.height) > (paneSize.height + scrollPos))) {
+        this.scrollToY(itemPos + itemSize.height - paneSize.height);
       }
     },
 
@@ -661,21 +662,6 @@ qx.Class.define("qx.ui.core.ScrollArea",
       {
         this._excludeChildControl("scrollbarY");
       }
-    },
-
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      PROPERTY APPLY ROUTINES
-    ---------------------------------------------------------------------------
-    */
-
-    // property apply
-    _applyScrollBar : function(value, old) {
-      this._computeScrollbars();
     }
   }
 });
