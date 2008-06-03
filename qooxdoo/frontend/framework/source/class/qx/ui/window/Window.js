@@ -630,7 +630,7 @@ qx.Class.define("qx.ui.window.Window",
     /**
      * Sets the current mode (minimized or maximized)
      *
-     * @param {String|null} The new mode. A value of <code>null</code> will
+     * @param mode {String|null} The new mode. A value of <code>null</code> will
      *     restore the window
      */
     _setMode : function(mode)
