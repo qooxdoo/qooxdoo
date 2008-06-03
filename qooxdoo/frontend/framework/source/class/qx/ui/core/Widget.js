@@ -1062,7 +1062,7 @@ qx.Class.define("qx.ui.core.Widget",
     */
 
     /**
-     * Returns the widget's computed inner dimension as available
+     * Returns the widget's computed inner size as available
      * through the layout process.
      *
      * This function is guaranteed to return a correct value
@@ -1072,16 +1072,15 @@ qx.Class.define("qx.ui.core.Widget",
      * @return {Map} The widget inner dimension in pixel (if the layout is
      *    valid). Contains the keys <code>width</code> and <code>height</code>.
      */
-    getComputedInnerSize : function()
+    getInnerSize : function()
     {
       var computed = this.getBounds();
       if (!computed) {
         return null;
       }
 
-      var insets = this.getInsets();
-
       // Return map data
+      var insets = this.getInsets();
       return {
         width : computed.width - insets.left - insets.right,
         height : computed.height - insets.top - insets.bottom

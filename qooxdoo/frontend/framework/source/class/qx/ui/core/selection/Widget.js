@@ -104,7 +104,7 @@ qx.Class.define("qx.ui.core.selection.Widget",
 
     // overridden
     _getDimension : function() {
-      return this._widget.getComputedInnerSize();
+      return this._widget.getInnerSize();
     },
 
 
