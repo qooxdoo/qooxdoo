@@ -194,7 +194,6 @@ qx.Class.define("qx.ui.core.EventHandler",
       var widgetEvent = qx.event.Pool.getInstance().getObject(domEvent.constructor);
       domEvent.clone(widgetEvent);
 
-      widgetEvent.setBubbles(false);
       widgetEvent.setTarget(widgetTarget);
       widgetEvent.setRelatedTarget(widgetRelatedTarget||null);
       widgetEvent.setCurrentTarget(widgetTarget);
