@@ -472,7 +472,7 @@ class Generator:
         bootBlocks.append(self.generateVariantsCode(variants, format))
         bootBlocks.append(self.generateLibInfoCode(libs, format))
         bootBlocks.append(self.generateResourceInfoCode(settings, libs, format))
-        bootBlocks.append(self.generateTranslationCode(self._translationMaps, format))
+        bootBlocks.append(self.generateLocalesCode(self._translationMaps, format))
         bootBlocks.append(self.generateCompiledPackageCode(fileUri, parts, packages, boot, variants, settings, format))
 
         if format:
@@ -546,7 +546,7 @@ class Generator:
         sourceBlocks.append(self.generateVariantsCode(variants, format))
         sourceBlocks.append(self.generateLibInfoCode(self._config.get("library",[]),format))        
         sourceBlocks.append(self.generateResourceInfoCode(settings, libs, format))
-        sourceBlocks.append(self.generateTranslationCode(self._translationMaps, format))
+        sourceBlocks.append(self.generateLocalesCode(self._translationMaps, format))
         sourceBlocks.append(self.generateSourcePackageCode(parts, packages, boot, format))
 
         # TODO: Do we really need this optimization here. Could this be solved
@@ -689,12 +689,10 @@ class Generator:
 
 
     def generateLibInfoCode(self, libs, format):
-        # wpbasti: The whole wording "libinfo" is not that optimal. Suggesting rename to "qxlibraries"
-        # Also: "resuri" to "resourceUri"
-        result = 'if(!window.qxlibinfo)qxlibinfo={};'
+        result = 'if(!window.qxlibraries)qxlibraries={};'
 
         for lib in libs:
-            result += 'qxlibinfo["%s"]={"resuri":"%s"};' % (lib['namespace'], 
+            result += 'qxlibraries["%s"]={"resourceUri":"%s"};' % (lib['namespace'], 
                                                   Path.posifyPath(os.path.join(lib['uri'],lib['resource'])))
         return result
 
@@ -819,7 +817,7 @@ class Generator:
 
 
     # wpbasti: Rename to generateLocalesCode
-    def generateTranslationCode(self, translationMaps, format=False):
+    def generateLocalesCode(self, translationMaps, format=False):
         if translationMaps == None:
             return ""
 

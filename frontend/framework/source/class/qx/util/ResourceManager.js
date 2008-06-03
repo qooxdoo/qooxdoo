@@ -125,7 +125,7 @@ qx.Bootstrap.define("qx.util.ResourceManager",
         }
       }
 
-      return window.qxlibinfo[lib].resuri + "/" + id;
+      return window.qxlibraries[lib].resourceUri + "/" + id;
     }
   }
 });
