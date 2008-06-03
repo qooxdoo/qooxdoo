@@ -70,6 +70,18 @@ qx.Class.define("demobrowser.demo.widget.Window",
       tabview.add(new qx.ui.tabview.Page("Future"));
       win.add(tabview, {flex: 1});
 
+      var handler = function(e)
+      {
+        console.log(e.getType(), e.getTarget());
+        if (e.isCancelable())
+        {
+          if (window.confirm("Cancel event '"+e.getType()+"'?")) {
+            e.preventDefault();
+          }
+        }
+      }
+
+
       return win;
     },
 
