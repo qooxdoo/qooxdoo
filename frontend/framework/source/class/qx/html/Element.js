@@ -783,11 +783,6 @@ qx.Class.define("qx.html.Element",
 
 
 
-
-
-
-
-
     /*
     ---------------------------------------------------------------------------
       CHILDREN MANAGEMENT (EXECUTED ON THE PARENT)
@@ -1304,6 +1299,54 @@ qx.Class.define("qx.html.Element",
      */
     isVisible : function() {
       return this._visible === true;
+    },
+
+
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      SCROLL SUPPORT
+    ---------------------------------------------------------------------------
+    */
+
+    scrollToX : function(x)
+    {
+      var el = this._element;
+      if (el) {
+        el.scrollLeft = x;
+      }
+    },
+
+    getScrollX : function()
+    {
+      var el = this._element;
+      if (el) {
+        return el.scrollLeft;
+      }
+
+      return 0;
+    },
+
+    scrollToY : function(y)
+    {
+      var el = this._element;
+      if (el) {
+        el.scrollTop = y;
+      }
+    },
+
+    getScrollY : function()
+    {
+      var el = this._element;
+      if (el) {
+        return el.scrollTop;
+      }
+
+      return 0;
     },
 
 
