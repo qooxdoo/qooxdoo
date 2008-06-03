@@ -36,9 +36,10 @@ qx.Class.define("demobrowser.demo.widget.TextField",
 
       this.getRoot().add(container, {left:0,top:0});
 
-      var input1 = new qx.ui.form.TextField("max5").set({
-        maxLength: 5
+      var input1 = new qx.ui.form.TextField("max15").set({
+        maxLength: 15
       });
+      input1.focus();
       container.add(input1);
 
       var input2 = new qx.ui.form.TextField("centered").set({
