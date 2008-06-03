@@ -121,7 +121,7 @@ qx.Class.define("qx.ui.core.selection.ScrollArea",
 
       var widget = this._widget;
       var scrollTop = widget.getScrollY();
-      var innerHeight = widget.getComputedInnerSize().height;
+      var innerHeight = widget.getInnerSize().height;
       var top, bottom, found;
 
       if (up)
