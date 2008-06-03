@@ -80,6 +80,12 @@
             "prefix" : "../../${MODERN}/window/background",
             "border-width" : 14
           },
+          // window background split II
+          "${RESPATH}/source/Modern/window-shadow.png" :
+          {
+            "prefix" : "../../${MODERN}/window/shadow",
+            "border-width" : 14
+          },
           // window captionbar active split
           "${RESPATH}/source/Modern/window-captionbar-active.png" :
           {
@@ -189,7 +195,26 @@
                 "${RESPATH}/${MODERN}/window/background-[lr].png"
               ],
              "layout" : "horizontal"
-          }          
+          },
+
+          "${RESPATH}/${MODERN}/window-shadow-tb-combined.png":
+          {
+            "input"  : 
+              [
+                "${RESPATH}/${MODERN}/window/shadow-t*.png",
+                "${RESPATH}/${MODERN}/window/shadow-b*.png"
+              ],
+             "layout" : "vertical"
+          },
+
+          "${RESPATH}/${MODERN}/window-shadow-lr-combined.png":
+          {
+            "input"  : 
+              [
+                "${RESPATH}/${MODERN}/window/shadow-[lr].png"
+              ],
+             "layout" : "horizontal"
+          }
         }
       }
     }
