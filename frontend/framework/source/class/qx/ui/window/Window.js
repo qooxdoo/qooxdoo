@@ -207,14 +207,46 @@ qx.Class.define("qx.ui.window.Window",
 
   events :
   {
+    /**
+     * Fired before the window is closed.
+     *
+     * The close action can be prevented by calling
+     * {@link qx.event.type.Event#preventDefault} on the event object
+     */
+    "beforeClose" : "qx.event.type.Event",
+
     /** Fired if the window is closed */
     "close" : "qx.event.type.Event",
+
+    /**
+     * Fired before the window is minimize.
+     *
+     * The minimize action can be prevented by calling
+     * {@link qx.event.type.Event#preventDefault} on the event object
+     */
+    "beforeMinimize" : "qx.event.type.Event",
 
     /** Fired if the window is minimized */
     "minimize" : "qx.event.type.Event",
 
+    /**
+     * Fired before the window is maximize.
+     *
+     * The maximize action can be prevented by calling
+     * {@link qx.event.type.Event#preventDefault} on the event object
+     */
+    "beforeMaximize" : "qx.event.type.Event",
+
     /** Fired if the window is maximized */
     "maximize" : "qx.event.type.Event",
+
+    /**
+     * Fired before the window is restored from a minimized or maximized state.
+     *
+     * The restored action can be prevented by calling
+     * {@link qx.event.type.Event#preventDefault} on the event object
+     */
+    "beforeRestore" : "qx.event.type.Event",
 
     /** Fired if the window is restored from a minimized or maximized state */
     "restore" : "qx.event.type.Event"
@@ -266,20 +298,6 @@ qx.Class.define("qx.ui.window.Window",
       init : false,
       apply : "_applyModal",
       event : "changeModal"
-    },
-
-
-    /** The current mode (minimized or maximized) of the window instance
-     * <b>Attention:</b> if the window instance is neither maximized nor minimized this
-     * property will return <code>null</code>
-     */
-    mode :
-    {
-      check : [ "minimized", "maximized" ],
-      init : null,
-      nullable: true,
-      apply : "_applyMode",
-      event : "changeMode"
     },
 
 
@@ -474,8 +492,13 @@ qx.Class.define("qx.ui.window.Window",
      * @type member
      * @return {void}
      */
-    close : function() {
+    close : function()
+    {
+      if (!this.fireEvent("beforeClose", qx.event.type.Event, [false, true])) {
+        return;
+      };
       this.hide();
+      this.fireEvent("close");
     },
 
 
@@ -528,6 +551,58 @@ qx.Class.define("qx.ui.window.Window",
 
 
     /**
+     * Get the current mode (minimized or maximized) of the window instance
+     * <b>Attention:</b> if the window instance is neither maximized nor minimized this
+     * property will return <code>null</code>
+     *
+     * @return {String|null} The current window mode
+     */
+    getMode : function() {
+      return this.__mode || null;
+    },
+
+
+    /**
+     * Sets the current mode (minimized or maximized)
+     *
+     * @param {String|null} The new mode. A value of <code>null</code> will
+     *     restore the window
+     */
+    _setMode : function(mode)
+    {
+      var oldMode = this.__mode;
+
+      switch(mode)
+      {
+        case "minimized":
+          this.setDisableResize(true);
+          this._minimize();
+          break;
+
+        case "maximized":
+          this.setDisableResize(true);
+          this._maximize();
+          break;
+
+        default:
+          this.setDisableResize(false);
+          switch(oldMode)
+          {
+            case "maximized":
+              this._restoreFromMaximized();
+              break;
+
+            case "minimized":
+              this._restoreFromMinimized();
+              break;
+          }
+      }
+
+      this.__mode = mode;
+    },
+
+
+    /**
      * Maximize the window by setting the property {@link mode} to <code>maximized</code>
      *
      * @type member
@@ -535,7 +610,10 @@ qx.Class.define("qx.ui.window.Window",
      */
     maximize : function()
     {
-      this.setMode("maximized");
+      if (!this.fireEvent("beforeMaximize", qx.event.type.Event, [false, true])) {
+        return;
+      };
+      this._setMode("maximized");
       this.fireEvent("maximize");
     },
 
@@ -548,7 +626,10 @@ qx.Class.define("qx.ui.window.Window",
      */
     minimize : function()
     {
-      this.setMode("minimized");
+      if (!this.fireEvent("beforeMinimize", qx.event.type.Event, [false, true])) {
+        return;
+      };
+      this._setMode("minimized");
       this.fireEvent("minimize");
     },
 
@@ -559,8 +640,12 @@ qx.Class.define("qx.ui.window.Window",
      * @type member
      * @return {void}
      */
-    restore : function() {
-      this.setMode(null);
+    restore : function()
+    {
+      if (!this.fireEvent("beforeRestore", qx.event.type.Event, [false, true])) {
+        return;
+      };
+      this._setMode(null);
       this.fireEvent("restore");
     },
 
@@ -773,37 +858,6 @@ qx.Class.define("qx.ui.window.Window",
 
 
     // property apply
-    _applyMode : function(value, old)
-    {
-      switch(value)
-      {
-        case "minimized":
-          this.setDisableResize(true);
-          this._minimize();
-          break;
-
-        case "maximized":
-          this.setDisableResize(true);
-          this._maximize();
-          break;
-
-        default:
-          this.setDisableResize(false);
-          switch(old)
-          {
-            case "maximized":
-              this._restoreFromMaximized();
-              break;
-
-            case "minimized":
-              this._restoreFromMinimized();
-              break;
-          }
-      }
-    },
-
-
-    // property apply
     _applyShowCaption : function(value, old)
     {
       if (value) {
@@ -1009,7 +1063,7 @@ qx.Class.define("qx.ui.window.Window",
     _restoreFromMinimized : function()
     {
       if (this.hasState("maximized")) {
-        this.setMode("maximized");
+        this._setMode("maximized");
       }
 
       this.show();
@@ -1205,8 +1259,6 @@ qx.Class.define("qx.ui.window.Window",
       this._closeButton.removeState("pressed");
       this._closeButton.removeState("abandoned");
       this._closeButton.removeState("over");
-
-      this.fireEvent("close");
 
       e.stopPropagation();
     },

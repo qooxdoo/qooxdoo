@@ -371,6 +371,7 @@ qx.Bootstrap.define("qx.event.Manager",
         key = "UNKNOWN_" + target + "_" + type;
       }
 
+
       var cache = this.__handlerCache;
       if (cache[key]) {
         return cache[key];
@@ -594,8 +595,14 @@ qx.Bootstrap.define("qx.event.Manager",
      */
     dispatchEvent : function(target, event)
     {
-      if (!event) {
-        return;
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        if (!target) {
+          throw new Error("Event target is undefined!")
+        }
+        if (!(event instanceof qx.event.type.Event)) {
+          throw new Error("Event must be instance of qx.event.type.Event.");
+        }
       }
 
       // Preparations
@@ -605,7 +612,7 @@ qx.Bootstrap.define("qx.event.Manager",
       {
         // qx.log.Logger.warn(this, "Useless dispatch found: " + type);
         qx.event.Pool.getInstance().poolObject(event);
-        return;
+        return true;
       }
 
       if (!event.getTarget()) {
@@ -635,7 +642,7 @@ qx.Bootstrap.define("qx.event.Manager",
       if (!dispatched)
       {
         qx.log.Logger.error(this, "No dispatcher can handle event of type " + type + " on " + target);
-        return;
+        return true;
       }
 
       // check whether "preventDefault" has been called
