@@ -61,7 +61,7 @@
     {
       "extend" : ["common"],
 
-      "script" :
+      "compile-source" :
       {
         "file" : "./source/script/${APPLICATION}.js"
       }
@@ -117,7 +117,7 @@
     {
       "extend" : ["common"],
 
-      "compile" :
+      "compile-dist" :
       {
         "target" : "build",
         "file" : "./build/script/${APPLICATION}.js",

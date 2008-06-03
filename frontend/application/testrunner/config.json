@@ -94,7 +94,7 @@
     {
       "extend" : ["common"],
 
-      "script" :
+      "compile-source" :
       {
         "file" : "./source/script/${APPLICATION}.js"
       }
@@ -105,7 +105,7 @@
     {
       "extend" : ["common-tests"],
 
-      "script" :
+      "compile-source" :
       {
         "file" : "./source/script/tests.js"
       }
@@ -162,7 +162,7 @@
     {
       "extend" : ["common"],
 
-      "compile" :
+      "compile-dist" :
       {
         "target" : "build",
         "file" : "./build/script/${APPLICATION}.js",
@@ -175,7 +175,7 @@
     {
       "extend" : ["common-tests"],
 
-      "compile" :
+      "compile-dist" :
       {
         "target" : "build",
         "file" : "./build/script/tests.js",

@@ -33,7 +33,7 @@
       },
 
       // only support compile target
-      "compile" :
+      "compile-dist" :
       {
         "target" : "build",
         "file" : "build/script/qx.js",

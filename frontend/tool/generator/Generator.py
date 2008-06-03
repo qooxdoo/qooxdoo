@@ -428,20 +428,20 @@ class Generator:
     def runCompiled(self, parts, packages, boot, variants):
         # wpbasti:
         # Renamed trigger from "compile" to "compile-script"?
-        if not self._config.get("compile/file"):
+        if not self._config.get("compile-dist/file"):
             return
 
         # Read in base file name
-        filePath = self._config.get("compile/file")
+        filePath = self._config.get("compile-dist/file")
 
         # Read in relative file name
-        fileUri = self._config.get("compile/uri", filePath)
+        fileUri = self._config.get("compile-dist/uri", filePath)
 
         # Read in compiler options
-        optimize = self._config.get("compile/optimize", [])
+        optimize = self._config.get("compile-dist/optimize", [])
 
         # Whether the code should be formatted
-        format = self._config.get("compile/format", False)
+        format = self._config.get("compile-dist/format", False)
 
         # Read in settings
         settings = self.getSettings()
@@ -486,7 +486,7 @@ class Generator:
         # Save result file
         filetool.save(resolvedFilePath, bootContent)
 
-        if self._config.get("compile/gzip"):
+        if self._config.get("compile-dist/gzip"):
             filetool.gzip(resolvedFilePath, bootContent)
 
         self._console.debug("Done: %s" % self._computeContentSize(bootContent))
@@ -511,7 +511,7 @@ class Generator:
             # Save result file
             filetool.save(resolvedFilePath, compiledContent)
 
-            if self._config.get("compile/gzip"):
+            if self._config.get("compile-dist/gzip"):
                 filetool.gzip(resolvedFilePath, compiledContent)
 
             self._console.debug("Done: %s" % self._computeContentSize(compiledContent))
@@ -521,17 +521,17 @@ class Generator:
         
 
     def runSource(self, parts, packages, boot, variants):
-        if not self._config.get("script/file"):
+        if not self._config.get("compile-source/file"):
             return
 
         self._console.info("Generate source version...")
         self._console.indent()
 
         # Read in base file name
-        filePath = self._config.get("script/file")
+        filePath = self._config.get("compile-source/file")
 
         # Whether the code should be formatted
-        format = self._config.get("source/format", False)
+        format = self._config.get("compile-source/format", False)
 
         # Read in settings
         settings = self.getSettings()
@@ -565,7 +565,7 @@ class Generator:
         # Save result file
         filetool.save(resolvedFilePath, sourceContent)
 
-        if self._config.get("source/gzip"):
+        if self._config.get("compile-source/gzip"):
             filetool.gzip(resolvedFilePath, sourceContent)
 
         self._console.outdent()
