@@ -68,73 +68,11 @@ qx.Class.define("qx.ui.window.Window",
     this._setLayout(new qx.ui.layout.VBox());
 
     // caption bar
-    var cb = this._captionBar = new qx.ui.container.Composite(new qx.ui.layout.HBox());
-    cb.setAppearance("window-captionbar");
-    this._add(cb);
-
-    // caption icon
-    var ci = this._captionIcon = new qx.ui.basic.Image(vIcon);
-    ci.setAppearance("window-captionbar-icon");
-    cb._add(ci);
-
-    // caption title
-    var ct = this._captionTitle = new qx.ui.basic.Label(vCaption);
-    ct.setAppearance("window-captionbar-title");
-    cb.add(ct);
-
-    // spacer
-    this._captionFlex = new qx.ui.core.Spacer();
-    cb.add(this._captionFlex, {flex: 1});
-
-    // minimize
-    var bm = this._minimizeButton = new qx.ui.form.Button();
-    bm.setAppearance("window-captionbar-minimize-button");
-    bm.setFocusable(false);
-
-    bm.addListener("execute", this._onminimizebuttonclick, this);
-    bm.addListener("mousedown", this._onbuttonmousedown, this);
-    cb.add(bm);
-
-    // restore
-    var br = this._restoreButton = new qx.ui.form.Button();
-    br.setAppearance("window-captionbar-restore-button");
-    bm.setFocusable(false);
-
-    br.addListener("execute", this._onrestorebuttonclick, this);
-    br.addListener("mousedown", this._onbuttonmousedown, this);
-    // don't add initially
-
-    // minimize
-    var bx = this._maximizeButton = new qx.ui.form.Button();
-    bx.setAppearance("window-captionbar-maximize-button");
-    bm.setFocusable(false);
-
-    bx.addListener("execute", this._onmaximizebuttonclick, this);
-    bx.addListener("mousedown", this._onbuttonmousedown, this);
-    cb.add(bx);
-
-    // close
-    var bc = this._closeButton = new qx.ui.form.Button();
-    bc.setAppearance("window-captionbar-close-button");
-    bm.setFocusable(false);
-
-    bc.addListener("execute", this._onclosebuttonclick, this);
-    bc.addListener("mousedown", this._onbuttonmousedown, this);
-    cb.add(bc);
+    this._getChildControl("caption-bar");
 
     // pane
-    var p = this._pane = new qx.ui.container.Composite();
-    this._add(p, {flex: 1});
-
-    // status bar
-    var sb = this._statusBar = new qx.ui.container.Composite(new qx.ui.layout.HBox());
-    sb.setAppearance("window-statusbar");
-
-    // status text
-    var st = this._statusText = new qx.ui.basic.Label("Ready");
-    st.setAppearance("window-statusbar-text");
-    sb.add(st);
-
+    this._pane = new qx.ui.container.Composite();
+    this._add(this._pane, {flex: 1});
 
     // init
     if (vCaption != null) {
@@ -153,14 +91,12 @@ qx.Class.define("qx.ui.window.Window",
     this.addListener("mousedown", this._onwindowmousedown);
     this.addListener("click", this._onwindowclick);
 
-    // captionbar events
-    cb.addListener("mousedown", this._oncaptionmousedown, this);
-    cb.addListener("mouseup", this._oncaptionmouseup, this);
-    cb.addListener("mousemove", this._oncaptionmousemove, this);
-
-    cb.addListener("dblclick", this._oncaptiondblblick, this);
-
     this.initVisibility();
+    this.initShowIcon();
+    this.initShowCaption();
+    this.initShowMinimize();
+    this.initShowMaximize();
+    this.initShowClose();
   },
 
 
@@ -349,7 +285,7 @@ qx.Class.define("qx.ui.window.Window",
     showMaximize :
     {
       check : "Boolean",
-      init : true,
+      init : false,
       apply : "_applyShowMaximize"
     },
 
@@ -358,7 +294,7 @@ qx.Class.define("qx.ui.window.Window",
     showMinimize :
     {
       check : "Boolean",
-      init : true,
+      init : false,
       apply : "_applyShowMinimize"
     },
 
@@ -448,6 +384,135 @@ qx.Class.define("qx.ui.window.Window",
   {
     /*
     ---------------------------------------------------------------------------
+      CHILD CONTROL SUPPORT
+    ---------------------------------------------------------------------------
+    */
+
+    // overridden
+    _createChildControlImpl : function(id)
+    {
+      var control = this.base(arguments, id);
+      var isActive = this.hasState("active");
+
+      switch(id)
+      {
+        case "statusbar":
+          control = new qx.ui.container.Composite(new qx.ui.layout.HBox());
+          control.setAppearance("window-statusbar");
+          this._add(control);
+          control.add(this._getChildControl("status-text"));
+          break;
+
+        case "status-text":
+          control = new qx.ui.basic.Label("Ready");
+          control.setAppearance("window-statusbar-text");
+          control.setContent(this.getStatus());
+          break;
+
+        case "caption-bar":
+          control = new qx.ui.container.Composite(new qx.ui.layout.HBox());
+          control.setAppearance("window-captionbar");
+          if (isActive) {
+            control.addState("active");
+          }
+          this._add(control);
+
+          control.add(this._getChildControl("caption-bar-spacer"), {flex: 1});
+
+          // captionbar events
+          control.addListener("mousedown", this._oncaptionmousedown, this);
+          control.addListener("mouseup", this._oncaptionmouseup, this);
+          control.addListener("mousemove", this._oncaptionmousemove, this);
+          control.addListener("dblclick", this._oncaptiondblblick, this);
+          break;
+
+        case "caption-bar-spacer":
+          control = new qx.ui.core.Spacer();
+          break;
+
+        case "caption-icon":
+          control = new qx.ui.basic.Image(this.getIcon());
+          control.setAppearance("window-captionbar-icon");
+          this._getChildControl("caption-bar").addAt(control, 0);
+          break;
+
+        case "caption-title":
+          control = new qx.ui.basic.Label(this.getCaption());
+          control.setAppearance("window-captionbar-title");
+          var spacer = this._getChildControl("caption-bar-spacer");
+          this._getChildControl("caption-bar").addBefore(control, spacer);
+          break;
+
+        case "button-minimize":
+          control = new qx.ui.form.Button();
+          control.setAppearance("window-captionbar-minimize-button");
+          control.setFocusable(false);
+          if (isActive) {
+            control.addState("active");
+          }
+
+          control.addListener("execute", this._onminimizebuttonclick, this);
+          control.addListener("mousedown", this._onbuttonmousedown, this);
+
+          var spacer = this._getChildControl("caption-bar-spacer");
+          this._getChildControl("caption-bar").addAfter(control, spacer);
+          break;
+
+        case "button-restore":
+          control = new qx.ui.form.Button();
+          control.setAppearance("window-captionbar-restore-button");
+          control.setFocusable(false);
+          if (isActive) {
+            control.addState("active");
+          }
+
+          control.addListener("execute", this._onrestorebuttonclick, this);
+          control.addListener("mousedown", this._onbuttonmousedown, this);
+
+          var btnMaximize = this._getChildControl("button-maximize");
+          this._getChildControl("caption-bar").addBefore(control, btnMaximize);
+          break;
+
+        case "button-maximize":
+          control = new qx.ui.form.Button();
+          control.setAppearance("window-captionbar-maximize-button");
+          control.setFocusable(false);
+          if (isActive) {
+            control.addState("active");
+          }
+
+          control.addListener("execute", this._onmaximizebuttonclick, this);
+          control.addListener("mousedown", this._onbuttonmousedown, this);
+
+          var captionBar = this._getChildControl("caption-bar");
+          var btnClose = this._getChildControl("button-close", true);
+          if (btnClose) {
+            captionBar.addBefore(control, btnClose);
+          } else {
+            captionBar.add(control);
+          }
+          break;
+
+        case "button-close":
+          control = new qx.ui.form.Button();
+          control.setAppearance("window-captionbar-close-button");
+          control.setFocusable(false);
+          if (isActive) {
+            control.addState("active");
+          }
+
+          control.addListener("execute", this._onclosebuttonclick, this);
+          control.addListener("mousedown", this._onbuttonmousedown, this);
+          this._getChildControl("caption-bar").add(control);
+      }
+
+      console.log("create", id);
+      return control;
+    },
+
+
+    /*
+    ---------------------------------------------------------------------------
       UTILITIES
     ---------------------------------------------------------------------------
     */
@@ -470,7 +535,7 @@ qx.Class.define("qx.ui.window.Window",
      * @return {qx.ui.container.Composite} captionbar sub widget
      */
     getCaptionBar : function() {
-      return this._captionBar;
+      return this._getChildControl("caption-bar");
     },
 
 
@@ -481,7 +546,7 @@ qx.Class.define("qx.ui.window.Window",
      * @return {qx.ui.container.Composite} statusbar sub widget
      */
     getStatusBar : function() {
-      return this._statusBar;
+      return this._getChildControl("statusbar");
     },
 
 
@@ -782,6 +847,12 @@ qx.Class.define("qx.ui.window.Window",
     // property apply
     _applyActive : function(value, old)
     {
+      var captionBar = this._getChildControl("caption-bar");
+      var btnMinimize = this._getChildControl("button-minimize", true);
+      var btnRestore = this._getChildControl("button-restore", true);
+      var btnMaximize = this._getChildControl("button-maximize", true);
+      var btnClose = this._getChildControl("button-close", true);
+
       if (old)
       {
         // TODO: Focus handling
@@ -796,11 +867,11 @@ qx.Class.define("qx.ui.window.Window",
         }
 
         this.removeState("active");
-        this._captionBar.removeState("active");
-        this._minimizeButton.removeState("active");
-        this._restoreButton.removeState("active");
-        this._maximizeButton.removeState("active");
-        this._closeButton.removeState("active");
+        captionBar.removeState("active");
+        btnMinimize ? btnMinimize.removeState("active") : null;
+        btnRestore ? btnRestore.removeState("active") : null;
+        btnMaximize ? btnMaximize.removeState("active") : null;
+        btnClose ? btnClose.removeState("active") : null;
       }
       else
       {
@@ -818,11 +889,11 @@ qx.Class.define("qx.ui.window.Window",
         this.bringToFront();
 
         this.addState("active");
-        this._captionBar.addState("active");
-        this._minimizeButton.addState("active");
-        this._restoreButton.addState("active");
-        this._maximizeButton.addState("active");
-        this._closeButton.addState("active");
+        captionBar.addState("active");
+        btnMinimize ? btnMinimize.addState("active") : null;
+        btnRestore ? btnRestore.addState("active") : null;
+        btnMaximize ? btnMaximize.addState("active") : null;
+        btnClose ? btnClose.addState("active") : null;
       }
     },
 
@@ -861,9 +932,9 @@ qx.Class.define("qx.ui.window.Window",
     _applyShowCaption : function(value, old)
     {
       if (value) {
-        this._captionBar.addAt(this._captionTitle, this.getShowIcon() ? 1 : 0);
+        this._showChildControl("caption-title");
       } else {
-        this._captionBar.remove(this._captionTitle);
+        this._excludeChildControl("caption-title");
       }
     },
 
@@ -872,9 +943,9 @@ qx.Class.define("qx.ui.window.Window",
     _applyShowIcon : function(value, old)
     {
       if (value) {
-        this._captionBar.addAt(this._captionIcon, 0);
+        this._showChildControl("caption-icon");
       } else {
-        this._captionBar.remove(this._captionIcon);
+        this._excludeChildControl("caption-icon");
       }
     },
 
@@ -883,9 +954,9 @@ qx.Class.define("qx.ui.window.Window",
     _applyShowStatusbar : function(value, old)
     {
       if (value) {
-        this._add(this._statusBar);
+        this._showChildControl("statusbar");
       } else {
-        this._remove(this._statusBar);
+        this._excludeChildControl("statusbar");
       }
     },
 
@@ -894,9 +965,9 @@ qx.Class.define("qx.ui.window.Window",
     _applyShowClose : function(value, old)
     {
       if (value) {
-        this._captionBar.add(this._closeButton);
+        this._showChildControl("button-close");
       } else {
-        this._captionBar.remove(this._closeButton);
+        this._excludeChildControl("button-close");
       }
     },
 
@@ -906,18 +977,21 @@ qx.Class.define("qx.ui.window.Window",
     {
       if (value)
       {
-        var t = this.getMode() == "maximized" ? this._restoreButton : this._maximizeButton;
-
-        if (this.getShowMinimize()) {
-          this._captionBar.addAfter(t, this._minimizeButton);
-        } else {
-          this._captionBar.addAfter(t, this._captionFlex);
+        if (this.getMode() == "maximized")
+        {
+          this._showChildControl("button-restore");
+          this._excludeChildControl("button-maximize");
+        }
+        else
+        {
+          this._showChildControl("button-maximize");
+          this._excludeChildControl("button-restore");
         }
       }
       else
       {
-        this._captionBar.remove(this._maximizeButton);
-        this._captionBar.remove(this._restoreButton);
+        this._excludeChildControl("button-restore");
+        this._excludeChildControl("button-maximize");
       }
     },
 
@@ -926,9 +1000,9 @@ qx.Class.define("qx.ui.window.Window",
     _applyShowMinimize : function(value, old)
     {
       if (value) {
-        this._captionBar.addAfter(this._minimizeButton, this._captionFlex);
+        this._showChildControl("button-minimize");
       } else {
-        this._captionBar.remove(this._minimizeButton);
+        this._excludeChildControl("button-minimize");
       }
     },
 
@@ -938,8 +1012,15 @@ qx.Class.define("qx.ui.window.Window",
      *
      * @type member
      */
-    _minimizeButtonManager : function() {
-      this.getAllowMinimize() === false ? this._minimizeButton.setEnabled(false) : this._minimizeButton.resetEnabled();
+    _minimizeButtonManager : function()
+    {
+      var btnMinimize = this._getChildControl("button-minimize");
+
+      if (this.getAllowMinimize() === false) {
+        btnMinimize.setEnabled(false);
+      } else {
+        btnMinimize.resetEnabled();
+      }
     },
 
 
@@ -948,8 +1029,15 @@ qx.Class.define("qx.ui.window.Window",
      *
      * @type member
      */
-    _closeButtonManager : function() {
-      this.getAllowClose() === false ? this._closeButton.setEnabled(false) : this._closeButton.resetEnabled();
+    _closeButtonManager : function()
+    {
+      var btnClose = this._getChildControl("button-close");
+
+      if (this.getAllowClose() === false) {
+        btnClose.setEnabled(false);
+      } else {
+        btnClose.resetEnabled();
+      }
     },
 
 
@@ -961,21 +1049,27 @@ qx.Class.define("qx.ui.window.Window",
      */
     _maximizeButtonManager : function()
     {
-      var b = this.getAllowMaximize() && this.isResizable() && this._computedMaxWidthTypeNull && this._computedMaxHeightTypeNull;
+      var isMaximized = this.getMode() == "maximized";
 
-      if (this._maximizeButton) {
-        b === false ? this._maximizeButton.setEnabled(false) : this._maximizeButton.resetEnabled();
+      var btnMaximize = this._getChildControl("button-maximize", true);
+      if (btnMaximize) {
+        isMaximized ? btnMaximize.setEnabled(false) : btnMaximize.resetEnabled();
       }
 
-      if (this._restoreButton) {
-        b === false ? this._restoreButton.setEnabled(false) : this._restoreButton.resetEnabled();
+      var btnRestore = this._getChildControl("button-restore", true);
+      if (btnRestore) {
+        isMaximized ? this.btnRestore.setEnabled(false) : this.btnRestore.resetEnabled();
       }
     },
 
 
     // property apply
-    _applyStatus : function(value, old) {
-      this._statusText.setText(value);
+    _applyStatus : function(value, old)
+    {
+      var label = this._getChildControl("status-text", true);
+      if (label) {
+        label.setContent(value);
+      }
     },
 
 
@@ -986,14 +1080,22 @@ qx.Class.define("qx.ui.window.Window",
 
 
     // property apply
-    _applyCaption : function(value, old) {
-      this._captionTitle.setContent(value);
+    _applyCaption : function(value, old)
+    {
+      var label = this._getChildControl("caption-title", true);
+      if (label) {
+        label.setContent(value);
+      }
     },
 
 
     // property apply
-    _applyIcon : function(value, old) {
-      this._captionIcon.setSource(value);
+    _applyIcon : function(value, old)
+    {
+      var icon = this._getChildControl("caption-icon", true);
+      if (icon) {
+        icon.setSource(value);
+      }
     },
 
 
@@ -1039,11 +1141,8 @@ qx.Class.define("qx.ui.window.Window",
       // toggle button
       if (this.getShowMaximize())
       {
-        var cb = this._captionBar;
-        var v = cb.indexOf(this._restoreButton);
-
-        cb.remove(this._restoreButton);
-        cb.addAt(this._maximizeButton, v);
+        this._showChildControl("button-maximize");
+        this._excludeChildControl("button-restore");
       }
 
       // finally focus the window
@@ -1109,11 +1208,8 @@ qx.Class.define("qx.ui.window.Window",
       // toggle button
       if (this.getShowMaximize())
       {
-        var cb = this._captionBar;
-        var v = cb.indexOf(this._maximizeButton);
-
-        cb.remove(this._maximizeButton);
-        cb.addAt(this._restoreButton, v);
+        this._showChildControl("button-restore");
+        this._excludeChildControl("button-maximize");
       }
 
       // finally focus the window
@@ -1190,9 +1286,10 @@ qx.Class.define("qx.ui.window.Window",
 
       // we need to be sure that the button gets the right states after clicking
       // because the button will move and does not get the mouseup event anymore
-      this._minimizeButton.removeState("pressed");
-      this._minimizeButton.removeState("abandoned");
-      this._minimizeButton.removeState("over");
+      btnMinimize = this._getChildControl("button-minimize");
+      btnMinimize.removeState("pressed");
+      btnMinimize.removeState("abandoned");
+      btnMinimize.removeState("over");
     },
 
 
@@ -1210,9 +1307,10 @@ qx.Class.define("qx.ui.window.Window",
 
       // we need to be sure that the button gets the right states after clicking
       // because the button will move and does not get the mouseup event anymore
-      this._restoreButton.removeState("pressed");
-      this._restoreButton.removeState("abandoned");
-      this._restoreButton.removeState("over");
+      btnRestore = this._getChildControl("button-restore");
+      btnRestore.removeState("pressed");
+      btnRestore.removeState("abandoned");
+      btnRestore.removeState("over");
     },
 
 
@@ -1230,9 +1328,10 @@ qx.Class.define("qx.ui.window.Window",
 
       // we need to be sure that the button gets the right states after clicking
       // because the button will move and does not get the mouseup event anymore
-      this._maximizeButton.removeState("pressed");
-      this._maximizeButton.removeState("abandoned");
-      this._maximizeButton.removeState("over");
+      btnMaximize = this._getChildControl("button-maximize");
+      btnMaximize.removeState("pressed");
+      btnMaximize.removeState("abandoned");
+      btnMaximize.removeState("over");
     },
 
 
@@ -1250,9 +1349,10 @@ qx.Class.define("qx.ui.window.Window",
 
       // we need to be sure that the button gets the right states after clicking
       // because the button will move and does not get the mouseup event anymore
-      this._closeButton.removeState("pressed");
-      this._closeButton.removeState("abandoned");
-      this._closeButton.removeState("over");
+      btnClose = this._getChildControl("button-close");
+      btnClose.removeState("pressed");
+      btnClose.removeState("abandoned");
+      btnClose.removeState("over");
     },
 
 
@@ -1279,7 +1379,7 @@ qx.Class.define("qx.ui.window.Window",
       }
 
       // enable capturing
-      this._captionBar.capture();
+      this._getChildControl("caption-bar").capture();
 
       // measuring and caching of values for drag session
       var pl = this.getLayoutParent().getContainerElement().getDomElement();
@@ -1347,7 +1447,7 @@ qx.Class.define("qx.ui.window.Window",
       }
 
       // disable capturing
-      this._captionBar.releaseCapture();
+      this._getChildControl("caption-bar").releaseCapture();
       this.resetUserBounds();
 
       // move window to last position
@@ -1444,7 +1544,7 @@ qx.Class.define("qx.ui.window.Window",
      */
     _oncaptiondblblick : function(e)
     {
-      if (!this._maximizeButton.getEnabled()) {
+      if (!this.getAllowMaximize()) {
         return;
       }
 
@@ -1463,8 +1563,6 @@ qx.Class.define("qx.ui.window.Window",
 
   destruct : function()
   {
-    this._disposeObjects("_layout", "_captionBar", "_captionIcon",
-      "_captionTitle", "_captionFlex", "_closeButton", "_minimizeButton",
-      "_maximizeButton", "_restoreButton", "_pane", "_statusBar", "_statusText");
+    this._disposeObjects("_pane");
   }
 });
