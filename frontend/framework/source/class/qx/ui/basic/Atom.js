@@ -139,12 +139,12 @@ qx.Class.define("qx.ui.basic.Atom",
      * The position of the icon in relation to the text.
      * Only useful/needed if text and icon is configured and 'show' is configured as 'both' (default)
      */
-    align :
+    iconPosition :
     {
       init   : "left",
       check : [ "top", "right", "bottom", "left" ],
       themeable : true,
-      apply : "_applyAlign"
+      apply : "_applyIconPosition"
     }
   },
 
@@ -247,7 +247,7 @@ qx.Class.define("qx.ui.basic.Atom",
 
 
     // property apply
-    _applyAlign : function(value, old) {
+    _applyIconPosition : function(value, old) {
       this._getLayout().setAlign(value);
     }
   }

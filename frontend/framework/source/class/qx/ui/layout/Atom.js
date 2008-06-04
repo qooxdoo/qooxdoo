@@ -146,17 +146,46 @@ qx.Class.define("qx.ui.layout.Atom",
 
           hint = child.getSizeHint();
           width = Math.min(hint.maxWidth, Math.max(availWidth, hint.minWidth));
+          height = hint.height;
 
           left = Util.computeHorizontalAlignOffset("center", width, availWidth);
-          child.renderLayout(left, top, width, hint.height);
+          child.renderLayout(left, top, width, height);
 
-          top += hint.height + gap;
+          if (height > 0) {
+            top += height + gap;
+          }
         }
       }
 
       // horizontal
+      // in this way it also supports shrinking of the first label
       else
       {
+        var remainingWidth = availWidth;
+        var shrinkTarget = null;
+
+        for (var i=start; i!=end; i+=increment)
+        {
+          child = children[i];
+          width = child.getSizeHint().width;
+
+          if (width > 0)
+          {
+            if (!shrinkTarget && child instanceof qx.ui.basic.Label)
+            {
+              shrinkTarget = child;
+            }
+            else
+            {
+              remainingWidth -= width;
+            }
+
+            if (i < (length - 1)) {
+              remainingWidth -= gap;
+            }
+          }
+        }
+
         left = 0;
         for (var i=start; i!=end; i+=increment)
         {
@@ -165,10 +194,20 @@ qx.Class.define("qx.ui.layout.Atom",
           hint = child.getSizeHint();
           height = Math.min(hint.maxHeight, Math.max(availHeight, hint.minHeight));
 
-          top = Util.computeVerticalAlignOffset("middle", hint.height, availHeight);
-          child.renderLayout(left, top, hint.width, height);
+          if (child === shrinkTarget) {
+            width = Math.max(hint.minWidth, Math.min(remainingWidth, hint.width));
+          } else {
+            width = hint.width;
+          }
 
-          left += hint.width + gap;
+          top = Util.computeVerticalAlignOffset("middle", hint.height, availHeight);
+          child.renderLayout(left, top, width, height);
+
+          // Ignore pseudo invisible childs for gap e.g.
+          // empty text or unavailable images
+          if (width > 0) {
+            left += width + gap;
+          }
         }
       }
     },
@@ -202,7 +241,7 @@ qx.Class.define("qx.ui.layout.Atom",
         var minHeight=0, height=0;
 
         var align = this.getAlign();
-        var gaps = this.getGap() * (length-1);
+        var gap = this.getGap();
 
         if (align === "top" || align === "bottom")
         {
@@ -215,13 +254,18 @@ qx.Class.define("qx.ui.layout.Atom",
             minWidth = Math.max(minWidth, hint.minWidth);
 
             // Sum of heights
-            height += hint.height;
-            minHeight += hint.minHeight;
-          }
+            if (hint.height > 0)
+            {
+              height += hint.height;
+              minHeight += hint.minHeight;
 
-          // Add gap sum to height
-          height += gaps;
-          minHeight += gaps;
+              if (i < (length-1))
+              {
+                height += gap;
+                minHeight += gap;
+              }
+            }
+          }
         }
         else
         {
@@ -234,13 +278,18 @@ qx.Class.define("qx.ui.layout.Atom",
             minHeight = Math.max(minHeight, hint.minHeight);
 
             // Sum of widths
-            width += hint.width;
-            minWidth += hint.minWidth;
-          }
+            if (hint.width > 0)
+            {
+              width += hint.width;
+              minWidth += hint.minWidth;
 
-          // Add gap sum to width
-          width += gaps;
-          minWidth += gaps;
+              if (i < (length-1))
+              {
+                width += gap;
+                minWidth += gap;
+              }
+            }
+          }
         }
 
         // Build hint

@@ -20,11 +20,12 @@
 
 /* ************************************************************************
 
-#asset(qx/icon/Oxygen/48/apps/video-player.png)
-#asset(qx/icon/Oxygen/48/apps/internet-mail.png)
-#asset(qx/icon/Oxygen/48/apps/internet-web-browser.png)
-#asset(qx/icon/Oxygen/48/apps/photo-album.png)
-#asset(qx/icon/Oxygen/48/apps/office-writer.png)
+#asset(qx/icon/Oxygen/32/actions/go-previous.png)
+#asset(qx/icon/Oxygen/32/actions/go-up.png)
+#asset(qx/icon/Oxygen/32/actions/go-next.png)
+#asset(qx/icon/Oxygen/32/actions/go-down.png)
+
+#asset(qx/icon/Oxygen/32/apps/internet-feed-reader.png)
 
 ************************************************************************ */
 
@@ -38,57 +39,119 @@ qx.Class.define("demobrowser.demo.widget.Atom",
     {
       this.base(arguments);
 
-      var box = new qx.ui.layout.HBox();
-      box.setSpacing(10);
 
-      var container = new qx.ui.container.Composite(box);
-      container.setPadding(20);
+      // Container of Row #1
+      var container1 = new qx.ui.container.Composite(new qx.ui.layout.HBox(10));
+      this.getRoot().add(container1, { left : 20, top: 20});
 
-      this.getRoot().add(container);
 
-      var img1 = "icon/48/apps/video-player.png";
-      var img2 = "icon/48/apps/internet-mail.png";
-      var img3 = "icon/48/apps/internet-web-browser.png";
-      var img4 = "icon/48/apps/photo-album.png";
-      var img5 = "icon/48/apps/office-writer.png";
 
-      container.add(new qx.ui.basic.Atom("Juhu1", img1).set({
-        backgroundColor : "#dedede",
+      // Icon Position Property
+      container1.add(new qx.ui.basic.Atom("Icon Left", "icon/32/actions/go-previous.png").set({
+        backgroundColor : "#E6FAED",
         decorator : "black",
+        iconPosition : "left",
         padding : 5,
         allowGrowY: false
       }));
 
-      container.add(new qx.ui.basic.Atom("Juhu2", img2).set({
-        backgroundColor : "#dedede",
+      container1.add(new qx.ui.basic.Atom("Icon Top", "icon/32/actions/go-up.png").set({
+        backgroundColor : "#E6FAED",
         decorator : "black",
-        align : "top",
-        padding : 5,
-        allowGrowY: false,
-        enabled : false
-      }));
-
-      container.add(new qx.ui.basic.Atom("Juhu3", img3).set({
-        backgroundColor : "#dedede",
-        decorator : "black",
-        align : "right",
+        iconPosition : "top",
         padding : 5,
         allowGrowY: false
       }));
 
-      container.add(new qx.ui.basic.Atom("Juhu4", img4).set({
-        backgroundColor : "#dedede",
+      container1.add(new qx.ui.basic.Atom("Icon Right", "icon/32/actions/go-next.png").set({
+        backgroundColor : "#E6FAED",
         decorator : "black",
-        align : "bottom",
+        iconPosition : "right",
         padding : 5,
         allowGrowY: false
       }));
 
-      container.add(new qx.ui.basic.Atom("Juhu5", img5).set({
-        backgroundColor : "#dedede",
+      container1.add(new qx.ui.basic.Atom("Icon Bottom", "icon/32/actions/go-down.png").set({
+        backgroundColor : "#E6FAED",
+        decorator : "black",
+        iconPosition : "bottom",
+        padding : 5,
+        allowGrowY: false
+      }));
+
+
+
+      // Spacer
+      container1.add(new qx.ui.core.Spacer().set({width:40}));
+
+
+
+      // Show Property
+      container1.add(new qx.ui.basic.Atom("Atom Without Label", "icon/32/apps/internet-feed-reader.png").set({
+        backgroundColor : "#FAF8E6",
         decorator : "black",
         show : "icon",
         padding : 5,
+        allowGrowY: false
+      }));
+
+      container1.add(new qx.ui.basic.Atom("Atom Without Icon", "icon/32/apps/internet-feed-reader.png").set({
+        backgroundColor : "#FAF8E6",
+        decorator : "black",
+        show : "label",
+        padding : 5,
+        allowGrowY: false
+      }));
+
+
+
+
+      // Container of Row #2
+      var container2 = new qx.ui.container.Composite(new qx.ui.layout.HBox(10));
+      this.getRoot().add(container2, { left : 20, top: 150});
+
+
+
+      // Shrinking (horizontally)
+      container2.add(new qx.ui.basic.Atom("Atom With Long Label").set({
+        backgroundColor : "#E6EDFA",
+        decorator : "black",
+        padding : 5,
+        width : 100,
+        allowGrowY: false
+      }));
+
+      container2.add(new qx.ui.basic.Atom("Atom With Long Label", "icon/32/apps/internet-feed-reader.png").set({
+        backgroundColor : "#E6EDFA",
+        decorator : "black",
+        padding : 5,
+        width : 150,
+        allowGrowY: false
+      }));
+
+
+
+      // Spacer
+      container2.add(new qx.ui.core.Spacer().set({width:40}));
+
+
+
+      // Shrinking (vertically)
+      container2.add(new qx.ui.basic.Atom("Atom With Long Label").set({
+        backgroundColor : "#EAE6FA",
+        decorator : "black",
+        iconPosition : "top",
+        padding : 5,
+        width : 100,
+        allowGrowY: false
+      }));
+
+      container2.add(new qx.ui.basic.Atom("Atom With Long Label", "icon/32/apps/internet-feed-reader.png").set({
+        backgroundColor : "#EAE6FA",
+        decorator : "black",
+        iconPosition : "top",
+        padding : 5,
+        width : 100,
         allowGrowY: false
       }));
     }
