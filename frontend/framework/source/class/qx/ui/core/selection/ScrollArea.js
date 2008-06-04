@@ -170,14 +170,14 @@ qx.Class.define("qx.ui.core.selection.ScrollArea",
       {
         var max = innerHeight + scrollTop;
         var i=start;
-
+        
         // Loop required to scroll pages down dynamically
         while(1)
         {
           // Iterate through all selectables from start
           for (; i<length; i++)
           {
-            bottom = widget.getItemBottom(selectables[i]);
+            bottom = widget.getItemBottom(selectables[i]); 
 
             // This item is out of the visible block
             if (bottom > max)
@@ -203,7 +203,7 @@ qx.Class.define("qx.ui.core.selection.ScrollArea",
             // top edge. This is needed instead of a simple addition
             // of the inner height to keep the last lead visible on page key
             // presses. This is the behavior of native toolkits as well.
-            max += widget.getItemTop(lead);
+            max += widget.getItemTop(lead) - scrollTop;
             found = null;
             continue;
           }
