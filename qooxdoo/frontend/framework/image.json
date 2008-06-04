@@ -90,13 +90,13 @@
           "${RESPATH}/source/Modern/window-captionbar-active.png" :
           {
             "prefix" : "../../${MODERN}/window/captionbar-active",
-            "border-width" : 5
+            "border-width" : 6
           },
           // window captionbar inactive split
           "${RESPATH}/source/Modern/window-captionbar-inactive.png" :
           {
             "prefix" : "../../${MODERN}/window/captionbar-inactive",
-            "border-width" : 5
+            "border-width" : 6
           },
           // window statusbar split
           "${RESPATH}/source/Modern/window-statusbar.png" :
