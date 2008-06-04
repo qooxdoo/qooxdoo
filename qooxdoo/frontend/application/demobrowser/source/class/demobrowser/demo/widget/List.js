@@ -46,12 +46,18 @@ qx.Class.define("demobrowser.demo.widget.List",
         item = new qx.ui.form.ListItem("Item No " + i, "icon/" + ((i % 4) ? "16" : "48") + "/places/folder.png");
 
         !(i % 9) && (item.setEnabled(false));
+
+        // Pre-Select "Item No 20"
+        if (i==20) {
+          l1.select(item);
+        }
+
         l1.add(item);
       };
 
       this.getRoot().add(l1, {left: 20, top: 20});
 
-
+      // l1.scrollToY(100);
 
 
 
@@ -86,6 +92,7 @@ qx.Class.define("demobrowser.demo.widget.List",
 
 
       var l3 = new qx.ui.form.List;
+      var item3;
 
       l3.set({ width: 150, selectionMode : "additive" });
 
@@ -96,8 +103,14 @@ qx.Class.define("demobrowser.demo.widget.List",
       "Daniel","Lennard","Marvin","Jannis","Tobias","Dominic","Marlon","Marc",
       "Johannes","Jonathan","Julius","Colin","Joel","Kevin","Vincent","Robin"];
 
-      for (var i=0; i<l3l.length; i++) {
-        l3.add(new qx.ui.form.ListItem(l3l[i]));
+      for (var i=0; i<l3l.length; i++)
+      {
+        item3 = new qx.ui.form.ListItem(l3l[i]);
+        l3.add(item3);
+
+        if (i==10||i==12||i==16) {
+          l3.addToSelection(item3);
+        }
       };
 
       this.getRoot().add(l3, {left: 600, top: 120});
@@ -107,6 +120,7 @@ qx.Class.define("demobrowser.demo.widget.List",
 
 
       var l4 = new qx.ui.form.List(true);
+      var item4;
 
       l4.set({ width: 550, selectionMode : "multi", height : null });
 
@@ -118,8 +132,14 @@ qx.Class.define("demobrowser.demo.widget.List",
 
       var l4pre = "icon/48/devices/"
 
-      for (var i=0; i<l4l.length; i++) {
-        l4.add(new qx.ui.form.ListItem(null, l4pre + l4l[i]));
+      for (var i=0; i<l4l.length; i++)
+      {
+        item4 = new qx.ui.form.ListItem(null, l4pre + l4l[i]);
+        l4.add(item4);
+
+        if (i == 12) {
+          l4.select(item4);
+        }
       };
 
       this.getRoot().add(l4, {left: 20, top: 370});
