@@ -95,6 +95,10 @@ qx.Class.define("qx.html.Element",
     _visibility : {},
 
 
+    /** {Map} Contains the {@link qx.html.Element}s which should scrolled at the next flush */
+    _scroll : {},
+
+
     /** {Map} Map of post actions for elements. The key is the action name. The value the {@link qx.html.Element}. */
     _actions : {},
 
@@ -207,6 +211,39 @@ qx.Class.define("qx.html.Element",
 
         obj._element.style.display = obj._visible ? "" : "none";
         delete visibility[hc];
+      }
+
+
+
+      // Process scroll list
+      var scroll = this._scroll;
+      for (var hc in scroll)
+      {
+        obj = scroll[hc];
+
+        if (qx.core.Variant.isSet("qx.debug", "on"))
+        {
+          if (this._debug) {
+            qx.log.Logger.debug(this, "Scrolling: " + obj);
+          }
+        }
+
+        if (obj._element)
+        {
+          if (obj.__lazyScrollX != null)
+          {
+            obj._element.scrollLeft = obj.__lazyScrollX;
+            delete obj.__lazyScrollX;
+          }
+
+          if (obj.__lazyScrollY != null)
+          {
+            obj._element.scrollTop = obj.__lazyScrollY;
+            delete obj.__lazyScrollY;
+          }
+        }
+
+        delete scroll[hc];
       }
 
 
@@ -1316,9 +1353,15 @@ qx.Class.define("qx.html.Element",
     scrollToX : function(x)
     {
       var el = this._element;
-      if (el) {
+      if (el)
+      {
         el.scrollLeft = x;
+        return;
       }
+
+      this.__lazyScrollX = x;
+      qx.html.Element._scroll[this.$$hash] = this;
+      qx.html.Element._scheduleFlush("element");
     },
 
     getScrollX : function()
@@ -1334,9 +1377,15 @@ qx.Class.define("qx.html.Element",
     scrollToY : function(y)
     {
       var el = this._element;
-      if (el) {
+      if (el)
+      {
         el.scrollTop = y;
+        return;
       }
+
+      this.__lazyScrollY = y;
+      qx.html.Element._scroll[this.$$hash] = this;
+      qx.html.Element._scheduleFlush("element");
     },
 
     getScrollY : function()
@@ -1361,7 +1410,10 @@ qx.Class.define("qx.html.Element",
     */
 
     /**
-     * Mark this element to get focussed on the next flush of the queue
+     * Focus this element.
+     *
+     * If the underlaying DOM element is not yet created, the
+     * focus is queued for processing after the element creation.
      *
      * @type member
      * @return {void}
@@ -1695,7 +1747,7 @@ qx.Class.define("qx.html.Element",
      * @return {qx.html.Element} this object (for chaining support)
      */
     _applyProperty : function(name, value) {
-      return this;
+      // empty implementation
     },
 
 
