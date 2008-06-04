@@ -269,16 +269,16 @@ qx.Class.define("qx.core.Object",
      *
      * @type member
      * @param type {String} name of the event type
-     * @param func {Function} event callback function
-     * @param obj {Object ? window} reference to the 'this' variable inside the callback
+     * @param listener {Function} event callback function
+     * @param self {Object ? null} reference to the 'this' variable inside the callback
      * @param capture {Boolean ? false} Whether to attach the event to the
      *         capturing phase of the bubbling phase of the event. The default is
      *         to attach the event handler to the bubbling phase.
      */
-    addListener : function(type, func, obj, capture)
+    addListener : function(type, listener, self, capture)
     {
       if (!this.$$disposed) {
-        this.__Registration.addListener(this, type, func, obj, !!capture);
+        this.__Registration.addListener(this, type, listener, self, !!capture);
       }
     },
 
@@ -289,17 +289,17 @@ qx.Class.define("qx.core.Object",
      *
      * @type member
      * @param type {String} name of the event type
-     * @param func {Function} event callback function
-     * @param obj {Object ? window} reference to the 'this' variable inside the callback
+     * @param listener {Function} event callback function
+     * @param self {Object ? window} reference to the 'this' variable inside the callback
      * @param capture {Boolean ? false} Whether to attach the event to the
      *         capturing phase of the bubbling phase of the event. The default is
      *         to attach the event handler to the bubbling phase.
      */
-    addListenerOnce : function(type, func, obj, capture)
+    addListenerOnce : function(type, listener, self, capture)
     {
       var listener = function(e)
       {
-        func.call(obj, e);
+        listener.call(self||this, e);
         this.removeListener(type, listener, this, capture);
       };
 
@@ -312,14 +312,14 @@ qx.Class.define("qx.core.Object",
      *
      * @type member
      * @param type {String} name of the event type
-     * @param func {Function} event callback function
-     * @param obj {Object ? window} reference to the 'this' variable inside the callback
+     * @param listener {Function} event callback function
+     * @param self {Object ? null} reference to the 'this' variable inside the callback
      * @return {void}
      */
-    removeListener : function(type, func, obj)
+    removeListener : function(type, listener, self)
     {
       if (!this.$$disposed) {
-        this.__Registration.removeListener(this, type, func, obj, false);
+        this.__Registration.removeListener(this, type, listener, self, false);
       }
     },
 
