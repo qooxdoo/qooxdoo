@@ -430,12 +430,13 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
     "window-border" :
     {
-      decorator: qx.ui.decoration.Uniform,
+      decorator: qx.ui.decoration.Single,
 
       style :
       {
         width : 1,
-        color : "#00204D"
+        color : "#00204D",
+        styleTop : null
       }
     },
     
