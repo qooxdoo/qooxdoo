@@ -96,7 +96,8 @@
 
       "compile-source" :
       {
-        "file" : "./source/script/${APPLICATION}.js"
+        "file" : "./source/script/${APPLICATION}.js",
+        "root" : "source"  // the root dir of your app, where the HTML lives
       }
     },
 
@@ -107,7 +108,8 @@
 
       "compile-source" :
       {
-        "file" : "./source/script/tests.js"
+        "file" : "./source/script/tests.js",
+        "root" : "source/html"
       }
     },
 
