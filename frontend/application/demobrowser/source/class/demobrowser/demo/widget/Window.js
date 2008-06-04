@@ -21,6 +21,7 @@
 /* ************************************************************************
 
 #asset(qx/icon/Oxygen/16/categories/internet.png)
+#asset(qx/icon/Oxygen/16/categories/engineering.png)
 #asset(qx/icon/Oxygen/48/apps/video-player.png)
 #asset(qx/icon/Oxygen/48/apps/internet-mail.png)
 #asset(qx/icon/Oxygen/48/apps/internet-web-browser.png)
@@ -75,8 +76,6 @@ qx.Class.define("demobrowser.demo.widget.Window",
       win.addListener("beforeRestore", this.cancelHandler, this);
       win.addListener("beforeMinimize", this.cancelHandler, this);
       win.addListener("beforeMaximize", this.cancelHandler, this);
-
-      WIN = win;
 
       return win;
     },

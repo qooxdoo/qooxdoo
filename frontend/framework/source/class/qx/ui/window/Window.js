@@ -508,7 +508,6 @@ qx.Class.define("qx.ui.window.Window",
           this._getChildControl("caption-bar").add(control);
       }
 
-      console.log("create", id);
       return control;
     },
 
@@ -783,56 +782,25 @@ qx.Class.define("qx.ui.window.Window",
     ---------------------------------------------------------------------------
     */
 
-    _minZIndex : 1e5,
-
-
     /**
-     * Gets all registered window instances (sorted by the zIndex) and resets
-     * the zIndex on all instances.
+     * Bring the window to front (if possible)
      *
      * @type member
      * @return {void}
      */
-    _sendTo : function()
-    {
-      var list = this.getWindowManager().getAll();
-
-      list.sort(function(a, b) {
-        return a.getZIndex() - b.getZIndex()
-      });
-
-      var zindex = this._minZIndex;
-      for (var i=0, l=list.length; i<l; i++) {
-        list[i].setZIndex(zindex++);
-      }
+    bringToFront : function() {
+      this.getWindowManager().bringToFront(this);
     },
 
 
     /**
-     * Sets the {@link #zIndex} to Infinity and calls the
-     * method {@link #_sendTo}
+     * Send the window to the back (if possible)
      *
      * @type member
      * @return {void}
      */
-    bringToFront : function()
-    {
-      this.setZIndex(this._minZIndex+1000000);
-      this._sendTo();
-    },
-
-
-    /**
-     * Sets the {@link #zIndex} to -Infinity and calls the
-     * method {@link #_sendTo}
-     *
-     * @type member
-     * @return {void}
-     */
-    sendToBack : function()
-    {
-      this.setZIndex(this._minZIndex+1);
-      this._sendTo();
+    sendToBack : function() {
+      this.getWindowManager().sendToBack(this);
     },
 
 
