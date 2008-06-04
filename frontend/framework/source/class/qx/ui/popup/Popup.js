@@ -21,13 +21,10 @@
 
 /**
  * Popups are widgets, which can be placed on top of the application.
+ * They are automatically added to the root {@link qx.application.AbstractGui#getRoot}
+ * widget.
  *
- * Popups are automatically added to the root {@link qx.application.AbstractGui#getRoot}
- * widget. They can be positioned relative to other widgets using
- * {@link #positionRelativeTo} and they can be restricted be inside of the
- * viewport's visible area using {@link #restrictToPageOnOpen}.
- *
- * Popups are used to display menus, the lists of combo boxes and tooltips.
+ * Popups are used to display menus, the lists of combo boxes, tooltips, ...
  *
  * @appearance popup
  */

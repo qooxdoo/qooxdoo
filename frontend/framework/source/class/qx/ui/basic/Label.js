@@ -91,6 +91,7 @@ qx.Class.define("qx.ui.basic.Label",
     },
 
 
+    /** Control the text alignment */
     textAlign :
     {
       check : ["left", "center", "right"],
