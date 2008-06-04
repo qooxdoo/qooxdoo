@@ -234,6 +234,10 @@ qx.Mixin.define("qx.ui.core.MSelectionHandling",
     },
 
 
+    getManager : function() {
+      return this.__manager;
+    },
+
 
 
 
