@@ -234,6 +234,13 @@ qx.Mixin.define("qx.ui.core.MSelectionHandling",
     },
 
 
+    /**
+     * Returns the internal selection manager. Use this with
+     * caution!
+     *
+     * @type member
+     * @return {qx.ui.core.selection.Abstract} The selection manager
+     */
     getManager : function() {
       return this.__manager;
     },
