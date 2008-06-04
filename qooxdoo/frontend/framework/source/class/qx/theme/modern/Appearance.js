@@ -114,7 +114,6 @@ qx.Theme.define("qx.theme.modern.Appearance",
 
         return {
           padding    : 2,
-          align      : "left",
           textColor  : textColor,
           font       : "default",
           decorator  : decorator
@@ -161,7 +160,6 @@ qx.Theme.define("qx.theme.modern.Appearance",
 
         return {
           icon: "decoration/form/" + icon + ".png",
-          align: "left",
           gap: 6
         }
       }
