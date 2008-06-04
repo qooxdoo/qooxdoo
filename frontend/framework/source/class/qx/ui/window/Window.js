@@ -25,6 +25,7 @@
  *
  * @appearance window The main window object
  * @appearance window-resize-frame {qx.ui.basic.Terminator}
+ * @appearance window-pane {qx.ui.container.Composite}
  * @appearance window-captionbar-icon {qx.ui.basic.Image}
  * @appearance window-captionbar-title {qx.ui.basic.Label} The label of the caption bar
  * @appearance window-captionbar-minimize-button {qx.ui.form.Button}
@@ -72,6 +73,7 @@ qx.Class.define("qx.ui.window.Window",
 
     // pane
     this._pane = new qx.ui.container.Composite();
+    this._pane.setAppearance("window-pane");
     this._add(this._pane, {flex: 1});
 
     // init
