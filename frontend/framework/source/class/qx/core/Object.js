@@ -329,7 +329,7 @@ qx.Class.define("qx.core.Object",
      *
      * @type member
      * @param type {String} name of the event type
-     * @return {var} TODOC
+     * @return {Boolean} Whether the object has a listener of the given type.
      */
     hasListener : function(type) {
       return this.__Registration.hasListener(this, type);
