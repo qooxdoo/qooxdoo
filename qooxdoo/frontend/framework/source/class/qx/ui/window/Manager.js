@@ -73,7 +73,7 @@ qx.Class.define("qx.ui.window.Manager",
         value.setActive(true);
       }
 
-      // TODO 
+      // TODO
 //      if (old && old.getModal()) {
 //        old.getTopLevelWidget().release(old);
 //      }
@@ -172,6 +172,67 @@ qx.Class.define("qx.ui.window.Manager",
           this.setActiveWindow(a[l - 1]);
         }
       }
+    },
+
+
+    /*
+    ---------------------------------------------------------------------------
+      ZIndex Positioning
+    ---------------------------------------------------------------------------
+    */
+
+    _minZIndex : 1e5,
+
+
+    /**
+     * Gets all registered window instances (sorted by the zIndex) and resets
+     * the zIndex on all instances.
+     *
+     * @type member
+     * @return {void}
+     */
+    _sendTo : function()
+    {
+      var list = this.getAll();
+
+      list.sort(function(a, b) {
+        return a.getZIndex() - b.getZIndex()
+      });
+
+      var zindex = this._minZIndex;
+      for (var i=0, l=list.length; i<l; i++) {
+        list[i].setZIndex(zindex++);
+      }
+    },
+
+
+    /**
+     * Sets the {@link #zIndex} to Infinity and calls the
+     * method {@link #_sendTo}
+     *
+     * @type member
+     * @param win {qx.ui.window.Window} the window, which will be braught to front
+     * @return {void}
+     */
+    bringToFront : function(win)
+    {
+      win.setZIndex(this._minZIndex+1000000);
+      this._sendTo();
+    },
+
+
+    /**
+     * Sets the {@link #zIndex} to -Infinity and calls the
+     * method {@link #_sendTo}
+     *
+     * @type member
+     * @param win {qx.ui.window.Window} the window, which will be sent to back
+     * @return {void}
+     */
+    sendToBack : function(win)
+    {
+      this.setZIndex(this._minZIndex+1);
+      win._sendTo();
     }
   }
 });

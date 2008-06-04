@@ -288,7 +288,9 @@ qx.Mixin.define("qx.ui.resizer.MResizable",
       delete this._resizeSession;
 
       // stop event
-      e.stopPropagation();
+      if (e.getType() == "mouseup") {
+        e.stopPropagation();
+      }
     },
 
 
