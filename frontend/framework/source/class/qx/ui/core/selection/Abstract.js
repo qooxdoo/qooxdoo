@@ -142,6 +142,13 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     selectItem : function(item)
     {
       this._setSelectedItem(item);
+
+      if (this.getMode() !== "single")
+      {
+        this._setLeadItem(item);
+        this._setAnchorItem(item);
+      }
+
       this._scrollItemIntoView(item);
       this._fireChange();
     },
@@ -164,6 +171,13 @@ qx.Class.define("qx.ui.core.selection.Abstract",
       } else {
         this._addToSelection(item);
       }
+
+      if (!this._getAnchorItem()) {
+        this._setAnchorItem(item);
+      }
+
+      this._setLeadItem(item);
+      this._scrollItemIntoView(item);
 
       this._fireChange();
     },
@@ -197,6 +211,12 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     selectItemRange : function(begin, end)
     {
       this._selectItemRange(begin, end);
+
+      this._setAnchorItem(begin);
+
+      this._setLeadItem(end);
+      this._scrollItemIntoView(end);
+
       this._fireChange();
     },
 
