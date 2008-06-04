@@ -121,7 +121,6 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     this._paneClipper.addEventListener("mousedown", this._onmousedownPane, this);
 
     this._focusIndicator.addEventListener("mouseup", this._onMouseupFocusIndicator, this);
-    this._headerClipper.addEventListener("mouseup", this._onmouseupHeader, this);
     this._paneClipper.addEventListener("mouseup", this._onmouseupPane, this);
 
     this._headerClipper.addEventListener("click", this._onclickHeader, this);
@@ -358,16 +357,16 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       /*
        * ***GECKO***
        * Hide the scrollbar component. It is NOT sufficient to do a "setWidth(0)".
-       * 
+       *
        * ***MSHTML***
-       * On the other hand mshtml has a serious problem with displaying 
+       * On the other hand mshtml has a serious problem with displaying
        * the scrollbar correctly (precisely: the scrollbar is shown but inactive).
        * This root of this problem is the nested Terminator widget inside the ScrollBar
        * widget. If the ScrollBar itself is hidden mshtml is actually not able to
-       * layout this Terminator widget correctly even if he is applying the right value 
+       * layout this Terminator widget correctly even if he is applying the right value
        * for the height property. The wrong height of the Terminator screws up the overflow
-       * handling of the ScrollBar widget and the virtual scrollbar (which is part of the 
-       * Scrollbar widget) is not shown. 
+       * handling of the ScrollBar widget and the virtual scrollbar (which is part of the
+       * Scrollbar widget) is not shown.
        */
       if (qx.core.Variant.isSet("qx.client", "gecko"))
       {
@@ -1063,29 +1062,6 @@ qx.Class.define("qx.ui.table.pane.Scroller",
 
 
     /**
-     * Event handler. Called when the user released a mouse button over the header.
-     *
-     * @type member
-     * @param evt {Map} the event.
-     * @return {void}
-     */
-    _onmouseupHeader : function(evt)
-    {
-      var table = this.getTable();
-
-      if (! table.getEnabled()) {
-        return;
-      }
-
-      if (this._resizeColumn != null) {
-        this._stopResizeHeader();
-      } else if (this._moveColumn != null) {
-        this._stopMoveHeader();
-      }
-    },
-
-
-    /**
      * Event handler. Called when the event capturing of the header changed.
      * Stops/finishes an active header resize/move session if it lost capturing
      * during the session to stay in a stable state.
@@ -1205,6 +1181,14 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       var table = this.getTable();
 
       if (!table.getEnabled()) {
+        return;
+      }
+
+      if (this._resizeColumn != null) {
+        this._stopResizeHeader();
+        return;
+      } else if (this._moveColumn != null) {
+        this._stopMoveHeader();
         return;
       }
 
@@ -2030,7 +2014,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
 
     /**
      * starts the current running interval
-     * 
+     *
      * @type member
      * @return {void}
      */
@@ -2050,7 +2034,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
 
     /**
      * stops the current running interval
-     * 
+     *
      * @type member
      * @return {void}
      */
