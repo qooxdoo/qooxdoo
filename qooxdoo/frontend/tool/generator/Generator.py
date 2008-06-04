@@ -21,8 +21,7 @@
 
 import re, os, sys, zlib, optparse, types
 
-from misc import filetool, textutil, idlist
-from misc.Path import Path
+from misc import filetool, textutil, idlist, Path
 from ecmascript import treegenerator, tokenizer, compiler
 from ecmascript.optimizer import variableoptimizer
 from ecmascript.optimizer import privateoptimizer
@@ -532,6 +531,11 @@ class Generator:
 
         # Whether the code should be formatted
         format = self._config.get("compile-source/format", False)
+
+        # The place where the app HTML ("index.html") lives
+        if self._config.get("compile-source/root", False):
+            approot = self._config.get("compile-source/root")
+            # e.g. for: liburi = Path.rel_from_to(approot, lib['path'])
 
         # Read in settings
         settings = self.getSettings()

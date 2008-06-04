@@ -23,7 +23,7 @@ import re, os, sys, types
 
 from misc import filetool
 from misc.imginfo import ImgInfo
-from misc.Path import Path
+from misc import Path
 
 memcache = {}
 
