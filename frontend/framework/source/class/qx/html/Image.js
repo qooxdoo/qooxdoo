@@ -47,7 +47,7 @@ qx.Class.define("qx.html.Image",
     // overridden
     _applyProperty : function(name, value)
     {
-      this.base(arguments);
+      this.base(arguments, name, value);
 
       if (name == "source") {
         qx.bom.Image.setSource(this._element, value);

@@ -20,11 +20,11 @@
 
 /**
  * A cross browser iframe instance.
- * 
  */
 qx.Class.define("qx.html.Iframe",
 {
   extend : qx.html.Element,
+
 
 
   /*
@@ -40,8 +40,10 @@ qx.Class.define("qx.html.Iframe",
      */
     "load" : "qx.event.type.Event"
   },
-   
-   
+
+
+
+
   /*
   *****************************************************************************
      MEMBERS
@@ -60,7 +62,7 @@ qx.Class.define("qx.html.Iframe",
     // overridden
     _applyProperty : function(name, value)
     {
-      this.base(arguments);
+      this.base(arguments, name, value);
 
       if (name == "source") {
         qx.bom.Iframe.setSource(this._element, value);
@@ -68,19 +70,18 @@ qx.Class.define("qx.html.Iframe",
     },
 
     // overridden
-    _createDomElement : function()
-    {
-      var el = qx.bom.Iframe.create(this._content);
-
-      return el;
+    _createDomElement : function() {
+      return qx.bom.Iframe.create(this._content);
     },
+
+
+
 
     /*
     ---------------------------------------------------------------------------
       IFRAME API
     ---------------------------------------------------------------------------
     */
-
 
     /**
      * Get the DOM window object of an iframe.
@@ -132,7 +133,7 @@ qx.Class.define("qx.html.Iframe",
 
 
     /**
-     * Sets iframe's source attribute to given value 
+     * Sets iframe's source attribute to given value
      *
      * @type member
      * @param source {String} URL to be set.
@@ -156,7 +157,7 @@ qx.Class.define("qx.html.Iframe",
 
 
     /**
-     * Sets iframe's name attribute to given value 
+     * Sets iframe's name attribute to given value
      *
      * @type member
      * @param name {String} Name to be set.
@@ -181,7 +182,7 @@ qx.Class.define("qx.html.Iframe",
 
     /**
      * Reloads iframe
-     * 
+     *
      * @type member
      */
     reload : function()
@@ -193,7 +194,5 @@ qx.Class.define("qx.html.Iframe",
         this.setSource(url);
       }
     }
-
-
   }
 });
