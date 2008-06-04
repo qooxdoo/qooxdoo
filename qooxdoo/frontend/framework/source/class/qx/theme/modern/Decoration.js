@@ -428,6 +428,18 @@ qx.Theme.define("qx.theme.modern.Decoration",
       }
     },
 
+    "window-border" :
+    {
+      decorator: qx.ui.decoration.Uniform,
+
+      style :
+      {
+        width : 1,
+        color : "#00204D"
+      }
+    },
+    
+    
     "window-captionbar-active" :
     {
       decorator : qx.ui.decoration.Grid,
