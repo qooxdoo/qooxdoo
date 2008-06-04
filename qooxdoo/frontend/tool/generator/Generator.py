@@ -425,16 +425,19 @@ class Generator:
 
 
     def runCompiled(self, parts, packages, boot, variants):
-        # wpbasti:
-        # Renamed trigger from "compile" to "compile-script"?
         if not self._config.get("compile-dist/file"):
             return
 
         # Read in base file name
         filePath = self._config.get("compile-dist/file")
 
+        # Read in app root dir
+        if self._config.get("compile-dist/root", False):
+            approot = self._config.get("compile-dist/root")
+
         # Read in relative file name
         fileUri = self._config.get("compile-dist/uri", filePath)
+        # fileUri = Path.rel_from_to(approot, filePath)
 
         # Read in compiler options
         optimize = self._config.get("compile-dist/optimize", [])

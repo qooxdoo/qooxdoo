@@ -167,8 +167,9 @@
       "compile-dist" :
       {
         "target" : "build",
-        "file" : "./build/script/${APPLICATION}.js",
-        "uri"  : "script/${APPLICATION}.js"
+        "file" : "./build/script/${APPLICATION}.js", // this should be relative to 'target'
+        "uri"  : "script/${APPLICATION}.js",  // this should be calculated from 'root'
+        "root" : "build"  // should be relative to 'target'?
       }
     },
 
@@ -181,7 +182,8 @@
       {
         "target" : "build",
         "file" : "./build/script/tests.js",
-        "uri"  : "../script/tests.js"
+        "uri"  : "../script/tests.js",
+        "root" : "build/html"
       }
     },
 

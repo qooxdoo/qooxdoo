@@ -101,7 +101,7 @@ def getCommonPrefix(p1, p2):
     pa2 = p2.split(os.sep)
     prea, sfx1a, sfx2a = _getCommonPrefixA(pa1, pa2)
 
-    # the lambda is necessary to coerce a singel array argument into a varargs list for join()
+    # the lambda is necessary to coerce a single array argument into a varargs list for join()
     # (through *x), and to catch the empty list corner case, since join chokes on empty
     # argument lists
     return map(lambda x: ((len(x)>0 and os.path.join(*x)) or ""), (prea, sfx1a, sfx2a))
