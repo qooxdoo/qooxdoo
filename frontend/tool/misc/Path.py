@@ -22,13 +22,13 @@
 import os, sys, re, types
 
 '''provide extra path functions beyond os.path'''
-def getCommonSuffix(p1, p2):
+def getCommonSuffix1(p1, p2):
     '''computes the common suffix of path1, path2, and returns the two different prefixes
        and the common suffix'''
     pre1 = pre2 = suffx = ""
     if (len(p1) == 0 or len(p2) == 0): return p1,p2,""
     for i in range(1,len(p1)):
-        if i > len(p2):
+        if i >= len(p2):
             break
         elif p1[-i] == p2[-i]:
             suffx = p1[-i] + suffx
@@ -40,14 +40,13 @@ def getCommonSuffix(p1, p2):
     return pre1, pre2, suffx
 
 
-
-def getCommonPrefix(p1, p2):
+def getCommonPrefix1(p1, p2):
     '''computes the common prefix of p1, p2, and returns the common prefix and the two
        different suffixes'''
     pre = sfx1 = sfx2 = ""
     if (len(p1) == 0 or len(p2) == 0): return "",p1,p2
     for i in range(len(p1)):
-        if i > len(p2):
+        if i >= len(p2):
             break
         elif p1[i] == p2[i]:
             pre += p1[i]
@@ -60,6 +59,52 @@ def getCommonPrefix(p1, p2):
     return pre,sfx1,sfx2
 
 
+def _getCommonPrefixA(pa1, pa2):
+    '''comparing lists of strings'''
+    prea = sfx1a = sfx2a = []
+    if (len(pa1) == 0 or len(pa2) == 0): return [],pa1,pa2
+    for i in range(len(pa1)):
+        if i >= len(pa2):
+            break
+        elif pa1[i] == pa2[i]:
+            prea.append(pa1[i])
+        else:
+            break
+    else:
+        i += 1  # correct i, since the loop ends differently with range() or break
+    sfx1a = pa1[i:]
+    sfx2a = pa2[i:]
+
+    return prea, sfx1a, sfx2a
+
+
+def getCommonPrefix(p1, p2):
+    '''treat directory names atomic, so that "a/b.1/c" and "a/b.2/d" will have
+       ("a", "b.1/c", "b.2/d") and not ("a/b.", "1/c", "2/d")'''
+    
+    if (len(p1) == 0 or len(p2) == 0): return "",p1,p2
+    pa1 = p1.split(os.sep)
+    pa2 = p2.split(os.sep)
+    prea, sfx1a, sfx2a = _getCommonPrefixA(pa1, pa2)
+
+    return map(lambda x: ((len(x)>0 and os.path.join(*x)) or ""), (prea, sfx1a, sfx2a))
+
+
+def getCommonSuffix(p1, p2):
+    
+    if (len(p1) == 0 or len(p2) == 0): return p1,p2,""
+    pa1 = p1.split(os.sep)
+    pa1.reverse()
+    pa2 = p2.split(os.sep)
+    pa2.reverse()
+    sfxa, pre1a, pre2a = _getCommonPrefixA(pa1, pa2)
+    pre1a.reverse()
+    pre2a.reverse()
+    sfxa.reverse()
+
+    return map(lambda x: ((len(x)>0 and os.path.join(*x)) or ""), (pre1a, pre2a, sfxa))
+
+
 def posifyPath(path):
     "replace '\' with '/' in strings"
     posix_sep = '/'
@@ -70,7 +115,7 @@ def posifyPath(path):
 def rel_from_to(fromdir, todir, commonroot=None):
     def part_to_ups (part):
         #"../.."
-        a1 = string.split(part, os.sep)
+        a1 = part.split(os.sep)
         s  = []
         for i in a1:           
           s.append( "..")
