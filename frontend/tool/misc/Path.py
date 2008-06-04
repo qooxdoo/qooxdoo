@@ -59,7 +59,7 @@ def getCommonPrefix1(p1, p2):
     return pre,sfx1,sfx2
 
 
-def _getCommonPrefixA(pa1, pa2):
+def _getCommonPrefixA1(pa1, pa2):
     '''comparing lists of strings'''
     prea = sfx1a = sfx2a = []
     if (len(pa1) == 0 or len(pa2) == 0): return [],pa1,pa2
@@ -78,6 +78,20 @@ def _getCommonPrefixA(pa1, pa2):
     return prea, sfx1a, sfx2a
 
 
+def _getCommonPrefixA(pa1, pa2):
+    '''comparing lists of strings, returning common head list and separate tail lists'''
+    def getCommonPrefixRec(pre, sfx1, sfx2):
+        if sfx1 == [] or sfx2 == []:
+            return pre, sfx1, sfx2
+        if sfx1[0] == sfx2[0]:
+            pre.append(sfx1[0])
+            return getCommonPrefixRec(pre, sfx1[1:], sfx2[1:])
+        else:
+            return pre, sfx1, sfx2
+
+    return getCommonPrefixRec([], pa1, pa2)
+
+
 def getCommonPrefix(p1, p2):
     '''treat directory names atomic, so that "a/b.1/c" and "a/b.2/d" will have
        ("a", "b.1/c", "b.2/d") and not ("a/b.", "1/c", "2/d")'''
@@ -87,10 +101,15 @@ def getCommonPrefix(p1, p2):
     pa2 = p2.split(os.sep)
     prea, sfx1a, sfx2a = _getCommonPrefixA(pa1, pa2)
 
+    # the lambda is necessary to coerce a singel array argument into a varargs list for join()
+    # (through *x), and to catch the empty list corner case, since join chokes on empty
+    # argument lists
     return map(lambda x: ((len(x)>0 and os.path.join(*x)) or ""), (prea, sfx1a, sfx2a))
 
 
 def getCommonSuffix(p1, p2):
+    '''uses _getCommonPrefixA as well by reversing arguments and return values; such a pitty that
+       there is no functional equivalent to array.reverse(), which is destructive :-('''
     
     if (len(p1) == 0 or len(p2) == 0): return p1,p2,""
     pa1 = p1.split(os.sep)
