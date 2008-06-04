@@ -201,12 +201,8 @@ qx.Class.define("qx.ui.core.ScrollArea",
      * @param value {Integer} The vertical position to scroll to.
      * @return {void}
      */
-    scrollToX : function(value)
-    {
-      var scrollbar = this._getChildControl("scrollbarX", true);
-      if (scrollbar) {
-        scrollbar.scrollTo(value);
-      }
+    scrollToX : function(value) {
+      this._getChildControl("scrollbarX").scrollTo(value);
     },
 
 
@@ -217,12 +213,8 @@ qx.Class.define("qx.ui.core.ScrollArea",
      * @param value {Integer} The vertical position to scroll to.
      * @return {void}
      */
-    scrollByX : function(value)
-    {
-      var scrollbar = this._getChildControl("scrollbarX", true);
-      if (scrollbar) {
-        scrollbar.scrollBy(value);
-      }
+    scrollByX : function(value) {
+      this._getChildControl("scrollbarX").scrollBy(value);
     },
 
 
@@ -246,12 +238,8 @@ qx.Class.define("qx.ui.core.ScrollArea",
      * @param value {Integer} The horizontal position to scroll to.
      * @return {void}
      */
-    scrollToY : function(value)
-    {
-      var scrollbar = this._getChildControl("scrollbarY", true);
-      if (scrollbar) {
-        scrollbar.scrollTo(value);
-      }
+    scrollToY : function(value) {
+      this._getChildControl("scrollbarY").scrollTo(value);
     },
 
 
@@ -262,12 +250,8 @@ qx.Class.define("qx.ui.core.ScrollArea",
      * @param value {Integer} The horizontal position to scroll to.
      * @return {void}
      */
-    scrollByY : function(value)
-    {
-      var scrollbar = this._getChildControl("scrollbarY", true);
-      if (scrollbar) {
-        scrollbar.scrollBy(value);
-      }
+    scrollByY : function(value) {
+      this._getChildControl("scrollbarY").scrollBy(value);
     },
 
 
@@ -440,14 +424,30 @@ qx.Class.define("qx.ui.core.ScrollArea",
     scrollItemIntoViewX : function(item, align)
     {
       var paneSize = this.getPaneSize();
-      var scrollPos = this.getScrollX();
       var itemSize = item.getBounds();
-      var itemPos = this.getItemLeft(item);
 
-      if (align === "left" || (align == null && itemPos < scrollPos)) {
-        this.scrollToX(itemPos);
-      } else if (align === "right" || (align == null && (itemPos + itemSize.width) > (paneSize.width + scrollPos))) {
-        this.scrollToX(itemPos + itemSize.width - paneSize.width);
+      if (!paneSize || !itemSize)
+      {
+        this.__lazyScrollIntoViewX = [ item, align ];
+        if (!this.__lazyScrollIntoViewY) {
+          this.addListener("appear", this._onAppear);
+        }
+      }
+      else
+      {
+        delete this.__lazyScrollIntoViewX;
+        if (!this.__lazyScrollIntoViewY) {
+          this.removeListener("appear", this._onAppear);
+        }
+
+        var scrollPos = this.getScrollX();
+        var itemPos = this.getItemLeft(item);
+
+        if (align === "left" || (align == null && itemPos < scrollPos)) {
+          this.scrollToX(itemPos);
+        } else if (align === "right" || (align == null && (itemPos + itemSize.width) > (paneSize.width + scrollPos))) {
+          this.scrollToX(itemPos + itemSize.width - paneSize.width);
+        }
       }
     },
 
@@ -465,14 +465,30 @@ qx.Class.define("qx.ui.core.ScrollArea",
     scrollItemIntoViewY : function(item, align)
     {
       var paneSize = this.getPaneSize();
-      var scrollPos = this.getScrollY();
       var itemSize = item.getBounds();
-      var itemPos = this.getItemTop(item);
 
-      if (align === "top" || (align == null && itemPos < scrollPos)) {
-        this.scrollToY(itemPos);
-      } else if (align === "bottom" || (align == null && (itemPos + itemSize.height) > (paneSize.height + scrollPos))) {
-        this.scrollToY(itemPos + itemSize.height - paneSize.height);
+      if (!paneSize || !itemSize)
+      {
+        this.__lazyScrollIntoViewY = [ item, align ];
+        if (!this.__lazyScrollIntoViewX) {
+          this.addListener("appear", this._onAppear);
+        }
+      }
+      else
+      {
+        delete this.__lazyScrollIntoViewY;
+        if (!this.__lazyScrollIntoViewX) {
+          this.removeListener("appear", this._onAppear);
+        }
+
+        var scrollPos = this.getScrollY();
+        var itemPos = this.getItemTop(item);
+
+        if (align === "top" || (align == null && itemPos < scrollPos)) {
+          this.scrollToY(itemPos);
+        } else if (align === "bottom" || (align == null && (itemPos + itemSize.height) > (paneSize.height + scrollPos))) {
+          this.scrollToY(itemPos + itemSize.height - paneSize.height);
+        }
       }
     },
 
@@ -562,6 +578,33 @@ qx.Class.define("qx.ui.core.ScrollArea",
       }
 
       showX && showY ? this._showChildControl("corner") : this._excludeChildControl("corner");
+    },
+
+
+
+    /**
+     * Event handler to handle appear event and synchronize scroll position
+     *
+     * @param e {qx.event.type.Event} Property change event
+     * @return {void}
+     */
+    _onAppear : function(e)
+    {
+      var intoViewX = this.__lazyScrollIntoViewX;
+      if (intoViewX)
+      {
+        this.scrollItemIntoViewX.apply(this, intoViewX);
+        delete this.__lazyScrollIntoViewX;
+      }
+
+      var intoViewY = this.__lazyScrollIntoViewY;
+      if (intoViewY)
+      {
+        this.scrollItemIntoViewY.apply(this, intoViewY);
+        delete this.__lazyScrollIntoViewY;
+      }
+
+      this.removeListener("appear", this._onAppear);
     },
 
 
