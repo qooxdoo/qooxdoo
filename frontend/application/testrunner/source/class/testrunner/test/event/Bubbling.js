@@ -99,6 +99,38 @@ qx.Class.define("testrunner.test.event.Bubbling",
     },
 
 
+    testContext : function()
+    {
+      var Reg = qx.event.Registration;
+      var called;
+      var contexts;
+
+      Reg.addListener(this.c_1, "bubble", function() {
+        called.push("c_1");
+        contexts.push(this);
+      });
+      Reg.addListener(this.c_1_1, "bubble", function() {
+        called.push("c_1_1a")
+        contexts.push(this);
+      });
+      Reg.addListener(this.c_1_1, "bubble", function() {
+        called.push("c_1_1b")
+        contexts.push(this);
+      }, this);
+
+      called = [];
+      contexts = [];
+
+      Reg.fireEvent(this.c_1_1, "bubble", qx.event.type.Event, [true, true]);
+
+      this.assertJsonEquals(["c_1_1a", "c_1_1b", "c_1"], called);
+      this.assertEquals(3, contexts.length);
+      this.assertEquals(this.c_1_1, contexts[0]);
+      this.assertEquals(this, contexts[1]);
+      this.assertEquals(this.c_1, contexts[2]);
+    },
+
+
     testCapture : function()
     {
       var Reg = qx.event.Registration;
