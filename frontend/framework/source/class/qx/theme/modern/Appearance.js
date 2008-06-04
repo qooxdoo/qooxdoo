@@ -623,8 +623,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          backgroundColor : "lime",
-          decorator       : "black"
+          backgroundColor : "#f3f3f3",
+          decorator       : "window-border" 
         };
       }
     },
@@ -645,7 +645,6 @@ qx.Theme.define("qx.theme.modern.Appearance",
       {
         return {
           decorator : states.active ? "window-captionbar-active" : "window-captionbar-inactive",
-          //padding   : [ -4, 0, -6, 0 ],
           textColor : states.active ? "#ffffff" : "#4a4a4a"
         };
       }
@@ -677,7 +676,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          margin  : [ 8, 4, 4, 4 ]
+          margin  : [ 8, 4, 4, 6 ]
         };
       }
     },
@@ -726,7 +725,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          icon : states.active ? "decoration/window/close-active.png" : "decoration/window/close-inactive.png"
+          icon : states.active ? "decoration/window/close-active.png" : "decoration/window/close-inactive.png",
+          margin : [ 4, 6, 2, 4 ]
         };
       }
     },
