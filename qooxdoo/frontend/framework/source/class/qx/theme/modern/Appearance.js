@@ -613,8 +613,18 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          backgroundColor : "#a9a9a9",
           decorator       : "window"
+        };
+      }
+    },
+
+    "window-pane" :
+    {
+      style : function(states)
+      {
+        return {
+          backgroundColor : "lime",
+          decorator       : "black"
         };
       }
     },
@@ -635,7 +645,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       {
         return {
           decorator : states.active ? "window-captionbar-active" : "window-captionbar-inactive",
-          padding   : [ -4, 0, -6, 0 ],
+          //padding   : [ -4, 0, -6, 0 ],
           textColor : states.active ? "#ffffff" : "#4a4a4a"
         };
       }
@@ -646,7 +656,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          margin : [ 4, 0, 2, 2 ]
+          margin : [ 4, 6, 2, 4 ]
         };
       }
     },
@@ -656,7 +666,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          margin : [ 7, 8, 0, 4 ],
+          alignY : "middle",
           font   : "default"
         };
       }

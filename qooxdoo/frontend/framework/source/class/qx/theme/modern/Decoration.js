@@ -419,7 +419,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
       style :
       {
-        baseImage : "decoration/window/background.png",
+        baseImage : "decoration/window/shadow.png",
         insets    : [ 3, 8, 8, 4 ]
 
     /*    width : 1,
@@ -434,8 +434,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
       style :
       {
-        baseImage : "decoration/window/captionbar-active.png",
-        insets    : [ 3, 8, 8, 4 ]
+        baseImage : "decoration/window/captionbar-active.png"
       }
     },
 
@@ -445,8 +444,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
       style :
       {
-        baseImage : "decoration/window/captionbar-inactive.png",
-        insets    : [ 3, 8, 8, 4 ]
+        baseImage : "decoration/window/captionbar-inactive.png"
       }
     },
 
@@ -456,8 +454,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
       style :
       {
-        baseImage : "decoration/window/statusbar.png",
-        insets    : 4
+        baseImage : "decoration/window/statusbar.png"
       }
     }
   }
