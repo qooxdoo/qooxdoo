@@ -49,7 +49,7 @@ qx.Class.define("qx.html.Label",
     // overridden
     _applyProperty : function(name, value)
     {
-      this.base(arguments);
+      this.base(arguments, name, value);
 
       if (name == "content") {
         qx.bom.Label.setContent(this._element, value);

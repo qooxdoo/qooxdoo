@@ -74,6 +74,8 @@ qx.Class.define("qx.html.Input",
     // overridden
     _applyProperty : function(name, value)
     {
+      this.base(arguments, name, value);
+
       if (name === "value") {
         qx.bom.Input.setValue(this._element, value);
       } else if (name === "wrap") {
