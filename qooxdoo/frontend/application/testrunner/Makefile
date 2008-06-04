@@ -23,8 +23,7 @@ source:
 	@../../tool/generator.py -c config.json -j source
 
 build:
-	@$(MAKE) -s -f Makefile.runner build
-	@$(MAKE) -s -f Makefile.tests build
+	@../../tool/generator.py -c config.json -j build
 
 clean:
 	@$(MAKE) -s -f Makefile.runner clean
