@@ -534,7 +534,7 @@ class Generator:
 
         # The place where the app HTML ("index.html") lives
         if self._config.get("compile-source/root", False):
-            approot = self._config.get("compile-source/root")
+            self.approot = self._config.get("compile-source/root")
             # e.g. for: liburi = Path.rel_from_to(approot, lib['path'])
 
         # Read in settings
@@ -762,6 +762,7 @@ class Generator:
         # main
 
         for lib in libs:
+            #print "ooo lib['uri'] =" + os.path.normpath(Path.rel_from_to(self.approot, lib['path']))
             libresuri = os.path.join(lib['uri'],lib['resource'])
             resourceList = self._resourceHandler.findAllResources([lib], 
                                 self._resourceHandler.filterResourcesByClasslist(self._classList))

@@ -63,7 +63,8 @@
 
       "compile-source" :
       {
-        "file" : "./source/script/${APPLICATION}.js"
+        "file" : "./source/script/${APPLICATION}.js",
+        "root" : "source"
       }
     },
 
