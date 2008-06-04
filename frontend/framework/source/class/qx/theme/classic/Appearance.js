@@ -185,7 +185,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          align           : "left",
           gap             : 4,
           padding         : states.lead ? [ 2, 4 ] : [ 3, 5 ],
           backgroundColor : states.selected ? "selected" : "undefined",
@@ -251,7 +250,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
         return {
           icon: "decoration/form/" + icon + ".png",
-          align: "left",
           gap: 6
         }
       }
