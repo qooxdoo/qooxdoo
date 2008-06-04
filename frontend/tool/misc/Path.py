@@ -134,11 +134,12 @@ def posifyPath(path):
 def rel_from_to(fromdir, todir, commonroot=None):
     def part_to_ups (part):
         #"../.."
+        if part == '': return "."
         a1 = part.split(os.sep)
         s  = []
         for i in a1:           
           s.append( "..")
-        return os.sep.join(s) or ""
+        return os.sep.join(s)
 
     if not os.path.isabs(fromdir):
         fromdir = os.path.abspath(fromdir)
