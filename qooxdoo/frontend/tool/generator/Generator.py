@@ -451,20 +451,11 @@ class Generator:
         # Get resource list
         buildRoot= self._config.get('compile/target', "build")
         buildUri = self._config.get('compile/resourceUri', ".")
-        
-        # wpbasti: What the hell is this? 
-        # Still not understand why it's needed to copy files first. Should be definitely separated from each other.
-        libs = [{
-                 'path': buildRoot, 
-                 'namespace':'build',
-                 'class' : 'build',
-                 'resource': 'resource',
-                 'translation': 'translation',
-                 'uri': buildUri, 
-                 'encoding':'utf-8'
-            }]  # use what's in the 'build' tree -- this depends on resource copying!!
-        #resourceList = self._resourceHandler.findAllResources(libs, self._resourceHandler.filterResourcesByClasslist(self._classList))
 
+        libs = self._config.get("library", [])
+        forceUri = Path.rel_from_to(approot, os.path.join(buildRoot, "resource"))
+        forceUri = Path.posifyPath(forceUri)
+        
         # Generating boot script
         self._console.info("Generating boot script...")
 
@@ -472,7 +463,7 @@ class Generator:
         bootBlocks = []
         bootBlocks.append(self.generateSettingsCode(settings, format))
         bootBlocks.append(self.generateVariantsCode(variants, format))
-        bootBlocks.append(self.generateLibInfoCode(libs, format))
+        bootBlocks.append(self.generateLibInfoCode(libs, format, forceUri))
         bootBlocks.append(self.generateResourceInfoCode(settings, libs, format))
         bootBlocks.append(self.generateLocalesCode(self._translationMaps, format))
         bootBlocks.append(self.generateCompiledPackageCode(fileUri, parts, packages, boot, variants, settings, format))
@@ -695,12 +686,15 @@ class Generator:
         return result
 
 
-    def generateLibInfoCode(self, libs, format):
+    def generateLibInfoCode(self, libs, format, forceUri=None):
         result = 'if(!window.qxlibraries)qxlibraries={};'
 
         for lib in libs:
-            result += 'qxlibraries["%s"]={"resourceUri":"%s"};' % (lib['namespace'], 
-                                                  Path.posifyPath(os.path.join(lib['uri'],lib['resource'])))
+            if forceUri:
+                liburi = forceUri
+            else:
+                liburi = Path.posifyPath(os.path.join(lib['uri'],lib['resource']))
+            result += 'qxlibraries["%s"]={"resourceUri":"%s"};' % (lib['namespace'], liburi)
         return result
 
 

@@ -39,7 +39,8 @@
         "file" : "build/script/qx.js",
         "uri"  : "script/qx.js",
         "format" : "on",
-        "optimize" : ["basecalls", "variables", "privates"]
+        "optimize" : ["basecalls", "variables", "privates"],
+        "root" : "build"
       },
 
       "copy-files" :
