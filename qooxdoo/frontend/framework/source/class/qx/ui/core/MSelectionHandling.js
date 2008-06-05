@@ -41,6 +41,9 @@ qx.Mixin.define("qx.ui.core.MSelectionHandling",
     this.addListener("mousemove", manager.handleMouseMove, manager);
     this.addListener("losecapture", manager.handleLoseCapture, manager);
     this.addListener("keypress", manager.handleKeyPress, manager);
+    
+    this.addListener("addItem", manager.handleAddItem, manager);
+    this.addListener("removeItem", manager.handleRemoveItem, manager);
 
     // Add manager listeners
     manager.addListener("change", this._onSelectionChange, this);
