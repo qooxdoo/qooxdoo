@@ -55,7 +55,8 @@
 
       "compile-source" :
       {
-        "file" : "./source/script/${APIVIEWER}.js"
+        "file" : "./source/script/${APIVIEWER}.js",
+        "root" : "source"
       }
     },
 
@@ -85,7 +86,8 @@
 				"target" : "${BUILD_PATH}",
         "file" : "${BUILD_PATH}/script/${APIVIEWER}.js",
         "format" : "on",
-        "uri"  : "script/${APIVIEWER}.js"
+        "uri"  : "script/${APIVIEWER}.js",
+        "root" : "${BUILD_PATH}"
       }
     },
 

@@ -53,7 +53,8 @@
 
       "compile-source" :
       {
-        "file" : "source/script/XXX.js"
+        "file" : "source/script/XXX.js",
+        "root" : "source/demo/yyy"
       }
     },
 
@@ -76,6 +77,7 @@
         "file" : "build/script/XXX.js",
         "uri"  : "../../script/XXX.js",
         "resourceUri" : "../..",
+        "root" : "build/demo/yyy",
         "optimize" : [ "variables", "basecalls", "privates" ],
         "format" : "on"
       }

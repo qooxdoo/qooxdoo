@@ -54,7 +54,8 @@
       {
         "file" : "script/bom.js",
         "optimize" : [ "variables", "basecalls", "privates" ],
-        "format" : "on"
+        "format" : "on",
+        "root" : "."
       },
 
       "packages" :
