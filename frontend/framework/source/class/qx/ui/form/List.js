@@ -180,11 +180,27 @@ qx.Class.define("qx.ui.form.List",
     */
 
     /**
+     * Used to route external <code>keypress</code> events to the list
+     * handling (in fact the manager of the list)
+     *
+     * @type member
+     * @param e {qx.event.type.KeyEvent} KeyPress event
+     * @return {void}
+     */
+    handleKeyPress : function(e)
+    {
+      if (!this._onKeyPress(e)) {
+        this._getManager().handleKeyPress(e);
+      }
+    },
+
+
+    /**
      * Event listener for <code>keypress</code> events.
      *
      * @type member
-     * @param e {qx.event.type.KeyEvent} keyPress event
-     * @return {void}
+     * @param e {qx.event.type.KeyEvent} KeyPress event
+     * @return {Boolean} Whether the event was processed
      */
     _onKeyPress : function(e)
     {
@@ -195,7 +211,11 @@ qx.Class.define("qx.ui.form.List",
         for (var i=0; i<items.length; i++) {
           items[i].fireEvent("action");
         }
+
+        return true;
       }
+
+      return false;
     }
   },
 
