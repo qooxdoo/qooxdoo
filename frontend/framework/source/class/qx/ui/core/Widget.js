@@ -1521,6 +1521,30 @@ qx.Class.define("qx.ui.core.Widget",
 
 
 
+    /*
+    ---------------------------------------------------------------------------
+      CHILDREN HANDLING - TEMPLATE METHODS
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * This method gets called each time after a child widget was added.
+     * 
+     * @signature function(child)
+     * @param child {qx.ui.core.LayoutItem} The added child.
+     */
+    _afterAddChild : null,
+    
+    
+    /**
+     * This method gets called each time after a child widget was removed.
+     * 
+     * @signature function(child)
+     * @param child {qx.ui.core.LayoutItem} The removed child.
+     */    
+    _afterRemoveChild : null,
+
+
 
     /*
     ---------------------------------------------------------------------------
@@ -1563,6 +1587,11 @@ qx.Class.define("qx.ui.core.Widget",
 
       // invalidate cached layout children
       this.__layoutChildren = null;
+      
+      // call the template method
+      if (this._aferAddChild) {
+        this._afterAddChild(child);
+      }
     },
 
 
@@ -1593,6 +1622,11 @@ qx.Class.define("qx.ui.core.Widget",
 
       // Add to layout queue
       qx.ui.core.queue.Layout.add(this);
+      
+      // call the template method
+      if (this._aferRemoveChild) {
+        this._afterRemoveChild(child);
+      }      
     },
 
 

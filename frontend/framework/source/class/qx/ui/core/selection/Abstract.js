@@ -863,6 +863,17 @@ qx.Class.define("qx.ui.core.selection.Abstract",
 
 
 
+    handleAddItem : function(item)
+    {
+      this.debug("Add: " + item);
+    },
+    
+    handleRemoveItem : function(item)
+    { 
+      this.debug("Remove: " + item);
+    },
+
+
 
 
     /*

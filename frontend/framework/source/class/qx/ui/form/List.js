@@ -44,6 +44,11 @@ qx.Class.define("qx.ui.form.List",
 
     // Create content
     this.__content = new qx.ui.container.Composite();
+    
+    
+    //this.__content.addListener("addChild", this._onAddChild, this);
+    //this.__content.addListener("removeChild", this._onRemoveChild, this);
+    // this.__content.defineChildAddCallback(this, this._onAddChild);
 
     // Add to scrollpane
     this._getChildControl("pane").add(this.__content);
@@ -55,6 +60,13 @@ qx.Class.define("qx.ui.form.List",
     this.addListener("keypress", this._onKeyPress);
   },
 
+
+
+  events : 
+  {
+    "addItem" : "qx.event.type.Data",
+    "removeItem" : "qx.event.type.Data"
+  },
 
 
 
@@ -139,6 +151,15 @@ qx.Class.define("qx.ui.form.List",
 
 
 
+    _onAddChild : function(e) {
+      this.fireDataEvent("addItem", e.getData()); 
+    },
+
+    _onRemoveChild : function(e) {
+      this.fireDataEvent("removeItem", e.getData()); 
+    },
+
+    
 
     /*
     ---------------------------------------------------------------------------
