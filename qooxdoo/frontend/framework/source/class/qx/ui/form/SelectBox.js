@@ -61,12 +61,13 @@ qx.Class.define("qx.ui.form.SelectBox",
         
     // create the popup list
     this._listPopup = new qx.ui.popup.Popup(new qx.ui.layout.VBox());
+    // this._listPopup.setRes
     this._list = new qx.ui.form.List();
     this._list.setFocusable(false);
     this._list.setKeepFocus(true);
     this._list.setHeight(null);
     this._list.setWidth(null);
-    this._list.setMaxHeight(200);   // TODO Client height
+    this._list.setMaxHeight(this.getMaxListHeight());
     this._listPopup.add(this._list);
     
     
@@ -119,6 +120,13 @@ qx.Class.define("qx.ui.form.SelectBox",
     {
       refine : true,
       init : true
+    },
+    
+    maxListHeight : 
+    {
+      check : "Number",
+      apply : "_applyMaxListHeight",
+      init : 200
     }
   },
 
@@ -144,6 +152,11 @@ qx.Class.define("qx.ui.form.SelectBox",
       this._atom.setIcon(value.getIcon());
       this._list.select(value);
     },
+    
+    _applyMaxListHeight : function(value, old) 
+    {
+      this._list.setMaxHeight(value);
+    },
 
 
     getChildrenContainer : function()
@@ -154,9 +167,37 @@ qx.Class.define("qx.ui.form.SelectBox",
 
     _showList : function()
     {
-      var leftPos = qx.bom.element.Location.getLeft(this.getContainerElement().getDomElement(), "box");
-      var topPos = qx.bom.element.Location.getBottom(this.getContainerElement().getDomElement(), "box");
-      this._listPopup.moveTo(leftPos, topPos);
+      var pos = qx.bom.element.Location.get(this.getContainerElement().getDomElement(), "box");      
+      
+      var clientWidth = qx.bom.Viewport.getWidth();
+      var clientHeight = qx.bom.Viewport.getHeight();
+      
+      var spaceAbove = pos.top;
+      var spaceBelow = clientHeight - pos.bottom;
+      
+      this._list.setMaxHeight(this.getMaxListHeight());
+      
+      var listHeight = this._list.getSizeHint().height;
+      
+      // case 1: List fits below the button
+      if (spaceBelow > listHeight) {
+        this._listPopup.moveTo(pos.left, pos.bottom);
+      
+      // case 2: list does not fit below the button but above it
+      } else if (spaceAbove > listHeight) {
+        this._listPopup.moveTo(pos.left, pos.top - listHeight);
+    
+      // case 3: List does not fit at all
+      } else if (spaceBelow > spaceAbove) {
+        this._list.setMaxHeight(spaceBelow);
+        this._listPopup.moveTo(pos.left, pos.bottom);
+      
+      // case 4: List must be fittet above the button
+      } else {
+        this._list.setMaxHeight(spaceAbove);
+        this._listPopup.moveTo(pos.left, pos.bottom - listHeight);
+      }
+            
       this._listPopup.show();              
     },
 
@@ -203,7 +244,7 @@ qx.Class.define("qx.ui.form.SelectBox",
         return;
       }
       // forward the rest of the events to the list
-      this._list.getManager().handleKeyPress(e);   
+      this._list.handleKeyPress(e);   
     }
   }
 
