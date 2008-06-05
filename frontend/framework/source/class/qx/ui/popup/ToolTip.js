@@ -354,7 +354,7 @@ qx.Class.define("qx.ui.popup.ToolTip",
       if (bounds.left < 0) {
         return 0;
       } else if ((bounds.left + bounds.width) > parentBounds.width) {
-        return mouseLeft - this.getOffsetRight() - bounds.width;
+        return Math.max(0, mouseLeft - this.getOffsetRight() - bounds.width);
       }
 
       return left;
@@ -375,7 +375,7 @@ qx.Class.define("qx.ui.popup.ToolTip",
       if (bounds.top < 0) {
         return 0;
       } else if ((bounds.top + bounds.height) > parentBounds.height) {
-        return mouseTop - this.getOffsetTop() - bounds.height;
+        return Math.max(0, mouseTop - this.getOffsetTop() - bounds.height);
       }
 
       return top;

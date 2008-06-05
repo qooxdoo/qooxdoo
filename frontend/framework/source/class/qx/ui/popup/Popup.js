@@ -250,7 +250,7 @@ qx.Class.define("qx.ui.popup.Popup",
       if (bounds.left < 0) {
         return 0;
       } else if ((bounds.left + bounds.width) > parentBounds.width) {
-        return parentBounds.width - bounds.width;
+        return Math.max(0, parentBounds.width - bounds.width);
       }
 
       return left;
@@ -269,7 +269,7 @@ qx.Class.define("qx.ui.popup.Popup",
       if (bounds.top < 0) {
         return 0;
       } else if ((bounds.top + bounds.height) > parentBounds.height) {
-        return parentBounds.height - bounds.height;
+        return Math.max(0, parentBounds.height - bounds.height);
       }
 
       return top;
