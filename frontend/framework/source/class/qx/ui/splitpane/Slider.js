@@ -22,6 +22,15 @@
 
 qx.Class.define("qx.ui.splitpane.Slider",
 {
-  extend : qx.ui.core.Widget
-  
+  extend : qx.ui.core.Widget,
+
+  properties :
+  {
+    appearance :
+    {
+      refine : true,
+      init : "splitpane-slider"
+    }
+  }
+
 });

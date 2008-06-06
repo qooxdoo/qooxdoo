@@ -94,11 +94,14 @@ qx.Class.define("qx.ui.layout.Split",
     {
       "on" : function(item, name, value)
       {
-        this.assert(name == "mode" || name == "size", "The property '"+name+"' is not supported by the split layout!");
-        if (name == "mode") {
-          this.assertInArray(value, ["first", "second", "splitter"]);
-        } else if (name == "size") {
+        this.assert(name === "type" || name === "flex", "The property '"+name+"' is not supported by the split layout!");
+
+        if (name == "size") {
           this.assertNumber(value);
+        }
+
+        if (name == "type") {
+          this.assertString(value);
         }
       },
 
@@ -109,112 +112,176 @@ qx.Class.define("qx.ui.layout.Split",
     // overridden
     renderLayout : function(availWidth, availHeight)
     {
-      var Util = qx.ui.layout.Util;
-
       var children = this._getLayoutChildren();
       var length = children.length;
-      var flexibles = [];
+      var child;
+      var begin, splitter, slider, end;
 
-      var left, top, width, height, i;
-      var child, hint;
-
-      // vertical
-      if (this.__orientation === "vertical")
+      for (var i=0; i<length; i++)
       {
-        var allocatedHeight = 0;
-        for (i=0; i<length; i++)
-        {
-          hint = children[i].getSizeHint();
-          size = children[i].getLayoutProperties().size;
-          
-          // flex size
-          if (size != null)
-          {
-            flexibles[i]=
-            {
-              min : hint.minHeight,
-              value : hint.minHeight,
-              max : hint.maxHeight,
-              flex : size
-            };
-            
-            allocatedHeight += hint.minHeight;
-          }
-          else
-          {
-            allocatedHeight += hint.height;
-          }
-        }
-        
-        var result = Util.computeFlexOffsets(flexibles, availHeight, allocatedHeight);
-        
-        top = 0;
-        for (i=0; i<length; i++)
-        {
-          child = children[i];
-          hint = child.getSizeHint();
-          
-          if (result[i] != null) {
-            height = hint.minHeight + result[i].offset;
-          } else {
-            height = hint.height;
-          }
-          
-          width = Math.min(hint.maxWidth, Math.max(hint.minWidth, availWidth));
-          child.renderLayout(0, top, width, height);
+        child = children[i];
+        type = child.getLayoutProperties().type;
 
-          top += height;
+        if (type === "splitter") {
+          splitter = child;
+        } else if (type === "slider") {
+          slider = child;
+        } else if (!begin) {
+          begin = child;
+        } else {
+          end = child;
         }
       }
 
-      // horizontal
+      if (begin && end)
+      {
+        var beginFlex = begin.getLayoutProperties().flex;
+        var endFlex = end.getLayoutProperties().flex;
+
+        if (beginFlex == null) {
+          beginFlex = 1;
+        }
+
+        if (endFlex == null) {
+          endFlex = 1;
+        }
+
+        var beginHint = begin.getSizeHint();
+        var splitterHint = splitter.getSizeHint();
+        var endHint = end.getSizeHint();
+
+        var beginWidth = beginHint.width;
+        var splitterWidth = splitterHint.width;
+        var endWidth = endHint.width;
+
+        if (beginFlex > 0 && endFlex > 0)
+        {
+          var flexSum = beginFlex + endFlex;
+          var flexAvailable = availWidth - splitterWidth;
+
+          var beginWidth = Math.round((flexAvailable / flexSum) * beginFlex);
+          var endWidth = flexAvailable - beginWidth;
+
+          var sizes = this._computeSizes(beginHint.minWidth, beginWidth, beginHint.maxWidth,
+            endHint.minWidth, endWidth, endHint.maxWidth);
+
+          beginWidth = sizes.begin;
+          endWidth = sizes.end;
+        }
+        else if (beginFlex > 0)
+        {
+          beginWidth = availWidth - splitterWidth - endWidth;
+          if (beginWidth < beginHint.minWidth) {
+            beginWidth = beginHint.minWidth;
+          }
+
+          if (beginWidth > beginHint.maxWidth) {
+            beginWidth = beginHint.maxWidth;
+          }
+        }
+        else if (endFlex > 0)
+        {
+          endWidth = availWidth - beginWidth - splitterWidth;
+          if (endWidth < endHint.minWidth) {
+            endWidth = endHint.minWidth;
+          }
+
+          if (endWidth > endHint.maxWidth) {
+            endWidth = endHint.maxWidth;
+          }
+        }
+
+        begin.renderLayout(0, 0, beginWidth, availHeight);
+        splitter.renderLayout(beginWidth, 0, splitterWidth, availHeight);
+        end.renderLayout(beginWidth+splitterWidth, 0, endWidth, availHeight);
+      }
       else
       {
-        var allocatedWidth = 0;
-        for (i=0; i<length; i++)
-        {
-          hint = children[i].getSizeHint();
-          size = children[i].getLayoutProperties().size;
-          
-          // flex size
-          if (size != null)
-          {
-            flexibles[i]=
-            {
-              min : hint.minWidth,
-              value : hint.minWidth,
-              max : hint.maxWidth,
-              flex : size
-            };
-            
-            allocatedWidth += hint.minWidth;
-          }
-          else
-          {
-            allocatedWidth += hint.width;
-          }
-        }
-        
-        var result = Util.computeFlexOffsets(flexibles, availWidth, allocatedWidth);
-        
-        left = 0;
-        for (var i=0; i<length; i++)
-        {
-          child = children[i];
-          hint = child.getSizeHint();
-          
-          if (result[i] != null) {
-            width = hint.minWidth + result[i].offset;
-          } else {
-            width = hint.width;
-          }
-          
-          height = Math.min(hint.maxHeight, Math.max(hint.minHeight, availHeight));
-          child.renderLayout(left, 0, width, height);
+        // Hide the splitter completely
+        splitter.renderLayout(0, 0, 0, 0);
 
-          left += width;
+        // Render one child
+        if (begin) {
+          begin.renderLayout(0, 0, availWidth, availHeight);
+        } else if (end) {
+          end.renderLayout(0, 0, availWidth, availHeight);
         }
       }
+    },
+
+    _computeSizes : function(beginMin, beginIdeal, beginMax, endMin, endIdeal, endMax)
+    {
+      if (beginIdeal < beginMin || endIdeal < endMin)
+      {
+        if (beginIdeal < beginMin && endIdeal < endMin)
+        {
+          // Just increase both, can not rearrange them otherwise
+          // Result into overflowing of the overlapping content
+          // Should normally not happen through auto sizing!
+          beginIdeal = beginMin;
+          endIdeal = endMin;
+        }
+        else if (beginIdeal < beginMin)
+        {
+          // Reduce end, increase begin to min
+          endIdeal -= (beginMin - beginIdeal);
+          beginIdeal = beginMin;
+
+          // Re-check to keep min size of end
+          if (endIdeal < endMin) {
+            endIdeal = endMin;
+          }
+        }
+        else if (endIdeal < endMin)
+        {
+          // Reduce begin, increase end to min
+          beginIdeal -= (endMin - endIdeal);
+          endIdeal = endMin;
+
+          // Re-check to keep min size of begin
+          if (beginIdeal < beginMin) {
+            beginIdeal = beginMin;
+          }
+        }
+      }
+
+      if (beginIdeal > beginMax || endIdeal > endMax)
+      {
+        if (beginIdeal > beginMax && endIdeal > endMax)
+        {
+          // Just reduce both, can not rearrange them otherwise
+          // Leaves a blank area in the pane!
+          beginIdeal = beginMax;
+          endIdeal = endMax;
+        }
+        else if (beginIdeal > beginMax)
+        {
+          // Increase end, reduce begin to max
+          endIdeal += (beginIdeal - beginMax);
+          beginIdeal = beginMax;
+
+          // Re-check to keep max size of end
+          if (endIdeal > endMax) {
+            endIdeal = endMax;
+          }
+        }
+        else if (endIdeal > endMax)
+        {
+          // Increase begin, reduce end to max
+          beginIdeal += (endIdeal - endMax);
+          endIdeal = endMax;
+
+          // Re-check to keep max size of begin
+          if (beginIdeal > beginMax) {
+            beginIdeal = beginMax;
+          }
+        }
+      }
+
+      return {
+        begin : beginIdeal,
+        end : endIdeal
+      };
     },
 
 
@@ -223,57 +290,11 @@ qx.Class.define("qx.ui.layout.Split",
     {
       var children = this._getLayoutChildren();
       var length = children.length;
-      var hint, result, child, i;
-      var flexibles = [];
-      var flexOffsets;
-      
-      var minWidth=0, width=0;
-      var minHeight=0, height=0;
 
-      var allocatedWidth = 0, allocatedHeight = 0;
-
-      if (this.__orientation === "horizontal")
-      {
-        for (i=0; i<length; i++)
-        {
-          hint = children[i].getSizeHint();
-          var props = children[i].getLayoutProperties();
-
-          // Sum of widths
-          width += hint.width;
-          minWidth += hint.minWidth;
-
-          // Max of heights
-          height = Math.max(height, hint.height);
-          minHeight = Math.max(minWidth, hint.minHeight);
-        }
-      }
-      else
-      {
-        for (i=0; i<length; i++)
-        {
-          hint = children[i].getSizeHint();
-          var props = children[i].getLayoutProperties();
-
-          // Sum of heights
-          height += hint.height;
-          minHeight += hint.minHeight;
-
-          // Max of widths
-          width = Math.max(width, hint.width);
-          minWidth = Math.max(minWidth, hint.minWidth);
-        }
-      }
-
-      // Build hint
-      result = {
-        minWidth : minWidth,
-        width : width,
-        minHeight : minHeight,
-        height : height
+      return {
+        width : 0,
+        height : 0
       };
-
-      return result;
     }
   }
 });

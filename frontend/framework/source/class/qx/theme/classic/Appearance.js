@@ -1041,6 +1041,46 @@ qx.Theme.define("qx.theme.classic.Appearance",
           decorator : "dark-shadow"
         };
       }
+    },
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      RESIZER
+    ---------------------------------------------------------------------------
+    */
+
+    "splitpane" :
+    {
+      style : function(states)
+      {
+        return {};
+      }
+    },
+
+    "splitpane-splitter" :
+    {
+      style : function(states)
+      {
+        return {
+          width : 5,
+          backgroundColor : states.active ? "yellow" : "#aaa"
+        };
+      }
+    },
+
+    "splitpane-slider" :
+    {
+      style : function(states)
+      {
+        return {
+          width : 5,
+          backgroundColor : "red",
+          opacity : 0.3
+        };
+      }
     }
+
   }
 });
