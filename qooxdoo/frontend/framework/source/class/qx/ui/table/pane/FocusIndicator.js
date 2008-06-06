@@ -99,5 +99,12 @@ qx.Class.define("qx.ui.table.pane.FocusIndicator",
         }
       }
     }
+  },
+  
+  destruct : function ()
+  {
+     this._disposeObjects(
+       "_scroller"
+     ); 
   }
 });

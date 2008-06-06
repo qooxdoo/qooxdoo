@@ -400,6 +400,9 @@ qx.Class.define("qx.ui.component.DateChooserButton",
    * Since the child components window and chooser are instanced we don't need
    * to destroy them here.
    */
-  destruct : function() {}
+  destruct : function() 
+  {
+    this._disposeObjects("_dateFormat");
+  }
 
 });

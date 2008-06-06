@@ -1589,6 +1589,8 @@ qx.Class.define("qx.ui.form.ComboBoxEx",
     if (this._popup && !qx.core.Object.inGlobalDispose()) {
       this._popup.setParent(null);
     }
+    
+    this._disposeFields("_data");
 
     this._disposeObjects("_popup", "_list", "_manager", "_field", "_button");
   }
