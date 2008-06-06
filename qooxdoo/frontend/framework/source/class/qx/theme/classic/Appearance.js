@@ -1064,7 +1064,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          width : 5,
+          width : states.horizontal ? 5 : "undefined",
+          height : states.vertical ? 5 : "undefined",
           backgroundColor : states.active ? "yellow" : "#aaa"
         };
       }
@@ -1075,7 +1076,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          width : 5,
+          width : states.horizontal ? 5 : "undefined",
+          height : states.vertical ? 5 : "undefined",
           backgroundColor : "red",
           opacity : 0.3
         };
