@@ -363,12 +363,33 @@ qx.Class.define("qx.core.Object",
      *       the event's init method.
      * @return {Boolean} whether the event default was prevented or not.
      *     Returns true, when the event was NOT prevented.
-     * @return {void}
      */
     fireEvent : function(type, clazz, args)
     {
       if (!this.$$disposed) {
         return this.__Registration.fireEvent(this, type, clazz, args);
+      }
+      return true;
+    },
+
+
+    /**
+     * Create an event object and dispatch it on this object.
+     * The event dispached with this method does never bubble! Use only if you
+     * are sure that bubbling is not required.
+     *
+     * @type member
+     * @param type {String} Event type to fire
+     * @param clazz {Class?qx.event.type.Event} The event class
+     * @param args {Array?null} Arguments, which will be passed to
+     *       the event's init method.
+     * @return {Boolean} whether the event default was prevented or not.
+     *     Returns true, when the event was NOT prevented.
+     */
+    fireNonBubblingEvent : function(type, clazz, args)
+    {
+      if (!this.$$disposed) {
+        return this.__Registration.fireNonBubblingEvent(this, type, clazz, args);
       }
       return true;
     },

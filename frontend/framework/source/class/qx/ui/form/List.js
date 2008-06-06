@@ -44,11 +44,9 @@ qx.Class.define("qx.ui.form.List",
 
     // Create content
     this.__content = new qx.ui.container.Composite();
-    
-    
-    //this.__content.addListener("addChild", this._onAddChild, this);
-    //this.__content.addListener("removeChild", this._onRemoveChild, this);
-    // this.__content.defineChildAddCallback(this, this._onAddChild);
+
+    this.__content.addListener("addChildWidget", this._onAddChild, this);
+    this.__content.addListener("removeChildWidget", this._onRemoveChild, this);
 
     // Add to scrollpane
     this._getChildControl("pane").add(this.__content);
@@ -62,10 +60,22 @@ qx.Class.define("qx.ui.form.List",
 
 
 
-  events : 
+  events :
   {
-    "addItem" : "qx.event.type.Data",
-    "removeItem" : "qx.event.type.Data"
+    /**
+     * This event is fired after a list item was added to the list. The
+     * {@link qx.event.type.Data#getData} method of the event returns the
+     * added item.
+     */
+    addItem : "qx.event.type.Data",
+
+
+    /**
+     * This event is fired after a list item has been removed from the list.
+     * The {@link qx.event.type.Data#getData} method of the event returns the
+     * removed item.
+     */
+    removeItem : "qx.event.type.Data"
   },
 
 
@@ -152,14 +162,14 @@ qx.Class.define("qx.ui.form.List",
 
 
     _onAddChild : function(e) {
-      this.fireDataEvent("addItem", e.getData()); 
+      this.fireDataEvent("addItem", e.getData());
     },
 
     _onRemoveChild : function(e) {
-      this.fireDataEvent("removeItem", e.getData()); 
+      this.fireDataEvent("removeItem", e.getData());
     },
 
-    
+
 
     /*
     ---------------------------------------------------------------------------
