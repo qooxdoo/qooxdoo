@@ -34,51 +34,189 @@ qx.Class.define("demobrowser.demo.widget.SplitPane",
     {
       this.base(arguments);
 
-      var doc = this.getRoot();
-      var frame = new qx.ui.container.Composite(new qx.ui.layout.Canvas());
+      // Two Flex Tests
+      this.addSplitPaneTwoFlexSimple();
+      this.addSplitPaneTwoFlexWithOneMin();
+      this.addSplitPaneTwoFlexWithOneMax();
+      this.addSplitPaneTwoFlexWithTwoMin();
+      this.addSplitPaneTwoFlexWithTwoMax();
 
-      doc.add(frame, {left : 40, top : 60});
+      // One Flex Test
+      this.addSplitPaneOneFlexSimple();
+      this.addSplitPaneOneFlexSimpleWithMax();
+      this.addSplitPaneOneFlexSimpleWithMin();
+    },
 
-      // //frame.setEdge(20);
-      // the splitpane itself
-      var splitpane = new qx.ui.splitpane.Pane("horizontal", 1, 2);
 
-      // //splitpane.setEdge(0);
-      frame.add(splitpane);
-      return;
+    addSplitPaneTwoFlexSimple : function()
+    {
+      var splitpane = new qx.ui.splitpane.Pane("horizontal");
+      splitpane.setWidth(400);
+      splitpane.setHeight(60);
+      splitpane.setDecorator("black");
+      this.getRoot().add(splitpane, {left:20, top:20});
 
-      // left Widget
-      var leftWidget = new qx.ui.form.TextArea("LeftWidget");
+      // Left
+      var leftWidget = new qx.ui.form.TextArea("Flex:1");
       leftWidget.setWrap(true);
-      leftWidget.setBackgroundColor("white");
+      splitpane.add(leftWidget, 1);
 
-      // //leftWidget.setWidth("100%");
-      // //leftWidget.setHeight("100%");
-      // rightWidget (another splitpane)
-      var rightWidget = new qx.ui.splitpane.Pane;
+      // Right
+      var rightWidget = new qx.ui.form.TextArea("Flex:2");
+      rightWidget.setWrap(true);
+      splitpane.add(rightWidget, 2);
+    },
 
-      // //rightWidget.setHeight("100%");
-      // //rightWidget.setWidth("100%");
-      rightWidget.setLiveResize(true);
 
-      // add widgets to splitpane
-      splitpane.addLeft(leftWidget);
-      splitpane.addRight(rightWidget);
+    addSplitPaneTwoFlexWithOneMin : function()
+    {
+      var splitpane = new qx.ui.splitpane.Pane("horizontal");
+      splitpane.setWidth(400);
+      splitpane.setHeight(60);
+      splitpane.setDecorator("black");
+      this.getRoot().add(splitpane, {left:20, top:100});
 
-      // right top widget
-      var topWidget = new qx.ui.form.TextArea("Right Top Widget");
-      topWidget.setBackgroundColor("white");
+      // Left
+      var leftWidget = new qx.ui.form.TextArea("Flex:1; Min:250");
+      leftWidget.setWrap(true);
+      leftWidget.setMinWidth(250);
+      splitpane.add(leftWidget, 1);
 
-      // //topWidget.setHeight("100%");
-      // //topWidget.setWidth("100%");
-      // right bottom widget
-      var bottomWidget = new qx.ui.embed.Iframe("http://www.qooxdoo.org");
+      // Right
+      var rightWidget = new qx.ui.form.TextArea("Flex:2");
+      rightWidget.setWrap(true);
+      splitpane.add(rightWidget, 2);
+    },
 
-      // //bottomWidget.setHeight("100%");
-      // //bottomWidget.setWidth("100%");
-      // add widgets to right splitpane
-      rightWidget.addTop(topWidget);
-      rightWidget.addBottom(bottomWidget);
+
+    addSplitPaneTwoFlexWithOneMax : function()
+    {
+      var splitpane = new qx.ui.splitpane.Pane("horizontal");
+      splitpane.setWidth(400);
+      splitpane.setHeight(60);
+      splitpane.setDecorator("black");
+      this.getRoot().add(splitpane, {left:20, top:180});
+
+      // Left
+      var leftWidget = new qx.ui.form.TextArea("Flex:1");
+      leftWidget.setWrap(true);
+      splitpane.add(leftWidget, 1);
+
+      // Right
+      var rightWidget = new qx.ui.form.TextArea("Flex:2; Max:100");
+      rightWidget.setWrap(true);
+      rightWidget.setMaxWidth(100);
+      splitpane.add(rightWidget, 2);
+    },
+
+
+    addSplitPaneTwoFlexWithTwoMin : function()
+    {
+      var splitpane = new qx.ui.splitpane.Pane("horizontal");
+      splitpane.setWidth(400);
+      splitpane.setHeight(60);
+      splitpane.setDecorator("black");
+      this.getRoot().add(splitpane, {left:20, top:260});
+
+      // Left
+      var leftWidget = new qx.ui.form.TextArea("Flex:1; Min:250");
+      leftWidget.setWrap(true);
+      leftWidget.setMinWidth(250);
+      splitpane.add(leftWidget, 1);
+
+      // Right
+      var rightWidget = new qx.ui.form.TextArea("Flex:2; Min:250");
+      rightWidget.setWrap(true);
+      rightWidget.setMinWidth(250);
+      splitpane.add(rightWidget, 2);
+    },
+
+
+    addSplitPaneTwoFlexWithTwoMax : function()
+    {
+      var splitpane = new qx.ui.splitpane.Pane("horizontal");
+      splitpane.setWidth(400);
+      splitpane.setHeight(60);
+      splitpane.setDecorator("black");
+      this.getRoot().add(splitpane, {left:20, top:340});
+
+      // Left
+      var leftWidget = new qx.ui.form.TextArea("Flex:1; Max:100");
+      leftWidget.setWrap(true);
+      leftWidget.setMaxWidth(100);
+      splitpane.add(leftWidget, 1);
+
+      // Right
+      var rightWidget = new qx.ui.form.TextArea("Flex:2; Max:100");
+      rightWidget.setWrap(true);
+      rightWidget.setMaxWidth(100);
+      splitpane.add(rightWidget, 2);
+    },
+
+
+
+
+
+
+    addSplitPaneOneFlexSimple : function()
+    {
+      var splitpane = new qx.ui.splitpane.Pane("horizontal");
+      splitpane.setWidth(400);
+      splitpane.setHeight(60);
+      splitpane.setDecorator("black");
+      this.getRoot().add(splitpane, {left:500, top:20});
+
+      // Left
+      var leftWidget = new qx.ui.form.TextArea("Flex:0");
+      leftWidget.setWrap(true);
+      splitpane.add(leftWidget, 0);
+
+      // Right
+      var rightWidget = new qx.ui.form.TextArea("Flex:1");
+      rightWidget.setWrap(true);
+      splitpane.add(rightWidget);
+    },
+
+
+    addSplitPaneOneFlexSimpleWithMax : function()
+    {
+      var splitpane = new qx.ui.splitpane.Pane("horizontal");
+      splitpane.setWidth(400);
+      splitpane.setHeight(60);
+      splitpane.setDecorator("black");
+      this.getRoot().add(splitpane, {left:500, top:100});
+
+      // Left
+      var leftWidget = new qx.ui.form.TextArea("Flex:0");
+      leftWidget.setWrap(true);
+      splitpane.add(leftWidget, 0);
+
+      // Right
+      var rightWidget = new qx.ui.form.TextArea("Flex:1; Max:200");
+      rightWidget.setWrap(true);
+      rightWidget.setMaxWidth(200);
+      splitpane.add(rightWidget);
+    },
+
+
+    addSplitPaneOneFlexSimpleWithMin : function()
+    {
+      var splitpane = new qx.ui.splitpane.Pane("horizontal");
+      splitpane.setWidth(400);
+      splitpane.setHeight(60);
+      splitpane.setDecorator("black");
+      this.getRoot().add(splitpane, {left:500, top:180});
+
+      // Left
+      var leftWidget = new qx.ui.form.TextArea("Flex:0; Min:350");
+      leftWidget.setWrap(true);
+      leftWidget.setMinWidth(350);
+      splitpane.add(leftWidget, 0);
+
+      // Right
+      var rightWidget = new qx.ui.form.TextArea("Flex:1");
+      rightWidget.setWrap(true);
+      splitpane.add(rightWidget);
     }
   }
 });
