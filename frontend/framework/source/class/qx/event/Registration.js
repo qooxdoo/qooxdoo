@@ -243,7 +243,32 @@ qx.Bootstrap.define("qx.event.Registration",
     },
 
 
+    /**
+     * Create an event object and dispatch it on the given target.
+     * The event dispached with this method does never bubble! Use only if you
+     * are sure that bubbling is not required.
+     *
+     * @type static
+     * @param target {Object} Any valid event target
+     * @param type {String} Event type to fire
+     * @param clazz {Class?qx.event.type.Event} The event class
+     * @param args {Array?null} Arguments, which will be passed to
+     *       the event's init method.
+     * @return {Boolean} whether the event default was prevented or not.
+     *     Returns true, when the event was NOT prevented.
+     * @see #createEvent
+     */
+    fireNonBubblingEvent : function(target, type, clazz, args)
+    {
+      var mgr = this.getManager(target);
 
+      if (!mgr.hasListener(target, type, false)) {
+        return true;
+      }
+
+      var evt = this.createEvent(type, clazz, args);
+      return mgr.dispatchEvent(target, evt);
+    },
 
 
     /*

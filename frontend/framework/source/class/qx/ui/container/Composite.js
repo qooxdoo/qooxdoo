@@ -46,6 +46,53 @@ qx.Class.define("qx.ui.container.Composite",
 
 
 
+  /*
+  *****************************************************************************
+     EVENTS
+  *****************************************************************************
+  */
+
+  events :
+  {
+    /**
+     * This event is fired after a child widget was added to this widget. The
+     * {@link qx.event.type.Data#getData} method of the event returns the
+     * added child.
+     */
+    addChildWidget : "qx.event.type.Data",
+
+
+    /**
+     * This event is fired after a child widget has been removed from this widget.
+     * The {@link qx.event.type.Data#getData} method of the event returns the
+     * removed child.
+     */
+    removeChildWidget : "qx.event.type.Data"
+  },
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
+  members :
+  {
+    // overridden
+    _afterAddChild : function(child) {
+      this.fireNonBubblingEvent("addChildWidget", qx.event.type.Data, [child]);
+    },
+
+
+    // overridden
+    _afterRemoveChild : function(child) {
+      this.fireNonBubblingEvent("removeChildWidget", qx.event.type.Data, [child]);
+    }
+  },
+
+
 
   /*
   *****************************************************************************

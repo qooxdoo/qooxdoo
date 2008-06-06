@@ -41,7 +41,7 @@ qx.Mixin.define("qx.ui.core.MSelectionHandling",
     this.addListener("mousemove", manager.handleMouseMove, manager);
     this.addListener("losecapture", manager.handleLoseCapture, manager);
     this.addListener("keypress", manager.handleKeyPress, manager);
-    
+
     this.addListener("addItem", manager.handleAddItem, manager);
     this.addListener("removeItem", manager.handleRemoveItem, manager);
 
@@ -84,7 +84,7 @@ qx.Mixin.define("qx.ui.core.MSelectionHandling",
      */
     selectionMode :
     {
-      check : [ "single", "multi", "additive" ],
+      check : [ "single", "multi", "additive", "one" ],
       init : "single",
       apply : "_applySelectionMode"
     },
@@ -234,6 +234,17 @@ qx.Mixin.define("qx.ui.core.MSelectionHandling",
      */
     getSelection : function() {
       return this.__manager.getSelection();
+    },
+
+
+    /**
+     * Whether the selection is empty
+     *
+     * @type member
+     * @return {Boolean} Whether the selection is empty
+     */
+    isSelectionEmpty : function() {
+      return this.__manager.isSelectionEmpty();
     },
 
 

@@ -74,13 +74,14 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     /**
      * Selects the selection mode to use.
      *
-     * * single: One element is selected
+     * * single: One or no element is selected
      * * multi: Multi items could be selected. Also allows empty selections.
      * * additive: Easy Web-2.0 selection mode. Allows multiple selections without modifier keys.
+     * * one: If possible always exactly one item is selected
      */
     mode :
     {
-      check : [ "single", "multi", "additive" ],
+      check : [ "single", "multi", "additive", "one" ],
       init : "single",
       apply : "_applyMode"
     },
@@ -143,7 +144,8 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     {
       this._setSelectedItem(item);
 
-      if (this.getMode() !== "single")
+      var mode = this.getMode();
+      if (mode !== "single" && mode !== "one")
       {
         this._setLeadItem(item);
         this._setAnchorItem(item);
@@ -166,7 +168,8 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      */
     addItem : function(item)
     {
-      if (this.getMode() === "single") {
+      var mode = this.getMode();
+      if (mode === "single" || mode === "one") {
         this._setSelectedItem(item);
       } else {
         this._addToSelection(item);
@@ -196,6 +199,23 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     removeItem : function(item)
     {
       this._removeFromSelection(item);
+
+      if (this.getMode() === "one" && this.isSelectionEmpty())
+      {
+        var first = this._getFirstSelectable();
+        if (first) {
+          this.addItem(first);
+        }
+      }
+
+      if (this._getLeadItem() == item) {
+        this._setLeadItem(null);
+      }
+
+      if (this._getAnchorItem() == item) {
+        this._setAnchorItem(null);
+      }
+
       this._fireChange();
     },
 
@@ -248,11 +268,12 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      */
     getSelectedItem : function()
     {
-      if (this.getMode() === "single") {
+      var mode = this.getMode();
+      if (mode === "single" || mode === "one") {
         return this._getSelectedItem() || null;
       }
 
-      throw new Error("The method getSelectedItem() is only supported in single selection mode!");
+      throw new Error("The method getSelectedItem() is only supported in 'single' and 'one' selection mode!");
     },
 
 
@@ -278,6 +299,17 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     {
       var hash = this._selectableToHashCode(item);
       return !!this.__selection[hash];
+    },
+
+
+    /**
+     * Whether the selection is empty
+     *
+     * @type member
+     * @return {Boolean} Whether the selection is empty
+     */
+    isSelectionEmpty : function() {
+      return qx.lang.Object.isEmpty(this.__selection);
     },
 
 
@@ -693,6 +725,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
       switch(this.getMode())
       {
         case "single":
+        case "one":
           this._setSelectedItem(item);
           break;
 
@@ -736,7 +769,14 @@ qx.Class.define("qx.ui.core.selection.Abstract",
 
 
       // Drag selection
-      if (this.getDrag() && this.getMode() !== "single" && !isShiftPressed && !isCtrlPressed)
+      var mode = this.getMode();
+      if (
+        this.getDrag() &&
+        mode !== "single" &&
+        mode !== "one" &&
+        !isShiftPressed &&
+        !isCtrlPressed
+      )
       {
         // Cache location/scroll data
         this._frameLocation = this._getLocation();
@@ -861,16 +901,35 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     },
 
 
-
-
-    handleAddItem : function(item)
+    /**
+     * This method should be connected to the <code>addItem</code> event
+     * of the managed object.
+     *
+     * @type member
+     * @param event {qx.event.type.Data} The event object
+     * @return {void}
+     */
+    handleAddItem : function(e)
     {
-      this.debug("Add: " + item);
+      var item = e.getData();
+      if (this.getMode() === "one" && this.isSelectionEmpty()) {
+        this.addItem(item);
+      }
     },
-    
-    handleRemoveItem : function(item)
-    { 
-      this.debug("Remove: " + item);
+
+
+    /**
+     * This method should be connected to the <code>removeItem</code> event
+     * of the managed object.
+     *
+     * @type member
+     * @param event {qx.event.type.Data} The event object
+     * @return {void}
+     */
+    handleRemoveItem : function(e)
+    {
+      var item = e.getData();
+      this.removeItem(item);
     },
 
 
@@ -1075,13 +1134,13 @@ qx.Class.define("qx.ui.core.selection.Abstract",
 
       if (key === "A" && isCtrlPressed)
       {
-        if (mode !== "single") {
+        if (mode !== "single" && mode !== "one") {
           this._selectAllItems();
         }
       }
       else if (key === "Escape")
       {
-        if (mode !== "single") {
+        if (mode !== "single" && mode !== "one") {
           this._clearSelection();
         }
       }
@@ -1099,7 +1158,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
       }
       else if (this.__navigationKeys[key])
       {
-        if (mode === "single") {
+        if (mode === "single" || mode == "one") {
           current = this._getSelectedItem();
         } else {
           current = this._getLeadItem();
@@ -1171,6 +1230,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
           switch(mode)
           {
             case "single":
+            case "one":
               this._setSelectedItem(next);
               break;
 
