@@ -18,7 +18,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("demobrowser.demo.widget.SplitPane",
+qx.Class.define("demobrowser.demo.layout.HSplitLayout",
 {
   extend : qx.application.Standalone,
 
