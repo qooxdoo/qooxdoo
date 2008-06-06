@@ -147,11 +147,14 @@ qx.Class.define("qx.ui.splitpane.Pane",
     /**
      * Appearance change
      */
+    
+    /*
     appearance :
     {
       refine : true,
       init : "splitpane"
     },
+    */
 
     /**
      * The size of the first (left/top) area.
@@ -275,6 +278,15 @@ qx.Class.define("qx.ui.splitpane.Pane",
     ---------------------------------------------------------------------------
     */
 
+    /**
+     * Evaluates mouse down events on and detects if the splitter element is
+     * clicked directly or if the event is fired near to the splitter (this is
+     * needed if the splitter is just a small line). If this happens, the slider
+     * element is shown.
+     * 
+     * @type member
+     * @param evt {qx.event.type.Mouse} mouse down event
+     */
     __mouseDown : function(evt)
     {
 
@@ -345,6 +357,12 @@ qx.Class.define("qx.ui.splitpane.Pane",
     },
 
 
+    /**
+     * Moves the slider element to the mouse position.
+     * 
+     * @type member
+     * @param evt {qx.event.type.Mouse} mouse move event
+     */
     __mouseMove : function(evt)
     {
       if(this.__isMouseDown)
@@ -415,6 +433,12 @@ qx.Class.define("qx.ui.splitpane.Pane",
     },
 
 
+    /**
+     * Sets the sizes of both areas and hides the slider element
+     * 
+     * @type member
+     * @param evt {qx.event.type.Mouse} mouse up event
+     */
     __mouseUp : function(evt)
     {
       if(this.__isMouseDown)
