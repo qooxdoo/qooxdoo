@@ -50,7 +50,8 @@
 
       "compile-source" :
       {
-        "file" : "${ROOT}/source/script/${APPLICATION}.js"
+        "file" : "${ROOT}/source/script/${APPLICATION}.js",
+				"root" : "source"
       }
     },
 
@@ -78,6 +79,7 @@
         "target" : "${BUILD_PATH}",
         "file" : "${BUILD_PATH}/script/${APPLICATION}.js",
         "uri"  : "script/${APPLICATION}.js",
+				"root" : "${BUILD_PATH}",
         "optimize" : ["basecalls", "variables", "privates"]
       }
     },
