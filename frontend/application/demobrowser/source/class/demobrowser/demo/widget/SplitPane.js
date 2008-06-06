@@ -45,6 +45,9 @@ qx.Class.define("demobrowser.demo.widget.SplitPane",
       this.addSplitPaneOneFlexSimple();
       this.addSplitPaneOneFlexSimpleWithMax();
       this.addSplitPaneOneFlexSimpleWithMin();
+
+      // Auto Size
+      this.addSplitPaneAuto();
     },
 
 
@@ -217,6 +220,28 @@ qx.Class.define("demobrowser.demo.widget.SplitPane",
       var rightWidget = new qx.ui.form.TextArea("Flex:1");
       rightWidget.setWrap(true);
       splitpane.add(rightWidget);
-    }
+    },
+
+
+
+
+
+
+    addSplitPaneAuto : function()
+    {
+      var splitpane = new qx.ui.splitpane.Pane("horizontal");
+      splitpane.setDecorator("black");
+      this.getRoot().add(splitpane, {left:500, top:340});
+
+      // Left
+      var leftWidget = new qx.ui.form.TextArea("Auto");
+      leftWidget.setWrap(true);
+      splitpane.add(leftWidget, 0);
+
+      // Right
+      var rightWidget = new qx.ui.form.TextArea("Auto");
+      rightWidget.setWrap(true);
+      splitpane.add(rightWidget);
+    },
   }
 });

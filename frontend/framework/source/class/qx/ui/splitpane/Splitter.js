@@ -26,11 +26,25 @@ qx.Class.define("qx.ui.splitpane.Splitter",
 
   properties :
   {
+    // overrridden
     appearance :
     {
       refine : true,
       init : "splitpane-splitter"
+    },
+
+    // overrridden
+    allowShrinkX :
+    {
+      refine : true,
+      init : false
+    },
+
+    // overrridden
+    allowShrinkY :
+    {
+      refine : true,
+      init : false
     }
   }
-
 });
