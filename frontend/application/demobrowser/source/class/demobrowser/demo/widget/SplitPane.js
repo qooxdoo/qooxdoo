@@ -242,6 +242,6 @@ qx.Class.define("demobrowser.demo.widget.SplitPane",
       var rightWidget = new qx.ui.form.TextArea("Auto");
       rightWidget.setWrap(true);
       splitpane.add(rightWidget);
-    },
+    }
   }
 });
