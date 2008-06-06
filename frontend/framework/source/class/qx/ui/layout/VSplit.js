@@ -95,7 +95,7 @@ qx.Class.define("qx.ui.layout.VSplit",
       {
         this.assert(name === "type" || name === "flex", "The property '"+name+"' is not supported by the split layout!");
 
-        if (name == "size") {
+        if (name == "flex") {
           this.assertNumber(value);
         }
 

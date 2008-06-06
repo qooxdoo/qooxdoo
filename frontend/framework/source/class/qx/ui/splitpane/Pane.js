@@ -35,25 +35,23 @@ qx.Class.define("qx.ui.splitpane.Pane",
    * Creates a new instance of a SplitPane. It allows the user to dynamically resize
    * the areas dropping the border between.
    *
-   * new qx.ui.splitpane.SplitPane(orientation)
-   * new qx.ui.splitpane.SplitPane(orientation, firstSize, secondSize)
-   *
    * @appearance splitpane
-   *
    * @param orientation {String} The orientation of the splitpane control. Allowed values are "horizontal" (default) and "vertical". This is the same type as used in {@link qx.legacy.ui.layout.BoxLayout#orientation}.
-   * @param firstSize {String} The size of the left (top) pane. Allowed values are any by {@link qx.ui.core.Widget} supported unit.
-   * @param secondSize {String} The size of the right (bottom) pane. Allowed values are any by {@link qx.ui.core.Widget} supported unit.
    */
   construct : function(orientation, firstSize, secondSize)
   {
     this.base(arguments);
+
+    if (orientation)
 
     this.__orientation = orientation == "vertical" ? "vertical" : "horizontal";
     this.__minSplitterSize = 5;
     this.__sizes = {};
 
     // Create and add container
-    this._setLayout(new qx.ui.layout.Split(this.__orientation));
+    this._setLayout(new qx.ui.layout.HSplit(this.__orientation));
+
+    qx.ui.layout.VSplit;
 
     // Create and add slider
     this._slider = new qx.ui.splitpane.Slider(this);
@@ -103,6 +101,13 @@ qx.Class.define("qx.ui.splitpane.Pane",
     {
       refine : true,
       init : "splitpane"
+    },
+
+
+    orientation :
+    {
+      check : [ "horizontal", "vertical" ],
+      apply : "_applyOrientation"
     }
   },
 
@@ -117,6 +122,11 @@ qx.Class.define("qx.ui.splitpane.Pane",
 
   members :
   {
+    _applyOrientation : function(value)
+    {
+
+    },
+
     /*
     ---------------------------------------------------------------------------
       PUBLIC METHODS
