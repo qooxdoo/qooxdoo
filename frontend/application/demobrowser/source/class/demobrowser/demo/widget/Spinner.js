@@ -67,7 +67,9 @@ qx.Class.define("demobrowser.demo.widget.Spinner",
       var s3 = new qx.ui.form.Spinner(-3000, 0, 3000).set({
         singleStep: 5,
         width: 100,
-        font: qx.bom.Font.fromString("30px sans-serif")
+        font: qx.bom.Font.fromString("30px sans-serif"),
+        backgroundColor: "#FABBBB",
+        padding: 10
       });
       container.add(new qx.ui.basic.Label("Big font + singleStep=5"), {column: 0, row: row});
       container.add(new qx.ui.basic.Label("3000"), {column: 1, row: row});
