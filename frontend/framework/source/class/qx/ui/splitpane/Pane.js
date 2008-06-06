@@ -38,20 +38,9 @@ qx.Class.define("qx.ui.splitpane.Pane",
    * @appearance splitpane
    * @param orientation {String} The orientation of the splitpane control. Allowed values are "horizontal" (default) and "vertical". This is the same type as used in {@link qx.legacy.ui.layout.BoxLayout#orientation}.
    */
-  construct : function(orientation, firstSize, secondSize)
+  construct : function(orientation)
   {
     this.base(arguments);
-
-    if (orientation)
-
-    this.__orientation = orientation == "vertical" ? "vertical" : "horizontal";
-    this.__minSplitterSize = 5;
-    this.__sizes = {};
-
-    // Create and add container
-    this._setLayout(new qx.ui.layout.HSplit(this.__orientation));
-
-    qx.ui.layout.VSplit;
 
     // Create and add slider
     this._slider = new qx.ui.splitpane.Slider(this);
@@ -62,9 +51,15 @@ qx.Class.define("qx.ui.splitpane.Pane",
     this._splitter = new qx.ui.splitpane.Splitter(this);
     this._add(this._splitter, {type : "splitter"});
 
-    /*
-     * Add events to widgets
-     */
+    // Initialize orientation
+    if (orientation) {
+      this.setOrientation(orientation);
+    } else {
+      this.initOrientation();
+    }
+
+
+
 
     /*
      * Note that mouseUp and mouseDown events are added to the widget itself because
@@ -73,7 +68,8 @@ qx.Class.define("qx.ui.splitpane.Pane",
      * By adding events to the widget the splitter can be activated if the cursor is
      * near to the splitter widget.
      */
-     /*
+
+    /*
     this.addListener("mousedown", this.__mouseDown, this);
 
     this.addListener("mouseup", this.__mouseUp, this);
@@ -122,10 +118,29 @@ qx.Class.define("qx.ui.splitpane.Pane",
 
   members :
   {
-    _applyOrientation : function(value)
+    _applyOrientation : function(value, old)
     {
+      this._setLayout(value === "vertical" ? new qx.ui.layout.VSplit : new qx.ui.layout.HSplit);
+      this.debug("Use layout: " + this._getLayout());
 
+      var splitter = this._splitter;
+      var slider = this._slider;
+
+      if (old)
+      {
+        splitter.removeState(old);
+        slider.removeState(old);
+      }
+
+      if (value)
+      {
+        splitter.addState(value);
+        slider.addState(value);
+      }
     },
+
+
+
 
     /*
     ---------------------------------------------------------------------------

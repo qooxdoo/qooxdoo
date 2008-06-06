@@ -190,9 +190,9 @@ qx.Class.define("qx.ui.layout.VSplit",
           }
         }
 
-        begin.renderLayout(0, 0, beginHeight, availWidth);
-        splitter.renderLayout(beginHeight, 0, splitterHeight, availWidth);
-        end.renderLayout(beginHeight+splitterHeight, 0, endHeight, availWidth);
+        begin.renderLayout(0, 0, availWidth, beginHeight);
+        splitter.renderLayout(0, beginHeight, availWidth, splitterHeight);
+        end.renderLayout(0, beginHeight+splitterHeight, availWidth, endHeight);
       }
       else
       {
@@ -201,9 +201,9 @@ qx.Class.define("qx.ui.layout.VSplit",
 
         // Render one child
         if (begin) {
-          begin.renderLayout(0, 0, availHeight, availWidth);
+          begin.renderLayout(0, 0, availWidth, availHeight);
         } else if (end) {
-          end.renderLayout(0, 0, availHeight, availWidth);
+          end.renderLayout(0, 0, availWidth, availHeight);
         }
       }
     },
