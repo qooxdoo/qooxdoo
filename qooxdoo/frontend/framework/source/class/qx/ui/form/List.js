@@ -60,6 +60,12 @@ qx.Class.define("qx.ui.form.List",
 
 
 
+  /*
+  *****************************************************************************
+     EVENTS
+  *****************************************************************************
+  */
+
   events :
   {
     /**
@@ -162,11 +168,11 @@ qx.Class.define("qx.ui.form.List",
 
 
     _onAddChild : function(e) {
-      this.fireDataEvent("addItem", e.getData());
+      this.fireNonBubblingEvent("addItem", qx.event.type.Data, [e.getData()]);
     },
 
     _onRemoveChild : function(e) {
-      this.fireDataEvent("removeItem", e.getData());
+      this.fireNonBubblingEvent("removeItem", qx.event.type.Data, [e.getData()]);
     },
 
 

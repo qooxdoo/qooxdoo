@@ -295,12 +295,14 @@ qx.Theme.define("qx.theme.modern.Appearance",
     */
 
 
-    "scroll-pane-corner" :
+    "scrollarea-corner" :
     {
       style : function(states)
       {
         return {
-          backgroundColor : "#e4e4e4"
+          backgroundColor : "#e4e4e4",
+          width: 0,
+          height: 0
         };
       }
     },
@@ -558,7 +560,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         var icon;
         if (states.selected && states.opened)
         {
-          icon = "decoration/tree/tree-open-selected.png"; 
+          icon = "decoration/tree/tree-open-selected.png";
         }
         else if (states.selected && !states.opened)
         {
@@ -572,7 +574,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         {
           icon = "decoration/tree/tree-closed.png";
         }
-        
+
         return {
           padding : [0, 5, 0, 2],
           source  : icon
@@ -622,7 +624,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       {
         return {
           backgroundColor : "#f3f3f3",
-          decorator       : "window-border" 
+          decorator       : "window-border"
         };
       }
     },
@@ -750,8 +752,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
         };
       }
     },
-    
-    
+
+
     /*
     ---------------------------------------------------------------------------
       RESIZER

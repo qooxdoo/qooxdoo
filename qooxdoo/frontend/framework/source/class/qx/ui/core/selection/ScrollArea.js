@@ -170,14 +170,14 @@ qx.Class.define("qx.ui.core.selection.ScrollArea",
       {
         var max = innerHeight + scrollTop;
         var i=start;
-        
+
         // Loop required to scroll pages down dynamically
         while(1)
         {
           // Iterate through all selectables from start
           for (; i<length; i++)
           {
-            bottom = widget.getItemBottom(selectables[i]); 
+            bottom = widget.getItemBottom(selectables[i]);
 
             // This item is out of the visible block
             if (bottom > max)
