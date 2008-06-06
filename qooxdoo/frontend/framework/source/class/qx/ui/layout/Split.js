@@ -54,11 +54,10 @@ qx.Class.define("qx.ui.layout.Split",
   *****************************************************************************
   */
 
-  construct : function(orientation)
+  construct : function()
   {
     this.base(arguments);
 
-    this.__orientation = (orientation == "vertical") ? "vertical" : "horizontal";
   },
 
 
@@ -162,7 +161,7 @@ qx.Class.define("qx.ui.layout.Split",
           var beginWidth = Math.round((flexAvailable / flexSum) * beginFlex);
           var endWidth = flexAvailable - beginWidth;
 
-          var sizes = this._computeSizes(beginHint.minWidth, beginWidth, beginHint.maxWidth,
+          var sizes = this._computeFlexSizes(beginHint.minWidth, beginWidth, beginHint.maxWidth,
             endHint.minWidth, endWidth, endHint.maxWidth);
 
           beginWidth = sizes.begin;
@@ -209,7 +208,7 @@ qx.Class.define("qx.ui.layout.Split",
       }
     },
 
-    _computeSizes : function(beginMin, beginIdeal, beginMax, endMin, endIdeal, endMax)
+    _computeFlexSizes : function(beginMin, beginIdeal, beginMax, endMin, endIdeal, endMax)
     {
       if (beginIdeal < beginMin || endIdeal < endMin)
       {
@@ -290,10 +289,46 @@ qx.Class.define("qx.ui.layout.Split",
     {
       var children = this._getLayoutChildren();
       var length = children.length;
+      var child, hint;
+      var minWidth=0, width=0, maxWidth=0;
+      var minHeight=0, height=0, maxHeight=0;
+
+      for (var i=0; i<length; i++)
+      {
+        child = children[i];
+        props = child.getLayoutProperties();
+
+        // The slider is not relevant for auto sizing
+        if (props.type === "slider") {
+          continue;
+        }
+
+        hint = child.getSizeHint();
+
+        minWidth += hint.minWidth;
+        width += hint.width;
+        maxWidth += hint.maxWidth;
+
+        if (hint.minHeight > minHeight) {
+          minHeight = hint.minHeight;
+        }
+
+        if (hint.height > height) {
+          height = hint.height;
+        }
+
+        if (hint.maxHeight > maxHeight) {
+          maxHeight = hint.maxHeight;
+        }
+      }
 
       return {
-        width : 0,
-        height : 0
+        minWidth : minWidth,
+        width : width,
+        maxWidth : maxWidth,
+        minHeight : minHeight,
+        height : height,
+        maxHeight : maxHeight
       };
     }
   }
