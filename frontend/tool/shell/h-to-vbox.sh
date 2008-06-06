@@ -59,6 +59,13 @@ cat framework/source/class/qx/ui/layout/${class}.js | \
 \
   sed s:"function(availHeight, availWidth)":"function(availWidth, availHeight)":g | \
   sed s:"renderLayout(top, left, height, width)":"renderLayout(left, top, width, height)":g | \
+
+  sed s:"begin.renderLayout(0, 0, beginHeight, availWidth)":"begin.renderLayout(0, 0, availWidth, beginHeight)":g | \
+  sed s:"splitter.renderLayout(beginHeight, 0, splitterHeight, availWidth)":"splitter.renderLayout(0, beginHeight, availWidth, splitterHeight)":g | \
+  sed s:"end.renderLayout(beginHeight+splitterHeight, 0, endHeight, availWidth)":"end.renderLayout(0, beginHeight+splitterHeight, availWidth, endHeight)":g | \
+  sed s:"begin.renderLayout(0, 0, availHeight, availWidth)":"begin.renderLayout(0, 0, availWidth, availHeight)":g | \
+  sed s:"end.renderLayout(0, 0, availHeight, availWidth)":"end.renderLayout(0, 0, availWidth, availHeight)":g | \
+
   sed s:"HBox":"VBox":g | \
   sed s:"hbox":"vbox":g | \
   sed s:"HSplit":"VSplit":g | \
