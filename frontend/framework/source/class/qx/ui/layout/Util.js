@@ -52,7 +52,7 @@ qx.Class.define("qx.ui.layout.Util",
       var remaining = Math.abs(avail - used);
       var roundingOffset, currentOffset;
 
-      
+
       // Preprocess data
       var result = {};
       for (key in flexibles)
@@ -365,6 +365,83 @@ qx.Class.define("qx.ui.layout.Util",
       }
 
       return gaps;
+    },
+
+
+
+    arrangeIdeals : function(beginMin, beginIdeal, beginMax, endMin, endIdeal, endMax)
+    {
+      if (beginIdeal < beginMin || endIdeal < endMin)
+      {
+        if (beginIdeal < beginMin && endIdeal < endMin)
+        {
+          // Just increase both, can not rearrange them otherwise
+          // Result into overflowing of the overlapping content
+          // Should normally not happen through auto sizing!
+          beginIdeal = beginMin;
+          endIdeal = endMin;
+        }
+        else if (beginIdeal < beginMin)
+        {
+          // Reduce end, increase begin to min
+          endIdeal -= (beginMin - beginIdeal);
+          beginIdeal = beginMin;
+
+          // Re-check to keep min size of end
+          if (endIdeal < endMin) {
+            endIdeal = endMin;
+          }
+        }
+        else if (endIdeal < endMin)
+        {
+          // Reduce begin, increase end to min
+          beginIdeal -= (endMin - endIdeal);
+          endIdeal = endMin;
+
+          // Re-check to keep min size of begin
+          if (beginIdeal < beginMin) {
+            beginIdeal = beginMin;
+          }
+        }
+      }
+
+      if (beginIdeal > beginMax || endIdeal > endMax)
+      {
+        if (beginIdeal > beginMax && endIdeal > endMax)
+        {
+          // Just reduce both, can not rearrange them otherwise
+          // Leaves a blank area in the pane!
+          beginIdeal = beginMax;
+          endIdeal = endMax;
+        }
+        else if (beginIdeal > beginMax)
+        {
+          // Increase end, reduce begin to max
+          endIdeal += (beginIdeal - beginMax);
+          beginIdeal = beginMax;
+
+          // Re-check to keep max size of end
+          if (endIdeal > endMax) {
+            endIdeal = endMax;
+          }
+        }
+        else if (endIdeal > endMax)
+        {
+          // Increase begin, reduce end to max
+          beginIdeal += (endIdeal - endMax);
+          endIdeal = endMax;
+
+          // Re-check to keep max size of begin
+          if (beginIdeal > beginMax) {
+            beginIdeal = beginMax;
+          }
+        }
+      }
+
+      return {
+        begin : beginIdeal,
+        end : endIdeal
+      };
     }
   }
 });
