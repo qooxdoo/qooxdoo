@@ -229,40 +229,6 @@ qx.Class.define("qx.ui.splitpane.Pane",
         this._splitter.addState("active");
       }
 
-      return;
-
-
-      if(this.__activeDragSession)
-      {
-        var sliderElement = this._slider.getContainerElement().getDomElement();
-        var paneElement = this.getContainerElement().getDomElement();
-        var paneLocation = qx.bom.element.Location.get(paneElement);
-
-        var begin = this.getBegin();
-        var end = this.getEnd();
-
-        var firstHint = begin.getSizeHint();
-        var secondHint = end.getSizeHint();
-
-          var firstWidth = e.getDocumentLeft() - paneLocation.left;
-          var secondWidth = paneLocation.right - e.getDocumentLeft();
-
-          if(
-              firstWidth > 0 &&
-              secondWidth > 0 &&
-
-              firstWidth > firstHint.minWidth &&
-              firstWidth < firstHint.maxWidth &&
-
-              secondWidth > secondHint.minWidth &&
-              secondWidth < secondHint.maxWidth
-          ){
-            qx.bom.element.Style.set(sliderElement, "left", firstWidth + "px");
-
-
-
-          }
-      }
     },
 
 
@@ -278,11 +244,26 @@ qx.Class.define("qx.ui.splitpane.Pane",
       var paneLocation = qx.bom.element.Location.get(paneElement);
 
       var firstWidth = eventLeft - paneLocation.left - this._splitterOffset;
+      var secondWidth = paneLocation.right - this._splitterOffset - eventLeft;
 
+      var begin = this.getBegin();
+      var end = this.getEnd();
 
+      var firstHint = begin.getSizeHint();
+      var secondHint = end.getSizeHint();
 
-
-      this._slider.getContainerElement().setStyle("left", firstWidth + "px", true);
+      if(
+        firstWidth > 0 &&
+        secondWidth > 0 &&
+  
+        firstWidth > firstHint.minWidth &&
+        firstWidth < firstHint.maxWidth &&
+  
+        secondWidth > secondHint.minWidth &&
+        secondWidth < secondHint.maxWidth
+      ){
+        this._slider.getContainerElement().setStyle("left", firstWidth + "px", true);
+      }
 
     },
 
