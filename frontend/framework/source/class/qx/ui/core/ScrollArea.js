@@ -443,9 +443,20 @@ qx.Class.define("qx.ui.core.ScrollArea",
         var scrollPos = this.getScrollX();
         var itemPos = this.getItemLeft(item);
 
-        if (align === "left" || (align == null && itemPos < scrollPos)) {
+        if (align == null && itemSize.width > paneSize.width)
+        {
+          if (itemPos > scrollPos) {
+            this.scrollToX(itemPos);
+          } else if ((itemPos + itemSize.width) < (paneSize.width + scrollPos)) {
+            this.scrollToX(itemPos + itemSize.width - paneSize.width);
+          }
+        }
+        else if (align === "left" || (align == null &&itemPos < scrollPos))
+        {
           this.scrollToX(itemPos);
-        } else if (align === "right" || (align == null && (itemPos + itemSize.width) > (paneSize.width + scrollPos))) {
+        }
+        else if (align === "right" || (align == null && (itemPos + itemSize.width) > (paneSize.width + scrollPos)))
+        {
           this.scrollToX(itemPos + itemSize.width - paneSize.width);
         }
       }
@@ -484,9 +495,20 @@ qx.Class.define("qx.ui.core.ScrollArea",
         var scrollPos = this.getScrollY();
         var itemPos = this.getItemTop(item);
 
-        if (align === "top" || (align == null && itemPos < scrollPos)) {
+        if (align == null && itemSize.height > paneSize.height)
+        {
+          if (itemPos > scrollPos) {
+            this.scrollToX(itemPos);
+          } else if ((itemPos + itemSize.height) < (paneSize.height + scrollPos)) {
+            this.scrollToX(itemPos + itemSize.height - paneSize.height);
+          }
+        }
+        else if (align === "top" || (align == null && itemPos < scrollPos))
+        {
           this.scrollToY(itemPos);
-        } else if (align === "bottom" || (align == null && (itemPos + itemSize.height) > (paneSize.height + scrollPos))) {
+        }
+        else if (align === "bottom" || (align == null && (itemPos + itemSize.height) > (paneSize.height + scrollPos)))
+        {
           this.scrollToY(itemPos + itemSize.height - paneSize.height);
         }
       }
