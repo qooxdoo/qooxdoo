@@ -43,7 +43,7 @@
  *
  * None
  */
-qx.Class.define("qx.ui.layout.Split",
+qx.Class.define("qx.ui.layout.HSplit",
 {
   extend : qx.ui.layout.Abstract,
 
@@ -161,7 +161,7 @@ qx.Class.define("qx.ui.layout.Split",
           var beginWidth = Math.round((flexAvailable / flexSum) * beginFlex);
           var endWidth = flexAvailable - beginWidth;
 
-          var sizes = this._computeFlexSizes(beginHint.minWidth, beginWidth, beginHint.maxWidth,
+          var sizes = qx.ui.layout.Util.arrangeIdeals(beginHint.minWidth, beginWidth, beginHint.maxWidth,
             endHint.minWidth, endWidth, endHint.maxWidth);
 
           beginWidth = sizes.begin;
@@ -206,81 +206,6 @@ qx.Class.define("qx.ui.layout.Split",
           end.renderLayout(0, 0, availWidth, availHeight);
         }
       }
-    },
-
-    _computeFlexSizes : function(beginMin, beginIdeal, beginMax, endMin, endIdeal, endMax)
-    {
-      if (beginIdeal < beginMin || endIdeal < endMin)
-      {
-        if (beginIdeal < beginMin && endIdeal < endMin)
-        {
-          // Just increase both, can not rearrange them otherwise
-          // Result into overflowing of the overlapping content
-          // Should normally not happen through auto sizing!
-          beginIdeal = beginMin;
-          endIdeal = endMin;
-        }
-        else if (beginIdeal < beginMin)
-        {
-          // Reduce end, increase begin to min
-          endIdeal -= (beginMin - beginIdeal);
-          beginIdeal = beginMin;
-
-          // Re-check to keep min size of end
-          if (endIdeal < endMin) {
-            endIdeal = endMin;
-          }
-        }
-        else if (endIdeal < endMin)
-        {
-          // Reduce begin, increase end to min
-          beginIdeal -= (endMin - endIdeal);
-          endIdeal = endMin;
-
-          // Re-check to keep min size of begin
-          if (beginIdeal < beginMin) {
-            beginIdeal = beginMin;
-          }
-        }
-      }
-
-      if (beginIdeal > beginMax || endIdeal > endMax)
-      {
-        if (beginIdeal > beginMax && endIdeal > endMax)
-        {
-          // Just reduce both, can not rearrange them otherwise
-          // Leaves a blank area in the pane!
-          beginIdeal = beginMax;
-          endIdeal = endMax;
-        }
-        else if (beginIdeal > beginMax)
-        {
-          // Increase end, reduce begin to max
-          endIdeal += (beginIdeal - beginMax);
-          beginIdeal = beginMax;
-
-          // Re-check to keep max size of end
-          if (endIdeal > endMax) {
-            endIdeal = endMax;
-          }
-        }
-        else if (endIdeal > endMax)
-        {
-          // Increase begin, reduce end to max
-          beginIdeal += (endIdeal - endMax);
-          endIdeal = endMax;
-
-          // Re-check to keep max size of begin
-          if (beginIdeal > beginMax) {
-            beginIdeal = beginMax;
-          }
-        }
-      }
-
-      return {
-        begin : beginIdeal,
-        end : endIdeal
-      };
     },
 
 
