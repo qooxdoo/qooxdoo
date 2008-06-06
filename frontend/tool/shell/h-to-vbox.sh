@@ -1,4 +1,10 @@
-cat framework/source/class/qx/ui/layout/HBox.js | \
+for class in HBox HSplit
+do
+
+repl=V`echo $class | cut -dH -f2`
+echo ">>> Processing $class => $repl"
+
+cat framework/source/class/qx/ui/layout/${class}.js | \
   sed s:width:_xx1_:g | \
   sed s:height:_xx2_:g | \
   sed s:left:_xx3_:g | \
@@ -55,7 +61,11 @@ cat framework/source/class/qx/ui/layout/HBox.js | \
   sed s:"renderLayout(top, left, height, width)":"renderLayout(left, top, width, height)":g | \
   sed s:"HBox":"VBox":g | \
   sed s:"hbox":"vbox":g | \
+  sed s:"HSplit":"VSplit":g | \
+  sed s:"hsplit":"vsplit":g | \
   sed s:"vertical row":"vertical column":g \
-> framework/source/class/qx/ui/layout/VBox.js
+> framework/source/class/qx/ui/layout/${repl}.js
 
-dos2unix framework/source/class/qx/ui/layout/VBox.js
+dos2unix framework/source/class/qx/ui/layout/${repl}.js
+
+done
