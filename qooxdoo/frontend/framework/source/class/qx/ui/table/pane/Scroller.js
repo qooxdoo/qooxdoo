@@ -2088,7 +2088,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
      */
     _updateContent : function()
     {
-      if (!this.isSeeable()) {
+      if (!this.isCreated()) {
         return;
       }
 
