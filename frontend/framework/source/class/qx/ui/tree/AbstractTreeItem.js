@@ -59,7 +59,6 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
 
 
 
-
   /*
   *****************************************************************************
      PROPERTIES
@@ -390,18 +389,6 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
     },
 
 
-    /**
-     * Called by the selection manager
-     */
-    handleStateChange : function()
-    {
-      // TODO: This could directly be done by the selection manager
-      if (this.hasState("selected")) {
-        this.activate();
-      }
-    },
-
-
     /*
     ---------------------------------------------------------------------------
       PROPERTY APPLY
@@ -517,7 +504,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
       if (!this.getTree()) {
         return;
       }
-      
+
       var openWidth = 0;
 
       if (this._open)
@@ -759,8 +746,10 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
           this.__addChildrenToParent();
         }
 
-       if (tree) {
+        if (tree)
+        {
           treeItem.recursiveAddToWidgetQueue();
+          tree.fireNonBubblingEvent("addItem", qx.event.type.Data, [treeItem]);
         }
       }
       if (tree) {
@@ -864,36 +853,6 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
 
 
     /**
-     * This function should be called after items are removed from the tree.
-     * It removes all items from the current selection, which are no longer
-     * part of the tree.
-     */
-    __updateSelection : function()
-    {
-      var tree = this.getTree();
-      if (!tree) {
-        return;
-      }
-
-      var selectedItems = tree.getSelection();
-      for (var i=0,l=selectedItems.length; i<l; i++)
-      {
-        var treeItem = selectedItems[i];
-        if (treeItem.getTree() !== tree) {
-          tree.removeFromSelection(treeItem);
-        }
-      }
-
-      if (tree.getSelection().length == 0) {
-        var items = tree.getItems(true, false, tree.getHideRoot());
-        if (items.length > 0) {
-          tree.addToSelection(items[0]);          
-        }
-      }
-    },
-
-
-    /**
      * Removes the passed tree items from this item.
      *
      * @param varargs {AbstractTreeItem} variable number of tree items to remove
@@ -919,7 +878,11 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
         container.remove(treeItem);
       }
 
-      this.__updateSelection();
+      var tree = this.getTree();
+      if (tree) {
+        tree.fireNonBubblingEvent("addItem", qx.event.type.Data, [treeItem]);
+      }
+
       qx.ui.core.queue.Widget.add(this);
     },
 

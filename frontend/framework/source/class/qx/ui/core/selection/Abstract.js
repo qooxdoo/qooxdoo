@@ -570,6 +570,18 @@ qx.Class.define("qx.ui.core.selection.Abstract",
 
 
     /**
+     * Activates the given item. Keyboard events will be dispatched on this item.
+     *
+     * @tape member
+     * @param item {var} item to activate
+     * @return {void}
+     */
+    _activateItem : function(item) {
+      throw new Error("Abstract method call: _activateItem()");
+    },
+
+
+    /**
      * Scrolls the given item into the view (make it visible)
      *
      * @type member
@@ -715,6 +727,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
 
       // Be sure that item is in view
       this._scrollItemIntoView(item);
+      this._activateItem(item);
 
 
       // Read in keyboard modifiers
@@ -1262,6 +1275,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
               break;
           }
 
+          this._activateItem(next);
           this._scrollItemIntoView(next);
         }
       }
@@ -1302,6 +1316,10 @@ qx.Class.define("qx.ui.core.selection.Abstract",
 
     _clearSelection : function()
     {
+      if (this.getMode() == "one") {
+        return;
+      }
+
       var selection = this.__selection;
       for (var hash in selection) {
         this._removeFromSelection(selection[hash]);

@@ -273,9 +273,9 @@ qx.Class.define("demobrowser.demo.widget.Tree_Modern",
 
     _resetTree : function()
     {
-      this._container.getLayout().remove(this._tree);
+      this._container.remove(this._tree);
       this._tree = this.getTree();
-      this._container.getLayout().addAt(this._tree, 0);
+      this._container.addAt(this._tree, 0);
 
       this._tree.addListener("change", this._updateControls, this);
       this._updateControls();

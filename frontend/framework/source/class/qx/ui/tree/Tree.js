@@ -66,10 +66,33 @@ qx.Class.define("qx.ui.tree.Tree",
 
     this.initOpenMode();
     this.initRootOpenClose();
-
-    this.addListener("keydown", this._onKeydown);
   },
 
+
+
+  /*
+  *****************************************************************************
+     EVENTS
+  *****************************************************************************
+  */
+
+  events :
+  {
+    /**
+     * This event is fired after a tree item was added to the tree. The
+     * {@link qx.event.type.Data#getData} method of the event returns the
+     * added item.
+     */
+    addItem : "qx.event.type.Data",
+
+
+    /**
+     * This event is fired after a tree item has been removed from the tree.
+     * The {@link qx.event.type.Data#getData} method of the event returns the
+     * removed item.
+     */
+    removeItem : "qx.event.type.Data"
+  },
 
 
 
@@ -372,7 +395,7 @@ qx.Class.define("qx.ui.tree.Tree",
       // if the last item is selected the content should be scrolled down to
       // the end including the content paddings
       if (!this.getNextSiblingOf(item, false)) {
-        this.setScrollTop(1000000);
+        this.scrollToY(1000000);
       } else {
         this.base(arguments, item, hAlign, vAlign);
       }
@@ -489,35 +512,6 @@ qx.Class.define("qx.ui.tree.Tree",
       {
         treeItem.setOpen(false);
         e.stopPropagation();
-      }
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      KEY EVENT HANDLER
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * Dispatches the "action" event on every selected list item
-     * when the "Enter" key is pressed
-     *
-     * @type member
-     * @param e {qx.event.type.KeyEvent} keyDown event
-     * @return {void}
-     */
-    _onKeydown : function(e)
-    {
-      // Execute action on press <ENTER>
-      if (e.getKeyIdentifier() == "Enter" && !e.isAltPressed())
-      {
-        var items = this.getSelection();
-        for (var i=0; i<items.length; i++) {
-          items[i].fireEvent("action");
-        }
       }
     }
   }
