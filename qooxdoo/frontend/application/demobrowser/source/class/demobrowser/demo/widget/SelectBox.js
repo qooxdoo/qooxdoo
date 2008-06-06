@@ -32,7 +32,7 @@ qx.Class.define("demobrowser.demo.widget.SelectBox",
     main: function()
     {
       this.base(arguments);
-      
+
       ///////////////////////////////////////////////////////////////
       // Labels for the demos
       this.getRoot().add(new qx.ui.basic.Label("Long text"), {left: 30, top: 25});
@@ -41,22 +41,22 @@ qx.Class.define("demobrowser.demo.widget.SelectBox",
       this.getRoot().add(new qx.ui.basic.Label("Long button, short text"), {left: 420, top: 25});
       this.getRoot().add(new qx.ui.basic.Label("Fonts"), {left: 30, bottom: 35});
       ///////////////////////////////////////////////////////////////
-      
-      
+
+
       ///////////////////////////////////////////////////////////////
       // examlpe 1: Only text with different length
       selectBox1 = new qx.ui.form.SelectBox();
       for (var i = 0; i < 30; i++) {
-        var tempItem = new qx.ui.form.ListItem("Item " + Math.pow(10, i));          
+        var tempItem = new qx.ui.form.ListItem("Item " + Math.pow(10, i));
         selectBox1.add(tempItem);
         // select sixth item
         if (i == 5) {
           selectBox1.setSelectedItem(tempItem);
         }
-      }      
+      }
       this.getRoot().add(selectBox1, {left: 20, top: 40});
       ///////////////////////////////////////////////////////////////
-      
+
       ///////////////////////////////////////////////////////////////
       // example 2: Text and Icons
        var iconNames = [ "audio-card.png","audio-input-microphone.png","battery.png",
@@ -66,29 +66,29 @@ qx.Class.define("demobrowser.demo.widget.SelectBox",
       "network-wired.png","network-wireless.png","pda.png","phone.png","printer.png" ];
 
       var iconNamesPrefix = "icon/16/devices/"
-      
+
       var selectBox2 = new qx.ui.form.SelectBox();
       for (var i = 0; i < iconNames.length; i++) {
         var tempItem = new qx.ui.form.ListItem(iconNames[i].substr(0, iconNames[i].indexOf(".")), iconNamesPrefix + iconNames[i]);
         selectBox2.add(tempItem);
       }
-      
-      this.getRoot().add(selectBox2, {left: 150, top: 40});      
+
+      this.getRoot().add(selectBox2, {left: 150, top: 40});
       ///////////////////////////////////////////////////////////////
-      
+
       ///////////////////////////////////////////////////////////////
       // examlpe 3: a lot of choices
       var selectBox3 = new qx.ui.form.SelectBox();
-      selectBox3.setMaxListHeight(1000);
+      selectBox3.setMaxListHeight(null);
       for (var i = 0; i < 300; i++) {
         var tempItem = new qx.ui.form.ListItem("" + i);
         selectBox3.add(tempItem);
-      }      
+      }
       this.getRoot().add(selectBox3, {left: 280, top: 40});
       ///////////////////////////////////////////////////////////////
-      
-      
-      
+
+
+
       ///////////////////////////////////////////////////////////////
       // examlpe 4: fonts
       var selectBox4 = new qx.ui.form.SelectBox();
@@ -101,11 +101,11 @@ qx.Class.define("demobrowser.demo.widget.SelectBox",
         var tempItem = new qx.ui.form.ListItem("Font " + (i + 1));
         tempItem.setFont(fonts[i]);
         selectBox4.add(tempItem);
-      }      
+      }
       this.getRoot().add(selectBox4, {left: 20, bottom: 10});
-      ///////////////////////////////////////////////////////////////  
-      
-      
+      ///////////////////////////////////////////////////////////////
+
+
       ///////////////////////////////////////////////////////////////
       // examlpe 5: long button, short text with disabled fields
       var selectBox5 = new qx.ui.form.SelectBox();
@@ -118,7 +118,7 @@ qx.Class.define("demobrowser.demo.widget.SelectBox",
           tempItem.setEnabled(false);
         }
         selectBox5.add(tempItem);
-      }      
+      }
       this.getRoot().add(selectBox5, {left: 410, top: 40});
       ///////////////////////////////////////////////////////////////
     }

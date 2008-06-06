@@ -64,7 +64,7 @@ qx.Class.define("demobrowser.demo.widget.List",
 
       var l2 = new qx.ui.form.List;
 
-      l2.set({ width: 150, selectionMode : "single", spacing : 1 });
+      l2.set({ width: 150, selectionMode : "one", spacing : 1 });
 
       var l2l = [ "black", "silver", "gray", "maroon",
         "red", "purple", "fuchsia", "green", "lime", "olive",
@@ -81,6 +81,9 @@ qx.Class.define("demobrowser.demo.widget.List",
         //item2.setTextColor(l2l[i]);
         //item2.setHeight(20+Math.round(Math.random()*50));
         //item2.setDecorator(decorator);
+        item2.addListener("dblclick", function(e) {
+          l2.remove(e.getCurrentTarget());
+        });
 
         l2.add(item2);
       };
