@@ -89,9 +89,9 @@ qx.Class.define("qx.ui.form.SelectBox",
 
     this.addListener("click", this._onClick, this);
     this.addListener("keypress", this._onKeyPress);
+    this.addListener("blur", this._hideList, this);
+
     this._listPopup.addListener("mouseup", this._hideList, this);
-
-
     this._listPopup.addListener("changeVisibility", this._onChangeVisibilityList, this);
   },
 
