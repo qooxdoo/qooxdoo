@@ -1078,8 +1078,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
         return {
           width : states.horizontal ? 5 : "undefined",
           height : states.vertical ? 5 : "undefined",
-          backgroundColor : "red",
-          opacity : 0.3
+          backgroundColor : "red"
         };
       }
     }

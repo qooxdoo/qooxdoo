@@ -58,9 +58,6 @@ qx.Class.define("qx.ui.splitpane.Pane",
       this.initOrientation();
     }
 
-
-
-
     /*
      * Note that mouseUp and mouseDown events are added to the widget itself because
      * if the splitter is smaller than 5 pixels in length or height it is difficult
@@ -68,15 +65,11 @@ qx.Class.define("qx.ui.splitpane.Pane",
      * By adding events to the widget the splitter can be activated if the cursor is
      * near to the splitter widget.
      */
+    this.addListener("mousedown", this._onMouseDown, this);
+    this.addListener("mouseup", this._onMouseUp, this);
+    this.addListener("mousemove", this._onMouseMove, this);
 
-    /*
-    this.addListener("mousedown", this.__mouseDown, this);
-
-    this.addListener("mouseup", this.__mouseUp, this);
-    this.addListener("losecapture", this.__mouseUp, this);
-
-    this.addListener("mousemove", this.__mouseMove, this);
-    */
+    this.addListener("losecapture", this._onLoseCapture, this);
   },
 
 
@@ -159,6 +152,152 @@ qx.Class.define("qx.ui.splitpane.Pane",
 
     remove : function(widget) {
       this._remove(widget);
+    },
+
+    getBegin : function() {
+      return this._getChildren()[2] || null;
+    },
+
+    getEnd : function() {
+      return this._getChildren()[3] || null;
+    },
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      EVENT HANDLERS
+    ---------------------------------------------------------------------------
+    */
+
+    _onMouseDown : function(evt)
+    {
+      if (!evt.isLeftPressed()) {
+        return;
+      }
+
+      var splitterElement = this._splitter.getContainerElement().getDomElement();
+      var splitterElementBounds = qx.bom.element.Location.get(splitterElement);
+      var left = evt.getDocumentLeft();
+      var top = evt.getDocumentTop();
+
+      // Synchronize slider to splitter size
+      var bounds = this._splitter.getBounds();
+      this._slider.setUserBounds(
+        bounds.left,
+        bounds.top,
+        bounds.width,
+        bounds.height
+      );
+
+      this._slider.setZIndex(this._splitter.getZIndex() + 1);
+      this._slider.show();
+
+      this.__isMouseDown = true;
+      this.capture();
+    },
+
+    _onMouseMove : function(evt)
+    {
+      if(this.__isMouseDown)
+      {
+        var sliderElement = this._slider.getContainerElement().getDomElement();
+        var paneElement = this.getContainerElement().getDomElement();
+        var paneLocation = qx.bom.element.Location.get(paneElement);
+
+        var begin = this.getBegin();
+        var end = this.getEnd();
+
+        var firstHint = begin.getSizeHint();
+        var secondHint = end.getSizeHint();
+
+        if (this.getOrientation() == "horizontal")
+        {
+          var firstWidth = evt.getDocumentLeft() - paneLocation.left;
+          var secondWidth = paneLocation.right - evt.getDocumentLeft();
+
+          if(
+              firstWidth > 0 &&
+              secondWidth > 0 &&
+
+              firstWidth > firstHint.minWidth &&
+              firstWidth < firstHint.maxWidth &&
+
+              secondWidth > secondHint.minWidth &&
+              secondWidth < secondHint.maxWidth
+          ){
+            qx.bom.element.Style.set(sliderElement, "left", firstWidth + "px");
+
+          }
+        }
+        else
+        {
+
+          var firstHeight = evt.getDocumentTop() - paneLocation.top;
+          var secondHeight = paneLocation.right - evt.getDocumentLeft();
+
+          if(
+              firstHeight > 0 &&
+              secondHeight > 0 &&
+
+              firstHeight > firstHint.minHeight &&
+              firstHeight < firstHint.maxheight &&
+
+              secondHeight > secondHint.minHeight &&
+              secondHeight < secondHint.maxheight
+          ){
+            qx.bom.element.Style.set(sliderElement, "top", firstHeight + "px");
+          }
+        }
+      }
+    },
+
+    _onMouseUp : function(evt)
+    {
+      if (!this.__isMouseDown) {
+        return;
+      }
+
+      /*
+      if (this.__orientation == "horizontal")
+      {
+        firstArea.setWidth(this.__sizes.first);
+        secondArea.setWidth(this.__sizes.second);
+      }
+      else
+      {
+        firstArea.setHeight(this.__sizes.first);
+        secondArea.setHeight(this.__sizes.second);
+      }
+      */
+
+      this._slider.exclude();
+      this.releaseCapture();
+
+      delete this.__isMouseDown;
+    },
+
+
+    _onLoseCapture : function(e) {
+      this._onMouseUp(e);
+    },
+
+
+
+
+
+    /**
+     * Checks whether the two arguments are near to each other. Returns true if
+     * the absolute difference is less than five.
+     *
+     * @param p {Integer} first value
+     * @param e {Integer} second value
+     * @return {Bollean} Whether the two arguments are near to each other
+     */
+    _near : function(p, e) {
+      return e > (p - 5) && e < (p + 5);
     }
   },
 
