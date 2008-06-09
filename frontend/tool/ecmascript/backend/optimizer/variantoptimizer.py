@@ -20,7 +20,7 @@
 ################################################################################
 
 import re, sys
-from ecmascript.treeutil import *
+from ecmascript.frontend.treeutil import *
 
 global verbose
 
