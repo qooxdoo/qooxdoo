@@ -34,7 +34,7 @@ qx.Class.define("demobrowser.demo.widget.Window_Modern",
       this.base(arguments);
 
       qx.theme.manager.Meta.getInstance().setTheme(qx.theme.Modern);
-      
+
       this.getRoot().add(this._createTabWindow(), {left: 40, top: 30});
     },
 
@@ -48,8 +48,7 @@ qx.Class.define("demobrowser.demo.widget.Window_Modern",
 
       win.setMinWidth(400);
       win.setMinHeight(300);
-
-      win.getChildrenContainer().setPadding(10);
+      win.setPadding(10);
 
       win.setLayout(new qx.ui.layout.VBox(10));
 
