@@ -91,7 +91,13 @@ qx.Class.define("qx.ui.root.Page",
     },
 
 
-    // overridden
+    /**
+     * Get the preferred dimension of the widget.
+     *
+     * @return {Map} The map with the preferred width/height and the allowed
+     *   minimum and maximum values in cases where shrinking or growing
+     *   is required.
+     */
     getSizeHint : function()
     {
       // the size hint is 0 so make the content element invisible

@@ -159,15 +159,22 @@ qx.Class.define("qx.ui.core.RadioManager",
     },
 
 
-    setEnabled : function(value)
+    /**
+     * Set the enabled state of all managed widgets
+     *
+     * @param isEnabled {Boolean|null} The new enabled state of all managed
+     *     widgets. A value of <code>null</code> will reset the enabled state of
+     *     all managed widgets.
+     */
+    setEnabled : function(isEnabled)
     {
       var items = this._items;
       for (var i=0; i<items.length; i++)
       {
-        if (value == null) {
+        if (isEnabled == null) {
           items[i].resetEnabled();
         } else {
-          items[i].setEnabled(value);
+          items[i].setEnabled(isEnabled);
         }
       }
     },
