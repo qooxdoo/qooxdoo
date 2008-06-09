@@ -21,8 +21,8 @@
 ################################################################################
 
 import sys, os, re
-import tree, treegenerator, tokenizer, comment
-from treeutil import *
+from ecmascript.frontend import tree, treegenerator, tokenizer, comment
+from ecmascript.frontend.treeutil import *
 
 
 

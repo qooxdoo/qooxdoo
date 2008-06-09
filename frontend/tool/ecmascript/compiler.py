@@ -20,7 +20,7 @@
 ################################################################################
 
 import sys, string, re
-from ecmascript import lang
+from ecmascript.frontend import lang
 
 KEY = re.compile("^[A-Za-z0-9_$]+$")
 

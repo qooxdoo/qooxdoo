@@ -1,7 +1,7 @@
 import os, sys
 
 from polib import polib
-from ecmascript import treeutil, tree
+from ecmascript.frontend import treeutil, tree
 from misc import cldr, idlist, filetool
 
 class Locale:
