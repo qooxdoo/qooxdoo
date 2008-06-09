@@ -23,8 +23,8 @@ import re, os, sys, shutil, logging, optparse
 from optparseext import ExtendAction
 from misc import filetool
 from misc import textutil
-from ecmascript import tokenizer
-from ecmascript import treegenerator
+from ecmascript.frontend import tokenizer
+from ecmascript.frontend import treegenerator
 from ecmascript import compiler
 
 

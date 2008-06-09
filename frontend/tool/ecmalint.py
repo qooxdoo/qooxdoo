@@ -6,10 +6,10 @@ import os
 import sys
 from optparse import OptionParser
 
-from ecmascript import treegenerator
-from ecmascript import tokenizer
-from ecmascript import treeutil
-from ecmascript import tree
+from ecmascript.frontend import treegenerator
+from ecmascript.frontend import tokenizer
+from ecmascript.frontend import treeutil
+from ecmascript.frontend import tree
 from misc import filetool
 
 def getFunctionName(fcnNode):

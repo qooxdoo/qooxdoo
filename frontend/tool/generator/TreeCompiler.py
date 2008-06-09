@@ -1,7 +1,8 @@
 import copy, optparse
 
-from ecmascript import compiler, treeutil
-from ecmascript.optimizer import variableoptimizer, stringoptimizer, basecalloptimizer, privateoptimizer
+from ecmascript import compiler
+from ecmascript.frontend import treeutil
+from ecmascript.backend.optimizer import variableoptimizer, stringoptimizer, basecalloptimizer, privateoptimizer
 from misc import idlist
 
 class TreeCompiler:

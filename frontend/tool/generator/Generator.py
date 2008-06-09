@@ -22,9 +22,10 @@
 import re, os, sys, zlib, optparse, types
 
 from misc import filetool, textutil, idlist, Path
-from ecmascript import treegenerator, tokenizer, compiler
-from ecmascript.optimizer import variableoptimizer
-from ecmascript.optimizer import privateoptimizer
+from ecmascript import compiler
+from ecmascript.frontend import treegenerator, tokenizer
+from ecmascript.backend.optimizer import variableoptimizer
+from ecmascript.backend.optimizer import privateoptimizer
 from generator.ApiLoader import ApiLoader
 from generator.Cache import Cache
 from generator.DependencyLoader import DependencyLoader
