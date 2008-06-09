@@ -297,13 +297,13 @@ qx.Class.define("qx.core.Object",
      */
     addListenerOnce : function(type, listener, self, capture)
     {
-      var listener = function(e)
+      var callback = function(e)
       {
         listener.call(self||this, e);
-        this.removeListener(type, listener, this, capture);
+        this.removeListener(type, callback, this, capture);
       };
 
-      this.addListener(type, listener, this, capture);
+      this.addListener(type, callback, this, capture);
     },
 
 
