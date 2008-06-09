@@ -41,7 +41,10 @@ qx.Class.define("demobrowser.demo.widget.Window",
     {
       this.base(arguments);
 
-      this.getRoot().add(this._createTabWindow(), {left: 20, top: 20});
+      var winTab = this._createTabWindow();
+      this.getRoot().add(winTab);
+      winTab.centerToParent();
+
       this.getRoot().add(this._createPropertyWindow(), {left: 250, top: 120});
     },
 

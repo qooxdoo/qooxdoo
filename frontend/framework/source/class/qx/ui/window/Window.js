@@ -370,6 +370,14 @@ qx.Class.define("qx.ui.window.Window",
       check : [ "opaque", "frame", "translucent" ],
       init : "opaque",
       event : "changeMoveMethod"
+    },
+
+
+    /** Center the window on open */
+    centered :
+    {
+      check : "Boolean",
+      init : false
     }
   },
 
@@ -594,10 +602,9 @@ qx.Class.define("qx.ui.window.Window",
         this.setOpener(vOpener);
       }
 
-      // TODO
-//      if (this.getCentered()) {
-//        this.centerToBrowser();
-//      }
+      if (this.getCentered()) {
+        this.centerToParent();
+      }
 
       this.show();
     },
@@ -727,36 +734,36 @@ qx.Class.define("qx.ui.window.Window",
     },
 
 
+
+    moveTo : function(left, top)
+    {
+      this.setLayoutProperties({
+        left : left,
+        top : top
+      });
+    },
+
+
     /**
      * Centeres the window in the browser window.
      *
      * @type member
      */
-    centerToBrowser : function()
+    centerToParent : function()
     {
-      var parentEl = this.getLayoutParent().getContentElement().getDomElement();
-      if (!parentEl)
+      var parentBounds = this.getLayoutParent().getBounds();
+      if (!parentBounds)
       {
-        this.addListenerOnce("resize", this.centerToBrowser, this);
+        this.getLayoutParent().addListenerOnce("resize", this.centerToParent, this);
         return;
       }
-      var parentLocation = qx.bom.element.Location.get(parentEl);
 
       var size = this.getSizeHint();
 
-      var clientWidth = qx.bom.Viewport.getWidth();
-      var clientHeight = qx.bom.Viewport.getHeight();
+      var left = Math.round((parentBounds.width - size.width) / 2);
+      var top = Math.round((parentBounds.height - size.height) / 2);
 
-      var left = (clientWidth - size.width) / 2;
-      var top = (clientHeight - size.height) / 2;
-
-      left = left - parentLocation.left;
-      top = top - parentLocation.top;
-
-      left = Math.min(Math.max(-size.width+5, left), parentLocation.right-parentLocation.left-5);
-      top = Math.min(Math.max(0, top), parentLocation.bottom-parentLocation.top+size.height-5);
-
-      this.setLocation(left, top);
+      this.moveTo(left, top);
     },
 
 
