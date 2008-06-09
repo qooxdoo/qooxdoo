@@ -20,6 +20,12 @@
 #
 ################################################################################
 
+##
+# MODULE DESCRIPTIOIN
+#
+#  api.py -- generate Apiviewer data from class sources
+##
+
 import sys, os, re
 from ecmascript.frontend import tree, treegenerator, tokenizer, comment
 from ecmascript.frontend.treeutil import *

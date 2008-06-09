@@ -1,7 +1,7 @@
 import sys, os
 
 from misc import filetool
-from ecmascript import api
+from ecmascript.backend import api
 from ecmascript.frontend import tree
 
 
