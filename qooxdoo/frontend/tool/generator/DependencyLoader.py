@@ -1,6 +1,6 @@
 import sys, re
 
-from ecmascript import treeutil
+from ecmascript.frontend import treeutil
 from misc import filetool, idlist
 
 

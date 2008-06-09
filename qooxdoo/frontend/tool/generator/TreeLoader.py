@@ -1,7 +1,7 @@
 import sys
 
-from ecmascript import tokenizer, treegenerator
-from ecmascript.optimizer import variantoptimizer
+from ecmascript.frontend import tokenizer, treegenerator
+from ecmascript.backend.optimizer import variantoptimizer
 from misc import filetool, idlist
 
 class TreeLoader:
