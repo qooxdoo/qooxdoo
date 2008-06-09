@@ -6,7 +6,8 @@
       "library" :
       [
         {
-          "manifest" : "../../framework/Manifest.json"
+          "manifest" : "../../framework/Manifest.json",
+          "uri"      : "../../../framework"
         }
       ],
 
