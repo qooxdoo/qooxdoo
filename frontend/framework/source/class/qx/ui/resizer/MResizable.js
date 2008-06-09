@@ -300,7 +300,7 @@ qx.Mixin.define("qx.ui.resizer.MResizable",
      *
      * @param p {Integer} first value
      * @param e {Integer} second value
-     * @return {Bollean} Whether the two arguments are near to each other
+     * @return {Boolean} Whether the two arguments are near to each other
      */
     _near : function(p, e) {
       return e > (p - 5) && e < (p + 5);
