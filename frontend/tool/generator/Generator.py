@@ -113,6 +113,8 @@ class Generator:
         for entry in library.iter():
             key  = entry.get("path")
             luri = os.path.join(entry.get("uri"), entry.get("class"))
+            #luri = Path.rel_from_to(self.approot, entry.get("path"))
+            #luri = os.path.join(luri, entry.get("class"))
             if memcache.has_key(key):
                 self._console.debug("Use memory cache for %s" % key)
                 path = memcache[key]
