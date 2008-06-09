@@ -40,7 +40,7 @@ import simplejson
 from robocopy import robocopy
 
 
-# Used for library data caching in memory 
+# Used for library data caching in memory
 # Reduces execution time for multi-job calls
 memcache = {}
 
@@ -51,7 +51,7 @@ class Generator:
         self._console = console
         self._variants = {}
         self._settings = {}
-        
+
         require = config.get("require", {})
         use = config.get("use", {})
 
@@ -142,6 +142,111 @@ class Generator:
 
 
 
+    def run2(self):
+        jobs = self.getTopLevelJobs()
+
+
+        # These need nothing more than the simple job info
+
+        if jobs["updateTranslation"]:
+            del jobs["updateTranslation"]
+            self.runUpdateTranslation()
+
+        if jobs["copyFiles"]:
+            del jobs["copyFiles"]
+            self.runCopyFiles()
+
+        if jobs["shellCommands"]:
+            del jobs["shellCommands"]
+            self.runShellCommands()
+
+        if jobs["imageSlicing"]:
+            del jobs["imageSlicing"]
+            self.runImageSlicing()
+
+        if jobs["imageCombining"]:
+            del jobs["imageCombining"]
+            self.runImageCombining()
+
+
+        # Re-Check job list
+
+        if len(jobs) == 0:
+            return
+
+
+        # These need the basic include list
+
+        classes = "TODO"
+
+        if jobs["copyResources"]:
+            del jobs["copyResources"]
+            self.runCopyResources(classes)
+
+        if jobs["generateApiData"]:
+            del jobs["generateApiData"]
+            self.runGenerateApiData(classes)
+
+
+        # Re-Check job list
+
+        if len(jobs) == 0:
+            return
+
+
+        # Dist Generation
+
+        if jobs["compileDist"]:
+            del jobs["compileDist"]
+
+            # Generate loader + compiled files
+
+            if hasParts:
+                # Insert new part which only contains the loader stuff
+                injectLoader(parts)
+
+                # Compute packages
+                parts, packages = self._partBuilder.getPackages(partIncludes, smartExclude, classList, collapseCfg, variants, sizeCfg)
+
+                # Build all individual packages
+                for pkg in packages:
+                    fileName = "TODO"
+                    compiled = self.compileClasses(pkgClasses, variants)
+                    writeFile(fileName, compiled)
+
+            else:
+                # Generate one compiled file including all
+                fileName = "TODO"
+                compiled = self.compileClasses(classes)
+                writeFile(fileName, compiled)
+
+
+
+        # Source Generation
+
+        if jobs["compileSource"]:
+            del jobs["compileSource"]
+
+            # Insert new part which only contains the loader stuff
+            injectLoader(parts)
+
+            # Compute packages
+            parts, packages = self._partBuilder.getPackages(partIncludes, smartExclude, classList, collapseCfg, variants, sizeCfg)
+
+            # Compile first part
+            compiled = self._generateSourcePackageCode(part, packages)
+            for part in parts:
+                for pkg in part:
+                    compiled += self.compileClasses(pkgClasses, variants)
+                    break
+                break
+
+            writeFile(fileName, boot + compiled)
+
+
+
+
+
     def run(self):
         # Updating translation
         self.runUpdateTranslation()
@@ -151,7 +256,7 @@ class Generator:
         # We only need to call this once on each job
         smartInclude, explicitInclude = self.getIncludes(self._config.get("include", []))
         smartExclude, explicitExclude = self.getExcludes(self._config.get("exclude", []))
-        
+
         # Processing all combinations of variants
         variantData = self.getVariants()
         variantSets = idlist.computeCombinations(variantData)
@@ -217,11 +322,11 @@ class Generator:
             self.runShellCommands()
             self.runImageSlicing()
             self.runImageCombining()
-            
-            
+
+
             # Debug tasks
             self.runDependencyDebug(parts, packages, variants)
-            self.runPrivateDebug()            
+            self.runPrivateDebug()
 
 
     def runPrivateDebug(self):
@@ -230,7 +335,7 @@ class Generator:
 
         self._console.info("Privates debugging...")
         privateoptimizer.debug()
-        
+
 
 
     def runApiData(self, packages):
@@ -325,7 +430,7 @@ class Generator:
             # This needs further work
             # Would also be better to let the translation code nothing know about parts
             # Another thing: Why not generate both structures in different js-objects
-            # It's totally easy in JS to build a wrapper. 
+            # It's totally easy in JS to build a wrapper.
             pac_dat = self._locale.generatePackageData(classes, variants, locales)
             loc_dat = self._locale.getLocalizationData(locales)
             packageTranslation.append(self._mergeDicts(pac_dat,loc_dat))
@@ -382,8 +487,8 @@ class Generator:
                 generator._copyResources(res[0], os.path.dirname(resTarget))
 
         generator._console.outdent()
-        
-        
+
+
     def runCopyFiles(self):
         # Copy application files
         if not self._config.get("copy-files/files", False):
@@ -393,7 +498,7 @@ class Generator:
         if appfiles:
             buildRoot  = self._config.get("copy-files/target", "build")
             sourceRoot = self._config.get("copy-files/source", "source")
-            self._console.info("Copying application files...")        
+            self._console.info("Copying application files...")
             self._console.indent()
             for file in appfiles:
                 srcfile = os.path.join(sourceRoot, file)
@@ -405,8 +510,8 @@ class Generator:
                 self._copyResources(srcfile, destfile)
 
             self._console.outdent()
-        
-        
+
+
     def runShellCommands(self):
         # wpbasti:
         # rename trigger from "shell" to "execute-commands"?
@@ -455,7 +560,7 @@ class Generator:
         libs = self._config.get("library", [])
         forceUri = Path.rel_from_to(approot, os.path.join(buildRoot, "resource"))
         forceUri = Path.posifyPath(forceUri)
-        
+
         # Generating boot script
         self._console.info("Generating boot script...")
 
@@ -511,7 +616,7 @@ class Generator:
             self._console.outdent()
 
         self._console.outdent()
-        
+
 
     def runSource(self, parts, packages, boot, variants):
         if not self._config.get("compile-source/file"):
@@ -537,12 +642,12 @@ class Generator:
         # Get resource list
         libs = self._config.get("library", [])
         #resourceList = self._resourceHandler.findAllResources(libs, self._resourceHandler.filterResourcesByClasslist(self._classList))
-        
+
         # Add data from settings, variants and packages
         sourceBlocks = []
         sourceBlocks.append(self.generateSettingsCode(settings, format))
         sourceBlocks.append(self.generateVariantsCode(variants, format))
-        sourceBlocks.append(self.generateLibInfoCode(self._config.get("library",[]),format))        
+        sourceBlocks.append(self.generateLibInfoCode(self._config.get("library",[]),format))
         sourceBlocks.append(self.generateResourceInfoCode(settings, libs, format))
         sourceBlocks.append(self.generateLocalesCode(self._translationMaps, format))
         sourceBlocks.append(self.generateSourcePackageCode(parts, packages, boot, format))
@@ -582,7 +687,7 @@ class Generator:
             prefix       = imgspec['prefix']
             border_width = imgspec['border-width']
             self._imageClipper.slice(image, prefix, border_width)
-        
+
 
     # wpbasti: Contains too much low level code. Separate logic into extra class to keep this method a bit cleaner
     def runImageCombining(self):
@@ -647,7 +752,7 @@ class Generator:
 
         for key in variantsRuntime:
             variants[key] = [variantsRuntime[key]]
-            
+
         return variants
 
 
@@ -730,7 +835,7 @@ class Generator:
             # ...then compose the correct prefix with the correct suffix
             normalUri = trueUriPrefix + uriSuffix
             return normalUri
-        
+
         def processCombinedImg(data, meta_fname, cimguri, cimgshorturi, cimgfmt):
             assert cimgfmt.lib, cimgfmt.type
             # read meta file
@@ -761,7 +866,7 @@ class Generator:
         for lib in libs:
             #print "ooo lib['uri'] =" + os.path.normpath(Path.rel_from_to(self.approot, lib['path']))
             libresuri = os.path.join(lib['uri'],lib['resource'])
-            resourceList = self._resourceHandler.findAllResources([lib], 
+            resourceList = self._resourceHandler.findAllResources([lib],
                                 self._resourceHandler.filterResourcesByClasslist(self._classList))
             # resourceList = [[file1,uri1],[file2,uri2],...]
             for resource in resourceList:
@@ -773,7 +878,7 @@ class Generator:
                     imgpath= resource[0]
                     imguri = resource[1]
                     imageInfo = self._imageInfo.getImageInfo(imgpath)
-                    
+
                     # use an ImgInfoFmt object, to abstract from flat format
                     imgfmt = ImgInfoFmt()
                     imgfmt.lib = lib['namespace']
@@ -786,7 +891,7 @@ class Generator:
                     meta_fname = os.path.splitext(imgpath)[0]+'.meta'
                     if os.path.exists(meta_fname):  # add included imgs
                         processCombinedImg(data, meta_fname, imguri, assetId, imgfmt)
-                    
+
                     # add this image directly
                     # imageInfo = {width, height, filetype}
                     if not 'width' in imageInfo or not 'height' in imageInfo:
@@ -812,7 +917,7 @@ class Generator:
         # wpbasti: Image data is not part relevant yet.
         # Also: Simpejson does no allow unformatted output as far as I know. This result into additional spaces which is suboptimal.
         result += 'if(!window.qxresourceinfo)qxresourceinfo=' + simplejson.dumps(resdata,ensure_ascii=False) + ";"
-            
+
         self._console.outdent()
 
         return result
@@ -1058,7 +1163,7 @@ class Generator:
 
 
     # wpbasti: TODO: Clean up compiler. Maybe split-off pretty-printing. These hard-hacked options, the pure
-    # need of them is bad. Maybe options could be stored easier in a json-like config map instead of command line 
+    # need of them is bad. Maybe options could be stored easier in a json-like config map instead of command line
     # args. This needs a rework of the compiler which is not that easy.
     def _optimizeJavaScript(self, code):
         restree = treegenerator.createSyntaxTree(tokenizer.parseStream(code))
@@ -1100,7 +1205,7 @@ class _ResourceHandler(object):
         """Find relevant resources/assets, implementing shaddowing of resources.
            Returns a list of resources, each a pair of [file_path, uri]"""
         result = []
-        
+
         # go through all libs (weighted) and collect necessary resources
         # fallback: take all resources
         libs = libraries[:]
@@ -1160,10 +1265,10 @@ class _ResourceHandler(object):
                 if re.search(res1, respath):  # this might need a better 'match' algorithm
                     return True
             return False
-        
+
         return filter
-    
-    
+
+
     def filterResourcesByFilepath(self, filepatt=None, inversep=lambda x: x):
         """Returns a filter function that takes a resource path and returns
            True/False, depending on whether the resource should be included.
@@ -1174,18 +1279,18 @@ class _ResourceHandler(object):
         if not filepatt:
             #filepatt = re.compile(r'\.(?:png|jpeg|gif)$', re.I)
             filepatt = re.compile(r'.*/resource/.*')
-        
+
         def filter(respath):
             if inversep(re.search(filepatt,respath)):
                 return True
             else:
                 return False
-        
+
         return filter
-    
+
 
     def _getResourcelistFromClasslist(self, classList):
-        """Return a consolidated list of resource fileId's of all classes in classList; 
+        """Return a consolidated list of resource fileId's of all classes in classList;
            handles meta info."""
         result = []
 
