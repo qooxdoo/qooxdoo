@@ -116,7 +116,7 @@ def main():
     config = Config(console, config.get("jobs"))
     for job in expandedjobs:
         console.head("Executing: %s" % job, True)
-        Generator(config.extract(job), console)
+        Generator(config.extract(job), console).run()
 
 
 if __name__ == '__main__':
