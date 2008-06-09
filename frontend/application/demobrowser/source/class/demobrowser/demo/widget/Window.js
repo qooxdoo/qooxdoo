@@ -53,8 +53,7 @@ qx.Class.define("demobrowser.demo.widget.Window",
         "icon/16/categories/internet.png"
       );
 
-      win.getChildrenContainer().setPadding(10);
-
+      win.setPadding(10);
       win.setLayout(new qx.ui.layout.VBox(10));
 
       var atom = new qx.ui.basic.Atom(
@@ -100,7 +99,7 @@ qx.Class.define("demobrowser.demo.widget.Window",
         "icon/16/categories/engineering.png"
       );
 
-      win.getChildrenContainer().setPadding(10);
+      win.setPadding(10);
 
       win.setLayout(new qx.ui.layout.VBox(10));
 

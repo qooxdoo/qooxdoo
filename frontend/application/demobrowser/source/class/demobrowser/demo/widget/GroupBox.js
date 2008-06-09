@@ -49,7 +49,7 @@ qx.Class.define("demobrowser.demo.widget.GroupBox",
 
       // create and add the content of the first group box
       box1.setLayout(new qx.ui.layout.VBox());
-      box1.getChildrenContainer().setPadding(13);
+      box1.setPadding(13);
       box1.add(new qx.ui.form.CheckBox("Show debugging content"));
       box1.add(new qx.ui.form.CheckBox("Enable code completion"));
       box1.add(new qx.ui.form.CheckBox("Show debugging console"));
