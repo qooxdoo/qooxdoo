@@ -195,6 +195,12 @@ qx.Class.define("qx.ui.popup.Popup",
     ---------------------------------------------------------------------------
     */
 
+    /**
+     * Set the popup's position relative to its parent
+     *
+     * @param left {Integer} The left position
+     * @param top {Integer} The top position
+     */
     moveTo : function(left, top)
     {
       this.setLayoutProperties({
