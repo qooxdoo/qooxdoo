@@ -48,10 +48,11 @@ memcache = {}
 
 class Generator:
     def __init__(self, config, console):
-        self._config = config
-        self._console = console
-        self._variants = {}
-        self._settings = {}
+        self._config    = config
+        self._console   = console
+        self._variants  = {}
+        self._settings  = {}
+        self._cache     = Cache(config.extract("cache"), self._console)
 
 
 
@@ -238,17 +239,12 @@ class Generator:
         self.scanLibrary(config.extract("library"))
 
         # Create tool chain instances
-        self._cache          = Cache(config.extract("cache"), self._console)
         self._treeLoader     = TreeLoader(self._classes, self._cache, self._console)
         self._depLoader      = DependencyLoader(self._classes, self._cache, self._console, self._treeLoader, require, use)
         self._treeCompiler   = TreeCompiler(self._classes, self._cache, self._console, self._treeLoader)
         self._locale         = Locale(self._classes, self._translations, self._cache, self._console, self._treeLoader)
-        self._apiLoader      = ApiLoader(self._classes, self._docs, self._cache, self._console, self._treeLoader)
         self._partBuilder    = PartBuilder(self._console, self._depLoader, self._treeCompiler)
-        self._imageInfo      = ImageInfo(self._console, self._cache)
         self._resourceHandler= _ResourceHandler(self)
-        self._shellCmd       = ShellCmd()
-        self._imageClipper   = ImageClipping(self._console, self._cache)
 
         # Updating translation
         self.runUpdateTranslation()
@@ -346,6 +342,7 @@ class Generator:
         if not apiPath:
             return
 
+        self._apiLoader      = ApiLoader(self._classes, self._docs, self._cache, self._console, self._treeLoader)
 
         smartInclude, explicitInclude = self.getIncludes(self._config.get("include", []))
         smartExclude, explicitExclude = self.getExcludes(self._config.get("exclude", []))
@@ -523,6 +520,7 @@ class Generator:
 
         shellcmd = self._config.get("shell/command", "")
         rc = 0
+        self._shellCmd       = ShellCmd()
 
         self._console.info("Executing shell command \"%s\"..." % shellcmd)
         self._console.indent()
@@ -643,7 +641,6 @@ class Generator:
 
         # Get resource list
         libs = self._config.get("library", [])
-        #resourceList = self._resourceHandler.findAllResources(libs, self._resourceHandler.filterResourcesByClasslist(self._classList))
 
         # Add data from settings, variants and packages
         sourceBlocks = []
@@ -683,6 +680,8 @@ class Generator:
         if not self._config.get("slice-images", False):
             return
 
+        self._imageClipper   = ImageClipping(self._console, self._cache)
+
         images = self._config.get("slice-images/images", {})
         for image, imgspec in images.iteritems():
             # wpbasti: Rename: Border => Inset as in qooxdoo JS code
@@ -696,6 +695,8 @@ class Generator:
         """Go through a list of images and create them as combination of other images"""
         if not self._config.get("combine-images", False):
             return
+
+        self._imageClipper   = ImageClipping(self._console, self._cache)
 
         images = self._config.get("combine-images/images", {})
         for image, imgspec in images.iteritems():
@@ -815,6 +816,8 @@ class Generator:
 
         self._console.info("Analysing assets...")
         self._console.indent()
+
+        self._imageInfo      = ImageInfo(self._console, self._cache)
 
         # some helper functions
 
