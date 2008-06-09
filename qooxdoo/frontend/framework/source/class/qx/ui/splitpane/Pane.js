@@ -70,6 +70,9 @@ qx.Class.define("qx.ui.splitpane.Pane",
     this.addListener("mousemove", this._onMouseMove, this);
 
     this.addListener("losecapture", this._onLoseCapture, this);
+    
+    // Calculated sizes for both widgets are stored here during slide
+    this._sizes = null;
   },
 
 
@@ -190,8 +193,6 @@ qx.Class.define("qx.ui.splitpane.Pane",
       this.__activeDragSession = true;
       this.capture();
 
-      // Updating slider position
-      // this._onSlide(e);
     },
 
     _onMouseMove : function(e)
@@ -262,7 +263,13 @@ qx.Class.define("qx.ui.splitpane.Pane",
         secondWidth > secondHint.minWidth &&
         secondWidth < secondHint.maxWidth
       ){
+
+        this._sizes = {
+          "first" : firstWidth,
+          "second" : secondWidth
+        };
         this._slider.getContainerElement().setStyle("left", firstWidth + "px", true);
+
       }
 
     },
@@ -275,10 +282,15 @@ qx.Class.define("qx.ui.splitpane.Pane",
         return;
       }
 
-      this._slider.exclude();
+      this._setSizes(e);
+      
+      this._slider.setOpacity(0.6)
+      
+      //this._slider.exclude();
       this.releaseCapture();
 
       delete this.__activeDragSession;
+      this._sizes = null;
     },
 
 
@@ -287,7 +299,55 @@ qx.Class.define("qx.ui.splitpane.Pane",
     },
 
 
+    _setSizes : function(e)
+    {
 
+      if (!this._sizes) {
+        return;
+      }
+      
+      var firstWidget = this.getBegin();
+      var secondWidget = this.getEnd();
+
+      var firstFlexValue = firstWidget.getLayoutProperties().flex;
+      var secondFlexValue = secondWidget.getLayoutProperties().flex;
+      
+      console.log(this._sizes.first, this._sizes.second)
+
+      
+      // Both widgets have flex values
+      if( (firstFlexValue != 0) && (secondFlexValue != 0))
+      {
+        var sum = this._sizes.first + this._sizes.second;
+
+        // TODO: optimize this block
+        firstWidget.setLayoutProperties({ "flex" : (this._sizes.first / sum)*100 })
+        secondWidget.setLayoutProperties({ "flex" : (this._sizes.second / sum)*100 })
+        
+        console.warn(this._sizes.first, this._sizes.second)
+        console.log((this._sizes.first / sum), (this._sizes.second / sum))
+      }
+      // Only first widget has a flex value
+      else if(firstFlexValue != 0)
+      {
+        secondWidget.setWidth(this._sizes.second);
+      }
+      // Only second widget has a flex value
+      else if(secondFlexValue != 0)
+      {
+        firstWidget.setWidth(this._sizes.first);
+      }
+      // Both widgets have static values
+      else
+      {
+        firstWidget.setWidth(this._sizes.first);
+        secondWidget.setWidth(this._sizes.second);
+      }
+
+      console.log(firstWidget.getBounds().width, secondWidget.getBounds().width)
+
+      
+    },
 
 
     /**
@@ -296,7 +356,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
      *
      * @param p {Integer} first value
      * @param e {Integer} second value
-     * @return {Bollean} Whether the two arguments are near to each other
+     * @return {Boolean} Whether the two arguments are near to each other
      */
     _near : function(p, e) {
       return e > (p - 5) && e < (p + 5);
