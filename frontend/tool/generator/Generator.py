@@ -53,27 +53,6 @@ class Generator:
         self._variants = {}
         self._settings = {}
 
-        require = config.get("require", {})
-        use = config.get("use", {})
-
-        # Scanning given library paths
-        self.scanLibrary(config.extract("library"))
-
-        # Create tool chain instances
-        self._cache          = Cache(config.extract("cache"), self._console)
-        self._treeLoader     = TreeLoader(self._classes, self._cache, self._console)
-        self._depLoader      = DependencyLoader(self._classes, self._cache, self._console, self._treeLoader, require, use)
-        self._treeCompiler   = TreeCompiler(self._classes, self._cache, self._console, self._treeLoader)
-        self._locale         = Locale(self._classes, self._translations, self._cache, self._console, self._treeLoader)
-        self._apiLoader      = ApiLoader(self._classes, self._docs, self._cache, self._console, self._treeLoader)
-        self._partBuilder    = PartBuilder(self._console, self._depLoader, self._treeCompiler)
-        self._imageInfo      = ImageInfo(self._console, self._cache)
-        self._resourceHandler= _ResourceHandler(self)
-        self._shellCmd       = ShellCmd()
-        self._imageClipper   = ImageClipping(self._console, self._cache)
-
-        # Start job
-        self.run()
 
 
     def _mergeDicts(self, source1, source2):
@@ -146,29 +125,28 @@ class Generator:
 
 
     def run2(self):
-        jobs = self.getTopLevelJobs()
-
+        jobs = self._config.getJobsMap()
 
         # These need nothing more than the simple job info
 
-        if jobs["updateTranslation"]:
-            del jobs["updateTranslation"]
+        if jobs.has_key("translation"):
+            del jobs["translation"]
             self.runUpdateTranslation()
 
-        if jobs["copyFiles"]:
-            del jobs["copyFiles"]
+        if jobs.has_key("copy-files"):
+            del jobs["copy-files"]
             self.runCopyFiles()
 
-        if jobs["shellCommands"]:
-            del jobs["shellCommands"]
+        if jobs.has_key("shell"):
+            del jobs["shell"]
             self.runShellCommands()
 
-        if jobs["imageSlicing"]:
-            del jobs["imageSlicing"]
+        if jobs.has_key("slice-images"):
+            del jobs["slice-images"]
             self.runImageSlicing()
 
-        if jobs["imageCombining"]:
-            del jobs["imageCombining"]
+        if jobs.has_key("combine-images"):
+            del jobs["combine-images"]
             self.runImageCombining()
 
 
@@ -182,13 +160,13 @@ class Generator:
 
         classes = "TODO"
 
-        if jobs["copyResources"]:
-            del jobs["copyResources"]
-            self.runCopyResources(classes)
+        if jobs.has_key("copy-resources"):
+            del jobs["copy-resources"]
+            self.runResources(classes)
 
-        if jobs["generateApiData"]:
-            del jobs["generateApiData"]
-            self.runGenerateApiData(classes)
+        if jobs.has_key("api"):
+            del jobs["api"]
+            self.runApiData(classes)
 
 
         # Re-Check job list
@@ -199,8 +177,8 @@ class Generator:
 
         # Dist Generation
 
-        if jobs["compileDist"]:
-            del jobs["compileDist"]
+        if jobs.has_key("compile-dist"):
+            del jobs["compile-dist"]
 
             # Generate loader + compiled files
 
@@ -227,8 +205,8 @@ class Generator:
 
         # Source Generation
 
-        if jobs["compileSource"]:
-            del jobs["compileSource"]
+        if jobs.has_key("compile-source"):
+            del jobs["compile-source"]
 
             # Insert new part which only contains the loader stuff
             injectLoader(parts)
@@ -251,6 +229,27 @@ class Generator:
 
 
     def run(self):
+        config = self._config
+
+        require = config.get("require", {})
+        use = config.get("use", {})
+
+        # Scanning given library paths
+        self.scanLibrary(config.extract("library"))
+
+        # Create tool chain instances
+        self._cache          = Cache(config.extract("cache"), self._console)
+        self._treeLoader     = TreeLoader(self._classes, self._cache, self._console)
+        self._depLoader      = DependencyLoader(self._classes, self._cache, self._console, self._treeLoader, require, use)
+        self._treeCompiler   = TreeCompiler(self._classes, self._cache, self._console, self._treeLoader)
+        self._locale         = Locale(self._classes, self._translations, self._cache, self._console, self._treeLoader)
+        self._apiLoader      = ApiLoader(self._classes, self._docs, self._cache, self._console, self._treeLoader)
+        self._partBuilder    = PartBuilder(self._console, self._depLoader, self._treeCompiler)
+        self._imageInfo      = ImageInfo(self._console, self._cache)
+        self._resourceHandler= _ResourceHandler(self)
+        self._shellCmd       = ShellCmd()
+        self._imageClipper   = ImageClipping(self._console, self._cache)
+
         # Updating translation
         self.runUpdateTranslation()
 

@@ -117,6 +117,13 @@ class Config:
     def extract(self, key):
         return Config(self._console, self.get(key, {}), self._dirname)
         
+
+    def getJobsMap(self, default=None):
+        if 'jobs' in self._data:
+            return self._data['jobs']
+        else:
+            return default
+
     
     # wpbasti: specific to top level configs. Should be done in a separate class
     def resolveIncludes(self, includeTrace=[]):
