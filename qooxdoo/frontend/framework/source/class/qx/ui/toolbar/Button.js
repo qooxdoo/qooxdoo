@@ -68,11 +68,15 @@ qx.Class.define("qx.ui.toolbar.Button",
     */
 
     /**
+     * Key down event handler
+     *
      * @signature function()
      */
     _onkeydown : qx.lang.Function.returnTrue,
 
     /**
+     * Key up event handler
+     *
      * @signature function()
      */
     _onkeyup   : qx.lang.Function.returnTrue

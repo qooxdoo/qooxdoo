@@ -164,12 +164,15 @@ qx.Class.define("qx.ui.embed.HtmlEmbed",
     ---------------------------------------------------------------------------
     */
 
+    // overridden
     _applyTextColor : function(value, old) {
       qx.theme.manager.Color.getInstance().connect(this.__styleTextColor, this, value);
     },
 
 
     /**
+     * Apply text color
+     *
      * @type member
      * @param value {var} any acceptable CSS color property
      */

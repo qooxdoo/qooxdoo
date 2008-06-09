@@ -653,11 +653,26 @@ qx.Class.define("qx.ui.core.LayoutItem",
     ---------------------------------------------------------------------------
     */
 
+    /**
+     * Whether user bounds are set on this layout item
+     *
+     * @return {Boolean} Whether user bounds are set on this layout item
+     */
     hasUserBounds : function() {
       return !!this.__userBounds;
     },
 
 
+    /**
+     * Set user bounds of the widget. Widgets with user bounds are sized and
+     * positioned manually and are ignored by any layout manager.
+     *
+     * @param left {Integer} left position (relative to the parent)
+     * @param top {Integer} top position (relative to the parent)
+     * @param width {Integer} width of the layout item
+     * @param height {Integer} height of the layout item
+     * @return {void}
+     */
     setUserBounds : function(left, top, width, height)
     {
       this.__userBounds = {
@@ -671,6 +686,12 @@ qx.Class.define("qx.ui.core.LayoutItem",
     },
 
 
+    /**
+     * Clear the user bounds. After this call the layout item is layouted by
+     * the layout manager again.
+     *
+     * @return {void}
+     */
     resetUserBounds : function()
     {
       delete this.__userBounds;

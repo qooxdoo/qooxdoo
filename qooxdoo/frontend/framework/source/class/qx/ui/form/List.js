@@ -166,11 +166,21 @@ qx.Class.define("qx.ui.form.List",
     },
 
 
-
+    /**
+     * Handle child widget adds on the content pane
+     *
+     * @param e {qx.event.type.Data} the event instance
+     */
     _onAddChild : function(e) {
       this.fireNonBubblingEvent("addItem", qx.event.type.Data, [e.getData()]);
     },
 
+
+    /**
+     * Handle child widget removes on the content pane
+     *
+     * @param e {qx.event.type.Data} the event instance
+     */
     _onRemoveChild : function(e) {
       this.fireNonBubblingEvent("removeItem", qx.event.type.Data, [e.getData()]);
     },

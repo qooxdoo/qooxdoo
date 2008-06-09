@@ -919,7 +919,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      * of the managed object.
      *
      * @type member
-     * @param event {qx.event.type.Data} The event object
+     * @param e {qx.event.type.Data} The event object
      * @return {void}
      */
     handleAddItem : function(e)
@@ -936,7 +936,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      * of the managed object.
      *
      * @type member
-     * @param event {qx.event.type.Data} The event object
+     * @param e {qx.event.type.Data} The event object
      * @return {void}
      */
     handleRemoveItem : function(e)

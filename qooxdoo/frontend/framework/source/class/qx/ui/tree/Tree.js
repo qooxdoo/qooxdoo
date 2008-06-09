@@ -390,7 +390,7 @@ qx.Class.define("qx.ui.tree.Tree",
 
 
     // overridden
-    scrollItemIntoView : function(item, hAlign, vAlign)
+    scrollItemIntoView : function(item, alignX, alignY)
     {
       // if the last item is selected the content should be scrolled down to
       // the end including the content paddings
@@ -400,42 +400,6 @@ qx.Class.define("qx.ui.tree.Tree",
         this.base(arguments, item, hAlign, vAlign);
       }
     },
-
-
-    // interface implementation
-    getItemOffset : function(item)
-    {
-      var pos = item.getBounds();
-      if (!pos) {
-        return 0;
-      }
-
-      var top = 0;
-      while (item)
-      {
-        top += item.getBounds().top;
-        var item = item.getLayoutParent();
-        if (item == this.__content) {
-          return top;
-        }
-      }
-
-      return 0;
-    },
-
-
-    // interface implementation
-    getItemHeight : function(item)
-    {
-      var computed = item.getBounds();
-      if (computed) {
-        return computed.height;
-      }
-
-      return 0;
-    },
-
-
 
 
     /*
