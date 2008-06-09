@@ -85,10 +85,10 @@ class Generator:
         self._console.info("Scanning libraries...")
         self._console.indent()
 
-        self._namespaces = []
-        self._classes = {}
-        self._docs = {}
-        self._translations = {}
+        _namespaces = []
+        _classes = {}
+        _docs = {}
+        _translations = {}
 
         for entry in library.iter():
             key  = entry.get("path")
@@ -103,7 +103,7 @@ class Generator:
 
             namespace = path.getNamespace()
 
-            self._namespaces.append(namespace)
+            _namespaces.append(namespace)
             classes = path.getClasses()
             # patch uri with current value
             # TODO: have to patch the 'uri' value of classes, since the same library can
@@ -113,15 +113,17 @@ class Generator:
             for clazz in classes.values():
                 clazz['uri'] = os.path.join(luri, clazz['relpath'])
                 clazz['uri'] = Path.posifyPath(clazz['uri'])
-            self._classes.update(classes)
-            self._docs.update(path.getDocs())
-            self._translations[namespace] = path.getTranslations()
+            _classes.update(classes)
+            _docs.update(path.getDocs())
+            _translations[namespace] = path.getTranslations()
 
             memcache[key] = path
 
         self._console.outdent()
-        self._console.debug("Loaded %s libraries" % len(self._namespaces))
+        self._console.debug("Loaded %s libraries" % len(_namespaces))
         self._console.debug("")
+
+        return (_namespaces, _classes, _docs, _translations)
 
 
 
@@ -236,14 +238,17 @@ class Generator:
         use = config.get("use", {})
 
         # Scanning given library paths
-        self.scanLibrary(config.extract("library"))
+        (self._namespaces,
+         self._classes,
+         self._docs,
+         self._translations) = self.scanLibrary(config.extract("library"))
 
         # Create tool chain instances
         self._treeLoader     = TreeLoader(self._classes, self._cache, self._console)
         self._depLoader      = DependencyLoader(self._classes, self._cache, self._console, self._treeLoader, require, use)
         self._treeCompiler   = TreeCompiler(self._classes, self._cache, self._console, self._treeLoader)
         self._locale         = Locale(self._classes, self._translations, self._cache, self._console, self._treeLoader)
-        self._partBuilder    = PartBuilder(self._console, self._depLoader, self._treeCompiler)
+        partBuilder          = PartBuilder(self._console, self._depLoader, self._treeCompiler)
         self._resourceHandler= _ResourceHandler(self)
 
         # Updating translation
@@ -300,7 +305,7 @@ class Generator:
                     partIncludes[partId] = self._expandRegExps(partsCfg[partId])
 
                 # Computing packages
-                parts, packages = self._partBuilder.getPackages(partIncludes, smartExclude, classList, collapseCfg, variants, sizeCfg)
+                parts, packages = partBuilder.getPackages(partIncludes, smartExclude, classList, collapseCfg, variants, sizeCfg)
 
             else:
                 # Emulate configuration
