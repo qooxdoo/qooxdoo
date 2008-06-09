@@ -45,7 +45,7 @@ def main():
 
     # Common options
     parser.add_option("-c", "--config", dest="config", metavar="FILENAME", help="Configuration file")
-    parser.add_option("-j", "--jobs", action="extend", dest="jobs", metavar="DIRECTORY", type="string", default=[], help="Selected jobs")
+    parser.add_option("-j", "--jobs", action="extend", dest="jobs", type="string", default=[], help="List of jobs to run")
     parser.add_option("-q", "--quiet", action="store_true", dest="quiet", default=False, help="Quiet output mode (Extra quiet).")
     parser.add_option("-v", "--verbose", action="store_true", dest="verbose", default=False, help="Verbose output mode (Extra verbose).")
     parser.add_option("-l", "--logfile", dest="logfile", metavar="FILENAME", default=None, type="string", help="Log file")
@@ -86,14 +86,14 @@ def main():
     # Check jobs
     availableJobs = config.get("jobs").keys()
     if len(options.jobs) == 0:
-        listJobs(availableJobs)
+        listJobs(console, availableJobs)
         sys.exit(1)
         
     else:
         for job in options.jobs:
             if job not in availableJobs:
                 console.warn("No such job: %s" % job)
-                listJobs(availableJobs)
+                listJobs(console, availableJobs)
                 sys.exit(1)
 
 
