@@ -20,6 +20,10 @@
 ************************************************************************ */
 
 /**
+ * An internal window based on qooxdoo widgets
+ *
+ * More information can be found in the package description {@link qx.ui.window}.
+ *
  * @state active
  * @state maximized This state is active if the window is maximized
  *
@@ -734,7 +738,12 @@ qx.Class.define("qx.ui.window.Window",
     },
 
 
-
+    /**
+     * Set the window's position relative to its parent
+     *
+     * @param left {Integer} The left position
+     * @param top {Integer} The top position
+     */
     moveTo : function(left, top)
     {
       this.setLayoutProperties({
