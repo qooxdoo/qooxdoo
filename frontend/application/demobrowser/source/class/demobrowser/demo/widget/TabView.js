@@ -37,18 +37,20 @@ qx.Class.define("demobrowser.demo.widget.TabView",
     {
       this.base(arguments);
 
-      var boxLayout = new qx.ui.layout.HBox();
-      boxLayout.setSpacing(10);
-
-      var container = new qx.ui.container.Composite(boxLayout);
+      var container = new qx.ui.container.Composite(new qx.ui.layout.VBox(10));
       container.setPadding(20);
-      container.setLayout(boxLayout);
 
       this.getRoot().add(container, {left:0,top:0});
 
+      container.add(this.getTabView1());
+      container.add(this.getTabView2());
+    },
+
+    getTabView1 : function()
+    {
       tabView = new qx.ui.tabview.TabView();
       tabView.setWidth(500);
-      container.add(tabView);
+
 
       ////////////////// TEST PAGE 1 ////////////////////
       var page1 = new qx.ui.tabview.Page("Layout", "icon/16/apps/utilities-terminal.png");
@@ -59,7 +61,7 @@ qx.Class.define("demobrowser.demo.widget.TabView",
       // bar top stuff
       var barTopButton = new qx.ui.form.CheckBox("Bar on top");
       barTopButton.setChecked(true);
-      barTopButton.addListener("changeChecked", function(event) {
+      barTopButton.addListener("change", function(event) {
         this.setPlaceBarOnTop(event.getValue());
       }, tabView);
       page1.add(barTopButton);
@@ -67,7 +69,7 @@ qx.Class.define("demobrowser.demo.widget.TabView",
       // bar left stuff
       var barLeftButton = new qx.ui.form.CheckBox("Bar left");
       barLeftButton.setChecked(true);
-      barLeftButton.addListener("changeChecked", function(event) {
+      barLeftButton.addListener("change", function(event) {
         this.setAlignTabsToLeft(event.getValue());
       }, tabView);
       page1.add(barLeftButton);
@@ -97,6 +99,24 @@ qx.Class.define("demobrowser.demo.widget.TabView",
 
       // show the first page
       tabView.showPage(page1);
+
+      return tabView;
+    },
+
+
+    getTabView2 : function()
+    {
+      tabView = new qx.ui.tabview.TabView();
+      tabView.setWidth(500);
+
+      for (var i=1; i<=20; i++)
+      {
+        var page = new qx.ui.tabview.Page("Page #" + i, "icon/16/apps/utilities-terminal.png");
+        page.setLayout(new qx.ui.layout.VBox());
+        page.add(new qx.ui.basic.Label("Page #" + i));
+        tabView.add(page);
+      }
+      return tabView;
     }
   }
 });

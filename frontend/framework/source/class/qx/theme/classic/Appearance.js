@@ -541,6 +541,34 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
+    "tab-view-bar-button-left" :
+    {
+      include : "button",
+
+      style : function(states)
+      {
+        return {
+          icon : "decoration/arrows/left.gif",
+          margin: [1, 0, 1, 1],
+          width: 16
+        }
+      }
+    },
+
+    "tab-view-bar-button-right" :
+    {
+      include : "button",
+
+      style : function(states)
+      {
+        return {
+          icon : "decoration/arrows/right.gif",
+          margin: [1, 0, 1, 1],
+          width: 16
+        }
+      }
+    },
+
     "tab-view-pane" :
     {
       style : function(states)
