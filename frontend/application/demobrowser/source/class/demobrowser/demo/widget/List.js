@@ -15,6 +15,7 @@
    Authors:
      * Sebastian Werner (wpbasti)
      * Fabian Jakobs (fjakobs)
+     * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
 
@@ -35,10 +36,38 @@ qx.Class.define("demobrowser.demo.widget.List",
     main: function()
     {
       this.base(arguments);
+      
+      ////////////////////////////////////////////////////////////////
+      // Selection mode "one" demo list
+      var oneLabel = new qx.ui.basic.Label("One as selection mode");
+      oneLabel.setFont("bold");
+      this.getRoot().add(oneLabel, {left: 330, top: 20});
+      
+      var oneList = new qx.ui.form.List();
+      oneList.set({ height: 280, width: 150, selectionMode : "one" });
+      var item;
+      for( var i=1; i<=25; i++ )
+      {
+        item = new qx.ui.form.ListItem("Item No " + i, "icon/16/places/folder.png");
+        // Pre-Select "Item No 20"
+        if (i==13) {
+          oneList.select(item);
+        }
+        oneList.add(item);
+      };
+      this.getRoot().add(oneList, {left: 330, top: 40});
+      ////////////////////////////////////////////////////////////////
 
+
+      ////////////////////////////////////////////////////////////////
+      // Configurable list
+      var configureLabel = new qx.ui.basic.Label("Configurable");
+      configureLabel.setFont("bold");
+      this.getRoot().add(configureLabel, {left: 20, top: 20});
+      
       var l1 = new qx.ui.form.List;
 
-      l1.set({ height: 300, width: 150, selectionMode : "multi" });
+      l1.set({ height: 280, width: 150, selectionMode : "multi" });
 
       var item;
       for( var i=1; i<=25; i++ )
@@ -55,13 +84,75 @@ qx.Class.define("demobrowser.demo.widget.List",
         l1.add(item);
       };
 
-      this.getRoot().add(l1, {left: 20, top: 20});
-
+      this.getRoot().add(l1, {left: 20, top: 40});
       // l1.scrollToY(100);
+      
+      // Configure Elements
+      var mode1 = new qx.ui.form.RadioButton("Single Selection");
+      var mode2 = new qx.ui.form.RadioButton("Multi Selection");
+      var mode3 = new qx.ui.form.RadioButton("Additive Selection");
+      var mode4 = new qx.ui.form.RadioButton("One Selection");
+
+      mode1.setValue("single");
+      mode2.setValue("multi");
+      mode3.setValue("additive");
+      mode4.setValue("one");
+
+      mode2.setChecked(true);
+
+      this.getRoot().add(mode1, {left: 180, top: 40});
+      this.getRoot().add(mode2, {left: 180, top: 60});
+      this.getRoot().add(mode3, {left: 180, top: 80});
+      this.getRoot().add(mode4, {left: 180, top: 100});
+      
+      var rbm = new qx.ui.core.RadioManager(mode1, mode2, mode3, mode4);
+
+      rbm.addListener("change", function(e) {
+        l1.setSelectionMode(e.getValue().getValue());
+      });
+
+      var show1 = new qx.ui.form.RadioButton("Show Label");
+      var show2 = new qx.ui.form.RadioButton("Show Icon");
+      var show3 = new qx.ui.form.RadioButton("Show Both");
+
+      show1.setValue("label");
+      show2.setValue("icon");
+      show3.setValue("both");
+
+      show3.setChecked(true);
+
+      this.getRoot().add(show1, {left: 180, top: 140});
+      this.getRoot().add(show2, {left: 180, top: 160});
+      this.getRoot().add(show3, {left: 180, top: 180});
+
+      var rbm = new qx.ui.core.RadioManager(show1, show2, show3);
+
+      rbm.addListener("change", function(e)
+      {
+        for( var i=0; i<l1.getChildren().length; i++ ) {
+          l1.getChildren()[i].setShow(e.getValue().getValue());
+        }
+      });
+
+      var drag1 = new qx.ui.form.CheckBox("Enable drag selection");
+      drag1.setChecked(true);
+
+      this.getRoot().add(drag1, {left: 180, top: 220});
+
+      drag1.addListener("change", function(e) {
+        l1.setDragSelection(e.getValue());
+      });
+      ////////////////////////////////////////////////////////////////
 
 
 
 
+      ////////////////////////////////////////////////////////////////
+      // styled list
+      var configureLabel = new qx.ui.basic.Label("Styled (try dblclick)");
+      configureLabel.setFont("bold");
+      this.getRoot().add(configureLabel, {left: 500, top: 20});
+      
       var l2 = new qx.ui.form.List;
 
       l2.set({ width: 150, selectionMode : "one", spacing : 1 });
@@ -71,29 +162,35 @@ qx.Class.define("demobrowser.demo.widget.List",
         "yellow", "navy", "blue", "teal", "aqua", "magenta",
         "orange", "brown" ];
 
-      var decorator = new qx.ui.decoration.Uniform();
-      decorator.set({width:1, style:"solid", color:"#898989"});
 
       var item2;
       for (var i=0; i<l2l.length; i++)
       {
+        var decorator = new qx.ui.decoration.Single();
+        decorator.set({widthLeft:10, style:"solid", color:l2l[i]});
+        
         item2 = new qx.ui.form.ListItem(l2l[i]);
-        //item2.setTextColor(l2l[i]);
-        //item2.setHeight(20+Math.round(Math.random()*50));
-        //item2.setDecorator(decorator);
-        item2.addListener("dblclick", function(e) {
-          l2.remove(e.getCurrentTarget());
-        });
+        item2.setDecorator(decorator);
 
         l2.add(item2);
       };
+      
+      l2.addListener("dblclick", function(e) {
+        alert(e.getCurrentTarget().getLabel());
+      });      
 
-      this.getRoot().add(l2, {left: 400, top: 120});
+      this.getRoot().add(l2, {left: 500, top: 40});
+      ////////////////////////////////////////////////////////////////
 
 
 
 
-
+      ////////////////////////////////////////////////////////////////
+      // additive selecion list
+      var configureLabel = new qx.ui.basic.Label("Additive selection");
+      configureLabel.setFont("bold");
+      this.getRoot().add(configureLabel, {left: 670, top: 20});
+      
       var l3 = new qx.ui.form.List;
       var item3;
 
@@ -116,12 +213,18 @@ qx.Class.define("demobrowser.demo.widget.List",
         }
       };
 
-      this.getRoot().add(l3, {left: 600, top: 120});
+      this.getRoot().add(l3, {left: 670, top: 40});
+      ////////////////////////////////////////////////////////////////
 
 
 
 
-
+      ////////////////////////////////////////////////////////////////
+      // Horizontal list
+      var configureLabel = new qx.ui.basic.Label("Horizontal, Icons only");
+      configureLabel.setFont("bold");
+      this.getRoot().add(configureLabel, {left: 20, top: 350});
+      
       var l4 = new qx.ui.form.List(true);
       var item4;
 
@@ -146,72 +249,9 @@ qx.Class.define("demobrowser.demo.widget.List",
       };
 
       this.getRoot().add(l4, {left: 20, top: 370});
+      ////////////////////////////////////////////////////////////////
 
 
-
-
-
-      var mode1 = new qx.ui.form.RadioButton("Single Selection");
-      var mode2 = new qx.ui.form.RadioButton("Multi Selection");
-      var mode3 = new qx.ui.form.RadioButton("Additive Selection");
-      var mode4 = new qx.ui.form.RadioButton("One Selection");
-
-      mode1.setValue("single");
-      mode2.setValue("multi");
-      mode3.setValue("additive");
-      mode4.setValue("one");
-
-      mode2.setChecked(true);
-
-      this.getRoot().add(mode1, {left: 180, top: 20});
-      this.getRoot().add(mode2, {left: 180, top: 40});
-      this.getRoot().add(mode3, {left: 180, top: 60});
-      this.getRoot().add(mode4, {left: 180, top: 80});
-      
-      var rbm = new qx.ui.core.RadioManager(mode1, mode2, mode3, mode4);
-
-      rbm.addListener("change", function(e) {
-        l1.setSelectionMode(e.getValue().getValue());
-      });
-
-
-
-
-
-      var show1 = new qx.ui.form.RadioButton("Show Label");
-      var show2 = new qx.ui.form.RadioButton("Show Icon");
-      var show3 = new qx.ui.form.RadioButton("Show Both");
-
-      show1.setValue("label");
-      show2.setValue("icon");
-      show3.setValue("both");
-
-      show3.setChecked(true);
-
-      this.getRoot().add(show1, {left: 180, top: 120});
-      this.getRoot().add(show2, {left: 180, top: 140});
-      this.getRoot().add(show3, {left: 180, top: 160});
-
-      var rbm = new qx.ui.core.RadioManager(show1, show2, show3);
-
-      rbm.addListener("change", function(e)
-      {
-        for( var i=0; i<l1.getChildren().length; i++ ) {
-          l1.getChildren()[i].setShow(e.getValue().getValue());
-        }
-      });
-
-
-
-
-      var drag1 = new qx.ui.form.CheckBox("Enable drag selection");
-      drag1.setChecked(true);
-
-      this.getRoot().add(drag1, {left: 180, top: 200});
-
-      drag1.addListener("change", function(e) {
-        l1.setDragSelection(e.getValue());
-      });
     }
   }
 });
