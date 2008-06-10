@@ -9,6 +9,7 @@ qx.Class.define("demobrowser.demo.ui.MenuEmu_MenuItem",
 
     this._text = new qx.ui.basic.Label(text);
     this._text.setPadding(4);
+    this._text.setAllowGrowX(true);
 
     if (!MenuItem.menuDecoration) {
       MenuItem.menuDecoration = new qx.ui.decoration.Single();
@@ -22,6 +23,7 @@ qx.Class.define("demobrowser.demo.ui.MenuEmu_MenuItem",
     if (shortcut) {
       this._shortcut = new qx.ui.basic.Label(shortcut);
       this._shortcut.setPadding(4, 4, 4, 20);
+      this._shortcut.setAllowGrowX(true);
 
       this._shortcut.setDecorator(MenuItem.menuDecoration);
 
