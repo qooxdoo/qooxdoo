@@ -171,17 +171,18 @@ qx.Class.define("qx.ui.core.selection.Abstract",
       var mode = this.getMode();
       if (mode === "single" || mode === "one") {
         this._setSelectedItem(item);
-      } else {
+      } 
+      else 
+      {
+        if (!this._getAnchorItem()) {
+          this._setAnchorItem(item);
+        }
+  
+        this._setLeadItem(item);
         this._addToSelection(item);
       }
 
-      if (!this._getAnchorItem()) {
-        this._setAnchorItem(item);
-      }
-
-      this._setLeadItem(item);
       this._scrollItemIntoView(item);
-
       this._fireChange();
     },
 
@@ -701,6 +702,18 @@ qx.Class.define("qx.ui.core.selection.Abstract",
       this._setAnchorItem(null);
 
       this._clearSelection();
+      
+      // Mode "one" requires one selected item
+      if (value === "one") 
+      {
+        var first = this._getFirstSelectable();
+        if (first) {
+          this._setSelectedItem(first);
+          this._scrollItemIntoView(first);
+        }
+      }
+      
+      this._fireChange();
     },
 
 
