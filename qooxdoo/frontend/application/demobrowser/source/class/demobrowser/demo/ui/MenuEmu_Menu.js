@@ -17,16 +17,6 @@ qx.Class.define("demobrowser.demo.ui.MenuEmu_Menu",
 
   members :
   {
-    canStretchX : function()
-    {
-      return false;
-    },
-
-    canStretchY : function()
-    {
-      return false;
-    },
-
     add : function(menuItem)
     {
       this._menuItems.push(menuItem);
