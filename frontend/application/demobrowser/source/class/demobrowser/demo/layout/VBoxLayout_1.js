@@ -86,13 +86,27 @@ qx.Class.define("demobrowser.demo.layout.VBoxLayout_1",
 
       box.setSpacing(5);
 
-      var w1 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"})
-      var w2 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"})
-      var w3 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"})
+      var w1 = new qx.ui.core.Widget().set({
+        decorator: "black",
+        backgroundColor: "green",
+        marginBottom: 10
+      });
+      var w2 = new qx.ui.core.Widget().set({
+        decorator: "black",
+        backgroundColor: "green",
+        marginBottom: 10,
+        marginTop: 10
+      });
+      var w3 = new qx.ui.core.Widget().set({
+        decorator: "black",
+        backgroundColor: "green",
+        marginBottom: 10
+      });
 
-      container.add(w1, { marginBottom : 10 });
-      container.add(w2, { marginTop : 20, marginBottom : 10 });
-      container.add(w3, { marginBottom : 10 });
+
+      container.add(w1);
+      container.add(w2);
+      container.add(w3);
 
       this.getRoot().add(container, {left:450, top:10});
 
@@ -106,13 +120,26 @@ qx.Class.define("demobrowser.demo.layout.VBoxLayout_1",
       box.setSpacing(5);
       box.setAlignY("bottom");
 
-      var w1 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"})
-      var w2 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"})
-      var w3 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"})
+      var w1 = new qx.ui.core.Widget().set({
+        decorator: "black",
+        backgroundColor: "green",
+        marginBottom: 10
+      });
+      var w2 = new qx.ui.core.Widget().set({
+        decorator: "black",
+        backgroundColor: "green",
+        marginBottom: 10,
+        marginTop: 10
+      });
+      var w3 = new qx.ui.core.Widget().set({
+        decorator: "black",
+        backgroundColor: "green",
+        marginBottom: 10
+      });
 
-      container.add(w1, { marginBottom : 10 });
-      container.add(w2, { marginTop : 20, marginBottom : 10 });
-      container.add(w3, { marginBottom : 10 });
+      container.add(w1);
+      container.add(w2);
+      container.add(w3);
 
       this.getRoot().add(container, {left:570, top:10});
 
@@ -125,13 +152,25 @@ qx.Class.define("demobrowser.demo.layout.VBoxLayout_1",
       box.setSpacing(5);
       box.setAlignY("middle");
 
-      var w1 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"})
-      var w2 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"})
-      var w3 = (new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green"})
-
-      container.add(w1, { marginBottom : 10 });
-      container.add(w2, { marginTop : 20, marginBottom : 10 });
-      container.add(w3, { marginBottom : 10 });
+      var w1 = new qx.ui.core.Widget().set({
+        decorator: "black",
+        backgroundColor: "green",
+        marginBottom: 10
+      });
+      var w2 = new qx.ui.core.Widget().set({
+        decorator: "black",
+        backgroundColor: "green",
+        marginBottom: 10,
+        marginTop: 10
+      });
+      var w3 = new qx.ui.core.Widget().set({
+        decorator: "black",
+        backgroundColor: "green",
+        marginBottom: 10
+      });
+      container.add(w1);
+      container.add(w2);
+      container.add(w3);
 
       this.getRoot().add(container, {left:690, top:10});
     }
