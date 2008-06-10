@@ -78,10 +78,11 @@ def main():
     console.info("Configuration: %s" % options.config)
     console.info("Jobs: %s" % ", ".join(options.jobs))
 
-
     # Load configuration
     config = Config(console, options.config)
 
+    # Resolve "include"-Keys
+    config.resolveIncludes()
 
     # Check jobs
     availableJobs = config.get("jobs").keys()
@@ -96,14 +97,8 @@ def main():
                 listJobs(console, availableJobs)
                 sys.exit(1)
 
-
-    # Resolve "include"-Keys
-    config.resolveIncludes()
-
-
     # Resolve "extend"- and "run"-Keys
     expandedjobs = config.resolveExtendsAndRuns(options.jobs[:])
-
 
     # Resolve "let"-Keys
     config.resolveMacros(expandedjobs)
@@ -111,6 +106,8 @@ def main():
     # Resolve libs/Manifests
     config.resolveLibs(expandedjobs)
 
+    # To see fully expanded config:
+    #pprint.pprint(config.get("."))
 
     # Processing jobs...
     config = Config(console, config.get("jobs"))

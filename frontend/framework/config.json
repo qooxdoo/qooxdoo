@@ -37,7 +37,7 @@
 
     "api" :
     {
-      "extend" : ["common", "appconf/jobs/api"],
+      "extend" : ["common", "appconf/api"],
       
       "let" :
       {

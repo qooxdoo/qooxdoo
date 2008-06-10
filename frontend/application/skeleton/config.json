@@ -44,19 +44,19 @@
 
     "source" :
     {
-      "extend" : ["common-builds", "appconf/jobs/source"]
+      "extend" : ["common-builds", "appconf/source"]
     },
 
 
     "build" :
     {
-      "extend" : ["common-builds", "appconf/jobs/build"]
+      "extend" : ["common-builds", "appconf/build"]
     },
 
 
     "api" :
     {
-      "extend": ["common", "appconf/jobs/api"],
+      "extend": ["common", "appconf/api"],
 
       "let" :
       {
