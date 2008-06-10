@@ -251,6 +251,10 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      */
     clearSelection : function()
     {
+      if (this.getMode() == "one") {
+        return;
+      }
+
       this._clearSelection();
       this._setLeadItem(null);
       this._setAnchorItem(null);
@@ -1316,10 +1320,6 @@ qx.Class.define("qx.ui.core.selection.Abstract",
 
     _clearSelection : function()
     {
-      if (this.getMode() == "one") {
-        return;
-      }
-
       var selection = this.__selection;
       for (var hash in selection) {
         this._removeFromSelection(selection[hash]);
