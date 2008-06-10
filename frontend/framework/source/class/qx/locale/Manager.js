@@ -251,13 +251,7 @@ qx.Class.define("qx.locale.Manager",
     },
 
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param value {var} Current value
-     * @param old {var} Previous value
-     */
+    // property apply
     _applyLocale : function(value, old)
     {
       this._locale = value;
