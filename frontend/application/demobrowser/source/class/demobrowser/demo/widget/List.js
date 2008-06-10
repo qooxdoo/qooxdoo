@@ -154,18 +154,21 @@ qx.Class.define("demobrowser.demo.widget.List",
       var mode1 = new qx.ui.form.RadioButton("Single Selection");
       var mode2 = new qx.ui.form.RadioButton("Multi Selection");
       var mode3 = new qx.ui.form.RadioButton("Additive Selection");
+      var mode4 = new qx.ui.form.RadioButton("One Selection");
 
       mode1.setValue("single");
       mode2.setValue("multi");
       mode3.setValue("additive");
+      mode4.setValue("one");
 
       mode2.setChecked(true);
 
       this.getRoot().add(mode1, {left: 180, top: 20});
       this.getRoot().add(mode2, {left: 180, top: 40});
       this.getRoot().add(mode3, {left: 180, top: 60});
-
-      var rbm = new qx.ui.core.RadioManager(mode1, mode2, mode3);
+      this.getRoot().add(mode4, {left: 180, top: 80});
+      
+      var rbm = new qx.ui.core.RadioManager(mode1, mode2, mode3, mode4);
 
       rbm.addListener("change", function(e) {
         l1.setSelectionMode(e.getValue().getValue());
@@ -185,9 +188,9 @@ qx.Class.define("demobrowser.demo.widget.List",
 
       show3.setChecked(true);
 
-      this.getRoot().add(show1, {left: 180, top: 100});
-      this.getRoot().add(show2, {left: 180, top: 120});
-      this.getRoot().add(show3, {left: 180, top: 140});
+      this.getRoot().add(show1, {left: 180, top: 120});
+      this.getRoot().add(show2, {left: 180, top: 140});
+      this.getRoot().add(show3, {left: 180, top: 160});
 
       var rbm = new qx.ui.core.RadioManager(show1, show2, show3);
 
@@ -204,7 +207,7 @@ qx.Class.define("demobrowser.demo.widget.List",
       var drag1 = new qx.ui.form.CheckBox("Enable drag selection");
       drag1.setChecked(true);
 
-      this.getRoot().add(drag1, {left: 180, top: 180});
+      this.getRoot().add(drag1, {left: 180, top: 200});
 
       drag1.addListener("change", function(e) {
         l1.setDragSelection(e.getValue());
