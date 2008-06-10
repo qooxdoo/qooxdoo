@@ -402,6 +402,19 @@ qx.Class.define("qx.ui.window.Window",
     ---------------------------------------------------------------------------
     */
 
+    /**
+     * The children container needed by the {@link qx.ui.core.MRemoteChildrenHandling}
+     * mixin
+     *
+     * @type member
+     * @return {qx.ui.container.Composite} pane sub widget
+     */
+    getChildrenContainer : function() {
+      return this._pane;
+    },
+
+
+    // overridden
     _getStyleTarget : function() {
       return this._pane;
     },
@@ -540,17 +553,6 @@ qx.Class.define("qx.ui.window.Window",
       UTILITIES
     ---------------------------------------------------------------------------
     */
-    /**
-     * The children container needed by the {@link qx.ui.core.MRemoteChildrenHandling}
-     * mixin
-     *
-     * @type member
-     * @return {qx.ui.container.Composite} pane sub widget
-     */
-    getChildrenContainer : function() {
-      return this._pane;
-    },
-
 
     /**
      * Accessor method for the captionbar sub widget

@@ -146,7 +146,7 @@ qx.Class.define("qx.ui.tabview.TabView",
      */
     _createBar: function()
     {
-      var bar = new qx.ui.container.Composite();
+      var bar = new qx.ui.tabview.Bar();
       bar.setLayout(new qx.ui.layout.HBox());
       bar.setAppearance("tab-view-bar");
       return bar;
