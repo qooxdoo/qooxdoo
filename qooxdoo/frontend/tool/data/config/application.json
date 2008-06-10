@@ -126,7 +126,7 @@
 
     "api" :
     {
-      "extend" : ["apiconf/jobs/build"],
+      "extend" : ["apiconf/build"],
 
       "let" :
       {

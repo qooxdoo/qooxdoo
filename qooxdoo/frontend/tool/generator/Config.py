@@ -58,6 +58,10 @@ class Config:
         self._fname = os.path.abspath(fname)
         self._dirname = os.path.dirname(self._fname)
 
+    NSSEP       = "/"
+    JOBSKEY     = "jobs"
+    KEYS_WITH_JOB_REFS = ['run', 'extend']
+
     def get(self, key, default=None, confmap=None):
         """Returns a (possibly nested) data element from dict <conf>
         """
@@ -67,7 +71,10 @@ class Config:
         else:
             data = self._data
             
-        splits = key.split("/")
+        if data.has_key(key):
+            return data[key]
+
+        splits = key.split(self.NSSEP)
         for part in splits:
             if part == "." or part == "":
                 pass
@@ -77,7 +84,7 @@ class Config:
                 return default
 
         return data
-        
+
 
     def set(self, key, content, AddKeys=False, confmap=None):
         """Sets a (possibly nested) data element in dict <conf>
@@ -119,14 +126,49 @@ class Config:
         
 
     def getJobsMap(self, default=None):
-        if 'jobs' in self._data:
-            return self._data['jobs']
+        if self.JOBSKEY in self._data:
+            return self._data[self.JOBSKEY]
         else:
             return default
 
+    def listJobs(self):
+        result = []
+        jobsMap = self.getJobsMap({})
+        for job in jobsMap:
+            result.append(job)
+        return result
     
     # wpbasti: specific to top level configs. Should be done in a separate class
     def resolveIncludes(self, includeTrace=[]):
+
+        def integrateExternalConfig1(target, source, namespace):
+            # external config becomes namespace'd entry in jobsmap
+            if target.has_key(namespace):
+                raise KeyError, "key already exists: " + namespace
+            else:
+                target[namespace] = source.get(".")
+            return target
+
+        def integrateExternalConfig(tjobs, source, namespace):
+            # jobs of external config are spliced into current job list
+            sjobs = source.getJobsMap()
+            for sjob in sjobs:
+                newjobname = namespace + self.NSSEP + sjob
+                if tjobs.has_key(newjobname):
+                    raise KeyError, "key already exists: " + namespace
+                else:
+                    # patch job references in 'run', 'extend', ... keys
+                    for key in self.KEYS_WITH_JOB_REFS:
+                        if key in sjobs[sjob]:
+                            newlist = []
+                            oldlist = sjobs[sjob][key]
+                            for jobname in oldlist:
+                                newlist.append(namespace + self.NSSEP + jobname)
+                            sjobs[sjob][key] = newlist
+                    # add new job
+                    tjobs[newjobname] = sjobs[sjob]
+            return tjobs
+
         config  = self._data
         jobsmap = self.get("jobs")
 
@@ -151,7 +193,8 @@ class Config:
                 # e.g. calling resolveIncludes()
                 econfig = Config(self._console, fpath)
                 econfig.resolveIncludes(includeTrace)   # recursive include
-                jobsmap[namespace] = econfig.get(".") # external config becomes namespace'd entry in jobsmap
+                #jobsmap[namespace] = econfig.get(".")
+                jobsmap = integrateExternalConfig(jobsmap, econfig, namespace)
 
 
     # wpbasti: specific to top level configs. Should be done in a separate class
@@ -243,8 +286,7 @@ class Config:
             # cyclic check for recursive extends?? - done
             # is this expanding nested jobs in their own context?? - yes! (see jobcontext and parent)
             if not self.get(job,False,config):
-                console.warn("No such job: %s" % job)
-                sys.exit(1)
+                raise RuntimeError, "No such job: %s" % job
 
             data = self.get(job,None,config)
 
@@ -253,7 +295,7 @@ class Config:
 
             if data.has_key("extend"):
                 extends = data["extend"]
-                if job.rfind('/')>-1:
+                if job.rfind('/')>-1 and False: # TODO: branch defunct
                     parent = job[:job.rfind('/')]
                     jobcontext = self.get(parent,None,config) # job context has the 'parent' key
                 else:
@@ -272,7 +314,7 @@ class Config:
                     _resolveEntry(console, jobcontext, entry, entryTrace + [job])
                     
                     # prepare for 'run'
-                    if pjob.has_key('run') and entry.rfind('/')>-1:
+                    if pjob.has_key('run') and entry.rfind('/')>-1 and False: # TODO: branch defunct
                         
                         # prefix job names
                         eparent = entry[:entry.rfind('/')]
