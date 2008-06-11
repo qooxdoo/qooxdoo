@@ -107,7 +107,7 @@ def main():
     config.resolveLibs(expandedjobs)
 
     # To see fully expanded config:
-    #pprint.pprint(config.get("."))
+    console.debug(pprint.pformat(config.get(".")))
 
     # Processing jobs...
     config = Config(console, config.get("jobs"))
