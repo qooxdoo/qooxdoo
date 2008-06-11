@@ -397,7 +397,7 @@ qx.Class.define("qx.ui.tree.Tree",
       if (!this.getNextSiblingOf(item, false)) {
         this.scrollToY(1000000);
       } else {
-        this.base(arguments, item, hAlign, vAlign);
+        this.base(arguments, item, alignX, alignY);
       }
     },
 
