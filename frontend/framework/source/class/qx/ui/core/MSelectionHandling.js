@@ -120,6 +120,17 @@ qx.Mixin.define("qx.ui.core.MSelectionHandling",
     */
 
     /**
+     * Sets the lead to the given item.
+     *
+     * @type member
+     * @param item {Object} Any valid item
+     * @return {void}
+     */
+    setLeadItem : function(item) {
+      this.__manager.setLeadItem(item);
+    },
+
+    /**
      * Selects all items of the managed object.
      *
      * @type member
