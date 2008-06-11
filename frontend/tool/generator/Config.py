@@ -156,10 +156,14 @@ class Config:
         def integrateExternalConfig(tjobs, source, namespace):
             # jobs of external config are spliced into current job list
             sjobs = source.getJobsMap()
+            if namespace:
+                namepfx = namespace + self.NSSEP
+            else:
+                namepfx = ""
             for sjob in sjobs:
-                newjobname = namespace + self.NSSEP + sjob
+                newjobname = namepfx + sjob
                 if tjobs.has_key(newjobname):
-                    raise KeyError, "key already exists: " + namespace
+                    raise KeyError, "Job already exists: \"%s\"" % newjobname
                 else:
                     # patch job references in 'run', 'extend', ... keys
                     for key in self.KEYS_WITH_JOB_REFS:
@@ -167,14 +171,14 @@ class Config:
                             newlist = []
                             oldlist = sjobs[sjob][key]
                             for jobname in oldlist:
-                                newlist.append(namespace + self.NSSEP + jobname)
+                                newlist.append(namepfx + jobname)
                             sjobs[sjob][key] = newlist
                     # handle 'defaults' job - we have to fix this here at loadtime
                     # so we don't have to worry about nested defaults job when
                     # runExpand runs
                     if sjobs.has_key(self.DEFAULTS_KEY):
                         # the 'defaults' job will be namespaced as well
-                        defaults_job_name = namespace + self.NSSEP + self.DEFAULTS_KEY
+                        defaults_job_name = namepfx + self.DEFAULTS_KEY
                         if sjobs[sjob].has_key(self.EXTEND_KEY):
                             sjobs[sjob][self.EXTEND_KEY].insert(0, defaults_job_name)
                         else:
