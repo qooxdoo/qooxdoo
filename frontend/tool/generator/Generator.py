@@ -128,60 +128,61 @@ class Generator:
 
 
     def run2(self):
-        jobs = self._config.getJobsMap()
+        config = self._config
+        job    = config.get(".")
 
         # These need nothing more than the simple job info
 
-        if jobs.has_key("translation"):
-            del jobs["translation"]
+        if job.has_key("translation"):
+            del job["translation"]
             self.runUpdateTranslation()
 
-        if jobs.has_key("copy-files"):
-            del jobs["copy-files"]
+        if job.has_key("copy-files"):
+            del job["copy-files"]
             self.runCopyFiles()
 
-        if jobs.has_key("shell"):
-            del jobs["shell"]
+        if job.has_key("shell"):
+            del job["shell"]
             self.runShellCommands()
 
-        if jobs.has_key("slice-images"):
-            del jobs["slice-images"]
+        if job.has_key("slice-images"):
+            del job["slice-images"]
             self.runImageSlicing()
 
-        if jobs.has_key("combine-images"):
-            del jobs["combine-images"]
+        if job.has_key("combine-images"):
+            del job["combine-images"]
             self.runImageCombining()
 
 
         # Re-Check job list
 
-        if len(jobs) == 0:
+        if len(job) == 0:
             return
 
 
         # These need the basic include list
 
-        classes = "TODO"
+        (_,classes,_,_) = self.scanLibrary(config.extract("library"))
 
-        if jobs.has_key("copy-resources"):
-            del jobs["copy-resources"]
+        if job.has_key("copy-resources"):
+            del job["copy-resources"]
             self.runResources(classes)
 
-        if jobs.has_key("api"):
-            del jobs["api"]
+        if job.has_key("api"):
+            del job["api"]
             self.runApiData(classes)
 
 
         # Re-Check job list
 
-        if len(jobs) == 0:
+        if len(job) == 0:
             return
 
 
         # Dist Generation
 
-        if jobs.has_key("compile-dist"):
-            del jobs["compile-dist"]
+        if job.has_key("compile-dist"):
+            del job["compile-dist"]
 
             # Generate loader + compiled files
 
@@ -208,8 +209,8 @@ class Generator:
 
         # Source Generation
 
-        if jobs.has_key("compile-source"):
-            del jobs["compile-source"]
+        if job.has_key("compile-source"):
+            del job["compile-source"]
 
             # Insert new part which only contains the loader stuff
             injectLoader(parts)
@@ -1362,3 +1363,60 @@ class _ResourceHandler(object):
         result = expMacRec(res)
         return result
 
+
+# scratch pad:
+
+'''
+jobTriggers = 
+{
+  "compile-source" : 
+  {
+    "action" : runSource,
+    "type" : "JCompileJob",  # for grouping of jobs
+  },
+
+  "copy-resources" :
+  {
+    "action" : runResourceCopy,
+    "type"   : "JClassDepJob"
+  },
+
+  "shell" :
+  {
+    "action" : runShellCommands,
+    "type"   : "JSimpleJob"
+  }
+}
+
+triggersSimpleSet   = Set((x for x in jobTriggers if jobTriggers[x]['type']=="JSimpleJob"))
+triggersClassDepSet = Set((x for x in jobTriggers if jobTriggers[x]['type']=="JClassDepJob"))
+triggersCompileSet  = Set((x for x in jobTriggers if jobTriggers[x]['type']=="JCompileJob"))
+
+
+job
+
+from sets import *
+
+jobTriggersSet = Set(job.keys())
+
+
+# process simple job triggers
+
+simpleTriggerKeys = jobKeySet.intersection(triggersSimpleSet) # we have simple job triggers
+if simpleTriggerKeys:
+  # process them
+  for trigger in simpleTriggerKeys:
+    jobTriggers[trigger]['action']()
+
+# process job triggers that require a class list
+classdependentTriggerKeys = jobKeySet.intersection(triggersClassdependentSet)  # we have classdep. triggers
+if classdependentTriggerKeys:
+  for trigger in classdependentTriggerKeys:
+    jobTriggers[trigger]['action']()
+
+# process job triggers that compile
+compileTriggerKeys = jobKeySet.intersection(triggersCompileSet)
+if compileTriggerKeys:
+  for trigger in compileTriggerKeys:
+    jobTriggers[trigger]['action']()
+'''
