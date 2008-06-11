@@ -45,7 +45,7 @@ qx.Class.define("demobrowser.demo.widget.SelectBox",
 
       ///////////////////////////////////////////////////////////////
       // examlpe 1: Only text with different length
-      selectBox1 = new qx.ui.form.SelectBox();
+      var selectBox1 = new qx.ui.form.SelectBox();
       for (var i = 0; i < 30; i++) {
         var tempItem = new qx.ui.form.ListItem("Item " + Math.pow(10, i));
         selectBox1.add(tempItem);
@@ -59,7 +59,7 @@ qx.Class.define("demobrowser.demo.widget.SelectBox",
 
       ///////////////////////////////////////////////////////////////
       // example 2: Text and Icons
-       var iconNames = [ "audio-card.png","audio-input-microphone.png","battery.png",
+      var iconNames = [ "audio-card.png","audio-input-microphone.png","battery.png",
       "camera-photo.png","camera-web.png","computer.png","display.png",
       "drive-harddisk.png","drive-optical.png","input-keyboard.png",
       "input-mouse.png","media-flash.png","media-optical.png","multimedia-player.png",
