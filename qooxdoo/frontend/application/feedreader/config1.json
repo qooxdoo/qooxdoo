@@ -1,0 +1,33 @@
+{
+  "include" :
+  {
+    "appconf" : "../../tool/data/config/application.json"
+  },
+
+
+  "jobs" :
+  {
+    "defaults" :
+    {
+      "let" :
+      {
+        "APPLICATION" : "feedreader"
+      },
+
+      "settings" :
+      {
+        "qx.theme" : "qx.theme.Modern"
+      },
+
+      "localize" :
+      {
+        "locales" : [ "en" ]
+      },
+
+      "cache" :
+      {
+        "path" : "../../cache"
+      }
+    }
+  }
+}
