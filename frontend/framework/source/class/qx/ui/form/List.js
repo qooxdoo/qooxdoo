@@ -15,6 +15,7 @@
    Authors:
      * Sebastian Werner (wpbasti)
      * Andreas Ecker (ecker)
+     * Martin Wittemann (martinwittemann)
 
 ************************************************************************ */
 
@@ -56,6 +57,11 @@ qx.Class.define("qx.ui.form.List",
 
     // Add keypress listener
     this.addListener("keypress", this._onKeyPress);
+    
+    this.addListener("keyinput", this._onkeyinput);
+    
+    // initialize the search string
+    this._pressedString = "";
   },
 
 
@@ -128,7 +134,14 @@ qx.Class.define("qx.ui.form.List",
       init : 0,
       apply : "_applySpacing",
       themeable : true
-    }
+    },
+    
+    /** Controls whether the inline-find feature is activated or not */
+    enableInlineFind :
+    {
+      check : "Boolean",
+      init : true
+    },    
   },
 
 
@@ -263,6 +276,86 @@ qx.Class.define("qx.ui.form.List",
       }
 
       return false;
+    },
+    
+    
+    /*
+    ---------------------------------------------------------------------------
+      FIND SUPPORT
+    ---------------------------------------------------------------------------
+    */
+       
+    /**
+     * Handles the inline find - if enabled
+     *
+     * @type member
+     * @param e {qx.event.type.KeyEvent} keyInput event
+     * @return {void}
+     */
+    _onkeyinput : function(e)
+    {
+      // do nothing if the find is disabled
+      if (!this.getEnableInlineFind()) {
+        return;
+      }
+      
+      // Reset string after a second of non pressed key
+      if (((new Date).valueOf() - this._lastKeyPress) > 1000) {
+        this._pressedString = "";
+      }
+
+      // Combine keys the user pressed to a string
+      this._pressedString += String.fromCharCode(e.getCharCode());
+      
+      // Find matching item
+      var matchedItem = this.__findItem(this._pressedString);
+      
+      // if an item was found, select it
+      if (matchedItem) {
+        if (this.getSelectionMode() === "additive" ) {
+          // just set the lead item in the additice mode          
+          this.setLeadItem(matchedItem);          
+        } else {
+          // otherwise, select the item
+          this.select(matchedItem);          
+        }
+      }
+
+      // Store timestamp
+      this._lastKeyPress = (new Date).valueOf();
+      e.preventDefault();
+    },    
+    
+
+    /**
+     * Takes the given searchstring and tries to find a ListItem 
+     * which stats with this string. The search is not case sensitive and the 
+     * first found ListItem will be returned.If there could be found any 
+     * fitting list item, null will be returned.
+     * 
+     * @param searchText {String} The text with which the label of the ListItem should start with
+     * @return {qx.ui.form.ListItem | null} The found ListItem
+     */
+    __findItem : function(searchText) {
+      // get all elements of the list
+      var elements = this.getChildren();
+      
+      // go threw all elements
+      for (var i = 0; i < elements.length; i++) {
+        // get the label of the current item
+        var currentLabel = elements[i].getLabel();
+       
+        // if there is a label
+        if (currentLabel) {
+          // if the label fits with the search text (ignore case, begins with)
+          if (currentLabel.toLowerCase().indexOf(searchText.toLowerCase()) == 0) {
+            // just return the first found element
+            return elements[i];
+          }          
+        }
+      }
+      // if no element was found, return null
+      return null;
     }
   },
 
