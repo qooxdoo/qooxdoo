@@ -559,8 +559,8 @@ class Generator:
         settings = self.getSettings()
 
         # Get resource list
-        buildRoot= self._config.get('compile/target', "build")
-        buildUri = self._config.get('compile/resourceUri', ".")
+        buildRoot= self._config.get('compile-dist/target', "build")
+        buildUri = self._config.get('compile-dist/resourceUri', ".")
 
         libs = self._config.get("library", [])
         forceUri = Path.rel_from_to(approot, os.path.join(buildRoot, "resource"))
