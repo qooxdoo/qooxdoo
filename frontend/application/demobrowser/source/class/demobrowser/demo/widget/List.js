@@ -167,7 +167,7 @@ qx.Class.define("demobrowser.demo.widget.List",
       for (var i=0; i<l2l.length; i++)
       {
         var decorator = new qx.ui.decoration.Single();
-        decorator.set({widthLeft:10, style:"solid", color:l2l[i]});
+        decorator.set({widthLeft:16, style:"solid", color:l2l[i]});
         
         item2 = new qx.ui.form.ListItem(l2l[i]);
         item2.setDecorator(decorator);
