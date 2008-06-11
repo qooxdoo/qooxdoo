@@ -1367,6 +1367,8 @@ class _ResourceHandler(object):
 # scratch pad:
 
 '''
+from sets import *
+
 jobTriggers = 
 {
   "compile-source" : 
@@ -1392,31 +1394,34 @@ triggersSimpleSet   = Set((x for x in jobTriggers if jobTriggers[x]['type']=="JS
 triggersClassDepSet = Set((x for x in jobTriggers if jobTriggers[x]['type']=="JClassDepJob"))
 triggersCompileSet  = Set((x for x in jobTriggers if jobTriggers[x]['type']=="JCompileJob"))
 
+jobKeySet = Set(job.keys())
 
-job
-
-from sets import *
-
-jobTriggersSet = Set(job.keys())
-
+# let's check for presence of certain triggers
+simpleTriggerKeys         = jobKeySet.intersection(triggersSimpleSet) # we have simple job triggers
+classdependentTriggerKeys = jobKeySet.intersection(triggersClassdependentSet)  # we have classdep. triggers
+compileTriggerKeys        = jobKeySet.intersection(triggersCompileSet)
 
 # process simple job triggers
-
-simpleTriggerKeys = jobKeySet.intersection(triggersSimpleSet) # we have simple job triggers
 if simpleTriggerKeys:
   # process them
   for trigger in simpleTriggerKeys:
     jobTriggers[trigger]['action']()
 
+if not classdependentTriggerKeys and not compileTriggerKeys:
+    return    
+
 # process job triggers that require a class list
-classdependentTriggerKeys = jobKeySet.intersection(triggersClassdependentSet)  # we have classdep. triggers
+classes = self.scanLibrary()
+
 if classdependentTriggerKeys:
   for trigger in classdependentTriggerKeys:
-    jobTriggers[trigger]['action']()
+    jobTriggers[trigger]['action'](classes)
+
+if not compileTriggerKeys:
+    return
 
 # process job triggers that compile
-compileTriggerKeys = jobKeySet.intersection(triggersCompileSet)
 if compileTriggerKeys:
   for trigger in compileTriggerKeys:
-    jobTriggers[trigger]['action']()
+    jobTriggers[trigger]['action'](classes)
 '''
