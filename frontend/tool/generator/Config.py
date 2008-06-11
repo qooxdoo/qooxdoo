@@ -58,9 +58,13 @@ class Config:
         self._fname = os.path.abspath(fname)
         self._dirname = os.path.dirname(self._fname)
 
-    NSSEP       = "/"
-    JOBSKEY     = "jobs"
-    KEYS_WITH_JOB_REFS = ['run', 'extend']
+    NSSEP        = "/"
+    JOBS_KEY     = "jobs"
+    DEFAULTS_KEY = "defaults"
+    EXTEND_KEY   = "extend"
+    RUN_KEY      = "run"
+    #KEYS_WITH_JOB_REFS = ['run', 'extend']
+    KEYS_WITH_JOB_REFS = [RUN_KEY, EXTEND_KEY]
 
     def get(self, key, default=None, confmap=None):
         """Returns a (possibly nested) data element from dict <conf>
@@ -126,8 +130,8 @@ class Config:
         
 
     def getJobsMap(self, default=None):
-        if self.JOBSKEY in self._data:
-            return self._data[self.JOBSKEY]
+        if self.JOBS_KEY in self._data:
+            return self._data[self.JOBS_KEY]
         else:
             return default
 
@@ -141,7 +145,7 @@ class Config:
     # wpbasti: specific to top level configs. Should be done in a separate class
     def resolveIncludes(self, includeTrace=[]):
 
-        def integrateExternalConfig1(target, source, namespace):
+        def integrateExternalConfig_o(target, source, namespace):
             # external config becomes namespace'd entry in jobsmap
             if target.has_key(namespace):
                 raise KeyError, "key already exists: " + namespace
@@ -165,6 +169,16 @@ class Config:
                             for jobname in oldlist:
                                 newlist.append(namespace + self.NSSEP + jobname)
                             sjobs[sjob][key] = newlist
+                    # handle 'defaults' job - we have to fix this here at loadtime
+                    # so we don't have to worry about nested defaults job when
+                    # runExpand runs
+                    if sjobs.has_key(self.DEFAULTS_KEY):
+                        # the 'defaults' job will be namespaced as well
+                        defaults_job_name = namespace + self.NSSEP + self.DEFAULTS_KEY
+                        if sjobs[sjob].has_key(self.EXTEND_KEY):
+                            sjobs[sjob][self.EXTEND_KEY].insert(0, defaults_job_name)
+                        else:
+                            sjobs[sjob][self.EXTEND_KEY] = [defaults_job_name]
                     # add new job
                     tjobs[newjobname] = sjobs[sjob]
             return tjobs
@@ -224,6 +238,29 @@ class Config:
         return t
 
 
+    ##                                                                              
+    # _resolveRuns -- resolve the 'run' key in a job
+    #                                                                               
+    # @param     self     (IN) self
+    # @param     console  (IN) console object to use for logging
+    # @param     jobsmap  (IN/OUT) map of all jobs;
+    # @param     jobs     (IN/OUT) list of names of jobs that will be run
+    # @return             None
+    # @exception RuntimeError  'resolved' key missing in one of jobs' job
+    #
+    # DESCRIPTION
+    #  The 'run' key of a job is a list of jobs to be run in its place, e.g.
+    #  'run' : ['jobA', 'jobB']. This indicates how the resolution of the key is
+    #  done:
+    #  - for each job in the 'run' list, a new job is created ("synthetic jobs")
+    #  - the original job serves as a template so the new jobs get all the
+    #    settings of the original job (apart from the 'run' key)
+    #  - an 'extend' key is set with the particular subjob as its
+    #    only member (assuming any original 'extend' key has already been
+    #    resolved). - This way all the new jobs can be run as regular jobs,
+    #    essentially performing the task of the referenced subjob.
+    #  - in the job list, the original job is replaced by the list of new jobs
+
     # wpbasti: specific to top level configs. Should be done in a separate class
     # Also: Can we do this resolving without a jobs map? Normally, if this is a separate
     # class for handling top-level configs it should be quite easy. To complete resolve
@@ -244,7 +281,10 @@ class Config:
                     
                     # we assume the initial 'run' job has already been resolved, so
                     # we reset it here and set the 'extend' to the subjob
-                    if newjob.has_key('resolved'): del newjob['resolved']
+                    if newjob.has_key('resolved'): 
+                        del newjob['resolved']
+                    else:
+                        raise RuntimeError, "Cannot resolve 'run' key before 'extend' key"
                     newjob['extend'] = [subjob] # extend subjob
                     
                     # add to config
@@ -291,6 +331,13 @@ class Config:
 
             if data.has_key("resolved"):
                 return
+
+            # pre-pend optional 'defauls' job
+            if config.has_key(self.DEFAULTS_KEY):
+                if data.has_key('extend'):
+                    data['extend'].insert(0,self.DEFAULTS_KEY)  # but: 'defaults' key of included config?!
+                else:
+                    data['extend'] = [self.DEFAULTS_KEY]
 
             if data.has_key("extend"):
                 # we have to define the context of the current job (ie. its containing map), so
