@@ -93,7 +93,7 @@ class Config:
             container = confmap
         else:
             container = self._data
-        splits = key.split("/")
+        splits = key.split(self.NSSEP)
 
         # wpbasti: What should this do?
         for item in splits[:-1]:
@@ -238,7 +238,7 @@ class Config:
                 for subjob in entry["run"]:
                     
                     # make new job map job::subjob as copy of job, but extend[subjob]
-                    newjobname = job + '::' + subjob.replace('/','::')
+                    newjobname = job + '::' + subjob.replace(self.NSSEP,'::')
                     newjob = entry.copy()
                     del newjob['run']       # remove 'run' key
                     
@@ -282,9 +282,8 @@ class Config:
                 if not target.has_key(key):
                     target[key] = source[key]
 
-        def _resolveEntry(console, config, job, entryTrace=[]):
-            # cyclic check for recursive extends?? - done
-            # is this expanding nested jobs in their own context?? - yes! (see jobcontext and parent)
+        def _resolveExtend(console, config, job, entryTrace=[]):
+            # resolve the 'extend' entry of a job
             if not self.get(job,False,config):
                 raise RuntimeError, "No such job: %s" % job
 
@@ -294,45 +293,31 @@ class Config:
                 return
 
             if data.has_key("extend"):
-                extends = data["extend"]
                 # we have to define the context of the current job (ie. its containing map), so
                 # we know in which context to evaluate 'extend' entries
-                if job.rfind('/')>-1 and False: # it's a path-like job name
-                    parent = job[:job.rfind('/')]             # then context is the 'dirname' of the job name
-                    jobcontext = self.get(parent,None,config) # get the corresponding map
-                else:
-                    parent = None
-                    jobcontext = config  # we are top-level
+                jobcontext = config  # we are top-level
 
                 # loop through 'extend' entries
+                extends = data["extend"]
                 for entry in extends:
                     # cyclic check: have we seen this already?
                     if entry in entryTrace:
                         console.warn("Extend entry already seen: %s" % str(entryTrace+[job,entry]))
                         sys.exit(1)
                     
-                    # make sure this entry job is fully resolved
-                    _resolveEntry(console, jobcontext, entry, entryTrace + [job])
+                    # make sure this entry job is fully resolved in the correct context
+                    _resolveExtend(console, jobcontext, entry, entryTrace + [job])
 
                     # extract the job definition of the entry from the current jobcontext (mind 3rd param!)
                     pjob = self.get(entry, None, jobcontext )
                     
-                    # if this entry job has a 'run' key (which will be run later), we have to make
-                    # sure that those run entries are prefixed with the proper path, so they reference
-                    # the correct nested jobs
-                    if pjob.has_key('run') and entry.rfind('/')>-1 and False:
-                        
-                        # prefix job names
-                        eparent = entry[:entry.rfind('/')]  # get path prefix of the entry job
-                        pjob['run'] = ["/".join([eparent,x]) for x in pjob['run']] # and prefix it to its 'run' jobs
-                        
-                    # now merge the fully expanded and patched parent job into the current job
+                    # now merge the fully expanded job into the current job
                     _mergeEntry(data, pjob)
 
             data["resolved"] = True
 
         for job in jobs:
-            _resolveEntry(console, config, job)
+            _resolveExtend(console, config, job)
 
 
     # wpbasti: In my thinking specific to Jobs? Isn't it? Would a as-late-as-possible resolvement hurt?
