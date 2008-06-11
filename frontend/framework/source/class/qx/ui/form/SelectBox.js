@@ -56,15 +56,14 @@ qx.Class.define("qx.ui.form.SelectBox",
     this._downArrow = new qx.ui.basic.Image("decoration/arrows/down.gif");
     this._downArrow.setPaddingRight(4);
     this._downArrow.setPaddingLeft(5);
-
     this._add(this._downArrow);
 
-    // create the popup list
+    // create the popup for the list
     this._listPopup = new qx.ui.popup.Popup(new qx.ui.layout.VBox()).set({
       autoHide: false
     });
 
-    // this._listPopup.setRes
+    // creaete the list
     this._list = new qx.ui.form.List().set({
       focusable: false,
       keepFocus: true,
@@ -75,24 +74,34 @@ qx.Class.define("qx.ui.form.SelectBox",
     });
     this._listPopup.add(this._list);
 
-
+    // register a change listener for the list selection
     this._list.addListener("change", function(e) {
       if (e.getData().length > 0) {
         this.setSelectedItem(e.getData()[0]);
       }
     }, this);
 
-
+    // register an resize listener 
     this.addListener("resize", function(e) {
       this._list.setMinWidth(e.getData().width);
     });
 
+    // register the mouse and keyboard listener
     this.addListener("click", this._onClick, this);
     this.addListener("keypress", this._onKeyPress);
     this.addListener("blur", this._hideList, this);
+    // Listener for Search as you type (forward the keyinput event)
+    this.addListener("keyinput", function(e) {
+      // clone the event and recalibrate the event
+      var clone = e.clone();
+      clone.setTarget(this._list);
+      clone.setBubbles(false);
+      // forwar it to the list
+      this._list.dispatchEvent(clone);
+    }, this);
 
-    this._listPopup.addListener("mouseup", this._hideList, this);
-    this._listPopup.addListener("changeVisibility", this._onChangeVisibilityList, this);
+    // add a hide listener for clicks on the list
+    this._listPopup.addListener("mouseup", this._hideList, this);    
   },
 
 
@@ -165,6 +174,7 @@ qx.Class.define("qx.ui.form.SelectBox",
       this._atom.setLabel(value.getLabel());
       this._atom.setIcon(value.getIcon());
       this._list.select(value);
+      this.activate();
     },
 
     _applyMaxListHeight : function(value, old) {
@@ -268,34 +278,6 @@ qx.Class.define("qx.ui.form.SelectBox",
         this._hideList();
       } else {
         this._showList();
-      }
-    },
-
-
-    _onChangeVisibilityList : function(e)
-    {
-      var root = qx.core.Init.getApplication().getRoot();
-
-      // Register events for autoHide
-      var isVisible = e.getValue() == "visible";
-      if (isVisible) {
-        root.addListener("mousedown", this._onMouseDownRoot, this, true);
-      } else {
-        root.removeListener("mousedown", this._onMouseDownRoot, this, true);
-      }
-    },
-
-
-    _onMouseDownRoot : function(e)
-    {
-      var target = e.getTarget();
-      if (
-        target !== this &&
-        target !== this._listPopup &&
-        !qx.ui.core.Widget.contains(this, target) &&
-        !qx.ui.core.Widget.contains(this._listPopup, target)
-      ) {
-        this._hideList();
       }
     }
 
