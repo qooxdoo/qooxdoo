@@ -44,25 +44,21 @@ qx.Class.define("qx.ui.form.ComboBox",
     this._setLayout(layout);
     layout.setAlignY("middle");
 
-    // create the label
-    this._atom = new qx.ui.basic.Atom(" ");
-    this._add(this._atom, {flex:1});
-    // add the spacer
-    this._add(new qx.ui.core.Spacer(), {flex: 1});
-
-    // create the down arrow
-    this._downArrow = new qx.ui.basic.Image("decoration/arrows/down.gif");
-    this._downArrow.setPaddingRight(4);
-    this._downArrow.setPaddingLeft(5);
-
-    this._add(this._downArrow);
+    // create the textField
+    this._textField = new qx.ui.form.TextField();
+    this._textField.setAppearance("spinner-text-field");    
+    this._add(this._textField, {flex: 1});
+    
+    // create the button
+    this._button = new qx.ui.form.Button(null, "decoration/arrows/down.gif");
+    this._button.setFocusable(false);
+    this._add(this._button);
 
     // create the popup list
     this._listPopup = new qx.ui.popup.Popup(new qx.ui.layout.VBox()).set({
       autoHide: false
     });
 
-    // this._listPopup.setRes
     this._list = new qx.ui.form.List().set({
       focusable: false,
       keepFocus: true,
@@ -85,12 +81,15 @@ qx.Class.define("qx.ui.form.ComboBox",
       this._list.setMinWidth(e.getData().width);
     });
 
-    this.addListener("click", this._onClick, this);
+    this._button.addListener("click", this._onClick, this);
     this.addListener("keypress", this._onKeyPress);
     this.addListener("blur", this._hideList, this);
 
     this._listPopup.addListener("mouseup", this._hideList, this);
     this._listPopup.addListener("changeVisibility", this._onChangeVisibilityList, this);
+    
+    this._textField.addListener("blur", this._onTextBlur, this);
+    this._textField.addListener("focus", this._onTextFocus, this);    
   },
 
 
@@ -108,26 +107,26 @@ qx.Class.define("qx.ui.form.ComboBox",
       refine : true,
       init : 120
     },
-/*
-    // overridden
-    appearance :
-    {
-      refine : true,
-      init : "button"
-    },
-*/
-    selectedItem :
-    {
-      check : "qx.ui.form.ListItem",
-      apply : "_applySelectedItem"
-    },
 
+    // overridden
     focusable :
     {
       refine : true,
       init : true
     },
 
+    // overridden
+    appearance :
+    {
+      refine : true,
+      init : "spinner"
+    },
+
+    selectedItem :
+    {
+      check : "qx.ui.form.ListItem",
+      apply : "_applySelectedItem"
+    },
 
     /**
      * The maximum height of the list popup. Setting this value to
@@ -160,8 +159,7 @@ qx.Class.define("qx.ui.form.ComboBox",
 
     _applySelectedItem : function(value, old)
     {
-      // 
-      
+      this._textField.setValue(value.getLabel());
       this._list.select(value);
     },
 
@@ -176,6 +174,12 @@ qx.Class.define("qx.ui.form.ComboBox",
     },
 
 
+
+    /*
+    ---------------------------------------------------------------------------
+      LIST STUFF
+    ---------------------------------------------------------------------------
+    */
     _showList : function()
     {
       var pos = qx.bom.element.Location.get(this.getContainerElement().getDomElement(), "box");
@@ -216,11 +220,52 @@ qx.Class.define("qx.ui.form.ComboBox",
     _hideList : function()
     {
       this._listPopup.hide();
-      this.activate();
+      this._textField.activate();
+    },
+
+    
+    /*
+    ---------------------------------------------------------------------------
+      FOCUS
+    ---------------------------------------------------------------------------
+    */    
+    /**
+     * Callback method for the "blur" event of the textfield.
+     *
+     * @type member
+     * @param e {qx.ui.event.type.Event} blur event
+     */
+    _onTextBlur: function(e)
+    {
+      this.removeState("focused");
     },
 
 
+    /**
+     * Callback method for the "focus" event of the textfield.
+     *
+     * @type member
+     * @param e {qx.ui.event.type.Event} blur event
+     */
+    _onTextFocus : function(e) {
+      this.addState("focused");
+    },
+        
+    
+    // overridden
+    _onFocus : function(e)
+    {
+      // Redirct focus to text field
+      // State handling is done by _onTextFocus afterwards
+      this._textField.focus();
+    },
+    
 
+    /*
+    ---------------------------------------------------------------------------
+      KEY HANDLER
+    ---------------------------------------------------------------------------
+    */
     _onKeyPress : function(e)
     {
       // get the key identifier
