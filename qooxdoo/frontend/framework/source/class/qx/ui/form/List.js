@@ -141,7 +141,7 @@ qx.Class.define("qx.ui.form.List",
     {
       check : "Boolean",
       init : true
-    },    
+    }
   },
 
 
