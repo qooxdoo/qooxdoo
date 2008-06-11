@@ -337,9 +337,9 @@ class Config:
                 return
 
             # pre-pend optional 'defauls' job
-            if config.has_key(self.DEFAULTS_KEY):
+            if config.has_key(self.DEFAULTS_KEY) and job != self.DEFAULTS_KEY:
                 if data.has_key('extend'):
-                    data['extend'].insert(0,self.DEFAULTS_KEY)  # but: 'defaults' key of included config?!
+                    data['extend'].insert(0,self.DEFAULTS_KEY)
                 else:
                     data['extend'] = [self.DEFAULTS_KEY]
 
