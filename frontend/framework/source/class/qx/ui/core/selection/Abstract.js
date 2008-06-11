@@ -116,6 +116,21 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     ---------------------------------------------------------------------------
     */
 
+
+    /**
+     * Sets the lead to the given item.
+     *
+     * @type member
+     * @param item {Object} Any valid item
+     * @return {void}
+     */
+    setLeadItem : function(item)
+    {
+      this._setLeadItem(item);
+      this._scrollItemIntoView(item);
+    },
+
+
     /**
      * Selects all items of the managed object.
      *
