@@ -91,14 +91,12 @@ qx.Class.define("qx.event.dispatch.Direct",
     {
       event.setEventPhase(qx.event.type.Event.AT_TARGET);
 
-      var currentTarget = event.getCurrentTarget();
-
-      var listeners = this._manager.getListeners(currentTarget, type, false);
+      var listeners = this._manager.getListeners(target, type, false);
       if (listeners)
       {
         for (var i=0, l=listeners.length; i<l; i++)
         {
-          var context = listeners[i].context || currentTarget;
+          var context = listeners[i].context || target;
           listeners[i].handler.call(context, event);
         }
       }
