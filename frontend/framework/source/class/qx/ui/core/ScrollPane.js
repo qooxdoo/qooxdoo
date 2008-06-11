@@ -132,9 +132,6 @@ qx.Class.define("qx.ui.core.ScrollPane",
     },
 
 
-
-
-
     /*
     ---------------------------------------------------------------------------
       EVENT LISTENER
@@ -152,6 +149,239 @@ qx.Class.define("qx.ui.core.ScrollPane",
     },
 
 
+    /*
+    ---------------------------------------------------------------------------
+      ITEM LOCATION SUPPORT
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Returns the top offset of the given item in relation to the
+     * inner height of this widget.
+     *
+     * @type member
+     * @param item {qx.ui.core.Widget} Item to query
+     * @return {Integer} Top offset
+     */
+    getItemTop : function(item)
+    {
+      var top = 0;
+
+      do
+      {
+        top += item.getBounds().top;
+        item = item.getLayoutParent();
+      }
+      while (item && item !== this);
+
+      return top;
+    },
+
+
+    /**
+     * Returns the top offset of the end of the given item in relation to the
+     * inner height of this widget.
+     *
+     * @type member
+     * @param item {qx.ui.core.Widget} Item to query
+     * @return {Integer} Top offset
+     */
+    getItemBottom : function(item) {
+      return this.getItemTop(item) + item.getBounds().height;
+    },
+
+
+    /**
+     * Returns the left offset of the given item in relation to the
+     * inner width of this widget.
+     *
+     * @type member
+     * @param item {qx.ui.core.Widget} Item to query
+     * @return {Integer} Top offset
+     */
+    getItemLeft : function(item)
+    {
+      var left = 0;
+
+      do
+      {
+        left += item.getBounds().left;
+        item = item.getLayoutParent();
+      }
+      while (item && item !== this);
+
+      return left;
+    },
+
+
+    /**
+     * Returns the left offset of the end of the given item in relation to the
+     * inner width of this widget.
+     *
+     * @type member
+     * @param item {qx.ui.core.Widget} Item to query
+     * @return {Integer} Right offset
+     */
+    getItemRight : function(item) {
+      return this.getItemLeft(item) + item.getBounds().width;
+    },
+
+
+    /*
+    ---------------------------------------------------------------------------
+      ITEM INTO VIEW
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * The method scrolls the given item into view.
+     *
+     * @type static
+     * @param item {qx.ui.core.Widget} Item to scroll into view
+     * @param alignX {String?null} Alignment of the item. Allowed values:
+     *   <code>left</code> or <code>right</code>. Could also be null.
+     *   Without a given alignment the method tries to scroll the widget
+     *   with the minimum effort needed.
+     * @param alignY {String?null} Alignment of the item. Allowed values:
+     *   <code>top</code> or <code>bottom</code>. Could also be null.
+     *   Without a given alignment the method tries to scroll the widget
+     *   with the minimum effort needed.
+     */
+    scrollItemIntoView : function(item, alignX, alignY)
+    {
+      this.scrollItemIntoViewX(item, alignX);
+      this.scrollItemIntoViewY(item, alignY);
+    },
+
+
+    /**
+     * The method scrolls the given item into view (x-axis only).
+     *
+     * @type static
+     * @param item {qx.ui.core.Widget} Item to scroll into view
+     * @param align {String?null} Alignment of the item. Allowed values:
+     *   <code>left</code> or <code>right</code>. Could also be null.
+     *   Without a given alignment the method tries to scroll the widget
+     *   with the minimum effort needed.
+     */
+    scrollItemIntoViewX : function(item, align)
+    {
+      var paneSize = this.getBounds();
+      var itemSize = item.getBounds();
+
+      if (!paneSize || !itemSize)
+      {
+        this.__lazyScrollIntoViewX = [ item, align ];
+        if (!this.__lazyScrollIntoViewY) {
+          this.addListener("appear", this._onAppear);
+        }
+      }
+      else
+      {
+        delete this.__lazyScrollIntoViewX;
+        if (!this.__lazyScrollIntoViewY) {
+          this.removeListener("appear", this._onAppear);
+        }
+
+        var scrollPos = this.getScrollX();
+        var itemPos = this.getItemLeft(item);
+
+        if (align == null && itemSize.width > paneSize.width)
+        {
+          if (itemPos > scrollPos) {
+            this.scrollToX(itemPos);
+          } else if ((itemPos + itemSize.width) < (paneSize.width + scrollPos)) {
+            this.scrollToX(itemPos + itemSize.width - paneSize.width);
+          }
+        }
+        else if (align === "left" || (align == null &&itemPos < scrollPos))
+        {
+          this.scrollToX(itemPos);
+        }
+        else if (align === "right" || (align == null && (itemPos + itemSize.width) > (paneSize.width + scrollPos)))
+        {
+          this.scrollToX(itemPos + itemSize.width - paneSize.width);
+        }
+      }
+    },
+
+
+    /**
+     * The method scrolls the given item into view (y-axis only).
+     *
+     * @type static
+     * @param item {qx.ui.core.Widget} Item to scroll into view
+     * @param align {String?null} Alignment of the element. Allowed values:
+     *   <code>top</code> or <code>bottom</code>. Could also be null.
+     *   Without a given alignment the method tries to scroll the widget
+     *   with the minimum effort needed.
+     */
+    scrollItemIntoViewY : function(item, align)
+    {
+      var paneSize = this.getBounds();
+      var itemSize = item.getBounds();
+
+      if (!paneSize || !itemSize)
+      {
+        this.__lazyScrollIntoViewY = [ item, align ];
+        if (!this.__lazyScrollIntoViewX) {
+          this.addListener("appear", this._onAppear);
+        }
+      }
+      else
+      {
+        delete this.__lazyScrollIntoViewY;
+        if (!this.__lazyScrollIntoViewX) {
+          this.removeListener("appear", this._onAppear);
+        }
+
+        var scrollPos = this.getScrollY();
+        var itemPos = this.getItemTop(item);
+
+        if (align == null && itemSize.height > paneSize.height)
+        {
+          if (itemPos > scrollPos) {
+            this.scrollToX(itemPos);
+          } else if ((itemPos + itemSize.height) < (paneSize.height + scrollPos)) {
+            this.scrollToX(itemPos + itemSize.height - paneSize.height);
+          }
+        }
+        else if (align === "top" || (align == null && itemPos < scrollPos))
+        {
+          this.scrollToY(itemPos);
+        }
+        else if (align === "bottom" || (align == null && (itemPos + itemSize.height) > (paneSize.height + scrollPos)))
+        {
+          this.scrollToY(itemPos + itemSize.height - paneSize.height);
+        }
+      }
+    },
+
+
+    /**
+     * Event handler to handle appear event and synchronize scroll position
+     *
+     * @param e {qx.event.type.Event} Property change event
+     * @return {void}
+     */
+    _onAppear : function(e)
+    {
+      var intoViewX = this.__lazyScrollIntoViewX;
+      if (intoViewX)
+      {
+        this.scrollItemIntoViewX.apply(this, intoViewX);
+        delete this.__lazyScrollIntoViewX;
+      }
+
+      var intoViewY = this.__lazyScrollIntoViewY;
+      if (intoViewY)
+      {
+        this.scrollItemIntoViewY.apply(this, intoViewY);
+        delete this.__lazyScrollIntoViewY;
+      }
+
+      this.removeListener("appear", this._onAppear);
+    },
 
 
     /*
