@@ -295,31 +295,38 @@ class Config:
 
             if data.has_key("extend"):
                 extends = data["extend"]
-                if job.rfind('/')>-1 and False: # TODO: branch defunct
-                    parent = job[:job.rfind('/')]
-                    jobcontext = self.get(parent,None,config) # job context has the 'parent' key
+                # we have to define the context of the current job (ie. its containing map), so
+                # we know in which context to evaluate 'extend' entries
+                if job.rfind('/')>-1 and False: # it's a path-like job name
+                    parent = job[:job.rfind('/')]             # then context is the 'dirname' of the job name
+                    jobcontext = self.get(parent,None,config) # get the corresponding map
                 else:
                     parent = None
                     jobcontext = config  # we are top-level
 
+                # loop through 'extend' entries
                 for entry in extends:
-                    # cyclic check
+                    # cyclic check: have we seen this already?
                     if entry in entryTrace:
                         console.warn("Extend entry already seen: %s" % str(entryTrace+[job,entry]))
                         sys.exit(1)
+                    
+                    # make sure this entry job is fully resolved
+                    _resolveEntry(console, jobcontext, entry, entryTrace + [job])
 
+                    # extract the job definition of the entry from the current jobcontext (mind 3rd param!)
                     pjob = self.get(entry, None, jobcontext )
                     
-                    # resolve 'extend'
-                    _resolveEntry(console, jobcontext, entry, entryTrace + [job])
-                    
-                    # prepare for 'run'
-                    if pjob.has_key('run') and entry.rfind('/')>-1 and False: # TODO: branch defunct
+                    # if this entry job has a 'run' key (which will be run later), we have to make
+                    # sure that those run entries are prefixed with the proper path, so they reference
+                    # the correct nested jobs
+                    if pjob.has_key('run') and entry.rfind('/')>-1 and False:
                         
                         # prefix job names
-                        eparent = entry[:entry.rfind('/')]
-                        pjob['run'] = ["/".join([eparent,x]) for x in pjob['run']]
+                        eparent = entry[:entry.rfind('/')]  # get path prefix of the entry job
+                        pjob['run'] = ["/".join([eparent,x]) for x in pjob['run']] # and prefix it to its 'run' jobs
                         
+                    # now merge the fully expanded and patched parent job into the current job
                     _mergeEntry(data, pjob)
 
             data["resolved"] = True
@@ -534,66 +541,13 @@ class Job(object):
         return self._data
 
     def _listPrepend(source, target):
-        """returns new list with source prepended to target"""
-        l = target[:]
-        for i in range(len(source)-1,-1,-1):
-            l.insert(0,source[i])
-        return l
-
+        pass
+    
     def _mergeEntry(target, source):
-        for key in source:
-            # merge 'let' key rather than shadowing
-            #if key == 'let'and target.has_key(key):
-            #    target[key] = _listPrepend(source[key],target[key])
-            
-            # merge 'settings' and 'let' key rather than shadowing
-            # wpbasti: What's about variants, use and require => they are all comparable to settings
-            if (key in ['settings','let']) and target.has_key(key):
-                target[key] = self._mapMerge(source[key],target[key])
-            if not target.has_key(key):
-                target[key] = source[key]
-
+        pass
 
     def resolveExtend(self, console, config, entryTrace=[]):
-        # cyclic check for recursive extends?? - done
-        # is this expanding nested jobs in their own context?? - yes! (see jobcontext and parent)
-        if not self.get(job,False,config):
-            console.warn("No such job: %s" % job)
-            sys.exit(1)
-
-        data = self.getData()
-
-        if data.has_key("resolved"):
-            return
-
-        if data.has_key("extend"):
-            extends = data["extend"]
-            if job.rfind('/')>-1:
-                parent = job[:job.rfind('/')]
-                jobcontext = self.get(parent,None,config) # job context has the 'parent' key
-            else:
-                parent = None
-                jobcontext = config  # we are top-level
-
-            for entry in extends:
-                # cyclic check
-                if entry in entryTrace:
-                    console.warn("Extend entry already seen: %s" % str(entryTrace+[job,entry]))
-                    sys.exit(1)
-
-                pjob = self.get(entry, None, jobcontext )
-                # resolve 'extend'
-                _resolveEntry(console, jobcontext, entry, entryTrace + [job])
-                # prepare for 'run'
-                if pjob.has_key('run') and entry.rfind('/')>-1:
-                    # prefix job names
-                    eparent = entry[:entry.rfind('/')]
-                    pjob['run'] = ["/".join([eparent,x]) for x in pjob['run']]
-                _mergeEntry(data, pjob)
-
-        data["resolved"] = True
-        return self
-
+        pass
 
 # wpbasti: TODO: Put into separate file
 class Manifest(object):
