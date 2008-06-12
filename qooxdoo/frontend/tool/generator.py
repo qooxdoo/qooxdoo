@@ -29,7 +29,7 @@ from generator.Generator import Generator
 def listJobs(console, jobs):
     console.info("Available jobs:")
     console.indent()
-    for job in jobs:
+    for job in sorted(jobs):
         console.info(job)
     console.outdent()       
 
