@@ -44,7 +44,7 @@ qx.Class.define("demobrowser.demo.widget.SelectBox",
 
 
       ///////////////////////////////////////////////////////////////
-      // examlpe 1: Only text with different length
+      // example 1: Only text with different length
       var selectBox1 = new qx.ui.form.SelectBox();
       for (var i = 0; i < 30; i++) {
         var tempItem = new qx.ui.form.ListItem("Item " + Math.pow(10, i));
@@ -77,7 +77,7 @@ qx.Class.define("demobrowser.demo.widget.SelectBox",
       ///////////////////////////////////////////////////////////////
 
       ///////////////////////////////////////////////////////////////
-      // examlpe 3: a lot of choices
+      // example 3: a lot of choices
       var selectBox3 = new qx.ui.form.SelectBox();
       selectBox3.setMaxListHeight(null);
       for (var i = 0; i < 300; i++) {
@@ -90,7 +90,7 @@ qx.Class.define("demobrowser.demo.widget.SelectBox",
 
 
       ///////////////////////////////////////////////////////////////
-      // examlpe 4: fonts
+      // example 4: fonts
       var selectBox4 = new qx.ui.form.SelectBox();
       var font1 = new qx.bom.Font(12, ["Tahoma"]);
       var font2 = new qx.bom.Font(15, ["Arial"]);
@@ -107,7 +107,7 @@ qx.Class.define("demobrowser.demo.widget.SelectBox",
 
 
       ///////////////////////////////////////////////////////////////
-      // examlpe 5: long button, short text with disabled fields
+      // example 5: long button, short text with disabled fields
       var selectBox5 = new qx.ui.form.SelectBox();
       selectBox5.setWidth(300);
       selectBox5.setMaxListHeight(100);
