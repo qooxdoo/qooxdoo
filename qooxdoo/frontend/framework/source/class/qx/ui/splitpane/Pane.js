@@ -41,6 +41,8 @@ qx.Class.define("qx.ui.splitpane.Pane",
   construct : function(orientation)
   {
     this.base(arguments);
+    
+    this.__sliderSize = 25;
 
     // Create and add slider
     this._slider = new qx.ui.splitpane.Slider(this);
@@ -181,13 +183,21 @@ qx.Class.define("qx.ui.splitpane.Pane",
         return;
       }
 
+      var splitterElement = this._splitter.getContainerElement().getDomElement();
+      var splitterLocation = qx.bom.element.Location.get(splitterElement);
+      var splitterWidht = qx.bom.element.Dimension.getWidth(splitterElement);
+
+      // Store offset between mouse event coordinates and splitter
+      this._sizes = {
+        "left" : e.getDocumentLeft() - splitterLocation.left,
+        "right" : (splitterLocation.left + splitterWidht) - e.getDocumentLeft()
+      };
+
       // Synchronize slider to splitter size
       var bounds = this._splitter.getBounds();
       this._slider.setUserBounds(bounds.left, bounds.top, bounds.width, bounds.height);
       this._slider.setZIndex(this._splitter.getZIndex() + 1);
       this._slider.show();
-
-      this.debug("SplitterLeft: " + bounds.left);
 
       // Enable session
       this.__activeDragSession = true;
@@ -212,11 +222,9 @@ qx.Class.define("qx.ui.splitpane.Pane",
         splitterLeft = splitterLocation.left;
         splitterRight = splitterLocation.right;
 
-        this._splitterOffset = eventLeft - splitterLeft;
-
-        if (splitterElement.offsetWidth < 5)
+        if (splitterElement.offsetWidth < this.__sliderSize)
         {
-          var sizeDiff = Math.floor((5 - splitterElement.offsetWidth) / 2);
+          var sizeDiff = Math.floor((this.__sliderSize - splitterElement.offsetWidth) / 2);
           splitterLeft -= sizeDiff;
           splitterRight += sizeDiff;
         }
@@ -239,14 +247,12 @@ qx.Class.define("qx.ui.splitpane.Pane",
       var eventLeft = e.getDocumentLeft();
       var eventTop = e.getDocumentTop();
 
-      this.debug("ActiveMove: " + eventLeft + " :: " + this._splitterOffset);
-
       var paneElement = this.getContainerElement().getDomElement();
       var paneLocation = qx.bom.element.Location.get(paneElement);
 
-      var firstWidth = eventLeft - paneLocation.left - this._splitterOffset;
-      var secondWidth = paneLocation.right - this._splitterOffset - eventLeft;
-
+      var firstWidth = eventLeft - paneLocation.left - this._sizes.left;
+      var secondWidth = paneLocation.right - this._sizes.right - eventLeft;
+     
       var begin = this.getBegin();
       var end = this.getEnd();
 
@@ -263,13 +269,11 @@ qx.Class.define("qx.ui.splitpane.Pane",
         secondWidth > secondHint.minWidth &&
         secondWidth < secondHint.maxWidth
       ){
+        this._sizes.first = firstWidth;
+        this._sizes.second = secondWidth;
+        console.info(firstWidth, firstHint.minWidth)
 
-        this._sizes = {
-          "first" : firstWidth,
-          "second" : secondWidth
-        };
         this._slider.getContainerElement().setStyle("left", firstWidth + "px", true);
-
       }
 
     },
@@ -283,9 +287,9 @@ qx.Class.define("qx.ui.splitpane.Pane",
       }
 
       this._setSizes(e);
-      
+
       this._slider.setOpacity(0.6)
-      
+
       //this._slider.exclude();
       this.releaseCapture();
 
@@ -295,7 +299,8 @@ qx.Class.define("qx.ui.splitpane.Pane",
 
 
     _onLoseCapture : function(e) {
-      this._onMouseUp(e);
+      //TODO
+//      this._onMouseUp(e);
     },
 
 
@@ -305,27 +310,26 @@ qx.Class.define("qx.ui.splitpane.Pane",
       if (!this._sizes) {
         return;
       }
-      
+
       var firstWidget = this.getBegin();
       var secondWidget = this.getEnd();
 
       var firstFlexValue = firstWidget.getLayoutProperties().flex;
       var secondFlexValue = secondWidget.getLayoutProperties().flex;
       
-      console.log(this._sizes.first, this._sizes.second)
-
-      
       // Both widgets have flex values
       if( (firstFlexValue != 0) && (secondFlexValue != 0))
       {
         var sum = this._sizes.first + this._sizes.second;
-
-        // TODO: optimize this block
-        firstWidget.setLayoutProperties({ "flex" : (this._sizes.first / sum)*100 })
-        secondWidget.setLayoutProperties({ "flex" : (this._sizes.second / sum)*100 })
+        var firstSize = (this._sizes.first / sum);
+        var secondSize = (this._sizes.second / sum);
         
-        console.warn(this._sizes.first, this._sizes.second)
-        console.log((this._sizes.first / sum), (this._sizes.second / sum))
+        if(isNaN(firstSize) || isNaN(secondSize)){
+          return ;
+        }
+
+        firstWidget.setLayoutProperties( { "flex" : firstSize} );
+        secondWidget.setLayoutProperties( { "flex" : secondSize} );
       }
       // Only first widget has a flex value
       else if(firstFlexValue != 0)
@@ -344,9 +348,6 @@ qx.Class.define("qx.ui.splitpane.Pane",
         secondWidget.setWidth(this._sizes.second);
       }
 
-      console.log(firstWidget.getBounds().width, secondWidget.getBounds().width)
-
-      
     },
 
 
