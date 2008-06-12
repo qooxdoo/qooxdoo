@@ -202,11 +202,16 @@ qx.Class.define("qx.ui.core.ScrollPane",
     getItemLeft : function(item)
     {
       var left = 0;
+      var parent;
 
       do
       {
         left += item.getBounds().left;
-        item = item.getLayoutParent();
+        parent = item.getLayoutParent();
+        if (parent) {
+          left += parent.getInsets().left;
+        }
+        item = parent;
       }
       while (item && item !== this);
 

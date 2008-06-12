@@ -28,6 +28,31 @@ qx.Class.define("qx.ui.tabview.Bar",
 
 
 
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  /**
+   * @param orientation {String?"horizontal"} The slide bar orientation
+   */
+  construct : function(orientation)
+  {
+    this.base(arguments, orientation);
+    
+    /*
+    this._getChildControl("pane").addListener("addChildWidget", function(e) {
+      var child = e.getData();
+      console.log("add", child);
+      child.addListener("mousedown", function(e) {
+        this._scrollPane.scrollItemIntoView(child);
+      }, this);
+    }, this);
+    */
+  },
+
+
 
   /*
   *****************************************************************************
@@ -78,6 +103,75 @@ qx.Class.define("qx.ui.tabview.Bar",
       }
       var control = control || this.base(arguments, id);
       return control;
+    },
+
+
+    scrollButtonIntoView : function(button)
+    {
+      var buttons = this._getChildControl("pane").getChildren();
+
+      var index = buttons.indexOf(button);
+      if (index == 0) {
+        this._scrollPane.scrollToX(0);
+      } else if (index == buttons.length-1) {
+        this._scrollPane.scrollToX(32000);
+      } else {
+        this._scrollPane.scrollItemIntoView(button);
+      }
+    },
+
+
+    _scrollBack : function()
+    {
+      var pane = this._getChildControl("pane");
+      var insets = pane.getInsets();
+
+      var scrollPos = this._scrollPane.getScrollX();
+      var outerSize = this._scrollPane.getBounds().width;
+
+      var buttons = pane.getChildren();
+
+      for (i=buttons.length-1; i>=0; i--)
+      {
+        var button = buttons[i];
+
+        var bounds = button.getBounds();
+        var left = bounds.left + insets.left;
+        var right = left + bounds.width;
+
+        if (left < scrollPos)
+        {
+          this.scrollButtonIntoView(button);
+          break;
+        }
+      }
+    },
+
+
+    _scrollForward : function()
+    {
+      var pane = this._getChildControl("pane");
+      var insets = pane.getInsets();
+
+      var scrollPos = this._scrollPane.getScrollX();
+      var outerSize = this._scrollPane.getBounds().width;
+
+      var buttons = pane.getChildren();
+
+      for (var i=0; i<buttons.length; i++)
+      {
+        var button = buttons[i];
+
+        var bounds = button.getBounds();
+        var left = bounds.left + insets.left;
+        var right = left + bounds.width;
+
+        if (left > outerSize + scrollPos || right > outerSize + scrollPos)
+        {
+          this.scrollButtonIntoView(button);
+          break;
+        }
+      }
     }
   }
 });
