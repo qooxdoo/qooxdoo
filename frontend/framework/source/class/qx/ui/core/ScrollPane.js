@@ -58,7 +58,19 @@ qx.Class.define("qx.ui.core.ScrollPane",
   events :
   {
     /** Fired on resize of both the container or the content. */
-    update : "qx.event.type.Event"
+    update : "qx.event.type.Event",
+
+    /**
+     * Fired if the pane is scrolled vertically. The data field contains the new
+     * scroll position.
+     */
+    scrollY : "qx.event.type.Data",
+
+    /**
+     * Fired if the pane is scrolled horizontally. The data field contains the new
+     * scroll position.
+     */
+    scrollX : "qx.event.type.Data"
   },
 
 
@@ -234,6 +246,23 @@ qx.Class.define("qx.ui.core.ScrollPane",
 
     /*
     ---------------------------------------------------------------------------
+      DIMENSIONS
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * The size (identical with the preferred size) of of the content.
+     *
+     * @type member
+     * @return {Map} Size of the content (keys: <code>width</code> and <code>height</code>)
+     */
+    getScrollSize : function() {
+      return this.getChild().getBounds();
+    },
+
+
+    /*
+    ---------------------------------------------------------------------------
       ITEM INTO VIEW
     ---------------------------------------------------------------------------
     */
@@ -402,8 +431,30 @@ qx.Class.define("qx.ui.core.ScrollPane",
      * @param value {Integer} The vertical position to scroll to.
      * @return {void}
      */
-    scrollToX : function(value) {
+    scrollToX : function(value)
+    {
+      // normalize
+      if (value < 0) {
+        value = 0;
+      }
+
+      var paneSize = this.getBounds();
+      var scrollSize = this.getScrollSize();
+
+      if (paneSize && scrollSize)
+      {
+        var scrollMax = Math.max(0, scrollSize.width - paneSize.width);
+        var value = Math.min(value, scrollMax);
+      }
+
+      // compare with current value
+      if (this.getScrollX() == value) {
+        return;
+      }
+
+      // set new value if different
       this._contentElement.scrollToX(value);
+      this.fireDataEvent("scrollX", value);
     },
 
 
@@ -425,8 +476,30 @@ qx.Class.define("qx.ui.core.ScrollPane",
      * @param value {Integer} The horizontal position to scroll to.
      * @return {void}
      */
-    scrollToY : function(value){
+    scrollToY : function(value)
+    {
+      // normalize
+      if (value < 0) {
+        value = 0;
+      }
+
+      var paneSize = this.getBounds();
+      var scrollSize = this.getScrollSize();
+
+      if (paneSize && scrollSize)
+      {
+        var scrollMax = Math.max(0, scrollSize.height - paneSize.height);
+        var value = Math.min(value, scrollMax);
+      }
+
+      // compare with current value
+      if (this.getScrollY() == value) {
+        return;
+      }
+
+      // set new value if different
       this._contentElement.scrollToY(value);
+      this.fireDataEvent("scrollY", value);
     },
 
 

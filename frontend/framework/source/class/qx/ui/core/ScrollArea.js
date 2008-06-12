@@ -145,6 +145,12 @@ qx.Class.define("qx.ui.core.ScrollArea",
           control = new qx.ui.core.ScrollPane();
 
           control.addListener("update", this._computeScrollbars, this);
+          control.addListener("scrollX", function(e) {
+            this.scrollToX(e.getData());
+          }, this);
+          control.addListener("scrollY", function(e) {
+            this.scrollToY(e.getData());
+          }, this);
           this._add(control, {row: 0, column: 0});
           break;
 
@@ -266,38 +272,6 @@ qx.Class.define("qx.ui.core.ScrollArea",
       var scrollbar = this._getChildControl("scrollbarY", true);
       return scrollbar ? scrollbar.getPosition() : 0;
     },
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      MORE DIMENSIONS
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * The size of the pane. This is the available space for the content.
-     * This already substracts a optionally visible scrollbars.
-     *
-     * @type member
-     * @return {Map} Size of the pane (keys: <code>width</code> and <code>height</code>)
-     */
-    getPaneSize : function() {
-      return this._getChildControl("pane").getBounds();
-    },
-
-
-    /**
-     * The size (identical with the preferred size) of of the content.
-     *
-     * @type member
-     * @return {Map} Size of the content (keys: <code>width</code> and <code>height</code>)
-     */
-    getScrollSize : function() {
-      return this._getChildControl("pane").getChild().getBounds();
-    },
-
-
 
 
     /*
@@ -458,7 +432,8 @@ qx.Class.define("qx.ui.core.ScrollArea",
      */
     _computeScrollbars : function()
     {
-      var content = this._getChildControl("pane").getChild();
+      var pane = this._getChildControl("pane");
+      var content = pane.getChild();
       if (!content)
       {
         this._excludeChildControl("scrollbarX");
@@ -468,8 +443,14 @@ qx.Class.define("qx.ui.core.ScrollArea",
       }
 
       var innerSize = this.getInnerSize();
-      var paneSize = this.getPaneSize();
-      var scrollSize = this.getScrollSize();
+      var paneSize = pane.getBounds();
+      var scrollSize = pane.getScrollSize();
+
+      // if the widget has not yet been rendered, return and try again in the
+      // resize event
+      if (!paneSize || !scrollSize) {
+        return;
+      }
 
       var scrollbarX = this.getScrollbarX();
       var scrollbarY = this.getScrollbarY();
