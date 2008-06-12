@@ -42,8 +42,6 @@ qx.Class.define("qx.ui.splitpane.Pane",
   {
     this.base(arguments);
     
-    this.__sliderSize = 25;
-
     // Create and add slider
     this._slider = new qx.ui.splitpane.Slider(this);
     this._slider.exclude();
@@ -222,9 +220,9 @@ qx.Class.define("qx.ui.splitpane.Pane",
         splitterLeft = splitterLocation.left;
         splitterRight = splitterLocation.right;
 
-        if (splitterElement.offsetWidth < this.__sliderSize)
+        if (splitterElement.offsetWidth < 5)
         {
-          var sizeDiff = Math.floor((this.__sliderSize - splitterElement.offsetWidth) / 2);
+          var sizeDiff = Math.floor((5 - splitterElement.offsetWidth) / 2);
           splitterLeft -= sizeDiff;
           splitterRight += sizeDiff;
         }
@@ -271,7 +269,6 @@ qx.Class.define("qx.ui.splitpane.Pane",
       ){
         this._sizes.first = firstWidth;
         this._sizes.second = secondWidth;
-        console.info(firstWidth, firstHint.minWidth)
 
         this._slider.getContainerElement().setStyle("left", firstWidth + "px", true);
       }
@@ -288,19 +285,17 @@ qx.Class.define("qx.ui.splitpane.Pane",
 
       this._setSizes(e);
 
-      this._slider.setOpacity(0.6)
-
-      //this._slider.exclude();
-      this.releaseCapture();
+      this._slider.exclude();
 
       delete this.__activeDragSession;
       this._sizes = null;
+
+      this.releaseCapture();
     },
 
 
     _onLoseCapture : function(e) {
-      //TODO
-//      this._onMouseUp(e);
+      this._onMouseUp(e);
     },
 
 
