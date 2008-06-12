@@ -121,6 +121,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     this._paneClipper.addEventListener("mousedown", this._onmousedownPane, this);
 
     this._focusIndicator.addEventListener("mouseup", this._onMouseupFocusIndicator, this);
+    this._headerClipper.addEventListener("mouseup", this._onmouseupHeader, this);
     this._paneClipper.addEventListener("mouseup", this._onmouseupPane, this);
 
     this._headerClipper.addEventListener("click", this._onclickHeader, this);
@@ -1170,6 +1171,31 @@ qx.Class.define("qx.ui.table.pane.Scroller",
 
 
     /**
+     * Event handler. Called when the user released a mouse button over the header.
+     *
+     * @type member
+     * @param evt {Map} the event.
+     * @return {void}
+     */
+    _onmouseupHeader : function(evt)
+    {
+      var table = this.getTable();
+
+      if (! table.getEnabled()) {
+        return;
+      }
+
+      if (this._resizeColumn != null) {
+        this._stopResizeHeader();
+      } else if (this._moveColumn != null) {
+        this._stopMoveHeader();
+      }
+
+      this.__ignoreClick = true;
+    },
+
+
+    /**
      * Event handler. Called when the user clicked a mouse button over the header.
      *
      * @type member
@@ -1178,17 +1204,13 @@ qx.Class.define("qx.ui.table.pane.Scroller",
      */
     _onclickHeader : function(evt)
     {
-      var table = this.getTable();
-
-      if (!table.getEnabled()) {
+      if (this.__ignoreClick) {
         return;
       }
 
-      if (this._resizeColumn != null) {
-        this._stopResizeHeader();
-        return;
-      } else if (this._moveColumn != null) {
-        this._stopMoveHeader();
+      var table = this.getTable();
+
+      if (!table.getEnabled()) {
         return;
       }
 
@@ -2190,7 +2212,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     {
       tablePaneModel.dispose();
     }
-    
+
     this._disposeFields("_lastMouseDownCell");
 
     this._disposeObjects("_verScrollBar", "_horScrollBar", "_header", "_headerClipper",
