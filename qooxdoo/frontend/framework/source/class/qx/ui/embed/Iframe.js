@@ -358,7 +358,7 @@ qx.Class.define("qx.ui.embed.Iframe",
     block : function()
     {
       if (this._blockerNode) {
-        this._blockerNode.style.display = "";
+        this.getElement().appendChild(this._blockerNode);
       }
     },
 
@@ -371,7 +371,7 @@ qx.Class.define("qx.ui.embed.Iframe",
     release : function()
     {
       if (this._blockerNode) {
-        this._blockerNode.style.display = "none";
+        this.getElement().removeChild(this._blockerNode);
       }
     },
 
@@ -461,7 +461,6 @@ qx.Class.define("qx.ui.embed.Iframe",
       blockerStyle.width = "100%";
       blockerStyle.height = "100%";
       blockerStyle.zIndex = 1;
-      blockerStyle.display = "none";
 
       return blockerEl;
     },
