@@ -18,6 +18,11 @@
 
  ************************************************************************ */
 
+/**
+ *
+ * @appearance splitpane-pane
+ */
+
 qx.Class.define("qx.ui.splitpane.Pane",
 {
   extend : qx.ui.core.Widget,
@@ -35,8 +40,9 @@ qx.Class.define("qx.ui.splitpane.Pane",
    * Creates a new instance of a SplitPane. It allows the user to dynamically resize
    * the areas dropping the border between.
    *
-   * @appearance splitpane
-   * @param orientation {String} The orientation of the splitpane control. Allowed values are "horizontal" (default) and "vertical". This is the same type as used in {@link qx.legacy.ui.layout.BoxLayout#orientation}.
+   * @param orientation {String} The orientation of the splitpane control.
+   * Allowed values are "horizontal" (default) and "vertical".
+   * This is the same type as used in {@link qx.ui.layout.HBox#orientation}.
    */
   construct : function(orientation)
   {
@@ -57,6 +63,9 @@ qx.Class.define("qx.ui.splitpane.Pane",
     } else {
       this.initOrientation();
     }
+
+    
+    // Add events
 
     /*
      * Note that mouseUp and mouseDown events are added to the widget itself because
@@ -89,16 +98,16 @@ qx.Class.define("qx.ui.splitpane.Pane",
 
   properties :
   {
-    /**
-     * Appearance change
-     */
+    // overridden
     appearance :
     {
       refine : true,
       init : "splitpane"
     },
 
-
+    /**
+     * The orientation of the splitpane control.  
+     */
     orientation :
     {
       check : [ "horizontal", "vertical" ],
@@ -115,12 +124,29 @@ qx.Class.define("qx.ui.splitpane.Pane",
   *****************************************************************************
   */
 
+
   members :
   {
+
+
+    /*
+    ---------------------------------------------------------------------------
+      APPLY METHODS
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Apply routine for the orientation property.
+     *
+     * Sets the pane's layout to vertical or horizontal split layout.
+     *
+     * @type member
+     * @param value {String} The new value of the orientation property
+     * @param old {String} The old value of the orientation property
+     */
     _applyOrientation : function(value, old)
     {
       this._setLayout(value === "vertical" ? new qx.ui.layout.VSplit : new qx.ui.layout.HSplit);
-      this.debug("Use layout: " + this._getLayout());
 
       var splitter = this._splitter;
       var slider = this._slider;
@@ -139,14 +165,24 @@ qx.Class.define("qx.ui.splitpane.Pane",
     },
 
 
-
-
     /*
     ---------------------------------------------------------------------------
       PUBLIC METHODS
     ---------------------------------------------------------------------------
     */
 
+    /**
+     * Adds a widget to the pane.
+     *
+     * Sets the pane's layout to vertical or horizontal split layout. Depending on the
+     * pane's layout the first widget will be the left or top widget, the second one
+     * the bottom or left widget. Adding more than two widgets will overwrite the
+     * existing ones. 
+     *
+     * @type member
+     * @param widget {qx.ui.core.Widget} The widget to be inserted into pane.
+     * @param flex {Number} The (optional) layout property for the widget's flex value.
+     */
     add : function(widget, flex)
     {
       if (flex == null) {
@@ -156,30 +192,58 @@ qx.Class.define("qx.ui.splitpane.Pane",
       }
     },
 
+    /**
+     * Removes the given widget from the pane.
+     *
+     * @type member
+     * @param widget {qx.ui.core.Widget} The widget to be removed.
+     */
     remove : function(widget) {
       this._remove(widget);
     },
 
+    /**
+     * Returns the pane's first widget. 
+     *
+     * Depending on the pane's orientation the first widget is the top or left widget.
+     *
+     * @type member
+     * @return {qx.ui.core.Widget} The first widget.
+     */
     getBegin : function() {
       return this._getChildren()[2] || null;
     },
 
+    /**
+     * Returns the pane's second widget. 
+     *
+     * Depending on the pane's orientation the second widget is the bottom or right widget.
+     *
+     * @type member
+     * @return {qx.ui.core.Widget} The second widget.
+     */
     getEnd : function() {
       return this._getChildren()[3] || null;
     },
 
 
-
-
-
     /*
     ---------------------------------------------------------------------------
-      EVENT HANDLERS
+      MOUSE EVENT-HANDLING
     ---------------------------------------------------------------------------
     */
 
+    /**
+     * Callback for "mouseDown" event. 
+     *
+     * Shows slider widget and starts drag session if mouse is near/on splitter widget. 
+     *
+     * @type member
+     * @param e {qx.event.type.MouseEvent} mouseDown event
+     */
     _onMouseDown : function(e)
     {
+      // Only proceed if left mouse button is pressed and mouse is on/near splitter widget 
       if (!e.isLeftPressed() || !this._splitter.hasState("active")) {
         return;
       }
@@ -194,7 +258,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
         "right" : (splitterLocation.left + splitterWidht) - e.getDocumentLeft()
       };
 
-      // Synchronize slider to splitter size
+      // Synchronize slider to splitter size and show it
       var bounds = this._splitter.getBounds();
       this._slider.setUserBounds(bounds.left, bounds.top, bounds.width, bounds.height);
       this._slider.setZIndex(this._splitter.getZIndex() + 1);
@@ -203,11 +267,22 @@ qx.Class.define("qx.ui.splitpane.Pane",
       // Enable session
       this.__activeDragSession = true;
       this.capture();
-
     },
 
+
+    /**
+     * Callback for "mouseMove" event. 
+     *
+     * Sets state on splitter widget depending on mouse position  or calls
+     * _onSlide() if mouse button is hold down. 
+     *
+     * @type member
+     * @param e {qx.event.type.MouseEvent} mouseMove event
+     */
     _onMouseMove : function(e)
     {
+      
+      // Check if slider is already being dragged
       if (this.__activeDragSession)
       {
         this._onSlide(e);
@@ -231,19 +306,70 @@ qx.Class.define("qx.ui.splitpane.Pane",
           splitterRight += sizeDiff;
         }
 
-        if (eventLeft < splitterLeft || eventLeft > splitterRight)
-        {
+        // Check if mouse is on/near splitter and indicate status 
+        if (eventLeft < splitterLeft || eventLeft > splitterRight){
           this._splitter.removeState("active");
-          return;
+        } else {
+          this._splitter.addState("active");
         }
-
-        this._splitter.addState("active");
       }
 
     },
 
 
+    /**
+     * Callback for "mouseUp" event. 
+     *
+     * Sets widget sizes if dragging session has been active.
+     *
+     * @type member
+     * @param e {qx.event.type.MouseEvent} mouseUp event
+     */
+    _onMouseUp : function(e)
+    {
 
+      // Only proceed if a drag session is present
+      if (!this.__activeDragSession) {
+        return;
+      }
+
+      // Set sizes to both widgets
+      this._setSizes();
+
+      // Hide the slider       
+      this._slider.exclude();
+
+      // Cleanup
+      delete this.__activeDragSession;
+      this._sizes = null;
+      this.releaseCapture();
+    },
+
+
+    /**
+     * Calls _onMouseUp().
+     *
+     * @type member
+     * @param e {qx.event.type.MouseEvent} A valid mouse event
+     * 
+     */
+    _onLoseCapture : function(e) {
+      this._onMouseUp(e);
+    },
+
+
+    /*
+    ---------------------------------------------------------------------------
+      OTHER EVENT-HANDLING
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Calculates widget sizes and sets slider position.
+     *
+     * @type member
+     * @param e {qx.event.type.MouseEvent} mouseMove event
+     */
     _onSlide : function(e)
     {
       var eventLeft = e.getDocumentLeft();
@@ -252,6 +378,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
       var paneElement = this.getContainerElement().getDomElement();
       var paneLocation = qx.bom.element.Location.get(paneElement);
 
+      // Calculate widget sizes
       var firstWidth = eventLeft - paneLocation.left - this._sizes.left;
       var secondWidth = paneLocation.right - this._sizes.right - eventLeft;
      
@@ -261,6 +388,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
       var firstHint = begin.getSizeHint();
       var secondHint = end.getSizeHint();
 
+      // Check if current sizes are valid
       if(
         firstWidth > 0 &&
         secondWidth > 0 &&
@@ -271,41 +399,32 @@ qx.Class.define("qx.ui.splitpane.Pane",
         secondWidth > secondHint.minWidth &&
         secondWidth < secondHint.maxWidth
       ){
+        // Stores sizes
         this._sizes.first = firstWidth;
         this._sizes.second = secondWidth;
 
+        // Move slider widget
         this._slider.getContainerElement().setStyle("left", firstWidth + "px", true);
       }
 
     },
 
+    
+    /*
+    ---------------------------------------------------------------------------
+      INTERVAL HANDLING
+    ---------------------------------------------------------------------------
+    */
 
-
-    _onMouseUp : function(e)
-    {
-      if (!this.__activeDragSession) {
-        return;
-      }
-
-      this._setSizes(e);
-
-      this._slider.exclude();
-
-      delete this.__activeDragSession;
-      this._sizes = null;
-
-      this.releaseCapture();
-    },
-
-
-    _onLoseCapture : function(e) {
-      this._onMouseUp(e);
-    },
-
-
-    _setSizes : function(e)
+    /**
+     * Updates widgets' sizes bases on slider position.
+     *
+     * @type member
+     */
+    _setSizes : function()
     {
 
+      // Only proceed if the mouse has been moved
       if (!this._sizes) {
         return;
       }
@@ -313,54 +432,50 @@ qx.Class.define("qx.ui.splitpane.Pane",
       var firstWidget = this.getBegin();
       var secondWidget = this.getEnd();
 
+      // Read widgets' flex values
       var firstFlexValue = firstWidget.getLayoutProperties().flex;
       var secondFlexValue = secondWidget.getLayoutProperties().flex;
       
       // Both widgets have flex values
       if( (firstFlexValue != 0) && (secondFlexValue != 0))
       {
+
+        // Calculate new flex values based on sizes
         var sum = this._sizes.first + this._sizes.second;
         var firstSize = (this._sizes.first / sum);
         var secondSize = (this._sizes.second / sum);
-        
+
+        // To small values can lead to invalid sizes
         if(isNaN(firstSize) || isNaN(secondSize)){
           return ;
         }
 
+        // Apply flex values
         firstWidget.setLayoutProperties( { "flex" : firstSize} );
         secondWidget.setLayoutProperties( { "flex" : secondSize} );
       }
       // Only first widget has a flex value
       else if(firstFlexValue != 0)
       {
+        // Set width to static widget
         secondWidget.setWidth(this._sizes.second);
       }
       // Only second widget has a flex value
       else if(secondFlexValue != 0)
       {
+        // Set width to static widget
         firstWidget.setWidth(this._sizes.first);
       }
       // Both widgets have static values
       else
       {
+        // Set widths to static widgets
         firstWidget.setWidth(this._sizes.first);
         secondWidget.setWidth(this._sizes.second);
       }
 
-    },
-
-
-    /**
-     * Checks whether the two arguments are near to each other. Returns true if
-     * the absolute difference is less than five.
-     *
-     * @param p {Integer} first value
-     * @param e {Integer} second value
-     * @return {Boolean} Whether the two arguments are near to each other
-     */
-    _near : function(p, e) {
-      return e > (p - 5) && e < (p + 5);
     }
+
   },
 
 
@@ -374,6 +489,6 @@ qx.Class.define("qx.ui.splitpane.Pane",
 
   destruct : function()
   {
-    // TODO
+    this._disposeObjects("this._slider", "this._splitter");
   }
 });
