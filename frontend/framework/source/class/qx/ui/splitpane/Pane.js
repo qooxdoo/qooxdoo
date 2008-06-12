@@ -71,7 +71,10 @@ qx.Class.define("qx.ui.splitpane.Pane",
 
     this.addListener("losecapture", this._onLoseCapture, this);
     
-    // Calculated sizes for both widgets are stored here during slide
+    /*
+     * Calculated sizes for both widgets and difference between mouse click event position
+     * and splitter dimensions are stored here.
+     */
     this._sizes = null;
   },
 
@@ -220,6 +223,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
         splitterLeft = splitterLocation.left;
         splitterRight = splitterLocation.right;
 
+        // If the splitter is smaller than 5px react on click if curosor is near to it
         if (splitterElement.offsetWidth < 5)
         {
           var sizeDiff = Math.floor((5 - splitterElement.offsetWidth) / 2);
