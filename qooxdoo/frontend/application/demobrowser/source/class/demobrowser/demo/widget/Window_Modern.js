@@ -29,31 +29,84 @@ qx.Class.define("demobrowser.demo.widget.Window_Modern",
 
   members :
   {
-    main: function()
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void} 
+     */
+    main : function()
     {
       this.base(arguments);
 
       qx.theme.manager.Meta.getInstance().setTheme(qx.theme.Modern);
 
-      this.getRoot().add(this._createTabWindow(), {left: 40, top: 30});
+      this._win = this._createWindow();
+
+      this.getRoot().add(this._win,
+      {
+        left : 40,
+        top  : 30
+      });
+
+      this._fillWindow();
     },
 
 
-    _createTabWindow : function()
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {Window} TODOC
+     */
+    _createWindow : function()
     {
-      var win = new qx.ui.window.Window(
-        "Modern Window",
-        "icon/16/categories/internet.png"
-      );
+      var win = new qx.ui.window.Window("Modern Window", "icon/16/categories/internet.png");
 
       win.setMinWidth(400);
       win.setMinHeight(300);
-      win.setPadding(10);
 
-      win.setLayout(new qx.ui.layout.VBox(10));
+      win.setLayout(new qx.ui.layout.Grow);
 
       return win;
-    }
+    },
 
+
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void} 
+     */
+    _fillWindow : function()
+    {
+      var mainPane = new qx.ui.splitpane.Pane("horizontal");
+      mainPane.setDecorator("black");
+      this._win.add(mainPane);
+
+      // Left pane
+      var leftWidget = new qx.ui.form.TextArea("Tree");
+      leftWidget.setWidth(100);
+      leftWidget.setWrap(true);
+      mainPane.add(leftWidget, 0);
+
+      // Right pane
+      var rightWidget = new qx.ui.container.Composite;
+      rightWidget.setLayout(new qx.ui.layout.Grow);
+      mainPane.add(rightWidget, 1);
+
+      // Right splitpane
+      var rightPane = new qx.ui.splitpane.Pane("vertical");
+      rightPane.setWidth(200);
+      rightPane.setDecorator("black");
+      rightWidget.add(rightPane);
+
+      // Content for right widget
+      var list = new qx.ui.form.TextArea("List");
+      var content = new qx.ui.form.TextArea("Content");
+
+      rightPane.add(list, 1);
+      rightPane.add(content, 2);
+    }
   }
 });
