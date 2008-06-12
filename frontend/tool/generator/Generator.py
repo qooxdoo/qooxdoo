@@ -127,9 +127,118 @@ class Generator:
 
 
 
+    def listJobTriggers(self): return {
+
+      "translation" :
+      {
+        "action" : Generator.runUpdateTranslation,
+        "type"   : "JSimpleJob"
+      },
+
+      "copy-files" :
+      {
+        "action" :Generator.runCopyFiles,
+        "type"   : "JSimpleJob"
+      },
+
+      "shell" :
+      {
+        "action" :Generator.runShellCommands,
+        "type"   : "JSimpleJob"
+      },
+
+      "slice-images" :
+      {
+        "action" :Generator.runImageSlicing,
+        "type"   : "JSimpleJob"
+      },
+
+      "combine-images" :
+      {
+        "action" :Generator.runImageCombining,
+        "type"   : "JSimpleJob"
+      },
+
+      "copy-resources" :
+      {
+        "action" :Generator.runResources,
+        "type"   : "JClassDepJob"
+      },
+
+      "api" :
+      {
+        "action" :Generator.runApiData,
+        "type"   : "JClassDepJob"
+      },
+
+      "compile-source" : 
+      {
+        "action" :Generator.runSource,
+        "type" : "JCompileJob",
+      },
+
+      "compile-dist" : 
+      {
+        "action" :Generator.runCompiled,
+        "type" : "JCompileJob",
+      }
+
+    }
+
     def run2(self):
         config = self._config
         job    = config.get(".")
+        jobTriggers = self.listJobTriggers()
+
+        #from sets import * - using 'set' instead of 'Set' since 2.4
+
+
+        triggersSimpleSet   = set((x for x in jobTriggers if jobTriggers[x]['type']=="JSimpleJob"))
+        triggersClassDepSet = set((x for x in jobTriggers if jobTriggers[x]['type']=="JClassDepJob"))
+        triggersCompileSet  = set((x for x in jobTriggers if jobTriggers[x]['type']=="JCompileJob"))
+
+        jobKeySet = set(job.keys())
+
+        # let's check for presence of certain triggers
+        simpleTriggerKeys         = jobKeySet.intersection(triggersSimpleSet) # we have simple job triggers
+        classdependentTriggerKeys = jobKeySet.intersection(triggersClassDepSet)  # we have classdep. triggers
+        compileTriggerKeys        = jobKeySet.intersection(triggersCompileSet)
+
+        # process simple job triggers
+        if simpleTriggerKeys:
+            for trigger in simpleTriggerKeys:
+                apply(jobTriggers[trigger]['action'],(self,))
+
+        if not classdependentTriggerKeys and not compileTriggerKeys:
+            return    
+
+        # process job triggers that require a class list
+        (_,classes,_,_) = self.scanLibrary(config.extract("library"))
+
+        if classdependentTriggerKeys:
+            for trigger in classdependentTriggerKeys:
+                if trigger is "copy-resources":
+                    self.runResources(classes)
+
+                if trigger is "api":
+                    self.runApiData(classes)
+
+
+
+        if not compileTriggerKeys:
+            return
+
+        # process job triggers that compile
+        if compileTriggerKeys:
+            for trigger in compileTriggerKeys:
+                if trigger is "compile-source":
+                    self.runSource()
+
+                if trigger is "compile-dist":
+                    self.runCompiled()
+
+
+        return
 
         # These need nothing more than the simple job info
 
@@ -1367,61 +1476,4 @@ class _ResourceHandler(object):
 # scratch pad:
 
 '''
-from sets import *
-
-jobTriggers = 
-{
-  "compile-source" : 
-  {
-    "action" : runSource,
-    "type" : "JCompileJob",  # for grouping of jobs
-  },
-
-  "copy-resources" :
-  {
-    "action" : runResourceCopy,
-    "type"   : "JClassDepJob"
-  },
-
-  "shell" :
-  {
-    "action" : runShellCommands,
-    "type"   : "JSimpleJob"
-  }
-}
-
-triggersSimpleSet   = Set((x for x in jobTriggers if jobTriggers[x]['type']=="JSimpleJob"))
-triggersClassDepSet = Set((x for x in jobTriggers if jobTriggers[x]['type']=="JClassDepJob"))
-triggersCompileSet  = Set((x for x in jobTriggers if jobTriggers[x]['type']=="JCompileJob"))
-
-jobKeySet = Set(job.keys())
-
-# let's check for presence of certain triggers
-simpleTriggerKeys         = jobKeySet.intersection(triggersSimpleSet) # we have simple job triggers
-classdependentTriggerKeys = jobKeySet.intersection(triggersClassdependentSet)  # we have classdep. triggers
-compileTriggerKeys        = jobKeySet.intersection(triggersCompileSet)
-
-# process simple job triggers
-if simpleTriggerKeys:
-  # process them
-  for trigger in simpleTriggerKeys:
-    jobTriggers[trigger]['action']()
-
-if not classdependentTriggerKeys and not compileTriggerKeys:
-    return    
-
-# process job triggers that require a class list
-classes = self.scanLibrary()
-
-if classdependentTriggerKeys:
-  for trigger in classdependentTriggerKeys:
-    jobTriggers[trigger]['action'](classes)
-
-if not compileTriggerKeys:
-    return
-
-# process job triggers that compile
-if compileTriggerKeys:
-  for trigger in compileTriggerKeys:
-    jobTriggers[trigger]['action'](classes)
 '''
