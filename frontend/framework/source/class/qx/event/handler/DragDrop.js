@@ -72,11 +72,6 @@ qx.Class.define("qx.event.handler.DragDrop",
       "dragenter": true,
       "dragleave": true,
       "drop" : true,
-      "dragstart": true,
-      "drag": true,
-      "dragenter": true,
-      "dragleave": true,
-      "drop" : true,
       "dragend": true
     },
 
