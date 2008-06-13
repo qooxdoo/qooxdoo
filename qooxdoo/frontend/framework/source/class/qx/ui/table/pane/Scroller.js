@@ -1185,13 +1185,15 @@ qx.Class.define("qx.ui.table.pane.Scroller",
         return;
       }
 
-      if (this._resizeColumn != null) {
+      if (this._resizeColumn != null)
+      {
         this._stopResizeHeader();
-      } else if (this._moveColumn != null) {
+        this.__ignoreClick = true;
+      }
+      else if (this._moveColumn != null)
+      {
         this._stopMoveHeader();
       }
-
-      this.__ignoreClick = true;
     },
 
 
@@ -1204,7 +1206,9 @@ qx.Class.define("qx.ui.table.pane.Scroller",
      */
     _onclickHeader : function(evt)
     {
-      if (this.__ignoreClick) {
+      if (this.__ignoreClick)
+      {
+        this.__ignoreClick = false;
         return;
       }
 
