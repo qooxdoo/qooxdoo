@@ -973,7 +973,12 @@ qx.Class.define("qx.ui.layout.Grid",
 
           var cellSize = this.__getOuterSize(widget);
 
-          minHeight = Math.max(minHeight, cellSize.minHeight);
+          if (this.getRowFlex(row) > 0) {
+            minHeight = Math.max(minHeight, cellSize.minHeight);
+          } else {
+            minHeight = Math.max(minHeight, cellSize.height);
+          }
+
           height = Math.max(height, cellSize.height);
         }
 
@@ -1042,7 +1047,12 @@ qx.Class.define("qx.ui.layout.Grid",
 
           var cellSize = this.__getOuterSize(widget);
 
-          minWidth = Math.max(minWidth, cellSize.minWidth);
+          if (this.getColumnFlex(col) > 0) {
+            minWidth = Math.max(minWidth, cellSize.minWidth);
+          } else {
+            minWidth = Math.max(minWidth, cellSize.width);
+          }
+
           width = Math.max(width, cellSize.width);
         }
 
@@ -1297,7 +1307,12 @@ qx.Class.define("qx.ui.layout.Grid",
       for (var i=0, l=colWidths.length; i<l; i++)
       {
         var col = colWidths[i];
-        minWidth += col.minWidth;
+        if (this.getColumnFlex(i) > 0) {
+          minWidth += col.minWidth;
+        } else {
+          minWidth += col.width;
+        }
+
         width += col.width;
       }
 
@@ -1309,7 +1324,12 @@ qx.Class.define("qx.ui.layout.Grid",
       {
         var row = rowHeights[i];
 
-        minHeight += row.minHeight;
+        if (this.getRowFlex(i) > 0) {
+          minHeight += row.minHeight;
+        } else {
+          minHeight += row.height;
+        }
+
         height += row.height;
       }
 
