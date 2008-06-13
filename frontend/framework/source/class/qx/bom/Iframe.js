@@ -65,8 +65,8 @@ qx.Class.define("qx.bom.Iframe",
       attributes.vspace = "0";
 
       attributes.border = "0";
-      attributes.allowTransparency = "true";      
-      
+      attributes.allowTransparency = "true";
+
       return qx.bom.Element.create("iframe", attributes, win);
     },
 
@@ -81,7 +81,7 @@ qx.Class.define("qx.bom.Iframe",
      */
     getWindow : qx.core.Variant.select("qx.client",
     {
-      "mshtml" : function(iframe)
+      "mshtml|gecko" : function(iframe)
       {
         try {
           return iframe.contentWindow;
@@ -153,7 +153,7 @@ qx.Class.define("qx.bom.Iframe",
     },
 
     /**
-     * Sets iframe's source attribute to given value 
+     * Sets iframe's source attribute to given value
      *
      * @type static
      * @param iframe {Element} DOM element of the iframe.
