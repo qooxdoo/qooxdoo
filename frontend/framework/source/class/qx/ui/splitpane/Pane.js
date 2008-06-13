@@ -79,7 +79,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
     this.addListener("mousemove", this._onMouseMove, this);
 
     this.addListener("losecapture", this._onLoseCapture, this);
-    
+
     /*
      * Calculated sizes for both widgets and difference between mouse click event position
      * and splitter dimensions are stored here.
@@ -335,16 +335,6 @@ qx.Class.define("qx.ui.splitpane.Pane",
       this._sizes = null;
       this.releaseCapture();
     },
-    
-    
-    _syncBounds : function(widget)
-    {
-      var bounds = widget.getBounds();
-      var el = widget.getContainerElement();
-      var left = el.setStyle("left", bounds.left + "px");
-      var top = el.setStyle("top", bounds.top + "px");
-    },
-    
 
 
     /**
@@ -480,11 +470,13 @@ qx.Class.define("qx.ui.splitpane.Pane",
       var splitterElement = this._splitter.getContainerElement().getDomElement();
       var splitterLocation = qx.bom.element.Location.get(splitterElement);
       
+      var cursor = (this.getOrientation() == "horizontal") ? "w-resize" : "s-resize";
       var near = (this.getOrientation() == "horizontal") ?
           this.__nearHorizontal(x, splitterElement, splitterLocation) : 
           this.__nearVertical(y, splitterElement, splitterLocation); 
 
       if (near) {
+        this.setCursor(cursor);
         this._splitter.addState("active");
       } else {
         this._splitter.removeState("active");
@@ -550,8 +542,9 @@ qx.Class.define("qx.ui.splitpane.Pane",
 
       if(secondWidth < secondHint.minWidth) {
         var diff = secondHint.minWidth - secondWidth;
+
         secondWidth = secondHint.minWidth;
-        firstWidth = secondWidth - diff;
+        firstWidth = firstWidth - diff;
       }
 
       // Move slider widget
@@ -593,8 +586,16 @@ qx.Class.define("qx.ui.splitpane.Pane",
 
       // Move slider widget
       this._slider.getContainerElement().setStyle("top", firstHeight + "px", true);
-    }
+    },
 
+    
+    _syncBounds : function(widget)
+    {
+      var bounds = widget.getBounds();
+      var el = widget.getContainerElement();
+      var left = el.setStyle("left", bounds.left + "px");
+      var top = el.setStyle("top", bounds.top + "px");
+    }
 
   },
 
