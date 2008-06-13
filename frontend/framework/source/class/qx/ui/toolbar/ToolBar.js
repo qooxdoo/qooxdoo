@@ -116,9 +116,10 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
      *
      * @type member
      * @param item {qx.ui.core.Widget} widget to add
+     * @param options {Map?null} Optional layout data for widget.
      */
-    add: function(item) {
-      this._add(item);
+    add: function(item, options) {
+      this._add(item, options);
     },
 
 
