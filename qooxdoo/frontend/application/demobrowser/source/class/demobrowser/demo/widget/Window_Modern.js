@@ -65,6 +65,7 @@ qx.Class.define("demobrowser.demo.widget.Window_Modern",
 
       win.setMinWidth(400);
       win.setMinHeight(300);
+      win.setResizeMethod("opaque");
 
       win.setLayout(new qx.ui.layout.Grow);
 
@@ -81,11 +82,12 @@ qx.Class.define("demobrowser.demo.widget.Window_Modern",
     _fillWindow : function()
     {
       var mainPane = new qx.ui.splitpane.Pane("horizontal");
-      mainPane.setDecorator("black");
+      //mainPane.setDecorator("black");
       this._win.add(mainPane);
 
       // Left pane
       var leftWidget = new qx.ui.form.TextArea("Tree");
+      leftWidget.setDecorator(null);
       leftWidget.setWidth(100);
       leftWidget.setWrap(true);
       mainPane.add(leftWidget, 0);
@@ -98,12 +100,14 @@ qx.Class.define("demobrowser.demo.widget.Window_Modern",
       // Right splitpane
       var rightPane = new qx.ui.splitpane.Pane("vertical");
       rightPane.setWidth(200);
-      rightPane.setDecorator("black");
+      //rightPane.setDecorator("black");
       rightWidget.add(rightPane);
 
       // Content for right widget
       var list = new qx.ui.form.TextArea("List");
+      list.setDecorator(null);
       var content = new qx.ui.form.TextArea("Content");
+      content.setDecorator(null);
 
       rightPane.add(list, 1);
       rightPane.add(content, 2);
