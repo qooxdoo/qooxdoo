@@ -218,10 +218,10 @@ class Generator:
         if classdependentTriggerKeys:
             for trigger in classdependentTriggerKeys:
                 if trigger is "copy-resources":
-                    self.runResources(classes)
+                    apply(jobTriggers[trigger]['action'], (self, classes))
 
                 if trigger is "api":
-                    self.runApiData(classes)
+                    apply(jobTriggers[trigger]['action'], (self, classes))
 
 
 
