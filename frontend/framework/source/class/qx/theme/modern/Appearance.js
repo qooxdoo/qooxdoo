@@ -778,6 +778,45 @@ qx.Theme.define("qx.theme.modern.Appearance",
           decorator : "dark-shadow"
         };
       }
+    },
+    
+    /*
+    ---------------------------------------------------------------------------
+      SPLITPANE
+    ---------------------------------------------------------------------------
+    */
+
+    "splitpane" :
+    {
+      style : function(states)
+      {
+        return {};
+      }
+    },
+
+    "splitpane-splitter" :
+    {
+      style : function(states)
+      {
+        return {
+          width : states.horizontal ? 5 : "undefined",
+          height : states.vertical ? 5 : "undefined",
+          backgroundColor : states.active ? "yellow" : "#aaa"
+        };
+      }
+    },
+
+    "splitpane-slider" :
+    {
+      style : function(states)
+      {
+        return {
+          width : states.horizontal ? 5 : "undefined",
+          height : states.vertical ? 5 : "undefined",
+          backgroundColor : "red"
+        };
+      }
     }
+
   }
 });

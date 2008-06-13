@@ -85,6 +85,11 @@ qx.Class.define("qx.ui.splitpane.Pane",
      * and splitter dimensions are stored here.
      */
     this._sizes = null;
+    
+    /*
+     * Last mouse coordinates are stored here 
+     */
+    this._lastCoords = null;
   },
 
 
@@ -243,7 +248,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
      */
     _onMouseDown : function(e)
     {
-      // Only proceed if left mouse button is pressed and mouse is on/near splitter widget 
+      // Only proceed if left mouse button is pressed and mouse is on/near splitter widget
       if (!e.isLeftPressed() || !this._splitter.hasState("active")) {
         return;
       }
@@ -284,15 +289,20 @@ qx.Class.define("qx.ui.splitpane.Pane",
      */
     _onMouseMove : function(e)
     {
-      
+
+      this._lastCoords = {
+        "x" : e.getDocumentLeft(),
+        "y" : e.getDocumentTop()
+      };
+
       // Check if slider is already being dragged
       if (this.__activeDragSession)
       {
-        this._onSlide(e);
+        this._onSlide();
       }
       else
       {
-        this._updateSplitterState(e);
+        this._updateSplitterState(this._lastCoords.x, this._lastCoords.y);
       }
 
     },
@@ -308,7 +318,6 @@ qx.Class.define("qx.ui.splitpane.Pane",
      */
     _onMouseUp : function(e)
     {
-
       // Only proceed if a drag session is present
       if (!this.__activeDragSession) {
         return;
@@ -318,6 +327,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
       this._setSizes();
 
       // Hide the slider       
+      this._syncBounds(this._slider);
       this._slider.exclude();
 
       // Cleanup
@@ -325,6 +335,16 @@ qx.Class.define("qx.ui.splitpane.Pane",
       this._sizes = null;
       this.releaseCapture();
     },
+    
+    
+    _syncBounds : function(widget)
+    {
+      var bounds = widget.getBounds();
+      var el = widget.getContainerElement();
+      var left = el.setStyle("left", bounds.left + "px");
+      var top = el.setStyle("top", bounds.top + "px");
+    },
+    
 
 
     /**
@@ -351,11 +371,8 @@ qx.Class.define("qx.ui.splitpane.Pane",
      * @type member
      * @param e {qx.event.type.MouseEvent} mouseMove event
      */
-    _onSlide : function(e)
+    _onSlide : function()
     {
-      var eventLeft = e.getDocumentLeft();
-      var eventTop = e.getDocumentTop();
-
       var paneElement = this.getContainerElement().getDomElement();
       var paneLocation = qx.bom.element.Location.get(paneElement);
 
@@ -367,11 +384,11 @@ qx.Class.define("qx.ui.splitpane.Pane",
 
       if(this.getOrientation() == "horizontal")
       {
-        this._updateSliderHorizontal(eventLeft, eventTop, paneLocation, begin, end, firstHint, secondHint);
+        this._updateSliderHorizontal(paneLocation, begin, end, firstHint, secondHint);
       }
       else
       {
-        this._updateSliderVertical(eventLeft, eventTop, paneLocation, begin, end, firstHint, secondHint);
+        this._updateSliderVertical(paneLocation, begin, end, firstHint, secondHint);
       }
     },
 
@@ -458,14 +475,14 @@ qx.Class.define("qx.ui.splitpane.Pane",
 
     },
 
-    _updateSplitterState : function(e)
+    _updateSplitterState : function(x, y)
     {  
       var splitterElement = this._splitter.getContainerElement().getDomElement();
       var splitterLocation = qx.bom.element.Location.get(splitterElement);
       
       var near = (this.getOrientation() == "horizontal") ?
-          this.__nearHorizontal(e, splitterElement, splitterLocation) : 
-          this.__nearVertical(e, splitterElement, splitterLocation); 
+          this.__nearHorizontal(x, splitterElement, splitterLocation) : 
+          this.__nearVertical(y, splitterElement, splitterLocation); 
 
       if (near) {
         this._splitter.addState("active");
@@ -474,10 +491,9 @@ qx.Class.define("qx.ui.splitpane.Pane",
       }
     },
     
-    __nearHorizontal : function(e, splitterElement, splitterLocation)
+    __nearHorizontal : function(x, splitterElement, splitterLocation)
     {
       var splitterSize = splitterElement.offsetWidth;
-      var eventLeft = e.getDocumentLeft();
 
       if (splitterSize < 5)
       {
@@ -487,13 +503,12 @@ qx.Class.define("qx.ui.splitpane.Pane",
       }
   
       // Check if mouse is on/near splitter and indicate status 
-      return !(eventLeft < splitterLocation.left || eventLeft > splitterLocation.right);
+      return !(x < splitterLocation.left || x > splitterLocation.right);
     },
     
-    __nearVertical : function(e, splitterElement, splitterLocation)
+    __nearVertical : function(y, splitterElement, splitterLocation)
     {
       var splitterSize = splitterElement.offsetHeight;
-      var eventTop = e.getDocumentTop();
 
       if (splitterSize < 5)
       {
@@ -503,20 +518,20 @@ qx.Class.define("qx.ui.splitpane.Pane",
       }
   
       // Check if mouse is on/near splitter and indicate status 
-      return !(eventTop < splitterLocation.top || eventTop > splitterLocation.bottom);
+      return !(y < splitterLocation.top || y > splitterLocation.bottom);
     },
 
-    _updateSliderHorizontal : function(eventLeft, eventTop, paneLocation, begin, end, firstHint, secondHint)
+    _updateSliderHorizontal : function(paneLocation, begin, end, firstHint, secondHint)
     {
       // Calculate widget sizes
+      
+      var eventLeft = this._lastCoords.x;
+      
       var firstWidth = eventLeft - paneLocation.left - this._sizes.left;
       var secondWidth = paneLocation.right - this._sizes.right - eventLeft;
   
       // Check if current sizes are valid
       if(
-        firstWidth > 0 &&
-        secondWidth > 0 &&
-  
         firstWidth > firstHint.minWidth &&
         firstWidth < firstHint.maxWidth &&
   
@@ -526,37 +541,58 @@ qx.Class.define("qx.ui.splitpane.Pane",
         // Stores sizes
         this._sizes.first = firstWidth;
         this._sizes.second = secondWidth;
-  
-        // Move slider widget
-        this._slider.getContainerElement().setStyle("left", firstWidth + "px", true);
       }
+
+      // Check min sizes:
+      if (firstWidth < firstHint.minWidth) {
+        firstWidth = firstHint.minWidth;
+      }
+
+      if(secondWidth < secondHint.minWidth) {
+        var diff = secondHint.minWidth - secondWidth;
+        secondWidth = secondHint.minWidth;
+        firstWidth = secondWidth - diff;
+      }
+
+      // Move slider widget
+      this._slider.getContainerElement().setStyle("left", firstWidth + "px", true);
     },
 
 
-    _updateSliderVertical : function(eventLeft, eventTop, paneLocation, begin, end, firstHint, secondHint)
+    _updateSliderVertical : function(paneLocation, begin, end, firstHint, secondHint)
     {
       // Calculate widget sizes
+      var eventTop = this._lastCoords.y;
+      
       var firstHeight = eventTop - paneLocation.top - this._sizes.top;
       var secondHeight = paneLocation.bottom - this._sizes.bottom - eventTop;
-  
+
       // Check if current sizes are valid
       if(
-        firstHeight > 0 &&
-        secondHeight > 0 &&
+        firstHeight > firstHint.minHeight &&
+        firstHeight < firstHint.maxHeight &&
   
-        firstHeight > firstHint.minWidth &&
-        firstHeight < firstHint.maxWidth &&
-  
-        secondHeight > secondHint.minWidth &&
-        secondHeight < secondHint.maxWidth
+        secondHeight > secondHint.minHeight &&
+        secondHeight < secondHint.maxHeight
       ){
         // Stores sizes
         this._sizes.first = firstHeight;
         this._sizes.second = secondHeight;
-  
-        // Move slider widget
-        this._slider.getContainerElement().setStyle("top", firstHeight + "px", true);
       }
+
+      // Check min sizes:
+      if (firstHeight < firstHint.minHeight) {
+        firstHeight = firstHint.minHeight;
+      }
+
+      if(secondHeight < secondHint.minHeight) {
+        var diff = secondHint.minHeight - secondHeight;
+        secondHeight = secondHint.minHeight;
+        firstHeight = firstHeight - diff;
+      }
+
+      // Move slider widget
+      this._slider.getContainerElement().setStyle("top", firstHeight + "px", true);
     }
 
 
