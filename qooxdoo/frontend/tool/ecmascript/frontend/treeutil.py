@@ -52,6 +52,26 @@ import re
 from ecmascript.frontend import tree, tokenizer, treegenerator
 
 
+def findQxDefine(rootNode):
+    if rootNode.type == "variable":
+        try:
+            variableName = (assembleVariable(rootNode))[0]
+        except tree.NodeAccessException:
+            return None
+
+        if variableName in ["qx.Bootstrap.define", "qx.Class.define", "qx.Interface.define", "qx.Mixin.define", "qx.List.define"]:
+            if rootNode.parent.parent.type == "call" and rootNode.parent.type == "operand":
+                return rootNode.parent.parent
+
+    if rootNode.hasChildren():
+        for child in rootNode.children:
+            foundNode = findQxDefine(child)
+            if foundNode is not None:
+                return foundNode
+    else:
+        return None
+        
+        
 ##
 # Some nice short description of foo(); this can contain html and
 # {@link #foo Links} to items in the current file.

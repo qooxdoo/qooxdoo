@@ -43,7 +43,6 @@ def search_loop(node, stringMap={}, verbose=False):
                     return stringMap
 
     if node.type == "constant" and node.get("constantType") == "string":
-
         if verbose:
             pvalue = node.get("value")
             if isinstance(pvalue, unicode):
@@ -70,7 +69,7 @@ def search_loop(node, stringMap={}, verbose=False):
 
 
 
-def check(node, verbose=False):
+def check(node, verbose=True):
     # Needs children
     if not node.hasChildren():
         return False
@@ -153,45 +152,18 @@ def replace(node, stringList, var="$", verbose=False):
 
 
                 # GENERATE IDENTIFIER
-
-                newidentifier = tree.Node("identifier")
-                newidentifier.set("line", line)
+                newvariable = tree.Node("variable")
+                newvariable.set("line", line)
 
                 childidentifier = tree.Node("identifier")
                 childidentifier.set("line", line)
-                childidentifier.set("name", var)
+                childidentifier.set("name", "SSSS_%s" % pos)
 
-                newidentifier.addChild(childidentifier)
-
-
-
-                # GENERATE KEY
-
-                newkey = tree.Node("key")
-                newkey.set("line", line)
-
-                newconstant = tree.Node("constant")
-                newconstant.set("line", line)
-                newconstant.set("constantType", "number")
-                newconstant.set("value", "%s" % pos)
-
-                newkey.addChild(newconstant)
-
-
-
-                # COMBINE CHILDREN
-
-                newnode = tree.Node("accessor")
-                newnode.set("line", line)
-                newnode.set("optimized", True)
-                newnode.set("original", oldvalue)
-                newnode.addChild(newidentifier)
-                newnode.addChild(newkey)
+                newvariable.addChild(childidentifier)
 
 
                 # REPLACE NODE
-
-                node.parent.replaceChild(node, newnode)
+                node.parent.replaceChild(node, newvariable)
                 break
 
             pos += 1
@@ -202,15 +174,17 @@ def replace(node, stringList, var="$", verbose=False):
 
 
 
-def replacement(stringList, var="$"):
+def replacement(stringList):
     if len(stringList) == 0:
         return ""
 
-    repl = "%s=[" % var
+    repl = "var "
 
+    pos = 0
     for item in stringList:
-        repl += "%s," % (item["value"])
+        repl += "SSSS_%s=%s," % (pos, item["value"])
+        pos += 1
 
-    repl = repl[:-1] + "];"
+    repl = repl[:-1] + ";"
 
     return repl
