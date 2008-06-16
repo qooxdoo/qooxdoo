@@ -58,19 +58,19 @@ source:
 	@echo
 	@echo "  GENERATION OF DEMO BROWSER APPLICATION"
 	@$(CMD_LINE)
-	@$(CMD_PYTHON) $(QOOXDOO_PATH)/frontend/tool/generator.py -c config.json -j source
+	@$(CMD_PYTHON) $(QOOXDOO_PATH)/frontend/tool/generator.py -c config.json source
 
 build:
 	@echo
 	@echo "  GENERATION OF DEMO BROWSER APPLICATION"
 	@$(CMD_LINE)
-	@$(CMD_PYTHON) $(QOOXDOO_PATH)/frontend/tool/generator.py -c config.json -j build
+	@$(CMD_PYTHON) $(QOOXDOO_PATH)/frontend/tool/generator.py -c config.json build
 
 source1:
 	@#echo
 	@#echo "  GENERATION OF DEMO BROWSER APPLICATION"
 	@#$(CMD_LINE)
-	@#$(CMD_PYTHON) $(QOOXDOO_PATH)/frontend/tool/generator.py -c config.json -j source
+	@#$(CMD_PYTHON) $(QOOXDOO_PATH)/frontend/tool/generator.py -c config.json source
 	@echo
 	@echo "  GENERATION OF DEMO BROWSER DATA"
 	@$(CMD_LINE)
@@ -78,13 +78,13 @@ source1:
 	@$(CMD_PYTHON) tool/genjson.py source/script
 	@echo "  * Generating Demo Datebase..."
 	@$(CMD_PYTHON) tool/gendata.py $(APPLICATION_SOURCE_PATH)/$(APPLICATION_SCRIPT_FOLDERNAME)/demodata.js $(APPLICATION_SOURCE_PATH)/demo
-	@$(CMD_PYTHON) $(QOOXDOO_PATH)/frontend/tool/generator.py -c demo.json -j source
+	@$(CMD_PYTHON) $(QOOXDOO_PATH)/frontend/tool/generator.py -c demo.json source
 
 build1:
 	@#echo
 	@#echo "  GENERATION OF DEMO BROWSER APPLICATION"
 	@#$(CMD_LINE)
-	@#$(CMD_PYTHON) $(QOOXDOO_PATH)/frontend/tool/generator.py -c config.json -j build
+	@#$(CMD_PYTHON) $(QOOXDOO_PATH)/frontend/tool/generator.py -c config.json build
 	@echo
 	@echo "  GENERATION OF DEMO BROWSER DATA"
 	@$(CMD_LINE)
@@ -92,7 +92,7 @@ build1:
 	@$(CMD_PYTHON) tool/genjson.py build/script
 	@echo "  * Generating Demo Datebase..."
 	@$(CMD_PYTHON) tool/gendata.py $(APPLICATION_BUILD_PATH)/$(APPLICATION_SCRIPT_FOLDERNAME)/demodata.js $(APPLICATION_SOURCE_PATH)/demo
-	@$(CMD_PYTHON) $(QOOXDOO_PATH)/frontend/tool/generator.py -c demo.json -j build
+	@$(CMD_PYTHON) $(QOOXDOO_PATH)/frontend/tool/generator.py -c demo.json build
 
 clean:
 	@$(CMD_REMOVE) $(APPLICATION_SOURCE_PATH)/$(APPLICATION_SCRIPT_FOLDERNAME)/demodata.js

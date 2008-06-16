@@ -20,10 +20,10 @@
 .PHONY: source build api
 
 source:
-	@../../tool/generator.py -c config.json -j source
+	@../../tool/generator.py -c config.json source
 
 build:
-	@../../tool/generator.py -c config.json -j build
+	@../../tool/generator.py -c config.json build
 
 # use old Makefile for other targets
 %: force
