@@ -20,8 +20,9 @@
 ################################################################################
 
 from ecmascript.frontend import tree
+from ecmascript.frontend import lang
 
-
+# TODO: Any idea to make this more random while still being compact?
 def mapper(found):
     counter = 0
     translations = {}
@@ -30,7 +31,7 @@ def mapper(found):
         repl = convert(counter)
         counter += 1
         
-        while repl in found:
+        while repl in found or lang.RESERVED.has_key(repl):
             repl = convert(counter)
             counter += 1
             
