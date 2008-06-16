@@ -20,13 +20,13 @@
 .PHONY: source build api
 
 source:
-	@../../tool/generator.py -c config.json -j source
+	@../../tool/generator.py -c config.json source
 
 build:
-	@../../tool/generator.py -c config.json -j build
+	@../../tool/generator.py -c config.json build
 
 api:
-	@../../tool/generator.py -c config.json -j api
+	@../../tool/generator.py -c config.json api
 
 clean:
 	@rm -rf source/script build/script

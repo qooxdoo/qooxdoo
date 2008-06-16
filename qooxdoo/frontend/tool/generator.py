@@ -35,17 +35,15 @@ def listJobs(console, jobs):
 
 
 def main():
-    if len(sys.argv[1:]) == 0:
-        basename = os.path.basename(sys.argv[0])
-        print "Usage: %s [options]" % basename
-        print "Try '%s -h' or '%s --help' to show the help message." % (basename, basename)
-        sys.exit(1)
-
     parser = optparse.OptionParser(option_class=ExtendAction)
 
+    usage_str = "%prog [options] job,..."
+    parser.set_usage(usage_str)
+
+
     # Common options
-    parser.add_option("-c", "--config", dest="config", metavar="FILENAME", help="Configuration file")
-    parser.add_option("-j", "--jobs", action="extend", dest="jobs", type="string", default=[], help="List of jobs to run")
+    parser.add_option("-c", "--config", dest="config", metavar="FILENAME", default="config.json", help="Configuration file")
+    #parser.add_option("-j", "--jobs", action="extend", dest="jobs", type="string", default=[], help="List of jobs to run")
     parser.add_option("-q", "--quiet", action="store_true", dest="quiet", default=False, help="Quiet output mode (Extra quiet).")
     parser.add_option("-v", "--verbose", action="store_true", dest="verbose", default=False, help="Verbose output mode (Extra verbose).")
     parser.add_option("-l", "--logfile", dest="logfile", metavar="FILENAME", default=None, type="string", help="Log file")
@@ -60,6 +58,13 @@ def main():
     #parser.add_option("--use", action="extend", dest="use", metavar="CLASS1:CLASS2", type="string", default=[], help="Special runtime class dependencies")
 
     (options, args) = parser.parse_args(sys.argv[1:])
+
+
+    if not args:
+        parser.print_help()
+        sys.exit(1)
+    else:
+        options.jobs = args[0].split(',')
 
         
     # Initialize console
