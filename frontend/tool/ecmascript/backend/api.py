@@ -56,26 +56,6 @@ def printDocError(node, msg):
     hasDocError = True
 
 
-def findQxDefine(rootNode):
-    if rootNode.type == "variable":
-        try:
-            variableName = (assembleVariable(rootNode))[0]
-        except tree.NodeAccessException:
-            return None
-
-        if variableName in ["qx.Bootstrap.define", "qx.Class.define", "qx.Interface.define", "qx.Mixin.define", "qx.List.define"]:
-            if rootNode.parent.parent.type == "call" and rootNode.parent.type == "operand":
-                return rootNode.parent.parent
-
-    if rootNode.hasChildren():
-        for child in rootNode.children:
-            foundNode = findQxDefine(child)
-            if foundNode is not None:
-                return foundNode
-    else:
-        return None
-
-
 def createDoc(syntaxTree, docTree = None):
     if not docTree:
         docTree = tree.Node("doctree")
@@ -138,7 +118,7 @@ def handleClassDefinition(docTree, item, variant):
     commentAttributes = comment.parseNode(item)
 
     classNode = getClassNode(docTree, className, commentAttributes)
-    if variant in ["class", "clazz"]:
+    if variant == "class":
         classNode.set("type", "class")
         type = selectNode(params, "2/keyvalue[@key='type']/value/constant/@value")
         if type == "singleton":
@@ -170,7 +150,7 @@ def handleClassDefinition(docTree, item, variant):
         # print "KEY: %s = %s" % (key, valueItem.type)
 
         if key == "extend":
-            if variant in ["class", "clazz"]:
+            if variant == "class":
                 handleClassExtend(valueItem, classNode, docTree, className)
 
             elif variant == "interface":
@@ -585,10 +565,6 @@ def handleProperties(item, classNode):
 
         propDefinition = mapNodeToMap(value)
         #print propName, propDefinition
-
-        # handle old style properties
-        if propDefinition.has_key("_cached") or propDefinition.has_key("_fast"):
-            continue
 
         if propDefinition.has_key("group"):
             node = handlePropertyGroup(propName, propDefinition, classNode)
