@@ -357,7 +357,7 @@ qx.Class.define("qx.ui.embed.Iframe",
      */
     block : function()
     {
-      if (this._blockerNode) {
+      if (this._blockerNode && this.getElement()) {
         this.getElement().appendChild(this._blockerNode);
       }
     },
@@ -370,7 +370,7 @@ qx.Class.define("qx.ui.embed.Iframe",
      */
     release : function()
     {
-      if (this._blockerNode) {
+      if (this._blockerNode && this.getElement()) {
         this.getElement().removeChild(this._blockerNode);
       }
     },
