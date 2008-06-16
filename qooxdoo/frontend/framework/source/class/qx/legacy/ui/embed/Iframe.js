@@ -357,7 +357,14 @@ qx.Class.define("qx.legacy.ui.embed.Iframe",
      */
     block : function()
     {
-      if (this._blockerNode) {
+      if (this._blockerNode)
+      {
+        if (qx.core.Variant.isSet("qx.client", "mshtml"))
+        {
+          var blockerParent = this.getElement();
+          blockerParent.removeChild(this._blockerNode);
+          blockerParent.appendChild(this._blockerNode);
+        }
         this._blockerNode.style.display = "";
       }
     },
