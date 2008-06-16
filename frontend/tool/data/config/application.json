@@ -80,7 +80,8 @@
         "file" : "${BUILD_PATH}/script/${APPLICATION}.js",
         "uri"  : "script/${APPLICATION}.js",
 				"root" : "${BUILD_PATH}",
-        "optimize" : ["basecalls", "variables", "privates"]
+				"format" : "on",
+        "optimize" : ["basecalls", "variables", "privates", "strings"]
       }
     },
 

@@ -2,7 +2,7 @@ import copy, optparse
 
 from ecmascript import compiler
 from ecmascript.frontend import treeutil
-from ecmascript.backend.optimizer import variableoptimizer, stringoptimizer, basecalloptimizer, privateoptimizer
+from ecmascript.backend.optimizer import variableoptimizer, stringoptimizer, basecalloptimizer, privateoptimizer, propertyoptimizer
 from misc import idlist
 
 class TreeCompiler:
@@ -107,18 +107,21 @@ class TreeCompiler:
             self._console.debug("Optimize base calls...")
             self._baseCallOptimizeHelper(fileTree, fileId, variants)
 
-        if "variables" in optimize:
-            self._console.debug("Optimize local variables...")
-            self._variableOptimizeHelper(fileTree, fileId, variants)
-
         if "strings" in optimize:
             self._console.debug("Optimize strings...")
             self._stringOptimizeHelper(fileTree, fileId, variants)
 
+        if "variables" in optimize:
+            self._console.debug("Optimize local variables...")
+            self._variableOptimizeHelper(fileTree, fileId, variants)
+
         if "privates" in optimize:
             self._console.debug("Crypting privates...")
             self._privateOptimizeHelper(fileTree, fileId, variants)
-            self._storePrivates()
+            
+        if "properties" in optimize:
+            self._console.debug("Optimize properties...")
+            self._propertyOptimizeHelper(fileTree, fileId, variants)
 
         return fileTree
 
@@ -140,28 +143,25 @@ class TreeCompiler:
         
     def _privateOptimizeHelper(self, tree, id, variants):
         privateoptimizer.patch(tree, id)
+        self._storePrivates()
+
+
+    def _propertyOptimizeHelper(self, tree, id, variants):
+        propertyoptimizer.patch(tree, id)
 
 
     def _stringOptimizeHelper(self, tree, id, variants):
-        # Do not optimize strings for non-mshtml clients
-        if variants.has_key("qx.client"):
-            clientValue = variants["qx.client"]
-            if clientValue != None and clientValue != "mshtml":
-                return
-
-        # TODO: Customize option for __SS__
-
         stringMap = stringoptimizer.search(tree)
-        stringList = stringoptimizer.sort(stringMap)
-
-        if len(stringList) == 0:
+        
+        if len(stringMap) == 0:
             return
-
-        stringoptimizer.replace(tree, stringList, "__SS__")
+                
+        stringList = stringoptimizer.sort(stringMap)
+        stringoptimizer.replace(tree, stringList)
 
         # Build JS string fragments
         stringStart = "(function(){"
-        stringReplacement = "var " + stringoptimizer.replacement(stringList, "__SS__")
+        stringReplacement = stringoptimizer.replacement(stringList)
         stringStop = "})();"
 
         # Compile wrapper node
