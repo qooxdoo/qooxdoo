@@ -37,7 +37,7 @@ qx.Class.define("qx.html.ClippedImage",
   construct : function()
   {
     this.base(arguments);
-    
+
     this.setStyle("overflow", "hidden");
   },
 
@@ -53,7 +53,7 @@ qx.Class.define("qx.html.ClippedImage",
   members :
   {
     /**
-     * Sets the image source. 
+     * Sets the image source.
      *
      * @param source {String} the image URL
      * @param resize {Boolean?true} Whether the element should be resized to
@@ -65,17 +65,17 @@ qx.Class.define("qx.html.ClippedImage",
       if (!data) {
         throw new Error("The image '" + source + "' must be registered at qx.util.ResourceManager!");
       }
-      
+
       // TODO: Use ImageLoader instead of forced registry!
-      
+
       this.__width = data[0];
       this.__height = data[1];
-      
+
       // Have clipped data available
       if (data.length > 4)
       {
         source = data[4];
-        
+
         var left = data[5];
         var top = data[6];
       }
@@ -84,7 +84,7 @@ qx.Class.define("qx.html.ClippedImage",
         var left = 0;
         var top = 0;
       }
-      
+
       var styles = qx.bom.element.Background.getStyles(source, "repeat", left, top);
       this.setStyles(styles);
 
@@ -108,10 +108,13 @@ qx.Class.define("qx.html.ClippedImage",
       {
         this.removeStyle("filter");
         this.removeStyle("backgroundImage");
+        this.__source = null;
       },
 
-      "default" : function() {
+      "default" : function()
+      {
         this.removeStyle("backgroundImage");
+        this.__source = null;
       }
     }),
 
