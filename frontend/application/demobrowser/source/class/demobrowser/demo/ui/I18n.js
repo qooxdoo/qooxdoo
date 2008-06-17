@@ -42,18 +42,12 @@ qx.Class.define("demobrowser.demo.ui.I18n",
       });
       manager.setLocale("de");
 
-      qx.Class.include(qx.ui.basic.Label, demobrowser.demo.ui.MDynLocaleLabel);
-
       var root = this.getRoot();
 
       // external binding
       var label = new qx.ui.basic.Label();
-      this.bindtr(label, label.setContent, this.tr("Hello %1!", "Fabian"));
+      this.bindtr(label, "content", this.trn("Hello %1!"), "Fabian");
       root.add(label, {left: 10, top: 10});
-
-      var label = new qx.ui.basic.Label();
-      label.setLocalizedContent(this.tr("one"));
-      root.add(label, {left: 10, top: 30});
 
       var btn = new qx.ui.form.Button("Change locale");
       root.add(btn, {left: 100, top: 10});
@@ -71,39 +65,20 @@ qx.Class.define("demobrowser.demo.ui.I18n",
     },
 
 
-    bindtr : function(obj, method, ls)
+    bindtr : function(obj, propname, text, varargs)
     {
+      var mgr = qx.locale.Manager.getInstance();
+      var args = qx.lang.Array.fromArguments(arguments, 3);
+
       var update = function()
       {
-        var tr = ls.toString();
-        method.call(obj, tr);
+        var tr = mgr.translate(text.toString(), args, mgr.getLocale());
+        var props = {};
+        props[propname] = tr;
+        obj.set(props);
       }
       update();
-      qx.locale.Manager.getInstance().addListener("changeLocale", update, this);
-    }
-  }
-});
-
-
-qx.Mixin.define("demobrowser.demo.ui.MDynLocaleLabel",
-{
-  properties : {
-    localizedContent : {
-      check: "qx.locale.LocalizedString",
-      apply: "_applyLocalizedContent"
-    }
-  },
-
-
-  members :
-  {
-    _applyLocalizedContent : function(value, old)
-    {
-      this.setContent(value.toString());
-
-      qx.locale.Manager.getInstance().addListener("changeLocale", function(e) {
-        this.setContent(value.toString());
-      }, this);
+      mgr.addListener("changeLocale", update, this);
     }
   }
 });
