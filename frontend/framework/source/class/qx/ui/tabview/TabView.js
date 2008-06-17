@@ -35,7 +35,16 @@ qx.Class.define("qx.ui.tabview.TabView",
   construct : function() {
     this.base(arguments);
 
-    this._manager = new qx.ui.core.RadioManager();
+    this._manager = new qx.ui.core.RadioManager().set({
+      wrap: false
+    });
+    this._manager.addListener("change", function(e)
+    {
+      var button = e.getValue();
+      if (button) {
+        this._bar.scrollButtonIntoView(button);
+      }
+    }, this);
 
     this._bar = this._createBar();
     this._pane = this._createPane();
@@ -110,6 +119,27 @@ qx.Class.define("qx.ui.tabview.TabView",
       // reset the properties on the tabview (needed for the stats of the buttons)
       this._applyPlaceBarOnTop(this.getPlaceBarOnTop());
       this._applyAlignTabsToLeft(this.getAlignTabsToLeft());
+    },
+
+
+    remove: function(page)
+    {
+      var index = this._pane.indexOf(page);
+      var children = this._pane.getChildren();
+
+      // try to select next page
+      if (index < children.length-1) {
+        this.showPage(children[index+1]);
+      } else if (index > 0) {
+        this.showPage(children[index-1]);
+      }
+
+      // add the button to the bar
+      this._bar.remove(page.getButton());
+      // add the button to the radio manager
+      this._manager.remove(page.getButton());
+      // add the page to the pane
+      this._pane.remove(page);
     },
 
 
