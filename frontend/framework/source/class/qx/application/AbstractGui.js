@@ -30,7 +30,7 @@ qx.Class.define("qx.application.AbstractGui",
 {
   extend : qx.core.Object,
   implement : [qx.application.IApplication],
-
+  include : qx.locale.MTranslation,
 
 
 
@@ -79,12 +79,12 @@ qx.Class.define("qx.application.AbstractGui",
 
       this.__root = this._createRootWidget();
     },
-    
-    
+
+
     finalize : function() {
       this.render();
     },
-    
+
     render : function() {
       qx.ui.core.queue.Manager.flush();
     },
