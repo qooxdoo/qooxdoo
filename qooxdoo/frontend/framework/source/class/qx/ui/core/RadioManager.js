@@ -76,6 +76,17 @@ qx.Class.define("qx.ui.core.RadioManager",
       apply : "_applySelected",
       event : "change",
       check : "qx.ui.core.IRadioItem"
+    },
+
+
+    /**
+     * Whether the selection should wrap arond. This means that the successor of
+     * the last item is the first item.
+     */
+    wrap :
+    {
+      check : "Boolean",
+      init: true
     }
   },
 
@@ -295,7 +306,11 @@ qx.Class.define("qx.ui.core.RadioManager",
       var vLength = this._items.length;
 
       // Find next enabled item
-      vIndex = (vIndex + 1) % vLength;
+      if (this.getWrap()) {
+        vIndex = (vIndex + 1) % vLength;
+      } else {
+        vIndex = Math.min(vIndex + 1, vLength - 1);
+      }
 
       while (i < vLength && !this._items[vIndex].getEnabled())
       {
@@ -324,7 +339,11 @@ qx.Class.define("qx.ui.core.RadioManager",
       var vLength = this._items.length;
 
       // Find previous enabled item
-      vIndex = (vIndex - 1 + vLength) % vLength;
+      if (this.getWrap()) {
+        vIndex = (vIndex - 1 + vLength) % vLength;
+      } else {
+        vIndex = Math.max(vIndex - 1, 0);
+      }
 
       while (i < vLength && !this._items[vIndex].getEnabled())
       {
