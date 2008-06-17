@@ -21,17 +21,17 @@
 
 source:
 	@./tool/genjson.py source/script
-	@../../tool/generator.py -c config.json source
+	@../../tool/generator.py source
 
 build:
 	@./tool/genjson.py build/script
-	@../../tool/generator.py -c config.json build
+	@../../tool/generator.py build
 
 api:
-	@../../tool/generator.py -c config.json api
+	@../../tool/generator.py api
 
 debug:
-	@../../tool/generator.py -c config.json debug-privates
+	@../../tool/generator.py debug-privates
 
 # use old Makefile for other targets
 %: force

@@ -1,3 +1,3 @@
 build:
-	@../../tool/generator.py -c config.json build -v
+	@../../tool/generator.py build -v
 

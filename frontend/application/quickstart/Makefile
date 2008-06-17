@@ -20,4 +20,4 @@
 .PHONY: source build
 
 build:
-	@../../tool/generator.py -c config.json build
+	@../../tool/generator.py build
