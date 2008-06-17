@@ -76,9 +76,9 @@
 
       "include" : ["testrunner.TestLoader", "testrunner.test.*"],
 
-      "localize": 
+      "localize":
       {
-        "locales" : [ "en" ]
+        "locales" : ["de", "de_DE", "fr", "fr_FR" ]
       },
 
       "cache" :
