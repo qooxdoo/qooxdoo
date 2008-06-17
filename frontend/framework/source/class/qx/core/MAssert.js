@@ -116,7 +116,6 @@ qx.Mixin.define("qx.core.MAssert",
     __assert : function(condition, comment, failMsg)
     {
       if (!condition) {
-        debugger;
         throw new qx.core.AssertionError(comment, failMsg);
       }
     },

@@ -247,6 +247,48 @@ qx.Class.define("testrunner.test.Mixin",
       // extended classes must have included methods as well
       qx.Class.define("testrunner.ExtendUseLog1", { extend : testrunner.UseLog1 });
       this.assertEquals("Juhu", new testrunner.ExtendUseLog1().log("Juhu"));
+    },
+
+    testPatchOverwritten : function()
+    {
+      qx.Class.define("testrunner.Patch1", {
+        extend : qx.core.Object,
+
+        members : {
+          sayJuhu : function() { return "Juhu"; }
+        }
+      });
+
+      qx.Class.define("testrunner.Patch2", {
+        extend : qx.core.Object,
+
+        members : {
+          sayJuhu : function() { return "Huhu"; }
+        }
+      });
+
+      qx.Mixin.define("testrunner.MPatch",
+      {
+        members :
+        {
+          sayJuhu : function() { return this.base(arguments) + " Kinners"}
+        }
+      });
+
+
+      this.assertExceptionDebugOn(function() {
+        qx.Class.include(testrunner.Patch1, testrunner.MPatch)
+      }, Error, new RegExp('Overwriting member ".*" of Class ".*" is not allowed!'));
+
+      qx.Class.patch(testrunner.Patch1, testrunner.MPatch);
+      qx.Class.patch(testrunner.Patch2, testrunner.MPatch);
+
+      var o = new testrunner.Patch1();
+      this.assertEquals("Juhu Kinners", o.sayJuhu());
+
+      var o = new testrunner.Patch2();
+      this.assertEquals("Huhu Kinners", o.sayJuhu());
+
     }
   }
 });
