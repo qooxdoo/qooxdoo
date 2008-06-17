@@ -6,9 +6,8 @@
       "library" :
       [
         {
-          "encoding" : "utf-8",
-          "path" : "../../framework/source",
-          "uri" : "../../framework/source"
+          "manifest" : "../../framework/Manifest.json",
+          "uri"      : "../../framework/source"
         }
       ],
 
