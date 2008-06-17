@@ -158,54 +158,55 @@ qx.Class.define("qx.ui.basic.Atom",
 
   members :
   {
-    /**
-     * Updates the visibility of the label
-     */
-    _handleLabel : function()
+    // overridden
+    _createChildControlImpl : function(id)
     {
-      if (this.getLabel() == null || this.getShow() === "icon") {
-        this._remove(this._label);
-      } else {
-        this._add(this._label);
-      }
-    },
+      var control;
+      var show = this.getShow();
 
+      switch(id)
+      {
+        case "label":
+          control = new qx.ui.basic.Label(this.getLabel()).set({
+            anonymous: true,
+            rich: this.getRich()
+          });
+          this._add(control);
+          if (show == "none" || show == "icon") {
+            control.exclude();
+          }
+          break;
 
-    /**
-     * Updates the visibility of the icon
-     */
-    _handleIcon : function()
-    {
-      if (this.getIcon() == null || this.getShow() === "label") {
-        this._remove(this._icon);
-      } else {
-        this._addAt(this._icon, 0);
+        case "icon":
+          control = new qx.ui.basic.Image(this.getIcon()).set({
+            anonymous: true
+          });
+          this._addAt(control, 0);
+          if (show == "none" || show == "label") {
+            control.exclude();
+          }
+          break;
       }
+      return control || this.base(arguments, id);
     },
 
 
     // property apply
     _applyLabel : function(value, old)
     {
-      if (this._label)
-      {
-        this._label.setContent(value);
+      var label = this._getChildControl("label", true);
+      if (label) {
+        label.setContent(value);
       }
-      else
-      {
-        this._label = new qx.ui.basic.Label(value);
-        this._label.setAnonymous(true);
-        this._label.setRich(this.getRich());
-      }
-
-      this._handleLabel();
     },
 
 
+    // property apply
     _applyRich : function(value, old)
     {
-      if (this._label) {
-        this._label.setRich(value);
+      var label = this._getChildControl("label", true);
+      if (label) {
+        label.setRich(value);
       }
     },
 
@@ -213,17 +214,10 @@ qx.Class.define("qx.ui.basic.Atom",
     // property apply
     _applyIcon : function(value, old)
     {
-      if (this._icon)
-      {
-        this._icon.setSource(value);
+      var icon = this._getChildControl("icon", true);
+      if (icon) {
+        icon.setSource(value);
       }
-      else
-      {
-        this._icon = new qx.ui.basic.Image(value);
-        this._icon.setAnonymous(true);
-      }
-
-      this._handleIcon();
     },
 
 
@@ -236,12 +230,18 @@ qx.Class.define("qx.ui.basic.Atom",
     // property apply
     _applyShow : function(value, old)
     {
-      if (this._label) {
-        this._handleLabel();
+      var show = this.getShow();
+
+      if (show == "both" || show == "label") {
+        this._showChildControl("label");
+      } else {
+        this._excludeChildControl("label");
       }
 
-      if (this._icon) {
-        this._handleIcon();
+      if (show == "both" || show == "icon") {
+        this._showChildControl("icon");
+      } else {
+        this._excludeChildControl("icon");
       }
     },
 
