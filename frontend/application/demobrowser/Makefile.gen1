@@ -58,19 +58,19 @@ source:
 	@echo
 	@echo "  GENERATION OF DEMO BROWSER APPLICATION"
 	@$(CMD_LINE)
-	@$(CMD_PYTHON) $(QOOXDOO_PATH)/frontend/tool/generator.py -c config.json source
+	@$(CMD_PYTHON) $(QOOXDOO_PATH)/frontend/tool/generator.py source
 
 build:
 	@echo
 	@echo "  GENERATION OF DEMO BROWSER APPLICATION"
 	@$(CMD_LINE)
-	@$(CMD_PYTHON) $(QOOXDOO_PATH)/frontend/tool/generator.py -c config.json build
+	@$(CMD_PYTHON) $(QOOXDOO_PATH)/frontend/tool/generator.py build
 
 source1:
 	@#echo
 	@#echo "  GENERATION OF DEMO BROWSER APPLICATION"
 	@#$(CMD_LINE)
-	@#$(CMD_PYTHON) $(QOOXDOO_PATH)/frontend/tool/generator.py -c config.json source
+	@#$(CMD_PYTHON) $(QOOXDOO_PATH)/frontend/tool/generator.py source
 	@echo
 	@echo "  GENERATION OF DEMO BROWSER DATA"
 	@$(CMD_LINE)
@@ -84,7 +84,7 @@ build1:
 	@#echo
 	@#echo "  GENERATION OF DEMO BROWSER APPLICATION"
 	@#$(CMD_LINE)
-	@#$(CMD_PYTHON) $(QOOXDOO_PATH)/frontend/tool/generator.py -c config.json build
+	@#$(CMD_PYTHON) $(QOOXDOO_PATH)/frontend/tool/generator.py build
 	@echo
 	@echo "  GENERATION OF DEMO BROWSER DATA"
 	@$(CMD_LINE)

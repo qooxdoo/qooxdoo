@@ -20,10 +20,10 @@
 .PHONY: source build clean distclean api publish fix
 
 source:
-	@../../tool/generator.py -c config.json source
+	@../../tool/generator.py source
 
 build:
-	@../../tool/generator.py -c config.json build
+	@../../tool/generator.py build
 
 clean:
 	@$(MAKE) -s -f Makefile.runner clean
