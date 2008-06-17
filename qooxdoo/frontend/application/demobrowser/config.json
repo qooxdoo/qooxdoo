@@ -109,7 +109,7 @@
 
       "shell" :
       {
-        "command" : "../../../frontend/tool/generator.py -c ./tool/demo_dyn.json -j source"
+        "command" : "../../../frontend/tool/generator.py -c ./tool/demo_dyn.json source"
       }
     },
 
@@ -191,7 +191,7 @@
 
       "shell" :
       {
-        "command" : "../../../frontend/tool/generator.py -c ./tool/demo_dyn.json -j build"
+        "command" : "../../../frontend/tool/generator.py -c ./tool/demo_dyn.json build"
       }
     },
 

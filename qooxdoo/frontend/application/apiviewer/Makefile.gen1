@@ -57,16 +57,16 @@ error:
 ################################################################################
 
 source-new:
-	@../../tool/generator.py -c config.json source-script
+	@../../tool/generator.py source-script
 
 build-new:
-	@../../tool/generator.py -c config.json build-script
+	@../../tool/generator.py build-script
 
 source-data:
-	@../../tool/generator.py -c config.json source-data
+	@../../tool/generator.py source-data
 
 build-data:
-	@../../tool/generator.py -c config.json build-data
+	@../../tool/generator.py build-data
 
 source: source-data
 build: build-data
