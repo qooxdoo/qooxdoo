@@ -40,7 +40,7 @@ qx.Class.define("qx.ui.tabview.Bar",
   construct : function(orientation)
   {
     this.base(arguments, orientation);
-    
+
     /*
     this._getChildControl("pane").addListener("addChildWidget", function(e) {
       var child = e.getData();
@@ -87,7 +87,8 @@ qx.Class.define("qx.ui.tabview.Bar",
       {
         case "button-forward":
           control = new qx.ui.form.RepeatButton().set({
-            appearance: "tab-view-bar-button-right"
+            appearance: "tab-view-bar-button-right",
+            focusable: false
           });
           control.addListener("execute", this._scrollForward, this);
           this._add(control);
@@ -95,13 +96,14 @@ qx.Class.define("qx.ui.tabview.Bar",
 
         case "button-back":
           control = new qx.ui.form.RepeatButton().set({
-            appearance: "tab-view-bar-button-left"
+            appearance: "tab-view-bar-button-left",
+            focusable: false
           });
           control.addListener("execute", this._scrollBack, this);
           this._addBefore(control, this._getChildControl("button-forward"));
           break;
       }
-      var control = control || this.base(arguments, id);
+      control = control || this.base(arguments, id);
       return control;
     },
 
