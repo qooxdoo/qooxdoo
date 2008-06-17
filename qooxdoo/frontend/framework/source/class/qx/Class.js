@@ -187,7 +187,7 @@ qx.Bootstrap.define("qx.Class",
 
         // Attach members
         if (config.members) {
-          this.__addMembers(clazz, config.members, true, true);
+          this.__addMembers(clazz, config.members, true, true, false);
         }
 
         // Process events
@@ -1212,10 +1212,13 @@ qx.Bootstrap.define("qx.Class",
      * @param clazz {Class} clazz to add members to
      * @param members {Map} The map of members to attach
      * @param patch {Boolean ? false} Enable patching of
-     * @param base (Boolean ? true) Attach base flag to mark function as members of this class
+     * @param base (Boolean ? true) Attach base flag to mark function as members
+     *     of this class
+     * @param wrap {Boolean ? false} Whether the member method should be wrapped.
+     *     this is needed to allow base calls in patched mixin members.
      * @return {void}
      */
-    __addMembers : function(clazz, members, patch, base)
+    __addMembers : function(clazz, members, patch, base, wrap)
     {
       var proto = clazz.prototype;
       var key, member;
@@ -1242,13 +1245,20 @@ qx.Bootstrap.define("qx.Class",
         // classes which are function like as well.
         if (base !== false && member instanceof Function && member.$$type == null)
         {
-          // Configure extend (named base here)
-          // Hint: proto[key] is not yet overwritten here
-          if (proto[key]) {
-            member.base = proto[key];
+          if (wrap == true)
+          {
+            // wrap "patched" mixin member
+            member = this.__mixinMemberWrapper(member, proto[key]);
           }
-
-          member.self = clazz;
+          else
+          {
+            // Configure extend (named base here)
+            // Hint: proto[key] is not yet overwritten here
+            if (proto[key]) {
+              member.base = proto[key];
+            }
+            member.self = clazz;
+          }
 
           if (qx.core.Variant.isSet("qx.aspects", "on")) {
             member = qx.core.Aspect.wrap(clazz.classname + "." + key, member, "member");
@@ -1257,6 +1267,30 @@ qx.Bootstrap.define("qx.Class",
 
         // Attach member
         proto[key] = member;
+      }
+    },
+
+
+    /**
+     * Wraps a member function of a mixin, which is included using "patch". This
+     * allows "base" calls in the mixin member function.
+     *
+     * @param member {Function} The mixin method to wrap
+     * @param base {Function} The overwritten method
+     * @return {Function} the wrapped mixin member
+     */
+    __mixinMemberWrapper : function(member, base)
+    {
+      if (base)
+      {
+        return function() {
+          member.base = base;
+          return member.apply(this, arguments);
+        }
+      }
+      else
+      {
+        return member;
       }
     },
 
@@ -1344,7 +1378,7 @@ qx.Bootstrap.define("qx.Class",
 
         // Attach members (Respect patch setting, but dont apply base variables)
         if (entry.$$members) {
-          this.__addMembers(clazz, entry.$$members, patch, false);
+          this.__addMembers(clazz, entry.$$members, patch, patch, patch);
         }
       }
 
