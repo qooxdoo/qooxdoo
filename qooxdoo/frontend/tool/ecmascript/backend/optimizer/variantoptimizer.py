@@ -64,6 +64,11 @@ def search(node, variantMap, fileId="", verb=False):
 
 
 def processVariantSelect(callNode, variantMap):
+    '''
+    processes qx.core.Variant.select blocks;
+    destructive! re-writes the AST tree passed in [callNode] by replacing choices with
+    the suitable branch.
+    '''
     if callNode.type != "call":
         return False
         
@@ -113,6 +118,11 @@ def processVariantSelect(callNode, variantMap):
 
 
 def processVariantIsSet(callNode, variantMap):
+    '''
+    processes qx.core.Variant.isSet() calls;
+    destructive! re-writes the AST tree passed in [callNode] by replacing choices with
+    the suitable branch
+    '''
     if callNode.type != "call":
         return False
         
