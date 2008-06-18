@@ -102,7 +102,12 @@ qx.Class.define("qx.html.Input",
      */
     setValue : function(value)
     {
-      this._setProperty("value", value);
+      if (this._element) {
+        qx.bom.Input.setValue(this._element, value); 
+      } else {
+        this._setProperty("value", value);
+      }         
+
       return this;
     },
 
@@ -116,10 +121,10 @@ qx.Class.define("qx.html.Input",
     getValue : function()
     {
       if (this._element) {
-        return qx.bom.element.Attribute.get(this._element, "value");
+        return qx.bom.Input.getValue(this._element); 
       }
-
-      return this._getProperty("value");
+            
+      return this._getProperty("value") || "";
     },
 
 

@@ -124,6 +124,11 @@ qx.Class.define("qx.bom.Input",
         element.value = value;
       }
     }),
+    
+    
+    getValue : function(element) {
+      return element.value;
+    },
 
 
     /**
