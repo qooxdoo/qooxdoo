@@ -87,7 +87,7 @@ qx.Class.define("qx.ui.form.SelectBox",
     });
 
     // register the mouse and keyboard listener
-    this.addListener("click", this._onClick, this);
+    this.addListener("mousedown", this._onMouseDown, this);
     this.addListener("keypress", this._onKeyPress);
     this.addListener("blur", this._hideList, this);
     // Listener for Search as you type (forward the keyinput event)
@@ -272,7 +272,7 @@ qx.Class.define("qx.ui.form.SelectBox",
     },
 
 
-    _onClick : function(e)
+    _onMouseDown : function(e)
     {
       var isListOpen = this._listPopup.getVisibility() == "visible";
       if (isListOpen) {
