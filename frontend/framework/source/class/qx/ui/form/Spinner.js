@@ -114,7 +114,7 @@ qx.Class.define("qx.ui.form.Spinner",
     }
 
     if (vValue != null) {
-      this.setValue(vValue);
+      this.setValue(vValue);   
     }
   },
 
@@ -307,59 +307,36 @@ qx.Class.define("qx.ui.form.Spinner",
      * @param old {Number} The former value of the spinner
      */
     _applyValue: function(value, old)
-    {
-      // if the spinner should NOT wrap around
-      if (!this.getWrap())
+    {      
+      // if the value is greater than the max value
+      if (value > this.getMax())
       {
-        // if the value is greater than the max value
-        if (value > this.getMax())
-        {
-          this.setValue(this.getMax());
-          return;
-        }
-
-        // if the value is lower than the max value
-        else if(value < this.getMin())
-        {
-          this.setValue(this.getMin());
-          return;
-        }
+        this.setValue(this.getMax());
+        return;
       }
 
-      // if the spinner should wrap around
-      else
+      // if the value is lower than the min value
+      else if(value < this.getMin())
       {
-        // if the valus is over the max value
-        if (value > this.getMax())
-        {
-          // set the new value and reuturn
-          var tmp = value - this.getMax();
-          this.setValue(this.getMin() + tmp - 1);
-          return;
-        }
-
-        // if the value is lower than the min value
-        else if(value < this.getMin())
-        {
-          // set the new value and return
-          var tmp = value - this.getMin();
-          this.setValue(this.getMax() + tmp + 1);
-          return;
-        }
+        this.setValue(this.getMin());
+        return;
       }
+
 
       // up button enabled/disabled
       if (value < this.getMax())
       {
         // only enable the button if the spinner itself is enabled
         if (this.getEnabled()) {
-          this._upbutton.setEnabled(true);
+          this._upbutton.resetEnabled();
         }
       }
       else
       {
         // only disable the buttons if wrapping is disabled
         if (!this.getWrap()) {
+          // FIRST RELEASE THE BUTTON, then disable it
+          this._upbutton.release(false);
           this._upbutton.setEnabled(false);
         }
       }
@@ -369,13 +346,15 @@ qx.Class.define("qx.ui.form.Spinner",
       {
         // only enable the button if the spinner itself is enabled
         if (this.getEnabled()) {
-          this._downbutton.setEnabled(true);
+          this._downbutton.resetEnabled();
         }
       }
       else
       {
         // only disable the buttons if wrapping is disabled
-        if (!this.getWrap()) {
+        if (!this.getWrap()) { 
+          // FIRST RELEASE THE BUTTON, then disable it
+          this._downbutton.release(false);          
           this._downbutton.setEnabled(false);
         }
       }
@@ -387,7 +366,7 @@ qx.Class.define("qx.ui.form.Spinner",
       if (this.getNumberFormat()) {
         this._textField.setValue(this.getNumberFormat().format(value));
       } else {
-        this._textField.setValue(String(value));
+        this._textField.setValue(value + "");
       }
     },
 
@@ -450,19 +429,11 @@ qx.Class.define("qx.ui.form.Spinner",
       {
         // disable the spinner
         this.addState("disabled");
-
-        // diable the buttons separately because they will be enabled explicit
-        this._upbutton.setEnabled(false);
-        this._downbutton.setEnabled(false);
       }
       else
       {
         // enable the spinner
         this.removeState("disabled");
-
-        // enable the buttons separately because they will be disabled explicit
-        this._upbutton.setEnabled(true);
-        this._downbutton.setEnabled(true);
       }
     },
 
@@ -646,11 +617,20 @@ qx.Class.define("qx.ui.form.Spinner",
      */
     _countUp: function()
     {
-      if (this._pageUpMode) {
-        this.setValue(this.getValue() + this.getPageStep());
+      if (this._pageUpMode) {        
+        var newValue = this.getValue() + this.getPageStep();
       } else {
-        this.setValue(this.getValue() + this.getSingleStep());
+        var newValue = this.getValue() + this.getSingleStep();
       }
+      
+      // handle the case that wraping is enabled
+      if (this.getWrap()) {
+        if (newValue > this.getMax()) {
+          var dif = this.getMax() - newValue;
+          newValue = this.getMin() + dif;          
+        }
+      }
+      this.setValue(newValue);
     },
 
 
@@ -663,10 +643,19 @@ qx.Class.define("qx.ui.form.Spinner",
     _countDown: function()
     {
       if (this._pageDownMode) {
-        this.setValue(this.getValue() - this.getPageStep());
+        var newValue = this.getValue() - this.getPageStep();
       } else {
-        this.setValue(this.getValue() - this.getSingleStep());
+        var newValue = this.getValue() - this.getSingleStep();
       }
+      
+      // handle the case that wraping is enabled
+      if (this.getWrap()) {
+        if (newValue < this.getMin()) {
+          var dif = this.getMin() + newValue;
+          newValue = this.getMax() - dif;          
+        }
+      }
+      this.setValue(newValue);
     },
 
 
@@ -703,17 +692,27 @@ qx.Class.define("qx.ui.form.Spinner",
       }
 
       // try to parse the number as a float
-      var value = parseFloat(this._textField.getValue(), 10);
+      var value = parseFloat(this._textField.getValue(), 10);      
       // if the result is a number
       if (!isNaN(value))
       {
-        // set the value in the spinner
-        this.setValue(value);
+        console.log("value: " + value + "   get: " + this.getValue());
+        if (value == this.getValue()) 
+        {
+          console.log("textfield: " + this._textField.getValue());
+          this._textField.setValue(value + "");
+        }
+        else
+        {
+          // set the value in the spinner
+          this.setValue(value);
+        }
       }
       else
       {
+        console.log(this._lastValidValue);
         // otherwise, reset the last valid value
-        this._textField.setValue(String(this._lastValidValue));
+        this._textField.setValue(this._lastValidValue + "");
       }
     }
   },
