@@ -1283,9 +1283,13 @@ qx.Bootstrap.define("qx.Class",
     {
       if (base)
       {
-        return function() {
+        return function()
+        {
+          var oldBase = member.base;
           member.base = base;
-          return member.apply(this, arguments);
+          var retval = member.apply(this, arguments);
+          member.base = oldBase;
+          return retval;
         }
       }
       else
