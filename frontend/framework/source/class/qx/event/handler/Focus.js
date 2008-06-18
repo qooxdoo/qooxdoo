@@ -179,6 +179,12 @@ qx.Class.define("qx.event.handler.Focus",
      */
     focus : function(element)
     {
+      // First try to focus the element using native methods
+      try {
+        element.focus();
+      } catch(ex) {};
+      
+      
       // Special support for elements which are not focusable.
       // Is at least an issue in current Safaris (3.1) and Operas (9.5)
       // where tabIndex is not natively supported on non-form elements.
@@ -191,10 +197,6 @@ qx.Class.define("qx.event.handler.Focus",
 
         this.setFocus(element);
         this.setActive(element);
-      }
-      else
-      {
-        element.focus();
       }
     },
 
@@ -225,8 +227,19 @@ qx.Class.define("qx.event.handler.Focus",
      * @param element {Element} DOM element to focus
      * @return {void}
      */
-    blur : function(element) {
-      element.blur();
+    blur : function(element) 
+    {
+      try{
+        element.blur();
+      } catch(ex) {}
+        
+      if (this.getActive() === element) {
+        this.resetActive(); 
+      }
+      
+      if (this.getFocus() === element) {
+        this.resetFocus(); 
+      }
     },
 
 
@@ -747,7 +760,7 @@ qx.Class.define("qx.event.handler.Focus",
 
         // Focus target may be null (e.g. respect focus blocks)
         var focusTarget = this.__findFocusNode(target, true);
-
+        
         if (focusTarget) {
           focusTarget.focus();
         } else {
@@ -1012,7 +1025,7 @@ qx.Class.define("qx.event.handler.Focus",
     // apply routine
     _applyFocus : function(value, old)
     {
-      // this.debug("LL-Focus: " + value);
+      // this.debug("LL-Focus: " + (value ? value.$$hash : "null"));
 
       // Fire bubbling events
       if (old) {
