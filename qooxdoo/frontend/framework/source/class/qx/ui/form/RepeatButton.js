@@ -171,10 +171,16 @@ qx.Class.define("qx.ui.form.RepeatButton",
      * this function.
      *
      * @type member
+     * @param fireExecuteEvent {Boolean?true} flag which signals, if a event should be fired 
      * @return {void}
      */
-    release : function()
+    release : function(fireExecuteEvent)
     {
+      // set the default value of the argument
+      if (typeof fireExecuteEvent != "boolean") {
+        fireExecuteEvent = true;
+      }
+      
       // only if the button is enabled
       if (this.isEnabled())
       {
@@ -182,7 +188,7 @@ qx.Class.define("qx.ui.form.RepeatButton",
         if (this.hasState("pressed"))
         {
           // if the button hast not been executed
-          if (!this.__executed) {
+          if (!this.__executed && fireExecuteEvent) {
             this.execute();
           }
 
