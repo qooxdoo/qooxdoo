@@ -209,7 +209,7 @@ qx.Class.define("qx.ui.layout.HBox",
       // Sparse array (keep old one if lengths has not been modified)
       var widths = reuse ? this._widths : new Array(length);
       var flexs = reuse ? this._flexs : new Array(length);
-
+      
       // Loop through children to preparse values
       for (var i=0; i<length; i++)
       {

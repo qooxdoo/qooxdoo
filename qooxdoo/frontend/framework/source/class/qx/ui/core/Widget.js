@@ -2348,7 +2348,7 @@ qx.Class.define("qx.ui.core.Widget",
     _applySelectable : function(value)
     {
       // Re-apply cursor
-      this._applyCursor();
+      this._applyCursor(this.getCursor());
 
       // Apply qooxdoo attribute
       this._containerElement.setAttribute("qxSelectable", value ? "on" : "off");
