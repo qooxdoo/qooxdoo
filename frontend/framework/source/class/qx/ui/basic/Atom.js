@@ -172,9 +172,7 @@ qx.Class.define("qx.ui.basic.Atom",
             rich: this.getRich()
           });
           this._add(control);
-          if (show == "none" || show == "icon") {
-            control.exclude();
-          }
+          this._handleLabel(control);
           break;
 
         case "icon":
@@ -182,12 +180,40 @@ qx.Class.define("qx.ui.basic.Atom",
             anonymous: true
           });
           this._addAt(control, 0);
-          if (show == "none" || show == "label") {
-            control.exclude();
-          }
+          this._handleIcon(control);
           break;
       }
       return control || this.base(arguments, id);
+    },
+
+
+    /**
+     * Updates the visibility of the label
+     *
+     * @param control {qx.ui.basic.Label?null} (Optional) the label instance
+     */
+    _handleLabel : function(control)
+    {
+      if (this.getLabel() == null || this.getShow() === "icon") {
+        control ? control.exclude() : this._excludeChildControl("label");
+      } else {
+        control ? control.show() : this._showChildControl("label");
+      }
+    },
+
+
+    /**
+     * Updates the visibility of the icon
+     *
+     * @param control {qx.ui.basic.Icon?null} (Optional) the icon instance
+     */
+    _handleIcon : function(control)
+    {
+      if (this.getIcon() == null || this.getShow() === "label") {
+        control ? control.exclude() : this._excludeChildControl("icon");
+      } else {
+        control ? control.show() : this._showChildControl("icon");
+      }
     },
 
 
@@ -195,8 +221,10 @@ qx.Class.define("qx.ui.basic.Atom",
     _applyLabel : function(value, old)
     {
       var label = this._getChildControl("label", true);
-      if (label) {
+      if (label)
+      {
         label.setContent(value);
+        this._handleLabel();
       }
     },
 
@@ -215,8 +243,10 @@ qx.Class.define("qx.ui.basic.Atom",
     _applyIcon : function(value, old)
     {
       var icon = this._getChildControl("icon", true);
-      if (icon) {
+      if (icon)
+      {
         icon.setSource(value);
+        this._handleIcon();
       }
     },
 
@@ -230,19 +260,8 @@ qx.Class.define("qx.ui.basic.Atom",
     // property apply
     _applyShow : function(value, old)
     {
-      var show = this.getShow();
-
-      if (show == "both" || show == "label") {
-        this._showChildControl("label");
-      } else {
-        this._excludeChildControl("label");
-      }
-
-      if (show == "both" || show == "icon") {
-        this._showChildControl("icon");
-      } else {
-        this._excludeChildControl("icon");
-      }
+      this._handleLabel();
+      this._handleIcon();
     },
 
 
