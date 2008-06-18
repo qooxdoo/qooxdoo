@@ -204,12 +204,26 @@
 
     "api" :
     {
-      "extend": ["common", "appconf/api"],
+      "extend": ["appconf/api"],
 
       "let" :
       {
+        "APPLICATION"  : "testrunner",
         "ROOT" : "${QOOXDOO_PATH}/../application/apiviewer"
-      }
+      },
+
+      "cache" :
+      {
+        "path" : "../../cache"
+      },
+
+      "library" :
+      [
+        {
+          "manifest" : "Manifest.json",
+          "uri"      : ".."
+        }
+      ]
     }
   }
 }

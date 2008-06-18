@@ -25,6 +25,9 @@ source:
 build:
 	@../../tool/generator.py build
 
+api:
+	@../../tool/generator.py api
+
 clean:
 	@$(MAKE) -s -f Makefile.runner clean
 	@$(MAKE) -s -f Makefile.tests clean
@@ -32,9 +35,6 @@ clean:
 distclean:
 	@$(MAKE) -s -f Makefile.runner distclean
 	@$(MAKE) -s -f Makefile.tests distclean
-
-api:
-	@$(MAKE) -s -f Makefile.runner api
 
 publish:
 	@$(MAKE) -s -f Makefile.runner publish
