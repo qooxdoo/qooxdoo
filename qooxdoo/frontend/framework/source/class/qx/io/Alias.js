@@ -96,7 +96,24 @@ qx.Class.define("qx.io.Alias",
         var resolved = this._aliases[alias];
 
         if (resolved !== undefined) {
-          dynamics[value] = resolved + value.substring(alias.length);
+          var urlPrefix = "";
+          
+          /* 
+           * To avoid a "mixed content" warning in IE when the application is 
+           * delivered via HTTPS a prefix has to be added. This will transform the
+           * relative URL to an absolute one in IE.
+           * Though this warning is only displayed in conjunction with images which 
+           * are referenced as a CSS "background-image", every resource path is 
+           * changed when the application is served with HTTPS.     
+           */
+          if (qx.core.Variant.isSet("qx.client", "mshtml"))
+          {
+            if (window.location.protocol === "https:") {
+              urlPrefix = window.location.href.substring(0, window.location.href.lastIndexOf("/") + 1);
+            }
+          }
+          
+          dynamics[value] = urlPrefix + resolved + value.substring(alias.length);
         }
       }
 
