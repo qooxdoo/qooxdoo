@@ -192,6 +192,16 @@ qx.Class.define("qx.ui.core.ScrollArea",
 
 
 
+    /*
+    ---------------------------------------------------------------------------
+      PANE SIZE
+    ---------------------------------------------------------------------------
+    */
+    
+    getPaneSize : function() {
+      return this._getChildControl("pane").getBounds();
+    },
+    
 
 
     /*
