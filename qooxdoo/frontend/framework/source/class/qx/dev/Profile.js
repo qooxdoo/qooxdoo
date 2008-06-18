@@ -26,7 +26,7 @@
  * To enable profiling this class must be loaded <b>before</b> <code>qx.Class</code> is
  * loaded. This can be achieved by making <code>qx.core.Aspect</code> and
  * <code>qx.dev.Profile</code> a load time dependency of <code>qx.Class</code>.
- * Further more the variant <code>qx.aspect</code> must be set to <code>on</code>.
+ * Further more the variant <code>qx.aspects</code> must be set to <code>on</code>.
  */
 qx.Bootstrap.define("qx.dev.Profile",
 {
