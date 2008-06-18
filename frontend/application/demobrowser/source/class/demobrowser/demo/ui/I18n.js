@@ -46,7 +46,7 @@ qx.Class.define("demobrowser.demo.ui.I18n",
 
       // external binding
       var label = new qx.ui.basic.Label();
-      this.bindtr(label, "content", this.trn("Hello %1!"), "Fabian");
+      this.bindtr(label, "content", this.tr("Hello %1!"), "Fabian");
       root.add(label, {left: 10, top: 10});
 
       var btn = new qx.ui.form.Button("Change locale");
