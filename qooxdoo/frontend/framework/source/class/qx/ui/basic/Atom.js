@@ -221,11 +221,10 @@ qx.Class.define("qx.ui.basic.Atom",
     _applyLabel : function(value, old)
     {
       var label = this._getChildControl("label", true);
-      if (label)
-      {
+      if (label) {
         label.setContent(value);
-        this._handleLabel();
       }
+      this._handleLabel();
     },
 
 
@@ -243,11 +242,10 @@ qx.Class.define("qx.ui.basic.Atom",
     _applyIcon : function(value, old)
     {
       var icon = this._getChildControl("icon", true);
-      if (icon)
-      {
+      if (icon) {
         icon.setSource(value);
-        this._handleIcon();
       }
+      this._handleIcon();
     },
 
 
