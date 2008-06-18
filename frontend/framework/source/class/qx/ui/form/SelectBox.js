@@ -266,6 +266,7 @@ qx.Class.define("qx.ui.form.SelectBox",
         this._hideList();
         return;
       }
+      
       // forward the rest of the events to the list
       this._list.handleKeyPress(e);
     },
@@ -280,6 +281,5 @@ qx.Class.define("qx.ui.form.SelectBox",
         this._showList();
       }
     }
-
   }
 });
