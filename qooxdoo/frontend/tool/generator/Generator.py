@@ -228,116 +228,69 @@ class Generator:
         if not compileTriggerKeys:
             return
 
+        # the next part is transitional, until the new runCompiled1(), runSource1() methods are implemented
+        partBuilder     = PartBuilder(self._console, self._depLoader, self._treeCompiler)
+        parts, packages = partBuilder.getPackages(partIncludes, smartExclude, classList, collapseCfg, variants, sizeCfg)
+
         # process job triggers that compile
         if compileTriggerKeys:
             for trigger in compileTriggerKeys:
                 if trigger is "compile-source":
-                    self.runSource()
+                    self.runSource(parts, packages, boot, variants)
 
                 if trigger is "compile-dist":
-                    self.runCompiled()
+                    self.runCompiled(parts, packages, boot, variants)
 
 
         return
 
-        # These need nothing more than the simple job info
 
-        if job.has_key("translation"):
-            del job["translation"]
-            self.runUpdateTranslation()
-
-        if job.has_key("copy-files"):
-            del job["copy-files"]
-            self.runCopyFiles()
-
-        if job.has_key("shell"):
-            del job["shell"]
-            self.runShellCommands()
-
-        if job.has_key("slice-images"):
-            del job["slice-images"]
-            self.runImageSlicing()
-
-        if job.has_key("combine-images"):
-            del job["combine-images"]
-            self.runImageCombining()
-
-
-        # Re-Check job list
-
-        if len(job) == 0:
-            return
-
-
-        # These need the basic include list
-
-        (_,classes,_,_) = self.scanLibrary(config.extract("library"))
-
-        if job.has_key("copy-resources"):
-            del job["copy-resources"]
-            self.runResources(classes)
-
-        if job.has_key("api"):
-            del job["api"]
-            self.runApiData(classes)
-
-
-        # Re-Check job list
-
-        if len(job) == 0:
-            return
-
+    def runCompiled1(self):
 
         # Dist Generation
 
-        if job.has_key("compile-dist"):
-            del job["compile-dist"]
+        # Generate loader + compiled files
 
-            # Generate loader + compiled files
-
-            if hasParts:
-                # Insert new part which only contains the loader stuff
-                injectLoader(parts)
-
-                # Compute packages
-                parts, packages = self._partBuilder.getPackages(partIncludes, smartExclude, classList, collapseCfg, variants, sizeCfg)
-
-                # Build all individual packages
-                for pkg in packages:
-                    fileName = "TODO"
-                    compiled = self.compileClasses(pkgClasses, variants)
-                    writeFile(fileName, compiled)
-
-            else:
-                # Generate one compiled file including all
-                fileName = "TODO"
-                compiled = self.compileClasses(classes)
-                writeFile(fileName, compiled)
-
-
-
-        # Source Generation
-
-        if job.has_key("compile-source"):
-            del job["compile-source"]
-
+        if hasParts:
             # Insert new part which only contains the loader stuff
             injectLoader(parts)
 
             # Compute packages
             parts, packages = self._partBuilder.getPackages(partIncludes, smartExclude, classList, collapseCfg, variants, sizeCfg)
 
-            # Compile first part
-            compiled = self._generateSourcePackageCode(part, packages)
-            for part in parts:
-                for pkg in part:
-                    compiled += self.compileClasses(pkgClasses, variants)
-                    break
+            # Build all individual packages
+            for pkg in packages:
+                fileName = "TODO"
+                compiled = self.compileClasses(pkgClasses, variants)
+                writeFile(fileName, compiled)
+
+        else:
+            # Generate one compiled file including all
+            fileName = "TODO"
+            compiled = self.compileClasses(classes)
+            writeFile(fileName, compiled)
+
+
+
+    def runSource1(self):
+
+        # Source Generation
+
+        # Insert new part which only contains the loader stuff
+        injectLoader(parts)
+
+        # Compute packages
+        parts, packages = self._partBuilder.getPackages(partIncludes, smartExclude, classList, collapseCfg, variants, sizeCfg)
+
+        # Compile first part
+        compiled = self._generateSourcePackageCode(part, packages)
+        for part in parts:
+            for pkg in part:
+                compiled += self.compileClasses(pkgClasses, variants)
                 break
+            break
 
-            writeFile(fileName, boot + compiled)
-
-
+        writeFile(fileName, boot + compiled)
 
 
 
@@ -415,22 +368,24 @@ class Generator:
                     partIncludes[partId] = self._expandRegExps(partsCfg[partId])
 
                 # Computing packages
-                parts, packages = partBuilder.getPackages(partIncludes, smartExclude, classList, collapseCfg, variants, sizeCfg)
+                # partPackages[partId]=[0,1,3]
+                # packageClasses[0]=['qx.Class','qx.bom.Stylesheet',...]
+                partPackages, packageClasses = partBuilder.getPackages(partIncludes, smartExclude, classList, collapseCfg, variants, sizeCfg)
 
             else:
                 # Emulate configuration
                 boot = "boot"
-                parts = { "boot" : [0] }
-                packages = [classList]
+                partPackages = { "boot" : [0] }
+                packageClasses = [classList]
 
 
 
             # Execute real tasks
-            self.runApiData(packages)
-            self._translationMaps = self.runTranslation(parts, packages, variants)
-            self.runSource(parts, packages, boot, variants)
+            self.runApiData(packageClasses)
+            self._translationMaps = self.runTranslation(partPackages, packageClasses, variants)
+            self.runSource(partPackages, packageClasses, boot, variants)
             self.runResources()  # run before runCompiled, to get image infos
-            self.runCompiled(parts, packages, boot, variants)
+            self.runCompiled(partPackages, packageClasses, boot, variants)
             self.runCopyFiles()
             self.runShellCommands()
             self.runImageSlicing()
@@ -438,7 +393,7 @@ class Generator:
 
 
             # Debug tasks
-            self.runDependencyDebug(parts, packages, variants)
+            self.runDependencyDebug(partPackages, packageClasses, variants)
             self.runPrivateDebug()
 
 
@@ -650,6 +605,8 @@ class Generator:
 
         # Read in base file name
         filePath = self._config.get("compile-dist/file")
+        if variants:
+            filePath = self._makeVariantsName(filePath, variants)
 
         # Read in app root dir
         if self._config.get("compile-dist/root", False):
@@ -742,6 +699,8 @@ class Generator:
 
         # Read in base file name
         filePath = self._config.get("compile-source/file")
+        if variants:
+            filePath = self._makeVariantsName(filePath, variants)
 
         # Whether the code should be formatted
         format = self._config.get("compile-source/format", False)
@@ -1312,6 +1271,13 @@ class Generator:
         copier.parse_args(['-c', '-s', '-x', '.svn', srcPath, targPath])
         copier.do_work()
 
+
+    def _makeVariantsName(self, pathName, variants):
+        (newname, ext) = os.path.splitext(pathName)
+        for key in variants:
+            newname += "_%s:%s" % (str(key), str(variants[key]))
+        newname += ext
+        return newname
 
 
 # wpbasti: TODO: Put this into a separate file
