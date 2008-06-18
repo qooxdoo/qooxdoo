@@ -356,7 +356,11 @@ qx.Bootstrap.define("qx.event.Manager",
         isDomNode = true;
         key = "DOM_" + target.tagName.toLowerCase() + "_" + type;
       }
-      else if (target === this.__window)
+      
+      // Please note:
+      // Identical operator does not work in IE (as of version 7) because
+      // document.parentWindow is not identical to window. Crazy stuff.
+      else if (target == this.__window)
       {
         isWindow = true;
         key = "WIN_" + type;
@@ -370,7 +374,7 @@ qx.Bootstrap.define("qx.event.Manager",
       {
         key = "UNKNOWN_" + target + "_" + type;
       }
-
+      
 
       var cache = this.__handlerCache;
       if (cache[key]) {
