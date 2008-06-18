@@ -17,7 +17,7 @@
       [
         "XXX",
         "qx.log.appender.Native",
-        "qx.log.appender.Console"        
+        "qx.log.appender.Console"
       ],
 
       "require" :
@@ -49,6 +49,11 @@
       "settings" :
       {
         "qx.application" : "XXX"
+      },
+
+      "variants" :
+      {
+        "qx.aspects" : ["off"]
       },
 
       "compile-source" :
