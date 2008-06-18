@@ -255,7 +255,9 @@ qx.Class.define("testrunner.test.Mixin",
         extend : qx.core.Object,
 
         members : {
-          sayJuhu : function() { return "Juhu"; }
+          sayJuhu : function() { return "Juhu"; },
+
+          foo : function() { return "foo"; }
         }
       });
 
@@ -263,15 +265,32 @@ qx.Class.define("testrunner.test.Mixin",
         extend : qx.core.Object,
 
         members : {
-          sayJuhu : function() { return "Huhu"; }
+          sayJuhu : function() { return "Huhu"; },
+
+          foo : function() {
+            return "bar";
+          }
         }
+
       });
 
       qx.Mixin.define("testrunner.MPatch",
       {
         members :
         {
-          sayJuhu : function() { return this.base(arguments) + " Kinners"}
+          sayJuhu : function() { return this.base(arguments) + " Kinners"},
+
+          foo : function(dontRecurs)
+          {
+            var s = "";
+            if (!dontRecurs) {
+              var b = new testrunner.Patch2();
+              s += "++" + b.foo(true) + "__";
+            }
+
+            s += this.base(arguments);
+            return s;
+          }
         }
       });
 
@@ -289,6 +308,12 @@ qx.Class.define("testrunner.test.Mixin",
       var o = new testrunner.Patch2();
       this.assertEquals("Huhu Kinners", o.sayJuhu());
 
+
+      // very special case with recursive calls from different classes to
+      // the mixin member
+      var o = new testrunner.Patch1();
+      this.assertEquals("++bar__foo", o.foo());
+      console.log("fooo: ", o.foo());
     }
   }
 });
