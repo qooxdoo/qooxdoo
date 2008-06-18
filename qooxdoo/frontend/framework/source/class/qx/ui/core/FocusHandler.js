@@ -113,13 +113,6 @@ qx.Class.define("qx.ui.core.FocusHandler",
         return;
       }
 
-      // Opera, as of version 9.5, does not allow to stop
-      // tab keys and does this way not work well with our
-      // custom implementation.
-      if (qx.core.Variant.isSet("qx.client", "opera")) {
-        return;
-      }
-
       // Stop all key-events with a TAB keycode
       e.stopPropagation();
       e.preventDefault();
