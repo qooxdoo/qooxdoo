@@ -174,7 +174,6 @@ qx.Class.define("qx.ui.form.SelectBox",
       this._atom.setLabel(value.getLabel());
       this._atom.setIcon(value.getIcon());
       this._list.select(value);
-      this.activate();
     },
 
     _applyMaxListHeight : function(value, old) {
@@ -225,10 +224,8 @@ qx.Class.define("qx.ui.form.SelectBox",
     },
 
 
-    _hideList : function()
-    {
+    _hideList : function() {
       this._listPopup.hide();
-      this.activate();
     },
 
 
