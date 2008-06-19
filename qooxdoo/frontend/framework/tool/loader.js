@@ -45,6 +45,7 @@ window.qxloader =
 
 
   // Main method to manage part loading
+  // see qx.core.Package.loadPart() for details
   loadPart : function(name, callback, self)
   {
     if (callback && !self) {
@@ -207,7 +208,7 @@ window.qxloader =
     this.loadScript(next, this._flushQueue, this);
   },
 
-
+  // see qx.core.Package.loadScript() for details
   loadScript : function(uri, callback, self)
   {
     if (callback && !self) {
