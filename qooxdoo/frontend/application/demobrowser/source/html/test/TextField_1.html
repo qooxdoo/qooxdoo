@@ -1,0 +1,50 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>qooxdoo &raquo; Demo Browser</title>
+  <script type="text/javascript" src="../../script/demo.js"></script>
+  <script type="text/javascript" src="../util.js"></script>
+</head>
+<body>
+  <div id="description">
+    <p>Test for qx.ui.form.TextField. Especially interesting for IE.</p>
+  </div>
+
+  <script type="text/javascript">
+  qx.Class.define("BasicSample",
+  {
+    extend : qx.application.Gui,
+  
+    members :
+    {
+      main : function()
+      {
+        this.base(arguments);
+        var d = qx.ui.core.ClientDocument.getInstance();
+        
+        var field1 = new qx.ui.form.TextField();
+        field1.set(
+        {
+          top        : 10,
+          marginLeft : 100,
+          dimension  : [ 160, 20 ],
+          border     : new qx.ui.core.Border(1, "solid", "#D4D4D4")
+        });
+        field1.addToDocument();
+        
+        var field2 = new qx.ui.form.TextField();
+        field2.set(
+        {
+          top        : 40,
+          marginLeft : 100,
+          dimension  : [ 160, 20 ]
+        });
+        field2.addToDocument();
+      }
+    }
+  });
+  
+  qx.core.Init.getInstance().setApplication(new BasicSample);
+  </script>
+</body>
+</html>
