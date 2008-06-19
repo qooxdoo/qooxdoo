@@ -739,9 +739,15 @@ qx.Class.define("qx.event.handler.Focus",
      */
     __onNativeSelectStart : qx.core.Variant.select("qx.client",
     {
-      "webkit|mshtml" : function(e)
+      "mshtml" : function(e)
       {
-
+        if (!this.__isSelectable(e.srcElement)) {
+          qx.bom.Event.preventDefault(e); 
+        }
+      },
+      
+      "webkit" : function(e) {
+        
       },
 
       "default" : null
