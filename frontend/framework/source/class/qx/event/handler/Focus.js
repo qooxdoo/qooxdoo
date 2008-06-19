@@ -566,7 +566,7 @@ qx.Class.define("qx.event.handler.Focus",
 
       "webkit" : function(e)
       {
-
+        this.debug("NativeFocusIn: " + e.target);
       },
 
       "opera" : function(e)
@@ -594,7 +594,17 @@ qx.Class.define("qx.event.handler.Focus",
 
       },
 
-      "webkit" : function(e) {
+      "webkit" : function(e) 
+      {
+        this.debug("NativeFocusOut: " + e.target);
+        
+        if (e.target === this.getFocus()) {
+          this.resetFocus();
+        }
+        
+        if (e.target === this.getActive()) {
+          this.resetActive();        
+        }
       },
 
       "default" : null
@@ -653,9 +663,26 @@ qx.Class.define("qx.event.handler.Focus",
         this.setFocus(target);
       },
 
-      "webkit|opera" : function(e)
+      "webkit" : function(e)
       {
-
+        var target = e.target;
+        
+        if (target === this._window || target === this._document) 
+        {
+          this._doWindowFocus();
+          return;
+          
+          // Always speak of the body, not the window or document
+          target = this._body;
+        }
+        
+        // this.debug("NativeFocus: " + target);
+        this.setFocus(target);
+      },
+      
+      "opera" : function(e)
+      {
+        
       },
 
       "default" : null
@@ -699,7 +726,13 @@ qx.Class.define("qx.event.handler.Focus",
 
       "webkit" : function(e)
       {
-
+        var target = e.target;
+        var focusTarget = this.__findFocusNode(target);
+        
+        this.debug("MouseDownFocusTarget: " + focusTarget);
+        if (focusTarget) {
+          this.setFocus(focusTarget);
+        }
       },
 
       "opera" : function(e)
