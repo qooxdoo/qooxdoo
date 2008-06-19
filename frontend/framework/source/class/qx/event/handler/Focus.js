@@ -720,7 +720,12 @@ qx.Class.define("qx.event.handler.Focus",
      */
     __onNativeMouseUp : qx.core.Variant.select("qx.client",
     {
-      "mshtml" : function(e) {
+      "mshtml" : function(e) 
+      {
+        var target = e.srcElement;
+        if (target.unselectable) {
+          target.unselectable = "off";
+        }        
       },
 
       "gecko" : function(e) {
