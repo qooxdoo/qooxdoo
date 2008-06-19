@@ -65,11 +65,11 @@ qx.Class.define("demobrowser.demo.event.Focus_1",
 
       if (qx.bom.client.Engine.MSHTML)
       {
-        e.getTarget().style.border = "1px dotted black";
+        e.getTarget().style.border = "1px dotted red";
       }
       else
       {
-        e.getTarget().style.outline = "1px dotted black";
+        e.getTarget().style.outline = "1px dotted red";
       }
     },
 
