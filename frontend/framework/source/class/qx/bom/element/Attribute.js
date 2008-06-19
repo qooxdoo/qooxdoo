@@ -136,10 +136,9 @@ qx.Class.define("qx.bom.element.Attribute",
       // the interpreted one.
       original :
       {
-        href     : 1,
-        src      : 1,
-        type     : 1,
-        tabIndex : 1
+        href : 1,
+        src  : 1,
+        type : 1
       }
     },
 
@@ -192,15 +191,8 @@ qx.Class.define("qx.bom.element.Attribute",
 
         // respect original values
         // http://msdn2.microsoft.com/en-us/library/ms536429.aspx
-        if (hints.original[name])
-        {
+        if (hints.original[name]) {
           value = element.getAttribute(name, 2);
-
-          // tabIndexes overflow, allowed range is 0-32767 normally
-          // -1 means unfocusable which is the default for most non-form elements
-          if (value === 32768) {
-            value = -1;
-          }
         }
 
         // respect properties
