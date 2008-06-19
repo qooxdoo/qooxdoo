@@ -82,15 +82,14 @@ qx.Class.define("qx.event.handler.Focus",
     /** The active DOM element */
     active :
     {
-      check : "Element",
       apply : "_applyActive",
       nullable : true
     },
 
+
     /** The focussed DOM element */
     focus :
     {
-      check : "Element",
       apply : "_applyFocus",
       nullable : true
     }
@@ -179,25 +178,12 @@ qx.Class.define("qx.event.handler.Focus",
      */
     focus : function(element)
     {
-      // First try to focus the element using native methods
       try {
         element.focus();
       } catch(ex) {};
-      
-      
-      // Special support for elements which are not focusable.
-      // Is at least an issue in current Safaris (3.1) and Operas (9.5)
-      // where tabIndex is not natively supported on non-form elements.
-      if (element.getAttribute("tabIndex") == null)
-      {
-        var current = this.getFocus();
-        if (current && current.getAttribute("tabIndex") != null) {
-          current.blur();
-        }
 
-        this.setFocus(element);
-        this.setActive(element);
-      }
+      this.setFocus(element);
+      this.setActive(element);
     },
 
 
@@ -208,15 +194,8 @@ qx.Class.define("qx.event.handler.Focus",
      * @param element {Element} DOM element to activate
      * @return {void}
      */
-    activate : function(element)
-    {
-      // Use native setActive()
-      // Supported by MSHTML: http://msdn2.microsoft.com/en-us/library/ms536738(VS.85).aspx
-      if (element.setActive) {
-        element.setActive();
-      } else {
-        this.setActive(element);
-      }
+    activate : function(element) {
+      this.setActive(element);
     },
 
 
@@ -313,11 +292,8 @@ qx.Class.define("qx.event.handler.Focus",
       // which is a common behavior at least for gecko based clients
       if (this._windowFocused)
       {
+        this.debug("NativeWindowBlur");
         this._windowFocused = false;
-
-        this.resetActive();
-        this.resetFocus();
-
         this._fireEvent(this._window, null, "blur", false);
       }
     },
@@ -335,6 +311,7 @@ qx.Class.define("qx.event.handler.Focus",
       // which is a common behavior at least for gecko based clients
       if (!this._windowFocused)
       {
+        this.debug("NativeWindowFocus");
         this._windowFocused = true;
         this._fireEvent(this._window, null, "focus", false);
       }
@@ -539,16 +516,7 @@ qx.Class.define("qx.event.handler.Focus",
     {
       "webkit" : function(e)
       {
-        this.setActive(e.target);
 
-        // Support for focus blocks
-        var focus = this.__findFocusNode(e.target, true);
-        if (focus)
-        {
-          this._fromActivate = true;
-          this.setFocus(focus);
-          delete this._fromActivate;
-        }
       },
 
       "default" : function(e) {}
@@ -585,44 +553,25 @@ qx.Class.define("qx.event.handler.Focus",
         // Force window focus to be the first
         this._doWindowFocus();
 
-        // Read target
-        var target = window.event.srcElement;
+        // Update internal data
+        var target = e.srcElement;
 
-        // In mousedown sequences the target is already set correctly. In all
-        // other cases the active element is identical to the focus element.
-        if (this._fromMouseDown) {
-          delete this._fromMouseDown;
-        } else {
-          this.setActive(target);
-        }
-
+        // IE focusin is also fired on elements which are not focusable at all
+        // We need to look up for the next focusable element.
         var focusTarget = this.__findFocusNode(target);
-        this.setFocus(focusTarget);
+        if (focusTarget) {
+          this.setFocus(focusTarget);
+        }
       },
 
       "webkit" : function(e)
       {
-        var target = e.target;
-        this.setFocus(target);
 
-        if (!this._fromActivate) {
-          this.setActive(target);
-        }
       },
 
       "opera" : function(e)
       {
-        // Force window focus to be the first
-        this._doWindowFocus();
 
-        // Then reconfigure active and focused data
-        // when the target is not the document (real inner focusing)
-        var target = e.target;
-        if (target !== this._document)
-        {
-          this.setActive(target);
-          this.setFocus(target);
-        }
       },
 
       "default" : null
@@ -642,13 +591,10 @@ qx.Class.define("qx.event.handler.Focus",
     {
       "mshtml" : function(e)
       {
-        if (!window.event.toElement) {
-          this._doWindowBlur();
-        }
+
       },
 
       "webkit" : function(e) {
-        this.resetFocus();
       },
 
       "default" : null
@@ -667,14 +613,14 @@ qx.Class.define("qx.event.handler.Focus",
     {
       "gecko|webkit|opera" : function(e)
       {
-        // Only process window blur here. In every tested case
-        // where a blur occours a focus follows, but not when
-        // leaving the window completely. This is exactly the case
-        // which is handled here.
-        var target = e.target;
-        if (target === this._window || target === this._document) {
-          this._doWindowBlur();
-        }
+        //this.debug("NativeBlur: " + e.target);
+        if (e.target === this._window || e.target === this._document) 
+        {
+          this._doWindowBlur(); 
+          
+          this.resetActive();
+          this.resetFocus();
+        }        
       },
 
       "default" : null
@@ -694,35 +640,22 @@ qx.Class.define("qx.event.handler.Focus",
       "gecko" : function(e)
       {
         var target = e.target;
-
-        // A focus event normally means that at least the window
-        // should be focused. The other stuff is not needed because
-        // there follow special focus events for the real targets
-        // afterwards as well.
-        this._doWindowFocus();
-
-        if (target !== this._window && target !== this._document)
+        
+        if (target === this._window || target === this._document) 
         {
-          if (!this._fromMouseDown || !this.getActive()) {
-            this.setActive(target);
-          }
-
-          // Cleanup marker
-          delete this._fromMouseDown;
-
-          // Update property
-          this.setFocus(target);
+          this._doWindowFocus();
+          
+          // Always speak of the body, not the window or document
+          target = this._body;
         }
+        
+        // this.debug("NativeFocus: " + target);
+        this.setFocus(target);
       },
 
       "webkit|opera" : function(e)
       {
-        // Only window focus is handled here. All other things are done by
-        // focusIn, focusOut etc.
-        var target = e.target;
-        if (target === this._window || target === this._document) {
-          this._doWindowFocus();
-        }
+
       },
 
       "default" : null
@@ -741,139 +674,37 @@ qx.Class.define("qx.event.handler.Focus",
       "gecko" : function(e)
       {
         var target = e.target;
-
-        // Ignore XUL elements
-        while (target.boxObject) {
-          target = target.parentNode;
-        }
-
-        // Activate element
-        this.setActive(target);
-
-        // Remember mouse active target
-        this._fromMouseDown = true;
-
-        // Blocks selection & dragdrop
-        if (!this.__isSelectable(target)) {
-          qx.bom.Event.preventDefault(e);
-        }
-
-        // Focus target may be null (e.g. respect focus blocks)
-        var focusTarget = this.__findFocusNode(target, true);
-        
-        if (focusTarget) {
-          focusTarget.focus();
-        } else {
+        var focusTarget = this.__findFocusNode(target);
+        if (!focusTarget) {
           qx.bom.Event.preventDefault(e);
         }
       },
 
       "mshtml" : function(e)
       {
-        if (!e) {
-          e = window.event;
-        }
-
         var target = e.srcElement;
-        this.setActive(target);
-        this._fromMouseDown = true;
-
-        // Support for focus blocks
-        var focusTarget = this.__findFocusNode(target, true);
-        if (!focusTarget)
+        
+        // Stop events when no focus element available (or blocked)
+        var focusTarget = this.__findFocusNode(target);
+        if (!focusTarget) 
         {
-          if (this._unselectableTarget) {
-            this._unselectableTarget.unselectable = "";
-          }
-
-          // The properitary unselectable property also helps
-          // to prevent the focusIn event. The normal "preventDefault"
-          // mechanism used in other clients does not work in IE.
-          this._unselectableTarget = target;
-          target.unselectable = "on";
+          qx.bom.Event.preventDefault(e);
+          
+          // Add unselectable to keep selection
+          if (!this.__isSelectable(target)) {
+            target.unselectable = "on";
+          }             
         }
       },
 
       "webkit" : function(e)
       {
-        // It seems that Webkit (at least Safari 3.1) do not properly fire
-        // activate / focus events when clicking on checkboxes and radiobuttons.
-        // But it also seems that the focus happens onmouseup and not when the mouse
-        // is pressed down. We correct both behaviors here through forcing the focus.
-        var target = e.target;
-        this.setActive(target);
 
-        // Support for focus blocks
-        var nextFocus = this.__findFocusNode(target, true);
-        if (!nextFocus)
-        {
-          qx.bom.Event.preventDefault(e);
-          return;
-        }
-
-        // We must be sure to remove the old focus. Safari as of version 3.1
-        // does not support tabIndex and focusing on every element so the
-        // focus call does not mean to remove the old focus in all tested cases.
-        var currentFocus = this.getFocus();
-        if (currentFocus != nextFocus)
-        {
-          if (currentFocus) {
-            currentFocus.blur();
-          }
-
-          // Focus event happens to late in Webkit.
-          // Synchronizes with property directly without waiting for event.
-          // Looks nicer when combining with widgets.
-          this.setFocus(nextFocus);
-        }
       },
 
       "opera" : function(e)
       {
-        // Opera has some issues to route keyboard events when preventing mousedown
-        // This means that when not already the window has got the focus the
-        // mousedown is essentically to get Opera correctly focus the window to
-        // activate keyboard events to be available on the window object.
-        var wasNull = !this._windowFocused;
-        var wasNull = !this.getFocus();
 
-        // Focus event in Opera is fired after the mousedown which
-        // is not typical. Normalize this here.
-        this._doWindowFocus();
-
-        // Do both, activation and focusing of the pressed element.
-        var target = e.target;
-        this.setActive(target);
-
-        // Focus target may be null (e.g. respect focus blocks)
-        var nextFocus = this.__findFocusNode(target, true);
-        if (nextFocus)
-        {
-          // We must be sure to remove the old focus. Opera as of version 9.5
-          // does not support tabIndex and focusing on every element so the
-          // focus call does not mean to remove the old focus in all tested cases.
-          var currentFocus = this.getFocus();
-          if (currentFocus != nextFocus)
-          {
-            if (currentFocus) {
-              currentFocus.blur();
-            }
-
-            // Focus event happens to late in Opera.
-            // Synchronizes with property directly without waiting for event.
-            // Looks nicer when combining with widgets.
-            this.setFocus(nextFocus);
-          }
-        }
-        else
-        {
-          qx.bom.Event.preventDefault(e);
-        }
-
-        // Blocks selection & dragdrop
-        if (!wasNull && !this.__isSelectable(target)) {
-          qx.bom.Event.preventDefault(e);
-        }
       },
 
       "default" : null
@@ -889,19 +720,10 @@ qx.Class.define("qx.event.handler.Focus",
      */
     __onNativeMouseUp : qx.core.Variant.select("qx.client",
     {
-      "mshtml" : function(e)
-      {
-        if (this._unselectableTarget)
-        {
-          this._unselectableTarget.unselectable = "";
-          delete this._unselectableTarget;
-        }
-
-        delete this._fromMouseDown;
+      "mshtml" : function(e) {
       },
 
       "gecko" : function(e) {
-        delete this._fromMouseDown;
       },
 
       "default" : null
@@ -919,11 +741,7 @@ qx.Class.define("qx.event.handler.Focus",
     {
       "webkit|mshtml" : function(e)
       {
-        var target = e.target || e.srcElement;
 
-        if (!this.__isSelectable(target)) {
-          qx.bom.Event.preventDefault(e);
-        }
       },
 
       "default" : null
@@ -938,26 +756,45 @@ qx.Class.define("qx.event.handler.Focus",
       HELPER METHODS
     ---------------------------------------------------------------------------
     */
+    
+    // See: http://msdn.microsoft.com/en-us/library/ms534654(VS.85).aspx
+    __defaultFocusable :
+    {
+      a : 1,
+      body : 1,
+      button : 1,
+      frame : 1,
+      iframe : 1,
+      img : 1,
+      input : 1,
+      object : 1,
+      select : 1,
+      textarea : 1
+    },
+    
 
     /**
      * Returns the next focusable parent node of a activated DOM element.
      *
      * @type member
      * @param node {Node} Node to start lookup with
-     * @param mousedown {Boolean?false} Do we need to respect mousedown blocks?
      * @return {void}
      */
-    __findFocusNode : function(node, mousedown)
+    __findFocusNode : function(node)
     {
       var Attribute = qx.bom.element.Attribute;
       var body = this._body;
-
+      var focusable = this.__defaultFocusable;
+      
       while (node && node.nodeType === 1)
       {
         if (Attribute.get(node, "qxKeepFocus") == "on") {
           return null;
-        } else if (Attribute.get(node, "tabIndex") >= 1) {
-          return node;
+        }
+        
+        index = Attribute.get(node, "tabIndex");
+        if (index >= 1 || (index >= 0 && focusable[node.tagName.toLowerCase()])) {
+          return node; 
         }
 
         node = node.parentNode;
@@ -1009,7 +846,12 @@ qx.Class.define("qx.event.handler.Focus",
     // apply routine
     _applyActive : function(value, old)
     {
-      // this.debug("LL-Active: " + value);
+      var id = "null";
+      if (value) {
+        id = (value.tagName||value) + "[" + (value.$$hash || "none") + "]";
+      }
+      
+      this.debug("NativeActive: " + id);
 
       // Fire events
       if (old) {
@@ -1025,7 +867,12 @@ qx.Class.define("qx.event.handler.Focus",
     // apply routine
     _applyFocus : function(value, old)
     {
-      // this.debug("LL-Focus: " + (value ? value.$$hash : "null"));
+      var id = "null";
+      if (value) {
+        id = (value.tagName||value) + "[" + (value.$$hash || "none") + "]";
+      }
+      
+      this.debug("NativeFocus: " + id);
 
       // Fire bubbling events
       if (old) {
