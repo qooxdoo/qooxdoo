@@ -392,7 +392,6 @@ qx.Class.define("qx.event.handler.Focus",
         this.__onNativeMouseDownWrapper = qx.lang.Function.listener(this.__onNativeMouseDown, this);
         this.__onNativeMouseUpWrapper = qx.lang.Function.listener(this.__onNativeMouseUp, this);
 
-        this.__onNativeFocusInWrapper = qx.lang.Function.listener(this.__onNativeFocusIn, this);
         this.__onNativeFocusOutWrapper = qx.lang.Function.listener(this.__onNativeFocusOut, this);
 
         this.__onNativeFocusWrapper = qx.lang.Function.listener(this.__onNativeFocus, this);
@@ -406,7 +405,6 @@ qx.Class.define("qx.event.handler.Focus",
         this._document.addEventListener("mouseup", this.__onNativeMouseUpWrapper, true);
         this._document.addEventListener("selectstart", this.__onNativeSelectStartWrapper, false);
 
-        this._window.addEventListener("DOMFocusIn", this.__onNativeFocusInWrapper, true);
         this._window.addEventListener("DOMFocusOut", this.__onNativeFocusOutWrapper, true);
 
         this._window.addEventListener("focus", this.__onNativeFocusWrapper, true);
@@ -422,8 +420,6 @@ qx.Class.define("qx.event.handler.Focus",
         this.__onNativeFocusInWrapper = qx.lang.Function.listener(this.__onNativeFocusIn, this);
         this.__onNativeFocusOutWrapper = qx.lang.Function.listener(this.__onNativeFocusOut, this);
 
-        this.__onNativeFocusWrapper = qx.lang.Function.listener(this.__onNativeFocus, this);
-
 
         // Register events
         this._document.addEventListener("mousedown", this.__onNativeMouseDownWrapper, true);
@@ -431,8 +427,6 @@ qx.Class.define("qx.event.handler.Focus",
 
         this._window.addEventListener("DOMFocusIn", this.__onNativeFocusInWrapper, true);
         this._window.addEventListener("DOMFocusOut", this.__onNativeFocusOutWrapper, true);
-
-        this._window.addEventListener("focus", this.__onNativeFocusWrapper, true);
       }
     }),
 
@@ -556,12 +550,7 @@ qx.Class.define("qx.event.handler.Focus",
           this.setActive(target);
         }        
       },
-
-      "webkit" : function(e)
-      {
-        // unused
-      },
-      
+     
       "default" : null
     }),
 
@@ -730,11 +719,6 @@ qx.Class.define("qx.event.handler.Focus",
         }
       },
       
-      "opera" : function(e)
-      {
-        
-      },
-
       "default" : null
     }),
 
