@@ -27,19 +27,8 @@ qx.Mixin.define("qx.core.MAssert",
 {
   members :
   {
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void}
-     */
-    assertJsonEquals : function()
-    {
-      if (arguments.length == 3) {
-        this.assertEquals(arguments[0], qx.util.Json.stringify(arguments[1]), qx.util.Json.stringify(arguments[2]));
-      } else {
-        this.assertEquals(qx.util.Json.stringify(arguments[0]), qx.util.Json.stringify(arguments[1]));
-      }
+    assertJsonEquals : function(expected, found, msg) {
+      qx.core.Assert.assertJsonEquals(expected, found, msg);
     },
 
 
@@ -53,18 +42,12 @@ qx.Mixin.define("qx.core.MAssert",
      * @return {void}
      */
     assertMatch : function(str, re, msg) {
-      this.__assert(str.search(re) >= 0 ? true : false, msg || "", "The String '" + str + "' does not match the regular expression '" + re.toString() + "'!");
+      qx.core.Assert.assertMatch(str, re, msg);
     },
 
 
-    assertArgumentsCount : function(args, minCount, maxCount, msg)
-    {
-      var argCount = args.length;
-      this.__assert(
-        (argCount >= minCount && argCount <= maxCount),
-        msg || "",
-        "Wrong number of arguments given. Expected '" + minCount + "' to '" + maxCount + "' arguments but found '" + arguments.length + "' arguments."
-      )
+    assertArgumentsCount : function(args, minCount, maxCount, msg) {
+      qx.core.Assert.assertArgumentsCount(args, minCount, maxCount, msg);
     },
 
 
@@ -80,44 +63,8 @@ qx.Mixin.define("qx.core.MAssert",
      *   not match this parameter
      * @param msg {String} Message to be shown if the assertion failes.
      */
-    assertException : function(callback, exception, re, msg)
-    {
-      var exception = exception || Error;
-      var error;
-
-      try {
-        callback();
-      } catch(e) {
-        error = e;
-      }
-
-      if (error == null) {
-        this.__assert(false, msg || "", "The function did not raise an exception!");
-      }
-
-      this.__assert(error instanceof exception, msg || "", "The raised exception does not have the expected type!");
-
-      if (re) {
-        this.assertMatch(error.toString(), re, msg);
-      }
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param condition {var} TODOC
-     * @param comment {var} TODOC
-     * @param failMsg {var} TODOC
-     * @return {void}
-     * @throws TODOC
-     */
-    __assert : function(condition, comment, failMsg)
-    {
-      if (!condition) {
-        throw new qx.core.AssertionError(comment, failMsg);
-      }
+    assertException : function(callback, exception, re, msg) {
+      qx.core.Assert.assertException(callback, exception, re, msg);
     },
 
 
@@ -130,7 +77,7 @@ qx.Mixin.define("qx.core.MAssert",
      * @return {void}
      */
     assert : function(bool, msg) {
-      this.__assert(bool == true, msg || "", "Called assert with 'false'");
+      qx.core.Assert.assert(bool, msg);
     },
 
 
@@ -142,7 +89,7 @@ qx.Mixin.define("qx.core.MAssert",
      * @return {void}
      */
     fail : function(msg) {
-      this.__assert(false, msg || "", "Called fail().");
+      qx.core.Assert.fail(msg);
     },
 
 
@@ -155,7 +102,7 @@ qx.Mixin.define("qx.core.MAssert",
      * @return {void}
      */
     assertTrue : function(bool, msg) {
-      this.__assert(bool === true, msg || "", "Called assertTrue with 'false'");
+      qx.core.Assert.assertTrue(bool, msg);
     },
 
 
@@ -168,7 +115,7 @@ qx.Mixin.define("qx.core.MAssert",
      * @return {void}
      */
     assertFalse : function(bool, msg) {
-      this.__assert(bool === false, msg || "", "Called assertFalse with 'true'");
+      qx.core.Assert.assertFalse(bool, msg);
     },
 
 
@@ -182,7 +129,7 @@ qx.Mixin.define("qx.core.MAssert",
      * @return {void}
      */
     assertEquals : function(expected, found, msg) {
-      this.__assert(expected == found, msg || "", "Expected '" + expected + "' but found '" + found + "'!");
+      qx.core.Assert.assertEquals(expected, found, msg);
     },
 
 
@@ -196,7 +143,7 @@ qx.Mixin.define("qx.core.MAssert",
      * @return {void}
      */
     assertIdentical : function(expected, found, msg) {
-      this.__assert(expected === found, msg || "", "Expected '" + expected + "' (identical) but found '" + found + "'!");
+      qx.core.Assert.assertIdentical(expected, found, msg);
     },
 
 
@@ -210,7 +157,7 @@ qx.Mixin.define("qx.core.MAssert",
      * @return {void}
      */
     assertNotIdentical : function(expected, found, msg) {
-      this.__assert(expected !== found, msg || "", "Expected '" + expected + "' to be not identical with '" + found + "'!");
+      qx.core.Assert.assertNotIdentical(expected, found, msg);
     },
 
 
@@ -223,7 +170,7 @@ qx.Mixin.define("qx.core.MAssert",
      * @return {void}
      */
     assertNotUndefined : function(value, msg) {
-      this.__assert(value !== undefined, msg || "", "Expected value not to be undefined but found " + value + "!");
+      qx.core.Assert.assertNotUndefined(value, msg);
     },
 
 
@@ -236,7 +183,7 @@ qx.Mixin.define("qx.core.MAssert",
      * @return {void}
      */
     assertUndefined : function(value, msg) {
-      this.__assert(value === undefined, msg || "", "Expected value to be undefined but found " + value + "!");
+      qx.core.Assert.assertUndefined(value, msg);
     },
 
 
@@ -249,7 +196,7 @@ qx.Mixin.define("qx.core.MAssert",
      * @return {void}
      */
     assertNotNull : function(value, msg) {
-      this.__assert(value !== null, msg || "", "Expected value not to be null but found " + value + "!");
+      qx.core.Assert.assertNotNull(value, msg);
     },
 
 
@@ -262,18 +209,12 @@ qx.Mixin.define("qx.core.MAssert",
      * @return {void}
      */
     assertNull : function(value, msg) {
-      this.__assert(value === null, msg || "", "Expected value to be null but found " + value + "!");
+      qx.core.Assert.assertNull(value, msg);
     },
 
 
-    assertInArray : function(value, array, msg)
-    {
-      this.__assert(
-        array.indexOf(value) > -1,
-        msg || "",
-        "The value '" + value + "' must have any of the values defined in the array '"
-        + qx.util.Json.stringify(array) + "'"
-      );
+    assertInArray : function(value, array, msg) {
+      qx.core.Assert.assertInArray(value, array, msg);
     },
 
 
@@ -286,7 +227,7 @@ qx.Mixin.define("qx.core.MAssert",
      * @return {void}
      */
     assertFunction : function(value, msg) {
-      this.__assert(typeof value === "function", msg || "", "Expected value to be typeof function but found " + value + "!");
+      qx.core.Assert.assertFunction(value, msg);
     },
 
 
@@ -299,7 +240,7 @@ qx.Mixin.define("qx.core.MAssert",
      * @return {void}
      */
     assertString : function(value, msg) {
-      this.__assert(typeof value === "string", msg || "", "Expected value to be typeof string but found " + value + "!");
+      qx.core.Assert.assertString(value, msg);
     },
 
 
@@ -312,16 +253,17 @@ qx.Mixin.define("qx.core.MAssert",
      * @return {void}
      */
     assertNumber : function(value, msg) {
-      this.__assert(typeof value === "number", msg || "", "Expected value to be typeof number but found " + value + "!");
+      qx.core.Assert.assertNumber(value, msg);
     },
 
 
     assertInteger : function(value, msg) {
-      this.__assert(
-        typeof value === "number" && isFinite(value) && value % 1 === 0,
-        msg || "",
-        "Expected value to be an integer but found " + value + "!"
-      );
+      qx.core.Assert.assertInteger(value, msg);
+    },
+
+
+    assertInRange : function(value, min, max, msg) {
+      qx.core.Assert.assertInRange(value, min, max, msg);
     },
 
 
@@ -334,7 +276,7 @@ qx.Mixin.define("qx.core.MAssert",
      * @return {void}
      */
     assertObject : function(value, msg) {
-      this.__assert(typeof value === "object" && value !== null, msg || "", "Expected value to be typeof object but found " + value + "!");
+      qx.core.Assert.assertObject(value, msg);
     },
 
 
@@ -347,7 +289,7 @@ qx.Mixin.define("qx.core.MAssert",
      * @return {void}
      */
     assertArray : function(value, msg) {
-      this.__assert(value instanceof Array, msg || "", "Expected value to be an array but found " + value + "!");
+      qx.core.Assert.assertArray(value, msg);
     },
 
 
@@ -360,19 +302,19 @@ qx.Mixin.define("qx.core.MAssert",
      * @return {void}
      */
     assertMap : function(value, msg) {
-      this.__assert(typeof value === "object" && !(value instanceof Array) && !(value instanceof qx.core.Object), msg || "", "Expected value to be a map but found " + value + "!");
+      qx.core.Assert.assertMap(value, msg);
     },
 
     assertType : function(value, type, msg) {
-      this.__assert(typeof(value) === type, msg || "", "Expected value to be typeof '" + type + "' but found " + value + "!");
+      qx.core.Assert.assertType(value, type, msg);
     },
 
     assertInstance : function(value, clazz, msg) {
-      this.__assert(value instanceof clazz, msg || "", "Expected value to be instanceof '" + clazz + "' but found " + value + "!");
+      qx.core.Assert.assertInstance(value, clazz, msg);
     },
 
     assertInterface : function(object, iface, msg) {
-      this.__assert(qx.Class.hasInterface(object, iface), msg || "", "Expected object '" + object + "' to implement the interface '" + iface + "'!");
+      qx.core.Assert.assertInterface(object, iface, msg);
     },
 
 
@@ -385,7 +327,7 @@ qx.Mixin.define("qx.core.MAssert",
      * @return {void}
      */
     assertQxObject : function(value, msg) {
-      this.__assert(value instanceof qx.core.Object, msg || "", "Expected value to be a qooxdoo object but found " + value + "!");
+      qx.core.Assert.assertQxObject(value, msg);
     },
 
 
@@ -398,7 +340,7 @@ qx.Mixin.define("qx.core.MAssert",
      * @return {void}
      */
     assertQxWidget : function(value, msg) {
-      this.__assert(value instanceof qx.ui.core.Widget, msg || "", "Expected value to be a qooxdoo widget but found " + value + "!");
+      qx.core.Assert.assertQxWidget(value, msg);
     },
 
 
@@ -407,14 +349,9 @@ qx.Mixin.define("qx.core.MAssert",
      * This assertion is only evaluated if "qx.debug" if "on"
      * @signature function()
      */
-    assertJsonEqualsDebugOn : qx.core.Variant.select("qx.debug",
-    {
-      "on" : function() {
-        this.assertJsonEquals.apply(this, arguments);
-      },
-
-      "off" : function() {}
-    }),
+    assertJsonEqualsDebugOn : function(value, msg) {
+      qx.core.Assert.assertJsonEqualsDebugOn(expected, found, msg);
+    },
 
 
     /**
@@ -422,14 +359,9 @@ qx.Mixin.define("qx.core.MAssert",
      * This assertion is only evaluated if "qx.debug" if "on"
      * @signature function()
      */
-    assertMatchDebugOn : qx.core.Variant.select("qx.debug",
-    {
-      "on" : function() {
-        this.assertMatch.apply(this, arguments);
-      },
-
-      "off" : function() {}
-    }),
+    assertMatchDebugOn : function(value, msg) {
+      qx.core.Assert.assertMatchDebugOn(str, re, msg);
+    },
 
 
     /**
@@ -437,14 +369,9 @@ qx.Mixin.define("qx.core.MAssert",
      * This assertion is only evaluated if "qx.debug" if "on"
      * @signature function()
      */
-    assertExceptionDebugOn : qx.core.Variant.select("qx.debug",
-    {
-      "on" : function() {
-        this.assertException.apply(this, arguments);
-      },
-
-      "off" : function() {}
-    }),
+    assertExceptionDebugOn : function(callback, exception, re, msg) {
+      qx.core.Assert.assertExceptionDebugOn(callback, exception, re, msg);
+    },
 
 
     /**
@@ -452,14 +379,9 @@ qx.Mixin.define("qx.core.MAssert",
      * This assertion is only evaluated if "qx.debug" if "on"
      * @signature function()
      */
-    assertDebugOn : qx.core.Variant.select("qx.debug",
-    {
-      "on" : function() {
-        this.assert.apply(this, arguments);
-      },
-
-      "off" : function() {}
-    }),
+    assertDebugOn : function(bool, msg) {
+      qx.core.Assert.assertDebugOn(bool, msg);
+    },
 
 
     /**
@@ -467,14 +389,9 @@ qx.Mixin.define("qx.core.MAssert",
      * This assertion is only evaluated if "qx.debug" if "on"
      * @signature function()
      */
-    assertTrueDebugOn : qx.core.Variant.select("qx.debug",
-    {
-      "on" : function() {
-        this.assertTrue.apply(this, arguments);
-      },
-
-      "off" : function() {}
-    }),
+    assertTrueDebugOn : function(bool, msg) {
+      qx.core.Assert.assertTrueDebugOn(bool, msg);
+    },
 
 
     /**
@@ -482,14 +399,9 @@ qx.Mixin.define("qx.core.MAssert",
      * This assertion is only evaluated if "qx.debug" if "on"
      * @signature function()
      */
-    assertEqualsDebugOn : qx.core.Variant.select("qx.debug",
-    {
-      "on" : function() {
-        this.assertEquals.apply(this, arguments);
-      },
-
-      "off" : function() {}
-    }),
+    assertEqualsDebugOn : function(expected, found, msg) {
+      qx.core.Assert.assertEqualsDebugOn(expected, found, msg);
+    },
 
 
     /**
@@ -497,14 +409,9 @@ qx.Mixin.define("qx.core.MAssert",
      * This assertion is only evaluated if "qx.debug" if "on"
      * @signature function()
      */
-    assertNotUndefinedDebugOn : qx.core.Variant.select("qx.debug",
-    {
-      "on" : function() {
-        this.assertNotUndefined.apply(this, arguments);
-      },
-
-      "off" : function() {}
-    }),
+    assertNotUndefinedDebugOn : function(value, msg) {
+      qx.core.Assert.assertNotUndefinedDebugOn(value, msg);
+    },
 
 
     /**
@@ -512,14 +419,9 @@ qx.Mixin.define("qx.core.MAssert",
      * This assertion is only evaluated if "qx.debug" if "on"
      * @signature function()
      */
-    assertUndefinedDebugOn : qx.core.Variant.select("qx.debug",
-    {
-      "on" : function() {
-        this.assertUndefined.apply(this, arguments);
-      },
-
-      "off" : function() {}
-    }),
+    assertUndefinedDebugOn : function(value, msg) {
+      qx.core.Assert.assertUndefinedDebugOn(value, msg);
+    },
 
 
     /**
@@ -527,14 +429,9 @@ qx.Mixin.define("qx.core.MAssert",
      * This assertion is only evaluated if "qx.debug" if "on"
      * @signature function()
      */
-    assertNotNullDebugOn : qx.core.Variant.select("qx.debug",
-    {
-      "on" : function() {
-        this.assertNotNull.apply(this, arguments);
-      },
-
-      "off" : function() {}
-    }),
+    assertNotNullDebugOn : function(value, msg) {
+      qx.core.Assert.assertNotNullDebugOn(value, msg);
+    },
 
 
     /**
@@ -542,13 +439,8 @@ qx.Mixin.define("qx.core.MAssert",
      * This assertion is only evaluated if "qx.debug" if "on"
      * @signature function()
      */
-    assertNullDebugOn : qx.core.Variant.select("qx.debug",
-    {
-      "on" : function() {
-        this.assertNull.apply(this, arguments);
-      },
-
-      "off" : function() {}
-    })
+    assertNullDebugOn : function(value, msg) {
+      qx.core.Assert.assertNullDebugOn(value, msg);
+    }
   }
 });
