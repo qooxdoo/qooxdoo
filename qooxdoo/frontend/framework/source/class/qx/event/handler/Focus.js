@@ -296,7 +296,6 @@ qx.Class.define("qx.event.handler.Focus",
       // which is a common behavior at least for gecko based clients
       if (this._windowFocused)
       {
-        // this.debug("NativeWindowBlur");
         this._windowFocused = false;
         this.__fireEvent(this._window, null, "blur", false);
       }
@@ -315,7 +314,6 @@ qx.Class.define("qx.event.handler.Focus",
       // which is a common behavior at least for gecko based clients
       if (!this._windowFocused)
       {
-        // this.debug("NativeWindowFocus");
         this._windowFocused = true;
         this.__fireEvent(this._window, null, "focus", false);
       }
@@ -583,7 +581,13 @@ qx.Class.define("qx.event.handler.Focus",
     {
       "mshtml" : function(e)
       {
-        // unused
+        if (!e.toElement) 
+        {
+          this.__doWindowBlur();
+          
+          this.resetFocus();
+          this.resetActive();
+        }
       },
 
       "webkit" : function(e) 
@@ -667,6 +671,11 @@ qx.Class.define("qx.event.handler.Focus",
           this.resetActive();
           this.resetFocus();
         }          
+      },
+      
+      "mshtml" : function(e)
+      {
+
       },
       
       "opera" : function(e)
