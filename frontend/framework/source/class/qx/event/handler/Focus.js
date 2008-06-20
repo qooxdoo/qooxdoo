@@ -548,6 +548,13 @@ qx.Class.define("qx.event.handler.Focus",
         {
           this.setFocus(target); 
           this.setActive(target);
+          
+          // Clear selection
+          if (!this.__isSelectable(target))
+          {
+            target.selectionStart = 0;
+            target.selectionEnd = 0; 
+          }          
         }        
       },
      
@@ -804,17 +811,18 @@ qx.Class.define("qx.event.handler.Focus",
           if (focusTarget)
           {
             var current = this.getFocus();
-            if (current.selectionEnd) 
+            if (current && current.selectionEnd) 
             {
               current.selectionStart = 0;
               current.selectionEnd = 0; 
+              current.blur();
             }
             
             // The prevented event also stop the focus, do
             // it manually if needed.
             if (focusTarget) {
-              focusTarget.focus();          
-            } 
+              this.setFocus(focusTarget);
+            }          
           }
         }        
         else if (focusTarget)
