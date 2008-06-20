@@ -939,7 +939,7 @@ qx.Class.define("qx.event.handler.Focus",
      * Returns the next focusable parent element of a activated DOM element.
      *
      * @type member
-     * @param node {Node} Node to start lookup with
+     * @param el {Element} Element to start lookup with
      * @return {void}
      */
     __findFocusElement : function(el)

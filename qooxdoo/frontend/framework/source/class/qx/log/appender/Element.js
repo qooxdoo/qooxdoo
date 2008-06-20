@@ -49,6 +49,13 @@ qx.Class.define("qx.log.appender.Element",
   
   members : 
   {
+    /**
+     * Configures the DOM element to use.
+     *
+     * @type member
+     * @param member {Element} DOM element to log to
+     * @return {void}
+     */
     setElement : function(element)
     {
       // Clear old element
