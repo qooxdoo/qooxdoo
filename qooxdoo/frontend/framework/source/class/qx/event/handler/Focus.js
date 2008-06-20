@@ -423,7 +423,6 @@ qx.Class.define("qx.event.handler.Focus",
         this.__onNativeFocusOutWrapper = qx.lang.Function.listener(this.__onNativeFocusOut, this);
 
         this.__onNativeFocusWrapper = qx.lang.Function.listener(this.__onNativeFocus, this);
-        this.__onNativeBlurWrapper = qx.lang.Function.listener(this.__onNativeBlur, this);
 
 
         // Register events
@@ -434,7 +433,6 @@ qx.Class.define("qx.event.handler.Focus",
         this._window.addEventListener("DOMFocusOut", this.__onNativeFocusOutWrapper, true);
 
         this._window.addEventListener("focus", this.__onNativeFocusWrapper, true);
-        this._window.addEventListener("blur", this.__onNativeBlurWrapper, true);
       }
     }),
 
