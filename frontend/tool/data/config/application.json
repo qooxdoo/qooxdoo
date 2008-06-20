@@ -1,10 +1,14 @@
 // generic application.json
 {
   "include" :
-  {
-    "apiconf": "../../../application/apiviewer/config.json"
-  },
+  [
+		{
+			"path" : "../../../application/apiviewer/config.json",
+			"as"   : "apiconf"
+		}
+  ],
 
+	"export" : ["build", "source", "api"],
 
   "jobs" :
   {
