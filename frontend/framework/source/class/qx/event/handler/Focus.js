@@ -897,7 +897,7 @@ qx.Class.define("qx.event.handler.Focus",
      * @param el {Element} DOM Element to query
      * @return {Boolean} Whether the element is focusable
      */
-    isFocusable : function(el)
+    __isFocusable : function(el)
     {
       var index = qx.bom.element.Attribute.get(el, "tabIndex");
       return index >= 1 || (index >= 0 && this.__defaultFocusable[el.tagName.toLowerCase()]);
@@ -921,7 +921,7 @@ qx.Class.define("qx.event.handler.Focus",
           return null;
         }
         
-        if (this.isFocusable(el)) {
+        if (this.__isFocusable(el)) {
           return el; 
         }
 
