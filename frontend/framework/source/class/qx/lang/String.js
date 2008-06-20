@@ -97,7 +97,7 @@ qx.Bootstrap.define("qx.lang.String",
      * @return {String} capitalized string
      */
     capitalize: function(str){
-      return str.replace(/\b[a-z]/g, function(match){
+      return str.replace(/\b[a-z]/g, function(match) {
         return match.toUpperCase();
       });
     },
