@@ -596,7 +596,7 @@ class Generator:
         self._console.indent()
         rc = self._shellCmd.execute(shellcmd)
         if rc != 0:
-            raise RuntimeError "Shell command returned error code: %s" % repr(rc)
+            raise RuntimeError, "Shell command returned error code: %s" % repr(rc)
         self._console.outdent()
 
 
