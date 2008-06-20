@@ -168,7 +168,7 @@ qx.Class.define("qx.locale.Date",
     getDateFormat : function(size, locale)
     {
       if (qx.core.Variant.isSet("qx.debug", "on")) {
-        qx.core.Assert.assertInArray(length, ["short", "medium", "long", "full"]);
+        qx.core.Assert.assertInArray(size, ["short", "medium", "long", "full"]);
       }
 
       var key = "cldr_date_format_" + size;
@@ -213,7 +213,7 @@ qx.Class.define("qx.locale.Date",
     getTimeFormat : function(size, locale)
     {
       if (qx.core.Variant.isSet("qx.debug", "on")) {
-        qx.core.Assert.assertInArray(length, ["short", "medium", "long", "full"]);
+        qx.core.Assert.assertInArray(size, ["short", "medium", "long", "full"]);
       }
 
       var key = "cldr_time_format_" + size;
