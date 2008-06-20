@@ -777,7 +777,7 @@ qx.Class.define("qx.event.handler.Focus",
         }
       },
 
-      "webkit|opera" : function(e)
+      "webkit" : function(e)
       {
         var target = e.target;
         var focusTarget = this.__findFocusElement(target);
@@ -785,6 +785,20 @@ qx.Class.define("qx.event.handler.Focus",
         if (focusTarget) {
           this.setFocus(focusTarget);
         }
+      },
+      
+      "opera" : function(e)
+      {
+        var target = e.target;
+        var focusTarget = this.__findFocusElement(target);
+        
+        if (focusTarget) {
+          this.setFocus(focusTarget);
+        }
+        
+        if(!this.__isSelectable(target)) {
+          qx.bom.Event.preventDefault(e); 
+        }        
       },
 
       "default" : null
