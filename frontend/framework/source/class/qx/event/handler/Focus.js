@@ -997,12 +997,14 @@ qx.Class.define("qx.event.handler.Focus",
     // apply routine
     _applyActive : function(value, old)
     {
+      /*
       var id = "null";
       if (value) {
         id = (value.tagName||value) + "[" + (value.$$hash || "none") + "]";
       }
       
       this.debug("Property Active: " + id);
+      */
 
       // Fire events
       if (old) {
@@ -1018,12 +1020,14 @@ qx.Class.define("qx.event.handler.Focus",
     // apply routine
     _applyFocus : function(value, old)
     {
+      /*
       var id = "null";
       if (value) {
         id = (value.tagName||value) + "[" + (value.$$hash || "none") + "]";
       }
       
       this.debug("Property Focus: " + id);
+      */
 
       // Fire bubbling events
       if (old) {
