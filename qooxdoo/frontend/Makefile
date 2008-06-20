@@ -76,7 +76,7 @@ distclean:
 	@$(CMD_REMOVE) application/*.zip
 	@$(CMD_REMOVE) release
 
-publish: build
+publish:
 	@echo "  * Preparing index.html..."
 	@$(CMD_DIR) temp/
 	@cat application/index.html | \
