@@ -47,7 +47,7 @@ qx.Class.define("qx.ui.core.FocusHandler",
     this.base(arguments);
 
     // Store relations
-    this._attachedWidget = widget;
+    this.__attachedWidget = widget;
 
     // Register events
     widget.addListener("keypress", this._onkeyevent, this);
@@ -82,8 +82,8 @@ qx.Class.define("qx.ui.core.FocusHandler",
     _onfocusin : function(e)
     {
       var target = e.getTarget();
-      if (target.getFocusRoot() === this._attachedWidget) {
-        this._focusedChild = target;
+      if (target.getFocusRoot() === this.__attachedWidget) {
+        this.__focusedChild = target;
       }
     },
 
@@ -96,7 +96,7 @@ qx.Class.define("qx.ui.core.FocusHandler",
      * @return {void}
      */
     _onfocusout : function(e) {
-      this._focusedChild = null;
+      this.__focusedChild = null;
     },
 
 
@@ -118,7 +118,7 @@ qx.Class.define("qx.ui.core.FocusHandler",
       e.preventDefault();
 
       // Support shift key to reverse widget detection order
-      var current = this._focusedChild;
+      var current = this.__focusedChild;
       if (!e.isShiftPressed()) {
         var next = current ? this.__getWidgetAfter(current) : this.__getFirstWidget();
       } else {
@@ -201,7 +201,7 @@ qx.Class.define("qx.ui.core.FocusHandler",
      * @return {var} TODOC
      */
     __getFirstWidget : function() {
-      return this.__getFirst(this._attachedWidget, null);
+      return this.__getFirst(this.__attachedWidget, null);
     },
 
 
@@ -212,7 +212,7 @@ qx.Class.define("qx.ui.core.FocusHandler",
      * @return {var} TODOC
      */
     __getLastWidget : function() {
-      return this.__getLast(this._attachedWidget, null);
+      return this.__getLast(this.__attachedWidget, null);
     },
 
 
@@ -225,7 +225,7 @@ qx.Class.define("qx.ui.core.FocusHandler",
      */
     __getWidgetAfter : function(widget)
     {
-      var root = this._attachedWidget;
+      var root = this.__attachedWidget;
       if (root == widget) {
         return this.__getFirstWidget();
       }
@@ -256,7 +256,7 @@ qx.Class.define("qx.ui.core.FocusHandler",
      */
     __getWidgetBefore : function(widget)
     {
-      var root = this._attachedWidget;
+      var root = this.__attachedWidget;
       if (root == widget) {
         return this.__getLastWidget();
       }
@@ -454,6 +454,6 @@ qx.Class.define("qx.ui.core.FocusHandler",
   */
 
   destruct : function() {
-    this._disposeFields("_attachedWidget", "_focusedChild");
+    this._disposeFields("__attachedWidget", "__focusedChild");
   }
 });
