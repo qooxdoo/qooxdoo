@@ -126,6 +126,13 @@ qx.Class.define("qx.bom.Input",
     }),
     
     
+    /**
+     * Returns the currently configured value.
+     *
+     * @type static
+     * @param element {Element} DOM element to query
+     * @return {String} The value
+     */
     getValue : function(element) {
       return element.value;
     },
