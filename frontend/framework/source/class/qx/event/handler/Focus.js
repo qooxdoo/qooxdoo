@@ -30,8 +30,12 @@
  *
  * Notes:
  *
- * Webkit and Opera (before 9.5) do not support tabIndex for all elements
+ * * Webkit and Opera (before 9.5) do not support tabIndex for all elements
  * (See also: http://bugs.webkit.org/show_bug.cgi?id=7138)
+ *
+ * * TabIndex is normally 0, which means all naturally focusable elements are focusable.
+ * * TabIndex > 0 means that the element is focusable and tabable
+ * * TabIndex < 0 means that the element, even if naturally possible, is not focusable.
  */
 qx.Class.define("qx.event.handler.Focus",
 {
@@ -292,7 +296,7 @@ qx.Class.define("qx.event.handler.Focus",
       // which is a common behavior at least for gecko based clients
       if (this._windowFocused)
       {
-        this.debug("NativeWindowBlur");
+        // this.debug("NativeWindowBlur");
         this._windowFocused = false;
         this._fireEvent(this._window, null, "blur", false);
       }
@@ -311,7 +315,7 @@ qx.Class.define("qx.event.handler.Focus",
       // which is a common behavior at least for gecko based clients
       if (!this._windowFocused)
       {
-        this.debug("NativeWindowFocus");
+        // this.debug("NativeWindowFocus");
         this._windowFocused = true;
         this._fireEvent(this._window, null, "focus", false);
       }
@@ -392,8 +396,6 @@ qx.Class.define("qx.event.handler.Focus",
         this.__onNativeFocusInWrapper = qx.lang.Function.listener(this.__onNativeFocusIn, this);
         this.__onNativeFocusOutWrapper = qx.lang.Function.listener(this.__onNativeFocusOut, this);
 
-        this.__onNativeActivateWrapper = qx.lang.Function.listener(this.__onNativeActivate, this);
-
         this.__onNativeFocusWrapper = qx.lang.Function.listener(this.__onNativeFocus, this);
         this.__onNativeBlurWrapper = qx.lang.Function.listener(this.__onNativeBlur, this);
 
@@ -406,8 +408,6 @@ qx.Class.define("qx.event.handler.Focus",
 
         this._window.addEventListener("DOMFocusIn", this.__onNativeFocusInWrapper, true);
         this._window.addEventListener("DOMFocusOut", this.__onNativeFocusOutWrapper, true);
-
-        this._window.addEventListener("DOMActivate", this.__onNativeActivateWrapper, true);
 
         this._window.addEventListener("focus", this.__onNativeFocusWrapper, true);
         this._window.addEventListener("blur", this.__onNativeBlurWrapper, true);
@@ -474,8 +474,6 @@ qx.Class.define("qx.event.handler.Focus",
         this._window.removeEventListener("DOMFocusIn", this.__onNativeFocusInWrapper, true);
         this._window.removeEventListener("DOMFocusOut", this.__onNativeFocusOutWrapper, true);
 
-        this._window.removeEventListener("DOMActivate", this.__onNativeActivateWrapper, true);
-
         this._window.removeEventListener("focus", this.__onNativeFocusWrapper, true);
         this._window.removeEventListener("blur", this.__onNativeBlurWrapper, true);
       },
@@ -504,40 +502,6 @@ qx.Class.define("qx.event.handler.Focus",
     */
 
     /**
-     * Native event listener for <code>DOMActivate</code> or <code>activate</code>
-     * depending on the client's engine.
-     *
-     * @type member
-     * @signature function(e)
-     * @param e {Event} Native event
-     * @return {void}
-     */
-    __onNativeActivate : qx.core.Variant.select("qx.client",
-    {
-      "webkit" : function(e)
-      {
-
-      },
-
-      "default" : function(e) {}
-    }),
-
-
-    /**
-     * Native event listener for <code>DOMDeactivate</code> or <code>deactivate</code>
-     * depending on the client's engine.
-     *
-     * Not used yet. No browser support this correctly.
-     *
-     * @type member
-     * @signature function(e)
-     * @param e {Event} Native event
-     * @return {void}
-     */
-    __onNativeDeactivate : null,
-
-
-    /**
      * Native event listener for <code>DOMFocusIn</code> or <code>focusin</code>
      * depending on the client's engine.
      *
@@ -558,7 +522,7 @@ qx.Class.define("qx.event.handler.Focus",
 
         // IE focusin is also fired on elements which are not focusable at all
         // We need to look up for the next focusable element.
-        var focusTarget = this.__findFocusNode(target);
+        var focusTarget = this.__findFocusElement(target);
         if (focusTarget) {
           this.setFocus(focusTarget);
         }
@@ -566,7 +530,7 @@ qx.Class.define("qx.event.handler.Focus",
 
       "webkit" : function(e)
       {
-        this.debug("NativeFocusIn: " + e.target);
+        // unused
       },
 
       "opera" : function(e)
@@ -591,12 +555,12 @@ qx.Class.define("qx.event.handler.Focus",
     {
       "mshtml" : function(e)
       {
-
+        // unused
       },
 
       "webkit" : function(e) 
       {
-        this.debug("NativeFocusOut: " + e.target);
+        // this.debug("EvNativeFocusOut: " + e.target);
         
         if (e.target === this.getFocus()) {
           this.resetFocus();
@@ -621,9 +585,8 @@ qx.Class.define("qx.event.handler.Focus",
      */
     __onNativeBlur : qx.core.Variant.select("qx.client",
     {
-      "gecko|webkit|opera" : function(e)
+      "gecko" : function(e)
       {
-        //this.debug("NativeBlur: " + e.target);
         if (e.target === this._window || e.target === this._document) 
         {
           this._doWindowBlur(); 
@@ -632,6 +595,23 @@ qx.Class.define("qx.event.handler.Focus",
           this.resetFocus();
         }        
       },
+      
+      "webkit" : function(e)
+      {
+        //this.debug("NativeBlur: " + e.target);
+        if (e.target === this._window || e.target === this._document) 
+        {
+          this._doWindowBlur();
+          
+          this.resetActive();
+          this.resetFocus();
+        }        
+      },
+      
+      "opera" : function(e)
+      {
+        
+      },   
 
       "default" : null
     }),
@@ -665,18 +645,14 @@ qx.Class.define("qx.event.handler.Focus",
 
       "webkit" : function(e)
       {
-        var target = e.target;
-        
+        var target = e.target;        
         if (target === this._window || target === this._document) 
         {
           this._doWindowFocus();
           return;
-          
-          // Always speak of the body, not the window or document
-          target = this._body;
         }
         
-        // this.debug("NativeFocus: " + target);
+        this.debug("NativeFocus: " + target);
         this.setFocus(target);
       },
       
@@ -701,7 +677,7 @@ qx.Class.define("qx.event.handler.Focus",
       "gecko" : function(e)
       {
         var target = e.target;
-        var focusTarget = this.__findFocusNode(target);
+        var focusTarget = this.__findFocusElement(target);
         if (!focusTarget) {
           qx.bom.Event.preventDefault(e);
         }
@@ -712,7 +688,7 @@ qx.Class.define("qx.event.handler.Focus",
         var target = e.srcElement;
         
         // Stop events when no focus element available (or blocked)
-        var focusTarget = this.__findFocusNode(target);
+        var focusTarget = this.__findFocusElement(target);
         if (!focusTarget) 
         {
           qx.bom.Event.preventDefault(e);
@@ -727,9 +703,9 @@ qx.Class.define("qx.event.handler.Focus",
       "webkit" : function(e)
       {
         var target = e.target;
-        var focusTarget = this.__findFocusNode(target);
+        var focusTarget = this.__findFocusElement(target);
         
-        this.debug("MouseDownFocusTarget: " + focusTarget);
+        this.debug("EvMouseDownFocusTarget: " + focusTarget);
         if (focusTarget) {
           this.setFocus(focusTarget);
         }
@@ -762,6 +738,7 @@ qx.Class.define("qx.event.handler.Focus",
       },
 
       "gecko" : function(e) {
+        // unused
       },
 
       "default" : null
@@ -785,7 +762,7 @@ qx.Class.define("qx.event.handler.Focus",
       },
       
       "webkit" : function(e) {
-        
+        // unused
       },
 
       "default" : null
@@ -801,62 +778,86 @@ qx.Class.define("qx.event.handler.Focus",
     ---------------------------------------------------------------------------
     */
     
-    // See: http://msdn.microsoft.com/en-us/library/ms534654(VS.85).aspx
-    __defaultFocusable :
+    /** 
+     * {Map} See: http://msdn.microsoft.com/en-us/library/ms534654(VS.85).aspx 
+     */
+    __defaultFocusable : qx.core.Variant.select("qx.client",
     {
-      a : 1,
-      body : 1,
-      button : 1,
-      frame : 1,
-      iframe : 1,
-      img : 1,
-      input : 1,
-      object : 1,
-      select : 1,
-      textarea : 1
-    },
+      "mshtml|gecko" :
+      {
+        a : 1,
+        body : 1,
+        button : 1,
+        frame : 1,
+        iframe : 1,
+        img : 1,
+        input : 1,
+        object : 1,
+        select : 1,
+        textarea : 1
+      },
+      
+      "webkit" :
+      {
+        input : 1,
+        select : 1,
+        textarea : 1
+      }
+    }),
+    
+    
+    /**
+     * Whether the given element is focusable. This is perfectly modeled to the 
+     * browsers behavior and this way may differ in the various clients.
+     *
+     * @type member
+     * @param el {Element} DOM Element to query
+     * @return {Boolean} Whether the element is focusable
+     */
+    isFocusable : function(el)
+    {
+      var index = qx.bom.element.Attribute.get(el, "tabIndex");
+      return index >= 1 || (index >= 0 && this.__defaultFocusable[el.tagName.toLowerCase()]);
+    },   
     
 
     /**
-     * Returns the next focusable parent node of a activated DOM element.
+     * Returns the next focusable parent element of a activated DOM element.
      *
      * @type member
      * @param node {Node} Node to start lookup with
      * @return {void}
      */
-    __findFocusNode : function(node)
+    __findFocusElement : function(el)
     {
       var Attribute = qx.bom.element.Attribute;
-      var body = this._body;
-      var focusable = this.__defaultFocusable;
       
-      while (node && node.nodeType === 1)
+      while (el && el.nodeType === 1)
       {
-        if (Attribute.get(node, "qxKeepFocus") == "on") {
+        if (Attribute.get(el, "qxKeepFocus") == "on") {
           return null;
         }
         
-        index = Attribute.get(node, "tabIndex");
-        if (index >= 1 || (index >= 0 && focusable[node.tagName.toLowerCase()])) {
-          return node; 
+        if (this.isFocusable(el)) {
+          return el; 
         }
 
-        node = node.parentNode;
+        el = el.parentNode;
       }
 
       // This should be identical to the one which is selected when
       // clicking into an empty page area. In mshtml this must be
       // the body of the document.
-      return body;
+      return this._body;
     },
 
 
     /**
-     * Whether the given node (or its content) should be selectable
+     * Whether the given el (or its content) should be selectable
      * by the user.
      *
      * @type member
-     * @param node {Node} Node to start lookup with
+     * @param node {Element} Node to start lookup with
      * @return {Boolean} Whether the content is selectable.
      */
     __isSelectable : function(node)
@@ -895,7 +896,7 @@ qx.Class.define("qx.event.handler.Focus",
         id = (value.tagName||value) + "[" + (value.$$hash || "none") + "]";
       }
       
-      this.debug("NativeActive: " + id);
+      this.debug("Property Active: " + id);
 
       // Fire events
       if (old) {
@@ -916,7 +917,7 @@ qx.Class.define("qx.event.handler.Focus",
         id = (value.tagName||value) + "[" + (value.$$hash || "none") + "]";
       }
       
-      this.debug("NativeFocus: " + id);
+      this.debug("Property Focus: " + id);
 
       // Fire bubbling events
       if (old) {
