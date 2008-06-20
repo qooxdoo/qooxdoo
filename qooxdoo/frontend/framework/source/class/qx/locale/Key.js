@@ -51,12 +51,12 @@ qx.Class.define("qx.locale.Key",
       }
 
       var key = "key_" + size + "_" + keyIdentifier;
-      var localizedKey = new qx.locale.LocalizedString(key, [], locale);
+      var localizedKey = qx.locale.Manager.getInstance().translate(key, [], locale);
 
       if (localizedKey == key) {
         return qx.locale.Key._keyNames[key] || keyIdentifier;
       } else {
-        return localizedKey.toString();
+        return localizedKey;
       }
     }
   },
