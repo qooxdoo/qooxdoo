@@ -1,9 +1,12 @@
 // Demobrowser - config.json
 {
   "include" :
-  {
-    "apiconf": "../apiviewer/config.json"
-  },
+  [
+    {
+      "path" : "../apiviewer/config.json",
+      "as"   : "apiconf"
+    }
+  ],
 
   "jobs" :
   {

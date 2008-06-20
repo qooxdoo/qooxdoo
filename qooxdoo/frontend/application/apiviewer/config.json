@@ -1,5 +1,7 @@
 // Apiviewer - config.json
 {
+  "export" : ["build"],
+
   "jobs" :
   {
     "common" :
@@ -10,8 +12,8 @@
         "APIVIEWER"  : "apiviewer",
         "QOOXDOO_PATH" : "../../framework",
         "QOOXDOO_URI"  : "../${QOOXDOO_PATH}",
-				"API_INCLUDE"  : ["qx.*"],
-				"API_EXCLUDE"  : [],
+        "API_INCLUDE"  : ["qx.*"],
+        "API_EXCLUDE"  : [],
         "BUILD_PATH"   : "${ROOT}/build"
       },
 
@@ -83,7 +85,7 @@
 
       "compile-dist" :
       {
-	"target" : "${BUILD_PATH}",
+        "target" : "${BUILD_PATH}",
         "file" : "${BUILD_PATH}/script/${APIVIEWER}.js",
         "format" : "on",
 	"optimize" : ["strings", "basecalls", "variables", "privates"],

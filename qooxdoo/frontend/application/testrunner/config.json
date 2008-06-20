@@ -1,9 +1,12 @@
 // Testrunner - config.json
 {
   "include" :
-  {
-    "appconf": "../../tool/data/config/application.json"
-  },
+  [
+    {
+      "path" : "../../tool/data/config/application.json",
+      "as"   : "appconf"
+    }
+  ],
 
   "jobs" :
   {
