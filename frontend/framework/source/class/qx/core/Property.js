@@ -235,17 +235,18 @@ qx.Class.define("qx.core.Property",
      */
     $$allowedKeys :
     {
-      name        : "string",   // String
-      dispose     : "boolean",  // Boolean
-      inheritable : "boolean",  // Boolean
-      nullable    : "boolean",  // Boolean
-      themeable   : "boolean",  // Boolean
-      refine      : "boolean",  // Boolean
-      init        : null,       // var
-      apply       : "string",   // String
-      event       : "string",   // String
-      check       : null,       // Array, String, Function
-      transform   : "string"    // String
+      name         : "string",   // String
+      dispose      : "boolean",  // Boolean
+      inheritable  : "boolean",  // Boolean
+      nullable     : "boolean",  // Boolean
+      themeable    : "boolean",  // Boolean
+      refine       : "boolean",  // Boolean
+      init         : null,       // var
+      apply        : "string",   // String
+      event        : "string",   // String
+      check        : null,       // Array, String, Function
+      transform    : "string",    // String
+      deferredInit : "boolean"   // Boolean
     },
 
     $$allowedGroupKeys :
@@ -509,7 +510,7 @@ qx.Class.define("qx.core.Property",
         return qx.core.Property.executeOptimizedSetter(this, clazz, name, "reset");
       }
 
-      if (config.inheritable || config.apply || config.event)
+      if (config.inheritable || config.apply || config.event || config.deferredInit)
       {
         method.init[name] = "init" + upname;
         members[method.init[name]] = function(value) {
