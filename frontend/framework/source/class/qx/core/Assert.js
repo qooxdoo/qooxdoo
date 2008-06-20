@@ -324,7 +324,7 @@ qx.Mixin.define("qx.core.Assert",
       this.__assert(
         value >= min && value <= max,
         msg || "",
-        qx.lang.String.format("Expected value '%1' to be in the range '%2'..'%3'!", value, min, max)
+        qx.lang.String.format("Expected value '%1' to be in the range '%2'..'%3'!", [value, min, max])
       );
     },
 
