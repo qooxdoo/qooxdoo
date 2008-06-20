@@ -242,8 +242,8 @@ qx.Bootstrap.define("qx.lang.String",
     {
       var str = pattern;
 
-      for (var i=0; i<args.length; i++) {
-        str = str.replace(new RegExp("%" + (i + 1), "g"), args[i]);
+      for (var i=1; i<arguments.length; i++) {
+        str = str.replace(new RegExp("%" + i, "g"), arguments[i]);
       }
 
       return str;
