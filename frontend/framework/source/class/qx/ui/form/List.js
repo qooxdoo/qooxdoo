@@ -299,6 +299,12 @@ qx.Class.define("qx.ui.form.List",
         return;
       }
       
+      // Only useful in single or one selection mode
+      var mode = this.getSelectionMode();
+      if (!(mode === "single" || mode === "one")) {
+        return;
+      }
+      
       // Reset string after a second of non pressed key
       if (((new Date).valueOf() - this._lastKeyPress) > 1000) {
         this._pressedString = "";
@@ -312,13 +318,7 @@ qx.Class.define("qx.ui.form.List",
       
       // if an item was found, select it
       if (matchedItem) {
-        if (this.getSelectionMode() === "additive" ) {
-          // just set the lead item in the additice mode          
-          this.setLeadItem(matchedItem);          
-        } else {
-          // otherwise, select the item
-          this.select(matchedItem);          
-        }
+        this.select(matchedItem);          
       }
 
       // Store timestamp
@@ -336,24 +336,29 @@ qx.Class.define("qx.ui.form.List",
      * @param searchText {String} The text with which the label of the ListItem should start with
      * @return {qx.ui.form.ListItem | null} The found ListItem
      */
-    __findItem : function(searchText) {
+    __findItem : function(searchText) 
+    {
       // get all elements of the list
       var elements = this.getChildren();
       
       // go threw all elements
-      for (var i = 0; i < elements.length; i++) {
+      for (var i = 0; i < elements.length; i++) 
+      {
         // get the label of the current item
         var currentLabel = elements[i].getLabel();
        
         // if there is a label
-        if (currentLabel) {
+        if (currentLabel) 
+        {
           // if the label fits with the search text (ignore case, begins with)
-          if (currentLabel.toLowerCase().indexOf(searchText.toLowerCase()) == 0) {
+          if (currentLabel.toLowerCase().indexOf(searchText.toLowerCase()) == 0) 
+          {
             // just return the first found element
             return elements[i];
           }          
         }
       }
+      
       // if no element was found, return null
       return null;
     }
