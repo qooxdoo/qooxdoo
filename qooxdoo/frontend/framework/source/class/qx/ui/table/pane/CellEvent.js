@@ -112,5 +112,10 @@ qx.Class.define("qx.ui.table.pane.CellEvent",
       }
       return this._column;
     }
+  },
+
+  destruct : function()
+  {
+    this._disposeObjects("_scroller");
   }
 });

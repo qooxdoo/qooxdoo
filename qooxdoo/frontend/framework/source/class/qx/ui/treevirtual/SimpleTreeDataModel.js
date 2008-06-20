@@ -1066,5 +1066,16 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
 
       return nodes;
     }
+  },
+
+  destruct : function()
+  {
+    this._disposeFields(
+      "_rowArr",
+      "_nodeArr",
+      "_nodeRowMap",
+      "_treeColumn",
+      "_selections"
+    );
   }
 });

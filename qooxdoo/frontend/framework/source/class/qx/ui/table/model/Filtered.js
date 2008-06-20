@@ -344,6 +344,12 @@ qx.Class.define("qx.ui.table.model.Filtered",
 
   destruct : function()
   {
-    this._disposeFields("_rowArr", "_fullArr");
+    this._disposeFields(
+      "_rowArr",
+      "_fullArr",
+      "numericAllowed",
+      "betweenAllowed",
+      "Filters"
+    );
   }
 });

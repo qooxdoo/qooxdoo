@@ -995,6 +995,13 @@ qx.Class.define("qx.ui.form.ComboBox",
     var vMgr = qx.locale.Manager.getInstance();
     vMgr.removeEventListener("changeLocale", this._onlocalechange, this);
 
-    this._disposeObjects("_popup", "_list", "_manager", "_field", "_button");
+    this._disposeObjects(
+      "_popup", 
+      "_list", 
+      "_manager", 
+      "_field", 
+      "_button",
+      "_oldSelected"
+    );
   }
 });

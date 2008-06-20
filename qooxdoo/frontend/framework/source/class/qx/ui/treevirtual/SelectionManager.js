@@ -206,5 +206,10 @@ qx.Class.define("qx.ui.treevirtual.SelectionManager",
         Sm.prototype._handleSelectEvent.call(this, index, evt);
       }
     }
+  },
+
+  destruct : function()
+  {
+    this._disposeFields("_table");
   }
 });

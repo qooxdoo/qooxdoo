@@ -746,6 +746,9 @@ qx.Class.define("qx.ui.table.pane.Pane",
       window.clearTimeout(this._layoutPending);
     }
 
-    this._disposeObjects("_paneScroller");
+    this._disposeObjects(
+      "_paneScroller",
+      "_tableContainer"
+    );
   }
 });

@@ -1941,6 +1941,11 @@ qx.Class.define("qx.ui.table.Table",
 
   destruct : function()
   {
+    // remove the event listener which handled the locale change
+    qx.locale.Manager.getInstance().removeEventListener("changeLocale",
+                                                        this._onChangeLocale,
+                                                        this);
+
     // we allocated these objects on init so we have to clean them up.
     var selectionModel = this.getSelectionModel();
     if (selectionModel)
