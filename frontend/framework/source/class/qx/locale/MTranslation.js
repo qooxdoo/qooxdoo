@@ -40,7 +40,7 @@ qx.Mixin.define("qx.locale.MTranslation",
      * @type member
      * @param messageId {String} message id (may contain format strings)
      * @param varargs {Object} variable number of argumes applied to the format string
-     * @return {qx.locale.LocalizedString} the localized string object
+     * @return {String|qx.locale.LocalizedString} the localized string object
      */
     tr : function(messageId, varargs)
     {
@@ -64,7 +64,7 @@ qx.Mixin.define("qx.locale.MTranslation",
      * @param pluralMessageId {String} message id of the plural form (may contain format strings)
      * @param count {Integer} if greater than 1 the plural form otherwhise the singular form is returned.
      * @param varargs {Object} variable number of argumes applied to the format string
-     * @return {qx.locale.LocalizedString} the localized string object
+     * @return {String|qx.locale.LocalizedString} the localized string object
      */
     trn : function(singularMessageId, pluralMessageId, count, varargs)
     {

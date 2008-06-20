@@ -23,8 +23,6 @@ qx.Class.define("demobrowser.demo.ui.I18n",
 
   members :
   {
-    locale : "de",
-
     main: function()
     {
       this.base(arguments);
