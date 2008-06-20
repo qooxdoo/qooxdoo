@@ -270,12 +270,13 @@ qx.Class.define("qx.ui.core.RadioManager",
         old.setChecked(false);
       }
 
-      if (value)
+      if (value) 
       {
         value.setChecked(true);
-
-        if (value.isFocusable()) {
-          value.focus();
+        
+        // If the old one was focused, now switch focus to the new item
+        if (old && old.hasState("focused")) {
+          value.focus(); 
         }
       }
     },
