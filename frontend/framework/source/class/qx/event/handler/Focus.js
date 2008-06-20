@@ -581,10 +581,13 @@ qx.Class.define("qx.event.handler.Focus",
     {
       "mshtml" : function(e)
       {
+        // If the focus goes to nowhere (the document is blurred)
         if (!e.toElement) 
         {
+          // Update internal representation
           this.__doWindowBlur();
           
+          // Reset active and focus
           this.resetFocus();
           this.resetActive();
         }
@@ -672,16 +675,6 @@ qx.Class.define("qx.event.handler.Focus",
           this.resetFocus();
         }          
       },
-      
-      "mshtml" : function(e)
-      {
-
-      },
-      
-      "opera" : function(e)
-      {
-        
-      },   
 
       "default" : null
     }),
