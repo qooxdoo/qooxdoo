@@ -48,7 +48,7 @@ qx.Class.define("qx.locale.Date",
      * @return {String} translated PM marker.
      */
     getPmMarker : function(locale) {
-      return qx.locale.Manager.getInstance().translate("cldr_am", [], locale);
+      return qx.locale.Manager.getInstance().translate("cldr_pm", [], locale);
     },
 
 
@@ -63,8 +63,8 @@ qx.Class.define("qx.locale.Date",
      */
     getDayNames : function(length, locale)
     {
-      if (length != "abbreviated" && length != "narrow" && length != "wide") {
-        throw new Error('format must be one of "abbreviated", "narrow", "wide"');
+      if (qx.core.Variant.isSet("qx.debug", "on")) {
+        qx.core.Assert.assertInArray(length, ["abbreviated", "narrow", "wide"]);
       }
 
       var days = [ "sun", "mon", "tue", "wed", "thu", "fri", "sat" ];
@@ -94,8 +94,11 @@ qx.Class.define("qx.locale.Date",
      */
     getDayName : function(length, day, locale)
     {
-      if (length != "abbreviated" && length != "narrow" && length != "wide") {
-        throw new Error('format must be one of "abbreviated", "narrow", "wide"');
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        qx.core.Assert.assertInArray(length, ["abbreviated", "narrow", "wide"]);
+        qx.core.Assert.assertInteger(day);
+        qx.core.Assert.assertInRange(day, 0, 6);
       }
 
       var days = [ "sun", "mon", "tue", "wed", "thu", "fri", "sat" ];
@@ -116,8 +119,8 @@ qx.Class.define("qx.locale.Date",
      */
     getMonthNames : function(length, locale)
     {
-      if (length != "abbreviated" && length != "narrow" && length != "wide") {
-        throw new Error('format must be one of "abbreviated", "narrow", "wide"');
+      if (qx.core.Variant.isSet("qx.debug", "on")) {
+        qx.core.Assert.assertInArray(length, ["abbreviated", "narrow", "wide"]);
       }
 
       var names = [];
@@ -144,8 +147,8 @@ qx.Class.define("qx.locale.Date",
      */
     getMonthName : function(length, month, locale)
     {
-      if (length != "abbreviated" && length != "narrow" && length != "wide") {
-        throw new Error('format must be one of "abbreviated", "narrow", "wide"');
+      if (qx.core.Variant.isSet("qx.debug", "on")) {
+        qx.core.Assert.assertInArray(length, ["abbreviated", "narrow", "wide"]);
       }
 
       var key = "cldr_month_" + length + "_" + (month + 1);
@@ -160,12 +163,12 @@ qx.Class.define("qx.locale.Date",
      * @param size {String} format of the date format.
      *      Possible values: "short", "medium", "long", "full"
      * @param locale {String} optional locale to be used
-     * @return {tring} localized date format string
+     * @return {String} localized date format string
      */
     getDateFormat : function(size, locale)
     {
-      if (size != "short" && size != "medium" && size != "long" && size != "full") {
-        throw new Error('format must be one of "short", "medium", "long", "full"');
+      if (qx.core.Variant.isSet("qx.debug", "on")) {
+        qx.core.Assert.assertInArray(length, ["short", "medium", "long", "full"]);
       }
 
       var key = "cldr_date_format_" + size;
@@ -209,8 +212,8 @@ qx.Class.define("qx.locale.Date",
      */
     getTimeFormat : function(size, locale)
     {
-      if (size != "short" && size != "medium" && size != "long" && size != "full") {
-        throw new Error('format must be one of "short", "medium", "long", "full"');
+      if (qx.core.Variant.isSet("qx.debug", "on")) {
+        qx.core.Assert.assertInArray(length, ["short", "medium", "long", "full"]);
       }
 
       var key = "cldr_time_format_" + size;
