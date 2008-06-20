@@ -639,7 +639,6 @@ qx.Class.define("qx.event.handler.Focus",
           target = this._body;
         }
         
-        // this.debug("NativeFocus: " + target);
         this.setFocus(target);
       },
 
@@ -652,7 +651,6 @@ qx.Class.define("qx.event.handler.Focus",
           return;
         }
         
-        this.debug("NativeFocus: " + target);
         this.setFocus(target);
       },
       
@@ -689,8 +687,27 @@ qx.Class.define("qx.event.handler.Focus",
         
         // Stop events when no focus element available (or blocked)
         var focusTarget = this.__findFocusElement(target);
-        if (!focusTarget) 
+        if (focusTarget)
         {
+          // Add unselectable to keep selection
+          if (!this.__isSelectable(target)) 
+          {
+            // The element is not selectable. Block selection.
+            target.unselectable = "on";
+            
+            // Unselectable may keep the current selection which
+            // is not what we like when changing the focus element.
+            // So we clear it
+            document.selection.empty();            
+            
+            // The unselectable attribute stops focussing as well.
+            // Do this manually.
+            target.focus();
+          }
+        }
+        else
+        {
+          // Stop event for blocking support
           qx.bom.Event.preventDefault(e);
           
           // Add unselectable to keep selection
@@ -705,7 +722,6 @@ qx.Class.define("qx.event.handler.Focus",
         var target = e.target;
         var focusTarget = this.__findFocusElement(target);
         
-        this.debug("EvMouseDownFocusTarget: " + focusTarget);
         if (focusTarget) {
           this.setFocus(focusTarget);
         }
@@ -754,17 +770,13 @@ qx.Class.define("qx.event.handler.Focus",
      */
     __onNativeSelectStart : qx.core.Variant.select("qx.client",
     {
-      "mshtml" : function(e)
+      "mshtml|webkit" : function(e)
       {
         if (!this.__isSelectable(e.srcElement)) {
           qx.bom.Event.preventDefault(e); 
         }
       },
       
-      "webkit" : function(e) {
-        // unused
-      },
-
       "default" : null
     }),
 
