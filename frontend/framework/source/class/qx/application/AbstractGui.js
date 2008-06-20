@@ -81,10 +81,18 @@ qx.Class.define("qx.application.AbstractGui",
     },
 
 
+    // interface method
     finalize : function() {
       this.render();
     },
-
+    
+    
+    /**
+     * Updates the GUI rendering
+     *
+     * @type member
+     * @return {void}
+     */
     render : function() {
       qx.ui.core.queue.Manager.flush();
     },
