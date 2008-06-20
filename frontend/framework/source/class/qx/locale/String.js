@@ -33,10 +33,10 @@ qx.Class.define("qx.locale.String",
      *
      * @type static
      * @param locale {String} optional locale to be used
-     * @return {qx.locale.LocalizedString} quotation start sign
+     * @return {String} quotation start sign
      */
     getQuotationStart : function(locale) {
-      return new qx.locale.LocalizedString("cldr_quotationStart", [], locale);
+      return qx.locale.Manager.getInstance().translate("cldr_quotationStart", [], locale);
     },
 
 
@@ -45,10 +45,10 @@ qx.Class.define("qx.locale.String",
      *
      * @type static
      * @param locale {String} optional locale to be used
-     * @return {qx.locale.LocalizedString} quotation end sign
+     * @return {String} quotation end sign
      */
     getQuotationEnd : function(locale) {
-      return new qx.locale.LocalizedString("cldr_quotationEnd", [], locale);
+      return qx.locale.Manager.getInstance().translate("cldr_quotationEnd", [], locale)
     },
 
 
@@ -57,10 +57,10 @@ qx.Class.define("qx.locale.String",
      *
      * @type static
      * @param locale {String} optional locale to be used
-     * @return {qx.locale.LocalizedString} alternative quotation start sign
+     * @return {String} alternative quotation start sign
      */
     getAlternateQuotationStart : function(locale) {
-      return new qx.locale.LocalizedString("cldr_alternateQuotationStart", [], locale);
+      return qx.locale.Manager.getInstance().translate("cldr_alternateQuotationStart", [], locale)
     },
 
 
@@ -69,10 +69,10 @@ qx.Class.define("qx.locale.String",
      *
      * @type static
      * @param locale {String} optional locale to be used
-     * @return {qx.locale.LocalizedString} alternative quotation end sign
+     * @return {String} alternative quotation end sign
      */
     getAlternateQuotationEnd : function(locale) {
-      return new qx.locale.LocalizedString("cldr_alternateQuotationEnd", [], locale);
+      return qx.locale.Manager.getInstance().translate("cldr_alternateQuotationEnd", [], locale)
     }
   }
 });

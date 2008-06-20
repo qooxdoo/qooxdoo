@@ -33,10 +33,10 @@ qx.Class.define("qx.locale.Date",
      *
      * @type static
      * @param locale {String} optional locale to be used
-     * @return {qx.locale.LocalizedString} translated AM marker.
+     * @return {String} translated AM marker.
      */
     getAmMarker : function(locale) {
-      return new qx.locale.LocalizedString("cldr_am", [], locale);
+      return qx.locale.Manager.getInstance().translate("cldr_am", [], locale);
     },
 
 
@@ -45,10 +45,10 @@ qx.Class.define("qx.locale.Date",
      *
      * @type static
      * @param locale {String} optional locale to be used
-     * @return {qx.locale.LocalizedString} translated PM marker.
+     * @return {String} translated PM marker.
      */
     getPmMarker : function(locale) {
-      return new qx.locale.LocalizedString("cldr_pm", [], locale);
+      return qx.locale.Manager.getInstance().translate("cldr_am", [], locale);
     },
 
 
@@ -59,7 +59,7 @@ qx.Class.define("qx.locale.Date",
      * @param length {String} format of the day names.
      *       Possible values: "abbreviated", "narrow", "wide"
      * @param locale {String} optional locale to be used
-     * @return {qx.locale.LocalizedString[]} array of localized day names starting with sunday.
+     * @return {String[]} array of localized day names starting with sunday.
      */
     getDayNames : function(length, locale)
     {
@@ -74,7 +74,8 @@ qx.Class.define("qx.locale.Date",
       for (var i=0; i<days.length; i++)
       {
         var key = "cldr_day_" + length + "_" + days[i];
-        names.push(new qx.locale.LocalizedString(key, [], locale));
+        names.push(qx.locale.Manager.getInstance().translate(key, [], locale));
+
       }
 
       return names;
@@ -89,8 +90,7 @@ qx.Class.define("qx.locale.Date",
      *       Possible values: "abbreviated", "narrow", "wide"
      * @param day {Integer} day number. 0=sunday, 1=monday, ...
      * @param locale {String} optional locale to be used
-     * @return {qx.locale.LocalizedString} localized day name
-     * @throws TODOC
+     * @return {String} localized day name
      */
     getDayName : function(length, day, locale)
     {
@@ -101,7 +101,7 @@ qx.Class.define("qx.locale.Date",
       var days = [ "sun", "mon", "tue", "wed", "thu", "fri", "sat" ];
 
       var key = "cldr_day_" + length + "_" + days[day];
-      return new qx.locale.LocalizedString(key, [], locale);
+      return qx.locale.Manager.getInstance().translate(key, [], locale);
     },
 
 
@@ -112,8 +112,7 @@ qx.Class.define("qx.locale.Date",
      * @param length {String} format of the month names.
      *       Possible values: "abbreviated", "narrow", "wide"
      * @param locale {String} optional locale to be used
-     * @return {qx.locale.LocalizedString[]} array of localized month names starting with january.
-     * @throws TODOC
+     * @return {String[]} array of localized month names starting with january.
      */
     getMonthNames : function(length, locale)
     {
@@ -126,7 +125,7 @@ qx.Class.define("qx.locale.Date",
       for (var i=0; i<12; i++)
       {
         var key = "cldr_month_" + length + "_" + (i + 1);
-        names.push(new qx.locale.LocalizedString(key, [], locale));
+        names.push(qx.locale.Manager.getInstance().translate(key, [], locale));
       }
 
       return names;
@@ -141,8 +140,7 @@ qx.Class.define("qx.locale.Date",
      *       Possible values: "abbreviated", "narrow", "wide"
      * @param month {Integer} index of the month. 0=january, 1=februrary, ...
      * @param locale {String} optional locale to be used
-     * @return {qx.locale.LocalizedString} localized month name
-     * @throws TODOC
+     * @return {String} localized month name
      */
     getMonthName : function(length, month, locale)
     {
@@ -151,7 +149,7 @@ qx.Class.define("qx.locale.Date",
       }
 
       var key = "cldr_month_" + length + "_" + (month + 1);
-      return new qx.locale.LocalizedString(key, [], locale);
+      return qx.locale.Manager.getInstance().translate(key, [], locale)
     },
 
 
@@ -162,8 +160,7 @@ qx.Class.define("qx.locale.Date",
      * @param size {String} format of the date format.
      *      Possible values: "short", "medium", "long", "full"
      * @param locale {String} optional locale to be used
-     * @return {qx.locale.LocalizedString} localized date format string
-     * @throws TODOC
+     * @return {tring} localized date format string
      */
     getDateFormat : function(size, locale)
     {
@@ -172,7 +169,7 @@ qx.Class.define("qx.locale.Date",
       }
 
       var key = "cldr_date_format_" + size;
-      return new qx.locale.LocalizedString(key, [], locale);
+      return qx.locale.Manager.getInstance().translate(key, [], locale)
     },
 
 
@@ -208,8 +205,7 @@ qx.Class.define("qx.locale.Date",
      * @param size {String} format of the time pattern.
      *      Possible values: "short", "medium", "long", "full"
      * @param locale {String} optional locale to be used
-     * @return {qx.locale.LocalizedString} localized time format string
-     * @throws TODOC
+     * @return {String} localized time format string
      */
     getTimeFormat : function(size, locale)
     {
