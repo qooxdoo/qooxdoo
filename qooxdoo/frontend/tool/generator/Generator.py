@@ -606,7 +606,7 @@ class Generator:
 
         # Read in base file name
         filePath = self._config.get("compile-dist/file")
-        if variants:
+        if variants and False: # TODO: get variant names from config
             filePath = self._makeVariantsName(filePath, variants)
 
         # Read in app root dir
