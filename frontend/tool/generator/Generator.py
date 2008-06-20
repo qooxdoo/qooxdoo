@@ -595,7 +595,8 @@ class Generator:
         self._console.info("Executing shell command \"%s\"..." % shellcmd)
         self._console.indent()
         rc = self._shellCmd.execute(shellcmd)
-        self._console.debug("Exit status from shell command: %s" % repr(rc))
+        if rc != 0:
+            raise RuntimeError "Shell command returned error code: %s" % repr(rc)
         self._console.outdent()
 
 
