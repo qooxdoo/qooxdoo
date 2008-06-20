@@ -261,7 +261,7 @@ qx.Class.define("qx.event.handler.Focus",
      * @param bubbles {Boolean} Whether the event should bubble
      * @return {void}
      */
-    _fireEvent : function(target, related, type, bubbles)
+    __fireEvent : function(target, related, type, bubbles)
     {
       var Registration = qx.event.Registration;
 
@@ -290,7 +290,7 @@ qx.Class.define("qx.event.handler.Focus",
      * @type member
      * @return {void}
      */
-    _doWindowBlur : function()
+    __doWindowBlur : function()
     {
       // Omit doubled blur events
       // which is a common behavior at least for gecko based clients
@@ -298,7 +298,7 @@ qx.Class.define("qx.event.handler.Focus",
       {
         // this.debug("NativeWindowBlur");
         this._windowFocused = false;
-        this._fireEvent(this._window, null, "blur", false);
+        this.__fireEvent(this._window, null, "blur", false);
       }
     },
 
@@ -309,7 +309,7 @@ qx.Class.define("qx.event.handler.Focus",
      * @type member
      * @return {void}
      */
-    _doWindowFocus : function()
+    __doWindowFocus : function()
     {
       // Omit doubled focus events
       // which is a common behavior at least for gecko based clients
@@ -317,7 +317,7 @@ qx.Class.define("qx.event.handler.Focus",
       {
         // this.debug("NativeWindowFocus");
         this._windowFocused = true;
-        this._fireEvent(this._window, null, "focus", false);
+        this.__fireEvent(this._window, null, "focus", false);
       }
     },
 
@@ -392,6 +392,7 @@ qx.Class.define("qx.event.handler.Focus",
       {
         // Bind methods
         this.__onNativeMouseDownWrapper = qx.lang.Function.listener(this.__onNativeMouseDown, this);
+        this.__onNativeMouseUpWrapper = qx.lang.Function.listener(this.__onNativeMouseUp, this);
 
         this.__onNativeFocusInWrapper = qx.lang.Function.listener(this.__onNativeFocusIn, this);
         this.__onNativeFocusOutWrapper = qx.lang.Function.listener(this.__onNativeFocusOut, this);
@@ -404,6 +405,7 @@ qx.Class.define("qx.event.handler.Focus",
 
         // Register events
         this._document.addEventListener("mousedown", this.__onNativeMouseDownWrapper, true);
+        this._document.addEventListener("mouseup", this.__onNativeMouseUpWrapper, true);
         this._document.addEventListener("selectstart", this.__onNativeSelectStartWrapper, false);
 
         this._window.addEventListener("DOMFocusIn", this.__onNativeFocusInWrapper, true);
@@ -417,6 +419,7 @@ qx.Class.define("qx.event.handler.Focus",
       {
         // Bind methods
         this.__onNativeMouseDownWrapper = qx.lang.Function.listener(this.__onNativeMouseDown, this);
+        this.__onNativeMouseUpWrapper = qx.lang.Function.listener(this.__onNativeMouseUp, this);
 
         this.__onNativeFocusInWrapper = qx.lang.Function.listener(this.__onNativeFocusIn, this);
         this.__onNativeFocusOutWrapper = qx.lang.Function.listener(this.__onNativeFocusOut, this);
@@ -427,9 +430,10 @@ qx.Class.define("qx.event.handler.Focus",
 
         // Register events
         this._document.addEventListener("mousedown", this.__onNativeMouseDownWrapper, true);
+        this._document.addEventListener("mouseup", this.__onNativeMouseUpWrapper, true);
 
         this._window.addEventListener("DOMFocusIn", this.__onNativeFocusInWrapper, true);
-        //this._window.addEventListener("DOMFocusOut", this.__onNativeFocusOutWrapper, true);
+        this._window.addEventListener("DOMFocusOut", this.__onNativeFocusOutWrapper, true);
 
         this._window.addEventListener("focus", this.__onNativeFocusWrapper, true);
         this._window.addEventListener("blur", this.__onNativeBlurWrapper, true);
@@ -483,7 +487,7 @@ qx.Class.define("qx.event.handler.Focus",
         this._document.removeEventListener("mousedown", this.__onNativeMouseDownWrapper, true);
 
         this._window.removeEventListener("DOMFocusIn", this.__onNativeFocusInWrapper, true);
-        // this._window.removeEventListener("DOMFocusOut", this.__onNativeFocusOutWrapper, true);
+        this._window.removeEventListener("DOMFocusOut", this.__onNativeFocusOutWrapper, true);
 
         this._window.removeEventListener("focus", this.__onNativeFocusWrapper, true);
         this._window.removeEventListener("blur", this.__onNativeBlurWrapper, true);
@@ -515,7 +519,7 @@ qx.Class.define("qx.event.handler.Focus",
       "mshtml" : function(e)
       {
         // Force window focus to be the first
-        this._doWindowFocus();
+        this.__doWindowFocus();
 
         // Update internal data
         var target = e.srcElement;
@@ -528,16 +532,37 @@ qx.Class.define("qx.event.handler.Focus",
         }
       },
 
+      "opera" : function(e)
+      {
+        var target = e.target;
+        if (target == this._document || target == this._window) 
+        {
+          this.__doWindowFocus();
+          
+          if (this.__previousFocus) 
+          {
+            this.setFocus(this.__previousFocus);
+            delete this.__previousFocus;
+          }          
+          
+          if (this.__previousActive) 
+          {
+            this.setActive(this.__previousActive);
+            delete this.__previousActive;
+          }
+        } 
+        else 
+        {
+          this.setFocus(target); 
+          this.setActive(target);
+        }        
+      },
+
       "webkit" : function(e)
       {
         // unused
       },
-
-      "opera" : function(e)
-      {
-
-      },
-
+      
       "default" : null
     }),
 
@@ -560,17 +585,45 @@ qx.Class.define("qx.event.handler.Focus",
 
       "webkit" : function(e) 
       {
-        // this.debug("EvNativeFocusOut: " + e.target);
+        var target = e.target;
         
-        if (e.target === this.getFocus()) {
+        if (target === this.getFocus()) {
           this.resetFocus();
         }
         
-        if (e.target === this.getActive()) {
+        if (target === this.getActive()) {
           this.resetActive();        
         }
       },
-
+      
+      "opera" : function(e)
+      {
+        var target = e.target;
+        if (target == this._document)
+        {
+          this.__doWindowBlur();
+          
+          // Store old focus/active elements
+          // Opera do not fire focus events for them
+          // when refocussing the window (in my opinion an error)
+          this.__previousFocus = this.getFocus();
+          this.__previousActive = this.getActive();
+          
+          this.resetFocus();
+          this.resetActive(); 
+        }
+        else
+        {
+          if (target === this.getFocus()) {
+            this.resetFocus();
+          }
+          
+          if (target === this.getActive()) {
+            this.resetActive();        
+          }        
+        }
+      },
+      
       "default" : null
     }),
 
@@ -585,23 +638,11 @@ qx.Class.define("qx.event.handler.Focus",
      */
     __onNativeBlur : qx.core.Variant.select("qx.client",
     {
-      "gecko" : function(e)
+      "gecko|webkit" : function(e)
       {
         if (e.target === this._window || e.target === this._document) 
         {
-          this._doWindowBlur(); 
-          
-          this.resetActive();
-          this.resetFocus();
-        }        
-      },
-      
-      "webkit" : function(e)
-      {
-        //this.debug("NativeBlur: " + e.target);
-        if (e.target === this._window || e.target === this._document) 
-        {
-          this._doWindowBlur();
+          this.__doWindowBlur(); 
           
           this.resetActive();
           this.resetFocus();
@@ -633,13 +674,14 @@ qx.Class.define("qx.event.handler.Focus",
         
         if (target === this._window || target === this._document) 
         {
-          this._doWindowFocus();
+          this.__doWindowFocus();
           
           // Always speak of the body, not the window or document
           target = this._body;
         }
         
         this.setFocus(target);
+        this.setActive(target);
       },
 
       "webkit" : function(e)
@@ -647,11 +689,13 @@ qx.Class.define("qx.event.handler.Focus",
         var target = e.target;        
         if (target === this._window || target === this._document) 
         {
-          this._doWindowFocus();
-          return;
+          this.__doWindowFocus();
         }
-        
-        this.setFocus(target);
+        else
+        {
+          this.setFocus(target);
+          this.setActive(target);
+        }
       },
       
       "opera" : function(e)
@@ -717,7 +761,7 @@ qx.Class.define("qx.event.handler.Focus",
         }
       },
 
-      "webkit" : function(e)
+      "webkit|opera" : function(e)
       {
         var target = e.target;
         var focusTarget = this.__findFocusElement(target);
@@ -725,11 +769,6 @@ qx.Class.define("qx.event.handler.Focus",
         if (focusTarget) {
           this.setFocus(focusTarget);
         }
-      },
-
-      "opera" : function(e)
-      {
-
       },
 
       "default" : null
@@ -750,11 +789,13 @@ qx.Class.define("qx.event.handler.Focus",
         var target = e.srcElement;
         if (target.unselectable) {
           target.unselectable = "off";
-        }        
+        }
+        
+        this.setActive(target);
       },
 
-      "gecko" : function(e) {
-        // unused
+      "gecko|webkit|opera" : function(e) {
+        this.setActive(e.target);
       },
 
       "default" : null
@@ -809,8 +850,9 @@ qx.Class.define("qx.event.handler.Focus",
         textarea : 1
       },
       
-      "webkit" :
+      "opera|webkit" :
       {
+        button : 1,
         input : 1,
         select : 1,
         textarea : 1
@@ -912,11 +954,11 @@ qx.Class.define("qx.event.handler.Focus",
 
       // Fire events
       if (old) {
-        this._fireEvent(old, value, "deactivate", true);
+        this.__fireEvent(old, value, "deactivate", true);
       }
 
       if (value) {
-        this._fireEvent(value, old, "activate", true);
+        this.__fireEvent(value, old, "activate", true);
       }
     },
 
@@ -933,20 +975,20 @@ qx.Class.define("qx.event.handler.Focus",
 
       // Fire bubbling events
       if (old) {
-        this._fireEvent(old, value, "focusout", true);
+        this.__fireEvent(old, value, "focusout", true);
       }
 
       if (value) {
-        this._fireEvent(value, old, "focusin", true);
+        this.__fireEvent(value, old, "focusin", true);
       }
 
       // Fire after events
       if (old) {
-        this._fireEvent(old, value, "blur", false);
+        this.__fireEvent(old, value, "blur", false);
       }
 
       if (value) {
-        this._fireEvent(value, old, "focus", false);
+        this.__fireEvent(value, old, "focus", false);
       }
     }
   },
@@ -964,7 +1006,8 @@ qx.Class.define("qx.event.handler.Focus",
   destruct : function()
   {
     this._stopObserver();
-    this._disposeFields("_manager", "_window", "_document", "_root", "_body", "_unselectableTarget");
+    this._disposeFields("_manager", "_window", "_document", "_root", "_body",
+      "__mouseActive");
   },
 
 
