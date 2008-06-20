@@ -46,8 +46,6 @@ qx.Class.define("demobrowser.demo.ui.I18n",
 
 
       // transform
-      qx.Class.patch(qx.core.Object, qx.locale.dynamic.MObject);
-      qx.Class.patch(qx.ui.basic.Label, qx.locale.dynamic.MLabel);
       var label = new qx.ui.basic.Label(this.tr("Hello %1!", "Fabian"));
       root.add(label, {top: 50, left: 10});
 

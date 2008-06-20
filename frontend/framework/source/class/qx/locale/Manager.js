@@ -84,7 +84,11 @@ qx.Class.define("qx.locale.Manager",
       var args = qx.lang.Array.fromArguments(arguments);
       args.splice(0, 1);
 
-      return new qx.locale.LocalizedString(messageId, args);
+      if (qx.core.Variant.isSet("qx.dynamicLocaleSwitch", "on")) {
+        return new qx.locale.LocalizedString(messageId, args);
+      } else {
+        return qx.locale.Manager.getInstance().translate(messageId, args);
+      }
     },
 
 
@@ -371,6 +375,20 @@ qx.Class.define("qx.locale.Manager",
   },
 
 
+  /*
+  *****************************************************************************
+     DEFER
+  *****************************************************************************
+  */
+
+  defer : function(statics)
+  {
+    if (qx.core.Variant.isSet("qx.dynamicLocaleSwitch", "on"))
+    {
+      qx.Class.patch(qx.core.Object, qx.locale.dynamic.MObject);
+      qx.Class.patch(qx.ui.basic.Label, qx.locale.dynamic.MLabel);
+    }
+  },
 
 
   /*
