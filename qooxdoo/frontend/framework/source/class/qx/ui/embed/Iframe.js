@@ -358,7 +358,7 @@ qx.Class.define("qx.ui.embed.Iframe",
     block : function()
     {
       if (this._blockerNode) {
-        this._blockerNode.style.display = "";
+        this._getBlockerParent().appendChild(this._blockerNode);
       }
     },
 
@@ -370,19 +370,27 @@ qx.Class.define("qx.ui.embed.Iframe",
      */
     release : function()
     {
-      if (this._blockerNode)
-      {
-        if (qx.core.Variant.isSet("qx.client", "mshtml"))
-        {
-          var blockerParent = this.getElement();
-          blockerParent.removeChild(this._blockerNode);
-          blockerParent.appendChild(this._blockerNode);
-        }
-        this._blockerNode.style.display = "none";
+      if (this._blockerNode) {
+        this._getBlockerParent().removeChild(this._blockerNode);
       }
     },
 
 
+    /**
+     * Get the parent element of the blocker node. Respects extended border
+     * elements.
+     *
+     * @return {Element} the blocker's parent element
+     */
+    _getBlockerParent : function()
+    {
+      var el = this.getElement();
+      if (this._innerStyle) {
+        return el.firstChild;
+      } else {
+        return el;
+      }
+    },
 
 
 
