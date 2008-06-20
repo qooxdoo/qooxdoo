@@ -288,11 +288,11 @@ qx.Class.define("qx.ui.basic.Label",
 
     _localizeContent : qx.core.Variant.select("qx.dynamicLocaleSwitch",
     {
-      "on" : function(value) {
+      "on---" : function(value) {
         return this._transformLocalizedString(value, "content");
       },
 
-      "off": function(value) {
+      "default": function(value) {
         return value;
       }
     }),
