@@ -784,6 +784,8 @@ qx.Class.define("qx.event.handler.Focus",
         
         if (focusTarget) {
           this.setFocus(focusTarget);
+        } else {
+          qx.bom.Event.preventDefault(e); 
         }
       },
       
