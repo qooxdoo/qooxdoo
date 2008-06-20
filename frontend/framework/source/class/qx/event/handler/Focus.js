@@ -794,13 +794,33 @@ qx.Class.define("qx.event.handler.Focus",
         var target = e.target;
         var focusTarget = this.__findFocusElement(target);
         
-        if (focusTarget) {
+        if(!this.__isSelectable(target)) 
+        {
+          qx.bom.Event.preventDefault(e); 
+          
+          // The stopped event keeps the selection
+          // of the previously focused element.
+          // We need to clear the old selection.
+          if (focusTarget)
+          {
+            var current = this.getFocus();
+            if (current.selectionEnd) 
+            {
+              current.selectionStart = 0;
+              current.selectionEnd = 0; 
+            }
+            
+            // The prevented event also stop the focus, do
+            // it manually if needed.
+            if (focusTarget) {
+              focusTarget.focus();          
+            } 
+          }
+        }        
+        else if (focusTarget)
+        {
           this.setFocus(focusTarget);
         }
-        
-        if(!this.__isSelectable(target)) {
-          qx.bom.Event.preventDefault(e); 
-        }        
       },
 
       "default" : null
