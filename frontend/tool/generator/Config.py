@@ -153,7 +153,7 @@ class Config:
                 target[namespace] = source.get(".")
             return target
 
-        def integrateExternalConfig(tjobs, source, namespace):
+        def integrateExternalConfig_o2(tjobs, source, namespace):
             # jobs of external config are spliced into current job list
             sjobs = source.getJobsMap()
             if namespace:
@@ -187,6 +187,32 @@ class Config:
                     tjobs[newjobname] = sjobs[sjob]
             return tjobs
 
+
+        def integrateExternalConfig(tjobs, extConfig, namespace):
+            # jobs of external config are spliced into current job list
+            if namespace:
+                namepfx = namespace + self.NSSEP # job names will be namespace'd
+            else:
+                namepfx = ""         # job names will not be namespace'd
+
+            # get the list of jobs to import
+            sjobs = extConfig.getJobsMap()
+            if extConfig.get('export',[]):  # is there a dedicated list of exported jobs?
+                sjobslist = extConfig.get('export')
+            else:
+                sjobslist = sjobs.keys()     # take all jobs
+
+            for sjob in sjobslist:
+                newjobname = namepfx + sjob
+                if tjobs.has_key(newjobname):
+                    raise KeyError, "Job already exists: \"%s\"" % newjobname
+                else:
+                    # remember job's context
+                    sjobs[sjob]['_config'] = extConfig
+                    tjobs[newjobname] = sjobs[sjob]
+            return tjobs
+
+
         config  = self._data
         jobsmap = self.get("jobs")
 
@@ -194,11 +220,18 @@ class Config:
             includeTrace.append(self._fname)   # expand the include trace
             
         if config.has_key('include'):
-            for namespace, fname in config['include'].iteritems():
+            for incspec in config['include']:
+                # analyse value of ['include'][key]
+                if isinstance(incspec, types.StringTypes):
+                    fname = incspec
+                elif isinstance(incspec, types.DictType):
+                    fname = incspec['path']
+                else:
+                    raise RuntimeError, "Unknown include spec: %s" % repr(incspec)
+
                 # cycle check
                 if os.path.abspath(fname) in includeTrace:
-                    self._console.warn("Include config already seen: %s" % str(includeTrace+[os.path.abspath(fname)]))
-                    sys.exit(1)
+                    raise RuntimeError, "Include config already seen: %s" % str(includeTrace+[os.path.abspath(fname)])
                 
                 # calculate path relative to config file if necessary
                 if not os.path.isabs(fname):
@@ -206,12 +239,20 @@ class Config:
                 else:
                     fpath = fname
         
+                # see if we use a namespace prefix for the imported jobs
+                if isinstance(incspec, types.DictType) and incspec.has_key('as'):
+                    namespace = incspec['as']
+                else:
+                    namespace = ""
+
                 # wpbasti:
                 # If top level configs are a separate class they can do some of this magic automatically
                 # e.g. calling resolveIncludes()
                 econfig = Config(self._console, fpath)
                 econfig.resolveIncludes(includeTrace)   # recursive include
-                #jobsmap[namespace] = econfig.get(".")
+                # save external config for later reference
+                incspec['config'] = econfig
+                #jobsmap[key] = econfig.get(".")
                 jobsmap = integrateExternalConfig(jobsmap, econfig, namespace)
 
 
@@ -297,11 +338,23 @@ class Config:
                     # add to job list
                     sublist.append(newjobname)
                     
-                # replace old job by subjobs list
-                jobs[i:i+1] = sublist  
-                j = j + len(sublist) - 1
+                jobs[i:i+1] = sublist     # replace old job by subjobs list
+                j = j + len(sublist) - 1  # correct job list length
+
+            # continue with next job
+            # in case we have just expanded a 'run' key, this would go over the newly
+            # added jobs; but since they don't have 'run' keys this doesn't matter
+            # so we just head on
             i += 1
 
+
+    ##
+    # _resolveExtends  -- resolve potential 'extend' keys for list of job names
+    #
+    # @param self self
+    # @param console console
+    # @param config  jobs map
+    # @param jobs    list of job names
 
     # wpbasti: specific to top level configs. Should be done in a separate class
     def _resolveExtends(self, console, config, jobs):
@@ -326,46 +379,49 @@ class Config:
                 if not target.has_key(key):
                     target[key] = source[key]
 
-        def _resolveExtend(console, config, job, entryTrace=[]):
+        def _resolveExtend(console, config, jobname, entryTrace=[]):
             # resolve the 'extend' entry of a job
-            if not self.get(job,False,config):
-                raise RuntimeError, "No such job: %s" % job
+            if not self.get(jobname,False,config):
+                raise RuntimeError, "No such job: %s" % jobname
 
-            data = self.get(job,None,config)
+            job = self.get(jobname,None,config)
 
-            if data.has_key("resolved"):
+            if job.has_key("resolved"):
                 return
 
             # pre-pend optional 'defauls' job
-            if config.has_key(self.DEFAULTS_KEY) and job != self.DEFAULTS_KEY:
-                if data.has_key('extend'):
-                    data['extend'].insert(0,self.DEFAULTS_KEY)
+            if config.has_key(self.DEFAULTS_KEY) and jobname != self.DEFAULTS_KEY:
+                if job.has_key('extend'):
+                    job['extend'].insert(0,self.DEFAULTS_KEY)
                 else:
-                    data['extend'] = [self.DEFAULTS_KEY]
+                    job['extend'] = [self.DEFAULTS_KEY]
 
-            if data.has_key("extend"):
+            if job.has_key("extend"):
                 # we have to define the context of the current job (ie. its containing map), so
                 # we know in which context to evaluate 'extend' entries
-                jobcontext = config  # we are top-level
+                if job.has_key("_config"): # this links to a Config object
+                    jobcontext = job['_config'].getJobsMap()
+                else: 
+                    jobcontext = config  # we are top-level
 
                 # loop through 'extend' entries
-                extends = data["extend"]
+                extends = job["extend"]
                 for entry in extends:
                     # cyclic check: have we seen this already?
                     if entry in entryTrace:
-                        console.warn("Extend entry already seen: %s" % str(entryTrace+[job,entry]))
+                        console.warn("Extend entry already seen: %s" % str(entryTrace+[jobname,entry]))
                         sys.exit(1)
                     
                     # make sure this entry job is fully resolved in the correct context
-                    _resolveExtend(console, jobcontext, entry, entryTrace + [job])
+                    _resolveExtend(console, jobcontext, entry, entryTrace + [jobname])
 
                     # extract the job definition of the entry from the current jobcontext (mind 3rd param!)
                     pjob = self.get(entry, None, jobcontext )
                     
                     # now merge the fully expanded job into the current job
-                    _mergeEntry(data, pjob)
+                    _mergeEntry(job, pjob)
 
-            data["resolved"] = True
+            job["resolved"] = True
 
         for job in jobs:
             _resolveExtend(console, config, job)
