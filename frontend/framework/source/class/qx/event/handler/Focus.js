@@ -586,7 +586,7 @@ qx.Class.define("qx.event.handler.Focus",
       "webkit" : function(e) 
       {
         var target = e.target;
-        
+
         if (target === this.getFocus()) {
           this.resetFocus();
         }
@@ -638,7 +638,7 @@ qx.Class.define("qx.event.handler.Focus",
      */
     __onNativeBlur : qx.core.Variant.select("qx.client",
     {
-      "gecko|webkit" : function(e)
+      "gecko" : function(e)
       {
         if (e.target === this._window || e.target === this._document) 
         {
@@ -647,6 +647,23 @@ qx.Class.define("qx.event.handler.Focus",
           this.resetActive();
           this.resetFocus();
         }        
+      },
+      
+      "webkit" : function(e)
+      {
+        if (e.target === this._window || e.target === this._document) 
+        {
+          this.__doWindowBlur(); 
+          
+          // Store old focus/active elements
+          // Opera do not fire focus events for them
+          // when refocussing the window (in my opinion an error)
+          this.__previousFocus = this.getFocus();
+          this.__previousActive = this.getActive();
+                    
+          this.resetActive();
+          this.resetFocus();
+        }          
       },
       
       "opera" : function(e)
@@ -690,6 +707,18 @@ qx.Class.define("qx.event.handler.Focus",
         if (target === this._window || target === this._document) 
         {
           this.__doWindowFocus();
+          
+          if (this.__previousFocus) 
+          {
+            this.setFocus(this.__previousFocus);
+            delete this.__previousFocus;
+          }          
+          
+          if (this.__previousActive) 
+          {
+            this.setActive(this.__previousActive);
+            delete this.__previousActive;
+          }
         }
         else
         {
@@ -800,8 +829,8 @@ qx.Class.define("qx.event.handler.Focus",
 
       "default" : null
     }),
-
-
+    
+    
     /**
      * Native event listener for <code>selectstart</code>.
      *
