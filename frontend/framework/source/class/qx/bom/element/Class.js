@@ -66,6 +66,19 @@ qx.Class.define("qx.bom.element.Class",
 
       return name;
     },
+    
+    
+    /**
+     * Gets the classname of the given element
+     * 
+     * @type static
+     * @param element {Element} The element to query
+     * @return {String} The retrieved classname
+     */
+    get : function(element)
+    {
+      return element.className;
+    },
 
 
     /**
