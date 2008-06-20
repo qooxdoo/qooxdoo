@@ -109,8 +109,6 @@ qx.Class.define("qx.ui.core.FocusHandler",
      */
     _onkeyevent : function(e)
     {
-      return;
-      
       if (e.getKeyIdentifier() != "Tab") {
         return;
       }
