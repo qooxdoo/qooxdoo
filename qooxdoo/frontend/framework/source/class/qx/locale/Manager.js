@@ -76,7 +76,7 @@ qx.Class.define("qx.locale.Manager",
      * @type static
      * @param messageId {String} message id (may contain format strings)
      * @param varargs {Object} variable number of argumes applied to the format string
-     * @return {qx.locale.LocalizedString} TODOC
+     * @return {String|qx.locale.LocalizedString} TODOC
      * @see qx.lang.String.format
      */
     tr : function(messageId, varargs)
@@ -84,11 +84,7 @@ qx.Class.define("qx.locale.Manager",
       var args = qx.lang.Array.fromArguments(arguments);
       args.splice(0, 1);
 
-      if (qx.core.Variant.isSet("qx.dynamicLocaleSwitch", "on")) {
-        return new qx.locale.LocalizedString(messageId, args);
-      } else {
-        return qx.locale.Manager.getInstance().translate(messageId, args);
-      }
+      return this.__translateDynamic(messageId, args);
     },
 
 
@@ -102,7 +98,7 @@ qx.Class.define("qx.locale.Manager",
      * @param pluralMessageId {String} message id of the plural form (may contain format strings)
      * @param count {Integer} if greater than 1 the plural form otherwhise the singular form is returned.
      * @param varargs {Object} variable number of argumes applied to the format string
-     * @return {qx.locale.LocalizedString} TODOC
+     * @return {String|qx.locale.LocalizedString} TODOC
      * @see qx.lang.String.format
      */
     trn : function(singularMessageId, pluralMessageId, count, varargs)
@@ -111,9 +107,9 @@ qx.Class.define("qx.locale.Manager",
       args.splice(0, 3);
 
       if (count > 1) {
-        return new qx.locale.LocalizedString(pluralMessageId, args);
+        return this.__translateDynamic(pluralMessageId, args);
       } else {
-        return new qx.locale.LocalizedString(singularMessageId, args);
+        return this.__translateDynamic(singularMessageId, args);
       }
     },
 
@@ -125,7 +121,7 @@ qx.Class.define("qx.locale.Manager",
      * @param hint {String} hint for the translator of the message. Will be included in the .pot file.
      * @param messageId {String} message id (may contain format strings)
      * @param varargs {Object} variable number of argumes applied to the format string
-     * @return {qx.locale.LocalizedString} TODOC
+     * @return {String|qx.locale.LocalizedString} TODOC
      * @see qx.lang.String.format
      */
     trc : function(hint, messageId, varargs)
@@ -133,7 +129,7 @@ qx.Class.define("qx.locale.Manager",
       var args = qx.lang.Array.fromArguments(arguments);
       args.splice(0, 2);
 
-      return new qx.locale.LocalizedString(messageId, args);
+      return this.__translateDynamic(singularMessageId, args);
     },
 
 
@@ -146,6 +142,26 @@ qx.Class.define("qx.locale.Manager",
      */
     marktr : function(messageId) {
       return messageId;
+    },
+
+
+    /**
+     * Translates the message ID in the synamic mode by returning a
+     * LocalizedString instance and in the static mode by returning the
+     * translated string.
+     *
+     * @param messageId {String} message id (may contain format strings)
+     * @param args {Object[]} array of objects, which are inserted into the format string.
+     * @param locale {String} optional locale to be used for translation
+     * @return {String|LocalizedString} translated message.
+     */
+    __translateDynamic : function(messageId, args, locale)
+    {
+      if (qx.core.Variant.isSet("qx.dynamicLocaleSwitch", "on")) {
+        return new qx.locale.LocalizedString(messageId, args, locale);
+      } else {
+        return qx.locale.Manager.getInstance().translate(messageId, args, locale);
+      }
     }
   },
 
@@ -366,8 +382,7 @@ qx.Class.define("qx.locale.Manager",
      * @param text {LocalizedString} input text
      * @return {String} current value of the localized string.
      */
-    resolveDynamic : function(text)
-    {
+    resolveDynamic : function(text) {
       return text.toString();
     }
 
@@ -383,10 +398,8 @@ qx.Class.define("qx.locale.Manager",
 
   defer : function(statics)
   {
-    if (qx.core.Variant.isSet("qx.dynamicLocaleSwitch", "on"))
-    {
-      qx.Class.patch(qx.core.Object, qx.locale.dynamic.MObject);
-      qx.Class.patch(qx.ui.basic.Label, qx.locale.dynamic.MLabel);
+    if (qx.core.Variant.isSet("qx.dynamicLocaleSwitch", "on")) {
+      qx.Class.include(qx.core.Object, qx.locale.dynamic.MObject);
     }
   },
 

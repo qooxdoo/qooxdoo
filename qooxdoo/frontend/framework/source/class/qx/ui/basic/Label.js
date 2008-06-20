@@ -88,7 +88,7 @@ qx.Class.define("qx.ui.basic.Label",
       apply : "_applyContent",
       event : "changeContent",
       nullable : true,
-      transform : "_transformContent"
+      transform : "_localizeContent"
     },
 
 
@@ -286,9 +286,16 @@ qx.Class.define("qx.ui.basic.Label",
     },
 
 
-    _transformContent : function(value, name) {
-      return value;
-    },
+    _localizeContent : qx.core.Variant.select("qx.dynamicLocaleSwitch",
+    {
+      "on" : function(value) {
+        return this._transformLocalizedString(value, "content");
+      },
+
+      "off": function(value) {
+        return value;
+      }
+    }),
 
 
     // property apply
