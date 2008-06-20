@@ -87,7 +87,8 @@ qx.Class.define("qx.ui.basic.Label",
       check : "String",
       apply : "_applyContent",
       event : "changeContent",
-      nullable : true
+      nullable : true,
+      transform : "_transformContent"
     },
 
 
@@ -282,6 +283,11 @@ qx.Class.define("qx.ui.basic.Label",
 
       // Update layout
       qx.ui.core.queue.Layout.add(this);
+    },
+
+
+    _transformContent : function(value, name) {
+      return value;
     },
 
 

@@ -44,9 +44,18 @@ qx.Class.define("demobrowser.demo.ui.I18n",
 
       var root = this.getRoot();
 
+
+      // transform
+      qx.Class.patch(qx.core.Object, qx.locale.dynamic.MObject);
+      qx.Class.patch(qx.ui.basic.Label, qx.locale.dynamic.MLabel);
+      var label = new qx.ui.basic.Label(this.tr("Hello %1!", "Fabian"));
+      root.add(label, {top: 50, left: 10});
+
+
+
       // external binding
       var label = new qx.ui.basic.Label();
-      this.bindtr(label, "content", this.tr("Hello %1!"), "Fabian");
+      this.bindtr(label, "content", this.marktr("Hello %1!"), "Fabian");
       root.add(label, {left: 10, top: 10});
 
       var btn = new qx.ui.form.Button("Change locale");
