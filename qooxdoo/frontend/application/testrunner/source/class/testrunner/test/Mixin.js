@@ -247,6 +247,71 @@ qx.Class.define("testrunner.test.Mixin",
       // extended classes must have included methods as well
       qx.Class.define("testrunner.ExtendUseLog1", { extend : testrunner.UseLog1 });
       this.assertEquals("Juhu", new testrunner.ExtendUseLog1().log("Juhu"));
+    },
+
+    testPatchOverwritten : function()
+    {
+      qx.Class.define("testrunner.Patch1", {
+        extend : qx.core.Object,
+
+        members : {
+          sayJuhu : function() { return "Juhu"; },
+
+          foo : function() { return "foo"; }
+        }
+      });
+
+      qx.Class.define("testrunner.Patch2", {
+        extend : qx.core.Object,
+
+        members : {
+          sayJuhu : function() { return "Huhu"; },
+
+          foo : function() {
+            return "bar";
+          }
+        }
+      });
+
+      qx.Mixin.define("testrunner.MPatch",
+      {
+        members :
+        {
+          sayJuhu : function() { return this.base(arguments) + " Kinners"},
+
+          foo : function(dontRecurs)
+          {
+            var s = "";
+            if (!dontRecurs) {
+              var b = new testrunner.Patch2();
+              s += "++" + b.foo(true) + "__";
+            }
+
+            s += this.base(arguments);
+            return s;
+          }
+        }
+      });
+
+
+      this.assertExceptionDebugOn(function() {
+        qx.Class.include(testrunner.Patch1, testrunner.MPatch)
+      }, Error, new RegExp('Overwriting member ".*" of Class ".*" is not allowed!'));
+  
+      qx.Class.patch(testrunner.Patch1, testrunner.MPatch);
+      qx.Class.patch(testrunner.Patch2, testrunner.MPatch);
+  
+      var o = new testrunner.Patch1();
+      this.assertEquals("Juhu Kinners", o.sayJuhu());
+  
+      var o = new testrunner.Patch2();
+      this.assertEquals("Huhu Kinners", o.sayJuhu());
+      
+      // very special case with recursive calls from different classes to
+      // the mixin member
+      var o = new testrunner.Patch1();
+      this.assertEquals("++bar__foo", o.foo());
+      console.log("fooo: ", o.foo());
     }
   }
 });
