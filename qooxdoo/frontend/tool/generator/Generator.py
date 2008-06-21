@@ -26,6 +26,7 @@ from ecmascript import compiler
 from ecmascript.frontend import treegenerator, tokenizer
 from ecmascript.backend.optimizer import variableoptimizer
 from ecmascript.backend.optimizer import privateoptimizer
+from ecmascript.backend.optimizer import protectedoptimizer
 from generator.ApiLoader import ApiLoader
 from generator.Cache import Cache
 from generator.DependencyLoader import DependencyLoader
@@ -603,7 +604,7 @@ class Generator:
     def runCompiled(self, parts, packages, boot, variants):
         if not self._config.get("compile-dist/file"):
             return
-
+            
         # Read in base file name
         filePath = self._config.get("compile-dist/file")
         if variants and False: # TODO: get variant names from config
@@ -664,17 +665,24 @@ class Generator:
         self._console.debug("")
 
 
+        # Need to preprocess all classes first to correctly detect all
+        # fields before starting renaming them
+        self._console.info("Detecting protected fields...")
+        for packageId, classes in enumerate(packages):
+            protectedoptimizer.process(classes, self._treeLoader)
+
+
         # Generating packages
         # TODO: Parts should be unknown at this stage. Would make code somewhat cleaner.
         self._console.info("Generating packages...")
         self._console.indent()
 
-        for packageId, packages in enumerate(packages):
+        for packageId, classes in enumerate(packages):
             self._console.info("Compiling package #%s:" % packageId, False)
             self._console.indent()
 
             # Compile file content
-            compiledContent = self._treeCompiler.compileClasses(packages, variants, optimize, format)
+            compiledContent = self._treeCompiler.compileClasses(classes, variants, optimize, format)
 
             # Construct file name
             resolvedFilePath = self._resolveFileName(filePath, variants, settings, packageId)
