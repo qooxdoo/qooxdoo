@@ -2,7 +2,8 @@ import copy, optparse
 
 from ecmascript import compiler
 from ecmascript.frontend import treeutil
-from ecmascript.backend.optimizer import variableoptimizer, stringoptimizer, basecalloptimizer, privateoptimizer, propertyoptimizer
+from ecmascript.backend.optimizer import variableoptimizer, stringoptimizer, basecalloptimizer
+from ecmascript.backend.optimizer import privateoptimizer, protectedoptimizer, propertyoptimizer
 from misc import idlist
 
 class TreeCompiler:
@@ -12,18 +13,27 @@ class TreeCompiler:
         self._console = console
         self._treeLoader = treeLoader
         
-        self._setupPrivates()
+        self._loadFiles()
         
 
-    def _setupPrivates(self):
-        privates = self._cache.read("privates-tree-compiler")
+    def _loadFiles(self):
+        privates = self._cache.read("privates")
         if privates != None:
-            self._console.debug("Loaded %s private variables" % len(privates))
+            self._console.info("Loaded %s private fields" % len(privates))
             privateoptimizer.load(privates)
+            
+        protected = self._cache.read("protected")
+        if protected != None:
+            self._console.info("Loaded %s protected fields" % len(protected))
+            protectedoptimizer.load(protected)
 
     
-    def _storePrivates(self):
-        self._cache.write("privates-tree-compiler", privateoptimizer.get())
+    def _storePrivateFields(self):
+        self._cache.write("privates", privateoptimizer.get())
+
+
+    def _storeProtectedFields(self):
+        self._cache.write("protected", protectedoptimizer.get())
 
 
     def compileClasses(self, classes, variants, optimize, format):
@@ -107,18 +117,22 @@ class TreeCompiler:
             self._console.debug("Optimize base calls...")
             self._baseCallOptimizeHelper(fileTree, fileId, variants)
 
+        if "privates" in optimize:
+            self._console.debug("Crypting private fields...")
+            self._privateOptimizeHelper(fileTree, fileId, variants)
+
+        if "protected" in optimize:
+            self._console.debug("Crypting protected fields...")
+            self._protectedOptimizeHelper(fileTree, fileId, variants)
+
         if "strings" in optimize:
-            self._console.debug("Optimize strings...")
+            self._console.debug("Optimizing strings...")
             self._stringOptimizeHelper(fileTree, fileId, variants)
 
         if "variables" in optimize:
-            self._console.debug("Optimize local variables...")
+            self._console.debug("Optimizing local variables...")
             self._variableOptimizeHelper(fileTree, fileId, variants)
 
-        if "privates" in optimize:
-            self._console.debug("Crypting privates...")
-            self._privateOptimizeHelper(fileTree, fileId, variants)
-            
         if "properties" in optimize:
             self._console.debug("Optimize properties...")
             self._propertyOptimizeHelper(fileTree, fileId, variants)
@@ -143,7 +157,12 @@ class TreeCompiler:
         
     def _privateOptimizeHelper(self, tree, id, variants):
         privateoptimizer.patch(tree, id)
-        self._storePrivates()
+        self._storePrivateFields()
+
+
+    def _protectedOptimizeHelper(self, tree, id, variants):
+        protectedoptimizer.patch(tree, id)
+        self._storeProtectedFields()
 
 
     def _propertyOptimizeHelper(self, tree, id, variants):
