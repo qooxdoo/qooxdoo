@@ -311,7 +311,6 @@ qx.Class.define("testrunner.test.Mixin",
       // the mixin member
       var o = new testrunner.Patch1();
       this.assertEquals("++bar__foo", o.foo());
-      console.log("fooo: ", o.foo());
     }
   }
 });
