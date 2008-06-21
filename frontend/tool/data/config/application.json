@@ -85,7 +85,7 @@
         "uri"  : "script/${APPLICATION}.js",
 				"root" : "${BUILD_PATH}",
 				"format" : "on",
-        "optimize" : ["basecalls", "variables", "privates", "strings"]
+        "optimize" : ["basecalls", "variables", "privates", "strings"/*, "protected"*/]
       }
     },
 
