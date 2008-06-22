@@ -51,11 +51,6 @@
         "qx.application" : "XXX"
       },
 
-      "variants" :
-      {
-        "qx.aspects" : ["off"]
-      },
-
       "compile-source" :
       {
         "file" : "source/script/XXX.js",
@@ -74,7 +69,8 @@
 
       "variants" :
       {
-        "qx.debug" : ["off"]
+        "qx.debug" : ["off"],
+	"qx.aspects" : ["off"]
       },
 
       "compile-dist" :
@@ -83,7 +79,7 @@
         "uri"  : "../../script/XXX.js",
         "resourceUri" : "../..",
         "root" : "build/demo/yyy",
-        "optimize" : [ "variables", "basecalls", "privates" ],
+        "optimize" : [ "variables", "basecalls", "privates", "strings" ],
         "format" : "on"
       }
     }
