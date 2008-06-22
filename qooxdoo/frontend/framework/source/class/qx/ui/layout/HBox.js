@@ -155,6 +155,16 @@ qx.Class.define("qx.ui.layout.HBox",
       init : 0,
       apply : "_applyLayoutChange"
     },
+    
+    
+    /** Separator to use between the objects */
+    separator : 
+    {
+      check : "String",
+      //init : "black",
+      nullable : true,
+      apply : "_applyLayoutChange"
+    },
 
 
     /** Whether the actual children list should be layouted in reversed order. */
@@ -290,7 +300,16 @@ qx.Class.define("qx.ui.layout.HBox",
       var children = this.__children;
       var length = children.length;
       var util = qx.ui.layout.Util;
-      var gaps = util.computeHorizontalGaps(children, this.getSpacing(), true);
+      
+      
+      if (this.getSeparator())
+      {
+        var gaps = this.computeSeparatorGaps();
+      }
+      else
+      {
+        var gaps = util.computeHorizontalGaps(children, this.getSpacing(), true);
+      }
 
 
       // First run to cache children data and compute allocated width
@@ -365,6 +384,8 @@ qx.Class.define("qx.ui.layout.HBox",
       // Layouting children
       var hint, top, height, width, align, marginRight, marginTop, marginBottom;
       var spacing = this.getSpacing();
+      var separator = this.getSeparator();
+      var separatorWidth = 1;
 
       for (i=0; i<length; i+=1)
       {
@@ -382,8 +403,30 @@ qx.Class.define("qx.ui.layout.HBox",
         top = util.computeVerticalAlignOffset(child.getAlignY()||this.getAlignY(), height, availHeight, marginTop, marginBottom);
 
         // Add collapsed margin
-        if (i > 0) {
-          left += util.collapseMargins(spacing, marginRight, child.getMarginLeft());
+        if (i > 0) 
+        {
+          if (separator)
+          {
+            left += marginRight + spacing;
+
+            // ALPHA CODE ;)
+            // Just a test if this could work this way
+            var helperWidget = new qx.ui.core.Widget;
+            helperWidget.setBackgroundColor("red");
+            
+            // Needed for DOM sync
+            // Bit hacky, we must be sure to not influence the children array
+            helperWidget.setLayoutParent(child.getLayoutParent());
+            
+            // Render separator
+            helperWidget.renderLayout(left, 0, separatorWidth, availHeight);
+            
+            left += separatorWidth + spacing + child.getMarginLeft();
+          }
+          else
+          {
+            left += util.collapseMargins(spacing, marginRight, child.getMarginLeft());
+          }
         }
 
         // Layout child
@@ -440,9 +483,16 @@ qx.Class.define("qx.ui.layout.HBox",
         }
       }
 
-      // Respect gaps
-      var gaps = util.computeHorizontalGaps(children, this.getSpacing(), true);
-
+      if (this.getSeparator())
+      {
+        var gaps = this.computeSeparatorGaps();
+      }
+      else
+      {
+        // Respect gaps
+        var gaps = util.computeHorizontalGaps(children, this.getSpacing(), true);
+      }
+      
       // Return hint
       return {
         minWidth : minWidth + gaps,
@@ -450,6 +500,25 @@ qx.Class.define("qx.ui.layout.HBox",
         minHeight : minHeight,
         height : height
       };
+    },
+    
+    
+    computeSeparatorGaps : function()
+    {
+      var children = this.__children;
+      var gaps = 0;
+      var separatorWidth = 1;
+      var spacing = this.getSpacing();
+      
+      for (var i=0, l=children.length; i<l; i++) 
+      {
+        child = children[i];
+        gaps += child.getMarginLeft() + child.getMarginRight();
+      }
+      
+      gaps += (spacing + separatorWidth + spacing) * (l-1);
+
+      return gaps;
     }
   }
 });
