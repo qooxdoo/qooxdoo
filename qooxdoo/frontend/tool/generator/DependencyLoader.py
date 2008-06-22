@@ -168,7 +168,7 @@ class DependencyLoader:
 
         # Read content data
         (autoLoad, autoRun) = self._analyzeClassDeps(fileId, variants)
-
+        
         # Process content data
         if not "auto-require" in metaIgnore:
             for item in autoLoad:
@@ -197,7 +197,7 @@ class DependencyLoader:
             "load" : load,
             "run" : run
         }
-
+        
         self._cache.writemulti(cacheId, deps)
         return deps
 
