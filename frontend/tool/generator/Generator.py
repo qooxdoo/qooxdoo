@@ -708,8 +708,8 @@ class Generator:
 
         # Read in base file name
         filePath = self._config.get("compile-source/file")
-        if variants:
-            filePath = self._makeVariantsName(filePath, variants)
+        #if variants:
+        #    filePath = self._makeVariantsName(filePath, variants)
 
         # Whether the code should be formatted
         format = self._config.get("compile-source/format", False)
@@ -1048,7 +1048,7 @@ class Generator:
             partData += ('%s,' % parts[partId]).replace(" ", "")
 
         partData=partData[:-1] + "}"
-
+        
         # Translate URI data to JavaScript
         allUris = []
         for packageId, package in enumerate(packages):
