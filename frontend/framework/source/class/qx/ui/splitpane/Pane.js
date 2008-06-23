@@ -311,27 +311,12 @@ qx.Class.define("qx.ui.splitpane.Pane",
       } 
       else 
       {
-        var coords = this._lastCoords;
         var splitterElement = this._splitter.getContainerElement().getDomElement();
         var splitterLocation = qx.bom.element.Location.get(splitterElement);
-      
-        var near = this._isHorizontal ?
-          this.__nearHorizontal(coords.x, splitterElement, splitterLocation) : 
-          this.__nearVertical(coords.y, splitterElement, splitterLocation); 
 
-        if (near) 
-        {
-          this.setCursor(this._isHorizontal ? "col-resize" : "row-resize");
-          this._splitter.addState("active");
-        } 
-        else 
-        {
-          this.resetCursor();
-          this._splitter.removeState("active");
-        }
+        this._updateState(this._lastCoords, splitterElement, splitterLocation);
       }
     },
-
 
     /**
      * Handler for mouseup event
@@ -343,8 +328,15 @@ qx.Class.define("qx.ui.splitpane.Pane",
      */
     _onMouseUp : function(e)
     {
-      // Only proceed if a drag session is present
       if (!this.__active) {
+        // Check if mouse cursor is on splitter element
+        if(e.getType() == "losecapture")
+        {
+          var sliderElement = this._slider.getContainerElement().getDomElement();
+          var sliderLocation = qx.bom.element.Location.get(sliderElement);
+
+          this._updateState(this._mouseUpCoords, sliderElement, sliderLocation);
+        }
         return;
       }
 
@@ -352,11 +344,18 @@ qx.Class.define("qx.ui.splitpane.Pane",
       this._setSizes();
 
       // Hide the slider       
-      this._syncBounds(this._slider);
-      this._slider.exclude();
+      //this._syncBounds(this._slider);
+      this._slider.setOpacity(0.7)
+      //this._slider.exclude();
 
       // Cleanup
       delete this.__active;
+      this._mouseUpCoords =
+      {
+        "x" : e.getDocumentLeft(),
+        "y" : e.getDocumentTop()
+      };
+
       this._sizes = null;
       this.releaseCapture();
     },
@@ -391,7 +390,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
       var sizes = this._sizes;
       
       // Only proceed if the mouse has been moved
-      if (!sizes) {
+      if (!sizes || !sizes.first) {
         return;
       }
 
@@ -405,9 +404,10 @@ qx.Class.define("qx.ui.splitpane.Pane",
       // Both widgets have flex values
       if((firstFlexValue != 0) && (secondFlexValue != 0))
       {
+        var sum = sizes.first + sizes.second;
         // Update flex values
-        firstWidget.setLayoutProperties({ flex : sizes.first });
-        secondWidget.setLayoutProperties({ flex : sizes.second });
+        firstWidget.setLayoutProperties({ flex : (sizes.first / sum) });
+        secondWidget.setLayoutProperties({ flex : (sizes.second / sum) });
       }
       
       // Only first widget has a flex value
@@ -497,7 +497,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
       
       var firstWidth = eventLeft - paneLocation.left - this._sizes.left;
       var secondWidth = paneLocation.right - this._sizes.right - eventLeft;
-  
+
       // Check if current sizes are valid
       if(firstWidth > firstHint.minWidth && firstWidth < firstHint.maxWidth && 
          secondWidth > secondHint.minWidth && secondWidth < secondHint.maxWidth)
@@ -507,9 +507,10 @@ qx.Class.define("qx.ui.splitpane.Pane",
         this._sizes.second = secondWidth;
       }
 
+/*
       // Check min sizes:
       if (firstWidth < firstHint.minWidth) {
-        firstWidth = firstHint.minWidth;
+        this._sizes.first = firstHint.minWidth;
       }
 
       if(secondWidth < secondHint.minWidth) 
@@ -520,8 +521,11 @@ qx.Class.define("qx.ui.splitpane.Pane",
         firstWidth = firstWidth - diff;
       }
 
+      this._sizes.first = firstWidth;
+      this._sizes.second = secondWidth;
+*/
       // Move slider widget
-      this._slider.getContainerElement().setStyle("left", firstWidth + "px", true);
+      this._slider.getContainerElement().setStyle("left", this._sizes.first + "px", true);
     },
 
 
@@ -568,10 +572,29 @@ qx.Class.define("qx.ui.splitpane.Pane",
       
       var left = el.setStyle("left", bounds.left + "px");
       var top = el.setStyle("top", bounds.top + "px");
+    },
+
+
+    // TODOC
+    _updateState : function(coords, splitterElement, splitterLocation)
+    {
+      var near = this._isHorizontal ?
+        this.__nearHorizontal(coords.x, splitterElement, splitterLocation) : 
+        this.__nearVertical(coords.y, splitterElement, splitterLocation); 
+
+      if (near) 
+      {
+        this.setCursor(this._isHorizontal ? "col-resize" : "row-resize");
+        this._splitter.addState("active");
+      } 
+      else 
+      {
+        this.resetCursor();
+        this._splitter.removeState("active");
+      }
     }
+
   },
-
-
 
 
   /*
