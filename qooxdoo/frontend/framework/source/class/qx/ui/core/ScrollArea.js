@@ -145,12 +145,8 @@ qx.Class.define("qx.ui.core.ScrollArea",
           control = new qx.ui.core.ScrollPane();
 
           control.addListener("update", this._computeScrollbars, this);
-          control.addListener("scrollX", function(e) {
-            this.scrollToX(e.getData());
-          }, this);
-          control.addListener("scrollY", function(e) {
-            this.scrollToY(e.getData());
-          }, this);
+          control.addListener("scrollX", this._onScrollPaneX, this);
+          control.addListener("scrollY", this._onScrollPaneY, this);
           this._add(control, {row: 0, column: 0});
           break;
 
@@ -159,7 +155,7 @@ qx.Class.define("qx.ui.core.ScrollArea",
           control = new qx.ui.core.ScrollBar("horizontal");
 
           control.exclude();
-          control.addListener("scroll", this._onScrollX, this);
+          control.addListener("scroll", this._onScrollBarX, this);
           control.addListener("changeVisibility", this._onChangeScrollbarXVisibility, this);
 
           this._add(control, {row: 1, column: 0});
@@ -170,7 +166,7 @@ qx.Class.define("qx.ui.core.ScrollArea",
           control = new qx.ui.core.ScrollBar("vertical");
 
           control.exclude();
-          control.addListener("scroll", this._onScrollY, this);
+          control.addListener("scroll", this._onScrollBarY, this);
           control.addListener("changeVisibility", this._onChangeScrollbarYVisibility, this);
 
           this._add(control, {row: 0, column: 1});
@@ -354,7 +350,7 @@ qx.Class.define("qx.ui.core.ScrollArea",
      * @param e {qx.event.type.Change} The scroll event object
      * @return {void}
      */
-    _onScrollX : function(e) {
+    _onScrollBarX : function(e) {
       this._getChildControl("pane").scrollToX(e.getValue());
     },
 
@@ -366,10 +362,34 @@ qx.Class.define("qx.ui.core.ScrollArea",
      * @param e {qx.event.type.Change} The scroll event object
      * @return {void}
      */
-    _onScrollY : function(e) {
+    _onScrollBarY : function(e) {
       this._getChildControl("pane").scrollToY(e.getValue());
     },
-
+    
+    
+    /**
+     * Event handler for the horizontal scroll event of the pane
+     *
+     * @type member
+     * @param e {qx.event.type.Change} The scroll event object
+     * @return {void}
+     */    
+    _onScrollPaneX : function(e) {
+      this.scrollToX(e.getData());
+    },
+    
+    
+    /**
+     * Event handler for the vertical scroll event of the pane
+     *
+     * @type member
+     * @param e {qx.event.type.Change} The scroll event object
+     * @return {void}
+     */    
+    _onScrollPaneY : function(e) {
+      this.scrollToY(e.getData());
+    },
+    
 
     /**
      * Event handler for the mouse wheel
