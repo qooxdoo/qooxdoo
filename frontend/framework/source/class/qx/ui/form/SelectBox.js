@@ -39,8 +39,6 @@ qx.Class.define("qx.ui.form.SelectBox",
   {
     this.base(arguments);
 
-    //this.setAppearance("selectbox")
-
     // set the layout
     var layout = new qx.ui.layout.HBox();
     this._setLayout(layout);
