@@ -116,6 +116,6 @@ qx.Class.define("qx.ui.table.pane.CellEvent",
 
   destruct : function()
   {
-    this._disposeObjects("_scroller");
+    this._disposeFields("_scroller");
   }
 });
