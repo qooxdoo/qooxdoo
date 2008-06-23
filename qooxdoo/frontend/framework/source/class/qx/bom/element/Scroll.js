@@ -38,134 +38,22 @@ qx.Class.define("qx.bom.element.Scroll",
     */
 
     /**
-     * The method scrolls the element into view (y-axis only).
-     *
-     * @type static
-     * @param element {Element} DOM element to scroll into view
-     * @param align {String?null} Alignment of the element. Allowed values:
-     *   <code>top</code> or <code>bottom</code>. Could also be null.
-     *   Without a given alignment the method tries to scroll the widget
-     *   with the minimum effort needed.
-     */
-    intoViewY : function(element, align)
-    {
-      var parent = element.parentNode;
-      var body = qx.dom.Node.getDocument(element).body;
-
-      var parentLocation, parentTop, parentBottom;
-      var parentOuterHeight, parentClientHeight, parentScrollHeight;
-      var parentTopBorder, parentBottomBorder, parentScrollBarHeight;
-      var elementLocation, elementTop, elementBottom, elementHeight;
-      var topOffset, bottomOffset, scrollDiff;
-
-      var alignTop = align === "top";
-      var alignBottom = align === "bottom";
-
-      // Go up the parent chain
-      while (parent)
-      {
-        // "overflow" is always visible for both: document.body and document.documentElement
-        if (parent.scrollHeight > parent.clientHeight && (parent === body || qx.bom.element.Overflow.getY(parent) != "visible"))
-        {
-          // console.debug("Process...")
-
-          // Calculate parent data
-          // Special handling for body element
-          if (parent === body)
-          {
-            parentTop = parent.scrollTop;
-            parentBottom = parentTop + qx.bom.Viewport.getHeight();
-            parentOuterHeight = qx.bom.Viewport.getHeight();
-            parentClientHeight = parent.clientHeight;
-            parentScrollHeight = parent.scrollHeight;
-            parentTopBorder = 0;
-            parentBottomBorder = 0;
-            parentScrollBarHeight = 0;
-          }
-          else
-          {
-            parentLocation = qx.bom.element.Location.get(parent);
-            parentTop = parentLocation.top;
-            parentBottom = parentLocation.bottom;
-            parentOuterHeight = parent.offsetHeight;
-            parentClientHeight = parent.clientHeight;
-            parentScrollHeight = parent.scrollHeight;
-            parentTopBorder = parseInt(qx.bom.element.Style.getComputed(parent, "borderTopWidth"), 10) || 0;
-            parentBottomBorder = parseInt(qx.bom.element.Style.getComputed(parent, "borderBottomWidth"), 10) || 0;
-            parentScrollBarHeight = parentOuterHeight - parentClientHeight - parentTopBorder - parentBottomBorder;
-          }
-
-          // Calculate element data
-          elementLocation = qx.bom.element.Location.get(element);
-          elementTop = elementLocation.top;
-          elementBottom = elementLocation.bottom;
-          elementHeight = element.offsetHeight;
-
-          // Relative position from each other
-          topOffset = elementTop - parentTop - parentTopBorder;
-          bottomOffset = elementBottom - parentBottom + parentBottomBorder;
-
-          // Scroll position rearrangment
-          scrollDiff = 0;
-
-          // be sure that element is on top edge
-          if (alignTop)
-          {
-            // console.debug("Align top...");
-            scrollDiff = topOffset;
-          }
-
-          // be sure that element is on bottom edge
-          else if (alignBottom)
-          {
-            // console.debug("Align bottom...");
-            scrollDiff = bottomOffset + parentScrollBarHeight;
-          }
-
-          // element must go down
-          // * when current top offset is smaller than 0
-          // * when height is bigger than the inner height of the parent
-          else if (topOffset < 0 || elementHeight > parentClientHeight)
-          {
-            // console.debug("Go Down...");
-            scrollDiff = topOffset;
-          }
-
-          // element must go up
-          // * when current bottom offset is bigger than 0
-          else if (bottomOffset > 0)
-          {
-            // console.debug("Go Up...");
-            scrollDiff = bottomOffset + parentScrollBarHeight;
-          }
-
-          // console.log("Scroll by: " + scrollDiff);
-          parent.scrollTop += scrollDiff;
-        }
-
-        if (parent === body) {
-          break;
-        }
-
-        parent = parent.parentNode;
-      }
-    },
-
-
-    /**
      * The method scrolls the element into view (x-axis only).
      *
      * @type static
      * @param element {Element} DOM element to scroll into view
+     * @param stop {Element?null} Any parent element which functions as 
+     *   outest element to scroll. Default is the HTML document.
      * @param align {String?null} Alignment of the element. Allowed values:
      *   <code>left</code> or <code>right</code>. Could also be null.
      *   Without a given alignment the method tries to scroll the widget
      *   with the minimum effort needed.
      */
-    intoViewX : function(element, align)
+    intoViewX : function(element, stop, align)
     {
       var parent = element.parentNode;
-      var body = qx.dom.Node.getDocument(element).body;
+      var doc = qx.dom.Node.getDocument(element);
+      var body = doc.body;
 
       var parentLocation, parentLeft, parentRight;
       var parentOuterWidth, parentClientWidth, parentScrollWidth;
@@ -175,9 +63,12 @@ qx.Class.define("qx.bom.element.Scroll",
 
       var alignLeft = align === "left";
       var alignRight = align === "right";
+      
+      // Correcting stop position
+      stop = stop ? stop.parentNode : doc; 
 
       // Go up the parent chain
-      while (parent)
+      while (parent && parent != stop)
       {
         // "overflow" is always visible for both: document.body and document.documentElement
         if (parent.scrollWidth > parent.clientWidth && (parent === body || qx.bom.element.Overflow.getY(parent) != "visible"))
@@ -205,8 +96,8 @@ qx.Class.define("qx.bom.element.Scroll",
             parentOuterWidth = parent.offsetWidth;
             parentClientWidth = parent.clientWidth;
             parentScrollWidth = parent.scrollWidth;
-            parentLeftBorder = parseInt(qx.bom.element.Style.getComputed(parent, "borderLeftWidth"), 10) || 0;
-            parentRightBorder = parseInt(qx.bom.element.Style.getComputed(parent, "borderRightWidth"), 10) || 0;
+            parentLeftBorder = parseInt(qx.bom.element.Style.get(parent, "borderLeftWidth"), 10) || 0;
+            parentRightBorder = parseInt(qx.bom.element.Style.get(parent, "borderRightWidth"), 10) || 0;
             parentScrollBarWidth = parentOuterWidth - parentClientWidth - parentLeftBorder - parentRightBorder;
           }
 
@@ -268,10 +159,133 @@ qx.Class.define("qx.bom.element.Scroll",
 
 
     /**
+     * The method scrolls the element into view (y-axis only).
+     *
+     * @type static
+     * @param element {Element} DOM element to scroll into view
+     * @param stop {Element?null} Any parent element which functions as 
+     *   outest element to scroll. Default is the HTML document.
+     * @param align {String?null} Alignment of the element. Allowed values:
+     *   <code>top</code> or <code>bottom</code>. Could also be null.
+     *   Without a given alignment the method tries to scroll the widget
+     *   with the minimum effort needed.
+     */
+    intoViewY : function(element, stop, align)
+    {
+      var parent = element.parentNode;
+      var doc = qx.dom.Node.getDocument(element);
+      var body = doc.body;
+
+      var parentLocation, parentTop, parentBottom;
+      var parentOuterHeight, parentClientHeight, parentScrollHeight;
+      var parentTopBorder, parentBottomBorder, parentScrollBarHeight;
+      var elementLocation, elementTop, elementBottom, elementHeight;
+      var topOffset, bottomOffset, scrollDiff;
+
+      var alignTop = align === "top";
+      var alignBottom = align === "bottom";
+      
+      // Correcting stop position
+      stop = stop ? stop.parentNode : doc; 
+
+      // Go up the parent chain
+      while (parent && parent != stop)
+      {
+        // "overflow" is always visible for both: document.body and document.documentElement
+        if (parent.scrollHeight > parent.clientHeight && (parent === body || qx.bom.element.Overflow.getY(parent) != "visible"))
+        {
+          // console.debug("Process...")
+
+          // Calculate parent data
+          // Special handling for body element
+          if (parent === body)
+          {
+            parentTop = parent.scrollTop;
+            parentBottom = parentTop + qx.bom.Viewport.getHeight();
+            parentOuterHeight = qx.bom.Viewport.getHeight();
+            parentClientHeight = parent.clientHeight;
+            parentScrollHeight = parent.scrollHeight;
+            parentTopBorder = 0;
+            parentBottomBorder = 0;
+            parentScrollBarHeight = 0;
+          }
+          else
+          {
+            parentLocation = qx.bom.element.Location.get(parent);
+            parentTop = parentLocation.top;
+            parentBottom = parentLocation.bottom;
+            parentOuterHeight = parent.offsetHeight;
+            parentClientHeight = parent.clientHeight;
+            parentScrollHeight = parent.scrollHeight;
+            parentTopBorder = parseInt(qx.bom.element.Style.get(parent, "borderTopWidth"), 10) || 0;
+            parentBottomBorder = parseInt(qx.bom.element.Style.get(parent, "borderBottomWidth"), 10) || 0;
+            parentScrollBarHeight = parentOuterHeight - parentClientHeight - parentTopBorder - parentBottomBorder;
+          }
+
+          // Calculate element data
+          elementLocation = qx.bom.element.Location.get(element);
+          elementTop = elementLocation.top;
+          elementBottom = elementLocation.bottom;
+          elementHeight = element.offsetHeight;
+
+          // Relative position from each other
+          topOffset = elementTop - parentTop - parentTopBorder;
+          bottomOffset = elementBottom - parentBottom + parentBottomBorder;
+
+          // Scroll position rearrangment
+          scrollDiff = 0;
+
+          // be sure that element is on top edge
+          if (alignTop)
+          {
+            // console.debug("Align top...");
+            scrollDiff = topOffset;
+          }
+
+          // be sure that element is on bottom edge
+          else if (alignBottom)
+          {
+            // console.debug("Align bottom...");
+            scrollDiff = bottomOffset + parentScrollBarHeight;
+          }
+
+          // element must go down
+          // * when current top offset is smaller than 0
+          // * when height is bigger than the inner height of the parent
+          else if (topOffset < 0 || elementHeight > parentClientHeight)
+          {
+            // console.debug("Go Down...");
+            scrollDiff = topOffset;
+          }
+
+          // element must go up
+          // * when current bottom offset is bigger than 0
+          else if (bottomOffset > 0)
+          {
+            // console.debug("Go Up...");
+            scrollDiff = bottomOffset + parentScrollBarHeight;
+          }
+
+          // console.log("Scroll by: " + scrollDiff);
+          parent.scrollTop += scrollDiff;
+        }
+
+        if (parent === body) {
+          break;
+        }
+
+        parent = parent.parentNode;
+      }
+    },
+    
+
+    /**
      * The method scrolls the element into view.
      *
      * @type static
      * @param element {Element} DOM element to scroll into view
+     * @param stop {Element?null} Any parent element which functions as 
+     *   outest element to scroll. Default is the HTML document.
      * @param alignX {String} Alignment of the element. Allowed values:
      *   <code>left</code> or <code>right</code>. Could also be undefined.
      *   Without a given alignment the method tries to scroll the widget
@@ -281,10 +295,10 @@ qx.Class.define("qx.bom.element.Scroll",
      *   Without a given alignment the method tries to scroll the widget
      *   with the minimum effort needed.
      */
-    intoView : function(element, alignX, alignY)
+    intoView : function(element, stop, alignX, alignY)
     {
-      this.intoViewX(element, alignX);
-      this.intoViewY(element, alignY);
+      this.intoViewX(element, stop, alignX);
+      this.intoViewY(element, stop, alignY);
     }
   }
 });
