@@ -137,7 +137,7 @@ qx.Class.define("qx.ui.core.ScrollArea",
     // overridden
     _createChildControlImpl : function(id)
     {
-      var control = this.base(arguments, id);
+      var control;
 
       switch(id)
       {
@@ -182,8 +182,8 @@ qx.Class.define("qx.ui.core.ScrollArea",
           this._add(control, {row: 1, column: 1});
           break;
       }
-
-      return control;
+      
+      return control || this.base(arguments, id);
     },
 
 
@@ -278,6 +278,8 @@ qx.Class.define("qx.ui.core.ScrollArea",
       var scrollbar = this._getChildControl("scrollbarY", true);
       return scrollbar ? scrollbar.getPosition() : 0;
     },
+    
+    
 
 
     /*
@@ -445,6 +447,7 @@ qx.Class.define("qx.ui.core.ScrollArea",
 
       showX && showY ? this._showChildControl("corner") : this._excludeChildControl("corner");
     },
+
 
 
 
