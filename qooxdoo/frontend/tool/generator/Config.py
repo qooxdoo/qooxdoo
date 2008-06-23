@@ -60,9 +60,10 @@ class Config:
 
     NSSEP        = "/"
     JOBS_KEY     = "jobs"
-    DEFAULTS_KEY = "defaults"
+    DEFAULTS_JOB = "defaults"
     EXTEND_KEY   = "extend"
     RUN_KEY      = "run"
+    _CONFIG_KEY  = "_config"
     #KEYS_WITH_JOB_REFS = ['run', 'extend']
     KEYS_WITH_JOB_REFS = [RUN_KEY, EXTEND_KEY]
 
@@ -117,6 +118,18 @@ class Config:
         return True
         
 
+    def getJob(self,jobname):
+        if self._data.has_key(self.JOBS_KEY) and self._data[self.JOBS_KEY].has_key(jobname):
+            return self._data[self.JOBS_KEY][jobname]
+        else:
+            return None
+
+    def hasJob(self,jobname):
+        if self.getJob(jobname):
+            return True
+        else:
+            return False
+        
     def iter(self):
         result = []
         for item in self._data:
@@ -176,9 +189,9 @@ class Config:
                     # handle 'defaults' job - we have to fix this here at loadtime
                     # so we don't have to worry about nested defaults job when
                     # runExpand runs
-                    if sjobs.has_key(self.DEFAULTS_KEY):
+                    if sjobs.has_key(self.DEFAULTS_JOB):
                         # the 'defaults' job will be namespaced as well
-                        defaults_job_name = namepfx + self.DEFAULTS_KEY
+                        defaults_job_name = namepfx + self.DEFAULTS_JOB
                         if sjobs[sjob].has_key(self.EXTEND_KEY):
                             sjobs[sjob][self.EXTEND_KEY].insert(0, defaults_job_name)
                         else:
@@ -208,7 +221,7 @@ class Config:
                     raise KeyError, "Job already exists: \"%s\"" % newjobname
                 else:
                     # remember job's context
-                    sjobs[sjob]['_config'] = extConfig
+                    sjobs[sjob][self._CONFIG_KEY] = extConfig
                     tjobs[newjobname] = sjobs[sjob]
             return tjobs
 
@@ -353,11 +366,11 @@ class Config:
     #
     # @param self self
     # @param console console
-    # @param config  jobs map
+    # @param jobsmap  jobs map
     # @param jobs    list of job names
 
     # wpbasti: specific to top level configs. Should be done in a separate class
-    def _resolveExtends(self, console, config, jobs):
+    def _resolveExtends(self, console, jobsmap, jobs):
         # wpbasti: you know of list1+list2 option?
         def _listPrepend(source, target):
             """returns new list with source prepended to target"""
@@ -366,7 +379,7 @@ class Config:
                 l.insert(0,source[i])
             return l
 
-        def _mergeEntry(target, source):
+        def _mergeJobs(source, target):
             for key in source:
                 # merge 'library' key rather than shadowing
                 if key == 'library'and target.has_key(key):
@@ -381,26 +394,26 @@ class Config:
 
         def _resolveExtend(console, config, jobname, entryTrace=[]):
             # resolve the 'extend' entry of a job
-            if not self.get(jobname,False,config):
+            job = config.getJob(jobname)
+            if not job:
                 raise RuntimeError, "No such job: %s" % jobname
-
-            job = self.get(jobname,None,config)
 
             if job.has_key("resolved"):
                 return
 
-            # pre-pend optional 'defauls' job
-            if config.has_key(self.DEFAULTS_KEY) and jobname != self.DEFAULTS_KEY:
-                if job.has_key('extend'):
-                    job['extend'].insert(0,self.DEFAULTS_KEY)
+            # pre-include optional global 'let'
+            global_let = config.get('let',False)
+            if global_let:
+                if 'let' in job:
+                    job['let'] = self._mapMerge(global_let, job['let'])
                 else:
-                    job['extend'] = [self.DEFAULTS_KEY]
+                    job['let'] = global_let
 
             if job.has_key("extend"):
                 # we have to define the context of the current job (ie. its containing map), so
                 # we know in which context to evaluate 'extend' entries
-                if job.has_key("_config"): # this links to a Config object
-                    jobcontext = job['_config'].getJobsMap()
+                if job.has_key(self._CONFIG_KEY): # this links to a Config object
+                    jobcontext = job[self._CONFIG_KEY]
                 else: 
                     jobcontext = config  # we are top-level
 
@@ -416,15 +429,15 @@ class Config:
                     _resolveExtend(console, jobcontext, entry, entryTrace + [jobname])
 
                     # extract the job definition of the entry from the current jobcontext (mind 3rd param!)
-                    pjob = self.get(entry, None, jobcontext )
+                    pjob = jobcontext.getJob(entry)
                     
                     # now merge the fully expanded job into the current job
-                    _mergeEntry(job, pjob)
+                    _mergeJobs(pjob, job)
 
             job["resolved"] = True
 
         for job in jobs:
-            _resolveExtend(console, config, job)
+            _resolveExtend(console, self, job)
 
 
     # wpbasti: In my thinking specific to Jobs? Isn't it? Would a as-late-as-possible resolvement hurt?
@@ -635,7 +648,7 @@ class Job(object):
     def _listPrepend(source, target):
         pass
     
-    def _mergeEntry(target, source):
+    def _mergeJobs(source, target):
         pass
 
     def resolveExtend(self, console, config, entryTrace=[]):
