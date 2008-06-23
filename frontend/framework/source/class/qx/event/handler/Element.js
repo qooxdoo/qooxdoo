@@ -107,13 +107,12 @@ qx.Class.define("qx.event.handler.Element",
     registerEvent : function(target, type, capture)
     {
       var elementId = qx.core.ObjectRegistry.toHashCode(target);
-      var listener = qx.lang.Function.listener(this._onNative, this, elementId);
+      var eventId = elementId + "-" + type;
 
+      var listener = qx.lang.Function.listener(this._onNative, this, eventId);
       qx.bom.Event.addNativeListener(target, type, listener);
-
-      var id = elementId + type;
-
-      this._registeredEvents[id] =
+      
+      this._registeredEvents[eventId] =
       {
         element : target,
         type : type,
@@ -125,9 +124,10 @@ qx.Class.define("qx.event.handler.Element",
     // interface implementation
     unregisterEvent : function(target, type, capture)
     {
-      var id = qx.core.ObjectRegistry.toHashCode(target) + type;
+      var elementId = qx.core.ObjectRegistry.toHashCode(target);
+      var eventId = elementId + "-" + type;
 
-      var eventData = this._registeredEvents[id];
+      var eventData = this._registeredEvents[eventId];
       qx.bom.Event.removeNativeListener(target, type, eventData.listener);
 
       delete this._registeredEvents[id];
@@ -145,20 +145,16 @@ qx.Class.define("qx.event.handler.Element",
      * Default event handler.
      *
      * @type member
-     * @param domEvent {Event} DOM event
+     * @param nativeEvent {Event} Native event
      * @param elementId {Integer} element id of the current target
      * @return {void}
      */
-    _onNative : function(domEvent, elementId)
+    _onNative : function(nativeEvent, eventId)
     {
-      var evt = qx.event.Registration.createEvent(null, qx.event.type.Dom, [domEvent]);
+      var eventData = this._registeredEvents[eventId];
 
-      var eventData = this._registeredEvents[elementId + evt.getType()];
-      var element = eventData ? eventData.element : evt.getTarget();
-
-      evt.setCurrentTarget(element);
-
-      this._manager.dispatchEvent(domEvent.target || domEvent.srcElement, evt);
+      qx.event.Registration.fireNonBubblingEvent(eventData.element, eventData.type, 
+        qx.event.type.Native, [nativeEvent]);
     }
   },
 
