@@ -55,15 +55,6 @@ qx.Class.define("qx.ui.splitpane.Pane",
   {
     this.base(arguments);
     
-    // Create and add slider
-    this._slider = new qx.ui.splitpane.Slider(this);
-    this._slider.exclude();
-    this._add(this._slider, {type : "slider"});
-
-    // Create splitter
-    this._splitter = new qx.ui.splitpane.Splitter(this);
-    this._add(this._splitter, {type : "splitter"});
-
     // Initialize orientation
     if (orientation) {
       this.setOrientation(orientation);
@@ -124,6 +115,30 @@ qx.Class.define("qx.ui.splitpane.Pane",
 
   members :
   {
+    // overridden
+    _createChildControlImpl : function(id)
+    {
+      var control;
+
+      switch(id)
+      {
+        // Create and add slider
+        case "slider":
+          control = new qx.ui.splitpane.Slider(this);
+          control.exclude();
+          this._add(control, {type : id});
+        break;
+
+        // Create splitter
+        case "splitter":
+          control = new qx.ui.splitpane.Splitter(this);
+          this._add(control, {type : id});
+        break;
+      }
+      return control || this.base(arguments, id);
+    },
+
+    
     /*
     ---------------------------------------------------------------------------
       PROPERTY APPLY METHODS
@@ -141,6 +156,9 @@ qx.Class.define("qx.ui.splitpane.Pane",
      */
     _applyOrientation : function(value, old)
     {
+      var slider = this._getChildControl("slider");
+      var splitter = this._getChildControl("splitter")
+
       // Store boolean flag for faster access
       this._isHorizontal = value === "horizontal";
       
@@ -156,8 +174,8 @@ qx.Class.define("qx.ui.splitpane.Pane",
       this._setLayout(newLayout);
 
       // Update states for splitter and slider
-      this._splitter.replaceState(old, value);
-      this._slider.replaceState(old, value);
+      splitter.replaceState(old, value);
+      slider.replaceState(old, value);
     },
 
 
@@ -246,12 +264,15 @@ qx.Class.define("qx.ui.splitpane.Pane",
      */
     _onMouseDown : function(e)
     {
+      var splitter = this._getChildControl("splitter");
+      var slider = this._getChildControl("slider");
+      
       // Only proceed if left mouse button is pressed and mouse is on/near splitter widget
-      if (!e.isLeftPressed() || !this._splitter.hasState("active")) {
+      if (!e.isLeftPressed() || !splitter.hasState("active")) {
         return;
       }
 
-      var splitterElement = this._splitter.getContainerElement().getDomElement();
+      var splitterElement = splitter.getContainerElement().getDomElement();
       var splitterLocation = qx.bom.element.Location.get(splitterElement);
       var splitterWidht = qx.bom.element.Dimension.getWidth(splitterElement);
       var splitterHeight = qx.bom.element.Dimension.getHeight(splitterElement);
@@ -266,10 +287,10 @@ qx.Class.define("qx.ui.splitpane.Pane",
       };
 
       // Synchronize slider to splitter size and show it
-      var bounds = this._splitter.getBounds();
-      this._slider.setUserBounds(bounds.left, bounds.top, bounds.width, bounds.height);
-      this._slider.setZIndex(this._splitter.getZIndex() + 1);
-      this._slider.show();
+      var bounds = splitter.getBounds();
+      slider.setUserBounds(bounds.left, bounds.top, bounds.width, bounds.height);
+      slider.setZIndex(splitter.getZIndex() + 1);
+      slider.show();
 
       // Enable session
       this.__active = true;
@@ -311,7 +332,8 @@ qx.Class.define("qx.ui.splitpane.Pane",
       } 
       else 
       {
-        var splitterElement = this._splitter.getContainerElement().getDomElement();
+        var splitter = this._getChildControl("splitter");
+        var splitterElement = splitter.getContainerElement().getDomElement();
         var splitterLocation = qx.bom.element.Location.get(splitterElement);
 
         this._updateState(this._lastCoords, splitterElement, splitterLocation);
@@ -328,11 +350,13 @@ qx.Class.define("qx.ui.splitpane.Pane",
      */
     _onMouseUp : function(e)
     {
+      var slider = this._getChildControl("slider");
+
       if (!this.__active) {
         // Check if mouse cursor is on splitter element
         if(e.getType() == "losecapture")
         {
-          var sliderElement = this._slider.getContainerElement().getDomElement();
+          var sliderElement = slider.getContainerElement().getDomElement();
           var sliderLocation = qx.bom.element.Location.get(sliderElement);
 
           this._updateState(this._mouseUpCoords, sliderElement, sliderLocation);
@@ -344,9 +368,9 @@ qx.Class.define("qx.ui.splitpane.Pane",
       this._setSizes();
 
       // Hide the slider       
-      //this._syncBounds(this._slider);
-      this._slider.setOpacity(0.7)
-      //this._slider.exclude();
+      //this._syncBounds(slider);
+      slider.setOpacity(0.7)
+      //slider.exclude();
 
       // Cleanup
       delete this.__active;
@@ -497,6 +521,9 @@ qx.Class.define("qx.ui.splitpane.Pane",
       
       var firstWidth = eventLeft - paneLocation.left - this._sizes.left;
       var secondWidth = paneLocation.right - this._sizes.right - eventLeft;
+      
+      var diff = 0;
+      var slider = this._getChildControl("slider");
 
       // Check if current sizes are valid
       if(firstWidth > firstHint.minWidth && firstWidth < firstHint.maxWidth && 
@@ -507,25 +534,8 @@ qx.Class.define("qx.ui.splitpane.Pane",
         this._sizes.second = secondWidth;
       }
 
-/*
-      // Check min sizes:
-      if (firstWidth < firstHint.minWidth) {
-        this._sizes.first = firstHint.minWidth;
-      }
-
-      if(secondWidth < secondHint.minWidth) 
-      {
-        var diff = secondHint.minWidth - secondWidth;
-
-        secondWidth = secondHint.minWidth;
-        firstWidth = firstWidth - diff;
-      }
-
-      this._sizes.first = firstWidth;
-      this._sizes.second = secondWidth;
-*/
       // Move slider widget
-      this._slider.getContainerElement().setStyle("left", this._sizes.first + "px", true);
+      slider.getContainerElement().setStyle("left", this._sizes.first + "px", true);
     },
 
 
@@ -535,6 +545,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
       // Calculate widget sizes
       var eventTop = this._lastCoords.y;
       
+      var slider = this._getChildControl("slider");
       var firstHeight = eventTop - paneLocation.top - this._sizes.top;
       var secondHeight = paneLocation.bottom - this._sizes.bottom - eventTop;
 
@@ -560,7 +571,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
       }
 
       // Move slider widget
-      this._slider.getContainerElement().setStyle("top", firstHeight + "px", true);
+      slider.getContainerElement().setStyle("top", firstHeight + "px", true);
     },
 
     
@@ -578,6 +589,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
     // TODOC
     _updateState : function(coords, splitterElement, splitterLocation)
     {
+      var splitter = this._getChildControl("splitter");
       var near = this._isHorizontal ?
         this.__nearHorizontal(coords.x, splitterElement, splitterLocation) : 
         this.__nearVertical(coords.y, splitterElement, splitterLocation); 
@@ -585,12 +597,12 @@ qx.Class.define("qx.ui.splitpane.Pane",
       if (near) 
       {
         this.setCursor(this._isHorizontal ? "col-resize" : "row-resize");
-        this._splitter.addState("active");
+        splitter.addState("active");
       } 
       else 
       {
         this.resetCursor();
-        this._splitter.removeState("active");
+        splitter.removeState("active");
       }
     }
 
@@ -603,7 +615,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
   *****************************************************************************
   */
 
+  // TODO
   destruct : function() {
-    this._disposeObjects("_slider", "_splitter");
   }
 });
