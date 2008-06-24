@@ -44,9 +44,10 @@ qx.Class.define("qx.ui.form.ComboBox",
     this._setLayout(layout);
     layout.setAlignY("middle");
 
+    // Trigger child widget creation
     this._getChildControl("textfield");
     this._getChildControl("button");
-    
+
     var list = this._getChildControl("list");
     var listPopup = this._getChildControl("list-popup");
     listPopup.add(list);
@@ -174,9 +175,6 @@ qx.Class.define("qx.ui.form.ComboBox",
       return control || this.base(arguments, id);
     },
 
-
-    
-    
     
     /*
     ---------------------------------------------------------------------------
@@ -195,18 +193,18 @@ qx.Class.define("qx.ui.form.ComboBox",
     },
 
 
-    getChildrenContainer : function()
-    {
-      return this._getChildControl("list");
-    },
-
-
-
     /*
     ---------------------------------------------------------------------------
       LIST STUFF
     ---------------------------------------------------------------------------
     */
+
+    getChildrenContainer : function()
+    {
+      return this._getChildControl("list");
+    },
+    
+    
     _showList : function()
     {
       var pos = qx.bom.element.Location.get(this.getContainerElement().getDomElement(), "box");
@@ -237,7 +235,7 @@ qx.Class.define("qx.ui.form.ComboBox",
         list.setMaxHeight(spaceBelow);
         listPopup.moveTo(pos.left, pos.bottom);
 
-      // case 4: List must be fittet above the button
+      // case 4: List must be fitted above the button
       } else {
         list.setMaxHeight(spaceAbove);
         listPopup.moveTo(pos.left, pos.bottom - listHeight);
@@ -285,7 +283,7 @@ qx.Class.define("qx.ui.form.ComboBox",
     // overridden
     _onFocus : function(e)
     {
-      // Redirct focus to text field
+      // Redirect focus to text field
       // State handling is done by _onTextFocus afterwards
       this._getChildControl("textfield").focus();
     },
