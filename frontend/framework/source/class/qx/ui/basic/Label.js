@@ -200,8 +200,32 @@ qx.Class.define("qx.ui.basic.Label",
     },
 
 
+    /*
+    ---------------------------------------------------------------------------
+      TEXT COLOR SUPPORT
+    ---------------------------------------------------------------------------
+    */
+
+    // overridden
+    _applyTextColor : function(value, old) {
+      qx.theme.manager.Color.getInstance().connect(this.__styleTextColor, this, value);
+    },
 
 
+    /**
+     * Apply text color
+     *
+     * @type member
+     * @param value {String} any acceptable CSS color property
+     */
+    __styleTextColor : function(value)
+    {
+      if (value) {
+        this.getContentElement().setStyle("color", value);
+      } else {
+        this.getContentElement().removeStyle("color");
+      }
+    },
 
 
     /*
