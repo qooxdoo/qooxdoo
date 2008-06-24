@@ -220,30 +220,66 @@ qx.Class.define("qx.html.Element",
       for (var hc in scroll)
       {
         obj = scroll[hc];
+        elem = obj._element;
 
-        if (qx.core.Variant.isSet("qx.debug", "on"))
+        if (elem && elem.offsetWidth)
         {
-          if (this._debug) {
-            qx.log.Logger.debug(this, "Scrolling: " + obj);
-          }
-        }
+          var done = true;
 
-        if (obj._element)
-        {
+          // ScrollToX
           if (obj.__lazyScrollX != null)
           {
             obj._element.scrollLeft = obj.__lazyScrollX;
             delete obj.__lazyScrollX;
           }
 
+          // ScrollToY
           if (obj.__lazyScrollY != null)
           {
             obj._element.scrollTop = obj.__lazyScrollY;
             delete obj.__lazyScrollY;
           }
-        }
+          
+          // ScrollIntoViewX
+          var intoViewX = obj.__lazyScrollIntoViewX;
+          if (intoViewX != null)
+          {
+            var child = intoViewX.element.getDomElement();
+            
+            if (child && child.offsetWidth)
+            {
+              qx.bom.element.Scroll.intoViewX(child, elem, intoViewX.align);
+              delete obj.__lazyScrollIntoViewX;
+            }
+            else
+            {
+              done = false;     
+            }
+          }
+                    
+          // ScrollIntoViewY
+          var intoViewY = obj.__lazyScrollIntoViewY;
+          if (intoViewY != null)
+          {
+            var child = intoViewY.element.getDomElement();
+            
+            if (child && child.offsetWidth)
+            {
+              qx.bom.element.Scroll.intoViewY(child, elem, intoViewY.align);
+              delete obj.__lazyScrollIntoViewY;
+            }
+            else
+            {
+              done = false;     
+            }
+          }       
 
-        delete scroll[hc];
+          // Clear flag if all things are done
+          // Otherwise wait for the next flush          
+          if (done) {
+            delete scroll[hc];
+          }
+        }
       }
 
 
@@ -582,7 +618,7 @@ qx.Class.define("qx.html.Element",
       {
         // Import listeners
         qx.event.Registration.getManager(elem).importListeners(elem, data);
-
+        
         // Cleanup event map
         // Events are directly attached through event manager
         // after intial creation. This differs from the
@@ -1349,55 +1385,113 @@ qx.Class.define("qx.html.Element",
       SCROLL SUPPORT
     ---------------------------------------------------------------------------
     */
+    
+    scrollChildIntoViewX : function(elem, align)
+    {
+      var thisEl = this._element;
+      var childEl = elem.getDomElement();
+      
+      if (thisEl && thisEl.offsetWidth && childEl && childEl.offsetWidth)
+      {
+        qx.bom.element.Scroll.intoViewX(childEl, thisEl, align);
+      }
+      else
+      {
+        this.__lazyScrollIntoViewX = 
+        {
+          element : elem,
+          align : align
+        };
+        
+        qx.html.Element._scroll[this.$$hash] = this;
+        qx.html.Element._scheduleFlush("element");
+      } 
+      
+      delete this.__lazyScrollX;
+    },
+    
+    scrollChildIntoViewY : function(elem, align)
+    {
+      var thisEl = this._element;
+      var childEl = elem.getDomElement();
+      
+      if (thisEl && thisEl.offsetWidth && childEl && childEl.offsetWidth)
+      {
+        qx.bom.element.Scroll.intoViewY(childEl, thisEl, align);
+      }
+      else
+      {
+        this.__lazyScrollIntoViewY = 
+        {
+          element : elem,
+          align : align
+        };
+        
+        qx.html.Element._scroll[this.$$hash] = this;
+        qx.html.Element._scheduleFlush("element");
+      }
+      
+      delete this.__lazyScrollY;          
+    },
 
     scrollToX : function(x)
     {
-      var el = this._element;
-      if (el)
+      var thisEl = this._element;
+      if (thisEl && thisEl.offsetWidth)
       {
-        el.scrollLeft = x;
-        return;
+        thisEl.scrollLeft = x;
       }
-
-      this.__lazyScrollX = x;
-      qx.html.Element._scroll[this.$$hash] = this;
-      qx.html.Element._scheduleFlush("element");
+      else
+      {
+        this.__lazyScrollX = x;
+        qx.html.Element._scroll[this.$$hash] = this;
+        qx.html.Element._scheduleFlush("element");
+      }
+      
+      delete this.__lazyScrollIntoViewX;
     },
 
     getScrollX : function()
     {
-      var el = this._element;
-      if (el) {
-        return el.scrollLeft;
+      var thisEl = this._element;
+      if (thisEl) {
+        return thisEl.scrollLeft;
       }
 
-      return 0;
+      return this.__lazyScrollX || 0;
     },
 
     scrollToY : function(y)
     {
-      var el = this._element;
-      if (el)
+      var thisEl = this._element;
+      if (thisEl && thisEl.offsetWidth)
       {
-        el.scrollTop = y;
-        return;
+        thisEl.scrollTop = y;
       }
-
-      this.__lazyScrollY = y;
-      qx.html.Element._scroll[this.$$hash] = this;
-      qx.html.Element._scheduleFlush("element");
+      else
+      {
+        this.__lazyScrollY = y;
+        qx.html.Element._scroll[this.$$hash] = this;
+        qx.html.Element._scheduleFlush("element");
+      }
+      
+      delete this.__lazyScrollIntoViewY;
     },
 
     getScrollY : function()
     {
-      var el = this._element;
-      if (el) {
-        return el.scrollTop;
+      var thisEl = this._element;
+      if (thisEl) {
+        return thisEl.scrollTop;
       }
 
-      return 0;
+      return this.__lazyScrollY || 0;
     },
-
+    
+    
+    
+    
+    
 
 
 
@@ -1914,29 +2008,11 @@ qx.Class.define("qx.html.Element",
 
       return this;
     },
-
-
-    /**
-     * Whether an element has the specified event listener
-     *
-     * @type member
-     * @param type {String} Name of the event
-     * @param listener {Function} Function to execute on event
-     * @param self {Object} Execution context of given function
-     * @param capture {Boolean ? false} Whether capturing should be enabled
-     * @return {Boolean} <code>true</code> when such an event listener already exists
-     */
-    hasListener : function(type, listener, self, capture)
+    
+    
+    hasListener : function(type, capture)
     {
-      if (this._element)
-      {
-        return qx.event.Manager.hasListener(this._element, type, listener, self, capture);
-      }
-      else
-      {
-        var key = this.__generateListenerId(type, listener, self, capture);
-        return (this.__eventValues && this.__eventValues[key]);
-      }
+      throw new Error("hasListener() needs implementation!"); 
     }
   },
 
