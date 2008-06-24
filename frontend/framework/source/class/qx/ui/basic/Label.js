@@ -22,11 +22,11 @@
  * The label class brings typical text content to the widget system.
  *
  * It supports simple text nodes, but complex HTML as well. The default
- * content mode is for text. The mode is changable through the property
+ * content mode is for text. The mode is changeable through the property
  * {@link #htmlMode}.
  *
  * The label supports heightForWidth when used in HTML mode. This means
- * that multiline HTML automatically computes the correct preferred height.
+ * that multi line HTML automatically computes the correct preferred height.
  */
 qx.Class.define("qx.ui.basic.Label",
 {
@@ -47,6 +47,10 @@ qx.Class.define("qx.ui.basic.Label",
 
     if (content != null) {
       this.setContent(content);
+    }
+
+    if (qx.core.Variant.isSet("qx.dynamicLocaleSwitch", "on")) {
+      qx.locale.Manager.getInstance().addListener("changeLocale", this._onChangeLocale, this)
     }
   },
 
@@ -87,8 +91,7 @@ qx.Class.define("qx.ui.basic.Label",
       check : "String",
       apply : "_applyContent",
       event : "changeContent",
-      nullable : true,
-      transform : "_localizeContent"
+      nullable : true
     },
 
 
@@ -286,15 +289,17 @@ qx.Class.define("qx.ui.basic.Label",
     },
 
 
-    _localizeContent : qx.core.Variant.select("qx.dynamicLocaleSwitch",
+    _onChangeLocale : qx.core.Variant.select("qx.dynamicLocaleSwitch",
     {
-      "on---" : function(value) {
-        return this._transformLocalizedString(value, "content");
+      "on" : function(e)
+      {
+        var content = this.getContent();
+        if (content.messageId) {
+          this.setContent(qx.locale.Manager.getInstance().translate(content.messageId, content.args));
+        }
       },
 
-      "default": function(value) {
-        return value;
-      }
+      "off" : null
     }),
 
 

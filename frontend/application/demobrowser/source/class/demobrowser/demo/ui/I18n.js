@@ -36,7 +36,7 @@ qx.Class.define("demobrowser.demo.ui.I18n",
       manager.addTranslation("de", {
         "one": "Eins",
         "two": "Zwei",
-        "Hello %1!": "Hallo %1!"
+        "Hello %1!": "Juhu %1!"
       });
       manager.setLocale("de");
 
