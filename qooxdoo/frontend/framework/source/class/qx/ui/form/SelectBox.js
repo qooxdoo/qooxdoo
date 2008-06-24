@@ -148,9 +148,9 @@ qx.Class.define("qx.ui.form.SelectBox",
       this.base(arguments, value, old);
     },
 
-    _onMouseDown : function(e)
-    {
+    _onMouseDown : function(e) {
       this._activate(e);
     }
+
   }
 });

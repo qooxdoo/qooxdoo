@@ -42,6 +42,11 @@ qx.Class.define("qx.ui.form.ComboBox",
     var list = this._getChildControl("list");
     var listPopup = this._getChildControl("list-popup");
     listPopup.add(list);
+    listPopup.addListener("changeVisibility", this._onChangeVisibilityList, this);
+
+    var textField = this._getChildControl("textfield");
+    textField.addListener("blur", this._onTextBlur, this);
+    textField.addListener("focus", this._onTextFocus, this);    
 
     this.addListener("resize", function(e) {
       list.setMinWidth(e.getData().width);
@@ -90,6 +95,16 @@ qx.Class.define("qx.ui.form.ComboBox",
 
       switch(id)
       {
+        case "textfield":
+          // create the textField
+          control = new qx.ui.form.TextField();
+          control.setAppearance("spinner-text-field");    
+          control.addListener("blur", this._onTextBlur, this);
+          control.addListener("focus", this._onTextFocus, this);    
+          this._add(control, {flex: 1});
+        break;
+
+
         case "button":
           // create the button
           control = new qx.ui.form.Button(null, "decoration/arrows/down.gif");
@@ -97,6 +112,16 @@ qx.Class.define("qx.ui.form.ComboBox",
           control.addListener("click", this._onClick, this);
           this._add(control);
         break;
+
+        case "list-popup":
+          // create the popup list
+          control = new qx.ui.popup.Popup(new qx.ui.layout.VBox()).set({
+            autoHide: false
+          });
+          control.addListener("mouseup", this._hideList, this);
+          control.addListener("changeVisibility", this._onChangeVisibilityList, this);
+        break;
+
       }
       return control || this.base(arguments, id);
     },
@@ -146,15 +171,6 @@ qx.Class.define("qx.ui.form.ComboBox",
     },
         
     
-    // overridden
-    _onFocus : function(e)
-    {
-      // Redirct focus to text field
-      // State handling is done by _onTextFocus afterwards
-      this._getChildControl("textfield").focus();
-    },
-    
-
     _onClick : function(e)
     {
       this._activate(e);
