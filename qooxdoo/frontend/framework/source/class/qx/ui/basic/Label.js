@@ -318,8 +318,8 @@ qx.Class.define("qx.ui.basic.Label",
       "on" : function(e)
       {
         var content = this.getContent();
-        if (content.messageId) {
-          this.setContent(qx.locale.Manager.getInstance().translate(content.messageId, content.args));
+        if (content instanceof qx.locale.LocalizedString) {
+          this.setContent(content.translate());
         }
       },
 

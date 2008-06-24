@@ -1,10 +1,36 @@
+/* ************************************************************************
+
+   qooxdoo - the new era of web development
+
+   http://qooxdoo.org
+
+   Copyright:
+     2004-2008 1&1 Internet AG, Germany, http://www.1und1.de
+
+   License:
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
+
+   Authors:
+     * Fabian Jakobs (fjakobs)
+
+************************************************************************ */
+
+/**
+ * This class extends the buildin JavaScript String class. It can be used as
+ * base class for classes, which need to derive from String.
+ *
+ * Instances of this class can be used everywhere, where a JavaScript string is
+ * valid.
+ */
 qx.Class.define("qx.lang.BaseString",
 {
   extend : String,
 
   construct : function(txt)
   {
-    arguments.callee.base.call(this, txt);
+    // no base call needed
     this._txt = txt;
   },
 
@@ -14,12 +40,33 @@ qx.Class.define("qx.lang.BaseString",
       return this._txt;
     },
 
+
     valueOf : function() {
       return this._txt;
     },
 
+
+    /**
+     * Return unique hash code of object
+     *
+     * @type member
+     * @return {Integer} unique hash code of the object
+     */
     toHashCode : function() {
       qx.core.ObjectRegistry.toHashCode(this);
+    },
+
+
+    /**
+     * Call the same method of the super class.
+     *
+     * @type member
+     * @param args {arguments} the arguments variable of the calling method
+     * @param varags {var} variable number of arguments passed to the overwritten function
+     * @return {var} the return value of the method of the base class.
+     */
+    base : function(args, varags) {
+      qx.core.Object.prototype.base.apply(this, arguments);
     }
   }
 });

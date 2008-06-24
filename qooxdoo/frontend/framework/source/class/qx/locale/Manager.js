@@ -326,8 +326,8 @@ qx.Class.define("qx.locale.Manager",
         for ( var i = 0; i < args.length; i++)
         {
           var arg = args[i];
-          if (arg.messageId) {
-            translatedArgs[i] = this.translate(arg.messageId, arg.args);
+          if (arg instanceof qx.locale.LocalizedString) {
+            translatedArgs[i] = arg.translate();
           } else {
             translatedArgs[i] = arg;
           }
@@ -335,11 +335,8 @@ qx.Class.define("qx.locale.Manager",
         txt = qx.lang.String.format(txt, translatedArgs);
       }
 
-      if (qx.core.Variant.isSet("qx.dynamicLocaleSwitch", "on"))
-      {
-        txt = new String(txt);
-        txt.args = args;
-        txt.messageId = messageId;
+      if (qx.core.Variant.isSet("qx.dynamicLocaleSwitch", "on")) {
+        txt = new qx.locale.LocalizedString(txt, messageId, args);
       }
 
       return txt;
