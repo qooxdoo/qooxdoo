@@ -126,8 +126,8 @@ qx.Class.define("qx.core.Property",
      */
     __checks :
     {
-      "Boolean"   : 'typeof value === "boolean"',
-      "String"    : 'typeof value === "string"',
+      "Boolean"   : 'typeof value === "boolean" || value instanceof Boolean',
+      "String"    : 'typeof value === "string" || value instanceof String',
 
       "Number"    : 'typeof value === "number" && isFinite(value)',
       "Integer"   : 'typeof value === "number" && isFinite(value) && value%1 === 0',
