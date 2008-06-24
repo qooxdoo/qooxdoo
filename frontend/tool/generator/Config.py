@@ -24,13 +24,20 @@ import os, sys, re, types, string, copy
 import simplejson
 from generator.ShellCmd import ShellCmd
 
+global console
+
 class Config:
+
+    global console
+
     def __init__(self, console, data, path=""):
         # init members
         self._console  = console
         self._data     = None
         self._fname    = None
         self._shellCmd = ShellCmd()
+
+        console = console
         
         # dispatch on argument
         if isinstance(data, (types.DictType, types.ListType)):
@@ -39,6 +46,10 @@ class Config:
             self.__init_fname(data)
         else:
             raise TypeError, str(data)
+
+        # make sure there is at least an empty jobs map (for later filling)
+        if isinstance(self._data, types.DictType) and self.JOBS_KEY not in self._data:
+            self._data[self.JOBS_KEY] = {}
 
     def __init__data(self, data, path):
         self._data = data
@@ -58,7 +69,8 @@ class Config:
         self._fname = os.path.abspath(fname)
         self._dirname = os.path.dirname(self._fname)
 
-    NSSEP        = "/"
+    NS_SEP        = "/"    # this is to denote jobs from imported (nested) configs
+    COMPOSED_NAME_SEP = "::"   # this is to construct composed job names
     JOBS_KEY     = "jobs"
     DEFAULTS_JOB = "defaults"
     EXTEND_KEY   = "extend"
@@ -79,7 +91,7 @@ class Config:
         if data.has_key(key):
             return data[key]
 
-        splits = key.split(self.NSSEP)
+        splits = key.split(self.NS_SEP)
         for part in splits:
             if part == "." or part == "":
                 pass
@@ -98,7 +110,7 @@ class Config:
             container = confmap
         else:
             container = self._data
-        splits = key.split(self.NSSEP)
+        splits = key.split(self.NS_SEP)
 
         # wpbasti: What should this do?
         for item in splits[:-1]:
@@ -170,7 +182,7 @@ class Config:
             # jobs of external config are spliced into current job list
             sjobs = source.getJobsMap()
             if namespace:
-                namepfx = namespace + self.NSSEP
+                namepfx = namespace + self.COMPOSED_NAME_SEP
             else:
                 namepfx = ""
             for sjob in sjobs:
@@ -204,7 +216,7 @@ class Config:
         def integrateExternalConfig(tjobs, extConfig, namespace):
             # jobs of external config are spliced into current job list
             if namespace:
-                namepfx = namespace + self.NSSEP # job names will be namespace'd
+                namepfx = namespace + self.NS_SEP # job names will be namespace'd
             else:
                 namepfx = ""         # job names will not be namespace'd
 
@@ -221,13 +233,14 @@ class Config:
                     raise KeyError, "Job already exists: \"%s\"" % newjobname
                 else:
                     # remember job's context
-                    sjobs[sjob][self._CONFIG_KEY] = extConfig
+                    if self._CONFIG_KEY not in sjobs[sjob]:  # don't overwrite existing setting
+                        sjobs[sjob][self._CONFIG_KEY] = extConfig
                     tjobs[newjobname] = sjobs[sjob]
             return tjobs
 
 
         config  = self._data
-        jobsmap = self.get("jobs")
+        jobsmap = self.getJobsMap({})
 
         if self._fname:   # we stem from a file
             includeTrace.append(self._fname)   # expand the include trace
@@ -285,6 +298,78 @@ class Config:
         console.outdent()
         return joblist
 
+
+    def resolveExtendsAndRuns1(self, jobList):
+        jobsMap = self.getJobsMap()
+        console = self._console
+        console.info("Resolving jobs...")
+        console.indent()
+
+        # while there are still 'run' jobs or unresolved jobs in the job list...
+        while ([x for x in jobList if self.getJob(x).hasFeature('run')] or 
+               [y for y in jobList if not self.getJob(y).hasFeature('resolved')]):
+            self._resolveExtends1(joblist)
+            self._resolveRuns1(joblist)
+
+        console.outdent()
+        return jobList
+
+
+    def _resolveExtends1(self, jobNames):
+        for jobName in jobNames:
+            job = self.getJob(jobName)
+            if not job:
+                raise RuntimeError, "No such job: %s" % jobname
+            else:
+                job.resolveExtend()
+
+
+    def _resolveRuns1(self, jobNames):
+
+        # we have to do a bit weird handling since we are modifying the array
+        # we are interating over
+        i,j = 0, len(jobNames)
+        while i<j:
+            jobName = jobNames[i]
+            job     = self.getJob(jobName)
+            if job.hasFeature("run"):
+                sublist = []
+                listOfNewJobs = []
+                for subjob in job.getFeature["run"]:
+                    
+                    # make new job map job::subjob as copy of job, but extend[subjob]
+                    newjobname = jobName + '::' + subjob.replace(self.NS_SEP, self.COMPOSED_NAME_SEP)
+                    newjob     = job.clone()
+                    newjob.name= newjobname
+                    newjob.removeFeature['run']       # remove 'run' key
+                    
+                    # we assume the initial 'run' job has already been resolved, so
+                    # we reset it here and set the 'extend' to the subjob
+                    if newjob.hasFeature('resolved'): 
+                        newjob.removeFeature['resolved']
+                    else:
+                        raise RuntimeError, "Cannot resolve 'run' key before 'extend' key"
+                    newjob.setFeature('extend', [subjob]) # extend subjob
+                    
+                    # add to config
+                    self.addJob(newjobname, newjob)
+                    
+                    # add to job list
+                    sublist.append(newjobname)
+                    listOfNewJobs.append(newjob)
+                    
+                job.setFeature('run', listOfNewJobs)   # overwrite with list of Jobs (instead of Strings)
+
+                jobNames[i:i+1] = sublist     # replace old job by subjobs list
+                j               = j + len(sublist) - 1  # correct job list length
+
+            # continue with next job
+            # in case we have just expanded a 'run' key, this would go over the newly
+            # added jobs; but since they don't have 'run' keys this doesn't matter
+            # so we just head on
+            i += 1
+
+
     def _mapMerge(self, source, target):
         """merge source map into target, but don't overwrite existing
            keys in target (unlike .update())"""
@@ -333,7 +418,7 @@ class Config:
                 for subjob in entry["run"]:
                     
                     # make new job map job::subjob as copy of job, but extend[subjob]
-                    newjobname = job + '::' + subjob.replace(self.NSSEP,'::')
+                    newjobname = job + '::' + subjob.replace(self.NS_SEP,'::')
                     newjob = entry.copy()
                     del newjob['run']       # remove 'run' key
                     
@@ -428,7 +513,7 @@ class Config:
                     # make sure this entry job is fully resolved in the correct context
                     _resolveExtend(console, jobcontext, entry, entryTrace + [jobname])
 
-                    # extract the job definition of the entry from the current jobcontext (mind 3rd param!)
+                    # extract the job definition of the entry from the current jobcontext
                     pjob = jobcontext.getJob(entry)
                     
                     # now merge the fully expanded job into the current job
@@ -638,21 +723,94 @@ class Config:
 
 # wpbasti: TODO: Put into separate file
 class Job(object):
-    def __init__(self, data, config=None):
+    global console
+
+    # keys of the job data map
+    EXTEND_KEY   = "extend"
+    RUN_KEY      = "run"
+    LET_KEY      = "let"
+    RESOLVED_KEY = "resolved"
+    KEYS_WITH_JOB_REFS = [RUN_KEY, EXTEND_KEY]
+
+    def __init__(self, name, data, config=None):
+        self.name    = name
         self._data   = data
         self._config = config
+
+    def _listPrepend(source, target):
+        return source + target
+
+    def _mergeJob(source, target):
+        for key in source:
+            # merge 'library' key rather than shadowing
+            if key == 'library'and target.has_key(key):
+                target[key] = _listPrepend(source[key],target[key])
+            
+            # merge 'settings' and 'let' key rather than shadowing
+            # wpbasti: variants listed here, but missing somewhere else. Still missing use and require keys.
+            if (key in ['variants','settings','let']) and target.has_key(key):
+                target[key] = self._mapMerge(source[key],target[key])
+            if not target.has_key(key):
+                target[key] = source[key]
+
+    def resolveExtend(self, entryTrace=[]):
+        # resolve the 'extend' entry of a job
+        config = self._config
+
+        if self.hasFeature(self.RESOLVED_KEY):
+            return
+
+        # pre-include optional global 'let'
+        global_let = self._config.get('let',False)
+        if global_let:
+            if 'let' in self:
+                self.setFeature('let', self._mapMerge(global_let, self.getFeature('let')))
+            else:
+                self.setFeature('let', global_let)
+
+        if self.hasFeature("extend"):
+            # loop through 'extend' entries
+            extends = self.getFeature("extend")
+            for entry in extends:
+                # cyclic check: have we seen this already?
+                if entry in entryTrace:
+                    raise RuntimeError, "Extend entry already seen: %s" % str(entryTrace+[self.name,entry])
+                
+                # make sure this entry job is fully resolved in the correct context
+                entryJob = config.getJob(entry)
+                entryJob._resolveExtend(entryTrace + [jobname])
+
+                # TODO: handle job context!
+
+                # now merge the fully expanded job into the current job
+                self._mergeJob(entryJob)
+
+        job.setFeature(self.RESOLVED_KEY, True)
+
 
     def getData(self):
         return self._data
 
-    def _listPrepend(source, target):
-        pass
-    
-    def _mergeJobs(source, target):
-        pass
+    def getConfig(self):
+        return self._config
 
-    def resolveExtend(self, console, config, entryTrace=[]):
-        pass
+    def setConfig(self, config):
+        self._config = config
+
+
+    def clone(self):
+        return Job(self.name, self._data.copy(), self._config)
+
+    def setFeature(self, feature, value):
+        self._data[feature]=value
+
+    def getFeature(self, feature):
+        return self._data[feature]
+
+    def removeFeature(self, feature):
+        if feature in self._data:
+            del self._data[feature]
+
 
 # wpbasti: TODO: Put into separate file
 class Manifest(object):
