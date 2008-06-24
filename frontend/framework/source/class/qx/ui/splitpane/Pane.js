@@ -477,14 +477,23 @@ qx.Class.define("qx.ui.splitpane.Pane",
     _minActiveRange : 5,
     
     
-    // TODOC
+    /**
+     * Checks if mouse cursor is on or near the splitter widget.
+     * This method will be used for horizontal orientation. 
+     *
+     * @type member
+     * @param x {Integer} Mouse cursor's x coordinate
+     * @param splitterElement {Object} DOM element of the container widget of the Splitter
+     * @param splitterLocation {Map} The location map of the splitterElement
+     * @return {Boolean} True if mouse cursor is near to splitter, otherwise false.
+     */
     __nearHorizontal : function(x, splitterElement, splitterLocation)
     {
       var splitterSize = splitterElement.offsetWidth;
       var min = this._minActiveRange;
 
       if (splitterSize < min)
-       {
+      {
         var sizeDiff = Math.floor((min - splitterSize) / 2);
         splitterLocation.left -= sizeDiff;
         splitterLocation.right += sizeDiff;
@@ -495,7 +504,16 @@ qx.Class.define("qx.ui.splitpane.Pane",
     },
     
     
-    // TODOC
+    /**
+     * Checks if mouse cursor is on or near the splitter widget.
+     * This method will be used for vertical orientation. 
+     *
+     * @type member
+     * @param y {Integer} Mouse cursor's y coordinate
+     * @param splitterElement {Object} DOM element of the container widget of the Splitter
+     * @param splitterLocation {Map} The location map of the splitterElement
+     * @return {Boolean} True if mouse cursor is near to splitter, otherwise false.
+     */
     __nearVertical : function(y, splitterElement, splitterLocation)
     {
       var splitterSize = splitterElement.offsetHeight;
@@ -513,7 +531,17 @@ qx.Class.define("qx.ui.splitpane.Pane",
     },
 
 
-    // TODOC
+    /**
+     * Moves the slider widget and stores the current widget sizes.
+     * This method will be used for horizontal orientation. 
+     *
+     * @type member
+     * @param paneLocation {Map} The location map of the SplitPane
+     * @param begin {qx.ui.core.Widget} The first widget.
+     * @param end {qx.ui.core.Widget} The second widget.
+     * @param firstHint {Map} The first widget's size hint map
+     * @param secondHint {Map} The second widget's size hint map
+     */
     _updateSliderHorizontal : function(paneLocation, begin, end, firstHint, secondHint)
     {
       // Calculate widget sizes
@@ -539,7 +567,17 @@ qx.Class.define("qx.ui.splitpane.Pane",
     },
 
 
-    // TODOC
+    /**
+     * Moves the slider widget and stores the current widget sizes.
+     * This method will be used for vertical orientation. 
+     *
+     * @type member
+     * @param paneLocation {Map} The location map of the SplitPane
+     * @param begin {qx.ui.core.Widget} The first widget.
+     * @param end {qx.ui.core.Widget} The second widget.
+     * @param firstHint {Map} The first widget's size hint map
+     * @param secondHint {Map} The second widget's size hint map
+     */
     _updateSliderVertical : function(paneLocation, begin, end, firstHint, secondHint)
     {
       // Calculate widget sizes
@@ -575,7 +613,12 @@ qx.Class.define("qx.ui.splitpane.Pane",
     },
 
     
-    // TODOC
+    /**
+     * Synchronizes the given widget to its user bounds.
+     *
+     * @type member
+     * @param widget {qx.ui.core.Widget} The widget
+     */
     _syncBounds : function(widget)
     {
       var bounds = widget.getBounds();
@@ -586,7 +629,14 @@ qx.Class.define("qx.ui.splitpane.Pane",
     },
 
 
-    // TODOC
+    /**
+     * Sets the SplitPane's state depending on the mouse position.
+     *
+     * @type member
+     * @param coords {Map} Current mouse position
+     * @param splitterElement {Object} DOM element of the container widget of the Splitter
+     * @param splitterLocation {Map} The location map of the splitterElement
+     */
     _updateState : function(coords, splitterElement, splitterLocation)
     {
       var splitter = this._getChildControl("splitter");
@@ -615,7 +665,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
   *****************************************************************************
   */
 
-  // TODO
   destruct : function() {
+    this._disposeMap("_sizes");
   }
 });
