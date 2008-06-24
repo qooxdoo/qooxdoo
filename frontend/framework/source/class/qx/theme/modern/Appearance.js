@@ -16,7 +16,7 @@
    Authors:
    * Sebastian Werner (wpbasti)
    * Andreas Ecker (ecker)
-   * Til Schneider (til132)
+   * Fabian Jakobs (fjakobs)
 
 ************************************************************************* */
 
@@ -83,7 +83,6 @@ qx.Theme.define("qx.theme.modern.Appearance",
     {
       style : function(states)
       {
-        var base = "decoration/";
         var decorator, textColor;
 
         if (states.checked && states.focused) {
@@ -779,7 +778,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         };
       }
     },
-    
+
     /*
     ---------------------------------------------------------------------------
       SPLITPANE

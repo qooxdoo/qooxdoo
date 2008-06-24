@@ -2440,11 +2440,11 @@ qx.Class.define("qx.ui.core.Widget",
     scrollChildIntoViewY : function(child, align) {
       this._contentElement.scrollChildIntoViewY(child.getContainerElement(), align);
     },
-    
-    
-    
-    
-    
+
+
+
+
+
 
     /*
     ---------------------------------------------------------------------------
