@@ -24,8 +24,7 @@
 
 qx.Class.define("qx.ui.form.SelectBox",
 {
-  extend  : qx.ui.core.Widget,
-  include : qx.ui.core.MRemoteChildrenHandling,
+  extend  : qx.ui.form.AbstractSelectBox,
 
 
 
@@ -39,67 +38,33 @@ qx.Class.define("qx.ui.form.SelectBox",
   {
     this.base(arguments);
 
-    // set the layout
-    var layout = new qx.ui.layout.HBox();
-    this._setLayout(layout);
-    layout.setAlignY("middle");
+    this._createChildControl("atom");
+    this._createChildControl("spacer");
+    this._createChildControl("down-arrow");
 
-    // create the label
-    this._atom = new qx.ui.basic.Atom(" ");
-    this._add(this._atom, {flex:1});
-    // add the spacer
-    this._add(new qx.ui.core.Spacer(), {flex: 1});
+    var list = this._getChildControl("list");
+    var listPopup = this._getChildControl("list-popup");
+    listPopup.add(list);
 
-    // create the down arrow
-    this._downArrow = new qx.ui.basic.Image("decoration/arrows/down.gif");
-    this._downArrow.setPaddingRight(4);
-    this._downArrow.setPaddingLeft(5);
-    this._add(this._downArrow);
-
-    // create the popup for the list
-    this._listPopup = new qx.ui.popup.Popup(new qx.ui.layout.VBox()).set({
-      autoHide: false
-    });
-
-    // creaete the list
-    this._list = new qx.ui.form.List().set({
-      focusable: false,
-      keepFocus: true,
-      height: null,
-      width: null,
-      maxHeight: this.getMaxListHeight(),
-      selectionMode: "one"
-    });
-    this._listPopup.add(this._list);
-
-    // register a change listener for the list selection
-    this._list.addListener("change", function(e) {
-      if (e.getData().length > 0) {
-        this.setSelectedItem(e.getData()[0]);
-      }
-    }, this);
-
-    // register an resize listener 
     this.addListener("resize", function(e) {
-      this._list.setMinWidth(e.getData().width);
+      list.setMinWidth(e.getData().width);
     });
 
     // register the mouse and keyboard listener
     this.addListener("mousedown", this._onMouseDown, this);
-    this.addListener("keypress", this._onKeyPress);
-    this.addListener("blur", this._hideList, this);
+
     // Listener for Search as you type (forward the keyinput event)
     this.addListener("keyinput", function(e) {
-      // clone the event and recalibrate the event
+      // clone the event and re-calibrate the event
       var clone = e.clone();
       clone.setTarget(this._list);
       clone.setBubbles(false);
-      // forwar it to the list
-      this._list.dispatchEvent(clone);
+      // forward it to the list
+      list.dispatchEvent(clone);
     }, this);
 
     // add a hide listener for clicks on the list
-    this._listPopup.addListener("mouseup", this._hideList, this);    
+    listPopup.addListener("mouseup", this._hideList, this);    
   },
 
 
@@ -112,12 +77,6 @@ qx.Class.define("qx.ui.form.SelectBox",
 
   properties :
   {
-    width :
-    {
-      refine : true,
-      init : 120
-    },
-
     // overridden
     appearance :
     {
@@ -125,29 +84,10 @@ qx.Class.define("qx.ui.form.SelectBox",
       init : "button"
     },
 
-    selectedItem :
-    {
-      check : "qx.ui.form.ListItem",
-      apply : "_applySelectedItem"
-    },
-
     focusable :
     {
       refine : true,
       init : true
-    },
-
-
-    /**
-     * The maximum height of the list popup. Setting this value to
-     * <code>null</code> will set cause the list to be autosized.
-     */
-    maxListHeight :
-    {
-      check : "Number",
-      apply : "_applyMaxListHeight",
-      nullable: true,
-      init : 200
     }
   },
 
@@ -161,6 +101,38 @@ qx.Class.define("qx.ui.form.SelectBox",
 
   members :
   {
+    // overridden
+    _createChildControlImpl : function(id)
+    {
+      var control;
+
+      switch(id)
+      {
+        
+        case "spacer":
+          // add the spacer
+          control = new qx.ui.core.Spacer();
+          this._add(control, {flex: 1});
+        break;
+
+        case "atom":
+          // create the label
+          control = new qx.ui.basic.Atom(" ");
+          this._add(control, {flex:1});
+        break;
+
+        case "down-arrow":
+          // create the down arrow
+          control = new qx.ui.basic.Image("decoration/arrows/down.gif");
+          control.setPaddingRight(4);
+          control.setPaddingLeft(5);
+          this._add(control);
+        break;
+      }
+      return control || this.base(arguments, id);
+    },
+    
+    
     /*
     ---------------------------------------------------------------------------
       APPLY ROUTINES
@@ -169,112 +141,16 @@ qx.Class.define("qx.ui.form.SelectBox",
 
     _applySelectedItem : function(value, old)
     {
-      this._atom.setLabel(value.getLabel());
-      this._atom.setIcon(value.getIcon());
-      this._list.select(value);
+      var atom = this._getChildControl("atom");
+      atom.setLabel(value.getLabel());
+      atom.setIcon(value.getIcon());
+
+      this.base(arguments, value, old);
     },
-
-    _applyMaxListHeight : function(value, old) {
-      this._list.setMaxHeight(value);
-    },
-
-
-    getChildrenContainer : function()
-    {
-      return this._list;
-    },
-
-
-    _showList : function()
-    {
-      var pos = qx.bom.element.Location.get(this.getContainerElement().getDomElement(), "box");
-
-      var clientWidth = qx.bom.Viewport.getWidth();
-      var clientHeight = qx.bom.Viewport.getHeight();
-
-      var spaceAbove = pos.top;
-      var spaceBelow = clientHeight - pos.bottom;
-
-      this._list.setMaxHeight(this.getMaxListHeight());
-
-      var listHeight = this._list.getSizeHint().height;
-
-      // case 1: List fits below the button
-      if (spaceBelow > listHeight) {
-        this._listPopup.moveTo(pos.left, pos.bottom);
-
-      // case 2: list does not fit below the button but above it
-      } else if (spaceAbove > listHeight) {
-        this._listPopup.moveTo(pos.left, pos.top - listHeight);
-
-      // case 3: List does not fit at all
-      } else if (spaceBelow > spaceAbove) {
-        this._list.setMaxHeight(spaceBelow);
-        this._listPopup.moveTo(pos.left, pos.bottom);
-
-      // case 4: List must be fittet above the button
-      } else {
-        this._list.setMaxHeight(spaceAbove);
-        this._listPopup.moveTo(pos.left, pos.bottom - listHeight);
-      }
-
-      this._listPopup.show();
-    },
-
-
-    _hideList : function() {
-      this._listPopup.hide();
-    },
-
-
-
-    _onKeyPress : function(e)
-    {
-      // get the key identifier
-      var identifier = e.getKeyIdentifier();
-
-      // disabled pageUp and pageDown keys
-      if (identifier == "PageDown" || identifier == "PageUp")
-      {
-        if (this._listPopup.getVisibility() != "visible") {
-          return;
-        }
-      }
-
-      // Open or close the list on space and enter
-      if (identifier == "Space" || identifier == "Enter")
-      {
-
-        // if the list is visible
-        if (this._listPopup.getVisibility() == "visible") {
-          this._hideList();
-        } else {
-          this._showList();
-        }
-
-        return;
-      }
-
-      // hide the list always on escape
-      if (identifier == "Escape" || identifier == "Tab")
-      {
-        this._hideList();
-        return;
-      }
-      
-      // forward the rest of the events to the list
-      this._list.handleKeyPress(e);
-    },
-
 
     _onMouseDown : function(e)
     {
-      var isListOpen = this._listPopup.getVisibility() == "visible";
-      if (isListOpen) {
-        this._hideList();
-      } else {
-        this._showList();
-      }
+      this._activate(e);
     }
   }
 });
