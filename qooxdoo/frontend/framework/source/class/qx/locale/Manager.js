@@ -84,7 +84,7 @@ qx.Class.define("qx.locale.Manager",
       var args = qx.lang.Array.fromArguments(arguments);
       args.splice(0, 1);
 
-      return this.__translateDynamic(messageId, args);
+      return qx.locale.Manager.getInstance().translate(messageId, args);
     },
 
 
@@ -107,9 +107,9 @@ qx.Class.define("qx.locale.Manager",
       args.splice(0, 3);
 
       if (count > 1) {
-        return this.__translateDynamic(pluralMessageId, args);
+        return qx.locale.Manager.getInstance().translate(pluralMessageId, args);
       } else {
-        return this.__translateDynamic(singularMessageId, args);
+        return qx.locale.Manager.getInstance().translate(singularMessageId, args);
       }
     },
 
@@ -129,7 +129,7 @@ qx.Class.define("qx.locale.Manager",
       var args = qx.lang.Array.fromArguments(arguments);
       args.splice(0, 2);
 
-      return this.__translateDynamic(singularMessageId, args);
+      return qx.locale.Manager.getInstance().translate(messageId, args);
     },
 
 
@@ -142,26 +142,6 @@ qx.Class.define("qx.locale.Manager",
      */
     marktr : function(messageId) {
       return messageId;
-    },
-
-
-    /**
-     * Translates the message ID in the synamic mode by returning a
-     * LocalizedString instance and in the static mode by returning the
-     * translated string.
-     *
-     * @param messageId {String} message id (may contain format strings)
-     * @param args {Object[]} array of objects, which are inserted into the format string.
-     * @param locale {String} optional locale to be used for translation
-     * @return {String|LocalizedString} translated message.
-     */
-    __translateDynamic : function(messageId, args, locale)
-    {
-      if (qx.core.Variant.isSet("qx.dynamicLocaleSwitch", "on")) {
-        return new qx.locale.LocalizedString(messageId, args, locale);
-      } else {
-        return qx.locale.Manager.getInstance().translate(messageId, args, locale);
-      }
     }
   },
 
@@ -354,8 +334,26 @@ qx.Class.define("qx.locale.Manager",
         txt = messageId;
       }
 
-      if (args.length > 0) {
-        txt = qx.lang.String.format(txt, args);
+      if (args.length > 0)
+      {
+        var translatedArgs = [];
+        for ( var i = 0; i < args.length; i++)
+        {
+          var arg = args[i];
+          if (arg.messageId) {
+            translatedArgs[i] = this.translate(arg.messageId, arg.args);
+          } else {
+            translatedArgs[i] = arg;
+          }
+        }
+        txt = qx.lang.String.format(txt, translatedArgs);
+      }
+
+      if (qx.core.Variant.isSet("qx.dynamicLocaleSwitch", "on"))
+      {
+        txt = new String(txt);
+        txt.args = args;
+        txt.messageId = messageId;
       }
 
       return txt;
@@ -369,8 +367,7 @@ qx.Class.define("qx.locale.Manager",
      * @param text {LocalizedString|String} input text
      * @return {Boolean} whether the string value is dynamic
      */
-    isDynamic : function(text)
-    {
+    isDynamic : function(text) {
       return text instanceof qx.locale.LocalizedString;
     },
 
@@ -387,20 +384,6 @@ qx.Class.define("qx.locale.Manager",
     }
 
 
-  },
-
-
-  /*
-  *****************************************************************************
-     DEFER
-  *****************************************************************************
-  */
-
-  defer : function(statics)
-  {
-    if (qx.core.Variant.isSet("qx.dynamicLocaleSwitch", "on")) {
-      qx.Class.include(qx.core.Object, qx.locale.dynamic.MObject);
-    }
   },
 
 
