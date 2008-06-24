@@ -43,7 +43,7 @@ qx.Class.define("feedreader.view.PreferenceWindow",
 
   construct : function()
   {
-    this.base(arguments, "Preferences", "icon/16/apps/preferences-theme.png");
+    this.base(arguments, this.tr("Preferences"), "icon/16/apps/preferences-theme.png");
 
     // set the properties of the window
     this.set(
@@ -78,17 +78,17 @@ qx.Class.define("feedreader.view.PreferenceWindow",
       this.setLayout(new qx.ui.layout.VBox());
 
       // Create and add a groupbox
-      var groupBox = new qx.ui.groupbox.GroupBox("Theme");
+      var groupBox = new qx.ui.groupbox.GroupBox(this.tr("Theme"));
       groupBox.setMargin(10, 4);
       groupBox.setMinWidth(150);
       groupBox.setLayout(new qx.ui.layout.VBox());
       this.add(groupBox);
 
       // Create the radio buttons for the themes
-      var button_classic = new qx.ui.form.RadioButton("Classic");
+      var button_classic = new qx.ui.form.RadioButton(this.tr("Classic"));
       button_classic.setValue(qx.theme.Classic.name);
 
-      var button_modern = new qx.ui.form.RadioButton("Modern");
+      var button_modern = new qx.ui.form.RadioButton(this.tr("Modern"));
       button_modern.setValue(qx.theme.Modern.name);
       button_modern.setChecked(true);
 

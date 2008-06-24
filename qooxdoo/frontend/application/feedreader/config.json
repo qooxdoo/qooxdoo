@@ -8,15 +8,16 @@
   ],
 
 
+  "let" :
+  {
+    "APPLICATION" : "feedreader"
+  },
+      
+      
   "jobs" :
   {
     "common" :
     {
-      "let" :
-      {
-        "APPLICATION" : "feedreader"
-      },
-
       "cache" :
       {
         // use qooxdoo wide cache folder
@@ -40,10 +41,17 @@
       "localize" :
       {
         // does not work yet correctly
-        // "locales" : ["en", "de", "es", "it"]
-        "locales" : [ "en" ]
+        "locales" : ["en", "de", "es", "it"]
+        //"locales" : [ "en" ]
       }
     },
+    
+    
+    "translate" :
+    {
+      "extend" : ["common-builds", "appconf/translate"]
+    },
+
 
     "profiling" :
     {

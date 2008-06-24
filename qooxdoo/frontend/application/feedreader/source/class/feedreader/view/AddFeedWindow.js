@@ -48,7 +48,7 @@ qx.Class.define("feedreader.view.AddFeedWindow",
    */
   construct : function(controller)
   {
-    this.base(arguments, "Add a feed", "icon/16/actions/document-new.png");
+    this.base(arguments, this.tr("Add a feed"), "icon/16/actions/document-new.png");
 
     // Establish controller link
     this._controller = controller;
@@ -83,7 +83,7 @@ qx.Class.define("feedreader.view.AddFeedWindow",
      */
     _addContent : function()
     {
-      var groupBox = new qx.ui.groupbox.GroupBox("Feed Information");
+      var groupBox = new qx.ui.groupbox.GroupBox(this.tr("Feed Information"));
       groupBox.setMargin(10, 4);
       this.setLayout(new qx.ui.layout.Canvas);
       this.add(groupBox, {edge:0});
@@ -92,10 +92,10 @@ qx.Class.define("feedreader.view.AddFeedWindow",
       layout.setSpacing(10);
       groupBox.setLayout(layout);
 
-      var titleLabel = new qx.ui.basic.Label("Title:");
+      var titleLabel = new qx.ui.basic.Label(this.tr("Title:"));
       var titleTextfield = this._titleTextfield = new qx.ui.form.TextField();
 
-      var urlLabel = new qx.ui.basic.Label("URL:");
+      var urlLabel = new qx.ui.basic.Label(this.tr("URL:"));
       var urlTextField = this._urlTextfield = new qx.ui.form.TextField();
 
       groupBox.add(titleLabel, {row: 0, column: 0});
@@ -129,7 +129,7 @@ qx.Class.define("feedreader.view.AddFeedWindow",
       var title = this._titleTextfield.getValue();
       if (title == "")
       {
-        alert("Please enter a title.");
+        alert(this.tr("Please enter a title."));
         return;
       }
 
@@ -137,7 +137,7 @@ qx.Class.define("feedreader.view.AddFeedWindow",
       var url = this._urlTextfield.getValue();
       if (url == "")
       {
-        alert("Please enter a url.");
+        alert(this.tr("Please enter a url."));
         return;
       }
 
