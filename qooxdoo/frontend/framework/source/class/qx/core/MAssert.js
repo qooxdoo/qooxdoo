@@ -349,7 +349,7 @@ qx.Mixin.define("qx.core.MAssert",
      * This assertion is only evaluated if "qx.debug" if "on"
      * @signature function()
      */
-    assertJsonEqualsDebugOn : function(value, msg) {
+    assertJsonEqualsDebugOn : function(expected, found, msg) {
       qx.core.Assert.assertJsonEqualsDebugOn(expected, found, msg);
     },
 
@@ -359,7 +359,7 @@ qx.Mixin.define("qx.core.MAssert",
      * This assertion is only evaluated if "qx.debug" if "on"
      * @signature function()
      */
-    assertMatchDebugOn : function(value, msg) {
+    assertMatchDebugOn : function(str, re, msg) {
       qx.core.Assert.assertMatchDebugOn(str, re, msg);
     },
 
