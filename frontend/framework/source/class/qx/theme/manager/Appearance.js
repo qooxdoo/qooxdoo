@@ -88,7 +88,7 @@ qx.Class.define("qx.theme.manager.Appearance",
 
 
     /**
-     * Sync dependend objects with internal database
+     * Sync dependent objects with internal database
      *
      * @type member
      * @return {void}
@@ -200,9 +200,9 @@ qx.Class.define("qx.theme.manager.Appearance",
       if (entry.include || entry.base)
       {
         // This process tries to insert the original data first, and
-        // append the new data later, to higher priorise the local
+        // append the new data later, to higher prioritize the local
         // data above the included/inherited data. This is especially needed
-        // for property groups or properties which includences other
+        // for property groups or properties which includes other
         // properties when modified.
         var local = entry.style(states);
 
