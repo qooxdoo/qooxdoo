@@ -44,52 +44,21 @@ qx.Class.define("qx.ui.form.ComboBox",
     this._setLayout(layout);
     layout.setAlignY("middle");
 
-    // create the textField
-    this._textField = new qx.ui.form.TextField();
-    this._textField.setAppearance("spinner-text-field");    
-    this._add(this._textField, {flex: 1});
+    this._getChildControl("textfield");
+    this._getChildControl("button");
     
-    // create the button
-    this._button = new qx.ui.form.Button(null, "decoration/arrows/down.gif");
-    this._button.setFocusable(false);
-    this._add(this._button);
-
-    // create the popup list
-    this._listPopup = new qx.ui.popup.Popup(new qx.ui.layout.VBox()).set({
-      autoHide: false
-    });
-
-    this._list = new qx.ui.form.List().set({
-      focusable: false,
-      keepFocus: true,
-      height: null,
-      width: null,
-      maxHeight: this.getMaxListHeight(),
-      selectionMode: "one"
-    });
-    this._listPopup.add(this._list);
-
-
-    this._list.addListener("change", function(e) {
-      if (e.getData().length > 0) {
-        this.setSelectedItem(e.getData()[0]);
-      }
-    }, this);
-
+    var list = this._getChildControl("list");
+    var listPopup = this._getChildControl("list-popup");
+    listPopup.add(list);
 
     this.addListener("resize", function(e) {
-      this._list.setMinWidth(e.getData().width);
+      list.setMinWidth(e.getData().width);
     });
 
-    this._button.addListener("click", this._onClick, this);
     this.addListener("keypress", this._onKeyPress);
     this.addListener("blur", this._hideList, this);
 
-    this._listPopup.addListener("mouseup", this._hideList, this);
-    this._listPopup.addListener("changeVisibility", this._onChangeVisibilityList, this);
     
-    this._textField.addListener("blur", this._onTextBlur, this);
-    this._textField.addListener("focus", this._onTextFocus, this);    
   },
 
 
@@ -151,6 +120,64 @@ qx.Class.define("qx.ui.form.ComboBox",
 
   members :
   {
+    // overridden
+    _createChildControlImpl : function(id)
+    {
+      var control;
+
+      switch(id)
+      {
+        case "textfield":
+          // create the textField
+          control = new qx.ui.form.TextField();
+          control.setAppearance("spinner-text-field");    
+          control.addListener("blur", this._onTextBlur, this);
+          control.addListener("focus", this._onTextFocus, this);    
+          this._add(control, {flex: 1});
+        break;
+
+        case "button":
+          // create the button
+          control = new qx.ui.form.Button(null, "decoration/arrows/down.gif");
+          control.setFocusable(false);
+          control.addListener("click", this._onClick, this);
+          this._add(control);
+        break;
+
+        case "list":
+          control = new qx.ui.form.List().set({
+            focusable: false,
+            keepFocus: true,
+            height: null,
+            width: null,
+            maxHeight: this.getMaxListHeight(),
+            selectionMode: "one"
+          });
+
+          control.addListener("change", function(e) {
+            if (e.getData().length > 0) {
+              this.setSelectedItem(e.getData()[0]);
+            }
+          }, this);
+        break;
+
+        case "list-popup":
+          // create the popup list
+          control = new qx.ui.popup.Popup(new qx.ui.layout.VBox()).set({
+            autoHide: false
+          });
+          control.addListener("mouseup", this._hideList, this);
+          control.addListener("changeVisibility", this._onChangeVisibilityList, this);
+        break;
+
+      }
+      return control || this.base(arguments, id);
+    },
+
+
+    
+    
+    
     /*
     ---------------------------------------------------------------------------
       APPLY ROUTINES
@@ -159,18 +186,18 @@ qx.Class.define("qx.ui.form.ComboBox",
 
     _applySelectedItem : function(value, old)
     {
-      this._textField.setValue(value.getLabel());
-      this._list.select(value);
+      this._getChildControl("textfield").setValue(value.getLabel());
+      this._getChildControl("list").select(value);
     },
 
     _applyMaxListHeight : function(value, old) {
-      this._list.setMaxHeight(value);
+      this._getChildControl("list").setMaxHeight(value);
     },
 
 
     getChildrenContainer : function()
     {
-      return this._list;
+      return this._getChildControl("list");
     },
 
 
@@ -189,38 +216,41 @@ qx.Class.define("qx.ui.form.ComboBox",
 
       var spaceAbove = pos.top;
       var spaceBelow = clientHeight - pos.bottom;
+      
+      var list = this._getChildControl("list");
+      var listPopup = this._getChildControl("list-popup");
 
-      this._list.setMaxHeight(this.getMaxListHeight());
+      list.setMaxHeight(this.getMaxListHeight());
 
-      var listHeight = this._list.getSizeHint().height;
+      var listHeight = list.getSizeHint().height;
 
       // case 1: List fits below the button
       if (spaceBelow > listHeight) {
-        this._listPopup.moveTo(pos.left, pos.bottom);
+        listPopup.moveTo(pos.left, pos.bottom);
 
       // case 2: list does not fit below the button but above it
       } else if (spaceAbove > listHeight) {
-        this._listPopup.moveTo(pos.left, pos.top - listHeight);
+        listPopup.moveTo(pos.left, pos.top - listHeight);
 
       // case 3: List does not fit at all
       } else if (spaceBelow > spaceAbove) {
-        this._list.setMaxHeight(spaceBelow);
-        this._listPopup.moveTo(pos.left, pos.bottom);
+        list.setMaxHeight(spaceBelow);
+        listPopup.moveTo(pos.left, pos.bottom);
 
       // case 4: List must be fittet above the button
       } else {
-        this._list.setMaxHeight(spaceAbove);
-        this._listPopup.moveTo(pos.left, pos.bottom - listHeight);
+        list.setMaxHeight(spaceAbove);
+        listPopup.moveTo(pos.left, pos.bottom - listHeight);
       }
 
-      this._listPopup.show();
+      listPopup.show();
     },
 
 
     _hideList : function()
     {
-      this._listPopup.hide();
-      this._textField.activate();
+      this._getChildControl("list-popup").hide();
+      this._getChildControl("textfield").activate();
     },
 
     
@@ -257,7 +287,7 @@ qx.Class.define("qx.ui.form.ComboBox",
     {
       // Redirct focus to text field
       // State handling is done by _onTextFocus afterwards
-      this._textField.focus();
+      this._getChildControl("textfield").focus();
     },
     
 
@@ -270,11 +300,12 @@ qx.Class.define("qx.ui.form.ComboBox",
     {
       // get the key identifier
       var identifier = e.getKeyIdentifier();
+      var listPopup = this._getChildControl("list-popup");
 
       // disabled pageUp and pageDown keys
       if (identifier == "PageDown" || identifier == "PageUp")
       {
-        if (this._listPopup.getVisibility() != "visible") {
+        if (listPopup.getVisibility() != "visible") {
           return;
         }
       }
@@ -284,7 +315,7 @@ qx.Class.define("qx.ui.form.ComboBox",
       {
 
         // if the list is visible
-        if (this._listPopup.getVisibility() == "visible") {
+        if (listPopup.getVisibility() == "visible") {
           this._hideList();
         } else {
           this._showList();
@@ -300,13 +331,13 @@ qx.Class.define("qx.ui.form.ComboBox",
         return;
       }
       // forward the rest of the events to the list
-      this._list.handleKeyPress(e);
+      this._getChildControl("list").handleKeyPress(e);
     },
 
 
     _onClick : function(e)
     {
-      var isListOpen = this._listPopup.getVisibility() == "visible";
+      var isListOpen = this._getChildControl("list-popup").getVisibility() == "visible";
       if (isListOpen) {
         this._hideList();
       } else {
@@ -332,11 +363,12 @@ qx.Class.define("qx.ui.form.ComboBox",
     _onMouseDownRoot : function(e)
     {
       var target = e.getTarget();
+      var listPopup = this._getChildControl("list-popup");
       if (
         target !== this &&
-        target !== this._listPopup &&
+        target !== listPopup &&
         !qx.ui.core.Widget.contains(this, target) &&
-        !qx.ui.core.Widget.contains(this._listPopup, target)
+        !qx.ui.core.Widget.contains(listPopup, target)
       ) {
         this._hideList();
       }
