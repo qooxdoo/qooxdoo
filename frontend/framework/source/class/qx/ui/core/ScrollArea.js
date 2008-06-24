@@ -200,6 +200,7 @@ qx.Class.define("qx.ui.core.ScrollArea",
     
 
 
+
     /*
     ---------------------------------------------------------------------------
       SCROLL SUPPORT
@@ -282,62 +283,6 @@ qx.Class.define("qx.ui.core.ScrollArea",
     
 
 
-    /*
-    ---------------------------------------------------------------------------
-      ITEM INTO VIEW
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * The method scrolls the given item into view.
-     *
-     * @type static
-     * @param item {qx.ui.core.Widget} Item to scroll into view
-     * @param alignX {String?null} Alignment of the item. Allowed values:
-     *   <code>left</code> or <code>right</code>. Could also be null.
-     *   Without a given alignment the method tries to scroll the widget
-     *   with the minimum effort needed.
-     * @param alignY {String?null} Alignment of the item. Allowed values:
-     *   <code>top</code> or <code>bottom</code>. Could also be null.
-     *   Without a given alignment the method tries to scroll the widget
-     *   with the minimum effort needed.
-     */
-    scrollItemIntoView : function(item, alignX, alignY) {
-      return this._getChildControl("pane").scrollItemIntoView(item, alignX, alignY);
-    },
-
-
-    /**
-     * The method scrolls the given item into view (x-axis only).
-     *
-     * @type static
-     * @param item {qx.ui.core.Widget} Item to scroll into view
-     * @param align {String?null} Alignment of the item. Allowed values:
-     *   <code>left</code> or <code>right</code>. Could also be null.
-     *   Without a given alignment the method tries to scroll the widget
-     *   with the minimum effort needed.
-     */
-    scrollItemIntoViewX : function(item, align) {
-      return this._getChildControl("pane").scrollItemIntoViewX(item, align);
-    },
-
-
-    /**
-     * The method scrolls the given item into view (y-axis only).
-     *
-     * @type static
-     * @param item {qx.ui.core.Widget} Item to scroll into view
-     * @param align {String?null} Alignment of the element. Allowed values:
-     *   <code>top</code> or <code>bottom</code>. Could also be null.
-     *   Without a given alignment the method tries to scroll the widget
-     *   with the minimum effort needed.
-     */
-    scrollItemIntoViewY : function(item, align) {
-      return this._getChildControl("pane").scrollItemIntoViewY(item, align);
-    },
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -377,7 +322,7 @@ qx.Class.define("qx.ui.core.ScrollArea",
      * @return {void}
      */    
     _onScrollPaneX : function(e) {
-      this.scrollToX(e.getData());
+      this.scrollToX(e.getValue());
     },
     
     
@@ -389,7 +334,7 @@ qx.Class.define("qx.ui.core.ScrollArea",
      * @return {void}
      */    
     _onScrollPaneY : function(e) {
-      this.scrollToY(e.getData());
+      this.scrollToY(e.getValue());
     },
     
 
