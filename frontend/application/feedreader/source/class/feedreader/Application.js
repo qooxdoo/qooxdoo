@@ -86,6 +86,8 @@ qx.Class.define("feedreader.Application",
         qx.log.appender.Console;
       }
 
+      qx.locale.Manager.getInstance().setLocale("de");
+
       // Initialize the model
       this._initializeModel();
 
@@ -335,7 +337,7 @@ qx.Class.define("feedreader.Application",
      * Shows the about popup for the application.
      */
     showAbout : function() {
-      alert("FeedReader (qooxdoo powered)");
+      alert(this.tr("FeedReader (qooxdoo powered)"));
     },
 
 

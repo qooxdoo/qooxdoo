@@ -12,3 +12,75 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: feedreader/Application.js:340
+msgid "FeedReader (qooxdoo powered)"
+msgstr ""
+
+#: feedreader/view/AddFeedWindow.js:51
+msgid "Add a feed"
+msgstr ""
+
+#: feedreader/view/AddFeedWindow.js:86
+msgid "Feed Information"
+msgstr ""
+
+#: feedreader/view/AddFeedWindow.js:95
+msgid "Title:"
+msgstr ""
+
+#: feedreader/view/AddFeedWindow.js:98
+msgid "URL:"
+msgstr ""
+
+#: feedreader/view/AddFeedWindow.js:132
+msgid "Please enter a title."
+msgstr ""
+
+#: feedreader/view/AddFeedWindow.js:140
+msgid "Please enter a url."
+msgstr ""
+
+#: feedreader/view/List.js:43
+msgid "Posts"
+msgstr ""
+
+#: feedreader/view/PreferenceWindow.js:46 feedreader/view/ToolBar.js:88
+msgid "Preferences"
+msgstr ""
+
+#: feedreader/view/PreferenceWindow.js:81
+msgid "Theme"
+msgstr ""
+
+#: feedreader/view/PreferenceWindow.js:88
+msgid "Classic"
+msgstr ""
+
+#: feedreader/view/PreferenceWindow.js:91
+msgid "Modern"
+msgstr ""
+
+#: feedreader/view/ToolBar.js:62
+msgid "Add feed"
+msgstr ""
+
+#: feedreader/view/ToolBar.js:66
+msgid "Remove feed"
+msgstr ""
+
+#: feedreader/view/ToolBar.js:76
+msgid "Reload"
+msgstr ""
+
+#: feedreader/view/ToolBar.js:79
+msgid "Reload the feeds. (%1)"
+msgstr ""
+
+#: feedreader/view/ToolBar.js:90
+msgid "Open preferences window."
+msgstr ""
+
+#: feedreader/view/ToolBar.js:99
+msgid "Help"
+msgstr ""
