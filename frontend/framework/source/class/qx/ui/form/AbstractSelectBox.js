@@ -13,6 +13,8 @@
      See the LICENSE file in the project's top-level directory for details.
 
    Authors:
+     * Martin Wittemann (martinwittemann)
+     * Sebastian Werner (wpbasti)
      * Jonathan Rass (jonathan_rass)
 
 ************************************************************************ */
@@ -41,9 +43,6 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
     var layout = new qx.ui.layout.HBox();
     this._setLayout(layout);
     layout.setAlignY("middle");
-
-    // Trigger child widget creation
-    this._createChildControl("textfield");
 
     this.addListener("keypress", this._onKeyPress);
     this.addListener("blur", this._hideList, this);
@@ -74,7 +73,7 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
 
     /**
      * The maximum height of the list popup. Setting this value to
-     * <code>null</code> will set cause the list to be autosized.
+     * <code>null</code> will set cause the list to be auto-sized.
      */
     maxListHeight :
     {
@@ -106,8 +105,6 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
           // create the textField
           control = new qx.ui.form.TextField();
           control.setAppearance("spinner-text-field");    
-          control.addListener("blur", this._onTextBlur, this);
-          control.addListener("focus", this._onTextFocus, this);    
           this._add(control, {flex: 1});
         break;
 
@@ -134,7 +131,6 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
             autoHide: false
           });
           control.addListener("mouseup", this._hideList, this);
-          control.addListener("changeVisibility", this._onChangeVisibilityList, this);
         break;
 
       }
@@ -203,7 +199,7 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
         list.setMaxHeight(spaceBelow);
         listPopup.moveTo(pos.left, pos.bottom);
 
-      // case 4: List must be fittet above the button
+      // case 4: List must be fitted above the button
       } else {
         list.setMaxHeight(spaceAbove);
         listPopup.moveTo(pos.left, pos.bottom - listHeight);
@@ -217,6 +213,35 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
     {
       this._getChildControl("list-popup").hide();
     },
+
+    
+    /*
+    ---------------------------------------------------------------------------
+      FOCUS
+    ---------------------------------------------------------------------------
+    */    
+    /**
+     * Callback method for the "blur" event of the textfield.
+     *
+     * @type member
+     * @param e {qx.ui.event.type.Event} blur event
+     */
+    _onTextBlur: function(e)
+    {
+      this.removeState("focused");
+    },
+
+
+    /**
+     * Callback method for the "focus" event of the textfield.
+     *
+     * @type member
+     * @param e {qx.ui.event.type.Event} blur event
+     */
+    _onTextFocus : function(e) {
+      this.addState("focused");
+    },
+
 
     /*
     ---------------------------------------------------------------------------
