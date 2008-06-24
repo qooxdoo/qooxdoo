@@ -183,7 +183,7 @@ qx.Class.define("qx.legacy.ui.basic.Atom",
       apply : "_applyLabel",
       nullable : true,
       dispose : true,
-      check : "Label"
+      check : "String"
     },
 
 

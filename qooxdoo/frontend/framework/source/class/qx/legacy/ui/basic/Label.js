@@ -60,6 +60,10 @@ qx.Class.define("qx.legacy.ui.basic.Label",
       this.setMnemonic(mnemonic);
     }
 
+    if (qx.core.Variant.isSet("qx.dynamicLocaleSwitch", "on")) {
+      qx.locale.Manager.getInstance().addListener("changeLocale", this._onChangeLocale, this)
+    }
+
     // Property init
     this.initWidth();
     this.initHeight();
@@ -174,7 +178,7 @@ qx.Class.define("qx.legacy.ui.basic.Label",
       init : "",
       dispose : true,
       event : "changeText",
-      check : "Label"
+      check : "String"
     },
 
 
@@ -371,17 +375,18 @@ qx.Class.define("qx.legacy.ui.basic.Label",
     ---------------------------------------------------------------------------
     */
 
+    _onChangeLocale : qx.core.Variant.select("qx.dynamicLocaleSwitch",
+    {
+      "on" : function(e)
+      {
+        var text = this.getText();
+        if (text.messageId) {
+          this.setText(qx.locale.Manager.getInstance().translate(text.messageId, text.args));
+        }
+      },
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param value {var} Current value
-     * @param old {var} Previous value
-     */
-    _applyText : function(value, old) {
-      qx.locale.Manager.getInstance().connect(this._syncText, this, this.getText());
-    },
+      "off" : null
+    }),
 
 
     /**
@@ -389,7 +394,7 @@ qx.Class.define("qx.legacy.ui.basic.Label",
      *
      * @param text {String} new label text
      */
-    _syncText : function(text)
+    _applyText : function(text)
     {
       var mode = this.getMode();
 
