@@ -29,9 +29,6 @@
  * @appearance tree-element-label {qx.ui.basic.Label}
  */
 
-/*
-#use(qx.locale.Manager)
-*/
 qx.Class.define("qx.ui.tree.AbstractTreeItem",
 {
   extend : qx.ui.core.Widget,

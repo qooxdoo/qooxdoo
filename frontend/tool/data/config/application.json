@@ -8,7 +8,7 @@
 		}
   ],
 
-	"export" : ["build", "source", "api"],
+	"export" : ["build", "source", "api", "translate"],
 
   "jobs" :
   {
@@ -129,6 +129,17 @@
     },
 
 
+    "translate" :
+    {
+      "extend" : ["common"],
+
+      "translation" :
+      {
+        "update" : ["${APPLICATION}"]
+      }
+    },    
+    
+    
     "api" :
     {
       "extend" : ["apiconf/build"],

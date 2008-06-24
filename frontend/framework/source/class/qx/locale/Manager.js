@@ -31,7 +31,7 @@
 qx.Class.define("qx.locale.Manager",
 {
   type : "singleton",
-  extend : qx.util.ValueManager,
+  extend : qx.core.Object,
 
 
 
@@ -76,7 +76,7 @@ qx.Class.define("qx.locale.Manager",
      * @type static
      * @param messageId {String} message id (may contain format strings)
      * @param varargs {Object} variable number of argumes applied to the format string
-     * @return {String|qx.locale.LocalizedString} TODOC
+     * @return {String} The translated string
      * @see qx.lang.String.format
      */
     tr : function(messageId, varargs)
@@ -98,7 +98,7 @@ qx.Class.define("qx.locale.Manager",
      * @param pluralMessageId {String} message id of the plural form (may contain format strings)
      * @param count {Integer} if greater than 1 the plural form otherwhise the singular form is returned.
      * @param varargs {Object} variable number of argumes applied to the format string
-     * @return {String|qx.locale.LocalizedString} TODOC
+     * @return {String} The translated string
      * @see qx.lang.String.format
      */
     trn : function(singularMessageId, pluralMessageId, count, varargs)
@@ -121,7 +121,7 @@ qx.Class.define("qx.locale.Manager",
      * @param hint {String} hint for the translator of the message. Will be included in the .pot file.
      * @param messageId {String} message id (may contain format strings)
      * @param varargs {Object} variable number of argumes applied to the format string
-     * @return {String|qx.locale.LocalizedString} TODOC
+     * @return {String} The translated string
      * @see qx.lang.String.format
      */
     trc : function(hint, messageId, varargs)
@@ -181,7 +181,7 @@ qx.Class.define("qx.locale.Manager",
 
 
     /**
-     * Get the language code of the currnt locale
+     * Get the language code of the current locale
      *
      * This is the first part of a locale definition. The language for "de_DE" would be "de"
      *
@@ -194,7 +194,7 @@ qx.Class.define("qx.locale.Manager",
 
 
     /**
-     * Get the territory code of the currnt locale
+     * Get the territory code of the current locale
      *
      * This is the second part of a locale definition. The territory for "de_DE" would be "DE"
      *
@@ -236,7 +236,7 @@ qx.Class.define("qx.locale.Manager",
      * @param locale {String} locale to be used
      * @return {String} language
      */
-    _extractLanguage : function(locale)
+    __extractLanguage : function(locale)
     {
       var language;
       var pos = locale.indexOf("_");
@@ -255,8 +255,7 @@ qx.Class.define("qx.locale.Manager",
     _applyLocale : function(value, old)
     {
       this._locale = value;
-      this._language = this._extractLanguage(value);
-      this.updateAll();
+      this._language = this.__extractLanguage(value);
     },
 
 
@@ -284,19 +283,6 @@ qx.Class.define("qx.locale.Manager",
 
 
     /**
-     * Extract language code from class name and add a translation to the translation manager
-     *
-     * @type member
-     * @param classname {String} class name of a translation
-     * @param translationMap {Map} mapping of message identifiers (english text) to the target language
-     * @return {void}
-     */
-    addTranslationFromClass : function(classname, translationMap) {
-      this.addTranslation(classname.substring(classname.lastIndexOf(".")+1), translationMap);
-    },
-
-
-    /**
      * Translate a message using the current locale and apply format string to the arguments.
      *
      * @type member
@@ -310,7 +296,7 @@ qx.Class.define("qx.locale.Manager",
       var txt;
 
       if (locale) {
-        var language = this._extractLanguage(locale);
+        var language = this.__extractLanguage(locale);
       }
       else
       {
@@ -357,33 +343,7 @@ qx.Class.define("qx.locale.Manager",
       }
 
       return txt;
-    },
-
-
-    /**
-     * Overridden method from {@link qx.util.ValueManager}.
-     *
-     * @internal
-     * @param text {LocalizedString|String} input text
-     * @return {Boolean} whether the string value is dynamic
-     */
-    isDynamic : function(text) {
-      return text instanceof qx.locale.LocalizedString;
-    },
-
-
-    /**
-     * Overridden method from {@link qx.util.ValueManager}.
-     *
-     * @internal
-     * @param text {LocalizedString} input text
-     * @return {String} current value of the localized string.
-     */
-    resolveDynamic : function(text) {
-      return text.toString();
     }
-
-
   },
 
 
