@@ -73,7 +73,7 @@ qx.Class.define("qx.bom.element.Scroll",
         // "overflow" is always visible for both: document.body and document.documentElement
         if (parent.scrollWidth > parent.clientWidth && (parent === body || qx.bom.element.Overflow.getY(parent) != "visible"))
         {
-          // console.debug("Process...")
+          // console.debug("Process: " + parent.$$hash);
 
           // Calculate parent data
           // Special handling for body element
@@ -144,15 +144,21 @@ qx.Class.define("qx.bom.element.Scroll",
             // console.debug("Go Up...");
             scrollDiff = rightOffset + parentScrollBarWidth;
           }
-
+          
           // console.log("Scroll by: " + scrollDiff);
           parent.scrollLeft += scrollDiff;
+
+          // Firefox 3 seems to fire the scroll event asynchronously
+          // We fire another one a bit earlier here
+          if (qx.bom.client.Engine.GECKO) {
+            qx.event.Registration.fireNonBubblingEvent(parent, "scroll");
+          }
         }
 
         if (parent === body) {
           break;
         }
-
+        
         parent = parent.parentNode;
       }
     },
@@ -194,7 +200,7 @@ qx.Class.define("qx.bom.element.Scroll",
         // "overflow" is always visible for both: document.body and document.documentElement
         if (parent.scrollHeight > parent.clientHeight && (parent === body || qx.bom.element.Overflow.getY(parent) != "visible"))
         {
-          // console.debug("Process...")
+          // console.debug("Process: " + parent.$$hash);
 
           // Calculate parent data
           // Special handling for body element
@@ -266,8 +272,13 @@ qx.Class.define("qx.bom.element.Scroll",
             scrollDiff = bottomOffset + parentScrollBarHeight;
           }
 
-          // console.log("Scroll by: " + scrollDiff);
           parent.scrollTop += scrollDiff;
+          
+          // Firefox 3 seems to fire the scroll event asynchronously
+          // We fire another one a bit earlier here
+          if (qx.bom.client.Engine.GECKO) {
+            qx.event.Registration.fireNonBubblingEvent(parent, "scroll");
+          }
         }
 
         if (parent === body) {
