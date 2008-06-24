@@ -71,9 +71,11 @@ qx.Class.define("qx.ui.core.selection.ScrollArea",
     // overridden
     _getScroll : function()
     {
+      var widget = this._widget;
+      
       return {
-        left : this._widget.getScrollX(),
-        top : this._widget.getScrollY()
+        left : widget.getScrollX(),
+        top : widget.getScrollY()
       };
     },
 
@@ -87,11 +89,6 @@ qx.Class.define("qx.ui.core.selection.ScrollArea",
       widget.scrollByY(yoff);
     },
 
-
-    // overridden
-    _scrollItemIntoView : function(item) {
-      this._widget.scrollItemIntoView(item);
-    },
 
 
 
