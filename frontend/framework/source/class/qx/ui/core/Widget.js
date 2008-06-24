@@ -128,18 +128,18 @@ qx.Class.define("qx.ui.core.Widget",
 
 
 
-    /** Fired if the mouse curser moves over the widget. */
+    /** Fired if the mouse cursor moves over the widget. */
     mousemove : "qx.event.type.Mouse",
 
     /**
-     * Fired if the mouse curser enters the widget.
+     * Fired if the mouse cursor enters the widget.
      *
      * Note: This event is also dispatched if the widget is disabled!
      */
     mouseover : "qx.event.type.Mouse",
 
     /**
-     * Fired if the mouse curser leaves widget.
+     * Fired if the mouse cursor leaves widget.
      *
      * Note: This event is also dispatched if the widget is disabled!
      */
@@ -178,7 +178,7 @@ qx.Class.define("qx.ui.core.Widget",
     keydown : "qx.event.type.KeySequence",
 
     /**
-     * This event is fired anytime a key is pressed. It will be repeated if
+     * This event is fired any time a key is pressed. It will be repeated if
      * the user keeps the key pressed. The pressed key can be determined using
      * {@link qx.event.type.KeySequence#getKeyIdentifier}.
      */
@@ -204,7 +204,7 @@ qx.Class.define("qx.ui.core.Widget",
     focus : "qx.event.type.Focus",
 
     /**
-     * The event is fired when the widget gets blured. Only widgets which are
+     * The event is fired when the widget gets blurred. Only widgets which are
      * {@link #focusable} receive this event.
      */
     blur : "qx.event.type.Focus",
@@ -225,7 +225,7 @@ qx.Class.define("qx.ui.core.Widget",
     activate : "qx.event.type.Focus",
 
     /**
-     * When the widget gets deactive
+     * When the widget gets inactive
      */
     deactivate : "qx.event.type.Focus",
 
@@ -1844,29 +1844,7 @@ qx.Class.define("qx.ui.core.Widget",
         }
         return;
       }
-
-      qx.theme.manager.Color.getInstance().connect(this._styleTextColor, this, value);
     },
-
-
-    /**
-     * Callback for color manager connection
-     *
-     * @type member
-     * @param color {Color} any CSS acceptable color value
-     * @return {void}
-     */
-    _styleTextColor : function(color)
-    {
-      if (color) {
-        this._contentElement.setStyle("color", color);
-      } else {
-        this._contentElement.removeStyle("color");
-      }
-    },
-
-
-
 
 
 
