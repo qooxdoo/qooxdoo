@@ -22,7 +22,7 @@
 #require qx.locale.data.C
 */
 
-qx.Class.define("testrunner.test.Locale",
+qx.Class.define("testrunner.test.locale.Date",
 {
   extend : qx.dev.unit.TestCase,
 
@@ -33,23 +33,25 @@ qx.Class.define("testrunner.test.Locale",
       this.assertNotUndefined(qx.locale.Date);
       var Date = qx.locale.Date;
 
+      qx.locale.Manager.getInstance().setLocale("C");
+
       this.assertEquals("AM", Date.getAmMarker("C"));
       this.assertEquals("PM", Date.getPmMarker("C"));
 
       var abbrDays = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
-      this.assertJsonEquals(abbrDays, Date.getDayNames("abbreviated", "C"));
+      this.assertJsonEquals(abbrDays, Date.getDayNames("abbreviated", "C").map(function(v) {return v+"";}));
       for (var i=0; i<7; i++) {
         this.assertEquals(abbrDays[i], Date.getDayName("abbreviated", i, "C"));
       }
 
       var narrowDays = ["S","M","T","W","T","F","S"];
-      this.assertJsonEquals(narrowDays, Date.getDayNames("narrow", "C"));
+      this.assertJsonEquals(narrowDays, Date.getDayNames("narrow", "C").map(function(v) {return v+""}));
       for (var i=0; i<7; i++) {
         this.assertEquals(narrowDays[i], Date.getDayName("narrow", i, "C"));
       }
 
       var wideDays = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
-      this.assertJsonEquals(wideDays, Date.getDayNames("wide", "C"));
+      this.assertJsonEquals(wideDays, Date.getDayNames("wide", "C").map(function(v) {return v+""}));
 
       for (var i=0; i<7; i++) {
         this.assertEquals(wideDays[i], Date.getDayName("wide", i, "C"));
