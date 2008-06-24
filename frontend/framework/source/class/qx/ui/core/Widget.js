@@ -2406,6 +2406,68 @@ qx.Class.define("qx.ui.core.Widget",
 
 
 
+
+    /*
+    ---------------------------------------------------------------------------
+      SCROLL CHILD INTO VIEW
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * The method scrolls the given item into view.
+     *
+     * @type static
+     * @param item {qx.ui.core.Widget} Item to scroll into view
+     * @param alignX {String?null} Alignment of the item. Allowed values:
+     *   <code>left</code> or <code>right</code>. Could also be null.
+     *   Without a given alignment the method tries to scroll the widget
+     *   with the minimum effort needed.
+     * @param alignY {String?null} Alignment of the item. Allowed values:
+     *   <code>top</code> or <code>bottom</code>. Could also be null.
+     *   Without a given alignment the method tries to scroll the widget
+     *   with the minimum effort needed.
+     */
+    scrollChildIntoView : function(item, alignX, alignY)
+    {
+      this.scrollChildIntoViewX(item, alignX);
+      this.scrollChildIntoViewY(item, alignY);
+    },
+
+
+    /**
+     * The method scrolls the given item into view (x-axis only).
+     *
+     * @type static
+     * @param item {qx.ui.core.Widget} Item to scroll into view
+     * @param align {String?null} Alignment of the item. Allowed values:
+     *   <code>left</code> or <code>right</code>. Could also be null.
+     *   Without a given alignment the method tries to scroll the widget
+     *   with the minimum effort needed.
+     */
+    scrollChildIntoViewX : function(item, align) {
+      this._contentElement.scrollChildIntoViewX(item.getContainerElement(), align);
+    },
+
+
+    /**
+     * The method scrolls the given item into view (y-axis only).
+     *
+     * @type static
+     * @param item {qx.ui.core.Widget} Item to scroll into view
+     * @param align {String?null} Alignment of the element. Allowed values:
+     *   <code>top</code> or <code>bottom</code>. Could also be null.
+     *   Without a given alignment the method tries to scroll the widget
+     *   with the minimum effort needed.
+     */
+    scrollChildIntoViewY : function(item, align) {
+      this._contentElement.scrollChildIntoViewY(item.getContainerElement(), align);
+    },
+    
+    
+    
+    
+    
+
     /*
     ---------------------------------------------------------------------------
       FOCUS SYSTEM USER ACCESS

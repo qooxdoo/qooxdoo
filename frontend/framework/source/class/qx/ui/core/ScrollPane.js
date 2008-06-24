@@ -44,6 +44,9 @@ qx.Class.define("qx.ui.core.ScrollPane",
 
     // Add resize listener to "translate" event
     this.addListener("resize", this._onUpdate);
+    
+    //
+    this._contentElement.addListener("scroll", this._onScroll, this);
   },
 
 
@@ -58,20 +61,37 @@ qx.Class.define("qx.ui.core.ScrollPane",
   events :
   {
     /** Fired on resize of both the container or the content. */
-    update : "qx.event.type.Event",
-
-    /**
-     * Fired if the pane is scrolled vertically. The data field contains the new
-     * scroll position.
-     */
-    scrollY : "qx.event.type.Data",
-
-    /**
-     * Fired if the pane is scrolled horizontally. The data field contains the new
-     * scroll position.
-     */
-    scrollX : "qx.event.type.Data"
+    update : "qx.event.type.Event"
   },
+
+
+
+
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+
+  properties :
+  {
+    scrollX : 
+    {
+      check : "typeof value=='number'&&value>=0&&value<=this.getScrollMaxX()",
+      apply : "_applyScrollX",
+      event : "scrollX",
+      init  : 0
+    },
+    
+    scrollY : 
+    {
+      check : "typeof value=='number'&&value>=0&&value<=this.getScrollMaxY()",
+      apply : "_applyScrollY",
+      event : "scrollY",
+      init  : 0
+    }
+  },
+
 
 
 
@@ -144,6 +164,7 @@ qx.Class.define("qx.ui.core.ScrollPane",
     },
 
 
+
     /*
     ---------------------------------------------------------------------------
       EVENT LISTENER
@@ -151,7 +172,7 @@ qx.Class.define("qx.ui.core.ScrollPane",
     */
 
     /**
-     * Event listener for resize event of content and  container
+     * Event listener for resize event of content and container
      *
      * @type member
      * @param e {Event} Resize event object
@@ -159,6 +180,22 @@ qx.Class.define("qx.ui.core.ScrollPane",
     _onUpdate : function(e) {
       this.fireEvent("update");
     },
+    
+    
+    /**
+     * Event listener for scroll event of content
+     *
+     * @type member
+     * @param e {Event} Scroll event object
+     */    
+    _onScroll : function(e) 
+    {
+      this.setScrollX(this._contentElement.getScrollX());
+      this.setScrollY(this._contentElement.getScrollY());     
+    },
+
+
+
 
 
     /*
@@ -244,6 +281,9 @@ qx.Class.define("qx.ui.core.ScrollPane",
     },
 
 
+
+
+
     /*
     ---------------------------------------------------------------------------
       DIMENSIONS
@@ -261,161 +301,11 @@ qx.Class.define("qx.ui.core.ScrollPane",
     },
 
 
-    /*
-    ---------------------------------------------------------------------------
-      ITEM INTO VIEW
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * The method scrolls the given item into view.
-     *
-     * @type static
-     * @param item {qx.ui.core.Widget} Item to scroll into view
-     * @param alignX {String?null} Alignment of the item. Allowed values:
-     *   <code>left</code> or <code>right</code>. Could also be null.
-     *   Without a given alignment the method tries to scroll the widget
-     *   with the minimum effort needed.
-     * @param alignY {String?null} Alignment of the item. Allowed values:
-     *   <code>top</code> or <code>bottom</code>. Could also be null.
-     *   Without a given alignment the method tries to scroll the widget
-     *   with the minimum effort needed.
-     */
-    scrollItemIntoView : function(item, alignX, alignY)
-    {
-      this.scrollItemIntoViewX(item, alignX);
-      this.scrollItemIntoViewY(item, alignY);
-    },
 
 
-    /**
-     * The method scrolls the given item into view (x-axis only).
-     *
-     * @type static
-     * @param item {qx.ui.core.Widget} Item to scroll into view
-     * @param align {String?null} Alignment of the item. Allowed values:
-     *   <code>left</code> or <code>right</code>. Could also be null.
-     *   Without a given alignment the method tries to scroll the widget
-     *   with the minimum effort needed.
-     */
-    scrollItemIntoViewX : function(item, align)
-    {
-      var paneSize = this.getBounds();
-      var itemSize = item.getBounds();
-
-      if (!paneSize || !itemSize)
-      {
-        this.__lazyScrollIntoViewX = [ item, align ];
-        if (!this.__lazyScrollIntoViewY) {
-          this.addListener("appear", this._onAppear);
-        }
-      }
-      else
-      {
-        delete this.__lazyScrollIntoViewX;
-        if (!this.__lazyScrollIntoViewY) {
-          this.removeListener("appear", this._onAppear);
-        }
-
-        var scrollPos = this.getScrollX();
-        var itemPos = this.getItemLeft(item);
-
-        if (align == null && itemSize.width > paneSize.width)
-        {
-          if (itemPos > scrollPos) {
-            this.scrollToX(itemPos);
-          } else if ((itemPos + itemSize.width) < (paneSize.width + scrollPos)) {
-            this.scrollToX(itemPos + itemSize.width - paneSize.width);
-          }
-        }
-        else if (align === "left" || (align == null &&itemPos < scrollPos))
-        {
-          this.scrollToX(itemPos);
-        }
-        else if (align === "right" || (align == null && (itemPos + itemSize.width) > (paneSize.width + scrollPos)))
-        {
-          this.scrollToX(itemPos + itemSize.width - paneSize.width);
-        }
-      }
-    },
 
 
-    /**
-     * The method scrolls the given item into view (y-axis only).
-     *
-     * @type static
-     * @param item {qx.ui.core.Widget} Item to scroll into view
-     * @param align {String?null} Alignment of the element. Allowed values:
-     *   <code>top</code> or <code>bottom</code>. Could also be null.
-     *   Without a given alignment the method tries to scroll the widget
-     *   with the minimum effort needed.
-     */
-    scrollItemIntoViewY : function(item, align)
-    {
-      var paneSize = this.getBounds();
-      var itemSize = item.getBounds();
 
-      if (!paneSize || !itemSize)
-      {
-        this.__lazyScrollIntoViewY = [ item, align ];
-        if (!this.__lazyScrollIntoViewX) {
-          this.addListener("appear", this._onAppear);
-        }
-      }
-      else
-      {
-        delete this.__lazyScrollIntoViewY;
-        if (!this.__lazyScrollIntoViewX) {
-          this.removeListener("appear", this._onAppear);
-        }
-
-        var scrollPos = this.getScrollY();
-        var itemPos = this.getItemTop(item);
-
-        if (align == null && itemSize.height > paneSize.height)
-        {
-          if (itemPos > scrollPos) {
-            this.scrollToX(itemPos);
-          } else if ((itemPos + itemSize.height) < (paneSize.height + scrollPos)) {
-            this.scrollToX(itemPos + itemSize.height - paneSize.height);
-          }
-        }
-        else if (align === "top" || (align == null && itemPos < scrollPos))
-        {
-          this.scrollToY(itemPos);
-        }
-        else if (align === "bottom" || (align == null && (itemPos + itemSize.height) > (paneSize.height + scrollPos)))
-        {
-          this.scrollToY(itemPos + itemSize.height - paneSize.height);
-        }
-      }
-    },
-
-
-    /**
-     * Event handler to handle appear event and synchronize scroll position
-     *
-     * @param e {qx.event.type.Event} Property change event
-     * @return {void}
-     */
-    _onAppear : function(e)
-    {
-      var intoViewX = this.__lazyScrollIntoViewX;
-      if (intoViewX)
-      {
-        this.scrollItemIntoViewX.apply(this, intoViewX);
-        delete this.__lazyScrollIntoViewX;
-      }
-
-      var intoViewY = this.__lazyScrollIntoViewY;
-      if (intoViewY)
-      {
-        this.scrollItemIntoViewY.apply(this, intoViewY);
-        delete this.__lazyScrollIntoViewY;
-      }
-
-      this.removeListener("appear", this._onAppear);
-    },
 
 
     /*
@@ -423,7 +313,42 @@ qx.Class.define("qx.ui.core.ScrollPane",
       SCROLL SUPPORT
     ---------------------------------------------------------------------------
     */
+    
+    getScrollMaxX : function()
+    {
+      var paneSize = this.getBounds();
+      var scrollSize = this.getScrollSize();
 
+      if (paneSize && scrollSize) {
+        return Math.max(0, scrollSize.width - paneSize.width);
+      }
+      
+      return 0;
+    },
+    
+    
+    getScrollMaxY : function()
+    {
+      var paneSize = this.getBounds();
+      var scrollSize = this.getScrollSize();
+
+      if (paneSize && scrollSize) {
+        return Math.max(0, scrollSize.height - paneSize.height);
+      }
+      
+      return 0;
+    },
+    
+    
+    _applyScrollX : function(value) {
+      this._contentElement.scrollToX(value);
+    },
+    
+    _applyScrollY : function(value) {
+      this._contentElement.scrollToY(value);
+    },
+    
+    
     /**
      * Scrolls the element's content to the given left coordinate
      *
@@ -433,39 +358,15 @@ qx.Class.define("qx.ui.core.ScrollPane",
      */
     scrollToX : function(value)
     {
-      // normalize
+      var max = this.getScrollMaxX();
+      
       if (value < 0) {
-        value = 0;
+        value = 0; 
+      } else if (value > max) {
+        value = max; 
       }
-
-      var paneSize = this.getBounds();
-      var scrollSize = this.getScrollSize();
-
-      if (paneSize && scrollSize)
-      {
-        var scrollMax = Math.max(0, scrollSize.width - paneSize.width);
-        var value = Math.min(value, scrollMax);
-      }
-
-      // compare with current value
-      if (this.getScrollX() == value) {
-        return;
-      }
-
-      // set new value if different
-      this._contentElement.scrollToX(value);
-      this.fireDataEvent("scrollX", value);
-    },
-
-
-    /**
-     * Returns the scroll left position of the content
-     *
-     * @type member
-     * @return {Integer} Horizontal scroll position
-     */
-    getScrollX : function() {
-      return this._contentElement.getScrollX();
+      
+      this.setScrollX(value);
     },
 
 
@@ -478,39 +379,15 @@ qx.Class.define("qx.ui.core.ScrollPane",
      */
     scrollToY : function(value)
     {
-      // normalize
+      var max = this.getScrollMaxY();
+      
       if (value < 0) {
-        value = 0;
+        value = 0; 
+      } else if (value > max) {
+        value = max; 
       }
-
-      var paneSize = this.getBounds();
-      var scrollSize = this.getScrollSize();
-
-      if (paneSize && scrollSize)
-      {
-        var scrollMax = Math.max(0, scrollSize.height - paneSize.height);
-        var value = Math.min(value, scrollMax);
-      }
-
-      // compare with current value
-      if (this.getScrollY() == value) {
-        return;
-      }
-
-      // set new value if different
-      this._contentElement.scrollToY(value);
-      this.fireDataEvent("scrollY", value);
-    },
-
-
-    /**
-     * Returns the scroll top position of the content
-     *
-     * @type member
-     * @return {Integer} Vertical scroll position
-     */
-    getScrollY : function() {
-      return this._contentElement.getScrollY();
+      
+      this.setScrollY(value);
     },
 
 
