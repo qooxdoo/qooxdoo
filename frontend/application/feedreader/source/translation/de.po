@@ -1,86 +1,88 @@
-# German translation
-# 
+# translation of de.po to German
+#
+# Fabian Jakobs <fabian DOT jakobs AT 1und1 DOT de>, 2008.
 msgid ""
 msgstr ""
-"Project-Id-Version: qooxdoo feedreader\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-05-07 07:59+0200\n"
-"PO-Revision-Date: 2006-12-22 09:59+0100\n"
-"Last-Translator: Fabian Jakobs <fabian dot jakobs at 1und1 dot de>\n"
-"Language-Team: <en@li.org>\n"
-"MIME-Version: 1.0\n"
+""
+"Last-Translator: Fabian Jakobs <fabian DOT jakobs AT 1und1 DOT de>\n"
+"PO-Revision-Date: 2008-06-23 16:26+0200\n"
+"Project-Id-Version: de\n"
+"Language-Team: German\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.11.4\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Plural-Forms:  nplurals=2; plural=(n != 1);\n"
 
-#~ msgid "Preferences"
-#~ msgstr "Einstellungen"
+#: feedreader/Application.js:340
+msgid "FeedReader (qooxdoo powered)"
+msgstr ""
 
-#~ msgid "Cancel"
-#~ msgstr "Abbruch"
+#: feedreader/view/AddFeedWindow.js:51
+msgid "Add a feed"
+msgstr "Feed hinzufügen"
 
-#~ msgid "OK"
-#~ msgstr "OK"
+#: feedreader/view/AddFeedWindow.js:86
+msgid "Feed Information"
+msgstr "Feed Information"
 
-#~ msgid "read more ..."
-#~ msgstr "weitere Informationen ..."
+#: feedreader/view/AddFeedWindow.js:95
+msgid "Title:"
+msgstr "Titel:"
 
-#~ msgid "Subject"
-#~ msgstr "Betreff"
+#: feedreader/view/AddFeedWindow.js:98
+msgid "URL:"
+msgstr ""
 
-#~ msgid "Date"
-#~ msgstr "Datum"
+#: feedreader/view/AddFeedWindow.js:132
+msgid "Please enter a title."
+msgstr "Bitte geben Sie einen Titel an."
 
-#~ msgid "News feeds"
-#~ msgstr "Nachrichtenkanäle"
+#: feedreader/view/AddFeedWindow.js:140
+msgid "Please enter a url."
+msgstr "Bitte geben Sie eine URL an."
 
-#, fuzzy
-#~ msgid "Add feed"
-#~ msgstr "Feed hinzufügen"
+#: feedreader/view/List.js:43
+msgid "Posts"
+msgstr "Nachrichten"
 
-#~ msgid "Remove feed"
-#~ msgstr "Feed löschen"
+#: feedreader/view/PreferenceWindow.js:46 feedreader/view/ToolBar.js:88
+msgid "Preferences"
+msgstr "Einstellungen"
 
-#~ msgid "Reload"
-#~ msgstr "Aktualisieren"
+#: feedreader/view/PreferenceWindow.js:81
+msgid "Theme"
+msgstr ""
 
-#~ msgid "(%1) Reload the feeds."
-#~ msgstr "(%1) Feeds aktualisieren."
+#: feedreader/view/PreferenceWindow.js:88
+msgid "Classic"
+msgstr ""
 
-#~ msgid "Open preferences window."
-#~ msgstr "Einstellungen öffnen"
+#: feedreader/view/PreferenceWindow.js:91
+msgid "Modern"
+msgstr ""
 
-#~ msgid "English"
-#~ msgstr "Englisch"
+#: feedreader/view/ToolBar.js:62
+msgid "Add feed"
+msgstr "Feed hinzufügen"
 
-#~ msgid "German"
-#~ msgstr "Deutsch"
+#: feedreader/view/ToolBar.js:66
+msgid "Remove feed"
+msgstr "Feed löschen"
 
-#~ msgid "Turkish"
-#~ msgstr "Türkisch"
+#: feedreader/view/ToolBar.js:76
+msgid "Reload"
+msgstr "Neu laden"
 
-#~ msgid "Italian"
-#~ msgstr "Italienisch"
+#: feedreader/view/ToolBar.js:79
+msgid "Reload the feeds. (%1)"
+msgstr "Feeds neu laden. (%1)"
 
-#~ msgid "Spanish"
-#~ msgstr "Spanisch"
+#: feedreader/view/ToolBar.js:90
+msgid "Open preferences window."
+msgstr "Einstellungsfenster öffnen"
 
-#~ msgid "Swedish"
-#~ msgstr "Schwedisch"
+#: feedreader/view/ToolBar.js:99
+msgid "Help"
+msgstr "Hilfe"
 
-#~ msgid "Russian"
-#~ msgstr "Russisch"
-
-#~ msgid "Help"
-#~ msgstr "Hilfe"
-
-#~ msgid "Author"
-#~ msgstr "Autor"
-
-#, fuzzy
-#~ msgid "reloading ..."
-#~ msgstr "aktualisieren ..."
-
-#~ msgid "qooxdoo feed reader."
-#~ msgstr "qooxdoo feed reader"

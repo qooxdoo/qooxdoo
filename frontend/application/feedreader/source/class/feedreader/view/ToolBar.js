@@ -59,11 +59,11 @@ qx.Class.define("feedreader.view.ToolBar",
 
 
     // Add/Remove buttons
-    var addBtn = new qx.ui.toolbar.Button("Add feed", "icon/22/actions/dialog-ok.png");
+    var addBtn = new qx.ui.toolbar.Button(this.tr("Add feed"), "icon/22/actions/dialog-ok.png");
     addBtn.setCommand(controller.getCommand("addFeed"));
     this.add(addBtn);
 
-    var removeBtn = new qx.ui.toolbar.Button("Remove feed", "icon/22/actions/dialog-cancel.png");
+    var removeBtn = new qx.ui.toolbar.Button(this.tr("Remove feed"), "icon/22/actions/dialog-cancel.png");
     removeBtn.setCommand(controller.getCommand("removeFeed"));
     this.add(removeBtn);
 
@@ -73,10 +73,10 @@ qx.Class.define("feedreader.view.ToolBar",
 
 
     // Reload button
-    var reloadBtn = new qx.ui.toolbar.Button("Reload", "icon/22/actions/view-refresh.png");
+    var reloadBtn = new qx.ui.toolbar.Button(this.tr("Reload"), "icon/22/actions/view-refresh.png");
     var reloadCmd = controller.getCommand("reload");
     reloadBtn.setCommand(reloadCmd);
-    reloadBtn.setToolTip(new qx.ui.popup.ToolTip("Reload the feeds. (" + reloadCmd.toString() + ")"));
+    reloadBtn.setToolTip(new qx.ui.popup.ToolTip(this.tr("Reload the feeds. (%1)", reloadCmd.toString())));
     this.add(reloadBtn);
 
 
@@ -85,9 +85,9 @@ qx.Class.define("feedreader.view.ToolBar",
 
 
     // Preferences button
-    var prefBtn = new qx.ui.toolbar.Button("Preferences", "icon/22/apps/preferences-theme.png");
+    var prefBtn = new qx.ui.toolbar.Button(this.tr("Preferences"), "icon/22/apps/preferences-theme.png");
     prefBtn.setCommand(controller.getCommand("preferences"));
-    prefBtn.setToolTip(new qx.ui.popup.ToolTip("Open preferences window."));
+    prefBtn.setToolTip(new qx.ui.popup.ToolTip(this.tr("Open preferences window.")));
     this.add(prefBtn);
 
 
@@ -96,7 +96,7 @@ qx.Class.define("feedreader.view.ToolBar",
 
 
     // About button
-    var about_btn = new qx.ui.toolbar.Button("Help", "icon/22/actions/help-about.png");
+    var about_btn = new qx.ui.toolbar.Button(this.tr("Help"), "icon/22/actions/help-about.png");
     var aboutCmd = controller.getCommand("about");
     about_btn.setCommand(aboutCmd);
     about_btn.setToolTip(new qx.ui.popup.ToolTip("(" + aboutCmd.toString() + ")"));
