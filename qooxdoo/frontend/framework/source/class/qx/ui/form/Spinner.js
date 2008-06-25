@@ -188,7 +188,7 @@ qx.Class.define("qx.ui.form.Spinner",
     /** current value of the Range object */
     value:
     {
-      check : "Number",
+      check : "typeof value==='number'&&value>=this.getMin()&&value<=this.getMax()",
       apply : "_applyValue",
       init : 0,
       event : "change"
