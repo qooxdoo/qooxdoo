@@ -131,7 +131,7 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
             autoHide: false
           });
           control.addListener("mouseup", this._hideList, this);
-          control.addListener("activate", this._activateList, this);
+          control.addListener("activate", this._onActivateList, this);
           break;
       }
       
@@ -218,7 +218,7 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
     },
     
     // Redirect activation to the main widget
-    _activateList : function(e) 
+    _onActivateList : function(e) 
     {
       this.activate();
       e.stopPropagation();
