@@ -90,7 +90,7 @@ def main():
     config.resolveIncludes()
 
     # Check jobs
-    availableJobs = config.get("jobs").keys()
+    availableJobs = config.getJobsMap().keys()
     if len(options.jobs) == 0:
         listJobs(console, availableJobs)
         sys.exit(1)

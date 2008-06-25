@@ -1,9 +1,17 @@
 {
   "include" :
-  {
-    "appconf" : "../../tool/data/config/application.json"
-  },
+  [
+		{
+    	"path" : "../../tool/data/config/application.json",
+			"as"   : "appconf" 
+		}
+  ],
 
+	"let" :
+	{
+		"CACHE"       : "../../cache",
+		"APPLICATION" : "feedreader"
+	},
 
   "jobs" :
   {
@@ -11,7 +19,7 @@
     {
       "let" :
       {
-        "APPLICATION" : "feedreader"
+				"APPLICATION" : "feedreader"
       },
 
       "settings" :
