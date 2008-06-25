@@ -335,8 +335,6 @@ qx.Class.define("qx.ui.form.Spinner",
       {
         // only disable the buttons if wrapping is disabled
         if (!this.getWrap()) {
-          // FIRST RELEASE THE BUTTON, then disable it
-          this._upbutton.release(false);
           this._upbutton.setEnabled(false);
         }
       }
@@ -353,8 +351,6 @@ qx.Class.define("qx.ui.form.Spinner",
       {
         // only disable the buttons if wrapping is disabled
         if (!this.getWrap()) { 
-          // FIRST RELEASE THE BUTTON, then disable it
-          this._downbutton.release(false);          
           this._downbutton.setEnabled(false);
         }
       }
