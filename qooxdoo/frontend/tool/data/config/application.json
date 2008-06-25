@@ -2,13 +2,13 @@
 {
   "include" :
   [
-		{
-			"path" : "../../../application/apiviewer/config.json",
-			"as"   : "apiconf"
-		}
+    {
+      "path" : "../../../application/apiviewer/config.json",
+      "as"   : "apiconf"
+    }
   ],
 
-	"export" : ["build", "source", "api", "translate"],
+  "export" : ["build", "source", "api", "translate"],
 
   "jobs" :
   {
@@ -19,6 +19,8 @@
         "ROOT"         : ".",
         "QOOXDOO_PATH" : "../../framework",
         "QOOXDOO_URI"  : "../${QOOXDOO_PATH}",
+        "CACHE"        : "cache",
+        "QXTHEME"      : "qx.theme.Classic",
         "BUILD_PATH"   : "${ROOT}/build"
       },
 
@@ -37,12 +39,19 @@
 
       "include" :
       [
-        "${APPLICATION}.Application"
+        "${APPLICATION}.Application",
+        "${QXTHEME}"
       ],
+
+      "cache" :
+      {
+        "path" :  "${CACHE}"
+      },
 
       "settings" :
       {
         "qx.version"     : "0.8-alpha1",
+        "qx.theme"       : "${QXTHEME}",
         "qx.application" : "${APPLICATION}.Application"
       }
     },
@@ -55,7 +64,7 @@
       "compile-source" :
       {
         "file" : "${ROOT}/source/script/${APPLICATION}.js",
-				"root" : "source"
+        "root" : "source"
       }
     },
 
@@ -83,8 +92,8 @@
         "target" : "${BUILD_PATH}",
         "file" : "${BUILD_PATH}/script/${APPLICATION}.js",
         "uri"  : "script/${APPLICATION}.js",
-				"root" : "${BUILD_PATH}",
-				"format" : "on",
+        "root" : "${BUILD_PATH}",
+        "format" : "on",
         "optimize" : ["basecalls", "variables", "privates", "strings"/*, "protected"*/]
       }
     },
@@ -146,7 +155,7 @@
 
       "let" :
       {
-        "ROOT" : "../apiviewer",
+        "APIVIEWER_ROOT" : "${QOOXDOO_PATH}/../application/apiviewer",
         "BUILD_PATH" : "./api",
         "API_INCLUDE" : ["qx.*", "${APPLICATION}.*"]
       },
