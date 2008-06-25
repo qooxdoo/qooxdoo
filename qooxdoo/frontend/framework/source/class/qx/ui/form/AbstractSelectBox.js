@@ -247,6 +247,15 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
         }
       }
 
+      // Select current item and close popup
+      if(identifier == "Enter")
+      {
+        if (listPopup.getVisibility() == "visible") {
+          this._hideList();
+        }
+        return;
+      }
+
       // hide the list always on escape
       if (identifier == "Escape" || identifier == "Tab")
       {
