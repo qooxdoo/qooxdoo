@@ -70,6 +70,13 @@ qx.Class.define("qx.ui.form.ComboBox",
     {
       refine : true,
       init : "spinner"
+    },
+
+    editable :
+    {
+      init : "true",
+      check : "Boolean",
+      apply : "_applyEditable"
     }
   },
 
@@ -137,6 +144,10 @@ qx.Class.define("qx.ui.form.ComboBox",
       this._getChildControl("textfield").setValue(value.getLabel());
     },
 
+    _applyEditable : function(value, old)
+    {
+      this._getChildControl("textfield").setEnabled(value);
+    },
 
 
     
@@ -166,7 +177,18 @@ qx.Class.define("qx.ui.form.ComboBox",
     _onTextFocus : function(e) {
       this.addState("focused");
     },
-        
+
+    _onKeyPress : function(e)
+    {
+      var listPopup = this._getChildControl("popup");
+
+      if(!this.getEditable() || (listPopup.getVisibility() == "visible")) {
+        this.base(arguments, e);
+      } else {
+        return;
+      }
+    },
+    
     
     _onClick : function(e) {
       this._togglePopup(e);
