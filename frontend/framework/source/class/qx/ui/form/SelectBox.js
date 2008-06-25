@@ -20,7 +20,6 @@
 ************************************************************************ */
 /**
  * @appearance selectbox
- * @appearance selectbox-button
  */
 
 qx.Class.define("qx.ui.form.SelectBox",
