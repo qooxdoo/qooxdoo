@@ -65,18 +65,20 @@ qx.Class.define("qx.dom.Hierarchy",
     
     
     /**
-     * Returns the DOM index of the given element
+     * Returns the DOM index of the given element (ignoring non-elements)
      *
      * @type static
-     * @param node {Element} Element to look for
+     * @param element {Element} Element to look for
      * @return {Integer} The DOM index
      */
     getElementIndex : function(element)
     {
       var index = 0;
+      var type = qx.dom.Node.ELEMENT;
 
-      while (element && (element = element.previousSibling)) {
-        if (qx.dom.Node.isElement(element)) {
+      while (element && (element = element.previousSibling)) 
+      {
+        if (element.nodeType == type) {
           index++;
         }
       }
