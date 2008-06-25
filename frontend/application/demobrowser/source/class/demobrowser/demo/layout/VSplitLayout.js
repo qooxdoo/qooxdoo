@@ -55,18 +55,20 @@ qx.Class.define("demobrowser.demo.layout.VSplitLayout",
     {
       var splitpane = new qx.ui.splitpane.Pane("vertical");
       splitpane.setHeight(400);
-      splitpane.setDecorator("black");
+      splitpane.setDecorator("dark");
       this.getRoot().add(splitpane, {left:20, top:20});
 
       // Left
-      var leftWidget = new qx.ui.form.TextArea("Flex:1");
-      leftWidget.setWrap(true);
-      splitpane.add(leftWidget, 1);
+      var topWidget = new qx.ui.form.TextArea("Flex:1");
+      topWidget.setDecorator(null);
+      topWidget.setWrap(true);
+      splitpane.add(topWidget, 1);
 
       // Right
-      var rightWidget = new qx.ui.form.TextArea("Flex:2");
-      rightWidget.setWrap(true);
-      splitpane.add(rightWidget, 2);
+      var bottomWidget = new qx.ui.form.TextArea("Flex:2");
+      bottomWidget.setDecorator(null);
+      bottomWidget.setWrap(true);
+      splitpane.add(bottomWidget, 2);
     },
 
 
@@ -74,19 +76,21 @@ qx.Class.define("demobrowser.demo.layout.VSplitLayout",
     {
       var splitpane = new qx.ui.splitpane.Pane("vertical");
       splitpane.setHeight(400);
-      splitpane.setDecorator("black");
+      splitpane.setDecorator("dark");
       this.getRoot().add(splitpane, {left:140, top:20});
 
       // Left
-      var leftWidget = new qx.ui.form.TextArea("Flex:1; Min:250");
-      leftWidget.setWrap(true);
-      leftWidget.setMinHeight(250);
-      splitpane.add(leftWidget, 1);
+      var topWidget = new qx.ui.form.TextArea("Flex:1; Min:250");
+      topWidget.setDecorator(null);
+      topWidget.setWrap(true);
+      topWidget.setMinHeight(250);
+      splitpane.add(topWidget, 1);
 
       // Right
-      var rightWidget = new qx.ui.form.TextArea("Flex:2");
-      rightWidget.setWrap(true);
-      splitpane.add(rightWidget, 2);
+      var bottomWidget = new qx.ui.form.TextArea("Flex:2");
+      bottomWidget.setDecorator(null);
+      bottomWidget.setWrap(true);
+      splitpane.add(bottomWidget, 2);
     },
 
 
@@ -94,19 +98,21 @@ qx.Class.define("demobrowser.demo.layout.VSplitLayout",
     {
       var splitpane = new qx.ui.splitpane.Pane("vertical");
       splitpane.setHeight(400);
-      splitpane.setDecorator("black");
+      splitpane.setDecorator("dark");
       this.getRoot().add(splitpane, {left:260, top:20});
 
       // Left
-      var leftWidget = new qx.ui.form.TextArea("Flex:1");
-      leftWidget.setWrap(true);
-      splitpane.add(leftWidget, 1);
+      var topWidget = new qx.ui.form.TextArea("Flex:1");
+      topWidget.setDecorator(null);
+      topWidget.setWrap(true);
+      splitpane.add(topWidget, 1);
 
       // Right
-      var rightWidget = new qx.ui.form.TextArea("Flex:2; Max:100");
-      rightWidget.setWrap(true);
-      rightWidget.setMaxHeight(100);
-      splitpane.add(rightWidget, 2);
+      var bottomWidget = new qx.ui.form.TextArea("Flex:2; Max:100");
+      bottomWidget.setDecorator(null);
+      bottomWidget.setWrap(true);
+      bottomWidget.setMaxHeight(100);
+      splitpane.add(bottomWidget, 2);
     },
 
 
@@ -114,20 +120,22 @@ qx.Class.define("demobrowser.demo.layout.VSplitLayout",
     {
       var splitpane = new qx.ui.splitpane.Pane("vertical");
       splitpane.setHeight(400);
-      splitpane.setDecorator("black");
+      splitpane.setDecorator("dark");
       this.getRoot().add(splitpane, {left:380, top:20});
 
       // Left
-      var leftWidget = new qx.ui.form.TextArea("Flex:1; Min:250");
-      leftWidget.setWrap(true);
-      leftWidget.setMinHeight(250);
-      splitpane.add(leftWidget, 1);
+      var topWidget = new qx.ui.form.TextArea("Flex:1; Min:250");
+      topWidget.setDecorator(null);
+      topWidget.setWrap(true);
+      topWidget.setMinHeight(250);
+      splitpane.add(topWidget, 1);
 
       // Right
-      var rightWidget = new qx.ui.form.TextArea("Flex:2; Min:250");
-      rightWidget.setWrap(true);
-      rightWidget.setMinHeight(250);
-      splitpane.add(rightWidget, 2);
+      var bottomWidget = new qx.ui.form.TextArea("Flex:2; Min:250");
+      bottomWidget.setDecorator(null);
+      bottomWidget.setWrap(true);
+      bottomWidget.setMinHeight(250);
+      splitpane.add(bottomWidget, 2);
     },
 
 
@@ -135,20 +143,22 @@ qx.Class.define("demobrowser.demo.layout.VSplitLayout",
     {
       var splitpane = new qx.ui.splitpane.Pane("vertical");
       splitpane.setHeight(400);
-      splitpane.setDecorator("black");
+      splitpane.setDecorator("dark");
       this.getRoot().add(splitpane, {left:500, top:20});
 
       // Left
-      var leftWidget = new qx.ui.form.TextArea("Flex:1; Max:100");
-      leftWidget.setWrap(true);
-      leftWidget.setMaxHeight(100);
-      splitpane.add(leftWidget, 1);
+      var topWidget = new qx.ui.form.TextArea("Flex:1; Max:100");
+      topWidget.setDecorator(null);
+      topWidget.setWrap(true);
+      topWidget.setMaxHeight(100);
+      splitpane.add(topWidget, 1);
 
       // Right
-      var rightWidget = new qx.ui.form.TextArea("Flex:2; Max:100");
-      rightWidget.setWrap(true);
-      rightWidget.setMaxHeight(100);
-      splitpane.add(rightWidget, 2);
+      var bottomWidget = new qx.ui.form.TextArea("Flex:2; Max:100");
+      bottomWidget.setDecorator(null);
+      bottomWidget.setWrap(true);
+      bottomWidget.setMaxHeight(100);
+      splitpane.add(bottomWidget, 2);
     },
 
 
@@ -160,18 +170,20 @@ qx.Class.define("demobrowser.demo.layout.VSplitLayout",
     {
       var splitpane = new qx.ui.splitpane.Pane("vertical");
       splitpane.setHeight(400);
-      splitpane.setDecorator("black");
+      splitpane.setDecorator("dark");
       this.getRoot().add(splitpane, {left:620, top:20});
 
       // Left
-      var leftWidget = new qx.ui.form.TextArea("Flex:0");
-      leftWidget.setWrap(true);
-      splitpane.add(leftWidget, 0);
+      var topWidget = new qx.ui.form.TextArea("Flex:0");
+      topWidget.setDecorator(null);
+      topWidget.setWrap(true);
+      splitpane.add(topWidget, 0);
 
       // Right
-      var rightWidget = new qx.ui.form.TextArea("Flex:1");
-      rightWidget.setWrap(true);
-      splitpane.add(rightWidget);
+      var bottomWidget = new qx.ui.form.TextArea("Flex:1");
+      bottomWidget.setDecorator(null);
+      bottomWidget.setWrap(true);
+      splitpane.add(bottomWidget);
     },
 
 
@@ -179,19 +191,21 @@ qx.Class.define("demobrowser.demo.layout.VSplitLayout",
     {
       var splitpane = new qx.ui.splitpane.Pane("vertical");
       splitpane.setHeight(400);
-      splitpane.setDecorator("black");
+      splitpane.setDecorator("dark");
       this.getRoot().add(splitpane, {left:740, top:20});
 
       // Left
-      var leftWidget = new qx.ui.form.TextArea("Flex:0");
-      leftWidget.setWrap(true);
-      splitpane.add(leftWidget, 0);
+      var topWidget = new qx.ui.form.TextArea("Flex:0");
+      topWidget.setDecorator(null);
+      topWidget.setWrap(true);
+      splitpane.add(topWidget, 0);
 
       // Right
-      var rightWidget = new qx.ui.form.TextArea("Flex:1; Max:200");
-      rightWidget.setWrap(true);
-      rightWidget.setMaxHeight(200);
-      splitpane.add(rightWidget);
+      var bottomWidget = new qx.ui.form.TextArea("Flex:1; Max:200");
+      bottomWidget.setDecorator(null);
+      bottomWidget.setWrap(true);
+      bottomWidget.setMaxHeight(200);
+      splitpane.add(bottomWidget);
     },
 
 
@@ -199,19 +213,21 @@ qx.Class.define("demobrowser.demo.layout.VSplitLayout",
     {
       var splitpane = new qx.ui.splitpane.Pane("vertical");
       splitpane.setHeight(400);
-      splitpane.setDecorator("black");
+      splitpane.setDecorator("dark");
       this.getRoot().add(splitpane, {left:860, top:20});
 
       // Left
-      var leftWidget = new qx.ui.form.TextArea("Flex:0; Min:350");
-      leftWidget.setWrap(true);
-      leftWidget.setMinHeight(350);
-      splitpane.add(leftWidget, 0);
+      var topWidget = new qx.ui.form.TextArea("Flex:0; Min:350");
+      topWidget.setDecorator(null);
+      topWidget.setWrap(true);
+      topWidget.setMinHeight(350);
+      splitpane.add(topWidget, 0);
 
       // Right
-      var rightWidget = new qx.ui.form.TextArea("Flex:1");
-      rightWidget.setWrap(true);
-      splitpane.add(rightWidget);
+      var bottomWidget = new qx.ui.form.TextArea("Flex:1");
+      bottomWidget.setDecorator(null);
+      bottomWidget.setWrap(true);
+      splitpane.add(bottomWidget);
     },
 
 
@@ -222,18 +238,20 @@ qx.Class.define("demobrowser.demo.layout.VSplitLayout",
     addSplitPaneAuto : function()
     {
       var splitpane = new qx.ui.splitpane.Pane("vertical");
-      splitpane.setDecorator("black");
+      splitpane.setDecorator("dark");
       this.getRoot().add(splitpane, {left:980, top:20});
 
       // Left
-      var leftWidget = new qx.ui.form.TextArea("Auto");
-      leftWidget.setWrap(true);
-      splitpane.add(leftWidget, 0);
+      var topWidget = new qx.ui.form.TextArea("Auto");
+      topWidget.setDecorator(null);
+      topWidget.setWrap(true);
+      splitpane.add(topWidget, 0);
 
       // Right
-      var rightWidget = new qx.ui.form.TextArea("Auto");
-      rightWidget.setWrap(true);
-      splitpane.add(rightWidget);
+      var bottomWidget = new qx.ui.form.TextArea("Auto");
+      bottomWidget.setDecorator(null);
+      bottomWidget.setWrap(true);
+      splitpane.add(bottomWidget);
     }
   }
 });
