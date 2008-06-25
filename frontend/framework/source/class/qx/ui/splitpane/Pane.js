@@ -355,7 +355,6 @@ qx.Class.define("qx.ui.splitpane.Pane",
      * Handler for move event of splitter
      *
      * @type member
-     * @param e {qx.event.type.Event} move event
      */    
     _onSplitterMove : function() {
       this.__updateCursor();
