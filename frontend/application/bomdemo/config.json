@@ -43,8 +43,7 @@
       "settings" :
       {
         "qx.version" : "0.8-alpha1",
-        "qx.application" : "${APPLICATION}.Application",
-        "qx.disposerDebugLevel" : "2"
+        "qx.application" : "${APPLICATION}.Application"
       },
 
       "cache" :
