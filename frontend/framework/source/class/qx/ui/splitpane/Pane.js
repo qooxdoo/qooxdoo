@@ -127,17 +127,20 @@ qx.Class.define("qx.ui.splitpane.Pane",
           control = new qx.ui.splitpane.Slider(this);
           control.exclude();
           this._add(control, {type : id});
-        break;
+          break;
 
         // Create splitter
         case "splitter":
           control = new qx.ui.splitpane.Splitter(this);
           this._add(control, {type : id});
-        break;
+          break;
       }
+      
       return control || this.base(arguments, id);
     },
 
+    
+    
     
     /*
     ---------------------------------------------------------------------------
@@ -655,8 +658,8 @@ qx.Class.define("qx.ui.splitpane.Pane",
         splitter.removeState("active");
       }
     }
-
   },
+  
 
 
   /*
@@ -666,6 +669,6 @@ qx.Class.define("qx.ui.splitpane.Pane",
   */
 
   destruct : function() {
-    this._disposeMap("_sizes");
+    this._disposeFields("_sizes");
   }
 });
