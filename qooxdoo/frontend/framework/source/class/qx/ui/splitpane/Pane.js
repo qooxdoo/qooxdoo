@@ -54,8 +54,6 @@ qx.Class.define("qx.ui.splitpane.Pane",
       this.initOrientation();
     }
 
-    // Add events
-    
     // Note that mouseUp and mouseDown events are added to the widget itself because
     // if the splitter is smaller than 5 pixels in length or height it is difficult
     // to click on it.
@@ -216,31 +214,6 @@ qx.Class.define("qx.ui.splitpane.Pane",
     },
     
 
-    /**
-     * Returns the pane's first widget. 
-     *
-     * Depending on the pane's orientation the first widget is the top or left widget.
-     *
-     * @type member
-     * @return {qx.ui.core.Widget} The first widget.
-     */
-    getBegin : function() {
-      return this._getChildren()[2] || null;
-    },
-    
-
-    /**
-     * Returns the pane's second widget. 
-     *
-     * Depending on the pane's orientation the second widget is the bottom or right widget.
-     *
-     * @type member
-     * @return {qx.ui.core.Widget} The second widget.
-     */
-    getEnd : function() {
-      return this._getChildren()[3] || null;
-    },
-
 
 
 
@@ -309,18 +282,22 @@ qx.Class.define("qx.ui.splitpane.Pane",
       // Check if slider is already being dragged
       if (this.__activeDragSession) 
       {
-        this.__computeSizes("minWidth", "width", "maxWidth");
+        // Compute new children sizes
+        this.__computeSizes();
               
+        // Update slider position
+        var sliderEl = this._getChildControl("slider").getContainerElement();
         if(this._isHorizontal) {
-          this._getChildControl("slider").getContainerElement().setStyle("left", this._beginSize + "px", true);
+          sliderEl.setStyle("left", this._beginSize + "px", true);
         } else {
-          this._getChildControl("slider").getContainerElement().setStyle("top", this._beginSize + "px", true);
+          sliderEl.setStyle("top", this._beginSize + "px", true);
         }
       } 
       else 
       {
         var splitter = this._getChildControl("splitter");
 
+        // Whether the cursor is near enough to the splitter
         if (this.__isNear()) 
         {
           this.setCursor(this._isHorizontal ? "col-resize" : "row-resize");
@@ -380,8 +357,9 @@ qx.Class.define("qx.ui.splitpane.Pane",
       var beginSize = this._beginSize;
       var endSize = this._endSize;
       
-      var firstWidget = this.getBegin();
-      var secondWidget = this.getEnd();
+      var children = this._getChildren();
+      var firstWidget = children[2];
+      var secondWidget = children[3];
 
       // Read widgets' flex values
       var firstFlexValue = firstWidget.getLayoutProperties().flex;
@@ -478,13 +456,25 @@ qx.Class.define("qx.ui.splitpane.Pane",
     },
     
     
-    __computeSizes : function(min, size, max)
+    /**
+     * Computes widgets' sizes based on the mouse coordinate
+     *
+     * @type member
+     */    
+    __computeSizes : function()
     {
-      var beginHint = this.getBegin().getSizeHint();
-      var endHint = this.getEnd().getSizeHint();
+      if (this._isHorizontal) {
+        var min="minWidth", size="width", max="maxWidth";  
+      } else {
+        var min="minHeight", size="height", max="maxHeight";
+      }
+      
+      var children = this._getChildren();
+      var beginHint = children[2].getSizeHint();
+      var endHint = children[3].getSizeHint();
       
       // Area given to both widgets
-      var allocatedSize = this.getBegin().getBounds()[size] + this.getEnd().getBounds()[size];
+      var allocatedSize = children[2].getBounds()[size] + children[3].getBounds()[size];
       
       // Calculate widget sizes
       var beginSize = this._lastMousePosition - this.__splitterOffset;
