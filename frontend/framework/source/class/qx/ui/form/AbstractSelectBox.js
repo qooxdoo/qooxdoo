@@ -46,6 +46,9 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
 
     this.addListener("keypress", this._onKeyPress);
     this.addListener("blur", this._hideList, this);
+    
+    // register the resize listener
+    this.addListener("resize", this._onResize, this);
   },
 
 
@@ -117,12 +120,7 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
             selectionMode: "one"
           });
 
-          // TODO: Omit inline methods
-          control.addListener("change", function(e) {
-            if (e.getData().length > 0) {
-              this.setSelectedItem(e.getData()[0]);
-            }
-          }, this);
+          control.addListener("change", this._onChange, this);
           break;
 
         case "popup":
@@ -249,20 +247,6 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
         }
       }
 
-      // Open or close the list on space and enter
-      if (identifier == "Space" || identifier == "Enter")
-      {
-
-        // if the list is visible
-        if (listPopup.getVisibility() == "visible") {
-          this._hideList();
-        } else {
-          this._showList();
-        }
-
-        return;
-      }
-
       // hide the list always on escape
       if (identifier == "Escape" || identifier == "Tab")
       {
@@ -273,6 +257,17 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
       this._getChildControl("list").handleKeyPress(e);
     },
 
+    
+    _onResize : function(e){
+      this._getChildControl("list").setMinWidth(e.getData().width);
+    },
+    
+    _onChange : function(e)
+    {
+      if (e.getData().length > 0) {
+        this.setSelectedItem(e.getData()[0]);
+      }
+    },
 
     _togglePopup : function(e)
     {

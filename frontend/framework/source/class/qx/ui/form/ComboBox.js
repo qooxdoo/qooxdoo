@@ -25,7 +25,6 @@ qx.Class.define("qx.ui.form.ComboBox",
 {
   extend  : qx.ui.form.AbstractSelectBox,
 
-
   /*
   *****************************************************************************
      CONSTRUCTOR
@@ -36,8 +35,6 @@ qx.Class.define("qx.ui.form.ComboBox",
   {
     this.base(arguments);
 
-    this._createChildControl("button");
-    
     // TODO: Call create("popup") here, move other stuff to _createChildControl
     var list = this._getChildControl("list");
     var listPopup = this._getChildControl("popup");
@@ -46,12 +43,9 @@ qx.Class.define("qx.ui.form.ComboBox",
 
     var textField = this._getChildControl("textfield");
     textField.addListener("blur", this._onTextBlur, this);
-    textField.addListener("focus", this._onTextFocus, this);    
-
-    // TODO: Omit inline functions
-    this.addListener("resize", function(e) {
-      list.setMinWidth(e.getData().width);
-    });
+    textField.addListener("focus", this._onTextFocus, this);
+    
+    this._createChildControl("button");
   },
 
 
