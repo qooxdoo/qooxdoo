@@ -13,9 +13,7 @@
      See the LICENSE file in the project's top-level directory for details.
 
    Authors:
-     * Volker Pauli (vpauli)
      * Sebastian Werner (wpbasti)
-     * Carsten Lergenmueller (carstenL)
      * Jonathan Rass (jonathan_rass)
 
  ************************************************************************ */
