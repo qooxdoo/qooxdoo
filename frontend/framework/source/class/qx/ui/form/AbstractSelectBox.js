@@ -242,7 +242,7 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
       // disabled pageUp and pageDown keys
       if (identifier == "PageDown" || identifier == "PageUp")
       {
-        if (listPopup.getVisibility() != "visible") {
+        if (listPopup.isHidden()) {
           return;
         }
       }
@@ -250,7 +250,7 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
       // Select current item and close popup
       if(identifier == "Enter")
       {
-        if (listPopup.getVisibility() == "visible") {
+        if (listPopup.isVisible()) {
           this._hideList();
         }
         return;
@@ -280,7 +280,7 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
 
     _togglePopup : function(e)
     {
-      var isListOpen = this._getChildControl("popup").getVisibility() == "visible";
+      var isListOpen = this._getChildControl("popup").isVisible();
       if (isListOpen) {
         this._hideList();
       } else {
