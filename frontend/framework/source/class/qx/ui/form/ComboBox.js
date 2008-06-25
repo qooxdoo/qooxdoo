@@ -132,6 +132,7 @@ qx.Class.define("qx.ui.form.ComboBox",
     ---------------------------------------------------------------------------
     */
 
+    // property apply
     _applySelectedItem : function(value, old)
     {
       this.base(arguments, value, old);
@@ -142,7 +143,7 @@ qx.Class.define("qx.ui.form.ComboBox",
 
     /*
     ---------------------------------------------------------------------------
-      FOCUS
+      EVENT LISTENERS
     ---------------------------------------------------------------------------
     */ 
        
@@ -167,11 +168,21 @@ qx.Class.define("qx.ui.form.ComboBox",
       this.addState("focused");
     },
 
+    /**
+     * Toggles the popup's visibility.
+     * @param e {qx.event.type.MouseEvent} Mouse click event
+     * @type member
+     */
     _onClick : function(e) {
       this._togglePopup(e);
     },
 
 
+    /**
+     * Adds or removes event listener on root widget depending on event's visibility.
+     * @param e {qx.event.type.MouseEvent} Mouse click event
+     * @type member
+     */
     _onChangeVisibilityList : function(e)
     {
       var root = qx.core.Init.getApplication().getRoot();
@@ -186,6 +197,11 @@ qx.Class.define("qx.ui.form.ComboBox",
     },
 
 
+    /**
+     * Hides list if mouse down even is fired outside the widget.
+     * @param e {qx.event.type.MouseEvent} Mouse down event
+     * @type member
+     */
     _onMouseDownRoot : function(e)
     {
       var target = e.getTarget();
@@ -200,7 +216,11 @@ qx.Class.define("qx.ui.form.ComboBox",
       }
     },
 
-    // Redirect activation to the main widget
+    /**
+     * Redirect activation to the main widget
+     * @param e {Object} Activation event
+     * @type member
+     */
     _onActivateButton : function(e) 
     {
       this.activate();
