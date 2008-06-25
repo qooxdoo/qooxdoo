@@ -823,6 +823,24 @@ qx.Theme.define("qx.theme.modern.Appearance",
     ---------------------------------------------------------------------------
     */
 
+    "selectbox" :
+    {
+      style : function(states)
+      {
+        var decorator, textColor;
+        decorator = "button";
+        textColor = "text";
+
+        return {
+          padding    : 2,
+          textColor  : textColor,
+          font       : "default",
+          decorator  : decorator
+        };
+      }
+    },
+
+    
     "selectbox-button" :
     {
       style : function(states)
