@@ -78,42 +78,34 @@ qx.Class.define("demobrowser.demo.widget.Spinner",
 
 
       // ----- Spinner 4 -----
-      var s4 = new qx.ui.form.Spinner(100, 0, 200);
-      container.add(new qx.ui.basic.Label("Out of range value"), {column: 0, row: row});
-      container.add(new qx.ui.basic.Label("200"), {column: 1, row: row});
+      s4 = new qx.ui.form.Spinner( -200, null, -100);
+      container.add(new qx.ui.basic.Label("Null as value"), {column: 0, row: row});
+      container.add(new qx.ui.basic.Label("-100"), {column: 1, row: row});
       container.add(s4, {column: 2, row: row});
-      container.add(new qx.ui.basic.Label("100"), {column: 3, row: row++});
+      container.add(new qx.ui.basic.Label("-200"), {column: 3, row: row++});
 
 
       // ----- Spinner 5 -----
-      s5 = new qx.ui.form.Spinner( -200, null, -100);
-      container.add(new qx.ui.basic.Label("Null as value"), {column: 0, row: row});
+      var s5 = new qx.ui.form.Spinner(-200, null, -100).set({
+        enabled: false
+      });
+      container.add(new qx.ui.basic.Label("Disabled"), {column: 0, row: row});
       container.add(new qx.ui.basic.Label("-100"), {column: 1, row: row});
       container.add(s5, {column: 2, row: row});
       container.add(new qx.ui.basic.Label("-200"), {column: 3, row: row++});
 
 
       // ----- Spinner 6 -----
-      var s6 = new qx.ui.form.Spinner(-200, null, -100).set({
-        enabled: false
-      });
-      container.add(new qx.ui.basic.Label("Disabled"), {column: 0, row: row});
-      container.add(new qx.ui.basic.Label("-100"), {column: 1, row: row});
-      container.add(s6, {column: 2, row: row});
-      container.add(new qx.ui.basic.Label("-200"), {column: 3, row: row++});
-
-
-      // ----- Spinner 7 -----
-      var s7 = new qx.ui.form.Spinner(0, 2000, 3000);
-      s7.setSingleStep(0.5);
+      var s6 = new qx.ui.form.Spinner(0, 2000, 3000);
+      s6.setSingleStep(0.5);
       // Number format Test
       var nf = new qx.util.format.NumberFormat();
       nf.setMaximumFractionDigits(2);
-      s7.setNumberFormat(nf);
+      s6.setNumberFormat(nf);
 
       container.add(new qx.ui.basic.Label("With number format"), {column: 0, row: row});
       container.add(new qx.ui.basic.Label("3000"), {column: 1, row: row});
-      container.add(s7, {column: 2, row: row});
+      container.add(s6, {column: 2, row: row});
       container.add(new qx.ui.basic.Label("0"), {column: 3, row: row++});
     }
   }
