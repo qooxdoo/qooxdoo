@@ -61,12 +61,17 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
 
   properties :
   {
+
+    // overridden
     width :
     {
       refine : true,
       init : 120
     },
 
+    /**
+     * The selected item inside the list.
+     */
     selectedItem :
     {
       check : "qx.ui.form.ListItem",
@@ -137,28 +142,37 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
     },
 
 
-    
-    
-    
+
     /*
     ---------------------------------------------------------------------------
       APPLY ROUTINES
     ---------------------------------------------------------------------------
     */
 
+    // property apply
     _applySelectedItem : function(value, old) {
       this._getChildControl("list").select(value);
     },
 
+    // property apply
     _applyMaxListHeight : function(value, old) {
       this._getChildControl("list").setMaxHeight(value);
     },
 
+    /*
+    ---------------------------------------------------------------------------
+      PUBLIC METHODS
+    ---------------------------------------------------------------------------
+    */
+    
+    /**
+     * Returns the list widget.
+     * @type member
+     * @return {qx.ui.form.List} the list  
+     */
     getChildrenContainer : function() {
       return this._getChildControl("list");
     },
-
-
 
 
     /*
@@ -166,6 +180,11 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
       LIST STUFF
     ---------------------------------------------------------------------------
     */
+
+    /**
+     * Shows the list popup.
+     * @type member
+     */
     _showList : function()
     {
       var pos = qx.bom.element.Location.get(this.getContainerElement().getDomElement(), "box");
@@ -210,29 +229,53 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
       listPopup.show();
     },
 
-
+    /**
+     * Hides the list popup.
+     * @type member
+     */
     _hideList : function() {
       this._getChildControl("popup").hide();
     },
     
-    // Redirect activation to the main widget
+
+    /**
+     * Toggles the popup's visibility.
+     * @param e {Object} Activation event
+     * @type member
+     */
+    _togglePopup : function(e)
+    {
+      var isListOpen = this._getChildControl("popup").isVisible();
+      if (isListOpen) {
+        this._hideList();
+      } else {
+        this._showList();
+      }
+    },
+
+
+    /*
+    ---------------------------------------------------------------------------
+      EVENT LISTENERS
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Redirects the activation to the main widget
+     * @param e {Object} Activation event
+     * @type member
+     */
     _onActivateList : function(e) 
     {
       this.activate();
       e.stopPropagation();
     },
 
-    
-    
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      KEY HANDLER
-    ---------------------------------------------------------------------------
-    */
-    
+    /**
+     * Reacts on special keys and forwards other key events to the list widget.
+     * @param e {qx.event.type.KeyEvent} Keypress event
+     * @type member
+     */
     _onKeyPress : function(e)
     {
       // get the key identifier
@@ -266,26 +309,26 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
       this._getChildControl("list").handleKeyPress(e);
     },
 
-    
+    /**
+     * Updates list minimum size.
+     * @param e {qx.event.type.Data} Data event
+     * @type member
+     */
     _onResize : function(e){
       this._getChildControl("list").setMinWidth(e.getData().width);
     },
-    
+
+    /**
+     * Sets the selected item on change.
+     * @param e {qx.event.type.Change} Change Event
+     * @type member
+     */
     _onChange : function(e)
     {
       if (e.getData().length > 0) {
         this.setSelectedItem(e.getData()[0]);
       }
-    },
-
-    _togglePopup : function(e)
-    {
-      var isListOpen = this._getChildControl("popup").isVisible();
-      if (isListOpen) {
-        this._hideList();
-      } else {
-        this._showList();
-      }
     }
+
   }
 });
