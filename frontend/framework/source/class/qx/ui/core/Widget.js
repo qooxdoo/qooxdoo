@@ -93,8 +93,8 @@ qx.Class.define("qx.ui.core.Widget",
     // TODO: Any possible optimizations here?
     this.initFocusable();
     this.initSelectable();
-    this.initCursor();
     this.initKeepFocus();
+    this.initCursor();
   },
 
 
