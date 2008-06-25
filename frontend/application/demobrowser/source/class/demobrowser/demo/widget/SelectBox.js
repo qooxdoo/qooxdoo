@@ -33,32 +33,53 @@ qx.Class.define("demobrowser.demo.widget.SelectBox",
     {
       this.base(arguments);
 
-      ///////////////////////////////////////////////////////////////
-      // Labels for the demos
-      this.getRoot().add(new qx.ui.basic.Label("Long text"), {left: 30, top: 25});
-      this.getRoot().add(new qx.ui.basic.Label("With icons"), {left: 160, top: 25});
-      this.getRoot().add(new qx.ui.basic.Label("Long list"), {left: 290, top: 25});
-      this.getRoot().add(new qx.ui.basic.Label("Long button, short text"), {left: 420, top: 25});
-      this.getRoot().add(new qx.ui.basic.Label("Fonts"), {left: 30, bottom: 35});
-      ///////////////////////////////////////////////////////////////
+      this.addBox1();
+      this.addBox2();
+      this.addBox3();      
+    },
+    
+    
+    addBox1 : function()
+    {
+      this.getRoot().add(new qx.ui.basic.Label("Simple"), {left: 25, top: 20});
+      
+      var selectBox = new qx.ui.form.SelectBox();
+      for (var i=0; i<30; i++) 
+      {
+        var tempItem = new qx.ui.form.ListItem("Item " + (i+1));
+        selectBox.add(tempItem);
 
-
-      ///////////////////////////////////////////////////////////////
-      // example 1: Only text with different length
-      var selectBox1 = new qx.ui.form.SelectBox();
-      for (var i = 0; i < 30; i++) {
-        var tempItem = new qx.ui.form.ListItem("Item " + Math.pow(10, i));
-        selectBox1.add(tempItem);
         // select sixth item
         if (i == 5) {
-          selectBox1.setSelectedItem(tempItem);
+          selectBox.setSelectedItem(tempItem);
         }
       }
-      this.getRoot().add(selectBox1, {left: 20, top: 40});
-      ///////////////////////////////////////////////////////////////
+      this.getRoot().add(selectBox, {left: 20, top: 40});
+    },
+    
+    
+    addBox2 : function()
+    {
+      this.getRoot().add(new qx.ui.basic.Label("Long text"), {left: 175, top: 20});
+      
+      var selectBox = new qx.ui.form.SelectBox();
+      for (var i=0; i<30; i++) 
+      {
+        var tempItem = new qx.ui.form.ListItem("Random Value " + Math.round(Math.random()*100000000));
+        selectBox.add(tempItem);
+        // select sixth item
+        if (i == 5) {
+          selectBox.setSelectedItem(tempItem);
+        }
+      }
+      this.getRoot().add(selectBox, {left: 170, top: 40});      
+    },
 
-      ///////////////////////////////////////////////////////////////
-      // example 2: Text and Icons
+
+    addBox3 : function()
+    {
+      this.getRoot().add(new qx.ui.basic.Label("With icons"), {left: 335, top: 20});
+      
       var iconNames = [ "audio-card.png","audio-input-microphone.png","battery.png",
       "camera-photo.png","camera-web.png","computer.png","display.png",
       "drive-harddisk.png","drive-optical.png","input-keyboard.png",
@@ -67,60 +88,13 @@ qx.Class.define("demobrowser.demo.widget.SelectBox",
 
       var iconNamesPrefix = "icon/16/devices/"
 
-      var selectBox2 = new qx.ui.form.SelectBox();
-      for (var i = 0; i < iconNames.length; i++) {
+      var selectBox = new qx.ui.form.SelectBox();
+      for (var i=0; i<iconNames.length; i++) {
         var tempItem = new qx.ui.form.ListItem(iconNames[i].substr(0, iconNames[i].indexOf(".")), iconNamesPrefix + iconNames[i]);
-        selectBox2.add(tempItem);
+        selectBox.add(tempItem);
       }
 
-      this.getRoot().add(selectBox2, {left: 150, top: 40});
-      ///////////////////////////////////////////////////////////////
-
-      ///////////////////////////////////////////////////////////////
-      // example 3: a lot of choices
-      var selectBox3 = new qx.ui.form.SelectBox();
-      selectBox3.setMaxListHeight(null);
-      for (var i = 0; i < 300; i++) {
-        var tempItem = new qx.ui.form.ListItem("" + i);
-        selectBox3.add(tempItem);
-      }
-      this.getRoot().add(selectBox3, {left: 280, top: 40});
-      ///////////////////////////////////////////////////////////////
-
-
-
-      ///////////////////////////////////////////////////////////////
-      // example 4: fonts
-      var selectBox4 = new qx.ui.form.SelectBox();
-      var font1 = new qx.bom.Font(12, ["Tahoma"]);
-      var font2 = new qx.bom.Font(15, ["Arial"]);
-      var font3 = new qx.bom.Font(18, ["Courier New"]);
-      var font4 = new qx.bom.Font(21, ["Times New Roman"]);
-      var fonts = [font1, font2, font3, font4];
-      for (var i = 0; i < fonts.length; i++) {
-        var tempItem = new qx.ui.form.ListItem("Font " + (i + 1));
-        tempItem.setFont(fonts[i]);
-        selectBox4.add(tempItem);
-      }
-      this.getRoot().add(selectBox4, {left: 20, bottom: 10});
-      ///////////////////////////////////////////////////////////////
-
-
-      ///////////////////////////////////////////////////////////////
-      // example 5: long button, short text with disabled fields
-      var selectBox5 = new qx.ui.form.SelectBox();
-      selectBox5.setWidth(300);
-      selectBox5.setMaxListHeight(100);
-      for (var i = 0; i < 20; i++) {
-        var tempItem = new qx.ui.form.ListItem("Item " + i);
-        // enable every fifth element
-        if (i % 5 == 1) {
-          tempItem.setEnabled(false);
-        }
-        selectBox5.add(tempItem);
-      }
-      this.getRoot().add(selectBox5, {left: 410, top: 40});
-      ///////////////////////////////////////////////////////////////
+      this.getRoot().add(selectBox, {left: 330, top: 40});      
     }
   }
 });
