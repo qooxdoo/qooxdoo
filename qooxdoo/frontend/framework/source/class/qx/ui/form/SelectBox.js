@@ -24,7 +24,7 @@
 
 qx.Class.define("qx.ui.form.SelectBox",
 {
-  extend  : qx.ui.form.AbstractSelectBox,
+  extend : qx.ui.form.AbstractSelectBox,
 
 
 
@@ -53,7 +53,7 @@ qx.Class.define("qx.ui.form.SelectBox",
     this.addListener("keyinput", this._onKeyInput, this);
 
     // add a hide listener for clicks on the list
-    listPopup.addListener("mouseup", this._hideList, this);    
+    listPopup.addListener("mouseup", this._hideList, this);
   },
 
 
@@ -73,6 +73,7 @@ qx.Class.define("qx.ui.form.SelectBox",
       init : "button"
     },
 
+    // overridden
     focusable :
     {
       refine : true,
@@ -118,16 +119,15 @@ qx.Class.define("qx.ui.form.SelectBox",
       
       return control || this.base(arguments, id);
     },
-    
-    
-    
-    
+
+
     /*
     ---------------------------------------------------------------------------
       APPLY ROUTINES
     ---------------------------------------------------------------------------
     */
 
+    // property apply
     _applySelectedItem : function(value, old)
     {
       this.base(arguments, value, old);
@@ -137,10 +137,26 @@ qx.Class.define("qx.ui.form.SelectBox",
       atom.setIcon(value.getIcon());      
     },
 
+    /*
+    ---------------------------------------------------------------------------
+      EVENT LISTENERS
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Toggles the popup's visibility.
+     * @param e {qx.event.type.MouseEvent} Mouse event
+     * @type member
+     */
     _onMouseDown : function(e) {
       this._togglePopup(e);
     },
 
+    /**
+     * Forwards key event to list widget.
+     * @param e {qx.event.type.KeyEvent} Key event
+     * @type member
+     */
     _onKeyInput : function(e)
     {
       // clone the event and re-calibrate the event
