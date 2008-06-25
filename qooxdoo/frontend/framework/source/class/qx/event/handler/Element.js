@@ -146,7 +146,7 @@ qx.Class.define("qx.event.handler.Element",
      *
      * @type member
      * @param nativeEvent {Event} Native event
-     * @param elementId {Integer} element id of the current target
+     * @param eventId {Integer} ID of the event (as stored internally)
      * @return {void}
      */
     _onNative : function(nativeEvent, eventId)
