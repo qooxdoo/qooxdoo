@@ -815,7 +815,25 @@ qx.Theme.define("qx.theme.modern.Appearance",
           backgroundColor : "red"
         };
       }
+    },
+    
+    /*
+    ---------------------------------------------------------------------------
+      SELECTBOX
+    ---------------------------------------------------------------------------
+    */
+
+    "selectbox-button" :
+    {
+      style : function(states)
+      {
+        return {
+          paddingRight : 4,
+          paddingLeft : 5
+        };
+      }
     }
+
 
   }
 });
