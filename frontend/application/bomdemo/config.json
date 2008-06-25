@@ -1,0 +1,174 @@
+// BOM demo - config.json
+{
+  "include" :
+  [
+    {
+      "path" : "../apiviewer/config.json",
+      "as"   : "apiconf"
+    }
+  ],
+
+  "jobs" :
+  {
+    "common" :
+    {
+      "let" :
+      {
+        "APPLICATION"  : "bomdemo",
+        "QOOXDOO_PATH" : "../../framework",
+        "QOOXDOO_URI"  : "../${QOOXDOO_PATH}"
+      },
+      
+      "library" :
+      [
+        {
+          "manifest" : "${QOOXDOO_PATH}/Manifest.json",
+          "uri"      : "${QOOXDOO_URI}"
+          /* mind that the final uri will be computed from this 'uri' + the 
+             'class' info from the manifest */
+        },
+
+        {
+          "manifest" : "Manifest.json",
+          "uri"      : ".."
+        }
+      ],
+      
+      "include" :
+      [
+        "${APPLICATION}.Application",
+        "qx.log.appender.Native"
+      ],
+      
+      "settings" :
+      {
+        "qx.version" : "0.8-alpha1",
+        "qx.application" : "${APPLICATION}.Application",
+        "qx.disposerDebugLevel" : "2"
+      },
+
+      "cache" :
+      {
+        "path" : "../../cache"
+      }
+    },
+    
+    
+    "source-script" :
+    {
+      "extend" : ["common"],
+
+      "compile-source" :
+      {
+        "file" : "./source/script/${APPLICATION}.js",
+        "root" : "source"
+      }
+    },
+
+
+    "source" :
+    {
+      "run" :
+      [
+        "source-script"
+      ]
+    },
+    
+    
+    // putting it all together ...
+    "build" :
+    {
+      "run" :
+      [
+        /* this all has to be done for the build */
+        "build-resources",
+        "build-files",
+        "build-script"
+      ]
+    },
+    
+    "build-script" :
+    {
+      "extend" : ["common"],
+
+      "compile-dist" :
+      {
+        "target" : "build",
+        "file" : "./build/script/${APPLICATION}.js",
+        "uri"  : "script/${APPLICATION}.js",
+        "root" : "build"
+      }
+    },
+
+
+    "build-files" :
+    {
+      "extend" : ["common"],
+
+      "copy-files" :
+      {
+        "files" :
+        [
+          "index.html"
+        ],
+
+        "target" : "build"
+      }
+    },
+
+
+    "build-resources":
+    {
+      "extend" : ["common"],
+
+      "include" :
+      [
+        "bomdemo.*"
+      ],
+
+      "copy-resources" :
+      {
+        "target" : "build"
+      }
+    },
+
+
+    "common-builds" :  // this is for source/build versions
+    {
+      "extend"  : ["common"],
+
+      "include" : ["bomdemo.*"],
+
+      "settings" :
+      {
+        "${APPLICATION}.resourceUri" : "resource"
+      },
+
+      "localize" :
+      {
+        "locales" : ["en"]
+      }
+    },
+
+    /* API Viewer for bomdemo */
+    "api" :
+    {
+      "extend" : ["apiconf/build"],
+
+      "let" :
+      {
+        "ROOT"        : "../apiviewer",
+        "BUILD_PATH"  : "./api",
+        "API_INCLUDE" : ["qx.*", "bomdemo.*"]
+      },
+
+      "library" :
+      [
+        {
+          "manifest" : "Manifest.json",
+          "uri"      : ".."
+        }
+      ]
+    }
+  }
+}
