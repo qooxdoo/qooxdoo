@@ -43,7 +43,7 @@ qx.Class.define("qx.ui.form.SelectBox",
     this._createChildControl("down-arrow");
 
     var list = this._getChildControl("list");
-    var listPopup = this._getChildControl("list-popup");
+    var listPopup = this._getChildControl("popup");
     listPopup.add(list);
 
     // TODO: Omit inline functions

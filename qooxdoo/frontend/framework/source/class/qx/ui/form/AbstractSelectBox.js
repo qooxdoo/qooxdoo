@@ -123,14 +123,15 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
               this.setSelectedItem(e.getData()[0]);
             }
           }, this);
-        break;
+          break;
 
-        case "list-popup":
+        case "popup":
           // create the popup list
           control = new qx.ui.popup.Popup(new qx.ui.layout.VBox()).set({
             autoHide: false
           });
           control.addListener("mouseup", this._hideList, this);
+          control.addListener("activate", this._activateList, this);
           break;
       }
       
@@ -178,7 +179,7 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
       var spaceBelow = clientHeight - pos.bottom;
       
       var list = this._getChildControl("list");
-      var listPopup = this._getChildControl("list-popup");
+      var listPopup = this._getChildControl("popup");
 
       list.setMaxHeight(this.getMaxListHeight());
 
@@ -213,7 +214,14 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
 
 
     _hideList : function() {
-      this._getChildControl("list-popup").hide();
+      this._getChildControl("popup").hide();
+    },
+    
+    // Redirect activation to the main widget
+    _activateList : function(e) 
+    {
+      this.activate();
+      e.stopPropagation();
     },
 
     
@@ -231,7 +239,7 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
     {
       // get the key identifier
       var identifier = e.getKeyIdentifier();
-      var listPopup = this._getChildControl("list-popup");
+      var listPopup = this._getChildControl("popup");
 
       // disabled pageUp and pageDown keys
       if (identifier == "PageDown" || identifier == "PageUp")
@@ -268,7 +276,7 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
 
     _togglePopup : function(e)
     {
-      var isListOpen = this._getChildControl("list-popup").getVisibility() == "visible";
+      var isListOpen = this._getChildControl("popup").getVisibility() == "visible";
       if (isListOpen) {
         this._hideList();
       } else {

@@ -38,9 +38,9 @@ qx.Class.define("qx.ui.form.ComboBox",
 
     this._createChildControl("button");
     
-    // TODO: Call create("list-popup") here, move other stuff to _createChildControl
+    // TODO: Call create("popup") here, move other stuff to _createChildControl
     var list = this._getChildControl("list");
-    var listPopup = this._getChildControl("list-popup");
+    var listPopup = this._getChildControl("popup");
     listPopup.add(list);
     listPopup.addListener("changeVisibility", this._onChangeVisibilityList, this);
 
@@ -113,7 +113,7 @@ qx.Class.define("qx.ui.form.ComboBox",
           this._add(control);
           break;
 
-        case "list-popup":
+        case "popup":
           // create the popup list
           control = new qx.ui.popup.Popup(new qx.ui.layout.VBox()).set({
             autoHide: false
@@ -196,7 +196,7 @@ qx.Class.define("qx.ui.form.ComboBox",
     _onMouseDownRoot : function(e)
     {
       var target = e.getTarget();
-      var listPopup = this._getChildControl("list-popup");
+      var listPopup = this._getChildControl("popup");
       if (
         target !== this &&
         target !== listPopup &&
