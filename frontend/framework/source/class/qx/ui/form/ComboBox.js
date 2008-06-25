@@ -205,7 +205,7 @@ qx.Class.define("qx.ui.form.ComboBox",
     {
       this.activate();
       e.stopPropagation();
-    },
+    }
 
   }
 });
