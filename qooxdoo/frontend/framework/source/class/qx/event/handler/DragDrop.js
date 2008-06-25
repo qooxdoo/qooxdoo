@@ -477,7 +477,7 @@ qx.Class.define("qx.event.handler.DragDrop",
   */
 
   destruct : function() {
-    this._disposeFields("__draggableElements");
+    this._disposeFields("_window", "_manager", "__draggableElements", "__droppableElements");
   },
 
 
