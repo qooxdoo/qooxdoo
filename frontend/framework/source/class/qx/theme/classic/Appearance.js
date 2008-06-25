@@ -1109,6 +1109,23 @@ qx.Theme.define("qx.theme.classic.Appearance",
           backgroundColor : "border-dark-shadow"
         };
       }
+    },
+  
+    /*
+    ---------------------------------------------------------------------------
+      SELECTBOX
+    ---------------------------------------------------------------------------
+    */
+
+    "selectbox-button" :
+    {
+      style : function(states)
+      {
+        return {
+          paddingRight : 4,
+          paddingLeft : 5
+        };
+      }
     }
 
   }
