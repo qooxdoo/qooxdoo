@@ -20,6 +20,7 @@
 ************************************************************************ */
 /**
  * @appearance selectbox
+ * @appearance selectbox-button
  */
 
 qx.Class.define("qx.ui.form.SelectBox",
@@ -109,10 +110,8 @@ qx.Class.define("qx.ui.form.SelectBox",
           break;
 
         case "down-arrow":
-          // TODO: Paddings are appearance
           control = new qx.ui.basic.Image("decoration/arrows/down.gif");
-          control.setPaddingRight(4);
-          control.setPaddingLeft(5);
+          control.setAppearance("selectbox-button");
           this._add(control);
           break;
       }
