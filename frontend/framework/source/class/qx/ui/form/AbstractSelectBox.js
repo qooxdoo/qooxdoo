@@ -46,7 +46,6 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
 
     this.addListener("keypress", this._onKeyPress);
     this.addListener("blur", this._hideList, this);
-
   },
 
 
@@ -106,7 +105,7 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
           control = new qx.ui.form.TextField();
           control.setAppearance("spinner-text-field");    
           this._add(control, {flex: 1});
-        break;
+          break;
 
         case "list":
           control = new qx.ui.form.List().set({
@@ -118,6 +117,7 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
             selectionMode: "one"
           });
 
+          // TODO: Omit inline methods
           control.addListener("change", function(e) {
             if (e.getData().length > 0) {
               this.setSelectedItem(e.getData()[0]);
@@ -131,9 +131,9 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
             autoHide: false
           });
           control.addListener("mouseup", this._hideList, this);
-        break;
-
+          break;
       }
+      
       return control || this.base(arguments, id);
     },
 
@@ -147,8 +147,7 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
     ---------------------------------------------------------------------------
     */
 
-    _applySelectedItem : function(value, old)
-    {
+    _applySelectedItem : function(value, old) {
       this._getChildControl("list").select(value);
     },
 
@@ -156,11 +155,10 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
       this._getChildControl("list").setMaxHeight(value);
     },
 
-
-    getChildrenContainer : function()
-    {
+    getChildrenContainer : function() {
       return this._getChildControl("list");
     },
+
 
 
 
@@ -189,18 +187,23 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
       // case 1: List fits below the button
       if (spaceBelow > listHeight) {
         listPopup.moveTo(pos.left, pos.bottom);
-
+      }
+      
       // case 2: list does not fit below the button but above it
-      } else if (spaceAbove > listHeight) {
+      else if (spaceAbove > listHeight) {
         listPopup.moveTo(pos.left, pos.top - listHeight);
+      } 
 
       // case 3: List does not fit at all
-      } else if (spaceBelow > spaceAbove) {
+      else if (spaceBelow > spaceAbove)
+      {
         list.setMaxHeight(spaceBelow);
         listPopup.moveTo(pos.left, pos.bottom);
-
+      } 
+      
       // case 4: List must be fitted above the button
-      } else {
+      else 
+      {
         list.setMaxHeight(spaceAbove);
         listPopup.moveTo(pos.left, pos.bottom - listHeight);
       }
@@ -209,38 +212,13 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
     },
 
 
-    _hideList : function()
-    {
+    _hideList : function() {
       this._getChildControl("list-popup").hide();
     },
 
     
-    /*
-    ---------------------------------------------------------------------------
-      FOCUS
-    ---------------------------------------------------------------------------
-    */    
-    /**
-     * Callback method for the "blur" event of the textfield.
-     *
-     * @type member
-     * @param e {qx.ui.event.type.Event} blur event
-     */
-    _onTextBlur: function(e)
-    {
-      this.removeState("focused");
-    },
+    
 
-
-    /**
-     * Callback method for the "focus" event of the textfield.
-     *
-     * @type member
-     * @param e {qx.ui.event.type.Event} blur event
-     */
-    _onTextFocus : function(e) {
-      this.addState("focused");
-    },
 
 
     /*
@@ -248,6 +226,7 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
       KEY HANDLER
     ---------------------------------------------------------------------------
     */
+    
     _onKeyPress : function(e)
     {
       // get the key identifier
@@ -287,7 +266,7 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
     },
 
 
-    _activate : function(e)
+    _togglePopup : function(e)
     {
       var isListOpen = this._getChildControl("list-popup").getVisibility() == "visible";
       if (isListOpen) {
@@ -296,6 +275,5 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
         this._showList();
       }
     }
-
   }
 });

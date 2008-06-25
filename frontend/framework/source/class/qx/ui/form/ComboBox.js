@@ -19,9 +19,8 @@
 
 ************************************************************************ */
 /**
- * @appearance selectbox
+ * @appearance combobox
  */
-
 qx.Class.define("qx.ui.form.ComboBox",
 {
   extend  : qx.ui.form.AbstractSelectBox,
@@ -39,6 +38,7 @@ qx.Class.define("qx.ui.form.ComboBox",
 
     this._createChildControl("button");
     
+    // TODO: Call create("list-popup") here, move other stuff to _createChildControl
     var list = this._getChildControl("list");
     var listPopup = this._getChildControl("list-popup");
     listPopup.add(list);
@@ -48,6 +48,7 @@ qx.Class.define("qx.ui.form.ComboBox",
     textField.addListener("blur", this._onTextBlur, this);
     textField.addListener("focus", this._onTextFocus, this);    
 
+    // TODO: Omit inline functions
     this.addListener("resize", function(e) {
       list.setMinWidth(e.getData().width);
     });
@@ -102,8 +103,7 @@ qx.Class.define("qx.ui.form.ComboBox",
           control.addListener("blur", this._onTextBlur, this);
           control.addListener("focus", this._onTextFocus, this);    
           this._add(control, {flex: 1});
-        break;
-
+          break;
 
         case "button":
           // create the button
@@ -111,7 +111,7 @@ qx.Class.define("qx.ui.form.ComboBox",
           control.setFocusable(false);
           control.addListener("click", this._onClick, this);
           this._add(control);
-        break;
+          break;
 
         case "list-popup":
           // create the popup list
@@ -120,9 +120,9 @@ qx.Class.define("qx.ui.form.ComboBox",
           });
           control.addListener("mouseup", this._hideList, this);
           control.addListener("changeVisibility", this._onChangeVisibilityList, this);
-        break;
-
+          break;
       }
+      
       return control || this.base(arguments, id);
     },
 
@@ -138,24 +138,27 @@ qx.Class.define("qx.ui.form.ComboBox",
 
     _applySelectedItem : function(value, old)
     {
-      this._getChildControl("textfield").setValue(value.getLabel());
       this.base(arguments, value, old);
+      
+      this._getChildControl("textfield").setValue(value.getLabel());
     },
+
+
 
     
     /*
     ---------------------------------------------------------------------------
       FOCUS
     ---------------------------------------------------------------------------
-    */    
+    */ 
+       
     /**
      * Callback method for the "blur" event of the textfield.
      *
      * @type member
      * @param e {qx.ui.event.type.Event} blur event
      */
-    _onTextBlur: function(e)
-    {
+    _onTextBlur: function(e) {
       this.removeState("focused");
     },
 
@@ -171,9 +174,8 @@ qx.Class.define("qx.ui.form.ComboBox",
     },
         
     
-    _onClick : function(e)
-    {
-      this._activate(e);
+    _onClick : function(e) {
+      this._togglePopup(e);
     },
 
 
@@ -204,6 +206,5 @@ qx.Class.define("qx.ui.form.ComboBox",
         this._hideList();
       }
     }
-
   }
 });
