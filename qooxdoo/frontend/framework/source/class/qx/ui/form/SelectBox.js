@@ -46,6 +46,7 @@ qx.Class.define("qx.ui.form.SelectBox",
     var listPopup = this._getChildControl("list-popup");
     listPopup.add(list);
 
+    // TODO: Omit inline functions
     this.addListener("resize", function(e) {
       list.setMinWidth(e.getData().width);
     });
@@ -53,6 +54,7 @@ qx.Class.define("qx.ui.form.SelectBox",
     // register the mouse and keyboard listener
     this.addListener("mousedown", this._onMouseDown, this);
 
+    // TODO: Omit inline functions
     // Listener for Search as you type (forward the keyinput event)
     this.addListener("keyinput", function(e) {
       // clone the event and re-calibrate the event
@@ -108,29 +110,29 @@ qx.Class.define("qx.ui.form.SelectBox",
 
       switch(id)
       {
-        
         case "spacer":
-          // add the spacer
           control = new qx.ui.core.Spacer();
           this._add(control, {flex: 1});
-        break;
+          break;
 
         case "atom":
-          // create the label
           control = new qx.ui.basic.Atom(" ");
           this._add(control, {flex:1});
-        break;
+          break;
 
         case "down-arrow":
-          // create the down arrow
+          // TODO: Paddings are appearance
           control = new qx.ui.basic.Image("decoration/arrows/down.gif");
           control.setPaddingRight(4);
           control.setPaddingLeft(5);
           this._add(control);
-        break;
+          break;
       }
+      
       return control || this.base(arguments, id);
     },
+    
+    
     
     
     /*
@@ -141,16 +143,15 @@ qx.Class.define("qx.ui.form.SelectBox",
 
     _applySelectedItem : function(value, old)
     {
+      this.base(arguments, value, old);
+      
       var atom = this._getChildControl("atom");
       atom.setLabel(value.getLabel());
-      atom.setIcon(value.getIcon());
-
-      this.base(arguments, value, old);
+      atom.setIcon(value.getIcon());      
     },
 
     _onMouseDown : function(e) {
-      this._activate(e);
+      this._togglePopup(e);
     }
-
   }
 });
