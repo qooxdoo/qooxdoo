@@ -130,11 +130,35 @@ class Config:
         return True
         
 
-    def getJob(self,jobname):
-        if self._data.has_key(self.JOBS_KEY) and self._data[self.JOBS_KEY].has_key(jobname):
-            return self._data[self.JOBS_KEY][jobname]
-        else:
-            return None
+    def getJob(self, job, default=None):
+        ''' takes jobname or job object ref, and returns job object ref or default '''
+
+        if isinstance(job, Job): # you already found it :)
+            return job
+
+        assert isinstance(job, types.StringTypes)
+        if ~job.find(self.NS_SEP):  # nested job?
+            part, rest = job.split(self.NS_SEP, 1)
+            if part == "." or part == "":
+                return default
+            else:
+                if not 'include' in self._data:
+                    return default
+                for incSpec in self._data['include']:
+                    if (incSpec.has_key('as') and incSpec['as'] == part):
+                        return incSpec['config'].getJob(rest)
+                else:
+                    return default
+        # local job?
+        elif self._data.has_key(self.JOBS_KEY) and self._data[self.JOBS_KEY].has_key(job):
+            jobEntry = self._data[self.JOBS_KEY][job]
+            if isinstance(jobEntry, Job):
+                return jobEntry
+            else:
+                return Job(job, jobEntry, self)
+
+        return default
+
 
     def hasJob(self,jobname):
         if self.getJob(jobname):
@@ -300,7 +324,6 @@ class Config:
 
 
     def resolveExtendsAndRuns1(self, jobList):
-        jobsMap = self.getJobsMap()
         console = self._console
         console.info("Resolving jobs...")
         console.indent()
@@ -308,8 +331,8 @@ class Config:
         # while there are still 'run' jobs or unresolved jobs in the job list...
         while ([x for x in jobList if self.getJob(x).hasFeature('run')] or 
                [y for y in jobList if not self.getJob(y).hasFeature('resolved')]):
-            self._resolveExtends1(joblist)
-            self._resolveRuns1(joblist)
+            self._resolveExtends1(jobList)
+            self._resolveRuns1(jobList)
 
         console.outdent()
         return jobList
@@ -483,6 +506,7 @@ class Config:
             if not job:
                 raise RuntimeError, "No such job: %s" % jobname
 
+            job = job.getData()
             if job.has_key("resolved"):
                 return
 
@@ -517,7 +541,8 @@ class Config:
                     pjob = jobcontext.getJob(entry)
                     
                     # now merge the fully expanded job into the current job
-                    _mergeJobs(pjob, job)
+                    #_mergeJobs(pjob, job)
+                    _mergeJobs(pjob.getData(), job)
 
             job["resolved"] = True
 
@@ -740,7 +765,7 @@ class Job(object):
     def _listPrepend(source, target):
         return source + target
 
-    def _mergeJob(source, target):
+    def _mergeJob(source):
         for key in source:
             # merge 'library' key rather than shadowing
             if key == 'library'and target.has_key(key):
@@ -760,10 +785,10 @@ class Job(object):
         if self.hasFeature(self.RESOLVED_KEY):
             return
 
-        # pre-include optional global 'let'
+        # pre-include global 'let'
         global_let = self._config.get('let',False)
         if global_let:
-            if 'let' in self:
+            if self.hasFeature('let'):
                 self.setFeature('let', self._mapMerge(global_let, self.getFeature('let')))
             else:
                 self.setFeature('let', global_let)
@@ -776,16 +801,15 @@ class Job(object):
                 if entry in entryTrace:
                     raise RuntimeError, "Extend entry already seen: %s" % str(entryTrace+[self.name,entry])
                 
-                # make sure this entry job is fully resolved in the correct context
-                entryJob = config.getJob(entry)
-                entryJob._resolveExtend(entryTrace + [jobname])
+                entryJob = config.getJob(entry)  # getJob() handles string/Job polymorphism of 'entry' and returns Job object
 
-                # TODO: handle job context!
+                # make sure this entry job is fully resolved in its context
+                entryJob.resolveExtend(entryTrace + [self.name])
 
                 # now merge the fully expanded job into the current job
                 self._mergeJob(entryJob)
 
-        job.setFeature(self.RESOLVED_KEY, True)
+        self.setFeature(self.RESOLVED_KEY, True)
 
 
     def getData(self):
@@ -800,6 +824,9 @@ class Job(object):
 
     def clone(self):
         return Job(self.name, self._data.copy(), self._config)
+
+    def hasFeature(self, feature):
+        return self._data.has_key(feature)
 
     def setFeature(self, feature, value):
         self._data[feature]=value

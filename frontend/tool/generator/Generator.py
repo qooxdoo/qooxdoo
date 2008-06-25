@@ -90,10 +90,22 @@ class Generator:
         _classes = {}
         _docs = {}
         _translations = {}
+        if not isinstance(library, types.ListType):
+            return (_namespaces, _classes, _docs, _translations)
 
-        for entry in library.iter():
-            key  = entry.get("path")
-            luri = os.path.join(entry.get("uri"), entry.get("class"))
+        for entry in library:
+            key  = entry["path"]
+            if entry.has_key('uri'):
+                uri = entry['uri']
+            else:
+                uri = None
+            if entry.has_key('class'):
+                clazz = entry['class']
+            else:
+                clazz = None
+                
+            luri = os.path.join(uri, clazz)
+            #luri = os.path.join(entry.get("uri"), entry.get("class"))
             #luri = Path.rel_from_to(self.approot, entry.get("path"))
             #luri = os.path.join(luri, entry.get("class"))
             if memcache.has_key(key):
@@ -305,7 +317,8 @@ class Generator:
         (self._namespaces,
          self._classes,
          self._docs,
-         self._translations) = self.scanLibrary(config.extract("library"))
+         #self._translations) = self.scanLibrary(config.extract("library"))
+         self._translations) = self.scanLibrary(config.get("library"))
 
         # Create tool chain instances
         self._treeLoader     = TreeLoader(self._classes, self._cache, self._console)

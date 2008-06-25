@@ -1,5 +1,7 @@
 // Apiviewer - config.json
 {
+  "name"    : "Apiviewer config",
+
   "export" : ["build"],
 
   "jobs" :
@@ -8,8 +10,9 @@
     {
       "let" :
       {
-        "ROOT"         : ".",
-        "APIVIEWER"  : "apiviewer",
+        "APIVIEWER_ROOT" : ".",
+        "ROOT"           : "${APIVIEWER_ROOT}",
+        "APIVIEWER"    : "apiviewer",
         "QOOXDOO_PATH" : "../../framework",
         "QOOXDOO_URI"  : "../${QOOXDOO_PATH}",
         "API_INCLUDE"  : ["qx.*"],
