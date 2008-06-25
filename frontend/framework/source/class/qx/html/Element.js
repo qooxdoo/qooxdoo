@@ -1386,6 +1386,20 @@ qx.Class.define("qx.html.Element",
     ---------------------------------------------------------------------------
     */
     
+    /**
+     * Scrolls the given child element into view. Only scrolls children.
+     * Do not influence elements on top of this element.
+     *
+     * If the element is currently invisible it gets scrolled automatically
+     * at the next time it is visible again (queued).
+     *
+     * @type member
+     * @param elem {qx.html.Element} The element to scroll into the viewport.
+     * @param align {String?null} Alignment of the element. Allowed values:
+     *   <code>left</code> or <code>right</code>. Could also be null.
+     *   Without a given alignment the method tries to scroll the widget
+     *   with the minimum effort needed.
+     */
     scrollChildIntoViewX : function(elem, align)
     {
       var thisEl = this._element;
@@ -1410,6 +1424,21 @@ qx.Class.define("qx.html.Element",
       delete this.__lazyScrollX;
     },
     
+
+    /**
+     * Scrolls the given child element into view. Only scrolls children.
+     * Do not influence elements on top of this element.
+     *
+     * If the element is currently invisible it gets scrolled automatically
+     * at the next time it is visible again (queued).
+     *
+     * @type member
+     * @param elem {qx.html.Element} The element to scroll into the viewport.
+     * @param align {String?null} Alignment of the element. Allowed values:
+     *   <code>top</code> or <code>bottom</code>. Could also be null.
+     *   Without a given alignment the method tries to scroll the widget
+     *   with the minimum effort needed.
+     */
     scrollChildIntoViewY : function(elem, align)
     {
       var thisEl = this._element;
