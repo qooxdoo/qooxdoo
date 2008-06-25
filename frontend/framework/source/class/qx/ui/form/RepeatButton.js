@@ -99,7 +99,6 @@ qx.Class.define("qx.ui.form.RepeatButton",
       init  : 100
     },
 
-
     /**
      * Interval used for the first run of the timer. Usually a greater value
      * than the "interval" property value to a little delayed reaction at the first
@@ -176,34 +175,57 @@ qx.Class.define("qx.ui.form.RepeatButton",
      */
     release : function(fireExecuteEvent)
     {
-      // set the default value of the argument
-      if (typeof fireExecuteEvent != "boolean") {
-        fireExecuteEvent = true;
+      // only if the button is enabled
+      if (this.isEnabled()) {
+        return;  
       }
       
-      // only if the button is enabled
-      if (this.isEnabled())
+      // only if the button is pressed
+      if (this.hasState("pressed"))
       {
-        // only if the button is pressed
-        if (this.hasState("pressed"))
-        {
-          // if the button hast not been executed
-          if (!this.__executed && fireExecuteEvent) {
-            this.execute();
-          }
-
-          // set the button the the reight states
-          this.removeState("pressed");
-          this.removeState("abandoned");
-
-          // stopp the repeat timer and therefore the execution
-          this.__stopInternalTimer();
+        // if the button hast not been executed
+        if (!this.__executed) {
+          this.execute();
         }
       }
+
+      // remove button states
+      this.removeState("pressed");
+      this.removeState("abandoned");
+
+      // stop the repeat timer and therefore the execution
+      this.__stopInternalTimer();
     },
 
 
 
+
+
+    /*
+    ---------------------------------------------------------------------------
+      PROPERTY APPLY ROUTINES
+    ---------------------------------------------------------------------------
+    */
+
+    // overridden
+    _applyEnabled : function(value, old)
+    {
+      this.base(arguments, value, old);
+      
+      if (!value)
+      {
+        // remove button states
+        this.removeState("pressed");
+        this.removeState("abandoned");      
+        
+        // stop the repeat timer and therefore the execution
+        this.__stopInternalTimer();      
+      }
+    },
+    
+    
+    
+    
 
     /*
     ---------------------------------------------------------------------------
