@@ -1094,7 +1094,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
         return {
           width : states.horizontal ? 5 : "undefined",
           height : states.vertical ? 5 : "undefined",
-          backgroundColor : states.active ? "yellow" : "#aaa"
+          backgroundColor : states.active ? "border-dark-shadow" : "border-dark"
         };
       }
     },
@@ -1106,7 +1106,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
         return {
           width : states.horizontal ? 5 : "undefined",
           height : states.vertical ? 5 : "undefined",
-          backgroundColor : "red"
+          backgroundColor : "border-dark-shadow"
         };
       }
     }
