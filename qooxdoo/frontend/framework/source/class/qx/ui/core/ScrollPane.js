@@ -209,7 +209,6 @@ qx.Class.define("qx.ui.core.ScrollPane",
       var domX = contentEl.getScrollX();
       
       if (internalX != domX) {
-        this.debug("Correcting X to: " + internalX + " (from: " + domX + ")");
         contentEl.scrollToX(internalX);
       }
 
@@ -217,7 +216,6 @@ qx.Class.define("qx.ui.core.ScrollPane",
       var domY = contentEl.getScrollY();
 
       if (internalY != domY) {
-        this.debug("Correcting Y to: " + internalY + " (from: " + domY + ")");
         contentEl.scrollToY(internalY);
       }
     },
