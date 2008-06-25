@@ -223,8 +223,6 @@ qx.Class.define("bomdemo.dragdrop.Manager",
           bomdemo.box.Manager.getInstance().setActiveBox(activeBox);  
         }
       });
-      
-      this.resetActiveBox();
     },
     
     
