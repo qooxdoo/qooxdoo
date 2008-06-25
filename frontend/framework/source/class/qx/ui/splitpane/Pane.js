@@ -488,6 +488,11 @@ qx.Class.define("qx.ui.splitpane.Pane",
     },
     
     
+    /**
+     * Updates the pane's cursor based on the mouse position
+     *
+     * @type member
+     */    
     __updateCursor : function()
     {
       var splitter = this._getChildControl("splitter");

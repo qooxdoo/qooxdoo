@@ -46,7 +46,7 @@ qx.Theme.define("qx.theme.classic.Decoration",
         color : "black"
       }
     },
-
+    
     "white" :
     {
       decorator: qx.ui.decoration.Uniform,
