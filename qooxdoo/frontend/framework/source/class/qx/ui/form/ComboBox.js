@@ -104,6 +104,7 @@ qx.Class.define("qx.ui.form.ComboBox",
           // create the button
           control = new qx.ui.form.Button(null, "decoration/arrows/down.gif");
           control.setFocusable(false);
+          control.addListener("activate", this._onActivateButton, this);
           control.addListener("click", this._onClick, this);
           this._add(control);
           break;
@@ -197,6 +198,14 @@ qx.Class.define("qx.ui.form.ComboBox",
       ) {
         this._hideList();
       }
-    }
+    },
+
+    // Redirect activation to the main widget
+    _onActivateButton : function(e) 
+    {
+      this.activate();
+      e.stopPropagation();
+    },
+
   }
 });
