@@ -90,10 +90,10 @@ qx.Class.define("testrunner.test.bom.Basic",
       //this.assertEquals("", util.getCss(document.getElementById("test6")));
 
       var test6Color = style.get(document.getElementById("test6"), "color");
-      this.assert(test6Color == "red" || test6Color == "rgb(255, 0, 0)", test6Color);
+      this.assert(test6Color == "red" || test6Color == "rgb(255, 0, 0)" || test6Color == "#ff0000", test6Color);
 
       var test6BackgroundColor = style.get(document.getElementById("test6"), "backgroundColor");
-      this.assert(test6BackgroundColor == "blue" || test6BackgroundColor == "rgb(0, 0, 255)", test6BackgroundColor);
+      this.assert(test6BackgroundColor == "blue" || test6BackgroundColor == "rgb(0, 0, 255)" || test6BackgroundColor == "#0000ff", test6BackgroundColor);
 
       this.assertEquals("", style.get(document.getElementById("test6"), "font"));
       this.assertEquals("serif", style.get(document.getElementById("test6"), "fontFamily"));
