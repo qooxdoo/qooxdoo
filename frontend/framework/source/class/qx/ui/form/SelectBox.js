@@ -46,24 +46,11 @@ qx.Class.define("qx.ui.form.SelectBox",
     var listPopup = this._getChildControl("popup");
     listPopup.add(list);
 
-    // TODO: Omit inline functions
-    this.addListener("resize", function(e) {
-      list.setMinWidth(e.getData().width);
-    });
-
-    // register the mouse and keyboard listener
+    // register the mouse listener
     this.addListener("mousedown", this._onMouseDown, this);
 
-    // TODO: Omit inline functions
     // Listener for Search as you type (forward the keyinput event)
-    this.addListener("keyinput", function(e) {
-      // clone the event and re-calibrate the event
-      var clone = e.clone();
-      clone.setTarget(this._list);
-      clone.setBubbles(false);
-      // forward it to the list
-      list.dispatchEvent(clone);
-    }, this);
+    this.addListener("keyinput", this._onKeyInput, this);
 
     // add a hide listener for clicks on the list
     listPopup.addListener("mouseup", this._hideList, this);    
@@ -152,6 +139,17 @@ qx.Class.define("qx.ui.form.SelectBox",
 
     _onMouseDown : function(e) {
       this._togglePopup(e);
+    },
+
+    _onKeyInput : function(e)
+    {
+      // clone the event and re-calibrate the event
+      var clone = e.clone();
+      clone.setTarget(this._list);
+      clone.setBubbles(false);
+      // forward it to the list
+      this._getChildControl("list").dispatchEvent(clone);
     }
+
   }
 });
