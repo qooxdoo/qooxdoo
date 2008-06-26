@@ -24,28 +24,12 @@ qx.Class.define("qx.ui.toolbar.CheckBox",
 
 
 
-
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
-  construct : function(vText, vIcon, vChecked)
-  {
-    this.base(arguments, vText, vIcon);
-
-    if (vChecked != null) {
-      this.setChecked(vChecked);
-    }
-  },
-
-
   /*
   *****************************************************************************
      PROPERTIES
   *****************************************************************************
   */
+  
   properties :
   {
     appearance :
@@ -59,45 +43,5 @@ qx.Class.define("qx.ui.toolbar.CheckBox",
       refine : true,
       init : "inherit"
     }
-  },
-
-
-  /*
-  *****************************************************************************
-     MEMBERS
-  *****************************************************************************
-  */
-
-  members :
-  {
-    /*
-    ---------------------------------------------------------------------------
-      EVENTS
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param e {Event} TODOC
-     * @return {void}
-     */
-/*    _onmouseup : function(e)
-    {
-      this.setCapture(false);
-
-      if (!this.hasState("abandoned"))
-      {
-        this.addState("over");
-        this.setChecked(!this.getChecked());
-        this.execute();
-      }
-
-      this.removeState("abandoned");
-      this.removeState("pressed");
-
-      e.stopPropagation();
-    }*/
   }
 });
