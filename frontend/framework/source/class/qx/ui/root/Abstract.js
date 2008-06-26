@@ -71,7 +71,41 @@ qx.Class.define("qx.ui.root.Abstract",
     {
       refine : true,
       init : true
-    }
+    },
+    
+    /**
+     *  Sets the global cursor style
+     *
+     *  The name of the cursor to show when the mouse pointer is over the widget.
+     *  This is any valid CSS2 cursor name defined by W3C.
+     *
+     *  The following values are possible:
+     *  <ul><li>default</li>
+     *  <li>crosshair</li>
+     *  <li>pointer (hand is the ie name and will mapped to pointer in non-ie).</li>
+     *  <li>move</li>
+     *  <li>n-resize</li>
+     *  <li>ne-resize</li>
+     *  <li>e-resize</li>
+     *  <li>se-resize</li>
+     *  <li>s-resize</li>
+     *  <li>sw-resize</li>
+     *  <li>w-resize</li>
+     *  <li>nw-resize</li>
+     *  <li>text</li>
+     *  <li>wait</li>
+     *  <li>help </li>
+     *  <li>url([file]) = self defined cursor, file should be an ANI- or CUR-type</li>
+     *  </ul>
+     */
+    globalCursor :
+    {
+      check : "String",
+      nullable : true,
+      themeable : true,
+      apply : "_applyGlobalCursor",
+      event : "changeGlobalCursor"
+    }    
   },
 
 
@@ -94,8 +128,60 @@ qx.Class.define("qx.ui.root.Abstract",
     // overridden
     isFocusRoot : function() {
       return true;
+    },
+    
+    
+    // property apply
+    _applyGlobalCursor : qx.core.Variant.select("qx.client",
+    {
+      "default--" : function(value, old) 
+      {
+        if (value && !old) 
+        {
+          this.addListener("mouseover", this._onGlobalCursorOver, this, true);
+          this.addListener("mouseout", this._onGlobalCursorOut, this, true);
+        }
+        else if (old && !value)
+        {
+          this.removeListener("mouseover", this._onGlobalCursorOver, this, true);
+          this.removeListener("mouseout", this._onGlobalCursorOut, this, true);
+        } 
+      },
+      
+      // This would be the optimal solution.
+      // But this has some issues:
+      // * Works like charm in Safari
+      // * Massive performance lost in IE, but working
+      // * Reflow issues in Gecko where hover states get lost, otherwise working
+      // * Reflow issues like Gecko and cursor never seems to get applied at all
+      "default" : function(value)
+      {
+        var Stylesheet = qx.bom.Stylesheet;
+        
+        var sheet = this._globalCursorStyleSheet;
+        if (!sheet) {
+          this._globalCursorStyleSheet = sheet = Stylesheet.createElement();
+        }
+
+        Stylesheet.removeAllRules(sheet);
+
+        if (value) {
+          Stylesheet.addRule(sheet, "*", "cursor:" + value + " !important");
+        }
+      }
+    }),    
+    
+    _onGlobalCursorOver : function(e)
+    {
+      this.debug("Over: " + e.getCurrentTarget());
+    },
+    
+    _onGlobalCursorOut : function(e)
+    {
+      this.debug("Out: " + e.getCurrentTarget());
     }
   },
+  
 
 
 

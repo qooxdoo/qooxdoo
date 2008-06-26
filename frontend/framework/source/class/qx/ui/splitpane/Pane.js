@@ -495,16 +495,17 @@ qx.Class.define("qx.ui.splitpane.Pane",
     __updateCursor : function()
     {
       var splitter = this._getChildControl("splitter");
+      var root = qx.core.Init.getApplication().getRoot();
 
       // Whether the cursor is near enough to the splitter
-      if (this.__isNear()) 
+      if (this.__activeDragSession || this.__isNear()) 
       {
-        this.setCursor(this._isHorizontal ? "col-resize" : "row-resize");
+        root.setGlobalCursor(this._isHorizontal ? "col-resize" : "row-resize");
         splitter.addState("active");
       } 
       else 
       {
-        this.resetCursor();
+        root.resetGlobalCursor();
         splitter.removeState("active");
       }      
     },
