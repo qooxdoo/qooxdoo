@@ -111,7 +111,7 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
         case "textfield":
           // create the textField
           control = new qx.ui.form.TextField();
-          control.setAppearance("spinner-text-field");    
+          control.setAppearance("spinner-textfield");    
           this._add(control, {flex: 1});
           break;
 

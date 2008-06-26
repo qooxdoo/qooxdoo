@@ -1003,7 +1003,7 @@ qx.Theme.define("qx.legacy.theme.classic.Appearance",
     ---------------------------------------------------------------------------
     */
 
-    "text-field" :
+    "textfield" :
     {
       style : function(states)
       {
@@ -1017,7 +1017,7 @@ qx.Theme.define("qx.legacy.theme.classic.Appearance",
     },
 
     "text-area" : {
-      include : "text-field"
+      include : "textfield"
     },
 
 
@@ -1066,9 +1066,9 @@ qx.Theme.define("qx.legacy.theme.classic.Appearance",
       }
     },
 
-    "combo-box-text-field" :
+    "combo-box-textfield" :
     {
-      include : "text-field",
+      include : "textfield",
 
       style : function(states)
       {
@@ -1126,9 +1126,9 @@ qx.Theme.define("qx.legacy.theme.classic.Appearance",
       }
     },
 
-    "combo-box-ex-text-field" :
+    "combo-box-ex-textfield" :
     {
-      include : "text-field",
+      include : "textfield",
 
       style : function(states)
       {
@@ -1477,9 +1477,9 @@ qx.Theme.define("qx.legacy.theme.classic.Appearance",
       }
     },
 
-    "spinner-text-field" :
+    "spinner-textfield" :
     {
-      include : "text-field",
+      include : "textfield",
 
       style : function(states)
       {
@@ -1706,7 +1706,7 @@ qx.Theme.define("qx.legacy.theme.classic.Appearance",
 
     "table-editor-textfield" :
     {
-      include : "text-field",
+      include : "textfield",
 
       style : function(states)
       {

@@ -22,7 +22,7 @@
 /**
  * The TextField is a single-line text input field.
  *
- * @appearance text-field
+ * @appearance textfield
  */
 qx.Class.define("qx.ui.form.TextField",
 {
@@ -51,7 +51,7 @@ qx.Class.define("qx.ui.form.TextField",
     appearance :
     {
       refine : true,
-      init : "text-field"
+      init : "textfield"
     },
 
     // overridden

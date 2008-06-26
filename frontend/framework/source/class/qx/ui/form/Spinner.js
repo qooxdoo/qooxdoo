@@ -78,7 +78,7 @@ qx.Class.define("qx.ui.form.Spinner",
 
     // TEXTFIELD
     this._textField = new qx.ui.form.TextField();
-    this._textField.setAppearance("spinner-text-field");
+    this._textField.setAppearance("spinner-textfield");
     this._textField.setWidth(40);
     this._add(this._textField, {column: 0, row: 0, rowSpan: 2});
 
