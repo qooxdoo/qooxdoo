@@ -98,7 +98,7 @@ qx.Class.define("qx.legacy.ui.form.Spinner",
     this._textfield.setHeight(null);
     this._textfield.setLiveUpdate(true);
     this._textfield.setVerticalAlign("middle");
-    this._textfield.setAppearance("spinner-textfield");
+    this._textfield.setAppearance("spinner-text-field");
     this.add(this._textfield);
 
     // ************************************************************************

@@ -23,7 +23,7 @@
  *
  * It is used for textual user input.
  *
- * @appearance textfield
+ * @appearance text-field
  */
 qx.Class.define("qx.legacy.ui.form.TextField",
 {
@@ -142,7 +142,7 @@ qx.Class.define("qx.legacy.ui.form.TextField",
     appearance :
     {
       refine : true,
-      init : "textfield"
+      init : "text-field"
     },
 
     tabIndex :
