@@ -35,7 +35,7 @@
  * <a href='http://qooxdoo.org/documentation/0.8/tooltip' target='_blank'>
  * Documentation of this widget in the qooxdoo wiki.</a>
  *
- * @appearance tool-tip
+ * @appearance tooltip
  */
 qx.Class.define("qx.ui.popup.ToolTip",
 {
@@ -93,7 +93,7 @@ qx.Class.define("qx.ui.popup.ToolTip",
     appearance :
     {
       refine : true,
-      init : "tool-tip"
+      init : "tooltip"
     },
 
     /** Left offset of the mouse pointer (in pixel) */
