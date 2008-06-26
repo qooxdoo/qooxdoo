@@ -37,8 +37,6 @@ qx.Class.define("demobrowser.demo.animation.Login_Sample",
     main: function()
     {
       this.base(arguments);
-      
-      qx.theme.manager.Meta.getInstance().setTheme(qx.theme.Modern);
 
       /* Container layout */
       var layout = new qx.ui.layout.Grid(9, 5);

@@ -19,7 +19,7 @@
 
 /* ************************************************************************
 
-#asset(qx/icon/Tango/16/devices/*)
+#asset(qx/icon/Oxygen/16/devices/*)
 
 ************************************************************************ */
 
@@ -32,8 +32,6 @@ qx.Class.define("demobrowser.demo.widget.SelectBox",
     main: function()
     {
       this.base(arguments);
-
-      qx.theme.manager.Meta.getInstance().setTheme(qx.theme.Modern);
 
       var box = new qx.ui.container.Composite(new qx.ui.layout.HBox(50));
 
