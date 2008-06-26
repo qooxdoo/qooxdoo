@@ -34,16 +34,21 @@ qx.Class.define("demobrowser.demo.widget.SelectBox",
       this.base(arguments);
 
       qx.theme.manager.Meta.getInstance().setTheme(qx.theme.Modern);
+      
+      var box = new qx.ui.container.Composite(new qx.ui.layout.HBox(50));
 
-      this.addBox1();
-      this.addBox2();
-      this.addBox3();      
+      box.add(this.createBox1());
+      box.add(this.createBox2());
+      box.add(this.createBox3());
+      
+      this.getRoot().add(box, {left : 30, top : 25})
     },
     
     
-    addBox1 : function()
+    createBox1 : function()
     {
-      this.getRoot().add(new qx.ui.basic.Label("Simple"), {left: 25, top: 20});
+      var container = new qx.ui.container.Composite(new qx.ui.layout.VBox(2));
+      container.add(new qx.ui.basic.Label("Simple"));
       
       var selectBox = new qx.ui.form.SelectBox();
       for (var i=0; i<30; i++) 
@@ -56,13 +61,18 @@ qx.Class.define("demobrowser.demo.widget.SelectBox",
           selectBox.setSelectedItem(tempItem);
         }
       }
-      this.getRoot().add(selectBox, {left: 20, top: 40});
+      
+      container.add(selectBox);
+      
+      return container;
     },
     
     
-    addBox2 : function()
+    createBox2 : function()
     {
-      this.getRoot().add(new qx.ui.basic.Label("Long text"), {left: 175, top: 20});
+      var container = new qx.ui.container.Composite(new qx.ui.layout.VBox(2));
+
+      container.add(new qx.ui.basic.Label("Long text"));
       
       var selectBox = new qx.ui.form.SelectBox();
       for (var i=0; i<30; i++) 
@@ -74,13 +84,18 @@ qx.Class.define("demobrowser.demo.widget.SelectBox",
           selectBox.setSelectedItem(tempItem);
         }
       }
-      this.getRoot().add(selectBox, {left: 170, top: 40});      
+      
+      container.add(selectBox);
+      
+      return container;
     },
 
 
-    addBox3 : function()
+    createBox3 : function()
     {
-      this.getRoot().add(new qx.ui.basic.Label("With icons"), {left: 335, top: 20});
+      var container = new qx.ui.container.Composite(new qx.ui.layout.VBox(2));
+
+      container.add(new qx.ui.basic.Label("With icons"));
       
       var iconNames = [ "audio-card.png","audio-input-microphone.png","battery.png",
       "camera-photo.png","camera-web.png","computer.png","display.png",
@@ -96,7 +111,9 @@ qx.Class.define("demobrowser.demo.widget.SelectBox",
         selectBox.add(tempItem);
       }
 
-      this.getRoot().add(selectBox, {left: 330, top: 40});      
+      container.add(selectBox);
+      
+      return container;
     }
   }
 });
