@@ -136,19 +136,12 @@ qx.Class.define("qx.ui.root.Abstract",
     // property apply
     _applyGlobalCursor : qx.core.Variant.select("qx.client",
     {
-      "mshtml" : function(value, old) 
-      {
+      "mshtml" : function(value, old) {
         // empty implementation
-        // there is no well known good solution
-        // please set the cursor locally as best as possible
       },
       
       // This would be the optimal solution.
-      // But this has some issues:
-      // * Works like charm in Safari
-      // * Minor reflow issues in Gecko where hover states get lost, otherwise working
-      // * Opera (9.5) has reflow issues like Gecko and cursor never seems to get applied at all
-      // * In IE there is a massive performance lost which removes this implementation from the possible options
+      // For performance reasons this is inpractical in IE
       "default" : function(value, old)
       {
         var Stylesheet = qx.bom.Stylesheet;
