@@ -1138,6 +1138,22 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
     
+    "selectbox/atom" :  {
+      include : "atom"
+    },
+
+    "selectbox/atom/label" :  {
+      include : "label"
+    },
+    
+    "selectbox/atom/icon" :  {
+      include : "icon"
+    },
+        
+    "selectbox/popup" :  {
+      include : "popup"
+    },
+
     "selectbox/list" :  {
       include : "list"
     },
