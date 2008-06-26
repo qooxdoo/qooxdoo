@@ -318,7 +318,7 @@ qx.Bootstrap.define("qx.log.Logger",
       var buffer = this.__buffer;
       buffer.push(entry);
       if (buffer.length>(this.__treshold+10)) {
-        buffer.splice(this.__treshold);
+        buffer.splice(this.__treshold, buffer.length);
       }
 
       // Send to appenders
