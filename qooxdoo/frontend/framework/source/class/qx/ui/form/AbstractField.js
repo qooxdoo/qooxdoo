@@ -238,12 +238,12 @@ qx.Class.define("qx.ui.form.AbstractField",
     _applyFont : function(value, old)
     {
       // Apply
-      var styles = value ? font.getStyles() : qx.bom.Font.getDefaultStyles();
+      var styles = value ? value.getStyles() : qx.bom.Font.getDefaultStyles();
       this._contentElement.setStyles(styles);
 
       // Compute text size
-      if (font) {
-        this._textSize = qx.bom.Label.getTextSize("A", font.getStyles());
+      if (value) {
+        this._textSize = qx.bom.Label.getTextSize("A", value.getStyles());
       } else {
         delete this._textSize;
       }
