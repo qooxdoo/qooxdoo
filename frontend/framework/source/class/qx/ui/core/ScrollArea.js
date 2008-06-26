@@ -175,9 +175,7 @@ qx.Class.define("qx.ui.core.ScrollArea",
 
         case "corner":
           control = new qx.ui.core.Widget();
-
           control.exclude();
-          control.setAppearance("scrollarea-corner");
 
           this._add(control, {row: 1, column: 1});
           break;
