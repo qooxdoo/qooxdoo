@@ -19,7 +19,7 @@
 
 /* ************************************************************************
 
-#asset(qx/icon/Tango/16/categories/internet.png)
+#asset(qx/icon/Oxygen/16/categories/internet.png)
 
 ************************************************************************ */
 
@@ -38,8 +38,6 @@ qx.Class.define("demobrowser.demo.widget.Window_Modern",
     main : function()
     {
       this.base(arguments);
-
-      qx.theme.manager.Meta.getInstance().setTheme(qx.theme.Modern);
 
       this._win = this._createWindow();
 

@@ -34,7 +34,6 @@ qx.Class.define("demobrowser.demo.ui.Decoration_2",
     main: function()
     {
       this.base(arguments);
-      qx.theme.manager.Meta.getInstance().setTheme(qx.theme.Modern);
 
       var containerLayout = new qx.ui.layout.HBox();
       containerLayout.setSpacing(10);

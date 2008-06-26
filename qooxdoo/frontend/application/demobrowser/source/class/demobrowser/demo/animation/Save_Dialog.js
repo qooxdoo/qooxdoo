@@ -47,8 +47,6 @@ qx.Class.define("demobrowser.demo.animation.Save_Dialog",
     {
       this.base(arguments);
       
-      qx.theme.manager.Meta.getInstance().setTheme(qx.theme.Modern);
-      
       var document = this.getRoot();
 
       /* Container widget */

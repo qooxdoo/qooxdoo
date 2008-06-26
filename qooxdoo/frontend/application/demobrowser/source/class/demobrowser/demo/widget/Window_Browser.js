@@ -19,10 +19,10 @@
 
 /* ************************************************************************
 
-#asset(qx/icon/Tango/16/actions/go-previous.png)
-#asset(qx/icon/Tango/16/actions/go-next.png)
-#asset(qx/icon/Tango/16/actions/media-playback-start.png)
-#asset(qx/icon/Tango/16/categories/internet.png)
+#asset(qx/icon/Oxygen/16/actions/go-previous.png)
+#asset(qx/icon/Oxygen/16/actions/go-next.png)
+#asset(qx/icon/Oxygen/16/actions/media-playback-start.png)
+#asset(qx/icon/Oxygen/16/categories/internet.png)
 
 ************************************************************************ */
 
@@ -36,7 +36,6 @@ qx.Class.define("demobrowser.demo.widget.Window_Browser",
     {
       this.base(arguments);
 
-      qx.theme.manager.Meta.getInstance().setTheme(qx.theme.Modern);
       this.getRoot().add(this._createBrowser(), {left: 40, top: 30});
     },
 
