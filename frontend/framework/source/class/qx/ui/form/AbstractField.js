@@ -235,22 +235,10 @@ qx.Class.define("qx.ui.form.AbstractField",
 
 
     // overridden
-    _applyFont : function(value, old) {
-      qx.theme.manager.Font.getInstance().connect(this._styleFont, this, value);
-    },
-
-
-    /**
-     * Utility method to render the given font.
-     *
-     * @type member
-     * @param font {qx.bom.Font} new font value to render
-     * @return {void}
-     */
-    _styleFont : function(font)
+    _applyFont : function(value, old)
     {
       // Apply
-      var styles = font ? font.getStyles() : qx.bom.Font.getDefaultStyles();
+      var styles = value ? font.getStyles() : qx.bom.Font.getDefaultStyles();
       this._contentElement.setStyles(styles);
 
       // Compute text size
@@ -259,9 +247,6 @@ qx.Class.define("qx.ui.form.AbstractField",
       } else {
         delete this._textSize;
       }
-
-      // Store final value as well
-      this._styledFont = font;
 
       // Update layout
       qx.ui.core.queue.Layout.add(this);
@@ -276,18 +261,7 @@ qx.Class.define("qx.ui.form.AbstractField",
     */
 
     // overridden
-    _applyTextColor : function(value, old) {
-      qx.theme.manager.Color.getInstance().connect(this.__styleTextColor, this, value);
-    },
-
-
-    /**
-     * Apply text color
-     *
-     * @type member
-     * @param value {var} any acceptable CSS color property
-     */
-    __styleTextColor : function(value)
+    _applyTextColor : function(value, old)
     {
       if (value) {
         this.getContentElement().setStyle("color", value);
