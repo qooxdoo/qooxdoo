@@ -34,13 +34,13 @@ qx.Class.define("demobrowser.demo.widget.SelectBox",
       this.base(arguments);
 
       qx.theme.manager.Meta.getInstance().setTheme(qx.theme.Modern);
-      
+
       var box = new qx.ui.container.Composite(new qx.ui.layout.HBox(50));
 
       box.add(this.createBox1());
       box.add(this.createBox2());
       box.add(this.createBox3());
-      
+
       this.getRoot().add(box, {left : 30, top : 25})
     },
     
