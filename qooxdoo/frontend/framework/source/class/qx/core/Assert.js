@@ -281,7 +281,11 @@ qx.Mixin.define("qx.core.Assert",
      * @return {void}
      */
     assertFunction : function(value, msg) {
-      this.__assert(typeof value === "function", msg || "", "Expected value to be typeof function but found " + value + "!");
+      this.__assert(
+        typeof value === "function",
+        msg || "",
+        "Expected value to be typeof function but found " + value + "!"
+      );
     },
 
 
@@ -294,7 +298,11 @@ qx.Mixin.define("qx.core.Assert",
      * @return {void}
      */
     assertString : function(value, msg) {
-      this.__assert(typeof value === "string", msg || "", "Expected value to be typeof string but found " + value + "!");
+      this.__assert(
+        typeof value === "string" || value instanceof String,
+        msg || "",
+        "Expected value to be typeof string but found " + value + "!"
+      );
     },
 
 

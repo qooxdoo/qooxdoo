@@ -23,24 +23,12 @@ qx.Class.define("testrunner.test.Interface",
 
   members :
   {
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void}
-     */
     testInterface : function()
     {
       qx.Interface.define("testrunner.ICar",
       {
         members :
         {
-          /**
-           * TODOC
-           *
-           * @type member
-           * @return {boolean} TODOC
-           */
           startEngine : function() {
             return true;
           }
@@ -140,12 +128,6 @@ qx.Class.define("testrunner.test.Interface",
     },
 
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void}
-     */
     testAssertions : function()
     {
       qx.Interface.define("testrunner.IComplex",
@@ -338,24 +320,12 @@ qx.Class.define("testrunner.test.Interface",
     },
 
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void}
-     */
     testIncludes : function()
     {
       qx.Interface.define("testrunner.IMember",
       {
         members :
         {
-          /**
-           * TODOC
-           *
-           * @type member
-           * @return {boolean} TODOC
-           */
           sayJuhu : function() {
             return true;
           }
@@ -377,12 +347,6 @@ qx.Class.define("testrunner.test.Interface",
       {
         members :
         {
-          /**
-           * TODOC
-           *
-           * @type member
-           * @return {boolean} TODOC
-           */
           bar : function() {
             return true;
           }
@@ -396,23 +360,11 @@ qx.Class.define("testrunner.test.Interface",
 
         members :
         {
-          /**
-           * TODOC
-           *
-           * @type member
-           * @return {void}
-           */
           sayJuhu : function() {}
         },
 
         statics :
         {
-          /**
-           * TODOC
-           *
-           * @type static
-           * @return {boolean} TODOC
-           */
           sayHello : function() {
             return true;
           }
@@ -450,6 +402,67 @@ qx.Class.define("testrunner.test.Interface",
       this.assertExceptionDebugOn(function() {
         qx.Class.define("testrunner.Implement4", def);
       }, Error, new RegExp("property .* is not supported"), "No properties defined.");
+    },
+
+
+    /**
+     * abstract classes may define an interface and implement it only partially
+     * sub classes must implement the missing methods
+     */
+    testAbstractClass : function()
+    {
+
+      qx.Interface.define("testrunner.IJuhu",
+      {
+        members :
+        {
+          sayJuhu : function() {},
+          sayKinners : function() {}
+        }
+      });
+
+
+      // should not raise an exception
+      qx.Class.define("testrunner.AbstractJuhu1", {
+        extend : qx.core.Object,
+        implement : testrunner.IJuhu,
+        type : "abstract"
+      });
+
+
+      // should not raise an exception
+      qx.Class.define("testrunner.AbstractJuhu2", {
+        extend : qx.core.Object,
+        implement : testrunner.IJuhu,
+        type : "abstract",
+
+        members :
+        {
+          sayJuhu : function() { return "Juhu"; }
+        }
+      });
+
+      // should raise an exception
+      this.assertExceptionDebugOn(function() {
+        qx.Class.define("testrunner.Juhu1", {
+          extend : testrunner.AbstractJuhu1,
+
+          members :
+          {
+            sayJuhu : function() { return "Juhu"; }
+          }
+        });
+      }, Error, 'Error: Implementation of method "sayKinners" is missing in class "testrunner.Juhu1" required by interface "testrunner.IJuhu"');
+
+
+      qx.Class.define("testrunner.Juhu1", {
+        extend : testrunner.AbstractJuhu2,
+        members :
+        {
+          sayKinners : function() { return "Kinners"; }
+        }
+      });
+
     }
   }
 });
