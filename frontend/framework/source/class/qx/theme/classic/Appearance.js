@@ -203,7 +203,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
     ---------------------------------------------------------------------------
     */
 
-    "text-field" :
+    "textfield" :
     {
       style : function(states)
       {
@@ -217,7 +217,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
     },
 
     "text-area" : {
-      include : "text-field"
+      include : "textfield"
     },
 
 
@@ -310,7 +310,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
-    "spinner-text-field" :
+    "spinner-textfield" :
     {
       style : function(states)
       {

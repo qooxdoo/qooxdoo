@@ -201,7 +201,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
     },
 
 
-    "text-field" :
+    "textfield" :
     {
       style : function(states)
       {
@@ -215,7 +215,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
 
 
     "text-area" : {
-      include : "text-field"
+      include : "textfield"
     },
 
 

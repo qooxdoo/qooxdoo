@@ -96,7 +96,7 @@ qx.Class.define("qx.ui.form.ComboBox",
         case "textfield":
           // create the textField
           control = new qx.ui.form.TextField();
-          control.setAppearance("spinner-text-field");    
+          control.setAppearance("spinner-textfield");    
           control.addListener("blur", this._onTextBlur, this);
           control.addListener("focus", this._onTextFocus, this);    
           this._add(control, {flex: 1});
