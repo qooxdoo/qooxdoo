@@ -2044,20 +2044,18 @@ qx.Class.define("qx.ui.core.Widget",
      */
     syncAppearance : function()
     {
+      // Build selector
       var obj = this;
       var id = [];
-      
-      while (obj && obj.$$subcontrol)
-      {
-        id.push(obj.$$subcontrol);
-        obj = obj.$$subparent;
-      }
-      
-      id.push(obj.getAppearance());
+
+      do {
+        id.push(obj.$$subcontrol||obj.getAppearance());
+      } while (obj = obj.$$subparent)
       
       var selector = id.reverse().join("/");
-      var data = qx.theme.manager.Appearance.getInstance().styleFrom(selector, this.__states);
 
+      // Collect styles
+      var data = qx.theme.manager.Appearance.getInstance().styleFrom(selector, this.__states);
       if (!data) {
         return;
       }
