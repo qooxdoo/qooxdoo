@@ -183,8 +183,18 @@ qx.Theme.define("qx.theme.classic.Appearance",
     },
     
     "list/pane" : {},
-    "list/scrollbarX" : {},
-    "list/scrollbarY" : {},    
+    "list/scrollbar-x" : {},
+    "list/scrollbar-y" : {},    
+    "list/corner" : {},
+    
+    
+    
+    
+    /*
+    ---------------------------------------------------------------------------
+      LIST ITEM
+    ---------------------------------------------------------------------------
+    */    
 
     "listitem" :
     {
@@ -235,7 +245,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
       include : "textfield"
     },
 
-
     "checkbox":
     {
       style : function(states)
@@ -270,7 +279,9 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
     
-    "checkbox/label" : {},
+    "checkbox/label" : {
+      include : "label"
+    },
 
     "radiobutton":
     {
@@ -307,7 +318,10 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
     
-    "radiobutton/label" : {},
+    "radiobutton/label" : {
+      include : "label"
+    },
+    
 
 
 
@@ -364,7 +378,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
         };
       }
     },
-
 
 
 
@@ -707,7 +720,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
     ---------------------------------------------------------------------------
     */
 
-
     "scrollbar" :
     {
       style : function(states)
@@ -910,6 +922,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
     },
 
 
+
+
     /*
     ---------------------------------------------------------------------------
       WINDOW
@@ -1079,6 +1093,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
 
 
+
     /*
     ---------------------------------------------------------------------------
       SPLITPANE
@@ -1093,7 +1108,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
-    "splitpane-splitter" :
+    "splitpane/splitter" :
     {
       style : function(states)
       {
@@ -1105,7 +1120,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
-    "splitpane-slider" :
+    "splitpane/slider" :
     {
       style : function(states)
       {
