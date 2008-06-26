@@ -2036,40 +2036,6 @@ qx.Class.define("qx.ui.core.Widget",
     */
 
     /**
-     * Style multiple themed properties at once by using a property list
-     *
-     * @type member
-     * @param data {Map} a map of property values. The key is the name of the property.
-     * @return {Object} this instance.
-     * @throws an error if the incoming data field is not a map.
-     */
-    __styleProperties : function(data)
-    {
-      var styler = qx.core.Property.$$method.style;
-      var unstyler = qx.core.Property.$$method.unstyle;
-
-      if (qx.core.Variant.isSet("qx.debug", "on"))
-      {
-        for (var prop in data)
-        {
-          if (!this[styler[prop]]) {
-            throw new Error(this.classname + ' has no themeable property "' + prop + '"');
-          }
-        }
-      }
-
-      var undef = "undefined";
-      var value;
-
-      for (var prop in data)
-      {
-        value = data[prop];
-        value === undef ? this[unstyler[prop]]() : this[styler[prop]](value);
-      }
-    },
-
-
-    /**
      * Renders the appearance using the current widget states.
      *
      * Used exlusively by {qx.ui.core.queue.Appearance}.
@@ -2090,11 +2056,33 @@ qx.Class.define("qx.ui.core.Widget",
       id.push(obj.getAppearance());
       
       var selector = id.reverse().join("/");
-      var props = qx.theme.manager.Appearance.getInstance().styleFrom(selector, this.__states);
+      var data = qx.theme.manager.Appearance.getInstance().styleFrom(selector, this.__states);
 
-      if (props) {
-        this.__styleProperties(props);
+      if (!data) {
+        return;
       }
+      
+      var styler = qx.core.Property.$$method.style;
+      var unstyler = qx.core.Property.$$method.unstyle;
+
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        for (var prop in data)
+        {
+          if (!this[styler[prop]]) {
+            throw new Error(this.classname + ' has no themeable property "' + prop + '"');
+          }
+        }
+      }
+
+      var undef = "undefined";
+      var value;
+
+      for (var prop in data)
+      {
+        value = data[prop];
+        value === undef ? this[unstyler[prop]]() : this[styler[prop]](value);
+      }      
     },
 
 
