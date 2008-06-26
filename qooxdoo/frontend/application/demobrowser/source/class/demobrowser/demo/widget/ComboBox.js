@@ -19,7 +19,7 @@
 
 /* ************************************************************************
 
-#asset(qx/icon/Oxygen/16/devices/*)
+#asset(qx/icon/Tango/16/devices/*)
 
 ************************************************************************ */
 
@@ -38,6 +38,8 @@ qx.Class.define("demobrowser.demo.widget.ComboBox",
     main : function()
     {
       this.base(arguments);
+
+      qx.theme.manager.Meta.getInstance().setTheme(qx.theme.Modern);
 
       // examlpe 1: default combo box with 30 text items
       this._createDefaultExample();
