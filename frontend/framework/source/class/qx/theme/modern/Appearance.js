@@ -863,7 +863,6 @@ qx.Theme.define("qx.theme.modern.Appearance",
       {
         return {
           decorator: states.focused ? "textfield-focused" : "textfield",
-          //padding: [ 1, 3 ],
           backgroundColor: "white"
         };
       }

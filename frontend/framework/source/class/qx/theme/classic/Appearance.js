@@ -1116,6 +1116,29 @@ qx.Theme.define("qx.theme.classic.Appearance",
       SELECTBOX
     ---------------------------------------------------------------------------
     */
+    
+    /*
+    ---------------------------------------------------------------------------
+      SELECTBOX
+    ---------------------------------------------------------------------------
+    */
+
+    "selectbox" :
+    {
+      include : "button"
+    },
+
+    
+    "selectbox-button" :
+    {
+      style : function(states)
+      {
+        return {
+          paddingRight : 4,
+          paddingLeft : 5
+        };
+      }
+    },
 
     "selectbox-button" :
     {
@@ -1126,6 +1149,32 @@ qx.Theme.define("qx.theme.classic.Appearance",
           paddingLeft : 5
         };
       }
+    },
+
+    /*
+    ---------------------------------------------------------------------------
+      COMBOBOX
+    ---------------------------------------------------------------------------
+    */
+
+    "combobox" :
+    {
+      include : "spinner"
+    },
+
+    "combobox-textfield" :
+    {
+      style : function(states)
+      {
+        return {
+          padding : [ 2, 3 ]
+        };
+      }
+    },
+
+    "combobox-button" :
+    {
+      include : "button"
     }
 
   }

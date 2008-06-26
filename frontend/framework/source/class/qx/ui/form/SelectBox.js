@@ -109,7 +109,7 @@ qx.Class.define("qx.ui.form.SelectBox",
           break;
 
         case "down-arrow":
-          control = new qx.ui.basic.Image("decoration/arrows/down.png");
+          control = new qx.ui.basic.Image("decoration/arrows/down.gif");
           control.setAppearance("selectbox-button");
           this._add(control);
           break;
