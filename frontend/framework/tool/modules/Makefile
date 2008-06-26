@@ -38,7 +38,6 @@ pythondoc.py \
 resources.py \
 settings.py \
 stringoptimizer.py \
-svninfo.py \
 textile.py \
 textutil.py \
 tokenizer.py \

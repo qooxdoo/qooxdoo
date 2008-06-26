@@ -23,10 +23,8 @@
 # VARIABLES
 ################################################################################
 
-QOOXDOO_PATH = ..
-
-FRAMEWORK_VERSION := $(shell svn propget qx:version $(QOOXDOO_PATH)/frontend)
-FRAMEWORK_SVNINFO := $(shell python tool/svninfo.py `dirname $(QOOXDOO_PATH)`)
+FRAMEWORK_VERSION := $(shell svn propget qx:version .)
+FRAMEWORK_SVNINFO := $(shell python tool/svninfo.py .)
 
 CMD_LINE = echo "----------------------------------------------------------------------------"
 CMD_NICE = nice -n 10
