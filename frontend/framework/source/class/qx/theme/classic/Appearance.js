@@ -66,6 +66,10 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },    
     
+    "icon" : {
+      include : "image"
+    },
+
     "atom" : {},
     
     "atom/label" : {
