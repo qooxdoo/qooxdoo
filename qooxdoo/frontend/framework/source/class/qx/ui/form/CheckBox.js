@@ -59,7 +59,7 @@ qx.Class.define("qx.ui.form.CheckBox",
     appearance :
     {
       refine : true,
-      init : "check-box"
+      init : "checkbox"
     }
   }
 });

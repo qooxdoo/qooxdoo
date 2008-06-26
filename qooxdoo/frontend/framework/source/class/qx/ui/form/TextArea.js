@@ -21,7 +21,7 @@
 /**
  * The TextField is a multi-line text input field.
  *
- * @appearance text-area
+ * @appearance textarea
  */
 qx.Class.define("qx.ui.form.TextArea",
 {
@@ -64,7 +64,7 @@ qx.Class.define("qx.ui.form.TextArea",
     appearance :
     {
       refine : true,
-      init : "text-area"
+      init : "textarea"
     }
   },
 
