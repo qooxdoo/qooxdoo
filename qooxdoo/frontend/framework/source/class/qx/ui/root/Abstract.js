@@ -97,6 +97,8 @@ qx.Class.define("qx.ui.root.Abstract",
      *  <li>help </li>
      *  <li>url([file]) = self defined cursor, file should be an ANI- or CUR-type</li>
      *  </ul>
+     *
+     * Please note that in the current implementation this has no effect in IE.
      */
     globalCursor :
     {
@@ -134,27 +136,20 @@ qx.Class.define("qx.ui.root.Abstract",
     // property apply
     _applyGlobalCursor : qx.core.Variant.select("qx.client",
     {
-      "default--" : function(value, old) 
+      "mshtml" : function(value, old) 
       {
-        if (value && !old) 
-        {
-          this.addListener("mouseover", this._onGlobalCursorOver, this, true);
-          this.addListener("mouseout", this._onGlobalCursorOut, this, true);
-        }
-        else if (old && !value)
-        {
-          this.removeListener("mouseover", this._onGlobalCursorOver, this, true);
-          this.removeListener("mouseout", this._onGlobalCursorOut, this, true);
-        } 
+        // empty implementation
+        // there is no well known good solution
+        // please set the cursor locally as best as possible
       },
       
       // This would be the optimal solution.
       // But this has some issues:
       // * Works like charm in Safari
-      // * Massive performance lost in IE, but working
-      // * Reflow issues in Gecko where hover states get lost, otherwise working
-      // * Reflow issues like Gecko and cursor never seems to get applied at all
-      "default" : function(value)
+      // * Minor reflow issues in Gecko where hover states get lost, otherwise working
+      // * Opera (9.5) has reflow issues like Gecko and cursor never seems to get applied at all
+      // * In IE there is a massive performance lost which removes this implementation from the possible options
+      "default" : function(value, old)
       {
         var Stylesheet = qx.bom.Stylesheet;
         
@@ -169,20 +164,9 @@ qx.Class.define("qx.ui.root.Abstract",
           Stylesheet.addRule(sheet, "*", "cursor:" + value + " !important");
         }
       }
-    }),    
-    
-    _onGlobalCursorOver : function(e)
-    {
-      this.debug("Over: " + e.getCurrentTarget());
-    },
-    
-    _onGlobalCursorOut : function(e)
-    {
-      this.debug("Out: " + e.getCurrentTarget());
-    }
+    })
   },
   
-
 
 
 
