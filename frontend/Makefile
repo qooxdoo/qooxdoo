@@ -20,35 +20,37 @@
 ################################################################################
 
 ################################################################################
-# PUBLIC VARIABLES
+# VARIABLES
 ################################################################################
 
 QOOXDOO_PATH = ..
 
+FRAMEWORK_VERSION := $(shell svn propget qx:version $(QOOXDOO_PATH)/frontend)
+FRAMEWORK_SVNINFO := $(shell python tool/svninfo.py `dirname $(QOOXDOO_PATH)`)
 
+CMD_LINE = echo "----------------------------------------------------------------------------"
+CMD_NICE = nice -n 10
+CMD_PYTHON = $(CMD_NICE) python -t -O
+CMD_REMOVE = $(CMD_NICE) rm -rf
+CMD_DIR = $(CMD_NICE) mkdir -p
+CMD_FIND = $(CMD_NICE) find
+CMD_ZIP = $(CMD_NICE) zip
+CMD_ZIP_CREATE = $(CMD_ZIP) -rq
+CMD_ANY2UNIX = | xargs $(CMD_PYTHON) $(FRAMEWORK_TOOL_PATH)/modules/textutil.py --command any2Unix
+CMD_MKEXEC = $(CMD_NICE) chmod a+rx
 
+FILES_TEXT = \( -name "*.py" -o -name "*.sh" -o -name "*.js" -o -name "*.html" -o -name "*.css" -o -name "*.xml" -o -name Makefile -o -name AUTHORS -o -name LICENSE -o -name README -o -name RELEASENOTES -o -name TODO \)
+FILES_TEMP = \( -name "*.rej" -o -name "*.orig" -o -name "*.pyc" -o -name "*.pyo" -o -name "*.bak" -o -name "*.old" -o -name "*~" -o -name "messages.pot" \)
+FILES_EXEC = \( -name "*.py" -o -name "*.sh" \)
 
-################################################################################
-# INCLUDE CORE
-################################################################################
-
-include $(QOOXDOO_PATH)/frontend/framework/tool/make/framework.mk
-
-
-
-
-
-################################################################################
-# PRIVATE VARIABLES
-################################################################################
+CMD_SYNC_ONLINE = $(CMD_NICE) rsync --checksum --compress --recursive --delete --inplace --links --safe-links --exclude .svn
+CMD_SYNC_OFFLINE = $(CMD_NICE) rsync --recursive --delete --inplace --links --safe-links --exclude .svn
 
 RELEASE_BUILD = release/temp/build/qooxdoo-$(FRAMEWORK_VERSION)-build
 RELEASE_SDK = release/temp/sdk/qooxdoo-$(FRAMEWORK_VERSION)-sdk
 
 APPLICATIONS = apiviewer demobrowser feedreader showcase testrunner
 SDK_COPY = Makefile application/index.html
-
-
 
 
 
@@ -288,8 +290,6 @@ release-build-archive:
 
 
 
-
-
 release-sdk: distclean release-sdk-info release-sdk-collect skeleton quickstart release-sdk-archive
 
 release-sdk-info:
@@ -343,8 +343,6 @@ release-sdk-archive:
 
 	@echo "  * Cleaning up..."
 	@rm -rf release/temp
-
-
 
 
 

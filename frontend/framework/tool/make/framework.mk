@@ -39,7 +39,7 @@ TOOL2_PATH = $(QOOXDOO_PATH)/frontend/tool
 #
 # Framework config
 #
-FRAMEWORK_VERSION := $(shell cat $(QOOXDOO_PATH)/VERSION)
+FRAMEWORK_VERSION := $(shell svn propget qx:version $(QOOXDOO_PATH)/frontend)
 FRAMEWORK_SVNINFO := $(shell python $(FRAMEWORK_TOOL_PATH)/modules/svninfo.py `dirname $(QOOXDOO_PATH)`)
 
 ifneq ($(FRAMEWORK_SVNINFO),"")
