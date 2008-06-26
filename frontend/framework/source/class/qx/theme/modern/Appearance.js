@@ -207,8 +207,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       {
         return {
           decorator: states.focused ? "textfield-focused" : "textfield",
-          padding: [ 1, 3 ],
-          textColor: states.disabled ? "text-disabled" : "input-text",
+          padding: [ 1, 3 ],          textColor: states.disabled ? "text-disabled" : "input-text",
           backgroundColor: "white"
         };
       }
@@ -317,7 +316,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
             backgroundImage : states.horizontal ? "decoration/scrollbar/scrollbar-bg-horizontal.png" : "decoration/scrollbar/scrollbar-bg-vertical.png",
             backgroundRepeat : states.horizontal ? "repeat-x" : "repeat-y"
           }),
-          padding : states.horizontal ? [1, 1, 1, 1] : [1, 1, 1, 1]
+          padding : 1
         };
       }
     },
@@ -848,6 +847,77 @@ qx.Theme.define("qx.theme.modern.Appearance",
         return {
           paddingRight : 4,
           paddingLeft : 5
+        };
+      }
+    },
+
+    /*
+    ---------------------------------------------------------------------------
+      COMBOBOX
+    ---------------------------------------------------------------------------
+    */
+
+    "combobox" :
+    {
+      style : function(states)
+      {
+        return {
+          decorator: states.focused ? "textfield-focused" : "textfield",
+          //padding: [ 1, 3 ],
+          backgroundColor: "white"
+        };
+      }
+    },
+
+    "combobox-textfield" :
+    {
+      style : function(states)
+      {
+        return {
+          padding: [ 2, 3 ],
+          textColor: states.disabled ? "text-disabled" : "input-text"
+        };
+      }
+    },
+    
+    
+    "combobox-button" :
+    {
+      style : function(states)
+      {
+        var decorator, textColor;
+
+        if (states.checked && states.focused) {
+          decorator = "button-checked-focused";
+          textColor = "text";
+        } else if (states.checked) {
+          decorator = "button-checked";
+          textColor = "text";
+        } else if (states.pressed) {
+          decorator = "button-pressed";
+          textColor = "#001533";
+        } else if (states.hovered) {
+          decorator = "button-hovered";
+          textColor = "#001533";
+        } else if (states.preselected && states.focused) {
+          decorator = "button-preselected-focused";
+          textColor = "#001533";
+        } else if (states.preselected) {
+          decorator = "button-preselected";
+          textColor = "#001533";
+        } else if (states.focused) {
+          decorator = "button-focused";
+          textColor = "text";
+        } else {
+          decorator = "button";
+          textColor = "text";
+        }
+
+        return {
+          padding    : 2,
+          textColor  : textColor,
+          font       : "default",
+          decorator  : decorator
         };
       }
     }

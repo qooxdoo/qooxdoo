@@ -70,7 +70,7 @@ qx.Class.define("qx.ui.form.SelectBox",
     appearance :
     {
       refine : true,
-      init : "button"
+      init : "selectbox"
     },
 
     // overridden
