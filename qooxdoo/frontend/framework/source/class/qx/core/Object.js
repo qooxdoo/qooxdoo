@@ -278,7 +278,7 @@ qx.Class.define("qx.core.Object",
     addListener : function(type, listener, self, capture)
     {
       if (!this.$$disposed) {
-        this.__Registration.addListener(this, type, listener, self, !!capture);
+        this.__Registration.addListener(this, type, listener, self, capture);
       }
     },
 
@@ -314,12 +314,14 @@ qx.Class.define("qx.core.Object",
      * @param type {String} name of the event type
      * @param listener {Function} event callback function
      * @param self {Object ? null} reference to the 'this' variable inside the callback
+     * @param capture {Boolean} Whether to remove the event listener of
+     *   the bubbling or of the capturing phase.     
      * @return {void}
      */
-    removeListener : function(type, listener, self)
+    removeListener : function(type, listener, self, capture)
     {
       if (!this.$$disposed) {
-        this.__Registration.removeListener(this, type, listener, self, false);
+        this.__Registration.removeListener(this, type, listener, self, capture);
       }
     },
 
@@ -329,10 +331,12 @@ qx.Class.define("qx.core.Object",
      *
      * @type member
      * @param type {String} name of the event type
+     * @param capture {Boolean ? false} Whether to check for listeners of
+     *         the bubbling or of the capturing phase.
      * @return {Boolean} Whether the object has a listener of the given type.
      */
-    hasListener : function(type) {
-      return this.__Registration.hasListener(this, type);
+    hasListener : function(type, capture) {
+      return this.__Registration.hasListener(this, type, capture);
     },
 
 
@@ -349,6 +353,7 @@ qx.Class.define("qx.core.Object",
       if (!this.$$disposed) {
         return this.__Registration.dispatchEvent(this, evt);
       }
+      
       return true;
     },
 
@@ -369,6 +374,7 @@ qx.Class.define("qx.core.Object",
       if (!this.$$disposed) {
         return this.__Registration.fireEvent(this, type, clazz, args);
       }
+      
       return true;
     },
 
@@ -391,6 +397,7 @@ qx.Class.define("qx.core.Object",
       if (!this.$$disposed) {
         return this.__Registration.fireNonBubblingEvent(this, type, clazz, args);
       }
+      
       return true;
     },
 
@@ -409,6 +416,7 @@ qx.Class.define("qx.core.Object",
       if (!this.$$disposed) {
         return this.__Registration.fireEvent(this, type, qx.event.type.Data, [data]);
       }
+      
       return true;
     },
 
