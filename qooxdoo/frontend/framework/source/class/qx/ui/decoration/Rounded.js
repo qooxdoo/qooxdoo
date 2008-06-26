@@ -169,7 +169,7 @@ qx.Class.define("qx.ui.decoration.Rounded",
         // use VML in IE to render borders
         // http://www.w3.org/TR/NOTE-VML
 
-        var fillColor = backgroundColor || this.__bgColor || "white";
+        var fillColor = backgroundColor || this.getBackgroundColor() || "white";
 
         // VML currently only supports the "imageRepeat" = "repeat"
         var backgroundImage = qx.util.ResourceManager.toUri(qx.util.AliasManager.getInstance().resolve(this.getBackgroundImage()));
@@ -212,9 +212,9 @@ qx.Class.define("qx.ui.decoration.Rounded",
         var anyBorderWidthNull = (tw == 0 || rw == 0 || bw == 0 || lw == 0);
 
         var allColorsEqual =
-          (this.__colorLeft == this.__colorTop) &&
-          (this.__colorRight == this.__colorBottom) &&
-          (this.__colorLeft == this.__colorBottom);
+          (this.getColorLeft() == this.getColorTop()) &&
+          (this.getColorRight() == this.getColorBottom()) &&
+          (this.getColorLeft() == this.getColorBottom());
 
         var aa = !allRadiiNull ? "true" : "false";
 
@@ -276,7 +276,7 @@ qx.Class.define("qx.ui.decoration.Rounded",
           if (!allBorderWidthsNull)
           {
             var border = [
-              '<v:shape fillcolor="', this.__colorLeft, '" style=";width:', w, ';height:', h, '">',
+              '<v:shape fillcolor="', this.getColorLeft(), '" style=";width:', w, ';height:', h, '">',
               '<v:path v="',
               ' m ', tl, ',0',
               ' ns l ', w-tr, ',0',
@@ -311,7 +311,7 @@ qx.Class.define("qx.ui.decoration.Rounded",
           if (tw > 0)
           {
             var topBorder = [
-              '<v:shape fillcolor="', this.__colorTop, '" style=";width:', w, ';height:', h, '">',
+              '<v:shape fillcolor="', this.getColorTop(), '" style=";width:', w, ';height:', h, '">',
               '<v:path v="'
             ];
             if (tli <= 0) {
@@ -342,7 +342,7 @@ qx.Class.define("qx.ui.decoration.Rounded",
           if (rw > 0)
           {
             var rightBorder = [
-              '<v:shape fillcolor="', this.__colorRight, '" style=";width:', w, ';height:', h, '">',
+              '<v:shape fillcolor="', this.getColorRight(), '" style=";width:', w, ';height:', h, '">',
               '<v:path v="'
             ];
             if (tri <= 0) {
@@ -373,7 +373,7 @@ qx.Class.define("qx.ui.decoration.Rounded",
           if (bw > 0)
           {
             var bottomBorder = [
-              '<v:shape fillcolor="', this.__colorBottom, '" style=";width:', w, ';height:', h, '">',
+              '<v:shape fillcolor="', this.getColorBottom(), '" style=";width:', w, ';height:', h, '">',
               '<v:path v="'
             ];
             if (bri <= 0) {
@@ -408,7 +408,7 @@ qx.Class.define("qx.ui.decoration.Rounded",
           if (lw > 0)
           {
             var leftBorder = [
-              '<v:shape fillcolor="', this.__colorLeft, '" style=";width:', w, ';height:', h, '">',
+              '<v:shape fillcolor="', this.getColorLeft(), '" style=";width:', w, ';height:', h, '">',
               '<v:path v="'
             ];
 

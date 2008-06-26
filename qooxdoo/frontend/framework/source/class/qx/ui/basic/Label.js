@@ -175,7 +175,7 @@ qx.Class.define("qx.ui.basic.Label",
         return null;
       }
 
-      var font = this.__font;
+      var font = this.getFont();
       var styles = font ? font.getStyles() : null;
 
       return qx.bom.Label.getHtmlSize(this.getContent(), styles, width).height;
@@ -185,12 +185,6 @@ qx.Class.define("qx.ui.basic.Label",
     // overridden
     _createContentElement : function() {
       return new qx.html.Label;
-    },
-
-
-    // overridden
-    _applyFont : function(value, old) {
-      qx.theme.manager.Font.getInstance().connect(this.__styleFont, this, value);
     },
 
 
@@ -207,18 +201,7 @@ qx.Class.define("qx.ui.basic.Label",
     */
 
     // overridden
-    _applyTextColor : function(value, old) {
-      qx.theme.manager.Color.getInstance().connect(this.__styleTextColor, this, value);
-    },
-
-
-    /**
-     * Apply text color
-     *
-     * @type member
-     * @param value {String} any acceptable CSS color property
-     */
-    __styleTextColor : function(value)
+    _applyTextColor : function(value, old)
     {
       if (value) {
         this.getContentElement().setStyle("color", value);
@@ -234,10 +217,6 @@ qx.Class.define("qx.ui.basic.Label",
     ---------------------------------------------------------------------------
     */
 
-    /** {qx.bom.Font} The current label font */
-    __font : null,
-
-
     /** {Map} Internal fallback of label size when no font is defined */
     __contentSize :
     {
@@ -246,21 +225,12 @@ qx.Class.define("qx.ui.basic.Label",
     },
 
 
-    /**
-     * Utility method to render the given font.
-     *
-     * @type member
-     * @param font {qx.bom.Font} new font value to render
-     * @return {void}
-     */
-    __styleFont : function(font)
+    // property apply
+    _applyFont : function(font)
     {
       // Apply
       var styles = font ? font.getStyles() : qx.bom.Font.getDefaultStyles();
       this._contentElement.setStyles(styles);
-
-      // Store final value as well
-      this.__font = font;
 
       // Invalidate text size
       this.__invalidContentSize = true;
@@ -280,7 +250,7 @@ qx.Class.define("qx.ui.basic.Label",
     {
       var Label = qx.bom.Label;
 
-      var font = this.__font;
+      var font = this.getFont();
       var styles = font ? font.getStyles() : null;
       var content = this.getContent() || "";
       var rich = this.getRich();
