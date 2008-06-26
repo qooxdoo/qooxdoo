@@ -40,7 +40,7 @@ qx.Class.define("qx.ui.form.SelectBox",
 
     this._createChildControl("atom");
     this._createChildControl("spacer");
-    this._createChildControl("down-arrow");
+    this._createChildControl("arrow");
 
     var list = this._getChildControl("list");
     var listPopup = this._getChildControl("popup");
@@ -108,9 +108,8 @@ qx.Class.define("qx.ui.form.SelectBox",
           this._add(control, {flex:1});
           break;
 
-        case "down-arrow":
+        case "arrow":
           control = new qx.ui.basic.Image("decoration/arrows/down.gif");
-          control.setAppearance("selectbox-button");
           this._add(control);
           break;
       }
