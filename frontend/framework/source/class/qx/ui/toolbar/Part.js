@@ -32,7 +32,8 @@ qx.Class.define("qx.ui.toolbar.Part",
   *****************************************************************************
   */
 
-  construct : function() {
+  construct : function() 
+  {
     this.base(arguments);
 
     this._setLayout(new qx.ui.layout.HBox());

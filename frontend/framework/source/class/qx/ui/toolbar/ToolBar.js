@@ -173,57 +173,57 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
      */
     _onkeypress_left : function()
     {
-      var vMenu = this.getOpenMenu();
+      var menu = this.getOpenMenu();
 
-      if (!vMenu) {
+      if (!menu) {
         return;
       }
 
-      var vOpener = vMenu.getOpener();
+      var opener = menu.getOpener();
 
-      if (!vOpener) {
+      if (!opener) {
         return;
       }
 
-      var vChildren = this.getAllButtons();
-      var vChildrenLength = vChildren.length;
-      var vIndex = vChildren.indexOf(vOpener);
-      var vCurrent;
-      var vPrevButton = null;
+      var children = this.getAllButtons();
+      var length = children.length;
+      var index = children.indexOf(opener);
+      var current;
+      var prevButton = null;
 
-      for (var i=vIndex-1; i>=0; i--)
+      for (var i=index-1; i>=0; i--)
       {
-        vCurrent = vChildren[i];
+        current = children[i];
 
-        if (vCurrent instanceof qx.ui.toolbar.MenuButton && vCurrent.getEnabled())
+        if (current instanceof qx.ui.toolbar.MenuButton && current.getEnabled())
         {
-          vPrevButton = vCurrent;
+          prevButton = current;
           break;
         }
       }
 
       // If none found, try again from the begin (looping)
-      if (!vPrevButton)
+      if (!prevButton)
       {
-        for (var i=vChildrenLength-1; i>vIndex; i--)
+        for (var i=length-1; i>index; i--)
         {
-          vCurrent = vChildren[i];
+          current = children[i];
 
-          if (vCurrent instanceof qx.ui.toolbar.MenuButton && vCurrent.getEnabled())
+          if (current instanceof qx.ui.toolbar.MenuButton && current.getEnabled())
           {
-            vPrevButton = vCurrent;
+            prevButton = current;
             break;
           }
         }
       }
 
-      if (vPrevButton)
+      if (prevButton)
       {
         // hide other menus
         qx.ui.menu.Manager.getInstance().update();
 
         // show previous menu
-        vPrevButton._showMenu(true);
+        prevButton._showMenu(true);
       }
     },
 
@@ -236,69 +236,58 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
      */
     _onkeypress_right : function()
     {
-      var vMenu = this.getOpenMenu();
+      var menu = this.getOpenMenu();
 
-      if (!vMenu) {
+      if (!menu) {
         return;
       }
 
-      var vOpener = vMenu.getOpener();
+      var opener = menu.getOpener();
 
-      if (!vOpener) {
+      if (!opener) {
         return;
       }
 
-      var vChildren = this.getAllButtons();
-      var vChildrenLength = vChildren.length;
-      var vIndex = vChildren.indexOf(vOpener);
-      var vCurrent;
-      var vNextButton = null;
+      var children = this.getAllButtons();
+      var length = children.length;
+      var index = children.indexOf(opener);
+      var current;
+      var nextButton = null;
 
-      for (var i=vIndex+1; i<vChildrenLength; i++)
+      for (var i=index+1; i<length; i++)
       {
-        vCurrent = vChildren[i];
+        current = children[i];
 
-        if (vCurrent instanceof qx.ui.toolbar.MenuButton && vCurrent.getEnabled())
+        if (current instanceof qx.ui.toolbar.MenuButton && current.getEnabled())
         {
-          vNextButton = vCurrent;
+          nextButton = current;
           break;
         }
       }
 
       // If none found, try again from the begin (looping)
-      if (!vNextButton)
+      if (!nextButton)
       {
-        for (var i=0; i<vIndex; i++)
+        for (var i=0; i<index; i++)
         {
-          vCurrent = vChildren[i];
+          current = children[i];
 
-          if (vCurrent instanceof qx.ui.toolbar.MenuButton && vCurrent.getEnabled())
+          if (current instanceof qx.ui.toolbar.MenuButton && current.getEnabled())
           {
-            vNextButton = vCurrent;
+            nextButton = current;
             break;
           }
         }
       }
 
-      if (vNextButton)
+      if (nextButton)
       {
         // hide other menus
         qx.ui.menu.Manager.getInstance().update();
 
         // show next menu
-        vNextButton._showMenu(true);
+        nextButton._showMenu(true);
       }
     }
-  },
-
-
-  /*
-  *****************************************************************************
-     DESTRUCTOR
-  *****************************************************************************
-  */
-
-  destruct : function() {
-    this._disposeObjects("_layout");
   }
 });
