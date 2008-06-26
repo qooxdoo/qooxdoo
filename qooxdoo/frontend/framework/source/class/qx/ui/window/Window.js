@@ -72,13 +72,8 @@ qx.Class.define("qx.ui.window.Window",
     // layout
     this._setLayout(new qx.ui.layout.VBox());
 
-    // caption bar
-    this._getChildControl("caption-bar");
-
-    // pane
-    this._pane = new qx.ui.container.Composite();
-    this._pane.setAppearance("window-pane");
-    this._add(this._pane, {flex: 1});
+    this._createChildControl("captionbar");
+    this._createChildControl("pane");
 
     // init
     if (vCaption != null) {
@@ -410,13 +405,13 @@ qx.Class.define("qx.ui.window.Window",
      * @return {qx.ui.container.Composite} pane sub widget
      */
     getChildrenContainer : function() {
-      return this._pane;
+      return this._getChildControl("pane");
     },
 
 
     // overridden
     _getStyleTarget : function() {
-      return this._pane;
+      return this._getChildControl("pane");
     },
 
 
@@ -429,7 +424,7 @@ qx.Class.define("qx.ui.window.Window",
     // overridden
     _createChildControlImpl : function(id)
     {
-      var control = this.base(arguments, id);
+      var control;
       var isActive = this.hasState("active");
 
       switch(id)
@@ -447,7 +442,12 @@ qx.Class.define("qx.ui.window.Window",
           control.setContent(this.getStatus());
           break;
 
-        case "caption-bar":
+        case "pane":
+          control = new qx.ui.container.Composite();
+          this._add(control, {flex: 1});
+          break;
+
+        case "captionbar":
           control = new qx.ui.container.Composite(new qx.ui.layout.HBox());
           control.setAppearance("window-captionbar");
           if (isActive) {
@@ -455,7 +455,7 @@ qx.Class.define("qx.ui.window.Window",
           }
           this._add(control);
 
-          control.add(this._getChildControl("caption-bar-spacer"), {flex: 1});
+          control.add(this._getChildControl("captionbar-spacer"), {flex: 1});
 
           // captionbar events
           control.addListener("mousedown", this._oncaptionmousedown, this);
@@ -464,24 +464,24 @@ qx.Class.define("qx.ui.window.Window",
           control.addListener("dblclick", this._oncaptiondblblick, this);
           break;
 
-        case "caption-bar-spacer":
+        case "captionbar-spacer":
           control = new qx.ui.core.Spacer();
           break;
 
-        case "caption-icon":
+        case "icon":
           control = new qx.ui.basic.Image(this.getIcon());
           control.setAppearance("window-captionbar-icon");
-          this._getChildControl("caption-bar").addAt(control, 0);
+          this._getChildControl("captionbar").addAt(control, 0);
           break;
 
-        case "caption-title":
+        case "title":
           control = new qx.ui.basic.Label(this.getCaption());
           control.setAppearance("window-captionbar-title");
-          var spacer = this._getChildControl("caption-bar-spacer");
-          this._getChildControl("caption-bar").addBefore(control, spacer);
+          var spacer = this._getChildControl("captionbar-spacer");
+          this._getChildControl("captionbar").addBefore(control, spacer);
           break;
 
-        case "button-minimize":
+        case "minimize-button":
           control = new qx.ui.form.Button();
           control.setAppearance("window-captionbar-minimize-button");
           control.setFocusable(false);
@@ -492,11 +492,11 @@ qx.Class.define("qx.ui.window.Window",
           control.addListener("execute", this._onminimizebuttonclick, this);
           control.addListener("mousedown", this._onbuttonmousedown, this);
 
-          var spacer = this._getChildControl("caption-bar-spacer");
-          this._getChildControl("caption-bar").addAfter(control, spacer);
+          var spacer = this._getChildControl("captionbar-spacer");
+          this._getChildControl("captionbar").addAfter(control, spacer);
           break;
 
-        case "button-restore":
+        case "restore-button":
           control = new qx.ui.form.Button();
           control.setAppearance("window-captionbar-restore-button");
           control.setFocusable(false);
@@ -507,11 +507,11 @@ qx.Class.define("qx.ui.window.Window",
           control.addListener("execute", this._onrestorebuttonclick, this);
           control.addListener("mousedown", this._onbuttonmousedown, this);
 
-          var btnMaximize = this._getChildControl("button-maximize");
-          this._getChildControl("caption-bar").addBefore(control, btnMaximize);
+          var btnMaximize = this._getChildControl("maximize-button");
+          this._getChildControl("captionbar").addBefore(control, btnMaximize);
           break;
 
-        case "button-maximize":
+        case "maximize-button":
           control = new qx.ui.form.Button();
           control.setAppearance("window-captionbar-maximize-button");
           control.setFocusable(false);
@@ -522,8 +522,8 @@ qx.Class.define("qx.ui.window.Window",
           control.addListener("execute", this._onmaximizebuttonclick, this);
           control.addListener("mousedown", this._onbuttonmousedown, this);
 
-          var captionBar = this._getChildControl("caption-bar");
-          var btnClose = this._getChildControl("button-close", true);
+          var captionBar = this._getChildControl("captionbar");
+          var btnClose = this._getChildControl("close-button", true);
           if (btnClose) {
             captionBar.addBefore(control, btnClose);
           } else {
@@ -531,7 +531,7 @@ qx.Class.define("qx.ui.window.Window",
           }
           break;
 
-        case "button-close":
+        case "close-button":
           control = new qx.ui.form.Button();
           control.setAppearance("window-captionbar-close-button");
           control.setFocusable(false);
@@ -541,10 +541,11 @@ qx.Class.define("qx.ui.window.Window",
 
           control.addListener("execute", this._onclosebuttonclick, this);
           control.addListener("mousedown", this._onbuttonmousedown, this);
-          this._getChildControl("caption-bar").add(control);
+          this._getChildControl("captionbar").add(control);
+          break;
       }
 
-      return control;
+      return control || this.base(arguments, id);;
     },
 
 
@@ -561,7 +562,7 @@ qx.Class.define("qx.ui.window.Window",
      * @return {qx.ui.container.Composite} captionbar sub widget
      */
     getCaptionBar : function() {
-      return this._getChildControl("caption-bar");
+      return this._getChildControl("captionbar");
     },
 
 
@@ -846,11 +847,11 @@ qx.Class.define("qx.ui.window.Window",
     // property apply
     _applyActive : function(value, old)
     {
-      var captionBar = this._getChildControl("caption-bar");
-      var btnMinimize = this._getChildControl("button-minimize", true);
-      var btnRestore = this._getChildControl("button-restore", true);
-      var btnMaximize = this._getChildControl("button-maximize", true);
-      var btnClose = this._getChildControl("button-close", true);
+      var captionBar = this._getChildControl("captionbar");
+      var btnMinimize = this._getChildControl("minimize-button", true);
+      var btnRestore = this._getChildControl("restore-button", true);
+      var btnMaximize = this._getChildControl("maximize-button", true);
+      var btnClose = this._getChildControl("close-button", true);
 
       if (old)
       {
@@ -931,9 +932,9 @@ qx.Class.define("qx.ui.window.Window",
     _applyShowCaption : function(value, old)
     {
       if (value) {
-        this._showChildControl("caption-title");
+        this._showChildControl("title");
       } else {
-        this._excludeChildControl("caption-title");
+        this._excludeChildControl("title");
       }
     },
 
@@ -942,9 +943,9 @@ qx.Class.define("qx.ui.window.Window",
     _applyShowIcon : function(value, old)
     {
       if (value) {
-        this._showChildControl("caption-icon");
+        this._showChildControl("icon");
       } else {
-        this._excludeChildControl("caption-icon");
+        this._excludeChildControl("icon");
       }
     },
 
@@ -964,9 +965,9 @@ qx.Class.define("qx.ui.window.Window",
     _applyShowClose : function(value, old)
     {
       if (value) {
-        this._showChildControl("button-close");
+        this._showChildControl("close-button");
       } else {
-        this._excludeChildControl("button-close");
+        this._excludeChildControl("close-button");
       }
     },
 
@@ -978,19 +979,19 @@ qx.Class.define("qx.ui.window.Window",
       {
         if (this.getMode() == "maximized")
         {
-          this._showChildControl("button-restore");
-          this._excludeChildControl("button-maximize");
+          this._showChildControl("restore-button");
+          this._excludeChildControl("maximize-button");
         }
         else
         {
-          this._showChildControl("button-maximize");
-          this._excludeChildControl("button-restore");
+          this._showChildControl("maximize-button");
+          this._excludeChildControl("restore-button");
         }
       }
       else
       {
-        this._excludeChildControl("button-restore");
-        this._excludeChildControl("button-maximize");
+        this._excludeChildControl("restore-button");
+        this._excludeChildControl("maximize-button");
       }
     },
 
@@ -999,9 +1000,9 @@ qx.Class.define("qx.ui.window.Window",
     _applyShowMinimize : function(value, old)
     {
       if (value) {
-        this._showChildControl("button-minimize");
+        this._showChildControl("minimize-button");
       } else {
-        this._excludeChildControl("button-minimize");
+        this._excludeChildControl("minimize-button");
       }
     },
 
@@ -1013,7 +1014,7 @@ qx.Class.define("qx.ui.window.Window",
      */
     _minimizeButtonManager : function()
     {
-      var btnMinimize = this._getChildControl("button-minimize");
+      var btnMinimize = this._getChildControl("minimize-button");
 
       if (this.getAllowMinimize() === false) {
         btnMinimize.setEnabled(false);
@@ -1030,7 +1031,7 @@ qx.Class.define("qx.ui.window.Window",
      */
     _closeButtonManager : function()
     {
-      var btnClose = this._getChildControl("button-close");
+      var btnClose = this._getChildControl("close-button");
 
       if (this.getAllowClose() === false) {
         btnClose.setEnabled(false);
@@ -1050,12 +1051,12 @@ qx.Class.define("qx.ui.window.Window",
     {
       var isMaximized = this.getMode() == "maximized";
 
-      var btnMaximize = this._getChildControl("button-maximize", true);
+      var btnMaximize = this._getChildControl("maximize-button", true);
       if (btnMaximize) {
         isMaximized ? btnMaximize.setEnabled(false) : btnMaximize.resetEnabled();
       }
 
-      var btnRestore = this._getChildControl("button-restore", true);
+      var btnRestore = this._getChildControl("restore-button", true);
       if (btnRestore) {
         isMaximized ? this.btnRestore.setEnabled(false) : this.btnRestore.resetEnabled();
       }
@@ -1081,7 +1082,7 @@ qx.Class.define("qx.ui.window.Window",
     // property apply
     _applyCaption : function(value, old)
     {
-      var label = this._getChildControl("caption-title", true);
+      var label = this._getChildControl("title", true);
       if (label) {
         label.setContent(value);
       }
@@ -1091,7 +1092,7 @@ qx.Class.define("qx.ui.window.Window",
     // property apply
     _applyIcon : function(value, old)
     {
-      var icon = this._getChildControl("caption-icon", true);
+      var icon = this._getChildControl("icon", true);
       if (icon) {
         icon.setSource(value);
       }
@@ -1140,8 +1141,8 @@ qx.Class.define("qx.ui.window.Window",
       // toggle button
       if (this.getShowMaximize())
       {
-        this._showChildControl("button-maximize");
-        this._excludeChildControl("button-restore");
+        this._showChildControl("maximize-button");
+        this._excludeChildControl("restore-button");
       }
 
       // finally focus the window
@@ -1207,8 +1208,8 @@ qx.Class.define("qx.ui.window.Window",
       // toggle button
       if (this.getShowMaximize())
       {
-        this._showChildControl("button-restore");
-        this._excludeChildControl("button-maximize");
+        this._showChildControl("restore-button");
+        this._excludeChildControl("maximize-button");
       }
 
       // finally focus the window
@@ -1285,7 +1286,7 @@ qx.Class.define("qx.ui.window.Window",
 
       // we need to be sure that the button gets the right states after clicking
       // because the button will move and does not get the mouseup event anymore
-      btnMinimize = this._getChildControl("button-minimize");
+      btnMinimize = this._getChildControl("minimize-button");
       btnMinimize.removeState("pressed");
       btnMinimize.removeState("abandoned");
       btnMinimize.removeState("over");
@@ -1306,7 +1307,7 @@ qx.Class.define("qx.ui.window.Window",
 
       // we need to be sure that the button gets the right states after clicking
       // because the button will move and does not get the mouseup event anymore
-      btnRestore = this._getChildControl("button-restore");
+      btnRestore = this._getChildControl("restore-button");
       btnRestore.removeState("pressed");
       btnRestore.removeState("abandoned");
       btnRestore.removeState("over");
@@ -1327,7 +1328,7 @@ qx.Class.define("qx.ui.window.Window",
 
       // we need to be sure that the button gets the right states after clicking
       // because the button will move and does not get the mouseup event anymore
-      btnMaximize = this._getChildControl("button-maximize");
+      btnMaximize = this._getChildControl("maximize-button");
       btnMaximize.removeState("pressed");
       btnMaximize.removeState("abandoned");
       btnMaximize.removeState("over");
@@ -1348,7 +1349,7 @@ qx.Class.define("qx.ui.window.Window",
 
       // we need to be sure that the button gets the right states after clicking
       // because the button will move and does not get the mouseup event anymore
-      btnClose = this._getChildControl("button-close");
+      btnClose = this._getChildControl("close-button");
       btnClose.removeState("pressed");
       btnClose.removeState("abandoned");
       btnClose.removeState("over");
@@ -1378,7 +1379,7 @@ qx.Class.define("qx.ui.window.Window",
       }
 
       // enable capturing
-      this._getChildControl("caption-bar").capture();
+      this._getChildControl("captionbar").capture();
 
       // measuring and caching of values for drag session
       var pl = this.getLayoutParent().getContainerElement().getDomElement();
@@ -1446,7 +1447,7 @@ qx.Class.define("qx.ui.window.Window",
       }
 
       // disable capturing
-      this._getChildControl("caption-bar").releaseCapture();
+      this._getChildControl("captionbar").releaseCapture();
       this.resetUserBounds();
 
       // move window to last position

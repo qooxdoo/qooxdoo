@@ -2078,45 +2078,29 @@ qx.Class.define("qx.ui.core.Widget",
      */
     syncAppearance : function()
     {
-      var appearance = this.getAppearance();
-
-      if (appearance)
+      var obj = this;
+      var id = [];
+      
+      while (obj && obj.$$subcontrol)
       {
-        var props = qx.theme.manager.Appearance.getInstance().styleFrom(appearance, this.__states);
+        id.push(obj.$$subcontrol);
+        obj = obj.$$subparent;
+      }
+      
+      id.push(obj.getAppearance());
+      
+      var selector = id.reverse().join("/");
+      var props = qx.theme.manager.Appearance.getInstance().styleFrom(selector, this.__states);
 
-        if (props) {
-          this.__styleProperties(props);
-        }
+      if (props) {
+        this.__styleProperties(props);
       }
     },
 
 
     // property apply
-    _applyAppearance : function(value, old)
-    {
-      var manager = qx.theme.manager.Appearance.getInstance();
-      var unstyler = qx.core.Property.$$method.unstyle;
-
-      if (value) {
-        var newAppearanceProperties = manager.styleFrom(value, this.__states) || {};
-      }
-
-      if (old)
-      {
-        // TODO: This procedure may be problematic when introducing sub-widgets
-        var oldAppearanceProperties = manager.styleFrom(old, this.__states) || {};
-
-        for (var prop in oldAppearanceProperties)
-        {
-          if (!newAppearanceProperties || !(prop in newAppearanceProperties)) {
-            this[unstyler[prop]]();
-          }
-        }
-      }
-
-      if (newAppearanceProperties) {
-        this.__styleProperties(newAppearanceProperties);
-      }
+    _applyAppearance : function(value, old) {
+      qx.ui.core.queue.Appearance.add(this);
     },
 
 
@@ -2133,7 +2117,9 @@ qx.Class.define("qx.ui.core.Widget",
      * This method is called during the flush of the
      * {@link qx.ui.core.queue.Widget widget queue}.
      */
-    syncWidget : function() {},
+    syncWidget : function() {
+      // empty implementation
+    },
 
 
 
@@ -2625,6 +2611,9 @@ qx.Class.define("qx.ui.core.Widget",
       if (!control) {
         throw new Error("Unsupported control: " + id);
       }
+      
+      control.$$subcontrol = id;
+      control.$$subparent = this;
 
       return this.__childControls[id] = control;
     },

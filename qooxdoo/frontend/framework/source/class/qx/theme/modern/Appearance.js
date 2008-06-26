@@ -401,7 +401,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       }
     },
 
-    "list-item" :
+    "listitem" :
     {
       style : function(states)
       {

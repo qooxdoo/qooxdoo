@@ -45,6 +45,34 @@ qx.Theme.define("qx.theme.classic.Appearance",
     */
 
     "widget" : {},
+    
+    "label" :
+    {
+      style : function(states)
+      {
+        return {
+          textColor : states.disabled ? "text-disabled" : "undefined"
+        };
+      }
+    },    
+    
+    "image" :
+    {
+      style : function(states)
+      {
+        return {
+          opacity : !states.replacement && states.disabled ? 0.3 : 1
+        }
+      }
+    },    
+    
+    "atom" : {},
+    
+    "atom/label" : {
+      include : "label"
+    },
+    
+    "atom/icon" : {},
 
     "root" :
     {
@@ -58,39 +86,9 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
-    "label" :
-    {
-      style : function(states)
-      {
-        return {
-          textColor : states.disabled ? "text-disabled" : "undefined"
-        };
-      }
-    },
-
     "popup" : {
     },
-
-    "iframe" :
-    {
-      style : function(states)
-      {
-        return {
-          backgroundColor : "white",
-          decorator : "inset"
-        };
-      }
-    },
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      BASICS
-    ---------------------------------------------------------------------------
-    */
-
-
+    
     "tooltip" :
     {
       include : "popup",
@@ -104,7 +102,20 @@ qx.Theme.define("qx.theme.classic.Appearance",
           padding : [ 1, 3, 2, 3 ]
         };
       }
+    },    
+
+    "iframe" :
+    {
+      style : function(states)
+      {
+        return {
+          backgroundColor : "white",
+          decorator : "inset"
+        };
+      }
     },
+
+
 
 
 
@@ -137,27 +148,14 @@ qx.Theme.define("qx.theme.classic.Appearance",
         };
       }
     },
-
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      IMAGE
-    ---------------------------------------------------------------------------
-    */
-
-    "image" :
-    {
-      style : function(states)
-      {
-        return {
-          opacity : !states.replacement && states.disabled ? 0.3 : 1
-        }
-      }
+    
+    "button/label" : {
+      include : "label"
     },
-
+    
+    "button/icon" : {
+      include : "image"
+    },
 
 
 
@@ -179,8 +177,12 @@ qx.Theme.define("qx.theme.classic.Appearance",
         };
       }
     },
+    
+    "list/pane" : {},
+    "list/scrollbarX" : {},
+    "list/scrollbarY" : {},    
 
-    "list-item" :
+    "listitem" :
     {
       style : function(states)
       {
@@ -193,6 +195,15 @@ qx.Theme.define("qx.theme.classic.Appearance",
         };
       }
     },
+    
+    "listitem/label" : {
+      include : "label"
+    },
+    
+    "listitem/icon" : {
+      include : "image"
+    },
+        
 
 
 
@@ -254,7 +265,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
         }
       }
     },
-
+    
+    "checkbox/label" : {},
 
     "radiobutton":
     {
@@ -290,6 +302,9 @@ qx.Theme.define("qx.theme.classic.Appearance",
         }
       }
     },
+    
+    "radiobutton/label" : {},
+
 
 
     /*
@@ -310,7 +325,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
-    "spinner-textfield" :
+    "spinner/textfield" :
     {
       style : function(states)
       {
@@ -320,38 +335,28 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
-    "spinner-button":
+    "spinner/upbutton" :
     {
       include : "button",
 
       style : function(states)
       {
         return {
+          icon : "decoration/arrows/up-small.gif",
           padding : states.pressed ? [2, 2, 0, 4] : [1, 3, 1, 3]
-        };
-      }
-    },
-
-    "spinner-button-up" :
-    {
-      include : "spinner-button",
-
-      style : function(states)
-      {
-        return {
-          icon : "decoration/arrows/up-small.gif"
         }
       }
     },
 
-    "spinner-button-down" :
+    "spinner/downbutton" :
     {
-      include : "spinner-button",
+      include : "button",
 
       style : function(states)
       {
         return {
-          icon : "decoration/arrows/down-small.gif"
+          icon : "decoration/arrows/down-small.gif",
+          padding : states.pressed ? [2, 2, 0, 4] : [1, 3, 1, 3]
         };
       }
     },
@@ -918,8 +923,10 @@ qx.Theme.define("qx.theme.classic.Appearance",
         };
       }
     },
+    
+    "window/pane" : {},
 
-    "window-captionbar" :
+    "window/captionbar" :
     {
       style : function(states)
       {
@@ -931,7 +938,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
-    "window-resize-frame" :
+    "window/resize-frame" :
     {
       style : function(states)
       {
@@ -941,7 +948,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
-    "window-captionbar-icon" :
+    "window/icon" :
     {
       style : function(states)
       {
@@ -951,7 +958,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
-    "window-captionbar-title" :
+    "window/title" :
     {
       style : function(states)
       {
@@ -964,68 +971,60 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
-    "window-captionbar-button" :
+    "window/minimize-button" :
     {
       include : "button",
 
       style : function(states)
       {
         return {
+          icon : "decoration/window/minimize.gif",
           padding : states.pressed || states.abandoned ? [ 2, 1, 0, 3] : [ 1, 2 ]
         };
       }
     },
 
-    "window-captionbar-minimize-button" :
+    "window/restore-button" :
     {
-      include : "window-captionbar-button",
+      include : "button",
 
       style : function(states)
       {
         return {
-          icon : "decoration/window/minimize.gif"
+          icon : "decoration/window/restore.gif",
+          padding : states.pressed || states.abandoned ? [ 2, 1, 0, 3] : [ 1, 2 ]
         };
       }
     },
 
-    "window-captionbar-restore-button" :
+    "window/maximize-button" :
     {
-      include : "window-captionbar-button",
+      include : "button",
 
       style : function(states)
       {
         return {
-          icon : "decoration/window/restore.gif"
+          icon : "decoration/window/maximize.gif",
+          padding : states.pressed || states.abandoned ? [ 2, 1, 0, 3] : [ 1, 2 ]
         };
       }
     },
 
-    "window-captionbar-maximize-button" :
+    "window/close-button" :
     {
-      include : "window-captionbar-button",
-
-      style : function(states)
-      {
-        return {
-          icon : "decoration/window/maximize.gif"
-        };
-      }
-    },
-
-    "window-captionbar-close-button" :
-    {
-      include : "window-captionbar-button",
+      include : "button",
 
       style : function(states)
       {
         return {
           marginLeft : 2,
-          icon : "decoration/window/close.gif"
+          icon : "decoration/window/close.gif",
+          padding : states.pressed || states.abandoned ? [ 2, 1, 0, 3] : [ 1, 2 ]
         };
       }
     },
 
-    "window-statusbar" :
+    "window/statusbar" :
     {
       style : function(states)
       {
@@ -1035,7 +1034,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
-    "window-statusbar-text" :
+    "window/statusbar-text" :
     {
       style : function(states)
       {
@@ -1044,6 +1043,9 @@ qx.Theme.define("qx.theme.classic.Appearance",
         };
       }
     },
+    
+    
+    
 
     /*
     ---------------------------------------------------------------------------
@@ -1151,31 +1153,24 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
+
+
     /*
     ---------------------------------------------------------------------------
       COMBOBOX
     ---------------------------------------------------------------------------
     */
 
-    "combobox" :
-    {
+    "combobox" : {
       include : "spinner"
     },
 
-    "combobox-textfield" :
-    {
-      style : function(states)
-      {
-        return {
-          padding : [ 2, 3 ]
-        };
-      }
+    "combobox/textfield" : {
+      include : "spinner/textfield"
     },
 
-    "combobox-button" :
-    {
+    "combobox/button" : {
       include : "button"
     }
-
   }
 });
