@@ -16,6 +16,7 @@
      * Sebastian Werner (wpbasti)
      * Andreas Ecker (ecker)
      * Martin Wittemann (martinwittemann)
+     * Jonathan Rass (jonathan_rass)
 
 ************************************************************************ */
 
@@ -76,33 +77,10 @@ qx.Class.define("qx.ui.form.Spinner",
     layout.setRowFlex(1,1);
     this._setLayout(layout);
 
-    // TEXTFIELD
-    this._textField = new qx.ui.form.TextField();
-    this._textField.setAppearance("spinner-textfield");
-    this._textField.setWidth(40);
-    this._add(this._textField, {column: 0, row: 0, rowSpan: 2});
-
-    // UP-BUTTON
-    this._upbutton = new qx.ui.form.RepeatButton();
-    this._upbutton.setAppearance("spinner-button-up");
-    this._upbutton.setFocusable(false);
-    this._add(this._upbutton, {column: 1, row: 0});
-
-    // DOWN-BUTTON
-    this._downbutton = new qx.ui.form.RepeatButton();
-    this._downbutton.setAppearance("spinner-button-down");
-    this._downbutton.setFocusable(false);
-    this._add(this._downbutton, {column:1, row: 1});
-
     // EVENTS
     this.addListener("keydown", this._onKeyDown, this);
     this.addListener("keyup", this._onKeyUp, this);
     this.addListener("mousewheel", this._onMouseWheel, this);
-    this._textField.addListener("change", this._onTextChange, this);
-    this._textField.addListener("blur", this._onTextBlur, this);
-    this._textField.addListener("focus", this._onTextFocus, this);
-    this._upbutton.addListener("execute", this._countUp, this);
-    this._downbutton.addListener("execute", this._countDown, this);
 
     //   INITIALIZATION
     if (vMin != null) {
@@ -251,8 +229,48 @@ qx.Class.define("qx.ui.form.Spinner",
     ---------------------------------------------------------------------------
     */
 
+    // overridden
+    _createChildControlImpl : function(id)
+    {
+      var control;
+
+      switch(id)
+      {
+        case "textfield":
+          control = new qx.ui.form.TextField();
+          control.setAppearance("spinner-textfield");
+          control.setWidth(40);
+
+          control.addListener("change", this._onTextChange, this);
+          control.addListener("blur", this._onTextBlur, this);
+          control.addListener("focus", this._onTextFocus, this);
+
+          this._add(control, {column: 0, row: 0, rowSpan: 2});
+          break;
+
+        case "up-button":
+          control = new qx.ui.form.RepeatButton();
+          control.setAppearance("spinner-button-up");
+          control.setFocusable(false);
+          control.addListener("execute", this._countUp, this);
+          this._add(control, {column: 1, row: 0});
+          break;
+
+        case "down-button":
+          control = new qx.ui.form.RepeatButton();
+          control.setAppearance("spinner-button-down");
+          control.setFocusable(false);
+          control.addListener("execute", this._countDown, this);
+          this._add(control, {column:1, row: 1});
+          break;
+
+      }
+      
+      return control || this.base(arguments, id);
+    },
+
     _getStyleTarget : function() {
-      return this._textField;
+      return this._getChildControl("textfield");
     },
 
 
@@ -307,7 +325,12 @@ qx.Class.define("qx.ui.form.Spinner",
      * @param old {Number} The former value of the spinner
      */
     _applyValue: function(value, old)
-    {      
+    {
+
+      var upButton = this._getChildControl("up-button");
+      var downButton = this._getChildControl("down-button");
+      var textField = this._getChildControl("textfield");
+
       // if the value is greater than the max value
       if (value > this.getMax())
       {
@@ -328,14 +351,14 @@ qx.Class.define("qx.ui.form.Spinner",
       {
         // only enable the button if the spinner itself is enabled
         if (this.getEnabled()) {
-          this._upbutton.resetEnabled();
+          upButton.resetEnabled();
         }
       }
       else
       {
         // only disable the buttons if wrapping is disabled
         if (!this.getWrap()) {
-          this._upbutton.setEnabled(false);
+          upButton.setEnabled(false);
         }
       }
 
@@ -344,14 +367,14 @@ qx.Class.define("qx.ui.form.Spinner",
       {
         // only enable the button if the spinner itself is enabled
         if (this.getEnabled()) {
-          this._downbutton.resetEnabled();
+          downButton.resetEnabled();
         }
       }
       else
       {
         // only disable the buttons if wrapping is disabled
         if (!this.getWrap()) { 
-          this._downbutton.setEnabled(false);
+          downButton.setEnabled(false);
         }
       }
 
@@ -360,9 +383,9 @@ qx.Class.define("qx.ui.form.Spinner",
 
       // write the value of the spinner to the textfield
       if (this.getNumberFormat()) {
-        this._textField.setValue(this.getNumberFormat().format(value));
+        textField.setValue(this.getNumberFormat().format(value));
       } else {
-        this._textField.setValue(value + "");
+        textField.setValue(value + "");
       }
     },
 
@@ -377,8 +400,10 @@ qx.Class.define("qx.ui.form.Spinner",
      */
     _applyEditable : function(value, old)
     {
-      if (this._textField) {
-        this._textField.setReadOnly(!value);
+      var textField = this._getChildControl("textfield");
+
+      if (textField) {
+        textField.setReadOnly(!value);
       }
     },
 
@@ -395,10 +420,13 @@ qx.Class.define("qx.ui.form.Spinner",
     {
       if (value)
       {
+        var upButton = this._getChildControl("up-button");
+        var downButton = this._getChildControl("down-button");
+
         if (this.getEnabled())
         {
-          this._upbutton.setEnabled(true);
-          this._downbutton.setEnabled(true);
+          upButton.setEnabled(true);
+          downButton.setEnabled(true);
         }
       }
     },
@@ -414,7 +442,7 @@ qx.Class.define("qx.ui.form.Spinner",
      * @param old {Boolean} The former value of the numberFormat property
      */
     _applyNumberFormat : function(value, old) {
-      this._textField.setValue(this.getNumberFormat().format(this._lastValidValue));
+      this._getChildControl("textfield").setValue(this.getNumberFormat().format(this._lastValidValue));
     },
 
 
@@ -460,14 +488,14 @@ qx.Class.define("qx.ui.form.Spinner",
           // mark that the spinner is in page mode and process further
           this._pageUpMode = true;
         case "Up":
-          this._upbutton.press();
+          this._getChildControl("up-button").press();
           break;
 
         case "PageDown":
           // mark that the spinner is in page mode and process further
           this._pageDownMode = true;
         case "Down":
-          this._downbutton.press();
+          this._getChildControl("down-button").press();
           break;
 
         default:
@@ -494,19 +522,19 @@ qx.Class.define("qx.ui.form.Spinner",
       switch(e.getKeyIdentifier())
       {
         case "PageUp":
-          this._upbutton.release();
+          this._getChildControl("up-button").release();
           this._pageUpMode = false;
           break;
         case "Up":
-          this._upbutton.release();
+          this._getChildControl("up-button").release();
           break;
 
         case "PageDown":
-          this._downbutton.release();
+          this._getChildControl("down-button").release();
           this._pageDownMode = false;
           break;
         case "Down":
-          this._downbutton.release();
+          this._getChildControl("down-button").release();
           break;
       }
     },
@@ -588,7 +616,7 @@ qx.Class.define("qx.ui.form.Spinner",
     {
       // Redirct focus to text field
       // State handling is done by _onTextFocus afterwards
-      this._textField.focus();
+      this._getChildControl("textfield").focus();
     },
 
 
@@ -671,13 +699,15 @@ qx.Class.define("qx.ui.form.Spinner",
      */
     __adoptText: function()
     {
+      var textField = this._getChildControl("textfield");
+
       // if a number format is set
       if (this.getNumberFormat())
       {
         // try to parse the current number using the number format
         try
         {
-          var value = this.getNumberFormat().parse(this._textField.getValue());
+          var value = this.getNumberFormat().parse(textField.getValue());
           // if the arsing succeeded, set the value and done
           this.setValue(value);
           return;
@@ -688,15 +718,15 @@ qx.Class.define("qx.ui.form.Spinner",
       }
 
       // try to parse the number as a float
-      var value = parseFloat(this._textField.getValue(), 10);      
+      var value = parseFloat(textField.getValue(), 10);      
       // if the result is a number
       if (!isNaN(value))
       {
         console.log("value: " + value + "   get: " + this.getValue());
         if (value == this.getValue()) 
         {
-          console.log("textfield: " + this._textField.getValue());
-          this._textField.setValue(value + "");
+          console.log("textfield: " + textField.getValue());
+          textField.setValue(value + "");
         }
         else
         {
@@ -706,23 +736,10 @@ qx.Class.define("qx.ui.form.Spinner",
       }
       else
       {
-        console.log(this._lastValidValue);
         // otherwise, reset the last valid value
-        this._textField.setValue(this._lastValidValue + "");
+        textField.setValue(this._lastValidValue + "");
       }
     }
-  },
-
-
-
-
-  /*
-  *****************************************************************************
-     DESTRUCTOR
-  *****************************************************************************
-  */
-
-  destruct : function() {
-    this._disposeObjects("_textField", "_buttonlayout", "_upbutton", "_downbutton");
   }
+
 });
