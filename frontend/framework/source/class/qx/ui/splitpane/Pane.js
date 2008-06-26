@@ -500,11 +500,14 @@ qx.Class.define("qx.ui.splitpane.Pane",
       // Whether the cursor is near enough to the splitter
       if (this.__activeDragSession || this.__isNear()) 
       {
-        root.setGlobalCursor(this._isHorizontal ? "col-resize" : "row-resize");
+        var cursor = this._isHorizontal ? "col-resize" : "row-resize";
+        root.setCursor(cursor);
+        root.setGlobalCursor(cursor);
         splitter.addState("active");
       } 
       else 
       {
+        root.resetCursor();
         root.resetGlobalCursor();
         splitter.removeState("active");
       }      
