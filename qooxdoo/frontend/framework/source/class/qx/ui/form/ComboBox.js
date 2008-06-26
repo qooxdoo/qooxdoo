@@ -42,12 +42,10 @@ qx.Class.define("qx.ui.form.ComboBox",
     listPopup.addListener("changeVisibility", this._onChangeVisibilityList, this);
 
     var textField = this._getChildControl("textfield");
-    textField.setAppearance("combobox-textfield");
     textField.addListener("blur", this._onTextBlur, this);
     textField.addListener("focus", this._onTextFocus, this);
     
     var button = this._getChildControl("button");
-    button.setAppearance("combobox-button");
   },
 
 
@@ -94,16 +92,13 @@ qx.Class.define("qx.ui.form.ComboBox",
       switch(id)
       {
         case "textfield":
-          // create the textField
           control = new qx.ui.form.TextField();
-          control.setAppearance("spinner-textfield");    
           control.addListener("blur", this._onTextBlur, this);
           control.addListener("focus", this._onTextFocus, this);    
           this._add(control, {flex: 1});
           break;
 
         case "button":
-          // create the button
           control = new qx.ui.form.Button(null, "decoration/arrows/down.gif");
           control.setFocusable(false);
           control.addListener("activate", this._onActivateButton, this);
@@ -112,7 +107,6 @@ qx.Class.define("qx.ui.form.ComboBox",
           break;
 
         case "popup":
-          // create the popup list
           control = new qx.ui.popup.Popup(new qx.ui.layout.VBox()).set({
             autoHide: false
           });
@@ -228,6 +222,5 @@ qx.Class.define("qx.ui.form.ComboBox",
       this.activate();
       e.stopPropagation();
     }
-
   }
 });

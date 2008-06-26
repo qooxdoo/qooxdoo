@@ -108,13 +108,6 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
 
       switch(id)
       {
-        case "textfield":
-          // create the textField
-          control = new qx.ui.form.TextField();
-          control.setAppearance("spinner-textfield");    
-          this._add(control, {flex: 1});
-          break;
-
         case "list":
           control = new qx.ui.form.List().set({
             focusable: false,
@@ -129,7 +122,6 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
           break;
 
         case "popup":
-          // create the popup list
           control = new qx.ui.popup.Popup(new qx.ui.layout.VBox()).set({
             autoHide: false
           });

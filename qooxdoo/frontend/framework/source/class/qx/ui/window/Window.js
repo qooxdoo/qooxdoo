@@ -431,14 +431,12 @@ qx.Class.define("qx.ui.window.Window",
       {
         case "statusbar":
           control = new qx.ui.container.Composite(new qx.ui.layout.HBox());
-          control.setAppearance("window-statusbar");
           this._add(control);
           control.add(this._getChildControl("status-text"));
           break;
 
         case "status-text":
           control = new qx.ui.basic.Label("Ready");
-          control.setAppearance("window-statusbar-text");
           control.setContent(this.getStatus());
           break;
 
@@ -449,7 +447,6 @@ qx.Class.define("qx.ui.window.Window",
 
         case "captionbar":
           control = new qx.ui.container.Composite(new qx.ui.layout.HBox());
-          control.setAppearance("window-captionbar");
           if (isActive) {
             control.addState("active");
           }
@@ -470,20 +467,17 @@ qx.Class.define("qx.ui.window.Window",
 
         case "icon":
           control = new qx.ui.basic.Image(this.getIcon());
-          control.setAppearance("window-captionbar-icon");
           this._getChildControl("captionbar").addAt(control, 0);
           break;
 
         case "title":
           control = new qx.ui.basic.Label(this.getCaption());
-          control.setAppearance("window-captionbar-title");
           var spacer = this._getChildControl("captionbar-spacer");
           this._getChildControl("captionbar").addBefore(control, spacer);
           break;
 
         case "minimize-button":
           control = new qx.ui.form.Button();
-          control.setAppearance("window-captionbar-minimize-button");
           control.setFocusable(false);
           if (isActive) {
             control.addState("active");
@@ -498,7 +492,6 @@ qx.Class.define("qx.ui.window.Window",
 
         case "restore-button":
           control = new qx.ui.form.Button();
-          control.setAppearance("window-captionbar-restore-button");
           control.setFocusable(false);
           if (isActive) {
             control.addState("active");
@@ -513,7 +506,6 @@ qx.Class.define("qx.ui.window.Window",
 
         case "maximize-button":
           control = new qx.ui.form.Button();
-          control.setAppearance("window-captionbar-maximize-button");
           control.setFocusable(false);
           if (isActive) {
             control.addState("active");
@@ -533,7 +525,6 @@ qx.Class.define("qx.ui.window.Window",
 
         case "close-button":
           control = new qx.ui.form.Button();
-          control.setAppearance("window-captionbar-close-button");
           control.setFocusable(false);
           if (isActive) {
             control.addState("active");
@@ -545,7 +536,7 @@ qx.Class.define("qx.ui.window.Window",
           break;
       }
 
-      return control || this.base(arguments, id);;
+      return control || this.base(arguments, id);
     },
 
 
