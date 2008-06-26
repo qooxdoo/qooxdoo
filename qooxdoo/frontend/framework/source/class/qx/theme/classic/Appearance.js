@@ -1113,11 +1113,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
   
-    /*
-    ---------------------------------------------------------------------------
-      SELECTBOX
-    ---------------------------------------------------------------------------
-    */
+
+
     
     /*
     ---------------------------------------------------------------------------
@@ -1125,13 +1122,12 @@ qx.Theme.define("qx.theme.classic.Appearance",
     ---------------------------------------------------------------------------
     */
 
-    "selectbox" :
-    {
+    "selectbox" : {
       include : "button"
     },
 
     
-    "selectbox-button" :
+    "selectbox/arrow" :
     {
       style : function(states)
       {
@@ -1141,17 +1137,26 @@ qx.Theme.define("qx.theme.classic.Appearance",
         };
       }
     },
+    
+    "selectbox/list" :  {
+      include : "list"
+    },
+    
+    "selectbox/list/pane" : {
+      include : "list/pane"  
+    },
+    
+    "selectbox/arrow" : {
+      include : "image"  
+    },
+    
+    
+    
+    
 
-    "selectbox-button" :
-    {
-      style : function(states)
-      {
-        return {
-          paddingRight : 4,
-          paddingLeft : 5
-        };
-      }
-    },
+
+    
+    
 
 
 
