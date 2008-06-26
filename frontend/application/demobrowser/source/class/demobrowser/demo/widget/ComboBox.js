@@ -106,7 +106,7 @@ qx.Class.define("demobrowser.demo.widget.ComboBox",
 
       this.getRoot().add(label,
       {
-        left : 140,
+        left : 160,
         top  : 25
       });
 
@@ -123,7 +123,7 @@ qx.Class.define("demobrowser.demo.widget.ComboBox",
       // add the combobox to the documents root
       this.getRoot().add(comboBox,
       {
-        left : 140,
+        left : 160,
         top  : 40
       });
     },
@@ -144,7 +144,7 @@ qx.Class.define("demobrowser.demo.widget.ComboBox",
       this.getRoot().add(label,
       {
         left : 20,
-        top  : 275
+        top  : 285
       });
 
       // create a combo box
