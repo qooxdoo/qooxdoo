@@ -24,10 +24,7 @@
  */
 qx.Class.define("qx.ui.decoration.Uniform",
 {
-  extend : qx.core.Object,
-  implement : qx.ui.decoration.IDecorator,
-  include : qx.ui.core.MThemeTransform,
-
+  extend : qx.ui.decoration.Abstract,
 
 
 

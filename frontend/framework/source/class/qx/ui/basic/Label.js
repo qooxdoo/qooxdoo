@@ -226,10 +226,10 @@ qx.Class.define("qx.ui.basic.Label",
 
 
     // property apply
-    _applyFont : function(font)
+    _applyFont : function(value, old)
     {
       // Apply
-      var styles = font ? font.getStyles() : qx.bom.Font.getDefaultStyles();
+      var styles = value ? value.getStyles() : qx.bom.Font.getDefaultStyles();
       this._contentElement.setStyles(styles);
 
       // Invalidate text size
