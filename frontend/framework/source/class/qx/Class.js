@@ -229,6 +229,12 @@ qx.Bootstrap.define("qx.Class",
         }
       }
 
+
+      if (qx.core.Variant.isSet("qx.debug", "on")) {
+        this.__validateAbstractInterfaces(clazz);
+      }
+
+
       // Process defer
       if (config.defer)
       {
@@ -875,6 +881,39 @@ qx.Bootstrap.define("qx.Class",
 
 
     /**
+     * Validates the interfaces required by abstract base classes
+     *
+     * @type static
+     * @param clazz {Class} The configured class.
+     * @return {void}
+     */
+    __validateAbstractInterfaces : qx.core.Variant.select("qx.debug",
+    {
+      "on": function(clazz)
+      {
+        var superclass = clazz.superclass;
+        while (superclass)
+        {
+          if (superclass.$$classtype !== "abstract") {
+            break;
+          }
+
+          var interfaces = superclass.$$implements;
+          if (interfaces)
+          {
+            for (var i=0; i<interfaces.length; i++) {
+              qx.Interface.assert(clazz, interfaces[i], true);
+            }
+          }
+          superclass = superclass.superclass;
+        }
+      },
+
+      "default" : function() {}
+    }),
+
+
+    /**
      * Creates a class by type. Supports modern inheritance etc.
      *
      * @type static
@@ -946,6 +985,9 @@ qx.Bootstrap.define("qx.Class",
 
       // Store type info
       clazz.$$type = "Class";
+      if (type) {
+        clazz.$$classtype = type;
+      }
 
       // Attach toString
       if (!clazz.hasOwnProperty("toString")) {
@@ -1323,7 +1365,9 @@ qx.Bootstrap.define("qx.Class",
         }
 
         // Check interface and wrap members
-        qx.Interface.assert(clazz, iface, true);
+        if (clazz.$$classtype !== "abstract") {
+          qx.Interface.assert(clazz, iface, true);
+        }
       }
 
       // Store interface reference
@@ -1474,7 +1518,7 @@ qx.Bootstrap.define("qx.Class",
           }
         }
 
-        if(!clazz.$$propertiesAttached) qx.core.Property.attach(clazz);
+        if(!clazz.$$propertiesAttached){qx.core.Property.attach(clazz);}
 
         // Execute default constructor
         var retval=clazz.$$original.apply(this,arguments);;
