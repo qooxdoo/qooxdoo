@@ -53,7 +53,7 @@
  *
  * @appearance combo-box-ex-list {qx.legacy.ui.table.Table}
  * @appearance combo-box-ex-popup {qx.legacy.ui.popup.Popup}
- * @appearance combo-box-ex-textfield {qx.legacy.ui.form.TextField}
+ * @appearance combo-box-ex-text-field {qx.legacy.ui.form.TextField}
  * @appearance combo-box-ex-button {qx.legacy.ui.basic.Atom}
  * @state pressed {combo-box-ex-button}
  */
@@ -78,7 +78,7 @@ qx.Class.define("qx.legacy.ui.form.ComboBoxEx",
     var f = this._field = new qx.legacy.ui.form.TextField;
     f.set({
       tabIndex: -1,
-      appearance : 'combo-box-ex-textfield'
+      appearance : 'combo-box-ex-text-field'
     });
     f.addListener("input", this._oninput, this);
     f.addListener("contextmenu", this._onContextMenu, this);
