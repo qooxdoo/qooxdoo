@@ -26,18 +26,6 @@ qx.Class.define("qx.ui.toolbar.PartHandle",
   extend : qx.ui.core.Widget,
 
 
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
-  construct : function()
-  {
-    this.base(arguments);
-  },
-
-
 
 
   /*
@@ -52,20 +40,18 @@ qx.Class.define("qx.ui.toolbar.PartHandle",
     {
       refine : true,
       init : "toolbar-part-handle"
-    }
-  },
-  
-  members : 
-  {
-    _getContentHint : function()
+    },
+    
+    width : 
     {
-      return {
-        /* 
-         * Set the height to override the default value. 
-         * The width of this widget is controlled by the appearance theme.
-         */
-        height : 0
-      };
-    }  
+      refine : true,
+      init : 0 
+    },
+
+    height : 
+    {
+      refine : true,
+      init : 0 
+    }    
   }  
 });

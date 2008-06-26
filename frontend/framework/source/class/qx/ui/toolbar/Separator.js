@@ -28,19 +28,6 @@ qx.Class.define("qx.ui.toolbar.Separator",
 
 
 
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
-  construct : function()
-  {
-    this.base(arguments);
-  },
-
-
-
 
   /*
   *****************************************************************************
@@ -54,17 +41,18 @@ qx.Class.define("qx.ui.toolbar.Separator",
     {
       refine : true,
       init : "toolbar-separator"
-    }
-  },
-  
-  members : 
-  {
-    _getContentHint : function()
+    },
+    
+    width : 
     {
-      return {
-        width : 0,
-        height : 0
-      };
-    }  
+      refine : true,
+      init : 0 
+    },
+
+    height : 
+    {
+      refine : true,
+      init : 0 
+    }
   }
 });
