@@ -279,8 +279,8 @@ qx.Class.define("qx.ui.splitpane.Pane",
     _onMouseMove : function(e)
     {
       // Update mouse position
-      this._lastMouseX = e.getDocumentLeft();
-      this._lastMouseY = e.getDocumentTop();
+      this.__lastMouseX = e.getDocumentLeft();
+      this.__lastMouseY = e.getDocumentTop();
 
       // Check if slider is already being dragged
       if (this.__activeDragSession) 
@@ -311,9 +311,10 @@ qx.Class.define("qx.ui.splitpane.Pane",
      */
     _onMouseOut : function(e) 
     {
+      return;
       // Force mouse positions to -1
-      this._lastMouseX = -1;
-      this._lastMouseY = -1;
+      this.__lastMouseX = -1;
+      this.__lastMouseY = -1;
       
       // Update cursor
       this.__updateCursor();
@@ -379,6 +380,10 @@ qx.Class.define("qx.ui.splitpane.Pane",
       var beginSize = this._beginSize;
       var endSize = this._endSize;
       
+      if (beginSize == null) {
+        return; 
+      }
+      
       var children = this._getChildren();
       var firstWidget = children[2];
       var secondWidget = children[3];
@@ -390,35 +395,11 @@ qx.Class.define("qx.ui.splitpane.Pane",
       // Both widgets have flex values
       if((firstFlexValue != 0) && (secondFlexValue != 0))
       {
-        var sum = beginSize + endSize;
-        // Update flex values
-        firstWidget.setLayoutProperties({ flex : (beginSize / sum) });
-        secondWidget.setLayoutProperties({ flex : (endSize / sum) });
+        firstWidget.setLayoutProperties({ flex : beginSize });
+        secondWidget.setLayoutProperties({ flex : endSize });
       }
       
-      // Only first widget has a flex value
-      else if(firstFlexValue != 0)
-      {
-        // Set width to static widget
-        if (this._isHorizontal) {
-          secondWidget.setWidth(endSize);
-        } else {
-          secondWidget.setHeight(endSize);
-        }
-      }
-      
-      // Only second widget has a flex value
-      else if(secondFlexValue != 0)
-      {
-        // Set width to static widget
-        if (this._isHorizontal) {
-          firstWidget.setWidth(beginSize);
-        } else {
-          firstWidget.setHeight(beginSize);
-        }
-      }
-      
-      // Both widgets have static values
+      // Update both sizes
       else
       {
         // Set widths to static widgets
@@ -457,7 +438,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
       var paneLocation = qx.bom.element.Location.get(paneElem);
       
       // Check horizontal
-      var mouse = this._lastMouseX;
+      var mouse = this.__lastMouseX;
       var size = splitterElement.offsetWidth;
       var pos = paneLocation.left + splitterBounds.left;
 
@@ -470,7 +451,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
       }
       
       // Check vertical
-      var mouse = this._lastMouseY;
+      var mouse = this.__lastMouseY;
       var size = splitterElement.offsetHeight;
       var pos = paneLocation.top + splitterBounds.top;
       
@@ -505,7 +486,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
         root.setGlobalCursor(cursor);
         splitter.addState("active");
       } 
-      else 
+      else if (splitter.hasState("active"))
       {
         root.resetCursor();
         root.resetGlobalCursor();
@@ -522,9 +503,9 @@ qx.Class.define("qx.ui.splitpane.Pane",
     __computeSizes : function()
     {
       if (this._isHorizontal) {
-        var min="minWidth", size="width", max="maxWidth", mouse=this._lastMouseX;  
+        var min="minWidth", size="width", max="maxWidth", mouse=this.__lastMouseX;  
       } else {
-        var min="minHeight", size="height", max="maxHeight", mouse=this._lastMouseY;
+        var min="minHeight", size="height", max="maxHeight", mouse=this.__lastMouseY;
       }
       
       var children = this._getChildren();
