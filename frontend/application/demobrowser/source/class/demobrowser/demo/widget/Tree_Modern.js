@@ -33,7 +33,6 @@ qx.Class.define("demobrowser.demo.widget.Tree_Modern",
     main: function()
     {
       this.base(arguments);
-      qx.theme.manager.Meta.getInstance().setTheme(qx.theme.Modern);
 
       this._container = new qx.ui.container.Composite(new qx.ui.layout.HBox().set({
         spacing: 20

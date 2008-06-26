@@ -32,10 +32,6 @@ qx.Class.define("demobrowser.demo.ui.BackgroundImage",
       qx.Theme.patch(qx.theme.classic.Decoration, demobrowser.demo.ui.BackgroundImage_Decoration);
       qx.Theme.patch(qx.theme.classic.Appearance, demobrowser.demo.ui.BackgroundImage_Appearance);
 
-      // Toggle themes to refresh color list
-      qx.theme.manager.Meta.getInstance().setTheme(qx.theme.Modern);
-      qx.theme.manager.Meta.getInstance().setTheme(qx.theme.Classic);
-
       var layout = new qx.ui.layout.Grid();
       layout.setSpacing(10);
 
