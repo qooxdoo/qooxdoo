@@ -238,7 +238,6 @@ qx.Class.define("qx.ui.form.Spinner",
       {
         case "textfield":
           control = new qx.ui.form.TextField();
-          control.setAppearance("spinner-textfield");
           control.setWidth(40);
 
           control.addListener("change", this._onTextChange, this);
@@ -250,7 +249,6 @@ qx.Class.define("qx.ui.form.Spinner",
 
         case "upbutton":
           control = new qx.ui.form.RepeatButton();
-          control.setAppearance("spinner-button-up");
           control.setFocusable(false);
           control.addListener("execute", this._countUp, this);
           this._add(control, {column: 1, row: 0});
@@ -258,12 +256,10 @@ qx.Class.define("qx.ui.form.Spinner",
 
         case "downbutton":
           control = new qx.ui.form.RepeatButton();
-          control.setAppearance("spinner-button-down");
           control.setFocusable(false);
           control.addListener("execute", this._countDown, this);
           this._add(control, {column:1, row: 1});
           break;
-
       }
       
       return control || this.base(arguments, id);
@@ -656,6 +652,7 @@ qx.Class.define("qx.ui.form.Spinner",
           newValue = this.getMin() + dif;          
         }
       }
+      
       this.setValue(newValue);
     },
 
@@ -681,6 +678,7 @@ qx.Class.define("qx.ui.form.Spinner",
           newValue = this.getMax() - dif;          
         }
       }
+      
       this.setValue(newValue);
     },
 
@@ -724,10 +722,10 @@ qx.Class.define("qx.ui.form.Spinner",
       // if the result is a number
       if (!isNaN(value))
       {
-        console.log("value: " + value + "   get: " + this.getValue());
+        this.warn("value: " + value + "   get: " + this.getValue());
         if (value == this.getValue()) 
         {
-          console.log("textfield: " + textField.getValue());
+          this.warn("textfield: " + textField.getValue());
           textField.setValue(value + "");
         }
         else
@@ -743,5 +741,4 @@ qx.Class.define("qx.ui.form.Spinner",
       }
     }
   }
-
 });
