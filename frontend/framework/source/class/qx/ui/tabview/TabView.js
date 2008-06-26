@@ -20,7 +20,7 @@
 ************************************************************************ */
 
 /**
- * @appearance tab-view
+ * @appearance tabview
  */
 qx.Class.define("qx.ui.tabview.TabView",
 {
@@ -68,7 +68,7 @@ qx.Class.define("qx.ui.tabview.TabView",
     appearance :
     {
       refine : true,
-      init : "tab-view"
+      init : "tabview"
     },
 
     alignTabsToLeft :
@@ -178,7 +178,7 @@ qx.Class.define("qx.ui.tabview.TabView",
     {
       var bar = new qx.ui.tabview.Bar();
       bar.setLayout(new qx.ui.layout.HBox());
-      bar.setAppearance("tab-view-bar");
+      bar.setAppearance("tabview-bar");
       return bar;
     },
 
@@ -193,7 +193,7 @@ qx.Class.define("qx.ui.tabview.TabView",
     {
       var pane = new qx.ui.container.Composite();
       pane.setLayout(new qx.ui.layout.Canvas());
-      pane.setAppearance("tab-view-pane");
+      pane.setAppearance("tabview-pane");
       return pane;
     },
 

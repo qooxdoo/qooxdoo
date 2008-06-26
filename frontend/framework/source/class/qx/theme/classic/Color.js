@@ -51,11 +51,11 @@ qx.Theme.define("qx.theme.classic.Color",
 
     "effect" : [ 128, 128, 128 ],
 
-    "tab-view-pane" : [ 250, 249, 248 ],
-    "tab-view-border" : [ 128, 128, 128 ],
-    "tab-view-button" : [ 224, 221, 216 ],
-    "tab-view-button-hover" : [ 250, 249, 248 ],
-    "tab-view-button-checked" : [ 250, 249, 248 ],
+    "tabview-pane" : [ 250, 249, 248 ],
+    "tabview-border" : [ 128, 128, 128 ],
+    "tabview-button" : [ 224, 221, 216 ],
+    "tabview-button-hover" : [ 250, 249, 248 ],
+    "tabview-button-checked" : [ 250, 249, 248 ],
 
     "window-active-caption-text" : [ 255, 255, 255 ],
     "window-inactive-caption-text" : [ 255, 255, 255 ],

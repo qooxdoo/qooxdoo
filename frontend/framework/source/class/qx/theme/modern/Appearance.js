@@ -130,7 +130,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
     */
 
 
-    "check-box":
+    "checkbox":
     {
       style : function(states)
       {
@@ -165,9 +165,9 @@ qx.Theme.define("qx.theme.modern.Appearance",
     },
 
 
-    "radio-button":
+    "radiobutton":
     {
-      include : "check-box",
+      include : "checkbox",
 
       style : function(states)
       {
@@ -214,7 +214,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
     },
 
 
-    "text-area" : {
+    "textarea" : {
       include : "textfield"
     },
 
@@ -225,7 +225,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
     ---------------------------------------------------------------------------
     */
 
-    "group-box" :
+    "groupbox" :
     {
       style : function(states)
       {
@@ -236,7 +236,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       }
     },
 
-    "group-box-legend" :
+    "groupbox-legend" :
     {
       style : function(states)
       {
@@ -252,7 +252,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       }
     },
 
-    "group-box-frame" :
+    "groupbox-frame" :
     {
       style : function(states)
       {
@@ -583,11 +583,11 @@ qx.Theme.define("qx.theme.modern.Appearance",
 
     /*
     ---------------------------------------------------------------------------
-      TOOL-TIP
+      tooltip
     ---------------------------------------------------------------------------
     */
 
-    "tool-tip" :
+    "tooltip" :
     {
       style : function(states)
       {

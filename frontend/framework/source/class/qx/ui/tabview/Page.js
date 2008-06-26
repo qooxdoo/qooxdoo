@@ -18,7 +18,7 @@
 ************************************************************************ */
 
 /**
- * @appearance tab-view-page
+ * @appearance tabview-page
  */
 qx.Class.define("qx.ui.tabview.Page",
 {
@@ -90,7 +90,7 @@ qx.Class.define("qx.ui.tabview.Page",
         }
       }, this);
 
-      button.setAppearance("tab-view-button");
+      button.setAppearance("tabview-button");
 
 //      button.isFirstVisibleChild() ? button.addState("firstChild") : button.removeState("lastChild");
 //      this.isLastVisibleChild() ? this.addState("lastChild") : this.removeState("lastChild");

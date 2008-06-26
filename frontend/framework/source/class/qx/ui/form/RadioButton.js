@@ -35,7 +35,7 @@
  *   layout.add(female);
  * </code>
  *
- * @appearance radio-button
+ * @appearance radiobutton
  * @state checked
  */
 qx.Class.define("qx.ui.form.RadioButton",
@@ -99,7 +99,7 @@ qx.Class.define("qx.ui.form.RadioButton",
     appearance :
     {
       refine : true,
-      init : "radio-button"
+      init : "radiobutton"
     }
   },
 

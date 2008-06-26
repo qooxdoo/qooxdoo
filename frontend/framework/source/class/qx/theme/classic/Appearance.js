@@ -91,7 +91,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
     */
 
 
-    "tool-tip" :
+    "tooltip" :
     {
       include : "popup",
 
@@ -216,12 +216,12 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
-    "text-area" : {
+    "textarea" : {
       include : "textfield"
     },
 
 
-    "check-box":
+    "checkbox":
     {
       style : function(states)
       {
@@ -256,9 +256,9 @@ qx.Theme.define("qx.theme.classic.Appearance",
     },
 
 
-    "radio-button":
+    "radiobutton":
     {
-      include : "check-box",
+      include : "checkbox",
 
       style : function(states)
       {
@@ -367,7 +367,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
     ---------------------------------------------------------------------------
     */
 
-    "group-box" :
+    "groupbox" :
     {
       style : function(states)
       {
@@ -377,7 +377,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
-    "group-box-legend" :
+    "groupbox-legend" :
     {
       style : function(states)
       {
@@ -391,7 +391,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
-    "group-box-frame" :
+    "groupbox-frame" :
     {
       style : function(states)
       {
@@ -402,9 +402,9 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
-    "check-box-group-box-legend" :
+    "checkbox-groupbox-legend" :
     {
-      include : "check-box",
+      include : "checkbox",
 
       style : function(states)
       {
@@ -418,9 +418,9 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
-    "radio-button-group-box-legend" :
+    "radiobutton-groupbox-legend" :
     {
-      include : "radio-button",
+      include : "radiobutton",
 
       style : function(states)
       {
@@ -520,7 +520,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
     ---------------------------------------------------------------------------
     */
 
-    "tab-view" :
+    "tabview" :
     {
       style : function(states)
       {
@@ -530,7 +530,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
-    "tab-view-bar" : {
+    "tabview-bar" : {
       style : function(states)
       {
         return {
@@ -541,7 +541,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
-    "tab-view-bar-button-left" :
+    "tabview-bar-button-left" :
     {
       include : "button",
 
@@ -555,7 +555,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
-    "tab-view-bar-button-right" :
+    "tabview-bar-button-right" :
     {
       include : "button",
 
@@ -569,23 +569,23 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
-    "tab-view-pane" :
+    "tabview-pane" :
     {
       style : function(states)
       {
         return {
-          backgroundColor : "tab-view-pane",
-          decorator       : new qx.ui.decoration.Single(1, "solid", "tab-view-border"),
+          backgroundColor : "tabview-pane",
+          decorator       : new qx.ui.decoration.Single(1, "solid", "tabview-border"),
           padding         : 10,
           marginTop       : -1
         };
       }
     },
 
-    "tab-view-page" : {
+    "tabview-page" : {
     },
 
-    "tab-view-button" :
+    "tabview-button" :
     {
       style : function(states)
       {
@@ -595,7 +595,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
         marginTop = 0;
         marginBottom = 0;
-        decorator = new qx.ui.decoration.Single(1, "solid", "tab-view-border");
+        decorator = new qx.ui.decoration.Single(1, "solid", "tabview-border");
 
         if (states.checked)
         {
@@ -605,7 +605,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
           paddingRight = 8;
           marginRight = -1;
           marginLeft = -2;
-          backgroundColor = "tab-view-button-checked";
+          backgroundColor = "tabview-button-checked";
 
           if (states.barTop)
           {
@@ -645,7 +645,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
           paddingRight = 6;
           marginRight = 1;
           marginLeft = 0;
-          backgroundColor = states.over ? "tab-view-button-hover" : "tab-view-button";
+          backgroundColor = states.over ? "tabview-button-hover" : "tabview-button";
 
           if (states.barTop)
           {
