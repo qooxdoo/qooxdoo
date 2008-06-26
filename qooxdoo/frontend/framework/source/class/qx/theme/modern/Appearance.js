@@ -311,13 +311,13 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          width : states.horizontal ? "undefined" : 15,
-          height : states.horizontal ? 15 : "undefined",
+          width : states.horizontal ? "undefined" : 16,
+          height : states.horizontal ? 16 : "undefined",
           decorator : new qx.ui.decoration.Uniform().set({
             backgroundImage : states.horizontal ? "decoration/scrollbar/scrollbar-bg-horizontal.png" : "decoration/scrollbar/scrollbar-bg-vertical.png",
             backgroundRepeat : states.horizontal ? "repeat-x" : "repeat-y"
           }),
-          padding : states.horizontal ? [0, 1, 1, 1] : [1, 1, 1, 0]
+          padding : states.horizontal ? [1, 1, 1, 1] : [1, 1, 1, 1]
         };
       }
     },
