@@ -42,10 +42,12 @@ qx.Class.define("qx.ui.form.ComboBox",
     listPopup.addListener("changeVisibility", this._onChangeVisibilityList, this);
 
     var textField = this._getChildControl("textfield");
+    textField.setAppearance("combobox-textfield");
     textField.addListener("blur", this._onTextBlur, this);
     textField.addListener("focus", this._onTextFocus, this);
     
-    this._createChildControl("button");
+    var button = this._getChildControl("button");
+    button.setAppearance("combobox-button");
   },
 
 
@@ -69,7 +71,7 @@ qx.Class.define("qx.ui.form.ComboBox",
     appearance :
     {
       refine : true,
-      init : "spinner"
+      init : "combobox"
     }
 
   },
@@ -102,7 +104,7 @@ qx.Class.define("qx.ui.form.ComboBox",
 
         case "button":
           // create the button
-          control = new qx.ui.form.Button(null, "decoration/arrows/down.gif");
+          control = new qx.ui.form.Button(null, "decoration/arrows/down.png");
           control.setFocusable(false);
           control.addListener("activate", this._onActivateButton, this);
           control.addListener("click", this._onClick, this);
