@@ -151,7 +151,7 @@ qx.Class.define("qx.ui.core.ScrollArea",
           break;
 
 
-        case "scrollbarX":
+        case "scrollbar-x":
           control = new qx.ui.core.ScrollBar("horizontal");
 
           control.exclude();
@@ -162,7 +162,7 @@ qx.Class.define("qx.ui.core.ScrollArea",
           break;
 
 
-        case "scrollbarY":
+        case "scrollbar-y":
           control = new qx.ui.core.ScrollBar("vertical");
 
           control.exclude();
@@ -215,7 +215,7 @@ qx.Class.define("qx.ui.core.ScrollArea",
      * @return {void}
      */
     scrollToX : function(value) {
-      this._getChildControl("scrollbarX").scrollTo(value);
+      this._getChildControl("scrollbar-x").scrollTo(value);
     },
 
 
@@ -227,7 +227,7 @@ qx.Class.define("qx.ui.core.ScrollArea",
      * @return {void}
      */
     scrollByX : function(value) {
-      this._getChildControl("scrollbarX").scrollBy(value);
+      this._getChildControl("scrollbar-x").scrollBy(value);
     },
 
 
@@ -239,7 +239,7 @@ qx.Class.define("qx.ui.core.ScrollArea",
      */
     getScrollX : function()
     {
-      var scrollbar = this._getChildControl("scrollbarX", true);
+      var scrollbar = this._getChildControl("scrollbar-x", true);
       return scrollbar ? scrollbar.getPosition() : 0;
     },
 
@@ -252,7 +252,7 @@ qx.Class.define("qx.ui.core.ScrollArea",
      * @return {void}
      */
     scrollToY : function(value) {
-      this._getChildControl("scrollbarY").scrollTo(value);
+      this._getChildControl("scrollbar-y").scrollTo(value);
     },
 
 
@@ -264,7 +264,7 @@ qx.Class.define("qx.ui.core.ScrollArea",
      * @return {void}
      */
     scrollByY : function(value) {
-      this._getChildControl("scrollbarY").scrollBy(value);
+      this._getChildControl("scrollbar-y").scrollBy(value);
     },
 
 
@@ -276,7 +276,7 @@ qx.Class.define("qx.ui.core.ScrollArea",
      */
     getScrollY : function()
     {
-      var scrollbar = this._getChildControl("scrollbarY", true);
+      var scrollbar = this._getChildControl("scrollbar-y", true);
       return scrollbar ? scrollbar.getPosition() : 0;
     },
     
@@ -346,7 +346,7 @@ qx.Class.define("qx.ui.core.ScrollArea",
      */
     _onMouseWheel : function(e)
     {
-      var scrollbar = this._getChildControl("scrollbarY", true);
+      var scrollbar = this._getChildControl("scrollbar-y", true);
       if (scrollbar) {
         scrollbar.scrollBySteps(-e.getWheelDelta());
       }
@@ -364,8 +364,8 @@ qx.Class.define("qx.ui.core.ScrollArea",
      */
     _onChangeScrollbarXVisibility : function(e)
     {
-      var showX = this._isChildControlVisible("scrollbarX");
-      var showY = this._isChildControlVisible("scrollbarY");
+      var showX = this._isChildControlVisible("scrollbar-x");
+      var showY = this._isChildControlVisible("scrollbar-y");
 
       if (!showX) {
         this.scrollToX(0);
@@ -383,8 +383,8 @@ qx.Class.define("qx.ui.core.ScrollArea",
      */
     _onChangeScrollbarYVisibility : function(e)
     {
-      var showX = this._isChildControlVisible("scrollbarX");
-      var showY = this._isChildControlVisible("scrollbarY");
+      var showX = this._isChildControlVisible("scrollbar-x");
+      var showY = this._isChildControlVisible("scrollbar-y");
 
       if (!showY) {
         this.scrollToY(0);
@@ -414,8 +414,8 @@ qx.Class.define("qx.ui.core.ScrollArea",
       var content = pane.getChild();
       if (!content)
       {
-        this._excludeChildControl("scrollbarX");
-        this._excludeChildControl("scrollbarY");
+        this._excludeChildControl("scrollbar-x");
+        this._excludeChildControl("scrollbar-y");
 
         return;
       }
@@ -473,7 +473,7 @@ qx.Class.define("qx.ui.core.ScrollArea",
       // Update scrollbars
       if (showX)
       {
-        var barX = this._getChildControl("scrollbarX");
+        var barX = this._getChildControl("scrollbar-x");
 
         barX.show();
         barX.setMaximum(Math.max(0, scrollSize.width - paneSize.width));
@@ -481,12 +481,12 @@ qx.Class.define("qx.ui.core.ScrollArea",
       }
       else
       {
-        this._excludeChildControl("scrollbarX");
+        this._excludeChildControl("scrollbar-x");
       }
 
       if (showY)
       {
-        var barY = this._getChildControl("scrollbarY");
+        var barY = this._getChildControl("scrollbar-y");
 
         barY.show();
         barY.setMaximum(Math.max(0, scrollSize.height - paneSize.height));
@@ -494,7 +494,7 @@ qx.Class.define("qx.ui.core.ScrollArea",
       }
       else
       {
-        this._excludeChildControl("scrollbarY");
+        this._excludeChildControl("scrollbar-y");
       }
     }
   }
