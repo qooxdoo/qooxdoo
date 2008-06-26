@@ -392,7 +392,7 @@ qx.Class.define("qx.ui.core.Widget",
     font :
     {
       nullable : true,
-      check : "qx.bom.Font",
+      check : "qx.bom.IFont",
       init : "inherit",
       apply : "_applyFont",
       transform : "_resolveThemedFont",
