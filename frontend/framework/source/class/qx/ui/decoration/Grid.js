@@ -36,6 +36,7 @@ qx.Class.define("qx.ui.decoration.Grid",
 {
   extend : qx.core.Object,
   implement : qx.ui.decoration.IDecorator,
+  include : qx.ui.core.MThemeTransform,
 
 
 
@@ -124,7 +125,7 @@ qx.Class.define("qx.ui.decoration.Grid",
       init : true,
       apply : "_changeBorderVisibility"
     },
-    
+
     /** Width of the left inset */
     insetLeft :
     {
@@ -132,7 +133,7 @@ qx.Class.define("qx.ui.decoration.Grid",
       init  : 0,
       apply : "_changeInset"
     },
-    
+
     /** Width of the right inset */
     insetRight :
     {
@@ -140,7 +141,7 @@ qx.Class.define("qx.ui.decoration.Grid",
       init  : 0,
       apply : "_changeInset"
     },
-    
+
     /** Width of the bottom inset */
     insetBottom :
     {
@@ -148,7 +149,7 @@ qx.Class.define("qx.ui.decoration.Grid",
       init  : 0,
       apply : "_changeInset"
     },
-    
+
     /** Width of the top inset */
     insetTop :
     {
@@ -156,7 +157,7 @@ qx.Class.define("qx.ui.decoration.Grid",
       init  : 0,
       apply : "_changeInset"
     },
-    
+
     /** Property group for insets */
     insets :
     {
@@ -189,7 +190,7 @@ qx.Class.define("qx.ui.decoration.Grid",
       this.__markup = null;
       qx.ui.core.queue.Decorator.add(this);
     },
-    
+
     _changeInset : function(value) {
       qx.ui.core.queue.Decorator.add(this);
     },
@@ -210,7 +211,7 @@ qx.Class.define("qx.ui.decoration.Grid",
       var l  = mgr.getClipped(images.l);
       var c  = mgr.getClipped(images.c);
       var r  = mgr.getClipped(images.r);
-      
+
 
       // Store dimensions
       this.__insets =
@@ -227,7 +228,7 @@ qx.Class.define("qx.ui.decoration.Grid",
       var bottomWidth = this.__insets.bottom;
       var leftWidth = this.__insets.left;
       var rightWidth = this.__insets.right;
-      
+
 
       // Create edges and vertical sides
       // Order: tl, t, tr, bl, b, bt, l, c, r
@@ -239,8 +240,8 @@ qx.Class.define("qx.ui.decoration.Grid",
 
       var rightCombined = mgr.getClipped(r[0]);
       rightImageWidth = rightCombined ? rightCombined[3] : r[3];
-      
-      
+
+
       // Top: left, center, right
       html.push(
         '<div style="position:absolute;top:0;left:0;',
@@ -263,8 +264,8 @@ qx.Class.define("qx.ui.decoration.Grid",
         qx.bom.element.Background.compile(tr[0], "repeat-x", tr[1], tr[2]),
         '"></div>'
       );
-      
-      // Bottom: left, center, right      
+
+      // Bottom: left, center, right
       html.push(
         '<div style="position:absolute;bottom:0;left:0;',
         'width:', leftWidth,
@@ -286,7 +287,7 @@ qx.Class.define("qx.ui.decoration.Grid",
         qx.bom.element.Background.compile(br[0], "repeat-x", br[1], br[2]),
         '"></div>'
       );
-      
+
       // Middle: left, center, right
       html.push(
         '<img src="', mgr.toUri(l[0]), '" style="position:absolute;left:' + l[1] + 'px;',
@@ -355,7 +356,7 @@ qx.Class.define("qx.ui.decoration.Grid",
       if (!content) {
         var content = element._element ? element._element : this.__createInnerElement();
       }
-      
+
       var pixel = "px";
 
       // Sync width/height of outer element
@@ -399,7 +400,7 @@ qx.Class.define("qx.ui.decoration.Grid",
         bottom : this.getInsetBottom(),
         top : this.getInsetTop()
       };
-      
+
       return insets;
     }
   }

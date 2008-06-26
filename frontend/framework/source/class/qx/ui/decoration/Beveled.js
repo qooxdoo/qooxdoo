@@ -25,6 +25,7 @@ qx.Class.define("qx.ui.decoration.Beveled",
 {
   extend : qx.core.Object,
   implement : qx.ui.decoration.IDecorator,
+  include : qx.ui.core.MThemeTransform,
 
 
 
@@ -61,9 +62,10 @@ qx.Class.define("qx.ui.decoration.Beveled",
   {
     innerColor :
     {
-      check : "Color",
+      check : "String",
       nullable : true,
-      apply : "_applyInnerColor"
+      apply : "_applyInnerColor",
+      transform : "_resolveThemedColor"
     },
 
     innerOpacity :
@@ -77,7 +79,8 @@ qx.Class.define("qx.ui.decoration.Beveled",
     {
       check : "Color",
       nullable : true,
-      apply : "_applyOuterColor"
+      apply : "_applyOuterColor",
+      transform : "_resolveThemedColor"
     },
 
     backgroundImage :
@@ -91,7 +94,8 @@ qx.Class.define("qx.ui.decoration.Beveled",
     {
       check : "String",
       nullable : true,
-      apply : "_applyBackgroundColor"
+      apply : "_applyBackgroundColor",
+      transform : "_resolveThemedColor"
     },
 
     /** Whether the top border should be visible */
@@ -140,23 +144,11 @@ qx.Class.define("qx.ui.decoration.Beveled",
   {
     // property apply
     _applyInnerColor : function(value, old) {
-      qx.theme.manager.Color.getInstance().connect(this._styleInnerColor, this, value);
     },
 
     // property apply
     _applyOuterColor : function(value, old) {
-      qx.theme.manager.Color.getInstance().connect(this._styleOuterColor, this, value);
     },
-
-    _styleInnerColor : function(value) {
-      this.__innerColor = value;
-    },
-
-    _styleOuterColor : function(value) {
-      this.__outerColor = value;
-    },
-
-
 
     _applyBackgroundImage : function()
     {
@@ -165,14 +157,12 @@ qx.Class.define("qx.ui.decoration.Beveled",
 
     _applyBackgroundColor : function()
     {
-
     },
 
 
 
     _applyInnerOpacity : function()
     {
-
     },
 
 
@@ -215,9 +205,9 @@ qx.Class.define("qx.ui.decoration.Beveled",
       var inner = vert.getChild(0);
       var overlay = vert.getChild(1);
 
-      var outerStyle = "1px solid " + this.__outerColor;
-      var innerStyle = "1px solid " + this.__innerColor;
-      
+      var outerStyle = "1px solid " + this.getOuterColor();
+      var innerStyle = "1px solid " + this.getInnerColor();
+
       var bgSource = qx.util.ResourceManager.toUri(qx.util.AliasManager.getInstance().resolve(this.getBackgroundImage()));
 
 
@@ -231,7 +221,7 @@ qx.Class.define("qx.ui.decoration.Beveled",
       vert.setStyle("borderTop", outerStyle);
       vert.setStyle("borderBottom", outerStyle);
 
-      inner.setStyle("backgroundColor", backgroundColor || this.__backgroundColor || null);
+      inner.setStyle("backgroundColor", backgroundColor || this.getBackgroundColor() || null);
       inner.setAttribute("src", bgSource);
 
       overlay.setStyle("border", innerStyle);

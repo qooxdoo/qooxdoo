@@ -26,6 +26,7 @@ qx.Class.define("qx.ui.decoration.Uniform",
 {
   extend : qx.core.Object,
   implement : qx.ui.decoration.IDecorator,
+  include : qx.ui.core.MThemeTransform,
 
 
 
@@ -59,17 +60,18 @@ qx.Class.define("qx.ui.decoration.Uniform",
     color :
     {
       nullable : true,
-      check : "Color",
-      apply : "_applyColor"
+      check : "String",
+      apply : "_applyBorderChange",
+      transform : "_resolveThemedColor"
     },
 
     /** The background color */
     backgroundColor :
     {
       nullable : true,
-      init : "inherit",
-      check : "Color",
-      apply : "_applyBackgroundColor"
+      check : "String",
+      apply : "_applyBorderChange",
+      transform : "_resolveThemedColor"
     },
 
     /** The URL of the background image */
@@ -105,15 +107,15 @@ qx.Class.define("qx.ui.decoration.Uniform",
     {
       if (changes.style || changes.init)
       {
-        element.setStyle("border", this.getWidth() + "px " + this.getStyle() + " " + (this.__color || ""));
-        
+        element.setStyle("border", this.getWidth() + "px " + this.getStyle() + " " + (this.getColor() || ""));
+
         var imageId = qx.util.AliasManager.getInstance().resolve(this.getBackgroundImage());
         var bgStyles = qx.bom.element.Background.getStyles(imageId, this.getBackgroundRepeat());
         element.setStyles(bgStyles);
       }
 
       if (changes.bgcolor || changes.init) {
-        element.setStyle("backgroundColor", backgroundColor || this.__background || null);
+        element.setStyle("backgroundColor", backgroundColor || this.getBackgroundColor() || null);
       }
 
       if (changes.size || changes.init)
@@ -166,51 +168,6 @@ qx.Class.define("qx.ui.decoration.Uniform",
 
     // property apply
     _applyBorderChange : function() {
-      qx.ui.core.queue.Decorator.add(this);
-    },
-
-    // property apply
-    _applyColor : function(value, old) {
-      qx.theme.manager.Color.getInstance().connect(this._changeColor, this, value);
-    },
-
-    // property apply
-    _applyBackgroundColor : function(value) {
-      qx.theme.manager.Color.getInstance().connect(this._changeBackgroundColor, this, value);
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      COLOR MANAGER CONNECTION
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * Reacts on color changes reported by the connected ColorManager.
-     *
-     * @type member
-     * @param value {Color} the color value to apply
-     */
-    _changeColor : function(value)
-    {
-      this.__color = value;
-      qx.ui.core.queue.Decorator.add(this);
-    },
-
-
-    /**
-     * Callback for color manager connection
-     *
-     * @type member
-     * @param color {Color} any CSS acceptable color value
-     * @return {void}
-     */
-    _changeBackgroundColor : function(color)
-    {
-      this.__background = color;
       qx.ui.core.queue.Decorator.add(this);
     }
   }
