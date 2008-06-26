@@ -838,7 +838,6 @@ qx.Theme.define("qx.theme.modern.Appearance",
         };
       }
     },
-
     
     "selectbox-button" :
     {
@@ -850,6 +849,11 @@ qx.Theme.define("qx.theme.modern.Appearance",
         };
       }
     },
+    
+    
+    
+    
+    
 
     /*
     ---------------------------------------------------------------------------
