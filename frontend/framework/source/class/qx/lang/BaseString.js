@@ -53,7 +53,7 @@ qx.Class.define("qx.lang.BaseString",
      * @return {Integer} unique hash code of the object
      */
     toHashCode : function() {
-      qx.core.ObjectRegistry.toHashCode(this);
+      return qx.core.ObjectRegistry.toHashCode(this);
     },
 
 
@@ -66,7 +66,7 @@ qx.Class.define("qx.lang.BaseString",
      * @return {var} the return value of the method of the base class.
      */
     base : function(args, varags) {
-      qx.core.Object.prototype.base.apply(this, arguments);
+      return qx.core.Object.prototype.base.apply(this, arguments);
     }
   }
 });

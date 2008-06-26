@@ -96,28 +96,36 @@ qx.Class.define("qx.ui.decoration.Double",
     innerColorTop :
     {
       nullable : true,
-      apply : "_applyInnerColorTop"
+      check : "String",
+      apply : "_applyBorderChange",
+      transform : "_resolveThemedColor"
     },
 
     /** right inner color of border */
     innerColorRight :
     {
       nullable : true,
-      apply : "_applyInnerColorRight"
+      check : "String",
+      apply : "_applyBorderChange",
+      transform : "_resolveThemedColor"
     },
 
     /** bottom inner color of border */
     innerColorBottom :
     {
       nullable : true,
-      apply : "_applyInnerColorBottom"
+      check : "String",
+      apply : "_applyBorderChange",
+      transform : "_resolveThemedColor"
     },
 
     /** left inner color of border */
     innerColorLeft :
     {
       nullable : true,
-      apply : "_applyInnerColorLeft"
+      check : "String",
+      apply : "_applyBorderChange",
+      transform : "_resolveThemedColor"
     },
 
     /**
@@ -176,14 +184,14 @@ qx.Class.define("qx.ui.decoration.Double",
     {
       var styles = {
         borderTopWidth: this.getInnerWidthTop() + "px",
-        borderTopColor: this.__innerColorTop,
+        borderTopColor: this.getInnerColorTop(),
         borderRightWidth: this.getInnerWidthRight() + "px",
-        borderRightColor: this.__innerColorRight,
+        borderRightColor: this.getInnerColorRight(),
         borderBottomWidth: this.getInnerWidthBottom() + "px",
-        borderBottomColor: this.__innerColorBottom,
+        borderBottomColor: this.getInnerColorBottom(),
         borderLeftWidth: this.getInnerWidthLeft() + "px",
-        borderLeftColor: this.__innerColorLeft,
-        backgroundColor: this.__bgColor,
+        borderLeftColor: this.getInnerColorLeft(),
+        backgroundColor: this.getBackgroundColor(),
         borderStyle: "solid"
       };
 
@@ -250,87 +258,6 @@ qx.Class.define("qx.ui.decoration.Double",
         bottom : this.getWidthBottom() + this.getInnerWidthBottom(),
         left : this.getWidthLeft() + this.getInnerWidthLeft()
       }
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      PROPERTY APPLY ROUTINES
-    ---------------------------------------------------------------------------
-    */
-
-    // property apply
-    _applyInnerColorTop : function(value, old) {
-      qx.theme.manager.Color.getInstance().connect(this._changeInnerColorTop, this, value);
-    },
-
-    // property apply
-    _applyInnerColorRight : function(value, old) {
-      qx.theme.manager.Color.getInstance().connect(this._changeInnerColorRight, this, value);
-    },
-
-    // property apply
-    _applyInnerColorBottom : function(value, old) {
-      qx.theme.manager.Color.getInstance().connect(this._changeInnerColorBottom, this, value);
-    },
-
-    // property apply
-    _applyInnerColorLeft : function(value, old) {
-      qx.theme.manager.Color.getInstance().connect(this._changeInnerColorLeft, this, value);
-    },
-
-
-    /**
-     * Reacts on color changes reported by the connected ColorManager.
-     *
-     * @type member
-     * @param value {Color} the color value to apply
-     */
-    _changeInnerColorTop : function(value)
-    {
-      this.__innerColorTop = value;
-      qx.ui.core.queue.Decorator.add(this);
-    },
-
-
-    /**
-     * Reacts on color changes reported by the connected ColorManager.
-     *
-     * @type member
-     * @param value {Color} the color value to apply
-     */
-    _changeInnerColorRight : function(value)
-    {
-      this.__innerColorRight = value;
-      qx.ui.core.queue.Decorator.add(this);
-    },
-
-
-    /**
-     * Reacts on color changes reported by the connected ColorManager.
-     *
-     * @type member
-     * @param value {Color} the color value to apply
-     */
-    _changeInnerColorBottom : function(value)
-    {
-      this.__innerColorBottom = value;
-      qx.ui.core.queue.Decorator.add(this);
-    },
-
-
-    /**
-     * Reacts on color changes reported by the connected ColorManager.
-     *
-     * @type member
-     * @param value {Color} the color value to apply
-     */
-    _changeInnerColorLeft : function(value)
-    {
-      this.__innerColorLeft = value;
-      qx.ui.core.queue.Decorator.add(this);
     }
   }
 });

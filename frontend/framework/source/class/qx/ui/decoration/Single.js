@@ -26,6 +26,7 @@ qx.Class.define("qx.ui.decoration.Single",
 {
   extend : qx.core.Object,
   implement : qx.ui.decoration.IDecorator,
+  include : qx.ui.core.MThemeTransform,
 
 
 
@@ -170,41 +171,45 @@ qx.Class.define("qx.ui.decoration.Single",
     colorTop :
     {
       nullable : true,
-      check : "Color",
-      apply : "_applyColorTop"
+      check : "String",
+      apply : "_applyBorderChange",
+      transform : "_resolveThemedColor"
     },
 
     /** right color of border */
     colorRight :
     {
       nullable : true,
-      check : "Color",
-      apply : "_applyColorRight"
+      check : "String",
+      apply : "_applyBorderChange",
+      transform : "_resolveThemedColor"
     },
 
     /** bottom color of border */
     colorBottom :
     {
       nullable : true,
-      check : "Color",
-      apply : "_applyColorBottom"
+      check : "String",
+      apply : "_applyBorderChange",
+      transform : "_resolveThemedColor"
     },
 
     /** left color of border */
     colorLeft :
     {
       nullable : true,
-      check : "Color",
-      apply : "_applyColorLeft"
+      check : "String",
+      apply : "_applyBorderChange",
+      transform : "_resolveThemedColor"
     },
 
     /** The background color */
     backgroundColor :
     {
       nullable : true,
-      init : "inherit",
-      check : "Color",
-      apply : "_applyBackgroundColor"
+      check : "String",
+      apply : "_applyBorderChange",
+      transform : "_resolveThemedColor"
     },
 
 
@@ -329,16 +334,16 @@ qx.Class.define("qx.ui.decoration.Single",
       {
         "borderTopWidth": this.getWidthTop() + "px",
         "borderTopStyle": this.getStyleTop() || "none",
-        "borderTopColor": this.__colorTop,
+        "borderTopColor": this.getColorTop(),
         "borderRightWidth": this.getWidthRight() + "px",
         "borderRightStyle": this.getStyleRight() || "none",
-        "borderRightColor": this.__colorRight,
+        "borderRightColor": this.getColorRight(),
         "borderBottomWidth": this.getWidthBottom() + "px",
         "borderBottomStyle": this.getStyleBottom() || "none",
-        "borderBottomColor": this.__colorBottom,
+        "borderBottomColor": this.getColorBottom(),
         "borderLeftWidth": this.getWidthLeft() + "px",
         "borderLeftStyle": this.getStyleLeft() || "none",
-        "borderLeftColor": this.__colorLeft,
+        "borderLeftColor": this.getColorLeft(),
         "backgroundImage": bgImage ? "url(" + bgImage + ")" : null,
         "backgroundRepeat": bgRepeat
       };
@@ -379,7 +384,7 @@ qx.Class.define("qx.ui.decoration.Single",
       }
 
       if (changes.bgcolor || changes.init) {
-        element.setStyle("backgroundColor", backgroundColor || this.__bgColor || null);
+        element.setStyle("backgroundColor", backgroundColor || this.getBackgroundColor() || null);
       }
 
       if (changes.size || changes.init)
@@ -444,104 +449,6 @@ qx.Class.define("qx.ui.decoration.Single",
 
     // property apply
     _applyBorderChange : function(value, old, name) {
-      qx.ui.core.queue.Decorator.add(this);
-    },
-
-    // property apply
-    _applyColorTop : function(value, old) {
-      qx.theme.manager.Color.getInstance().connect(this._changeColorTop, this, value);
-    },
-
-    // property apply
-    _applyColorRight : function(value, old) {
-      qx.theme.manager.Color.getInstance().connect(this._changeColorRight, this, value);
-    },
-
-    // property apply
-    _applyColorBottom : function(value, old) {
-      qx.theme.manager.Color.getInstance().connect(this._changeColorBottom, this, value);
-    },
-
-    // property apply
-    _applyColorLeft : function(value, old) {
-      qx.theme.manager.Color.getInstance().connect(this._changeColorLeft, this, value);
-    },
-
-    // property apply
-    _applyBackgroundColor : function(value) {
-      qx.theme.manager.Color.getInstance().connect(this._changeBackgroundColor, this, value);
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      COLOR MANAGER CONNECTION
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * Reacts on color changes reported by the connected ColorManager.
-     *
-     * @type member
-     * @param value {Color} the color value to apply
-     */
-    _changeColorTop : function(value)
-    {
-      this.__colorTop = value;
-      qx.ui.core.queue.Decorator.add(this);
-    },
-
-
-    /**
-     * Reacts on color changes reported by the connected ColorManager.
-     *
-     * @type member
-     * @param value {Color} the color value to apply
-     */
-    _changeColorRight : function(value)
-    {
-      this.__colorRight = value;
-      qx.ui.core.queue.Decorator.add(this);
-    },
-
-
-    /**
-     * Reacts on color changes reported by the connected ColorManager.
-     *
-     * @type member
-     * @param value {Color} the color value to apply
-     */
-    _changeColorBottom : function(value)
-    {
-      this.__colorBottom = value;
-      qx.ui.core.queue.Decorator.add(this);
-    },
-
-
-    /**
-     * Reacts on color changes reported by the connected ColorManager.
-     *
-     * @type member
-     * @param value {Color} the color value to apply
-     */
-    _changeColorLeft : function(value)
-    {
-      this.__colorLeft = value;
-      qx.ui.core.queue.Decorator.add(this);
-    },
-
-    /**
-     * Callback for color manager connection
-     *
-     * @type member
-     * @param color {Color} any CSS acceptable color value
-     * @return {void}
-     */
-    _changeBackgroundColor : function(color)
-    {
-      this.__bgColor = color;
       qx.ui.core.queue.Decorator.add(this);
     }
   }
