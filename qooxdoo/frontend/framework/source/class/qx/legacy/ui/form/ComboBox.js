@@ -35,7 +35,7 @@
  * @appearance combo-box
  * @appearance combo-box-list {qx.legacy.ui.form.List}
  * @appearance combo-box-popup {qx.legacy.ui.popup.Popup}
- * @appearance combo-box-text-field {qx.legacy.ui.form.TextField}
+ * @appearance combo-box-textfield {qx.legacy.ui.form.TextField}
  * @appearance combo-box-button {qx.legacy.ui.basic.Atom}
  * @state pressed {combo-box-button}
  *
@@ -79,7 +79,7 @@ qx.Class.define("qx.legacy.ui.form.ComboBox",
 
     // Textfield
     var f = this._field = new qx.legacy.ui.form.TextField;
-    f.setAppearance("combo-box-text-field");
+    f.setAppearance("combo-box-textfield");
     f.setTabIndex(-1);
     f.setWidth("1*");
     f.setAllowStretchY(true);
