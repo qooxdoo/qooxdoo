@@ -1149,6 +1149,10 @@ qx.Theme.define("qx.theme.classic.Appearance",
     "selectbox/atom/icon" :  {
       include : "icon"
     },
+    
+    "selectbox/arrow" : {
+      include : "image"  
+    },    
         
     "selectbox/popup" :  {
       include : "popup"
@@ -1162,19 +1166,11 @@ qx.Theme.define("qx.theme.classic.Appearance",
       include : "list/pane"  
     },
     
-    "selectbox/arrow" : {
-      include : "image"  
-    },
-    
-    
-    
-    
-
 
     
     
-
-
+    
+    
 
     /*
     ---------------------------------------------------------------------------
@@ -1192,6 +1188,26 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     "combobox/button" : {
       include : "button"
-    }
+    },
+    
+    "combobox/button" : {
+      include : "button"  
+    },    
+        
+    "combobox/button/icon" : {
+      include : "image"  
+    },    
+
+    "combobox/popup" :  {
+      include : "popup"
+    },
+
+    "combobox/list" :  {
+      include : "list"
+    },
+    
+    "combobox/list/pane" : {
+      include : "list/pane"  
+    }  
   }
 });
