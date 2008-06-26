@@ -337,7 +337,7 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
       if (numColumns <= this._resizeColumnData.length)
       {
         // Yup.  Delete the extras.
-        this._resizeColumnData.splice(numColumns);
+        this._resizeColumnData.splice(numColumns, this._resizeColumnData.length);
         return;
       }
 
