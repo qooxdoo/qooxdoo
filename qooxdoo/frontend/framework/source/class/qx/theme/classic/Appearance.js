@@ -1169,8 +1169,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     
     
-    
-    
 
     /*
     ---------------------------------------------------------------------------
@@ -1182,8 +1180,14 @@ qx.Theme.define("qx.theme.classic.Appearance",
       include : "spinner"
     },
 
-    "combobox/textfield" : {
-      include : "spinner/textfield"
+    "combobox/textfield" : 
+    {
+      style : function(states)
+      {
+        return {
+          padding: [2, 3]
+        };
+      }
     },
 
     "combobox/button" : {
