@@ -26,6 +26,7 @@
 qx.Class.define("qx.bom.Font",
 {
   extend : qx.core.Object,
+  implement : [qx.bom.IFont, qx.ui.core.value.IThemedValue],
 
 
 
@@ -284,6 +285,18 @@ qx.Class.define("qx.bom.Font",
         fontStyle : this.__italic,
         textDecoration : this.__decoration
       }
+    },
+
+
+    // interface implementation
+    getKey : function() {
+      return null;
+    },
+
+
+    // interface implementation
+    getValue : function() {
+      return this;
     }
   }
 });
