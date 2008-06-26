@@ -46,9 +46,9 @@ import os
 import sys
 import re
 import optparse
-from elementtree import ElementTree
 
-import filetool
+from elementtree import ElementTree
+from misc import filetool
 
 
 
