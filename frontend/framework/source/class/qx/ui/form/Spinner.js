@@ -248,7 +248,7 @@ qx.Class.define("qx.ui.form.Spinner",
           this._add(control, {column: 0, row: 0, rowSpan: 2});
           break;
 
-        case "up-button":
+        case "upbutton":
           control = new qx.ui.form.RepeatButton();
           control.setAppearance("spinner-button-up");
           control.setFocusable(false);
@@ -256,7 +256,7 @@ qx.Class.define("qx.ui.form.Spinner",
           this._add(control, {column: 1, row: 0});
           break;
 
-        case "down-button":
+        case "downbutton":
           control = new qx.ui.form.RepeatButton();
           control.setAppearance("spinner-button-down");
           control.setFocusable(false);
@@ -327,8 +327,8 @@ qx.Class.define("qx.ui.form.Spinner",
     _applyValue: function(value, old)
     {
 
-      var upButton = this._getChildControl("up-button");
-      var downButton = this._getChildControl("down-button");
+      var upButton = this._getChildControl("upbutton");
+      var downButton = this._getChildControl("downbutton");
       var textField = this._getChildControl("textfield");
 
       // if the value is greater than the max value
@@ -420,8 +420,8 @@ qx.Class.define("qx.ui.form.Spinner",
     {
       if (value)
       {
-        var upButton = this._getChildControl("up-button");
-        var downButton = this._getChildControl("down-button");
+        var upButton = this._getChildControl("upbutton");
+        var downButton = this._getChildControl("downbutton");
 
         if (this.getEnabled())
         {
@@ -488,14 +488,14 @@ qx.Class.define("qx.ui.form.Spinner",
           // mark that the spinner is in page mode and process further
           this._pageUpMode = true;
         case "Up":
-          this._getChildControl("up-button").press();
+          this._getChildControl("upbutton").press();
           break;
 
         case "PageDown":
           // mark that the spinner is in page mode and process further
           this._pageDownMode = true;
         case "Down":
-          this._getChildControl("down-button").press();
+          this._getChildControl("downbutton").press();
           break;
 
         default:
@@ -522,19 +522,21 @@ qx.Class.define("qx.ui.form.Spinner",
       switch(e.getKeyIdentifier())
       {
         case "PageUp":
-          this._getChildControl("up-button").release();
+          this._getChildControl("upbutton").release();
           this._pageUpMode = false;
           break;
+          
         case "Up":
-          this._getChildControl("up-button").release();
+          this._getChildControl("upbutton").release();
           break;
 
         case "PageDown":
-          this._getChildControl("down-button").release();
+          this._getChildControl("downbutton").release();
           this._pageDownMode = false;
           break;
+          
         case "Down":
-          this._getChildControl("down-button").release();
+          this._getChildControl("downbutton").release();
           break;
       }
     },

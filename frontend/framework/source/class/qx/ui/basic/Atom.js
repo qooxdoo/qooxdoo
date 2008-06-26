@@ -71,6 +71,14 @@ qx.Class.define("qx.ui.basic.Atom",
 
   properties :
   {
+    // overridden
+    appearance :
+    {
+      refine : true,
+      init : "atom"  
+    },
+    
+    
     /** The label/caption/text of the qx.ui.basic.Atom instance */
     label :
     {

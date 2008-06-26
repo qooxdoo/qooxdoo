@@ -133,12 +133,7 @@ qx.Class.define("qx.theme.manager.Appearance",
     styleFrom : function(id, states)
     {
       var theme = this.getAppearanceTheme();
-
-      if (!theme) {
-        return;
-      }
-
-      return this.styleFromTheme(theme, id, states);
+      return theme ? this.styleFromTheme(theme, id, states) : null;
     },
 
 
@@ -157,9 +152,19 @@ qx.Class.define("qx.theme.manager.Appearance",
 
       if (!entry)
       {
-        if (qx.core.Variant.isSet("qx.debug", "on")) {
-          this.warn("Missing appearance entry: " + id);
+        if (qx.core.Variant.isSet("qx.debug", "on")) 
+        {
+          if (!this.__missing) {
+            this.__missing = {};
+          }
+          
+          if (!this.__missing[id]) 
+          {
+            this.warn("Missing appearance entry: " + id);
+            this.__missing[id] = true;
+          }
         }
+        
         return null;
       }
 
