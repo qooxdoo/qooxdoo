@@ -1745,12 +1745,7 @@ qx.Class.define("qx.ui.core.Widget",
                             oldInsets.right !== newInsets.right ||
                             oldInsets.bottom !== newInsets.bottom ||
                             oldInsets.left !== newInsets.left;
-
-        if (classChanged) {
-          old.reset(decorationElement);
-        }
       }
-
       // When only one is configured
       else
       {
@@ -1789,7 +1784,7 @@ qx.Class.define("qx.ui.core.Widget",
         if (insetsChanged)
         {
           if (classChanged && !this.__initDecorator) {
-            this.__initDecorator = classChanged;
+            this.__initDecorator = true;
           }
 
           this.__updateInsets = true;
@@ -2048,27 +2043,27 @@ qx.Class.define("qx.ui.core.Widget",
       var states = this.__states;
       var undef = "undefined";
       var selector = this.__selector;
-      
+
       // Cache deep accessor
       var styler = qx.core.Property.$$method.style;
       var unstyler = qx.core.Property.$$method.unstyle;
-      
+
       // Check for requested selector update
-      if (this.__updateSelector) 
+      if (this.__updateSelector)
       {
         // Clear flag
         delete this.__updateSelector;
-        
+
         // Check if the selector was created previously
         if (selector)
         {
           // Query old selector
-          var oldData = qx.theme.manager.Appearance.getInstance().styleFrom(selector, states);       
-          
+          var oldData = qx.theme.manager.Appearance.getInstance().styleFrom(selector, states);
+
           // Clear current selector (to force recompute)
           if (oldData) {
             selector = null;
-          } 
+          }
         }
       }
 
@@ -2088,9 +2083,9 @@ qx.Class.define("qx.ui.core.Widget",
       // Query current selector
       var newData = qx.theme.manager.Appearance.getInstance().styleFrom(selector, states);
       if (!newData) {
-        newData = {}; 
+        newData = {};
       }
-   
+
       // Check property availability of new data
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
@@ -2103,51 +2098,51 @@ qx.Class.define("qx.ui.core.Widget",
       }
 
       // Merge new data with old data
-      if (oldData) 
+      if (oldData)
       {
         for (var prop in oldData)
         {
           if (newData[prop] === undefined) {
             this[unstyler[prop]]();
           }
-        } 
-      }  
-      
+        }
+      }
+
       // Apply new data
       var value;
       for (var prop in newData)
       {
         value = newData[prop];
         value === undef ? this[unstyler[prop]]() : this[styler[prop]](value);
-      }     
+      }
     },
 
 
     // property apply
-    _applyAppearance : function(value, old) 
+    _applyAppearance : function(value, old)
     {
       this.debug("Reconfigure appearance: " + value);
-      
+
       this.updateAppearance();
     },
-    
-    
+
+
     // TODOC
     updateAppearance : function()
     {
       // Clear selector
       this.__updateSelector = true;
-      
+
       // Add to appearance queue
       qx.ui.core.queue.Appearance.add(this);
-      
+
       // Update child controls
       var controls = this.__childControls;
       if (controls)
       {
         for (var id in controls) {
-          controls[id].updateAppearance();  
-        }       
+          controls[id].updateAppearance();
+        }
       }
     },
 

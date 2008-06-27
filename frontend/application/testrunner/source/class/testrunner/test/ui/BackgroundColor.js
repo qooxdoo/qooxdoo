@@ -168,16 +168,13 @@ qx.Class.define("testrunner.test.ui.BackgroundColor",
 
       // set decoration
       var deco = new qx.ui.decoration.Single(1);
-      widget.setDecorator(deco);
-      this.assertDecoratorStyle(widget, "backgroundColor", "green");
-      this.assertStyle(widget, "backgroundColor", "");
-
-      // change deco color
       deco.setBackgroundColor("red");
+      widget.setDecorator(deco);
+      // widget color taks preference over decorator color
       this.assertDecoratorStyle(widget, "backgroundColor", "green");
       this.assertStyle(widget, "backgroundColor", "");
 
-      // remove deco color
+      // reset widget bg color
       widget.setBackgroundColor(null);
       this.assertDecoratorStyle(widget, "backgroundColor", "red");
       this.assertStyle(widget, "backgroundColor", "");

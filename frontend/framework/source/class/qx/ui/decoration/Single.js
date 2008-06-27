@@ -43,8 +43,6 @@ qx.Class.define("qx.ui.decoration.Single",
   {
     this.base(arguments);
 
-    this._needUpdate = true;
-
     if (width !== undefined) {
       this.setWidth(width);
     }
