@@ -48,6 +48,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
     
     "label" :
     {
+      states : [ "disabled" ],
+      
       style : function(states)
       {
         return {
@@ -58,6 +60,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
     
     "image" :
     {
+      states : [ "replacement", "disabled" ],
+      
       style : function(states)
       {
         return {
@@ -131,6 +135,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     "button" :
     {
+      states : [ "pressed", "abandoned", "checked", "focused", "hovered" ],
+      
       style : function(states)
       {
         if (states.pressed || states.abandoned || states.checked) {
@@ -173,6 +179,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     "list" :
     {
+      states : [ "focused" ],
+      
       style : function(states)
       {
         return {
@@ -236,6 +244,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     "listitem" :
     {
+      states : [ "lead", "selected" ],
+      
       style : function(states)
       {
         return {
@@ -268,6 +278,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     "textfield" :
     {
+      states : [ "focused", "disabled" ],
+      
       style : function(states)
       {
         return {
@@ -285,6 +297,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     "checkbox":
     {
+      states : [ "checked", "focused", "disabled", "hovered", "pressed" ],
+      
       style : function(states)
       {
         var icon;
@@ -324,6 +338,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
     "radiobutton":
     {
       include : "checkbox",
+      states : [ "checked", "focused", "disabled", "hovered", "pressed" ],
 
       style : function(states)
       {
@@ -370,6 +385,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     "spinner" :
     {
+      states : [ "focused", "disabled" ],
+      
       style : function(states)
       {
         return {
@@ -393,6 +410,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
     "spinner/upbutton" :
     {
       include : "button",
+      states : [ "pressed" ],
 
       style : function(states)
       {
@@ -406,6 +424,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
     "spinner/downbutton" :
     {
       include : "button",
+      states : [ "pressed" ],
 
       style : function(states)
       {
