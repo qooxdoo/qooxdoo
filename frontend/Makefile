@@ -34,7 +34,7 @@ CMD_DIR = $(CMD_NICE) mkdir -p
 CMD_FIND = $(CMD_NICE) find
 CMD_ZIP = $(CMD_NICE) zip
 CMD_ZIP_CREATE = $(CMD_ZIP) -rq
-CMD_ANY2UNIX = | xargs $(CMD_PYTHON) $(FRAMEWORK_TOOL_PATH)/modules/textutil.py --command any2Unix
+CMD_ANY2UNIX = | xargs $(CMD_PYTHON) tool/misc/textutil.py --command any2Unix
 CMD_MKEXEC = $(CMD_NICE) chmod a+rx
 
 FILES_TEXT = \( -name "*.py" -o -name "*.sh" -o -name "*.js" -o -name "*.html" -o -name "*.css" -o -name "*.xml" -o -name Makefile -o -name AUTHORS -o -name LICENSE -o -name README -o -name RELEASENOTES -o -name TODO \)
@@ -144,7 +144,7 @@ exec-quickstart-collect:
 
 	@echo "  * Copying info files..."
 	@$(CMD_DIR) $(QUICKSTART_TEMP)/qooxdoo-$(FRAMEWORK_VERSION)-quickstart
-	@for FILE in `find ../ -maxdepth 1 -type f -name "[A-Z]*"`; do \
+	@for FILE in `find ../ -maxdepth 1 -type f -name "*.txt"`; do \
 	  echo "    - `basename $$FILE`"; \
 	  cp -f $$FILE $(QUICKSTART_TEMP)/qooxdoo-$(FRAMEWORK_VERSION)-quickstart; \
 	done
@@ -193,7 +193,7 @@ skeleton: info-skeleton exec-skeleton-collect exec-skeleton-archive
 exec-skeleton-collect:
 	@echo "  * Copying info files..."
 	@$(CMD_DIR) $(SKELETON_TEMP)/qooxdoo-$(FRAMEWORK_VERSION)-skeleton
-	@for FILE in `find ../ -maxdepth 1 -type f -name "[A-Z]*"`; do \
+	@for FILE in `find ../ -maxdepth 1 -type f -name "*.txt"`; do \
 	  echo "    - `basename $$FILE`"; \
 	  cp -f $$FILE $(SKELETON_TEMP)/qooxdoo-$(FRAMEWORK_VERSION)-skeleton; \
 	done
@@ -249,7 +249,7 @@ release-build-collect:
 
 	@echo "  * Copying info files..."
 	@$(CMD_DIR) $(RELEASE_BUILD)
-	@for FILE in `find ../ -maxdepth 1 -type f -name "[A-Z]*"`; do \
+	@for FILE in `find ../ -maxdepth 1 -type f -name "*.txt"`; do \
 	  echo "    - `basename $$FILE`"; \
 	  cp -f $$FILE $(RELEASE_BUILD); \
 	done
@@ -303,7 +303,7 @@ release-sdk-collect:
 
 	@echo "  * Copying info files..."
 	@$(CMD_DIR) $(RELEASE_SDK)
-	@for FILE in `find ../ -maxdepth 1 -type f -name "[A-Z]*"`; do \
+	@for FILE in `find ../ -maxdepth 1 -type f -name "*.txt"`; do \
 	  echo "    - `basename $$FILE`"; \
 	  cp -f $$FILE $(RELEASE_SDK); \
 	done
