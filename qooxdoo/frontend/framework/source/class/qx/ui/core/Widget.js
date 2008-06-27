@@ -2107,7 +2107,7 @@ qx.Class.define("qx.ui.core.Widget",
         for (var prop in oldData)
         {
           if (newData[prop] === undefined) {
-            newData[prop] = undef; 
+            this[unstyler[prop]]();
           }
         } 
       }  
