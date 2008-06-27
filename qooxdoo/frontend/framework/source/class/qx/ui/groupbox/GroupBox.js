@@ -22,8 +22,6 @@
 
 /**
  * @appearance groupbox
- * @appearance groupbox-legend {qx.ui.basic.Atom}
- * @appearance groupbox-frame {qx.ui.layout.CanvasLayout}
  */
 qx.Class.define("qx.ui.groupbox.GroupBox",
 {
