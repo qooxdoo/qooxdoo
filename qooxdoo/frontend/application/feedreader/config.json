@@ -77,13 +77,13 @@
 
     "build" :
     {
-      "extend" : ["common-builds", "appconf/build"]
+      "extend" : ["common-builds", "appconf::build"]
     },
 
 
     "api" :
     {
-      "extend": ["common", "appconf/api"]
+      "extend": ["common", "appconf::api"]
     }
   }
 }
