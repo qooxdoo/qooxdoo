@@ -110,13 +110,17 @@ qx.Class.define("demobrowser.demo.widget.Spinner",
       
       
       // ----- Spinner 7 -----
-      var s7 = new qx.ui.form.Spinner(-30, 30, 30).set({
-        appearance : "colored-spinner"
-      });
-      container.add(new qx.ui.basic.Label("Colored"), {column: 0, row: row});
+      var s7 = new qx.ui.form.Spinner(-30, 30, 30);
+      container.add(new qx.ui.basic.Label("Styled"), {column: 0, row: row});
       container.add(new qx.ui.basic.Label("30"), {column: 1, row: row});
       container.add(s7, {column: 2, row: row});
-      container.add(new qx.ui.basic.Label("-30"), {column: 3, row: row++});      
+      container.add(new qx.ui.basic.Label("-30"), {column: 3, row: row});      
+      
+      var b7 = new qx.ui.form.ToggleButton("Custom Style");
+      b7.addListener("change", function(e) {
+        s7.setAppearance(e.getValue() ? "colored-spinner" : "spinner");
+      });
+      container.add(b7, {column: 4, row: row++});
     }
   }
 });
