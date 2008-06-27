@@ -1321,8 +1321,47 @@ qx.Theme.define("qx.theme.classic.Appearance",
       include : "list"
     },
     
-    "combobox/list/pane" : {
-      include : "list/pane"  
-    }  
+    "combobox/list/pane" : {},
+    "combobox/list/corner" : {},
+    
+    "combobox/list/scrollbar-x" : {
+      include : "list/scrollbar-x"
+    },
+    
+    "combobox/list/scrollbar-x/slider" : {
+      include : "list/scrollbar-x/slider"
+    },    
+    
+    "combobox/list/scrollbar-x/slider/knob" : {
+      include : "list/scrollbar-x/slider/knob"
+    },    
+
+    "combobox/list/scrollbar-x/button-begin" : {
+      include : "list/scrollbar-x/button-begin"
+    },    
+
+    "combobox/list/scrollbar-x/button-end" : {
+      include : "list/scrollbar-x/button-end"
+    },    
+
+    "combobox/list/scrollbar-y" : {
+      include : "list/scrollbar-y"
+    },
+    
+    "combobox/list/scrollbar-y/slider" : {
+      include : "list/scrollbar-y/slider"
+    },    
+    
+    "combobox/list/scrollbar-y/slider/knob" : {
+      include : "list/scrollbar-y/slider/knob"
+    },    
+
+    "combobox/list/scrollbar-y/button-begin" : {
+      include : "list/scrollbar-y/button-begin"
+    },    
+
+    "combobox/list/scrollbar-y/button-end" : {
+      include : "list/scrollbar-y/button-end"
+    }
   }
 });
