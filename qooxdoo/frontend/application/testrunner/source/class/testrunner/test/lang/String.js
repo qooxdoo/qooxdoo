@@ -23,23 +23,11 @@ qx.Class.define("testrunner.test.lang.String",
 
   members :
   {
-    /**
-     * string tests
-     *
-     * @type member
-     * @return {void}
-     */
     testString : function() {
       this.assertNotUndefined(qx.lang.String);
     },
 
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void}
-     */
     testFormat : function()
     {
       this.assertNotUndefined(qx.lang.String.format);
@@ -53,12 +41,6 @@ qx.Class.define("testrunner.test.lang.String",
     },
 
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void}
-     */
     testPad : function()
     {
       this.assertNotUndefined(qx.lang.String.pad);
@@ -76,11 +58,6 @@ qx.Class.define("testrunner.test.lang.String",
     },
 
 
-    /**
-     * Array tests
-     *
-     * @type member
-     */
     testAppend : function()
     {
       this.assertNotUndefined(qx.lang.Array.append);
@@ -173,6 +150,7 @@ qx.Class.define("testrunner.test.lang.String",
       this.assertEquals("<b>Juhu</b>", s.bold());
       this.assertEquals("JUHU", s.toUpperCase());
       this.assertEquals(1, s.indexOf("u"));
+      this.assertEquals("__Juhu__", ["__", s + "__"].join(""));
 
       s.setText("Kinners");
       this.assertEquals("Kinners", s);
