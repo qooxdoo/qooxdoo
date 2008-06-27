@@ -362,8 +362,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
     
 
 
-
-    /*
+  /*
     ---------------------------------------------------------------------------
       SPINNER
     ---------------------------------------------------------------------------
@@ -587,10 +586,13 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
-    "toolbar-part" : {
+    "toolbar/part" : {
+    },
+    
+    "toolbar/part/container" : {
     },
 
-    "toolbar-part-handle" :
+    "toolbar/part/handle" :
     {
       style : function(states)
       {
@@ -641,6 +643,16 @@ qx.Theme.define("qx.theme.classic.Appearance",
           backgroundColor : states.abandoned ? "button-abandoned" : states.checked ? "background-light" : "button"
         };
       }
+    },
+    
+    "toolbar-button/label" :
+    {
+      include : "atom/label"
+    },
+    
+    "toolbar-button/icon" :
+    {
+      include : "atom/icon"
     },
 
 
@@ -1287,11 +1299,11 @@ qx.Theme.define("qx.theme.classic.Appearance",
     },
 
     "selectbox/atom/label" :  {
-      include : "label"
+      include : "atom/label"
     },
     
     "selectbox/atom/icon" :  {
-      include : "icon"
+      include : "atom/icon"
     },
     
     "selectbox/arrow" : {

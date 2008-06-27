@@ -20,13 +20,23 @@
 ************************************************************************ */
 
 /**
- * @appearance toolbar-part-handle
+ * @appearance toolbar/part/container
  */
-qx.Class.define("qx.ui.toolbar.PartHandle",
+qx.Class.define("qx.ui.toolbar.PartContainer",
 {
-  extend : qx.ui.core.Widget,
+  extend : qx.ui.container.Composite,
 
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
 
+  construct : function() 
+  {
+    this.base(arguments);
+    this._setLayout(new qx.ui.layout.HBox);
+  },
 
 
   /*
@@ -34,25 +44,23 @@ qx.Class.define("qx.ui.toolbar.PartHandle",
      PROPERTIES
   *****************************************************************************
   */
-
   properties :
   {
     appearance :
     {
       refine : true,
-      init : "toolbar-part-handle"
-    },
-    
-    width : 
-    {
-      refine : true,
-      init : 0 
+      init : "toolbar/part/container"
     },
 
-    height : 
+    /** Whether icons, labels, both or none should be shown. */
+    show :
     {
-      refine : true,
-      init : 0 
-    }    
-  }  
+      init : "inherit",
+      check : [ "both", "label", "icon", "none"],
+      nullable : true,
+      inheritable : true,
+      event : "changeShow"
+    }
+  }
+
 });
