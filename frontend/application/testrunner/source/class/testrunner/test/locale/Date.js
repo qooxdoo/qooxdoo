@@ -57,17 +57,20 @@ qx.Class.define("testrunner.test.locale.Date",
         this.assertEquals(wideDays[i], Date.getDayName("wide", i, "C"));
       }
 
-      this.assertExceptionDebugOn(function() {
-        Date.getDayNames("verylong", "C");
-      }, Error);
+      if (this.isDebugOn())
+      {
+        this.assertException(function() {
+          Date.getDayNames("verylong", "C");
+        }, Error);
 
-      this.assertExceptionDebugOn(function() {
-        Date.getDayName("wide", -1, "C");
-      }, Error);
+        this.assertException(function() {
+          Date.getDayName("wide", -1, "C");
+        }, Error);
 
-      this.assertExceptionDebugOn(function() {
-        Date.getDayName("wide", 8, "C");
-      }, Error);
+        this.assertException(function() {
+          Date.getDayName("wide", 8, "C");
+        }, Error);
+      }
 
 
 
