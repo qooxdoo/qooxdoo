@@ -47,7 +47,7 @@ CMD_SYNC_OFFLINE = $(CMD_NICE) rsync --recursive --delete --inplace --links --sa
 RELEASE_BUILD = release/temp/build/qooxdoo-$(FRAMEWORK_VERSION)-build
 RELEASE_SDK = release/temp/sdk/qooxdoo-$(FRAMEWORK_VERSION)-sdk
 
-APPLICATIONS = apiviewer demobrowser feedreader showcase testrunner
+APPLICATIONS = apiviewer demobrowser feedreader portal showcase testrunner
 SDK_COPY = Makefile application/index.html
 
 
