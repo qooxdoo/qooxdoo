@@ -417,6 +417,14 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
     
+    "spinner/upbutton/icon" : {
+      include : "button/icon" 
+    },
+    
+    "spinner/downbutton/icon" : {
+      include : "button/icon" 
+    },
+
     
     
     
@@ -473,7 +481,14 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
     
-
+    "colored-spinner/upbutton/icon" : {
+      include : "button/icon" 
+    },
+    
+    "colored-spinner/downbutton/icon" : {
+      include : "button/icon" 
+    },
+    
 
 
 
