@@ -193,21 +193,21 @@ qx.Class.define("qx.theme.manager.Appearance",
         {
           if (qx.core.Variant.isSet("qx.debug", "on"))
           {
-            if (!this.__missing) {
-              this.__missing = {};
+            if (!this.__missingIds) {
+              this.__missingIds = {};
             }
   
-            if (!this.__missing[id])
+            if (!this.__missingIds[id])
             {
               this.warn("Missing appearance ID: " + id);
-              this.__missing[id] = true;
+              this.__missingIds[id] = true;
             }
           }
   
           return null;
         }
 
-        this.debug("Map appearance ID: " + id + " to " + mapped);
+        // this.debug("Map appearance ID: " + id + " to " + mapped);
         entry = map[id] = db[mapped];
       }      
       
