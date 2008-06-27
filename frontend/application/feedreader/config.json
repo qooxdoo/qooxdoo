@@ -1,4 +1,6 @@
 {
+	"name"    : "feedreader config.json",
+
   "include" :
   [
     {
@@ -69,7 +71,7 @@
 
     "source" :
     {
-      "extend" : ["common-builds", "appconf/source"]
+      "extend" : ["common-builds", "appconf::source"]
     },
 
 
