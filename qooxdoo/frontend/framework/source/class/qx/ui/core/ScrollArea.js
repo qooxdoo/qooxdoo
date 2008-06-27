@@ -60,6 +60,14 @@ qx.Class.define("qx.ui.core.ScrollArea",
   properties :
   {
     // overridden
+    appearance :
+    {
+      refine : true,
+      init : "scrollarea"
+    },
+    
+    
+    // overridden
     width :
     {
       refine : true,

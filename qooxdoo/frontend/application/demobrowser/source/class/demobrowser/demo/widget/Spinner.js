@@ -107,6 +107,16 @@ qx.Class.define("demobrowser.demo.widget.Spinner",
       container.add(new qx.ui.basic.Label("3000"), {column: 1, row: row});
       container.add(s6, {column: 2, row: row});
       container.add(new qx.ui.basic.Label("0"), {column: 3, row: row++});
+      
+      
+      // ----- Spinner 7 -----
+      var s7 = new qx.ui.form.Spinner(-30, 30, 30).set({
+        appearance : "colored-spinner"
+      });
+      container.add(new qx.ui.basic.Label("Colored"), {column: 0, row: row});
+      container.add(new qx.ui.basic.Label("30"), {column: 1, row: row});
+      container.add(s7, {column: 2, row: row});
+      container.add(new qx.ui.basic.Label("-30"), {column: 3, row: row++});      
     }
   }
 });

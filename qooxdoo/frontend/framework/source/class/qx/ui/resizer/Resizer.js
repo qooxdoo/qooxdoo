@@ -24,7 +24,6 @@
  * the right and/or bottom directions. It is an alternative to splitters.
  *
  * @appearance resizer
- * @appearance resizer-frame {qx.ui.basic.Terminator}
  */
 qx.Class.define("qx.ui.resizer.Resizer",
 {
