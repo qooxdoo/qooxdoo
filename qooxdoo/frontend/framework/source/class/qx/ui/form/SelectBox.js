@@ -148,6 +148,17 @@ qx.Class.define("qx.ui.form.SelectBox",
     },
     
 
+    // overridden    
+    _onKeyPress : function(e)
+    {
+      if(e.getKeyIdentifier() == "Enter") {
+        this._togglePopup();
+      } else {
+        this.base(arguments, e);      
+      }
+    },
+    
+
     /**
      * Forwards key event to list widget.
      * @param e {qx.event.type.KeyEvent} Key event
