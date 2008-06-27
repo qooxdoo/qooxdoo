@@ -1,5 +1,7 @@
 // generic application.json
 {
+  "name"    : "generic application.json",
+
   "include" :
   [
     {
