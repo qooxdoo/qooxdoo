@@ -251,6 +251,16 @@ qx.Class.define("qx.ui.basic.Label",
       var Label = qx.bom.Label;
 
       var font = this.getFont();
+      
+      if (qx.core.Variant.isSet("qx.debug", "on")) 
+      {
+        if (font === "inherit") 
+        {
+          this.debug("Could not resolve inheritable font!"); 
+          font = null;
+        }
+      }
+      
       var styles = font ? font.getStyles() : null;
       var content = this.getContent() || "";
       var rich = this.getRich();
