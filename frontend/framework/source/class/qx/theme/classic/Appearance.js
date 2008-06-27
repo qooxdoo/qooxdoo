@@ -497,7 +497,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
-    "groupbox-legend" :
+    "groupbox/legend" :
     {
       style : function(states)
       {
@@ -511,7 +511,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
-    "groupbox-frame" :
+    "groupbox/frame" :
     {
       style : function(states)
       {
