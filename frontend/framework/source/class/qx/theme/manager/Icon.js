@@ -60,21 +60,6 @@ qx.Class.define("qx.theme.manager.Icon",
     // property apply
     _applyTheme : function(value, old)
     {
-      if (qx.theme.manager.Meta.getInstance().getAutoSync()) {
-        this.syncIconTheme();
-      }
-    },
-    
-
-    /**
-     * Sync dependend objects with internal database
-     *
-     * @type member
-     * @return {void}
-     */
-    syncIconTheme : function()
-    {
-      var value = this.getTheme();
       var alias = qx.util.AliasManager.getInstance();
       value ? alias.add("icon", value.resource) : alias.remove("icon");
     }

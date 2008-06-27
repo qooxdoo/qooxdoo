@@ -121,9 +121,6 @@ qx.Class.define("qx.util.AliasManager",
           paths[path] = true;
         }
       }
-
-      // Update the corresponding objects (which use this alias)
-      this.updateAll();
     },
 
 

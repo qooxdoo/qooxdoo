@@ -69,6 +69,7 @@ qx.Class.define("qx.ui.basic.Image",
       nullable : true,
       event : "changeSource",
       apply : "_applySource",
+      transform : "_resolveThemedIcon",
       themeable : true
     },
 
@@ -158,7 +159,7 @@ qx.Class.define("qx.ui.basic.Image",
     _applyEnabled : function(value, old)
     {
       this.base(arguments, value, old);
-      if (this._source) {
+      if (this.getSource()) {
         this._styleSource();
       }
     },
@@ -166,21 +167,6 @@ qx.Class.define("qx.ui.basic.Image",
 
     // property apply
     _applySource : function(value) {
-      qx.util.AliasManager.getInstance().connect(this._syncSource, this, value);
-    },
-
-
-    /**
-     * Connects a callback method to the value manager to ensure
-     * that changes to the source are handled by the image instance
-     *
-     * @type member
-     * @param source {String} new icon source
-     * @return {void}
-     */
-    _syncSource : function(source)
-    {
-      this._source = source;
       this._styleSource();
     },
 
@@ -194,7 +180,7 @@ qx.Class.define("qx.ui.basic.Image",
      */
     _styleSource : function()
     {
-      var source = this._source;
+      var source = this.getSource();
       var el = this._contentElement;
 
       if (!source)

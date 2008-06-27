@@ -51,8 +51,7 @@ qx.Class.define("qx.theme.manager.Meta",
     autoSync :
     {
       check : "Boolean",
-      init : true,
-      apply : "_applyAutoSync"
+      init : true
     }
   },
 
@@ -84,10 +83,6 @@ qx.Class.define("qx.theme.manager.Meta",
         appearance = value.meta.appearance || null;
       }
 
-      if (old) {
-        this.setAutoSync(false);
-      }
-
       var colorMgr = qx.theme.manager.Color.getInstance();
       var decorationMgr = qx.theme.manager.Decoration.getInstance();
       var fontMgr = qx.theme.manager.Font.getInstance();
@@ -99,23 +94,6 @@ qx.Class.define("qx.theme.manager.Meta",
       fontMgr.setTheme(font);
       iconMgr.setTheme(icon);
       appearanceMgr.setAppearanceTheme(appearance);
-
-      if (old) {
-        this.setAutoSync(true);
-      }
-    },
-
-
-    _applyAutoSync : function(value, old)
-    {
-      if (value)
-      {
-        qx.theme.manager.Appearance.getInstance().syncAppearanceTheme();
-        qx.theme.manager.Icon.getInstance().syncIconTheme();
-        qx.theme.manager.Font.getInstance().syncFontTheme();
-        qx.theme.manager.Decoration.getInstance().syncDecorationTheme();
-        qx.theme.manager.Color.getInstance().syncColorTheme();
-      }
     },
 
 

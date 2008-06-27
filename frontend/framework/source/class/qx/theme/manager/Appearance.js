@@ -78,41 +78,18 @@ qx.Class.define("qx.theme.manager.Appearance",
   {
     _applyAppearanceTheme : function(value, old)
     {
-      this._currentTheme = value;
-      this._oldTheme = old;
-
-      if (qx.theme.manager.Meta.getInstance().getAutoSync()) {
-        this.syncAppearanceTheme();
-      }
-    },
-
-
-    /**
-     * Sync dependent objects with internal database
-     *
-     * @type member
-     * @return {void}
-     */
-    syncAppearanceTheme : function()
-    {
-      if (!this._currentTheme && !this._oldTheme) {
+      if (!value && !old) {
         return;
       }
 
-      if (this._currentTheme) {
-        this.__cache[this._currentTheme.name] = {};
+      if (value) {
+        this.__cache[value.name] = {};
       }
 
-      //qx.ui.core.ClientDocument.getInstance()._recursiveAppearanceThemeUpdate(this._currentTheme, this._oldTheme);
-
-      if (this._oldTheme) {
-        delete this.__cache[this._oldTheme.name];
+      if (old) {
+        delete this.__cache[old.name];
       }
-
-      delete this._currentTheme;
-      delete this._oldTheme;
     },
-
 
 
 
@@ -152,19 +129,19 @@ qx.Class.define("qx.theme.manager.Appearance",
 
       if (!entry)
       {
-        if (qx.core.Variant.isSet("qx.debug", "on")) 
+        if (qx.core.Variant.isSet("qx.debug", "on"))
         {
           if (!this.__missing) {
             this.__missing = {};
           }
-          
-          if (!this.__missing[id]) 
+
+          if (!this.__missing[id])
           {
             this.warn("Missing appearance entry: " + id);
             this.__missing[id] = true;
           }
         }
-        
+
         return null;
       }
 

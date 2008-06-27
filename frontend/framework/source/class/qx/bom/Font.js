@@ -26,7 +26,7 @@
 qx.Class.define("qx.bom.Font",
 {
   extend : qx.core.Object,
-  implement : [qx.bom.IFont, qx.ui.core.value.IThemedValue],
+  implement : qx.ui.core.value.IThemedValue,
 
 
 
