@@ -16,6 +16,7 @@
      * Sebastian Werner (wpbasti)
      * Andreas Ecker (ecker)
      * Martin Wittemann (martinwittemann)
+     * Jonathan Rass (jonathan_rass)
 
 ************************************************************************ */
 
@@ -43,12 +44,12 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
   construct : function(vLegend, vIcon) {
     this.base(arguments);
 
-
     this._setLayout(new qx.ui.layout.Canvas());
 
+
     // Sub widgets
-    this._createFrameObject();
-    this._createLegendObject();
+    this._createChildControl("frame");
+    this._createChildControl("legend");
 
     // Processing parameters
     this.setLegend(vLegend || "");
@@ -57,8 +58,6 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
       this.setIcon(vIcon);
     }
 
-    // Listen to the resize of the legend
-    this._legendObject.addListener("resize", this._repositionFrame, this);
   },
 
 
@@ -95,6 +94,32 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
   */
   members :
   {
+    // overridden
+    _createChildControlImpl : function(id)
+    {
+      var control;
+
+      switch(id)
+      {
+        // Create and add slider
+        case "frame":
+          control = new qx.ui.container.Composite().setAppearance("groupbox/frame");
+          this._add(control, {left: 0, top: 6, right: 0, bottom: 0});
+          break;
+
+        // Create splitter
+        case "legend":
+          control = new qx.ui.basic.Atom().setAppearance("groupbox/legend");
+          // Listen to the resize of the legend
+          control.addListener("resize", this._repositionFrame, this);
+          this._add(control);
+          break;
+      }
+      
+      return control || this.base(arguments, id);
+    },
+    
+    
     /*
     ---------------------------------------------------------------------------
       WIDGET INTERNALS
@@ -102,45 +127,8 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
     */
 
     _getStyleTarget : function() {
-      return this._frameObject;
+      return this._getChildControl("frame");
     },
-
-
-    /*
-    ---------------------------------------------------------------------------
-      SUB WIDGET CREATION
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * Creates the legend sub widget
-     *
-     * @type member
-     * @return {void}
-     */
-    _createLegendObject : function()
-    {
-      this._legendObject = new qx.ui.basic.Atom();
-      this._legendObject.setAppearance("groupbox-legend");
-
-      this._add(this._legendObject);
-    },
-
-
-    /**
-     * Creates the frame sub widget
-     *
-     * @type member
-     * @return {void}
-     */
-    _createFrameObject : function()
-    {
-      this._frameObject = new qx.ui.container.Composite();
-      this._frameObject.setAppearance("groupbox-frame");
-
-      this._add(this._frameObject, {left: 0, top: 6, right: 0, bottom: 0});
-    },
-
 
     /*
     ---------------------------------------------------------------------------
@@ -153,7 +141,7 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
      */
     _applyLegendPosition: function(e)
     {
-      if (this._legendObject.getBounds()) {
+      if (this._getChildControl("legend").getBounds()) {
         this._repositionFrame();
       }
     },
@@ -165,13 +153,16 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
      */
     _repositionFrame: function()
     {
+      var legend = this._getChildControl("legend");
+      var frame = this._getChildControl("frame");
+
       // get the current height of the legend
-      var height = this._legendObject.getBounds().height;
+      var height = legend.getBounds().height;
       // check for the property legend position
       if (this.getLegendPosition() == "middle") {
-        this._frameObject.setLayoutProperties({"top": Math.round(height / 2)});
+        frame.setLayoutProperties({"top": Math.round(height / 2)});
       } else if (this.getLegendPosition() == "top") {
-        this._frameObject.setLayoutProperties({"top": height});
+        frame.setLayoutProperties({"top": height});
       }
     },
 
@@ -191,7 +182,7 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
      * @return {qx.ui.container.Composite} pane sub widget
      */
     getChildrenContainer : function() {
-      return this._frameObject;
+      return this._getChildControl("frame");
     },
 
 
@@ -202,7 +193,7 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
      * @return {qx.ui.basic.Atom} legend sub widget
      */
     getLegendObject : function() {
-      return this._legendObject;
+      return this._getChildControl("legend");
     },
 
 
@@ -221,11 +212,13 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
      * @return {void}
      */
     setLegend : function(vLegend) {
+      var legend = this._getChildControl("legend");
+      
       if (vLegend !== "" && vLegend !== null) {
-        this._legendObject.setLabel(vLegend);
-        this._legendObject.show();
+        legendObject.setLabel(vLegend);
+        legendObject.show();
       } else {
-        this._legendObject.exclude();
+        legendObject.exclude();
       }
     },
 
@@ -237,7 +230,7 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
      * @return {String} Label of the legend sub widget
      */
     getLegend : function() {
-      return this._legendObject.getLabel();
+      return this._getChildControl("legend").getLabel();
     },
 
 
@@ -249,7 +242,7 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
      * @return {void}
      */
     setIcon : function(vIcon) {
-      this._legendObject.setIcon(vIcon);
+      this._getChildControl("legend").setIcon(vIcon);
     },
 
 
@@ -260,20 +253,7 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
      * @return {String} source of the new icon of the legend sub widget
      */
     getIcon : function() {
-      this._legendObject.getIcon();
+      this._getChildControl("legend").getIcon();
     }
-  },
-
-
-
-
-  /*
-  *****************************************************************************
-     DESTRUCTOR
-  *****************************************************************************
-  */
-
-  destruct : function() {
-    this._disposeObjects("_legendObject", "_frameObject");
   }
 });
