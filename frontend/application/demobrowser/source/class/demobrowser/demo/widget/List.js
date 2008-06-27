@@ -56,7 +56,6 @@ qx.Class.define("demobrowser.demo.widget.List",
         oneList.add(item);
       };
       this.getRoot().add(oneList, {left: 330, top: 40});
-      return;
       ////////////////////////////////////////////////////////////////
 
 
