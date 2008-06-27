@@ -1,0 +1,40 @@
+{
+  "info" : 
+  {
+    "name" : "portal",
+
+    "summary" : "Small demo application which shows kind of dynamic portal functionality",
+    "description" : "",
+    
+    "keywords" : [],
+    "homepage" : "",
+
+    "license" : "LGPL/EPL",
+    "authors" : 
+    [
+      {
+        "name" : "Alexander Back (aback)",
+        "email" : "alexander(DOT)back(AT)1und1(DOT)de"
+      },
+      
+      {
+        "name" : "David Werner (psycledw)",
+        "email" : "david(DOT)werner(AT)1und1(DOT)de" 
+      }
+    ],
+
+    "version" : "trunk",
+    "qooxdoo-versions": ["trunk"]
+  },
+  
+  "provides" : 
+  {
+    "namespace"   : "portal",
+    "encoding"    : "utf-8",
+    "class"       : "source/class",
+    "resource"    : "source/resource",
+    "translation" : "source/translation",
+    "type"        : "application"
+  }
+}
+

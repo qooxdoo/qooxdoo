@@ -1,0 +1,140 @@
+* html body
+{
+  text-align: center;
+}
+
+* html #colLeft {
+  height: 1%
+}
+
+* html #colRight {
+  margin-left: 24%
+}
+
+body {
+  background-color: #FDFFFA;
+  font-family: Tahoma,Verdana,Arial,Helvetica,"Bitstream Vera Sans",sans-serif;
+  font-size: 10px;
+}
+
+#qxconsole
+{
+  display : none;
+}
+
+.groupBox{
+  background-color: #F1F1F1;
+  border: 1px solid #134275;
+  float: left;
+  width: 500px;
+  xheight : 2000px;
+  margin-left: 10px;
+}
+
+#groupBoxLeft {
+  float: left;
+  width: 500px;
+}
+
+#groupBoxRight {
+	width: 500px;
+  margin: 0 0 0 100px;
+}
+
+
+
+#console {
+  border: 1px solid #000;
+  margin: 0 0 40px 0;
+  padding: 10px;
+  width: 600px;
+  height: 200px;
+  overflow: scroll;
+  background-color: #fff;
+  display: none;
+}
+
+.box {
+  border: 1px solid #444;
+  width: 400px;
+  height: 100px;
+  margin: 10px;
+  padding: 10px;
+  background-color: #FDFFFA;
+  
+  overflow: hidden;
+  text-align: left;
+}
+
+.southHandle,
+.eastHandle,
+.southeastHandle {
+  bottom : 0;
+  background            : #ABC507 none repeat scroll 0%;
+  overflow              : hidden;
+  position              : absolute;
+  opacity               : 0.5;
+}
+
+.southHandle {
+  /*border-bottom : 1px solid rgb(255, 0, 0);*/
+  border-bottom : 1px solid rgb(69, 117, 165);
+  width        : 100%;
+  cursor       : s-resize;
+  height       : 4px;
+  left         : 0;
+  right        : 0
+}
+
+.eastHandle {
+  /*border-right : 1px solid rgb(255, 0, 0);*/
+  border-right : 1px solid rgb(69, 117, 165);
+  top         : 0;
+  width       : 4px;
+  cursor      : e-resize;
+  height      : 100%;
+  right       : 0
+}
+
+southeast {
+  /*
+  border-bottom : 1px solid rgb(255, 0, 0);
+  border-right  : 1px solid rgb(255, 0, 0);
+  */
+  border-bottom : 1px solid rgb(69, 117, 165);
+  border-right  : 1px solid rgb(69, 117, 165);
+  width         : 4px;
+  cursor        : se-resize;
+  height        : 4px;
+  right         : 0;
+  z-index       : 1001
+}
+
+.dragHandle {
+  overflow 		 : hidden;
+  position 		 : absolute;
+  top 			   : 0;
+  left 			   : 0;
+  right			   : 0;
+  width 		   : 100%;
+  height 		   : 12px;
+  background-color : #134275;
+}
+
+.box_content {
+  margin-top : 12px;
+}
+
+.falseValue,
+.trueValue {
+  font-weight: bold;
+}
+
+.trueValue {
+  color: green;
+  font-weight: bold;
+}
+
+.falseValue {
+  color: red;
+}
