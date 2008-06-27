@@ -170,7 +170,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       {
         return {
           backgroundColor : "background",
-          width : 0,
+          width : 0, // TODO: dimensions are functional in this case!
           height : 0
         }
       }
@@ -584,7 +584,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       {
         return {
           decorator : "toolbar-part-handle",
-          width     : 4,
+          width     : 4, // TODO: functional?
           margin    : [ 3, 2 ]
         };
       }
@@ -595,7 +595,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          width     : 1,
+          width     : 1, // TODO: functional?
           margin    : [ 3, 2 ],
           decorator : "divider-horizontal"
         };
@@ -643,11 +643,12 @@ qx.Theme.define("qx.theme.classic.Appearance",
     ---------------------------------------------------------------------------
     */
 
-    "tabview/bar" : {
+    "tabview/bar" : 
+    {
       style : function(states)
       {
         return {
-          zIndex          : 10,
+          zIndex          : 10, // TODO: functional?
           paddingLeft     : 10,
           paddingRight    : 10
         }
@@ -658,7 +659,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
       include : ""
     },
 
-
     "tabview/bar/button-forward" : {
       include : "tabview/bar/button-right"
     },
@@ -666,7 +666,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
     "tabview/bar/button-back" : {
       include : "tabview/bar/button-left"
     },
-
     
     "tabview/button/label" : {
       include : "atom/label"
@@ -833,8 +832,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
     ---------------------------------------------------------------------------
     */
 
-    "scrollbar" : {
-    },
+    "scrollbar" : {},
 
     "scrollbar/slider" :
     {
@@ -1023,7 +1021,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
       {
         return {
           backgroundColor : "background",
-          padding : 1,
           decorator : states.maximized ? "undefined" : "outset"
         };
       }

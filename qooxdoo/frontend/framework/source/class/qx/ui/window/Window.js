@@ -446,7 +446,9 @@ qx.Class.define("qx.ui.window.Window",
           break;
 
         case "captionbar":
-          control = new qx.ui.container.Composite(new qx.ui.layout.HBox());
+          var layout = new qx.ui.layout.HBox();
+          layout.setAlignY("middle");
+          control = new qx.ui.container.Composite(layout);
           if (isActive) {
             control.addState("active");
           }
