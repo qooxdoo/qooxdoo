@@ -48,32 +48,28 @@ qx.Class.define("qx.ui.decoration.Double",
     innerWidthTop :
     {
       check : "Number",
-      init : 0,
-      apply : "_applyBorderChange"
+      init : 0
     },
 
     /** right width of border */
     innerWidthRight :
     {
       check : "Number",
-      init : 0,
-      apply : "_applyBorderChange"
+      init : 0
     },
 
     /** bottom width of border */
     innerWidthBottom :
     {
       check : "Number",
-      init : 0,
-      apply : "_applyBorderChange"
+      init : 0
     },
 
     /** left width of border */
     innerWidthLeft :
     {
       check : "Number",
-      init : 0,
-      apply : "_applyBorderChange"
+      init : 0
     },
 
     /** Property group to set the inner border width of all sides */
@@ -97,7 +93,6 @@ qx.Class.define("qx.ui.decoration.Double",
     {
       nullable : true,
       check : "String",
-      apply : "_applyBorderChange",
       transform : "_resolveThemedColor"
     },
 
@@ -106,7 +101,6 @@ qx.Class.define("qx.ui.decoration.Double",
     {
       nullable : true,
       check : "String",
-      apply : "_applyBorderChange",
       transform : "_resolveThemedColor"
     },
 
@@ -115,7 +109,6 @@ qx.Class.define("qx.ui.decoration.Double",
     {
       nullable : true,
       check : "String",
-      apply : "_applyBorderChange",
       transform : "_resolveThemedColor"
     },
 
@@ -124,7 +117,6 @@ qx.Class.define("qx.ui.decoration.Double",
     {
       nullable : true,
       check : "String",
-      apply : "_applyBorderChange",
       transform : "_resolveThemedColor"
     },
 

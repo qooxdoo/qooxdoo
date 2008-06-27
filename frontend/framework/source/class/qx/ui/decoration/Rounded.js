@@ -41,32 +41,28 @@ qx.Class.define("qx.ui.decoration.Rounded",
     radiusTopLeft :
     {
       check : "Integer",
-      init : 0,
-      apply : "_applyBorderChange"
+      init : 0
     },
 
     /** Radius of the top right corner */
     radiusTopRight :
     {
       check : "Integer",
-      init : 0,
-      apply : "_applyBorderChange"
+      init : 0
     },
 
     /** Radius of the bottom right corner */
     radiusBottomRight :
     {
       check : "Integer",
-      init : 0,
-      apply : "_applyBorderChange"
+      init : 0
     },
 
     /** Radius of the bottom left corner */
     radiusBottomLeft :
     {
       check : "Integer",
-      init : 0,
-      apply : "_applyBorderChange"
+      init : 0
     },
 
     /** Property group for the border radius. */
