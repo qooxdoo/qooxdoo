@@ -26,14 +26,6 @@ qx.Class.define("bomdemo.box.Manager",
 {
   type : "singleton",
   extend : qx.core.Object,
-  
-  
-  /*construct : function()
-  {
-    this.base(arguments);
-    
-    this.load();
-  },*/
 
   
   /* ******************************************************
