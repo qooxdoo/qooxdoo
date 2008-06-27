@@ -84,12 +84,16 @@ qx.Class.define("bomdemo.dragdrop.Manager",
      * 
      * @type member
      * @param activeBox {bomdemo.box.Box} active box instance
+     * @param startOffsets {Map} startOffsets
      * @return {void}
      */
-    startSession : function(activeBox)
+    startSession : function(activeBox, startOffsets)
     {
       // set the active draggable
       this.setActiveBox(activeBox);
+      
+      // set the offsets
+      this.__startOffsets = startOffsets;
       
       // set the start groupBox
       this.__currentGroupBox = activeBox.getGroupBoxId();
@@ -172,6 +176,11 @@ qx.Class.define("bomdemo.dragdrop.Manager",
         var top        = qx.bom.element.Location.getTop(element, "margin") - parseInt(qx.bom.element.Style.get(element, "paddingTop")) - parseInt(qx.bom.element.Style.get(element, "paddingBottom"));
         var left       = qx.bom.element.Location.getLeft(element, "margin") - parseInt(qx.bom.element.Style.get(element, "paddingLeft"));
       }
+      else if (qx.core.Variant.isSet("qx.client", "webkit"))
+      {
+        var top        = qx.bom.element.Location.getTop(element, "margin");
+        var left       = qx.bom.element.Location.getLeft(element, "margin");
+      }
       else
       {
         var top        = qx.bom.element.Location.getTop(element);
@@ -241,13 +250,13 @@ qx.Class.define("bomdemo.dragdrop.Manager",
       // set the new left coord (if changed)
       if (this.__offsets.left != offsetLeft)
       {
-        qx.bom.element.Style.set(this.__ghost, "left", left + "px");
+        qx.bom.element.Style.set(this.__ghost, "left", left - this.__startOffsets.left + "px");
       }
       
       // set the new top coord (if changed)
       if (this.__offsets.top != offsetTop)
       {
-        qx.bom.element.Style.set(this.__ghost, "top", top + "px");
+        qx.bom.element.Style.set(this.__ghost, "top", top - this.__startOffsets.top + "px");
       }
       
       
