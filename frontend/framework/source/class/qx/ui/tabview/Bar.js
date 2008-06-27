@@ -14,13 +14,14 @@
 
    Authors:
      * Fabian Jakobs (fjakobs)
+     * Jonathan Rass (jonathan_rass)
 
 ************************************************************************ */
 
 /**
- * @appearance tabview-bar
- * @appearance tabview-bar-button-left {qx.ui.form.RepeatButton}
- * @appearance tabview-bar-button-right {qx.ui.form.RepeatButton}
+ * @appearance tabview/bar
+ * @appearance tabview/bar/button-left {qx.ui.form.RepeatButton}
+ * @appearance tabview/bar/button-right {qx.ui.form.RepeatButton}
  */
 qx.Class.define("qx.ui.tabview.Bar",
 {
@@ -65,7 +66,7 @@ qx.Class.define("qx.ui.tabview.Bar",
     appearance :
     {
       refine : true,
-      init : "tabview-bar"
+      init : "tabview/bar"
     }
   },
 
@@ -87,7 +88,7 @@ qx.Class.define("qx.ui.tabview.Bar",
       {
         case "button-forward":
           control = new qx.ui.form.RepeatButton().set({
-            appearance: "tabview-bar-button-right",
+            appearance: "tabview/bar/button-right",
             focusable: false
           });
           control.addListener("execute", this._scrollForward, this);
@@ -96,7 +97,7 @@ qx.Class.define("qx.ui.tabview.Bar",
 
         case "button-back":
           control = new qx.ui.form.RepeatButton().set({
-            appearance: "tabview-bar-button-left",
+            appearance: "tabview/bar/button-left",
             focusable: false
           });
           control.addListener("execute", this._scrollBack, this);

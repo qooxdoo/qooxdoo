@@ -20,10 +20,11 @@
 
 /* ************************************************************************
 
-#asset(qx/icon/Oxygen/48/apps/video-player.png)
-#asset(qx/icon/Oxygen/48/apps/internet-mail.png)
-#asset(qx/icon/Oxygen/48/apps/internet-web-browser.png)
-#asset(qx/icon/Oxygen/48/apps/photo-album.png)
+#asset(qx/icon/Oxygen/16/apps/utilities-terminal.png)
+#asset(qx/icon/Oxygen/16/apps/accessories-notes.png)
+#asset(qx/icon/Oxygen/16/apps/accessories-calculator.png)
+#asset(qx/icon/Oxygen/16/apps/help-browser.png)
+#asset(qx/icon/Oxygen/16/apps/utilities-terminal.png)
 
 ************************************************************************ */
 
