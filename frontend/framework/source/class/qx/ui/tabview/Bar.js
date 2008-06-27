@@ -18,11 +18,6 @@
 
 ************************************************************************ */
 
-/**
- * @appearance tabview/bar
- * @appearance tabview/bar/button-left {qx.ui.form.RepeatButton}
- * @appearance tabview/bar/button-right {qx.ui.form.RepeatButton}
- */
 qx.Class.define("qx.ui.tabview.Bar",
 {
   extend : qx.ui.container.SlideBar,
@@ -53,22 +48,6 @@ qx.Class.define("qx.ui.tabview.Bar",
     */
   },
 
-
-
-  /*
-  *****************************************************************************
-     PROPERTIES
-  *****************************************************************************
-  */
-
-  properties :
-  {
-    appearance :
-    {
-      refine : true,
-      init : "tabview/bar"
-    }
-  },
 
 
 
