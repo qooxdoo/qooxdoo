@@ -722,10 +722,10 @@ qx.Class.define("qx.ui.form.Spinner",
       // if the result is a number
       if (!isNaN(value))
       {
-        this.warn("value: " + value + "   get: " + this.getValue());
+        // this.warn("value: " + value + "   get: " + this.getValue());
         if (value == this.getValue()) 
         {
-          this.warn("textfield: " + textField.getValue());
+          // this.warn("textfield: " + textField.getValue());
           textField.setValue(value + "");
         }
         else
