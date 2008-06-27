@@ -42,18 +42,11 @@ qx.Class.define("qx.ui.form.SelectBox",
     this._createChildControl("spacer");
     this._createChildControl("arrow");
 
-    var list = this._getChildControl("list");
-    var listPopup = this._getChildControl("popup");
-    listPopup.add(list);
-
     // register the mouse listener
-    this.addListener("mousedown", this._onMouseDown, this);
+    this.addListener("click", this._onMouseDown, this);
 
     // Listener for Search as you type (forward the keyinput event)
     this.addListener("keyinput", this._onKeyInput, this);
-
-    // add a hide listener for clicks on the list
-    listPopup.addListener("mouseup", this._hideList, this);
   },
 
 
@@ -151,8 +144,9 @@ qx.Class.define("qx.ui.form.SelectBox",
      * @type member
      */
     _onMouseDown : function(e) {
-      this._togglePopup(e);
+      this._togglePopup();
     },
+    
 
     /**
      * Forwards key event to list widget.

@@ -35,12 +35,8 @@ qx.Class.define("qx.ui.form.ComboBox",
   {
     this.base(arguments);
 
-    // TODO: Call create("popup") here, move other stuff to _createChildControl
-    var list = this._getChildControl("list");
-    var listPopup = this._getChildControl("popup");
-    var textField = this._getChildControl("textfield");
-    
-    var button = this._getChildControl("button");
+    this._createChildControl("textfield");
+    this._createChildControl("button");
   },
 
 
@@ -66,7 +62,6 @@ qx.Class.define("qx.ui.form.ComboBox",
       refine : true,
       init : "combobox"
     }
-
   },
 
 
@@ -157,7 +152,7 @@ qx.Class.define("qx.ui.form.ComboBox",
      * @type member
      */
     _onClick : function(e) {
-      this._togglePopup(e);
+      this._togglePopup();
     },
 
 
