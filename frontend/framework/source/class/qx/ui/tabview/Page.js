@@ -14,11 +14,12 @@
 
    Authors:
      * Martin Wittemann (martinwittemann)
+     * Jonathan Rass (jonathan_rass)
 
 ************************************************************************ */
 
 /**
- * @appearance tabview-page
+ * @appearance tabview/page
  */
 qx.Class.define("qx.ui.tabview.Page",
 {
@@ -90,7 +91,7 @@ qx.Class.define("qx.ui.tabview.Page",
         }
       }, this);
 
-      button.setAppearance("tabview-button");
+      button.setAppearance("tabview/button");
 
 //      button.isFirstVisibleChild() ? button.addState("firstChild") : button.removeState("lastChild");
 //      this.isLastVisibleChild() ? this.addState("lastChild") : this.removeState("lastChild");

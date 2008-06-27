@@ -634,17 +634,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
     ---------------------------------------------------------------------------
     */
 
-    "tabview" :
-    {
-      style : function(states)
-      {
-        return {
-          // spacing : -1
-        };
-      }
-    },
-
-    "tabview-bar" : {
+    "tabview/bar" : {
       style : function(states)
       {
         return {
@@ -654,8 +644,30 @@ qx.Theme.define("qx.theme.classic.Appearance",
         }
       }
     },
+    
+    "tabview/bar/pane" : {
+      include : ""
+    },
 
-    "tabview-bar-button-left" :
+
+    "tabview/bar/button-forward" : {
+      include : "tabview/bar/button-right"
+    },
+
+    "tabview/bar/button-back" : {
+      include : "tabview/bar/button-left"
+    },
+
+    
+    "tabview/button/label" : {
+      include : "atom/label"
+    },
+
+    "tabview/button/icon" : {
+      include : "atom/icon"
+    },
+
+    "tabview/bar/button-left" :
     {
       include : "button",
 
@@ -669,7 +681,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
-    "tabview-bar-button-right" :
+    "tabview/bar/button-right" :
     {
       include : "button",
 
@@ -683,7 +695,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
-    "tabview-pane" :
+    "tabview/pane" :
     {
       style : function(states)
       {
@@ -696,10 +708,10 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
-    "tabview-page" : {
+    "tabview/page" : {
     },
 
-    "tabview-button" :
+    "tabview/button" :
     {
       style : function(states)
       {
@@ -719,7 +731,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
           paddingRight = 8;
           marginRight = -1;
           marginLeft = -2;
-          backgroundColor = "tabview-button-checked";
+          backgroundColor = "tabview/button-checked";
 
           if (states.barTop)
           {

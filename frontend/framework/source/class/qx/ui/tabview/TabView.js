@@ -16,6 +16,7 @@
      * Sebastian Werner (wpbasti)
      * Andreas Ecker (ecker)
      * Martin Wittemann (martinwittemann)
+     * Jonathan Rass (jonathan_rass)
 
 ************************************************************************ */
 
@@ -34,23 +35,9 @@ qx.Class.define("qx.ui.tabview.TabView",
   */
   construct : function() {
     this.base(arguments);
+    this._createChildControl("bar");
+    this._createChildControl("pane");
 
-    this._manager = new qx.ui.core.RadioManager().set({
-      wrap: false
-    });
-    this._manager.addListener("change", function(e)
-    {
-      var button = e.getValue();
-      if (button) {
-        this._bar.scrollButtonIntoView(button);
-      }
-    }, this);
-
-    this._bar = this._createBar();
-    this._pane = this._createPane();
-
-    this._add(this._bar);
-    this._add(this._pane, {flex: 1});
     this._setLayout(new qx.ui.layout.VBox());
   },
 
@@ -97,6 +84,44 @@ qx.Class.define("qx.ui.tabview.TabView",
 
   members :
   {
+    // overridden
+    _createChildControlImpl : function(id)
+    {
+      var control;
+
+      switch(id)
+      {
+        case "manager":
+          control = new qx.ui.core.RadioManager().set({
+            wrap: false
+          });
+          control.addListener("change", function(e)
+              {
+            var button = e.getValue();
+            if (button) {
+              this._getChildControl("bar").scrollButtonIntoView(button);
+            }
+          }, this);
+          break;
+
+        case "bar":
+          control = new qx.ui.tabview.Bar();
+          control.setLayout(new qx.ui.layout.HBox());
+          control.setAppearance("tabview/bar");
+          this._add(control);
+          break;
+
+        case "pane":
+          control = new qx.ui.container.Composite();
+          control.setLayout(new qx.ui.layout.Canvas());
+          control.setAppearance("tabview/pane");
+          this._add(control, {flex:1});
+          break;
+      }
+
+      return control || this.base(arguments, id);
+    },
+
     /**
      * Adds a page to the tabview including its needed button
      * (contained in the page). Every new added page will be automaticaly
@@ -107,11 +132,11 @@ qx.Class.define("qx.ui.tabview.TabView",
     add: function(page)
     {
       // add the button to the bar
-      this._bar.add(page.getButton());
+      this._getChildControl("bar").add(page.getButton());
       // add the button to the radio manager
-      this._manager.add(page.getButton());
+      this._getChildControl("manager").add(page.getButton());
       // add the page to the pane
-      this._pane.add(page);
+      this._getChildControl("pane").add(page);
 
       // check every new added page
       page.getButton().setChecked(true);
@@ -124,8 +149,12 @@ qx.Class.define("qx.ui.tabview.TabView",
 
     remove: function(page)
     {
-      var index = this._pane.indexOf(page);
-      var children = this._pane.getChildren();
+      var pane = this._getChildControl("pane");
+      var bar = this._getChildControl("bar");
+      var manager = this._getChildControl("manager");
+
+      var index = pane.indexOf(page);
+      var children = pane.getChildren();
 
       // try to select next page
       if (index < children.length-1) {
@@ -135,11 +164,11 @@ qx.Class.define("qx.ui.tabview.TabView",
       }
 
       // add the button to the bar
-      this._bar.remove(page.getButton());
+      bar.remove(page.getButton());
       // add the button to the radio manager
-      this._manager.remove(page.getButton());
+      manager.remove(page.getButton());
       // add the page to the pane
-      this._pane.remove(page);
+      pane.remove(page);
     },
 
 
@@ -150,7 +179,7 @@ qx.Class.define("qx.ui.tabview.TabView",
      */
     showPage: function(page) {
       // TODO: check if the button is in the bar
-      this._manager.setSelected(page.getButton());
+      this._getChildControl("manager").setSelected(page.getButton());
     },
 
 
@@ -161,40 +190,11 @@ qx.Class.define("qx.ui.tabview.TabView",
      */
     getCurrentPage: function ()
     {
-      if (this._pane.getLayoutChildren().length == 1) {
-        return this._pane.getLayoutChildren()[0];
+      var pane = this._getChildControl("pane");
+      if (pane.getLayoutChildren().length == 1) {
+        return pane.getLayoutChildren()[0];
       }
       // TODO: return something if page is not in the view
-    },
-
-
-    /**
-     * Constructor helper.
-     * Creates the bar for the tab view.
-     *
-     * @return {qx.ui.core.Widget} A widget configured as tabview bar.
-     */
-    _createBar: function()
-    {
-      var bar = new qx.ui.tabview.Bar();
-      bar.setLayout(new qx.ui.layout.HBox());
-      bar.setAppearance("tabview-bar");
-      return bar;
-    },
-
-
-    /**
-     * Constructor helper.
-     * Creates the pane for the tab view.
-     *
-     * @return {qx.ui.core.Widget} A widget configured as tabview pane.
-     */
-    _createPane: function()
-    {
-      var pane = new qx.ui.container.Composite();
-      pane.setLayout(new qx.ui.layout.Canvas());
-      pane.setAppearance("tabview-pane");
-      return pane;
     },
 
 
@@ -210,9 +210,10 @@ qx.Class.define("qx.ui.tabview.TabView",
      */
     _applyAlignTabsToLeft : function(value, old)
     {
-      this._bar.getLayout().setAlignX(value ? "left" : "right");
+      var bar = this._getChildControl("bar");
+      bar.getLayout().setAlignX(value ? "left" : "right");
       // set or remove the state on the buttons
-      var buttons = this._bar.getChildren();
+      var buttons = bar.getChildren();
       for (var i = 0; i < buttons.length; i++) {
         if (value) {
           buttons[i].addState("alignLeft");
@@ -238,7 +239,7 @@ qx.Class.define("qx.ui.tabview.TabView",
       // reverse the layout
       this._getLayout().setReversed(!value);
       // set or remove the state on the buttons
-      var buttons = this._bar.getChildren();
+      var buttons = this._getChildControl("bar").getChildren();
       for (var i = 0; i < buttons.length; i++) {
         if (value) {
           buttons[i].addState("barTop");
@@ -247,16 +248,6 @@ qx.Class.define("qx.ui.tabview.TabView",
         }
       }
     }
-  },
-
-
-
-  /*
-  *****************************************************************************
-     DESTRUCTOR
-  *****************************************************************************
-  */
-  destruct : function() {
-    this._disposeObjects("_bar", "_pane", "_manager");
   }
+
 });
