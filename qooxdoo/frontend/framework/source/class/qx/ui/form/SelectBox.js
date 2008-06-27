@@ -118,6 +118,8 @@ qx.Class.define("qx.ui.form.SelectBox",
     },
 
 
+
+
     /*
     ---------------------------------------------------------------------------
       APPLY ROUTINES
@@ -133,6 +135,9 @@ qx.Class.define("qx.ui.form.SelectBox",
       atom.setLabel(value.getLabel());
       atom.setIcon(value.getIcon());      
     },
+    
+    
+    
 
     /*
     ---------------------------------------------------------------------------
@@ -160,9 +165,9 @@ qx.Class.define("qx.ui.form.SelectBox",
       var clone = e.clone();
       clone.setTarget(this._list);
       clone.setBubbles(false);
+      
       // forward it to the list
       this._getChildControl("list").dispatchEvent(clone);
     }
-
   }
 });

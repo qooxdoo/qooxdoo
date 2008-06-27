@@ -38,12 +38,7 @@ qx.Class.define("qx.ui.form.ComboBox",
     // TODO: Call create("popup") here, move other stuff to _createChildControl
     var list = this._getChildControl("list");
     var listPopup = this._getChildControl("popup");
-    listPopup.add(list);
-    listPopup.addListener("changeVisibility", this._onChangeVisibilityList, this);
-
     var textField = this._getChildControl("textfield");
-    textField.addListener("blur", this._onTextBlur, this);
-    textField.addListener("focus", this._onTextFocus, this);
     
     var button = this._getChildControl("button");
   },
@@ -105,21 +100,12 @@ qx.Class.define("qx.ui.form.ComboBox",
           control.addListener("click", this._onClick, this);
           this._add(control);
           break;
-
-        case "popup":
-          control = new qx.ui.popup.Popup(new qx.ui.layout.VBox()).set({
-            autoHide: false
-          });
-          control.addListener("mouseup", this._hideList, this);
-          control.addListener("changeVisibility", this._onChangeVisibilityList, this);
-          break;
       }
       
       return control || this.base(arguments, id);
     },
 
 
-    
     
     
     /*
@@ -135,6 +121,7 @@ qx.Class.define("qx.ui.form.ComboBox",
       
       this._getChildControl("textfield").setValue(value.getLabel());
     },
+
 
 
     /*
@@ -173,44 +160,6 @@ qx.Class.define("qx.ui.form.ComboBox",
       this._togglePopup(e);
     },
 
-
-    /**
-     * Adds or removes event listener on root widget depending on event's visibility.
-     * @param e {qx.event.type.MouseEvent} Mouse click event
-     * @type member
-     */
-    _onChangeVisibilityList : function(e)
-    {
-      var root = qx.core.Init.getApplication().getRoot();
-
-      // Register events for autoHide
-      var isVisible = e.getValue() == "visible";
-      if (isVisible) {
-        root.addListener("mousedown", this._onMouseDownRoot, this, true);
-      } else {
-        root.removeListener("mousedown", this._onMouseDownRoot, this, true);
-      }
-    },
-
-
-    /**
-     * Hides list if mouse down even is fired outside the widget.
-     * @param e {qx.event.type.MouseEvent} Mouse down event
-     * @type member
-     */
-    _onMouseDownRoot : function(e)
-    {
-      var target = e.getTarget();
-      var listPopup = this._getChildControl("popup");
-      if (
-        target !== this &&
-        target !== listPopup &&
-        !qx.ui.core.Widget.contains(this, target) &&
-        !qx.ui.core.Widget.contains(listPopup, target)
-      ) {
-        this._hideList();
-      }
-    },
 
     /**
      * Redirect activation to the main widget
