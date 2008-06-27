@@ -75,12 +75,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
     },
 
     "atom" : {},
-    
-    "atom/label" : {
-      include : "label"
-    },
-    
-    "atom/icon" : {},
+    "atom/label" : "label",
+    "atom/icon" : "image",
 
     "root" :
     {
@@ -94,8 +90,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
-    "popup" : {
-    },
+    "popup" : "widget",
     
     "tooltip" :
     {
@@ -135,6 +130,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     "button" :
     {
+      alias : "atom",
       states : [ "pressed", "abandoned", "checked", "focused", "hovered" ],
       
       style : function(states)
@@ -159,13 +155,31 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
     
-    "button/label" : {
-      include : "label"
-    },
+
     
-    "button/icon" : {
-      include : "image"
+
+    /*
+    ---------------------------------------------------------------------------
+      SCROLLAREA
+    ---------------------------------------------------------------------------
+    */
+    
+    "scrollarea/corner" :
+    {
+      style : function()
+      {
+        return {
+          backgroundColor : "background",
+          width : 0,
+          height : 0
+        }
+      }
     },
+
+    "scrollarea/pane" : "widget",
+    "scrollarea/corner" : "widget",
+    "scrollarea/scrollbar-x" : "scrollbar",
+    "scrollarea/scrollbar-y" : "scrollbar",
 
 
 
@@ -179,6 +193,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     "list" :
     {
+      alias : "scrollarea",
       states : [ "focused" ],
       
       style : function(states)
@@ -189,15 +204,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
         };
       }
     },
-    
-    "list/pane" : "widget",
-    "list/corner" : "widget",
-    "list/scrollbar-x" : "scrollbar",
-    "list/scrollbar-y" : "scrollbar",
-
-    
+       
   
-    
     
     
     
@@ -225,7 +233,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
     },
     
         
-
 
 
 
@@ -336,7 +343,9 @@ qx.Theme.define("qx.theme.classic.Appearance",
     
 
 
-  /*
+
+
+    /*
     ---------------------------------------------------------------------------
       SPINNER
     ---------------------------------------------------------------------------
@@ -829,6 +838,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     "scrollbar/slider" :
     {
+      alias : "slider",
+      
       style : function(states)
       {
         return {
@@ -837,10 +848,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
     
-    "scrollbar/slider/knob" : {
-      include : "slider/knob"
-    },    
-
     "scrollbar/button" :
     {
       include : "button",
@@ -883,36 +890,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
     
-    "scrollbar/button-begin" : {
-      include : "scrollbar/button"
-    },
-    
-    "scrollbar/button-end" : {
-      include : "scrollbar/button"
-    },
-    
-
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      SCROLLAREA
-    ---------------------------------------------------------------------------
-    */
-    
-    "scrollarea/corner" :
-    {
-      style : function()
-      {
-        return {
-          backgroundColor : "background",
-          width : 0,
-          height : 0
-        }
-      }
-    },
+    "scrollbar/button-begin" : "scrollbar/button",
+    "scrollbar/button-end" : "scrollbar/button",
 
 
 
