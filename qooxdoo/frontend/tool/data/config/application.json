@@ -96,7 +96,7 @@
         "uri"  : "script/${APPLICATION}.js",
         "root" : "${BUILD_PATH}",
         "format" : "on",
-        "optimize" : ["basecalls", "variables", "privates", "strings"/*, "protected"*/]
+        "optimize" : ["basecalls", "variables", "privates", "strings"]
       }
     },
 
