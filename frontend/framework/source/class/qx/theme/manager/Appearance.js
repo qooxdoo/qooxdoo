@@ -40,6 +40,9 @@ qx.Class.define("qx.theme.manager.Appearance",
     this.base(arguments);
 
     this.__cache = {};
+    
+    this.__idMap = {};    
+    
     this.__stateMap = {};
     this.__stateMapLength = 1;
   },
@@ -112,6 +115,56 @@ qx.Class.define("qx.theme.manager.Appearance",
       var theme = this.getAppearanceTheme();
       return theme ? this.styleFromTheme(theme, id, states) : null;
     },
+    
+    
+    resolveId : function(theme, id)
+    {
+      var db = theme.appearances;
+      var entry = db[id];
+      
+      //this.debug("Resolve: " + id);
+      
+      if (!entry)
+      {
+        var divider = "/";
+        var end = [];
+        var splitted = id.split(divider);
+        var alias;
+        
+        while (!entry && splitted.length > 0)
+        {
+          end.unshift(splitted.pop());
+          baseid = splitted.join(divider);
+          entry = db[baseid];
+          
+          if (entry)
+          {
+            alias = entry.alias || entry;
+            
+            if (typeof alias === "string") 
+            {
+              var mapped = alias + divider + end.join(divider);
+              var result = this.resolveId(theme, mapped);
+              return result;
+            }
+          }
+        }
+        
+        return null;
+      }
+      else if (typeof entry === "string") 
+      {
+        return this.resolveId(theme, entry);
+      }
+      else if (entry.include && !entry.style)
+      {
+        return this.resolveId(theme, entry.include);
+      }
+      else
+      {  
+        return id;    
+      }
+    },
 
 
     /**
@@ -126,71 +179,43 @@ qx.Class.define("qx.theme.manager.Appearance",
     styleFromTheme : function(theme, id, states)
     {
       var db = theme.appearances;
-      var entry = db[id];
+      var map = this.__idMap;
       
-      if (!entry)
+      // Cache ID redirects
+      var entry = map[id];
+      if (entry === undefined) 
       {
-        var divider = "/";
-        var end = [];
-        var splitted = id.split(divider);
-        var alias;
-        
-        while (!entry)
+        // Searching for real ID
+        var mapped = this.resolveId(theme, id);   
+
+        // Check if the entry was finally found
+        if (!mapped)
         {
-          end.unshift(splitted.pop());
-          baseid = splitted.join(divider);
-          entry = db[baseid];
-          
-          if (entry)
+          if (qx.core.Variant.isSet("qx.debug", "on"))
           {
-            alias = entry.alias || entry;
-            
-            if (typeof alias === "string") 
+            if (!this.__missing) {
+              this.__missing = {};
+            }
+  
+            if (!this.__missing[id])
             {
-              var mapped = alias + divider + end.join(divider);
-              this.debug("Linking: " + id + " to " + mapped);            
-              entry = db[id] = db[mapped];
-              id = mapped;
-              break;
+              this.warn("Missing appearance ID: " + id);
+              this.__missing[id] = true;
             }
           }
-
-          entry = null; 
-        }
-      }
-      
-      // Support for direct aliases
-      else if (typeof entry === "string") {
-        entry = db[entry]
-      }
-      
-      // Check if the entry was finally found
-      if (!entry)
-      {
-        if (qx.core.Variant.isSet("qx.debug", "on"))
-        {
-          if (!this.__missing) {
-            this.__missing = {};
-          }
-
-          if (!this.__missing[id])
-          {
-            this.warn("Missing appearance entry: " + id);
-            this.__missing[id] = true;
-          }
-        }
-
-        return null;
-      }
-
-      // Fast fallback to super entry
-      if (!entry.style)
-      {
-        if (entry.include) {
-          return this.styleFromTheme(theme, entry.include, states);
-        } else {
+  
           return null;
         }
+
+        this.debug("Map appearance ID: " + id + " to " + mapped);
+        entry = map[id] = db[mapped];
+      }      
+      
+      // Entries with includes, but without style are automatically merged
+      // by the ID handling above. When there is no style method in the
+      // final object the appearance is empty and null could be returned.
+      if (!entry.style) {
+        return null;
       }
 
       // Creating cache-able ID
