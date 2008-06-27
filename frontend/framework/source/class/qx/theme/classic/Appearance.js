@@ -566,11 +566,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
-    "toolbar/part" : {
-    },
-    
-    "toolbar/part/container" : {
-    },
+    "toolbar/part" : {},
+    "toolbar/part/container" : {},
 
     "toolbar/part/handle" :
     {
@@ -598,6 +595,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     "toolbar-button" :
     {
+      alias : "atom",
+      
       style : function(states)
       {
         if (states.pressed || states.checked || states.abandoned)
@@ -624,16 +623,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
         };
       }
     },
-    
-    "toolbar-button/label" :
-    {
-      include : "atom/label"
-    },
-    
-    "toolbar-button/icon" :
-    {
-      include : "atom/icon"
-    },
+
 
 
 
@@ -960,10 +950,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          source : states.opened
-            ? "decoration/tree/minus.gif"
-            : "decoration/tree/plus.gif"
-        }
+          source : states.opened ? "decoration/tree/minus.gif" : "decoration/tree/plus.gif"
+        };
       }
     },
 
@@ -976,20 +964,19 @@ qx.Theme.define("qx.theme.classic.Appearance",
           padding : [2, 3, 2, 0],
           icon : "icon/16/places/folder-open.png",
           iconOpened : "icon/16/places/folder.png"
-        }
+        };
       }
     },
 
-
-    "tree-folder-icon" : {
+    "tree-folder-icon" : 
+    {
       style : function(states)
       {
         return {
           padding : [0, 4, 0, 0]
-        }
+        };
       }
     },
-
 
     "tree-folder-label" :
     {
@@ -999,10 +986,9 @@ qx.Theme.define("qx.theme.classic.Appearance",
           padding : [ 1, 2 ],
           backgroundColor : states.selected ? "selected" : "undefined",
           textColor : states.selected ? "text-selected" : "undefined"
-        }
+        };
       }
     },
-
 
     "tree-file" :
     {
@@ -1012,20 +998,12 @@ qx.Theme.define("qx.theme.classic.Appearance",
       {
         return {
           icon : "icon/16/mimetypes/text-plain.png"
-        }
+        };
       }
     },
 
-
-    "tree-file-icon" : {
-      include : "tree-folder-icon"
-    },
-
-
-    "tree-file-label" : {
-      include : "tree-folder-label"
-    },
-
+    "tree-file-icon" : "tree-folder-icon",
+    "tree-file-label" : "tree-folder-label",
 
     "tree" :
     {
@@ -1035,7 +1013,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       {
         return {
           contentPadding : [4, 4, 4, 4]
-        }
+        };
       }
     },
 
