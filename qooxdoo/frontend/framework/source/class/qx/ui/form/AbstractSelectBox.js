@@ -44,6 +44,7 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
     this._setLayout(layout);
     layout.setAlignY("middle");
 
+    // Register listeners
     this.addListener("keypress", this._onKeyPress);
     this.addListener("blur", this._hideList, this);
     
@@ -123,8 +124,10 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
 
         case "popup":
           control = new qx.ui.popup.Popup(new qx.ui.layout.VBox);
+          control.setAutoHide(false);
           control.addListener("mouseup", this._hideList, this);
           control.addListener("activate", this._onActivateList, this);
+          control.add(this._getChildControl("list"));
           break;
       }
       
@@ -234,10 +237,9 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
 
     /**
      * Toggles the popup's visibility.
-     * @param e {Object} Activation event
      * @type member
      */
-    _togglePopup : function(e)
+    _togglePopup : function()
     {
       var isListOpen = this._getChildControl("popup").isVisible();
       if (isListOpen) {
