@@ -175,7 +175,7 @@ qx.Class.define("qx.core.Object",
           if (!this[setter[data]])
           {
             this.warn("No such property: " + data);
-            return;
+            return this;
           }
         }
 
@@ -315,7 +315,7 @@ qx.Class.define("qx.core.Object",
      * @param listener {Function} event callback function
      * @param self {Object ? null} reference to the 'this' variable inside the callback
      * @param capture {Boolean} Whether to remove the event listener of
-     *   the bubbling or of the capturing phase.     
+     *   the bubbling or of the capturing phase.
      * @return {void}
      */
     removeListener : function(type, listener, self, capture)
@@ -353,7 +353,7 @@ qx.Class.define("qx.core.Object",
       if (!this.$$disposed) {
         return this.__Registration.dispatchEvent(this, evt);
       }
-      
+
       return true;
     },
 
@@ -374,7 +374,7 @@ qx.Class.define("qx.core.Object",
       if (!this.$$disposed) {
         return this.__Registration.fireEvent(this, type, clazz, args);
       }
-      
+
       return true;
     },
 
@@ -397,7 +397,7 @@ qx.Class.define("qx.core.Object",
       if (!this.$$disposed) {
         return this.__Registration.fireNonBubblingEvent(this, type, clazz, args);
       }
-      
+
       return true;
     },
 
@@ -416,7 +416,7 @@ qx.Class.define("qx.core.Object",
       if (!this.$$disposed) {
         return this.__Registration.fireEvent(this, type, qx.event.type.Data, [data]);
       }
-      
+
       return true;
     },
 
@@ -745,9 +745,6 @@ qx.Class.define("qx.core.Object",
   {
     // Cleanup event listeners
     qx.event.Registration.removeAllListeners(this);
-
-    // Cleanup value managers
-    qx.util.ValueManager.disconnect(this);
 
     // Cleanup object registry
     qx.core.ObjectRegistry.unregister(this);

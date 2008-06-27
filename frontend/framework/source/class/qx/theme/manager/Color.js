@@ -87,21 +87,6 @@ qx.Class.define("qx.theme.manager.Color",
           dest[key] = temp;
         }
       }
-
-      if (qx.theme.manager.Meta.getInstance().getAutoSync()) {
-        this.syncColorTheme();
-      }
-    },
-
-
-    /**
-     * Sync dependend objects with internal database
-     *
-     * @type member
-     * @return {void}
-     */
-    syncColorTheme : function() {
-      this.updateAll();
     }
   }
 });

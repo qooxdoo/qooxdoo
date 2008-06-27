@@ -80,22 +80,6 @@ qx.Class.define("qx.theme.manager.Decoration",
     },
 
 
-    /**
-     * Sync dependend objects with internal database
-     *
-     * @type member
-     * @return {void}
-     */
-    syncDecorationTheme : function()
-    {
-      var value = this.getTheme();
-      var alias = qx.util.AliasManager.getInstance();
-      value ? alias.add("decoration", value.resource) : alias.remove("decoration");
-
-      this.updateAll();
-    },
-
-
     // property apply
     _applyTheme : function(value)
     {
@@ -118,15 +102,14 @@ qx.Class.define("qx.theme.manager.Decoration",
         {
           var styles = source[key].style;
           var decorationClass =  source[key].decorator || qx.ui.decoration.Uniform;
-          
+
           dest[key] = (new decorationClass).set(styles);
           dest[key].themed = true;
         }
       }
 
-      if (qx.theme.manager.Meta.getInstance().getAutoSync()) {
-        this.syncDecorationTheme();
-      }
+      var alias = qx.util.AliasManager.getInstance();
+      value ? alias.add("decoration", value.resource) : alias.remove("decoration");
     }
   }
 });

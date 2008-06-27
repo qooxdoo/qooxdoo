@@ -31,8 +31,8 @@
  * which is
  * added to the parent widget has two child Element: The "decoration" and the
  * "content" element. The decoration element has a lower z-Index and contains
- * markup to render the widget's backround and border using an implementation
- * of {@link qx.ui.decoration.IDecorator}.The cntent element is positioned
+ * markup to render the widget's background and border using an implementation
+ * of {@link qx.ui.decoration.IDecorator}.The content element is positioned
  * inside the "container" element to respect paddings and contains the "real"
  * widget element.
  *
@@ -392,7 +392,7 @@ qx.Class.define("qx.ui.core.Widget",
     font :
     {
       nullable : true,
-      check : "qx.bom.IFont",
+      check : "qx.bom.Font",
       init : "inherit",
       apply : "_applyFont",
       transform : "_resolveThemedFont",
@@ -1855,6 +1855,7 @@ qx.Class.define("qx.ui.core.Widget",
       this._containerElement.setStyle("zIndex", value == null ? 0 : value);
     },
 
+
     // property apply
     _applyVisibility : function(value, old)
     {
@@ -2254,7 +2255,6 @@ qx.Class.define("qx.ui.core.Widget",
     isTabable : function() {
       return this.isFocusable();
     },
-
 
 
     isFocusRoot : function() {
@@ -2658,7 +2658,7 @@ qx.Class.define("qx.ui.core.Widget",
       if (!control) {
         throw new Error("Unsupported control: " + id);
       }
-      
+
       control.$$subcontrol = id;
       control.$$subparent = this;
 
