@@ -37,7 +37,7 @@
 
       "settings" :
       {
-        "qx.theme" : "qx.theme.Modern"
+        "qx.theme" : "qx.theme.Classic"
       },
 
       "localize" :
