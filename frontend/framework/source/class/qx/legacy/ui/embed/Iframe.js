@@ -456,7 +456,7 @@ qx.Class.define("qx.legacy.ui.embed.Iframe",
       if (qx.core.Variant.isSet("qx.client", "mshtml"))
       {
         // Setting the backgroundImage causes an "insecure elements" warning under SSL
-        // blockerStyle.backgroundImage = "url(" + qx.util.AliasManager.getInstance().resolve("static/image/blank.gif") + ")";
+        // blockerStyle.backgroundImage = "url(" + qx.legacy.util.AliasManager.getInstance().resolve("static/image/blank.gif") + ")";
 
         blockerStyle.backgroundColor = "white";
         blockerStyle.filter = "Alpha(Opacity=0)";

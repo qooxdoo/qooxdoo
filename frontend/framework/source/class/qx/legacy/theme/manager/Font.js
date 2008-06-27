@@ -21,7 +21,7 @@
 qx.Class.define("qx.legacy.theme.manager.Font",
 {
   type : "singleton",
-  extend : qx.util.ValueManager,
+  extend : qx.legacy.util.ValueManager,
 
 
 

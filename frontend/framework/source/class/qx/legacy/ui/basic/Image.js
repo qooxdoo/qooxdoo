@@ -342,7 +342,7 @@ qx.Class.define("qx.legacy.ui.basic.Image",
      */
     _connect : function()
     {
-      var aliasMgr = qx.util.AliasManager.getInstance();
+      var aliasMgr = qx.legacy.util.AliasManager.getInstance();
       aliasMgr.connect(this._syncSource, this, this.getSource());
     },
 

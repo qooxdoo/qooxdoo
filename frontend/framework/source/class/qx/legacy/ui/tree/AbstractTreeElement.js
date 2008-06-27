@@ -78,7 +78,7 @@ qx.Class.define("qx.legacy.ui.tree.AbstractTreeElement",
 
     // Base URL used for indent images
     // Modified to new resource system. A little hacky, I know I know ;)
-    this.BASE_URI = qx.util.ResourceManager.toUri(qx.util.AliasManager.getInstance().resolve("widget/tree/line.gif")).replace("line.gif", "");
+    this.BASE_URI = qx.util.ResourceManager.toUri(qx.legacy.util.AliasManager.getInstance().resolve("widget/tree/line.gif")).replace("line.gif", "");
 
     /*
      * Add all of the objects which are to be in the horizontal layout.

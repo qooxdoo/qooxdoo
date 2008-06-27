@@ -72,7 +72,7 @@ qx.Class.define("qx.legacy.theme.manager.Widget",
     syncWidgetTheme : function()
     {
       var value = this.getWidgetTheme();
-      var alias = qx.util.AliasManager.getInstance();
+      var alias = qx.legacy.util.AliasManager.getInstance();
       value ? alias.add("widget", value.resource) : alias.remove("widget");
     }
   }
