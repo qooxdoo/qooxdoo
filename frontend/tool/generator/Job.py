@@ -41,9 +41,6 @@ class Job(object):
 
         console      = console_
 
-    def _listPrepend(self, source, target):
-        return source + target
-
 
     def _mergeJob(self, sourceJob):
         sData = sourceJob.getData()
@@ -51,7 +48,7 @@ class Job(object):
         for key in sData:
             # merge 'library' key rather than shadowing
             if key == 'library'and target.has_key(key):
-                target[key] = _listPrepend(sData[key],target[key])
+                target[key] = sData[key] + target[key]
             
             # merge 'settings' and 'let' key rather than shadowing
             # wpbasti: variants listed here, but missing somewhere else. Still missing use and require keys.
