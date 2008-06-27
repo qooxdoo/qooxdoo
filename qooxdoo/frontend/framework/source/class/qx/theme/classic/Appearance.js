@@ -1305,10 +1305,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
       include : "button"
     },
     
-    "combobox/button" : {
-      include : "button"  
-    },    
-        
     "combobox/button/icon" : {
       include : "image"  
     },    
