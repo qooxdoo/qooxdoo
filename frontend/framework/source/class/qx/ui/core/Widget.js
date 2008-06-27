@@ -2044,28 +2044,56 @@ qx.Class.define("qx.ui.core.Widget",
      */
     syncAppearance : function()
     {
-      // Build selector
-      var obj = this;
-      var id = [];
-
-      do {
-        id.push(obj.$$subcontrol||obj.getAppearance());
-      } while (obj = obj.$$subparent)
+      var states = this.__states;
+      var undef = "undefined";
+      var selector = this.__selector;
       
-      var selector = id.reverse().join("/");
-
-      // Collect styles
-      var data = qx.theme.manager.Appearance.getInstance().styleFrom(selector, this.__states);
-      if (!data) {
-        return;
-      }
-      
+      // Cache deep accessor
       var styler = qx.core.Property.$$method.style;
       var unstyler = qx.core.Property.$$method.unstyle;
+      
+      // Check for requested selector update
+      if (this.__updateSelector) 
+      {
+        // Clear flag
+        delete this.__updateSelector;
+        
+        // Check if the selector was created previously
+        if (selector)
+        {
+          // Query old selector
+          var oldData = qx.theme.manager.Appearance.getInstance().styleFrom(selector, states);       
+          
+          // Clear current selector (to force recompute)
+          if (oldData) {
+            selector = null;
+          } 
+        }
+      }
 
+      // Build selector
+      if (!selector)
+      {
+        var obj = this;
+        var id = [];
+
+        do {
+          id.push(obj.$$subcontrol||obj.getAppearance());
+        } while (obj = obj.$$subparent)
+
+        selector = this.__selector = id.reverse().join("/");
+      }
+
+      // Query current selector
+      var newData = qx.theme.manager.Appearance.getInstance().styleFrom(selector, states);
+      if (!newData) {
+        newData = {}; 
+      }
+   
+      // Check property availability of new data
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        for (var prop in data)
+        for (var prop in newData)
         {
           if (!this[styler[prop]]) {
             throw new Error(this.classname + ' has no themeable property "' + prop + '"');
@@ -2073,14 +2101,24 @@ qx.Class.define("qx.ui.core.Widget",
         }
       }
 
-      var undef = "undefined";
-      var value;
-
-      for (var prop in data)
+      // Merge new data with old data
+      if (oldData) 
       {
-        value = data[prop];
+        for (var prop in oldData)
+        {
+          if (newData[prop] === undefined) {
+            newData[prop] = undef; 
+          }
+        } 
+      }  
+      
+      // Apply new data
+      var value;
+      for (var prop in newData)
+      {
+        value = newData[prop];
         value === undef ? this[unstyler[prop]]() : this[styler[prop]](value);
-      }      
+      }     
     },
 
 
@@ -2089,22 +2127,25 @@ qx.Class.define("qx.ui.core.Widget",
     {
       this.debug("Reconfigure appearance: " + value);
       
-      this.updateAppearance();     
+      this.updateAppearance();
     },
     
     
     // TODOC
     updateAppearance : function()
     {
+      // Clear selector
+      this.__updateSelector = true;
+      
+      // Add to appearance queue
       qx.ui.core.queue.Appearance.add(this);
       
-      var childControls = this.__childControls;
-      if (childControls)
+      // Update child controls
+      var controls = this.__childControls;
+      if (controls)
       {
-        for (var id in childControls) 
-        {
-          this.debug("Child control: " + id);
-          childControls[id].updateAppearance();  
+        for (var id in controls) {
+          controls[id].updateAppearance();  
         }       
       }
     },
