@@ -1,4 +1,0 @@
-/**
- * Bomdemo application
- */
- 
