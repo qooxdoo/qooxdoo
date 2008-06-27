@@ -2089,7 +2089,24 @@ qx.Class.define("qx.ui.core.Widget",
     {
       this.debug("Reconfigure appearance: " + value);
       
+      this.updateAppearance();     
+    },
+    
+    
+    // TODOC
+    updateAppearance : function()
+    {
       qx.ui.core.queue.Appearance.add(this);
+      
+      var childControls = this.__childControls;
+      if (childControls)
+      {
+        for (var id in childControls) 
+        {
+          this.debug("Child control: " + id);
+          childControls[id].updateAppearance();  
+        }       
+      }
     },
 
 
