@@ -15,16 +15,17 @@
    Authors:
      * Sebastian Werner (wpbasti)
      * Andreas Ecker (ecker)
+     * Jonathan Rass (jonathan_rass)
 
 ************************************************************************ */
 
 /**
- * @appearance toolbar-part
+ * @appearance toolbar/part
  */
 qx.Class.define("qx.ui.toolbar.Part",
 {
   extend : qx.ui.core.Widget,
-
+  include : [qx.ui.core.MRemoteChildrenHandling],
 
   /*
   *****************************************************************************
@@ -35,9 +36,9 @@ qx.Class.define("qx.ui.toolbar.Part",
   construct : function() 
   {
     this.base(arguments);
+    this._setLayout(new qx.ui.layout.HBox);
 
-    this._setLayout(new qx.ui.layout.HBox());
-    this._add(new qx.ui.toolbar.PartHandle());
+    this._createChildControl("handle");
   },
 
 
@@ -53,7 +54,7 @@ qx.Class.define("qx.ui.toolbar.Part",
     appearance :
     {
       refine : true,
-      init : "toolbar-part"
+      init : "toolbar/part"
     },
 
     /** Whether icons, labels, both or none should be shown. */
@@ -79,14 +80,35 @@ qx.Class.define("qx.ui.toolbar.Part",
 
   members :
   {
-    /**
-     * Add a item at the end of the toolbar
-     *
-     * @type member
-     * @param item {qx.ui.core.Widget} widget to add
-     */
-    add: function(item) {
-      this._add(item);
+    // overridden
+    _createChildControlImpl : function(id)
+    {
+      var control;
+
+      switch(id)
+      {
+        case "handle":
+          control = new qx.ui.core.Widget().set({
+            width : 0,
+            height : 0
+          });
+          this._add(control);
+          break;
+
+        case "container":
+          control = new qx.ui.toolbar.PartContainer;
+          this._add(control);
+          break;
+      }
+      
+      return control || this.base(arguments, id);
+    },
+
+    // overridden
+    getChildrenContainer : function() {
+      return this._getChildControl("container");
     }
+
   }
+
 });
