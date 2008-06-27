@@ -289,21 +289,13 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
         }
       }
 
-      // Select current item and close popup
-      if(identifier == "Enter")
-      {
-        if (listPopup.isVisible()) {
-          this._hideList();
-        }
-        return;
-      }
-
       // hide the list always on escape
       if (identifier == "Escape" || identifier == "Tab")
       {
         this._hideList();
         return;
       }
+      
       // forward the rest of the events to the list
       this._getChildControl("list").handleKeyPress(e);
     },
