@@ -23,23 +23,11 @@ qx.Class.define("testrunner.test.lang.Object",
 
   members :
   {
-    /**
-     * Object tests
-     *
-     * @type member
-     * @return {void}
-     */
     testObject : function() {
       this.assertNotUndefined(qx.lang.Object);
     },
 
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void}
-     */
     testInvert : function()
     {
       this.assertNotUndefined(qx.lang.Object.invert);
@@ -55,6 +43,24 @@ qx.Class.define("testrunner.test.lang.Object",
         1 : "a",
         b : 2
       }));
+    },
+
+
+    /**
+     * Some behavior, which must be consistent in all browsers for some
+     * assertions to work.
+     */
+    testObjectAssertions : function()
+    {
+      var objConstructor = ({}).constructor;
+
+      this.assertIdentical(({a: 12}).constructor, objConstructor);
+      this.assertIdentical(new Object().constructor, objConstructor);
+
+      this.assertNotIdentical(new qx.core.Object().constructor, objConstructor);
+      this.assertNotIdentical((1).constructor, objConstructor);
+      this.assertNotIdentical(("Juhu").constructor, objConstructor);
+      this.assertNotIdentical((/abc/).constructor, objConstructor);
     }
   }
 });

@@ -297,9 +297,12 @@ qx.Class.define("testrunner.test.event.Bubbling",
       // assert that non cancelable event raise an exception
       this.addListener("nonBubble", this._preventDefault, this);
       var self = this;
-      this.assertExceptionDebugOn(function() {
-        Reg.fireEvent(self, "nonBubble", qx.event.type.Event, [false, false]);
-      }, qx.core.AssertionError, "Cannot prevent default action on a non cancelable event");
+      if (this.isDebugOn())
+      {
+        this.assertException(function() {
+          Reg.fireEvent(self, "nonBubble", qx.event.type.Event, [false, false]);
+        }, qx.core.AssertionError, "Cannot prevent default action on a non cancelable event");
+      };
       this.removeListener("nonBubble", this._preventDefault, this);
 
 

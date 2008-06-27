@@ -26,5 +26,18 @@ qx.Class.define("qx.dev.unit.TestCase",
     if (qx.core.Variant.isSet("qx.debug", "off")) {
       qx.Class.include(statics, qx.core.MAssert);
     }
+  },
+
+  members :
+  {
+    /**
+     * Whether If debugging code is enabled. (i.e. the setting
+     * <code>qx.debug</code> has the value <code>on</code>.)
+     *
+     * @return {Boolean} Whether debugging is enabled
+     */
+    isDebugOn : function() {
+      return qx.core.Variant.isSet("qx.debug", "on") ? true : false;
+    }
   }
 });
