@@ -99,25 +99,6 @@ qx.Class.define("bomdemo.box.Resizable",
      */
     __prepare : function()
     {
-      var propertyList = [
-      {
-        name  : 'paddingTop',
-        asInt : true
-      },
-      {
-        name  : 'paddingBottom',
-        asInt : true
-      },
-      {
-        name  : 'paddingLeft',
-        asInt : true
-      },
-      {
-        name  : 'paddingRight',
-        asInt : true
-      }
-      ];
-
       this._elementProperties = {
         paddingTop    : parseInt(qx.bom.element.Style.get(this.__element, "paddingTop")),
         paddingRight  : parseInt(qx.bom.element.Style.get(this.__element, "paddingRight")),
