@@ -2079,7 +2079,7 @@ qx.Class.define("qx.ui.core.Widget",
 
         selector = this.__selector = id.reverse().join("/");
       }
-
+      
       // Query current selector
       var newData = qx.theme.manager.Appearance.getInstance().styleFrom(selector, states);
       if (!newData) {
