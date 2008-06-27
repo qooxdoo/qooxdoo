@@ -433,7 +433,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
         return {
           decorator       : "black",
           textColor       : states.disabled ? "text-disabled" : "undefined",
-          backgroundColor : states.focused ? "#C1E9F5" : "field"
+          backgroundColor : states.focused ? "#C1E9F5" : "field",
+          font : "large"
         };
       }
     },
@@ -443,9 +444,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          padding: [1, 3],
-          font : "large",
-          textColor : "red"
+          padding: [2, 5]
         };
       }      
     },
@@ -457,7 +456,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
         return {
           icon : "decoration/arrows/up-small.gif",
           backgroundColor : states.pressed ? "#8ED721" : "#679C18",
-          padding : 6
+          padding : [ 4, 8 ]
         }
       }
     },
@@ -469,7 +468,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
         return {
           icon : "decoration/arrows/down-small.gif",
           backgroundColor : states.pressed ? "#E96241" : "#D53E18",
-          padding : 6
+          padding : [ 4, 8 ]
         };
       }
     },
