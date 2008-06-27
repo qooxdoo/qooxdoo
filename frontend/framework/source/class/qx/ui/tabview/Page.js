@@ -18,9 +18,6 @@
 
 ************************************************************************ */
 
-/**
- * @appearance tabview/page
- */
 qx.Class.define("qx.ui.tabview.Page",
 {
   extend : qx.ui.container.Composite,
