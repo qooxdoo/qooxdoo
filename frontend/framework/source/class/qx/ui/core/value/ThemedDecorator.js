@@ -24,7 +24,7 @@ qx.Class.define("qx.ui.core.value.ThemedDecorator",
     },
 
     reset : function(element) {
-      this.__deco.reset();
+      this.__deco.reset(element);
     },
 
     getInsets : function() {
