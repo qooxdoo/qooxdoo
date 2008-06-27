@@ -125,8 +125,46 @@ qx.Class.define("qx.theme.manager.Appearance",
      */
     styleFromTheme : function(theme, id, states)
     {
-      var entry = theme.appearances[id];
+      var db = theme.appearances;
+      var entry = db[id];
+      
+      if (!entry)
+      {
+        var divider = "/";
+        var end = [];
+        var splitted = id.split(divider);
+        var alias;
+        
+        while (!entry)
+        {
+          end.unshift(splitted.pop());
+          baseid = splitted.join(divider);
+          entry = db[baseid];
+          
+          if (entry)
+          {
+            alias = entry.alias || entry;
+            
+            if (typeof alias === "string") 
+            {
+              var mapped = alias + divider + end.join(divider);
+              this.debug("Linking: " + id + " to " + mapped);            
+              entry = db[id] = db[mapped];
+              id = mapped;
+              break;
+            }
+          }
 
+          entry = null; 
+        }
+      }
+      
+      // Support for direct aliases
+      else if (typeof entry === "string") {
+        entry = db[entry]
+      }
+      
+      // Check if the entry was finally found
       if (!entry)
       {
         if (qx.core.Variant.isSet("qx.debug", "on"))

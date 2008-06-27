@@ -190,48 +190,13 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
     
-    "list/pane" : {},
-    "list/corner" : {},
-    
-    "list/scrollbar-x" : {
-      include : "scrollbar"
-    },
-    
-    "list/scrollbar-x/slider" : {
-      include : "scrollbar/slider"
-    },    
-    
-    "list/scrollbar-x/slider/knob" : {
-      include : "scrollbar/slider/knob"
-    },    
+    "list/pane" : "widget",
+    "list/corner" : "widget",
+    "list/scrollbar-x" : "scrollbar",
+    "list/scrollbar-y" : "scrollbar",
 
-    "list/scrollbar-x/button-begin" : {
-      include : "scrollbar/button-begin"
-    },    
-
-    "list/scrollbar-x/button-end" : {
-      include : "scrollbar/button-end"
-    },    
-
-    "list/scrollbar-y" : {
-      include : "scrollbar"
-    },
     
-    "list/scrollbar-y/slider" : {
-      include : "scrollbar/slider"
-    },    
-    
-    "list/scrollbar-y/slider/knob" : {
-      include : "scrollbar/slider/knob"
-    },    
-
-    "list/scrollbar-y/button-begin" : {
-      include : "scrollbar/button-begin"
-    },    
-
-    "list/scrollbar-y/button-end" : {
-      include : "scrollbar/button-end"
-    },     
+  
     
     
     
@@ -244,6 +209,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     "listitem" :
     {
+      alias : "atom",
       states : [ "lead", "selected" ],
       
       style : function(states)
@@ -258,13 +224,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
     
-    "listitem/label" : {
-      include : "label"
-    },
-    
-    "listitem/icon" : {
-      include : "image"
-    },
         
 
 
@@ -454,6 +413,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
     
     "colored-spinner" : 
     {
+      states : [ "focused", "disabled" ],
+      
       style : function(states)
       {
         return {
@@ -1298,9 +1259,10 @@ qx.Theme.define("qx.theme.classic.Appearance",
     ---------------------------------------------------------------------------
     */
 
-    "selectbox" : {
-      include : "button"
-    },
+    "selectbox" : "button",
+    "selectbox/atom" : "atom",
+    "selectbox/popup" : "popup",
+    "selectbox/list" : "list",
 
     "selectbox/arrow" :
     {
@@ -1311,74 +1273,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
           paddingLeft : 5
         };
       }
-    },
-    
-    "selectbox/atom" :  {
-      include : "atom"
-    },
-
-    "selectbox/atom/label" :  {
-      include : "atom/label"
-    },
-    
-    "selectbox/atom/icon" :  {
-      include : "atom/icon"
-    },
-    
-    "selectbox/arrow" : {
-      include : "image"  
     },    
-        
-    "selectbox/popup" :  {
-      include : "popup"
-    },
-
-    "selectbox/list" :  {
-      include : "list"
-    },
-    
-    "selectbox/list/pane" : {},
-    "selectbox/list/corner" : {},
-    
-    "selectbox/list/scrollbar-x" : {
-      include : "list/scrollbar-x"
-    },
-    
-    "selectbox/list/scrollbar-x/slider" : {
-      include : "list/scrollbar-x/slider"
-    },    
-    
-    "selectbox/list/scrollbar-x/slider/knob" : {
-      include : "list/scrollbar-x/slider/knob"
-    },    
-
-    "selectbox/list/scrollbar-x/button-begin" : {
-      include : "list/scrollbar-x/button-begin"
-    },    
-
-    "selectbox/list/scrollbar-x/button-end" : {
-      include : "list/scrollbar-x/button-end"
-    },    
-
-    "selectbox/list/scrollbar-y" : {
-      include : "list/scrollbar-y"
-    },
-    
-    "selectbox/list/scrollbar-y/slider" : {
-      include : "list/scrollbar-y/slider"
-    },    
-    
-    "selectbox/list/scrollbar-y/slider/knob" : {
-      include : "list/scrollbar-y/slider/knob"
-    },    
-
-    "selectbox/list/scrollbar-y/button-begin" : {
-      include : "list/scrollbar-y/button-begin"
-    },    
-
-    "selectbox/list/scrollbar-y/button-end" : {
-      include : "list/scrollbar-y/button-end"
-    }, 
+            
     
 
     
@@ -1390,10 +1286,24 @@ qx.Theme.define("qx.theme.classic.Appearance",
     ---------------------------------------------------------------------------
     */
 
-    "combobox" : {
-      include : "spinner"
-    },
-
+    "combobox" :
+    {
+      states : [ "focused", "disabled" ],
+      
+      style : function(states)
+      {
+        return {
+          decorator       : states.focused ? "focused-inset" : "inset",
+          textColor       : states.disabled ? "text-disabled" : "undefined",
+          backgroundColor : "field"
+        };
+      }
+    },    
+    
+    "combobox/button" : "button",    
+    "combobox/popup" : "popup",
+    "combobox/list" : "list",
+    
     "combobox/textfield" : 
     {
       style : function(states)
@@ -1402,65 +1312,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
           padding: [2, 3]
         };
       }
-    },
-
-    "combobox/button" : {
-      include : "button"
-    },
-    
-    "combobox/button/icon" : {
-      include : "image"  
-    },    
-
-    "combobox/popup" :  {
-      include : "popup"
-    },
-
-    "combobox/list" :  {
-      include : "list"
-    },
-    
-    "combobox/list/pane" : {},
-    "combobox/list/corner" : {},
-    
-    "combobox/list/scrollbar-x" : {
-      include : "list/scrollbar-x"
-    },
-    
-    "combobox/list/scrollbar-x/slider" : {
-      include : "list/scrollbar-x/slider"
-    },    
-    
-    "combobox/list/scrollbar-x/slider/knob" : {
-      include : "list/scrollbar-x/slider/knob"
-    },    
-
-    "combobox/list/scrollbar-x/button-begin" : {
-      include : "list/scrollbar-x/button-begin"
-    },    
-
-    "combobox/list/scrollbar-x/button-end" : {
-      include : "list/scrollbar-x/button-end"
-    },    
-
-    "combobox/list/scrollbar-y" : {
-      include : "list/scrollbar-y"
-    },
-    
-    "combobox/list/scrollbar-y/slider" : {
-      include : "list/scrollbar-y/slider"
-    },    
-    
-    "combobox/list/scrollbar-y/slider/knob" : {
-      include : "list/scrollbar-y/slider/knob"
-    },    
-
-    "combobox/list/scrollbar-y/button-begin" : {
-      include : "list/scrollbar-y/button-begin"
-    },    
-
-    "combobox/list/scrollbar-y/button-end" : {
-      include : "list/scrollbar-y/button-end"
     }
   }
 });
