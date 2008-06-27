@@ -111,6 +111,7 @@ qx.Class.define("demobrowser.demo.widget.Spinner",
       
       // ----- Spinner 7 -----
       var s7 = new qx.ui.form.Spinner(-30, 30, 30);
+      s7.setAllowGrowY(false);
       container.add(new qx.ui.basic.Label("Styled"), {column: 0, row: row});
       container.add(new qx.ui.basic.Label("30"), {column: 1, row: row});
       container.add(s7, {column: 2, row: row});

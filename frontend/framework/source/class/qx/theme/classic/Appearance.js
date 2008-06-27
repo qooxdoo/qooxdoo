@@ -385,7 +385,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          padding: [1, 3]
+          padding: [2, 3]
         };
       }
     },
@@ -438,7 +438,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          decorator       : "black",
+          decorator       : "outset",
           textColor       : states.disabled ? "text-disabled" : "undefined",
           backgroundColor : states.focused ? "#C1E9F5" : "field",
           font : "large"
@@ -451,7 +451,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          padding: [2, 5]
+          padding: [3, 5]
         };
       }      
     },
