@@ -416,6 +416,64 @@ qx.Theme.define("qx.theme.classic.Appearance",
         };
       }
     },
+    
+    
+    
+    
+    /*
+    ---------------------------------------------------------------------------
+      COLORED SPINNER
+    ---------------------------------------------------------------------------
+    */    
+    
+    "colored-spinner" : 
+    {
+      style : function(states)
+      {
+        return {
+          decorator       : "black",
+          textColor       : states.disabled ? "text-disabled" : "undefined",
+          backgroundColor : states.focused ? "#C1E9F5" : "field"
+        };
+      }
+    },
+    
+    "colored-spinner/textfield" : 
+    {
+      style : function(states)
+      {
+        return {
+          padding: [1, 3],
+          font : "large",
+          textColor : "red"
+        };
+      }      
+    },
+
+    "colored-spinner/upbutton" : 
+    {
+      style : function(states)
+      {
+        return {
+          icon : "decoration/arrows/up-small.gif",
+          backgroundColor : states.pressed ? "#8ED721" : "#679C18",
+          padding : 6
+        }
+      }
+    },
+
+    "colored-spinner/downbutton" : 
+    {
+      style : function(states)
+      {
+        return {
+          icon : "decoration/arrows/down-small.gif",
+          backgroundColor : states.pressed ? "#E96241" : "#D53E18",
+          padding : 6
+        };
+      }
+    },
+    
 
 
 
@@ -836,7 +894,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
     ---------------------------------------------------------------------------
     */
     
-    "scrollarea-corner" :
+    "scrollarea/corner" :
     {
       style : function()
       {
