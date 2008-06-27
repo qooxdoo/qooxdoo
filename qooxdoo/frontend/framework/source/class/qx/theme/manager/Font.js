@@ -24,9 +24,6 @@ qx.Class.define("qx.theme.manager.Font",
   extend : qx.util.ValueManager,
 
 
-
-
-
   /*
   *****************************************************************************
      PROPERTIES
@@ -81,17 +78,6 @@ qx.Class.define("qx.theme.manager.Font",
     },
 
 
-    /**
-     * Sync dependend objects with internal database
-     *
-     * @type member
-     * @return {void}
-     */
-    syncFontTheme : function() {
-      this.updateAll();
-    },
-
-
     _applyTheme : function(value)
     {
       var dest = this._dynamic;
@@ -115,10 +101,6 @@ qx.Class.define("qx.theme.manager.Font",
           dest[key] = (new font).set(source[key]);
           dest[key].themed = true;
         }
-      }
-
-      if (qx.theme.manager.Meta.getInstance().getAutoSync()) {
-        this.syncFontTheme();
       }
     }
   }

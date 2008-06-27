@@ -19,13 +19,13 @@ qx.Mixin.define("qx.ui.core.MThemeTransform",
     _resolveThemedDecorator : function(value)
     {
       // shortcut
-      if (value.render) {
+      if (value.getValue) {
         return value;
       }
 
       var mgr = qx.theme.manager.Decoration.getInstance();
       if (mgr.isDynamic(value)) {
-        return new qx.ui.core.value.ThemedDecorator(mgr.resolveDynamic(value), value);
+        return mgr.resolveDynamic(value);
       }
 
       return value;
@@ -33,16 +33,22 @@ qx.Mixin.define("qx.ui.core.MThemeTransform",
 
     _resolveThemedFont : function(value)
     {
-      if (value.getStyles) {
+      if (value.getValue) {
         return value;
       }
 
       var mgr = qx.theme.manager.Font.getInstance();
       if (mgr.isDynamic(value)) {
-        return new qx.ui.core.value.ThemedFont(mgr.resolveDynamic(value), value);
+        return mgr.resolveDynamic(value);
       }
 
       return value;
+    },
+
+    _resolveThemedIcon : function(value)
+    {
+      var mgr = qx.util.AliasManager.getInstance();
+      return mgr.resolve(value);
     }
   }
 });
