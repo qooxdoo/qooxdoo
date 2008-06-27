@@ -152,7 +152,7 @@ qx.Class.define("qx.legacy.ui.embed.IconHtmlEmbed",
           vSource = this.getIcon();
         }
 
-        vHtml.push(qx.util.ResourceManager.toUri(qx.util.AliasManager.getInstance().resolve(vSource)));
+        vHtml.push(qx.util.ResourceManager.toUri(qx.legacy.util.AliasManager.getInstance().resolve(vSource)));
 
         vHtml.push("\" style=\"vertical-align:middle;");
 
@@ -183,7 +183,7 @@ qx.Class.define("qx.legacy.ui.embed.IconHtmlEmbed",
           {
             vHtml.push("filter:");
             vHtml.push("progid:DXImageTransform.Microsoft.AlphaImageLoader(src='");
-            vHtml.push(qx.util.ResourceManager.toUri(qx.util.AliasManager.getInstance().resolve(this.getIcon())));
+            vHtml.push(qx.util.ResourceManager.toUri(qx.legacy.util.AliasManager.getInstance().resolve(this.getIcon())));
             vHtml.push("',sizingMethod='scale')");
             vHtml.push(";");
           }
