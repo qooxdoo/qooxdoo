@@ -49,13 +49,14 @@ qx.Class.define("demobrowser.demo.widget.List",
       for( var i=1; i<=25; i++ )
       {
         item = new qx.ui.form.ListItem("Item No " + i, "icon/16/places/folder.png");
-        // Pre-Select "Item No 20"
-        if (i==13) {
+        // Pre-Select "Item No 16"
+        if (i==16) {
           oneList.select(item);
         }
         oneList.add(item);
       };
       this.getRoot().add(oneList, {left: 330, top: 40});
+      return;
       ////////////////////////////////////////////////////////////////
 
 
