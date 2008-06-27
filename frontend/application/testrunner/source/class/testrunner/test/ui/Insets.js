@@ -54,15 +54,6 @@ qx.Class.define("testrunner.test.ui.Insets",
       widget.setDecorator(deco);
       this.assertPadding(widget, 0, 0, 0, 0);
 
-      deco.setWidth(2);
-      this.assertPadding(widget, 2, 2, 2, 2);
-
-      deco.setWidth(4, 6);
-      this.assertPadding(widget, 4, 6, 4, 6);
-
-      deco.setWidth(1, 2, 3, 4);
-      this.assertPadding(widget, 1, 2, 3, 4);
-
       this.getRoot().remove(widget);
       widget.dispose();
     },
