@@ -19,42 +19,27 @@
 
 ************************************************************************ */
 
-/**
- * @appearance radiobutton-groupbox-legend {qx.ui.form.RadioButton}
- */
 qx.Class.define("qx.ui.groupbox.RadioGroupBox",
 {
   extend : qx.ui.groupbox.GroupBox,
 
-
-
-
-
-  /*
-  *****************************************************************************
-     MEMBERS
-  *****************************************************************************
-  */
-
   members :
   {
-    /**
-     * Creates the legend sub widget. Instead of the normal <code>qx.ui.basic.Atom</code>
-     * a <code>qx.ui.form.RadioButton</code> is used.
-     *
-     * @type member
-     * @return {void}
-     */
-    _createLegendObject : function()
+    // overridden
+    _createChildControlImpl : function(id)
     {
-      this._legendObject = new qx.ui.form.RadioButton;
-      this._legendObject.setAppearance("radiobutton-groupbox-legend");
-      this._legendObject.setChecked(true);
+      var control;
 
-      this._add(this._legendObject);
-    },
-
-    setIcon : null,
-    getIcon : null
+      switch(id)
+      {
+        case "legend":
+          control = new qx.ui.form.RadioButton;
+          control.setChecked(true);
+    
+          this._add(control);
+      }
+      
+      return control || this.base(arguments, id);
+    }
   }
 });
