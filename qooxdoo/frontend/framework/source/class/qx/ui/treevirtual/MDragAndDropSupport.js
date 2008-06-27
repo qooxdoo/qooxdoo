@@ -529,7 +529,7 @@ qx.Mixin.define("qx.ui.treevirtual.MDragAndDropSupport",
 
         // calculate row and mouse Y position within row
         var paneClipperElem = scroller._paneClipper.getElement();
-        var paneClipperTopY = qx.html.Location.getClientBoxTop(paneClipperElem);
+        var paneClipperTopY = qx.bom.element.Location.getTop(paneClipperElem);
         var rowHeight = scroller.getTable().getRowHeight();
         var scrollY = scroller._verScrollBar.getValue();
         if (scroller.getTable().getKeepFirstVisibleRowComplete()) {
