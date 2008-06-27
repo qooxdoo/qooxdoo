@@ -23,35 +23,240 @@
 
 ************************************************************************ */
 
-qx.Mixin.define("qx.core.Assert",
+/**
+ * A collection of assertions.
+ * 
+ * These methods can be used to assert incoming parameters, return values, ...
+ * If an assertion fails an {@link AssertionError} is thrown.
+ * 
+ * Assertions are used in unit tests as well.
+ */
+qx.Class.define("qx.core.Assert",
 {
   statics :
   {
     /**
-     * TODOC
+     * Assert that the condition evaluates to <code>true</code>. An
+     * {@link AssertionError} is thrown if otherwise.
      *
-     * @type member
-     * @return {void}
+     * @param condition {var} Condition to check for. Must evaluate to
+     *    <code>true</code>.
+     * @param comment {String} Message to be shown if the assertion fails. This
+     *    message is provided by the user.
+     * @param msg {String} Fail message defined in the calling assertion 
      */
-    assertJsonEquals : function(expected, found, msg) {
-      this.assertEquals(qx.util.Json.stringify(expected), qx.util.Json.stringify(found), msg);
+    __assert : function(condition, comment, msg)
+    {
+      if (!condition) {
+        throw new qx.core.AssertionError(comment, msg);
+      }
     },
 
 
     /**
-     * TODOC
+     * Assert that the condition evaluates to <code>true</code>.
      *
-     * @type member
-     * @param str {String} TODOC
-     * @param re {var} TODOC
-     * @param msg {String} Message to be shown if the assertion failes.
-     * @return {void}
+     * @param condition {var} Condition to check for. Must evaluate to
+     *    <code>true</code>.
+     * @param msg {String} Message to be shown if the assertion fails.
      */
-    assertMatch : function(str, re, msg) {
-      this.__assert(str.search(re) >= 0 ? true : false, msg || "", "The String '" + str + "' does not match the regular expression '" + re.toString() + "'!");
+    assert : function(condition, msg) {
+      this.__assert(condition == true, msg || "", "Called assert with 'false'");
     },
 
 
+    /**
+     * Raise an {@link AssertionError}
+     *
+     * @param msg {String} Message to be shown if the assertion fails.
+     */
+    fail : function(msg) {
+      this.__assert(false, msg || "", "Called fail().");
+    },
+
+
+    /**
+     * Assert that the value is <code>true</code> (Identity check).
+     *
+     * @param value {Boolean} Condition to check for. Must be identical to
+     *    <code>true</code>.
+     * @param msg {String} Message to be shown if the assertion fails.
+     */
+    assertTrue : function(value, msg) {
+      this.__assert(value === true, msg || "", "Called assertTrue with 'false'");
+    },
+
+
+    /**
+     * Assert that the value is <code>false</code> (Identity check).
+     *
+     * @param value {Boolean} Condition to check for. Must be identical to
+     *    <code>false</code>.
+     * @param msg {String} Message to be shown if the assertion fails.
+     */
+    assertFalse : function(value, msg) {
+      this.__assert(value === false, msg || "", "Called assertFalse with 'true'");
+    },
+
+
+    /**
+     * Assert that both values are equal. (Uses the equality operator
+     * <code>==</code>.) 
+     *
+     * @param expected {var} Reference value
+     * @param found {var} found value
+     * @param msg {String} Message to be shown if the assertion fails.
+     */
+    assertEquals : function(expected, found, msg)
+    {
+      this.__assert(
+        expected == found,
+        msg || "",
+        "Expected '" + expected + "' but found '" + found + "'!"
+      );
+    },
+
+
+    /**
+     * Assert that both values are identical. (Uses the identity operator
+     * <code>===</code>.) 
+     *
+     * @param expected {var} Reference value
+     * @param found {var} found value
+     * @param msg {String} Message to be shown if the assertion fails.
+     */
+    assertIdentical : function(expected, found, msg)
+    {
+      this.__assert(
+        expected === found, 
+        msg || "", 
+        "Expected '" + expected + "' (identical) but found '" + found + "'!"
+      );
+    },
+
+
+    /**
+     * Assert that both values are not identical. (Uses the not identity operator
+     * <code>!==</code>.) 
+     *
+     * @param expected {var} Reference value
+     * @param found {var} found value
+     * @param msg {String} Message to be shown if the assertion fails.
+     */
+    assertNotIdentical : function(expected, found, msg) 
+    {
+      this.__assert(
+        expected !== found, 
+        msg || "", 
+        "Expected '" + expected + "' to be not identical with '" + found + "'!"
+      );
+    },
+
+
+    /**
+     * Assert that the value is not <code>undefined</code>. 
+     *
+     * @param value {var} Value to check
+     * @param msg {String} Message to be shown if the assertion fails.
+     */
+    assertNotUndefined : function(value, msg) 
+    {
+      this.__assert(
+        value !== undefined,
+        msg || "",
+        "Expected value not to be undefined but found " + value + "!"
+      );
+    },
+
+
+    /**
+     * Assert that the value is <code>undefined</code>. 
+     *
+     * @param value {var} Value to check
+     * @param msg {String} Message to be shown if the assertion fails.
+     */
+    assertUndefined : function(value, msg) 
+    {
+      this.__assert(
+        value === undefined, 
+        msg || "", 
+        "Expected value to be undefined but found " + value + "!"
+      );
+    },
+
+
+    /**
+     * Assert that the value is not <code>null</code>. 
+     *
+     * @param value {var} Value to check
+     * @param msg {String} Message to be shown if the assertion fails.
+     */
+    assertNotNull : function(value, msg) 
+    {
+      this.__assert(
+        value !== null, 
+        msg || "", 
+        "Expected value not to be null but found " + value + "!"
+      );
+    },
+
+
+    /**
+     * Assert that the value is <code>null</code>. 
+     *
+     * @param value {var} Value to check
+     * @param msg {String} Message to be shown if the assertion fails.
+     */
+    assertNull : function(value, msg) 
+    {
+      this.__assert(value === null,
+        msg || "", 
+        "Expected value to be null but found " + value + "!"
+      );
+    },
+
+
+    /**
+     * Assert that the first two arguments are equal, when serialized into
+     * JSON.
+     *
+     * @param expected {var} The the expected value
+     * @param found {var} The found value
+     * @param msg {String} Message to be shown if the assertion fails.
+     */
+    assertJsonEquals : function(expected, found, msg) {
+      this.assertEquals(
+        qx.util.Json.stringify(expected),
+        qx.util.Json.stringify(found),
+        msg
+      );
+    },
+
+
+    /**
+     * Assert that the given string matches the regular expression
+     *
+     * @param str {String} String, which should match the regular expression
+     * @param re {RegExp} Regular expression to match
+     * @param msg {String} Message to be shown if the assertion fails.
+     */
+    assertMatch : function(str, re, msg) {
+      this.__assert(
+        str.search(re) >= 0 ? true : false,
+        msg || "",
+        "The String '" + str + "' does not match the regular expression '" + re.toString() + "'!"
+      );
+    },
+
+
+    /**
+     * Assert that the number of arguments is within the given range
+     *
+     * @param args {arguments} The <code>arguments<code> variable of a function
+     * @param minCount {Integer} Minimal number of arguments
+     * @param maxCount {Integer} Maximum number of arguments
+     * @param msg {String} Message to be shown if the assertion fails.
+     */
     assertArgumentsCount : function(args, minCount, maxCount, msg)
     {
       var argCount = args.length;
@@ -73,7 +278,7 @@ qx.Mixin.define("qx.core.Assert",
      *   parameter.
      * @param re {String|RegExp} The assertion fails if the error message does
      *   not match this parameter
-     * @param msg {String} Message to be shown if the assertion failes.
+     * @param msg {String} Message to be shown if the assertion fails.
      */
     assertException : function(callback, exception, re, msg)
     {
@@ -99,168 +304,12 @@ qx.Mixin.define("qx.core.Assert",
 
 
     /**
-     * TODOC
-     *
-     * @type member
-     * @param condition {var} TODOC
-     * @param comment {var} TODOC
-     * @param failMsg {var} TODOC
-     * @return {void}
-     * @throws TODOC
+     * Assert the the value is an item in the given array.
+     * 
+     * @param value {var} Value to check
+     * @param array {Array} List of valid values
+     * @param msg {String} Message to be shown if the assertion fails. 
      */
-    __assert : function(condition, comment, failMsg)
-    {
-      if (!condition) {
-        throw new qx.core.AssertionError(comment, failMsg);
-      }
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param bool {var} TODOC
-     * @param msg {String} Message to be shown if the assertion failes.
-     * @return {void}
-     */
-    assert : function(bool, msg) {
-      this.__assert(bool == true, msg || "", "Called assert with 'false'");
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param msg {String} Message to be shown if the assertion failes.
-     * @return {void}
-     */
-    fail : function(msg) {
-      this.__assert(false, msg || "", "Called fail().");
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param bool {var} TODOC
-     * @param msg {String} Message to be shown if the assertion failes.
-     * @return {void}
-     */
-    assertTrue : function(bool, msg) {
-      this.__assert(bool === true, msg || "", "Called assertTrue with 'false'");
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param bool {var} TODOC
-     * @param msg {String} Message to be shown if the assertion failes.
-     * @return {void}
-     */
-    assertFalse : function(bool, msg) {
-      this.__assert(bool === false, msg || "", "Called assertFalse with 'true'");
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param expected {var} TODOC
-     * @param found {var} TODOC
-     * @param msg {String} Message to be shown if the assertion failes.
-     * @return {void}
-     */
-    assertEquals : function(expected, found, msg) {
-      this.__assert(expected == found, msg || "", "Expected '" + expected + "' but found '" + found + "'!");
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param expected {var} TODOC
-     * @param found {var} TODOC
-     * @param msg {String} Message to be shown if the assertion failes.
-     * @return {void}
-     */
-    assertIdentical : function(expected, found, msg) {
-      this.__assert(expected === found, msg || "", "Expected '" + expected + "' (identical) but found '" + found + "'!");
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param expected {var} TODOC
-     * @param found {var} TODOC
-     * @param msg {String} Message to be shown if the assertion failes.
-     * @return {void}
-     */
-    assertNotIdentical : function(expected, found, msg) {
-      this.__assert(expected !== found, msg || "", "Expected '" + expected + "' to be not identical with '" + found + "'!");
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param value {var} TODOC
-     * @param msg {String} Message to be shown if the assertion failes.
-     * @return {void}
-     */
-    assertNotUndefined : function(value, msg) {
-      this.__assert(value !== undefined, msg || "", "Expected value not to be undefined but found " + value + "!");
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param value {var} TODOC
-     * @param msg {String} Message to be shown if the assertion failes.
-     * @return {void}
-     */
-    assertUndefined : function(value, msg) {
-      this.__assert(value === undefined, msg || "", "Expected value to be undefined but found " + value + "!");
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param value {var} TODOC
-     * @param msg {String} Message to be shown if the assertion failes.
-     * @return {void}
-     */
-    assertNotNull : function(value, msg) {
-      this.__assert(value !== null, msg || "", "Expected value not to be null but found " + value + "!");
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param value {var} TODOC
-     * @param msg {String} Message to be shown if the assertion failes.
-     * @return {void}
-     */
-    assertNull : function(value, msg) {
-      this.__assert(value === null, msg || "", "Expected value to be null but found " + value + "!");
-    },
-
-
     assertInArray : function(value, array, msg)
     {
       this.__assert(
@@ -273,12 +322,10 @@ qx.Mixin.define("qx.core.Assert",
 
 
     /**
-     * TODOC
-     *
-     * @type member
-     * @param value {var} TODOC
-     * @param msg {String} Message to be shown if the assertion failes.
-     * @return {void}
+     * Assert the the value is a function.
+     * 
+     * @param value {var} Value to check
+     * @param msg {String} Message to be shown if the assertion fails. 
      */
     assertFunction : function(value, msg) {
       this.__assert(
@@ -290,12 +337,10 @@ qx.Mixin.define("qx.core.Assert",
 
 
     /**
-     * TODOC
-     *
-     * @type member
-     * @param value {var} TODOC
-     * @param msg {String} Message to be shown if the assertion failes.
-     * @return {void}
+     * Assert the the value is a string.
+     * 
+     * @param value {var} Value to check
+     * @param msg {String} Message to be shown if the assertion fails. 
      */
     assertString : function(value, msg) {
       this.__assert(
@@ -307,19 +352,29 @@ qx.Mixin.define("qx.core.Assert",
 
 
     /**
-     * TODOC
-     *
-     * @type member
-     * @param value {var} TODOC
-     * @param msg {String} Message to be shown if the assertion failes.
-     * @return {void}
+     * Assert the the value is a number.
+     * 
+     * @param value {var} Value to check
+     * @param msg {String} Message to be shown if the assertion fails. 
      */
-    assertNumber : function(value, msg) {
-      this.__assert(typeof value === "number", msg || "", "Expected value to be typeof number but found " + value + "!");
+    assertNumber : function(value, msg) 
+    {
+      this.__assert(
+        typeof value === "number" || value instanceof Number, 
+        msg || "", 
+        "Expected value to be typeof number but found " + value + "!"
+      );
     },
 
 
-    assertInteger : function(value, msg) {
+    /**
+     * Assert the the value is an integer.
+     * 
+     * @param value {var} Value to check
+     * @param msg {String} Message to be shown if the assertion fails. 
+     */    
+    assertInteger : function(value, msg) 
+    {
       this.__assert(
         typeof value === "number" && isFinite(value) && value % 1 === 0,
         msg || "",
@@ -328,6 +383,14 @@ qx.Mixin.define("qx.core.Assert",
     },
 
 
+    /**
+     * Assert the the value is inside the given range.
+     * 
+     * @param value {var} Value to check
+     * @param min {Number} lower bound
+     * @param max {Number} upper bound
+     * @param msg {String} Message to be shown if the assertion fails. 
+     */
     assertInRange : function(value, min, max, msg) {
       this.__assert(
         value >= min && value <= max,
@@ -338,63 +401,109 @@ qx.Mixin.define("qx.core.Assert",
 
 
     /**
-     * TODOC
-     *
-     * @type member
-     * @param value {var} TODOC
-     * @param msg {String} Message to be shown if the assertion failes.
-     * @return {void}
+     * Assert the the value is an object.
+     * 
+     * @param value {var} Value to check
+     * @param msg {String} Message to be shown if the assertion fails. 
      */
-    assertObject : function(value, msg) {
-      this.__assert(typeof value === "object" && value !== null, msg || "", "Expected value to be typeof object but found " + value + "!");
+    assertObject : function(value, msg) 
+    {
+      this.__assert(
+        typeof value === "object" && value !== null, 
+        msg || "", 
+        "Expected value to be typeof object but found " + value + "!"
+      );
     },
 
 
     /**
-     * TODOC
-     *
-     * @type member
-     * @param value {var} TODOC
-     * @param msg {String} Message to be shown if the assertion failes.
-     * @return {void}
+     * Assert the the value is an array.
+     * 
+     * @param value {var} Value to check
+     * @param msg {String} Message to be shown if the assertion fails. 
      */
-    assertArray : function(value, msg) {
-      this.__assert(value instanceof Array, msg || "", "Expected value to be an array but found " + value + "!");
+    assertArray : function(value, msg)
+    {
+      this.__assert(
+        value instanceof Array,
+        msg || "",
+        "Expected value to be an array but found " + value + "!"
+      );
     },
 
 
     /**
-     * TODOC
-     *
-     * @type member
-     * @param value {var} TODOC
-     * @param msg {String} Message to be shown if the assertion failes.
-     * @return {void}
+     * Assert the the value is a map either created using <code>new Object</code>
+     * or by using the object literal notation <code>{ ... }</code>.
+     * 
+     * @param value {var} Value to check
+     * @param msg {String} Message to be shown if the assertion fails. 
      */
-    assertMap : function(value, msg) {
-      this.__assert(typeof value === "object" && !(value instanceof Array) && !(value instanceof qx.core.Object), msg || "", "Expected value to be a map but found " + value + "!");
+    assertMap : function(value, msg)
+    {
+      var objConstructor = ({}).constructor;
+      this.__assert(
+        value.constructor === objConstructor,
+        msg || "",
+        "Expected value to be a map but found " + value + "!"
+      );
     },
 
-    assertType : function(value, type, msg) {
-      this.__assert(typeof(value) === type, msg || "", "Expected value to be typeof '" + type + "' but found " + value + "!");
+    
+    /**
+     * Assert the the value has the given type using the <code>typeof</code>
+     * operator. Because the type is not always what it is supposed to be it is
+     * better to use more explicit checks like {@link #assertString} or
+     * {@link #assertArray}.
+     * 
+     * @param value {var} Value to check
+     * @param type {String} expected type of the value
+     * @param msg {String} Message to be shown if the assertion fails. 
+     */
+    assertType : function(value, type, msg) 
+    {
+      this.__assert(
+        typeof(value) === type,
+        msg || "",
+        "Expected value to be typeof '" + type + "' but found " + value + "!"
+      );
     },
 
-    assertInstance : function(value, clazz, msg) {
-      this.__assert(value instanceof clazz, msg || "", "Expected value to be instanceof '" + clazz + "' but found " + value + "!");
+    
+    /**
+     * Assert the the value is an instance of the given class.
+     * 
+     * @param value {var} Value to check
+     * @param clazz {Class} The value must be an instance of this class
+     * @param msg {String} Message to be shown if the assertion fails. 
+     */
+    assertInstance : function(value, clazz, msg) 
+    {
+      this.__assert(
+        value instanceof clazz,
+        msg || "",
+        "Expected value to be instanceof '" + clazz + "' but found " + value + "!"
+      );
     },
 
-    assertInterface : function(object, iface, msg) {
-      this.__assert(qx.Class.hasInterface(object, iface), msg || "", "Expected object '" + object + "' to implement the interface '" + iface + "'!");
+    
+    /**
+     * Assert the the value implements the given interface.
+     * 
+     * @param value {var} Value to check
+     * @param iface {Class} The value must implement this interface
+     * @param msg {String} Message to be shown if the assertion fails. 
+     */
+    assertInterface : function(value, iface, msg) {
+      this.__assert(qx.Class.hasInterface(value, iface), msg || "", "Expected object '" + object + "' to implement the interface '" + iface + "'!");
     },
 
 
     /**
-     * TODOC
-     *
-     * @type member
-     * @param value {var} TODOC
-     * @param msg {String} Message to be shown if the assertion failes.
-     * @return {void}
+     * Assert the the value is an instance of {@link qx.core.Object}.
+     * 
+     * @param value {var} Value to check
+     * @param msg {String} Message to be shown if the assertion fails. 
      */
     assertQxObject : function(value, msg) {
       this.__assert(value instanceof qx.core.Object, msg || "", "Expected value to be a qooxdoo object but found " + value + "!");
@@ -402,165 +511,13 @@ qx.Mixin.define("qx.core.Assert",
 
 
     /**
-     * TODOC
-     *
-     * @type member
-     * @param value {var} TODOC
-     * @param msg {String} Message to be shown if the assertion failes.
-     * @return {void}
+     * Assert the the value is an instance of {@link qx.ui.core.Widget}.
+     * 
+     * @param value {var} Value to check
+     * @param msg {String} Message to be shown if the assertion fails. 
      */
     assertQxWidget : function(value, msg) {
       this.__assert(value instanceof qx.ui.core.Widget, msg || "", "Expected value to be a qooxdoo widget but found " + value + "!");
-    },
-
-
-    /**
-     *
-     * This assertion is only evaluated if "qx.debug" if "on"
-     * @signature function(expected, found, msg)
-     */
-    assertJsonEqualsDebugOn : qx.core.Variant.select("qx.debug",
-    {
-      "on" : function(expected, found, msg) {
-        this.assertJsonEquals(expected, found, msg);
-      },
-
-      "off" : function(expected, found, msg) {}
-    }),
-
-
-    /**
-     *
-     * This assertion is only evaluated if "qx.debug" if "on"
-     * @signature function(str, re, msg)
-     */
-    assertMatchDebugOn : qx.core.Variant.select("qx.debug",
-    {
-      "on" : function(str, re, msg) {
-        this.assertMatch(str, re, msg);
-      },
-
-      "off" : function(str, re, msg) {}
-    }),
-
-
-    /**
-     *
-     * This assertion is only evaluated if "qx.debug" if "on"
-     * @signature function(callback, exception, re, msg)
-     */
-    assertExceptionDebugOn : qx.core.Variant.select("qx.debug",
-    {
-      "on" : function(callback, exception, re, msg) {
-        this.assertException(callback, exception, re, msg);
-      },
-
-      "off" : function(callback, exception, re, msg) {}
-    }),
-
-
-    /**
-     *
-     * This assertion is only evaluated if "qx.debug" if "on"
-     * @signature function(bool, msg)
-     */
-    assertDebugOn : qx.core.Variant.select("qx.debug",
-    {
-      "on" : function(bool, msg) {
-        this.assert(bool, msg);
-      },
-
-      "off" : function(bool, msg) {}
-    }),
-
-
-    /**
-     *
-     * This assertion is only evaluated if "qx.debug" if "on"
-     * @signature function(bool, msg)
-     */
-    assertTrueDebugOn : qx.core.Variant.select("qx.debug",
-    {
-      "on" : function(bool, msg) {
-        this.assertTrue(bool, msg);
-      },
-
-      "off" : function(bool, msg) {}
-    }),
-
-
-    /**
-     *
-     * This assertion is only evaluated if "qx.debug" if "on"
-     * @signature function(expected, found, msg)
-     */
-    assertEqualsDebugOn : qx.core.Variant.select("qx.debug",
-    {
-      "on" : function(expected, found, msg) {
-        this.assertEquals(expected, found, msg);
-      },
-
-      "off" : function(expected, found, msg) {}
-    }),
-
-
-    /**
-     *
-     * This assertion is only evaluated if "qx.debug" if "on"
-     * @signature function(value, msg)
-     */
-    assertNotUndefinedDebugOn : qx.core.Variant.select("qx.debug",
-    {
-      "on" : function(value, msg) {
-        this.assertNotUndefined(value, msg);
-      },
-
-      "off" : function(value, msg) {}
-    }),
-
-
-    /**
-     *
-     * This assertion is only evaluated if "qx.debug" if "on"
-     * @signature function(value, msg)
-     */
-    assertUndefinedDebugOn : qx.core.Variant.select("qx.debug",
-    {
-      "on" : function(value, msg) {
-        this.assertUndefined(value, msg);
-      },
-
-      "off" : function(value, msg) {}
-    }),
-
-
-    /**
-     *
-     * This assertion is only evaluated if "qx.debug" if "on"
-     * @signature function(value, msg)
-     */
-    assertNotNullDebugOn : qx.core.Variant.select("qx.debug",
-    {
-      "on" : function(value, msg) {
-        this.assertNotNull(value, msg);
-      },
-
-      "off" : function(value, msg) {}
-    }),
-
-
-    /**
-     *
-     * This assertion is only evaluated if "qx.debug" if "on"
-     * @signature function(value, msg)
-     */
-    assertNullDebugOn : qx.core.Variant.select("qx.debug",
-    {
-      "on" : function(value, msg) {
-        this.assertNull(value, msg);
-      },
-
-      "off" : function(value, msg) {}
-    })
+    }
   }
 });

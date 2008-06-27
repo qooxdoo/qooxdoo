@@ -37,10 +37,6 @@ qx.Class.define("testrunner.test.Interface",
         properties : { color : {} }
       });
 
-      this.assertExceptionDebugOn(function() {
-        var i = new testrunner.ICar();
-      }, Error);
-
       // test correct implementations
       qx.Class.define("testrunner.Audi",
       {
@@ -67,64 +63,72 @@ qx.Class.define("testrunner.test.Interface",
 
       var audi = new testrunner.Audi("audi");
 
-      // nothing defined
-      this.assertExceptionDebugOn(function()
+      if (this.isDebugOn())
       {
-        qx.Class.define("testrunner.Audi1",
+        this.assertException(function() {
+          var i = new testrunner.ICar();
+        }, Error);
+
+
+        // nothing defined
+        this.assertException(function()
         {
-          extend    : Object,
-          construct : function() {},
-          implement : [ testrunner.ICar ]
-        });
-      },
-      Error, new RegExp('Implementation of method .* is missing'));
+          qx.Class.define("testrunner.Audi1",
+          {
+            extend    : Object,
+            construct : function() {},
+            implement : [ testrunner.ICar ]
+          });
+        },
+        Error, new RegExp('Implementation of method .* is missing'));
 
-      // members not defined
-      this.assertExceptionDebugOn(function()
-      {
-        qx.Class.define("testrunner.Audi2",
+        // members not defined
+        this.assertException(function()
         {
-          extend : Object,
-          construct : function() {},
-          implement : [ testrunner.ICar ],
-
-          statics :
+          qx.Class.define("testrunner.Audi2",
           {
-            honk : function() {
-              return "honk";
-            }
-          },
+            extend : Object,
+            construct : function() {},
+            implement : [ testrunner.ICar ],
 
-          properties : { color : { } }
-        });
-      },
-      Error, 'Implementation of method "startEngine" is missing');
+            statics :
+            {
+              honk : function() {
+                return "honk";
+              }
+            },
 
-      // property not defined
-      this.assertExceptionDebugOn(function()
-      {
-        qx.Class.define("testrunner.Audi4",
+            properties : { color : { } }
+          });
+        },
+        Error, 'Implementation of method "startEngine" is missing');
+
+        // property not defined
+        this.assertException(function()
         {
-          extend : Object,
-          construct : function() {},
-          implement : [ testrunner.ICar ],
-
-          members :
+          qx.Class.define("testrunner.Audi4",
           {
-            startEngine : function() {
-              return "start";
-            }
-          },
+            extend : Object,
+            construct : function() {},
+            implement : [ testrunner.ICar ],
 
-          statics :
-          {
-            honk : function() {
-              return "honk";
+            members :
+            {
+              startEngine : function() {
+                return "start";
+              }
+            },
+
+            statics :
+            {
+              honk : function() {
+                return "honk";
+              }
             }
-          }
-        });
-      },
-      Error, new RegExp("property .* not supported"));
+          });
+        },
+        Error, new RegExp("property .* not supported"));
+      }
     },
 
 
@@ -195,29 +199,32 @@ qx.Class.define("testrunner.test.Interface",
       a.abs();
 
       // invalid usage
-      this.assertExceptionDebugOn(function() {
-        a.add(b, b);
-      }, qx.dev.unit.AssertionError, null, "a");
+      if (this.isDebugOn())
+      {
+        this.assertException(function() {
+          a.add(b, b);
+        }, qx.dev.unit.AssertionError, null, "a");
 
-      this.assertExceptionDebugOn(function() {
-        a.setReal();
-      }, qx.dev.unit.AssertionError, null, "b");
+        this.assertException(function() {
+          a.setReal();
+        }, qx.dev.unit.AssertionError, null, "b");
 
-      this.assertExceptionDebugOn(function() {
-        a.setReal(1, 2);
-      }, qx.dev.unit.AssertionError, null, "c");
+        this.assertException(function() {
+          a.setReal(1, 2);
+        }, qx.dev.unit.AssertionError, null, "c");
 
-      this.assertExceptionDebugOn(function() {
-        a.setReal("Juhu");
-      }, qx.dev.unit.AssertionError, null, "d");
+        this.assertException(function() {
+          a.setReal("Juhu");
+        }, qx.dev.unit.AssertionError, null, "d");
 
-      this.assertExceptionDebugOn(function() {
-        a.abs({});
-      }, qx.dev.unit.AssertionError, null, "e");
+        this.assertException(function() {
+          a.abs({});
+        }, qx.dev.unit.AssertionError, null, "e");
 
-      this.assertExceptionDebugOn(function() {
-        a.add("Juhu");
-      }, qx.dev.unit.AssertionError, null, "f");
+        this.assertException(function() {
+          a.add("Juhu");
+        }, qx.dev.unit.AssertionError, null, "f");
+      };
     },
 
 
@@ -240,19 +247,22 @@ qx.Class.define("testrunner.test.Interface",
         }
       });
 
-      this.assertExceptionDebugOn(function() {
-        qx.Class.define("testrunner.Properties2",
-        {
-          extend : qx.core.Object,
-          implement : [testrunner.IProperties1],
-
-          members :
+      if (this.isDebugOn())
+      {
+        this.assertException(function() {
+          qx.Class.define("testrunner.Properties2",
           {
-            getValue : function() {},
-            setValue : function(value) {}
-          }
-        })
-      });
+            extend : qx.core.Object,
+            implement : [testrunner.IProperties1],
+
+            members :
+            {
+              getValue : function() {},
+              setValue : function(value) {}
+            }
+          });
+        });
+      };
 
 
       qx.Interface.define("testrunner.IProperties2",
@@ -310,13 +320,16 @@ qx.Class.define("testrunner.test.Interface",
       })
 
 
-      this.assertExceptionDebugOn(function() {
-        qx.Class.define("testrunner.Event2",
-        {
-          extend : qx.core.Object,
-          implement : [testrunner.IEvents1]
-        })
-      });
+      if (this.isDebugOn())
+      {
+        this.assertException(function() {
+          qx.Class.define("testrunner.Event2",
+          {
+            extend : qx.core.Object,
+            implement : [testrunner.IEvents1]
+          })
+        });
+      };
     },
 
 
@@ -391,17 +404,23 @@ qx.Class.define("testrunner.test.Interface",
       var def = qx.lang.Object.copy(classDef);
       delete (def.members);
 
-      this.assertExceptionDebugOn(function() {
-        qx.Class.define("testrunner.Implement2", def);
-      }, Error, "Implementation of method", "No members defined.");
+      if (this.isDebugOn())
+      {
+        this.assertException(function() {
+          qx.Class.define("testrunner.Implement2", def);
+        }, Error, "Implementation of method", "No members defined.");
+      };
 
       // no properties
       var def = qx.lang.Object.copy(classDef);
       delete (def.properties);
 
-      this.assertExceptionDebugOn(function() {
-        qx.Class.define("testrunner.Implement4", def);
-      }, Error, new RegExp("property .* is not supported"), "No properties defined.");
+      if (this.isDebugOn())
+      {
+        this.assertException(function() {
+          qx.Class.define("testrunner.Implement4", def);
+        }, Error, new RegExp("property .* is not supported"), "No properties defined.");
+      };
     },
 
 
@@ -443,16 +462,19 @@ qx.Class.define("testrunner.test.Interface",
       });
 
       // should raise an exception
-      this.assertExceptionDebugOn(function() {
-        qx.Class.define("testrunner.Juhu1", {
-          extend : testrunner.AbstractJuhu1,
+      if (this.isDebugOn())
+      {
+        this.assertException(function() {
+          qx.Class.define("testrunner.Juhu1", {
+            extend : testrunner.AbstractJuhu1,
 
-          members :
-          {
-            sayJuhu : function() { return "Juhu"; }
-          }
-        });
-      }, Error, 'Error: Implementation of method "sayKinners" is missing in class "testrunner.Juhu1" required by interface "testrunner.IJuhu"');
+            members :
+            {
+              sayJuhu : function() { return "Juhu"; }
+            }
+          });
+        }, Error, '.*Implementation of method "sayKinners" is missing in class "testrunner.Juhu1" required by interface "testrunner.IJuhu"');
+      };
 
 
       qx.Class.define("testrunner.Juhu1", {

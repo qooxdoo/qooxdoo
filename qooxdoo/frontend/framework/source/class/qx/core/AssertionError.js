@@ -17,6 +17,10 @@
 
 ************************************************************************ */
 
+/**
+ * Assertion errors are thrown if an assertion in {@link qx.core.Assertion}
+ * fails.
+ */
 qx.Class.define("qx.core.AssertionError",
 {
   extend : Error,
@@ -30,6 +34,10 @@ qx.Class.define("qx.core.AssertionError",
   *****************************************************************************
   */
 
+  /**
+   * @param comment {String} Comment passed to the assertion call
+   * @param failMessage {String} Fail provided by the assertion
+   */
   construct : function(comment, failMessage)
   {
     Error.call(this, failMessage);
@@ -51,12 +59,18 @@ qx.Class.define("qx.core.AssertionError",
 
   properties :
   {
+    /**
+     * Comment passed to the assertion call
+     */
     comment :
     {
       check : "String",
       init  : ""
     },
 
+    /**
+     *  Fail provided by the assertion
+     */
     message :
     {
       check : "String",
@@ -76,10 +90,9 @@ qx.Class.define("qx.core.AssertionError",
   members :
   {
     /**
-     * TODOC
+     * Get the error message
      *
-     * @type member
-     * @return {var} TODOC
+     * @return {String} The error message
      */
     toString : function() {
       return this.getComment() + ": " + this.getMessage();
@@ -87,10 +100,9 @@ qx.Class.define("qx.core.AssertionError",
 
 
     /**
-     * TODOC
+     * Stack trace of the error
      *
-     * @type member
-     * @return {var} TODOC
+     * @return {String[]} The stack trace of the location the exception was thrown
      */
     getStackTrace : function() {
       return this._trace;

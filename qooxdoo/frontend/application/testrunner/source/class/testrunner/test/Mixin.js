@@ -23,24 +23,12 @@ qx.Class.define("testrunner.test.Mixin",
 
   members :
   {
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void}
-     */
     testMixinBasic : function()
     {
       qx.Mixin.define("testrunner.MMix1",
       {
         statics :
         {
-          /**
-           * TODOC
-           *
-           * @type static
-           * @return {string} TODOC
-           */
           foo : function() {
             return "foo";
           }
@@ -48,12 +36,6 @@ qx.Class.define("testrunner.test.Mixin",
 
         members :
         {
-          /**
-           * TODOC
-           *
-           * @type member
-           * @return {string} TODOC
-           */
           bar : function() {
             return "bar";
           }
@@ -66,12 +48,6 @@ qx.Class.define("testrunner.test.Mixin",
       {
         members :
         {
-          /**
-           * TODOC
-           *
-           * @type member
-           * @return {string} TODOC
-           */
           bar : function() {
             return "bar";
           }
@@ -91,40 +67,43 @@ qx.Class.define("testrunner.test.Mixin",
       mix.setColor("red");
       this.assertEquals("red", mix.getColor());
 
-      this.assertExceptionDebugOn(function()
+      if (this.isDebugOn())
       {
-        qx.Class.define("testrunner.Mix1",
+        this.assertException(function()
         {
-          extend    : Object,
-          include   : [ testrunner.MMix1, testrunner.MMix2 ],
-          construct : function() {}
-        });
-      },
-      Error, "Overwriting member", "t1");
-
-      this.assertExceptionDebugOn(function()
-      {
-        qx.Class.define("testrunner.Mix2",
-        {
-          extend : Object,
-          include : testrunner.MMix1,
-          construct : function() {},
-
-          members :
+          qx.Class.define("testrunner.Mix1",
           {
-            /**
-             * TODOC
-             *
-             * @type member
-             * @return {string} TODOC
-             */
-            bar : function() {
-              return "bar";
+            extend    : Object,
+            include   : [ testrunner.MMix1, testrunner.MMix2 ],
+            construct : function() {}
+          });
+        },
+        Error, "Overwriting member", "t1");
+
+        this.assertException(function()
+        {
+          qx.Class.define("testrunner.Mix2",
+          {
+            extend : Object,
+            include : testrunner.MMix1,
+            construct : function() {},
+
+            members :
+            {
+              /**
+               * TODOC
+               *
+               * @type member
+               * @return {string} TODOC
+               */
+              bar : function() {
+                return "bar";
+              }
             }
-          }
-        });
-      },
-      Error, "Overwriting member", "t2");
+          });
+        },
+        Error, "Overwriting member", "t2");
+      };
 
       // this is allowed
       qx.Class.define("testrunner.Mix3",
@@ -135,51 +114,35 @@ qx.Class.define("testrunner.test.Mixin",
 
         statics :
         {
-          /**
-           * TODOC
-           *
-           * @type static
-           * @return {string} TODOC
-           */
           foo : function() {
             return "foo";
           }
         }
       });
 
-      this.assertExceptionDebugOn(function()
+      if (this.isDebugOn())
       {
-        qx.Class.define("testrunner.Mix4",
+        this.assertException(function()
         {
-          extend     : Object,
-          include    : testrunner.MMix1,
-          construct  : function() {},
-          properties : { color : { } }
-        });
-      },
-      Error, "already has a property", "t3");
+          qx.Class.define("testrunner.Mix4",
+          {
+            extend     : Object,
+            include    : testrunner.MMix1,
+            construct  : function() {},
+            properties : { color : { } }
+          });
+        },
+        Error, "already has a property", "t3");
+      };
     },
 
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void}
-     */
     testInclude : function()
     {
       qx.Mixin.define("testrunner.MLogger",
       {
         members :
         {
-          /**
-           * TODOC
-           *
-           * @type member
-           * @param msg {var} TODOC
-           * @return {var} TODOC
-           */
           log : function(msg) {
             return msg;
           }
@@ -204,21 +167,18 @@ qx.Class.define("testrunner.test.Mixin",
 
         members :
         {
-          /**
-           * TODOC
-           *
-           * @type member
-           * @return {string} TODOC
-           */
           log : function() {
             return "foo";
           }
         }
       });
 
-      this.assertExceptionDebugOn(function() {
-        qx.Class.include(testrunner.UseLog2, testrunner.MLogger);
-      }, Error, "Overwriting member");
+      if (this.isDebugOn())
+      {
+        this.assertException(function() {
+          qx.Class.include(testrunner.UseLog2, testrunner.MLogger);
+        }, Error, "Overwriting member");
+      };
 
       // allowed to overwrite!
       qx.Class.define("testrunner.UseLog3",
@@ -228,12 +188,6 @@ qx.Class.define("testrunner.test.Mixin",
 
         members :
         {
-          /**
-           * TODOC
-           *
-           * @type member
-           * @return {string} TODOC
-           */
           log : function() {
             return "foo";
           }
@@ -295,9 +249,12 @@ qx.Class.define("testrunner.test.Mixin",
       });
 
 
-      this.assertExceptionDebugOn(function() {
-        qx.Class.include(testrunner.Patch1, testrunner.MPatch)
-      }, Error, new RegExp('Overwriting member ".*" of Class ".*" is not allowed!'));
+      if (this.isDebugOn())
+      {
+        this.assertException(function() {
+          qx.Class.include(testrunner.Patch1, testrunner.MPatch)
+        }, Error, new RegExp('Overwriting member ".*" of Class ".*" is not allowed!'));
+      };
 
       qx.Class.patch(testrunner.Patch1, testrunner.MPatch);
       qx.Class.patch(testrunner.Patch2, testrunner.MPatch);
