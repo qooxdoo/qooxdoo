@@ -63,15 +63,11 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
     // Force canvas layout
     this._setLayout(new qx.ui.layout.Canvas());
 
-    // Add user events
+    // Add listeners
     this.addListener("mousedown", this._onMouseDown, this);
     this.addListener("mouseup", this._onMouseUp, this);
     this.addListener("losecapture", this._onMouseUp, this);
-
-    // Create knob
-    this._knob = new qx.ui.core.Widget();
-    this._knob.setAppearance("slider-knob");
-    this._add(this._knob);
+    this.addListener("resize", this._onUpdate, this);
 
     // Initialize orientation
     if (orientation != null) {
@@ -79,10 +75,6 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
     } else {
       this.initOrientation();
     }
-
-    // Resize handling
-    this.addListener("resize", this._onUpdate, this);
-    this._knob.addListener("resize", this._onUpdate, this);
   },
 
 
@@ -190,6 +182,27 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
 
   members :
   {
+    // overridden
+    _createChildControlImpl : function(id)
+    {
+      var control;
+      
+      switch(id)
+      {
+        case "knob":
+          control = new qx.ui.core.Widget;
+          control.addListener("resize", this._onUpdate, this);
+          this._add(control);      
+          break;
+      }
+       
+      return control || this.base(arguments, id);
+    },
+    
+    
+    
+    
+        
     /*
     ---------------------------------------------------------------------------
       EVENT HANDLER
@@ -206,7 +219,7 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
     _onMouseDown : function(e)
     {
       var isHorizontal = this.__isHorizontal;
-      var knob = this._knob;
+      var knob = this._getChildControl("knob");
 
       var locationProperty = isHorizontal ? "left" : "top";
       var sizeProperty = isHorizontal ? "width" : "height";
@@ -359,7 +372,7 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
     {
       // Update sliding space
       var availSize = this.getInnerSize();
-      var knobSize = this._knob.getBounds();
+      var knobSize = this._getChildControl("knob").getBounds();
       if (this.__isHorizontal) {
         this.__slidingSpace = availSize.width - knobSize.width;
       } else {
@@ -563,7 +576,7 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
     _setKnobPosition : function(position)
     {
       // Use DOM Element
-      var container = this._knob.getContainerElement();
+      var container = this._getChildControl("knob").getContainerElement();
       if (this.__isHorizontal) {
         container.setStyle("left", position+"px", true);
       } else {
@@ -576,9 +589,9 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
 
       /*
       if (this.__isHorizontal) {
-        this._knob.setLayoutProperties({left:position});
+        this._getChildControl("knob").setLayoutProperties({left:position});
       } else {
-        this._knob.setLayoutProperties({top:position});
+        this._getChildControl("knob").setLayoutProperties({top:position});
       }
       */
     },
@@ -607,9 +620,9 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
 
       // Read size property
       if (this.__isHorizontal) {
-        this._knob.setWidth(Math.round(knobFactor * avail.width));
+        this._getChildControl("knob").setWidth(Math.round(knobFactor * avail.width));
       } else {
-        this._knob.setHeight(Math.round(knobFactor * avail.height));
+        this._getChildControl("knob").setHeight(Math.round(knobFactor * avail.height));
       }
     },
 
@@ -736,7 +749,7 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
     // property apply
     _applyOrientation : function(value, old)
     {
-      var knob = this._knob;
+      var knob = this._getChildControl("knob");
 
       // Update private flag for faster access
       this.__isHorizontal = value === "horizontal";
@@ -778,9 +791,9 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
       else
       {
         if (this.__isHorizontal) {
-          this._knob.resetWidth();
+          this._getChildControl("knob").resetWidth();
         } else {
-          this._knob.resetHeight();
+          this._getChildControl("knob").resetHeight();
         }
       }
     },

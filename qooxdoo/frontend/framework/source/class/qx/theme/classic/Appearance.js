@@ -183,9 +183,47 @@ qx.Theme.define("qx.theme.classic.Appearance",
     },
     
     "list/pane" : {},
-    "list/scrollbar-x" : {},
-    "list/scrollbar-y" : {},    
     "list/corner" : {},
+    
+    "list/scrollbar-x" : {
+      include : "scrollbar"
+    },
+    
+    "list/scrollbar-x/slider" : {
+      include : "scrollbar/slider"
+    },    
+    
+    "list/scrollbar-x/slider/knob" : {
+      include : "scrollbar/slider/knob"
+    },    
+
+    "list/scrollbar-x/button-begin" : {
+      include : "scrollbar/button-begin"
+    },    
+
+    "list/scrollbar-x/button-end" : {
+      include : "scrollbar/button-end"
+    },    
+
+    "list/scrollbar-y" : {
+      include : "scrollbar"
+    },
+    
+    "list/scrollbar-y/slider" : {
+      include : "scrollbar/slider"
+    },    
+    
+    "list/scrollbar-y/slider/knob" : {
+      include : "scrollbar/slider/knob"
+    },    
+
+    "list/scrollbar-y/button-begin" : {
+      include : "scrollbar/button-begin"
+    },    
+
+    "list/scrollbar-y/button-end" : {
+      include : "scrollbar/button-end"
+    },     
     
     
     
@@ -720,29 +758,10 @@ qx.Theme.define("qx.theme.classic.Appearance",
     ---------------------------------------------------------------------------
     */
 
-    "scrollbar" :
-    {
-      style : function(states)
-      {
-        return {
-
-        };
-      }
+    "scrollbar" : {
     },
 
-    "scrollarea-corner" :
-    {
-      style : function()
-      {
-        return {
-          backgroundColor : "background",
-          width : 0,
-          height : 0
-        }
-      }
-    },
-
-    "scrollbar-slider" :
+    "scrollbar/slider" :
     {
       style : function(states)
       {
@@ -751,8 +770,12 @@ qx.Theme.define("qx.theme.classic.Appearance",
         }
       }
     },
+    
+    "scrollbar/slider/knob" : {
+      include : "slider/knob"
+    },    
 
-    "scrollbar-button" :
+    "scrollbar/button" :
     {
       include : "button",
 
@@ -793,6 +816,37 @@ qx.Theme.define("qx.theme.classic.Appearance",
         }
       }
     },
+    
+    "scrollbar/button-begin" : {
+      include : "scrollbar/button"
+    },
+    
+    "scrollbar/button-end" : {
+      include : "scrollbar/button"
+    },
+    
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      SCROLLAREA
+    ---------------------------------------------------------------------------
+    */
+    
+    "scrollarea-corner" :
+    {
+      style : function()
+      {
+        return {
+          backgroundColor : "background",
+          width : 0,
+          height : 0
+        }
+      }
+    },
 
 
 
@@ -814,7 +868,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
-    "slider-knob" :
+    "slider/knob" :
     {
       include : "button",
 
