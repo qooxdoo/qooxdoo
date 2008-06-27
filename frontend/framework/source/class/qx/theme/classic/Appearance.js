@@ -1199,7 +1199,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
       include : "button"
     },
 
-    
     "selectbox/arrow" :
     {
       style : function(states)
@@ -1235,9 +1234,48 @@ qx.Theme.define("qx.theme.classic.Appearance",
       include : "list"
     },
     
-    "selectbox/list/pane" : {
-      include : "list/pane"  
+    "selectbox/list/pane" : {},
+    "selectbox/list/corner" : {},
+    
+    "selectbox/list/scrollbar-x" : {
+      include : "list/scrollbar-x"
     },
+    
+    "selectbox/list/scrollbar-x/slider" : {
+      include : "list/scrollbar-x/slider"
+    },    
+    
+    "selectbox/list/scrollbar-x/slider/knob" : {
+      include : "list/scrollbar-x/slider/knob"
+    },    
+
+    "selectbox/list/scrollbar-x/button-begin" : {
+      include : "list/scrollbar-x/button-begin"
+    },    
+
+    "selectbox/list/scrollbar-x/button-end" : {
+      include : "list/scrollbar-x/button-end"
+    },    
+
+    "selectbox/list/scrollbar-y" : {
+      include : "list/scrollbar-y"
+    },
+    
+    "selectbox/list/scrollbar-y/slider" : {
+      include : "list/scrollbar-y/slider"
+    },    
+    
+    "selectbox/list/scrollbar-y/slider/knob" : {
+      include : "list/scrollbar-y/slider/knob"
+    },    
+
+    "selectbox/list/scrollbar-y/button-begin" : {
+      include : "list/scrollbar-y/button-begin"
+    },    
+
+    "selectbox/list/scrollbar-y/button-end" : {
+      include : "list/scrollbar-y/button-end"
+    }, 
     
 
     

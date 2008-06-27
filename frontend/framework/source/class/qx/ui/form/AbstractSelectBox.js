@@ -122,9 +122,7 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
           break;
 
         case "popup":
-          control = new qx.ui.popup.Popup(new qx.ui.layout.VBox()).set({
-            autoHide: false
-          });
+          control = new qx.ui.popup.Popup(new qx.ui.layout.VBox);
           control.addListener("mouseup", this._hideList, this);
           control.addListener("activate", this._onActivateList, this);
           break;
@@ -151,6 +149,8 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
       this._getChildControl("list").setMaxHeight(value);
     },
 
+
+
     /*
     ---------------------------------------------------------------------------
       PUBLIC METHODS
@@ -165,6 +165,7 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
     getChildrenContainer : function() {
       return this._getChildControl("list");
     },
+    
 
 
     /*
@@ -221,6 +222,7 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
       listPopup.show();
     },
 
+
     /**
      * Hides the list popup.
      * @type member
@@ -246,6 +248,8 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
     },
 
 
+
+
     /*
     ---------------------------------------------------------------------------
       EVENT LISTENERS
@@ -262,6 +266,7 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
       this.activate();
       e.stopPropagation();
     },
+    
 
     /**
      * Reacts on special keys and forwards other key events to the list widget.
@@ -301,6 +306,7 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
       this._getChildControl("list").handleKeyPress(e);
     },
 
+
     /**
      * Updates list minimum size.
      * @param e {qx.event.type.Data} Data event
@@ -309,6 +315,7 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
     _onResize : function(e){
       this._getChildControl("list").setMinWidth(e.getData().width);
     },
+
 
     /**
      * Sets the selected item on change.
@@ -321,6 +328,5 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
         this.setSelectedItem(e.getData()[0]);
       }
     }
-
   }
 });
