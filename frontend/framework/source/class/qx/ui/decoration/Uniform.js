@@ -40,8 +40,7 @@ qx.Class.define("qx.ui.decoration.Uniform",
     width :
     {
       check : "Number",
-      init : 0,
-      apply : "_applyBorderChange"
+      init : 0
     },
 
     /** The border style of all sides */
@@ -49,8 +48,7 @@ qx.Class.define("qx.ui.decoration.Uniform",
     {
       nullable : true,
       check : [ "solid", "dotted", "dashed", "double"],
-      init : "solid",
-      apply : "_applyBorderChange"
+      init : "solid"
     },
 
     /** Set the border color of all sides */
@@ -58,7 +56,6 @@ qx.Class.define("qx.ui.decoration.Uniform",
     {
       nullable : true,
       check : "String",
-      apply : "_applyBorderChange",
       transform : "_resolveThemedColor"
     },
 
@@ -67,7 +64,6 @@ qx.Class.define("qx.ui.decoration.Uniform",
     {
       nullable : true,
       check : "String",
-      apply : "_applyBorderChange",
       transform : "_resolveThemedColor"
     },
 
@@ -75,16 +71,14 @@ qx.Class.define("qx.ui.decoration.Uniform",
     backgroundImage :
     {
       check : "String",
-      nullable : true,
-      apply : "_applyBorderChange"
+      nullable : true
     },
 
     /** How the background should be repeated */
     backgroundRepeat :
     {
       check : ["repeat", "repeat-x", "repeat-y", "no-repeat"],
-      init : "repeat",
-      apply : "_applyBorderChange"
+      init : "repeat"
     }
   },
 
@@ -152,20 +146,6 @@ qx.Class.define("qx.ui.decoration.Uniform",
         bottom : width,
         left : width
       }
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      PROPERTY APPLY ROUTINES
-    ---------------------------------------------------------------------------
-    */
-
-    // property apply
-    _applyBorderChange : function() {
-      qx.ui.core.queue.Decorator.add(this);
     }
   }
 });

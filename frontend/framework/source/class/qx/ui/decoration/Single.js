@@ -81,32 +81,28 @@ qx.Class.define("qx.ui.decoration.Single",
     widthTop :
     {
       check : "Number",
-      init : 0,
-      apply : "_applyBorderChange"
+      init : 0
     },
 
     /** right width of border */
     widthRight :
     {
       check : "Number",
-      init : 0,
-      apply : "_applyBorderChange"
+      init : 0
     },
 
     /** bottom width of border */
     widthBottom :
     {
       check : "Number",
-      init : 0,
-      apply : "_applyBorderChange"
+      init : 0
     },
 
     /** left width of border */
     widthLeft :
     {
       check : "Number",
-      init : 0,
-      apply : "_applyBorderChange"
+      init : 0
     },
 
 
@@ -123,8 +119,7 @@ qx.Class.define("qx.ui.decoration.Single",
     {
       nullable : true,
       check : [ "solid", "dotted", "dashed", "double"],
-      init : "solid",
-      apply : "_applyBorderChange"
+      init : "solid"
     },
 
     /** right style of border */
@@ -132,8 +127,7 @@ qx.Class.define("qx.ui.decoration.Single",
     {
       nullable : true,
       check : [ "solid", "dotted", "dashed", "double"],
-      init : "solid",
-      apply : "_applyBorderChange"
+      init : "solid"
     },
 
     /** bottom style of border */
@@ -141,8 +135,7 @@ qx.Class.define("qx.ui.decoration.Single",
     {
       nullable : true,
       check : [ "solid", "dotted", "dashed", "double"],
-      init : "solid",
-      apply : "_applyBorderChange"
+      init : "solid"
     },
 
     /** left style of border */
@@ -150,8 +143,7 @@ qx.Class.define("qx.ui.decoration.Single",
     {
       nullable : true,
       check : [ "solid", "dotted", "dashed", "double"],
-      init : "solid",
-      apply : "_applyBorderChange"
+      init : "solid"
     },
 
 
@@ -168,7 +160,6 @@ qx.Class.define("qx.ui.decoration.Single",
     {
       nullable : true,
       check : "String",
-      apply : "_applyBorderChange",
       transform : "_resolveThemedColor"
     },
 
@@ -177,7 +168,6 @@ qx.Class.define("qx.ui.decoration.Single",
     {
       nullable : true,
       check : "String",
-      apply : "_applyBorderChange",
       transform : "_resolveThemedColor"
     },
 
@@ -186,7 +176,6 @@ qx.Class.define("qx.ui.decoration.Single",
     {
       nullable : true,
       check : "String",
-      apply : "_applyBorderChange",
       transform : "_resolveThemedColor"
     },
 
@@ -195,7 +184,6 @@ qx.Class.define("qx.ui.decoration.Single",
     {
       nullable : true,
       check : "String",
-      apply : "_applyBorderChange",
       transform : "_resolveThemedColor"
     },
 
@@ -204,7 +192,6 @@ qx.Class.define("qx.ui.decoration.Single",
     {
       nullable : true,
       check : "String",
-      apply : "_applyBorderChange",
       transform : "_resolveThemedColor"
     },
 
@@ -220,24 +207,21 @@ qx.Class.define("qx.ui.decoration.Single",
     backgroundImage :
     {
       check : "String",
-      nullable : true,
-      apply : "_applyBorderChange"
+      nullable : true
     },
 
     /** How the background should be repeated */
     backgroundRepeat :
     {
       check : ["repeat", "repeat-x", "repeat-y", "no-repeat", "scale"],
-      init : "repeat",
-      apply : "_applyBorderChange"
+      init : "repeat"
     },
 
 
     stretchedImage :
     {
       check : "String",
-      nullable : true,
-      apply : "_applyBorderChange"
+      nullable : true
     },
 
 
@@ -432,20 +416,6 @@ qx.Class.define("qx.ui.decoration.Single",
         bottom : this.getWidthBottom(),
         left : this.getWidthLeft()
       }
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      PROPERTY APPLY ROUTINES
-    ---------------------------------------------------------------------------
-    */
-
-    // property apply
-    _applyBorderChange : function(value, old, name) {
-      qx.ui.core.queue.Decorator.add(this);
     }
   }
 });

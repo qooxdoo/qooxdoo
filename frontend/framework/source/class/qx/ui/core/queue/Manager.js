@@ -102,12 +102,6 @@ qx.Class.define("qx.ui.core.queue.Manager",
           qx.ui.core.queue.Appearance.flush();
         }
 
-        if (jobs.decorator)
-        {
-          delete jobs.decorator;
-          qx.ui.core.queue.Decorator.flush();
-        }
-
         if (jobs.layout)
         {
           delete jobs.layout;

@@ -129,32 +129,28 @@ qx.Class.define("qx.ui.decoration.Grid",
     insetLeft :
     {
       check : "Number",
-      init  : 0,
-      apply : "_changeInset"
+      init  : 0
     },
 
     /** Width of the right inset */
     insetRight :
     {
       check : "Number",
-      init  : 0,
-      apply : "_changeInset"
+      init  : 0
     },
 
     /** Width of the bottom inset */
     insetBottom :
     {
       check : "Number",
-      init  : 0,
-      apply : "_changeInset"
+      init  : 0
     },
 
     /** Width of the top inset */
     insetTop :
     {
       check : "Number",
-      init  : 0,
-      apply : "_changeInset"
+      init  : 0
     },
 
     /** Property group for insets */
@@ -180,18 +176,10 @@ qx.Class.define("qx.ui.decoration.Grid",
     {
       this.__markup = null;
       this.__images = null;
-
-      qx.ui.core.queue.Decorator.add(this);
     },
 
-    _changeBorderVisibility : function(value)
-    {
+    _changeBorderVisibility : function(value) {
       this.__markup = null;
-      qx.ui.core.queue.Decorator.add(this);
-    },
-
-    _changeInset : function(value) {
-      qx.ui.core.queue.Decorator.add(this);
     },
 
     __computeMarkup : function()
