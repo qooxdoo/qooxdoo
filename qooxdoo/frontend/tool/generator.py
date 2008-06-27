@@ -22,7 +22,7 @@
 import sys, os, optparse, string, types, pprint
 from optparseext.ExtendAction import ExtendAction
 from generator.Log import Log
-from generator.Config import Config
+from generator.Config import Config, ExtMap
 from generator.Generator import Generator
 
 
@@ -90,7 +90,7 @@ def main():
     config.resolveIncludes()
 
     # Check jobs
-    availableJobs = config.getJobsMap().keys()
+    availableJobs = config.getJobsList()
     if len(options.jobs) == 0:
         listJobs(console, availableJobs)
         sys.exit(1)
@@ -115,10 +115,11 @@ def main():
     console.debug(pprint.pformat(config.get(".")))
 
     # Processing jobs...
-    config = Config(console, config.get("jobs"))
+    config1 = Config(console, config.get("jobs"))
     for job in expandedjobs:
         console.head("Executing: %s" % job, True)
-        Generator(config.extract(job), console).run()
+        #Generator(config1.extract(job), console).run()
+        Generator(ExtMap(config.getJob(job).getData()), console).run()
 
 
 if __name__ == '__main__':

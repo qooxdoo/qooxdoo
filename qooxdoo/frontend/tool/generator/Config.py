@@ -24,20 +24,22 @@ import os, sys, re, types, string, copy
 import simplejson
 from generator.ShellCmd import ShellCmd
 
-global console
+#global console
+console = None
 
 class Config:
 
     global console
 
-    def __init__(self, console, data, path=""):
+    def __init__(self, console_, data, path=""):
+        global console
         # init members
-        self._console  = console
+        self._console  = console_
         self._data     = None
         self._fname    = None
         self._shellCmd = ShellCmd()
 
-        console = console
+        console = console_
         
         # dispatch on argument
         if isinstance(data, (types.DictType, types.ListType)):
@@ -73,11 +75,7 @@ class Config:
     COMPOSED_NAME_SEP = "::"   # this is to construct composed job names
     JOBS_KEY     = "jobs"
     DEFAULTS_JOB = "defaults"
-    EXTEND_KEY   = "extend"
-    RUN_KEY      = "run"
     _CONFIG_KEY  = "_config"
-    #KEYS_WITH_JOB_REFS = ['run', 'extend']
-    KEYS_WITH_JOB_REFS = [RUN_KEY, EXTEND_KEY]
 
     def get(self, key, default=None, confmap=None):
         """Returns a (possibly nested) data element from dict <conf>
@@ -153,11 +151,22 @@ class Config:
         elif self._data.has_key(self.JOBS_KEY) and self._data[self.JOBS_KEY].has_key(job):
             jobEntry = self._data[self.JOBS_KEY][job]
             if isinstance(jobEntry, Job):
+                # make sure it has link to this config
+                if not jobEntry.getConfig():
+                    jobEntry.setConfig(self)
                 return jobEntry
             else:
-                return Job(job, jobEntry, self)
+                # create Job object
+                jobObj = Job(job, jobEntry, self)
+                self._data[self.JOBS_KEY][job] = jobObj # overwrite map with obj
+                return jobObj
 
         return default
+
+
+    def addJob(self, jobname, value):
+        assert isinstance(jobname, types.StringTypes)
+        self.get('jobs')[jobname] = value
 
 
     def hasJob(self,jobname):
@@ -166,13 +175,13 @@ class Config:
         else:
             return False
         
-    def iter(self):
-        result = []
-        for item in self._data:
-            result.append(Config(self._console, item))
-        
-        return result
-        
+    #def iter(self):
+    #    result = []
+    #    for item in self._data:
+    #        result.append(Config(self._console, item))
+    #    
+    #    return result
+    #    
         
     def extract(self, key):
         return Config(self._console, self.get(key, {}), self._dirname)
@@ -183,14 +192,19 @@ class Config:
             return self._data[self.JOBS_KEY]
         else:
             return default
+        
+    def getJobsList(self):
+        return self.getJobsMap([]).keys()
 
-    def listJobs(self):
-        result = []
-        jobsMap = self.getJobsMap({})
-        for job in jobsMap:
-            result.append(job)
-        return result
-    
+    def getExportedJobsList(self):
+        expList = self.get('export', False)  # is there a dedicated list of exported jobs?
+        if isinstance(expList, types.ListType):
+            return expList
+        else:
+            return self.getJobsList()
+
+
+
     # wpbasti: specific to top level configs. Should be done in a separate class
     def resolveIncludes(self, includeTrace=[]):
 
@@ -240,7 +254,7 @@ class Config:
         def integrateExternalConfig(tjobs, extConfig, namespace):
             # jobs of external config are spliced into current job list
             if namespace:
-                namepfx = namespace + self.NS_SEP # job names will be namespace'd
+                namepfx = namespace + self.COMPOSED_NAME_SEP # job names will be namespace'd
             else:
                 namepfx = ""         # job names will not be namespace'd
 
@@ -303,11 +317,39 @@ class Config:
                 # save external config for later reference
                 incspec['config'] = econfig
                 #jobsmap[key] = econfig.get(".")
-                jobsmap = integrateExternalConfig(jobsmap, econfig, namespace)
+                #jobsmap = integrateExternalConfig(jobsmap, econfig, namespace)
+                self._integrateExternalConfig(econfig, namespace)
+
+
+    def _integrateExternalConfig(self, extConfig, namespace):
+        # jobs of external config are spliced into current job list
+        if namespace:
+            namepfx = namespace + self.COMPOSED_NAME_SEP # job names will be namespace'd
+        else:
+            namepfx = ""         # job names will not be namespace'd
+
+        # get the list of jobs to import
+        extJobsList = extConfig.getExportedJobsList()
+        for extJobEntry in extJobsList:
+            newjobname = namepfx + extJobEntry  # create a job name
+            if self.hasJob(newjobname):
+                raise KeyError, "Job already exists: \"%s\"" % newjobname
+            else:
+                extJob = extConfig.getJob(extJobEntry)  # fetch this job
+                # patch job references in 'run', 'extend', ... keys
+                for key in Job.KEYS_WITH_JOB_REFS:
+                    if extJob.hasFeature(key):
+                        newlist = []
+                        oldlist = extJob.getFeature(key)
+                        for jobname in oldlist:
+                            newlist.append(extConfig.getJob(jobname))
+                        extJob.setFeature(key, newlist)
+                self.addJob(newjobname, extJob)         # and add it
+        return
 
 
     # wpbasti: specific to top level configs. Should be done in a separate class
-    def resolveExtendsAndRuns(self, joblist):
+    def resolveExtendsAndRuns1(self, joblist):
         jobsmap = self.get("jobs")
         console = self._console
         console.info("Resolving jobs...")
@@ -323,7 +365,7 @@ class Config:
         return joblist
 
 
-    def resolveExtendsAndRuns1(self, jobList):
+    def resolveExtendsAndRuns(self, jobList):
         console = self._console
         console.info("Resolving jobs...")
         console.indent()
@@ -358,21 +400,23 @@ class Config:
             if job.hasFeature("run"):
                 sublist = []
                 listOfNewJobs = []
-                for subjob in job.getFeature["run"]:
+                for subjob in job.getFeature("run"):
                     
+                    subjobObj = self.getJob(subjob)
                     # make new job map job::subjob as copy of job, but extend[subjob]
-                    newjobname = jobName + '::' + subjob.replace(self.NS_SEP, self.COMPOSED_NAME_SEP)
+                    newjobname = jobName + self.COMPOSED_NAME_SEP + \
+                                 subjobObj.name.replace(self.NS_SEP, self.COMPOSED_NAME_SEP)
                     newjob     = job.clone()
                     newjob.name= newjobname
-                    newjob.removeFeature['run']       # remove 'run' key
+                    newjob.removeFeature('run')       # remove 'run' key
                     
                     # we assume the initial 'run' job has already been resolved, so
                     # we reset it here and set the 'extend' to the subjob
                     if newjob.hasFeature('resolved'): 
-                        newjob.removeFeature['resolved']
+                        newjob.removeFeature('resolved')
                     else:
                         raise RuntimeError, "Cannot resolve 'run' key before 'extend' key"
-                    newjob.setFeature('extend', [subjob]) # extend subjob
+                    newjob.setFeature('extend', [subjobObj]) # extend subjob
                     
                     # add to config
                     self.addJob(newjobname, newjob)
@@ -554,7 +598,7 @@ class Config:
     # Or is this already used in run, include, extend sections anywhere? And needed?
     def resolveMacros(self, jobs):
         console = self._console
-        config  = self.get("jobs")
+        jobsMap  = self.get("jobs")
 
         def _expandString(s, mapstr, mapbin):
             assert isinstance(s, types.StringTypes)
@@ -643,15 +687,19 @@ class Config:
 
         # wpbasti: Iteration through all jobs would also solve this extra-if which is not needed then anymore
         for job in jobs:
-            if not config.has_key(job):
+            jobObj = self.getJob(job)
+            jobObj.resolveMacros()
+            continue
+            # ---- cut till the end of for body! ---
+            if not jobsMap.has_key(job):
                 console.warn("No such job: %s" % job)
                 sys.exit(1)
             else:
-                if config[job].has_key('let'):
+                if jobsMap[job].has_key('let'):
                     
                     # exand macros in the let
-                    config[job]['let'] = _expandMacrosInLet(config[job]['let'])
-                    cfglet = config[job]['let']
+                    jobsMap[job]['let'] = _expandMacrosInLet(jobsMap[job]['let'])
+                    cfglet = jobsMap[job]['let']
                     
                     # separate strings from other values
                     letmaps = {}
@@ -664,7 +712,7 @@ class Config:
                             letmaps['bin'][k] = cfglet[k]
                             
                     # apply dict to other values
-                    _expandMacrosInValues(config[job], letmaps)
+                    _expandMacrosInValues(jobsMap[job], letmaps)
 
         console.outdent()
 
@@ -691,8 +739,9 @@ class Config:
                 console.warn("No such job: %s" % job)
                 sys.exit(1)
             else:
-                if config[job].has_key('library'):
-                    newlib = config[job]['library']
+                jobObj = self.getJob(job)
+                if jobObj.hasFeature('library'):
+                    newlib = jobObj.getFeature('library')
                     for lib in newlib:
                         # handle downloads
                         manifest = lib['manifest']
@@ -703,8 +752,8 @@ class Config:
                         # What's about to process all "remote" manifest initially on file loading?
                         if manipath.startswith("contrib://"): # it's a contrib:// lib
                             contrib = manipath.replace("contrib://","")
-                            if config[job].has_key('cache-downloads'):
-                                contribCachePath = config[job]['cache-downloads']['path']
+                            if jobObj.hasFeature('cache-downloads'):
+                                contribCachePath = jobObj.getFeature('cache-downloads')['path']
                             else:
                                 contribCachePath = "cache-downloads"
                             self._download_contrib(newlib, contrib, contribCachePath)
@@ -762,21 +811,36 @@ class Job(object):
         self._data   = data
         self._config = config
 
-    def _listPrepend(source, target):
+    def _listPrepend(self, source, target):
         return source + target
 
-    def _mergeJob(source):
-        for key in source:
+
+    def _mergeJob(self, sourceJob):
+        sData = sourceJob.getData()
+        target= self.getData()
+        for key in sData:
             # merge 'library' key rather than shadowing
             if key == 'library'and target.has_key(key):
-                target[key] = _listPrepend(source[key],target[key])
+                target[key] = _listPrepend(sData[key],target[key])
             
             # merge 'settings' and 'let' key rather than shadowing
             # wpbasti: variants listed here, but missing somewhere else. Still missing use and require keys.
             if (key in ['variants','settings','let']) and target.has_key(key):
-                target[key] = self._mapMerge(source[key],target[key])
+                target[key] = self._mapMerge(sData[key],target[key])
             if not target.has_key(key):
-                target[key] = source[key]
+                target[key] = sData[key]
+
+
+    def _mapMerge(self, source, target):
+        """merge source map into target, but don't overwrite existing
+           keys in target (unlike .update())"""
+        # wpbasti: Why not just use update() in reversed order (maybe copy target first)???
+        t = target.copy()
+        for (k,v) in source.items():
+            if not t.has_key(k):
+                t[k] = v
+        return t
+
 
     def resolveExtend(self, entryTrace=[]):
         # resolve the 'extend' entry of a job
@@ -802,6 +866,8 @@ class Job(object):
                     raise RuntimeError, "Extend entry already seen: %s" % str(entryTrace+[self.name,entry])
                 
                 entryJob = config.getJob(entry)  # getJob() handles string/Job polymorphism of 'entry' and returns Job object
+                if not entryJob:
+                    raise RuntimeError, "No such job: \"%s\" (trace: %s)" % (entry, entryTrace+[self.name])
 
                 # make sure this entry job is fully resolved in its context
                 entryJob.resolveExtend(entryTrace + [self.name])
@@ -810,6 +876,109 @@ class Job(object):
                 self._mergeJob(entryJob)
 
         self.setFeature(self.RESOLVED_KEY, True)
+
+
+    def resolveMacros(self):
+        if self.hasFeature('let'):
+            # exand macros in the let
+            letMap = self.getFeature('let')
+            letMap = self._expandMacrosInLet(letMap)
+            self.setFeature('let', letMap)
+            
+            # separate strings from other values
+            letmaps = {}
+            letmaps['str'] = {}
+            letmaps['bin'] = {}
+            for k in letMap:
+                if isinstance(letMap[k], types.StringTypes):
+                    letmaps['str'][k] = letMap[k]
+                else:
+                    letmaps['bin'][k] = letMap[k]
+                    
+            # apply dict to other values
+            self._expandMacrosInValues(self._data, letmaps)
+
+
+    def _expandString(self, s, mapstr, mapbin):
+        assert isinstance(s, types.StringTypes)
+        if s.find(r'${') == -1:  # optimization: no macro -> return
+            return s
+        macro = ""
+        sub   = ""
+        possiblyBin = re.match(r'^\${(.*)}$', s)   # look for '${...}' as a bin replacement
+        if possiblyBin:
+            macro = possiblyBin.group(1)
+        if macro and (macro in mapbin.keys()):
+            sub = mapbin[macro]
+        else:
+            templ = string.Template(s)
+            sub = templ.safe_substitute(mapstr)
+        return sub
+
+    def _expandMacrosInValues(self, data, maps):
+        """ apply macro expansion on arbitrary values; takes care of recursive data like
+            lists and dicts; only actually applies macros when a string is encountered on 
+            the way (look for calls to _expandString())"""
+        result = data  # intialize result
+        
+        # arrays
+        if isinstance(data, types.ListType):
+            for e in range(len(data)):
+                enew = self._expandMacrosInValues(data[e], maps)
+                if enew != data[e]:
+                    console.debug("expanding: %s ==> %s" % (str(data[e]), str(enew)))
+                    data[e] = enew
+                    
+        # dicts
+        elif isinstance(data, types.DictType):
+            for e in data:
+                # expand in values
+                enew = self._expandMacrosInValues(data[e], maps)
+                if enew != data[e]:
+                    console.debug("expanding: %s ==> %s" % (str(data[e]), str(enew)))
+                    data[e] = enew
+
+                # expand in keys
+                if ((isinstance(e, types.StringTypes) and
+                        e.find(r'${')>-1)):
+                    enew = self._expandString(e, maps['str'], {}) # no bin expand here!
+                    data[enew] = data[e]
+                    del data[e]
+                    console.debug("expanding key: %s ==> %s" % (e, enew))
+
+        # strings
+        elif isinstance(data, types.StringTypes):
+            result = self._expandString(data, maps['str'], maps['bin'])
+
+        # leave everything else alone
+        else:
+            result = data
+
+        return result
+
+
+    def _expandMacrosInLet(self, letDict):
+        """ do macro expansion within the "let" dict """
+
+        keys = letDict.keys()
+        for k in keys:
+            kval = letDict[k]
+            
+            # construct a temp. dict of translation maps, for later calls to _expand* funcs
+            # wpbasti: Crazy stuff: Could be find some better variable names here. Seems to be optimized for size already ;)
+            if isinstance(kval, types.StringTypes):
+                kdicts = {'str': {k:kval}, 'bin': {}}
+            else:
+                kdicts = {'str': {}, 'bin': {k:kval}}
+                
+            # cycle through other keys of this dict
+            for k1 in keys:
+                if k != k1: # no expansion with itself!
+                    enew = self._expandMacrosInValues(letDict[k1], kdicts)
+                    if enew != letDict[k1]:
+                        console.debug("expanding: %s ==> %s" % (k1, str(enew)))
+                        letDict[k1] = enew
+        return letDict
 
 
     def getData(self):
@@ -864,3 +1033,40 @@ class Manifest(object):
         return libentry
 
 
+class ExtMap(object):
+    "Map class with path-like accessor"
+
+    def __init__(self, data):
+        assert isinstance(data, types.DictType)
+
+        self._data = data
+
+    def get(self, key, default=None, confmap=None):
+        """Returns a (possibly nested) data element from dict
+        """
+        
+        if confmap:
+            data = confmap
+        else:
+            data = self._data
+            
+        if data.has_key(key):
+            return data[key]
+
+        splits = key.split('/')
+        for part in splits:
+            if part == "." or part == "":
+                pass
+            elif isinstance(data, types.DictType) and data.has_key(part):
+                data = data[part]
+            else:
+                return default
+
+        return data
+
+
+    def extract(self, key):
+        return ExtMap(self.get(key, {}))
+
+    def getData(self):
+        return self._data
