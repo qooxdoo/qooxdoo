@@ -33,7 +33,8 @@ qx.Class.define("qx.ui.tabview.TabView",
      CONSTRUCTOR
   *****************************************************************************
   */
-  construct : function() {
+  construct : function() 
+  {
     this.base(arguments);
     this._createChildControl("bar");
     this._createChildControl("pane");
@@ -96,7 +97,7 @@ qx.Class.define("qx.ui.tabview.TabView",
             wrap: false
           });
           control.addListener("change", function(e)
-              {
+          {
             var button = e.getValue();
             if (button) {
               this._getChildControl("bar").scrollButtonIntoView(button);
@@ -107,14 +108,12 @@ qx.Class.define("qx.ui.tabview.TabView",
         case "bar":
           control = new qx.ui.tabview.Bar();
           control.setLayout(new qx.ui.layout.HBox());
-          control.setAppearance("tabview/bar");
           this._add(control);
           break;
 
         case "pane":
           control = new qx.ui.container.Composite();
           control.setLayout(new qx.ui.layout.Canvas());
-          control.setAppearance("tabview/pane");
           this._add(control, {flex:1});
           break;
       }
@@ -235,7 +234,8 @@ qx.Class.define("qx.ui.tabview.TabView",
      * @param value {boolean} The new value.
      * @param old {boolean} The old value.
      */
-    _applyPlaceBarOnTop : function(value, old) {
+    _applyPlaceBarOnTop : function(value, old) 
+    {
       // reverse the layout
       this._getLayout().setReversed(!value);
       // set or remove the state on the buttons
