@@ -57,8 +57,9 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
     if (vIcon != null) {
       this.setIcon(vIcon);
     }
-
   },
+
+
 
 
   /*
@@ -87,11 +88,15 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
   },
 
 
+
+
+
   /*
   *****************************************************************************
      MEMBERS
   *****************************************************************************
   */
+  
   members :
   {
     // overridden
@@ -101,16 +106,13 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
 
       switch(id)
       {
-        // Create and add slider
         case "frame":
-          control = new qx.ui.container.Composite().setAppearance("groupbox/frame");
+          control = new qx.ui.container.Composite();
           this._add(control, {left: 0, top: 6, right: 0, bottom: 0});
           break;
 
-        // Create splitter
         case "legend":
-          control = new qx.ui.basic.Atom().setAppearance("groupbox/legend");
-          // Listen to the resize of the legend
+          control = new qx.ui.basic.Atom();
           control.addListener("resize", this._repositionFrame, this);
           this._add(control);
           break;
@@ -118,6 +120,8 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
       
       return control || this.base(arguments, id);
     },
+    
+    
     
     
     /*
@@ -130,11 +134,15 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
       return this._getChildControl("frame");
     },
 
+
+
+
     /*
     ---------------------------------------------------------------------------
       LEGEND POSITION HANDLING
     ---------------------------------------------------------------------------
     */
+    
     /**
      * Apply method for applying the legend position. It calls the
      * {@link _repositionFrame} method.
@@ -165,6 +173,9 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
         frame.setLayoutProperties({"top": height});
       }
     },
+
+
+
 
 
     /*
@@ -211,14 +222,15 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
      * @param vLegend {String} new label of the legend sub widget
      * @return {void}
      */
-    setLegend : function(vLegend) {
-      var legend = this._getChildControl("legend");
+    setLegend : function(vLegend) 
+    {
+      var control = this._getChildControl("legend");
       
       if (vLegend !== "" && vLegend !== null) {
-        legendObject.setLabel(vLegend);
-        legendObject.show();
+        control.setLabel(vLegend);
+        control.show();
       } else {
-        legendObject.exclude();
+        control.exclude();
       }
     },
 
