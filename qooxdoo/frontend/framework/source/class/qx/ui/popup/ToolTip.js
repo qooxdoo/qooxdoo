@@ -146,6 +146,7 @@ qx.Class.define("qx.ui.popup.ToolTip",
       apply : "_applyHideTimeout"
     },
 
+    /** The label/caption/text of the ToolTip's atom. */
     label :
     {
       check : "String",
@@ -154,6 +155,7 @@ qx.Class.define("qx.ui.popup.ToolTip",
     },
 
 
+    /** Any URI String supported by qx.ui.basic.Image to display an icon in ToolTips's atom. */
     icon :
     {
       check : "String",
