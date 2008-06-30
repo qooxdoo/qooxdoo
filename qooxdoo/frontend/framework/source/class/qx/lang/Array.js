@@ -256,11 +256,8 @@ qx.Bootstrap.define("qx.lang.Array",
     {
       // this check is important because opera throws an uncatchable error if apply is called without
       // an arr as second argument.
-      if (qx.core.Variant.isSet("qx.debug", "on"))
-      {
-        if (!(typeof (a) == "object" && a instanceof Array)) {
-          throw new Error("The second parameter must be an arr!");
-        }
+      if (qx.core.Variant.isSet("qx.debug", "on")) {
+        qx.core.Assert.assertArray(a, "The second parameter must be an array.");
       }
 
       Array.prototype.push.apply(arr, a);

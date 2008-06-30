@@ -239,13 +239,13 @@ qx.Class.define("qx.html.Element",
             obj._element.scrollTop = obj.__lazyScrollY;
             delete obj.__lazyScrollY;
           }
-          
+
           // ScrollIntoViewX
           var intoViewX = obj.__lazyScrollIntoViewX;
           if (intoViewX != null)
           {
             var child = intoViewX.element.getDomElement();
-            
+
             if (child && child.offsetWidth)
             {
               qx.bom.element.Scroll.intoViewX(child, elem, intoViewX.align);
@@ -253,16 +253,16 @@ qx.Class.define("qx.html.Element",
             }
             else
             {
-              done = false;     
+              done = false;
             }
           }
-                    
+
           // ScrollIntoViewY
           var intoViewY = obj.__lazyScrollIntoViewY;
           if (intoViewY != null)
           {
             var child = intoViewY.element.getDomElement();
-            
+
             if (child && child.offsetWidth)
             {
               qx.bom.element.Scroll.intoViewY(child, elem, intoViewY.align);
@@ -270,12 +270,12 @@ qx.Class.define("qx.html.Element",
             }
             else
             {
-              done = false;     
+              done = false;
             }
-          }       
+          }
 
           // Clear flag if all things are done
-          // Otherwise wait for the next flush          
+          // Otherwise wait for the next flush
           if (done) {
             delete scroll[hc];
           }
@@ -618,7 +618,7 @@ qx.Class.define("qx.html.Element",
       {
         // Import listeners
         qx.event.Registration.getManager(elem).importListeners(elem, data);
-        
+
         // Cleanup event map
         // Events are directly attached through event manager
         // after intial creation. This differs from the
@@ -1385,7 +1385,7 @@ qx.Class.define("qx.html.Element",
       SCROLL SUPPORT
     ---------------------------------------------------------------------------
     */
-    
+
     /**
      * Scrolls the given child element into view. Only scrolls children.
      * Do not influence elements on top of this element.
@@ -1404,26 +1404,26 @@ qx.Class.define("qx.html.Element",
     {
       var thisEl = this._element;
       var childEl = elem.getDomElement();
-      
+
       if (thisEl && thisEl.offsetWidth && childEl && childEl.offsetWidth)
       {
         qx.bom.element.Scroll.intoViewX(childEl, thisEl, align);
       }
       else
       {
-        this.__lazyScrollIntoViewX = 
+        this.__lazyScrollIntoViewX =
         {
           element : elem,
           align : align
         };
-        
+
         qx.html.Element._scroll[this.$$hash] = this;
         qx.html.Element._scheduleFlush("element");
-      } 
-      
+      }
+
       delete this.__lazyScrollX;
     },
-    
+
 
     /**
      * Scrolls the given child element into view. Only scrolls children.
@@ -1443,24 +1443,24 @@ qx.Class.define("qx.html.Element",
     {
       var thisEl = this._element;
       var childEl = elem.getDomElement();
-      
+
       if (thisEl && thisEl.offsetWidth && childEl && childEl.offsetWidth)
       {
         qx.bom.element.Scroll.intoViewY(childEl, thisEl, align);
       }
       else
       {
-        this.__lazyScrollIntoViewY = 
+        this.__lazyScrollIntoViewY =
         {
           element : elem,
           align : align
         };
-        
+
         qx.html.Element._scroll[this.$$hash] = this;
         qx.html.Element._scheduleFlush("element");
       }
-      
-      delete this.__lazyScrollY;          
+
+      delete this.__lazyScrollY;
     },
 
     scrollToX : function(x)
@@ -1476,7 +1476,7 @@ qx.Class.define("qx.html.Element",
         qx.html.Element._scroll[this.$$hash] = this;
         qx.html.Element._scheduleFlush("element");
       }
-      
+
       delete this.__lazyScrollIntoViewX;
     },
 
@@ -1503,7 +1503,7 @@ qx.Class.define("qx.html.Element",
         qx.html.Element._scroll[this.$$hash] = this;
         qx.html.Element._scheduleFlush("element");
       }
-      
+
       delete this.__lazyScrollIntoViewY;
     },
 
@@ -1516,11 +1516,11 @@ qx.Class.define("qx.html.Element",
 
       return this.__lazyScrollY || 0;
     },
-    
-    
-    
-    
-    
+
+
+
+
+
 
 
 
@@ -1978,6 +1978,22 @@ qx.Class.define("qx.html.Element",
      */
     addListener : function(type, listener, self, capture)
     {
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        var msg =
+          "Failed to dd event listener for type '"+ type +"'" +
+          " to the target '" + this + "': ";
+
+        this.assertString(type, msg + "Invalid event type.");
+        this.assertFunction(listener, msg + "Invalid callback function");
+        if (self !== undefined) {
+          this.assertObject(self, "Invalid context for callback.")
+        }
+        if (capture !== undefined) {
+          this.assertBoolean(capture, "Invalid capture falg.");
+        }
+      }
+
       if (this._element)
       {
         qx.event.Registration.addListener(this._element, type, listener, self, capture);
@@ -2019,6 +2035,22 @@ qx.Class.define("qx.html.Element",
      */
     removeListener : function(type, listener, self, capture)
     {
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        var msg =
+          "Failed to dd event listener for type '"+ type +"'" +
+          " to the target '" + this + "': ";
+
+        this.assertString(type, msg + "Invalid event type.");
+        this.assertFunction(listener, msg + "Invalid callback function");
+        if (self !== undefined) {
+          this.assertObject(self, "Invalid context for callback.")
+        }
+        if (capture !== undefined) {
+          this.assertBoolean(capture, "Invalid capture falg.");
+        }
+      }
+
       if (this._element)
       {
         qx.event.Registration.removeListener(this._element, type, listener, self, capture);
@@ -2037,11 +2069,11 @@ qx.Class.define("qx.html.Element",
 
       return this;
     },
-    
-    
+
+
     hasListener : function(type, capture)
     {
-      throw new Error("hasListener() needs implementation!"); 
+      throw new Error("hasListener() needs implementation!");
     }
   },
 

@@ -309,11 +309,8 @@ qx.Bootstrap.define("qx.event.Registration",
      */
     addHandler : function(handler)
     {
-      if (qx.core.Variant.isSet("qx.debug", "on"))
-      {
-        if (!qx.Class.hasInterface(handler, qx.event.IEventHandler)) {
-          throw new Error("The event handler does not implement the interface qx.event.IEventHandler!");
-        }
+      if (qx.core.Variant.isSet("qx.debug", "on")) {
+        qx.core.Assert.assertInterface(handler, qx.event.IEventHandler, "Invalid event handler.");
       }
 
       // Append to list
@@ -361,11 +358,8 @@ qx.Bootstrap.define("qx.event.Registration",
      */
     addDispatcher : function(dispatcher, priority)
     {
-      if (qx.core.Variant.isSet("qx.debug", "on"))
-      {
-        if (!qx.Class.hasInterface(dispatcher, qx.event.IEventDispatcher)) {
-          throw new Error("The dispatch dispatcher does not implement the interface qx.event.IEventDispatcher!");
-        }
+      if (qx.core.Variant.isSet("qx.debug", "on")) {
+        qx.core.Assert.assertInterface(dispatcher, qx.event.IEventDispatcher, "Invalid event dispatcher!");
       }
 
       // Append to list
