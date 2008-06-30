@@ -1,41 +1,15 @@
 {
   "include" :
   [
-		{
-    	"path" : "../../tool/data/config/application.json",
-			"as"   : "appconf" 
-		}
+    {
+      "path" : "../../tool/data/config/application.json",
+      "as"   : "appconf" 
+    }
   ],
 
-	"let" :
-	{
-		"CACHE"       : "../../cache",
-		"APPLICATION" : "feedreader"
-	},
-
-  "jobs" :
+  "let" :
   {
-    "defaults" :
-    {
-      "let" :
-      {
-				"APPLICATION" : "feedreader"
-      },
-
-      "settings" :
-      {
-        "qx.theme" : "qx.theme.Modern"
-      },
-
-      "localize" :
-      {
-        "locales" : [ "en" ]
-      },
-
-      "cache" :
-      {
-        "path" : "../../cache"
-      }
-    }
+    "CACHE"       : "../../cache",
+    "APPLICATION" : "feedreader"
   }
 }

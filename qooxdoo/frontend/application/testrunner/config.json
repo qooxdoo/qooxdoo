@@ -207,7 +207,7 @@
 
     "api" :
     {
-      "extend": ["appconf/api"],
+      "extend": ["appconf::api"],
 
       "let" :
       {
