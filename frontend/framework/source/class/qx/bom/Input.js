@@ -73,11 +73,8 @@ qx.Class.define("qx.bom.Input",
      */
     create : function(type, attributes, win)
     {
-      if (qx.core.Variant.isSet("qx.debug", "on"))
-      {
-        if (!this.__types[type]) {
-          throw new Error("Unsupported input type: " + type);
-        }
+      if (qx.core.Variant.isSet("qx.debug", "on")) {
+        qx.core.Assert.assertInArray(type, this.__types, "Unsupported input type.");
       }
 
       // Work on a copy to not modify given attributes map
@@ -124,8 +121,8 @@ qx.Class.define("qx.bom.Input",
         element.value = value;
       }
     }),
-    
-    
+
+
     /**
      * Returns the currently configured value.
      *

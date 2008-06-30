@@ -252,6 +252,17 @@ qx.Mixin.define("qx.core.MAssert",
 
 
     /**
+     * Assert the the value is a boolean.
+     *
+     * @param value {var} Value to check
+     * @param msg {String} Message to be shown if the assertion fails.
+     */
+    assertBoolean : function(value, msg) {
+      qx.core.Assert.assertBoolean(value, msg);
+    },
+
+
+    /**
      * Assert the the value is a number.
      *
      * @param value {var} Value to check
