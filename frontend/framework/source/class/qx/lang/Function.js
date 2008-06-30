@@ -231,11 +231,8 @@ qx.Bootstrap.define("qx.lang.Function",
      */
     create : function(func, options)
     {
-      if (qx.core.Variant.isSet("qx.debug", "on"))
-      {
-        if (typeof func !== "function") {
-          throw new Error("Could not bind non-function: " + func);
-        }
+      if (qx.core.Variant.isSet("qx.debug", "on")) {
+        qx.core.Assert.assertFunction(func, "Invalid parameter 'func'.");
       }
 
       // Nothing to be done when there are no options.

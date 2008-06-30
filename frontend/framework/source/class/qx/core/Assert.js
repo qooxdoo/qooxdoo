@@ -31,7 +31,7 @@
  * 
  * Assertions are used in unit tests as well.
  */
-qx.Class.define("qx.core.Assert",
+qx.Bootstrap.define("qx.core.Assert",
 {
   statics :
   {
@@ -346,11 +346,27 @@ qx.Class.define("qx.core.Assert",
       this.__assert(
         typeof value === "string" || value instanceof String,
         msg || "",
-        "Expected value to be typeof string but found " + value + "!"
+        "Expected value to be a string but found " + value + "!"
       );
     },
 
 
+    /**
+     * Assert the the value is a boolean.
+     * 
+     * @param value {var} Value to check
+     * @param msg {String} Message to be shown if the assertion fails. 
+     */
+    assertBoolean : function(value, msg) 
+    {
+      this.__assert(
+        typeof value === "boolean" || value instanceof Boolean, 
+        msg || "", 
+        "Expected value to be a boolean but found " + value + "!"
+      );
+    },
+    
+    
     /**
      * Assert the the value is a number.
      * 
@@ -362,10 +378,10 @@ qx.Class.define("qx.core.Assert",
       this.__assert(
         typeof value === "number" || value instanceof Number, 
         msg || "", 
-        "Expected value to be typeof number but found " + value + "!"
+        "Expected value to be a number but found " + value + "!"
       );
     },
-
+    
 
     /**
      * Assert the the value is an integer.
@@ -479,10 +495,12 @@ qx.Class.define("qx.core.Assert",
      */
     assertInstance : function(value, clazz, msg) 
     {
+      var className = clazz.classname || clazz + "";
+      
       this.__assert(
         value instanceof clazz,
         msg || "",
-        "Expected value to be instanceof '" + clazz + "' but found " + value + "!"
+        "Expected value to be instanceof '" + className + "' but found " + value + "!"
       );
     },
 
@@ -495,7 +513,7 @@ qx.Class.define("qx.core.Assert",
      * @param msg {String} Message to be shown if the assertion fails. 
      */
     assertInterface : function(value, iface, msg) {
-      this.__assert(qx.Class.hasInterface(value, iface), msg || "", "Expected object '" + object + "' to implement the interface '" + iface + "'!");
+      this.__assert(qx.Class.hasInterface(value, iface), msg || "", "Expected object '" + value + "' to implement the interface '" + iface + "'!");
     },
 
 

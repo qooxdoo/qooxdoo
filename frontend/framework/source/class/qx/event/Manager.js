@@ -285,24 +285,18 @@ qx.Bootstrap.define("qx.event.Manager",
     {
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        if (typeof target !== "object") {
-          throw new Error("Could not add listeners to non-objects!");
-        }
+        var msg =
+          "Failed to dd event listener for type '"+ type +"'" +
+          " to the target '" + target + "': ";
 
-        if (typeof type !== "string") {
-          throw new Error("Invalid event type '" + type + "'");
+        qx.core.Assert.assertObject(target, msg + "Invalid Target.");
+        qx.core.Assert.assertString(type, msg + "Invalid event type.");
+        qx.core.Assert.assertFunction(listener, msg + "Invalid callback function");
+        if (self !== undefined) {
+          qx.core.Assert.assertObject(self, "Invalid context for callback.")
         }
-
-        if (typeof listener !== "function") {
-          throw new Error("Invalid listener for event '"+type+"': " + listener);
-        }
-
-        if (self !== undefined && typeof self !== "object") {
-          throw new Error("Invalid context for callback: " + self);
-        }
-
-        if (capture !== undefined && typeof capture !== "boolean") {
-          throw new Error("Capture flags needs to be boolean!");
+        if (capture !== undefined) {
+          qx.core.Assert.assertBoolean(capture, "Invalid capture falg.");
         }
       }
 
@@ -356,7 +350,7 @@ qx.Bootstrap.define("qx.event.Manager",
         isDomNode = true;
         key = "DOM_" + target.tagName.toLowerCase() + "_" + type;
       }
-      
+
       // Please note:
       // Identical operator does not work in IE (as of version 7) because
       // document.parentWindow is not identical to window. Crazy stuff.
@@ -374,7 +368,7 @@ qx.Bootstrap.define("qx.event.Manager",
       {
         key = "UNKNOWN_" + target + "_" + type;
       }
-      
+
 
       var cache = this.__handlerCache;
       if (cache[key]) {
@@ -466,20 +460,18 @@ qx.Bootstrap.define("qx.event.Manager",
     {
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        if (typeof target !== "object") {
-          throw new Error("Could not remove listeners from non-objects!");
-        }
+        var msg =
+          "Failed to dd event listener for type '"+ type +"'" +
+          " to the target '" + target + "': ";
 
-        if (typeof type !== "string") {
-          throw new Error("Invalid event type '" + type + "'");
+        qx.core.Assert.assertObject(target, msg + "Invalid Target.");
+        qx.core.Assert.assertString(type, msg + "Invalid event type.");
+        qx.core.Assert.assertFunction(listener, msg + "Invalid callback function");
+        if (self !== undefined) {
+          qx.core.Assert.assertObject(self, "Invalid context for callback.")
         }
-
-        if (typeof listener !== "function") {
-          throw new Error("Invalid listener for event handling: " + listener);
-        }
-
-        if (capture !== undefined && typeof capture !== "boolean") {
-          throw new Error("Capture flags needs to be boolean!");
+        if (capture !== undefined) {
+          qx.core.Assert.assertBoolean(capture, "Invalid capture falg.");
         }
       }
 
@@ -601,12 +593,10 @@ qx.Bootstrap.define("qx.event.Manager",
     {
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        if (!target) {
-          throw new Error("Event target is undefined!")
-        }
-        if (!(event instanceof qx.event.type.Event)) {
-          throw new Error("Event must be instance of qx.event.type.Event.");
-        }
+        var msg = "Could not dispatch event '" + event + "' on target '" + target +"': ";
+
+        qx.core.Assert.assertObject(target, msg + "Invalid event target.")
+        qx.core.Assert.assertInstance(event, qx.event.type.Event, msg + "Invalid event object.");
       }
 
       // Preparations

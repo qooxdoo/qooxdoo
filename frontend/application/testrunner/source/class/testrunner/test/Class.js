@@ -311,7 +311,7 @@ qx.Class.define("testrunner.test.Class",
           __foo : function()
           {
             if (self.isDebugOn()) {
-              self.assertEquals("__foo", qx.dev.Debug.getFunctionName(args.callee));
+              self.assertEquals("__foo", qx.dev.Debug.getFunctionName(arguments.callee));
             };
           },
 

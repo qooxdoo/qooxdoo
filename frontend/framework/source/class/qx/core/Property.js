@@ -382,7 +382,7 @@ qx.Class.define("qx.core.Property",
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         if (qx.core.Setting.get("qx.propertyDebugLevel") > 1) {
-          console.debug("Generating property group: " + name);
+          qx.log.Logger.debug("Generating property group: " + name);
         }
       }
 
@@ -476,7 +476,7 @@ qx.Class.define("qx.core.Property",
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         if (qx.core.Setting.get("qx.propertyDebugLevel") > 1) {
-          console.debug("Generating property wrappers: " + name);
+          qx.log.Logger.debug("Generating property wrappers: " + name);
         }
       }
 
@@ -599,7 +599,7 @@ qx.Class.define("qx.core.Property",
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         if (qx.core.Setting.get("qx.propertyDebugLevel") > 1) {
-          console.debug("Code[" + this.$$method[variant][name] + "]: " + code.join(""));
+          qx.log.Logger.debug("Code[" + this.$$method[variant][name] + "]: " + code.join(""));
         }
 
         // Overriding temporary wrapper
