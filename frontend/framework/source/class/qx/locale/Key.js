@@ -46,8 +46,8 @@ qx.Class.define("qx.locale.Key",
      */
     getKeyName : function(size, keyIdentifier, locale)
     {
-      if (size != "short" && size != "full") {
-        throw new Error('format must be one of: "short", "full"');
+      if (qx.core.Variant.isSet("qx.debug", "on")) {
+        qx.core.Assert.assertInArray(size, ["short", "full"]);
       }
 
       var key = "key_" + size + "_" + keyIdentifier;
