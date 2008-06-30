@@ -33,9 +33,50 @@ qx.Class.define("qx.ui.tabview.Page",
   construct : function(label, icon)
   {
     this.base(arguments);
-    this._button = this._createButton(label, icon);
+
+    this.setAppearance("tabview/page");
+    
+    this._createChildControl("button");
+
+    // init
+    if (label != null) {
+      this.setLabel(label);
+    }
+
+    if (icon != null) {
+      this.setIcon(icon);
+    }
+
+    //this._button = this._createButton(label, icon);
   },
 
+  /*
+   *****************************************************************************
+      PROPERTIES
+   *****************************************************************************
+   */
+
+   properties :
+   {
+
+    /** The label/caption/text of the Page's button. */
+    label :
+    {
+      check : "String",
+      init : "",
+      apply : "_applyLabel"
+    },
+    
+    
+    /** Any URI String supported by qx.ui.basic.Image to display an icon in Page's button. */
+    icon :
+    {
+      check : "String",
+      init : "",
+      apply : "_applyIcon"
+    }
+
+   },
 
 
   /*
@@ -46,6 +87,55 @@ qx.Class.define("qx.ui.tabview.Page",
 
   members :
   {
+
+     /*
+     ---------------------------------------------------------------------------
+       APPLY ROUTINES
+     ---------------------------------------------------------------------------
+     */
+
+     // property apply
+     _applyIcon : function(value, old) {
+       this._getChildControl("button").setIcon(value);
+     },
+
+     // property apply
+     _applyLabel : function(value, old) {
+       this._getChildControl("button").setLabel(value);
+     },
+
+    // overridden
+    _createChildControlImpl : function(id)
+    {
+      var control;
+
+      switch(id)
+      {
+        case "button":
+          control = new qx.ui.form.RadioButton;
+          // add a listener for hiding and showing the sites
+          control.addListener("change", function(e)
+          {
+            if (e.getValue()) {
+              this.show();
+            } else {
+              // Use exclude() and not hide() because of
+              // "getCurrentPage" in the TabView class
+              this.exclude();
+            }
+          }, this);
+
+          //control.setAppearance("tabview/button");
+
+          this._add(control);
+          break;
+      }
+      
+      return control || this.base(arguments, id);
+    },
+
+    
+    
     /**
      * Returns the button used within this page. This method is used by
      * the TabView to access the button.
@@ -54,52 +144,8 @@ qx.Class.define("qx.ui.tabview.Page",
      * @return {qx.ui.form.RadioButton} The button associated with this page.
      */
     getButton: function() {
-      return this._button;
+      return this._getChildControl("button");
     },
-
-
-    /**
-     * Constructor helper.
-     * Creates a new RadioButton and adjusts the button for the
-     * needs of the tabview.
-     *
-     * @param label {String} The label of the button.
-     * @param icon {String} Path to the icon.
-     * @return {qx.ui.form.RadioButton} The created button.
-     */
-    _createButton: function(label, icon)
-    {
-      var button = new qx.ui.form.RadioButton(label);
-
-      // set the icon if a icon path is available
-      if (icon) {
-        button.setIcon(icon);
-      }
-
-      // add a listener for hiding and showing the sites
-      button.addListener("change", function(e)
-      {
-        if (e.getValue()) {
-          this.show();
-        } else {
-          // Use exclude() and not hide() because of
-          // "getCurrentPage" in the TabView class
-          this.exclude();
-        }
-      }, this);
-
-      button.setAppearance("tabview/button");
-
-//      button.isFirstVisibleChild() ? button.addState("firstChild") : button.removeState("lastChild");
-//      this.isLastVisibleChild() ? this.addState("lastChild") : this.removeState("lastChild");
-//      this.getView().getAlignTabsToLeft() ? this.addState("alignLeft") : this.removeState("alignLeft");
-//      !this.getView().getAlignTabsToLeft() ? this.addState("alignRight") : this.removeState("alignRight");
-//      this.getView().getPlaceBarOnTop() ? this.addState("barTop") : this.removeState("barTop");
-//      !this.getView().getPlaceBarOnTop() ? this.addState("barBottom") : this.removeState("barBottom");
-
-      return button;
-    },
-
 
     /**
      * Overridden apply method.
@@ -114,23 +160,11 @@ qx.Class.define("qx.ui.tabview.Page",
 
       // since enabled is inheritable value may be null
       if (value == null) {
-        this._button.resetEnabled();
+        this._getChildControl("button").resetEnabled();
       } else {
-        this._button.setEnabled(value);
+        this._getChildControl("button").setEnabled(value);
       }
     }
-  },
-
-
-
-
-  /*
-  *****************************************************************************
-     DESTRUCTOR
-  *****************************************************************************
-  */
-
-  destruct : function() {
-    this._disposeObjects("_button");
   }
+
 });
