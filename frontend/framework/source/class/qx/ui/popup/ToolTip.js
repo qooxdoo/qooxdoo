@@ -43,7 +43,6 @@ qx.Class.define("qx.ui.popup.ToolTip",
 
 
 
-
   /*
   *****************************************************************************
      CONSTRUCTOR
@@ -61,11 +60,18 @@ qx.Class.define("qx.ui.popup.ToolTip",
 
     // Initialize manager
     this.__manager = qx.ui.popup.ToolTipManager.getInstance();
-
-    // Create built-in atom
-    this.__atom = new qx.ui.basic.Atom(label, icon);
     this.setLayout(new qx.ui.layout.Basic());
-    this.add(this.__atom);
+
+    this._createChildControl("atom");
+
+    // init
+    if (label != null) {
+      this.setLabel(label);
+    }
+
+    if (icon != null) {
+      this.setIcon(icon);
+    }
 
     // Instantiate timers
     this._showTimer = new qx.event.Timer(this.getShowTimeout());
@@ -138,7 +144,23 @@ qx.Class.define("qx.ui.popup.ToolTip",
       check : "Integer",
       init : 4000,
       apply : "_applyHideTimeout"
+    },
+
+    label :
+    {
+      check : "String",
+      init : "",
+      apply : "_applyLabel"
+    },
+
+
+    icon :
+    {
+      check : "String",
+      init : "",
+      apply : "_applyIcon"
     }
+
   },
 
 
@@ -155,6 +177,22 @@ qx.Class.define("qx.ui.popup.ToolTip",
     _minZIndex : 1e7,
 
 
+    // overridden
+    _createChildControlImpl : function(id)
+    {
+      var control;
+
+      switch(id)
+      {
+        case "atom":
+          control = new qx.ui.basic.Atom;
+          this._add(control);
+          break;
+      }
+      
+      return control || this.base(arguments, id);
+    },
+
     /**
      * Accessor method to get the atom sub widget
      *
@@ -164,7 +202,7 @@ qx.Class.define("qx.ui.popup.ToolTip",
      * @return {qx.ui.basic.Atom} atom sub widget
      */
     getAtom : function() {
-      return this.__atom;
+      return this._getChildControl("atom");
     },
 
 
@@ -187,7 +225,15 @@ qx.Class.define("qx.ui.popup.ToolTip",
       this._showTimer.setInterval(value);
     },
 
+    // property apply
+    _applyIcon : function(value, old) {
+      this._getChildControl("atom").setIcon(value);
+    },
 
+    // property apply
+    _applyLabel : function(value, old) {
+      this._getChildControl("atom").setLabel(value);
+    },
 
 
     /*

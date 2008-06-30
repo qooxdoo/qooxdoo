@@ -599,6 +599,9 @@ qx.Theme.define("qx.theme.modern.Appearance",
       }
     },
 
+    "tooltip/atom" : "atom",
+
+    "tooltip/label" : "label",
 
     /*
     ---------------------------------------------------------------------------
