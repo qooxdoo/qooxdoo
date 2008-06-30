@@ -646,6 +646,9 @@ qx.Theme.define("qx.theme.classic.Appearance",
       TABVIEW
     ---------------------------------------------------------------------------
     */
+    
+    "tabview" : {
+    },
 
     "tabview/bar" : 
     {
@@ -826,9 +829,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
-
-
-
+    "tabview/page/button" : "tabview/button",
 
     /*
     ---------------------------------------------------------------------------
