@@ -42,7 +42,7 @@ class Job(object):
         console      = console_
 
 
-    def _mergeJob(self, sourceJob):
+    def mergeJob(self, sourceJob):
         sData = sourceJob.getData()
         target= self.getData()
         for key in sData:
@@ -76,13 +76,7 @@ class Job(object):
         if self.hasFeature(self.RESOLVED_KEY):
             return
 
-        # pre-include global 'let'
-        global_let = self._config.get('let',False)
-        if global_let:
-            if self.hasFeature('let'):
-                self.setFeature('let', self._mapMerge(global_let, self.getFeature('let')))
-            else:
-                self.setFeature('let', global_let)
+        self.includeGlobalLet() # make sure potential global let is included first
 
         if self.hasFeature("extend"):
             # loop through 'extend' entries
@@ -100,12 +94,13 @@ class Job(object):
                 entryJob.resolveExtend(entryTrace + [self.name])
 
                 # now merge the fully expanded job into the current job
-                self._mergeJob(entryJob)
+                self.mergeJob(entryJob)
 
         self.setFeature(self.RESOLVED_KEY, True)
 
 
     def resolveMacros(self):
+        self.includeGlobalLet() # make sure potential global let is included
         if self.hasFeature('let'):
             # exand macros in the let
             letMap = self.getFeature('let')
@@ -124,6 +119,18 @@ class Job(object):
                     
             # apply dict to other values
             self._expandMacrosInValues(self._data, letmaps)
+
+
+    def includeGlobalLet(self, additionalLet=None):
+        newlet = self._mapMerge(self.getFeature('let',{}),{}) # init with local let
+        if additionalLet:
+            newlet = self._mapMerge(additionalLet, newlet)
+        global_let = self._config.get('let',False)
+        if global_let:
+            newlet = self._mapMerge(global_let, newlet)
+
+        if newlet:
+            self.setFeature('let', newlet) # set cumulative let value
 
 
     def _expandString(self, s, mapstr, mapbin):
@@ -227,8 +234,11 @@ class Job(object):
     def setFeature(self, feature, value):
         self._data[feature]=value
 
-    def getFeature(self, feature):
-        return self._data[feature]
+    def getFeature(self, feature, default=None):
+        if self._data.has_key(feature):
+            return self._data[feature]
+        else:
+            return default
 
     def removeFeature(self, feature):
         if feature in self._data:

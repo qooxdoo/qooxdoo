@@ -245,16 +245,21 @@ class Config:
             if self.hasJob(newjobname):
                 raise KeyError, "Job already exists: \"%s\"" % newjobname
             else:
+                # take essentially the external job into the local joblist
                 extJob = extConfig.getJob(extJobEntry)  # fetch this job
+                newJob = Job(newjobname, {}, self._console, self) # fake as local job, for _includeGlobalLet to run locally
+                newJob.includeGlobalLet()  # have to draw in local let before all the external let's are processed
+                newJob.mergeJob(extJob)    # now merge in the external guy
+                newJob.setConfig(extJob.getConfig()) # retain link to external config
                 # patch job references in 'run', 'extend', ... keys
                 for key in Job.KEYS_WITH_JOB_REFS:
-                    if extJob.hasFeature(key):
+                    if newJob.hasFeature(key):
                         newlist = []
-                        oldlist = extJob.getFeature(key)
+                        oldlist = newJob.getFeature(key)
                         for jobname in oldlist:
                             newlist.append(extConfig.getJob(jobname))
-                        extJob.setFeature(key, newlist)
-                self.addJob(newjobname, extJob)         # and add it
+                        newJob.setFeature(key, newlist)
+                self.addJob(newjobname, newJob)         # and add it
         return
 
 
@@ -321,6 +326,8 @@ class Config:
                 for subjob in job.getFeature("run"):
                     
                     subjobObj = self.getJob(subjob)
+                    if not subjobObj:
+                        raise RuntimeError, "No such job: %s" % subjob
                     # make new job map job::subjob as copy of job, but extend[subjob]
                     newjobname = jobName + self.COMPOSED_NAME_SEP + \
                                  subjobObj.name.replace(self.NS_SEP, self.COMPOSED_NAME_SEP)
