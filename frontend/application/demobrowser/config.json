@@ -218,7 +218,7 @@
     /* API Viewer for Demobrowser */
     "api" :
     {
-      "extend" : ["apiconf/build"],
+      "extend" : ["apiconf::build"],
 
       "let" :
       {

@@ -152,7 +152,7 @@
     /* API Viewer for portal application */
     "api" :
     {
-      "extend" : ["apiconf/build"],
+      "extend" : ["apiconf::build"],
 
       "let" :
       {
