@@ -105,7 +105,11 @@ qx.Theme.define("qx.theme.classic.Appearance",
           padding : [ 1, 3, 2, 3 ]
         };
       }
-    },    
+    },
+    
+    "tooltip/atom" : "atom",
+
+    "tooltip/label" : "label",
 
     "iframe" :
     {
