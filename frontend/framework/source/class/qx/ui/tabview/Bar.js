@@ -26,32 +26,6 @@ qx.Class.define("qx.ui.tabview.Bar",
 
   /*
   *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
-  /**
-   * @param orientation {String?"horizontal"} The slide bar orientation
-   */
-  construct : function(orientation)
-  {
-    this.base(arguments, orientation);
-
-    /*
-    this._getChildControl("pane").addListener("addChildWidget", function(e) {
-      var child = e.getData();
-      child.addListener("mousedown", function(e) {
-        this._scrollPane.scrollItemIntoView(child);
-      }, this);
-    }, this);
-    */
-  },
-
-
-
-
-  /*
-  *****************************************************************************
      MEMBERS
   *****************************************************************************
   */
@@ -62,93 +36,37 @@ qx.Class.define("qx.ui.tabview.Bar",
     _createChildControlImpl : function(id)
     {
       var control;
+      
       switch(id)
       {
         case "button-forward":
           control = new qx.ui.form.RepeatButton()
           control.setFocusable(false);
-          control.addListener("execute", this._scrollForward, this);
+          control.addListener("execute", this._onExecuteForward, this);
           this._add(control);
           break;
 
         case "button-back":
           control = new qx.ui.form.RepeatButton();
           control.setFocusable(false);
-          control.addListener("execute", this._scrollBack, this);
+          control.addListener("execute", this._onExecuteBackward, this);
           this._addBefore(control, this._getChildControl("button-forward"));
           break;
       }
+      
       control = control || this.base(arguments, id);
       return control;
     },
-
-
-    scrollButtonIntoView : function(button)
+    
+    
+    _onExecuteForward : function(e)
     {
-      var buttons = this._getChildControl("pane").getChildren();
-
-      var index = buttons.indexOf(button);
-      if (index == 0) {
-        this._scrollPane.scrollToX(0);
-      } else if (index == buttons.length-1) {
-        this._scrollPane.scrollToX(32000);
-      } else {
-        this._scrollPane.scrollItemIntoView(button);
-      }
+      this.debug("forward");
     },
-
-
-    _scrollBack : function()
+    
+    _onExecuteBackward : function(e)
     {
-      var pane = this._getChildControl("pane");
-      var insets = pane.getInsets();
-
-      var scrollPos = this._scrollPane.getScrollX();
-      var outerSize = this._scrollPane.getBounds().width;
-
-      var buttons = pane.getChildren();
-
-      for (i=buttons.length-1; i>=0; i--)
-      {
-        var button = buttons[i];
-
-        var bounds = button.getBounds();
-        var left = bounds.left + insets.left;
-        var right = left + bounds.width;
-
-        if (left < scrollPos)
-        {
-          this.scrollButtonIntoView(button);
-          break;
-        }
-      }
-    },
-
-
-    _scrollForward : function()
-    {
-      var pane = this._getChildControl("pane");
-      var insets = pane.getInsets();
-
-      var scrollPos = this._scrollPane.getScrollX();
-      var outerSize = this._scrollPane.getBounds().width;
-
-      var buttons = pane.getChildren();
-
-      for (var i=0; i<buttons.length; i++)
-      {
-        var button = buttons[i];
-
-        var bounds = button.getBounds();
-        var left = bounds.left + insets.left;
-        var right = left + bounds.width;
-
-        if (left > outerSize + scrollPos || right > outerSize + scrollPos)
-        {
-          this.scrollButtonIntoView(button);
-          break;
-        }
-      }
+      this.debug("backward");
     }
   }
 });

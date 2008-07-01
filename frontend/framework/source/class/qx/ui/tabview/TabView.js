@@ -97,13 +97,7 @@ qx.Class.define("qx.ui.tabview.TabView",
           control = new qx.ui.core.RadioManager().set({
             wrap: false
           });
-          control.addListener("change", function(e)
-          {
-            var button = e.getValue();
-            if (button) {
-              this._getChildControl("bar").scrollButtonIntoView(button);
-            }
-          }, this);
+          control.addListener("change", this._onChange, this);
           break;
 
         case "bar":
@@ -134,8 +128,10 @@ qx.Class.define("qx.ui.tabview.TabView",
     {
       // add the button to the bar
       this._getChildControl("bar").add(page.getButton());
+      
       // add the button to the radio manager
       this._getChildControl("manager").add(page.getButton());
+      
       // add the page to the pane
       this._getChildControl("pane").add(page);
 
@@ -178,7 +174,8 @@ qx.Class.define("qx.ui.tabview.TabView",
      *
      * @param page {qx.ui.tabview.Page} The page to show.
      */
-    showPage: function(page) {
+    showPage: function(page) 
+    {
       // TODO: check if the button is in the bar
       this._getChildControl("manager").setSelected(page.getButton());
     },
@@ -213,9 +210,12 @@ qx.Class.define("qx.ui.tabview.TabView",
     {
       var bar = this._getChildControl("bar");
       bar.getLayout().setAlignX(value ? "left" : "right");
+      
       // set or remove the state on the buttons
       var buttons = bar.getChildren();
-      for (var i = 0; i < buttons.length; i++) {
+      
+      for (var i = 0; i < buttons.length; i++) 
+      {
         if (value) {
           buttons[i].addState("alignLeft");
         } else {
@@ -238,17 +238,31 @@ qx.Class.define("qx.ui.tabview.TabView",
      */
     _applyPlaceBarOnTop : function(value, old) 
     {
+      var bar = this._getChildControl("bar");
+      
       // reverse the layout
       this._getLayout().setReversed(!value);
+      
       // set or remove the state on the buttons
-      var buttons = this._getChildControl("bar").getChildren();
-      for (var i = 0; i < buttons.length; i++) {
+      var buttons = bar.getChildren();
+      
+      for (var i = 0; i < buttons.length; i++) 
+      {
         if (value) {
           buttons[i].addState("barTop");
         } else {
           buttons[i].removeState("barTop");
         }
       }
-    }
+    },
+    
+    
+    _onChange : function(e)
+    {
+      var button = e.getValue();
+      if (button) {
+        this._getChildControl("bar").scrollChildIntoView(button);
+      }
+    }  
   }
 });
