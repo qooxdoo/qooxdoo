@@ -38,116 +38,110 @@ import obfuscator, accessorobfuscator
 def getparser():
     parser = optparse.OptionParser("usage: %prog [options]", option_class=optparseext.ExtendAction)
 
-
-    #################################################################################
-    # GENERAL
-    #################################################################################
-
-    # From/To File
-    parser.add_option("--from-file", dest="fromFile", metavar="FILENAME", help="Read options from FILENAME.")
-    parser.add_option("--export-to-file", dest="exportToFile", metavar="FILENAME", help="Store options to FILENAME.")
-
-    # Directories (Lists, Match using index)
-    parser.add_option("--class-path", action="extend", dest="classPath", metavar="DIRECTORY", type="string", default=[], help="Define a class path.")
-    parser.add_option("--class-uri", action="extend", dest="classUri", metavar="PATH", type="string", default=[], help="Define a script path for the source version.")
-    parser.add_option("--class-encoding", action="extend", dest="classEncoding", metavar="ENCODING", type="string", default=[], help="Define the encoding for a class path.")
-    parser.add_option("--resource-input", action="extend", dest="resourceInput", metavar="DIRECTORY", type="string", default=[], help="Define a resource input directory.")
-    parser.add_option("--resource-output", action="extend", dest="resourceOutput", metavar="DIRECTORY", type="string", default=[], help="Define a resource output directory.")
+    # General options
+    group = optparse.OptionGroup(parser, "General Options")
+    group.add_option("-q", "--quiet", action="store_false", dest="verbose", default=False, help="Quiet output mode.")
+    group.add_option("-v", "--verbose", action="store_true", dest="verbose", help="Verbose output mode.")
+    group.add_option("--version", dest="version", default="0.0", metavar="VERSION", help="Version number of qooxdoo")
+    group.add_option("--package-id", dest="packageId", default="", metavar="ID", help="Defines a package ID (required for string optimization etc.)")
+    group.add_option("--disable-internal-check", action="store_true", dest="disableInternalCheck", default=False, help="Disable check of modifications to internal files.")
+    group.add_option("--cache-directory", dest="cacheDirectory", metavar="DIRECTORY", help="If this is defined the loader trys to use cache to optimize the performance.")
+    group.add_option("--from-file", dest="fromFile", metavar="FILENAME", help="Read options from FILENAME.")
+    group.add_option("--export-to-file", dest="exportToFile", metavar="FILENAME", help="Store options to FILENAME.")
+    parser.add_option_group(group)
 
     # Available Actions
-    parser.add_option("--generate-compiled-script", action="store_true", dest="generateCompiledScript", default=False, help="Compile source files.")
-    parser.add_option("--generate-source-script", action="store_true", dest="generateSourceScript", default=False, help="Generate source version.")
-    parser.add_option("--generate-api-documentation", action="store_true", dest="generateApiDocumentation", default=False, help="Generate API documentation.")
-    parser.add_option("--copy-resources", action="store_true", dest="copyResources", default=False, help="Copy resource files.")
-    parser.add_option("--fix-source", action="store_true", dest="fixSource", default=False, help="Fix source files")
-    parser.add_option("--pretty-print", action="store_true", dest="prettyPrint", default=False, help="Pretty print source code.")
-    parser.add_option("--migrate-source", action="store_true", dest="migrateSource", default=False, help="Migrate existing code to new version.")
+    group = optparse.OptionGroup(parser, "Actions")
+    group.add_option("--generate-compiled-script", action="store_true", dest="generateCompiledScript", default=False, help="Compile source files.")
+    group.add_option("--generate-source-script", action="store_true", dest="generateSourceScript", default=False, help="Generate source version.")
+    group.add_option("--generate-api-documentation", action="store_true", dest="generateApiDocumentation", default=False, help="Generate API documentation.")
+    group.add_option("--copy-resources", action="store_true", dest="copyResources", default=False, help="Copy resource files.")
+    group.add_option("--fix-source", action="store_true", dest="fixSource", default=False, help="Fix source files")
+    group.add_option("--pretty-print", action="store_true", dest="prettyPrint", default=False, help="Pretty print source code.")
+    group.add_option("--migrate-source", action="store_true", dest="migrateSource", default=False, help="Migrate existing code to new version.")
+    parser.add_option_group(group)
 
-    # Debug Actions
-    parser.add_option("--store-tokens", action="store_true", dest="storeTokens", default=False, help="Store tokenized content of source files. (Debugging)")
-    parser.add_option("--store-tree", action="store_true", dest="storeTree", default=False, help="Store tree content of source files. (Debugging)")
-    parser.add_option("--print-files", action="store_true", dest="printFiles", default=False, help="Output known files. (Debugging)")
-    parser.add_option("--print-modules", action="store_true", dest="printModules", default=False, help="Output known modules. (Debugging)")
-    parser.add_option("--print-files-without-modules", action="store_true", dest="printFilesWithoutModules", default=False, help="Output files which have no module connection. (Debugging)")
-    parser.add_option("--print-includes", action="store_true", dest="printIncludes", default=False, help="Output sorted file list. (Debugging)")
-    parser.add_option("--print-includes-file", dest="printIncludesFile", default=False, help="Save sorted include list to a file. (Debugging)")
-    parser.add_option("--print-dependencies", action="store_true", dest="printDependencies", default=False, help="Output dependencies of files. (Debugging)")
-    parser.add_option("--dependencies-graphviz-file", dest="depDotFile", metavar="FILENAME", help="Save dependencies as graphviz dot file. (Debugging)")
+    # Directories (Lists, Match using index)
+    group = optparse.OptionGroup(parser, "Input")
+    group.add_option("--class-path", action="extend", dest="classPath", metavar="DIRECTORY", type="string", default=[], help="Define a class path.")
+    group.add_option("--class-uri", action="extend", dest="classUri", metavar="PATH", type="string", default=[], help="Define a script path for the source version.")
+    group.add_option("--class-encoding", action="extend", dest="classEncoding", metavar="ENCODING", type="string", default=[], help="Define the encoding for a class path.")
+    group.add_option("--resource-input", action="extend", dest="resourceInput", metavar="DIRECTORY", type="string", default=[], help="Define a resource input directory.")
+    group.add_option("--resource-output", action="extend", dest="resourceOutput", metavar="DIRECTORY", type="string", default=[], help="Define a resource output directory.")
+    parser.add_option_group(group)
+
+    # Include/Exclude
+    group = optparse.OptionGroup(parser, "Class Selection Options")
+    group.add_option("-i", "--include", action="extend", dest="include", metavar="ID", type="string", default=[], help="Include ID")
+    group.add_option("-e", "--exclude", action="extend", dest="exclude", metavar="ID", type="string", default=[], help="Exclude ID")
+    group.add_option("--include-without-dependencies", action="extend", dest="includePure", metavar="ID", type="string", default=[], help="Include ID")
+    group.add_option("--exclude-without-dependencies", action="extend", dest="excludePure", metavar="ID", type="string", default=[], help="Exclude ID")
+    parser.add_option_group(group)
 
     # Output files
-    parser.add_option("--source-script-file", dest="sourceScriptFile", metavar="FILENAME", help="Name of output file from source build process.")
-    parser.add_option("--source-template-input-file", dest="sourceTemplateInputFile", metavar="FILENAME", help="Name of a template file to patch")
-    parser.add_option("--source-template-output-file", dest="sourceTemplateOutputFile", metavar="FILENAME", help="Name of the resulting file to store the modified template to.")
-    parser.add_option("--source-template-replace", dest="sourceTemplateReplace", default="<!-- qooxdoo-script-block -->", metavar="CODE", help="Content of the template which should be replaced with the script block.")
-    parser.add_option("--compiled-script-file", dest="compiledScriptFile", metavar="FILENAME", help="Name of output file from compiler.")
-    parser.add_option("--api-documentation-json-file", dest="apiDocumentationJsonFile", metavar="FILENAME", help="Name of JSON API file.")
-    parser.add_option("--api-documentation-xml-file", dest="apiDocumentationXmlFile", metavar="FILENAME", help="Name of XML API file.")
-    parser.add_option("--api-separate-files", action="store_true", dest="apiSeparateFiles", default=False, help="Output each class documentation into a separate file.")
-    parser.add_option("--api-documentation-index-file", dest="apiDocumentationIndexFile", metavar="FILENAME", help="Name of API search index file.")
-
-    # Encoding
-    parser.add_option("--script-output-encoding", dest="scriptOutputEncoding", default="utf-8", metavar="ENCODING", help="Defines the encoding used for script output files.")
-    parser.add_option("--xml-output-encoding", dest="xmlOutputEncoding", default="utf-8", metavar="ENCODING", help="Defines the encoding used for XML output files.")
-
-
-
-    #################################################################################
-    # OPTIONS
-    #################################################################################
-
-    # General options
-    parser.add_option("-q", "--quiet", action="store_false", dest="verbose", default=False, help="Quiet output mode.")
-    parser.add_option("-v", "--verbose", action="store_true", dest="verbose", help="Verbose output mode.")
-    parser.add_option("--version", dest="version", default="0.0", metavar="VERSION", help="Version number of qooxdoo")
-    parser.add_option("--package-id", dest="packageId", default="", metavar="ID", help="Defines a package ID (required for string optimization etc.)")
-    parser.add_option("--disable-internal-check", action="store_true", dest="disableInternalCheck", default=False, help="Disable check of modifications to internal files.")
+    group = optparse.OptionGroup(parser, "Output")
+    group.add_option("--source-script-file", dest="sourceScriptFile", metavar="FILENAME", help="Name of output file from source build process.")
+    group.add_option("--source-template-input-file", dest="sourceTemplateInputFile", metavar="FILENAME", help="Name of a template file to patch")
+    group.add_option("--source-template-output-file", dest="sourceTemplateOutputFile", metavar="FILENAME", help="Name of the resulting file to store the modified template to.")
+    group.add_option("--source-template-replace", dest="sourceTemplateReplace", default="<!-- qooxdoo-script-block -->", metavar="CODE", help="Content of the template which should be replaced with the script block.")
+    group.add_option("--compiled-script-file", dest="compiledScriptFile", metavar="FILENAME", help="Name of output file from compiler.")
+    group.add_option("--script-output-encoding", dest="scriptOutputEncoding", default="utf-8", metavar="ENCODING", help="Defines the encoding used for script output files.")
+    group.add_option("--xml-output-encoding", dest="xmlOutputEncoding", default="utf-8", metavar="ENCODING", help="Defines the encoding used for XML output files.")
+    group.add_option("--enable-resource-filter", action="store_true", dest="enableResourceFilter", default=False, help="Enable filtering of resource files used by classes (based on #embed).")
+    parser.add_option_group(group)
 
     # Options for source and compiled version
-    parser.add_option("--use-setting", action="extend", dest="useSetting", type="string", metavar="NAMESPACE.KEY:VALUE", default=[], help="Define a setting.")
-    parser.add_option("--use-variant", action="extend", dest="useVariant", type="string", metavar="NAMESPACE.KEY:VALUE", default=[], help="Optimize for the given variant.")
-    parser.add_option("--add-new-lines", action="store_true", dest="addNewLines", default=False, help="Keep newlines in compiled files.")
-    parser.add_option("--add-require", action="extend", dest="addRequire", metavar="CLASS1:CLASS2", type="string", default=[], help="Define that CLASS1 requires CLASS2.")
-    parser.add_option("--add-use", action="extend", dest="addUse", metavar="CLASS1:CLASS2", type="string", default=[], help="Define that CLASS1 uses CLASS2.")
+    group = optparse.OptionGroup(parser, "Source/Compile Options")
+    group.add_option("--use-setting", action="extend", dest="useSetting", type="string", metavar="NAMESPACE.KEY:VALUE", default=[], help="Define a setting.")
+    group.add_option("--use-variant", action="extend", dest="useVariant", type="string", metavar="NAMESPACE.KEY:VALUE", default=[], help="Optimize for the given variant.")
+    group.add_option("--add-new-lines", action="store_true", dest="addNewLines", default=False, help="Keep newlines in compiled files.")
+    group.add_option("--add-require", action="extend", dest="addRequire", metavar="CLASS1:CLASS2", type="string", default=[], help="Define that CLASS1 requires CLASS2.")
+    group.add_option("--add-use", action="extend", dest="addUse", metavar="CLASS1:CLASS2", type="string", default=[], help="Define that CLASS1 uses CLASS2.")
+    parser.add_option_group(group)
 
     # Options for compiled version
-    parser.add_option("--add-file-ids", action="store_true", dest="addFileIds", default=False, help="Add file IDs to compiled output.")
-    parser.add_option("--optimize-strings", action="store_true", dest="optimizeStrings", default=False, help="Optimize strings. Increase mshtml performance.")
-    parser.add_option("--optimize-variables", action="store_true", dest="optimizeVariables", default=False, help="Optimize variables. Reducing size.")
-    parser.add_option("--optimize-variables-skip-prefix", action="store", dest="optimizeVariablesSkipPrefix", metavar="PREFIX", default="", help="Skip optimization of variables beginning with PREFIX [default: optimize all variables].")
-    parser.add_option("--optimize-base-call", action="store_true", dest="optimizeBaseCall", default=False, help="Optimize call to 'this.base'. Optimizing runtime of super class calls.")
-    parser.add_option("--optimize-private", action="store_true", dest="optimizePrivate", default=False, help="Optimize private members. Reducing size and testing private.")
-    parser.add_option("--obfuscate", action="store_true", dest="obfuscate", default=False, help="Enable obfuscation")
-    parser.add_option("--obfuscate-accessors", action="store_true", dest="obfuscateAccessors", default=False, help="Enable accessor obfuscation")
+    group = optparse.OptionGroup(parser, "Compile Options")
+    group.add_option("--add-file-ids", action="store_true", dest="addFileIds", default=False, help="Add file IDs to compiled output.")
+    group.add_option("--optimize-strings", action="store_true", dest="optimizeStrings", default=False, help="Optimize strings. Increase mshtml performance.")
+    group.add_option("--optimize-variables", action="store_true", dest="optimizeVariables", default=False, help="Optimize variables. Reducing size.")
+    group.add_option("--optimize-variables-skip-prefix", action="store", dest="optimizeVariablesSkipPrefix", metavar="PREFIX", default="", help="Skip optimization of variables beginning with PREFIX [default: optimize all variables].")
+    group.add_option("--optimize-base-call", action="store_true", dest="optimizeBaseCall", default=False, help="Optimize call to 'this.base'. Optimizing runtime of super class calls.")
+    group.add_option("--optimize-private", action="store_true", dest="optimizePrivate", default=False, help="Optimize private members. Reducing size and testing private.")
+    group.add_option("--obfuscate", action="store_true", dest="obfuscate", default=False, help="Enable obfuscation")
+    group.add_option("--obfuscate-accessors", action="store_true", dest="obfuscateAccessors", default=False, help="Enable accessor obfuscation")
+    parser.add_option_group(group)
 
     # Options for pretty printing
     compiler.addCommandLineOptions(parser)
 
-    # Options for resource copying
-    parser.add_option("--enable-resource-filter", action="store_true", dest="enableResourceFilter", default=False, help="Enable filtering of resource files used by classes (based on #embed).")
-
-    # Options for token/tree storage
-    parser.add_option("--token-output-directory", dest="tokenOutputDirectory", metavar="DIRECTORY", help="Define output directory for tokenizer result of the incoming JavaScript files. (Debugging)")
-    parser.add_option("--tree-output-directory", dest="treeOutputDirectory", metavar="DIRECTORY", help="Define output directory for generated tree of the incoming JavaScript files. (Debugging)")
-
-    # Cache Directory
-    parser.add_option("--cache-directory", dest="cacheDirectory", metavar="DIRECTORY", help="If this is defined the loader trys to use cache to optimize the performance.")
+    # API Doc
+    group = optparse.OptionGroup(parser, "API Documentation")
+    group.add_option("--api-documentation-json-file", dest="apiDocumentationJsonFile", metavar="FILENAME", help="Name of JSON API file.")
+    group.add_option("--api-documentation-xml-file", dest="apiDocumentationXmlFile", metavar="FILENAME", help="Name of XML API file.")
+    group.add_option("--api-separate-files", action="store_true", dest="apiSeparateFiles", default=False, help="Output each class documentation into a separate file.")
+    group.add_option("--api-documentation-index-file", dest="apiDocumentationIndexFile", metavar="FILENAME", help="Name of API search index file.")
+    parser.add_option_group(group)
 
     # Options for migration support
-    parser.add_option("--migration-target", dest="migrationTarget", metavar="VERSION", help="Define the target for migration of source code.")
-    parser.add_option("--migration-input", action="extend", dest="migrationInput", metavar="DIRECTORY", type="string", default=[], help="Define additional directories for to directories to migrate e.g. HTML files, ...")
+    group = optparse.OptionGroup(parser, "Migration Support")
+    group.add_option("--migration-target", dest="migrationTarget", metavar="VERSION", help="Define the target for migration of source code.")
+    group.add_option("--migration-input", action="extend", dest="migrationInput", metavar="DIRECTORY", type="string", default=[], help="Define additional directories for to directories to migrate e.g. HTML files, ...")
+    parser.add_option_group(group)
 
-
-
-
-    #################################################################################
-    # INCLUDE/EXCLUDE
-    #################################################################################
-
-    # Include/Exclude
-    parser.add_option("-i", "--include", action="extend", dest="include", metavar="ID", type="string", default=[], help="Include ID")
-    parser.add_option("-e", "--exclude", action="extend", dest="exclude", metavar="ID", type="string", default=[], help="Exclude ID")
-    parser.add_option("--include-without-dependencies", action="extend", dest="includePure", metavar="ID", type="string", default=[], help="Include ID")
-    parser.add_option("--exclude-without-dependencies", action="extend", dest="excludePure", metavar="ID", type="string", default=[], help="Exclude ID")
+    # Debug Actions
+    group = optparse.OptionGroup(parser, "Debugging")
+    group.add_option("--store-tokens", action="store_true", dest="storeTokens", default=False, help="Store tokenized content of source files. (Debugging)")
+    group.add_option("--store-tree", action="store_true", dest="storeTree", default=False, help="Store tree content of source files. (Debugging)")
+    group.add_option("--token-output-directory", dest="tokenOutputDirectory", metavar="DIRECTORY", help="Define output directory for tokenizer result of the incoming JavaScript files. (Debugging)")
+    group.add_option("--tree-output-directory", dest="treeOutputDirectory", metavar="DIRECTORY", help="Define output directory for generated tree of the incoming JavaScript files. (Debugging)")
+    group.add_option("--print-files", action="store_true", dest="printFiles", default=False, help="Output known files. (Debugging)")
+    group.add_option("--print-modules", action="store_true", dest="printModules", default=False, help="Output known modules. (Debugging)")
+    group.add_option("--print-files-without-modules", action="store_true", dest="printFilesWithoutModules", default=False, help="Output files which have no module connection. (Debugging)")
+    group.add_option("--print-includes", action="store_true", dest="printIncludes", default=False, help="Output sorted file list. (Debugging)")
+    group.add_option("--print-includes-file", dest="printIncludesFile", default=False, help="Save sorted include list to a file. (Debugging)")
+    group.add_option("--print-dependencies", action="store_true", dest="printDependencies", default=False, help="Output dependencies of files. (Debugging)")
+    group.add_option("--dependencies-graphviz-file", dest="depDotFile", metavar="FILENAME", help="Save dependencies as graphviz dot file. (Debugging)")
+    parser.add_option_group(group)
 
     return parser
 
