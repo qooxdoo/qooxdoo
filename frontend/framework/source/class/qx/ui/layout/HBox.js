@@ -503,6 +503,12 @@ qx.Class.define("qx.ui.layout.HBox",
     },
     
     
+    /**
+     * Computes the gaps together with the configuration of separators.
+     *
+     * @type member
+     * @return {Integer} Sum of gaps
+     */
     computeSeparatorGaps : function()
     {
       var children = this.__children;

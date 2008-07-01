@@ -368,7 +368,22 @@ qx.Class.define("qx.ui.layout.Util",
     },
 
 
-
+    /**
+     * Arranges two sizes in one box to best respect their individual limitations.
+     *
+     * Mainly used by split layouts (Split Panes) where the layout is mainly defined
+     * by the outer dimensions.
+     *
+     * @type member
+     * @param beginMin {Integer} Minimum size of first widget (from size hint)
+     * @param beginIdeal {Integer} Ideal size of first widget (maybe after dragging the splitter)
+     * @param beginMax {Integer} Maximum size of first widget (from size hint)
+     * @param endMin {Integer} Minimum size of second widget (from size hint)
+     * @param endIdeal {Integer} Ideal size of second widget (maybe after dragging the splitter)
+     * @param endMax {Integer} Maximum size of second widget (from size hint)
+     * @return {Map} Map with the keys <code>begin</code and <code>end</code> with the
+     *   arranged dimensions.
+     */
     arrangeIdeals : function(beginMin, beginIdeal, beginMax, endMin, endIdeal, endMax)
     {
       if (beginIdeal < beginMin || endIdeal < endMin)

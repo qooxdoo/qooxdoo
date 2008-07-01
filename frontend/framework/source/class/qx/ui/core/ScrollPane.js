@@ -79,6 +79,7 @@ qx.Class.define("qx.ui.core.ScrollPane",
 
   properties :
   {
+    /** The horizontal scroll position */
     scrollX : 
     {
       check : "typeof value=='number'&&value>=0&&value<=this.getScrollMaxX()",
@@ -87,6 +88,7 @@ qx.Class.define("qx.ui.core.ScrollPane",
       init  : 0
     },
     
+    /** The vertical scroll position */
     scrollY : 
     {
       check : "typeof value=='number'&&value>=0&&value<=this.getScrollMaxY()",
@@ -190,7 +192,7 @@ qx.Class.define("qx.ui.core.ScrollPane",
      * Event listener for scroll event of content
      *
      * @type member
-     * @param e {Event} Scroll event object
+     * @param e {qx.event.type.Event} Scroll event object
      */    
     _onScroll : function(e) 
     {
@@ -201,6 +203,12 @@ qx.Class.define("qx.ui.core.ScrollPane",
     },
     
     
+    /**
+     * Event listener for appear event of content
+     *
+     * @type member
+     * @param e {qx.event.type.Event} Appear event object
+     */     
     _onAppear : function(e)
     {
       var contentEl = this._contentElement;
@@ -331,15 +339,18 @@ qx.Class.define("qx.ui.core.ScrollPane",
 
 
 
-
-
-
     /*
     ---------------------------------------------------------------------------
       SCROLL SUPPORT
     ---------------------------------------------------------------------------
     */
     
+    /** 
+     * The maximum horizontal scroll position.
+     *
+     * @type member
+     * @return {Integer} Maximum horizontal scroll position.
+     */
     getScrollMaxX : function()
     {
       var paneSize = this.getBounds();
@@ -353,6 +364,12 @@ qx.Class.define("qx.ui.core.ScrollPane",
     },
     
     
+    /** 
+     * The maximum vertical scroll position.
+     *
+     * @type member
+     * @return {Integer} Maximum vertical scroll position.
+     */
     getScrollMaxY : function()
     {
       var paneSize = this.getBounds();
@@ -363,15 +380,6 @@ qx.Class.define("qx.ui.core.ScrollPane",
       }
       
       return 0;
-    },
-    
-    
-    _applyScrollX : function(value) {
-      this._contentElement.scrollToX(value);
-    },
-    
-    _applyScrollY : function(value) {
-      this._contentElement.scrollToY(value);
     },
     
     
@@ -438,6 +446,26 @@ qx.Class.define("qx.ui.core.ScrollPane",
      */
     scrollByY : function(y) {
       this.scrollToY(this.getScrollY() + y);
-    }
+    },
+    
+    
+    
+
+    /*
+    ---------------------------------------------------------------------------
+      PROPERTY APPLY ROUTINES
+    ---------------------------------------------------------------------------
+    */    
+    
+    // property apply
+    _applyScrollX : function(value) {
+      this._contentElement.scrollToX(value);
+    },
+    
+    
+    // property apply
+    _applyScrollY : function(value) {
+      this._contentElement.scrollToY(value);
+    }    
   }
 });
