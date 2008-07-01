@@ -25,13 +25,13 @@
 
 /**
  * A collection of assertions.
- * 
+ *
  * These methods can be used to assert incoming parameters, return values, ...
  * If an assertion fails an {@link AssertionError} is thrown.
- * 
+ *
  * Assertions are used in unit tests as well.
  */
-qx.Bootstrap.define("qx.core.Assert",
+qx.Class.define("qx.core.Assert",
 {
   statics :
   {
@@ -43,7 +43,7 @@ qx.Bootstrap.define("qx.core.Assert",
      *    <code>true</code>.
      * @param comment {String} Message to be shown if the assertion fails. This
      *    message is provided by the user.
-     * @param msg {String} Fail message defined in the calling assertion 
+     * @param msg {String} Fail message defined in the calling assertion
      */
     __assert : function(condition, comment, msg)
     {
@@ -101,7 +101,7 @@ qx.Bootstrap.define("qx.core.Assert",
 
     /**
      * Assert that both values are equal. (Uses the equality operator
-     * <code>==</code>.) 
+     * <code>==</code>.)
      *
      * @param expected {var} Reference value
      * @param found {var} found value
@@ -119,7 +119,7 @@ qx.Bootstrap.define("qx.core.Assert",
 
     /**
      * Assert that both values are identical. (Uses the identity operator
-     * <code>===</code>.) 
+     * <code>===</code>.)
      *
      * @param expected {var} Reference value
      * @param found {var} found value
@@ -128,8 +128,8 @@ qx.Bootstrap.define("qx.core.Assert",
     assertIdentical : function(expected, found, msg)
     {
       this.__assert(
-        expected === found, 
-        msg || "", 
+        expected === found,
+        msg || "",
         "Expected '" + expected + "' (identical) but found '" + found + "'!"
       );
     },
@@ -137,29 +137,29 @@ qx.Bootstrap.define("qx.core.Assert",
 
     /**
      * Assert that both values are not identical. (Uses the not identity operator
-     * <code>!==</code>.) 
+     * <code>!==</code>.)
      *
      * @param expected {var} Reference value
      * @param found {var} found value
      * @param msg {String} Message to be shown if the assertion fails.
      */
-    assertNotIdentical : function(expected, found, msg) 
+    assertNotIdentical : function(expected, found, msg)
     {
       this.__assert(
-        expected !== found, 
-        msg || "", 
+        expected !== found,
+        msg || "",
         "Expected '" + expected + "' to be not identical with '" + found + "'!"
       );
     },
 
 
     /**
-     * Assert that the value is not <code>undefined</code>. 
+     * Assert that the value is not <code>undefined</code>.
      *
      * @param value {var} Value to check
      * @param msg {String} Message to be shown if the assertion fails.
      */
-    assertNotUndefined : function(value, msg) 
+    assertNotUndefined : function(value, msg)
     {
       this.__assert(
         value !== undefined,
@@ -170,47 +170,47 @@ qx.Bootstrap.define("qx.core.Assert",
 
 
     /**
-     * Assert that the value is <code>undefined</code>. 
+     * Assert that the value is <code>undefined</code>.
      *
      * @param value {var} Value to check
      * @param msg {String} Message to be shown if the assertion fails.
      */
-    assertUndefined : function(value, msg) 
+    assertUndefined : function(value, msg)
     {
       this.__assert(
-        value === undefined, 
-        msg || "", 
+        value === undefined,
+        msg || "",
         "Expected value to be undefined but found " + value + "!"
       );
     },
 
 
     /**
-     * Assert that the value is not <code>null</code>. 
+     * Assert that the value is not <code>null</code>.
      *
      * @param value {var} Value to check
      * @param msg {String} Message to be shown if the assertion fails.
      */
-    assertNotNull : function(value, msg) 
+    assertNotNull : function(value, msg)
     {
       this.__assert(
-        value !== null, 
-        msg || "", 
+        value !== null,
+        msg || "",
         "Expected value not to be null but found " + value + "!"
       );
     },
 
 
     /**
-     * Assert that the value is <code>null</code>. 
+     * Assert that the value is <code>null</code>.
      *
      * @param value {var} Value to check
      * @param msg {String} Message to be shown if the assertion fails.
      */
-    assertNull : function(value, msg) 
+    assertNull : function(value, msg)
     {
       this.__assert(value === null,
-        msg || "", 
+        msg || "",
         "Expected value to be null but found " + value + "!"
       );
     },
@@ -305,10 +305,10 @@ qx.Bootstrap.define("qx.core.Assert",
 
     /**
      * Assert the the value is an item in the given array.
-     * 
+     *
      * @param value {var} Value to check
      * @param array {Array} List of valid values
-     * @param msg {String} Message to be shown if the assertion fails. 
+     * @param msg {String} Message to be shown if the assertion fails.
      */
     assertInArray : function(value, array, msg)
     {
@@ -322,10 +322,28 @@ qx.Bootstrap.define("qx.core.Assert",
 
 
     /**
-     * Assert the the value is a function.
-     * 
+     * Assert the the value is a key in the given map.
+     *
      * @param value {var} Value to check
-     * @param msg {String} Message to be shown if the assertion fails. 
+     * @param map {map} Map, where the keys represent the valid values
+     * @param msg {String} Message to be shown if the assertion fails.
+     */
+    assertKeyInMap : function(value, map, msg)
+    {
+      this.__assert(
+        map[value],
+        msg || "",
+        "The value '" + value + "' must must be a key of the map '"
+        + qx.util.Json.stringify(map) + "'"
+      );
+    },
+
+
+    /**
+     * Assert the the value is a function.
+     *
+     * @param value {var} Value to check
+     * @param msg {String} Message to be shown if the assertion fails.
      */
     assertFunction : function(value, msg) {
       this.__assert(
@@ -338,9 +356,9 @@ qx.Bootstrap.define("qx.core.Assert",
 
     /**
      * Assert the the value is a string.
-     * 
+     *
      * @param value {var} Value to check
-     * @param msg {String} Message to be shown if the assertion fails. 
+     * @param msg {String} Message to be shown if the assertion fails.
      */
     assertString : function(value, msg) {
       this.__assert(
@@ -353,43 +371,43 @@ qx.Bootstrap.define("qx.core.Assert",
 
     /**
      * Assert the the value is a boolean.
-     * 
+     *
      * @param value {var} Value to check
-     * @param msg {String} Message to be shown if the assertion fails. 
+     * @param msg {String} Message to be shown if the assertion fails.
      */
-    assertBoolean : function(value, msg) 
+    assertBoolean : function(value, msg)
     {
       this.__assert(
-        typeof value === "boolean" || value instanceof Boolean, 
-        msg || "", 
+        typeof value === "boolean" || value instanceof Boolean,
+        msg || "",
         "Expected value to be a boolean but found " + value + "!"
       );
     },
-    
-    
+
+
     /**
      * Assert the the value is a number.
-     * 
+     *
      * @param value {var} Value to check
-     * @param msg {String} Message to be shown if the assertion fails. 
+     * @param msg {String} Message to be shown if the assertion fails.
      */
-    assertNumber : function(value, msg) 
+    assertNumber : function(value, msg)
     {
       this.__assert(
-        typeof value === "number" || value instanceof Number, 
-        msg || "", 
+        typeof value === "number" || value instanceof Number,
+        msg || "",
         "Expected value to be a number but found " + value + "!"
       );
     },
-    
+
 
     /**
      * Assert the the value is an integer.
-     * 
+     *
      * @param value {var} Value to check
-     * @param msg {String} Message to be shown if the assertion fails. 
-     */    
-    assertInteger : function(value, msg) 
+     * @param msg {String} Message to be shown if the assertion fails.
+     */
+    assertInteger : function(value, msg)
     {
       this.__assert(
         typeof value === "number" && isFinite(value) && value % 1 === 0,
@@ -401,11 +419,11 @@ qx.Bootstrap.define("qx.core.Assert",
 
     /**
      * Assert the the value is inside the given range.
-     * 
+     *
      * @param value {var} Value to check
      * @param min {Number} lower bound
      * @param max {Number} upper bound
-     * @param msg {String} Message to be shown if the assertion fails. 
+     * @param msg {String} Message to be shown if the assertion fails.
      */
     assertInRange : function(value, min, max, msg) {
       this.__assert(
@@ -418,15 +436,15 @@ qx.Bootstrap.define("qx.core.Assert",
 
     /**
      * Assert the the value is an object.
-     * 
+     *
      * @param value {var} Value to check
-     * @param msg {String} Message to be shown if the assertion fails. 
+     * @param msg {String} Message to be shown if the assertion fails.
      */
-    assertObject : function(value, msg) 
+    assertObject : function(value, msg)
     {
       this.__assert(
-        typeof value === "object" && value !== null, 
-        msg || "", 
+        typeof value === "object" && value !== null,
+        msg || "",
         "Expected value to be typeof object but found " + value + "!"
       );
     },
@@ -434,9 +452,9 @@ qx.Bootstrap.define("qx.core.Assert",
 
     /**
      * Assert the the value is an array.
-     * 
+     *
      * @param value {var} Value to check
-     * @param msg {String} Message to be shown if the assertion fails. 
+     * @param msg {String} Message to be shown if the assertion fails.
      */
     assertArray : function(value, msg)
     {
@@ -451,9 +469,9 @@ qx.Bootstrap.define("qx.core.Assert",
     /**
      * Assert the the value is a map either created using <code>new Object</code>
      * or by using the object literal notation <code>{ ... }</code>.
-     * 
+     *
      * @param value {var} Value to check
-     * @param msg {String} Message to be shown if the assertion fails. 
+     * @param msg {String} Message to be shown if the assertion fails.
      */
     assertMap : function(value, msg)
     {
@@ -465,18 +483,18 @@ qx.Bootstrap.define("qx.core.Assert",
       );
     },
 
-    
+
     /**
      * Assert the the value has the given type using the <code>typeof</code>
      * operator. Because the type is not always what it is supposed to be it is
      * better to use more explicit checks like {@link #assertString} or
      * {@link #assertArray}.
-     * 
+     *
      * @param value {var} Value to check
      * @param type {String} expected type of the value
-     * @param msg {String} Message to be shown if the assertion fails. 
+     * @param msg {String} Message to be shown if the assertion fails.
      */
-    assertType : function(value, type, msg) 
+    assertType : function(value, type, msg)
     {
       this.__assert(
         typeof(value) === type,
@@ -485,18 +503,18 @@ qx.Bootstrap.define("qx.core.Assert",
       );
     },
 
-    
+
     /**
      * Assert the the value is an instance of the given class.
-     * 
+     *
      * @param value {var} Value to check
      * @param clazz {Class} The value must be an instance of this class
-     * @param msg {String} Message to be shown if the assertion fails. 
+     * @param msg {String} Message to be shown if the assertion fails.
      */
-    assertInstance : function(value, clazz, msg) 
+    assertInstance : function(value, clazz, msg)
     {
       var className = clazz.classname || clazz + "";
-      
+
       this.__assert(
         value instanceof clazz,
         msg || "",
@@ -504,13 +522,13 @@ qx.Bootstrap.define("qx.core.Assert",
       );
     },
 
-    
+
     /**
      * Assert the the value implements the given interface.
-     * 
+     *
      * @param value {var} Value to check
      * @param iface {Class} The value must implement this interface
-     * @param msg {String} Message to be shown if the assertion fails. 
+     * @param msg {String} Message to be shown if the assertion fails.
      */
     assertInterface : function(value, iface, msg) {
       this.__assert(qx.Class.hasInterface(value, iface), msg || "", "Expected object '" + value + "' to implement the interface '" + iface + "'!");
@@ -519,9 +537,9 @@ qx.Bootstrap.define("qx.core.Assert",
 
     /**
      * Assert the the value is an instance of {@link qx.core.Object}.
-     * 
+     *
      * @param value {var} Value to check
-     * @param msg {String} Message to be shown if the assertion fails. 
+     * @param msg {String} Message to be shown if the assertion fails.
      */
     assertQxObject : function(value, msg) {
       this.__assert(value instanceof qx.core.Object, msg || "", "Expected value to be a qooxdoo object but found " + value + "!");
@@ -530,9 +548,9 @@ qx.Bootstrap.define("qx.core.Assert",
 
     /**
      * Assert the the value is an instance of {@link qx.ui.core.Widget}.
-     * 
+     *
      * @param value {var} Value to check
-     * @param msg {String} Message to be shown if the assertion fails. 
+     * @param msg {String} Message to be shown if the assertion fails.
      */
     assertQxWidget : function(value, msg) {
       this.__assert(value instanceof qx.ui.core.Widget, msg || "", "Expected value to be a qooxdoo widget but found " + value + "!");

@@ -74,7 +74,7 @@ qx.Class.define("qx.bom.Input",
     create : function(type, attributes, win)
     {
       if (qx.core.Variant.isSet("qx.debug", "on")) {
-        qx.core.Assert.assertInArray(type, this.__types, "Unsupported input type.");
+        qx.core.Assert.assertKeyInMap(type, this.__types, "Unsupported input type.");
       }
 
       // Work on a copy to not modify given attributes map
