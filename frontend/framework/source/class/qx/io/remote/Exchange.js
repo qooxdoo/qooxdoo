@@ -315,10 +315,14 @@ qx.Class.define("qx.io.remote.Exchange",
 
             return false;
 
-            // The following case labels are wininet.dll error codes that may be encountered.
-            // Server timeout
 
+            // The following case labels are wininet.dll error codes that may
+            // be encountered.
+
+            // Server timeout
           case 12002:
+            // Internet Name Not Resolved
+          case 12007:
             // 12029 to 12031 correspond to dropped connections.
           case 12029:
           case 12030:
