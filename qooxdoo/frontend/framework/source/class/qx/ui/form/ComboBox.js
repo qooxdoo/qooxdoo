@@ -786,6 +786,8 @@ qx.Class.define("qx.ui.form.ComboBox",
             this._openPopup();
           }
 
+          // stop event
+          e.stopPropagation();
           return;
 
           // Handle <ESC>
@@ -802,6 +804,9 @@ qx.Class.define("qx.ui.form.ComboBox",
 
             this._closePopup();
             this.setFocused(true);
+
+            // stop event
+            e.stopPropagation();
           }
 
           return;
