@@ -652,6 +652,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     "tabview/bar" : 
     {
+      alias : "slidebar",
+      
       style : function(states)
       {
         return {
@@ -661,38 +663,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
         }
       }
     },
-    
-    "tabview/bar/button-back" :
-    {
-      alias : "button",
-      include : "button",
-
-      style : function(states)
-      {
-        return {
-          icon : "decoration/arrows/left.gif",
-          margin: [1, 0, 1, 1],
-          width: 16
-        }
-      }
-    },
-
-    "tabview/bar/button-forward" :
-    {
-      alias : "button",
-      include : "button",
-
-      style : function(states)
-      {
-        return {
-          icon : "decoration/arrows/right.gif",
-          margin: [1, 0, 1, 1],
-          width: 16
-        }
-      }
-    },
-    
-    "tabview/bar/pane" : {},
 
     "tabview/pane" :
     {

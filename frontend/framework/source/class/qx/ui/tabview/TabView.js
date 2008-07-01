@@ -101,7 +101,7 @@ qx.Class.define("qx.ui.tabview.TabView",
           break;
 
         case "bar":
-          control = new qx.ui.tabview.Bar();
+          control = new qx.ui.container.SlideBar();
           control.setLayout(new qx.ui.layout.HBox());
           this._add(control);
           break;

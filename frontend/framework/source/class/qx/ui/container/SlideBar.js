@@ -91,25 +91,13 @@ qx.Class.define("qx.ui.container.SlideBar",
 
   members :
   {
-    isHorizontal : function() {
-      return this._isHorizontal;
-    },
-
-
-
     /*
     ---------------------------------------------------------------------------
       WIDGET INTERNALS
     ---------------------------------------------------------------------------
     */
 
-    /**
-     * The children container needed by the {@link qx.ui.core.MRemoteChildrenHandling}
-     * mixin
-     *
-     * @type member
-     * @return {qx.ui.container.Composite} pane sub widget
-     */
+    // overridden
     getChildrenContainer : function() {
       return this._getChildControl("pane");
     },
@@ -158,8 +146,6 @@ qx.Class.define("qx.ui.container.SlideBar",
     },
 
 
-
-
     /**
      * Listener for resize event. This event is fired after the
      * first flush of the element which leads to another queueing
@@ -176,29 +162,14 @@ qx.Class.define("qx.ui.container.SlideBar",
         return;
       }
 
-      // Compute the rendered inner width of this widget.
-      var areaInsets = this.getInsets();
+      var innerSize = this.getInnerSize();
+      var contentSize = content.getBounds();
 
-      if (this._isHorizontal)
-      {
-        var areaSize = this.getBounds().width - areaInsets.left - areaInsets.right;
-        
-        // The final rendered width of the content
-        var contentSize = content.getBounds().width;
-      }
-      else
-      {
-        var areaSize = this.getBounds().height - areaInsets.top - areaInsets.bottom;
-        
-        // The final rendered width of the content
-        var contentSize = content.getBounds().height;
-      }
+      var overflow = this._isHorizontal ? 
+        contentSize.width > innerSize.width : 
+        contentSize.height > innerSize.height;
 
-      if (contentSize > areaSize) {
-        this._showArrows();
-      } else {
-        this._hideArrows();
-      }
+      overflow ? this._showArrows() : this._hideArrows();
     },
 
 
