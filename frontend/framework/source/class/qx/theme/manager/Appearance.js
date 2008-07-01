@@ -41,7 +41,7 @@ qx.Class.define("qx.theme.manager.Appearance",
 
     this.__styleCache = {};
     
-    this.__idMap = {};    
+    this.__aliasMap = {};    
     
     // To give the style method a unified interface when no states are specified
     this.__defaultStates = {};
@@ -101,12 +101,12 @@ qx.Class.define("qx.theme.manager.Appearance",
      * @param theme {Theme} Theme to use for lookup.
      * @return {String} Resolved ID
      */
-    resolveId : function(id, theme)
+    __resolveId : function(id, theme)
     {
       var db = theme.appearances;
       var entry = db[id];
       
-      //this.debug("Resolve: " + id);
+      // this.debug("Resolve: " + id);
       
       if (!entry)
       {
@@ -128,8 +128,7 @@ qx.Class.define("qx.theme.manager.Appearance",
             if (typeof alias === "string") 
             {
               var mapped = alias + divider + end.join(divider);
-              var result = this.resolveId(mapped, theme);
-              return result;
+              return this.__resolveId(mapped, theme);
             }
           }
         }
@@ -138,47 +137,16 @@ qx.Class.define("qx.theme.manager.Appearance",
       }
       else if (typeof entry === "string") 
       {
-        return this.resolveId(entry, theme);
+        return this.__resolveId(entry, theme);
       }
       else if (entry.include && !entry.style)
       {
-        return this.resolveId(entry.include, theme);
-      }
-      else
-      {  
-        return id;    
-      }
-    },
-    
-    
-    getEntry : function(id, theme)
-    {
-      var map = this.__idMap;
-      
-      // Cache ID redirects
-      var entry = map[id];
-      if (entry === undefined) 
-      {
-        // Searching for real ID
-        var mapped = this.resolveId(id, theme);
-
-        // Check if the entry was finally found
-        if (!mapped)
-        {
-          if (qx.core.Variant.isSet("qx.debug", "on")) {
-            this.warn("Missing appearance ID: " + id);
-          }
-  
-          return null;
-        }
-
-        // this.debug("Map appearance ID: " + id + " to " + mapped);
-        entry = map[id] = theme.appearances[mapped];
+        return this.__resolveId(entry.include, theme);
       }
       
-      return entry;      
+      return id;
     },
-
+    
 
     /**
      * Get the result of the "state" function for a given id and states
@@ -195,7 +163,20 @@ qx.Class.define("qx.theme.manager.Appearance",
         theme = this.getAppearanceTheme(); 
       }
       
-      var entry = this.getEntry(id, theme);   
+      // Resolve ID
+      var aliasMap = this.__aliasMap;
+      var resolved = aliasMap[id];
+      if (!resolved) {
+        resolved = aliasMap[id] = this.__resolveId(id, theme);
+      }
+      
+      // Query theme for ID    
+      var entry = theme.appearances[resolved];      
+      if (!entry) 
+      {
+        this.warn("Missing appearance: " + id);    
+        return null;
+      }
       
       // Entries with includes, but without style are automatically merged
       // by the ID handling in {link #getEntry}. When there is no style method in the
@@ -205,7 +186,7 @@ qx.Class.define("qx.theme.manager.Appearance",
       }
       
       // Build a unique cache name from ID and state combination
-      var unique = id;
+      var unique = resolved;
       if (states)
       {
         var styleStates = entry.states;
@@ -272,7 +253,7 @@ qx.Class.define("qx.theme.manager.Appearance",
         // Copy base data, but exclude overwritten local and included stuff
         if (entry.base)
         {
-          var base = this.styleFrom(id, states, entry.base);
+          var base = this.styleFrom(resolved, states, entry.base);
 
           if (entry.include)
           {
@@ -332,6 +313,6 @@ qx.Class.define("qx.theme.manager.Appearance",
   */
 
   destruct : function() {
-    this._disposeFields("__styleCache");
+    this._disposeFields("__styleCache", "__aliasMap");
   }
 });
