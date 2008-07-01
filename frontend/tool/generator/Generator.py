@@ -825,16 +825,20 @@ class Generator:
     def runPrettyPrinting(self, classes):
         "Gather all relevant config settings and pass them to the compiler"
         
-        if not self._config.get("pretty-print", False):
+        if not isinstance(self._config.get("pretty-print", False), types.DictType):
             return
         
         self._console.info("Pretty-printing code...")
         self._console.indent()
+        ppsettings = ExtMap(self._config.get("pretty-print"))  # get the pretty-print config settings
 
-        options = ExtMap({})  # this is just fake, to have an extensible object
-        ppsettings = ExtMap(self._config.get("pretty-print"))
+        # init options
+        parser  = optparse.OptionParser()
+        compiler.addCommandLineOptions(parser)
+        (options, args) = parser.parse_args([])
 
-        setattr(options, 'prettyPrint', True)
+        # modify according to config
+        setattr(options, 'prettyPrint', True)  # turn on pretty-printing
         if ppsettings.get('general/indent-string',False):
             setattr(options, 'prettypIndentString', ppsettings.get('general/indent-string'))
         if ppsettings.get('comments/trailing/keep-column',False):

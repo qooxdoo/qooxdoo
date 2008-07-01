@@ -1,5 +1,5 @@
 {
-	"name"    : "feedreader config.json",
+  "name"    : "feedreader config.json",
 
   "include" :
   [
@@ -12,7 +12,9 @@
 
   "let" :
   {
-    "APPLICATION" : "feedreader"
+    "APPLICATION" : "feedreader",
+		"CACHE"       : "../../cache",
+		"ROOT"        : "."
   },
       
       

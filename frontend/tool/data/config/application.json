@@ -10,7 +10,7 @@
     }
   ],
 
-  "export" : ["build", "source", "api", "translate"],
+  "export" : ["build", "source", "api", "translate", "pretty"],
 
   "jobs" :
   {
@@ -151,6 +151,27 @@
     },    
     
     
+    "pretty" :
+    {
+      "cache" : 
+      { 
+        "path" : "${CACHE}" 
+      }, 
+
+      "include" : [ "=${APPLICATION}.*" ],
+
+      "library" : 
+      [ 
+        { 
+          "manifest" : "${ROOT}/Manifest.json",
+          "uri"      : ".."
+        }
+      ],
+
+      "pretty-print" : {}
+    },
+
+
     "api" :
     {
       "extend" : ["apiconf::build"],
