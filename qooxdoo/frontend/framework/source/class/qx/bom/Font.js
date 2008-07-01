@@ -291,12 +291,6 @@ qx.Class.define("qx.bom.Font",
     // interface implementation
     getKey : function() {
       return null;
-    },
-
-
-    // interface implementation
-    getValue : function() {
-      return this;
     }
   }
 });
