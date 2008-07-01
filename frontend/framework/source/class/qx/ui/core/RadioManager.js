@@ -227,7 +227,7 @@ qx.Class.define("qx.ui.core.RadioManager",
         vItem.setManager(this);
 
         // Need to update internal value?
-        if (vItem.getChecked()) {
+        if (vItem.getChecked() || this._items.length == 1) {
           this.setSelected(vItem);
         }
       }
