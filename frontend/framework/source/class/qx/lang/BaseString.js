@@ -30,6 +30,10 @@ qx.Class.define("qx.lang.BaseString",
 
   construct : function(txt)
   {
+    if (qx.core.Variant.isSet("qx.debug", "on")) {
+      this.assertType(txt, "string", "Invalid argument 'txt'.");
+    }
+
     // no base call needed
     this._txt = txt;
   },
@@ -68,5 +72,21 @@ qx.Class.define("qx.lang.BaseString",
     base : function(args, varags) {
       return qx.core.Object.prototype.base.apply(this, arguments);
     }
-  }
+  },
+
+
+
+  /*
+   *****************************************************************************
+      DEFER
+   *****************************************************************************
+   */
+
+   defer : function(statics)
+   {
+     // add asserts into each debug build
+     if (qx.core.Variant.isSet("qx.debug", "on")) {
+       qx.Class.include(statics, qx.core.MAssert);
+     }
+   },
 });
