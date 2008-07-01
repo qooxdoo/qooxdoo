@@ -88,5 +88,5 @@ qx.Class.define("qx.lang.BaseString",
      if (qx.core.Variant.isSet("qx.debug", "on")) {
        qx.Class.include(statics, qx.core.MAssert);
      }
-   },
+   }
 });
