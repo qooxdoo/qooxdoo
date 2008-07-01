@@ -677,6 +677,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
         }
       }
     },
+    
+    "tabview/bar/pane" : {},
 
     "tabview/pane" :
     {
@@ -695,6 +697,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     "tabview-page/button" :
     {
+      alias : "button",
+      
       style : function(states)
       {
         var paddingTop, paddingBottom, paddingLeft, paddingRight;
@@ -1159,13 +1163,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
     ---------------------------------------------------------------------------
     */
 
-    "splitpane" :
-    {
-      style : function(states)
-      {
-        return {};
-      }
-    },
+    "splitpane" : {},
 
     "splitpane/splitter" :
     {

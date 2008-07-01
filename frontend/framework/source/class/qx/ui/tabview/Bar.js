@@ -65,19 +65,15 @@ qx.Class.define("qx.ui.tabview.Bar",
       switch(id)
       {
         case "button-forward":
-          control = new qx.ui.form.RepeatButton().set({
-            appearance: "tabview/bar/button-right",
-            focusable: false
-          });
+          control = new qx.ui.form.RepeatButton()
+          control.setFocusable(false);
           control.addListener("execute", this._scrollForward, this);
           this._add(control);
           break;
 
         case "button-back":
-          control = new qx.ui.form.RepeatButton().set({
-            appearance: "tabview/bar/button-left",
-            focusable: false
-          });
+          control = new qx.ui.form.RepeatButton();
+          control.setFocusable(false);
           control.addListener("execute", this._scrollBack, this);
           this._addBefore(control, this._getChildControl("button-forward"));
           break;
