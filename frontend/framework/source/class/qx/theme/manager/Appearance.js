@@ -206,11 +206,13 @@ qx.Class.define("qx.theme.manager.Appearance",
             }
           }
           
+          // Compute sum of all states
           var sum = 0;
           for (var state in states) {
             sum += optStates[state] || 0;
           }
           
+          // Only append the sum if it is bigger than zero
           if (sum > 0) {
             unique += ":" + sum;
           }
@@ -297,10 +299,7 @@ qx.Class.define("qx.theme.manager.Appearance",
       }
 
       // Cache new entry and return
-      cache[unique] = result || null;
-
-      // Return style map
-      return result || null;
+      return cache[unique] = result || null;
     }
   },
 
