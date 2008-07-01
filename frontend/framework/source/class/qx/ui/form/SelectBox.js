@@ -153,6 +153,8 @@ qx.Class.define("qx.ui.form.SelectBox",
     {
       if(e.getKeyIdentifier() == "Enter") {
         this._togglePopup();
+      } else if(this._getChildControl("popup").isHidden()){
+        this._getChildControl("list").handleKeyPress(e);
       } else {
         this.base(arguments, e);      
       }
