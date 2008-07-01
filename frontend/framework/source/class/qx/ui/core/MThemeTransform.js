@@ -4,7 +4,7 @@ qx.Mixin.define("qx.ui.core.MThemeTransform",
   {
     _resolveThemedColor : function(value)
     {
-      if (!value || value.getValue) {
+      if (!value || value.getKey) {
         return value;
       }
 
@@ -19,7 +19,7 @@ qx.Mixin.define("qx.ui.core.MThemeTransform",
     _resolveThemedDecorator : function(value)
     {
       // shortcut
-      if (!value || value.getValue) {
+      if (!value || value.getKey) {
         return value;
       }
 
@@ -33,7 +33,8 @@ qx.Mixin.define("qx.ui.core.MThemeTransform",
 
     _resolveThemedFont : function(value)
     {
-      if (!value || value.getValue) {
+      // shortcut
+      if (!value || value.getKey) {
         return value;
       }
 
