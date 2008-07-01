@@ -329,7 +329,7 @@ qx.Class.define("qx.locale.Manager",
         for ( var i = 0; i < args.length; i++)
         {
           var arg = args[i];
-          if (arg instanceof qx.locale.LocalizedString) {
+          if (arg.translate) {
             translatedArgs[i] = arg.translate();
           } else {
             translatedArgs[i] = arg;
