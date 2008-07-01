@@ -120,7 +120,7 @@ qx.Class.define("qx.ui.form.SelectBox",
     */
 
     // property apply
-    _applySelectedItem : function(value, old)
+    _applySelected : function(value, old)
     {
       this.base(arguments, value, old);
       
