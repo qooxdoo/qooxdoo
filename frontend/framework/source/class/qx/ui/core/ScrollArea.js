@@ -207,6 +207,69 @@ qx.Class.define("qx.ui.core.ScrollArea",
 
 
 
+
+
+    /*
+    ---------------------------------------------------------------------------
+      ITEM LOCATION SUPPORT
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Returns the top offset of the given item in relation to the
+     * inner height of this widget.
+     *
+     * @type member
+     * @param item {qx.ui.core.Widget} Item to query
+     * @return {Integer} Top offset
+     */
+    getItemTop : function(item) {
+      return this._getChildControl("pane").getItemTop(item);
+    },
+
+
+    /**
+     * Returns the top offset of the end of the given item in relation to the
+     * inner height of this widget.
+     *
+     * @type member
+     * @param item {qx.ui.core.Widget} Item to query
+     * @return {Integer} Top offset
+     */
+    getItemBottom : function(item) {
+      return this._getChildControl("pane").getItemBottom(item);
+    },
+
+
+    /**
+     * Returns the left offset of the given item in relation to the
+     * inner width of this widget.
+     *
+     * @type member
+     * @param item {qx.ui.core.Widget} Item to query
+     * @return {Integer} Top offset
+     */
+    getItemLeft : function(item) {
+      return this._getChildControl("pane").getItemLeft(item);
+    },
+
+
+    /**
+     * Returns the left offset of the end of the given item in relation to the
+     * inner width of this widget.
+     *
+     * @type member
+     * @param item {qx.ui.core.Widget} Item to query
+     * @return {Integer} Right offset
+     */
+    getItemRight : function(item) {
+      return this._getChildControl("pane").getItemRight(item);
+    },
+    
+    
+    
+    
+
     /*
     ---------------------------------------------------------------------------
       SCROLL SUPPORT
