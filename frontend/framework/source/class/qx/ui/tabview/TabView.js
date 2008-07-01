@@ -36,6 +36,7 @@ qx.Class.define("qx.ui.tabview.TabView",
   construct : function() 
   {
     this.base(arguments);
+    
     this._createChildControl("bar");
     this._createChildControl("pane");
 
@@ -120,6 +121,7 @@ qx.Class.define("qx.ui.tabview.TabView",
 
       return control || this.base(arguments, id);
     },
+
 
     /**
      * Adds a page to the tabview including its needed button
@@ -249,5 +251,4 @@ qx.Class.define("qx.ui.tabview.TabView",
       }
     }
   }
-
 });

@@ -34,7 +34,7 @@ qx.Class.define("qx.ui.tabview.Page",
   {
     this.base(arguments);
 
-    this.setAppearance("tabview/page");
+    this.setAppearance("tabview-page");
     
     this._createChildControl("button");
 
@@ -49,6 +49,9 @@ qx.Class.define("qx.ui.tabview.Page",
 
     //this._button = this._createButton(label, icon);
   },
+
+
+
 
   /*
    *****************************************************************************

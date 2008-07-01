@@ -261,12 +261,11 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
-    "textarea" : {
-      include : "textfield"
-    },
+    "textarea" : "textfield",
 
     "checkbox":
     {
+      alias : "atom",
       states : [ "checked", "focused", "disabled", "hovered", "pressed" ],
       
       style : function(states)
@@ -301,12 +300,9 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
     
-    "checkbox/label" : {
-      include : "label"
-    },
-
     "radiobutton":
     {
+      alias : "checkbox",
       include : "checkbox",
       states : [ "checked", "focused", "disabled", "hovered", "pressed" ],
 
@@ -341,12 +337,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
     
-    "radiobutton/label" : {
-      include : "label"
-    },
+
     
-
-
 
 
     /*
@@ -381,6 +373,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     "spinner/upbutton" :
     {
+      alias : "button",
       include : "button",
       states : [ "pressed" ],
 
@@ -395,6 +388,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     "spinner/downbutton" :
     {
+      alias : "button",
       include : "button",
       states : [ "pressed" ],
 
@@ -407,13 +401,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
     
-    "spinner/upbutton/icon" : {
-      include : "button/icon" 
-    },
-    
-    "spinner/downbutton/icon" : {
-      include : "button/icon" 
-    },
 
     
     
@@ -423,6 +410,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
       COLORED SPINNER
     ---------------------------------------------------------------------------
     */    
+    
+    // THIS IS MAINLY FOR TESTING PRUPOSES. THIS SHOULD BE MOVED TO THE SPINNER DEMO.
     
     "colored-spinner" : 
     {
@@ -451,6 +440,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     "colored-spinner/upbutton" : 
     {
+      alias : "button",
+      
       style : function(states)
       {
         return {
@@ -463,6 +454,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     "colored-spinner/downbutton" : 
     {
+      alias : "button",
+      
       style : function(states)
       {
         return {
@@ -473,13 +466,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
     
-    "colored-spinner/upbutton/icon" : {
-      include : "button/icon" 
-    },
-    
-    "colored-spinner/downbutton/icon" : {
-      include : "button/icon" 
-    },
+
     
 
 
@@ -647,8 +634,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
     ---------------------------------------------------------------------------
     */
     
-    "tabview" : {
-    },
+    "tabview" : {},
 
     "tabview/bar" : 
     {
@@ -662,28 +648,9 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
     
-    "tabview/bar/pane" : {
-      include : ""
-    },
-
-    "tabview/bar/button-forward" : {
-      include : "tabview/bar/button-right"
-    },
-
-    "tabview/bar/button-back" : {
-      include : "tabview/bar/button-left"
-    },
-    
-    "tabview/button/label" : {
-      include : "atom/label"
-    },
-
-    "tabview/button/icon" : {
-      include : "atom/icon"
-    },
-
-    "tabview/bar/button-left" :
+    "tabview/bar/button-back" :
     {
+      alias : "button",
       include : "button",
 
       style : function(states)
@@ -696,8 +663,9 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
-    "tabview/bar/button-right" :
+    "tabview/bar/button-forward" :
     {
+      alias : "button",
       include : "button",
 
       style : function(states)
@@ -722,11 +690,10 @@ qx.Theme.define("qx.theme.classic.Appearance",
         };
       }
     },
+    
+    "tabview-page" : {},
 
-    "tabview/page" : {
-    },
-
-    "tabview/button" :
+    "tabview-page/button" :
     {
       style : function(states)
       {
@@ -829,7 +796,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
-    "tabview/page/button" : "tabview/button",
+
+
 
     /*
     ---------------------------------------------------------------------------
@@ -853,6 +821,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
     
     "scrollbar/button" :
     {
+      alias : "button",
       include : "button",
 
       style : function(states)
@@ -1010,6 +979,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
         };
       }
     },
+
 
 
 
