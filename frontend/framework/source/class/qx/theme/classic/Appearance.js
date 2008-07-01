@@ -598,6 +598,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
     "toolbar-button" :
     {
       alias : "atom",
+      states : [ "pressed", "checked", "abandoned", "hovered" ],
       
       style : function(states)
       {
@@ -672,6 +673,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
       {
         return {
           backgroundColor : "tabview-pane",
+          
+          // TODO: Move to decoration theme
           decorator       : new qx.ui.decoration.Single(1, "solid", "tabview-border"),
           padding         : 10,
           marginTop       : -1
@@ -684,6 +687,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
     "tabview-page/button" :
     {
       alias : "button",
+      states : [ "checked", "barTop", "alignLeft", "firstChild", "lastChild" ],
       
       style : function(states)
       {
@@ -813,6 +817,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
     {
       alias : "button",
       include : "button",
+      states : [ "left", "right", "up", "down", "pressed", "abandoned", "checked" ],
 
       style : function(states)
       {
@@ -902,6 +907,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     "folder-open-button" :
     {
+      states : [ "opened" ],
+      
       style : function(states)
       {
         return {
@@ -935,6 +942,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     "tree-folder-label" :
     {
+      states : [ "selected" ],
+      
       style : function(states)
       {
         return {
@@ -984,6 +993,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     "window" :
     {
+      states : [ "maximized" ],      
+      
       style : function(states)
       {
         return {
@@ -997,6 +1008,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     "window/captionbar" :
     {
+      states : [ "active" ],
+      
       style : function(states)
       {
         return {
@@ -1033,6 +1046,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
     "window/minimize-button" :
     {
       include : "button",
+      states : [ "pressed", "abandoned" ],
 
       style : function(states)
       {
@@ -1046,6 +1060,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
     "window/restore-button" :
     {
       include : "button",
+      states : [ "pressed", "abandoned" ],
 
       style : function(states)
       {
@@ -1059,6 +1074,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
     "window/maximize-button" :
     {
       include : "button",
+      states : [ "pressed", "abandoned" ],
 
       style : function(states)
       {
@@ -1072,6 +1088,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
     "window/close-button" :
     {
       include : "button",
+      states : [ "pressed", "abandoned" ],
 
       style : function(states)
       {
@@ -1145,6 +1162,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     "splitpane/splitter" :
     {
+      states : [ "horizontal", "vertical", "active" ],
+      
       style : function(states)
       {
         return {
@@ -1157,6 +1176,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     "splitpane/slider" :
     {
+      states : [ "horizontal", "vertical" ],
+      
       style : function(states)
       {
         return {
