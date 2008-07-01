@@ -35,10 +35,6 @@ qx.Class.define("qx.ui.core.value.Color",
   {
     getKey : function() {
       return this._key;
-    },
-
-    getValue : function() {
-      return this._color;
     }
   }
 });
