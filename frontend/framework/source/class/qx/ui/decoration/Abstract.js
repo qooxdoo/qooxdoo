@@ -11,12 +11,6 @@ qx.Class.define("qx.ui.decoration.Abstract",
     // interface implementation
     getKey : function() {
       return null;
-    },
-
-
-    // interface implementation
-    getValue : function() {
-      return this;
     }
   }
 });
