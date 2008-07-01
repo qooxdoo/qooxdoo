@@ -2082,38 +2082,44 @@ qx.Class.define("qx.ui.core.Widget",
       
       // Query current selector
       var newData = qx.theme.manager.Appearance.getInstance().styleFrom(selector, states);
-      if (!newData) {
-        newData = {};
-      }
 
-      // Check property availability of new data
-      if (qx.core.Variant.isSet("qx.debug", "on"))
+      if (newData)
       {
+        if (oldData)
+        {
+          for (var prop in oldData)
+          {
+            if (!newData[prop] === undefined) {
+              this[unstyler[prop]]();
+            }
+          }
+        }
+        
+        // Check property availability of new data
+        if (qx.core.Variant.isSet("qx.debug", "on"))
+        {
+          for (var prop in newData)
+          {
+            if (!this[styler[prop]]) {
+              throw new Error(this.classname + ' has no themeable property "' + prop + '"');
+            }
+          }
+        }
+        
+        // Apply new data
+        var value;
         for (var prop in newData)
         {
-          if (!this[styler[prop]]) {
-            throw new Error(this.classname + ' has no themeable property "' + prop + '"');
-          }
+          value = newData[prop];
+          value === undef ? this[unstyler[prop]]() : this[styler[prop]](value);
         }
       }
-
-      // Merge new data with old data
-      if (oldData)
+      else if (oldData)
       {
-        for (var prop in oldData)
-        {
-          if (newData[prop] === undefined) {
-            this[unstyler[prop]]();
-          }
+        // Clear old data
+        for (var prop in oldData) {
+          this[unstyler[prop]]();
         }
-      }
-
-      // Apply new data
-      var value;
-      for (var prop in newData)
-      {
-        value = newData[prop];
-        value === undef ? this[unstyler[prop]]() : this[styler[prop]](value);
       }
     },
 
@@ -2695,6 +2701,9 @@ qx.Class.define("qx.ui.core.Widget",
 
       delete this.__childControls;
     },
+    
+    
+
 
 
 
