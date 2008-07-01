@@ -268,7 +268,15 @@ qx.Class.define("qx.io.remote.XmlHttpTransport",
       //   Applying request header
       // --------------------------------------
       // Add a Referer header
+      
+      // TODO: Check why the referer has to be set. At least in WebKit this
+      // causes problems.
       vRequest.setRequestHeader('Referer', window.location.href);
+      if (!qx.core.Variant.isSet("qx.client", "webkit"))
+      {
+        // avoid "Refused to set unsafe header Referer" in Safari and other Webkit-based browsers
+        vRequest.setRequestHeader('Referer', window.location.href);
+      }
 
       var vRequestHeaders = this.getRequestHeaders();
 
