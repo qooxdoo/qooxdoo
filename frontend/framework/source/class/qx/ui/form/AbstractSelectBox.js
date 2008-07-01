@@ -290,24 +290,20 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
       }
 
       // hide the list always on escape
-      if (identifier == "Escape" || identifier == "Enter")
+      if (identifier == "Escape")
       {
         this._hideList();
 
-        // Do not propagate escape key
+        // stop event
         if (identifier == "Escape") {
           e.stopPropagation();
         }
 
         return;
       }
-      
-      if (listPopup.isVisible())
-      {        
-        // forward the rest of the events to the list
-        this._getChildControl("list").handleKeyPress(e);
-      }
  
+      // forward the rest of the events to the list
+      this._getChildControl("list").handleKeyPress(e);
     },
 
 
