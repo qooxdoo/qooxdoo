@@ -83,9 +83,6 @@ qx.Class.define("qx.ui.core.Widget",
     // Children array
     this.__children = [];
 
-    // Initialize states map
-    this.__states = {};
-
     // Add to appearance queue for initial apply of styles
     qx.ui.core.queue.Appearance.add(this);
 
@@ -1959,8 +1956,10 @@ qx.Class.define("qx.ui.core.Widget",
      * @param state {String} the state to check.
      * @return {Boolean} whether the state is set.
      */
-    hasState : function(state) {
-      return !!this.__states[state];
+    hasState : function(state) 
+    {
+      var states = this.__states;
+      return states && states[state];
     },
 
 
@@ -1973,7 +1972,12 @@ qx.Class.define("qx.ui.core.Widget",
      */
     addState : function(state)
     {
-      if (!this.__states[state])
+      var states = this.__states;
+      if (!states) {
+        states = this.__states = {};  
+      }
+      
+      if (!states[state])
       {
         this.__states[state] = true;
         qx.ui.core.queue.Appearance.add(this);
@@ -1990,7 +1994,8 @@ qx.Class.define("qx.ui.core.Widget",
      */
     removeState : function(state)
     {
-      if (this.__states[state])
+      var states = this.__states;
+      if (states && states[state])
       {
         delete this.__states[state];
         qx.ui.core.queue.Appearance.add(this);
@@ -2010,12 +2015,17 @@ qx.Class.define("qx.ui.core.Widget",
      */
     replaceState : function(old, value)
     {
-      if (!this.__states[value]) {
-        this.__states[value] = true;
+      var states = this.__states;
+      if (!states) {
+        states = this.__states = {};  
+      }      
+      
+      if (!states[value]) {
+        states[value] = true;
       }
 
-      if (this.__states[old]) {
-        delete this.__states[old];
+      if (states[old]) {
+        delete states[old];
       }
 
       qx.ui.core.queue.Appearance.add(this);
@@ -2042,6 +2052,7 @@ qx.Class.define("qx.ui.core.Widget",
     {
       var states = this.__states;
       var selector = this.__selector;
+      var manager = qx.theme.manager.Appearance.getInstance();
 
       // Cache deep accessor
       var styler = qx.core.Property.$$method.style;
@@ -2057,7 +2068,7 @@ qx.Class.define("qx.ui.core.Widget",
         if (selector)
         {
           // Query old selector
-          var oldData = qx.theme.manager.Appearance.getInstance().styleFrom(selector, states);
+          var oldData = manager.styleFrom(selector, states);
 
           // Clear current selector (to force recompute)
           if (oldData) {
@@ -2080,7 +2091,7 @@ qx.Class.define("qx.ui.core.Widget",
       }
       
       // Query current selector
-      var newData = qx.theme.manager.Appearance.getInstance().styleFrom(selector, states);
+      var newData = manager.styleFrom(selector, states);
 
       if (newData)
       {
@@ -2088,7 +2099,7 @@ qx.Class.define("qx.ui.core.Widget",
         {
           for (var prop in oldData)
           {
-            if (!newData[prop] === undefined) {
+            if (newData[prop] === undefined) {
               this[unstyler[prop]]();
             }
           }
