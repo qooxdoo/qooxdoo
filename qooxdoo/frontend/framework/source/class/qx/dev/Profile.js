@@ -40,7 +40,6 @@ qx.Class.define("qx.dev.Profile", {
 
   statics :
   {
-
     __profileData : {},
     __callStack : [],
     __doProfile : true,
@@ -103,8 +102,7 @@ qx.Class.define("qx.dev.Profile", {
      *
      * @return {Map} The current profiling data.
      */
-    getProfileData : function()
-    {
+    getProfileData : function() {
       return this.__profileData;
     },
 
@@ -117,20 +115,25 @@ qx.Class.define("qx.dev.Profile", {
      */
     openProfileWindow : function(maxLength)
     {
-      this.normalizeProfileData();
       this.stop();
+      this.normalizeProfileData();
+
       var data = qx.lang.Object.getValues(this.__profileData);
-      data = data.sort(function(a,b) { return a.calibratedOwnTime<b.calibratedOwnTime ? 1: -1});
-      data = data.slice(0,maxLength || 20);
+      data = data.sort(function(a,b) {
+        return a.calibratedOwnTime<b.calibratedOwnTime ? 1: -1
+      });
+
+      data = data.slice(0, maxLength || 100);
 
       var str = ["<table><tr><th>Name</th><th>Type</th><th>Own time</th><th>Avg time</th><th>calls</th></tr>"];
-      for (var i=0; i<data.length; i++) {
+      for (var i=0; i<data.length; i++)
+      {
         var profData = data[i];
         if (profData.name == "qx.core.Aspect.__calibrateHelper") {
           continue;
         }
         str.push("<tr><td>");
-        str.push(profData.name+"()");
+        str.push(profData.name, "()");
         str.push("</td><td>");
         str.push(profData.type);
         str.push("</td><td>");
@@ -141,13 +144,14 @@ qx.Class.define("qx.dev.Profile", {
         str.push(profData.callCount);
         str.push("</td></tr>");
       }
+
       str.push("</table>");
 
       var win = new qx.client.NativeWindow("about:blank", "profileLog");
       win.open();
       var doc = win._window.document;
       doc.open();
-      doc.write("<html><body>");
+      doc.write("<html><head><style type='text/css'>body{font-family:monospace;font-size:11px;background:white;color:black;}</style></head><body>");
       doc.write(str.join(""));
       doc.write("</body></html>");
       doc.close();
@@ -161,7 +165,11 @@ qx.Class.define("qx.dev.Profile", {
      * @param count {Integer} Number of iterations to measure.
      * @return {Number} Overhead of a wrapped function call in milliseconds.
      */
-    __calibrate : function(count) {
+    __calibrate : function(count)
+    {
+      // we use eval to unroll the loop because we don't want to measure the loop overhead.
+
+      // Measure wrapped function
       var code = ["var fcn = function(){ var fcn=qx.dev.Profile.__calibrateHelper;"];
       for (var i=0; i<count; i++) {
         code.push("fcn();");
@@ -173,6 +181,7 @@ qx.Class.define("qx.dev.Profile", {
       var end = new Date();
       var profTime = end - start;
 
+			// Measure unwrapped function
       var code = [
         "var plainFunc = function() {};",
         "var fcn = function(){ var fcn=plainFunc;"
@@ -188,6 +197,7 @@ qx.Class.define("qx.dev.Profile", {
       var end = new Date();
       var plainTime = end - start;
 
+			// Compute per call overhead
       return ((profTime - plainTime) / count);
     },
 
@@ -207,8 +217,11 @@ qx.Class.define("qx.dev.Profile", {
       if (this.__callOverhead == undefined) {
         this.__callOverhead = this.__calibrate(this.__calibrateCount);
       }
-      for (var key in this.__profileData) {
+
+      for (var key in this.__profileData)
+      {
         var profileData = this.__profileData[key];
+
         profileData.calibratedOwnTime = Math.max(profileData.ownTime - (profileData.subRoutineCalls * this.__callOverhead), 0);
         profileData.calibratedAvgTime = profileData.calibratedOwnTime / profileData.callCount;
       }
@@ -224,15 +237,19 @@ qx.Class.define("qx.dev.Profile", {
      *                      {@link qx.core.Aspect#addAdvice}
      * @param args {Arguments} The arguments passed to the wrapped function
      */
-    profileBefore : function(fullName, fcn, type, args) {
+    profileBefore : function(fullName, fcn, type, args)
+    {
       var me = qx.dev.Profile;
+
       if (!me.__doProfile) {
         return;
       }
+
       var callData = {
         subRoutineTime : 0,
         subRoutineCalls : 0
       };
+
       me.__callStack.push(callData);
       callData.startTime = new Date();
     },
@@ -248,24 +265,29 @@ qx.Class.define("qx.dev.Profile", {
      * @param args {Arguments} The arguments passed to the wrapped function
      * @param returnValue {var} return value of the wrapped function.
      */
-    profileAfter : function(fullName, fcn, type, args, returnValue) {
+    profileAfter : function(fullName, fcn, type, args, returnValue)
+    {
       var me = qx.dev.Profile;
       if (!me.__doProfile) {
         return;
       }
+
       var endTime = new Date();
       var callData = me.__callStack.pop();
       var totalTime = endTime - callData.startTime;
       var ownTime = totalTime - callData.subRoutineTime;
 
-      if (me.__callStack.length > 0) {
+      if (me.__callStack.length > 0)
+      {
         var lastCall = me.__callStack[me.__callStack.length-1];
         lastCall.subRoutineTime += totalTime;
         lastCall.subRoutineCalls += 1;
       }
 
       var fcnKey = fullName + " (" + type + ")";
-      if(me.__profileData[fcnKey] === undefined) {
+
+      if (me.__profileData[fcnKey] === undefined)
+      {
         me.__profileData[fcnKey] = {
           totalTime: 0,
           ownTime: 0,
@@ -273,15 +295,15 @@ qx.Class.define("qx.dev.Profile", {
           subRoutineCalls: 0,
           name: fullName,
           type : type
-        }
+        };
       }
+
       var functionData = me.__profileData[fcnKey];
       functionData.totalTime += totalTime;
       functionData.ownTime += ownTime;
       functionData.callCount += 1;
       functionData.subRoutineCalls += callData.subRoutineCalls;
     }
-
   },
 
 

@@ -233,8 +233,10 @@ qx.Class.define("qx.core.Init",
       {
         // Send onbeforeunload event (can be cancelled)
         var result = this.getApplication().close();
-        if (result != null) {
+        if (result != null)
+        {
           e.returnValue = result;
+          return result;
         }
       }
     },

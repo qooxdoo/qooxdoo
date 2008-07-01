@@ -54,16 +54,18 @@ qx.Class.define("qx.core.Aspect",
 {
   statics :
   {
+    /** {Array} Registry for all known aspect wishes */
     __registry : [],
+
 
     /**
      * This function is used by {@link qx.Class#define} to wrap all statics, members and
      * constructors.
      *
      * @param fullName {String} Full name of the function including the class name.
+     * @param fcn {Function} function to wrap.
      * @param type {String} Type of the wrapped function. One of "member", "static",
      *          "constructor", "destructor" or "property".
-     * @param fcn {Function} function to wrap.
      *
      * @return {Function} wrapped function
      */
@@ -140,7 +142,7 @@ qx.Class.define("qx.core.Aspect",
      *     {@link qx.dev.Profile#profileAfter}.
      */
     addAdvice : function(position, type, nameRegExp, fcn)
-    {
+    {           
       if (position != "before" && position != "after") {
         throw new Error("Unknown position: '"+position+"'");
       }

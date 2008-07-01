@@ -38,11 +38,13 @@ APPLICATION_OPTIMIZE_REMOVE_ASPECTS = false
 
 APPLICATION_ADDITIONAL_SOURCE_OPTIONS = \
   --use-setting qx.allowUrlSettings:true \
+  --use-setting qx.allowUrlVariants:true \
   --use-setting qx.enableAspect:false \
   --add-require qx.Class:qx.dev.Profile
   
 APPLICATION_ADDITIONAL_BUILD_OPTIONS = \
   --use-setting qx.allowUrlSettings:true \
+  --use-setting qx.allowUrlVariants:true \
   --use-setting qx.enableAspect:false \
   --add-require qx.Class:qx.dev.Profile
 
