@@ -73,10 +73,10 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
     /**
      * The selected item inside the list.
      */
-    selectedItem :
+    selected :
     {
       check : "qx.ui.form.ListItem",
-      apply : "_applySelectedItem"
+      apply : "_applySelected"
     },
 
     /**
@@ -143,7 +143,7 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
     */
 
     // property apply
-    _applySelectedItem : function(value, old) {
+    _applySelected : function(value, old) {
       this._getChildControl("list").select(value);
     },
 
@@ -325,7 +325,7 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
     _onChange : function(e)
     {
       if (e.getData().length > 0) {
-        this.setSelectedItem(e.getData()[0]);
+        this.setSelected(e.getData()[0]);
       }
     }
   }

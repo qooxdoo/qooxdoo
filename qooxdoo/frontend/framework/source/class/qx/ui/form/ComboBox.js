@@ -110,7 +110,7 @@ qx.Class.define("qx.ui.form.ComboBox",
     */
 
     // property apply
-    _applySelectedItem : function(value, old)
+    _applySelected : function(value, old)
     {
       this.base(arguments, value, old);
       
