@@ -2041,7 +2041,6 @@ qx.Class.define("qx.ui.core.Widget",
     syncAppearance : function()
     {
       var states = this.__states;
-      var undef = "undefined";
       var selector = this.__selector;
 
       // Cache deep accessor
@@ -2108,6 +2107,8 @@ qx.Class.define("qx.ui.core.Widget",
         
         // Apply new data
         var value;
+        var undef = "undefined";
+        
         for (var prop in newData)
         {
           value = newData[prop];
