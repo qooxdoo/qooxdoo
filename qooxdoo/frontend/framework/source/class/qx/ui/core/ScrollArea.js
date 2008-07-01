@@ -194,12 +194,19 @@ qx.Class.define("qx.ui.core.ScrollArea",
 
 
 
+
     /*
     ---------------------------------------------------------------------------
       PANE SIZE
     ---------------------------------------------------------------------------
     */
-    
+
+    /**
+     * Returns the boundaries of the pane.
+     *
+     * @type member
+     * @return {Map} The pane boundaries.
+     */    
     getPaneSize : function() {
       return this._getChildControl("pane").getBounds();
     },

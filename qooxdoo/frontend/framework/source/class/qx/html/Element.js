@@ -1463,6 +1463,14 @@ qx.Class.define("qx.html.Element",
       delete this.__lazyScrollY;
     },
 
+
+    /**
+     * Scrolls the element to the given left position.
+     *
+     * @type member
+     * @param x {Integer} Horizontal scroll position
+     * @return {void}
+     */
     scrollToX : function(x)
     {
       var thisEl = this._element;
@@ -1480,6 +1488,13 @@ qx.Class.define("qx.html.Element",
       delete this.__lazyScrollIntoViewX;
     },
 
+
+    /**
+     * Get the horizontal scroll position.
+     *
+     * @type member
+     * @return {Integer} Horizontal scroll position
+     */
     getScrollX : function()
     {
       var thisEl = this._element;
@@ -1490,6 +1505,14 @@ qx.Class.define("qx.html.Element",
       return this.__lazyScrollX || 0;
     },
 
+
+    /**
+     * Scrolls the element to the given top position.
+     *
+     * @type member
+     * @param y {Integer} Vertical scroll position
+     * @return {void}
+     */
     scrollToY : function(y)
     {
       var thisEl = this._element;
@@ -1507,6 +1530,13 @@ qx.Class.define("qx.html.Element",
       delete this.__lazyScrollIntoViewY;
     },
 
+
+    /**
+     * Get the vertical scroll position.
+     *
+     * @type member
+     * @return {Integer} Vertical scroll position
+     */
     getScrollY : function()
     {
       var thisEl = this._element;
@@ -1516,10 +1546,6 @@ qx.Class.define("qx.html.Element",
 
       return this.__lazyScrollY || 0;
     },
-
-
-
-
 
 
 

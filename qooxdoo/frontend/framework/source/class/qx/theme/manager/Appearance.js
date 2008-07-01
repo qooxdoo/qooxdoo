@@ -117,6 +117,15 @@ qx.Class.define("qx.theme.manager.Appearance",
     },
     
     
+    /**
+     * Returns the appearance entry ID to use 
+     * when all aliases etc. are processed.
+     *
+     * @type member
+     * @param theme {Theme} Theme to use for lookup.
+     * @param id {String} ID to resolve
+     * @return {String} Resolved ID
+     */
     resolveId : function(theme, id)
     {
       var db = theme.appearances;
