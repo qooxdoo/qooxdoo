@@ -38,6 +38,7 @@ from generator.LibraryPath import LibraryPath
 from generator.ImageInfo import ImageInfo, ImgInfoFmt
 from generator.ImageClipping import ImageClipping
 from generator.ShellCmd import ShellCmd
+from generator.Config import ExtMap
 import simplejson
 from robocopy import robocopy
 
@@ -404,6 +405,7 @@ class Generator:
             self.runShellCommands()
             self.runImageSlicing()
             self.runImageCombining()
+            self.runPrettyPrinting(classList)
 
 
             # Debug tasks
@@ -819,6 +821,44 @@ class Generator:
             # cache meta data
         return
 
+
+    def runPrettyPrinting(self, classes):
+        "Gather all relevant config settings and pass them to the compiler"
+        
+        if not self._config.get("pretty-print", False):
+            return
+        
+        self._console.info("Pretty-printing code...")
+        self._console.indent()
+
+        options = ExtMap({})  # this is just fake, to have an extensible object
+        ppsettings = ExtMap(self._config.get("pretty-print"))
+
+        setattr(options, 'prettyPrint', True)
+        if ppsettings.get('general/indent-string',False):
+            setattr(options, 'prettypIndentString', ppsettings.get('general/indent-string'))
+        if ppsettings.get('comments/trailing/keep-column',False):
+            setattr(options, 'prettypCommentsTrailingKeepColumn', ppsettings.get('comments/trailing/keep-column'))
+        if ppsettings.get('comments/trailing/comment-cols',False):
+            setattr(options, 'prettypCommentsTrailingCommentCols', ppsettings.get('comments/trailing/comment-cols'))
+        if ppsettings.get('comments/trailing/padding',False):
+            setattr(options, 'prettypCommentsInlinePadding', ppsettings.get('comments/trailing/padding'))
+        if ppsettings.get('blocks/align-with-curlies',False):
+            setattr(options, 'prettypAlignBlockWithCurlies', ppsettings.get('blocks/align-with-curlies'))
+        if ppsettings.get('blocks/open-curly/newline-before',False):
+            setattr(options, 'prettypOpenCurlyNewlineBefore', ppsettings.get('blocks/open-curly/newline-before'))
+        if ppsettings.get('blocks/open-curly/indent-before',False):
+            setattr(options, 'prettypOpenCurlyIndentBefore', ppsettings.get('blocks/open-curly/indent-before'))
+
+        self._console.info("Pretty-printing files: ", False)
+        numClasses = len(classes)
+        for pos, classId in enumerate(classes):
+            self._console.progress(pos, numClasses)
+            tree = self._treeLoader.getTree(classId)
+            compiled = compiler.compile(tree, options)
+            filetool.save(self._classes[classId]['path'], compiled)
+
+        self._console.outdent()
 
 
     ######################################################################
