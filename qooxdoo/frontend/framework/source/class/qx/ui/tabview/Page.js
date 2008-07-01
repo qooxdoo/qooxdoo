@@ -34,8 +34,6 @@ qx.Class.define("qx.ui.tabview.Page",
   {
     this.base(arguments);
 
-    this.setAppearance("tabview-page");
-    
     this._createChildControl("button");
 
     // init
@@ -54,13 +52,20 @@ qx.Class.define("qx.ui.tabview.Page",
 
 
   /*
-   *****************************************************************************
-      PROPERTIES
-   *****************************************************************************
-   */
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
 
-   properties :
-   {
+  properties :
+  {
+    // overridden
+    appearance : 
+    {
+      refine : true,
+      init : "tabview-page"
+    },
+    
 
     /** The label/caption/text of the Page's button. */
     label :
@@ -78,8 +83,9 @@ qx.Class.define("qx.ui.tabview.Page",
       init : "",
       apply : "_applyIcon"
     }
+  },
 
-   },
+
 
 
   /*
@@ -127,8 +133,6 @@ qx.Class.define("qx.ui.tabview.Page",
               this.exclude();
             }
           }, this);
-
-          //control.setAppearance("tabview/button");
 
           this._add(control);
           break;
