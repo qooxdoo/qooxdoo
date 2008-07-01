@@ -276,7 +276,9 @@ qx.Class.define("qx.io.image.Preloader",
   {
     if (this._element)
     {
+      // terminate any downloading in progress and free memory for image
       this._element.src = "";
+      
       this._element.onload = this._element.onerror = null;
     }
 
