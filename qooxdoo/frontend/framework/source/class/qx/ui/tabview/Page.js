@@ -96,23 +96,44 @@ qx.Class.define("qx.ui.tabview.Page",
 
   members :
   {
+    /*
+    ---------------------------------------------------------------------------
+      APPLY ROUTINES
+    ---------------------------------------------------------------------------
+    */
 
-     /*
-     ---------------------------------------------------------------------------
-       APPLY ROUTINES
-     ---------------------------------------------------------------------------
-     */
+    // property apply
+    _applyIcon : function(value, old) {
+      this._getChildControl("button").setIcon(value);
+    },
+    
+    
+    // property apply
+    _applyLabel : function(value, old) {
+      this._getChildControl("button").setLabel(value);
+    },
 
-     // property apply
-     _applyIcon : function(value, old) {
-       this._getChildControl("button").setIcon(value);
-     },
 
-     // property apply
-     _applyLabel : function(value, old) {
-       this._getChildControl("button").setLabel(value);
-     },
+    // overridden
+    _applyEnabled: function(value, old)
+    {
+      this.base(arguments, value, old);
 
+      // delegate to non-child widget button
+      // since enabled is inheritable value may be null
+      var btn = this._getChildControl("button");
+      value == null ? btn.resetEnabled() : btn.setEnabled(value);
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      WIDGET API
+    ---------------------------------------------------------------------------
+    */
+    
     // overridden
     _createChildControlImpl : function(id)
     {
@@ -122,17 +143,7 @@ qx.Class.define("qx.ui.tabview.Page",
       {
         case "button":
           control = new qx.ui.form.RadioButton;
-          // add a listener for hiding and showing the sites
-          control.addListener("change", function(e)
-          {
-            if (e.getValue()) {
-              this.show();
-            } else {
-              // Use exclude() and not hide() because of
-              // "getCurrentPage" in the TabView class
-              this.exclude();
-            }
-          }, this);
+          control.setUserData("page", this);
 
           this._add(control);
           break;
@@ -140,9 +151,16 @@ qx.Class.define("qx.ui.tabview.Page",
       
       return control || this.base(arguments, id);
     },
-
     
     
+    
+    
+    /*
+    ---------------------------------------------------------------------------
+      PUBLIC API
+    ---------------------------------------------------------------------------
+    */
+        
     /**
      * Returns the button used within this page. This method is used by
      * the TabView to access the button.
@@ -152,26 +170,6 @@ qx.Class.define("qx.ui.tabview.Page",
      */
     getButton: function() {
       return this._getChildControl("button");
-    },
-
-    /**
-     * Overridden apply method.
-     * Enables the page and the assicoated button.
-     *
-     * @param value {boolean} The new value.
-     * @param old {boolean} The old value.
-     */
-    _applyEnabled: function(value, old)
-    {
-      this.base(arguments, value, old);
-
-      // since enabled is inheritable value may be null
-      if (value == null) {
-        this._getChildControl("button").resetEnabled();
-      } else {
-        this._getChildControl("button").setEnabled(value);
-      }
     }
   }
-
 });

@@ -40,6 +40,10 @@ qx.Class.define("qx.ui.tabview.TabView",
     this._createChildControl("bar");
     this._createChildControl("pane");
 
+    var mgr = this._manager = new qx.ui.core.RadioManager;
+    mgr.setWrap(false);
+    mgr.addListener("change", this._onChange, this);
+
     this._setLayout(new qx.ui.layout.VBox());
   },
 
@@ -93,13 +97,6 @@ qx.Class.define("qx.ui.tabview.TabView",
 
       switch(id)
       {
-        case "manager":
-          control = new qx.ui.core.RadioManager().set({
-            wrap: false
-          });
-          control.addListener("change", this._onChange, this);
-          break;
-
         case "bar":
           control = new qx.ui.container.SlideBar();
           control.setLayout(new qx.ui.layout.HBox());
@@ -126,17 +123,17 @@ qx.Class.define("qx.ui.tabview.TabView",
      */
     add: function(page)
     {
+      // exclude page
+      page.exclude();
+
       // add the button to the bar
       this._getChildControl("bar").add(page.getButton());
       
       // add the button to the radio manager
-      this._getChildControl("manager").add(page.getButton());
+      this._manager.add(page.getButton());
       
       // add the page to the pane
       this._getChildControl("pane").add(page);
-
-      // check every new added page
-      page.getButton().setChecked(true);
 
       // reset the properties on the tabview (needed for the stats of the buttons)
       this._applyPlaceBarOnTop(this.getPlaceBarOnTop());
@@ -148,7 +145,7 @@ qx.Class.define("qx.ui.tabview.TabView",
     {
       var pane = this._getChildControl("pane");
       var bar = this._getChildControl("bar");
-      var manager = this._getChildControl("manager");
+      var manager = this._manager;
 
       var index = pane.indexOf(page);
       var children = pane.getChildren();
@@ -162,8 +159,10 @@ qx.Class.define("qx.ui.tabview.TabView",
 
       // add the button to the bar
       bar.remove(page.getButton());
+      
       // add the button to the radio manager
       manager.remove(page.getButton());
+      
       // add the page to the pane
       pane.remove(page);
     },
@@ -177,7 +176,7 @@ qx.Class.define("qx.ui.tabview.TabView",
     showPage: function(page) 
     {
       // TODO: check if the button is in the bar
-      this._getChildControl("manager").setSelected(page.getButton());
+      this._manager.setSelected(page.getButton());
     },
 
 
@@ -188,11 +187,7 @@ qx.Class.define("qx.ui.tabview.TabView",
      */
     getCurrentPage: function ()
     {
-      var pane = this._getChildControl("pane");
-      if (pane.getLayoutChildren().length == 1) {
-        return pane.getLayoutChildren()[0];
-      }
-      // TODO: return something if page is not in the view
+      // TODO
     },
 
 
@@ -259,9 +254,18 @@ qx.Class.define("qx.ui.tabview.TabView",
     
     _onChange : function(e)
     {
-      var button = e.getValue();
-      if (button) {
-        this._getChildControl("bar").scrollChildIntoView(button);
+      var newButton = e.getValue();
+      var oldButton = e.getOldValue();
+
+      if (newButton)
+      {      
+        newButton.getUserData("page").show();
+        this._getChildControl("bar").scrollChildIntoView(newButton);
+      }
+      
+      if (oldButton)
+      {
+        oldButton.getUserData("page").exclude();
       }
     }  
   }
