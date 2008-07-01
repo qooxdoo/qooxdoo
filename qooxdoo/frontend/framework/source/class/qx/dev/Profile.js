@@ -36,7 +36,7 @@ qx.Bootstrap.define("qx.dev.Profile",
     __callStack : [],
     __doProfile : true,
     __callOverhead : undefined,
-    __calibrateCount : 1000,
+    __calibrateCount : 4000,
 
 
     /**
@@ -120,7 +120,9 @@ qx.Bootstrap.define("qx.dev.Profile",
       for (var i=0; i<data.length; i++)
       {
         var profData = data[i];
-
+        if (profData.name == "qx.core.Aspect.__calibrateHelper") {
+          continue;
+        }
         str.push("<tr><td>");
         str.push(profData.name, "()");
         str.push("</td><td>");
@@ -156,23 +158,37 @@ qx.Bootstrap.define("qx.dev.Profile",
      */
     __calibrate : function(count)
     {
-      // Measure unwrapped function
-      var empty = function() {};
-      var start = new Date;
-      for (var i=0; i<count; i++) {
-        empty();
-      }
-      var plainTime = new Date - start;
+      // we use eval to unroll the loop because we don't want to measure the loop overhead.
 
       // Measure wrapped function
-      var empty = this.__calibrateHelper;
-      var start = new Date;
+      var code = ["var fcn = function(){ var fcn=qx.dev.Profile.__calibrateHelper;"];
       for (var i=0; i<count; i++) {
-        empty();
+        code.push("fcn();");
       }
-      var profTime = new Date - start;
+      code.push("};");
+      eval(code.join(""));
+      var start = new Date();
+      fcn();
+      var end = new Date();
+      var profTime = end - start;
 
-      // Compute per call overhead
+			// Measure unwrapped function
+      var code = [
+        "var plainFunc = function() {};",
+        "var fcn = function(){ var fcn=plainFunc;"
+      ];
+      for (var i=0; i<count; i++) {
+        code.push("fcn();");
+      }
+      code.push("};");
+      eval(code.join(""));
+
+      var start = new Date();
+      fcn();
+      var end = new Date();
+      var plainTime = end - start;
+
+			// Compute per call overhead
       return ((profTime - plainTime) / count);
     },
 
@@ -220,8 +236,7 @@ qx.Bootstrap.define("qx.dev.Profile",
         return;
       }
 
-      var callData =
-      {
+      var callData = {
         subRoutineTime : 0,
         subRoutineCalls : 0
       };
@@ -264,8 +279,7 @@ qx.Bootstrap.define("qx.dev.Profile",
 
       if (me.__profileData[fcnKey] === undefined)
       {
-        me.__profileData[fcnKey] =
-        {
+        me.__profileData[fcnKey] = {
           totalTime: 0,
           ownTime: 0,
           callCount: 0,
@@ -292,5 +306,7 @@ qx.Bootstrap.define("qx.dev.Profile",
     // Add advices for profiling
     qx.core.Aspect.addAdvice(statics.profileBefore, "before");
     qx.core.Aspect.addAdvice(statics.profileAfter, "after");
+
+    statics.__calibrateHelper = qx.core.Aspect.wrap("qx.dev.Profile.__calibrateHelper", statics.__calibrateHelper, "static");
   }
 });
