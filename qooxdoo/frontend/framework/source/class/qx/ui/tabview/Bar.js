@@ -40,7 +40,6 @@ qx.Class.define("qx.ui.tabview.Bar",
     /*
     this._getChildControl("pane").addListener("addChildWidget", function(e) {
       var child = e.getData();
-      console.log("add", child);
       child.addListener("mousedown", function(e) {
         this._scrollPane.scrollItemIntoView(child);
       }, this);

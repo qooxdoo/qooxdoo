@@ -155,7 +155,7 @@ qx.Class.define("qx.dev.unit.TestLoader",
      */
     runStandAlone : function()
     {
-      console.log(this.getTestDescriptions());
+      this.warn(this.getTestDescriptions());
 
       var testResult = new qx.dev.unit.TestResult();
 
