@@ -276,10 +276,7 @@ qx.Class.define("qx.io.remote.Rpc",
      * particular servers It is up to the server to decide what to do with
      * it: whether to ignore it, handle it locally before calling the
      * specified method, or pass it on to the method.  This server data is
-     * not sent to the server if it has been set to 'undefined'.
-     *
-     * TODO: undefined is not supported by the new properties, alternative
-     * ways to implement this? Maybe use null instead?
+     * not sent to the server if it has been set to 'null'.
      */
     serverData :
     {
@@ -386,7 +383,7 @@ qx.Class.define("qx.io.remote.Rpc",
       // See if there's any out-of-band data to be sent to the server
       var serverData = this.getServerData();
 
-      if (serverData !== undefined)
+      if (serverData !== null)
       {
         // There is.  Send it.
         requestObject.server_data = serverData;
