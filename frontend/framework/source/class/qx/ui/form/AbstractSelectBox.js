@@ -293,6 +293,11 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
       if (identifier == "Escape" || identifier == "Tab")
       {
         this._hideList();
+
+        // stop event
+        e.preventDefaul();
+        e.stopPropagation();
+
         return;
       }
       
