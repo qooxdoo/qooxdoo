@@ -28,7 +28,9 @@ qx.Mixin.define("qx.ui.core.MThemeTransform",
         return mgr.resolveDynamic(value);
       }
 
-      return value;
+      if (qx.core.Variant.isSet("qx.debug", "on")) {
+        this.fail("Cannot resolve themed decorator '"+value+"'!");
+      }
     },
 
     _resolveThemedFont : function(value)
@@ -43,7 +45,9 @@ qx.Mixin.define("qx.ui.core.MThemeTransform",
         return mgr.resolveDynamic(value);
       }
 
-      return value;
+      if (qx.core.Variant.isSet("qx.debug", "on")) {
+        this.fail("Cannot resolve themed font '"+value+"'!");
+      }
     },
 
     _resolveThemedIcon : function(value)
