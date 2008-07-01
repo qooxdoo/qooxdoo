@@ -360,17 +360,7 @@ qx.Class.define("qx.event.Command",
         str.push(qx.locale.Key.getKeyName("short", key));
       }
 
-      if (str.length == 1) {
-        return qx.locale.Manager.tr("%1", str);
-      } else if (str.length == 2) {
-        return qx.locale.Manager.tr("%1-%2", str[0], str[1]);
-      } else if (str.length == 3) {
-        return qx.locale.Manager.tr("%1-%2-%3", str[0], str[1], str[2]);
-      } else if (str.length == 2) {
-        return qx.locale.Manager.tr("%1-%2-%3-%4", str[0], str[1], str[2], str[3]);
-      } else {
-        return str.join("-");
-      }
+      return str.join("-");
     }
   },
 
