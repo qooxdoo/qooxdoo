@@ -126,23 +126,23 @@ qx.Class.define("qx.core.Property",
      */
     __checks :
     {
-      "Boolean"   : 'typeof value === "boolean" || value instanceof Boolean',
-      "String"    : 'typeof value === "string" || value instanceof String',
+      "Boolean"   : 'this.assertBoolean(value, msg) || true',
+      "String"    : 'this.assertString(value, msg) || true',
 
-      "Number"    : 'typeof value === "number" && isFinite(value)',
-      "Integer"   : 'typeof value === "number" && isFinite(value) && value%1 === 0',
-      "PositiveNumber" : 'typeof value === "number" && isFinite(value) && value >= 0',
-      "PositiveInteger" : 'typeof value === "number" && isFinite(value) && value >= 0 && value%1 === 0',
+      "Number"    : 'this.assertNumber(value, msg) || true',
+      "Integer"   : 'this.assertInteger(value, msg) || true',
+      "PositiveNumber" : 'this.assertPositiveNumber(value, msg) || true',
+      "PositiveInteger" : 'this.assertPositiveInteger(value, msg) || true',
 
-      "Error"     : 'value instanceof Error',
-      "RegExp"    : 'value instanceof RegExp',
+      "Error"     : 'this.assertInstance(value, Error, msg) || true',
+      "RegExp"    : 'this.assertInstance(value, RegExp, msg) || true',
 
-      "Object"    : 'value !== null && typeof value === "object"',
-      "Array"     : 'value instanceof Array',
-      "Map"       : 'value !== null && typeof value === "object" && !(value instanceof Array) && !(value instanceof qx.core.Object)',
+      "Object"    : 'this.assertObject(value, msg) || true',
+      "Array"     : 'this.assertArray(value, msg) || true',
+      "Map"       : 'this.assertMap(value, msg) || true',
 
-      "Function"  : 'value instanceof Function',
-      "Date"      : 'value instanceof Date',
+      "Function"  : 'this.assertFunction(value, msg) || true',
+      "Date"      : 'this.assertInstance(value, Date, msg) || true',
       "Node"      : 'value !== null && value.nodeType !== undefined',
       "Element"   : 'value !== null && value.nodeType === 1 && value.attributes',
       "Document"  : 'value !== null && value.nodeType === 9 && value.documentElement',
@@ -818,6 +818,8 @@ qx.Class.define("qx.core.Property",
           // Processing check definition
           if (config.check !== undefined)
           {
+            code.push('var msg = "Invalid incoming value for property \''+name+'\' of class \'' + clazz.classname + '\'";');
+
             // Accept "null"
             if (config.nullable) {
               code.push('if(value!==null)');
@@ -836,11 +838,11 @@ qx.Class.define("qx.core.Property",
             }
             else if (qx.Class.isDefined(config.check))
             {
-              code.push('!(value instanceof ', config.check, ')');
+              code.push('this.assertInstance(value, qx.Class.getByName("', config.check, '"), msg)');
             }
             else if (qx.Interface && qx.Interface.isDefined(config.check))
             {
-              code.push('!(value && qx.Class.hasInterface(value.constructor, ', config.check, '))');
+              code.push('this.assertInterface(value, qx.Interface.getByName("', config.check, '"), msg)');
             }
             else if (typeof config.check === "function")
             {
@@ -855,9 +857,7 @@ qx.Class.define("qx.core.Property",
             {
               // reconfigure for faster access trough map usage
               config.checkMap = qx.lang.Object.fromArray(config.check);
-
-              code.push(clazz.classname, '.$$properties.', name);
-              code.push('.checkMap[value]===undefined');
+              code.push('this.assertKeyInMap(value, ', clazz.classname, '.$$properties.', name, '.checkMap, msg)');
             }
             else
             {

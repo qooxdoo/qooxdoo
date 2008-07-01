@@ -48,6 +48,7 @@ qx.Class.define("qx.core.Assert",
     __assert : function(condition, comment, msg)
     {
       if (!condition) {
+        debugger;
         throw new qx.core.AssertionError(comment, msg);
       }
     },
@@ -394,9 +395,25 @@ qx.Class.define("qx.core.Assert",
     assertNumber : function(value, msg)
     {
       this.__assert(
-        typeof value === "number" || value instanceof Number,
+        (typeof value === "number" || value instanceof Number) && isFinite(value),
         msg || "",
         "Expected value to be a number but found " + value + "!"
+      );
+    },
+
+
+    /**
+     * Assert the the value is a number >= 0.
+     *
+     * @param value {var} Value to check
+     * @param msg {String} Message to be shown if the assertion fails.
+     */
+    assertPositiveNumber : function(value, msg)
+    {
+      this.__assert(
+        (typeof value === "number" || value instanceof Number) && isFinite(value) && value >= 0,
+        msg || "",
+        "Expected value to be a number >= 0 but found " + value + "!"
       );
     },
 
@@ -410,9 +427,34 @@ qx.Class.define("qx.core.Assert",
     assertInteger : function(value, msg)
     {
       this.__assert(
-        typeof value === "number" && isFinite(value) && value % 1 === 0,
+        (
+          (typeof value === "number" || value instanceof Number) &&
+          isFinite(value) &&
+          value % 1 === 0
+        ),
         msg || "",
         "Expected value to be an integer but found " + value + "!"
+      );
+    },
+
+
+    /**
+     * Assert the the value is an integer >= 0.
+     *
+     * @param value {var} Value to check
+     * @param msg {String} Message to be shown if the assertion fails.
+     */
+    assertPositiveInteger : function(value, msg)
+    {
+      this.__assert(
+        (
+          (typeof value === "number" || value instanceof Number) &&
+          isFinite(value) &&
+          value % 1 === 0 &&
+          value >= 0
+        ),
+        msg || "",
+        "Expected value to be an integer >= 0 but found " + value + "!"
       );
     },
 
@@ -531,7 +573,7 @@ qx.Class.define("qx.core.Assert",
      * @param msg {String} Message to be shown if the assertion fails.
      */
     assertInterface : function(value, iface, msg) {
-      this.__assert(qx.Class.hasInterface(value, iface), msg || "", "Expected object '" + value + "' to implement the interface '" + iface + "'!");
+      this.__assert(qx.Class.hasInterface(value.constructor, iface), msg || "", "Expected object '" + value + "' to implement the interface '" + iface + "'!");
     },
 
 

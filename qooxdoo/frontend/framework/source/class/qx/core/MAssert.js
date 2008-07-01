@@ -286,6 +286,17 @@ qx.Mixin.define("qx.core.MAssert",
 
 
     /**
+     * Assert the the value is a number >= 0.
+     *
+     * @param value {var} Value to check
+     * @param msg {String} Message to be shown if the assertion fails.
+     */
+    assertPositiveNumber : function(value, msg) {
+      qx.core.Assert.assertPositiveNumber(value, msg);
+    },
+
+
+    /**
      * Assert the the value is an integer.
      *
      * @param value {var} Value to check
@@ -293,6 +304,17 @@ qx.Mixin.define("qx.core.MAssert",
      */
     assertInteger : function(value, msg) {
       qx.core.Assert.assertInteger(value, msg);
+    },
+
+
+    /**
+     * Assert the the value is an integer >= 0.
+     *
+     * @param value {var} Value to check
+     * @param msg {String} Message to be shown if the assertion fails.
+     */
+    assertPositiveInteger : function(value, msg) {
+      qx.core.Assert.assertPositiveInteger(value, msg);
     },
 
 
