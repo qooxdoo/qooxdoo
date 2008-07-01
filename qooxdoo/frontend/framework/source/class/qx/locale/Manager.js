@@ -81,8 +81,8 @@ qx.Class.define("qx.locale.Manager",
      * @type static
      * @param singularMessageId {String} message id of the singular form (may contain format strings)
      * @param pluralMessageId {String} message id of the plural form (may contain format strings)
-     * @param count {Integer} if greater than 1 the plural form otherwhise the singular form is returned.
-     * @param varargs {Object} variable number of argumes applied to the format string
+     * @param count {Integer} singular form if equals 1, otherwise plural
+     * @param varargs {Object} variable number of arguments applied to the format string
      * @return {qx.locale.LocalizedString} TODOC
      * @see qx.lang.String.format
      */
@@ -91,7 +91,10 @@ qx.Class.define("qx.locale.Manager",
       var args = qx.lang.Array.fromArguments(arguments);
       args.splice(0, 3);
 
-      if (count > 1) {
+      // assumes "Two forms, singular used for one only" (seems to be the most common form)
+      // (http://www.gnu.org/software/gettext/manual/html_node/gettext_150.html#Plural-forms)
+      // closely related with bug #745
+      if (count != 1) {
         return new qx.locale.LocalizedString(pluralMessageId, args);
       } else {
         return new qx.locale.LocalizedString(singularMessageId, args);
