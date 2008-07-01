@@ -39,12 +39,12 @@ qx.Class.define("qx.theme.manager.Appearance",
   {
     this.base(arguments);
 
-    this.__cache = {};
+    this.__styleCache = {};
     
     this.__idMap = {};    
     
-    this.__stateMap = {};
-    this.__stateMapLength = 1;
+    // To give the style method a unified interface when no states are specified
+    this.__defaultStates = {};
   },
 
 
@@ -81,17 +81,7 @@ qx.Class.define("qx.theme.manager.Appearance",
   {
     _applyAppearanceTheme : function(value, old)
     {
-      if (!value && !old) {
-        return;
-      }
 
-      if (value) {
-        this.__cache[value.name] = {};
-      }
-
-      if (old) {
-        delete this.__cache[old.name];
-      }
     },
 
 
@@ -103,30 +93,15 @@ qx.Class.define("qx.theme.manager.Appearance",
     */
 
     /**
-     * Get the result of the "initial" function for a given id
-     *
-     * @type member
-     * @param id {String} id of the appearance (e.g. "button", "label", ...)
-     * @param states {Map} hash map defining the set states
-     * @return {Map} map of widget properties as returned by the "initial" function
-     */
-    styleFrom : function(id, states)
-    {
-      var theme = this.getAppearanceTheme();
-      return theme ? this.styleFromTheme(theme, id, states) : null;
-    },
-    
-    
-    /**
      * Returns the appearance entry ID to use 
      * when all aliases etc. are processed.
      *
      * @type member
-     * @param theme {Theme} Theme to use for lookup.
      * @param id {String} ID to resolve
+     * @param theme {Theme} Theme to use for lookup.
      * @return {String} Resolved ID
      */
-    resolveId : function(theme, id)
+    resolveId : function(id, theme)
     {
       var db = theme.appearances;
       var entry = db[id];
@@ -153,7 +128,7 @@ qx.Class.define("qx.theme.manager.Appearance",
             if (typeof alias === "string") 
             {
               var mapped = alias + divider + end.join(divider);
-              var result = this.resolveId(theme, mapped);
+              var result = this.resolveId(mapped, theme);
               return result;
             }
           }
@@ -163,31 +138,21 @@ qx.Class.define("qx.theme.manager.Appearance",
       }
       else if (typeof entry === "string") 
       {
-        return this.resolveId(theme, entry);
+        return this.resolveId(entry, theme);
       }
       else if (entry.include && !entry.style)
       {
-        return this.resolveId(theme, entry.include);
+        return this.resolveId(entry.include, theme);
       }
       else
       {  
         return id;    
       }
     },
-
-
-    /**
-     * Get the result of the "state" function for a given id and states
-     *
-     * @type member
-     * @param theme {Object} appearance theme
-     * @param id {String} id of the appearance (e.g. "button", "label", ...)
-     * @param states {Map} hash map defining the set states
-     * @return {Map} map of widget properties as returned by the "state" function
-     */
-    styleFromTheme : function(theme, id, states)
+    
+    
+    getEntry : function(id, theme)
     {
-      var db = theme.appearances;
       var map = this.__idMap;
       
       // Cache ID redirects
@@ -195,61 +160,96 @@ qx.Class.define("qx.theme.manager.Appearance",
       if (entry === undefined) 
       {
         // Searching for real ID
-        var mapped = this.resolveId(theme, id);   
+        var mapped = this.resolveId(id, theme);
 
         // Check if the entry was finally found
         if (!mapped)
         {
-          if (qx.core.Variant.isSet("qx.debug", "on"))
-          {
-            if (!this.__missingIds) {
-              this.__missingIds = {};
-            }
-  
-            if (!this.__missingIds[id])
-            {
-              this.warn("Missing appearance ID: " + id);
-              this.__missingIds[id] = true;
-            }
+          if (qx.core.Variant.isSet("qx.debug", "on")) {
+            this.warn("Missing appearance ID: " + id);
           }
   
           return null;
         }
 
         // this.debug("Map appearance ID: " + id + " to " + mapped);
-        entry = map[id] = db[mapped];
-      }      
+        entry = map[id] = theme.appearances[mapped];
+      }
+      
+      return entry;      
+    },
+
+
+    /**
+     * Get the result of the "state" function for a given id and states
+     *
+     * @type member
+     * @param id {String} id of the appearance (e.g. "button", "label", ...)
+     * @param states {Map} hash map defining the set states
+     * @param theme {Theme?} appearance theme
+     * @return {Map} map of widget properties as returned by the "state" function
+     */
+    styleFrom : function(id, states, theme)
+    {
+      if (!theme) {
+        theme = this.getAppearanceTheme(); 
+      }
+      
+      var entry = this.getEntry(id, theme);   
       
       // Entries with includes, but without style are automatically merged
-      // by the ID handling above. When there is no style method in the
+      // by the ID handling in {link #getEntry}. When there is no style method in the
       // final object the appearance is empty and null could be returned.
       if (!entry.style) {
         return null;
       }
-
-      // Creating cache-able ID
-      var map = this.__stateMap;
-      var helper = [id];
-      for (var state in states)
+      
+      // Build a unique cache name from ID and state combination
+      var unique = id;
+      if (states)
       {
-        if (!map[state]) {
-          map[state] = this.__stateMapLength++;
-        }
-
-        helper[map[state]] = true;
+        var styleStates = entry.states;
+        
+        if (styleStates) 
+        {
+          var optStates = entry.$$states;
+          
+          // Dynamically build optimized state version 
+          // Use a bitmask internalls to make every combination possible
+          // Allows a maximum of 30 states per ID which should be enough
+          if (!optStates)
+          {
+            entry.$$states = optStates = {};
+            for (var i=0, l=styleStates.length; i<l; i++) {
+              optStates[styleStates[i]] = 1<<i;
+            }
+          }
+          
+          var sum = 0;
+          for (var state in states) {
+            sum += optStates[state] || 0;
+          }
+          
+          if (sum > 0) {
+            unique += ":" + sum;
+          }
+        }       
       }
-
-      var unique = helper.join();
-
+     
       // Using cache if available
-      var cache = this.__cache[theme.name];
-      if (cache && cache[unique] !== undefined) {
+      var cache = this.__styleCache;
+      if (cache[unique] !== undefined) {
         return cache[unique];
       }
-
+      
+      // Fallback to default (empty) states map
+      if (!states) {
+        states = this.__defaultStates;
+      }      
+      
+      // Compile the appearance
       var result;
 
-      // Otherwise "compile" the appearance
       // If a include or base is defined, too, we need to merge the entries
       if (entry.include || entry.base)
       {
@@ -263,7 +263,7 @@ qx.Class.define("qx.theme.manager.Appearance",
         // Gather included data
         var incl;
         if (entry.include) {
-          incl = this.styleFromTheme(theme, entry.include, states);
+          incl = this.styleFrom(entry.include, states, theme);
         }
 
         // Create new map
@@ -272,7 +272,7 @@ qx.Class.define("qx.theme.manager.Appearance",
         // Copy base data, but exclude overwritten local and included stuff
         if (entry.base)
         {
-          var base = this.styleFromTheme(entry.base, id, states);
+          var base = this.styleFrom(id, states, entry.base);
 
           if (entry.include)
           {
@@ -316,10 +316,9 @@ qx.Class.define("qx.theme.manager.Appearance",
       }
 
       // Cache new entry and return
-      if (cache) {
-        cache[unique] = result || null;
-      }
+      cache[unique] = result || null;
 
+      // Return style map
       return result || null;
     }
   },
@@ -333,6 +332,6 @@ qx.Class.define("qx.theme.manager.Appearance",
   */
 
   destruct : function() {
-    this._disposeFields("__cache", "__stateMap");
+    this._disposeFields("__styleCache");
   }
 });

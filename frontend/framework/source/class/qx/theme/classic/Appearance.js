@@ -441,6 +441,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
     "colored-spinner/upbutton" : 
     {
       alias : "button",
+      states : [ "pressed" ],
       
       style : function(states)
       {
@@ -455,6 +456,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
     "colored-spinner/downbutton" : 
     {
       alias : "button",
+      states : [ "pressed" ],
       
       style : function(states)
       {
@@ -864,6 +866,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     "slider" :
     {
+      states : [ "focused" ],
+      
       style : function(states)
       {
         return {
@@ -999,16 +1003,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
           padding : [ 1, 2, 2 ],
           backgroundColor : states.active ? "window-active-caption" : "window-inactive-caption",
           textColor : states.active ? "window-active-caption-text" : "window-inactive-caption-text"
-        };
-      }
-    },
-
-    "window/resize-frame" :
-    {
-      style : function(states)
-      {
-        return {
-          decorator : "dark-shadow"
         };
       }
     },
