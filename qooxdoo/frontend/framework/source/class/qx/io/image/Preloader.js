@@ -276,6 +276,7 @@ qx.Class.define("qx.io.image.Preloader",
   {
     if (this._element)
     {
+      this._element.src = "";
       this._element.onload = this._element.onerror = null;
     }
 
