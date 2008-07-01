@@ -230,6 +230,18 @@ qx.Mixin.define("qx.core.MAssert",
 
 
     /**
+     * Assert the the value is a key in the given map.
+     *
+     * @param value {var} Value to check
+     * @param map {map} Map, where the keys represent the valid values
+     * @param msg {String} Message to be shown if the assertion fails.
+     */
+    assertKeyInMap : function(value, map, msg) {
+      qx.core.Assert.assertKeyInMap(value, map, msg);
+    } ,
+
+
+    /**
      * Assert the the value is a function.
      *
      * @param value {var} Value to check
