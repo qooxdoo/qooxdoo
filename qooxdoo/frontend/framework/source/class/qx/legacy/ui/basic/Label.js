@@ -380,8 +380,8 @@ qx.Class.define("qx.legacy.ui.basic.Label",
       "on" : function(e)
       {
         var text = this.getText();
-        if (text.messageId) {
-          this.setText(qx.locale.Manager.getInstance().translate(text.messageId, text.args));
+        if (text.translate) {
+          this.setText(text.translate);
         }
       },
 
