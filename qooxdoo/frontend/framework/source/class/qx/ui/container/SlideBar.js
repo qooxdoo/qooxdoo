@@ -32,6 +32,7 @@ qx.Class.define("qx.ui.container.SlideBar",
   ],
 
 
+
   /*
   *****************************************************************************
      CONSTRUCTOR
@@ -61,6 +62,27 @@ qx.Class.define("qx.ui.container.SlideBar",
 
 
 
+
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+  
+  properties :
+  {
+    appearance : 
+    {
+      refine : true,
+      init : "slidebar" 
+    }
+    
+  },
+  
+  
+  
+
+
   /*
   *****************************************************************************
      MEMBERS
@@ -72,6 +94,7 @@ qx.Class.define("qx.ui.container.SlideBar",
     isHorizontal : function() {
       return this._isHorizontal;
     },
+
 
 
     /*
@@ -98,6 +121,8 @@ qx.Class.define("qx.ui.container.SlideBar",
     },
 
 
+
+
     /*
     ---------------------------------------------------------------------------
       CHILD CONTROL SUPPORT
@@ -113,13 +138,13 @@ qx.Class.define("qx.ui.container.SlideBar",
       {
         case "button-forward":
           control = new qx.ui.form.RepeatButton(">");
-          control.addListener("execute", this._scrollForward, this);
+          control.addListener("execute", this._onExecuteForward, this);
           this._add(control);
           break;
 
-        case "button-back":
+        case "button-backward":
           control = new qx.ui.form.RepeatButton("<");
-          control.addListener("execute", this._scrollBack, this);
+          control.addListener("execute", this._onExecuteBackward, this);
           this._addAt(control, 0);
           break;
 
@@ -128,8 +153,11 @@ qx.Class.define("qx.ui.container.SlideBar",
           this._scrollPane.add(control);
           break;
       }
+      
       return control || this.base(arguments, id);
     },
+
+
 
 
     /**
@@ -154,12 +182,14 @@ qx.Class.define("qx.ui.container.SlideBar",
       if (this._isHorizontal)
       {
         var areaSize = this.getBounds().width - areaInsets.left - areaInsets.right;
+        
         // The final rendered width of the content
         var contentSize = content.getBounds().width;
       }
       else
       {
         var areaSize = this.getBounds().height - areaInsets.top - areaInsets.bottom;
+        
         // The final rendered width of the content
         var contentSize = content.getBounds().height;
       }
@@ -181,7 +211,7 @@ qx.Class.define("qx.ui.container.SlideBar",
     _showArrows : function()
     {
       this._showChildControl("button-forward");
-      this._showChildControl("button-back");
+      this._showChildControl("button-backward");
     },
 
 
@@ -194,7 +224,7 @@ qx.Class.define("qx.ui.container.SlideBar",
     _hideArrows : function()
     {
       this._excludeChildControl("button-forward");
-      this._excludeChildControl("button-back");
+      this._excludeChildControl("button-backward");
 
       this._scrollPane.scrollToX(0);
     },
@@ -206,7 +236,7 @@ qx.Class.define("qx.ui.container.SlideBar",
      * @type member
      * @return {void}
      */
-    _scrollBack : function()
+    _onExecuteBackward : function()
     {
       if (this._isHorizontal) {
         this._scrollPane.scrollByX(-20);
@@ -222,7 +252,8 @@ qx.Class.define("qx.ui.container.SlideBar",
      * @type member
      * @return {void}
      */
-    _scrollForward : function() {
+    _onExecuteForward : function() 
+    {
       if (this._isHorizontal) {
         this._scrollPane.scrollByX(20);
       } else {
