@@ -1211,7 +1211,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
     "selectbox/atom" : "atom",
     "selectbox/popup" : "popup",
     "selectbox/list" : "list",
-
+    
     "selectbox/arrow" :
     {
       style : function(states)
@@ -1222,7 +1222,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
         };
       }
     },    
-            
+
     
 
     
