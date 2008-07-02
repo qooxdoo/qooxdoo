@@ -33,6 +33,7 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
   ],
 
 
+
   /*
   *****************************************************************************
      CONSTRUCTOR
@@ -67,6 +68,7 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
   */
   properties :
   {
+    // overridden
     appearance :
     {
       refine : true,
