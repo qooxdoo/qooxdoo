@@ -85,8 +85,13 @@ qx.Class.define("qx.bom.History",
       this._iframe.style.left = "-1000px";
       this._iframe.style.top = "-1000px";
 
-      document.body.appendChild(this._iframe);
+      /* 
+       * IMPORTANT NOTE FOR IE:
+       * Setting the source before adding the iframe to the document.
+       * Otherwise IE will bring up a "Unsecure items ..." warning in SSL mode
+       */
       this._iframe.src = qx.util.ResourceManager.toUri("qx/static/history/helper.html");
+      document.body.appendChild(this._iframe);
 
       this._titles = {};
       this._state = decodeURIComponent(this.__getHash());
