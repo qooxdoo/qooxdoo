@@ -428,7 +428,7 @@ qx.Class.define("qx.util.Json",
      */
     parse : function(text)
     {
-      if (!(/[^,:{}\[\]0-9.\-+Eaeflnr-u \n\r\t]/.test(text.replace(/"(\\.|[^"\\])*"/g, "")))) {
+      if (/[^,:{}\[\]0-9.\-+Eaeflnr-u \n\r\t]/.test(text.replace(/"(\\.|[^"\\])*"/g, ""))) {
         throw new Error("Could not parse JSON string!");
       }
 
