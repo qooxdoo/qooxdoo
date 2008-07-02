@@ -2137,10 +2137,7 @@ qx.Class.define("qx.ui.core.Widget",
 
 
     // property apply
-    _applyAppearance : function(value, old)
-    {
-      this.debug("Reconfigure appearance: " + value);
-
+    _applyAppearance : function(value, old) {
       this.updateAppearance();
     },
 
@@ -2158,8 +2155,14 @@ qx.Class.define("qx.ui.core.Widget",
       var controls = this.__childControls;
       if (controls)
       {
-        for (var id in controls) {
-          controls[id].updateAppearance();
+        var obj;
+        for (var id in controls) 
+        {
+          obj = controls[id];
+          
+          if (obj instanceof qx.ui.core.Widget) {
+            obj.updateAppearance();
+          }
         }
       }
     },
