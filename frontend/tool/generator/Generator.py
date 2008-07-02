@@ -27,8 +27,6 @@ from ecmascript.frontend import treegenerator, tokenizer
 from ecmascript.backend.optimizer import variableoptimizer
 from ecmascript.backend.optimizer import privateoptimizer
 from ecmascript.backend.optimizer import protectedoptimizer
-from generator.ApiLoader import ApiLoader
-from generator.Locale import Locale
 from generator.config.Config import ExtMap
 from generator.code.DependencyLoader import DependencyLoader
 from generator.code.PartBuilder import PartBuilder
@@ -37,6 +35,8 @@ from generator.code.TreeCompiler import TreeCompiler
 from generator.code.LibraryPath import LibraryPath
 from generator.action.ImageInfo import ImageInfo, ImgInfoFmt
 from generator.action.ImageClipping import ImageClipping
+from generator.action.ApiLoader import ApiLoader
+from generator.action.Locale import Locale
 from generator.runtime.Cache import Cache
 from generator.runtime.ShellCmd import ShellCmd
 import simplejson
