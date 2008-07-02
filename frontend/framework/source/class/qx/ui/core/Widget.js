@@ -1972,15 +1972,29 @@ qx.Class.define("qx.ui.core.Widget",
      */
     addState : function(state)
     {
+      // Dynamically create state map
       var states = this.__states;
       if (!states) {
         states = this.__states = {};  
       }
       
-      if (!states[state])
+      if (states[state]) {
+        return; 
+      }
+      
+      // Add state and queue
+      this.__states[state] = true;
+      qx.ui.core.queue.Appearance.add(this);
+      
+      // Forward state change to child controls
+      var forward = this._forwardStates;
+      var controls = this.__childControls;
+      
+      if (forward && controls)
       {
-        this.__states[state] = true;
-        qx.ui.core.queue.Appearance.add(this);
+        for (var id in controls) {
+          controls[id].addState(state); 
+        }           
       }
     },
 
@@ -1994,12 +2008,26 @@ qx.Class.define("qx.ui.core.Widget",
      */
     removeState : function(state)
     {
+      // Check for existing state
       var states = this.__states;
-      if (states && states[state])
-      {
-        delete this.__states[state];
-        qx.ui.core.queue.Appearance.add(this);
+      if (!states || !states[state]) {
+        return; 
       }
+
+      // Clear state and queue
+      delete this.__states[state];
+      qx.ui.core.queue.Appearance.add(this);
+      
+      // Forward state change to child controls
+      var forward = this._forwardStates;
+      var controls = this.__childControls;
+      
+      if (forward && controls)
+      {
+        for (var id in controls) {
+          controls[id].removeState(state); 
+        }           
+      }        
     },
 
 
@@ -2029,6 +2057,17 @@ qx.Class.define("qx.ui.core.Widget",
       }
 
       qx.ui.core.queue.Appearance.add(this);
+      
+      // Forward state change to child controls
+      var forward = this._forwardStates;
+      var controls = this.__childControls;
+      
+      if (forward && controls)
+      {
+        for (var id in controls) {
+          controls[id].replaceState(old, value); 
+        }           
+      }      
     },
 
 
