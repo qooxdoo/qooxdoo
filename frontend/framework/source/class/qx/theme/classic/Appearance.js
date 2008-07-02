@@ -375,7 +375,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
     {
       alias : "button",
       include : "button",
-      states : [ "pressed" ],
+      states : [ "pressed", "focused" ],
 
       style : function(states)
       {
@@ -390,7 +390,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
     {
       alias : "button",
       include : "button",
-      states : [ "pressed" ],
+      states : [ "pressed", "focused" ],
 
       style : function(states)
       {
