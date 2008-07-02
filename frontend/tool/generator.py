@@ -21,9 +21,9 @@
 
 import sys, os, optparse, string, types, pprint
 from optparseext.ExtendAction import ExtendAction
-from generator.Log import Log
-from generator.Config import Config, ExtMap
 from generator.Generator import Generator
+from generator.config.Config import Config, ExtMap
+from generator.runtime.Log import Log
 
 
 def listJobs(console, jobs):

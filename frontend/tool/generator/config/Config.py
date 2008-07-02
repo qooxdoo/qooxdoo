@@ -22,8 +22,8 @@
 
 import os, sys, re, types, string, copy
 import simplejson
-from generator.ShellCmd import ShellCmd
-from generator.Job import Job
+from generator.config.Job import Job
+from generator.runtime.ShellCmd import ShellCmd
 
 console = None
 

@@ -28,17 +28,17 @@ from ecmascript.backend.optimizer import variableoptimizer
 from ecmascript.backend.optimizer import privateoptimizer
 from ecmascript.backend.optimizer import protectedoptimizer
 from generator.ApiLoader import ApiLoader
-from generator.Cache import Cache
-from generator.DependencyLoader import DependencyLoader
 from generator.Locale import Locale
-from generator.PartBuilder import PartBuilder
-from generator.TreeLoader import TreeLoader
-from generator.TreeCompiler import TreeCompiler
-from generator.LibraryPath import LibraryPath
-from generator.ImageInfo import ImageInfo, ImgInfoFmt
-from generator.ImageClipping import ImageClipping
-from generator.ShellCmd import ShellCmd
-from generator.Config import ExtMap
+from generator.config.Config import ExtMap
+from generator.code.DependencyLoader import DependencyLoader
+from generator.code.PartBuilder import PartBuilder
+from generator.code.TreeLoader import TreeLoader
+from generator.code.TreeCompiler import TreeCompiler
+from generator.code.LibraryPath import LibraryPath
+from generator.image.ImageInfo import ImageInfo, ImgInfoFmt
+from generator.image.ImageClipping import ImageClipping
+from generator.runtime.Cache import Cache
+from generator.runtime.ShellCmd import ShellCmd
 import simplejson
 from robocopy import robocopy
 
