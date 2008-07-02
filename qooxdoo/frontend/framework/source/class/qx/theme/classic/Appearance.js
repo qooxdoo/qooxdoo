@@ -492,6 +492,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     "groupbox/legend" :
     {
+      alias : "atom",
+      
       style : function(states)
       {
         return {
