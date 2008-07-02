@@ -21,7 +21,7 @@
 
 import os, sys, optparse, subprocess, tempfile, shutil
 from misc import filetool
-from generator.Log import Log
+from generator.runtime.Log import Log
 from elementtree import ElementTree
 
 # Supported icon sizes
