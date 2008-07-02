@@ -10,22 +10,22 @@
     }
   ],
 
-  "export" : ["build", "source", "api", "translate", "pretty"],
+  "export" : ["build", "source", "api", "translate", "pretty", "clean", "distclean"],
+
+  "let" :
+  {
+    "ROOT"         : ".",
+    "QOOXDOO_PATH" : "../../framework",
+    "QOOXDOO_URI"  : "../${QOOXDOO_PATH}",
+    "CACHE"        : "cache",
+    "QXTHEME"      : "qx.theme.Classic",
+    "BUILD_PATH"   : "${ROOT}/build"
+  },
 
   "jobs" :
   {
     "common" :
     {
-      "let" :
-      {
-        "ROOT"         : ".",
-        "QOOXDOO_PATH" : "../../framework",
-        "QOOXDOO_URI"  : "../${QOOXDOO_PATH}",
-        "CACHE"        : "cache",
-        "QXTHEME"      : "qx.theme.Classic",
-        "BUILD_PATH"   : "${ROOT}/build"
-      },
-
       "library" :
       [
         {
@@ -169,6 +169,73 @@
       ],
 
       "pretty-print" : {}
+    },
+
+
+    "clean" :
+    {
+      "clean-files" :
+      {
+        "Cleaning up build" :
+        [
+          "${BUILD_PATH}/script/${APPLICATION}.js",
+          "${BUILD_PATH}/script/${APPLICATION}[_-]*.js"
+        ],
+        "Cleaning up source" :
+        [
+          "${ROOT}/cache",
+          "${ROOT}/source/script/${APPLICATION}.js",
+          "${ROOT}/source/translation/messages.pot"
+        ],
+        "Cleaning up framework" :
+        [
+          "${QOOXDOO_PATH}/source/translation/messages.pot"
+        ]
+      }
+    },
+
+
+    "distclean" :
+    {
+      "clean-files" : 
+      {
+        "Deleting build" :
+        [
+          "${BUILD_PATH}"
+        ],
+        "Deleting api" :
+        [
+          "${ROOT}/api"
+        ],
+        "Deleting debug" :
+        [
+        ],
+        "Deleting AIR application" :
+        [
+        ],
+        "Deleting buildtool" :
+        [
+          "${ROOT}/tool/buildtool"
+        ],
+        "Deleting test" :
+        [
+          "${ROOT}/test"
+        ],
+        "Cleaning up source" :
+        [
+          "${ROOT}/source/script",
+          "${ROOT}/source/class/${APPLICATION}/translation",
+          "${ROOT}/source/translation/messages.pot"
+        ],
+        "Cleaning up framework" :
+        [
+          "${CACHE}",
+          "${QOOXDOO_PATH}/.cache",
+          "${QOOXDOO_PATH}/source/translation/messages.pot",
+          "${QOOXDOO_PATH}/source/class/qx/locale/data",
+          "${QOOXDOO_PATH}/source/class/qx/locale/translation"
+        ]
+      }
     },
 
 

@@ -247,6 +247,8 @@ class Config:
             else:
                 # take essentially the external job into the local joblist
                 extJob = extConfig.getJob(extJobEntry)  # fetch this job
+                if not extJob:
+                    raise RuntimeError, "No such job: \"%s\" while including config: \"%s\")" % (extJobEntry, extConfig._fname)
                 newJob = Job(newjobname, {}, self._console, self) # fake as local job, for _includeGlobalLet to run locally
                 newJob.includeGlobalLet()  # have to draw in local let before all the external let's are processed
                 newJob.mergeJob(extJob)    # now merge in the external guy
