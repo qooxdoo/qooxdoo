@@ -37,6 +37,7 @@ from generator.action.ImageInfo import ImageInfo, ImgInfoFmt
 from generator.action.ImageClipping import ImageClipping
 from generator.action.ApiLoader import ApiLoader
 from generator.action.Locale import Locale
+from generator.action.JobLib import JobLib
 from generator.runtime.Cache import Cache
 from generator.runtime.ShellCmd import ShellCmd
 import simplejson
@@ -49,12 +50,15 @@ memcache = {}
 
 
 class Generator:
-    def __init__(self, config, console):
+    def __init__(self, config, console_):
+        global console
         self._config    = config
-        self._console   = console
+        self._console   = console_
         self._variants  = {}
         self._settings  = {}
         self._cache     = Cache(config.extract("cache"), self._console)
+
+        console = console_
 
 
 
@@ -308,6 +312,29 @@ class Generator:
 
 
 
+    def run1(self):
+        config = self._config
+        job    = config.get(".")
+        jobTriggers = self.listJobTriggers()
+
+        # get the simple triggers from global struct
+        triggersSimpleSet   = set((x for x in jobTriggers if jobTriggers[x]['type']=="JSimpleJob"))
+        # get the job keys
+        jobKeySet = set(job.keys())
+        # let's check for presence of certain triggers
+        simpleTriggerKeys         = jobKeySet.intersection(triggersSimpleSet) # we have simple job triggers
+
+        # process simple job triggers
+        if simpleTriggerKeys:
+            for trigger in simpleTriggerKeys:
+                apply(jobTriggers[trigger]['action'],(self,))
+                del job[trigger]
+
+        # dispatch rest to old run()
+        self.run()
+
+
+
     def run(self):
         config = self._config
 
@@ -328,6 +355,7 @@ class Generator:
         self._locale         = Locale(self._classes, self._translations, self._cache, self._console, self._treeLoader)
         partBuilder          = PartBuilder(self._console, self._depLoader, self._treeCompiler)
         self._resourceHandler= _ResourceHandler(self)
+        self._jobLib         = JobLib(self._console)
 
         # Updating translation
         self.runUpdateTranslation()
@@ -406,6 +434,7 @@ class Generator:
             self.runImageSlicing()
             self.runImageCombining()
             self.runPrettyPrinting(classList)
+            self.runClean()
 
 
             # Debug tasks
@@ -861,6 +890,18 @@ class Generator:
             tree = self._treeLoader.getTree(classId)
             compiled = compiler.compile(tree, options)
             filetool.save(self._classes[classId]['path'], compiled)
+
+        self._console.outdent()
+
+
+    def runClean(self):
+        if not self._config.get('clean-files', False):
+            return
+
+        self._console.info("Cleaning up files...")
+        self._console.indent()
+
+        self._jobLib.clean(self._config.get('clean-files'))
 
         self._console.outdent()
 
