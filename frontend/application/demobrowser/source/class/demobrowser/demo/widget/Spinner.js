@@ -122,6 +122,73 @@ qx.Class.define("demobrowser.demo.widget.Spinner",
         s7.setAppearance(e.getValue() ? "colored-spinner" : "spinner");
       });
       container.add(b7, {column: 4, row: row++});
+      
+      
+        
+      qx.Theme.define("coloredspinner",
+      {
+        "title" : "Color Spinner Extension",
+        
+        "appearances" :
+        {
+          "colored-spinner" : 
+          {
+            states : [ "focused", "disabled" ],
+            
+            style : function(states)
+            {
+              return {
+                decorator       : "outset",
+                textColor       : states.disabled ? "text-disabled" : "undefined",
+                backgroundColor : states.focused ? "#C1E9F5" : "field",
+                font : "large"
+              };
+            }
+          },
+          
+          "colored-spinner/textfield" : 
+          {
+            style : function(states)
+            {
+              return {
+                padding: [3, 5]
+              };
+            }      
+          },
+      
+          "colored-spinner/upbutton" : 
+          {
+            alias : "button",
+            states : [ "pressed" ],
+            
+            style : function(states)
+            {
+              return {
+                icon : "decoration/arrows/up-small.gif",
+                backgroundColor : states.pressed ? "#8ED721" : "#679C18",
+                padding : [ 4, 8 ]
+              }
+            }
+          },
+      
+          "colored-spinner/downbutton" : 
+          {
+            alias : "button",
+            states : [ "pressed" ],
+            
+            style : function(states)
+            {
+              return {
+                icon : "decoration/arrows/down-small.gif",
+                backgroundColor : states.pressed ? "#E96241" : "#D53E18",
+                padding : [ 4, 8 ]
+              };
+            }
+          }
+        }
+      });  
+      
+      qx.Theme.include(qx.theme.manager.Appearance.getInstance().getAppearanceTheme(), coloredspinner);    
     }
   }
 });
