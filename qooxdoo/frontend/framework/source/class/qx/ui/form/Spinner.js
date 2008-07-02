@@ -264,10 +264,18 @@ qx.Class.define("qx.ui.form.Spinner",
       
       return control || this.base(arguments, id);
     },
+    
+    _forwardStates : {
+      focused : true      
+    },
 
     _getStyleTarget : function() {
       return this._getChildControl("textfield");
     },
+    
+    
+    
+    
 
 
     /*
