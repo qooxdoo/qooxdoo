@@ -35,8 +35,8 @@ from generator.code.PartBuilder import PartBuilder
 from generator.code.TreeLoader import TreeLoader
 from generator.code.TreeCompiler import TreeCompiler
 from generator.code.LibraryPath import LibraryPath
-from generator.image.ImageInfo import ImageInfo, ImgInfoFmt
-from generator.image.ImageClipping import ImageClipping
+from generator.action.ImageInfo import ImageInfo, ImgInfoFmt
+from generator.action.ImageClipping import ImageClipping
 from generator.runtime.Cache import Cache
 from generator.runtime.ShellCmd import ShellCmd
 import simplejson

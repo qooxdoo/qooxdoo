@@ -34,7 +34,7 @@
 ##
 
 import sys, os, glob
-from generator.image.ImageInfo import ImageInfo
+from generator.action.ImageInfo import ImageInfo
 
 
 class ImageClipping(object):
