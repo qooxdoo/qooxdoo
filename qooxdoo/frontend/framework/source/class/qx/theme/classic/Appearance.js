@@ -517,8 +517,12 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
-    "checkbox-groupbox-legend" :
+    "check-groupbox" : "groupbox",
+
+    "check-groupbox/legend" :
     {
+      states : [ "checked", "focused", "disabled", "hovered", "pressed" ],
+      alias : "checkbox",
       include : "checkbox",
 
       style : function(states)
@@ -533,8 +537,12 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
-    "radiobutton-groupbox-legend" :
+    "radio-groupbox" : "groupbox",
+
+    "radio-groupbox/legend" :
     {
+      states : [ "checked", "focused", "disabled", "hovered", "pressed" ],
+      alias : "radiobutton",
       include : "radiobutton",
 
       style : function(states)
