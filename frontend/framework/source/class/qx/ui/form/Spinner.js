@@ -81,8 +81,13 @@ qx.Class.define("qx.ui.form.Spinner",
     this.addListener("keydown", this._onKeyDown, this);
     this.addListener("keyup", this._onKeyUp, this);
     this.addListener("mousewheel", this._onMouseWheel, this);
+    
+    // CREATE CONTROLS
+    this._createChildControl("textfield");
+    this._createChildControl("upbutton");
+    this._createChildControl("downbutton");
 
-    //   INITIALIZATION
+    // INITIALIZATION
     if (vMin != null) {
       this.setMin(vMin);
     }
@@ -93,6 +98,8 @@ qx.Class.define("qx.ui.form.Spinner",
 
     if (vValue != null) {
       this.setValue(vValue);   
+    } else {
+      this.initValue(); 
     }
   },
 
@@ -329,25 +336,9 @@ qx.Class.define("qx.ui.form.Spinner",
      */
     _applyValue: function(value, old)
     {
-
       var upButton = this._getChildControl("upbutton");
       var downButton = this._getChildControl("downbutton");
       var textField = this._getChildControl("textfield");
-
-      // if the value is greater than the max value
-      if (value > this.getMax())
-      {
-        this.setValue(this.getMax());
-        return;
-      }
-
-      // if the value is lower than the min value
-      else if(value < this.getMin())
-      {
-        this.setValue(this.getMin());
-        return;
-      }
-
 
       // up button enabled/disabled
       if (value < this.getMax())
@@ -380,7 +371,7 @@ qx.Class.define("qx.ui.form.Spinner",
           downButton.setEnabled(false);
         }
       }
-
+      
       // save the last valid value of the spinner
       this._lastValidValue = value;
 
