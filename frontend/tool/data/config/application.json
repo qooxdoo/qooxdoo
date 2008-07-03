@@ -18,6 +18,7 @@
     "distclean",
     "lint",
     "pretty",
+    "profiling",
     "source",
     "translate"
   ],
