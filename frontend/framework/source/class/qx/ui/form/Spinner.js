@@ -448,21 +448,6 @@ qx.Class.define("qx.ui.form.Spinner",
     },
 
 
-    // overridden
-    _applyEnabled : function(value, old)
-    {
-      if (value === false)
-      {
-        // disable the spinner
-        this.addState("disabled");
-      }
-      else
-      {
-        // enable the spinner
-        this.removeState("disabled");
-      }
-    },
-
 
 
 
