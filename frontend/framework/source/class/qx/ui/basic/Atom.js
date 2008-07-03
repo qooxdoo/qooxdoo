@@ -199,8 +199,6 @@ qx.Class.define("qx.ui.basic.Atom",
 
     /**
      * Updates the visibility of the label
-     *
-     * @param control {qx.ui.basic.Label?null} (Optional) the label instance
      */
     _handleLabel : function()
     {
@@ -214,8 +212,6 @@ qx.Class.define("qx.ui.basic.Atom",
 
     /**
      * Updates the visibility of the icon
-     *
-     * @param control {qx.ui.basic.Icon?null} (Optional) the icon instance
      */
     _handleIcon : function()
     {
