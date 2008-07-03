@@ -129,12 +129,12 @@ qx.Class.define("qx.ui.basic.Atom",
 
     /**
      * Configure the visibility of the sub elements/widgets.
-     * Possible values: both, text, icon, none
+     * Possible values: both, text, icon
      */
     show :
     {
       init : "both",
-      check : [ "both", "label", "icon", "none"],
+      check : [ "both", "label", "icon" ],
       themeable : true,
       nullable : true,
       inheritable : true,
@@ -170,27 +170,29 @@ qx.Class.define("qx.ui.basic.Atom",
     _createChildControlImpl : function(id)
     {
       var control;
-      var show = this.getShow();
 
       switch(id)
       {
         case "label":
-          control = new qx.ui.basic.Label(this.getLabel()).set({
-            anonymous: true,
-            rich: this.getRich()
-          });
+          control = new qx.ui.basic.Label(this.getLabel());
+          control.setAnonymous(true);
+          control.setRich(this.getRich());
           this._add(control);
-          this._handleLabel(control);
+          if (this.getLabel() == null || this.getShow() === "icon") {
+            control.exclude(); 
+          }
           break;
 
         case "icon":
-          control = new qx.ui.basic.Image(this.getIcon()).set({
-            anonymous: true
-          });
+          control = new qx.ui.basic.Image(this.getIcon());
+          control.setAnonymous(true);
           this._addAt(control, 0);
-          this._handleIcon(control);
+          if (this.getIcon() == null || this.getShow() === "label") {
+            control.exclude(); 
+          }
           break;
       }
+      
       return control || this.base(arguments, id);
     },
 
@@ -200,12 +202,12 @@ qx.Class.define("qx.ui.basic.Atom",
      *
      * @param control {qx.ui.basic.Label?null} (Optional) the label instance
      */
-    _handleLabel : function(control)
+    _handleLabel : function()
     {
       if (this.getLabel() == null || this.getShow() === "icon") {
-        control ? control.exclude() : this._excludeChildControl("label");
+        this._excludeChildControl("label");
       } else {
-        control ? control.show() : this._showChildControl("label");
+        this._showChildControl("label");
       }
     },
 
@@ -215,12 +217,12 @@ qx.Class.define("qx.ui.basic.Atom",
      *
      * @param control {qx.ui.basic.Icon?null} (Optional) the icon instance
      */
-    _handleIcon : function(control)
+    _handleIcon : function()
     {
       if (this.getIcon() == null || this.getShow() === "label") {
-        control ? control.exclude() : this._excludeChildControl("icon");
+        this._excludeChildControl("icon");
       } else {
-        control ? control.show() : this._showChildControl("icon");
+        this._showChildControl("icon");
       }
     },
 
