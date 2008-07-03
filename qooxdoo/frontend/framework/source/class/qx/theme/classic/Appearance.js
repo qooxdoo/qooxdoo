@@ -367,7 +367,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
         return {
           icon : "decoration/arrows/up-small.gif",
           padding : states.pressed ? [2, 2, 0, 4] : [1, 3, 1, 3],
-          backgroundColor : states.focused ? "background-focused" : states.hovered ? "button-hovered" : "button"
+          backgroundColor : states.focused ? "background-focused-inner" : states.hovered ? "button-hovered" : "button"
         }
       }
     },
@@ -382,7 +382,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
         return {
           icon : "decoration/arrows/down-small.gif",
           padding : states.pressed ? [2, 2, 0, 4] : [1, 3, 1, 3],
-          backgroundColor : states.focused ? "background-focused" : states.hovered ? "button-hovered" : "button"
+          backgroundColor : states.focused ? "background-focused-inner" : states.hovered ? "button-hovered" : "button"
         };
       }
     },
