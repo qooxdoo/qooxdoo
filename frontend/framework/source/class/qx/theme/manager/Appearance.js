@@ -202,7 +202,7 @@ qx.Class.define("qx.theme.manager.Appearance",
         for (var state in states)
         {
           if (bits[state] == null) {
-            bits[state] = 1<<entry.$$length++
+            bits[state] = 1<<entry.$$length++;
           }
 
           sum += bits[state];
@@ -213,7 +213,7 @@ qx.Class.define("qx.theme.manager.Appearance",
           unique += ":" + sum;
         }
       }
-     
+      
       // Using cache if available
       var cache = this.__styleCache;
       if (cache[unique] !== undefined) {
