@@ -564,19 +564,6 @@ qx.Class.define("qx.ui.core.Widget",
     
     
     /**
-     * When this property is enabled and {@link #focusable) is disabled the 
-     * widget redirects the focus to the next focusable parent. 
-     *
-     * This is mainly useful for widget authors. Please use with caution!
-     */
-    redirectFocus :
-    {
-      check : "Boolean",
-      init : false
-    },
-
-
-    /**
      * Whether the widget contains content which may be selected by the user.
      *
      * Normally only useful for forms fields, longer texts/documents, editors, etc.
@@ -2391,32 +2378,6 @@ qx.Class.define("qx.ui.core.Widget",
           target.setAttribute("tabIndex", null);
         }
       }
-      
-      // Dynamically register/deregister events
-      if (value)
-      {
-        this.addListener("focus", this._onFocus, this);
-        this.addListener("blur", this._onBlur, this);
-      }
-      else if (old)
-      {
-        this.removeListener("focus", this._onFocus, this);
-        this.removeListener("blur", this._onBlur, this);
-      }
-
-      if (target.isNativelyFocusable())
-      {
-        if (value)
-        {
-          this.removeListener("focus", this._onNativeFocus, this);
-          this.removeListener("blur", this._onNativeBlur, this);
-        }
-        else
-        {
-          this.addListener("focus", this._onNativeFocus, this);
-          this.addListener("blur", this._onNativeBlur, this);
-        }
-      }
     },
 
 
@@ -2426,8 +2387,8 @@ qx.Class.define("qx.ui.core.Widget",
       var target = this.getFocusElement();
       target.setAttribute("qxKeepFocus", value ? "on" : null);
     },
-
-
+    
+    
     // property apply
     _applyTabIndex : function(value)
     {
@@ -2477,16 +2438,19 @@ qx.Class.define("qx.ui.core.Widget",
     /**
      * Event handler which is executed when the widget receives the focus.
      *
+     * This method is used by the {@link #qx.ui.core.FocusHandler} to
+     * apply states etc. to a focused widget.
+     *
+     * @internal
      * @type member
-     * @param e {qx.event.type.Focus} Focus event
      * @return {void}
      */
-    _onFocus : function(e)
+    visualizeFocus : function()
     {
       this.addState("focused");
 
-      // Omit IE specific dotted outline border
-      var el = this._containerElement;
+      // Omit native dotted outline border
+      var el = this.getFocusElement();
       if (qx.core.Variant.isSet("qx.client", "mshtml")) {
         el.setAttribute("hideFocus", "true");
       } else {
@@ -2498,63 +2462,18 @@ qx.Class.define("qx.ui.core.Widget",
     /**
      * Event handler which is executed when the widget lost the focus.
      *
+     * This method is used by the {@link #qx.ui.core.FocusHandler} to
+     * remove states etc. from a previously focused widget.
+     *
+     * @internal
      * @type member
-     * @param e {qx.event.type.Focus} Focus event
      * @return {void}
      */
-    _onBlur : function(e) {
+    visualizeBlur : function() {
       this.removeState("focused");
     },
-    
-    
-    
-    /**
-     * Event handler which is executed when the widget receives the focus.
-     *
-     * The widget must be natively focusable and not configured as
-     * focusable to call this method.
-     *
-     * This is mainly used by the internal focus handling. Please use
-     * and refine with caution!
-     *
-     * @type member
-     * @param e {qx.event.type.Focus} Focus event
-     * @return {void}
-     */      
-    _onNativeFocus : function(e)
-    {
-      var focusTarget = this.getFocusTarget();
-      if (this.getRedirectFocus()) {
-        focusTarget.focus();
-      } else {
-        focusTarget.fireNonBubblingEvent("focus");
-      }
-    },
-    
-    
-    /**
-     * Event handler which is executed when the widget lost the focus.
-     *
-     * The widget must be natively focusable and not configured as
-     * focusable to call this method.
-     *
-     * This is mainly used by the internal focus handling. Please use
-     * and refine with caution!
-     *
-     * @type member
-     * @param e {qx.event.type.Focus} Focus event
-     * @return {void}
-     */    
-    _onNativeBlur : function(e)
-    {
-      var focusTarget = this.getFocusTarget();
-      if (this.getRedirectFocus()) {
-        // nothing todo
-      } else {
-        focusTarget.fireNonBubblingEvent("blur");
-      }      
-    },
 
+    
 
 
 
@@ -2680,6 +2599,17 @@ qx.Class.define("qx.ui.core.Widget",
     },
 
 
+    /**
+     * Focus this widget when using the keyboard. This is
+     * mainly thought for the advanced qooxdoo keyboard handling
+     * and should not be used by the application developer.
+     *
+     * @type member
+     * @return {void}
+     */
+    tabFocus : function() {
+      this.getFocusElement().focus();
+    },
 
 
 
