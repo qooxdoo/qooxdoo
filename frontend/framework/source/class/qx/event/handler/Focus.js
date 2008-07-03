@@ -126,7 +126,36 @@ qx.Class.define("qx.event.handler.Focus",
     },
 
     /** {Integer} Whether the method "canHandleEvent" must be called */
-    IGNORE_CAN_HANDLE : true
+    IGNORE_CAN_HANDLE : true,
+    
+    
+    /** 
+     * {Map} See: http://msdn.microsoft.com/en-us/library/ms534654(VS.85).aspx 
+     */
+    FOCUSABLE_ELEMENTS : qx.core.Variant.select("qx.client",
+    {
+      "mshtml|gecko" :
+      {
+        a : 1,
+        body : 1,
+        button : 1,
+        frame : 1,
+        iframe : 1,
+        img : 1,
+        input : 1,
+        object : 1,
+        select : 1,
+        textarea : 1
+      },
+      
+      "opera|webkit" :
+      {
+        button : 1,
+        input : 1,
+        select : 1,
+        textarea : 1
+      }
+    })   
   },
 
 
@@ -891,35 +920,6 @@ qx.Class.define("qx.event.handler.Focus",
     ---------------------------------------------------------------------------
     */
     
-    /** 
-     * {Map} See: http://msdn.microsoft.com/en-us/library/ms534654(VS.85).aspx 
-     */
-    __defaultFocusable : qx.core.Variant.select("qx.client",
-    {
-      "mshtml|gecko" :
-      {
-        a : 1,
-        body : 1,
-        button : 1,
-        frame : 1,
-        iframe : 1,
-        img : 1,
-        input : 1,
-        object : 1,
-        select : 1,
-        textarea : 1
-      },
-      
-      "opera|webkit" :
-      {
-        button : 1,
-        input : 1,
-        select : 1,
-        textarea : 1
-      }
-    }),
-    
-    
     /**
      * Whether the given element is focusable. This is perfectly modeled to the 
      * browsers behavior and this way may differ in the various clients.
@@ -931,7 +931,16 @@ qx.Class.define("qx.event.handler.Focus",
     __isFocusable : function(el)
     {
       var index = qx.bom.element.Attribute.get(el, "tabIndex");
-      return index >= 1 || (index >= 0 && this.__defaultFocusable[el.tagName.toLowerCase()]);
+      if (index >= 1) {
+        return true; 
+      }
+      
+      var focusable = qx.event.handler.Focus.FOCUSABLE_ELEMENTS;
+      if (index >= 0 && focusable[el.tagName.toLowerCase()]) {
+        return true; 
+      }
+      
+      return false;
     },   
     
 
