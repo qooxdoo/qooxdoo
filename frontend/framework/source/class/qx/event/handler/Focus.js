@@ -1097,6 +1097,7 @@ qx.Class.define("qx.event.handler.Focus",
   {
     qx.event.Registration.addHandler(statics);
     
+    // For faster lookups generate uppercase tag names dynamically
     var focusable = statics.FOCUSABLE_ELEMENTS;
     for (entry in focusable) {
       focusable[entry.toUpperCase()] = 1; 
