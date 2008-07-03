@@ -1990,10 +1990,15 @@ qx.Class.define("qx.ui.core.Widget",
       var forward = this._forwardStates;
       var controls = this.__childControls;
       
-      if (forward && controls)
+      if (forward && forward[state] && controls)
       {
-        for (var id in controls) {
-          controls[id].addState(state); 
+        var control;
+        for (var id in controls) 
+        {
+          control = controls[id];
+          if (control instanceof qx.ui.core.Widget) {
+            controls[id].addState(state); 
+          }
         }           
       }
     },
@@ -2022,10 +2027,14 @@ qx.Class.define("qx.ui.core.Widget",
       var forward = this._forwardStates;
       var controls = this.__childControls;
       
-      if (forward && controls)
+      if (forward && forward[state] && controls)
       {
-        for (var id in controls) {
-          controls[id].removeState(state); 
+        for (var id in controls) 
+        {
+          control = controls[id];
+          if (control instanceof qx.ui.core.Widget) {          
+            control.removeState(state); 
+          }
         }           
       }        
     },
@@ -2062,11 +2071,15 @@ qx.Class.define("qx.ui.core.Widget",
       var forward = this._forwardStates;
       var controls = this.__childControls;
       
-      if (forward && controls)
+      if (forward && forward[value] && controls)
       {
-        for (var id in controls) {
-          controls[id].replaceState(old, value); 
-        }           
+        for (var id in controls) 
+        {
+          control = controls[id];
+          if (control instanceof qx.ui.core.Widget) {          
+            control.replaceState(old, value); 
+          }
+        } 
       }      
     },
 
@@ -2714,9 +2727,25 @@ qx.Class.define("qx.ui.core.Widget",
         throw new Error("Unsupported control: " + id);
       }
 
+      // Establish connection to parent
       control.$$subcontrol = id;
       control.$$subparent = this;
+      
+      // Support for state forwarding
+      var states = this.__states;
+      var forward = this._forwardStates;
+      
+      if (states && forward && control instanceof qx.ui.core.Widget)
+      {
+        for (var state in states) 
+        {
+          if (forward[state]) {
+            control.addState(state); 
+          }
+        }
+      }
 
+      // Register control and return
       return this.__childControls[id] = control;
     },
 
@@ -2757,12 +2786,6 @@ qx.Class.define("qx.ui.core.Widget",
     },
     
     
-
-
-
-
-
-
 
 
 
