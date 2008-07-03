@@ -71,7 +71,7 @@ qx.Class.define("demobrowser.demo.widget.Spinner",
     addSteppedSpinner : function(container, row)
     {
       var spinner = new qx.ui.form.Spinner(-3000, 0, 3000).set({
-        singleStep: 25,
+        singleStep: 25
       });
       container.add(new qx.ui.basic.Label("Stepped"), {column: 0, row: row});
       container.add(new qx.ui.basic.Label("-3000"), {column: 1, row: row});
