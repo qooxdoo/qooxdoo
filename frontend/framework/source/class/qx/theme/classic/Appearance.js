@@ -51,7 +51,9 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          textColor : states.disabled ? "text-disabled" : "undefined"
+          textColor : states.disabled ? "text-disabled" : 
+                      states.focused ? "text-focused" : 
+                      "undefined"
         };
       }
     },    
@@ -66,8 +68,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },    
     
-    "icon" : "image",
-
     "atom" : {},
     "atom/label" : "label",
     "atom/icon" : "image",
@@ -102,8 +102,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
     },
     
     "tooltip/atom" : "atom",
-
-    "tooltip/label" : "label",
 
     "iframe" :
     {
@@ -152,6 +150,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
     
+    
 
     
 
@@ -196,7 +195,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       {
         return {
           decorator       : states.focused ? "focused-inset" : "inset",
-          backgroundColor : states.focused ? "#F0F4FA" : "white"
+          backgroundColor : states.focused ? "background-focused" : "white"
         };
       }
     },
@@ -220,7 +219,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
         return {
           gap             : 4,
           padding         : states.lead ? [ 2, 4 ] : [ 3, 5 ],
-          backgroundColor : states.selected ? "selected" : "undefined",
+          backgroundColor : states.selected ? "background-selected" : "undefined",
           textColor       : states.selected ? "text-selected" : "undefined",
           decorator       : states.lead ? "lead-item" : "undefined"
         };
@@ -245,7 +244,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
           decorator       : states.focused ? "focused-inset" : "inset",
           padding         : [ 2, 3 ],
           textColor       : states.disabled ? "text-disabled" : "undefined",
-          backgroundColor : states.disabled ? "#F4F4F4" : states.focused ? "#F0F4FA" : "field"
+          backgroundColor : states.disabled ? "background-disabled" : states.focused ? "background-focused" : "background-field"
         };
       }
     },
@@ -340,8 +339,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       {
         return {
           decorator       : states.focused ? "focused-inset" : "inset",
-          textColor       : states.disabled ? "text-disabled" : "undefined",
-          backgroundColor : "field"
+          textColor       : states.disabled ? "text-disabled" : "undefined"
         };
       }
     },
@@ -354,7 +352,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
       {
         return {
           decorator : "undefined",
-          backgroundColor : "undefined",
           padding: [2, 3]
         };
       }
@@ -369,7 +366,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
       {
         return {
           icon : "decoration/arrows/up-small.gif",
-          padding : states.pressed ? [2, 2, 0, 4] : [1, 3, 1, 3]
+          padding : states.pressed ? [2, 2, 0, 4] : [1, 3, 1, 3],
+          backgroundColor : states.focused ? "background-focused" : states.hovered ? "button-hovered" : "button"
         }
       }
     },
@@ -383,7 +381,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
       {
         return {
           icon : "decoration/arrows/down-small.gif",
-          padding : states.pressed ? [2, 2, 0, 4] : [1, 3, 1, 3]
+          padding : states.pressed ? [2, 2, 0, 4] : [1, 3, 1, 3],
+          backgroundColor : states.focused ? "background-focused" : states.hovered ? "button-hovered" : "button"
         };
       }
     },
@@ -866,7 +865,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       {
         return {
           padding : [ 1, 2 ],
-          backgroundColor : states.selected ? "selected" : "undefined",
+          backgroundColor : states.selected ? "background-selected" : "undefined",
           textColor : states.selected ? "text-selected" : "undefined"
         };
       }
@@ -1137,7 +1136,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
         return {
           decorator       : states.focused ? "focused-inset" : "inset",
           textColor       : states.disabled ? "text-disabled" : "undefined",
-          backgroundColor : "field"
+          backgroundColor : "background-field"
         };
       }
     },    
