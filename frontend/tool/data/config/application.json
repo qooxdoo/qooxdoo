@@ -12,15 +12,17 @@
 
   "export" : 
   [
-		"api",
+    "api",
     "build",
-		"clean",
-		"distclean",
-		"lint",
-		"pretty",
-		"source",
-		"translate"
+    "clean",
+    "distclean",
+    "lint",
+    "pretty",
+    "source",
+    "translate"
   ],
+
+        
 
   "let" :
   {
@@ -29,6 +31,7 @@
     "QOOXDOO_URI"  : "../${QOOXDOO_PATH}",
     "CACHE"        : "cache",
     "QXTHEME"      : "qx.theme.Classic",
+    "LOCALES"      : [ "en" ],
     "BUILD_PATH"   : "${ROOT}/build"
   },
 
@@ -58,6 +61,11 @@
       "cache" :
       {
         "path" :  "${CACHE}"
+      },
+
+      "localize" :
+      {
+        "locales" : "${LOCALES}"
       },
 
       "settings" :

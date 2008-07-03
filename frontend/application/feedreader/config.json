@@ -4,8 +4,7 @@
   "include" :
   [
     {
-      "path" : "../../tool/data/config/application.json",
-      "as"   : "appconf" 
+      "path" : "../../tool/data/config/application.json"
     }
   ],
 
@@ -14,6 +13,8 @@
   {
     "APPLICATION" : "feedreader",
 		"CACHE"       : "../../cache",
+    "QXTHEME"     : "qx.theme.Classic",
+    "LOCALES"     : ["en", "de", "es", "it"], 
 		"ROOT"        : "."
   },
       
@@ -51,12 +52,6 @@
     },
     
     
-    "translate" :
-    {
-      "extend" : ["common-builds", "appconf::translate"]
-    },
-
-
     "profiling" :
     {
       "variants" :
@@ -68,24 +63,6 @@
       {
         "qx.Class" : [ "qx.core.Aspect", "qx.dev.Profile" ]
       }
-    },
-
-
-    "source" :
-    {
-      "extend" : ["common-builds", "appconf::source"]
-    },
-
-
-    "build" :
-    {
-      "extend" : ["common-builds", "appconf::build"]
-    },
-
-
-    "api" :
-    {
-      "extend": ["common", "appconf::api"]
     }
   }
 }
