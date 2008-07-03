@@ -239,10 +239,9 @@ qx.Class.define("qx.ui.form.Spinner",
         case "textfield":
           control = new qx.ui.form.TextField();
           control.setWidth(40);
+          control.setFocusable(false);
 
           control.addListener("change", this._onTextChange, this);
-          control.addListener("blur", this._onTextBlur, this);
-          control.addListener("focus", this._onTextFocus, this);
 
           this._add(control, {column: 0, row: 0, rowSpan: 2});
           break;
@@ -593,37 +592,7 @@ qx.Class.define("qx.ui.form.Spinner",
     },
 
 
-    /**
-     * Callback method for the "blur" event of the textfield.
-     *
-     * @type member
-     * @param e {qx.ui.event.type.Event} blur event
-     */
-    _onTextBlur: function(e)
-    {
-      this.removeState("focused");
-      this._onTextChange(e);
-    },
 
-
-    /**
-     * Callback method for the "focus" event of the textfield.
-     *
-     * @type member
-     * @param e {qx.ui.event.type.Event} blur event
-     */
-    _onTextFocus : function(e) {
-      this.addState("focused");
-    },
-
-
-    // overridden
-    _onFocus : function(e)
-    {
-      // Redirct focus to text field
-      // State handling is done by _onTextFocus afterwards
-      this._getChildControl("textfield").focus();
-    },
 
 
 
