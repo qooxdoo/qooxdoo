@@ -138,7 +138,14 @@ qx.Class.define("portal.box.Box",
      */
     _applyActive : function(value, old)
     {
-      qx.bom.element.Style.set(this.getElement(), "border", value ? "1px solid orange" : "");
+      if (value)
+      {
+        qx.bom.element.Style.set(this.getElement(), "border", "1px solid orange");  
+      }
+      else
+      {
+        qx.bom.element.Style.set(this.getElement(), "border", "1px solid #444444");
+      }
     },
     
     /* ******************************************
