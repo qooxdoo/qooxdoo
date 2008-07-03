@@ -2049,6 +2049,10 @@ qx.Class.define("qx.html.Element",
      */
     addListener : function(type, listener, self, capture)
     {
+      if (this.isDisposed()) {
+        return;  
+      }
+      
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         var msg =
@@ -2106,6 +2110,10 @@ qx.Class.define("qx.html.Element",
      */
     removeListener : function(type, listener, self, capture)
     {
+      if (this.isDisposed()) {
+        return;  
+      }
+      
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         var msg =
