@@ -41,11 +41,12 @@ qx.Class.define("qx.ui.core.queue.Appearance",
      */
     add : function(widget)
     {
-      if (this.__queue[widget.$$hash]) {
+      var queue = this.__queue;
+      if (queue[widget.$$hash]) {
         return;
       }
 
-      this.__queue[widget.$$hash] = widget;
+      queue[widget.$$hash] = widget;
       qx.ui.core.queue.Manager.scheduleFlush("appearance");
     },
 
@@ -60,18 +61,10 @@ qx.Class.define("qx.ui.core.queue.Appearance",
     flush : function()
     {
       var queue = this.__queue;
-      var widget;
-
-      // Process children...
       for (var hash in queue)
       {
-        widget = queue[hash];
-        widget.syncAppearance();
-      }
-
-      // Only recreate when there was at least one child.
-      if (widget) {
-        this.__queue = {};
+        queue[hash].syncAppearance();
+        delete queue[hash];
       }
     }
   }
