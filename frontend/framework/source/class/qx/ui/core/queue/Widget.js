@@ -42,11 +42,12 @@ qx.Class.define("qx.ui.core.queue.Widget",
      */
     add : function(widget)
     {
-      if (this.__queue[widget.$$hash]) {
+      var queue = this.__queue;
+      if (queue[widget.$$hash]) {
         return;
       }
 
-      this.__queue[widget.$$hash] = widget;
+      queue[widget.$$hash] = widget;
       qx.ui.core.queue.Manager.scheduleFlush("widget");
     },
 
@@ -61,13 +62,11 @@ qx.Class.define("qx.ui.core.queue.Widget",
     flush : function()
     {
       var queue = this.__queue;
-
-      // Process children...
-      for (var hash in queue) {
+      for (var hash in queue) 
+      {
         queue[hash].syncWidget();
+        delete queue[hash];
       }
-
-      this.__queue = {};
     }
   }
 });
