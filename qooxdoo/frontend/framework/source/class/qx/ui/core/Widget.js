@@ -1903,6 +1903,13 @@ qx.Class.define("qx.ui.core.Widget",
       if (value===false)
       {
         this.addState("disabled");
+        
+        // hovered not configured in widget, but as this is a
+        // standardized name in qooxdoo and we never want a hover
+        // state for disabled widgets, remove this state everytime
+        this.removeState("hovered");
+        
+        // Blur when focused
         if (this.isFocusable()) {
           this.blur();
         }
@@ -2033,7 +2040,7 @@ qx.Class.define("qx.ui.core.Widget",
       if (!states || !states[state]) {
         return; 
       }
-
+      
       // Clear state and queue
       delete this.__states[state];
       qx.ui.core.queue.Appearance.add(this);
