@@ -212,7 +212,6 @@ qx.Class.define("qx.ui.form.Spinner",
       nullable : true
     },
 
-
     // overridden
     allowShrinkY :
     {
@@ -220,6 +219,7 @@ qx.Class.define("qx.ui.form.Spinner",
       init : false
     }
   },
+
 
 
   /*
@@ -247,7 +247,6 @@ qx.Class.define("qx.ui.form.Spinner",
           control = new qx.ui.form.TextField();
           control.setWidth(40);
           control.setFocusable(false);
-
           control.addListener("change", this._onTextChange, this);
 
           this._add(control, {column: 0, row: 0, rowSpan: 2});
@@ -271,14 +270,23 @@ qx.Class.define("qx.ui.form.Spinner",
       return control || this.base(arguments, id);
     },
     
+    
+    // overridden
     _forwardStates : {
       focused : true      
     },
 
+
+    // overridden
     _getStyleTarget : function() {
       return this._getChildControl("textfield");
     },
     
+    
+    // overridden 
+    tabFocus : function() {
+      this._getChildControl("textfield").getFocusElement().focus();
+    },
     
     
     
@@ -581,12 +589,6 @@ qx.Class.define("qx.ui.form.Spinner",
     _onTextChange: function(e) {
       this.__adoptText();
     },
-
-
-
-
-
-
 
 
 
