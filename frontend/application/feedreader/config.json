@@ -11,10 +11,12 @@
 
   "let" :
   {
-    "APPLICATION" : "feedreader",
-		"CACHE"       : "../../cache",
-    "QXTHEME"     : "qx.theme.Classic",
-    "LOCALES"     : ["en", "de", "es", "it"], 
-		"ROOT"        : "."
+    "APPLICATION"  : "feedreader",
+    "QOOXDOO_PATH" : "../../framework",
+    "QOOXDOO_URI"  : "../${QOOXDOO_PATH}",
+    "CACHE"        : "../../cache",
+    "QXTHEME"      : "qx.theme.Classic",
+    "LOCALES"      : ["en", "de", "es", "it"], 
+    "ROOT"         : "."
   }
 }
