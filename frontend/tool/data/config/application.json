@@ -169,6 +169,21 @@
     },    
     
     
+    // can be used as an 'extend' to activate profiling
+    "profiling" :
+    {
+      "variants" :
+      {
+        "qx.aspects" : ["on"]
+      },
+
+      "require" :
+      {
+        "qx.Class" : [ "qx.core.Aspect", "qx.dev.Profile" ]
+      }
+    },
+    
+    
     "pretty" :
     {
       "cache" : 

@@ -1,5 +1,5 @@
 {
-  "name"    : "feedreader config.json",
+  "name"    : "Feedreader config.json",
 
   "include" :
   [
@@ -16,53 +16,5 @@
     "QXTHEME"     : "qx.theme.Classic",
     "LOCALES"     : ["en", "de", "es", "it"], 
 		"ROOT"        : "."
-  },
-      
-      
-  "jobs" :
-  {
-    "common" :
-    {
-      "cache" :
-      {
-        // use qooxdoo wide cache folder
-        "path" : "../../cache"
-      }
-    },
-
-
-    // this is for source/build versions
-    "common-builds" :
-    {
-      "extend"  : ["common"],
-
-      "include" : ["feedreader.Application"],
-
-      "settings" :
-      {
-        "qx.theme" : "qx.theme.Classic"
-      },
-
-      "localize" :
-      {
-        // does not work yet correctly
-        "locales" : ["en", "de", "es", "it"]
-        //"locales" : [ "en" ]
-      }
-    },
-    
-    
-    "profiling" :
-    {
-      "variants" :
-      {
-        "qx.aspects" : ["on"]
-      },
-
-      "require" :
-      {
-        "qx.Class" : [ "qx.core.Aspect", "qx.dev.Profile" ]
-      }
-    }
   }
 }
