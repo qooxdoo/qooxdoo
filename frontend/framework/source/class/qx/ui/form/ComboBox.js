@@ -74,6 +74,12 @@ qx.Class.define("qx.ui.form.ComboBox",
 
   members :
   {
+    /*
+    ---------------------------------------------------------------------------
+      WIDGET API
+    ---------------------------------------------------------------------------
+    */
+        
     // overridden
     _createChildControlImpl : function(id)
     {
@@ -101,6 +107,12 @@ qx.Class.define("qx.ui.form.ComboBox",
     },
 
 
+    // overridden
+    _forwardStates : {
+      focused : true      
+    },
+    
+    
     
     
     /*
@@ -116,6 +128,7 @@ qx.Class.define("qx.ui.form.ComboBox",
       
       this._getChildControl("textfield").setValue(value.getLabel());
     },
+
 
 
 
@@ -145,6 +158,7 @@ qx.Class.define("qx.ui.form.ComboBox",
     _onTextFocus : function(e) {
       this.addState("focused");
     },
+
 
     /**
      * Toggles the popup's visibility.
