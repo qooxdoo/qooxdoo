@@ -25,6 +25,7 @@
 #asset(qx/icon/Tango/16/places/folder-open.png)
 #asset(qx/icon/Tango/16/places/folder.png)
 #asset(qx/icon/Tango/16/mimetypes/text-plain.png)
+#asset(qx/decoration/Modern/*)
 
 ************************************************************************* */
 
@@ -52,12 +53,11 @@ qx.Theme.define("qx.theme.modern.Appearance",
       {
         return {
           backgroundColor : "background",
-          textColor       : "label",
+          textColor       : "text",
           font            : "default"
         };
       }
     },
-
 
 
     "label" :
@@ -65,12 +65,43 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          //paddingTop : 4
-          //textColor  : "label"
+          textColor : states.disabled ? "text-disabled" :
+                      states.focused ? "text-focused" :
+                      "undefined"
         };
       }
     },
+    
+    
+    /*
+    ---------------------------------------------------------------------------
+      IMAGE
+    ---------------------------------------------------------------------------
+    */
 
+    "image" :
+    {
+      style : function(states)
+      {
+        return {
+          opacity : !states.replacement && states.disabled ? 0.3 : 1
+        }
+      }
+    },
+    
+    
+    "atom" : {},
+    "atom/label" : "label",
+    "atom/icon" : "image",
+
+    
+    /*
+    ---------------------------------------------------------------------------
+      POPUP
+    ---------------------------------------------------------------------------
+    */
+    
+    "popup" : "widget",
 
 
     /*
@@ -81,6 +112,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
 
     "button" :
     {
+      alias : "atom",
+      
       style : function(states)
       {
         var decorator, textColor;
@@ -132,6 +165,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
 
     "checkbox":
     {
+      alias : "atom",
+      
       style : function(states)
       {
         var icon;
@@ -167,6 +202,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
 
     "radiobutton":
     {
+      alias : "checkbox",
       include : "checkbox",
 
       style : function(states)
@@ -271,29 +307,12 @@ qx.Theme.define("qx.theme.modern.Appearance",
 
     /*
     ---------------------------------------------------------------------------
-      IMAGE
-    ---------------------------------------------------------------------------
-    */
-
-    "image" :
-    {
-      style : function(states)
-      {
-        return {
-          opacity : !states.replacement && states.disabled ? 0.3 : 1
-        }
-      }
-    },
-
-
-    /*
-    ---------------------------------------------------------------------------
-      SCROLLBAR
+      SCROLLAREA
     ---------------------------------------------------------------------------
     */
 
 
-    "scrollarea-corner" :
+    "scrollarea/corner" :
     {
       style : function(states)
       {
@@ -304,9 +323,21 @@ qx.Theme.define("qx.theme.modern.Appearance",
         };
       }
     },
+    
+    "scrollarea/pane" : "widget",
+    "scrollarea/corner" : "widget",
+    "scrollarea/scrollbar-x" : "scrollbar",
+    "scrollarea/scrollbar-y" : "scrollbar",
+    
+    
+    /*
+    ---------------------------------------------------------------------------
+      SCROLLBAR
+    ---------------------------------------------------------------------------
+    */
 
-    "scrollbar" :
-    {
+    "scrollbar" : {},
+    /*{
       style : function(states)
       {
         return {
@@ -319,22 +350,12 @@ qx.Theme.define("qx.theme.modern.Appearance",
           padding : 1
         };
       }
-    },
+    },*/
 
-    "slider-knob" :
+    "scrollbar/slider" :
     {
-      style : function(states)
-      {
-        return {
-          decorator: states.horizontal ? "slider-knob-horizontal" : "slider-knob-vertical",
-          height : 14,
-          width : 14
-        };
-      }
-    },
-
-    "scrollbar-slider" :
-    {
+      alias : "slider",
+      
       style : function(states)
       {
         return {
@@ -343,8 +364,11 @@ qx.Theme.define("qx.theme.modern.Appearance",
       }
     },
 
-    "scrollbar-button" :
+    "scrollbar/button" :
     {
+      alias : "button",
+      include : "button",
+      
       style : function(states)
       {
         var icon = "decoration/scrollbar/scrollbar-";
@@ -380,6 +404,43 @@ qx.Theme.define("qx.theme.modern.Appearance",
         }
       }
     },
+    
+    "scrollbar/button-begin" : "scrollbar/button",
+    "scrollbar/button-end" : "scrollbar/button",
+    
+    
+    /*
+    ---------------------------------------------------------------------------
+      SLIDER
+    ---------------------------------------------------------------------------
+    */
+   
+    "slider" :
+    {
+      style : function(states)
+      {
+        // TODO
+        return {
+          
+        }
+      }
+    },    
+    
+    
+    "slider-knob" :
+    {
+      include : "button",
+      
+      style : function(states)
+      {
+        return {
+          decorator: states.horizontal ? "slider-knob-horizontal" : "slider-knob-vertical",
+          height : 14,
+          width : 14
+        };
+      }
+    },
+
 
 
 
@@ -392,6 +453,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
 
     "list" :
     {
+      alias : "scrollarea",
+      
       style : function(states)
       {
         return {
@@ -400,9 +463,21 @@ qx.Theme.define("qx.theme.modern.Appearance",
         };
       }
     },
+    
+    // TODO
+    "list/pane" : "widget",
+
+    
+    /*
+    ---------------------------------------------------------------------------
+      LIST ITEM
+    ---------------------------------------------------------------------------
+    */
 
     "listitem" :
     {
+      alias : "atom",
+      
       style : function(states)
       {
         return {
@@ -435,6 +510,21 @@ qx.Theme.define("qx.theme.modern.Appearance",
       }
     },
 
+    "toolbar/part" : {},
+    "toolbar/part/container" : {},
+    
+    "toolbar/part/handle" :
+    {
+      style : function(states)
+      {
+        return {
+          decorator : "toolbar-part-handle",
+          width     : 7
+        };
+      }
+    },
+    
+    
     "toolbar-button" :
     {
       style : function(states)
@@ -457,19 +547,6 @@ qx.Theme.define("qx.theme.modern.Appearance",
           margin    : 7,
           width     : 0,
           height    : 0
-        };
-      }
-    },
-
-    "toolbar-part" : {},
-
-    "toolbar-part-handle" :
-    {
-      style : function(states)
-      {
-        return {
-          decorator : "toolbar-part-handle",
-          width     : 7
         };
       }
     },
@@ -589,6 +666,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
 
     "tooltip" :
     {
+      include : "popup",
+      
       style : function(states)
       {
         return {
@@ -600,8 +679,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
     },
 
     "tooltip/atom" : "atom",
-
-    "tooltip/label" : "label",
+    
 
     /*
     ---------------------------------------------------------------------------
@@ -619,7 +697,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       }
     },
 
-    "window-pane" :
+    "window/pane" :
     {
       style : function(states)
       {
@@ -630,17 +708,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
       }
     },
 
-    "window-resize-frame" :
-    {
-      style : function(states)
-      {
-        return {
-
-        };
-      }
-    },
-
-    "window-captionbar" :
+    
+    "window/captionbar" :
     {
       style : function(states)
       {
@@ -651,7 +720,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       }
     },
 
-    "window-captionbar-icon" :
+    "window/icon" :
     {
       style : function(states)
       {
@@ -661,7 +730,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       }
     },
 
-    "window-captionbar-title" :
+    "window/title" :
     {
       style : function(states)
       {
@@ -671,20 +740,11 @@ qx.Theme.define("qx.theme.modern.Appearance",
         };
       }
     },
+    
 
-    "window-captionbar-button" :
+    "window/minimize-button" :
     {
-      style : function(states)
-      {
-        return {
-          margin  : [ 8, 4, 4, 6 ]
-        };
-      }
-    },
-
-    "window-captionbar-minimize-button" :
-    {
-      include : "window-captionbar-button",
+      include : "button",
 
       style : function(states)
       {
@@ -694,9 +754,9 @@ qx.Theme.define("qx.theme.modern.Appearance",
       }
     },
 
-    "window-captionbar-restore-button" :
+    "window/restore-button" :
     {
-      include : "window-captionbar-button",
+      include : "button",
 
       style : function(states)
       {
@@ -707,9 +767,9 @@ qx.Theme.define("qx.theme.modern.Appearance",
       }
     },
 
-    "window-captionbar-maximize-button" :
+    "window/maximize-button" :
     {
-      include : "window-captionbar-button",
+      include : "button",
 
       style : function(states)
       {
@@ -719,9 +779,10 @@ qx.Theme.define("qx.theme.modern.Appearance",
       }
     },
 
-    "window-captionbar-close-button" :
+    "window/close-button" :
     {
-      include : "window-captionbar-button",
+      alias   : "button",
+      include : "button",
 
       style : function(states)
       {
@@ -731,8 +792,9 @@ qx.Theme.define("qx.theme.modern.Appearance",
         };
       }
     },
+    
 
-    "window-statusbar" :
+    "window/statusbar" :
     {
       style : function(states)
       {
@@ -743,13 +805,31 @@ qx.Theme.define("qx.theme.modern.Appearance",
       }
     },
 
-    "window-statusbar-text" :
+    "window/statusbar-text" :
     {
       style : function(states)
       {
         return {
           font      : "medium",
           textColor : "text"
+        };
+      }
+    },
+    
+    
+    /*
+    ---------------------------------------------------------------------------
+      IFRAME
+    ---------------------------------------------------------------------------
+    */
+    
+    "iframe" :
+    {
+      style : function(states)
+      {
+        return {
+          backgroundColor : "white",
+          decorator : "inset"
         };
       }
     },
@@ -787,15 +867,9 @@ qx.Theme.define("qx.theme.modern.Appearance",
     ---------------------------------------------------------------------------
     */
 
-    "splitpane" :
-    {
-      style : function(states)
-      {
-        return {};
-      }
-    },
-
-    "splitpane-splitter" :
+    "splitpane" : {},
+      
+    "splitpane/splitter" :
     {
       style : function(states)
       {
@@ -807,7 +881,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       }
     },
 
-    "splitpane-slider" :
+    "splitpane/slider" :
     {
       style : function(states)
       {
@@ -825,8 +899,23 @@ qx.Theme.define("qx.theme.modern.Appearance",
     ---------------------------------------------------------------------------
     */
 
-    "selectbox" :
+    "selectbox" : "button",
+    "selectbox/atom" : "atom",
+    "selectbox/popup" : "popup",
+    "selectbox/list" : "list",
+    
+    "selectbox/arrow" :
     {
+      style : function(states)
+      {
+        return {
+          paddingRight : 4,
+          paddingLeft : 5
+        };
+      }
+    },
+    
+    /*"selectbox" : {
       style : function(states)
       {
         var decorator, textColor;
@@ -840,22 +929,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
           decorator  : decorator
         };
       }
-    },
-    
-    "selectbox-button" :
-    {
-      style : function(states)
-      {
-        return {
-          paddingRight : 4,
-          paddingLeft : 5
-        };
-      }
-    },
-    
-    
-    
-    
+    },*/
     
 
     /*
@@ -874,9 +948,15 @@ qx.Theme.define("qx.theme.modern.Appearance",
         };
       }
     },
+    
+    "combobox/button" : "button",    
+    "combobox/popup" : "popup",
+    "combobox/list" : "list",
 
-    "combobox-textfield" :
+    "combobox/textfield" :
     {
+      include : "textfield",
+      
       style : function(states)
       {
         return {
@@ -884,10 +964,10 @@ qx.Theme.define("qx.theme.modern.Appearance",
           textColor: states.disabled ? "text-disabled" : "input-text"
         };
       }
-    },
+    }
     
     
-    "combobox-button" :
+    /*"combobox-button" :
     {
       style : function(states)
       {
@@ -926,8 +1006,6 @@ qx.Theme.define("qx.theme.modern.Appearance",
           decorator  : decorator
         };
       }
-    }
-
-
+    }*/
   }
 });
