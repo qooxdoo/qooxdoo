@@ -136,12 +136,12 @@ qx.Class.define("qx.ui.core.EventHandler",
     {
       // EVENT TARGET
       var domTarget = domEvent.getTarget();
-      var widgetTarget = qx.ui.core.Widget.getWidgetByElement(domTarget);
-      if (!widgetTarget) {
-        return;
-      }
 
-      widgetTarget = widgetTarget.getEventTarget();
+      var widgetTarget = qx.ui.core.Widget.getWidgetByElement(domTarget, true);
+      while (widgetTarget && widgetTarget.isAnonymous()) {
+        widgetTarget = widgetTarget.getLayoutParent();
+      }
+      
       if (!widgetTarget) {
         return;
       }
@@ -151,12 +151,14 @@ qx.Class.define("qx.ui.core.EventHandler",
       if (domEvent.getRelatedTarget)
       {
         var domRelatedTarget = domEvent.getRelatedTarget();
+
         var widgetRelatedTarget = qx.ui.core.Widget.getWidgetByElement(domRelatedTarget);
+        while (widgetRelatedTarget && widgetRelatedTarget.isAnonymous()) {
+          widgetRelatedTarget = widgetRelatedTarget.getLayoutParent();
+        }        
 
         if (widgetRelatedTarget)
         {
-          widgetRelatedTarget = widgetRelatedTarget.getEventTarget();
-
           // If target and related target are identical ignore the event
           if (widgetRelatedTarget === widgetTarget) {
             return;
@@ -219,12 +221,14 @@ qx.Class.define("qx.ui.core.EventHandler",
     // interface implementation
     registerEvent : function(target, type, capture)
     {
-      var elem = target.getContainerElement();
+      var elem;
 
       if (type === "focus" || type === "blur") {
         elem = target.getFocusElement();
       } else if (type == "load") {
         elem = target.getContentElement();
+      } else {
+        elem = target.getContainerElement(); 
       }
 
       elem.addListener(type, this._dispatchEvent, this, capture);
@@ -234,17 +238,17 @@ qx.Class.define("qx.ui.core.EventHandler",
     // interface implementation
     unregisterEvent : function(target, type, capture)
     {
-      var elem = target.getContainerElement();
+      var elem;
 
       if (type === "focus" || type === "blur") {
         elem = target.getFocusElement();
       } else if (type == "load") {
         elem = target.getContentElement();
+      } else {
+        elem = target.getContainerElement(); 
       }
 
-      if (!elem.isDisposed()) {
-        elem.removeListener(type, this._dispatchEvent, this, capture);
-      }
+      elem.removeListener(type, this._dispatchEvent, this, capture);
     }
   },
 
