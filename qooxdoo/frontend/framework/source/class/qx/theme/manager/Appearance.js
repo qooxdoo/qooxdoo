@@ -189,34 +189,29 @@ qx.Class.define("qx.theme.manager.Appearance",
       var unique = resolved;
       if (states)
       {
-        var styleStates = entry.states;
-        
-        if (styleStates) 
+        // Create data fields
+        var bits = entry.$$bits;
+        if (!bits) 
         {
-          var optStates = entry.$$states;
-          
-          // Dynamically build optimized state version 
-          // Use a bitmask internalls to make every combination possible
-          // Allows a maximum of 30 states per ID which should be enough
-          if (!optStates)
-          {
-            entry.$$states = optStates = {};
-            for (var i=0, l=styleStates.length; i<l; i++) {
-              optStates[styleStates[i]] = 1<<i;
-            }
+          bits = entry.$$bits = {}; 
+          entry.$$length = 0;
+        }
+        
+        // Compute sum
+        var sum = 0;
+        for (var state in states)
+        {
+          if (bits[state] == null) {
+            sum += (bits[state] = 1<<entry.$$length++);
+          } else {
+            sum += bits[state];
           }
-          
-          // Compute sum of all states
-          var sum = 0;
-          for (var state in states) {
-            sum += optStates[state] || 0;
-          }
-          
-          // Only append the sum if it is bigger than zero
-          if (sum > 0) {
-            unique += ":" + sum;
-          }
-        }       
+        } 
+        
+        // Only append the sum if it is bigger than zero
+        if (sum > 0) {
+          unique += ":" + sum;
+        }
       }
      
       // Using cache if available
