@@ -552,12 +552,27 @@ qx.Class.define("qx.ui.core.Widget",
      * When this property is enabled the widget force a focus blocking e.g.
      * also prevents underlying widgets from getting focused. This only
      * work for widgets which are not {@link focusable}.
+     *
+     * This is mainly useful for widget authors. Please use with caution!
      */
     keepFocus :
     {
       check : "Boolean",
       init : false,
       apply : "_applyKeepFocus"
+    },
+    
+    
+    /**
+     * When this property is enabled and {@link #focusable) is disabled the 
+     * widget redirects the focus to the next focusable parent. 
+     *
+     * This is mainly useful for widget authors. Please use with caution!
+     */
+    redirectFocus :
+    {
+      check : "Boolean",
+      init : false
     },
 
 
@@ -2363,9 +2378,13 @@ qx.Class.define("qx.ui.core.Widget",
       }
       else
       {
-        target.setAttribute("tabIndex", null);
+        if (target.isNativelyFocusable()) {
+          target.setAttribute("tabIndex", -1);
+        } else if (old) {
+          target.setAttribute("tabIndex", null);
+        }
       }
-
+      
       // Dynamically register/deregister events
       if (value)
       {
@@ -2376,6 +2395,20 @@ qx.Class.define("qx.ui.core.Widget",
       {
         this.removeListener("focus", this._onFocus, this);
         this.removeListener("blur", this._onBlur, this);
+      }
+
+      if (target.isNativelyFocusable())
+      {
+        if (value)
+        {
+          this.removeListener("focus", this._onNativeFocus, this);
+          this.removeListener("blur", this._onNativeBlur, this);
+        }
+        else
+        {
+          this.addListener("focus", this._onNativeFocus, this);
+          this.addListener("blur", this._onNativeBlur, this);
+        }
       }
     },
 
@@ -2464,6 +2497,55 @@ qx.Class.define("qx.ui.core.Widget",
      */
     _onBlur : function(e) {
       this.removeState("focused");
+    },
+    
+    
+    
+    /**
+     * Event handler which is executed when the widget receives the focus.
+     *
+     * The widget must be natively focusable and not configured as
+     * focusable to call this method.
+     *
+     * This is mainly used by the internal focus handling. Please use
+     * and refine with caution!
+     *
+     * @type member
+     * @param e {qx.event.type.Focus} Focus event
+     * @return {void}
+     */      
+    _onNativeFocus : function(e)
+    {
+      var focusTarget = this.getFocusTarget();
+      if (this.getRedirectFocus()) {
+        focusTarget.focus();
+      } else {
+        focusTarget.fireNonBubblingEvent("focus");
+      }
+    },
+    
+    
+    /**
+     * Event handler which is executed when the widget lost the focus.
+     *
+     * The widget must be natively focusable and not configured as
+     * focusable to call this method.
+     *
+     * This is mainly used by the internal focus handling. Please use
+     * and refine with caution!
+     *
+     * @type member
+     * @param e {qx.event.type.Focus} Focus event
+     * @return {void}
+     */    
+    _onNativeBlur : function(e)
+    {
+      var focusTarget = this.getFocusTarget();
+      if (this.getRedirectFocus()) {
+        // nothing todo
+      } else {
+        focusTarget.fireNonBubblingEvent("blur");
+      }      
     },
 
 
