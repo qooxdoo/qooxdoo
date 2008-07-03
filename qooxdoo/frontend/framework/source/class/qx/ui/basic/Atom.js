@@ -195,6 +195,14 @@ qx.Class.define("qx.ui.basic.Atom",
       
       return control || this.base(arguments, id);
     },
+    
+    
+    // overridden
+    _forwardStates : 
+    {
+      focused : true,
+      hovered : true
+    },
 
 
     /**
