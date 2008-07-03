@@ -89,8 +89,7 @@ qx.Class.define("qx.ui.form.ComboBox",
       {
         case "textfield":
           control = new qx.ui.form.TextField();
-          control.addListener("blur", this._onTextBlur, this);
-          control.addListener("focus", this._onTextFocus, this);    
+          control.setFocusable(false);
           this._add(control, {flex: 1});
           break;
 
@@ -111,6 +110,12 @@ qx.Class.define("qx.ui.form.ComboBox",
     _forwardStates : {
       focused : true      
     },
+    
+    
+    // overridden 
+    tabFocus : function() {
+      this._getChildControl("textfield").getFocusElement().focus();
+    },    
     
     
     
@@ -138,28 +143,6 @@ qx.Class.define("qx.ui.form.ComboBox",
     ---------------------------------------------------------------------------
     */ 
        
-    /**
-     * Callback method for the "blur" event of the textfield.
-     *
-     * @type member
-     * @param e {qx.ui.event.type.Event} blur event
-     */
-    _onTextBlur: function(e) {
-      this.removeState("focused");
-    },
-
-
-    /**
-     * Callback method for the "focus" event of the textfield.
-     *
-     * @type member
-     * @param e {qx.ui.event.type.Event} blur event
-     */
-    _onTextFocus : function(e) {
-      this.addState("focused");
-    },
-
-
     /**
      * Toggles the popup's visibility.
      * @param e {qx.event.type.MouseEvent} Mouse click event
