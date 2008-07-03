@@ -110,7 +110,11 @@ qx.Class.define("qx.ui.form.SelectBox",
       return control || this.base(arguments, id);
     },
 
-
+    // overridden
+    _forwardStates : {
+      focused : true      
+    },
+    
 
 
     /*
