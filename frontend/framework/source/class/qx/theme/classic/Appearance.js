@@ -363,9 +363,13 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     "spinner/textfield" :
     {
+      states : [ "focused", "disabled" ],
+      include : "textfield",
+      
       style : function(states)
       {
         return {
+          decorator : "undefined",
           padding: [2, 3]
         };
       }
@@ -375,7 +379,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
     {
       alias : "button",
       include : "button",
-      states : [ "pressed", "focused" ],
+      states : [ "pressed", "focused", "disabled", "hovered", "abandoned" ],
 
       style : function(states)
       {
@@ -390,7 +394,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
     {
       alias : "button",
       include : "button",
-      states : [ "pressed", "focused" ],
+      states : [ "pressed", "focused", "disabled", "hovered", "abandoned" ],
 
       style : function(states)
       {
@@ -1186,9 +1190,13 @@ qx.Theme.define("qx.theme.classic.Appearance",
     
     "combobox/textfield" : 
     {
+      states : [ "focused", "disabled" ],
+      include : "textfield",
+      
       style : function(states)
       {
         return {
+          decorator : "undefined",
           padding: [2, 3]
         };
       }
