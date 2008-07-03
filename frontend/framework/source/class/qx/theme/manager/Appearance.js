@@ -202,10 +202,10 @@ qx.Class.define("qx.theme.manager.Appearance",
         for (var state in states)
         {
           if (bits[state] == null) {
-            sum += (bits[state] = 1<<entry.$$length++);
-          } else {
-            sum += bits[state];
+            bits[state] = 1<<entry.$$length++
           }
+
+          sum += bits[state];
         } 
         
         // Only append the sum if it is bigger than zero
