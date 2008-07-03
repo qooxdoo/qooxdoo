@@ -936,7 +936,7 @@ qx.Class.define("qx.event.handler.Focus",
       }
       
       var focusable = qx.event.handler.Focus.FOCUSABLE_ELEMENTS;
-      if (index >= 0 && focusable[el.tagName.toLowerCase()]) {
+      if (index >= 0 && focusable[el.tagName]) {
         return true; 
       }
       
@@ -1093,7 +1093,13 @@ qx.Class.define("qx.event.handler.Focus",
   *****************************************************************************
   */
 
-  defer : function(statics) {
+  defer : function(statics) 
+  {
     qx.event.Registration.addHandler(statics);
+    
+    var focusable = statics.FOCUSABLE_ELEMENTS;
+    for (entry in focusable) {
+      focusable[entry.toUpperCase()] = 1; 
+    }
   }
 });
