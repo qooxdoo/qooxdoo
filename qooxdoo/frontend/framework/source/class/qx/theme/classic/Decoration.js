@@ -250,8 +250,8 @@ qx.Theme.define("qx.theme.classic.Decoration",
       {
         width : 1,
         innerWidth: 1,
-        color : [ "#7CA0CF", "#BCCEE5", "#BCCEE5", "#7CA0CF" ],
-        innerColor : [ "#3E6CA8", "#A5BDDE", "#A5BDDE", "#3E6CA8" ]
+        color : [ "border-focused-light-shadow", "border-focused-dark", "border-focused-dark", "border-focused-light-shadow" ],
+        innerColor : [ "border-focused-light", "border-focused-dark-shadow", "border-focused-dark-shadow", "border-focused-light" ]
       }
     },
 
@@ -264,8 +264,8 @@ qx.Theme.define("qx.theme.classic.Decoration",
         width : 1,
         innerWidth: 1,
 
-        color : [ "#A5BDDE", "#3E6CA8", "#3E6CA8", "#A5BDDE" ],
-        innerColor : [ "#BCCEE5", "#7CA0CF", "#7CA0CF", "#BCCEE5" ]
+        color : [ "border-focused-dark-shadow", "border-focused-light", "border-focused-light", "border-focused-dark-shadow" ],
+        innerColor : [ "border-focused-dark", "border-focused-light-shadow", "border-focused-light-shadow", "border-focused-dark" ]
       }
     },
 
@@ -277,7 +277,7 @@ qx.Theme.define("qx.theme.classic.Decoration",
       {
         width : 1,
         style : "dotted",
-        color : "#888"
+        color : "border-lead"
       }
     },
 

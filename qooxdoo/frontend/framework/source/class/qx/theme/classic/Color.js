@@ -27,29 +27,38 @@ qx.Theme.define("qx.theme.classic.Color",
 
   colors :
   {
-    "background" : [ 235, 233, 237 ],
+    "background" : "#EBE9ED",
     "background-light" : "#F3F0F5",
+    "background-focused" : "#F3F8FD",
+    "background-disabled" : "#F4F4F4",
+    "background-selected" : "#3E6CA8",
+    "background-field" : "white",
+
+    "border-lead" : "#888888",
 
     "border-light" : "white",
-    "border-light-shadow" : [ 220, 223, 228 ],
-    "border-dark" : [ 133, 135, 140 ],
-    "border-dark-shadow" : [ 167, 166, 170 ],
-
-    "selected" : "#3E6CA8",
-    "field" : "white",
+    "border-light-shadow" : "#DCDFE4",
+    "border-dark-shadow" : "#A7A6AA",
+    "border-dark" : "#85878C",
+    
+    "border-focused-light" : "#3E6CA8",
+    "border-focused-light-shadow" : "#7CA0CF",
+    "border-focused-dark-shadow" : "#A5BDDE",
+    "border-focused-dark" : "#BCCEE5",
 
     "text" : "black",
-    "text-disabled" : [ 167, 166, 170 ],
+    "text-disabled" : "#A7A6AA",
     "text-selected" : "white",
+    "text-focused" : "#3E5B97",
 
-    "tooltip" : [ 255, 255, 225 ],
+    "tooltip" : "#FFFFE1",
     "tooltip-text" : "black",
 
-    "button" : [ 235, 233, 237 ],
-    "button-hovered" : [ 246, 245, 247 ],
-    "button-abandoned" : [ 249, 248, 233 ],
+    "button" : "#EBE9ED",
+    "button-hovered" : "#F6F5F7",
+    "button-abandoned" : "#F9F8E9",
 
-    "effect" : [ 128, 128, 128 ],
+    "effect" : "#808080",
 
     "tabview-pane" : [ 250, 249, 248 ],
     "tabview-border" : [ 128, 128, 128 ],
