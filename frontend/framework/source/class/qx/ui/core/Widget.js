@@ -1838,6 +1838,7 @@ qx.Class.define("qx.ui.core.Widget",
 
 
 
+
     /*
     ---------------------------------------------------------------------------
       OTHER PROPERTIES
@@ -1882,31 +1883,6 @@ qx.Class.define("qx.ui.core.Widget",
 
       this._containerElement.setStyle("cursor", value);
     },
-
-
-    // property apply
-    _applyEnabled : function(value, old)
-    {
-      if (value===false)
-      {
-        this.addState("disabled");
-        
-        // hovered not configured in widget, but as this is a
-        // standardized name in qooxdoo and we never want a hover
-        // state for disabled widgets, remove this state everytime
-        this.removeState("hovered");
-        
-        // Blur when focused
-        if (this.isFocusable()) {
-          this.blur();
-        }
-      }
-      else
-      {
-        this.removeState("disabled");
-      }
-    },
-
 
 
     // property apply
@@ -2359,7 +2335,7 @@ qx.Class.define("qx.ui.core.Widget",
     _applyFocusable : function(value, old)
     {
       var target = this.getFocusElement();
-
+      
       // Apply native tabIndex attribute
       if (value)
       {
@@ -2398,12 +2374,8 @@ qx.Class.define("qx.ui.core.Widget",
         throw new Error("TabIndex property must be between 1 and 32000");
       }
 
-      var target = this.getFocusElement();
-
-      if (this.isFocusable()) {
-        target.removeAttribute("tabIndex", value);
-      } else {
-        target.setAttribute("tabIndex", value);
+      if (this.getFocusable() && value != null) {
+        target.setAttribute("tabIndex", value);        
       }
     },
 
@@ -2425,13 +2397,46 @@ qx.Class.define("qx.ui.core.Widget",
         this._containerElement.setStyle("userSelect", value ? "normal" : "none");
       }
     },
+    
+    
+    // property apply
+    _applyEnabled : function(value, old)
+    {
+      if (value===false)
+      {
+        this.addState("disabled");
+        
+        // hovered not configured in widget, but as this is a
+        // standardized name in qooxdoo and we never want a hover
+        // state for disabled widgets, remove this state everytime
+        this.removeState("hovered");
+        
+        // Blur when focused
+        if (this.isFocusable()) 
+        {
+          this.blur();
+          
+          // Remove tabIndex
+          this._applyFocusable(false, true);
+        }
+      }
+      else
+      {
+        this.removeState("disabled");
+        
+        // Re-add tabIndex
+        if (this.isFocusable()) {
+          this._applyFocusable(true, false); 
+        }
+      }
+    },    
 
 
 
 
     /*
     ---------------------------------------------------------------------------
-      BUILT-IN EVENT LISTENERS
+      VISUALIZE FOCUS STATES
     ---------------------------------------------------------------------------
     */
 
