@@ -435,6 +435,7 @@ class Generator:
             self.runImageCombining()
             self.runPrettyPrinting(classList)
             self.runClean()
+            self.runLint(classList)
 
 
             # Debug tasks
@@ -902,6 +903,32 @@ class Generator:
         self._console.indent()
 
         self._jobLib.clean(self._config.get('clean-files'))
+
+        self._console.outdent()
+
+
+    def runLint(self, classes):
+        if not self._config.get('lint-check', False):
+            return
+
+        self._console.info("Checking Javascript source code...")
+        self._console.indent()
+        self._shellCmd  = ShellCmd()
+
+        qxPath = self._config.get('let',{})
+        if 'QOOXDOO_PATH' in qxPath:
+            qxPath = qxPath['QOOXDOO_PATH']
+        else:
+            raise RuntimeError, "Need QOOXDOO_PATH setting to run lint command"
+        lintCommand = os.path.join(qxPath, os.pardir, 'tool', "ecmalint.py")
+        lintsettings = ExtMap(self._config.get('lint-check'))
+        allowedGlobals = lintsettings.get('allowed-globals', [])
+
+        #self._jobLib.lint(classes)
+        lint_opts = "".join(map(lambda x: " -g"+x, allowedGlobals))
+        numClasses = len(classes)
+        for pos, classId in enumerate(classes):
+            self._shellCmd.execute("python %s %s %s" % (lintCommand, lint_opts, self._classes[classId]['path']))
 
         self._console.outdent()
 
