@@ -39,8 +39,6 @@ qx.Class.define("demobrowser.demo.widget.ComboBox",
     {
       this.base(arguments);
       
-      this._createWindow();
-
       // examlpe 1: default combo box with 30 text items
       this._createDefaultExample();
 
@@ -49,21 +47,8 @@ qx.Class.define("demobrowser.demo.widget.ComboBox",
 
       // example 3: wide combo box with a large list
       this._createWideExample();
-      
-      this.getRoot().addListener("keydown", function(){
-        console.info("Application retrieved event!");
-      }, this);
     },
 
-    _createWindow : function()
-    {
-      this._window = new qx.ui.window.Window("test");
-      this.getRoot().add(this._window, {
-        left : 210,
-        top : 80
-      });
-      this._window.exclude();
-    },
 
     /**
      * Creates a default example.
@@ -127,16 +112,6 @@ qx.Class.define("demobrowser.demo.widget.ComboBox",
 
       // create a combo box
       var comboBox = new qx.ui.form.ComboBox();
-
-      comboBox.addListener("activate", function(){
-        qx.lang.Function.delay(
-            function(){
-              this._window.show();
-            },
-            2000,
-            this
-       );
-      }, this);
 
       // fill the combo box with some stuff
       for (var i=1; i<31; i++)
