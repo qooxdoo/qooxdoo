@@ -10,7 +10,17 @@
     }
   ],
 
-  "export" : ["build", "source", "api", "translate", "pretty", "clean", "distclean"],
+  "export" : 
+  [
+		"api",
+    "build",
+		"clean",
+		"distclean",
+		"lint",
+		"pretty",
+		"source",
+		"translate"
+  ],
 
   "let" :
   {
@@ -235,6 +245,28 @@
           "${QOOXDOO_PATH}/source/class/qx/locale/data",
           "${QOOXDOO_PATH}/source/class/qx/locale/translation"
         ]
+      }
+    },
+
+
+    "lint" :
+    {
+      "cache" : 
+      { 
+        "path" : "${CACHE}" 
+      }, 
+
+      "library" : 
+      [ 
+        { 
+          "manifest" : "${ROOT}/Manifest.json",
+          "uri"      : ".."
+        }
+      ],
+
+      "lint-check" :
+      {
+        "allowed-globals" : [ "qx", "qxsettings", "qxvariants", "${APPLICATION}" ]
       }
     },
 
