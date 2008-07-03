@@ -1225,12 +1225,57 @@ qx.Class.define("qx.html.Element",
      * API rather than to the underlying DOM element.
      *
      * @type member
-     * @return {Element} the DOM element node
+     * @return {Element} The DOM element node
      */
     getDomElement : function() {
       return this._element || null;
     },
 
+
+    /**
+     * Returns the nodeName of the DOM element.
+     *
+     * @type member
+     * @return {String} The node name
+     */
+    getNodeName : function() {
+      return this._nodeName;
+    },
+    
+    
+    /**
+     * Whether the element is focusable (or will be when created)
+     *
+     * @type member
+     * @return {Boolean} <code>true</code> when the element is focusable.
+     */
+    isFocusable : function() 
+    {
+      var tabIndex = this.getAttribute("tabIndex");
+      if (tabIndex >= 1) {
+        return true; 
+      }
+      
+      var focusable = qx.event.handler.Focus.FOCUSABLE_ELEMENTS;
+      if (tabIndex >= 0 && focusable[this._nodeName]) {
+        return true; 
+      }
+      
+      return false;
+    },
+    
+    
+    /**
+     * Whether the element is natively focusable (or will be when created)
+     *
+     * This ignores the configured tabIndex.
+     *
+     * @type member
+     * @return {Boolean} <code>true</code> when the element is focusable.
+     */    
+    isNativelyFocusable : function() {
+      return !!qx.event.handler.Focus.FOCUSABLE_ELEMENTS[this._nodeName];
+    },
 
 
 

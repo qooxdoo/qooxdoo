@@ -46,6 +46,13 @@ qx.Class.define("qx.html.Input",
     this.base(arguments);
 
     this.__type = type;
+    
+    // Update node name correctly
+    if (type === "select" || type === "textarea") {
+      this._nodeName = type;
+    } else {
+      this._nodeName = "input"; 
+    }   
   },
 
 
