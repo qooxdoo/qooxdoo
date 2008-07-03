@@ -17,7 +17,7 @@
 #
 ################################################################################
 
-.PHONY: source build
+.PHONY: build
 
 build:
 	@../../tool/generator.py build

@@ -17,13 +17,11 @@
 #
 ################################################################################
 
-.PHONY: source build api
+NEW_TARGETS = source build
+.PHONY: $(NEW_TARGETS)
 
-source:
-	@../../tool/generator.py source
-
-build:
-	@../../tool/generator.py build
+$(NEW_TARGETS):
+	@../../tool/generator.py $@
 
 # use old Makefile for other targets
 %: force

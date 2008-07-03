@@ -17,17 +17,11 @@
 #
 ################################################################################
 
-.PHONY: source build api
+NEW_TARGETS = source build api clean distclean lint pretty translate
+.PHONY: $(NEW_TARGETS)
 
-source:
-	@../../tool/generator.py source
-
-build:
-	@../../tool/generator.py build
-
-api:
-	@../../tool/generator.py api
-
+$(NEW_TARGETS):
+	@../../tool/generator.py $@
 
 # use old Makefile for other targets
 %: force
