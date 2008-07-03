@@ -48,8 +48,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
     
     "label" :
     {
-      states : [ "disabled" ],
-      
       style : function(states)
       {
         return {
@@ -60,8 +58,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
     
     "image" :
     {
-      states : [ "replacement", "disabled" ],
-      
       style : function(states)
       {
         return {
@@ -70,9 +66,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },    
     
-    "icon" : {
-      include : "image"
-    },
+    "icon" : "image",
 
     "atom" : {},
     "atom/label" : "label",
@@ -135,7 +129,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
     "button" :
     {
       alias : "atom",
-      states : [ "pressed", "abandoned", "checked", "focused", "hovered" ],
       
       style : function(states)
       {
@@ -198,7 +191,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
     "list" :
     {
       alias : "scrollarea",
-      states : [ "focused" ],
       
       style : function(states)
       {
@@ -222,7 +214,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
     "listitem" :
     {
       alias : "atom",
-      states : [ "lead", "selected" ],
       
       style : function(states)
       {
@@ -248,8 +239,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     "textfield" :
     {
-      states : [ "focused", "disabled" ],
-      
       style : function(states)
       {
         return {
@@ -266,7 +255,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
     "checkbox":
     {
       alias : "atom",
-      states : [ "checked", "focused", "disabled", "hovered", "pressed" ],
       
       style : function(states)
       {
@@ -304,7 +292,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
     {
       alias : "checkbox",
       include : "checkbox",
-      states : [ "checked", "focused", "disabled", "hovered", "pressed" ],
 
       style : function(states)
       {
@@ -349,8 +336,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     "spinner" :
     {
-      states : [ "focused", "disabled" ],
-      
       style : function(states)
       {
         return {
@@ -363,13 +348,13 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     "spinner/textfield" :
     {
-      states : [ "focused", "disabled" ],
       include : "textfield",
       
       style : function(states)
       {
         return {
           decorator : "undefined",
+          backgroundColor : "undefined",
           padding: [2, 3]
         };
       }
@@ -379,7 +364,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
     {
       alias : "button",
       include : "button",
-      states : [ "pressed", "focused", "disabled", "hovered", "abandoned" ],
 
       style : function(states)
       {
@@ -394,7 +378,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
     {
       alias : "button",
       include : "button",
-      states : [ "pressed", "focused", "disabled", "hovered", "abandoned" ],
 
       style : function(states)
       {
@@ -457,7 +440,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     "check-groupbox/legend" :
     {
-      states : [ "checked", "focused", "disabled", "hovered", "pressed" ],
       alias : "checkbox",
       include : "checkbox",
 
@@ -477,7 +459,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     "radio-groupbox/legend" :
     {
-      states : [ "checked", "focused", "disabled", "hovered", "pressed" ],
       alias : "radiobutton",
       include : "radiobutton",
 
@@ -544,7 +525,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
     "toolbar-button" :
     {
       alias : "atom",
-      states : [ "pressed", "checked", "abandoned", "hovered" ],
       
       style : function(states)
       {
@@ -633,7 +613,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
     "tabview-page/button" :
     {
       alias : "button",
-      states : [ "checked", "barTop", "alignLeft", "firstChild", "lastChild" ],
       
       style : function(states)
       {
@@ -763,7 +742,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
     {
       alias : "button",
       include : "button",
-      states : [ "left", "right", "up", "down", "pressed", "abandoned", "checked" ],
 
       style : function(states)
       {
@@ -817,8 +795,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     "slider" :
     {
-      states : [ "focused" ],
-      
       style : function(states)
       {
         return {
@@ -853,8 +829,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     "folder-open-button" :
     {
-      states : [ "opened" ],
-      
       style : function(states)
       {
         return {
@@ -888,8 +862,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     "tree-folder-label" :
     {
-      states : [ "selected" ],
-      
       style : function(states)
       {
         return {
@@ -939,8 +911,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     "window" :
     {
-      states : [ "maximized" ],      
-      
       style : function(states)
       {
         return {
@@ -954,8 +924,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     "window/captionbar" :
     {
-      states : [ "active" ],
-      
       style : function(states)
       {
         return {
@@ -992,7 +960,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
     "window/minimize-button" :
     {
       include : "button",
-      states : [ "pressed", "abandoned" ],
 
       style : function(states)
       {
@@ -1006,7 +973,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
     "window/restore-button" :
     {
       include : "button",
-      states : [ "pressed", "abandoned" ],
 
       style : function(states)
       {
@@ -1020,7 +986,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
     "window/maximize-button" :
     {
       include : "button",
-      states : [ "pressed", "abandoned" ],
 
       style : function(states)
       {
@@ -1034,7 +999,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
     "window/close-button" :
     {
       include : "button",
-      states : [ "pressed", "abandoned" ],
 
       style : function(states)
       {
@@ -1108,8 +1072,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     "splitpane/splitter" :
     {
-      states : [ "horizontal", "vertical", "active" ],
-      
       style : function(states)
       {
         return {
@@ -1122,8 +1084,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     "splitpane/slider" :
     {
-      states : [ "horizontal", "vertical" ],
-      
       style : function(states)
       {
         return {
@@ -1172,8 +1132,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     "combobox" :
     {
-      states : [ "focused", "disabled" ],
-      
       style : function(states)
       {
         return {
@@ -1190,7 +1148,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
     
     "combobox/textfield" : 
     {
-      states : [ "focused", "disabled" ],
       include : "textfield",
       
       style : function(states)
