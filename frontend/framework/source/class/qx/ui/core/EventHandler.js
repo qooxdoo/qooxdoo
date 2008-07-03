@@ -92,7 +92,7 @@ qx.Class.define("qx.ui.core.EventHandler",
       // iframe load
       load : 1
     },
-
+    
     /** {Integer} Whether the method "canHandleEvent" must be called */
     IGNORE_CAN_HANDLE : false
   },
@@ -108,6 +108,16 @@ qx.Class.define("qx.ui.core.EventHandler",
 
   members :
   {
+    /** {Map} Supported focus event types */
+    __focusEvents : 
+    {
+      focusin : 1,
+      focusout : 1,
+      focus : 1,
+      blur : 1      
+    },    
+    
+    
     /** {Map} Map of events which should be fired independently from being disabled */
     __ignoreDisabled :
     {
@@ -146,7 +156,12 @@ qx.Class.define("qx.ui.core.EventHandler",
         return;
       }
 
-
+      // Correcting target for focus events        
+      if (this.__focusEvents[domEvent.getType()]) {
+        widgetTarget = widgetTarget.getFocusTarget();
+      }
+      
+      
       // EVENT RELATED TARGET
       if (domEvent.getRelatedTarget)
       {
@@ -155,32 +170,42 @@ qx.Class.define("qx.ui.core.EventHandler",
         var widgetRelatedTarget = qx.ui.core.Widget.getWidgetByElement(domRelatedTarget);
         while (widgetRelatedTarget && widgetRelatedTarget.isAnonymous()) {
           widgetRelatedTarget = widgetRelatedTarget.getLayoutParent();
-        }        
-
+        }    
+        
         if (widgetRelatedTarget)
         {
+          // Correcting target for focus events        
+          if (this.__focusEvents[domEvent.getType()]) {
+            widgetRelatedTarget = widgetRelatedTarget.getFocusTarget();
+          }
+          
           // If target and related target are identical ignore the event
           if (widgetRelatedTarget === widgetTarget) {
             return;
           }
         }
       }
-
+      
 
       // EVENT CURRENT TARGET
       var currentTarget = domEvent.getCurrentTarget();
+      
 
       var currentWidget = qx.ui.core.Widget.getWidgetByElement(currentTarget);
       if (!currentWidget || currentWidget.getAnonymous()) {
         return;
       }
-
+      
+      // Correcting target for focus events        
+      if (this.__focusEvents[domEvent.getType()]) {
+        currentWidget = currentWidget.getFocusTarget();
+      } 
+      
       // Ignore most events in the disabled state.
       var type = domEvent.getType();
       if (!(currentWidget.isEnabled() || this.__ignoreDisabled[type])) {
         return;
       }
-
 
 
       // PROCESS LISTENERS
