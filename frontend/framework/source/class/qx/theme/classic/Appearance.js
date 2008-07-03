@@ -1141,7 +1141,19 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },    
     
-    "combobox/button" : "button",    
+    "combobox/button" : 
+    {
+      alias : "button",    
+      include : "button",
+      
+      style : function(states)
+      {
+        return {
+          backgroundColor : states.focused ? "background-focused-inner" : states.hovered ? "button-hovered" : "button"
+        };  
+      }
+    },    
+    
     "combobox/popup" : "popup",
     "combobox/list" : "list",
     
