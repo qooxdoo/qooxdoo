@@ -1,70 +1,21 @@
 {
+  "name"    : "Skeleton application config.json",
+
   "include" :
   [
     {
-      "path" : "../../tool/data/config/application.json",
-      "as"   : "appconf" 
+      "path" : "../../tool/data/config/application.json"
     }
   ],
 
-
-  "jobs" :
+  "let" :
   {
-    "common" :
-    {
-      "let" :
-      {
-        "APPLICATION" : "custom",
-        "QOOXDOO_PATH": "../../framework"
-      },
-
-      "cache" :
-      {
-        // use qooxdoo wide cache folder
-        "path" : "../../cache"
-      }
-    },
-
-
-    // this is for source/build versions
-    "common-builds" :
-    {
-      "extend"  : ["common"],
-
-      "include" : ["custom.Application", "qx.theme.Modern"],
-
-      "settings" :
-      {
-        "qx.theme" : "qx.theme.Modern"
-      },
-
-      "localize" :
-      {
-        "locales" : [ "en" ]
-      }
-    },
-
-
-    "source" :
-    {
-      "extend" : ["common-builds", "appconf::source"]
-    },
-
-
-    "build" :
-    {
-      "extend" : ["common-builds", "appconf::build"]
-    },
-
-
-    "api" :
-    {
-      "extend": ["common", "appconf::api"],
-
-      "let" :
-      {
-        "ROOT" : "${QOOXDOO_PATH}/../application/apiviewer"
-      }
-    }
+    "APPLICATION"  : "custom",
+    "QOOXDOO_PATH" : "../../framework",
+    "QOOXDOO_URI"  : "../${QOOXDOO_PATH}",
+    "CACHE"        : "../../cache",
+    "QXTHEME"      : "qx.theme.Modern",
+    "LOCALES"      : [ "en" ],
+    "ROOT"         : "."
   }
 }
