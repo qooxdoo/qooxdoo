@@ -11,13 +11,12 @@
       "let" :
       {
         "APIVIEWER_ROOT" : ".",
-        "ROOT"           : "${APIVIEWER_ROOT}",
-        "APIVIEWER"    : "apiviewer",
-        "QOOXDOO_PATH" : "../../framework",
-        "QOOXDOO_URI"  : "../${QOOXDOO_PATH}",
-        "API_INCLUDE"  : ["qx.*"],
-        "API_EXCLUDE"  : [],
-        "BUILD_PATH"   : "${ROOT}/build"
+        "APIVIEWER"      : "apiviewer",
+        "QOOXDOO_PATH"   : "../../framework",
+        "QOOXDOO_URI"    : "../${QOOXDOO_PATH}",
+        "API_INCLUDE"    : ["qx.*"],
+        "API_EXCLUDE"    : [],
+        "BUILD_PATH"     : "${APIVIEWER_ROOT}/build"
       },
 
       "library" :
@@ -28,7 +27,7 @@
         },
 
         {
-          "manifest" : "${ROOT}/Manifest.json",
+          "manifest" : "${APIVIEWER_ROOT}/Manifest.json",
           "uri"      : ".."
         }
       ],
@@ -91,7 +90,7 @@
         "target" : "${BUILD_PATH}",
         "file" : "${BUILD_PATH}/script/${APIVIEWER}.js",
         "format" : "on",
-	"optimize" : ["strings", "basecalls", "variables", "privates"],
+        "optimize" : ["strings", "basecalls", "variables", "privates"],
         "uri"  : "script/${APIVIEWER}.js",
         "root" : "${BUILD_PATH}"
       }
@@ -110,7 +109,7 @@
         ],
 
         "target" : "${BUILD_PATH}",
-        "source" : "${ROOT}/source"
+        "source" : "${APIVIEWER_ROOT}/source"
       }
     },
 
