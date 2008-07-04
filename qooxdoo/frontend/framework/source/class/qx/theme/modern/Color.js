@@ -29,21 +29,28 @@ qx.Theme.define("qx.theme.modern.Color",
   {
     "background" : "#dfdfdf",
     "background-light" : "#F2F2F2",
-
-    "label" : "#333333",
+    
     "text" : "#1a1a1a",
-    "input-text" : "black",
     "text-disabled" : [ 107, 106, 110 ],
-
+    "text-selected" : "#fffefe",
+    "text-focused" : "#1a1a1a", // TODO: check this one
+    
+    "input-text" : "black",
+    
     "border" : "#2D405A",
+    
+    // TODO: adjust border colors
+    "border-light" : "white",
+    "border-light-shadow" : "#DCDFE4",
     "border-dark-shadow" : "#4d4d4d",
+    "border-dark" : "#85878C",
+    
 
     "focus" : "#92B1DC",
 
     "pane" : "#ededed",
 
     "selected" : "#00439d",
-    "selected-inactive" : "#7a9bc8",
-    "text-selected" : "#fffefe"
+    "selected-inactive" : "#7a9bc8"
   }
 });
