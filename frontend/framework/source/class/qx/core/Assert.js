@@ -47,9 +47,19 @@ qx.Class.define("qx.core.Assert",
      */
     __assert : function(condition, comment, msg)
     {
-      if (!condition) {
-        debugger;
-        throw new qx.core.AssertionError(comment, msg);
+      if (!condition)
+      {
+        var errorMsg = "Assertion error! " + comment + ": " + msg;
+        qx.log.Logger.error(errorMsg);
+
+        if (qx.Class.isDefined("qx.core.AssertionError"))
+        {
+          var err = new qx.core.AssertionError(comment, msg);
+          qx.log.Logger.error("Stack trace: \n" + err.getStackTrace());
+          throw err;
+        } else {
+          throw new Error(errorMsg);
+        }
       }
     },
 

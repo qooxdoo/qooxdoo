@@ -2056,7 +2056,7 @@ qx.Class.define("qx.html.Element",
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         var msg =
-          "Failed to dd event listener for type '"+ type +"'" +
+          "Failed to add event listener for type '"+ type +"'" +
           " to the target '" + this + "': ";
 
         this.assertString(type, msg + "Invalid event type.");

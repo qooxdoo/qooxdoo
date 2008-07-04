@@ -286,7 +286,7 @@ qx.Bootstrap.define("qx.event.Manager",
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         var msg =
-          "Failed to dd event listener for type '"+ type +"'" +
+          "Failed to add event listener for type '"+ type +"'" +
           " to the target '" + target + "': ";
 
         qx.core.Assert.assertObject(target, msg + "Invalid Target.");

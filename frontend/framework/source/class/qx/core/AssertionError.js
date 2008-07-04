@@ -36,7 +36,7 @@ qx.Class.define("qx.core.AssertionError",
 
   /**
    * @param comment {String} Comment passed to the assertion call
-   * @param failMessage {String} Fail provided by the assertion
+   * @param failMessage {String} Fail message provided by the assertion
    */
   construct : function(comment, failMessage)
   {
@@ -69,7 +69,7 @@ qx.Class.define("qx.core.AssertionError",
     },
 
     /**
-     *  Fail provided by the assertion
+     *  Fail message provided by the assertion
      */
     message :
     {
@@ -108,4 +108,20 @@ qx.Class.define("qx.core.AssertionError",
       return this._trace;
     }
   }
+
+
+  /*
+   *****************************************************************************
+      DEFER
+   *****************************************************************************
+   */
+/*
+   defer : function(statics)
+   {
+     // add asserts into each debug build
+     if (qx.core.Variant.isSet("qx.debug", "on")) {
+       qx.Class.include(statics, qx.core.MAssert);
+     }
+   }
+   */
 });
