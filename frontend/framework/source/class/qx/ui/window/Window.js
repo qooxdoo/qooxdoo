@@ -879,7 +879,6 @@ qx.Class.define("qx.ui.window.Window",
         */
 
         this.getWindowManager().setActiveWindow(this);
-        this.bringToFront();
 
         this.addState("active");
         captionBar.addState("active");
