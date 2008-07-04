@@ -17,6 +17,7 @@
     "clean",
     "distclean",
     "lint",
+    "migration",
     "pretty",
     "profiling",
     "source",
@@ -38,6 +39,24 @@
 
   "jobs" :
   {
+    // the next one is needed wherever the local lib is to be scanned
+    "scan-local-lib" :
+    {
+      "library" :
+      [
+        {
+          "manifest" : "${ROOT}/Manifest.json",
+          "uri"      : ".."
+        }
+      ],
+
+      "cache" :
+      {
+        "path" :  "${CACHE}"
+      }
+    },
+
+
     "common" :
     {
       "library" :
@@ -187,20 +206,9 @@
     
     "pretty" :
     {
-      "cache" : 
-      { 
-        "path" : "${CACHE}" 
-      }, 
+      "extend" : [ "scan-local-lib" ],
 
       "include" : [ "=${APPLICATION}.*" ],
-
-      "library" : 
-      [ 
-        { 
-          "manifest" : "${ROOT}/Manifest.json",
-          "uri"      : ".."
-        }
-      ],
 
       "pretty-print" : {}
     },
@@ -275,22 +283,23 @@
 
     "lint" :
     {
-      "cache" : 
-      { 
-        "path" : "${CACHE}" 
-      }, 
-
-      "library" : 
-      [ 
-        { 
-          "manifest" : "${ROOT}/Manifest.json",
-          "uri"      : ".."
-        }
-      ],
+      "extend" : [ "scan-local-lib" ],
 
       "lint-check" :
       {
         "allowed-globals" : [ "qx", "qxsettings", "qxvariants", "${APPLICATION}" ]
+      }
+    },
+
+
+    "migration" :
+    {
+      "extend" : [ "scan-local-lib" ],
+
+      "migrate-files" :
+      {
+        "from-version" : "0.7",
+        "migrate-html" : true
       }
     },
 

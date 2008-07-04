@@ -20,13 +20,16 @@
 ################################################################################
 
 import re, os, sys, shutil, logging, optparse
-from optparseext import ExtendAction
+from optparseext.ExtendAction import ExtendAction
 from misc import filetool
 from misc import textutil
 from ecmascript.frontend import tokenizer
 from ecmascript.frontend import treegenerator
 from ecmascript import compiler
 
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), os.pardir, 'framework', 'tool'))
+
+from modules import loader
 
 
 LOGFILE = "migration.log"
@@ -125,7 +128,7 @@ def getPatchDirectory():
     Returns the directory where the patches are located
     """
     basePath = os.path.dirname(os.path.abspath(sys.argv[0]))
-    return os.path.join(basePath, "migration")
+    return os.path.join(basePath, os.pardir, 'framework', 'tool', "migration")
 
 
 
