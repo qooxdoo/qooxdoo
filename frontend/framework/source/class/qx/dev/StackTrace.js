@@ -217,6 +217,8 @@ qx.Class.define("qx.dev.StackTrace",
       {
         if (error.sourceURL && error.line) {
           return [this.__fileNameToClassName(error.sourceURL) + ":" + error.line];
+        } else {
+					return [];        
         }
       },
 

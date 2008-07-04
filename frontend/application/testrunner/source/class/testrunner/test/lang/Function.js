@@ -23,12 +23,24 @@ qx.Class.define("testrunner.test.lang.Function",
 
   members :
   {
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void}
-     */
+    testGetCaller : function()
+    {
+      var self = this;
+      var fcn = arguments.callee;
+
+      function f1(caller) {
+        self.assertIdentical(caller, qx.lang.Function.getCaller(arguments), "Wrong caller. (Fails in Opera)");
+      }
+
+      function f2() {
+        f1(f2);
+      }
+
+      f2();
+      f1(fcn);
+    },
+
+
     testFunctionWrap : function()
     {
       var context = null;
@@ -42,7 +54,9 @@ qx.Class.define("testrunner.test.lang.Function",
 
       context = null;
       result = add(1, 2);
-      this.assertEquals(context, window);
+
+      // this test fails in Safari 3 but is fixed in WebKit nightly
+      this.assertEquals(context, window, "This test fails in Safari 3 but is fixed in WebKit nightly");
       this.assertEquals(3, result);
 
       context = null;

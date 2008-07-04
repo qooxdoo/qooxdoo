@@ -126,23 +126,23 @@ qx.Class.define("qx.core.Property",
      */
     __checks :
     {
-      "Boolean"   : 'this.assertBoolean(value, msg) || true',
-      "String"    : 'this.assertString(value, msg) || true',
+      "Boolean"   : 'qx.core.Assert.assertBoolean(value, msg) || true',
+      "String"    : 'qx.core.Assert.assertString(value, msg) || true',
 
-      "Number"    : 'this.assertNumber(value, msg) || true',
-      "Integer"   : 'this.assertInteger(value, msg) || true',
-      "PositiveNumber" : 'this.assertPositiveNumber(value, msg) || true',
-      "PositiveInteger" : 'this.assertPositiveInteger(value, msg) || true',
+      "Number"    : 'qx.core.Assert.assertNumber(value, msg) || true',
+      "Integer"   : 'qx.core.Assert.assertInteger(value, msg) || true',
+      "PositiveNumber" : 'qx.core.Assert.assertPositiveNumber(value, msg) || true',
+      "PositiveInteger" : 'qx.core.Assert.assertPositiveInteger(value, msg) || true',
 
-      "Error"     : 'this.assertInstance(value, Error, msg) || true',
-      "RegExp"    : 'this.assertInstance(value, RegExp, msg) || true',
+      "Error"     : 'qx.core.Assert.assertInstance(value, Error, msg) || true',
+      "RegExp"    : 'qx.core.Assert.assertInstance(value, RegExp, msg) || true',
 
-      "Object"    : 'this.assertObject(value, msg) || true',
-      "Array"     : 'this.assertArray(value, msg) || true',
-      "Map"       : 'this.assertMap(value, msg) || true',
+      "Object"    : 'qx.core.Assert.assertObject(value, msg) || true',
+      "Array"     : 'qx.core.Assert.assertArray(value, msg) || true',
+      "Map"       : 'qx.core.Assert.assertMap(value, msg) || true',
 
-      "Function"  : 'this.assertFunction(value, msg) || true',
-      "Date"      : 'this.assertInstance(value, Date, msg) || true',
+      "Function"  : 'qx.core.Assert.assertFunction(value, msg) || true',
+      "Date"      : 'qx.core.Assert.assertInstance(value, Date, msg) || true',
       "Node"      : 'value !== null && value.nodeType !== undefined',
       "Element"   : 'value !== null && value.nodeType === 1 && value.attributes',
       "Document"  : 'value !== null && value.nodeType === 9 && value.documentElement',
@@ -838,11 +838,11 @@ qx.Class.define("qx.core.Property",
             }
             else if (qx.Class.isDefined(config.check))
             {
-              code.push('this.assertInstance(value, qx.Class.getByName("', config.check, '"), msg)');
+              code.push('qx.core.Assert.assertInstance(value, qx.Class.getByName("', config.check, '"), msg)');
             }
             else if (qx.Interface && qx.Interface.isDefined(config.check))
             {
-              code.push('this.assertInterface(value, qx.Interface.getByName("', config.check, '"), msg)');
+              code.push('qx.core.Assert.assertInterface(value, qx.Interface.getByName("', config.check, '"), msg)');
             }
             else if (typeof config.check === "function")
             {
@@ -857,7 +857,7 @@ qx.Class.define("qx.core.Property",
             {
               // reconfigure for faster access trough map usage
               config.checkMap = qx.lang.Object.fromArray(config.check);
-              code.push('this.assertKeyInMap(value, ', clazz.classname, '.$$properties.', name, '.checkMap, msg)');
+              code.push('qx.core.Assert.assertKeyInMap(value, ', clazz.classname, '.$$properties.', name, '.checkMap, msg)');
             }
             else
             {
