@@ -436,6 +436,7 @@ class Generator:
             self.runPrettyPrinting(classList)
             self.runClean()
             self.runLint(classList)
+            self.runMigration(config.get("library"))
 
 
             # Debug tasks
@@ -929,6 +930,37 @@ class Generator:
         numClasses = len(classes)
         for pos, classId in enumerate(classes):
             self._shellCmd.execute("python %s %s %s" % (lintCommand, lint_opts, self._classes[classId]['path']))
+
+        self._console.outdent()
+
+
+    def runMigration(self, libs):
+        if not self._config.get('migrate-files', False):
+            return
+
+        self._console.info("Migrating Javascript source code to most recent qooxdoo version...")
+        self._console.indent()
+
+        migSettings     = self._config.get('migrate-files')
+        self._shellCmd  = ShellCmd()
+
+        qxPath      = self._config.get('let',{})['QOOXDOO_PATH']
+        migratorCmd = os.path.join(qxPath, os.pardir, 'tool', "migrator.py")
+
+        libPaths = []
+        for lib in libs:
+            libPaths.append(os.path.join(lib['path'], lib['class']))
+
+        if not migSettings.get('from-version', False):
+            raise RuntimeError, "Need mandatory config setting \"migrate-files/from-version\""
+        mig_opts  = "--from-version %s" % migSettings.get('from-version')
+        if migSettings.get('migrate-html'):
+            mig_opts += " --migrate-html" 
+        mig_opts += " --class-path %s" % ",".join(libPaths)
+
+        shcmd = "python %s %s" % (migratorCmd, mig_opts)
+        self._console.debug("Invoking migrator as: \"%s\"" % shcmd)
+        self._shellCmd.execute(shcmd)
 
         self._console.outdent()
 
