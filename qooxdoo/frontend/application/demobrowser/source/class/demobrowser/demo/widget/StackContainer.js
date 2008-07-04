@@ -20,8 +20,8 @@
 
 /* ************************************************************************
 
-#asset(qx/icon/Oxygen/22/actions/go-previous.png)
-#asset(qx/icon/Oxygen/22/actions/go-next.png)
+#asset(qx/icon/${qx.icontheme}/22/actions/go-previous.png)
+#asset(qx/icon/${qx.icontheme}/22/actions/go-next.png)
 
 ************************************************************************ */
 
