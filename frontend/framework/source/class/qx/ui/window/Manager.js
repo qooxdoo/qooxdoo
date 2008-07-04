@@ -69,9 +69,13 @@ qx.Class.define("qx.ui.window.Manager",
         old.setActive(false);
       }
 
-      if (value) {
+      if (value)
+      {
         value.setActive(true);
+        this.bringToFront(value);
       }
+
+
 
       // TODO
 //      if (old && old.getModal()) {
