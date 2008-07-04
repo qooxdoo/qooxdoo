@@ -223,13 +223,7 @@ qx.Class.define("qx.ui.basic.Image",
         var height = el.getHeight();
 
         // Compare with old sizes and relayout if necessary
-        if (width !== this.__width || height !== this.__height)
-        {
-          this.__width = width;
-          this.__height = height;
-
-          qx.ui.core.queue.Layout.add(this);
-        }
+        this._updateSize(width, height);
       }
       else if (this.__preLoading !== source)
       {
@@ -280,7 +274,28 @@ qx.Class.define("qx.ui.basic.Image",
       }
 
       // Update image (again)
-      this._syncSource(source);
-    }
+      this._updateSize(size.width, size.height);
+    },
+    
+    
+    /**
+     * Updates the size if size has changed
+     * 
+     * @type member
+     * @param width {Integer} width of the image
+     * @param height {Integer} height of the image
+     * @return {void}
+     */
+    _updateSize : function(width, height)
+    {
+      // Compare with old sizes and relayout if necessary
+      if (width !== this.__width || height !== this.__height)
+      {
+        this.__width  = width;
+        this.__height = height;
+
+        qx.ui.core.queue.Layout.add(this);
+      }
+    }    
   }
 });
