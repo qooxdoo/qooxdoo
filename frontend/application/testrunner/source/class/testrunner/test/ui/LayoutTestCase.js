@@ -17,6 +17,10 @@
 
 ************************************************************************ */
 
+/*
+#use(qx.theme.Classic)
+*/
+
 qx.Class.define("testrunner.test.ui.LayoutTestCase",
 {
   extend : qx.dev.unit.TestCase,
@@ -26,6 +30,7 @@ qx.Class.define("testrunner.test.ui.LayoutTestCase",
     getRoot : function()
     {
       var cls = testrunner.test.ui.LayoutTestCase;
+      qx.theme.manager.Meta.getInstance().initialize();
 
       if (!cls._root) {
         cls._root = new qx.ui.root.Application(document);
