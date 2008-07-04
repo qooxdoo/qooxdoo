@@ -21,9 +21,9 @@
 
 /* ************************************************************************
 
-#asset(qx/icon/Oxygen/16/places/folder.png)
-#asset(qx/icon/Oxygen/48/places/folder.png)
-#asset(qx/icon/Oxygen/48/devices/*)
+#asset(qx/icon/{$qx.icontheme}/16/places/folder.png)
+#asset(qx/icon/{$qx.icontheme}/48/places/folder.png)
+#asset(qx/icon/{$qx.icontheme}/48/devices/*)
 
 ************************************************************************ */
 

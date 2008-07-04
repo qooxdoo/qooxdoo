@@ -21,7 +21,7 @@
 
 /* ************************************************************************
 
-#asset(qx/icon/Oxygen/16/apps/accessories-text-editor.png)
+#asset(qx/icon/${qx.icontheme}/16/apps/accessories-text-editor.png)
 
 ************************************************************************ */
 

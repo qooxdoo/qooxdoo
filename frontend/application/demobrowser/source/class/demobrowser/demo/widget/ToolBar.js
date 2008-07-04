@@ -21,9 +21,9 @@
 
 /* ************************************************************************
 
-#asset(qx/icon/Oxygen/22/actions/*)
-#asset(qx/icon/Oxygen/32/actions/*)
-#asset(qx/icon/Oxygen/48/actions/*)
+#asset(qx/icon/${qx.icontheme}/22/actions/*)
+#asset(qx/icon/${qx.icontheme}/32/actions/*)
+#asset(qx/icon/${qx.icontheme}/48/actions/*)
 
 ************************************************************************ */
 
