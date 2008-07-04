@@ -107,7 +107,35 @@ qx.Theme.define("qx.theme.modern.Decoration",
         color : "border-dark-shadow"
       }
     },
+    
+    
+    "inset" :
+    {
+      decorator : qx.ui.decoration.Double,
 
+      style :
+      {
+        width : 1,
+        innerWidth : 1,
+        
+        color : [ "border-dark-shadow", "border-light", "border-light", "border-dark-shadow" ],
+        innerColor : [ "border-dark", "border-light-shadow", "border-light-shadow", "border-dark" ]
+      }
+    },
+
+    "outset" :
+    {
+      decorator : qx.ui.decoration.Double,
+
+      style :
+      {
+        width : 1,
+        innerWidth: 1,
+        
+        color : [ "border-light-shadow", "border-dark", "border-dark", "border-light-shadow" ],
+        innerColor : [ "border-light", "border-dark-shadow", "border-dark-shadow", "border-light" ]
+      }
+    },
 
 
 
@@ -306,9 +334,68 @@ qx.Theme.define("qx.theme.modern.Decoration",
         innerColor: "focus"
       }
     },
+    
+    
+    "listitem" :
+    {
+      decorator : qx.ui.decoration.Single,
+      
+      style :
+      {
+        backgroundImage  : "decoration/selection.png",
+        backgroundRepeat : "scale"
+      }
+    },
 
 
-
+    /*
+    ---------------------------------------------------------------------------
+      SCROLLBAR
+    ---------------------------------------------------------------------------
+    */
+    
+    "scrollbar-horizontal" :
+    {
+      decorator : qx.ui.decoration.Uniform,
+      
+      style :
+      {
+        backgroundImage : "decoration/scrollbar/scrollbar-bg-horizontal.png",
+        backgroundRepeat : "repeat-x"
+      }
+    },
+    
+    
+    "scrollbar-vertical" :
+    {
+      decorator : qx.ui.decoration.Uniform,
+      
+      style :
+      {
+        backgroundImage : "decoration/scrollbar/scrollbar-bg-vertical.png",
+        backgroundRepeat : "repeat-y"
+      }
+    },
+    
+    
+    /*
+    ---------------------------------------------------------------------------
+      GROUPBOX
+    ---------------------------------------------------------------------------
+    */
+   
+    "groupbox-frame" :
+    {
+      decorator : qx.ui.decoration.Rounded,
+      
+      style :
+      {
+        backgroundColor : "#ececec",
+        color : "#c6c6c6",
+        radius : 5,
+        width : 1
+      }
+    },
 
 
     /*
@@ -387,13 +474,77 @@ qx.Theme.define("qx.theme.modern.Decoration",
         backgroundRepeat : "no-repeat"
       }
     },
-
+    
+    
+    /*
+    ---------------------------------------------------------------------------
+      TABVIEW
+    ---------------------------------------------------------------------------
+    */
+    
+    "tabview-pane" :
+    {
+      decorator : qx.ui.decoration.Single,
+      
+      style :
+      {
+        width : 1,
+        style : "solid",
+        color : "tabview-border"
+      }
+    },
+    
+    "tabview-page-button" :
+    {
+      decorator : qx.ui.decoration.Single,
+      
+      style :
+      {
+        width : 1,
+        style : "solid",
+        color : "tabview-border"
+      }
+    },
+    
+    
+    /*
+    ---------------------------------------------------------------------------
+      TREE
+    ---------------------------------------------------------------------------
+    */
+    
+    "tree-folder" :
+    {
+      decorator : qx.ui.decoration.Single,
+      
+      style :
+      {
+        widthBottom: 1,
+        colorBottom: "#F2F2F2"
+      }
+    },
+    
+    "tree-folder-selected" :
+    {
+      decorator : qx.ui.decoration.Single,
+      
+      style :
+      {
+        backgroundImage  : "decoration/selection.png",
+        backgroundRepeat : "scale",
+  
+        widthBottom : 1,
+        colorBottom : "#F2F2F2"
+      }
+    },
+    
 
     /*
     ---------------------------------------------------------------------------
       TOOLTIP
     ---------------------------------------------------------------------------
     */
+   
    "tooltip" : 
    {
      decorator : qx.ui.decoration.Single,
