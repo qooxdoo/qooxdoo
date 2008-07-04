@@ -58,32 +58,24 @@ qx.Class.define("testrunner.test.locale.Locale",
 
       // simple case
       var one = this.tr("one");
-      this.assertEquals("one", one.messageId);
-      this.assertJsonEquals([], one.args);
       this.assertEquals("one", one);
 
       // format string
       var hello = this.tr("Hello %1!", "Fabian");
-      this.assertEquals("Hello %1!", hello.messageId);
-      this.assertJsonEquals(["Fabian"], hello.args);
       this.assertEquals("Hello Fabian!", hello);
 
       // format string with translated arguments
       var hiJony = this.tr("Hello %1!", this.tr("Jony"));
-      this.assertEquals("Hello %1!", hiJony.messageId);
-      this.assertEquals(1, hiJony.args.length);
-      this.assertEquals("Jony", hiJony.args[0]);
       this.assertEquals("Hello Jony!", hiJony);
 
       // plural
-      var car = this.trn("One car", "%1 cars", 0);
-      this.assertEquals("One car", car.messageId);
-      this.assertJsonEquals([], car.args);
+      var car = this.trn("One car", "%1 cars", 0, 0);
+      this.assertEquals("0 cars", car);
+
+      var car = this.trn("One car", "%1 cars", 1);
       this.assertEquals("One car", car);
 
       var cars = this.trn("One car", "%1 cars", 5, 5);
-      this.assertEquals("%1 cars", cars.messageId);
-      this.assertJsonEquals([5], cars.args);
       this.assertEquals("5 cars", cars);
 
 
@@ -103,38 +95,23 @@ qx.Class.define("testrunner.test.locale.Locale",
 
 
       // simple case
-      one = this.translate(one);
-      this.assertEquals("one", one.messageId);
-      this.assertJsonEquals([], one.args);
+      one = one.translate();
       this.assertEquals("Eins", one);
 
       // format string
-      hello = this.translate(hello);
-      this.assertEquals("Hello %1!", hello.messageId);
-      this.assertJsonEquals(["Fabian"], hello.args);
+      hello = hello.translate();
       this.assertEquals("Servus Fabian!", hello);
 
       // format string with translated arguments
-      hiJony = this.translate(hiJony);
-      this.assertEquals("Hello %1!", hiJony.messageId);
-      this.assertEquals(1, hiJony.args.length);
-      this.assertEquals("Jony", hiJony.args[0]);
+      hiJony = hiJony.translate();
       this.assertEquals("Servus Jonathan!", hiJony);
 
       // plural
-      car = this.translate(car);
-      this.assertEquals("One car", car.messageId);
-      this.assertJsonEquals([], car.args);
+      car = car.translate();
       this.assertEquals("One car", car);
 
-      cars = this.translate(cars);
-      this.assertEquals("%1 cars", cars.messageId);
-      this.assertJsonEquals([5], cars.args);
+      cars = cars.translate();
       this.assertEquals("5 cars", cars);
-    },
-
-    translate : function(str) {
-      return qx.locale.Manager.getInstance().translate(str.messageId, str.args);
     }
 
   }

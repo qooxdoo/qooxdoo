@@ -300,7 +300,6 @@ qx.Class.define("demobrowser.DemoBrowser",
       this._cmdShowLastProfile.setEnabled(false);
       this._cmdDisposeSample.setEnabled(false);
       this._cmdNamespacePollution.setEnabled(false);
-      this.widgets["menu.appearance"].setEnabled(false);
       this.widgets["toolbar.playall"].setEnabled(true);
     },
 
@@ -347,51 +346,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       this._cmdShowLastProfile.setEnabled(false);
       this._cmdDisposeSample.setEnabled(true);
       this._cmdNamespacePollution.setEnabled(true);
-
-      this.__fillAppearanceMenu();
     },
-
-
-    __fillAppearanceMenu : function()
-    {
-      var cw = this.f1.getContentWindow();
-
-      if (cw && cw.qx && cw.qx.theme)
-      {
-        var menuButton = this.widgets["menu.appearance"];
-        menuButton.setEnabled(true);
-
-        var menu = menuButton.getMenu();
-        menu.removeAll();
-
-        try {
-          var mgr = cw.qx.theme.manager.Meta.getInstance();
-        } catch (e) {
-          menuButton.setEnabled(false);
-          return;
-        }
-        var themes = mgr.getMetaThemes();
-
-        var radioMgr = new qx.legacy.ui.selection.RadioManager();
-        for (var i=0, l=themes.length; i<l; i++)
-        {
-          var theme = themes[i];
-
-          if (theme.type === "abstract") {
-            continue;
-          }
-
-          var checked = (theme == mgr.getTheme());
-          var item = new qx.legacy.ui.menu.RadioButton(theme.title, null, checked);
-          item.setUserData("theme", theme);
-          item.addListener("execute", function(e) {
-            mgr.setTheme(e.getTarget().getUserData("theme"));
-          })
-          radioMgr.add(item);
-          menu.add(item);
-        }
-      }
-    }, //fillAppearanceMenu
 
 
     __makeMenuBar : function()
@@ -418,12 +373,6 @@ qx.Class.define("demobrowser.DemoBrowser",
               command : this._cmdPrevSample
             }
           ]
-        },
-        {
-          label : "Appearance",
-          items : [],
-          enabled : false,
-          id : "menu.appearance"
         },
         {
           label : "Profile",
@@ -775,8 +724,8 @@ qx.Class.define("demobrowser.DemoBrowser",
         border   : "dark-shadow",
         font     : "monospace"
       });
-      
-      // Create appender and unregister from this logger 
+
+      // Create appender and unregister from this logger
       // (we are interesed in demo messages only)
       this.logappender = new qx.log.appender.Element();
       qx.log.Logger.unregister(this.logappender);
@@ -784,8 +733,8 @@ qx.Class.define("demobrowser.DemoBrowser",
       // Directly create DOM element to use
       this.logelem = document.createElement("DIV");
       this.logappender.setElement(this.logelem);
-      
-      var appearFunc = function(e) 
+
+      var appearFunc = function(e)
       {
         this.f2.getElement().appendChild(this.logelem);
         this.f2.removeListener("appear", appearFunc, this);
@@ -1305,7 +1254,7 @@ qx.Class.define("demobrowser.DemoBrowser",
         // update state on example change
         var sample = path.slice(-2).join('~');
         this._history.addToHistory(sample, title);
-        
+
         // register appender
         fwindow.qx.log.Logger.register(this.logappender);
 
@@ -1417,7 +1366,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       req.setTimeout(180000);
       req.setProhibitCaching(false);
 
-      req.addListener("completed", function(evt) 
+      req.addListener("completed", function(evt)
       {
         // get the content of the request
         var content = evt.getContent();
