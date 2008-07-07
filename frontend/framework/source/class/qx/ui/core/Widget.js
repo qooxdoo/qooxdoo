@@ -561,8 +561,8 @@ qx.Class.define("qx.ui.core.Widget",
       init : false,
       apply : "_applyKeepFocus"
     },
-    
-    
+
+
     /**
      * Whether the widget contains content which may be selected by the user.
      *
@@ -1941,7 +1941,7 @@ qx.Class.define("qx.ui.core.Widget",
      * @param state {String} the state to check.
      * @return {Boolean} whether the state is set.
      */
-    hasState : function(state) 
+    hasState : function(state)
     {
       var states = this.__states;
       return states && states[state];
@@ -1960,31 +1960,31 @@ qx.Class.define("qx.ui.core.Widget",
       // Dynamically create state map
       var states = this.__states;
       if (!states) {
-        states = this.__states = {};  
+        states = this.__states = {};
       }
-      
+
       if (states[state]) {
-        return; 
+        return;
       }
-      
+
       // Add state and queue
       this.__states[state] = true;
       qx.ui.core.queue.Appearance.add(this);
-      
+
       // Forward state change to child controls
       var forward = this._forwardStates;
       var controls = this.__childControls;
-      
+
       if (forward && forward[state] && controls)
       {
         var control;
-        for (var id in controls) 
+        for (var id in controls)
         {
           control = controls[id];
           if (control instanceof qx.ui.core.Widget) {
-            controls[id].addState(state); 
+            controls[id].addState(state);
           }
-        }           
+        }
       }
     },
 
@@ -2001,27 +2001,27 @@ qx.Class.define("qx.ui.core.Widget",
       // Check for existing state
       var states = this.__states;
       if (!states || !states[state]) {
-        return; 
+        return;
       }
-      
+
       // Clear state and queue
       delete this.__states[state];
       qx.ui.core.queue.Appearance.add(this);
-      
+
       // Forward state change to child controls
       var forward = this._forwardStates;
       var controls = this.__childControls;
-      
+
       if (forward && forward[state] && controls)
       {
-        for (var id in controls) 
+        for (var id in controls)
         {
           control = controls[id];
-          if (control instanceof qx.ui.core.Widget) {          
-            control.removeState(state); 
+          if (control instanceof qx.ui.core.Widget) {
+            control.removeState(state);
           }
-        }           
-      }        
+        }
+      }
     },
 
 
@@ -2039,9 +2039,9 @@ qx.Class.define("qx.ui.core.Widget",
     {
       var states = this.__states;
       if (!states) {
-        states = this.__states = {};  
-      }      
-      
+        states = this.__states = {};
+      }
+
       if (!states[value]) {
         states[value] = true;
       }
@@ -2051,21 +2051,21 @@ qx.Class.define("qx.ui.core.Widget",
       }
 
       qx.ui.core.queue.Appearance.add(this);
-      
+
       // Forward state change to child controls
       var forward = this._forwardStates;
       var controls = this.__childControls;
-      
+
       if (forward && forward[value] && controls)
       {
-        for (var id in controls) 
+        for (var id in controls)
         {
           control = controls[id];
-          if (control instanceof qx.ui.core.Widget) {          
-            control.replaceState(old, value); 
+          if (control instanceof qx.ui.core.Widget) {
+            control.replaceState(old, value);
           }
-        } 
-      }      
+        }
+      }
     },
 
 
@@ -2126,7 +2126,7 @@ qx.Class.define("qx.ui.core.Widget",
 
         selector = this.__selector = id.reverse().join("/");
       }
-      
+
       // Query current selector
       var newData = manager.styleFrom(selector, states);
 
@@ -2141,7 +2141,7 @@ qx.Class.define("qx.ui.core.Widget",
             }
           }
         }
-        
+
         // Check property availability of new data
         if (qx.core.Variant.isSet("qx.debug", "on"))
         {
@@ -2152,11 +2152,11 @@ qx.Class.define("qx.ui.core.Widget",
             }
           }
         }
-        
+
         // Apply new data
         var value;
         var undef = "undefined";
-        
+
         for (var prop in newData)
         {
           value = newData[prop];
@@ -2193,10 +2193,10 @@ qx.Class.define("qx.ui.core.Widget",
       if (controls)
       {
         var obj;
-        for (var id in controls) 
+        for (var id in controls)
         {
           obj = controls[id];
-          
+
           if (obj instanceof qx.ui.core.Widget) {
             obj.updateAppearance();
           }
@@ -2335,7 +2335,7 @@ qx.Class.define("qx.ui.core.Widget",
     _applyFocusable : function(value, old)
     {
       var target = this.getFocusElement();
-      
+
       // Apply native tabIndex attribute
       if (value)
       {
@@ -2363,8 +2363,8 @@ qx.Class.define("qx.ui.core.Widget",
       var target = this.getFocusElement();
       target.setAttribute("qxKeepFocus", value ? "on" : null);
     },
-    
-    
+
+
     // property apply
     _applyTabIndex : function(value)
     {
@@ -2375,7 +2375,7 @@ qx.Class.define("qx.ui.core.Widget",
       }
 
       if (this.getFocusable() && value != null) {
-        target.setAttribute("tabIndex", value);        
+        target.setAttribute("tabIndex", value);
       }
     },
 
@@ -2397,25 +2397,25 @@ qx.Class.define("qx.ui.core.Widget",
         this._containerElement.setStyle("userSelect", value ? "normal" : "none");
       }
     },
-    
-    
+
+
     // property apply
     _applyEnabled : function(value, old)
     {
       if (value===false)
       {
         this.addState("disabled");
-        
+
         // hovered not configured in widget, but as this is a
         // standardized name in qooxdoo and we never want a hover
         // state for disabled widgets, remove this state everytime
         this.removeState("hovered");
-        
+
         // Blur when focused
-        if (this.isFocusable()) 
+        if (this.isFocusable())
         {
           this.blur();
-          
+
           // Remove tabIndex
           this._applyFocusable(false, true);
         }
@@ -2423,13 +2423,13 @@ qx.Class.define("qx.ui.core.Widget",
       else
       {
         this.removeState("disabled");
-        
+
         // Re-add tabIndex
         if (this.isFocusable()) {
-          this._applyFocusable(true, false); 
+          this._applyFocusable(true, false);
         }
       }
-    },    
+    },
 
 
 
@@ -2478,7 +2478,7 @@ qx.Class.define("qx.ui.core.Widget",
       this.removeState("focused");
     },
 
-    
+
 
 
 
@@ -2754,17 +2754,17 @@ qx.Class.define("qx.ui.core.Widget",
       // Establish connection to parent
       control.$$subcontrol = id;
       control.$$subparent = this;
-      
+
       // Support for state forwarding
       var states = this.__states;
       var forward = this._forwardStates;
-      
+
       if (states && forward && control instanceof qx.ui.core.Widget)
       {
-        for (var state in states) 
+        for (var state in states)
         {
           if (forward[state]) {
-            control.addState(state); 
+            control.addState(state);
           }
         }
       }
@@ -2808,8 +2808,8 @@ qx.Class.define("qx.ui.core.Widget",
 
       delete this.__childControls;
     },
-    
-    
+
+
 
 
 
