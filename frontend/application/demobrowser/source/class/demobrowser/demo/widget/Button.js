@@ -51,7 +51,7 @@ qx.Class.define("demobrowser.demo.widget.Button",
       var btn3 = new qx.ui.form.ToggleButton("Toggle Button", "icon/48/apps/internet-web-browser.png");
       container.add(btn3);
 
-      btn3.addListener("changeChecked", function(e) {
+      btn3.addListener("change", function(e) {
         this.debug("Checked: " + e.getValue());
       }, this);
     }
