@@ -10,9 +10,11 @@ qx.Mixin.define("qx.ui.core.MThemeTransform",
 
       var mgr = qx.theme.manager.Color.getInstance();
       if (mgr.isDynamic(value)) {
+        //return mgr.resolveDynamic(value);
         return qx.ui.core.value.Color.create(mgr.resolveDynamic(value), value);
       }
 
+      //return value;
       return qx.ui.core.value.Color.create(value, null);
     },
 
