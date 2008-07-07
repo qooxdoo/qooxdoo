@@ -361,7 +361,7 @@ qx.Class.define("qx.ui.core.ScrollBar",
      * @return {void}
      */
     _onChangeSlider : function(e) {
-      this.setPosition(e.getValue());
+      this.setPosition(e.getData());
     }
   }
 });

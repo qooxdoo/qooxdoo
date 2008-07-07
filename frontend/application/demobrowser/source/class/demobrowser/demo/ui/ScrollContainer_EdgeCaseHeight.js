@@ -68,11 +68,11 @@ qx.Class.define("demobrowser.demo.ui.ScrollContainer_EdgeCaseHeight",
       var mgr2 = this.generateScrollbarConfig("ScrollbarY:", 120);
 
       mgr1.addListener("change", function(e) {
-        scrollContainer.setScrollbarX(e.getValue().getValue());
+        scrollContainer.setScrollbarX(e.getData().getValue());
       });
 
       mgr2.addListener("change", function(e) {
-        scrollContainer.setScrollbarY(e.getValue().getValue());
+        scrollContainer.setScrollbarY(e.getData().getValue());
       });
     },
 

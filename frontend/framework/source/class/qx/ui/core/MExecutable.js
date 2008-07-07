@@ -106,7 +106,7 @@ qx.Mixin.define("qx.ui.core.MExecutable",
      * @param e {qx.event.type.Data} The change event
      */
     _onChangeEnabledCommand : function(e) {
-      this.setEnabled(e.getValue());
+      this.setEnabled(e.getData());
     }
   }
 });

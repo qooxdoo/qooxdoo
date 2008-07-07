@@ -432,7 +432,7 @@ qx.Class.define("demobrowser.DemoBrowser",
         }
         if (widgetData.command !== undefined) {
           widgetData.command.addListener("changeEnabled", function(e) {
-            widget.setEnabled(e.getValue());
+            widget.setEnabled(e.getData());
           });
         }
       }
@@ -485,7 +485,7 @@ qx.Class.define("demobrowser.DemoBrowser",
     __bindCommand: function(widget, command) {
       widget.setCommand(command);
       command.addListener("changeEnabled", function(e) {
-        widget.setEnabled(e.getValue());
+        widget.setEnabled(e.getData());
       });
     },
 

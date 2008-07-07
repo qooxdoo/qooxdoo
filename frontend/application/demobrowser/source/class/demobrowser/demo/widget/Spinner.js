@@ -117,7 +117,7 @@ qx.Class.define("demobrowser.demo.widget.Spinner",
       var button = new qx.ui.form.ToggleButton("Custom Style");
       button.setAllowGrowY(false);
       button.addListener("change", function(e) {
-        spinner.setAppearance(e.getValue() ? "colored-spinner" : "spinner");
+        spinner.setAppearance(e.getData() ? "colored-spinner" : "spinner");
       });
       container.add(button, {column: 4, row: row++});      
     },   

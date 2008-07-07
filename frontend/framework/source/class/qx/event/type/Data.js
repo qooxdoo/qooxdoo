@@ -40,7 +40,7 @@ qx.Class.define("qx.event.type.Data",
      * Initializes an event onject.
      *
      * @type member
-     * @param value {var} The event's new value
+     * @param data {var} The event's new value
      * @param old {var} The event's old value
      * @return {qx.event.type.Data} the initialized instance.
      */
@@ -48,8 +48,8 @@ qx.Class.define("qx.event.type.Data",
     {
       this.base(arguments, false, false);
 
-      this._value = value;
-      this._old = old;
+      this.__data = value;
+      this.__old = old;
 
       return this;
     },
@@ -69,8 +69,8 @@ qx.Class.define("qx.event.type.Data",
     {
       var clone = this.base(arguments, embryo);
 
-      clone._value = this._value;
-      clone._old = this._old;
+      clone.__data = this.__data;
+      clone.__old = this.__old;
 
       return clone;
     },
@@ -84,10 +84,10 @@ qx.Class.define("qx.event.type.Data",
      * @return {var} The new value of the event
      */    
     getData : function() {
-      return this._value;
+      return this.__data;
     },
     
-
+    
     /**
      * The new value of the event sending this change event.
      * The return data type is the same as the event data type.
@@ -96,8 +96,15 @@ qx.Class.define("qx.event.type.Data",
      * @deprecated
      * @return {var} The new value of the event
      */
-    getValue : function() {
-      return this._value;
+    getValue : function() 
+    {
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        this.debug("Deprecated method getValue() of qx.event.type.Data used!");
+        this.trace();
+      }
+      
+      return this.__data;
     },
     
     
@@ -109,8 +116,15 @@ qx.Class.define("qx.event.type.Data",
      * @deprecated
      * @return {var} The old value of the event
      */
-    getOldValue : function() {
-      return this._old;
+    getOldValue : function() 
+    {
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        this.debug("Deprecated method getOldValue() of qx.event.type.Data used!");
+        this.trace();
+      }
+            
+      return this.__old;
     }
   },
 
@@ -124,6 +138,6 @@ qx.Class.define("qx.event.type.Data",
   */
 
   destruct : function() {
-    this._disposeFields("_value", "_old");
+    this._disposeFields("__data", "__old");
   }
 });

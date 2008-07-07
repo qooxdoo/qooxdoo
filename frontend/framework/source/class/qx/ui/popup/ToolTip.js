@@ -249,7 +249,7 @@ qx.Class.define("qx.ui.popup.ToolTip",
     {
       this.base(arguments, e);
 
-      if (e.getValue() == "visible")
+      if (e.getData() == "visible")
       {
         this.stopShowTimer();
         this.startHideTimer();

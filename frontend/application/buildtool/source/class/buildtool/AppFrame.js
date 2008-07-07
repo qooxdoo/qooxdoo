@@ -358,7 +358,7 @@ qx.Class.define("buildtool.AppFrame",
     __bindCommand: function(widget, command) {
       widget.setCommand(command);
       command.addEventListener("changeEnabled", function(e) {
-        widget.setEnabled(e.getValue());
+        widget.setEnabled(e.getData());
       });
     },
 

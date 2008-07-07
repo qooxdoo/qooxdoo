@@ -299,7 +299,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
     _onChangeOpen : function(e)
     {
       if (this.isOpenable()) {
-        this.setOpen(e.getValue());
+        this.setOpen(e.getData());
       }
     },
 

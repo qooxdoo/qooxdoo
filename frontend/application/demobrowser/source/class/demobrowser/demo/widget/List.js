@@ -108,7 +108,7 @@ qx.Class.define("demobrowser.demo.widget.List",
       var rbm = new qx.ui.core.RadioManager(mode1, mode2, mode3, mode4);
 
       rbm.addListener("changeValue", function(e) {
-        l1.setSelectionMode(e.getValue());
+        l1.setSelectionMode(e.getData());
       });
 
       var show1 = new qx.ui.form.RadioButton("Show Label");
@@ -130,7 +130,7 @@ qx.Class.define("demobrowser.demo.widget.List",
       rbm.addListener("changeValue", function(e)
       {
         for( var i=0; i<l1.getChildren().length; i++ ) {
-          l1.getChildren()[i].setShow(e.getValue());
+          l1.getChildren()[i].setShow(e.getData());
         }
       });
 
@@ -140,7 +140,7 @@ qx.Class.define("demobrowser.demo.widget.List",
       this.getRoot().add(drag1, {left: 180, top: 220});
 
       drag1.addListener("change", function(e) {
-        l1.setDragSelection(e.getValue());
+        l1.setDragSelection(e.getData());
       });
       ////////////////////////////////////////////////////////////////
 
@@ -176,7 +176,7 @@ qx.Class.define("demobrowser.demo.widget.List",
       };
       
       l2.addListener("changeValue", function(e) {
-        this.debug("Value: " + e.getValue());
+        this.debug("Value: " + e.getData());
       });
 
       this.getRoot().add(l2, {left: 500, top: 40});

@@ -291,7 +291,7 @@ qx.Class.define("qx.ui.core.RadioManager",
     
     _onChangeName : function(e)
     {
-      var name = e.getValue();
+      var name = e.getData();
       name == null ? this.resetName() : this.setName(name);
     },    
     
