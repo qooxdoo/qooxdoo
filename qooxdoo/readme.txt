@@ -1,5 +1,3 @@
-Welcome!  :-)
-
 qooxdoo is a comprehensive and innovative Ajax application
 framework. Leveraging object-oriented JavaScript allows developers to
 build impressive cross-browser applications. No HTML, CSS nor DOM
