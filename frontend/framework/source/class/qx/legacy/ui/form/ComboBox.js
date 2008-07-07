@@ -557,7 +557,7 @@ qx.Class.define("qx.legacy.ui.form.ComboBox",
      * Listener method for the "changeLocale" event of the locale manager
      *
      * @type member
-     * @param e {qx.event.type.Change} ChangeLocale event
+     * @param e {qx.event.type.Data} ChangeLocale event
      * @return {void}
      */
     _onlocalechange : function(e) {

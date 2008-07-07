@@ -82,7 +82,7 @@ qx.Class.define("qx.ui.form.ListItem",
       apply : "_applyManager"
     },
 
-    /** Fires a "changeValue" (qx.event.type.Change) event */
+    /** Fires a "changeValue" (qx.event.type.Data) event */
     value :
     {
       check : "String",

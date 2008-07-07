@@ -32,9 +32,9 @@ qx.Interface.define("qx.ui.core.IFormElement",
     
   events :
   {
-    "changeValue" : "qx.event.type.Change",
-    "changeName" : "qx.event.type.Change",
-    "changeEnabled" : "qx.event.type.Change"
+    "changeValue" : "qx.event.type.Data",
+    "changeName" : "qx.event.type.Data",
+    "changeEnabled" : "qx.event.type.Data"
   },
   
   

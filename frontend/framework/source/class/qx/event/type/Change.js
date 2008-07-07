@@ -19,9 +19,9 @@
 ************************************************************************ */
 
 /**
- * Event object for property changes.
+ * Event object for data changes.
  */
-qx.Class.define("qx.event.type.Change",
+qx.Class.define("qx.event.type.Data",
 {
   extend : qx.event.type.Event,
 
@@ -40,9 +40,9 @@ qx.Class.define("qx.event.type.Change",
      * Initializes an event onject.
      *
      * @type member
-     * @param value {var} The property's new value
-     * @param old {var} The property's old value
-     * @return {qx.event.type.Change} the initialized instance.
+     * @param value {var} The event's new value
+     * @param old {var} The event's old value
+     * @return {qx.event.type.Data} the initialized instance.
      */
     init : function(value, old)
     {
@@ -59,11 +59,11 @@ qx.Class.define("qx.event.type.Change",
      * Get a copy of this object
      *
      * @type member
-     * @param embryo {qx.event.type.Change?null} Optional event class, which will
+     * @param embryo {qx.event.type.Data?null} Optional event class, which will
      *     be configured using the data of this event instance. The event must be
      *     an instance of this event class. If the value is <code>null</code>,
      *     a new pooled instance is created.
-     * @return {qx.event.type.Change} a copy of this object
+     * @return {qx.event.type.Data} a copy of this object
      */
     clone : function(embryo)
     {
@@ -77,23 +77,36 @@ qx.Class.define("qx.event.type.Change",
 
 
     /**
-     * The new value of the property sending this change event.
-     * The return data type is the same as the property data type.
+     * The new value of the event sending this change event.
+     * The return data type is the same as the event data type.
      *
      * @type member
-     * @return {var} The new value of the property
+     * @return {var} The new value of the event
      */
     getValue : function() {
+      return this._value;
+    },
+    
+    
+    /**
+     * The new value of the event sending this change event.
+     * The return data type is the same as the event data type.
+     *
+     * @type member
+     * @deprecated
+     * @return {var} The new value of the event
+     */    
+    getData : function() {
       return this._value;
     },
 
 
     /**
-     * The old value of the property sending this change event.
-     * The return data type is the same as the property data type.
+     * The old value of the event sending this change event.
+     * The return data type is the same as the event data type.
      *
      * @type member
-     * @return {var} The old value of the property
+     * @return {var} The old value of the event
      */
     getOldValue : function() {
       return this._old;
