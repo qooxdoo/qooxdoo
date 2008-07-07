@@ -319,7 +319,7 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
 
     /**
      * Sets the selected item on change.
-     * @param e {qx.event.type.Change} Change Event
+     * @param e {qx.event.type.Data} Change Event
      * @type member
      */
     _onChange : function(e)

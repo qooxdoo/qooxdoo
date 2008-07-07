@@ -726,7 +726,7 @@ qx.Class.define("qx.legacy.ui.form.Spinner",
      * Dispatched the "change" event.
      *
      * @type member
-     * @param e {qx.event.type.Change} change event
+     * @param e {qx.event.type.Data} change event
      * @return {void}
      */
     _onchange : function(e)

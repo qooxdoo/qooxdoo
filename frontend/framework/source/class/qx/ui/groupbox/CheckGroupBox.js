@@ -35,7 +35,7 @@ qx.Class.define("qx.ui.groupbox.CheckGroupBox",
   
   events : 
   {
-    change : "qx.event.type.Change"
+    change : "qx.event.type.Data"
   },  
   
   members :
@@ -59,7 +59,7 @@ qx.Class.define("qx.ui.groupbox.CheckGroupBox",
     },
     
     _onChange : function(e) {
-      this.fireNonBubblingEvent("change", qx.event.type.Change, [e.getValue()]);
+      this.fireNonBubblingEvent("change", qx.event.type.Data, [e.getValue()]);
     }
   }
 });

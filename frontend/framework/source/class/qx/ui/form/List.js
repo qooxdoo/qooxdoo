@@ -100,7 +100,7 @@ qx.Class.define("qx.ui.form.List",
      * Fired on every modification of the selection which also means that the
      * value has been modified.
      */
-    changeValue : "qx.event.type.Change"
+    changeValue : "qx.event.type.Data"
   },
 
 

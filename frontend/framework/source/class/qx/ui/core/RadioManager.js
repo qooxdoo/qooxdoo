@@ -123,7 +123,7 @@ qx.Class.define("qx.ui.core.RadioManager",
 
   events :
   {
-    "changeValue" : "qx.event.type.Change"    
+    "changeValue" : "qx.event.type.Data"    
   },
   
   
@@ -344,7 +344,7 @@ qx.Class.define("qx.ui.core.RadioManager",
       var newValue = value ? value.getValue() : null;
       
       if (oldValue != newValue) {
-        this.fireNonBubblingEvent("changeValue", qx.event.type.Change, [newValue, oldValue]); 
+        this.fireNonBubblingEvent("changeValue", qx.event.type.Data, [newValue, oldValue]); 
       }
     },
     
