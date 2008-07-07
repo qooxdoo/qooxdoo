@@ -82,12 +82,12 @@ qx.Class.define("qx.event.type.Data",
      *
      * @type member
      * @return {var} The new value of the event
-     */
-    getValue : function() {
+     */    
+    getData : function() {
       return this._value;
     },
     
-    
+
     /**
      * The new value of the event sending this change event.
      * The return data type is the same as the event data type.
@@ -95,17 +95,18 @@ qx.Class.define("qx.event.type.Data",
      * @type member
      * @deprecated
      * @return {var} The new value of the event
-     */    
-    getData : function() {
+     */
+    getValue : function() {
       return this._value;
     },
-
-
+    
+    
     /**
      * The old value of the event sending this change event.
      * The return data type is the same as the event data type.
      *
      * @type member
+     * @deprecated
      * @return {var} The old value of the event
      */
     getOldValue : function() {
