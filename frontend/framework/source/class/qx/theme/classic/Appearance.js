@@ -143,7 +143,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
         }
 
         return {
-          backgroundColor : states.abandoned ? "button-abandoned" : states.hovered ? "button-hovered" : "button",
+          backgroundColor : states.abandoned ? "button-abandoned" : states.hovered ? "button-hovered" : states.checked ? "button-checked" : "button",
           decorator : decorator,
           padding : padding
         };
