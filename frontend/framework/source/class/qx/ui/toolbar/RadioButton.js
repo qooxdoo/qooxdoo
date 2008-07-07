@@ -27,7 +27,6 @@ qx.Class.define("qx.ui.toolbar.RadioButton",
 
 
 
-
   /*
   *****************************************************************************
      PROPERTIES
@@ -82,10 +81,12 @@ qx.Class.define("qx.ui.toolbar.RadioButton",
     {
       this.base(arguments, value, old);
 
-      var manager = this.getManager();
-
-      if (manager) {
-        manager.setItemChecked(this, value);
+      if (value)
+      {
+        var mgr = this.getManager();
+        if (mgr) {
+          mgr.select(this);
+        }
       }
     },
 

@@ -25,6 +25,7 @@
 qx.Class.define("qx.ui.form.List",
 {
   extend : qx.ui.core.ScrollArea,
+  implement : qx.ui.core.IFormElement,
   include : [ qx.ui.core.MRemoteChildrenHandling, qx.ui.core.MSelectionHandling ],
 
 
@@ -46,6 +47,7 @@ qx.Class.define("qx.ui.form.List",
     // Create content
     this.__content = new qx.ui.container.Composite();
 
+    // Used to fire item add/remove events
     this.__content.addListener("addChildWidget", this._onAddChild, this);
     this.__content.addListener("removeChildWidget", this._onRemoveChild, this);
 
@@ -53,12 +55,16 @@ qx.Class.define("qx.ui.form.List",
     this._getChildControl("pane").add(this.__content);
 
     // Apply orientation
-    horizontal ? this.setOrientation("horizontal") : this.initOrientation();
+    horizontal == null ? 
+      this.initOrientation() : 
+      this.setOrientation(horizontal ? "horizontal" : "vertical");
 
     // Add keypress listener
     this.addListener("keypress", this._onKeyPress);
+    this.addListener("keyinput", this._onKeyInput);
     
-    this.addListener("keyinput", this._onkeyinput);
+    // Add selection change listener
+    this.addListener("change", this._onChange);
     
     // initialize the search string
     this._pressedString = "";
@@ -87,7 +93,14 @@ qx.Class.define("qx.ui.form.List",
      * The {@link qx.event.type.Data#getData} method of the event returns the
      * removed item.
      */
-    removeItem : "qx.event.type.Data"
+    removeItem : "qx.event.type.Data",
+    
+    
+    /** 
+     * Fired on every modification of the selection which also means that the
+     * value has been modified.
+     */
+    changeValue : "qx.event.type.Change"
   },
 
 
@@ -136,12 +149,22 @@ qx.Class.define("qx.ui.form.List",
       themeable : true
     },
     
+    
     /** Controls whether the inline-find feature is activated or not */
     enableInlineFind :
     {
       check : "Boolean",
       init : true
-    }
+    },
+    
+    
+    /** The name of the list. Mainly used for serialization proposes. */
+    name :
+    {
+      check : "String",
+      nullable : true,
+      event : "changeName"
+    }  
   },
 
 
@@ -198,6 +221,55 @@ qx.Class.define("qx.ui.form.List",
       this.fireNonBubblingEvent("removeItem", qx.event.type.Data, [e.getData()]);
     },
 
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      FORM ELEMENT API
+    ---------------------------------------------------------------------------
+    */
+    
+    getValue : function() 
+    {
+      var selected = this.getSelection();
+      var result = [];
+      var value;
+      
+      for (var i=0, l=selected.length; i<l; i++) 
+      {
+        // Try value first
+        value = selected[i].getValue();
+        
+        // Fallback to label
+        if (value == null) {
+          value = selected[i].getLabel(); 
+        }
+        
+        result.push(value);
+      }
+      
+      return result.join(",");
+    },
+    
+    
+    setValue : function(value)
+    {
+      // Clear current selection
+      var splitted = value.split(",");
+
+      // Building result list      
+      var result = [];
+      for (var i=0, l=splitted.length; i<l; i++) {
+        result.push(this._findItem(splitted[i]));
+      }
+
+      // Replace current selection      
+      this.replaceSelection(result);
+    },
+    
+    
+        
 
 
     /*
@@ -279,6 +351,16 @@ qx.Class.define("qx.ui.form.List",
     },
     
     
+    
+    _onChange : function()
+    {
+      if (this.hasListener("changeValue")) {
+        this.fireNonBubblingEvent("changeValue", qx.event.type.Data, [this.getValue()]);
+      }      
+    },
+    
+    
+    
     /*
     ---------------------------------------------------------------------------
       FIND SUPPORT
@@ -292,7 +374,7 @@ qx.Class.define("qx.ui.form.List",
      * @param e {qx.event.type.KeyEvent} keyInput event
      * @return {void}
      */
-    _onkeyinput : function(e)
+    _onKeyInput : function(e)
     {
       // do nothing if the find is disabled
       if (!this.getEnableInlineFind()) {
@@ -314,7 +396,7 @@ qx.Class.define("qx.ui.form.List",
       this._pressedString += String.fromCharCode(e.getCharCode());
       
       // Find matching item
-      var matchedItem = this.__findItem(this._pressedString);
+      var matchedItem = this._findItemByLabel(this._pressedString);
       
       // if an item was found, select it
       if (matchedItem) {
@@ -328,39 +410,75 @@ qx.Class.define("qx.ui.form.List",
     
 
     /**
-     * Takes the given searchstring and tries to find a ListItem 
-     * which stats with this string. The search is not case sensitive and the 
-     * first found ListItem will be returned.If there could be found any 
-     * fitting list item, null will be returned.
+     * Takes the given string and tries to find a ListItem 
+     * which starts with this string. The search is not case sensitive and the 
+     * first found ListItem will be returned. If there could not be found any 
+     * qualifying list item, null will be returned.
      * 
      * @param searchText {String} The text with which the label of the ListItem should start with
-     * @return {qx.ui.form.ListItem | null} The found ListItem
+     * @return {qx.ui.form.ListItem} The found ListItem or null
      */
-    __findItem : function(searchText) 
+    _findItemByLabel : function(searchText) 
     {
-      // get all elements of the list
-      var elements = this.getChildren();
+      // lower case search text
+      searchText = searchText.toLowerCase();
+
+      // get all items of the list
+      var items = this.getChildren();
       
-      // go threw all elements
-      for (var i = 0; i < elements.length; i++) 
+      // go threw all items
+      for (var i=0, l=items.length; i<l; i++) 
       {
         // get the label of the current item
-        var currentLabel = elements[i].getLabel();
+        var currentLabel = items[i].getLabel();
        
         // if there is a label
         if (currentLabel) 
         {
           // if the label fits with the search text (ignore case, begins with)
-          if (currentLabel.toLowerCase().indexOf(searchText.toLowerCase()) == 0) 
+          if (currentLabel.toLowerCase().indexOf(searchText) == 0) 
           {
             // just return the first found element
-            return elements[i];
+            return items[i];
           }          
         }
       }
       
       // if no element was found, return null
       return null;
+    },
+    
+    
+    /**
+     * Find an item by its value or label. It respects the label only when no
+     * value is given. This method is used for a HTML-like behavior where the 
+     * fallback is the label automatically for selectbox options as well. If
+     * a value is given the label is ignored, even if it would match!
+     *
+     * @param valueOrLabel {String} A value or label or any item
+     * @return {qx.ui.form.ListItem} The found ListItem or null
+     */
+    _findItem : function(valueOrLabel)
+    {
+      // get all items of the list
+      var items = this.getChildren();
+      var item, value;
+      
+      // go threw all items
+      for (var i=0, l=items.length; i<l; i++) 
+      {
+        item = items[i];
+        
+        // get the label of the current item
+        value = item.getValue();
+        if (value == null) {
+          value = item.getLabel();
+        }
+        
+        if (value == valueOrLabel) {
+          return item; 
+        }        
+      }      
     }
   },
 

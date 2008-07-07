@@ -63,6 +63,7 @@ qx.Class.define("qx.ui.form.RadioButton",
 
     this.base(arguments, label);
 
+    // Add listeners
     this.addListener("execute", this._onexecute);
     this.addListener("keypress", this._onkeypress);
   },
@@ -92,9 +93,9 @@ qx.Class.define("qx.ui.form.RadioButton",
       check: "Boolean",
       init: false,
       apply: "_applyChecked",
-      event: "change"
+      event: "changeChecked"
     },
-
+    
     // overridden
     appearance :
     {
@@ -130,6 +131,24 @@ qx.Class.define("qx.ui.form.RadioButton",
 
     /*
     ---------------------------------------------------------------------------
+      FORM ELEMENT API
+    ---------------------------------------------------------------------------
+    */
+
+    getBooleanValue : function() {
+      return this.getChecked(); 
+    },
+    
+    setBooleanValue : function(value) {
+      return this.setChecked(value);
+    },
+     
+    
+
+
+
+    /*
+    ---------------------------------------------------------------------------
       APPLY ROUTINES
     ---------------------------------------------------------------------------
     */
@@ -137,13 +156,9 @@ qx.Class.define("qx.ui.form.RadioButton",
     // property apply
     _applyChecked : function(value, old)
     {
-      var vManager = this.getManager();
-
-      if (vManager) {
-        vManager.setItemChecked(this, value);
-      }
-
-      value ? this.addState("checked") : this.removeState("checked");
+      value ? 
+        this.addState("checked") : 
+        this.removeState("checked");
     },
 
 
@@ -169,11 +184,13 @@ qx.Class.define("qx.ui.form.RadioButton",
     */
 
     /**
-     * Callback method for "execute" event<br/>
-     * Sets the property "checked" to true
+     * Event listener for the "execute" event.
+     *
+     * Sets the property "checked" to true.
      *
      * @type member
      * @param e {qx.event.type.Event} execute event
+     * @return {void}
      */
     _onexecute : function(e) {
       this.setChecked(true);
@@ -181,24 +198,31 @@ qx.Class.define("qx.ui.form.RadioButton",
 
 
     /**
-     * Callback method for the "keyPress" event.<br/>
+     * Event listener for the "keyPress" event.
+     *
      * Selects the previous RadioButton when pressing "Left" or "Up" and
-     * selects the next RadioButton when pressing "Right" and "Down"
+     * Selects the next RadioButton when pressing "Right" and "Down"
      *
      * @type member
-     * @param e {qx.event.type.KeyInput} keyPress event
+     * @param e {qx.event.type.KeySequence} KeyPress event
+     * @return {void}
      */
     _onkeypress : function(e)
     {
+      var mgr = this.getManager();
+      if (!mgr) {
+        return; 
+      }
+      
       switch(e.getKeyIdentifier())
       {
         case "Left":
         case "Up":
-          return this.getManager() ? this.getManager().selectPrevious(this) : true;
+          mgr.selectPrevious(this);
 
         case "Right":
         case "Down":
-          return this.getManager() ? this.getManager().selectNext(this) : true;
+          mgr.selectNext(this);
       }
     }
   }
