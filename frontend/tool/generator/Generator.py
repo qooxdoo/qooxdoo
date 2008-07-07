@@ -437,6 +437,7 @@ class Generator:
             self.runClean()
             self.runLint(classList)
             self.runMigration(config.get("library"))
+            self.runFix(classList)
 
 
             # Debug tasks
@@ -963,6 +964,31 @@ class Generator:
         self._shellCmd.execute(shcmd)
 
         self._console.outdent()
+
+
+    def runFix(self, classes):
+        if not isinstance(self._config.get("fix-files", False), types.DictType):
+            return
+        
+        self._console.info("Fixing whitespace in source files...")
+        self._console.indent()
+        fixsettings = ExtMap(self._config.get("fix-files"))
+
+        self._console.info("Fixing files: ", False)
+        numClasses = len(classes)
+        for pos, classId in enumerate(classes):
+            self._console.progress(pos, numClasses)
+            classEntry = self._classes[classId]
+            filePath   = classEntry['path']
+            fileEncoding = classEntry['encoding']
+            fileContent  = filetool.read(filePath, fileEncoding)
+            fixedContent = textutil.removeTrailingSpaces(textutil.tab2Space(textutil.any2Unix(fileContent), 2))
+            if fixedContent != fileContent:
+                self._console.debug("modifying file: %s" % filePath)
+            filetool.save(filePath, fixedContent, fileEncoding)
+
+        self._console.outdent()
+
 
 
     ######################################################################
