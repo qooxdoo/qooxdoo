@@ -107,8 +107,8 @@ qx.Class.define("demobrowser.demo.widget.List",
       
       var rbm = new qx.ui.core.RadioManager(mode1, mode2, mode3, mode4);
 
-      rbm.addListener("change", function(e) {
-        l1.setSelectionMode(e.getValue().getValue());
+      rbm.addListener("changeValue", function(e) {
+        l1.setSelectionMode(e.getValue());
       });
 
       var show1 = new qx.ui.form.RadioButton("Show Label");
@@ -127,10 +127,10 @@ qx.Class.define("demobrowser.demo.widget.List",
 
       var rbm = new qx.ui.core.RadioManager(show1, show2, show3);
 
-      rbm.addListener("change", function(e)
+      rbm.addListener("changeValue", function(e)
       {
         for( var i=0; i<l1.getChildren().length; i++ ) {
-          l1.getChildren()[i].setShow(e.getValue().getValue());
+          l1.getChildren()[i].setShow(e.getValue());
         }
       });
 
@@ -149,7 +149,7 @@ qx.Class.define("demobrowser.demo.widget.List",
 
       ////////////////////////////////////////////////////////////////
       // styled list
-      var configureLabel = new qx.ui.basic.Label("Styled (try dblclick)");
+      var configureLabel = new qx.ui.basic.Label("Styled");
       configureLabel.setFont("bold");
       this.getRoot().add(configureLabel, {left: 500, top: 20});
       
@@ -175,9 +175,9 @@ qx.Class.define("demobrowser.demo.widget.List",
         l2.add(item2);
       };
       
-      l2.addListener("dblclick", function(e) {
-        alert(e.getCurrentTarget().getLabel());
-      });      
+      l2.addListener("changeValue", function(e) {
+        this.debug("Value: " + e.getValue());
+      });
 
       this.getRoot().add(l2, {left: 500, top: 40});
       ////////////////////////////////////////////////////////////////

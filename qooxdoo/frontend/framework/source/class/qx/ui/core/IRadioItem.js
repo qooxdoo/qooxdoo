@@ -21,33 +21,33 @@
 /**
  * Each object, which should be managed by a {@link RadioManager} have to
  * implement this interface.
- *
- * Each time the {@link #checked} property changes, the item should inform the
- * connected radio manager by calling the method
- * {@link RadioManager#setItemChecked}.
  */
 qx.Interface.define("qx.ui.core.IRadioItem",
 {
+  extend : qx.ui.core.IFormElement,
+  
+
+  /*
+  *****************************************************************************
+     EVENTS
+  *****************************************************************************
+  */
+
+  events :
+  {
+    "changeChecked" : "qx.event.type.Change"
+  },
+  
+
+  
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+  
   members :
   {
-    /**
-     * Set whether the item is enabled
-     *
-     *  @param value {Boolean} whether the item should be enabled
-     */
-    setEnabled : function(value) {
-      this.assertType(value, "boolean");
-    },
-
-
-    /**
-     * Get whether the item is enabled
-     *
-     *  @return {Boolean} whether the item is enabled
-     */
-    getEnabled : function() {},
-
-
     /**
      * Set whether the item is checked
      *
@@ -64,14 +64,6 @@ qx.Interface.define("qx.ui.core.IRadioItem",
      * @return {Boolean} whether the item it checked
      */
     getChecked : function() {},
-
-
-    /**
-     * The item's user set value
-     *
-     * @return {var} The item's value
-     */
-    getValue : function() {},
 
 
     /**

@@ -68,13 +68,22 @@ qx.Class.define("qx.ui.form.Button",
 
   properties :
   {
-    /** A user provided value, which is assosiated with the form widget. */
-    value :
+    /** The name of the widget. Mainly used for serialization proposes. */
+    name :
     {
       check : "String",
-      nullable : true
+      nullable : true,
+      event : "changeName"
     },
-
+    
+    /** The value of the widget. Mainly used for serialization proposes. */
+    value : 
+    {
+      check : "String",
+      nullable : true,
+      event : "changeValue"
+    },
+    
     // overridden
     appearance :
     {
@@ -101,6 +110,77 @@ qx.Class.define("qx.ui.form.Button",
 
   members :
   {
+    /*
+    ---------------------------------------------------------------------------
+      FORM ELEMENT API
+    ---------------------------------------------------------------------------
+    */
+    
+    getStringValue : function() {
+      return this.getValue() || "";
+    },
+    
+    setStringValue : function(value) {
+      return this.setValue(value == null ? "" : "" + value);
+    },
+    
+    getBooleanValue : function() {
+      return this.hasState("pressed");
+    },
+    
+    setBooleanValue : function(value) {
+      return value ? this.press() : this.release();
+    },
+    
+    getNumberValue : function() {
+      return parseFloat(this.getValue(), 10);
+    },
+    
+    setNumberValue : function(value) {
+      return this.setValue(value.toString());
+    },
+    
+    getObjectValue : function() {
+      return null;
+    },   
+    
+    setObjectValue : function(value) {
+      return this.setValue(value == null ? "" : "" + value);
+    },
+    
+    
+    
+      
+    /*
+    ---------------------------------------------------------------------------
+      USER API
+    ---------------------------------------------------------------------------
+    */
+    
+    press : function()
+    {
+      if (this.hasState("abandoned")) {
+        return; 
+      }
+      
+      this.addState("pressed");
+    },
+    
+    release : function()
+    {
+      if (this.hasState("pressed")) {
+        this.removeState("pressed");
+      }
+    },
+          
+      
+      
+    /*
+    ---------------------------------------------------------------------------
+      EVENT LISTENERS
+    ---------------------------------------------------------------------------
+    */
+            
     /**
      * Listener method for "mouseover" event
      * <ul>
