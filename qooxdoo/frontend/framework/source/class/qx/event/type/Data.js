@@ -19,7 +19,7 @@
 ************************************************************************ */
 
 /**
- * Event object for data changes.
+ * Event object for data holding event or data changes.
  */
 qx.Class.define("qx.event.type.Data",
 {
@@ -41,7 +41,7 @@ qx.Class.define("qx.event.type.Data",
      *
      * @type member
      * @param data {var} The event's new data
-     * @param old {var} The event's old data
+     * @param old {var?null} The event's old data (optional)
      * @return {qx.event.type.Data} the initialized instance.
      */
     init : function(data, old)
@@ -77,17 +77,38 @@ qx.Class.define("qx.event.type.Data",
 
 
     /**
-     * The new data of the event sending this change event.
+     * The new data of the event sending this data event.
      * The return data type is the same as the event data type.
      *
      * @type member
      * @return {var} The new data of the event
-     */    
+     */
     getData : function() {
       return this.__data;
     },
-    
-    
+
+
+    /**
+     * The old data of the event sending this data event.
+     * The return data type is the same as the event data type.
+     *
+     * @type member
+     * @deprecated
+     * @return {var} The old data of the event
+     */
+    getOldValue : function() {
+      return this.__old;
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      DEPRECATED METHODS
+    ---------------------------------------------------------------------------
+    */
+
     /**
      * The new data of the event sending this change event.
      * The return data type is the same as the event data type.
@@ -96,18 +117,18 @@ qx.Class.define("qx.event.type.Data",
      * @deprecated
      * @return {var} The new data of the event
      */
-    getValue : function() 
+    getValue : function()
     {
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         this.debug("Deprecated method getValue() of qx.event.type.Data used!");
         this.trace();
       }
-      
+
       return this.__data;
     },
-    
-    
+
+
     /**
      * The old data of the event sending this change event.
      * The return data type is the same as the event data type.
@@ -116,14 +137,14 @@ qx.Class.define("qx.event.type.Data",
      * @deprecated
      * @return {var} The old data of the event
      */
-    getOldValue : function() 
+    getOldValue : function()
     {
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         this.debug("Deprecated method getOldValue() of qx.event.type.Data used!");
         this.trace();
       }
-            
+
       return this.__old;
     }
   },
