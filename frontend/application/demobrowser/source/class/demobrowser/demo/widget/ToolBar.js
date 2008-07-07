@@ -129,7 +129,7 @@ qx.Class.define("demobrowser.demo.widget.ToolBar",
       // register the handler
       sizeManager.addListener("change", function(e)
       {
-        var value = e.getValue();
+        var value = e.getData();
         var button, size, url;
         for (var i=0; i<buttons.length; i++)
         {
@@ -170,11 +170,11 @@ qx.Class.define("demobrowser.demo.widget.ToolBar",
       // register the handler
       showManager.addListener("change", function(e)
       {
-        if (e.getValue() == showBothButton) {
+        if (e.getData() == showBothButton) {
           toolbar.setShow("both");
-        } else if (e.getValue() == showIconButton) {
+        } else if (e.getData() == showIconButton) {
           toolbar.setShow("icon");
-        } else if (e.getValue() == showLabelButton) {
+        } else if (e.getData() == showLabelButton) {
           toolbar.setShow("label");
         }
       }, this);

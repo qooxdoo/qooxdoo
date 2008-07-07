@@ -1067,11 +1067,11 @@ qx.Class.define("qx.legacy.ui.table.pane.Scroller",
      */
     _onChangeCaptureHeader : function(e)
     {
-      if (this._resizeColumn != null && e.getValue() == false) {
+      if (this._resizeColumn != null && e.getData() == false) {
         this._stopResizeHeader();
       }
 
-      if (this._moveColumn != null && e.getValue() == false) {
+      if (this._moveColumn != null && e.getData() == false) {
         this._stopMoveHeader();
       }
     },

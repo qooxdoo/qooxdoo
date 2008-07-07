@@ -73,7 +73,7 @@ qx.Class.define("demobrowser.demo.widget.StackContainer",
       }
 
       container.addListener("change", function(e) {
-        this.debug("Selected: " + e.getValue().getBackgroundColor());
+        this.debug("Selected: " + e.getData().getBackgroundColor());
       });
     },
 
@@ -112,7 +112,7 @@ qx.Class.define("demobrowser.demo.widget.StackContainer",
 
       container.addListener("change", function(e)
       {
-        var selected = e.getValue();
+        var selected = e.getData();
         this.debug("Selected: " + selected.getBackgroundColor() + " (" + selected.getWidth() + "x" + selected.getHeight() + ")");
       });
 
