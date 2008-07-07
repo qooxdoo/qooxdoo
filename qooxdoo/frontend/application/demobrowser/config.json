@@ -42,7 +42,7 @@
 
       "settings" :
       {
-        "qx.version" : "0.8-alpha1",
+        "qx.version" : "0.8-alpha2-pre",
         "qx.application" : "${APPLICATION}.Application"
       },
 
