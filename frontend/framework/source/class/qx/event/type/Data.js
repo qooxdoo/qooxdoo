@@ -40,15 +40,15 @@ qx.Class.define("qx.event.type.Data",
      * Initializes an event onject.
      *
      * @type member
-     * @param data {var} The event's new value
-     * @param old {var} The event's old value
+     * @param data {var} The event's new data
+     * @param old {var} The event's old data
      * @return {qx.event.type.Data} the initialized instance.
      */
-    init : function(value, old)
+    init : function(data, old)
     {
       this.base(arguments, false, false);
 
-      this.__data = value;
+      this.__data = data;
       this.__old = old;
 
       return this;
@@ -61,7 +61,7 @@ qx.Class.define("qx.event.type.Data",
      * @type member
      * @param embryo {qx.event.type.Data?null} Optional event class, which will
      *     be configured using the data of this event instance. The event must be
-     *     an instance of this event class. If the value is <code>null</code>,
+     *     an instance of this event class. If the data is <code>null</code>,
      *     a new pooled instance is created.
      * @return {qx.event.type.Data} a copy of this object
      */
@@ -77,11 +77,11 @@ qx.Class.define("qx.event.type.Data",
 
 
     /**
-     * The new value of the event sending this change event.
+     * The new data of the event sending this change event.
      * The return data type is the same as the event data type.
      *
      * @type member
-     * @return {var} The new value of the event
+     * @return {var} The new data of the event
      */    
     getData : function() {
       return this.__data;
@@ -89,12 +89,12 @@ qx.Class.define("qx.event.type.Data",
     
     
     /**
-     * The new value of the event sending this change event.
+     * The new data of the event sending this change event.
      * The return data type is the same as the event data type.
      *
      * @type member
      * @deprecated
-     * @return {var} The new value of the event
+     * @return {var} The new data of the event
      */
     getValue : function() 
     {
@@ -109,12 +109,12 @@ qx.Class.define("qx.event.type.Data",
     
     
     /**
-     * The old value of the event sending this change event.
+     * The old data of the event sending this change event.
      * The return data type is the same as the event data type.
      *
      * @type member
      * @deprecated
-     * @return {var} The old value of the event
+     * @return {var} The old data of the event
      */
     getOldValue : function() 
     {
