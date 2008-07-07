@@ -56,7 +56,7 @@ qx.Bootstrap.define("qx.xml.Document",
 
         if (qualifiedName)
         {
-          var str = '<?xml version="1.0" encoding="utf-8"?>\n';
+          var str = '<?xml version="1.0" encoding="utf-8"?>\n<';
 
           str += qualifiedName;
 

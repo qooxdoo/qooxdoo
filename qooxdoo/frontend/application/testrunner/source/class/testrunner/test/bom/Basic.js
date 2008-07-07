@@ -85,7 +85,7 @@ qx.Class.define("testrunner.test.bom.Basic",
       this.assertEquals(true, attrib.get(document.getElementById("test5"), "readonly"));
 
       this.info("test6");
-      this.assertEquals("../foo.html", attrib.get(document.getElementById("test6"), "href"));
+      this.assert(qx.lang.String.endsWith(attrib.get(document.getElementById("test6"), "href"), "/foo.html"));
       //this.assertEquals("", attrib.get(document.getElementById("test6"), "style"));
       //this.assertEquals("", util.getCss(document.getElementById("test6")));
 
