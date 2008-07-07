@@ -36,38 +36,16 @@ qx.Class.define("demobrowser.demo.widget.List",
     main: function()
     {
       this.base(arguments);
-      
-      ////////////////////////////////////////////////////////////////
-      // Selection mode "one" demo list
-      var oneLabel = new qx.ui.basic.Label("One as selection mode");
-      oneLabel.setFont("bold");
-      this.getRoot().add(oneLabel, {left: 330, top: 20});
-      
-      var oneList = new qx.ui.form.List();
-      oneList.set({ height: 280, width: 150, selectionMode : "one" });
-      var item;
-      for( var i=1; i<=25; i++ )
-      {
-        item = new qx.ui.form.ListItem("Item No " + i, "icon/16/places/folder.png");
-        // Pre-Select "Item No 16"
-        if (i==16) {
-          oneList.select(item);
-        }
-        oneList.add(item);
-      };
-      this.getRoot().add(oneList, {left: 330, top: 40});
-      ////////////////////////////////////////////////////////////////
-
 
       ////////////////////////////////////////////////////////////////
       // Configurable list
       var configureLabel = new qx.ui.basic.Label("Configurable");
       configureLabel.setFont("bold");
       this.getRoot().add(configureLabel, {left: 20, top: 20});
-      
-      var l1 = new qx.ui.form.List;
 
-      l1.set({ height: 280, width: 150, selectionMode : "multi" });
+      var configList = new qx.ui.form.List;
+
+      configList.set({ height: 280, width: 150, selectionMode : "multi" });
 
       var item;
       for( var i=1; i<=25; i++ )
@@ -78,15 +56,19 @@ qx.Class.define("demobrowser.demo.widget.List",
 
         // Pre-Select "Item No 20"
         if (i==20) {
-          l1.select(item);
+          configList.select(item);
         }
 
-        l1.add(item);
+        configList.add(item);
       };
 
-      this.getRoot().add(l1, {left: 20, top: 40});
-      // l1.scrollToY(100);
-      
+      configList.addListener("changeValue", function(e) {
+        this.debug("Value: " + e.getData());
+      });
+
+      this.getRoot().add(configList, {left: 20, top: 40});
+      // configList.scrollToY(100);
+
       // Configure Elements
       var mode1 = new qx.ui.form.RadioButton("Single Selection");
       var mode2 = new qx.ui.form.RadioButton("Multi Selection");
@@ -104,11 +86,11 @@ qx.Class.define("demobrowser.demo.widget.List",
       this.getRoot().add(mode2, {left: 180, top: 60});
       this.getRoot().add(mode3, {left: 180, top: 80});
       this.getRoot().add(mode4, {left: 180, top: 100});
-      
+
       var rbm = new qx.ui.core.RadioManager(mode1, mode2, mode3, mode4);
 
       rbm.addListener("changeValue", function(e) {
-        l1.setSelectionMode(e.getData());
+        configList.setSelectionMode(e.getData());
       });
 
       var show1 = new qx.ui.form.RadioButton("Show Label");
@@ -129,8 +111,8 @@ qx.Class.define("demobrowser.demo.widget.List",
 
       rbm.addListener("changeValue", function(e)
       {
-        for( var i=0; i<l1.getChildren().length; i++ ) {
-          l1.getChildren()[i].setShow(e.getData());
+        for( var i=0; i<configList.getChildren().length; i++ ) {
+          configList.getChildren()[i].setShow(e.getData());
         }
       });
 
@@ -140,10 +122,35 @@ qx.Class.define("demobrowser.demo.widget.List",
       this.getRoot().add(drag1, {left: 180, top: 220});
 
       drag1.addListener("change", function(e) {
-        l1.setDragSelection(e.getData());
+        configList.setDragSelection(e.getData());
       });
       ////////////////////////////////////////////////////////////////
 
+
+
+      ////////////////////////////////////////////////////////////////
+      // Selection mode "one" demo list
+      var oneLabel = new qx.ui.basic.Label("One as selection mode");
+      oneLabel.setFont("bold");
+      this.getRoot().add(oneLabel, {left: 330, top: 20});
+
+      var oneList = new qx.ui.form.List();
+      oneList.set({ height: 280, width: 150, selectionMode : "one" });
+      var item;
+      for( var i=1; i<=25; i++ )
+      {
+        item = new qx.ui.form.ListItem("Item No " + i, "icon/16/places/folder.png");
+
+        // Pre-Select "Item No 16"
+        if (i==16) {
+          oneList.select(item);
+        }
+
+        oneList.add(item);
+      };
+
+      this.getRoot().add(oneList, {left: 330, top: 40});
+      ////////////////////////////////////////////////////////////////
 
 
 
@@ -152,10 +159,10 @@ qx.Class.define("demobrowser.demo.widget.List",
       var configureLabel = new qx.ui.basic.Label("Styled");
       configureLabel.setFont("bold");
       this.getRoot().add(configureLabel, {left: 500, top: 20});
-      
-      var l2 = new qx.ui.form.List;
 
-      l2.set({ width: 150, selectionMode : "one", spacing : 1 });
+      var styledList = new qx.ui.form.List;
+
+      styledList.set({ width: 150, selectionMode : "one", spacing : 1 });
 
       var l2l = [ "black", "silver", "gray", "maroon",
         "red", "purple", "fuchsia", "green", "lime", "olive",
@@ -168,18 +175,14 @@ qx.Class.define("demobrowser.demo.widget.List",
       {
         var decorator = new qx.ui.decoration.Single();
         decorator.set({widthLeft:16, style:"solid", color:l2l[i]});
-        
+
         item2 = new qx.ui.form.ListItem(l2l[i]);
         item2.setDecorator(decorator);
 
-        l2.add(item2);
+        styledList.add(item2);
       };
-      
-      l2.addListener("changeValue", function(e) {
-        this.debug("Value: " + e.getData());
-      });
 
-      this.getRoot().add(l2, {left: 500, top: 40});
+      this.getRoot().add(styledList, {left: 500, top: 40});
       ////////////////////////////////////////////////////////////////
 
 
@@ -190,11 +193,11 @@ qx.Class.define("demobrowser.demo.widget.List",
       var configureLabel = new qx.ui.basic.Label("Additive selection");
       configureLabel.setFont("bold");
       this.getRoot().add(configureLabel, {left: 670, top: 20});
-      
-      var l3 = new qx.ui.form.List;
+
+      var additiveList = new qx.ui.form.List;
       var item3;
 
-      l3.set({ width: 150, selectionMode : "additive" });
+      additiveList.set({ width: 150, selectionMode : "additive" });
 
       var l3l = [ "Leon","Lukas","Luca","Finn","Tim","Felix","Jonas","Luis",
       "Maximilian","Julian","Max","Paul","Niclas","Jan","Ben","Elias","Jannick",
@@ -206,14 +209,14 @@ qx.Class.define("demobrowser.demo.widget.List",
       for (var i=0; i<l3l.length; i++)
       {
         item3 = new qx.ui.form.ListItem(l3l[i]);
-        l3.add(item3);
+        additiveList.add(item3);
 
         if (i==10||i==12||i==16) {
-          l3.addToSelection(item3);
+          additiveList.addToSelection(item3);
         }
       };
 
-      this.getRoot().add(l3, {left: 670, top: 40});
+      this.getRoot().add(additiveList, {left: 670, top: 40});
       ////////////////////////////////////////////////////////////////
 
 
@@ -224,7 +227,7 @@ qx.Class.define("demobrowser.demo.widget.List",
       var configureLabel = new qx.ui.basic.Label("Horizontal, Icons only");
       configureLabel.setFont("bold");
       this.getRoot().add(configureLabel, {left: 20, top: 350});
-      
+
       var l4 = new qx.ui.form.List(true);
       var item4;
 
