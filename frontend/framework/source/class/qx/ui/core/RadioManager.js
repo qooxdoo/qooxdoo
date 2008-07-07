@@ -29,6 +29,8 @@
 qx.Class.define("qx.ui.core.RadioManager",
 {
   extend : qx.core.Object,
+  implement : qx.ui.core.IFormElement,
+  
 
 
   /*
@@ -43,15 +45,12 @@ qx.Class.define("qx.ui.core.RadioManager",
    */
   construct : function(varargs)
   {
-    // we don't need the manager data structures
     this.base(arguments);
 
     // create item array
-    this._items = [];
+    this.__items = [];
 
-    if (varargs != null)
-    {
-      // add() iterates over arguments, but vMembers is an array
+    if (varargs != null) {
       this.add.apply(this, arguments);
     }
   },
@@ -68,6 +67,17 @@ qx.Class.define("qx.ui.core.RadioManager",
   properties :
   {
     /**
+     * Whether the radio group is enabled
+     */
+    enabled :
+    {
+      check : "Boolean",
+      apply : "_applyEnabled",
+      event : "changeEnabled"
+    },
+    
+    
+    /**
      * The currently selected item of the radio group
      */
     selected :
@@ -76,6 +86,18 @@ qx.Class.define("qx.ui.core.RadioManager",
       apply : "_applySelected",
       event : "change",
       check : "qx.ui.core.IRadioItem"
+    },
+    
+    
+    /**
+     * The name of the radio manager. Mainly used for seralization proposes.
+     */
+    name : 
+    {
+      check : "String",
+      nullable : true,
+      apply : "_applyName",
+      event : "changeName"
     },
 
 
@@ -91,6 +113,20 @@ qx.Class.define("qx.ui.core.RadioManager",
   },
 
 
+
+
+  /*
+  *****************************************************************************
+     EVENTS
+  *****************************************************************************
+  */
+
+  events :
+  {
+    "changeValue" : "qx.event.type.Change"    
+  },
+  
+  
 
 
   /*
@@ -113,23 +149,18 @@ qx.Class.define("qx.ui.core.RadioManager",
      * @return {IRadioItem[]} All managed items
      */
     getItems : function() {
-      return this._items;
+      return this.__items;
     },
 
 
     /**
      * Set the checked state of a given item
      *
-     * @param vItem {IRadioItem} The item to set the checked state of
+     * @param item {IRadioItem} The item to set the checked state of
      * @param vChecked {Boolean} Whether the item should be checked
      */
-    setItemChecked : function(vItem, vChecked)
-    {
-      if (vChecked) {
-        this.setSelected(vItem);
-      } else if (this.getSelected() == vItem) {
-        this.setSelected(null);
-      }
+    select : function(item) {
+      this.setSelected(item);
     },
 
 
@@ -140,13 +171,16 @@ qx.Class.define("qx.ui.core.RadioManager",
      */
     setValue : function(value)
     {
-      var items = this._items;
-      for (var i=0; i<items.length; i++)
+      var items = this.__items;
+      var item;
+      
+      for (var i=0, l=items.length; i<l; i++)
       {
-        var item = items[i];
+        item = items[i];
+        
         if (item.getValue() == value)
         {
-          this.setSelected(item);;
+          this.setSelected(item);
           break;
         }
       }
@@ -162,33 +196,10 @@ qx.Class.define("qx.ui.core.RadioManager",
     getValue : function()
     {
       var selected = this.getSelected();
-      if (selected) {
-        return selected.getValue();
-      } else {
-        return null;
-      }
+      return selected ? selected.getValue() : null;
     },
-
-
-    /**
-     * Set the enabled state of all managed widgets
-     *
-     * @param isEnabled {Boolean|null} The new enabled state of all managed
-     *     widgets. A value of <code>null</code> will reset the enabled state of
-     *     all managed widgets.
-     */
-    setEnabled : function(isEnabled)
-    {
-      var items = this._items;
-      for (var i=0; i<items.length; i++)
-      {
-        if (isEnabled == null) {
-          items[i].resetEnabled();
-        } else {
-          items[i].setEnabled(isEnabled);
-        }
-      }
-    },
+  
+    
 
 
 
@@ -208,53 +219,101 @@ qx.Class.define("qx.ui.core.RadioManager",
      */
     add : function(varargs)
     {
-      var vItems = arguments;
-      var vLength = vItems.length;
-      var vItem;
-
-      for (var i=0; i<vLength; i++)
+      var items = this.__items;
+      var item;
+      
+      for (var i=0, l=arguments.length; i<l; i++)
       {
-        vItem = vItems[i];
-
-        if (qx.lang.Array.contains(this._items, vItem)) {
-          return;
+        item = arguments[i];
+        
+        if (item.getManager() === this) {
+          continue;
         }
+
+        // Register listeners 
+        item.addListener("changeName", this._onChangeName, this);       
+        item.addListener("changeChecked", this._onChangeChecked, this);
 
         // Push RadioButton to array
-        this._items.push(vItem);
+        items.push(item);
 
         // Inform radio button about new manager
-        vItem.setManager(this);
+        item.setManager(this);
 
         // Need to update internal value?
-        if (vItem.getChecked() || this._items.length == 1) {
-          this.setSelected(vItem);
+        if (item.getChecked()) {
+          this.setSelected(item);
         }
       }
+      
+      // Select first item when only one is registered
+      if (items.length > 0 && !this.getSelected()) {
+        this.setSelected(items[0]);
+      }
     },
-
 
 
     /**
      * Remove an item from the radio manager
      *
-     * @param vItem {IRadioItem} The item to remove
+     * @param item {IRadioItem} The item to remove
      */
-    remove : function(vItem)
+    remove : function(item)
     {
-      // Remove RadioButton from array
-      qx.lang.Array.remove(this._items, vItem);
-
-      // Inform radio button about new manager
-      vItem.setManager(null);
-
-      // if the radio was checked, set internal selection to null
-      if (vItem.getChecked()) {
-        this.setSelected(null);
+      if (item.getManager() === this) 
+      {
+        // Remove RadioButton from array
+        qx.lang.Array.remove(this.__items, item);
+  
+        // Inform radio button about new manager
+        item.resetManager();
+        
+        // Deregister listeners        
+        item.removeListener("changeName", this._onChangeName, this);
+        item.removeListener("changeChecked", this._onChangeChecked, this);
+  
+        // if the radio was checked, set internal selection to null
+        if (item.getChecked()) 
+        {
+          this.resetSelected();
+          this.resetValue();
+        }
       }
     },
 
 
+
+    /*
+    ---------------------------------------------------------------------------
+      LISTENER FOR ITEM CHANGES
+    ---------------------------------------------------------------------------
+    */
+    
+    _onChangeName : function(e)
+    {
+      var name = e.getValue();
+      name == null ? this.resetName() : this.setName(name);
+    },    
+    
+    _onChangeValue : function(e)
+    {
+      var target = e.getTarget();
+      if (target == this.getChecked()) {
+        this.setValue(target.getValue());
+      }
+    },
+    
+    _onChangeChecked : function(e)
+    {
+      var item = e.getTarget();
+      if (item.getChecked()) {
+        this.setSelected(item); 
+      } else if (this.getSelected() == item) {
+        this.resetSelected();
+      }
+    },
+    
+    
 
 
     /*
@@ -279,6 +338,52 @@ qx.Class.define("qx.ui.core.RadioManager",
           value.focus(); 
         }
       }
+      
+      // Fire value change event
+      var oldValue = old ? old.getValue() : null;
+      var newValue = value ? value.getValue() : null;
+      
+      if (oldValue != newValue) {
+        this.fireNonBubblingEvent("changeValue", qx.event.type.Change, [newValue, oldValue]); 
+      }
+    },
+    
+    
+    // property apply
+    _applyEnabled : function(value, old)
+    {
+      var items = this.__items;
+      if (value == null) 
+      {
+        for (var i=0, l=items.length; i<l; i++) {
+          items[i].resetEnabled();
+        }
+      }
+      else
+      {
+        for (var i=0, l=items.length; i<l; i++) {
+          items[i].setEnabled(true);
+        }
+      }
+    },
+    
+    
+    // property apply
+    _applyName : function(value, old)
+    {
+      var items = this.__items;
+      if (value == null) 
+      {
+        for (var i=0, l=items.length; i<l; i++) {
+          items[i].resetName();
+        }
+      }
+      else
+      {
+        for (var i=0, l=items.length; i<l; i++) {
+          items[i].setName(value);
+        }
+      }      
     },
 
 
@@ -293,77 +398,66 @@ qx.Class.define("qx.ui.core.RadioManager",
     /**
      * Select the item following the given item
      *
-     * @param vItem {IRadioItem} The item to select the next item of
+     * @param item {IRadioItem} The item to select the next item of
      */
-    selectNext : function(vItem)
+    selectNext : function(item)
     {
-      var vIndex = this._items.indexOf(vItem);
-
-      if (vIndex == -1) {
+      var items = this.__items;
+      var index = items.indexOf(item);
+      if (index == -1) {
         return;
       }
 
       var i = 0;
-      var vLength = this._items.length;
+      var length = items.length;
 
       // Find next enabled item
       if (this.getWrap()) {
-        vIndex = (vIndex + 1) % vLength;
+        index = (index + 1) % length;
       } else {
-        vIndex = Math.min(vIndex + 1, vLength - 1);
+        index = Math.min(index + 1, length - 1);
       }
 
-      while (i < vLength && !this._items[vIndex].getEnabled())
+      while (i < length && !items[index].getEnabled())
       {
-        vIndex = (vIndex + 1) % vLength;
+        index = (index + 1) % length;
         i++;
       }
 
-      this._selectByIndex(vIndex);
+      this.setSelected(items[index]);
     },
 
 
     /**
      * Select the item previous the given item
      *
-     * @param vItem {IRadioItem} The item to select the previous item of
+     * @param item {IRadioItem} The item to select the previous item of
      */
-    selectPrevious : function(vItem)
+    selectPrevious : function(item)
     {
-      var vIndex = this._items.indexOf(vItem);
-
-      if (vIndex == -1) {
+      var items = this.__items;
+      var index = items.indexOf(item);
+      if (index == -1) {
         return;
       }
 
       var i = 0;
-      var vLength = this._items.length;
+      var length = items.length;
 
       // Find previous enabled item
       if (this.getWrap()) {
-        vIndex = (vIndex - 1 + vLength) % vLength;
+        index = (index - 1 + length) % length;
       } else {
-        vIndex = Math.max(vIndex - 1, 0);
+        index = Math.max(index - 1, 0);
       }
 
-      while (i < vLength && !this._items[vIndex].getEnabled())
+      while (i < length && !items[index].getEnabled())
       {
-        vIndex = (vIndex - 1 + vLength) % vLength;
+        index = (index - 1 + length) % length;
         i++;
       }
 
-      this._selectByIndex(vIndex);
-    },
-
-
-
-    /**
-     * Select an item by its internal index
-     *
-     * @param vIndex {Integer} The index if the item to select.
-     */
-    _selectByIndex : function(vIndex) {
-      this.setSelected(this._items[vIndex]);
+      this.setSelected(items[index]);
     }
   },
 
@@ -377,6 +471,6 @@ qx.Class.define("qx.ui.core.RadioManager",
   */
 
   destruct : function() {
-    this._disposeArray("_items");
+    this._disposeArray("__items");
   }
 });
