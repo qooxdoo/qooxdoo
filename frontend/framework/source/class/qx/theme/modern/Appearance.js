@@ -664,7 +664,12 @@ qx.Theme.define("qx.theme.modern.Appearance",
 
         marginTop = 0;
         marginBottom = 0;
-        decorator = "tabview-page-button";
+        decorator = new qx.ui.decoration.Single();
+        decorator.set({
+          width : 1,
+          style : "solid",
+          color : "tabview-border"  
+        });
 
         if (states.checked)
         {

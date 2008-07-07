@@ -494,18 +494,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
       }
     },
     
-    "tabview-page-button" :
-    {
-      decorator : qx.ui.decoration.Single,
-      
-      style :
-      {
-        width : 1,
-        style : "solid",
-        color : "tabview-border"
-      }
-    },
-    
     
     /*
     ---------------------------------------------------------------------------
