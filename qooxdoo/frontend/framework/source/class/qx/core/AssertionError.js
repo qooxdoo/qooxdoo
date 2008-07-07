@@ -41,43 +41,12 @@ qx.Class.define("qx.core.AssertionError",
   construct : function(comment, failMessage)
   {
     Error.call(this, failMessage);
-    this.setComment(comment || "");
-    this.setMessage(failMessage || "");
+
+    this._comment = comment || "";
+    this._msg = failMessage || "";
 
     this._trace = qx.dev.StackTrace.getStackTrace();
   },
-
-
-
-
-
-  /*
-  *****************************************************************************
-     PROPERTIES
-  *****************************************************************************
-  */
-
-  properties :
-  {
-    /**
-     * Comment passed to the assertion call
-     */
-    comment :
-    {
-      check : "String",
-      init  : ""
-    },
-
-    /**
-     *  Fail message provided by the assertion
-     */
-    message :
-    {
-      check : "String",
-      init  : ""
-    }
-  },
-
 
 
 
@@ -90,12 +59,32 @@ qx.Class.define("qx.core.AssertionError",
   members :
   {
     /**
+     * Comment passed to the assertion call
+     *
+     * @return {String} The comment passed to the assertion call
+     */
+    getComment : function() {
+      return this._comment;
+    },
+
+
+    /**
+     *  Fail message provided by the assertion
+     *
+     *  @return {String} Fail message provided by the assertion
+     */
+    message : function() {
+      return this._msg;
+    },
+
+
+    /**
      * Get the error message
      *
      * @return {String} The error message
      */
     toString : function() {
-      return this.getComment() + ": " + this.getMessage();
+      return this._comment + ": " + this._msg;
     },
 
 
@@ -108,20 +97,4 @@ qx.Class.define("qx.core.AssertionError",
       return this._trace;
     }
   }
-
-
-  /*
-   *****************************************************************************
-      DEFER
-   *****************************************************************************
-   */
-/*
-   defer : function(statics)
-   {
-     // add asserts into each debug build
-     if (qx.core.Variant.isSet("qx.debug", "on")) {
-       qx.Class.include(statics, qx.core.MAssert);
-     }
-   }
-   */
 });
