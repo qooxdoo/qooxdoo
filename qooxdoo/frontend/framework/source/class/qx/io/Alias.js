@@ -109,19 +109,20 @@ qx.Class.define("qx.io.Alias",
           if (qx.core.Variant.isSet("qx.client", "mshtml"))
           {
             if (window.location.protocol === "https:")
+            {
               /* 
                * SPECIAL CASE
                * It is valid to to begin a URL with "//" so this case has to
                * be considered. If the to resolved URL begins with "//" the
-               * manager prefixes it with "https:" to avoid any problems for IE 
-               */ 
+               * manager prefixes it with "https:" to avoid any problems for IE
+               */
               if (resolved.match(/^\/\//) == null) {
                 urlPrefix = window.location.href.substring(0, window.location.href.lastIndexOf("/") + 1);
               }
-              else
-              {
+              else {
                 urlPrefix = window.location.protocol;
               }
+            }
           }
           
           dynamics[value] = urlPrefix + resolved + value.substring(alias.length);
