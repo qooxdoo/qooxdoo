@@ -122,6 +122,21 @@ qx.Theme.define("qx.theme.modern.Decoration",
         innerColor : [ "border-dark", "border-light-shadow", "border-light-shadow", "border-dark" ]
       }
     },
+    
+    
+    "focused-inset" :
+    {
+      decorator : qx.ui.decoration.Double,
+
+      style :
+      {
+        width : 1,
+        innerWidth: 1,
+        color : [ "border-focused-dark-shadow", "border-focused-light", "border-focused-light", "border-focused-dark-shadow" ],
+        innerColor : [ "border-focused-dark", "border-focused-light-shadow", "border-focused-light-shadow", "border-focused-dark" ]
+      }
+    },
+
 
     "outset" :
     {
