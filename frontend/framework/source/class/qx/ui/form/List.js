@@ -231,6 +231,13 @@ qx.Class.define("qx.ui.form.List",
     ---------------------------------------------------------------------------
     */
 
+    /**
+     * Returns the stringified value of the list. This is a comma
+     * separated string with all the values (or labels as fallback).
+     *
+     * @type member
+     * @return {String} Value of the list
+     */
     getValue : function()
     {
       var selected = this.getSelection();
@@ -254,6 +261,13 @@ qx.Class.define("qx.ui.form.List",
     },
 
 
+    /**
+     * Applied new selection from a comma separated list of values (labels
+     * as fallback) of the list items.
+     *
+     * @type member
+     * @param value {String} Comma separated list
+     */
     setValue : function(value)
     {
       // Clear current selection
@@ -276,6 +290,29 @@ qx.Class.define("qx.ui.form.List",
       this.replaceSelection(result);
     },
 
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      PUBLIC API
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Used to route external <code>keypress</code> events to the list
+     * handling (in fact the manager of the list)
+     *
+     * @type member
+     * @param e {qx.event.type.KeyEvent} KeyPress event
+     * @return {void}
+     */
+    handleKeyPress : function(e)
+    {
+      if (!this._onKeyPress(e)) {
+        this._getManager().handleKeyPress(e);
+      }
+    },
 
 
 
@@ -320,22 +357,6 @@ qx.Class.define("qx.ui.form.List",
     */
 
     /**
-     * Used to route external <code>keypress</code> events to the list
-     * handling (in fact the manager of the list)
-     *
-     * @type member
-     * @param e {qx.event.type.KeyEvent} KeyPress event
-     * @return {void}
-     */
-    handleKeyPress : function(e)
-    {
-      if (!this._onKeyPress(e)) {
-        this._getManager().handleKeyPress(e);
-      }
-    },
-
-
-    /**
      * Event listener for <code>keypress</code> events.
      *
      * @type member
@@ -359,13 +380,19 @@ qx.Class.define("qx.ui.form.List",
     },
 
 
-
+    /**
+     * Reacts on change event to fire a changeValue event with the
+     * value given through {@link #getValue}.
+     *
+     * @type member
+     */
     _onChange : function()
     {
       if (this.hasListener("changeValue")) {
         this.fireNonBubblingEvent("changeValue", qx.event.type.Data, [this.getValue()]);
       }
     },
+
 
 
 
