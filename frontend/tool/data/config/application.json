@@ -16,6 +16,7 @@
     "build",
     "clean",
     "distclean",
+    "fix",
     "lint",
     "migration",
     "pretty",
@@ -312,6 +313,14 @@
       {
         "command" : "rsync --checksum --compress --recursive --delete --inplace --links --safe-links --exclude .svn ${BUILD_PATH}/* root@qooxdoo.org:/var/www/qooxdoo/demo/${QXVERSION}/${APPLICATION}"
       }
+    },
+
+
+    "fix" :
+    {
+      "extend" : [ "scan-local-lib" ],
+
+      "fix-files" : {}
     },
 
 
