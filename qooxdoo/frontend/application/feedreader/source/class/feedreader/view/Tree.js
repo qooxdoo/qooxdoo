@@ -154,7 +154,7 @@ qx.Class.define("feedreader.view.Tree",
     {
       var feed = e.getTarget();
       var folder = this.getFolder(feed);
-      var state = e.getValue();
+      var state = e.getData();
 
       if (!folder) {
         return;
@@ -213,7 +213,7 @@ qx.Class.define("feedreader.view.Tree",
      */
     _onFeedSelected : function(e)
     {
-      var feed = e.getValue();
+      var feed = e.getData();
 
       if (!feed)
       {

@@ -254,7 +254,7 @@ qx.Class.define("qx.ui.tabview.TabView",
     
     _onChange : function(e)
     {
-      var newButton = e.getValue();
+      var newButton = e.getData();
       var oldButton = e.getOldValue();
 
       if (newButton)

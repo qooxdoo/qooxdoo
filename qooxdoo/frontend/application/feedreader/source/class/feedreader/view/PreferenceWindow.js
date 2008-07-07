@@ -113,7 +113,7 @@ qx.Class.define("feedreader.view.PreferenceWindow",
     _onThemeChange : function(e)
     {
       var mgr = qx.theme.manager.Meta.getInstance();
-      var clazz = qx.Theme.getByName(e.getValue().getValue());
+      var clazz = qx.Theme.getByName(e.getData().getValue());
       mgr.setTheme(clazz);
     }
   }

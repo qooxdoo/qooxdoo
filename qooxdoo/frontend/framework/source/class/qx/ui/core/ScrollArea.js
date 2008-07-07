@@ -374,7 +374,7 @@ qx.Class.define("qx.ui.core.ScrollArea",
      * @return {void}
      */
     _onScrollBarX : function(e) {
-      this._getChildControl("pane").scrollToX(e.getValue());
+      this._getChildControl("pane").scrollToX(e.getData());
     },
 
 
@@ -386,7 +386,7 @@ qx.Class.define("qx.ui.core.ScrollArea",
      * @return {void}
      */
     _onScrollBarY : function(e) {
-      this._getChildControl("pane").scrollToY(e.getValue());
+      this._getChildControl("pane").scrollToY(e.getData());
     },
     
     
@@ -398,7 +398,7 @@ qx.Class.define("qx.ui.core.ScrollArea",
      * @return {void}
      */    
     _onScrollPaneX : function(e) {
-      this.scrollToX(e.getValue());
+      this.scrollToX(e.getData());
     },
     
     
@@ -410,7 +410,7 @@ qx.Class.define("qx.ui.core.ScrollArea",
      * @return {void}
      */    
     _onScrollPaneY : function(e) {
-      this.scrollToY(e.getValue());
+      this.scrollToY(e.getData());
     },
     
 

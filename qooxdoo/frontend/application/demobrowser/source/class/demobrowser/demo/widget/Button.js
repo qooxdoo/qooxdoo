@@ -52,7 +52,7 @@ qx.Class.define("demobrowser.demo.widget.Button",
       container.add(btn3);
 
       btn3.addListener("change", function(e) {
-        this.debug("Checked: " + e.getValue());
+        this.debug("Checked: " + e.getData());
       }, this);
     }
   }

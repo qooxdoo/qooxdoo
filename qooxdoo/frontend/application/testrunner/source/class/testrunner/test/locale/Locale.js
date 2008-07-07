@@ -85,7 +85,7 @@ qx.Class.define("testrunner.test.locale.Locale",
       var evtLocale = "";
       manager.addListener("changeLocale", function(e) {
         fired = true;
-        evtLocale = e.getValue();
+        evtLocale = e.getData();
       });
 
       // change locale

@@ -68,7 +68,7 @@ qx.Class.define("demobrowser.demo.widget.GroupBox",
 
       // Add a listener to the checkbox
       box2.getLegendObject().addListener("change", function(e) {
-        textField.setEnabled(e.getValue());
+        textField.setEnabled(e.getData());
       }, this);
 
       // create the third group box
@@ -92,7 +92,7 @@ qx.Class.define("demobrowser.demo.widget.GroupBox",
 
       // Add a listener to the radio button
       box3.addListener("change", function(e) {
-        textField2.setEnabled(e.getValue());
+        textField2.setEnabled(e.getData());
       }, this);
 
     }

@@ -150,7 +150,7 @@ qx.Class.define("feedreader.Application",
      */
     _onSelectFeed : function(e)
     {
-      var feed = e.getValue();
+      var feed = e.getData();
       var oldFeed = e.getOldValue();
 
       if (oldFeed) {
@@ -176,7 +176,7 @@ qx.Class.define("feedreader.Application",
      */
     _onSelectArticle : function(e)
     {
-      var article = e.getValue();
+      var article = e.getData();
       this.setArticle(article);
     },
 

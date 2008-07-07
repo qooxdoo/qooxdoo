@@ -59,7 +59,7 @@ qx.Class.define("qx.ui.groupbox.RadioGroupBox",
     },
     
     _onChange : function(e) {
-      this.fireNonBubblingEvent("change", qx.event.type.Data, [e.getValue()]); 
+      this.fireNonBubblingEvent("change", qx.event.type.Data, [e.getData()]); 
     }
   }
 });

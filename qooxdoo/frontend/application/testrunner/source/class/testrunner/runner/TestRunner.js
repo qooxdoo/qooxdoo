@@ -128,7 +128,7 @@ qx.Class.define("testrunner.runner.TestRunner",
     // add eventhandler now, after objects are created
     this.widgets["treeview"].getBar().getManager().addListener("changeSelected", function(e)
     {
-      if (e.getValue().getUserData('tree').getSelectedElement() == null) {
+      if (e.getData().getUserData('tree').getSelectedElement() == null) {
         this.widgets["toolbar.runbutton"].setEnabled(false);
       }
     },
