@@ -69,9 +69,9 @@ qx.Class.define("qx.core.AssertionError",
 
 
     /**
-     *  Fail message provided by the assertion
+     * Fail message provided by the assertion
      *
-     *  @return {String} Fail message provided by the assertion
+     * @return {String} Fail message provided by the assertion
      */
     message : function() {
       return this._msg;
