@@ -21,7 +21,7 @@
 /* ************************************************************************
 
 #optional(qx.Interface)
-#use(qx.event.type.Change)
+#use(qx.event.type.Data)
 #use(qx.event.dispatch.Direct)
 
 ************************************************************************ */
@@ -69,7 +69,7 @@
  *   </td></tr>
  *   <tr><th>event</th><td>String</td><td>
  *     On change of the property value an event with the given name will be dispached. The event type is
- *     {@link qx.event.type.Change}.
+ *     {@link qx.event.type.Data}.
  *   </td></tr>
  *   <tr><th>themeable</th><td>Boolean</td><td>
  *     Whether this property can be set using themes.
@@ -1208,7 +1208,7 @@ qx.Class.define("qx.core.Property",
           code.push(
             "reg = qx.event.Registration;",
             "if(reg.hasListener(this, '", config.event, "')){",
-            "reg.fireEvent(this, '", config.event, "', qx.event.type.Change, [computed, old]", ")}"
+            "reg.fireEvent(this, '", config.event, "', qx.event.type.Data, [computed, old]", ")}"
           );
         }
 

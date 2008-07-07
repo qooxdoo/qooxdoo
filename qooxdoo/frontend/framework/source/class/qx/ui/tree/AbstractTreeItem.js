@@ -294,7 +294,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
     /**
      * Event handler, which listentes to open state changes of the open button
      *
-     * @param e {qx.event.type.Change} The event object
+     * @param e {qx.event.type.Data} The event object
      */
     _onChangeOpen : function(e)
     {

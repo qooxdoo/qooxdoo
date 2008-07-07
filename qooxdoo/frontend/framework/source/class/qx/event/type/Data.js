@@ -57,7 +57,7 @@ qx.Class.define("qx.event.type.Data",
      * Get a copy of this object
      *
      * @type member
-     * @param embryo {qx.event.type.Change?null} Optional event class, which will
+     * @param embryo {qx.event.type.Data?null} Optional event class, which will
      *     be configured using the data of this event instance. The event must be
      *     an instance of this event class. If the value is <code>null</code>,
      *     a new pooled instance is created.

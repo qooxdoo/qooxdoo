@@ -357,7 +357,7 @@ qx.Class.define("qx.ui.core.ScrollBar",
     /**
      * Change listener for sider value changes.
      *
-     * @param e {qx.event.type.Change} The change event object
+     * @param e {qx.event.type.Data} The change event object
      * @return {void}
      */
     _onChangeSlider : function(e) {

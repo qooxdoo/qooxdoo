@@ -120,7 +120,7 @@ qx.Class.define("feedreader.view.List",
     /**
      * Event listener. Called if the loading state of the feed changes
      *
-     * @param e {qx.event.type.Change} The change event
+     * @param e {qx.event.type.Data} The change event
      */
     _onFeedStateModified : function(e) {
       this._updateFeedState();

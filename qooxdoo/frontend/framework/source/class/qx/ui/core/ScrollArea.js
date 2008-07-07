@@ -370,7 +370,7 @@ qx.Class.define("qx.ui.core.ScrollArea",
      * Event handler for the scroll event of the horizontal scrollbar
      *
      * @type member
-     * @param e {qx.event.type.Change} The scroll event object
+     * @param e {qx.event.type.Data} The scroll event object
      * @return {void}
      */
     _onScrollBarX : function(e) {
@@ -382,7 +382,7 @@ qx.Class.define("qx.ui.core.ScrollArea",
      * Event handler for the scroll event of the vertical scrollbar
      *
      * @type member
-     * @param e {qx.event.type.Change} The scroll event object
+     * @param e {qx.event.type.Data} The scroll event object
      * @return {void}
      */
     _onScrollBarY : function(e) {
@@ -394,7 +394,7 @@ qx.Class.define("qx.ui.core.ScrollArea",
      * Event handler for the horizontal scroll event of the pane
      *
      * @type member
-     * @param e {qx.event.type.Change} The scroll event object
+     * @param e {qx.event.type.Data} The scroll event object
      * @return {void}
      */    
     _onScrollPaneX : function(e) {
@@ -406,7 +406,7 @@ qx.Class.define("qx.ui.core.ScrollArea",
      * Event handler for the vertical scroll event of the pane
      *
      * @type member
-     * @param e {qx.event.type.Change} The scroll event object
+     * @param e {qx.event.type.Data} The scroll event object
      * @return {void}
      */    
     _onScrollPaneY : function(e) {

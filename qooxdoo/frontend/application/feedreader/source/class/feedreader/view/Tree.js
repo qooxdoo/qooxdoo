@@ -148,7 +148,7 @@ qx.Class.define("feedreader.view.Tree",
     /**
      * Event handler. Called on loading state changes of a feed.
      *
-     * @param e {qx.event.type.Change} The change event
+     * @param e {qx.event.type.Data} The change event
      */
     _onFeedStateModified : function(e)
     {

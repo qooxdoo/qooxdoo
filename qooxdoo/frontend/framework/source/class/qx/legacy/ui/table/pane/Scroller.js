@@ -196,10 +196,10 @@ qx.Class.define("qx.legacy.ui.table.pane.Scroller",
   events :
   {
     /** Dispatched if the pane is scrolled horizontally */
-    "changeScrollY" : "qx.event.type.Change",
+    "changeScrollY" : "qx.event.type.Data",
 
     /** Dispatched if the pane is scrolled vertically */
-    "changeScrollX" : "qx.event.type.Change",
+    "changeScrollX" : "qx.event.type.Data",
 
     /**See {@link qx.legacy.ui.table.Table#cellClick}.*/
     "cellClick" : "qx.legacy.ui.table.pane.CellEvent",
