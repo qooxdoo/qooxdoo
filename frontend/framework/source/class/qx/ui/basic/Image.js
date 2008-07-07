@@ -246,7 +246,11 @@ qx.Class.define("qx.ui.basic.Image",
           }
         }
 
-        qx.io2.ImageLoader.load(source, this.__loaderCallback, this);
+        // only try to load the image if it not already failed
+        if(!qx.io2.ImageLoader.isFailed(source))
+        {
+          qx.io2.ImageLoader.load(source, this.__loaderCallback, this);
+        }
       }
     },
 
