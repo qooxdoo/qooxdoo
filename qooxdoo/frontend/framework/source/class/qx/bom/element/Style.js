@@ -117,10 +117,12 @@ qx.Class.define("qx.bom.element.Style",
       forceString : qx.core.Variant.select("qx.client", {
         "mshtml" : {
           backgroundColor : 1,
-          color : 1
-        },
-        "gecko" : {
-          borderStyleTop : 1
+          color : 1,
+          borderTopColor : 1,
+          borderRightColor : 1,
+          borderBottomColor : 1,
+          borderLeftColor : 1,
+          borderColor : 1
         },
         "default" : {}
       })
