@@ -63,10 +63,17 @@ qx.Class.define("qx.bom.element.Background",
         var position = (left == null ? "0px" : left + "px") + " " + (top == null ? "0px" : top + "px")
       }
       
+      // for IE check the given url for "HTTPS" to avoid "Mixed content" warnings
+      var backgroundImageUrl = qx.util.ResourceManager.toUri(source);
+      if (qx.core.Variant.isSet("qx.client", "mshtml"))
+      {
+        backgroundImageUrl = this.__checkImageUrl(backgroundImageUrl);
+      }
+      
       // Updating template
       var tmpl = this.__tmpl;
       
-      tmpl[1] = qx.util.ResourceManager.toUri(source);
+      tmpl[1] = backgroundImageUrl;
       tmpl[4] = position;
       tmpl[7] = repeat;
 
@@ -96,9 +103,16 @@ qx.Class.define("qx.bom.element.Background",
       if (left != null || top != null) {
         var position = (left == null ? "0px" : left + "px") + " " + (top == null ? "0px" : top + "px")
       }
-
+      
+      // for IE check the given url for "HTTPS" to avoid "Mixed content" warnings
+      var backgroundImageUrl = qx.util.ResourceManager.toUri(source);
+      if (qx.core.Variant.isSet("qx.client", "mshtml"))
+      {
+        backgroundImageUrl = this.__checkImageUrl(backgroundImageUrl);
+      }      
+      
       return {
-        backgroundImage: "url(" + qx.util.ResourceManager.toUri(source) + ")",
+        backgroundImage: "url(" + backgroundImageUrl + ")",
         backgroundPosition: position || null,
         backgroundRepeat: repeat || null
       };
@@ -124,6 +138,45 @@ qx.Class.define("qx.bom.element.Background",
       for (var prop in styles) {
         element.style[prop] = styles[prop];
       }
-    }
+    },
+    
+    /**
+     * 
+     * @param {Object} url
+     */
+    __checkImageUrl : qx.core.Variant.select("qx.client", {
+      "mshtml" : function(url)
+      {
+        var urlPrefix = "";
+            
+        /* 
+         * To avoid a "mixed content" warning in IE when the application is 
+         * delivered via HTTPS a prefix has to be added. This will transform the
+         * relative URL to an absolute one in IE.
+         * Though this warning is only displayed in conjunction with images which 
+         * are referenced as a CSS "background-image", every resource path is 
+         * changed when the application is served with HTTPS.     
+         */
+        if (window.location.protocol === "https:")
+        {
+          /* 
+           * SPECIAL CASE
+           * It is valid to to begin a URL with "//" so this case has to
+           * be considered. If the to URL begins with "//" it get prefixed 
+           * with "https:" to avoid any problems for IE
+           */
+          if (url.match(/^\/\//) == null) {
+            urlPrefix = window.location.href.substring(0, window.location.href.lastIndexOf("/") + 1);
+          }
+          else {
+            urlPrefix = window.location.protocol;
+          }
+        }
+        
+        return urlPrefix + url;
+      },
+      
+      "default" : function(){}
+    })
   }
 });
