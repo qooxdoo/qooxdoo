@@ -20,6 +20,7 @@
     "migration",
     "pretty",
     "profiling",
+    "publish",
     "source",
     "translate"
   ],
@@ -33,6 +34,7 @@
     "QOOXDOO_URI"  : "../${QOOXDOO_PATH}",
     "CACHE"        : "cache",
     "QXTHEME"      : "qx.theme.Classic",
+    "QXVERSION"    : "0.8-alpha2-pre",
     "LOCALES"      : [ "en" ],
     "BUILD_PATH"   : "${ROOT}/build"
   },
@@ -90,7 +92,7 @@
 
       "settings" :
       {
-        "qx.version"     : "0.8-alpha1",
+        "qx.version"     : "${QXVERSION}",
         "qx.theme"       : "${QXTHEME}",
         "qx.application" : "${APPLICATION}.Application"
       }
@@ -300,6 +302,15 @@
       {
         "from-version" : "0.7",
         "migrate-html" : true
+      }
+    },
+
+
+    "publish" : 
+    {
+      "shell" : 
+      {
+        "command" : "rsync --checksum --compress --recursive --delete --inplace --links --safe-links --exclude .svn ${BUILD_PATH}/* root@qooxdoo.org:/var/www/qooxdoo/demo/${QXVERSION}/${APPLICATION}"
       }
     },
 
