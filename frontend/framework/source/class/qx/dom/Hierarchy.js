@@ -62,8 +62,8 @@ qx.Class.define("qx.dom.Hierarchy",
 
       return index;
     },
-    
-    
+
+
     /**
      * Returns the DOM index of the given element (ignoring non-elements)
      *
@@ -76,7 +76,7 @@ qx.Class.define("qx.dom.Hierarchy",
       var index = 0;
       var type = qx.dom.Node.ELEMENT;
 
-      while (element && (element = element.previousSibling)) 
+      while (element && (element = element.previousSibling))
       {
         if (element.nodeType == type) {
           index++;
@@ -145,6 +145,9 @@ qx.Class.define("qx.dom.Hierarchy",
         {
           var doc = qx.dom.Node.getDocument(target);
           return element && doc == element;
+        } else if (qx.dom.Node.isDocument(target))
+        {
+          return false;
         }
         else
         {

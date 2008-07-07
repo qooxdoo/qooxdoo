@@ -741,8 +741,10 @@ qx.Class.define("testrunner.runner.TestRunner",
 
         while (currNode = iter())
         {
-          if (currNode.type && currNode.type == "test");
-          else  // it's a container
+          if (currNode.type && currNode.type == "test")
+          {
+            ;
+          } else  // it's a container
           {
             if (handler.hasTests(currNode))
             {
@@ -1091,6 +1093,11 @@ qx.Class.define("testrunner.runner.TestRunner",
       var iframe = this.iframe;
 
       this.frameWindow = iframe.getContentWindow();
+
+      if (!this.frameWindow.testrunner) {
+        qx.event.Timer.once(this.ehIframeOnLoad, this, 100);
+        return;
+      }
 
       this.loader = this.frameWindow.testrunner.TestLoader.getInstance();
       // TODO: the next line needs re-activation
