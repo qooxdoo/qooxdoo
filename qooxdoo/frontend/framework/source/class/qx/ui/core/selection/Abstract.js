@@ -262,6 +262,46 @@ qx.Class.define("qx.ui.core.selection.Abstract",
 
       this._fireChange();
     },
+    
+    
+    /**
+     * Replaces current selection with the given items
+     *
+     * @type member
+     * @param items {Object} Items to select
+     * @return {void}
+     */    
+    replaceSelection : function(items)
+    {
+      // Remove selection completely
+      this._clearSelection();
+      
+      // Reset anchor and lead item
+      this._setLeadItem(null);
+      this._setAnchorItem(null);
+      
+      // Add given items to selection
+      for (var i=0, l=items.length; i<l; i++) {
+        this._addToSelection(items[i]); 
+      }
+      
+      // Scroll last item into view
+      if (l > 0) {
+        this._scrollItemIntoView(items[l-1]);
+      }
+      
+      // Correcting selection when 'one' mode is active
+      else if (this.getMode() == "one") 
+      {
+        var firstItem = this.getFirstSelectable();
+        if (firstItem) {
+          this._addToSelection(firstItem);
+        }
+      }
+      
+      // Finally fire change event
+      this._fireChange();
+    },
 
 
     /**

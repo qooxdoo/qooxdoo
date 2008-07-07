@@ -212,6 +212,18 @@ qx.Mixin.define("qx.ui.core.MSelectionHandling",
     clearSelection : function() {
       this.__manager.clearSelection();
     },
+    
+    
+    /**
+     * Replaces current selection with the given items
+     *
+     * @type member
+     * @param items {Object} Items to select
+     * @return {void}
+     */    
+    replaceSelection : function(items) {
+      this.__manager.replaceSelection(items);
+    },
 
 
     /**
