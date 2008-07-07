@@ -176,7 +176,7 @@ qx.Class.define("qx.ui.form.RepeatButton",
     release : function(fireExecuteEvent)
     {
       // only if the button is enabled
-      if (this.isEnabled()) {
+      if (!this.isEnabled()) {
         return;  
       }
       
@@ -425,7 +425,7 @@ qx.Class.define("qx.ui.form.RepeatButton",
       // reduce the current interval
       this._currentInterval = (Math.max(this.getMinTimer(), this._currentInterval - this.getTimerDecrease()));
 
-      // restert the timer
+      // restart the timer
       this.__timer.restartWith(this._currentInterval);
 
       // fire the execute event
