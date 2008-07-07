@@ -81,7 +81,7 @@ qx.Class.define("qx.ui.form.Spinner",
     this.addListener("keydown", this._onKeyDown, this);
     this.addListener("keyup", this._onKeyUp, this);
     this.addListener("mousewheel", this._onMouseWheel, this);
-    
+
     // CREATE CONTROLS
     this._createChildControl("textfield");
     this._createChildControl("upbutton");
@@ -97,9 +97,9 @@ qx.Class.define("qx.ui.form.Spinner",
     }
 
     if (vValue != null) {
-      this.setValue(vValue);   
+      this.setValue(vValue);
     } else {
-      this.initValue(); 
+      this.initValue();
     }
   },
 
@@ -266,14 +266,14 @@ qx.Class.define("qx.ui.form.Spinner",
           this._add(control, {column:1, row: 1});
           break;
       }
-      
+
       return control || this.base(arguments, id);
     },
-    
-    
+
+
     // overridden
     _forwardStates : {
-      focused : true      
+      focused : true
     },
 
 
@@ -281,15 +281,15 @@ qx.Class.define("qx.ui.form.Spinner",
     _getStyleTarget : function() {
       return this._getChildControl("textfield");
     },
-    
-    
-    // overridden 
+
+
+    // overridden
     tabFocus : function() {
       this._getChildControl("textfield").getFocusElement().focus();
     },
-    
-    
-    
+
+
+
 
 
     /*
@@ -375,11 +375,11 @@ qx.Class.define("qx.ui.form.Spinner",
       else
       {
         // only disable the buttons if wrapping is disabled
-        if (!this.getWrap()) { 
+        if (!this.getWrap()) {
           downButton.setEnabled(false);
         }
       }
-      
+
       // save the last valid value of the spinner
       this._lastValidValue = value;
 
@@ -512,7 +512,7 @@ qx.Class.define("qx.ui.form.Spinner",
           this._getChildControl("upbutton").release();
           this._pageUpMode = false;
           break;
-          
+
         case "Up":
           this._getChildControl("upbutton").release();
           break;
@@ -521,7 +521,7 @@ qx.Class.define("qx.ui.form.Spinner",
           this._getChildControl("downbutton").release();
           this._pageDownMode = false;
           break;
-          
+
         case "Down":
           this._getChildControl("downbutton").release();
           break;
@@ -551,7 +551,7 @@ qx.Class.define("qx.ui.form.Spinner",
         wheelIncrement = wheelIncrement <= 0 ? -1 : 1;
       }
 
-      this.setValue(this.getValue() + wheelIncrement * this.getSingleStep());
+      this.gotoValue(this.getValue() + wheelIncrement * this.getSingleStep());
       e.stopPropagation();
     },
 
@@ -587,33 +587,35 @@ qx.Class.define("qx.ui.form.Spinner",
     */
 
     /**
-     * Checks if the spinner is in page mode and couts  either the single
+     * Checks if the spinner is in page mode and couts either the single
      * or page Step up.
      *
      * @type member
      */
     _countUp: function()
     {
-      if (this._pageUpMode) {        
+      if (this._pageUpMode) {
         var newValue = this.getValue() + this.getPageStep();
       } else {
         var newValue = this.getValue() + this.getSingleStep();
       }
-      
+
       // handle the case that wraping is enabled
-      if (this.getWrap()) {
-        if (newValue > this.getMax()) {
-          var dif = this.getMax() - newValue;
-          newValue = this.getMin() + dif;          
+      if (this.getWrap())
+      {
+        if (newValue > this.getMax())
+        {
+          var diff = this.getMax() - newValue;
+          newValue = this.getMin() + diff;
         }
       }
-      
-      this.setValue(newValue);
+
+      this.gotoValue(newValue);
     },
 
 
     /**
-     * Checks if the spinner is in page mode and couts  either the single
+     * Checks if the spinner is in page mode and couts either the single
      * or page Step down.
      *
      * @type member
@@ -625,17 +627,25 @@ qx.Class.define("qx.ui.form.Spinner",
       } else {
         var newValue = this.getValue() - this.getSingleStep();
       }
-      
+
       // handle the case that wraping is enabled
-      if (this.getWrap()) {
-        if (newValue < this.getMin()) {
-          var dif = this.getMin() + newValue;
-          newValue = this.getMax() - dif;          
+      if (this.getWrap())
+      {
+        if (newValue < this.getMin())
+        {
+          var diff = this.getMin() + newValue;
+          newValue = this.getMax() - diff;
         }
       }
-      
-      this.setValue(newValue);
+
+      this.gotoValue(newValue);
     },
+
+
+    gotoValue : function(value) {
+      this.setValue(Math.min(this.getMax(), Math.max(this.getMin(), value)));
+    },
+
 
 
 
@@ -673,12 +683,12 @@ qx.Class.define("qx.ui.form.Spinner",
       }
 
       // try to parse the number as a float
-      var value = parseFloat(textField.getValue(), 10);      
+      var value = parseFloat(textField.getValue(), 10);
       // if the result is a number
       if (!isNaN(value))
       {
         // this.warn("value: " + value + "   get: " + this.getValue());
-        if (value == this.getValue()) 
+        if (value == this.getValue())
         {
           // this.warn("textfield: " + textField.getValue());
           textField.setValue(value + "");
