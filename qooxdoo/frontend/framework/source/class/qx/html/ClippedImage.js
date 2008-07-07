@@ -61,28 +61,40 @@ qx.Class.define("qx.html.ClippedImage",
      */
     setSource : function(source, resize)
     {
+      var left, top;
+      var imageLoader = qx.io2.ImageLoader;
+      
+      // TODO: Rework ResourceManager API!
+      
       var data = qx.util.ResourceManager.getData(source);
-      if (!data) {
-        throw new Error("The image '" + source + "' must be registered at qx.util.ResourceManager!");
-      }
-
-      // TODO: Use ImageLoader instead of forced registry!
-
-      this.__width = data[0];
-      this.__height = data[1];
-
-      // Have clipped data available
-      if (data.length > 4)
+      if (data) 
       {
-        source = data[4];
-
-        var left = data[5];
-        var top = data[6];
+        this.__width = data[0];
+        this.__height = data[1];
+  
+        // Have clipped data available
+        if (data.length > 4)
+        {
+          source = data[4];
+  
+          left = data[5];
+          top = data[6];
+        }
+        else
+        {
+          left = 0;
+          top = 0;
+        }
+      }
+      else if (imageLoader.isLoaded(source))
+      {
+        var size = imageLoader.getSize(source);
+        this.__width  = size.width;
+        this.__height = size.height;
       }
       else
       {
-        var left = 0;
-        var top = 0;
+        throw new Error("The image '" + source + "' must be registered at qx.util.ResourceManager!");
       }
 
       var styles = qx.bom.element.Background.getStyles(source, "repeat", left, top);
