@@ -895,6 +895,11 @@ qx.Class.define("qx.ui.form.ComboBox",
           }
 
           break;
+          
+        case "Escape":
+          // stop event to prevent any other widget is reacting on this keypress event 
+          e.stopPropagation();
+          break; 
       }
 
       // Default Handling
