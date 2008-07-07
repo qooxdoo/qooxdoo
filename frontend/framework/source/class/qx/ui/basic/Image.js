@@ -218,14 +218,18 @@ qx.Class.define("qx.ui.basic.Image",
         // Apply source to ClippedImage instance
         el.setSource(source, false);
 
-        // Query dimensions
-        var width = el.getWidth();
-        var height = el.getHeight();
-
         // Compare with old sizes and relayout if necessary
-        this._updateSize(width, height);
+        this._updateSize(el.getWidth(), el.getHeight());
       }
-      else if (this.__preLoading !== source)
+      else if (ImageLoader.isLoaded(source))
+      {
+        // Apply source to ClippedImage instance
+        el.setSource(source, false);        
+        
+        // Compare with old sizes and relayout if necessary
+        this._updateSize(el.getWidth(), el.getHeight());        
+      }
+      else
       {
         if (qx.core.Variant.isSet("qx.debug", "on"))
         {
@@ -242,7 +246,6 @@ qx.Class.define("qx.ui.basic.Image",
           }
         }
 
-        this.__preLoading = source;
         qx.io2.ImageLoader.load(source, this.__loaderCallback, this);
       }
     },
@@ -259,22 +262,17 @@ qx.Class.define("qx.ui.basic.Image",
     __loaderCallback : function(source, size)
     {
       // Ignore when the source has already been modified
-      if (source !== this.__preLoading) {
+      if (source !== this.getSource()) {
         return;
       }
 
-      // Remove flag
-      delete this.__preLoading;
-
       // Dynamically register image
-      if (size) {
-        qx.util.ResourceManager.registerImage(source, size.width, size.height);
-      } else {
+      if (!size) {
         this.warn("Image could not be loaded: " + source);
       }
 
       // Update image (again)
-      this._updateSize(size.width, size.height);
+      this._styleSource();
     },
     
     
