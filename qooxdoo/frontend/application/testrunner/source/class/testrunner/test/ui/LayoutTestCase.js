@@ -90,7 +90,12 @@ qx.Class.define("testrunner.test.ui.LayoutTestCase",
     {
       qx.ui.core.queue.Manager.flush();
       var widgetStyle = widget.getContainerElement().getDomElement().style[style];
-      this.assertEquals(value, widgetStyle);
+
+      if (value && style.match(/color/i)) {
+        this.assertCssColor(value, widgetStyle);
+      } else {
+        this.assertEquals(value, widgetStyle);
+      }
     },
 
 
@@ -98,7 +103,11 @@ qx.Class.define("testrunner.test.ui.LayoutTestCase",
     {
       qx.ui.core.queue.Manager.flush();
       var widgetStyle = widget.getContainerElement().getDomElement().style[style];
-      this.assertEquals(value, widgetStyle);
+      if (value && style.match(/color/i)) {
+        this.assertCssColor(value, widgetStyle);
+      } else {
+        this.assertEquals(value, widgetStyle);
+      }
     },
 
 
@@ -106,7 +115,11 @@ qx.Class.define("testrunner.test.ui.LayoutTestCase",
     {
       qx.ui.core.queue.Manager.flush();
       var widgetStyle = widget._decorationElement.getDomElement().style[style];
-      this.assertEquals(value, widgetStyle);
+      if (value && style.match(/color/i)) {
+        this.assertCssColor(value, widgetStyle);
+      } else {
+        this.assertEquals(value, widgetStyle);
+      }
     }
 
   }

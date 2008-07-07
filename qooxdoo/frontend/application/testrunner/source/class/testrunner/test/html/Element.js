@@ -77,9 +77,9 @@ qx.Class.define("testrunner.test.html.Element",
       el1.setStyle("color", "blue");
       el1.setStyle("width", "100px").setStyle("height", "100px");
 
-      this.assertIdentical(el1.getStyle("color"), "blue");
-      this.assertIdentical(el1.getStyle("width"), "100px");
-      this.assertIdentical(el1.getStyle("height"), "100px");
+      this.assertCssColor("blue", el1.getStyle("color"));
+      this.assertIdentical("100px", el1.getStyle("width"));
+      this.assertIdentical("100px", el1.getStyle("height"));
 
       qx.html.Element.flush();
 
@@ -744,13 +744,13 @@ qx.Class.define("testrunner.test.html.Element",
       el.setStyle("backgroundColor", "green");
 
       qx.html.Element.flush();
-      this.assertIdentical(el.getDomElement().style.backgroundColor, "green");
+      this.assertCssColor("green", el.getDomElement().style.backgroundColor);
 
       el.setStyle("backgroundColor", null);
       el.setStyle("backgroundColor", "yellow");
 
       qx.html.Element.flush();
-      this.assertIdentical(el.getDomElement().style.backgroundColor, "yellow");
+      this.assertCssColor("yellow", el.getDomElement().style.backgroundColor);
 
       el.setStyle("backgroundColor", null);
 

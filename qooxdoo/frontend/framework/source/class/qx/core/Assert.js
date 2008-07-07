@@ -588,6 +588,46 @@ qx.Class.define("qx.core.Assert",
 
 
     /**
+     * Assert that the value represents the given CSS color value. This method
+     * parses the color strings and compares the RGB values. It is able to
+     * parse values supported by {@link qx.util.ColorUtil.stringToRgb}.
+     *
+     *  @param expected {String} The expected color
+     *  @param value {String} The value to check
+     *  @param msg {String} Message to be shown if the assertion fails.
+     */
+    assertCssColor : function(expected, value, msg)
+    {
+      var ColorUtil = qx.util.ColorUtil;
+
+      var expectedRgb = ColorUtil.stringToRgb(expected);
+      try
+      {
+        var valueRgb = ColorUtil.stringToRgb(value);
+      }
+      catch (e)
+      {
+        this.__assert(
+          false,
+          msg || "",
+          qx.lang.String.format(
+              "Expected value to be the CSS color '%1' (rgb(%2)), but found value '%3', which cannot be converted to a CSS color!",
+              [expected, expectedRgb.join(","), value]
+            )
+        );
+      }
+
+      this.__assert(
+        expectedRgb[0] == valueRgb[0] && expectedRgb[1] == valueRgb[1] && expectedRgb[2] == valueRgb[2],
+        msg || "",
+        qx.lang.String.format(
+          "Expected value to be the CSS color '%1' (rgb(%2)), but found value '%3' (rgb(%4))!",
+          [expected, expectedRgb.join(","), value, valueRgb.join(",")]
+        )
+      );
+    },
+
+    /**
      * Assert the the value is an instance of {@link qx.core.Object}.
      *
      * @param value {var} Value to check

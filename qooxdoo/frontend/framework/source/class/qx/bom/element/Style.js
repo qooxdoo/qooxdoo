@@ -111,7 +111,19 @@ qx.Class.define("qx.bom.element.Style",
         boxSizing : 1,
         overflowX : 1,
         overflowY : 1
-      }
+      },
+
+      // force conversion of the property value to string before setting it
+      forceString : qx.core.Variant.select("qx.client", {
+        "mshtml" : {
+          backgroundColor : 1,
+          color : 1
+        },
+        "gecko" : {
+          borderStyleTop : 1
+        },
+        "default" : {}
+      })
     },
 
 
@@ -316,8 +328,12 @@ qx.Class.define("qx.bom.element.Style",
         }
       }
 
+      if (hints.forceString[name]) {
+        value = value.toString();
+      }
+
       // apply style
-      element.style[name] = value !== null ? value + "" : "";
+      element.style[name] = value !== null ? value : "";
     },
 
 
@@ -429,6 +445,12 @@ qx.Class.define("qx.bom.element.Style",
           }
         }
 
+        // if the element is not inserted into the document "currentStyle"
+        // may be undefined. In this case always return the local style.
+        if (!element.currentStyle) {
+          return element.style[name] || "";
+        }
+
         // switch to right mode
         switch(mode)
         {
@@ -436,11 +458,11 @@ qx.Class.define("qx.bom.element.Style",
             return element.style[name] || "";
 
           case this.CASCADED_MODE:
-            return element.currentStyle[name];
+            return element.currentStyle[name] || "";
 
           default:
             // Read cascaded style
-            var currentStyle = element.currentStyle[name];
+            var currentStyle = element.currentStyle[name] || "";
 
             // Pixel values are always OK
             if (/^-?[\.\d]+(px)?$/i.test(currentStyle)) {
@@ -514,12 +536,12 @@ qx.Class.define("qx.bom.element.Style",
         switch(mode)
         {
           case this.LOCAL_MODE:
-            return element.style[name];
+            return element.style[name] || "";
 
           case this.CASCADED_MODE:
             // Currently only supported by Opera and Internet Explorer
             if (element.currentStyle) {
-              return element.currentStyle[name];
+              return element.currentStyle[name] || "";
             }
 
             throw new Error("Cascaded styles are not supported in this browser!");
@@ -545,7 +567,7 @@ qx.Class.define("qx.bom.element.Style",
 
             // All relevant browsers expose the configured style properties to
             // the CSSStyleDeclaration objects
-            return computed ? computed[name] : null;
+            return computed ? computed[name] : "";
         }
       }
     })
