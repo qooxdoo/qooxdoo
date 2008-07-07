@@ -12,6 +12,7 @@
       {
         "APIVIEWER_ROOT" : ".",
         "APIVIEWER"      : "apiviewer",
+        "APPLICATION"    : "apiviewer",
         "QOOXDOO_PATH"   : "../../framework",
         "QOOXDOO_URI"    : "../${QOOXDOO_PATH}",
         "API_INCLUDE"    : ["qx.*"],
