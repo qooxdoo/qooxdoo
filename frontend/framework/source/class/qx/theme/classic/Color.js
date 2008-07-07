@@ -58,6 +58,7 @@ qx.Theme.define("qx.theme.classic.Color",
     "button" : "#EBE9ED",
     "button-hovered" : "#F6F5F7",
     "button-abandoned" : "#F9F8E9",
+    "button-checked" : "#F3F0F5",
 
     "effect" : "#808080",
 
