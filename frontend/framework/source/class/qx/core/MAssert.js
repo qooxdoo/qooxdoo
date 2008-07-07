@@ -405,6 +405,20 @@ qx.Mixin.define("qx.core.MAssert",
 
 
     /**
+     * Assert that the value represents the given CSS color value. This method
+     * parses the color strings and compares the RGB values. It is able to
+     * parse values supported by {@link qx.util.ColorUtil.stringToRgb}.
+     *
+     *  @param expected {String} The expected color
+     *  @param value {String} The value to check
+     *  @param msg {String} Message to be shown if the assertion fails.
+     */
+    assertCssColor : function(expected, value, msg) {
+      qx.core.Assert.assertCssColor(expected, value, msg);
+    },
+
+
+    /**
      * Assert the the value is an instance of {@link qx.core.Object}.
      *
      * @param value {var} Value to check

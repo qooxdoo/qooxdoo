@@ -157,6 +157,7 @@ qx.Class.define("qx.bom.element.BoxSizing",
             }
           }
         }
+        return "";
       }
     }),
 
