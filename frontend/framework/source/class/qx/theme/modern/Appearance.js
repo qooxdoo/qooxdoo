@@ -1242,47 +1242,5 @@ qx.Theme.define("qx.theme.modern.Appearance",
         };
       }
     }
-
-    // TODO: check if this is the right appearance
-    /*"combobox-button" :
-    {
-      style : function(states)
-      {
-        var decorator, textColor;
-
-        if (states.checked && states.focused) {
-          decorator = "button-checked-focused";
-          textColor = "text";
-        } else if (states.checked) {
-          decorator = "button-checked";
-          textColor = "text";
-        } else if (states.pressed) {
-          decorator = "button-pressed";
-          textColor = "#001533";
-        } else if (states.hovered) {
-          decorator = "button-hovered";
-          textColor = "#001533";
-        } else if (states.preselected && states.focused) {
-          decorator = "button-preselected-focused";
-          textColor = "#001533";
-        } else if (states.preselected) {
-          decorator = "button-preselected";
-          textColor = "#001533";
-        } else if (states.focused) {
-          decorator = "button-focused";
-          textColor = "text";
-        } else {
-          decorator = "button";
-          textColor = "text";
-        }
-
-        return {
-          padding    : 2,
-          textColor  : textColor,
-          font       : "default",
-          decorator  : decorator
-        };
-      }
-    }*/
   }
 });
