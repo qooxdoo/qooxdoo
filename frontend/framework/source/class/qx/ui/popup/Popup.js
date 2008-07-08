@@ -51,8 +51,8 @@ qx.Class.define("qx.ui.popup.Popup",
     qx.core.Init.getApplication().getRoot().add(this);
 
     // Resize listener
-    this.addListener("resize", this._onMove);
-    this.addListener("move", this._onMove);
+    this.addListener("resize", this._onResizeOrMove);
+    this.addListener("move", this._onResizeOrMove);
   },
 
 
@@ -219,7 +219,12 @@ qx.Class.define("qx.ui.popup.Popup",
     ---------------------------------------------------------------------------
     */
 
-    _onMove : function(e)
+    /**
+     * Event listener for resize or move events of this widget.
+     *
+     * @param e {qx.event.type.Data} Resize or Move data event
+     */
+    _onResizeOrMove : function(e)
     {
       var bounds = this.getBounds();
 
@@ -244,6 +249,12 @@ qx.Class.define("qx.ui.popup.Popup",
     ---------------------------------------------------------------------------
     */
 
+    /**
+     * Normalizes a left coordinate to move the popup completely into the viewport.
+     *
+     * @param left {Integer} Original left position
+     * @return {Integer} Corrected left position
+     */
     _normalizeLeft : function(left)
     {
       var bounds = this.getBounds();
@@ -263,6 +274,12 @@ qx.Class.define("qx.ui.popup.Popup",
     },
 
 
+    /**
+     * Normalizes a top coordinate to move the popup completely into the viewport.
+     *
+     * @param top {Integer} Original top position
+     * @return {Integer} Corrected top position
+     */
     _normalizeTop : function(top)
     {
       var bounds = this.getBounds();

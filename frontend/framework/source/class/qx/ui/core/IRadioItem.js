@@ -35,6 +35,7 @@ qx.Interface.define("qx.ui.core.IRadioItem",
 
   events :
   {
+    /** Fired when the item was checked or unchecked */
     "changeChecked" : "qx.event.type.Data"
   },
 
