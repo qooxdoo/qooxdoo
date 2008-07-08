@@ -17,6 +17,7 @@
    * Fabian Jakobs (fjakobs)
    * Sebastian Werner (wpbasti)
    * Andreas Ecker (ecker)
+   * Alexander Back (aback)
 
 ************************************************************************* */
 
@@ -105,21 +106,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
       {
         width : 1,
         color : "border-dark-shadow"
-      }
-    },
-
-
-    "inset" :
-    {
-      decorator : qx.ui.decoration.Double,
-
-      style :
-      {
-        width : 1,
-        innerWidth : 1,
-
-        color : [ "border-dark-shadow", "border-light", "border-light", "border-dark-shadow" ],
-        innerColor : [ "border-dark", "border-light-shadow", "border-light-shadow", "border-dark" ]
       }
     },
 
@@ -560,6 +546,29 @@ qx.Theme.define("qx.theme.modern.Decoration",
      }
    },
 
+    
+    /*
+    ---------------------------------------------------------------------------
+      IFRAME
+    ---------------------------------------------------------------------------
+    */
+   
+   "iframe" :
+   {
+     decorator : qx.ui.decoration.Double,
+     
+     style :
+     {
+       width : 1,
+       innerWidth : 1,
+       
+       color : "border",
+       innerColor : "white",
+
+      style : "solid"
+     }
+   },   
+    
 
     /*
     ---------------------------------------------------------------------------
