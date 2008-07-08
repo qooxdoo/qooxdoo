@@ -262,7 +262,7 @@ qx.Class.define("qx.ui.basic.Label",
       }
 
       var styles = font ? font.getStyles() : null;
-      var content = this.getContent() || "";
+      var content = this.getContent() || "A";
       var rich = this.getRich();
 
       this.__contentSize = rich ?

@@ -38,18 +38,19 @@ qx.Class.define("demobrowser.demo.widget.SelectBox",
       box.add(this.createBox1());
       box.add(this.createBox2());
       box.add(this.createBox3());
+      box.add(this.createBox4());
 
       this.getRoot().add(box, {left : 30, top : 25})
     },
-    
-    
+
+
     createBox1 : function()
     {
       var container = new qx.ui.container.Composite(new qx.ui.layout.VBox(2));
       container.add(new qx.ui.basic.Label("Simple"));
-      
+
       var selectBox = new qx.ui.form.SelectBox();
-      for (var i=0; i<30; i++) 
+      for (var i=0; i<30; i++)
       {
         var tempItem = new qx.ui.form.ListItem("Item " + (i+1));
         selectBox.add(tempItem);
@@ -59,21 +60,21 @@ qx.Class.define("demobrowser.demo.widget.SelectBox",
           selectBox.setSelected(tempItem);
         }
       }
-      
+
       container.add(selectBox);
-      
+
       return container;
     },
-    
-    
+
+
     createBox2 : function()
     {
       var container = new qx.ui.container.Composite(new qx.ui.layout.VBox(2));
 
       container.add(new qx.ui.basic.Label("Long text"));
-      
+
       var selectBox = new qx.ui.form.SelectBox();
-      for (var i=0; i<30; i++) 
+      for (var i=0; i<30; i++)
       {
         var tempItem = new qx.ui.form.ListItem("Random Value " + Math.round(Math.random()*100000000));
         selectBox.add(tempItem);
@@ -81,9 +82,9 @@ qx.Class.define("demobrowser.demo.widget.SelectBox",
         if (i == 5) {
         }
       }
-      
+
       container.add(selectBox);
-      
+
       return container;
     },
 
@@ -93,7 +94,7 @@ qx.Class.define("demobrowser.demo.widget.SelectBox",
       var container = new qx.ui.container.Composite(new qx.ui.layout.VBox(2));
 
       container.add(new qx.ui.basic.Label("With icons"));
-      
+
       var iconNames = [ "audio-card.png","audio-input-microphone.png","battery.png",
       "camera-photo.png","camera-web.png","computer.png","display.png",
       "drive-harddisk.png","drive-optical.png","input-keyboard.png",
@@ -109,8 +110,25 @@ qx.Class.define("demobrowser.demo.widget.SelectBox",
       }
 
       container.add(selectBox);
-      
+
       return container;
-    }
+    },
+
+
+    createBox4 : function()
+    {
+      var container = new qx.ui.container.Composite(new qx.ui.layout.VBox(2));
+      container.add(new qx.ui.basic.Label("Simple"));
+
+      var selectBox = new qx.ui.form.SelectBox();
+      selectBox.add(new qx.ui.form.ListItem(""));
+
+      for (var i=0; i<10; i++) {
+        selectBox.add(new qx.ui.form.ListItem("Option " + (i+1)));
+      }
+
+      container.add(selectBox);
+      return container;
+    },
   }
 });
