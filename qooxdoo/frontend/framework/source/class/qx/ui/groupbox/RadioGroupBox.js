@@ -176,7 +176,7 @@ qx.Class.define("qx.ui.groupbox.RadioGroupBox",
     /**
      * Configures the name of the groupbox. Mainly used for serialization proposes.
      *
-     * @param {String} the name to use
+     * @param value {String} the name to use
      * @return {String} the incoming value
      */
     setName : function(value)
@@ -199,7 +199,7 @@ qx.Class.define("qx.ui.groupbox.RadioGroupBox",
     /**
      * Configures the value of the groupbox. Mainly used for serialization proposes.
      *
-     * @param {String} the value to use
+     * @param value {String} the value to use
      * @return {String} the incoming value
      */
     setValue : function(value)
@@ -222,6 +222,7 @@ qx.Class.define("qx.ui.groupbox.RadioGroupBox",
     /**
      * Configures whether the groupbox should be enabled
      *
+     * @param value {String} whether the groupbox should be checked
      * @return {Boolean} the incoming value
      */
     setChecked : function(value)
