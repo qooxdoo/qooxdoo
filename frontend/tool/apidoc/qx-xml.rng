@@ -1,0 +1,570 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<grammar xmlns="http://relaxng.org/ns/structure/1.0" datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes">
+  <!-- Doctree -->
+  <define name="doctree">
+    <element name="doctree">
+      <ref name="attlist.doctree"/>
+      <zeroOrMore>
+        <ref name="packages"/>
+      </zeroOrMore>
+    </element>
+  </define>
+  <define name="attlist.doctree" combine="interleave">
+    <optional>
+      <attribute name="hasWarning">
+        <choice>
+          <value>true</value>
+          <value>false</value>
+        </choice>
+      </attribute>
+    </optional>
+  </define>
+  <define name="packages">
+    <element name="packages">
+      <ref name="attlist.packages"/>
+      <zeroOrMore>
+        <ref name="package"/>
+      </zeroOrMore>
+    </element>
+  </define>
+  <define name="attlist.packages" combine="interleave">
+    <empty/>
+  </define>
+  <define name="package">
+    <element name="package">
+      <ref name="attlist.package"/>
+      <choice>
+        <zeroOrMore>
+          <ref name="packages"/>
+        </zeroOrMore>
+        <group>
+          <optional>
+            <ref name="classes"/>
+          </optional>
+          <optional>
+            <ref name="functions"/>
+          </optional>
+        </group>
+      </choice>
+    </element>
+  </define>
+  <define name="attlist.package" combine="interleave">
+    <attribute name="name"/>
+    <attribute name="packageName"/>
+    <attribute name="fullName"/>
+    <optional>
+      <attribute name="hasWarning">
+        <choice>
+          <value>true</value>
+          <value>false</value>
+        </choice>
+      </attribute>
+    </optional>
+  </define>
+  <define name="classes">
+    <element name="classes">
+      <ref name="attlist.classes"/>
+      <zeroOrMore>
+        <ref name="class"/>
+      </zeroOrMore>
+    </element>
+  </define>
+  <define name="attlist.classes" combine="interleave">
+    <empty/>
+  </define>
+  <define name="functions">
+    <element name="functions">
+      <ref name="attlist.functions"/>
+      <zeroOrMore>
+        <ref name="function"/>
+      </zeroOrMore>
+    </element>
+  </define>
+  <define name="attlist.functions" combine="interleave">
+    <empty/>
+  </define>
+  <!-- Class -->
+  <define name="class">
+    <element name="class">
+      <ref name="attlist.class"/>
+      <interleave>
+        <optional>
+          <ref name="desc"/>
+        </optional>
+        <optional>
+          <ref name="deprecated"/>
+        </optional>
+        <optional>
+          <ref name="superInterfaces"/>
+        </optional>
+        <optional>
+          <ref name="superMixins"/>
+        </optional>
+        <optional>
+          <ref name="constants"/>
+        </optional>
+        <optional>
+          <ref name="constructor"/>
+        </optional>
+        <optional>
+          <ref name="methods-static"/>
+        </optional>
+        <optional>
+          <ref name="events"/>
+        </optional>
+        <optional>
+          <ref name="properties"/>
+        </optional>
+        <optional>
+          <ref name="methods"/>
+        </optional>
+      </interleave>
+    </element>
+  </define>
+  <define name="attlist.class" combine="interleave">
+    <attribute name="name"/>
+    <attribute name="packageName"/>
+    <attribute name="fullName"/>
+    <optional>
+      <attribute name="type">
+        <choice>
+          <value>class</value>
+          <value>interface</value>
+          <value>mixin</value>
+        </choice>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="isStatic">
+        <choice>
+          <value>true</value>
+          <value>false</value>
+        </choice>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="isAbstract">
+        <choice>
+          <value>true</value>
+          <value>false</value>
+        </choice>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="childClasses"/>
+    </optional>
+    <optional>
+      <attribute name="superClass"/>
+    </optional>
+    <optional>
+      <attribute name="implementations"/>
+    </optional>
+    <optional>
+      <attribute name="interfaces"/>
+    </optional>
+    <optional>
+      <attribute name="mixins"/>
+    </optional>
+    <optional>
+      <attribute name="includer"/>
+    </optional>
+    <optional>
+      <attribute name="hasWarning">
+        <choice>
+          <value>true</value>
+          <value>false</value>
+        </choice>
+      </attribute>
+    </optional>
+  </define>
+  <define name="superInterfaces">
+    <element name="superInterfaces">
+      <ref name="attlist.superInterfaces"/>
+      <zeroOrMore>
+        <ref name="interface"/>
+      </zeroOrMore>
+    </element>
+  </define>
+  <define name="attlist.superInterfaces" combine="interleave">
+    <empty/>
+  </define>
+  <define name="superMixins">
+    <element name="superMixins">
+      <ref name="attlist.superMixins"/>
+      <zeroOrMore>
+        <ref name="interface"/>
+      </zeroOrMore>
+    </element>
+  </define>
+  <define name="attlist.superMixins" combine="interleave">
+    <empty/>
+  </define>
+  <define name="constants">
+    <element name="constants">
+      <ref name="attlist.constants"/>
+      <zeroOrMore>
+        <ref name="constant"/>
+      </zeroOrMore>
+    </element>
+  </define>
+  <define name="attlist.constants" combine="interleave">
+    <empty/>
+  </define>
+  <define name="constructor">
+    <element name="constructor">
+      <ref name="attlist.constructor"/>
+      <ref name="method"/>
+    </element>
+  </define>
+  <define name="attlist.constructor" combine="interleave">
+    <empty/>
+  </define>
+  <define name="methods-static">
+    <element name="methods-static">
+      <ref name="attlist.methods-static"/>
+      <zeroOrMore>
+        <ref name="method"/>
+      </zeroOrMore>
+    </element>
+  </define>
+  <define name="attlist.methods-static" combine="interleave">
+    <empty/>
+  </define>
+  <define name="events">
+    <element name="events">
+      <ref name="attlist.events"/>
+      <zeroOrMore>
+        <ref name="event"/>
+      </zeroOrMore>
+    </element>
+  </define>
+  <define name="attlist.events" combine="interleave">
+    <empty/>
+  </define>
+  <define name="properties">
+    <element name="properties">
+      <ref name="attlist.properties"/>
+      <zeroOrMore>
+        <ref name="property"/>
+      </zeroOrMore>
+    </element>
+  </define>
+  <define name="attlist.properties" combine="interleave">
+    <empty/>
+  </define>
+  <define name="methods">
+    <element name="methods">
+      <ref name="attlist.methods"/>
+      <zeroOrMore>
+        <ref name="method"/>
+      </zeroOrMore>
+    </element>
+  </define>
+  <define name="attlist.methods" combine="interleave">
+    <empty/>
+  </define>
+  <!-- Interface -->
+  <define name="interface">
+    <element name="interface">
+      <ref name="attlist.interface"/>
+      <empty/>
+    </element>
+  </define>
+  <define name="attlist.interface" combine="interleave">
+    <attribute name="name"/>
+  </define>
+  <!-- Constant -->
+  <define name="constant">
+    <element name="constant">
+      <ref name="attlist.constant"/>
+      <optional>
+        <ref name="deprecated"/>
+      </optional>
+      <optional>
+        <ref name="desc"/>
+      </optional>
+      <optional>
+        <ref name="types"/>
+      </optional>
+    </element>
+  </define>
+  <define name="attlist.constant" combine="interleave">
+    <attribute name="name"/>
+    <attribute name="value"/>
+    <attribute name="type"/>
+  </define>
+  <!-- Property -->
+  <define name="property">
+    <element name="property">
+      <ref name="attlist.property"/>
+      <optional>
+        <ref name="deprecated"/>
+      </optional>
+      <optional>
+        <ref name="errors"/>
+      </optional>
+    </element>
+  </define>
+  <define name="attlist.property" combine="interleave">
+    <attribute name="name"/>
+    <optional>
+      <attribute name="hasError">
+        <choice>
+          <value>true</value>
+          <value>false</value>
+        </choice>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="docFrom"/>
+    </optional>
+    <optional>
+      <attribute name="overriddenFrom"/>
+    </optional>
+    <optional>
+      <attribute name="hasWarning">
+        <choice>
+          <value>true</value>
+          <value>false</value>
+        </choice>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="defaultValue"/>
+    </optional>
+    <optional>
+      <attribute name="type"/>
+    </optional>
+    <optional>
+      <attribute name="isMixin">
+        <choice>
+          <value>true</value>
+          <value>false</value>
+        </choice>
+      </attribute>
+    </optional>
+  </define>
+  <!-- Method -->
+  <define name="method">
+    <element name="method">
+      <ref name="attlist.method"/>
+      <interleave>
+        <optional>
+          <ref name="deprecated"/>
+        </optional>
+        <optional>
+          <ref name="desc"/>
+        </optional>
+        <optional>
+          <ref name="params"/>
+        </optional>
+        <optional>
+          <ref name="return"/>
+        </optional>
+        <optional>
+          <ref name="errors"/>
+        </optional>
+      </interleave>
+    </element>
+  </define>
+  <define name="attlist.method" combine="interleave">
+    <optional>
+      <attribute name="overriddenFrom"/>
+    </optional>
+    <optional>
+      <attribute name="name"/>
+    </optional>
+    <optional>
+      <attribute name="hasError">
+        <choice>
+          <value>true</value>
+          <value>false</value>
+        </choice>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="isCtor">
+        <choice>
+          <value>true</value>
+          <value>false</value>
+        </choice>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="isStatic">
+        <choice>
+          <value>true</value>
+          <value>false</value>
+        </choice>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="isInternal">
+        <choice>
+          <value>true</value>
+          <value>false</value>
+        </choice>
+      </attribute>
+    </optional>
+    <optional>
+      <attribute name="isMixin">
+        <choice>
+          <value>true</value>
+          <value>false</value>
+        </choice>
+      </attribute>
+    </optional>
+  </define>
+  <define name="params">
+    <element name="params">
+      <ref name="attlist.params"/>
+      <zeroOrMore>
+        <ref name="param"/>
+      </zeroOrMore>
+    </element>
+  </define>
+  <define name="attlist.params" combine="interleave">
+    <empty/>
+  </define>
+  <define name="param">
+    <element name="param">
+      <ref name="attlist.param"/>
+      <optional>
+        <ref name="desc"/>
+      </optional>
+      <optional>
+        <ref name="types"/>
+      </optional>
+    </element>
+  </define>
+  <define name="attlist.param" combine="interleave">
+    <attribute name="name"/>
+  </define>
+  <define name="return">
+    <element name="return">
+      <ref name="attlist.return"/>
+      <optional>
+        <ref name="desc"/>
+      </optional>
+      <optional>
+        <ref name="types"/>
+      </optional>
+    </element>
+  </define>
+  <define name="attlist.return" combine="interleave">
+    <empty/>
+    <optional>
+      <attribute name="defaultValue"/>
+    </optional>
+  </define>
+  <!-- Errors -->
+  <define name="errors">
+    <element name="errors">
+      <ref name="attlist.errors"/>
+      <zeroOrMore>
+        <ref name="error"/>
+      </zeroOrMore>
+    </element>
+  </define>
+  <define name="attlist.errors" combine="interleave">
+    <empty/>
+  </define>
+  <define name="error">
+    <element name="error">
+      <ref name="attlist.error"/>
+      <empty/>
+    </element>
+  </define>
+  <define name="attlist.error" combine="interleave">
+    <attribute name="msg"/>
+    <attribute name="column">
+      <data type="NMTOKEN"/>
+    </attribute>
+    <attribute name="line">
+      <data type="NMTOKEN"/>
+    </attribute>
+  </define>
+  <!-- Misc -->
+  <define name="deprecated">
+    <element name="deprecated">
+      <ref name="attlist.deprecated"/>
+      <optional>
+        <ref name="desc"/>
+      </optional>
+    </element>
+  </define>
+  <define name="attlist.deprecated" combine="interleave">
+    <empty/>
+  </define>
+  <define name="desc">
+    <element name="desc">
+      <ref name="attlist.desc"/>
+      <zeroOrMore>
+        <ref name="text"/>
+      </zeroOrMore>
+    </element>
+  </define>
+  <define name="attlist.desc" combine="interleave">
+    <empty/>
+  </define>
+  <define name="text">
+    <element name="text">
+      <ref name="attlist.text"/>
+      <text/>
+    </element>
+  </define>
+  <define name="attlist.text" combine="interleave">
+    <empty/>
+  </define>
+  <define name="types">
+    <element name="types">
+      <ref name="attlist.types"/>
+      <zeroOrMore>
+        <ref name="entry"/>
+      </zeroOrMore>
+    </element>
+  </define>
+  <define name="attlist.types" combine="interleave">
+    <empty/>
+  </define>
+  <define name="entry">
+    <element name="entry">
+      <ref name="attlist.entry"/>
+      <empty/>
+    </element>
+  </define>
+  <define name="attlist.entry" combine="interleave">
+    <attribute name="type"/>
+  </define>
+  <define name="event">
+    <element name="event">
+      <ref name="attlist.event"/>
+      <optional>
+        <ref name="errors"/>
+      </optional>
+      <optional>
+        <ref name="types"/>
+      </optional>
+      <optional>
+        <ref name="deprecated"/>
+      </optional>
+    </element>
+  </define>
+  <define name="attlist.event" combine="interleave">
+    <attribute name="name"/>
+    <optional>
+      <attribute name="hasError">
+        <choice>
+          <value>true</value>
+          <value>false</value>
+        </choice>
+      </attribute>
+    </optional>
+  </define>
+  <define name="function" combine="choice">
+    <notAllowed/>
+  </define>
+  <start>
+    <ref name="package"/>
+  </start>
+</grammar>
