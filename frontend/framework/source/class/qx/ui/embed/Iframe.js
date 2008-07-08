@@ -67,11 +67,8 @@ qx.Class.define("qx.ui.embed.Iframe",
     this._source = source;
     this.base(arguments);
 
-    this.__block = qx.lang.Function.bind(this.block, this);
-    this.__release = qx.lang.Function.bind(this.release, this);
-    
-    qx.bom.Event.addNativeListener(document, "mousedown", this.__block);
-    qx.bom.Event.addNativeListener(document, "mouseup", this.__release);
+    qx.event.Registration.addListener(document.body, "mousedown", this.block, this, true);
+    qx.event.Registration.addListener(document.body, "mouseup", this.release, this, true);
     
     this._blockerElement = this._createBlockerElement();
     this._containerElement.add(this._blockerElement);
@@ -240,7 +237,6 @@ qx.Class.define("qx.ui.embed.Iframe",
      */
     block : function()
     {
-      this.debug("block called");
       this._blockerElement.setStyle("display", "block");
     },
 
@@ -251,7 +247,6 @@ qx.Class.define("qx.ui.embed.Iframe",
      */
     release : function()
     {
-      this.debug("release called");
       this._blockerElement.setStyle("display", "none");
     },
 
