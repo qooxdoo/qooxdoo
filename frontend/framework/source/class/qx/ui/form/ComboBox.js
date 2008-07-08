@@ -94,7 +94,7 @@ qx.Class.define("qx.ui.form.ComboBox",
           break;
 
         case "button":
-          control = new qx.ui.form.Button(null, "decoration/arrows/down.gif");
+          control = new qx.ui.form.Button();
           control.setFocusable(false);
           control.addListener("activate", this._onActivateButton, this);
           control.addListener("click", this._onClick, this);
