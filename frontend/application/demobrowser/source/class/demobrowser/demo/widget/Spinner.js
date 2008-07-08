@@ -33,7 +33,7 @@ qx.Class.define("demobrowser.demo.widget.Spinner",
       container.add(spinner, {column: 2, row: row});
       container.add(new qx.ui.basic.Label("100"), {column: 3, row: row});
     },
-    
+
     addNonEditableSpinner : function(container, row)
     {
       var spinner = new qx.ui.form.Spinner(0, 50, 100);
@@ -43,7 +43,7 @@ qx.Class.define("demobrowser.demo.widget.Spinner",
       container.add(spinner, {column: 2, row: row});
       container.add(new qx.ui.basic.Label("100"), {column: 3, row: row});
     },
-    
+
     addWrappingSpinner : function(container, row)
     {
       var spinner = new qx.ui.form.Spinner(-30, 30, 30);
@@ -53,7 +53,7 @@ qx.Class.define("demobrowser.demo.widget.Spinner",
       container.add(spinner, {column: 2, row: row});
       container.add(new qx.ui.basic.Label("30"), {column: 3, row: row});
     },
-    
+
     addStyledSpinner : function(container, row)
     {
       var spinner = new qx.ui.form.Spinner().set({
@@ -65,9 +65,9 @@ qx.Class.define("demobrowser.demo.widget.Spinner",
       container.add(new qx.ui.basic.Label("Big font"), {column: 0, row: row});
       container.add(new qx.ui.basic.Label("0"), {column: 1, row: row});
       container.add(spinner, {column: 2, row: row});
-      container.add(new qx.ui.basic.Label("100"), {column: 3, row: row});      
+      container.add(new qx.ui.basic.Label("100"), {column: 3, row: row});
     },
-    
+
     addSteppedSpinner : function(container, row)
     {
       var spinner = new qx.ui.form.Spinner(-3000, 0, 3000).set({
@@ -76,9 +76,9 @@ qx.Class.define("demobrowser.demo.widget.Spinner",
       container.add(new qx.ui.basic.Label("Stepped"), {column: 0, row: row});
       container.add(new qx.ui.basic.Label("-3000"), {column: 1, row: row});
       container.add(spinner, {column: 2, row: row});
-      container.add(new qx.ui.basic.Label("3000"), {column: 3, row: row});       
+      container.add(new qx.ui.basic.Label("3000"), {column: 3, row: row});
     },
-    
+
     addDisabledSpinner : function(container, row)
     {
       var spinner = new qx.ui.form.Spinner;
@@ -86,14 +86,14 @@ qx.Class.define("demobrowser.demo.widget.Spinner",
       container.add(new qx.ui.basic.Label("Disabled"), {column: 0, row: row});
       container.add(new qx.ui.basic.Label("0"), {column: 1, row: row});
       container.add(spinner, {column: 2, row: row});
-      container.add(new qx.ui.basic.Label("100"), {column: 3, row: row++});      
+      container.add(new qx.ui.basic.Label("100"), {column: 3, row: row++});
     },
-    
+
     addFormattedSpinner : function(container, row)
     {
       var spinner = new qx.ui.form.Spinner(0, 2000, 3000);
       spinner.setSingleStep(0.5);
-      
+
       // Number format Test
       var nf = new qx.util.format.NumberFormat();
       nf.setMaximumFractionDigits(2);
@@ -102,9 +102,9 @@ qx.Class.define("demobrowser.demo.widget.Spinner",
       container.add(new qx.ui.basic.Label("Number format"), {column: 0, row: row});
       container.add(new qx.ui.basic.Label("0"), {column: 1, row: row});
       container.add(spinner, {column: 2, row: row});
-      container.add(new qx.ui.basic.Label("3000"), {column: 3, row: row++});      
+      container.add(new qx.ui.basic.Label("3000"), {column: 3, row: row++});
     },
-    
+
     addThemedSpinner : function(container, row)
     {
       var spinner = new qx.ui.form.Spinner(-30, 30, 30);
@@ -112,17 +112,17 @@ qx.Class.define("demobrowser.demo.widget.Spinner",
       container.add(new qx.ui.basic.Label("Styled"), {column: 0, row: row});
       container.add(new qx.ui.basic.Label("-30"), {column: 1, row: row});
       container.add(spinner, {column: 2, row: row});
-      container.add(new qx.ui.basic.Label("30"), {column: 3, row: row});      
-      
+      container.add(new qx.ui.basic.Label("30"), {column: 3, row: row});
+
       var button = new qx.ui.form.ToggleButton("Custom Style");
       button.setAllowGrowY(false);
-      button.addListener("change", function(e) {
+      button.addListener("changeChecked", function(e) {
         spinner.setAppearance(e.getData() ? "colored-spinner" : "spinner");
       });
-      container.add(button, {column: 4, row: row++});      
-    },   
-    
-    
+      container.add(button, {column: 4, row: row++});
+    },
+
+
     main: function()
     {
       this.base(arguments);
@@ -139,7 +139,7 @@ qx.Class.define("demobrowser.demo.widget.Spinner",
 
       this.addSimpleSpinner(container, 0);
       this.addNonEditableSpinner(container, 1);
-      this.addWrappingSpinner(container, 2);    
+      this.addWrappingSpinner(container, 2);
       this.addStyledSpinner(container, 3);
       this.addSteppedSpinner(container, 4);
       this.addDisabledSpinner(container, 5);
@@ -149,13 +149,13 @@ qx.Class.define("demobrowser.demo.widget.Spinner",
       qx.Theme.define("coloredspinner",
       {
         "title" : "Color Spinner Extension",
-        
+
         "appearances" :
         {
-          "colored-spinner" : 
+          "colored-spinner" :
           {
             states : [ "focused", "disabled" ],
-            
+
             style : function(states)
             {
               return {
@@ -166,22 +166,22 @@ qx.Class.define("demobrowser.demo.widget.Spinner",
               };
             }
           },
-          
-          "colored-spinner/textfield" : 
+
+          "colored-spinner/textfield" :
           {
             style : function(states)
             {
               return {
                 padding: [3, 5]
               };
-            }      
+            }
           },
-      
-          "colored-spinner/upbutton" : 
+
+          "colored-spinner/upbutton" :
           {
             alias : "button",
             states : [ "pressed" ],
-            
+
             style : function(states)
             {
               return {
@@ -191,12 +191,12 @@ qx.Class.define("demobrowser.demo.widget.Spinner",
               }
             }
           },
-      
-          "colored-spinner/downbutton" : 
+
+          "colored-spinner/downbutton" :
           {
             alias : "button",
             states : [ "pressed" ],
-            
+
             style : function(states)
             {
               return {
@@ -207,9 +207,9 @@ qx.Class.define("demobrowser.demo.widget.Spinner",
             }
           }
         }
-      });  
-      
-      qx.Theme.include(qx.theme.manager.Appearance.getInstance().getAppearanceTheme(), coloredspinner);    
+      });
+
+      qx.Theme.include(qx.theme.manager.Appearance.getInstance().getAppearanceTheme(), coloredspinner);
     }
   }
 });
