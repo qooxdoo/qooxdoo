@@ -288,7 +288,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
       }
     },
 
-    "button-ckecked-focused" :
+    "button-checked-focused" :
     {
       decorator : qx.ui.decoration.Grid,
 
