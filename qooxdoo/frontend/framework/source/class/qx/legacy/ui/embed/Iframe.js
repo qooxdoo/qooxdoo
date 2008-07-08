@@ -372,12 +372,16 @@ qx.Class.define("qx.legacy.ui.embed.Iframe",
     {
       if (this._blockerNode)
       {
+        // This makes problems under IE7, WinXP (wpbasti)
+        /*
         if (qx.core.Variant.isSet("qx.client", "mshtml"))
         {
           var blockerParent = this.getElement();
           blockerParent.removeChild(this._blockerNode);
           blockerParent.appendChild(this._blockerNode);
         }
+        */
+
         this._blockerNode.style.display = "none";
       }
     },
