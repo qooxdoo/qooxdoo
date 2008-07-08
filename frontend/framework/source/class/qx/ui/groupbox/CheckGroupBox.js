@@ -35,7 +35,8 @@ qx.Class.define("qx.ui.groupbox.CheckGroupBox",
 
   events :
   {
-    change : "qx.event.type.Data"
+    /** Fired when the included checkbox changed its status */
+    "changeChecked" : "qx.event.type.Data"
   },
 
   members :
@@ -50,7 +51,7 @@ qx.Class.define("qx.ui.groupbox.CheckGroupBox",
         case "legend":
           control = new qx.ui.form.CheckBox;
           control.setChecked(true);
-          control.addListener("change", this._onChange, this);
+          control.addListener("changeChecked", this._onChangeCheckbox, this);
 
           this._add(control);
       }
@@ -58,8 +59,20 @@ qx.Class.define("qx.ui.groupbox.CheckGroupBox",
       return control || this.base(arguments, id);
     },
 
-    _onChange : function(e) {
-      this.fireNonBubblingEvent("change", qx.event.type.Data, [e.getData()]);
+
+    /**
+     * Event listener for change event of checkbox
+     *
+     * @param e {qx.event.type.Data} Data event which holds the current status
+     */
+    _onChangeCheckbox : function(e)
+    {
+      // Disable content
+      var checked = e.getData();
+      this.getChildrenContainer().setEnabled(checked);
+
+      // Fire event to the outside
+      this.fireDataEvent("changeChecked", e.getData());
     }
   }
 });
