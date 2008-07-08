@@ -31,6 +31,7 @@ qx.Class.define("qx.ui.form.AbstractField",
 {
   extend : qx.ui.core.Widget,
   implement : qx.ui.core.IFormElement,
+  type : "abstract",
 
 
 

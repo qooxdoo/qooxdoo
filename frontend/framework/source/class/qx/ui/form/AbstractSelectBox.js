@@ -26,6 +26,7 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
 {
   extend  : qx.ui.core.Widget,
   include : qx.ui.core.MRemoteChildrenHandling,
+  type : "abstract",
 
 
 
