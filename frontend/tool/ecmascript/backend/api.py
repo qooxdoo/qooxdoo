@@ -68,7 +68,7 @@ def createDoc(syntaxTree, docTree = None):
     global hasDocError
     ret = (docTree, hasDocError)
     hasDocError = False
-    
+
     return ret
 
 
@@ -471,7 +471,7 @@ def handlePropertyDefinitionNew(propName, propDefinition, classNode):
         event.addChild(typesNode)
         itemNode = tree.Node("entry")
         typesNode.addChild(itemNode)
-        itemNode.set("type", "qx.event.type.ChangeEvent")
+        itemNode.set("type", "qx.event.type.Data")
         classNode.addListChild("events", event)
 
     #checkBasic = None
@@ -1475,4 +1475,3 @@ def classNodeIterator(docTree):
         for child in docTree.children:
             for cls in classNodeIterator(child):
                 yield cls
-    
