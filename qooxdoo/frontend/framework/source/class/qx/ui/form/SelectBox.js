@@ -102,7 +102,7 @@ qx.Class.define("qx.ui.form.SelectBox",
           break;
 
         case "arrow":
-          control = new qx.ui.basic.Image("decoration/arrows/down.gif");
+          control = new qx.ui.basic.Image();
           this._add(control);
           break;
       }

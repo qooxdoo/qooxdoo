@@ -1112,6 +1112,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
+          source : "decoration/arrows/down.gif",
           paddingRight : 4,
           paddingLeft : 5
         };
@@ -1149,6 +1150,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
+          icon : "decoration/arrows/down.gif",
           backgroundColor : states.focused ? "background-focused-inner" : states.hovered ? "button-hovered" : "button"
         };
       }
