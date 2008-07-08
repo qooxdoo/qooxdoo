@@ -72,6 +72,12 @@ qx.Class.define("qx.ui.groupbox.RadioGroupBox",
 
   members :
   {
+    /*
+    ---------------------------------------------------------------------------
+      WIDGET API
+    ---------------------------------------------------------------------------
+    */
+
     // overridden
     _createChildControlImpl : function(id)
     {
@@ -93,6 +99,15 @@ qx.Class.define("qx.ui.groupbox.RadioGroupBox",
     },
 
 
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      EVENT LISTENERS
+    ---------------------------------------------------------------------------
+    */
+
     /**
      * Event listener for changeChecked event of radio button
      *
@@ -100,8 +115,9 @@ qx.Class.define("qx.ui.groupbox.RadioGroupBox",
      */
     _onRadioChangeChecked : function(e)
     {
-      // Disable content
       var checked = e.getData();
+
+      // Disable content
       this.getChildrenContainer().setEnabled(checked);
 
       // Fire event to the outside
