@@ -36,6 +36,9 @@ qx.Class.define("qx.ui.form.Button",
 {
   extend : qx.ui.basic.Atom,
   include : qx.ui.core.MExecutable,
+  implement : qx.ui.core.IFormElement,
+
+
 
 
   /*
@@ -112,51 +115,13 @@ qx.Class.define("qx.ui.form.Button",
   {
     /*
     ---------------------------------------------------------------------------
-      FORM ELEMENT API
-    ---------------------------------------------------------------------------
-    */
-
-    getStringValue : function() {
-      return this.getValue() || "";
-    },
-
-    setStringValue : function(value) {
-      return this.setValue(value == null ? "" : "" + value);
-    },
-
-    getBooleanValue : function() {
-      return this.hasState("pressed");
-    },
-
-    setBooleanValue : function(value) {
-      return value ? this.press() : this.release();
-    },
-
-    getNumberValue : function() {
-      return parseFloat(this.getValue(), 10);
-    },
-
-    setNumberValue : function(value) {
-      return this.setValue(value.toString());
-    },
-
-    getObjectValue : function() {
-      return null;
-    },
-
-    setObjectValue : function(value) {
-      return this.setValue(value == null ? "" : "" + value);
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
       USER API
     ---------------------------------------------------------------------------
     */
 
+    /**
+     * Manually press the button
+     */
     press : function()
     {
       if (this.hasState("abandoned")) {
@@ -166,6 +131,10 @@ qx.Class.define("qx.ui.form.Button",
       this.addState("pressed");
     },
 
+
+    /**
+     * Manually release the button
+     */
     release : function()
     {
       if (this.hasState("pressed")) {

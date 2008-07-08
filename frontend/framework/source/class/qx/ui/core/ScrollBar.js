@@ -170,7 +170,7 @@ qx.Class.define("qx.ui.core.ScrollBar",
         case "slider":
           control = new qx.ui.slider.AbstractSlider;
           control.setPageStep(100);
-          control.addListener("change", this._onChangeSlider, this);
+          control.addListener("changeValue", this._onChangeSliderValue, this);
           this._add(control, {flex: 1});
           break;
 
@@ -360,7 +360,7 @@ qx.Class.define("qx.ui.core.ScrollBar",
      * @param e {qx.event.type.Data} The change event object
      * @return {void}
      */
-    _onChangeSlider : function(e) {
+    _onChangeSliderValue : function(e) {
       this.setPosition(e.getData());
     }
   }

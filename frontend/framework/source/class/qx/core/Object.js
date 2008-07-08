@@ -403,7 +403,7 @@ qx.Class.define("qx.core.Object",
 
 
     /**
-     * Creates and dispatches an data event on this object.
+     * Creates and dispatches an non-bubbling data event on this object.
      *
      * @type member
      * @param type {String} Event type to fire
@@ -414,7 +414,7 @@ qx.Class.define("qx.core.Object",
     fireDataEvent : function(type, data)
     {
       if (!this.$$disposed) {
-        return this.__Registration.fireEvent(this, type, qx.event.type.Data, [data]);
+        return this.__Registration.fireNonBubblingEvent(this, type, qx.event.type.Data, [data]);
       }
 
       return true;

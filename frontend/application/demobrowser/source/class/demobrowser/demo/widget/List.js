@@ -121,7 +121,7 @@ qx.Class.define("demobrowser.demo.widget.List",
 
       this.getRoot().add(drag1, {left: 180, top: 220});
 
-      drag1.addListener("change", function(e) {
+      drag1.addListener("changeChecked", function(e) {
         configList.setDragSelection(e.getData());
       });
       ////////////////////////////////////////////////////////////////
