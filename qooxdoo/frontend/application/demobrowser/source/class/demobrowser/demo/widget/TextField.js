@@ -40,6 +40,12 @@ qx.Class.define("demobrowser.demo.widget.TextField",
         maxLength: 15
       });
       input1.focus();
+      input1.addListener("input", function(e) {
+        this.debug("Input: " + e.getData());
+      }, this);
+      input1.addListener("changeValue", function(e) {
+        this.debug("ChangeValue: " + e.getData());
+      }, this);
       container.add(input1);
 
       var input2 = new qx.ui.form.TextField("centered").set({
@@ -63,13 +69,6 @@ qx.Class.define("demobrowser.demo.widget.TextField",
         width: 200
       });
       container.add(input4);
-
-      input4.addListener("change", function(e) {
-        this.debug("change event: " + e.getData());
-      });
-      input4.addListener("input", function(e) {
-        this.debug("input event: " + e.getData());
-      });
 
       var input6 = new qx.ui.form.TextField("read only").set({
         readOnly: true,
