@@ -292,7 +292,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          icon : "decoration/arrows/up-small.gif",
+          icon : "decoration/arrows/up-small.png",
           padding : states.pressed ? [2, 2, 0, 4] : [1, 3, 1, 3],
           backgroundColor : states.focused ? "background-focused-inner" : states.hovered ? "button-hovered" : "button"
         }
@@ -307,7 +307,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          icon : "decoration/arrows/down-small.gif",
+          icon : "decoration/arrows/down-small.png",
           padding : states.pressed ? [2, 2, 0, 4] : [1, 3, 1, 3],
           backgroundColor : states.focused ? "background-focused-inner" : states.hovered ? "button-hovered" : "button"
         };
@@ -1171,6 +1171,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
+          source : "decoration/arrows/down.png",
           paddingRight : 4,
           paddingLeft : 5
         };
@@ -1212,9 +1213,21 @@ qx.Theme.define("qx.theme.modern.Appearance",
       }
     },
 
-    "combobox/button" : "button",
     "combobox/popup" : "popup",
     "combobox/list" : "list",
+    
+    "combobox/button" : 
+    {
+      include : "button",
+      alias   : "button",
+      
+      style : function(states)
+      {
+        return {
+          icon : "decoration/arrows/down.png"
+        };
+      }
+    },
 
     "combobox/textfield" :
     {
