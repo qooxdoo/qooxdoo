@@ -24,7 +24,8 @@ attlist.functions &= empty
 class =
   element class {
     attlist.class,
-    (deprecated?
+    (desc?
+     & deprecated?
      & superInterfaces?
      & superMixins?
      & constants?
@@ -113,7 +114,9 @@ attlist.params &= empty
 param = element param { attlist.param, desc?, types? }
 attlist.param &= attribute name { text }
 return = element return { attlist.return, desc?, types? }
-attlist.return &= empty
+attlist.return &= 
+  empty,
+  attribute defaultValue { text }?
 
 # Errors
 

@@ -89,6 +89,9 @@
       <ref name="attlist.class"/>
       <interleave>
         <optional>
+          <ref name="desc"/>
+        </optional>
+        <optional>
           <ref name="deprecated"/>
         </optional>
         <optional>
@@ -450,6 +453,9 @@
   </define>
   <define name="attlist.return" combine="interleave">
     <empty/>
+    <optional>
+      <attribute name="defaultValue"/>
+    </optional>
   </define>
   <!-- Errors -->
   <define name="errors">
