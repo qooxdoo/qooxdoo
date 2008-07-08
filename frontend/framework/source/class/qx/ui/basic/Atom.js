@@ -52,11 +52,11 @@ qx.Class.define("qx.ui.basic.Atom",
 
     this._setLayout(new qx.ui.layout.Atom());
 
-    if (label) {
+    if (label != null) {
       this.setLabel(label);
     }
 
-    if (icon) {
+    if (icon != null) {
       this.setIcon(icon);
     }
   },
@@ -238,6 +238,7 @@ qx.Class.define("qx.ui.basic.Atom",
       if (label) {
         label.setContent(value);
       }
+
       this._handleLabel();
     },
 
@@ -259,6 +260,7 @@ qx.Class.define("qx.ui.basic.Atom",
       if (icon) {
         icon.setSource(value);
       }
+
       this._handleIcon();
     },
 
