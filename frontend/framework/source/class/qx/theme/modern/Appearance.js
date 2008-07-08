@@ -1236,8 +1236,9 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          padding: [ 2, 3 ],
-          textColor: states.disabled ? "text-disabled" : "input-text"
+          decorator : null,
+          padding   : [ 2, 3 ],
+          textColor : states.disabled ? "text-disabled" : "input-text"
         };
       }
     }
