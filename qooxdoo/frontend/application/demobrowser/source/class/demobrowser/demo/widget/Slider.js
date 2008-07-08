@@ -191,7 +191,7 @@ qx.Class.define("demobrowser.demo.widget.Slider",
         value: new qx.ui.basic.Label(slider.getValue().toString())
       };
 
-      slider.addListener("change", function(e) {
+      slider.addListener("changeValue", function(e) {
         group.value.setContent(slider.getValue().toString());
       });
 
