@@ -40,21 +40,23 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
   *****************************************************************************
   */
 
-  construct : function(vLegend, vIcon) {
+  construct : function(legend, icon)
+  {
     this.base(arguments);
 
-    this._setLayout(new qx.ui.layout.Canvas());
-
+    this._setLayout(new qx.ui.layout.Canvas);
 
     // Sub widgets
     this._createChildControl("frame");
     this._createChildControl("legend");
 
     // Processing parameters
-    this.setLegend(vLegend || "");
+    if (legend != null) {
+      this.setLegend(legend);
+    }
 
-    if (vIcon != null) {
-      this.setIcon(vIcon);
+    if (icon != null) {
+      this.setIcon(icon);
     }
   },
 
@@ -79,7 +81,8 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
     /**
      * Property for setting the position of the legend.
      */
-    legendPosition : {
+    legendPosition :
+    {
       check     : ["top", "middle"],
       init      : "middle",
       apply     : "_applyLegendPosition",
@@ -166,6 +169,7 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
 
       // get the current height of the legend
       var height = legend.getBounds().height;
+
       // check for the property legend position
       if (this.getLegendPosition() == "middle") {
         frame.setLayoutProperties({"top": Math.round(height / 2)});
@@ -197,15 +201,7 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
     },
 
 
-    /**
-     * Accessor method for the legend sub widget.
-     *
-     * @type member
-     * @return {qx.ui.basic.Atom} legend sub widget
-     */
-    getLegendObject : function() {
-      return this._getChildControl("legend");
-    },
+
 
 
     /*
@@ -219,17 +215,20 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
      * valid. Otherwise the legend sub widget get not displayed.
      *
      * @type member
-     * @param vLegend {String} new label of the legend sub widget
+     * @param legend {String} new label of the legend sub widget
      * @return {void}
      */
-    setLegend : function(vLegend)
+    setLegend : function(legend)
     {
       var control = this._getChildControl("legend");
 
-      if (vLegend !== "" && vLegend !== null) {
-        control.setLabel(vLegend);
+      if (legend !== null)
+      {
+        control.setLabel(legend);
         control.show();
-      } else {
+      }
+      else
+      {
         control.exclude();
       }
     },
@@ -250,11 +249,11 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
      * Sets the icon of the legend sub widget.
      *
      * @type member
-     * @param vIcon {String} source of the new icon of the legend sub widget
+     * @param icon {String} source of the new icon of the legend sub widget
      * @return {void}
      */
-    setIcon : function(vIcon) {
-      this._getChildControl("legend").setIcon(vIcon);
+    setIcon : function(icon) {
+      this._getChildControl("legend").setIcon(icon);
     },
 
 
