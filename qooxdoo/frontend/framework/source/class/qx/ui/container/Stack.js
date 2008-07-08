@@ -22,6 +22,14 @@ qx.Class.define("qx.ui.container.Stack",
 {
   extend : qx.ui.core.Widget,
 
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
   construct : function()
   {
     this.base(arguments);
@@ -29,8 +37,21 @@ qx.Class.define("qx.ui.container.Stack",
     this._setLayout(new qx.ui.layout.Grow);
   },
 
+
+
+
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+
   properties :
   {
+    /**
+     * Whether the size of the widget depends on the selected child. When
+     * disabled (default) the size is configured to the largest child.
+     */
     dynamic :
     {
       check : "Boolean",
@@ -38,6 +59,7 @@ qx.Class.define("qx.ui.container.Stack",
       apply : "_applyDynamic"
     },
 
+    /** The selected child */
     selected :
     {
       check : "qx.ui.core.Widget",
@@ -47,14 +69,41 @@ qx.Class.define("qx.ui.container.Stack",
     }
   },
 
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
   members :
   {
+    // property apply
     _applyDynamic : function(value)
     {
-      this.debug("Dynamic: " + value);
+      var children = this._getChildren();
+      var selected = this.getSelected();
+      var child;
 
+      for (var i=0, l=children.length; i<l; i++)
+      {
+        child = children[i];
+
+        if (child != selected)
+        {
+          if (value) {
+            children[i].exclude();
+          } else {
+            children[i].hide();
+          }
+        }
+      }
     },
 
+
+    // property apply
     _applySelected : function(value, old)
     {
       if (old)
@@ -71,6 +120,12 @@ qx.Class.define("qx.ui.container.Stack",
       }
     },
 
+
+    /**
+     * Adds a new child to the stack
+     *
+     * @param widget {qx.ui.core.Widget} Any widget
+     */
     add : function(widget)
     {
       this._add(widget);
@@ -90,6 +145,12 @@ qx.Class.define("qx.ui.container.Stack",
       }
     },
 
+
+    /**
+     * Removes the given widget from the stack
+     *
+     * @param widget {qx.ui.core.Widget} Any widget
+     */
     remove : function(widget)
     {
       this._remove(widget);
@@ -105,10 +166,20 @@ qx.Class.define("qx.ui.container.Stack",
       }
     },
 
+
+    /**
+     * Returns all children
+     *
+     * @return {Array} List of all children
+     */
     getChildren : function() {
       return this._getChildren();
     },
 
+
+    /**
+     * Go to the previous child in the children list.
+     */
     previous : function()
     {
       var selected = this.getSelected();
@@ -123,6 +194,10 @@ qx.Class.define("qx.ui.container.Stack",
       this.setSelected(prev);
     },
 
+
+    /**
+     * Go to the next child in the children list.
+     */
     next : function()
     {
       var selected = this.getSelected();
