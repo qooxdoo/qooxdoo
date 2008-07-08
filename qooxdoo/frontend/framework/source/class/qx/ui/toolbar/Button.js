@@ -47,6 +47,12 @@ qx.Class.define("qx.ui.toolbar.Button",
     {
       refine : true,
       init : "inherit"
+    },
+
+    focusable :
+    {
+      refine : true,
+      init : false
     }
   },
 
@@ -79,6 +85,6 @@ qx.Class.define("qx.ui.toolbar.Button",
      *
      * @signature function()
      */
-    _onkeyup   : qx.lang.Function.returnTrue
+    _onkeyup : qx.lang.Function.returnTrue
   }
 });

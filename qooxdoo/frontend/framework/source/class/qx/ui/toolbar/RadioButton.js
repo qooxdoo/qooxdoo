@@ -41,15 +41,6 @@ qx.Class.define("qx.ui.toolbar.RadioButton",
       check : "qx.ui.core.RadioManager",
       apply : "_applyManager",
       nullable : true
-    },
-
-
-    /** A user provided value, which is assosiated with the form widget. */
-    value :
-    {
-      check : "String",
-      nullable : true,
-      event : "change"
     }
   },
 

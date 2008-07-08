@@ -30,7 +30,7 @@ qx.Class.define("qx.ui.core.RadioManager",
 {
   extend : qx.core.Object,
   implement : qx.ui.core.IFormElement,
-  
+
 
 
   /*
@@ -75,8 +75,8 @@ qx.Class.define("qx.ui.core.RadioManager",
       apply : "_applyEnabled",
       event : "changeEnabled"
     },
-    
-    
+
+
     /**
      * The currently selected item of the radio group
      */
@@ -87,12 +87,12 @@ qx.Class.define("qx.ui.core.RadioManager",
       event : "change",
       check : "qx.ui.core.IRadioItem"
     },
-    
-    
+
+
     /**
      * The name of the radio manager. Mainly used for seralization proposes.
      */
-    name : 
+    name :
     {
       check : "String",
       nullable : true,
@@ -123,10 +123,10 @@ qx.Class.define("qx.ui.core.RadioManager",
 
   events :
   {
-    "changeValue" : "qx.event.type.Data"    
+    "changeValue" : "qx.event.type.Data"
   },
-  
-  
+
+
 
 
   /*
@@ -173,11 +173,11 @@ qx.Class.define("qx.ui.core.RadioManager",
     {
       var items = this.__items;
       var item;
-      
+
       for (var i=0, l=items.length; i<l; i++)
       {
         item = items[i];
-        
+
         if (item.getValue() == value)
         {
           this.setSelected(item);
@@ -198,8 +198,8 @@ qx.Class.define("qx.ui.core.RadioManager",
       var selected = this.getSelected();
       return selected ? selected.getValue() : null;
     },
-  
-    
+
+
 
 
 
@@ -221,17 +221,16 @@ qx.Class.define("qx.ui.core.RadioManager",
     {
       var items = this.__items;
       var item;
-      
+
       for (var i=0, l=arguments.length; i<l; i++)
       {
         item = arguments[i];
-        
+
         if (item.getManager() === this) {
           continue;
         }
 
-        // Register listeners 
-        item.addListener("changeName", this._onChangeName, this);       
+        // Register listeners
         item.addListener("changeChecked", this._onChangeChecked, this);
 
         // Push RadioButton to array
@@ -245,7 +244,7 @@ qx.Class.define("qx.ui.core.RadioManager",
           this.setSelected(item);
         }
       }
-      
+
       // Select first item when only one is registered
       if (items.length > 0 && !this.getSelected()) {
         this.setSelected(items[0]);
@@ -260,20 +259,19 @@ qx.Class.define("qx.ui.core.RadioManager",
      */
     remove : function(item)
     {
-      if (item.getManager() === this) 
+      if (item.getManager() === this)
       {
         // Remove RadioButton from array
         qx.lang.Array.remove(this.__items, item);
-  
+
         // Inform radio button about new manager
         item.resetManager();
-        
-        // Deregister listeners        
-        item.removeListener("changeName", this._onChangeName, this);
+
+        // Deregister listeners
         item.removeListener("changeChecked", this._onChangeChecked, this);
-  
+
         // if the radio was checked, set internal selection to null
-        if (item.getChecked()) 
+        if (item.getChecked())
         {
           this.resetSelected();
           this.resetValue();
@@ -288,32 +286,23 @@ qx.Class.define("qx.ui.core.RadioManager",
       LISTENER FOR ITEM CHANGES
     ---------------------------------------------------------------------------
     */
-    
-    _onChangeName : function(e)
-    {
-      var name = e.getData();
-      name == null ? this.resetName() : this.setName(name);
-    },    
-    
-    _onChangeValue : function(e)
-    {
-      var target = e.getTarget();
-      if (target == this.getChecked()) {
-        this.setValue(target.getValue());
-      }
-    },
-    
+
+    /**
+     * Event listener for <code>changeChecked</code> event of every managed item.
+     *
+     * @param e {qx.event.type.Data} Data event
+     */
     _onChangeChecked : function(e)
     {
       var item = e.getTarget();
       if (item.getChecked()) {
-        this.setSelected(item); 
+        this.setSelected(item);
       } else if (this.getSelected() == item) {
         this.resetSelected();
       }
     },
-    
-    
+
+
 
 
     /*
@@ -329,31 +318,31 @@ qx.Class.define("qx.ui.core.RadioManager",
         old.setChecked(false);
       }
 
-      if (value) 
+      if (value)
       {
         value.setChecked(true);
-        
+
         // If the old one was focused, now switch focus to the new item
         if (old && old.hasState("focused")) {
-          value.focus(); 
+          value.focus();
         }
       }
-      
+
       // Fire value change event
       var oldValue = old ? old.getValue() : null;
       var newValue = value ? value.getValue() : null;
-      
+
       if (oldValue != newValue) {
-        this.fireNonBubblingEvent("changeValue", qx.event.type.Data, [newValue, oldValue]); 
+        this.fireNonBubblingEvent("changeValue", qx.event.type.Data, [newValue, oldValue]);
       }
     },
-    
-    
+
+
     // property apply
     _applyEnabled : function(value, old)
     {
       var items = this.__items;
-      if (value == null) 
+      if (value == null)
       {
         for (var i=0, l=items.length; i<l; i++) {
           items[i].resetEnabled();
@@ -366,13 +355,13 @@ qx.Class.define("qx.ui.core.RadioManager",
         }
       }
     },
-    
-    
+
+
     // property apply
     _applyName : function(value, old)
     {
       var items = this.__items;
-      if (value == null) 
+      if (value == null)
       {
         for (var i=0, l=items.length; i<l; i++) {
           items[i].resetName();
@@ -383,7 +372,7 @@ qx.Class.define("qx.ui.core.RadioManager",
         for (var i=0, l=items.length; i<l; i++) {
           items[i].setName(value);
         }
-      }      
+      }
     },
 
 
