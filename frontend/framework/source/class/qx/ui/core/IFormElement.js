@@ -19,8 +19,8 @@
 ************************************************************************ */
 
 /**
- * Each object, which should be managed by a {@link RadioManager} have to
- * implement this interface.
+ * Each object, which is in some way usable in a form or as a form element
+ * should implement this interface.
  */
 qx.Interface.define("qx.ui.core.IFormElement",
 {
@@ -32,8 +32,13 @@ qx.Interface.define("qx.ui.core.IFormElement",
 
   events :
   {
+    /** Fired when the value was modified */
     "changeValue" : "qx.event.type.Data",
+
+    /** Fired when the name attribute was modified */
     "changeName" : "qx.event.type.Data",
+
+    /** Fired when the element was enabled or disabled */
     "changeEnabled" : "qx.event.type.Data"
   },
 
@@ -107,6 +112,7 @@ qx.Interface.define("qx.ui.core.IFormElement",
     /**
      * Sets the element's string value
      *
+     * @param value {String} The new value of the element
      * @return {var} the value
      */
     setValue : function(value) {

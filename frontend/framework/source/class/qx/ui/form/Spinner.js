@@ -58,6 +58,7 @@
 qx.Class.define("qx.ui.form.Spinner",
 {
   extend : qx.ui.core.Widget,
+  implement : qx.ui.core.IFormElement,
 
 
   /*
@@ -108,25 +109,6 @@ qx.Class.define("qx.ui.form.Spinner",
 
   /*
   *****************************************************************************
-     EVENTS
-  *****************************************************************************
-  */
-
-  events:
-  {
-    /**
-     * Fired each time the value of the spinner changes.
-     * The "data" property of the event is set to the new value
-     * of the spinner.
-     */
-    "change" : "qx.event.type.Data"
-  },
-
-
-
-
-  /*
-  *****************************************************************************
      PROPERTIES
   *****************************************************************************
   */
@@ -166,17 +148,24 @@ qx.Class.define("qx.ui.form.Spinner",
     {
       check : "Number",
       apply : "_applyMin",
-      event : "change",
       init : 0
     },
 
-    /** current value of the Range object */
+    /** The name of the widget. Mainly used for serialization proposes. */
+    name :
+    {
+      check : "String",
+      nullable : true,
+      event : "changeName"
+    },
+
+    /** The value of the spinner. */
     value:
     {
       check : "typeof value==='number'&&value>=this.getMin()&&value<=this.getMax()",
       apply : "_applyValue",
       init : 0,
-      event : "change"
+      event : "changeValue"
     },
 
     /** maximal value of the Range object */
@@ -184,7 +173,6 @@ qx.Class.define("qx.ui.form.Spinner",
     {
       check : "Number",
       apply : "_applyMax",
-      event : "change",
       init : 100
     },
 
@@ -247,7 +235,7 @@ qx.Class.define("qx.ui.form.Spinner",
           control = new qx.ui.form.TextField();
           control.setWidth(40);
           control.setFocusable(false);
-          control.addListener("change", this._onTextChange, this);
+          control.addListener("changeValue", this._onTextChange, this);
 
           this._add(control, {column: 0, row: 0, rowSpan: 2});
           break;
@@ -474,6 +462,7 @@ qx.Class.define("qx.ui.form.Spinner",
         case "PageUp":
           // mark that the spinner is in page mode and process further
           this._pageUpMode = true;
+
         case "Up":
           this._getChildControl("upbutton").press();
           break;
@@ -481,6 +470,7 @@ qx.Class.define("qx.ui.form.Spinner",
         case "PageDown":
           // mark that the spinner is in page mode and process further
           this._pageDownMode = true;
+
         case "Down":
           this._getChildControl("downbutton").press();
           break;
@@ -533,7 +523,7 @@ qx.Class.define("qx.ui.form.Spinner",
 
     /*
     ---------------------------------------------------------------------------
-      MOUSE EVENT-HANDLING
+      OTHER EVENT HANDLERS
     ---------------------------------------------------------------------------
     */
 
@@ -556,23 +546,62 @@ qx.Class.define("qx.ui.form.Spinner",
     },
 
 
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      OTHER EVENT-HANDLING
-    ---------------------------------------------------------------------------
-    */
-
     /**
      * Callback method for the "change" event of the textfield.
      *
      * @type member
      * @param e {qx.ui.event.type.Event} text change event or blur event
      */
-    _onTextChange: function(e) {
-      this.__adoptText();
+    _onTextChange : function(e)
+    {
+      var textField = this._getChildControl("textfield");
+
+      // if a number format is set
+      if (this.getNumberFormat())
+      {
+        // try to parse the current number using the number format
+        try
+        {
+          var value = this.getNumberFormat().parse(textField.getValue());
+          // if the parsing succeeded, set the value and done
+          this.gotoValue(value);
+          return;
+        }
+        catch(e) {
+          // otherwise, process further
+        }
+      }
+
+      // try to parse the number as a float
+      var value = parseFloat(textField.getValue(), 10);
+
+      // if the result is a number
+      if (!isNaN(value))
+      {
+        // Fix range
+        if (value > this.getMax()) {
+          value = this.getMax();
+        } else if (value < this.getMin()) {
+          value = this.getMin();
+        }
+
+        // this.warn("value: " + value + "   get: " + this.getValue());
+        if (value == this.getValue())
+        {
+          // this.warn("textfield: " + textField.getValue());
+          textField.setValue(value + "");
+        }
+        else
+        {
+          // set the value in the spinner
+          this.setValue(value);
+        }
+      }
+      else
+      {
+        // otherwise, reset the last valid value
+        textField.setValue(this._lastValidValue + "");
+      }
     },
 
 
@@ -642,68 +671,15 @@ qx.Class.define("qx.ui.form.Spinner",
     },
 
 
-    gotoValue : function(value) {
-      this.setValue(Math.min(this.getMax(), Math.max(this.getMin(), value)));
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      UTILITY
-    ---------------------------------------------------------------------------
-    */
-
     /**
-     * Trys to parse the current text in the textfield and set it as
-     * spinner value. If the value can be not be parsed, the last valid value
-     * will be set to the textfield as well as to the spinner value.
+     * Normalizes the incoming value to be in the valid range and
+     * applied it to the {@link #value} afterwards.
      *
-     * @type member
+     * @param value {Number} Any number
+     * @return {Number} The normalized number
      */
-    __adoptText: function()
-    {
-      var textField = this._getChildControl("textfield");
-
-      // if a number format is set
-      if (this.getNumberFormat())
-      {
-        // try to parse the current number using the number format
-        try
-        {
-          var value = this.getNumberFormat().parse(textField.getValue());
-          // if the arsing succeeded, set the value and done
-          this.setValue(value);
-          return;
-        }
-        catch(e) {
-          // otherwise, process further
-        }
-      }
-
-      // try to parse the number as a float
-      var value = parseFloat(textField.getValue(), 10);
-      // if the result is a number
-      if (!isNaN(value))
-      {
-        // this.warn("value: " + value + "   get: " + this.getValue());
-        if (value == this.getValue())
-        {
-          // this.warn("textfield: " + textField.getValue());
-          textField.setValue(value + "");
-        }
-        else
-        {
-          // set the value in the spinner
-          this.setValue(value);
-        }
-      }
-      else
-      {
-        // otherwise, reset the last valid value
-        textField.setValue(this._lastValidValue + "");
-      }
+    gotoValue : function(value) {
+      return this.setValue(Math.min(this.getMax(), Math.max(this.getMin(), value)));
     }
   }
 });
