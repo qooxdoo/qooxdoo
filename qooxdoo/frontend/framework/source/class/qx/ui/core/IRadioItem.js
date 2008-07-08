@@ -83,6 +83,15 @@ qx.Interface.define("qx.ui.core.IRadioItem",
      *
      * @return {qx.ui.core.RadioManager} The radio manager, which manages the item.
      */
-    getManager : function() {}
+    getManager : function() {},
+
+
+    /**
+     * The the user visible label
+     * Regarded as an alternative for a missing value
+     *
+     * @return {String} The label
+     */
+    getLabel : function() {}
   }
 });

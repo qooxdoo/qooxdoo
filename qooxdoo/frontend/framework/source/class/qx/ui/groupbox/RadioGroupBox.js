@@ -22,6 +22,15 @@
 qx.Class.define("qx.ui.groupbox.RadioGroupBox",
 {
   extend : qx.ui.groupbox.GroupBox,
+  implement : qx.ui.core.IRadioItem,
+
+
+
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
 
   properties :
   {
@@ -33,11 +42,33 @@ qx.Class.define("qx.ui.groupbox.RadioGroupBox",
     }
   },
 
+
+
+  /*
+  *****************************************************************************
+     EVENTS
+  *****************************************************************************
+  */
+
   events :
   {
     /** Fired when the included radiobutton changed its status */
-    "changeChecked" : "qx.event.type.Data"
+    "changeChecked" : "qx.event.type.Data",
+
+    /** Fired when the included radiobutton changed its name */
+    "changeName" : "qx.event.type.Data",
+
+    /** Fired when the included radiobutton changed its value */
+    "changeValue" : "qx.event.type.Data"
   },
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
 
   members :
   {
@@ -51,7 +82,9 @@ qx.Class.define("qx.ui.groupbox.RadioGroupBox",
         case "legend":
           control = new qx.ui.form.RadioButton;
           control.setChecked(true);
-          control.addListener("changeChecked", this._onChangeRadio, this);
+          control.addListener("changeChecked", this._onRadioChangeChecked, this);
+          control.addListener("changeName", this._onRadioChangeName, this);
+          control.addListener("changeValue", this._onRadioChangeValue, this);
 
           this._add(control);
       }
@@ -61,11 +94,11 @@ qx.Class.define("qx.ui.groupbox.RadioGroupBox",
 
 
     /**
-     * Event listener for change event of radio button
+     * Event listener for changeChecked event of radio button
      *
      * @param e {qx.event.type.Data} Data event which holds the current status
      */
-    _onChangeRadio : function(e)
+    _onRadioChangeChecked : function(e)
     {
       // Disable content
       var checked = e.getData();
@@ -73,6 +106,138 @@ qx.Class.define("qx.ui.groupbox.RadioGroupBox",
 
       // Fire event to the outside
       this.fireDataEvent("changeChecked", checked);
+    },
+
+
+    /**
+     * Event listener for changeName event of radio button
+     *
+     * @param e {qx.event.type.Data} Data event which holds the current status
+     */
+    _onRadioChangeName : function(e)
+    {
+      // Fire event to the outside
+      this.fireDataEvent("changeName", e.getData());
+    },
+
+
+    /**
+     * Event listener for changeValue event of radio button
+     *
+     * @param e {qx.event.type.Data} Data event which holds the current status
+     */
+    _onRadioChangeValue : function(e)
+    {
+      // Fire event to the outside
+      this.fireDataEvent("changeValue", e.getData());
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      REDIRECTIONS TO LEGEND (FOR RADIO MANAGER SUPPORT)
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Returns the radio manager
+     *
+     * @return {qx.ui.core.RadioManager} The radio manager
+     */
+    getManager : function() {
+      return this._getChildControl("legend").getManager();
+    },
+
+
+    /**
+     * Sets the radio manager to use
+     *
+     * @param value {qx.ui.core.RadioManager} The radio manager to use
+     */
+    setManager : function(value)
+    {
+      var legend = this._getChildControl("legend");
+      return value ? legend.setManager(value) : legend.resetManager();
+    },
+
+
+    /**
+     * The name of the groupbox. Mainly used for serialization proposes.
+     *
+     * @return {String} The name
+     */
+    getName : function() {
+      return this._getChildControl("legend").getName();
+    },
+
+
+    /**
+     * Configures the name of the groupbox. Mainly used for serialization proposes.
+     *
+     * @param {String} the name to use
+     * @return {String} the incoming value
+     */
+    setName : function(value)
+    {
+      var legend = this._getChildControl("legend");
+      return value ? legend.setName(value) : legend.resetName();
+    },
+
+
+    /**
+     * The value of the groupbox. Mainly used for serialization proposes.
+     *
+     * @return {String} the value
+     */
+    getValue : function() {
+      return this._getChildControl("legend").getValue();
+    },
+
+
+    /**
+     * Configures the value of the groupbox. Mainly used for serialization proposes.
+     *
+     * @param {String} the value to use
+     * @return {String} the incoming value
+     */
+    setValue : function(value)
+    {
+      var legend = this._getChildControl("legend");
+      return value ? legend.setValue(value) : legend.resetValue();
+    },
+
+
+    /**
+     * Whether the groupbox is enabled
+     *
+     * @return {Boolean} <code>true</code> when enabled
+     */
+    getChecked : function() {
+      return this._getChildControl("legend").getChecked();
+    },
+
+
+    /**
+     * Configures whether the groupbox should be enabled
+     *
+     * @return {Boolean} the incoming value
+     */
+    setChecked : function(value)
+    {
+      var legend = this._getChildControl("legend");
+      return value ? legend.setChecked(value) : legend.resetChecked();
+    },
+
+
+    /**
+     * Returns the configured legend. Only used for RadioManager compatibility.
+     *
+     * @return {String} The configured legend.
+     */
+    getLabel : function() {
+      return this._getChildControl("legend").getLabel();
     }
   }
 });
