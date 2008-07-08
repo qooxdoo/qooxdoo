@@ -1210,9 +1210,17 @@ qx.Class.define("demobrowser.DemoBrowser",
      * @param e {Event} TODOC
      * @return {void}
      */
-    __ehIframeLoaded : function(e)
+    __ehIframeLoaded : function()
     {
       var fwindow = this.f1.getContentWindow();
+
+      // poll for the logger to be loaded
+      if (!fwindow.qx || !fwindow.qx.log || !fwindow.qx.log.Logger)
+      {
+        qx.event.Timer.once(this.__ehIframeLoaded, this, 0);
+        return;
+      }
+
       var fpath = fwindow.location.pathname + "";
       var splitIndex = fpath.indexOf("?");
       if (splitIndex != -1) {
