@@ -128,25 +128,6 @@ qx.Class.define("qx.ui.form.RadioButton",
 
 
 
-
-    /*
-    ---------------------------------------------------------------------------
-      FORM ELEMENT API
-    ---------------------------------------------------------------------------
-    */
-
-    getBooleanValue : function() {
-      return this.getChecked();
-    },
-
-    setBooleanValue : function(value) {
-      return this.setChecked(value);
-    },
-
-
-
-
-
     /*
     ---------------------------------------------------------------------------
       APPLY ROUTINES
