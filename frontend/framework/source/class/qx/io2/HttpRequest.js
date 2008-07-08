@@ -18,14 +18,14 @@
 ************************************************************************ */
 
 /**
- * A more comfortable HTTP request object than the native one under 
+ * A more comfortable HTTP request object than the native one under
  * {@link qx.bom.Request}.
  *
- * Converts the whole communication into a qooxdoo style class with 
- * real properties. The class also fires events to allow easy access 
+ * Converts the whole communication into a qooxdoo style class with
+ * real properties. The class also fires events to allow easy access
  * to status changes.
  *
- * Automatically adds a few HTTP headers to requests depdending on 
+ * Automatically adds a few HTTP headers to requests depdending on
  * the configuration.
  */
 qx.Class.define("qx.io2.HttpRequest",
@@ -523,7 +523,7 @@ qx.Class.define("qx.io2.HttpRequest",
       if (!this.getCache()) {
         req.setRequestHeader("Cache-Control", "no-cache");
       }
-      
+
       // Add modified since hint
       if (this.getRefresh()) {
         req.setRequestHeader("If-Modified-Since",  qx.io2.HttpRequest.__modified[url] || "Thu, 01 Jan 1970 00:00:00 GMT" );

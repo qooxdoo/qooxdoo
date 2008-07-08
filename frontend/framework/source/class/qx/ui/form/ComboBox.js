@@ -79,7 +79,7 @@ qx.Class.define("qx.ui.form.ComboBox",
       WIDGET API
     ---------------------------------------------------------------------------
     */
-        
+
     // overridden
     _createChildControlImpl : function(id)
     {
@@ -101,25 +101,25 @@ qx.Class.define("qx.ui.form.ComboBox",
           this._add(control);
           break;
       }
-      
+
       return control || this.base(arguments, id);
     },
 
 
     // overridden
     _forwardStates : {
-      focused : true      
+      focused : true
     },
-    
-    
-    // overridden 
+
+
+    // overridden
     tabFocus : function() {
       this._getChildControl("textfield").getFocusElement().focus();
-    },    
-    
-    
-    
-    
+    },
+
+
+
+
     /*
     ---------------------------------------------------------------------------
       APPLY ROUTINES
@@ -130,7 +130,7 @@ qx.Class.define("qx.ui.form.ComboBox",
     _applySelected : function(value, old)
     {
       this.base(arguments, value, old);
-      
+
       this._getChildControl("textfield").setValue(value.getLabel());
     },
 
@@ -141,8 +141,8 @@ qx.Class.define("qx.ui.form.ComboBox",
     ---------------------------------------------------------------------------
       EVENT LISTENERS
     ---------------------------------------------------------------------------
-    */ 
-       
+    */
+
     /**
      * Toggles the popup's visibility.
      * @param e {qx.event.type.MouseEvent} Mouse click event
@@ -158,7 +158,7 @@ qx.Class.define("qx.ui.form.ComboBox",
      * @param e {Object} Activation event
      * @type member
      */
-    _onActivateButton : function(e) 
+    _onActivateButton : function(e)
     {
       this.activate();
       e.stopPropagation();

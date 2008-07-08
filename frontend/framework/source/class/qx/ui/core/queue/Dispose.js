@@ -62,7 +62,7 @@ qx.Class.define("qx.ui.core.queue.Dispose",
     flush : function()
     {
       var queue = this.__queue;
-      for (var hash in queue) 
+      for (var hash in queue)
       {
         queue[hash].dispose();
         delete queue[hash];

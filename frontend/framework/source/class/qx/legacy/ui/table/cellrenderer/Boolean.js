@@ -45,7 +45,7 @@ qx.Class.define("qx.legacy.ui.table.cellrenderer.Boolean",
   construct : function()
   {
     this.base(arguments);
-    
+
     var ResourceMgr = qx.util.ResourceManager;
 
     this._iconUrlTrue = ResourceMgr.toUri(qx.legacy.util.AliasManager.getInstance().resolve("widget/table/boolean-true.png"));

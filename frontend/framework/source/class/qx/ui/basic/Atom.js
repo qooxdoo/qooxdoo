@@ -75,10 +75,10 @@ qx.Class.define("qx.ui.basic.Atom",
     appearance :
     {
       refine : true,
-      init : "atom"  
+      init : "atom"
     },
-    
-    
+
+
     /** The label/caption/text of the qx.ui.basic.Atom instance */
     label :
     {
@@ -179,7 +179,7 @@ qx.Class.define("qx.ui.basic.Atom",
           control.setRich(this.getRich());
           this._add(control);
           if (this.getLabel() == null || this.getShow() === "icon") {
-            control.exclude(); 
+            control.exclude();
           }
           break;
 
@@ -188,17 +188,17 @@ qx.Class.define("qx.ui.basic.Atom",
           control.setAnonymous(true);
           this._addAt(control, 0);
           if (this.getIcon() == null || this.getShow() === "label") {
-            control.exclude(); 
+            control.exclude();
           }
           break;
       }
-      
+
       return control || this.base(arguments, id);
     },
-    
-    
+
+
     // overridden
-    _forwardStates : 
+    _forwardStates :
     {
       focused : true,
       hovered : true

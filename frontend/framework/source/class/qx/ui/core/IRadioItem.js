@@ -25,7 +25,7 @@
 qx.Interface.define("qx.ui.core.IRadioItem",
 {
   extend : qx.ui.core.IFormElement,
-  
+
 
   /*
   *****************************************************************************
@@ -37,15 +37,15 @@ qx.Interface.define("qx.ui.core.IRadioItem",
   {
     "changeChecked" : "qx.event.type.Data"
   },
-  
 
-  
+
+
   /*
   *****************************************************************************
      MEMBERS
   *****************************************************************************
   */
-  
+
   members :
   {
     /**

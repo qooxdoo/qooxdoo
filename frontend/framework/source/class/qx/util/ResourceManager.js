@@ -28,15 +28,15 @@ qx.Bootstrap.define("qx.util.ResourceManager",
   {
     /** {Map} the shared image registry */
     __registry : window.qxresourceinfo || {},
-    
-    
+
+
     registerImage : function(uri, width, height)
     {
       // Protect overwriting
       if (this.__registry[uri]) {
         return;
       }
-      
+
       qx.log.Logger.debug("Dynamically registering: " + uri);
       this.__registry[uri] = [width, height];
     },
@@ -62,8 +62,8 @@ qx.Bootstrap.define("qx.util.ResourceManager",
     getData : function(id) {
       return this.__registry[id] || null;
     },
-    
-    
+
+
     // only used in grid decoration currently
     // internal structure:
     // images: [width, height, format, library, [clipped, left, top]]
@@ -74,57 +74,57 @@ qx.Bootstrap.define("qx.util.ResourceManager",
       if (!entry) {
         return null;
       }
-      
+
       var width = entry[0];
-      var height = entry[1];      
+      var height = entry[1];
       var format = entry[2];
-      
+
       // format non-clipped: width, height, type, lib
       if (entry.length < 5)
       {
         var left = 0;
         var top = 0;
       }
-      
+
       // format clipped: width, height, type, lib, left, top
       else
       {
         id = entry[4];
-        
+
         var left = entry[5];
-        var top = entry[6];        
+        var top = entry[6];
       }
-      
+
       return [id, left, top, width, height, format];
     },
-    
-    
+
+
     toUri : function(id)
     {
       if (id == null) {
         return id;
       }
-      
+
       var entry = this.__registry[id];
       if (!entry) {
         return id;
       }
-      
-      if (typeof entry === "string") 
+
+      if (typeof entry === "string")
       {
         var lib = entry
-      } 
-      else 
+      }
+      else
       {
         var lib = entry[3];
-        
+
         // no lib reference
         // may mean that the image has been registered dynamically
         if (!lib) {
           return id;
         }
       }
-      
+
       return window.qxlibraries[lib].resourceUri + "/" + id;
     }
   }

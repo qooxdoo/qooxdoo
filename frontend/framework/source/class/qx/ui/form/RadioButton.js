@@ -95,7 +95,7 @@ qx.Class.define("qx.ui.form.RadioButton",
       apply: "_applyChecked",
       event: "changeChecked"
     },
-    
+
     // overridden
     appearance :
     {
@@ -136,14 +136,14 @@ qx.Class.define("qx.ui.form.RadioButton",
     */
 
     getBooleanValue : function() {
-      return this.getChecked(); 
+      return this.getChecked();
     },
-    
+
     setBooleanValue : function(value) {
       return this.setChecked(value);
     },
-     
-    
+
+
 
 
 
@@ -156,8 +156,8 @@ qx.Class.define("qx.ui.form.RadioButton",
     // property apply
     _applyChecked : function(value, old)
     {
-      value ? 
-        this.addState("checked") : 
+      value ?
+        this.addState("checked") :
         this.removeState("checked");
     },
 
@@ -211,9 +211,9 @@ qx.Class.define("qx.ui.form.RadioButton",
     {
       var mgr = this.getManager();
       if (!mgr) {
-        return; 
+        return;
       }
-      
+
       switch(e.getKeyIdentifier())
       {
         case "Left":

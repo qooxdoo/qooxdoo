@@ -127,10 +127,10 @@ qx.Class.define("qx.event.handler.Focus",
 
     /** {Integer} Whether the method "canHandleEvent" must be called */
     IGNORE_CAN_HANDLE : true,
-    
-    
-    /** 
-     * {Map} See: http://msdn.microsoft.com/en-us/library/ms534654(VS.85).aspx 
+
+
+    /**
+     * {Map} See: http://msdn.microsoft.com/en-us/library/ms534654(VS.85).aspx
      */
     FOCUSABLE_ELEMENTS : qx.core.Variant.select("qx.client",
     {
@@ -147,7 +147,7 @@ qx.Class.define("qx.event.handler.Focus",
         select : 1,
         textarea : 1
       },
-      
+
       "opera|webkit" :
       {
         button : 1,
@@ -155,7 +155,7 @@ qx.Class.define("qx.event.handler.Focus",
         select : 1,
         textarea : 1
       }
-    })   
+    })
   },
 
 
@@ -239,18 +239,18 @@ qx.Class.define("qx.event.handler.Focus",
      * @param element {Element} DOM element to focus
      * @return {void}
      */
-    blur : function(element) 
+    blur : function(element)
     {
       try{
         element.blur();
       } catch(ex) {}
-        
+
       if (this.getActive() === element) {
-        this.resetActive(); 
+        this.resetActive();
       }
-      
+
       if (this.getFocus() === element) {
-        this.resetFocus(); 
+        this.resetFocus();
       }
     },
 
@@ -549,7 +549,7 @@ qx.Class.define("qx.event.handler.Focus",
         if (focusTarget) {
           this.setFocus(focusTarget);
         }
-        
+
         // Make target active
         this.setActive(target);
       },
@@ -557,36 +557,36 @@ qx.Class.define("qx.event.handler.Focus",
       "opera" : function(e)
       {
         var target = e.target;
-        if (target == this._document || target == this._window) 
+        if (target == this._document || target == this._window)
         {
           this.__doWindowFocus();
-          
-          if (this.__previousFocus) 
+
+          if (this.__previousFocus)
           {
             this.setFocus(this.__previousFocus);
             delete this.__previousFocus;
-          }          
-          
-          if (this.__previousActive) 
+          }
+
+          if (this.__previousActive)
           {
             this.setActive(this.__previousActive);
             delete this.__previousActive;
           }
-        } 
-        else 
+        }
+        else
         {
-          this.setFocus(target); 
+          this.setFocus(target);
           this.setActive(target);
-          
+
           // Clear selection
           if (!this.__isSelectable(target))
           {
             target.selectionStart = 0;
-            target.selectionEnd = 0; 
-          }          
-        }        
+            target.selectionEnd = 0;
+          }
+        }
       },
-     
+
       "default" : null
     }),
 
@@ -605,58 +605,58 @@ qx.Class.define("qx.event.handler.Focus",
       "mshtml" : function(e)
       {
         // If the focus goes to nowhere (the document is blurred)
-        if (!e.toElement) 
+        if (!e.toElement)
         {
           // Update internal representation
           this.__doWindowBlur();
-          
+
           // Reset active and focus
           this.resetFocus();
           this.resetActive();
         }
       },
 
-      "webkit" : function(e) 
+      "webkit" : function(e)
       {
         var target = e.target;
 
         if (target === this.getFocus()) {
           this.resetFocus();
         }
-        
+
         if (target === this.getActive()) {
-          this.resetActive();        
+          this.resetActive();
         }
       },
-      
+
       "opera" : function(e)
       {
         var target = e.target;
         if (target == this._document)
         {
           this.__doWindowBlur();
-          
+
           // Store old focus/active elements
           // Opera do not fire focus events for them
           // when refocussing the window (in my opinion an error)
           this.__previousFocus = this.getFocus();
           this.__previousActive = this.getActive();
-          
+
           this.resetFocus();
-          this.resetActive(); 
+          this.resetActive();
         }
         else
         {
           if (target === this.getFocus()) {
             this.resetFocus();
           }
-          
+
           if (target === this.getActive()) {
-            this.resetActive();        
-          }        
+            this.resetActive();
+          }
         }
       },
-      
+
       "default" : null
     }),
 
@@ -673,30 +673,30 @@ qx.Class.define("qx.event.handler.Focus",
     {
       "gecko" : function(e)
       {
-        if (e.target === this._window || e.target === this._document) 
+        if (e.target === this._window || e.target === this._document)
         {
-          this.__doWindowBlur(); 
-          
+          this.__doWindowBlur();
+
           this.resetActive();
           this.resetFocus();
-        }        
+        }
       },
-      
+
       "webkit" : function(e)
       {
-        if (e.target === this._window || e.target === this._document) 
+        if (e.target === this._window || e.target === this._document)
         {
-          this.__doWindowBlur(); 
-          
+          this.__doWindowBlur();
+
           // Store old focus/active elements
           // Opera do not fire focus events for them
           // when refocussing the window (in my opinion an error)
           this.__previousFocus = this.getFocus();
           this.__previousActive = this.getActive();
-                    
+
           this.resetActive();
           this.resetFocus();
-        }          
+        }
       },
 
       "default" : null
@@ -716,33 +716,33 @@ qx.Class.define("qx.event.handler.Focus",
       "gecko" : function(e)
       {
         var target = e.target;
-        
-        if (target === this._window || target === this._document) 
+
+        if (target === this._window || target === this._document)
         {
           this.__doWindowFocus();
-          
+
           // Always speak of the body, not the window or document
           target = this._body;
         }
-        
+
         this.setFocus(target);
         this.setActive(target);
       },
 
       "webkit" : function(e)
       {
-        var target = e.target;        
-        if (target === this._window || target === this._document) 
+        var target = e.target;
+        if (target === this._window || target === this._document)
         {
           this.__doWindowFocus();
-          
-          if (this.__previousFocus) 
+
+          if (this.__previousFocus)
           {
             this.setFocus(this.__previousFocus);
             delete this.__previousFocus;
-          }          
-          
-          if (this.__previousActive) 
+          }
+
+          if (this.__previousActive)
           {
             this.setActive(this.__previousActive);
             delete this.__previousActive;
@@ -754,7 +754,7 @@ qx.Class.define("qx.event.handler.Focus",
           this.setActive(target);
         }
       },
-      
+
       "default" : null
     }),
 
@@ -780,22 +780,22 @@ qx.Class.define("qx.event.handler.Focus",
       "mshtml" : function(e)
       {
         var target = e.srcElement;
-        
+
         // Stop events when no focus element available (or blocked)
         var focusTarget = this.__findFocusElement(target);
         if (focusTarget)
         {
           // Add unselectable to keep selection
-          if (!this.__isSelectable(target)) 
+          if (!this.__isSelectable(target))
           {
             // The element is not selectable. Block selection.
             target.unselectable = "on";
-            
+
             // Unselectable may keep the current selection which
             // is not what we like when changing the focus element.
             // So we clear it
-            document.selection.empty();            
-            
+            document.selection.empty();
+
             // The unselectable attribute stops focussing as well.
             // Do this manually.
             target.focus();
@@ -805,11 +805,11 @@ qx.Class.define("qx.event.handler.Focus",
         {
           // Stop event for blocking support
           qx.bom.Event.preventDefault(e);
-          
+
           // Add unselectable to keep selection
           if (!this.__isSelectable(target)) {
             target.unselectable = "on";
-          }             
+          }
         }
       },
 
@@ -817,43 +817,43 @@ qx.Class.define("qx.event.handler.Focus",
       {
         var target = e.target;
         var focusTarget = this.__findFocusElement(target);
-        
+
         if (focusTarget) {
           this.setFocus(focusTarget);
         } else {
-          qx.bom.Event.preventDefault(e); 
+          qx.bom.Event.preventDefault(e);
         }
       },
-      
+
       "opera" : function(e)
       {
         var target = e.target;
         var focusTarget = this.__findFocusElement(target);
-        
-        if(!this.__isSelectable(target)) 
+
+        if(!this.__isSelectable(target))
         {
-          qx.bom.Event.preventDefault(e); 
-          
+          qx.bom.Event.preventDefault(e);
+
           // The stopped event keeps the selection
           // of the previously focused element.
           // We need to clear the old selection.
           if (focusTarget)
           {
             var current = this.getFocus();
-            if (current && current.selectionEnd) 
+            if (current && current.selectionEnd)
             {
               current.selectionStart = 0;
-              current.selectionEnd = 0; 
+              current.selectionEnd = 0;
               current.blur();
             }
-            
+
             // The prevented event also stop the focus, do
             // it manually if needed.
             if (focusTarget) {
               this.setFocus(focusTarget);
-            }          
+            }
           }
-        }        
+        }
         else if (focusTarget)
         {
           this.setFocus(focusTarget);
@@ -873,13 +873,13 @@ qx.Class.define("qx.event.handler.Focus",
      */
     __onNativeMouseUp : qx.core.Variant.select("qx.client",
     {
-      "mshtml" : function(e) 
+      "mshtml" : function(e)
       {
         var target = e.srcElement;
         if (target.unselectable) {
           target.unselectable = "off";
         }
-        
+
         this.setActive(target);
       },
 
@@ -889,8 +889,8 @@ qx.Class.define("qx.event.handler.Focus",
 
       "default" : null
     }),
-    
-    
+
+
     /**
      * Native event listener for <code>selectstart</code>.
      *
@@ -903,10 +903,10 @@ qx.Class.define("qx.event.handler.Focus",
       "mshtml|webkit" : function(e)
       {
         if (!this.__isSelectable(e.srcElement)) {
-          qx.bom.Event.preventDefault(e); 
+          qx.bom.Event.preventDefault(e);
         }
       },
-      
+
       "default" : null
     }),
 
@@ -919,9 +919,9 @@ qx.Class.define("qx.event.handler.Focus",
       HELPER METHODS
     ---------------------------------------------------------------------------
     */
-    
+
     /**
-     * Whether the given element is focusable. This is perfectly modeled to the 
+     * Whether the given element is focusable. This is perfectly modeled to the
      * browsers behavior and this way may differ in the various clients.
      *
      * @type member
@@ -932,17 +932,17 @@ qx.Class.define("qx.event.handler.Focus",
     {
       var index = qx.bom.element.Attribute.get(el, "tabIndex");
       if (index >= 1) {
-        return true; 
+        return true;
       }
-      
+
       var focusable = qx.event.handler.Focus.FOCUSABLE_ELEMENTS;
       if (index >= 0 && focusable[el.tagName]) {
-        return true; 
+        return true;
       }
-      
+
       return false;
-    },   
-    
+    },
+
 
     /**
      * Returns the next focusable parent element of a activated DOM element.
@@ -954,15 +954,15 @@ qx.Class.define("qx.event.handler.Focus",
     __findFocusElement : function(el)
     {
       var Attribute = qx.bom.element.Attribute;
-      
+
       while (el && el.nodeType === 1)
       {
         if (Attribute.get(el, "qxKeepFocus") == "on") {
           return null;
         }
-        
+
         if (this.__isFocusable(el)) {
-          return el; 
+          return el;
         }
 
         el = el.parentNode;
@@ -1019,7 +1019,7 @@ qx.Class.define("qx.event.handler.Focus",
       if (value) {
         id = (value.tagName||value) + "[" + (value.$$hash || "none") + "]";
       }
-      
+
       this.debug("Property Active: " + id);
       */
 
@@ -1042,7 +1042,7 @@ qx.Class.define("qx.event.handler.Focus",
       if (value) {
         id = (value.tagName||value) + "[" + (value.$$hash || "none") + "]";
       }
-      
+
       this.debug("Property Focus: " + id);
       */
 
@@ -1093,14 +1093,14 @@ qx.Class.define("qx.event.handler.Focus",
   *****************************************************************************
   */
 
-  defer : function(statics) 
+  defer : function(statics)
   {
     qx.event.Registration.addHandler(statics);
-    
+
     // For faster lookups generate uppercase tag names dynamically
     var focusable = statics.FOCUSABLE_ELEMENTS;
     for (entry in focusable) {
-      focusable[entry.toUpperCase()] = 1; 
+      focusable[entry.toUpperCase()] = 1;
     }
   }
 });

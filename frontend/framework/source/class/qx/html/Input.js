@@ -46,13 +46,13 @@ qx.Class.define("qx.html.Input",
     this.base(arguments);
 
     this.__type = type;
-    
+
     // Update node name correctly
     if (type === "select" || type === "textarea") {
       this._nodeName = type;
     } else {
-      this._nodeName = "input"; 
-    }   
+      this._nodeName = "input";
+    }
   },
 
 
@@ -110,10 +110,10 @@ qx.Class.define("qx.html.Input",
     setValue : function(value)
     {
       if (this._element) {
-        qx.bom.Input.setValue(this._element, value); 
+        qx.bom.Input.setValue(this._element, value);
       } else {
         this._setProperty("value", value);
-      }         
+      }
 
       return this;
     },
@@ -128,9 +128,9 @@ qx.Class.define("qx.html.Input",
     getValue : function()
     {
       if (this._element) {
-        return qx.bom.Input.getValue(this._element); 
+        return qx.bom.Input.getValue(this._element);
       }
-            
+
       return this._getProperty("value") || "";
     },
 

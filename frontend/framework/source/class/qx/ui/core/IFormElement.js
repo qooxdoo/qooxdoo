@@ -29,22 +29,22 @@ qx.Interface.define("qx.ui.core.IFormElement",
      EVENTS
   *****************************************************************************
   */
-    
+
   events :
   {
     "changeValue" : "qx.event.type.Data",
     "changeName" : "qx.event.type.Data",
     "changeEnabled" : "qx.event.type.Data"
   },
-  
-  
-  
+
+
+
   /*
   *****************************************************************************
      MEMBERS
   *****************************************************************************
   */
-    
+
   members :
   {
     /*
@@ -52,7 +52,7 @@ qx.Interface.define("qx.ui.core.IFormElement",
       ENABLED PROPERTY
     ---------------------------------------------------------------------------
     */
-        
+
     /**
      * Set whether the element is enabled
      *
@@ -77,7 +77,7 @@ qx.Interface.define("qx.ui.core.IFormElement",
       NAME PROPERTY
     ---------------------------------------------------------------------------
     */
-        
+
     /**
      * Set the element's name
      *
@@ -94,8 +94,8 @@ qx.Interface.define("qx.ui.core.IFormElement",
      * @return {Boolean} the name of the element
      */
     getName : function() {},
-    
-    
+
+
 
 
     /*
@@ -112,13 +112,13 @@ qx.Interface.define("qx.ui.core.IFormElement",
     setValue : function(value) {
       this.assertType(value, "string");
     },
-    
-    
+
+
     /**
      * The element's user set value
      *
      * @return {var} the value
      */
-    getValue : function() {}  
+    getValue : function() {}
   }
 });

@@ -72,7 +72,7 @@ qx.Class.define("qx.ui.root.Abstract",
       refine : true,
       init : true
     },
-    
+
     /**
      *  Sets the global cursor style
      *
@@ -107,7 +107,7 @@ qx.Class.define("qx.ui.root.Abstract",
       themeable : true,
       apply : "_applyGlobalCursor",
       event : "changeGlobalCursor"
-    }    
+    }
   },
 
 
@@ -131,21 +131,21 @@ qx.Class.define("qx.ui.root.Abstract",
     isFocusRoot : function() {
       return true;
     },
-    
-    
+
+
     // property apply
     _applyGlobalCursor : qx.core.Variant.select("qx.client",
     {
       "mshtml" : function(value, old) {
         // empty implementation
       },
-      
+
       // This would be the optimal solution.
       // For performance reasons this is inpractical in IE
       "default" : function(value, old)
       {
         var Stylesheet = qx.bom.Stylesheet;
-        
+
         var sheet = this._globalCursorStyleSheet;
         if (!sheet) {
           this._globalCursorStyleSheet = sheet = Stylesheet.createElement();
@@ -159,7 +159,7 @@ qx.Class.define("qx.ui.root.Abstract",
       }
     })
   },
-  
+
 
 
 

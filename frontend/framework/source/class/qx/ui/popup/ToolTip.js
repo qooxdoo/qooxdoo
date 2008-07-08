@@ -191,7 +191,7 @@ qx.Class.define("qx.ui.popup.ToolTip",
           this._add(control);
           break;
       }
-      
+
       return control || this.base(arguments, id);
     },
 

@@ -33,7 +33,7 @@ qx.Class.define("qx.ui.toolbar.Part",
   *****************************************************************************
   */
 
-  construct : function() 
+  construct : function()
   {
     this.base(arguments);
     this._setLayout(new qx.ui.layout.HBox);
@@ -100,7 +100,7 @@ qx.Class.define("qx.ui.toolbar.Part",
           this._add(control);
           break;
       }
-      
+
       return control || this.base(arguments, id);
     },
 

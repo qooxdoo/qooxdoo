@@ -71,8 +71,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
         };
       }
     },
-    
-    
+
+
     /*
     ---------------------------------------------------------------------------
       IMAGE
@@ -88,19 +88,19 @@ qx.Theme.define("qx.theme.modern.Appearance",
         }
       }
     },
-    
-    
+
+
     "atom" : {},
     "atom/label" : "label",
     "atom/icon" : "image",
 
-    
+
     /*
     ---------------------------------------------------------------------------
       POPUP
     ---------------------------------------------------------------------------
     */
-    
+
     "popup" : "widget",
 
 
@@ -113,7 +113,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
     "button" :
     {
       alias : "atom",
-      
+
       style : function(states)
       {
         var decorator, textColor;
@@ -166,7 +166,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
     "checkbox":
     {
       alias : "atom",
-      
+
       style : function(states)
       {
         var icon;
@@ -243,7 +243,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       {
         return {
           decorator: states.focused ? "textfield-focused" : "textfield",
-          padding: [ 1, 3 ],          
+          padding: [ 1, 3 ],
           textColor: states.disabled ? "text-disabled" : "input-text",
           backgroundColor: "white"
         };
@@ -252,8 +252,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
 
 
     "textarea" : "textfield",
-    
-    
+
+
     /*
     ---------------------------------------------------------------------------
       SPINNER
@@ -274,7 +274,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
     "spinner/textfield" :
     {
       include : "textfield",
-      
+
       style : function(states)
       {
         return {
@@ -335,7 +335,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
     "groupbox/legend" :
     {
       alias : "atom",
-      
+
       style : function(states)
       {
         return {
@@ -356,13 +356,13 @@ qx.Theme.define("qx.theme.modern.Appearance",
         };
       }
     },
-    
+
 
     "check-groupbox" :
     {
       alias : "groupbox",
       include : "groupbox",
-      
+
       style : function(states)
       {
         return {
@@ -387,19 +387,19 @@ qx.Theme.define("qx.theme.modern.Appearance",
         };
       }
     },
-    
-    
-    "radio-groupbox" : 
+
+
+    "radio-groupbox" :
     {
       alias : "groupbox",
       include : "groupbox",
-      
+
       style : function(states)
       {
         return {
           padding : 10
-        } 
-      }      
+        }
+      }
     },
 
     "radio-groupbox/legend" :
@@ -438,13 +438,13 @@ qx.Theme.define("qx.theme.modern.Appearance",
         };
       }
     },
-    
+
     "scrollarea/pane" : "widget",
     "scrollarea/corner" : "widget",
     "scrollarea/scrollbar-x" : "scrollbar",
     "scrollarea/scrollbar-y" : "scrollbar",
-    
-    
+
+
     /*
     ---------------------------------------------------------------------------
       SCROLLBAR
@@ -467,7 +467,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
     "scrollbar/slider" :
     {
       alias : "slider",
-      
+
       style : function(states)
       {
         return {
@@ -480,7 +480,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
     {
       alias : "button",
       include : "button",
-      
+
       style : function(states)
       {
         var icon = "decoration/scrollbar/scrollbar-";
@@ -516,33 +516,33 @@ qx.Theme.define("qx.theme.modern.Appearance",
         }
       }
     },
-    
+
     "scrollbar/button-begin" : "scrollbar/button",
     "scrollbar/button-end" : "scrollbar/button",
-    
-    
+
+
     /*
     ---------------------------------------------------------------------------
       SLIDER
     ---------------------------------------------------------------------------
     */
-   
+
     "slider" :
     {
       style : function(states)
       {
         // TODO
         return {
-          
+
         }
       }
-    },    
-    
-    
+    },
+
+
     "slider/knob" :
     {
       include : "button",
-      
+
       style : function(states)
       {
         return {
@@ -566,7 +566,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
     "list" :
     {
       alias : "scrollarea",
-      
+
       style : function(states)
       {
         return {
@@ -575,11 +575,11 @@ qx.Theme.define("qx.theme.modern.Appearance",
         };
       }
     },
-    
+
     // TODO
     "list/pane" : "widget",
 
-    
+
     /*
     ---------------------------------------------------------------------------
       LIST ITEM
@@ -589,7 +589,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
     "listitem" :
     {
       alias : "atom",
-      
+
       style : function(states)
       {
         return {
@@ -599,34 +599,34 @@ qx.Theme.define("qx.theme.modern.Appearance",
         };
       }
     },
-    
-    
+
+
     /*
     ---------------------------------------------------------------------------
       SLIDEBAR
     ---------------------------------------------------------------------------
     */
-    
+
     "slidebar" : {},
     "slidebar/pane" : {},
     "slidebar/button-forward" : "button",
     "slidebar/button-backward" : "button",
-    
-    
+
+
     /*
     ---------------------------------------------------------------------------
       TABVIEW
     ---------------------------------------------------------------------------
     */
-    
-    
+
+
     // TODO: still classic style
     "tabview" : {},
 
-    "tabview/bar" : 
+    "tabview/bar" :
     {
       alias : "slidebar",
-      
+
       style : function(states)
       {
         return {
@@ -649,13 +649,13 @@ qx.Theme.define("qx.theme.modern.Appearance",
         };
       }
     },
-    
+
     "tabview-page" : {},
 
     "tabview-page/button" :
     {
       alias : "button",
-      
+
       style : function(states)
       {
         var paddingTop, paddingBottom, paddingLeft, paddingRight;
@@ -668,7 +668,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         decorator.set({
           width : 1,
           style : "solid",
-          color : "tabview-border"  
+          color : "tabview-border"
         });
 
         if (states.checked)
@@ -781,7 +781,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
 
     "toolbar/part" : {},
     "toolbar/part/container" : {},
-    
+
     "toolbar/part/handle" :
     {
       style : function(states)
@@ -792,12 +792,12 @@ qx.Theme.define("qx.theme.modern.Appearance",
         };
       }
     },
-    
-    
+
+
     "toolbar-button" :
     {
       alias : "atom",
-      
+
       style : function(states)
       {
         return {
@@ -841,7 +841,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       {
         return {
           //backgroundColor : states.selected ? "selected" : "undefined",
-          
+
           padding    : [4, 3, 3, 3],
           textColor  : states.selected ? "text-selected" : "undefined",
           decorator  : states.selected ? "tree-folder-selected" : "tree-folder",
@@ -929,7 +929,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
     "tooltip" :
     {
       include : "popup",
-      
+
       style : function(states)
       {
         return {
@@ -941,7 +941,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
     },
 
     "tooltip/atom" : "atom",
-    
+
 
     /*
     ---------------------------------------------------------------------------
@@ -970,7 +970,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       }
     },
 
-    
+
     "window/captionbar" :
     {
       style : function(states)
@@ -999,16 +999,16 @@ qx.Theme.define("qx.theme.modern.Appearance",
         return {
           alignY     : "middle",
           font       : "default",
-          marginLeft : 6 
+          marginLeft : 6
         };
       }
     },
-    
+
 
     "window/minimize-button" :
     {
-      alias : "atom",      
-      
+      alias : "atom",
+
       style : function(states)
       {
         return {
@@ -1020,7 +1020,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
     "window/restore-button" :
     {
       alias : "atom",
-      
+
       style : function(states)
       {
         return {
@@ -1033,7 +1033,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
     "window/maximize-button" :
     {
       alias : "atom",
-      
+
       style : function(states)
       {
         return {
@@ -1045,7 +1045,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
     "window/close-button" :
     {
       alias : "atom",
-      
+
       style : function(states)
       {
         return {
@@ -1054,7 +1054,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         };
       }
     },
-    
+
 
     "window/statusbar" :
     {
@@ -1077,14 +1077,14 @@ qx.Theme.define("qx.theme.modern.Appearance",
         };
       }
     },
-    
-    
+
+
     /*
     ---------------------------------------------------------------------------
       IFRAME
     ---------------------------------------------------------------------------
     */
-    
+
     "iframe" :
     {
       style : function(states)
@@ -1130,7 +1130,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
     */
 
     "splitpane" : {},
-      
+
     "splitpane/splitter" :
     {
       style : function(states)
@@ -1154,7 +1154,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         };
       }
     },
-    
+
     /*
     ---------------------------------------------------------------------------
       SELECTBOX
@@ -1165,7 +1165,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
     "selectbox/atom" : "atom",
     "selectbox/popup" : "popup",
     "selectbox/list" : "list",
-    
+
     "selectbox/arrow" :
     {
       style : function(states)
@@ -1176,7 +1176,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         };
       }
     },
-    
+
     // TODO: check if this is the right appearance
     /*"selectbox" : {
       style : function(states)
@@ -1193,7 +1193,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         };
       }
     },*/
-    
+
 
     /*
     ---------------------------------------------------------------------------
@@ -1211,15 +1211,15 @@ qx.Theme.define("qx.theme.modern.Appearance",
         };
       }
     },
-    
-    "combobox/button" : "button",    
+
+    "combobox/button" : "button",
     "combobox/popup" : "popup",
     "combobox/list" : "list",
 
     "combobox/textfield" :
     {
       include : "textfield",
-      
+
       style : function(states)
       {
         return {
@@ -1228,7 +1228,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         };
       }
     }
-    
+
     // TODO: check if this is the right appearance
     /*"combobox-button" :
     {

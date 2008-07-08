@@ -62,7 +62,7 @@ qx.Class.define("qx.ui.core.queue.Widget",
     flush : function()
     {
       var queue = this.__queue;
-      for (var hash in queue) 
+      for (var hash in queue)
       {
         queue[hash].syncWidget();
         delete queue[hash];

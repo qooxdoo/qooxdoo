@@ -85,8 +85,8 @@ qx.Class.define("qx.application.AbstractGui",
     finalize : function() {
       this.render();
     },
-    
-    
+
+
     /**
      * Updates the GUI rendering
      *

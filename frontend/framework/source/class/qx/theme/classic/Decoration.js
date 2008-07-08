@@ -46,7 +46,7 @@ qx.Theme.define("qx.theme.classic.Decoration",
         color : "black"
       }
     },
-    
+
     "white" :
     {
       decorator: qx.ui.decoration.Uniform,
@@ -291,22 +291,22 @@ qx.Theme.define("qx.theme.classic.Decoration",
         color : "tooltip-text"
       }
     },
-    
-    
+
+
     "toolbar-part-handle" :
     {
       decorator : qx.ui.decoration.Single,
-      
+
       style :
       {
         width : 1,
         backgroundColor : "background",
         style : "solid",
-        
+
         colorTop    : "#ffffff",
         colorLeft   : "#ffffff",
         colorRight  : "#a7a6aa",
-        colorBottom : "#a7a6aa"        
+        colorBottom : "#a7a6aa"
       }
     }
 

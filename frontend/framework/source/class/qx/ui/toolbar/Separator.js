@@ -42,17 +42,17 @@ qx.Class.define("qx.ui.toolbar.Separator",
       refine : true,
       init : "toolbar-separator"
     },
-    
-    width : 
+
+    width :
     {
       refine : true,
-      init : 0 
+      init : 0
     },
 
-    height : 
+    height :
     {
       refine : true,
-      init : 0 
+      init : 0
     }
   }
 });

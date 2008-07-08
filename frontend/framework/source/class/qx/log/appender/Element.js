@@ -1,20 +1,20 @@
 qx.Class.define("qx.log.appender.Element",
 {
   extend : qx.core.Object,
-  
-  
-  
+
+
+
   /*
   *****************************************************************************
      CONSTRUCTOR
   *****************************************************************************
   */
-    
+
   construct : function(element)
   {
     this.base(arguments);
-    
-    var style = 
+
+    var style =
     [
       '.qxappender .level-debug{background:white}',
       '.qxappender .level-info{background:#DEEDFA}',
@@ -31,23 +31,23 @@ qx.Class.define("qx.log.appender.Element",
       '.qxappender .type-instance{color:#565656;font-weight:bold}',
       '.qxappender .type-stringify{color:#565656;font-weight:bold}'
     ];
-    
+
     // Include stylesheet
     qx.bom.Stylesheet.createElement(style.join(""));
-          
+
     // Finally register to log engine
-    qx.log.Logger.register(this);    
+    qx.log.Logger.register(this);
   },
-  
-  
-  
+
+
+
   /*
   *****************************************************************************
      MEMBERS
   *****************************************************************************
-  */  
-  
-  members : 
+  */
+
+  members :
   {
     /**
      * Configures the DOM element to use.
@@ -60,17 +60,17 @@ qx.Class.define("qx.log.appender.Element",
     {
       // Clear old element
       this.clear();
-    
+
       // Add classname
       if (element) {
         qx.bom.element.Class.add(element, "qxappender");
       }
-    
+
       // Link to element
-      this.__element = element;    
+      this.__element = element;
     },
 
-    
+
     /**
      * Clears the current output.
      *
@@ -80,14 +80,14 @@ qx.Class.define("qx.log.appender.Element",
     clear : function()
     {
       var elem = this.__element;
-      
+
       // Remove all messages
       if (elem) {
         elem.innerHTML = "";
       }
     },
-    
-        
+
+
     /**
      * Processes a single log entry
      *
@@ -99,11 +99,11 @@ qx.Class.define("qx.log.appender.Element",
     process : function(entry)
     {
       var elem = this.__element;
-      
+
       if (!elem) {
         return;
       }
-      
+
       // Append new content
       elem.appendChild(qx.log.appender.Util.toHtml(entry));
 
@@ -111,15 +111,15 @@ qx.Class.define("qx.log.appender.Element",
       elem.scrollTop = elem.scrollHeight;
     }
   },
-  
-  
-  
+
+
+
   /*
   *****************************************************************************
      DESTRUCTOR
   *****************************************************************************
   */
-    
+
   destruct : function() {
     this._disposeFields("__element");
   }
