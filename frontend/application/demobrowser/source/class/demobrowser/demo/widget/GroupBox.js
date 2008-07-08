@@ -42,9 +42,10 @@ qx.Class.define("demobrowser.demo.widget.GroupBox",
       container.setPadding(20);
       this.getRoot().add(container, {left:0,top:0});
 
+
+
       // create the first group box
       var box1 = new qx.ui.groupbox.GroupBox("Code Assist", "icon/16/apps/accessories-text-editor.png");
-      box1.setLegendPosition("top");
       container.add(box1);
 
       // create and add the content of the first group box
@@ -53,6 +54,8 @@ qx.Class.define("demobrowser.demo.widget.GroupBox",
       box1.add(new qx.ui.form.CheckBox("Show debugging content"));
       box1.add(new qx.ui.form.CheckBox("Enable code completion"));
       box1.add(new qx.ui.form.CheckBox("Show debugging console"));
+
+
 
 
       // create the second group box
@@ -66,10 +69,7 @@ qx.Class.define("demobrowser.demo.widget.GroupBox",
       box2.add(textField);
 
 
-      // Add a listener to the checkbox
-      box2.getLegendObject().addListener("change", function(e) {
-        textField.setEnabled(e.getData());
-      }, this);
+
 
       // create the third group box
       var radioButton1 = new qx.ui.form.RadioButton("Normal Settings");
@@ -89,12 +89,6 @@ qx.Class.define("demobrowser.demo.widget.GroupBox",
       var textField2 = new qx.ui.form.TextField("");
       textField2.setWidth(200);
       box3.add(textField2);
-
-      // Add a listener to the radio button
-      box3.addListener("change", function(e) {
-        textField2.setEnabled(e.getData());
-      }, this);
-
     }
   }
 });
