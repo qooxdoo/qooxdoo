@@ -58,7 +58,7 @@ qx.Bootstrap.define("qx.bom.client.Platform",
     __init : function()
     {
       var input = navigator.platform;
-      
+
       // Fallback to user agent
       // Needed for Adobe AIR 1.0
       if (input == null || input === "") {

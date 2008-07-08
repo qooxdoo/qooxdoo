@@ -224,10 +224,10 @@ qx.Class.define("qx.ui.basic.Image",
       else if (ImageLoader.isLoaded(source))
       {
         // Apply source to ClippedImage instance
-        el.setSource(source, false);        
-        
+        el.setSource(source, false);
+
         // Compare with old sizes and relayout if necessary
-        this._updateSize(el.getWidth(), el.getHeight());        
+        this._updateSize(el.getWidth(), el.getHeight());
       }
       else
       {
@@ -279,11 +279,11 @@ qx.Class.define("qx.ui.basic.Image",
       // Update image (again)
       this._styleSource();
     },
-    
-    
+
+
     /**
      * Updates the size if size has changed
-     * 
+     *
      * @type member
      * @param width {Integer} width of the image
      * @param height {Integer} height of the image
@@ -299,6 +299,6 @@ qx.Class.define("qx.ui.basic.Image",
 
         qx.ui.core.queue.Layout.add(this);
       }
-    }    
+    }
   }
 });

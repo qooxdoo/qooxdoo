@@ -106,15 +106,15 @@ qx.Class.define("qx.ui.form.SelectBox",
           this._add(control);
           break;
       }
-      
+
       return control || this.base(arguments, id);
     },
 
     // overridden
     _forwardStates : {
-      focused : true      
+      focused : true
     },
-    
+
 
 
     /*
@@ -127,14 +127,14 @@ qx.Class.define("qx.ui.form.SelectBox",
     _applySelected : function(value, old)
     {
       this.base(arguments, value, old);
-      
+
       var atom = this._getChildControl("atom");
       atom.setLabel(value.getLabel());
-      atom.setIcon(value.getIcon());      
+      atom.setIcon(value.getIcon());
     },
-    
-    
-    
+
+
+
 
     /*
     ---------------------------------------------------------------------------
@@ -150,9 +150,9 @@ qx.Class.define("qx.ui.form.SelectBox",
     _onMouseDown : function(e) {
       this._togglePopup();
     },
-    
 
-    // overridden    
+
+    // overridden
     _onKeyPress : function(e)
     {
       if(e.getKeyIdentifier() == "Enter") {
@@ -160,10 +160,10 @@ qx.Class.define("qx.ui.form.SelectBox",
       } else if(this._getChildControl("popup").isHidden()){
         this._getChildControl("list").handleKeyPress(e);
       } else {
-        this.base(arguments, e);      
+        this.base(arguments, e);
       }
     },
-    
+
 
     /**
      * Forwards key event to list widget.
@@ -176,7 +176,7 @@ qx.Class.define("qx.ui.form.SelectBox",
       var clone = e.clone();
       clone.setTarget(this._list);
       clone.setBubbles(false);
-      
+
       // forward it to the list
       this._getChildControl("list").dispatchEvent(clone);
     }

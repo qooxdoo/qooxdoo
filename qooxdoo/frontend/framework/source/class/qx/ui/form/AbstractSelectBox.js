@@ -47,7 +47,7 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
     // Register listeners
     this.addListener("keypress", this._onKeyPress);
     this.addListener("blur", this._hideList, this);
-    
+
     // register the resize listener
     this.addListener("resize", this._onResize, this);
   },
@@ -130,7 +130,7 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
           control.add(this._getChildControl("list"));
           break;
       }
-      
+
       return control || this.base(arguments, id);
     },
 
@@ -159,16 +159,16 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
       PUBLIC METHODS
     ---------------------------------------------------------------------------
     */
-    
+
     /**
      * Returns the list widget.
      * @type member
-     * @return {qx.ui.form.List} the list  
+     * @return {qx.ui.form.List} the list
      */
     getChildrenContainer : function() {
       return this._getChildControl("list");
     },
-    
+
 
 
     /*
@@ -190,7 +190,7 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
 
       var spaceAbove = pos.top;
       var spaceBelow = clientHeight - pos.bottom;
-      
+
       var list = this._getChildControl("list");
       var listPopup = this._getChildControl("popup");
 
@@ -202,21 +202,21 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
       if (spaceBelow > listHeight) {
         listPopup.moveTo(pos.left, pos.bottom);
       }
-      
+
       // case 2: list does not fit below the button but above it
       else if (spaceAbove > listHeight) {
         listPopup.moveTo(pos.left, pos.top - listHeight);
-      } 
+      }
 
       // case 3: List does not fit at all
       else if (spaceBelow > spaceAbove)
       {
         list.setMaxHeight(spaceBelow);
         listPopup.moveTo(pos.left, pos.bottom);
-      } 
-      
+      }
+
       // case 4: List must be fitted above the button
-      else 
+      else
       {
         list.setMaxHeight(spaceAbove);
         listPopup.moveTo(pos.left, pos.bottom - listHeight);
@@ -233,7 +233,7 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
     _hideList : function() {
       this._getChildControl("popup").hide();
     },
-    
+
 
     /**
      * Toggles the popup's visibility.
@@ -263,12 +263,12 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
      * @param e {Object} Activation event
      * @type member
      */
-    _onActivateList : function(e) 
+    _onActivateList : function(e)
     {
       this.activate();
       e.stopPropagation();
     },
-    
+
 
     /**
      * Reacts on special keys and forwards other key events to the list widget.
@@ -301,7 +301,7 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
 
         return;
       }
- 
+
       // forward the rest of the events to the list
       this._getChildControl("list").handleKeyPress(e);
     },

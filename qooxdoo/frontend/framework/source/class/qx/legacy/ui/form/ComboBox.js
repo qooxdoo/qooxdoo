@@ -328,7 +328,7 @@ qx.Class.define("qx.legacy.ui.form.ComboBox",
     _applySelected : function(value, old)
     {
       this._fromSelected = true;
-      
+
       // only do this if we called setSelected seperatly
       // and not from the property "value".
       if (!this._fromValue) {

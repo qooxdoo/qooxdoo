@@ -101,15 +101,15 @@ qx.Class.define("qx.legacy.ui.listview.ContentCellImage",
      */
     setSource : function(vSource)
     {
-      if (this._initialLayoutDone) 
+      if (this._initialLayoutDone)
       {
         if (vSource == "") {
           return this._updateContent(qx.util.ResourceManager.toUri(qx.legacy.util.AliasManager.getInstance().resolve(vSource)));
         } else {
           return this._updateContent(qx.util.ResourceManager.toUri("qx/static/image/blank.gif"));
         }
-      } 
-      else 
+      }
+      else
       {
         return qx.legacy.ui.basic.Image.prototype.setSource.call(this, vSource);
       }

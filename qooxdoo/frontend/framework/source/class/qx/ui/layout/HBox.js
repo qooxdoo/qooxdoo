@@ -155,10 +155,10 @@ qx.Class.define("qx.ui.layout.HBox",
       init : 0,
       apply : "_applyLayoutChange"
     },
-    
-    
+
+
     /** Separator to use between the objects */
-    separator : 
+    separator :
     {
       check : "String",
       //init : "black",
@@ -219,7 +219,7 @@ qx.Class.define("qx.ui.layout.HBox",
       // Sparse array (keep old one if lengths has not been modified)
       var widths = reuse ? this._widths : new Array(length);
       var flexs = reuse ? this._flexs : new Array(length);
-      
+
       // Loop through children to preparse values
       for (var i=0; i<length; i++)
       {
@@ -300,8 +300,8 @@ qx.Class.define("qx.ui.layout.HBox",
       var children = this.__children;
       var length = children.length;
       var util = qx.ui.layout.Util;
-      
-      
+
+
       if (this.getSeparator())
       {
         var gaps = this.computeSeparatorGaps();
@@ -403,7 +403,7 @@ qx.Class.define("qx.ui.layout.HBox",
         top = util.computeVerticalAlignOffset(child.getAlignY()||this.getAlignY(), height, availHeight, marginTop, marginBottom);
 
         // Add collapsed margin
-        if (i > 0) 
+        if (i > 0)
         {
           if (separator)
           {
@@ -413,14 +413,14 @@ qx.Class.define("qx.ui.layout.HBox",
             // Just a test if this could work this way
             var helperWidget = new qx.ui.core.Widget;
             helperWidget.setBackgroundColor("red");
-            
+
             // Needed for DOM sync
             // Bit hacky, we must be sure to not influence the children array
             helperWidget.setLayoutParent(child.getLayoutParent());
-            
+
             // Render separator
             helperWidget.renderLayout(left, 0, separatorWidth, availHeight);
-            
+
             left += separatorWidth + spacing + child.getMarginLeft();
           }
           else
@@ -492,7 +492,7 @@ qx.Class.define("qx.ui.layout.HBox",
         // Respect gaps
         var gaps = util.computeHorizontalGaps(children, this.getSpacing(), true);
       }
-      
+
       // Return hint
       return {
         minWidth : minWidth + gaps,
@@ -501,8 +501,8 @@ qx.Class.define("qx.ui.layout.HBox",
         height : height
       };
     },
-    
-    
+
+
     /**
      * Computes the gaps together with the configuration of separators.
      *
@@ -515,13 +515,13 @@ qx.Class.define("qx.ui.layout.HBox",
       var gaps = 0;
       var separatorWidth = 1;
       var spacing = this.getSpacing();
-      
-      for (var i=0, l=children.length; i<l; i++) 
+
+      for (var i=0, l=children.length; i<l; i++)
       {
         child = children[i];
         gaps += child.getMarginLeft() + child.getMarginRight();
       }
-      
+
       gaps += (spacing + separatorWidth + spacing) * (l-1);
 
       return gaps;

@@ -35,13 +35,13 @@ qx.Class.define("qx.html.Image",
      CONSTRUCTOR
   *****************************************************************************
   */
-  
+
   construct : function() {
     this.base(arguments, "img");
   },
-  
-  
-  
+
+
+
 
 
   /*

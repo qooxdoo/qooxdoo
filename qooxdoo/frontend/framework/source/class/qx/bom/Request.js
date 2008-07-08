@@ -32,8 +32,8 @@
        * Sergey Ilinsky
 
      Comment:
-       Sergey has allowed us to use his code under a MIT license 
-       by written consent (original code under Apache license). 
+       Sergey has allowed us to use his code under a MIT license
+       by written consent (original code under Apache license).
        Thanks again.
 
 ************************************************************************ */

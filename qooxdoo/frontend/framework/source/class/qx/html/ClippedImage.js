@@ -63,20 +63,20 @@ qx.Class.define("qx.html.ClippedImage",
     {
       var left, top;
       var imageLoader = qx.io2.ImageLoader;
-      
+
       // TODO: Rework ResourceManager API!
-      
+
       var data = qx.util.ResourceManager.getData(source);
-      if (data) 
+      if (data)
       {
         this.__width = data[0];
         this.__height = data[1];
-  
+
         // Have clipped data available
         if (data.length > 4)
         {
           source = data[4];
-  
+
           left = data[5];
           top = data[6];
         }

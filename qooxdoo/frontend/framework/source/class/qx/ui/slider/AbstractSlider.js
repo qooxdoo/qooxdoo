@@ -186,23 +186,23 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
     _createChildControlImpl : function(id)
     {
       var control;
-      
+
       switch(id)
       {
         case "knob":
           control = new qx.ui.core.Widget;
           control.addListener("resize", this._onUpdate, this);
-          this._add(control);      
+          this._add(control);
           break;
       }
-       
+
       return control || this.base(arguments, id);
     },
-    
-    
-    
-    
-        
+
+
+
+
+
     /*
     ---------------------------------------------------------------------------
       EVENT HANDLER

@@ -171,13 +171,13 @@ qx.Class.define("qx.ui.core.selection.Abstract",
       var mode = this.getMode();
       if (mode === "single" || mode === "one") {
         this._setSelectedItem(item);
-      } 
-      else 
+      }
+      else
       {
         if (!this._getAnchorItem()) {
           this._setAnchorItem(item);
         }
-  
+
         this._setLeadItem(item);
         this._addToSelection(item);
       }
@@ -262,43 +262,43 @@ qx.Class.define("qx.ui.core.selection.Abstract",
 
       this._fireChange();
     },
-    
-    
+
+
     /**
      * Replaces current selection with the given items
      *
      * @type member
      * @param items {Object} Items to select
      * @return {void}
-     */    
+     */
     replaceSelection : function(items)
     {
       // Remove selection completely
       this._clearSelection();
-      
+
       // Reset anchor and lead item
       this._setLeadItem(null);
       this._setAnchorItem(null);
-      
+
       // Add given items to selection
       for (var i=0, l=items.length; i<l; i++) {
-        this._addToSelection(items[i]); 
+        this._addToSelection(items[i]);
       }
-      
+
       // Scroll last item into view
       if (l > 0) {
         this._scrollItemIntoView(items[l-1]);
       }
-      
+
       // Correcting selection when 'one' mode is active
-      else if (this.getMode() == "one") 
+      else if (this.getMode() == "one")
       {
         var firstItem = this.getFirstSelectable();
         if (firstItem) {
           this._addToSelection(firstItem);
         }
       }
-      
+
       // Finally fire change event
       this._fireChange();
     },
@@ -730,9 +730,9 @@ qx.Class.define("qx.ui.core.selection.Abstract",
       this._setAnchorItem(null);
 
       this._clearSelection();
-      
+
       // Mode "one" requires one selected item
-      if (value === "one") 
+      if (value === "one")
       {
         var first = this._getFirstSelectable();
         if (first) {
@@ -740,7 +740,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
           this._scrollItemIntoView(first);
         }
       }
-      
+
       this._fireChange();
     },
 

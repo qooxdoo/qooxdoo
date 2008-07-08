@@ -170,16 +170,16 @@ qx.Class.define("qx.ui.form.RepeatButton",
      * this function.
      *
      * @type member
-     * @param fireExecuteEvent {Boolean?true} flag which signals, if a event should be fired 
+     * @param fireExecuteEvent {Boolean?true} flag which signals, if a event should be fired
      * @return {void}
      */
     release : function(fireExecuteEvent)
     {
       // only if the button is enabled
       if (!this.isEnabled()) {
-        return;  
+        return;
       }
-      
+
       // only if the button is pressed
       if (this.hasState("pressed"))
       {
@@ -211,21 +211,21 @@ qx.Class.define("qx.ui.form.RepeatButton",
     _applyEnabled : function(value, old)
     {
       this.base(arguments, value, old);
-      
+
       if (!value)
       {
         // remove button states
         this.removeState("pressed");
-        this.removeState("abandoned");      
-        
+        this.removeState("abandoned");
+
         // stop the repeat timer and therefore the execution
-        this.__stopInternalTimer();      
+        this.__stopInternalTimer();
       }
     },
-    
-    
-    
-    
+
+
+
+
 
     /*
     ---------------------------------------------------------------------------

@@ -111,7 +111,7 @@ qx.Class.define("qx.event.handler.Element",
 
       var listener = qx.lang.Function.listener(this._onNative, this, eventId);
       qx.bom.Event.addNativeListener(target, type, listener);
-      
+
       this._registeredEvents[eventId] =
       {
         element : target,
@@ -153,7 +153,7 @@ qx.Class.define("qx.event.handler.Element",
     {
       var eventData = this._registeredEvents[eventId];
 
-      qx.event.Registration.fireNonBubblingEvent(eventData.element, eventData.type, 
+      qx.event.Registration.fireNonBubblingEvent(eventData.element, eventData.type,
         qx.event.type.Native, [nativeEvent]);
     }
   },

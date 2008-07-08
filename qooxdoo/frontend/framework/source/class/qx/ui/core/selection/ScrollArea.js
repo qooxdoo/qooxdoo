@@ -72,7 +72,7 @@ qx.Class.define("qx.ui.core.selection.ScrollArea",
     _getScroll : function()
     {
       var widget = this._widget;
-      
+
       return {
         left : widget.getScrollX(),
         top : widget.getScrollY()
