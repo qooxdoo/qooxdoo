@@ -32,8 +32,8 @@ qx.Class.define("qx.ui.groupbox.RadioGroupBox",
       init   : "radio-groupbox"
     }
   },
-  
-  events : 
+
+  events :
   {
     change : "qx.event.type.Data"
   },
@@ -51,15 +51,15 @@ qx.Class.define("qx.ui.groupbox.RadioGroupBox",
           control = new qx.ui.form.RadioButton;
           control.setChecked(true);
           control.addListener("change", this._onChange, this);
-    
+
           this._add(control);
       }
-      
+
       return control || this.base(arguments, id);
     },
-    
+
     _onChange : function(e) {
-      this.fireNonBubblingEvent("change", qx.event.type.Data, [e.getData()]); 
+      this.fireNonBubblingEvent("change", qx.event.type.Data, [e.getData()]);
     }
   }
 });

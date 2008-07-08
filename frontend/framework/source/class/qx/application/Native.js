@@ -48,13 +48,13 @@ qx.Class.define("qx.application.Native",
     {
       // empty
     },
-    
-    
+
+
     // interface method
     finalize : function()
     {
       // empty
-    },    
+    },
 
 
     // interface method

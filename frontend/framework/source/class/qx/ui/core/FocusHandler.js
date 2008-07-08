@@ -82,7 +82,7 @@ qx.Class.define("qx.ui.core.FocusHandler",
     _onfocusin : function(e)
     {
       var target = e.getTarget();
-      if (target.getFocusRoot() === this.__attachedWidget) 
+      if (target.getFocusRoot() === this.__attachedWidget)
       {
         this.__focusedChild = target;
         target.visualizeFocus();
@@ -97,10 +97,10 @@ qx.Class.define("qx.ui.core.FocusHandler",
      * @param e {qx.event.type.Focus} Focus event
      * @return {void}
      */
-    _onfocusout : function(e) 
+    _onfocusout : function(e)
     {
       var target = e.getTarget();
-      if (target.getFocusRoot() === this.__attachedWidget) 
+      if (target.getFocusRoot() === this.__attachedWidget)
       {
         this.__focusedChild = null;
         target.visualizeBlur();

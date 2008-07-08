@@ -32,12 +32,12 @@ qx.Class.define("qx.ui.groupbox.CheckGroupBox",
       init   : "check-groupbox"
     }
   },
-  
-  events : 
+
+  events :
   {
     change : "qx.event.type.Data"
-  },  
-  
+  },
+
   members :
   {
     // overridden
@@ -51,13 +51,13 @@ qx.Class.define("qx.ui.groupbox.CheckGroupBox",
           control = new qx.ui.form.CheckBox;
           control.setChecked(true);
           control.addListener("change", this._onChange, this);
-    
+
           this._add(control);
       }
-      
+
       return control || this.base(arguments, id);
     },
-    
+
     _onChange : function(e) {
       this.fireNonBubblingEvent("change", qx.event.type.Data, [e.getData()]);
     }

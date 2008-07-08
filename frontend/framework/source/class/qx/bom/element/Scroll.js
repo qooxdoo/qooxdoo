@@ -42,7 +42,7 @@ qx.Class.define("qx.bom.element.Scroll",
      *
      * @type static
      * @param element {Element} DOM element to scroll into view
-     * @param stop {Element?null} Any parent element which functions as 
+     * @param stop {Element?null} Any parent element which functions as
      *   outest element to scroll. Default is the HTML document.
      * @param align {String?null} Alignment of the element. Allowed values:
      *   <code>left</code> or <code>right</code>. Could also be null.
@@ -63,9 +63,9 @@ qx.Class.define("qx.bom.element.Scroll",
 
       var alignLeft = align === "left";
       var alignRight = align === "right";
-      
+
       // Correcting stop position
-      stop = stop ? stop.parentNode : doc; 
+      stop = stop ? stop.parentNode : doc;
 
       // Go up the parent chain
       while (parent && parent != stop)
@@ -144,7 +144,7 @@ qx.Class.define("qx.bom.element.Scroll",
             // console.debug("Go Up...");
             scrollDiff = rightOffset + parentScrollBarWidth;
           }
-          
+
           // console.log("Scroll by: " + scrollDiff);
           parent.scrollLeft += scrollDiff;
 
@@ -158,7 +158,7 @@ qx.Class.define("qx.bom.element.Scroll",
         if (parent === body) {
           break;
         }
-        
+
         parent = parent.parentNode;
       }
     },
@@ -169,7 +169,7 @@ qx.Class.define("qx.bom.element.Scroll",
      *
      * @type static
      * @param element {Element} DOM element to scroll into view
-     * @param stop {Element?null} Any parent element which functions as 
+     * @param stop {Element?null} Any parent element which functions as
      *   outest element to scroll. Default is the HTML document.
      * @param align {String?null} Alignment of the element. Allowed values:
      *   <code>top</code> or <code>bottom</code>. Could also be null.
@@ -190,9 +190,9 @@ qx.Class.define("qx.bom.element.Scroll",
 
       var alignTop = align === "top";
       var alignBottom = align === "bottom";
-      
+
       // Correcting stop position
-      stop = stop ? stop.parentNode : doc; 
+      stop = stop ? stop.parentNode : doc;
 
       // Go up the parent chain
       while (parent && parent != stop)
@@ -273,7 +273,7 @@ qx.Class.define("qx.bom.element.Scroll",
           }
 
           parent.scrollTop += scrollDiff;
-          
+
           // Firefox 3 seems to fire the scroll event asynchronously
           // We fire another one a bit earlier here
           if (qx.bom.client.Engine.GECKO) {
@@ -288,14 +288,14 @@ qx.Class.define("qx.bom.element.Scroll",
         parent = parent.parentNode;
       }
     },
-    
+
 
     /**
      * The method scrolls the element into view.
      *
      * @type static
      * @param element {Element} DOM element to scroll into view
-     * @param stop {Element?null} Any parent element which functions as 
+     * @param stop {Element?null} Any parent element which functions as
      *   outest element to scroll. Default is the HTML document.
      * @param alignX {String} Alignment of the element. Allowed values:
      *   <code>left</code> or <code>right</code>. Could also be undefined.

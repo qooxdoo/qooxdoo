@@ -123,7 +123,7 @@ qx.Class.define("qx.fx.effect.core.Move",
       this.base(arguments);
 
       var left = Math.round(this._x  * position + this._originalLeft);
-      var top = Math.round(this._y  * position + this._originalTop);      
+      var top = Math.round(this._y  * position + this._originalTop);
 
       qx.bom.element.Style.set(this._element, "left", left + "px");
       qx.bom.element.Style.set(this._element, "top", top + "px");

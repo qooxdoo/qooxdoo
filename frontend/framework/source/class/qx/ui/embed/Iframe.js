@@ -41,7 +41,7 @@
  *
  * <a href='http://qooxdoo.org/documentation/0.8/widget/iframe' target='_blank'>
  * Documentation of this widget in the qooxdoo wiki.</a>
- * 
+ *
  * @appearance iframe
  */
 qx.Class.define("qx.ui.embed.Iframe",
@@ -69,7 +69,7 @@ qx.Class.define("qx.ui.embed.Iframe",
 
     qx.event.Registration.addListener(document, "mousedown", this.block, this, true);
     qx.event.Registration.addListener(document, "mouseup", this.release, this, true);
-    
+
     this._blockerElement = this._createBlockerElement();
     this._containerElement.add(this._blockerElement);
   },
@@ -103,7 +103,7 @@ qx.Class.define("qx.ui.embed.Iframe",
       refine : true,
       init : "iframe"
     },
-    
+
     /**
      * Source URL of the iframe.
      */
@@ -136,12 +136,12 @@ qx.Class.define("qx.ui.embed.Iframe",
 
   members :
   {
-    
+
     // overridden
     renderLayout : function(left, top, width, height)
     {
       this.base(arguments, left, top, width, height);
-      
+
       var pixel = "px";
       var insets = this.getInsets();
 
@@ -150,7 +150,7 @@ qx.Class.define("qx.ui.embed.Iframe",
       this._blockerElement.setStyle("width", (width - insets.left - insets.right) + pixel);
       this._blockerElement.setStyle("height", (height - insets.top - insets.bottom) + pixel);
     },
-    
+
     // overridden
     _createContentElement : function() {
       return new qx.html.Iframe(this._source);
@@ -177,7 +177,7 @@ qx.Class.define("qx.ui.embed.Iframe",
 
       return el;
     },
-    
+
     /*
     ---------------------------------------------------------------------------
       METHODS
@@ -259,7 +259,7 @@ qx.Class.define("qx.ui.embed.Iframe",
     {
       this.getContentElement().reload();
     },
-    
+
     /*
     ---------------------------------------------------------------------------
       APPLY ROUTINES

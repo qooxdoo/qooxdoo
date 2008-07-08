@@ -33,10 +33,10 @@ qx.Class.define("qx.ui.tabview.TabView",
      CONSTRUCTOR
   *****************************************************************************
   */
-  construct : function() 
+  construct : function()
   {
     this.base(arguments);
-    
+
     this._createChildControl("bar");
     this._createChildControl("pane");
 
@@ -128,10 +128,10 @@ qx.Class.define("qx.ui.tabview.TabView",
 
       // add the button to the bar
       this._getChildControl("bar").add(page.getButton());
-      
+
       // add the button to the radio manager
       this._manager.add(page.getButton());
-      
+
       // add the page to the pane
       this._getChildControl("pane").add(page);
 
@@ -159,10 +159,10 @@ qx.Class.define("qx.ui.tabview.TabView",
 
       // add the button to the bar
       bar.remove(page.getButton());
-      
+
       // add the button to the radio manager
       manager.remove(page.getButton());
-      
+
       // add the page to the pane
       pane.remove(page);
     },
@@ -173,7 +173,7 @@ qx.Class.define("qx.ui.tabview.TabView",
      *
      * @param page {qx.ui.tabview.Page} The page to show.
      */
-    showPage: function(page) 
+    showPage: function(page)
     {
       // TODO: check if the button is in the bar
       this._manager.setSelected(page.getButton());
@@ -205,11 +205,11 @@ qx.Class.define("qx.ui.tabview.TabView",
     {
       var bar = this._getChildControl("bar");
       bar.getLayout().setAlignX(value ? "left" : "right");
-      
+
       // set or remove the state on the buttons
       var buttons = bar.getChildren();
-      
-      for (var i = 0; i < buttons.length; i++) 
+
+      for (var i = 0; i < buttons.length; i++)
       {
         if (value) {
           buttons[i].addState("alignLeft");
@@ -231,17 +231,17 @@ qx.Class.define("qx.ui.tabview.TabView",
      * @param value {boolean} The new value.
      * @param old {boolean} The old value.
      */
-    _applyPlaceBarOnTop : function(value, old) 
+    _applyPlaceBarOnTop : function(value, old)
     {
       var bar = this._getChildControl("bar");
-      
+
       // reverse the layout
       this._getLayout().setReversed(!value);
-      
+
       // set or remove the state on the buttons
       var buttons = bar.getChildren();
-      
-      for (var i = 0; i < buttons.length; i++) 
+
+      for (var i = 0; i < buttons.length; i++)
       {
         if (value) {
           buttons[i].addState("barTop");
@@ -250,23 +250,23 @@ qx.Class.define("qx.ui.tabview.TabView",
         }
       }
     },
-    
-    
+
+
     _onChange : function(e)
     {
       var newButton = e.getData();
       var oldButton = e.getOldValue();
 
       if (newButton)
-      {      
+      {
         newButton.getUserData("page").show();
         this._getChildControl("bar").scrollChildIntoView(newButton);
       }
-      
+
       if (oldButton)
       {
         oldButton.getUserData("page").exclude();
       }
-    }  
+    }
   }
 });

@@ -20,8 +20,8 @@
 
 /**
  * The background class contains methods to compute and set the background image
- * of a DOM element. 
- * 
+ * of a DOM element.
+ *
  * It fixes a background position issue in Firefox 2.
  */
 qx.Class.define("qx.bom.element.Background",
@@ -29,14 +29,14 @@ qx.Class.define("qx.bom.element.Background",
   statics :
   {
     /** {Array} Internal helper to improve compile performance */
-    __tmpl : 
+    __tmpl :
     [
-      "background-image:url(", null, ");", 
+      "background-image:url(", null, ");",
       "background-position:", null, ";",
       "background-repeat:", null, ";"
     ],
-    
-    
+
+
     /**
      * Compiles the background into a CSS compatible string.
      *
@@ -58,26 +58,26 @@ qx.Class.define("qx.bom.element.Background",
       if (Engine.GECKO && Engine.VERSION < 1.9 && left == top && left != null) {
         top += 0.01;
       }
-      
+
       if (left != null || top != null) {
         var position = (left == null ? "0px" : left + "px") + " " + (top == null ? "0px" : top + "px")
       }
-      
+
       // for IE check the given url for "HTTPS" to avoid "Mixed content" warnings
       var backgroundImageUrl = qx.util.ResourceManager.toUri(source);
       if (qx.core.Variant.isSet("qx.client", "mshtml"))
       {
         backgroundImageUrl = this.__checkImageUrl(backgroundImageUrl);
       }
-      
+
       // Updating template
       var tmpl = this.__tmpl;
-      
+
       tmpl[1] = backgroundImageUrl;
       tmpl[4] = position;
       tmpl[7] = repeat;
 
-      return tmpl.join("");      
+      return tmpl.join("");
     },
 
 
@@ -99,18 +99,18 @@ qx.Class.define("qx.bom.element.Background",
       if (Engine.GECKO && Engine.VERSION < 1.9 && left == top && left != null) {
         top += 0.01;
       }
-      
+
       if (left != null || top != null) {
         var position = (left == null ? "0px" : left + "px") + " " + (top == null ? "0px" : top + "px")
       }
-      
+
       // for IE check the given url for "HTTPS" to avoid "Mixed content" warnings
       var backgroundImageUrl = qx.util.ResourceManager.toUri(source);
       if (qx.core.Variant.isSet("qx.client", "mshtml"))
       {
         backgroundImageUrl = this.__checkImageUrl(backgroundImageUrl);
-      }      
-      
+      }
+
       return {
         backgroundImage: "url(" + backgroundImageUrl + ")",
         backgroundPosition: position || null,
@@ -139,30 +139,30 @@ qx.Class.define("qx.bom.element.Background",
         element.style[prop] = styles[prop];
       }
     },
-    
+
     /**
-     * 
+     *
      * @param {Object} url
      */
     __checkImageUrl : qx.core.Variant.select("qx.client", {
       "mshtml" : function(url)
       {
         var urlPrefix = "";
-            
-        /* 
-         * To avoid a "mixed content" warning in IE when the application is 
+
+        /*
+         * To avoid a "mixed content" warning in IE when the application is
          * delivered via HTTPS a prefix has to be added. This will transform the
          * relative URL to an absolute one in IE.
-         * Though this warning is only displayed in conjunction with images which 
-         * are referenced as a CSS "background-image", every resource path is 
-         * changed when the application is served with HTTPS.     
+         * Though this warning is only displayed in conjunction with images which
+         * are referenced as a CSS "background-image", every resource path is
+         * changed when the application is served with HTTPS.
          */
         if (window.location.protocol === "https:")
         {
-          /* 
+          /*
            * SPECIAL CASE
            * It is valid to to begin a URL with "//" so this case has to
-           * be considered. If the to URL begins with "//" it get prefixed 
+           * be considered. If the to URL begins with "//" it get prefixed
            * with "https:" to avoid any problems for IE
            */
           if (url.match(/^\/\//) == null) {
@@ -172,10 +172,10 @@ qx.Class.define("qx.bom.element.Background",
             urlPrefix = window.location.protocol;
           }
         }
-        
+
         return urlPrefix + url;
       },
-      
+
       "default" : function(){}
     })
   }

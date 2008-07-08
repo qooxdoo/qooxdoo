@@ -43,13 +43,13 @@ qx.Bootstrap.define("qx.io2.ImageLoader",
      * @param source {String} Image source to query
      * @return {Boolean} <code>true</code> when the image is loaded
      */
-    isLoaded : function(source) 
+    isLoaded : function(source)
     {
       var entry = this.__data[source];
       return !!(entry && entry.loaded);
     },
-    
-    
+
+
     /**
      * Whether the given image has previously been requested using the
      * {@link #load} method but failed.
@@ -58,13 +58,13 @@ qx.Bootstrap.define("qx.io2.ImageLoader",
      * @param source {String} Image source to query
      * @return {Boolean} <code>true</code> when the image loading failed
      */
-    isFailed : function(source) 
+    isFailed : function(source)
     {
       var entry = this.__data[source];
       return !!(entry && entry.failed);
     },
-    
-    
+
+
     /**
      * Whether the given image is currently loading.
      *
@@ -72,11 +72,11 @@ qx.Bootstrap.define("qx.io2.ImageLoader",
      * @param source {String} Image source to query
      * @return {Boolean} <code>true</code> when the image is loading in the moment.
      */
-    isLoading : function(source) 
+    isLoading : function(source)
     {
       var entry = this.__data[source];
       return !!(entry && entry.loading);
-    },        
+    },
 
 
     /**
@@ -117,17 +117,17 @@ qx.Bootstrap.define("qx.io2.ImageLoader",
       if (callback && !context) {
         context = window;
       }
-      
+
       // Already known image source
       if (entry.loaded || entry.loading || entry.failed)
       {
-        if (callback) 
+        if (callback)
         {
           if (entry.loading) {
             entry.callbacks.push(callback, context);
           } else {
             callback.call(context, source, entry);
-          }          
+          }
         }
       }
       else
@@ -135,21 +135,21 @@ qx.Bootstrap.define("qx.io2.ImageLoader",
         // Updating entry
         entry.loading = true;
         entry.callbacks = [];
-        
+
         if (callback) {
           entry.callbacks.push(callback, context);
         }
-        
+
         // Create image element
         var el = new Image();
-        
+
         // Create common callback routine
         var boundCallback = qx.lang.Function.listener(this.__onload, this, el, source);
 
         // Assign callback to element
         el.onload = boundCallback;
         el.onerror = boundCallback;
-        
+
         // Start loading of image
         el.src = source;
       }
@@ -187,18 +187,18 @@ qx.Bootstrap.define("qx.io2.ImageLoader",
 
       // Cache callbacks
       var callbacks = entry.callbacks;
-      
+
       // Cleanup entry
       delete entry.loading;
       delete entry.callbacks;
-      
+
       // Execute callbacks
       for (var i=0, l=callbacks.length; i<l; i+=2) {
         callbacks[i].call(callbacks[i+1], source, entry);
       }
     },
-    
-    
+
+
     /**
      * Returns the natural width of the given image element.
      *

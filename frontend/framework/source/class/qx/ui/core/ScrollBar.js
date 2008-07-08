@@ -164,7 +164,7 @@ qx.Class.define("qx.ui.core.ScrollBar",
     _createChildControlImpl : function(id)
     {
       var control;
-      
+
       switch(id)
       {
         case "slider":
@@ -173,30 +173,30 @@ qx.Class.define("qx.ui.core.ScrollBar",
           control.addListener("change", this._onChangeSlider, this);
           this._add(control, {flex: 1});
           break;
-        
+
         case "button-begin":
           // Top/Left Button
           control = new qx.ui.form.RepeatButton;
           control.setFocusable(false);
           control.addListener("execute", this._onExecuteBegin, this);
           this._add(control);
-          break;        
+          break;
 
         case "button-end":
           // Bottom/Right Button
           control = new qx.ui.form.RepeatButton;
           control.setFocusable(false);
           control.addListener("execute", this._onExecuteEnd, this);
-          this._add(control);        
+          this._add(control);
           break;
       }
-       
+
       return control || this.base(arguments, id);
     },
-    
-    
-    
-    
+
+
+
+
     /*
     ---------------------------------------------------------------------------
       PROPERTY APPLY ROUTINES
@@ -245,7 +245,7 @@ qx.Class.define("qx.ui.core.ScrollBar",
         this.setAllowStretchY(false);
 
         this.replaceState("vertical", "horizontal");
-        
+
         this._getChildControl("button-begin").replaceState("up", "left");
         this._getChildControl("button-end").replaceState("down", "right");
       }
@@ -255,9 +255,9 @@ qx.Class.define("qx.ui.core.ScrollBar",
 
         this.setAllowStretchX(false);
         this.setAllowStretchY(true);
-        
+
         this.replaceState("horizontal", "vertical");
-        
+
         this._getChildControl("button-begin").replaceState("left", "up");
         this._getChildControl("button-end").replaceState("right", "down");
       }

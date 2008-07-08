@@ -68,19 +68,19 @@ qx.Class.define("qx.ui.container.SlideBar",
      PROPERTIES
   *****************************************************************************
   */
-  
+
   properties :
   {
-    appearance : 
+    appearance :
     {
       refine : true,
-      init : "slidebar" 
+      init : "slidebar"
     }
-    
+
   },
-  
-  
-  
+
+
+
 
 
   /*
@@ -141,7 +141,7 @@ qx.Class.define("qx.ui.container.SlideBar",
           this._scrollPane.add(control);
           break;
       }
-      
+
       return control || this.base(arguments, id);
     },
 
@@ -165,8 +165,8 @@ qx.Class.define("qx.ui.container.SlideBar",
       var innerSize = this.getInnerSize();
       var contentSize = content.getBounds();
 
-      var overflow = this._isHorizontal ? 
-        contentSize.width > innerSize.width : 
+      var overflow = this._isHorizontal ?
+        contentSize.width > innerSize.width :
         contentSize.height > innerSize.height;
 
       overflow ? this._showArrows() : this._hideArrows();
@@ -223,7 +223,7 @@ qx.Class.define("qx.ui.container.SlideBar",
      * @type member
      * @return {void}
      */
-    _onExecuteForward : function() 
+    _onExecuteForward : function()
     {
       if (this._isHorizontal) {
         this._scrollPane.scrollByX(20);

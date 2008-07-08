@@ -172,7 +172,7 @@ qx.Bootstrap.define("qx.dev.Profile",
       var end = new Date();
       var profTime = end - start;
 
-			// Measure unwrapped function
+      // Measure unwrapped function
       var code = [
         "var plainFunc = function() {};",
         "var fcn = function(){ var fcn=plainFunc;"
@@ -188,7 +188,7 @@ qx.Bootstrap.define("qx.dev.Profile",
       var end = new Date();
       var plainTime = end - start;
 
-			// Compute per call overhead
+      // Compute per call overhead
       return ((profTime - plainTime) / count);
     },
 

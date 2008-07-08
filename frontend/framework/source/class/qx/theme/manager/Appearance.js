@@ -40,9 +40,9 @@ qx.Class.define("qx.theme.manager.Appearance",
     this.base(arguments);
 
     this.__styleCache = {};
-    
-    this.__aliasMap = {};    
-    
+
+    this.__aliasMap = {};
+
     // To give the style method a unified interface when no states are specified
     this.__defaultStates = {};
   },
@@ -93,7 +93,7 @@ qx.Class.define("qx.theme.manager.Appearance",
     */
 
     /**
-     * Returns the appearance entry ID to use 
+     * Returns the appearance entry ID to use
      * when all aliases etc. are processed.
      *
      * @type member
@@ -105,37 +105,37 @@ qx.Class.define("qx.theme.manager.Appearance",
     {
       var db = theme.appearances;
       var entry = db[id];
-      
+
       // this.debug("Resolve: " + id);
-      
+
       if (!entry)
       {
         var divider = "/";
         var end = [];
         var splitted = id.split(divider);
         var alias;
-        
+
         while (!entry && splitted.length > 0)
         {
           end.unshift(splitted.pop());
           baseid = splitted.join(divider);
           entry = db[baseid];
-          
+
           if (entry)
           {
             alias = entry.alias || entry;
-            
-            if (typeof alias === "string") 
+
+            if (typeof alias === "string")
             {
               var mapped = alias + divider + end.join(divider);
               return this.__resolveId(mapped, theme);
             }
           }
         }
-        
+
         return null;
       }
-      else if (typeof entry === "string") 
+      else if (typeof entry === "string")
       {
         return this.__resolveId(entry, theme);
       }
@@ -143,10 +143,10 @@ qx.Class.define("qx.theme.manager.Appearance",
       {
         return this.__resolveId(entry.include, theme);
       }
-      
+
       return id;
     },
-    
+
 
     /**
      * Get the result of the "state" function for a given id and states
@@ -160,43 +160,43 @@ qx.Class.define("qx.theme.manager.Appearance",
     styleFrom : function(id, states, theme)
     {
       if (!theme) {
-        theme = this.getAppearanceTheme(); 
+        theme = this.getAppearanceTheme();
       }
-      
+
       // Resolve ID
       var aliasMap = this.__aliasMap;
       var resolved = aliasMap[id];
       if (!resolved) {
         resolved = aliasMap[id] = this.__resolveId(id, theme);
       }
-      
-      // Query theme for ID    
-      var entry = theme.appearances[resolved];      
-      if (!entry) 
+
+      // Query theme for ID
+      var entry = theme.appearances[resolved];
+      if (!entry)
       {
-        this.warn("Missing appearance: " + id);    
+        this.warn("Missing appearance: " + id);
         return null;
       }
-      
+
       // Entries with includes, but without style are automatically merged
       // by the ID handling in {link #getEntry}. When there is no style method in the
       // final object the appearance is empty and null could be returned.
       if (!entry.style) {
         return null;
       }
-      
+
       // Build a unique cache name from ID and state combination
       var unique = resolved;
       if (states)
       {
         // Create data fields
         var bits = entry.$$bits;
-        if (!bits) 
+        if (!bits)
         {
-          bits = entry.$$bits = {}; 
+          bits = entry.$$bits = {};
           entry.$$length = 0;
         }
-        
+
         // Compute sum
         var sum = 0;
         for (var state in states)
@@ -206,25 +206,25 @@ qx.Class.define("qx.theme.manager.Appearance",
           }
 
           sum += bits[state];
-        } 
-        
+        }
+
         // Only append the sum if it is bigger than zero
         if (sum > 0) {
           unique += ":" + sum;
         }
       }
-      
+
       // Using cache if available
       var cache = this.__styleCache;
       if (cache[unique] !== undefined) {
         return cache[unique];
       }
-      
+
       // Fallback to default (empty) states map
       if (!states) {
         states = this.__defaultStates;
-      }      
-      
+      }
+
       // Compile the appearance
       var result;
 

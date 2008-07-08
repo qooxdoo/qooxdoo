@@ -60,12 +60,12 @@ qx.Class.define("qx.ui.tabview.Page",
   properties :
   {
     // overridden
-    appearance : 
+    appearance :
     {
       refine : true,
       init : "tabview-page"
     },
-    
+
 
     /** The label/caption/text of the Page's button. */
     label :
@@ -74,8 +74,8 @@ qx.Class.define("qx.ui.tabview.Page",
       init : "",
       apply : "_applyLabel"
     },
-    
-    
+
+
     /** Any URI String supported by qx.ui.basic.Image to display an icon in Page's button. */
     icon :
     {
@@ -106,8 +106,8 @@ qx.Class.define("qx.ui.tabview.Page",
     _applyIcon : function(value, old) {
       this._getChildControl("button").setIcon(value);
     },
-    
-    
+
+
     // property apply
     _applyLabel : function(value, old) {
       this._getChildControl("button").setLabel(value);
@@ -133,7 +133,7 @@ qx.Class.define("qx.ui.tabview.Page",
       WIDGET API
     ---------------------------------------------------------------------------
     */
-    
+
     // overridden
     _createChildControlImpl : function(id)
     {
@@ -148,19 +148,19 @@ qx.Class.define("qx.ui.tabview.Page",
           this._add(control);
           break;
       }
-      
+
       return control || this.base(arguments, id);
     },
-    
-    
-    
-    
+
+
+
+
     /*
     ---------------------------------------------------------------------------
       PUBLIC API
     ---------------------------------------------------------------------------
     */
-        
+
     /**
      * Returns the button used within this page. This method is used by
      * the TabView to access the button.

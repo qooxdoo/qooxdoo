@@ -65,8 +65,8 @@ qx.Class.define("qx.ui.core.ScrollArea",
       refine : true,
       init : "scrollarea"
     },
-    
-    
+
+
     // overridden
     width :
     {
@@ -188,7 +188,7 @@ qx.Class.define("qx.ui.core.ScrollArea",
           this._add(control, {row: 1, column: 1});
           break;
       }
-      
+
       return control || this.base(arguments, id);
     },
 
@@ -206,11 +206,11 @@ qx.Class.define("qx.ui.core.ScrollArea",
      *
      * @type member
      * @return {Map} The pane boundaries.
-     */    
+     */
     getPaneSize : function() {
       return this._getChildControl("pane").getBounds();
     },
-    
+
 
 
 
@@ -272,10 +272,10 @@ qx.Class.define("qx.ui.core.ScrollArea",
     getItemRight : function(item) {
       return this._getChildControl("pane").getItemRight(item);
     },
-    
-    
-    
-    
+
+
+
+
 
     /*
     ---------------------------------------------------------------------------
@@ -355,8 +355,8 @@ qx.Class.define("qx.ui.core.ScrollArea",
       var scrollbar = this._getChildControl("scrollbar-y", true);
       return scrollbar ? scrollbar.getPosition() : 0;
     },
-    
-    
+
+
 
 
 
@@ -388,31 +388,31 @@ qx.Class.define("qx.ui.core.ScrollArea",
     _onScrollBarY : function(e) {
       this._getChildControl("pane").scrollToY(e.getData());
     },
-    
-    
+
+
     /**
      * Event handler for the horizontal scroll event of the pane
      *
      * @type member
      * @param e {qx.event.type.Data} The scroll event object
      * @return {void}
-     */    
+     */
     _onScrollPaneX : function(e) {
       this.scrollToX(e.getData());
     },
-    
-    
+
+
     /**
      * Event handler for the vertical scroll event of the pane
      *
      * @type member
      * @param e {qx.event.type.Data} The scroll event object
      * @return {void}
-     */    
+     */
     _onScrollPaneY : function(e) {
       this.scrollToY(e.getData());
     },
-    
+
 
     /**
      * Event handler for the mouse wheel

@@ -44,12 +44,12 @@ qx.Class.define("qx.ui.core.ScrollPane",
 
     // Add resize listener to "translate" event
     this.addListener("resize", this._onUpdate);
-    
+
     // Synchronizes the DOM scroll position with the properties
     this._contentElement.addListener("scroll", this._onScroll, this);
 
     // Fixed some browser quirks e.g. correcting scroll position
-    // to the previous value on re-display of a pane    
+    // to the previous value on re-display of a pane
     this._contentElement.addListener("appear", this._onAppear, this);
   },
 
@@ -80,16 +80,16 @@ qx.Class.define("qx.ui.core.ScrollPane",
   properties :
   {
     /** The horizontal scroll position */
-    scrollX : 
+    scrollX :
     {
       check : "typeof value=='number'&&value>=0&&value<=this.getScrollMaxX()",
       apply : "_applyScrollX",
       event : "scrollX",
       init  : 0
     },
-    
+
     /** The vertical scroll position */
-    scrollY : 
+    scrollY :
     {
       check : "typeof value=='number'&&value>=0&&value<=this.getScrollMaxY()",
       apply : "_applyScrollY",
@@ -186,36 +186,36 @@ qx.Class.define("qx.ui.core.ScrollPane",
     _onUpdate : function(e) {
       this.fireEvent("update");
     },
-    
-    
+
+
     /**
      * Event listener for scroll event of content
      *
      * @type member
      * @param e {qx.event.type.Event} Scroll event object
-     */    
-    _onScroll : function(e) 
+     */
+    _onScroll : function(e)
     {
       var contentEl = this._contentElement;
-      
+
       this.setScrollX(contentEl.getScrollX());
-      this.setScrollY(contentEl.getScrollY());     
+      this.setScrollY(contentEl.getScrollY());
     },
-    
-    
+
+
     /**
      * Event listener for appear event of content
      *
      * @type member
      * @param e {qx.event.type.Event} Appear event object
-     */     
+     */
     _onAppear : function(e)
     {
       var contentEl = this._contentElement;
-      
+
       var internalX = this.getScrollX();
       var domX = contentEl.getScrollX();
-      
+
       if (internalX != domX) {
         contentEl.scrollToX(internalX);
       }
@@ -344,8 +344,8 @@ qx.Class.define("qx.ui.core.ScrollPane",
       SCROLL SUPPORT
     ---------------------------------------------------------------------------
     */
-    
-    /** 
+
+    /**
      * The maximum horizontal scroll position.
      *
      * @type member
@@ -359,12 +359,12 @@ qx.Class.define("qx.ui.core.ScrollPane",
       if (paneSize && scrollSize) {
         return Math.max(0, scrollSize.width - paneSize.width);
       }
-      
+
       return 0;
     },
-    
-    
-    /** 
+
+
+    /**
      * The maximum vertical scroll position.
      *
      * @type member
@@ -378,11 +378,11 @@ qx.Class.define("qx.ui.core.ScrollPane",
       if (paneSize && scrollSize) {
         return Math.max(0, scrollSize.height - paneSize.height);
       }
-      
+
       return 0;
     },
-    
-    
+
+
     /**
      * Scrolls the element's content to the given left coordinate
      *
@@ -393,13 +393,13 @@ qx.Class.define("qx.ui.core.ScrollPane",
     scrollToX : function(value)
     {
       var max = this.getScrollMaxX();
-      
+
       if (value < 0) {
-        value = 0; 
+        value = 0;
       } else if (value > max) {
-        value = max; 
+        value = max;
       }
-      
+
       this.setScrollX(value);
     },
 
@@ -414,13 +414,13 @@ qx.Class.define("qx.ui.core.ScrollPane",
     scrollToY : function(value)
     {
       var max = this.getScrollMaxY();
-      
+
       if (value < 0) {
-        value = 0; 
+        value = 0;
       } else if (value > max) {
-        value = max; 
+        value = max;
       }
-      
+
       this.setScrollY(value);
     },
 
@@ -447,25 +447,25 @@ qx.Class.define("qx.ui.core.ScrollPane",
     scrollByY : function(y) {
       this.scrollToY(this.getScrollY() + y);
     },
-    
-    
-    
+
+
+
 
     /*
     ---------------------------------------------------------------------------
       PROPERTY APPLY ROUTINES
     ---------------------------------------------------------------------------
-    */    
-    
+    */
+
     // property apply
     _applyScrollX : function(value) {
       this._contentElement.scrollToX(value);
     },
-    
-    
+
+
     // property apply
     _applyScrollY : function(value) {
       this._contentElement.scrollToY(value);
-    }    
+    }
   }
 });

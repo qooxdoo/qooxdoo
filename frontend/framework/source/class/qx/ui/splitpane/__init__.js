@@ -10,7 +10,7 @@
  * var pane = new qx.ui.splitpane.Pane("vertical");
  * var leftWidget = new qx.ui.form.TextArea("Fixed");
  * leftWidget.setWidth(100);
- * leftWidget.setWrap(true); 
+ * leftWidget.setWrap(true);
  * var rightWidget = new qx.ui.form.TextArea("Flex")
  *
  * pane.add(leftWidget, 0);

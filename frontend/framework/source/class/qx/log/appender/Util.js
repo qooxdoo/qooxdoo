@@ -38,7 +38,7 @@ qx.Class.define("qx.log.appender.Util",
         if (msg instanceof Array)
         {
           var list = [];
-          
+
           for (var j=0, jl=msg.length; j<jl; j++)
           {
             sub = msg[j];
@@ -129,5 +129,5 @@ qx.Class.define("qx.log.appender.Util",
 
       return map[ch] || "?";
     }
-  }  
+  }
 })

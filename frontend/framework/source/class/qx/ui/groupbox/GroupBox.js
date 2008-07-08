@@ -96,7 +96,7 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
      MEMBERS
   *****************************************************************************
   */
-  
+
   members :
   {
     // overridden
@@ -117,13 +117,13 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
           this._add(control);
           break;
       }
-      
+
       return control || this.base(arguments, id);
     },
-    
-    
-    
-    
+
+
+
+
     /*
     ---------------------------------------------------------------------------
       WIDGET INTERNALS
@@ -142,7 +142,7 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
       LEGEND POSITION HANDLING
     ---------------------------------------------------------------------------
     */
-    
+
     /**
      * Apply method for applying the legend position. It calls the
      * {@link _repositionFrame} method.
@@ -222,10 +222,10 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
      * @param vLegend {String} new label of the legend sub widget
      * @return {void}
      */
-    setLegend : function(vLegend) 
+    setLegend : function(vLegend)
     {
       var control = this._getChildControl("legend");
-      
+
       if (vLegend !== "" && vLegend !== null) {
         control.setLabel(vLegend);
         control.show();
