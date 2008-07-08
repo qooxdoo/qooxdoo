@@ -109,9 +109,16 @@ qx.Class.define("qx.html.Input",
      */
     setValue : function(value)
     {
-      if (this._element) {
-        qx.bom.Input.setValue(this._element, value);
-      } else {
+      if (this._element)
+      {
+        // Do not overwrite when already correct (on input events)
+        // This is needed to keep caret position while typing.
+        if (this._element.value != value) {
+          qx.bom.Input.setValue(this._element, value);
+        }
+      }
+      else
+      {
         this._setProperty("value", value);
       }
 

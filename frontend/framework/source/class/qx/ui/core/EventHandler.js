@@ -90,7 +90,10 @@ qx.Class.define("qx.ui.core.EventHandler",
       disappear : 1,
 
       // iframe load
-      load : 1
+      load : 1,
+
+      // form fields
+      input : 1
     },
 
     /** {Integer} Whether the method "canHandleEvent" must be called */
@@ -250,7 +253,7 @@ qx.Class.define("qx.ui.core.EventHandler",
 
       if (type === "focus" || type === "blur") {
         elem = target.getFocusElement();
-      } else if (type == "load") {
+      } else if (type === "load" || type === "input") {
         elem = target.getContentElement();
       } else {
         elem = target.getContainerElement();
@@ -267,7 +270,7 @@ qx.Class.define("qx.ui.core.EventHandler",
 
       if (type === "focus" || type === "blur") {
         elem = target.getFocusElement();
-      } else if (type == "load") {
+      } else if (type === "load" || type === "input") {
         elem = target.getContentElement();
       } else {
         elem = target.getContainerElement();
