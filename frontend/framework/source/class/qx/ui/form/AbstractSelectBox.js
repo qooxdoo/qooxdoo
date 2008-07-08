@@ -119,7 +119,7 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
             selectionMode: "one"
           });
 
-          control.addListener("change", this._onChange, this);
+          control.addListener("changeSelection", this._onChangeSelection, this);
           break;
 
         case "popup":
@@ -322,7 +322,7 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
      * @param e {qx.event.type.Data} Change Event
      * @type member
      */
-    _onChange : function(e)
+    _onChangeSelection : function(e)
     {
       if (e.getData().length > 0) {
         this.setSelected(e.getData()[0]);
