@@ -20,12 +20,12 @@
 
 /* ************************************************************************
 
-#assert(qx/icon/Compat/16/actions/system-run.png)
-#assert(qx/icon/Compat/16/actions/view-refresh.png)
-#assert(qx/icon/Compat/16/devices/camera-web.png)
-#assert(qx/icon/Compat/16/apps/photo-album.png)
-#assert(qx/icon/Compat/16/apps/office-database.png)
-#assert(qx/icon/Compat/16/apps/office-writer.png)
+#asset(qx/icon/Compat/16/actions/view-refresh.png)
+#asset(qx/icon/Compat/16/actions/media-playback-start.png)
+#asset(qx/icon/Compat/16/devices/video-display.png)
+#asset(qx/icon/Compat/16/apps/graphics-snapshot.png)
+#asset(qx/icon/Compat/16/actions/view-pane-tree.png)
+#asset(qx/icon/Compat/16/actions/view-pane-text.png)
 
 ************************************************************************ */
 
@@ -233,7 +233,7 @@ qx.Class.define("testrunner.runner.TestRunner",
       var toolbar = new qx.legacy.ui.toolbar.ToolBar;
 
       // -- run button
-      this.runbutton = new qx.legacy.ui.toolbar.Button("Run Test", "icon/16/actions/system-run.png");
+      this.runbutton = new qx.legacy.ui.toolbar.Button("Run Test", "icon/16/actions/media-playback-start.png");
       toolbar.add(this.runbutton);
       this.widgets["toolbar.runbutton"] = this.runbutton;
       this.runbutton.addListener("execute", this.runTest, this);
@@ -306,8 +306,8 @@ qx.Class.define("testrunner.runner.TestRunner",
       var buttview = new qx.legacy.ui.pageview.tabview.TabView();
       buttview.set({ height : "1*" });
 
-      var bsb1 = new qx.legacy.ui.pageview.tabview.Button("Test Results", "icon/16/devices/camera-web.png");
-      var bsb2 = new qx.legacy.ui.pageview.tabview.Button("Log", "icon/16/apps/photo-album.png");
+      var bsb1 = new qx.legacy.ui.pageview.tabview.Button("Test Results", "icon/16/devices/video-display.png");
+      var bsb2 = new qx.legacy.ui.pageview.tabview.Button("Log", "icon/16/apps/graphics-snapshot.png");
       bsb1.setChecked(true);
       buttview.getBar().add(bsb1, bsb2);
 
@@ -377,7 +377,7 @@ qx.Class.define("testrunner.runner.TestRunner",
 
       // Third Page
       // -- Tab Button
-      var bsb3 = new qx.legacy.ui.pageview.tabview.Button("Tabled Results", "icon/16/apps/photo-album.png");
+      var bsb3 = new qx.legacy.ui.pageview.tabview.Button("Tabled Results", "icon/16/apps/graphics-snapshot.png");
 
       // buttview.getBar().add(bsb3);
       // -- Tab Pane
@@ -411,7 +411,7 @@ qx.Class.define("testrunner.runner.TestRunner",
       this.widgets["treeview"] = buttview;
 
       // full view
-      var bsb1 = new qx.legacy.ui.pageview.buttonview.Button("Full Tree", "icon/16/apps/office-database.png");
+      var bsb1 = new qx.legacy.ui.pageview.buttonview.Button("Full Tree", "icon/16/actions/view-pane-tree.png");
       buttview.getBar().add(bsb1);
       this.widgets["treeview.bsb1"] = bsb1;
       bsb1.setShow("icon");
@@ -439,7 +439,7 @@ qx.Class.define("testrunner.runner.TestRunner",
       tree.getManager().addListener("changeSelection", this.treeGetSelection, this);
 
       // flat view
-      var bsb2 = new qx.legacy.ui.pageview.buttonview.Button("Flat Tree", "icon/16/apps/office-writer.png");
+      var bsb2 = new qx.legacy.ui.pageview.buttonview.Button("Flat Tree", "icon/16/actions/view-pane-text.png");
       buttview.getBar().add(bsb2);
       this.widgets["treeview.bsb2"] = bsb2;
       bsb2.setShow("icon");
