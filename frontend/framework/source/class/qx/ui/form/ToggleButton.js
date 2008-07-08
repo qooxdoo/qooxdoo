@@ -87,7 +87,7 @@ qx.Class.define("qx.ui.form.ToggleButton",
       check: "Boolean",
       init: false,
       apply: "_applyChecked",
-      event: "change"
+      event: "changeChecked"
     },
 
     // overridden
@@ -95,6 +95,22 @@ qx.Class.define("qx.ui.form.ToggleButton",
     {
       refine : true,
       init : true
+    },
+
+    /** The name of the widget. Mainly used for serialization proposes. */
+    name :
+    {
+      check : "String",
+      nullable : true,
+      event : "changeName"
+    },
+
+    /** The value of the widget. Mainly used for serialization proposes. */
+    value :
+    {
+      check : "String",
+      nullable : true,
+      event : "changeValue"
     }
   },
 
