@@ -390,16 +390,17 @@ qx.Class.define("qx.ui.tree.Tree",
 
 
     // overridden
-    scrollItemIntoView : function(item, alignX, alignY)
+    scrollChildIntoViewY : function(child, align)
     {
       // if the last item is selected the content should be scrolled down to
       // the end including the content paddings
-      if (!this.getNextSiblingOf(item, false)) {
+      if (!this.getNextSiblingOf(child, false)) {
         this.scrollToY(1000000);
       } else {
-        this.base(arguments, item, alignX, alignY);
+        this.base(arguments, child, align);
       }
     },
+
 
 
     /*

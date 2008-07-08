@@ -238,29 +238,6 @@ qx.Class.define("qx.ui.popup.ToolTip",
     },
 
 
-    /*
-    ---------------------------------------------------------------------------
-      APPEAR/DISAPPEAR
-    ---------------------------------------------------------------------------
-    */
-
-    // overridden
-    _onChangeVisibility : function(e)
-    {
-      this.base(arguments, e);
-
-      if (e.getData() == "visible")
-      {
-        this.stopShowTimer();
-        this.startHideTimer();
-      }
-      else
-      {
-        this.stopHideTimer();
-      }
-    },
-
-
 
 
 

@@ -24,7 +24,7 @@
  * radio buttons to a radio manager {@link qx.ui.core.RadioManager}.
  *
  * Example:
- * <code class="javascript">
+ * <pre class="javascript">
  *   var female = new qx.ui.form.RadioButton("female");
  *   var male = new qx.ui.form.RadioButton("male");
  *
@@ -33,7 +33,7 @@
  *
  *   layout.add(male);
  *   layout.add(female);
- * </code>
+ * </pre>
  *
  * @appearance radiobutton
  * @state checked
