@@ -56,7 +56,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
   events :
   {
     /** Fires after the selection was modified. Contains the selection under the data property. */
-    change : "qx.event.type.Data"
+    "changeSelection" : "qx.event.type.Data"
   },
 
 
@@ -1518,7 +1518,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     {
       if (this.__selectionModified)
       {
-        this.fireDataEvent("change", this.getSelection());
+        this.fireDataEvent("changeSelection", this.getSelection());
         delete this.__selectionModified;
       }
     }

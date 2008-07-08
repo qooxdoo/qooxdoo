@@ -118,7 +118,7 @@ qx.Class.define("demobrowser.demo.widget.SelectBox",
     createBox4 : function()
     {
       var container = new qx.ui.container.Composite(new qx.ui.layout.VBox(2));
-      container.add(new qx.ui.basic.Label("Simple"));
+      container.add(new qx.ui.basic.Label("Empty Item"));
 
       var selectBox = new qx.ui.form.SelectBox();
       selectBox.add(new qx.ui.form.ListItem(""));
