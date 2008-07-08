@@ -30,6 +30,7 @@
 qx.Class.define("qx.ui.form.AbstractField",
 {
   extend : qx.ui.core.Widget,
+  implement : qx.ui.core.IFormElement,
 
 
 
@@ -50,10 +51,7 @@ qx.Class.define("qx.ui.form.AbstractField",
       this.setValue(value);
     }
 
-    // Add listeners
-    var inputElement = this._contentElement;
-    inputElement.addListener("input", this._onInput, this);
-    inputElement.addListener("change", this._onChange, this);
+    this._contentElement.addListener("change", this._onChangeContent, this);
   },
 
 
@@ -83,7 +81,7 @@ qx.Class.define("qx.ui.form.AbstractField",
      * The method {@link qx.event.type.Data#getData} return the
      * current text value of the text field.
      */
-    "change" : "qx.event.type.Data"
+    "changeValue" : "qx.event.type.Data"
   },
 
 
@@ -96,24 +94,21 @@ qx.Class.define("qx.ui.form.AbstractField",
 
   properties :
   {
-    /**
-     * The value of the text field.
-     * The value is upated on each key stroke.
-     */
-    value :
+    /** The name of the widget. Mainly used for serialization proposes. */
+    name :
     {
       check : "String",
-      init : "",
-      apply : "_applyValue"
+      nullable : true,
+      event : "changeName"
     },
 
 
     /**
-     * Text alignment
+     * Alignment of the text
      */
     textAlign :
     {
-      check : [ "left", "center", "right", "justify" ],
+      check : [ "left", "center", "right" ],
       nullable : true,
       themeable : true,
       apply : "_applyTextAlign"
@@ -194,7 +189,7 @@ qx.Class.define("qx.ui.form.AbstractField",
       // Apply styles
       el.setStyles(
       {
-        "border": "0 none",
+        "border": "none",
         "padding": 0,
         "margin": 0,
         "background": "transparent",
@@ -253,13 +248,6 @@ qx.Class.define("qx.ui.form.AbstractField",
     },
 
 
-
-    /*
-    ---------------------------------------------------------------------------
-      TEXT COLOR SUPPORT
-    ---------------------------------------------------------------------------
-    */
-
     // overridden
     _applyTextColor : function(value, old)
     {
@@ -274,24 +262,64 @@ qx.Class.define("qx.ui.form.AbstractField",
 
     /*
     ---------------------------------------------------------------------------
-      TEXTFIELD API
+      TEXTFIELD VALUE API
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Sets the value of the textfield to the given value.
+     *
+     * @param value {String} The new value
+     */
+    setValue : function(value)
+    {
+      if (typeof value === "string" || value instanceof String)
+      {
+        var elem = this._contentElement;
+        if (elem.getValue() != value)
+        {
+          elem.setValue(value);
+          this.fireNonBubblingEvent("changeValue", qx.event.type.Data, [value]);
+        }
+
+        return value;
+      }
+
+      throw new Error("Invalid value type: " + value);
+    },
+
+
+    /**
+     * Returns the current value of the textfield.
+     *
+     * @return {String} The current value
+     */
+    getValue : function() {
+      return this._contentElement.getValue();
+    },
+
+
+    /**
+     * Event listener for change event of content element
+     *
+     * @param e {qx.event.type.Data} Incoming change event
+     */
+    _onChangeContent : function(e) {
+      this.fireNonBubblingEvent("changeValue", qx.event.type.Data, [e.getData()]);
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      PROPERTY APPLY ROUTINES
     ---------------------------------------------------------------------------
     */
 
     // property apply
-    _applyValue : function(value, old)
-    {
-      // Do not overwrite when already correct (on input events)
-      // This is needed to keep caret position while typing.
-      if (this._contentElement.getValue() != value) {
-        this._contentElement.setValue(value);
-      }
-    },
-
-
-    // property apply
     _applyTextAlign : function(value, old) {
-      this._contentElement.setStyle("textAlign", value || "");
+      this._contentElement.setStyle("textAlign", value);
     },
 
 
@@ -304,51 +332,6 @@ qx.Class.define("qx.ui.form.AbstractField",
         this.addState("readonly");
       } else {
         this.removeState("readonly");
-      }
-    },
-
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      EVENT-HANDLER
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * Input event handler.
-     *
-     * @type member
-     */
-    _onInput : function()
-    {
-      // Synchronize value
-      var value = this._contentElement.getValue();
-      this.setValue(value);
-
-      // Fire input event
-      if (this.hasListener("input")) {
-        this.fireDataEvent("input", value);
-      }
-    },
-
-
-    /**
-     * Change event handler.
-     *
-     * @type member
-     */
-    _onChange : function()
-    {
-      // Synchronize value
-      var value = this._contentElement.getValue();
-      this.setValue(value);
-
-      // Fire change event
-      if (this.hasListener("change")) {
-        this.fireDataEvent("change", value);
       }
     }
   }
