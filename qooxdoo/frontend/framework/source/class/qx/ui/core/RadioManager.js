@@ -126,6 +126,7 @@ qx.Class.define("qx.ui.core.RadioManager",
 
   events :
   {
+    /** Fired when the value was modified (after selection change) */
     "changeValue" : "qx.event.type.Data"
   },
 
@@ -305,6 +306,11 @@ qx.Class.define("qx.ui.core.RadioManager",
     },
 
 
+    /**
+     * Event listener for <code>changeSelected</code> event.
+     *
+     * @param e {qx.event.type.Data} Data event
+     */
     _onChangeSelected : function(e)
     {
       var item = e.getData();
