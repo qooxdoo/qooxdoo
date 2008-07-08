@@ -73,6 +73,84 @@ qx.Class.define("qx.ui.groupbox.CheckGroupBox",
 
       // Fire event to the outside
       this.fireDataEvent("changeChecked", e.getData());
+    },
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      REDIRECTIONS TO LEGEND (CHECKBOX COMPATIBILITY MODE)
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * The name of the groupbox. Mainly used for serialization proposes.
+     *
+     * @return {String} The name
+     */
+    getName : function() {
+      return this._getChildControl("legend").getName();
+    },
+
+
+    /**
+     * Configures the name of the groupbox. Mainly used for serialization proposes.
+     *
+     * @param value {String} the name to use
+     * @return {String} the incoming value
+     */
+    setName : function(value)
+    {
+      var legend = this._getChildControl("legend");
+      return value ? legend.setName(value) : legend.resetName();
+    },
+
+
+    /**
+     * The value of the groupbox. Mainly used for serialization proposes.
+     *
+     * @return {String} the value
+     */
+    getValue : function() {
+      return this._getChildControl("legend").getValue();
+    },
+
+
+    /**
+     * Configures the value of the groupbox. Mainly used for serialization proposes.
+     *
+     * @param value {String} the value to use
+     * @return {String} the incoming value
+     */
+    setValue : function(value)
+    {
+      var legend = this._getChildControl("legend");
+      return value ? legend.setValue(value) : legend.resetValue();
+    },
+
+
+    /**
+     * Whether the groupbox is enabled
+     *
+     * @return {Boolean} <code>true</code> when enabled
+     */
+    getChecked : function() {
+      return this._getChildControl("legend").getChecked();
+    },
+
+
+    /**
+     * Configures whether the groupbox should be enabled
+     *
+     * @param value {String} whether the groupbox should be checked
+     * @return {Boolean} the incoming value
+     */
+    setChecked : function(value)
+    {
+      var legend = this._getChildControl("legend");
+      return value ? legend.setChecked(value) : legend.resetChecked();
     }
   }
 });
