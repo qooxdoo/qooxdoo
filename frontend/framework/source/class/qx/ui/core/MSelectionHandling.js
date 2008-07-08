@@ -46,7 +46,7 @@ qx.Mixin.define("qx.ui.core.MSelectionHandling",
     this.addListener("removeItem", manager.handleRemoveItem, manager);
 
     // Add manager listeners
-    manager.addListener("change", this._onSelectionChange, this);
+    manager.addListener("changeSelection", this._onSelectionChange, this);
   },
 
 
@@ -61,7 +61,7 @@ qx.Mixin.define("qx.ui.core.MSelectionHandling",
   events :
   {
     /** Fires after the selection was modified */
-    change : "qx.event.type.Data"
+    "changeSelection" : "qx.event.type.Data"
   },
 
 
@@ -308,7 +308,7 @@ qx.Mixin.define("qx.ui.core.MSelectionHandling",
      * @return {void}
      */
     _onSelectionChange : function(e) {
-      this.fireDataEvent("change", e.getData());
+      this.fireDataEvent("changeSelection", e.getData());
     }
   },
 

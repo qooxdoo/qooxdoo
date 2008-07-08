@@ -64,7 +64,7 @@ qx.Class.define("qx.ui.form.List",
     this.addListener("keyinput", this._onKeyInput);
 
     // Add selection change listener
-    this.addListener("change", this._onChange);
+    this.addListener("changeSelection", this._onChangeSelection);
 
     // initialize the search string
     this._pressedString = "";
@@ -209,7 +209,7 @@ qx.Class.define("qx.ui.form.List",
      * @param e {qx.event.type.Data} the event instance
      */
     _onAddChild : function(e) {
-      this.fireNonBubblingEvent("addItem", qx.event.type.Data, [e.getData()]);
+      this.fireDataEvent("addItem", e.getData());
     },
 
 
@@ -219,7 +219,7 @@ qx.Class.define("qx.ui.form.List",
      * @param e {qx.event.type.Data} the event instance
      */
     _onRemoveChild : function(e) {
-      this.fireNonBubblingEvent("removeItem", qx.event.type.Data, [e.getData()]);
+      this.fireDataEvent("removeItem", e.getData());
     },
 
 
@@ -386,7 +386,7 @@ qx.Class.define("qx.ui.form.List",
      *
      * @type member
      */
-    _onChange : function()
+    _onChangeSelection : function()
     {
       if (this.hasListener("changeValue")) {
         this.fireNonBubblingEvent("changeValue", qx.event.type.Data, [this.getValue()]);
