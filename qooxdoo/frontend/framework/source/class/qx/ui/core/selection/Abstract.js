@@ -827,13 +827,8 @@ qx.Class.define("qx.ui.core.selection.Abstract",
 
       // Drag selection
       var mode = this.getMode();
-      if (
-        this.getDrag() &&
-        mode !== "single" &&
-        mode !== "one" &&
-        !isShiftPressed &&
-        !isCtrlPressed
-      )
+      if (this.getDrag() && mode !== "single" && mode !== "one" &&
+        !isShiftPressed && !isCtrlPressed)
       {
         // Cache location/scroll data
         this._frameLocation = this._getLocation();
@@ -998,6 +993,9 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     ---------------------------------------------------------------------------
     */
 
+    /**
+     * Stops all timers, release capture etc. to cleanup drag selection
+     */
     _cleanup : function()
     {
       if (!this.getDrag() && this._inCapture) {
@@ -1019,6 +1017,11 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     },
 
 
+    /**
+     * Event listener for timer used by drag selection
+     *
+     * @param e {qx.event.type.Event} Timer event
+     */
     _onInterval : function(e)
     {
       // Scroll by defined block size
@@ -1034,6 +1037,9 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     },
 
 
+    /**
+     * Automatically selects items based on the mouse movement during a drag selection
+     */
     _autoSelect : function()
     {
       var inner = this._getDimension();
@@ -1348,6 +1354,9 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     ---------------------------------------------------------------------------
     */
 
+    /**
+     * Adds all items to the selection
+     */
     _selectAllItems : function()
     {
       var range = this._getSelectables();
@@ -1357,6 +1366,9 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     },
 
 
+    /**
+     * Clears current selection
+     */
     _clearSelection : function()
     {
       var selection = this.__selection;
@@ -1366,6 +1378,14 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     },
 
 
+    /**
+     * Select a range from <code>item1</code> to <code>item2</code>.
+     *
+     * @param item1 {Object} Start with this item
+     * @param item2 {Object} End with this item
+     * @param extend {Boolean?false} Whether the current
+     *    selection should be replaced or extended.
+     */
     _selectItemRange : function(item1, item2, extend)
     {
       var range = this._getSelectableRange(item1, item2);
@@ -1391,6 +1411,12 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     },
 
 
+    /**
+     * Deselect all items between <code>item1</code> and <code>item2</code>.
+     *
+     * @param item1 {Object} Start with this item
+     * @param item2 {Object} End with this item
+     */
     _deselectItemRange : function(item1, item2)
     {
       var range = this._getSelectableRange(item1, item2);
@@ -1400,6 +1426,12 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     },
 
 
+    /**
+     * Internal method to convert a range to a map of hash
+     * codes for faster lookup during selection compare routines.
+     *
+     * @param range {Array} List of selectable items
+     */
     __rangeToMap : function(range)
     {
       var mapped = {};
@@ -1467,6 +1499,11 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     ---------------------------------------------------------------------------
     */
 
+    /**
+     * Adds an item to the current selection.
+     *
+     * @param item {Object} Any item
+     */
     _addToSelection : function(item)
     {
       var hash = this._selectableToHashCode(item);
@@ -1481,6 +1518,12 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     },
 
 
+    /**
+     * Toggles the item e.g. remove it when already selected
+     * or select it when currently not.
+     *
+     * @param item {Object} Any item
+     */
     _toggleInSelection : function(item)
     {
       var hash = this._selectableToHashCode(item);
@@ -1500,6 +1543,11 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     },
 
 
+    /**
+     * Removes the given item from the current selection.
+     *
+     * @param item {Object} Any item
+     */
     _removeFromSelection : function(item)
     {
       var hash = this._selectableToHashCode(item);
@@ -1514,6 +1562,10 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     },
 
 
+    /**
+     * Fires the selection change event if the selection has
+     * been modified.
+     */
     _fireChange : function()
     {
       if (this.__selectionModified)
