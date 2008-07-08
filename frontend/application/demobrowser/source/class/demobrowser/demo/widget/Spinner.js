@@ -32,6 +32,10 @@ qx.Class.define("demobrowser.demo.widget.Spinner",
       container.add(new qx.ui.basic.Label("0"), {column: 1, row: row});
       container.add(spinner, {column: 2, row: row});
       container.add(new qx.ui.basic.Label("100"), {column: 3, row: row});
+
+      spinner.addListener("changeValue", function(e) {
+        this.debug("ChangeValue: " + e.getData());
+      });
     },
 
     addNonEditableSpinner : function(container, row)
