@@ -129,6 +129,6 @@ qx.Class.define("demobrowser.demo.widget.SelectBox",
 
       container.add(selectBox);
       return container;
-    },
+    }
   }
 });
