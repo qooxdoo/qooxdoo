@@ -20,7 +20,6 @@
 
 /* ************************************************************************
 
-#asset(qx/icon/Compat/16/*)
 #asset(testrunner/*)
 
 ************************************************************************ */
@@ -61,7 +60,7 @@ qx.Class.define("testrunner.runner.Application",
     finalize : function()
     {
       this.base(arguments);
-      
+
       // Finally load the data
       this.viewer.load();
     }
