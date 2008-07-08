@@ -20,7 +20,12 @@
 
 /* ************************************************************************
 
-#module(testrunner)
+#assert(qx/icon/Compat/16/actions/system-run.png)
+#assert(qx/icon/Compat/16/actions/view-refresh.png)
+#assert(qx/icon/Compat/16/devices/camera-web.png)
+#assert(qx/icon/Compat/16/apps/photo-album.png)
+#assert(qx/icon/Compat/16/apps/office-database.png)
+#assert(qx/icon/Compat/16/apps/office-writer.png)
 
 ************************************************************************ */
 
@@ -45,6 +50,10 @@ qx.Class.define("testrunner.runner.TestRunner",
     {
       edge : 0
     });
+
+    // Dependencies to loggers
+    qx.log.appender.Native;
+    qx.log.appender.Console;
 
     this.widgets = {};
     this.tests = {};

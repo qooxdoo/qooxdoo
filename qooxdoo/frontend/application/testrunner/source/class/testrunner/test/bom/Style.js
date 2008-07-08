@@ -55,6 +55,11 @@ qx.Class.define("testrunner.test.bom.Style",
       var color = new qx.lang.BaseString("#ff0000")
       Style.set(el, "backgroundColor", color);
       this.assertCssColor(color.toString(), Style.get(el, "backgroundColor", Style.LOCAL_MODE));
+
+      alert("Juhu");
+      var color = new qx.lang.BaseString("#ff0000")
+      el.style.backgroundColor = color;
+      this.assertCssColor(color.toString(), el.style.backgroundColor);
     }
   }
 });
