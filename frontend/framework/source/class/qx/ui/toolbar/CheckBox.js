@@ -29,7 +29,7 @@ qx.Class.define("qx.ui.toolbar.CheckBox",
      PROPERTIES
   *****************************************************************************
   */
-  
+
   properties :
   {
     appearance :
@@ -42,6 +42,12 @@ qx.Class.define("qx.ui.toolbar.CheckBox",
     {
       refine : true,
       init : "inherit"
+    },
+
+    focusable :
+    {
+      refine : true,
+      init : false
     }
   }
 });
