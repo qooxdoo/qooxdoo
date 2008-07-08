@@ -44,6 +44,7 @@
 qx.Class.define("qx.ui.slider.AbstractSlider",
 {
   extend : qx.ui.core.Widget,
+  implement : qx.ui.core.IFormElement,
 
 
 
@@ -97,6 +98,15 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
     },
 
 
+    /** The name of the widget. Mainly used for serialization proposes. */
+    name :
+    {
+      check : "String",
+      nullable : true,
+      event : "changeName"
+    },
+
+
     /**
      * The current slider value.
      *
@@ -109,7 +119,7 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
       check : "typeof value==='number'&&value>=this.getMinimum()&&value<=this.getMaximum()",
       init : 0,
       apply : "_applyValue",
-      event : "change"
+      event : "changeValue"
     },
 
 

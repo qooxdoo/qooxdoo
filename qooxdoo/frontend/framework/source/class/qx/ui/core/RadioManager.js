@@ -53,6 +53,9 @@ qx.Class.define("qx.ui.core.RadioManager",
     if (varargs != null) {
       this.add.apply(this, arguments);
     }
+
+    // Add listener for selection to fire changeValue event
+    this.addListener("changeSelected", this._onChangeSelected);
   },
 
 
@@ -84,7 +87,7 @@ qx.Class.define("qx.ui.core.RadioManager",
     {
       nullable : true,
       apply : "_applySelected",
-      event : "change",
+      event : "changeSelected",
       check : "qx.ui.core.IRadioItem"
     },
 
@@ -156,8 +159,7 @@ qx.Class.define("qx.ui.core.RadioManager",
     /**
      * Set the checked state of a given item
      *
-     * @param item {IRadioItem} The item to set the checked state of
-     * @param vChecked {Boolean} Whether the item should be checked
+     * @param item {IRadioItem} The item to select
      */
     select : function(item) {
       this.setSelected(item);
@@ -167,7 +169,7 @@ qx.Class.define("qx.ui.core.RadioManager",
     /**
      * Select the radio item, with the given value.
      *
-     * @param value {var} Value of the radio item to select
+     * @param value {String} Value of the radio item to select
      */
     setValue : function(value)
     {
@@ -190,7 +192,7 @@ qx.Class.define("qx.ui.core.RadioManager",
     /**
      * Get the value of the selected radio item
      *
-     * @return {var|null} The value of the selected radio item. Returns
+     * @return {String} The value of the selected radio item. Returns
      *     <code>null</code> if no item is selected.
      */
     getValue : function()
@@ -231,7 +233,7 @@ qx.Class.define("qx.ui.core.RadioManager",
         }
 
         // Register listeners
-        item.addListener("changeChecked", this._onChangeChecked, this);
+        item.addListener("changeChecked", this._onItemChangeChecked, this);
 
         // Push RadioButton to array
         items.push(item);
@@ -268,7 +270,7 @@ qx.Class.define("qx.ui.core.RadioManager",
         item.resetManager();
 
         // Deregister listeners
-        item.removeListener("changeChecked", this._onChangeChecked, this);
+        item.removeListener("changeChecked", this._onItemChangeChecked, this);
 
         // if the radio was checked, set internal selection to null
         if (item.getChecked())
@@ -292,7 +294,7 @@ qx.Class.define("qx.ui.core.RadioManager",
      *
      * @param e {qx.event.type.Data} Data event
      */
-    _onChangeChecked : function(e)
+    _onItemChangeChecked : function(e)
     {
       var item = e.getTarget();
       if (item.getChecked()) {
@@ -300,6 +302,18 @@ qx.Class.define("qx.ui.core.RadioManager",
       } else if (this.getSelected() == item) {
         this.resetSelected();
       }
+    },
+
+
+    _onChangeSelected : function(e)
+    {
+      var item = e.getData();
+      var value = item.getValue();
+      if (value == null) {
+        value = item.getLabel();
+      }
+
+      this.fireDataEvent("changeValue", value);
     },
 
 
