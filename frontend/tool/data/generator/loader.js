@@ -192,7 +192,13 @@ window.qxloader =
     // Load next script
     var next = queue.shift();
 
-    this.loadScript(next, this._flushQueue, this);
+    // force asynchronous load
+    // Safari fails with an "maximum recursion depth exceeded" error if it is
+    // called sync.
+    var self = this;
+    window.setTimeout(function() {
+      self.loadScript(next, self._flushQueue, self);
+    }, 0);
   },
 
 
@@ -239,6 +245,7 @@ window.qxloader =
     {
       if (!this.readyState || this.readyState == "loaded" || this.readyState == "complete")
       {
+        //console.log("loading: ", uri, qxloader.count++);
         // Remove listeners (mem leak prevention)
         elem.onreadystatechange = elem.onload = null;
 
