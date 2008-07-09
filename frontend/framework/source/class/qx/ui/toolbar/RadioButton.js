@@ -36,10 +36,10 @@ qx.Class.define("qx.ui.toolbar.RadioButton",
   properties :
   {
     /** The assigned {@link qx.ui.form.RadioGroup} which handles the switching between registered buttons */
-    manager :
+    group :
     {
       check : "qx.ui.form.RadioGroup",
-      apply : "_applyManager",
+      apply : "_applyGroup",
       nullable : true
     }
   },
@@ -61,35 +61,23 @@ qx.Class.define("qx.ui.toolbar.RadioButton",
     ---------------------------------------------------------------------------
     */
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param value {var} Current value
-     * @param old {var} Previous value
-     */
+    // overridden
     _applyChecked : function(value, old)
     {
       this.base(arguments, value, old);
 
       if (value)
       {
-        var mgr = this.getManager();
-        if (mgr) {
-          mgr.select(this);
+        var grp = this.getGroup();
+        if (grp) {
+          grp.select(this);
         }
       }
     },
 
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param value {var} Current value
-     * @param old {var} Previous value
-     */
-    _applyManager : function(value, old)
+    // property apply
+    _applyGroup : function(value, old)
     {
       if (old) {
         old.remove(this);

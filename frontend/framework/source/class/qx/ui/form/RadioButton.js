@@ -80,11 +80,11 @@ qx.Class.define("qx.ui.form.RadioButton",
   properties :
   {
     /** The assigned qx.ui.form.RadioGroup which handles the switching between registered buttons */
-    manager :
+    group :
     {
       check  : "qx.ui.form.RadioGroup",
       nullable : true,
-      apply : "_applyManager"
+      apply : "_applyGroup"
     },
 
     /** Boolean value signals if the button is checked */
@@ -144,7 +144,7 @@ qx.Class.define("qx.ui.form.RadioButton",
 
 
     // property apply
-    _applyManager : function(value, old)
+    _applyGroup : function(value, old)
     {
       if (old) {
         old.remove(this);

@@ -52,7 +52,7 @@ qx.Interface.define("qx.ui.form.IRadioItem",
     /**
      * Set whether the item is checked
      *
-     *  @param value {Boolean} whether the item should be checked
+     * @param value {Boolean} whether the item should be checked
      */
     setChecked : function(value) {
       this.assertType(value, "boolean");
@@ -68,30 +68,21 @@ qx.Interface.define("qx.ui.form.IRadioItem",
 
 
     /**
-     * Set the radio manager, which manages this item
+     * Set the radiogroup, which manages this item
      *
-     * @param value {qx.ui.form.RadioGroup} The radio manager, which should
+     * @param value {qx.ui.form.RadioGroup} The radiogroup, which should
      *     manage the item.
      */
-    setManager : function(value) {
+    setGroup : function(value) {
       this.assertInstance(value, qx.ui.form.RadioGroup);
     },
 
 
     /**
-     * Get the radio manager, which manages this item
+     * Get the radiogroup, which manages this item
      *
-     * @return {qx.ui.form.RadioGroup} The radio manager, which manages the item.
+     * @return {qx.ui.form.RadioGroup} The radiogroup, which manages the item.
      */
-    getManager : function() {},
-
-
-    /**
-     * The the user visible label
-     * Regarded as an alternative for a missing value
-     *
-     * @return {String} The label
-     */
-    getLabel : function() {}
+    getGroup : function() {}
   }
 });
