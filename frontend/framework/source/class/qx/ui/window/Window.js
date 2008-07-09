@@ -539,73 +539,16 @@ qx.Class.define("qx.ui.window.Window",
 
 
     /**
-     * Opens the window.<br/>
+     * Opens the window.
+     *
      * Sets the opener property (if available) and centers
      * the window if the property {@link #centered} is enabled.
      *
      * @type member
-     * @param vOpener {Object} Opener widget
      * @return {void}
      */
-    open : function(vOpener)
-    {
-      if (vOpener != null) {
-        this.setOpener(vOpener);
-      }
-
+    open : function() {
       this.show();
-    },
-
-
-    /**
-     * Get the current mode (minimized or maximized) of the window instance
-     * <b>Attention:</b> if the window instance is neither maximized nor minimized this
-     * property will return <code>null</code>
-     *
-     * @return {String|null} The current window mode
-     */
-    getMode : function() {
-      return this.__mode || null;
-    },
-
-
-    /**
-     * Sets the current mode (minimized or maximized)
-     *
-     * @param mode {String|null} The new mode. A value of <code>null</code> will
-     *     restore the window
-     */
-    _setMode : function(mode)
-    {
-      var oldMode = this.__mode;
-
-      switch(mode)
-      {
-        case "minimized":
-          this.setDisableResize(true);
-          this._minimize();
-          break;
-
-        case "maximized":
-          this.setDisableResize(true);
-          this._maximize();
-          break;
-
-        default:
-          this.setDisableResize(false);
-          switch(oldMode)
-          {
-            case "maximized":
-              this._restoreFromMaximized();
-              break;
-
-            case "minimized":
-              this._restoreFromMinimized();
-              break;
-          }
-      }
-
-      this.__mode = mode;
     },
 
 
@@ -617,9 +560,7 @@ qx.Class.define("qx.ui.window.Window",
      */
     maximize : function()
     {
-      if (!this.fireEvent("beforeMaximize", qx.event.type.Event, [false, true]))
-      {
-        this._setMode("maximized");
+      if (!this.fireEvent("beforeMaximize", qx.event.type.Event, [false, true])) {
         this.fireEvent("maximize");
       };
     },
@@ -633,9 +574,7 @@ qx.Class.define("qx.ui.window.Window",
      */
     minimize : function()
     {
-      if (!this.fireEvent("beforeMinimize", qx.event.type.Event, [false, true]))
-      {
-        this._setMode("minimized");
+      if (!this.fireEvent("beforeMinimize", qx.event.type.Event, [false, true])) {
         this.fireEvent("minimize");
       };
     },
@@ -649,9 +588,7 @@ qx.Class.define("qx.ui.window.Window",
      */
     restore : function()
     {
-      if (this.fireEvent("beforeRestore", qx.event.type.Event, [false, true]))
-      {
-        this._setMode(null);
+      if (this.fireEvent("beforeRestore", qx.event.type.Event, [false, true])) {
         this.fireEvent("restore");
       };
     },
@@ -686,14 +623,10 @@ qx.Class.define("qx.ui.window.Window",
     _applyVisibility : function(value, old)
     {
       this.base(arguments, value, old);
-      var isVisible = value == "visible";
 
-      if (isVisible)
-      {
+      if (value == "visible") {
         this.getManager().add(this);
-      }
-      else
-      {
+      } else {
         this.getManager().remove(this);
       }
     },
@@ -779,8 +712,8 @@ qx.Class.define("qx.ui.window.Window",
       // Inform blocker
       if (this._initialLayoutDone && this.getVisibility() && this.getDisplay())
       {
-        var vTop = this.getTopLevelWidget();
-        value ? vTop.block(this) : vTop.release(this);
+        var topLevel = this.getTopLevelWidget();
+        value ? topLevel.block(this) : topLevel.release(this);
       }
     },
 
@@ -914,6 +847,12 @@ qx.Class.define("qx.ui.window.Window",
         isMaximized ? this.btnRestore.setEnabled(false) : this.btnRestore.resetEnabled();
       }
     },
+
+
+
+
+
+
 
 
     // property apply
@@ -1079,9 +1018,7 @@ qx.Class.define("qx.ui.window.Window",
      * @param e {qx.event.type.MouseEvent} mouse click event
      * @return {void}
      */
-    _onWindowClick : function(e)
-    {
-      // stop event
+    _onWindowClick : function(e) {
       e.stopPropagation();
     },
 
@@ -1132,10 +1069,7 @@ qx.Class.define("qx.ui.window.Window",
 
       // we need to be sure that the button gets the right states after clicking
       // because the button will move and does not get the mouseup event anymore
-      var btnMinimize = this._getChildControl("minimize-button");
-      btnMinimize.removeState("pressed");
-      btnMinimize.removeState("abandoned");
-      btnMinimize.removeState("hovered");
+      this._getChildControl("minimize-button").reset();
     },
 
 
@@ -1152,10 +1086,7 @@ qx.Class.define("qx.ui.window.Window",
 
       // we need to be sure that the button gets the right states after clicking
       // because the button will move and does not get the mouseup event anymore
-      var btnRestore = this._getChildControl("restore-button");
-      btnRestore.removeState("pressed");
-      btnRestore.removeState("abandoned");
-      btnRestore.removeState("hovered");
+      this._getChildControl("restore-button").reset();
     },
 
 
@@ -1172,10 +1103,7 @@ qx.Class.define("qx.ui.window.Window",
 
       // we need to be sure that the button gets the right states after clicking
       // because the button will move and does not get the mouseup event anymore
-      var btnMaximize = this._getChildControl("maximize-button");
-      btnMaximize.removeState("pressed");
-      btnMaximize.removeState("abandoned");
-      btnMaximize.removeState("hovered");
+      this._getChildControl("maximize-button").reset();
     },
 
 
@@ -1192,10 +1120,7 @@ qx.Class.define("qx.ui.window.Window",
 
       // we need to be sure that the button gets the right states after clicking
       // because the button will move and does not get the mouseup event anymore
-      var btnClose = this._getChildControl("close-button");
-      btnClose.removeState("pressed");
-      btnClose.removeState("abandoned");
-      btnClose.removeState("hovered");
+      this._getChildControl("close-button").reset();
     },
 
 
