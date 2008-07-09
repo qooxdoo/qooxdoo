@@ -127,7 +127,7 @@ qx.Class.define("demobrowser.demo.widget.ToolBar",
       controlContainer.add(size48Button, {row:0, column:3});
 
       // register the handler
-      sizeManager.addListener("change", function(e)
+      sizeManager.addListener("changeSelected", function(e)
       {
         var value = e.getData();
         var button, size, url;
@@ -168,7 +168,7 @@ qx.Class.define("demobrowser.demo.widget.ToolBar",
       controlContainer.add(showLabelButton, {row:1, column:3});
 
       // register the handler
-      showManager.addListener("change", function(e)
+      showManager.addListener("changeSelected", function(e)
       {
         if (e.getData() == showBothButton) {
           toolbar.setShow("both");
