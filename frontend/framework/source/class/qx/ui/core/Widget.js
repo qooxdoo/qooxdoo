@@ -809,13 +809,15 @@ qx.Class.define("qx.ui.core.Widget",
           {
             size : changes.size,
             style : this.__styleDecorator,
-            init : this.__initDecorator
+            init : this.__initDecorator,
+            bgcolor : this.__styleBackgroundColor
           };
 
           decorator.render(decoElement, width, height, decoBack, decoChanges);
         }
 
         delete this.__styleDecorator;
+        delete this.__styleBackgroundColor;
         delete this.__initDecorator;
       }
 
@@ -1922,6 +1924,10 @@ qx.Class.define("qx.ui.core.Widget",
             bounds.width, bounds.height,
             value, {bgcolor:true}
           );
+        }
+        else
+        {
+          this.__styleBackgroundColor = true;
         }
       }
       else
