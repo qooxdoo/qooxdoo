@@ -173,7 +173,8 @@ qx.Class.define("qx.ui.form.ComboBox",
 
     /**
      * Toggles the popup's visibility.
-     * @param e {qx.event.type.MouseEvent} Mouse click event
+     *
+     * @param e {qx.event.type.Mouse} Mouse click event
      * @type member
      */
     _onClick : function(e)

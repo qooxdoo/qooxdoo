@@ -43,10 +43,9 @@ qx.Class.define("qx.ui.form.SelectBox",
     this._createChildControl("spacer");
     this._createChildControl("arrow");
 
-    // register the mouse listener
-    this.addListener("click", this._onMouseDown, this);
-
-    // Listener for Search as you type (forward the keyinput event)
+    // Register listener
+    this.addListener("click", this._onClick, this);
+    this.addListener("mousewheel", this._onMouseWheel, this);
     this.addListener("keyinput", this._onKeyInput, this);
   },
 
@@ -192,11 +191,44 @@ qx.Class.define("qx.ui.form.SelectBox",
 
     /**
      * Toggles the popup's visibility.
-     * @param e {qx.event.type.MouseEvent} Mouse event
+     *
+     * @param e {qx.event.type.Mouse} Mouse event
      * @type member
      */
-    _onMouseDown : function(e) {
+    _onClick : function(e) {
       this._togglePopup();
+    },
+
+
+    /**
+     * Event handler for mousewheel event
+     *
+     * @param e {qx.event.type.Mouse} Mouse event
+     */
+    _onMouseWheel : function(e)
+    {
+      if (this._getChildControl("popup").isVisible()) {
+        return;
+      }
+
+      var children = this.getChildren();
+      var selected = this.getSelected();
+
+      if (!selected) {
+        selected = children[0];
+      }
+
+      var index = children.indexOf(selected) - e.getWheelDelta();
+      var max = children.length - 1;
+
+      // Limit
+      if (index < 0) {
+        index = 0;
+      } else if (index >= max) {
+        index = max;
+      }
+
+      this.setSelected(children[index]);
     },
 
 
@@ -205,8 +237,6 @@ qx.Class.define("qx.ui.form.SelectBox",
     {
       if(e.getKeyIdentifier() == "Enter") {
         this._togglePopup();
-      } else if(this._getChildControl("popup").isHidden()){
-        this._getChildControl("list").handleKeyPress(e);
       } else {
         this.base(arguments, e);
       }
@@ -215,7 +245,8 @@ qx.Class.define("qx.ui.form.SelectBox",
 
     /**
      * Forwards key event to list widget.
-     * @param e {qx.event.type.KeyEvent} Key event
+     *
+     * @param e {qx.event.type.KeyInput} Key event
      * @type member
      */
     _onKeyInput : function(e)
