@@ -99,7 +99,7 @@ qx.Class.define("demobrowser.demo.widget.TabView",
       tabView.add(page4);
 
       // show the first page
-      //tabView.showPage(page1);
+      tabView.setSelected(page1);
 
       return tabView;
     },
