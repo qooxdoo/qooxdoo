@@ -429,7 +429,7 @@ class Lint:
 
         # Language
         "Array", "Object", "Date", "Error", "Function", "String", "RegExp", "Math",
-        "Number",
+        "Number", "Boolean",
 
         "decodeURI", "decodeURIComponent", "encodeURIComponent",
         "escape", "unescape",
