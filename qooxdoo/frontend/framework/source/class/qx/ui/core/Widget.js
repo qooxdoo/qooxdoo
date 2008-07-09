@@ -1323,6 +1323,11 @@ qx.Class.define("qx.ui.core.Widget",
     },
 
 
+    /**
+     * Resets the cache for children which should be layouted.
+     *
+     * @return {void}
+     */
     invalidateLayoutChildren : function()
     {
       var layout = this.__layout;
@@ -1337,6 +1342,7 @@ qx.Class.define("qx.ui.core.Widget",
     },
 
 
+    // overridden
     shouldBeLayouted : function() {
       return this.getVisibility() !== "excluded";
     },
@@ -1536,6 +1542,8 @@ qx.Class.define("qx.ui.core.Widget",
     },
 
 
+
+
     /*
     ---------------------------------------------------------------------------
       CHILDREN HANDLING - TEMPLATE METHODS
@@ -1560,6 +1568,8 @@ qx.Class.define("qx.ui.core.Widget",
      * @param child {qx.ui.core.LayoutItem} The removed child.
      */
     _afterRemoveChild : null,
+
+
 
 
     /*
@@ -1647,6 +1657,7 @@ qx.Class.define("qx.ui.core.Widget",
 
 
 
+
     /*
     ---------------------------------------------------------------------------
       EVENTS
@@ -1673,6 +1684,8 @@ qx.Class.define("qx.ui.core.Widget",
     },
 
 
+
+
     /*
     ---------------------------------------------------------------------------
       STYLE TARGET
@@ -1689,6 +1702,8 @@ qx.Class.define("qx.ui.core.Widget",
      * @return {Widget} The target for the redirected properties
      */
     _getStyleTarget : null,
+
+
 
 
     /*
@@ -1712,8 +1727,6 @@ qx.Class.define("qx.ui.core.Widget",
         qx.ui.core.queue.Layout.add(this);
       }
     },
-
-
 
 
 
@@ -2179,7 +2192,12 @@ qx.Class.define("qx.ui.core.Widget",
     },
 
 
-    // TODOC
+    /**
+     * Refreshes the appearance of this widget and all
+     * registered child controls.
+     *
+     * @type member
+     */
     updateAppearance : function()
     {
       // Clear selector
