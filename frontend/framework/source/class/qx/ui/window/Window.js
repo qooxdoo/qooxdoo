@@ -290,7 +290,7 @@ qx.Class.define("qx.ui.window.Window",
     showMaximize :
     {
       check : "Boolean",
-      init : false,
+      init : true,
       apply : "_applyShowMaximize"
     },
 
@@ -299,7 +299,7 @@ qx.Class.define("qx.ui.window.Window",
     showMinimize :
     {
       check : "Boolean",
-      init : false,
+      init : true,
       apply : "_applyShowMinimize"
     },
 
@@ -308,7 +308,7 @@ qx.Class.define("qx.ui.window.Window",
     showStatusbar :
     {
       check : "Boolean",
-      init : false,
+      init : true,
       apply : "_applyShowStatusbar"
     },
 
