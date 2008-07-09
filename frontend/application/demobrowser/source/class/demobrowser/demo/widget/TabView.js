@@ -63,7 +63,7 @@ qx.Class.define("demobrowser.demo.widget.TabView",
       var barTopButton = new qx.ui.form.CheckBox("Bar on top");
       barTopButton.setChecked(true);
       barTopButton.addListener("changeChecked", function(event) {
-        this.setPlaceBarOnTop(event.getValue());
+        this.setPlaceBarOnTop(event.getData());
       }, tabView);
       page1.add(barTopButton);
 
@@ -71,7 +71,7 @@ qx.Class.define("demobrowser.demo.widget.TabView",
       var barLeftButton = new qx.ui.form.CheckBox("Bar left");
       barLeftButton.setChecked(true);
       barLeftButton.addListener("changeChecked", function(event) {
-        this.setAlignTabsToLeft(event.getValue());
+        this.setAlignTabsToLeft(event.getData());
       }, tabView);
       page1.add(barLeftButton);
 
