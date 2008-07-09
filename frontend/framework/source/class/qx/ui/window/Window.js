@@ -68,10 +68,7 @@ qx.Class.define("qx.ui.window.Window",
     this.base(arguments);
 
     // Init Window Manager
-    this.setWindowManager(manager || qx.ui.window.Window.getDefaultWindowManager());
-
-    this.setResizableNorth(true);
-    this.setResizableWest(true);
+    this.setManager(manager || qx.ui.window.Window.getDefaultWindowManager());
 
     // layout
     this._setLayout(new qx.ui.layout.VBox());
@@ -214,11 +211,11 @@ qx.Class.define("qx.ui.window.Window",
     },
 
 
-    /** The windowManager to use for. */
-    windowManager :
+    /** The manager to use for. */
+    manager :
     {
       check : "qx.ui.window.Manager",
-      event : "changeWindowManager"
+      event : "changeManager"
     },
 
 
@@ -780,6 +777,8 @@ qx.Class.define("qx.ui.window.Window",
     },
 
 
+
+
     /*
     ---------------------------------------------------------------------------
       APPEAR/DISAPPEAR
@@ -794,17 +793,18 @@ qx.Class.define("qx.ui.window.Window",
 
       if (isVisible)
       {
-        this.getWindowManager().add(this);
+        this.getManager().add(this);
         // TODO
         //this._makeActive();
       }
       else
       {
-        this.getWindowManager().remove(this);
+        this.getManager().remove(this);
         // TODO
         //this._makeInactive();
       }
     },
+
 
 
     /*
@@ -820,7 +820,7 @@ qx.Class.define("qx.ui.window.Window",
      * @return {void}
      */
     bringToFront : function() {
-      this.getWindowManager().bringToFront(this);
+      this.getManager().bringToFront(this);
     },
 
 
@@ -831,10 +831,8 @@ qx.Class.define("qx.ui.window.Window",
      * @return {void}
      */
     sendToBack : function() {
-      this.getWindowManager().sendToBack(this);
+      this.getManager().sendToBack(this);
     },
-
-
 
 
 
@@ -863,8 +861,8 @@ qx.Class.define("qx.ui.window.Window",
         }
         */
 
-        if (this.getWindowManager().getActiveWindow() == this) {
-          this.getWindowManager().setActiveWindow(null);
+        if (this.getManager().getActiveWindow() == this) {
+          this.getManager().setActiveWindow(null);
         }
 
         this.removeState("active");
@@ -886,7 +884,7 @@ qx.Class.define("qx.ui.window.Window",
         }
         */
 
-        this.getWindowManager().setActiveWindow(this);
+        this.getManager().setActiveWindow(this);
 
         this.addState("active");
         captionBar.addState("active");
@@ -1219,12 +1217,13 @@ qx.Class.define("qx.ui.window.Window",
 
 
 
+
+
     /*
     ---------------------------------------------------------------------------
       EVENTS: WINDOW
     ---------------------------------------------------------------------------
     */
-
 
     /**
      * Stops every mouse click on the window by calling {@link qx.event.type.Event#stopPropagation}
@@ -1250,6 +1249,7 @@ qx.Class.define("qx.ui.window.Window",
     _onWindowMouseDown : function(e) {
       this.focus();
     },
+
 
 
 
@@ -1288,7 +1288,7 @@ qx.Class.define("qx.ui.window.Window",
       var btnMinimize = this._getChildControl("minimize-button");
       btnMinimize.removeState("pressed");
       btnMinimize.removeState("abandoned");
-      btnMinimize.removeState("over");
+      btnMinimize.removeState("hovered");
     },
 
 
@@ -1308,7 +1308,7 @@ qx.Class.define("qx.ui.window.Window",
       var btnRestore = this._getChildControl("restore-button");
       btnRestore.removeState("pressed");
       btnRestore.removeState("abandoned");
-      btnRestore.removeState("over");
+      btnRestore.removeState("hovered");
     },
 
 
@@ -1328,7 +1328,7 @@ qx.Class.define("qx.ui.window.Window",
       var btnMaximize = this._getChildControl("maximize-button");
       btnMaximize.removeState("pressed");
       btnMaximize.removeState("abandoned");
-      btnMaximize.removeState("over");
+      btnMaximize.removeState("hovered");
     },
 
 
@@ -1348,7 +1348,7 @@ qx.Class.define("qx.ui.window.Window",
       var btnClose = this._getChildControl("close-button");
       btnClose.removeState("pressed");
       btnClose.removeState("abandoned");
-      btnClose.removeState("over");
+      btnClose.removeState("hovered");
     },
 
 
@@ -1546,19 +1546,5 @@ qx.Class.define("qx.ui.window.Window",
 
       return this.getMode() == "maximized" ? this.restore() : this.maximize();
     }
-  },
-
-
-
-
-  /*
-  *****************************************************************************
-     DESTRUCTOR
-  *****************************************************************************
-  */
-
-  destruct : function()
-  {
-    this._disposeObjects("_pane");
   }
 });
