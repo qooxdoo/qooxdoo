@@ -159,7 +159,7 @@ qx.Bootstrap.define("qx.io2.ScriptLoader",
         this.__cleanup("fail");
       } else if (e.type === "load") {
         this.__cleanup("success");
-      } else if (e.type === "readystatechange" && (el.readyState === "complete" || el.readyState === "loaded")) {
+      } else if (e.type === "readystatechange" && (e.target.readyState === "complete" || e.target.readyState === "loaded")) {
         this.__cleanup("success");
       } else {
         return;

@@ -130,7 +130,7 @@ qx.Class.define("qx.event.handler.Element",
       var eventData = this._registeredEvents[eventId];
       qx.bom.Event.removeNativeListener(target, type, eventData.listener);
 
-      delete this._registeredEvents[id];
+      delete this._registeredEvents[eventId];
     },
 
 

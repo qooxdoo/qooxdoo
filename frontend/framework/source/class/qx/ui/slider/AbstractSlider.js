@@ -222,7 +222,6 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
     /**
      * Listener of mousedown event. Initializes drag or tracking mode.
      *
-     * @type member
      * @param e {qx.event.type.Mouse} Incoming event object
      * @return {void}
      */
@@ -232,12 +231,10 @@ qx.Class.define("qx.ui.slider.AbstractSlider",
       var knob = this._getChildControl("knob");
 
       var locationProperty = isHorizontal ? "left" : "top";
-      var sizeProperty = isHorizontal ? "width" : "height";
 
       var cursorLocation = isHorizontal ? e.getDocumentLeft() : e.getDocumentTop();
       var sliderLocation = this._sliderLocation = qx.bom.element.Location.get(this.getContentElement().getDomElement())[locationProperty];
       var knobLocation = this._knobLocation = qx.bom.element.Location.get(knob.getContainerElement().getDomElement())[locationProperty];
-      var knobSize = this._knobSize = knob.getBounds()[sizeProperty];
 
       if (e.getTarget() === knob)
       {

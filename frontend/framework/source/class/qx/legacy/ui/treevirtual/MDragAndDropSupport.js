@@ -360,7 +360,10 @@ qx.Mixin.define("qx.legacy.ui.treevirtual.MDragAndDropSupport",
       var selection = this.getDataModel().getSelectedNodes();
       var types     = this.getAllowDragTypes();
 
-      if (types === null) return false;
+      if (types === null)
+      {
+        return false;
+      }
 
       if (types[0] != "*" )
       {
@@ -376,7 +379,10 @@ qx.Mixin.define("qx.legacy.ui.treevirtual.MDragAndDropSupport",
           catch(e){}
 
           // type is not among the allowed types, do not allow drag
-          if ( types.indexOf(type) < 0 ) return false;
+          if ( types.indexOf(type) < 0 )
+          {
+            return false;
+          }
         }
       }
 
@@ -621,9 +627,10 @@ qx.Mixin.define("qx.legacy.ui.treevirtual.MDragAndDropSupport",
 
         // dragging from other tree allowed?
         if ( typeof sourceWidget.getAllowDragOut == "function" && sourceWidget.getAllowDragOut() )
-
-        // get and save drag target
-        var targetWidget = this;
+        {
+          // get and save drag target
+          var targetWidget = this;
+        }
         var targetRowData = this.getDataModel().getRowData(row);
         if ( ! targetRowData )
         {
@@ -760,8 +767,8 @@ qx.Mixin.define("qx.legacy.ui.treevirtual.MDragAndDropSupport",
         this.error("Drag Type must be a string, got " + (typeof type) );
       }
       var node = this.nodeGet(nodeReference);
-      if ( ! node.data ) node.data = {};
-      if ( ! node.data.MDragAndDropSupport ) node.data.MDragAndDropSupport = {};
+      if ( ! node.data ){node.data = {};}
+      if ( ! node.data.MDragAndDropSupport ){node.data.MDragAndDropSupport = {};}
       node.data.MDragAndDropSupport.type = type;
     },
 
@@ -871,7 +878,7 @@ qx.Mixin.define("qx.legacy.ui.treevirtual.MDragAndDropSupport",
         sourceNode.level = targetNode.level;
         sourceNode.parentNodeId = targetParentNodeId;
         qx.lang.Array.insertAt( targetParentNode.children, sourceNodeId, targetNodeIndex + 1 );
-        if ( this.getSortAfterDrop() ) this.sortChildNodes(targetParentNode);
+        if ( this.getSortAfterDrop() ){this.sortChildNodes(targetParentNode);}
       }
       else if ( position < 0 )
       {
@@ -879,7 +886,7 @@ qx.Mixin.define("qx.legacy.ui.treevirtual.MDragAndDropSupport",
         sourceNode.level = targetNode.level;
         sourceNode.parentNodeId = targetParentNodeId;
         qx.lang.Array.insertAt( targetParentNode.children, sourceNodeId, targetNodeIndex );
-        if ( this.getSortAfterDrop() ) this.sortChildNodes(targetParentNode);
+        if ( this.getSortAfterDrop() ){this.sortChildNodes(targetParentNode);}
       }
       else if ( targetNode.type != qx.legacy.ui.treevirtual.SimpleTreeDataModel.Type.LEAF )
       {
@@ -887,7 +894,7 @@ qx.Mixin.define("qx.legacy.ui.treevirtual.MDragAndDropSupport",
         sourceNode.level = targetNode.level+1;
         sourceNode.parentNodeId = targetNodeId;
         targetNode.children.push( sourceNodeId );
-        if ( this.getSortAfterDrop() ) this.sortChildNodes(targetNode);
+        if ( this.getSortAfterDrop() ){this.sortChildNodes(targetNode);}
       }
       this.getDataModel().setData();
 
@@ -903,7 +910,10 @@ qx.Mixin.define("qx.legacy.ui.treevirtual.MDragAndDropSupport",
     sortChildNodes : function ( nodeReference, recurse  )
     {
       var sortMap = this.getSortChildNodesBy();
-      if ( ! sortMap || this.getAllowDropBetweenNodes() ) return;
+      if ( ! sortMap || this.getAllowDropBetweenNodes() )
+      {
+        return;
+      }
       var node = this.nodeGet(nodeReference);
       var self = this;
       node.children.sort(function(a,b){
@@ -927,31 +937,36 @@ qx.Mixin.define("qx.legacy.ui.treevirtual.MDragAndDropSupport",
            var nodeA = self.nodeGet(a);
            var nodeB = self.nodeGet(b);
 
-           try
-           {
-             var valueA = eval("nodeA."+prop);
-             var valueB = eval("nodeB."+prop);
-           }
-           catch(e)
-           {
-             continue;
-           }
+           var valueA = nodeA[prop];
+           var valueB = nodeB[prop];
 
            // do comparison
 
            // if sort hint is a string, assume that it is either "asc" or "desc"
            if ( typeof sortHint == "string" )
            {
-             if ( valueA > valueB ) return sortHint == "asc" ?  1 : -1;
-             if ( valueA < valueB ) return sortHint == "asc" ? -1 :  1;
+             if ( valueA > valueB )
+            {
+              return sortHint == "asc" ?  1 : -1;
+            }
+             if ( valueA < valueB )
+            {
+              return sortHint == "asc" ? -1 :  1;
+            }
            }
            // if it is an array, elements that appear earlier in the array take
            // precedence over those further back in the array
            if ( typeof sortHint == "object" &&
            sortHint.length )
            {
-             if ( sortHint.indexOf(valueA) > sortHint.indexOf(valueB) ) return 1;
-             if ( sortHint.indexOf(valueA) < sortHint.indexOf(valueB) ) return -1;
+             if ( sortHint.indexOf(valueA) > sortHint.indexOf(valueB) )
+            {
+              return 1;
+            }
+             if ( sortHint.indexOf(valueA) < sortHint.indexOf(valueB) )
+            {
+              return -1;
+            }
            }
         }
         return 0;

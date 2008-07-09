@@ -135,7 +135,6 @@ qx.Class.define("qx.fx.effect.combination.Grow",
 
       var initialMoveX, initialMoveY;
       var moveX, moveY;
-      var self = this;
 
       var oldStyle = {
         top    : qx.bom.element.Location.getTop(this._element),

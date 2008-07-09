@@ -152,7 +152,6 @@ qx.Class.define("qx.dev.unit.TestSuite",
     /**
      * TODOC
      *
-     * @type member
      * @param functionName {var} TODOC
      * @param message {var} TODOC
      * @return {void}
@@ -160,7 +159,7 @@ qx.Class.define("qx.dev.unit.TestSuite",
     addFail : function(functionName, message)
     {
       this.addTestFunction(functionName, function() {
-        fail(message);
+        this.fail(message);
       });
     },
 
@@ -168,7 +167,6 @@ qx.Class.define("qx.dev.unit.TestSuite",
     /**
      * TODOC
      *
-     * @type member
      * @param testResult {var} TODOC
      * @return {void}
      */

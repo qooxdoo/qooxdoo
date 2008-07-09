@@ -47,7 +47,7 @@ qx.Class.define("qx.ui.layout.Util",
      */
     computeFlexOffsets : function(flexibles, avail, used)
     {
-      var child, key, flexSum, flexStep, flexValue;
+      var child, key, flexSum, flexStep;
       var grow = avail > used;
       var remaining = Math.abs(avail - used);
       var roundingOffset, currentOffset;
@@ -259,7 +259,7 @@ qx.Class.define("qx.ui.layout.Util",
       var max=0, min=0;
       for (var i=0, l=arguments.length; i<l; i++)
       {
-        value = arguments[i];
+        var value = arguments[i];
 
         if (value < 0) {
           min = Math.min(min, value);

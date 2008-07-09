@@ -989,7 +989,7 @@ qx.Class.define("qx.event.handler.Focus",
 
       while(node && node.nodeType === 1)
       {
-        attr = Attribute.get(node, "qxSelectable");
+        var attr = Attribute.get(node, "qxSelectable");
         if (attr != null) {
           return attr === "on";
         }
@@ -1099,7 +1099,7 @@ qx.Class.define("qx.event.handler.Focus",
 
     // For faster lookups generate uppercase tag names dynamically
     var focusable = statics.FOCUSABLE_ELEMENTS;
-    for (entry in focusable) {
+    for (var entry in focusable) {
       focusable[entry.toUpperCase()] = 1;
     }
   }

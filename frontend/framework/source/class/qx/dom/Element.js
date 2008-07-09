@@ -288,7 +288,7 @@ qx.Class.define("qx.dom.Element",
      */
     replaceAt : function(newNode, index, parent)
     {
-      oldNode = parent.childNodes[index];
+      var oldNode = parent.childNodes[index];
 
       if (!oldNode) {
         return false;

@@ -65,20 +65,20 @@ qx.Class.define("qx.legacy.log.appender.JsUnit",
         switch(evt.level)
         {
           case log.LEVEL_DEBUG:
-            debug(msg);
+            window.debug(msg);
             break;
 
           case log.LEVEL_INFO:
-            inform(msg);
+            window.inform(msg);
             break;
 
           default:
-            warn(msg);
+            window.warn(msg);
             break;
         }
 
         if (evt.level > log.LEVEL_WARN) {
-          fail(msg);
+          window.fail(msg);
         }
       }
     }

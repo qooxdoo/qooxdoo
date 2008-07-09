@@ -380,7 +380,7 @@ qx.Class.define("qx.fx.Base",
       this.beforeStart();
 
       if (!this.getSync()) {
-        var queue = this.getQueue().add(this);
+        this.getQueue().add(this);
       }
 
       return true;

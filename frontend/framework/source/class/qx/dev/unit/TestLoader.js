@@ -79,7 +79,6 @@ qx.Class.define("qx.dev.unit.TestLoader",
     main : function()
     {
       this.base(arguments);
-      testrunner.TestLoader.instance = this;
 
       this.setTestNamespace(this.__getClassNameFromUrl());
 

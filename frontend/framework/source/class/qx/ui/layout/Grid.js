@@ -464,7 +464,7 @@ qx.Class.define("qx.ui.layout.Grid",
       var widget = this.__grid[row][column];
       if (widget)
       {
-        widgetProps = {
+        var widgetProps = {
           vAlign : widget.getAlignY(),
           hAlign : widget.getAlignX()
         }
@@ -822,7 +822,7 @@ qx.Class.define("qx.ui.layout.Grid",
 
           for (var j=0; j<widgetProps.rowSpan; j++)
           {
-            offset = rowIncrements[widgetRow+j] ? rowIncrements[widgetRow+j].offset : 0;
+            var offset = rowIncrements[widgetRow+j] ? rowIncrements[widgetRow+j].offset : 0;
             rowHeights[widgetRow+j].height += offset;
           }
         }
@@ -837,7 +837,7 @@ qx.Class.define("qx.ui.layout.Grid",
 
           for (var j=0; j<widgetProps.rowSpan; j++)
           {
-            offset = rowIncrements[widgetRow+j] ? rowIncrements[widgetRow+j].offset : 0;
+            var offset = rowIncrements[widgetRow+j] ? rowIncrements[widgetRow+j].offset : 0;
             rowHeights[widgetRow+j].minHeight += offset;
           }
         }

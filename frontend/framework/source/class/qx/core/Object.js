@@ -53,8 +53,6 @@ qx.Class.define("qx.core.Object",
 
   /**
    * Create a new instance
-   *
-   * @type constructor
    */
   construct : function() {
     qx.core.ObjectRegistry.register(this);

@@ -106,8 +106,6 @@ qx.Class.define("qx.legacy.util.AliasManager",
 
       // Localify stores
       var dynamics = this._dynamic;
-      var reg = this._registry;
-      var entry;
 
       // Temporary data structure to optimize performance of update
       var paths = {};

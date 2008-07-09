@@ -118,7 +118,7 @@ qx.Class.define("qx.theme.manager.Appearance",
         while (!entry && splitted.length > 0)
         {
           end.unshift(splitted.pop());
-          baseid = splitted.join(divider);
+          var baseid = splitted.join(divider);
           entry = db[baseid];
 
           if (entry)

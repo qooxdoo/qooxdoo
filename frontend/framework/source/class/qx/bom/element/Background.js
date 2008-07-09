@@ -159,7 +159,7 @@ qx.Class.define("qx.bom.element.Background",
          */
         if (window.location.protocol === "https:")
         {
-          /* 
+          /*
            * SPECIAL CASE
            * It is valid to to begin a URL with "//" so this case has to
            * be considered. If the to resolved URL begins with "//" the
@@ -169,13 +169,13 @@ qx.Class.define("qx.bom.element.Background",
             urlPrefix = window.location.protocol;
           }
           /*
-           * If the resolved URL begins with "./" the final URL has to be 
+           * If the resolved URL begins with "./" the final URL has to be
            * put together using the document.URL property.
            */
           else if (url.match(/^\.\//) != null)
           {
-            url  = url.substring(value.indexOf("/"));
-            urlPrefix = document.URL.substring(0, document.URL.lastIndexOf("/")); 
+            url  = url.substring(url.indexOf("/"));
+            urlPrefix = document.URL.substring(0, document.URL.lastIndexOf("/"));
           }
           else
           {
