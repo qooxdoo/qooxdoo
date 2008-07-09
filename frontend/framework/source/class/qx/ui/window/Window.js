@@ -67,38 +67,28 @@ qx.Class.define("qx.ui.window.Window",
   {
     this.base(arguments);
 
-    // Init Window Manager
+    // initialize window manager
     this.setManager(manager || qx.ui.window.Window.getDefaultWindowManager());
 
-    // layout
+    // configure internal layout
     this._setLayout(new qx.ui.layout.VBox());
 
+    // force creation of captionbar
     this._createChildControl("captionbar");
     this._createChildControl("pane");
 
-    // init
-    if (caption != null) {
-      this.setCaption(caption);
-    }
-
+    // apply constructor parameters
     if (icon != null) {
       this.setIcon(icon);
     }
 
-    // functional
-    //this.activateFocusRoot();
+    if (caption != null) {
+      this.setCaption(caption);
+    }
 
-
-    // window events
+    // register window events
     this.addListener("mousedown", this._onWindowMouseDown);
     this.addListener("click", this._onWindowClick);
-
-    this.initVisibility();
-    this.initShowIcon();
-    this.initShowCaption();
-    this.initShowMinimize();
-    this.initShowMaximize();
-    this.initShowClose();
   },
 
 
@@ -127,11 +117,12 @@ qx.Class.define("qx.ui.window.Window",
      */
     getDefaultWindowManager : function()
     {
-      if (!qx.ui.window.Window._defaultWindowManager) {
-        qx.ui.window.Window._defaultWindowManager = new qx.ui.window.Manager;
+      var Window = qx.ui.window.Window;
+      if (!Window._defaultWindowManager) {
+        Window._defaultWindowManager = new qx.ui.window.Manager;
       }
 
-      return qx.ui.window.Window._defaultWindowManager;
+      return Window._defaultWindowManager;
     }
   },
 
@@ -203,6 +194,12 @@ qx.Class.define("qx.ui.window.Window",
 
   properties :
   {
+    /*
+    ---------------------------------------------------------------------------
+      INTERNAL OPTIONS
+    ---------------------------------------------------------------------------
+    */
+
     /** Appearance of the widget */
     appearance :
     {
@@ -232,6 +229,14 @@ qx.Class.define("qx.ui.window.Window",
     },
 
 
+
+
+    /*
+    ---------------------------------------------------------------------------
+      BASIC OPTIONS
+    ---------------------------------------------------------------------------
+    */
+
     /** Should be window be modal (this disable minimize and maximize buttons) */
     modal :
     {
@@ -239,12 +244,6 @@ qx.Class.define("qx.ui.window.Window",
       init : false,
       apply : "_applyModal",
       event : "changeModal"
-    },
-
-
-    /** The opener (button) of the window */
-    opener : {
-      check : "qx.ui.core.Widget"
     },
 
 
@@ -268,14 +267,22 @@ qx.Class.define("qx.ui.window.Window",
 
 
     /** The text of the statusbar */
-    status :
+    statusText :
     {
       check : "String",
       init : "Ready",
-      apply : "_applyStatus",
-      event :"changeStatus"
+      apply : "_applyStatusText",
+      event :"changeStatusText"
     },
 
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      HIDE CAPTIONBAR FEATURES
+    ---------------------------------------------------------------------------
+    */
 
     /** Should the close button be shown */
     showClose :
@@ -304,14 +311,13 @@ qx.Class.define("qx.ui.window.Window",
     },
 
 
-    /** Should the statusbar be shown */
-    showStatusbar :
-    {
-      check : "Boolean",
-      init : true,
-      apply : "_applyShowStatusbar"
-    },
 
+
+    /*
+    ---------------------------------------------------------------------------
+      DISABLE CAPTIONBAR FEATURES
+    ---------------------------------------------------------------------------
+    */
 
     /** Should the user have the ability to close the window */
     allowClose :
@@ -340,23 +346,30 @@ qx.Class.define("qx.ui.window.Window",
     },
 
 
-    /** If the text (in the captionbar) should be visible */
-    showCaption :
+
+
+    /*
+    ---------------------------------------------------------------------------
+      STATUSBAR CONFIG
+    ---------------------------------------------------------------------------
+    */
+
+    /** Should the statusbar be shown */
+    showStatusbar :
     {
       check : "Boolean",
       init : true,
-      apply : "_applyShowCaption"
+      apply : "_applyShowStatusbar"
     },
 
 
-    /** If the icon (in the captionbar) should be visible */
-    showIcon :
-    {
-      check : "Boolean",
-      init : true,
-      apply : "_applyShowIcon"
-    },
 
+
+    /*
+    ---------------------------------------------------------------------------
+      MOVE CONFIG
+    ---------------------------------------------------------------------------
+    */
 
     /** If the window is moveable */
     moveable :
@@ -373,14 +386,6 @@ qx.Class.define("qx.ui.window.Window",
       check : [ "opaque", "frame", "translucent" ],
       init : "opaque",
       event : "changeMoveMethod"
-    },
-
-
-    /** Center the window on open */
-    centered :
-    {
-      check : "Boolean",
-      init : false
     }
   },
 
@@ -397,7 +402,7 @@ qx.Class.define("qx.ui.window.Window",
   {
     /*
     ---------------------------------------------------------------------------
-      WIDGET INTERNALS
+      WIDGET API
     ---------------------------------------------------------------------------
     */
 
@@ -419,18 +424,10 @@ qx.Class.define("qx.ui.window.Window",
     },
 
 
-
-    /*
-    ---------------------------------------------------------------------------
-      CHILD CONTROL SUPPORT
-    ---------------------------------------------------------------------------
-    */
-
     // overridden
     _createChildControlImpl : function(id)
     {
       var control;
-      var isActive = this.hasState("active");
 
       switch(id)
       {
@@ -438,11 +435,10 @@ qx.Class.define("qx.ui.window.Window",
           control = new qx.ui.container.Composite(new qx.ui.layout.HBox());
           this._add(control);
           control.add(this._getChildControl("status-text"));
-          break;
 
-        case "status-text":
-          control = new qx.ui.basic.Label("Ready");
-          control.setContent(this.getStatus());
+          var text = new qx.ui.basic.Label();
+          text.setContent(this.getStatus());
+          control.add(text);
           break;
 
         case "pane":
@@ -454,12 +450,9 @@ qx.Class.define("qx.ui.window.Window",
           var layout = new qx.ui.layout.HBox();
           layout.setAlignY("middle");
           control = new qx.ui.container.Composite(layout);
-          if (isActive) {
-            control.addState("active");
-          }
           this._add(control);
 
-          control.add(this._getChildControl("captionbar-spacer"), {flex: 1});
+          control.add(this._getChildControl("spacer"));
 
           // captionbar events
           control.addListener("mousedown", this._onCaptionMouseDown, this);
@@ -468,75 +461,47 @@ qx.Class.define("qx.ui.window.Window",
           control.addListener("dblclick", this._onCaptionMouseDblClick, this);
           break;
 
-        case "captionbar-spacer":
+        case "spacer":
           control = new qx.ui.core.Spacer();
           break;
 
         case "icon":
           control = new qx.ui.basic.Image(this.getIcon());
-          this._getChildControl("captionbar").addAt(control, 0);
+          this._getChildControl("captionbar").add(control);
           break;
 
         case "title":
           control = new qx.ui.basic.Label(this.getCaption());
-          var spacer = this._getChildControl("captionbar-spacer");
-          this._getChildControl("captionbar").addBefore(control, spacer);
+          this._getChildControl("captionbar").add(control);
           break;
 
         case "minimize-button":
           control = new qx.ui.form.Button();
           control.setFocusable(false);
-          if (isActive) {
-            control.addState("active");
-          }
-
           control.addListener("execute", this._onMinimizeButtonClick, this);
           control.addListener("mousedown", this._onButtonMouseDown, this);
-
-          var spacer = this._getChildControl("captionbar-spacer");
-          this._getChildControl("captionbar").addAfter(control, spacer);
+          this._getChildControl("captionbar").add(control);
           break;
 
         case "restore-button":
           control = new qx.ui.form.Button();
           control.setFocusable(false);
-          if (isActive) {
-            control.addState("active");
-          }
-
           control.addListener("execute", this._onRestoreButtonClick, this);
           control.addListener("mousedown", this._onButtonMouseDown, this);
-
-          var btnMaximize = this._getChildControl("maximize-button");
-          this._getChildControl("captionbar").addBefore(control, btnMaximize);
+          this._getChildControl("captionbar").add(control);
           break;
 
         case "maximize-button":
           control = new qx.ui.form.Button();
           control.setFocusable(false);
-          if (isActive) {
-            control.addState("active");
-          }
-
           control.addListener("execute", this._onMaximizeButtonClick, this);
           control.addListener("mousedown", this._onButtonMouseDown, this);
-
-          var captionBar = this._getChildControl("captionbar");
-          var btnClose = this._getChildControl("close-button", true);
-          if (btnClose) {
-            captionBar.addBefore(control, btnClose);
-          } else {
-            captionBar.add(control);
-          }
+          this._getChildControl("captionbar").add(control);
           break;
 
         case "close-button":
           control = new qx.ui.form.Button();
           control.setFocusable(false);
-          if (isActive) {
-            control.addState("active");
-          }
-
           control.addListener("execute", this._onCloseButtonClick, this);
           control.addListener("mousedown", this._onButtonMouseDown, this);
           this._getChildControl("captionbar").add(control);
@@ -547,33 +512,14 @@ qx.Class.define("qx.ui.window.Window",
     },
 
 
+
+
+
     /*
     ---------------------------------------------------------------------------
       UTILITIES
     ---------------------------------------------------------------------------
     */
-
-    /**
-     * Accessor method for the captionbar sub widget
-     *
-     * @type member
-     * @return {qx.ui.container.Composite} captionbar sub widget
-     */
-    getCaptionBar : function() {
-      return this._getChildControl("captionbar");
-    },
-
-
-    /**
-     * Accessor method for the statusbar sub widget
-     *
-     * @type member
-     * @return {qx.ui.container.Composite} statusbar sub widget
-     */
-    getStatusBar : function() {
-      return this._getChildControl("statusbar");
-    },
-
 
     /**
      * Closes the current window instance.
@@ -584,11 +530,11 @@ qx.Class.define("qx.ui.window.Window",
      */
     close : function()
     {
-      if (!this.fireEvent("beforeClose", qx.event.type.Event, [false, true])) {
-        return;
+      if (this.fireEvent("beforeClose", qx.event.type.Event, [false, true]))
+      {
+        this.hide();
+        this.fireEvent("close");
       };
-      this.hide();
-      this.fireEvent("close");
     },
 
 
@@ -607,35 +553,7 @@ qx.Class.define("qx.ui.window.Window",
         this.setOpener(vOpener);
       }
 
-      if (this.getCentered()) {
-        this.centerToParent();
-      }
-
       this.show();
-    },
-
-
-    /**
-     * Set the focus on the window.<br/>
-     * Setting the {@link #active} property to <code>true</code>
-     *
-     * @type member
-     * @return {void}
-     */
-    focus : function() {
-      this.setActive(true);
-    },
-
-
-    /**
-     * Release the focus on the window.<br/>
-     * Setting the {@link #active} property to <code>false</code>
-     *
-     * @type member
-     * @return {void}
-     */
-    blur : function() {
-      this.setActive(false);
     },
 
 
@@ -699,11 +617,11 @@ qx.Class.define("qx.ui.window.Window",
      */
     maximize : function()
     {
-      if (!this.fireEvent("beforeMaximize", qx.event.type.Event, [false, true])) {
-        return;
+      if (!this.fireEvent("beforeMaximize", qx.event.type.Event, [false, true]))
+      {
+        this._setMode("maximized");
+        this.fireEvent("maximize");
       };
-      this._setMode("maximized");
-      this.fireEvent("maximize");
     },
 
 
@@ -715,11 +633,11 @@ qx.Class.define("qx.ui.window.Window",
      */
     minimize : function()
     {
-      if (!this.fireEvent("beforeMinimize", qx.event.type.Event, [false, true])) {
-        return;
+      if (!this.fireEvent("beforeMinimize", qx.event.type.Event, [false, true]))
+      {
+        this._setMode("minimized");
+        this.fireEvent("minimize");
       };
-      this._setMode("minimized");
-      this.fireEvent("minimize");
     },
 
 
@@ -731,11 +649,11 @@ qx.Class.define("qx.ui.window.Window",
      */
     restore : function()
     {
-      if (!this.fireEvent("beforeRestore", qx.event.type.Event, [false, true])) {
-        return;
+      if (this.fireEvent("beforeRestore", qx.event.type.Event, [false, true]))
+      {
+        this._setMode(null);
+        this.fireEvent("restore");
       };
-      this._setMode(null);
-      this.fireEvent("restore");
     },
 
 
@@ -754,34 +672,13 @@ qx.Class.define("qx.ui.window.Window",
     },
 
 
-    /**
-     * Centeres the window in the browser window.
-     *
-     * @type member
-     */
-    centerToParent : function()
-    {
-      var parentBounds = this.getLayoutParent().getBounds();
-      if (!parentBounds)
-      {
-        this.getLayoutParent().addListenerOnce("resize", this.centerToParent, this);
-        return;
-      }
-
-      var size = this.getSizeHint();
-
-      var left = Math.round((parentBounds.width - size.width) / 2);
-      var top = Math.round((parentBounds.height - size.height) / 2);
-
-      this.moveTo(left, top);
-    },
 
 
 
 
     /*
     ---------------------------------------------------------------------------
-      APPEAR/DISAPPEAR
+      MANAGER CONNECTION
     ---------------------------------------------------------------------------
     */
 
@@ -794,16 +691,13 @@ qx.Class.define("qx.ui.window.Window",
       if (isVisible)
       {
         this.getManager().add(this);
-        // TODO
-        //this._makeActive();
       }
       else
       {
         this.getManager().remove(this);
-        // TODO
-        //this._makeInactive();
       }
     },
+
 
 
 
@@ -854,13 +748,6 @@ qx.Class.define("qx.ui.window.Window",
 
       if (old)
       {
-        // TODO: Focus handling
-        /*
-        if (this.getFocused()) {
-          this.setFocused(false);
-        }
-        */
-
         if (this.getManager().getActiveWindow() == this) {
           this.getManager().setActiveWindow(null);
         }
@@ -874,16 +761,6 @@ qx.Class.define("qx.ui.window.Window",
       }
       else
       {
-        // Switch focus
-        // Also do this if gets inactive as this moved the focus outline
-        // away from any focused child.
-        // TODO: Focus handling
-        /*
-        if (!this.getFocusedChild()) {
-          this.setFocused(true);
-        }
-        */
-
         this.getManager().setActiveWindow(this);
 
         this.addState("active");
@@ -923,28 +800,6 @@ qx.Class.define("qx.ui.window.Window",
     // property apply
     _applyAllowMinimize : function(value, old) {
       this._minimizeButtonManager();
-    },
-
-
-    // property apply
-    _applyShowCaption : function(value, old)
-    {
-      if (value) {
-        this._showChildControl("title");
-      } else {
-        this._excludeChildControl("title");
-      }
-    },
-
-
-    // property apply
-    _applyShowIcon : function(value, old)
-    {
-      if (value) {
-        this._showChildControl("icon");
-      } else {
-        this._excludeChildControl("icon");
-      }
     },
 
 
@@ -1062,7 +917,7 @@ qx.Class.define("qx.ui.window.Window",
 
 
     // property apply
-    _applyStatus : function(value, old)
+    _applyStatusText : function(value, old)
     {
       var label = this._getChildControl("status-text", true);
       if (label) {
@@ -1078,22 +933,14 @@ qx.Class.define("qx.ui.window.Window",
 
 
     // property apply
-    _applyCaption : function(value, old)
-    {
-      var label = this._getChildControl("title", true);
-      if (label) {
-        label.setContent(value);
-      }
+    _applyCaption : function(value, old) {
+      this._getChildControl("title").setContent(value);
     },
 
 
     // property apply
-    _applyIcon : function(value, old)
-    {
-      var icon = this._getChildControl("icon", true);
-      if (icon) {
-        icon.setSource(value);
-      }
+    _applyIcon : function(value, old) {
+      this._getChildControl("icon").setSource(value);
     },
 
 
@@ -1114,7 +961,7 @@ qx.Class.define("qx.ui.window.Window",
      */
     _minimize : function()
     {
-      this.blur();
+      this.setActive(false);
       this.hide();
     },
 
@@ -1144,7 +991,7 @@ qx.Class.define("qx.ui.window.Window",
       }
 
       // finally focus the window
-      this.focus();
+      this.setActive(true);
     },
 
 
@@ -1164,7 +1011,7 @@ qx.Class.define("qx.ui.window.Window",
       }
 
       this.show();
-      this.focus();
+      this.setActive(true);
     },
 
 
@@ -1211,7 +1058,7 @@ qx.Class.define("qx.ui.window.Window",
       }
 
       // finally focus the window
-      this.focus();
+      this.setActive(true);
     },
 
 
@@ -1247,7 +1094,7 @@ qx.Class.define("qx.ui.window.Window",
      * @return {void}
      */
     _onWindowMouseDown : function(e) {
-      this.focus();
+      this.setActive(true);
     },
 
 
