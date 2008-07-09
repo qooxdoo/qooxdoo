@@ -1244,7 +1244,7 @@ class Generator:
         uriData = "[" + ",\n".join(allUris) + "]"
 
         # Locate and load loader basic script
-        loaderFile = os.path.join(filetool.root(), "data", "generator", "loader.js")
+        loaderFile = os.path.join(filetool.root(), os.pardir, "data", "generator", "loader.js")
         result = filetool.read(loaderFile)
 
         # Replace template with computed data
@@ -1276,7 +1276,7 @@ class Generator:
         uriData = "[" + ",\n".join(allUris) + "]"
 
         # Locate and load loader basic script
-        loaderFile = os.path.join(filetool.root(), "data", "generator", "loader.js")
+        loaderFile = os.path.join(filetool.root(), os.pardir, "data", "generator", "loader.js")
         result = filetool.read(loaderFile)
 
         # Replace template with computed data

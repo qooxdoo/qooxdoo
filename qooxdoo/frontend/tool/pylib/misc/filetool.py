@@ -112,7 +112,7 @@ def read(filePath, encoding="utf_8"):
         return textutil.any2Unix(unicode(content))
 
     except IOError, (errno, strerror):
-        print "  * I/O error(%s): %s" % (errno, strerror)
+        print "  * I/O error(%s): %s (%s)" % (errno, strerror, filePath)
         sys.exit(1)
 
     except ValueError:
@@ -120,7 +120,7 @@ def read(filePath, encoding="utf_8"):
         sys.exit(1)
 
     except:
-        print "  * Unexpected error:", sys.exc_info()[0]
+        print "  * Unexpected error:", sys.exc_info()[0], " (%s)" % filePath
         sys.exit(1)
 
 
