@@ -41,6 +41,8 @@ qx.Class.define("qx.ui.form.ComboBox",
 
     this._createChildControl("textfield");
     this._createChildControl("button");
+
+    this.addListener("click", this._onClick);
   },
 
 
@@ -127,7 +129,6 @@ qx.Class.define("qx.ui.form.ComboBox",
           control = new qx.ui.form.Button();
           control.setFocusable(false);
           control.addListener("activate", this._onActivateButton, this);
-          control.addListener("click", this._onClick, this);
           this._add(control);
           break;
       }
@@ -175,8 +176,14 @@ qx.Class.define("qx.ui.form.ComboBox",
      * @param e {qx.event.type.MouseEvent} Mouse click event
      * @type member
      */
-    _onClick : function(e) {
-      this._togglePopup();
+    _onClick : function(e)
+    {
+      var target = e.getTarget();
+      if (target == this._getChildControl("button")) {
+        this._togglePopup();
+      } else {
+        this._hidePopup();
+      }
     },
 
 
