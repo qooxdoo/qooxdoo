@@ -17,16 +17,11 @@
 #
 ################################################################################
 
-.PHONY: source build api
+NEW_TARGETS = source build api lint
+.PHONY: $(NEW_TARGETS)
 
-source:
-	@../../tool/generator.py source
-
-build:
-	@../../tool/generator.py build
-
-api:
-	@../../tool/generator.py api
+$(NEW_TARGETS):
+	@../tool/bin/generator.py $@
 
 clean:
 	@rm -rf source/script build/script
