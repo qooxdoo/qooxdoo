@@ -19,7 +19,7 @@
 ************************************************************************ */
 
 /**
- * The radio manager handles a collection of items from which only one item
+ * The radio group handles a collection of items from which only one item
  * can be selected. Selection another item will deselect the previously selected
  * item.
  *
@@ -41,7 +41,7 @@ qx.Class.define("qx.ui.form.RadioGroup",
 
   /**
    * @param varargs {qx.core.Object} A variable number of items, which are
-   *     intially added to the radio manager.
+   *     intially added to the radio group.
    */
   construct : function(varargs)
   {
@@ -93,7 +93,7 @@ qx.Class.define("qx.ui.form.RadioGroup",
 
 
     /**
-     * The name of the radio manager. Mainly used for seralization proposes.
+     * The name of the radio group. Mainly used for seralization proposes.
      */
     name :
     {
@@ -214,7 +214,7 @@ qx.Class.define("qx.ui.form.RadioGroup",
     */
 
     /**
-     * Add the passed items to the radio manager.
+     * Add the passed items to the radio group.
      *
      * @type member
      * @param varargs {IRadioItem} A variable number of items to add
@@ -229,7 +229,7 @@ qx.Class.define("qx.ui.form.RadioGroup",
       {
         item = arguments[i];
 
-        if (item.getManager() === this) {
+        if (item.getGroup() === this) {
           continue;
         }
 
@@ -239,8 +239,8 @@ qx.Class.define("qx.ui.form.RadioGroup",
         // Push RadioButton to array
         items.push(item);
 
-        // Inform radio button about new manager
-        item.setManager(this);
+        // Inform radio button about new group
+        item.setGroup(this);
 
         // Need to update internal value?
         if (item.getChecked()) {
@@ -256,19 +256,19 @@ qx.Class.define("qx.ui.form.RadioGroup",
 
 
     /**
-     * Remove an item from the radio manager
+     * Remove an item from the radio group
      *
      * @param item {IRadioItem} The item to remove
      */
     remove : function(item)
     {
-      if (item.getManager() === this)
+      if (item.getGroup() === this)
       {
         // Remove RadioButton from array
         qx.lang.Array.remove(this.__items, item);
 
-        // Inform radio button about new manager
-        item.resetManager();
+        // Inform radio button about new group
+        item.resetGroup();
 
         // Deregister listeners
         item.removeListener("changeChecked", this._onItemChangeChecked, this);
