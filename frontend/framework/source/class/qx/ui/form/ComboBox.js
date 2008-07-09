@@ -67,6 +67,7 @@ qx.Class.define("qx.ui.form.ComboBox",
       init : "combobox"
     },
 
+    /** The value of the element */
     value :
     {
       check : "String",
