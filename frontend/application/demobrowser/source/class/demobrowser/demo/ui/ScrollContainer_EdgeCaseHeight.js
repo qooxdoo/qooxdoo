@@ -93,7 +93,7 @@ qx.Class.define("demobrowser.demo.ui.ScrollContainer_EdgeCaseHeight",
 
       radio1.setChecked(true);
 
-      var mgr = new qx.ui.core.RadioManager(radio1, radio2, radio3);
+      var mgr = new qx.ui.form.RadioGroup(radio1, radio2, radio3);
 
       composite.add(label);
       composite.add(radio1);

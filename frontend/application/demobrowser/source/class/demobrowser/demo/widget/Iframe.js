@@ -68,7 +68,7 @@ qx.Class.define("demobrowser.demo.widget.Iframe",
 
       rd1.setChecked(true);
 
-      var rbm = new qx.ui.core.RadioManager(rd1, rd2);
+      var rbm = new qx.ui.form.RadioGroup(rd1, rd2);
       rbm.addListener("changeValue", function(e) {
         this.setSource(e.getData());
       }, frame);

@@ -133,7 +133,7 @@ qx.Class.define("demobrowser.demo.widget.Tree_Simple",
         "none": "none"
       };
 
-      var modeMgr = new qx.ui.core.RadioManager();
+      var modeMgr = new qx.ui.form.RadioGroup();
       for (var mode in modes)
       {
         var radioButton = new qx.ui.form.RadioButton(modes[mode]).set({

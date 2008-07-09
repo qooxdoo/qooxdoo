@@ -80,7 +80,7 @@ qx.Class.define("demobrowser.demo.widget.GroupBox",
       box3 = new qx.ui.groupbox.RadioGroupBox("Advanced Settings");
       container.add(box3);
 
-      var manager = new qx.ui.core.RadioManager(radioButton1, box3);
+      var manager = new qx.ui.form.RadioGroup(radioButton1, box3);
 
       // create and add the content of the third group box
       box3.setLayout(new qx.ui.layout.HBox());

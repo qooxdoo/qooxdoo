@@ -22,7 +22,7 @@
 qx.Class.define("qx.ui.toolbar.RadioButton",
 {
   extend : qx.ui.toolbar.CheckBox,
-  implement : qx.ui.core.IRadioItem,
+  implement : qx.ui.form.IRadioItem,
 
 
 
@@ -35,10 +35,10 @@ qx.Class.define("qx.ui.toolbar.RadioButton",
 
   properties :
   {
-    /** The assigned {@link qx.ui.core.RadioManager} which handles the switching between registered buttons */
+    /** The assigned {@link qx.ui.form.RadioGroup} which handles the switching between registered buttons */
     manager :
     {
-      check : "qx.ui.core.RadioManager",
+      check : "qx.ui.form.RadioGroup",
       apply : "_applyManager",
       nullable : true
     }

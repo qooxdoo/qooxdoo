@@ -21,14 +21,14 @@
 /**
  * Radio buttons can be used in radio groups to allow to the user to select
  * exactly one item from a list. Radio groups are established by adding
- * radio buttons to a radio manager {@link qx.ui.core.RadioManager}.
+ * radio buttons to a radio manager {@link qx.ui.form.RadioGroup}.
  *
  * Example:
  * <pre class="javascript">
  *   var female = new qx.ui.form.RadioButton("female");
  *   var male = new qx.ui.form.RadioButton("male");
  *
- *   var mgr = new qx.ui.core.RadioManager();
+ *   var mgr = new qx.ui.form.RadioGroup();
  *   mgr.add(female, male);
  *
  *   layout.add(male);
@@ -41,7 +41,7 @@
 qx.Class.define("qx.ui.form.RadioButton",
 {
   extend : qx.ui.form.Button,
-  implement : qx.ui.core.IRadioItem,
+  implement : qx.ui.form.IRadioItem,
 
 
 
@@ -79,10 +79,10 @@ qx.Class.define("qx.ui.form.RadioButton",
 
   properties :
   {
-    /** The assigned qx.ui.core.RadioManager which handles the switching between registered buttons */
+    /** The assigned qx.ui.form.RadioGroup which handles the switching between registered buttons */
     manager :
     {
-      check  : "qx.ui.core.RadioManager",
+      check  : "qx.ui.form.RadioGroup",
       nullable : true,
       apply : "_applyManager"
     },

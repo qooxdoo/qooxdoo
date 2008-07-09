@@ -93,7 +93,7 @@ qx.Class.define("feedreader.view.PreferenceWindow",
       button_modern.setChecked(true);
 
       // Create and apply the radio manager
-      var radioManager = new qx.ui.core.RadioManager();
+      var radioManager = new qx.ui.form.RadioGroup();
       radioManager.add(button_modern, button_classic);
 
       // Add the buttons to the groupbox

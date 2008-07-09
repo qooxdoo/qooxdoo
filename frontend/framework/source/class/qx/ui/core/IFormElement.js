@@ -22,7 +22,7 @@
  * Each object, which is in some way usable in a form or as a form element
  * should implement this interface.
  */
-qx.Interface.define("qx.ui.core.IFormElement",
+qx.Interface.define("qx.ui.form.IFormElement",
 {
   /*
   *****************************************************************************

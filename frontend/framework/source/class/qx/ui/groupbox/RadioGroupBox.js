@@ -22,7 +22,7 @@
 qx.Class.define("qx.ui.groupbox.RadioGroupBox",
 {
   extend : qx.ui.groupbox.GroupBox,
-  implement : qx.ui.core.IRadioItem,
+  implement : qx.ui.form.IRadioItem,
 
 
 
@@ -160,7 +160,7 @@ qx.Class.define("qx.ui.groupbox.RadioGroupBox",
     /**
      * Returns the radio manager
      *
-     * @return {qx.ui.core.RadioManager} The radio manager
+     * @return {qx.ui.form.RadioGroup} The radio manager
      */
     getManager : function() {
       return this._getChildControl("legend").getManager();
@@ -170,7 +170,7 @@ qx.Class.define("qx.ui.groupbox.RadioGroupBox",
     /**
      * Sets the radio manager to use
      *
-     * @param value {qx.ui.core.RadioManager} The radio manager to use
+     * @param value {qx.ui.form.RadioGroup} The radio manager to use
      */
     setManager : function(value)
     {

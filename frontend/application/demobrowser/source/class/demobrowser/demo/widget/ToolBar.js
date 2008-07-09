@@ -83,7 +83,7 @@ qx.Class.define("demobrowser.demo.widget.ToolBar",
       toolbar.add(part3);
 
       // Manager for part 3 (Radio example)
-      var manager = new qx.ui.core.RadioManager();
+      var manager = new qx.ui.form.RadioGroup();
       radioButton1.setManager(manager);
       radioButton2.setManager(manager);
       radioButton3.setManager(manager);
@@ -117,7 +117,7 @@ qx.Class.define("demobrowser.demo.widget.ToolBar",
       var size48Button = new qx.ui.form.RadioButton("48px");
 
       // create the radio manager and add the buttons
-      var sizeManager = new qx.ui.core.RadioManager();
+      var sizeManager = new qx.ui.form.RadioGroup();
       sizeManager.add(size22Button, size32Button, size48Button);
 
       // add the buttons to the grid
@@ -158,7 +158,7 @@ qx.Class.define("demobrowser.demo.widget.ToolBar",
       var showLabelButton = new qx.ui.form.RadioButton("Label only");
 
       // create the radio manager and add the buttons
-      var showManager = new qx.ui.core.RadioManager();
+      var showManager = new qx.ui.form.RadioGroup();
       showManager.add(showBothButton, showIconButton, showLabelButton);
 
       // add the buttons to the grid

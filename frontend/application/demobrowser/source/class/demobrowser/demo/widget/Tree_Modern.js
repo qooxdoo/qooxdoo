@@ -160,7 +160,7 @@ qx.Class.define("demobrowser.demo.widget.Tree_Modern",
       var modes = ["always", "never", "auto"];
       this.showOpenButtons = {};
 
-      this.mgrShowRootOpen = new qx.ui.core.RadioManager();
+      this.mgrShowRootOpen = new qx.ui.form.RadioGroup();
       for (var i=0; i<modes.length; i++)
       {
         var mode = modes[i];

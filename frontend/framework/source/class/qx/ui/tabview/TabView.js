@@ -40,7 +40,7 @@ qx.Class.define("qx.ui.tabview.TabView",
     this._createChildControl("bar");
     this._createChildControl("pane");
 
-    var mgr = this._manager = new qx.ui.core.RadioManager;
+    var mgr = this._manager = new qx.ui.form.RadioGroup;
     mgr.setWrap(false);
     mgr.addListener("changeSelected", this._onChangeSelected, this);
 
