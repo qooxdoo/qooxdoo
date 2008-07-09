@@ -116,11 +116,21 @@ qx.Class.define("qx.io.Alias",
                * be considered. If the to resolved URL begins with "//" the
                * manager prefixes it with "https:" to avoid any problems for IE
                */
-              if (resolved.match(/^\/\//) == null) {
-                urlPrefix = window.location.href.substring(0, window.location.href.lastIndexOf("/") + 1);
-              }
-              else {
+              if (resolved.match(/^\/\//) != null) {
                 urlPrefix = window.location.protocol;
+              }
+              /*
+               * If the resolved URL begins with "./" the final URL has to be 
+               * put together using the document.URL property.
+               */
+              else if (resolved.match(/^\.\//) != null)
+              {
+                resolved  = resolved.substring(value.indexOf("/"));
+                urlPrefix = document.URL.substring(0, document.URL.lastIndexOf("/")); 
+              }
+              else
+              {
+                urlPrefix = window.location.href.substring(0, window.location.href.lastIndexOf("/") + 1);
               }
             }
           }
