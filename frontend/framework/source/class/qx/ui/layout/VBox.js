@@ -363,7 +363,7 @@ qx.Class.define("qx.ui.layout.VBox",
 
 
       // Layouting children
-      var hint, left, width, height, align, marginBottom, marginLeft, marginRight;
+      var hint, left, width, height, marginBottom, marginLeft, marginRight;
       var spacing = this.getSpacing();
 
       for (i=0; i<length; i+=1)

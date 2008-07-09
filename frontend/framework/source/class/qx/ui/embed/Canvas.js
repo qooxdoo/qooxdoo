@@ -220,7 +220,6 @@ qx.Class.define("qx.ui.embed.Canvas",
     _onResize : function(e)
     {
       var data = e.getData();
-      var el = this.getContentElement();
 
       if (this.getSyncDimension())
       {

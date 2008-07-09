@@ -161,6 +161,7 @@ qx.Bootstrap.define("qx.dev.Profile",
       // we use eval to unroll the loop because we don't want to measure the loop overhead.
 
       // Measure wrapped function
+      var fcn;
       var code = ["var fcn = function(){ var fcn=qx.dev.Profile.__calibrateHelper;"];
       for (var i=0; i<count; i++) {
         code.push("fcn();");

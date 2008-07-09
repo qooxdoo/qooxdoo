@@ -58,8 +58,7 @@ qx.Class.define("qx.ui.tree.Tree",
 
     this.__content = new qx.ui.container.Composite(new qx.ui.layout.VBox()).set({
       allowShrinkY: false,
-      allowGrowX: true,
-      allowShrinkY: false
+      allowGrowX: true
     });
 
     this._getChildControl("pane").add(this.__content);
@@ -231,7 +230,7 @@ qx.Class.define("qx.ui.tree.Tree",
 
       if (old)
       {
-        layut.remove(old);
+        container.remove(old);
         if (old.hasChildren()) {
           container.remove(old.getChildrenContainer());
         }
@@ -466,7 +465,7 @@ qx.Class.define("qx.ui.tree.Tree",
         return;
       }
 
-      openMode = this.getOpenMode();
+      var openMode = this.getOpenMode();
 
       if (!treeItem.isOpen())
       {

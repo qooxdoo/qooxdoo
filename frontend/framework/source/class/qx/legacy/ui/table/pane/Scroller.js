@@ -59,7 +59,8 @@ qx.Class.define("qx.legacy.ui.table.pane.Scroller",
     this._verScrollBar.addListener("changeValue", this._onScrollY, this);
 
     // init header
-    this._header = this.getTable().getNewTablePaneHeader()(this);
+    var createNewHeader = this.getTable().getNewTablePaneHeader();
+    this._header = createNewHeader(this);
 
     this._header.set(
     {
@@ -80,7 +81,8 @@ qx.Class.define("qx.legacy.ui.table.pane.Scroller",
     this._top.add(this._headerClipper, this._spacer);
 
     // init pane
-    this._tablePane = this.getTable().getNewTablePane()(this);
+    var createNewPane = this.getTable().getNewTablePane();
+    this._tablePane = createNewPane(this);
 
     this._tablePane.set(
     {

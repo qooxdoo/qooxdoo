@@ -241,14 +241,13 @@ qx.Class.define("qx.event.handler.Input",
     /**
      * Internal function called by input elements created using {@link qx.bom.Input}.
      *
-     * @type member
      * @param e {Event} Native DOM event
      * @return {void}
      */
     _onInput : function(e)
     {
       var target = e.target;
-      qx.event.Registration.fireEvent(e.target, "input", qx.event.type.Data, [e.target.value]);
+      qx.event.Registration.fireEvent(target, "input", qx.event.type.Data, [target.value]);
     },
 
 

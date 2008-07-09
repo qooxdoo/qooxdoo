@@ -85,7 +85,7 @@ qx.Bootstrap.define("qx.bom.client.Feature",
       this.VML = qx.bom.client.Engine.MSHTML;
 
       this.AIR = navigator.userAgent.indexOf("adobeair") !== -1;
-      this.GEARS = !!(window.google && google.gears);
+      this.GEARS = !!(window.google && window.google.gears);
 
       this.XPATH = !!document.evaluate;
     }

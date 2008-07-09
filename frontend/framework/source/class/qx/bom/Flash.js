@@ -124,14 +124,13 @@ qx.Class.define("qx.bom.Flash",
     /**
      * Internal helper to prevent leaks in IE
      *
-     * @type static
      * @return {void}
      */
     __fixOutOfMemoryError : function()
     {
       // IE Memory Leak Fix
-      __flash_unloadHandler = function() {};
-      __flash_savedUnloadHandler = function() {};
+      window.__flash_unloadHandler = function() {};
+      window.__flash_savedUnloadHandler = function() {};
 
       // Remove listener again
       window.detachEvent("onbeforeunload", qx.bom.Flash.__fixOutOfMemoryError);
@@ -203,7 +202,7 @@ qx.Class.define("qx.bom.Flash",
         {
           param = document.createElement("param");
           param.setAttribute("name", name);
-          param.setAttribute("value", params[value]);
+          param.setAttribute("value", params[name]);
           swf.appendChild(param);
         }
 

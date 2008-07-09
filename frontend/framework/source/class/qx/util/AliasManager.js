@@ -94,7 +94,6 @@ qx.Class.define("qx.util.AliasManager",
     /**
      * Define an alias to a resource path
      *
-     * @type member
      * @param alias {String} alias name for the resource path/url
      * @param base {String} first part of URI for all images which use this alias
      * @return {void}
@@ -106,8 +105,6 @@ qx.Class.define("qx.util.AliasManager",
 
       // Localify stores
       var dynamics = this._dynamic;
-      var reg = this._registry;
-      var entry;
 
       // Temporary data structure to optimize performance of update
       var paths = {};
@@ -127,7 +124,6 @@ qx.Class.define("qx.util.AliasManager",
     /**
      * Remove a previously defined alias
      *
-     * @type member
      * @param alias {String} alias name for the resource path/url
      * @return {void}
      */

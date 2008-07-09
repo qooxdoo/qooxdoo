@@ -163,7 +163,6 @@ qx.Class.define("qx.event.handler.Appear",
      * This method should be called by all DOM tree modifying routines
      * to check the registered nodes for changes.
      *
-     * @type member
      * @return {void}
      */
     refresh : function()
@@ -175,7 +174,7 @@ qx.Class.define("qx.event.handler.Appear",
       {
         elem = targets[hash];
 
-        displayed = elem.offsetWidth > 0;
+        var displayed = elem.offsetWidth > 0;
         if ((!!elem.$$displayed) !== displayed)
         {
           elem.$$displayed = displayed;

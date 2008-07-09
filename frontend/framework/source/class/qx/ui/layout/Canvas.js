@@ -145,10 +145,10 @@ qx.Class.define("qx.ui.layout.Canvas",
     renderLayout : function(availWidth, availHeight)
     {
       var children = this._getLayoutChildren();
-      var percent = qx.ui.layout.Util.PERCENT_VALUE;
 
       var child, size, props;
       var left, top, right, bottom, width, height;
+      var marginTop, marginRight, marginBottom, marginLeft;
 
       for (var i=0, l=children.length; i<l; i++)
       {
@@ -312,8 +312,8 @@ qx.Class.define("qx.ui.layout.Canvas",
 
 
         // Cache margins
-        marginX = child.getMarginLeft() + child.getMarginRight();
-        marginY = child.getMarginTop() + child.getMarginBottom();
+        var marginX = child.getMarginLeft() + child.getMarginRight();
+        var marginY = child.getMarginTop() + child.getMarginBottom();
 
 
         // Compute width

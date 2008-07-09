@@ -1827,7 +1827,8 @@ qx.Class.define("qx.legacy.ui.table.Table",
      */
     addListener : function(type, func, obj)
     {
-      if (this.self(arguments).__redirectEvents[type])
+      var Table = this.self(arguments);
+      if (Table.__redirectEvents[type])
       {
         for (var i = 0, arr = this._getPaneScrollerArr(); i < arr.length; i++)
         {
@@ -1846,7 +1847,8 @@ qx.Class.define("qx.legacy.ui.table.Table",
      */
     removeListener : function(type, func, obj)
     {
-      if (this.self(arguments).__redirectEvents[type])
+      var Table = this.self(arguments);
+      if (Table.__redirectEvents[type])
       {
         for (var i = 0, arr = this._getPaneScrollerArr(); i < arr.length; i++)
         {

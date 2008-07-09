@@ -1276,7 +1276,6 @@ qx.Class.define("qx.ui.window.Window",
      * Minmizes the window, removes all states from the minimize button and
      * stops the further propagation of the event (calling {@link qx.event.type.Event#stopPropagation}).
      *
-     * @type member
      * @param e {qx.event.type.MouseEvent} mouse click event
      * @return {void}
      */
@@ -1286,7 +1285,7 @@ qx.Class.define("qx.ui.window.Window",
 
       // we need to be sure that the button gets the right states after clicking
       // because the button will move and does not get the mouseup event anymore
-      btnMinimize = this._getChildControl("minimize-button");
+      var btnMinimize = this._getChildControl("minimize-button");
       btnMinimize.removeState("pressed");
       btnMinimize.removeState("abandoned");
       btnMinimize.removeState("over");
@@ -1297,7 +1296,6 @@ qx.Class.define("qx.ui.window.Window",
      * Restores the window, removes all states from the restore button and
      * stops the further propagation of the event (calling {@link qx.event.type.Event#stopPropagation}).
      *
-     * @type member
      * @param e {qx.event.type.MouseEvent} mouse click event
      * @return {void}
      */
@@ -1307,7 +1305,7 @@ qx.Class.define("qx.ui.window.Window",
 
       // we need to be sure that the button gets the right states after clicking
       // because the button will move and does not get the mouseup event anymore
-      btnRestore = this._getChildControl("restore-button");
+      var btnRestore = this._getChildControl("restore-button");
       btnRestore.removeState("pressed");
       btnRestore.removeState("abandoned");
       btnRestore.removeState("over");
@@ -1318,7 +1316,6 @@ qx.Class.define("qx.ui.window.Window",
      * Maximizes the window, removes all states from the maximize button and
      * stops the further propagation of the event (calling {@link qx.event.type.Event#stopPropagation}).
      *
-     * @type member
      * @param e {qx.event.type.MouseEvent} mouse click event
      * @return {void}
      */
@@ -1328,7 +1325,7 @@ qx.Class.define("qx.ui.window.Window",
 
       // we need to be sure that the button gets the right states after clicking
       // because the button will move and does not get the mouseup event anymore
-      btnMaximize = this._getChildControl("maximize-button");
+      var btnMaximize = this._getChildControl("maximize-button");
       btnMaximize.removeState("pressed");
       btnMaximize.removeState("abandoned");
       btnMaximize.removeState("over");
@@ -1339,7 +1336,6 @@ qx.Class.define("qx.ui.window.Window",
      * Closes the window, removes all states from the close button and
      * stops the further propagation of the event (calling {@link qx.event.type.Event#stopPropagation}).
      *
-     * @type member
      * @param e {qx.event.type.MouseEvent} mouse click event
      * @return {void}
      */
@@ -1349,7 +1345,7 @@ qx.Class.define("qx.ui.window.Window",
 
       // we need to be sure that the button gets the right states after clicking
       // because the button will move and does not get the mouseup event anymore
-      btnClose = this._getChildControl("close-button");
+      var btnClose = this._getChildControl("close-button");
       btnClose.removeState("pressed");
       btnClose.removeState("abandoned");
       btnClose.removeState("over");

@@ -204,7 +204,7 @@ window.qxloader =
         self.loadScript(next, self._flushQueue, self);
       }, 0);
     } else {
-      self.loadScript(next, this._flushQueue, self);
+      this.loadScript(next, this._flushQueue, this);
     }
   },
 
