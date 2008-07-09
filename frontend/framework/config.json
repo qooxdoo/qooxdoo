@@ -1,64 +1,20 @@
 // qooxdoo framework - config.json
 {
   "include" : 
-  {
-    "appconf": "../tool/data/config/application.json"
-  },
-
-  "jobs" :
-  {
-    "common" :
+  [
     {
-      "let" :
-      {
-        "QOOXDOO_PATH" : "..",
-        "QOOXDOO_URI"  : "../${QOOXDOO_PATH}"
-      },
-
-      "library" :
-      [
-        {
-          "manifest" : "Manifest.json",
-          "uri"      : "${QOOXDOO_URI}/framework"
-        }
-      ],
-
-      "settings" :
-      {
-        "qx.version" : "0.8"
-      },
-
-      "cache" :
-      {
-        "path" : "../cache"
-      }
+      "path" : "../tool/data/config/application.json"
     },
-
-
-    "api" :
     {
-      "extend" : ["common", "appconf/api"],
-      
-      "let" :
-      {
-        "ROOT"       : "../application/apiviewer",
-        "BUILD_PATH" : "./api"
-      },
-
-      "library" :
-      [
-        {
-          "manifest" : "${ROOT}/Manifest.json",
-          "uri"      : "../${ROOT}"
-        }
-      ],
-
-      "settings" :
-      {
-        "qx.resourceUri" : "./resource"
-      },
-
-      "api_include" : ["qx.*"]   
+      "path" : "image.json"
     }
+  ],
+  
+  "let" :
+  {
+    "APPLICATION"  : "framework",
+    "QOOXDOO_PATH" : ".",
+    "QOOXDOO_URI"  : "../${QOOXDOO_PATH}",
+    "CACHE"        : "../cache"
   }
 }
