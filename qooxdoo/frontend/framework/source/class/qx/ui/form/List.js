@@ -492,6 +492,9 @@ qx.Class.define("qx.ui.form.List",
      */
     findItem : function(search)
     {
+      // lowercase search
+      search = search.toLowerCase();
+
       // get all items of the list
       var items = this.getChildren();
       var item, value;
