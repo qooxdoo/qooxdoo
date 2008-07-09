@@ -278,7 +278,7 @@ qx.Class.define("qx.ui.form.List",
       var item;
       for (var i=0, l=splitted.length; i<l; i++)
       {
-        item = this._findItem(splitted[i]);
+        item = this.findItem(splitted[i]);
         if (item) {
           result.push(item);
         } else {
@@ -388,8 +388,9 @@ qx.Class.define("qx.ui.form.List",
      */
     _onChangeSelection : function()
     {
+      // Check for listeners first because getValue() is quite cpu intensive
       if (this.hasListener("changeValue")) {
-        this.fireNonBubblingEvent("changeValue", qx.event.type.Data, [this.getValue()]);
+        this.fireDataEvent("changeValue", this.getValue());
       }
     },
 
@@ -428,10 +429,10 @@ qx.Class.define("qx.ui.form.List",
       }
 
       // Combine keys the user pressed to a string
-      this._pressedString += String.fromCharCode(e.getCharCode());
+      this._pressedString += e.getChar();
 
       // Find matching item
-      var matchedItem = this._findItemByLabel(this._pressedString);
+      var matchedItem = this.findItemByLabelFuzzy(this._pressedString);
 
       // if an item was found, select it
       if (matchedItem) {
@@ -450,13 +451,13 @@ qx.Class.define("qx.ui.form.List",
      * first found ListItem will be returned. If there could not be found any
      * qualifying list item, null will be returned.
      *
-     * @param searchText {String} The text with which the label of the ListItem should start with
+     * @param search {String} The text with which the label of the ListItem should start with
      * @return {qx.ui.form.ListItem} The found ListItem or null
      */
-    _findItemByLabel : function(searchText)
+    findItemByLabelFuzzy : function(search)
     {
       // lower case search text
-      searchText = searchText.toLowerCase();
+      search = search.toLowerCase();
 
       // get all items of the list
       var items = this.getChildren();
@@ -467,15 +468,11 @@ qx.Class.define("qx.ui.form.List",
         // get the label of the current item
         var currentLabel = items[i].getLabel();
 
-        // if there is a label
-        if (currentLabel)
+        // if the label fits with the search text (ignore case, begins with)
+        if (currentLabel && currentLabel.toLowerCase().indexOf(search) == 0)
         {
-          // if the label fits with the search text (ignore case, begins with)
-          if (currentLabel.toLowerCase().indexOf(searchText) == 0)
-          {
-            // just return the first found element
-            return items[i];
-          }
+          // just return the first found element
+          return items[i];
         }
       }
 
@@ -485,15 +482,15 @@ qx.Class.define("qx.ui.form.List",
 
 
     /**
-     * Find an item by its value or label. It respects the label only when no
-     * value is given. This method is used for a HTML-like behavior where the
+     * Find an item by its {@link #qx.ui.form.ListItem~getFormValue}. This method
+     * is used for a HTML-like behavior where the
      * fallback is the label automatically for selectbox options as well. If
      * a value is given the label is ignored, even if it would match!
      *
-     * @param valueOrLabel {String} A value or label or any item
+     * @param search {String} A value or label or any item
      * @return {qx.ui.form.ListItem} The found ListItem or null
      */
-    _findItem : function(valueOrLabel)
+    findItem : function(search)
     {
       // get all items of the list
       var items = this.getChildren();
@@ -504,16 +501,12 @@ qx.Class.define("qx.ui.form.List",
       {
         item = items[i];
 
-        // get the label of the current item
-        value = item.getValue();
-        if (value == null) {
-          value = item.getLabel();
-        }
-
-        if (value == valueOrLabel) {
+        if (item.getFormValue().toLowerCase() == search) {
           return item;
         }
       }
+
+      return null;
     }
   },
 

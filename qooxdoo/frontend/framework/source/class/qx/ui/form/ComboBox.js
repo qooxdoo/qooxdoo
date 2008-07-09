@@ -18,12 +18,16 @@
      * Jonathan Rass (jonathan_rass)
 
 ************************************************************************ */
+
 /**
  * @appearance combobox
  */
 qx.Class.define("qx.ui.form.ComboBox",
 {
   extend  : qx.ui.form.AbstractSelectBox,
+  implement : qx.ui.core.IFormElement,
+
+
 
   /*
   *****************************************************************************
@@ -61,8 +65,31 @@ qx.Class.define("qx.ui.form.ComboBox",
     {
       refine : true,
       init : "combobox"
+    },
+
+    value :
+    {
+      check : "String",
+      init : "",
+      apply : "_applyValue",
+      event : "changeValue"
     }
   },
+
+
+
+  /*
+  *****************************************************************************
+     EVENTS
+  *****************************************************************************
+  */
+
+  events :
+  {
+    /** The input event is fired on every keystroke modifying the value of the field */
+    "input" : "qx.event.type.Data"
+  },
+
 
 
 
@@ -90,6 +117,8 @@ qx.Class.define("qx.ui.form.ComboBox",
         case "textfield":
           control = new qx.ui.form.TextField();
           control.setFocusable(false);
+          control.addListener("changeValue", this._onTextFieldChangeValue, this);
+          control.addListener("input", this._onTextFieldInput, this);
           this._add(control, {flex: 1});
           break;
 
@@ -127,11 +156,8 @@ qx.Class.define("qx.ui.form.ComboBox",
     */
 
     // property apply
-    _applySelected : function(value, old)
-    {
-      this.base(arguments, value, old);
-
-      this._getChildControl("textfield").setValue(value.getLabel());
+    _applyValue : function(value, old) {
+      this._getChildControl("textfield").setValue(value);
     },
 
 
@@ -162,6 +188,43 @@ qx.Class.define("qx.ui.form.ComboBox",
     {
       this.activate();
       e.stopPropagation();
+    },
+
+
+    // overridden
+    _onListChangeSelection : function(e)
+    {
+      var current = e.getData();
+      if (current.length > 0) {
+        this.setValue(current[0].getLabel());
+      }
+    },
+
+
+    // overridden
+    _onListChangeValue : function(e) {
+      // empty implementation
+    },
+
+
+    /**
+     * Redirects the input event of the textfield to the combobox.
+     *
+     * @param e {qx.event.type.Data} Input event
+     */
+    _onTextFieldInput : function(e) {
+      this.fireDataEvent("input", e.getData());
+    },
+
+
+    /**
+     * Reacts on value changes of the text field and syncs the
+     * value to the combobox.
+     *
+     * @param e {qx.event.type.Data} Change event
+     */
+    _onTextFieldChangeValue : function(e) {
+      this.setValue(e.getData());
     }
   }
 });
