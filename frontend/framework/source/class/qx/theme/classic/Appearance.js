@@ -959,6 +959,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
     "window/minimize-button" :
     {
       include : "button",
+      alias : "button",
 
       style : function(states)
       {
@@ -972,6 +973,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
     "window/restore-button" :
     {
       include : "button",
+      alias : "button",
 
       style : function(states)
       {
@@ -985,6 +987,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
     "window/maximize-button" :
     {
       include : "button",
+      alias : "button",
 
       style : function(states)
       {
@@ -998,6 +1001,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
     "window/close-button" :
     {
       include : "button",
+      alias : "button",
 
       style : function(states)
       {
