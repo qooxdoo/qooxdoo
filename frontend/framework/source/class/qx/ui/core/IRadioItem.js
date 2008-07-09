@@ -22,9 +22,9 @@
  * Each object, which should be managed by a {@link RadioManager} have to
  * implement this interface.
  */
-qx.Interface.define("qx.ui.core.IRadioItem",
+qx.Interface.define("qx.ui.form.IRadioItem",
 {
-  extend : qx.ui.core.IFormElement,
+  extend : qx.ui.form.IFormElement,
 
 
   /*
@@ -70,18 +70,18 @@ qx.Interface.define("qx.ui.core.IRadioItem",
     /**
      * Set the radio manager, which manages this item
      *
-     * @param value {qx.ui.core.RadioManager} The radio manager, which should
+     * @param value {qx.ui.form.RadioGroup} The radio manager, which should
      *     manage the item.
      */
     setManager : function(value) {
-      this.assertInstance(value, qx.ui.core.RadioManager);
+      this.assertInstance(value, qx.ui.form.RadioGroup);
     },
 
 
     /**
      * Get the radio manager, which manages this item
      *
-     * @return {qx.ui.core.RadioManager} The radio manager, which manages the item.
+     * @return {qx.ui.form.RadioGroup} The radio manager, which manages the item.
      */
     getManager : function() {},
 

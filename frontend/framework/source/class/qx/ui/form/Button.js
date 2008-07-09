@@ -36,7 +36,7 @@ qx.Class.define("qx.ui.form.Button",
 {
   extend : qx.ui.basic.Atom,
   include : qx.ui.core.MExecutable,
-  implement : qx.ui.core.IFormElement,
+  implement : qx.ui.form.IFormElement,
 
 
 

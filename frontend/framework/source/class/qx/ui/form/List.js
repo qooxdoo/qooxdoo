@@ -25,7 +25,7 @@
 qx.Class.define("qx.ui.form.List",
 {
   extend : qx.ui.core.ScrollArea,
-  implement : qx.ui.core.IFormElement,
+  implement : qx.ui.form.IFormElement,
   include : [ qx.ui.core.MRemoteChildrenHandling, qx.ui.core.MSelectionHandling ],
 
 

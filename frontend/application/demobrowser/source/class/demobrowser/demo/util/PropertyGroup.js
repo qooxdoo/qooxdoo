@@ -76,7 +76,7 @@ qx.Class.define("demobrowser.demo.util.PropertyGroup",
       else if (type == "enum")
       {
         var values = this._properties[prop].values;
-        var formItem = new qx.ui.core.RadioManager();
+        var formItem = new qx.ui.form.RadioGroup();
         for (var i=0; i<values.length; i++)
         {
           var widget = new qx.ui.form.RadioButton(values[i]).set({

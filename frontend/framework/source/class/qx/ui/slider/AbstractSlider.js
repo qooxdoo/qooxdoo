@@ -44,7 +44,7 @@
 qx.Class.define("qx.ui.slider.AbstractSlider",
 {
   extend : qx.ui.core.Widget,
-  implement : qx.ui.core.IFormElement,
+  implement : qx.ui.form.IFormElement,
 
 
 

@@ -26,10 +26,10 @@
  * This class is e.g. used to create radio groups or {@link qx.ui.form.RadioButton}
  * or {@link qx.ui.toolbar.RadioButton} instances.
  */
-qx.Class.define("qx.ui.core.RadioManager",
+qx.Class.define("qx.ui.form.RadioGroup",
 {
   extend : qx.core.Object,
-  implement : qx.ui.core.IFormElement,
+  implement : qx.ui.form.IFormElement,
 
 
 
@@ -88,7 +88,7 @@ qx.Class.define("qx.ui.core.RadioManager",
       nullable : true,
       apply : "_applySelected",
       event : "changeSelected",
-      check : "qx.ui.core.IRadioItem"
+      check : "qx.ui.form.IRadioItem"
     },
 
 
