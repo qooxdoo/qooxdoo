@@ -194,7 +194,7 @@
 
       "shell" :
       {
-        "command" : "../../../frontend/tool/generator.py -c ./tool/demo_dyn.json build"
+        "command" : "../../../frontend/tool/bin/generator.py -c ./tool/demo_dyn.json build"
       }
     },
 
