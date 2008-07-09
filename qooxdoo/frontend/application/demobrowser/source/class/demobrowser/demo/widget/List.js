@@ -87,7 +87,7 @@ qx.Class.define("demobrowser.demo.widget.List",
       this.getRoot().add(mode3, {left: 180, top: 80});
       this.getRoot().add(mode4, {left: 180, top: 100});
 
-      var rbm = new qx.ui.core.RadioManager(mode1, mode2, mode3, mode4);
+      var rbm = new qx.ui.form.RadioGroup(mode1, mode2, mode3, mode4);
 
       rbm.addListener("changeValue", function(e) {
         configList.setSelectionMode(e.getData());
@@ -107,7 +107,7 @@ qx.Class.define("demobrowser.demo.widget.List",
       this.getRoot().add(show2, {left: 180, top: 160});
       this.getRoot().add(show3, {left: 180, top: 180});
 
-      var rbm = new qx.ui.core.RadioManager(show1, show2, show3);
+      var rbm = new qx.ui.form.RadioGroup(show1, show2, show3);
 
       rbm.addListener("changeValue", function(e)
       {

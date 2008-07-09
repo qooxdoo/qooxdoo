@@ -25,7 +25,7 @@
 qx.Class.define("qx.ui.form.SelectBox",
 {
   extend : qx.ui.form.AbstractSelectBox,
-  implement : qx.ui.core.IFormElement,
+  implement : qx.ui.form.IFormElement,
 
 
 

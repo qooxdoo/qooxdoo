@@ -33,7 +33,7 @@
 qx.Class.define("qx.ui.form.ToggleButton",
 {
   extend : qx.ui.basic.Atom,
-  implement : qx.ui.core.IFormElement,
+  implement : qx.ui.form.IFormElement,
 
 
 

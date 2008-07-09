@@ -73,10 +73,10 @@ qx.Class.define("qx.ui.form.ListItem",
       init : "listitem"
     },
 
-    /** The assigned qx.ui.core.RadioManager which handles the switching between registered buttons */
+    /** The assigned qx.ui.form.RadioGroup which handles the switching between registered buttons */
     manager :
     {
-      check  : "qx.ui.core.RadioManager",
+      check  : "qx.ui.form.RadioGroup",
       nullable : true,
       apply : "_applyManager"
     },
