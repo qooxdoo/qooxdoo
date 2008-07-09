@@ -142,7 +142,10 @@ qx.Class.define("qx.ui.form.SelectBox",
     // property apply
     _applySelected : function(value, old)
     {
-      this._getChildControl("list").select(value);
+      var list = this._getChildControl("list");
+      if (list.getSelectedItem() != value) {
+        list.select(value);
+      }
 
       var atom = this._getChildControl("atom");
 
@@ -161,19 +164,13 @@ qx.Class.define("qx.ui.form.SelectBox",
     ---------------------------------------------------------------------------
     */
 
-    setValue : function(value)
-    {
-      var list = this._getChildControl("list");
-      var item = list.findItem(value);
-
-      // Selectboxes do not allow no item to be selected
-      if (item != null) {
-        this.setSelected(item);
-      } else {
-        throw new Error("Could not find item with the value: " + value);
-      }
+    // interface implementation
+    setValue : function(value) {
+      this._getChildControl("list").setValue(value);
     },
 
+
+    // interface implementation
     getValue : function()
     {
       var item = this.getSelected();
