@@ -96,7 +96,7 @@ qx.Class.define("qx.event.type.Data",
      * @deprecated
      * @return {var} The old data of the event
      */
-    getOldValue : function() {
+    getOldData : function() {
       return this.__old;
     },
 
