@@ -2610,6 +2610,7 @@ qx.Class.define("qx.ui.core.Widget",
      * and should not be used by the application developer.
      *
      * @type member
+     * @internal
      * @return {void}
      */
     tabFocus : function() {
