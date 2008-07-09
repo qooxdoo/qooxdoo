@@ -44,8 +44,6 @@ qx.Class.define("demobrowser.demo.widget.Window",
       var winTab = this._createTabWindow();
       this.getRoot().add(winTab);
       winTab.centerToParent();
-
-      this.getRoot().add(this._createPropertyWindow(), {left: 250, top: 120});
     },
 
 
@@ -85,68 +83,12 @@ qx.Class.define("demobrowser.demo.widget.Window",
 
     cancelHandler : function(e)
     {
-      //console.log(e.getType(), e.getTarget());
       if (e.isCancelable())
       {
         if (!window.confirm("Really '" + e.getType() + "' window?")) {
           e.preventDefault();
         }
       }
-    },
-
-
-    _createPropertyWindow : function()
-    {
-      var win = new qx.ui.window.Window(
-        "Window Properties",
-        "icon/16/categories/engineering.png"
-      );
-
-      win.setPadding(10);
-
-      win.setLayout(new qx.ui.layout.VBox(10));
-
-      var editor = new demobrowser.demo.util.PropertyGroup({
-        "showIcon" : {type: "bool", nullable: false},
-        "showCaption" : {type: "bool", nullable: false},
-        "showMinimize" : {type: "bool", nullable: false},
-        "showMaximize" : {type: "bool", nullable: false},
-        "showClose" : {type: "bool", nullable: false},
-        "showStatusbar" : {type: "bool", nullable: false},
-        "allowMinimize" : {type: "bool", nullable: false},
-        "allowMaximize" : {type: "bool", nullable: false},
-        "allowClose" : {type: "bool", nullable: false},
-        "moveable" : {type: "bool", nullable: false},
-        "moveMethod" : {
-          type: "enum",
-          values: [ "opaque", "frame", "translucent" ],
-          nullable: false
-        },
-        "resizableNorth" : {type: "bool", nullable: false},
-        "resizableEast" : {type: "bool", nullable: false},
-        "resizableSouth" : {type: "bool", nullable: false},
-        "resizableWest" : {type: "bool", nullable: false},
-        "resizeMethod" : {
-          type: "enum",
-          values: [ "opaque", "frame", "translucent" ],
-          nullable: false
-        },
-        "status" : {type: "string", nullable: false}
-      });
-      editor.setSelected(win);
-      win.add(editor, {flex: 1});
-
-      var packBtn = new qx.ui.form.Button("Optimal size").set({
-        alignX: "right",
-        allowGrowX: false
-      });
-      packBtn.addListener("execute", function(e) {
-        win.resetWidth();
-        win.resetHeight();
-      }, this);
-      win.add(packBtn);
-
-      return win;
     }
   }
 });
