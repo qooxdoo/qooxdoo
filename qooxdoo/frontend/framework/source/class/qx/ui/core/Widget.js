@@ -563,6 +563,15 @@ qx.Class.define("qx.ui.core.Widget",
     },
 
 
+    /** Whether the widget functions as a focus root */
+    focusRoot :
+    {
+      check : "Boolean",
+      init : false,
+      apply : "_applyFocusRoot"
+    },
+
+
     /**
      * Whether the widget contains content which may be selected by the user.
      *
@@ -2328,12 +2337,7 @@ qx.Class.define("qx.ui.core.Widget",
     },
 
 
-    isFocusRoot : function() {
-      return false;
-    },
-
-
-    getFocusRoot : function()
+    findFocusRoot : function()
     {
       var parent = this;
       while (parent)
@@ -2447,6 +2451,13 @@ qx.Class.define("qx.ui.core.Widget",
           this._applyFocusable(true, false);
         }
       }
+    },
+
+
+    // property apply
+    _applyFocusRoot : function(value, old)
+    {
+
     },
 
 

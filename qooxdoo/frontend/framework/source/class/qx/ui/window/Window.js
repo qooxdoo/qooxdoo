@@ -46,11 +46,15 @@ qx.Class.define("qx.ui.window.Window",
 {
   extend : qx.ui.core.Widget,
 
-  include : [
+  include :
+  [
     qx.ui.core.MRemoteChildrenHandling,
     qx.ui.core.MRemoteLayoutHandling,
     qx.ui.resizer.MResizable
   ],
+
+
+
 
 
   /*
@@ -59,12 +63,12 @@ qx.Class.define("qx.ui.window.Window",
   *****************************************************************************
   */
 
-  construct : function(vCaption, vIcon, vWindowManager)
+  construct : function(caption, icon, manager)
   {
     this.base(arguments);
 
     // Init Window Manager
-    this.setWindowManager(vWindowManager || qx.ui.window.Window.getDefaultWindowManager());
+    this.setWindowManager(manager || qx.ui.window.Window.getDefaultWindowManager());
 
     this.setResizableNorth(true);
     this.setResizableWest(true);
@@ -76,12 +80,12 @@ qx.Class.define("qx.ui.window.Window",
     this._createChildControl("pane");
 
     // init
-    if (vCaption != null) {
-      this.setCaption(vCaption);
+    if (caption != null) {
+      this.setCaption(caption);
     }
 
-    if (vIcon != null) {
-      this.setIcon(vIcon);
+    if (icon != null) {
+      this.setIcon(icon);
     }
 
     // functional
@@ -89,8 +93,8 @@ qx.Class.define("qx.ui.window.Window",
 
 
     // window events
-    this.addListener("mousedown", this._onwindowmousedown);
-    this.addListener("click", this._onwindowclick);
+    this.addListener("mousedown", this._onWindowMouseDown);
+    this.addListener("click", this._onWindowClick);
 
     this.initVisibility();
     this.initShowIcon();
@@ -133,6 +137,8 @@ qx.Class.define("qx.ui.window.Window",
       return qx.ui.window.Window._defaultWindowManager;
     }
   },
+
+
 
 
 
@@ -188,6 +194,7 @@ qx.Class.define("qx.ui.window.Window",
     /** Fired if the window is restored from a minimized or maximized state */
     "restore" : "qx.event.type.Event"
   },
+
 
 
 
@@ -415,6 +422,7 @@ qx.Class.define("qx.ui.window.Window",
     },
 
 
+
     /*
     ---------------------------------------------------------------------------
       CHILD CONTROL SUPPORT
@@ -457,10 +465,10 @@ qx.Class.define("qx.ui.window.Window",
           control.add(this._getChildControl("captionbar-spacer"), {flex: 1});
 
           // captionbar events
-          control.addListener("mousedown", this._oncaptionmousedown, this);
-          control.addListener("mouseup", this._oncaptionmouseup, this);
-          control.addListener("mousemove", this._oncaptionmousemove, this);
-          control.addListener("dblclick", this._oncaptiondblblick, this);
+          control.addListener("mousedown", this._onCaptionMouseDown, this);
+          control.addListener("mouseup", this._onCaptionMouseUp, this);
+          control.addListener("mousemove", this._onCaptionMouseMove, this);
+          control.addListener("dblclick", this._onCaptionMouseDblClick, this);
           break;
 
         case "captionbar-spacer":
@@ -485,8 +493,8 @@ qx.Class.define("qx.ui.window.Window",
             control.addState("active");
           }
 
-          control.addListener("execute", this._onminimizebuttonclick, this);
-          control.addListener("mousedown", this._onbuttonmousedown, this);
+          control.addListener("execute", this._onMinimizeButtonClick, this);
+          control.addListener("mousedown", this._onButtonMouseDown, this);
 
           var spacer = this._getChildControl("captionbar-spacer");
           this._getChildControl("captionbar").addAfter(control, spacer);
@@ -499,8 +507,8 @@ qx.Class.define("qx.ui.window.Window",
             control.addState("active");
           }
 
-          control.addListener("execute", this._onrestorebuttonclick, this);
-          control.addListener("mousedown", this._onbuttonmousedown, this);
+          control.addListener("execute", this._onRestoreButtonClick, this);
+          control.addListener("mousedown", this._onButtonMouseDown, this);
 
           var btnMaximize = this._getChildControl("maximize-button");
           this._getChildControl("captionbar").addBefore(control, btnMaximize);
@@ -513,8 +521,8 @@ qx.Class.define("qx.ui.window.Window",
             control.addState("active");
           }
 
-          control.addListener("execute", this._onmaximizebuttonclick, this);
-          control.addListener("mousedown", this._onbuttonmousedown, this);
+          control.addListener("execute", this._onMaximizeButtonClick, this);
+          control.addListener("mousedown", this._onButtonMouseDown, this);
 
           var captionBar = this._getChildControl("captionbar");
           var btnClose = this._getChildControl("close-button", true);
@@ -532,8 +540,8 @@ qx.Class.define("qx.ui.window.Window",
             control.addState("active");
           }
 
-          control.addListener("execute", this._onclosebuttonclick, this);
-          control.addListener("mousedown", this._onbuttonmousedown, this);
+          control.addListener("execute", this._onCloseButtonClick, this);
+          control.addListener("mousedown", this._onButtonMouseDown, this);
           this._getChildControl("captionbar").add(control);
           break;
       }
@@ -1225,7 +1233,7 @@ qx.Class.define("qx.ui.window.Window",
      * @param e {qx.event.type.MouseEvent} mouse click event
      * @return {void}
      */
-    _onwindowclick : function(e)
+    _onWindowClick : function(e)
     {
       // stop event
       e.stopPropagation();
@@ -1239,7 +1247,7 @@ qx.Class.define("qx.ui.window.Window",
      * @param e {qx.event.type.MouseEvent} mouse down event
      * @return {void}
      */
-    _onwindowmousedown : function(e) {
+    _onWindowMouseDown : function(e) {
       this.focus();
     },
 
@@ -1259,7 +1267,7 @@ qx.Class.define("qx.ui.window.Window",
      * @param e {qx.event.type.MouseEvent} mouse down event
      * @return {void}
      */
-    _onbuttonmousedown : function(e) {
+    _onButtonMouseDown : function(e) {
       e.stopPropagation();
     },
 
@@ -1272,7 +1280,7 @@ qx.Class.define("qx.ui.window.Window",
      * @param e {qx.event.type.MouseEvent} mouse click event
      * @return {void}
      */
-    _onminimizebuttonclick : function(e)
+    _onMinimizeButtonClick : function(e)
     {
       this.minimize();
 
@@ -1293,7 +1301,7 @@ qx.Class.define("qx.ui.window.Window",
      * @param e {qx.event.type.MouseEvent} mouse click event
      * @return {void}
      */
-    _onrestorebuttonclick : function(e)
+    _onRestoreButtonClick : function(e)
     {
       this.restore();
 
@@ -1314,7 +1322,7 @@ qx.Class.define("qx.ui.window.Window",
      * @param e {qx.event.type.MouseEvent} mouse click event
      * @return {void}
      */
-    _onmaximizebuttonclick : function(e)
+    _onMaximizeButtonClick : function(e)
     {
       this.maximize();
 
@@ -1335,7 +1343,7 @@ qx.Class.define("qx.ui.window.Window",
      * @param e {qx.event.type.MouseEvent} mouse click event
      * @return {void}
      */
-    _onclosebuttonclick : function(e)
+    _onCloseButtonClick : function(e)
     {
       this.close();
 
@@ -1364,7 +1372,7 @@ qx.Class.define("qx.ui.window.Window",
      * @param e {qx.event.type.MouseEvent} mouse down event
      * @return {void}
      */
-    _oncaptionmousedown : function(e)
+    _onCaptionMouseDown : function(e)
     {
       if (!this.getMoveable() || this.getMode() != null) {
         return;
@@ -1430,7 +1438,7 @@ qx.Class.define("qx.ui.window.Window",
      * @param e {qx.event.type.MouseEvent} mouse up event
      * @return {void}
      */
-    _oncaptionmouseup : function(e)
+    _onCaptionMouseUp : function(e)
     {
       var s = this._dragSession;
 
@@ -1476,7 +1484,7 @@ qx.Class.define("qx.ui.window.Window",
      * @param e {qx.event.type.Event} mouse move event
      * @return {void}
      */
-    _oncaptionmousemove : function(e)
+    _onCaptionMouseMove : function(e)
     {
 
       var s = this._dragSession;
@@ -1534,7 +1542,7 @@ qx.Class.define("qx.ui.window.Window",
      * @param e {qx.event.type.MouseEvent} double click event
      * @return {void}
      */
-    _oncaptiondblblick : function(e)
+    _onCaptionMouseDblClick : function(e)
     {
       if (!this.getAllowMaximize()) {
         return;
