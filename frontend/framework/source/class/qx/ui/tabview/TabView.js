@@ -67,7 +67,7 @@ qx.Class.define("qx.ui.tabview.TabView",
 
     barPosition :
     {
-      check : ["left", "right", "top", "button"],
+      check : ["left", "right", "top", "bottom"],
       init : "top",
       apply : "_applyBarPosition"
     },
@@ -182,21 +182,45 @@ qx.Class.define("qx.ui.tabview.TabView",
     {
       var bar = this._getChildControl("bar");
 
-      // reverse the layout
-      this._getLayout().setReversed(!value);
+      switch(value)
+      {
+        case "left" :
+          bar.setLayout(new qx.ui.layout.VBox());
+          this._setLayout(new qx.ui.layout.HBox());
+          this._getLayout().setReversed(false);
+          break;
+      
+        case "right" :
+          bar.setLayout(new qx.ui.layout.VBox());
+          this._setLayout(new qx.ui.layout.HBox());
+          this._getLayout().setReversed(true);
+          break;
+      
+        case "top" :
+          bar.setLayout(new qx.ui.layout.HBox());
+          this._setLayout(new qx.ui.layout.VBox());
+          this._getLayout().setReversed(false);
+          break;
+      
+        case "bottom" :
+          bar.setLayout(new qx.ui.layout.HBox());
+          this._setLayout(new qx.ui.layout.VBox());
+          this._getLayout().setReversed(true);
+          break;
+      
+      }
 
-      // set or remove the state on the buttons
       var buttons = bar.getChildren();
 
       for (var i = 0, l=buttons.length; i < l; i++)
       {
-        // TODO:
         if (value == "top") {
           buttons[i].addState("barTop");
-        } else {
+        } else if(value == "bottom") {
           buttons[i].removeState("barTop");
         }
       }
+
     },
 
     
