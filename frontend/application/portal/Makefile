@@ -21,7 +21,7 @@ NEW_TARGETS = source build api clean distclean lint pretty translate migration p
 .PHONY: $(NEW_TARGETS)
 
 $(NEW_TARGETS):
-	@../../tool/generator.py $@
+	@../../tool/bin/generator.py $@
 
 # use old Makefile for other targets
 %: force

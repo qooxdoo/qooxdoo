@@ -20,4 +20,4 @@
 .PHONY: build
 
 build:
-	@../../tool/generator.py build
+	@../../tool/bin/generator.py build
