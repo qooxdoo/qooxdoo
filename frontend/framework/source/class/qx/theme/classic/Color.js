@@ -60,7 +60,7 @@ qx.Theme.define("qx.theme.classic.Color",
     "button-abandoned" : "#F9F8E9",
     "button-checked" : "#F3F0F5",
 
-    "effect" : "#808080",
+    "effect" : "orange",
 
     "tabview-pane" : [ 250, 249, 248 ],
     "tabview-border" : [ 128, 128, 128 ],

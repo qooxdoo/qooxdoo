@@ -584,9 +584,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          zIndex          : 10, // TODO: functional?
-          paddingLeft     : 10,
-          paddingRight    : 10
+          zIndex          : 10 // TODO: functional?
         }
       }
     },
@@ -620,6 +618,9 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
         marginTop = 0;
         marginBottom = 0;
+        marginRight = 1;
+        marginLeft = 0;        
+
         decorator = new qx.ui.decoration.Single(1, "solid", "tabview-border");
 
         if (states.checked)
@@ -628,9 +629,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
           paddingBottom = 4;
           paddingLeft = 7;
           paddingRight = 8;
-          marginRight = -1;
-          marginLeft = -2;
-          backgroundColor = "tabview/button-checked";
+          backgroundColor = "tabview-button-checked";
 
           if (states.barTop)
           {
@@ -642,25 +641,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
             decorator.setWidthTop(0);
             decorator.setBottom(3, "solid", "effect");
           }
-
-          if (states.alignLeft)
-          {
-            if (states.firstChild)
-            {
-              paddingLeft = 6;
-              paddingRight = 7;
-              marginLeft = 0;
-            }
-          }
-          else
-          {
-            if (states.lastChild)
-            {
-              paddingLeft = 8;
-              paddingRight = 5;
-              marginRight = 0;
-            }
-          }
         }
         else
         {
@@ -668,8 +648,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
           paddingBottom = 2;
           paddingLeft = 5;
           paddingRight = 6;
-          marginRight = 1;
-          marginLeft = 0;
           backgroundColor = states.over ? "tabview-button-hover" : "tabview-button";
 
           if (states.barTop)
@@ -684,32 +662,14 @@ qx.Theme.define("qx.theme.classic.Appearance",
             marginTop = 1;
             marginBottom = 3;
           }
-
-          if (states.alignLeft)
-          {
-            if (states.firstChild)
-            {
-              paddingLeft = 6;
-              paddingRight = 5;
-            }
-          }
-          else
-          {
-            if (states.lastChild)
-            {
-              paddingLeft = 6;
-              paddingRight = 5;
-              marginRight = 0;
-            }
-          }
         }
-
+        
         return {
           padding : [ paddingTop, paddingRight, paddingBottom, paddingLeft ],
           margin : [ marginTop, marginRight, marginBottom, marginLeft ],
           decorator : decorator,
           backgroundColor : backgroundColor
-        }
+        };
       }
     },
 
