@@ -2038,7 +2038,7 @@ qx.Class.define("qx.ui.core.Widget",
       {
         for (var id in controls)
         {
-          control = controls[id];
+          var control = controls[id];
           if (control instanceof qx.ui.core.Widget) {
             control.removeState(state);
           }
@@ -2082,7 +2082,7 @@ qx.Class.define("qx.ui.core.Widget",
       {
         for (var id in controls)
         {
-          control = controls[id];
+          var control = controls[id];
           if (control instanceof qx.ui.core.Widget) {
             control.replaceState(old, value);
           }
@@ -2397,7 +2397,7 @@ qx.Class.define("qx.ui.core.Widget",
       }
 
       if (this.getFocusable() && value != null) {
-        target.setAttribute("tabIndex", value);
+        this.getFocusElement().setAttribute("tabIndex", value);
       }
     },
 

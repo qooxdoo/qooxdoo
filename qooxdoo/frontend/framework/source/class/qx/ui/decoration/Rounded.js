@@ -170,7 +170,7 @@ qx.Class.define("qx.ui.decoration.Rounded",
         // VML currently only supports the "imageRepeat" = "repeat"
         var backgroundImage = qx.util.ResourceManager.toUri(qx.util.AliasManager.getInstance().resolve(this.getBackgroundImage()));
         if (backgroundImage) {
-          fill = '<v:fill type="tile" src="'+backgroundImage+'"/>'
+          var fill = '<v:fill type="tile" src="'+backgroundImage+'"/>'
         } else {
           fill = "";
         }

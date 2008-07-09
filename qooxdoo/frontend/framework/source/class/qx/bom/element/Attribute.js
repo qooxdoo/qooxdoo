@@ -269,9 +269,7 @@ qx.Class.define("qx.bom.element.Attribute",
 
       // apply attribute
       if (hints.property[name]) {
-        try{
-          element[name] = value;
-        } catch(ex) {alert("Upps: " + name);}
+        element[name] = value;
       } else if (value === true) {
         element.setAttribute(name, name);
       } else if (value === false || value === null) {

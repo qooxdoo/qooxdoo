@@ -2332,14 +2332,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
 
 
     /**
-     * Helper function for inherited properties
-     */
-    getLayoutParent : function() {
-      return this.getParent();
-    },
-
-
-    /**
      * TODOC
      *
      * @type member

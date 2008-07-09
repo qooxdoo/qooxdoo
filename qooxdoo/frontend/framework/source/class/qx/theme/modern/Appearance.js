@@ -441,7 +441,6 @@ qx.Theme.define("qx.theme.modern.Appearance",
     },
 
     "scrollarea/pane" : "widget",
-    "scrollarea/corner" : "widget",
     "scrollarea/scrollbar-x" : "scrollbar",
     "scrollarea/scrollbar-y" : "scrollbar",
 
@@ -1216,12 +1215,12 @@ qx.Theme.define("qx.theme.modern.Appearance",
 
     "combobox/popup" : "popup",
     "combobox/list" : "list",
-    
-    "combobox/button" : 
+
+    "combobox/button" :
     {
       include : "button",
       alias   : "button",
-      
+
       style : function(states)
       {
         return {

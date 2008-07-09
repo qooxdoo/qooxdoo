@@ -190,7 +190,6 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
     {
       var pos = qx.bom.element.Location.get(this.getContainerElement().getDomElement(), "box");
 
-      var clientWidth = qx.bom.Viewport.getWidth();
       var clientHeight = qx.bom.Viewport.getHeight();
 
       var spaceAbove = pos.top;

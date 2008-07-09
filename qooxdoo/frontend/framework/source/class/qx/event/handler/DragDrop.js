@@ -71,8 +71,7 @@ qx.Class.define("qx.event.handler.DragDrop",
       "dragend": true,
       "dragenter": true,
       "dragleave": true,
-      "drop" : true,
-      "dragend": true
+      "drop" : true
     },
 
     /** {Integer} Which target check to use */
@@ -164,7 +163,7 @@ qx.Class.define("qx.event.handler.DragDrop",
     __disableDragEvents : function(element)
     {
       var elementKey = qx.core.ObjectRegistry.toHashCode(element);
-      dragData = this.__draggableElements[elementKey];
+      var dragData = this.__draggableElements[elementKey];
 
       if (!dragData) {
         return;
@@ -279,7 +278,7 @@ qx.Class.define("qx.event.handler.DragDrop",
         var el = this.__droppableElements[key];
         var location = qx.bom.element.Location.get(el);
 
-        insertIndex = locations.length;
+        var insertIndex = locations.length;
         for (var i=0; i<locations.length; i++)
         {
           var other = locations[i];

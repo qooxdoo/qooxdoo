@@ -63,7 +63,6 @@ qx.Bootstrap.define("qx.bom.client.Engine",
     /**
      * Internal initialize helper
      *
-     * @type static
      * @return {void}
      * @throws TODOC
      */
@@ -95,9 +94,6 @@ qx.Bootstrap.define("qx.bom.client.Engine",
         if (/AppleWebKit\/([^ ]+)/.test(agent))
         {
           version = RegExp.$1;
-
-          // Webkit adds a plus sign in nightly builds
-          var nightly = version.indexOf("+") != -1;
 
           // We need to filter these invalid characters
           var invalidCharacter = RegExp("[^\\.0-9]").exec(version);

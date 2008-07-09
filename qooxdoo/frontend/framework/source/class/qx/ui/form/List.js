@@ -497,7 +497,7 @@ qx.Class.define("qx.ui.form.List",
 
       // get all items of the list
       var items = this.getChildren();
-      var item, value;
+      var item;
 
       // go threw all items
       for (var i=0, l=items.length; i<l; i++)

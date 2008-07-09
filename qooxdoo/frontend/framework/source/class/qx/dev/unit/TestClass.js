@@ -46,7 +46,6 @@ qx.Class.define("qx.dev.unit.TestClass",
     }
 
     var proto = clazz.prototype;
-    var classname = clazz.classname;
 
     for (var test in proto)
     {

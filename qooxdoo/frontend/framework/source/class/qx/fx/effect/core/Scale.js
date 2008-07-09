@@ -222,7 +222,7 @@ qx.Class.define("qx.fx.effect.core.Scale",
      {
        for(var property in this._originalStyle)
        {
-         value = this._originalStyle[property];
+         var value = this._originalStyle[property];
          qx.bom.element.Style.set(this._element, property, value);
        }
      }

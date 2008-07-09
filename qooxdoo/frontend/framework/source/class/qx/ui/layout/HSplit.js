@@ -113,7 +113,7 @@ qx.Class.define("qx.ui.layout.HSplit",
     {
       var children = this._getLayoutChildren();
       var length = children.length;
-      var child;
+      var child, type;
       var begin, splitter, slider, end;
 
       for (var i=0; i<length; i++)
@@ -214,7 +214,7 @@ qx.Class.define("qx.ui.layout.HSplit",
     {
       var children = this._getLayoutChildren();
       var length = children.length;
-      var child, hint;
+      var child, hint, props;
       var minWidth=0, width=0, maxWidth=0;
       var minHeight=0, height=0, maxHeight=0;
 

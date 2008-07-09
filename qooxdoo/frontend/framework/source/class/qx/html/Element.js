@@ -220,7 +220,7 @@ qx.Class.define("qx.html.Element",
       for (var hc in scroll)
       {
         obj = scroll[hc];
-        elem = obj._element;
+        var elem = obj._element;
 
         if (elem && elem.offsetWidth)
         {
@@ -1087,7 +1087,7 @@ qx.Class.define("qx.html.Element",
       if (index == null) {
         parent._children.push(this);
       } else {
-        qx.lang.Array.insertAt(this._children, child, index);
+        qx.lang.Array.insertAt(this._children, this, index);
       }
 
       return this;

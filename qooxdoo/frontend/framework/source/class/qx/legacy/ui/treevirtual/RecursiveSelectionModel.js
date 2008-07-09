@@ -116,9 +116,11 @@ qx.Class.define("qx.legacy.ui.treevirtual.RecursiveSelectionModel",
      * @type member
      * @return {Boolean} whether the selection is empty.
      */
-    isSelectionEmpty : function() {
+    isSelectionEmpty : function()
+    {
       // Is the root node selected?
-      return !this._tree.getDataModel().getData()[0].bSelected;
+      var data = this._tree.getDataModel().getData();
+      return !data[0].bSelected;
     },
 
     /**

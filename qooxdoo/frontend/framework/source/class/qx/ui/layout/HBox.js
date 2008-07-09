@@ -382,7 +382,7 @@ qx.Class.define("qx.ui.layout.HBox",
 
 
       // Layouting children
-      var hint, top, height, width, align, marginRight, marginTop, marginBottom;
+      var hint, top, height, width, marginRight, marginTop, marginBottom;
       var spacing = this.getSpacing();
       var separator = this.getSeparator();
       var separatorWidth = 1;
@@ -518,7 +518,7 @@ qx.Class.define("qx.ui.layout.HBox",
 
       for (var i=0, l=children.length; i<l; i++)
       {
-        child = children[i];
+        var child = children[i];
         gaps += child.getMarginLeft() + child.getMarginRight();
       }
 

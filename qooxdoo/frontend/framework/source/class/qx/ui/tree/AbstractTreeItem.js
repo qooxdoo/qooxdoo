@@ -726,7 +726,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
 
         var oldParent = treeItem.getParent();
         if (oldParent) {
-          oldPrarent.remove(treeItem);
+          oldParent.remove(treeItem);
         }
 
         treeItem.setParent(this);
@@ -779,7 +779,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
 
       var oldParent = treeItem.getParent();
       if (oldParent) {
-        oldPrarent.remove(treeItem);
+        oldParent.remove(treeItem);
       }
 
       var container = this.getChildrenContainer();

@@ -491,7 +491,7 @@ qx.Bootstrap.define("qx.event.Manager",
 
       for (var i=0, l=entryList.length; i<l; i++)
       {
-        entry = entryList[i];
+        var entry = entryList[i];
 
         if (entry.handler === listener && entry.context === self)
         {

@@ -209,8 +209,6 @@ qx.Class.define("qx.ui.decoration.Grid",
         right : r[3]
       };
 
-      var middleWidth = l[3] + c[3] + r[3];
-
       var topWidth = this.__insets.top;
       var bottomWidth = this.__insets.bottom;
       var leftWidth = this.__insets.left;
@@ -219,14 +217,13 @@ qx.Class.define("qx.ui.decoration.Grid",
 
       // Create edges and vertical sides
       // Order: tl, t, tr, bl, b, bt, l, c, r
-      var pixel = "px";
       var html = [];
 
       var leftCombined = mgr.getClipped(l[0]);
-      leftImageWidth = leftCombined ? leftCombined[3] : l[3];
+      var leftImageWidth = leftCombined ? leftCombined[3] : l[3];
 
       var rightCombined = mgr.getClipped(r[0]);
-      rightImageWidth = rightCombined ? rightCombined[3] : r[3];
+      var rightImageWidth = rightCombined ? rightCombined[3] : r[3];
 
 
       // Top: left, center, right

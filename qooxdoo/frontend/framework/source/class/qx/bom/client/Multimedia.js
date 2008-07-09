@@ -133,7 +133,7 @@ qx.Bootstrap.define("qx.bom.client.Multimedia",
 
         var db = this.__db;
         var verreg = /([0-9]\.[0-9])/g;
-        var plugin, name;
+        var plugin, name, entry;
 
         for (var i=0, il=plugins.length; i<il; i++)
         {

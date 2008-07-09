@@ -173,7 +173,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
     },
 
     "scrollarea/pane" : "widget",
-    "scrollarea/corner" : "widget",
     "scrollarea/scrollbar-x" : "scrollbar",
     "scrollarea/scrollbar-y" : "scrollbar",
 
