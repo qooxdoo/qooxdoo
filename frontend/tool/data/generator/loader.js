@@ -195,10 +195,13 @@ window.qxloader =
     // force asynchronous load
     // Safari fails with an "maximum recursion depth exceeded" error if it is
     // called sync.
+    /*
     var self = this;
     window.setTimeout(function() {
       self.loadScript(next, self._flushQueue, self);
     }, 0);
+    */
+    this.loadScript(next, this._flushQueue, this);
   },
 
 
