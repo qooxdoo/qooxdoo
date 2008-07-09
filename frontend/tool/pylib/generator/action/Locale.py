@@ -19,7 +19,7 @@ class Locale:
         self._console.indent()
 
         data = {}
-        root = os.path.join(filetool.root(), "data", "cldr", "main")
+        root = os.path.join(filetool.root(), os.pardir, "data", "cldr", "main")
         for entry in locales:
             self._console.debug("Processing locale: %s" % entry)
             data[entry] = cldr.parseCldrFile(os.path.join(root, "%s.xml" % entry))
