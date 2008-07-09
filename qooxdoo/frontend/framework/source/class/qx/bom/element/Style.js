@@ -114,8 +114,10 @@ qx.Class.define("qx.bom.element.Style",
       },
 
       // force conversion of the property value to string before setting it
-      forceString : qx.core.Variant.select("qx.client", {
-        "mshtml" : {
+      forceString : qx.core.Variant.select("qx.client",
+      {
+        "mshtml" :
+        {
           backgroundColor : 1,
           color : 1,
           borderTopColor : 1,
@@ -124,6 +126,7 @@ qx.Class.define("qx.bom.element.Style",
           borderLeftColor : 1,
           borderColor : 1
         },
+
         "default" : {}
       })
     },
@@ -330,8 +333,11 @@ qx.Class.define("qx.bom.element.Style",
         }
       }
 
-      if (hints.forceString[name]) {
-        value = value.toString();
+      if (qx.core.Variant.isSet("qx.client", "mshtml"))
+      {
+        if (hints.forceString[name]) {
+          value = value.toString();
+        }
       }
 
       // apply style
