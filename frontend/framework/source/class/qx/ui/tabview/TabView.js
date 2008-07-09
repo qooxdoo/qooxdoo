@@ -42,7 +42,7 @@ qx.Class.define("qx.ui.tabview.TabView",
 
     var mgr = this._manager = new qx.ui.core.RadioManager;
     mgr.setWrap(false);
-    mgr.addListener("change", this._onChange, this);
+    mgr.addListener("changeSelected", this._onChangeSelected, this);
 
     this._setLayout(new qx.ui.layout.VBox());
   },
@@ -252,10 +252,10 @@ qx.Class.define("qx.ui.tabview.TabView",
     },
 
 
-    _onChange : function(e)
+    _onChangeSelected : function(e)
     {
       var newButton = e.getData();
-      var oldButton = e.getOldValue();
+      var oldButton = e.getOldData();
 
       if (newButton)
       {
