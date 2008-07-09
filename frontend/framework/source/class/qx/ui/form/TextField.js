@@ -71,6 +71,20 @@ qx.Class.define("qx.ui.form.TextField",
 
 
 
+  /*
+  *****************************************************************************
+     EVENTS
+  *****************************************************************************
+  */
+
+  events :
+  {
+    /** The input event is fired on every keystroke modifying the value of the field */
+    "input" : "qx.event.type.Data"
+  },
+
+
+
 
   /*
   *****************************************************************************
@@ -95,7 +109,19 @@ qx.Class.define("qx.ui.form.TextField",
     _createInputElement : function()
     {
       var input =  new qx.html.Input("text");
+      input.addListener("input", this._onHtmlInput, this);
       return input;
+    },
+
+
+    /**
+     * Event listener for native input events. Redirects the event
+     * to the widget.
+     *
+     * @param e {qx.event.type.Data} Input event
+     */
+    _onHtmlInput : function(e) {
+      this.fireDataEvent("input", e.getData());
     },
 
 

@@ -18,9 +18,6 @@
      * Jonathan Rass (jonathan_rass)
 
 ************************************************************************ */
-/**
- * @appearance selectbox
- */
 
 qx.Class.define("qx.ui.form.AbstractSelectBox",
 {
@@ -63,7 +60,6 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
 
   properties :
   {
-
     // overridden
     width :
     {
@@ -71,13 +67,12 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
       init : 120
     },
 
-    /**
-     * The selected item inside the list.
-     */
-    selected :
+    /** The name of the widget. Mainly used for serialization proposes. */
+    name :
     {
-      check : "qx.ui.form.ListItem",
-      apply : "_applySelected"
+      check : "String",
+      nullable : true,
+      event : "changeName"
     },
 
     /**
@@ -91,6 +86,20 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
       nullable: true,
       init : 200
     }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     EVENTS
+  *****************************************************************************
+  */
+
+  events :
+  {
+    "changeValue" : "qx.event.type.Data"
   },
 
 
@@ -120,7 +129,8 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
             selectionMode: "one"
           });
 
-          control.addListener("changeSelection", this._onChangeSelection, this);
+          control.addListener("changeSelection", this._onListChangeSelection, this);
+          control.addListener("changeValue", this._onListChangeValue, this);
           break;
 
         case "popup":
@@ -144,11 +154,6 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
     */
 
     // property apply
-    _applySelected : function(value, old) {
-      this._getChildControl("list").select(value);
-    },
-
-    // property apply
     _applyMaxListHeight : function(value, old) {
       this._getChildControl("list").setMaxHeight(value);
     },
@@ -163,7 +168,6 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
 
     /**
      * Returns the list widget.
-     * @type member
      * @return {qx.ui.form.List} the list
      */
     getChildrenContainer : function() {
@@ -180,7 +184,6 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
 
     /**
      * Shows the list popup.
-     * @type member
      */
     _showList : function()
     {
@@ -229,7 +232,6 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
 
     /**
      * Hides the list popup.
-     * @type member
      */
     _hideList : function() {
       this._getChildControl("popup").hide();
@@ -238,7 +240,6 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
 
     /**
      * Toggles the popup's visibility.
-     * @type member
      */
     _togglePopup : function()
     {
@@ -261,8 +262,8 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
 
     /**
      * Redirects the activation to the main widget
+     *
      * @param e {Object} Activation event
-     * @type member
      */
     _onActivateList : function(e)
     {
@@ -273,8 +274,8 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
 
     /**
      * Reacts on special keys and forwards other key events to the list widget.
+     *
      * @param e {qx.event.type.KeyEvent} Keypress event
-     * @type member
      */
     _onKeyPress : function(e)
     {
@@ -310,8 +311,8 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
 
     /**
      * Updates list minimum size.
+     *
      * @param e {qx.event.type.Data} Data event
-     * @type member
      */
     _onResize : function(e){
       this._getChildControl("list").setMinWidth(e.getData().width);
@@ -319,15 +320,22 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
 
 
     /**
-     * Sets the selected item on change.
-     * @param e {qx.event.type.Data} Change Event
-     * @type member
+     * Syncs the own property from the list change
+     *
+     * @param e {qx.event.type.Data} Data Event
      */
-    _onChangeSelection : function(e)
-    {
-      if (e.getData().length > 0) {
-        this.setSelected(e.getData()[0]);
-      }
+    _onListChangeSelection : function(e) {
+      throw new Error("Abstract method: _onListChangeSelection()");
+    },
+
+
+    /**
+     * Redirects changeValue event from the list to this widget.
+     *
+     * @param e {qx.event.type.Data} Data Event
+     */
+    _onListChangeValue : function(e) {
+      throw new Error("Abstract method: _onListChangeValue()");
     }
   }
 });

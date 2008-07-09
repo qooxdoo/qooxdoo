@@ -39,7 +39,6 @@ qx.Class.define("qx.ui.form.ListItem",
     this.base(arguments, vText, vIcon);
 
     this.setValue(vValue || null);
-    this.addListener("dblclick", this._ondblclick);
   },
 
 
@@ -122,32 +121,26 @@ qx.Class.define("qx.ui.form.ListItem",
 
 
 
-
-
     /*
     ---------------------------------------------------------------------------
-      EVENT HANDLER
+      SEARCH VALUE
     ---------------------------------------------------------------------------
     */
 
     /**
-     * Callback method for the double-click event of the ListItem.<br/>
-     * Executes an registered command - if available.
+     * Returns the searchable value of the list item.
      *
-     * @type member
-     * @param e {qx.event.type.Mouse} double-click event
-     * @return {void}
+     * This is normally the real value with a fallback to the label like in HTML
+     * select boxes.
      */
-    _ondblclick : function(e)
+    getFormValue : function()
     {
-      // TODO08: Command support in Widget still missing
-      /*
-      var vCommand = this.getCommand();
-
-      if (vCommand) {
-        vCommand.execute();
+      var value = this.getValue();
+      if (value == null) {
+        value = this.getLabel();
       }
-      */
+
+      return value;
     }
   }
 });

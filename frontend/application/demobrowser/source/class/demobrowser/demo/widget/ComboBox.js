@@ -33,12 +33,12 @@ qx.Class.define("demobrowser.demo.widget.ComboBox",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     main : function()
     {
       this.base(arguments);
-      
+
       // examlpe 1: default combo box with 30 text items
       this._createDefaultExample();
 
@@ -56,7 +56,7 @@ qx.Class.define("demobrowser.demo.widget.ComboBox",
      * some tempaltes.
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _createDefaultExample : function()
     {
@@ -80,6 +80,14 @@ qx.Class.define("demobrowser.demo.widget.ComboBox",
         comboBox.add(tempItem);
       }
 
+      comboBox.addListener("input", function(e) {
+        this.debug("Input: " + e.getData());
+      });
+
+      comboBox.addListener("changeValue", function(e) {
+        this.debug("ChangeValue: " + e.getData());
+      });
+
       // add the combobox to the documents root
       this.getRoot().add(comboBox,
       {
@@ -96,7 +104,7 @@ qx.Class.define("demobrowser.demo.widget.ComboBox",
      * the text displayed.
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _createIconExample : function()
     {
@@ -133,7 +141,7 @@ qx.Class.define("demobrowser.demo.widget.ComboBox",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     _createWideExample : function()
     {

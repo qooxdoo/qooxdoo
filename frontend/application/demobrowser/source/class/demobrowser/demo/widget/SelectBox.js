@@ -40,7 +40,7 @@ qx.Class.define("demobrowser.demo.widget.SelectBox",
       box.add(this.createBox3());
       box.add(this.createBox4());
 
-      this.getRoot().add(box, {left : 30, top : 25})
+      this.getRoot().add(box, {left : 20, top : 20})
     },
 
 
@@ -78,9 +78,6 @@ qx.Class.define("demobrowser.demo.widget.SelectBox",
       {
         var tempItem = new qx.ui.form.ListItem("Random Value " + Math.round(Math.random()*100000000));
         selectBox.add(tempItem);
-        // select sixth item
-        if (i == 5) {
-        }
       }
 
       container.add(selectBox);

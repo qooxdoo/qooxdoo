@@ -53,7 +53,7 @@ qx.Class.define("qx.ui.core.EventHandler",
     /** {Integer} Priority of this handler */
     PRIORITY : qx.event.Registration.PRIORITY_FIRST,
 
-    /** {Map} Supported event types */
+    /** {Map} Supported event types. Identical to events map of qx.ui.core.Widget */
     SUPPORTED_TYPES :
     {
       // mouse events
@@ -87,13 +87,7 @@ qx.Class.define("qx.ui.core.EventHandler",
 
       // appear events
       appear : 1,
-      disappear : 1,
-
-      // iframe load
-      load : 1,
-
-      // form fields
-      input : 1
+      disappear : 1
     },
 
     /** {Integer} Whether the method "canHandleEvent" must be called */
