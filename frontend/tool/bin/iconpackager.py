@@ -202,7 +202,7 @@ def getScalable(path, names, size):
 
 
 def getData():
-    data = os.path.join(filetool.root(), "data", "icon", "qooxdoo.dat")
+    data = os.path.join(filetool.root(), os.pardir, "data", "icon", "qooxdoo.dat")
     lines = filetool.read(data).split("\n")
     result = {}
 
