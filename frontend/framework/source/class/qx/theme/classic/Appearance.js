@@ -949,7 +949,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
         return {
           cursor : "default",
           font : "bold",
-          marginRight : 2,
+          marginRight : 20,
           alignY: "bottom"
         };
       }
@@ -1017,20 +1017,13 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          decorator : "inset-thin"
-        };
-      }
-    },
-
-    "window/statusbar-text" :
-    {
-      style : function(states)
-      {
-        return {
+          decorator : "inset-thin",
           padding : [ 1, 4 ]
         };
       }
     },
+
+
 
 
 
