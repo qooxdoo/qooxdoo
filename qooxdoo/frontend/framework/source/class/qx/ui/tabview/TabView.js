@@ -58,6 +58,7 @@ qx.Class.define("qx.ui.tabview.TabView",
 
   properties :
   {
+
     appearance :
     {
       refine : true,
@@ -69,7 +70,14 @@ qx.Class.define("qx.ui.tabview.TabView",
       check : ["left", "right", "top", "button"],
       init : "top",
       apply : "_applyBarPosition"
+    },
+    
+    selected :
+    {
+      check : "qx.ui.tabview.Page",
+      apply : "_applySelected"
     }
+
   },
 
 
@@ -182,6 +190,7 @@ qx.Class.define("qx.ui.tabview.TabView",
 
       for (var i = 0, l=buttons.length; i < l; i++)
       {
+        // TODO:
         if (value == "top") {
           buttons[i].addState("barTop");
         } else {
@@ -190,6 +199,13 @@ qx.Class.define("qx.ui.tabview.TabView",
       }
     },
 
+    
+    _applySelected : function(value, old)
+    {
+      var pane = this._getChildControl("pane");
+      pane.setSelected(value);
+      this._manager.setSelected(value.getButton());
+    },
 
     _onRadioChangeSelected : function(e)
     {
