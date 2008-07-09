@@ -267,12 +267,12 @@ qx.Class.define("qx.ui.window.Window",
 
 
     /** The text of the statusbar */
-    statusText :
+    status :
     {
       check : "String",
-      init : "Ready",
-      apply : "_applyStatusText",
-      event :"changeStatusText"
+      nullable : true,
+      apply : "_applyStatus",
+      event :"changeStatus"
     },
 
 
@@ -917,7 +917,7 @@ qx.Class.define("qx.ui.window.Window",
 
 
     // property apply
-    _applyStatusText : function(value, old)
+    _applyStatus : function(value, old)
     {
       var label = this._getChildControl("status-text", true);
       if (label) {
