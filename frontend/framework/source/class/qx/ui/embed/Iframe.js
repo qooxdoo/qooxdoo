@@ -69,7 +69,7 @@ qx.Class.define("qx.ui.embed.Iframe",
 
     qx.event.Registration.addListener(document.body, "mousedown", this.block, this, true);
     qx.event.Registration.addListener(document.body, "mouseup", this.release, this, true);
-    
+
     this._blockerElement = this._createBlockerElement();
     this._containerElement.add(this._blockerElement);
   },
@@ -122,7 +122,6 @@ qx.Class.define("qx.ui.embed.Iframe",
       init : "",
       apply : "_applyFrameName"
     }
-
   },
 
 
@@ -151,13 +150,19 @@ qx.Class.define("qx.ui.embed.Iframe",
       this._blockerElement.setStyle("height", (height - insets.top - insets.bottom) + pixel);
     },
 
+
     // overridden
-    _createContentElement : function() {
-      return new qx.html.Iframe(this._source);
+    _createContentElement : function()
+    {
+      var iframe = new qx.html.Iframe(this._source);
+      iframe.addListener("load", this._onIframeLoad, this);
+      return iframe;
     },
+
 
     /**
      * Creates <div> element which is aligned over iframe node to avoid losing mouse events.
+     *
      * @type member
      * @return {Object} Blocker element node
      */
@@ -178,20 +183,31 @@ qx.Class.define("qx.ui.embed.Iframe",
       return el;
     },
 
+
+    /**
+     * Reacts on native load event and redirects it to the widget.
+     *
+     * @param e {qx.event.type.Event} Native load event
+     */
+    _onIframeLoad : function(e) {
+      this.fireNonBubblingEvent("load");
+    },
+
+
+
+
     /*
     ---------------------------------------------------------------------------
       METHODS
     ---------------------------------------------------------------------------
     */
 
-
     /**
      * Get the DOM window object of an iframe.
      *
      * @return {DOMWindow} The DOM window object of the iframe.
      */
-    getWindow : function()
-    {
+    getWindow : function() {
       return this.getContentElement().getWindow();
     },
 
@@ -201,8 +217,7 @@ qx.Class.define("qx.ui.embed.Iframe",
      *
      * @return {DOMDocument} The DOM document object of the iframe.
      */
-    getDocument : function()
-    {
+    getDocument : function() {
       return this.getContentElement().getDocument();
     },
 
@@ -212,8 +227,7 @@ qx.Class.define("qx.ui.embed.Iframe",
      *
      * @return {Element} The DOM node of the <code>body</code> element of the iframe.
      */
-    getBody : function()
-    {
+    getBody : function() {
       return this.getContentElement().getBody();
     },
 
@@ -228,6 +242,7 @@ qx.Class.define("qx.ui.embed.Iframe",
       return this.getContentElement().getName();
     },
 
+
     /**
      * Cover the iframe with a transparent blocker div element. This prevents
      * mouse or key events to be handled by the iframe. To release the blocker
@@ -235,30 +250,32 @@ qx.Class.define("qx.ui.embed.Iframe",
      *
      * @type member
      */
-    block : function()
-    {
+    block : function() {
       this._blockerElement.setStyle("display", "block");
     },
+
 
     /**
      * Release the blocker set by {@link #block}.
      *
      * @type member
      */
-    release : function()
-    {
+    release : function() {
       this._blockerElement.setStyle("display", "none");
     },
+
 
     /**
      * Reload the contents of the iframe.
      *
      * @type member
      */
-    reload : function()
-    {
+    reload : function() {
       this.getContentElement().reload();
     },
+
+
+
 
     /*
     ---------------------------------------------------------------------------
@@ -267,17 +284,14 @@ qx.Class.define("qx.ui.embed.Iframe",
     */
 
     // property apply
-    _applySource : function(value, old)
-    {
+    _applySource : function(value, old) {
       this.getContentElement().setSource(value);
     },
 
     // property apply
-    _applyFrameName : function(value, old)
-    {
+    _applyFrameName : function(value, old) {
       this.getContentElement().setAttribute("name", value);
     }
-
   },
 
 
@@ -289,9 +303,7 @@ qx.Class.define("qx.ui.embed.Iframe",
   *****************************************************************************
   */
 
-  destruct : function()
-  {
+  destruct : function() {
     this._disposeObjects("_blockerElement")
   }
-
 });

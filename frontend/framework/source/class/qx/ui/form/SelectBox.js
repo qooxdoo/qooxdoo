@@ -18,13 +18,14 @@
      * Jonathan Rass (jonathan_rass)
 
 ************************************************************************ */
+
 /**
  * @appearance selectbox
  */
-
 qx.Class.define("qx.ui.form.SelectBox",
 {
   extend : qx.ui.form.AbstractSelectBox,
+  implement : qx.ui.core.IFormElement,
 
 
 
@@ -71,6 +72,15 @@ qx.Class.define("qx.ui.form.SelectBox",
     {
       refine : true,
       init : true
+    },
+
+    /**
+     * The selected item inside the list.
+     */
+    selected :
+    {
+      check : "qx.ui.form.ListItem",
+      apply : "_applySelected"
     }
   },
 
@@ -84,6 +94,12 @@ qx.Class.define("qx.ui.form.SelectBox",
 
   members :
   {
+    /*
+    ---------------------------------------------------------------------------
+      WIDGET API
+    ---------------------------------------------------------------------------
+    */
+
     // overridden
     _createChildControlImpl : function(id)
     {
@@ -117,6 +133,7 @@ qx.Class.define("qx.ui.form.SelectBox",
 
 
 
+
     /*
     ---------------------------------------------------------------------------
       APPLY ROUTINES
@@ -126,11 +143,42 @@ qx.Class.define("qx.ui.form.SelectBox",
     // property apply
     _applySelected : function(value, old)
     {
-      this.base(arguments, value, old);
+      this._getChildControl("list").select(value);
 
       var atom = this._getChildControl("atom");
-      atom.setLabel(value.getLabel());
-      atom.setIcon(value.getIcon());
+
+      var label = value.getLabel();
+      label == null ? atom.resetLabel() : atom.setLabel(label);
+
+      var icon = value.getIcon();
+      icon == null ? atom.resetIcon() : atom.setIcon(icon);
+    },
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      FORM ELEMENT INTERFACE METHODS
+    ---------------------------------------------------------------------------
+    */
+
+    setValue : function(value)
+    {
+      var list = this._getChildControl("list");
+      var item = list.findItem(value);
+
+      // Selectboxes do not allow no item to be selected
+      if (item != null) {
+        this.setSelected(item);
+      } else {
+        throw new Error("Could not find item with the value: " + value);
+      }
+    },
+
+    getValue : function()
+    {
+      var item = this.getSelected();
+      return item ? item.getFormValue() : null;
     },
 
 
@@ -179,6 +227,22 @@ qx.Class.define("qx.ui.form.SelectBox",
 
       // forward it to the list
       this._getChildControl("list").dispatchEvent(clone);
+    },
+
+
+    // overridden
+    _onListChangeSelection : function(e)
+    {
+      var current = e.getData();
+      if (current.length > 0) {
+        this.setSelected(current[0]);
+      }
+    },
+
+
+    // overridden
+    _onListChangeValue : function(e) {
+      this.fireDataEvent("changeValue", e.getData());
     }
   }
 });
