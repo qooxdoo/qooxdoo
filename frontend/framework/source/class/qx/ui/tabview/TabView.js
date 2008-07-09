@@ -42,7 +42,7 @@ qx.Class.define("qx.ui.tabview.TabView",
 
     var mgr = this._manager = new qx.ui.form.RadioGroup;
     mgr.setWrap(false);
-    mgr.addListener("changeSelected", this._onChangeSelected, this);
+    mgr.addListener("changeSelected", this._onRadioChangeSelected, this);
 
     this._setLayout(new qx.ui.layout.VBox());
   },
@@ -64,18 +64,11 @@ qx.Class.define("qx.ui.tabview.TabView",
       init : "tabview"
     },
 
-    alignTabsToLeft :
+    barPosition :
     {
-      check : "Boolean",
-      init : true,
-      apply : "_applyAlignTabsToLeft"
-    },
-
-    placeBarOnTop :
-    {
-      check : "Boolean",
-      init : true,
-      apply : "_applyPlaceBarOnTop"
+      check : ["left", "right", "top", "button"],
+      init : "top",
+      apply : "_applyBarPosition"
     }
   },
 
@@ -104,8 +97,7 @@ qx.Class.define("qx.ui.tabview.TabView",
           break;
 
         case "pane":
-          control = new qx.ui.container.Composite();
-          control.setLayout(new qx.ui.layout.Canvas());
+          control = new qx.ui.container.Stack;
           this._add(control, {flex:1});
           break;
       }
@@ -136,8 +128,7 @@ qx.Class.define("qx.ui.tabview.TabView",
       this._getChildControl("pane").add(page);
 
       // reset the properties on the tabview (needed for the stats of the buttons)
-      this._applyPlaceBarOnTop(this.getPlaceBarOnTop());
-      this._applyAlignTabsToLeft(this.getAlignTabsToLeft());
+      this._applyBarPosition(this.getBarPosition());
     },
 
 
@@ -169,59 +160,7 @@ qx.Class.define("qx.ui.tabview.TabView",
 
 
     /**
-     * Shows the given page in the pageview.
-     *
-     * @param page {qx.ui.tabview.Page} The page to show.
-     */
-    showPage: function(page)
-    {
-      // TODO: check if the button is in the bar
-      this._manager.setSelected(page.getButton());
-    },
-
-
-    /**
-     * Returns the current active page in the tabview.
-     *
-     * @return {qx.ui.tabview.Page} The current visible page.
-     */
-    getCurrentPage: function ()
-    {
-      // TODO
-    },
-
-
-    /**
-     * Apply method fot the alignTabsToLeft-Property.
-     * Passes the desired value to the layout of the bar so
-     * that the layout can handle it.
-     * It also sets the states to all buttons so they know the
-     * alignement of the bar.
-     *
-     * @param value {boolean} The new value.
-     * @param old {boolean} The old value.
-     */
-    _applyAlignTabsToLeft : function(value, old)
-    {
-      var bar = this._getChildControl("bar");
-      bar.getLayout().setAlignX(value ? "left" : "right");
-
-      // set or remove the state on the buttons
-      var buttons = bar.getChildren();
-
-      for (var i = 0; i < buttons.length; i++)
-      {
-        if (value) {
-          buttons[i].addState("alignLeft");
-        } else {
-          buttons[i].removeState("alignLeft");
-        }
-      }
-    },
-
-
-    /**
-     * Apply method fot the placeBarOnTop-Property.
+     * Apply method for the placeBarOnTop-Property.
      *
      * Passes the desired value to the layout of the tabview so
      * that the layout can handle it.
@@ -231,7 +170,7 @@ qx.Class.define("qx.ui.tabview.TabView",
      * @param value {boolean} The new value.
      * @param old {boolean} The old value.
      */
-    _applyPlaceBarOnTop : function(value, old)
+    _applyBarPosition : function(value, old)
     {
       var bar = this._getChildControl("bar");
 
@@ -241,9 +180,9 @@ qx.Class.define("qx.ui.tabview.TabView",
       // set or remove the state on the buttons
       var buttons = bar.getChildren();
 
-      for (var i = 0; i < buttons.length; i++)
+      for (var i = 0, l=buttons.length; i < l; i++)
       {
-        if (value) {
+        if (value == "top") {
           buttons[i].addState("barTop");
         } else {
           buttons[i].removeState("barTop");
@@ -252,21 +191,12 @@ qx.Class.define("qx.ui.tabview.TabView",
     },
 
 
-    _onChangeSelected : function(e)
+    _onRadioChangeSelected : function(e)
     {
-      var newButton = e.getData();
-      var oldButton = e.getOldData();
-
-      if (newButton)
-      {
-        newButton.getUserData("page").show();
-        this._getChildControl("bar").scrollChildIntoView(newButton);
-      }
-
-      if (oldButton)
-      {
-        oldButton.getUserData("page").exclude();
-      }
+      var pane = this._getChildControl("pane");
+      var page = e.getData().getUserData("page");
+      pane.setSelected(page);
     }
+
   }
 });

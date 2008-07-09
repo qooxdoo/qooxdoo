@@ -45,7 +45,6 @@ qx.Class.define("qx.ui.tabview.Page",
       this.setIcon(icon);
     }
 
-    //this._button = this._createButton(label, icon);
   },
 
 
