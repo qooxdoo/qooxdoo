@@ -293,7 +293,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
       // Correcting selection when 'one' mode is active
       else if (this.getMode() == "one")
       {
-        var firstItem = this.getFirstSelectable();
+        var firstItem = this._getFirstSelectable();
         if (firstItem) {
           this._addToSelection(firstItem);
         }
