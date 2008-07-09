@@ -78,6 +78,17 @@ qx.Class.define("qx.event.type.KeyInput",
      */
     getCharCode : function() {
       return this._charCode;
+    },
+
+
+    /**
+     * Returns the pressed character
+     *
+     * @type member
+     * @return {String} The character
+     */
+    getChar : function() {
+      return String.fromCharCode(this._charCode);
     }
   }
 });
