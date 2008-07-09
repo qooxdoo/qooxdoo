@@ -143,6 +143,17 @@ qx.Class.define("qx.ui.form.Button",
     },
 
 
+    /**
+     * Completely reset the button (remove all states)
+     */
+    reset : function()
+    {
+      this.removeState("pressed");
+      this.removeState("abandoned");
+      this.removeState("hovered");
+    },
+
+
 
     /*
     ---------------------------------------------------------------------------
