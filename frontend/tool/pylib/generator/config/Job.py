@@ -165,7 +165,7 @@ class Job(object):
                     
         # dicts
         elif isinstance(data, types.DictType):
-            for e in data:
+            for e in data.keys(): # have to use keys() explicitly since i modify data in place
                 # expand in values
                 enew = self._expandMacrosInValues(data[e], maps)
                 if enew != data[e]:
