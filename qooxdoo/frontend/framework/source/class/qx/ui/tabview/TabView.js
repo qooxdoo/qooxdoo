@@ -107,7 +107,7 @@ qx.Class.define("qx.ui.tabview.TabView",
       {
         case "bar":
           control = new qx.ui.container.SlideBar();
-          control.setLayout(new qx.ui.layout.HBox());
+//          control.setLayout(new qx.ui.layout.HBox());
           this._add(control);
           break;
 
@@ -202,29 +202,29 @@ qx.Class.define("qx.ui.tabview.TabView",
       switch(value)
       {
         case "left" :
-          bar.setLayout(new qx.ui.layout.VBox());
+          bar.setOrientation("vertical");
           this._setLayout(new qx.ui.layout.HBox());
           this._getLayout().setReversed(false);
           break;
-      
+
         case "right" :
-          bar.setLayout(new qx.ui.layout.VBox());
+          bar.setOrientation("vertical");
           this._setLayout(new qx.ui.layout.HBox());
           this._getLayout().setReversed(true);
           break;
-      
+
         case "top" :
-          bar.setLayout(new qx.ui.layout.HBox());
+          bar.setOrientation("horizontal");
           this._setLayout(new qx.ui.layout.VBox());
           this._getLayout().setReversed(false);
           break;
-      
+
         case "bottom" :
-          bar.setLayout(new qx.ui.layout.HBox());
+          bar.setOrientation("horizontal");
           this._setLayout(new qx.ui.layout.VBox());
           this._getLayout().setReversed(true);
           break;
-      
+
       }
 
       var buttons = bar.getChildren();

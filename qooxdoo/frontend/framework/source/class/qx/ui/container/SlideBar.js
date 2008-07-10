@@ -15,6 +15,7 @@
    Authors:
      * Sebastian Werner (wpbasti)
      * Fabian Jakobs (fjakobs)
+     * Jonathan Rass (jonathan_rass)
 
 ************************************************************************ */
 
@@ -46,18 +47,15 @@ qx.Class.define("qx.ui.container.SlideBar",
   {
     this.base(arguments);
 
-    this._isHorizontal = orientation !== "vertical";
+    var scrollPane = this._getChildControl("scrollpane");
 
-    if (this._isHorizontal) {
-      this._setLayout(new qx.ui.layout.HBox());
+    if (orientation != null) {
+      this.setOrientation(orientation);
     } else {
-      this._setLayout(new qx.ui.layout.VBox());
+      this.initOrientation();
     }
 
-    this._scrollPane = new qx.ui.core.ScrollPane();
-    this._scrollPane.addListener("update", this._onResize, this);
-
-    this._add(this._scrollPane, {flex: 1});
+    this._add(scrollPane, {flex: 1});
   },
 
 
@@ -71,10 +69,19 @@ qx.Class.define("qx.ui.container.SlideBar",
 
   properties :
   {
+
+    // overridden
     appearance :
     {
       refine : true,
       init : "slidebar"
+    },
+
+    orientation :
+    {
+      check : ["horizontal", "vertical"],
+      init : "horizontal",
+      apply : "_applyOrientation"
     }
 
   },
@@ -138,13 +145,35 @@ qx.Class.define("qx.ui.container.SlideBar",
 
         case "pane":
           control = new qx.ui.container.Composite();
-          this._scrollPane.add(control);
+          this._getChildControl("scrollpane").add(control);
           break;
+          
+
+        case "scrollpane":
+          control = new qx.ui.core.ScrollPane();
+          control.addListener("update", this._onResize, this);
+          break;
+
       }
 
       return control || this.base(arguments, id);
     },
 
+    _applyOrientation : function(value, old)
+    {
+      if (value == "horizontal")
+      {
+        this._setLayout(new qx.ui.layout.HBox());
+        this.setLayout(new qx.ui.layout.HBox());
+        this._isHorizontal = true;
+      }
+      else
+      {
+        this._setLayout(new qx.ui.layout.VBox());
+        this.setLayout(new qx.ui.layout.VBox());
+        this._isHorizontal = false;
+      }
+    },
 
     /**
      * Listener for resize event. This event is fired after the
@@ -157,7 +186,7 @@ qx.Class.define("qx.ui.container.SlideBar",
      */
     _onResize : function(e)
     {
-      var content = this._scrollPane.getChild();
+      var content = this._getChildControl("scrollpane").getChild();
       if (!content) {
         return;
       }
@@ -197,7 +226,7 @@ qx.Class.define("qx.ui.container.SlideBar",
       this._excludeChildControl("button-forward");
       this._excludeChildControl("button-backward");
 
-      this._scrollPane.scrollToX(0);
+      this._getChildControl("scrollpane").scrollToX(0);
     },
 
 
@@ -210,9 +239,9 @@ qx.Class.define("qx.ui.container.SlideBar",
     _onExecuteBackward : function()
     {
       if (this._isHorizontal) {
-        this._scrollPane.scrollByX(-20);
+        this._getChildControl("scrollpane").scrollByX(-20);
       } else {
-        this._scrollPane.scrollByY(-20);
+        this._getChildControl("scrollpane").scrollByY(-20);
       }
     },
 
@@ -226,9 +255,9 @@ qx.Class.define("qx.ui.container.SlideBar",
     _onExecuteForward : function()
     {
       if (this._isHorizontal) {
-        this._scrollPane.scrollByX(20);
+        this._getChildControl("scrollpane").scrollByX(20);
       } else {
-        this._scrollPane.scrollByY(20);
+        this._getChildControl("scrollpane").scrollByY(20);
       }
     }
   }
