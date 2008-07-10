@@ -76,7 +76,7 @@ qx.Class.define("demobrowser.demo.widget.Window",
       win.setPadding(10);
       win.setStatus("Application is ready");
       win.open();
-      this.getRoot().add(win, {left:250, top:120});
+      this.getRoot().add(win, {left:350, top:120});
 
       var atom = new qx.ui.basic.Atom("The second window", "icon/22/apps/accessories-calculator.png");
       win.add(atom);
@@ -221,7 +221,7 @@ qx.Class.define("demobrowser.demo.widget.Window",
       win.setMaxHeight(400);
       win.open();
       win.setPadding(10);
-      this.getRoot().add(win, {left:100, top:200});
+      this.getRoot().add(win, {left:100, top:250});
 
 
       var wm1 = new qx.ui.window.Window("First Modal Dialog");
