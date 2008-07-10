@@ -46,6 +46,8 @@ qx.Class.define("demobrowser.demo.widget.Window",
       var win = new qx.ui.window.Window("First Window", "icon/16/apps/office-calendar.png");
       win.setLayout(new qx.ui.layout.VBox(10));
       win.setPadding(10);
+      win.setShowStatusbar(true);
+      win.setStatus("Demo loaded");
       win.open();
       this.getRoot().add(win, {left:20, top:20});
 
@@ -177,6 +179,7 @@ qx.Class.define("demobrowser.demo.widget.Window",
 
       var moveOpaque = new qx.ui.form.RadioButton("Opaque");
       moveOpaque.setValue("opaque");
+      moveOpaque.setChecked(true);
       styleSettings.add(moveOpaque);
 
       var moveTranslucent = new qx.ui.form.RadioButton("Translucent");
@@ -261,23 +264,24 @@ qx.Class.define("demobrowser.demo.widget.Window",
       wm2.setShowClose(false);
       this.getRoot().add(wm2, {left:300, top:300});
 
-      var icon1 = new qx.ui.basic.Image("icon/32/status/dialog-error.png");
-      wm2.add(icon1);
-
-      var warn1 = new qx.ui.basic.Label("Do you want to fly to Berlin?");
+      var warn1 = new qx.ui.basic.Atom("Do you want to fly to Berlin?", "icon/32/status/dialog-error.png");
       wm2.add(warn1);
+
+      var box = new qx.ui.container.Composite;
+      box.setLayout(new qx.ui.layout.HBox(10, "right"));
+      wm2.add(box);
 
       var btn3 = new qx.ui.form.Button("Yes", "icon/16/actions/dialog-ok.png");
       btn3.addListener("execute", function(e) {
         wm2.close();
       });
-      wm2.add(btn3);
+      box.add(btn3);
 
       var btn4 = new qx.ui.form.Button("No", "icon/16/actions/dialog-cancel.png");
       btn4.addListener("execute", function(e) {
         alert("Sorry, please click 'Yes'!");
       });
-      wm2.add(btn4);
+      box.add(btn4);
 
       return wm2;
     },

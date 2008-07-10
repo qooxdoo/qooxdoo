@@ -379,7 +379,7 @@ qx.Class.define("qx.ui.window.Window",
     showStatusbar :
     {
       check : "Boolean",
-      init : true,
+      init : false,
       apply : "_applyShowStatusbar"
     },
 
@@ -769,15 +769,15 @@ qx.Class.define("qx.ui.window.Window",
       var mgr = this.getManager();
       if (old)
       {
-        if (mgr.getActiveWindow() == this) {
-          mgr.setActiveWindow(null);
+        if (mgr.getActive() == this) {
+          mgr.resetActive();
         }
 
         this.removeState("active");
       }
       else
       {
-        mgr.setActiveWindow(this);
+        mgr.setActive(this);
         this.addState("active");
       }
     },
