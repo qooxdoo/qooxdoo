@@ -33,21 +33,14 @@ qx.Class.define("demobrowser.demo.widget.Window_Modern",
      * TODOC
      *
      * @type member
-     * @return {void} 
+     * @return {void}
      */
     main : function()
     {
       this.base(arguments);
 
-      this._win = this._createWindow();
-
-      this.getRoot().add(this._win,
-      {
-        left : 40,
-        top  : 30
-      });
-
-      this._fillWindow();
+      var win = this._createWindow();
+      this.getRoot().add(win, { left : 40, top  : 30 });
     },
 
 
@@ -67,18 +60,6 @@ qx.Class.define("demobrowser.demo.widget.Window_Modern",
 
       win.setLayout(new qx.ui.layout.Grow);
 
-      return win;
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void} 
-     */
-    _fillWindow : function()
-    {
       var mainPane = new qx.ui.splitpane.Pane("horizontal");
       //mainPane.setDecorator("black");
       this._win.add(mainPane);
@@ -98,7 +79,6 @@ qx.Class.define("demobrowser.demo.widget.Window_Modern",
       // Right splitpane
       var rightPane = new qx.ui.splitpane.Pane("vertical");
       rightPane.setWidth(200);
-      //rightPane.setDecorator("black");
       rightWidget.add(rightPane);
 
       // Content for right widget
