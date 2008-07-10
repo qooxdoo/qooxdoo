@@ -55,9 +55,11 @@ qx.Class.define("qx.ui.form.List",
     this._getChildControl("pane").add(this.__content);
 
     // Apply orientation
-    horizontal == null ?
-      this.initOrientation() :
-      this.setOrientation(horizontal ? "horizontal" : "vertical");
+    if (horizontal) {
+      this.setOrientation("horizontal");
+    } else {
+      this.initOrientation();
+    }
 
     // Add keypress listener
     this.addListener("keypress", this._onKeyPress);
