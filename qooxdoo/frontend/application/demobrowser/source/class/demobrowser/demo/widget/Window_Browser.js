@@ -49,6 +49,7 @@ qx.Class.define("demobrowser.demo.widget.Window_Browser",
 
       win.setLayout(new qx.ui.layout.VBox());
       win.setAllowClose(false);
+      win.open();
 
       var toolbar = new qx.ui.toolbar.ToolBar();
       win.add(toolbar);
@@ -103,8 +104,8 @@ qx.Class.define("demobrowser.demo.widget.Window_Browser",
         url = "http://" + url;
         this.txtUrl.setValue(url);
       }
+
       this.iframe.setSource(url);
     }
-
   }
 });

@@ -937,6 +937,9 @@ qx.Class.define("qx.ui.window.Window",
      */
     _onCaptionMouseDblClick : function(e)
     {
+      // TODO
+      return;
+
       if (this.getAllowMaximize()) {
         this.isMaximized() ? this.restore() : this.maximize();
       }
