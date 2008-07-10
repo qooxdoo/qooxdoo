@@ -619,7 +619,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
         marginTop = 0;
         marginBottom = 0;
         marginRight = 1;
-        marginLeft = 0;        
+        marginLeft = 0;
 
         decorator = new qx.ui.decoration.Single(1, "solid", "tabview-border");
 
@@ -663,7 +663,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
             marginBottom = 3;
           }
         }
-        
+
         return {
           padding : [ paddingTop, paddingRight, paddingBottom, paddingLeft ],
           margin : [ marginTop, marginRight, marginBottom, marginLeft ],
@@ -885,7 +885,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          padding : [ 1, 2, 2 ],
+          padding : 1,
           backgroundColor : states.active ? "window-active-caption" : "window-inactive-caption",
           textColor : states.active ? "window-active-caption-text" : "window-inactive-caption-text"
         };
