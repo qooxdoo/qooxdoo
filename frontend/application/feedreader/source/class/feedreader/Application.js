@@ -151,7 +151,7 @@ qx.Class.define("feedreader.Application",
     _onSelectFeed : function(e)
     {
       var feed = e.getData();
-      var oldFeed = e.getOldValue();
+      var oldFeed = e.getOldData();
 
       if (oldFeed) {
         oldFeed.removeListener("change", this._onSelectArticle, this);

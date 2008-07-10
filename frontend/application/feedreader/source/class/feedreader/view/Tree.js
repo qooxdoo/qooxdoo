@@ -72,7 +72,7 @@ qx.Class.define("feedreader.view.Tree",
     this.getRoot().add(this._userFeedsFolder);
 
     // Register the change listener
-    this.addListener("change", this._onChangeSelectionView, this);
+    this.addListener("changeSelection", this._onChangeSelectionView, this);
 
     // Listen for model changes
     feedList.addListener("add", this._onFeedAdded, this);
