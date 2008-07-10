@@ -34,7 +34,7 @@ CMD_DIR = $(CMD_NICE) mkdir -p
 CMD_FIND = $(CMD_NICE) find
 CMD_ZIP = $(CMD_NICE) zip
 CMD_ZIP_CREATE = $(CMD_ZIP) -rq
-CMD_ANY2UNIX = | xargs $(CMD_PYTHON) tool/misc/textutil.py --command any2Unix
+CMD_ANY2UNIX = | xargs $(CMD_PYTHON) tool/pylib/misc/textutil.py --command any2Unix
 CMD_MKEXEC = $(CMD_NICE) chmod a+rx
 
 FILES_TEXT = \( -name "*.py" -o -name "*.sh" -o -name "*.js" -o -name "*.html" -o -name "*.css" -o -name "*.xml" -o -name Makefile -o -name AUTHORS -o -name LICENSE -o -name README -o -name RELEASENOTES -o -name TODO \)
@@ -180,7 +180,7 @@ exec-quickstart-archive:
 ################################################################################
 
 SKELETON_TEMP = temp-skeleton
-SKELETON_FILES = Makefile source/class source/resource source/index.html
+SKELETON_FILES = Makefile Makefile.gen1 config.json Manifest.json source/class source/resource source/index.html
 
 info-skeleton:
 	@echo

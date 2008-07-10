@@ -17,7 +17,8 @@
 #
 ################################################################################
 
-NEW_TARGETS = source build api clean distclean lint pretty translate migration publish fix
+#NEW_TARGETS = source build api clean distclean lint pretty translate migration publish fix
+NEW_TARGETS = source build api
 .PHONY: $(NEW_TARGETS)
 
 $(NEW_TARGETS):
