@@ -1093,6 +1093,10 @@ qx.Class.define("qx.core.Property",
         {
           code.push('else{');
 
+          if (!config.inheritable) {
+            code.push('old=this.', this.$$store.init[name], ';');
+          }
+
           if (variant === "set")
           {
             code.push('computed=this.', this.$$store.user[name], '=value;');
