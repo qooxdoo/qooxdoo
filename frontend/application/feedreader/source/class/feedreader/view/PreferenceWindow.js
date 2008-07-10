@@ -101,7 +101,7 @@ qx.Class.define("feedreader.view.PreferenceWindow",
       groupBox.add(button_modern);
 
       // Register the listener for the theme changes
-      radioManager.addListener("change", this._onThemeChange, this);
+      radioManager.addListener("changeSelected", this._onThemeChange, this);
     },
 
 
