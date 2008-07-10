@@ -173,7 +173,7 @@ qx.Class.define("demobrowser.demo.widget.Tree_Modern",
         commandFrame.add(radioButton, {row: row++, column: 1})
       }
 
-      this.mgrShowRootOpen.addListener("change", this._onChangeShowOpen, this);
+      this.mgrShowRootOpen.addListener("changeValue", this._onChangeShowOpen, this);
 
 
       commandFrame.add(new qx.ui.core.Spacer(5, 5), {row: row++, column: 0});
@@ -183,7 +183,7 @@ qx.Class.define("demobrowser.demo.widget.Tree_Modern",
       commandFrame.add(this.btnReset, {row: row++, column: 0, colSpan: 2});
 
 
-      this._tree.addListener("change", this._updateControls, this);
+      this._tree.addListener("changeSelection", this._updateControls, this);
       this._updateControls();
 
       return commandFrame;
@@ -262,10 +262,10 @@ qx.Class.define("demobrowser.demo.widget.Tree_Modern",
     },
 
 
-    _onChangeShowOpen : function()
+    _onChangeShowOpen : function(e)
     {
       var current = this._tree.getSelectedItem();
-      var mode = this.mgrShowRootOpen.getSelected().getValue();
+      var mode = e.getData();
       current.setOpenSymbolMode(mode);
     },
 
@@ -276,16 +276,20 @@ qx.Class.define("demobrowser.demo.widget.Tree_Modern",
       this._tree = this.getTree();
       this._container.addAt(this._tree, 0);
 
-      this._tree.addListener("change", this._updateControls, this);
+      this._tree.addListener("changeSelection", this._updateControls, this);
       this._updateControls();
     },
 
 
-    _updateControls : function()
+    _updateControls : function(e)
     {
-      var current = this._tree.getSelection()[0];
-
-      if (!current)
+      var current = null;
+      if (e)
+      {
+        current = e.getData()[0];
+      }
+      
+      if (current == null)
       {
         this.btnAddFolder.setEnabled(false);
         this.btnAddFile.setEnabled(false);
@@ -298,7 +302,7 @@ qx.Class.define("demobrowser.demo.widget.Tree_Modern",
         this.btnMoveToParent.setEnabled(false);
         return;
       }
-
+      
       var isTopLevel = current.getLevel() == 0;
       var isFolder = current instanceof qx.ui.tree.TreeFolder;
       var isLastItem = this._tree.getNextSiblingOf(current) == null;
