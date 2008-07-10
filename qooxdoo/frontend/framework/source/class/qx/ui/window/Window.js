@@ -766,17 +766,18 @@ qx.Class.define("qx.ui.window.Window",
     // property apply
     _applyActive : function(value, old)
     {
+      var mgr = this.getManager();
       if (old)
       {
-        if (this.getManager().getActiveWindow() == this) {
-          this.getManager().setActiveWindow(null);
+        if (mgr.getActiveWindow() == this) {
+          mgr.setActiveWindow(null);
         }
 
         this.removeState("active");
       }
       else
       {
-        this.getManager().setActiveWindow(this);
+        mgr.setActiveWindow(this);
         this.addState("active");
       }
     },
@@ -936,11 +937,9 @@ qx.Class.define("qx.ui.window.Window",
      */
     _onCaptionMouseDblClick : function(e)
     {
-      if (!this.getAllowMaximize()) {
-        return;
+      if (this.getAllowMaximize()) {
+        this.isMaximized() ? this.restore() : this.maximize();
       }
-
-      return this.isMaximized() ? this.restore() : this.maximize();
     },
 
 
@@ -1058,6 +1057,7 @@ qx.Class.define("qx.ui.window.Window",
         mouseStartLeft: e.getDocumentLeft(),
         mouseStartTop: e.getDocumentTop()
       };
+
 
       // handle frame and translucently
       switch(this.getMoveMethod())

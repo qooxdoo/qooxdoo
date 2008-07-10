@@ -230,6 +230,7 @@ qx.Class.define("demobrowser.demo.widget.Window",
     getModalWindow1 : function()
     {
       var wm1 = new qx.ui.window.Window("First Modal Dialog");
+      wm1.setPadding(10);
       wm1.setLayout(new qx.ui.layout.VBox);
       // wm1.setModal(true);
       this.getRoot().add(wm1, {left:150, top:150});
@@ -254,6 +255,7 @@ qx.Class.define("demobrowser.demo.widget.Window",
     getModalWindow2 : function()
     {
       var wm2 = new qx.ui.window.Window("Second Modal Dialog");
+      wm2.setPadding(10);
       wm2.setLayout(new qx.ui.layout.VBox);
       // wm2.setModal(true);
       wm2.setShowClose(false);
@@ -266,9 +268,7 @@ qx.Class.define("demobrowser.demo.widget.Window",
       wm2.add(warn1);
 
       var btn3 = new qx.ui.form.Button("Yes", "icon/16/actions/dialog-ok.png");
-      btn3.addListener("execute", function(e)
-      {
-        alert("Thank you!");
+      btn3.addListener("execute", function(e) {
         wm2.close();
       });
       wm2.add(btn3);
