@@ -69,6 +69,7 @@ qx.Class.define("demobrowser.demo.widget.Window",
       var w2 = new qx.ui.window.Window("Second Window", "icon/16/apps/internet-feed-reader.png");
       w2.setLayout(new qx.ui.layout.VBox);
       this.getRoot().add(w2, {left:250, top:120});
+      w2.open();
 
       var at1 = new qx.ui.basic.Atom("Your second window", "icon/22/apps/accessories-calculator.png");
       w2.add(at1);
@@ -203,6 +204,7 @@ qx.Class.define("demobrowser.demo.widget.Window",
       w3.setLayout(new qx.ui.layout.VBox);
       w3.setMaxWidth(450);
       w3.setMaxHeight(400);
+      w3.open();
       this.getRoot().add(w3, {left:100, top:200});
 
 
