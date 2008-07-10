@@ -80,7 +80,8 @@ def main():
 
 
     # Initial user feedback
-    console.head("Initialization", True)
+    appname = ((os.path.dirname(os.path.abspath(options.config)).split(os.sep)))[-1]
+    console.head("Initializing: %s" % appname, True)
     console.info("Configuration: %s" % options.config)
     console.info("Jobs: %s" % ", ".join(options.jobs))
 
