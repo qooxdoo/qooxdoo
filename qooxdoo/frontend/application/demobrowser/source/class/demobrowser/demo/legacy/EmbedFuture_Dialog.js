@@ -21,7 +21,7 @@
 /* ************************************************************************
 
 #use(qx.legacy.theme.ClassicRoyale)
-#asset(qx/icon/Oxygen/32/status/dialog-information.png)
+#asset(qx/icon/${qx.icontheme}/32/apps/dialog-information.png)
 
 ************************************************************************ */
 
@@ -31,8 +31,7 @@
  */
 qx.Class.define("demobrowser.demo.legacy.EmbedFuture_Dialog",
 {
-  extend : qx.application.Inline,
-  include : [qx.legacy.application.MGuiCompat],
+  extend : qx.legacy.application.Gui,
 
   members :
   {
@@ -40,6 +39,9 @@ qx.Class.define("demobrowser.demo.legacy.EmbedFuture_Dialog",
     {
       this.base(arguments);
       this.compat();
+
+      qx.theme.manager.Meta.getInstance().setTheme(qx.theme.Classic);
+      var root = new qx.ui.root.Page(document);
 
       // Create button
       var button = new qx.legacy.ui.form.Button("Open 0.8 widget dialog", "icon/32/status/dialog-information.png").set({
@@ -49,14 +51,13 @@ qx.Class.define("demobrowser.demo.legacy.EmbedFuture_Dialog",
       button.addToDocument();
 
       var dlg = this.getDialog();
-      this.getRoot().add(dlg, {left: 100, top: 100});
+      root.add(dlg, {left: 100, top: 100});
       dlg.hide();
 
       // Add an event listener
       button.addListener("execute", function(e) {
         dlg.show();
       }, this);
-
     },
 
 

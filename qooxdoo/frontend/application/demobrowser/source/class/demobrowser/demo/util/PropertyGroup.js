@@ -52,7 +52,7 @@ qx.Class.define("demobrowser.demo.util.PropertyGroup",
       if (nullable)
       {
         var nullWidget = new qx.ui.form.CheckBox("null");
-        nullWidget.addListener("change", this._createOnNullPropertyChange(prop), this);
+        nullWidget.addListener("changeChecked", this._createOnNullPropertyChange(prop), this);
 
         this._add(nullWidget, {row: row, column: 2});
         this._properties[prop].nullWidget = nullWidget;
@@ -64,13 +64,13 @@ qx.Class.define("demobrowser.demo.util.PropertyGroup",
           min: this._properties[prop].min || 0,
           max: this._properties[prop].max !== undefined ? this._properties[prop].max : 1000
         });
-        formItem.addListener("change", this._createOnIntPropertyChange(prop), this);
+        formItem.addListener("changeValue", this._createOnIntPropertyChange(prop), this);
         this._add(formItem, {row: row++, column: 1});
       }
       else if (type == "bool")
       {
         var formItem = new qx.ui.form.CheckBox();
-        formItem.addListener("change", this._createOnBoolPropertyChange(prop), this);
+        formItem.addListener("changeChecked", this._createOnBoolPropertyChange(prop), this);
         this._add(formItem, {row: row++, column: 1});
       }
       else if (type == "enum")
@@ -85,7 +85,7 @@ qx.Class.define("demobrowser.demo.util.PropertyGroup",
           formItem.add(widget);
           this._add(widget, {row: row++, column:1});
         }
-        formItem.addListener("change", this._createOnEnumPropertyChange(prop, formItem), this);
+        formItem.addListener("changeValue", this._createOnEnumPropertyChange(prop, formItem), this);
       }
       else if (type == "string")
       {
@@ -194,6 +194,10 @@ qx.Class.define("demobrowser.demo.util.PropertyGroup",
 
     _setProperty : function(widget, name, value)
     {
+      if (!widget) {
+        return;
+      }
+
       var setter = "set" + qx.lang.String.firstUp(name);
 
       var convert = this._properties[name].convert;

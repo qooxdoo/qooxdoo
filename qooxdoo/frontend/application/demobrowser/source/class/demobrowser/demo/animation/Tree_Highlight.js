@@ -29,6 +29,8 @@ qx.Class.define("demobrowser.demo.animation.Tree_Highlight",
     {
       this.base(arguments);
 
+      qx.theme.manager.Meta.getInstance().setTheme(qx.theme.Modern);
+
       this._container = new qx.ui.container.Composite(new qx.ui.layout.HBox().set({
         spacing: 20
       })).set({
@@ -108,7 +110,7 @@ qx.Class.define("demobrowser.demo.animation.Tree_Highlight",
         paddingTop: 4
       }), {row: row, column: 0});
       this.inputItemName = new qx.ui.form.TextField("Hello");
-      
+
       commandFrame.add(this.inputItemName, {row: row++, column: 1});
 
 
@@ -169,7 +171,7 @@ qx.Class.define("demobrowser.demo.animation.Tree_Highlight",
         commandFrame.add(radioButton, {row: row++, column: 1})
       }
 
-      this.mgrShowRootOpen.addListener("change", this._onChangeShowOpen, this);
+      this.mgrShowRootOpen.addListener("changeValue", this._onChangeShowOpen, this);
 
 
       commandFrame.add(new qx.ui.core.Spacer(5, 5), {row: row++, column: 0});
@@ -179,7 +181,7 @@ qx.Class.define("demobrowser.demo.animation.Tree_Highlight",
       commandFrame.add(this.btnReset, {row: row++, column: 0, colSpan: 2});
 
 
-      this._tree.addListener("change", this._updateControls, this);
+      this._tree.addListener("changeSelection", this._updateControls, this);
       this._updateControls();
 
       return commandFrame;
