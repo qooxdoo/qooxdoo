@@ -481,8 +481,7 @@ qx.Class.define("qx.ui.core.Widget",
       check : ["visible", "hidden", "excluded"],
       init : "visible",
       apply : "_applyVisibility",
-      event : "changeVisibility",
-      nullable : false
+      event : "changeVisibility"
     },
 
 
