@@ -24,9 +24,13 @@ qx.Theme.define("demobrowser.demo.ui.BackgroundImage_Appearance",
       }
     },
 
+    "shaded-button/label" : "label",
+
+
     "shaded-round-button" :
     {
       include : "shaded-button",
+      alias : "shaded-button",
 
       style : function(states)
       {
@@ -40,6 +44,7 @@ qx.Theme.define("demobrowser.demo.ui.BackgroundImage_Appearance",
     "shaded-outset-button" :
     {
       include : "shaded-button",
+      alias : "shaded-button",
 
       style : function(states)
       {
