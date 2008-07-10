@@ -65,8 +65,10 @@ qx.Class.define("qx.ui.window.Manager",
     // property apply
     _applyActiveWindow : function(value, old)
     {
-      if (old) {
-        old.setActive(false);
+      if (old)
+      {
+        old.resetActive();
+        this.sendToBack(old);
       }
 
       if (value)
@@ -74,17 +76,6 @@ qx.Class.define("qx.ui.window.Manager",
         value.setActive(true);
         this.bringToFront(value);
       }
-
-
-
-      // TODO
-//      if (old && old.getModal()) {
-//        old.getTopLevelWidget().release(old);
-//      }
-
-//      if (value && value.getModal()) {
-//        value.getTopLevelWidget().block(value);
-//      }
     },
 
 
@@ -108,7 +99,7 @@ qx.Class.define("qx.ui.window.Manager",
      * @return {int | var} 1 for first window active, -1 for second window active
      * and the subtraction of the zIndex if none of the two are active.
      */
-    compareWindows : function(w1, w2)
+    _compareWindows : function(w1, w2)
     {
       switch(w1.getWindowManager().getActiveWindow())
       {
@@ -128,15 +119,15 @@ qx.Class.define("qx.ui.window.Manager",
      * sets it as active window.
      *
      * @type member
-     * @param vWindow {qx.ui.window.Window} window instance to add
+     * @param win {qx.ui.window.Window} window instance to add
      * @return {void}
      */
-    add : function(vWindow)
+    add : function(win)
     {
-      this.base(arguments, vWindow);
+      this.base(arguments, win);
 
-      // this.debug("Add: " + vWindow);
-      this.setActiveWindow(vWindow);
+      this.debug("Add: " + win);
+      this.setActiveWindow(win);
     },
 
 
@@ -144,18 +135,18 @@ qx.Class.define("qx.ui.window.Manager",
      * Removes a {@link qx.ui.window.Window} instance from the manager.
      * If the current active window is the one which should be removed the
      * existing windows are compared to determine the new active window
-     * (using the {@link #compareWindows} method).
+     * (using the {@link #_compareWindows} method).
      *
      * @type member
-     * @param vWindow {qx.ui.window.Window} window instance
+     * @param win {qx.ui.window.Window} window instance
      * @return {void}
      */
-    remove : function(vWindow)
+    remove : function(win)
     {
-      this.base(arguments, vWindow);
+      this.base(arguments, win);
 
-      // this.debug("Remove: " + vWindow);
-      if (this.getActiveWindow() == vWindow)
+      this.debug("Remove: " + win);
+      if (this.getActiveWindow() == win)
       {
         var a = [];
 
@@ -172,16 +163,17 @@ qx.Class.define("qx.ui.window.Manager",
         }
         else if (l > 1)
         {
-          a.sort(this.compareWindows);
+          a.sort(this._compareWindows);
           this.setActiveWindow(a[l - 1]);
         }
       }
     },
 
 
+
     /*
     ---------------------------------------------------------------------------
-      ZIndex Positioning
+      Stack Positioning
     ---------------------------------------------------------------------------
     */
 
@@ -195,7 +187,7 @@ qx.Class.define("qx.ui.window.Manager",
      * @type member
      * @return {void}
      */
-    _sendTo : function()
+    _updateStack : function()
     {
       var list = this.getAll();
 
@@ -212,7 +204,7 @@ qx.Class.define("qx.ui.window.Manager",
 
     /**
      * Sets the {@link #zIndex} to Infinity and calls the
-     * method {@link #_sendTo}
+     * method {@link #_updateStack}
      *
      * @type member
      * @param win {qx.ui.window.Window} the window, which will be braught to front
@@ -221,13 +213,13 @@ qx.Class.define("qx.ui.window.Manager",
     bringToFront : function(win)
     {
       win.setZIndex(this._minZIndex+1000000);
-      this._sendTo();
+      this._updateStack();
     },
 
 
     /**
      * Sets the {@link #zIndex} to -Infinity and calls the
-     * method {@link #_sendTo}
+     * method {@link #_updateStack}
      *
      * @type member
      * @param win {qx.ui.window.Window} the window, which will be sent to back
@@ -235,8 +227,8 @@ qx.Class.define("qx.ui.window.Manager",
      */
     sendToBack : function(win)
     {
-      this.setZIndex(this._minZIndex+1);
-      win._sendTo();
+      win.setZIndex(this._minZIndex+1);
+      this._updateStack();
     }
   }
 });
