@@ -38,6 +38,8 @@ qx.Class.define("demobrowser.demo.animation.Login_Sample",
     {
       this.base(arguments);
 
+      qx.theme.manager.Meta.getInstance().setTheme(qx.theme.Modern);
+
       /* Container layout */
       var layout = new qx.ui.layout.Grid(9, 5);
       layout.setColumnAlign(0, "right", "top");
@@ -60,7 +62,7 @@ qx.Class.define("demobrowser.demo.animation.Login_Sample",
           paddingTop: 3
         }), {row: i, column : 0});
       }
-      
+
       /* Text fields */
 			var field1 = new qx.ui.form.TextField();
 			var field2 = new qx.ui.form.PasswordField();

@@ -31,7 +31,7 @@ qx.Class.define("demobrowser.demo.layout.Spacer_1",
       var root = this.getRoot();
       root.add(this.getSpacerWithoutFlex(), {left: 10, top: 10});
       root.add(this.getSpacerWithFlex(), {left: 10, top: 70});
-      root.add(this.getAddRemoveSpacer(), {left: 10, top: 140});
+      root.add(this.getAddRemoveSpacer(), {left: 10, top: 200});
     },
 
 
@@ -61,17 +61,18 @@ qx.Class.define("demobrowser.demo.layout.Spacer_1",
       // spacer with flex
       var box = new qx.ui.container.Composite().set({
         decorator: "black",
-        backgroundColor: "yellow"
+        backgroundColor: "yellow",
+        height: 100
       });
 
       var layout = new qx.ui.layout.HBox();
       layout.setSpacing(5);
       box.setLayout(layout);
 
-      box.add((new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green", maxHeight: 40}), { align : "top" });
+      box.add((new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green", maxHeight: 40, alignY: "top"}));
       box.add(new qx.ui.core.Spacer(30, 40), {flex: 1});
-      box.add((new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green", maxHeight: 40}), { align : "middle" });
-      box.add((new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green", maxHeight: 40}), { align : "bottom" });
+      box.add((new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green", maxHeight: 40, alignY: "middle"}));
+      box.add((new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green", maxHeight: 40, alignY: "bottom"}));
 
       return box;
     },
@@ -88,11 +89,11 @@ qx.Class.define("demobrowser.demo.layout.Spacer_1",
       layout.setSpacing(5);
       box.setLayout(layout);
 
-      box.add((new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green", maxHeight: 40}), { align : "top" });
-      box.add((new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green", maxHeight: 40}), { align : "middle" });
+      box.add((new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green", maxHeight: 40, alignY: "top"}));
+      box.add((new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green", maxHeight: 40, alignY: "middle"}));
       var spacer = new qx.ui.core.Spacer(30, 40);
       box.add(spacer, {flex: 1});
-      box.add((new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green", maxHeight: 40}), { align : "bottom" });
+      box.add((new qx.ui.core.Widget).set({decorator: "black", backgroundColor: "green", maxHeight: 40, alignY: "bottom"}));
 
       box.remove(spacer);
       return box;

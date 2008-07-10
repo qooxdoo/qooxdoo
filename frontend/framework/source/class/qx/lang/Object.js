@@ -209,13 +209,12 @@ qx.Bootstrap.define("qx.lang.Object",
 
     /**
      * Inserts all keys of the source object into the
-     * target objects.
+     * target objects but don't override existing keys
      *
      * @type static
      * @param target {Object} target object
      * @param source {Object} object to be merged
      * @return {Object} target with merged values from source
-     * @deprecated
      */
     carefullyMergeWith : function(target, source) {
       return qx.lang.Object.mergeWith(target, source, false);
