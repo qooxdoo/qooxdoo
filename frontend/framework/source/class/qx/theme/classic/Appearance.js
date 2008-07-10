@@ -149,6 +149,31 @@ qx.Theme.define("qx.theme.classic.Appearance",
     },
 
 
+    "inner-button" :
+    {
+      alias : "atom",
+
+      style : function(states)
+      {
+        if (states.pressed || states.abandoned || states.checked) {
+          var decorator = "inset";
+        } else {
+          var decorator = "outset";
+        }
+
+        if (states.pressed || states.abandoned || states.checked) {
+          var padding = [ 4, 3, 2, 5 ];
+        } else {
+          var padding = [ 3, 4 ];
+        }
+
+        return {
+          backgroundColor : states.abandoned ? "button-abandoned" : states.hovered ? "button-hovered" : states.checked ? "button-checked" : "button",
+          decorator : decorator,
+          padding : padding
+        };
+      }
+    },
 
 
 
@@ -357,21 +382,14 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     "spinner/upbutton" :
     {
-      alias : "button",
-      include : "button",
+      alias : "inner-button",
+      include : "inner-button",
 
       style : function(states)
       {
-        if (states.pressed || states.abandoned) {
-          var decorator = "inset";
-        } else {
-          var decorator = "outset";
-        }
-
         return {
           icon : "decoration/arrows/up-small.gif",
           padding : states.pressed ? [2, 2, 0, 4] : [1, 3, 1, 3],
-          decorator : decorator,
           backgroundColor : states.hovered ? "button-hovered" : "button"
         }
       }
@@ -379,21 +397,14 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     "spinner/downbutton" :
     {
-      alias : "button",
-      include : "button",
+      alias : "inner-button",
+      include : "inner-button",
 
       style : function(states)
       {
-        if (states.pressed || states.abandoned) {
-          var decorator = "inset";
-        } else {
-          var decorator = "outset";
-        }
-
         return {
           icon : "decoration/arrows/down-small.gif",
           padding : states.pressed ? [2, 2, 0, 4] : [1, 3, 1, 3],
-          decorator : decorator,
           backgroundColor : states.hovered ? "button-hovered" : "button"
         };
       }
@@ -1118,14 +1129,14 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     "combobox/button" :
     {
-      alias : "button",
-      include : "button",
+      alias : "inner-button",
+      include : "inner-button",
 
       style : function(states)
       {
         return {
           icon : "decoration/arrows/down.gif",
-          backgroundColor : states.focused ? "background-focused-inner" : states.hovered ? "button-hovered" : "button"
+          backgroundColor : states.hovered ? "button-hovered" : "button"
         };
       }
     },

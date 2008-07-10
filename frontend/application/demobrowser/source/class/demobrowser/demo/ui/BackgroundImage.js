@@ -22,15 +22,21 @@ qx.Class.define("demobrowser.demo.ui.BackgroundImage",
 {
   extend : qx.application.Standalone,
 
+  construct : function()
+  {
+    this.base(arguments);
+
+    qx.Theme.patch(qx.theme.classic.Color, demobrowser.demo.ui.BackgroundImage_Color);
+    qx.Theme.patch(qx.theme.classic.Decoration, demobrowser.demo.ui.BackgroundImage_Decoration);
+    qx.Theme.patch(qx.theme.classic.Appearance, demobrowser.demo.ui.BackgroundImage_Appearance);
+  },
+
+
   members :
   {
     main: function()
     {
       this.base(arguments);
-
-      qx.Theme.patch(qx.theme.classic.Color, demobrowser.demo.ui.BackgroundImage_Color);
-      qx.Theme.patch(qx.theme.classic.Decoration, demobrowser.demo.ui.BackgroundImage_Decoration);
-      qx.Theme.patch(qx.theme.classic.Appearance, demobrowser.demo.ui.BackgroundImage_Appearance);
 
       var layout = new qx.ui.layout.Grid();
       layout.setSpacing(10);
