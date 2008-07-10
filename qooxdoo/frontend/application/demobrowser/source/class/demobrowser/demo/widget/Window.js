@@ -68,11 +68,13 @@ qx.Class.define("demobrowser.demo.widget.Window",
       tabView.add(page3);
     },
 
+
     createWindow2 : function()
     {
       var win = new qx.ui.window.Window("Second Window", "icon/16/apps/internet-feed-reader.png");
       win.setLayout(new qx.ui.layout.VBox(10));
       win.setPadding(10);
+      win.setStatus("Application is ready");
       win.open();
       this.getRoot().add(win, {left:250, top:120});
 
@@ -82,13 +84,13 @@ qx.Class.define("demobrowser.demo.widget.Window",
 
       var box = new qx.ui.container.Composite;
       box.setLayout(new qx.ui.layout.HBox(10));
-      win.add(box);
+      win.add(box, {flex:1});
 
 
 
       var basicSettings = new qx.ui.groupbox.GroupBox("Basics");
       basicSettings.setLayout(new qx.ui.layout.VBox(4));
-      box.add(basicSettings);
+      box.add(basicSettings, {flex:1});
 
       var resizeable = new qx.ui.form.CheckBox("Resizeable");
       resizeable.setChecked(true);
@@ -166,7 +168,7 @@ qx.Class.define("demobrowser.demo.widget.Window",
 
       var styleSettings = new qx.ui.groupbox.GroupBox("Style");
       styleSettings.setLayout(new qx.ui.layout.VBox(4));
-      box.add(styleSettings);
+      box.add(styleSettings, {flex:1});
 
 
       var moveLabel = new qx.ui.basic.Atom("Move Method", "icon/22/apps/graphics-viewer.png");
@@ -209,6 +211,7 @@ qx.Class.define("demobrowser.demo.widget.Window",
         win.setResizeMethod(e.getData());
       });
     },
+
 
     createWindow3 : function()
     {
