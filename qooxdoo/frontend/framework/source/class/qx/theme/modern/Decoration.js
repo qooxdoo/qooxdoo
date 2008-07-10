@@ -53,6 +53,61 @@ qx.Theme.define("qx.theme.modern.Decoration",
         color : "black"
       }
     },
+    
+    "white" :
+    {
+      decorator: qx.ui.decoration.Uniform,
+
+      style :
+      {
+        width : 1,
+        color : "white"
+      }
+    },
+
+    "dark-shadow" :
+    {
+      decorator: qx.ui.decoration.Uniform,
+
+      style :
+      {
+        width : 1,
+        color : "border-dark-shadow"
+      }
+    },
+
+    "light-shadow" :
+    {
+      decorator: qx.ui.decoration.Uniform,
+
+      style :
+      {
+        width : 1,
+        color : "border-light-shadow"
+      }
+    },
+
+    "light" :
+    {
+      decorator: qx.ui.decoration.Uniform,
+
+      style :
+      {
+        width : 1,
+        color : "border-light"
+      }
+    },
+
+    "dark" :
+    {
+      decorator: qx.ui.decoration.Uniform,
+
+      style :
+      {
+        width : 1,
+        color : "border-dark"
+      }
+    },    
 
     "focus-line" :
     {
@@ -319,8 +374,8 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
       style :
       {
-        outerColor: "border",
-        innerColor: "white",
+        outerColor      : "border",
+        innerColor      : "white",
         backgroundImage : "decoration/form/input.png"
       }
     },
