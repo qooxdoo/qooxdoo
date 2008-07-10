@@ -219,6 +219,10 @@
 
     "clean" :
     {
+      // scan-local-lib is here (like various similar others) only in for the cache setting;
+      // can be removed once the forced library scan for each job is disabled
+      "extend" : [ "scan-local-lib" ],
+
       "clean-files" :
       {
         "Cleaning up build" :
@@ -242,6 +246,8 @@
 
     "distclean" :
     {
+      "extend" : [ "scan-local-lib" ],
+
       "clean-files" : 
       {
         "Deleting build" :
@@ -309,6 +315,8 @@
 
     "publish" : 
     {
+      "extend" : [ "scan-local-lib" ],
+
       "shell" : 
       {
         "command" : "rsync --checksum --compress --recursive --delete --inplace --links --safe-links --exclude .svn ${BUILD_PATH}/* root@qooxdoo.org:/var/www/qooxdoo/demo/${QXVERSION}/${APPLICATION}"
