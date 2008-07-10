@@ -745,9 +745,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
     */
 
 
-    "tree" : {
-      include : "list"
-    },
+    "tree" : "list",
 
     "tree-folder" :
     {
