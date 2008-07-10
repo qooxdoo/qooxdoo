@@ -56,7 +56,7 @@ qx.Class.define("feedreader.view.List",
     this._list = new qx.ui.form.List()
     this._list.setSelectionMode("single");
     this._list.setDecorator(null);
-    this._list.addListener("change", this._onChangeSelectionView, this);
+    this._list.addListener("changeSelection", this._onChangeSelectionView, this);
     this._stack.add(this._list);
 
     // Create the loading image for the list
