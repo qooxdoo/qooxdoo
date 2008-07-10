@@ -243,10 +243,10 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          decorator: states.focused ? "textfield-focused" : "textfield",
-          padding: [ 1, 3 ],
-          textColor: states.disabled ? "text-disabled" : "input-text",
-          backgroundColor: "white"
+          decorator       : states.focused ? "textfield-focused" : "textfield",
+          padding         : [ 1, 3 ],
+          textColor       : states.disabled ? "text-disabled" : "input-text",
+          backgroundColor : "white"
         };
       }
     },
@@ -638,6 +638,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
         }
       }
     },
+    
+    "tabview/bar/scrollpane" : {},
 
     "tabview/pane" :
     {
