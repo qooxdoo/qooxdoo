@@ -87,11 +87,14 @@ qx.Class.define("qx.ui.window.Window",
     }
 
     // update captionbar
-    this._updateCaptionbar();
+    this._updateCaptionBar();
 
     // register window events
-    this.addListener("mousedown", this._onWindowMouseDown);
-    this.addListener("click", this._onWindowClick);
+    this.addListener("mousedown", this._onWindowEventStop);
+    this.addListener("mouseup", this._onWindowEventStop);
+    this.addListener("click", this._onWindowEventStop);
+
+    this.addListener("mousedown", this._onWindowMouseDown, this, true);
   },
 
 
@@ -203,11 +206,19 @@ qx.Class.define("qx.ui.window.Window",
     ---------------------------------------------------------------------------
     */
 
-    /** Appearance of the widget */
+    // overridden
     appearance :
     {
       refine : true,
       init : "window"
+    },
+
+
+    // overridden
+    visibility :
+    {
+      refine : true,
+      init : "excluded"
     },
 
 
@@ -230,6 +241,9 @@ qx.Class.define("qx.ui.window.Window",
       apply : "_applyActive",
       event : "changeActive"
     },
+
+
+
 
 
 
@@ -265,7 +279,8 @@ qx.Class.define("qx.ui.window.Window",
       check : "String",
       nullable : true,
       apply : "_applyIcon",
-      event : "changeIcon"
+      event : "changeIcon",
+      themeable : true
     },
 
 
@@ -292,7 +307,8 @@ qx.Class.define("qx.ui.window.Window",
     {
       check : "Boolean",
       init : true,
-      apply : "_applyShowClose"
+      apply : "_applyCaptionBarChange",
+      themeable : true
     },
 
 
@@ -301,7 +317,8 @@ qx.Class.define("qx.ui.window.Window",
     {
       check : "Boolean",
       init : true,
-      apply : "_applyShowMaximize"
+      apply : "_applyCaptionBarChange",
+      themeable : true
     },
 
 
@@ -310,7 +327,8 @@ qx.Class.define("qx.ui.window.Window",
     {
       check : "Boolean",
       init : true,
-      apply : "_applyShowMinimize"
+      apply : "_applyCaptionBarChange",
+      themeable : true
     },
 
 
@@ -327,7 +345,7 @@ qx.Class.define("qx.ui.window.Window",
     {
       check : "Boolean",
       init : true,
-      apply : "_applyAllowClose"
+      apply : "_applyCaptionBarChange"
     },
 
 
@@ -336,7 +354,7 @@ qx.Class.define("qx.ui.window.Window",
     {
       check : "Boolean",
       init : true,
-      apply : "_applyAllowMaximize"
+      apply : "_applyCaptionBarChange"
     },
 
 
@@ -345,7 +363,7 @@ qx.Class.define("qx.ui.window.Window",
     {
       check : "Boolean",
       init : true,
-      apply : "_applyAllowMinimize"
+      apply : "_applyCaptionBarChange"
     },
 
 
@@ -388,7 +406,8 @@ qx.Class.define("qx.ui.window.Window",
     {
       check : [ "opaque", "frame", "translucent" ],
       init : "opaque",
-      event : "changeMoveMethod"
+      event : "changeMoveMethod",
+      themeable : true
     }
   },
 
@@ -424,6 +443,12 @@ qx.Class.define("qx.ui.window.Window",
     // overridden
     _getStyleTarget : function() {
       return this._getChildControl("pane");
+    },
+
+
+    // overridden
+    _forwardStates : {
+      active : true
     },
 
 
@@ -519,7 +544,7 @@ qx.Class.define("qx.ui.window.Window",
     },
 
 
-    _updateCaptionbar : function()
+    _updateCaptionBar : function()
     {
       if (this.getIcon()) {
         this._getChildControl("icon");
@@ -576,7 +601,7 @@ qx.Class.define("qx.ui.window.Window",
      */
     close : function()
     {
-      if (this.fireEvent("beforeClose", qx.event.type.Event, [false, true]))
+      if (this.fireNonBubblingEvent("beforeClose", qx.event.type.Event, [false, true]))
       {
         this.hide();
         this.fireEvent("close");
@@ -606,7 +631,7 @@ qx.Class.define("qx.ui.window.Window",
      */
     maximize : function()
     {
-      if (!this.fireEvent("beforeMaximize", qx.event.type.Event, [false, true])) {
+      if (!this.fireNonBubblingEvent("beforeMaximize", qx.event.type.Event, [false, true])) {
         this.fireEvent("maximize");
       };
     },
@@ -620,7 +645,9 @@ qx.Class.define("qx.ui.window.Window",
      */
     minimize : function()
     {
-      if (!this.fireEvent("beforeMinimize", qx.event.type.Event, [false, true])) {
+      if (!this.fireNonBubblingEvent("beforeMinimize", qx.event.type.Event, [false, true]))
+      {
+        this.hide();
         this.fireEvent("minimize");
       };
     },
@@ -634,7 +661,7 @@ qx.Class.define("qx.ui.window.Window",
      */
     restore : function()
     {
-      if (this.fireEvent("beforeRestore", qx.event.type.Event, [false, true])) {
+      if (this.fireNonBubblingEvent("beforeRestore", qx.event.type.Event, [false, true])) {
         this.fireEvent("restore");
       };
     },
@@ -648,6 +675,10 @@ qx.Class.define("qx.ui.window.Window",
      */
     moveTo : function(left, top)
     {
+      if (this.isMaximized()) {
+        return;
+      }
+
       this.setLayoutProperties({
         left : left,
         top : top
@@ -719,12 +750,6 @@ qx.Class.define("qx.ui.window.Window",
     // property apply
     _applyActive : function(value, old)
     {
-      var captionBar = this._getChildControl("captionbar");
-      var btnMinimize = this._getChildControl("minimize-button", true);
-      var btnRestore = this._getChildControl("restore-button", true);
-      var btnMaximize = this._getChildControl("maximize-button", true);
-      var btnClose = this._getChildControl("close-button", true);
-
       if (old)
       {
         if (this.getManager().getActiveWindow() == this) {
@@ -732,22 +757,11 @@ qx.Class.define("qx.ui.window.Window",
         }
 
         this.removeState("active");
-        captionBar.removeState("active");
-        btnMinimize ? btnMinimize.removeState("active") : null;
-        btnRestore ? btnRestore.removeState("active") : null;
-        btnMaximize ? btnMaximize.removeState("active") : null;
-        btnClose ? btnClose.removeState("active") : null;
       }
       else
       {
         this.getManager().setActiveWindow(this);
-
         this.addState("active");
-        captionBar.addState("active");
-        btnMinimize ? btnMinimize.addState("active") : null;
-        btnRestore ? btnRestore.addState("active") : null;
-        btnMaximize ? btnMaximize.addState("active") : null;
-        btnClose ? btnClose.addState("active") : null;
       }
     },
 
@@ -755,30 +769,7 @@ qx.Class.define("qx.ui.window.Window",
     // property apply
     _applyModal : function(value, old)
     {
-      // Inform blocker
-      if (this._initialLayoutDone && this.getVisibility() && this.getDisplay())
-      {
-        var topLevel = this.getTopLevelWidget();
-        value ? topLevel.block(this) : topLevel.release(this);
-      }
-    },
-
-
-    // property apply
-    _applyAllowClose : function(value, old) {
-      this._closeButtonManager();
-    },
-
-
-    // property apply
-    _applyAllowMaximize : function(value, old) {
-      this._maximizeButtonManager();
-    },
-
-
-    // property apply
-    _applyAllowMinimize : function(value, old) {
-      this._minimizeButtonManager();
+      // TODO
     },
 
 
@@ -793,105 +784,9 @@ qx.Class.define("qx.ui.window.Window",
     },
 
 
-    // property apply
-    _applyShowClose : function(value, old)
+    _applyCaptionBarChange : function(value, old)
     {
-      if (value) {
-        this._showChildControl("close-button");
-      } else {
-        this._excludeChildControl("close-button");
-      }
-    },
-
-
-    // property apply
-    _applyShowMaximize : function(value, old)
-    {
-      if (value)
-      {
-        if (this.isMaximized())
-        {
-          this._showChildControl("restore-button");
-          this._excludeChildControl("maximize-button");
-        }
-        else
-        {
-          this._showChildControl("maximize-button");
-          this._excludeChildControl("restore-button");
-        }
-      }
-      else
-      {
-        this._excludeChildControl("restore-button");
-        this._excludeChildControl("maximize-button");
-      }
-    },
-
-
-    // property apply
-    _applyShowMinimize : function(value, old)
-    {
-      if (value) {
-        this._showChildControl("minimize-button");
-      } else {
-        this._excludeChildControl("minimize-button");
-      }
-    },
-
-
-    /**
-     * Enables/disables the minimize button in order of the {@link #allowMinimize} property
-     *
-     * @type member
-     */
-    _minimizeButtonManager : function()
-    {
-      var btnMinimize = this._getChildControl("minimize-button");
-
-      if (this.getAllowMinimize() === false) {
-        btnMinimize.setEnabled(false);
-      } else {
-        btnMinimize.resetEnabled();
-      }
-    },
-
-
-    /**
-     * Enables/disables the close button in order of the {@link #allowClose} property
-     *
-     * @type member
-     */
-    _closeButtonManager : function()
-    {
-      var btnClose = this._getChildControl("close-button");
-
-      if (this.getAllowClose() === false) {
-        btnClose.setEnabled(false);
-      } else {
-        btnClose.resetEnabled();
-      }
-    },
-
-
-    /**
-     * Disables the maximize and restore buttons when the window instance is already maximized,
-     * otherwise the {@link #enabled} property of both buttons get resetted.
-     *
-     * @type member
-     */
-    _maximizeButtonManager : function()
-    {
-      var isMaximized = this.isMaximized();
-
-      var btnMaximize = this._getChildControl("maximize-button", true);
-      if (btnMaximize) {
-        isMaximized ? btnMaximize.setEnabled(false) : btnMaximize.resetEnabled();
-      }
-
-      var btnRestore = this._getChildControl("restore-button", true);
-      if (btnRestore) {
-        isMaximized ? this.btnRestore.setEnabled(false) : this.btnRestore.resetEnabled();
-      }
+      this._updateCaptionBar();
     },
 
 
@@ -927,6 +822,7 @@ qx.Class.define("qx.ui.window.Window",
     _applyIcon : function(value, old) {
       this._getChildControl("icon").setSource(value);
     },
+
 
 
 
@@ -1058,13 +954,13 @@ qx.Class.define("qx.ui.window.Window",
     */
 
     /**
-     * Stops every mouse click on the window by calling {@link qx.event.type.Event#stopPropagation}
+     * Stops every event
      *
      * @type member
-     * @param e {qx.event.type.MouseEvent} mouse click event
+     * @param e {qx.event.type.Event} any event
      * @return {void}
      */
-    _onWindowClick : function(e) {
+    _onWindowEventStop : function(e) {
       e.stopPropagation();
     },
 
