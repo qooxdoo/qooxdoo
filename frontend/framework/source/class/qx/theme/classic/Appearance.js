@@ -601,7 +601,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
         }
       }
     },
-    
+
     "tabview/bar/scrollpane" : {},
 
     "tabview/pane" :
@@ -863,6 +863,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
     "tree" :
     {
       include : "list",
+      alias : "list",
 
       style : function(states)
       {
