@@ -447,8 +447,10 @@ qx.Class.define("qx.ui.window.Window",
 
 
     // overridden
-    _forwardStates : {
-      active : true
+    _forwardStates :
+    {
+      active : true,
+      maximized : true
     },
 
 
@@ -508,7 +510,6 @@ qx.Class.define("qx.ui.window.Window",
           control = new qx.ui.form.Button();
           control.setFocusable(false);
           control.addListener("execute", this._onMinimizeButtonClick, this);
-          control.addListener("mousedown", this._onButtonMouseDown, this);
 
           this._getChildControl("captionbar").add(control, {row: 0, column:3});
           break;
@@ -517,7 +518,6 @@ qx.Class.define("qx.ui.window.Window",
           control = new qx.ui.form.Button();
           control.setFocusable(false);
           control.addListener("execute", this._onRestoreButtonClick, this);
-          control.addListener("mousedown", this._onButtonMouseDown, this);
 
           this._getChildControl("captionbar").add(control, {row: 0, column:4});
           break;
@@ -526,7 +526,6 @@ qx.Class.define("qx.ui.window.Window",
           control = new qx.ui.form.Button();
           control.setFocusable(false);
           control.addListener("execute", this._onMaximizeButtonClick, this);
-          control.addListener("mousedown", this._onButtonMouseDown, this);
 
           this._getChildControl("captionbar").add(control, {row: 0, column:5});
           break;
@@ -535,7 +534,6 @@ qx.Class.define("qx.ui.window.Window",
           control = new qx.ui.form.Button();
           control.setFocusable(false);
           control.addListener("execute", this._onCloseButtonClick, this);
-          control.addListener("mousedown", this._onButtonMouseDown, this);
 
           this._getChildControl("captionbar").add(control, {row: 0, column:6});
           break;
@@ -545,6 +543,18 @@ qx.Class.define("qx.ui.window.Window",
     },
 
 
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      CAPTIONBAR INTERNALS
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Updates the status and the visibility of each element of the captionbar.
+     */
     _updateCaptionBar : function()
     {
       if (this.getIcon()) {
@@ -604,7 +614,7 @@ qx.Class.define("qx.ui.window.Window",
 
     /*
     ---------------------------------------------------------------------------
-      UTILITIES
+      USER API
     ---------------------------------------------------------------------------
     */
 
@@ -704,29 +714,6 @@ qx.Class.define("qx.ui.window.Window",
 
 
 
-
-
-    /*
-    ---------------------------------------------------------------------------
-      MANAGER CONNECTION
-    ---------------------------------------------------------------------------
-    */
-
-    // overridden
-    _applyVisibility : function(value, old)
-    {
-      this.base(arguments, value, old);
-
-      if (value == "visible") {
-        this.getManager().add(this);
-      } else {
-        this.getManager().remove(this);
-      }
-    },
-
-
-
-
     /*
     ---------------------------------------------------------------------------
       ZIndex Positioning
@@ -759,9 +746,22 @@ qx.Class.define("qx.ui.window.Window",
 
     /*
     ---------------------------------------------------------------------------
-      MODIFIERS
+      PROPERTY APPLY ROUTINES
     ---------------------------------------------------------------------------
     */
+
+    // overridden
+    _applyVisibility : function(value, old)
+    {
+      this.base(arguments, value, old);
+
+      if (value == "visible") {
+        this.getManager().add(this);
+      } else {
+        this.getManager().remove(this);
+      }
+    },
+
 
     // property apply
     _applyActive : function(value, old)
@@ -846,69 +846,6 @@ qx.Class.define("qx.ui.window.Window",
     */
 
     /**
-     * Minimizes the window. Technically this methods calls the {@link qx.ui.core.Widget#blur}
-     * and the {@link qx.ui.core.Widget#hide} methods.
-     *
-     * @type member
-     * @return {void}
-     */
-    _minimize : function()
-    {
-      this.setActive(false);
-      this.hide();
-    },
-
-
-    /**
-     * Restores the window from maximized mode.<br/>
-     * Restores the previous dimension and location, removes the
-     * state <code>maximized</code> and replaces the restore button
-     * with the maximize button.
-     *
-     * @type member
-     * @return {void}
-     */
-    _restoreFromMaximized : function()
-    {
-      // restore previous dimension and location
-      this.setLayoutProperties(this.__previousLayoutProps);
-
-      // update state
-      this.removeState("maximized");
-
-      // toggle button
-      if (this.getShowMaximize())
-      {
-        this._showChildControl("maximize-button");
-        this._excludeChildControl("restore-button");
-      }
-
-      // finally focus the window
-      this.setActive(true);
-    },
-
-
-    /**
-     * Restores the window from minimized mode.<br/>
-     * Reset the window mode to maximized if the window
-     * has the state maximized and call {@link qx.ui.core.Widget#show} and
-     * {@link qx.ui.core.Widget#focus}
-     *
-     * @type member
-     * @return {void}
-     */
-    _restoreFromMinimized : function()
-    {
-      if (this.hasState("maximized")) {
-        this._setMode("maximized");
-      }
-
-      this.show();
-      this.setActive(true);
-    },
-
-
-    /**
      * Maximizes the window.<br/>
      * Stores the current dimension and location and setups up
      * the new ones. Adds the state <code>maximized</code> and toggles
@@ -961,7 +898,7 @@ qx.Class.define("qx.ui.window.Window",
 
     /*
     ---------------------------------------------------------------------------
-      EVENTS: WINDOW
+      BASIC EVENT HANDLERS
     ---------------------------------------------------------------------------
     */
 
@@ -989,26 +926,31 @@ qx.Class.define("qx.ui.window.Window",
     },
 
 
+    /**
+     * Maximizes the window or restores it if it is already
+     * maximized.
+     *
+     * @type member
+     * @param e {qx.event.type.MouseEvent} double click event
+     * @return {void}
+     */
+    _onCaptionMouseDblClick : function(e)
+    {
+      if (!this.getAllowMaximize()) {
+        return;
+      }
+
+      return this.isMaximized() ? this.restore() : this.maximize();
+    },
+
+
 
 
     /*
     ---------------------------------------------------------------------------
-      EVENTS: BUTTONS
+      EVENTS FOR CAPTIONBAR BUTTONS
     ---------------------------------------------------------------------------
     */
-
-    /**
-     * Stops every mouse down event on each button in the captionbar
-     * by calling {@link qx.event.type.Event#stopPropagation}
-     *
-     * @type member
-     * @param e {qx.event.type.MouseEvent} mouse down event
-     * @return {void}
-     */
-    _onButtonMouseDown : function(e) {
-      e.stopPropagation();
-    },
-
 
     /**
      * Minmizes the window, removes all states from the minimize button and
@@ -1020,9 +962,6 @@ qx.Class.define("qx.ui.window.Window",
     _onMinimizeButtonClick : function(e)
     {
       this.minimize();
-
-      // we need to be sure that the button gets the right states after clicking
-      // because the button will move and does not get the mouseup event anymore
       this._getChildControl("minimize-button").reset();
     },
 
@@ -1037,9 +976,6 @@ qx.Class.define("qx.ui.window.Window",
     _onRestoreButtonClick : function(e)
     {
       this.restore();
-
-      // we need to be sure that the button gets the right states after clicking
-      // because the button will move and does not get the mouseup event anymore
       this._getChildControl("restore-button").reset();
     },
 
@@ -1054,9 +990,6 @@ qx.Class.define("qx.ui.window.Window",
     _onMaximizeButtonClick : function(e)
     {
       this.maximize();
-
-      // we need to be sure that the button gets the right states after clicking
-      // because the button will move and does not get the mouseup event anymore
       this._getChildControl("maximize-button").reset();
     },
 
@@ -1071,9 +1004,6 @@ qx.Class.define("qx.ui.window.Window",
     _onCloseButtonClick : function(e)
     {
       this.close();
-
-      // we need to be sure that the button gets the right states after clicking
-      // because the button will move and does not get the mouseup event anymore
       this._getChildControl("close-button").reset();
     },
 
@@ -1082,7 +1012,7 @@ qx.Class.define("qx.ui.window.Window",
 
     /*
     ---------------------------------------------------------------------------
-      EVENTS: CAPTIONBAR
+      EVENTS FOR WINDOW MOVING
     ---------------------------------------------------------------------------
     */
 
@@ -1208,7 +1138,6 @@ qx.Class.define("qx.ui.window.Window",
      */
     _onCaptionMouseMove : function(e)
     {
-
       var s = this._dragSession;
 
       var s = this._dragSession;
@@ -1253,24 +1182,6 @@ qx.Class.define("qx.ui.window.Window",
           );
           break;
       }
-    },
-
-
-    /**
-     * Maximizes the window or restores it if it is already
-     * maximized.
-     *
-     * @type member
-     * @param e {qx.event.type.MouseEvent} double click event
-     * @return {void}
-     */
-    _onCaptionMouseDblClick : function(e)
-    {
-      if (!this.getAllowMaximize()) {
-        return;
-      }
-
-      return this.isMaximized() ? this.restore() : this.maximize();
     }
   }
 });
