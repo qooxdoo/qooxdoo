@@ -29,12 +29,6 @@ qx.Class.define("demobrowser.demo.widget.Window_Modern",
 
   members :
   {
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void}
-     */
     main : function()
     {
       this.base(arguments);
@@ -46,12 +40,6 @@ qx.Class.define("demobrowser.demo.widget.Window_Modern",
     },
 
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {Window} TODOC
-     */
     _createWindow : function()
     {
       var win = new qx.ui.window.Window("Modern Window", "icon/16/categories/internet.png");
@@ -59,12 +47,13 @@ qx.Class.define("demobrowser.demo.widget.Window_Modern",
       win.setMinWidth(400);
       win.setMinHeight(300);
       win.setResizeMethod("opaque");
+      win.open();
 
       win.setLayout(new qx.ui.layout.Grow);
 
       var mainPane = new qx.ui.splitpane.Pane("horizontal");
       //mainPane.setDecorator("black");
-      this._win.add(mainPane);
+      win.add(mainPane);
 
       // Left pane
       var leftWidget = new qx.ui.form.TextArea("Tree");
@@ -91,6 +80,8 @@ qx.Class.define("demobrowser.demo.widget.Window_Modern",
 
       rightPane.add(list, 1);
       rightPane.add(content, 2);
+
+      return win;
     }
   }
 });
