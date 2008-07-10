@@ -224,31 +224,31 @@ qx.Class.define("demobrowser.demo.widget.Window",
       this.getRoot().add(win, {left:100, top:250});
 
 
+
+
       var wm1 = new qx.ui.window.Window("First Modal Dialog");
       wm1.setLayout(new qx.ui.layout.VBox);
-      wm1.setModal(true);
+      // wm1.setModal(true);
       this.getRoot().add(wm1, {left:150, top:150});
 
       var btn1 = new qx.ui.form.Button("Open Modal Dialog 1", "icon/16/apps/office-database.png");
+      btn1.addListener("execute", wm1.open, wm1);
       win.add(btn1);
 
-      btn1.addListener("execute", function(e) {
-        wm1.open();
-      });
+
+
 
       var wm2 = new qx.ui.window.Window("Second Modal Dialog");
       wm2.setLayout(new qx.ui.layout.VBox);
-      wm2.setModal(true);
+      // wm2.setModal(true);
       wm2.setShowClose(false);
       this.getRoot().add(wm2, {left:100, top:100});
 
-
       var btn2 = new qx.ui.form.Button("Open Modal Dialog 2", "icon/16/apps/office-database.png");
+      btn2.addListener("execute", wm2.open, wm2);
       wm1.add(btn2);
 
-      btn2.addListener("execute", function(e) {
-        wm2.open();
-      });
+
 
       var chkm1 = new qx.ui.form.CheckBox("Modal");
       wm1.add(chkm1);
@@ -258,24 +258,24 @@ qx.Class.define("demobrowser.demo.widget.Window",
       });
 
       var icon1 = new qx.ui.basic.Image("icon/32/status/dialog-error.png");
+      wm2.add(icon1);
+
       var warn1 = new qx.ui.basic.Label("Do you want to fly to Rio?");
+      wm2.add(warn1);
 
       var btn3 = new qx.ui.form.Button("Yes", "icon/16/actions/dialog-ok.png");
-      var btn4 = new qx.ui.form.Button("No", "icon/16/actions/dialog-cancel.png");
-
-      btn3.addListener("execute", function(e) {
+      btn3.addListener("execute", function(e)
+      {
         alert("Thank you!");
         wm2.close();
       });
+      wm2.add(btn3);
 
+      var btn4 = new qx.ui.form.Button("No", "icon/16/actions/dialog-cancel.png");
       btn4.addListener("execute", function(e) {
         alert("Sorry, please click 'Yes'!");
       });
-
-      wm2.add(btn3);
       wm2.add(btn4);
-      wm2.add(icon1);
-      wm2.add(warn1);
     },
 
     main: function()
