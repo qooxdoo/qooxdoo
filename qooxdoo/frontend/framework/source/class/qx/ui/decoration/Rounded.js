@@ -160,7 +160,7 @@ qx.Class.define("qx.ui.decoration.Rounded",
       "mshtml" : function(element, width, height, backgroundColor, changes)
       {
         // Establish VML dependency
-        var Vml = qx.bom.Vml;
+        qx.bom.Vml;
 
         // use VML in IE to render borders
         // http://www.w3.org/TR/NOTE-VML
