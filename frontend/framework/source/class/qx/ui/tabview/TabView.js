@@ -59,19 +59,26 @@ qx.Class.define("qx.ui.tabview.TabView",
   properties :
   {
 
+    // overridden
     appearance :
     {
       refine : true,
       init : "tabview"
     },
 
+    /**
+     * This property defines on which side of the TabView the bar should be positioned.
+     */
     barPosition :
     {
       check : ["left", "right", "top", "bottom"],
       init : "top",
       apply : "_applyBarPosition"
     },
-    
+
+    /**
+     * The selected page inside the TabView.
+     */
     selected :
     {
       check : "qx.ui.tabview.Page",
@@ -116,7 +123,7 @@ qx.Class.define("qx.ui.tabview.TabView",
 
     /**
      * Adds a page to the tabview including its needed button
-     * (contained in the page). Every new added page will be automaticaly
+     * (contained in the page). Every new added page will be automatically
      * checked and shown to the user.
      *
      * @param page {qx.ui.tabview.Page} The page which should be added.
@@ -140,6 +147,11 @@ qx.Class.define("qx.ui.tabview.TabView",
     },
 
 
+    /**
+     * Removes a page (and its corresponding button) from the TabView.
+     *
+     * @param page {qx.ui.tabview.Page} The page to be removed.
+     */
     remove: function(page)
     {
       var pane = this._getChildControl("pane");
@@ -166,6 +178,11 @@ qx.Class.define("qx.ui.tabview.TabView",
       pane.remove(page);
     },
 
+    /*
+    ---------------------------------------------------------------------------
+      APPLY ROUTINES
+    ---------------------------------------------------------------------------
+    */
 
     /**
      * Apply method for the placeBarOnTop-Property.
@@ -223,7 +240,8 @@ qx.Class.define("qx.ui.tabview.TabView",
 
     },
 
-    
+
+    // property apply
     _applySelected : function(value, old)
     {
       var pane = this._getChildControl("pane");
@@ -231,6 +249,16 @@ qx.Class.define("qx.ui.tabview.TabView",
       this._manager.setSelected(value.getButton());
     },
 
+    /*
+    ---------------------------------------------------------------------------
+      EVENT LISTENERS
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Event handler for the change of the selected item of the radio group.
+     * @param e {qx.event.type.Data} The data event
+     */
     _onRadioChangeSelected : function(e)
     {
       var pane = this._getChildControl("pane");
