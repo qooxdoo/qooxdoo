@@ -240,6 +240,18 @@ Function %s(%s):
         if node.type == "expression" and node.parent.type == "catch":
             return
 
+        # treat variables used in for-in loops as used variables
+        if (
+            node.type == "first" and
+            node.parent.type == "operation" and
+            node.parent.get("operator") == "IN"
+        ):
+            use = treeutil.selectNode(node, "definitionList/definition")
+            if use:
+                name = use.get("identifier", False)
+                yield (name, node)
+                return
+
         # Handle all identifiers
         if node.type == "identifier":
             isFirstChild = False
@@ -361,6 +373,13 @@ class Lint:
         self.logger.log(self.filename, row, column, msg)
 
 
+    def checkRequiredBlocks(self):
+        for node in nodeIterator(self.tree, "loop"):
+            block = treeutil.selectNode(node, "statement/block")
+            if not block:
+                self.log(node, "The statement of loops and conditions must be enclosed by a block in braces '{}'")
+
+
     def checkMaps(self):
         for node in nodeIterator(self.tree, "map"):
             knownkeys = {}
@@ -468,7 +487,7 @@ def main(argv=None):
     parser = OptionParser(description="Checks ECMAScript/JavaScript files for common errors.")
     parser.add_option(
         "--action", "-a", dest="actions", metavar="ACTION",
-        choices=["ALL", "undefined_variables", "unused_variables", "maps"], action="append", default=[],
+        choices=["ALL", "undefined_variables", "unused_variables", "maps", "blocks"], action="append", default=[],
         help="""Performs the given checks on the input files. This parameter may be supplied multiple times.
 Valid arguments are: "ALL" (default): Perform all checks
 "undefined_variables": Look for identifier, which are referenced in the global scope. This action can find
@@ -501,6 +520,11 @@ misspelled identifier and missing 'var' statements. You can use the '-g' flag to
 
         if checkAll or "maps" in options.actions:
             lint.checkMaps()
+
+        if checkAll or "blocks" in options.actions:
+            lint.checkRequiredBlocks()
+            
+
 
 if __name__ == "__main__":
     sys.exit(main())
