@@ -153,29 +153,29 @@ qx.Class.define("qx.ui.groupbox.RadioGroupBox",
 
     /*
     ---------------------------------------------------------------------------
-      REDIRECTIONS TO LEGEND (FOR RADIO MANAGER SUPPORT)
+      REDIRECTIONS TO LEGEND (FOR RADIO GROUP SUPPORT)
     ---------------------------------------------------------------------------
     */
 
     /**
-     * Returns the radio manager
+     * Returns the radio group
      *
      * @return {qx.ui.form.RadioGroup} The radio manager
      */
-    getManager : function() {
-      return this._getChildControl("legend").getManager();
+    getGroup : function() {
+      return this._getChildControl("legend").getGroup();
     },
 
 
     /**
-     * Sets the radio manager to use
+     * Sets the radio group to use
      *
-     * @param value {qx.ui.form.RadioGroup} The radio manager to use
+     * @param value {qx.ui.form.RadioGroup} The radio group to use
      */
-    setManager : function(value)
+    setGroup : function(value)
     {
       var legend = this._getChildControl("legend");
-      return value ? legend.setManager(value) : legend.resetManager();
+      return value ? legend.setGroup(value) : legend.resetGroup();
     },
 
 
