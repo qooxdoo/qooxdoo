@@ -922,7 +922,7 @@ class Generator:
             qxPath = qxPath['QOOXDOO_PATH']
         else:
             raise RuntimeError, "Need QOOXDOO_PATH setting to run lint command"
-        lintCommand = os.path.join(qxPath, os.pardir, 'tool', "ecmalint.py")
+        lintCommand = os.path.join(qxPath, os.pardir, 'tool', 'bin', "ecmalint.py")
         lintsettings = ExtMap(self._config.get('lint-check'))
         allowedGlobals = lintsettings.get('allowed-globals', [])
 
