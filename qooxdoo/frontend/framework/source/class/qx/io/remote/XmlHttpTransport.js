@@ -269,8 +269,12 @@ qx.Class.define("qx.io.remote.XmlHttpTransport",
       // --------------------------------------
       // Add a Referer header
       
-      // TODO: Check why the referer has to be set. At least in WebKit this
-      // causes problems.
+      // The Java backend uses the referer header, and Firefox doesn't send one by
+      // default (see here:
+      // http://www.mercurytide.co.uk/whitepapers/issues-working-with-ajax/ ). Even when
+      // not using a backend that evaluates the referrer, it's still useful to have it
+      // set correctly, e.g. when looking at server log files.
+    
       if (!qx.core.Variant.isSet("qx.client", "webkit"))
       {
         // avoid "Refused to set unsafe header Referer" in Safari and other Webkit-based browsers
