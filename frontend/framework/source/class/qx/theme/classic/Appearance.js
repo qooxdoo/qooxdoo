@@ -588,6 +588,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
         }
       }
     },
+    
+    "tabview/bar/scrollpane" : {},
 
     "tabview/pane" :
     {
