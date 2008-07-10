@@ -595,7 +595,7 @@ qx.Bootstrap.define("qx.event.Manager",
       {
         var msg = "Could not dispatch event '" + event + "' on target '" + target +"': ";
 
-        qx.core.Assert.assertObject(target, msg + "Invalid event target.")
+        qx.core.Assert.assertNotUndefined(target, msg + "Invalid event target.")
         qx.core.Assert.assertInstance(event, qx.event.type.Event, msg + "Invalid event object.");
       }
 

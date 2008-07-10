@@ -39,6 +39,8 @@ qx.Class.define("demobrowser.demo.widget.Window_Modern",
     {
       this.base(arguments);
 
+      qx.theme.manager.Meta.getInstance().setTheme(qx.theme.Modern);
+
       var win = this._createWindow();
       this.getRoot().add(win, { left : 40, top  : 30 });
     },

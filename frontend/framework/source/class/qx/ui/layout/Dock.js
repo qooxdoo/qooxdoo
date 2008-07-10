@@ -155,7 +155,7 @@ qx.Class.define("qx.ui.layout.Dock",
     {
       "on" : function(item, name, value)
       {
-        this.assert(name === "flex" || name === "edge", "The property '"+name+"' is not supported by the dock layout!");
+        this.assertInArray(name, ["flex", "edge", "height", "width"], "The property '"+name+"' is not supported by the dock layout!");
 
         if (name === "edge")
         {
@@ -165,6 +165,8 @@ qx.Class.define("qx.ui.layout.Dock",
         {
           this.assertNumber(value);
           this.assert(value >= 0);
+        } else {
+          this.assertMatch(value, qx.ui.layout.Util.PERCENT_VALUE);
         }
       },
 
@@ -213,14 +215,13 @@ qx.Class.define("qx.ui.layout.Dock",
     __rebuildCache : function()
     {
       var all = this._getLayoutChildren();
-      var child, edge, center;
+      var child, center;
       var length = all.length;
 
       var high = [];
       var low = [];
       var edge = [];
 
-      var center;
       var yfirst = this.getSort() === "y";
       var xfirst = this.getSort() === "x";
 
@@ -260,7 +261,7 @@ qx.Class.define("qx.ui.layout.Dock",
       this.__children = result;
 
       // Cache edges for faster access
-      var edges=[], edge;
+      var edges=[];
       for (var i=0; i<length; i++)
       {
         edge = result[i].getLayoutProperties().edge;

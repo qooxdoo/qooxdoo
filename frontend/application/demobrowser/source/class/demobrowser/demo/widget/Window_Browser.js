@@ -36,6 +36,8 @@ qx.Class.define("demobrowser.demo.widget.Window_Browser",
     {
       this.base(arguments);
 
+      qx.theme.manager.Meta.getInstance().setTheme(qx.theme.Modern);
+
       this.getRoot().add(this._createBrowser(), {left: 40, top: 30});
     },
 

@@ -42,6 +42,7 @@ qx.Class.define("demobrowser.demo.widget.Canvas",
 
       win1.add(canvas1, {edge: 0});
       this.getRoot().add(win1, {left: 30, top: 40});
+      win1.open();
 
 
       var win2 = new qx.ui.window.Window("Canvas - synced coordinates").set({
@@ -59,6 +60,7 @@ qx.Class.define("demobrowser.demo.widget.Canvas",
 
       win2.add(canvas2, {edge: 0});
       this.getRoot().add(win2, {left: 130, top: 140});
+      win2.open();
     },
 
 
