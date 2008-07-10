@@ -608,9 +608,11 @@ qx.Theme.define("qx.theme.modern.Appearance",
     */
 
     "slidebar" : {},
-    "slidebar/pane" : {},
     "slidebar/button-forward" : "button",
     "slidebar/button-backward" : "button",
+    
+    // TODO
+    "slidebar/pane" : {},
 
 
     /*
@@ -642,7 +644,6 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          backgroundColor : "tabview-pane",
           decorator       : "tabview-pane",
           padding         : 10,
           marginTop       : -1
@@ -652,116 +653,27 @@ qx.Theme.define("qx.theme.modern.Appearance",
 
     "tabview-page" : {},
 
+    /* 
+     * TODO
+     *   - last button has own appearance
+     *   - middle deactivated buttons have own appearance
+     *   - different bar positions
+     */
     "tabview-page/button" :
     {
-      alias : "button",
-
+      alias : "atom",
+      
       style : function(states)
       {
-        var paddingTop, paddingBottom, paddingLeft, paddingRight;
-        var marginTop, marginBottom, marginRight, marginLeft;
-        var backgroundColor, decorator;
-
-        marginTop = 0;
-        marginBottom = 0;
-        decorator = new qx.ui.decoration.Single();
-        decorator.set({
-          width : 1,
-          style : "solid",
-          color : "tabview-border"
-        });
-
-        if (states.checked)
-        {
-          paddingTop = 2;
-          paddingBottom = 4;
-          paddingLeft = 7;
-          paddingRight = 8;
-          marginRight = -1;
-          marginLeft = -2;
-          backgroundColor = "tabview/button-checked";
-
-          if (states.barTop)
-          {
-            decorator.setWidthBottom(0);
-            decorator.setTop(3, "solid", "effect");
-          }
-          else
-          {
-            decorator.setWidthTop(0);
-            decorator.setBottom(3, "solid", "effect");
-          }
-
-          if (states.alignLeft)
-          {
-            if (states.firstChild)
-            {
-              paddingLeft = 6;
-              paddingRight = 7;
-              marginLeft = 0;
-            }
-          }
-          else
-          {
-            if (states.lastChild)
-            {
-              paddingLeft = 8;
-              paddingRight = 5;
-              marginRight = 0;
-            }
-          }
-        }
-        else
-        {
-          paddingTop = 2;
-          paddingBottom = 2;
-          paddingLeft = 5;
-          paddingRight = 6;
-          marginRight = 1;
-          marginLeft = 0;
-          backgroundColor = states.over ? "tabview-button-hover" : "tabview-button";
-
-          if (states.barTop)
-          {
-            decorator.setWidthBottom(0);
-            marginTop = 3;
-            marginBottom = 1;
-          }
-          else
-          {
-            decorator.setWidthTop(0);
-            marginTop = 1;
-            marginBottom = 3;
-          }
-
-          if (states.alignLeft)
-          {
-            if (states.firstChild)
-            {
-              paddingLeft = 6;
-              paddingRight = 5;
-            }
-          }
-          else
-          {
-            if (states.lastChild)
-            {
-              paddingLeft = 6;
-              paddingRight = 5;
-              marginRight = 0;
-            }
-          }
-        }
-
         return {
-          padding : [ paddingTop, paddingRight, paddingBottom, paddingLeft ],
-          margin : [ marginTop, marginRight, marginBottom, marginLeft ],
-          decorator : decorator,
-          backgroundColor : backgroundColor
-        }
+          decorator : states.checked ? "tabview-page-button-active" : "tabview-page-button-inactive",
+          padding   : states.checked ? [ 6, 10 ] : [ 4, 10 ],
+          marginTop : states.checked ? 0 : 4,
+          textColor : states.checked ? "#26364D" : "#404955"
+        };
       }
     },
-
+    
 
     /*
     ---------------------------------------------------------------------------

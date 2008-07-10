@@ -108,13 +108,13 @@
           "${RESPATH}/source/Modern/tab-button-active.png" :
           {
             "prefix" : "../../${MODERN}/tabview/tab-button-active",
-            "border-width" : 2
+            "border-width" : 5
           },
           // inactive tabview button split
           "${RESPATH}/source/Modern/tab-button-inactive.png" :
           {
             "prefix" : "../../${MODERN}/tabview/tab-button-inactive",
-            "border-width" : 2
+            "border-width" : 5
           }          
         }
       }

@@ -485,13 +485,36 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
     "tabview-pane" :
     {
-      decorator : qx.ui.decoration.Single,
+      decorator : qx.ui.decoration.Rounded,
 
       style :
       {
-        width : 1,
-        style : "solid",
-        color : "tabview-border"
+        width  : 1,
+        radius : 5,
+        
+        color  : "#00204d",
+        backgroundColor : "#f8f8f8"
+      }
+    },
+    
+    "tabview-page-button-active" :
+    {
+      decorator : qx.ui.decoration.Grid,
+      
+      style : 
+      {
+        baseImage : "decoration/tabview/tab-button-active.png"
+      }
+    },
+    
+    
+    "tabview-page-button-inactive" :
+    {
+      decorator : qx.ui.decoration.Grid,
+      
+      style : 
+      {
+        baseImage : "decoration/tabview/tab-button-inactive.png"
       }
     },
 
