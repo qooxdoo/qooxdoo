@@ -119,12 +119,7 @@ qx.Class.define("qx.event.type.Data",
      */
     getValue : function()
     {
-      if (qx.core.Variant.isSet("qx.debug", "on"))
-      {
-        this.debug("Deprecated method getValue() of qx.event.type.Data used!");
-        this.trace();
-      }
-
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee, "Better use 'getData'");
       return this.__data;
     },
 
@@ -139,12 +134,7 @@ qx.Class.define("qx.event.type.Data",
      */
     getOldValue : function()
     {
-      if (qx.core.Variant.isSet("qx.debug", "on"))
-      {
-        this.debug("Deprecated method getOldValue() of qx.event.type.Data used!");
-        this.trace();
-      }
-
+      qx.log.Logger.deprecatedMethodWarning(arguments.callee, "Better use 'getOldData'");
       return this.__old;
     }
   },

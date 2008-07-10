@@ -236,6 +236,50 @@ qx.Bootstrap.define("qx.log.Logger",
 
 
     /**
+     * Prints a method deprecation warning and a stack trace if the setting
+     * <code>"qx.deprecationWarnings"</code> is set to <code>on</code>.
+     *
+     * @param fcn {Function} reference to the deprecated function. This is
+     *     arguments.callee if the calling method is to be deprecated.
+     * @param msg {String?} Optional message which is printed.
+     */
+    deprecatedMethodWarning : function(fcn, msg)
+    {
+      if (qx.core.Variant.isSet("qx.deprecationWarnings", "on"))
+      {
+        var functionName = qx.lang.Function.getName(fcn);
+        var className = fcn.self ? fcn.self.classname : "unknown";
+        this.warn(
+          "The method '"+ functionName +"' of class '"+className+"' is deprecated: " +
+          msg || "Please consult the API documentation of this method for alternatives."
+        );
+        this.trace();
+      }
+    },
+
+
+    /**
+     * Prints a class deprecation warning and a stack trace if the setting
+     * <code>"qx.deprecationWarnings"</code> is set to <code>on</code>.
+     *
+     * @param clazz {Class} reference to the deprecated class.
+     * @param msg {String?} Optional message which is printed.
+     */
+    deprecatedClassWarning : function(clazz, msg)
+    {
+      if (qx.core.Variant.isSet("qx.deprecationWarnings", "on"))
+      {
+        var className = clazz.self ? clazz.self.classname : "unknown";
+        this.warn(
+          "The method class '"+className+"' is deprecated: " +
+          msg || "Please consult the API documentation of this class for alternatives."
+        );
+        this.trace();
+      }
+    },
+
+
+    /**
      * Deletes the current buffer. Has no influence on the message handling of the
      * connected appenders.
      *
