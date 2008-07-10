@@ -113,7 +113,7 @@ qx.Class.define("demobrowser.demo.widget.Tree_Simple",
 
       commandFrame.add(tCurrentInput, {row: row++, column: 1});
 
-      tree.addListener("change", function(e)
+      tree.addListener("changeValue", function(e)
       {
         if (this.getSelectionMode() === "multi") {
           tCurrentInput.setValue(e.getData().length + " items");
@@ -126,10 +126,8 @@ qx.Class.define("demobrowser.demo.widget.Tree_Simple",
       commandFrame.add(new qx.ui.core.Spacer(spacerSize, spacerSize), {row: row++, column: 0});
       commandFrame.add(new qx.ui.basic.Label("Open mode:"), {row: row, column: 0});
       var modes = {
-        "clickOpen": "click (open)",
-        "clickOpenClose": "click (open/close)",
-        "dblclickOpen": "double click (open)",
-        "dblclickOpenClose": "double click (open/close)",
+        "click": "click",
+        "dblclick": "double click",
         "none": "none"
       };
 
@@ -145,8 +143,8 @@ qx.Class.define("demobrowser.demo.widget.Tree_Simple",
         commandFrame.add(radioButton, {row: row++, column: 1})
       }
 
-      modeMgr.addListener("change", function(e) {
-        tree.setOpenMode(e.getData().getValue());
+      modeMgr.addListener("changeValue", function(e) {
+        tree.setOpenMode(e.getData());
       });
 
 
@@ -157,7 +155,7 @@ qx.Class.define("demobrowser.demo.widget.Tree_Simple",
       btnMultiSelect.setChecked(tree.getSelectionMode() == "multi");
       commandFrame.add(btnMultiSelect, {row: row++, column: 1});
 
-      btnMultiSelect.addListener("change", function(e)
+      btnMultiSelect.addListener("changeValue", function(e)
       {
         var enable = e.getData();
         tree.setSelectionMode(enable ? "multi": "single");
