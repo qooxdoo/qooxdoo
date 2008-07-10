@@ -137,8 +137,9 @@ qx.Class.define("qx.util.range.Range",
     limit : function(value)
     {
       var precision = this.getPrecision();
-      if (precision != null)
+      if (precision != null) {
         var mover = Math.pow(10, precision);
+      }
 
       if (this.getWrap())
       {
