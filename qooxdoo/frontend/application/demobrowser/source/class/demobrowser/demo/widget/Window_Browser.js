@@ -54,13 +54,13 @@ qx.Class.define("demobrowser.demo.widget.Window_Browser",
       var toolbar = new qx.ui.toolbar.ToolBar();
       win.add(toolbar);
 
-      var btnBack = new qx.ui.toolbar.Button("", "icon/16/actions/go-previous.png");
+      var btnBack = new qx.ui.toolbar.Button(null, "icon/16/actions/go-previous.png");
       btnBack.addListener("execute", function(e) {
         this.iframe.getWindow().history.back();
       }, this);
       toolbar.add(btnBack);
 
-      var btnForward = new qx.ui.toolbar.Button("", "icon/16/actions/go-next.png");
+      var btnForward = new qx.ui.toolbar.Button(null, "icon/16/actions/go-next.png");
       btnForward.addListener("execute", function(e) {
         this.iframe.getWindow().history.forward();
       }, this);
