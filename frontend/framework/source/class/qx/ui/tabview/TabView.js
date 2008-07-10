@@ -198,6 +198,7 @@ qx.Class.define("qx.ui.tabview.TabView",
     _applyBarPosition : function(value, old)
     {
       var bar = this._getChildControl("bar");
+      var pane = this._getChildControl("pane");
 
       switch(value)
       {
@@ -228,6 +229,8 @@ qx.Class.define("qx.ui.tabview.TabView",
       }
 
       var buttons = bar.getChildren();
+      value ? bar.addState("barTop") : bar.removeState("barTop");
+      value ? pane.addState("barTop") : pane.removeState("barTop");
 
       for (var i = 0, l=buttons.length; i < l; i++)
       {
