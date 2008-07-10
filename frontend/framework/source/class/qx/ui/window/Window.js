@@ -462,11 +462,12 @@ qx.Class.define("qx.ui.window.Window",
         case "statusbar":
           control = new qx.ui.container.Composite(new qx.ui.layout.HBox());
           this._add(control);
-          control.add(this._getChildControl("status-text"));
+          control.add(this._getChildControl("statusbar-text"));
+          break;
 
-          var text = new qx.ui.basic.Label();
-          text.setContent(this.getStatus());
-          control.add(text);
+        case "statusbar-text":
+          control = new qx.ui.basic.Label();
+          control.setContent(this.getStatus());
           break;
 
         case "pane":
@@ -547,20 +548,26 @@ qx.Class.define("qx.ui.window.Window",
     _updateCaptionBar : function()
     {
       if (this.getIcon()) {
-        this._getChildControl("icon");
+        this._showChildControl("icon");
       } else {
         this._excludeChildControl("icon");
       }
 
       if (this.getCaption()) {
-        this._getChildControl("title");
+        this._showChildControl("title");
       } else {
         this._excludeChildControl("title");
       }
 
-      if (this.getShowMinimize()) {
-        this._getChildControl("minimize-button");
-      } else {
+      if (this.getShowMinimize())
+      {
+        this._showChildControl("minimize-button");
+
+        var btn = this._getChildControl("minimize-button");
+        this.getAllowMinimize() ? btn.resetEnabled() : btn.setEnabled(false);
+      }
+      else
+      {
         this._excludeChildControl("minimize-button");
       }
 
@@ -568,6 +575,9 @@ qx.Class.define("qx.ui.window.Window",
       {
         this._showChildControl("maximize-button");
         this._showChildControl("maximize-button");
+
+        var btn = this._getChildControl("maximize-button");
+        this.getAllowMaximize() ? btn.resetEnabled() : btn.setEnabled(false);
       }
       else
       {
@@ -575,9 +585,15 @@ qx.Class.define("qx.ui.window.Window",
         this._excludeChildControl("restore-button");
       }
 
-      if (this.getShowClose()) {
+      if (this.getShowClose())
+      {
         this._showChildControl("close-button");
-      } else {
+
+        var btn = this._getChildControl("close-button");
+        this.getAllowClose() ? btn.resetEnabled() : btn.setEnabled(false);
+      }
+      else
+      {
         this._excludeChildControl("close-button");
       }
     },
@@ -770,6 +786,7 @@ qx.Class.define("qx.ui.window.Window",
     _applyModal : function(value, old)
     {
       // TODO
+      this.debug("Modal support still missing!");
     },
 
 
@@ -784,22 +801,16 @@ qx.Class.define("qx.ui.window.Window",
     },
 
 
-    _applyCaptionBarChange : function(value, old)
-    {
+    // property apply
+    _applyCaptionBarChange : function(value, old) {
       this._updateCaptionBar();
     },
-
-
-
-
-
-
 
 
     // property apply
     _applyStatus : function(value, old)
     {
-      var label = this._getChildControl("status-text", true);
+      var label = this._getChildControl("statusbar-text", true);
       if (label) {
         label.setContent(value);
       }
@@ -808,7 +819,7 @@ qx.Class.define("qx.ui.window.Window",
 
     // property apply
     _applyResizable : function(value, old) {
-      this._maximizeButtonManager();
+      this._updateCaptionBar();
     },
 
 
@@ -822,6 +833,7 @@ qx.Class.define("qx.ui.window.Window",
     _applyIcon : function(value, old) {
       this._getChildControl("icon").setSource(value);
     },
+
 
 
 

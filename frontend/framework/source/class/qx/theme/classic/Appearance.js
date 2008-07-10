@@ -978,10 +978,12 @@ qx.Theme.define("qx.theme.classic.Appearance",
       {
         return {
           decorator : "inset-thin",
-          padding : [ 1, 4 ]
+          padding : [ 2, 6 ]
         };
       }
     },
+
+    "window/statusbar-text" : "label",
 
 
 
