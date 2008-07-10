@@ -65,21 +65,23 @@ qx.Class.define("demobrowser.demo.widget.TabView",
       var barLeftButton = new qx.ui.form.RadioButton("left");
       var barBottomButton = new qx.ui.form.RadioButton("bottom");
       var barRightButton = new qx.ui.form.RadioButton("right");
-      
+
       // container for radio buttons
+      /*
       var pageContainer = new qx.ui.container.Composite(new qx.ui.layout.VBox());
       pageContainer.add(barTopButton);
-//      pageContainer.add(barLeftButton);
+      pageContainer.add(barLeftButton);
       pageContainer.add(barBottomButton);
-//      pageContainer.add(barRightButton);
-      
+      pageContainer.add(barRightButton);
+
       page1.add(pageContainer);
-      
+
       // radiogroup
-      var manager = new qx.ui.form.RadioGroup(barTopButton, barLeftButton, barBottomButton, barRightButton);      
+      var manager = new qx.ui.form.RadioGroup(barTopButton, barLeftButton, barBottomButton, barRightButton);
       manager.addListener("changeValue", function(e){
         this.setBarPosition(e.getData());
       }, tabView);
+      */
 
 
       ////////////////// TEST PAGE 2 ////////////////////

@@ -597,7 +597,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          zIndex          : 10 // TODO: functional?
+          zIndex : 10 // TODO: functional?
         }
       }
     },
@@ -612,9 +612,9 @@ qx.Theme.define("qx.theme.classic.Appearance",
           backgroundColor : "tabview-pane",
 
           // TODO: Move to decoration theme
-          decorator       : new qx.ui.decoration.Single(1, "solid", "tabview-border"),
-          padding         : 10,
-          marginTop       : -1
+          decorator : new qx.ui.decoration.Single(1, "solid", "tabview-border"),
+          padding : 10,
+          marginTop : states.barTop ? -1 : 0
         };
       }
     },
