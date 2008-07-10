@@ -37,11 +37,11 @@ qx.Class.define("qx.ui.window.Manager",
   properties :
   {
     /** This property holds the current active window */
-    activeWindow :
+    active :
     {
       check : "Object",
       nullable : true,
-      apply : "_applyActiveWindow"
+      apply : "_applyActive"
     }
   },
 
@@ -63,7 +63,7 @@ qx.Class.define("qx.ui.window.Manager",
     */
 
     // property apply
-    _applyActiveWindow : function(value, old)
+    _applyActive : function(value, old)
     {
       if (old)
       {
@@ -101,7 +101,7 @@ qx.Class.define("qx.ui.window.Manager",
      */
     _compareWindows : function(w1, w2)
     {
-      switch(w1.getWindowManager().getActiveWindow())
+      switch(w1.getWindowManager().getActive())
       {
         case w1:
           return 1;
@@ -126,8 +126,8 @@ qx.Class.define("qx.ui.window.Manager",
     {
       this.base(arguments, win);
 
-      this.debug("Add: " + win);
-      this.setActiveWindow(win);
+      // this.debug("Add: " + win);
+      this.setActive(win);
     },
 
 
@@ -145,8 +145,8 @@ qx.Class.define("qx.ui.window.Manager",
     {
       this.base(arguments, win);
 
-      this.debug("Remove: " + win);
-      if (this.getActiveWindow() == win)
+      // this.debug("Remove: " + win);
+      if (this.getActive() == win)
       {
         var a = [];
 
@@ -157,17 +157,18 @@ qx.Class.define("qx.ui.window.Manager",
         var l = a.length;
 
         if (l == 0) {
-          this.setActiveWindow(null);
+          this.resetActive();
         } else if (l == 1) {
-          this.setActiveWindow(a[0]);
+          this.setActive(a[0]);
         }
         else if (l > 1)
         {
           a.sort(this._compareWindows);
-          this.setActiveWindow(a[l - 1]);
+          this.setActive(a[l - 1]);
         }
       }
     },
+
 
 
 
@@ -177,15 +178,13 @@ qx.Class.define("qx.ui.window.Manager",
     ---------------------------------------------------------------------------
     */
 
+    /** {Integer} Minimum zIndex to start with for windows */
     _minZIndex : 1e5,
 
 
     /**
      * Gets all registered window instances (sorted by the zIndex) and resets
      * the zIndex on all instances.
-     *
-     * @type member
-     * @return {void}
      */
     _updateStack : function()
     {
@@ -203,10 +202,8 @@ qx.Class.define("qx.ui.window.Manager",
 
 
     /**
-     * Sets the {@link #zIndex} to Infinity and calls the
-     * method {@link #_updateStack}
+     * Brings the given window to front.
      *
-     * @type member
      * @param win {qx.ui.window.Window} the window, which will be braught to front
      * @return {void}
      */
@@ -218,10 +215,8 @@ qx.Class.define("qx.ui.window.Manager",
 
 
     /**
-     * Sets the {@link #zIndex} to -Infinity and calls the
-     * method {@link #_updateStack}
+     * Sends the given window to back.
      *
-     * @type member
      * @param win {qx.ui.window.Window} the window, which will be sent to back
      * @return {void}
      */
