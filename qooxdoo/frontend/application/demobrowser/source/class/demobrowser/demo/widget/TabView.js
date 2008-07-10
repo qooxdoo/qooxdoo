@@ -59,22 +59,27 @@ qx.Class.define("demobrowser.demo.widget.TabView",
       page1.add(new qx.ui.basic.Label("Layout-Settings"));
       tabView.add(page1);
 
-      // bar top stuff
-      var barTopButton = new qx.ui.form.CheckBox("Bar on top");
-      barTopButton.setChecked(true);
-      barTopButton.addListener("changeChecked", function(event) {
-        this.setPlaceBarOnTop(event.getData());
+      // layout settings options
+      // create radio buttons
+      var barTopButton = new qx.ui.form.RadioButton("top");
+      var barLeftButton = new qx.ui.form.RadioButton("left");
+      var barBottomButton = new qx.ui.form.RadioButton("bottom");
+      var barRightButton = new qx.ui.form.RadioButton("right");
+      
+      // container for radio buttons
+      var pageContainer = new qx.ui.container.Composite(new qx.ui.layout.VBox());
+      pageContainer.add(barTopButton);
+      pageContainer.add(barLeftButton);
+      pageContainer.add(barBottomButton);
+      pageContainer.add(barRightButton);
+      
+      page1.add(pageContainer);
+      
+      // radiogroup
+      var manager = new qx.ui.form.RadioGroup(barTopButton, barLeftButton, barBottomButton, barRightButton);      
+      manager.addListener("changeValue", function(e){
+        this.setBarPosition(e.getData());
       }, tabView);
-      page1.add(barTopButton);
-
-      // bar left stuff
-      var barLeftButton = new qx.ui.form.CheckBox("Bar left");
-      barLeftButton.setChecked(true);
-      barLeftButton.addListener("changeChecked", function(event) {
-        this.setAlignTabsToLeft(event.getData());
-      }, tabView);
-      page1.add(barLeftButton);
-
 
 
       ////////////////// TEST PAGE 2 ////////////////////
