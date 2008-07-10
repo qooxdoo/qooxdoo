@@ -69,9 +69,9 @@ qx.Class.define("demobrowser.demo.widget.TabView",
       // container for radio buttons
       var pageContainer = new qx.ui.container.Composite(new qx.ui.layout.VBox());
       pageContainer.add(barTopButton);
-      pageContainer.add(barLeftButton);
+//      pageContainer.add(barLeftButton);
       pageContainer.add(barBottomButton);
-      pageContainer.add(barRightButton);
+//      pageContainer.add(barRightButton);
       
       page1.add(pageContainer);
       
