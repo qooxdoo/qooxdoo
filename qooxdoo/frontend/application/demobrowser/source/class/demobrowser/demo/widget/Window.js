@@ -154,15 +154,12 @@ qx.Class.define("demobrowser.demo.widget.Window",
 
 
 
-
-
       var showStatusbar = new qx.ui.form.CheckBox("Show Statusbar");
       showStatusbar.setChecked(false);
       showStatusbar.addListener("changeChecked", function(e) {
         win.setShowStatusbar(e.getData());
       });
       basicSettings.add(showStatusbar);
-
 
 
 
@@ -203,7 +200,7 @@ qx.Class.define("demobrowser.demo.widget.Window",
       styleSettings.add(resizeFrame);
 
       var resizeOpaque = new qx.ui.form.RadioButton("Opaque");
-      resizeFrame.setValue("opaque");
+      resizeOpaque.setValue("opaque");
       styleSettings.add(resizeOpaque);
 
       var rbm2 = new qx.ui.form.RadioGroup(resizeFrame, resizeOpaque);
@@ -223,32 +220,25 @@ qx.Class.define("demobrowser.demo.widget.Window",
       win.setPadding(10);
       this.getRoot().add(win, {left:100, top:250});
 
+      var wm1 = this.getModalWindow1();
+      var btn1 = new qx.ui.form.Button("Open Modal Dialog 1", "icon/16/apps/office-database.png");
+      btn1.addListener("execute", wm1.open, wm1);
+      win.add(btn1);
+    },
 
 
-
+    getModalWindow1 : function()
+    {
       var wm1 = new qx.ui.window.Window("First Modal Dialog");
       wm1.setLayout(new qx.ui.layout.VBox);
       // wm1.setModal(true);
       this.getRoot().add(wm1, {left:150, top:150});
 
-      var btn1 = new qx.ui.form.Button("Open Modal Dialog 1", "icon/16/apps/office-database.png");
-      btn1.addListener("execute", wm1.open, wm1);
-      win.add(btn1);
-
-
-
-
-      var wm2 = new qx.ui.window.Window("Second Modal Dialog");
-      wm2.setLayout(new qx.ui.layout.VBox);
-      // wm2.setModal(true);
-      wm2.setShowClose(false);
-      this.getRoot().add(wm2, {left:100, top:100});
+      var wm2 = this.getModalWindow2();
 
       var btn2 = new qx.ui.form.Button("Open Modal Dialog 2", "icon/16/apps/office-database.png");
       btn2.addListener("execute", wm2.open, wm2);
       wm1.add(btn2);
-
-
 
       var chkm1 = new qx.ui.form.CheckBox("Modal");
       wm1.add(chkm1);
@@ -257,10 +247,22 @@ qx.Class.define("demobrowser.demo.widget.Window",
         wm1.setModal(e.getData());
       });
 
+      return wm1;
+    },
+
+
+    getModalWindow2 : function()
+    {
+      var wm2 = new qx.ui.window.Window("Second Modal Dialog");
+      wm2.setLayout(new qx.ui.layout.VBox);
+      // wm2.setModal(true);
+      wm2.setShowClose(false);
+      this.getRoot().add(wm2, {left:300, top:300});
+
       var icon1 = new qx.ui.basic.Image("icon/32/status/dialog-error.png");
       wm2.add(icon1);
 
-      var warn1 = new qx.ui.basic.Label("Do you want to fly to Rio?");
+      var warn1 = new qx.ui.basic.Label("Do you want to fly to Berlin?");
       wm2.add(warn1);
 
       var btn3 = new qx.ui.form.Button("Yes", "icon/16/actions/dialog-ok.png");
@@ -276,6 +278,8 @@ qx.Class.define("demobrowser.demo.widget.Window",
         alert("Sorry, please click 'Yes'!");
       });
       wm2.add(btn4);
+
+      return wm2;
     },
 
     main: function()
