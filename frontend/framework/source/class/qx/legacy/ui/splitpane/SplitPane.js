@@ -99,8 +99,10 @@ qx.Class.define("qx.legacy.ui.splitpane.SplitPane",
     box.add(this._firstArea, this._splitter, this._secondArea);
 
     // APPLY ORIENTATION
-    if (orientation != null) {
+    if (orientation == "vertical") {
       this.setOrientation(orientation);
+    } else {
+      this.initOrientation();
     }
 
     // APPLY DIMENSIONS
