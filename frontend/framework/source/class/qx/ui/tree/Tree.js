@@ -109,10 +109,11 @@ qx.Class.define("qx.ui.tree.Tree",
      */
     openMode :
     {
-      check : ["clickOpen", "clickOpenClose", "dblclickOpen", "dblclickOpenClose", "none"],
-      init : "dblclickOpenClose",
+      check : ["click", "dblclick", "none"],
+      init : "dblclick",
       apply : "_applyOpenMode",
-      event : "changeOpenMode"
+      event : "changeOpenMode",
+      themeable : true
     },
 
 
@@ -438,15 +439,15 @@ qx.Class.define("qx.ui.tree.Tree",
     // property apply
     _applyOpenMode : function(value, old)
     {
-      if (old == "clickOpen" || old == "clickOpenClose") {
+      if (old == "click") {
         this.removeListener("click", this._onOpen, this);
-      } else if (old == "dblclickOpen" || old == "dblclickOpenClose") {
+      } else if (old == "dblclick") {
         this.removeListener("dblclick", this._onOpen, this);
       }
 
-      if (value == "clickOpen" || value == "clickOpenClose") {
+      if (value == "click") {
         this.addListener("click", this._onOpen, this);
-      } else if (value == "dblclickOpen" || value == "dblclickOpenClose") {
+      } else if (value == "dblclick") {
         this.addListener("dblclick", this._onOpen, this);
       }
     },
@@ -465,18 +466,8 @@ qx.Class.define("qx.ui.tree.Tree",
         return;
       }
 
-      var openMode = this.getOpenMode();
-
-      if (!treeItem.isOpen())
-      {
-        treeItem.setOpen(true);
-        e.stopPropagation();
-      }
-      else if (openMode == "clickOpenClose" || openMode == "dblclickOpenClose")
-      {
-        treeItem.setOpen(false);
-        e.stopPropagation();
-      }
+      treeItem.setOpen(!treeItem.isOpen());
+      e.stopPropagation();
     }
   }
 });
