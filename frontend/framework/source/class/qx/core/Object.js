@@ -406,13 +406,19 @@ qx.Class.define("qx.core.Object",
      * @type member
      * @param type {String} Event type to fire
      * @param data {var} User defined data attached to the event object
+     * @param cancelable {Boolean?false} Whether or not an event can have its default
+     *     action prevented. The default action can either be the browser's
+     *     default action of a native event (e.g. open the context menu on a
+     *     right click) or the default action of a qooxdoo class (e.g. close
+     *     the window widget). The default action can be prevented by calling
+     *     {@link #preventDefault}
      * @return {Boolean} whether the event default was prevented or not.
      *     Returns true, when the event was NOT prevented.
      */
-    fireDataEvent : function(type, data)
+    fireDataEvent : function(type, data, cancelable)
     {
       if (!this.$$disposed) {
-        return this.__Registration.fireNonBubblingEvent(this, type, qx.event.type.Data, [data]);
+        return this.__Registration.fireNonBubblingEvent(this, type, qx.event.type.Data, [data, cancelable]);
       }
 
       return true;
