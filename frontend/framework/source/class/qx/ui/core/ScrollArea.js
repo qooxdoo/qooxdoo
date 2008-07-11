@@ -424,7 +424,7 @@ qx.Class.define("qx.ui.core.ScrollArea",
     {
       var scrollbar = this._getChildControl("scrollbar-y", true);
       if (scrollbar) {
-        scrollbar.scrollBySteps(-e.getWheelDelta());
+        scrollbar.scrollBySteps(e.getWheelDelta());
       }
 
       // Stop bubbling and native event
