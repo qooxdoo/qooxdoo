@@ -497,7 +497,9 @@ qx.Class.define("qx.legacy.ui.form.Spinner",
               var locale = this._numberFormat._locale;
               if ((vIdentifier == qx.locale.Number.getGroupSeparator(locale)) ||
                   (vIdentifier == qx.locale.Number.getDecimalSeparator(locale)))
+              {
                 return;
+              }
             }
 
             // supress all key events without modifier
@@ -701,7 +703,7 @@ qx.Class.define("qx.legacy.ui.form.Spinner",
     */
 
     _ontextchange : function(e) {
-      this._last_value = e.getOldValue();
+      this._last_value = e.getOldData();
     },
 
     /**
@@ -1005,7 +1007,9 @@ qx.Class.define("qx.legacy.ui.form.Spinner",
           }
         }
         if (acceptEdit)
+        {
           return;
+        }
 
         var formattedValue;
 
