@@ -100,29 +100,21 @@ qx.Class.define("qx.ui.container.SlideBar",
   {
     /*
     ---------------------------------------------------------------------------
-      WIDGET INTERNALS
+      WIDGET API
     ---------------------------------------------------------------------------
     */
 
     // overridden
     getChildrenContainer : function() {
-      return this._getChildControl("pane");
+      return this._getChildControl("content");
     },
 
 
     // overridden
     _getStyleTarget : function() {
-      return this._getChildControl("pane");
+      return this._getChildControl("content");
     },
 
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      CHILD CONTROL SUPPORT
-    ---------------------------------------------------------------------------
-    */
 
     // overridden
     _createChildControlImpl : function(id)
@@ -132,22 +124,23 @@ qx.Class.define("qx.ui.container.SlideBar",
       switch(id)
       {
         case "button-forward":
+          // TODO: make arrows graphics and move this into appearance
           control = new qx.ui.form.RepeatButton(">");
           control.addListener("execute", this._onExecuteForward, this);
           this._add(control);
           break;
 
         case "button-backward":
+          // TODO: make arrows graphics and move this into appearance
           control = new qx.ui.form.RepeatButton("<");
           control.addListener("execute", this._onExecuteBackward, this);
           this._addAt(control, 0);
           break;
 
-        case "pane":
+        case "content":
           control = new qx.ui.container.Composite();
           this._getChildControl("scrollpane").add(control);
           break;
-          
 
         case "scrollpane":
           control = new qx.ui.core.ScrollPane();
@@ -159,6 +152,60 @@ qx.Class.define("qx.ui.container.SlideBar",
       return control || this.base(arguments, id);
     },
 
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      PUBLIC SCROLL API
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Scrolls the element's content by the given amount.
+     *
+     * @type member
+     * @param offset {Integer?0} Amount to scroll
+     * @return {void}
+     */
+    scrollBy : function(offset)
+    {
+      var pane = this._getChildControl("scrollpane");
+      if (this._isHorizontal) {
+        pane.scrollByX(offset);
+      } else {
+        pane.scrollByY(offset);
+      }
+    },
+
+
+    /**
+     * Scrolls the element's content to the given coordinate
+     *
+     * @type member
+     * @param value {Integer} The vertical position to scroll to.
+     * @return {void}
+     */
+    scrollTo : function(value)
+    {
+      var pane = this._getChildControl("scrollpane");
+      if (this._isHorizontal) {
+        pane.scrollToX(value);
+      } else {
+        pane.scrollToY(value);
+      }
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      PROPERTY APPLY ROUTINES
+    ---------------------------------------------------------------------------
+    */
+
+    // property apply
     _applyOrientation : function(value, old)
     {
       if (value == "horizontal")
@@ -174,6 +221,15 @@ qx.Class.define("qx.ui.container.SlideBar",
         this._isHorizontal = false;
       }
     },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      EVENT LISTENERS
+    ---------------------------------------------------------------------------
+    */
 
     /**
      * Listener for resize event. This event is fired after the
@@ -203,6 +259,36 @@ qx.Class.define("qx.ui.container.SlideBar",
 
 
     /**
+     * Scroll handler for left scrolling
+     *
+     * @type member
+     * @return {void}
+     */
+    _onExecuteBackward : function() {
+      this.scrollBy(-20);
+    },
+
+
+    /**
+     * Scroll handler for right scrolling
+     *
+     * @type member
+     * @return {void}
+     */
+    _onExecuteForward : function() {
+      this.scrollBy(20);
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      UTILITIES
+    ---------------------------------------------------------------------------
+    */
+
+    /**
      * Show the arrows (Called from resize event)
      *
      * @type member
@@ -226,39 +312,7 @@ qx.Class.define("qx.ui.container.SlideBar",
       this._excludeChildControl("button-forward");
       this._excludeChildControl("button-backward");
 
-      this._getChildControl("scrollpane").scrollToX(0);
-    },
-
-
-    /**
-     * Scroll handler for left scrolling
-     *
-     * @type member
-     * @return {void}
-     */
-    _onExecuteBackward : function()
-    {
-      if (this._isHorizontal) {
-        this._getChildControl("scrollpane").scrollByX(-20);
-      } else {
-        this._getChildControl("scrollpane").scrollByY(-20);
-      }
-    },
-
-
-    /**
-     * Scroll handler for right scrolling
-     *
-     * @type member
-     * @return {void}
-     */
-    _onExecuteForward : function()
-    {
-      if (this._isHorizontal) {
-        this._getChildControl("scrollpane").scrollByX(20);
-      } else {
-        this._getChildControl("scrollpane").scrollByY(20);
-      }
+      this.scrollTo(0);
     }
   }
 });

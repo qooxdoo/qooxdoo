@@ -608,11 +608,12 @@ qx.Theme.define("qx.theme.modern.Appearance",
     */
 
     "slidebar" : {},
+    "slidebar/scrollpane" : {},
+    "slidebar/content" : {},
     "slidebar/button-forward" : "button",
     "slidebar/button-backward" : "button",
-    
-    // TODO
-    "slidebar/pane" : {},
+
+
 
 
     /*
@@ -638,7 +639,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         }
       }
     },
-    
+
     "tabview/bar/scrollpane" : {},
 
     "tabview/pane" :
@@ -655,7 +656,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
 
     "tabview-page" : {},
 
-    /* 
+    /*
      * TODO
      *   - last button has own appearance
      *   - middle deactivated buttons have own appearance
@@ -664,7 +665,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
     "tabview-page/button" :
     {
       alias : "atom",
-      
+
       style : function(states)
       {
         return {
@@ -675,7 +676,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         };
       }
     },
-    
+
 
     /*
     ---------------------------------------------------------------------------

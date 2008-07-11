@@ -586,7 +586,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
     */
 
     "slidebar" : {},
-    "slidebar/pane" : {},
+    "slidebar/scrollpane" : {},
+    "slidebar/content" : {},
     "slidebar/button-forward" : "button",
     "slidebar/button-backward" : "button",
 
@@ -612,8 +613,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
         }
       }
     },
-
-    "tabview/bar/scrollpane" : {},
 
     "tabview/pane" :
     {
