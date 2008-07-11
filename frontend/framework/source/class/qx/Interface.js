@@ -18,6 +18,12 @@
 
 ************************************************************************ */
 
+/* ************************************************************************
+
+#require(qx.lang.String)
+
+************************************************************************ */
+
 /**
  * This class is used to define interfaces (similar to Java interfaces).
  *
@@ -233,8 +239,6 @@ qx.Class.define("qx.Interface",
         {
           if (typeof members[key] === "function")
           {
-
-
             if (typeof proto[key] === "function")
             {
               // Only wrap members if the interface was not applied yet which could be easily
