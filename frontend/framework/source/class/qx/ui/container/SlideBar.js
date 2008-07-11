@@ -183,7 +183,7 @@ qx.Class.define("qx.ui.container.SlideBar",
      * Scrolls the element's content to the given coordinate
      *
      * @type member
-     * @param value {Integer} The vertical position to scroll to.
+     * @param value {Integer} The position to scroll to.
      * @return {void}
      */
     scrollTo : function(value)
