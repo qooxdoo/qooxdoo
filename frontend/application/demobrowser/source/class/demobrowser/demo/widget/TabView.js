@@ -67,7 +67,6 @@ qx.Class.define("demobrowser.demo.widget.TabView",
       var barRightButton = new qx.ui.form.RadioButton("right");
 
       // container for radio buttons
-      /*
       var pageContainer = new qx.ui.container.Composite(new qx.ui.layout.VBox());
       pageContainer.add(barTopButton);
       pageContainer.add(barLeftButton);
@@ -81,7 +80,6 @@ qx.Class.define("demobrowser.demo.widget.TabView",
       manager.addListener("changeValue", function(e){
         this.setBarPosition(e.getData());
       }, tabView);
-      */
 
 
       ////////////////// TEST PAGE 2 ////////////////////
