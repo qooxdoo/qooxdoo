@@ -24,7 +24,7 @@
         {
           "manifest" : "${QOOXDOO_PATH}/Manifest.json",
           "uri"      : "${QOOXDOO_URI}"
-          /* mind that the final uri will be computed from this 'uri' + the 
+          /* mind that the final uri will be computed from this 'uri' + the
              'class' info from the manifest */
         },
 
@@ -42,7 +42,7 @@
 
       "settings" :
       {
-        "qx.version" : "0.8-alpha2-pre",
+        "qx.version" : "0.8-alpha2",
         "qx.application" : "${APPLICATION}.Application"
       },
 
