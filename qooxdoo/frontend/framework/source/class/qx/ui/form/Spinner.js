@@ -705,7 +705,14 @@ qx.Class.define("qx.ui.form.Spinner",
       OTHER EVENT-HANDLING
     ---------------------------------------------------------------------------
     */
-
+    
+    /**
+     * Event handler method for text changes
+     * 
+     * @type member
+     * @param e {qx.event.type.ChangeEvent} change event
+     * @return {void}
+     */
     _ontextchange : function(e) {
       this._last_value = e.getOldValue();
     },
