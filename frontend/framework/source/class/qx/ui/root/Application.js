@@ -39,6 +39,7 @@
 qx.Class.define("qx.ui.root.Application",
 {
   extend : qx.ui.root.Abstract,
+  include : [qx.ui.core.MBlocker],
 
 
 

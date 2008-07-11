@@ -31,6 +31,7 @@
 qx.Class.define("qx.ui.root.Inline",
 {
   extend : qx.ui.root.Abstract,
+  include : [qx.ui.core.MBlocker],
 
 
   /*
@@ -80,20 +81,7 @@ qx.Class.define("qx.ui.root.Inline",
       el.style.position = "relative";
 
       return root;
-    },
-
-
-    /**
-     * Set a layout manager for the widget. A a layout manager can only be connected
-     * with one widget. Reset the connection with a previous widget first, if you
-     * like to use it in another widget instead.
-     *
-     * @type member
-     * @param layout {qx.ui.layout.Abstract} The new layout or
-     *     <code>null</code> to reset the layout.
-     * @return {void}
-     */
-    setLayout : function(layout) {}
+    }
   },
 
 
