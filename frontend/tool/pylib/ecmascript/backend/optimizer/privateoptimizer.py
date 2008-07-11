@@ -95,9 +95,6 @@ def lookup(id, node, privates):
     if node.type == "definition":
         name = node.get("identifier", False)
 
-    elif node.type == "identifier":
-        name = node.get("name", False)
-        
     elif node.type == "keyvalue":
         name = node.get("key", False)
         
