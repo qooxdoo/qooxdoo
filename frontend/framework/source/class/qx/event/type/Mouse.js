@@ -263,11 +263,11 @@ qx.Class.define("qx.event.type.Mouse",
     getWheelDelta : qx.core.Variant.select("qx.client",
     {
       "default" : function() {
-        return this._native.wheelDelta / 120;
+        return -(this._native.wheelDelta / 40);
       },
 
       "gecko" : function() {
-        return -(this._native.detail / 3);
+        return this._native.detail;
       }
     })
   }

@@ -215,7 +215,7 @@ qx.Class.define("qx.ui.form.SelectBox",
         selected = children[0];
       }
 
-      var index = children.indexOf(selected) - e.getWheelDelta();
+      var index = children.indexOf(selected) + e.getWheelDelta();
       var max = children.length - 1;
 
       // Limit
