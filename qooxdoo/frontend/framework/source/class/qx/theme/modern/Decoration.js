@@ -164,21 +164,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
       }
     },
 
-
-    "focused-inset" :
-    {
-      decorator : qx.ui.decoration.Double,
-
-      style :
-      {
-        width : 1,
-        innerWidth: 1,
-        color : [ "border-focused-dark-shadow", "border-focused-light", "border-focused-light", "border-focused-dark-shadow" ],
-        innerColor : [ "border-focused-dark", "border-focused-light-shadow", "border-focused-light-shadow", "border-focused-dark" ]
-      }
-    },
-
-
     "outset" :
     {
       decorator : qx.ui.decoration.Double,
@@ -338,27 +323,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
         insets    : 2
       }
     },
-
-    "button-default" :
-    {
-      decorator : qx.ui.decoration.Grid,
-
-      style : {
-        baseImage : "decoration/form/button-default.png",
-        insets    : 2
-      }
-    },
-
-    "button-default-focused" :
-    {
-      decorator : qx.ui.decoration.Grid,
-
-      style : {
-        baseImage : "decoration/form/button-default-focused.png",
-        insets    : 2
-      }
-    },
-
 
 
 
