@@ -12,22 +12,22 @@ class TreeCompiler:
         self._cache = cache
         self._console = console
         self._treeLoader = treeLoader
-        
+
         self._loadFiles()
-        
+
 
     def _loadFiles(self):
         privates = self._cache.read("privates")
         if privates != None:
             self._console.info("Loaded %s private fields" % len(privates))
             privateoptimizer.load(privates)
-            
-        protected = self._cache.read("protected")
-        if protected != None:
-            self._console.info("Loaded %s protected fields" % len(protected))
-            protectedoptimizer.load(protected)
 
-    
+        #protected = self._cache.read("protected")
+        #if protected != None:
+        #    self._console.info("Loaded %s protected fields" % len(protected))
+        #    protectedoptimizer.load(protected)
+
+
     def _storePrivateFields(self):
         self._cache.write("privates", privateoptimizer.get())
 
@@ -65,7 +65,7 @@ class TreeCompiler:
         if len(optimize) > 0:
             # Protect original before optimizing
             tree = copy.deepcopy(tree)
-            
+
             self._console.debug("Optimizing tree: %s..." % fileId)
             self._console.indent()
             self._optimizeHelper(tree, fileId, variants, optimize)
@@ -121,9 +121,9 @@ class TreeCompiler:
             self._console.debug("Crypting private fields...")
             self._privateOptimizeHelper(fileTree, fileId, variants)
 
-        if "protected" in optimize:
-            self._console.debug("Crypting protected fields...")
-            self._protectedOptimizeHelper(fileTree, fileId, variants)
+        #if "protected" in optimize:
+        #    self._console.debug("Crypting protected fields...")
+        #    self._protectedOptimizeHelper(fileTree, fileId, variants)
 
         if "strings" in optimize:
             self._console.debug("Optimizing strings...")
@@ -153,8 +153,8 @@ class TreeCompiler:
 
     def _variableOptimizeHelper(self, tree, id, variants):
         variableoptimizer.search(tree)
-        
-        
+
+
     def _privateOptimizeHelper(self, tree, id, variants):
         privateoptimizer.patch(tree, id)
         self._storePrivateFields()
@@ -171,10 +171,10 @@ class TreeCompiler:
 
     def _stringOptimizeHelper(self, tree, id, variants):
         stringMap = stringoptimizer.search(tree)
-        
+
         if len(stringMap) == 0:
             return
-                
+
         stringList = stringoptimizer.sort(stringMap)
         stringoptimizer.replace(tree, stringList)
 
