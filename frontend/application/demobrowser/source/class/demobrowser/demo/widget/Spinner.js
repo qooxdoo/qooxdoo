@@ -165,7 +165,9 @@ qx.Class.define("demobrowser.demo.widget.Spinner",
               return {
                 decorator       : "outset",
                 textColor       : states.disabled ? "text-disabled" : "undefined",
-                backgroundColor : states.focused ? "#C1E9F5" : "field",
+                // TODO: Restore this line as soon as the value checks work correctly
+                //backgroundColor : states.focused ? "#C1E9F5" : "field",
+                backgroundColor : states.focused ? "#C1E9F5" : "#ebe9ed",
                 font : "large"
               };
             }
