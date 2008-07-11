@@ -91,13 +91,15 @@ qx.Class.define("demobrowser.demo.event.DragDrop_1",
 
     _onDragenter : function(e)
     {
-      console.log("enter", e.getCurrentTarget());
+      this.debug("enter");
+      this.debug(e.getCurrentTarget());
       qx.bom.element.Style.set(e.getCurrentTarget(), "border", "1px dotted black");
       e.stop();
     },
 
     _onDragleave : function(e) {
-      console.log("leave", e.getCurrentTarget());
+      this.debug("leave");
+      this.debug(e.getCurrentTarget());
       qx.bom.element.Style.reset(e.getCurrentTarget(), "border");
       e.stop();
     },
@@ -106,7 +108,8 @@ qx.Class.define("demobrowser.demo.event.DragDrop_1",
     {
       var el = e.getCurrentTarget();
 
-      console.log("drop", el);
+      this.debug("drop");
+      this.debug(el);
       qx.bom.element.Style.reset(el, "border");
 
       var effect = new qx.fx.effect.core.Highlight(el).set({
