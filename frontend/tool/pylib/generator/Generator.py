@@ -26,7 +26,7 @@ from ecmascript import compiler
 from ecmascript.frontend import treegenerator, tokenizer
 from ecmascript.backend.optimizer import variableoptimizer
 from ecmascript.backend.optimizer import privateoptimizer
-from ecmascript.backend.optimizer import protectedoptimizer
+#from ecmascript.backend.optimizer import protectedoptimizer
 from generator.config.Config import ExtMap
 from generator.code.DependencyLoader import DependencyLoader
 from generator.code.PartBuilder import PartBuilder
@@ -108,7 +108,7 @@ class Generator:
                 clazz = entry['class']
             else:
                 clazz = None
-                
+
             luri = os.path.join(uri, clazz)
             #luri = os.path.join(entry.get("uri"), entry.get("class"))
             #luri = Path.rel_from_to(self.approot, entry.get("path"))
@@ -189,13 +189,13 @@ class Generator:
         "type"   : "JClassDepJob"
       },
 
-      "compile-source" : 
+      "compile-source" :
       {
         "action" :Generator.runSource,
         "type" : "JCompileJob",
       },
 
-      "compile-dist" : 
+      "compile-dist" :
       {
         "action" :Generator.runCompiled,
         "type" : "JCompileJob",
@@ -228,7 +228,7 @@ class Generator:
                 apply(jobTriggers[trigger]['action'],(self,))
 
         if not classdependentTriggerKeys and not compileTriggerKeys:
-            return    
+            return
 
         # process job triggers that require a class list
         (_,classes,_,_) = self.scanLibrary(config.extract("library"))
@@ -651,7 +651,7 @@ class Generator:
     def runCompiled(self, parts, packages, boot, variants):
         if not self._config.get("compile-dist/file"):
             return
-            
+
         # Read in base file name
         filePath = self._config.get("compile-dist/file")
         if variants and False: # TODO: get variant names from config
@@ -714,9 +714,10 @@ class Generator:
 
         # Need to preprocess all classes first to correctly detect all
         # fields before starting renaming them
-        self._console.info("Detecting protected fields...")
-        for packageId, classes in enumerate(packages):
-            protectedoptimizer.process(classes, self._treeLoader)
+        # TODO: Needs for testing, better integration etc.
+        #self._console.info("Detecting protected fields...")
+        #for packageId, classes in enumerate(packages):
+        #    protectedoptimizer.process(classes, self._treeLoader)
 
 
         # Generating packages
@@ -856,10 +857,10 @@ class Generator:
 
     def runPrettyPrinting(self, classes):
         "Gather all relevant config settings and pass them to the compiler"
-        
+
         if not isinstance(self._config.get("pretty-print", False), types.DictType):
             return
-        
+
         self._console.info("Pretty-printing code...")
         self._console.indent()
         ppsettings = ExtMap(self._config.get("pretty-print"))  # get the pretty-print config settings
@@ -956,7 +957,7 @@ class Generator:
             raise RuntimeError, "Need mandatory config setting \"migrate-files/from-version\""
         mig_opts  = "--from-version %s" % migSettings.get('from-version')
         if migSettings.get('migrate-html'):
-            mig_opts += " --migrate-html" 
+            mig_opts += " --migrate-html"
         mig_opts += " --class-path %s" % ",".join(libPaths)
 
         shcmd = "python %s %s" % (migratorCmd, mig_opts)
@@ -969,7 +970,7 @@ class Generator:
     def runFix(self, classes):
         if not isinstance(self._config.get("fix-files", False), types.DictType):
             return
-        
+
         self._console.info("Fixing whitespace in source files...")
         self._console.indent()
         fixsettings = ExtMap(self._config.get("fix-files"))
@@ -1231,7 +1232,7 @@ class Generator:
             partData += ('%s,' % parts[partId]).replace(" ", "")
 
         partData=partData[:-1] + "}"
-        
+
         # Translate URI data to JavaScript
         allUris = []
         for packageId, package in enumerate(packages):
