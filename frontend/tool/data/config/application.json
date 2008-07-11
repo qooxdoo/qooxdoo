@@ -10,7 +10,7 @@
     }
   ],
 
-  "export" :
+  "export" : 
   [
     "api",
     "build",
@@ -26,7 +26,7 @@
     "translate"
   ],
 
-
+        
 
   "let" :
   {
@@ -35,7 +35,7 @@
     "QOOXDOO_URI"  : "../${QOOXDOO_PATH}",
     "CACHE"        : "cache",
     "QXTHEME"      : "qx.theme.Classic",
-    "QXVERSION"    : "0.8-alpha2",
+    "QXVERSION"    : "0.8-beta1-pre",
     "LOCALES"      : [ "en" ],
     "BUILD_PATH"   : "${ROOT}/build"
   },
@@ -189,9 +189,9 @@
       {
         "update" : ["${APPLICATION}"]
       }
-    },
-
-
+    },    
+    
+    
     // can be used as an 'extend' to activate profiling
     "profiling" :
     {
@@ -205,8 +205,8 @@
         "qx.Class" : [ "qx.core.Aspect", "qx.dev.Profile" ]
       }
     },
-
-
+    
+    
     "pretty" :
     {
       "extend" : [ "scan-local-lib" ],
@@ -248,7 +248,7 @@
     {
       "extend" : [ "scan-local-lib" ],
 
-      "clean-files" :
+      "clean-files" : 
       {
         "Deleting build" :
         [
@@ -313,11 +313,11 @@
     },
 
 
-    "publish" :
+    "publish" : 
     {
       "extend" : [ "scan-local-lib" ],
 
-      "shell" :
+      "shell" : 
       {
         "command" : "rsync --checksum --compress --recursive --delete --inplace --links --safe-links --exclude .svn ${BUILD_PATH}/* root@qooxdoo.org:/var/www/qooxdoo/demo/${QXVERSION}/${APPLICATION}"
       }
