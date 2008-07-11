@@ -82,9 +82,9 @@ qx.Class.define("qx.ui.tabview.TabView",
     selected :
     {
       check : "qx.ui.tabview.Page",
-      apply : "_applySelected"
+      apply : "_applySelected",
+      event : "changeSelected"
     }
-
   },
 
 
