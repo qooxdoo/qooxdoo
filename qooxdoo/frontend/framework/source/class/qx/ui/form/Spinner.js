@@ -707,7 +707,7 @@ qx.Class.define("qx.ui.form.Spinner",
     */
 
     _ontextchange : function(e) {
-      this._last_value = e.getOldData();
+      this._last_value = e.getOldValue();
     },
 
     /**
