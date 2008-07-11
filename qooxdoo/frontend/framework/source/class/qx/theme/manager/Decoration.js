@@ -101,7 +101,18 @@ qx.Class.define("qx.theme.manager.Decoration",
         for (var key in source)
         {
           var styles = source[key].style;
-          var decorationClass =  source[key].decorator || qx.ui.decoration.Uniform;
+          var decorationClass = source[key].decorator;
+
+          if (decorationClass === undefined) {
+            decorationClass = qx.ui.decoration.Uniform;
+          }
+
+          if (qx.core.Variant.isSet("qx.debug", "on"))
+          {
+            if (decorationClass == null) {
+              throw new Error("Could not find decoration class required by decorator: " + key + "!");
+            }
+          }
 
           dest[key] = (new decorationClass).set(styles);
           dest[key].themed = true;
