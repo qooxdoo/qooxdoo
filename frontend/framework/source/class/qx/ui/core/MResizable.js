@@ -34,6 +34,7 @@ qx.Mixin.define("qx.ui.core.MResizable",
 
   construct : function()
   {
+    // Register listeners
     this.addListener("mousedown", this.__onResizeMouseDown, this, true);
     this.addListener("mouseup", this.__onResizeMouseUp, this);
     this.addListener("mousemove", this.__onResizeMouseMove, this);
@@ -52,6 +53,7 @@ qx.Mixin.define("qx.ui.core.MResizable",
 
   properties :
   {
+    /** Whether the widget is resizable */
     resizable :
     {
       check : "Boolean",
@@ -59,6 +61,7 @@ qx.Mixin.define("qx.ui.core.MResizable",
       apply : "_applyResizable"
     },
 
+    /** Whether a frame replacement should be used during the resize sequence */
     useResizeFrame :
     {
       check : "Boolean",
