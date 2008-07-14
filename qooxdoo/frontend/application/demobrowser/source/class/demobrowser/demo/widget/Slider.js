@@ -36,12 +36,12 @@ qx.Class.define("demobrowser.demo.widget.Slider",
     {
       var sliders = []
 
-      sliders.push(this._createSliderGroup(new qx.ui.slider.Slider().set({
+      sliders.push(this._createSliderGroup(new qx.ui.form.Slider().set({
         maximum: 1000,
         value: 100
       })));
 
-      sliders.push(this._createSliderGroup(new qx.ui.slider.Slider().set({
+      sliders.push(this._createSliderGroup(new qx.ui.form.Slider().set({
         minimum: -100,
         maximum: 100,
         singleStep: 5,
@@ -49,7 +49,7 @@ qx.Class.define("demobrowser.demo.widget.Slider",
         value: 0
       })));
 
-      sliders.push(this._createSliderGroup(new qx.ui.slider.Slider().set({
+      sliders.push(this._createSliderGroup(new qx.ui.form.Slider().set({
         minimum: -600,
         maximum: -200,
         singleStep: 10,
@@ -57,7 +57,7 @@ qx.Class.define("demobrowser.demo.widget.Slider",
         value: -300
       })));
 
-      sliders.push(this._createSliderGroup(new qx.ui.slider.Slider().set({
+      sliders.push(this._createSliderGroup(new qx.ui.form.Slider().set({
         minimum: 25,
         maximum: 75,
         singleStep: 5,
@@ -110,12 +110,12 @@ qx.Class.define("demobrowser.demo.widget.Slider",
     {
       var sliders = []
 
-      sliders.push(this._createSliderGroup(new qx.ui.slider.Slider().set({
+      sliders.push(this._createSliderGroup(new qx.ui.form.Slider().set({
         maximum: 1000,
         value: 100
       })));
 
-      sliders.push(this._createSliderGroup(new qx.ui.slider.Slider().set({
+      sliders.push(this._createSliderGroup(new qx.ui.form.Slider().set({
         minimum: -100,
         maximum: 100,
         singleStep: 5,
@@ -123,7 +123,7 @@ qx.Class.define("demobrowser.demo.widget.Slider",
         value: 0
       })));
 
-      sliders.push(this._createSliderGroup(new qx.ui.slider.Slider().set({
+      sliders.push(this._createSliderGroup(new qx.ui.form.Slider().set({
         minimum: -600,
         maximum: -200,
         singleStep: 10,
@@ -131,7 +131,7 @@ qx.Class.define("demobrowser.demo.widget.Slider",
         value: -300
       })));
 
-      sliders.push(this._createSliderGroup(new qx.ui.slider.Slider().set({
+      sliders.push(this._createSliderGroup(new qx.ui.form.Slider().set({
         minimum: 25,
         maximum: 75,
         singleStep: 5,
