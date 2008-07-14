@@ -89,6 +89,9 @@ qx.Class.define("qx.event.Timer",
      * @param func {Function} Function to call
      * @param obj {Object} context (this), the function is called with
      * @param timeout {Number} Number of milliseconds to wait before the function is called.
+     * @return {qx.event.Timer} The timer object used for the timeout. This
+     *    object can be used to cancel the timeout. Note that the timer is
+     *    only valid until the timer has been executed.
      */
     once : function(func, obj, timeout)
     {
@@ -98,8 +101,8 @@ qx.Class.define("qx.event.Timer",
       // Add event listener to interval
       timer.addListener("interval", function(e)
       {
-        timer.dispose();
         func.call(obj, e);
+        timer.dispose();
 
         obj = null;
       },
@@ -108,6 +111,7 @@ qx.Class.define("qx.event.Timer",
       // Directly start timer
       timer.start();
     }
+    return timer;
   },
 
 
