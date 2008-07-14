@@ -246,18 +246,16 @@ qx.Class.define("qx.ui.splitpane.Pane",
         return;
       }
 
-      var slider = this._getChildControl("slider");
-      var splitterElement = splitter.getContainerElement().getDomElement();
-      var splitterLocation = qx.bom.element.Location.get(splitterElement);
-      var splitterBounds = splitter.getBounds();
-      var paneLocation = qx.bom.element.Location.get(this.getContentElement().getDomElement());
-
       // Store offset between mouse event coordinates and splitter
+      var splitterLocation = splitter.getContainerLocation();
+      var paneLocation = this.getContentLocation();
       this.__splitterOffset = this._isHorizontal ?
         e.getDocumentLeft() - splitterLocation.left + paneLocation.left :
         e.getDocumentTop() - splitterLocation.top + paneLocation.top ;
 
       // Synchronize slider to splitter size and show it
+      var slider = this._getChildControl("slider");
+      var splitterBounds = splitter.getBounds();
       slider.setUserBounds(splitterBounds.left, splitterBounds.top,
         splitterBounds.width, splitterBounds.height);
 
@@ -428,18 +426,16 @@ qx.Class.define("qx.ui.splitpane.Pane",
     {
       var splitter = this._getChildControl("splitter");
       var splitterBounds = splitter.getBounds();
-      var splitterElement = splitter.getContainerElement().getDomElement();
+      var paneLocation = this.getContentLocation();
 
-      if (!splitterElement) {
-        return false;
+      // Check whether created
+      if (!paneLocation) {
+        return;
       }
-
-      var paneElem = this.getContentElement().getDomElement();
-      var paneLocation = qx.bom.element.Location.get(paneElem);
 
       // Check horizontal
       var mouse = this.__lastMouseX;
-      var size = splitterElement.offsetWidth;
+      var size = splitterBounds.width;
       var pos = paneLocation.left + splitterBounds.left;
 
       if (size < 5) {
@@ -452,7 +448,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
 
       // Check vertical
       var mouse = this.__lastMouseY;
-      var size = splitterElement.offsetHeight;
+      var size = splitterBounds.height;
       var pos = paneLocation.top + splitterBounds.top;
 
       if (size < 5) {
