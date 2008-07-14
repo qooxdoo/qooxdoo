@@ -665,7 +665,7 @@ qx.Class.define("qx.ui.window.Window",
      */
     moveTo : function(left, top)
     {
-      if (this.isMaximized()) {
+      if (this.hasState("maximized")) {
         return;
       }
 
