@@ -260,6 +260,10 @@ qx.Class.define("qx.ui.tabview.TabView",
         pages[i].addState(position.barPosition);
       }
 
+      if (old != undefined) {
+        bar.removeState(this.__positionInformation[old].barPosition);
+      }
+      bar.addState(position.barPosition);
     },
 
 
