@@ -51,7 +51,8 @@ qx.Class.define("qx.bom.Input",
       image : 1,
       file : 1,
       search : 1,
-      reset : 1
+      reset : 1,
+      button : 1
     },
 
 
