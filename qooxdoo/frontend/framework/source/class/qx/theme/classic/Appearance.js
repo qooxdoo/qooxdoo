@@ -614,6 +614,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
 
 
+
     /*
     ---------------------------------------------------------------------------
       TABVIEW
@@ -628,15 +629,12 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
       style : function(states)
       {
-      console.info("bar got: ", states)
-
         return {
           zIndex : 10, // TODO: functional?
-          backgroundColor : "lightblue",
-          marginBottom : states.barTop ? -1 : 2
-          /*,
-          marginTop : states.barTop ? 0 : -1
-          */
+          marginBottom : states.barTop ? -1 : 0,
+          marginTop : states.barBottom ? -1 : 0,
+          marginLeft : states.barRight ? -5 : 0,
+          marginRight : states.barLeft ? -5 : 0
         }
       }
     },
@@ -702,8 +700,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
           paddingRight = 6;
           backgroundColor = states.over ? "tabview-button-hover" : "tabview-button";
 
-          console.warn("button got ", states)
-
           if (states.barTop)
           {
             decorator.setWidthBottom(0);
@@ -718,13 +714,13 @@ qx.Theme.define("qx.theme.classic.Appearance",
           }
           else if(states.barLeft)
           {
-            decorator.setWidthTop(0);
+            decorator.setWidthRight(0);
             marginTop = 1;
             marginBottom = 3;
           }
           else
           {
-            decorator.setWidthTop(0);
+            decorator.setWidthLeft(0);
             marginTop = 1;
             marginBottom = 3;
           }
