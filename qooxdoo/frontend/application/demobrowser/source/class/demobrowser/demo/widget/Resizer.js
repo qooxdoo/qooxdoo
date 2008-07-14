@@ -67,7 +67,7 @@ qx.Class.define("demobrowser.demo.widget.Resizer",
         list.add(new qx.ui.form.ListItem('Option number '+i));
       }
 
-      var resizer = new qx.ui.resizer.Resizer().set({
+      var resizer = new qx.ui.container.Resizer().set({
         allowGrowX: false,
         allowGrowY: false
       });
@@ -83,7 +83,7 @@ qx.Class.define("demobrowser.demo.widget.Resizer",
       var tArea = new qx.ui.form.TextArea;
       tArea.setValue("Resize me\nI'm resizable");
 
-      var resizer = new qx.ui.resizer.Resizer().set({
+      var resizer = new qx.ui.container.Resizer().set({
         minWidth: 100,
         minHeight: 50,
         width: 200,
