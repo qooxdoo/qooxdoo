@@ -180,7 +180,7 @@ exec-quickstart-archive:
 ################################################################################
 
 SKELETON_TEMP = temp-skeleton
-SKELETON_FILES = Makefile Makefile.gen1 config.json Manifest.json source/class source/resource source/index.html
+SKELETON_FILES = Makefile Makefile.gen1 config.json Manifest.json source/class source/resource source/translation source/index.html
 
 info-skeleton:
 	@echo
