@@ -633,7 +633,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
           zIndex : 10, // TODO: functional?
           marginBottom : states.barTop ? -1 : 0,
           marginTop : states.barBottom ? -1 : 0,
-          marginLeft : states.barRight ? -5 : 0,
+          marginLeft : states.barRight ? -1 : 0,
           marginRight : states.barLeft ? -1 : 0
         }
       }
@@ -712,13 +712,16 @@ qx.Theme.define("qx.theme.classic.Appearance",
           }
           else
           {
-            paddingTop = 0;
-            paddingBottom = 0;
-            paddingLeft = 0;
+            paddingTop = 4;
+            paddingBottom = 4;
+            paddingLeft = 7;
             paddingRight = 0;
-            
-            decorator.setWidthTop(0);
-            decorator.setBottom(3, "solid", "effect");
+
+            marginBottom = 1;
+            marginRight = 0;
+
+            decorator.setWidthLeft(0);
+            decorator.setRight(3, "solid", "effect");
           }          
         }
         else
@@ -759,14 +762,13 @@ qx.Theme.define("qx.theme.classic.Appearance",
           }
           else
           {
-            paddingTop = 0;
-            paddingBottom = 0;
-            paddingLeft = 0;
+            paddingTop = 4;
+            paddingBottom = 4;
+            paddingLeft = 7;
             paddingRight = 0;
-            
-            decorator.setWidthLeft(0);
-            marginTop = 1;
-            marginBottom = 3;
+
+            decorator.setWidthRight(0);
+            marginBottom = 1;
           }
         }
 
