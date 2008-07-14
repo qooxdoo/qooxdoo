@@ -110,8 +110,8 @@ qx.Class.define("qx.event.Timer",
 
       // Directly start timer
       timer.start();
+      return timer;
     }
-    return timer;
   },
 
 
