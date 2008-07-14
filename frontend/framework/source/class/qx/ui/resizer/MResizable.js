@@ -34,17 +34,10 @@ qx.Mixin.define("qx.ui.resizer.MResizable",
 
   construct : function()
   {
-    this.addListener("mousedown", this.__onResizeMousedown, this, true);
-    this.addListener("mouseup", this.__onResizeMouseup, this);
-    this.addListener("losecapture", this.__onResizeMouseup, this);
-    this.addListener("mousemove", this.__onResizeMousemove, this);
-
-
-    var control = this._getDragableTarget();
-    control.addListener("mousedown", this._onDragTargetMouseDown, this);
-    control.addListener("mouseup", this._onDragTargetMouseUp, this);
-    control.addListener("mousemove", this._onDragTargetMouseMove, this);
-
+    this.addListener("mousedown", this.__onResizeMouseDown, this, true);
+    this.addListener("mouseup", this.__onResizeMouseUp, this);
+    this.addListener("mousemove", this.__onResizeMouseMove, this);
+    this.addListener("losecapture", this.__onResizeLoseCapture, this);
   },
 
 
@@ -59,90 +52,17 @@ qx.Mixin.define("qx.ui.resizer.MResizable",
 
   properties :
   {
-    /**
-     * It is resizable in the left direction.
-     *
-     * Note: This does only work if the widget is added to a
-     * {@link qx.ui.layout.Basic} or {@link qx.ui.layout.Canvas} layout.
-     */
-    resizableWest :
-    {
-      check : "Boolean",
-      init : false,
-      apply : "_applyResizable"
-    },
-
-
-    /**
-     * It is resizable in the top direction.
-     *
-     * Note: This does only work if the widget is added to a
-     * {@link qx.ui.layout.Basic} or {@link qx.ui.layout.Canvas} layout.
-     */
-    resizableNorth :
-    {
-      check : "Boolean",
-      init : false,
-      apply : "_applyResizable"
-    },
-
-
-    /**
-     * It is resizable in the right direction.
-     */
-    resizableEast :
-    {
-      check : "Boolean",
-      init : true,
-      apply : "_applyResizable"
-    },
-
-
-    /**
-     * It is resizable in the bottom direction.
-     */
-    resizableSouth :
-    {
-      check : "Boolean",
-      init : true,
-      apply : "_applyResizable"
-    },
-
-
-    /** If the window is resizable */
     resizable :
     {
-      group : [ "resizableNorth", "resizableEast", "resizableSouth", "resizableWest" ],
-      mode  : "shorthand"
+      check : "Boolean",
+      init : false,
+      apply : "_applyResizable"
     },
-
-
-    /** The resize method to use */
-    resizeMethod :
-    {
-      init : "frame",
-      check : [ "opaque", "frame", "translucent" ],
-      event : "changeResizeMethod"
-    },
-
 
     useResizeFrame :
     {
       check : "Boolean",
-      init : false
-    },
-
-    useDragFrame :
-    {
-      check : "Boolean",
-      init : false
-    },
-
-    /** Toggle the ability to resize the widget */
-    disableResize :
-    {
-      init : false,
-      check : "Boolean"
+      init : true
     }
   },
 
@@ -158,16 +78,11 @@ qx.Mixin.define("qx.ui.resizer.MResizable",
 
   members :
   {
-    /**
-     * Adjust so that it returns a boolean instead of an array.
-     *
-     * @type member
-     * @return {Boolean} TODOC
-     */
-    isResizable : function() {
-      return this.getResizableWest() || this.getResizableEast() || this.getResizableNorth() || this.getResizableSouth();
-    },
-
+    /*
+    ---------------------------------------------------------------------------
+      CORE FEATURES
+    ---------------------------------------------------------------------------
+    */
 
     /**
      * Get the widget, which draws the resize/move frame. The resize frame is
@@ -175,91 +90,201 @@ qx.Mixin.define("qx.ui.resizer.MResizable",
      *
      * @return {qx.ui.core.Widget} The resize frame
      */
-    _getFrame : function()
+    __getResizeFrame : function()
     {
-      var MResizable = qx.ui.resizer.MResizable;
-      if (MResizable.__frame) {
-        return MResizable.__frame;
+      var frame = this.__resizeFrame;
+      if (!frame)
+      {
+        frame = this.__resizeFrame = new qx.ui.core.Widget();
+        frame.setAppearance("resize-frame");
+        frame.exclude();
+
+        qx.core.Init.getApplication().getRoot().add(frame);
       }
 
-      var frame = new qx.ui.core.Widget();
-      frame.setAppearance("replacement-frame");
-      frame.exclude();
-
-      qx.core.Init.getApplication().getRoot().add(frame);
-
-      MResizable.__frame = frame;
       return frame;
     },
 
+
+    /**
+     * Creates, shows and syncs the frame with the widget.
+     */
+    __showResizeFrame : function()
+    {
+      var bounds = this.getBounds();
+      var frame = this.__getResizeFrame();
+      frame.setUserBounds(bounds.left, bounds.top, bounds.width, bounds.height);
+      frame.show();
+      frame.setZIndex(this.getZIndex()+1);
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      RESIZE SUPPORT
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Computes the new boundaries at each interval
+     * of the resize sequence.
+     *
+     * @param e {qx.event.type.Mouse} Last mouse event
+     */
+    __computeResizeResult : function(e)
+    {
+      // Detect mode
+      var resizeMode = this._resizeMode;
+
+      // Read size hint
+      var hint = this.getSizeHint();
+
+      // Read original values
+      var start = this.__resizeStart;
+      var width = start.width;
+      var height = start.height;
+      var left = start.left;
+      var top = start.top;
+
+      // North or south
+      if (resizeMode&1 || resizeMode&2)
+      {
+        var diff = e.getDocumentTop() - this.__resizeTop;
+
+        if (resizeMode&1) {
+          height -= diff;
+        } else {
+          height += diff;
+        }
+
+        if (height < hint.minHeight) {
+          height = hint.minHeight;
+        } else if (height > hint.maxHeight) {
+          height = hint.maxHeight;
+        }
+
+        if (resizeMode&1) {
+          top += start.height - height;
+        }
+      }
+
+      // West or east
+      if (resizeMode&4 || resizeMode&8)
+      {
+        var diff = e.getDocumentLeft() - this.__resizeLeft;
+
+        if (resizeMode&4) {
+          width -= diff;
+        } else {
+          width += diff;
+        }
+
+        if (width < hint.minWidth) {
+          width = hint.minWidth;
+        } else if (width > hint.maxWidth) {
+          width = hint.maxWidth;
+        }
+
+        if (resizeMode&4) {
+          left += start.width - width;
+        }
+      }
+
+      return {
+        left : left,
+        top : top,
+        width : width,
+        height : height
+      };
+    },
+
+
+    /** {Map} Maps internal states to cursor symbols to use */
+    __resizeCursors :
+    {
+      1  : "n-resize",
+      2  : "s-resize",
+      4  : "w-resize",
+      8  : "e-resize",
+
+      5  : "nw-resize",
+      6  : "sw-resize",
+      9  : "ne-resize",
+      10 : "se-resize"
+    },
+
+
+    /**
+     * Updates the internally stored resize mode
+     *
+     * @param e {qx.event.type.Mouse} Last mouse event
+     */
+    __computeResizeMode : function(e)
+    {
+      var contentLocation = this.getContentLocation();
+
+      var resizeMode = 0;
+      var mouseTolerance = 5;
+
+      var mouseLeft = e.getDocumentLeft();
+      var mouseTop = e.getDocumentTop();
+
+      if (Math.abs(contentLocation.top - mouseTop) < mouseTolerance) {
+        resizeMode += 1;
+      } else if (Math.abs(contentLocation.bottom - mouseTop) < mouseTolerance) {
+        resizeMode += 2;
+      }
+
+      if (Math.abs(contentLocation.left - mouseLeft) < mouseTolerance) {
+        resizeMode += 4;
+      } else if (Math.abs(contentLocation.right - mouseLeft) < mouseTolerance) {
+        resizeMode += 8;
+      }
+
+      this._resizeMode = resizeMode;
+    },
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      RESIZE EVENT HANDLERS
+    ---------------------------------------------------------------------------
+    */
 
     /**
      * Event handler for the mouse down event
      *
      * @param e {qx.event.type.Mouse} The mouse event instance
      */
-    __onResizeMousedown : function(e)
+    __onResizeMouseDown : function(e)
     {
-      if (!(this._resizeNorth || this._resizeSouth || this._resizeWest || this._resizeEast))
-      {
-        delete this._resizeSession;
+      // Check for active resize
+      if (!this._resizeMode) {
         return;
       }
 
-      // enable capturing
+      // Add resize state
+      this.addState("resize");
+
+      // Enable capturing
       this.capture();
 
-      // activate global cursor
-      // TODO: global cursor support
-      //this.getTopLevelWidget().setGlobalCursor(this.getCursor());
+      // Store mouse coordinates
+      this.__resizeLeft = e.getDocumentLeft();
+      this.__resizeTop = e.getDocumentTop();
 
-      var bounds = this.getBounds();
-      var location = qx.bom.element.Location.get(this.getContainerElement().getDomElement());
+      // Cache bounds
+      this.__resizeStart = qx.lang.Object.copy(this.getBounds());
 
-      // handle frame and translucently
-      switch(this.getResizeMethod())
-      {
-        case "translucent":
-          this.setOpacity(0.5);
-          break;
-
-        case "frame":
-          var frame = this._getFrame();
-          frame.show();
-          frame.setUserBounds(
-            location.left,
-            location.top,
-            location.right-location.left,
-            location.bottom - location.top
-          );
-          frame.setZIndex(this.getZIndex() + 1);
-          break;
+      // Show frame if configured this way
+      if (this.getUseResizeFrame()) {
+        this.__showResizeFrame();
       }
-
-      var right = bounds.left + bounds.width;
-      var bottom = bounds.top + bounds.height;
-
-      this._resizeSession = {
-        top: bounds.top,
-        left: bounds.left,
-        width: bounds.width,
-        height: bounds.height,
-        elementLocation: location,
-
-        right: right,
-        bottom: bottom,
-
-        lastTop: bounds.top,
-        lastLeft: bounds.left,
-        lastWidth: bounds.width,
-        lastHeight: bounds.height,
-
-        mouseStartLeft: e.getDocumentLeft(),
-        mouseStartTop: e.getDocumentTop()
-      };
-
-      // stop event
-      e.stopPropagation();
     },
 
 
@@ -270,115 +295,50 @@ qx.Mixin.define("qx.ui.resizer.MResizable",
      * @param e {qx.event.type.Mouse} The mouse event instance
      * @return {void}
      */
-    __onResizeMouseup : function(e)
+    __onResizeMouseUp : function(e)
     {
-      var s = this._resizeSession;
-
-      if (!s) {
+      // Check for active resize
+      if (!this._resizeMode) {
         return;
       }
 
+      // Hide frame afterwards
+      if (this.getUseResizeFrame()) {
+        this.__getResizeFrame().exclude();
+      }
+
+      // Compute bounds
+      var bounds = this.__computeResizeResult(e);
+
+      // Sync with widget
+      this.setWidth(bounds.width);
+      this.setHeight(bounds.height);
+
+      // Update coordinate in canvas
+      this.setLayoutProperties({
+        left : bounds.left,
+        top : bounds.top
+      });
+
+      // Clear mode
+      this._resizeMode = 0;
+
+      // Remove resize state
+      this.removeState("resize");
+
+      // Disable capturing
       this.releaseCapture();
-
-      // deactivate global cursor
-      // TODO
-      //this.getTopLevelWidget().setGlobalCursor(null);
-
-      // sync sizes to frame
-      switch(this.getResizeMethod())
-      {
-        case "frame":
-          this._getFrame().hide();
-
-          if (s.lastLeft !== s.left || s.lastTop !== s.top) {
-            this.setLayoutProperties({"left" : s.lastLeft, "top" : s.lastTop});
-          }
-          this.setWidth(s.lastWidth);
-          this.setHeight(s.lastHeight);
-          break;
-
-        case "translucent":
-          this.setOpacity(null);
-          break;
-      }
-
-      // cleanup session
-      delete this._resizeSession;
-
-      // stop event
-      if (e.getType() == "mouseup") {
-        e.stopPropagation();
-      }
     },
 
 
-    /**
-     * Checks whether the two arguments are near to each other. Returns true if
-     * the absolute difference is less than five.
-     *
-     * @param p {Integer} first value
-     * @param e {Integer} second value
-     * @return {Boolean} Whether the two arguments are near to each other
-     */
-    _near : function(p, e) {
-      return e > (p - 5) && e < (p + 5);
-    },
-
-
-    /**
-     * Updates the cursor and stores the possible actions.
-     *
-     * @param documentLeft {Integer} The left mouse position
-     * @param documentTop {Integer} The top mouse position
-     */
-    _updateCursor : function(documentLeft, documentTop)
+    __onResizeLoseCapture : function(e)
     {
-      var resizeMode = "";
-      var el = this.getContentElement().getDomElement();
-
-      this._resizeNorth = this._resizeSouth = this._resizeWest = this._resizeEast = false;
-
-      var elLoc = qx.bom.element.Location.get(el);
-
-      if (this._near(elLoc.top, documentTop))
-      {
-        if (this.getResizableNorth())
-        {
-          resizeMode = "n";
-          this._resizeNorth = true;
-        }
-      }
-      else if (this._near(elLoc.bottom, documentTop))
-      {
-        if (this.getResizableSouth())
-        {
-          resizeMode = "s";
-          this._resizeSouth = true;
-        }
+      // Check for active resize
+      if (!this._resizeMode) {
+        return;
       }
 
-      if (this._near(elLoc.left, documentLeft))
-      {
-        if (this.getResizableWest())
-        {
-          resizeMode += "w";
-          this._resizeWest = true;
-        }
-      }
-      else if (this._near(elLoc.right, documentLeft))
-      {
-        if (this.getResizableEast())
-        {
-          resizeMode += "e";
-          this._resizeEast = true;
-        }
-      }
 
-      if (this._resizeNorth || this._resizeSouth || this._resizeWest || this._resizeEast) {
-        this.setCursor(resizeMode + "-resize");
-      } else {
-        this.resetCursor();
-      }
     },
 
 
@@ -389,211 +349,43 @@ qx.Mixin.define("qx.ui.resizer.MResizable",
      * @param e {qx.event.type.Mouse} The mouse event instance
      * @return {void}
      */
-    __onResizeMousemove : function(e)
+    __onResizeMouseMove : function(e)
     {
-      if (this.getDisableResize()) {
-        return;
-      }
-
-      var s = this._resizeSession;
-
-      if (!s)
+      if (this.hasState("resize"))
       {
-        this._updateCursor(e.getDocumentLeft(), e.getDocumentTop());
-        return;
-      }
+        var bounds = this.__computeResizeResult(e);
 
-      var mouseOffsetLeft = e.getDocumentLeft() - s.mouseStartLeft;
-      var mouseOffsetTop = e.getDocumentTop() - s.mouseStartTop;
+        // Update widget
+        if (this.getUseResizeFrame())
+        {
+          // Sync new bounds to frame
+          var frame = this.__getResizeFrame();
+          frame.setUserBounds(bounds.left, bounds.top, bounds.width, bounds.height);
+        }
+        else
+        {
+          // Update size
+          this.setWidth(bounds.width);
+          this.setHeight(bounds.height);
 
-      var hint = this.getSizeHint();
-
-      var maxWidth = this.getMaxWidth() != null ? hint.maxWidth : Infinity;
-      var maxHeight = this.getMaxHeight() != null ? hint.maxHeight : Infinity;
-
-      if (this._resizeWest)
-      {
-        s.lastWidth = qx.lang.Number.limit(s.width - mouseOffsetLeft, hint.minWidth, maxWidth);
-        s.lastLeft = s.left + s.width - s.lastWidth;
-      }
-      else if (this._resizeEast)
-      {
-        s.lastWidth = qx.lang.Number.limit(s.width + mouseOffsetLeft, hint.minWidth, maxWidth);
-      }
-
-      if (this._resizeNorth)
-      {
-        s.lastHeight = qx.lang.Number.limit(s.height - mouseOffsetTop, hint.minHeight, maxHeight);
-        s.lastTop = s.top + s.height - s.lastHeight;
-      }
-      else if (this._resizeSouth)
-      {
-        s.lastHeight = qx.lang.Number.limit(s.height + mouseOffsetTop, hint.minHeight, maxHeight);
-      }
-
-      switch(this.getResizeMethod())
-      {
-        case "opaque":
-        case "translucent":
-          this.setWidth(s.lastWidth);
-          this.setHeight(s.lastHeight);
-          this.setLayoutProperties({"left" : s.lastLeft, "top" : s.lastTop});
-          break;
-
-        case "frame":
-          this._getFrame().setUserBounds(
-            s.elementLocation.left + s.lastLeft - s.left,
-            s.elementLocation.top + s.lastTop - s.top,
-            s.lastWidth,
-            s.lastHeight
-          );
-      }
-
-      // stop event
-      e.stopPropagation();
-    },
-
-
-
-
-
-
-    /**
-     * Get the widget, which draws the resize/move frame. The resize frame is
-     * shared by all widgets and is added to the root widget.
-     *
-     * @return {qx.ui.core.Widget} The resize frame
-     */
-    _getReplacementFrame : function()
-    {
-      var MResizable = qx.ui.resizer.MResizable;
-      var frame = MResizable.__frame;
-
-      if (!frame)
-      {
-        frame = MResizable.__frame = new qx.ui.core.Widget();
-        frame.setAppearance("replacement-frame");
-        frame.exclude();
-
-        qx.core.Init.getApplication().getRoot().add(frame);
-      }
-
-      return frame;
-    },
-
-
-    __computeDragCoordinates : function(e)
-    {
-      var range = this._dragRange;
-      var mouseLeft = Math.max(range.left, Math.min(range.right, e.getDocumentLeft()));
-      var mouseTop = Math.max(range.top, Math.min(range.bottom, e.getDocumentTop()));
-
-      return {
-        left : this._dragLeft + mouseLeft,
-        top : this._dragTop + mouseTop
-      };
-    },
-
-
-    /**
-     * Enables the capturing of the caption bar and prepares the drag session and the
-     * appearance (translucent, frame or opaque) for the moving of the window.
-     *
-     * @type member
-     * @param e {qx.event.type.MouseEvent} mouse down event
-     * @return {void}
-     */
-    _onDragTargetMouseDown : function(e)
-    {
-      if (!this.getMoveable()) {
-        return;
-      }
-
-      // Compute drag range
-      this._dragRange = this.getLayoutParent().getContentLocation();
-
-      // Compute drag positions
-      var widgetLocation = this.getContainerLocation();
-      this._dragLeft = widgetLocation.left - e.getDocumentLeft();
-      this._dragTop = widgetLocation.top - e.getDocumentTop();
-
-      // Add state
-      this.addState("drag");
-
-      // Enable capturing
-      this._getDragableTarget().capture();
-
-      // Enable drag frame
-      if (this.getUseDragFrame())
-      {
-        var bounds = this.getBounds();
-        var frame = this._getReplacementFrame();
-        frame.setUserBounds(bounds.left, bounds.top, bounds.width, bounds.height);
-        frame.show();
-        frame.setZIndex(this.getZIndex()+1);
-        this.__moveTarget = frame;
+          // Update coordinate in canvas
+          this.setLayoutProperties({
+            left : bounds.left,
+            top : bounds.top
+          });
+        }
       }
       else
       {
-        this.__moveTarget = this;
+        this.__computeResizeMode(e);
+
+        var resizeMode = this._resizeMode;
+        if (resizeMode) {
+          this.setCursor(this.__resizeCursors[resizeMode]);
+        } else {
+          this.resetCursor();
+        }
       }
-    },
-
-
-    /**
-     * Does the moving of the window by rendering the position
-     * of the window (or frame) at runtime using direct dom methods.
-     *
-     * @type member
-     * @param e {qx.event.type.Event} mouse move event
-     * @return {void}
-     */
-    _onDragTargetMouseMove : function(e)
-    {
-      // Only react when dragging is active
-      if (!this.hasState("drag")) {
-        return;
-      }
-
-      // Apply new coordinates using DOM
-      var coords = this.__computeDragCoordinates(e);
-      this.__moveTarget.setDomPosition(coords.left, coords.top);
-    },
-
-
-    /**
-     * Disables the capturing of the caption bar and moves the window
-     * to the last position of the drag session. Also restores the appearance
-     * of the window.
-     *
-     * @type member
-     * @param e {qx.event.type.MouseEvent} mouse up event
-     * @return {void}
-     */
-    _onDragTargetMouseUp : function(e)
-    {
-      // Only react when dragging is active
-      if (!this.hasState("drag")) {
-        return;
-      }
-
-      // Remove drag state
-      this.removeState("drag");
-
-      // Disable capturing
-      this._getDragableTarget().releaseCapture();
-
-      // Apply them to the layout
-      var coords = this.__computeDragCoordinates(e);
-      this.setLayoutProperties({ left: coords.left, top: coords.top });
-
-      // Hide frame afterwards
-      if (this.getUseDragFrame()) {
-        this.__moveTarget.exclude();
-      }
-
-      // Clear move target
-      this.__moveTarget = null;
     }
   },
 
@@ -608,6 +400,6 @@ qx.Mixin.define("qx.ui.resizer.MResizable",
   */
 
   destruct : function() {
-    this._disposeObjects("__frame");
+    this._disposeObjects("__resizeFrame");
   }
 });
