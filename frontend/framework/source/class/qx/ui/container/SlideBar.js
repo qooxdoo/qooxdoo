@@ -69,7 +69,6 @@ qx.Class.define("qx.ui.container.SlideBar",
 
   properties :
   {
-
     // overridden
     appearance :
     {
@@ -77,13 +76,13 @@ qx.Class.define("qx.ui.container.SlideBar",
       init : "slidebar"
     },
 
+    /** Orientation of the bar */
     orientation :
     {
       check : ["horizontal", "vertical"],
       init : "horizontal",
       apply : "_applyOrientation"
     }
-
   },
 
 
@@ -146,7 +145,6 @@ qx.Class.define("qx.ui.container.SlideBar",
           control = new qx.ui.core.ScrollPane();
           control.addListener("update", this._onResize, this);
           break;
-
       }
 
       return control || this.base(arguments, id);
