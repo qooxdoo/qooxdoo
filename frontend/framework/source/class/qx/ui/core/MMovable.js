@@ -21,7 +21,7 @@
 /**
  * Provides move behavior to any widget.
  */
-qx.Mixin.define("qx.ui.resizer.MMovable",
+qx.Mixin.define("qx.ui.core.MMovable",
 {
   /*
   *****************************************************************************

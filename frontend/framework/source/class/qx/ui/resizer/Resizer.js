@@ -28,7 +28,7 @@
 qx.Class.define("qx.ui.resizer.Resizer",
 {
   extend    : qx.ui.container.Composite,
-  include   : qx.ui.resizer.MResizable,
+  include   : qx.ui.core.MResizable,
 
 
   /*

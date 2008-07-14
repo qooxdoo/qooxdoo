@@ -44,8 +44,8 @@ qx.Class.define("qx.ui.window.Window",
   [
     qx.ui.core.MRemoteChildrenHandling,
     qx.ui.core.MRemoteLayoutHandling,
-    qx.ui.resizer.MResizable,
-    qx.ui.resizer.MMovable,
+    qx.ui.core.MResizable,
+    qx.ui.core.MMovable,
     qx.ui.core.MBlocker
   ],
 
