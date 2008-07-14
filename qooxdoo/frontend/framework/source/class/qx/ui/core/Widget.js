@@ -2868,6 +2868,99 @@ qx.Class.define("qx.ui.core.Widget",
 
 
 
+    /*
+    ---------------------------------------------------------------------------
+      LOWER LEVEL ACCESS
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Computes the location of the container element in context of the document dimensions.
+     *
+     * Supported modes:
+     *
+     * * <code>margin</code>: Calculate from the margin box of the element (bigger than the visual appearance: including margins of given element)
+     * * <code>box</code>: Calculates the offset box of the element (default, uses the same size as visible)
+     * * <code>border</code>: Calculate the border box (useful to align to border edges of two elements).
+     * * <code>scroll</code>: Calculate the scroll box (relevant for absolute positioned content).
+     * * <code>padding</code>: Calculate the padding box (relevant for static/relative positioned content).
+     *
+     * @type member
+     * @param mode {String} A supported option. See comment above.
+     * @return {Map} Returns a map with <code>left</code>, <code>top</code>,
+     *   <code>right</code> and <code>bottom</code> which contains the distance
+     *   of the element relative to the document.
+     */
+    getContainerLocation : function(mode)
+    {
+      var domEl = this.getContainerElement().getDomElement();
+      return domEl ? qx.bom.element.Location.get(domEl, mode) : null;
+    },
+
+
+    /**
+     * Computes the location of the content element in context of the document dimensions.
+     *
+     * Supported modes:
+     *
+     * * <code>margin</code>: Calculate from the margin box of the element (bigger than the visual appearance: including margins of given element)
+     * * <code>box</code>: Calculates the offset box of the element (default, uses the same size as visible)
+     * * <code>border</code>: Calculate the border box (useful to align to border edges of two elements).
+     * * <code>scroll</code>: Calculate the scroll box (relevant for absolute positioned content).
+     * * <code>padding</code>: Calculate the padding box (relevant for static/relative positioned content).
+     *
+     * @type member
+     * @param mode {String} A supported option. See comment above.
+     * @return {Map} Returns a map with <code>left</code>, <code>top</code>,
+     *   <code>right</code> and <code>bottom</code> which contains the distance
+     *   of the element relative to the document.
+     */
+    getContentLocation : function(mode)
+    {
+      var domEl = this.getContainerElement().getDomElement();
+      return domEl ? qx.bom.element.Location.get(domEl, mode) : null;
+    },
+
+
+    /**
+     * Directly modifies the relative left position in relation
+     * to the parent element.
+     *
+     * Use with caution! This may be used for animations, drag&drop
+     * or other cases where high performance location manipulation
+     * is important. Otherwise please use {@link #setUserBounds} instead.
+     *
+     * @param value {Integer} Left position
+     * @return {void}
+     */
+    setDomLeft : function(value)
+    {
+      var domEl = this.getContainerElement().getDomElement();
+      domEl.style.left = value + "px";
+    },
+
+
+    /**
+     * Directly modifies the relative top position in relation
+     * to the parent element.
+     *
+     * Use with caution! This may be used for animations, drag&drop
+     * or other cases where high performance location manipulation
+     * is important. Otherwise please use {@link #setUserBounds} instead.
+     *
+     * @param value {Integer} Top position
+     * @return {void}
+     */
+    setDomTop : function(value)
+    {
+      var domEl = this.getContainerElement().getDomElement();
+      domEl.style.top = value + "px";
+    },
+
+
+
+
+
 
     /*
     ---------------------------------------------------------------------------
