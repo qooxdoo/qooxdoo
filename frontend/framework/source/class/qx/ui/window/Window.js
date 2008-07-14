@@ -632,29 +632,40 @@ qx.Class.define("qx.ui.window.Window",
      */
     maximize : function()
     {
-      if (this.fireNonBubblingEvent("beforeMaximize", qx.event.type.Event, [false, true]))
+      // First check if the parent uses a canvas layout
+      // Otherwise maximize() is not possible
+      var parent = this.getLayoutParent();
+      if (!parent) {
+        return;
+      }
+
+      var layout = parent.getLayout();
+      if (layout && layout instanceof qx.ui.layout.Canvas)
       {
-        // store current dimension and location
-        var props = this.getLayoutProperties();
-        this.__restoredLeft = props.left;
-        this.__restoredTop = props.top;
+        if (this.fireNonBubblingEvent("beforeMaximize", qx.event.type.Event, [false, true]))
+        {
+          // store current dimension and location
+          var props = this.getLayoutProperties();
+          this.__restoredLeft = props.left;
+          this.__restoredTop = props.top;
 
-        // Update layout properties
-        this.setLayoutProperties({
-          left: null,
-          top: null,
-          edge: 0
-        });
+          // Update layout properties
+          this.setLayoutProperties({
+            left: null,
+            top: null,
+            edge: 0
+          });
 
-        // Add state
-        this.addState("maximized");
+          // Add state
+          this.addState("maximized");
 
-        // Update captionbar
-        this._updateCaptionBar();
+          // Update captionbar
+          this._updateCaptionBar();
 
-        // Fire user event
-        this.fireEvent("maximize");
-      };
+          // Fire user event
+          this.fireEvent("maximize");
+        }
+      }
     },
 
 

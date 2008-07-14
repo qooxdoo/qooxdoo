@@ -217,9 +217,10 @@ qx.Class.define("demobrowser.demo.widget.Window",
     {
       var wm1 = new qx.ui.window.Window("First Modal Dialog");
       wm1.setPadding(10);
-      wm1.setLayout(new qx.ui.layout.VBox);
-      // wm1.setModal(true);
-      this.getRoot().add(wm1, {left:150, top:150});
+      wm1.setLayout(new qx.ui.layout.VBox(10));
+      wm1.setModal(true);
+      wm1.moveTo(150, 150);
+      this.getRoot().add(wm1);
 
       var wm2 = this.getModalWindow2();
 
@@ -242,10 +243,11 @@ qx.Class.define("demobrowser.demo.widget.Window",
     {
       var wm2 = new qx.ui.window.Window("Second Modal Dialog");
       wm2.setPadding(10);
-      wm2.setLayout(new qx.ui.layout.VBox);
-      // wm2.setModal(true);
+      wm2.setLayout(new qx.ui.layout.VBox(10));
+      wm2.setModal(true);
       wm2.setShowClose(false);
-      this.getRoot().add(wm2, {left:300, top:300});
+      wm2.moveTo(300, 300);
+      this.getRoot().add(wm2);
 
       var warn1 = new qx.ui.basic.Atom("Do you want to fly to Berlin?", "icon/32/status/dialog-error.png");
       wm2.add(warn1);
