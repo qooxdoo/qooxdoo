@@ -183,7 +183,7 @@ qx.Mixin.define("qx.ui.resizer.MResizable",
       }
 
       var frame = new qx.ui.core.Widget();
-      frame.setAppearance("resizer-frame");
+      frame.setAppearance("replacement-frame");
       frame.exclude();
 
       qx.core.Init.getApplication().getRoot().add(frame);
