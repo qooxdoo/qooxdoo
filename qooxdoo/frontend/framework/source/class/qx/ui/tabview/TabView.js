@@ -97,17 +97,17 @@ qx.Class.define("qx.ui.tabview.TabView",
   */
 
   members :
-  {
+  {    
     // overridden
     _createChildControlImpl : function(id)
     {
+      this.debug(this, id)
       var control;
 
       switch(id)
       {
         case "bar":
           control = new qx.ui.container.SlideBar();
-//          control.setLayout(new qx.ui.layout.HBox());
           this._add(control);
           break;
 
@@ -120,6 +120,36 @@ qx.Class.define("qx.ui.tabview.TabView",
       return control || this.base(arguments, id);
     },
 
+    __positionInformation : {
+      "left" :
+      {
+        "orientation" : "vertical",
+        "layout" : "HBox",
+        "barPosition" : "barLeft",
+        "reversedLayout" : false
+      },
+  
+      "right" : {
+        "orientation" : "vertical",
+        "layout" : "HBox",
+        "barPosition" : "barRight",
+        "reversedLayout" : true
+      },
+  
+      "top" : {
+        "orientation" : "horizontal",
+        "layout" :"VBox",
+        "barPosition" : "barTop",
+        "reversedLayout" : false
+      },
+  
+      "bottom" : {
+        "orientation" : "horizontal",
+        "layout" : "VBox",
+        "barPosition" : "barBottom",
+        "reversedLayout" : true
+      }
+    },
 
     /**
      * Adds a page to the tabview including its needed button
@@ -178,6 +208,17 @@ qx.Class.define("qx.ui.tabview.TabView",
       pane.remove(page);
     },
 
+    /**
+     * Returns TabView's children widgets.
+     * 
+     * @type member
+     * @return {Array} List of children.
+     */
+    getChildren : function()
+    {
+      return this._getChildControl("bar").getChildren()
+    },
+    
     /*
     ---------------------------------------------------------------------------
       APPLY ROUTINES
@@ -200,45 +241,23 @@ qx.Class.define("qx.ui.tabview.TabView",
       var bar = this._getChildControl("bar");
       var pane = this._getChildControl("pane");
 
-      switch(value)
+      // Retrieve position information
+      var position = this.__positionInformation[value];
+      var layout = (position.layout == "HBox") ? new qx.ui.layout.HBox() : new qx.ui.layout.VBox();
+
+      // Apply layout and orientation
+      bar.setOrientation(position.orientation);
+      this._setLayout(layout);
+      this._getLayout().setReversed(position.reversedLayout);
+
+      // Update childrens' states
+      var pages = this.getChildren();
+      for (var i = 0, l=pages.length; i < l; i++)
       {
-        case "left" :
-          bar.setOrientation("vertical");
-          this._setLayout(new qx.ui.layout.HBox());
-          this._getLayout().setReversed(false);
-          break;
-
-        case "right" :
-          bar.setOrientation("vertical");
-          this._setLayout(new qx.ui.layout.HBox());
-          this._getLayout().setReversed(true);
-          break;
-
-        case "top" :
-          bar.setOrientation("horizontal");
-          this._setLayout(new qx.ui.layout.VBox());
-          this._getLayout().setReversed(false);
-          break;
-
-        case "bottom" :
-          bar.setOrientation("horizontal");
-          this._setLayout(new qx.ui.layout.VBox());
-          this._getLayout().setReversed(true);
-          break;
-
-      }
-
-      var buttons = bar.getChildren();
-      value ? bar.addState("barTop") : bar.removeState("barTop");
-      value ? pane.addState("barTop") : pane.removeState("barTop");
-
-      for (var i = 0, l=buttons.length; i < l; i++)
-      {
-        if (value == "top") {
-          buttons[i].addState("barTop");
-        } else if(value == "bottom") {
-          buttons[i].removeState("barTop");
+        if (old != undefined) {
+          pages[i].removeState(this.__positionInformation[old].barPosition);
         }
+        pages[i].addState(position.barPosition);
       }
 
     },
