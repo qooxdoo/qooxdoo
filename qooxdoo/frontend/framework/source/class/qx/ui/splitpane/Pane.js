@@ -287,11 +287,11 @@ qx.Class.define("qx.ui.splitpane.Pane",
         this.__computeSizes();
 
         // Update slider position
-        var sliderEl = this._getChildControl("slider").getContainerElement();
+        var slider = this._getChildControl("slider");
         if(this._isHorizontal) {
-          sliderEl.setStyle("left", this._beginSize + "px", true);
+          slider.setDomLeft(this._beginSize);
         } else {
-          sliderEl.setStyle("top", this._beginSize + "px", true);
+          slider.setDomTop(this._beginSize);
         }
       }
       else

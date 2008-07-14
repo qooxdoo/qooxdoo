@@ -2936,7 +2936,11 @@ qx.Class.define("qx.ui.core.Widget",
     setDomLeft : function(value)
     {
       var domEl = this.getContainerElement().getDomElement();
-      domEl.style.left = value + "px";
+      if (domEl) {
+        domEl.style.left = value + "px";
+      } else {
+        throw new Error("DOM element is not yet created!");
+      }
     },
 
 
@@ -2954,7 +2958,11 @@ qx.Class.define("qx.ui.core.Widget",
     setDomTop : function(value)
     {
       var domEl = this.getContainerElement().getDomElement();
-      domEl.style.top = value + "px";
+      if (domEl) {
+        domEl.style.top = value + "px";
+      } else {
+        throw new Error("DOM element is not yet created!");
+      }
     },
 
 
