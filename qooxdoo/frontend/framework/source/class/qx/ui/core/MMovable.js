@@ -40,8 +40,6 @@ qx.Mixin.define("qx.ui.core.MMovable",
 
 
 
-
-
   /*
   *****************************************************************************
      PROPERTIES
@@ -50,20 +48,21 @@ qx.Mixin.define("qx.ui.core.MMovable",
 
   properties :
   {
+    /** Whether the widget is movable */
     movable :
     {
       check : "Boolean",
-      init : false,
+      init : true,
       apply : "_applyMoveable"
     },
 
+    /** Whether to use a frame instead of the original widget during move sequences */
     useMoveFrame :
     {
       check : "Boolean",
-      init : true
+      init : false
     }
   },
-
 
 
 
@@ -159,7 +158,7 @@ qx.Mixin.define("qx.ui.core.MMovable",
      */
     _onMoveMouseDown : function(e)
     {
-      if (!this.getMoveable()) {
+      if (!this.getMovable()) {
         return;
       }
 

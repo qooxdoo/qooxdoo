@@ -82,14 +82,15 @@ qx.Class.define("qx.ui.window.Window",
       this.setCaption(caption);
     }
 
-    // update captionbar
+    // Update captionbar
     this._updateCaptionBar();
 
-    // register window events
+    // Stop typical mouse events
     this.addListener("mousedown", this._onWindowEventStop);
     this.addListener("mouseup", this._onWindowEventStop);
     this.addListener("click", this._onWindowEventStop);
 
+    // Activation listener
     this.addListener("mousedown", this._onWindowMouseDown, this, true);
   },
 
@@ -374,33 +375,6 @@ qx.Class.define("qx.ui.window.Window",
       check : "Boolean",
       init : false,
       apply : "_applyShowStatusbar"
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      MOVE CONFIG
-    ---------------------------------------------------------------------------
-    */
-
-    /** If the window is moveable */
-    moveable :
-    {
-      check : "Boolean",
-      init : true,
-      event : "changeMoveable"
-    },
-
-
-    /** The move method to use */
-    moveMethod :
-    {
-      check : [ "opaque", "frame", "translucent" ],
-      init : "opaque",
-      event : "changeMoveMethod",
-      themeable : true
     }
   },
 
@@ -809,12 +783,6 @@ qx.Class.define("qx.ui.window.Window",
 
 
     // property apply
-    _applyResizable : function(value, old) {
-      this._updateCaptionBar();
-    },
-
-
-    // property apply
     _applyCaption : function(value, old) {
       this._getChildControl("title").setContent(value);
     },
@@ -925,11 +893,8 @@ qx.Class.define("qx.ui.window.Window",
      */
     _onCaptionMouseDblClick : function(e)
     {
-      // TODO
-      return;
-
       if (this.getAllowMaximize()) {
-        this.isMaximized() ? this.restore() : this.maximize();
+        this.hasState("maximized") ? this.restore() : this.maximize();
       }
     },
 
@@ -1000,6 +965,11 @@ qx.Class.define("qx.ui.window.Window",
 
 
 
+    /*
+    ---------------------------------------------------------------------------
+      MIXIN APIS
+    ---------------------------------------------------------------------------
+    */
 
     _getMovableTarget : function() {
       return this._getChildControl("captionbar");
