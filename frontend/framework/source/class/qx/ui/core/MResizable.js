@@ -288,6 +288,9 @@ qx.Mixin.define("qx.ui.core.MResizable",
       if (this.getUseResizeFrame()) {
         this.__showResizeFrame();
       }
+
+      // Stop event
+      e.stop();
     },
 
 
@@ -329,11 +332,19 @@ qx.Mixin.define("qx.ui.core.MResizable",
       // Remove resize state
       this.removeState("resize");
 
+      // Reset cursor
+      this.resetCursor();
+
       // Disable capturing
       this.releaseCapture();
     },
 
 
+    /**
+     * Event listener for <code>losecapture</code> event.
+     *
+     * @param e {qx.event.type.Event} Lose capture event
+     */
     __onResizeLoseCapture : function(e)
     {
       // Check for active resize
@@ -341,7 +352,16 @@ qx.Mixin.define("qx.ui.core.MResizable",
         return;
       }
 
+      // Reset cursor
+      this.resetCursor();
 
+      // Remove drag state
+      this.removeState("move");
+
+      // Hide frame afterwards
+      if (this.getUseMoveFrame()) {
+        this.__getMoveFrame().exclude();
+      }
     },
 
 

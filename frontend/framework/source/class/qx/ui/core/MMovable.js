@@ -126,6 +126,8 @@ qx.Mixin.define("qx.ui.core.MMovable",
 
     /**
      * Computes the new drag coordinates
+     *
+     * @param e {qx.event.type.Mouse} Mouse event
      */
     __computeMoveCoordinates : function(e)
     {
@@ -171,7 +173,7 @@ qx.Mixin.define("qx.ui.core.MMovable",
       this._dragTop = widgetLocation.top - e.getDocumentTop();
 
       // Add state
-      this.addState("drag");
+      this.addState("move");
 
       // Enable capturing
       this._getMovableTarget().capture();
@@ -180,6 +182,9 @@ qx.Mixin.define("qx.ui.core.MMovable",
       if (this.getUseMoveFrame()) {
         this.__showMoveFrame();
       }
+
+      // Stop event
+      e.stop();
     },
 
 
@@ -194,7 +199,7 @@ qx.Mixin.define("qx.ui.core.MMovable",
     _onMoveMouseMove : function(e)
     {
       // Only react when dragging is active
-      if (!this.hasState("drag")) {
+      if (!this.hasState("move")) {
         return;
       }
 
@@ -220,12 +225,12 @@ qx.Mixin.define("qx.ui.core.MMovable",
     _onMoveMouseUp : function(e)
     {
       // Only react when dragging is active
-      if (!this.hasState("drag")) {
+      if (!this.hasState("move")) {
         return;
       }
 
       // Remove drag state
-      this.removeState("drag");
+      this.removeState("move");
 
       // Disable capturing
       this._getMovableTarget().releaseCapture();
@@ -241,11 +246,24 @@ qx.Mixin.define("qx.ui.core.MMovable",
     },
 
 
+    /**
+     * Event listener for <code>losecapture</code> event.
+     *
+     * @param e {qx.event.type.Event} Lose capture event
+     */
     __onMoveLoseCapture : function(e)
     {
-      // Check for active resize
-      if (!this._resizeMode) {
+      // Check for active move
+      if (!this.hasState("move")) {
         return;
+      }
+
+      // Remove drag state
+      this.removeState("move");
+
+      // Hide frame afterwards
+      if (this.getUseMoveFrame()) {
+        this.__getMoveFrame().exclude();
       }
     }
   },
