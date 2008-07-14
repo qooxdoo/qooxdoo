@@ -20,27 +20,21 @@
 ************************************************************************ */
 
 /**
- * An internal window based on qooxdoo widgets
+ * A window widget
  *
  * More information can be found in the package description {@link qx.ui.window}.
  *
- * @state active
- * @state maximized This state is active if the window is maximized
+ * @state active Whether the window is activated
+ * @state maximized Whether the window is maximized
  *
  * @appearance window The main window object
- * @appearance window-resize-frame {qx.ui.basic.Terminator}
- * @appearance window-pane {qx.ui.container.Composite}
- * @appearance window-captionbar-icon {qx.ui.basic.Image}
- * @appearance window-captionbar-title {qx.ui.basic.Label} The label of the caption bar
- * @appearance window-captionbar-minimize-button {qx.ui.form.Button}
- * @appearance window-captionbar-restore-button {qx.ui.form.Button}
- * @appearance window-captionbar-maximize-button {qx.ui.form.Button}
- * @appearance window-captionbar-close-button {qx.ui.form.Button}
- * @appearance window-statusbar {qx.ui.layout.HorizontalBoxLayout}
- * @appearance window-statusbar-text {qx.ui.basic.Label}
- *
- * @appearance window-captionbar {qx.ui.layout.HorizontalBoxLayout}
- * @state active {window-captionbar}
+ * @control pane {qx.ui.container.Composite}
+ * @control minimize-button {qx.ui.form.Button}
+ * @control restore-button {qx.ui.form.Button}
+ * @control maximize-button {qx.ui.form.Button}
+ * @control close-button {qx.ui.form.Button}
+ * @control statusbar {qx.ui.layout.HorizontalBoxLayout}
+ * @control statusbar-text {qx.ui.basic.Label}
  */
 qx.Class.define("qx.ui.window.Window",
 {
