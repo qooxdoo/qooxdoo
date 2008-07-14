@@ -550,8 +550,16 @@ qx.Class.define("qx.ui.window.Window",
 
       if (this.getShowMaximize())
       {
-        this._showChildControl("maximize-button");
-        this._showChildControl("maximize-button");
+        if (this.hasState("maximized"))
+        {
+          this._showChildControl("restore-button");
+          this._excludeChildControl("maximize-button");
+        }
+        else
+        {
+          this._showChildControl("maximize-button");
+          this._excludeChildControl("restore-button");
+        }
 
         var btn = this._getChildControl("maximize-button");
         this.getAllowMaximize() ? btn.resetEnabled() : btn.setEnabled(false);
@@ -624,7 +632,27 @@ qx.Class.define("qx.ui.window.Window",
      */
     maximize : function()
     {
-      if (!this.fireNonBubblingEvent("beforeMaximize", qx.event.type.Event, [false, true])) {
+      if (this.fireNonBubblingEvent("beforeMaximize", qx.event.type.Event, [false, true]))
+      {
+        // store current dimension and location
+        var props = this.getLayoutProperties();
+        this.__restoredLeft = props.left;
+        this.__restoredTop = props.top;
+
+        // Update layout properties
+        this.setLayoutProperties({
+          left: null,
+          top: null,
+          edge: 0
+        });
+
+        // Add state
+        this.addState("maximized");
+
+        // Update captionbar
+        this._updateCaptionBar();
+
+        // Fire user event
         this.fireEvent("maximize");
       };
     },
@@ -638,7 +666,7 @@ qx.Class.define("qx.ui.window.Window",
      */
     minimize : function()
     {
-      if (!this.fireNonBubblingEvent("beforeMinimize", qx.event.type.Event, [false, true]))
+      if (this.fireNonBubblingEvent("beforeMinimize", qx.event.type.Event, [false, true]))
       {
         this.hide();
         this.fireEvent("minimize");
@@ -654,7 +682,29 @@ qx.Class.define("qx.ui.window.Window",
      */
     restore : function()
     {
-      if (this.fireNonBubblingEvent("beforeRestore", qx.event.type.Event, [false, true])) {
+      if (!this.hasState("maximized")) {
+        return;
+      }
+
+      if (this.fireNonBubblingEvent("beforeRestore", qx.event.type.Event, [false, true]))
+      {
+        // Restore old properties
+        var left = this.__restoredLeft;
+        var top = this.__restoredTop;
+
+        this.setLayoutProperties({
+          edge : null,
+          left : left,
+          top : top
+        });
+
+        // Remove maximized state
+        this.removeState("maximized");
+
+        // Update captionbar
+        this._updateCaptionBar();
+
+        // Fire user event
         this.fireEvent("restore");
       };
     },
@@ -794,61 +844,6 @@ qx.Class.define("qx.ui.window.Window",
     // property apply
     _applyIcon : function(value, old) {
       this._getChildControl("icon").setSource(value);
-    },
-
-
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      STATE LAYOUT IMPLEMENTATION
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * Maximizes the window.<br/>
-     * Stores the current dimension and location and setups up
-     * the new ones. Adds the state <code>maximized</code> and toggles
-     * the buttons in the caption bar.
-     *
-     * @type member
-     * @return {void}
-     */
-    _maximize : function()
-    {
-      if (this.hasState("maximized")) {
-        return;
-      }
-
-      // store current dimension and location
-      var props = this.getLayoutProperties();
-      this.__previousLayoutProps = {
-        left: props.left || 0,
-        right: props.right || null,
-        bottom: props.bottom || null,
-        top: props.top || 0
-      };
-
-      // setup new dimension and location
-      this.setLayoutProperties({
-        left: 0,
-        top: 0,
-        right: 0,
-        bottom: 0
-      })
-
-      // update state
-      this.addState("maximized");
-
-      // toggle button
-      if (this.getShowMaximize())
-      {
-        this._showChildControl("restore-button");
-        this._excludeChildControl("maximize-button");
-      }
-
     },
 
 
