@@ -162,7 +162,7 @@ qx.Mixin.define("qx.ui.core.MMovable",
      */
     _onMoveMouseDown : function(e)
     {
-      if (!this.getMovable()) {
+      if (!this.getMovable() || this.hasState("maximized")) {
         return;
       }
 
