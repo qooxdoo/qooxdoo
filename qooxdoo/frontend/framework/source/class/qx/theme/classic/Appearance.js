@@ -634,7 +634,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
           marginBottom : states.barTop ? -1 : 0,
           marginTop : states.barBottom ? -1 : 0,
           marginLeft : states.barRight ? -5 : 0,
-          marginRight : states.barLeft ? -5 : 0
+          marginRight : states.barLeft ? -1 : 0
         }
       }
     },
@@ -675,51 +675,95 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
         if (states.checked)
         {
-          paddingTop = 2;
-          paddingBottom = 4;
-          paddingLeft = 7;
-          paddingRight = 8;
           backgroundColor = "tabview-button-checked";
 
           if (states.barTop)
           {
+            paddingTop = 2;
+            paddingBottom = 4;
+            paddingLeft = 7;
+            paddingRight = 8;
+            
             decorator.setWidthBottom(0);
             decorator.setTop(3, "solid", "effect");
           }
-          else
+          else if(states.barBottom)
           {
+            paddingTop = 2;
+            paddingBottom = 4;
+            paddingLeft = 7;
+            paddingRight = 8;
+            
             decorator.setWidthTop(0);
             decorator.setBottom(3, "solid", "effect");
           }
+          else if(states.barLeft)
+          {
+            paddingTop = 4;
+            paddingBottom = 4;
+            paddingLeft = 7;
+            paddingRight = 0;
+
+            marginBottom = 1;
+            marginRight = 0;
+
+            decorator.setWidthRight(0);
+            decorator.setLeft(3, "solid", "effect");
+          }
+          else
+          {
+            paddingTop = 0;
+            paddingBottom = 0;
+            paddingLeft = 0;
+            paddingRight = 0;
+            
+            decorator.setWidthTop(0);
+            decorator.setBottom(3, "solid", "effect");
+          }          
         }
         else
         {
-          paddingTop = 2;
-          paddingBottom = 2;
-          paddingLeft = 5;
-          paddingRight = 6;
           backgroundColor = states.over ? "tabview-button-hover" : "tabview-button";
 
           if (states.barTop)
           {
+            paddingTop = 2;
+            paddingBottom = 2;
+            paddingLeft = 5;
+            paddingRight = 6;
+            
             decorator.setWidthBottom(0);
             marginTop = 3;
             marginBottom = 1;
           }
           else if(states.barBottom)
           {
+            paddingTop = 2;
+            paddingBottom = 2;
+            paddingLeft = 5;
+            paddingRight = 6;
+            
             decorator.setWidthTop(0);
             marginTop = 1;
             marginBottom = 3;
           }
           else if(states.barLeft)
           {
+            paddingTop = 4;
+            paddingBottom = 4;
+            paddingLeft = 7;
+            paddingRight = 0;
+
             decorator.setWidthRight(0);
-            marginTop = 1;
-            marginBottom = 3;
+            marginBottom = 1;
           }
           else
           {
+            paddingTop = 0;
+            paddingBottom = 0;
+            paddingLeft = 0;
+            paddingRight = 0;
+            
             decorator.setWidthLeft(0);
             marginTop = 1;
             marginBottom = 3;
