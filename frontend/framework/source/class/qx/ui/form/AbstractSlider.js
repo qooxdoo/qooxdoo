@@ -41,7 +41,7 @@
  * # <code>singleStep</code>: The smaller of two natural steps that an abstract sliders provides and typically corresponds to the user pressing an arrow key.
  * # <code>pageStep</code>: The larger of two natural steps that an abstract slider provides and typically corresponds to the user pressing PageUp or PageDown.
  */
-qx.Class.define("qx.ui.slider.AbstractSlider",
+qx.Class.define("qx.ui.form.AbstractSlider",
 {
   extend : qx.ui.core.Widget,
   implement : qx.ui.form.IFormElement,

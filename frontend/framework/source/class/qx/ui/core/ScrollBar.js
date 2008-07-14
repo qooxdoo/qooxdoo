@@ -168,7 +168,7 @@ qx.Class.define("qx.ui.core.ScrollBar",
       switch(id)
       {
         case "slider":
-          control = new qx.ui.slider.AbstractSlider;
+          control = new qx.ui.form.AbstractSlider;
           control.setPageStep(100);
           control.addListener("changeValue", this._onChangeSliderValue, this);
           this._add(control, {flex: 1});

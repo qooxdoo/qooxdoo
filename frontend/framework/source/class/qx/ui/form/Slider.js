@@ -42,9 +42,9 @@
  * * Home moves to the start (mininum).
  * * End moves to the end (maximum).
  */
-qx.Class.define("qx.ui.slider.Slider",
+qx.Class.define("qx.ui.form.Slider",
 {
-  extend : qx.ui.slider.AbstractSlider,
+  extend : qx.ui.form.AbstractSlider,
 
 
 
