@@ -200,10 +200,12 @@ qx.Class.define("qx.ui.form.RadioButton",
         case "Left":
         case "Up":
           grp.selectPrevious(this);
+          break;
 
         case "Right":
         case "Down":
           grp.selectNext(this);
+          break;
       }
     }
   }
