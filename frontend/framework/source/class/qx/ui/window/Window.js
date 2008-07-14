@@ -453,6 +453,9 @@ qx.Class.define("qx.ui.window.Window",
 
           // captionbar events
           control.addListener("dblclick", this._onCaptionMouseDblClick, this);
+
+          // register as move handle
+          this._activateMoveHandle(control);
           break;
 
         case "icon":
@@ -960,19 +963,6 @@ qx.Class.define("qx.ui.window.Window",
     {
       this.close();
       this._getChildControl("close-button").reset();
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      MIXIN APIS
-    ---------------------------------------------------------------------------
-    */
-
-    _getMovableTarget : function() {
-      return this._getChildControl("captionbar");
     }
   }
 });
