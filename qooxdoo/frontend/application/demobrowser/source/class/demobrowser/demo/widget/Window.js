@@ -51,6 +51,16 @@ qx.Class.define("demobrowser.demo.widget.Window",
       win.open();
       this.getRoot().add(win, {left:20, top:20});
 
+      // Test for move listener
+      win.addListener("move", function(e) {
+        this.debug("Moved to: " + e.getData().left + "x" + e.getData().top);
+      });
+
+      // Test for resize listener
+      win.addListener("resize", function(e) {
+        this.debug("Resized to: " + e.getData().width + "x" + e.getData().height);
+      });
+
       // Add an Atom
       var atom = new qx.ui.basic.Atom("Welcome to your first own Window.<br/>Have fun!", "icon/32/apps/office-address-book.png");
       atom.setRich(true);

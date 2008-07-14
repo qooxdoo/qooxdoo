@@ -38,6 +38,13 @@ qx.Mixin.define("qx.ui.resizer.MResizable",
     this.addListener("mouseup", this.__onResizeMouseup, this);
     this.addListener("losecapture", this.__onResizeMouseup, this);
     this.addListener("mousemove", this.__onResizeMousemove, this);
+
+
+    var control = this._getDragableTarget();
+    control.addListener("mousedown", this._onDragTargetMouseDown, this);
+    control.addListener("mouseup", this._onDragTargetMouseUp, this);
+    control.addListener("mousemove", this._onDragTargetMouseMove, this);
+
   },
 
 
@@ -119,6 +126,18 @@ qx.Mixin.define("qx.ui.resizer.MResizable",
     },
 
 
+    useResizeFrame :
+    {
+      check : "Boolean",
+      init : false
+    },
+
+    useDragFrame :
+    {
+      check : "Boolean",
+      init : false
+    },
+
     /** Toggle the ability to resize the widget */
     disableResize :
     {
@@ -126,7 +145,6 @@ qx.Mixin.define("qx.ui.resizer.MResizable",
       check : "Boolean"
     }
   },
-
 
 
 
@@ -433,6 +451,149 @@ qx.Mixin.define("qx.ui.resizer.MResizable",
 
       // stop event
       e.stopPropagation();
+    },
+
+
+
+
+
+
+    /**
+     * Get the widget, which draws the resize/move frame. The resize frame is
+     * shared by all widgets and is added to the root widget.
+     *
+     * @return {qx.ui.core.Widget} The resize frame
+     */
+    _getReplacementFrame : function()
+    {
+      var MResizable = qx.ui.resizer.MResizable;
+      var frame = MResizable.__frame;
+
+      if (!frame)
+      {
+        frame = MResizable.__frame = new qx.ui.core.Widget();
+        frame.setAppearance("replacement-frame");
+        frame.exclude();
+
+        qx.core.Init.getApplication().getRoot().add(frame);
+      }
+
+      return frame;
+    },
+
+
+    __computeDragCoordinates : function(e)
+    {
+      var range = this._dragRange;
+      var mouseLeft = Math.max(range.left, Math.min(range.right, e.getDocumentLeft()));
+      var mouseTop = Math.max(range.top, Math.min(range.bottom, e.getDocumentTop()));
+
+      return {
+        left : this._dragLeft + mouseLeft,
+        top : this._dragTop + mouseTop
+      };
+    },
+
+
+    /**
+     * Enables the capturing of the caption bar and prepares the drag session and the
+     * appearance (translucent, frame or opaque) for the moving of the window.
+     *
+     * @type member
+     * @param e {qx.event.type.MouseEvent} mouse down event
+     * @return {void}
+     */
+    _onDragTargetMouseDown : function(e)
+    {
+      if (!this.getMoveable()) {
+        return;
+      }
+
+      // Compute drag range
+      this._dragRange = this.getLayoutParent().getContentLocation();
+
+      // Compute drag positions
+      var widgetLocation = this.getContainerLocation();
+      this._dragLeft = widgetLocation.left - e.getDocumentLeft();
+      this._dragTop = widgetLocation.top - e.getDocumentTop();
+
+      // Add state
+      this.addState("drag");
+
+      // Enable capturing
+      this._getDragableTarget().capture();
+
+      // Enable drag frame
+      if (this.getUseDragFrame())
+      {
+        var bounds = this.getBounds();
+        var frame = this._getReplacementFrame();
+        frame.setUserBounds(bounds.left, bounds.top, bounds.width, bounds.height);
+        frame.show();
+        frame.setZIndex(this.getZIndex()+1);
+        this.__moveTarget = frame;
+      }
+      else
+      {
+        this.__moveTarget = this;
+      }
+    },
+
+
+    /**
+     * Does the moving of the window by rendering the position
+     * of the window (or frame) at runtime using direct dom methods.
+     *
+     * @type member
+     * @param e {qx.event.type.Event} mouse move event
+     * @return {void}
+     */
+    _onDragTargetMouseMove : function(e)
+    {
+      // Only react when dragging is active
+      if (!this.hasState("drag")) {
+        return;
+      }
+
+      // Apply new coordinates using DOM
+      var coords = this.__computeDragCoordinates(e);
+      this.__moveTarget.setDomPosition(coords.left, coords.top);
+    },
+
+
+    /**
+     * Disables the capturing of the caption bar and moves the window
+     * to the last position of the drag session. Also restores the appearance
+     * of the window.
+     *
+     * @type member
+     * @param e {qx.event.type.MouseEvent} mouse up event
+     * @return {void}
+     */
+    _onDragTargetMouseUp : function(e)
+    {
+      // Only react when dragging is active
+      if (!this.hasState("drag")) {
+        return;
+      }
+
+      // Remove drag state
+      this.removeState("drag");
+
+      // Disable capturing
+      this._getDragableTarget().releaseCapture();
+
+      // Apply them to the layout
+      var coords = this.__computeDragCoordinates(e);
+      this.setLayoutProperties({ left: coords.left, top: coords.top });
+
+      // Hide frame afterwards
+      if (this.getUseDragFrame()) {
+        this.__moveTarget.exclude();
+      }
+
+      // Clear move target
+      this.__moveTarget = null;
     }
   },
 
