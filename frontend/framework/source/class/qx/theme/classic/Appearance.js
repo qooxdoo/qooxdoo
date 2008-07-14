@@ -731,6 +731,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
             paddingBottom = 4;
             paddingLeft = 7;
             paddingRight = 0;
+            marginBottom = 1;
           }
 
           if (states.barTop)
@@ -756,6 +757,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
         }
 
         return {
+          iconPosition : (states.barLeft || states.barRight) ? "top" : "left",
           padding : [ paddingTop, paddingRight, paddingBottom, paddingLeft ],
           margin : [ marginTop, marginRight, marginBottom, marginLeft ],
           decorator : decorator,
