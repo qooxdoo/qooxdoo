@@ -397,7 +397,7 @@ qx.Mixin.define("qx.ui.core.MResizable",
           });
         }
       }
-      else
+      else if (!this.hasState("maximized"))
       {
         this.__computeResizeMode(e);
 
