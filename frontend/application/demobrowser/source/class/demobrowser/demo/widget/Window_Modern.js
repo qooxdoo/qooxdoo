@@ -46,7 +46,7 @@ qx.Class.define("demobrowser.demo.widget.Window_Modern",
 
       win.setMinWidth(400);
       win.setMinHeight(300);
-      win.setResizeMethod("opaque");
+      win.setUseResizeFrame(false);
       win.open();
 
       win.setLayout(new qx.ui.layout.Grow);
