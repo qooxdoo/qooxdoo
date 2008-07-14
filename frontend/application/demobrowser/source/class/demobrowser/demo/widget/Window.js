@@ -201,6 +201,7 @@ qx.Class.define("demobrowser.demo.widget.Window",
       win.setLayout(new qx.ui.layout.VBox);
       win.setMaxWidth(450);
       win.setMaxHeight(400);
+      win.setAllowMaximize(false);
       win.open();
       win.setPadding(10);
       this.getRoot().add(win, {left:100, top:250});
