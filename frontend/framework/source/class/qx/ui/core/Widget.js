@@ -778,7 +778,7 @@ qx.Class.define("qx.ui.core.Widget",
       }
 
 
-      if (inner || changes.local)
+      if (inner || changes.local || this.__updateMargin)
       {
         var insets = this.getInsets();
         var innerWidth = width - insets.left - insets.right;
