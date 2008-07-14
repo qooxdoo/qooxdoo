@@ -936,7 +936,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
           cursor : "default",
           font : "bold",
           marginRight : 20,
-          alignY: "bottom"
+          alignY: "middle"
         };
       }
     },
@@ -1032,7 +1032,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
-    "resizer-frame" :
+    "replacement-frame" :
     {
       style : function(states)
       {
