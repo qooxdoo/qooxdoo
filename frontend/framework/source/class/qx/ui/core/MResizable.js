@@ -55,7 +55,7 @@ qx.Mixin.define("qx.ui.core.MResizable",
     resizable :
     {
       check : "Boolean",
-      init : false,
+      init : true,
       apply : "_applyResizable"
     },
 

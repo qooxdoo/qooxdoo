@@ -104,20 +104,6 @@ qx.Class.define("demobrowser.demo.widget.Window",
       basicSettings.setLayout(new qx.ui.layout.VBox(4));
       box.add(basicSettings, {flex:1});
 
-      var resizeable = new qx.ui.form.CheckBox("Resizeable");
-      resizeable.setChecked(true);
-      resizeable.addListener("changeChecked", function(e) {
-        win.setResizable(e.getData());
-      });
-      basicSettings.add(resizeable);
-
-      var moveable = new qx.ui.form.CheckBox("Moveable");
-      moveable.setChecked(true);
-      moveable.addListener("changeChecked", function(e) {
-        win.setMoveable(e.getData());
-      });
-      basicSettings.add(moveable);
-
 
 
       var showClose = new qx.ui.form.CheckBox("Show Close");
@@ -175,51 +161,37 @@ qx.Class.define("demobrowser.demo.widget.Window",
 
 
 
-      var styleSettings = new qx.ui.groupbox.GroupBox("Style");
-      styleSettings.setLayout(new qx.ui.layout.VBox(4));
-      box.add(styleSettings, {flex:1});
+      var resizeMove = new qx.ui.groupbox.GroupBox("Resizable/Moveable");
+      resizeMove.setLayout(new qx.ui.layout.VBox(4));
+      box.add(resizeMove, {flex:1});
 
-
-      var moveLabel = new qx.ui.basic.Atom("Move Method", "icon/22/apps/graphics-viewer.png");
-      styleSettings.add(moveLabel);
-
-      var moveFrame = new qx.ui.form.RadioButton("Frame");
-      moveFrame.setValue("frame");
-      styleSettings.add(moveFrame);
-
-      var moveOpaque = new qx.ui.form.RadioButton("Opaque");
-      moveOpaque.setValue("opaque");
-      moveOpaque.setChecked(true);
-      styleSettings.add(moveOpaque);
-
-      var moveTranslucent = new qx.ui.form.RadioButton("Translucent");
-      moveTranslucent.setValue("translucent");
-      styleSettings.add(moveTranslucent);
-
-      var rbm1 = new qx.ui.form.RadioGroup(moveFrame, moveOpaque, moveTranslucent);
-      rbm1.addListener("changeValue", function(e) {
-        win.setMoveMethod(e.getData());
+      var resizeable = new qx.ui.form.CheckBox("Resizeable");
+      resizeable.setChecked(true);
+      resizeable.addListener("changeChecked", function(e) {
+        win.setResizable(e.getData());
       });
+      resizeMove.add(resizeable);
 
-
-
-      var resizeLabel = new qx.ui.basic.Atom("Resize Method", "icon/22/apps/preferences-wallpaper.png");
-      resizeLabel.setMarginTop(20);
-      styleSettings.add(resizeLabel);
-
-      var resizeFrame = new qx.ui.form.RadioButton("Frame");
-      resizeFrame.setValue("frame");
+      var resizeFrame = new qx.ui.form.CheckBox("Use resize frame");
       resizeFrame.setChecked(true);
-      styleSettings.add(resizeFrame);
-
-      var resizeOpaque = new qx.ui.form.RadioButton("Opaque");
-      resizeOpaque.setValue("opaque");
-      styleSettings.add(resizeOpaque);
-
-      var rbm2 = new qx.ui.form.RadioGroup(resizeFrame, resizeOpaque);
-      rbm2.addListener("changeValue", function(e) {
-        win.setResizeMethod(e.getData());
+      resizeFrame.addListener("changeChecked", function(e) {
+        win.setUseResizeFrame(e.getData());
       });
+      resizeMove.add(resizeFrame);
+
+
+      var moveable = new qx.ui.form.CheckBox("Moveable");
+      moveable.setChecked(true);
+      moveable.addListener("changeChecked", function(e) {
+        win.setMoveable(e.getData());
+      });
+      resizeMove.add(moveable);
+
+      var moveFrame = new qx.ui.form.CheckBox("Use move frame");
+      moveFrame.addListener("changeChecked", function(e) {
+        win.setUseMoveFrame(e.getData());
+      });
+      resizeMove.add(moveFrame);
     },
 
 
