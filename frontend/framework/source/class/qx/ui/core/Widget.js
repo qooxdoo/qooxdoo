@@ -2966,6 +2966,31 @@ qx.Class.define("qx.ui.core.Widget",
     },
 
 
+    /**
+     * Directly modifies the relative left and top position in relation
+     * to the parent element.
+     *
+     * Use with caution! This may be used for animations, drag&drop
+     * or other cases where high performance location manipulation
+     * is important. Otherwise please use {@link #setUserBounds} instead.
+     *
+     * @param left {Integer} Left position
+     * @param top {Integer} Top position
+     * @return {void}
+     */
+    setDomPosition : function(left, top)
+    {
+      var domEl = this.getContainerElement().getDomElement();
+      if (domEl)
+      {
+        domEl.style.left = left + "px";
+        domEl.style.top = top + "px";
+      }
+      else
+      {
+        throw new Error("DOM element is not yet created!");
+      }
+    },
 
 
 

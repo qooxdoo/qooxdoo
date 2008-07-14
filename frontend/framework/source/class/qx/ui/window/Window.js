@@ -240,9 +240,6 @@ qx.Class.define("qx.ui.window.Window",
 
 
 
-
-
-
     /*
     ---------------------------------------------------------------------------
       BASIC OPTIONS
@@ -480,9 +477,6 @@ qx.Class.define("qx.ui.window.Window",
           this._add(control);
 
           // captionbar events
-          control.addListener("mousedown", this._onCaptionMouseDown, this);
-          control.addListener("mouseup", this._onCaptionMouseUp, this);
-          control.addListener("mousemove", this._onCaptionMouseMove, this);
           control.addListener("dblclick", this._onCaptionMouseDblClick, this);
           break;
 
@@ -750,7 +744,7 @@ qx.Class.define("qx.ui.window.Window",
     {
       this.base(arguments, value, old);
 
-      if (value == "visible") {
+      if (value === "visible") {
         this.getManager().add(this);
       } else {
         this.getManager().remove(this);
@@ -883,8 +877,6 @@ qx.Class.define("qx.ui.window.Window",
         this._excludeChildControl("maximize-button");
       }
 
-      // finally focus the window
-      this.setActive(true);
     },
 
 
@@ -1007,179 +999,9 @@ qx.Class.define("qx.ui.window.Window",
 
 
 
-    /*
-    ---------------------------------------------------------------------------
-      EVENTS FOR WINDOW MOVING
-    ---------------------------------------------------------------------------
-    */
 
-    /**
-     * Enables the capturing of the caption bar and prepares the drag session and the
-     * appearance (translucent, frame or opaque) for the moving of the window.
-     *
-     * @type member
-     * @param e {qx.event.type.MouseEvent} mouse down event
-     * @return {void}
-     */
-    _onCaptionMouseDown : function(e)
-    {
-      if (!this.getMoveable()) {
-        return;
-      }
-
-      // enable capturing
-      this._getChildControl("captionbar").capture();
-
-      // measuring and caching of values for drag session
-      var pl = this.getLayoutParent().getContainerElement().getDomElement();
-
-      // compute locations
-      var paLoc = qx.bom.element.Location.get(pl, "scroll");
-      var location = qx.bom.element.Location.get(this.getContainerElement().getDomElement());
-      var bounds = this.getBounds();
-
-      this._dragSession =
-      {
-        left: bounds.left,
-        top: bounds.top,
-        width: bounds.width,
-        height: bounds.height,
-
-        elementLocation: location,
-
-        parentAvailableAreaLeft : paLoc.left + 5,
-        parentAvailableAreaTop : paLoc.top + 5,
-        parentAvailableAreaRight : paLoc.right - 5,
-        parentAvailableAreaBottom : paLoc.bottom - 5,
-
-        mouseStartLeft: e.getDocumentLeft(),
-        mouseStartTop: e.getDocumentTop()
-      };
-
-
-      // handle frame and translucently
-      switch(this.getMoveMethod())
-      {
-        case "translucent":
-          this.setOpacity(0.5);
-          break;
-
-        case "frame":
-          var frame = this._getFrame();
-          frame.show();
-          frame.setUserBounds(
-            location.left,
-            location.top,
-            location.right-location.left,
-            location.bottom - location.top
-          );
-          frame.setZIndex(this.getZIndex() + 1);
-          break;
-      }
-    },
-
-
-    /**
-     * Disables the capturing of the caption bar and moves the window
-     * to the last position of the drag session. Also restores the appearance
-     * of the window.
-     *
-     * @type member
-     * @param e {qx.event.type.MouseEvent} mouse up event
-     * @return {void}
-     */
-    _onCaptionMouseUp : function(e)
-    {
-      var s = this._dragSession;
-
-      if (!s) {
-        return;
-      }
-
-      // disable capturing
-      this._getChildControl("captionbar").releaseCapture();
-      this.resetUserBounds();
-
-      // move window to last position
-      if (s.lastX != null) {
-        this.setLayoutProperties({left: s.lastX});
-      }
-
-      if (s.lastY != null) {
-        this.setLayoutProperties({top: s.lastY});
-      }
-
-      // handle frame and translucently
-      switch(this.getMoveMethod())
-      {
-        case "translucent":
-          this.setOpacity(null);
-          break;
-
-        case "frame":
-          this._getFrame().hide();
-          break;
-      }
-
-      // cleanup session
-      delete this._dragSession;
-    },
-
-
-    /**
-     * Does the moving of the window by rendering the position
-     * of the window (or frame) at runtime using direct dom methods.
-     *
-     * @type member
-     * @param e {qx.event.type.Event} mouse move event
-     * @return {void}
-     */
-    _onCaptionMouseMove : function(e)
-    {
-      var s = this._dragSession;
-
-      var s = this._dragSession;
-      if (!s) {
-        return;
-      }
-
-      // pre check if we go out of the available area
-      // pre check if we go out of the available area
-      if (
-        !qx.lang.Number.isBetweenRange(e.getViewportLeft(), s.parentAvailableAreaLeft, s.parentAvailableAreaRight) ||
-        !qx.lang.Number.isBetweenRange(e.getViewportTop(), s.parentAvailableAreaTop, s.parentAvailableAreaBottom)
-      ) {
-        return;
-      }
-
-      var dragOffsetLeft = e.getDocumentLeft() - s.mouseStartLeft;
-      var dragOffsetTop = e.getDocumentTop() - s.mouseStartTop;
-
-      s.lastX = s.left + dragOffsetLeft;
-      s.lastY = s.top + dragOffsetTop;
-
-      // handle frame and translucently
-      switch(this.getMoveMethod())
-      {
-        case "translucent":
-        case "opaque":
-          this.setUserBounds(
-            s.lastX,
-            s.lastY,
-            s.width,
-            s.height
-          );
-          break;
-
-        case "frame":
-          this._getFrame().setUserBounds(
-            s.elementLocation.left + dragOffsetLeft,
-            s.elementLocation.top + dragOffsetTop,
-            s.width,
-            s.height
-          );
-          break;
-      }
+    _getDragableTarget : function() {
+      return this._getChildControl("captionbar");
     }
   }
 });
