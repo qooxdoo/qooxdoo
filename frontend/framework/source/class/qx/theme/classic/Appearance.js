@@ -112,6 +112,26 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
+    "move-frame" :
+    {
+      style : function(states)
+      {
+        return {
+          decorator : "dark-shadow"
+        };
+      }
+    },
+
+    "resize-frame" :
+    {
+      style : function(states)
+      {
+        return {
+          decorator : "dark-shadow"
+        };
+      }
+    },
+
 
 
 
@@ -683,7 +703,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
           backgroundColor = states.over ? "tabview-button-hover" : "tabview-button";
 
           console.warn("button got ", states)
-          
+
           if (states.barTop)
           {
             decorator.setWidthBottom(0);
@@ -1053,15 +1073,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
-    "replacement-frame" :
-    {
-      style : function(states)
-      {
-        return {
-          decorator : "dark-shadow"
-        };
-      }
-    },
+
+
 
 
 
