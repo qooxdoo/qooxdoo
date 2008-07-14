@@ -22,7 +22,6 @@
 
 /**
  * Provides resizing behavior to any widget.
- * The widget that includes this mixin, must implement the {@link qx.ui.resizer.IResizable} interface.
  */
 qx.Mixin.define("qx.ui.core.MResizable",
 {

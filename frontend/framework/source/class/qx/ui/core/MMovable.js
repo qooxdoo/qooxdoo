@@ -25,23 +25,6 @@ qx.Mixin.define("qx.ui.core.MMovable",
 {
   /*
   *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
-  construct : function()
-  {
-    var control = this._getMovableTarget();
-    control.addListener("mousedown", this._onMoveMouseDown, this);
-    control.addListener("mouseup", this._onMoveMouseUp, this);
-    control.addListener("mousemove", this._onMoveMouseMove, this);
-    control.addListener("losecapture", this.__onMoveLoseCapture, this);
-  },
-
-
-
-  /*
-  *****************************************************************************
      PROPERTIES
   *****************************************************************************
   */
@@ -80,6 +63,25 @@ qx.Mixin.define("qx.ui.core.MMovable",
       CORE FEATURES
     ---------------------------------------------------------------------------
     */
+
+    /**
+     * Configures the given widget as a move handle
+     *
+     * @param widget {qx.ui.core.Widget} Widget to activate as move handle
+     */
+    _activateMoveHandle : function(widget)
+    {
+      if (this.__moveHandle) {
+        throw new Error("The move handle could not be redefined!");
+      }
+
+      this.__moveHandle = widget;
+      widget.addListener("mousedown", this._onMoveMouseDown, this);
+      widget.addListener("mouseup", this._onMoveMouseUp, this);
+      widget.addListener("mousemove", this._onMoveMouseMove, this);
+      widget.addListener("losecapture", this.__onMoveLoseCapture, this);
+    },
+
 
     /**
      * Get the widget, which draws the resize/move frame. The resize frame is
@@ -176,7 +178,7 @@ qx.Mixin.define("qx.ui.core.MMovable",
       this.addState("move");
 
       // Enable capturing
-      this._getMovableTarget().capture();
+      this.__moveHandle.capture();
 
       // Enable drag frame
       if (this.getUseMoveFrame()) {
@@ -233,7 +235,7 @@ qx.Mixin.define("qx.ui.core.MMovable",
       this.removeState("move");
 
       // Disable capturing
-      this._getMovableTarget().releaseCapture();
+      this.__moveHandle.releaseCapture();
 
       // Apply them to the layout
       var coords = this.__computeMoveCoordinates(e);
