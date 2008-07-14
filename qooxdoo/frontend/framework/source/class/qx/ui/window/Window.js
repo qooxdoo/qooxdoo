@@ -45,6 +45,7 @@ qx.Class.define("qx.ui.window.Window",
     qx.ui.core.MRemoteChildrenHandling,
     qx.ui.core.MRemoteLayoutHandling,
     qx.ui.resizer.MResizable,
+    qx.ui.resizer.MMovable,
     qx.ui.core.MBlocker
   ],
 
@@ -1000,7 +1001,7 @@ qx.Class.define("qx.ui.window.Window",
 
 
 
-    _getDragableTarget : function() {
+    _getMovableTarget : function() {
       return this._getChildControl("captionbar");
     }
   }
