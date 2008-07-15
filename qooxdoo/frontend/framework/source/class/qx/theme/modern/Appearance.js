@@ -610,8 +610,30 @@ qx.Theme.define("qx.theme.modern.Appearance",
     "slidebar" : {},
     "slidebar/scrollpane" : {},
     "slidebar/content" : {},
-    "slidebar/button-forward" : "button",
-    "slidebar/button-backward" : "button",
+
+    "slidebar/button-forward" :
+    {
+      alias : "button",
+      include : "button",
+      style : function(states)
+      {
+        return {
+          icon : "decoration/arrows/right.png"
+        };
+      }
+    },
+
+    "slidebar/button-backward" :
+    {
+      alias : "button",
+      include : "button",
+      style : function(states)
+      {
+        return {
+          icon : "decoration/arrows/left.png"
+        };
+      }
+    },
 
 
 
@@ -634,8 +656,14 @@ qx.Theme.define("qx.theme.modern.Appearance",
       {
         return {
           zIndex          : 10, // TODO: functional?
-          paddingLeft     : 10,
-          paddingRight    : 10
+          paddingLeft     : (states.barLeft || states.barRight) ? 0 : 10,
+          paddingRight    : (states.barLeft || states.barRight) ? 0 : 10
+          /*    ,
+          marginBottom    : states.barTop ? -1 : 0,
+          marginTop       : states.barBottom ? -2 : 0,
+          marginLeft      : states.barRight ? -1 : 0,
+          marginRight     : states.barLeft ? -1 : 0
+          */
         }
       }
     },
@@ -649,7 +677,10 @@ qx.Theme.define("qx.theme.modern.Appearance",
         return {
           decorator       : "tabview-pane",
           padding         : 10,
-          marginTop       : -1
+          marginBottom    : states.barBottom ? -1 : 0,
+          marginTop       : states.barTop ? -1 : 0,
+          marginLeft      : states.barLeft ? -1 : 0,
+          marginRight     : states.barRight ? -1 : 0
         };
       }
     },
@@ -668,8 +699,35 @@ qx.Theme.define("qx.theme.modern.Appearance",
 
       style : function(states)
       {
+        var decorator;
+      
+        if (states.checked)
+        {
+          if (states.barTop) {
+            decorator = "tabview-page-button-top-active";
+          } else if (states.barBottom) {
+            decorator = "tabview-page-button-bottom-active";
+          } else if (states.barRight) {
+            decorator = "tabview-page-button-right-active";
+          } else {
+            decorator = "tabview-page-button-left-active";
+          }
+        }
+        else
+        {
+          if (states.barTop) {
+            decorator = "tabview-page-button-top-inactive";
+          } else if (states.barBottom) {
+            decorator = "tabview-page-button-bottom-inactive";
+          } else if (states.barRight) {
+            decorator = "tabview-page-button-right-inactive";
+          } else {
+            decorator = "tabview-page-button-left-inactive";
+          }
+        }
+
         return {
-          decorator : states.checked ? "tabview-page-button-active" : "tabview-page-button-inactive",
+          decorator : decorator,
           padding   : states.checked ? [ 6, 10 ] : [ 4, 10 ],
           marginTop : states.checked ? 0 : 4,
           textColor : states.checked ? "#26364D" : "#404955"
