@@ -654,11 +654,11 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          marginBottom : states.barTop ? -1 : 0,
-          marginTop : states.barBottom ? -1 : 0,
-          marginLeft : states.barRight ? -1 : 0,
-          marginRight : states.barLeft ? -1 : 0
-        }
+          marginBottom : states.barTop ? -2 : 0,
+          marginTop : states.barBottom ? -2 : 0,
+          marginLeft : states.barRight ? -2 : 0,
+          marginRight : states.barLeft ? -2 : 0
+        };
       }
     },
 
@@ -667,8 +667,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          backgroundColor : "tabview-pane",
-          decorator : "tabview",
+          backgroundColor : "background",
+          decorator : "outset",
           padding : 10
         };
       }
@@ -684,100 +684,94 @@ qx.Theme.define("qx.theme.classic.Appearance",
       {
         var paddingTop, paddingBottom, paddingLeft, paddingRight;
         var marginTop, marginBottom, marginRight, marginLeft;
-        var backgroundColor, decorator;
 
-        marginTop = 0;
-        marginBottom = 0;
-        marginRight = 1;
-        marginLeft = 0;
+        var decorator = new qx.ui.decoration.Double;
+        decorator.set(
+        {
+          width : 1,
+          innerWidth: 1,
+          color : [ "border-light-shadow", "border-dark", "border-dark", "border-light-shadow" ],
+          innerColor : [ "border-light", "border-dark-shadow", "border-dark-shadow", "border-light" ]
+        });
 
-        decorator = new qx.ui.decoration.Single(1, "solid", "tabview-border");
+        var marginTop=0, marginRight=0, marginBottom=0, marginLeft=0;
+
+        if (states.barTop || states.barBottom) {
+          marginRight = 1;
+        } else {
+          marginBottom = 1;
+        }
+
+        if (states.barTop)
+        {
+          decorator.setWidthBottom(0);
+          decorator.setInnerWidthBottom(0);
+        }
+        else if (states.barRight)
+        {
+          decorator.setWidthLeft(0);
+          decorator.setInnerWidthLeft(0);
+        }
+        else if (states.barBottom)
+        {
+          decorator.setWidthTop(0);
+          decorator.setInnerWidthTop(0);
+        }
+        else
+        {
+          decorator.setWidthRight(0);
+          decorator.setInnerWidthRight(0);
+        }
+
+        if (states.barTop || states.barBottom)
+        {
+          paddingTop = 2;
+          paddingBottom = 2;
+          paddingLeft = 5;
+          paddingRight = 6;
+        }
+        else
+        {
+          paddingTop = 4;
+          paddingBottom = 4;
+          paddingLeft = 7;
+          paddingRight = 6;
+        }
 
         if (states.checked)
         {
-          backgroundColor = "tabview-button-checked";
-
           if (states.barTop || states.barBottom)
           {
-            paddingTop = 2;
-            paddingBottom = 4;
-            paddingLeft = 7;
-            paddingRight = 8;
+            paddingLeft += 2;
+            paddingRight += 2;
           }
           else
           {
-            paddingTop = 4;
-            paddingBottom = 4;
-            paddingLeft = 7;
-            paddingRight = 8;
-            marginBottom = 1;
-            marginRight = 0;
-          }
-
-          if (states.barTop)
-          {
-            decorator.setWidthBottom(0);
-          }
-          else if(states.barBottom)
-          {
-            decorator.setWidthTop(0);
-          }
-          else if(states.barLeft)
-          {
-            decorator.setWidthRight(0);
-          }
-          else
-          {
-            decorator.setWidthLeft(0);
+            paddingTop += 2;
+            paddingBottom += 2;
           }
         }
         else
         {
-          backgroundColor = states.over ? "tabview-button-hover" : "tabview-button";
           if (states.barTop || states.barBottom)
           {
-            paddingTop = 2;
-            paddingBottom = 2;
-            paddingLeft = 5;
-            paddingRight = 6;
+            marginBottom = 2;
+            marginTop = 2;
           }
-          else
+          else if (states.barLeft || states.barRight)
           {
-            paddingTop = 4;
-            paddingBottom = 4;
-            paddingLeft = 7;
-            paddingRight = 6;
-            marginBottom = 1;
-          }
-
-          if (states.barTop)
-          {
-            decorator.setWidthBottom(0);
-            marginTop = 3;
-            marginBottom = 1;
-          }
-          else if(states.barBottom)
-          {
-            decorator.setWidthTop(0);
-            marginTop = 1;
-            marginBottom = 3;
-          }
-          else if(states.barLeft)
-          {
-            decorator.setWidthRight(0);
-          }
-          else
-          {
-            decorator.setWidthRight(0);
+            marginRight = 2;
+            marginLeft = 2;
           }
         }
 
         return {
-          iconPosition : (states.barLeft || states.barRight) ? "top" : "left",
-          padding : [ paddingTop, paddingRight, paddingBottom, paddingLeft ],
-          margin : [ marginTop, marginRight, marginBottom, marginLeft ],
+          zIndex : states.checked ? 10 : 5,
+          backgroundColor : "background",
           decorator : decorator,
-          backgroundColor : backgroundColor
+          iconPosition : states.barLeft || states.barRight ? "top" : "left",
+          padding : [ paddingTop, paddingRight, paddingBottom, paddingLeft ],
+          margin : [ marginTop, marginRight, marginBottom, marginLeft ]
         };
       }
     },
