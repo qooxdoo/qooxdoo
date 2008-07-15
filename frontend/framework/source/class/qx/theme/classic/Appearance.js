@@ -713,7 +713,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
             paddingTop = 4;
             paddingBottom = 4;
             paddingLeft = 7;
-            paddingRight = 0;
+            paddingRight = 8;
             marginBottom = 1;
             marginRight = 0;
           }
@@ -754,7 +754,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
             paddingTop = 4;
             paddingBottom = 4;
             paddingLeft = 7;
-            paddingRight = 0;
+            paddingRight = 6;
             marginBottom = 1;
           }
 
