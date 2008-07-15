@@ -516,24 +516,90 @@ qx.Theme.define("qx.theme.modern.Decoration",
       }
     },
     
-    "tabview-page-button-active" :
+    "tabview-page-button-top-active" :
     {
       decorator : qx.ui.decoration.Grid,
       
       style : 
       {
-        baseImage : "decoration/tabview/tab-button-active.png"
+        baseImage : "decoration/tabview/tab-button-top-active.png"
       }
     },
     
     
-    "tabview-page-button-inactive" :
+    "tabview-page-button-top-inactive" :
     {
       decorator : qx.ui.decoration.Grid,
       
       style : 
       {
-        baseImage : "decoration/tabview/tab-button-inactive.png"
+        baseImage : "decoration/tabview/tab-button-top-inactive.png"
+      }
+    },
+    
+    
+    "tabview-page-button-bottom-active" :
+    {
+      decorator : qx.ui.decoration.Grid,
+      
+      style : 
+      {
+        baseImage : "decoration/tabview/tab-button-bottom-active.png"
+      }
+    },
+    
+    
+    "tabview-page-button-bottom-inactive" :
+    {
+      decorator : qx.ui.decoration.Grid,
+      
+      style : 
+      {
+        baseImage : "decoration/tabview/tab-button-bottom-inactive.png"
+      }
+    },
+
+    
+    "tabview-page-button-left-active" :
+    {
+      decorator : qx.ui.decoration.Grid,
+      
+      style : 
+      {
+        baseImage : "decoration/tabview/tab-button-left-active.png"
+      }
+    },
+    
+    
+    "tabview-page-button-left-inactive" :
+    {
+      decorator : qx.ui.decoration.Grid,
+      
+      style : 
+      {
+        baseImage : "decoration/tabview/tab-button-left-inactive.png"
+      }
+    },
+
+    
+    "tabview-page-button-right-active" :
+    {
+      decorator : qx.ui.decoration.Grid,
+      
+      style : 
+      {
+        baseImage : "decoration/tabview/tab-button-right-active.png"
+      }
+    },
+    
+    
+    "tabview-page-button-right-inactive" :
+    {
+      decorator : qx.ui.decoration.Grid,
+      
+      style : 
+      {
+        baseImage : "decoration/tabview/tab-button-right-inactive.png"
       }
     },
 
