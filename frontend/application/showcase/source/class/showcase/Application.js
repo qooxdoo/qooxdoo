@@ -91,7 +91,6 @@ qx.Class.define("showcase.Application",
       this._createPage(barView, "SplitPane", "icon/32/actions/view-pane-text.png", this._createSplitPaneDemo, true);
       this._createPage(barView, "Localization", "icon/32/apps/accessories-archiver.png", this._createLocalizationDemo);
       this._createPage(barView, "Internal Window", "icon/32/apps/preferences-desktop-theme.png", this._createInternalWindowDemo, true);
-      this._createPage(barView, "Themes", "icon/32/apps/preferences-desktop-wallpaper.png", this._createThemesDemo);
 
       // back button and bookmark support
       this._history = qx.bom.History.getInstance();
@@ -1982,65 +1981,9 @@ qx.Class.define("showcase.Application",
       w3.open();
 
       return main;
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {var} TODOC
-     */
-    _createThemesDemo : function()
-    {
-      var doc = qx.legacy.ui.core.ClientDocument.getInstance();
-
-      // Theming window
-      var win = new qx.legacy.ui.window.Window("Theming window", "icon/16/apps/preferences-desktop-wallpaper.png");
-
-      // win.set({ width:"auto", height:"auto" });
-      doc.add(win);
-
-      win.getPane().setPadding(20);
-
-      var info = new qx.legacy.ui.basic.Atom("Click on one of the buttons and then view the " + "other tabs to see the changes", "icon/32/actions/system-run.png");
-      info.setLocation(0, 0);
-      win.add(info);
-
-      // Put the window in lower right corner
-      win.set(
-      {
-        width  : "auto",
-        height : "auto",
-        left: 50,
-        top: 150,
-        allowMinimize : false
-      });
-
-      // Open button
-      var main = new qx.legacy.ui.layout.VerticalBoxLayout;
-      main.setPadding(10);
-
-      main.set(
-      {
-        width  : "auto",
-        height : "auto"
-      });
-
-      var openThemeWinBt = new qx.legacy.ui.form.Button("Open theming window", "icon/16/actions/edit-find.png");
-
-      openThemeWinBt.addListener("execute", function(e) {
-        win.open();
-      });
-
-      main.add(openThemeWinBt);
-
-      return main;
     }
+
   },
-
-
-
 
 
   /*
