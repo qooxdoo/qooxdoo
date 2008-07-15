@@ -280,10 +280,21 @@ qx.Theme.define("qx.theme.classic.Decoration",
       }
     },
 
+    "tabview" :
+    {
+      decorator: qx.ui.decoration.Uniform,
+
+      style :
+      {
+        width : 1,
+        style : "solid",
+        color : "tabview-border"
+      }
+    },
 
     "tooltip" :
     {
-      decorator : qx.ui.decoration.Uniform,
+      decorator: qx.ui.decoration.Uniform,
 
       style :
       {
@@ -291,7 +302,6 @@ qx.Theme.define("qx.theme.classic.Decoration",
         color : "tooltip-text"
       }
     },
-
 
     "toolbar-part-handle" :
     {
