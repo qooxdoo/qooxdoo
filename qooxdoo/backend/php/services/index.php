@@ -36,11 +36,42 @@ require "JSON.phps";
  *
  *   servicePathPrefix
  *   defaultAccessibility
+ *   handleQooxdooDates
  *
  */
 if (file_exists("global_settings.php"))
 {
     require "global_settings.php";
+}
+
+
+/*
+ * Whether to encode and decode Date objects the "qooxdoo way"
+ *
+ * JSON does not handle dates in any standard way.  For qooxdoo, we have
+ * defined a format for encoding and decoding Date objects such that they can
+ * be passed reliably from the client to the server and back again,
+ * unaltered.  Doing this necessitates custom changes to the encoder and
+ * decoder functions, which means that the standard (as of PHP 5.2.2)
+ * json_encode() and json_decode() functions can not be used.  Instead we just
+ * use the encoder and decoder written in PHP which is, of course, much
+ * slower.
+ *
+ * We here provide the option for an application to specify whether Dates
+ * should be handled in the qooxdoo way.  If not, and the functions
+ * json_encode() and json_decode() are available, we will use them.  Otherwise
+ * we'll use the traditional, PHP, slower but complete for qooxdoo
+ * implementation.
+ *
+ * (This is really broken.  It's not possible to determine, on a system-wide
+ * basis, whether Dates will be used.  This should be settable as a pragma on
+ * the request so we know whether we can use the built-in decoder, and we
+ * provide some way to should keep track of whether any Dates are included in
+ * the response, so we can decide whether to use the built-in encoder.)
+ */
+if (! defined("handleQooxdooDates"))
+{
+    define("handleQooxdooDates",               true);
 }
 
 
@@ -286,7 +317,7 @@ class JsonRpcError
         $ret = array("error" => $this->data,
                      "id"    => $id);
 
-        if (function_exists("json_encode"))
+        if (! handleQooxdooDates && function_exists("json_encode"))
         {
             SendReply(json_encode($ret), $this->scriptTransportId);
         }
@@ -497,7 +528,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
     case "application/json":
         /* We found literal POSTed json-rpc data (we hope) */
         $input = file_get_contents('php://input');
-        $jsonInput = $json->decode($input);
+
+        if (! handleQooxdooDates && function_exists(json_decode))
+        {
+            $jsonInput = json_decode($input);
+        }
+        else
+        {
+            $jsonInput = $json->decode($input);
+        }
         break;
     
     default:
@@ -520,9 +559,19 @@ else if ($_SERVER["REQUEST_METHOD"] == "GET" &&
     $scriptTransportId = $_GET["_ScriptTransport_id"];
     $error->SetScriptTransportId($scriptTransportId);
     $input = $_GET["_ScriptTransport_data"];
-    $jsonInput = $json->decode(get_magic_quotes_gpc()
-                               ? stripslashes($input)
-                               : $input);
+
+    if (! handleQooxdooDates && function_exists(json_decode))
+    {
+        $jsonInput = json_decode(get_magic_quotes_gpc()
+                                  ? stripslashes($input)
+                                  : $input);
+    }
+    else
+    {
+        $jsonInput = $json->decode(get_magic_quotes_gpc()
+                                   ? stripslashes($input)
+                                   : $input);
+    }
 }
 else
 {
@@ -803,11 +852,13 @@ if (get_class($output) == "JsonRpcError")
 $ret = array("result" => $output,
              "id"     => $jsonInput->id);
 
+/*
 if (function_exists("json_encode"))
 {
     SendReply(json_encode($ret), $scriptTransportId);
 }
 else
+*/
 {
     SendReply($json->encode($ret), $scriptTransportId);
 }
