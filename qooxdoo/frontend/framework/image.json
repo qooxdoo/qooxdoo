@@ -104,16 +104,28 @@
             "prefix" : "../../${MODERN}/window/statusbar",
             "border-width" : 4
           },
-          // active tabview button split
-          "${RESPATH}/source/Modern/tab-button-active.png" :
+          // active top tabview button split
+          "${RESPATH}/source/Modern/tab-button-top-active.png" :
           {
-            "prefix" : "../../${MODERN}/tabview/tab-button-active",
+            "prefix" : "../../${MODERN}/tabview/tab-button-top-active",
             "border-width" : 5
           },
-          // inactive tabview button split
-          "${RESPATH}/source/Modern/tab-button-inactive.png" :
+          // inactive top tabview button split
+          "${RESPATH}/source/Modern/tab-button-top-inactive.png" :
           {
-            "prefix" : "../../${MODERN}/tabview/tab-button-inactive",
+            "prefix" : "../../${MODERN}/tabview/tab-button-top-inactive",
+            "border-width" : 5
+          },
+          // active bottom tabview button split
+          "${RESPATH}/source/Modern/tab-button-bottom-active.png" :
+          {
+            "prefix" : "../../${MODERN}/tabview/tab-button-bottom-active",
+            "border-width" : 5
+          },
+          // inactive bottom tabview button split
+          "${RESPATH}/source/Modern/tab-button-bottom-inactive.png" :
+          {
+            "prefix" : "../../${MODERN}/tabview/tab-button-bottom-inactive",
             "border-width" : 5
           },
           // active left tabview button split
