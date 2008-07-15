@@ -423,10 +423,18 @@ qx.Mixin.define("qx.ui.core.MResizable",
         this.__computeResizeMode(e);
 
         var resizeActive = this._resizeActive;
-        if (resizeActive) {
-          this.setCursor(this.__resizeCursors[resizeActive]);
-        } else {
+        var root = this.getApplicationRoot();
+
+        if (resizeActive)
+        {
+          var cursor = this.__resizeCursors[resizeActive];
+          this.setCursor(cursor);
+          root.setGlobalCursor(cursor);
+        }
+        else if (this.getCursor())
+        {
           this.resetCursor();
+          root.resetGlobalCursor();
         }
       }
     }
