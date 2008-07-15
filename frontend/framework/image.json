@@ -115,7 +115,31 @@
           {
             "prefix" : "../../${MODERN}/tabview/tab-button-inactive",
             "border-width" : 5
-          }          
+          },
+          // active left tabview button split
+          "${RESPATH}/source/Modern/tab-button-left-active.png" :
+          {
+            "prefix" : "../../${MODERN}/tabview/tab-button-left-active",
+            "border-width" : 5
+          },
+          // inactive left tabview button split
+          "${RESPATH}/source/Modern/tab-button-left-inactive.png" :
+          {
+            "prefix" : "../../${MODERN}/tabview/tab-button-left-inactive",
+            "border-width" : 5
+          },
+          // active right tabview button split
+          "${RESPATH}/source/Modern/tab-button-right-active.png" :
+          {
+            "prefix" : "../../${MODERN}/tabview/tab-button-right-active",
+            "border-width" : 5
+          },
+          // inactive right tabview button split
+          "${RESPATH}/source/Modern/tab-button-right-inactive.png" :
+          {
+            "prefix" : "../../${MODERN}/tabview/tab-button-right-inactive",
+            "border-width" : 5
+          }
         }
       }
     },
