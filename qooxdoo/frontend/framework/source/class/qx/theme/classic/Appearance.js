@@ -653,7 +653,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
       style : function(states)
       {
-        console.debug("BAR: ", states);
         return {
           marginBottom : states.barTop ? -1 : 0,
           marginTop : states.barBottom ? -1 : 0,
@@ -683,7 +682,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
       style : function(states)
       {
-        console.debug("BUTTON: ", states);
         var paddingTop, paddingBottom, paddingLeft, paddingRight;
         var marginTop, marginBottom, marginRight, marginLeft;
         var backgroundColor, decorator;
