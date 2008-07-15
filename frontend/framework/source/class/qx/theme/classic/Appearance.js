@@ -613,7 +613,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
     {
       alias : "button",
       include : "button",
-      
+
       style : function(states)
       {
         return {
@@ -626,7 +626,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
     {
       alias : "button",
       include : "button",
-      
+
       style : function(states)
       {
         return {
@@ -653,8 +653,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
       style : function(states)
       {
+        console.debug("BAR: ", states);
         return {
-          zIndex : 10, // TODO: functional?
           marginBottom : states.barTop ? -1 : 0,
           marginTop : states.barBottom ? -1 : 0,
           marginLeft : states.barRight ? -1 : 0,
@@ -669,11 +669,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
       {
         return {
           backgroundColor : "tabview-pane",
-
-          // TODO: Move to decoration theme
-          decorator : new qx.ui.decoration.Single(1, "solid", "tabview-border"),
-          padding : 10,
-          marginTop : states.barTop ? -1 : 0
+          decorator : "tabview",
+          padding : 10
         };
       }
     },
@@ -686,6 +683,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
       style : function(states)
       {
+        console.debug("BUTTON: ", states);
         var paddingTop, paddingBottom, paddingLeft, paddingRight;
         var marginTop, marginBottom, marginRight, marginLeft;
         var backgroundColor, decorator;
@@ -708,7 +706,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
             paddingLeft = 7;
             paddingRight = 8;
           }
-          else if(states.barLeft || states.barRight)
+          else
           {
             paddingTop = 4;
             paddingBottom = 4;
@@ -721,23 +719,19 @@ qx.Theme.define("qx.theme.classic.Appearance",
           if (states.barTop)
           {
             decorator.setWidthBottom(0);
-            decorator.setTop(3, "solid", "effect");
           }
           else if(states.barBottom)
           {
             decorator.setWidthTop(0);
-            decorator.setBottom(3, "solid", "effect");
           }
           else if(states.barLeft)
           {
             decorator.setWidthRight(0);
-            decorator.setLeft(3, "solid", "effect");
           }
           else
           {
             decorator.setWidthLeft(0);
-            decorator.setRight(3, "solid", "effect");
-          }          
+          }
         }
         else
         {
@@ -749,7 +743,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
             paddingLeft = 5;
             paddingRight = 6;
           }
-          else if(states.barLeft || states.barRight)
+          else
           {
             paddingTop = 4;
             paddingBottom = 4;
