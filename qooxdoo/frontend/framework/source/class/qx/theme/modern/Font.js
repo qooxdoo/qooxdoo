@@ -30,31 +30,36 @@ qx.Theme.define("qx.theme.modern.Font",
     "default" :
     {
       size : 11,
+      lineHeight : 1.3,
       family : [ "Lucida Grande", "Tahoma", "Verdana", "Bitstream Vera Sans", "Liberation Sans" ]
     },
 
     "bold" :
     {
       size : 11,
+      lineHeight : 1.3,
       family : [ "Lucida Grande", "Tahoma", "Verdana", "Bitstream Vera Sans", "Liberation Sans" ],
       bold : true
     },
 
     "medium" :
     {
-      size   : 10,
+      size : 10,
+      lineHeight : 1.3,      
       family : [ "Lucida Grande", "Tahoma", "Verdana", "Bitstream Vera Sans", "Liberation Sans" ]
     },
 
     "large" :
     {
       size : 16,
+      lineHeight : 1.3,      
       family : [ "Lucida Grande", "Tahoma", "Verdana", "Bitstream Vera Sans", "Liberation Sans" ]
     },
 
     "monospace" :
     {
       size : 11,
+      lineHeight : 1.3,      
       family : ["Consolas", "Bitstream Vera Sans Mono", "Courier New", "monospace"]
     }
   }

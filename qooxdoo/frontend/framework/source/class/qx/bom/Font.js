@@ -139,7 +139,7 @@ qx.Class.define("qx.bom.Font",
       fontWeight: "",
       fontStyle: "",
       textDecoration: "",
-      lineHeight: 1
+      lineHeight: 1.2
     },
 
 
@@ -237,7 +237,7 @@ qx.Class.define("qx.bom.Font",
     __bold : null,
     __italic : null,
     __decoration : null,
-    __lineHeight : "1",
+    __lineHeight : null,
 
 
     // property apply
@@ -247,7 +247,7 @@ qx.Class.define("qx.bom.Font",
 
 
     _applyLineHeight : function(value, old) {
-      this.__lineHeight = value === null ? 1 : value;
+      this.__lineHeight = value === null ? null : value;
     },
 
 
@@ -298,6 +298,7 @@ qx.Class.define("qx.bom.Font",
      */
     getStyles : function()
     {
+      this.debug("LINE: " + this.__lineHeight)
       return {
         fontFamily : this.__family,
         fontSize : this.__size,
