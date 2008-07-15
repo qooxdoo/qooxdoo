@@ -37,6 +37,7 @@ qx.Mixin.define("qx.ui.core.MResizable",
     this.addListener("mousedown", this.__onResizeMouseDown, this, true);
     this.addListener("mouseup", this.__onResizeMouseUp, this);
     this.addListener("mousemove", this.__onResizeMouseMove, this);
+    this.addListener("mouseout", this.__onResizeMouseOut, this);
     this.addListener("losecapture", this.__onResizeLoseCapture, this);
   },
 
@@ -354,6 +355,7 @@ qx.Mixin.define("qx.ui.core.MResizable",
 
       // Reset cursor
       this.resetCursor();
+      this.getApplicationRoot().resetGlobalCursor();
 
       // Disable capturing
       this.releaseCapture();
@@ -374,6 +376,7 @@ qx.Mixin.define("qx.ui.core.MResizable",
 
       // Reset cursor
       this.resetCursor();
+      this.getApplicationRoot().resetGlobalCursor();
 
       // Remove drag state
       this.removeState("move");
@@ -436,6 +439,26 @@ qx.Mixin.define("qx.ui.core.MResizable",
           this.resetCursor();
           root.resetGlobalCursor();
         }
+      }
+    },
+
+
+    /**
+     * Event handler for the mouse out event
+     *
+     * @type member
+     * @param e {qx.event.type.Mouse} The mouse event instance
+     * @return {void}
+     */
+    __onResizeMouseOut : function(e)
+    {
+      // When the mouse left the window and resizing is not yet
+      // active we must be sure to (especially) reset the global
+      // cursor.
+      if (this.getCursor() && !this.hasState("resize"))
+      {
+        this.resetCursor();
+        this.getApplicationRoot().resetGlobalCursor();
       }
     }
   },
