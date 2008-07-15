@@ -1015,7 +1015,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          marginRight : 2
+          marginRight : 4
         };
       }
     },

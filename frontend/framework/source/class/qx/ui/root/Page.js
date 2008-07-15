@@ -56,7 +56,12 @@ qx.Class.define("qx.ui.root.Page",
     this.base(arguments);
 
     this._setLayout(new qx.ui.layout.Basic());
+
+    // set a high zIndex to make sure the widgets really overlay the HTML page.
+    this.setZIndex(1000);
     qx.ui.core.queue.Layout.add(this);
+
+    this.addListener("resize", this.__onResize, this);
   },
 
 
@@ -85,31 +90,105 @@ qx.Class.define("qx.ui.root.Page",
 
 
     // overridden
-    // we do not want overflow=hidden for the page root
-    _createContentElement : function() {
+    _createContentElement : function()
+    {
+      // we do not want overflow=hidden for the page root
       return new qx.html.Element("div");
     },
 
 
     /**
-     * Get the preferred dimension of the widget.
+     * Get the widget's layout manager.
      *
-     * @return {Map} The map with the preferred width/height and the allowed
-     *   minimum and maximum values in cases where shrinking or growing
-     *   is required.
+     * @return {qx.ui.layout.Abstract} The widget's layout manager
      */
-    getSizeHint : function()
+    getLayout : function() {
+      return this._getLayout();
+    },
+
+
+    /**
+     * Adjust html element size on layout resizes.
+     *
+     * @param e {qx.event.type.Data} event object
+     */
+    __onResize : function(e)
     {
-      // the size hint is 0 so make the content element invisible
+      var data = e.getData();
+
+      // set the size to 0 so make the content element invisible
       // this works because the content element has overflow "show"
-      return {
-        minWidth : 0,
-        width : 0,
-        maxWidth : 0,
-        minHeight : 0,
-        height : 0,
-        maxHeight : 0
-      };
+      this._containerElement.setStyles({
+        width: 0,
+        height: 0
+      });
+      this._contentElement.setStyles({
+        width: 0,
+        height: 0
+      });
+
+      // adjust the size of the blocker
+      if (this.isContentBlocked())
+      {
+        this._getContentBlocker().setStyles({
+          width: data.width,
+          height: data.height
+        });
+      }
+      if (this.isBlocked())
+      {
+        this._getBlocker().setStyles({
+          width: data.width,
+          height: data.height
+        });
+      }
+    },
+
+
+    /**
+     * Synchronize the size of the background blocker with the size of the
+     * body element
+     */
+    __syncBlocker : function()
+    {
+      var body = this._doc.body;
+
+      this._getContentBlocker().setStyles({
+        height: body.offsetHeight + "px",
+        width: body.offsetWidth + "px"
+      });
+    },
+
+
+    // overridden
+    unblockContent : function()
+    {
+      if (!this.isContentBlocked()) {
+        return;
+      }
+
+      this.base(arguments);
+      this.__timer.stop();
+    },
+
+
+    // overridden
+    blockContent : function(zIndex)
+    {
+      if (this.isContentBlocked()) {
+        this.base(arguments, zIndex);
+        return;
+      }
+
+      this.base(arguments, zIndex);
+
+      if (!this.__timer)
+      {
+        this.__timer = new qx.event.Timer(300);
+        this.__timer.addListener("interval", this.__syncBlocker, this);
+      }
+      this.__timer.start();
+      this.__syncBlocker();
     }
   },
 

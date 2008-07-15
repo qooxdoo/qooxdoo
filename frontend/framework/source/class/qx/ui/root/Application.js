@@ -39,7 +39,6 @@
 qx.Class.define("qx.ui.root.Application",
 {
   extend : qx.ui.root.Abstract,
-  include : [qx.ui.core.MBlocker],
 
 
 
@@ -108,7 +107,6 @@ qx.Class.define("qx.ui.root.Application",
     /**
      * Listener for window's resize event
      *
-     * @type member
      * @param e {qx.type.Event} Event object
      * @return {void}
      */

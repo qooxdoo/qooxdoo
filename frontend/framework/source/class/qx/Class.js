@@ -295,7 +295,6 @@ qx.Bootstrap.define("qx.Class",
      * not include any methods or properties that are already available in the
      * class. This would only be possible using the {@link #patch} method.
      *
-     * @type static
      * @param clazz {Class} An existing class which should be modified by including the mixin.
      * @param mixin {Mixin} The mixin to be included.
      */
@@ -324,7 +323,6 @@ qx.Bootstrap.define("qx.Class",
      *
      * <b>WARNING</b>: You may break working classes and features.
      *
-     * @type static
      * @param clazz {Class} An existing class which should be modified by including the mixin.
      * @param mixin {Mixin} The mixin to be included.
      */
@@ -1103,7 +1101,6 @@ qx.Bootstrap.define("qx.Class",
     /**
      * Attach properties to classes
      *
-     * @type static
      * @param clazz {Class} class to add the properties to
      * @param properties {Map} map of properties
      * @param patch {Boolean ? false} Overwrite property with the limitations of a property
@@ -1250,7 +1247,6 @@ qx.Bootstrap.define("qx.Class",
     /**
      * Attach members to a class
      *
-     * @type static
      * @param clazz {Class} clazz to add members to
      * @param members {Map} The map of members to attach
      * @param patch {Boolean ? false} Enable patching of
@@ -1276,7 +1272,7 @@ qx.Bootstrap.define("qx.Class",
             throw new Error('Overwriting private member "' + key + '" of Class "' + clazz.classname + '" is not allowed!');
           }
 
-          if (patch !== true && proto[key] !== undefined) {
+          if (patch !== true && proto.hasOwnProperty(key)) {
             throw new Error('Overwriting member "' + key + '" of Class "' + clazz.classname + '" is not allowed!');
           }
         }
@@ -1344,7 +1340,6 @@ qx.Bootstrap.define("qx.Class",
     /**
      * Add a single interface to a class
      *
-     * @type static
      * @param clazz {Class} class to add interface to
      * @param iface {Interface} the Interface to add
      * @return {void}
@@ -1388,7 +1383,6 @@ qx.Bootstrap.define("qx.Class",
     /**
      * Include all features of the mixin into the given class (recursive).
      *
-     * @type static
      * @param clazz {Class} A class previously defined where the mixin should be attached.
      * @param mixin {Mixin} Include all features of this mixin
      * @param patch {Boolean} Overwrite existing fields, functions and properties
