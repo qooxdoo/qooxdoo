@@ -851,7 +851,6 @@ qx.Class.define("qx.ui.core.Widget",
     ---------------------------------------------------------------------------
     */
 
-
     // overridden
     _computeSizeHint : function()
     {
