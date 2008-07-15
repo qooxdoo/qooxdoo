@@ -534,7 +534,7 @@ qx.Class.define("showcase.Application",
       var rbm = new qx.legacy.ui.selection.RadioManager(null, [ radio1, radio2, radio3 ]);
 
       rbm.addListener("changeSelected", function(e) {
-        this.dispatchEvent(new qx.event.type.Data("changeLayout", e.getData().getValue()));
+        this.fireDataEvent("changeLayout", e.getData().getValue());
       }, this);
 
       // Alignment
@@ -562,7 +562,7 @@ qx.Class.define("showcase.Application",
       button.setHorizontalAlign("center");
 
       button.addListener("execute", function(e) {
-        this.dispatchEvent(new qx.event.type.Data("changeSize", 22));
+        this.fireDataEvent("changeSize", 22);
       }, this);
 
       vert.add(button);
@@ -571,7 +571,7 @@ qx.Class.define("showcase.Application",
       button.setHorizontalAlign("center");
 
       button.addListener("execute", function(e) {
-        this.dispatchEvent(new qx.event.type.Data("changeSize", 32));
+        this.fireDataEvent("changeSize", 32);
       }, this);
 
       vert.add(button);
