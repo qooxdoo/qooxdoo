@@ -377,6 +377,8 @@ qx.Class.define("qx.event.handler.Focus",
         this.__onNativeFocusWrapper = qx.lang.Function.listener(this.__onNativeFocus, this);
         this.__onNativeBlurWrapper = qx.lang.Function.listener(this.__onNativeBlur, this);
 
+        this.__onNativeDragGestureWrapper = qx.lang.Function.listener(this.__onNativeDragGesture, this);
+
 
         // Register events
         this._document.addEventListener("mousedown", this.__onNativeMouseDownWrapper, true);
@@ -386,6 +388,9 @@ qx.Class.define("qx.event.handler.Focus",
         // handle focus of input and textarea fields
         this._window.addEventListener("focus", this.__onNativeFocusWrapper, true);
         this._window.addEventListener("blur", this.__onNativeBlurWrapper, true);
+
+        // Capture drag events
+        this._window.addEventListener("draggesture", this.__onNativeDragGestureWrapper, true);
       },
 
       "mshtml" : function()
@@ -476,6 +481,8 @@ qx.Class.define("qx.event.handler.Focus",
 
         this._window.removeEventListener("focus", this.__onNativeFocusWrapper, true);
         this._window.removeEventListener("blur", this.__onNativeBlurWrapper, true);
+
+        this._window.removeEventListener("draggesture", this.__onNativeDragGestureWrapper, true);
       },
 
       "mshtml" : function()
@@ -523,6 +530,28 @@ qx.Class.define("qx.event.handler.Focus",
       NATIVE LISTENERS
     ---------------------------------------------------------------------------
     */
+
+    /**
+     * Native event listener for <code>draggesture</code> event
+     * supported by gecko. Used to stop native drag and drop when
+     * selection is disabled.
+     *
+     * @see http://developer.mozilla.org/en/docs/Drag_and_Drop
+     * @type member
+     * @signature function(e)
+     * @param e {Event} Native event
+     * @return {void}
+     */
+    __onNativeDragGesture : qx.core.Variant.select("qx.client",
+    {
+      "gecko" : function(e)
+      {
+        if (!this.__isSelectable(e.target)) {
+          e.preventDefault();
+        }
+      }
+    }),
+
 
     /**
      * Native event listener for <code>DOMFocusIn</code> or <code>focusin</code>
