@@ -112,13 +112,14 @@ qx.Class.define("demobrowser.demo.widget.TabView",
     {
       tabView = new qx.ui.tabview.TabView();
       tabView.setWidth(500);
+      tabView.setHeight(400);
 
       for (var i=1; i<=5; i++)
       {
         var page = new qx.ui.tabview.Page("Page #" + i, "icon/32/apps/utilities-terminal.png");
         page.setLayout(new qx.ui.layout.VBox());
         tabView.add(page);
-        
+
         if (i == 1)
         {
           // layout settings options
@@ -133,7 +134,7 @@ qx.Class.define("demobrowser.demo.widget.TabView",
           pageContainer.add(barTopButton);
           pageContainer.add(barBottomButton);
           pageContainer.add(barLeftButton);
-          pageContainer.add(barRightButton);          
+          pageContainer.add(barRightButton);
 
           page.add(pageContainer);
 
@@ -149,7 +150,6 @@ qx.Class.define("demobrowser.demo.widget.TabView",
         {
           page.add(new qx.ui.basic.Label("Page #" + i));
         }
-
       }
       return tabView;
     }
