@@ -2808,30 +2808,8 @@ qx.Class.define("qx.ui.core.Widget",
      * @param id {String} ID of the child control
      * @return {qx.ui.core.Widget} The created control or <code>null</code>
      */
-    _createChildControlImpl : function(id)
-    {
-      var control = null;
-
-      // The blocker is used by "qx.core.MBlocker" to block any events within
-      // the widget. We need to put it into the container element
-      // because it has to cover the "padding area" as well.
-      // We could use a "qx.html.Element" as well but then we are not able to
-      // theme it.
-      // It is implemented as a sub control to enable different theming of the
-      // blocker in different widgets.
-      if (id == "blocker")
-      {
-        control = new qx.ui.root.Abstract().set({
-          zIndex: 100,
-          appearance: "blocker",
-          focusable: false,
-          anonymous: true
-        })
-        this.getContainerElement().add(control.getContainerElement());
-        control.exclude();
-      }
-
-      return control;
+    _createChildControlImpl : function(id) {
+      return null;
     },
 
 

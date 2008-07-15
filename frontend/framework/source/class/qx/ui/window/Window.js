@@ -59,12 +59,9 @@ qx.Class.define("qx.ui.window.Window",
   *****************************************************************************
   */
 
-  construct : function(caption, icon, manager)
+  construct : function(caption, icon, parentWindow)
   {
     this.base(arguments);
-
-    // initialize window manager
-    this.setManager(manager || qx.ui.window.Window.getDefaultWindowManager());
 
     // configure internal layout
     this._setLayout(new qx.ui.layout.VBox());
@@ -82,6 +79,8 @@ qx.Class.define("qx.ui.window.Window",
       this.setCaption(caption);
     }
 
+    this._parentWindow = parentWindow || null;
+
     // Update captionbar
     this._updateCaptionBar();
 
@@ -92,6 +91,9 @@ qx.Class.define("qx.ui.window.Window",
 
     // Activation listener
     this.addListener("mousedown", this._onWindowMouseDown, this, true);
+
+    // As a default add windows always to the root widget.
+    qx.core.Init.getApplication().getRoot().add(this);
   },
 
 
@@ -105,28 +107,8 @@ qx.Class.define("qx.ui.window.Window",
 
   statics :
   {
-    /*
-    ---------------------------------------------------------------------------
-      MANAGER HANDLING
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * Returns the default window manager. If no exists a new instance of
-     * the manager is created.
-     *
-     * @type static
-     * @return {qx.ui.window.Manager} window manager instance
-     */
-    getDefaultWindowManager : function()
-    {
-      var Window = qx.ui.window.Window;
-      if (!Window._defaultWindowManager) {
-        Window._defaultWindowManager = new qx.ui.window.Manager;
-      }
-
-      return Window._defaultWindowManager;
-    }
+    /** {Class} The default window manager class.
+    DEFAULT_MANAGER_CLASS : qx.ui.window.WindowManager
   },
 
 
@@ -219,14 +201,6 @@ qx.Class.define("qx.ui.window.Window",
     },
 
 
-    /** The manager to use for. */
-    manager :
-    {
-      check : "qx.ui.window.Manager",
-      event : "changeManager"
-    },
-
-
     /**
      * If the window is active, only one window in a single qx.ui.window.Manager could
      *  have set this to true at the same time.
@@ -248,12 +222,11 @@ qx.Class.define("qx.ui.window.Window",
     ---------------------------------------------------------------------------
     */
 
-    /** Should be window be modal (this disable minimize and maximize buttons) */
+    /** Should the window be modal (this disables minimize and maximize buttons) */
     modal :
     {
       check : "Boolean",
       init : false,
-      apply : "_applyModal",
       event : "changeModal"
     },
 
@@ -422,6 +395,21 @@ qx.Class.define("qx.ui.window.Window",
 
 
     // overridden
+    setLayoutParent : function(parent)
+    {
+      this.base(arguments, parent);
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        parent && this.assertInterface(
+          parent, qx.ui.window.IDesktop,
+          "Windows can only be added to widgets, which implement the interface "+
+          "qx.ui.window.IDesktop. All root widgets implement this interface."
+        )
+      }
+    },
+
+
+    // overridden
     _createChildControlImpl : function(id)
     {
       var control;
@@ -524,6 +512,8 @@ qx.Class.define("qx.ui.window.Window",
      */
     _updateCaptionBar : function()
     {
+      var btn;
+
       if (this.getIcon()) {
         this._showChildControl("icon");
       } else {
@@ -540,7 +530,7 @@ qx.Class.define("qx.ui.window.Window",
       {
         this._showChildControl("minimize-button");
 
-        var btn = this._getChildControl("minimize-button");
+        btn = this._getChildControl("minimize-button");
         this.getAllowMinimize() ? btn.resetEnabled() : btn.setEnabled(false);
       }
       else
@@ -561,7 +551,7 @@ qx.Class.define("qx.ui.window.Window",
           this._excludeChildControl("restore-button");
         }
 
-        var btn = this._getChildControl("maximize-button");
+        btn = this._getChildControl("maximize-button");
         this.getAllowMaximize() ? btn.resetEnabled() : btn.setEnabled(false);
       }
       else
@@ -574,7 +564,7 @@ qx.Class.define("qx.ui.window.Window",
       {
         this._showChildControl("close-button");
 
-        var btn = this._getChildControl("close-button");
+        btn = this._getChildControl("close-button");
         this.getAllowClose() ? btn.resetEnabled() : btn.setEnabled(false);
       }
       else
@@ -597,7 +587,6 @@ qx.Class.define("qx.ui.window.Window",
      * Closes the current window instance.
      * Technically calls the {@link qx.ui.core.Widget#hide} method.
      *
-     * @type member
      * @return {void}
      */
     close : function()
@@ -616,18 +605,18 @@ qx.Class.define("qx.ui.window.Window",
      * Sets the opener property (if available) and centers
      * the window if the property {@link #centered} is enabled.
      *
-     * @type member
      * @return {void}
      */
-    open : function() {
+    open : function()
+    {
       this.show();
+      this.setActive(true);
     },
 
 
     /**
      * Maximize the window by setting the property {@link mode} to <code>maximized</code>
      *
-     * @type member
      * @return {void}
      */
     maximize : function()
@@ -672,7 +661,6 @@ qx.Class.define("qx.ui.window.Window",
     /**
      * Maximize the window by setting the property {@link mode} to <code>minimized</code>
      *
-     * @type member
      * @return {void}
      */
     minimize : function()
@@ -688,7 +676,6 @@ qx.Class.define("qx.ui.window.Window",
     /**
      * Maximize the window by setting the property {@link mode} to <code>null</code>
      *
-     * @type member
      * @return {void}
      */
     restore : function()
@@ -740,36 +727,15 @@ qx.Class.define("qx.ui.window.Window",
     },
 
 
-
-
     /*
     ---------------------------------------------------------------------------
-      ZIndex Positioning
+      Parent window handling
     ---------------------------------------------------------------------------
     */
 
-    /**
-     * Bring the window to front (if possible)
-     *
-     * @type member
-     * @return {void}
-     */
-    bringToFront : function() {
-      this.getManager().bringToFront(this);
+    getParentWindow : function() {
+      return this._parentWindow;
     },
-
-
-    /**
-     * Send the window to the back (if possible)
-     *
-     * @type member
-     * @return {void}
-     */
-    sendToBack : function() {
-      this.getManager().sendToBack(this);
-    },
-
-
 
 
     /*
@@ -778,44 +744,14 @@ qx.Class.define("qx.ui.window.Window",
     ---------------------------------------------------------------------------
     */
 
-    // overridden
-    _applyVisibility : function(value, old)
-    {
-      this.base(arguments, value, old);
-
-      if (value === "visible") {
-        this.getManager().add(this);
-      } else {
-        this.getManager().remove(this);
-      }
-    },
-
-
     // property apply
     _applyActive : function(value, old)
     {
-      var mgr = this.getManager();
-      if (old)
-      {
-        if (mgr.getActive() == this) {
-          mgr.resetActive();
-        }
-
+      if (old) {
         this.removeState("active");
-      }
-      else
-      {
-        mgr.setActive(this);
+      } else {
         this.addState("active");
       }
-    },
-
-
-    // property apply
-    _applyModal : function(value, old)
-    {
-      // TODO
-      this.debug("Modal support still missing!");
     },
 
 
@@ -871,7 +807,6 @@ qx.Class.define("qx.ui.window.Window",
     /**
      * Stops every event
      *
-     * @type member
      * @param e {qx.event.type.Event} any event
      * @return {void}
      */
@@ -883,7 +818,6 @@ qx.Class.define("qx.ui.window.Window",
     /**
      * Focuses the window instance.
      *
-     * @type member
      * @param e {qx.event.type.MouseEvent} mouse down event
      * @return {void}
      */
@@ -896,7 +830,6 @@ qx.Class.define("qx.ui.window.Window",
      * Maximizes the window or restores it if it is already
      * maximized.
      *
-     * @type member
      * @param e {qx.event.type.MouseEvent} double click event
      * @return {void}
      */
@@ -917,7 +850,7 @@ qx.Class.define("qx.ui.window.Window",
     */
 
     /**
-     * Minmizes the window, removes all states from the minimize button and
+     * Minimizes the window, removes all states from the minimize button and
      * stops the further propagation of the event (calling {@link qx.event.type.Event#stopPropagation}).
      *
      * @param e {qx.event.type.MouseEvent} mouse click event
@@ -970,5 +903,17 @@ qx.Class.define("qx.ui.window.Window",
       this.close();
       this._getChildControl("close-button").reset();
     }
-  }
+  },
+
+
+
+  /*
+   *****************************************************************************
+      DEFER
+   *****************************************************************************
+   */
+
+   defer : function(statics, members) {
+     qx.Class.include(qx.ui.root.Abstract, qx.ui.window.MDesktop);
+   }
 });

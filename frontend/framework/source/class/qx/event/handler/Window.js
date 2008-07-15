@@ -190,6 +190,9 @@ qx.Class.define("qx.event.handler.Window",
 
       // At least Safari 3.1 and Opera 9.2.x have a bubbling scroll event
       // which needs to be ignored here.
+      //
+      // In recent WebKit nightlies scroll events do no longer bubble
+      //
       // Internet Explorer does not have a target in resize events.
       var target = e.target || e.srcElement;
       if (target == null || target === win || target === doc || target === html) {
