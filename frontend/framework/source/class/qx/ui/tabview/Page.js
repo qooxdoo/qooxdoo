@@ -159,7 +159,9 @@ qx.Class.define("qx.ui.tabview.Page",
       {
         case "button":
           control = new qx.ui.form.RadioButton;
-          control.setUserData("page", this);
+          control.setAllowGrowX(true);
+          control.setAllowGrowY(true);
+          control.setValue(this.toHashCode());
 
           this._add(control);
           break;
