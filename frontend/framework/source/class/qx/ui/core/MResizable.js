@@ -57,8 +57,7 @@ qx.Mixin.define("qx.ui.core.MResizable",
     resizable :
     {
       check : "Boolean",
-      init : true,
-      apply : "_applyResizable"
+      init : true
     },
 
     /**
@@ -245,6 +244,10 @@ qx.Mixin.define("qx.ui.core.MResizable",
      */
     __computeResizeMode : function(e)
     {
+      if (!this.getResizable()) {
+        return;
+      }
+
       var contentLocation = this.getContentLocation();
 
       var resizeAll = this.getResizeAllEdges();

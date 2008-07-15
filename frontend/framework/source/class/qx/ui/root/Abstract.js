@@ -136,6 +136,16 @@ qx.Class.define("qx.ui.root.Abstract",
     },
 
 
+    /**
+     * Get the widget's layout manager.
+     *
+     * @return {qx.ui.layout.Abstract} The widget's layout manager
+     */
+    getLayout : function() {
+      return this._getLayout();
+    },
+
+
     // property apply
     _applyGlobalCursor : qx.core.Variant.select("qx.client",
     {

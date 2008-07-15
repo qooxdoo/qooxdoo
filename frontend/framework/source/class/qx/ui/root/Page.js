@@ -98,16 +98,6 @@ qx.Class.define("qx.ui.root.Page",
 
 
     /**
-     * Get the widget's layout manager.
-     *
-     * @return {qx.ui.layout.Abstract} The widget's layout manager
-     */
-    getLayout : function() {
-      return this._getLayout();
-    },
-
-
-    /**
      * Adjust html element size on layout resizes.
      *
      * @param e {qx.event.type.Data} event object
