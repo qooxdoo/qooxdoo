@@ -101,7 +101,6 @@ qx.Class.define("qx.ui.tabview.TabView",
     // overridden
     _createChildControlImpl : function(id)
     {
-      this.debug(this, id)
       var control;
 
       switch(id)
@@ -260,10 +259,13 @@ qx.Class.define("qx.ui.tabview.TabView",
         pages[i].addState(position.barPosition);
       }
 
-      if (old != undefined) {
+      if (old != undefined)
+      {
         bar.removeState(this.__positionInformation[old].barPosition);
+        pane.removeState(this.__positionInformation[old].barPosition);
       }
       bar.addState(position.barPosition);
+      pane.addState(position.barPosition);
     },
 
 
