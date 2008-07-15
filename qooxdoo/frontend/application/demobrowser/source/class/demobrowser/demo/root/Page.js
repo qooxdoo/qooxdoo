@@ -28,7 +28,6 @@ qx.Class.define("demobrowser.demo.root.Page",
     {
       this.base(arguments);
 
-      var doc = new qx.ui.root.Page(document);
       var box = new qx.ui.container.Composite(new qx.ui.layout.HBox());
 
       var w1 = new qx.ui.core.Widget().set({
