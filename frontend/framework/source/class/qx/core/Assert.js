@@ -251,7 +251,9 @@ qx.Class.define("qx.core.Assert",
      * @param re {RegExp} Regular expression to match
      * @param msg {String} Message to be shown if the assertion fails.
      */
-    assertMatch : function(str, re, msg) {
+    assertMatch : function(str, re, msg)
+    {
+      this.assertString(str);
       this.__assert(
         str.search(re) >= 0 ? true : false,
         msg || "",
@@ -583,7 +585,11 @@ qx.Class.define("qx.core.Assert",
      * @param msg {String} Message to be shown if the assertion fails.
      */
     assertInterface : function(value, iface, msg) {
-      this.__assert(qx.Class.hasInterface(value.constructor, iface), msg || "", "Expected object '" + value + "' to implement the interface '" + iface + "'!");
+      this.__assert(
+        qx.Class.implementsInterface(value.constructor, iface),
+        msg || "",
+        "Expected object '" + value + "' to implement the interface '" + iface + "'!"
+      );
     },
 
 
