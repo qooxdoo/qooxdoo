@@ -330,7 +330,6 @@ qx.Class.define("qx.bom.Label",
         }
       }
 
-
       // compute size and return
       return {
         width : width,

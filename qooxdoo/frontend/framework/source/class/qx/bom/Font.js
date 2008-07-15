@@ -137,7 +137,8 @@ qx.Class.define("qx.bom.Font",
       fontSize: "",
       fontWeight: "",
       fontStyle: "",
-      textDecoration: ""
+      textDecoration: "",
+      lineHeight: 1
     },
 
 
@@ -173,6 +174,18 @@ qx.Class.define("qx.bom.Font",
       nullable : true,
       apply : "_applySize"
     },
+
+    /**
+     * The line height as scaling factor of the default line height. A value
+     * of 1 corresponds to the default line height
+     */
+    lineHeight :
+    {
+      check : "Number",
+      nullable: true,
+      apply : "_applyLineHeight"
+    },
+
 
     /** A sorted list of font families */
     family :
@@ -223,11 +236,17 @@ qx.Class.define("qx.bom.Font",
     __bold : null,
     __italic : null,
     __decoration : null,
+    __lineHeight : "1",
 
 
     // property apply
     _applySize : function(value, old) {
       this.__size = value === null ? null : value + "px";
+    },
+
+
+    _applyLineHeight : function(value, old) {
+      this.__lineHeight = value === null ? 1 : value;
     },
 
 
@@ -283,7 +302,8 @@ qx.Class.define("qx.bom.Font",
         fontSize : this.__size,
         fontWeight : this.__bold,
         fontStyle : this.__italic,
-        textDecoration : this.__decoration
+        textDecoration : this.__decoration,
+        lineHeight : this.__lineHeight
       }
     },
 
