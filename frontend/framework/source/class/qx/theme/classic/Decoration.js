@@ -288,7 +288,7 @@ qx.Theme.define("qx.theme.classic.Decoration",
       {
         width : 1,
         style : "solid",
-        color : "tabview-border"
+        color : "border-dark-shadow"
       }
     },
 
