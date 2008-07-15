@@ -816,6 +816,16 @@ qx.Class.define("qx.ui.core.LayoutItem",
     */
 
     /**
+     * Returns the application root
+     *
+     * @return {qx.ui.root.Abstract} The currently used root
+     */
+    getApplicationRoot : function() {
+      return qx.core.Init.getApplication().getRoot();
+    },
+
+
+    /**
      * Get the items parent. Even if the item has been added to a
      * layout, the parent is always a child of the containing item. The parent
      * item may be <code>null</code>.
