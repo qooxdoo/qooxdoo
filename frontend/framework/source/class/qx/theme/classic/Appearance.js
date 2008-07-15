@@ -612,24 +612,11 @@ qx.Theme.define("qx.theme.classic.Appearance",
     "slidebar/button-forward" :
     {
       alias : "button",
+      include : "button",
+      
       style : function(states)
       {
-        if (states.pressed || states.abandoned || states.checked) {
-          var decorator = states.focused ? "focused-inset" : "inset";
-        } else {
-          var decorator = states.focused ? "focused-outset" : "outset";
-        }
-
-        if (states.pressed || states.abandoned || states.checked) {
-          var padding = [ 4, 3, 2, 5 ];
-        } else {
-          var padding = [ 3, 4 ];
-        }
-
         return {
-          backgroundColor : states.abandoned ? "button-abandoned" : states.hovered ? "button-hovered" : states.checked ? "button-checked" : "button",
-          decorator : decorator,
-          padding : padding,
           icon : "decoration/arrows/next.gif"
         };
       }
@@ -638,24 +625,11 @@ qx.Theme.define("qx.theme.classic.Appearance",
     "slidebar/button-backward" :
     {
       alias : "button",
+      include : "button",
+      
       style : function(states)
       {
-        if (states.pressed || states.abandoned || states.checked) {
-          var decorator = states.focused ? "focused-inset" : "inset";
-        } else {
-          var decorator = states.focused ? "focused-outset" : "outset";
-        }
-
-        if (states.pressed || states.abandoned || states.checked) {
-          var padding = [ 4, 3, 2, 5 ];
-        } else {
-          var padding = [ 3, 4 ];
-        }
-
         return {
-          backgroundColor : states.abandoned ? "button-abandoned" : states.hovered ? "button-hovered" : states.checked ? "button-checked" : "button",
-          decorator : decorator,
-          padding : padding,
           icon : "decoration/arrows/left.gif"
         };
       }
