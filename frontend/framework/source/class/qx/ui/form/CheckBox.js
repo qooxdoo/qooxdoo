@@ -56,10 +56,18 @@ qx.Class.define("qx.ui.form.CheckBox",
 
   properties :
   {
+    // overridden
     appearance :
     {
       refine : true,
       init : "checkbox"
+    },
+
+    // overridden
+    allowGrowX :
+    {
+      refine : true,
+      init : false
     }
   }
 });
