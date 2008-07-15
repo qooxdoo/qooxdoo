@@ -76,7 +76,7 @@ qx.Mixin.define("qx.ui.core.MResizable",
     resizeSensitivity :
     {
       check : "Integer",
-      init : 8
+      init : 5
     },
 
     /** Whether a frame replacement should be used during the resize sequence */
