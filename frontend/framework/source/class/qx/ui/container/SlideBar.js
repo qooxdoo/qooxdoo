@@ -124,14 +124,14 @@ qx.Class.define("qx.ui.container.SlideBar",
       {
         case "button-forward":
           // TODO: make arrows graphics and move this into appearance
-          control = new qx.ui.form.RepeatButton(">");
+          control = new qx.ui.form.RepeatButton;
           control.addListener("execute", this._onExecuteForward, this);
           this._add(control);
           break;
 
         case "button-backward":
           // TODO: make arrows graphics and move this into appearance
-          control = new qx.ui.form.RepeatButton("<");
+          control = new qx.ui.form.RepeatButton;
           control.addListener("execute", this._onExecuteBackward, this);
           this._addAt(control, 0);
           break;
