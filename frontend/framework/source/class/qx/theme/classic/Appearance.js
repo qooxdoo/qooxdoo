@@ -653,11 +653,23 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
       style : function(states)
       {
+        var marginTop=0, marginRight=0, marginBottom=0, marginLeft=0;
+
+        if (states.barTop) {
+          marginBottom = -2;
+        } else if (states.barBottom) {
+          marginTop = -2;
+        } else if (states.barRight) {
+          marginLeft = -2;
+        } else {
+          marginRight = -2;
+        }
+
         return {
-          marginBottom : states.barTop ? -2 : 0,
-          marginTop : states.barBottom ? -2 : 0,
-          marginLeft : states.barRight ? -2 : 0,
-          marginRight : states.barLeft ? -2 : 0
+          marginBottom : marginBottom,
+          marginTop : marginTop,
+          marginLeft : marginLeft,
+          marginRight : marginRight
         };
       }
     },
@@ -682,9 +694,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
       style : function(states)
       {
-        var paddingTop, paddingBottom, paddingLeft, paddingRight;
-        var marginTop, marginBottom, marginRight, marginLeft;
-
         var decorator = new qx.ui.decoration.Double;
         decorator.set(
         {
@@ -695,6 +704,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
         });
 
         var marginTop=0, marginRight=0, marginBottom=0, marginLeft=0;
+        var paddingTop=2, paddingBottom=2, paddingLeft=4, paddingRight=4;
 
         if (states.barTop || states.barBottom) {
           marginRight = 1;
@@ -723,21 +733,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
           decorator.setInnerWidthRight(0);
         }
 
-        if (states.barTop || states.barBottom)
-        {
-          paddingTop = 2;
-          paddingBottom = 2;
-          paddingLeft = 5;
-          paddingRight = 6;
-        }
-        else
-        {
-          paddingTop = 4;
-          paddingBottom = 4;
-          paddingLeft = 7;
-          paddingRight = 6;
-        }
-
         if (states.checked)
         {
           if (states.barTop || states.barBottom)
@@ -755,13 +750,13 @@ qx.Theme.define("qx.theme.classic.Appearance",
         {
           if (states.barTop || states.barBottom)
           {
-            marginBottom = 2;
-            marginTop = 2;
+            marginBottom += 2;
+            marginTop += 2;
           }
           else if (states.barLeft || states.barRight)
           {
-            marginRight = 2;
-            marginLeft = 2;
+            marginRight += 2;
+            marginLeft += 2;
           }
         }
 
