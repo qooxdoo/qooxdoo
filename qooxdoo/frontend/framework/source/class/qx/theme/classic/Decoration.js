@@ -280,18 +280,6 @@ qx.Theme.define("qx.theme.classic.Decoration",
       }
     },
 
-    "tabview" :
-    {
-      decorator: qx.ui.decoration.Uniform,
-
-      style :
-      {
-        width : 1,
-        style : "solid",
-        color : "border-dark-shadow"
-      }
-    },
-
     "tooltip" :
     {
       decorator: qx.ui.decoration.Uniform,

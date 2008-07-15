@@ -60,11 +60,6 @@ qx.Theme.define("qx.theme.classic.Color",
     "button-abandoned" : "#F9F8E9",
     "button-checked" : "#F3F0F5",
 
-    "tabview-pane" : "#EBE9ED",
-    "tabview-button" : [ 224, 221, 216 ],
-    "tabview-button-hovered" : "#E8E6E2",
-    "tabview-button-checked" : "#FAF9F8",
-
     "window-active-caption-text" : [ 255, 255, 255 ],
     "window-inactive-caption-text" : [ 255, 255, 255 ],
     "window-active-caption" : [ 51, 94, 168 ],
