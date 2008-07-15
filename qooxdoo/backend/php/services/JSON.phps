@@ -715,9 +715,10 @@ class JSON
 
                         } elseif (($chrs{$c} == $top['delim']) &&
                                  ($top['what'] == SERVICES_JSON_IN_STR) &&
-                                 (($chrs{$c - 1} != '\\') ||
-                                 ($chrs{$c - 1} == '\\' && $chrs{$c - 2} == '\\'))) {
+                                 ((strlen(substr($chrs, 0, $c)) - strlen(rtrim(substr($chrs, 0, $c), '\\'))) % 2 != 1)) {
                             // found a quote, we're in a string, and it's not escaped
+                            // we know that it's not escaped becase there is _not_ an
+                            // odd number of backslashes at the end of the string so far
                             array_pop($stk);
                             //print("Found end of string at {$c}: ".substr($chrs, $top['where'], (1 + 1 + $c - $top['where']))."\n");
 
