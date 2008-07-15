@@ -60,6 +60,25 @@ qx.Mixin.define("qx.ui.core.MResizable",
       apply : "_applyResizable"
     },
 
+    /**
+     * Which edges are function as resizable handles.
+     *
+     * Enabled means that all edges are enabled for resizing (Windows mode)
+     * Disabled means that only the right/bottom edges are enabled (Mac mode)
+     */
+    resizeAllEdges :
+    {
+      check : "Boolean",
+      init : true
+    },
+
+    /** The tolerance to activate resizing */
+    resizeSensitivity :
+    {
+      check : "Integer",
+      init : 8
+    },
+
     /** Whether a frame replacement should be used during the resize sequence */
     useResizeFrame :
     {
@@ -138,7 +157,7 @@ qx.Mixin.define("qx.ui.core.MResizable",
     __computeResizeResult : function(e)
     {
       // Detect mode
-      var resizeMode = this._resizeMode;
+      var resizeActive = this._resizeActive;
 
       // Read size hint
       var hint = this.getSizeHint();
@@ -151,11 +170,11 @@ qx.Mixin.define("qx.ui.core.MResizable",
       var top = start.top;
 
       // North or south
-      if (resizeMode&1 || resizeMode&2)
+      if (resizeActive&1 || resizeActive&2)
       {
         var diff = e.getDocumentTop() - this.__resizeTop;
 
-        if (resizeMode&1) {
+        if (resizeActive&1) {
           height -= diff;
         } else {
           height += diff;
@@ -167,17 +186,17 @@ qx.Mixin.define("qx.ui.core.MResizable",
           height = hint.maxHeight;
         }
 
-        if (resizeMode&1) {
+        if (resizeActive&1) {
           top += start.height - height;
         }
       }
 
       // West or east
-      if (resizeMode&4 || resizeMode&8)
+      if (resizeActive&4 || resizeActive&8)
       {
         var diff = e.getDocumentLeft() - this.__resizeLeft;
 
-        if (resizeMode&4) {
+        if (resizeActive&4) {
           width -= diff;
         } else {
           width += diff;
@@ -189,7 +208,7 @@ qx.Mixin.define("qx.ui.core.MResizable",
           width = hint.maxWidth;
         }
 
-        if (resizeMode&4) {
+        if (resizeActive&4) {
           left += start.width - width;
         }
       }
@@ -227,25 +246,27 @@ qx.Mixin.define("qx.ui.core.MResizable",
     {
       var contentLocation = this.getContentLocation();
 
-      var resizeMode = 0;
-      var mouseTolerance = 5;
+      var resizeAll = this.getResizeAllEdges();
+      var mouseTolerance = this.getResizeSensitivity();
 
       var mouseLeft = e.getDocumentLeft();
       var mouseTop = e.getDocumentTop();
 
-      if (Math.abs(contentLocation.top - mouseTop) < mouseTolerance) {
-        resizeMode += 1;
+      var resizeActive = 0;
+
+      if (resizeAll && Math.abs(contentLocation.top - mouseTop) < mouseTolerance) {
+        resizeActive += 1;
       } else if (Math.abs(contentLocation.bottom - mouseTop) < mouseTolerance) {
-        resizeMode += 2;
+        resizeActive += 2;
       }
 
-      if (Math.abs(contentLocation.left - mouseLeft) < mouseTolerance) {
-        resizeMode += 4;
+      if (resizeAll && Math.abs(contentLocation.left - mouseLeft) < mouseTolerance) {
+        resizeActive += 4;
       } else if (Math.abs(contentLocation.right - mouseLeft) < mouseTolerance) {
-        resizeMode += 8;
+        resizeActive += 8;
       }
 
-      this._resizeMode = resizeMode;
+      this._resizeActive = resizeActive;
     },
 
 
@@ -266,7 +287,7 @@ qx.Mixin.define("qx.ui.core.MResizable",
     __onResizeMouseDown : function(e)
     {
       // Check for active resize
-      if (!this._resizeMode) {
+      if (!this._resizeActive) {
         return;
       }
 
@@ -303,7 +324,7 @@ qx.Mixin.define("qx.ui.core.MResizable",
     __onResizeMouseUp : function(e)
     {
       // Check for active resize
-      if (!this._resizeMode) {
+      if (!this._resizeActive) {
         return;
       }
 
@@ -326,7 +347,7 @@ qx.Mixin.define("qx.ui.core.MResizable",
       });
 
       // Clear mode
-      this._resizeMode = 0;
+      this._resizeActive = 0;
 
       // Remove resize state
       this.removeState("resize");
@@ -347,7 +368,7 @@ qx.Mixin.define("qx.ui.core.MResizable",
     __onResizeLoseCapture : function(e)
     {
       // Check for active resize
-      if (!this._resizeMode) {
+      if (!this._resizeActive) {
         return;
       }
 
@@ -401,9 +422,9 @@ qx.Mixin.define("qx.ui.core.MResizable",
       {
         this.__computeResizeMode(e);
 
-        var resizeMode = this._resizeMode;
-        if (resizeMode) {
-          this.setCursor(this.__resizeCursors[resizeMode]);
+        var resizeActive = this._resizeActive;
+        if (resizeActive) {
+          this.setCursor(this.__resizeCursors[resizeActive]);
         } else {
           this.resetCursor();
         }

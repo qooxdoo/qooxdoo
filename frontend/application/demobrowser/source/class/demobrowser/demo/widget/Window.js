@@ -179,6 +179,13 @@ qx.Class.define("demobrowser.demo.widget.Window",
       });
       resizeMove.add(resizeFrame);
 
+      var resizeAll = new qx.ui.form.CheckBox("Resize all edges");
+      resizeAll.setChecked(true);
+      resizeAll.addListener("changeChecked", function(e) {
+        win.setResizeAllEdges(e.getData());
+      });
+      resizeMove.add(resizeAll);
+
 
       var moveable = new qx.ui.form.CheckBox("Moveable");
       moveable.setChecked(true);
