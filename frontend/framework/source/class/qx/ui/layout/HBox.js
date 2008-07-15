@@ -220,6 +220,11 @@ qx.Class.define("qx.ui.layout.HBox",
       var widths = reuse ? this._widths : new Array(length);
       var flexs = reuse ? this._flexs : new Array(length);
 
+      // Reverse support
+      if (this.getReversed()) {
+        children = children.concat().reverse();
+      }
+
       // Loop through children to preparse values
       for (var i=0; i<length; i++)
       {
@@ -234,11 +239,6 @@ qx.Class.define("qx.ui.layout.HBox",
           flexs[i] = props.flex;
           enableFlex = true;
         }
-      }
-
-      // Reverse support
-      if (this.getReversed()) {
-        children = children.concat().reverse();
       }
 
       // Store data
