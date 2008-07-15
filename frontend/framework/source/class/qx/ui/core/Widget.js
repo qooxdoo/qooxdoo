@@ -2415,14 +2415,6 @@ qx.Class.define("qx.ui.core.Widget",
 
       // Apply qooxdoo attribute
       this._containerElement.setAttribute("qxSelectable", value ? "on" : "off");
-
-      // Apply CSS style for Webkit (makes protection for text selection is bit
-      // more stable e.g. when doubleclicking on text etc.)
-      // The "normal" value does not seem to work in Gecko however as of Firefox 3.0 beta5.
-      // Opera and IE do not support this property at all.
-      if (qx.core.Variant.isSet("qx.client", "webkit")) {
-        this._containerElement.setStyle("userSelect", value ? "normal" : "none");
-      }
     },
 
 
