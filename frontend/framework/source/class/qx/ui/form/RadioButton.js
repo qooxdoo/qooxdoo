@@ -101,6 +101,13 @@ qx.Class.define("qx.ui.form.RadioButton",
     {
       refine : true,
       init : "radiobutton"
+    },
+
+    // overridden
+    allowGrowX :
+    {
+      refine : true,
+      init : false
     }
   },
 
