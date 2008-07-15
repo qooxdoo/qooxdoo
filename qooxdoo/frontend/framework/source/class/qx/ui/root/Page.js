@@ -97,6 +97,23 @@ qx.Class.define("qx.ui.root.Page",
     },
 
 
+    // overridden
+    _computeSizeHint : function()
+    {
+      var width = qx.bom.Document.getWidth(this._window);
+      var height = qx.bom.Document.getHeight(this._window);
+
+      return {
+        minWidth : width,
+        width : width,
+        maxWidth : width,
+        minHeight : height,
+        height : height,
+        maxHeight : height
+      };
+    },
+
+
     /**
      * Adjust html element size on layout resizes.
      *
