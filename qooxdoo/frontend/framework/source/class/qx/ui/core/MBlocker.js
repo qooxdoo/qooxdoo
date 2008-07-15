@@ -111,9 +111,7 @@ qx.Mixin.define("qx.ui.core.MBlocker",
         this.__contentBlocker = new qx.html.Element().setStyles({
           position: "absolute",
           width: "100%",
-          height: "100%",
-          opacity: 0.3,
-          backgroundColor: "blue"
+          height: "100%"
         });
         this.getContentElement().add(this.__contentBlocker);
         this.__contentBlocker.exclude();

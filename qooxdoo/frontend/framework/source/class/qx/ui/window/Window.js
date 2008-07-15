@@ -107,7 +107,7 @@ qx.Class.define("qx.ui.window.Window",
 
   statics :
   {
-    /** {Class} The default window manager class.
+    /** {Class} The default window manager class. */
     DEFAULT_MANAGER_CLASS : qx.ui.window.WindowManager
   },
 
