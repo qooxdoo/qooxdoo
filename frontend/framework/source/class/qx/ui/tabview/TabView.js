@@ -43,7 +43,7 @@ qx.Class.define("qx.ui.tabview.TabView",
     // Create manager
     var mgr = this._manager = new qx.ui.form.RadioGroup;
     mgr.setWrap(false);
-    mgr.addListener("changeSelected", this._onRadioChangeSelected, this);
+    mgr.addListener("changeValue", this._onRadioChangeValue, this);
 
     // Initialize bar position
     if (barPosition == null || barPosition === "top") {
@@ -319,10 +319,10 @@ qx.Class.define("qx.ui.tabview.TabView",
      * Event handler for the change of the selected item of the radio group.
      * @param e {qx.event.type.Data} The data event
      */
-    _onRadioChangeSelected : function(e)
+    _onRadioChangeValue : function(e)
     {
       var pane = this._getChildControl("pane");
-      var page = e.getData().getUserData("page");
+      var page = qx.core.ObjectRegistry.fromHashCode(e.getData());
 
       pane.setSelected(page);
     }
