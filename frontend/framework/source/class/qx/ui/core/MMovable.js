@@ -167,7 +167,17 @@ qx.Mixin.define("qx.ui.core.MMovable",
       }
 
       // Compute drag range
-      this._dragRange = this.getLayoutParent().getContentLocation();
+      var parent = this.getLayoutParent();
+      var parentLocation = parent.getContentLocation();
+      var parentBounds = parent.getBounds();
+
+      this._dragRange =
+      {
+        left : parentLocation.left,
+        top : parentLocation.top,
+        right : parentLocation.left + parentBounds.width,
+        bottom : parentLocation.top + parentBounds.height
+      };
 
       // Compute drag positions
       var widgetLocation = this.getContainerLocation();
