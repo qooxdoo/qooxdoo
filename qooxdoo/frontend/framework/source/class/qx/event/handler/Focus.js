@@ -549,7 +549,9 @@ qx.Class.define("qx.event.handler.Focus",
         if (!this.__isSelectable(e.target)) {
           e.preventDefault();
         }
-      }
+      },
+
+      "default" : null
     }),
 
 
