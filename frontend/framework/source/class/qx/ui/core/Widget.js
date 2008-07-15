@@ -2371,6 +2371,13 @@ qx.Class.define("qx.ui.core.Widget",
         }
 
         target.setAttribute("tabIndex", tabIndex);
+
+        // Omit native dotted outline border
+        if (qx.core.Variant.isSet("qx.client", "mshtml")) {
+          target.setAttribute("hideFocus", "true");
+        } else {
+          target.setStyle("outline", "none");
+        }
       }
       else
       {
@@ -2475,17 +2482,8 @@ qx.Class.define("qx.ui.core.Widget",
      * @type member
      * @return {void}
      */
-    visualizeFocus : function()
-    {
+    visualizeFocus : function() {
       this.addState("focused");
-
-      // Omit native dotted outline border
-      var el = this.getFocusElement();
-      if (qx.core.Variant.isSet("qx.client", "mshtml")) {
-        el.setAttribute("hideFocus", "true");
-      } else {
-        el.setStyle("outline", "none");
-      }
     },
 
 
