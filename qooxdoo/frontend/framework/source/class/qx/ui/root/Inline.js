@@ -31,7 +31,7 @@
 qx.Class.define("qx.ui.root.Inline",
 {
   extend : qx.ui.root.Abstract,
-  include : [qx.ui.core.MBlocker],
+  include : [qx.ui.core.MLayoutHandling],
 
 
   /*
@@ -95,7 +95,7 @@ qx.Class.define("qx.ui.root.Inline",
   */
 
   defer : function(statics, members) {
-    members.setLayout = members._setLayout;
+    qx.ui.core.MLayoutHandling.remap(members);
   },
 
 

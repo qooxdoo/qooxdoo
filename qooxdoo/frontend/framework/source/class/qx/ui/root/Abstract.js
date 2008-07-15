@@ -24,7 +24,10 @@
 qx.Class.define("qx.ui.root.Abstract",
 {
   extend : qx.ui.core.Widget,
-  include : [ qx.ui.core.MChildrenHandling, qx.ui.core.MLayoutHandling ],
+  include : [
+    qx.ui.core.MChildrenHandling,
+    qx.ui.core.MBlocker
+  ],
 
 
 
@@ -141,7 +144,7 @@ qx.Class.define("qx.ui.root.Abstract",
       },
 
       // This would be the optimal solution.
-      // For performance reasons this is inpractical in IE
+      // For performance reasons this is impractical in IE
       "default" : function(value, old)
       {
         var Stylesheet = qx.bom.Stylesheet;
@@ -169,10 +172,8 @@ qx.Class.define("qx.ui.root.Abstract",
   *****************************************************************************
   */
 
-  defer : function(statics, members)
-  {
+  defer : function(statics, members) {
     qx.ui.core.MChildrenHandling.remap(members);
-    qx.ui.core.MLayoutHandling.remap(members);
   },
 
 
