@@ -107,7 +107,9 @@ qx.Class.define("qx.ui.tabview.Page",
       barTop : 1,
       barRight : 1,
       barBottom : 1,
-      barLeft : 1
+      barLeft : 1,
+      firstTab : 1,
+      lastTab : 1
     },
 
 

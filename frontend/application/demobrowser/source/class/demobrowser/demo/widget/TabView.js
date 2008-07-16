@@ -112,47 +112,80 @@ qx.Class.define("demobrowser.demo.widget.TabView",
     {
       tabView = new qx.ui.tabview.TabView();
       tabView.setWidth(500);
-      tabView.setHeight(400);
+      tabView.setHeight(300);
 
-      for (var i=1; i<=5; i++)
+      for (var i=1; i<=3; i++)
       {
         var page = new qx.ui.tabview.Page("Page #" + i, "icon/32/apps/utilities-terminal.png");
-        page.setLayout(new qx.ui.layout.VBox());
+        page.setLayout(new qx.ui.layout.VBox(4));
         tabView.add(page);
-
-        if (i == 1)
-        {
-          // layout settings options
-          // create radio buttons
-          var barTopButton = new qx.ui.form.RadioButton("top");
-          var barBottomButton = new qx.ui.form.RadioButton("bottom");
-          var barLeftButton = new qx.ui.form.RadioButton("left");
-          var barRightButton = new qx.ui.form.RadioButton("right");
-
-          // container for radio buttons
-          var pageContainer = new qx.ui.container.Composite(new qx.ui.layout.VBox());
-          pageContainer.add(barTopButton);
-          pageContainer.add(barBottomButton);
-          pageContainer.add(barLeftButton);
-          pageContainer.add(barRightButton);
-
-          page.add(pageContainer);
-
-          // radiogroup
-          var manager = new qx.ui.form.RadioGroup(barTopButton, barBottomButton, barLeftButton, barRightButton);
-          manager.addListener("changeValue", function(e){
-            this.setBarPosition(e.getData());
-          }, tabView);
-
-          barLeftButton.setChecked(true);
-        }
-        else
-        {
-          page.add(new qx.ui.basic.Label("Page #" + i));
-        }
+        page.add(new qx.ui.basic.Label("Page #" + i));
       }
+
+      var firstPage = tabView.getChildren()[0];
+
+
+
+      // CONTROL BAR POSITION
+
+      var barLabel = new qx.ui.basic.Label("Bar Position");
+
+      var barTopButton = new qx.ui.form.RadioButton("top");
+      var barBottomButton = new qx.ui.form.RadioButton("bottom");
+      var barLeftButton = new qx.ui.form.RadioButton("left");
+      var barRightButton = new qx.ui.form.RadioButton("right");
+
+      firstPage.add(new qx.ui.core.Spacer(10, 10));
+      firstPage.add(barLabel);
+      firstPage.add(barTopButton);
+      firstPage.add(barBottomButton);
+      firstPage.add(barLeftButton);
+      firstPage.add(barRightButton);
+
+      var group = new qx.ui.form.RadioGroup(barTopButton, barBottomButton, barLeftButton, barRightButton);
+      group.addListener("changeValue", function(e){
+        this.setBarPosition(e.getData());
+      }, tabView);
+
+      barLeftButton.setChecked(true);
+
+
+      // ADD/REMOVE BUTTONS
+
+      var buttonAdd = new qx.ui.form.Button("Add new page");
+      var buttonRemoveFirst = new qx.ui.form.Button("Remove first page");
+      var buttonRemoveLast = new qx.ui.form.Button("Remove last page");
+
+      firstPage.add(new qx.ui.core.Spacer(10, 10));
+      firstPage.add(buttonAdd);
+      firstPage.add(buttonRemoveFirst);
+      firstPage.add(buttonRemoveLast);
+
+      buttonAdd.addListener("execute", function(e)
+      {
+        var count = tabView.getChildren().length+1;
+        var page = new qx.ui.tabview.Page("Page #" + count, "icon/32/apps/utilities-terminal.png");
+
+        tabView.add(page);
+      });
+
+      buttonRemoveFirst.addListener("execute", function(e)
+      {
+        var children = tabView.getChildren();
+        if (children.length > 0) {
+          tabView.remove(children[0]);
+        }
+      });
+
+      buttonRemoveLast.addListener("execute", function(e)
+      {
+        var children = tabView.getChildren();
+        if (children.length > 0) {
+          tabView.remove(children[children.length-1]);
+        }
+      });
+
       return tabView;
     }
-
   }
 });

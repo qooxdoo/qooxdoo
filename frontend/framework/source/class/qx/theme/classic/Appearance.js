@@ -704,7 +704,12 @@ qx.Theme.define("qx.theme.classic.Appearance",
         });
 
         var marginTop=0, marginRight=0, marginBottom=0, marginLeft=0;
-        var paddingTop=3, paddingBottom=3, paddingLeft=6, paddingRight=6;
+
+        if (states.barTop || states.barBottom) {
+          var paddingTop=2, paddingBottom=2, paddingLeft=6, paddingRight=6;
+        } else {
+          var paddingTop=6, paddingBottom=6, paddingLeft=6, paddingRight=6;
+        }
 
         if (states.barTop)
         {
