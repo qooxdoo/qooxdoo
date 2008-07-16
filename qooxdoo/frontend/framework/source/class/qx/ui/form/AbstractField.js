@@ -234,12 +234,21 @@ qx.Class.define("qx.ui.form.AbstractField",
     _applyFont : function(value, old)
     {
       // Apply
-      var styles = value ? value.getStyles() : qx.bom.Font.getDefaultStyles();
+    	var styles;
+    	if (value)
+    	{
+    		var font = qx.theme.manager.Font.getInstance().resolve(value);
+    		styles = font.getStyles();
+    	}
+    	else 
+    	{
+    		styles = qx.bom.Font.getDefaultStyles()
+    	}
       this._contentElement.setStyles(styles);
 
       // Compute text size
       if (value) {
-        this._textSize = qx.bom.Label.getTextSize("A", value.getStyles());
+        this._textSize = qx.bom.Label.getTextSize("A", styles);
       } else {
         delete this._textSize;
       }
@@ -253,7 +262,7 @@ qx.Class.define("qx.ui.form.AbstractField",
     _applyTextColor : function(value, old)
     {
       if (value) {
-        this.getContentElement().setStyle("color", value);
+        this.getContentElement().setStyle("color", qx.theme.manager.Color.getInstance().resolve(value));
       } else {
         this.getContentElement().removeStyle("color");
       }

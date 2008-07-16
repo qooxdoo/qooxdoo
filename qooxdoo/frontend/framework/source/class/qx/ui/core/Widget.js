@@ -54,7 +54,7 @@
 qx.Class.define("qx.ui.core.Widget",
 {
   extend : qx.ui.core.LayoutItem,
-  include : [qx.locale.MTranslation, qx.ui.core.MThemeTransform],
+  include : [qx.locale.MTranslation],
 
 
   /*
@@ -349,8 +349,7 @@ qx.Class.define("qx.ui.core.Widget",
       init : null,
       apply : "_applyDecorator",
       event : "changeDecorator",
-      transform : "_resolveThemedDecorator",
-      check : "qx.ui.decoration.IDecorator",
+      check : "Decorator",
       themeable : true
     },
 
@@ -361,9 +360,8 @@ qx.Class.define("qx.ui.core.Widget",
     backgroundColor :
     {
       nullable : true,
-      check : "String",
+      check : "Color",
       apply : "_applyBackgroundColor",
-      transform : "_resolveThemedColor",
       event : "changeBackgroundColor",
       themeable : true
     },
@@ -376,9 +374,8 @@ qx.Class.define("qx.ui.core.Widget",
     {
       nullable : true,
       init : "inherit",
-      check : "String",
+      check : "Color",
       apply : "_applyTextColor",
-      transform : "_resolveThemedColor",
       event : "changeTextColor",
       themeable : true,
       inheritable : true
@@ -389,10 +386,9 @@ qx.Class.define("qx.ui.core.Widget",
     font :
     {
       nullable : true,
-      check : "qx.bom.Font",
       init : "inherit",
       apply : "_applyFont",
-      transform : "_resolveThemedFont",
+      check : "Font",
       event : "changeFont",
       themeable : true,
       inheritable : true
@@ -799,8 +795,7 @@ qx.Class.define("qx.ui.core.Widget",
 
       if (changes.size || this.__styleDecorator || this.__initDecorator)
       {
-        var decorator = this.getDecorator();
-        if (decorator)
+        if (this._decorator)
         {
           var decoBack = this.getBackgroundColor();
           var decoElement = this._decorationElement;
@@ -812,7 +807,7 @@ qx.Class.define("qx.ui.core.Widget",
             bgcolor : this.__styleBackgroundColor
           };
 
-          decorator.render(decoElement, width, height, decoBack, decoChanges);
+          this._decorator.render(decoElement, width, height, decoBack, decoChanges);
         }
 
         delete this.__styleDecorator;
@@ -1057,10 +1052,9 @@ qx.Class.define("qx.ui.core.Widget",
         var left = this.getPaddingLeft();
       }
 
-      var decorator = this.getDecorator();
-      if (decorator)
+      if (this._decorator)
       {
-        var inset = decorator.getInsets();
+        var inset = this._decorator.getInsets();
 
         top += inset.top;
         right += inset.right;
@@ -1750,8 +1744,18 @@ qx.Class.define("qx.ui.core.Widget",
     _applyDecorator : function(value, old)
     {
       var oldInsets = this.__oldInsets;
-      var newInsets = value ? value.getInsets() : null;
-      this.__oldInsets = qx.lang.Object.copy(newInsets);
+      var newInsets;
+      if(value) 
+      {
+        this._decorator = qx.theme.manager.Decoration.getInstance().resolve(value);
+      	newInsets = this._decorator.getInsets();
+        this.__oldInsets = qx.lang.Object.copy(newInsets);
+      }
+      else
+      {
+      	this._decorator = null;
+      	newInsets = null;
+      }
 
 
       // Shorthands
@@ -1816,7 +1820,7 @@ qx.Class.define("qx.ui.core.Widget",
         else if (!this.__styleDecorator)
         {
           var bounds = this.getBounds();
-          value.render(
+          this._decorator.render(
             decorationElement,
             bounds.width, bounds.height,
             backgroundColor,
@@ -1910,14 +1914,13 @@ qx.Class.define("qx.ui.core.Widget",
     // property apply
     _applyBackgroundColor : function(value, old)
     {
-      var decorator = this.getDecorator();
-      if (decorator)
+      if (this._decorator)
       {
         if (!this.__styleDecorator)
         {
           var bounds = this.getBounds();
 
-          decorator.render(
+          this._decorator.render(
             this._decorationElement,
             bounds.width, bounds.height,
             value, {bgcolor:true}
@@ -1930,7 +1933,7 @@ qx.Class.define("qx.ui.core.Widget",
       }
       else
       {
-        this._containerElement.setStyle("backgroundColor", value || null);
+        this._containerElement.setStyle("backgroundColor", qx.theme.manager.Color.getInstance().resolve(value) || null);
       }
     },
 

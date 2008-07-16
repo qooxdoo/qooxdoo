@@ -157,40 +157,35 @@ qx.Class.define("qx.ui.decoration.Single",
     colorTop :
     {
       nullable : true,
-      check : "String",
-      transform : "_resolveThemedColor"
+      check : "Color"
     },
 
     /** right color of border */
     colorRight :
     {
       nullable : true,
-      check : "String",
-      transform : "_resolveThemedColor"
+      check : "Color"
     },
 
     /** bottom color of border */
     colorBottom :
     {
       nullable : true,
-      check : "String",
-      transform : "_resolveThemedColor"
+      check : "Color"
     },
 
     /** left color of border */
     colorLeft :
     {
       nullable : true,
-      check : "String",
-      transform : "_resolveThemedColor"
+      check : "Color"
     },
 
     /** The background color */
     backgroundColor :
     {
       nullable : true,
-      check : "String",
-      transform : "_resolveThemedColor"
+      check : "Color"
     },
 
 
@@ -312,16 +307,16 @@ qx.Class.define("qx.ui.decoration.Single",
       {
         "borderTopWidth": this.getWidthTop() + "px",
         "borderTopStyle": this.getStyleTop() || "none",
-        "borderTopColor": this.getColorTop(),
+        "borderTopColor": this._resolveColor(this.getColorTop()),
         "borderRightWidth": this.getWidthRight() + "px",
         "borderRightStyle": this.getStyleRight() || "none",
-        "borderRightColor": this.getColorRight(),
+        "borderRightColor": this._resolveColor(this.getColorRight()),
         "borderBottomWidth": this.getWidthBottom() + "px",
         "borderBottomStyle": this.getStyleBottom() || "none",
-        "borderBottomColor": this.getColorBottom(),
+        "borderBottomColor": this._resolveColor(this.getColorBottom()),
         "borderLeftWidth": this.getWidthLeft() + "px",
         "borderLeftStyle": this.getStyleLeft() || "none",
-        "borderLeftColor": this.getColorLeft(),
+        "borderLeftColor": this._resolveColor(this.getColorLeft()),
         "backgroundImage": bgImage ? "url(" + bgImage + ")" : null,
         "backgroundRepeat": bgRepeat
       };
@@ -362,7 +357,7 @@ qx.Class.define("qx.ui.decoration.Single",
       }
 
       if (changes.bgcolor || changes.init) {
-        element.setStyle("backgroundColor", backgroundColor || this.getBackgroundColor() || null);
+        element.setStyle("backgroundColor", this._resolveColor(backgroundColor || this.getBackgroundColor()) || null);
       }
 
       if (changes.size || changes.init)
