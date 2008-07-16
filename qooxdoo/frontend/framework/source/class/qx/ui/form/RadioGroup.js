@@ -274,10 +274,8 @@ qx.Class.define("qx.ui.form.RadioGroup",
         item.removeListener("changeChecked", this._onItemChangeChecked, this);
 
         // if the radio was checked, set internal selection to null
-        if (item.getChecked())
-        {
+        if (item.getChecked()) {
           this.resetSelected();
-          this.resetValue();
         }
       }
     },
@@ -314,9 +312,14 @@ qx.Class.define("qx.ui.form.RadioGroup",
     _onChangeSelected : function(e)
     {
       var item = e.getData();
-      var value = item.getValue();
-      if (value == null) {
-        value = item.getLabel();
+      var value = null;
+
+      if (item)
+      {
+        value = item.getValue();
+        if (value == null) {
+          value = item.getLabel();
+        }
       }
 
       this.fireDataEvent("changeValue", value);
