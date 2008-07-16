@@ -41,7 +41,7 @@ qx.Class.define("qx.ui.tabview.TabView",
     this._createChildControl("pane");
 
     // Create manager
-    var mgr = this._manager = new qx.ui.form.RadioGroup;
+    var mgr = this._radioGroup = new qx.ui.form.RadioGroup;
     mgr.setWrap(false);
     mgr.addListener("changeValue", this._onRadioChangeValue, this);
 
@@ -88,7 +88,8 @@ qx.Class.define("qx.ui.tabview.TabView",
     {
       check : "qx.ui.tabview.Page",
       apply : "_applySelected",
-      event : "changeSelected"
+      event : "changeSelected",
+      nullable : true
     }
   },
 
@@ -145,27 +146,37 @@ qx.Class.define("qx.ui.tabview.TabView",
 
     /**
      * Adds a page to the tabview including its needed button
-     * (contained in the page). Every new added page will be automatically
-     * checked and shown to the user.
+     * (contained in the page).
      *
      * @param page {qx.ui.tabview.Page} The page which should be added.
      */
     add: function(page)
     {
+      var button = page.getButton();
+      var bar = this._getChildControl("bar");
+      var pane = this._getChildControl("pane");
+
       // Exclude page
       page.exclude();
 
-      // Add the button to the bar
-      this._getChildControl("bar").add(page.getButton());
+      // Register button
+      this._radioGroup.add(button);
 
-      // Add the button to the radio manager
-      this._manager.add(page.getButton());
+      // Add button and page
+      bar.add(button);
+      pane.add(page);
 
-      // Add the page to the pane
-      this._getChildControl("pane").add(page);
-
-      // Add state to pagev
+      // Add state to page
       page.addState(this.__barPositionToState[this.getBarPosition()]);
+
+      // Update states
+      page.addState("lastTab");
+      var children = this.getChildren();
+      if (children[0] == page) {
+        page.addState("firstTab");
+      } else {
+        children[children.length-2].removeState("lastTab");
+      }
     },
 
 
@@ -178,26 +189,53 @@ qx.Class.define("qx.ui.tabview.TabView",
     {
       var pane = this._getChildControl("pane");
       var bar = this._getChildControl("bar");
-      var manager = this._manager;
-
-      var index = pane.indexOf(page);
+      var button = page.getButton();
       var children = pane.getChildren();
 
       // Try to select next page
-      if (index < children.length-1) {
-        this.showPage(children[index+1]);
-      } else if (index > 0) {
-        this.showPage(children[index-1]);
+      if (this.getSelected() == page)
+      {
+        var index = children.indexOf(page);
+        if (index == 0)
+        {
+          if (children[1]) {
+            this.setSelected(children[1]);
+          } else {
+            this.resetSelected();
+          }
+        }
+        else
+        {
+          this.setSelected(children[index-1]);
+        }
       }
 
-      // Remove the button from the bar
-      bar.remove(page.getButton());
+      // Remove the button and page
+      bar.remove(button);
+      pane.remove(page);
 
-      // Remove the button from the radio manager
-      manager.remove(page.getButton());
+      // Remove the button from the radio group
+      this._radioGroup.remove(button);
 
       // Remove state from page
       page.removeState(this.__barPositionToState[this.getBarPosition()]);
+
+      // Update states
+      if (page.hasState("firstTab"))
+      {
+        page.removeState("firstTab");
+        if (children[0]) {
+          children[0].addState("firstTab");
+        }
+      }
+
+      if (page.hasState("lastTab"))
+      {
+        page.removeState("lastTab");
+        if (children.length > 0) {
+          children[children.length-1].addState("lastTab");
+        }
+      }
     },
 
 
@@ -208,7 +246,18 @@ qx.Class.define("qx.ui.tabview.TabView",
      * @return {Array} List of children.
      */
     getChildren : function() {
-      return this._getChildControl("bar").getChildren();
+      return this._getChildControl("pane").getChildren();
+    },
+
+
+    /**
+     * Returns the positon of the given page in the TabView
+     *
+     * @param page {qx.ui.tabview.Page} The page to query for
+     * @return {Integer} Position of the page in the TabView
+     */
+    indexOf : function(page) {
+      return this._getChildControl("pane").indexOf(page);
     },
 
 
@@ -300,8 +349,16 @@ qx.Class.define("qx.ui.tabview.TabView",
     // property apply
     _applySelected : function(value, old)
     {
-      this._getChildControl("pane").setSelected(value);
-      this._manager.setSelected(value.getButton());
+      if (value)
+      {
+        this._getChildControl("pane").setSelected(value);
+        this._radioGroup.setSelected(value.getButton());
+      }
+      else
+      {
+        this._getChildControl("pane").resetSelected();
+        this._radioGroup.resetSelected();
+      }
     },
 
 
@@ -319,12 +376,8 @@ qx.Class.define("qx.ui.tabview.TabView",
      * Event handler for the change of the selected item of the radio group.
      * @param e {qx.event.type.Data} The data event
      */
-    _onRadioChangeValue : function(e)
-    {
-      var pane = this._getChildControl("pane");
-      var page = qx.core.ObjectRegistry.fromHashCode(e.getData());
-
-      pane.setSelected(page);
+    _onRadioChangeValue : function(e) {
+      this.setSelected(qx.core.ObjectRegistry.fromHashCode(e.getData()));
     }
   }
 });
