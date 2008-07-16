@@ -168,6 +168,18 @@ qx.Class.define("qx.ui.container.Stack",
 
 
     /**
+     * Detects the position of the given widget in the
+     * children list of this widget.
+     *
+     * @param widget {qx.ui.core.Widget} Any child
+     * @return {Integer} The position
+     */
+    indexOf : function(widget) {
+      return this._indexOf(widget);
+    },
+
+
+    /**
      * Returns all children
      *
      * @return {Array} List of all children
