@@ -298,7 +298,6 @@ qx.Class.define("qx.bom.Font",
      */
     getStyles : function()
     {
-      this.debug("LINE: " + this.__lineHeight)
       return {
         fontFamily : this.__family,
         fontSize : this.__size,
