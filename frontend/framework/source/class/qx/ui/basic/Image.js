@@ -69,7 +69,6 @@ qx.Class.define("qx.ui.basic.Image",
       nullable : true,
       event : "changeSource",
       apply : "_applySource",
-      transform : "_resolveThemedIcon",
       themeable : true
     },
 
@@ -180,7 +179,7 @@ qx.Class.define("qx.ui.basic.Image",
      */
     _styleSource : function()
     {
-      var source = this.getSource();
+      var source = qx.util.AliasManager.getInstance().resolve(this.getSource());
       var el = this._contentElement;
 
       if (!source)
@@ -266,7 +265,7 @@ qx.Class.define("qx.ui.basic.Image",
     __loaderCallback : function(source, size)
     {
       // Ignore when the source has already been modified
-      if (source !== this.getSource()) {
+      if (source !== qx.util.AliasManager.getInstance().resolve(this.getSource())) {
         return;
       }
 

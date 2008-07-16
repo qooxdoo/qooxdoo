@@ -111,24 +111,7 @@ qx.Class.define("qx.bom.element.Style",
         boxSizing : 1,
         overflowX : 1,
         overflowY : 1
-      },
-
-      // force conversion of the property value to string before setting it
-      forceString : qx.core.Variant.select("qx.client",
-      {
-        "mshtml" :
-        {
-          backgroundColor : 1,
-          color : 1,
-          borderTopColor : 1,
-          borderRightColor : 1,
-          borderBottomColor : 1,
-          borderLeftColor : 1,
-          borderColor : 1
-        },
-
-        "default" : {}
-      })
+      }
     },
 
 
@@ -330,13 +313,6 @@ qx.Class.define("qx.bom.element.Style",
 
           case "overflowY":
             return qx.bom.element.Overflow.setY(element, value);
-        }
-      }
-
-      if (qx.core.Variant.isSet("qx.client", "mshtml"))
-      {
-        if (hints.forceString[name]) {
-          value = value.toString();
         }
       }
 

@@ -26,7 +26,6 @@
 qx.Class.define("qx.bom.Font",
 {
   extend : qx.core.Object,
-  implement : qx.ui.core.value.IThemedValue,
 
 
 
@@ -132,8 +131,7 @@ qx.Class.define("qx.bom.Font",
 
 
     /** {Map} Default (empty) CSS styles */
-    __defaultStyles :
-    {
+    __defaultStyles : {
       fontFamily: "",
       fontSize: "",
       fontWeight: "",
@@ -306,12 +304,6 @@ qx.Class.define("qx.bom.Font",
         textDecoration : this.__decoration,
         lineHeight : this.__lineHeight
       }
-    },
-
-
-    // interface implementation
-    getKey : function() {
-      return null;
     }
   }
 });

@@ -55,16 +55,14 @@ qx.Class.define("qx.ui.decoration.Uniform",
     color :
     {
       nullable : true,
-      check : "String",
-      transform : "_resolveThemedColor"
+      check : "Color"
     },
 
     /** The background color */
     backgroundColor :
     {
       nullable : true,
-      check : "String",
-      transform : "_resolveThemedColor"
+      check : "Color"
     },
 
     /** The URL of the background image */
@@ -98,7 +96,7 @@ qx.Class.define("qx.ui.decoration.Uniform",
     {
       if (changes.style || changes.init)
       {
-        element.setStyle("border", this.getWidth() + "px " + this.getStyle() + " " + (this.getColor() || ""));
+        element.setStyle("border", this.getWidth() + "px " + this.getStyle() + " " + (this._resolveColor(this.getColor()) || ""));
 
         var imageId = qx.util.AliasManager.getInstance().resolve(this.getBackgroundImage());
         var bgStyles = qx.bom.element.Background.getStyles(imageId, this.getBackgroundRepeat());
@@ -106,7 +104,7 @@ qx.Class.define("qx.ui.decoration.Uniform",
       }
 
       if (changes.bgcolor || changes.init) {
-        element.setStyle("backgroundColor", backgroundColor || this.getBackgroundColor() || null);
+        element.setStyle("backgroundColor", this._resolveColor(backgroundColor || this.getBackgroundColor()) || null);
       }
 
       if (changes.size || changes.init)
