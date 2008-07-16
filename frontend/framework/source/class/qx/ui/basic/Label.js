@@ -175,8 +175,7 @@ qx.Class.define("qx.ui.basic.Label",
         return null;
       }
 
-      var font = this.getFont();
-      var styles = font ? font.getStyles() : null;
+      var styles = this._font ? this._font.getStyles() : qx.bom.Font.getDefaultStyles();
 
       return qx.bom.Label.getHtmlSize(this.getContent(), styles, width).height;
     },
@@ -204,7 +203,7 @@ qx.Class.define("qx.ui.basic.Label",
     _applyTextColor : function(value, old)
     {
       if (value) {
-        this.getContentElement().setStyle("color", value);
+        this.getContentElement().setStyle("color", qx.theme.manager.Color.getInstance().resolve(value));
       } else {
         this.getContentElement().removeStyle("color");
       }
@@ -229,8 +228,15 @@ qx.Class.define("qx.ui.basic.Label",
     _applyFont : function(value, old)
     {
       // Apply
-      var styles = value ? value.getStyles() : qx.bom.Font.getDefaultStyles();
-      this._contentElement.setStyles(styles);
+    	var styles;
+    	if (value) {
+    		this._font = qx.theme.manager.Font.getInstance().resolve(value);
+    		styles = this._font.getStyles();
+    	} else {
+    		this._font = null;
+    		styles = qx.bom.Font.getDefaultStyles();
+    	}
+    	this._contentElement.setStyles(styles);
 
       // Invalidate text size
       this.__invalidContentSize = true;
@@ -261,7 +267,7 @@ qx.Class.define("qx.ui.basic.Label",
         }
       }
 
-      var styles = font ? font.getStyles() : null;
+      var styles = font ? this._font.getStyles() : qx.bom.Font.getDefaultStyles();
       var content = this.getContent() || "A";
       var rich = this.getRich();
 

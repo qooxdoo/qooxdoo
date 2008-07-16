@@ -19,8 +19,8 @@
 ************************************************************************ */
 
 /**
- * Border implementation with two CSS borders. both borders can be styled
- * independent from each other. This decorator is used to create 3D effects like
+ * Border implementation with two CSS borders. Both borders can be styled
+ * independent of each other. This decorator is used to create 3D effects like
  * <code>inset</code>, <code>outset</code> or <code>ridge</code>.
  */
 qx.Class.define("qx.ui.decoration.Double",
@@ -92,32 +92,28 @@ qx.Class.define("qx.ui.decoration.Double",
     innerColorTop :
     {
       nullable : true,
-      check : "String",
-      transform : "_resolveThemedColor"
+      check : "Color"
     },
 
     /** right inner color of border */
     innerColorRight :
     {
       nullable : true,
-      check : "String",
-      transform : "_resolveThemedColor"
+      check : "Color"
     },
 
     /** bottom inner color of border */
     innerColorBottom :
     {
       nullable : true,
-      check : "String",
-      transform : "_resolveThemedColor"
+      check : "Color"
     },
 
     /** left inner color of border */
     innerColorLeft :
     {
       nullable : true,
-      check : "String",
-      transform : "_resolveThemedColor"
+      check : "Color"
     },
 
     /**
@@ -173,17 +169,17 @@ qx.Class.define("qx.ui.decoration.Double",
      * @return {Map} a map containing the computed CSS styles
      */
     _getInnerStyles : function(width, height)
-    {
+    {    	
       var styles = {
         borderTopWidth: this.getInnerWidthTop() + "px",
-        borderTopColor: this.getInnerColorTop(),
+        borderTopColor: this._resolveColor(this.getInnerColorTop()),
         borderRightWidth: this.getInnerWidthRight() + "px",
-        borderRightColor: this.getInnerColorRight(),
+        borderRightColor: this._resolveColor(this.getInnerColorRight()),
         borderBottomWidth: this.getInnerWidthBottom() + "px",
-        borderBottomColor: this.getInnerColorBottom(),
+        borderBottomColor: this._resolveColor(this.getInnerColorBottom()),
         borderLeftWidth: this.getInnerWidthLeft() + "px",
-        borderLeftColor: this.getInnerColorLeft(),
-        backgroundColor: this.getBackgroundColor(),
+        borderLeftColor: this._resolveColor(this.getInnerColorLeft()),
+        backgroundColor: this._resolveColor(this.getBackgroundColor()),
         borderStyle: "solid"
       };
 
@@ -198,7 +194,7 @@ qx.Class.define("qx.ui.decoration.Double",
 
       if (!innerElement)
       {
-        var innerElement = new qx.html.Element();
+        innerElement = new qx.html.Element();
 
         innerElement.setStyles({
           position: "absolute",

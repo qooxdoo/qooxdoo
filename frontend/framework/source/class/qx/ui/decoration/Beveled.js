@@ -59,10 +59,9 @@ qx.Class.define("qx.ui.decoration.Beveled",
   {
     innerColor :
     {
-      check : "String",
+      check : "Color",
       nullable : true,
-      apply : "_applyInnerColor",
-      transform : "_resolveThemedColor"
+      apply : "_applyInnerColor"
     },
 
     innerOpacity :
@@ -76,8 +75,7 @@ qx.Class.define("qx.ui.decoration.Beveled",
     {
       check : "Color",
       nullable : true,
-      apply : "_applyOuterColor",
-      transform : "_resolveThemedColor"
+      apply : "_applyOuterColor"
     },
 
     backgroundImage :
@@ -89,10 +87,9 @@ qx.Class.define("qx.ui.decoration.Beveled",
 
     backgroundColor :
     {
-      check : "String",
+      check : "Color",
       nullable : true,
-      apply : "_applyBackgroundColor",
-      transform : "_resolveThemedColor"
+      apply : "_applyBackgroundColor"
     },
 
     /** Whether the top border should be visible */
@@ -202,8 +199,8 @@ qx.Class.define("qx.ui.decoration.Beveled",
       var inner = vert.getChild(0);
       var overlay = vert.getChild(1);
 
-      var outerStyle = "1px solid " + this.getOuterColor();
-      var innerStyle = "1px solid " + this.getInnerColor();
+      var outerStyle = "1px solid " + this._resolveColor(this.getOuterColor());
+      var innerStyle = "1px solid " + this._resolveColor(this.getInnerColor());
 
       var bgSource = qx.util.ResourceManager.toUri(qx.util.AliasManager.getInstance().resolve(this.getBackgroundImage()));
 
@@ -218,7 +215,7 @@ qx.Class.define("qx.ui.decoration.Beveled",
       vert.setStyle("borderTop", outerStyle);
       vert.setStyle("borderBottom", outerStyle);
 
-      inner.setStyle("backgroundColor", backgroundColor || this.getBackgroundColor() || null);
+      inner.setStyle("backgroundColor", this._resolveColor(backgroundColor || this.getBackgroundColor()) || null);
       inner.setAttribute("src", bgSource);
 
       overlay.setStyle("border", innerStyle);

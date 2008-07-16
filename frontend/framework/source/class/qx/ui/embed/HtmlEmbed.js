@@ -139,7 +139,7 @@ qx.Class.define("qx.ui.embed.HtmlEmbed",
     // overridden
     _applyFont : function(value, old)
     {
-      var styles = value ? value.getStyles() : qx.bom.Font.getDefaultStyles();
+      var styles = value ? qx.theme.manager.Font.getInstance().resolve(value).getStyles() : qx.bom.Font.getDefaultStyles();
       this._contentElement.setStyles(styles);
     },
 
@@ -156,7 +156,7 @@ qx.Class.define("qx.ui.embed.HtmlEmbed",
     _applyTextColor : function(value, old)
     {
       if (value) {
-        this.getContentElement().setStyle("color", value);
+        this.getContentElement().setStyle("color", qx.theme.manager.Color.getInstance().resolve(value));
       } else {
         this.getContentElement().removeStyle("color");
       }

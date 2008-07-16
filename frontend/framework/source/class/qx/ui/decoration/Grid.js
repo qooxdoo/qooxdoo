@@ -343,6 +343,10 @@ qx.Class.define("qx.ui.decoration.Grid",
 
       var pixel = "px";
 
+      if (backgroundColor) {
+      	element.setStyle("backgroundColor", this._resolveColor(backgroundColor));
+      }
+      
       // Sync width/height of outer element
       element.setStyle("width", width + pixel);
       element.setStyle("height", height + pixel);
