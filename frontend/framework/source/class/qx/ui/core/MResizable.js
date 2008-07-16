@@ -423,6 +423,9 @@ qx.Mixin.define("qx.ui.core.MResizable",
             top : bounds.top
           });
         }
+
+        // Full stop for event
+        e.stop();
       }
       else if (!this.hasState("maximized"))
       {
