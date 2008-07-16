@@ -704,13 +704,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
         });
 
         var marginTop=0, marginRight=0, marginBottom=0, marginLeft=0;
-        var paddingTop=2, paddingBottom=2, paddingLeft=4, paddingRight=4;
-
-        if (states.barTop || states.barBottom) {
-          marginRight = 1;
-        } else {
-          marginBottom = 1;
-        }
+        var paddingTop=3, paddingBottom=3, paddingLeft=6, paddingRight=6;
 
         if (states.barTop)
         {
@@ -757,6 +751,27 @@ qx.Theme.define("qx.theme.classic.Appearance",
           {
             marginRight += 2;
             marginLeft += 2;
+          }
+        }
+
+        if (states.checked)
+        {
+          if (!states.firstTab)
+          {
+            if (states.barTop || states.barBottom) {
+              marginLeft = -4;
+            } else {
+              marginTop = -4;
+            }
+          }
+
+          if (!states.lastTab)
+          {
+            if (states.barTop || states.barBottom) {
+              marginRight = -4;
+            } else {
+              marginBottom = -4;
+            }
           }
         }
 
