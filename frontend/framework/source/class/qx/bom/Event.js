@@ -111,7 +111,6 @@ qx.Bootstrap.define("qx.bom.Event",
      * This is useful to stop native keybindings, native selection
      * and other native funtionality behind events.
      *
-     * @type static
      * @param e {Event} Native event object
      * @return {void}
      */
@@ -120,6 +119,13 @@ qx.Bootstrap.define("qx.bom.Event",
       if (e.preventDefault) {
         e.preventDefault();
       }
+
+      try
+      {
+        // this allows us to prevent some key press events in IE and Firefox.
+        // See bug #1049
+        e.keyCode = 0;
+      } catch(e) {}
 
       e.returnValue = false;
     },
