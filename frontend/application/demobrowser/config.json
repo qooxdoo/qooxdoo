@@ -3,7 +3,7 @@
   "include" :
   [
     {
-      "path" : "../apiviewer/config.json",
+      "path" : "../apiviewer/api.json",
       "as"   : "apiconf"
     }
   ],

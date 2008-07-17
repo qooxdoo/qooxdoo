@@ -228,14 +228,20 @@ class Config:
                 econfig = Config(self._console, fpath)
                 econfig.resolveIncludes(includeTrace)   # recursive include
                 incspec['config'] = econfig  # save external config for later reference
+                # check include/import
                 if incspec.has_key('import'):
                     importList = incspec['import']
                 else:
                     importList = None
-                self._integrateExternalConfig(econfig, namespace, importList)
+                # check include/block
+                if incspec.has_key('block'):
+                    blockList = incspec['block']
+                else:
+                    blockList = None
+                self._integrateExternalConfig(econfig, namespace, importList, blockList)
 
 
-    def _integrateExternalConfig(self, extConfig, namespace, importJobsList=None):
+    def _integrateExternalConfig(self, extConfig, namespace, importJobsList=None, blockJobsList=None):
         # jobs of external config are spliced into current job list
         if namespace:
             namepfx = namespace + self.COMPOSED_NAME_SEP # job names will be namespace'd
@@ -246,6 +252,8 @@ class Config:
         extJobsList = extConfig.getExportedJobsList()
         for extJobEntry in extJobsList:
             if importJobsList and extJobEntry not in importJobsList:
+                continue
+            if blockJobsList and extJobEntry in blockJobsList:
                 continue
             newjobname = namepfx + extJobEntry  # create a job name
             if self.hasJob(newjobname):
