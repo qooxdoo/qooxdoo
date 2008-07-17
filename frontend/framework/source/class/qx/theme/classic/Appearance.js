@@ -1245,6 +1245,83 @@ qx.Theme.define("qx.theme.classic.Appearance",
           padding: [2, 3]
         };
       }
+    },
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      MENU
+    ---------------------------------------------------------------------------
+    */
+
+    "menu" :
+    {
+      style : function(states)
+      {
+        return {
+          backgroundColor : "white",
+          decorator : "outset",
+          spacingX : 6,
+          spacingY : 1
+        };
+      }
+    },
+
+    "menubutton" :
+    {
+      alias : "atom",
+
+      style : function(states)
+      {
+        return {
+          backgroundColor : states.hovered ? "background-selected" : "undefined",
+          textColor : states.hovered ? "text-selected" : "undefined",
+          padding : [ 2, 4 ]
+        };
+      }
+    },
+
+    "menubutton/icon" :
+    {
+      style : function(states)
+      {
+        return {
+          alignY : "middle"
+        };
+      }
+    },
+
+    "menubutton/label" :
+    {
+      style : function(states)
+      {
+        return {
+          alignY : "middle"
+        };
+      }
+    },
+
+    "menubutton/shortcut" :
+    {
+      style : function(states)
+      {
+        return {
+          alignY : "middle",
+          alignX : "right"
+        };
+      }
+    },
+
+    "menubutton/arrow" :
+    {
+      style : function(states)
+      {
+        return {
+          source : "decoration/arrows/right.gif",
+          alignY : "middle"
+        };
+      }
     }
   }
 });
