@@ -198,7 +198,13 @@ qx.Class.define("qx.ui.decoration.Grid",
       var l  = mgr.getClipped(images.l);
       var c  = mgr.getClipped(images.c);
       var r  = mgr.getClipped(images.r);
-
+      
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        if (!(tl&&t&&tr&&bl&&b&&br&&l&&c&&r)) {
+          throw new Error("Invalid source for grid decorator: " + this.getBaseImage() + " => " + images.t);
+        }
+      }
 
       // Store dimensions
       this.__insets =
