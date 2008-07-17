@@ -161,7 +161,7 @@ import re
 import sys
 import os
 import sgmllib
-import unicodedata
+#import unicodedata
 
 
 ##                                                                              
@@ -2413,6 +2413,7 @@ class Textiler:
         except KeyError:
             try:
                 # Try a unicode entity.
+                import unicodedata
                 entity = unicodedata.lookup(entity)
                 entity = entity.encode('ascii', 'xmlcharrefreplace')
             except:
