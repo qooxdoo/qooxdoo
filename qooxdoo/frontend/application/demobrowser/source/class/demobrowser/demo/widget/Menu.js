@@ -72,7 +72,7 @@ qx.Class.define("demobrowser.demo.widget.Menu",
       var sub = new qx.ui.menu.Menu();
 
       menu.add(new qx.ui.menu.Button("Hello World #1", "icon/16/apps/preferences-users.png", new qx.event.Command("Ctrl-A"), sub));
-      menu.add(new qx.ui.menu.Button("Hello World #2 veeeeeeery loooooooooooooong text"));
+      menu.add(new qx.ui.menu.Button("Hello World #2 with long text"));
       menu.add(new qx.ui.menu.Button("Hello World #3", null, new qx.event.Command("F11")));
       menu.add(new qx.ui.menu.Button("Hello World #4", "icon/16/apps/preferences-users.png"));
       menu.add(new qx.ui.menu.Button("Hello World #5", "icon/16/apps/preferences-users.png", null, sub));

@@ -1263,7 +1263,9 @@ qx.Theme.define("qx.theme.classic.Appearance",
           backgroundColor : "white",
           decorator : "outset",
           spacingX : 6,
-          spacingY : 1
+          spacingY : 1,
+          iconColumnWidth : 16,
+          arrowColumnWidth : 4
         };
       }
     },
