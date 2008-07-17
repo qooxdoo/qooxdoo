@@ -162,6 +162,13 @@ qx.Class.define("qx.event.handler.EventHandler",
         vDomEvent.preventDefault();
       }
 
+      try
+      {
+        // this allows us to prevent some key press events in IE and Firefox.
+        // See bug #1049
+        e.keyCode = 0;
+      } catch(e) {}
+      
       vDomEvent.returnValue = false;
     },
 
