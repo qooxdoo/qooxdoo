@@ -23,13 +23,29 @@ qx.Class.define("qx.ui.menu.Button",
   extend : qx.ui.core.Widget,
   include : qx.ui.core.MExecutable,
 
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
   construct : function(label, icon, command, menu)
   {
     this.base(arguments);
 
-    // use hard coded layout
+    // Use hard coded layout
     this._setLayout(new qx.ui.layout.MenuButton);
 
+    // Add mouse event listeners
+    this.addListener("mouseover", this._onMouseOver, this);
+    this.addListener("mouseout", this._onMouseOut, this);
+
+    // Add command listener
+    this.addListener("changeCommand", this._onChangeCommand, this);
+
+    // Initialize with incoming arguments
     if (label != null) {
       this.setLabel(label);
     }
@@ -38,7 +54,6 @@ qx.Class.define("qx.ui.menu.Button",
       this.setIcon(icon);
     }
 
-    this.addListener("changeCommand", this._onChangeCommand, this);
     if (command != null) {
       this.setCommand(command);
     }
@@ -46,19 +61,27 @@ qx.Class.define("qx.ui.menu.Button",
     if (menu != null) {
       this.setMenu(menu);
     }
-
-    this.addListener("mouseover", this._onMouseOver, this);
-    this.addListener("mouseout", this._onMouseOut, this);
   },
+
+
+
+
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
 
   properties :
   {
+    // overridden
     appearance :
     {
       refine : true,
       init : "menubutton"
     },
 
+    /** The label text of the button */
     label :
     {
       check : "String",
@@ -66,6 +89,7 @@ qx.Class.define("qx.ui.menu.Button",
       nullable : true
     },
 
+    /** The icon to use */
     icon :
     {
       check : "String",
@@ -73,6 +97,7 @@ qx.Class.define("qx.ui.menu.Button",
       nullable : true
     },
 
+    /** Whether a sub menu should be shown and which one */
     menu :
     {
       check : "qx.ui.menu.Menu",
@@ -81,55 +106,23 @@ qx.Class.define("qx.ui.menu.Button",
     }
   },
 
+
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
   members :
   {
-    getChildrenSizes : function()
-    {
-      var icon = this._getChildControl("icon", true);
-      var label = this._getChildControl("label", true);
-      var shortcut = this._getChildControl("shortcut", true);
-      var arrow = this._getChildControl("arrow", true);
-
-      return [
-        icon ? icon.getSizeHint().width : 16,
-        label ? label.getSizeHint().width : 0,
-        shortcut ? shortcut.getSizeHint().width : 0,
-        arrow ? arrow.getSizeHint().width : 5
-      ];
-    },
-
-
-    _applyIcon : function(value, old)
-    {
-      this._getChildControl("icon").setSource(value);
-    },
-
-    _applyLabel : function(value, old)
-    {
-      this._getChildControl("label").setContent(value);
-    },
-
-    _applyMenu : function(value, old)
-    {
-      this._getChildControl("arrow");
-    },
-
-    _onChangeCommand : function(e)
-    {
-      this._getChildControl("shortcut").setContent(e.getData().toString());
-    },
-
-
-
-    _onMouseOver : function(e) {
-      this.addState("hovered");
-    },
-
-    _onMouseOut : function(e) {
-      this.removeState("hovered");
-    },
-
-
+    /*
+    ---------------------------------------------------------------------------
+      WIDGET API
+    ---------------------------------------------------------------------------
+    */
 
     // overridden
     _createChildControlImpl : function(id)
@@ -164,7 +157,92 @@ qx.Class.define("qx.ui.menu.Button",
       }
 
       return control || this.base(arguments, id);
-    }
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      LAYOUT UTILS
+    ---------------------------------------------------------------------------
+    */
+
+    getChildrenSizes : function()
+    {
+      var hasIcon = this._isChildControlVisible("icon");
+      var hasLabel = this._isChildControlVisible("label");
+      var hasShortcut = this._isChildControlVisible("shortcut");
+      var hasMenu = this._isChildControlVisible("arrow");
+
+      return [
+        hasIcon ? this._getChildControl("icon").getSizeHint().width : 0,
+        hasLabel ? this._getChildControl("label").getSizeHint().width : 0,
+        hasShortcut ? this._getChildControl("shortcut").getSizeHint().width : 0,
+        hasMenu ? this._getChildControl("arrow").getSizeHint().width : 0
+      ];
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      PROPERTY APPLY ROUTINES
+    ---------------------------------------------------------------------------
+    */
+
+    // property apply
+    _applyIcon : function(value, old)
+    {
+      if (value) {
+        this._getChildControl("icon").setSource(value);
+      } else {
+        this._excludeChildControl("icon");
+      }
+    },
+
+    // property apply
+    _applyLabel : function(value, old)
+    {
+      if (value) {
+        this._getChildControl("label").setContent(value);
+      } else {
+        this._excludeChildControl("label");
+      }
+    },
+
+    // property apply
+    _applyMenu : function(value, old)
+    {
+      this._hasSubMenu = !!value;
+      if (value) {
+        this._showChildControl("arrow");
+      } else {
+        this._excludeChildControl("arrow");
+      }
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      EVENT HANDLER
+    ---------------------------------------------------------------------------
+    */
+
+    _onMouseOver : function(e) {
+      this.addState("hovered");
+    },
+
+    _onMouseOut : function(e) {
+      this.removeState("hovered");
+    },
+
+    _onChangeCommand : function(e) {
+      this._getChildControl("shortcut").setContent(e.getData().toString());
+    },
   }
 });
 
