@@ -50,6 +50,24 @@ qx.Class.define("qx.ui.layout.Menu",
       init : 1,
       nullable : true,
       apply : "_applyLayoutChange"
+    },
+
+    /** Default icon column width if no icons are rendered */
+    iconColumnWidth :
+    {
+      check : "Integer",
+      init : 0,
+      themeable : true,
+      apply : "_applyLayoutChange"
+    },
+
+    /** Default arrow column width if no sub menus are rendered */
+    arrowColumnWidth :
+    {
+      check : "Integer",
+      init : 0,
+      themeable : true,
+      apply : "_applyLayoutChange"
     }
   },
 
@@ -81,6 +99,7 @@ qx.Class.define("qx.ui.layout.Menu",
       var spanColumnWidth = 0;
       var maxInset = 0;
 
+      // Compute column sizes and insets
       for (var i=0, l=children.length; i<l; i++)
       {
         sizes = children[i].getChildrenSizes();
@@ -98,17 +117,31 @@ qx.Class.define("qx.ui.layout.Menu",
         maxInset = Math.max(maxInset, insets.left + insets.right);
       }
 
-      // fix label column width
+      // Fix label column width is cases where the maximum button with no shortcut
+      // is larger than the maximum button with a shortcut
       if (spanColumn != null && columnSizes[spanColumn] + columnSpacing + columnSizes[spanColumn+1] < spanColumnWidth) {
         columnSizes[spanColumn] = spanColumnWidth - columnSizes[spanColumn+1] - columnSpacing;
       }
 
+      // When merging the cells for label and shortcut
+      // ignore the spacing between them
       if (spanColumnWidth == 0) {
         var spacing = columnSpacing * 2;
       } else {
         var spacing = columnSpacing * 3;
       }
 
+      // Fix zero size icon column
+      if (columnSizes[0] == 0) {
+        columnSizes[0] = this.getIconColumnWidth();
+      }
+
+      // Fix zero size arrow column
+      if (columnSizes[3] == 0) {
+        columnSizes[3] = this.getArrowColumnWidth();
+      }
+
+      // Build hint
       return {
         height : this.base(arguments).height,
         width : qx.lang.Array.sum(columnSizes) + maxInset + spacing

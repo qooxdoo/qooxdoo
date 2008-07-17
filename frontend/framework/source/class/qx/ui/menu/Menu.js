@@ -20,7 +20,8 @@
 
 qx.Class.define("qx.ui.menu.Menu",
 {
-  extend : qx.ui.popup.Popup,
+  extend : qx.ui.core.Widget,
+  include : qx.ui.core.MChildrenHandling,
 
 
   /*
@@ -32,9 +33,6 @@ qx.Class.define("qx.ui.menu.Menu",
   construct : function()
   {
     this.base(arguments);
-
-    // Disable auto-hide for the moment
-    this.setAutoHide(false);
 
     // Use hard coded layout
     this._setLayout(new qx.ui.layout.Menu);
@@ -61,15 +59,22 @@ qx.Class.define("qx.ui.menu.Menu",
     // overridden
     allowGrowX :
     {
-     refine : true,
-     init: false
+      refine : true,
+      init: false
     },
 
     // overridden
     allowGrowY :
     {
-     refine : true,
-     init: false
+      refine : true,
+      init: false
+    },
+
+    // overridden
+    visibility :
+    {
+      refine : true,
+      init : "excluded"
     },
 
     /** The spacing between each cell of the menu buttons */
@@ -88,6 +93,24 @@ qx.Class.define("qx.ui.menu.Menu",
       apply : "_applySpacingY",
       init : 0,
       themeable : true
+    },
+
+    /** Default icon column width if no icons are rendered */
+    iconColumnWidth :
+    {
+      check : "Integer",
+      init : 0,
+      themeable : true,
+      apply : "_applyIconColumnWidth"
+    },
+
+    /** Default arrow column width if no sub menus are rendered */
+    arrowColumnWidth :
+    {
+      check : "Integer",
+      init : 0,
+      themeable : true,
+      apply : "_applyArrowColumnWidth"
     }
   },
 
@@ -110,14 +133,22 @@ qx.Class.define("qx.ui.menu.Menu",
       return this._getLayout().getColumnSizes();
     },
 
+    // property apply
+    _applyIconColumnWidth : function(value, old) {
+      this._getLayout().setIconColumnWidth(value);
+    },
 
-    // apply routine
+    // property apply
+    _applyArrowColumnWidth : function(value, old) {
+      this._getLayout().setArrowColumnWidth(value);
+    },
+
+    // property apply
     _applySpacingX : function(value, old) {
       this._getLayout().setColumnSpacing(value);
     },
 
-
-    // apply routine
+    // property apply
     _applySpacingY : function(value, old) {
       this._getLayout().setSpacing(value);
     }
