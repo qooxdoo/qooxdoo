@@ -110,5 +110,3 @@ def generateProperty(name, config, members, method):
     pair = treeutil.createPair(method + name[0].upper() + name[1:], func)
     
     members.addChild(pair)
-    
-    
