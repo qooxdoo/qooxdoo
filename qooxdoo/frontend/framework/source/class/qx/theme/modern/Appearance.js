@@ -1239,6 +1239,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
       }
     },
 
+    
+    
     "combobox/textfield" :
     {
       include : "textfield",
