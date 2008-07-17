@@ -902,17 +902,5 @@ qx.Class.define("qx.ui.window.Window",
       this.close();
       this._getChildControl("close-button").reset();
     }
-  },
-
-
-
-  /*
-   *****************************************************************************
-      DEFER
-   *****************************************************************************
-   */
-
-   defer : function(statics, members) {
-     qx.Class.include(qx.ui.root.Abstract, qx.ui.window.MDesktop);
-   }
+  }
 });
