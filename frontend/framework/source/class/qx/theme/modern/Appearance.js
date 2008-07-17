@@ -716,8 +716,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
           {
             decorator = "tabview-page-button-bottom-active";
             padding = [ 4, 10 ];
-            marginLeft = states.firstTab ? 0 : -3;
-            marginRight = states.lastTab ? 0 : -3;
+            marginLeft = states.firstTab ? 0 : -4;
+            marginRight = states.lastTab ? 0 : -4;
           }
           else if (states.barRight)
           {
@@ -747,6 +747,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
             decorator = "tabview-page-button-bottom-inactive";
             padding = [ 4, 10 ];
             marginBottom = 4;
+            marginLeft = 2;
+            marginRight = 2;
           }
           else if (states.barRight)
           {
