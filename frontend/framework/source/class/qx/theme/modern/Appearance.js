@@ -741,6 +741,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
             decorator = "tabview-page-button-top-inactive";
             padding = [ 4, 10 ];
             marginTop = 4;
+            marginLeft = 2;
+            marginRight = 2;
           }
           else if (states.barBottom)
           {
@@ -755,12 +757,16 @@ qx.Theme.define("qx.theme.modern.Appearance",
             decorator = "tabview-page-button-right-inactive";
             padding = [ 6, 10 ];
             marginRight = 4;
+            marginTop = 2;
+            marginBottom = 2;
           }
           else
           {
             decorator = "tabview-page-button-left-inactive";
             padding = [ 6, 10 ];
             marginLeft = 4;
+            marginTop = 2;
+            marginBottom = 2;
           }
         }
 
