@@ -41,11 +41,12 @@ qx.Interface.define("qx.ui.window.IDesktop",
     getWindows : function() {},
 
     /**
-     * Get the widget's layout manager.
+     * Whether the configured layout supports a maximized window
+     * e.g. is a Canvas.
      *
-     * @return {qx.ui.layout.Abstract} The widget's layout manager
+     * @return {Boolean} Whether the layout supports maximized windows
      */
-    getLayout : function() {},
+    supportsMaximize : function() {},
 
     /**
      * Block direct child widgets with a zIndex below <code>zIndex</code>

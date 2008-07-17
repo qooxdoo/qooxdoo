@@ -397,15 +397,15 @@ qx.Class.define("qx.ui.window.Window",
     // overridden
     setLayoutParent : function(parent)
     {
-      this.base(arguments, parent);
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         parent && this.assertInterface(
           parent, qx.ui.window.IDesktop,
           "Windows can only be added to widgets, which implement the interface "+
           "qx.ui.window.IDesktop. All root widgets implement this interface."
-        )
+        );
       }
+      this.base(arguments, parent);
     },
 
 
@@ -628,8 +628,7 @@ qx.Class.define("qx.ui.window.Window",
         return;
       }
 
-      var layout = parent.getLayout();
-      if (layout && layout instanceof qx.ui.layout.Canvas)
+      if (parent.supportsMaximize())
       {
         if (this.fireNonBubblingEvent("beforeMaximize", qx.event.type.Event, [false, true]))
         {

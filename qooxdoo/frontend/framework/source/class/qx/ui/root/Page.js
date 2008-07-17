@@ -58,7 +58,7 @@ qx.Class.define("qx.ui.root.Page",
     this._setLayout(new qx.ui.layout.Basic());
 
     // set a high zIndex to make sure the widgets really overlay the HTML page.
-    this.setZIndex(1000);
+    this.setZIndex(10000);
     qx.ui.core.queue.Layout.add(this);
 
     this.addListener("resize", this.__onResize, this);
