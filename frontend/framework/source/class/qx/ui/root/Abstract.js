@@ -26,7 +26,8 @@ qx.Class.define("qx.ui.root.Abstract",
   extend : qx.ui.core.Widget,
   include : [
     qx.ui.core.MChildrenHandling,
-    qx.ui.core.MBlocker
+    qx.ui.core.MBlocker,
+    qx.ui.window.MDesktop
   ],
 
 
