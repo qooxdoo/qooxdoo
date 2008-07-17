@@ -1745,7 +1745,7 @@ qx.Class.define("qx.ui.core.Widget",
     {
       var oldInsets = this.__oldInsets;
       var newInsets;
-      if(value) 
+      if(value)
       {
         this._decorator = qx.theme.manager.Decoration.getInstance().resolve(value);
       	newInsets = this._decorator.getInsets();
@@ -2485,8 +2485,15 @@ qx.Class.define("qx.ui.core.Widget",
      * @type member
      * @return {void}
      */
-    visualizeFocus : function() {
+    visualizeFocus : function()
+    {
       this.addState("focused");
+
+      // Scroll newly focused elements into view
+      var root = this.getApplicationRoot();
+      if (root) {
+        root.scrollChildIntoView(this);
+      }
     },
 
 
