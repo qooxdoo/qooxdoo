@@ -152,6 +152,13 @@ qx.Class.define("qx.ui.tabview.TabView",
      */
     add: function(page)
     {
+      if (qx.core.Variant.isSet("qx.debug", "on")) 
+      {
+        if (!(page instanceof qx.ui.tabview.Page)) {
+          throw new Error("Incompatible child for TabView: " + page);
+        }
+      }
+      
       var button = page.getButton();
       var bar = this._getChildControl("bar");
       var pane = this._getChildControl("pane");
