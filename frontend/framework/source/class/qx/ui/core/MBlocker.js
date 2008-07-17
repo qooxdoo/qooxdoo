@@ -37,14 +37,16 @@ qx.Mixin.define("qx.ui.core.MBlocker",
       check : "Color",
       init : null,
       nullable: true,
-      apply : "_applyBlockerColor"
+      apply : "_applyBlockerColor",
+      themeable: true
     },
 
     blockerOpacity :
     {
       check : "Number",
       init : 1,
-      apply : "_applyBlockerOpacity"
+      apply : "_applyBlockerOpacity",
+      themeable: true
     }
   },
 
