@@ -47,7 +47,7 @@ qx.Class.define("qx.ui.menu.Manager",
 
   /*
   *****************************************************************************
-     MEMBERS
+  MEMBERS
   *****************************************************************************
   */
 
@@ -69,54 +69,13 @@ qx.Class.define("qx.ui.menu.Manager",
      */
     __onUpdateEvent : function(event)
     {
-      var target = event.getTarget();
-      var eventName = event.getType();
+      var obj, list = this.getAll();
 
-      var menu, hash;
-      var menus = this.getAll();
-
-      for (var hash in menus)
+      for (var i=0, l=list.length; i<l; i++)
       {
-        menu = menus[hash];
+        obj = list[i];
 
-        if (!menu.getAutoHide()) {
-          continue;
-        }
-
-        if (target && target.getMenu && target.getMenu()) {
-          continue;
-        }
-
-        // Hide on global events (mouseup, window focus, window blur, ...)
-        if (!target)
-        {
-          menu.hide();
-          continue;
-        }
-
-        // Hide only if the target is not a button inside this
-        // or any sub menu and is not the opener
-        var isMouseDown = eventName == "mousedown";
-        var isMouseUp = eventName == "mouseup";
-
-        // Close menu if the target is not the opener button...
-        if (menu.getOpener() !==
-
-        //  and
-        target &&
-        (target &&
-
-        // or the event is a mouse up on a child button of the menu
-
-        // the event is a mouse down on a non-child of the menu
-        (!menu.isSubElement(target) && isMouseDown) ||
-
-        // or the event is a key (esc) event
-        (menu.isSubElement(target, true) && isMouseUp) || (!isMouseDown && !isMouseUp)))
-        {
-          menu.hide();
-          continue;
-        }
+        obj.exclude();
       }
     }
   }
