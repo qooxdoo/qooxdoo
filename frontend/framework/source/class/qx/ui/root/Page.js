@@ -189,6 +189,10 @@ qx.Class.define("qx.ui.root.Page",
 
       this.base(arguments, zIndex);
 
+      // to block interaction we need to cover the HTML page with a div as well.
+      // we do so by placing a div parallel to the page root with a slightly
+      // lower zIndex and keep the size of this div in sync with the body
+      // size.
       if (!this.__timer)
       {
         this.__timer = new qx.event.Timer(300);
