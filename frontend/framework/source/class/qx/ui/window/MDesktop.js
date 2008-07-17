@@ -117,10 +117,9 @@ qx.Mixin.define("qx.ui.window.MDesktop",
      */
     _afterAddChild : function(win)
     {
-      if (!(win instanceof qx.ui.window.Window)) {
-        return;
+      if (win instanceof qx.ui.window.Window) {
+        this._addWindow(win);
       }
-      this._addWindow(win);
     },
 
 
@@ -134,12 +133,13 @@ qx.Mixin.define("qx.ui.window.MDesktop",
       this.getWindows().push(win);
 
       win.addListener("changeActive", this._onChangeActive, this);
+      win.addListener("changeModal", this._onChangeModal, this);
+      win.addListener("changeVisibility", this._onChangeVisibility, this);
+
       if (win.getActive()) {
         this.setActiveWindow(win);
       }
 
-      win.addListener("changeModal", this._onChangeModal, this);
-      win.addListener("changeVisibility", this._onChangeVisibility, this);
       this.getWindowManager().updateStack();
     },
 
@@ -151,10 +151,9 @@ qx.Mixin.define("qx.ui.window.MDesktop",
      */
     _afterRemoveChild : function(win)
     {
-      if (!(win instanceof qx.ui.window.Window)) {
-        return;
+      if (win instanceof qx.ui.window.Window) {
+        this._removeWindow(win);
       }
-      this._removeWindow(win);
     },
 
 
