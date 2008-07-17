@@ -39,6 +39,25 @@ qx.Class.define("qx.ui.menu.Menu",
 
     // Automatically add to application's root
     qx.core.Init.getApplication().getRoot().add(this);
+
+    // Create timers
+    this._openTimer = new qx.event.Timer;
+    this._closeTimer = new qx.event.Timer;
+
+    // Register timer listeners
+    this._openTimer.addListener("interval", this._onOpenInterval, this);
+    this._closeTimer.addListener("interval", this._onCloseInterval, this);
+
+    // Register mouse listeners
+    this.addListener("mouseover", this._onMouseOver);
+    this.addListener("mouseout", this._onMouseOut);
+
+    // Register key listeners
+    this.addListener("keypress", this._onKeyPress);
+
+    // Initialize timers
+    this.initOpenInterval();
+    this.initCloseInterval();
   },
 
 
@@ -78,6 +97,13 @@ qx.Class.define("qx.ui.menu.Menu",
     {
       refine : true,
       init : "excluded"
+    },
+
+    // overridden
+    keepFocus :
+    {
+      refine : true,
+      init : true
     },
 
 
@@ -121,6 +147,7 @@ qx.Class.define("qx.ui.menu.Menu",
 
 
 
+
     hoverItem :
     {
       check : "qx.ui.core.Widget",
@@ -136,7 +163,7 @@ qx.Class.define("qx.ui.menu.Menu",
     },
 
     /** Widget that opened the menu */
-    menuOpener :
+    opener :
     {
       check : "qx.ui.core.Widget",
       nullable : true
@@ -156,6 +183,7 @@ qx.Class.define("qx.ui.menu.Menu",
     fastReopen :
     {
       check : "Boolean",
+      themeable : true,
       init : false
     },
 
@@ -227,6 +255,23 @@ qx.Class.define("qx.ui.menu.Menu",
 
 
 
+    /*
+    ---------------------------------------------------------------------------
+      WIDGET API
+    ---------------------------------------------------------------------------
+    */
+
+    // overridden
+    _applyVisibility : function(value, old)
+    {
+      this.base(arguments, value, old);
+
+      var mgr = qx.ui.menu.Manager.getInstance();
+      value === "visible" ? mgr.add(this) : mgr.remove(this);
+    },
+
+
+
 
     /*
     ---------------------------------------------------------------------------
@@ -277,26 +322,14 @@ qx.Class.define("qx.ui.menu.Menu",
 
 
     // property apply
-    _applyOpenInterval : function(value, old)
-    {
-      if (!this._openTimer) {
-        this._openTimer = new qx.event.Timer(value);
-        this._openTimer.addListener("interval", this._onOpenInterval, this);
-      } else {
-        this._openTimer.setInterval(value);
-      }
+    _applyOpenInterval : function(value, old) {
+      this._openTimer.setInterval(value);
     },
 
 
     // property apply
-    _applyCloseInterval : function(value, old)
-    {
-      if (!this._closeTimer) {
-        this._closeTimer = new qx.event.Timer(this.getCloseInterval());
-        this._closeTimer.addListener("interval", this._onCloseInterval, this);
-      } else {
-        this._closeTimer.setInterval(value);
-      }
+    _applyCloseInterval : function(value, old) {
+      this._closeTimer.setInterval(value);
     },
 
 
@@ -318,32 +351,30 @@ qx.Class.define("qx.ui.menu.Menu",
     {
       if (old)
       {
-        var vOldSub = old.getMenu();
+        var oldSubMenu = old.getMenu();
 
-        if (vOldSub)
+        if (oldSubMenu)
         {
-          vOldSub.setParentMenu(null);
-          vOldSub.setOpener(null);
-          vOldSub.hide();
+          oldSubMenu.resetParentMenu();
+          oldSubMenu.resetOpener();
+          oldSubMenu.exclude();
         }
       }
 
       if (value)
       {
-        var vSub = value.getMenu();
+        var subMenu = value.getMenu();
 
-        if (vSub)
+        if (subMenu)
         {
-          vSub.setOpener(value);
-          vSub.setParentMenu(this);
+          subMenu.setOpener(value);
+          subMenu.setParentMenu(this);
 
-          var pl = value.getElement();
-          var el = this.getElement();
+          var buttonLocation = value.getContainerLocation();
+          subMenu.moveTo(buttonLocation.right + this.getSubMenuHorizontalOffset(),
+            buttonLocation.top + this.getSubMenuVerticalOffset());
 
-          vSub.setTop(qx.bom.element.Location.getTop(pl) + this.getSubMenuVerticalOffset());
-          vSub.setLeft(qx.bom.element.Location.getLeft(el) + qx.legacy.html.Dimension.getBoxWidth(el) + this.getSubMenuHorizontalOffset());
-
-          vSub.show();
+          subMenu.show();
         }
       }
     },
@@ -353,7 +384,7 @@ qx.Class.define("qx.ui.menu.Menu",
 
     /*
     ---------------------------------------------------------------------------
-      EVENT HANDLING
+      MOUSE EVENT HANDLING
     ---------------------------------------------------------------------------
     */
 
@@ -480,6 +511,15 @@ qx.Class.define("qx.ui.menu.Menu",
     },
 
 
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      INTERVAL EVENT HANDLING
+    ---------------------------------------------------------------------------
+    */
+
     /**
      * TODOC
      *
@@ -517,6 +557,14 @@ qx.Class.define("qx.ui.menu.Menu",
       this.setOpenItem(null);
     },
 
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      KEY EVENT HANDLING
+    ---------------------------------------------------------------------------
+    */
 
     /**
      * TODOC
@@ -604,7 +652,7 @@ qx.Class.define("qx.ui.menu.Menu",
       // Jump to the "parent" qx.ui.menu.Menu
       if (menuOpener instanceof qx.ui.menu.Button)
       {
-        var openerParentMenu = this.getOpener().getParentMenu();
+        var openerParentMenu = this.getOpener().getLayoutParent();
 
         openerParentMenu.setOpenItem(null);
         openerParentMenu.setHoverItem(menuOpener);
@@ -677,19 +725,19 @@ qx.Class.define("qx.ui.menu.Menu",
       {
         // search for menubar if existing
         // menu -> button -> menu -> button -> menu -> menubarbutton -> menubar
-        var openerParentMenu = menuOpener.getParentMenu();
+        var openerParentMenu = menuOpener.getLayoutParent();
 
         while (openerParentMenu && openerParentMenu instanceof qx.ui.menu.Menu)
         {
           menuOpener = openerParentMenu.getOpener();
 
           if (menuOpener instanceof qx.ui.menu.Button) {
-            openerParentMenu = menuOpener.getParentMenu();
+            openerParentMenu = menuOpener.getLayoutParent();
           }
           else
           {
             if (menuOpener) {
-              openerParentMenu = menuOpener.getParent();
+              openerParentMenu = menuOpener.getLayoutParent();
             }
 
             break;
@@ -697,7 +745,7 @@ qx.Class.define("qx.ui.menu.Menu",
         }
 
         if (openerParentMenu instanceof qx.ui.toolbar.Part) {
-          openerParentMenu = openerParentMenu.getParent();
+          openerParentMenu = openerParentMenu.getLayoutParent();
         }
 
         if (openerParentMenu instanceof qx.ui.toolbar.ToolBar)

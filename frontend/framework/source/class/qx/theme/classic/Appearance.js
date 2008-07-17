@@ -1260,7 +1260,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          backgroundColor : "white",
+          backgroundColor : "background",
           decorator : "outset",
           spacingX : 6,
           spacingY : 1,
@@ -1279,7 +1279,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
         return {
           backgroundColor : states.hovered ? "background-selected" : "undefined",
           textColor : states.hovered ? "text-selected" : "undefined",
-          padding : [ 2, 4 ]
+          padding : [ 2, 6 ]
         };
       }
     },
