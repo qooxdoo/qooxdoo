@@ -56,14 +56,29 @@ qx.Class.define("demobrowser.demo.widget.Menu",
     getButton1 : function()
     {
       var button = new qx.ui.form.Button("Menu Test");
+
+
+      var submenu1 = new qx.ui.menu.Menu;
+
+      submenu1.add(new qx.ui.menu.Button("Sub Button 1"));
+      submenu1.add(new qx.ui.menu.Button("Sub Button 2"));
+      submenu1.add(new qx.ui.menu.Button("Sub Button 3"));
+
+      var submenu2 = new qx.ui.menu.Menu;
+
+      submenu2.add(new qx.ui.menu.Button("Sub Button 1"));
+      submenu2.add(new qx.ui.menu.Button("Sub Button 2"));
+      submenu2.add(new qx.ui.menu.Button("Sub Button 3"));
+
+
       var menu = new qx.ui.menu.Menu();
 
-      menu.add(new qx.ui.menu.Button("Hello World #1", "icon/16/apps/preferences-users.png"));
-      menu.add(new qx.ui.menu.Button("Hello World #2", "icon/16/apps/preferences-users.png"));
-      menu.add(new qx.ui.menu.Button("Hello World #3", "icon/16/apps/preferences-users.png"));
-      menu.add(new qx.ui.menu.Button("Hello World #4", "icon/16/apps/preferences-users.png"));
-      menu.add(new qx.ui.menu.Button("Hello World #5", "icon/16/apps/preferences-users.png"));
-      menu.add(new qx.ui.menu.Button("Hello World #6", "icon/16/apps/preferences-users.png"));
+      menu.add(new qx.ui.menu.Button("Button 1", "icon/16/apps/preferences-users.png", null, submenu1));
+      menu.add(new qx.ui.menu.Button("Button 2", "icon/16/apps/preferences-users.png"));
+      menu.add(new qx.ui.menu.Button("Button 3", "icon/16/apps/preferences-users.png"));
+      menu.add(new qx.ui.menu.Button("Button 4", "icon/16/apps/preferences-users.png", null, submenu2));
+      menu.add(new qx.ui.menu.Button("Button 5", "icon/16/apps/preferences-users.png"));
+      menu.add(new qx.ui.menu.Button("Button 6", "icon/16/apps/preferences-users.png"));
 
       button.addListener("execute", function(e)
       {
