@@ -45,6 +45,7 @@ qx.Class.define("demobrowser.demo.widget.Menu",
 
       container.add(this._getMenu1());
       container.add(this._getMenu2());
+      container.add(this._getMenu3());
     },
 
 
@@ -80,7 +81,23 @@ qx.Class.define("demobrowser.demo.widget.Menu",
       menu.show();
 
       return menu;
-    }
+    },
+
+    _getMenu3 : function()
+    {
+      var menu = new qx.ui.menu.Menu();
+
+      menu.add(new qx.ui.menu.Button("Hello World #1"));
+      menu.add(new qx.ui.menu.Button("Hello World #2"));
+      menu.add(new qx.ui.menu.Button("Hello World #3"));
+      menu.add(new qx.ui.menu.Button("Hello World #4"));
+      menu.add(new qx.ui.menu.Button("Hello World #5"));
+      menu.add(new qx.ui.menu.Button("Hello World #6"));
+
+      menu.show();
+
+      return menu;
+    },
 
   }
 });
