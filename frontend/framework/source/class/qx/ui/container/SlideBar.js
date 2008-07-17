@@ -27,7 +27,8 @@ qx.Class.define("qx.ui.container.SlideBar",
 {
   extend : qx.ui.core.Widget,
 
-  include : [
+  include :
+  [
     qx.ui.core.MRemoteChildrenHandling,
     qx.ui.core.MRemoteLayoutHandling
   ],
