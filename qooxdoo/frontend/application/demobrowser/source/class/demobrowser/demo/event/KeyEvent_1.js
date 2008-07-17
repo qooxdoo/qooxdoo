@@ -105,6 +105,7 @@ qx.Class.define("demobrowser.demo.event.KeyEvent_1",
       str.push("</table>");
       this.logDiv.innerHTML = str.join("");
       this.logDiv.scrollTop = 0;
+      keyEvent.preventDefault();
     }
   }
 });
