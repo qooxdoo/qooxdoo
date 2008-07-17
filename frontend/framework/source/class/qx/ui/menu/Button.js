@@ -38,10 +38,6 @@ qx.Class.define("qx.ui.menu.Button",
     // Use hard coded layout
     this._setLayout(new qx.ui.layout.MenuButton);
 
-    // Add mouse event listeners
-    this.addListener("mouseover", this._onMouseOver, this);
-    this.addListener("mouseout", this._onMouseOut, this);
-
     // Add command listener
     this.addListener("changeCommand", this._onChangeCommand, this);
 
@@ -231,14 +227,6 @@ qx.Class.define("qx.ui.menu.Button",
       EVENT HANDLER
     ---------------------------------------------------------------------------
     */
-
-    _onMouseOver : function(e) {
-      this.addState("hovered");
-    },
-
-    _onMouseOut : function(e) {
-      this.removeState("hovered");
-    },
 
     _onChangeCommand : function(e) {
       this._getChildControl("shortcut").setContent(e.getData().toString());
