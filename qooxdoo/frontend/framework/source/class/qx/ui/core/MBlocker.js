@@ -29,8 +29,71 @@
  */
 qx.Mixin.define("qx.ui.core.MBlocker",
 {
+
+  properties :
+  {
+    blockerColor  :
+    {
+      check : "Color",
+      init : null,
+      nullable: true,
+      apply : "_applyBlockerColor"
+    },
+
+    blockerOpacity :
+    {
+      check : "Number",
+      init : 1,
+      apply : "_applyBlockerOpacity"
+    }
+  },
+
   members :
   {
+    // property apply
+    _applyBlockerColor : function(value, old)
+    {
+      var blockers = [];
+      this.__blocker && blockers.push(this.__blocker);
+      this.__contentBlocker && blockers.push(this.__contentBlocker);
+
+      for (var i=0; i<blockers.length; i++) {
+        blocker.setStlye("backgroundColor", qx.theme.manager.Color.getInstance().resolve(value));
+      }
+    },
+
+
+    // property apply
+    _applyBlockerOpacity : function(value, old)
+    {
+      var blockers = [];
+      this.__blocker && blockers.push(this.__blocker);
+      this.__contentBlocker && blockers.push(this.__contentBlocker);
+
+      for (var i=0; i<blockers.length; i++) {
+        blocker.setStlye("opacity", value);
+      }
+    },
+
+
+    /**
+     * Creates the blocker element.
+     *
+     * @return {qx.html.Element} The blocker element
+     */
+    __createBlockerElement : function()
+    {
+       var blocker = new qx.html.Element().setStyles({
+        position: "absolute",
+        width: "100%",
+        height: "100%",
+        opacity : this.getBlockerOpacity(),
+        backgroundColor : qx.theme.manager.Color.getInstance().resolve(this.getBlockerColor())
+      });
+      return blocker;
+    },
+
+
     /**
      * Get/create the blocker element
      *
@@ -40,11 +103,7 @@ qx.Mixin.define("qx.ui.core.MBlocker",
     {
       if (!this.__blocker)
       {
-        this.__blocker = new qx.html.Element().setStyles({
-          position: "absolute",
-          width: "100%",
-          height: "100%"
-        });
+        this.__blocker = this.__createBlockerElement();
         this.getContentElement().add(this.__blocker);
         this.__blocker.exclude();
       }
@@ -108,11 +167,7 @@ qx.Mixin.define("qx.ui.core.MBlocker",
     {
       if (!this.__contentBlocker)
       {
-        this.__contentBlocker = new qx.html.Element().setStyles({
-          position: "absolute",
-          width: "100%",
-          height: "100%"
-        });
+        this.__contentBlocker = this.__createBlockerElement();
         this.getContentElement().add(this.__contentBlocker);
         this.__contentBlocker.exclude();
       }
