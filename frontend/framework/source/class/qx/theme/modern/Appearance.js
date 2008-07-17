@@ -663,8 +663,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
           paddingBottom    : (states.barTop || states.barBottom) ? 0 : 10,
 
           marginBottom    : states.barTop ? -1 : 0,
-          marginTop       : states.barBottom ? -1 : 0,
-          marginLeft      : states.barRight ? -1 : 0,
+          marginTop       : states.barBottom ? -4 : 0,
+          marginLeft      : states.barRight ? -3 : 0,
           marginRight     : states.barLeft ? -1 : 0
         }
       }
@@ -677,7 +677,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          decorator       : "tabview-pane",
+          decorator       : "pane",
           padding         : 10,
           marginBottom    : states.barBottom ? -1 : 0,
           marginTop       : states.barTop ? -1 : 0,
