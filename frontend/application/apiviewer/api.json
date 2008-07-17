@@ -1,0 +1,169 @@
+// Apiviewer - config.json
+{
+  "name"    : "Apiviewer (export) config",
+
+  "export" : ["source", "build"],
+
+  "jobs" :
+  {
+    "common" :
+    {
+      "let" :
+      {
+        "APIVIEWER_ROOT" : ".",
+        "APIVIEWER"      : "apiviewer",
+        "APPLICATION"    : "apiviewer",
+        "QOOXDOO_PATH"   : "../../framework",
+        "QOOXDOO_URI"    : "../${QOOXDOO_PATH}",
+        "API_INCLUDE"    : ["qx.*"],
+        "API_EXCLUDE"    : [],
+        "BUILD_PATH"     : "${APIVIEWER_ROOT}/build"
+      },
+
+      "library" :
+      [
+        {
+          "manifest" : "${QOOXDOO_PATH}/Manifest.json",
+          "uri"      : "${QOOXDOO_URI}"
+        },
+
+        {
+          "manifest" : "${APIVIEWER_ROOT}/Manifest.json",
+          "uri"      : ".."
+        }
+      ],
+
+      "settings" :
+      {
+        "qx.application"  : "${APIVIEWER}.Application",
+        "qx.resourceUri"  : "${QOOXDOO_URI}/source/resource",
+        "qx.legacy.theme" : "qx.legacy.theme.ClassicRoyale",
+        "qx.version"      : "0.8-alpha2"
+      },
+
+      "cache" :
+      {
+        "path" : "../../cache"
+      }
+    },
+
+
+    "source-script" :
+    {
+      "extend" : ["common"],
+      "include" : ["${APIVIEWER}.*","qx.legacy.theme.ClassicRoyale"],
+
+      "settings" :
+      {
+        "${APIVIEWER}.resourceUri" : "./resource"
+      },
+
+      "compile-source" :
+      {
+        "file" : "./source/script/${APIVIEWER}.js",
+        "root" : "source"
+      }
+    },
+
+
+    "source" :
+    {
+      "run" :
+      [
+        "source-script",
+        "source-data"
+      ]
+    },
+
+
+    "build-script" :
+    {
+      "extend" : ["common"],
+      "include" : ["${APIVIEWER}.*","qx.legacy.theme.ClassicRoyale"],
+
+      "settings" :
+      {
+        "${APIVIEWER}.resourceUri" : "./resource"
+      },
+
+      "compile-dist" :
+      {
+        "target" : "${BUILD_PATH}",
+        "file" : "${BUILD_PATH}/script/${APIVIEWER}.js",
+        "format" : "on",
+        "optimize" : ["strings", "basecalls", "variables", "privates"],
+        "uri"  : "script/${APIVIEWER}.js",
+        "root" : "${BUILD_PATH}"
+      }
+    },
+
+
+    "build-files" :
+    {
+      "extend" : ["common"],
+
+      "copy-files" :
+      {
+        "files" :
+        [
+          "index.html"
+        ],
+
+        "target" : "${BUILD_PATH}",
+        "source" : "${APIVIEWER_ROOT}/source"
+      }
+    },
+
+
+    "build-resources":
+    {
+      "extend" : ["common"],
+
+      "copy-resources" :
+      {
+        "target" : "${BUILD_PATH}"
+      }
+    },
+
+
+    "build" :
+    {
+      "run" :
+      [
+        "build-resources",
+        "build-script",
+        "build-files",
+        "build-data"
+      ]
+    },
+
+
+    "source-data" :
+    {
+      "extend" : ["common"],
+
+      "include" : "${API_INCLUDE}",
+      "exclude" : "${API_EXCLUDE}",
+
+      "api" :
+      {
+        "path" : "source/script"
+      }
+    },
+
+
+    "build-data" :
+    {
+      "extend" : ["common"],
+
+      "include" : "${API_INCLUDE}",
+      "exclude" : "${API_EXCLUDE}",
+
+      "api" :
+      {
+        "path" : "${BUILD_PATH}/script"
+      }
+    }
+  }
+}
+
