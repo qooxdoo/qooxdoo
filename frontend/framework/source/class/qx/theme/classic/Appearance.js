@@ -695,13 +695,18 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         var decorator = new qx.ui.decoration.Double;
-        decorator.set(
+        decorator.setWidth(1);
+        decorator.setInnerWidth(1);
+        if (states.focused)
         {
-          width : 1,
-          innerWidth: 1,
-          color : [ "border-light-shadow", "border-dark", "border-dark", "border-light-shadow" ],
-          innerColor : [ "border-light", "border-dark-shadow", "border-dark-shadow", "border-light" ]
-        });
+          decorator.setColor([ "border-focused-light-shadow", "border-focused-dark", "border-focused-dark", "border-focused-light-shadow" ]);
+          decorator.setInnerColor([ "border-focused-light", "border-focused-dark-shadow", "border-focused-dark-shadow", "border-focused-light" ]);
+        }
+        else
+        {
+          decorator.setColor([ "border-light-shadow", "border-dark", "border-dark", "border-light-shadow" ]);
+          decorator.setInnerColor([ "border-light", "border-dark-shadow", "border-dark-shadow", "border-light" ]);
+        }
 
         var marginTop=0, marginRight=0, marginBottom=0, marginLeft=0;
 
