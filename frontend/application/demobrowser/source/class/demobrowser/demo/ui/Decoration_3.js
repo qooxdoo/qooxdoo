@@ -18,6 +18,11 @@
 
 ************************************************************************ */
 
+/*
+#asset(qx/icon/${qx.icontheme}/22/actions/dialog-apply.png)
+#asset(qx/icon/${qx.icontheme}/22/actions/dialog-cancel.png)
+*/
+
 qx.Class.define("demobrowser.demo.ui.Decoration_3",
 {
   extend : qx.application.Standalone,
@@ -27,8 +32,8 @@ qx.Class.define("demobrowser.demo.ui.Decoration_3",
     main: function()
     {
       this.base(arguments);
-
-      qx.theme.manager.Meta.getInstance().setTheme(qx.theme.Modern);
+      
+      //qx.theme.manager.Meta.getInstance().setTheme(qx.theme.Modern);
 
       var layout = new qx.ui.layout.Grid(9, 5);
       layout.setColumnAlign(0, "right", "top");
@@ -38,17 +43,17 @@ qx.Class.define("demobrowser.demo.ui.Decoration_3",
       layout.setColumnWidth(3, 108);
 
 
-      var container = new qx.ui.container.Composite(layout).set({
-        decorator: "pane",
-        padding: 16,
-        backgroundColor: "pane"
-      });
+      var container = new qx.ui.tabview.TabView;
+      var page = new qx.ui.tabview.Page("Page");
+      page.setLayout(layout);
+      page.setPadding(10);
+      container.add(page);
 
       this.getRoot().add(container, {left:40, top:40});
 
       labels = ["First Name", "Last Name", "City", "Country", "Notes"];
       for (var i=0; i<labels.length; i++) {
-        container.add(new qx.ui.basic.Label(labels[i]).set({
+        page.add(new qx.ui.basic.Label(labels[i]).set({
           allowShrinkX: false,
           paddingTop: 3
         }), {row: i, column : 0});
@@ -56,18 +61,18 @@ qx.Class.define("demobrowser.demo.ui.Decoration_3",
 
       inputs = ["John", "Smith", "New York", "USA"];
       for (var i=0; i<inputs.length; i++) {
-        container.add(new qx.ui.form.TextField(inputs[i]), {row:i, column:1});
+        page.add(new qx.ui.form.TextField(inputs[i]), {row:i, column:1});
       }
 
 
       // text area
-      container.add(new qx.ui.form.TextArea().set({
+      page.add(new qx.ui.form.TextArea().set({
         height: 250
       }), {row:4, column:1, colSpan: 3});
 
 
       // radio buttons
-      container.add(new qx.ui.basic.Label("Sex").set({
+      page.add(new qx.ui.basic.Label("Sex").set({
         allowShrinkX: false,
         paddingTop: 3
       }), {row:0, column:2});
@@ -78,18 +83,18 @@ qx.Class.define("demobrowser.demo.ui.Decoration_3",
       var mgr = new qx.ui.form.RadioGroup();
       mgr.add(female, male);
 
-      container.add(female, {row:0, column:3});
-      container.add(male, {row:1, column:3});
+      page.add(female, {row:0, column:3});
+      page.add(male, {row:1, column:3});
       male.setChecked(true);
 
 
       // check boxes
-      container.add(new qx.ui.basic.Label("Hobbies").set({
+      page.add(new qx.ui.basic.Label("Hobbies").set({
         allowShrinkX: false,
         paddingTop: 3
       }), {row:2, column:2});
-      container.add(new qx.ui.form.CheckBox("Reading"), {row:2, column:3});
-      container.add(new qx.ui.form.CheckBox("Swimming").set({
+      page.add(new qx.ui.form.CheckBox("Reading"), {row:2, column:3});
+      page.add(new qx.ui.form.CheckBox("Swimming").set({
         enabled: false
       }), {row:3, column:3});
 
@@ -102,17 +107,13 @@ qx.Class.define("demobrowser.demo.ui.Decoration_3",
       var buttonPane = new qx.ui.container.Composite(paneLayout).set({
         paddingTop: 11
       });
-      container.add(buttonPane, {row:5, column: 0, colSpan: 4});
+      page.add(buttonPane, {row:5, column: 0, colSpan: 4});
 
-      okButton = new qx.ui.form.Button("OK").set({
-        minWidth: 80
-      });
+      okButton = new qx.ui.form.Button("OK", "icon/22/actions/dialog-apply.png");
       okButton.addState("default");
       buttonPane.add(okButton);
 
-      cancelButton = new qx.ui.form.Button("Cancel").set({
-        minWidth: 80
-      });
+      cancelButton = new qx.ui.form.Button("Cancel", "icon/22/actions/dialog-cancel.png");
       buttonPane.add(cancelButton);
     }
   }
