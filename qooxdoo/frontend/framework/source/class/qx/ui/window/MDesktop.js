@@ -125,7 +125,7 @@ qx.Mixin.define("qx.ui.window.MDesktop",
      */
     _afterAddChild : function(win)
     {
-      if (win instanceof qx.ui.window.Window) {
+      if (qx.Class.isDefined("qx.ui.window.Window") && win instanceof qx.ui.window.Window) {
         this._addWindow(win);
       }
     },
@@ -159,7 +159,7 @@ qx.Mixin.define("qx.ui.window.MDesktop",
      */
     _afterRemoveChild : function(win)
     {
-      if (win instanceof qx.ui.window.Window) {
+      if (qx.Class.isDefined("qx.ui.window.Window") && win instanceof qx.ui.window.Window) {
         this._removeWindow(win);
       }
     },
