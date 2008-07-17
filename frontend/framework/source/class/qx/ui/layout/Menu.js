@@ -31,6 +31,7 @@ qx.Class.define("qx.ui.layout.Menu",
 
   properties :
   {
+    /** Spacing between each cell on the menu buttons */
     columnSpacing :
     {
       check : "Integer",

@@ -22,13 +22,21 @@ qx.Class.define("qx.ui.menu.Menu",
 {
   extend : qx.ui.popup.Popup,
 
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
   construct : function()
   {
     this.base(arguments);
 
+    // Disable auto-hide for the moment
     this.setAutoHide(false);
 
-    // use hard coded layout
+    // Use hard coded layout
     this._setLayout(new qx.ui.layout.Menu);
   },
 
@@ -43,24 +51,28 @@ qx.Class.define("qx.ui.menu.Menu",
 
   properties :
   {
+    // overridden
     appearance :
     {
       refine : true,
       init : "menu"
     },
 
+    // overridden
     allowGrowX :
     {
      refine : true,
      init: false
     },
 
+    // overridden
     allowGrowY :
     {
      refine : true,
      init: false
     },
 
+    /** The spacing between each cell of the menu buttons */
     spacingX :
     {
       check : "Integer",
@@ -69,6 +81,7 @@ qx.Class.define("qx.ui.menu.Menu",
       themeable : true
     },
 
+    /** The spacing between each menu button */
     spacingY :
     {
       check : "Integer",

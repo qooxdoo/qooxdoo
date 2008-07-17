@@ -22,13 +22,21 @@ qx.Class.define("qx.ui.layout.MenuButton",
 {
   extend : qx.ui.layout.Abstract,
 
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
   members :
   {
     // overridden
     verifyLayoutProperty : qx.core.Variant.select("qx.debug",
     {
       "on" : function(item, name, value) {
-        //this.assert(false, "The property '"+name+"' is not supported by the MenuButton layout!");
+        this.assert(name=="column", "The property '"+name+"' is not supported by the MenuButton layout!");
       },
 
       "off" : null
@@ -58,8 +66,6 @@ qx.Class.define("qx.ui.layout.MenuButton",
       for (var i=0, l=columns.length; i<l; i++)
       {
         child = columnChildren[i];
-
-        // TODO: top alignment
 
         if (child)
         {
