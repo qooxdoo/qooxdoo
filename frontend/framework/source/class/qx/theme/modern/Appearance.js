@@ -709,8 +709,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
           {
             decorator = "tabview-page-button-top-active";
             padding = [ 6, 10 ];
-            marginLeft = states.firstTab ? 0 : -3;
-            marginRight = states.lastTab ? 0 : -3;
+            marginLeft = states.firstTab ? 0 : -4;
+            marginRight = states.lastTab ? 0 : -4;
           }
           else if (states.barBottom)
           {
@@ -763,6 +763,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         }
 
         return {
+          zIndex : states.checked ? 10 : 5,
           decorator : decorator,
           padding   : padding,
           marginTop : marginTop,
@@ -1239,8 +1240,6 @@ qx.Theme.define("qx.theme.modern.Appearance",
       }
     },
 
-    
-    
     "combobox/textfield" :
     {
       include : "textfield",
