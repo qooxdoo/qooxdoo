@@ -242,7 +242,7 @@ qx.Class.define("qx.ui.menu.Button",
 
     _onChangeCommand : function(e) {
       this._getChildControl("shortcut").setContent(e.getData().toString());
-    },
+    }
   }
 });
 
