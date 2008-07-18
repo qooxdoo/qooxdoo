@@ -188,7 +188,9 @@ qx.Class.define("qx.ui.popup.ToolTipManager",
       }
 
       // Set Property
-      this.setToolTip(tooltip);
+      if (tooltip) {
+        this.setToolTip(tooltip);
+      }
     },
 
 
@@ -223,6 +225,8 @@ qx.Class.define("qx.ui.popup.ToolTipManager",
       // If there was a tooltip and there is no new one
       if (tooltip && !related) {
         this.setToolTip(null);
+      } else {
+        this.resetToolTip();
       }
     },
 
@@ -248,8 +252,7 @@ qx.Class.define("qx.ui.popup.ToolTipManager",
       var target = e.getTarget();
       var tooltip = target.getToolTip();
 
-      // Only set new tooltip if focus widget
-      // has one
+      // Only set new tooltip if focus widget has one
       if (tooltip != null) {
         this.setToolTip(tooltip);
       }
@@ -267,7 +270,6 @@ qx.Class.define("qx.ui.popup.ToolTipManager",
     __onFocusOutRoot : function(e)
     {
       var target = e.getTarget();
-
       if (!target) {
         return;
       }
