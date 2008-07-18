@@ -167,7 +167,6 @@ qx.Class.define("qx.legacy.ui.table.model.Simple",
     /**
      * Sets all columns editable or not editable.
      *
-     * @type member
      * @param editable {Boolean} whether all columns are editable.
      * @return {void}
      */
@@ -186,7 +185,6 @@ qx.Class.define("qx.legacy.ui.table.model.Simple",
     /**
      * Sets whether a column is editable.
      *
-     * @type member
      * @param columnIndex {Integer} the column of which to set the editable state.
      * @param editable {Boolean} whether the column should be editable.
      * @return {void}
@@ -306,9 +304,6 @@ qx.Class.define("qx.legacy.ui.table.model.Simple",
 
     /**
      * Clears the sorting.
-     *
-     * @type member
-     * @return {void}
      */
     _clearSorting : function()
     {
@@ -377,7 +372,6 @@ qx.Class.define("qx.legacy.ui.table.model.Simple",
     /**
      * Sets the whole data in a bulk.
      *
-     * @type member
      * @param rowArr {var[][]} An array containing an array for each row. Each
      *          row-array contains the values in that row in the order of the columns
      *          in this model.
@@ -434,7 +428,6 @@ qx.Class.define("qx.legacy.ui.table.model.Simple",
      *
      * Warning: The given array will be altered!
      *
-     * @type member
      * @param rowArr {var[][]} An array containing an array for each row. Each
      *          row-array contains the values in that row in the order of the columns
      *          in this model.
@@ -488,7 +481,6 @@ qx.Class.define("qx.legacy.ui.table.model.Simple",
     /**
      * Removes some rows from the model.
      *
-     * @type member
      * @param startIndex {Integer} the index of the first row to remove.
      * @param howMany {Integer} the number of rows to remove.
      * @return {void}
@@ -530,7 +522,6 @@ qx.Class.define("qx.legacy.ui.table.model.Simple",
       var columnCount = this.getColumnCount();
       var dataArr = new Array(rowCount);
       var columnArr;
-      var j;
 
       for (var i=0; i<rowCount; ++i)
       {
