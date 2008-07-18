@@ -546,7 +546,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       {
         return {
           decorator : "toolbar-part-handle",
-          width     : 4, // TODO: functional?
+          width     : 4,
           margin    : [ 3, 2 ]
         };
       }
@@ -1265,8 +1265,24 @@ qx.Theme.define("qx.theme.classic.Appearance",
           spacingX : 6,
           spacingY : 1,
           iconColumnWidth : 16,
-          arrowColumnWidth : 4
+          arrowColumnWidth : 4,
+          padding : 1
         };
+      }
+    },
+
+    "menuseparator" :
+    {
+      style : function(states)
+      {
+        return {
+          height : 0,
+          decorator : "menu-separator",
+          marginTop : 4,
+          marginBottom: 4,
+          marginLeft : 2,
+          marginRight : 2
+        }
       }
     },
 

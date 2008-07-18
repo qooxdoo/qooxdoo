@@ -136,13 +136,26 @@ qx.Class.define("qx.ui.menu.Manager",
     __onMouseDown : function(e)
     {
       var target = e.getTarget();
+
+      // All clicks not inside a menu will hide
+      // all currently open menus
       if (!this.isInMenu(target)) {
         this.hideAll();
       }
     },
 
-    __onMouseUp : function(e) {
-      this.hideAll();
+    __onMouseUp : function(e)
+    {
+      var target = e.getTarget();
+
+      // All mouseups not exactly clicking on the menu
+      // hide all currently open menus
+      // Separators for example are anonymous. This way the
+      // target is the menu. It is wanted that clicks on
+      // Separators are ignored completely
+      if (!(target instanceof qx.ui.menu.Menu)) {
+        this.hideAll();
+      }
     }
   }
 });

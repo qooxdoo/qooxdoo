@@ -20,8 +20,7 @@
 
 /* ************************************************************************
 
-#asset(qx/icon/${qx.icontheme}/16/apps/preferences-users.png)
-#asset(qx/icon/${qx.icontheme}/22/apps/preferences-users.png)
+#asset(qx/icon/${qx.icontheme}/16/actions/*)
 
 ************************************************************************ */
 
@@ -44,12 +43,6 @@ qx.Class.define("demobrowser.demo.widget.Menu",
       this.getRoot().add(container);
 
       container.add(this.getButton1());
-
-      /*
-      container.add(this.getMenu1());
-      container.add(this.getMenu2());
-      container.add(this.getMenu3());
-      */
     },
 
 
@@ -58,88 +51,49 @@ qx.Class.define("demobrowser.demo.widget.Menu",
       var button = new qx.ui.form.Button("Menu Test");
 
 
-      var submenu1 = new qx.ui.menu.Menu;
+      var optionMenu = new qx.ui.menu.Menu;
 
-      submenu1.add(new qx.ui.menu.Button("Sub Button 1"));
-      submenu1.add(new qx.ui.menu.Button("Sub Button 2"));
-      submenu1.add(new qx.ui.menu.Button("Sub Button 3"));
+      optionMenu.add(new qx.ui.menu.Button("Option 1"));
+      optionMenu.add(new qx.ui.menu.Button("Option 2"));
+      optionMenu.add(new qx.ui.menu.Button("Option 3"));
 
-      var submenu2 = new qx.ui.menu.Menu;
+      var actionMenu = new qx.ui.menu.Menu;
 
-      submenu2.add(new qx.ui.menu.Button("Sub Button 1"));
-      submenu2.add(new qx.ui.menu.Button("Sub Button 2"));
-      submenu2.add(new qx.ui.menu.Button("Sub Button 3"));
+      actionMenu.add(new qx.ui.menu.Button("Action 1"));
+      actionMenu.add(new qx.ui.menu.Button("Action 2"));
+      actionMenu.add(new qx.ui.menu.Button("Action 3"));
+
+
+
+      var cutCommand = new qx.event.Command("Ctrl+X");
+      var copyCommand = new qx.event.Command("Ctrl+C");
+      var pasteCommand = new qx.event.Command("Ctrl+P");
 
 
       var menu = new qx.ui.menu.Menu();
 
-      menu.add(new qx.ui.menu.Button("Button 1", "icon/16/apps/preferences-users.png", null, submenu1));
-      menu.add(new qx.ui.menu.Button("Button 2", "icon/16/apps/preferences-users.png"));
-      menu.add(new qx.ui.menu.Button("Button 3", "icon/16/apps/preferences-users.png"));
-      menu.add(new qx.ui.menu.Button("Button 4", "icon/16/apps/preferences-users.png", null, submenu2));
-      menu.add(new qx.ui.menu.Button("Button 5", "icon/16/apps/preferences-users.png"));
-      menu.add(new qx.ui.menu.Button("Button 6", "icon/16/apps/preferences-users.png"));
+      menu.add(new qx.ui.menu.Button("Revert", "icon/16/actions/edit-undo.png"));
+      menu.add(new qx.ui.menu.Button("Recover", "icon/16/actions/edit-redo.png"));
+      menu.add(new qx.ui.menu.Separator);
+      menu.add(new qx.ui.menu.Button("Cut", "icon/16/actions/edit-cut.png", cutCommand));
+      menu.add(new qx.ui.menu.Button("Copy", "icon/16/actions/edit-copy.png", copyCommand));
+      menu.add(new qx.ui.menu.Button("Paste", "icon/16/actions/edit-paste.png", pasteCommand));
+      menu.add(new qx.ui.menu.Separator);
+      menu.add(new qx.ui.menu.Button("Options", "icon/16/actions/system-search.png", null, optionMenu));
+      menu.add(new qx.ui.menu.Button("Actions", "icon/16/actions/contact-new.png", null, actionMenu));
+      menu.add(new qx.ui.menu.Separator);
+      menu.add(new qx.ui.menu.Button("Print", "icon/16/actions/document-print.png"));
 
       button.addListener("execute", function(e)
       {
         menu.show();
+        menu.activate();
 
         var buttonLocation = this.getContainerLocation();
         menu.moveTo(buttonLocation.left, buttonLocation.bottom);
       });
 
       return button;
-    },
-
-
-    getMenu1 : function()
-    {
-      var menu = new qx.ui.menu.Menu();
-
-      menu.add(new qx.ui.menu.Button("Hello World #1", "icon/16/apps/preferences-users.png"));
-      menu.add(new qx.ui.menu.Button("Hello World #2", "icon/16/apps/preferences-users.png"));
-      menu.add(new qx.ui.menu.Button("Hello World #3", "icon/16/apps/preferences-users.png"));
-      menu.add(new qx.ui.menu.Button("Hello World #4", "icon/16/apps/preferences-users.png"));
-      menu.add(new qx.ui.menu.Button("Hello World #5", "icon/16/apps/preferences-users.png"));
-      menu.add(new qx.ui.menu.Button("Hello World #6", "icon/16/apps/preferences-users.png"));
-
-      menu.show();
-
-      return menu;
-    },
-
-
-    getMenu2 : function()
-    {
-      var menu = new qx.ui.menu.Menu();
-      var sub = new qx.ui.menu.Menu();
-
-      menu.add(new qx.ui.menu.Button("Hello World #1", "icon/16/apps/preferences-users.png", new qx.event.Command("Ctrl-A"), sub));
-      menu.add(new qx.ui.menu.Button("Hello World #2 with long text"));
-      menu.add(new qx.ui.menu.Button("Hello World #3", null, new qx.event.Command("F11")));
-      menu.add(new qx.ui.menu.Button("Hello World #4", "icon/16/apps/preferences-users.png"));
-      menu.add(new qx.ui.menu.Button("Hello World #5", "icon/16/apps/preferences-users.png", null, sub));
-      menu.add(new qx.ui.menu.Button("Hello World #6", "icon/16/apps/preferences-users.png"));
-
-      menu.show();
-
-      return menu;
-    },
-
-    getMenu3 : function()
-    {
-      var menu = new qx.ui.menu.Menu();
-
-      menu.add(new qx.ui.menu.Button("Hello World #1"));
-      menu.add(new qx.ui.menu.Button("Hello World #2"));
-      menu.add(new qx.ui.menu.Button("Hello World #3"));
-      menu.add(new qx.ui.menu.Button("Hello World #4"));
-      menu.add(new qx.ui.menu.Button("Hello World #5"));
-      menu.add(new qx.ui.menu.Button("Hello World #6"));
-
-      menu.show();
-
-      return menu;
     }
   }
 });
