@@ -100,36 +100,43 @@ qx.Class.define("qx.bom.Selection",
      */
     getLength : qx.core.Variant.select("qx.client",
     {
-      // TODO: in multi-line textareas there are two chars for a linebreak
-      // --> normalize this to one!
       "mshtml" : function(node)
       {
-        return qx.bom.Selection.get(node).length;
+        var selectedValue = qx.bom.Selection.get(node);
+        // get the selected part and split it by linebreaks
+        var split = qx.util.StringSplit.split(selectedValue, /\r\n/);
+        
+        // return the length substracted by the count of linebreaks
+        // IE counts linebreaks as two chars
+        // -> harmonize this to one char per linebreak
+        return selectedValue.length - (split.length - 1);
       },
       
       "opera" : function(node)
       {
+        var selectedValue, selectedLength, split;
+        
         if (qx.dom.Node.isElement(node) && (node.nodeName.toLowerCase() == "input" || node.nodeName.toLowerCase() == "textarea"))
         {
-          switch(node.nodeName.toLowerCase())
-          {
-            case "input":
-              return node.selectionEnd - node.selectionStart;            
-            break;
-            
-            case "textarea":
-              // TODO: in multi-line textareas there are two chars for a linebreak
-              // --> normalize this to one! 
-              return node.selectionEnd - node.selectionStart;
-            break;
-          }            
+          var start = node.selectionStart;
+          var end   = node.selectionEnd;
+          
+          selectedValue  = node.value.substring(start, end);
+          selectedLength = end - start; 
         }
         else
         {
-          return qx.bom.Selection.get(node).length;
+          selectedValue  = qx.bom.Selection.get(node);
+          selectedLength = selectedValue.length; 
         }
         
-        return null;
+        // get the selected part and split it by linebreaks 
+        split = qx.util.StringSplit.split(selectedValue, /\r\n/);
+        
+        // substract the count of linebreaks
+        // Opera counts each linebreak as two chars
+        // -> harmonize this to one char per linebreak
+        return selectedLength - (split.length - 1);
       },
       
       // suitable for gecko and webkit
