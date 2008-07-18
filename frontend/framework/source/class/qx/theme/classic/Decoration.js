@@ -102,6 +102,10 @@ qx.Theme.define("qx.theme.classic.Decoration",
       }
     },
 
+
+
+
+
     "inset" :
     {
       decorator : qx.ui.decoration.Double,
@@ -154,6 +158,10 @@ qx.Theme.define("qx.theme.classic.Decoration",
       }
     },
 
+
+
+
+
     "inset-thin" :
     {
       decorator : qx.ui.decoration.Single,
@@ -175,6 +183,10 @@ qx.Theme.define("qx.theme.classic.Decoration",
         color : [ "border-light", "border-dark-shadow", "border-dark-shadow", "border-light" ]
       }
     },
+
+
+
+
 
     "line-left" :
     {
@@ -220,27 +232,8 @@ qx.Theme.define("qx.theme.classic.Decoration",
       }
     },
 
-    "divider-vertical" :
-    {
-      decorator : qx.ui.decoration.Single,
 
-      style :
-      {
-        widthTop : 1,
-        colorTop : "border-dark-shadow"
-      }
-    },
 
-    "divider-horizontal" :
-    {
-      decorator : qx.ui.decoration.Single,
-
-      style :
-      {
-        widthLeft : 1,
-        colorLeft : "border-dark-shadow"
-      }
-    },
 
     "focused-inset" :
     {
@@ -306,7 +299,21 @@ qx.Theme.define("qx.theme.classic.Decoration",
         colorRight  : "#a7a6aa",
         colorBottom : "#a7a6aa"
       }
-    }
+    },
 
+
+    "menu-separator" :
+    {
+      decorator :  qx.ui.decoration.Single,
+
+      style :
+      {
+        width: 1,
+        widthLeft: 0,
+        widthRight : 0,
+        colorTop : "border-dark",
+        colorBottom : "border-light"
+      }
+    }
   }
 });

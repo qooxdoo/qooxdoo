@@ -91,7 +91,7 @@ qx.Class.define("qx.ui.layout.Menu",
     _computeSizeHint : function()
     {
       var children = this._getLayoutChildren();
-      var sizes;
+      var child, sizes;
 
       var spanColumn = this.getSpanColumn();
       var columnSizes = this._columnSizes = [0, 0, 0, 0];
@@ -102,7 +102,13 @@ qx.Class.define("qx.ui.layout.Menu",
       // Compute column sizes and insets
       for (var i=0, l=children.length; i<l; i++)
       {
-        sizes = children[i].getChildrenSizes();
+        child = children[i];
+
+        if (child.isAnonymous()) {
+          continue;
+        }
+
+        sizes = child.getChildrenSizes();
 
         for (var column=0; column<sizes.length; column++)
         {
