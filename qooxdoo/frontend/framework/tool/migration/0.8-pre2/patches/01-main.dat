@@ -8,3 +8,6 @@
 
 \bqx\.io\.Alias\b=qx.util.AliasManager
 \bqx\.io\.Json\b=qx.util.Json
+
+\.getDisposed\(=.isDisposed(
+\.createDispatchChangeEvent\(=.fireDataEvent(
