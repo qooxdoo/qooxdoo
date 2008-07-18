@@ -267,7 +267,18 @@ qx.Class.define("qx.ui.menu.Menu",
       this.base(arguments, value, old);
 
       var mgr = qx.ui.menu.Manager.getInstance();
-      value === "visible" ? mgr.add(this) : mgr.remove(this);
+
+      if (value === "visible")
+      {
+        mgr.add(this);
+      }
+      else
+      {
+        mgr.remove(this);
+
+        this.resetHoverItem();
+        this.resetOpenItem();
+      }
     },
 
 
@@ -397,9 +408,7 @@ qx.Class.define("qx.ui.menu.Menu",
      */
     _onMouseOver : function(e)
     {
-      /* ------------------------------
-        HANDLE PARENT MENU
-      ------------------------------ */
+      // HANDLE PARENT MENU
 
       // look if we have a parent menu
       // if so we need to stop the close event started there
@@ -419,9 +428,9 @@ qx.Class.define("qx.ui.menu.Menu",
         }
       }
 
-      /* ------------------------------
-        HANDLING FOR HOVERING MYSELF
-      ------------------------------ */
+
+
+      // HANDLING FOR HOVERING MYSELF
 
       var eventTarget = e.getTarget();
 
@@ -430,14 +439,14 @@ qx.Class.define("qx.ui.menu.Menu",
         this._openTimer.stop();
         this._closeTimer.start();
 
-        this.setHoverItem(null);
+        this.resetHoverItem();
 
         return;
       }
 
-      /* ------------------------------
-        HANDLING FOR HOVERING ITEMS
-      ------------------------------ */
+
+
+      // HANDLING FOR HOVERING ITEMS
 
       var openItem = this.getOpenItem();
 
@@ -448,7 +457,7 @@ qx.Class.define("qx.ui.menu.Menu",
         this._openTimer.stop();
 
         // if the new one has also a sub menu
-        if (eventTarget.hasMenu())
+        if (eventTarget.getMenu())
         {
           // check if we should use fast reopen (this will open the menu instantly)
           if (this.getFastReopen())
@@ -480,7 +489,7 @@ qx.Class.define("qx.ui.menu.Menu",
         this._openTimer.stop();
 
         // and restart it if the new one has a menu, too
-        if (eventTarget.hasMenu()) {
+        if (eventTarget.getMenu()) {
           this._openTimer.start();
         }
       }
@@ -502,12 +511,12 @@ qx.Class.define("qx.ui.menu.Menu",
       // start the close timer to hide a menu if needed
       var eventTarget = e.getTarget();
 
-      if (eventTarget != this && eventTarget.hasMenu()) {
+      if (eventTarget != this && eventTarget.getMenu()) {
         this._closeTimer.start();
       }
 
       // reset the current hover item
-      this.setHoverItem(null);
+      this.resetHoverItem();
     },
 
 
@@ -535,7 +544,7 @@ qx.Class.define("qx.ui.menu.Menu",
       // if we have a item which is currently hovered, open it
       var hoverItem = this.getHoverItem();
 
-      if (hoverItem && hoverItem.hasMenu()) {
+      if (hoverItem && hoverItem.getMenu()) {
         this.setOpenItem(hoverItem);
       }
     },
@@ -554,7 +563,7 @@ qx.Class.define("qx.ui.menu.Menu",
       this._closeTimer.stop();
 
       // reset the current opened item
-      this.setOpenItem(null);
+      this.resetOpenItem();
     },
 
 
@@ -654,7 +663,7 @@ qx.Class.define("qx.ui.menu.Menu",
       {
         var openerParentMenu = this.getOpener().getLayoutParent();
 
-        openerParentMenu.setOpenItem(null);
+        openerParentMenu.resetOpenItem();
         openerParentMenu.setHoverItem(menuOpener);
 
         openerParentMenu._makeActive();
@@ -704,7 +713,7 @@ qx.Class.define("qx.ui.menu.Menu",
         var first = this.getLayout().getFirstActiveChild();
 
         if (first) {
-          first.hasMenu() ? this.setOpenItem(first) : this.setHoverItem(first);
+          first.getMenu() ? this.setOpenItem(first) : this.setHoverItem(first);
         }
       }
 
