@@ -59,12 +59,15 @@ qx.Class.define("qx.ui.popup.ToolTip",
     this.base(arguments);
 
     // Initialize manager
-    this.__manager = qx.ui.popup.ToolTipManager.getInstance();
+    qx.ui.popup.ToolTipManager.getInstance();
+
+    // Use static layout
     this.setLayout(new qx.ui.layout.Basic());
 
+    // Integrate atom
     this._createChildControl("atom");
 
-    // init
+    // Initialize properties
     if (label != null) {
       this.setLabel(label);
     }
@@ -72,16 +75,6 @@ qx.Class.define("qx.ui.popup.ToolTip",
     if (icon != null) {
       this.setIcon(icon);
     }
-
-    // Instantiate timers
-    this._showTimer = new qx.event.Timer(this.getShowTimeout());
-    this._showTimer.addListener("interval", this._onShowInterval, this);
-
-    this._hideTimer = new qx.event.Timer(this.getHideTimeout());
-    this._hideTimer.addListener("interval", this._onHideInterval, this);
-
-    // Register mousemove event
-    this.addListener("mousemove", this._onMouseMove);
   },
 
 
@@ -134,16 +127,14 @@ qx.Class.define("qx.ui.popup.ToolTip",
     showTimeout :
     {
       check : "Integer",
-      init : 1000,
-      apply : "_applyShowTimeout"
+      init : 1000
     },
 
     /** Interval after the tooltip is hidden (in milliseconds) */
     hideTimeout :
     {
       check : "Integer",
-      init : 4000,
-      apply : "_applyHideTimeout"
+      init : 4000
     },
 
     /** The label/caption/text of the ToolTip's atom. */
@@ -154,7 +145,6 @@ qx.Class.define("qx.ui.popup.ToolTip",
       apply : "_applyLabel"
     },
 
-
     /** Any URI String supported by qx.ui.basic.Image to display an icon in ToolTips's atom. */
     icon :
     {
@@ -162,7 +152,6 @@ qx.Class.define("qx.ui.popup.ToolTip",
       init : "",
       apply : "_applyIcon"
     }
-
   },
 
 
@@ -176,9 +165,6 @@ qx.Class.define("qx.ui.popup.ToolTip",
 
   members :
   {
-    _minZIndex : 1e7,
-
-
     // overridden
     _createChildControlImpl : function(id)
     {
@@ -195,18 +181,6 @@ qx.Class.define("qx.ui.popup.ToolTip",
       return control || this.base(arguments, id);
     },
 
-    /**
-     * Accessor method to get the atom sub widget
-     *
-     * TODO: Is this accessor really needed?
-     *
-     * @type member
-     * @return {qx.ui.basic.Atom} atom sub widget
-     */
-    getAtom : function() {
-      return this._getChildControl("atom");
-    },
-
 
 
 
@@ -215,17 +189,6 @@ qx.Class.define("qx.ui.popup.ToolTip",
       APPLY ROUTINES
     ---------------------------------------------------------------------------
     */
-
-    // property apply
-    _applyHideTimeout : function(value, old) {
-      this._hideTimer.setInterval(value);
-    },
-
-
-    // property apply
-    _applyShowTimeout : function(value, old) {
-      this._showTimer.setInterval(value);
-    },
 
     // property apply
     _applyIcon : function(value, old) {
@@ -240,121 +203,25 @@ qx.Class.define("qx.ui.popup.ToolTip",
 
 
 
-
     /*
     ---------------------------------------------------------------------------
-      TIMER
+      WIDGET API
     ---------------------------------------------------------------------------
     */
 
-    /**
-     * Utility method to start the timer for the show interval
-     * (if the timer is disabled)
-     *
-     * @internal
-     * @type member
-     * @return {void}
-     */
-    startShowTimer : function() {
-      this._showTimer.start();
-    },
-
-
-    /**
-     * Utility method to start the timer for the hide interval
-     * (if the timer is disabled)
-     *
-     * @internal
-     * @type member
-     * @return {void}
-     */
-    startHideTimer : function() {
-      this._hideTimer.start();
-    },
-
-
-    /**
-     * Utility method to stop the timer for the show interval
-     * (if the timer is enabled)
-     *
-     * @internal
-     * @type member
-     * @return {void}
-     */
-    stopShowTimer : function() {
-      this._showTimer.stop();
-    },
-
-
-    /**
-     * Utility method to stop the timer for the hide interval
-     * (if the timer is enabled)
-     *
-     * @internal
-     * @type member
-     * @return {void}
-     */
-    stopHideTimer : function() {
-      this._hideTimer.stop();
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      EVENTS
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * Callback method for the "mouseOver" event.
-     *
-     * @type member
-     * @param e {qx.event.type.MouseEvent} mouseOver event
-     * @return {void}
-     */
-    _onMouseMove : function(e) {
-      this.hide();
-    },
-
-
-    /**
-     * Callback method for the "interval" event of the show timer.
-     *
-     * Positions the tooltip (sets left and top) and calls the
-     * {@link #show} method.
-     *
-     * @type member
-     * @param e {qx.event.type.Event} interval event
-     */
-    _onShowInterval : function(e)
+    show : function(e)
     {
-      this.stopShowTimer();
+      var mgr = qx.ui.popup.ToolTipManager.getInstance();
+      if (mgr.getCurrent() == this)
+      {
+        var left = mgr.getLastLeft() + this.getOffsetRight();
+        var top = mgr.getLastTop() + this.getOffsetBottom();
 
-      var mgr = this.__manager;
-      this.setLayoutProperties({
-        left : mgr.getLastLeft() + this.getOffsetRight(),
-        top : mgr.getLastTop() + this.getOffsetBottom()
-      });
+        this.moveTo(left, top);
+      }
 
-      this.show();
+      this.base(arguments);
     },
-
-
-    /**
-     * Callback method for the "interval" event of the hide timer.
-     *
-     * Hides the tooltip by calling the corresponding {@link #hide} method.
-     *
-     * @type member
-     * @param e {qx.event.type.Event} interval event
-     * @return {var} TODOC
-     */
-    _onHideInterval : function(e) {
-      this.hide();
-    },
-
 
 
 
@@ -375,7 +242,7 @@ qx.Class.define("qx.ui.popup.ToolTip",
         return left;
       }
 
-      var mouseLeft = this.__manager.getLastLeft();
+      var mouseLeft = qx.ui.popup.ToolTipManager.getInstance().getLastLeft();
       if (bounds.left < 0) {
         return 0;
       } else if ((bounds.left + bounds.width) > parentBounds.width) {
@@ -396,7 +263,7 @@ qx.Class.define("qx.ui.popup.ToolTip",
         return top;
       }
 
-      var mouseTop = this.__manager.getLastTop();
+      var mouseTop = qx.ui.popup.ToolTipManager.getInstance().getLastTop();
       if (bounds.top < 0) {
         return 0;
       } else if ((bounds.top + bounds.height) > parentBounds.height) {
@@ -416,14 +283,7 @@ qx.Class.define("qx.ui.popup.ToolTip",
   *****************************************************************************
   */
 
-  destruct : function()
-  {
-    var mgr = qx.ui.popup.ToolTipManager.getInstance();
-
-    if (mgr.getToolTip() === this) {
-      mgr.resetToolTip();
-    }
-
+  destruct : function() {
     this._disposeObjects("_showTimer", "_hideTimer");
   }
 });

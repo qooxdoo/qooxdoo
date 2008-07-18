@@ -68,7 +68,6 @@ qx.Class.define("demobrowser.demo.widget.Popup",
       {
         popup.moveTo(e.getViewportLeft() + 3, e.getViewportTop() + 3);
         popup.show();
-        popup.bringToFront();
       }, this);
 
       return button;
@@ -96,11 +95,9 @@ qx.Class.define("demobrowser.demo.widget.Popup",
       {
         popup.moveTo(e.getViewportLeft() + 3, e.getViewportTop() + 3);
         popup.show();
-        popup.bringToFront();
       }, this);
 
       return button;
     }
-
   }
 });

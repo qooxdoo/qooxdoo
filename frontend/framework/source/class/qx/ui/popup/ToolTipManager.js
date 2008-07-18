@@ -40,14 +40,17 @@ qx.Class.define("qx.ui.popup.ToolTipManager",
   {
     this.base(arguments);
 
-    var root = qx.core.Init.getApplication().getRoot();
-
     // Register events
-    root.addListener("mousemove", this.__onMouseMoveRoot, this, true);
+    var root = qx.core.Init.getApplication().getRoot();
     root.addListener("mouseover", this.__onMouseOverRoot, this, true);
-    root.addListener("mouseout", this.__onMouseOutRoot, this, true);
     root.addListener("focusin", this.__onFocusInRoot, this, true);
-    root.addListener("focusout", this.__onFocusOutRoot, this, true);
+
+    // Instantiate timers
+    this._showTimer = new qx.event.Timer();
+    this._showTimer.addListener("interval", this._onShowInterval, this);
+
+    this._hideTimer = new qx.event.Timer();
+    this._hideTimer.addListener("interval", this._onHideInterval, this);
   },
 
 
@@ -62,11 +65,11 @@ qx.Class.define("qx.ui.popup.ToolTipManager",
   properties :
   {
     /** Holds the current ToolTip instance */
-    toolTip :
+    current :
     {
       check : "qx.ui.popup.ToolTip",
       nullable : true,
-      apply : "_applyCurrentToolTip"
+      apply : "_applyCurrent"
     }
   },
 
@@ -88,7 +91,7 @@ qx.Class.define("qx.ui.popup.ToolTipManager",
     */
 
     // property apply
-    _applyCurrentToolTip : function(value, old)
+    _applyCurrent : function(value, old)
     {
       // Return if the new tooltip is a child of the old one
       if (old && qx.ui.core.Widget.contains(old, value)) {
@@ -96,20 +99,34 @@ qx.Class.define("qx.ui.popup.ToolTipManager",
       }
 
       // If old tooltip existing, hide it and clear widget binding
-      if (old && !old.isDisposed())
+      if (old)
       {
-        old.hide();
+        old.exclude();
 
-        old.stopShowTimer();
-        old.stopHideTimer();
+        this._showTimer.stop();
+        this._hideTimer.stop();
       }
+
+      var root = qx.core.Init.getApplication().getRoot();
 
       // If new tooltip is not null, set it up and start the timer
-      if (value) {
-        value.startShowTimer();
+      if (value)
+      {
+        this._showTimer.startWith(value.getShowTimeout());
+
+        // Register hide handler
+        root.addListener("mouseout", this.__onMouseOutRoot, this, true);
+        root.addListener("focusout", this.__onFocusOutRoot, this, true);
+        root.addListener("mousemove", this.__onMouseMoveRoot, this, true);
+      }
+      else
+      {
+        // Deregister hide handler
+        root.removeListener("mouseout", this.__onMouseOutRoot, this, true);
+        root.removeListener("focusout", this.__onFocusOutRoot, this, true);
+        root.removeListener("mousemove", this.__onMouseMoveRoot, this, true);
       }
     },
-
 
 
 
@@ -141,6 +158,36 @@ qx.Class.define("qx.ui.popup.ToolTipManager",
     },
 
 
+
+
+    /*
+    ---------------------------------------------------------------------------
+      TIMER EVENT HANDLER
+    ---------------------------------------------------------------------------
+    */
+
+    _onShowInterval : function(e)
+    {
+      var current = this.getCurrent();
+      if (current)
+      {
+        this._hideTimer.startWith(current.getHideTimeout());
+        current.show();
+      }
+
+      this._showTimer.stop();
+    },
+
+    _onHideInterval : function(e)
+    {
+      var current = this.getCurrent();
+      if (current) {
+        current.exclude();
+      }
+
+      this._hideTimer.stop();
+      this.resetCurrent();
+    },
 
 
 
@@ -189,7 +236,7 @@ qx.Class.define("qx.ui.popup.ToolTipManager",
 
       // Set Property
       if (tooltip) {
-        this.setToolTip(tooltip);
+        this.setCurrent(tooltip);
       }
     },
 
@@ -207,7 +254,7 @@ qx.Class.define("qx.ui.popup.ToolTipManager",
       var target = e.getTarget();
       var related = e.getRelatedTarget();
 
-      var tooltip = this.getToolTip();
+      var tooltip = this.getCurrent();
 
       // If there was a tooltip and
       // - the destination target is the current tooltip
@@ -224,9 +271,9 @@ qx.Class.define("qx.ui.popup.ToolTipManager",
 
       // If there was a tooltip and there is no new one
       if (tooltip && !related) {
-        this.setToolTip(null);
+        this.setCurrent(null);
       } else {
-        this.resetToolTip();
+        this.resetCurrent();
       }
     },
 
@@ -254,7 +301,7 @@ qx.Class.define("qx.ui.popup.ToolTipManager",
 
       // Only set new tooltip if focus widget has one
       if (tooltip != null) {
-        this.setToolTip(tooltip);
+        this.setCurrent(tooltip);
       }
     },
 
@@ -274,13 +321,26 @@ qx.Class.define("qx.ui.popup.ToolTipManager",
         return;
       }
 
-      var tooltip = this.getToolTip();
+      var tooltip = this.getCurrent();
 
       // Only set to null if blured widget is the
       // one which has created the current tooltip
       if (tooltip && tooltip == target.getToolTip()) {
-        this.setToolTip(null);
+        this.setCurrent(null);
       }
     }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function() {
+    this.__disposeObjects("_showTimer", "_hideTimer");
   }
 });
