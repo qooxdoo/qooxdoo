@@ -22,7 +22,8 @@
 qx.Class.define("qx.ui.menu.Manager",
 {
   type : "singleton",
-  extend : qx.util.Set,
+  extend : qx.core.Object,
+
 
 
   /*
@@ -35,11 +36,16 @@ qx.Class.define("qx.ui.menu.Manager",
   {
     this.base(arguments);
 
-    var root = qx.core.Init.getApplication().getRoot();
+    // Create data structure
+    this.__objects = {};
 
-    // Register events
-    root.addListener("mousedown", this.__onUpdateEvent, this, true);
-    qx.bom.Element.addListener(window, "blur", this.__onUpdateEvent, this);
+    // React on mousedown/mouseup events
+    var root = qx.core.Init.getApplication().getRoot();
+    root.addListener("mousedown", this.__onMouseDown, this, true);
+    root.addListener("mouseup", this.__onMouseUp, this);
+
+    // Hide all when the window is blurred
+    qx.bom.Element.addListener(window, "blur", this.hideAll, this);
   },
 
 
@@ -55,28 +61,88 @@ qx.Class.define("qx.ui.menu.Manager",
   {
     /*
     ---------------------------------------------------------------------------
-      METHODS
+      PUBLIC METHODS
     ---------------------------------------------------------------------------
     */
 
-    /**
-     * Updates all registered menus
-     *
-     * @type member
-     * @param target {Object} target of the processed event
-     * @param eventName {String} processed event as string
-     * @return {void}
-     */
-    __onUpdateEvent : function(event)
+    add : function(obj)
     {
-      var obj, list = this.getAll();
-
-      for (var i=0, l=list.length; i<l; i++)
+      if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        obj = list[i];
-
-        obj.exclude();
+        if (!(obj instanceof qx.ui.menu.Menu)) {
+          throw new Error("Object is no menu: " + obj);
+        }
       }
+
+      this.__objects[obj.$$hash] = obj;
+      obj.setZIndex(this.__currentZIndex++);
+    },
+
+
+    remove : function(obj)
+    {
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        if (!(obj instanceof qx.ui.menu.Menu)) {
+          throw new Error("Object is no menu: " + obj);
+        }
+      }
+
+      var reg = this.__objects;
+      delete reg[obj.$$hash];
+
+      // When the registry is empty reset the zIndex
+      for (var hash in reg) {
+        return;
+      }
+
+      this.__currentZIndex = 1e6;
+    },
+
+
+    hideAll : function()
+    {
+      var reg = this.__objects;
+      for (var hash in reg) {
+        reg[hash].exclude();
+      }
+    },
+
+
+    isInMenu : function(widget)
+    {
+      while(widget)
+      {
+        if (widget instanceof qx.ui.menu.Menu) {
+          return true;
+        }
+
+        widget = widget.getLayoutParent();
+      }
+
+      return false;
+    },
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      EVENT HANDLERS
+    ---------------------------------------------------------------------------
+    */
+
+    __currentZIndex : 1e6,
+
+    __onMouseDown : function(e)
+    {
+      var target = e.getTarget();
+      if (!this.isInMenu(target)) {
+        this.hideAll();
+      }
+    },
+
+    __onMouseUp : function(e) {
+      this.hideAll();
     }
   }
 });

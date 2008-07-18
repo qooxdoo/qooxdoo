@@ -25,7 +25,7 @@
 qx.Class.define("qx.ui.popup.PopupManager",
 {
   type : "singleton",
-  extend : qx.util.Set,
+  extend : qx.core.Object,
 
 
 
@@ -39,13 +39,16 @@ qx.Class.define("qx.ui.popup.PopupManager",
   {
     this.base(arguments);
 
+    // Create data structure
+    this.__objects = {};
+
+    // Register mousedown handler
     var root = qx.core.Init.getApplication().getRoot();
+    root.addListener("mousedown", this.__onMouseDown, this, true);
 
-    // Register events
-    root.addListener("mousedown", this.__onUpdateEvent, this, true);
-    qx.bom.Element.addListener(window, "blur", this.__onUpdateEvent, this);
+    // Hide all popups on window blur
+    qx.bom.Element.addListener(window, "blur", this.hideAll, this);
   },
-
 
 
 
@@ -58,26 +61,108 @@ qx.Class.define("qx.ui.popup.PopupManager",
 
   members :
   {
-    /**
-     * Event handler blur and mouse down events
-     *
-     * @param e {qx.event.type.Event} the event object
-     */
-    __onUpdateEvent : function(e)
+    add : function(obj)
     {
-      var target = e.getType() === "blur" ? null : e.getTarget();
-      var obj, list = this.getAll();
-
-      for (var i=0, l=list.length; i<l; i++)
+      if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        obj = list[i];
+        if (!(obj instanceof qx.ui.popup.Popup)) {
+          throw new Error("Object is no popup: " + obj);
+        }
+      }
+
+      this.__objects[obj.$$hash] = obj;
+      this.__updateIndexes();
+    },
+
+
+    remove : function(obj)
+    {
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        if (!(obj instanceof qx.ui.popup.Popup)) {
+          throw new Error("Object is no popup: " + obj);
+        }
+      }
+
+      delete this.__objects[obj.$$hash];
+      this.__updateIndexes();
+    },
+
+
+    hideAll : function()
+    {
+      var reg = this.__objects;
+      for (var hash in reg) {
+        reg[hash].exclude();
+      }
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      INTERNAL HELPER
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Updates the zIndex of all registered items to push
+     * newly added ones on top of existing ones
+     *
+     * @type member
+     * @return {void}
+     */
+    __updateIndexes : function()
+    {
+      var min = 1e6;
+      var reg = this.__objects;
+      for (var hash in reg) {
+        reg[hash].setZIndex(min++);
+      }
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      EVENT HANDLER
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Event handler for mouse down events
+     *
+     * @param e {qx.event.type.Mouse} Mouse event object
+     */
+    __onMouseDown : function(e)
+    {
+      var target = e.getTarget();
+
+      var reg = this.__objects;
+      for (var hash in reg)
+      {
+        obj = reg[hash];
 
         if (!obj.getAutoHide() || target == obj || qx.ui.core.Widget.contains(obj, target)) {
           continue;
         }
 
-        obj.hide();
+        obj.exclude();
       }
     }
+  },
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function() {
+    this._disposeMap("__objects");
   }
 });
