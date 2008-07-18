@@ -18,15 +18,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#module(ui_table)
-#embed(qx.widgettheme/table/boolean-true.png)
-#embed(qx.widgettheme/table/boolean-false.png)
-#embed(qx.static/image/blank.gif)
-
-************************************************************************ */
-
 /**
  * A data cell renderer for boolean values.
  */
@@ -47,9 +38,13 @@ qx.Class.define("qx.legacy.ui.table.cellrenderer.Boolean",
   {
     this.base(arguments);
 
-    this._iconUrlTrue = qx.util.AliasManager.getInstance().resolve("widget/table/boolean-true.png");
-    this._iconUrlFalse = qx.util.AliasManager.getInstance().resolve("widget/table/boolean-false.png");
-    this._iconUrlNull = qx.util.AliasManager.getInstance().resolve("static/image/blank.gif");
+    var aliasManager = qx.legacy.util.AliasManager.getInstance();
+    var resourceManager = qx.util.ResourceManager;
+
+    this._iconUrlTrue = resourceManager.toUri(aliasManager.resolve("widget/table/boolean-true.png"));
+    console.log(this._iconUrlTrue, aliasManager.resolve("widget/table/boolean-true.png"));
+    this._iconUrlFalse = resourceManager.toUri(aliasManager.resolve("widget/table/boolean-false.png"));
+    this._iconUrlNull = resourceManager.toUri("qx/static/image/blank.gif");
   },
 
 

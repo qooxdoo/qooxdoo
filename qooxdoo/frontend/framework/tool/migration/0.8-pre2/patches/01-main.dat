@@ -11,3 +11,5 @@
 
 \.getDisposed\(=.isDisposed(
 \.createDispatchChangeEvent\(=.fireDataEvent(
+
+\bqx\.legacy\.event\.Command\b=qx.event.Command
