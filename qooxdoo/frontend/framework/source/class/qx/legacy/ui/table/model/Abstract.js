@@ -141,7 +141,6 @@ qx.Class.define("qx.legacy.ui.table.model.Abstract",
      * Note: This will clear previously set column names.
      *
      *
-     * @type member
      * @param columnIdArr {String[]} the IDs of the columns.
      * @return {void}
      * @see #setColumns
@@ -172,7 +171,6 @@ qx.Class.define("qx.legacy.ui.table.model.Abstract",
      * Note: The column IDs have to be defined before.
      *
      *
-     * @type member
      * @param columnNameArr {String[]} the names of the columns.
      * @return {void}
      * @throws TODOC
@@ -197,7 +195,6 @@ qx.Class.define("qx.legacy.ui.table.model.Abstract",
      * Note: The column IDs have to be defined before.
      *
      *
-     * @type member
      * @param columnNameMap {Map} a map containing the column IDs as keys and the
      *          column name as values.
      * @return {void}
@@ -222,7 +219,6 @@ qx.Class.define("qx.legacy.ui.table.model.Abstract",
      *       recreating your table.  If you must change the number of columns
      *       in a table then you should remove the table and add a new one.
      *
-     * @type member
      * @param columnNameArr {String[]} The column names. These names will be shown to
      *          the user.
      * @param columnIdArr {String[] ? null} The column IDs. These IDs may be used

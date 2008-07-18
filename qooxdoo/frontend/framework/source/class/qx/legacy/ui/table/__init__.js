@@ -3,7 +3,7 @@
  *
  * It behaves like a grid common in desktop applications.
  *
- * The table is orgnized in columns and rows. The first row contains the
+ * The table is organized in columns and rows. The first row contains the
  * **column headers**. Column headers contain the title of the column and
  * allow to change its width, position (by drag and drop) and sorting.
  *

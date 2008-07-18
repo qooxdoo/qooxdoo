@@ -81,19 +81,7 @@ qx.Class.define("qx.legacy.ui.table.cellrenderer.Abstract",
       // http://www.xulplanet.com/references/elemref/ref_StyleProperties.html
       (qx.core.Variant.isSet("qx.client", "gecko") ? " -moz-user-select:none;" : "") +
       // http://www.colorjack.com/software/dhtml+color+picker.html
-      (qx.core.Variant.isSet("qx.client", "khtml") ? " -khtml-user-select:none;" : ""),
-
-
-    __tableCellStyleSheet_0_7_2 :
-      "position:absolute;" +
-      "top:0px;" +
-      "height:100%;" +
-      "overflow:hidden;" +
-      "white-space:nowrap;" +
-      "border-right:1px solid #eeeeee;" +
-      "border-bottom:1px solid #eeeeee;" +
-      "padding:0px 2px;" +
-      "cursor:default;" +
+      (qx.core.Variant.isSet("qx.client", "khtml") ? " -khtml-user-select:none;" : "") +
 
       // (deal text overflow)
       // http://www.css3.info/preview/text-overflow/
@@ -116,16 +104,6 @@ qx.Class.define("qx.legacy.ui.table.cellrenderer.Abstract",
     __tableCellBoldStyleSheet :
       "font-weight:bold;",
 
-
-    /**
-     * Set the current standard cell style settings for table cells to be the
-     * values that were used up through qooxdoo version 0.7.2.
-     */
-    setTableCellStyleSheet_0_7_2 : function()
-    {
-      var cr = qx.legacy.ui.table.cellrenderer.Abstract;
-      cr.setTableCellStyleSheet(cr.__tableCellStyleSheet_0_7_2);
-    },
 
     /**
      * Get the current standard cell style settings for table cells.
@@ -247,7 +225,6 @@ qx.Class.define("qx.legacy.ui.table.cellrenderer.Abstract",
 
   members :
   {
-
     /**
      * Get a string of the cell element's HTML classes.
      *
