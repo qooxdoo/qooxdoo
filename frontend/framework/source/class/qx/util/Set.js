@@ -68,14 +68,16 @@ qx.Class.define("qx.util.Set",
      * @param obj {Element} Object to add
      * @return {Integer} Hash code of the object
      */
-    add : function(vObject)
+    add : function(obj)
     {
-      if (this.isDisposed()) {
+      // Check if already disposed
+      var reg = this.__objects;
+      if (!reg) {
         return;
       }
 
-      var hash = qx.core.ObjectRegistry.toHashCode(vObject);
-      this.__objects[hash] = vObject;
+      var hash = qx.core.ObjectRegistry.toHashCode(obj);
+      reg[hash] = obj;
       return hash;
     },
 
@@ -85,14 +87,16 @@ qx.Class.define("qx.util.Set",
      *
      * @param obj {Object} Object to remove
      */
-    remove : function(vObject)
+    remove : function(obj)
     {
-      if (this.isDisposed()) {
-        return false;
+      // Check if already disposed
+      var reg = this.__objects;
+      if (!reg) {
+        return;
       }
 
-      var hash = qx.core.ObjectRegistry.toHashCode(vObject);
-      delete this.__objects[hash];
+      var hash = qx.core.ObjectRegistry.toHashCode(obj);
+      delete reg[hash];
     },
 
 
@@ -101,10 +105,16 @@ qx.Class.define("qx.util.Set",
      *
      * @param obj {Object} Object to check
      */
-    has : function(vObject)
+    has : function(obj)
     {
-      var hash = qx.core.ObjectRegistry.toHashCode(vObject);
-      return this.__objects[hash] !== undefined;
+      // Check if already disposed
+      var reg = this.__objects;
+      if (!reg) {
+        return false;
+      }
+
+      var hash = qx.core.ObjectRegistry.toHashCode(obj);
+      return reg[hash] !== undefined;
     },
 
 
@@ -112,13 +122,19 @@ qx.Class.define("qx.util.Set",
      * TODOC
      *
      * @type member
-     * @param vObject {var} TODOC
+     * @param obj {var} TODOC
      * @return {var} TODOC
      */
-    get : function(vObject)
+    get : function(obj)
     {
-      var hash = qx.core.ObjectRegistry.toHashCode(vObject);
-      return this.__objects[hash];
+      // Check if already disposed
+      var reg = this.__objects;
+      if (!reg) {
+        return null;
+      }
+
+      var hash = qx.core.ObjectRegistry.toHashCode(obj);
+      return reg[hash];
     },
 
 
@@ -130,8 +146,15 @@ qx.Class.define("qx.util.Set",
      * @return {Object|undefined} The registered object or undefined if the
      *   object is not registered.
      */
-    fromHashCode : function(hash) {
-      return this.__objects[hash];
+    fromHashCode : function(hash)
+    {
+      // Check if already disposed
+      var reg = this.__objects;
+      if (!reg) {
+        return null;
+      }
+
+      return reg[hash];
     },
 
 
@@ -141,8 +164,15 @@ qx.Class.define("qx.util.Set",
      * @type member
      * @return {var} TODOC
      */
-    getAll : function() {
-      return qx.lang.Object.getValues(this.__objects);
+    getAll : function()
+    {
+      // Check if already disposed
+      var reg = this.__objects;
+      if (!reg) {
+        return null;
+      }
+
+      return qx.lang.Object.getValues(reg);
     }
   },
 
