@@ -37,16 +37,22 @@ qx.Class.define("qx.event.type.Data",
   members :
   {
     /**
-     * Initializes an event onject.
+     * Initializes an event object.
      *
      * @type member
      * @param data {var} The event's new data
      * @param old {var?null} The event's old data (optional)
+     * @param cancelable {Boolean?false} Whether or not an event can have its default
+     *     action prevented. The default action can either be the browser's
+     *     default action of a native event (e.g. open the context menu on a
+     *     right click) or the default action of a qooxdoo class (e.g. close
+     *     the window widget). The default action can be prevented by calling
+     *     {@link #preventDefault}
      * @return {qx.event.type.Data} the initialized instance.
      */
-    init : function(data, old)
+    init : function(data, old, cancelable)
     {
-      this.base(arguments, false, false);
+      this.base(arguments, false, cancelable);
 
       this.__data = data;
       this.__old = old;

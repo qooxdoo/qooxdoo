@@ -406,6 +406,7 @@ qx.Class.define("qx.core.Object",
      * @type member
      * @param type {String} Event type to fire
      * @param data {var} User defined data attached to the event object
+     * @param oldData {var?null} The event's old data (optional)
      * @param cancelable {Boolean?false} Whether or not an event can have its default
      *     action prevented. The default action can either be the browser's
      *     default action of a native event (e.g. open the context menu on a
@@ -415,10 +416,10 @@ qx.Class.define("qx.core.Object",
      * @return {Boolean} whether the event default was prevented or not.
      *     Returns true, when the event was NOT prevented.
      */
-    fireDataEvent : function(type, data, cancelable)
+    fireDataEvent : function(type, data, oldData, cancelable)
     {
       if (!this.$$disposed) {
-        return this.__Registration.fireNonBubblingEvent(this, type, qx.event.type.Data, [data, cancelable]);
+        return this.__Registration.fireNonBubblingEvent(this, type, qx.event.type.Data, [data, oldData || null, !!cancelable]);
       }
 
       return true;
