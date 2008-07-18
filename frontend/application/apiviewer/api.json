@@ -38,7 +38,7 @@
         "qx.application"  : "${APIVIEWER}.Application",
         "qx.resourceUri"  : "${QOOXDOO_URI}/source/resource",
         "qx.legacy.theme" : "qx.legacy.theme.ClassicRoyale",
-        "qx.version"      : "0.8-alpha2"
+        "qx.version"      : "0.8-beta1-pre"
       },
 
       "cache" :
