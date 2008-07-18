@@ -576,10 +576,13 @@ qx.Class.define("qx.ui.menu.Menu",
     */
 
     /**
-     * TODOC
+     * Event handler for all key events. Delegates the event to the more
+     * specific methods defined in this class.
      *
-     * @type member
-     * @param e {Event} TODOC
+     * Currently processes the keys: <code>Up</code>, <code>Down</code>,
+     * <code>Left</code>, <code>Right</code> and <code>Enter</code>.
+     *
+     * @param e {qx.event.type.KeySequence} Keyboard event
      * @return {void}
      */
     _onKeyPress : function(e)
@@ -587,23 +590,23 @@ qx.Class.define("qx.ui.menu.Menu",
       switch(e.getKeyIdentifier())
       {
         case "Up":
-          this._onKeyPressUp(e);
+          this._onKeyPressUp();
           break;
 
         case "Down":
-          this._onKeyPressDown(e);
+          this._onKeyPressDown();
           break;
 
         case "Left":
-          this._onKeyPressLeft(e);
+          this._onKeyPressLeft();
           break;
 
         case "Right":
-          this._onKeyPressRight(e);
+          this._onKeyPressRight();
           break;
 
         case "Enter":
-          this._onKeyPressEnter(e);
+          this._onKeyPressEnter();
           break;
 
         default:
@@ -616,45 +619,105 @@ qx.Class.define("qx.ui.menu.Menu",
 
 
     /**
-     * TODOC
+     * Event handler for <code>Up</code> key
      *
-     * @type member
-     * @param e {Event} TODOC
      * @return {void}
      */
-    _onKeyPressUp : function(e)
+    _onKeyPressUp : function()
     {
-      var hoverItem = this.getHoverItem();
-      var previousItem = hoverItem ? hoverItem.isFirstChild() ? this.getLastActiveChild() : hoverItem.getPreviousActiveSibling([ qx.ui.menu.Separator ]) : this.getLastActiveChild();
+      var children = this.getChildren();
 
-      this.setHoverItem(previousItem);
+      var hoverItem = this.getHoverItem();
+      var nextItem;
+
+      if (hoverItem)
+      {
+        var index = children.indexOf(hoverItem)-1;
+        for (var i=index; i>=0; i--)
+        {
+          if (children[i].isEnabled() && !children[i].isAnonymous())
+          {
+            nextItem = children[i];
+            break;
+          }
+        }
+      }
+
+      // No next item found, start with first one
+      if (!nextItem)
+      {
+        for (var i=children.length-1; i>=0; i--)
+        {
+          if (children[i].isEnabled() && !children[i].isAnonymous())
+          {
+            nextItem = children[i];
+            break;
+          }
+        }
+      }
+
+      // Reconfigure property
+      if (nextItem) {
+        this.setHoverItem(nextItem);
+      } else {
+        this.resetHoverItem();
+      }
     },
 
 
     /**
-     * TODOC
+     * Event handler for <code>Down</code> key
      *
-     * @type member
-     * @param e {Event} TODOC
      * @return {void}
      */
-    _onKeyPressDown : function(e)
+    _onKeyPressDown : function()
     {
-      var hoverItem = this.getHoverItem();
-      var nextItem = hoverItem ? hoverItem.isLastChild() ? this.getFirstActiveChild() : hoverItem.getNextActiveSibling([ qx.ui.menu.Separator ]) : this.getFirstActiveChild();
+      var children = this.getChildren();
 
-      this.setHoverItem(nextItem);
+      var hoverItem = this.getHoverItem();
+      var nextItem;
+
+      if (hoverItem)
+      {
+        var index = children.indexOf(hoverItem)+1;
+        for (var i=index, l=children.length; i<l; i++)
+        {
+          if (children[i].isEnabled() && !children[i].isAnonymous())
+          {
+            nextItem = children[i];
+            break;
+          }
+        }
+      }
+
+      // No next item found, start with first one
+      if (!nextItem)
+      {
+        for (var i=0, l=children.length; i<l; i++)
+        {
+          if (children[i].isEnabled() && !children[i].isAnonymous())
+          {
+            nextItem = children[i];
+            break;
+          }
+        }
+      }
+
+      // Reconfigure property
+      if (nextItem) {
+        this.setHoverItem(nextItem);
+      } else {
+        this.resetHoverItem();
+      }
     },
 
 
     /**
-     * TODOC
+     * Event handler for <code>Left</code> key
      *
-     * @type member
-     * @param e {Event} TODOC
      * @return {void}
      */
-    _onKeyPressLeft : function(e)
+    _onKeyPressLeft : function()
     {
       var menuOpener = this.getOpener();
 
@@ -684,13 +747,11 @@ qx.Class.define("qx.ui.menu.Menu",
 
 
     /**
-     * TODOC
+     * Event handler for <code>Right</code> key
      *
-     * @type member
-     * @param e {Event} TODOC
      * @return {void}
      */
-    _onKeyPressRight : function(e)
+    _onKeyPressRight : function()
     {
       var hoverItem = this.getHoverItem();
 
@@ -768,13 +829,11 @@ qx.Class.define("qx.ui.menu.Menu",
 
 
     /**
-     * TODOC
+     * Event handler for <code>Enter</code> key
      *
-     * @type member
-     * @param e {Event} TODOC
      * @return {void}
      */
-    _onKeyPressEnter : function(e)
+    _onKeyPressEnter : function()
     {
       var hoverItem = this.getHoverItem();
 
