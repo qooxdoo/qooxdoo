@@ -111,81 +111,8 @@ qx.Class.define("qx.ui.popup.Popup",
       this.base(arguments, value, old);
 
       var mgr = qx.ui.popup.PopupManager.getInstance();
-      if (value === "visible")
-      {
-        mgr.add(this);
-        this.bringToFront();
-      }
-      else
-      {
-        mgr.remove(this);
-      }
+      value === "visible" ? mgr.add(this) : mgr.remove(this);
     },
-
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      ZINDEX SUPPORT
-    ---------------------------------------------------------------------------
-    */
-
-    _minZIndex : 1e6,
-
-
-    /**
-     * Sets the {@link #zIndex} to Infinity and calls the
-     * method {@link #_sendTo}
-     *
-     * @type member
-     * @return {void}
-     */
-    bringToFront : function()
-    {
-      this.setZIndex(this._minZIndex+1000000);
-      this._sendTo();
-    },
-
-
-    /**
-     * Sets the {@link #zIndex} to -Infinity and calls the
-     * method {@link #_sendTo}
-     *
-     * @type member
-     * @return {void}
-     */
-    sendToBack : function()
-    {
-      this.setZIndex(this._minZIndex+1);
-      this._sendTo();
-    },
-
-
-    /**
-     * Resets the zIndex of all registered popups and menus
-     * (getting the instances via the {@link qx.ui.popup.PopupManager} and
-     * the {@link qx.ui.menu.Manager}) one higher than the defined minimum zIndex.
-     *
-     * @type member
-     * @return {void}
-     */
-    _sendTo : function()
-    {
-      var popups = qx.ui.popup.PopupManager.getInstance().getAll();
-
-      var all = popups.sort(function(a, b) {
-        return a.getZIndex() - b.getZIndex()
-      });
-
-      var index = this._minZIndex;
-
-      for (var i=0, l=all.length; i<l; i++) {
-        all[i].setZIndex(index++);
-      }
-    },
-
 
 
 
@@ -201,15 +128,9 @@ qx.Class.define("qx.ui.popup.Popup",
      * @param left {Integer} The left position
      * @param top {Integer} The top position
      */
-    moveTo : function(left, top)
-    {
-      this.setLayoutProperties({
-        left : left,
-        top : top
-      });
+    moveTo : function(left, top) {
+      this.setLayoutProperties({ left: left, top: top });
     },
-
-
 
 
 
@@ -234,11 +155,9 @@ qx.Class.define("qx.ui.popup.Popup",
 
       // Detect changes and apply them
       if (left != bounds.left || top != bounds.top) {
-        this.setLayoutProperties({ left: left, top: top });
+        this.moveTo(left, top);
       }
     },
-
-
 
 
 
