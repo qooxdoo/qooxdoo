@@ -72,7 +72,8 @@ qx.Class.define("qx.bom.Range",
         }        
       },
       
-      "gecko|opera" : function(element)
+      // suitable for gecko, opera and webkit
+      "default" : function(element)
       {
         var doc = qx.dom.Node.getDocument(element);
         
@@ -87,11 +88,6 @@ qx.Class.define("qx.bom.Range",
         {
           return doc.createRange();
         }
-      },
-      
-      "default" : function(element)
-      {
-        
       }
     })
   } 

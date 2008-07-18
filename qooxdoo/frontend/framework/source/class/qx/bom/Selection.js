@@ -48,14 +48,10 @@ qx.Class.define("qx.bom.Selection",
         return documentNode.selection;
       },
       
-      "gecko|opera" : function(documentNode)
-      {
-        return qx.dom.Node.getWindow(documentNode).getSelection();        
-      },
-      
+      // suitable for gecko, opera and webkit
       "default" : function(documentNode)
       {
-        
+        return qx.dom.Node.getWindow(documentNode).getSelection();        
       }
     }),
     
@@ -78,7 +74,8 @@ qx.Class.define("qx.bom.Selection",
         return rng.text;
       },
       
-      "gecko|opera" : function(node)
+      // suitable for gecko, opera and webkit 
+      "default" : function(node)
       {
         if (qx.dom.Node.isElement(node) && (node.nodeName.toLowerCase() == "input" || node.nodeName.toLowerCase() == "textarea"))
         {
@@ -90,11 +87,6 @@ qx.Class.define("qx.bom.Selection",
         }
         
         return null;
-      },
-      
-      "default": function(node)
-      {
-        
       }
     }),
     
@@ -113,20 +105,6 @@ qx.Class.define("qx.bom.Selection",
       "mshtml" : function(node)
       {
         return qx.bom.Selection.get(node).length;
-      },
-      
-      "gecko" : function(node)
-      {
-        if (qx.dom.Node.isElement(node) && (node.nodeName.toLowerCase() == "input" || node.nodeName.toLowerCase() == "textarea"))
-        {
-          return node.selectionEnd - node.selectionStart;  
-        }
-        else
-        {
-          return qx.bom.Selection.get(node).length;
-        }
-        
-        return null;
       },
       
       "opera" : function(node)
@@ -154,9 +132,19 @@ qx.Class.define("qx.bom.Selection",
         return null;
       },
       
+      // suitable for gecko and webkit
       "default" : function(node)
       {
+        if (qx.dom.Node.isElement(node) && (node.nodeName.toLowerCase() == "input" || node.nodeName.toLowerCase() == "textarea"))
+        {
+          return node.selectionEnd - node.selectionStart;  
+        }
+        else
+        {
+          return qx.bom.Selection.get(node).length;
+        }
         
+        return null;
       }    
     }),
     
@@ -251,14 +239,15 @@ qx.Class.define("qx.bom.Selection",
         return false;
       },
       
-      "gecko|opera" : function(node, start, end)
+      // suitable for gecko, opera and webkit
+      "default" : function(node, start, end)
       {
         // special handling for input and textarea elements
         var nodeName = node.nodeName.toLowerCase();
         if (qx.dom.Node.isElement(node) && (nodeName == "input" || nodeName == "textarea")) 
         {
           // check boundaries
-          if (start >= 0 && start <= node.textLength && end >= 0 && end <= node.textLength) 
+          if (start >= 0 && start <= node.value.length && end >= 0 && end <= node.value.length) 
           {
             node.select();
             node.setSelectionRange(start, end);
@@ -333,11 +322,6 @@ qx.Class.define("qx.bom.Selection",
         }
         
         return false;
-      },
-      
-      "default" : function(node, start, end)
-      {
-        
       }
     })
   }
