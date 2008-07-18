@@ -166,17 +166,33 @@ qx.Class.define("qx.ui.menu.Button",
 
     getChildrenSizes : function()
     {
-      var hasIcon = this._isChildControlVisible("icon");
-      var hasLabel = this._isChildControlVisible("label");
-      var hasShortcut = this._isChildControlVisible("shortcut");
-      var hasMenu = this._isChildControlVisible("arrow");
+      var iconWidth=0, labelWidth=0, shortcutWidth=0, arrowWidth=0;
 
-      return [
-        hasIcon ? this._getChildControl("icon").getSizeHint().width : 0,
-        hasLabel ? this._getChildControl("label").getSizeHint().width : 0,
-        hasShortcut ? this._getChildControl("shortcut").getSizeHint().width : 0,
-        hasMenu ? this._getChildControl("arrow").getSizeHint().width : 0
-      ];
+      if (this._isChildControlVisible("icon"))
+      {
+        var icon = this._getChildControl("icon");
+        iconWidth = icon.getMarginLeft() + icon.getSizeHint().width + icon.getMarginRight();
+      }
+
+      if (this._isChildControlVisible("label"))
+      {
+        var label = this._getChildControl("label");
+        labelWidth = label.getMarginLeft() + label.getSizeHint().width + label.getMarginRight();
+      }
+
+      if (this._isChildControlVisible("shortcut"))
+      {
+        var shortcut = this._getChildControl("shortcut");
+        shortcutWidth = shortcut.getMarginLeft() + shortcut.getSizeHint().width + shortcut.getMarginRight();
+      }
+
+      if (this._isChildControlVisible("arrow"))
+      {
+        var arrow = this._getChildControl("arrow");
+        arrowWidth = arrow.getMarginLeft() + arrow.getSizeHint().width + arrow.getMarginRight();
+      }
+
+      return [ iconWidth, labelWidth, shortcutWidth, arrowWidth ];
     },
 
 

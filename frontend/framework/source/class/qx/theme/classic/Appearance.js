@@ -1326,7 +1326,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       {
         return {
           alignY : "middle",
-          alignX : "right"
+          marginLeft : 10
         };
       }
     },
