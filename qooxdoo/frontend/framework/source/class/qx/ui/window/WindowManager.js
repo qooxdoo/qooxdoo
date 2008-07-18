@@ -53,11 +53,11 @@ qx.Class.define("qx.ui.window.WindowManager",
       var windows = this._desktop.getWindows();
       var zIndex = this._minZIndex - 1;
       var hasActive = false;
+      var win, last;
 
       for (var i=0, l=windows.length; i<l; i++)
       {
-        var win = windows[i];
-
+        win = windows[i];
         if (!win.isVisible()) {
           continue;
         }
@@ -74,7 +74,7 @@ qx.Class.define("qx.ui.window.WindowManager",
 
         // ensure that at least one window is active
         hasActive = hasActive || win.getActive();
-        var last = win;
+        last = win;
       }
 
       if (!hasActive && last) {
@@ -89,7 +89,8 @@ qx.Class.define("qx.ui.window.WindowManager",
       var windows = this._desktop.getWindows();
 
       var removed = qx.lang.Array.remove(windows, win);
-      if (removed) {
+      if (removed)
+      {
         windows.push(win);
         this.updateStack();
       }
@@ -102,7 +103,8 @@ qx.Class.define("qx.ui.window.WindowManager",
       var windows = this._desktop.getWindows();
 
       var removed = qx.lang.Array.remove(_windows, win);
-      if (removed) {
+      if (removed)
+      {
         windows.unshift(win);
         this.updateStack();
       }
