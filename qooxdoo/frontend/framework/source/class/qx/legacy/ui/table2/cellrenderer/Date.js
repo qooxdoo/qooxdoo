@@ -22,9 +22,9 @@
 /**
  * Specific data cell renderer for dates.
  */
-qx.Class.define("qx.legacy.ui.table.cellrenderer.Date",
+qx.Class.define("qx.legacy.ui.table2.cellrenderer.Date",
 {
-  extend : qx.legacy.ui.table.cellrenderer.Conditional,
+  extend : qx.legacy.ui.table2.cellrenderer.Conditional,
 
   /*
   *****************************************************************************

@@ -29,9 +29,9 @@
 /**
  * A data cell renderer for boolean values.
  */
-qx.Class.define("qx.legacy.ui.table.cellrenderer.Boolean",
+qx.Class.define("qx.legacy.ui.table2.cellrenderer.Boolean",
 {
-  extend : qx.legacy.ui.table.cellrenderer.Icon,
+  extend : qx.legacy.ui.table2.cellrenderer.Icon,
 
 
 

@@ -18,7 +18,7 @@
 ************************************************************************ */
 
 /** A cell event instance contains all data for mouse events related to cells in a table. */
-qx.Class.define("qx.legacy.ui.table.pane.CellEvent",
+qx.Class.define("qx.legacy.ui.table2.pane.CellEvent",
 {
   extend : qx.event.type.Mouse,
 
@@ -42,7 +42,7 @@ qx.Class.define("qx.legacy.ui.table.pane.CellEvent",
   members :
   {
     /**
-     * @param scroller    {qx.legacy.ui.table.pane.Scroller}
+     * @param scroller    {qx.legacy.ui.table2.pane.Scroller}
      */
     init : function(scroller, evt)
     {

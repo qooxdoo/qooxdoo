@@ -24,10 +24,10 @@
  *
  * @appearance table-row
  */
-qx.Class.define("qx.legacy.ui.table.rowrenderer.Default",
+qx.Class.define("qx.legacy.ui.table2.rowrenderer.Default",
 {
   extend : qx.core.Object,
-  implement : [qx.legacy.ui.table.IRowRenderer],
+  implement : [qx.legacy.ui.table2.IRowRenderer],
 
 
 

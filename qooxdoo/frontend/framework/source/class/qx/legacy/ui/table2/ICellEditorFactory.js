@@ -20,7 +20,7 @@
 /**
  * A factory creating widgets to use for editing table cells.
  */
-qx.Interface.define("qx.legacy.ui.table.ICellEditorFactory",
+qx.Interface.define("qx.legacy.ui.table2.ICellEditorFactory",
 {
 
   members :
@@ -34,7 +34,7 @@ qx.Interface.define("qx.legacy.ui.table.ICellEditorFactory",
      * <li>row (int): the model index of the row the cell belongs to.</li>
      * <li>col (int): the model index of the column the cell belongs to.</li>
      * <li>xPos (int): the x position of the cell in the table pane.</li>
-     * <li>table (qx.legacy.ui.table.Table) reference to the table, the cell belongs to. </li>
+     * <li>table (qx.legacy.ui.table2.Table) reference to the table, the cell belongs to. </li>
      * </ul>
      *
      * @type member

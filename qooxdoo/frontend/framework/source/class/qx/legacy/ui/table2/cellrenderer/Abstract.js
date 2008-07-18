@@ -23,10 +23,10 @@
  * An abstract data cell renderer that does the basic coloring
  * (borders, selected look, ...).
  */
-qx.Class.define("qx.legacy.ui.table.cellrenderer.Abstract",
+qx.Class.define("qx.legacy.ui.table2.cellrenderer.Abstract",
 {
   type : "abstract",
-  implement : qx.legacy.ui.table.ICellRenderer,
+  implement : qx.legacy.ui.table2.ICellRenderer,
   extend : qx.core.Object,
 
   construct : function() {

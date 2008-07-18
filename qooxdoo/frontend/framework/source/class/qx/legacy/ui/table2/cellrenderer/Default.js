@@ -22,9 +22,9 @@
 /**
  * The default data cell renderer.
  */
-qx.Class.define("qx.legacy.ui.table.cellrenderer.Default",
+qx.Class.define("qx.legacy.ui.table2.cellrenderer.Default",
 {
-  extend : qx.legacy.ui.table.cellrenderer.Abstract,
+  extend : qx.legacy.ui.table2.cellrenderer.Abstract,
 
 
   /*
@@ -86,7 +86,7 @@ qx.Class.define("qx.legacy.ui.table.cellrenderer.Default",
       if (this.getUseAutoAlign())
       {
         if (typeof cellInfo.value == "number") {
-          return qx.legacy.ui.table.cellrenderer.Default.STYLEFLAG_ALIGN_RIGHT;
+          return qx.legacy.ui.table2.cellrenderer.Default.STYLEFLAG_ALIGN_RIGHT;
         }
       }
     },
@@ -102,15 +102,15 @@ qx.Class.define("qx.legacy.ui.table.cellrenderer.Default",
 
       var stylesToApply = this._getStyleFlags(cellInfo);
 
-      if (stylesToApply & qx.legacy.ui.table.cellrenderer.Default.STYLEFLAG_ALIGN_RIGHT) {
+      if (stylesToApply & qx.legacy.ui.table2.cellrenderer.Default.STYLEFLAG_ALIGN_RIGHT) {
         cellClass += " qooxdoo-table-cell-right";
       }
 
-      if (stylesToApply & qx.legacy.ui.table.cellrenderer.Default.STYLEFLAG_BOLD) {
+      if (stylesToApply & qx.legacy.ui.table2.cellrenderer.Default.STYLEFLAG_BOLD) {
         cellClass += " qooxdoo-table-cell-bold";
       }
 
-      if (stylesToApply & qx.legacy.ui.table.cellrenderer.Default.STYLEFLAG_ITALIC) {
+      if (stylesToApply & qx.legacy.ui.table2.cellrenderer.Default.STYLEFLAG_ITALIC) {
         cellClass += " qooxdoo-table-cell-italic";
       }
 
@@ -146,13 +146,13 @@ qx.Class.define("qx.legacy.ui.table.cellrenderer.Default",
       }
       else if (typeof value == "number")
       {
-        if (!qx.legacy.ui.table.cellrenderer.Default._numberFormat)
+        if (!qx.legacy.ui.table2.cellrenderer.Default._numberFormat)
         {
-          qx.legacy.ui.table.cellrenderer.Default._numberFormat = new qx.util.format.NumberFormat();
-          qx.legacy.ui.table.cellrenderer.Default._numberFormat.setMaximumFractionDigits(2);
+          qx.legacy.ui.table2.cellrenderer.Default._numberFormat = new qx.util.format.NumberFormat();
+          qx.legacy.ui.table2.cellrenderer.Default._numberFormat.setMaximumFractionDigits(2);
         }
 
-        var res = qx.legacy.ui.table.cellrenderer.Default._numberFormat.format(value);
+        var res = qx.legacy.ui.table2.cellrenderer.Default._numberFormat.format(value);
       }
       else if (value instanceof Date)
       {

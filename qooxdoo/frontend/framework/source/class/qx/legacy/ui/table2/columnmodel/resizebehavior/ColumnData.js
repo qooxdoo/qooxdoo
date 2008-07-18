@@ -20,7 +20,7 @@
 /**
  * All of the resizing information about a column.
  */
-qx.Class.define("qx.legacy.ui.table.columnmodel.resizebehavior.ColumnData",
+qx.Class.define("qx.legacy.ui.table2.columnmodel.resizebehavior.ColumnData",
 {
   extend : qx.legacy.ui.core.Widget,
 

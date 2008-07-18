@@ -48,9 +48,9 @@
  * column width upon each of the events: initial appear, window resize, and
  * column resize. *** TO BE FILLED IN ***
  */
-qx.Class.define("qx.legacy.ui.table.columnmodel.resizebehavior.Default",
+qx.Class.define("qx.legacy.ui.table2.columnmodel.resizebehavior.Default",
 {
-  extend : qx.legacy.ui.table.columnmodel.resizebehavior.Abstract,
+  extend : qx.legacy.ui.table2.columnmodel.resizebehavior.Abstract,
 
 
 
@@ -99,7 +99,7 @@ qx.Class.define("qx.legacy.ui.table.columnmodel.resizebehavior.Default",
       check : "Function",
       init : function(obj)
       {
-        return new qx.legacy.ui.table.columnmodel.resizebehavior.ColumnData();
+        return new qx.legacy.ui.table2.columnmodel.resizebehavior.ColumnData();
       }
     }
   },
@@ -312,7 +312,7 @@ qx.Class.define("qx.legacy.ui.table.columnmodel.resizebehavior.Default",
      *
      * @type member
      *
-     * @param tableColumnModel {qx.legacy.ui.table.columnmodel.Resize}
+     * @param tableColumnModel {qx.legacy.ui.table2.columnmodel.Resize}
      *   The table column model in use.
      *
      * @param event {qx.event.type.Event}
@@ -481,7 +481,7 @@ qx.Class.define("qx.legacy.ui.table.columnmodel.resizebehavior.Default",
 
             computedFlexibleWidth =
               columnData._computedWidthFlexValue =
-              (qx.legacy.ui.table.columnmodel.resizebehavior.Default.MIN_WIDTH *
+              (qx.legacy.ui.table2.columnmodel.resizebehavior.Default.MIN_WIDTH *
                flexibleColumns[i]._computedWidthParsed);
 
             columnData._computedWidthFlexValue =
@@ -502,11 +502,11 @@ qx.Class.define("qx.legacy.ui.table.columnmodel.resizebehavior.Default",
 
             // If the computed width is less than our hard-coded minimum...
             if (computedFlexibleWidth <
-                qx.legacy.ui.table.columnmodel.resizebehavior.Default.MIN_WIDTH)
+                qx.legacy.ui.table2.columnmodel.resizebehavior.Default.MIN_WIDTH)
             {
               // ... then use the hard-coded minimum
               computedFlexibleWidth =
-                qx.legacy.ui.table.columnmodel.resizebehavior.Default.MIN_WIDTH;
+                qx.legacy.ui.table2.columnmodel.resizebehavior.Default.MIN_WIDTH;
             }
 
             columnData._computedWidthFlexValue =
@@ -583,7 +583,7 @@ qx.Class.define("qx.legacy.ui.table.columnmodel.resizebehavior.Default",
      *
      * @type member
      *
-     * @param tableColumnModel {qx.legacy.ui.table.columnmodel.Resize}
+     * @param tableColumnModel {qx.legacy.ui.table2.columnmodel.Resize}
      *   The table column model in use.
      *
      * @param event {qx.event.type.Data}
@@ -659,7 +659,7 @@ qx.Class.define("qx.legacy.ui.table.columnmodel.resizebehavior.Default",
      *
      * @type member
      *
-     * @param tableColumnModel {qx.legacy.ui.table.columnmodel.Resize}
+     * @param tableColumnModel {qx.legacy.ui.table2.columnmodel.Resize}
      *   The table column model in use.
      *
      * @param event {qx.event.type.Data}

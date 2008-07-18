@@ -24,7 +24,7 @@
  *
  * @appearance table-focus-indicator {qx.legacy.ui.layout.HorizontalBoxLayout}
  */
-qx.Class.define("qx.legacy.ui.table.pane.Scroller",
+qx.Class.define("qx.legacy.ui.table2.pane.Scroller",
 {
   extend : qx.legacy.ui.layout.VerticalBoxLayout,
 
@@ -38,7 +38,7 @@ qx.Class.define("qx.legacy.ui.table.pane.Scroller",
   */
 
   /**
-   * @param table {qx.legacy.ui.table.Table} the table the scroller belongs to.
+   * @param table {qx.legacy.ui.table2.Table} the table the scroller belongs to.
    */
   construct : function(table)
   {
@@ -92,7 +92,7 @@ qx.Class.define("qx.legacy.ui.table.pane.Scroller",
 
     this._showCellFocusIndicator = this.getShowCellFocusIndicator();
 
-    this._focusIndicator = new qx.legacy.ui.table.pane.FocusIndicator(this);
+    this._focusIndicator = new qx.legacy.ui.table2.pane.FocusIndicator(this);
 
     this._paneClipper = new qx.legacy.ui.layout.CanvasLayout;
     this._paneClipper.setWidth("1*");
@@ -203,14 +203,14 @@ qx.Class.define("qx.legacy.ui.table.pane.Scroller",
     /** Dispatched if the pane is scrolled vertically */
     "changeScrollX" : "qx.event.type.Data",
 
-    /**See {@link qx.legacy.ui.table.Table#cellClick}.*/
-    "cellClick" : "qx.legacy.ui.table.pane.CellEvent",
+    /**See {@link qx.legacy.ui.table2.Table#cellClick}.*/
+    "cellClick" : "qx.legacy.ui.table2.pane.CellEvent",
 
-    /**See {@link qx.legacy.ui.table.Table#cellDblclick}.*/
-    "cellDblclick" : "qx.legacy.ui.table.pane.CellEvent",
+    /**See {@link qx.legacy.ui.table2.Table#cellDblclick}.*/
+    "cellDblclick" : "qx.legacy.ui.table2.pane.CellEvent",
 
-    /**See {@link qx.legacy.ui.table.Table#cellContextmenu}.*/
-    "cellContextmenu" : "qx.legacy.ui.table.pane.CellEvent"
+    /**See {@link qx.legacy.ui.table2.Table#cellContextmenu}.*/
+    "cellContextmenu" : "qx.legacy.ui.table2.pane.CellEvent"
   },
 
 
@@ -247,7 +247,7 @@ qx.Class.define("qx.legacy.ui.table.pane.Scroller",
     /** The table pane model. */
     tablePaneModel :
     {
-      check : "qx.legacy.ui.table.pane.Model",
+      check : "qx.legacy.ui.table2.pane.Model",
       apply : "_applyTablePaneModel",
       event : "changeTablePaneModel"
     },
@@ -455,7 +455,7 @@ qx.Class.define("qx.legacy.ui.table.pane.Scroller",
      * Returns the table this scroller belongs to.
      *
      * @type member
-     * @return {qx.legacy.ui.table.Table} the table.
+     * @return {qx.legacy.ui.table2.Table} the table.
      */
     getTable : function() {
       return this._table;
@@ -760,7 +760,7 @@ qx.Class.define("qx.legacy.ui.table.pane.Scroller",
     {
       var table = this.getTable();
       // We are currently resizing -> Update the position
-      var minColumnWidth = qx.legacy.ui.table.pane.Scroller.MIN_COLUMN_WIDTH;
+      var minColumnWidth = qx.legacy.ui.table2.pane.Scroller.MIN_COLUMN_WIDTH;
       var newWidth = Math.max(minColumnWidth, this._lastResizeWidth + pageX - this._lastResizeMousePageX);
 
       if (this.getLiveResize()) {
@@ -792,7 +792,7 @@ qx.Class.define("qx.legacy.ui.table.pane.Scroller",
       // Check whether we moved outside the click tolerance so we can start
       // showing the column move feedback
       // (showing the column move feedback prevents the onclick event)
-      var clickTolerance = qx.legacy.ui.table.pane.Scroller.CLICK_TOLERANCE;
+      var clickTolerance = qx.legacy.ui.table2.pane.Scroller.CLICK_TOLERANCE;
       if (this._header.isShowingColumnMoveFeedback()
         || pageX > this._lastMoveMousePageX + clickTolerance
         || pageX < this._lastMoveMousePageX - clickTolerance)
@@ -867,7 +867,7 @@ qx.Class.define("qx.legacy.ui.table.pane.Scroller",
 
       // Workaround: Setting the cursor to the right widget doesn't work
       //this._header.setCursor(useResizeCursor ? "e-resize" : null);
-      this.getTopLevelWidget().setGlobalCursor(useResizeCursor ? qx.legacy.ui.table.pane.Scroller.CURSOR_RESIZE_HORIZONTAL : null);
+      this.getTopLevelWidget().setGlobalCursor(useResizeCursor ? qx.legacy.ui.table2.pane.Scroller.CURSOR_RESIZE_HORIZONTAL : null);
 
       this._header.setMouseOverColumn(mouseOverColumn);
     },
@@ -918,7 +918,7 @@ qx.Class.define("qx.legacy.ui.table.pane.Scroller",
 
       // Workaround: Setting the cursor to the right widget doesn't work
       //this._header.setCursor(useResizeCursor ? "e-resize" : null);
-      this.getTopLevelWidget().setGlobalCursor(useResizeCursor ? qx.legacy.ui.table.pane.Scroller.CURSOR_RESIZE_HORIZONTAL : null);
+      this.getTopLevelWidget().setGlobalCursor(useResizeCursor ? qx.legacy.ui.table2.pane.Scroller.CURSOR_RESIZE_HORIZONTAL : null);
 
       this._header.setMouseOverColumn(null);
     },
@@ -1055,7 +1055,7 @@ qx.Class.define("qx.legacy.ui.table.pane.Scroller",
       ) {
         this._lastMouseDownCell = {};
 
-        var cellEvent = qx.event.Registration.createEvent("cellClick", qx.legacy.ui.table.pane.CellEvent, [this, e]);
+        var cellEvent = qx.event.Registration.createEvent("cellClick", qx.legacy.ui.table2.pane.CellEvent, [this, e]);
         this.dispatchEvent(cellEvent, true);
       }
       this._focusIndicator.setAnonymous(true);
@@ -1272,7 +1272,7 @@ qx.Class.define("qx.legacy.ui.table.pane.Scroller",
           this._lastMouseDownCell = {};
 
           table._getSelectionManager().handleClick(row, evt);
-          var cellEvent = qx.event.Registration.createEvent("cellClick", qx.legacy.ui.table.pane.CellEvent, [this, evt]);
+          var cellEvent = qx.event.Registration.createEvent("cellClick", qx.legacy.ui.table2.pane.CellEvent, [this, evt]);
           this.dispatchEvent(cellEvent);
         }
       }
@@ -1299,7 +1299,7 @@ qx.Class.define("qx.legacy.ui.table.pane.Scroller",
         col == this._lastMouseDownCell.col
       ) {
         this._lastMouseDownCell = {};
-        var cellEvent = qx.event.Registration.createEvent("cellContextmenu", qx.legacy.ui.table.pane.CellEvent, [this, evt]);
+        var cellEvent = qx.event.Registration.createEvent("cellContextmenu", qx.legacy.ui.table2.pane.CellEvent, [this, evt]);
         this.dispatchEvent(cellEvent, true);
       }
     },
@@ -1323,7 +1323,7 @@ qx.Class.define("qx.legacy.ui.table.pane.Scroller",
       var row = this._getRowForPagePos(pageX, pageY);
       if (row != -1 && row != null)
       {
-        var cellEvent = qx.event.Registration.createEvent("cellDblClick", qx.legacy.ui.table.pane.CellEvent, [this, evt]);
+        var cellEvent = qx.event.Registration.createEvent("cellDblClick", qx.legacy.ui.table2.pane.CellEvent, [this, evt]);
         this.dispatchEvent(cellEvent, true);
       }
     },
@@ -1847,7 +1847,7 @@ qx.Class.define("qx.legacy.ui.table.pane.Scroller",
       var paneModel = this.getTablePaneModel();
       var colCount = paneModel.getColumnCount();
       var currX = headerLeftX;
-      var regionRadius = qx.legacy.ui.table.pane.Scroller.RESIZE_REGION_RADIUS;
+      var regionRadius = qx.legacy.ui.table2.pane.Scroller.RESIZE_REGION_RADIUS;
 
       for (var x=0; x<colCount; x++)
       {
@@ -1955,7 +1955,7 @@ qx.Class.define("qx.legacy.ui.table.pane.Scroller",
      * Returns the header.
      *
      * @type member
-     * @return {qx.legacy.ui.table.pane.Header} the header.
+     * @return {qx.legacy.ui.table2.pane.Header} the header.
      */
     getHeader : function() {
       return this._header;
@@ -1966,7 +1966,7 @@ qx.Class.define("qx.legacy.ui.table.pane.Scroller",
      * Returns the table pane.
      *
      * @type member
-     * @return {qx.legacy.ui.table.pane.Pane} the table pane.
+     * @return {qx.legacy.ui.table2.pane.Pane} the table pane.
      */
     getTablePane : function() {
       return this._tablePane;
@@ -2028,8 +2028,8 @@ qx.Class.define("qx.legacy.ui.table.pane.Scroller",
       }
 
       // Create the mask
-      var horBar = qx.legacy.ui.table.pane.Scroller.HORIZONTAL_SCROLLBAR;
-      var verBar = qx.legacy.ui.table.pane.Scroller.VERTICAL_SCROLLBAR;
+      var horBar = qx.legacy.ui.table2.pane.Scroller.HORIZONTAL_SCROLLBAR;
+      var verBar = qx.legacy.ui.table2.pane.Scroller.VERTICAL_SCROLLBAR;
       return ((forceHorizontal || horNeeded) ? horBar : 0) | ((preventVertical || !verNeeded) ? 0 : verBar);
     },
 

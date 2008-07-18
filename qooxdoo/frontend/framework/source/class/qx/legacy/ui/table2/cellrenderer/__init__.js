@@ -1,3 +1,3 @@
 /**
- * The qx.legacy.ui.table.cellrenderer package.
+ * The qx.legacy.ui.table2.cellrenderer package.
  */

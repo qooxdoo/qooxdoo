@@ -23,9 +23,9 @@
  * This Cellrender is for transparent use, without escaping! Use this Cellrender
  * to output plain HTML content.
  */
-qx.Class.define("qx.legacy.ui.table.cellrenderer.Html",
+qx.Class.define("qx.legacy.ui.table2.cellrenderer.Html",
 {
-  extend : qx.legacy.ui.table.cellrenderer.Conditional,
+  extend : qx.legacy.ui.table2.cellrenderer.Conditional,
 
   /*
   *****************************************************************************
