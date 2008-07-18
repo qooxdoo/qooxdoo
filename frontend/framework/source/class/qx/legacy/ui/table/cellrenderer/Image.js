@@ -56,7 +56,8 @@ qx.Class.define("qx.legacy.ui.table.cellrenderer.Image",
       this._imageHeight = 16;
     }
 
-    this._am = qx.util.AliasManager.getInstance();
+    this._am = qx.legacy.util.AliasManager.getInstance();
+    this._rm = qx.util.ResourceManager;
   },
 
 
@@ -82,7 +83,7 @@ qx.Class.define("qx.legacy.ui.table.cellrenderer.Image",
       if (cellInfo.value == "") {
         imageHints.url = this.IMG_BLANK_URL;
       } else {
-        imageHints.url = this._am.resolve(cellInfo.value);
+        imageHints.url = this._rm.toUri(this._am.resolve(cellInfo.value));
       }
 
       return imageHints;
