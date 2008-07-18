@@ -19,7 +19,7 @@
 
 /* ************************************************************************
 
-#module(table)
+#require(qx.legacy.ui.util.column.Data)
 
 ************************************************************************ */
 
@@ -390,7 +390,7 @@ qx.Class.define("qx.legacy.ui.table.columnmodel.resizebehavior.Default",
       {
         columns.push(this._resizeColumnData[visibleColumns[i]]);
       }
-      
+
       // Compute the column widths
       qx.legacy.ui.util.column.FlexWidth.compute(columns, width);
 

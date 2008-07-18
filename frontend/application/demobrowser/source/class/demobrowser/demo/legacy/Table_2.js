@@ -13,7 +13,7 @@
      See the LICENSE file in the project's top-level directory for details.
 
    Authors:
-     * Martin Wittemann (martinwittemann)
+     * Fabian Jakobs (fjakobs)
 
 ************************************************************************ */
 
@@ -23,45 +23,44 @@
 
 ************************************************************************ */
 
-qx.Class.define("demobrowser.demo.legacy.Table_4",
+/**
+ * A table with fixed columns.
+ */
+qx.Class.define("demobrowser.demo.legacy.Table_2",
 {
   extend : qx.legacy.application.Gui,
 
   members :
   {
-
-    main: function()
+    main : function()
     {
       this.base(arguments);
+      var d = qx.legacy.ui.core.ClientDocument.getInstance();
 
       // table model
       var tableModel = new qx.legacy.ui.table.model.Simple();
-      tableModel.setColumns([ "ID", "A number", "A date", "Boolean test", "HTML Content" ]);
+      tableModel.setColumns([ "ID", "A number", "A date", "Boolean test" ]);
       var rowData = [];
       var now = new Date().getTime();
       var dateRange = 400 * 24 * 60 * 60 * 1000; // 400 days
-
-      for (var row=0; row<20; row++)
-      {
+      for (var row = 0; row < 100; row++) {
         var date = new Date(now + Math.random() * dateRange - dateRange / 2);
-        var html = "<b>HTML-Test <i>" + row + "</i></b>";
-        rowData.push([ row, Math.random() * 10000, date, (Math.random() > 0.5), html ]);
+        rowData.push([ row, Math.random() * 10000, date, (Math.random() > 0.5) ]);
       }
-
       tableModel.setData(rowData);
       tableModel.setColumnEditable(1, true);
       tableModel.setColumnEditable(2, true);
 
       // table
       var table = new qx.legacy.ui.table.Table(tableModel);
-      table.set({ width: 550, height: 400 });
-      table.setMetaColumnCounts([ 1, -1 ]);
-      table.getSelectionModel().setSelectionMode(qx.legacy.ui.table.selection.Model.MULTIPLE_INTERVAL_SELECTION);
-      table.getTableColumnModel().setDataCellRenderer(3, new qx.legacy.ui.table.cellrenderer.Boolean());
-      table.getTableColumnModel().setDataCellRenderer(4, new qx.legacy.ui.table.cellrenderer.Html());
-      table.addToDocument();
+      with (table) {
+        set({ left:20, top:20, width:350, height:300, border:"inset-thin" });
+        setMetaColumnCounts([1, -1]);
+        getSelectionModel().setSelectionMode(qx.legacy.ui.table.selection.Model.MULTIPLE_INTERVAL_SELECTION);
+        getTableColumnModel().setDataCellRenderer(3, new qx.legacy.ui.table.cellrenderer.Boolean());
+      };
 
-      table.setAdditionalStatusBarText(", additional Status.");
+      d.add(table);
     }
   }
 });
