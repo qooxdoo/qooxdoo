@@ -119,7 +119,7 @@
 
 \baddEventListener\b=addListener
 \bremoveEventListener\b=removeListener
-\bhasEventListeners\b=hasListeners
+\bhasEventListeners\b=hasListener
 
 
 

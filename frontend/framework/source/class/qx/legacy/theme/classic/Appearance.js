@@ -1704,7 +1704,7 @@ qx.Theme.define("qx.legacy.theme.classic.Appearance",
       }
     },
 
-    "table-editor-text-field" :
+    "table-editor-textfield" :
     {
       include : "text-field",
 
