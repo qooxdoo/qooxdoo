@@ -64,8 +64,6 @@ qx.Class.define("qx.legacy.ui.table.model.Filtered",
      * The addBetweenFilter method is used to add a between filter to the
      * table model.
      *
-     * @type member
-     *
      * @param filter {String}
      *    The type of filter. Accepted strings are "between" and "!between".
      *
@@ -102,8 +100,6 @@ qx.Class.define("qx.legacy.ui.table.model.Filtered",
     /**
      * The addNumericFilter method is used to add a basic numeric filter to
      * the table model.
-     *
-     * @type member
      *
      * @param filter {String}
      *    The type of filter. Accepted strings are:
@@ -142,8 +138,6 @@ qx.Class.define("qx.legacy.ui.table.model.Filtered",
      * The addRegex method is used to add a regular expression filter to the
      * table model.
      *
-     * @type member
-     *
      * @param regex {String}
      *    The regular expression to match against.
      *
@@ -170,12 +164,6 @@ qx.Class.define("qx.legacy.ui.table.model.Filtered",
 
     /**
      * The applyFilters method is called to apply filters to the table model.
-     *
-     * @type member
-     *
-     * @return {void}
-     *
-     * @throws TODOC
      */
     applyFilters : function()
     {
@@ -289,8 +277,6 @@ qx.Class.define("qx.legacy.ui.table.model.Filtered",
     /**
      * Hides a specified number of rows.
      *
-     * @type member
-     *
      * @param rowNum {Integer}
      *    Index of the first row to be hidden in the table.
      *
@@ -326,8 +312,6 @@ qx.Class.define("qx.legacy.ui.table.model.Filtered",
     /**
      * Return the table to the original state with all rows shown and clears
      * all filters.
-     *
-     * @type member
      *
      * @return {void}
      */

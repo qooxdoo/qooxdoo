@@ -206,7 +206,6 @@ qx.Class.define("qx.legacy.ui.table.pane.Header",
     /**
      * Shows the feedback shown while a column is moved by the user.
      *
-     * @type member
      * @param col {Integer} the model index of the column to show the move feedback for.
      * @param x {Integer} the x position the left side of the feeback should have
      *      (in pixels, relative to the left side of the header).
