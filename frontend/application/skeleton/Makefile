@@ -17,14 +17,20 @@
 #
 ################################################################################
 
-NEW_TARGETS = source build api clean distclean lint pretty translate migration publish fix
-.PHONY: $(NEW_TARGETS)
-
-$(NEW_TARGETS):
+# need to specify a default target 'source' explicitly; all others are caught
+# by '%'
+source %: force
 	@../../tool/bin/generator.py $@
 
-# use old Makefile for other targets
-%: force
-	@$(MAKE) -s -f Makefile.gen1 $@
-
+# this replaces .PHONY
 force: ;
+
+# the next one is a hack, since gmake insists of making a target 'Makefile'
+# with the above '%' rule
+Makefile: ;
+
+# use old Makefile for other targets
+#%: force
+#	@$(MAKE) -s -f Makefile.gen1 $@
+#
+
