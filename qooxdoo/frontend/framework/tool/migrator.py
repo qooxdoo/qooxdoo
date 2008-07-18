@@ -470,9 +470,7 @@ def main():
     )
 
     # Options for pretty printing
-    pp_options = optparse.OptionGroup(parser,"Pretty printer options")
-    compiler.addCommandLineOptions(pp_options)
-    parser.add_option_group(pp_options)
+    compiler.addCommandLineOptions(parser)
 
     (options, args) = parser.parse_args()
 
