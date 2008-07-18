@@ -23,7 +23,7 @@
  * the display of the data part of a table and is therefore the base for virtual
  * scrolling.
  */
-qx.Class.define("qx.legacy.ui.table.pane.Pane",
+qx.Class.define("qx.legacy.ui.table2.pane.Pane",
 {
   extend : qx.legacy.ui.basic.Terminator,
 
@@ -37,7 +37,7 @@ qx.Class.define("qx.legacy.ui.table.pane.Pane",
   */
 
   /**
-   * @param paneScroller {qx.legacy.ui.table.pane.Scroller} the TablePaneScroller the header belongs to.
+   * @param paneScroller {qx.legacy.ui.table2.pane.Scroller} the TablePaneScroller the header belongs to.
    */
   construct : function(paneScroller)
   {
@@ -137,7 +137,7 @@ qx.Class.define("qx.legacy.ui.table.pane.Pane",
      * Returns the TablePaneScroller this pane belongs to.
      *
      * @type member
-     * @return {qx.legacy.ui.table.pane.Scroller} the TablePaneScroller.
+     * @return {qx.legacy.ui.table2.pane.Scroller} the TablePaneScroller.
      */
     getPaneScroller : function() {
       return this._paneScroller;
@@ -148,7 +148,7 @@ qx.Class.define("qx.legacy.ui.table.pane.Pane",
      * Returns the table this pane belongs to.
      *
      * @type member
-     * @return {qx.legacy.ui.table.Table} the table.
+     * @return {qx.legacy.ui.table2.Table} the table.
      */
     getTable : function() {
       return this._paneScroller.getTable();

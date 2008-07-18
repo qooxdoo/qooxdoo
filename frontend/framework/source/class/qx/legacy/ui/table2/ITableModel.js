@@ -20,7 +20,7 @@
 /**
  * The data model of a table.
  */
-qx.Interface.define("qx.legacy.ui.table.ITableModel",
+qx.Interface.define("qx.legacy.ui.table2.ITableModel",
 {
   /*
   *****************************************************************************

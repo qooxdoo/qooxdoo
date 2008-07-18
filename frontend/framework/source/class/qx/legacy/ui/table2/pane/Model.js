@@ -19,10 +19,10 @@
 
 /**
  * The model of a table pane. This model works as proxy to a
- * {@link qx.legacy.ui.table.columnmodel.Basic} and manages the visual order of the columns shown in
+ * {@link qx.legacy.ui.table2.columnmodel.Basic} and manages the visual order of the columns shown in
  * a {@link TablePane}.
  */
-qx.Class.define("qx.legacy.ui.table.pane.Model",
+qx.Class.define("qx.legacy.ui.table2.pane.Model",
 {
   extend : qx.core.Object,
 
@@ -37,7 +37,7 @@ qx.Class.define("qx.legacy.ui.table.pane.Model",
 
   /**
    *
-   * @param tableColumnModel {qx.legacy.ui.table.columnmodel.Basic} The TableColumnModel of which this
+   * @param tableColumnModel {qx.legacy.ui.table2.columnmodel.Basic} The TableColumnModel of which this
    *    model is the proxy.
    */
   construct : function(tableColumnModel)
@@ -134,7 +134,7 @@ qx.Class.define("qx.legacy.ui.table.pane.Model",
     _applyFirstColumnX : function(value, old)
     {
       this._columnCount = null;
-      this.fireEvent(qx.legacy.ui.table.pane.Model.EVENT_TYPE_MODEL_CHANGED);
+      this.fireEvent(qx.legacy.ui.table2.pane.Model.EVENT_TYPE_MODEL_CHANGED);
     },
 
     // property modifier
@@ -148,7 +148,7 @@ qx.Class.define("qx.legacy.ui.table.pane.Model",
     _applyMaxColumnCount : function(value, old)
     {
       this._columnCount = null;
-      this.fireEvent(qx.legacy.ui.table.pane.Model.EVENT_TYPE_MODEL_CHANGED);
+      this.fireEvent(qx.legacy.ui.table2.pane.Model.EVENT_TYPE_MODEL_CHANGED);
     },
 
 
@@ -166,7 +166,7 @@ qx.Class.define("qx.legacy.ui.table.pane.Model",
       // TODO: Check whether the column is in this model (This is a little bit
       //     tricky, because the column could _have been_ in this model, but is
       //     not in it after the change)
-      this.fireEvent(qx.legacy.ui.table.pane.Model.EVENT_TYPE_MODEL_CHANGED);
+      this.fireEvent(qx.legacy.ui.table2.pane.Model.EVENT_TYPE_MODEL_CHANGED);
     },
 
 

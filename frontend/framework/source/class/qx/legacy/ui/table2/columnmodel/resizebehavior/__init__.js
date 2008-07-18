@@ -1,3 +1,3 @@
 /**
- * The qx.legacy.ui.table.columnmodel.resizebehavior package.
+ * The qx.legacy.ui.table2.columnmodel.resizebehavior package.
  */

@@ -24,10 +24,10 @@
  *
  * @appearance table-editor-combobox {qx.legacy.ui.form.ComboBox}
  */
-qx.Class.define("qx.legacy.ui.table.celleditor.ComboBox",
+qx.Class.define("qx.legacy.ui.table2.celleditor.ComboBox",
 {
   extend : qx.core.Object,
-  implement : qx.legacy.ui.table.ICellEditorFactory,
+  implement : qx.legacy.ui.table2.ICellEditorFactory,
 
 
 

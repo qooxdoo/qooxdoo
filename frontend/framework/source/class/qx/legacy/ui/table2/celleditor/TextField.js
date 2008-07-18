@@ -24,10 +24,10 @@
  *
  * @appearance table-editor-textfield {qx.legacy.ui.form.TextField}
  */
-qx.Class.define("qx.legacy.ui.table.celleditor.TextField",
+qx.Class.define("qx.legacy.ui.table2.celleditor.TextField",
 {
   extend : qx.core.Object,
-  implement : qx.legacy.ui.table.ICellEditorFactory,
+  implement : qx.legacy.ui.table2.ICellEditorFactory,
 
 
 

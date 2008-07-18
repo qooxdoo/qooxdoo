@@ -20,9 +20,9 @@
 /**
  * A simple table model that provides an API for changing the model data.
  */
-qx.Class.define("qx.legacy.ui.table.model.Simple",
+qx.Class.define("qx.legacy.ui.table2.model.Simple",
 {
-  extend : qx.legacy.ui.table.model.Abstract,
+  extend : qx.legacy.ui.table2.model.Abstract,
 
 
   construct : function()
@@ -173,7 +173,7 @@ qx.Class.define("qx.legacy.ui.table.model.Simple",
         this._editableColArr[col] = editable;
       }
 
-      this.fireEvent(qx.legacy.ui.table.ITableModel.EVENT_TYPE_META_DATA_CHANGED);
+      this.fireEvent(qx.legacy.ui.table2.ITableModel.EVENT_TYPE_META_DATA_CHANGED);
     },
 
 
@@ -195,7 +195,7 @@ qx.Class.define("qx.legacy.ui.table.model.Simple",
 
         this._editableColArr[columnIndex] = editable;
 
-        this.fireEvent(qx.legacy.ui.table.ITableModel.EVENT_TYPE_META_DATA_CHANGED);
+        this.fireEvent(qx.legacy.ui.table2.ITableModel.EVENT_TYPE_META_DATA_CHANGED);
       }
     },
 
@@ -220,7 +220,7 @@ qx.Class.define("qx.legacy.ui.table.model.Simple",
         }
 
         this._sortableColArr[columnIndex] = sortable;
-        this.fireEvent(qx.legacy.ui.table.ITableModel.EVENT_TYPE_META_DATA_CHANGED);
+        this.fireEvent(qx.legacy.ui.table2.ITableModel.EVENT_TYPE_META_DATA_CHANGED);
       }
     },
 
@@ -251,15 +251,15 @@ qx.Class.define("qx.legacy.ui.table.model.Simple",
         {
           comparator =
             (ascending
-             ? qx.legacy.ui.table.model.Simple._defaultSortComparatorAscending
-             : qx.legacy.ui.table.model.Simple._defaultSortComparatorDescending);
+             ? qx.legacy.ui.table2.model.Simple._defaultSortComparatorAscending
+             : qx.legacy.ui.table2.model.Simple._defaultSortComparatorDescending);
         }
         else
         {
           comparator =
             (ascending
-             ? qx.legacy.ui.table.model.Simple._defaultSortComparatorInsensitiveAscending
-             : qx.legacy.ui.table.model.Simple._defaultSortComparatorInsensitiveDescending);
+             ? qx.legacy.ui.table2.model.Simple._defaultSortComparatorInsensitiveAscending
+             : qx.legacy.ui.table2.model.Simple._defaultSortComparatorInsensitiveDescending);
         }
       }
 
@@ -269,7 +269,7 @@ qx.Class.define("qx.legacy.ui.table.model.Simple",
       this._sortColumnIndex = columnIndex;
       this._sortAscending = ascending;
 
-      this.fireEvent(qx.legacy.ui.table.ITableModel.EVENT_TYPE_META_DATA_CHANGED);
+      this.fireEvent(qx.legacy.ui.table2.ITableModel.EVENT_TYPE_META_DATA_CHANGED);
     },
 
 
@@ -311,7 +311,7 @@ qx.Class.define("qx.legacy.ui.table.model.Simple",
         this._sortColumnIndex = -1;
         this._sortAscending = true;
 
-        this.fireEvent(qx.legacy.ui.table.ITableModel.EVENT_TYPE_META_DATA_CHANGED);
+        this.fireEvent(qx.legacy.ui.table2.ITableModel.EVENT_TYPE_META_DATA_CHANGED);
       }
     },
 
@@ -348,7 +348,7 @@ qx.Class.define("qx.legacy.ui.table.model.Simple",
         this._rowArr[rowIndex][columnIndex] = value;
 
         // Inform the listeners
-        if (this.hasListener(qx.legacy.ui.table.ITableModel.EVENT_TYPE_DATA_CHANGED))
+        if (this.hasListener(qx.legacy.ui.table2.ITableModel.EVENT_TYPE_DATA_CHANGED))
         {
           var data =
           {
@@ -358,7 +358,7 @@ qx.Class.define("qx.legacy.ui.table.model.Simple",
             lastColumn  : columnIndex
           };
 
-          this.fireDataEvent(qx.legacy.ui.table.ITableModel.EVENT_TYPE_DATA_CHANGED, data);
+          this.fireDataEvent(qx.legacy.ui.table2.ITableModel.EVENT_TYPE_DATA_CHANGED, data);
         }
 
         if (columnIndex == this._sortColumnIndex) {
@@ -383,8 +383,8 @@ qx.Class.define("qx.legacy.ui.table.model.Simple",
       this._rowArr = rowArr;
 
       // Inform the listeners
-      if (this.hasListener(qx.legacy.ui.table.ITableModel.EVENT_TYPE_DATA_CHANGED)) {
-        this.fireEvent(qx.legacy.ui.table.ITableModel.EVENT_TYPE_DATA_CHANGED);
+      if (this.hasListener(qx.legacy.ui.table2.ITableModel.EVENT_TYPE_DATA_CHANGED)) {
+        this.fireEvent(qx.legacy.ui.table2.ITableModel.EVENT_TYPE_DATA_CHANGED);
       }
 
     if (clearSorting) {
@@ -456,7 +456,7 @@ qx.Class.define("qx.legacy.ui.table.model.Simple",
         firstColumn : 0,
         lastColumn  : this.getColumnCount() - 1
       };
-      this.fireDataEvent(qx.legacy.ui.table.ITableModel.EVENT_TYPE_DATA_CHANGED, data);
+      this.fireDataEvent(qx.legacy.ui.table2.ITableModel.EVENT_TYPE_DATA_CHANGED, data);
 
       this._clearSorting();
     },
@@ -500,7 +500,7 @@ qx.Class.define("qx.legacy.ui.table.model.Simple",
         lastColumn  : this.getColumnCount() - 1
       };
 
-      this.fireDataEvent(qx.legacy.ui.table.ITableModel.EVENT_TYPE_DATA_CHANGED, data);
+      this.fireDataEvent(qx.legacy.ui.table2.ITableModel.EVENT_TYPE_DATA_CHANGED, data);
 
       this._clearSorting();
     },

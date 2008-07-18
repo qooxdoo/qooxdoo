@@ -23,9 +23,9 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.legacy.ui.table.cellrenderer.Image",
+qx.Class.define("qx.legacy.ui.table2.cellrenderer.Image",
 {
-  extend : qx.legacy.ui.table.cellrenderer.Icon,
+  extend : qx.legacy.ui.table2.cellrenderer.Icon,
 
 
 

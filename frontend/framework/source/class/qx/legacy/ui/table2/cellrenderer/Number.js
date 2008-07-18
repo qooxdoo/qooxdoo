@@ -22,9 +22,9 @@
 /**
  * Specific data cell renderer for numbers.
  */
-qx.Class.define("qx.legacy.ui.table.cellrenderer.Number",
+qx.Class.define("qx.legacy.ui.table2.cellrenderer.Number",
 {
-  extend : qx.legacy.ui.table.cellrenderer.Conditional,
+  extend : qx.legacy.ui.table2.cellrenderer.Conditional,
 
   /*
   *****************************************************************************

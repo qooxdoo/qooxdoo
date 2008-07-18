@@ -27,10 +27,10 @@
  * kind of data in one column.
  *
  */
-qx.Class.define("qx.legacy.ui.table.celleditor.Dynamic",
+qx.Class.define("qx.legacy.ui.table2.celleditor.Dynamic",
 {
   extend : qx.core.Object,
-  implement : qx.legacy.ui.table.ICellEditorFactory,
+  implement : qx.legacy.ui.table2.ICellEditorFactory,
 
 
   /*
@@ -66,9 +66,9 @@ qx.Class.define("qx.legacy.ui.table.celleditor.Dynamic",
      *   // based on the cellInfo map or other information, return the
      *   // appropriate cellEditorFactory
      *   if (cellInfo.row == 5)
-     *     return new qx.legacy.ui.table.celleditor.CheckBox;
+     *     return new qx.legacy.ui.table2.celleditor.CheckBox;
      *   else
-     *     return new qx.legacy.ui.table.celleditor.TextField;
+     *     return new qx.legacy.ui.table2.celleditor.TextField;
      * });
      * </pre>
      **/

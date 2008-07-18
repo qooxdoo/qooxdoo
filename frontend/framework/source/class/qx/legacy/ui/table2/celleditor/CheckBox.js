@@ -21,12 +21,12 @@
 
 /**
  * For editing boolean data in a checkbox. It is advisable to use this in
- * conjuntion with {@link qx.legacy.ui.table.cellrenderer.Boolean}.
+ * conjuntion with {@link qx.legacy.ui.table2.cellrenderer.Boolean}.
  */
-qx.Class.define("qx.legacy.ui.table.celleditor.CheckBox",
+qx.Class.define("qx.legacy.ui.table2.celleditor.CheckBox",
 {
   extend : qx.core.Object,
-  implement : qx.legacy.ui.table.ICellEditorFactory,
+  implement : qx.legacy.ui.table2.ICellEditorFactory,
 
 
 
