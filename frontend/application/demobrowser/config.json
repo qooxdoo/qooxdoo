@@ -3,22 +3,23 @@
   "include" :
   [
     {
-      "path" : "../apiviewer/api.json",
-      "as"   : "apiconf"
+      "path" : "../../tool/data/config/application.json",
+      "block" : [ "source", "build" ]
     }
   ],
+
+  "let" :
+  {
+    "APPLICATION"  : "demobrowser",
+    "API_EXCLUDE" : ["${APPLICATION}.demo.*"],
+    "QOOXDOO_PATH" : "../../framework",
+    "QOOXDOO_URI"  : "../${QOOXDOO_PATH}"
+  },
 
   "jobs" :
   {
     "common" :
     {
-      "let" :
-      {
-        "APPLICATION"  : "demobrowser",
-        "QOOXDOO_PATH" : "../../framework",
-        "QOOXDOO_URI"  : "../${QOOXDOO_PATH}"
-      },
-
       "library" :
       [
         {
@@ -46,7 +47,7 @@
         "qx.application" : "${APPLICATION}.Application"
       },
 
-			// the next is in since resource copying is done here for the demos as well
+      // the next is in since resource copying is done here for the demos as well
       "themes" :
       {
         "qx.icontheme" : ["Oxygen"],
@@ -215,28 +216,7 @@
     },
 
 
-    /* API Viewer for Demobrowser */
-    "api" :
-    {
-      "extend" : ["apiconf::build"],
-
-      "let" :
-      {
-        "ROOT"        : "../apiviewer",
-        "BUILD_PATH"  : "./api",
-        "API_INCLUDE" : ["qx.*", "demobrowser.*"],
-        "API_EXCLUDE" : ["demobrowser.demo.*"]
-      },
-
-      "library" :
-      [
-        {
-          "manifest" : "Manifest.json",
-          "uri"      : ".."
-        }
-      ]
-    },
-
+    // Debug Jobs
 
     "debug-dependencies" :
     {

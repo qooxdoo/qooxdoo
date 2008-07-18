@@ -17,22 +17,20 @@
 #
 ################################################################################
 
-.PHONY: source build api
+# need to specify a default target 'source' explicitly; all others are caught
+# by '%'
+source %: force
+	@../../tool/bin/generator.py $@
 
-source:
-	@../../tool/bin/generator.py source
+# this replaces .PHONY
+force: ;
 
-build:
-	@../../tool/bin/generator.py build
-
-api:
-	@../../tool/bin/generator.py api
-
-debug:
-	@../../tool/bin/generator.py debug-privates
+# the next one is a hack, since gmake insists of making a target 'Makefile'
+# with the above '%' rule
+Makefile: ;
 
 # use old Makefile for other targets
-%: force
-	@$(MAKE) -s -f Makefile.gen1 $@
+#%: force
+#	@$(MAKE) -s -f Makefile.gen1 $@
+#
 
-force: ;
