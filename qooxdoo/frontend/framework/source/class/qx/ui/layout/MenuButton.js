@@ -62,6 +62,7 @@ qx.Class.define("qx.ui.layout.MenuButton",
       var columns = menu.getColumnSizes();
       var spacing = menu.getSpacingX();
       var left=0, top=0;
+      var Util = qx.ui.layout.Util;
 
       for (var i=0, l=columns.length; i<l; i++)
       {
@@ -70,8 +71,8 @@ qx.Class.define("qx.ui.layout.MenuButton",
         if (child)
         {
           hint = child.getSizeHint();
-          var top = qx.ui.layout.Util.computeVerticalAlignOffset(child.getAlignY(), hint.height, availHeight, 0, 0);
-          var offsetLeft = qx.ui.layout.Util.computeHorizontalAlignOffset(child.getAlignX(), hint.width, columns[i], 0, 0);
+          var top = Util.computeVerticalAlignOffset(child.getAlignY()||"middle", hint.height, availHeight, 0, 0);
+          var offsetLeft = Util.computeHorizontalAlignOffset(child.getAlignX()||"left", hint.width, columns[i], child.getMarginLeft(), child.getMarginRight());
           child.renderLayout(left + offsetLeft, top, hint.width, hint.height);
         }
 

@@ -244,12 +244,8 @@ qx.Class.define("qx.ui.menu.Menu",
      * @param left {Integer} The left position
      * @param top {Integer} The top position
      */
-    moveTo : function(left, top)
-    {
-      this.setLayoutProperties({
-        left : left,
-        top : top
-      });
+    moveTo : function(left, top) {
+      this.setLayoutProperties({ left: left, top: top });
     },
 
 
