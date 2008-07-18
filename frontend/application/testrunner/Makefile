@@ -17,33 +17,20 @@
 #
 ################################################################################
 
-.PHONY: source build clean distclean api publish fix
+# need to specify a default target 'source' explicitly; all others are caught
+# by '%'
+source %: force
+	@../../tool/bin/generator.py $@
 
-source:
-	@../../tool/bin/generator.py source
+# this replaces .PHONY
+force: ;
 
-build:
-	@../../tool/bin/generator.py build
+# the next one is a hack, since gmake insists of making a target 'Makefile'
+# with the above '%' rule
+Makefile: ;
 
-api:
-	@../../tool/bin/generator.py api
+# use old Makefile for other targets
+#%: force
+#	@$(MAKE) -s -f Makefile.gen1 $@
+#
 
-clean:
-	@$(MAKE) -s -f Makefile.runner clean
-	@$(MAKE) -s -f Makefile.tests clean
-
-distclean:
-	@$(MAKE) -s -f Makefile.runner distclean
-	@$(MAKE) -s -f Makefile.tests distclean
-
-publish:
-	@$(MAKE) -s -f Makefile.runner publish
-	@$(MAKE) -s -f Makefile.tests publish
-
-fix:
-	@$(MAKE) -s -f Makefile.runner fix
-	@$(MAKE) -s -f Makefile.tests fix
-
-locales:
-	@$(MAKE) -s -f Makefile.runner locales
-	@$(MAKE) -s -f Makefile.tests locales

@@ -4,21 +4,22 @@
   [
     {
       "path" : "../../tool/data/config/application.json",
-      "as"   : "appconf"
+      "block"   : [ "source", "build", "clean" ]
     }
   ],
+
+	"let" :
+	{
+		"APPLICATION"  : "testrunner",
+		"CACHE"        : "../../cache",
+		"QOOXDOO_PATH" : "../../framework",
+		"QOOXDOO_URI"  : "../${QOOXDOO_PATH}"
+	},
 
   "jobs" :
   {
     "common" :
     {
-      "let" :
-      {
-        "APPLICATION"  : "testrunner",
-        "QOOXDOO_PATH" : "../../framework",
-        "QOOXDOO_URI"  : "../${QOOXDOO_PATH}"
-      },
-
       "library" :
       [
         {
@@ -202,31 +203,33 @@
       ]
     },
 
+    // -- misc jobs -------------------------------------------
 
-    // -- api --------------------------------------------------
+		"clean" :
+		{
+			"extend" : [ "common" ],
 
-    "api" :
-    {
-      "extend": ["appconf::api"],
-
-      "let" :
-      {
-        "APPLICATION"  : "testrunner",
-        "ROOT" : "${QOOXDOO_PATH}/../application/apiviewer"
-      },
-
-      "cache" :
-      {
-        "path" : "../../cache"
-      },
-
-      "library" :
-      [
-        {
-          "manifest" : "Manifest.json",
-          "uri"      : ".."
-        }
-      ]
-    }
+			"clean-files" :
+			{
+        "Cleaning up build" :
+        [
+          "${BUILD_PATH}/script/${APPLICATION}.js",
+          "${BUILD_PATH}/script/${APPLICATION}[_-]*.js",
+          "${BUILD_PATH}/script/test.js",
+          "${BUILD_PATH}/script/test[_-]*.js"
+        ],
+        "Cleaning up source" :
+        [
+          "${ROOT}/cache",
+          "${ROOT}/source/script/${APPLICATION}.js",
+          "${ROOT}/source/script/test.js",
+          "${ROOT}/source/translation/messages.pot"
+        ],
+        "Cleaning up framework" :
+        [
+          "${QOOXDOO_PATH}/source/translation/messages.pot"
+        ]
+			}
+		}
   }
 }
