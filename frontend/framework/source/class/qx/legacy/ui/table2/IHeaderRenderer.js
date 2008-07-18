@@ -20,7 +20,7 @@
 /**
  * A cell renderer for header cells.
  */
-qx.Interface.define("qx.legacy.ui.table.IHeaderRenderer",
+qx.Interface.define("qx.legacy.ui.table2.IHeaderRenderer",
 {
 
   members :

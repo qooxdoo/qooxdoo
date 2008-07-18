@@ -27,7 +27,7 @@
  *
  * @see SelectionModel
  */
-qx.Class.define("qx.legacy.ui.table.selection.Manager",
+qx.Class.define("qx.legacy.ui.table2.selection.Manager",
 {
   extend : qx.core.Object,
 
@@ -60,7 +60,7 @@ qx.Class.define("qx.legacy.ui.table.selection.Manager",
      */
     selectionModel :
     {
-      check : "qx.legacy.ui.table.selection.Model"
+      check : "qx.legacy.ui.table2.selection.Model"
     }
   },
 

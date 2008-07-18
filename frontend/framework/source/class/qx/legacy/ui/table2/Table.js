@@ -28,7 +28,7 @@
  *
  * @appearance table-focus-statusbar {qx.legacy.ui.basic.Label}
  */
-qx.Class.define("qx.legacy.ui.table.Table",
+qx.Class.define("qx.legacy.ui.table2.Table",
 {
   extend : qx.legacy.ui.layout.VerticalBoxLayout,
 
@@ -42,7 +42,7 @@ qx.Class.define("qx.legacy.ui.table.Table",
   */
 
   /**
-   * @param tableModel {qx.legacy.ui.table.ITableModel ? null}
+   * @param tableModel {qx.legacy.ui.table2.ITableModel ? null}
    *   The table model to read the data from.
    *
    * @param custom {Map ? null}
@@ -56,56 +56,56 @@ qx.Class.define("qx.legacy.ui.table.Table",
    *       <dd><pre class='javascript'>
    *         function(obj)
    *         {
-   *           return new qx.legacy.ui.table.selection.Manager(obj);
+   *           return new qx.legacy.ui.table2.selection.Manager(obj);
    *         }
    *       </pre></dd>
    *     <dt>selectionModel</dt>
    *       <dd><pre class='javascript'>
    *         function(obj)
    *         {
-   *           return new qx.legacy.ui.table.selection.Model(obj);
+   *           return new qx.legacy.ui.table2.selection.Model(obj);
    *         }
    *       </pre></dd>
    *     <dt>tableColumnModel</dt>
    *       <dd><pre class='javascript'>
    *         function(obj)
    *         {
-   *           return new qx.legacy.ui.table.columnmodel.Basic(obj);
+   *           return new qx.legacy.ui.table2.columnmodel.Basic(obj);
    *         }
    *       </pre></dd>
    *     <dt>tablePaneModel</dt>
    *       <dd><pre class='javascript'>
    *         function(obj)
    *         {
-   *           return new qx.legacy.ui.table.pane.Model(obj);
+   *           return new qx.legacy.ui.table2.pane.Model(obj);
    *         }
    *       </pre></dd>
    *     <dt>tablePane</dt>
    *       <dd><pre class='javascript'>
    *         function(obj)
    *         {
-   *           return new qx.legacy.ui.table.pane.Pane(obj);
+   *           return new qx.legacy.ui.table2.pane.Pane(obj);
    *         }
    *       </pre></dd>
    *     <dt>tablePaneHeader</dt>
    *       <dd><pre class='javascript'>
    *         function(obj)
    *         {
-   *           return new qx.legacy.ui.table.pane.Header(obj);
+   *           return new qx.legacy.ui.table2.pane.Header(obj);
    *         }
    *       </pre></dd>
    *     <dt>tablePaneScroller</dt>
    *       <dd><pre class='javascript'>
    *         function(obj)
    *         {
-   *           return new qx.legacy.ui.table.pane.Scroller(obj);
+   *           return new qx.legacy.ui.table2.pane.Scroller(obj);
    *         }
    *       </pre></dd>
    *     <dt>tablePaneModel</dt>
    *       <dd><pre class='javascript'>
    *         function(obj)
    *         {
-   *           return new qx.legacy.ui.table.pane.Model(obj);
+   *           return new qx.legacy.ui.table2.pane.Model(obj);
    *         }
    *       </pre></dd>
    *   </dl>
@@ -168,7 +168,7 @@ qx.Class.define("qx.legacy.ui.table.Table",
     this._columnVisibilityBt.addListener("execute", this._onColumnVisibilityBtExecuted, this);
 
     // Allocate a default data row renderer
-    this.setDataRowRenderer(new qx.legacy.ui.table.rowrenderer.Default(this));
+    this.setDataRowRenderer(new qx.legacy.ui.table2.rowrenderer.Default(this));
 
     // Create the models
     this._selectionManager = this.getNewSelectionManager()(this);
@@ -240,17 +240,17 @@ qx.Class.define("qx.legacy.ui.table.Table",
     /**
      * Dispatched when a data cell has been clicked.
      */
-    "cellClick" : "qx.legacy.ui.table.pane.CellEvent",
+    "cellClick" : "qx.legacy.ui.table2.pane.CellEvent",
 
     /**
      * Dispatched when a data cell has been clicked.
      */
-    "cellDblclick" : "qx.legacy.ui.table.pane.CellEvent",
+    "cellDblclick" : "qx.legacy.ui.table2.pane.CellEvent",
 
     /**
      * Dispatched when the context menu is needed in a data cell
      */
-    "cellContextmenu" : "qx.legacy.ui.table.pane.CellEvent"
+    "cellContextmenu" : "qx.legacy.ui.table2.pane.CellEvent"
   },
 
 
@@ -280,7 +280,7 @@ qx.Class.define("qx.legacy.ui.table.Table",
     /** The selection model. */
     selectionModel :
     {
-      check : "qx.legacy.ui.table.selection.Model",
+      check : "qx.legacy.ui.table2.selection.Model",
       apply : "_applySelectionModel",
       event : "changeSelectionModel"
     },
@@ -288,7 +288,7 @@ qx.Class.define("qx.legacy.ui.table.Table",
     /** The table model. */
     tableModel :
     {
-      check : "qx.legacy.ui.table.ITableModel",
+      check : "qx.legacy.ui.table2.ITableModel",
       apply : "_applyTableModel",
       event : "changeTableModel",
       nullable : true
@@ -302,7 +302,7 @@ qx.Class.define("qx.legacy.ui.table.Table",
      */
     tableColumnModel :
     {
-      check : "qx.legacy.ui.table.columnmodel.Basic",
+      check : "qx.legacy.ui.table2.columnmodel.Basic",
       apply : "_applyTableColumnModel",
       event : "changeTableColumnModel"
     },
@@ -400,7 +400,7 @@ qx.Class.define("qx.legacy.ui.table.Table",
     /** The renderer to use for styling the rows. */
     dataRowRenderer :
     {
-      check : "qx.legacy.ui.table.IRowRenderer",
+      check : "qx.legacy.ui.table2.IRowRenderer",
       init : null,
       nullable : true,
       event : "changeDataRowRenderer"
@@ -439,7 +439,7 @@ qx.Class.define("qx.legacy.ui.table.Table",
     {
       check : "Function",
       init : function(obj) {
-        return new qx.legacy.ui.table.selection.Manager(obj);
+        return new qx.legacy.ui.table2.selection.Manager(obj);
       }
     },
 
@@ -453,7 +453,7 @@ qx.Class.define("qx.legacy.ui.table.Table",
     {
       check : "Function",
       init : function(obj) {
-        return new qx.legacy.ui.table.selection.Model(obj);
+        return new qx.legacy.ui.table2.selection.Model(obj);
       }
     },
 
@@ -467,7 +467,7 @@ qx.Class.define("qx.legacy.ui.table.Table",
     {
       check : "Function",
       init : function(obj) {
-        return new qx.legacy.ui.table.columnmodel.Basic(obj);
+        return new qx.legacy.ui.table2.columnmodel.Basic(obj);
       }
     },
 
@@ -481,7 +481,7 @@ qx.Class.define("qx.legacy.ui.table.Table",
     {
       check : "Function",
       init : function(obj) {
-        return new qx.legacy.ui.table.pane.Pane(obj);
+        return new qx.legacy.ui.table2.pane.Pane(obj);
       }
     },
 
@@ -495,7 +495,7 @@ qx.Class.define("qx.legacy.ui.table.Table",
     {
       check : "Function",
       init : function(obj) {
-        return new qx.legacy.ui.table.pane.Header(obj);
+        return new qx.legacy.ui.table2.pane.Header(obj);
       }
     },
 
@@ -509,7 +509,7 @@ qx.Class.define("qx.legacy.ui.table.Table",
     {
       check : "Function",
       init : function(obj) {
-        return new qx.legacy.ui.table.pane.Scroller(obj);
+        return new qx.legacy.ui.table2.pane.Scroller(obj);
       }
     },
 
@@ -523,7 +523,7 @@ qx.Class.define("qx.legacy.ui.table.Table",
     {
       check : "Function",
       init : function(columnModel) {
-        return new qx.legacy.ui.table.pane.Model(columnModel);
+        return new qx.legacy.ui.table2.pane.Model(columnModel);
       }
     }
   },
@@ -572,12 +572,12 @@ qx.Class.define("qx.legacy.ui.table.Table",
 
       if (old != null)
       {
-        old.removeListener(qx.legacy.ui.table.ITableModel.EVENT_TYPE_META_DATA_CHANGED, this._onTableModelMetaDataChanged, this);
-        old.removeListener(qx.legacy.ui.table.ITableModel.EVENT_TYPE_DATA_CHANGED, this._onTableModelDataChanged, this);
+        old.removeListener(qx.legacy.ui.table2.ITableModel.EVENT_TYPE_META_DATA_CHANGED, this._onTableModelMetaDataChanged, this);
+        old.removeListener(qx.legacy.ui.table2.ITableModel.EVENT_TYPE_DATA_CHANGED, this._onTableModelDataChanged, this);
       }
 
-      value.addListener(qx.legacy.ui.table.ITableModel.EVENT_TYPE_META_DATA_CHANGED, this._onTableModelMetaDataChanged, this);
-      value.addListener(qx.legacy.ui.table.ITableModel.EVENT_TYPE_DATA_CHANGED, this._onTableModelDataChanged, this);
+      value.addListener(qx.legacy.ui.table2.ITableModel.EVENT_TYPE_META_DATA_CHANGED, this._onTableModelMetaDataChanged, this);
+      value.addListener(qx.legacy.ui.table2.ITableModel.EVENT_TYPE_DATA_CHANGED, this._onTableModelDataChanged, this);
 
       // Update the status bar
       this._updateStatusBar();
@@ -781,7 +781,7 @@ qx.Class.define("qx.legacy.ui.table.Table",
      * Returns the selection manager.
      *
      * @type member
-     * @return {qx.legacy.ui.table.selection.Manager} the selection manager.
+     * @return {qx.legacy.ui.table2.selection.Manager} the selection manager.
      */
     _getSelectionManager : function() {
       return this._selectionManager;
@@ -792,7 +792,7 @@ qx.Class.define("qx.legacy.ui.table.Table",
      * Returns an array containing all TablePaneScrollers in this table.
      *
      * @type member
-     * @return {qx.legacy.ui.table.pane.Scroller[]} all TablePaneScrollers in this table.
+     * @return {qx.legacy.ui.table2.pane.Scroller[]} all TablePaneScrollers in this table.
      */
     _getPaneScrollerArr : function() {
       return this._scrollerParent.getChildren();
@@ -804,7 +804,7 @@ qx.Class.define("qx.legacy.ui.table.Table",
      *
      * @type member
      * @param metaColumn {Integer} the meta column to get the TablePaneScroller for.
-     * @return {qx.legacy.ui.table.pane.Scroller} the qx.legacy.ui.table.pane.Scroller.
+     * @return {qx.legacy.ui.table2.pane.Scroller} the qx.legacy.ui.table2.pane.Scroller.
      */
     getPaneScroller : function(metaColumn) {
       return this._getPaneScrollerArr()[metaColumn];
@@ -1221,7 +1221,7 @@ qx.Class.define("qx.legacy.ui.table.Table",
      *
      * @type member
      * @param pageX {Integer} the position in the page to check (in pixels).
-     * @return {qx.legacy.ui.table.pane.Scroller} the TablePaneScroller or null.
+     * @return {qx.legacy.ui.table2.pane.Scroller} the TablePaneScroller or null.
      * @see TablePaneScrollerPool
      */
     getTablePaneScrollerAtPageX : function(pageX)
@@ -1571,8 +1571,8 @@ qx.Class.define("qx.legacy.ui.table.Table",
     {
       if (this.isSeeable())
       {
-        var horBar = qx.legacy.ui.table.pane.Scroller.HORIZONTAL_SCROLLBAR;
-        var verBar = qx.legacy.ui.table.pane.Scroller.VERTICAL_SCROLLBAR;
+        var horBar = qx.legacy.ui.table2.pane.Scroller.HORIZONTAL_SCROLLBAR;
+        var verBar = qx.legacy.ui.table2.pane.Scroller.VERTICAL_SCROLLBAR;
         var scrollerArr = this._getPaneScrollerArr();
 
         // Check which scroll bars are needed

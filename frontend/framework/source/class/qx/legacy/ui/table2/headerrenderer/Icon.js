@@ -22,9 +22,9 @@
  * A header cell renderer which renders an icon (only). The icon cannot be combined
  * with text.
  */
-qx.Class.define("qx.legacy.ui.table.headerrenderer.Icon",
+qx.Class.define("qx.legacy.ui.table2.headerrenderer.Icon",
 {
-  extend : qx.legacy.ui.table.headerrenderer.Default,
+  extend : qx.legacy.ui.table2.headerrenderer.Default,
 
 
 

@@ -27,11 +27,11 @@
  * A table column model that automagically resizes columns based on a
  * selected behavior.
  *
- * @see qx.legacy.ui.table.columnmodel.Basic
+ * @see qx.legacy.ui.table2.columnmodel.Basic
  */
-qx.Class.define("qx.legacy.ui.table.columnmodel.Resize",
+qx.Class.define("qx.legacy.ui.table2.columnmodel.Resize",
 {
-  extend : qx.legacy.ui.table.columnmodel.Basic,
+  extend : qx.legacy.ui.table2.columnmodel.Basic,
 
 
 
@@ -70,13 +70,13 @@ qx.Class.define("qx.legacy.ui.table.columnmodel.Resize",
     /**
      * The behavior to use.
      *
-     * The provided behavior must extend {link @qx.legacy.ui.table.columnmodel.resizebehavior.Abstract} and
+     * The provided behavior must extend {link @qx.legacy.ui.table2.columnmodel.resizebehavior.Abstract} and
      * implement the <i>onAppear</i>, <i>onTableWidthChanged</i>,
      * <i>onColumnWidthChanged</i> and <i>onVisibilityChanged</i>methods.
      */
     behavior :
     {
-      check : "qx.legacy.ui.table.columnmodel.resizebehavior.Abstract",
+      check : "qx.legacy.ui.table2.columnmodel.resizebehavior.Abstract",
       init : null,
       nullable : true,
       apply : "_applyBehavior",
@@ -123,7 +123,7 @@ qx.Class.define("qx.legacy.ui.table.columnmodel.Resize",
      *
      * @param numColumns {var} the number of columns the model should have.
      *
-     * @param table {qx.legacy.ui.table.Table}
+     * @param table {qx.legacy.ui.table2.Table}
      *   The table which this model is used for.  This allows us access to
      *   other aspects of the table, as the <i>behavior</i> sees fit.
      *
@@ -137,7 +137,7 @@ qx.Class.define("qx.legacy.ui.table.columnmodel.Resize",
       // Set the initial resize behavior
       if (this.getBehavior() == null)
       {
-        this.setBehavior(new qx.legacy.ui.table.columnmodel.resizebehavior.Default());
+        this.setBehavior(new qx.legacy.ui.table2.columnmodel.resizebehavior.Default());
       }
 
       // Save the table so we can get at its features, as necessary.

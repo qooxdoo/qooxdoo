@@ -17,7 +17,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.legacy.ui.table.pane.FocusIndicator",
+qx.Class.define("qx.legacy.ui.table2.pane.FocusIndicator",
 {
   extend : qx.legacy.ui.layout.HorizontalBoxLayout,
 
