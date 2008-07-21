@@ -235,6 +235,11 @@ qx.Class.define("qx.ui.menu.Menu",
     ---------------------------------------------------------------------------
     */
 
+    /**
+     * Opens the menu and configures the opener
+     *
+     * @param opener {qx.ui.core.Widget} Any widget
+     */
     open : function(opener)
     {
       this.setOpener(opener);
@@ -253,6 +258,9 @@ qx.Class.define("qx.ui.menu.Menu",
     },
 
 
+    /**
+     * Convenience method to add a separator to the menu
+     */
     addSeparator : function() {
       this.add(new qx.ui.menu.Separator);
     },
@@ -434,12 +442,11 @@ qx.Class.define("qx.ui.menu.Menu",
       }
 
 
-
       // HANDLING FOR HOVERING MYSELF
 
-      var eventTarget = e.getTarget();
+      var target = e.getTarget();
 
-      if (eventTarget == this)
+      if (target == this)
       {
         this._openTimer.stop();
         this._closeTimer.start();
@@ -458,16 +465,16 @@ qx.Class.define("qx.ui.menu.Menu",
       // if we have a open item
       if (openItem)
       {
-        this.setHoverItem(eventTarget);
+        this.setHoverItem(target);
         this._openTimer.stop();
 
         // if the new one has also a sub menu
-        if (eventTarget.getMenu())
+        if (target.getMenu())
         {
           // check if we should use fast reopen (this will open the menu instantly)
           if (this.getFastReopen())
           {
-            this.setOpenItem(eventTarget);
+            this.setOpenItem(target);
             this._closeTimer.stop();
           }
 
@@ -488,13 +495,13 @@ qx.Class.define("qx.ui.menu.Menu",
       // otherwise handle the mouseover and restart the timer
       else
       {
-        this.setHoverItem(eventTarget);
+        this.setHoverItem(target);
 
         // stop timer for the last open request
         this._openTimer.stop();
 
         // and restart it if the new one has a menu, too
-        if (eventTarget.getMenu()) {
+        if (target.getMenu()) {
           this._openTimer.start();
         }
       }
@@ -514,9 +521,8 @@ qx.Class.define("qx.ui.menu.Menu",
       this._openTimer.stop();
 
       // start the close timer to hide a menu if needed
-      var eventTarget = e.getTarget();
-
-      if (eventTarget != this && eventTarget.getMenu()) {
+      var target = e.getTarget();
+      if (target != this && target.getMenu()) {
         this._closeTimer.start();
       }
 
