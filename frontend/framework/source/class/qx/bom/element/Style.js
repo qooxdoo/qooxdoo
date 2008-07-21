@@ -274,7 +274,6 @@ qx.Class.define("qx.bom.element.Style",
     /**
      * Sets the value of a style property
      *
-     * @type static
      * @param element {Element} The DOM element to modify
      * @param name {String} Name of the style attribute (js variant e.g. marginTop, wordSpacing)
      * @param value {var} The value for the given style
@@ -284,6 +283,16 @@ qx.Class.define("qx.bom.element.Style",
      */
     set : function(element, name, value, smart)
     {
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        qx.core.Assert.assertElement(element, "Invalid argument 'element'");
+        qx.core.Assert.assertString(name, "Invalid argument 'name'");
+        if (smart !== undefined) {
+          qx.core.Assert.assertBoolean(smart, "Invalid argument 'smart'");
+        }
+      }
+
+
       var hints = this.__hints;
 
       // normalize name
@@ -318,6 +327,33 @@ qx.Class.define("qx.bom.element.Style",
 
       // apply style
       element.style[name] = value !== null ? value : "";
+    },
+
+
+    /**
+     * Convenience method to modify a set of styles at once.
+     *
+     * @param element {Element} The DOM element to modify
+     * @param map {Map} a map where the key is the name of the property
+     *    and the value is the value to use.
+     * @param smart {Boolean?true} Whether the implementation should automatically use
+     *    special implementations for some properties
+     * @return {void}
+     */
+    setStyles : function(element, styles, smart)
+    {
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        qx.core.Assert.assertElement(element, "Invalid argument 'element'");
+        qx.core.Assert.assertMap(styles, "Invalid argument 'styles'");
+        if (smart !== undefined) {
+          qx.core.Assert.assertBoolean(smart, "Invalid argument 'smart'");
+        }
+      }
+
+      for (var name in styles) {
+        this.set(element, name, styles[name], smart)
+      }
     },
 
 
