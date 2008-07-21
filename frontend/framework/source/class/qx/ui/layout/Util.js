@@ -369,6 +369,28 @@ qx.Class.define("qx.ui.layout.Util",
 
 
     /**
+     * Computes the gaps together with the configuration of separators.
+     *
+     * @type member
+     * @return {Integer} Sum of gaps
+     */
+    computeSeparatorGaps : function(children, spacing, width)
+    {
+      var gaps = 0;
+
+      for (var i=0, l=children.length; i<l; i++)
+      {
+        var child = children[i];
+        gaps += child.getMarginLeft() + child.getMarginRight();
+      }
+
+      gaps += (spacing + width + spacing) * (l-1);
+
+      return gaps;
+    },
+    
+
+    /**
      * Arranges two sizes in one box to best respect their individual limitations.
      *
      * Mainly used by split layouts (Split Panes) where the layout is mainly defined
