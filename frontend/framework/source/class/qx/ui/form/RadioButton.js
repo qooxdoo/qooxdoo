@@ -64,8 +64,8 @@ qx.Class.define("qx.ui.form.RadioButton",
     this.base(arguments, label);
 
     // Add listeners
-    this.addListener("execute", this._onexecute);
-    this.addListener("keypress", this._onkeypress);
+    this.addListener("execute", this._onExecute);
+    this.addListener("keypress", this._onKeyPress);
   },
 
 
@@ -180,7 +180,7 @@ qx.Class.define("qx.ui.form.RadioButton",
      * @param e {qx.event.type.Event} execute event
      * @return {void}
      */
-    _onexecute : function(e) {
+    _onExecute : function(e) {
       this.setChecked(true);
     },
 
@@ -195,7 +195,7 @@ qx.Class.define("qx.ui.form.RadioButton",
      * @param e {qx.event.type.KeySequence} KeyPress event
      * @return {void}
      */
-    _onkeypress : function(e)
+    _onKeyPress : function(e)
     {
       var grp = this.getGroup();
       if (!grp) {

@@ -41,13 +41,13 @@ qx.Class.define("qx.ui.form.RepeatButton",
   *****************************************************************************
   */
 
-  construct : function(label, iconUrl, iconWidth, iconHeight)
+  construct : function(label, icon)
   {
-    this.base(arguments, label, iconUrl, iconWidth, iconHeight);
+    this.base(arguments, label, icon);
 
     // create the timer and add the listener
     this.__timer = new qx.event.Timer(this.getInterval());
-    this.__timer.addListener("interval", this._oninterval, this);
+    this.__timer.addListener("interval", this._onInterval, this);
   },
 
 
@@ -244,7 +244,7 @@ qx.Class.define("qx.ui.form.RepeatButton",
      * @param e {Event} Mouse event
      * @return {void}
      */
-    _onmouseover : function(e)
+    _onMouseOver : function(e)
     {
       if (!this.isEnabled() || e.getTarget() !== this) {
         return;
@@ -272,7 +272,7 @@ qx.Class.define("qx.ui.form.RepeatButton",
      * @param e {Event} Mouse event
      * @return {void}
      */
-    _onmouseout : function(e)
+    _onMouseOut : function(e)
     {
       if (!this.isEnabled() || e.getTarget() !== this) {
         return;
@@ -301,7 +301,7 @@ qx.Class.define("qx.ui.form.RepeatButton",
      * @param e {qx.event.type.MouseEvent} mouseDown event
      * @return {void}
      */
-    _onmousedown : function(e)
+    _onMouseDown : function(e)
     {
       if (!e.isLeftPressed()) {
         return;
@@ -326,7 +326,7 @@ qx.Class.define("qx.ui.form.RepeatButton",
      * @param e {qx.event.type.MouseEvent} mouseUp event
      * @return {void}
      */
-    _onmouseup : function(e)
+    _onMouseUp : function(e)
     {
       this.releaseCapture();
 
@@ -354,7 +354,7 @@ qx.Class.define("qx.ui.form.RepeatButton",
      * @param e {Event} Key event
      * @return {void}
      */
-    _onkeyup : function(e)
+    _onKeyUp : function(e)
     {
       switch(e.getKeyIdentifier())
       {
@@ -386,7 +386,7 @@ qx.Class.define("qx.ui.form.RepeatButton",
      * @param e {Event} Key event
      * @return {void}
      */
-    _onkeydown : function(e)
+    _onKeyDown : function(e)
     {
       switch(e.getKeyIdentifier())
       {
@@ -411,7 +411,7 @@ qx.Class.define("qx.ui.form.RepeatButton",
      * @param e {qx.event.type.Event} interval event
      * @return {void}
      */
-    _oninterval : function(e)
+    _onInterval : function(e)
     {
       this.__timer.stop();
 

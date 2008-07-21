@@ -27,6 +27,21 @@ qx.Class.define("qx.ui.toolbar.Button",
 
 
 
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  construct : function(label, icon)
+  {
+    this.base(arguments, label, icon);
+
+    this.removeListener("keydown", this._onKeyDown);
+    this.removeListener("keyup", this._onKeyUp);
+  },
+
+
 
 
   /*
@@ -54,37 +69,5 @@ qx.Class.define("qx.ui.toolbar.Button",
       refine : true,
       init : false
     }
-  },
-
-
-
-
-  /*
-  *****************************************************************************
-     MEMBERS
-  *****************************************************************************
-  */
-
-  members :
-  {
-    /*
-    ---------------------------------------------------------------------------
-      EVENT HANDLER
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * Key down event handler
-     *
-     * @signature function()
-     */
-    _onkeydown : qx.lang.Function.returnTrue,
-
-    /**
-     * Key up event handler
-     *
-     * @signature function()
-     */
-    _onkeyup : qx.lang.Function.returnTrue
   }
 });

@@ -34,15 +34,12 @@ qx.Class.define("demobrowser.demo.widget.Menu",
     {
       this.base(arguments);
 
-      var box = new qx.ui.layout.HBox();
-      box.setSpacing(20);
-
-      var container = new qx.ui.container.Composite(box).set({
-        padding: [48, 20]
-      })
+      var container = new qx.ui.container.Composite(new qx.ui.layout.Canvas);
+      container.setPadding(20);
       this.getRoot().add(container);
 
-      container.add(this.getButton1());
+      container.add(this.getButton1(), {left: 20, top: 20});
+      container.add(this.getBar1(), {left: 20, top: 100});
     },
 
 
@@ -94,6 +91,168 @@ qx.Class.define("demobrowser.demo.widget.Menu",
       });
 
       return button;
+    },
+
+
+    getBar1 : function()
+    {
+      var toolbar = new qx.ui.toolbar.ToolBar;
+
+      var basicPart = new qx.ui.toolbar.Part;
+      var menuPart = new qx.ui.toolbar.Part;
+      var helpPart = new qx.ui.toolbar.Part;
+
+      toolbar.add(basicPart);
+      toolbar.add(menuPart);
+      toolbar.add(helpPart);
+
+      var newButton = new qx.ui.toolbar.Button(null, "icon/16/actions/document-new.png");
+      var openButton = new qx.ui.toolbar.Button(null, "icon/16/actions/document-open.png");
+      var recentButton = new qx.ui.toolbar.Button(null, "icon/16/actions/document-open-recent.png");
+      var saveButton = new qx.ui.toolbar.Button(null, "icon/16/actions/document-save.png");
+      var saveAsButton = new qx.ui.toolbar.Button(null, "icon/16/actions/document-save-as.png");
+
+      basicPart.add(newButton);
+      basicPart.add(openButton);
+      basicPart.add(recentButton);
+      basicPart.add(saveButton);
+      basicPart.add(saveAsButton);
+
+
+      var fileMenu = new qx.ui.toolbar.MenuButton("File");
+      var editMenu = new qx.ui.toolbar.MenuButton("Edit");
+      var searchMenu = new qx.ui.toolbar.MenuButton("Search");
+      var viewMenu = new qx.ui.toolbar.MenuButton("View");
+      var formatMenu = new qx.ui.toolbar.MenuButton("Format");
+
+      fileMenu.setMenu(this.getFileMenu());
+      editMenu.setMenu(this.getEditMenu());
+      searchMenu.setMenu(this.getSearchMenu());
+      viewMenu.setMenu(this.getViewMenu());
+      formatMenu.setMenu(this.getFormatMenu());
+
+      menuPart.add(fileMenu);
+      menuPart.add(editMenu);
+      menuPart.add(searchMenu);
+      menuPart.add(viewMenu);
+      menuPart.add(formatMenu);
+
+      return toolbar;
+    },
+
+    getFileMenu : function()
+    {
+      var menu = new qx.ui.menu.Menu;
+
+      var newButton = new qx.ui.menu.Button("New");
+      var openButton = new qx.ui.menu.Button("Open");
+      var closeButton = new qx.ui.menu.Button("Close");
+      var saveButton = new qx.ui.menu.Button("Save");
+      var saveAsButton = new qx.ui.menu.Button("Save As");
+      var printButton = new qx.ui.menu.Button("Print");
+      var exitButton = new qx.ui.menu.Button("Exit");
+
+      menu.add(newButton);
+      menu.add(openButton);
+      menu.add(closeButton);
+      menu.add(saveButton);
+      menu.add(saveAsButton);
+      menu.add(printButton);
+      menu.add(exitButton);
+
+      return menu;
+    },
+
+    getEditMenu : function()
+    {
+      var menu = new qx.ui.menu.Menu;
+
+      var newButton = new qx.ui.menu.Button("New");
+      var openButton = new qx.ui.menu.Button("Open");
+      var closeButton = new qx.ui.menu.Button("Close");
+      var saveButton = new qx.ui.menu.Button("Save");
+      var saveAsButton = new qx.ui.menu.Button("Save As");
+      var printButton = new qx.ui.menu.Button("Print");
+      var exitButton = new qx.ui.menu.Button("Exit");
+
+      menu.add(newButton);
+      menu.add(openButton);
+      menu.add(closeButton);
+      menu.add(saveButton);
+      menu.add(saveAsButton);
+      menu.add(printButton);
+      menu.add(exitButton);
+
+      return menu;
+    },
+
+    getSearchMenu : function()
+    {
+      var menu = new qx.ui.menu.Menu;
+
+      var newButton = new qx.ui.menu.Button("New");
+      var openButton = new qx.ui.menu.Button("Open");
+      var closeButton = new qx.ui.menu.Button("Close");
+      var saveButton = new qx.ui.menu.Button("Save");
+      var saveAsButton = new qx.ui.menu.Button("Save As");
+      var printButton = new qx.ui.menu.Button("Print");
+      var exitButton = new qx.ui.menu.Button("Exit");
+
+      menu.add(newButton);
+      menu.add(openButton);
+      menu.add(closeButton);
+      menu.add(saveButton);
+      menu.add(saveAsButton);
+      menu.add(printButton);
+      menu.add(exitButton);
+
+      return menu;
+    },
+
+    getViewMenu : function()
+    {
+      var menu = new qx.ui.menu.Menu;
+
+      var newButton = new qx.ui.menu.Button("New");
+      var openButton = new qx.ui.menu.Button("Open");
+      var closeButton = new qx.ui.menu.Button("Close");
+      var saveButton = new qx.ui.menu.Button("Save");
+      var saveAsButton = new qx.ui.menu.Button("Save As");
+      var printButton = new qx.ui.menu.Button("Print");
+      var exitButton = new qx.ui.menu.Button("Exit");
+
+      menu.add(newButton);
+      menu.add(openButton);
+      menu.add(closeButton);
+      menu.add(saveButton);
+      menu.add(saveAsButton);
+      menu.add(printButton);
+      menu.add(exitButton);
+
+      return menu;
+    },
+
+    getFormatMenu : function()
+    {
+      var menu = new qx.ui.menu.Menu;
+
+      var newButton = new qx.ui.menu.Button("New");
+      var openButton = new qx.ui.menu.Button("Open");
+      var closeButton = new qx.ui.menu.Button("Close");
+      var saveButton = new qx.ui.menu.Button("Save");
+      var saveAsButton = new qx.ui.menu.Button("Save As");
+      var printButton = new qx.ui.menu.Button("Print");
+      var exitButton = new qx.ui.menu.Button("Exit");
+
+      menu.add(newButton);
+      menu.add(openButton);
+      menu.add(closeButton);
+      menu.add(saveButton);
+      menu.add(saveAsButton);
+      menu.add(printButton);
+      menu.add(exitButton);
+
+      return menu;
     }
   }
 });
