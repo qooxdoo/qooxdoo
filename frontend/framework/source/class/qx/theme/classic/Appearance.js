@@ -1319,7 +1319,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          alignY : "middle"
+          alignY : "middle",
+          padding : 1
         };
       }
     },
