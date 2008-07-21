@@ -160,8 +160,8 @@ qx.Class.define("qx.ui.layout.HBox",
     /** Separator to use between the objects */
     separator :
     {
-      check : "String",
-      //init : "black",
+      check : "Array",
+      //init : ["#AAA","#FFF"],
       nullable : true,
       apply : "_applyLayoutChange"
     },
@@ -301,14 +301,14 @@ qx.Class.define("qx.ui.layout.HBox",
       var length = children.length;
       var util = qx.ui.layout.Util;
 
-
-      if (this.getSeparator())
-      {
-        var gaps = this.computeSeparatorGaps();
-      }
-      else
-      {
-        var gaps = util.computeHorizontalGaps(children, this.getSpacing(), true);
+      
+      // Compute gaps
+      var spacing = this.getSpacing();
+      var separator = this.getSeparator();
+      if (separator) {
+        var gaps = util.computeSeparatorGaps(children, spacing, separator.length);
+      } else {
+        var gaps = util.computeHorizontalGaps(children, spacing, true);
       }
 
 
@@ -385,8 +385,7 @@ qx.Class.define("qx.ui.layout.HBox",
       var hint, top, height, width, marginRight, marginTop, marginBottom;
       var spacing = this.getSpacing();
       var separator = this.getSeparator();
-      var separatorWidth = 1;
-
+      
       for (i=0; i<length; i+=1)
       {
         child = children[i];
@@ -408,20 +407,10 @@ qx.Class.define("qx.ui.layout.HBox",
           if (separator)
           {
             left += marginRight + spacing;
-
-            // ALPHA CODE ;)
-            // Just a test if this could work this way
-            var helperWidget = new qx.ui.core.Widget;
-            helperWidget.setBackgroundColor("red");
-
-            // Needed for DOM sync
-            // Bit hacky, we must be sure to not influence the children array
-            helperWidget.setLayoutParent(child.getLayoutParent());
-
-            // Render separator
-            helperWidget.renderLayout(left, 0, separatorWidth, availHeight);
-
-            left += separatorWidth + spacing + child.getMarginLeft();
+            
+            child.getLayoutParent().renderHorizontalSeparator(separator, i, left, availHeight);
+            
+            left += separator.length + spacing + child.getMarginLeft();
           }
           else
           {
@@ -483,14 +472,13 @@ qx.Class.define("qx.ui.layout.HBox",
         }
       }
 
-      if (this.getSeparator())
-      {
-        var gaps = this.computeSeparatorGaps();
-      }
-      else
-      {
-        // Respect gaps
-        var gaps = util.computeHorizontalGaps(children, this.getSpacing(), true);
+      // Respect gaps
+      var spacing = this.getSpacing();
+      var separator = this.getSeparator();
+      if (separator) {
+        var gaps = util.computeSeparatorGaps(children, spacing, separator.length);
+      } else {
+        var gaps = util.computeHorizontalGaps(children, spacing, true);
       }
 
       // Return hint
@@ -500,31 +488,6 @@ qx.Class.define("qx.ui.layout.HBox",
         minHeight : minHeight,
         height : height
       };
-    },
-
-
-    /**
-     * Computes the gaps together with the configuration of separators.
-     *
-     * @type member
-     * @return {Integer} Sum of gaps
-     */
-    computeSeparatorGaps : function()
-    {
-      var children = this.__children;
-      var gaps = 0;
-      var separatorWidth = 1;
-      var spacing = this.getSpacing();
-
-      for (var i=0, l=children.length; i<l; i++)
-      {
-        var child = children[i];
-        gaps += child.getMarginLeft() + child.getMarginRight();
-      }
-
-      gaps += (spacing + separatorWidth + spacing) * (l-1);
-
-      return gaps;
     }
   }
 });
