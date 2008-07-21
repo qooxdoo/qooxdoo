@@ -1119,7 +1119,7 @@ def compileNode(node,optns):
 
         # operation
         elif node.parent.type == "operation":
-            if node.isComplex():
+            if pretty and node.isComplex():  # "if pretty" due to bug#840
                 # (?: hook operation)
                 if node.parent.get("operator") == "HOOK":
                     sep()
