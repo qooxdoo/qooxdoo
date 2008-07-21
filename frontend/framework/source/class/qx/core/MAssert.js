@@ -419,6 +419,17 @@ qx.Mixin.define("qx.core.MAssert",
 
 
     /**
+     * Assert that the value is a DOM element.
+     *
+     * @param value {var} Value to check
+     * @param msg {String} Message to be shown if the assertion fails.
+     */
+    assertElement : function(value, msg) {
+      qx.core.Assert.assertElement(value, msg);
+    },
+
+
+    /**
      * Assert the the value is an instance of {@link qx.core.Object}.
      *
      * @param value {var} Value to check

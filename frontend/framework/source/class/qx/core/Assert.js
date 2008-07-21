@@ -531,7 +531,7 @@ qx.Class.define("qx.core.Assert",
     {
       var objConstructor = ({}).constructor;
       this.__assert(
-        value.constructor === objConstructor,
+        value && value.constructor === objConstructor,
         msg || "",
         "Expected value to be a map but found " + value + "!"
       );
@@ -633,8 +633,25 @@ qx.Class.define("qx.core.Assert",
       );
     },
 
+
     /**
-     * Assert the the value is an instance of {@link qx.core.Object}.
+     * Assert that the value is a DOM element.
+     *
+     * @param value {var} Value to check
+     * @param msg {String} Message to be shown if the assertion fails.
+     */
+    assertElement : function(value, msg)
+    {
+      this.__assert(
+        qx.dom.Node.isElement(value),
+        msg || "",
+        qx.lang.String.format("Expected value to be a DOM element but found  '%1'!", [value])
+      );
+    },
+
+
+    /**
+     * Assert that the value is an instance of {@link qx.core.Object}.
      *
      * @param value {var} Value to check
      * @param msg {String} Message to be shown if the assertion fails.
