@@ -144,7 +144,7 @@
           "${RESPATH}/source/Modern/tab-button-right-active.png" :
           {
             "prefix" : "../../${MODERN}/tabview/tab-button-right-active",
-            "border-width" : 5
+            "border-width" : 6
           },
           // inactive right tabview button split
           "${RESPATH}/source/Modern/tab-button-right-inactive.png" :
