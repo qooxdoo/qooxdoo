@@ -1800,8 +1800,10 @@ qx.Class.define("qx.ui.core.Widget",
       }
 
       // Reset old decoration
-      if (old && classChanged) {
-        old.reset(decorationElement);
+      if (old && classChanged)
+      {
+        var oldDecorator = qx.theme.manager.Decoration.getInstance().resolve(old);
+        oldDecorator.reset(decorationElement);
       }
 
       if (value)
