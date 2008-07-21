@@ -1795,7 +1795,7 @@ qx.Class.define("qx.ui.core.Widget",
         else if (backgroundColor)
         {
           // Background color will be removed through reset
-          containerElement.setStyle("backgroundColor", backgroundColor);
+          containerElement.setStyle("backgroundColor", qx.theme.manager.Color.getInstance().resolve(backgroundColor) || null);
         }
       }
 
