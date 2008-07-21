@@ -1302,6 +1302,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     "menubutton/icon" :
     {
+      include : "image",
+
       style : function(states)
       {
         return {
@@ -1312,6 +1314,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     "menubutton/label" :
     {
+      include : "label",
+
       style : function(states)
       {
         return {
@@ -1322,6 +1326,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     "menubutton/shortcut" :
     {
+      include : "label",
+
       style : function(states)
       {
         return {

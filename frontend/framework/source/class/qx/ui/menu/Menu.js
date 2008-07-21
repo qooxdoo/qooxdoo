@@ -253,6 +253,11 @@ qx.Class.define("qx.ui.menu.Menu",
     },
 
 
+    addSeparator : function() {
+      this.add(new qx.ui.menu.Separator);
+    },
+
+
 
 
     /*
