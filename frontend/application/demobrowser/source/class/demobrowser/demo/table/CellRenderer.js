@@ -39,25 +39,7 @@ qx.Class.define("demobrowser.demo.table.CellRenderer",
     {
       this.base(arguments);
 
-      // TODO: box model correction
-      var boxSizingAttr = qx.legacy.core.Client.getInstance().getEngineBoxSizingAttributes();
-      var borderBoxCss = boxSizingAttr.join(":border-box;") + ":border-box;";
-
-      qx.bom.Stylesheet.createElement(
-        "*{" + borderBoxCss +"} "
-      );
-
-      // table mock
-      this.tableMock = {
-        getTableModel : function() {}
-      };
-
-
-
-      // setup aliases
-      qx.util.AliasManager.getInstance().add("decoration", "qx/decoration/Classic");
-      qx.util.AliasManager.getInstance().add("icon", "qx/icon/Tango");
-
+      this.setUp();
 
       this.testDefaultRenderer(new qx.ui.table.cellrenderer.Default());
       this.testDefaultRenderer(new qx.ui.table.cellrenderer.Default().set({
@@ -73,6 +55,28 @@ qx.Class.define("demobrowser.demo.table.CellRenderer",
       this.testConditionalRenderer();
       this.testDynamicRenderer();
       this.testReplaceRenderer();
+    },
+
+
+    setUp : function()
+    {
+      // TODO: box model correction
+      var boxSizingAttr = qx.legacy.core.Client.getInstance().getEngineBoxSizingAttributes();
+      var borderBoxCss = boxSizingAttr.join(":border-box;") + ":border-box;";
+
+      qx.bom.Stylesheet.createElement(
+        "*{" + borderBoxCss +"} "
+      );
+
+      // table mock
+      this.tableMock = {
+        getTableModel : function() {}
+      };
+
+
+      // setup aliases
+      qx.util.AliasManager.getInstance().add("decoration", "qx/decoration/Classic");
+      qx.util.AliasManager.getInstance().add("icon", "qx/icon/Tango");
     },
 
 
