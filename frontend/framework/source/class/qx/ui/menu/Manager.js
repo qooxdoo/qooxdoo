@@ -253,6 +253,10 @@ qx.Class.define("qx.ui.menu.Manager",
           this._onKeyPressEnter(menu);
           break;
 
+        case "Escape":
+          this.hideAll();
+          break;
+
         default:
           return;
       }
