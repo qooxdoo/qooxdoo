@@ -543,7 +543,6 @@ qx.Class.define("qx.ui.menu.Menu",
 
       // if we have a item which is currently hovered, open it
       var hoverItem = this.getHoverItem();
-
       if (hoverItem && hoverItem.getMenu()) {
         this.setOpenItem(hoverItem);
       }
