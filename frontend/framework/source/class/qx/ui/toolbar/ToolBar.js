@@ -74,15 +74,13 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
       init : "toolbar"
     },
 
-/*
+    /** Holds the currently open menu (when the toolbar is used for menus) */
     openMenu :
     {
       check : "qx.ui.menu.Menu",
       event : "changeOpenMenu",
       nullable : true
     },
-*/
-
 
     /** Whether icons, labels, both or none should be shown. */
     show :
@@ -137,6 +135,8 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
       this._add(spacer, {flex:1});
       return spacer;
     },
+
+
 
 
 

@@ -35,6 +35,7 @@ qx.Class.define("qx.ui.toolbar.MenuButton",
   {
     this.base(arguments, label, icon);
 
+    // Initialize properties
     if (menu != null) {
       this.setMenu(menu);
     }
@@ -51,6 +52,7 @@ qx.Class.define("qx.ui.toolbar.MenuButton",
 
   properties :
   {
+    /** The menu instance to show when clicking on the button */
     menu :
     {
       check : "qx.ui.menu.Menu",
@@ -71,6 +73,12 @@ qx.Class.define("qx.ui.toolbar.MenuButton",
 
   members :
   {
+    /*
+    ---------------------------------------------------------------------------
+      PROPERTY APPLY ROUTINES
+    ---------------------------------------------------------------------------
+    */
+
     // property apply
     _applyMenu : function(value, old)
     {
@@ -84,22 +92,17 @@ qx.Class.define("qx.ui.toolbar.MenuButton",
     },
 
 
+
+
+    /*
+    ---------------------------------------------------------------------------
+      HELPER METHODS
+    ---------------------------------------------------------------------------
+    */
+
     /**
-     * Listener for visibility property changes of the attached menu
-     *
-     * @param e {qx.event.type.Data} Property change event
+     * Positions and shows the attached menu widget.
      */
-    _onMenuChange : function(e)
-    {
-      if (this.getMenu().isVisible()) {
-        this.addState("pressed");
-      } else {
-        this.removeState("pressed");
-      }
-    },
-
-
-
     _showMenu : function()
     {
       var menu = this.getMenu();
@@ -113,6 +116,69 @@ qx.Class.define("qx.ui.toolbar.MenuButton",
     },
 
 
+    /**
+     * Inspects the parent chain to find a ToolBar instance.
+     *
+     * @return {qx.ui.toolbar.ToolBar} Toolbar instance or <code>null</code>.
+     */
+    _findToolBar : function()
+    {
+      var parent = this;
+      while (parent)
+      {
+        if (parent instanceof qx.ui.toolbar.ToolBar) {
+          return parent;
+        }
+
+        parent = parent.getLayoutParent();
+      }
+
+      return null;
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      EVENT LISTENERS
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Listener for visibility property changes of the attached menu
+     *
+     * @param e {qx.event.type.Data} Property change event
+     */
+    _onMenuChange : function(e)
+    {
+      var menu = this.getMenu();
+      var toolbar = this._findToolBar();
+
+      if (menu.isVisible())
+      {
+        this.addState("pressed");
+
+        if (toolbar) {
+          toolbar.setOpenMenu(menu);
+        }
+      }
+      else
+      {
+        this.removeState("pressed");
+
+        if (toolbar && toolbar.getOpenMenu() == menu) {
+          toolbar.resetOpenMenu();
+        }
+      }
+    },
+
+
+    /**
+     * Event listener for mousedown event
+     *
+     * @param e {qx.event.type.Mouse} mousedown event object
+     */
     _onMouseDown : function(e)
     {
       var menu = this.getMenu();
@@ -131,34 +197,49 @@ qx.Class.define("qx.ui.toolbar.MenuButton",
       e.stopPropagation();
     },
 
-    _onMouseUp : function(e)
-    {
-      var menu = this.getMenu();
-      if (menu)
-      {
-      }
 
+    /**
+     * Event listener for mouseup event
+     *
+     * @param e {qx.event.type.Mouse} mouseup event object
+     */
+    _onMouseUp : function(e) {
       e.stopPropagation();
     },
 
+
+    /**
+     * Event listener for mouseover event
+     *
+     * @param e {qx.event.type.Mouse} mouseover event object
+     */
     _onMouseOver : function(e)
     {
       this.addState("hovered");
 
       if (this.getMenu())
       {
-        var mgr = qx.ui.menu.Manager.getInstance();
-        var activeMenu = mgr.getActiveMenu();
-        if (activeMenu)
+        var toolbar = this._findToolBar();
+        if (toolbar.getOpenMenu())
         {
-          mgr.hideAll();
+          // Hide all open menus first
+          qx.ui.menu.Manager.getInstance().hideAll();
+
+          // Then show the attached menu
           this._showMenu();
         }
       }
     },
 
+
+    /**
+     * Event listener for mouseout event
+     *
+     * @param e {qx.event.type.Mouse} mouseout event object
+     */
     _onMouseOut : function(e)
     {
+      // Just remove the hover state
       this.removeState("hovered");
     }
   }
