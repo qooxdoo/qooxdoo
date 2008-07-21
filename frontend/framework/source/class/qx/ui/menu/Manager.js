@@ -64,6 +64,44 @@ qx.Class.define("qx.ui.menu.Manager",
   {
     /*
     ---------------------------------------------------------------------------
+      HELPER METHODS
+    ---------------------------------------------------------------------------
+    */
+
+    _getChild : function(menu, start, iter, loop)
+    {
+      var children = menu.getChildren();
+      var length = children.length;
+      var child;
+
+      for (var i=start; i<length && i>=0; i+=iter)
+      {
+        child = children[i];
+        if (child.isEnabled() && !child.isAnonymous()) {
+          return child;
+        }
+      }
+
+      if (loop)
+      {
+        i = i == length ? 0 : length-1;
+        for (; i!=start; i+=iter)
+        {
+          child = children[i];
+          if (child.isEnabled() && !child.isAnonymous()) {
+            return child;
+          }
+        }
+      }
+
+      return null;
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
       PUBLIC METHODS
     ---------------------------------------------------------------------------
     */
@@ -128,9 +166,10 @@ qx.Class.define("qx.ui.menu.Manager",
 
 
 
+
     /*
     ---------------------------------------------------------------------------
-      EVENT HANDLERS
+      MOUSE EVENT HANDLERS
     ---------------------------------------------------------------------------
     */
 
@@ -158,6 +197,10 @@ qx.Class.define("qx.ui.menu.Manager",
         this.hideAll();
       }
     },
+
+
+
+
 
     /*
     ---------------------------------------------------------------------------
@@ -213,36 +256,6 @@ qx.Class.define("qx.ui.menu.Manager",
     },
 
 
-    _getChild : function(menu, start, iter, loop)
-    {
-      var children = menu.getChildren();
-      var length = children.length;
-      var child;
-
-      for (var i=start; i<length && i>=0; i+=iter)
-      {
-        child = children[i];
-        if (child.isEnabled() && !child.isAnonymous()) {
-          return child;
-        }
-      }
-
-      if (loop)
-      {
-        i = i == length ? 0 : length-1;
-        for (; i!=start; i+=iter)
-        {
-          child = children[i];
-          if (child.isEnabled() && !child.isAnonymous()) {
-            return child;
-          }
-        }
-      }
-
-      return null;
-    },
-
-
     /**
      * Event handler for <code>Up</code> key
      *
@@ -290,31 +303,26 @@ qx.Class.define("qx.ui.menu.Manager",
      *
      * @return {void}
      */
-    _onKeyPressLeft : function()
+    _onKeyPressLeft : function(menu)
     {
-      var menuOpener = this.getOpener();
-
-      // Jump to the "parent" qx.ui.menu.Menu
-      if (menuOpener instanceof qx.ui.menu.Button)
-      {
-        var openerParentMenu = this.getOpener().getLayoutParent();
-
-        openerParentMenu.resetOpenItem();
-        openerParentMenu.setHoverItem(menuOpener);
-
-        openerParentMenu._makeActive();
+      var menuOpener = menu.getOpener();
+      if (!menuOpener) {
+        return;
       }
 
-      // Jump to the previous ToolBarMenuButton
+      // Back to the "parent" menu
+      if (menuOpener instanceof qx.ui.menu.Button)
+      {
+        var parentMenu = menuOpener.getLayoutParent();
+
+        parentMenu.resetOpenItem();
+        parentMenu.setHoverItem(menuOpener);
+      }
+
+      // Goto the previous toolbar button
       else if (menuOpener instanceof qx.ui.toolbar.MenuButton)
       {
-        var toolbar = menuOpener.getParentToolBar();
-
-        // change active widget to new button
-        this.getFocusRoot().setActiveChild(toolbar);
-
-        // execute toolbars keydown implementation
-        toolbar._onKeyPress(e);
+        this.debug("TODO: Toolbar Integration A");
       }
     },
 
@@ -328,75 +336,54 @@ qx.Class.define("qx.ui.menu.Manager",
     {
       var hoverItem = menu.getHoverItem();
 
+      // Open sub-menu of hovered item and select first child
       if (hoverItem)
       {
         var subMenu = hoverItem.getMenu();
 
         if (subMenu)
         {
+          // open previously hovered item
           menu.setOpenItem(hoverItem);
 
-          // mark first item in new submenu
-          subMenu.setHoverItem(menu.getFirstActiveChild());
+          // hover first item in new submenu
+          var first = this._getChild(subMenu, 0, 1);
+          if (first) {
+            subMenu.setHoverItem(first);
+          }
 
           return;
         }
       }
-      else if (!this.getOpenItem())
-      {
-        var first = this.getLayout().getFirstActiveChild();
 
-        if (first) {
-          first.getMenu() ? this.setOpenItem(first) : this.setHoverItem(first);
+      // No hover and no open item
+      // When first button has a menu, open it, otherwise only hover it
+      else if (!menu.getOpenItem())
+      {
+        var first = this._getChild(menu, 0, 1);
+
+        if (first)
+        {
+          menu.setHoverItem(first);
+
+          if (first.getMenu()) {
+            menu.setOpenItem(first);
+          }
+
+          return;
         }
       }
 
-      // Jump to the next ToolBarMenuButton
-      var menuOpener = this.getOpener();
+      // Jump to the next toolbar button
+      var menuOpener = menu.getOpener();
 
       if (menuOpener instanceof qx.ui.toolbar.MenuButton)
       {
-        var toolbar = menuOpener.getParentToolBar();
-
-        // change active widget to new button
-        this.getFocusRoot().setActiveChild(toolbar);
-
-        // execute toolbars keydown implementation
-        toolbar._onKeyPress(e);
+        this.debug("TODO: Toolbar Integration B");
       }
       else if (menuOpener instanceof qx.ui.menu.Button && hoverItem)
       {
-        // search for menubar if existing
-        // menu -> button -> menu -> button -> menu -> menubarbutton -> menubar
-        var openerParentMenu = menuOpener.getLayoutParent();
-
-        while (openerParentMenu && openerParentMenu instanceof qx.ui.menu.Menu)
-        {
-          menuOpener = openerParentMenu.getOpener();
-
-          if (menuOpener instanceof qx.ui.menu.Button) {
-            openerParentMenu = menuOpener.getLayoutParent();
-          }
-          else
-          {
-            if (menuOpener) {
-              openerParentMenu = menuOpener.getLayoutParent();
-            }
-
-            break;
-          }
-        }
-
-        if (openerParentMenu instanceof qx.ui.toolbar.Part) {
-          openerParentMenu = openerParentMenu.getLayoutParent();
-        }
-
-        if (openerParentMenu instanceof qx.ui.toolbar.ToolBar)
-        {
-          // jump to next menubarbutton
-          this.getFocusRoot().setActiveChild(openerParentMenu);
-          openerParentMenu._onKeyPress(e);
-        }
+        this.debug("TODO: Toolbar Integration C");
       }
     },
 
@@ -406,15 +393,15 @@ qx.Class.define("qx.ui.menu.Manager",
      *
      * @return {void}
      */
-    _onKeyPressEnter : function()
+    _onKeyPressEnter : function(menu)
     {
-      var hoverItem = this.getHoverItem();
+      var hoverItem = menu.getHoverItem();
 
       if (hoverItem) {
         hoverItem.execute();
       }
 
-      qx.ui.menu.Manager.getInstance().update();
+      this.hideAll();
     }
   }
 });
