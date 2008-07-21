@@ -54,14 +54,14 @@ qx.Class.define("qx.ui.form.ToggleButton",
     this.base(arguments, label, icon);
 
     // register mouse events
-    this.addListener("mouseover", this._onmouseover);
-    this.addListener("mouseout", this._onmouseout);
-    this.addListener("mousedown", this._onmousedown);
-    this.addListener("mouseup", this._onmouseup);
+    this.addListener("mouseover", this._onMouseOver);
+    this.addListener("mouseout", this._onMouseOut);
+    this.addListener("mousedown", this._onMouseDown);
+    this.addListener("mouseup", this._onMouseUp);
 
     // register keyboard events
-    this.addListener("keydown", this._onkeydown);
-    this.addListener("keyup", this._onkeyup);
+    this.addListener("keydown", this._onKeyDown);
+    this.addListener("keyup", this._onKeyUp);
   },
 
 
@@ -149,7 +149,7 @@ qx.Class.define("qx.ui.form.ToggleButton",
      * @param e {Event} Mouse event
      * @return {void}
      */
-    _onmouseover : function(e)
+    _onMouseOver : function(e)
     {
       if (e.getTarget() !== this) {
         return;
@@ -177,7 +177,7 @@ qx.Class.define("qx.ui.form.ToggleButton",
      * @param e {Event} Mouse event
      * @return {void}
      */
-    _onmouseout : function(e)
+    _onMouseOut : function(e)
     {
       if (e.getTarget() !== this) {
         return;
@@ -208,7 +208,7 @@ qx.Class.define("qx.ui.form.ToggleButton",
      * @param e {Event} Mouse event
      * @return {void}
      */
-    _onmousedown : function(e)
+    _onMouseDown : function(e)
     {
       if (!e.isLeftPressed()) {
         return;
@@ -236,7 +236,7 @@ qx.Class.define("qx.ui.form.ToggleButton",
      * @param e {Event} Mouse event
      * @return {void}
      */
-    _onmouseup : function(e)
+    _onMouseUp : function(e)
     {
       this.releaseCapture();
 
@@ -259,7 +259,7 @@ qx.Class.define("qx.ui.form.ToggleButton",
      * @param e {Event} Key event
      * @return {void}
      */
-    _onkeydown : function(e)
+    _onKeyDown : function(e)
     {
       switch(e.getKeyIdentifier())
       {
@@ -282,7 +282,7 @@ qx.Class.define("qx.ui.form.ToggleButton",
      * @param e {Event} Key event
      * @return {void}
      */
-    _onkeyup : function(e)
+    _onKeyUp : function(e)
     {
       if (!this.hasState("pressed")) {
         return;

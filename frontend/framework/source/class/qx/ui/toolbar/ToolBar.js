@@ -53,7 +53,7 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
     // add needed layout
     this._setLayout(new qx.ui.layout.HBox());
 
-    // this.addEventListener("keypress", this._onkeypress);
+    // this.addEventListener("keypress", this._onKeyPress);
   },
 
 
@@ -153,15 +153,15 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
      * @param e {qx.event.type.KeyInput} the key event object
      * @return {void}
      */
-    _onkeypress : function(e)
+    _onKeyPress : function(e)
     {
       switch(e.getKeyIdentifier())
       {
         case "Left":
-          return this._onkeypress_left();
+          return this._onKeyPressLeft();
 
         case "Right":
-          return this._onkeypress_right();
+          return this._onKeyPressRight();
       }
     },
 
@@ -172,7 +172,7 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
      * @type member
      * @return {void}
      */
-    _onkeypress_left : function()
+    _onKeyPressLeft : function()
     {
       var menu = this.getOpenMenu();
 
@@ -235,7 +235,7 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
      * @type member
      * @return {void}
      */
-    _onkeypress_right : function()
+    _onKeyPressRight : function()
     {
       var menu = this.getOpenMenu();
 
