@@ -189,6 +189,11 @@ qx.Class.define("qx.bom.Selection",
             case "input":
             case "textarea":
             case "button":
+              if (end === undefined)
+              {
+                end = node.value.length;
+              }
+              
               if (start >= 0 && start <= node.value.length && end >= 0 && end <= node.value.length)
               {
                 rng = qx.bom.Range.get(node);
@@ -202,6 +207,11 @@ qx.Class.define("qx.bom.Selection",
               }
             break;
             case "#text":
+              if (end === undefined)
+              {
+                end = node.nodeValue.length;
+              }
+              
               if (start >= 0 && start <= node.nodeValue.length && end >= 0 && end <= node.nodeValue.length)
               {
                 // get a range of the body element
@@ -220,6 +230,11 @@ qx.Class.define("qx.bom.Selection",
             break;
             
             default:
+              if (end === undefined)
+              {
+                end = node.childNodes.length - 1;
+              }
+             
              // check start and end -> childNodes
              if (node.childNodes[start] && node.childNodes[end])
              {
@@ -253,6 +268,12 @@ qx.Class.define("qx.bom.Selection",
         var nodeName = node.nodeName.toLowerCase();
         if (qx.dom.Node.isElement(node) && (nodeName == "input" || nodeName == "textarea")) 
         {
+          // if "end" is not given set it to the end
+          if (end === undefined)
+          {
+            end = node.value.length;
+          }
+                    
           // check boundaries
           if (start >= 0 && start <= node.value.length && end >= 0 && end <= node.value.length) 
           {
@@ -274,13 +295,23 @@ qx.Class.define("qx.bom.Selection",
           // for text nodes the offsets are applied to the text content
           if (qx.dom.Node.isText(node))
           {
-            if (start >= 0 && start < node.length && end >= 0 && end < node.length) 
+            if (end === undefined)
+            {
+              end = node.length;
+            }
+            
+            if (start >= 0 && start < node.length && end >= 0 && end <= node.length) 
             {
               validBoundaries = true;
             }  
           }
           else if (qx.dom.Node.isElement(node))
           {
+            if (end === undefined)
+            {
+              end = node.childNodes.length - 1;
+            }
+            
             if (start >= 0 && node.childNodes[start] && end >= 0 && node.childNodes[end])
             {
               validBoundaries = true;
@@ -290,6 +321,12 @@ qx.Class.define("qx.bom.Selection",
           {
             // work on with the body element
             node = node.body;
+            
+            if (end === undefined) 
+            {
+              end = node.childNodes.length - 1;
+            }
+            
             if (start >= 0 && node.childNodes[start] && end >= 0 && node.childNodes[end])
             {
               validBoundaries = true;
@@ -330,6 +367,19 @@ qx.Class.define("qx.bom.Selection",
         
         return false;
       }
-    })
+    }),
+    
+    
+    /**
+     * Selects all content/childNodes of the given node
+     * 
+     * @type member
+     * @param node {Node} text, element or document node
+     * @return {Boolean} whether a selection is drawn 
+     */
+    setAll : function(node)
+    {
+      return qx.bom.Selection.set(node, 0);
+    }
   }
 });
