@@ -36,7 +36,7 @@
 qx.Class.define("qx.ui.toolbar.ToolBar",
 {
   extend : qx.ui.core.Widget,
-
+  include : qx.ui.core.MChildrenHandling,
 
 
 
@@ -52,8 +52,6 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
 
     // add needed layout
     this._setLayout(new qx.ui.layout.HBox());
-
-    // this.addEventListener("keypress", this._onKeyPress);
   },
 
 
@@ -111,25 +109,13 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
     */
 
     /**
-     * Add a item at the end of the toolbar
-     *
-     * @type member
-     * @param item {qx.ui.core.Widget} widget to add
-     * @param options {Map?null} Optional layout data for widget.
-     */
-    add: function(item, options) {
-      this._add(item, options);
-    },
-
-
-    /**
      * Add a spacer at the current position to the toolbar. The spacer has a flex
      * value of one and will stretch to the available space.
      *
      * @return {qx.ui.core.Spacer} The newly added spacer object. A reference
      *   to the spacer is needed to remove ths spacer from the layout.
      */
-    addSpacer: function()
+    addSpacer : function()
     {
       var spacer = new qx.ui.core.Spacer;
       this._add(spacer, {flex:1});
@@ -137,158 +123,30 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
     },
 
 
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      EVENTS
-    ---------------------------------------------------------------------------
-    */
-
     /**
-     * Wraps key events to target functions
+     * Returns all nested buttons which contains a menu to show. This is mainly
+     * used for keyboard support.
      *
-     * @type member
-     * @param e {qx.event.type.KeyInput} the key event object
-     * @return {void}
+     * @return {Array} List of all menu buttons
      */
-    _onKeyPress : function(e)
+    getMenuButtons : function()
     {
-      switch(e.getKeyIdentifier())
+      var children = this.getChildren();
+      var buttons = [];
+      var child;
+
+      for (var i=0, l=children.length; i<l; i++)
       {
-        case "Left":
-          return this._onKeyPressLeft();
+        child = children[i];
 
-        case "Right":
-          return this._onKeyPressRight();
-      }
-    },
-
-
-    /**
-     * Event handler for the "left" key
-     *
-     * @type member
-     * @return {void}
-     */
-    _onKeyPressLeft : function()
-    {
-      var menu = this.getOpenMenu();
-
-      if (!menu) {
-        return;
-      }
-
-      var opener = menu.getOpener();
-
-      if (!opener) {
-        return;
-      }
-
-      var children = this.getAllButtons();
-      var length = children.length;
-      var index = children.indexOf(opener);
-      var current;
-      var prevButton = null;
-
-      for (var i=index-1; i>=0; i--)
-      {
-        current = children[i];
-
-        if (current instanceof qx.ui.toolbar.MenuButton && current.getEnabled())
-        {
-          prevButton = current;
-          break;
+        if (child instanceof qx.ui.toolbar.MenuButton) {
+          buttons.push(child);
+        } else if (child instanceof qx.ui.toolbar.Part) {
+          buttons.push.apply(buttons, child.getMenuButtons());
         }
       }
 
-      // If none found, try again from the begin (looping)
-      if (!prevButton)
-      {
-        for (var i=length-1; i>index; i--)
-        {
-          current = children[i];
-
-          if (current instanceof qx.ui.toolbar.MenuButton && current.getEnabled())
-          {
-            prevButton = current;
-            break;
-          }
-        }
-      }
-
-      if (prevButton)
-      {
-        // hide other menus
-        qx.ui.menu.Manager.getInstance().update();
-
-        // show previous menu
-        prevButton._showMenu(true);
-      }
-    },
-
-
-    /**
-     * Event handler for the "right" key
-     *
-     * @type member
-     * @return {void}
-     */
-    _onKeyPressRight : function()
-    {
-      var menu = this.getOpenMenu();
-
-      if (!menu) {
-        return;
-      }
-
-      var opener = menu.getOpener();
-
-      if (!opener) {
-        return;
-      }
-
-      var children = this.getAllButtons();
-      var length = children.length;
-      var index = children.indexOf(opener);
-      var current;
-      var nextButton = null;
-
-      for (var i=index+1; i<length; i++)
-      {
-        current = children[i];
-
-        if (current instanceof qx.ui.toolbar.MenuButton && current.getEnabled())
-        {
-          nextButton = current;
-          break;
-        }
-      }
-
-      // If none found, try again from the begin (looping)
-      if (!nextButton)
-      {
-        for (var i=0; i<index; i++)
-        {
-          current = children[i];
-
-          if (current instanceof qx.ui.toolbar.MenuButton && current.getEnabled())
-          {
-            nextButton = current;
-            break;
-          }
-        }
-      }
-
-      if (nextButton)
-      {
-        // hide other menus
-        qx.ui.menu.Manager.getInstance().update();
-
-        // show next menu
-        nextButton._showMenu(true);
-      }
+      return buttons;
     }
   }
 });

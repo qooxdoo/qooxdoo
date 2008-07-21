@@ -206,6 +206,11 @@ qx.Class.define("qx.ui.menu.Manager",
     ---------------------------------------------------------------------------
     */
 
+    /**
+     * Event handler for mousedown events
+     *
+     * @param e {qx.event.type.Mouse} mousedown event
+     */
     _onMouseDown : function(e)
     {
       var target = e.getTarget();
@@ -223,6 +228,12 @@ qx.Class.define("qx.ui.menu.Manager",
       }
     },
 
+
+    /**
+     * Event handler for mouseup events
+     *
+     * @param e {qx.event.type.Mouse} mouseup event
+     */
     _onMouseUp : function(e)
     {
       var target = e.getTarget();
@@ -365,7 +376,18 @@ qx.Class.define("qx.ui.menu.Manager",
       // Goto the previous toolbar button
       else if (menuOpener instanceof qx.ui.toolbar.MenuButton)
       {
-        this.debug("TODO: Toolbar Integration A");
+        var buttons = menuOpener.getToolBar().getMenuButtons();
+        var index = buttons.indexOf(menuOpener);
+
+        // This should not happen, definitely!
+        if (index === -1) {
+          return;
+        }
+
+        var prevButton = index == 0 ? buttons[buttons.length-1] : buttons[index-1];
+        if (prevButton != menuOpener) {
+          prevButton.open();
+        }
       }
     },
 
@@ -420,13 +442,49 @@ qx.Class.define("qx.ui.menu.Manager",
       // Jump to the next toolbar button
       var menuOpener = menu.getOpener();
 
+      // Look up opener hierarchy for menu button
+      if (menuOpener instanceof qx.ui.menu.Button && hoverItem)
+      {
+        while (menuOpener)
+        {
+          menuOpener = menuOpener.getLayoutParent();
+          if (menuOpener instanceof qx.ui.menu.Menu)
+          {
+            menuOpener = menuOpener.getOpener();
+            if (menuOpener instanceof qx.ui.toolbar.MenuButton) {
+              break;
+            }
+          }
+          else
+          {
+            break;
+          }
+        }
+
+        if (!menuOpener) {
+          return;
+        }
+      }
+
+      // Ask the toolbar for the next menu button
       if (menuOpener instanceof qx.ui.toolbar.MenuButton)
       {
-        this.debug("TODO: Toolbar Integration B");
-      }
-      else if (menuOpener instanceof qx.ui.menu.Button && hoverItem)
-      {
-        this.debug("TODO: Toolbar Integration C");
+        var buttons = menuOpener.getToolBar().getMenuButtons();
+        var index = buttons.indexOf(menuOpener);
+
+        // This should not happen, definitely!
+        if (index === -1) {
+          return;
+        }
+
+        var nextButton = buttons[index+1];
+        if (!nextButton) {
+          nextButton = buttons[0];
+        }
+
+        if (nextButton != menuOpener) {
+          nextButton.open();
+        }
       }
     },
 

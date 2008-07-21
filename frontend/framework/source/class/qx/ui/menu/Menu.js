@@ -235,6 +235,13 @@ qx.Class.define("qx.ui.menu.Menu",
     ---------------------------------------------------------------------------
     */
 
+    open : function(opener)
+    {
+      this.setOpener(opener);
+      this.show();
+    },
+
+
     /**
      * Set the popup's position relative to its parent
      *
