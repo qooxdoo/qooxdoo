@@ -155,6 +155,11 @@ qx.Class.define("qx.ui.menu.Button",
       return control || this.base(arguments, id);
     },
 
+    _forwardStates :
+    {
+      hovered : 1
+    },
+
 
 
 

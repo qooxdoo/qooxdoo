@@ -1336,7 +1336,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          source : "decoration/arrows/right.gif",
+          source : states.hovered ? "decoration/arrows/right-invert.gif" : "decoration/arrows/right.gif",
           alignY : "middle"
         };
       }
