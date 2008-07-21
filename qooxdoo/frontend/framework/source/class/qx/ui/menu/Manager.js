@@ -213,6 +213,36 @@ qx.Class.define("qx.ui.menu.Manager",
     },
 
 
+    _getChild : function(menu, start, iter, loop)
+    {
+      var children = menu.getChildren();
+      var length = children.length;
+      var child;
+
+      for (var i=start; i<length && i>=0; i+=iter)
+      {
+        child = children[i];
+        if (child.isEnabled() && !child.isAnonymous()) {
+          return child;
+        }
+      }
+
+      if (loop)
+      {
+        i = i == length ? 0 : length-1;
+        for (; i!=start; i+=iter)
+        {
+          child = children[i];
+          if (child.isEnabled() && !child.isAnonymous()) {
+            return child;
+          }
+        }
+      }
+
+      return null;
+    },
+
+
     /**
      * Event handler for <code>Up</code> key
      *
@@ -220,36 +250,10 @@ qx.Class.define("qx.ui.menu.Manager",
      */
     _onKeyPressUp : function(menu)
     {
-      var children = menu.getChildren();
-
+      // Query for previous child
       var hoverItem = menu.getHoverItem();
-      var nextItem;
-
-      if (hoverItem)
-      {
-        var index = children.indexOf(hoverItem)-1;
-        for (var i=index; i>=0; i--)
-        {
-          if (children[i].isEnabled() && !children[i].isAnonymous())
-          {
-            nextItem = children[i];
-            break;
-          }
-        }
-      }
-
-      // No next item found, start with first one
-      if (!nextItem)
-      {
-        for (var i=children.length-1; i>=0; i--)
-        {
-          if (children[i].isEnabled() && !children[i].isAnonymous())
-          {
-            nextItem = children[i];
-            break;
-          }
-        }
-      }
+      var start = hoverItem ? menu.indexOf(hoverItem)-1 : children.length-1;
+      var nextItem = this._getChild(menu, start, -1, true);
 
       // Reconfigure property
       if (nextItem) {
@@ -267,36 +271,10 @@ qx.Class.define("qx.ui.menu.Manager",
      */
     _onKeyPressDown : function(menu)
     {
-      var children = menu.getChildren();
-
+      // Query for next child
       var hoverItem = menu.getHoverItem();
-      var nextItem;
-
-      if (hoverItem)
-      {
-        var index = children.indexOf(hoverItem)+1;
-        for (var i=index, l=children.length; i<l; i++)
-        {
-          if (children[i].isEnabled() && !children[i].isAnonymous())
-          {
-            nextItem = children[i];
-            break;
-          }
-        }
-      }
-
-      // No next item found, start with first one
-      if (!nextItem)
-      {
-        for (var i=0, l=children.length; i<l; i++)
-        {
-          if (children[i].isEnabled() && !children[i].isAnonymous())
-          {
-            nextItem = children[i];
-            break;
-          }
-        }
-      }
+      var start = hoverItem ? menu.indexOf(hoverItem)+1 : 0;
+      var nextItem = this._getChild(menu, start, 1, true);
 
       // Reconfigure property
       if (nextItem) {
