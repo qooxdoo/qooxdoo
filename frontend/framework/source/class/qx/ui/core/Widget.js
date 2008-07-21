@@ -743,6 +743,33 @@ qx.Class.define("qx.ui.core.Widget",
     },
 
 
+    // ALPHA: New separator implementation
+    renderHorizontalSeparator : function(separator, index, left, height)
+    {
+      var objs = this._separators;
+      if (!objs) {
+        objs = this._separators = [];
+      }
+      
+      var el = objs[index];
+      if (!el)
+      {
+        el = objs[index] = new qx.html.Element;
+        el.setStyle("position", "absolute");
+        el.setStyle("width", "0px");
+        el.setStyle("top", "0px");
+        
+        this.getContentElement().add(el);
+      }
+      
+      el.setStyle("left", left + "px");
+      el.setStyle("height", height + "px");
+      
+      el.setStyle("borderLeft", separator[0] ? "1px solid " + separator[0] : null);
+      el.setStyle("borderRight", separator[1] ? "1px solid " + separator[1] : null);
+    },
+    
+
     // overridden
     renderLayout : function(left, top, width, height)
     {

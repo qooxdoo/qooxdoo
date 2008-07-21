@@ -342,8 +342,8 @@ qx.Class.define("qx.ui.core.LayoutItem",
     getBounds : function() {
       return this.__userBounds || this.__computedLayout || null;
     },
-
-
+    
+    
     /**
      * Used by the layouters to apply coordinates and dimensions.
      *
