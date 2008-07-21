@@ -360,7 +360,7 @@ qx.Class.define("qx.event.Command",
         str.push(qx.locale.Key.getKeyName("short", key));
       }
 
-      return str.join("-");
+      return str.join("+");
     }
   },
 
