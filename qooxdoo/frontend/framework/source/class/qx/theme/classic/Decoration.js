@@ -234,6 +234,29 @@ qx.Theme.define("qx.theme.classic.Decoration",
 
 
 
+    "divider-vertical" :
+    {
+      decorator : qx.ui.decoration.Single,
+
+      style :
+      {
+        widthTop : 1,
+        colorTop : "border-dark-shadow"
+      }
+    },
+
+    "divider-horizontal" :
+    {
+      decorator : qx.ui.decoration.Single,
+
+      style :
+      {
+        widthLeft : 1,
+        colorLeft : "border-dark-shadow"
+      }
+    },
+
+
 
     "focused-inset" :
     {
