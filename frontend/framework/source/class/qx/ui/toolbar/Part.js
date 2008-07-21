@@ -27,6 +27,8 @@ qx.Class.define("qx.ui.toolbar.Part",
   extend : qx.ui.core.Widget,
   include : [qx.ui.core.MRemoteChildrenHandling],
 
+
+
   /*
   *****************************************************************************
      CONSTRUCTOR
@@ -36,11 +38,13 @@ qx.Class.define("qx.ui.toolbar.Part",
   construct : function()
   {
     this.base(arguments);
+
+    // Hard coded HBox layout
     this._setLayout(new qx.ui.layout.HBox);
 
+    // Force creation of the handle
     this._createChildControl("handle");
   },
-
 
 
 
@@ -49,6 +53,7 @@ qx.Class.define("qx.ui.toolbar.Part",
      PROPERTIES
   *****************************************************************************
   */
+
   properties :
   {
     appearance :
@@ -71,7 +76,6 @@ qx.Class.define("qx.ui.toolbar.Part",
 
 
 
-
   /*
   *****************************************************************************
      MEMBERS
@@ -80,6 +84,12 @@ qx.Class.define("qx.ui.toolbar.Part",
 
   members :
   {
+    /*
+    ---------------------------------------------------------------------------
+      WIDGET API
+    ---------------------------------------------------------------------------
+    */
+
     // overridden
     _createChildControlImpl : function(id)
     {
@@ -88,10 +98,9 @@ qx.Class.define("qx.ui.toolbar.Part",
       switch(id)
       {
         case "handle":
-          control = new qx.ui.core.Widget().set({
-            width : 0,
-            height : 0
-          });
+          control = new qx.ui.core.Widget();
+          control.setWidth(0);
+          control.setHeight(0);
           this._add(control);
           break;
 
@@ -104,11 +113,43 @@ qx.Class.define("qx.ui.toolbar.Part",
       return control || this.base(arguments, id);
     },
 
+
     // overridden
     getChildrenContainer : function() {
       return this._getChildControl("container");
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      UTILITIES
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Returns all nested buttons which contains a menu to show. This is mainly
+     * used for keyboard support.
+     *
+     * @return {Array} List of all menu buttons
+     */
+    getMenuButtons : function()
+    {
+      var children = this.getChildren();
+      var buttons = [];
+      var child;
+
+      for (var i=0, l=children.length; i<l; i++)
+      {
+        child = children[i];
+
+        if (child instanceof qx.ui.toolbar.MenuButton) {
+          buttons.push(child);
+        }
+      }
+
+      return buttons;
     }
-
   }
-
 });

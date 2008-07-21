@@ -103,15 +103,19 @@ qx.Class.define("qx.ui.toolbar.MenuButton",
     /**
      * Positions and shows the attached menu widget.
      */
-    _showMenu : function()
+    open : function()
     {
       var menu = this.getMenu();
 
       if (menu)
       {
+        // Hide all menus first
+        qx.ui.menu.Manager.getInstance().hideAll();
+
+        // Show the attached menu
         var pos = this.getContainerLocation();
         menu.moveTo(pos.left, pos.bottom);
-        menu.show();
+        menu.open(this);
       }
     },
 
@@ -121,7 +125,7 @@ qx.Class.define("qx.ui.toolbar.MenuButton",
      *
      * @return {qx.ui.toolbar.ToolBar} Toolbar instance or <code>null</code>.
      */
-    _findToolBar : function()
+    getToolBar : function()
     {
       var parent = this;
       while (parent)
@@ -153,7 +157,7 @@ qx.Class.define("qx.ui.toolbar.MenuButton",
     _onMenuChange : function(e)
     {
       var menu = this.getMenu();
-      var toolbar = this._findToolBar();
+      var toolbar = this.getToolBar();
 
       if (menu.isVisible())
       {
@@ -186,15 +190,16 @@ qx.Class.define("qx.ui.toolbar.MenuButton",
       {
         if (!menu.isVisible())
         {
-          this._showMenu();
+          this.open();
         }
         else
         {
           menu.exclude();
         }
-      }
 
-      e.stopPropagation();
+        // Event is processed, stop it for others
+        e.stopPropagation();
+      }
     },
 
 
@@ -203,7 +208,9 @@ qx.Class.define("qx.ui.toolbar.MenuButton",
      *
      * @param e {qx.event.type.Mouse} mouseup event object
      */
-    _onMouseUp : function(e) {
+    _onMouseUp : function(e)
+    {
+      // Just stop propagation to stop menu manager from getting the event
       e.stopPropagation();
     },
 
@@ -219,14 +226,14 @@ qx.Class.define("qx.ui.toolbar.MenuButton",
 
       if (this.getMenu())
       {
-        var toolbar = this._findToolBar();
+        var toolbar = this.getToolBar();
         if (toolbar.getOpenMenu())
         {
           // Hide all open menus first
           qx.ui.menu.Manager.getInstance().hideAll();
 
           // Then show the attached menu
-          this._showMenu();
+          this.open();
         }
       }
     },
