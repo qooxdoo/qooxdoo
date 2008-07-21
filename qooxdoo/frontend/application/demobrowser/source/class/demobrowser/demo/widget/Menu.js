@@ -141,13 +141,11 @@ qx.Class.define("demobrowser.demo.widget.Menu",
       menuPart.add(formatMenu);
 
 
-
       var searchField = new qx.ui.form.TextField;
       searchField.setFont("small");
       searchField.setDecorator("inset-thin");
       searchField.setAlignY("middle");
       searchPart.add(searchField);
-
 
 
       var helpMenu = new qx.ui.toolbar.MenuButton("Help");
