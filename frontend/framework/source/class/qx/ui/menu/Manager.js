@@ -68,6 +68,15 @@ qx.Class.define("qx.ui.menu.Manager",
     ---------------------------------------------------------------------------
     */
 
+    /**
+     * Query engine for menu children.
+     *
+     * @param menu {qx.ui.menu.Menu} Any menu instance
+     * @param start {Integer} Child index to start with
+     * @param iter {Integer} Iteration count, normally <code>+1</code> or <code>-1</code>
+     * @param loop {Boolean?false} Whether to wrap when reaching the begin/end of the list
+     * @return {qx.ui.menu.Button} Any menu button or <code>null</code>
+     */
     _getChild : function(menu, start, iter, loop)
     {
       var children = menu.getChildren();
@@ -98,6 +107,26 @@ qx.Class.define("qx.ui.menu.Manager",
     },
 
 
+    /**
+     * Whether the given widget is inside any Menu instance.
+     *
+     * @return {Boolean} <code>true</code> when the widget is part of any menu
+     */
+    _isInMenu : function(widget)
+    {
+      while(widget)
+      {
+        if (widget instanceof qx.ui.menu.Menu) {
+          return true;
+        }
+
+        widget = widget.getLayoutParent();
+      }
+
+      return false;
+    },
+
+
 
 
     /*
@@ -106,6 +135,11 @@ qx.Class.define("qx.ui.menu.Manager",
     ---------------------------------------------------------------------------
     */
 
+    /**
+     * Adds a menu to the list of visible menus.
+     *
+     * @param obj {qx.ui.menu.Menu} Any menu instance.
+     */
     add : function(obj)
     {
       if (qx.core.Variant.isSet("qx.debug", "on"))
@@ -121,6 +155,11 @@ qx.Class.define("qx.ui.menu.Manager",
     },
 
 
+    /**
+     * Remove a menu from the list of visible menus.
+     *
+     * @param obj {qx.ui.menu.Menu} Any menu instance.
+     */
     remove : function(obj)
     {
       if (qx.core.Variant.isSet("qx.debug", "on"))
@@ -134,6 +173,9 @@ qx.Class.define("qx.ui.menu.Manager",
     },
 
 
+    /**
+     * Hides all currently opened menus.
+     */
     hideAll : function()
     {
       var reg = this.__objects;
@@ -143,21 +185,12 @@ qx.Class.define("qx.ui.menu.Manager",
     },
 
 
-    isInMenu : function(widget)
-    {
-      while(widget)
-      {
-        if (widget instanceof qx.ui.menu.Menu) {
-          return true;
-        }
-
-        widget = widget.getLayoutParent();
-      }
-
-      return false;
-    },
-
-
+    /**
+     * Returns the menu which was opened at last (which
+     * is the active one this way)
+     *
+     * @return {qx.ui.menu.Menu} The current active menu or <code>null</code>
+     */
     getActiveMenu : function()
     {
       var reg = this.__objects;
@@ -185,7 +218,7 @@ qx.Class.define("qx.ui.menu.Manager",
       }
 
       // All clicks not inside a menu will hide all currently open menus
-      if (!this.isInMenu(target)) {
+      if (!this._isInMenu(target)) {
         this.hideAll();
       }
     },
