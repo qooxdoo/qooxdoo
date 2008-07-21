@@ -50,9 +50,9 @@ qx.Class.define("qx.ui.core.FocusHandler",
     this.__attachedWidget = widget;
 
     // Register events
-    widget.addListener("keypress", this._onkeyevent, this);
-    widget.addListener("focusin", this._onfocusin, this, true);
-    widget.addListener("focusout", this._onfocusout, this, true);
+    widget.addListener("keypress", this._onKeyEvent, this);
+    widget.addListener("focusin", this._onFocusIn, this, true);
+    widget.addListener("focusout", this._onFocusOut, this, true);
   },
 
 
@@ -79,7 +79,7 @@ qx.Class.define("qx.ui.core.FocusHandler",
      * @param e {qx.event.type.Focus} Focus event
      * @return {void}
      */
-    _onfocusin : function(e)
+    _onFocusIn : function(e)
     {
       var target = e.getTarget();
       if (target && target.findFocusRoot() === this.__attachedWidget)
@@ -97,7 +97,7 @@ qx.Class.define("qx.ui.core.FocusHandler",
      * @param e {qx.event.type.Focus} Focus event
      * @return {void}
      */
-    _onfocusout : function(e)
+    _onFocusOut : function(e)
     {
       var target = e.getTarget();
       if (target && target.findFocusRoot() === this.__attachedWidget)
@@ -115,7 +115,7 @@ qx.Class.define("qx.ui.core.FocusHandler",
      * @param e {qx.event.type.KeySequence} Key event
      * @return {void}
      */
-    _onkeyevent : function(e)
+    _onKeyEvent : function(e)
     {
       if (e.getKeyIdentifier() != "Tab") {
         return;
