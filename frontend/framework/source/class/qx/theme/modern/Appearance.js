@@ -709,29 +709,29 @@ qx.Theme.define("qx.theme.modern.Appearance",
           {
             decorator = "tabview-page-button-top-active";
             padding = [ 6, 10 ];
-            marginLeft = states.firstTab ? 0 : -4;
-            marginRight = states.lastTab ? 0 : -4;
+            marginLeft = states.firstTab ? 0 : -6;
+            marginRight = states.lastTab ? 0 : -6;
           }
           else if (states.barBottom)
           {
             decorator = "tabview-page-button-bottom-active";
             padding = [ 4, 10 ];
-            marginLeft = states.firstTab ? 0 : -4;
-            marginRight = states.lastTab ? 0 : -4;
+            marginLeft = states.firstTab ? 0 : -6;
+            marginRight = states.lastTab ? 0 : -6;
           }
           else if (states.barRight)
           {
             decorator = "tabview-page-button-right-active";
             padding = [ 6, 10 ];
-            marginTop = states.firstTab ? 0 : -3;
-            marginBottom = states.lastTab ? 0 : -3;
+            marginTop = states.firstTab ? 0 : -6;
+            marginBottom = states.lastTab ? 0 : -6;
           }
           else
           {
             decorator = "tabview-page-button-left-active";
             padding = [ 6, 10 ];
-            marginTop = states.firstTab ? 0 : -3;
-            marginBottom = states.lastTab ? 0 : -3;
+            marginTop = states.firstTab ? 0 : -6;
+            marginBottom = states.lastTab ? 0 : -6;
           }
         }
         else
