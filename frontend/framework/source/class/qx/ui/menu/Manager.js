@@ -386,7 +386,7 @@ qx.Class.define("qx.ui.menu.Manager",
 
         var prevButton = index == 0 ? buttons[buttons.length-1] : buttons[index-1];
         if (prevButton != menuOpener) {
-          prevButton.open();
+          prevButton.open(true);
         }
       }
     },
@@ -483,7 +483,7 @@ qx.Class.define("qx.ui.menu.Manager",
         }
 
         if (nextButton != menuOpener) {
-          nextButton.open();
+          nextButton.open(true);
         }
       }
     },

@@ -102,8 +102,10 @@ qx.Class.define("qx.ui.toolbar.MenuButton",
 
     /**
      * Positions and shows the attached menu widget.
+     *
+     * @param selectFirst {Boolean?false} Whether the first menu button should be selected
      */
-    open : function()
+    open : function(selectFirst)
     {
       var menu = this.getMenu();
 
@@ -116,6 +118,15 @@ qx.Class.define("qx.ui.toolbar.MenuButton",
         var pos = this.getContainerLocation();
         menu.moveTo(pos.left, pos.bottom);
         menu.open(this);
+
+        // Select first item
+        if (selectFirst)
+        {
+          var first = menu.getChildren()[0];
+          if (first) {
+            menu.setHoverItem(first);
+          }
+        }
       }
     },
 
