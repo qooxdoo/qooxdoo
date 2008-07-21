@@ -71,9 +71,95 @@ qx.Class.define("qx.ui.toolbar.MenuButton",
 
   members :
   {
+    // property apply
     _applyMenu : function(value, old)
     {
+      if (old) {
+        old.removeListener("changeVisibility", this._onMenuChange, this);
+      }
 
+      if (value) {
+        value.addListener("changeVisibility", this._onMenuChange, this);
+      }
+    },
+
+
+    /**
+     * Listener for visibility property changes of the attached menu
+     *
+     * @param e {qx.event.type.Data} Property change event
+     */
+    _onMenuChange : function(e)
+    {
+      if (this.getMenu().isVisible()) {
+        this.addState("pressed");
+      } else {
+        this.removeState("pressed");
+      }
+    },
+
+
+
+    _showMenu : function()
+    {
+      var menu = this.getMenu();
+
+      if (menu)
+      {
+        var pos = this.getContainerLocation();
+        menu.moveTo(pos.left, pos.bottom);
+        menu.show();
+      }
+    },
+
+
+    _onMouseDown : function(e)
+    {
+      var menu = this.getMenu();
+      if (menu)
+      {
+        if (!menu.isVisible())
+        {
+          this._showMenu();
+        }
+        else
+        {
+          menu.exclude();
+        }
+      }
+
+      e.stopPropagation();
+    },
+
+    _onMouseUp : function(e)
+    {
+      var menu = this.getMenu();
+      if (menu)
+      {
+      }
+
+      e.stopPropagation();
+    },
+
+    _onMouseOver : function(e)
+    {
+      this.addState("hovered");
+
+      if (this.getMenu())
+      {
+        var mgr = qx.ui.menu.Manager.getInstance();
+        var activeMenu = mgr.getActiveMenu();
+        if (activeMenu)
+        {
+          mgr.hideAll();
+          this._showMenu();
+        }
+      }
+    },
+
+    _onMouseOut : function(e)
+    {
+      this.removeState("hovered");
     }
   }
 });

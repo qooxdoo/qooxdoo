@@ -177,8 +177,14 @@ qx.Class.define("qx.ui.menu.Manager",
     {
       var target = e.getTarget();
 
-      // All clicks not inside a menu will hide
-      // all currently open menus
+      // If the target is the one which has opened the current menu
+      // we ignore the mousedown to let the button process the event
+      // further with toggling or ignoring the click.
+      if (target.getMenu && target.getMenu() && target.getMenu().isVisible()) {
+        return;
+      }
+
+      // All clicks not inside a menu will hide all currently open menus
       if (!this.isInMenu(target)) {
         this.hideAll();
       }
@@ -188,11 +194,11 @@ qx.Class.define("qx.ui.menu.Manager",
     {
       var target = e.getTarget();
 
-      // All mouseups not exactly clicking on the menu
-      // hide all currently open menus
+      // All mouseups not exactly clicking on the menu hide all currently
+      // open menus.
       // Separators for example are anonymous. This way the
-      // target is the menu. It is wanted that clicks on
-      // Separators are ignored completely
+      // target is the menu. It is a wanted behavior that clicks on
+      // separators are ignored completely.
       if (!(target instanceof qx.ui.menu.Menu)) {
         this.hideAll();
       }
