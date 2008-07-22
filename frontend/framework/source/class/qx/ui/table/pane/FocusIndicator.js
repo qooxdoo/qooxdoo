@@ -25,28 +25,30 @@
 
 qx.Class.define("qx.ui.table.pane.FocusIndicator",
 {
-  extend : qx.ui.layout.HorizontalBoxLayout,
+  extend : qx.ui.core.Widget,
 
   construct : function(scroller)
   {
     this.base(arguments);
-
     this._scroller = scroller;
-
-    this.setStyleProperty("fontSize", "0px");
-    this.setStyleProperty("lineHeight", "0px");
-    this.setAnonymous(true);
-
-    this.hide();
   },
 
   properties :
   {
-    appearance :
+    // overridden
+    anonymous :
     {
       refine : true,
-      init : "table-focus-indicator"
+      init : true
     },
+
+    // overridden
+    visibility :
+    {
+      refine : true,
+      init : "excluded"
+    },
+
 
     row : {
       check : "Integer"
@@ -87,11 +89,12 @@ qx.Class.define("qx.ui.table.pane.FocusIndicator",
           var firstRow = this._scroller.getTablePane().getFirstVisibleRow();
           var rowHeight = table.getRowHeight();
 
-          this.setHeight(rowHeight + 3);
-          this.setWidth(columnModel.getColumnWidth(col) + 3);
-          this.setTop((row - firstRow) * rowHeight - 2);
-          this.setLeft(paneModel.getColumnLeft(col) - 2);
-
+          this.setUserBounds(
+              paneModel.getColumnLeft(col) - 2,
+              (row - firstRow) * rowHeight - 2,
+              columnModel.getColumnWidth(col) + 3,
+              rowHeight + 3
+          );
           this.show();
 
           this.setRow(row);
@@ -100,11 +103,11 @@ qx.Class.define("qx.ui.table.pane.FocusIndicator",
       }
     }
   },
-  
+
   destruct : function ()
   {
-     this._disposeObjects(
+     this._disposeFields(
        "_scroller"
-     ); 
+     );
   }
 });
