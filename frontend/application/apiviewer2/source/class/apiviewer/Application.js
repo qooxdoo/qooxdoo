@@ -1,10 +1,23 @@
 /* ************************************************************************
 
+   qooxdoo - the new era of web development
+
+   http://qooxdoo.org
+
    Copyright:
+     2004-2008 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
+     LGPL: http://www.gnu.org/licenses/lgpl.html
+     EPL: http://www.eclipse.org/org/documents/epl-v10.php
+     See the LICENSE file in the project's top-level directory for details.
 
    Authors:
+     * Til Schneider (til132)
+     * Sebastian Werner (wpbasti)
+     * Andreas Ecker (ecker)
+     * Fabian Jakobs (fjakobs)
+     * Jonathan Rass (jonathan_rass)
 
 ************************************************************************ */
 
@@ -21,8 +34,6 @@ qx.Class.define("apiviewer.Application",
 {
   extend : qx.application.Standalone,
 
-
-
   /*
   *****************************************************************************
      MEMBERS
@@ -35,19 +46,13 @@ qx.Class.define("apiviewer.Application",
     {
       // Call super class
       this.base(arguments);
+      qx.Class.include(qx.legacy.ui.core.Widget, apiviewer.MWidgetRegistry);
+      qx.Class.include(qx.ui.core.Widget, apiviewer.MWidgetRegistry);
 
-      // Create button
-      var button1 = new qx.ui.form.Button("First Button", "sample/test.png");
+      this.viewer = new apiviewer.Viewer();
 
-      // Add button to document with coordinates
-      this.getRoot().add(button1, {
-        left : 50,
-        top : 50
-      });
-
-      // Add an event listener
-      button1.addListener("execute", function(e) {
-        alert("Hello World!");
+      this.getRoot().add(this.viewer, {
+        edge : 0
       });
     }
   }
