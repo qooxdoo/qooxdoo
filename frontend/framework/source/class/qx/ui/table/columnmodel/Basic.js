@@ -135,7 +135,6 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
     /**
      * Initializes the column model.
      *
-     * @type member
      * @param colCount {Integer} the number of columns the model should have.
      * @return {void}
      */
@@ -171,7 +170,6 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
     /**
      * Sets the width of a column.
      *
-     * @type member
      * @param col {Integer} the model index of the column.
      * @param width {Integer} the new width the column should get in pixels.
      * @return {void}
@@ -211,7 +209,6 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
     /**
      * Sets the header renderer of a column.
      *
-     * @type member
      * @param col {Integer} the model index of the column.
      * @param renderer {HeaderCellRenderer} the new header renderer the column
      *      should get.
@@ -237,7 +234,6 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
     /**
      * Sets the data renderer of a column.
      *
-     * @type member
      * @param col {Integer} the model index of the column.
      * @param renderer {DataCellRenderer} the new data renderer the column should get.
      * @return {void}
@@ -262,7 +258,6 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
     /**
      * Sets the cell editor factory of a column.
      *
-     * @type member
      * @param col {Integer} the model index of the column.
      * @param factory {CellEditorFactory} the new cell editor factory the column should get.
      * @return {void}
@@ -403,7 +398,6 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
     /**
      * Sets whether a certain column is visible.
      *
-     * @type member
      * @param col {Integer} the model index of the column.
      * @param visible {Boolean} whether the column should be visible.
      * @return {void}
@@ -475,7 +469,6 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
     /**
      * Moves a column.
      *
-     * @type member
      * @param fromOverXPos {Integer} the overall x postion of the column to move.
      * @param toOverXPos {Integer} the overall x postion of where the column should be
      *      moved to.

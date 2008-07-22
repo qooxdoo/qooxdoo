@@ -65,9 +65,7 @@ qx.Class.define("demobrowser.demo.table.CellRenderer",
       this._fixBoxModel();
 
       // table mock
-      this.tableMock = {
-        getTableModel : function() {}
-      };
+      this.tableMock = this.getTableMock();
 
 
       // setup aliases

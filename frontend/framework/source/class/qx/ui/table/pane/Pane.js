@@ -205,7 +205,6 @@ qx.Class.define("qx.ui.table.pane.Pane",
     /**
      * Event handler. Called when the table gets or looses the focus.
      *
-     * @type member
      * @param evt {Map} the event.
      * @return {void}
      */
@@ -215,13 +214,13 @@ qx.Class.define("qx.ui.table.pane.Pane",
 
 
     /**
-     * Event handler. Called when the width of a column has changed.
+     * Sets the column width.
      *
-     * @type member
-     * @param evt {Map} the event.
+     * @param col {Integer} the column to change the width for.
+     * @param width {Integer} the new width.
      * @return {void}
      */
-    _onColWidthChanged : function(evt) {
+    _onColWidthChanged : function(col, width) {
       this._updateContent(true);
     },
 
@@ -229,23 +228,17 @@ qx.Class.define("qx.ui.table.pane.Pane",
     /**
      * Event handler. Called the column order has changed.
      *
-     * @type member
-     * @param evt {Map} the event.
      * @return {void}
      */
-    _onColOrderChanged : function(evt) {
+    onColOrderChanged : function() {
       this._updateContent(true);
     },
 
 
     /**
      * Event handler. Called when the pane model has changed.
-     *
-     * @type member
-     * @param evt {Map} the event.
-     * @return {void}
      */
-    _onPaneModelChanged : function(evt) {
+    onPaneModelChanged : function() {
       this._updateContent(true);
     },
 
@@ -253,7 +246,6 @@ qx.Class.define("qx.ui.table.pane.Pane",
     /**
      * Event handler. Called when the table model data has changed.
      *
-     * @type member
      * @param evt {Map} the event.
      * @return {void}
      */
@@ -276,11 +268,9 @@ qx.Class.define("qx.ui.table.pane.Pane",
     /**
      * Event handler. Called when the table model meta data has changed.
      *
-     * @type member
-     * @param evt {Map} the event.
      * @return {void}
      */
-    _onTableModelMetaDataChanged : function(evt) {
+    onTableModelMetaDataChanged : function() {
       this._updateContent(true);
     },
 
@@ -440,9 +430,10 @@ qx.Class.define("qx.ui.table.pane.Pane",
           row = onlyRow;
           y = offset;
           end = offset + 1;
-        }
-        else
+        } else
+        {
           return;
+        }
       }
 
       for (; y<end; y++, row++)
