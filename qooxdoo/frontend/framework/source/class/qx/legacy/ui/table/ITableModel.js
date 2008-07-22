@@ -304,7 +304,6 @@ qx.Interface.define("qx.legacy.ui.table.ITableModel",
      */
     setValueById : function(columnId, rowIndex, value) {
       return true;
-      //return this.setValue(this.getColumnIndexById(columnId), rowIndex, value);
     }
   }
 });
