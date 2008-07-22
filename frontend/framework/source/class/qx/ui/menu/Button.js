@@ -213,7 +213,7 @@ qx.Class.define("qx.ui.menu.Button",
     _applyIcon : function(value, old)
     {
       if (value) {
-        this._getChildControl("icon").setSource(value);
+        this._showChildControl("icon").setSource(value);
       } else {
         this._excludeChildControl("icon");
       }
@@ -223,7 +223,7 @@ qx.Class.define("qx.ui.menu.Button",
     _applyLabel : function(value, old)
     {
       if (value) {
-        this._getChildControl("label").setContent(value);
+        this._showChildControl("label").setContent(value);
       } else {
         this._excludeChildControl("label");
       }

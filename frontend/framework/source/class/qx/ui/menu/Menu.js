@@ -364,8 +364,11 @@ qx.Class.define("qx.ui.menu.Menu",
         old.removeState("hovered");
       }
 
-      if (value) {
-        value.addState("hovered");
+      if (value)
+      {
+        if (value.isEnabled()) {
+          value.addState("hovered");
+        }
       }
     },
 
