@@ -345,7 +345,7 @@ qx.Class.define("qx.ui.table.Table",
       init : true,
       apply : "_applyStatusBarVisible"
     },
-  
+
   /** The Statusbartext, set it, if you want some more Information */
   additionalStatusBarText :
   {
@@ -562,13 +562,6 @@ qx.Class.define("qx.ui.table.Table",
   members :
   {
     // property modifier
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param value {var} Current value
-     * @param old {var} Previous value
-     */
     _applySelectionModel : function(value, old)
     {
       this._selectionManager.setSelectionModel(value);
@@ -582,15 +575,6 @@ qx.Class.define("qx.ui.table.Table",
 
 
     // property modifier
-    /**
-     * Property modifier called when the rowHeight property value is
-     * changed.  We loop through each scroller and reset its vertical
-     * scrollbar's maximum value.
-     *
-     * @type member
-     * @param value {var} Current value
-     * @param old {var} Previous value
-     */
     _applyRowHeight : function(value, old)
     {
       if (! this.getTableModel())
@@ -607,15 +591,6 @@ qx.Class.define("qx.ui.table.Table",
 
 
     // property modifier
-    /**
-     * Property modifier called when the headerCellHeight property value is
-     * changed.  We loop through each scroller and set its height to the
-     * newly-requested value.
-     *
-     * @type member
-     * @param value {var} Current value
-     * @param old {var} Previous value
-     */
     _applyHeaderCellHeight : function(value, old)
     {
       var scrollerArr = this._getPaneScrollerArr();
@@ -627,13 +602,6 @@ qx.Class.define("qx.ui.table.Table",
 
 
     // property modifier
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param value {var} Current value
-     * @param old {var} Previous value
-     */
     _applyTableModel : function(value, old)
     {
       this.getTableColumnModel().init(value.getColumnCount(), this);
@@ -650,6 +618,7 @@ qx.Class.define("qx.ui.table.Table",
       // Update the status bar
       this._updateStatusBar();
     },
+
 
     // property modifier
     _applyTableColumnModel : function(value, old)
@@ -684,13 +653,6 @@ qx.Class.define("qx.ui.table.Table",
     },
 
     // property modifier
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param value {var} Current value
-     * @param old {var} Previous value
-     */
     _applyStatusBarVisible : function(value, old)
     {
       this._statusBar.setDisplay(value);
@@ -699,42 +661,25 @@ qx.Class.define("qx.ui.table.Table",
         this._updateStatusBar();
       }
     },
-  
-  // property modifier
-  /**
-     * @type member
-     * @param value {var} Current value
-     * @param old {var} Previous value
-     */
-  _applyAdditionalStatusBarText : function(value, old)
-  {
-    this._additionalStatusBarText = value;
-    
-    if(value) {
-       this._updateStatusBar();
-    }
-  },
 
     // property modifier
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param value {var} Current value
-     * @param old {var} Previous value
-     */
+    _applyAdditionalStatusBarText : function(value, old)
+    {
+      this._additionalStatusBarText = value;
+
+      if(value) {
+         this._updateStatusBar();
+      }
+    },
+
+
+    // property modifier
     _applyColumnVisibilityButtonVisible : function(value, old) {
       this._columnVisibilityBt.setDisplay(value);
     },
 
+
     // property modifier
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param value {var} Current value
-     * @param old {var} Previous value
-     */
     _applyMetaColumnCounts : function(value, old)
     {
       var metaColumnCounts = value;
@@ -794,14 +739,8 @@ qx.Class.define("qx.ui.table.Table",
       this._updateScrollBarVisibility();
     },
 
+
     // property modifier
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param value {var} Current value
-     * @param old {var} Previous value
-     */
     _applyFocusCellOnMouseMove : function(value, old)
     {
       var scrollerArr = this._getPaneScrollerArr();
@@ -811,14 +750,8 @@ qx.Class.define("qx.ui.table.Table",
       }
     },
 
+
     // property modifier
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param value {var} Current value
-     * @param old {var} Previous value
-     */
     _applyShowCellFocusIndicator : function(value, old)
     {
       var scrollerArr = this._getPaneScrollerArr();
@@ -830,13 +763,6 @@ qx.Class.define("qx.ui.table.Table",
 
 
     // property modifier
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param value {var} Current value
-     * @param old {var} Previous value
-     */
     _applyKeepFirstVisibleRowComplete : function(value, old)
     {
       var scrollerArr = this._getPaneScrollerArr();
@@ -884,7 +810,6 @@ qx.Class.define("qx.ui.table.Table",
     /**
      * Cleans up the meta columns.
      *
-     * @type member
      * @param fromMetaColumn {Integer} the first meta column to clean up. All following
      *      meta columns will be cleaned up, too. All previous meta columns will
      *      stay unchanged. If 0 all meta columns will be cleaned up.
@@ -907,7 +832,6 @@ qx.Class.define("qx.ui.table.Table",
     /**
      * Event handler. Called when the locale has changed.
      *
-     * @type member
      * @param evt {Event} the event.
      * @return {void}
      */
@@ -921,7 +845,6 @@ qx.Class.define("qx.ui.table.Table",
     /**
      * Event handler. Called when the selection has changed.
      *
-     * @type member
      * @param evt {Map} the event.
      * @return {void}
      */
@@ -940,7 +863,6 @@ qx.Class.define("qx.ui.table.Table",
     /**
      * Event handler. Called when the table model meta data has changed.
      *
-     * @type member
      * @param evt {Map} the event.
      * @return {void}
      */
@@ -949,7 +871,7 @@ qx.Class.define("qx.ui.table.Table",
       var scrollerArr = this._getPaneScrollerArr();
 
       for (var i=0; i<scrollerArr.length; i++) {
-        scrollerArr[i]._onTableModelMetaDataChanged(evt);
+        scrollerArr[i].onTableModelMetaDataChanged();
       }
 
       this._updateStatusBar();
@@ -959,7 +881,6 @@ qx.Class.define("qx.ui.table.Table",
     /**
      * Event handler. Called when the table model data has changed.
      *
-     * @type member
      * @param evt {Map} the event.
      * @return {void}
      */
@@ -986,7 +907,6 @@ qx.Class.define("qx.ui.table.Table",
     /**
      * Event handler. Called when a TablePaneScroller has been scrolled vertically.
      *
-     * @type member
      * @param evt {Map} the event.
      * @return {void}
      */
@@ -1135,7 +1055,6 @@ qx.Class.define("qx.ui.table.Table",
     /**
      * Event handler. Called when a key was pressed.
      *
-     * @type member
      * @param evt {qx.legacy.event.type.KeyEvent} the event.
      * @return {void}
      */
@@ -1210,7 +1129,6 @@ qx.Class.define("qx.ui.table.Table",
     /**
      * Event handler. Called when the table gets the focus.
      *
-     * @type member
      * @param evt {Map} the event.
      * @return {void}
      */
@@ -1227,7 +1145,6 @@ qx.Class.define("qx.ui.table.Table",
     /**
      * Event handler. Called when the visibility of a column has changed.
      *
-     * @type member
      * @param evt {Map} the event.
      * @return {void}
      */
@@ -1247,7 +1164,6 @@ qx.Class.define("qx.ui.table.Table",
     /**
      * Event handler. Called when the width of a column has changed.
      *
-     * @type member
      * @param evt {Map} the event.
      * @return {void}
      */
@@ -1255,8 +1171,10 @@ qx.Class.define("qx.ui.table.Table",
     {
       var scrollerArr = this._getPaneScrollerArr();
 
-      for (var i=0; i<scrollerArr.length; i++) {
-        scrollerArr[i]._onColWidthChanged(evt);
+      for (var i=0; i<scrollerArr.length; i++)
+      {
+        var data = evt.getData();
+        scrollerArr[i]._onColWidthChanged(data.col, data.newWidth);
       }
 
       this._updateScrollerWidths();
@@ -1267,7 +1185,6 @@ qx.Class.define("qx.ui.table.Table",
     /**
      * Event handler. Called when the column order has changed.
      *
-     * @type member
      * @param evt {Map} the event.
      * @return {void}
      */
@@ -1276,7 +1193,7 @@ qx.Class.define("qx.ui.table.Table",
       var scrollerArr = this._getPaneScrollerArr();
 
       for (var i=0; i<scrollerArr.length; i++) {
-        scrollerArr[i]._onColOrderChanged(evt);
+        scrollerArr[i].onColOrderChanged();
       }
 
       // A column may have been moved between meta columns
@@ -1304,7 +1221,6 @@ qx.Class.define("qx.ui.table.Table",
     /**
      * Sets the currently focused cell.
      *
-     * @type member
      * @param col {Integer} the model index of the focused cell's column.
      * @param row {Integer} the model index of the focused cell's row.
      * @param scrollVisible {Boolean ? false} whether to scroll the new focused cell
@@ -1357,7 +1273,6 @@ qx.Class.define("qx.ui.table.Table",
     /**
      * Moves the focus.
      *
-     * @type member
      * @param deltaX {Integer} The delta by which the focus should be moved on the x axis.
      * @param deltaY {Integer} The delta by which the focus should be moved on the y axis.
      * @return {void}
@@ -1389,7 +1304,6 @@ qx.Class.define("qx.ui.table.Table",
     /**
      * Scrolls a cell visible.
      *
-     * @type member
      * @param col {Integer} the model index of the column the cell belongs to.
      * @param row {Integer} the model index of the row the cell belongs to.
      * @return {void}
@@ -1410,7 +1324,6 @@ qx.Class.define("qx.ui.table.Table",
     /**
      * Returns whether currently a cell is editing.
      *
-     * @type member
      * @return {var} whether currently a cell is editing.
      */
     isEditing : function()
@@ -1446,9 +1359,6 @@ qx.Class.define("qx.ui.table.Table",
 
     /**
      * Stops editing and writes the editor's value to the model.
-     *
-     * @type member
-     * @return {void}
      */
     stopEditing : function()
     {
@@ -1463,9 +1373,6 @@ qx.Class.define("qx.ui.table.Table",
 
     /**
      * Stops editing without writing the editor's value to the model.
-     *
-     * @type member
-     * @return {void}
      */
     cancelEditing : function()
     {
@@ -1481,8 +1388,6 @@ qx.Class.define("qx.ui.table.Table",
     /**
      * Does a postponed update of the table content.
      *
-     * @type member
-     * @return {void}
      * @see #updateContent
      */
     postponedUpdateContent : function()
@@ -1508,9 +1413,6 @@ qx.Class.define("qx.ui.table.Table",
 
     /**
      * Update the table content of every attached table pane.
-     *
-     * @type member
-     * @return {void}
      */
     updateContent : function() {
       var scrollerArr = this._getPaneScrollerArr();
@@ -1574,9 +1476,6 @@ qx.Class.define("qx.ui.table.Table",
 
     /**
      * Updates the text shown in the status bar.
-     *
-     * @type member
-     * @return {void}
      */
     _updateStatusBar : function()
     {
@@ -1587,34 +1486,33 @@ qx.Class.define("qx.ui.table.Table",
 
         var text;
 
-    if(rowCount > 0) {
-      if (selectedRowCount == 0) {
-        text = this.trn("one row", "%1 rows", rowCount, rowCount);
-      } else {
-        text = this.trn("one of one row", "%1 of %2 rows", rowCount, selectedRowCount, rowCount);
-      }
-    }
-    
-    if(this._additionalStatusBarText) {
-      if(text) {
-        text += this._additionalStatusBarText;
-      } else {
-        text = this._additionalStatusBarText;
-      }
-    }
+        if (rowCount > 0)
+        {
+          if (selectedRowCount == 0) {
+            text = this.trn("one row", "%1 rows", rowCount, rowCount);
+          } else {
+            text = this.trn("one of one row", "%1 of %2 rows", rowCount, selectedRowCount, rowCount);
+          }
+        }
 
-    if(text) {
-      this._statusBar.setText(text);
-    }
+        if (this._additionalStatusBarText)
+        {
+          if (text) {
+            text += this._additionalStatusBarText;
+          } else {
+            text = this._additionalStatusBarText;
+          }
+        }
+
+        if(text) {
+          this._statusBar.setText(text);
+        }
       }
     },
 
 
     /**
      * Updates the widths of all scrollers.
-     *
-     * @type member
-     * @return {void}
      */
     _updateScrollerWidths : function()
     {
@@ -1633,9 +1531,6 @@ qx.Class.define("qx.ui.table.Table",
 
     /**
      * Updates the visibility of the scrollbars in the meta columns.
-     *
-     * @type member
-     * @return {void}
      */
     _updateScrollBarVisibility : function()
     {
@@ -1697,9 +1592,6 @@ qx.Class.define("qx.ui.table.Table",
 
     /**
      * Event handler. Called when the column visibiliy button was executed.
-     *
-     * @type member
-     * @return {void}
      */
     _onColumnVisibilityBtExecuted : function()
     {
@@ -1794,9 +1686,6 @@ qx.Class.define("qx.ui.table.Table",
 
     /**
      * Cleans up the column visibility menu.
-     *
-     * @type member
-     * @return {void}
      */
     _cleanupColumnVisibilityMenu : function()
     {
@@ -1832,7 +1721,6 @@ qx.Class.define("qx.ui.table.Table",
     /**
      * Sets the width of a column.
      *
-     * @type member
      * @param col {Integer} the model index of column.
      * @param width {Integer} the new width in pixels.
      * @return {void}

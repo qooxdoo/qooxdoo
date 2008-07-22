@@ -6,6 +6,63 @@ qx.Mixin.define("demobrowser.demo.table.MUtil",
 
   members :
   {
+    getTableMock : function()
+    {
+      var columnModel = this.getColumnModelMock();
+      var model = this.getModelMock();
+
+      return {
+        getTableModel : function() { return model; },
+        getTableColumnModel : function() { return columnModel; }
+      }
+    },
+
+
+    getColumnModelMock : function()
+    {
+      return {
+        getColumnCount : function() { return 4; },
+        getColumnWidth : function(col) { return 100; },
+        getHeaderCellRenderer : function(col) {
+          return new qx.ui.table.headerrenderer.Default();
+        }
+      };
+    },
+
+
+    getPaneModelMock : function()
+    {
+      return {
+        getColumnAtX : function(x) { return x; },
+        getColumnCount : function() { return 4; },
+        getX : function(col) { return col; }
+      }
+    },
+
+
+    getModelMock : function()
+    {
+      return {
+        getSortColumnIndex : function() { return 0; },
+        isSortAscending : function() { return true; },
+        getColumnName : function(col) { return "Column #" + col; },
+        isColumnEditable : function(col) { return false; }
+      }
+    },
+
+
+    getScrollerMock : function()
+    {
+      var table = this.getTableMock();
+      var paneModel = this.getPaneModelMock();
+
+      return {
+        getTable : function() { return table;},
+        getTablePaneModel : function() { return paneModel;}
+      }
+    },
+
+
     _fixBoxModel : function()
     {
       var boxSizingAttr = qx.legacy.core.Client.getInstance().getEngineBoxSizingAttributes();
