@@ -2745,12 +2745,13 @@ qx.Class.define("qx.ui.core.Widget",
      *
      * @type member
      * @param id {String} ID of the child control
-     * @return {void}
+     * @return {qx.ui.core.Widget} the child control
      */
     _showChildControl : function(id)
     {
       var control = this._getChildControl(id);
       control.show();
+      return control;
     },
 
 
