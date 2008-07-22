@@ -458,7 +458,6 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     /**
      * Returns the table this scroller belongs to.
      *
-     * @type member
      * @return {qx.ui.table.Table} the table.
      */
     getTable : function() {
@@ -469,7 +468,6 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     /**
      * Event handler. Called when the visibility of a column has changed.
      *
-     * @type member
      * @param evt {Map} the event.
      * @return {void}
      */
@@ -481,15 +479,15 @@ qx.Class.define("qx.ui.table.pane.Scroller",
 
 
     /**
-     * Event handler. Called when the width of a column has changed.
+     * Sets the column width.
      *
-     * @type member
-     * @param evt {Map} the event.
+     * @param col {Integer} the column to change the width for.
+     * @param width {Integer} the new width.
      * @return {void}
      */
-    _onColWidthChanged : function(evt)
+    setColumnWidth : function(col, width)
     {
-      this._header._onColWidthChanged(evt);
+      this._header._onColWidthChanged(col, width);
       this._tablePane._onColWidthChanged(evt);
 
       var data = evt.getData();
@@ -508,14 +506,12 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     /**
      * Event handler. Called when the column order has changed.
      *
-     * @type member
-     * @param evt {Map} the event.
      * @return {void}
      */
-    _onColOrderChanged : function(evt)
+    onColOrderChanged : function()
     {
-      this._header._onColOrderChanged(evt);
-      this._tablePane._onColOrderChanged(evt);
+      this._header.onColOrderChanged();
+      this._tablePane.onColOrderChanged();
 
       this._updateHorScrollBarMaximum();
     },
@@ -578,14 +574,12 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     /**
      * Event handler. Called when the table model meta data has changed.
      *
-     * @type member
-     * @param evt {Map} the event.
      * @return {void}
      */
-    _onTableModelMetaDataChanged : function(evt)
+    onTableModelMetaDataChanged : function()
     {
-      this._header._onTableModelMetaDataChanged(evt);
-      this._tablePane._onTableModelMetaDataChanged(evt);
+      this._header.onTableModelMetaDataChanged();
+      this._tablePane.onTableModelMetaDataChanged();
     },
 
 
@@ -596,10 +590,10 @@ qx.Class.define("qx.ui.table.pane.Scroller",
      * @param evt {Map} the event.
      * @return {void}
      */
-    _onPaneModelChanged : function(evt)
+    _onPaneModelChanged : function()
     {
-      this._header._onPaneModelChanged(evt);
-      this._tablePane._onPaneModelChanged(evt);
+      this._header.onPaneModelChanged();
+      this._tablePane.onPaneModelChanged();
     },
 
 

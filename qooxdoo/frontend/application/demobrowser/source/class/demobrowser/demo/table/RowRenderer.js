@@ -39,10 +39,7 @@ qx.Class.define("demobrowser.demo.table.RowRenderer",
       this._fixBoxModel();
 
       // table mock
-      this.tableMock = {
-        getTableModel : function() {}
-      };
-
+      this.tableMock = this.getTableMock();
 
       // setup aliases
       qx.util.AliasManager.getInstance().add("decoration", "qx/decoration/Classic");
