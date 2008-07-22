@@ -14,6 +14,7 @@
 
    Authors:
      * Fabian Jakobs (fjakobs)
+     * Jonathan Rass (jonathan_rass)
 
 ************************************************************************ */
 
@@ -22,7 +23,7 @@
  */
 qx.Class.define("apiviewer.ui.LegendView",
 {
-  extend : qx.legacy.ui.embed.HtmlEmbed,
+  extend : qx.ui.embed.HtmlEmbed,
 
 
 
@@ -36,13 +37,24 @@ qx.Class.define("apiviewer.ui.LegendView",
   construct : function()
   {
     this.base(arguments);
-
+/*
     this.setOverflow("auto");
     this.setWidth("100%");
     this.setHeight("100%");
-    this.setBackgroundColor("white");
+    
     this.setHtmlProperty("id", "legend");
-
+*/
+    
+    
+    this.setBackgroundColor("white");
+    this.getContentElement().setAttribute("id", "legend");
+    this.getContentElement().setStyles({
+      overflow : "auto",
+      width  : "100%",
+      height : "100%"
+    });
+    
+    
     this.addListener("appear", this._showHtml, this);
   },
 
@@ -63,7 +75,7 @@ qx.Class.define("apiviewer.ui.LegendView",
      */
     _showHtml : function()
     {
-      if (this.getHtml() !== "") {
+      if (this.getHtml() !== null) {
         return;
       }
 

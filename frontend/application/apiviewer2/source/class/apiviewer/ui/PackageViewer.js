@@ -17,6 +17,7 @@
      * Sebastian Werner (wpbasti)
      * Andreas Ecker (ecker)
      * Fabian Jakobs (fjakobs)
+     * Jonathan Rass (jonathan_rass)
 
 ************************************************************************ */
 
@@ -40,8 +41,10 @@ qx.Class.define("apiviewer.ui.PackageViewer",
   {
     this.base(arguments);
 
-    this.setHtmlProperty("id", "ClassViewer");
-    this.setVisibility(false);
+    this.getContentElement().setAttribute("id", "ClassViewer");
+    this.exclude();
+//    this.setVisibility(false);
+
     this.setDocNode(new apiviewer.dao.Package({}));
 
     this.addInfoPanel(new apiviewer.ui.panels.ClassPanel("classes", "classes", "class"));

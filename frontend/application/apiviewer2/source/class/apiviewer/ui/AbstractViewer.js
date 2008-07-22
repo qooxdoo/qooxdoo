@@ -17,21 +17,22 @@
      * Sebastian Werner (wpbasti)
      * Andreas Ecker (ecker)
      * Fabian Jakobs (fjakobs)
+     * Jonathan Rass (jonathan_rass)
 
 ************************************************************************ */
 
 qx.Class.define("apiviewer.ui.AbstractViewer",
 {
-  extend : qx.legacy.ui.embed.HtmlEmbed,
+  extend : qx.ui.embed.HtmlEmbed,
 
   construct : function()
   {
     this.base(arguments);
-
+/*
     this.setOverflow("auto");
     this.setPadding(20);
     this.setEdge(0);
-
+*/
     this._infoPanelHash = {};
     this._infoPanels = [];
     apiviewer.ObjectRegistry.register(this);
