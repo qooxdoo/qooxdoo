@@ -38,9 +38,9 @@ qx.Class.define("qx.ui.table.util.FlexWidth",
      * with the getWidth() method of the objects in the columns array.
      *
      * @param columns {Array}
-     *   An array of objects derived from {@link qx.legacy.ui.core.Widget}, but most
+     *   An array of objects derived from {@link qx.ui.core.Widget}, but most
      *   typically of class {@link qx.ui.table.util.Data}.  Each element of
-     *   the columns array is an object derived from {@link qx.legacy.ui.core.Widget}
+     *   the columns array is an object derived from {@link qx.ui.core.Widget}
      *   and thus has properties width, minWidth, and maxWidth.  The width
      *   property may take a numeric value indicating a fixed number of pixels
      *   for that column, the string "auto", a string with a percentage,
@@ -188,7 +188,7 @@ qx.Class.define("qx.ui.table.util.FlexWidth",
 
             computedFlexibleWidth =
               columnData._computedWidthFlexValue =
-              (qx.legacy.ui.table.columnmodel.resizebehavior.Default.MIN_WIDTH *
+              (qx.ui.table.columnmodel.resizebehavior.Default.MIN_WIDTH *
                flexibleColumns[i]._computedWidthParsed);
 
             columnData._computedWidthFlexValue =
@@ -209,11 +209,11 @@ qx.Class.define("qx.ui.table.util.FlexWidth",
 
             // If the computed width is less than our hard-coded minimum...
             if (computedFlexibleWidth <
-                qx.legacy.ui.table.columnmodel.resizebehavior.Default.MIN_WIDTH)
+                qx.ui.table.columnmodel.resizebehavior.Default.MIN_WIDTH)
             {
               // ... then use the hard-coded minimum
               computedFlexibleWidth =
-                qx.legacy.ui.table.columnmodel.resizebehavior.Default.MIN_WIDTH;
+                qx.ui.table.columnmodel.resizebehavior.Default.MIN_WIDTH;
             }
 
             columnData._computedWidthFlexValue =

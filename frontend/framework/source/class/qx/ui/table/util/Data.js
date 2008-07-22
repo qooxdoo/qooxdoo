@@ -29,7 +29,7 @@
  */
 qx.Class.define("qx.ui.table.util.Data",
 {
-  extend : qx.legacy.ui.core.Widget,
+  extend : qx.ui.core.Widget,
 
 
   construct : function()
