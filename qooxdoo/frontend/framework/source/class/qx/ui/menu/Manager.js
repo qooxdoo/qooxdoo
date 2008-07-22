@@ -49,6 +49,14 @@ qx.Class.define("qx.ui.menu.Manager",
 
     // Hide all when the window is blurred
     qx.bom.Element.addListener(window, "blur", this.hideAll, this);
+
+    // Create open timer
+    this._openTimer = new qx.event.Timer;
+    this._openTimer.addListener("interval", this._onOpenInterval, this);
+
+    // Create close timer
+    this._closeTimer = new qx.event.Timer;
+    this._closeTimer.addListener("interval", this._onCloseInterval, this);
   },
 
 
@@ -195,6 +203,127 @@ qx.Class.define("qx.ui.menu.Manager",
     {
       var reg = this.__objects;
       return reg.length > 0 ? reg[reg.length-1] : null;
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      SCHEDULED OPEN/CLOSE SUPPORT
+    ---------------------------------------------------------------------------
+    */
+
+    scheduleOpen : function(menu)
+    {
+      if (this.cancelClose(menu)) {
+        return;
+      }
+
+      if (menu.isVisible()) {
+        return;
+      }
+
+      if (this._scheduleOpen == menu) {
+        return;
+      }
+
+      menu.debug("Schedule open");
+      this._scheduleOpen = menu;
+      this._openTimer.restartWith(menu.getOpenInterval());
+    },
+
+    scheduleClose : function(menu)
+    {
+      if (this.cancelOpen(menu)) {
+        return;
+      }
+
+      if (!menu.isVisible()) {
+        return;
+      }
+
+      if (this._scheduleClose == menu) {
+        return;
+      }
+
+      menu.debug("Schedule close");
+      this._scheduleClose = menu;
+      this._closeTimer.restartWith(menu.getCloseInterval());
+    },
+
+    cancelOpen : function(menu)
+    {
+      if (this._scheduleOpen == menu)
+      {
+        menu.debug("Cancel open");
+        this._openTimer.stop();
+        this._scheduleOpen = null;
+
+        return true;
+      }
+
+      return false;
+    },
+
+    cancelClose : function(menu)
+    {
+      if (this._scheduleClose == menu)
+      {
+        menu.debug("Cancel close");
+        this._closeTimer.stop();
+        this._scheduleClose = null;
+
+        return true;
+      }
+
+      return false;
+    },
+
+    cancelAll : function()
+    {
+      if (this._scheduleOpen)
+      {
+        this._openTimer.stop();
+        this._scheduleOpen = null;
+      }
+
+      if (this._scheduleClose)
+      {
+        this._closeTimer.stop();
+        this._scheduleClose = null;
+      }
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      TIMER EVENT HANDLERS
+    ---------------------------------------------------------------------------
+    */
+
+    _onOpenInterval : function(e)
+    {
+      var menu = this._scheduleOpen;
+
+      menu.debug("Interval open");
+      this._openTimer.stop();
+      this._scheduleOpen = null;
+
+      menu.open();
+    },
+
+    _onCloseInterval : function(e)
+    {
+      var menu = this._scheduleClose;
+
+      menu.debug("Interval close");
+      this._closeTimer.stop();
+      this._scheduleClose = null;
+
+      menu.exclude();
     },
 
 
