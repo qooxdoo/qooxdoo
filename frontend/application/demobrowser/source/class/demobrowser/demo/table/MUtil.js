@@ -13,7 +13,8 @@ qx.Mixin.define("demobrowser.demo.table.MUtil",
 
       return {
         getTableModel : function() { return model; },
-        getTableColumnModel : function() { return columnModel; }
+        getTableColumnModel : function() { return columnModel; },
+        getRowHeight : function() { return 20; }
       }
     },
 
@@ -35,7 +36,8 @@ qx.Mixin.define("demobrowser.demo.table.MUtil",
       return {
         getColumnAtX : function(x) { return x; },
         getColumnCount : function() { return 4; },
-        getX : function(col) { return col; }
+        getX : function(col) { return col; },
+        getColumnLeft : function(col) { return col * 100; }
       }
     },
 
@@ -51,14 +53,24 @@ qx.Mixin.define("demobrowser.demo.table.MUtil",
     },
 
 
+    getPaneMock : function()
+    {
+      return {
+        getFirstVisibleRow : function() { return 0; }
+      }
+    },
+
+
     getScrollerMock : function()
     {
       var table = this.getTableMock();
       var paneModel = this.getPaneModelMock();
+      var pane = this.getPaneMock();
 
       return {
-        getTable : function() { return table;},
-        getTablePaneModel : function() { return paneModel;}
+        getTable : function() { return table; },
+        getTablePaneModel : function() { return paneModel; },
+        getTablePane : function() { return pane; }
       }
     },
 
