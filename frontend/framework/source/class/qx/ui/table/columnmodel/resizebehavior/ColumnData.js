@@ -26,9 +26,9 @@
 /**
  * All of the resizing information about a column.  This is just here for
  * backward compatibility.  New applications should directly instantiate
- * {@link qx.ui.util.column.Data}.
+ * {@link qx.ui.table.util.Data}.
  */
 qx.Class.define("qx.ui.table.columnmodel.resizebehavior.ColumnData",
 {
-  extend : qx.ui.util.column.Data
+  extend : qx.ui.table.util.Data
 });
