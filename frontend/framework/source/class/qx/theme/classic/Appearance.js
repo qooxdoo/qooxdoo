@@ -1347,6 +1347,59 @@ qx.Theme.define("qx.theme.classic.Appearance",
           alignY : "middle"
         };
       }
+    },
+
+    /*
+    ---------------------------------------------------------------------------
+      TABLE
+    ---------------------------------------------------------------------------
+    */
+
+    "table-header-cell" :
+    {
+      alias : "atom",
+      style : function(states)
+      {
+
+        if (states.hovered)
+        {
+          deco = new qx.ui.decoration.Single().set({
+            right : [ 1, "solid", "table-header-border" ],
+            bottom : [ 2, "solid", "effect" ]
+          });
+
+          paddingBottom = 0;
+          backgroundColor = "table-header-cell-hover";
+        }
+        else
+        {
+          deco = new qx.ui.decoration.Single().set({
+            right : [ 1, "solid", "table-header-border" ]
+          });
+
+          paddingBottom = 2;
+          backgroundColor = "table-header-cell";
+        }
+
+        return {
+          paddingLeft : 2,
+          paddingRight : 2,
+          paddingBottom : paddingBottom,
+          decorator : deco,
+          sortIcon : states.sorted ?
+              (states.sortedAscending ? "decoration/table/ascending.png" : "decoration/table/descending.png")
+              : null
+        }
+      }
+    },
+
+    "table-header-cell/sort-icon" : {
+      style : function(states)
+      {
+        return {
+          alignY : "middle"
+        }
+      }
     }
   }
 });
