@@ -277,16 +277,33 @@ qx.Class.define("demobrowser.demo.widget.Menu",
       var htmlButton = new qx.ui.menu.Button("HTML");
       var xmlButton = new qx.ui.menu.Button("XML");
       var jsButton = new qx.ui.menu.Button("JavaScript");
-      var cplusButton = new qx.ui.menu.Button("C++");
+      var cdialectButton = new qx.ui.menu.Button("C Dialect", null, null, this.getSyntaxCMenu());
       var perlButton = new qx.ui.menu.Button("Perl");
       var pythonButton = new qx.ui.menu.Button("Python");
 
       menu.add(htmlButton);
       menu.add(xmlButton);
       menu.add(jsButton);
-      menu.add(cplusButton);
+      menu.add(cdialectButton);
       menu.add(perlButton);
       menu.add(pythonButton);
+
+      return menu;
+    },
+
+    getSyntaxCMenu : function()
+    {
+      var menu = new qx.ui.menu.Menu;
+
+      var cButton = new qx.ui.menu.Button("C");
+      var csharpButton = new qx.ui.menu.Button("C Sharp");
+      var objcButton = new qx.ui.menu.Button("Objective C");
+      var cplusButton = new qx.ui.menu.Button("C Plus Plus");
+
+      menu.add(cButton);
+      menu.add(csharpButton);
+      menu.add(objcButton);
+      menu.add(cplusButton);
 
       return menu;
     },
