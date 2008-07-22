@@ -1394,10 +1394,12 @@ qx.Bootstrap.define("qx.Class",
         if (!clazz || !mixin) {
           throw new Error("Incomplete parameters!")
         }
+      }
 
-        if (this.hasMixin(clazz, mixin)) {
-          throw new Error('Mixin "' + mixin.name + '" is already included into Class "' + clazz.classname + '" by class: ' + this.getByMixin(clazz, mixin).classname + '!');
-        }
+      if (this.hasMixin(clazz, mixin))
+      {
+        qx.log.Logger.warn('Mixin "' + mixin.name + '" is already included into Class "' + clazz.classname + '" by class: ' + this.getByMixin(clazz, mixin).classname + '!');
+        return;
       }
 
       // Attach content
