@@ -31,7 +31,7 @@
  */
 qx.Class.define("qx.ui.table.pane.Pane",
 {
-  extend : qx.ui.basic.Terminator,
+  extend : qx.ui.core.Widget,
 
 
 
@@ -53,6 +53,8 @@ qx.Class.define("qx.ui.table.pane.Pane",
 
     this._lastColCount = 0;
     this._lastRowCount = 0;
+
+    this._updateContent();
   },
 
 
@@ -66,12 +68,6 @@ qx.Class.define("qx.ui.table.pane.Pane",
 
   properties :
   {
-    appearance :
-    {
-      refine : true,
-      init : "table-pane"
-    },
-
     /** The index of the first row to show. */
     firstVisibleRow :
     {
@@ -79,6 +75,7 @@ qx.Class.define("qx.ui.table.pane.Pane",
       init : 0,
       apply : "_applyFirstVisibleRow"
     },
+
 
     /** The number of rows to show. */
     visibleRowCount :
@@ -98,8 +95,35 @@ qx.Class.define("qx.ui.table.pane.Pane",
       check : "Number",
       init : 1000,
       apply : "_applyMaxCacheLines"
-    }
+    },
 
+    // overridden
+    allowGrowX :
+    {
+      refine : true,
+      init : false
+    },
+
+    // overridden
+    allowGrowY :
+    {
+      refine : true,
+      init : false
+    },
+
+    // overridden
+    allowShrinkX :
+    {
+      refine : true,
+      init : false
+    },
+
+    // overridden
+    allowShrinkY :
+    {
+      refine : true,
+      init : false
+    }
   },
 
 
@@ -118,24 +142,10 @@ qx.Class.define("qx.ui.table.pane.Pane",
       this._updateContent(false, value-old);
     },
 
+
     // property modifier
     _applyVisibleRowCount : function(value, old) {
       this._updateContent();
-    },
-
-
-    // overridden
-    _afterAppear : function()
-    {
-      this.base(arguments);
-
-      if (this._updateWantedWhileNotCreated)
-      {
-        // We are created now and an update was wanted before we were created.
-        // -> Do the update now
-        this._updateContent();
-        this._updateWantedWhileNotCreated = false;
-      }
     },
 
 
@@ -164,7 +174,6 @@ qx.Class.define("qx.ui.table.pane.Pane",
     /**
      * Sets the currently focused cell.
      *
-     * @type member
      * @param col {Integer} the model index of the focused cell's column.
      * @param row {Integer} the model index of the focused cell's row.
      * @param massUpdate {Boolean ? false} Whether other updates are planned as well.
@@ -193,7 +202,6 @@ qx.Class.define("qx.ui.table.pane.Pane",
     /**
      * Event handler. Called when the selection has changed.
      *
-     * @type member
      * @param evt {Map} the event.
      * @return {void}
      */
@@ -338,7 +346,6 @@ qx.Class.define("qx.ui.table.pane.Pane",
     /**
      * Updates the content of the pane.
      *
-     * @type member
      * @param completeUpdate {Boolean ? false} if true a complete update is performed.
      *      On a complete update all cell widgets are recreated.
      * @param scrollOffset {Integer ? null} If set specifies how many rows to scroll.
@@ -351,12 +358,6 @@ qx.Class.define("qx.ui.table.pane.Pane",
     {
       if (completeUpdate) {
         this.__rowCacheClear();
-      }
-
-      if (!this.isCreated())
-      {
-        this._updateWantedWhileNotCreated = true;
-        return;
       }
 
       if (this._layoutPending)
@@ -398,7 +399,7 @@ qx.Class.define("qx.ui.table.pane.Pane",
      */
     _updateRowStyles : function(onlyRow)
     {
-      var elem = this.getElement();
+      var elem = this.getContentElement().getDomElement();
       if (!elem.firstChild) {
         this._updateAllRows();
         return;
@@ -560,12 +561,13 @@ qx.Class.define("qx.ui.table.pane.Pane",
      */
     _scrollContent : function(rowOffset)
     {
-      if (!this.getElement().firstChild) {
+      var el = this.getContentElement().getDomElement();
+      if (!(el && el.firstChild)) {
         this._updateAllRows();
         return;
       }
 
-      var tableBody = this.getElement().firstChild;
+      var tableBody = el.firstChild;
       var tableChildNodes = tableBody.childNodes;
       var rowCount = this.getVisibleRowCount();
       var firstRow = this.getFirstVisibleRow();
@@ -681,40 +683,35 @@ qx.Class.define("qx.ui.table.pane.Pane",
         htmlArr = [ ];
       }
 
-      var elem = this.getElement();
+      var elem = this.getContentElement();
       var data = htmlArr.join("");
 
       //this.debug(">>>" + data + "<<<")
 
+      /*
       var self = this;
       this._layoutPending = window.setTimeout(function()
       {
-        elem.innerHTML = data;
+        elem.setAttribute("html", data);
+        qx.ui.core.queue.Manager.flush();
 
         // force immediate layouting
         // this prevents Firefox from flickering
-        //
-        // Does this really do anything?  It's referencing an object member
-        // but not doing anything with it...???  djl
-        if (qx.core.Variant.isSet("qx.client", "gecko")) {
-          if (elem.childNodes.length > 0) {
-            elem.childNodes[0].offsetHeight;
+        if (qx.core.Variant.isSet("qx.client", "gecko"))
+        {
+          var dom = elem.getDomElement();
+          if (dom.childNodes.length > 0) {
+            dom.childNodes[0].offsetHeight;
           }
         }
         self._layoutPending = null;
       }, 10);
-
-      /*
-      elem.innerHTML = data;
-
-      // force immediate layouting
-      // this prevents Firefox from flickering
-      if (qx.core.Variant.isSet("qx.client", "gecko")) {
-        elem.childNodes[0].offsetHeight;
-      }
       */
 
+      elem.setAttribute("html", data);
+
       this.setHeight(rowCount * rowHeight);
+      this.setWidth(rowWidth);
 
       this._lastColCount = colCount;
       this._lastRowCount = rowCount;

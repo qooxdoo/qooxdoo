@@ -10,12 +10,27 @@ qx.Mixin.define("demobrowser.demo.table.MUtil",
     {
       var columnModel = this.getColumnModelMock();
       var model = this.getModelMock();
+      var selection = this.getSelectionMock();
 
-      return {
+      var table = {
         getTableModel : function() { return model; },
         getTableColumnModel : function() { return columnModel; },
-        getRowHeight : function() { return 20; }
+        getRowHeight : function() { return 20; },
+        getForceLineHeight : function() { return true; },
+        getSelectionModel : function() { return selection; },
+        getDataRowRenderer : function() { return new qx.ui.table.rowrenderer.Default(table)},
+        updateContent : function() {}
       }
+
+      return table;
+    },
+
+
+    getSelectionMock : function()
+    {
+      return {
+        isSelectedIndex : function(index) { return index == 0; }
+      };
     },
 
 
@@ -26,6 +41,9 @@ qx.Mixin.define("demobrowser.demo.table.MUtil",
         getColumnWidth : function(col) { return 100; },
         getHeaderCellRenderer : function(col) {
           return new qx.ui.table.headerrenderer.Default();
+        },
+        getDataCellRenderer : function() {
+          return new qx.ui.table.cellrenderer.Default();
         }
       };
     },
@@ -37,7 +55,8 @@ qx.Mixin.define("demobrowser.demo.table.MUtil",
         getColumnAtX : function(x) { return x; },
         getColumnCount : function() { return 4; },
         getX : function(col) { return col; },
-        getColumnLeft : function(col) { return col * 100; }
+        getColumnLeft : function(col) { return col * 100; },
+        getTotalWidth : function() { return 4 * 100; }
       }
     },
 
@@ -48,7 +67,17 @@ qx.Mixin.define("demobrowser.demo.table.MUtil",
         getSortColumnIndex : function() { return 0; },
         isSortAscending : function() { return true; },
         getColumnName : function(col) { return "Column #" + col; },
-        isColumnEditable : function(col) { return false; }
+        isColumnEditable : function(col) { return false; },
+        getRowCount : function() { return 500; },
+        prefetchRows : function() {},
+        getRowData : function(row) {
+          var data = [];
+          for (var i=0; i<4; i++) {
+            data.push("Cell " + i + "x" + row)
+          }
+          return data;
+        },
+        getValue : function(col, row) { return "Cell " + col + "x" + row; }
       }
     },
 
