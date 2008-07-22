@@ -17,6 +17,7 @@
      * Sebastian Werner (wpbasti)
      * Andreas Ecker (ecker)
      * Fabian Jakobs (fjakobs)
+     * Jonathan Rass (jonathan_rass)
 
 ************************************************************************ */
 
@@ -25,14 +26,14 @@
  */
 qx.Class.define("apiviewer.ui.PackageTree",
 {
-  extend : qx.legacy.ui.tree.Tree,
+  extend : qx.ui.tree.Tree,
 
 
   construct : function()
   {
     //this.base(arguments, "API Documentation");
     this.base(arguments, "Packages");
-
+/*
     this.set({
       backgroundColor : "white",
       overflow        : "scroll",
@@ -41,7 +42,7 @@ qx.Class.define("apiviewer.ui.PackageTree",
       paddingLeft     : 5,
       paddingTop      : 3
     });
-
+*/
     // Workaround: Since navigating in qx.legacy.ui.tree.Tree doesn't work, we've to
     //             maintain a hash that keeps the tree nodes for class names
     this._classTreeNodeHash = {};
@@ -134,7 +135,7 @@ qx.Class.define("apiviewer.ui.PackageTree",
      * Create a callback which loads the child nodes of a tree folder
      *
      * @type member
-     * @param packageTreeNode {qx.legacy.ui.tree.TreeFolder} the package tree folder.
+     * @param packageTreeNode {qx.ui.tree.TreeFolder} the package tree folder.
      * @param packageDoc {apiviewer.dao.Package} the documentation node of the package.
      * @param depth {var} current depth in the tree
      * @return {Function} the opener callback function
@@ -155,7 +156,7 @@ qx.Class.define("apiviewer.ui.PackageTree",
      * Fills a package tree node with tree nodes for the sub packages and classes.
      *
      * @type member
-     * @param treeNode {qx.legacy.ui.tree.TreeFolder} the package tree node.
+     * @param treeNode {qx.ui.tree.TreeFolder} the package tree node.
      * @param docNode {apiviewer.dao.Package} the documentation node of the package.
      * @param depth {var} current depth in the tree
      */
@@ -169,7 +170,7 @@ qx.Class.define("apiviewer.ui.PackageTree",
       {
         var packageDoc = packagesDoc[i];
         var iconUrl = apiviewer.TreeUtil.getIconUrl(packageDoc);
-        var packageTreeNode = new qx.legacy.ui.tree.TreeFolder(packageDoc.getName(), iconUrl);
+        var packageTreeNode = new qx.ui.tree.TreeFolder(packageDoc.getName(), iconUrl);
         packageTreeNode.setAlwaysShowPlusMinusSymbol(true);
         packageTreeNode.setUserData("nodeName", packageDoc.getFullName());
         treeNode.add(packageTreeNode);
@@ -191,7 +192,7 @@ qx.Class.define("apiviewer.ui.PackageTree",
       {
         var classDoc = classesDoc[i];
         var iconUrl = apiviewer.TreeUtil.getIconUrl(classDoc);
-        var classTreeNode = new qx.legacy.ui.tree.TreeFolder(classDoc.getName(), iconUrl);
+        var classTreeNode = new qx.ui.tree.TreeFolder(classDoc.getName(), iconUrl);
         classTreeNode.setUserData("nodeName", classDoc.getFullName());
         classTreeNode.treeType = PackageTree.PACKAGE_TREE;
         treeNode.add(classTreeNode);
