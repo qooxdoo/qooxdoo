@@ -47,9 +47,12 @@ qx.Class.define("qx.ui.table.model.Simple",
 
   properties :
   {
+    /**
+     * Whether sorting should be case sensitive
+     */
     caseSensitiveSorting :
     {
-      check    : "Boolean",
+      check : "Boolean",
       init : true
     }
   },

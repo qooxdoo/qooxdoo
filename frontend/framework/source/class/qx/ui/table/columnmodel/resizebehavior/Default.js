@@ -63,26 +63,13 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
 
   /*
   *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
-  construct : function()
-  {
-    this.base(arguments);
-  },
-
-
-
-
-  /*
-  *****************************************************************************
      STATICS
   *****************************************************************************
   */
 
   statics :
   {
+    /** {Integer} Minimum column width */
     MIN_WIDTH : 10
   },
 
@@ -109,14 +96,13 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
       }
     },
 
-    /*
+    /**
      * Whether to reinitialize default widths on each appear event.
      * Typically, one would want to initialize the default widths only upon
      * the first appearance of the table, but the original behavior was to
      * reinitialize it even if the table is hidden and then reshown
      * (e.g. it's in a pageview and the page is switched and then switched
      * back).
-     *
      */
     initializeWidthsOnEveryAppear :
     {

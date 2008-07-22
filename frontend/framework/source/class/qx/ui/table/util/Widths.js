@@ -85,11 +85,11 @@ qx.Class.define("qx.ui.table.util.Widths",
         case "width":
           this.setWidth(column, map[key]);
           break;
-          
+
         case "minWidth":
           this.setMinWidth(column, map[key]);
           break;
-          
+
         case "maxWidth":
           this.setMaxWidth(column, map[key]);
           break;
@@ -99,13 +99,11 @@ qx.Class.define("qx.ui.table.util.Widths",
         }
       }
     },
-      
+
     /**
      * Set the width of a column.
      *
-     * @type member
-     *
-     * @param col {Integer} The column whose width is to be set
+     * @param column {Integer} The column whose width is to be set
      *
      * @param width {Integer, String}
      *   The width of the specified column.  The width may be specified as
@@ -127,13 +125,11 @@ qx.Class.define("qx.ui.table.util.Widths",
 
       this._columnData[column].setWidth(width);
     },
-      
+
     /**
      * Set the minimum width of a column.
      *
-     * @type member
-     *
-     * @param col {Integer}
+     * @param column {Integer}
      *   The column whose minimum width is to be set
      *
      * @param width {Integer}
@@ -153,13 +149,11 @@ qx.Class.define("qx.ui.table.util.Widths",
 
       this._columnData[column].setMinWidth(width);
     },
-      
+
     /**
      * Set the maximum width of a column.
      *
-     * @type member
-     *
-     * @param col {Integer}
+     * @param column {Integer}
      *   The column whose maximum width is to be set
      *
      * @param width {Integer}
