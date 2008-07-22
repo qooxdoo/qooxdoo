@@ -46,6 +46,13 @@ qx.Class.define("qx.ui.table.model.Filtered",
 
   members :
   {
+    /**
+     * Whether the given string (needle) is in the array (haystack)
+     *
+     * @param the_needle {String} String to search
+     * @param the_haystack {Array} Array, which should be searched
+     * @return {Boolean} whether the search string was found.
+     */
     _js_in_array : function(the_needle, the_haystack)
     {
       var the_hay = the_haystack.toString();
@@ -283,6 +290,9 @@ qx.Class.define("qx.ui.table.model.Filtered",
      * @param numOfRows {Integer}
      *    The number of rows to be hidden sequentially after rowNum.
      *
+     * @param dispatchEvent {Boolean?true} Whether a model change event should
+     *    be fired.
+     *
      * @return {void}
      */
     hideRows : function(rowNum, numOfRows, dispatchEvent)
@@ -305,7 +315,9 @@ qx.Class.define("qx.ui.table.model.Filtered",
       this.removeRows(kludge, numOfRows);
 
       // Inform the listeners
-      this.fireEvent(qx.ui.table.ITableModel.EVENT_TYPE_DATA_CHANGED);
+      if (dispatchEvent) {
+        this.fireEvent(qx.ui.table.ITableModel.EVENT_TYPE_DATA_CHANGED);
+      }
     },
 
 

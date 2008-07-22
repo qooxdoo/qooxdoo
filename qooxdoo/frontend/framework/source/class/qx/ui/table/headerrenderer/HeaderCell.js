@@ -47,7 +47,7 @@ qx.Class.define("qx.ui.table.headerrenderer.HeaderCell",
       apply : "_applyLabel"
     },
 
-    /* The icon URL of the sorting indicator */
+    /** The icon URL of the sorting indicator */
     sortIcon :
     {
       check : "String",
@@ -57,7 +57,7 @@ qx.Class.define("qx.ui.table.headerrenderer.HeaderCell",
       themeable : true
     },
 
-    /* Icon URL */
+    /** Icon URL */
     icon :
     {
       check : "String",

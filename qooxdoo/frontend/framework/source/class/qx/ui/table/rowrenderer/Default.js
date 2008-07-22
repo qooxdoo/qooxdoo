@@ -100,6 +100,8 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
     /**
      * Render the new font and update the table pane content
      * to reflect the font change.
+     *
+     * @param font {qx.bom.Font} The font to use for the table row
      */
     _renderFont : function(font)
     {

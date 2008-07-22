@@ -42,6 +42,10 @@ qx.Class.define("qx.ui.table.cellrenderer.Dynamic",
   *****************************************************************************
   */
 
+  /**
+   * @param cellRendererFactoryFunction {Function?null} The initial value for
+   *    the property {@link #cellRendererFactoryFunction}.
+   */
   construct : function(cellRendererFactoryFunction)
   {
     this.base(arguments);
@@ -100,10 +104,11 @@ qx.Class.define("qx.ui.table.cellrenderer.Dynamic",
      * Overridden; called whenever the cell updates. The cell will call the
      * function stored in the cellRendererFactoryFunction to retrieve the
      * cell renderer which should be used for this particular cell
-     * @type member
-     * @param cellInfo {Map} The information about the cell.
-     *          See {@link #createDataCellHtml}.
-     * @return {String}
+     *
+     * @param cellInfo {Map} A map containing the information about the cell to
+     *     create.
+     * @param htmlArr {String[]} Target string container. The HTML of the data
+     *     cell should be appended to this array.
      */
     createDataCellHtml : function(cellInfo, htmlArr)
     {
