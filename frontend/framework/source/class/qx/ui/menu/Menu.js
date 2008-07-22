@@ -236,10 +236,15 @@ qx.Class.define("qx.ui.menu.Menu",
      *
      * @param opener {qx.ui.core.Widget} Any widget
      */
-    open : function(opener)
+    open : function()
     {
-      if (opener != null) {
-        this.setOpener(opener);
+      // Move to correct position
+      var opener = this.getOpener();
+      if (opener instanceof qx.ui.menu.Button)
+      {
+        var buttonLocation = opener.getContainerLocation();
+        this.moveTo(buttonLocation.right + this.getSubmenuOffsetX(),
+          buttonLocation.top + this.getSubmenuOffsetY());
       }
 
       this.show();
@@ -291,36 +296,6 @@ qx.Class.define("qx.ui.menu.Menu",
     ---------------------------------------------------------------------------
     */
 
-    // overridden
-    _applyVisibility : function(value, old)
-    {
-      this.base(arguments, value, old);
-
-      var mgr = qx.ui.menu.Manager.getInstance();
-
-      if (value === "visible")
-      {
-        mgr.add(this);
-      }
-      else
-      {
-        mgr.remove(this);
-
-        this.resetOpened();
-        this.resetSelected();
-      }
-
-      var opener = this.getOpener();
-      if (opener)
-      {
-        var menu = opener.getLayoutParent();
-        if (menu instanceof qx.ui.menu.Menu) {
-          value === "visible" ? menu.setOpened(opener) : menu.resetOpened();
-        }
-      }
-    },
-
-
     // property apply
     _applyIconColumnWidth : function(value, old) {
       this._getLayout().setIconColumnWidth(value);
@@ -345,21 +320,54 @@ qx.Class.define("qx.ui.menu.Menu",
     },
 
 
+    // overridden
+    _applyVisibility : function(value, old)
+    {
+      this.base(arguments, value, old);
+
+      var mgr = qx.ui.menu.Manager.getInstance();
+
+      if (value === "visible")
+      {
+        // Register to manager (zIndex handling etc.)
+        mgr.add(this);
+
+        // Mark opened in parent menu
+        var opener = this.getOpener();
+        var parentMenu = opener.getParentMenu && opener.getParentMenu();
+        if (parentMenu) {
+          parentMenu.setOpened(opener);
+        }
+      }
+      else
+      {
+        // Deregister from manager (zIndex handling etc.)
+        mgr.remove(this);
+
+        // Unmark opened in parent menu
+        var opener = this.getOpener();
+        var parentMenu = opener.getParentMenu && opener.getParentMenu();
+        if (parentMenu && parentMenu.getOpened() == opener) {
+          parentMenu.resetOpened();
+        }
+
+        // Clear properties
+        this.resetOpened();
+        this.resetSelected();
+      }
+    },
+
+
     // property apply
     _applySelected : function(value, old)
     {
-      var open = this.getOpened();
+      //this.debug("SEL: " + value);
 
-      if (old && open != old) {
+      if (old) {
         old.removeState("selected");
       }
 
-      if (value)
-      {
-        if (open && open != value) {
-          open.removeState("selected");
-        }
-
+      if (value) {
         value.addState("selected");
       }
     },
@@ -368,42 +376,14 @@ qx.Class.define("qx.ui.menu.Menu",
     // property apply
     _applyOpened : function(value, old)
     {
-      if (old)
-      {
-        var oldSubMenu = old.getMenu();
-        if (oldSubMenu)
-        {
-          // Reset opener
-          oldSubMenu.resetOpener();
+      //this.debug("OPEN: " + value);
 
-          // Hide old menu
-          oldSubMenu.exclude();
-
-          // Clear hovered state
-          old.removeState("selected");
-        }
+      if (old) {
+        old.getMenu().exclude();
       }
 
-      if (value)
-      {
-        var subMenu = value.getMenu();
-
-        if (subMenu)
-        {
-          // Configure opener
-          subMenu.setOpener(value);
-
-          // Move to correct position
-          var buttonLocation = value.getContainerLocation();
-          subMenu.moveTo(buttonLocation.right + this.getSubmenuOffsetX(),
-            buttonLocation.top + this.getSubmenuOffsetY());
-
-          // And finally display it
-          subMenu.show();
-        }
-
-        // The button should be hovered when the menu is open
-        value.addState("selected");
+      if (value) {
+        value.getMenu().open();
       }
     },
 
@@ -425,45 +405,40 @@ qx.Class.define("qx.ui.menu.Menu",
      */
     _onMouseOver : function(e)
     {
-      // Force hovered state on opener
-      var opener = this.getOpener();
-      if (opener) {
-        opener.addState("selected");
-      }
+      // Cache manager
+      var mgr = qx.ui.menu.Manager.getInstance();
 
-      // Process inner target
+      // Be sure this menu is kept
+      mgr.cancelClose(this);
+
+      // Change selection
       var target = e.getTarget();
-      if (target.isEnabled() && target instanceof qx.ui.menu.Button)
+      if (target instanceof qx.ui.menu.Button)
       {
         this.setSelected(target);
 
-        var mgr = qx.ui.menu.Manager.getInstance();
-        var openItem = this.getOpened();
-
-        // Cancel all other scheduled requests
-        mgr.cancelAll();
-
-        if (openItem)
+        var subMenu = target.getMenu && target.getMenu();
+        if (subMenu)
         {
-          // Ignore when new target is already open
-          if (openItem == target) {
-            return;
+          // Finally schedule for opening
+          mgr.scheduleOpen(subMenu);
+
+          // Remember scheduled menu for opening
+          this._scheduledSubMenu = subMenu;
+        }
+        else
+        {
+          var opened = this.getOpened();
+          if (opened) {
+            mgr.scheduleClose(opened.getMenu());
           }
 
-          // Otherwise schedule a close of the current menu
-          mgr.scheduleClose(openItem.getMenu());
+          if (this._scheduledSubMenu)
+          {
+            mgr.cancelOpen(this._scheduledSubMenu);
+            this._scheduledSubMenu = null;
+          }
         }
-
-        // Schedule opening of the new menu
-        if (target.getMenu && target.getMenu())
-        {
-          target.getMenu().setOpener(target);
-          mgr.scheduleOpen(target.getMenu());
-        }
-      }
-      else
-      {
-        this.resetSelected();
       }
     },
 
@@ -477,9 +452,28 @@ qx.Class.define("qx.ui.menu.Menu",
      */
     _onMouseOut : function(e)
     {
-      var target = e.getTarget();
-      if (target == this.getSelected()) {
-        this.resetSelected();
+      // Cache manager
+      var mgr = qx.ui.menu.Manager.getInstance();
+
+      // Detect whether the related target is out of the menu
+      var relTarget = e.getRelatedTarget();
+      if (!this._contains(relTarget))
+      {
+        var opened = this.getOpened();
+
+        if (opened)
+        {
+          this.setSelected(opened);
+          mgr.cancelClose(opened.getMenu());
+        }
+        else
+        {
+          this.resetSelected();
+        }
+
+        if (this._scheduledSubMenu) {
+          mgr.cancelOpen(this._scheduledSubMenu);
+        }
       }
     }
   }
