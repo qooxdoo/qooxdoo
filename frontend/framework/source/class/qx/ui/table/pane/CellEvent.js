@@ -17,13 +17,10 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#module(ui_table)
-
-************************************************************************ */
-
-/** A cell event instance contains all data for mouse events related to cells in a table. */
+/**
+ * A cell event instance contains all data for mouse events related to cells in
+ * a table.
+ **/
 qx.Class.define("qx.ui.table.pane.CellEvent",
 {
   extend : qx.event.type.Mouse,
@@ -37,11 +34,13 @@ qx.Class.define("qx.ui.table.pane.CellEvent",
 
   properties :
   {
+    /** The table row of the event target */
     row :
     {
       check : "Integer"
     },
 
+    /** The table column of the event target */
     column :
     {
       check : "Integer"
@@ -66,8 +65,11 @@ qx.Class.define("qx.ui.table.pane.CellEvent",
      */
 
      /**
-      * @param scroller    {qx.ui.table.pane.Scroller}
-      * @param me          {qx.legacy.event.type.MouseEvent}
+      * Initialize the event
+      *
+      * @param scroller {qx.ui.table.pane.Scroller} The tables pane scroller
+      * @param type {String} The event type
+      * @param me {qx.legacy.event.type.MouseEvent} The original mouse event
       */
      init : function(scroller, type, me)
      {
@@ -79,8 +81,7 @@ qx.Class.define("qx.ui.table.pane.CellEvent",
     /**
      * Compute the row where the event has happened.
      *
-     * @type member
-     * @return {Integer} 0-based row number
+     * @return {Integer} zero based row number
      */
     _computeRow : function()
     {
@@ -95,7 +96,6 @@ qx.Class.define("qx.ui.table.pane.CellEvent",
     /**
      * Compute the column where the event has happened.
      *
-     * @type member
      * @return {Integer} zero based column number
      */
     _computeColumn : function()
