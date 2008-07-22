@@ -19,7 +19,7 @@
 
 /* ************************************************************************
 
-#require(qx.ui.util.column.Data)
+#require(qx.ui.table.util.Data)
 
 ************************************************************************ */
 
@@ -105,7 +105,7 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
       check : "Function",
       init : function(obj)
       {
-        return new qx.ui.util.column.Data();
+        return new qx.ui.table.util.Data();
       }
     },
 
@@ -392,7 +392,7 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
       }
 
       // Compute the column widths
-      qx.ui.util.column.FlexWidth.compute(columns, width);
+      qx.ui.table.util.FlexWidth.compute(columns, width);
 
       // ************************************************
       // Set the column widths to what we have calculated
