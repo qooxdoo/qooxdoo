@@ -23,7 +23,7 @@
 
 /* ************************************************************************
 
-#asset(sample/*)
+#asset(apiviewer/*)
 
 ************************************************************************ */
 
@@ -46,6 +46,10 @@ qx.Class.define("apiviewer.Application",
     {
       // Call super class
       this.base(arguments);
+      
+      // Include CSS file
+      qx.bom.Stylesheet.includeFile("apiviewer/css/apiviewer.css");
+
       qx.Class.include(qx.legacy.ui.core.Widget, apiviewer.MWidgetRegistry);
       qx.Class.include(qx.ui.core.Widget, apiviewer.MWidgetRegistry);
 

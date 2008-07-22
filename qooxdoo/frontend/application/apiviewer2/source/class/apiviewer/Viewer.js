@@ -17,6 +17,7 @@
      * Sebastian Werner (wpbasti)
      * Andreas Ecker (ecker)
      * Fabian Jakobs (fjakobs)
+     * Jonathan Rass (jonathan_rass)
 
 ************************************************************************ */
 
@@ -44,6 +45,8 @@ qx.Class.define("apiviewer.Viewer",
     
     this.setLayout(new qx.ui.layout.Dock);
 
+    //this.setBackgroundColor("white")
+
     this.add(this.__createHeader(), {
       edge : "north"
     });
@@ -62,8 +65,9 @@ qx.Class.define("apiviewer.Viewer",
       this.__createDetailFrame()
     );
 
-    this.add(this.__createVerticalSplitter(
-      buttonView, mainFrame));
+    this.add(
+      this.__createVerticalSplitter(buttonView, mainFrame)
+    );
 
   },
 
@@ -120,54 +124,26 @@ qx.Class.define("apiviewer.Viewer",
       
       var tabView = new qx.ui.tabview.TabView;
       
-      var packageTab = new qx.ui.tabview.Page("Packages", apiviewer.TreeUtil.ICON_PACKAGE);
+      var packageTab = new qx.ui.tabview.Page("", apiviewer.TreeUtil.ICON_PACKAGE);
       packageTab.setLayout(new qx.ui.layout.VBox());
       packageTab.setToolTip( new qx.ui.popup.ToolTip("Packages"));
-      packageTab.add(new qx.ui.basic.Label("Packages"));
+      packageTab.add(treeWidget);
       tabView.add(packageTab);
       
-      var searchTab = new qx.ui.tabview.Page("Search", apiviewer.TreeUtil.ICON_SEARCH);
+      var searchTab = new qx.ui.tabview.Page("", apiviewer.TreeUtil.ICON_SEARCH);
       searchTab.setLayout(new qx.ui.layout.VBox());
       searchTab.setToolTip( new qx.ui.popup.ToolTip("Search"));
       searchTab.add(new qx.ui.basic.Label("Search"));
       tabView.add(searchTab);
       
-      var infoTab = new qx.ui.tabview.Page("Information", apiviewer.TreeUtil.ICON_INFO);
+      var infoTab = new qx.ui.tabview.Page("", apiviewer.TreeUtil.ICON_INFO);
       infoTab.setLayout(new qx.ui.layout.VBox());
       infoTab.setToolTip( new qx.ui.popup.ToolTip("Information"));
-      infoTab.add(new qx.ui.basic.Label("Information"));
+      infoTab.add(infoWidget);
       tabView.add(infoTab);
       
       
       /*
-      var buttonView = new qx.legacy.ui.pageview.buttonview.ButtonView();
-      buttonView.set({
-        width : "100%",
-        height : "100%",
-        border : "line-right"
-      });
-
-      var treeButton = new qx.legacy.ui.pageview.buttonview.Button("Packages", apiviewer.TreeUtil.ICON_PACKAGE);
-      treeButton.setShow("icon");
-      treeButton.setToolTip( new qx.legacy.ui.popup.ToolTip("Packages"));
-      var searchButton = new qx.legacy.ui.pageview.buttonview.Button("Search", apiviewer.TreeUtil.ICON_SEARCH);
-      searchButton.setShow("icon");
-      searchButton.setToolTip( new qx.legacy.ui.popup.ToolTip("Search"));
-      var infoButton = new qx.legacy.ui.pageview.buttonview.Button("Legend", apiviewer.TreeUtil.ICON_INFO);
-      infoButton.setShow("icon");
-      infoButton.setToolTip( new qx.legacy.ui.popup.ToolTip("Information"));
-
-      treeButton.setChecked(true);
-      buttonView.getBar().add(treeButton, searchButton, infoButton);
-
-      var treePane = new qx.legacy.ui.pageview.buttonview.Page(treeButton);
-      var searchPane = new qx.legacy.ui.pageview.buttonview.Page(searchButton);
-      var infoPane = new qx.legacy.ui.pageview.buttonview.Page(infoButton);
-
-      var pane = buttonView.getPane();
-      pane.add(treePane, searchPane, infoPane);
-      pane.setPadding(0);
-
       treePane.add(treeWidget);
       searchPane.add(searchWidget);
       infoPane.add(infoWidget);
@@ -203,6 +179,9 @@ qx.Class.define("apiviewer.Viewer",
       }
 
       var toolbar = new qx.ui.toolbar.ToolBar;
+      
+      toolbar.addSpacer();
+      
       /*
       toolbar.set({
         horizontalChildrenAlign : "right",
@@ -259,38 +238,29 @@ qx.Class.define("apiviewer.Viewer",
      */
     __createDetailFrame : function()
     {
-      //var detailFrame = new qx.legacy.ui.layout.CanvasLayout;
       var detailFrame = new qx.ui.container.Composite;
       detailFrame.setLayout(new qx.ui.layout.Canvas);
-      
-      /*
-      detailFrame.set(
-      {
-        width           : "100%",
-        height          : "1*",
-        backgroundColor : "white",
-        id              : "content"
-      });
-      */
 
-      //detailFrame.setHtmlProperty("id", "content");
+      detailFrame.getContentElement().setAttribute("id", "content");
+      detailFrame.setBackgroundColor("white");
 
       this._detailLoader = new qx.ui.embed.HtmlEmbed('<h1><small>please wait</small>Loading data...</h1>');
-      /*
-      this._detailLoader.setHtmlProperty("id", "SplashScreen");
-      this._detailLoader.setMarginLeft(20);
-      this._detailLoader.setMarginTop(20);
-      */
+      this._detailLoader.getContentElement().setAttribute("id", "SplashScreen");
+
       this._detailLoader.setId("detail_loader");
-      detailFrame.add(this._detailLoader);
+      detailFrame.add(this._detailLoader, {
+        left : 20,
+        top : 20,
+        edge : 0
+      });
 
       ////this._classViewer = new apiviewer.ui.ClassViewer;
       this._classViewer = new qx.ui.core.Widget;
       this._classViewer.setId("class_viewer");
       detailFrame.add(this._classViewer);
 
-      ////this._packageViewer = new apiviewer.ui.PackageViewer;
-      this._packageViewer = new qx.ui.core.Widget;
+      this._packageViewer = new apiviewer.ui.PackageViewer;
+      ////this._packageViewer = new qx.ui.core.Widget;
       this._packageViewer.setId("package_viewer");
       detailFrame.add(this._packageViewer);
 
@@ -309,17 +279,9 @@ qx.Class.define("apiviewer.Viewer",
     {
       var mainFrame = new qx.ui.container.Composite;
       mainFrame.setLayout(new qx.ui.layout.VBox);
-      
-      /*
-      mainFrame.set({
-        width  : "100%",
-        height : "100%",
-        border : "line-left"
-      });
-      */
 
       mainFrame.add(toolbar);
-      mainFrame.add(detailFrame);
+      mainFrame.add(detailFrame, {height : "100%"});
 
       return mainFrame;
     },
@@ -334,15 +296,6 @@ qx.Class.define("apiviewer.Viewer",
      */
     __createVerticalSplitter : function(leftWidget, rightWidget)
     {
-      /*
-      var mainSplitPane = new qx.legacy.ui.splitpane.HorizontalSplitPane("1*", "4*");
-      mainSplitPane.setLiveResize(false);
-      mainSplitPane.addLeft(leftWidget);
-      mainSplitPane.addRight(rightWidget);
-      return mainSplitPane;
-      */
-      
-      
       var mainSplitPane = new qx.ui.splitpane.Pane("horizontal");
       mainSplitPane.add(leftWidget, 1);
       mainSplitPane.add(rightWidget, 4);
