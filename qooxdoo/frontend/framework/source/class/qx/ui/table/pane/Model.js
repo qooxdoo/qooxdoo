@@ -130,13 +130,6 @@ qx.Class.define("qx.ui.table.pane.Model",
   members :
   {
     // property modifier
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param value {var} Current value
-     * @param old {var} Previous value
-     */
     _applyFirstColumnX : function(value, old)
     {
       this._columnCount = null;
@@ -144,13 +137,6 @@ qx.Class.define("qx.ui.table.pane.Model",
     },
 
     // property modifier
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param value {var} Current value
-     * @param old {var} Previous value
-     */
     _applyMaxColumnCount : function(value, old)
     {
       this._columnCount = null;
@@ -161,7 +147,6 @@ qx.Class.define("qx.ui.table.pane.Model",
     /**
      * Event handler. Called when the visibility of a column has changed.
      *
-     * @type member
      * @param evt {Map} the event.
      * @return {void}
      */
