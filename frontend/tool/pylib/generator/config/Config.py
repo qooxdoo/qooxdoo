@@ -452,9 +452,10 @@ class Config:
         self._console.indent()
         for lib in libs:
             path = os.path.dirname(lib['manifest'])
-            pathToScript = os.path.join(path, "tool", "modules", dl_script)
+            pathToScript = os.path.join(path, os.pardir, "tool", "bin", dl_script)
             self._console.info("trying download script: " + pathToScript)
             if os.path.exists(pathToScript):
+                pathToScript = os.path.normpath(pathToScript)
                 break
         else:
             self._console.warn("Unable to locate download script for contribs: " + dl_script)
