@@ -201,6 +201,12 @@ qx.Class.define("qx.ui.menu.Button",
     },
 
 
+    getParentMenu : function()
+    {
+      return this.getLayoutParent();
+    },
+
+
 
 
     /*
@@ -233,10 +239,16 @@ qx.Class.define("qx.ui.menu.Button",
     _applyMenu : function(value, old)
     {
       this._hasSubMenu = !!value;
-      if (value) {
+
+      if (value)
+      {
         this._showChildControl("arrow");
-      } else {
+        value.setOpener(this);
+      }
+      else
+      {
         this._excludeChildControl("arrow");
+        value.resetOpener();
       }
     },
 

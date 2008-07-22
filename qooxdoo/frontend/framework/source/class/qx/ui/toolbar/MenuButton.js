@@ -82,12 +82,16 @@ qx.Class.define("qx.ui.toolbar.MenuButton",
     // property apply
     _applyMenu : function(value, old)
     {
-      if (old) {
+      if (old)
+      {
         old.removeListener("changeVisibility", this._onMenuChange, this);
+        old.resetOpener();
       }
 
-      if (value) {
+      if (value)
+      {
         value.addListener("changeVisibility", this._onMenuChange, this);
+        value.setOpener(this);
       }
     },
 
@@ -124,7 +128,7 @@ qx.Class.define("qx.ui.toolbar.MenuButton",
         {
           var first = menu.getChildren()[0];
           if (first) {
-            menu.setHoverItem(first);
+            menu.setSelected(first);
           }
         }
       }
@@ -150,6 +154,7 @@ qx.Class.define("qx.ui.toolbar.MenuButton",
 
       return null;
     },
+
 
 
 
@@ -241,11 +246,9 @@ qx.Class.define("qx.ui.toolbar.MenuButton",
       if (this.getMenu())
       {
         var toolbar = this.getToolBar();
-        if (toolbar.getOpenMenu())
-        {
-          // Cancel all queued menus
-          qx.ui.menu.Manager.getInstance().cancelAll();
 
+        if (toolbar.getOpenMenu() && toolbar.getOpenMenu() != this.getMenu())
+        {
           // Hide all open menus
           qx.ui.menu.Manager.getInstance().hideAll();
 
