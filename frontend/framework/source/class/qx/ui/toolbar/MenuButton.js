@@ -173,6 +173,7 @@ qx.Class.define("qx.ui.toolbar.MenuButton",
       if (menu.isVisible())
       {
         this.addState("pressed");
+        this.addState("selected");
 
         if (toolbar) {
           toolbar.setOpenMenu(menu);
@@ -181,6 +182,7 @@ qx.Class.define("qx.ui.toolbar.MenuButton",
       else
       {
         this.removeState("pressed");
+        this.removeState("selected");
 
         if (toolbar && toolbar.getOpenMenu() == menu) {
           toolbar.resetOpenMenu();
@@ -221,7 +223,8 @@ qx.Class.define("qx.ui.toolbar.MenuButton",
      */
     _onMouseUp : function(e)
     {
-      // Just stop propagation to stop menu manager from getting the event
+      // Just stop propagation to stop menu manager
+      // from getting the event
       e.stopPropagation();
     },
 
@@ -240,7 +243,10 @@ qx.Class.define("qx.ui.toolbar.MenuButton",
         var toolbar = this.getToolBar();
         if (toolbar.getOpenMenu())
         {
-          // Hide all open menus first
+          // Cancel all queued menus
+          qx.ui.menu.Manager.getInstance().cancelAll();
+
+          // Hide all open menus
           qx.ui.menu.Manager.getInstance().hideAll();
 
           // Then show the attached menu

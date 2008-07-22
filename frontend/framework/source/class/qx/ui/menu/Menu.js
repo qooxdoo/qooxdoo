@@ -40,21 +40,9 @@ qx.Class.define("qx.ui.menu.Menu",
     // Automatically add to application's root
     qx.core.Init.getApplication().getRoot().add(this);
 
-    // Create timers
-    this._openTimer = new qx.event.Timer;
-    this._closeTimer = new qx.event.Timer;
-
-    // Register timer listeners
-    this._openTimer.addListener("interval", this._onOpenInterval, this);
-    this._closeTimer.addListener("interval", this._onCloseInterval, this);
-
     // Register mouse listeners
     this.addListener("mouseover", this._onMouseOver);
     this.addListener("mouseout", this._onMouseOut);
-
-    // Initialize timers
-    this.initOpenInterval();
-    this.initCloseInterval();
   },
 
 
@@ -68,6 +56,12 @@ qx.Class.define("qx.ui.menu.Menu",
 
   properties :
   {
+    /*
+    ---------------------------------------------------------------------------
+      WIDGET PROPERTIES
+    ---------------------------------------------------------------------------
+    */
+
     // overridden
     appearance :
     {
@@ -105,6 +99,27 @@ qx.Class.define("qx.ui.menu.Menu",
 
 
 
+    /*
+    ---------------------------------------------------------------------------
+      STYLE OPTIONS
+    ---------------------------------------------------------------------------
+    */
+
+    /** Horizontal offset in pixels of the sub menu  */
+    submenuOffsetX :
+    {
+      check : "Integer",
+      themeable : true,
+      init : 0
+    },
+
+    /** Vertical offset in pixels of the sub menu */
+    submenuOffsetY :
+    {
+      check : "Integer",
+      themeable : true,
+      init : 0
+    },
 
     /** The spacing between each cell of the menu buttons */
     spacingX :
@@ -145,18 +160,24 @@ qx.Class.define("qx.ui.menu.Menu",
 
 
 
-    hoverItem :
+    /*
+    ---------------------------------------------------------------------------
+      FUNCTIONALITY PROPERTIES
+    ---------------------------------------------------------------------------
+    */
+
+    selected :
     {
       check : "qx.ui.core.Widget",
       nullable : true,
-      apply : "_applyHoverItem"
+      apply : "_applySelected"
     },
 
-    openItem :
+    opened :
     {
       check : "qx.ui.core.Widget",
       nullable : true,
-      apply : "_applyOpenItem"
+      apply : "_applyOpened"
     },
 
     /** Widget that opened the menu */
@@ -166,23 +187,14 @@ qx.Class.define("qx.ui.menu.Menu",
       nullable : true
     },
 
-    /** Reference to the parent menu if the menu is a submenu */
-    parentMenu :
-    {
-      check : "qx.ui.menu.Menu",
-      nullable : true
-    },
 
 
 
-
-    /** Controls whether the menus getting re-opened fast or not */
-    fastReopen :
-    {
-      check : "Boolean",
-      themeable : true,
-      init : false
-    },
+    /*
+    ---------------------------------------------------------------------------
+      BEHAVIOR PROPERTIES
+    ---------------------------------------------------------------------------
+    */
 
     /** Interval in ms after which sub menus should be openend */
     openInterval :
@@ -200,22 +212,6 @@ qx.Class.define("qx.ui.menu.Menu",
       themeable : true,
       init : 250,
       apply : "_applyCloseInterval"
-    },
-
-    /** Horizontal offset in pixels of the sub menu  */
-    subMenuHorizontalOffset :
-    {
-      check : "Integer",
-      themeable : true,
-      init : -3
-    },
-
-    /** Vertical offset in pixels of the sub menu */
-    subMenuVerticalOffset :
-    {
-      check : "Integer",
-      themeable : true,
-      init : -2
     }
   },
 
@@ -242,7 +238,10 @@ qx.Class.define("qx.ui.menu.Menu",
      */
     open : function(opener)
     {
-      this.setOpener(opener);
+      if (opener != null) {
+        this.setOpener(opener);
+      }
+
       this.show();
     },
 
@@ -263,35 +262,6 @@ qx.Class.define("qx.ui.menu.Menu",
      */
     addSeparator : function() {
       this.add(new qx.ui.menu.Separator);
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      WIDGET API
-    ---------------------------------------------------------------------------
-    */
-
-    // overridden
-    _applyVisibility : function(value, old)
-    {
-      this.base(arguments, value, old);
-
-      var mgr = qx.ui.menu.Manager.getInstance();
-
-      if (value === "visible")
-      {
-        mgr.add(this);
-      }
-      else
-      {
-        mgr.remove(this);
-
-        this.resetHoverItem();
-        this.resetOpenItem();
-      }
     },
 
 
@@ -321,6 +291,36 @@ qx.Class.define("qx.ui.menu.Menu",
     ---------------------------------------------------------------------------
     */
 
+    // overridden
+    _applyVisibility : function(value, old)
+    {
+      this.base(arguments, value, old);
+
+      var mgr = qx.ui.menu.Manager.getInstance();
+
+      if (value === "visible")
+      {
+        mgr.add(this);
+      }
+      else
+      {
+        mgr.remove(this);
+
+        this.resetOpened();
+        this.resetSelected();
+      }
+
+      var opener = this.getOpener();
+      if (opener)
+      {
+        var menu = opener.getLayoutParent();
+        if (menu instanceof qx.ui.menu.Menu) {
+          value === "visible" ? menu.setOpened(opener) : menu.resetOpened();
+        }
+      }
+    },
+
+
     // property apply
     _applyIconColumnWidth : function(value, old) {
       this._getLayout().setIconColumnWidth(value);
@@ -346,45 +346,41 @@ qx.Class.define("qx.ui.menu.Menu",
 
 
     // property apply
-    _applyOpenInterval : function(value, old) {
-      this._openTimer.setInterval(value);
-    },
-
-
-    // property apply
-    _applyCloseInterval : function(value, old) {
-      this._closeTimer.setInterval(value);
-    },
-
-
-    // property apply
-    _applyHoverItem : function(value, old)
+    _applySelected : function(value, old)
     {
-      if (old) {
-        old.removeState("hovered");
+      var open = this.getOpened();
+
+      if (old && open != old) {
+        old.removeState("selected");
       }
 
       if (value)
       {
-        if (value.isEnabled()) {
-          value.addState("hovered");
+        if (open && open != value) {
+          open.removeState("selected");
         }
+
+        value.addState("selected");
       }
     },
 
 
     // property apply
-    _applyOpenItem : function(value, old)
+    _applyOpened : function(value, old)
     {
       if (old)
       {
         var oldSubMenu = old.getMenu();
-
         if (oldSubMenu)
         {
-          oldSubMenu.resetParentMenu();
+          // Reset opener
           oldSubMenu.resetOpener();
+
+          // Hide old menu
           oldSubMenu.exclude();
+
+          // Clear hovered state
+          old.removeState("selected");
         }
       }
 
@@ -394,15 +390,20 @@ qx.Class.define("qx.ui.menu.Menu",
 
         if (subMenu)
         {
+          // Configure opener
           subMenu.setOpener(value);
-          subMenu.setParentMenu(this);
 
+          // Move to correct position
           var buttonLocation = value.getContainerLocation();
-          subMenu.moveTo(buttonLocation.right + this.getSubMenuHorizontalOffset(),
-            buttonLocation.top + this.getSubMenuVerticalOffset());
+          subMenu.moveTo(buttonLocation.right + this.getSubmenuOffsetX(),
+            buttonLocation.top + this.getSubmenuOffsetY());
 
+          // And finally display it
           subMenu.show();
         }
+
+        // The button should be hovered when the menu is open
+        value.addState("selected");
       }
     },
 
@@ -424,89 +425,45 @@ qx.Class.define("qx.ui.menu.Menu",
      */
     _onMouseOver : function(e)
     {
-      // HANDLE PARENT MENU
-
-      // look if we have a parent menu
-      // if so we need to stop the close event started there
-      var parentMenu = this.getParentMenu();
-
-      if (parentMenu)
-      {
-        // stop the close event
-        parentMenu._closeTimer.stop();
-
-        // look if we have a menuOpener, too (normally this should be)
-        var menuOpener = this.getOpener();
-
-        // then setup it to look hovered
-        if (menuOpener) {
-          parentMenu.setHoverItem(menuOpener);
-        }
+      // Force hovered state on opener
+      var opener = this.getOpener();
+      if (opener) {
+        opener.addState("selected");
       }
 
-
-      // HANDLING FOR HOVERING MYSELF
-
+      // Process inner target
       var target = e.getTarget();
-
-      if (target == this)
+      if (target.isEnabled() && target instanceof qx.ui.menu.Button)
       {
-        this._openTimer.stop();
-        this._closeTimer.start();
+        this.setSelected(target);
 
-        this.resetHoverItem();
+        var mgr = qx.ui.menu.Manager.getInstance();
+        var openItem = this.getOpened();
 
-        return;
-      }
+        // Cancel all other scheduled requests
+        mgr.cancelAll();
 
-
-
-      // HANDLING FOR HOVERING ITEMS
-
-      var openItem = this.getOpenItem();
-
-      // if we have a open item
-      if (openItem)
-      {
-        this.setHoverItem(target);
-        this._openTimer.stop();
-
-        // if the new one has also a sub menu
-        if (target.getMenu())
+        if (openItem)
         {
-          // check if we should use fast reopen (this will open the menu instantly)
-          if (this.getFastReopen())
-          {
-            this.setOpenItem(target);
-            this._closeTimer.stop();
+          // Ignore when new target is already open
+          if (openItem == target) {
+            return;
           }
 
-          // otherwise we use the default timer interval
-          else
-          {
-            this._openTimer.start();
-          }
+          // Otherwise schedule a close of the current menu
+          mgr.scheduleClose(openItem.getMenu());
         }
 
-        // otherwise start the close timer for the old menu
-        else
+        // Schedule opening of the new menu
+        if (target.getMenu && target.getMenu())
         {
-          this._closeTimer.start();
+          target.getMenu().setOpener(target);
+          mgr.scheduleOpen(target.getMenu());
         }
       }
-
-      // otherwise handle the mouseover and restart the timer
       else
       {
-        this.setHoverItem(target);
-
-        // stop timer for the last open request
-        this._openTimer.stop();
-
-        // and restart it if the new one has a menu, too
-        if (target.getMenu()) {
-          this._openTimer.start();
-        }
+        this.resetSelected();
       }
     },
 
@@ -520,63 +477,10 @@ qx.Class.define("qx.ui.menu.Menu",
      */
     _onMouseOut : function(e)
     {
-      // stop the open timer (for any previous open requests)
-      this._openTimer.stop();
-
-      // start the close timer to hide a menu if needed
       var target = e.getTarget();
-      if (target != this && target.getMenu()) {
-        this._closeTimer.start();
+      if (target == this.getSelected()) {
+        this.resetSelected();
       }
-
-      // reset the current hover item
-      this.resetHoverItem();
-    },
-
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      INTERVAL EVENT HANDLING
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param e {Event} TODOC
-     * @return {void}
-     */
-    _onOpenInterval : function(e)
-    {
-      // stop the open timer (we need only the first interval)
-      this._openTimer.stop();
-
-      // if we have a item which is currently hovered, open it
-      var hoverItem = this.getHoverItem();
-      if (hoverItem && hoverItem.getMenu()) {
-        this.setOpenItem(hoverItem);
-      }
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param e {Event} TODOC
-     * @return {void}
-     */
-    _onCloseInterval : function(e)
-    {
-      // stop the close timer (we need only the first interval)
-      this._closeTimer.stop();
-
-      // reset the current opened item
-      this.resetOpenItem();
     }
   }
 });

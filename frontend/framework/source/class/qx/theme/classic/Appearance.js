@@ -1266,6 +1266,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
           spacingY : 1,
           iconColumnWidth : 16,
           arrowColumnWidth : 4,
+          submenuOffsetX : -3,
+          submenuOffsetY : -2,
           padding : 1
         };
       }
@@ -1293,8 +1295,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          backgroundColor : states.hovered ? "background-selected" : "undefined",
-          textColor : states.hovered ? "text-selected" : "undefined",
+          backgroundColor : states.selected ? "background-selected" : "undefined",
+          textColor : states.selected ? "text-selected" : "undefined",
           padding : [ 2, 6 ]
         };
       }
@@ -1343,7 +1345,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          source : states.hovered ? "decoration/arrows/right-invert.gif" : "decoration/arrows/right.gif",
+          source : states.selected ? "decoration/arrows/right-invert.gif" : "decoration/arrows/right.gif",
           alignY : "middle"
         };
       }

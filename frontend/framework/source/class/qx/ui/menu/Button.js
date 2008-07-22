@@ -157,7 +157,7 @@ qx.Class.define("qx.ui.menu.Button",
 
     _forwardStates :
     {
-      hovered : 1
+      selected : 1
     },
 
 
