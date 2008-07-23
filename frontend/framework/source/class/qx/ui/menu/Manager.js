@@ -53,6 +53,8 @@ qx.Class.define("qx.ui.menu.Manager",
     root.addListener("mouseup", this._onMouseUp, this);
 
     // React on keypress events
+    root.addListener("keydown", this._onKeyDown, this, true);
+    root.addListener("keyup", this._onKeyUp, this, true);
     root.addListener("keypress", this._onKeyPress, this, true);
 
     // Hide all when the window is blurred
@@ -424,7 +426,37 @@ qx.Class.define("qx.ui.menu.Manager",
     */
 
     /**
-     * Event handler for all key events. Delegates the event to the more
+     * Event handler for all keydown events. Stops all events
+     * when any menu is opened.
+     *
+     * @param e {qx.event.type.KeySequence} Keyboard event
+     * @return {void}
+     */
+    _onKeyDown : function(e)
+    {
+      if (this.getActiveMenu()) {
+        e.stop();
+      }
+    },
+
+
+    /**
+     * Event handler for all keyup events. Stops all events
+     * when any menu is opened.
+     *
+     * @param e {qx.event.type.KeySequence} Keyboard event
+     * @return {void}
+     */
+    _onKeyUp : function(e)
+    {
+      if (this.getActiveMenu()) {
+        e.stop();
+      }
+    },
+
+
+    /**
+     * Event handler for all keypress events. Delegates the event to the more
      * specific methods defined in this class.
      *
      * Currently processes the keys: <code>Up</code>, <code>Down</code>,
@@ -459,7 +491,7 @@ qx.Class.define("qx.ui.menu.Manager",
           break;
 
         case "Enter":
-          this._onKeyPressEnter(menu);
+          this._onKeyPressEnter(menu, e);
           break;
 
         case "Escape":
@@ -471,7 +503,7 @@ qx.Class.define("qx.ui.menu.Manager",
       }
 
       // Stop all processed events
-      e.preventDefault();
+      e.stop();
     },
 
 
@@ -665,14 +697,22 @@ qx.Class.define("qx.ui.menu.Manager",
      * Event handler for <code>Enter</code> key
      *
      * @param menu {qx.ui.menu.Menu} The active menu
+     * @param e {qx.event.type.KeySequence} The keypress event
      * @return {void}
      */
-    _onKeyPressEnter : function(menu)
+    _onKeyPressEnter : function(menu, e)
     {
-      // Execute the command behind the currently selected button
+      // Route keypress event to the selected button
       var selectedButton = menu.getSelectedButton();
-      if (selectedButton) {
-        selectedButton.execute();
+      if (selectedButton && selectedButton.hasListener("keypress"))
+      {
+        // Clone and reconfigure event
+        var clone = e.clone();
+        clone.setBubbles(false);
+        clone.setTarget(selectedButton);
+
+        // Finally dispatch the clone
+        selectedButton.dispatchEvent(clone);
       }
 
       // Hide all open menus
