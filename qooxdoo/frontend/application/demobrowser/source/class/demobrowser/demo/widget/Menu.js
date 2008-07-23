@@ -64,6 +64,12 @@ qx.Class.define("demobrowser.demo.widget.Menu",
       this._newCommand = new qx.event.Command("Ctrl+N");
       this._newCommand.addListener("execute", this.debugCommand);
 
+      this._openCommand = new qx.event.Command("Ctrl+O");
+      this._openCommand.addListener("execute", this.debugCommand);
+
+      this._saveCommand = new qx.event.Command("Ctrl+S");
+      this._saveCommand.addListener("execute", this.debugCommand);
+
       this._undoCommand = new qx.event.Command("Ctrl+Z");
       this._undoCommand.addListener("execute", this.debugCommand);
 
@@ -80,9 +86,8 @@ qx.Class.define("demobrowser.demo.widget.Menu",
       this._pasteCommand.addListener("execute", this.debugCommand);
 
       this._pasteCommand.setEnabled(false);
-
-
     },
+
 
     getButton1 : function()
     {
@@ -175,13 +180,19 @@ qx.Class.define("demobrowser.demo.widget.Menu",
       toolbar.add(searchPart);
       toolbar.add(helpPart);
 
-      var newButton = new qx.ui.toolbar.Button(null, "icon/16/actions/document-new.png", this._newCommand);
-      var openButton = new qx.ui.toolbar.Button(null, "icon/16/actions/document-open.png", this._openCommand);
-      var saveButton = new qx.ui.toolbar.Button(null, "icon/16/actions/document-save.png", this._saveCommand);
+      var newButton = new qx.ui.toolbar.Button("New", "icon/16/actions/document-new.png", this._newCommand);
+      var openButton = new qx.ui.toolbar.Button("Open", "icon/16/actions/document-open.png", this._openCommand);
+      var saveButton = new qx.ui.toolbar.Button("Save", "icon/16/actions/document-save.png", this._saveCommand);
+
+      newButton.addListener("execute", this.debugButton);
+      openButton.addListener("execute", this.debugButton);
+      saveButton.addListener("execute", this.debugButton);
 
       basicPart.add(newButton);
       basicPart.add(openButton);
       basicPart.add(saveButton);
+
+      basicPart.setShow("icon");
 
 
       var fileMenu = new qx.ui.toolbar.MenuButton("File");
@@ -222,9 +233,9 @@ qx.Class.define("demobrowser.demo.widget.Menu",
       var menu = new qx.ui.menu.Menu;
 
       var newButton = new qx.ui.menu.Button("New", "icon/16/actions/document-new.png", this._newCommand);
-      var openButton = new qx.ui.menu.Button("Open", "icon/16/actions/document-open.png");
+      var openButton = new qx.ui.menu.Button("Open", "icon/16/actions/document-open.png", this._openCommand);
       var closeButton = new qx.ui.menu.Button("Close");
-      var saveButton = new qx.ui.menu.Button("Save", "icon/16/actions/document-save.png");
+      var saveButton = new qx.ui.menu.Button("Save", "icon/16/actions/document-save.png", this._saveCommand);
       var saveAsButton = new qx.ui.menu.Button("Save as...", "icon/16/actions/document-save-as.png");
       var printButton = new qx.ui.menu.Button("Print", "icon/16/actions/document-print.png");
       var exitButton = new qx.ui.menu.Button("Exit", "icon/16/actions/application-exit.png");
