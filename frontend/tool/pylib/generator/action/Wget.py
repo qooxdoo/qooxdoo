@@ -39,14 +39,16 @@ class Wget(object):
 
     urlPathSep = "/"
 
-    def wget(self, url, fileRoot, optMap, maxDepth=20):
-        if optMap['saveTo']:
-            savePath = optMap['saveTo']
-        else:
-            savePath = os.curdir
-        if not 'recursive' in optMap or not optMap['recursive']:
-            maxDepth = 0
+    def wget(self, url, fileRoot, optMap):
 
+        # Set various attributes on the object
+        # self.maxDepth
+        if not 'recursive' in optMap or not optMap['recursive']:
+            self.maxDepth = 0
+        if 'maxDepth' in optMap and isinstance(optMap['maxDepth'], types.IntType):
+            self.maxDepth = optMap['maxDepth']
+
+        # self.urlRoot
         (hproto, 
         hnetLoc,
         hpath,
@@ -54,16 +56,19 @@ class Wget(object):
         hquery,
         hfrag ) = urlparse.urlparse(url)
 
-        # force directory for self.fileRoot
+        self.urlRoot  = urlparse.urlunparse((hproto,hnetLoc,hpath,'','','')) # debateable!
+
+        # self.fileRoot
+        # - force directory
         if os.path.isdir(fileRoot):
             self.fileRoot = fileRoot
         else:
             self.fileRoot = os.path.dirname(fileRoot)
 
-        self.urlRoot  = urlparse.urlunparse((hproto,hnetLoc,hpath,'','','')) # debateable!
-        self.maxDepth = maxDepth
+        # self.urlIndex
         self.urlIndex = []
 
+        # Do the actual downloading
         self._wget(url, optMap, 0)
 
 
