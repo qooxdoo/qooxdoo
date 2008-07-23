@@ -123,7 +123,7 @@ qx.Class.define("apiviewer.Viewer",
     {
       
       var tabView = new qx.ui.tabview.TabView;
-      
+
       var packageTab = new qx.ui.tabview.Page("", apiviewer.TreeUtil.ICON_PACKAGE);
       packageTab.setLayout(new qx.ui.layout.VBox());
       packageTab.setToolTip( new qx.ui.popup.ToolTip("Packages"));
