@@ -26,8 +26,57 @@ qx.Class.define("qx.event.type.Dom",
 {
   extend : qx.event.type.Native,
 
+
+
+  statics :
+  {
+    /** {Integer} The modifier mask for the shift key. */
+    SHIFT_MASK : 1,
+
+    /** {Integer} The modifier mask for the control key. */
+    CTRL_MASK  : 2,
+
+    /** {Integer} The modifier mask for the alt key. */
+    ALT_MASK   : 4,
+
+    /** {Integer} The modifier mask for the meta key (e.g. apple key on Macs). */
+    META_MASK  : 8
+  },
+
+
   members :
   {
+    /**
+     * Return in a bit map, which modifier keys are pressed. The constants
+     * {@link #SHIFT_MASK}, {@link #CTRL_MASK}, {@link #ALT_MASK} and
+     * {@link #META_MASK} define the bit positions of the corresponding keys.
+     *
+     * @return {Integer} A bit map with the pressed modifier keys.
+     */
+    getModifiers : function()
+    {
+      if (!this.__modifiers)
+      {
+        var mask = 0;
+        var evt = this._native;
+        if (evt.shiftKey) {
+          mask |= qx.event.type.Dom.SHIFT_MASK;
+        }
+        if (evt.ctrlKey) {
+          mask |= qx.event.type.Dom.CTRL_MASK;
+        }
+        if (evt.altKey) {
+          mask |= qx.event.type.Dom.ALT_MASK;
+        }
+        if (evt.metaKey) {
+          mask |= qx.event.type.Dom.META_MASK;
+        }
+        return mask;
+      }
+      return this.__modifiers;
+    },
+
+
     /**
      * Returns whether the the ctrl key is pressed.
      *
@@ -69,6 +118,22 @@ qx.Class.define("qx.event.type.Dom",
      */
     isMetaPressed : function() {
       return this._native.metaKey;
+    },
+
+
+    /**
+     * Returns whether the ctrl key or (on the Mac) the command key is pressed.
+     *
+     * @return {Boolean} <code>true</code> if the command key is pressed on the Mac
+     *           or the ctrl key is pressed on another system.
+     */
+    isCtrlOrCommandPressed : function()
+    {
+      if (qx.bom.client.Platform.MAC) {
+        return this._native.metaKey;
+      } else {
+        return this._native.ctrlKey;
+      }
     }
   }
 });
