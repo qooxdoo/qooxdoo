@@ -77,17 +77,8 @@ qx.Class.define("qx.ui.menu.Button",
     {
       refine : true,
       init : "menu-button"
-    },
-
-    /** The icon to use */
-    icon :
-    {
-      check : "String",
-      apply : "_applyIcon",
-      nullable : true
     }
   },
-
 
 
 
@@ -100,25 +91,6 @@ qx.Class.define("qx.ui.menu.Button",
 
   members :
   {
-    /*
-    ---------------------------------------------------------------------------
-      PROPERTY APPLY ROUTINES
-    ---------------------------------------------------------------------------
-    */
-
-    // property apply
-    _applyIcon : function(value, old)
-    {
-      if (value) {
-        this._showChildControl("icon").setSource(value);
-      } else {
-        this._excludeChildControl("icon");
-      }
-    },
-
-
-
-
     /*
     ---------------------------------------------------------------------------
       EVENT HANDLER

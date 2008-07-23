@@ -250,21 +250,25 @@ qx.Class.define("demobrowser.demo.widget.Menu",
     {
       var menu = new qx.ui.menu.Menu;
 
-      var statusButton = new qx.ui.menu.Button("Show tabs");
-      var tabsButton = new qx.ui.menu.Button("Show status bar");
+      var tabsCheckbox = new qx.ui.menu.CheckBox("Show tabs");
+      var statusCheckbox = new qx.ui.menu.CheckBox("Show status bar");
 
-      var treeButton = new qx.ui.menu.Button("Show tree");
-      var macroButton = new qx.ui.menu.Button("Show macros");
-      var tagButton = new qx.ui.menu.Button("Show tags");
-      var consoleButton = new qx.ui.menu.Button("Show console");
+      var treeCheckbox = new qx.ui.menu.CheckBox("Show tree");
+      var macroCheckbox = new qx.ui.menu.CheckBox("Show macros");
+      var tagCheckbox = new qx.ui.menu.CheckBox("Show tags");
+      var consoleCheckbox = new qx.ui.menu.CheckBox("Show console");
 
-      menu.add(statusButton);
-      menu.add(tabsButton);
+      tabsCheckbox.setChecked(true);
+      statusCheckbox.setChecked(true);
+      macroCheckbox.setChecked(true);
+
+      menu.add(statusCheckbox);
+      menu.add(tabsCheckbox);
       menu.addSeparator();
-      menu.add(treeButton);
-      menu.add(macroButton);
-      menu.add(tagButton);
-      menu.add(consoleButton);
+      menu.add(treeCheckbox);
+      menu.add(macroCheckbox);
+      menu.add(tagCheckbox);
+      menu.add(consoleCheckbox);
 
       return menu;
     },
@@ -273,12 +277,12 @@ qx.Class.define("demobrowser.demo.widget.Menu",
     {
       var menu = new qx.ui.menu.Menu;
 
-      var htmlButton = new qx.ui.menu.Button("HTML");
-      var xmlButton = new qx.ui.menu.Button("XML");
-      var jsButton = new qx.ui.menu.Button("JavaScript");
+      var htmlButton = new qx.ui.menu.RadioButton("HTML");
+      var xmlButton = new qx.ui.menu.RadioButton("XML");
+      var jsButton = new qx.ui.menu.RadioButton("JavaScript");
       var cdialectButton = new qx.ui.menu.Button("C Dialect", null, null, this.getSyntaxCMenu());
-      var perlButton = new qx.ui.menu.Button("Perl");
-      var pythonButton = new qx.ui.menu.Button("Python");
+      var perlButton = new qx.ui.menu.RadioButton("Perl");
+      var pythonButton = new qx.ui.menu.RadioButton("Python");
 
       menu.add(htmlButton);
       menu.add(xmlButton);
@@ -287,6 +291,11 @@ qx.Class.define("demobrowser.demo.widget.Menu",
       menu.add(perlButton);
       menu.add(pythonButton);
 
+      // Configure and fill radio group
+      var langGroup = new qx.ui.form.RadioGroup;
+      langGroup.add(htmlButton, xmlButton, jsButton, perlButton, pythonButton);
+      langGroup.add.apply(langGroup, cdialectButton.getMenu().getChildren());
+
       return menu;
     },
 
@@ -294,10 +303,10 @@ qx.Class.define("demobrowser.demo.widget.Menu",
     {
       var menu = new qx.ui.menu.Menu;
 
-      var cButton = new qx.ui.menu.Button("C");
-      var csharpButton = new qx.ui.menu.Button("C Sharp");
-      var objcButton = new qx.ui.menu.Button("Objective C");
-      var cplusButton = new qx.ui.menu.Button("C Plus Plus");
+      var cButton = new qx.ui.menu.RadioButton("C");
+      var csharpButton = new qx.ui.menu.RadioButton("C Sharp");
+      var objcButton = new qx.ui.menu.RadioButton("Objective C");
+      var cplusButton = new qx.ui.menu.RadioButton("C Plus Plus");
 
       menu.add(cButton);
       menu.add(csharpButton);
