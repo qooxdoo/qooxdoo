@@ -46,7 +46,7 @@ qx.Class.define("demobrowser.demo.widget.Menu",
     },
 
 
-    debugSelected : function(e) {
+    debugRadio : function(e) {
       this.debug("Change selection: " + e.getData().getLabel());
     },
 
@@ -56,6 +56,10 @@ qx.Class.define("demobrowser.demo.widget.Menu",
 
     debugButton : function(e) {
       this.debug("Execute button: " + this.getLabel());
+    },
+
+    debugCheckBox : function(e) {
+      this.debug("Change checked: " + this.getLabel() + " = " + e.getData());
     },
 
 
@@ -111,11 +115,11 @@ qx.Class.define("demobrowser.demo.widget.Menu",
       // create radio groups
       var groupOptions = new qx.ui.form.RadioGroup;
       groupOptions.add.apply(groupOptions, optionMenu.getChildren());
-      groupOptions.addListener("changeSelected", this.debugSelected);
+      groupOptions.addListener("changeSelected", this.debugRadio);
 
       var groupActions = new qx.ui.form.RadioGroup;
       groupActions.add.apply(groupActions, actionMenu.getChildren());
-      groupActions.addListener("changeSelected", this.debugSelected);
+      groupActions.addListener("changeSelected", this.debugRadio);
 
 
       // create main menu and buttons
@@ -240,6 +244,14 @@ qx.Class.define("demobrowser.demo.widget.Menu",
       var printButton = new qx.ui.menu.Button("Print", "icon/16/actions/document-print.png");
       var exitButton = new qx.ui.menu.Button("Exit", "icon/16/actions/application-exit.png");
 
+      newButton.addListener("execute", this.debugButton);
+      openButton.addListener("execute", this.debugButton);
+      closeButton.addListener("execute", this.debugButton);
+      saveButton.addListener("execute", this.debugButton);
+      saveAsButton.addListener("execute", this.debugButton);
+      printButton.addListener("execute", this.debugButton);
+      exitButton.addListener("execute", this.debugButton);
+
       menu.add(newButton);
       menu.add(openButton);
       menu.add(closeButton);
@@ -260,6 +272,12 @@ qx.Class.define("demobrowser.demo.widget.Menu",
       var cutButton = new qx.ui.menu.Button("Cut", "icon/16/actions/edit-cut.png", this._cutCommand);
       var copyButton = new qx.ui.menu.Button("Copy", "icon/16/actions/edit-copy.png", this._copyCommand);
       var pasteButton = new qx.ui.menu.Button("Paste", "icon/16/actions/edit-paste.png", this._pasteCommand);
+
+      undoButton.addListener("execute", this.debugButton);
+      redoButton.addListener("execute", this.debugButton);
+      cutButton.addListener("execute", this.debugButton);
+      copyButton.addListener("execute", this.debugButton);
+      pasteButton.addListener("execute", this.debugButton);
 
       menu.add(undoButton);
       menu.add(redoButton);
@@ -282,6 +300,15 @@ qx.Class.define("demobrowser.demo.widget.Menu",
       var searchFilesButton = new qx.ui.menu.Button("Search in files", "icon/16/actions/system-search.png");
       var replaceFilesButton = new qx.ui.menu.Button("Replace in files");
 
+      previousButton.setEnabled(false);
+
+      searchButton.addListener("execute", this.debugButton);
+      nextButton.addListener("execute", this.debugButton);
+      previousButton.addListener("execute", this.debugButton);
+      replaceButton.addListener("execute", this.debugButton);
+      searchFilesButton.addListener("execute", this.debugButton);
+      replaceFilesButton.addListener("execute", this.debugButton);
+
       menu.add(searchButton);
       menu.add(nextButton);
       menu.add(previousButton);
@@ -299,9 +326,13 @@ qx.Class.define("demobrowser.demo.widget.Menu",
 
       var panesButton = new qx.ui.menu.Button("Panes", null, null, this.getPanesMenu());
       var syntaxButton = new qx.ui.menu.Button("Syntax", null, null, this.getSyntaxMenu());
-      var rulerButton = new qx.ui.menu.Button("Show ruler");
-      var numbersButton = new qx.ui.menu.Button("Show line numbers");
+      var rulerButton = new qx.ui.menu.CheckBox("Show ruler");
+      var numbersButton = new qx.ui.menu.CheckBox("Show line numbers");
       var asciiButton = new qx.ui.menu.Button("ASCII table");
+
+      rulerButton.addListener("changeChecked", this.debugCheckBox);
+      numbersButton.addListener("changeChecked", this.debugCheckBox);
+      asciiButton.addListener("execute", this.debugButton);
 
       menu.add(panesButton);
       menu.add(syntaxButton);
@@ -329,6 +360,13 @@ qx.Class.define("demobrowser.demo.widget.Menu",
       tabsCheckbox.setChecked(true);
       statusCheckbox.setChecked(true);
       macroCheckbox.setChecked(true);
+
+      tabsCheckbox.addListener("changeChecked", this.debugCheckBox);
+      statusCheckbox.addListener("changeChecked", this.debugCheckBox);
+      treeCheckbox.addListener("changeChecked", this.debugCheckBox);
+      macroCheckbox.addListener("changeChecked", this.debugCheckBox);
+      tagCheckbox.addListener("changeChecked", this.debugCheckBox);
+      consoleCheckbox.addListener("changeChecked", this.debugCheckBox);
 
       menu.add(statusCheckbox);
       menu.add(tabsCheckbox);
@@ -364,6 +402,8 @@ qx.Class.define("demobrowser.demo.widget.Menu",
       langGroup.add(htmlButton, xmlButton, jsButton, perlButton, pythonButton);
       langGroup.add.apply(langGroup, cdialectButton.getMenu().getChildren());
 
+      langGroup.addListener("changeSelected", this.debugRadio);
+
       return menu;
     },
 
@@ -397,6 +437,14 @@ qx.Class.define("demobrowser.demo.widget.Menu",
       var ansiButton = new qx.ui.menu.Button("OEM to ANSI");
       var oemButton = new qx.ui.menu.Button("ANSI to OEM");
 
+      spacesButton.addListener("execute", this.debugButton);
+      tabsButton.addListener("execute", this.debugButton);
+      upperButton.addListener("execute", this.debugButton);
+      lowerButton.addListener("execute", this.debugButton);
+      capitalsButton.addListener("execute", this.debugButton);
+      ansiButton.addListener("execute", this.debugButton);
+      oemButton.addListener("execute", this.debugButton);
+
       menu.add(paragraphButton)
       menu.add(spacesButton);
       menu.add(tabsButton);
@@ -420,6 +468,11 @@ qx.Class.define("demobrowser.demo.widget.Menu",
       var centeredButton = new qx.ui.menu.Button("Centered", "icon/16/actions/format-justify-center.png");
       var justifyButton = new qx.ui.menu.Button("Justified", "icon/16/actions/format-justify-fill.png");
 
+      leftButton.addListener("execute", this.debugButton);
+      rightButton.addListener("execute", this.debugButton);
+      centeredButton.addListener("execute", this.debugButton);
+      justifyButton.addListener("execute", this.debugButton);
+
       menu.add(leftButton);
       menu.add(rightButton);
       menu.add(centeredButton);
@@ -434,9 +487,13 @@ qx.Class.define("demobrowser.demo.widget.Menu",
 
       var topicsButton = new qx.ui.menu.Button("Topics", "icon/16/apps/help-browser.png");
       var quickButton = new qx.ui.menu.Button("Quickstart");
-
       var onlineButton = new qx.ui.menu.Button("Online Forum");
       var infoButton = new qx.ui.menu.Button("Info...");
+
+      topicsButton.addListener("execute", this.debugButton);
+      quickButton.addListener("execute", this.debugButton);
+      onlineButton.addListener("execute", this.debugButton);
+      infoButton.addListener("execute", this.debugButton);
 
       menu.add(topicsButton);
       menu.add(quickButton);
