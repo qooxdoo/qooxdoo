@@ -37,39 +37,11 @@ qx.Class.define("apiviewer.ui.LegendView",
   construct : function()
   {
     this.base(arguments);
-    
-    //this.setOverflowY("scroll");
-    //this.getContentElement().setAttribute("id", "legend");
-    
-/*
-    this.setOverflow("auto");
-    this.setWidth("100%");
-    this.setHeight("100%");
-    
-    this.setHtmlProperty("id", "legend");
-*/
-    
-/*    
-    this.setBackgroundColor("white");
-    this.getContentElement().setAttribute("id", "legend");
-    this.getContentElement().setStyles({
-      overflow : "auto",
-      width  : "100%",
-      height : "100%"
-    });
-    
-    
-    this.addListener("appear", this._showHtml, this);
-*/
-    
-/*    
-        html.add("<tr><td class='icon'>");
-        html.add(apiviewer.ui.ClassViewer.createImageHtml(
-          apiviewer.TreeUtil.iconNameToIconPath(entry.icon)
-        ));
-        html.add("</td><td class='text'>", entry.desc, "</td></tr>");
-*/
+
+    this.setBackgroundColor("white")
+
     var layout = new qx.ui.layout.Grid(10, 10);
+    layout.setColumnWidth(1, 150);
     layout.setColumnFlex(1, 1);
 
     var content = new qx.ui.container.Composite(layout);
@@ -95,7 +67,8 @@ qx.Class.define("apiviewer.ui.LegendView",
 
 
       content.add(new qx.ui.basic.Label(entry.desc).set({
-        appearance : "legendview-label"
+        rich : true,
+        appearance : (i<17) ? "legendview-label-important" : "legendview-label"
       }), {row: i, column: 1});
     }
     
@@ -184,7 +157,7 @@ qx.Class.define("apiviewer.ui.LegendView",
      },
      {
        icon: "OVERLAY_WARN",
-       desc: "Package/Class/Mixin/Interface<br>is not fully documented"
+       desc: "Package/Class/Mixin/Interface is not fully documented"
      },
      {
        icon: "OVERLAY_ERROR",
@@ -202,36 +175,7 @@ qx.Class.define("apiviewer.ui.LegendView",
        icon: "OVERLAY_OVERRIDDEN",
        desc: "Method/Property overrides the Method/Property of the super class"
      }
-   ],
+   ]
 
-    
-    /**
-     * Generate the HTML for the legend.
-     */
-    _showHtml : function()
-    {
-    return;
-      if (this.getHtml() !== null) {
-        return;
-      }
-
-
-      var html = new qx.util.StringBuilder();
-      html.add("<table cellpadding='0' cellspacing='0'>");
-
-      for (var i=0; i<legend.length; i++)
-      {
-        var entry = legend[i];
-        html.add("<tr><td class='icon'>");
-        html.add(apiviewer.ui.ClassViewer.createImageHtml(
-          apiviewer.TreeUtil.iconNameToIconPath(entry.icon)
-        ));
-        html.add("</td><td class='text'>", entry.desc, "</td></tr>");
-      }
-
-      html.add("</table>");
-
-      this.setHtml(html.toString());
-    }
   }
 });
