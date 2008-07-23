@@ -35,47 +35,50 @@ qx.Class.define("qx.bom.Range",
     /**
      * Returns the range object of the given node.
      * 
-     * @signature function(element)
-     * @param element {Element} element node
+     * @signature function(node)
+     * @param node {Node} node to get the range of
      * @return {Range} valid range of given selection
      */
     get : qx.core.Variant.select("qx.client",
     {
-      "mshtml" : function(element)
+      "mshtml" : function(node)
       {
-        // check for the type of the given element
-        // for IE the elements input, textarea, button and body 
+        // check for the type of the given node
+        // for IE the nodes input, textarea, button and body 
         // have access to own TextRange objects. Everything else is
         // gathered via the selection object. 
-        if (qx.dom.Node.isElement(element))
+        if (qx.dom.Node.isElement(node))
         {
-          switch(element.nodeName.toLowerCase())
+          switch(node.nodeName.toLowerCase())
           {
             case "input":
-              if (element.type == "text")
+              if (node.type == "text")
               {
-                return element.createTextRange();
+                return node.createTextRange();
               }
             break;
             
             case "textarea":
             case "body":
             case "button":
-              return element.createTextRange();
+              return node.createTextRange();
             break;
+            
+            default:
+              return qx.bom.Selection.getSelectionObject(qx.dom.Node.getDocument(node)).createRange();
           }
         }
         else
         {
           // need to pass the document node to work with multi-documents
-          return qx.bom.Selection.getSelectionObject(qx.dom.Node.getDocument(element)).createRange();          
+          return qx.bom.Selection.getSelectionObject(qx.dom.Node.getDocument(node)).createRange();          
         }        
       },
       
       // suitable for gecko, opera and webkit
-      "default" : function(element)
+      "default" : function(node)
       {
-        var doc = qx.dom.Node.getDocument(element);
+        var doc = qx.dom.Node.getDocument(node);
         
         // get the selection object of the corresponding document
         var sel = qx.bom.Selection.getSelectionObject(doc);
