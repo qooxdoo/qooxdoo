@@ -33,9 +33,9 @@ qx.Class.define("qx.ui.toolbar.Button",
   *****************************************************************************
   */
 
-  construct : function(label, icon)
+  construct : function(label, icon, command)
   {
-    this.base(arguments, label, icon);
+    this.base(arguments, label, icon, command);
 
     this.removeListener("keydown", this._onKeyDown);
     this.removeListener("keyup", this._onKeyUp);

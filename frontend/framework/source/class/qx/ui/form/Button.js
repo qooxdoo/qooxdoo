@@ -47,9 +47,18 @@ qx.Class.define("qx.ui.form.Button",
   *****************************************************************************
   */
 
-  construct : function(label, icon)
+  /**
+   * @param label {String} label of the atom
+   * @param icon {String?null} Icon URL of the atom
+   * @param command {qx.event.Command} Command instance to connect with
+   */
+  construct : function(label, icon, command)
   {
     this.base(arguments, label, icon);
+
+    if (command != null) {
+      this.setCommand(command);
+    }
 
     this.addListener("mouseover", this._onMouseOver);
     this.addListener("mouseout", this._onMouseOut);
