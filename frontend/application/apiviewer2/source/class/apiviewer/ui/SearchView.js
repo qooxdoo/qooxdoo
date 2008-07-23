@@ -37,21 +37,11 @@ qx.Class.define("apiviewer.ui.SearchView",
     this.base(arguments);
     this.setLayout(new qx.ui.layout.VBox)
 
-    this.__initialized = false;
     this.__initresult = false;
-    this.__livesearch = true;
-    this.__showoptions = false;
 
     this.apiindex = {};
-/*
-    this.set({
-      width  : "100%",
-      height : "100%"
-    });
-*/
-    this.addListener("appear", function() {
-      //qx.event.Timer.once(this._showSearchForm, this, 0);
-    }, this);
+
+    this._showSearchForm();
   },
 
 
@@ -71,9 +61,6 @@ qx.Class.define("apiviewer.ui.SearchView",
      */
     _showSearchForm : function()
     {
-      if (this.__initialized) {
-        return;
-      }
 
       //--------------------------------------------------------
       // Outputs the generated index file content to a textarea
@@ -81,72 +68,28 @@ qx.Class.define("apiviewer.ui.SearchView",
 
       // Search form
       //var sform = new qx.legacy.ui.layout.HorizontalBoxLayout;
-      var sform = new qx.ui.container.Composite(new qx.ui.layout.HBox);
-      sform.set({
-        height          : "auto",
-        padding         : 5,
-        backgroundColor : "white",
-        spacing         : 4,
-        verticalChildrenAlign : "middle"
-      });
-
+      var layout = new qx.ui.layout.HBox(4);
+      var sform = new qx.ui.container.Composite(layout);
 
       // Search form - input field
       this.sinput = new qx.ui.form.TextField();
-      this.sinput.setLiveUpdate(true);
-      this.sinput.setWidth("1*");
 
       // Search form - submit button
       this.__button = new qx.ui.form.Button("Find");
       this.__button.setEnabled(false);
 
-      // Label for options
-      this.optLabel = new qx.ui.toolbar.Button(null, "widget/arrows/down.gif");
-      this.optLabel.set({
-        marginLeft        : 10,
-        backgroundColor   : "white"
+      sform.add(this.sinput, {
+        flex : 1
       });
-      // Tooltips for options
-      this.optTooltipShow = new qx.ui.popup.ToolTip("Show options");
-      this.optTooltipHide = new qx.ui.popup.ToolTip("Hide options");
-      this.optLabel.setToolTip(this.optTooltipShow);
+      sform.add(this.__button);
 
-      this.optLabel.addListener("click", function() {
-        this.__toggleOptions(options);
-      }, this);
-
-      this.add(sform.add(this.sinput, this.__button, this.optLabel));
-
-      // Options
-      //var options = new qx.legacy.ui.layout.HorizontalBoxLayout;
-      var options = new qx.ui.container.Composite(new qx.ui.layout.HBox);
-      options.set({
-        width             : "100%",
-        height            : 1,
-        padding           : 5,
-        overflow          : "hidden",
-        backgroundColor   : "white",
-        border            : "line-bottom",
-        spacing           : 4
-      });
-      var optCheckboxLivesearch = new qx.ui.form.CheckBox("Enable live search", "lschecked", "ls", true);
-
-
-      this.add(options.add(optCheckboxLivesearch));
-
-      optCheckboxLivesearch.addListener("changeChecked", function(e)
-      {
-        this.__toggleLivesearch();
-      }, this);
+      this.add(sform);
 
       // Load index file
       qx.event.Timer.once(this._load, this, 0);
 
       // Give keyboard focus to the search field
-      this.sinput.addListener("appear", function(e)
-      {
-        this.sinput.getInputElement().focus();
-      }, this);
+      this.sinput.focus();
 
       // Submit events
       this.sinput.addListener("keydown", function(e) {
@@ -163,9 +106,6 @@ qx.Class.define("apiviewer.ui.SearchView",
         this._searchResult(this.sinput.getValue(), e);
       }, this);
 
-
-      // Search form is initialized now
-      this.__initialized = true;
     },
 
 
@@ -174,9 +114,8 @@ qx.Class.define("apiviewer.ui.SearchView",
      *
      * @type member
      * @param svalue {String} input value
-     * @param liveSearch {Event} changeValue event
      */
-    _searchResult : function(svalue, liveSearch)
+    _searchResult : function(svalue)
     {
       var searchStart = new Date();
 
@@ -222,10 +161,8 @@ qx.Class.define("apiviewer.ui.SearchView",
           }
 
 
-          if (!liveSearch || (liveSearch.getType() == "changeValue" && this.__livesearch)) {
-            sresult = this._searchIndex(search[0], search[1]);
-          }
-          else return;
+         sresult = this._searchIndex(search[0], search[1]);
+
 
 
         var searchEnd = new Date();
@@ -425,44 +362,12 @@ qx.Class.define("apiviewer.ui.SearchView",
 
 
     /**
-     * Toggle the live search functionality
-     */
-    __toggleLivesearch : function()
-    {
-      if (this.__livesearch === false) {
-        this.__livesearch = true;
-      } else {
-        this.__livesearch = false;
-      }
-    },
-
-
-    /**
-     * Toggle the options field
-     */
-    __toggleOptions : function(field)
-    {
-      if (this.__showoptions === false) {
-        this.__showoptions = true;
-        this.optLabel.setIcon("widget/arrows/up.gif");
-        this.optLabel.setToolTip(this.optTooltipHide);
-        field.setHeight("auto");
-      } else {
-        this.__showoptions = false;
-        this.optLabel.setIcon("widget/arrows/down.gif");
-        this.optLabel.setToolTip(this.optTooltipShow);
-        field.setHeight(1);
-      }
-    },
-
-
-
-
-    /**
      * Load the api index
      */
     _load : function()
     {
+      console.warn("SKIPPED")
+      return;
       var loadStart = new Date();
 
       var url = "./script/apiindex.js";
