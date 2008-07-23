@@ -25,7 +25,7 @@
  * It also manages the whole keyboard support for the currently
  * registered widgets.
  *
- * The z-stack order is also managed by this class.
+ * The zIndex order is also managed by this class.
  */
 qx.Class.define("qx.ui.menu.Manager",
 {
