@@ -68,6 +68,15 @@ qx.Class.define("qx.ui.menu.AbstractButton",
       check : "qx.ui.menu.Menu",
       apply : "_applyMenu",
       nullable : true
+    },
+
+    /** The icon to use */
+    icon :
+    {
+      check : "String",
+      apply : "_applyIcon",
+      themeable : true,
+      nullable : true
     }
   },
 
@@ -184,6 +193,16 @@ qx.Class.define("qx.ui.menu.AbstractButton",
       PROPERTY APPLY ROUTINES
     ---------------------------------------------------------------------------
     */
+
+    // property apply
+    _applyIcon : function(value, old)
+    {
+      if (value) {
+        this._showChildControl("icon").setSource(value);
+      } else {
+        this._excludeChildControl("icon");
+      }
+    },
 
     // property apply
     _applyLabel : function(value, old)
