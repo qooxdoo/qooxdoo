@@ -1345,6 +1345,33 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
+    "menu-checkbox" :
+    {
+      alias : "menu-button",
+      include : "menu-button",
+
+      style : function(states)
+      {
+        return {
+          icon : states.checked ? "decoration/form/checkbox-checked.png" : "decoration/form/checkbox.png"
+        }
+      }
+    },
+
+    "menu-radiobutton" :
+    {
+      alias : "menu-button",
+      include : "menu-button",
+
+      style : function(states)
+      {
+        return {
+          icon : states.checked ? "decoration/form/radiobutton-checked.png" : "decoration/form/radiobutton.png"
+        }
+      }
+    },
+
+
 
 
 
