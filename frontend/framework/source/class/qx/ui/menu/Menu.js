@@ -246,11 +246,25 @@ qx.Class.define("qx.ui.menu.Menu",
      *
      * @param opener {qx.ui.core.Widget} Any widget
      */
-    open : function(opener)
+    open : function(opener, align)
     {
       // Update opener
-      if (opener) {
+      if (opener)
+      {
         this.setOpener(opener);
+
+        // Align menu
+        if (align)
+        {
+          var coords = opener.getContainerLocation();
+
+          switch(align)
+          {
+            case "bottom-left":
+              this.moveTo(coords.left, coords.bottom);
+              break;
+          }
+        }
       }
 
       // Move to correct position

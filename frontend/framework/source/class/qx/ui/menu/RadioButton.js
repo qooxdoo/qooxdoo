@@ -134,6 +134,12 @@ qx.Class.define("qx.ui.menu.RadioButton",
     // overridden
     _onMouseUp : function(e) {
       this.setChecked(true);
+    },
+
+
+    // overridden
+    _onKeyPress : function(e) {
+      this.setChecked(true);
     }
   }
 });

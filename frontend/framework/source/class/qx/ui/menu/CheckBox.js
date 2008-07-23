@@ -111,6 +111,12 @@ qx.Class.define("qx.ui.menu.CheckBox",
     // overridden
     _onMouseUp : function(e) {
       this.toggleChecked();
+    },
+
+
+    // overridden
+    _onKeyPress : function(e) {
+      this.toggleChecked();
     }
   }
 });

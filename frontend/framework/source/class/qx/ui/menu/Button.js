@@ -110,6 +110,12 @@ qx.Class.define("qx.ui.menu.Button",
     // overridden
     _onMouseUp : function(e) {
       this.execute();
+    },
+
+
+    // overridden
+    _onKeyPress : function(e) {
+      this.execute();
     }
   }
 });
