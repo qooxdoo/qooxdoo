@@ -92,8 +92,7 @@ qx.Class.define("demobrowser.demo.widget.Menu",
 
       button.addListener("execute", function(e)
       {
-        menu.setOpener(button);
-        menu.open();
+        menu.open(button);
 
         var buttonLocation = this.getContainerLocation();
         menu.moveTo(buttonLocation.left, buttonLocation.bottom);

@@ -236,8 +236,13 @@ qx.Class.define("qx.ui.menu.Menu",
      *
      * @param opener {qx.ui.core.Widget} Any widget
      */
-    open : function()
+    open : function(opener)
     {
+      // Update opener
+      if (opener) {
+        this.setOpener(opener);
+      }
+
       // Move to correct position
       var opener = this.getOpener();
       if (opener instanceof qx.ui.menu.Button)
