@@ -1650,6 +1650,8 @@ qx.Class.define("qx.html.Element",
      * This method only works if the underlying DOM element is already created.
      * 
      * @type member
+     * @param start {Integer} start of the selection (zero based)
+     * @param end {Integer} end of the selection
      * @return {void}
      */
     setSelection : function(start, end)
