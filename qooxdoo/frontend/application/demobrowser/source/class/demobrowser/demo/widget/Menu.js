@@ -151,12 +151,8 @@ qx.Class.define("demobrowser.demo.widget.Menu",
       menu.addSeparator();
       menu.add(printButton);
 
-      button.addListener("execute", function(e)
-      {
-        menu.open(button);
-
-        var buttonLocation = this.getContainerLocation();
-        menu.moveTo(buttonLocation.left, buttonLocation.bottom);
+      button.addListener("mousedown", function(e) {
+        menu.open(button, "bottom-left");
       });
 
       return button;
