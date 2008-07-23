@@ -372,6 +372,9 @@ qx.Class.define("qx.ui.layout.Util",
      * Computes the gaps together with the configuration of separators.
      *
      * @type member
+     * @param children {qx.ui.core.LayoutItem[]} List of children
+     * @param spacing {Integer} Configured spacing
+     * @param width {Integer} Width of the separator
      * @return {Integer} Sum of gaps
      */
     computeSeparatorGaps : function(children, spacing, width)
@@ -388,7 +391,7 @@ qx.Class.define("qx.ui.layout.Util",
 
       return gaps;
     },
-    
+
 
     /**
      * Arranges two sizes in one box to best respect their individual limitations.
