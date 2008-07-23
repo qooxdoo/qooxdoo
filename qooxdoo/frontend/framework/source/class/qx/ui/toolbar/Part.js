@@ -99,7 +99,6 @@ qx.Class.define("qx.ui.toolbar.Part",
       {
         case "handle":
           control = new qx.ui.core.Widget();
-          control.setWidth(0);
           control.setHeight(0);
           this._add(control);
           break;
