@@ -18,6 +18,11 @@
 
 ************************************************************************ */
 
+/**
+ * The real menu button class which supports a command and an icon. All
+ * other features are inherited from the {@link qx.ui.menu.AbstractButton}
+ * class.
+ */
 qx.Class.define("qx.ui.menu.Button",
 {
   extend : qx.ui.menu.AbstractButton,
@@ -71,7 +76,7 @@ qx.Class.define("qx.ui.menu.Button",
     appearance :
     {
       refine : true,
-      init : "menubutton"
+      init : "menu-button"
     },
 
     /** The icon to use */

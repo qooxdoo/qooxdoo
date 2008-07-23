@@ -18,9 +18,14 @@
 
 ************************************************************************ */
 
+/**
+ * The abstract menu button class is used for all type of menu content
+ * for example normal buttons, checkboxes or radiobuttons.
+ */
 qx.Class.define("qx.ui.menu.AbstractButton",
 {
   extend : qx.ui.core.Widget,
+  type : "abstract",
 
 
 

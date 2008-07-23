@@ -1112,8 +1112,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
 
 
-
-
     /*
     ---------------------------------------------------------------------------
       RESIZER
@@ -1129,10 +1127,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
         };
       }
     },
-
-
-
-
 
 
 
@@ -1198,7 +1192,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
 
 
-
     /*
     ---------------------------------------------------------------------------
       COMBOBOX
@@ -1249,6 +1242,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
 
 
+
     /*
     ---------------------------------------------------------------------------
       MENU
@@ -1273,7 +1267,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
-    "menuseparator" :
+    "menu-separator" :
     {
       style : function(states)
       {
@@ -1288,7 +1282,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
-    "menubutton" :
+    "menu-button" :
     {
       alias : "atom",
 
@@ -1302,7 +1296,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
-    "menubutton/icon" :
+    "menu-button/icon" :
     {
       include : "image",
 
@@ -1314,7 +1308,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
-    "menubutton/label" :
+    "menu-button/label" :
     {
       include : "label",
 
@@ -1327,7 +1321,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
-    "menubutton/shortcut" :
+    "menu-button/shortcut" :
     {
       include : "label",
 
@@ -1340,7 +1334,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
-    "menubutton/arrow" :
+    "menu-button/arrow" :
     {
       style : function(states)
       {
@@ -1350,6 +1344,9 @@ qx.Theme.define("qx.theme.classic.Appearance",
         };
       }
     },
+
+
+
 
     /*
     ---------------------------------------------------------------------------
