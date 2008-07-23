@@ -24,6 +24,7 @@ import os, sys, re, types, string, copy
 import simplejson
 from generator.config.Job import Job
 from generator.runtime.ShellCmd import ShellCmd
+from generator.action.ContribLoader import ContribLoader
 
 console = None
 
@@ -443,7 +444,7 @@ class Config:
 
 
     def _download_contrib(self, libs, contrib, contribCache):
-        # try to find $FRAMEWORK/tool/modules/download-contrib.py
+        # try to find $FRAMEWORK/../tool/bin/download-contrib.py
         # wpbasti: Really want to use the old module here???
         # Should this really require us to do shell commands. Not a good think in my opinion
         # Need a cleaner way here. Maybe a custom class under "generator"
@@ -466,6 +467,20 @@ class Config:
         rc = self._shellCmd.execute(cmd)
         self._console.outdent()
         return rc
+
+
+    def _download_contrib_1(self, libs, contrib, contribCache):
+
+        self._console.info("Downloading contrib: %s" % contrib)
+        self._console.indent()
+
+        dloader = ContribLoader()
+        dloader.download(contrib, contribCache)
+
+        self._console.info("done")
+        self._console.outdent()
+        return
+
 
 
 
