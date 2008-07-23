@@ -127,6 +127,10 @@ qx.Class.define("qx.ui.toolbar.Part",
     ---------------------------------------------------------------------------
     */
 
+    addSeparator : function() {
+      this.add(new qx.ui.toolbar.Separator);
+    },
+
     /**
      * Returns all nested buttons which contains a menu to show. This is mainly
      * used for keyboard support.
