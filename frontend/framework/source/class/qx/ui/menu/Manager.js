@@ -118,6 +118,7 @@ qx.Class.define("qx.ui.menu.Manager",
     /**
      * Whether the given widget is inside any Menu instance.
      *
+     * @param widget {qx.ui.core.Widget} Any widget
      * @return {Boolean} <code>true</code> when the widget is part of any menu
      */
     _isInMenu : function(widget)
@@ -469,6 +470,7 @@ qx.Class.define("qx.ui.menu.Manager",
     /**
      * Event handler for <code>Up</code> key
      *
+     * @param menu {qx.ui.menu.Menu} The active menu
      * @return {void}
      */
     _onKeyPressUp : function(menu)
@@ -490,6 +492,7 @@ qx.Class.define("qx.ui.menu.Manager",
     /**
      * Event handler for <code>Down</code> key
      *
+     * @param menu {qx.ui.menu.Menu} The active menu
      * @return {void}
      */
     _onKeyPressDown : function(menu)
@@ -511,6 +514,7 @@ qx.Class.define("qx.ui.menu.Manager",
     /**
      * Event handler for <code>Left</code> key
      *
+     * @param menu {qx.ui.menu.Menu} The active menu
      * @return {void}
      */
     _onKeyPressLeft : function(menu)
@@ -551,6 +555,7 @@ qx.Class.define("qx.ui.menu.Manager",
     /**
      * Event handler for <code>Right</code> key
      *
+     * @param menu {qx.ui.menu.Menu} The active menu
      * @return {void}
      */
     _onKeyPressRight : function(menu)
@@ -648,6 +653,7 @@ qx.Class.define("qx.ui.menu.Manager",
     /**
      * Event handler for <code>Enter</code> key
      *
+     * @param menu {qx.ui.menu.Menu} The active menu
      * @return {void}
      */
     _onKeyPressEnter : function(menu)

@@ -166,6 +166,7 @@ qx.Class.define("qx.ui.menu.Menu",
     ---------------------------------------------------------------------------
     */
 
+    /** The currently selected button */
     selectedButton :
     {
       check : "qx.ui.core.Widget",
@@ -173,6 +174,7 @@ qx.Class.define("qx.ui.menu.Menu",
       apply : "_applySelectedButton"
     },
 
+    /** The currently opened button (sub menu is visible) */
     openedButton :
     {
       check : "qx.ui.core.Widget",
@@ -398,10 +400,10 @@ qx.Class.define("qx.ui.menu.Menu",
     */
 
     /**
-     * TODOC
+     * Event listener for mouseover event.
      *
      * @type member
-     * @param e {Event} TODOC
+     * @param e {qx.event.type.Mouse} mouseover event
      * @return {void}
      */
     _onMouseOver : function(e)
@@ -450,10 +452,10 @@ qx.Class.define("qx.ui.menu.Menu",
 
 
     /**
-     * TODOC
+     * Event listener for mouseout event.
      *
      * @type member
-     * @param e {Event} TODOC
+     * @param e {qx.event.type.Mouse} mouseout event
      * @return {void}
      */
     _onMouseOut : function(e)
