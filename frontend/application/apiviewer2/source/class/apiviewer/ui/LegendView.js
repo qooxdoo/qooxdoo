@@ -95,7 +95,7 @@ qx.Class.define("apiviewer.ui.LegendView",
 
 
       content.add(new qx.ui.basic.Label(entry.desc).set({
-        rich : true
+        appearance : "legendview-label"
       }), {row: i, column: 1});
     }
     
