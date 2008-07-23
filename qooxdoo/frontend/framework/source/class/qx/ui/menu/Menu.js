@@ -38,7 +38,7 @@ qx.Class.define("qx.ui.menu.Menu",
     this._setLayout(new qx.ui.layout.Menu);
 
     // Automatically add to application's root
-    qx.core.Init.getApplication().getRoot().add(this);
+    this.getApplicationRoot().add(this);
 
     // Register mouse listeners
     this.addListener("mouseover", this._onMouseOver);
@@ -376,7 +376,7 @@ qx.Class.define("qx.ui.menu.Menu",
     // property apply
     _applyOpened : function(value, old)
     {
-      //this.debug("OPEN: " + value);
+      this.debug("OPEN: " + value);
 
       if (old) {
         old.getMenu().exclude();
