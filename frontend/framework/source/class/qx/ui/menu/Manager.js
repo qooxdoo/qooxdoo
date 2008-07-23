@@ -434,15 +434,15 @@ qx.Class.define("qx.ui.menu.Manager",
     _onKeyPressUp : function(menu)
     {
       // Query for previous child
-      var selected = menu.getSelected();
-      var start = selected ? menu.indexOf(selected)-1 : children.length-1;
+      var selectedButton = menu.getSelectedButton();
+      var start = selectedButton ? menu.indexOf(selectedButton)-1 : children.length-1;
       var nextItem = this._getChild(menu, start, -1, true);
 
       // Reconfigure property
       if (nextItem) {
-        menu.setSelected(nextItem);
+        menu.setSelectedButton(nextItem);
       } else {
-        menu.resetSelected();
+        menu.resetSelectedButton();
       }
     },
 
@@ -455,15 +455,15 @@ qx.Class.define("qx.ui.menu.Manager",
     _onKeyPressDown : function(menu)
     {
       // Query for next child
-      var selected = menu.getSelected();
-      var start = selected ? menu.indexOf(selected)+1 : 0;
+      var selectedButton = menu.getSelectedButton();
+      var start = selectedButton ? menu.indexOf(selectedButton)+1 : 0;
       var nextItem = this._getChild(menu, start, 1, true);
 
       // Reconfigure property
       if (nextItem) {
-        menu.setSelected(nextItem);
+        menu.setSelectedButton(nextItem);
       } else {
-        menu.resetSelected();
+        menu.resetSelectedButton();
       }
     },
 
@@ -485,8 +485,8 @@ qx.Class.define("qx.ui.menu.Manager",
       {
         var parentMenu = menuOpener.getLayoutParent();
 
-        parentMenu.resetOpened();
-        parentMenu.setSelected(menuOpener);
+        parentMenu.resetOpenedButton();
+        parentMenu.setSelectedButton(menuOpener);
       }
 
       // Goto the previous toolbar button
@@ -515,22 +515,22 @@ qx.Class.define("qx.ui.menu.Manager",
      */
     _onKeyPressRight : function(menu)
     {
-      var selected = menu.getSelected();
+      var selectedButton = menu.getSelectedButton();
 
       // Open sub-menu of hovered item and select first child
-      if (selected)
+      if (selectedButton)
       {
-        var subMenu = selected.getMenu();
+        var subMenu = selectedButton.getMenu();
 
         if (subMenu)
         {
           // open previously hovered item
-          menu.setOpened(selected);
+          menu.setOpenedButton(selectedButton);
 
           // hover first item in new submenu
           var first = this._getChild(subMenu, 0, 1);
           if (first) {
-            subMenu.setSelected(first);
+            subMenu.setSelectedButton(first);
           }
 
           return;
@@ -539,16 +539,16 @@ qx.Class.define("qx.ui.menu.Manager",
 
       // No hover and no open item
       // When first button has a menu, open it, otherwise only hover it
-      else if (!menu.getOpened())
+      else if (!menu.getOpenedButton())
       {
         var first = this._getChild(menu, 0, 1);
 
         if (first)
         {
-          menu.setSelected(first);
+          menu.setSelectedButton(first);
 
           if (first.getMenu()) {
-            menu.setOpened(first);
+            menu.setOpenedButton(first);
           }
 
           return;
@@ -559,7 +559,7 @@ qx.Class.define("qx.ui.menu.Manager",
       var menuOpener = menu.getOpener();
 
       // Look up opener hierarchy for menu button
-      if (menuOpener instanceof qx.ui.menu.Button && selected)
+      if (menuOpener instanceof qx.ui.menu.Button && selectedButton)
       {
         while (menuOpener)
         {
@@ -612,10 +612,10 @@ qx.Class.define("qx.ui.menu.Manager",
      */
     _onKeyPressEnter : function(menu)
     {
-      var selected = menu.getSelected();
+      var selectedButton = menu.getSelectedButton();
 
-      if (selected) {
-        selected.execute();
+      if (selectedButton) {
+        selectedButton.execute();
       }
 
       this.hideAll();

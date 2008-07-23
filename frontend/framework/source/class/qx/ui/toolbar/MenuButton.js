@@ -128,7 +128,7 @@ qx.Class.define("qx.ui.toolbar.MenuButton",
         {
           var first = menu.getChildren()[0];
           if (first) {
-            menu.setSelected(first);
+            menu.setSelectedButton(first);
           }
         }
       }
@@ -178,8 +178,8 @@ qx.Class.define("qx.ui.toolbar.MenuButton",
       if (menu.isVisible())
       {
         this.addState("pressed");
-        this.addState("selected");
 
+        // Sync with open menu property
         if (toolbar) {
           toolbar.setOpenMenu(menu);
         }
@@ -187,8 +187,8 @@ qx.Class.define("qx.ui.toolbar.MenuButton",
       else
       {
         this.removeState("pressed");
-        this.removeState("selected");
 
+        // Sync with open menu property
         if (toolbar && toolbar.getOpenMenu() == menu) {
           toolbar.resetOpenMenu();
         }
@@ -206,12 +206,10 @@ qx.Class.define("qx.ui.toolbar.MenuButton",
       var menu = this.getMenu();
       if (menu)
       {
-        if (!menu.isVisible())
-        {
+        // Toggle sub menu visibility
+        if (!menu.isVisible()) {
           this.open();
-        }
-        else
-        {
+        } else {
           menu.exclude();
         }
 
@@ -241,13 +239,16 @@ qx.Class.define("qx.ui.toolbar.MenuButton",
      */
     _onMouseOver : function(e)
     {
+      // Add hovered state
       this.addState("hovered");
 
+      // Open submenu
       if (this.getMenu())
       {
         var toolbar = this.getToolBar();
+        var open = toolbar.getOpenMenu();
 
-        if (toolbar.getOpenMenu() && toolbar.getOpenMenu() != this.getMenu())
+        if (open && open != this.getMenu())
         {
           // Hide all open menus
           qx.ui.menu.Manager.getInstance().hideAll();
