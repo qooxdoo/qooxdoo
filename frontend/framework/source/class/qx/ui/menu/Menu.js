@@ -18,6 +18,14 @@
 
 ************************************************************************ */
 
+/**
+ * The menu is a popup like control which supports buttons. It comes
+ * with full keyboard navigation and an improved timeout based mouse
+ * control behavior.
+ *
+ * This class is the container for all derived instances of
+ * {@link qx.ui.menu.AbstractButton}.
+ */
 qx.Class.define("qx.ui.menu.Menu",
 {
   extend : qx.ui.core.Widget,
