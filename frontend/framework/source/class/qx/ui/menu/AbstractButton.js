@@ -41,6 +41,9 @@ qx.Class.define("qx.ui.menu.AbstractButton",
 
     // Use hard coded layout
     this._setLayout(new qx.ui.layout.MenuButton);
+
+    // Add mouse listeners
+    this.addListener("mouseup", this._onMouseUp);
   },
 
 
@@ -184,6 +187,22 @@ qx.Class.define("qx.ui.menu.AbstractButton",
       return [ iconWidth, labelWidth, shortcutWidth, arrowWidth ];
     },
 
+
+
+    /*
+    ---------------------------------------------------------------------------
+      EVENT LISTENERS
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Event listener for mouseup event
+     *
+     * @param e {qx.event.type.Mouse} Mouse event
+     */
+    _onMouseUp : function(e) {
+      // pass
+    },
 
 
 
