@@ -320,6 +320,72 @@ qx.Class.define("qx.ui.form.AbstractField",
 
 
 
+    /*
+    ---------------------------------------------------------------------------
+      TEXTFIELD SELECTION API
+    ---------------------------------------------------------------------------
+    */
+    
+    /**
+     * Returns the current selection.
+     * This method only works if the widget is already created and
+     * added to the document.
+     * 
+     * @type member
+     * @return {String|null}
+     */
+    getSelection : function()
+    {
+      return this.getContentElement().getSelection();
+    },
+
+    
+    /**
+     * Returns the current selection length.
+     * This method only works if the widget is already created and
+     * added to the document.
+     * 
+     * @type member
+     * @return {Integer|null}
+     */
+    getSelectionLength : function()
+    {
+      return this.getContentElement().getSelectionLength();
+    },
+    
+    
+    /**
+     * Set the selection to the given start and end (zero-based).
+     * If no end value is given the selection will extend to the 
+     * end of the textfield's content.
+     * This method only works if the widget is already created and
+     * added to the document.
+     * 
+     * @type member
+     * @param start {Integer} start of the selection (zero-based)
+     * @param end {Integer} end of the selection
+     * @return {void}
+     */
+    setSelection : function(start, end)
+    {
+      this.getContentElement().setSelection(start, end);
+    },
+    
+    
+    /**
+     * Clears the current selection.
+     * This method only works if the widget is already created and
+     * added to the document.
+     * 
+     * @type member
+     * @return {void}
+     */
+    clearSelection : function()
+    {
+      this.getContentElement().clearSelection();
+    },
+
+
 
     /*
     ---------------------------------------------------------------------------
