@@ -132,8 +132,11 @@ qx.Class.define("qx.ui.menu.RadioButton",
 
 
     // overridden
-    _onMouseUp : function(e) {
-      this.setChecked(true);
+    _onMouseUp : function(e)
+    {
+      if (e.isLeftPressed()) {
+        this.setChecked(true);
+      }
     },
 
 
