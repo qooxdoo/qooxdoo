@@ -108,8 +108,14 @@ qx.Class.define("qx.ui.menu.Button",
 
 
     // overridden
-    _onMouseUp : function(e) {
+    _onMouseUp : function(e)
+    {
       this.execute();
+
+      // stop menu from closing
+      if (this.getMenu()) {
+        e.stopPropagation();
+      }
     },
 
 
