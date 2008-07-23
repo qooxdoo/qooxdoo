@@ -214,42 +214,52 @@ qx.Class.define("qx.ui.menu.Manager",
     ---------------------------------------------------------------------------
     */
 
-    scheduleOpen : function(menu, replace)
+    scheduleOpen : function(menu)
     {
-      if (this.cancelClose(menu)) {
-        return;
+      // Cancel close of given menu first
+      this.cancelClose(menu);
+
+      // When the menu is already visible
+      if (menu.isVisible())
+      {
+        // Cancel all other open requests
+        if (this._scheduleOpen) {
+          this.cancelOpen(this._scheduleOpen);
+        }
       }
 
-      if (menu.isVisible()) {
-        return;
+      // When the menu is not visible and not scheduled already
+      // then schedule it for opening
+      else if (this._scheduleOpen != menu)
+      {
+        menu.debug("Schedule open");
+        this._scheduleOpen = menu;
+        this._openTimer.restartWith(menu.getOpenInterval());
       }
-
-      if (this._scheduleOpen == menu) {
-        return;
-      }
-
-      menu.debug("Schedule open");
-      this._scheduleOpen = menu;
-      this._openTimer.restartWith(menu.getOpenInterval());
     },
 
     scheduleClose : function(menu)
     {
-      if (this.cancelOpen(menu)) {
-        return;
+      // Cancel open of the menu first
+      this.cancelOpen(menu);
+
+      // When the menu is already invisible
+      if (!menu.isVisible())
+      {
+        // Cancel all other close requests
+        if (this._scheduleClose) {
+          this.cancelClose(this._scheduleClose);
+        }
       }
 
-      if (!menu.isVisible()) {
-        return;
+      // When the menu is visible and not scheduled already
+      // then schedule it for closing
+      else if (this._scheduleClose != menu)
+      {
+        menu.debug("Schedule close");
+        this._scheduleClose = menu;
+        this._closeTimer.restartWith(menu.getCloseInterval());
       }
-
-      if (this._scheduleClose == menu) {
-        return;
-      }
-
-      menu.debug("Schedule close");
-      this._scheduleClose = menu;
-      this._closeTimer.restartWith(menu.getCloseInterval());
     },
 
     cancelOpen : function(menu)
@@ -259,11 +269,7 @@ qx.Class.define("qx.ui.menu.Manager",
         menu.debug("Cancel open");
         this._openTimer.stop();
         this._scheduleOpen = null;
-
-        return true;
       }
-
-      return false;
     },
 
     cancelClose : function(menu)
@@ -271,25 +277,6 @@ qx.Class.define("qx.ui.menu.Manager",
       if (this._scheduleClose == menu)
       {
         menu.debug("Cancel close");
-        this._closeTimer.stop();
-        this._scheduleClose = null;
-
-        return true;
-      }
-
-      return false;
-    },
-
-    cancelAll : function()
-    {
-      if (this._scheduleOpen)
-      {
-        this._openTimer.stop();
-        this._scheduleOpen = null;
-      }
-
-      if (this._scheduleClose)
-      {
         this._closeTimer.stop();
         this._scheduleClose = null;
       }
