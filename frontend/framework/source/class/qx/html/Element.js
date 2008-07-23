@@ -1593,6 +1593,91 @@ qx.Class.define("qx.html.Element",
     },
 
 
+    
+    
+    /*
+    ---------------------------------------------------------------------------
+      TEXT SELECTION SUPPORT
+    ---------------------------------------------------------------------------
+    */
+    
+    /**
+     * Get the selection of the element.
+     *
+     * If the underlaying DOM element is not yet created, this methods returns
+     * a null value.
+     * 
+     * @type member
+     * @return {String|null}
+     */
+    getSelection : function()
+    {
+      var el = this._element;
+      if (el)
+      {
+        return qx.bom.Selection.get(el);
+      }
+      
+      return null;
+    },
+    
+    
+    /**
+     * Get the length of selection of the element.
+     *
+     * If the underlaying DOM element is not yet created, this methods returns
+     * a null value.
+     * 
+     * @type member
+     * @return {Integer|null}
+     */
+    getSelectionLength : function()
+    {
+      var el = this._element;
+      if (el)
+      {
+        return qx.bom.Selection.getLength(el);
+      }
+      
+      return null;
+    },
+    
+    
+    /**
+     * Set the selection of the element with the given start and end value.
+     * If no end value is passed the selection will extend to the end.
+     *
+     * This method only works if the underlying DOM element is already created.
+     * 
+     * @type member
+     * @return {void}
+     */
+    setSelection : function(start, end)
+    {
+      var el = this._element;
+      if (el)
+      {
+        qx.bom.Selection.set(el, start, end);
+      }
+    },
+    
+    
+    /**
+     * Clears the selection of the element.
+     *
+     * This method only works if the underlying DOM element is already created.
+     * 
+     * @type member
+     * @return {void}
+     */
+    clearSelection : function()
+    {
+      var el = this._element;
+      if (el)
+      {
+        qx.bom.Selection.clear(el);
+      }
+    },
 
 
 
