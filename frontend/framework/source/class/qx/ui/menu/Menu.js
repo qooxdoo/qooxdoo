@@ -166,18 +166,18 @@ qx.Class.define("qx.ui.menu.Menu",
     ---------------------------------------------------------------------------
     */
 
-    selected :
+    selectedButton :
     {
       check : "qx.ui.core.Widget",
       nullable : true,
-      apply : "_applySelected"
+      apply : "_applySelectedButton"
     },
 
-    opened :
+    openedButton :
     {
       check : "qx.ui.core.Widget",
       nullable : true,
-      apply : "_applyOpened"
+      apply : "_applyOpenedButton"
     },
 
     /** Widget that opened the menu */
@@ -336,7 +336,7 @@ qx.Class.define("qx.ui.menu.Menu",
         var opener = this.getOpener();
         var parentMenu = opener.getParentMenu && opener.getParentMenu();
         if (parentMenu) {
-          parentMenu.setOpened(opener);
+          parentMenu.setOpenedButton(opener);
         }
       }
       else
@@ -347,19 +347,19 @@ qx.Class.define("qx.ui.menu.Menu",
         // Unmark opened in parent menu
         var opener = this.getOpener();
         var parentMenu = opener.getParentMenu && opener.getParentMenu();
-        if (parentMenu && parentMenu.getOpened() == opener) {
-          parentMenu.resetOpened();
+        if (parentMenu && parentMenu.getOpenedButton() == opener) {
+          parentMenu.resetOpenedButton();
         }
 
         // Clear properties
-        this.resetOpened();
-        this.resetSelected();
+        this.resetOpenedButton();
+        this.resetSelectedButton();
       }
     },
 
 
     // property apply
-    _applySelected : function(value, old)
+    _applySelectedButton : function(value, old)
     {
       if (old) {
         old.removeState("selected");
@@ -372,7 +372,7 @@ qx.Class.define("qx.ui.menu.Menu",
 
 
     // property apply
-    _applyOpened : function(value, old)
+    _applyOpenedButton : function(value, old)
     {
       if (old) {
         old.getMenu().exclude();
@@ -412,7 +412,7 @@ qx.Class.define("qx.ui.menu.Menu",
       if (target instanceof qx.ui.menu.Button)
       {
         // Select button directly
-        this.setSelected(target);
+        this.setSelectedButton(target);
 
         var subMenu = target.getMenu && target.getMenu();
         if (subMenu)
@@ -425,7 +425,7 @@ qx.Class.define("qx.ui.menu.Menu",
         }
         else
         {
-          var opened = this.getOpened();
+          var opened = this.getOpenedButton();
           if (opened) {
             mgr.scheduleClose(opened.getMenu());
           }
@@ -437,9 +437,9 @@ qx.Class.define("qx.ui.menu.Menu",
           }
         }
       }
-      else if (!this.getOpened())
+      else if (!this.getOpenedButton())
       {
-        this.resetSelected();
+        this.resetSelectedButton();
       }
     },
 
@@ -463,8 +463,8 @@ qx.Class.define("qx.ui.menu.Menu",
         // Force it to the open sub menu in cases where that is opened
         // Otherwise reset it. Menus which are left by the cursor should
         // not show any selection.
-        var opened = this.getOpened();
-        opened ? this.setSelected(opened) : this.resetSelected();
+        var opened = this.getOpenedButton();
+        opened ? this.setSelectedButton(opened) : this.resetSelectedButton();
 
         // Cancel a pending close request for the currently
         // opened sub menu
