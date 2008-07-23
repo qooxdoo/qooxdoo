@@ -46,49 +46,110 @@ qx.Class.define("demobrowser.demo.widget.Menu",
     },
 
 
+    debugSelected : function(e) {
+      this.debug("Change selection: " + e.getData().getLabel());
+    },
+
+    debugCommand : function(e) {
+      this.debug("Execute command: " + this.getShortcut());
+    },
+
+    debugButton : function(e) {
+      this.debug("Execute button: " + this.getLabel());
+    },
+
+
     createCommands : function()
     {
       this._newCommand = new qx.event.Command("Ctrl+N");
+      this._newCommand.addListener("execute", this.debugCommand);
 
       this._undoCommand = new qx.event.Command("Ctrl+Z");
+      this._undoCommand.addListener("execute", this.debugCommand);
+
       this._redoCommand = new qx.event.Command("Ctrl+R");
+      this._redoCommand.addListener("execute", this.debugCommand);
 
       this._cutCommand = new qx.event.Command("Ctrl+X");
+      this._cutCommand.addListener("execute", this.debugCommand);
+
       this._copyCommand = new qx.event.Command("Ctrl+C");
+      this._copyCommand.addListener("execute", this.debugCommand);
+
       this._pasteCommand = new qx.event.Command("Ctrl+P");
+      this._pasteCommand.addListener("execute", this.debugCommand);
 
       this._pasteCommand.setEnabled(false);
+
+
     },
 
     getButton1 : function()
     {
       var button = new qx.ui.form.Button("Menu Test");
 
+      // create sub menus
+
       var optionMenu = new qx.ui.menu.Menu;
 
-      optionMenu.add(new qx.ui.menu.Button("Option 1"));
-      optionMenu.add(new qx.ui.menu.Button("Option 2"));
-      optionMenu.add(new qx.ui.menu.Button("Option 3"));
+      optionMenu.add(new qx.ui.menu.RadioButton("Option 1"));
+      optionMenu.add(new qx.ui.menu.RadioButton("Option 2"));
+      optionMenu.add(new qx.ui.menu.RadioButton("Option 3"));
 
       var actionMenu = new qx.ui.menu.Menu;
 
-      actionMenu.add(new qx.ui.menu.Button("Action 1"));
-      actionMenu.add(new qx.ui.menu.Button("Action 2"));
-      actionMenu.add(new qx.ui.menu.Button("Action 3"));
+      actionMenu.add(new qx.ui.menu.RadioButton("Action 1"));
+      actionMenu.add(new qx.ui.menu.RadioButton("Action 2"));
+      actionMenu.add(new qx.ui.menu.RadioButton("Action 3"));
 
+
+      // create radio groups
+      var groupOptions = new qx.ui.form.RadioGroup;
+      groupOptions.add.apply(groupOptions, optionMenu.getChildren());
+      groupOptions.addListener("changeSelected", this.debugSelected);
+
+      var groupActions = new qx.ui.form.RadioGroup;
+      groupActions.add.apply(groupActions, actionMenu.getChildren());
+      groupActions.addListener("changeSelected", this.debugSelected);
+
+
+      // create main menu and buttons
       var menu = new qx.ui.menu.Menu();
 
-      menu.add(new qx.ui.menu.Button("Undo", "icon/16/actions/edit-undo.png", this._undoCommand));
-      menu.add(new qx.ui.menu.Button("Redo", "icon/16/actions/edit-redo.png", this._redoCommand));
+      var undoButton = new qx.ui.menu.Button("Undo", "icon/16/actions/edit-undo.png", this._undoCommand);
+      var redoButton = new qx.ui.menu.Button("Redo", "icon/16/actions/edit-redo.png", this._redoCommand);
+
+      var cutButton = new qx.ui.menu.Button("Cut", "icon/16/actions/edit-cut.png", this._cutCommand);
+      var copyButton = new qx.ui.menu.Button("Copy", "icon/16/actions/edit-copy.png", this._copyCommand);
+      var pasteButton = new qx.ui.menu.Button("Paste", "icon/16/actions/edit-paste.png", this._pasteCommand);
+
+      var searchButton = new qx.ui.menu.Button("Options", "icon/16/actions/system-search.png", null, optionMenu);
+      var actionsButton = new qx.ui.menu.Button("Actions", "icon/16/actions/contact-new.png", null, actionMenu);
+
+      var printButton = new qx.ui.menu.Button("Print", "icon/16/actions/document-print.png");
+
+      // add execute listeners
+      undoButton.addListener("execute", this.debugButton);
+      redoButton.addListener("execute", this.debugButton);
+      cutButton.addListener("execute", this.debugButton);
+      copyButton.addListener("execute", this.debugButton);
+      pasteButton.addListener("execute", this.debugButton);
+      searchButton.addListener("execute", this.debugButton);
+      actionsButton.addListener("execute", this.debugButton);
+      printButton.addListener("execute", this.debugButton);
+
+      // add buttons to menu
+      menu.add(undoButton);
+      menu.add(redoButton);
       menu.addSeparator();
-      menu.add(new qx.ui.menu.Button("Cut", "icon/16/actions/edit-cut.png", this._cutCommand));
-      menu.add(new qx.ui.menu.Button("Copy", "icon/16/actions/edit-copy.png", this._copyCommand));
-      menu.add(new qx.ui.menu.Button("Paste", "icon/16/actions/edit-paste.png", this._pasteCommand));
+      menu.add(cutButton);
+      menu.add(copyButton);
+      menu.add(pasteButton);
       menu.addSeparator();
-      menu.add(new qx.ui.menu.Button("Options", "icon/16/actions/system-search.png", null, optionMenu));
-      menu.add(new qx.ui.menu.Button("Actions", "icon/16/actions/contact-new.png", null, actionMenu));
+      menu.add(searchButton);
+      menu.add(actionsButton);
       menu.addSeparator();
-      menu.add(new qx.ui.menu.Button("Print", "icon/16/actions/document-print.png"));
+      menu.add(printButton);
 
       button.addListener("execute", function(e)
       {
