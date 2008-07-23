@@ -18,15 +18,9 @@
 
 ************************************************************************ */
 
-/**
- * The real menu button class which supports a command and an icon. All
- * other features are inherited from the {@link qx.ui.menu.AbstractButton}
- * class.
- */
-qx.Class.define("qx.ui.menu.Button",
+qx.Class.define("qx.ui.menu.CheckBox",
 {
   extend : qx.ui.menu.AbstractButton,
-  include : qx.ui.core.MExecutable,
 
 
 
@@ -36,24 +30,13 @@ qx.Class.define("qx.ui.menu.Button",
   *****************************************************************************
   */
 
-  construct : function(label, icon, command, menu)
+  construct : function(label, menu)
   {
     this.base(arguments);
-
-    // Add command listener
-    this.addListener("changeCommand", this._onChangeCommand, this);
 
     // Initialize with incoming arguments
     if (label != null) {
       this.setLabel(label);
-    }
-
-    if (icon != null) {
-      this.setIcon(icon);
-    }
-
-    if (command != null) {
-      this.setCommand(command);
     }
 
     if (menu != null) {
@@ -76,9 +59,34 @@ qx.Class.define("qx.ui.menu.Button",
     appearance :
     {
       refine : true,
-      init : "menu-button"
+      init : "menu-checkbox"
+    },
+
+    /** The value of the widget. Mainly used for serialization proposes. */
+    value :
+    {
+      check : "String",
+      nullable : true,
+      event : "changeValue"
+    },
+
+    /** The name of the widget. Mainly used for serialization proposes. */
+    name :
+    {
+      check : "String",
+      nullable : true,
+      event : "changeName"
+    },
+
+    /** Whether the button is checked */
+    checked :
+    {
+      check : "Boolean",
+      init : false,
+      apply : "_applyChecked"
     }
   },
+
 
 
 
@@ -91,25 +99,18 @@ qx.Class.define("qx.ui.menu.Button",
 
   members :
   {
-    /*
-    ---------------------------------------------------------------------------
-      EVENT HANDLER
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * Event listener for command changes. Updates the text of the shortcut.
-     *
-     * @param e {qx.event.type.Data} Property change event
-     */
-    _onChangeCommand : function(e) {
-      this._getChildControl("shortcut").setContent(e.getData().toString());
+    // property apply
+    _applyChecked : function(value, old)
+    {
+      value ?
+        this.addState("checked") :
+        this.removeState("checked");
     },
 
 
     // overridden
     _onMouseUp : function(e) {
-      this.execute();
+      this.toggleChecked();
     }
   }
 });
