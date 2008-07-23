@@ -53,8 +53,6 @@ qx.Class.define("qx.ui.table.pane.Pane",
 
     this._lastColCount = 0;
     this._lastRowCount = 0;
-
-    this._updateContent();
   },
 
 
@@ -105,21 +103,7 @@ qx.Class.define("qx.ui.table.pane.Pane",
     },
 
     // overridden
-    allowGrowY :
-    {
-      refine : true,
-      init : false
-    },
-
-    // overridden
     allowShrinkX :
-    {
-      refine : true,
-      init : false
-    },
-
-    // overridden
-    allowShrinkY :
     {
       refine : true,
       init : false
@@ -201,11 +185,8 @@ qx.Class.define("qx.ui.table.pane.Pane",
 
     /**
      * Event handler. Called when the selection has changed.
-     *
-     * @param evt {Map} the event.
-     * @return {void}
      */
-    _onSelectionChanged : function(evt) {
+    onSelectionChanged : function() {
       this._updateContent(false, null, null, true);
     },
 
@@ -216,7 +197,7 @@ qx.Class.define("qx.ui.table.pane.Pane",
      * @param evt {Map} the event.
      * @return {void}
      */
-    _onFocusChanged : function(evt) {
+    onFocusChanged : function() {
       this._updateContent(false, null, null, true);
     },
 
@@ -228,7 +209,7 @@ qx.Class.define("qx.ui.table.pane.Pane",
      * @param width {Integer} the new width.
      * @return {void}
      */
-    _onColWidthChanged : function(col, width) {
+    setColumnWidth : function(col, width) {
       this._updateContent(true);
     },
 
@@ -254,18 +235,19 @@ qx.Class.define("qx.ui.table.pane.Pane",
     /**
      * Event handler. Called when the table model data has changed.
      *
-     * @param evt {Map} the event.
-     * @return {void}
+     * @param firstRow {Integer} The index of the first row that has changed.
+     * @param lastRow {Integer} The index of the last row that has changed.
+     * @param firstColumn {Integer} The model index of the first column that has changed.
+     * @param lastColumn {Integer} The model index of the last column that has changed.
      */
-    _onTableModelDataChanged : function(evt)
+    onTableModelDataChanged : function(firstRow, lastRow, firstColumn, lastColumn)
     {
-      var data = evt.getData ? evt.getData() : null;
       this.__rowCacheClear();
 
-      var firstRow = this.getFirstVisibleRow();
+      var paneFirstRow = this.getFirstVisibleRow();
       var rowCount = this.getVisibleRowCount();
 
-      if (data == null || data.lastRow == -1 || data.lastRow >= firstRow && data.firstRow < firstRow + rowCount)
+      if (lastRow == -1 || lastRow >= paneFirstRow && firstRow < paneFirstRow + rowCount)
       {
         // The change intersects this pane
         this._updateContent();
