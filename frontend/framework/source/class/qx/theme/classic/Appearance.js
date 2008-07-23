@@ -595,6 +595,22 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
+    "toolbar-splitbutton" : "toolbar-button",
+
+    "toolbar-splitbutton/arrow" :
+    {
+      include : "image",
+
+      style : function(states)
+      {
+        return {
+          source : "decoration/arrows/down.gif",
+          padding : [ 5, 2 ],
+          backgroundColor : states.hovered ? "red" : "undefined"
+        }
+      }
+    },
+
 
 
 
