@@ -17,6 +17,7 @@
      * Sebastian Werner (wpbasti)
      * Andreas Ecker (ecker)
      * Fabian Jakobs (fjakobs)
+     * Jonathan Rass (jonathan_rass)
 
 ************************************************************************ */
 
@@ -27,60 +28,36 @@
 ************************************************************************ */
 
 /**
- * The main application class.
+ * Your apiviewer application
  */
 qx.Class.define("apiviewer.Application",
 {
-  extend : qx.legacy.application.Gui,
+  extend : qx.application.Standalone,
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
 
   members :
   {
     main : function()
     {
+      // Call super class
       this.base(arguments);
-
-      // Use log appenders in debug mode
-      if (qx.core.Variant.isSet("qx.debug", "on"))
-      {
-        qx.log.appender.Native;
-        qx.log.appender.Console;
-      }
-
-      qx.Class.include(qx.legacy.ui.core.Widget, apiviewer.MWidgetRegistry);
-
+      
       // Include CSS file
       qx.bom.Stylesheet.includeFile("apiviewer/css/apiviewer.css");
 
-      // preload images
-      var preloader = new qx.legacy.io.image.PreloaderSystem(apiviewer.TreeUtil.PRELOAD_IMAGES);
-      preloader.start();
+      qx.Class.include(qx.legacy.ui.core.Widget, apiviewer.MWidgetRegistry);
+      qx.Class.include(qx.ui.core.Widget, apiviewer.MWidgetRegistry);
 
-      // Initialize the viewer
       this.viewer = new apiviewer.Viewer();
-      this.controller = new apiviewer.Controller();
-      this.viewer.addToDocument();
 
-      // Load data file
-      qx.event.Timer.once(this._load, this, 0);
-    },
-
-    _load : function()
-    {
-      // Finally load the data
-      this.controller.load("script/apidata.js");
+      this.getRoot().add(this.viewer, {
+        edge : 0
+      });
     }
-  },
-
-
-
-
-  /*
-  *****************************************************************************
-     DESTRUCTOR
-  *****************************************************************************
-  */
-
-  destruct : function() {
-    this._disposeObjects("viewer", "controller");
   }
 });
