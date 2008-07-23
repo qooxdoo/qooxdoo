@@ -430,7 +430,7 @@ qx.Class.define("qx.ui.menu.Menu",
 
       // Change selection
       var target = e.getTarget();
-      if (target instanceof qx.ui.menu.AbstractButton)
+      if (target.isEnabled() && target instanceof qx.ui.menu.AbstractButton)
       {
         // Select button directly
         this.setSelectedButton(target);
