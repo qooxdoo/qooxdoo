@@ -21,9 +21,9 @@
 /**
  * Contemporary Theme
  */
-qx.Theme.define("qx.theme.Modern",
+qx.Theme.define("apiviewer.Theme",
 {
-  title : "Modern",
+  title : "APIViewer theme",
 
   meta :
   {
