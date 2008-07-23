@@ -29,16 +29,6 @@ qx.Class.define("qx.event.Command",
 {
   extend : qx.core.Object,
 
-  events :
-  {
-    /**
-     * Fired when the command is executed. Sets the "data" property of the event to
-     * the object that issued the command.
-     */
-    "execute" : "qx.event.type.Data"
-  },
-
-
 
 
   /*
@@ -82,6 +72,21 @@ qx.Class.define("qx.event.Command",
   },
 
 
+  /*
+  *****************************************************************************
+     EVENTS
+  *****************************************************************************
+  */
+
+  events :
+  {
+    /**
+     * Fired when the command is executed. Sets the "data" property of the event to
+     * the object that issued the command.
+     */
+    "execute" : "qx.event.type.Data"
+  },
+
 
 
   /*
@@ -109,7 +114,6 @@ qx.Class.define("qx.event.Command",
       apply : "_applyShortcut",
       nullable : true
     }
-
   },
 
 
