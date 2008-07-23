@@ -694,7 +694,6 @@ qx.Class.define("qx.ui.core.Widget",
      * with one widget. Reset the connection with a previous widget first, if you
      * like to use it in another widget instead.
      *
-     * @type member
      * @param layout {qx.ui.layout.Abstract} The new layout or
      *     <code>null</code> to reset the layout.
      * @return {void}
@@ -1438,21 +1437,6 @@ qx.Class.define("qx.ui.core.Widget",
      */
     _hasChildren : function() {
       return !!this.__children[0];
-    },
-
-
-    _contains : function(child)
-    {
-      while(child)
-      {
-        if (child == this) {
-          return true;
-        }
-
-        child = child.getLayoutParent();
-      }
-
-      return false;
     },
 
 

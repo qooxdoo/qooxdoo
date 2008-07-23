@@ -69,7 +69,7 @@ qx.Class.define("qx.ui.table.pane.CellEvent",
       *
       * @param scroller {qx.ui.table.pane.Scroller} The tables pane scroller
       * @param type {String} The event type
-      * @param me {qx.legacy.event.type.MouseEvent} The original mouse event
+      * @param me {qx.event.type.Mouse} The original mouse event
       */
      init : function(scroller, type, me)
      {

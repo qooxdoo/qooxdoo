@@ -202,7 +202,7 @@ qx.Class.define("qx.ui.table.pane.Header",
         feedback.setOpacity(0.8);
         feedback.setLayoutProperties({top: pos.top});
 
-        qx.core.Init.getApplication().getRoot().add(feedback);
+        this.getApplicationRoot().add(feedback);
         this._moveFeedback = feedback;
       }
 

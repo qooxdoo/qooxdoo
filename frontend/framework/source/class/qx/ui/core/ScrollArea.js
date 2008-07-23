@@ -286,7 +286,6 @@ qx.Class.define("qx.ui.core.ScrollArea",
     /**
      * Scrolls the element's content to the given left coordinate
      *
-     * @type member
      * @param value {Integer} The vertical position to scroll to.
      * @return {void}
      */
@@ -298,7 +297,6 @@ qx.Class.define("qx.ui.core.ScrollArea",
     /**
      * Scrolls the element's content by the given left offset
      *
-     * @type member
      * @param value {Integer} The vertical position to scroll to.
      * @return {void}
      */
@@ -310,7 +308,6 @@ qx.Class.define("qx.ui.core.ScrollArea",
     /**
      * Returns the scroll left position of the content
      *
-     * @type member
      * @return {Integer} Horizontal scroll position
      */
     getScrollX : function()
@@ -323,7 +320,6 @@ qx.Class.define("qx.ui.core.ScrollArea",
     /**
      * Scrolls the element's content to the given top coordinate
      *
-     * @type member
      * @param value {Integer} The horizontal position to scroll to.
      * @return {void}
      */
@@ -335,7 +331,6 @@ qx.Class.define("qx.ui.core.ScrollArea",
     /**
      * Scrolls the element's content by the given top offset
      *
-     * @type member
      * @param value {Integer} The horizontal position to scroll to.
      * @return {void}
      */
@@ -347,7 +342,6 @@ qx.Class.define("qx.ui.core.ScrollArea",
     /**
      * Returns the scroll top position of the content
      *
-     * @type member
      * @return {Integer} Vertical scroll position
      */
     getScrollY : function()
@@ -369,7 +363,6 @@ qx.Class.define("qx.ui.core.ScrollArea",
     /**
      * Event handler for the scroll event of the horizontal scrollbar
      *
-     * @type member
      * @param e {qx.event.type.Data} The scroll event object
      * @return {void}
      */
@@ -381,7 +374,6 @@ qx.Class.define("qx.ui.core.ScrollArea",
     /**
      * Event handler for the scroll event of the vertical scrollbar
      *
-     * @type member
      * @param e {qx.event.type.Data} The scroll event object
      * @return {void}
      */
@@ -393,7 +385,6 @@ qx.Class.define("qx.ui.core.ScrollArea",
     /**
      * Event handler for the horizontal scroll event of the pane
      *
-     * @type member
      * @param e {qx.event.type.Data} The scroll event object
      * @return {void}
      */
@@ -405,7 +396,6 @@ qx.Class.define("qx.ui.core.ScrollArea",
     /**
      * Event handler for the vertical scroll event of the pane
      *
-     * @type member
      * @param e {qx.event.type.Data} The scroll event object
      * @return {void}
      */

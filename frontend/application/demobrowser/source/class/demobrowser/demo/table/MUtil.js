@@ -1,3 +1,7 @@
+/*
+#require(qx.ui.table.selection.Manager)
+*/
+
 qx.Mixin.define("demobrowser.demo.table.MUtil",
 {
   construct : function() {
@@ -11,6 +15,8 @@ qx.Mixin.define("demobrowser.demo.table.MUtil",
       var columnModel = this.getColumnModelMock();
       var model = this.getModelMock();
       var selection = this.getSelectionMock();
+      var selectionManager = new qx.ui.table.selection.Manager();
+      selectionManager.setSelectionModel(selection);
 
       var table = {
         getTableModel : function() { return model; },
@@ -19,7 +25,22 @@ qx.Mixin.define("demobrowser.demo.table.MUtil",
         getForceLineHeight : function() { return true; },
         getSelectionModel : function() { return selection; },
         getDataRowRenderer : function() { return new qx.ui.table.rowrenderer.Default(table)},
-        updateContent : function() {}
+        updateContent : function() {},
+        setFocusedCell : function(col, row) {},
+        getKeepFirstVisibleRowComplete : function() { return true; },
+        getSelectionManager : function() { return selectionManager; },
+        getNewTablePaneHeader : function(obj) {
+          return function(obj) {
+            var header = new qx.ui.table.pane.Header(obj);
+            return header;
+          }
+        },
+        getNewTablePane : function(obj) {
+          return function(obj) {
+            return new qx.ui.table.pane.Pane(obj);
+          }
+        },
+        getEnabled : function() { return true; }
       }
 
       return table;
@@ -29,7 +50,8 @@ qx.Mixin.define("demobrowser.demo.table.MUtil",
     getSelectionMock : function()
     {
       return {
-        isSelectedIndex : function(index) { return index == 0; }
+        isSelectedIndex : function(index) { return index == 0; },
+        clearSelection : function() {}
       };
     },
 
@@ -38,26 +60,32 @@ qx.Mixin.define("demobrowser.demo.table.MUtil",
     {
       return {
         getColumnCount : function() { return 4; },
+        getVisibleColumnCount : function() { return 4; },
+        getVisibleColumnAtX : function(x) {return x; },
         getColumnWidth : function(col) { return 100; },
+        setColumnWidth : function(col, width) {},
+        getVisibleX : function(x) { return x; },
         getHeaderCellRenderer : function(col) {
           return new qx.ui.table.headerrenderer.Default();
         },
         getDataCellRenderer : function() {
           return new qx.ui.table.cellrenderer.Default();
-        }
+        },
+        addListener : function() {}
       };
     },
 
 
     getPaneModelMock : function()
     {
-      return {
+      model = {
         getColumnAtX : function(x) { return x; },
         getColumnCount : function() { return 4; },
         getX : function(col) { return col; },
         getColumnLeft : function(col) { return col * 100; },
         getTotalWidth : function() { return 4 * 100; }
       }
+      return model;
     },
 
 
@@ -66,8 +94,10 @@ qx.Mixin.define("demobrowser.demo.table.MUtil",
       return {
         getSortColumnIndex : function() { return 0; },
         isSortAscending : function() { return true; },
+        isColumnSortable : function(col) { return true; },
         getColumnName : function(col) { return "Column #" + col; },
         isColumnEditable : function(col) { return false; },
+        sortByColumn : function(col, ascending) {},
         getRowCount : function() { return 500; },
         prefetchRows : function() {},
         getRowData : function(row) {

@@ -144,6 +144,11 @@ qx.Class.define("qx.ui.table.pane.Model",
     },
 
 
+    setTableColumnModel : function(tableColumnModel) {
+      this._tableColumnModel = tableColumnModel;
+    },
+
+
     /**
      * Event handler. Called when the visibility of a column has changed.
      *
