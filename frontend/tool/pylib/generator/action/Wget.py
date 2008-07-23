@@ -27,16 +27,19 @@ import os, sys, re, types
 import urllib
 import urlparse
 from HTMLParser import HTMLParser
-from misc import filetool
+from misc import filetool, Path
 
 class Wget(object):
 
     def __init__(self):
-        pass
+        self.maxDepth   = 20
+        self.fileRoot   = ""
+        self.urlRoot    = ""
+        self.urlIndex   = []
 
-    urlIndex = []
+    urlPathSep = "/"
 
-    def wget(url, optMap, maxDepth=100):
+    def wget(self, url, fileRoot, optMap, maxDepth=20):
         if optMap['saveTo']:
             savePath = optMap['saveTo']
         else:
@@ -50,49 +53,83 @@ class Wget(object):
         hparams,
         hquery,
         hfrag ) = urlparse.urlparse(url)
-        if os.path.isdir(savePath):
-            saveRoot = savePath
-            saveFile = os.path.basename(hpath)
+
+        # force directory for self.fileRoot
+        if os.path.isdir(fileRoot):
+            self.fileRoot = fileRoot
         else:
-            saveRoot = os.path.dirname(savePath)
-            saveFile = os.path.basename(savePath)
+            self.fileRoot = os.path.dirname(fileRoot)
 
-        self._wget(url, optMap, 0, maxDepth, os.path.join(saveRoot,saveFile))
+        self.urlRoot  = urlparse.urlunparse((hproto,hnetLoc,hpath,'','','')) # debateable!
+        self.maxDepth = maxDepth
+        self.urlIndex = []
+
+        self._wget(url, optMap, 0)
 
 
-    def _wget(self, url, optMap, currDepth, maxDepth, savePath):
+    def _wget(self, url, optMap, currDepth):
         # cycle check
         if url in self.urlIndex:
             return  # already processed this url
         else:
             self.urlIndex.append(url)
 
-        # get page content
-        pageCont = self.getPage(url)
-        filetool.save(os.path.join(saveRoot, saveFile), pageCont)
+        # get page content and save file
+        pageObj   = self.getPage(url)
+        actualUrl = pageObj.geturl()
+        pageCont  = pageObj.read()
+        # normalize actual url
+        if actualUrl.endswith(self.urlPathSep):
+            actualUrl += "index.html"
+        savePath = self.getSavePath(self.urlRoot, self.fileRoot, actualUrl)
+        #filetool.save(savePath, pageCont)
+        self.saveFile(savePath, pageCont)
         
         # depth check
-        if currDepth + 1 > maxDepth:
+        if currDepth + 1 > self.maxDepth:
             return
 
         # extract page links
+        headers = pageObj.info().items()
+        if not [x for x in headers if x[0]=='content-type' and re.search(r'.*?/.*html.*', x[1], re.I)]:
+            return  # no html to parse
         linkExtractor = LinkExtractor()
         linkExtractor.feed(pageCont)
         linkExtractor.close()
         pageLinks = linkExtractor.getLinks()
 
         # select and recurse
-        followLinks = self.selectLinks(pageLinks)
+        followLinks = self.selectLinks(actualUrl, pageLinks)
         for link in followLinks:
             nsavePath = os.path.join(savePath,)
-            self._wget(link, optMap, currDepth+1, maxDepth, nsavePath)
+            self._wget(link, optMap, currDepth+1)
         
 
-    def getPage(self, url):
-        pageCont = urllib.urlopen(url)
-        return pageCont
+    def getSavePath(self, urlRoot, fileRoot, currUrl):
+        savePath = pathFrag = ""
+        # pathFrag = currUrl - urlRoot; assert currUrl > urlRoot
+        assert currUrl.startswith(urlRoot)  # only consider urls from the same root
+        (pre,sfx1,sfx2) = Path.getCommonPrefix(urlRoot, currUrl)
+        pathFrag = sfx2
+        savePath = os.path.join(fileRoot, pathFrag)
 
-    def selectLinks(url, linkList):
+        return savePath
+
+    def getPage(self, url):
+        pageObject = urllib.urlopen(url)
+        # TODO: error recovery
+        #actualUrl  = pageObject.geturl()  # this is what the server actually returned
+        #pageCont   = pageObject.read()
+        return pageObject
+
+    def saveFile(self, path, cont):
+        filetool.directory(os.path.dirname(path))
+        fo = open(path, 'wb')
+        fo.write(cont)
+        fo.close
+
+
+    def selectLinks(self, url, linkList):
         'Filter and normalize links to be followed'
         result = []
         # break up host url
