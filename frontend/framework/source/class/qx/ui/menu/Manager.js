@@ -18,7 +18,15 @@
 
 ************************************************************************ */
 
-/** This singleton manages multiple instances of qx.legacy.ui.menu.Menu and their state. */
+/**
+ * This singleton manages visible menu instances and supports some
+ * core features to schedule menu open/close with timeout support.
+ *
+ * It also manages the whole keyboard support for the currently
+ * registered widgets.
+ *
+ * The z-stack order is also managed by this class.
+ */
 qx.Class.define("qx.ui.menu.Manager",
 {
   type : "singleton",
@@ -569,10 +577,10 @@ qx.Class.define("qx.ui.menu.Manager",
 
         if (subMenu)
         {
-          // open previously hovered item
+          // Open previously hovered item
           menu.setOpenedButton(selectedButton);
 
-          // hover first item in new submenu
+          // Hover first item in new submenu
           var first = this._getChild(subMenu, 0, 1);
           if (first) {
             subMenu.setSelectedButton(first);
@@ -606,6 +614,8 @@ qx.Class.define("qx.ui.menu.Manager",
       // Look up opener hierarchy for menu button
       if (menuOpener instanceof qx.ui.menu.Button && selectedButton)
       {
+        // From one inner selected button try to find the top level
+        // menu button which has opened the whole menu chain.
         while (menuOpener)
         {
           menuOpener = menuOpener.getLayoutParent();
@@ -638,6 +648,7 @@ qx.Class.define("qx.ui.menu.Manager",
           return;
         }
 
+        // Try next button, fallback to first
         var nextButton = buttons[index+1];
         if (!nextButton) {
           nextButton = buttons[0];
@@ -658,12 +669,13 @@ qx.Class.define("qx.ui.menu.Manager",
      */
     _onKeyPressEnter : function(menu)
     {
+      // Execute the command behind the currently selected button
       var selectedButton = menu.getSelectedButton();
-
       if (selectedButton) {
         selectedButton.execute();
       }
 
+      // Hide all open menus
       this.hideAll();
     }
   }
