@@ -42,8 +42,9 @@ qx.Class.define("qx.ui.menu.AbstractButton",
     // Use hard coded layout
     this._setLayout(new qx.ui.layout.MenuButton);
 
-    // Add mouse listeners
+    // Add listeners
     this.addListener("mouseup", this._onMouseUp);
+    this.addListener("keypress", this._onKeyPress);
   },
 
 
@@ -198,12 +199,21 @@ qx.Class.define("qx.ui.menu.AbstractButton",
     /**
      * Event listener for mouseup event
      *
-     * @param e {qx.event.type.Mouse} Mouse event
+     * @param e {qx.event.type.Mouse} mouseup event
      */
     _onMouseUp : function(e) {
       // pass
     },
 
+
+    /**
+     * Event listener for mouseup event
+     *
+     * @param e {qx.event.type.KeySequence} keypress event
+     */
+    _onKeyPress : function(e) {
+      // pass
+    },
 
 
 
