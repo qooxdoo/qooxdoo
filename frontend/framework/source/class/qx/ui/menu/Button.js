@@ -110,11 +110,14 @@ qx.Class.define("qx.ui.menu.Button",
     // overridden
     _onMouseUp : function(e)
     {
-      this.execute();
+      if (e.isLeftPressed())
+      {
+        this.execute();
 
-      // stop menu from closing
-      if (this.getMenu()) {
-        e.stopPropagation();
+        // stop menu from closing
+        if (this.getMenu()) {
+          e.stopPropagation();
+        }
       }
     },
 

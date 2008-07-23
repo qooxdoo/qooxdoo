@@ -110,8 +110,11 @@ qx.Class.define("qx.ui.menu.CheckBox",
 
 
     // overridden
-    _onMouseUp : function(e) {
-      this.toggleChecked();
+    _onMouseUp : function(e)
+    {
+      if (e.isLeftPressed()) {
+        this.toggleChecked();
+      }
     },
 
 
