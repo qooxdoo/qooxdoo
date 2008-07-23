@@ -28,12 +28,22 @@ qx.Theme.define("apiviewer.Appearance",
 
   appearances :
   {
+    "legendview-label-important" :
+    {
+      style : function(states)
+      {
+        return {
+          font: "large",
+          textColor: "#134275"
+        };
+      }
+    },
     "legendview-label" :
     {
       style : function(states)
       {
         return {
-          backgroundColor : "lime"
+          textColor: "#134275"
         };
       }
     }
