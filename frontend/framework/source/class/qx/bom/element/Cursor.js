@@ -87,7 +87,6 @@ qx.Class.define("qx.bom.element.Cursor",
     /**
      * Applies a new cursor style to the given element
      *
-     * @type static
      * @param element {Element} The element to modify
      * @param value {String} New cursor value to set
      * @return {void}
@@ -100,7 +99,6 @@ qx.Class.define("qx.bom.element.Cursor",
     /**
      * Removes the local cursor style applied to the element
      *
-     * @type static
      * @param element {Element} The element to modify
      * @return {void}
      */

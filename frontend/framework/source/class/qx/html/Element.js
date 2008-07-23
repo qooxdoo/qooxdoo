@@ -1477,7 +1477,6 @@ qx.Class.define("qx.html.Element",
      * If the element is currently invisible it gets scrolled automatically
      * at the next time it is visible again (queued).
      *
-     * @type member
      * @param elem {qx.html.Element} The element to scroll into the viewport.
      * @param align {String?null} Alignment of the element. Allowed values:
      *   <code>top</code> or <code>bottom</code>. Could also be null.

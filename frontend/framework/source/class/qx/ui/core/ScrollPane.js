@@ -20,9 +20,9 @@
 
 /**
  * This class represents a scrollable pane. This means that this widget
- * may contains content which is bigger than the available (inner)
+ * may contain content which is bigger than the available (inner)
  * dimensions of this widget. The widget also offer methods to control
- * the scrolling position. It can only have excactly one child.
+ * the scrolling position. It can only have exactly one child.
  */
 qx.Class.define("qx.ui.core.ScrollPane",
 {
@@ -120,7 +120,6 @@ qx.Class.define("qx.ui.core.ScrollPane",
      * Configures the content of the scroll pane. Replaces any existing child
      * with the newly given one.
      *
-     * @type member
      * @param widget {qx.ui.core.Widget?null} The content widget of the pane
      * @return {void}
      */
@@ -145,7 +144,6 @@ qx.Class.define("qx.ui.core.ScrollPane",
      * Removes the given widget from the content. The pane is empty
      * afterwards as only one child is supported by the pane.
      *
-     * @type member
      * @param widget {qx.ui.core.Widget?null} The content widget of the pane
      * @return {void}
      */
@@ -180,7 +178,6 @@ qx.Class.define("qx.ui.core.ScrollPane",
     /**
      * Event listener for resize event of content and container
      *
-     * @type member
      * @param e {Event} Resize event object
      */
     _onUpdate : function(e) {
@@ -191,7 +188,6 @@ qx.Class.define("qx.ui.core.ScrollPane",
     /**
      * Event listener for scroll event of content
      *
-     * @type member
      * @param e {qx.event.type.Event} Scroll event object
      */
     _onScroll : function(e)
@@ -206,7 +202,6 @@ qx.Class.define("qx.ui.core.ScrollPane",
     /**
      * Event listener for appear event of content
      *
-     * @type member
      * @param e {qx.event.type.Event} Appear event object
      */
     _onAppear : function(e)
@@ -386,7 +381,6 @@ qx.Class.define("qx.ui.core.ScrollPane",
     /**
      * Scrolls the element's content to the given left coordinate
      *
-     * @type member
      * @param value {Integer} The vertical position to scroll to.
      * @return {void}
      */
@@ -407,7 +401,6 @@ qx.Class.define("qx.ui.core.ScrollPane",
     /**
      * Scrolls the element's content to the given top coordinate
      *
-     * @type member
      * @param value {Integer} The horizontal position to scroll to.
      * @return {void}
      */
@@ -428,7 +421,6 @@ qx.Class.define("qx.ui.core.ScrollPane",
     /**
      * Scrolls the element's content horizontally by the given amount.
      *
-     * @type member
      * @param x {Integer?0} Amount to scroll
      * @return {void}
      */
@@ -440,7 +432,6 @@ qx.Class.define("qx.ui.core.ScrollPane",
     /**
      * Scrolls the element's content vertically by the given amount.
      *
-     * @type member
      * @param y {Integer?0} Amount to scroll
      * @return {void}
      */

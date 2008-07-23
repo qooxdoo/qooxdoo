@@ -17,12 +17,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#module(ui_table)
-
-************************************************************************ */
-
 /**
  * A model that contains all meta data about columns, such as width, renderers,
  * visibility and order.
@@ -112,13 +106,13 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
     DEFAULT_WIDTH           : 100,
 
     /** {DefaultDataCellRenderer} the default header cell renderer. */
-    DEFAULT_HEADER_RENDERER : new qx.ui.table.headerrenderer.Default,
+    DEFAULT_HEADER_RENDERER : new qx.ui.table.headerrenderer.Default(),
 
     /** {DefaultDataCellRenderer} the default data cell renderer. */
-    DEFAULT_DATA_RENDERER   : new qx.ui.table.cellrenderer.Default,
+    DEFAULT_DATA_RENDERER   : new qx.ui.table.cellrenderer.Default(),
 
     /** {TextFieldCellEditorFactory} the default editor factory. */
-    DEFAULT_EDITOR_FACTORY  : new qx.ui.table.celleditor.TextField
+    DEFAULT_EDITOR_FACTORY  : new qx.ui.table.celleditor.TextField()
   },
 
 

@@ -31,7 +31,7 @@
  */
 qx.Class.define("qx.ui.table.Table",
 {
-  extend : qx.ui.layout.VerticalBoxLayout,
+  extend : qx.ui.core.Widget,
 
 
 
@@ -114,7 +114,6 @@ qx.Class.define("qx.ui.table.Table",
   construct : function(tableModel, custom)
   {
     this.base(arguments);
-
     //
     // Use default objects if custom objects are not specified
     //
@@ -150,22 +149,21 @@ qx.Class.define("qx.ui.table.Table",
       this.setNewTablePaneModel(custom.tablePaneModel);
     }
 
+    this._setLayout(new qx.ui.layout.VBox());
+
     // Create the child widgets
-    this._scrollerParent = new qx.ui.layout.HorizontalBoxLayout;
-    this._scrollerParent.setDimension("100%", "1*");
-    this._scrollerParent.setSpacing(1);
+    this._scrollerParent = new qx.ui.container.Composite(new qx.ui.layout.HBox(1));
 
-    this._statusBar = new qx.ui.basic.Label;
+    this._statusBar = new qx.ui.basic.Label().set({
+      allowGrowX: true
+    });
     this._statusBar.setAppearance("table-focus-statusbar");
-    this._statusBar.setDimension("100%", "auto");
 
-    this.add(this._scrollerParent, this._statusBar);
+    this._add(this._scrollerParent, {flex: 1});
+    this._add(this._statusBar);
 
-    this._columnVisibilityBt = new qx.ui.form.Button;
+    this._columnVisibilityBt = new qx.ui.form.Button();
     this._columnVisibilityBt.setAppearance("table-menubar-button");
-    this._columnVisibilityBt.setHeight(null);
-    this._columnVisibilityBt.setWidth("auto");
-    this._columnVisibilityBt.setAllowStretchY(true);
     this._columnVisibilityBt.addListener("execute", this._onColumnVisibilityBtExecuted, this);
 
     // Allocate a default data row renderer
@@ -190,7 +188,12 @@ qx.Class.define("qx.ui.table.Table",
     this.setTabIndex(1);
     this.addListener("keydown", this._onkeydown);
     this.addListener("keypress", this._onkeypress);
-    this.addListener("changeFocused", this._onFocusChanged);
+    this.addListener("focus", this._onFocusChanged);
+    this.addListener("blur", this._onFocusChanged);
+
+    // attach the resize listener to the last child of the layout. This
+    // ensures that all other children are layouted before
+    this._statusBar.addListener("resize", this._onResize, this);
 
     this._focusedCol = 0;
     this._focusedRow = 0;
@@ -264,7 +267,7 @@ qx.Class.define("qx.ui.table.Table",
 
   statics :
   {
-    /**Events that must be redirected to the scrollers.*/
+    /** Events that must be redirected to the scrollers. */
     __redirectEvents : { cellClick: 1, cellDblclick: 1, cellContextmenu: 1 }
   },
 
@@ -277,7 +280,6 @@ qx.Class.define("qx.ui.table.Table",
 
   properties :
   {
-
     /** The selection model. */
     selectionModel :
     {
@@ -285,6 +287,7 @@ qx.Class.define("qx.ui.table.Table",
       apply : "_applySelectionModel",
       event : "changeSelectionModel"
     },
+
 
     /** The table model. */
     tableModel :
@@ -294,6 +297,7 @@ qx.Class.define("qx.ui.table.Table",
       event : "changeTableModel",
       nullable : true
     },
+
 
     /**
      * The table column model.
@@ -308,6 +312,7 @@ qx.Class.define("qx.ui.table.Table",
       event : "changeTableColumnModel"
     },
 
+
     /** The height of the table rows. */
     rowHeight :
     {
@@ -316,6 +321,7 @@ qx.Class.define("qx.ui.table.Table",
       apply : "_applyRowHeight",
       event : "changeRowHeight"
     },
+
 
     /**
      * Force line height to match row height.  May be disabled if cell
@@ -329,6 +335,7 @@ qx.Class.define("qx.ui.table.Table",
       init  : true
     },
 
+
     /** The height of the header cells. */
     headerCellHeight :
     {
@@ -338,6 +345,7 @@ qx.Class.define("qx.ui.table.Table",
       event : "changeHeaderCellHeight"
     },
 
+
     /** Whether to show the status bar */
     statusBarVisible :
     {
@@ -346,13 +354,15 @@ qx.Class.define("qx.ui.table.Table",
       apply : "_applyStatusBarVisible"
     },
 
-  /** The Statusbartext, set it, if you want some more Information */
-  additionalStatusBarText :
-  {
-    nullable : true,
-    init : null,
-    apply : "_applyAdditionalStatusBarText"
-  },
+
+    /** The Statusbartext, set it, if you want some more Information */
+    additionalStatusBarText :
+    {
+      nullable : true,
+      init : null,
+      apply : "_applyAdditionalStatusBarText"
+    },
+
 
     /** Whether to show the column visibility button */
     columnVisibilityButtonVisible :
@@ -585,7 +595,7 @@ qx.Class.define("qx.ui.table.Table",
       var scrollerArr = this._getPaneScrollerArr();
 
       for (var i=0; i<scrollerArr.length; i++) {
-        scrollerArr[i]._updateVerScrollBarMaximum();
+        scrollerArr[i].updateVerScrollBarMaximum();
       }
     },
 
@@ -608,12 +618,26 @@ qx.Class.define("qx.ui.table.Table",
 
       if (old != null)
       {
-        old.removeListener(qx.ui.table.ITableModel.EVENT_TYPE_META_DATA_CHANGED, this._onTableModelMetaDataChanged, this);
-        old.removeListener(qx.ui.table.ITableModel.EVENT_TYPE_DATA_CHANGED, this._onTableModelDataChanged, this);
+        old.removeListener(
+          qx.ui.table.ITableModel.EVENT_TYPE_META_DATA_CHANGED,
+          this._onTableModelMetaDataChanged, this
+        );
+
+        old.removeListener(
+          qx.ui.table.ITableModel.EVENT_TYPE_DATA_CHANGED,
+          this._onTableModelDataChanged, this
+        );
       }
 
-      value.addListener(qx.ui.table.ITableModel.EVENT_TYPE_META_DATA_CHANGED, this._onTableModelMetaDataChanged, this);
-      value.addListener(qx.ui.table.ITableModel.EVENT_TYPE_DATA_CHANGED, this._onTableModelDataChanged, this);
+      value.addListener(
+        qx.ui.table.ITableModel.EVENT_TYPE_META_DATA_CHANGED,
+        this._onTableModelMetaDataChanged, this
+      );
+
+      value.addListener(
+        qx.ui.table.ITableModel.EVENT_TYPE_DATA_CHANGED,
+        this._onTableModelDataChanged, this
+      );
 
       // Update the status bar
       this._updateStatusBar();
@@ -648,9 +672,10 @@ qx.Class.define("qx.ui.table.Table",
       {
         var paneScroller = scrollerArr[i];
         var paneModel = paneScroller.getTablePaneModel();
-        paneModel._tableColumnModel = value;
+        paneModel.setTableColumnModel(value);
       }
     },
+
 
     // property modifier
     _applyStatusBarVisible : function(value, old)
@@ -661,6 +686,7 @@ qx.Class.define("qx.ui.table.Table",
         this._updateStatusBar();
       }
     },
+
 
     // property modifier
     _applyAdditionalStatusBarText : function(value, old)
@@ -768,7 +794,7 @@ qx.Class.define("qx.ui.table.Table",
       var scrollerArr = this._getPaneScrollerArr();
 
       for (var i=0; i<scrollerArr.length; i++) {
-        scrollerArr[i]._onKeepFirstVisibleRowCompleteChanged();
+        scrollerArr[i].onKeepFirstVisibleRowCompleteChanged();
       }
     },
 
@@ -779,7 +805,7 @@ qx.Class.define("qx.ui.table.Table",
      * @type member
      * @return {qx.ui.table.selection.Manager} the selection manager.
      */
-    _getSelectionManager : function() {
+    getSelectionManager : function() {
       return this._selectionManager;
     },
 
@@ -837,7 +863,7 @@ qx.Class.define("qx.ui.table.Table",
      */
     _onChangeLocale : function(evt)
     {
-      this.postponedUpdateContent();
+      this.updateContent();
       this._updateStatusBar();
     },
 
@@ -853,7 +879,7 @@ qx.Class.define("qx.ui.table.Table",
       var scrollerArr = this._getPaneScrollerArr();
 
       for (var i=0; i<scrollerArr.length; i++) {
-        scrollerArr[i]._onSelectionChanged(evt);
+        scrollerArr[i].onSelectionChanged();
       }
 
       this._updateStatusBar();
@@ -888,8 +914,14 @@ qx.Class.define("qx.ui.table.Table",
     {
       var scrollerArr = this._getPaneScrollerArr();
 
-      for (var i=0; i<scrollerArr.length; i++) {
-        scrollerArr[i]._onTableModelDataChanged(evt);
+      var data = evt.getData();
+
+      for (var i=0; i<scrollerArr.length; i++)
+      {
+        scrollerArr[i].onTableModelDataChanged(
+          data.firstRow, data.lastRow,
+          data.firstColumn, data.lastColumn
+        );
       }
 
       var rowCount = this.getTableModel().getRowCount();
@@ -980,7 +1012,7 @@ qx.Class.define("qx.ui.table.Table",
       else
       {
         // No editing mode
-        // Handle keys that are independant from the modifiers
+        // Handle keys that are independent from the modifiers
         consumed = true;
 
         switch(identifier)
@@ -1055,7 +1087,7 @@ qx.Class.define("qx.ui.table.Table",
     /**
      * Event handler. Called when a key was pressed.
      *
-     * @param evt {qx.legacy.event.type.KeyEvent} the event.
+     * @param evt {qx.event.type.Key} the event.
      * @return {void}
      */
     _onkeypress : function(evt)
@@ -1137,7 +1169,7 @@ qx.Class.define("qx.ui.table.Table",
       var scrollerArr = this._getPaneScrollerArr();
 
       for (var i=0; i<scrollerArr.length; i++) {
-        scrollerArr[i]._onFocusChanged(evt);
+        scrollerArr[i].onFocusChanged();
       }
     },
 
@@ -1153,7 +1185,7 @@ qx.Class.define("qx.ui.table.Table",
       var scrollerArr = this._getPaneScrollerArr();
 
       for (var i=0; i<scrollerArr.length; i++) {
-        scrollerArr[i]._onColVisibilityChanged(evt);
+        scrollerArr[i].onColVisibilityChanged();
       }
 
       this._updateScrollerWidths();
@@ -1174,7 +1206,7 @@ qx.Class.define("qx.ui.table.Table",
       for (var i=0; i<scrollerArr.length; i++)
       {
         var data = evt.getData();
-        scrollerArr[i]._onColWidthChanged(data.col, data.newWidth);
+        scrollerArr[i].setColumnWidth(data.col, data.newWidth);
       }
 
       this._updateScrollerWidths();
@@ -1334,6 +1366,7 @@ qx.Class.define("qx.ui.table.Table",
         var metaColumn = this._getMetaColumnAtColumnX(x);
         return this.getPaneScroller(metaColumn).isEditing();
       }
+      return false;
     },
 
 
@@ -1386,32 +1419,6 @@ qx.Class.define("qx.ui.table.Table",
 
 
     /**
-     * Does a postponed update of the table content.
-     *
-     * @see #updateContent
-     */
-    postponedUpdateContent : function()
-    {
-      if (!this._updateContentPlanned)
-      {
-        qx.event.Timer.once(function()
-        {
-          if (this.isDisposed()) {
-            return;
-          }
-
-          this.updateContent();
-          this._updateContentPlanned = false;
-          qx.ui.core.Widget.flushGlobalQueues();
-        },
-        this, 0);
-
-        this._updateContentPlanned = true;
-      }
-    },
-
-
-    /**
      * Update the table content of every attached table pane.
      */
     updateContent : function() {
@@ -1436,9 +1443,9 @@ qx.Class.define("qx.ui.table.Table",
 
       for (var i=0; i<scrollerArr.length; i++)
       {
-        var elem = scrollerArr[i].getElement();
+        var pos = scrollerArr[i].getContainerLocation();
 
-        if (pageX >= qx.bom.element.Location.getLeft(elem) && pageX <= qx.bom.element.Location.getRight(elem)) {
+        if (pageX >= pos.left && pageX <= pos.right) {
           return i;
         }
       }
@@ -1505,7 +1512,7 @@ qx.Class.define("qx.ui.table.Table",
         }
 
         if(text) {
-          this._statusBar.setText(text);
+          this._statusBar.setContent(text);
         }
       }
     },
@@ -1523,8 +1530,11 @@ qx.Class.define("qx.ui.table.Table",
       for (var i=0; i<scrollerArr.length; i++)
       {
         var isLast = (i == (scrollerArr.length - 1));
-        var width = isLast ? "1*" : scrollerArr[i].getTablePaneModel().getTotalWidth();
+        var width = scrollerArr[i].getTablePaneModel().getTotalWidth();
         scrollerArr[i].setWidth(width);
+
+        var flex = isLast ? 1 : 0;
+        scrollerArr[i].setLayoutProperties({flex: flex});
       }
     },
 
@@ -1534,57 +1544,58 @@ qx.Class.define("qx.ui.table.Table",
      */
     _updateScrollBarVisibility : function()
     {
-      if (this.isSeeable())
+      if (!this.getBounds()) {
+        return;
+      }
+
+      var horBar = qx.ui.table.pane.Scroller.HORIZONTAL_SCROLLBAR;
+      var verBar = qx.ui.table.pane.Scroller.VERTICAL_SCROLLBAR;
+      var scrollerArr = this._getPaneScrollerArr();
+
+      // Check which scroll bars are needed
+      var horNeeded = false;
+      var verNeeded = false;
+
+      for (var i=0; i<scrollerArr.length; i++)
       {
-        var horBar = qx.ui.table.pane.Scroller.HORIZONTAL_SCROLLBAR;
-        var verBar = qx.ui.table.pane.Scroller.VERTICAL_SCROLLBAR;
-        var scrollerArr = this._getPaneScrollerArr();
+        var isLast = (i == (scrollerArr.length - 1));
 
-        // Check which scroll bars are needed
-        var horNeeded = false;
-        var verNeeded = false;
+        // Only show the last vertical scrollbar
+        var bars = scrollerArr[i].getNeededScrollBars(horNeeded, !isLast);
 
-        for (var i=0; i<scrollerArr.length; i++)
-        {
-          var isLast = (i == (scrollerArr.length - 1));
-
-          // Only show the last vertical scrollbar
-          var bars = scrollerArr[i].getNeededScrollBars(horNeeded, !isLast);
-
-          if (bars & horBar) {
-            horNeeded = true;
-          }
-
-          if (isLast && (bars & verBar)) {
-            verNeeded = true;
-          }
+        if (bars & horBar) {
+          horNeeded = true;
         }
 
-        // Set the needed scrollbars
-        for (var i=0; i<scrollerArr.length; i++)
+        if (isLast && (bars & verBar)) {
+          verNeeded = true;
+        }
+      }
+
+      // Set the needed scrollbars
+      for (var i=0; i<scrollerArr.length; i++)
+      {
+        var isLast = (i == (scrollerArr.length - 1));
+        var bHadVerticalScrollBar;
+
+        // Only show the last vertical scrollbar
+        scrollerArr[i].setHorizontalScrollBarVisible(horNeeded);
+
+        // If this is the last meta-column...
+        if (isLast)
         {
-          var isLast = (i == (scrollerArr.length - 1));
-          var bHadVerticalScrollBar;
+          // ... then get the current (old) use of vertical scroll bar
+          bHadVerticalScrollBar = scrollerArr[i].getVerticalScrollBarVisible();
+        }
 
-          // Only show the last vertical scrollbar
-          scrollerArr[i].setHorizontalScrollBarVisible(horNeeded);
+        scrollerArr[i].setVerticalScrollBarVisible(isLast && verNeeded);
 
-          // If this is the last meta-column...
-          if (isLast)
-          {
-            // ... then get the current (old) use of vertical scroll bar
-            bHadVerticalScrollBar = scrollerArr[i].getVerticalScrollBarVisible();
-          }
-
-          scrollerArr[i].setVerticalScrollBarVisible(isLast && verNeeded);
-
-          // If this is the last meta-column and the use of a vertical scroll bar
-          // has changed...
-          if (isLast && verNeeded != bHadVerticalScrollBar)
-          {
-            // ... then dispatch an event to any awaiting listeners
-            this.fireDataEvent("verticalScrollBarChanged", verNeeded);
-          }
+        // If this is the last meta-column and the use of a vertical scroll bar
+        // has changed...
+        if (isLast && verNeeded != bHadVerticalScrollBar)
+        {
+          // ... then dispatch an event to any awaiting listeners
+          this.fireDataEvent("verticalScrollBarChanged", verNeeded);
         }
       }
     },
@@ -1602,10 +1613,7 @@ qx.Class.define("qx.ui.table.Table",
 
 
     /**
-     * Toggels the visibility of the menu used to change the visibility of columns.
-     *
-     * @type member
-     * @return {void}
+     * Toggles the visibility of the menu used to change the visibility of columns.
      */
     _toggleColumnVisibilityMenu : function()
     {
@@ -1730,8 +1738,7 @@ qx.Class.define("qx.ui.table.Table",
     },
 
 
-    // overridden
-    _changeInnerWidth : function(vNew, vOld)
+    _onResize : function(e)
     {
       var self = this;
 
@@ -1744,41 +1751,10 @@ qx.Class.define("qx.ui.table.Table",
         self.fireEvent("tableWidthChanged");
         self._updateScrollerWidths();
         self._updateScrollBarVisibility();
-        qx.ui.core.Widget.flushGlobalQueues();
       },
       0);
-
-      return this.base(arguments, vNew, vOld);
     },
 
-
-    // overridden
-    _changeInnerHeight : function(vNew, vOld)
-    {
-      var self = this;
-
-      window.setTimeout(function()
-      {
-        if (self.isDisposed()) {
-          return;
-        }
-
-        self._updateScrollBarVisibility();
-        qx.ui.core.Widget.flushGlobalQueues();
-      },
-      0);
-
-      return this.base(arguments, vNew, vOld);
-    },
-
-
-    // overridden
-    _afterAppear : function()
-    {
-      this.base(arguments);
-
-      this._updateScrollBarVisibility();
-    },
 
     /**
      * Add event listener to an object.
@@ -1830,20 +1806,20 @@ qx.Class.define("qx.ui.table.Table",
   destruct : function()
   {
     // remove the event listener which handled the locale change
-    qx.locale.Manager.getInstance().removeListener("changeLocale",
-                                                        this._onChangeLocale,
-                                                        this);
+    qx.locale.Manager.getInstance().removeListener(
+      "changeLocale",
+      this._onChangeLocale,
+      this
+    );
 
     // we allocated these objects on init so we have to clean them up.
     var selectionModel = this.getSelectionModel();
-    if (selectionModel)
-    {
+    if (selectionModel) {
       selectionModel.dispose();
     }
 
     var dataRowRenderer = this.getDataRowRenderer();
-    if (dataRowRenderer)
-    {
+    if (dataRowRenderer) {
       dataRowRenderer.dispose();
     }
 

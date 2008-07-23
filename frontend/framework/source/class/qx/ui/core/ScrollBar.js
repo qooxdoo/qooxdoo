@@ -282,7 +282,6 @@ qx.Class.define("qx.ui.core.ScrollBar",
      * This method automatically corrects the given position to respect
      * the {@link #maximum}.
      *
-     * @type member
      * @param position {Integer} Scroll to this position. Must be greater zero.
      * @return {void}
      */
@@ -297,7 +296,6 @@ qx.Class.define("qx.ui.core.ScrollBar",
      * This method automatically corrects the given position to respect
      * the {@link #maximum}.
      *
-     * @type member
      * @param offset {Integer} Scroll by this offset
      * @return {void}
      */
@@ -312,7 +310,6 @@ qx.Class.define("qx.ui.core.ScrollBar",
      * This method automatically corrects the given position to respect
      * the {@link #maximum}.
      *
-     * @type member
      * @param steps {Integer} Number of steps
      * @return {void}
      */
