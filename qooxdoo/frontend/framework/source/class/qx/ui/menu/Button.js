@@ -155,8 +155,9 @@ qx.Class.define("qx.ui.menu.Button",
       return control || this.base(arguments, id);
     },
 
-    _forwardStates :
-    {
+
+    // overridden
+    _forwardStates : {
       selected : 1
     },
 
@@ -169,6 +170,11 @@ qx.Class.define("qx.ui.menu.Button",
     ---------------------------------------------------------------------------
     */
 
+    /**
+     * Returns the dimensions of all children
+     *
+     * @return {Array} Preferred width of each child
+     */
     getChildrenSizes : function()
     {
       var iconWidth=0, labelWidth=0, shortcutWidth=0, arrowWidth=0;
@@ -201,8 +207,12 @@ qx.Class.define("qx.ui.menu.Button",
     },
 
 
-    getParentMenu : function()
-    {
+    /**
+     * Returns the parent menu
+     *
+     * @return {qx.ui.menu.Menu} The parent menu or <code>null</code>
+     */
+    getParentMenu : function() {
       return this.getLayoutParent();
     },
 
@@ -261,6 +271,11 @@ qx.Class.define("qx.ui.menu.Button",
     ---------------------------------------------------------------------------
     */
 
+    /**
+     * Event listener for command changes. Updates the text of the shortcut.
+     *
+     * @param e {qx.event.type.Data} Property change event
+     */
     _onChangeCommand : function(e) {
       this._getChildControl("shortcut").setContent(e.getData().toString());
     }
