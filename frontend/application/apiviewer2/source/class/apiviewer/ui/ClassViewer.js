@@ -17,6 +17,7 @@
      * Sebastian Werner (wpbasti)
      * Andreas Ecker (ecker)
      * Fabian Jakobs (fjakobs)
+     * Jonathan Rass (jonathan_rass)
 
 ************************************************************************ */
 
@@ -556,8 +557,8 @@ qx.Class.define("apiviewer.ui.ClassViewer",
       elem.className = "marked";
       this._markedElement = elem;
 
-      qx.legacy.html.ScrollIntoView.scrollX(elem, true);
-      qx.legacy.html.ScrollIntoView.scrollY(elem, true);
+      qx.html.ScrollIntoView.scrollX(elem, true);
+      qx.html.ScrollIntoView.scrollY(elem, true);
       return true;
     },
 

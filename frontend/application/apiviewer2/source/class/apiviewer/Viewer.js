@@ -55,19 +55,17 @@ qx.Class.define("apiviewer.Viewer",
     tree.setId("tree");
 
     var buttonView = this.__createTabView(
-        tree,
-        new apiviewer.ui.SearchView(),
-        new apiviewer.ui.LegendView()
-      );
+      tree,
+      new apiviewer.ui.SearchView(),
+      new apiviewer.ui.LegendView()
+    );
 
     var mainFrame = this.__createMainFrame(
       this.__createToolbar(),
       this.__createDetailFrame()
     );
 
-    this.add(
-      this.__createVerticalSplitter(buttonView, mainFrame)
-    );
+    this.add(this.__createSplitPane(buttonView, mainFrame));
 
   },
 
@@ -125,29 +123,22 @@ qx.Class.define("apiviewer.Viewer",
       var tabView = new qx.ui.tabview.TabView;
 
       var packageTab = new qx.ui.tabview.Page("", apiviewer.TreeUtil.ICON_PACKAGE);
-      packageTab.setLayout(new qx.ui.layout.VBox());
+      packageTab.setLayout(new qx.ui.layout.Grow);
       packageTab.setToolTip( new qx.ui.popup.ToolTip("Packages"));
       packageTab.add(treeWidget);
       tabView.add(packageTab);
       
       var searchTab = new qx.ui.tabview.Page("", apiviewer.TreeUtil.ICON_SEARCH);
-      searchTab.setLayout(new qx.ui.layout.VBox());
+      searchTab.setLayout(new qx.ui.layout.Grow);
       searchTab.setToolTip( new qx.ui.popup.ToolTip("Search"));
-      searchTab.add(new qx.ui.basic.Label("Search"));
+      searchTab.add(searchWidget);
       tabView.add(searchTab);
       
       var infoTab = new qx.ui.tabview.Page("", apiviewer.TreeUtil.ICON_INFO);
-      infoTab.setLayout(new qx.ui.layout.VBox());
+      infoTab.setLayout(new qx.ui.layout.Grow);
       infoTab.setToolTip( new qx.ui.popup.ToolTip("Information"));
       infoTab.add(infoWidget);
       tabView.add(infoTab);
-      
-      
-      /*
-      treePane.add(treeWidget);
-      searchPane.add(searchWidget);
-      infoPane.add(infoWidget);
-      */
 
       return tabView;
     },
@@ -294,7 +285,7 @@ qx.Class.define("apiviewer.Viewer",
      * @param rightWidget {qx.ui.core.Widget} the widget on the right of the splitter
      * @return {qx.legacy.ui.splitpane.HorizontalSplitPane} the split pane
      */
-    __createVerticalSplitter : function(leftWidget, rightWidget)
+    __createSplitPane : function(leftWidget, rightWidget)
     {
       var mainSplitPane = new qx.ui.splitpane.Pane("horizontal");
       mainSplitPane.add(leftWidget, 1);
