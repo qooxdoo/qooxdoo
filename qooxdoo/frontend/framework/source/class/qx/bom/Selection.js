@@ -380,6 +380,91 @@ qx.Class.define("qx.bom.Selection",
     setAll : function(node)
     {
       return qx.bom.Selection.set(node, 0);
-    }
+    },
+    
+    
+    /**
+     * Clears the selection on the given node.
+     *  
+     * @type member
+     * @param node {Node} node to clear the selection for
+     * @return {void}
+     */
+    clear : qx.core.Variant.select("qx.client",{
+      "mshtml" : function(node)
+      {
+        var sel = qx.bom.Selection.getSelectionObject(qx.dom.Node.getDocument(node));
+        var rng = qx.bom.Range.get(node);
+        var parent = rng.parentElement();
+        
+        var documentRange = qx.bom.Range.get(qx.dom.Node.getDocument(node));
+        var nodeName = node.nodeName.toLowerCase();
+        
+        // only collapse if the selection is really on the given node
+        // -> compare the two parent elements of the ranges with each other and 
+        // the given node
+        if (parent == documentRange.parentElement() && parent == node) 
+        {
+          sel.empty();
+        }        
+      },
+      
+      "default" : function(node)
+      {
+        var sel = qx.bom.Selection.getSelectionObject(qx.dom.Node.getDocument(node));
+        var nodeName = node.nodeName.toLowerCase();
+        
+        // if the node is an input or textarea element use the specialized methods
+        if (qx.dom.Node.isElement(node) && (nodeName == "input" || nodeName == "textarea"))
+        {
+          // TODO: this leads Webkit to also focus the input/textarea element
+          // which is NOT desired.
+          // Additionally there is a bug in webkit with input/textarea elements
+          // concerning the native selection and range object.
+          // -> getting e.g. the startContainer/endContainer of the range returns
+          // the text element (as expected) but webkit does embed this text node
+          // into a lonely DIV element, so there us no chance to check if the 
+          // selection is currently at the input/textarea element to only perform
+          // the "setSelectionRange" in the case the given node is REALLY selected.
+          // Webkit bugzilla: https://bugs.webkit.org/show_bug.cgi?id=15903
+          // qooxdoo bugzilla: http://bugzilla.qooxdoo.org/show_bug.cgi?id=1087
+          node.setSelectionRange(0, 0);
+          qx.bom.Element.blur(node);
+        }
+        // if the given node is the body/document node -> collapse the selection
+        else if (qx.dom.Node.isDocument(node) || nodeName == "body")
+        {
+          sel.collapse(node.body ? node.body : node, 0);
+        }
+        // if an element/text node is given the current selection has to 
+        // encompass the node. Only then the selection is cleared.
+        else
+        {
+          var rng = qx.bom.Range.get(node);
+          if (!rng.collapsed)
+          {
+            var compareNode;
+            var commonAncestor = rng.commonAncestorContainer;
+            
+            // compare the parentNode of the textNode with the given node
+            // (if this node is an element) to decide whether the selection
+            // is cleared or not. 
+            if (qx.dom.Node.isElement(node) && qx.dom.Node.isText(commonAncestor))
+            {
+              compareNode = commonAncestor.parentNode;  
+            }
+            else
+            {
+              compareNode = commonAncestor;
+            }
+            
+            if (compareNode == node)
+            {
+              sel.collapse(node,0);
+            }
+          }  
+        }       
+      }
+    })
   }
 });
