@@ -214,6 +214,13 @@ qx.Class.define("qx.ui.menu.Manager",
     ---------------------------------------------------------------------------
     */
 
+    /**
+     * Schedules the given menu to be opened after the
+     * {@link qx.ui.menu.Menu#openInterval} configured by the
+     * menu instance itself.
+     *
+     * @param menu {qx.ui.menu.Menu} The menu to schedule for open
+     */
     scheduleOpen : function(menu)
     {
       // Cancel close of given menu first
@@ -232,12 +239,20 @@ qx.Class.define("qx.ui.menu.Manager",
       // then schedule it for opening
       else if (this._scheduleOpen != menu)
       {
-        menu.debug("Schedule open");
+        // menu.debug("Schedule open");
         this._scheduleOpen = menu;
         this._openTimer.restartWith(menu.getOpenInterval());
       }
     },
 
+
+    /**
+     * Schedules the given menu to be closed after the
+     * {@link qx.ui.menu.Menu#closeInterval} configured by the
+     * menu instance itself.
+     *
+     * @param menu {qx.ui.menu.Menu} The menu to schedule for close
+     */
     scheduleClose : function(menu)
     {
       // Cancel open of the menu first
@@ -256,27 +271,41 @@ qx.Class.define("qx.ui.menu.Manager",
       // then schedule it for closing
       else if (this._scheduleClose != menu)
       {
-        menu.debug("Schedule close");
+        // menu.debug("Schedule close");
         this._scheduleClose = menu;
         this._closeTimer.restartWith(menu.getCloseInterval());
       }
     },
 
+
+    /**
+     * When the given menu is scheduled for open this pending
+     * request is canceled.
+     *
+     * @param menu {qx.ui.menu.Menu} The menu to cancel for open
+     */
     cancelOpen : function(menu)
     {
       if (this._scheduleOpen == menu)
       {
-        menu.debug("Cancel open");
+        // menu.debug("Cancel open");
         this._openTimer.stop();
         this._scheduleOpen = null;
       }
     },
 
+
+    /**
+     * When the given menu is scheduled for close this pending
+     * request is canceled.
+     *
+     * @param menu {qx.ui.menu.Menu} The menu to cancel for close
+     */
     cancelClose : function(menu)
     {
       if (this._scheduleClose == menu)
       {
-        menu.debug("Cancel close");
+        // menu.debug("Cancel close");
         this._closeTimer.stop();
         this._scheduleClose = null;
       }
@@ -291,26 +320,37 @@ qx.Class.define("qx.ui.menu.Manager",
     ---------------------------------------------------------------------------
     */
 
+    /**
+     * Event listener for a pending open request. Configured to the interval
+     * of the current menu to open.
+     *
+     * @param e {qx.event.type.Event} Interval event
+     */
     _onOpenInterval : function(e)
     {
-      var menu = this._scheduleOpen;
-
-      menu.debug("Interval open");
+      // Stop timer
       this._openTimer.stop();
-      this._scheduleOpen = null;
 
-      menu.open();
+      // Open menu and reset flag
+      this._scheduleOpen.open();
+      this._scheduleOpen = null;
     },
 
+
+    /**
+     * Event listener for a pending close request. Configured to the interval
+     * of the current menu to close.
+     *
+     * @param e {qx.event.type.Event} Interval event
+     */
     _onCloseInterval : function(e)
     {
-      var menu = this._scheduleClose;
-
-      menu.debug("Interval close");
+      // Stop timer, reset scheduling flag
       this._closeTimer.stop();
-      this._scheduleClose = null;
 
-      menu.exclude();
+      // Close menu and reset flag
+      this._scheduleClose.exclude();
+      this._scheduleClose = null;
     },
 
 
