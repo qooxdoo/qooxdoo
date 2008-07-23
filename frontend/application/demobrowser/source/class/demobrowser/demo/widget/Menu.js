@@ -184,14 +184,22 @@ qx.Class.define("demobrowser.demo.widget.Menu",
       toolbar.add(searchPart);
       toolbar.add(helpPart);
 
+      var backButton = new qx.ui.toolbar.SplitButton("Back", "icon/16/actions/go-previous.png", null, this.getBackMenu());
+      var forwardButton = new qx.ui.toolbar.SplitButton("Next", "icon/16/actions/go-next.png", null, this.getForwardMenu());
+
       var newButton = new qx.ui.toolbar.Button("New", "icon/16/actions/document-new.png", this._newCommand);
       var openButton = new qx.ui.toolbar.Button("Open", "icon/16/actions/document-open.png", this._openCommand);
       var saveButton = new qx.ui.toolbar.Button("Save", "icon/16/actions/document-save.png", this._saveCommand);
 
+      backButton.addListener("execute", this.debugButton);
+      forwardButton.addListener("execute", this.debugButton);
       newButton.addListener("execute", this.debugButton);
       openButton.addListener("execute", this.debugButton);
       saveButton.addListener("execute", this.debugButton);
 
+      basicPart.add(backButton);
+      basicPart.add(forwardButton);
+      basicPart.addSeparator();
       basicPart.add(newButton);
       basicPart.add(openButton);
       basicPart.add(saveButton);
@@ -230,6 +238,44 @@ qx.Class.define("demobrowser.demo.widget.Menu",
       helpPart.add(helpMenu);
 
       return toolbar;
+    },
+
+    getBackMenu : function()
+    {
+      var menu = new qx.ui.menu.Menu;
+
+      var button1 = new qx.ui.menu.Button("Line 313");
+      var button2 = new qx.ui.menu.Button("Line 1039");
+      var button3 = new qx.ui.menu.Button("Line 12");
+      var button4 = new qx.ui.menu.Button("Line 26");
+
+      button1.addListener("execute", this.debugButton);
+      button2.addListener("execute", this.debugButton);
+      button3.addListener("execute", this.debugButton);
+      button4.addListener("execute", this.debugButton);
+
+      menu.add(button1);
+      menu.add(button2);
+      menu.add(button3);
+      menu.add(button4);
+
+      return menu;
+    },
+
+    getForwardMenu : function()
+    {
+      var menu = new qx.ui.menu.Menu;
+
+      var button1 = new qx.ui.menu.Button("Line 431");
+      var button2 = new qx.ui.menu.Button("Line 30");
+
+      button1.addListener("execute", this.debugButton);
+      button2.addListener("execute", this.debugButton);
+
+      menu.add(button1);
+      menu.add(button2);
+
+      return menu;
     },
 
     getFileMenu : function()
