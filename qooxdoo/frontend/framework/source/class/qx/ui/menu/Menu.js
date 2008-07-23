@@ -229,7 +229,7 @@ qx.Class.define("qx.ui.menu.Menu",
   {
     /*
     ---------------------------------------------------------------------------
-      USER API
+      PUBLIC API
     ---------------------------------------------------------------------------
     */
 
@@ -276,14 +276,6 @@ qx.Class.define("qx.ui.menu.Menu",
       this.add(new qx.ui.menu.Separator);
     },
 
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      LAYOUT UTILS
-    ---------------------------------------------------------------------------
-    */
 
     /**
      * Returns the column sizes detected during the pre-layout phase
@@ -446,6 +438,8 @@ qx.Class.define("qx.ui.menu.Menu",
       }
       else if (!this.getOpenedButton())
       {
+        // When no button is opened reset the selection
+        // Otherwise keep it
         this.resetSelectedButton();
       }
     },
