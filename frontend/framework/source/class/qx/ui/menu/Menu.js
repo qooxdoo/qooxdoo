@@ -333,8 +333,8 @@ qx.Class.define("qx.ui.menu.Menu",
 
         // Mark opened in parent menu
         var opener = this.getOpener();
-        var parentMenu = opener.getParentMenu && opener.getParentMenu();
-        if (parentMenu) {
+        var parentMenu = opener.getLayoutParent();
+        if (parentMenu && parentMenu instanceof qx.ui.menu.Menu) {
           parentMenu.setOpenedButton(opener);
         }
       }
@@ -345,8 +345,8 @@ qx.Class.define("qx.ui.menu.Menu",
 
         // Unmark opened in parent menu
         var opener = this.getOpener();
-        var parentMenu = opener.getParentMenu && opener.getParentMenu();
-        if (parentMenu && parentMenu.getOpenedButton() == opener) {
+        var parentMenu = opener.getLayoutParent();
+        if (parentMenu && parentMenu instanceof qx.ui.menu.Menu && parentMenu.getOpenedButton() == opener) {
           parentMenu.resetOpenedButton();
         }
 
