@@ -361,8 +361,6 @@ qx.Class.define("qx.ui.menu.Menu",
     // property apply
     _applySelected : function(value, old)
     {
-      //this.debug("SEL: " + value);
-
       if (old) {
         old.removeState("selected");
       }
@@ -376,8 +374,6 @@ qx.Class.define("qx.ui.menu.Menu",
     // property apply
     _applyOpened : function(value, old)
     {
-      this.debug("OPEN: " + value);
-
       if (old) {
         old.getMenu().exclude();
       }
@@ -415,6 +411,7 @@ qx.Class.define("qx.ui.menu.Menu",
       var target = e.getTarget();
       if (target instanceof qx.ui.menu.Button)
       {
+        // Select button directly
         this.setSelected(target);
 
         var subMenu = target.getMenu && target.getMenu();
@@ -424,7 +421,7 @@ qx.Class.define("qx.ui.menu.Menu",
           mgr.scheduleOpen(subMenu);
 
           // Remember scheduled menu for opening
-          this._scheduledSubMenu = subMenu;
+          this._scheduledOpen = subMenu;
         }
         else
         {
@@ -433,12 +430,16 @@ qx.Class.define("qx.ui.menu.Menu",
             mgr.scheduleClose(opened.getMenu());
           }
 
-          if (this._scheduledSubMenu)
+          if (this._scheduledOpen)
           {
-            mgr.cancelOpen(this._scheduledSubMenu);
-            this._scheduledSubMenu = null;
+            mgr.cancelOpen(this._scheduledOpen);
+            this._scheduledOpen = null;
           }
         }
+      }
+      else if (!this.getOpened())
+      {
+        this.resetSelected();
       }
     },
 
@@ -456,23 +457,25 @@ qx.Class.define("qx.ui.menu.Menu",
       var mgr = qx.ui.menu.Manager.getInstance();
 
       // Detect whether the related target is out of the menu
-      var relTarget = e.getRelatedTarget();
-      if (!this._contains(relTarget))
+      if (!this._contains(e.getRelatedTarget()))
       {
+        // Update selected property
+        // Force it to the open sub menu in cases where that is opened
+        // Otherwise reset it. Menus which are left by the cursor should
+        // not show any selection.
         var opened = this.getOpened();
+        opened ? this.setSelected(opened) : this.resetSelected();
 
-        if (opened)
-        {
-          this.setSelected(opened);
+        // Cancel a pending close request for the currently
+        // opened sub menu
+        if (opened) {
           mgr.cancelClose(opened.getMenu());
         }
-        else
-        {
-          this.resetSelected();
-        }
 
-        if (this._scheduledSubMenu) {
-          mgr.cancelOpen(this._scheduledSubMenu);
+        // When leaving this menu to the outside, stop
+        // all pending requests to open any other sub menu
+        if (this._scheduledOpen) {
+          mgr.cancelOpen(this._scheduledOpen);
         }
       }
     }
