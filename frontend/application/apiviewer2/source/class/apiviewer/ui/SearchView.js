@@ -139,29 +139,29 @@ qx.Class.define("apiviewer.ui.SearchView",
       {
         var sresult = [];
 
-          try
-          {
-              var search = this._validateInput(svalue);
-              new RegExp(search[0]);
-              this.sinput.resetBackgroundColor();
-              this.__button.setEnabled(true);
-          }
-          catch(ex)
-          {
-            // Reset the result list
-            if (this.__initresult) {
-              this.listdata.splice(0, this.listdata.length);
-              this.rlv.getHeader()._columns["result"].headerCell.setLabel("Invalid Search");
-              this.rlv.update();
-            }
-
-            this.sinput.setBackgroundColor("#ffbfbc");
-            this.__button.setEnabled(false);
-            return;
+        try
+        {
+            var search = this._validateInput(svalue);
+            new RegExp(search[0]);
+            this.sinput.resetBackgroundColor();
+            this.__button.setEnabled(true);
+        }
+        catch(ex)
+        {
+          // Reset the result list
+          if (this.__initresult) {
+            this.listdata.splice(0, this.listdata.length);
+            this.rlv.getHeader()._columns["result"].headerCell.setLabel("Invalid Search");
+            this.rlv.update();
           }
 
+          this.sinput.setBackgroundColor("#ffbfbc");
+          this.__button.setEnabled(false);
+          return;
+        }
 
-         sresult = this._searchIndex(search[0], search[1]);
+
+       sresult = this._searchIndex(search[0], search[1]);
 
 
 
@@ -366,8 +366,6 @@ qx.Class.define("apiviewer.ui.SearchView",
      */
     _load : function()
     {
-      console.warn("SKIPPED")
-      return;
       var loadStart = new Date();
 
       var url = "./script/apiindex.js";
@@ -379,7 +377,7 @@ qx.Class.define("apiviewer.ui.SearchView",
       req.addListener("completed", function(evt) {
         this.apiindex = eval("(" + evt.getContent() + ")");
         var loadEnd = new Date();
-        this.info("Time to load api indexfile from server: " + (loadEnd.getTime() - loadStart.getTime()) + "ms");
+        console.info("Time to load api indexfile from server: " + (loadEnd.getTime() - loadStart.getTime()) + "ms");
       }, this);
 
       req.addListener("failed", function(evt) {
