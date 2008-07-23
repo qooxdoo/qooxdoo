@@ -151,7 +151,7 @@ qx.Class.define("demobrowser.demo.widget.Menu",
       menu.addSeparator();
       menu.add(printButton);
 
-      button.addListener("mousedown", function(e) {
+      button.addListener("execute", function(e) {
         menu.open(button, "bottom-left");
       });
 
