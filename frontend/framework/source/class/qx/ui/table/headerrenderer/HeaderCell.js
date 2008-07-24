@@ -27,7 +27,13 @@ qx.Class.define("qx.ui.table.headerrenderer.HeaderCell",
   construct : function()
   {
     this.base(arguments);
-    this.setLayout(new qx.ui.layout.Grid());
+
+    var layout = new qx.ui.layout.Grid();
+    layout.setColumnFlex(1, 1);
+    this.setLayout(layout);
+
+    // manually set a min width. We want the label to shrink
+    this.setMinWidth(30);
   },
 
   properties :
@@ -86,7 +92,7 @@ qx.Class.define("qx.ui.table.headerrenderer.HeaderCell",
       if (value) {
         this._showChildControl("sort-icon").setSource(value);
       } else {
-        this._excludeChildControl("icon");
+        this._excludeChildControl("sort-icon");
       }
     },
 

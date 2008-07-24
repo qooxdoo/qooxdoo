@@ -1535,7 +1535,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
           backgroundColor : backgroundColor,
           sortIcon : states.sorted ?
               (states.sortedAscending ? "decoration/table/ascending.png" : "decoration/table/descending.png")
-              : null
+              : "undefined"
         }
       }
     },
