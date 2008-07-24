@@ -24,6 +24,22 @@ qx.Class.define("qx.ui.toolbar.SplitButton",
 
 
 
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  construct : function(label, icon, menu, command)
+  {
+    this.base(arguments, label, icon, menu, command);
+
+    this.removeListener("keydown", this._onKeyDown);
+    this.removeListener("keyup", this._onKeyUp);
+  },
+
+
+
 
   /*
   *****************************************************************************
@@ -38,6 +54,14 @@ qx.Class.define("qx.ui.toolbar.SplitButton",
     {
       refine : true,
       init : "toolbar-splitbutton"
+    },
+
+
+    // overridden
+    focusable :
+    {
+      refine : true,
+      init : false
     }
   },
 
