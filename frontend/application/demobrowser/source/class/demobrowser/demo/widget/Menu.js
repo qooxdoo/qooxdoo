@@ -22,6 +22,7 @@
 
 #asset(qx/icon/${qx.icontheme}/16/actions/*)
 #asset(qx/icon/${qx.icontheme}/16/apps/help-browser.png)
+#asset(qx/icon/${qx.icontheme}/22/apps/preferences-users.png)
 
 ************************************************************************ */
 
@@ -95,8 +96,6 @@ qx.Class.define("demobrowser.demo.widget.Menu",
 
     getButton1 : function()
     {
-      var button = new qx.ui.form.Button("Menu Test");
-
       // create sub menus
 
       var optionMenu = new qx.ui.menu.Menu;
@@ -160,10 +159,8 @@ qx.Class.define("demobrowser.demo.widget.Menu",
       menu.addSeparator();
       menu.add(printButton);
 
-      button.addListener("execute", function(e) {
-        menu.open(button, "bottom-left");
-      });
-
+      // Create opener button
+      var button = new qx.ui.form.MenuButton("Menu Test", "icon/22/apps/preferences-users.png", menu);
       return button;
     },
 
