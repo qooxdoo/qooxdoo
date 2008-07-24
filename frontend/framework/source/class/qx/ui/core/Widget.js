@@ -90,8 +90,9 @@ qx.Class.define("qx.ui.core.Widget",
     // TODO: Any possible optimizations here?
     this.initFocusable();
     this.initSelectable();
-    this.initKeepFocus();
     this.initCursor();
+    this.initKeepFocus();
+    this.initKeepActive();
   },
 
 
@@ -555,6 +556,20 @@ qx.Class.define("qx.ui.core.Widget",
       check : "Boolean",
       init : false,
       apply : "_applyKeepFocus"
+    },
+
+
+    /**
+     * When this property is enabled the widget force a active blocking e.g.
+     * also prevents underlying widgets from getting active.
+     *
+     * This is mainly useful for widget authors. Please use with caution!
+     */
+    keepActive :
+    {
+      check : "Boolean",
+      init : false,
+      apply : "_applyKeepActive"
     },
 
 
@@ -2426,6 +2441,14 @@ qx.Class.define("qx.ui.core.Widget",
     {
       var target = this.getFocusElement();
       target.setAttribute("qxKeepFocus", value ? "on" : null);
+    },
+
+
+    // property apply
+    _applyKeepActive : function(value)
+    {
+      var target = this.getContainerElement();
+      target.setAttribute("qxKeepActive", value ? "on" : null);
     },
 
 
