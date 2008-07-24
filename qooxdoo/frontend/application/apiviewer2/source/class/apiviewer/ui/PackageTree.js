@@ -35,19 +35,11 @@ qx.Class.define("apiviewer.ui.PackageTree",
     
     
     this.__root = new qx.ui.tree.TreeFolder("Packages");
+    this.__root.setOpen(true);
     this.setRoot(this.__root);
     this.select(this.__root);
-    
-/*
-    this.set({
-      backgroundColor : "white",
-      overflow        : "scroll",
-      width           : "100%",
-      height          : "100%",
-      paddingLeft     : 5,
-      paddingTop      : 3
-    });
-*/
+
+    // TODO: Is this workaround still needed?
     // Workaround: Since navigating in qx.legacy.ui.tree.Tree doesn't work, we've to
     //             maintain a hash that keeps the tree nodes for class names
     this._classTreeNodeHash = {};
@@ -73,12 +65,9 @@ qx.Class.define("apiviewer.ui.PackageTree",
     setTreeData : function(docTree)
     {
       this._docTree = docTree;
-      //this.removeAll();
 
       // Fill the packages tree
       this.__fillPackageNode(this.__root, docTree, 0);
-
-      /////this.open();
 
       if (this._wantedClassName)
       {
@@ -122,16 +111,10 @@ qx.Class.define("apiviewer.ui.PackageTree",
         packageName += "." + nameParts[i];
       } while (i<nameParts.length);
 
-////////      treeNode.setSelected(true);
-/*
-      if (treeNode.isMaterialized()) {
-        treeNode.scrollIntoView();
-      } else {
-        qx.event.Timer.once(function() {
-          treeNode.scrollIntoView();
-        }, this, 100);
-      }
-*/
+      this.select(treeNode);
+      this.scrollChildIntoViewX(treeNode);
+      this.scrollChildIntoViewY(treeNode);
+
       return true;
     },
 
@@ -176,9 +159,9 @@ qx.Class.define("apiviewer.ui.PackageTree",
       {
         var packageDoc = packagesDoc[i];
         var iconUrl = apiviewer.TreeUtil.getIconUrl(packageDoc);
-        var packageTreeNode = new qx.ui.tree.TreeFolder(packageDoc.getName(), iconUrl);
+        var packageTreeNode = new qx.ui.tree.TreeFolder(packageDoc.getName());
+        packageTreeNode.setIcon(iconUrl);
         packageTreeNode.setIconOpened(iconUrl);
-////        packageTreeNode.setAlwaysShowPlusMinusSymbol(true);
         packageTreeNode.setOpenSymbolMode("always");
         packageTreeNode.setUserData("nodeName", packageDoc.getFullName());
         treeNode.add(packageTreeNode);
@@ -188,7 +171,8 @@ qx.Class.define("apiviewer.ui.PackageTree",
 
         // Open the package node if it has child packages
         if (depth < qx.core.Setting.get("apiviewer.initialTreeDepth") && packageDoc.getPackages().length > 0) {
-          /////packageTreeNode.open();
+          //TODO: do we still need this?
+          //packageTreeNode.open();
         }
 
         // Register the tree node
@@ -200,7 +184,9 @@ qx.Class.define("apiviewer.ui.PackageTree",
       {
         var classDoc = classesDoc[i];
         var iconUrl = apiviewer.TreeUtil.getIconUrl(classDoc);
-        var classTreeNode = new qx.ui.tree.TreeFolder(classDoc.getName(), iconUrl);
+        var classTreeNode = new qx.ui.tree.TreeFolder(classDoc.getName());
+        classTreeNode.setIcon(iconUrl);
+        classTreeNode.setIconOpened(iconUrl);
         classTreeNode.setUserData("nodeName", classDoc.getFullName());
         classTreeNode.treeType = PackageTree.PACKAGE_TREE;
         treeNode.add(classTreeNode);
