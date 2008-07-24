@@ -777,7 +777,6 @@ qx.Class.define("qx.legacy.ui.table.pane.Scroller",
     /**
      * Common column move logic.
      *
-     * @type member
      * @param pageX {Integer} the current mouse x position.
      * @return {void}
      *
