@@ -14,7 +14,7 @@
       // use qooxdoo wide cache folder
       "cache" :
       {
-        "path" : "../../cache"
+        "compile" : "../../cache"
       },
 
       // hard include all qooxdoo classes, except legacy stuff

@@ -5,7 +5,7 @@ memcache = {}
 
 class Cache:
     def __init__(self, config, console):
-        self._path = config.get("path", "cache")
+        self._path = config.get("compile", "cache")
         self._console = console
 
 
