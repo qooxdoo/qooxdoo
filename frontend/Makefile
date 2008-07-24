@@ -5,7 +5,7 @@
 #  http://qooxdoo.org
 #
 #  Copyright:
-#    2006-2007 1&1 Internet AG, Germany, http://www.1and1.org
+#    2006-2008 1&1 Internet AG, Germany, http://www.1and1.org
 #
 #  License:
 #    LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -36,6 +36,7 @@ CMD_ZIP = $(CMD_NICE) zip
 CMD_ZIP_CREATE = $(CMD_ZIP) -rq
 CMD_ANY2UNIX = | xargs $(CMD_PYTHON) tool/pylib/misc/textutil.py --command any2Unix
 CMD_MKEXEC = $(CMD_NICE) chmod a+rx
+CMD_GENERATOR2 := $(CMD_PYTHON) $(CURDIR)/tool/bin/generator.py
 
 FILES_TEXT = \( -name "*.py" -o -name "*.sh" -o -name "*.js" -o -name "*.html" -o -name "*.css" -o -name "*.xml" -o -name Makefile -o -name AUTHORS -o -name LICENSE -o -name README -o -name RELEASENOTES -o -name TODO \)
 FILES_TEMP = \( -name "*.rej" -o -name "*.orig" -o -name "*.pyc" -o -name "*.pyo" -o -name "*.bak" -o -name "*.old" -o -name "*~" -o -name "messages.pot" \)
@@ -60,6 +61,7 @@ SDK_COPY = Makefile application/index.html
 
 source:
 	@for APPLICATION in $(APPLICATIONS); do $(MAKE) -s -C application/$$APPLICATION source || exit 1; done
+	#@for APPLICATION in $(APPLICATIONS); do ( cd application/$$APPLICATION && $(CMD_GENERATOR2) source ) || exit 1; done
 
 build:
 	@for APPLICATION in $(APPLICATIONS); do $(MAKE) -s -C application/$$APPLICATION build || exit 1; done
