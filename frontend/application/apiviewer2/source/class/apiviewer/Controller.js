@@ -160,7 +160,6 @@ qx.Class.define("apiviewer.Controller",
       this._tree.addListener("appear", function(e) {
         var item =  this._tree.getSelectedItem();
         if (item) {
-          //this._tree.scrollItemIntoView(item);
           this._tree.scrollChildIntoView(item);
         }
       }, this);
@@ -250,7 +249,6 @@ qx.Class.define("apiviewer.Controller",
      */
     __selectClass : function(classNode, callback, self)
     {
-      //this._detailLoader.setVisibility(false);
       this._detailLoader.exclude();
 
       var doc = qx.legacy.ui.core.ClientDocument.getInstance();
@@ -262,10 +260,8 @@ qx.Class.define("apiviewer.Controller",
       {
         this._classLoader.classLoadDependendClasses(classNode, function(cls)
         {
-          //this._packageViewer.setVisibility(false);
           this._packageViewer.exclude();
           this._classViewer.setDocNode(cls);
-          //this._classViewer.setVisibility(true);
           this._classViewer.show();
           doc.resetGlobalCursor();
           cb();
@@ -275,10 +271,8 @@ qx.Class.define("apiviewer.Controller",
       {
         this._classLoader.packageLoadDependendClasses(classNode, function()
         {
-          //this._classViewer.setVisibility(false);
           this._classViewer.exclude();
           this._packageViewer.setDocNode(classNode);
-          //this._packageViewer.setVisibility(true);
           this._packageViewer.show();
           doc.resetGlobalCursor();
           cb();
@@ -323,7 +317,6 @@ qx.Class.define("apiviewer.Controller",
         return;
       }
 
-      ////var nodeName = this._tree.getSelectedElement().getUserData("nodeName");
       var nodeName = this._tree.getSelectedItem().getUserData("nodeName");
       
       
@@ -338,6 +331,7 @@ qx.Class.define("apiviewer.Controller",
             return;
           }
         } else {
+          // TODO
           ////this._classViewer.setScrollTop(0);
         }
         this.__updateHistory(fullItemName);

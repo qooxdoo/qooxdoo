@@ -172,15 +172,6 @@ qx.Class.define("apiviewer.Viewer",
       var toolbar = new qx.ui.toolbar.ToolBar;
       
       toolbar.addSpacer();
-      
-      /*
-      toolbar.set({
-        horizontalChildrenAlign : "right",
-        backgroundColor : "background",
-        height : 29,
-        border : "line-bottom"
-      });
-      */
 
       var part = new qx.ui.toolbar.Part;
       toolbar.add(part);
@@ -247,11 +238,11 @@ qx.Class.define("apiviewer.Viewer",
 
       this._classViewer = new apiviewer.ui.ClassViewer;
       this._classViewer.setId("class_viewer");
-      detailFrame.add(this._classViewer);
+      detailFrame.add(this._classViewer, {edge : 0 });
 
       this._packageViewer = new apiviewer.ui.PackageViewer;
       this._packageViewer.setId("package_viewer");
-      detailFrame.add(this._packageViewer);
+      detailFrame.add(this._packageViewer, {edge : 0 });
 
       return detailFrame;
     },
