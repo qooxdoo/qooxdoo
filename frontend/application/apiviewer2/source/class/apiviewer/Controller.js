@@ -338,7 +338,7 @@ qx.Class.define("apiviewer.Controller",
             return;
           }
         } else {
-          this._classViewer.setScrollTop(0);
+          ////this._classViewer.setScrollTop(0);
         }
         this.__updateHistory(fullItemName);
 
