@@ -480,7 +480,7 @@ qx.Class.define("qx.ui.menu.Menu",
       var mgr = qx.ui.menu.Manager.getInstance();
 
       // Detect whether the related target is out of the menu
-      if (!this._contains(e.getRelatedTarget()))
+      if (!qx.ui.core.Widget.contains(this, e.getRelatedTarget()))
       {
         // Update selected property
         // Force it to the open sub menu in cases where that is opened
