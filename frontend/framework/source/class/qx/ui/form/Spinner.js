@@ -233,6 +233,7 @@ qx.Class.define("qx.ui.form.Spinner",
       {
         case "textfield":
           control = new qx.ui.form.TextField();
+          control.addState("inner");
           control.setWidth(40);
           control.setFocusable(false);
           control.addListener("changeValue", this._onTextChange, this);
@@ -242,6 +243,7 @@ qx.Class.define("qx.ui.form.Spinner",
 
         case "upbutton":
           control = new qx.ui.form.RepeatButton();
+          control.addState("inner");
           control.setFocusable(false);
           control.addListener("execute", this._countUp, this);
           this._add(control, {column: 1, row: 0});
@@ -249,6 +251,7 @@ qx.Class.define("qx.ui.form.Spinner",
 
         case "downbutton":
           control = new qx.ui.form.RepeatButton();
+          control.addState("inner");
           control.setFocusable(false);
           control.addListener("execute", this._countDown, this);
           this._add(control, {column:1, row: 1});
@@ -536,7 +539,7 @@ qx.Class.define("qx.ui.form.Spinner",
      */
     _onMouseWheel: function(e)
     {
-      this.gotoValue(this.getValue() + e.getWheelDelta() * this.getSingleStep());
+      this.gotoValue(this.getValue() + e.getWheelDelta());
       e.stopPropagation();
     },
 
