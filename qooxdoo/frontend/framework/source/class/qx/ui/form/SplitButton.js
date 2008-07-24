@@ -44,6 +44,10 @@ qx.Class.define("qx.ui.form.SplitButton",
     this.addListener("mouseover", this._onMouseOver, this, true);
     this.addListener("mouseout", this._onMouseOut, this, true);
 
+    // Add key listeners
+    this.addListener("keydown", this._onKeyDown);
+    this.addListener("keyup", this._onKeyUp);
+
     // Process incoming arguments
     if (label != null) {
       this.setLabel(label);
@@ -78,6 +82,14 @@ qx.Class.define("qx.ui.form.SplitButton",
     {
       refine : true,
       init : "splitbutton"
+    },
+
+
+    // overridden
+    focusable :
+    {
+      refine : true,
+      init : true
     },
 
 
@@ -153,11 +165,13 @@ qx.Class.define("qx.ui.form.SplitButton",
         case "button":
           control = new qx.ui.form.Button;
           control.addListener("execute", this._onButtonExecute, this);
+          control.setFocusable(false);
           this._addAt(control, 0);
           break;
 
         case "arrow":
           control = new qx.ui.form.MenuButton;
+          control.setFocusable(false);
           this._addAt(control, 1);
           break;
       }
@@ -166,8 +180,10 @@ qx.Class.define("qx.ui.form.SplitButton",
     },
 
     // overridden
-    _forwardStates : {
-      hovered : 1
+    _forwardStates :
+    {
+      hovered : 1,
+      focused : 1
     },
 
 
@@ -286,6 +302,46 @@ qx.Class.define("qx.ui.form.SplitButton",
 
       // Finally remove state
       this.removeState("hovered");
+    },
+
+
+    /**
+     * Event listener for all keyboard events
+     *
+     * @param e {qx.event.type.KeySequence} Event object
+     */
+    _onKeyDown : function(e)
+    {
+      var button = this._getChildControl("button");
+      switch(e.getKeyIdentifier())
+      {
+        case "Enter":
+        case "Space":
+          button.removeState("abandoned");
+          button.addState("pressed");
+      }
+    },
+
+
+    /**
+     * Event listener for all keyboard events
+     *
+     * @param e {qx.event.type.KeySequence} Event object
+     */
+    _onKeyUp : function(e)
+    {
+      var button = this._getChildControl("button");
+      switch(e.getKeyIdentifier())
+      {
+        case "Enter":
+        case "Space":
+          if (button.hasState("pressed"))
+          {
+            button.removeState("abandoned");
+            button.removeState("pressed");
+            button.execute();
+          }
+      }
     },
 
 
