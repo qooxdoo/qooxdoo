@@ -114,9 +114,11 @@ qx.Class.define("apiviewer.ClassLoader",
 
     packageLoadDependendClasses : function(pkg, callback, self)
     {
-      // TODO
-      var classes = pkg.getClasses();
-      this.__loadClassList(classes, callback, self);
+      if (pkg)
+      {
+        var classes = pkg.getClasses();
+        this.__loadClassList(classes, callback, self);
+      }
     }
 
   }
