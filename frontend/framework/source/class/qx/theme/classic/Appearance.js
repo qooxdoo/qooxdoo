@@ -132,16 +132,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      BUTTON
-    ---------------------------------------------------------------------------
-    */
-
     "button" :
     {
       alias : "atom",
@@ -149,9 +139,9 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         if (states.pressed || states.abandoned || states.checked) {
-          var decorator = states.focused ? "focused-inset" : "inset";
+          var decorator = !states.inner && states.focused ? "focused-inset" : "inset";
         } else {
-          var decorator = states.focused ? "focused-outset" : "outset";
+          var decorator = !states.inner && states.focused ? "focused-outset" : "outset";
         }
 
         if (states.pressed || states.abandoned || states.checked) {
@@ -168,32 +158,23 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
-
-    "inner-button" :
+    "splitbutton" : {},
+    "splitbutton/button" : "button",
+    "splitbutton/arrow" :
     {
-      alias : "atom",
+      alias : "button",
+      include : "button",
 
       style : function(states)
       {
-        if (states.pressed || states.abandoned || states.checked) {
-          var decorator = "inset";
-        } else {
-          var decorator = "outset";
-        }
-
-        if (states.pressed || states.abandoned || states.checked) {
-          var padding = [ 4, 3, 2, 5 ];
-        } else {
-          var padding = [ 3, 4 ];
-        }
-
         return {
-          backgroundColor : states.abandoned ? "button-abandoned" : states.hovered ? "button-hovered" : states.checked ? "button-checked" : "button",
-          decorator : decorator,
-          padding : padding
+          icon : "decoration/arrows/down.gif"
         };
       }
     },
+
+
+
 
 
 
@@ -402,8 +383,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     "spinner/upbutton" :
     {
-      alias : "inner-button",
-      include : "inner-button",
+      alias : "button",
+      include : "button",
 
       style : function(states)
       {
@@ -417,8 +398,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     "spinner/downbutton" :
     {
-      alias : "inner-button",
-      include : "inner-button",
+      alias : "button",
+      include : "button",
 
       style : function(states)
       {
@@ -597,7 +578,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     "toolbar-splitbutton" : {},
     "toolbar-splitbutton/button" : "toolbar-button",
-
     "toolbar-splitbutton/arrow" :
     {
       alias : "toolbar-button",
@@ -610,6 +590,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
         };
       }
     },
+
+
 
 
 
@@ -1228,8 +1210,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     "combobox/button" :
     {
-      alias : "inner-button",
-      include : "inner-button",
+      alias : "button",
+      include : "button",
 
       style : function(states)
       {
