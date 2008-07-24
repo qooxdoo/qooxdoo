@@ -43,11 +43,12 @@ class ContribLoader(object):
 
         # get external revision nr
         externalRevision = ""
-        try:
-            externalRevision = self.getRevision(contrib)
-        except IOError:
-            print >> sys.stderr, "Could not conncet to the internet. Will use cached contributions."
-            return
+        if False:  # disable version check until sf.net ViewVC is back again (24jul08)
+            try:
+                externalRevision = self.getRevision(contrib)
+            except IOError:
+                print >> sys.stderr, "Could not conncet to the internet. Will use cached contributions."
+                return
 
         # get local revision nr
         revisionFile = os.path.join(contrib_cache.replace("\ ", " "), contrib, "revision.txt")
@@ -60,7 +61,7 @@ class ContribLoader(object):
 
         dloader = Wget()
         url = "http://qooxdoo-contrib.svn.sourceforge.net/svnroot/qooxdoo-contrib/trunk/qooxdoo-contrib/%s/" % contrib  # Wget cannot currently handle 'https' scheme
-        dloader.wget(url, os.path.join(contribCache,contrib), {'recursive':True})
+        dloader.wget(url, os.path.join(contrib_cache,contrib), {'recursive':True})
 
         # store new revision nr
         open(revisionFile, "w").write(externalRevision)
