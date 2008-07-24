@@ -54,10 +54,22 @@ qx.Class.define("apiviewer.Application",
       qx.Class.include(qx.ui.core.Widget, apiviewer.MWidgetRegistry);
 
       this.viewer = new apiviewer.Viewer();
+      this.controller = new apiviewer.Controller();
 
       this.getRoot().add(this.viewer, {
         edge : 0
       });
+      
+      
+      // Load data file
+      qx.event.Timer.once(this._load, this, 0);
+    },
+  
+    _load : function()
+    {
+      // Finally load the data
+      this.controller.load("script/apidata.js");
     }
+    
   }
 });

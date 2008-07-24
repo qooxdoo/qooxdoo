@@ -145,6 +145,7 @@ qx.Class.define("apiviewer.Controller",
      */
     __bindTree : function()
     {
+      /*
       this._tree.getManager().addListener("changeSelection", function(evt) {
         var treeNode = evt.getData()[0];
         if (treeNode && treeNode.getUserData("nodeName") && !this._ignoreTreeSelection)
@@ -162,6 +163,7 @@ qx.Class.define("apiviewer.Controller",
           this._tree.getManager().scrollItemIntoView(item);
         }
       }, this);
+      */
     },
 
 
