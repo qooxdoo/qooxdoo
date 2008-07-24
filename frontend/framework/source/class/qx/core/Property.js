@@ -1095,12 +1095,6 @@ qx.Class.define("qx.core.Property",
         {
           code.push('else{');
 
-          // Like to have the old value from the init value, but not when
-          // calling the init method.
-          if (!config.inheritable && variant !== "init") {
-            code.push('old=this.', this.$$store.init[name], ';');
-          }
-
           if (variant === "set")
           {
             code.push('computed=this.', this.$$store.user[name], '=value;');

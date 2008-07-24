@@ -1931,7 +1931,7 @@ qx.Class.define("qx.ui.core.Widget",
 
       // only force a layout update if visibility change from/to "exclude"
       var parent = this._parent;
-      if (parent && (old === "excluded" || value === "excluded")) {
+      if (parent && (old == null || value == null || old === "excluded" || value === "excluded")) {
         parent.invalidateLayoutChildren();
       }
     },

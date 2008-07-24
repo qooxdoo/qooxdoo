@@ -46,7 +46,7 @@ qx.Class.define("qx.ui.core.ScrollBar",
     this._createChildControl("button-end");
 
     // Configure orientation
-    if (orientation == "vertical") {
+    if (orientation != null) {
       this.setOrientation(orientation);
     } else {
       this.initOrientation();
