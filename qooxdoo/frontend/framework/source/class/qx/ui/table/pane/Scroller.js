@@ -57,10 +57,9 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     this._verScrollBar = this._showChildControl("scrollbar-y");
     this._header = this._showChildControl("header");
     this._tablePane = this._showChildControl("pane");
-    this._focusIndicator = this._getChildControl("focus-indicator");
 
     // embed header into a scrollable container
-    this._headerClipper = new qx.ui.core.ScrollPane();
+    this._headerClipper = new qx.ui.table.pane.Clipper();
     this._headerClipper.add(this._header);
     this._headerClipper.addListener("losecapture", this._onChangeCaptureHeader, this);
     this._headerClipper.addListener("mousemove", this._onMousemoveHeader, this);
@@ -70,7 +69,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     this._add(this._headerClipper, {row: 0, column: 0});
 
     // embed pane into a scrollable container
-    this._paneClipper = new qx.ui.core.ScrollPane();
+    this._paneClipper = new qx.ui.table.pane.Clipper();
     this._paneClipper.add(this._tablePane);
     this._paneClipper.addListener("mousewheel", this._onMousewheel, this);
     this._paneClipper.addListener("mousemove", this._onMousemovePane, this);
@@ -81,6 +80,8 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     this._paneClipper.addListener("dblclick", this._onDblclickPane, this);
     this._add(this._paneClipper, {row: 1, column: 0});
 
+    // init focus indicator
+    this._focusIndicator = this._getChildControl("focus-indicator");
 
     // force creation of the resize line
     this._getChildControl("resize-line");
@@ -307,7 +308,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
           control.setUserBounds(0, 0, 0, 0);
           control.setZIndex(1000);
           control.addListener("mouseup", this._onMouseupFocusIndicator, this);
-          this._add(control);
+          this._paneClipper.add(control);
           control.exclude();
           break;
 
@@ -315,7 +316,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
           control = new qx.ui.core.Widget();
           control.setUserBounds(0, 0, 0, 0);
           control.setZIndex(1000);
-          this._add(control);
+          this._paneClipper.add(control);
           break;
 
         case "scrollbar-x":
@@ -1313,7 +1314,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       var width = resizeLine.getWidth();
       var paneBounds = this._paneClipper.getBounds();
       resizeLine.setUserBounds(
-        x - Math.round(width/2), paneBounds.top, width, paneBounds.height
+        x - Math.round(width/2), 0, width, paneBounds.height
       );
     },
 
