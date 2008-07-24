@@ -37,6 +37,7 @@ qx.Class.define("qx.ui.toolbar.Button",
   {
     this.base(arguments, label, icon, command);
 
+    // Toolbar buttons should not support the keyboard events
     this.removeListener("keydown", this._onKeyDown);
     this.removeListener("keyup", this._onKeyUp);
   },
