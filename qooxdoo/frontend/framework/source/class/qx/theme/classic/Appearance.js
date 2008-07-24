@@ -1384,7 +1384,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
     ---------------------------------------------------------------------------
     */
 
-    "table-focus-statusbar" :
+    "table/statusbar" :
     {
       style : function(states)
       {
@@ -1407,8 +1407,9 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
-    "table-menubar-button" :
+    "table/column-button" :
     {
+      alias : "button",
       style : function(states)
       {
         var border, padding;
@@ -1430,7 +1431,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
         }
 
         return {
-          cursor : "default",
           decorator : border,
           padding : padding,
           backgroundColor : states.abandoned ? "button-abandoned" : "button",

@@ -26,8 +26,6 @@
 
 /**
  * A table.
- *
- * @appearance table-focus-statusbar {qx.ui.basic.Label}
  */
 qx.Class.define("qx.ui.table.Table",
 {
@@ -153,18 +151,12 @@ qx.Class.define("qx.ui.table.Table",
 
     // Create the child widgets
     this._scrollerParent = new qx.ui.container.Composite(new qx.ui.layout.HBox(1));
-
-    this._statusBar = new qx.ui.basic.Label().set({
-      allowGrowX: true
-    });
-    this._statusBar.setAppearance("table-focus-statusbar");
+    this._statusBar = this._getChildControl("statusbar");
 
     this._add(this._scrollerParent, {flex: 1});
     this._add(this._statusBar);
 
-    this._columnVisibilityBt = new qx.ui.form.Button();
-    this._columnVisibilityBt.setAppearance("table-menubar-button");
-    this._columnVisibilityBt.addListener("execute", this._onColumnVisibilityBtExecuted, this);
+    this._columnVisibilityBt = this._getChildControl("column-button");
 
     // Allocate a default data row renderer
     this.setDataRowRenderer(new qx.ui.table.rowrenderer.Default(this));
@@ -280,6 +272,13 @@ qx.Class.define("qx.ui.table.Table",
 
   properties :
   {
+    appearance :
+    {
+      refine : true,
+      init : "table"
+    },
+
+
     /** The selection model. */
     selectionModel :
     {
@@ -571,6 +570,29 @@ qx.Class.define("qx.ui.table.Table",
 
   members :
   {
+    // overridden
+    _createChildControlImpl : function(id)
+    {
+      var control;
+
+      switch(id)
+      {
+        case "statusbar":
+          control = new qx.ui.basic.Label().set({
+            allowGrowX: true
+          });
+          break;
+
+        case "column-button":
+          control = new qx.ui.form.MenuButton();
+          break;
+      }
+
+      return control || this.base(arguments, id);
+    },
+
+
+
     // property modifier
     _applySelectionModel : function(value, old)
     {
@@ -641,6 +663,8 @@ qx.Class.define("qx.ui.table.Table",
 
       // Update the status bar
       this._updateStatusBar();
+
+      this._initColumnMenu();
     },
 
 
@@ -701,7 +725,7 @@ qx.Class.define("qx.ui.table.Table",
 
     // property modifier
     _applyColumnVisibilityButtonVisible : function(value, old) {
-      this._columnVisibilityBt.setDisplay(value);
+      this._columnVisibilityBt.setVisibility(value ? "visible" : "excluded");
     },
 
 
@@ -1601,38 +1625,21 @@ qx.Class.define("qx.ui.table.Table",
     },
 
 
-    /**
-     * Event handler. Called when the column visibiliy button was executed.
-     */
-    _onColumnVisibilityBtExecuted : function()
+    _initColumnMenu : function()
     {
-      if ((this._columnVisibilityMenuCloseTime == null) || (new Date().getTime() > this._columnVisibilityMenuCloseTime + 200)) {
-        this._toggleColumnVisibilityMenu();
-      }
-    },
-
-
-    /**
-     * Toggles the visibility of the menu used to change the visibility of columns.
-     */
-    _toggleColumnVisibilityMenu : function()
-    {
-      if (!this.getEnabled()) {
-        return;
-      }
-
-      // Show the menu
-      // Create the new menu
-      var menu = new qx.ui.menu.Menu;
-
-      menu.addListener("disappear", function(evt)
-      {
-        this._cleanupColumnVisibilityMenu();
-        this._columnVisibilityMenuCloseTime = new Date().getTime();
-      }, this);
-
       var tableModel = this.getTableModel();
       var columnModel = this.getTableColumnModel();
+
+      var menu = this._columnVisibilityBt.getMenu();
+      if (menu)
+      {
+        menu.removeAll();
+      }
+      else
+      {
+        var menu = new qx.ui.menu.Menu();
+        this._columnVisibilityBt.setMenu(menu);
+      }
 
       // Inform listeners who may want to insert menu items at the beginning
       var data =
@@ -1642,17 +1649,12 @@ qx.Class.define("qx.ui.table.Table",
       };
       this.fireDataEvent("columnVisibilityMenuCreateStart", data, true);
 
-      for (var x=0; x<columnModel.getOverallColumnCount(); x++)
+      for (var col=0, l=tableModel.getColumnCount(); col<l; col++)
       {
-        var col = columnModel.getOverallColumnAtX(x);
-        var visible = columnModel.isColumnVisible(col);
-        var bt = new qx.ui.menu.CheckBox(tableModel.getColumnName(col), null, visible);
-
-        var handler = this._createColumnVisibilityCheckBoxHandler(col);
-        bt._handler = handler;
-        bt.addListener("execute", handler, this);
-
-        menu.add(bt);
+        var menuButton = new qx.ui.menu.CheckBox(tableModel.getColumnName(col));
+        menuButton.setChecked(columnModel.isColumnVisible(col));
+        menuButton.addListener("changeChecked", this._createColumnVisibilityCheckBoxHandler(col), this);
+        menu.add(menuButton);
       }
 
       // Inform listeners who may want to insert menu items at the end
@@ -1662,51 +1664,10 @@ qx.Class.define("qx.ui.table.Table",
         menu  : menu
       };
       this.fireDataEvent("columnVisibilityMenuCreateEnd", data, true);
-
-      menu.setParent(this.getTopLevelWidget());
-
-      this._columnVisibilityMenu = menu;
-
-      // Show the menu
-      var btElem = this._columnVisibilityBt.getElement();
-      menu.setRestrictToPageOnOpen(false);
-      menu.setTop(qx.bom.element.Location.getBottom(btElem));
-      menu.setLeft(-1000);
-
-      // NOTE: We have to show the menu in a timeout, otherwise it won't be shown
-      //       at all.
-      var self = this;
-
-      window.setTimeout(function()
-      {
-        if (self.isDisposed()) {
-          return;
-        }
-
-        menu.show();
-        qx.ui.core.Widget.flushGlobalQueues();
-
-        menu.setLeft(qx.bom.element.Location.getRight(btElem) - menu.getOffsetWidth());
-      },
-      0);
     },
 
 
-    /**
-     * Cleans up the column visibility menu.
-     */
-    _cleanupColumnVisibilityMenu : function()
-    {
-      if (this._columnVisibilityMenu != null && !this._columnVisibilityMenu.isDisposed())
-      {
-        var parent = this._columnVisibilityMenu.getParent();
-        if (parent) {
-          parent.remove(this._columnVisibilityMenu);
-        }
-        this._columnVisibilityMenu.dispose();
-        this._columnVisibilityMenu = null;
-      }
-    },
+
 
 
     /**
@@ -1721,7 +1682,7 @@ qx.Class.define("qx.ui.table.Table",
       return function(evt)
       {
         var columnModel = this.getTableColumnModel();
-        columnModel.setColumnVisible(col, !columnModel.isColumnVisible(col));
+        columnModel.setColumnVisible(col, evt.getData());
       };
     },
 
