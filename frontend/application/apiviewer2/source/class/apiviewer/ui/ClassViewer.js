@@ -44,7 +44,7 @@ qx.Class.define("apiviewer.ui.ClassViewer",
     this.getContentElement().setAttribute("id", "ClassViewer");
     
     
-////    this.setVisibility(false);
+    this.exclude();
     this.setDocNode(new apiviewer.dao.Class({}));
 
     apiviewer.ui.ClassViewer.instance = this;

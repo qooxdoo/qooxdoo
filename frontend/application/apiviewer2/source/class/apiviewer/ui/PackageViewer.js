@@ -42,8 +42,7 @@ qx.Class.define("apiviewer.ui.PackageViewer",
     this.base(arguments);
 
     this.getContentElement().setAttribute("id", "ClassViewer");
-//    this.exclude();
-//    this.setVisibility(false);
+    this.exclude();
 
     this.setDocNode(new apiviewer.dao.Package({}));
 

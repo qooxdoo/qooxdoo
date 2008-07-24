@@ -345,7 +345,7 @@ qx.Class.define("apiviewer.TreeUtil",
     ICON_CLASS_SINGLETON_ERROR : "apiviewer/image/class_singleton_warning18.gif",
 
     /** {string} The icon URL of a property. */
-    ICON_PROPERTY_PUB : "apiviewer/image/property18.gif",
+    ICON_PROPERTY_PUB : "apiviewer/image/property18.png",
 
     /** {string} The icon URL of a protected property. */
     ICON_PROPERTY_PROT : "apiviewer/image/property_protected18.gif",
