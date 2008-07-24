@@ -20,8 +20,7 @@
 
 qx.Class.define("qx.ui.toolbar.MenuButton",
 {
-  extend : qx.ui.toolbar.Button,
-
+  extend : qx.ui.form.MenuButton,
 
 
 
@@ -31,14 +30,12 @@ qx.Class.define("qx.ui.toolbar.MenuButton",
   *****************************************************************************
   */
 
-  construct : function(label, icon, menu)
+  construct : function(label, icon, command)
   {
-    this.base(arguments, label, icon);
+    this.base(arguments, label, icon, command);
 
-    // Initialize properties
-    if (menu != null) {
-      this.setMenu(menu);
-    }
+    this.removeListener("keydown", this._onKeyDown);
+    this.removeListener("keyup", this._onKeyUp);
   },
 
 
@@ -52,13 +49,22 @@ qx.Class.define("qx.ui.toolbar.MenuButton",
 
   properties :
   {
-    /** The menu instance to show when clicking on the button */
-    menu :
+    appearance :
     {
-      check : "qx.ui.menu.Menu",
-      nullable : true,
-      apply : "_applyMenu",
-      event : "changeMenu"
+      refine : true,
+      init : "toolbar-button"
+    },
+
+    show :
+    {
+      refine : true,
+      init : "inherit"
+    },
+
+    focusable :
+    {
+      refine : true,
+      init : false
     }
   },
 
@@ -75,65 +81,9 @@ qx.Class.define("qx.ui.toolbar.MenuButton",
   {
     /*
     ---------------------------------------------------------------------------
-      PROPERTY APPLY ROUTINES
-    ---------------------------------------------------------------------------
-    */
-
-    // property apply
-    _applyMenu : function(value, old)
-    {
-      if (old)
-      {
-        old.removeListener("changeVisibility", this._onMenuChange, this);
-        old.resetOpener();
-      }
-
-      if (value)
-      {
-        value.addListener("changeVisibility", this._onMenuChange, this);
-        value.setOpener(this);
-      }
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
       HELPER METHODS
     ---------------------------------------------------------------------------
     */
-
-    /**
-     * Positions and shows the attached menu widget.
-     *
-     * @param selectFirst {Boolean?false} Whether the first menu button should be selected
-     */
-    open : function(selectFirst)
-    {
-      var menu = this.getMenu();
-
-      if (menu)
-      {
-        // Hide all menus first
-        qx.ui.menu.Manager.getInstance().hideAll();
-
-        // Show the attached menu
-        var pos = this.getContainerLocation();
-        menu.moveTo(pos.left, pos.bottom);
-        menu.open(this);
-
-        // Select first item
-        if (selectFirst)
-        {
-          var first = menu.getChildren()[0];
-          if (first) {
-            menu.setSelectedButton(first);
-          }
-        }
-      }
-    },
-
 
     /**
      * Inspects the parent chain to find a ToolBar instance.
@@ -197,42 +147,6 @@ qx.Class.define("qx.ui.toolbar.MenuButton",
 
 
     /**
-     * Event listener for mousedown event
-     *
-     * @param e {qx.event.type.Mouse} mousedown event object
-     */
-    _onMouseDown : function(e)
-    {
-      var menu = this.getMenu();
-      if (menu)
-      {
-        // Toggle sub menu visibility
-        if (!menu.isVisible()) {
-          this.open();
-        } else {
-          menu.exclude();
-        }
-
-        // Event is processed, stop it for others
-        e.stopPropagation();
-      }
-    },
-
-
-    /**
-     * Event listener for mouseup event
-     *
-     * @param e {qx.event.type.Mouse} mouseup event object
-     */
-    _onMouseUp : function(e)
-    {
-      // Just stop propagation to stop menu manager
-      // from getting the event
-      e.stopPropagation();
-    },
-
-
-    /**
      * Event listener for mouseover event
      *
      * @param e {qx.event.type.Mouse} mouseover event object
@@ -257,18 +171,6 @@ qx.Class.define("qx.ui.toolbar.MenuButton",
           this.open();
         }
       }
-    },
-
-
-    /**
-     * Event listener for mouseout event
-     *
-     * @param e {qx.event.type.Mouse} mouseout event object
-     */
-    _onMouseOut : function(e)
-    {
-      // Just remove the hover state
-      this.removeState("hovered");
     }
   }
 });
