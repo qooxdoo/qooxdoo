@@ -1360,8 +1360,8 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       }
 
       // Ensure targetX is visible
-      var scrollerLeft = this.getContentLocation().left;
-      var scrollerWidth = this.getBounds().left;
+      var scrollerLeft = this._paneClipper.getContainerLocation().left;
+      var scrollerWidth = this._paneClipper.getBounds().width;
       var scrollX = scrollerLeft - paneLeft;
 
       // NOTE: +2/-1 because of feedback width
