@@ -53,8 +53,8 @@ qx.Class.define("qx.ui.menu.Manager",
     root.addListener("mouseup", this._onMouseUp, this);
 
     // React on keypress events
-    root.addListener("keydown", this._onKeyDown, this, true);
-    root.addListener("keyup", this._onKeyUp, this, true);
+    root.addListener("keydown", this._onKeyUpDown, this, true);
+    root.addListener("keyup", this._onKeyUpDown, this, true);
     root.addListener("keypress", this._onKeyPress, this, true);
 
     // Hide all when the window is blurred
@@ -425,31 +425,42 @@ qx.Class.define("qx.ui.menu.Manager",
     ---------------------------------------------------------------------------
     */
 
-    /**
-     * Event handler for all keydown events. Stops all events
-     * when any menu is opened.
-     *
-     * @param e {qx.event.type.KeySequence} Keyboard event
-     * @return {void}
-     */
-    _onKeyDown : function(e)
+    /** {Map} Map of all keys working on an active menu selection */
+    __selectionKeys :
     {
-      if (this.getActiveMenu()) {
-        e.stop();
-      }
+      "Enter" : 1,
+      "Space" : 1
+    },
+
+
+    /** {Map} Map of all keys working without a selection */
+    __navigationKeys :
+    {
+      "Escape" : 1,
+      "Up" : 1,
+      "Down" : 1,
+      "Left" : 1,
+      "Right" : 1
     },
 
 
     /**
-     * Event handler for all keyup events. Stops all events
+     * Event handler for all keyup/keydown events. Stops all events
      * when any menu is opened.
      *
      * @param e {qx.event.type.KeySequence} Keyboard event
      * @return {void}
      */
-    _onKeyUp : function(e)
+    _onKeyUpDown : function(e)
     {
-      if (this.getActiveMenu()) {
+      var menu = this.getActiveMenu();
+      if (!menu) {
+        return;
+      }
+
+      // Stop for all supported key combos
+      var iden = e.getKeyIdentifier();
+      if (this.__navigationKeys[iden] || (this.__selectionKeys[iden] && menu.getSelectedButton())) {
         e.stop();
       }
     },
@@ -472,38 +483,57 @@ qx.Class.define("qx.ui.menu.Manager",
         return;
       }
 
-      switch(e.getKeyIdentifier())
+      var iden = e.getKeyIdentifier();
+      var navigation = this.__navigationKeys[iden];
+      var selection = this.__selectionKeys[iden];
+
+      if (navigation)
       {
-        case "Up":
-          this._onKeyPressUp(menu);
-          break;
+        switch(iden)
+        {
+          case "Up":
+            this._onKeyPressUp(menu);
+            break;
 
-        case "Down":
-          this._onKeyPressDown(menu);
-          break;
+          case "Down":
+            this._onKeyPressDown(menu);
+            break;
 
-        case "Left":
-          this._onKeyPressLeft(menu);
-          break;
+          case "Left":
+            this._onKeyPressLeft(menu);
+            break;
 
-        case "Right":
-          this._onKeyPressRight(menu);
-          break;
+          case "Right":
+            this._onKeyPressRight(menu);
+            break;
 
-        case "Enter":
-          this._onKeyPressEnter(menu, e);
-          break;
+          case "Escape":
+            this.hideAll();
+            break;
+        }
 
-        case "Escape":
-          this.hideAll();
-          break;
-
-        default:
-          return;
+        e.stop();
       }
+      else if (selection)
+      {
+        // Do not process these events when no item is hovered
+        var button = menu.getSelectedButton();
+        if (button)
+        {
+          switch(iden)
+          {
+            case "Enter":
+              this._onKeyPressEnter(menu, button, e);
+              break;
 
-      // Stop all processed events
-      e.stop();
+            case "Space":
+              this._onKeyPressSpace(menu, button, e);
+              break;
+          }
+
+          e.stop();
+        }
+      }
     },
 
 
@@ -697,26 +727,50 @@ qx.Class.define("qx.ui.menu.Manager",
      * Event handler for <code>Enter</code> key
      *
      * @param menu {qx.ui.menu.Menu} The active menu
+     * @param button {qx.ui.menu.AbstractButton} The selected button
      * @param e {qx.event.type.KeySequence} The keypress event
      * @return {void}
      */
-    _onKeyPressEnter : function(menu, e)
+    _onKeyPressEnter : function(menu, button, e)
     {
       // Route keypress event to the selected button
-      var selectedButton = menu.getSelectedButton();
-      if (selectedButton && selectedButton.hasListener("keypress"))
+      if (button.hasListener("keypress"))
       {
         // Clone and reconfigure event
         var clone = e.clone();
         clone.setBubbles(false);
-        clone.setTarget(selectedButton);
+        clone.setTarget(button);
 
         // Finally dispatch the clone
-        selectedButton.dispatchEvent(clone);
+        button.dispatchEvent(clone);
       }
 
       // Hide all open menus
       this.hideAll();
+    },
+
+
+    /**
+     * Event handler for <code>Space</code> key
+     *
+     * @param menu {qx.ui.menu.Menu} The active menu
+     * @param button {qx.ui.menu.AbstractButton} The selected button
+     * @param e {qx.event.type.KeySequence} The keypress event
+     * @return {void}
+     */
+    _onKeyPressSpace : function(menu, button, e)
+    {
+      // Route keypress event to the selected button
+      if (button.hasListener("keypress"))
+      {
+        // Clone and reconfigure event
+        var clone = e.clone();
+        clone.setBubbles(false);
+        clone.setTarget(button);
+
+        // Finally dispatch the clone
+        button.dispatchEvent(clone);
+      }
     }
   }
 });
