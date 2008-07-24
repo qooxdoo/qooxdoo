@@ -45,7 +45,7 @@
 
       "cache" :
       {
-        "path" :  "${CACHE}"
+        "compile" :  "${CACHE}"
       }
     },
 
@@ -73,7 +73,7 @@
 
       "cache" :
       {
-        "path" :  "${CACHE}"
+        "compile" :  "${CACHE}"
       },
 
       "localize" :

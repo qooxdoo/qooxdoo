@@ -53,7 +53,7 @@
 
       "cache" :
       {
-        "path" : "../../cache"
+        "compile" : "../../cache"
       }
     },
 
@@ -87,7 +87,7 @@
 
       "cache" :
       {
-        "path" : "../../cache"
+        "compile" : "../../cache"
       }
     },
 

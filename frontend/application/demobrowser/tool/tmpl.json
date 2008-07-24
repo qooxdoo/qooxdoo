@@ -33,7 +33,7 @@
 
       "cache" :
       {
-        "path" : "../../cache"
+        "compile" : "../../cache"
       },
 
       "localize" :

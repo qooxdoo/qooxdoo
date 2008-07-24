@@ -17,7 +17,7 @@
   {
     "pretty" :
     {
-      "cache" : { "path" : "${CACHE}" }, 
+      "cache" : { "compile" : "${CACHE}" }, 
 
       "include" : [ "=${APPLICATION}.*" ],
 
