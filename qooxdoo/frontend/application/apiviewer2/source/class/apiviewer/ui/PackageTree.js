@@ -34,8 +34,9 @@ qx.Class.define("apiviewer.ui.PackageTree",
     this.base(arguments, "API Documentation");
     
     
-    this.__root = new qx.ui.tree.TreeFolder("test");
+    this.__root = new qx.ui.tree.TreeFolder("Packages");
     this.setRoot(this.__root);
+    this.select(this.__root);
     
 /*
     this.set({
@@ -121,8 +122,8 @@ qx.Class.define("apiviewer.ui.PackageTree",
         packageName += "." + nameParts[i];
       } while (i<nameParts.length);
 
-      treeNode.setSelected(true);
-
+////////      treeNode.setSelected(true);
+/*
       if (treeNode.isMaterialized()) {
         treeNode.scrollIntoView();
       } else {
@@ -130,7 +131,7 @@ qx.Class.define("apiviewer.ui.PackageTree",
           treeNode.scrollIntoView();
         }, this, 100);
       }
-
+*/
       return true;
     },
 
@@ -145,13 +146,12 @@ qx.Class.define("apiviewer.ui.PackageTree",
      * @return {Function} the opener callback function
      */
     __getPackageNodeOpener : function (packageTreeNode, packageDoc, depth) {
-      console.warn(arguments)
       var self = this;
       return function() {
         if (!packageTreeNode.loaded)
         {
           self.__fillPackageNode(packageTreeNode, packageDoc, depth + 1);
-          packageTreeNode.setAlwaysShowPlusMinusSymbol(false);
+          packageTreeNode.setOpenSymbolMode("always");
         }
       }
     },
@@ -167,7 +167,7 @@ qx.Class.define("apiviewer.ui.PackageTree",
      */
     __fillPackageNode : function(treeNode, docNode, depth)
     {
-console.info(arguments)
+
       treeNode.loaded = true;
       var PackageTree = apiviewer.ui.PackageTree;
 
@@ -177,7 +177,9 @@ console.info(arguments)
         var packageDoc = packagesDoc[i];
         var iconUrl = apiviewer.TreeUtil.getIconUrl(packageDoc);
         var packageTreeNode = new qx.ui.tree.TreeFolder(packageDoc.getName(), iconUrl);
+        packageTreeNode.setIconOpened(iconUrl);
 ////        packageTreeNode.setAlwaysShowPlusMinusSymbol(true);
+        packageTreeNode.setOpenSymbolMode("always");
         packageTreeNode.setUserData("nodeName", packageDoc.getFullName());
         treeNode.add(packageTreeNode);
 

@@ -188,7 +188,7 @@ qx.Class.define("apiviewer.Viewer",
       part.add(createButton(
         "Expand",
         qx.ui.toolbar.CheckBox,
-        "apiviewer/image/property18.gif",
+        "apiviewer/image/property18.png",
         "Expand properties",
         false,
         "btn_expand"
