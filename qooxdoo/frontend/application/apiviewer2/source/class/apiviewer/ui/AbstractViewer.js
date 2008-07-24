@@ -36,6 +36,8 @@ qx.Class.define("apiviewer.ui.AbstractViewer",
     this._infoPanelHash = {};
     this._infoPanels = [];
     apiviewer.ObjectRegistry.register(this);
+    
+    
   },
 
 
@@ -92,6 +94,39 @@ qx.Class.define("apiviewer.ui.AbstractViewer",
   members :
   {
 
+    __initHtml : function()
+    {
+      var html = new qx.util.StringBuilder();
+
+      // Add title
+      html.add('<h1></h1>');
+
+      // Add description
+      html.add('<div>', '</div>');
+
+      // render panels
+      var panels = this.getPanels();
+      console.info(panels.length)
+      
+      for (var i=0; i<panels.length; i++)
+      {
+        var panel = panels[i];
+        html.add(panel.getPanelHtml(this));
+      }
+      
+      console.info(html.get())
+
+      this.setHtml(html.get());
+      
+/*
+      for (var i=0; i<panels.length; i++)
+      {
+        var panel = panels[i];
+        html.add(panel.setElement(divArr[i+2]));
+      }
+*/
+   },
+    
     /**
      * Returns the HTML fragment for the title
      *
@@ -120,6 +155,14 @@ qx.Class.define("apiviewer.ui.AbstractViewer",
      */
     _syncHtml : function()
     {
+      var divArr = this.getContentElement().getDomElement();
+
+      this._titleElem = divArr[0];
+      this._classDescElem = divArr[1];
+    },
+/*
+    _syncHtml : function()
+    {
       var html = new qx.util.StringBuilder();
 
       // Add title
@@ -137,11 +180,15 @@ qx.Class.define("apiviewer.ui.AbstractViewer",
       }
 
       // Set the html
-      this.getElement().innerHTML = html.get();
-      apiviewer.ui.AbstractViewer.fixLinks(this.getElement());
+      //this.getElement().innerHTML = html.get();
+      this.setHtml(html.get());
+      ////////apiviewer.ui.AbstractViewer.fixLinks(this.getElement());
 
       // Extract the main elements
-      var divArr = this.getElement().childNodes;
+      //var divArr = this.getElement().childNodes;
+      var divArr = this.getContentElement().getDomElement();
+      debugger;
+
       this._titleElem = divArr[0];
       this._classDescElem = divArr[1];
 
@@ -151,8 +198,7 @@ qx.Class.define("apiviewer.ui.AbstractViewer",
         html.add(panel.setElement(divArr[i+2]));
       }
     },
-
-
+*/
     addInfoPanel : function(panel)
     {
       this._infoPanelHash[panel.toHashCode()] = panel;
@@ -195,6 +241,7 @@ qx.Class.define("apiviewer.ui.AbstractViewer",
      */
     _applyDocNode : function(classNode)
     {
+
       if (!this._titleElem)
       {
         // _initContentDocument was not called yet

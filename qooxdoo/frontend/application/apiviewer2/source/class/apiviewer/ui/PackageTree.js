@@ -112,8 +112,7 @@ qx.Class.define("apiviewer.ui.PackageTree",
       } while (i<nameParts.length);
 
       this.select(treeNode);
-      this.scrollChildIntoViewX(treeNode);
-      this.scrollChildIntoViewY(treeNode);
+      this.scrollChildIntoView(treeNode);
 
       return true;
     },
