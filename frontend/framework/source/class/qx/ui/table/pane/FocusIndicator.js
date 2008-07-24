@@ -71,7 +71,6 @@ qx.Class.define("qx.ui.table.pane.FocusIndicator",
       else
       {
         var xPos = this._scroller.getTablePaneModel().getX(col);
-        var offsetTop = this._scroller.getPaneClipper().getBounds().top;
 
         if (xPos == -1)
         {
@@ -90,7 +89,7 @@ qx.Class.define("qx.ui.table.pane.FocusIndicator",
 
           this.setUserBounds(
               paneModel.getColumnLeft(col) - 2,
-              offsetTop + (row - firstRow) * rowHeight - 2,
+              (row - firstRow) * rowHeight - 2,
               columnModel.getColumnWidth(col) + 3,
               rowHeight + 3
           );

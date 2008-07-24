@@ -101,14 +101,14 @@ qx.Class.define("qx.ui.layout.Grow",
         child = children[i];
         size = child.getSizeHint();
 
-        var width = availWidth;
+        width = availWidth;
         if (width < size.minWidth) {
           width = size.minWidth;
         } else if (width > size.maxWidth) {
           width = size.maxWidth;
         }
 
-        var height = availHeight;
+        height = availHeight;
         if (height < size.minHeight) {
           height = size.minHeight;
         } else if (height > size.maxHeight) {
