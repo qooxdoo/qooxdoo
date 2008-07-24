@@ -42,8 +42,9 @@ qx.Class.define("demobrowser.demo.widget.Menu",
 
       this.createCommands();
 
-      container.add(this.getButton1(), {left: 20, top: 20});
-      container.add(this.getBar1(), {left: 20, top: 100});
+      container.add(this.getMenuButton(), {left: 20, top: 20});
+      container.add(this.getSplitButton(), {left: 150, top: 20});
+      container.add(this.getMenuBar(), {left: 20, top: 100});
     },
 
 
@@ -94,7 +95,7 @@ qx.Class.define("demobrowser.demo.widget.Menu",
     },
 
 
-    getButton1 : function()
+    getMenuButton : function()
     {
       // create sub menus
 
@@ -160,12 +161,36 @@ qx.Class.define("demobrowser.demo.widget.Menu",
       menu.add(printButton);
 
       // Create opener button
-      var button = new qx.ui.form.MenuButton("Menu Test", "icon/22/apps/preferences-users.png", menu);
+      var button = new qx.ui.form.MenuButton("Menu Button", "icon/22/apps/preferences-users.png", menu);
       return button;
     },
 
 
-    getBar1 : function()
+
+    getSplitButton : function()
+    {
+      var menu = new qx.ui.menu.Menu;
+
+      var site1 = new qx.ui.menu.Button("Website 1");
+      var site2 = new qx.ui.menu.Button("Website 2");
+      var site3 = new qx.ui.menu.Button("Website 3");
+
+      site1.addListener("execute", this.debugButton);
+      site2.addListener("execute", this.debugButton);
+      site3.addListener("execute", this.debugButton);
+
+      menu.add(site1);
+      menu.add(site2);
+      menu.add(site3);
+
+      // Create opener button
+      var button = new qx.ui.form.SplitButton("Split Button", "icon/22/apps/preferences-users.png", menu);
+      button.addListener("execute", this.debugButton);
+      return button;
+    },
+
+
+    getMenuBar : function()
     {
       var toolbar = new qx.ui.toolbar.ToolBar;
       toolbar.setWidth(600);
@@ -181,8 +206,8 @@ qx.Class.define("demobrowser.demo.widget.Menu",
       toolbar.add(searchPart);
       toolbar.add(helpPart);
 
-      var backButton = new qx.ui.toolbar.SplitButton("Back", "icon/16/actions/go-previous.png", null, this.getBackMenu());
-      var forwardButton = new qx.ui.toolbar.SplitButton("Next", "icon/16/actions/go-next.png", null, this.getForwardMenu());
+      var backButton = new qx.ui.toolbar.SplitButton("Back", "icon/16/actions/go-previous.png", this.getBackMenu());
+      var forwardButton = new qx.ui.toolbar.SplitButton("Next", "icon/16/actions/go-next.png", this.getForwardMenu());
 
       var newButton = new qx.ui.toolbar.Button("New", "icon/16/actions/document-new.png", this._newCommand);
       var openButton = new qx.ui.toolbar.Button("Open", "icon/16/actions/document-open.png", this._openCommand);
