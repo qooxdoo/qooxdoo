@@ -270,6 +270,22 @@ qx.Class.define("qx.event.handler.Focus",
     },
 
 
+    /**
+     * Tries to activate the given element. This checks wether
+     * the activation is allowed first.
+     *
+     * @param element {Element} DOM element to activate
+     * @return {void}
+     */
+    tryActivate : function(element)
+    {
+      var active = this.__findActivatableElement(element);
+      if (active) {
+        this.setActive(active);
+      }
+    },
+
+
 
 
 
@@ -576,13 +592,13 @@ qx.Class.define("qx.event.handler.Focus",
 
         // IE focusin is also fired on elements which are not focusable at all
         // We need to look up for the next focusable element.
-        var focusTarget = this.__findFocusElement(target);
+        var focusTarget = this.__findFocusableElement(target);
         if (focusTarget) {
           this.setFocus(focusTarget);
         }
 
         // Make target active
-        this.setActive(target);
+        this.doActive(activeTarget);
       },
 
       "opera" : function(e)
@@ -607,7 +623,7 @@ qx.Class.define("qx.event.handler.Focus",
         else
         {
           this.setFocus(target);
-          this.setActive(target);
+          this.tryActivate(target);
 
           // Clear selection
           if (!this.__isSelectable(target))
@@ -757,7 +773,7 @@ qx.Class.define("qx.event.handler.Focus",
         }
 
         this.setFocus(target);
-        this.setActive(target);
+        this.tryActivate(target);
       },
 
       "webkit" : function(e)
@@ -782,7 +798,7 @@ qx.Class.define("qx.event.handler.Focus",
         else
         {
           this.setFocus(target);
-          this.setActive(target);
+          this.tryActivate(target);
         }
       },
 
@@ -802,7 +818,7 @@ qx.Class.define("qx.event.handler.Focus",
       "gecko" : function(e)
       {
         var target = e.target;
-        var focusTarget = this.__findFocusElement(target);
+        var focusTarget = this.__findFocusableElement(target);
         if (!focusTarget) {
           qx.bom.Event.preventDefault(e);
         }
@@ -813,7 +829,7 @@ qx.Class.define("qx.event.handler.Focus",
         var target = e.srcElement;
 
         // Stop events when no focus element available (or blocked)
-        var focusTarget = this.__findFocusElement(target);
+        var focusTarget = this.__findFocusableElement(target);
         if (focusTarget)
         {
           // Add unselectable to keep selection
@@ -847,7 +863,7 @@ qx.Class.define("qx.event.handler.Focus",
       "webkit" : function(e)
       {
         var target = e.target;
-        var focusTarget = this.__findFocusElement(target);
+        var focusTarget = this.__findFocusableElement(target);
 
         if (focusTarget) {
           this.setFocus(focusTarget);
@@ -859,7 +875,7 @@ qx.Class.define("qx.event.handler.Focus",
       "opera" : function(e)
       {
         var target = e.target;
-        var focusTarget = this.__findFocusElement(target);
+        var focusTarget = this.__findFocusableElement(target);
 
         if(!this.__isSelectable(target))
         {
@@ -911,7 +927,7 @@ qx.Class.define("qx.event.handler.Focus",
           target.unselectable = "off";
         }
 
-        this.setActive(target);
+        this.tryActivate(target);
       },
 
       "gecko" : function(e)
@@ -924,11 +940,11 @@ qx.Class.define("qx.event.handler.Focus",
           target = target.parentNode;
         }
 
-        this.setActive(target);
+        this.tryActivate(target);
       },
 
       "webkit|opera" : function(e) {
-        this.setActive(e.target);
+        this.tryActivate(e.target);
       },
 
       "default" : null
@@ -995,13 +1011,11 @@ qx.Class.define("qx.event.handler.Focus",
      * @param el {Element} Element to start lookup with
      * @return {void}
      */
-    __findFocusElement : function(el)
+    __findFocusableElement : function(el)
     {
-      var Attribute = qx.bom.element.Attribute;
-
       while (el && el.nodeType === 1)
       {
-        if (Attribute.get(el, "qxKeepFocus") == "on") {
+        if (el.getAttribute("qxKeepFocus") == "on") {
           return null;
         }
 
@@ -1016,6 +1030,34 @@ qx.Class.define("qx.event.handler.Focus",
       // clicking into an empty page area. In mshtml this must be
       // the body of the document.
       return this._body;
+    },
+
+
+    /**
+     * Returns the next activatable element. May be the element itself.
+     * Works a bit different than the method {@link #__findFocusableElement}
+     * as it looks up for a parent which is has a keep focus flag. When
+     * there is such a parent it returns null otherwise the original
+     * incoming element.
+     *
+     * @type member
+     * @param el {Element} Element to start lookup with
+     * @return {void}
+     */
+    __findActivatableElement : function(el)
+    {
+      var orig = el;
+
+      while (el && el.nodeType === 1)
+      {
+        if (el.getAttribute("qxKeepActive") == "on") {
+          return null;
+        }
+
+        el = el.parentNode;
+      }
+
+      return orig;
     },
 
 
