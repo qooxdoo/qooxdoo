@@ -34,6 +34,7 @@ qx.Class.define("qx.ui.toolbar.SplitButton",
   {
     this.base(arguments, label, icon, menu, command);
 
+    // Toolbar buttons should not support the keyboard events
     this.removeListener("keydown", this._onKeyDown);
     this.removeListener("keyup", this._onKeyUp);
   },

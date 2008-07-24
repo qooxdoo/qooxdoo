@@ -22,6 +22,7 @@ qx.Class.define("qx.ui.form.SplitButton",
 {
   extend : qx.ui.core.Widget,
   include : qx.ui.core.MExecutable,
+  implement : qx.ui.form.IFormElement,
 
 
 
@@ -84,6 +85,21 @@ qx.Class.define("qx.ui.form.SplitButton",
       init : "splitbutton"
     },
 
+    /** The name of the widget. Mainly used for serialization proposes. */
+    name :
+    {
+      check : "String",
+      nullable : true,
+      event : "changeName"
+    },
+
+    /** The value of the widget. Mainly used for serialization proposes. */
+    value :
+    {
+      check : "String",
+      nullable : true,
+      event : "changeValue"
+    },
 
     // overridden
     focusable :
@@ -172,6 +188,7 @@ qx.Class.define("qx.ui.form.SplitButton",
         case "arrow":
           control = new qx.ui.form.MenuButton;
           control.setFocusable(false);
+          control.setMenuAlign("bottom-right");
           this._addAt(control, 1);
           break;
       }
