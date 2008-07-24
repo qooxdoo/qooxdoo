@@ -20,7 +20,8 @@
 
 qx.Class.define("qx.ui.toolbar.SplitButton",
 {
-  extend : qx.ui.toolbar.Button,
+  extend : qx.ui.core.Widget,
+  include : qx.ui.core.MExecutable,
 
 
 
@@ -32,12 +33,30 @@ qx.Class.define("qx.ui.toolbar.SplitButton",
 
   construct : function(label, icon, command, menu)
   {
-    this.base(arguments, label, icon, command);
+    this.base(arguments);
+
+    this._setLayout(new qx.ui.layout.HBox);
 
     // Force arrow creation
     this._createChildControl("arrow");
 
+    // Add mouse listeners
+    this.addListener("mouseover", this._onMouseOver, this, true);
+    this.addListener("mouseout", this._onMouseOut, this, true);
+
     // Process incoming arguments
+    if (label != null) {
+      this.setLabel(label);
+    }
+
+    if (icon != null) {
+      this.setIcon(icon);
+    }
+
+    if (command != null) {
+      this.setCommand(null);
+    }
+
     if (menu != null) {
       this.setMenu(menu);
     }
@@ -61,6 +80,43 @@ qx.Class.define("qx.ui.toolbar.SplitButton",
       init : "toolbar-splitbutton"
     },
 
+
+    /** The label/caption/text of the qx.ui.basic.Atom instance */
+    label :
+    {
+      apply : "_applyLabel",
+      nullable : true,
+      dispose : true,
+      check : "String"
+    },
+
+
+    /** Any URI String supported by qx.ui.basic.Image to display a icon */
+    icon :
+    {
+      check : "String",
+      apply : "_applyIcon",
+      nullable : true,
+      themeable : true
+    },
+
+
+    /**
+     * Configure the visibility of the sub elements/widgets.
+     * Possible values: both, text, icon
+     */
+    show :
+    {
+      init : "both",
+      check : [ "both", "label", "icon" ],
+      themeable : true,
+      nullable : true,
+      inheritable : true,
+      apply : "_applyShow",
+      event : "changeShow"
+    },
+
+
     /** The menu instance to show when clicking on the button */
     menu :
     {
@@ -76,6 +132,12 @@ qx.Class.define("qx.ui.toolbar.SplitButton",
 
   members :
   {
+    /*
+    ---------------------------------------------------------------------------
+      WIDGET API
+    ---------------------------------------------------------------------------
+    */
+
     // overridden
     _createChildControlImpl : function(id)
     {
@@ -83,60 +145,167 @@ qx.Class.define("qx.ui.toolbar.SplitButton",
 
       switch(id)
       {
+        case "button":
+          control = new qx.ui.toolbar.Button;
+          control.addListener("execute", this._onButtonExecute, this);
+          this._addAt(control, 0);
+          break;
+
         case "arrow":
-          control = new qx.ui.basic.Image;
-          control.addListener("mousedown", this._onArrowMouseDown, this);
-          control.addListener("mouseup", this._onArrowMouseUp, this);
-          this._addAt(control, 10);
+          control = new qx.ui.toolbar.MenuButton;
+          this._addAt(control, 1);
           break;
       }
 
       return control || this.base(arguments, id);
     },
 
-
-    _applyMenu : function(value, old) {
-      this._getChildControl("arrow").setEnabled(!!value);
+    // overridden
+    _forwardStates : {
+      hovered : 1
     },
 
 
+
+
+    /*
+    ---------------------------------------------------------------------------
+      PROPERTY APPLY ROUTINES
+    ---------------------------------------------------------------------------
+    */
+
+    // property apply
+    _applyLabel : function(value, old)
+    {
+      var button = this._getChildControl("button");
+      value == null ? button.resetLabel() : button.setLabel(value);
+    },
+
+    // property apply
+    _applyIcon : function(value, old)
+    {
+      var button = this._getChildControl("button");
+      value == null ? button.resetIcon() : button.setIcon(value);
+    },
+
+    // property apply
+    _applyMenu : function(value, old)
+    {
+      var arrow = this._getChildControl("arrow");
+
+      arrow.setEnabled(!!value);
+
+      if (value)
+      {
+        arrow.setEnabled(true);
+        arrow.setMenu(value);
+
+        value.addListener("changeVisibility", this._onChangeMenuVisibility, this);
+      }
+      else
+      {
+        arrow.setEnabled(false);
+        arrow.resetMenu();
+      }
+
+      if (old) {
+        old.removeListener("changeVisibility", this._onChangeMenuVisibility, this);
+      }
+    },
+
+    // property apply
+    _applyShow : function(value, old) {
+      // pass: is already inherited to the button
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      EVENT LISTENERS
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Listener for <code>mouseover</code> event
+     *
+     * @param e {qx.event.type.Mouse} mouseover event
+     */
     _onMouseOver : function(e)
     {
-      var arrow = this._getChildControl("arrow");
-      if (e.getTarget() == arrow) {
-        this.debug("PATCH-1");
-        e.setTarget(this);
-      }
+      // Captured listener
+      // Whole stop for event, do not let the
+      // inner buttons know about this event.
+      e.stopPropagation();
 
-      this.base(arguments, e);
+      // Add hover state, is forwarded to the buttons
+      this.addState("hovered");
 
-
+      // Delete cursor out flag
+      delete this._cursorIsOut;
     },
 
+
+    /**
+     * Listener for <code>mouseout</code> event
+     *
+     * @param e {qx.event.type.Mouse} mouseout event
+     */
     _onMouseOut : function(e)
     {
-      var arrow = this._getChildControl("arrow");
-      if (e.getTarget() == arrow) {
-        this.debug("PATCH-2");
-        e.setTarget(this);
+      // Captured listener
+      // Whole stop for event, do not let the
+      // inner buttons know about this event.
+      e.stopPropagation();
+
+      // First simple state check
+      if (!this.hasState("hovered")) {
+        return;
       }
 
-      this.base(arguments, e);
+      // Only when the related target is not part of the button
+      var related = e.getRelatedTarget();
+      if (qx.ui.core.Widget.contains(this, related)) {
+        return;
+      }
 
+      // When the menu is visible (cursor moved to the menu)
+      // keep the hover state on the whole button
+      var menu = this.getMenu();
+      if (menu && menu.isVisible())
+      {
+        this._cursorIsOut = true;
+        return;
+      }
+
+      // Finally remove state
+      this.removeState("hovered");
     },
 
-    _onArrowMouseDown : function(e)
-    {
-      this.debug("Down...");
 
-      e.stopPropagation();
+    /**
+     * Event listener for button's execute event.
+     *
+     * @param e {qx.event.type.Event} execute event of the button
+     */
+    _onButtonExecute : function(e)
+    {
+      // forward execute event
+      this.execute();
     },
 
-    _onArrowMouseUp : function(e)
-    {
-      this.debug("Up...");
 
-      e.stopPropagation();
+    /**
+     * Event listener for visibility changes of the menu
+     *
+     * @param e {qx.event.type.Data} property change event
+     */
+    _onChangeMenuVisibility : function(e)
+    {
+      if (!this.getMenu().isVisible() && this._cursorIsOut) {
+        this.removeState("hovered");
+      }
     }
   }
 });
