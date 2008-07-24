@@ -245,13 +245,11 @@ qx.Class.define("apiviewer.Viewer",
         edge : 0
       });
 
-      ////this._classViewer = new apiviewer.ui.ClassViewer;
-      this._classViewer = new qx.ui.core.Widget;
+      this._classViewer = new apiviewer.ui.ClassViewer;
       this._classViewer.setId("class_viewer");
       detailFrame.add(this._classViewer);
 
       this._packageViewer = new apiviewer.ui.PackageViewer;
-      ////this._packageViewer = new qx.ui.core.Widget;
       this._packageViewer.setId("package_viewer");
       detailFrame.add(this._packageViewer);
 
