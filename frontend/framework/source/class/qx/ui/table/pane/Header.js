@@ -122,11 +122,10 @@ qx.Class.define("qx.ui.table.pane.Header",
      */
     setColumnWidth : function(col, width)
     {
-      var x = this.getPaneScroller().getTablePaneModel().getX(col);
-      var children = this._getChildren();
+      var child = this.getHeaderWidgetAtColumn(col);
 
-      if (children[x] != null) {
-        children[x].setWidth(width);
+      if (child != null) {
+        child.setWidth(width);
       }
     },
 
@@ -142,12 +141,9 @@ qx.Class.define("qx.ui.table.pane.Header",
     {
       if (col != this._lastMouseOverColumn)
       {
-        var paneModel = this.getPaneScroller().getTablePaneModel();
-        var children = this._getChildren();
-
         if (this._lastMouseOverColumn != null)
         {
-          var widget = children[paneModel.getX(this._lastMouseOverColumn)];
+          var widget = this.getHeaderWidgetAtColumn(this._lastMouseOverColumn);
 
           if (widget != null) {
             widget.removeState("hovered");
@@ -155,11 +151,24 @@ qx.Class.define("qx.ui.table.pane.Header",
         }
 
         if (col != null) {
-          children[paneModel.getX(col)].addState("hovered");
+          this.getHeaderWidgetAtColumn(col).addState("hovered");
         }
 
         this._lastMouseOverColumn = col;
       }
+    },
+
+
+    /**
+     * Get the header widget for the given column
+     *
+     * @param col {Integer} The column number
+     * @return {qx.ui.table.headerrenderer.HeaderCell} The header cell widget
+     */
+    getHeaderWidgetAtColumn : function(col)
+    {
+      var xPos = this.getPaneScroller().getTablePaneModel().getX(col);
+      return this._getChildren()[xPos];
     },
 
 
