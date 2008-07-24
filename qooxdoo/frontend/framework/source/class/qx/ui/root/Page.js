@@ -168,6 +168,12 @@ qx.Class.define("qx.ui.root.Page",
 
 
     // overridden
+    supportsMaximize : function() {
+      return false;
+    },
+
+
+    // overridden
     unblockContent : function()
     {
       if (!this.isContentBlocked()) {

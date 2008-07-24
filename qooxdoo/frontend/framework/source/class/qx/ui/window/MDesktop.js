@@ -59,6 +59,16 @@ qx.Mixin.define("qx.ui.window.MDesktop",
 
 
     /**
+     * Whether the configured layout supports a maximized window
+     * e.g. is a Canvas.
+     *
+     * @return {Boolean} Whether the layout supports maximized windows
+     */
+    supportsMaximize : function() {
+      return true;
+    },
+
+    /**
      * Sets the desktop's window manager
      *
      * @param manager {qx.ui.window.IWindowManager} The window manager
