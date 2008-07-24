@@ -43,7 +43,7 @@ qx.Class.define("demobrowser.demo.table.Table",
 
       // table model
       var tableModel = this._tableModel = new qx.ui.table.model.Simple();
-      tableModel.setColumns([ "ID", "A number", "A date", "Boolean test" ]);
+      tableModel.setColumns([ "ID", "A number", "A date", "Boolean" ]);
       tableModel.setData(rowData);
 
       // table
