@@ -1370,7 +1370,9 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          icon : states.checked ? "decoration/menu/checkbox.gif" : "undefined"
+          icon : !states.checked ? "undefined" :
+            states.selected ? "decoration/menu/checkbox-invert.gif" :
+              "decoration/menu/checkbox.gif"
         }
       }
     },
@@ -1383,7 +1385,9 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          icon : states.checked ? "decoration/menu/radiobutton.gif" : "undefined"
+          icon : !states.checked ? "undefined" :
+            states.selected ? "decoration/menu/radiobutton-invert.gif" :
+              "decoration/menu/radiobutton.gif"
         }
       }
     },
