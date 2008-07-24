@@ -105,6 +105,13 @@ qx.Class.define("qx.ui.menu.Menu",
       init : true
     },
 
+    // overridden
+    keepActive :
+    {
+      refine : true,
+      init : true
+    },
+
 
 
     /*
