@@ -57,15 +57,7 @@ class Wget(object):
         hfrag ) = urlparse.urlparse(url)
 
         self.urlRoot  = urlparse.urlunparse((hproto,hnetLoc,hpath,'','','')) # debateable!
-
-        # self.fileRoot
-        # - force directory
-        if os.path.isdir(fileRoot):
-            self.fileRoot = fileRoot
-        else:
-            self.fileRoot = os.path.dirname(fileRoot)
-
-        # self.urlIndex
+        self.fileRoot = fileRoot
         self.urlIndex = []
 
         # Do the actual downloading
@@ -85,9 +77,12 @@ class Wget(object):
         pageCont  = pageObj.read()
         # normalize actual url
         if actualUrl.endswith(self.urlPathSep):
+            # actually, since we are currently only downloading directory trees,
+            # we could skip index files (but wget keeps them, too):
+            # pass
             actualUrl += "index.html"
+        #else:
         savePath = self.getSavePath(self.urlRoot, self.fileRoot, actualUrl)
-        #filetool.save(savePath, pageCont)
         self.saveFile(savePath, pageCont)
         
         # depth check
@@ -106,7 +101,6 @@ class Wget(object):
         # select and recurse
         followLinks = self.selectLinks(actualUrl, pageLinks)
         for link in followLinks:
-            nsavePath = os.path.join(savePath,)
             self._wget(link, optMap, currDepth+1)
         
 

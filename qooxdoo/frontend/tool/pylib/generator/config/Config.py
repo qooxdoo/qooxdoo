@@ -408,7 +408,7 @@ class Config:
                                 contribCachePath = jobObj.getFeature('cache-downloads')['path']
                             else:
                                 contribCachePath = "cache-downloads"
-                            self._download_contrib(newlib, contrib, contribCachePath)
+                            self._download_contrib_1(newlib, contrib, contribCachePath)
                             manifest = os.path.join(contribCachePath, contrib, manifile)
                             lib['manifest'] = manifest  # patch 'manifest' entry to download path
                         else:  # patch the path which is local to the current config
