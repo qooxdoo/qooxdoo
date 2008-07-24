@@ -488,9 +488,8 @@ qx.Class.define("qx.ui.embed.Gallery",
      */
     addFromPartialList : function(vPartialList)
     {
-      this.concat(vPartialList);
-
       for (var i=0, a=vPartialList, l=a.length; i<l; i++) {
+        this._list.push(a[i]);
         this._frame.appendChild(this.createCell(a[i], i));
       }
     },
