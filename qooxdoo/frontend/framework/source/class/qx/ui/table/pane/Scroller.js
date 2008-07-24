@@ -57,28 +57,28 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     this._verScrollBar = this._showChildControl("scrollbar-y");
     this._header = this._showChildControl("header");
     this._tablePane = this._showChildControl("pane");
-    this._focusIndicator = this._showChildControl("focus-indicator");
+    this._focusIndicator = this._getChildControl("focus-indicator");
 
     // embed header into a scrollable container
     this._headerClipper = new qx.ui.core.ScrollPane();
     this._headerClipper.add(this._header);
     this._headerClipper.addListener("losecapture", this._onChangeCaptureHeader, this);
-    this._headerClipper.addListener("mousemove", this._onmousemoveHeader, this);
-    this._headerClipper.addListener("mousedown", this._onmousedownHeader, this);
-    this._headerClipper.addListener("mouseup", this._onmouseupHeader, this);
-    this._headerClipper.addListener("click", this._onclickHeader, this);
+    this._headerClipper.addListener("mousemove", this._onMousemoveHeader, this);
+    this._headerClipper.addListener("mousedown", this._onMousedownHeader, this);
+    this._headerClipper.addListener("mouseup", this._onMouseupHeader, this);
+    this._headerClipper.addListener("click", this._onClickHeader, this);
     this._add(this._headerClipper, {row: 0, column: 0});
 
     // embed pane into a scrollable container
     this._paneClipper = new qx.ui.core.ScrollPane();
     this._paneClipper.add(this._tablePane);
-    this._paneClipper.addListener("mousemove", this._onmousemovePane, this);
-    this._paneClipper.addListener("mousedown", this._onmousedownPane, this);
-    this._paneClipper.addListener("mouseup", this._onmouseupPane, this);
-    this._headerClipper.addListener("click", this._onclickHeader, this);
-    this._paneClipper.addListener("click", this._onclickPane, this);
+    this._paneClipper.addListener("mousewheel", this._onMousewheel, this);
+    this._paneClipper.addListener("mousemove", this._onMousemovePane, this);
+    this._paneClipper.addListener("mousedown", this._onMousedownPane, this);
+    this._paneClipper.addListener("mouseup", this._onMouseupPane, this);
+    this._paneClipper.addListener("click", this._onClickPane, this);
     this._paneClipper.addListener("contextmenu", this._onContextMenu, this);
-    this._paneClipper.addListener("dblclick", this._ondblclickPane, this);
+    this._paneClipper.addListener("dblclick", this._onDblclickPane, this);
     this._add(this._paneClipper, {row: 1, column: 0});
 
 
@@ -86,7 +86,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     this._getChildControl("resize-line");
     this._excludeChildControl("resize-line");
 
-    this.addListener("mouseout", this._onmouseout, this);
+    this.addListener("mouseout", this._onMouseout, this);
     this.addListener("resize", this._onResize, this);
     this.addListener("appear", this._onAppear, this);
     this.addListener("disappear", this._onDisappear, this);
@@ -687,7 +687,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
      * @param evt {Map} the event.
      * @return {void}
      */
-    _onmousewheel : function(evt)
+    _onMousewheel : function(evt)
     {
       var table = this.getTable();
 
@@ -696,7 +696,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       }
 
       this._verScrollBar.scrollTo(
-        this._verScrollBar.getPosition() -
+        this._verScrollBar.getPosition() +
         ((evt.getWheelDelta() * 3) * table.getRowHeight())
       );
 
@@ -717,7 +717,9 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     {
       var table = this.getTable();
       // We are currently resizing -> Update the position
-      var minColumnWidth = qx.ui.table.pane.Scroller.MIN_COLUMN_WIDTH;
+      var headerCell = this._header.getHeaderWidgetAtColumn(this._resizeColumn);
+      var minColumnWidth = headerCell.getSizeHint().minWidth;
+
       var newWidth = Math.max(minColumnWidth, this._lastResizeWidth + pageX - this._lastResizeMousePageX);
 
       if (this.getLiveResize()) {
@@ -780,7 +782,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
      * @param evt {Map} the event.
      * @return {void}
      */
-    _onmousemoveHeader : function(evt)
+    _onMousemoveHeader : function(evt)
     {
       var table = this.getTable();
 
@@ -839,7 +841,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
      * @param evt {Map} the event.
      * @return {void}
      */
-    _onmousemovePane : function(evt)
+    _onMousemovePane : function(evt)
     {
       var table = this.getTable();
 
@@ -847,7 +849,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
         return;
       }
 
-      var useResizeCursor = false;
+      //var useResizeCursor = false;
 
       var pageX = evt.getDocumentLeft();
       var pageY = evt.getDocumentTop();
@@ -857,25 +859,13 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       this._lastMousePageX = pageX;
       this._lastMousePageY = pageY;
 
-      if (this._resizeColumn != null) {
-        // We are currently resizing -> Update the position
-        this.__handleResizeColumn(pageX);
-        useResizeCursor = true;
-      } else if (this._moveColumn != null) {
-        // We are moving a column
-        this.__handleMoveColumn(pageX);
-      } else {
-        // This is a normal mouse move
-        var row = this._getRowForPagePos(pageX, pageY);
-        if (row != null && this._getColumnForPageX(pageX) != null) {
-          // The mouse is over the data -> update the focus
-          if (this.getFocusCellOnMouseMove()) {
-            this._focusCellAtPagePos(pageX, pageY);
-          }
+      var row = this._getRowForPagePos(pageX, pageY);
+      if (row != null && this._getColumnForPageX(pageX) != null) {
+        // The mouse is over the data -> update the focus
+        if (this.getFocusCellOnMouseMove()) {
+          this._focusCellAtPagePos(pageX, pageY);
         }
       }
-      this.getApplicationRoot().setGlobalCursor("ew-resize");
-
       this._header.setMouseOverColumn(null);
     },
 
@@ -886,7 +876,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
      * @param evt {Map} the event.
      * @return {void}
      */
-    _onmousedownHeader : function(evt)
+    _onMousedownHeader : function(evt)
     {
       if (! this.getTable().getEnabled()) {
         return;
@@ -952,7 +942,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
      * @param evt {Map} the event.
      * @return {void}
      */
-    _onmousedownPane : function(evt)
+    _onMousedownPane : function(evt)
     {
       var table = this.getTable();
 
@@ -1107,7 +1097,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
      * @param evt {Map} the event.
      * @return {void}
      */
-    _onmouseupPane : function(evt)
+    _onMouseupPane : function(evt)
     {
       var table = this.getTable();
 
@@ -1128,7 +1118,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
      * @param evt {Map} the event.
      * @return {void}
      */
-    _onmouseupHeader : function(evt)
+    _onMouseupHeader : function(evt)
     {
       var table = this.getTable();
 
@@ -1154,7 +1144,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
      * @param evt {Map} the event.
      * @return {void}
      */
-    _onclickHeader : function(evt)
+    _onClickHeader : function(evt)
     {
       if (this.__ignoreClick)
       {
@@ -1198,7 +1188,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
      * @param evt {Map} the event.
      * @return {void}
      */
-    _onclickPane : function(evt)
+    _onClickPane : function(evt)
     {
       var table = this.getTable();
 
@@ -1265,7 +1255,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
      * @param evt {Map} the event.
      * @return {void}
      */
-    _ondblclickPane : function(evt)
+    _onDblclickPane : function(evt)
     {
       var pageX = evt.getDocumentLeft();
       var pageY = evt.getDocumentTop();
@@ -1290,7 +1280,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
      * @param evt {Map} the event.
      * @return {void}
      */
-    _onmouseout : function(evt)
+    _onMouseout : function(evt)
     {
       var table = this.getTable();
 
