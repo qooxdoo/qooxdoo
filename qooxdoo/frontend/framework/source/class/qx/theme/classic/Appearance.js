@@ -1345,7 +1345,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
       {
         return {
           alignY : "middle",
-          marginLeft : 10
+          marginLeft : 14,
+          padding : 1
         };
       }
     },
@@ -1369,7 +1370,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          icon : states.checked ? "decoration/form/checkbox-checked.png" : "decoration/form/checkbox.png"
+          icon : states.checked ? "decoration/menu/checkbox.gif" : "undefined"
         }
       }
     },
@@ -1382,7 +1383,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          icon : states.checked ? "decoration/form/radiobutton-checked.png" : "decoration/form/radiobutton.png"
+          icon : states.checked ? "decoration/menu/radiobutton.gif" : "undefined"
         }
       }
     },
