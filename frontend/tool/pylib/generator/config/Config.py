@@ -408,7 +408,7 @@ class Config:
                                 contribCachePath = jobObj.getFeature('cache-downloads')['path']
                             else:
                                 contribCachePath = "cache-downloads"
-                            self._download_contrib_1(newlib, contrib, contribCachePath)
+                            self._download_contrib(newlib, contrib, contribCachePath)
                             manifest = os.path.join(contribCachePath, contrib, manifile)
                             lib['manifest'] = manifest  # patch 'manifest' entry to download path
                         else:  # patch the path which is local to the current config
@@ -444,32 +444,6 @@ class Config:
 
 
     def _download_contrib(self, libs, contrib, contribCache):
-        # try to find $FRAMEWORK/../tool/bin/download-contrib.py
-        # wpbasti: Really want to use the old module here???
-        # Should this really require us to do shell commands. Not a good think in my opinion
-        # Need a cleaner way here. Maybe a custom class under "generator"
-        dl_script    = "download-contrib.py"
-        self._console.info("Downloading contribs...")
-        self._console.indent()
-        for lib in libs:
-            path = os.path.dirname(lib['manifest'])
-            pathToScript = os.path.join(path, os.pardir, "tool", "bin", dl_script)
-            self._console.info("trying download script: " + pathToScript)
-            if os.path.exists(pathToScript):
-                pathToScript = os.path.normpath(pathToScript)
-                break
-        else:
-            self._console.warn("Unable to locate download script for contribs: " + dl_script)
-            sys.exit(1)
-            
-        cmd = "python %s --contrib %s --contrib-cache %s" % tuple(
-                    x.replace(" ","\ ") for x in (pathToScript, contrib, contribCache))
-        rc = self._shellCmd.execute(cmd)
-        self._console.outdent()
-        return rc
-
-
-    def _download_contrib_1(self, libs, contrib, contribCache):
 
         self._console.info("Downloading contrib: %s" % contrib)
         self._console.indent()
