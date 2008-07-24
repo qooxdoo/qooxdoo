@@ -350,7 +350,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     // property modifier
     _applyVerticalScrollBarVisible : function(value, old)
     {
-      this._verScrollBar.setVisibility(value ? "visible" : "exclude");
+      this._verScrollBar.setVisibility(value ? "visible" : "excluded");
       if (!value) {
         this.setScrollX(0);
       }
@@ -571,13 +571,17 @@ qx.Class.define("qx.ui.table.pane.Scroller",
      */
     _updateHorScrollBarMaximum : function()
     {
+      var paneSize = this._paneClipper.getBounds();
+      if (!paneSize) {
+        this._paneClipper.addListenerOnce("resize", arguments.callee, this);
+        return;
+      }
       var scrollSize = this.getTablePaneModel().getTotalWidth();
-      var paneSize = this._paneClipper.getBounds().width;
 
-      if (paneSize < scrollSize)
+      if (paneSize.width < scrollSize)
       {
-        this._horScrollBar.setMaximum(Math.max(0, scrollSize - paneSize));
-        this._horScrollBar.setKnobFactor(paneSize / scrollSize);
+        this._horScrollBar.setMaximum(Math.max(0, scrollSize - paneSize.width));
+        this._horScrollBar.setKnobFactor(paneSize.width / scrollSize);
       }
       else
       {
