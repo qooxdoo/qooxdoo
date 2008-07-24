@@ -914,7 +914,20 @@ qx.Class.define("qx.event.handler.Focus",
         this.setActive(target);
       },
 
-      "gecko|webkit|opera" : function(e) {
+      "gecko" : function(e)
+      {
+        // As of Firefox 3.0:
+        // Gecko fires mouseup on XUL elements
+        // We only want to deal with real HTML elements
+        var target = e.target;
+        while (target.offsetWidth === undefined) {
+          target = target.parentNode;
+        }
+
+        this.setActive(target);
+      },
+
+      "webkit|opera" : function(e) {
         this.setActive(e.target);
       },
 
