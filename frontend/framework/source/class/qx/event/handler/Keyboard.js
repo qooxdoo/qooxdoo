@@ -195,10 +195,18 @@ qx.Class.define("qx.event.handler.Keyboard",
      */
     _fireInputEvent : function(domEvent, charCode)
     {
-      var target = this._manager.getHandler(qx.event.handler.Focus).getActive();
-      var event = qx.event.Registration.createEvent("keyinput", qx.event.type.KeyInput, [domEvent, target, charCode]);
+      var focusHandler = this._manager.getHandler(qx.event.handler.Focus);
+      var target = focusHandler.getActive();
 
-      if (target) {
+      // Fallback to focused element when active is null or invisible
+      if (!target || target.offsetWidth == 0) {
+        target = focusHandler.getFocus();
+      }
+
+      // Only fire when target is defined and visible
+      if (target && target.offsetWidth != 0)
+      {
+        var event = qx.event.Registration.createEvent("keyinput", qx.event.type.KeyInput, [domEvent, target, charCode]);
         this._manager.dispatchEvent(target, event);
       }
 
@@ -216,22 +224,26 @@ qx.Class.define("qx.event.handler.Keyboard",
      */
     _fireSequenceEvent : function(domEvent, type, keyIdentifier)
     {
-      var target = this._manager.getHandler(qx.event.handler.Focus).getActive();
+      var focusHandler = this._manager.getHandler(qx.event.handler.Focus);
+      var target = focusHandler.getActive();
 
-      if (!target) {
+      // Fallback to focused element when active is null or invisible
+      if (!target || target.offsetWidth == 0) {
+        target = focusHandler.getFocus();
+      }
+
+      // Fallback to body when focused is null or invisible
+      if (!target || target.offsetWidth == 0) {
         target = this._manager.getWindow().document.body;
       }
 
+      // Fire key event
       var event = qx.event.Registration.createEvent(type, qx.event.type.KeySequence, [domEvent, target, keyIdentifier]);
       this._manager.dispatchEvent(target, event);
 
       // Fire user action event
       qx.event.Registration.fireEvent(this._window, "useraction");
     },
-
-
-
-
 
 
 
