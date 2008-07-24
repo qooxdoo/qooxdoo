@@ -31,8 +31,12 @@ qx.Class.define("apiviewer.ui.PackageTree",
 
   construct : function()
   {
-    //this.base(arguments, "API Documentation");
-    this.base(arguments, "Packages");
+    this.base(arguments, "API Documentation");
+    
+    
+    this.__root = new qx.ui.tree.TreeFolder("test");
+    this.setRoot(this.__root);
+    
 /*
     this.set({
       backgroundColor : "white",
@@ -68,12 +72,12 @@ qx.Class.define("apiviewer.ui.PackageTree",
     setTreeData : function(docTree)
     {
       this._docTree = docTree;
-      this.removeAll();
+      //this.removeAll();
 
       // Fill the packages tree
-      this.__fillPackageNode(this, docTree, 0);
+      this.__fillPackageNode(this.__root, docTree, 0);
 
-      this.open();
+      /////this.open();
 
       if (this._wantedClassName)
       {
@@ -141,6 +145,7 @@ qx.Class.define("apiviewer.ui.PackageTree",
      * @return {Function} the opener callback function
      */
     __getPackageNodeOpener : function (packageTreeNode, packageDoc, depth) {
+      console.warn(arguments)
       var self = this;
       return function() {
         if (!packageTreeNode.loaded)
@@ -162,6 +167,7 @@ qx.Class.define("apiviewer.ui.PackageTree",
      */
     __fillPackageNode : function(treeNode, docNode, depth)
     {
+console.info(arguments)
       treeNode.loaded = true;
       var PackageTree = apiviewer.ui.PackageTree;
 
@@ -171,7 +177,7 @@ qx.Class.define("apiviewer.ui.PackageTree",
         var packageDoc = packagesDoc[i];
         var iconUrl = apiviewer.TreeUtil.getIconUrl(packageDoc);
         var packageTreeNode = new qx.ui.tree.TreeFolder(packageDoc.getName(), iconUrl);
-        packageTreeNode.setAlwaysShowPlusMinusSymbol(true);
+////        packageTreeNode.setAlwaysShowPlusMinusSymbol(true);
         packageTreeNode.setUserData("nodeName", packageDoc.getFullName());
         treeNode.add(packageTreeNode);
 
@@ -180,7 +186,7 @@ qx.Class.define("apiviewer.ui.PackageTree",
 
         // Open the package node if it has child packages
         if (depth < qx.core.Setting.get("apiviewer.initialTreeDepth") && packageDoc.getPackages().length > 0) {
-          packageTreeNode.open();
+          /////packageTreeNode.open();
         }
 
         // Register the tree node
