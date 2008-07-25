@@ -461,7 +461,7 @@ qx.Class.define("qx.ui.menu.Manager",
       // Stop for all supported key combos
       var iden = e.getKeyIdentifier();
       if (this.__navigationKeys[iden] || (this.__selectionKeys[iden] && menu.getSelectedButton())) {
-        e.stop();
+        e.stopPropagation();
       }
     },
 
@@ -512,7 +512,7 @@ qx.Class.define("qx.ui.menu.Manager",
             break;
         }
 
-        e.stop();
+        e.stopPropagation();
       }
       else if (selection)
       {
@@ -531,7 +531,7 @@ qx.Class.define("qx.ui.menu.Manager",
               break;
           }
 
-          e.stop();
+          e.stopPropagation();
         }
       }
     },
