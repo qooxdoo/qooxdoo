@@ -132,10 +132,10 @@ qx.Mixin.define("qx.ui.core.MAlign",
      * best when called in some type of <code>resize</code> or <code>move</code>
      * event which are supported by all widgets out of the box.
      *
-     * @param this {qx.ui.core.Widget} Any this
+     * @param widget {qx.ui.core.Widget} Any widget
      * @return {Map} Returns a map with <code>left</code>, <code>top</code>,
      *   <code>right</code> and <code>bottom</code> which contains the distance
-     *   of the element relative coords the document.
+     *   of the widget relative coords the document.
      */
     getLayoutLocation : function(widget)
     {

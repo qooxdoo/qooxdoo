@@ -237,6 +237,7 @@ qx.Class.define("qx.ui.form.SplitButton",
       {
         arrow.setEnabled(true);
         arrow.setMenu(value);
+        value.setOpener(this);
 
         value.addListener("changeVisibility", this._onChangeMenuVisibility, this);
       }
@@ -246,8 +247,10 @@ qx.Class.define("qx.ui.form.SplitButton",
         arrow.resetMenu();
       }
 
-      if (old) {
+      if (old)
+      {
         old.removeListener("changeVisibility", this._onChangeMenuVisibility, this);
+        old.resetOpener();
       }
     },
 

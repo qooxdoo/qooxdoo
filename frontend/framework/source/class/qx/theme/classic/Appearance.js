@@ -1300,17 +1300,25 @@ qx.Theme.define("qx.theme.classic.Appearance",
     {
       style : function(states)
       {
-        return {
+        var result =
+        {
           backgroundColor : "background",
           decorator : "outset",
           spacingX : 6,
           spacingY : 1,
           iconColumnWidth : 16,
           arrowColumnWidth : 4,
-          submenuOffsetX : -3,
-          submenuOffsetY : -2,
           padding : 1
         };
+
+        if (states.submenu)
+        {
+          result.position = "right-top";
+          result.offsetLeft = result.offsetRight = -3;
+          result.offsetTop = result.offsetBottom = -2;
+        }
+
+        return result;
       }
     },
 
