@@ -60,21 +60,20 @@ SDK_COPY = Makefile application/index.html
 ################################################################################
 
 source:
-	@for APPLICATION in $(APPLICATIONS); do $(MAKE) -s -C application/$$APPLICATION source || exit 1; done
-	#@for APPLICATION in $(APPLICATIONS); do ( cd application/$$APPLICATION && $(CMD_GENERATOR2) source ) || exit 1; done
+	@for APPLICATION in $(APPLICATIONS); do ( cd application/$$APPLICATION && $(CMD_GENERATOR2) source ) || exit 1; done
 
 build:
-	@for APPLICATION in $(APPLICATIONS); do $(MAKE) -s -C application/$$APPLICATION build || exit 1; done
+	@for APPLICATION in $(APPLICATIONS); do ( cd application/$$APPLICATION && $(CMD_GENERATOR2) build ) || exit 1; done
 
 clean:
-	@for APPLICATION in $(APPLICATIONS); do $(MAKE) -s -C application/$$APPLICATION clean || exit 1; done
-	@$(MAKE) -s -C framework clean
+	@for APPLICATION in $(APPLICATIONS); do ( cd application/$$APPLICATION && $(CMD_GENERATOR2) clean ) || exit 1; done
+	@cd framework && $(CMD_GENERATOR2) clean
 	@$(CMD_REMOVE) application/*.zip
 	@$(CMD_REMOVE) release/temp
 
 distclean:
-	@for APPLICATION in $(APPLICATIONS); do $(MAKE) -s -C application/$$APPLICATION distclean || exit 1; done
-	@$(MAKE) -s -C framework distclean
+	@for APPLICATION in $(APPLICATIONS); do ( cd application/$$APPLICATION && $(CMD_GENERATOR2) distclean ) || exit 1; done
+	@cd framework && $(CMD_GENERATOR2) distclean
 	@$(CMD_REMOVE) application/*.zip
 	@$(CMD_REMOVE) release
 
@@ -139,7 +138,7 @@ info-quickstart:
 quickstart: exec-quickstart-build info-quickstart exec-quickstart-collect exec-quickstart-archive
 
 exec-quickstart-build:
-	@$(MAKE) -s -C application/quickstart build
+	@cd application/quickstart && $(CMD_GENERATOR2) build
 
 exec-quickstart-collect:
 	@$(CMD_DIR) $(QUICKSTART_TEMP)/qooxdoo-$(FRAMEWORK_VERSION)-quickstart
@@ -261,7 +260,7 @@ release-build-collect:
 		echo "    - $$APPLICATION"; \
 	  $(CMD_DIR) $(RELEASE_BUILD)/frontend/$$APPLICATION; \
 		if [ ! -r application/$$APPLICATION/build ]; then \
-		  echo "      - Missing build folder! Run $(MAKE) build first!"; \
+		  echo "      - Missing build folder! Run $(CMD_GENERATOR2) build first!"; \
 		  exit 1; \
 		fi; \
 	  $(CMD_SYNC_OFFLINE) application/$$APPLICATION/build/* $(RELEASE_BUILD)/frontend/$$APPLICATION; \
