@@ -45,8 +45,6 @@ qx.Class.define("apiviewer.Viewer",
     
     this.setLayout(new qx.ui.layout.Dock);
 
-    //this.setBackgroundColor("white")
-
     this.add(this.__createHeader(), {
       edge : "north"
     });
@@ -121,6 +119,9 @@ qx.Class.define("apiviewer.Viewer",
     {
       
       var tabView = new qx.ui.tabview.TabView;
+      
+      tabView.setAppearance("apiviewer-tabview");
+      tabView.setPadding(5)
 
       var packageTab = new qx.ui.tabview.Page("", apiviewer.TreeUtil.ICON_PACKAGE);
       packageTab.setLayout(new qx.ui.layout.Grow);
@@ -179,7 +180,7 @@ qx.Class.define("apiviewer.Viewer",
       part.add(createButton(
         "Expand",
         qx.ui.toolbar.CheckBox,
-        "apiviewer/image/property18.png",
+        "apiviewer/image/property18.gif",
         "Expand properties",
         false,
         "btn_expand"
@@ -220,27 +221,24 @@ qx.Class.define("apiviewer.Viewer",
      */
     __createDetailFrame : function()
     {
-      var detailFrame = new qx.ui.container.Composite;
-      detailFrame.setLayout(new qx.ui.layout.Canvas);
+      var detailFrame = new qx.ui.container.Composite(new qx.ui.layout.Canvas);
 
       detailFrame.getContentElement().setAttribute("id", "content");
       detailFrame.setBackgroundColor("white");
 
-      this._detailLoader = new qx.ui.embed.HtmlEmbed('<h1><small>please wait</small>Loading data...</h1>');
+      this._detailLoader = new qx.ui.embed.HtmlEmbed('<div style="padding:10px;"><h1><small>please wait</small>Loading data...</h1></div>');
       this._detailLoader.getContentElement().setAttribute("id", "SplashScreen");
 
       this._detailLoader.setId("detail_loader");
-      detailFrame.add(this._detailLoader, {
-        edge : 0
-      });
+      detailFrame.add(this._detailLoader, {edge : 0});
 
       this._classViewer = new apiviewer.ui.ClassViewer;
       this._classViewer.setId("class_viewer");
-      detailFrame.add(this._classViewer, {edge : 0 });
+      detailFrame.add(this._classViewer, {edge : 0});
 
       this._packageViewer = new apiviewer.ui.PackageViewer;
       this._packageViewer.setId("package_viewer");
-      detailFrame.add(this._packageViewer, {edge : 0 });
+      detailFrame.add(this._packageViewer, {edge : 0});
 
       return detailFrame;
     },

@@ -46,6 +46,7 @@ qx.Theme.define("apiviewer.Appearance",
           textColor: "#134275"
         };
       }
-    }
+    },
+    "apiviewer-tabview" : "tabview"
   }
 });

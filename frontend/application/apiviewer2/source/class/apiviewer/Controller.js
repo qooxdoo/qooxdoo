@@ -113,9 +113,9 @@ qx.Class.define("apiviewer.Controller",
           }
 
           this._detailLoader.setHtml(
-            '<h1><small>' +
+            '<div style="padding:10px;"><h1><small>' +
             qx.core.Setting.get("apiviewer.title") +
-            '</small>API Documentation</h1>'
+            '</small>API Documentation</h1></div>'
           );
 
         }, this, 0);
