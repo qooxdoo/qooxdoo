@@ -77,7 +77,7 @@ qx.Class.define("demobrowser.demo.ui.AlignUtil",
       var button = new qx.ui.form.Button("Open Popup");
       button.addListener("mousedown", function(e)
       {
-        qx.ui.core.AlignUtil.alignToWidget(popup, button, selectBox.getValue());
+        popup.alignToWidget(button, selectBox.getValue());
         popup.show();
       });
 
@@ -118,7 +118,7 @@ qx.Class.define("demobrowser.demo.ui.AlignUtil",
       {
         if (event.getTarget() == root)
         {
-          qx.ui.core.AlignUtil.alignToMouse(popup, event, selectBox.getValue());
+          popup.alignToMouse(event, selectBox.getValue());
           popup.show();
         }
       });
