@@ -38,16 +38,22 @@ def listJobs(console, jobs):
 def main():
     parser = optparse.OptionParser(option_class=ExtendAction)
 
-    usage_str = "%prog [options] job,..."
+    usage_str = '''%prog [options] job,...
+
+Arguments:
+  job,...               a list of jobs (like 'source' or 'copy-files',
+                        without the quotes) to perform
+  ?                     use '?' to get a list of all available jobs
+                        from the configuration file'''
     parser.set_usage(usage_str)
 
 
     # Common options
-    parser.add_option("-c", "--config", dest="config", metavar="FILENAME", default="config.json", help="Configuration file")
+    parser.add_option("-c", "--config", dest="config", metavar="CFGFILE", default="config.json", help="path to configuration file containing job definitions (default: %default)")
     #parser.add_option("-j", "--jobs", action="extend", dest="jobs", type="string", default=[], help="List of jobs to run")
-    parser.add_option("-q", "--quiet", action="store_true", dest="quiet", default=False, help="Quiet output mode (Extra quiet).")
-    parser.add_option("-v", "--verbose", action="store_true", dest="verbose", default=False, help="Verbose output mode (Extra verbose).")
-    parser.add_option("-l", "--logfile", dest="logfile", metavar="FILENAME", default=None, type="string", help="Log file")
+    parser.add_option("-q", "--quiet", action="store_true", dest="quiet", default=False, help="quiet output mode (extra quiet)")
+    parser.add_option("-v", "--verbose", action="store_true", dest="verbose", default=False, help="verbose output mode (extra verbose)")
+    parser.add_option("-l", "--logfile", dest="logfile", metavar="FILENAME", default=None, type="string", help="log file")
     
     # wpbasti: TODO: Add option to insert arbitrary number of macros values
     # Could also be an good replacement for the four in the following listed options
