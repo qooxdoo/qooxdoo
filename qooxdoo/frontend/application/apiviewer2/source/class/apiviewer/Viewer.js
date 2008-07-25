@@ -231,8 +231,6 @@ qx.Class.define("apiviewer.Viewer",
 
       this._detailLoader.setId("detail_loader");
       detailFrame.add(this._detailLoader, {
-        left : 20,
-        top : 20,
         edge : 0
       });
 
@@ -261,7 +259,7 @@ qx.Class.define("apiviewer.Viewer",
       mainFrame.setLayout(new qx.ui.layout.VBox);
 
       mainFrame.add(toolbar);
-      mainFrame.add(detailFrame, {height : "100%"});
+      mainFrame.add(detailFrame, {flex:1});
 
       return mainFrame;
     },
