@@ -22,30 +22,51 @@ qx.Class.define("qx.ui.core.AlignUtil",
 {
   statics :
   {
-    getPosition : function(widget)
+    /**
+     * Returns the location data like {qx.bom.element.Location#get} does
+     * but do not rely on DOM elements to be rendered. Instead this method
+     * works with the available layout data in the moment executed. This works
+     * best when called in some type of <code>resize</code> or <code>move</code>
+     * event which are supported by all widgets out of the box.
+     *
+     * @param widget {qx.ui.core.Widget} Any widget
+     * @return {Map} Returns a map with <code>left</code>, <code>top</code>,
+     *   <code>right</code> and <code>bottom</code> which contains the distance
+     *   of the element relative to the document.
+     */
+    getLayoutLocation : function(widget)
     {
+      // Use post-layout dimensions
+      // which do not rely on the final rendered DOM element
+      var insets, bounds, left, top;
+
+      // Pre-cache hint before modifying the widget variable
       var hint = widget.getBounds();
-      var bounds, insets;
 
+      // Add bounds of the widget itself
       bounds = widget.getBounds();
-      var left = bounds.left;
-      var top = bounds.top;
+      left = bounds.left;
+      top = bounds.top;
 
-      widget = widget.getLayoutParent()
+      // Now loop up with parents until reaching the root
+      widget = widget.getLayoutParent();
       while (widget && !widget.isRootWidget())
       {
+        // Add coordinates
         bounds = widget.getBounds();
         left += bounds.left;
         top += bounds.top;
 
+        // Add insets
         insets = widget.getInsets();
         left += insets.left;
         top += insets.top;
 
-        // next parent
+        // Next parent
         widget = widget.getLayoutParent();
       }
 
+      // Add the rendered location of the root widget
       if (widget.isRootWidget())
       {
         var rootCoords = widget.getContainerLocation();
@@ -56,6 +77,7 @@ qx.Class.define("qx.ui.core.AlignUtil",
         }
       }
 
+      // Build location data
       return {
         left : left,
         top : top,
@@ -78,7 +100,7 @@ qx.Class.define("qx.ui.core.AlignUtil",
       var parentBounds = parent.getBounds();
 
       var widgetHint = widget.getSizeHint();
-      var targetPosition = this.getPosition(target);
+      var targetPosition = target.getContainerLocation() || this.getLayoutLocation(target);
 
       console.debug("Target: ", targetPosition);
 
