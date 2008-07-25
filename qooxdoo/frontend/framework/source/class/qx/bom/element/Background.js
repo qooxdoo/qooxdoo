@@ -65,8 +65,7 @@ qx.Class.define("qx.bom.element.Background",
 
       // for IE check the given url for "HTTPS" to avoid "Mixed content" warnings
       var backgroundImageUrl = qx.util.ResourceManager.toUri(source);
-      if (qx.core.Variant.isSet("qx.client", "mshtml"))
-      {
+      if (qx.core.Variant.isSet("qx.client", "mshtml")) {
         backgroundImageUrl = this.__checkImageUrl(backgroundImageUrl);
       }
 
@@ -106,8 +105,7 @@ qx.Class.define("qx.bom.element.Background",
 
       // for IE check the given url for "HTTPS" to avoid "Mixed content" warnings
       var backgroundImageUrl = qx.util.ResourceManager.toUri(source);
-      if (qx.core.Variant.isSet("qx.client", "mshtml"))
-      {
+      if (qx.core.Variant.isSet("qx.client", "mshtml")) {
         backgroundImageUrl = this.__checkImageUrl(backgroundImageUrl);
       }
 
@@ -144,7 +142,8 @@ qx.Class.define("qx.bom.element.Background",
      *
      * @param {Object} url
      */
-    __checkImageUrl : qx.core.Variant.select("qx.client", {
+    __checkImageUrl : qx.core.Variant.select("qx.client",
+    {
       "mshtml" : function(url)
       {
         var urlPrefix = "";
@@ -168,6 +167,7 @@ qx.Class.define("qx.bom.element.Background",
           if (url.match(/^\/\//) != null) {
             urlPrefix = window.location.protocol;
           }
+
           /*
            * If the resolved URL begins with "./" the final URL has to be
            * put together using the document.URL property.
