@@ -121,22 +121,6 @@ qx.Class.define("qx.ui.menu.Menu",
     ---------------------------------------------------------------------------
     */
 
-    /** Horizontal offset in pixels of the sub menu  */
-    submenuOffsetX :
-    {
-      check : "Integer",
-      themeable : true,
-      init : 0
-    },
-
-    /** Vertical offset in pixels of the sub menu */
-    submenuOffsetY :
-    {
-      check : "Integer",
-      themeable : true,
-      init : 0
-    },
-
     /** The spacing between each cell of the menu buttons */
     spacingX :
     {
@@ -251,51 +235,11 @@ qx.Class.define("qx.ui.menu.Menu",
 
     /**
      * Opens the menu and configures the opener
-     *
-     * @param opener {qx.ui.core.Widget} Any widget
      */
-    open : function(opener, align)
+    open : function()
     {
-      // Update opener
-      if (opener)
-      {
-        this.setOpener(opener);
-
-        // Align menu
-        if (align)
-        {
-          var coords = opener.getContainerLocation();
-
-          switch(align)
-          {
-            case "bottom-left":
-              this.moveTo(coords.left, coords.bottom);
-              break;
-          }
-        }
-      }
-
-      // Move to correct position
-      var opener = this.getOpener();
-      if (opener instanceof qx.ui.menu.Button)
-      {
-        var buttonLocation = opener.getContainerLocation();
-        this.moveTo(buttonLocation.right + this.getSubmenuOffsetX(),
-          buttonLocation.top + this.getSubmenuOffsetY());
-      }
-
+      this.alignToWidget(this.getOpener());
       this.show();
-    },
-
-
-    /**
-     * Set the popup's position relative to its parent
-     *
-     * @param left {Integer} The left position
-     * @param top {Integer} The top position
-     */
-    moveTo : function(left, top) {
-      this.setLayoutProperties({ left: left, top: top });
     },
 
 

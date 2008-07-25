@@ -39,10 +39,6 @@ qx.Class.define("qx.ui.form.MenuButton",
     if (menu != null) {
       this.setMenu(menu);
     }
-
-    // Debug
-    this.addListener("resize", this._onResizeMove);
-    this.addListener("move", this._onResizeMove);
   },
 
 
@@ -136,7 +132,7 @@ qx.Class.define("qx.ui.form.MenuButton",
         qx.ui.menu.Manager.getInstance().hideAll();
 
         // Open the attached menu
-        menu.open(this);
+        menu.open();
 
         // Select first item
         if (selectFirst)
@@ -148,7 +144,6 @@ qx.Class.define("qx.ui.form.MenuButton",
         }
       }
     },
-
 
 
 
@@ -173,36 +168,6 @@ qx.Class.define("qx.ui.form.MenuButton",
       } else {
         this.removeState("pressed");
       }
-    },
-
-
-    _onResizeMove : function(e)
-    {
-      var menu = this.getMenu();
-      if (!menu) {
-        return;
-      }
-
-      var AlignUtil = qx.ui.core.AlignUtil;
-
-      /*
-      var loc = AlignUtil.align(menu, this, "bottom", "left");
-      console.debug("Result: ", loc);
-
-      var loc = AlignUtil.align(menu, this, "top", "right");
-      console.debug("Result: ", loc);
-
-      var loc = AlignUtil.align(menu, this, "left", "top");
-      console.debug("Result: ", loc);
-
-      var loc = AlignUtil.align(menu, this, "right", "bottom");
-      console.debug("Result: ", loc);
-      */
-
-      var loc = AlignUtil.align(menu, this, "top-left");
-      console.debug("Result: ", loc);
-
-      menu.moveTo(loc.left, loc.top);
     },
 
 
