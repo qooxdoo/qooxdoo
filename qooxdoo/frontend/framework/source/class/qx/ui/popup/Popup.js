@@ -45,15 +45,8 @@ qx.Class.define("qx.ui.popup.Popup",
   {
     this.base(arguments, layout);
 
-    // Excluded by default
-    this.exclude();
-
     // Automatically add to application's root
     qx.core.Init.getApplication().getRoot().add(this);
-
-    // Resize listener
-    this.addListener("resize", this._onResizeOrMove);
-    this.addListener("move", this._onResizeOrMove);
   },
 
 
@@ -75,6 +68,12 @@ qx.Class.define("qx.ui.popup.Popup",
       init : "popup"
     },
 
+    // overridden
+    visibility :
+    {
+      refine : true,
+      init : "excluded"
+    },
 
     /**
      * Whether to let the system decide when to hide the popup. Setting
@@ -113,109 +112,6 @@ qx.Class.define("qx.ui.popup.Popup",
 
       var mgr = qx.ui.popup.PopupManager.getInstance();
       value === "visible" ? mgr.add(this) : mgr.remove(this);
-    },
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      USER API
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * Set the popup's position relative to its parent
-     *
-     * @param left {Integer} The left position
-     * @param top {Integer} The top position
-     */
-    moveTo : function(left, top) {
-      this.setLayoutProperties({ left: left, top: top });
-    },
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      EVENT LISTENERS
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * Event listener for resize or move events of this widget.
-     *
-     * @param e {qx.event.type.Data} Resize or Move data event
-     */
-    _onResizeOrMove : function(e)
-    {
-      var bounds = this.getBounds();
-
-      // Normalize coordinates
-      var left = this._normalizeLeft(bounds.left);
-      var top = this._normalizeTop(bounds.top);
-
-      // Detect changes and apply them
-      if (left != bounds.left || top != bounds.top) {
-        this.moveTo(left, top);
-      }
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      HELPER
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * Normalizes a left coordinate to move the popup completely into the viewport.
-     *
-     * @param left {Integer} Original left position
-     * @return {Integer} Corrected left position
-     */
-    _normalizeLeft : function(left)
-    {
-      var bounds = this.getBounds();
-      var parentBounds = this.getLayoutParent().getBounds();
-
-      if (!bounds || !parentBounds) {
-        return left;
-      }
-
-      if (bounds.left < 0) {
-        return 0;
-      } else if ((bounds.left + bounds.width) > parentBounds.width) {
-        return Math.max(0, parentBounds.width - bounds.width);
-      }
-
-      return left;
-    },
-
-
-    /**
-     * Normalizes a top coordinate to move the popup completely into the viewport.
-     *
-     * @param top {Integer} Original top position
-     * @return {Integer} Corrected top position
-     */
-    _normalizeTop : function(top)
-    {
-      var bounds = this.getBounds();
-      var parentBounds = this.getLayoutParent().getBounds();
-
-      if (!bounds || !parentBounds) {
-        return top;
-      }
-
-      if (bounds.top < 0) {
-        return 0;
-      } else if ((bounds.top + bounds.height) > parentBounds.height) {
-        return Math.max(0, parentBounds.height - bounds.height);
-      }
-
-      return top;
     }
   },
 
