@@ -59,7 +59,8 @@ qx.Mixin.define("qx.ui.core.MAlign",
         "left-top", "left-bottom",
         "right-top", "right-bottom"
       ],
-      init : "bottom-left"
+      init : "bottom-left",
+      themeable : true
     },
 
     /**
@@ -70,6 +71,38 @@ qx.Mixin.define("qx.ui.core.MAlign",
     {
       check : "Boolean",
       init : true
+    },
+
+    /** Left offset of the mouse pointer (in pixel) */
+    offsetLeft :
+    {
+      check : "Integer",
+      init : 1,
+      themeable : true
+    },
+
+    /** Top offset of the mouse pointer (in pixel) */
+    offsetTop :
+    {
+      check : "Integer",
+      init : 1,
+      themeable : true
+    },
+
+    /** Right offset of the mouse pointer (in pixel) */
+    offsetRight :
+    {
+      check : "Integer",
+      init : 1,
+      themeable : true
+    },
+
+    /** Bottom offset of the mouse pointer (in pixel) */
+    offsetBottom :
+    {
+      check : "Integer",
+      init : 20,
+      themeable : true
     }
   },
 
@@ -200,7 +233,6 @@ qx.Mixin.define("qx.ui.core.MAlign",
     },
 
 
-
     /**
      * Aligns the widget to any (rendered) DOM element.
      *
@@ -255,8 +287,15 @@ qx.Mixin.define("qx.ui.core.MAlign",
       var area = this.getLayoutParent().getBounds();
       var position = this.getPosition();
       var smart = this.getSmart();
+      var offsets =
+      {
+        left : this.getOffsetLeft(),
+        top : this.getOffsetTop(),
+        right : this.getOffsetRight(),
+        bottom : this.getOffsetBottom()
+      }
 
-      var result = qx.util.AlignUtil.compute(size, area, coords, position, smart);
+      var result = qx.util.AlignUtil.compute(size, area, coords, position, smart, offsets);
       this.moveTo(result.left, result.top);
     }
   }
