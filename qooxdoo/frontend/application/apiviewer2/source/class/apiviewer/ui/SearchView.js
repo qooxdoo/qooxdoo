@@ -377,7 +377,7 @@ qx.Class.define("apiviewer.ui.SearchView",
       req.addListener("completed", function(evt) {
         this.apiindex = eval("(" + evt.getContent() + ")");
         var loadEnd = new Date();
-        console.info("Time to load api indexfile from server: " + (loadEnd.getTime() - loadStart.getTime()) + "ms");
+        this.debug("Time to load api indexfile from server: " + (loadEnd.getTime() - loadStart.getTime()) + "ms");
       }, this);
 
       req.addListener("failed", function(evt) {

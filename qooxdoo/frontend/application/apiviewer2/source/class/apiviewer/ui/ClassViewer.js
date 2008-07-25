@@ -49,7 +49,6 @@ qx.Class.define("apiviewer.ui.ClassViewer",
     this.addInfoPanel(new apiviewer.ui.panels.AppearancePanel("appearances", "appearances", false, true));
 
     this.getContentElement().setAttribute("id", "ClassViewer");
-    this.exclude();
     apiviewer.ui.ClassViewer.instance = this;
 
     this._init(new apiviewer.dao.Class({}));        
