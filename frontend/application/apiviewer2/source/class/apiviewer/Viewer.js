@@ -119,8 +119,6 @@ qx.Class.define("apiviewer.Viewer",
     {
       
       var tabView = new qx.ui.tabview.TabView;
-      
-      tabView.setAppearance("apiviewer-tabview");
       tabView.setPadding(5)
 
       var packageTab = new qx.ui.tabview.Page("", apiviewer.TreeUtil.ICON_PACKAGE);
