@@ -29,7 +29,7 @@ qx.Mixin.define("qx.ui.core.MAlign",
      * best when called in some type of <code>resize</code> or <code>move</code>
      * event which are supported by all widgets out of the box.
      *
-     * @param widget {qx.ui.core.Widget} Any widget
+     * @param this {qx.ui.core.Widget} Any this
      * @return {Map} Returns a map with <code>left</code>, <code>top</code>,
      *   <code>right</code> and <code>bottom</code> which contains the distance
      *   of the element relative coords the document.
@@ -40,13 +40,13 @@ qx.Mixin.define("qx.ui.core.MAlign",
       // which do not rely on the final rendered DOM element
       var insets, bounds, left, top;
 
-      // Pre-cache hint before modifying the widget variable
-      var hint = widget.getBounds();
-
       // Add bounds of the widget itself
       bounds = widget.getBounds();
       left = bounds.left;
       top = bounds.top;
+
+      // Keep size to protect it for loop
+      var size = bounds;
 
       // Now loop up with parents until reaching the root
       widget = widget.getLayoutParent();
@@ -81,65 +81,62 @@ qx.Mixin.define("qx.ui.core.MAlign",
       return {
         left : left,
         top : top,
-        right : left + hint.width,
-        bottom : top + hint.height
+        right : left + size.width,
+        bottom : top + size.height
       };
     },
 
 
     /**
-     * Returns coordinates coords align a widget coords another one.
      *
-     * @param widget {qx.ui.core.Widget} Widget coords align
+     *
      * @param target {qx.ui.core.Widget} Target coords align coords
      * @param align {String} Alignment coords respect
      * @param correct {Boolean?false} Whether the position should be auto-corrected
      *   depending on the available space
      */
-    alignToWidget : function(widget, target, align, correct)
+    alignToWidget : function(target, align, correct)
     {
       var coords = target.getContainerLocation() || this.getLayoutLocation(target);
-      this.__align(widget, coords, align, correct);
+      this.__align(coords, align, correct);
     },
 
 
     /**
-     * Returns coordinates coords align a widget coords another one.
+     * Returns coordinates coords align a this coords another one.
      *
-     * @param widget {qx.ui.core.Widget} Widget coords align
      * @param event {qx.event.type.Mouse} Mouse event to align to
      * @param align {String} Alignment coords respect
      * @param correct {Boolean?false} Whether the position should be auto-corrected
      *   depending on the available space
      */
-    alignToMouse : function(widget, event, align, correct)
+    alignToMouse : function(event, align, correct)
     {
       var left=event.getDocumentLeft(), top=event.getDocumentTop();
       var coords = { left: left, top: top, right: left, bottom: top };
 
-      this.__align(widget, coords, align, correct);
+      this.__align(coords, align, correct);
     },
 
 
     /**
-     * Internal method to read specific widget properties and
-     * apply the results to the widget afterwards.
+     * Internal method to read specific this properties and
+     * apply the results to the this afterwards.
      *
-     * @param widget {qx.ui.core.Widget} Widget coords align
-     * @param coords {Map} Location of the object to align the widget to. This map
+     * @param coords {Map} Location of the object to align the this to. This map
      *   should have the keys <code>left</code>, <code>top</code>, <code>right</code>
      *   and <code>bottom</code>.
      * @param align {String} Alignment coords respect
      * @param correct {Boolean?false} Whether the position should be auto-corrected
      *   depending on the available space
      */
-    __align : function(widget, coords, align, correct)
+    __align : function(coords, align, correct)
     {
-      var size = widget.getSizeHint();
-      var area = widget.getLayoutParent().getBounds();
+      var size = this.getSizeHint();
+      var area = this.getLayoutParent().getBounds();
 
       var result = qx.util.AlignUtil.compute(size, area, coords, align, correct);
-      widget.moveTo(result.left, result.top);
+      this.moveTo(result.left, result.top);
     }
   }
 });
