@@ -199,7 +199,7 @@ qx.Class.define("qx.ui.form.MenuButton",
       console.debug("Result: ", loc);
       */
 
-      var loc = AlignUtil.align(menu, this, "top", "left");
+      var loc = AlignUtil.align(menu, this, "top-left");
       console.debug("Result: ", loc);
 
       menu.moveTo(loc.left, loc.top);
