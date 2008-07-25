@@ -35,7 +35,7 @@ qx.Class.define("qx.util.AlignUtil",
      *   <code>width</code> and <code>height</code>. Normally this is the parent
      *   object of the one to align.
      * @param coords {Map} Location of the object to align the object to. This map
-     *   contains the targets <code>left</code>, <code>top</code>, <code>right</code>
+     *   should have the keys <code>left</code>, <code>top</code>, <code>right</code>
      *   and <code>bottom</code>.
      * @param value {String} Alignment of the object on the target
      * @param correct {Boolean?true} Whether the position should be automatically

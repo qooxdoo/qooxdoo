@@ -18,9 +18,9 @@
 
 ************************************************************************ */
 
-qx.Class.define("qx.ui.core.AlignUtil",
+qx.Mixin.define("qx.ui.core.MAlign",
 {
-  statics :
+  members :
   {
     /**
      * Returns the location data like {qx.bom.element.Location#get} does
@@ -103,6 +103,15 @@ qx.Class.define("qx.ui.core.AlignUtil",
     },
 
 
+    /**
+     * Returns coordinates coords align a widget coords another one.
+     *
+     * @param widget {qx.ui.core.Widget} Widget coords align
+     * @param event {qx.event.type.Mouse} Mouse event to align to
+     * @param align {String} Alignment coords respect
+     * @param correct {Boolean?false} Whether the position should be auto-corrected
+     *   depending on the available space
+     */
     alignToMouse : function(widget, event, align, correct)
     {
       var left=event.getDocumentLeft(), top=event.getDocumentTop();
@@ -111,6 +120,19 @@ qx.Class.define("qx.ui.core.AlignUtil",
       this.__align(widget, coords, align, correct);
     },
 
+
+    /**
+     * Internal method to read specific widget properties and
+     * apply the results to the widget afterwards.
+     *
+     * @param widget {qx.ui.core.Widget} Widget coords align
+     * @param coords {Map} Location of the object to align the widget to. This map
+     *   should have the keys <code>left</code>, <code>top</code>, <code>right</code>
+     *   and <code>bottom</code>.
+     * @param align {String} Alignment coords respect
+     * @param correct {Boolean?false} Whether the position should be auto-corrected
+     *   depending on the available space
+     */
     __align : function(widget, coords, align, correct)
     {
       var size = widget.getSizeHint();
