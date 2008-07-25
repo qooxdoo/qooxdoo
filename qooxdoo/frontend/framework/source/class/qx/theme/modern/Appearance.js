@@ -1206,7 +1206,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         return {
           width : states.horizontal ? 5 : "undefined",
           height : states.vertical ? 5 : "undefined",
-          backgroundColor : states.active ? "yellow" : "#aaa"
+          backgroundColor : states.active ? "#aaa" : "#bbb"
         };
       }
     },
@@ -1218,7 +1218,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         return {
           width : states.horizontal ? 5 : "undefined",
           height : states.vertical ? 5 : "undefined",
-          backgroundColor : "red"
+          backgroundColor : "#ccc"
         };
       }
     },
