@@ -94,7 +94,11 @@ qx.Theme.define("qx.theme.classic.Appearance",
           backgroundColor : "tooltip",
           textColor : "tooltip-text",
           decorator : "tooltip",
-          padding : [ 1, 3, 2, 3 ]
+          padding : [ 1, 3, 2, 3 ],
+          offsetLeft : 1,
+          offsetTop : 1,
+          offsetRight : 1,
+          offsetBottom : 20
         };
       }
     },
