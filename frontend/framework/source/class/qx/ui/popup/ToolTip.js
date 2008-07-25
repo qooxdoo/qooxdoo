@@ -99,14 +99,16 @@ qx.Class.define("qx.ui.popup.ToolTip",
     showTimeout :
     {
       check : "Integer",
-      init : 1000
+      init : 1000,
+      themeable : true
     },
 
     /** Interval after the tooltip is hidden (in milliseconds) */
     hideTimeout :
     {
       check : "Integer",
-      init : 4000
+      init : 4000,
+      themeable : true
     },
 
     /** The label/caption/text of the ToolTip's atom. */
@@ -122,7 +124,8 @@ qx.Class.define("qx.ui.popup.ToolTip",
     {
       check : "String",
       init : "",
-      apply : "_applyIcon"
+      apply : "_applyIcon",
+      themeable : true
     }
   },
 
