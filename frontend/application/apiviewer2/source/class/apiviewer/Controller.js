@@ -251,9 +251,6 @@ qx.Class.define("apiviewer.Controller",
     {
       this._detailLoader.exclude();
 
-      var doc = qx.legacy.ui.core.ClientDocument.getInstance();
-      doc.setGlobalCursor("wait");
-
       var cb = callback ? qx.lang.Function.bind(callback, self) : function() {};
 
       if (classNode instanceof apiviewer.dao.Class)
@@ -263,7 +260,6 @@ qx.Class.define("apiviewer.Controller",
           this._packageViewer.exclude();
           this._classViewer.setDocNode(cls);
           this._classViewer.show();
-          doc.resetGlobalCursor();
           cb();
         }, this);
       }
@@ -274,7 +270,6 @@ qx.Class.define("apiviewer.Controller",
           this._classViewer.exclude();
           this._packageViewer.setDocNode(classNode);
           this._packageViewer.show();
-          doc.resetGlobalCursor();
           cb();
         }, this);
       }

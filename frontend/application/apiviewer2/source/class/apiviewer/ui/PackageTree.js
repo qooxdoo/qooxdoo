@@ -40,7 +40,7 @@ qx.Class.define("apiviewer.ui.PackageTree",
     this.select(this.__root);
 
     // TODO: Is this workaround still needed?
-    // Workaround: Since navigating in qx.legacy.ui.tree.Tree doesn't work, we've to
+    // Workaround: Since navigating in qx.ui.tree.Tree doesn't work, we've to
     //             maintain a hash that keeps the tree nodes for class names
     this._classTreeNodeHash = {};
   },

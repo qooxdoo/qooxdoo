@@ -50,7 +50,6 @@ qx.Class.define("apiviewer.Application",
       // Include CSS file
       qx.bom.Stylesheet.includeFile("apiviewer/css/apiviewer.css");
 
-      qx.Class.include(qx.legacy.ui.core.Widget, apiviewer.MWidgetRegistry);
       qx.Class.include(qx.ui.core.Widget, apiviewer.MWidgetRegistry);
 
       this.viewer = new apiviewer.Viewer();
