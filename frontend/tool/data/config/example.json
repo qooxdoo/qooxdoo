@@ -1,31 +1,27 @@
 {
+  "name" : "A sample collection of low-level generator jobs (no includes, no macros - plain old configs)",
+
   "jobs" :
   {
     "common" :
     {
+       // Define some libs to work with
+       // - you will have to adapt paths for this to make sense
+
       "library" :
       [
         {
-          "encoding" : "utf-8",
-          "path" : "framework/source",
+          "manifest" : "framework/source",
           "uri" : "../../../framework/source"
         },
 
         {
-          "encoding" : "utf-8",
-          "path" : "application/apiviewer/source",
+          "manifest" : "application/apiviewer/source",
           "uri" : "../source"
         },
 
         {
-          "encoding" : "utf-8",
-          "path" : "application/feedreader/source",
-          "uri" : "../source"
-        },
-
-        {
-          "encoding" : "utf-8",
-          "path" : "application/showcase/source",
+          "manifest" : "application/feedreader/source",
           "uri" : "../source"
         }
       ],
@@ -37,8 +33,7 @@
     },
 
 
-
-
+    // Compile some special-purpose includers
 
     "compile-bom" :
     {
@@ -53,9 +48,10 @@
         "qx.client" : ["gecko","mshtml"]
       },
 
-      "compile" :
+      "compile-dist" :
       {
-        "file" : "compile-bom-{qx.client}.js",
+        "file" : "compile-bom-{qx.client}.js",  // compile-time variant substitution not supported yet
+        "root" : ".",
         "optimize" : [ "variables", "basecalls", "privates" ]
       }
     },
@@ -73,24 +69,25 @@
         "qx.client" : ["gecko","mshtml"]
       },
 
-      "compile" :
+      "compile-dist" :
       {
         "file" : "compile-ajax-{qx.client}.js",
+        "root" : ".",
         "optimize" : [ "variables", "basecalls", "privates" ]
       }
     },
 
 
-
-
+    // Do something with all libs
 
     "source-all" :
     {
       "extend" : ["common"],
 
-      "script" :
+      "compile-source" :
       {
-        "file" : "source-all.js"
+        "file" : "source-all.js",
+        "root" : "."
       }
     },
 
@@ -98,9 +95,10 @@
     {
       "extend" : ["common"],
 
-      "compile" :
+      "compile-dist" :
       {
-        "file" : "build-all.js"
+        "file" : "build-all.js",
+        "root" : "."
       }
     },
 
@@ -116,9 +114,7 @@
 
 
 
-
-
-
+    // Feedreader Jobs
 
     "api-feedreader" :
     {
@@ -135,7 +131,7 @@
     {
       "extend" : ["common"],
 
-      "translation" :
+      "localize" :
       {
         "update" : ["feedreader"]
       }
@@ -149,13 +145,13 @@
       "settings" :
       {
         "qx.application" : "feedreader.Application",
-        "qx.resourceUri" : "../../../framework/source/resource",
         "qx.legacy.theme" : "qx.legacy.theme.Ext"
       },
 
-      "script" :
+      "compile-source" :
       {
         "file" : "feedreader-source.js",
+        "root" : ".",
         "gzip" : "true"
       },
 
@@ -195,9 +191,7 @@
       "settings" :
       {
         "qx.application" : "feedreader.Application",
-        "qx.resourceUri" : "resource/qx",
         "qx.legacy.theme" : "qx.legacy.theme.Ext",
-        "feedreader.resourceUri" : "resource/feedreader"
       },
 
       "variants" :
@@ -205,9 +199,10 @@
         "qx.debug" : ["off"]
       },
 
-      "compile" :
+      "compile-dist" :
       {
         "file" : "application/feedreader/build/script/feedreader.js",
+        "root" : ".",
         "uri" : "script/feedreader.js",
         "optimize" : [ "variables", "basecalls", "privates" ]
       }
@@ -231,9 +226,7 @@
     },
 
 
-
-
-
+    // Apiviewer Jobs
 
     "api-apiviewer" :
     {
@@ -255,11 +248,10 @@
       {
         "qx.theme" : "qx.theme.ClassicRoyale",
         "qx.application" : "apiviewer.Application",
-        "qx.resourceUri" : "../../../framework/source/resource",
         "apiviewer.title" : "API Viewer (g2)"
       },
 
-      "script" :
+      "compile-source" :
       {
         "file" : "application/apiviewer/source/script/apiviewer.js"
       }
@@ -274,7 +266,6 @@
       {
         "qx.theme" : "qx.theme.ClassicRoyale",
         "qx.application" : "apiviewer.Application",
-        "qx.resourceUri" : "../../../framework/source/resource",
         "apiviewer.title" : "API Viewer (g2)"
       },
 
@@ -283,9 +274,10 @@
         "qx.debug" : ["off"]
       },
 
-      "compile" :
+      "compile-dist" :
       {
-        "file" : "application/apiviewer/build/script/apiviewer.js"
+        "file" : "application/apiviewer/build/script/apiviewer.js",
+        "root" : "."
       }
     }
   }
