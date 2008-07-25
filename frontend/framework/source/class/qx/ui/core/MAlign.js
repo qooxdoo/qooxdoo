@@ -88,7 +88,9 @@ qx.Mixin.define("qx.ui.core.MAlign",
 
 
     /**
-     *
+     * Aligns this widget to another (at least layouted) widget. The DOM
+     * element is not needed, but the bounds are needed to compute the
+     * location of the widget to align to.
      *
      * @param target {qx.ui.core.Widget} Target coords align coords
      * @param align {String} Alignment coords respect
@@ -103,7 +105,7 @@ qx.Mixin.define("qx.ui.core.MAlign",
 
 
     /**
-     * Returns coordinates coords align a this coords another one.
+     * Aligns the widget to the mouse cursor position.
      *
      * @param event {qx.event.type.Mouse} Mouse event to align to
      * @param align {String} Alignment coords respect
