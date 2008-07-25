@@ -35,7 +35,6 @@
 
 ************************************************************************ */
 
-
 /**
  * Query the location of an arbitrary DOM element in relation to its top
  * level body element. Works in all major browsers:
@@ -149,9 +148,13 @@ qx.Class.define("qx.bom.element.Location",
         var left = body.offsetLeft;
         var top = body.offsetTop;
 
-        // Substract the body border
-        left -= this.__num(body, "borderLeftWidth");
-        top -= this.__num(body, "borderTopWidth");
+        // IE 6 and 7 quirks mode the border width is overwritable by the following css html { border: 0; }
+        // IE 7 standards mode, the border is always 2px
+        // This border/offset is typically represented by the clientLeft and clientTop properties
+        // However, in IE6 and 7 quirks mode the clientLeft and clientTop properties are not updated when overwriting it via CSS
+        // Therefore this method will be off by 2px in IE while in quirksmode
+        left -= body.parentNode.clientLeft;
+        top -= body.parentNode.clientTop;
 
         // Add the margin when running in standard mode
         if (doc.compatMode === "CSS1Compat")
