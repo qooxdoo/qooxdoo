@@ -1,5 +1,6 @@
-// Demobrowser - config.json
 {
+  "name"    : "Demobrowser - config.json",
+
   "include" :
   [
     {
@@ -11,7 +12,8 @@
   "let" :
   {
     "APPLICATION"  : "demobrowser",
-    "API_EXCLUDE" : ["${APPLICATION}.demo.*"],
+    "API_EXCLUDE"  : ["${APPLICATION}.demo.*"],
+    "CACHE"        : "../../cache",
     "QOOXDOO_PATH" : "../../framework",
     "QOOXDOO_URI"  : "../${QOOXDOO_PATH}"
   },
@@ -56,7 +58,7 @@
 
       "cache" :
       {
-        "compile" : "../../cache"
+        "compile" : "${CACHE}"
       }
     },
 
