@@ -34,9 +34,8 @@ qx.Class.define("apiviewer.ui.AbstractViewer",
 
     this._infoPanelHash = {};
     this._infoPanels = [];
-    apiviewer.ObjectRegistry.register(this);
-    
-    
+
+    apiviewer.ObjectRegistry.register(this);    
   },
 
 
@@ -93,6 +92,18 @@ qx.Class.define("apiviewer.ui.AbstractViewer",
   members :
   {
 
+    _infoPanelHash : {},
+    _infoPanels : [],
+
+    _init : function(pkg){
+      this.__initHtml();
+
+      this.addListenerOnce("appear", function(){
+        this._syncHtml();
+        this.setDocNode(pkg);
+      }, this);
+    },
+    
     __initHtml : function()
     {
       var html = new qx.util.StringBuilder();
@@ -105,17 +116,13 @@ qx.Class.define("apiviewer.ui.AbstractViewer",
 
       // render panels
       var panels = this.getPanels();
-      console.info(panels.length)
-      
+
       for (var i=0; i<panels.length; i++)
       {
         var panel = panels[i];
         html.add(panel.getPanelHtml(this));
       }
-      
-      console.info("HTML :", html.get())
 
-      
       this.setHtml(html.get());
       
 /*
@@ -233,6 +240,7 @@ qx.Class.define("apiviewer.ui.AbstractViewer",
     _updatePanels : function()
     {
       var panels = this.getPanels();
+
       for (var i=0; i<panels.length; i++)
       {
         var panel = panels[i];
@@ -254,10 +262,8 @@ qx.Class.define("apiviewer.ui.AbstractViewer",
       {
         // _initContentDocument was not called yet
         // -> Do nothing, the class will be shown in _initContentDocument.
-        console.info("not ready")
         return;
       }
-      console.warn("ready")
 
       this._titleElem.innerHTML = this._getTitleHtml(classNode);
       this._classDescElem.innerHTML = this._getDescriptionHtml(classNode);
