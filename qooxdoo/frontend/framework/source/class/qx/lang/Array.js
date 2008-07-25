@@ -389,6 +389,5 @@ qx.Bootstrap.define("qx.lang.Array",
 
       return result;
     }
-
   }
 });
