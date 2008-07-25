@@ -40,15 +40,6 @@ qx.Class.define("apiviewer.ui.ClassViewer",
   construct : function()
   {
     this.base(arguments);
-
-    this.getContentElement().setAttribute("id", "ClassViewer");
-    
-    
-    this.exclude();
-    this.setDocNode(new apiviewer.dao.Class({}));
-
-    apiviewer.ui.ClassViewer.instance = this;
-
     this.addInfoPanel(new apiviewer.ui.panels.MethodPanel("constructor", "constructor", false, true));
     this.addInfoPanel(new apiviewer.ui.panels.EventPanel("events", "events", true, true));
     this.addInfoPanel(new apiviewer.ui.panels.PropertyPanel("properties", "properties", true, true));
@@ -56,19 +47,12 @@ qx.Class.define("apiviewer.ui.ClassViewer",
     this.addInfoPanel(new apiviewer.ui.panels.MethodPanel("methods-static", "static methods", false, true));
     this.addInfoPanel(new apiviewer.ui.panels.ConstantPanel("constants", "constants", false, true));
     this.addInfoPanel(new apiviewer.ui.panels.AppearancePanel("appearances", "appearances", false, true));
-    
-    
-    
 
-    this.__initHtml();
-//    this.setDocNode(new apiviewer.dao.Package({}));
-    
-    ////this.addListenerOnce("appear", this._syncHtml, this);
-    this.addListenerOnce("appear", function(){
-      this._syncHtml();
-      this.setDocNode(new apiviewer.dao.Class({}));
-    }, this);
-        
+    this.getContentElement().setAttribute("id", "ClassViewer");
+    this.exclude();
+    apiviewer.ui.ClassViewer.instance = this;
+
+    this._init(new apiviewer.dao.Class({}));        
   },
 
 
