@@ -246,17 +246,19 @@ qx.Class.define("qx.ui.menu.AbstractButton",
     // property apply
     _applyMenu : function(value, old)
     {
-      this._hasSubMenu = !!value;
-
       if (value)
       {
         this._showChildControl("arrow");
+
         value.setOpener(this);
+        value.addState("submenu");
       }
       else
       {
         this._excludeChildControl("arrow");
+
         value.resetOpener();
+        value.removeState("submenu");
       }
     }
   }

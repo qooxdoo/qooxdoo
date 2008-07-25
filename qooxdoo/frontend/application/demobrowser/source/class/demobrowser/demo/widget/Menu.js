@@ -175,6 +175,8 @@ qx.Class.define("demobrowser.demo.widget.Menu",
       var site2 = new qx.ui.menu.Button("Website 2");
       var site3 = new qx.ui.menu.Button("Website 3");
 
+      menu.setMinWidth(120);
+
       site1.addListener("execute", this.debugButton);
       site2.addListener("execute", this.debugButton);
       site3.addListener("execute", this.debugButton);
