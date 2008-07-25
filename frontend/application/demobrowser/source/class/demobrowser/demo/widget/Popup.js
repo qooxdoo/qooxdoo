@@ -59,14 +59,16 @@ qx.Class.define("demobrowser.demo.widget.Popup",
       var popup = new qx.ui.popup.Popup(new qx.ui.layout.Canvas()).set({
         backgroundColor: "#FFFAD3",
         padding: [2, 4],
-        decorator: "black"
+        decorator: "black",
+        offset : 3,
+        offsetBottom : 20
       });
 
       popup.add(new qx.ui.basic.Atom("Hello World #1", "icon/32/apps/photo-album.png"));
 
       button.addListener("click", function(e)
       {
-        popup.moveTo(e.getViewportLeft() + 3, e.getViewportTop() + 3);
+        popup.alignToMouse(e);
         popup.show();
       }, this);
 
@@ -86,14 +88,16 @@ qx.Class.define("demobrowser.demo.widget.Popup",
       var popup = new qx.ui.popup.Popup(new qx.ui.layout.Canvas()).set({
         backgroundColor: "#DFFAD3",
         padding: [2, 4],
-        decorator: "black"
+        decorator: "black",
+        offset : 3,
+        position : "top-right"
       });
 
       popup.add(new qx.ui.basic.Atom("Hello World #1", "icon/32/apps/photo-album.png"));
 
       button.addListener("click", function(e)
       {
-        popup.moveTo(e.getViewportLeft() + 3, e.getViewportTop() + 3);
+        popup.alignToMouse(e);
         popup.show();
       }, this);
 
