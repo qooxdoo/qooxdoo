@@ -19,12 +19,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#asset(qx/decoration/${qx.theme}/cursors/*)
-#asset(qx/icon/${qx.icontheme}/48/actions/contact-new.png)
-
-************************************************************************ */
 
 /**
  * This manager (singleton) manage all drag and drop handling
@@ -51,21 +45,24 @@ qx.Class.define("qx.ui.core.DragDropHandler",
     this.__actions = {};
     this.__cursors = {};
 
+    var root = qx.core.Init.getApplication().getRoot();
+
+    // TODO: setup these cursors as one Image -> image-combine/image-clipping
     var vCursor, vAction;
     var vActions = [ "move", "copy", "alias", "nodrop" ];
 
     for (var i=0, l=vActions.length; i<l; i++)
     {
       vAction = vActions[i];
-      vCursor = this.__cursors[vAction] = new qx.ui.basic.Image("icon/48/actions/contact-new.png");
-      
-      // TODO: set up appearances
-      //vCursor.setAppearance("cursor-dnd-" + vAction);
-      vCursor.setZIndex(1e8);
+      vCursor = this.__cursors[vAction] = new qx.ui.basic.Image;
+      vCursor.set({
+        appearance : "cursor-dnd-" + vAction,
+        zIndex     : 1e8
+      });
+      root.add(vCursor, { left : -50, top : -50 });
     }
     
-    var root = qx.core.Init.getApplication().getRoot();
-    
+    // add listeners - "mousemove" is added/removed dynamically
     qx.event.Registration.addListener(root, "mousedown", this._handleMouseDown, this, true);
     qx.event.Registration.addListener(root, "mouseup", this._handleMouseUp, this, true);
   },
@@ -159,7 +156,7 @@ qx.Class.define("qx.ui.core.DragDropHandler",
     {
       if (value)
       {
-        value.dispatchEvent(new qx.event.type.Drag("dragdrop", this.__lastDestinationEvent, value, this.getSourceWidget()));
+        qx.event.Registration.fireEvent(value, "dragdrop", qx.event.type.Drag, [ this.__lastDestinationEvent, value, this.getSourceWidget() ]);
         this.__lastDestinationEvent = null;
       }
     },
@@ -184,7 +181,8 @@ qx.Class.define("qx.ui.core.DragDropHandler",
      * @param vData {var} TODOC
      * @return {void}
      */
-    addData : function(vMimeType, vData) {
+    addData : function(vMimeType, vData)
+    {
       this.__data[vMimeType] = vData;
     },
 
@@ -196,7 +194,8 @@ qx.Class.define("qx.ui.core.DragDropHandler",
      * @param vMimeType {var} TODOC
      * @return {var} TODOC
      */
-    getData : function(vMimeType) {
+    getData : function(vMimeType)
+    {
       return this.__data[vMimeType];
     },
 
@@ -291,7 +290,7 @@ qx.Class.define("qx.ui.core.DragDropHandler",
       "default" : function(e)
       {
         var vCurrent = e.getTarget();
-
+        
         while (vCurrent != null)
         {
           if (!vCurrent.supportsDrop(this.__dragCache)) {
@@ -341,10 +340,9 @@ qx.Class.define("qx.ui.core.DragDropHandler",
       // Add feedback widget
       if (this.__feedbackWidget)
       {
-        this.__feedbackWidget.setVisibility(false);
+        this.__feedbackWidget.hide();
 
-        var root = qx.core.Init.getApplication().getRoot();
-        root.add(this.__feedbackWidget);
+        qx.core.Init.getApplication().getRoot().add(this.__feedbackWidget);
         this.__feedbackWidget.setZIndex(1e8);
       }
     },
@@ -370,18 +368,15 @@ qx.Class.define("qx.ui.core.DragDropHandler",
     _fireUserEvents : function(fromWidget, toWidget, e)
     {
       if (fromWidget && fromWidget != toWidget) {
-        //fromWidget.dispatchEvent(new qx.event.type.Drag("dragout", e, fromWidget, toWidget), true);
         qx.event.Registration.fireEvent(fromWidget, "dragout", qx.event.type.Drag, [ e, fromWidget, toWidget ]);
       }
 
       if (toWidget)
       {
         if (fromWidget != toWidget) {
-          //toWidget.dispatchEvent(new qx.event.type.Drag("dragover", e, toWidget, fromWidget), true);
           qx.event.Registration.fireEvent(toWidget, "dragover", qx.event.type.Drag, [ e, toWidget, fromWidget ]);
         }
 
-        //toWidget.dispatchEvent(new qx.event.type.Drag("dragmove", e, toWidget, null), true);
         qx.event.Registration.fireEvent(toWidget, "dragmove", qx.event.type.Drag, [ e, toWidget, null ]);
       }
     },
@@ -394,28 +389,6 @@ qx.Class.define("qx.ui.core.DragDropHandler",
       HANDLER FOR MOUSE EVENTS
     ---------------------------------------------------------------------------
     */
-
-    /**
-     * This wraps the mouse events to custom handlers.
-     *
-     * @type member
-     * @param e {Event} TODOC
-     * @return {var} TODOC
-     */
-    handleMouseEvent : function(e)
-    {
-      switch(e.getType())
-      {
-        case "mousedown":
-          return this._handleMouseDown(e);
-
-        case "mouseup":
-          return this._handleMouseUp(e);
-
-        case "mousemove":
-          return this._handleMouseMove(e);
-      }
-    },
 
 
     /**
@@ -431,24 +404,28 @@ qx.Class.define("qx.ui.core.DragDropHandler",
      */
     _handleMouseDown : function(e)
     {
-      //if (e.getDefaultPrevented() || !e.isLeftButtonPressed()) {
       if (!e.isLeftPressed()) {
         return;
       }
       
       // register mousemove listener
       qx.event.Registration.addListener(qx.core.Init.getApplication().getRoot(), "mousemove", this._handleMouseMove, this, true);
-
-      // TODO: change implementation of "__dragCache" object
+      
       // Store initial dragCache
-      this.__dragCache =
-      {
+      this.__dragCache = {
+        // coordinates from the original mouse event
+        documentLeft    : e.getDocumentLeft(),
+        documentTop     : e.getDocumentTop(),
+        
+        // getter to harmonize the interface of the dragCache object with mouse event
+        getDocumentLeft : function(){ return this.documentLeft; },
+        getDocumentLeft : function(){ return this.documentTop; },
+        
+        // additional infos used inside the handler
         startScreenLeft   : e.getScreenLeft(),
         startScreenTop    : e.getScreenTop(),
-        pageX             : e.getDocumentLeft(),
-        pageY             : e.getDocumentTop(),
         sourceWidget      : e.getTarget(),
-        sourceTopLevel    : e.getTarget()._getRoot(), // TODO: change this!
+        sourceTopLevel    : e.getTarget()._getRoot(), // TODO: alternative to this?
         dragHandlerActive : false,
         hasFiredDragStart : false
       };
@@ -472,12 +449,11 @@ qx.Class.define("qx.ui.core.DragDropHandler",
       /*
         Default handling if drag handler is activated
       */
-     
       if (this.__dragCache.dragHandlerActive)
       {
         // Update page coordinates
-        this.__dragCache.pageLeft = e.getDocumentLeft();
-        this.__dragCache.pageTop = e.getDocumentTop();
+        this.__dragCache.documentLeft = e.getDocumentLeft();
+        this.__dragCache.documentTop  = e.getDocumentTop();
 
         // Get current target
         var currentDropTarget = this.getDropTarget(e);
@@ -493,9 +469,12 @@ qx.Class.define("qx.ui.core.DragDropHandler",
 
         // Update cursor icon
         this._renderCursor();
-
+        
         // Update user feedback
         this._renderFeedbackWidget();
+        
+        // stop the mousemove event
+        e.stop();
       }
 
       /*
@@ -508,8 +487,7 @@ qx.Class.define("qx.ui.core.DragDropHandler",
         {
           // Fire dragstart event to finally allow the above if to handle next events
           qx.event.Registration.fireEvent(this.__dragCache.sourceWidget, "dragstart", qx.event.type.Drag, [ e ]);
-          //this.__dragCache.sourceWidget.dispatchEvent(new qx.event.type.Drag("dragstart", e, this.__dragCache.sourceWidget), true);
-
+          
           // Update status flag
           this.__dragCache.hasFiredDragStart = true;
 
@@ -521,9 +499,6 @@ qx.Class.define("qx.ui.core.DragDropHandler",
 
             // Update status flags
             this.__dragCache.currentDropWidget = this.__dragCache.sourceWidget;
-
-            // Activate capture for clientDocument
-            //qx.core.Init.getApplication().getRoot().capture();
           }
         }
       }
@@ -734,12 +709,10 @@ qx.Class.define("qx.ui.core.DragDropHandler",
      */
     _endDragCore : function()
     {
-      var root = qx.core.Init.getApplication().getRoot();
-      
       // Cleanup feedback widget
       if (this.__feedbackWidget)
       {
-        root.remove(this.__feedbackWidget);
+        qx.core.Init.getApplication().getRoot().remove(this.__feedbackWidget);
 
         if (this.__feedbackAutoDispose) {
           this.__feedbackWidget.dispose();
@@ -753,7 +726,6 @@ qx.Class.define("qx.ui.core.DragDropHandler",
 
       if (oldCursor)
       {
-        //oldCursor._style.display = "none";
         oldCursor.getContainerElement().hide();
         this.__cursor = null;
       }
@@ -767,9 +739,6 @@ qx.Class.define("qx.ui.core.DragDropHandler",
         this.__dragCache.currentDropWidget = null;
         this.__dragCache = null;
       }
-
-      // Deactivate capture for clientDocument
-      root.releaseCapture();
 
       // Cleanup data and actions
       this.clearData();
@@ -841,20 +810,9 @@ qx.Class.define("qx.ui.core.DragDropHandler",
         vOldCursor.getContainerElement().hide();
       }
 
-      // Ensure that the cursor is created
-      /*if (!vNewCursor._initialLayoutDone)
-      {*/
-        qx.core.Init.getApplication().getRoot().add(vNewCursor);
-        //qx.legacy.ui.core.Widget.flushGlobalQueues();
-      //}
-
-      // Apply position with runtime style (fastest qooxdoo method)
-      // TODO: check these methods
-      //vNewCursor._renderRuntimeLeft(this.__dragCache.pageX + ((this._cursorDeltaX != null) ? this._cursorDeltaX : this.getDefaultCursorDeltaX()));
-      //vNewCursor._renderRuntimeTop(this.__dragCache.pageY + ((this._cursorDeltaY != null) ? this._cursorDeltaY : this.getDefaultCursorDeltaY()));
-      var cursorPosLeft = this.__dragCache.pageLeft + ((this._cursorDeltaLeft != null) ? this._cursorDeltaLeft : this.getDefaultCursorDeltaLeft());
-      var cursorPosTop  = this.__dragCache.pageTop + ((this._cursorDeltaTop != null) ? this._cursorDeltaTop : this.getDefaultCursorDeltaTop());
-      vNewCursor.setDomPosition(cursorPosLeft, cursorPosTop);
+      // Apply position with setDomLeft and setDomTop (fastest qooxdoo method)
+      vNewCursor.setDomLeft(this.__dragCache.documentLeft + ((this._cursorDeltaLeft != null) ? this._cursorDeltaLeft : this.getDefaultCursorDeltaLeft()));
+      vNewCursor.setDomTop(this.__dragCache.documentTop + ((this._cursorDeltaTop != null) ? this._cursorDeltaTop : this.getDefaultCursorDeltaTop()));
 
       // Finally show new cursor
       if (vNewCursor != vOldCursor) {
@@ -1049,11 +1007,11 @@ qx.Class.define("qx.ui.core.DragDropHandler",
     {
       if (this.__feedbackWidget)
       {
-        this.__feedbackWidget.setVisibility(true);
+        this.__feedbackWidget.show();
 
         // Apply position with runtime style (fastest qooxdoo method)
-        this.__feedbackWidget._renderRuntimeLeft(this.__dragCache.pageX + this.__feedbackDeltaX);
-        this.__feedbackWidget._renderRuntimeTop(this.__dragCache.pageY + this.__feedbackDeltaY);
+        this.__feedbackWidget.setDomLeft(this.__dragCache.documentLeft + this.__feedbackDeltaX);
+        this.__feedbackWidget.setDomTop(this.__dragCache.documentTop + this.__feedbackDeltaY);
       }
     }
   },
