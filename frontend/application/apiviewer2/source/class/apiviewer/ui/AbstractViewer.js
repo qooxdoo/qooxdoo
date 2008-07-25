@@ -101,6 +101,9 @@ qx.Class.define("apiviewer.ui.AbstractViewer",
       this.addListenerOnce("appear", function(){
         this._syncHtml();
         this.setDocNode(pkg);
+
+        this._applyDocNode(this.__classNode)
+        this.exclude();
       }, this);
     },
     
@@ -124,14 +127,6 @@ qx.Class.define("apiviewer.ui.AbstractViewer",
       }
 
       this.setHtml(html.get());
-      
-/*
-      for (var i=0; i<panels.length; i++)
-      {
-        var panel = panels[i];
-        html.add(panel.setElement(divArr[i+2]));
-      }
-*/
    },
     
     /**
@@ -162,8 +157,11 @@ qx.Class.define("apiviewer.ui.AbstractViewer",
      */
     _syncHtml : function()
     {
-      var divArr = this.getContentElement().getDomElement().childNodes;
+      var element = this.getContentElement().getDomElement();
+      var divArr = element.childNodes;
       var panels = this.getPanels();
+
+      apiviewer.ui.AbstractViewer.fixLinks(element);
 
       this._titleElem = divArr[0];
       this._classDescElem = divArr[1];
@@ -175,45 +173,8 @@ qx.Class.define("apiviewer.ui.AbstractViewer",
       }
 
     },
-/*
-    _syncHtml : function()
-    {
-      var html = new qx.util.StringBuilder();
 
-      // Add title
-      html.add('<h1></h1>');
 
-      // Add description
-      html.add('<div>', '</div>');
-
-      // render panels
-      var panels = this.getPanels();
-      for (var i=0; i<panels.length; i++)
-      {
-        var panel = panels[i];
-        html.add(panel.getPanelHtml(this));
-      }
-
-      // Set the html
-      //this.getElement().innerHTML = html.get();
-      this.setHtml(html.get());
-      ////////apiviewer.ui.AbstractViewer.fixLinks(this.getElement());
-
-      // Extract the main elements
-      //var divArr = this.getElement().childNodes;
-      var divArr = this.getContentElement().getDomElement();
-      debugger;
-
-      this._titleElem = divArr[0];
-      this._classDescElem = divArr[1];
-
-      for (var i=0; i<panels.length; i++)
-      {
-        var panel = panels[i];
-        html.add(panel.setElement(divArr[i+2]));
-      }
-    },
-*/
     addInfoPanel : function(panel)
     {
       this._infoPanelHash[panel.toHashCode()] = panel;
@@ -258,13 +219,17 @@ qx.Class.define("apiviewer.ui.AbstractViewer",
     _applyDocNode : function(classNode)
     {
 
+      this.__classNode = classNode;
+      
       if (!this._titleElem)
       {
         // _initContentDocument was not called yet
         // -> Do nothing, the class will be shown in _initContentDocument.
+        this.debug("not ready")
         return;
       }
-
+      this.debug("ready")
+      
       this._titleElem.innerHTML = this._getTitleHtml(classNode);
       this._classDescElem.innerHTML = this._getDescriptionHtml(classNode);
       apiviewer.ui.AbstractViewer.fixLinks(this._classDescElem);
