@@ -130,6 +130,35 @@ qx.Class.define("qx.html.Element",
 
 
     /**
+     * Sorts elements by their cascading level
+     *
+     * @signature function(a, b)
+     * @param a {Element} DOM element 1
+     * @param b {Element} DOM element 2
+     */
+    _mshtmlVisibilitySort : qx.core.Variant.select("qx.client",
+    {
+      "mshtml" : function(a, b)
+      {
+        var al = a._element;
+        var bl = b._element;
+
+        if (al.contains(bl)) {
+          return 1;
+        }
+
+        if (bl.contains(al)) {
+          return -1;
+        }
+
+        return 0;
+      },
+
+      "default" : null
+    }),
+
+
+    /**
      * Flush the global modified list
      *
      * @type static
@@ -198,6 +227,34 @@ qx.Class.define("qx.html.Element",
 
       // Process visibility list
       var visibility = this._visibility;
+
+      // IE, at least version 7.0, has issues when hiding cascaded
+      // elements (settings them to display=none). In this case we must
+      // be sure to hide them from inner to outer.
+      if (qx.core.Variant.isSet("qx.client", "mshtml"))
+      {
+        // Build list
+        var list = [];
+        for (var hc in visibility) {
+          list.push(visibility[hc]);
+        }
+
+        // Only makes sense when at least one item should be modified
+        if (list.length > 1)
+        {
+          // Sort list
+          list.sort(this._mshtmlVisibilitySort);
+
+          // Rebuild map structure from list
+          visibility = this._visibility = {};
+          for (var i=0; i<list.length; i++)
+          {
+            obj = list[i];
+            visibility[obj.$$hash] = obj;
+          }
+        }
+      }
+
       for (var hc in visibility)
       {
         obj = visibility[hc];
@@ -1592,20 +1649,20 @@ qx.Class.define("qx.html.Element",
     },
 
 
-    
-    
+
+
     /*
     ---------------------------------------------------------------------------
       TEXT SELECTION SUPPORT
     ---------------------------------------------------------------------------
     */
-    
+
     /**
      * Get the selection of the element.
      *
      * If the underlaying DOM element is not yet created, this methods returns
      * a null value.
-     * 
+     *
      * @type member
      * @return {String|null}
      */
@@ -1616,17 +1673,17 @@ qx.Class.define("qx.html.Element",
       {
         return qx.bom.Selection.get(el);
       }
-      
+
       return null;
     },
-    
-    
+
+
     /**
      * Get the length of selection of the element.
      *
      * If the underlaying DOM element is not yet created, this methods returns
      * a null value.
-     * 
+     *
      * @type member
      * @return {Integer|null}
      */
@@ -1637,17 +1694,17 @@ qx.Class.define("qx.html.Element",
       {
         return qx.bom.Selection.getLength(el);
       }
-      
+
       return null;
     },
-    
-    
+
+
     /**
      * Set the selection of the element with the given start and end value.
      * If no end value is passed the selection will extend to the end.
      *
      * This method only works if the underlying DOM element is already created.
-     * 
+     *
      * @type member
      * @param start {Integer} start of the selection (zero based)
      * @param end {Integer} end of the selection
@@ -1661,13 +1718,13 @@ qx.Class.define("qx.html.Element",
         qx.bom.Selection.set(el, start, end);
       }
     },
-    
-    
+
+
     /**
      * Clears the selection of the element.
      *
      * This method only works if the underlying DOM element is already created.
-     * 
+     *
      * @type member
      * @return {void}
      */
