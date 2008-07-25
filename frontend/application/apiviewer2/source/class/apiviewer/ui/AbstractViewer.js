@@ -28,11 +28,10 @@ qx.Class.define("apiviewer.ui.AbstractViewer",
   construct : function()
   {
     this.base(arguments);
-/*
-    this.setOverflow("auto");
-    this.setPadding(20);
-    this.setEdge(0);
-*/
+
+    this.setOverflowX("scroll");
+    this.setOverflowY("scroll");
+
     this._infoPanelHash = {};
     this._infoPanels = [];
     apiviewer.ObjectRegistry.register(this);
@@ -114,8 +113,9 @@ qx.Class.define("apiviewer.ui.AbstractViewer",
         html.add(panel.getPanelHtml(this));
       }
       
-      console.info(html.get())
+      console.info("HTML :", html.get())
 
+      
       this.setHtml(html.get());
       
 /*
@@ -155,10 +155,18 @@ qx.Class.define("apiviewer.ui.AbstractViewer",
      */
     _syncHtml : function()
     {
-      var divArr = this.getContentElement().getDomElement();
+      var divArr = this.getContentElement().getDomElement().childNodes;
+      var panels = this.getPanels();
 
       this._titleElem = divArr[0];
       this._classDescElem = divArr[1];
+      
+      for (var i=0; i<panels.length; i++)
+      {
+        var panel = panels[i];
+        panel.setElement(divArr[i+2]);
+      }
+
     },
 /*
     _syncHtml : function()
@@ -246,8 +254,10 @@ qx.Class.define("apiviewer.ui.AbstractViewer",
       {
         // _initContentDocument was not called yet
         // -> Do nothing, the class will be shown in _initContentDocument.
+        console.info("not ready")
         return;
       }
+      console.warn("ready")
 
       this._titleElem.innerHTML = this._getTitleHtml(classNode);
       this._classDescElem.innerHTML = this._getDescriptionHtml(classNode);
