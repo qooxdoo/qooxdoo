@@ -188,44 +188,9 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
      */
     _showPopup : function()
     {
-      var pos = qx.bom.element.Location.get(this.getContainerElement().getDomElement(), "box");
-
-      var clientHeight = qx.bom.Viewport.getHeight();
-
-      var spaceAbove = pos.top;
-      var spaceBelow = clientHeight - pos.bottom;
-
-      var list = this._getChildControl("list");
       var listPopup = this._getChildControl("popup");
 
-      list.setMaxHeight(this.getMaxListHeight());
-
-      var listHeight = list.getSizeHint().height;
-
-      // case 1: List fits below the button
-      if (spaceBelow > listHeight) {
-        listPopup.moveTo(pos.left, pos.bottom);
-      }
-
-      // case 2: list does not fit below the button but above it
-      else if (spaceAbove > listHeight) {
-        listPopup.moveTo(pos.left, pos.top - listHeight);
-      }
-
-      // case 3: List does not fit at all
-      else if (spaceBelow > spaceAbove)
-      {
-        list.setMaxHeight(spaceBelow);
-        listPopup.moveTo(pos.left, pos.bottom);
-      }
-
-      // case 4: List must be fitted above the button
-      else
-      {
-        list.setMaxHeight(spaceAbove);
-        listPopup.moveTo(pos.left, pos.bottom - listHeight);
-      }
-
+      listPopup.alignToWidget(this);
       listPopup.show();
     },
 
