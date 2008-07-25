@@ -547,6 +547,7 @@ qx.Class.define("qx.ui.menu.Manager",
     {
       // Query for previous child
       var selectedButton = menu.getSelectedButton();
+      var children = menu.getChildren();
       var start = selectedButton ? menu.indexOf(selectedButton)-1 : children.length-1;
       var nextItem = this._getChild(menu, start, -1, true);
 
