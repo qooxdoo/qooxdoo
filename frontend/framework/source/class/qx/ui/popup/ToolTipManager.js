@@ -51,6 +51,9 @@ qx.Class.define("qx.ui.popup.ToolTipManager",
 
     this._hideTimer = new qx.event.Timer();
     this._hideTimer.addListener("interval", this._onHideInterval, this);
+
+    // Init mouse position
+    this.__mousePosition = { left: 0, top: 0 };
   },
 
 
@@ -131,35 +134,6 @@ qx.Class.define("qx.ui.popup.ToolTipManager",
 
 
 
-
-    /*
-    ---------------------------------------------------------------------------
-      UTILITIES
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * The viewport position of the last mouse move event.
-     *
-     * @return {Integer} Left viewport coordinate of the last move event.
-     */
-    getLastLeft : function() {
-      return this.__lastLeft;
-    },
-
-
-    /**
-     * The viewport position of the last mouse move event.
-     *
-     * @return {Integer} Top viewport coordinate of the last move event.
-     */
-    getLastTop : function() {
-      return this.__lastTop;
-    },
-
-
-
-
     /*
     ---------------------------------------------------------------------------
       TIMER EVENT HANDLER
@@ -172,6 +146,8 @@ qx.Class.define("qx.ui.popup.ToolTipManager",
       if (current)
       {
         this._hideTimer.startWith(current.getHideTimeout());
+
+        current.alignToPoint(this.__mousePosition);
         current.show();
       }
 
@@ -204,8 +180,10 @@ qx.Class.define("qx.ui.popup.ToolTipManager",
      */
     __onMouseMoveRoot : function(e)
     {
-      this.__lastLeft = e.getViewportLeft();
-      this.__lastTop = e.getViewportTop();
+      var pos = this.__mousePosition;
+
+      pos.left = e.getDocumentLeft();
+      pos.top = e.getDocumentTop();
     },
 
 
@@ -340,7 +318,9 @@ qx.Class.define("qx.ui.popup.ToolTipManager",
   *****************************************************************************
   */
 
-  destruct : function() {
-    this.__disposeObjects("_showTimer", "_hideTimer");
+  destruct : function()
+  {
+    this._disposeObjects("_showTimer", "_hideTimer");
+    this._disposeFields("__mousePosition");
   }
 });
