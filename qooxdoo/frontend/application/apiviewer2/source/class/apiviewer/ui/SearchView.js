@@ -73,6 +73,7 @@ qx.Class.define("apiviewer.ui.SearchView",
 
       // Search form - input field
       this.sinput = new qx.ui.form.TextField();
+      this.sinput.setValue("Search is disabled.");
 
       // Search form - submit button
       this.__button = new qx.ui.form.Button("Find");
@@ -132,7 +133,8 @@ qx.Class.define("apiviewer.ui.SearchView",
           this.rlv.update();
         }
         this.sinput.resetBackgroundColor();
-        this.__button.setEnabled(false);
+        ////TODO: Activate search
+        ////this.__button.setEnabled(false);
         return;
       }
       else
@@ -144,7 +146,8 @@ qx.Class.define("apiviewer.ui.SearchView",
             var search = this._validateInput(svalue);
             new RegExp(search[0]);
             this.sinput.resetBackgroundColor();
-            this.__button.setEnabled(true);
+            ////TODO: Activate search
+            ////this.__button.setEnabled(true);
         }
         catch(ex)
         {
@@ -156,7 +159,8 @@ qx.Class.define("apiviewer.ui.SearchView",
           }
 
           this.sinput.setBackgroundColor("#ffbfbc");
-          this.__button.setEnabled(false);
+          ////TODO: Activate search
+          ////this.__button.setEnabled(false);
           return;
         }
 

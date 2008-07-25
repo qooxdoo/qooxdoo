@@ -111,6 +111,8 @@ qx.Class.define("apiviewer.ui.AbstractViewer",
     {
       var html = new qx.util.StringBuilder();
 
+      html.add('<div style="padding:10px;">');
+
       // Add title
       html.add('<h1></h1>');
 
@@ -126,6 +128,8 @@ qx.Class.define("apiviewer.ui.AbstractViewer",
         html.add(panel.getPanelHtml(this));
       }
 
+      html.add('</div>');      
+      
       this.setHtml(html.get());
    },
     
@@ -157,7 +161,7 @@ qx.Class.define("apiviewer.ui.AbstractViewer",
      */
     _syncHtml : function()
     {
-      var element = this.getContentElement().getDomElement();
+      var element = this.getContentElement().getDomElement().firstChild;
       var divArr = element.childNodes;
       var panels = this.getPanels();
 

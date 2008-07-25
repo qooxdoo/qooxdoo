@@ -56,11 +56,8 @@ qx.Class.define("apiviewer.Application",
       this.viewer = new apiviewer.Viewer();
       this.controller = new apiviewer.Controller();
 
-      this.getRoot().add(this.viewer, {
-        edge : 0
-      });
-      
-      
+      this.getRoot().add(this.viewer, {edge : 0});
+
       // Load data file
       qx.event.Timer.once(this._load, this, 0);
     },
