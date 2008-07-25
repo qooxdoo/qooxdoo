@@ -41,22 +41,27 @@ qx.Class.define("apiviewer.ui.PackageViewer",
   {
     this.base(arguments);
 
-    
+    this.getContentElement().setAttribute("id", "ClassViewer");
+    this.exclude();
+
+    this.setDocNode(new apiviewer.dao.Package({}));
+
     this.addInfoPanel(new apiviewer.ui.panels.ClassPanel("classes", "classes", "class"));
     this.addInfoPanel(new apiviewer.ui.panels.ClassPanel("classes", "interfaces", "interface"));
     this.addInfoPanel(new apiviewer.ui.panels.ClassPanel("classes", "mixins", "mixin"));
     this.addInfoPanel(new apiviewer.ui.panels.PackagePanel("packages", "packages"));
     
     
-    this.getContentElement().setAttribute("id", "ClassViewer");
-    this.exclude();
 
     this.__initHtml();
-    this.addListenerOnce("appear", this._syncHtml, this);
-
+//    this.setDocNode(new apiviewer.dao.Package({}));
     
-    this.setDocNode(new apiviewer.dao.Package({}));
-
+    ////this.addListenerOnce("appear", this._syncHtml, this);
+    this.addListenerOnce("appear", function(){
+      this._syncHtml();
+      this.setDocNode(new apiviewer.dao.Package({}));
+    }, this);
+    
   },
 
 
