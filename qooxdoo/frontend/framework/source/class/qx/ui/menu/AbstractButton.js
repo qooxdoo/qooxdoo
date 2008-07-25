@@ -246,6 +246,12 @@ qx.Class.define("qx.ui.menu.AbstractButton",
     // property apply
     _applyMenu : function(value, old)
     {
+      if (old)
+      {
+        old.resetOpener();
+        old.removeState("submenu");
+      }
+
       if (value)
       {
         this._showChildControl("arrow");
@@ -256,9 +262,6 @@ qx.Class.define("qx.ui.menu.AbstractButton",
       else
       {
         this._excludeChildControl("arrow");
-
-        value.resetOpener();
-        value.removeState("submenu");
       }
     }
   }

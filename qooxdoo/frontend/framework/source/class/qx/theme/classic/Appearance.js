@@ -132,15 +132,15 @@ qx.Theme.define("qx.theme.classic.Appearance",
         };
       }
     },
-    
-    
-    
+
+
+
     /*
     ---------------------------------------------------------------------------
       DRAG AND DROP CURSORS
     ---------------------------------------------------------------------------
     */
-    
+
     "cursor-dnd-move" :
     {
       style : function(states)
@@ -1314,8 +1314,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
         if (states.submenu)
         {
           result.position = "right-top";
-          result.offsetLeft = result.offsetRight = -3;
-          result.offsetTop = result.offsetBottom = -2;
+          result.offset = [-2, -3];
         }
 
         return result;

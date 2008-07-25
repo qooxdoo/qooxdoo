@@ -598,7 +598,7 @@ qx.Class.define("qx.event.handler.Focus",
         }
 
         // Make target active
-        this.doActive(activeTarget);
+        this.doActive(target);
       },
 
       "opera" : function(e)

@@ -70,7 +70,8 @@ qx.Mixin.define("qx.ui.core.MAlign",
     smart :
     {
       check : "Boolean",
-      init : true
+      init : true,
+      themeable : true
     },
 
     /** Left offset of the mouse pointer (in pixel) */
