@@ -18,8 +18,8 @@
 ************************************************************************ */
 
 /**
- * Contains methods to compute a position for any element which should
- * be positioned to any other element.
+ * Contains methods to compute a position for any object which should
+ * be positioned to any other object.
  */
 qx.Class.define("qx.util.AlignUtil",
 {
