@@ -1,21 +1,19 @@
+// Apiviewer - config.json
 {
-  "name"    : "New APIViewer",
+  "name"    : "Apiviewer (application) config",
 
   "include" :
   [
     {
-      "path" : "../../tool/data/config/application.json"
-    }
-  ],
+      "path" : "./api.json"
+    }, 
 
-  "let" :
-  {
-    "APPLICATION"  : "apiviewer",
-    "QOOXDOO_PATH" : "../../framework",
-    "QOOXDOO_URI"  : "../${QOOXDOO_PATH}",
-    "CACHE"        : "./cache",
-    "QXTHEME"      : "apiviewer.Theme",
-    "LOCALES"      : [ "en" ],
-    "ROOT"         : "."
-  }
+    {
+      "path"   : "../../tool/data/config/application.json",
+      // select everything except 'source' and 'build' which are defined locally
+      "block"  : [ "source", "build" ]
+    }
+  ]
+
 }
+
