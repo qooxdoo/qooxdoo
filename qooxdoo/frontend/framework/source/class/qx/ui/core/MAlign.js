@@ -77,7 +77,7 @@ qx.Mixin.define("qx.ui.core.MAlign",
     offsetLeft :
     {
       check : "Integer",
-      init : 1,
+      init : 0,
       themeable : true
     },
 
@@ -85,7 +85,7 @@ qx.Mixin.define("qx.ui.core.MAlign",
     offsetTop :
     {
       check : "Integer",
-      init : 1,
+      init : 0,
       themeable : true
     },
 
@@ -93,7 +93,7 @@ qx.Mixin.define("qx.ui.core.MAlign",
     offsetRight :
     {
       check : "Integer",
-      init : 1,
+      init : 0,
       themeable : true
     },
 
@@ -101,7 +101,7 @@ qx.Mixin.define("qx.ui.core.MAlign",
     offsetBottom :
     {
       check : "Integer",
-      init : 20,
+      init : 0,
       themeable : true
     }
   },
