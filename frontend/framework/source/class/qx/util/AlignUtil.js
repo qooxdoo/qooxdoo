@@ -40,10 +40,13 @@ qx.Class.define("qx.util.AlignUtil",
      * @param value {String} Alignment of the object on the target
      * @param correct {Boolean?true} Whether the position should be automatically
      *   corrected when not enough room is available in the given area.
+     * @param offsets {Map?null} Map with all offsets for each direction.
+     *   Comes with the keys <code>left</code>, <code>top</code>,
+     *   <code>right</code> and <code>bottom</code>. Defaults to zero.
      * @return {Map} A map with the final location stored in the keys
      *   <code>left</code> and <code>top</code>.
      */
-    compute : function(size, area, coords, value, correct)
+    compute : function(size, area, coords, value, correct, offsets)
     {
       var left = 0;
       var top = 0;
@@ -51,23 +54,33 @@ qx.Class.define("qx.util.AlignUtil",
       var edge = value.split("-")[0];
       var align = value.split("-")[1];
 
+      // Compute offsets
+      var offsetLeft=0, offsetTop=0, offsetRight=0, offsetBottom=0;
+      if (offsets)
+      {
+        offsetLeft += offsets.left || 0;
+        offsetTop += offsets.top || 0;
+        offsetRight += offsets.right || 0;
+        offsetBottom += offsets.bottom || 0;
+      }
+
       // Process edge part
       switch(edge)
       {
         case "left":
-          left = coords.left - size.width;
+          left = coords.left - size.width - offsetLeft;
           break;
 
         case "top":
-          top = coords.top - size.height;
+          top = coords.top - size.height - offsetTop;
           break;
 
         case "right":
-          left = coords.right;
+          left = coords.right + offsetRight;
           break;
 
         case "bottom":
-          top = coords.bottom;
+          top = coords.bottom + offsetBottom;
           break;
       }
 
@@ -108,7 +121,7 @@ qx.Class.define("qx.util.AlignUtil",
           if (left < 0)
           {
             if (edge == "left") {
-              fixedLeft = coords.right;
+              fixedLeft = coords.right + offsetRight;
             } else if (align == "right") {
               fixedLeft = coords.left;
             }
@@ -116,7 +129,7 @@ qx.Class.define("qx.util.AlignUtil",
           else
           {
             if (edge == "right") {
-              fixedLeft = coords.left - size.width;
+              fixedLeft = coords.left - size.width - offsetLeft;
             } else if (align == "left") {
               fixedLeft = coords.right - size.width;
             }
@@ -139,7 +152,7 @@ qx.Class.define("qx.util.AlignUtil",
           if (top < 0)
           {
             if (edge == "top") {
-              fixedTop = coords.bottom;
+              fixedTop = coords.bottom + offsetBottom;
             } else if (align == "bottom") {
               fixedTop = coords.top;
             }
@@ -147,7 +160,7 @@ qx.Class.define("qx.util.AlignUtil",
           else
           {
             if (edge == "bottom") {
-              fixedTop = coords.top - size.height;
+              fixedTop = coords.top - size.height - offsetTop;
             } else if (align == "top") {
               fixedTop = coords.bottom - size.height;
             }

@@ -95,34 +95,6 @@ qx.Class.define("qx.ui.popup.ToolTip",
       init : "tooltip"
     },
 
-    /** Left offset of the mouse pointer (in pixel) */
-    offsetLeft :
-    {
-      check : "Integer",
-      init : 1
-    },
-
-    /** Top offset of the mouse pointer (in pixel) */
-    offsetTop :
-    {
-      check : "Integer",
-      init : 1
-    },
-
-    /** Right offset of the mouse pointer (in pixel) */
-    offsetRight :
-    {
-      check : "Integer",
-      init : 1
-    },
-
-    /** Bottom offset of the mouse pointer (in pixel) */
-    offsetBottom :
-    {
-      check : "Integer",
-      init : 20
-    },
-
     /** Interval after the tooltip is shown (in milliseconds) */
     showTimeout :
     {
