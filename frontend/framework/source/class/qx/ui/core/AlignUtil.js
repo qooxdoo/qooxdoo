@@ -88,119 +88,193 @@ qx.Class.define("qx.ui.core.AlignUtil",
 
 
     /**
+     * Returns coordinates to align a widget to another one.
      *
-     *
-     *
-     *
-     *
+     * @param widget {qx.ui.core.Widget} Widget to align
+     * @param target {qx.ui.core.Widget} Target to align to
+     * @param align {String} Alignment to respect
+     * @param correct {Boolean?false} Whether the position should be auto-corrected
+     *   depending on the available space
      */
-    align : function(widget, target, value)
+    alignToWidget : function(widget, target, align, correct)
+    {
+      var coords = target.getContainerLocation() || this.getLayoutLocation(target);
+      return this.__align(widget, coords, align, correct);
+    },
+
+
+    /**
+     * Returns coordinates to align a widget to the mouse cursor
+     *
+     * @param widget {qx.ui.core.Widget} Widget to align
+     * @param event {qx.event.type.Mouse} Mouse event to align to
+     * @param align {String} Alignment to respect
+     * @param correct {Boolean?false} Whether the position should be auto-corrected
+     *   depending on the available space
+     */
+    alignToMouse : function(widget, event, align, correct)
+    {
+      var left = event.getDocumentLeft();
+      var top = event.getDocumentTop();
+
+      return this.alignToPoint(widget, left, top, align, correct);
+    },
+
+
+    /**
+     * Returns coordinates to align a widget to the mouse cursor
+     *
+     * @param widget {qx.ui.core.Widget} Widget to align
+     * @param left {Integer} Left coordinate
+     * @param top {Integer} Top coordinate
+     * @param align {String} Alignment to respect
+     * @param correct {Boolean?false} Whether the position should be auto-corrected
+     *   depending on the available space
+     */
+    alignToPoint : function(widget, left, top, align, correct)
+    {
+      var coords = { left: left, top: top, right: left+1, bottom:top+1 };
+      return this.__align(widget, coords, align, correct);
+    },
+
+
+    /**
+     *
+     *
+     *
+     * @param align {String} Alignment to respect
+     * @param correct {Boolean?false} Whether the position should be auto-corrected
+     *   depending on the available space
+     */
+    __align : function(widget, coords, value, correct)
     {
       var parent = widget.getLayoutParent();
       var parentBounds = parent.getBounds();
-
       var widgetHint = widget.getSizeHint();
-      var targetPosition = target.getContainerLocation() || this.getLayoutLocation(target);
-
-      console.debug("Target: ", targetPosition);
 
       var left = 0;
       var top = 0;
 
-      var attach = value.split("-")[0];
+      var edge = value.split("-")[0];
       var align = value.split("-")[1];
 
-      switch(attach)
+      // Process edge part
+      switch(edge)
       {
         case "left":
-          left = targetPosition.left - widgetHint.width;
+          left = coords.left - widgetHint.width;
           break;
 
         case "top":
-          top = targetPosition.top - widgetHint.height;
+          top = coords.top - widgetHint.height;
           break;
 
         case "right":
-          left = targetPosition.right;
+          left = coords.right;
           break;
 
         case "bottom":
-          top = targetPosition.bottom;
+          top = coords.bottom;
           break;
       }
 
+      // Process align part
       switch(align)
       {
         case "left":
-          left = targetPosition.left;
+          left = coords.left;
           break;
 
         case "top":
-          top = targetPosition.top;
+          top = coords.top;
           break;
 
         case "right":
-          left = targetPosition.right - widgetHint.width;
+          left = coords.right - widgetHint.width;
           break;
 
         case "bottom":
-          top = targetPosition.bottom - widgetHint.height;
+          top = coords.bottom - widgetHint.height;
           break;
       }
 
-      var right = left + widgetHint.width;
-      var bottom = top + widgetHint.height;
-
-
-      var validX = left >= 0 && right <= parentBounds.width;
-      var validY = top >= 0 && bottom <= parentBounds.height;
-
-      var fixed;
-      var tweakedX = false;
-      var tweakedY = false;
-
-      if (!validX)
+      if (correct === false)
       {
-
+        return {
+          left : left,
+          top : top
+        };
       }
-
-      if (!validY)
+      else
       {
-        if (top < 0)
+        var ratingX = Math.min(left, parentBounds.width-left-widgetHint.width);
+        if (ratingX < 0)
         {
-          if (align == "bottom") {
-            fixed = targetPosition.top;
-          } else if (attach == "top") {
-            fixed = targetPosition.bottom;
+          var fixedLeft = left;
+
+          if (left < 0)
+          {
+            if (edge == "left") {
+              fixedLeft = coords.right;
+            } else if (align == "right") {
+              fixedLeft = coords.left;
+            }
+          }
+          else
+          {
+            if (edge == "right") {
+              fixedLeft = coords.left - widgetHint.width;
+            } else if (align == "left") {
+              fixedLeft = coords.right - widgetHint.width;
+            }
+          }
+
+          // Review fixed rating result
+          fixedRatingX = Math.min(fixedLeft, parentBounds.width-fixedLeft-widgetHint.width);
+          if (fixedRatingX > ratingX)
+          {
+            left = fixedLeft;
+            ratingX = fixedRatingX;
           }
         }
-        else if (bottom > parentBounds.height)
+
+        var ratingY = Math.min(top, parentBounds.height-top-widgetHint.height);
+        if (ratingY < 0)
         {
-          if (align == "top") {
-            fixed = targetPosition.bottom - widgetHint.height;
-          } else if (attach == "bottom") {
-            fixed = targetPosition.top - widgetHint.height;
+          var fixedTop = top;
+
+          if (top < 0)
+          {
+            if (edge == "top") {
+              fixedTop = coords.bottom;
+            } else if (align == "bottom") {
+              fixedTop = coords.top;
+            }
+          }
+          else
+          {
+            if (edge == "bottom") {
+              fixedTop = coords.top - widgetHint.height;
+            } else if (align == "top") {
+              fixedTop = coords.bottom - widgetHint.height;
+            }
+          }
+
+          // Review fixed rating result
+          fixedRatingY = Math.min(fixedTop, parentBounds.height-fixedTop-widgetHint.height);
+          if (fixedRatingY > ratingY)
+          {
+            top = fixedTop;
+            ratingY = fixedRatingY;
           }
         }
 
-        bottom = fixed + widgetHint.height;
-        validY = fixed >= 0 && bottom <= parentBounds.height;
-
-        if (validY)
-        {
-          top = fixed;
-          tweakedY = true;
+        return {
+          left : left,
+          top : top,
+          ratingX : ratingX,
+          ratingY : ratingY
         }
-      }
-
-
-      return {
-        left : left,
-        top : top,
-        validX : validX,
-        validY : validY,
-        tweakedX : tweakedX,
-        tweakedY : tweakedY
       }
     }
   }
