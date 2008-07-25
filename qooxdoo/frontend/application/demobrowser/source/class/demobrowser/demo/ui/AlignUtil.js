@@ -123,7 +123,7 @@ qx.Class.define("demobrowser.demo.ui.AlignUtil",
         }
       });
 
-      return label;
+      return composite;
     }
   }
 });
