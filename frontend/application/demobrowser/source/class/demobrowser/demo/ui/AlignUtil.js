@@ -62,7 +62,6 @@ qx.Class.define("demobrowser.demo.ui.AlignUtil",
       popup.setPadding(20);
       popup.setBackgroundColor("background");
       popup.setDecorator("outset");
-      this.getRoot().add(popup);
 
       var selectBox = new qx.ui.form.SelectBox;
       selectBox.add(new qx.ui.form.ListItem("bottom-left"));
@@ -93,7 +92,6 @@ qx.Class.define("demobrowser.demo.ui.AlignUtil",
     },
 
 
-
     createRootClick : function()
     {
       var composite = new qx.ui.container.Composite(new qx.ui.layout.VBox(4));
@@ -106,7 +104,6 @@ qx.Class.define("demobrowser.demo.ui.AlignUtil",
       popup.setPadding(20);
       popup.setBackgroundColor("background");
       popup.setDecorator("outset");
-      this.getRoot().add(popup);
 
       var selectBox = new qx.ui.form.SelectBox;
       selectBox.add(new qx.ui.form.ListItem("bottom-left"));
@@ -149,7 +146,6 @@ qx.Class.define("demobrowser.demo.ui.AlignUtil",
       popup.setPadding(20);
       popup.setBackgroundColor("background");
       popup.setDecorator("outset");
-      this.getRoot().add(popup);
 
       var selectBox = new qx.ui.form.SelectBox;
       selectBox.add(new qx.ui.form.ListItem("bottom-left"));
