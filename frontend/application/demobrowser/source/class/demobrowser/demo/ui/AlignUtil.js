@@ -74,7 +74,7 @@ qx.Class.define("demobrowser.demo.ui.AlignUtil",
       var button = new qx.ui.form.Button("Open Popup");
       button.addListener("mousedown", function(e)
       {
-        var coords = qx.ui.core.AlignUtil.align(popup, button, selectBox.getValue());
+        var coords = qx.ui.core.AlignUtil.alignToWidget(popup, button, selectBox.getValue());
         popup.moveTo(coords.left, coords.top);
         popup.show();
       });
