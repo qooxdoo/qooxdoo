@@ -103,6 +103,14 @@ qx.Mixin.define("qx.ui.core.MAlign",
       check : "Integer",
       init : 0,
       themeable : true
+    },
+
+    /** Offsets in one group */
+    offset :
+    {
+      group : [ "offsetTop", "offsetRight", "offsetBottom", "offsetLeft" ],
+      mode  : "shorthand",
+      themeable : true
     }
   },
 
