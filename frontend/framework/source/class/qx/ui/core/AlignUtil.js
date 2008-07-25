@@ -24,7 +24,7 @@ qx.Class.define("qx.ui.core.AlignUtil",
   {
     getPosition : function(widget)
     {
-      var hint = widget.getSizeHint();
+      var hint = widget.getBounds();
       var bounds, insets;
 
       bounds = widget.getBounds();
@@ -72,10 +72,9 @@ qx.Class.define("qx.ui.core.AlignUtil",
      *
      *
      */
-    align : function(widget, target, attach, align)
+    align : function(widget, target, value)
     {
       var parent = widget.getLayoutParent();
-      var layout = parent.getLayout();
       var parentBounds = parent.getBounds();
 
       var widgetHint = widget.getSizeHint();
@@ -83,15 +82,11 @@ qx.Class.define("qx.ui.core.AlignUtil",
 
       console.debug("Target: ", targetPosition);
 
-      if (qx.core.Variant.isSet("qx.debug", "on"))
-      {
-        if (!(layout instanceof qx.ui.layout.Basic || layout instanceof qx.ui.layout.Canvas)) {
-          throw new Error("Invalid layout to align to found: " + layout);
-        }
-      }
-
       var left = 0;
       var top = 0;
+
+      var attach = value.split("-")[0];
+      var align = value.split("-")[1];
 
       switch(attach)
       {
