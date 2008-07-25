@@ -114,8 +114,40 @@ qx.Mixin.define("qx.ui.core.MAlign",
      */
     alignToMouse : function(event, align, correct)
     {
-      var left=event.getDocumentLeft(), top=event.getDocumentTop();
-      var coords = { left: left, top: top, right: left, bottom: top };
+      var left=event.getDocumentLeft();
+      var top=event.getDocumentTop();
+
+      var coords =
+      {
+        left: left,
+        top: top,
+        right: left,
+        bottom: top
+      };
+
+      this.__align(coords, align, correct);
+    },
+
+
+
+    /**
+     * Aligns the widget to any (rendered) DOM element.
+     *
+     * @param elem {Element} DOM element to align to
+     * @param align {String} Alignment coords respect
+     * @param correct {Boolean?false} Whether the position should be auto-corrected
+     *   depending on the available space
+     */
+    alignToElement : function(elem, align, correct)
+    {
+      var location = qx.bom.element.Location.get(elem);
+      var coords =
+      {
+        left: location.left,
+        top: location.top,
+        right: location.left + elem.offsetWidth,
+        bottom: location.top + elem.offsetHeight
+      };
 
       this.__align(coords, align, correct);
     },
