@@ -70,7 +70,7 @@ qx.Bootstrap.define("qx.bom.client.Platform",
         this.WIN = true;
         this.NAME = "win";
       }
-      else if (input.indexOf("Macintosh") != -1 || input.indexOf("MacPPC") != -1 || input.indexOf("MacIntel") != -1 || input.indexOf("iPod") != -1)
+      else if (input.indexOf("Macintosh") != -1 || input.indexOf("MacPPC") != -1 || input.indexOf("MacIntel") != -1 || input.indexOf("iPod") != -1 || input.indexOf("iPhone") != -1)
       {
         this.MAC = true;
         this.NAME = "mac";
