@@ -43,7 +43,7 @@
 
 import sys, os, re, types, shutil
 
-fJSON = "./tool/demo_dyn.json"
+fJSON = "./config.demo.json"
 
 
 def htmlfiles(rootpath):
@@ -66,6 +66,7 @@ def main():
     build  = ""
 
     JSON = open(fJSON,"w")
+    JSON.write('// This file is dynamically created by the generator!\n')
     JSON.write('{\n  "jobs":\n  {\n')
 
     jsontmplf = open(os.path.join('tool','tmpl.json'),"rU")
@@ -88,8 +89,9 @@ def main():
 
         # build classname
         clazz  = "demobrowser.demo.%s.%s" % (category,name)
-        source = source + ' "source-%s",' % clazz
-        build  = build + ' "build-%s",' % clazz
+        simple = "%s.%s" % (category,name)
+        source = source + ' "source-%s",' % simple
+        build  = build + ' "build-%s",' % simple
 
         # copy js source file
         if ('js_target' in c and len(c['js_target']) > 0):
@@ -100,7 +102,7 @@ def main():
             shutil.copyfile('source/class/%s.js' % clazz.replace('.','/'), "%s/%s.src.js" % (c['js_target'],clazz))
 
         # concat all
-        currcont = json_tmpl.replace('XXX',clazz)
+        currcont = json_tmpl.replace('XXX',"%s.%s"%(category,name)).replace("YYY",clazz)
         JSON.write("%s," % currcont[:-1])
         JSON.write("\n\n\n")
 
