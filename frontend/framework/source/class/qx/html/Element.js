@@ -514,18 +514,34 @@ qx.Class.define("qx.html.Element",
      */
     _insertChildren : function()
     {
-      var domElement = document.createDocumentFragment();
-      var dataEl;
+      var children = this._children;
+      var length = children.length;
+      var child;
 
-      for (var i=0, children=this._children, l=children.length; i<l; i++)
+      if (length > 2)
       {
-        dataEl = children[i]._element;
-        if (dataEl && children[i]._included) {
-          domElement.appendChild(dataEl);
+        var domElement = document.createDocumentFragment();
+        for (var i=0; i<length; i++)
+        {
+          child = children[i];
+          if (child._element && child._included) {
+            domElement.appendChild(child._element);
+          }
         }
+        
+        this._element.appendChild(domElement);
       }
-
-      this._element.appendChild(domElement);
+      else
+      {
+        var domElement = this._element;
+        for (var i=0; i<length; i++) 
+        {
+          child = children[i];
+          if (child._element && child._included) {
+            domElement.appendChild(child._element);
+          }
+        }        
+      }
     },
 
 
