@@ -134,15 +134,44 @@ qx.Class.define("qx.ui.layout.Abstract",
     }),
 
 
+    /**
+     * Number of separators to render. This is mainly needed for instance managment and 
+     * should be called by the layout manager before rendering the first child
+     *
+     * @param number {Integer} Number of separators needed. Often the children number minus one.
+     */
+    _configureSeparators : function(number) {
+      this.__widget.configureSeparators(number);
+    },
 
+    
+    /**
+     * Renders a horizontal separator between two children
+     *
+     * @param lines {Color[]} Array of colors. Each color renders exactly one line. 
+     *    This could only be length of one or two (simple or shaded separator)   
+     * @param index {Integer} Which separator should be used
+     * @param left {Integer} Left position of the separator
+     * @param height {Integer} The height of the separator
+     */     
+    _renderHorizontalSeparator : function(lines, index, left, height) {
+      this.__widget.renderHorizontalSeparator(lines, index, left, height);
+    },
+    
 
-
-
-    /*
-    ---------------------------------------------------------------------------
-      PROPERTY APPLY ROUTINES
-    ---------------------------------------------------------------------------
-    */
+    /**
+     * Renders a vertical separator between two children
+     *
+     * @param lines {Color[]} Array of colors. Each color renders exactly one line. 
+     *    This could only be length of one or two (simple or shaded separator)   
+     * @param index {Integer} Which separator should be used
+     * @param top {Integer} Top position of the separator
+     * @param width {Integer} The width of the separator
+     */     
+    _renderVerticalSeparator : function(lines, index, top, width) {
+      this.__widget.renderVerticalSeparator(lines, index, top, width);
+    },
+    
 
     /**
      * This method is called by the widget to connect the widget with the layout.

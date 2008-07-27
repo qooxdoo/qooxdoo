@@ -811,31 +811,76 @@ qx.Class.define("qx.ui.core.Widget",
     },
 
 
-    // ALPHA: New separator implementation
-    renderHorizontalSeparator : function(separator, index, left, height)
+
+    configureSeparators : function(number)
     {
       var objs = this._separators;
-      if (!objs) {
-        objs = this._separators = [];
-      }
-
-      var el = objs[index];
-      if (!el)
+      var content = this.getContentElement();
+      var el;
+      
+      if (!objs) 
       {
-        el = objs[index] = new qx.html.Element;
-        el.setStyle("position", "absolute");
-        el.setStyle("width", "0px");
-        el.setStyle("top", "0px");
-
-        this.getContentElement().add(el);
+        objs = this._separators = [];
+        for (var i=0; i<number; i++) 
+        {
+          el = new qx.html.Element;
+          el.setStyle("position", "absolute");
+          objs.push(el);
+          content.add(el);
+        }
       }
+      else
+      {
+        var length = objs.length;
+        if (length < number)
+        {
+          for (var i=length; i<number; i++) 
+          {
+            el = new qx.html.Element;
+            el.setStyle("position", "absolute");
+            objs.push(el);
+            content.add(el);
+          }          
+        }
+        else if (length > number)
+        {
+          for (var i=length-1; i>number-1; i--) {
+            objs[i].dispose();
+          }
+          
+          objs.length = number;
+        }
+      }    
+    },
+
+    renderHorizontalSeparator : function(separator, index, left, height)
+    {
+      var el = this._separators[index];
+      var mgr = qx.theme.manager.Color.getInstance();
 
       el.setStyle("left", left + "px");
+      el.setStyle("width", "0px");
+      el.setStyle("top", "0px");
       el.setStyle("height", height + "px");
 
-      el.setStyle("borderLeft", separator[0] ? "1px solid " + separator[0] : null);
-      el.setStyle("borderRight", separator[1] ? "1px solid " + separator[1] : null);
+      el.setStyle("borderLeft", separator[0] ? "1px solid " + mgr.resolve(separator[0]) : null);
+      el.setStyle("borderRight", separator[1] ? "1px solid " + mgr.resolve(separator[1]) : null);
     },
+    
+    renderVerticalSeparator : function(separator, index, top, width)
+    {
+      var el = this._separators[index];
+      var mgr = qx.theme.manager.Color.getInstance();      
+
+      el.setStyle("left", "0px");
+      el.setStyle("width", width + "px");
+      el.setStyle("top", top + "px");
+      el.setStyle("height", "0px");
+
+      el.setStyle("borderTop", separator[0] ? "1px solid " + mgr.resolve(separator[0]) : null);
+      el.setStyle("borderBottom", separator[1] ? "1px solid " + mgr.resolve(separator[1]) : null);
+    },    
+
 
 
     // overridden
