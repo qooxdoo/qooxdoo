@@ -4,7 +4,7 @@
 
    http://qooxdoo.org
 
-   Copybottom:
+   Copyright:
      2004-2008 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
@@ -85,7 +85,7 @@
  * * StackPanel (XAML)
  * * RowLayout (SWT)
  *
- * *Copybottom Notes*
+ * *Copyright Notes*
  *
  * Description of flex property by "Mozilla":http://developer.mozilla.org/en/docs/XUL:Attribute:flex
  * licensed under the
@@ -153,6 +153,15 @@ qx.Class.define("qx.ui.layout.VBox",
     {
       check : "Integer",
       init : 0,
+      apply : "_applyLayoutChange"
+    },
+
+
+    /** Separator lines to use between the objects */
+    separator :
+    {
+      check : "Array",
+      nullable : true,
       apply : "_applyLayoutChange"
     },
 
@@ -290,7 +299,16 @@ qx.Class.define("qx.ui.layout.VBox",
       var children = this.__children;
       var length = children.length;
       var util = qx.ui.layout.Util;
-      var gaps = util.computeVerticalGaps(children, this.getSpacing(), true);
+
+      
+      // Compute gaps
+      var spacing = this.getSpacing();
+      var separator = this.getSeparator();
+      if (separator) {
+        var gaps = util.computeSeparatorGaps(children, spacing, separator.length);
+      } else {
+        var gaps = util.computeVerticalGaps(children, spacing, true);
+      }
 
 
       // First run to cache children data and compute allocated height
@@ -365,7 +383,14 @@ qx.Class.define("qx.ui.layout.VBox",
       // Layouting children
       var hint, left, width, height, marginBottom, marginLeft, marginRight;
       var spacing = this.getSpacing();
+      var separator = length > 1 && this.getSeparator();
 
+      // Pre configure separators
+      if (separator) {
+        this._configureSeparators(length-1);
+      }
+      
+      // Render children and separators
       for (i=0; i<length; i+=1)
       {
         child = children[i];
@@ -382,8 +407,25 @@ qx.Class.define("qx.ui.layout.VBox",
         left = util.computeHorizontalAlignOffset(child.getAlignX()||this.getAlignX(), width, availWidth, marginLeft, marginRight);
 
         // Add collapsed margin
-        if (i > 0) {
-          top += util.collapseMargins(spacing, marginBottom, child.getMarginTop());
+        if (i > 0)
+        {
+          // Whether a separator has been configured
+          if (separator)
+          {
+            // add margin of last child and spacing
+            top += marginBottom + spacing;
+            
+            // then render the separator at this position
+            this._renderVerticalSeparator(separator, i-1, top, availWidth);
+            
+            // and finally add the size of the separator, the spacing (again) and the top margin
+            top += separator.length + spacing + child.getMarginTop();
+          }
+          else
+          {
+            // Support margin collapsing when no separator is defined
+            top += util.collapseMargins(spacing, marginBottom, child.getMarginTop());
+          }
         }
 
         // Layout child
@@ -441,7 +483,13 @@ qx.Class.define("qx.ui.layout.VBox",
       }
 
       // Respect gaps
-      var gaps = util.computeVerticalGaps(children, this.getSpacing(), true);
+      var spacing = this.getSpacing();
+      var separator = this.getSeparator();
+      if (separator) {
+        var gaps = util.computeSeparatorGaps(children, spacing, separator.length);
+      } else {
+        var gaps = util.computeVerticalGaps(children, spacing, true);
+      }
 
       // Return hint
       return {

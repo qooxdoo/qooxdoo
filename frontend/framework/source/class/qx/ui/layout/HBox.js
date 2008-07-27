@@ -157,11 +157,10 @@ qx.Class.define("qx.ui.layout.HBox",
     },
 
 
-    /** Separator to use between the objects */
+    /** Separator lines to use between the objects */
     separator :
     {
       check : "Array",
-      //init : ["#AAA","#FFF"],
       nullable : true,
       apply : "_applyLayoutChange"
     },
@@ -384,8 +383,14 @@ qx.Class.define("qx.ui.layout.HBox",
       // Layouting children
       var hint, top, height, width, marginRight, marginTop, marginBottom;
       var spacing = this.getSpacing();
-      var separator = this.getSeparator();
+      var separator = length > 1 && this.getSeparator();
+
+      // Pre configure separators
+      if (separator) {
+        this._configureSeparators(length-1);
+      }
       
+      // Render children and separators
       for (i=0; i<length; i+=1)
       {
         child = children[i];
@@ -404,16 +409,21 @@ qx.Class.define("qx.ui.layout.HBox",
         // Add collapsed margin
         if (i > 0)
         {
+          // Whether a separator has been configured
           if (separator)
           {
+            // add margin of last child and spacing
             left += marginRight + spacing;
             
-            child.getLayoutParent().renderHorizontalSeparator(separator, i, left, availHeight);
+            // then render the separator at this position
+            this._renderHorizontalSeparator(separator, i-1, left, availHeight);
             
+            // and finally add the size of the separator, the spacing (again) and the left margin
             left += separator.length + spacing + child.getMarginLeft();
           }
           else
           {
+            // Support margin collapsing when no separator is defined
             left += util.collapseMargins(spacing, marginRight, child.getMarginLeft());
           }
         }
