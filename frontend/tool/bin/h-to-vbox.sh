@@ -70,7 +70,7 @@ cat framework/source/class/qx/ui/layout/${class}.js | \
   sed s:"hbox":"vbox":g | \
   sed s:"HSplit":"VSplit":g | \
   sed s:"hsplit":"vsplit":g | \
-  sed s:"vertical row":"vertical column":g \
+  sed s:"vertical row":"vertical column":g | \
   sed s:"Copybottom":"Copyright":g \
 > framework/source/class/qx/ui/layout/${repl}.js
 
