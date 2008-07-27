@@ -2345,8 +2345,14 @@ qx.Class.define("qx.html.Element",
     if (el) {
       qx.event.Registration.getManager(el).removeAllListeners(el);
     }
+    
+    if (this._parent) {
+      this._parent.remove(this);
+    }
 
     this._disposeArray("_children");
-    this._disposeFields("__attribValues", "__styleValues", "__eventValues", "__propertyValues", "__attribJobs", "__styleJobs", "__propertyJobs", "_element");
+    this._disposeFields("__attribValues", "__styleValues", "__eventValues", 
+      "__propertyValues", "__attribJobs", "__styleJobs", "__propertyJobs", 
+      "_element", "_parent");
   }
 });
