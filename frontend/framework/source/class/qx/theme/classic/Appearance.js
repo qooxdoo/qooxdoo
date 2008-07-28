@@ -140,46 +140,18 @@ qx.Theme.define("qx.theme.classic.Appearance",
       DRAG AND DROP CURSORS
     ---------------------------------------------------------------------------
     */
-
-    "cursor-dnd-move" :
+   
+   "cursors-dnd" :
     {
       style : function(states)
       {
         return {
-          source : "decoration/cursors/move.gif"
+          source : "decoration/cursors-combined.png"
         };
       }
     },
 
-    "cursor-dnd-copy" :
-    {
-      style : function(states)
-      {
-        return {
-          source : "decoration/cursors/copy.gif"
-        };
-      }
-    },
-
-    "cursor-dnd-alias" :
-    {
-      style : function(states)
-      {
-        return {
-          source : "decoration/cursors/alias.gif"
-        };
-      }
-    },
-
-    "cursor-dnd-nodrop" :
-    {
-      style : function(states)
-      {
-        return {
-          source : "decoration/cursors/nodrop.gif"
-        };
-      }
-    },
+   
 
     "button" :
     {
