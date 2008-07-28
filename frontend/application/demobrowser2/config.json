@@ -11,7 +11,7 @@
   "let" :
   {
     "APPLICATION"  : "demobrowser",
-    "API_EXCLUDE" : ["${APPLICATION}.demo.*"],
+    "API_EXCLUDE"  : ["${APPLICATION}.demo.*"],
     "QOOXDOO_PATH" : "../../framework",
     "QOOXDOO_URI"  : "../${QOOXDOO_PATH}",
     "THEME"        : "qx.theme.Classic"
@@ -45,7 +45,8 @@
       "settings" :
       {
         "qx.version" : "0.8-alpha2",
-        "qx.application" : "${APPLICATION}.Application"
+        "qx.application" : "${APPLICATION}.Application",
+        "qx.theme" : "${THEME}"
       },
 
       // the next is in since resource copying is done here for the demos as well
@@ -57,7 +58,7 @@
 
       "cache" :
       {
-        "path" : "../../cache"
+        "path" : "./cache"
       }
     },
 
