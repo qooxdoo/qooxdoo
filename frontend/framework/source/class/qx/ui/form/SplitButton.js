@@ -18,6 +18,10 @@
 
 ************************************************************************ */
 
+/**
+ * A button which acts as a normal button and shows a menu on one
+ * of the sides to open something like a history list.
+ */
 qx.Class.define("qx.ui.form.SplitButton",
 {
   extend : qx.ui.core.Widget,
@@ -32,6 +36,12 @@ qx.Class.define("qx.ui.form.SplitButton",
   *****************************************************************************
   */
 
+  /**
+   * @param label {String} Label to use
+   * @param icon {String?null} Icon to use
+   * @param menu {qx.ui.menu.Menu} Connect to menu instance
+   * @param command {qx.event.Command} Command instance to connect with
+   */
   construct : function(label, icon, menu, command)
   {
     this.base(arguments);

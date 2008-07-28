@@ -39,7 +39,7 @@ qx.Class.define("qx.ui.basic.Image",
   */
 
   /**
-   * @param source {String?} The URL of the image to display.
+   * @param source {String?null} The URL of the image to display.
    */
   construct : function(source)
   {

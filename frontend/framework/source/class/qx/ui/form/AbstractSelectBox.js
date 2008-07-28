@@ -19,6 +19,10 @@
 
 ************************************************************************ */
 
+/**
+ * Basic class for a selectbox like lists. Basically supports a popup
+ * with a list and the whole children managment.
+ */
 qx.Class.define("qx.ui.form.AbstractSelectBox",
 {
   extend  : qx.ui.core.Widget,

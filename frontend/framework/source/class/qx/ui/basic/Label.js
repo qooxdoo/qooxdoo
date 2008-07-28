@@ -41,6 +41,9 @@ qx.Class.define("qx.ui.basic.Label",
   *****************************************************************************
   */
 
+  /**
+   * @param content {String} Text or HTML content to use
+   */
   construct : function(content)
   {
     this.base(arguments);

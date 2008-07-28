@@ -20,7 +20,9 @@
 ************************************************************************ */
 
 /**
- * @appearance list
+ * A list of items. Displayes a automatically scrolling list for all
+ * added {@link qx.ui.form.ListItem} instances. Supports various
+ * selection options: single, multi, ...
  */
 qx.Class.define("qx.ui.form.List",
 {

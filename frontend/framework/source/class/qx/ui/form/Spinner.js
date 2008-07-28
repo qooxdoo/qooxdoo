@@ -49,11 +49,6 @@
  * A spinner instance without any further properties specified in the
  * constructor or a subsequent *set* command will appear with default
  * values and behaviour.
- *
- * @appearance spinner
- * @appearance spinner-field {qx.ui.form.TextField}
- * @appearance spinner-button-up {qx.ui.form.Button}
- * @appearance spinner-button-down {qx.ui.form.Button}
  */
 qx.Class.define("qx.ui.form.Spinner",
 {
@@ -67,7 +62,12 @@ qx.Class.define("qx.ui.form.Spinner",
   *****************************************************************************
   */
 
-  construct : function(vMin, vValue, vMax)
+  /**
+   * @param min {Number} Minimum value
+   * @param value {Number} Current value
+   * @param max {Number} Maximum value
+   */
+  construct : function(min, value, max)
   {
     this.base(arguments);
 
@@ -89,16 +89,16 @@ qx.Class.define("qx.ui.form.Spinner",
     this._createChildControl("downbutton");
 
     // INITIALIZATION
-    if (vMin != null) {
-      this.setMin(vMin);
+    if (min != null) {
+      this.setMin(min);
     }
 
-    if (vMax != null) {
-      this.setMax(vMax);
+    if (max != null) {
+      this.setMax(max);
     }
 
-    if (vValue != null) {
-      this.setValue(vValue);
+    if (value != null) {
+      this.setValue(value);
     } else {
       this.initValue();
     }

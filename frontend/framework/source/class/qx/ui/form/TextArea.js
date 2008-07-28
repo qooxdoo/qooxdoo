@@ -20,8 +20,6 @@
 
 /**
  * The TextField is a multi-line text input field.
- *
- * @appearance textarea
  */
 qx.Class.define("qx.ui.form.TextArea",
 {

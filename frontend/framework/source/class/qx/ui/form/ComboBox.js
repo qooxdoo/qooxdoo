@@ -20,7 +20,12 @@
 ************************************************************************ */
 
 /**
- * @appearance combobox
+ * Basically a text fields which allows a selection from a list of
+ * preconfigured options. Allows custom user input. Public API is value
+ * oriented.
+ *
+ * To work with selections without custom input the ideal candidates are
+ * the {@link SelectBox} or the {@link RadioGroup}.
  */
 qx.Class.define("qx.ui.form.ComboBox",
 {
