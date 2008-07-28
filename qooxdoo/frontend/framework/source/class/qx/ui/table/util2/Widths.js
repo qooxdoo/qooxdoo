@@ -26,7 +26,7 @@
 /**
  * Column width array for a whole set of columns
  */
-qx.Class.define("qx.ui.table.util.Widths",
+qx.Class.define("qx.ui.table.util2.Widths",
 {
   extend : qx.core.Object,
 
@@ -43,7 +43,7 @@ qx.Class.define("qx.ui.table.util.Widths",
     this._columnData = [ ];
     for (var i = 0; i < numColumns; i++)
     {
-      this._columnData[i] = new qx.ui.table.util.Data();
+      this._columnData[i] = new qx.ui.table.util2.Data();
     }
   },
 
