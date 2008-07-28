@@ -140,7 +140,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       DRAG AND DROP CURSORS
     ---------------------------------------------------------------------------
     */
-   
+
    "cursors-dnd" :
     {
       style : function(states)
@@ -151,7 +151,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
-   
+
 
     "button" :
     {
