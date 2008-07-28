@@ -33,6 +33,7 @@ qx.Class.define("demobrowser.demo.table.TableDemo",
     main : function()
     {
       this.base(arguments);
+      //qx.theme.manager.Meta.getInstance().setTheme(qx.theme.Modern);
 
       this._container = new qx.ui.window.Window(this.getCaption(), "icon/16/apps/office-spreadsheet.png").set({
         width: 600,
