@@ -54,14 +54,6 @@ qx.Class.define("qx.ui.table.celleditor.ComboBox",
 
   properties :
   {
-
-    /** whether combobox should be editable */
-    editable :
-    {
-      check : "Boolean",
-      init : true
-    },
-
     /**
      * function that validates the result
      * the function will be called with the new value and the old value and is
@@ -95,20 +87,16 @@ qx.Class.define("qx.ui.table.celleditor.ComboBox",
     // interface implementation
     createCellEditor : function(cellInfo)
     {
-      var cellEditor = new qx.ui.form.ComboBox;
-      cellEditor.setEditable(this.getEditable());
-      cellEditor.setBorder(null);
-      cellEditor.originalValue = cellInfo.value;
-
-      var field = cellEditor.getField();
-      field.setLiveUpdate(true);
-      field.setAppearance("table-editor-textfield");
+      var cellEditor = new qx.ui.form.ComboBox().set({
+        appearance: "table-editor-textfield"
+      });
 
       var value = cellInfo.value;
+      cellEditor.originalValue = value;
 
       // check if renderer does something with value
       var cellRenderer = cellInfo.table.getTableColumnModel().getDataCellRenderer(cellInfo.col);
-      var label        = cellRenderer._getContentHtml(cellInfo);
+      var label = cellRenderer._getContentHtml(cellInfo);
       if ( value != label )
       {
         value = label;

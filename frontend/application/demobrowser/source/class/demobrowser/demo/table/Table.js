@@ -45,6 +45,9 @@ qx.Class.define("demobrowser.demo.table.Table",
       var tableModel = this._tableModel = new qx.ui.table.model.Simple();
       tableModel.setColumns([ "ID", "A number", "A date", "Boolean" ]);
       tableModel.setData(rowData);
+      tableModel.setColumnEditable(1, true);
+      tableModel.setColumnEditable(2, true);
+
 
       // table
       var table = new qx.ui.table.Table(tableModel);
@@ -58,6 +61,7 @@ qx.Class.define("demobrowser.demo.table.Table",
 
       // Display a checkbox in column 3
       var tcm = table.getTableColumnModel();
+
       tcm.setDataCellRenderer(3, new qx.ui.table.cellrenderer.Boolean());
       return table;
     },
