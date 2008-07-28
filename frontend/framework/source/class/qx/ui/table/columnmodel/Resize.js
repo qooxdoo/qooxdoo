@@ -19,8 +19,7 @@
 
 /* ************************************************************************
 
-#module(table)
-#embed(qx.icontheme/16/actions/view-refresh.png)
+#embed(qx/icon/${qx.icontheme}/16/actions/view-refresh.png)
 
 ************************************************************************ */
 
@@ -97,13 +96,6 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
   members :
   {
     // Behavior modifier
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param value {var} Current value
-     * @param old {var} Previous value
-     */
     _applyBehavior : function(value, old)
     {
       if (old != null)
@@ -112,15 +104,15 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
         old = null;
       }
 
+      value.setTableColumnModel(this);
+
       // Tell the new behavior how many columns there are
-      this.getBehavior()._setNumColumns(this._columnDataArr.length);
+      value._setNumColumns(this._columnDataArr.length);
     },
 
 
     /**
      * Initializes the column model.
-     *
-     * @type member
      *
      * @param numColumns {var} the number of columns the model should have.
      *
@@ -136,8 +128,7 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
       this.base(arguments, numColumns);
 
       // Set the initial resize behavior
-      if (this.getBehavior() == null)
-      {
+      if (this.getBehavior() == null) {
         this.setBehavior(new qx.ui.table.columnmodel.resizebehavior.Default());
       }
 
@@ -148,29 +139,39 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
       table.addListener("appear", this._onappear, this);
 
       // ... when the inner width of the table changes, ...
-      table.addListener("tableWidthChanged",
-                             this._ontablewidthchanged,
-                             this);
+      table.addListener(
+        "tableWidthChanged",
+        this._onTableWidthChanged,
+        this
+      );
 
       // ... when a vertical scroll bar appears or disappears
-      table.addListener("verticalScrollBarChanged",
-                             this._onverticalscrollbarchanged,
-                             this);
+      table.addListener(
+        "verticalScrollBarChanged",
+        this._onverticalscrollbarchanged,
+        this
+      );
 
       // ... when columns are resized, ...
-      this.addListener("widthChanged",
-                            this._oncolumnwidthchanged,
-                            this);
+      this.addListener(
+        "widthChanged",
+        this._oncolumnwidthchanged,
+        this
+      );
 
       // ... and when a column visibility changes.
-      this.addListener("visibilityChanged",
-                            this._onvisibilitychanged,
-                            this);
+      this.addListener(
+        "visibilityChanged",
+        this._onvisibilitychanged,
+        this
+      );
 
       // We want to manipulate the button visibility menu
-      this._table.addListener("columnVisibilityMenuCreateEnd",
-                                   this._addResetColumnWidthButton,
-                                   this);
+      this._table.addListener(
+        "columnVisibilityMenuCreateEnd",
+        this._addResetColumnWidthButton,
+        this
+      );
 
       // Tell the behavior how many columns there are
       this.getBehavior()._setNumColumns(numColumns);
@@ -179,8 +180,6 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
 
     /**
      * Reset the column widths to their "onappear" defaults.
-     *
-     * @type member
      *
      * @param event {qx.event.type.DataEvent}
      *   The "columnVisibilityMenuCreateEnd" event indicating that the menu is
@@ -213,8 +212,6 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
     /**
      * Event handler for the "appear" event.
      *
-     * @type member
-     *
      * @param event {qx.event.type.Event}
      *   The "onappear" event object.
      *
@@ -241,16 +238,8 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
 
       this.getBehavior().onAppear(this, event);
 
-      qx.event.Timer.once(function()
-                           {
-                             if (this._table && !this._table.isDisposed())
-                             {
-                               this._table._updateScrollerWidths();
-                               this._table._updateScrollBarVisibility();
-                             }
-                           },
-                           this,
-                           0);
+      this._table._updateScrollerWidths();
+      this._table._updateScrollBarVisibility();
 
       this._bInProgress = false;
 
@@ -261,14 +250,12 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
     /**
      * Event handler for the "tableWidthChanged" event.
      *
-     * @type member
-     *
      * @param event {qx.event.type.Event}
      *   The "onwindowresize" event object.
      *
      * @return {void}
      */
-    _ontablewidthchanged : function(event)
+    _onTableWidthChanged : function(event)
     {
       // Is this a recursive call or has the table not yet been rendered?
       if (this._bInProgress || !this._bAppeared)
@@ -294,8 +281,6 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
 
     /**
      * Event handler for the "verticalScrollBarChanged" event.
-     *
-     * @type member
      *
      * @param event {qx.event.type.DataEvent}
      *   The "verticalScrollBarChanged" event object.  The data is a boolean
@@ -325,15 +310,13 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
       this.getBehavior().onVerticalScrollBarChanged(this, event);
 
       qx.event.Timer.once(function()
-                           {
-                             if (this._table && !this._table.isDisposed())
-                             {
-                               this._table._updateScrollerWidths();
-                               this._table._updateScrollBarVisibility();
-                             }
-                           },
-                           this,
-                           0);
+      {
+        if (this._table && !this._table.isDisposed())
+        {
+          this._table._updateScrollerWidths();
+          this._table._updateScrollBarVisibility();
+        }
+      }, this, 0);
 
       this._bInProgress = false;
     },
@@ -341,8 +324,6 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
 
     /**
      * Event handler for the "widthChanged" event.
-     *
-     * @type member
      *
      * @param event {qx.event.type.DataEvent}
      *   The "widthChanged" event object.
@@ -376,8 +357,6 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
     /**
      * Event handler for the "visibilityChanged" event.
      *
-     * @type member
-     *
      * @param event {qx.event.type.DataEvent}
      *   The "visibilityChanged" event object.
      *
@@ -410,7 +389,7 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
 
   settings :
   {
-    "qx.tableResizeDebug" : false
+    "qx.tableResizeDebug" : true
   },
 
 
