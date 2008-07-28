@@ -1,0 +1,85 @@
+    "common-XXX" :
+    {
+      "library" :
+      [
+        {
+          "manifest" : "../../framework/Manifest.json",
+          "uri"      : "../../../../../framework"
+        },
+
+        {
+          "manifest" : "Manifest_samples.json",
+          "uri"      : "../../.."
+        }
+      ],
+
+      "include" :
+      [
+        "XXX",
+        "qx.log.appender.Native",
+        "qx.log.appender.Console"
+      ],
+
+      "require" :
+      {
+      	"qx.ui.core.Widget" : ["qx.theme.Classic"]
+      },
+
+      "themes" :
+      {
+        "qx.icontheme" : ["Oxygen"],
+        "qx.theme"     : ["Modern"]
+      },
+
+      "cache" :
+      {
+        "path" : "../../cache"
+      },
+
+      "localize" :
+      {
+        "locales" : ["en", "en_US", "de", "de_DE"]
+      }
+    },
+
+    "source-XXX" :
+    {
+      "extend" : ["common-XXX"],
+
+      "settings" :
+      {
+        "qx.application" : "XXX"
+      },
+
+      "compile-source" :
+      {
+        "file" : "source/script/XXX.js",
+        "root" : "source/demo/yyy"
+      }
+    },
+
+    "build-XXX" :
+    {
+      "extend" : ["common-XXX"],
+
+      "settings" :
+      {
+        "qx.application" : "XXX"
+      },
+
+      "variants" :
+      {
+        "qx.debug" : ["off"],
+	"qx.aspects" : ["off"]
+      },
+
+      "compile-dist" :
+      {
+        "file" : "build/script/XXX.js",
+        "uri"  : "../../script/XXX.js",
+        "resourceUri" : "../..",
+        "root" : "build/demo/yyy",
+        "optimize" : [ "variables", "basecalls", "privates", "strings" ],
+        "format" : "on"
+      }
+    }
