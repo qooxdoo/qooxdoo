@@ -61,8 +61,6 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.ColumnData",
      */
     setColumnWidth : function(width)
     {
-      console.log(width);
-
       var flex = null;
       var percent = null;
 

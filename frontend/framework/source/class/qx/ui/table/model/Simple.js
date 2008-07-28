@@ -387,12 +387,12 @@ qx.Class.define("qx.ui.table.model.Simple",
 
       // Inform the listeners
       if (this.hasListener(qx.ui.table.ITableModel.EVENT_TYPE_DATA_CHANGED)) {
-        this.fireEvent(qx.ui.table.ITableModel.EVENT_TYPE_DATA_CHANGED);
+        this.fireDataEvent(qx.ui.table.ITableModel.EVENT_TYPE_DATA_CHANGED);
       }
 
-    if (clearSorting) {
-      this._clearSorting();
-    }
+      if (clearSorting) {
+        this._clearSorting();
+      }
     },
 
 
