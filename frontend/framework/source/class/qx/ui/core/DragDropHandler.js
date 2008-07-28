@@ -334,9 +334,7 @@ qx.Class.define("qx.ui.core.DragDropHandler",
       // Add feedback widget
       if (this.__feedbackWidget)
       {
-        this.__feedbackWidget.hide();
-
-        qx.core.Init.getApplication().getRoot().add(this.__feedbackWidget);
+        qx.core.Init.getApplication().getRoot().add(this.__feedbackWidget, { left : -50, top : -50 });
         this.__feedbackWidget.setZIndex(1e8);
       }
     },
