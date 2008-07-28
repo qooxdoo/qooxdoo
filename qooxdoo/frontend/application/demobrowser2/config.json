@@ -13,7 +13,8 @@
     "APPLICATION"  : "demobrowser",
     "API_EXCLUDE" : ["${APPLICATION}.demo.*"],
     "QOOXDOO_PATH" : "../../framework",
-    "QOOXDOO_URI"  : "../${QOOXDOO_PATH}"
+    "QOOXDOO_URI"  : "../${QOOXDOO_PATH}",
+    "THEME"        : "qx.theme.Classic"
   },
 
   "jobs" :
@@ -38,7 +39,7 @@
       "include" :
       [
         "${APPLICATION}.Application",
-        "qx.legacy.theme.ClassicRoyale"
+        "${THEME}"
       ],
 
       "settings" :
@@ -50,8 +51,8 @@
       // the next is in since resource copying is done here for the demos as well
       "themes" :
       {
-        "qx.icontheme" : ["Oxygen"],
-        "qx.theme"     : ["Modern"]
+        "qx.icontheme" : ["Tango"],
+        "qx.theme"     : ["${THEME}"]
       },
 
       "cache" :
@@ -155,7 +156,7 @@
 
       "include" :
       [
-        "qx.legacy.theme.ClassicRoyale",
+        "${THEME}",
         "demobrowser.*"
       ],
 

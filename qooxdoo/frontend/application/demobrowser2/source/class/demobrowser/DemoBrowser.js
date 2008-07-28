@@ -16,6 +16,7 @@
      * Thomas Herchenroeder (thron7)
      * Fabian Jakobs (fjakobs)
      * Martin Wittemann (martinwittemann)
+     * Jonathan Rass (jonathan_rass)
 
 ************************************************************************ */
 
@@ -30,7 +31,7 @@
  */
 qx.Class.define("demobrowser.DemoBrowser",
 {
-  extend : qx.legacy.ui.layout.VerticalBoxLayout,
+  extend : qx.ui.container.Composite,
 
 
 
@@ -45,12 +46,14 @@ qx.Class.define("demobrowser.DemoBrowser",
   {
     this.base(arguments);
 
+    this.setLayout(new qx.ui.layout.VBox);
+/*
     this.set(
     {
       height : "100%",
       width  : "100%"
     });
-
+*/
     this.widgets = {};
     this.tests = {};
     this._useProfile = false;
@@ -60,52 +63,74 @@ qx.Class.define("demobrowser.DemoBrowser",
 
     // Header Pane
     this.header = this.__makeHeader();
+    
     this.add(this.header);
 
     // Menu Bar
-    this.add(this.__makeMenuBar());
+////    this.add(this.__makeMenuBar());
 
     // Main Pane
     // split
+    
+    var mainsplit = new qx.ui.splitpane.Pane("horizontal");
+    this.mainsplit = mainsplit;
+    this.add(mainsplit);
+    
+    /*
     var mainsplit = new qx.legacy.ui.splitpane.HorizontalSplitPane(200, "1*");
     this.add(mainsplit);
     this.mainsplit = mainsplit;
     mainsplit.setLiveResize(true);
     mainsplit.set({ height : "1*" });
+    */
 
     // Left
-    var left = this.__makeLeft();
+    ////var left = this.__makeLeft();
+    
+    var left = new qx.ui.core.Widget;
+    
     this.left = left.buttview;
-    this.mainsplit.addLeft(left);
+////    this.mainsplit.addLeft(left);
+    left.setWidth(200);
+    mainsplit.add(left, 0);
 
+
+    
     // Right
-    var right = new qx.legacy.ui.layout.VerticalBoxLayout();
+////    var right = new qx.legacy.ui.layout.VerticalBoxLayout();
+    var right = new qx.ui.container.Composite(new qx.ui.layout.VBox); 
 
+    /*
     right.set(
     {
       height : "100%",
       width  : "100%",
       border : "line-left"
     });
+    */
 
-    mainsplit.addRight(right);
+////    mainsplit.addRight(right);
+    mainsplit.add(right, 1);
 
     // Toolbar
-    this.toolbar = this.__makeToolbar();
+    //this.toolbar = this.__makeToolbar();
+    this.toolbar = new qx.ui.core.Widget;
 
+    /*
     this.toolbar.set(
     {
       show                  : "icon",
       verticalChildrenAlign : "middle"
     });
+    */
 
-    right.add(this.toolbar);
+    ////right.add(this.toolbar);
 
     // output views
-    var buttview = this.__makeOutputViews();
-    right.add(buttview);
+    ////var buttview = this.__makeOutputViews();
+    ////right.add(buttview);
 
-    this.widgets["treeview.bsb1"].setChecked(true);
+    ////this.widgets["treeview.bsb1"].setChecked(true);
 
     this.__setStateInitialized();
 
@@ -178,13 +203,15 @@ qx.Class.define("demobrowser.DemoBrowser",
      * Create the header widget
      *
      * @type member
-     * @return {qx.legacy.ui.embed.HtmlEmbed} The header widget
+     * @return {qx.ui.embed.HtmlEmbed} The header widget
      */
     __makeHeader : function()
     {
-      var header = new qx.legacy.ui.embed.HtmlEmbed("<h1>" + "<span>" + "qooxdoo Demo Browser" + "</span>" + "</h1>" + "<div class='version'>qooxdoo " + qx.core.Setting.get("qx.version") + "</div>");
-      header.setHtmlProperty("id", "header");
-      header.setStyleProperty("background", "#134275 url(" + qx.util.ResourceManager.toUri("demobrowser/image/colorstrip.gif") + ") top left repeat-x");
+      var header = new qx.ui.embed.HtmlEmbed("<h1>" + "<span>" + "qooxdoo Demo Browser" + "</span>" + "</h1>" + "<div class='version'>qooxdoo " + qx.core.Setting.get("qx.version") + "</div>");
+      var element = header.getContentElement();
+
+      element.setAttribute("id", "header");
+      element.setStyle("background", "#134275 url(" + qx.util.ResourceManager.toUri("demobrowser/image/colorstrip.gif") + ") top left repeat-x");
       header.setHeight(70);
       return header;
     },
@@ -658,16 +685,17 @@ qx.Class.define("demobrowser.DemoBrowser",
     __makeOutputViews : function()
     {
       // Main Container
-      var buttview = new qx.legacy.ui.pageview.tabview.TabView();
-
+      //var buttview = new qx.legacy.ui.pageview.tabview.TabView();
+      var tabview = new qx.ui.tabview.TabView;
+/*
       buttview.set(
       {
         height  : "1*",
         padding : 10
       });
-
-      this.widgets["outputviews"] = buttview;
-      this.widgets["outputviews.bar"] = buttview.getBar();
+*/
+      this.widgets["outputviews"] = tabview;
+      this.widgets["outputviews.bar"] = tabview.getBar();
 
       // First Page
       var bsb1 = new qx.legacy.ui.pageview.tabview.Button("Start", "icon/16/actions/system-run.png");
