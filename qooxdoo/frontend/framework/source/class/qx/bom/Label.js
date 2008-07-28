@@ -198,7 +198,6 @@ qx.Class.define("qx.bom.Label",
      * The possibilities of the value depends on the mode
      * defined using {@see #create}.
      *
-     * @type static
      * @param element {Element} DOM element to modify.
      * @param value {String} Content to insert.
      * @return {void}

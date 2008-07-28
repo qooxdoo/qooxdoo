@@ -99,8 +99,11 @@ qx.Class.define("qx.bom.element.BoxSizing",
      */
     compile : qx.core.Variant.select("qx.client",
     {
-      "mshtml" : function(value) {
-        qx.log.Logger.warn(this, "This client do not support the dynamic modification of the box-sizing property.");
+      "mshtml" : function(value)
+      {
+        if (qx.core.Variant.isSet("qx.debug", "on")) {
+          qx.log.Logger.warn(this, "This client do not support the dynamic modification of the box-sizing property.");
+        }
       },
 
       "default" : function(value)
@@ -173,8 +176,11 @@ qx.Class.define("qx.bom.element.BoxSizing",
      */
     set : qx.core.Variant.select("qx.client",
     {
-      "mshtml" : function(element, value) {
-        qx.log.Logger.warn(this, "This client do not support the dynamic modification of the box-sizing property.");
+      "mshtml" : function(element, value)
+      {
+        if (qx.core.Variant.isSet("qx.debug", "on")) {
+          qx.log.Logger.warn(this, "This client do not support the dynamic modification of the box-sizing property.");
+        }
       },
 
       "default" : function(element, value)
@@ -193,7 +199,6 @@ qx.Class.define("qx.bom.element.BoxSizing",
     /**
      * Removes the local box sizing applied to the element
      *
-     * @type static
      * @param element {Element} The element to modify
      * @return {void}
      */
