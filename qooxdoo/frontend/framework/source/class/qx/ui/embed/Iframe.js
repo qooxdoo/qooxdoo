@@ -62,7 +62,10 @@ qx.Class.define("qx.ui.embed.Iframe",
    */
   construct : function(source)
   {
-    this._source = source;
+    if (source != null) {
+      this._source = source;
+    }
+
     this.base(arguments);
 
     qx.event.Registration.addListener(document.body, "mousedown", this.block, this, true);
@@ -108,7 +111,8 @@ qx.Class.define("qx.ui.embed.Iframe",
     source :
     {
       check : "String",
-      apply : "_applySource"
+      apply : "_applySource",
+      nullable : true
     },
 
     /**
