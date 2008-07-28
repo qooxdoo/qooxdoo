@@ -389,7 +389,7 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
 
       // Use a horizontal boy layout to determine the available width.
       var width = this._getAvailableWidth(tableColumnModel);
-      this._.renderLayout(width, 100);
+      this._layout.renderLayout(width, 100);
 
       // Now that we've calculated the width, set it.
       for (i=0,l=columns.length; i<l; i++)
