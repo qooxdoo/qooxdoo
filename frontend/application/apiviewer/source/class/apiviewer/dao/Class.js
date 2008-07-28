@@ -417,8 +417,7 @@ qx.Class.define("apiviewer.dao.Class",
      *
      * @return {apiviewer.dao.Class[]} All super interfaces.
      */
-    getSuperInterfaces : function()
-    {
+    getSuperInterfaces : function() {
       return this._superInterfaces;
     },
 
@@ -429,12 +428,13 @@ qx.Class.define("apiviewer.dao.Class",
      *
      * @return {apiviewer.dao.Class[]} All super mixins.
      */
-    getSuperMixins : function()
-    {
+    getSuperMixins : function() {
       return this._superMixins;
     },
 
+
     /* COMPLEX FUNCTIONS */
+
     /**
      * Get the documentation nodes of all classes in the inheritance chain
      * of a class. The first entry in the list is the class itself.
@@ -643,49 +643,67 @@ qx.Class.define("apiviewer.dao.Class",
      *
      * @return {Class[]} array of dependent classes.
      */
-    getDependendClasses : function()
+    getDependendClasses : function() {
+      return this._findClasses(this, []);
+    },
+
+
+    _findClasses : function(clazz, foundClasses)
     {
-      var findClasses = function(clazz, foundClasses) {
-        foundClasses.push(clazz);
+      foundClasses.push(clazz);
 
-        var superClass = clazz.getSuperClass();
-        if (superClass) {
-          findClasses(superClass, foundClasses);
-        }
-
-        var mixins = clazz.getMixins();
-        for (var i=0; i<mixins.length; i++)
-        {
-          var mixin = apiviewer.dao.Class.getClassByName(mixins[i]);
-          findClasses(mixin, foundClasses);
-        }
-
-        var superMixins = clazz.getSuperMixins();
-        for (var i=0; i<superMixins.length; i++)
-        {
-          var superMixin = apiviewer.dao.Class.getClassByName(superMixins[i]);
-          findClasses(superMixin, foundClasses);
-        }
-
-        var interfaces = clazz.getInterfaces();
-        for (var i=0; i<interfaces.length; i++)
-        {
-          var iface = apiviewer.dao.Class.getClassByName(interfaces[i]);
-          findClasses(iface, foundClasses);
-        }
-
-        var superInterfaces = clazz.getSuperInterfaces();
-        for (var i=0; i<superInterfaces.length; i++)
-        {
-          var superInterface = apiviewer.dao.Class.getClassByName(superInterfaces[i]);
-          findClasses(superInterface, foundClasses);
-        }
-
-        return foundClasses;
+      var superClass = clazz.getSuperClass();
+      if (superClass) {
+        this._findClasses(superClass, foundClasses);
       }
 
-      return findClasses(this, []);
+      var mixins = clazz.getMixins();
+      for (var i=0; i<mixins.length; i++)
+      {
+        var mixin = apiviewer.dao.Class.getClassByName(mixins[i]);
+        if (mixin) {
+          this._findClasses(mixin, foundClasses);
+        } else {
+          this.warn("Missing mixin: " + mixins[i]);
+        }
+      }
+
+      var superMixins = clazz.getSuperMixins();
+      for (var i=0; i<superMixins.length; i++)
+      {
+        var superMixin = apiviewer.dao.Class.getClassByName(superMixins[i]);
+        if (superMixin) {
+          this._findClasses(superMixin, foundClasses);
+        } else {
+          this.warn("Missing super mixin: " + superMixins[i]);
+        }
+      }
+
+      var interfaces = clazz.getInterfaces();
+      for (var i=0; i<interfaces.length; i++)
+      {
+        var iface = apiviewer.dao.Class.getClassByName(interfaces[i]);
+        if (iface) {
+          this._findClasses(iface, foundClasses);
+        } else {
+          this.warn("Missing interface: " + interfaces[i]);
+        }
+      }
+
+      var superInterfaces = clazz.getSuperInterfaces();
+      for (var i=0; i<superInterfaces.length; i++)
+      {
+        var superInterface = apiviewer.dao.Class.getClassByName(superInterfaces[i]);
+        if (superInterface) {
+          this._findClasses(superInterface, foundClasses);
+        } else {
+          this.warn("Missing super interface: " + superInterfaces[i]);
+        }
+      }
+
+      return foundClasses;
     },
+
 
 
     _initializeFields : function()
