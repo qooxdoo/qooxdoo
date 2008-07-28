@@ -434,8 +434,12 @@ def readStatement (stream, expressionMode = False, overrunSemicolon = True, inSt
         stream.next(item, True)
     elif expressionMode and stream.currIsType("token", "LC"):
         item = readMap(stream)
+        if stream.currIsType("token", "LB"):
+            item = readObjectOperation(stream, item)
     elif expressionMode and stream.currIsType("token", "LB"):
         item = readArray(stream)
+        if stream.currIsType("token", "LB"):
+            item = readObjectOperation(stream, item)
     elif stream.currIsType("token", SINGLE_LEFT_OPERATORS):
         item = createItemNode("operation", stream)
         item.set("operator", stream.currDetail())
