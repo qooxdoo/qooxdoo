@@ -108,6 +108,7 @@ qx.Class.define("qx.bom.element.Style",
         clip : 1,
         cursor : 1,
         opacity : 1,
+        textOverflow : 1,
         boxSizing : 1,
         overflowX : 1,
         overflowY : 1
@@ -168,6 +169,10 @@ qx.Class.define("qx.bom.element.Style",
 
             case "opacity":
               html.push(qx.bom.element.Opacity.compile(value));
+              break;
+
+            case "textOverflow":
+              html.push(qx.bom.element.TextOverflow.compile(value));
               break;
 
             case "boxSizing":
