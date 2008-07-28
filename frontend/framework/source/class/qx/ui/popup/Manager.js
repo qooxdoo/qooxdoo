@@ -61,6 +61,11 @@ qx.Class.define("qx.ui.popup.Manager",
 
   members :
   {
+    /**
+     * Registers a visible popup.
+     *
+     * @param obj {qx.ui.popup.Popup} The popup to register
+     */
     add : function(obj)
     {
       if (qx.core.Variant.isSet("qx.debug", "on"))
@@ -75,6 +80,11 @@ qx.Class.define("qx.ui.popup.Manager",
     },
 
 
+    /**
+     * Removes a popup from the registry
+     *
+     * @param obj {qx.ui.popup.Popup} The popup which was excluded
+     */
     remove : function(obj)
     {
       if (qx.core.Variant.isSet("qx.debug", "on"))
@@ -89,6 +99,9 @@ qx.Class.define("qx.ui.popup.Manager",
     },
 
 
+    /**
+     * Excludes all currently open popups.
+     */
     hideAll : function()
     {
       var reg = this.__objects;
