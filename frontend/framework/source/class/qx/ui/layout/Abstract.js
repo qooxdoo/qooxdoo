@@ -48,7 +48,6 @@ qx.Class.define("qx.ui.layout.Abstract",
      * Invalidate all layout relevant caches. Automatically deletes the size hint.
      *
      * @abstract
-     * @type member
      * @return {void}
      */
     invalidateLayoutCache : function() {
@@ -60,7 +59,6 @@ qx.Class.define("qx.ui.layout.Abstract",
      * Applies the children layout.
      *
      * @abstract
-     * @type member
      * @param availWidth {Integer} Final width available for the content (in pixel)
      * @param availHeight {Integer} Final height available for the content (in pixel)
      * @return {void}
@@ -73,7 +71,6 @@ qx.Class.define("qx.ui.layout.Abstract",
     /**
      * Computes the layout dimensions and possible ranges of these.
      *
-     * @type member
      * @return {Map|null} The map with the preferred width/height and the allowed
      *   minimum and maximum values in cases where shrinking or growing
      *   is required. Can also return <code>null</code> when this detection
@@ -93,7 +90,6 @@ qx.Class.define("qx.ui.layout.Abstract",
      * This computes the size hint of the layout and returns it.
      *
      * @abstract
-     * @type member
      * @return {Map} The size hint.
      */
     _computeSizeHint : function() {
@@ -106,7 +102,6 @@ qx.Class.define("qx.ui.layout.Abstract",
      * whenever the layout data of a child is changed. The method should be used
      * to clear any children relavent chached data.
      *
-     * @type member
      * @return {void}
      */
     invalidateChildrenCache : function() {
@@ -200,7 +195,7 @@ qx.Class.define("qx.ui.layout.Abstract",
     _applyLayoutChange : function()
     {
       if (this.__widget) {
-        qx.ui.core.queue.Layout.add(this.__widget);
+        this.__widget.scheduleLayoutUpdate();
       }
     },
 
@@ -213,20 +208,6 @@ qx.Class.define("qx.ui.layout.Abstract",
      */
     _getLayoutChildren : function() {
       return this.__widget.getLayoutChildren();
-    },
-
-
-    /**
-     * Whether the given layout item is a layout child
-     * of the connected widget.
-     *
-     * @type member
-     * @param item {qx.ui.core.LayoutItem} The layout item to test
-     * @return {Boolean} <code>true</code> when the given item is a
-     *   child of the connected widget.
-     */
-    _isLayoutChild : function(item) {
-      return item.getLayoutParent() === this.__widget;
     }
   },
 

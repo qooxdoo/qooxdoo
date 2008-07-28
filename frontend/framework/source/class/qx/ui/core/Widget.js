@@ -1487,6 +1487,15 @@ qx.Class.define("qx.ui.core.Widget",
 
 
     /**
+     * Marks the layout of this widget as invalid and triggers a layout update.
+     * This is a shortcut for <code>qx.ui.core.queue.Layout.add(this);</code>.
+     */
+    scheduleLayoutUpdate : function() {
+      qx.ui.core.queue.Layout.add(this);
+    },
+
+
+    /**
      * Resets the cache for children which should be layouted.
      *
      * @return {void}
@@ -1577,7 +1586,6 @@ qx.Class.define("qx.ui.core.Widget",
     /**
      * Adds a new child widget.
      *
-     * @type member
      * @param child {LayoutItem} the widget to add.
      * @param options {Map?null} Optional layout data for widget.
      * @return {void}
@@ -1592,7 +1600,6 @@ qx.Class.define("qx.ui.core.Widget",
     /**
      * Add a child widget at the specified index
      *
-     * @type member
      * @param child {LayoutItem} widget to add
      * @param index {Integer} Index, at which the widget will be inserted
      * @param options {Map?null} Optional layout data for widget.
@@ -1619,7 +1626,6 @@ qx.Class.define("qx.ui.core.Widget",
     /**
      * Add a widget before another already inserted widget
      *
-     * @type member
      * @param child {LayoutItem} widget to add
      * @param before {LayoutItem} widget before the new widget will be inserted.
      * @param options {Map?null} Optional layout data for widget.
@@ -1639,7 +1645,6 @@ qx.Class.define("qx.ui.core.Widget",
     /**
      * Add a widget after another already inserted widget
      *
-     * @type member
      * @param child {LayoutItem} widget to add
      * @param after {LayoutItem} widgert, after which the new widget will be inserted
      * @param options {Map?null} Optional layout data for widget.
@@ -1659,7 +1664,6 @@ qx.Class.define("qx.ui.core.Widget",
     /**
      * Remove the given child widget.
      *
-     * @type member
      * @param child {LayoutItem} the widget to remove
      * @return {void}
      */
@@ -1673,7 +1677,6 @@ qx.Class.define("qx.ui.core.Widget",
     /**
      * Remove the widget at the specified index.
      *
-     * @type member
      * @param index {Integer} Index of the widget to remove.
      * @return {void}
      */
@@ -1688,9 +1691,6 @@ qx.Class.define("qx.ui.core.Widget",
 
     /**
      * Remove all children.
-     *
-     * @type member
-     * @return {void}
      */
     _removeAll : function()
     {
@@ -2373,8 +2373,6 @@ qx.Class.define("qx.ui.core.Widget",
     /**
      * Refreshes the appearance of this widget and all
      * registered child controls.
-     *
-     * @type member
      */
     updateAppearance : function()
     {
@@ -3183,7 +3181,6 @@ qx.Class.define("qx.ui.core.Widget",
      * Please note that the widget is not disposed synchronously. The
      * real dispose happens after the next queue flush.
      *
-     * @type member
      * @return {void}
      */
     destroy : function()
