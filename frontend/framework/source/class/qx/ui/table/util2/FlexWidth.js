@@ -27,7 +27,7 @@
  * Utility functions for calculating column widths based on Flex Width
  * settings.
  */
-qx.Class.define("qx.ui.table.util.FlexWidth",
+qx.Class.define("qx.ui.table.util2.FlexWidth",
 {
   statics :
   {
@@ -39,7 +39,7 @@ qx.Class.define("qx.ui.table.util.FlexWidth",
      *
      * @param columns {Array}
      *   An array of objects derived from {@link qx.ui.core.Widget}, but most
-     *   typically of class {@link qx.ui.table.util.Data}.  Each element of
+     *   typically of class {@link qx.ui.table.util2.Data}.  Each element of
      *   the columns array is an object derived from {@link qx.ui.core.Widget}
      *   and thus has properties width, minWidth, and maxWidth.  The width
      *   property may take a numeric value indicating a fixed number of pixels

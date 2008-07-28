@@ -25,11 +25,11 @@
 
 /**
  * All of the resizing information about a column.  This is the class which
- * {@link qx.ui.table.util.Widths} contains in its array of column data.
+ * {@link qx.ui.table.util2.Widths} contains in its array of column data.
  */
-qx.Class.define("qx.ui.table.util.Data",
+qx.Class.define("qx.ui.table.util2.Data",
 {
-  extend : qx.ui.core.Widget,
+  extend : qx.legacy.ui.core.Widget,
 
 
   construct : function()
