@@ -25,8 +25,6 @@
  * widget.
  *
  * Popups are used to display menus, the lists of combo boxes, tooltips, ...
- *
- * @appearance popup
  */
 qx.Class.define("qx.ui.popup.Popup",
 {

@@ -23,12 +23,7 @@
 /**
  * The AbstractTreeItem serves as a common superclass for the {@link
  * TreeFile} and {@link TreeFolder} classes.
- *
- * @appearance tree-element
- * @appearance tree-element-icon {qx.ui.basic.Image}
- * @appearance tree-element-label {qx.ui.basic.Label}
  */
-
 qx.Class.define("qx.ui.tree.AbstractTreeItem",
 {
   extend : qx.ui.core.Widget,

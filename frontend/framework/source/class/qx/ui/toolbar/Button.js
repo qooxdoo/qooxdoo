@@ -19,7 +19,7 @@
 ************************************************************************ */
 
 /**
- * @appearance toolbar-button
+ *
  */
 qx.Class.define("qx.ui.toolbar.Button",
 {

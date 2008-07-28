@@ -21,7 +21,7 @@
 ************************************************************************ */
 
 /**
- * @appearance groupbox
+ * Groupboxes are used to group a set of form elements.
  */
 qx.Class.define("qx.ui.groupbox.GroupBox",
 {

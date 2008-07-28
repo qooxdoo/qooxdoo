@@ -31,7 +31,6 @@
  *
  * For more details on the documentation of the toolbar widget, take a look at the
  * documentation of the {@link qx.ui.toolbar}-Package.
- * @appearance toolbar
  */
 qx.Class.define("qx.ui.toolbar.ToolBar",
 {

@@ -19,7 +19,7 @@
 ************************************************************************ */
 
 /**
- * @appearance toolbar-separator
+ *
  */
 qx.Class.define("qx.ui.toolbar.Separator",
 {

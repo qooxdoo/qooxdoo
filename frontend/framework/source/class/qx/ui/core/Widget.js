@@ -48,7 +48,6 @@
  * ----------------------
  * </pre>
  *
- * @appearance widget
  * @state disabled set by {@link #enabled}
  */
 qx.Class.define("qx.ui.core.Widget",
@@ -239,11 +238,11 @@ qx.Class.define("qx.ui.core.Widget",
      * {@link #releaseCapture} or a mouse click.
      */
     losecapture : "qx.event.type.Event",
-    
-    
+
+
     /**
      * Fired by {@link qx.ui.core.DragDropHandler}
-     */ 
+     */
     "dragdrop"        : "qx.event.type.Drag",
 
     /**
@@ -637,16 +636,16 @@ qx.Class.define("qx.ui.core.Widget",
       apply : "_applyAppearance",
       event : "changeAppearance"
     },
-    
-    
+
+
     /** Contains the support drop types for drag and drop support */
     dropDataTypes :
     {
       nullable : true,
       init : null
     },
-    
-    
+
+
     /**
      * The method which this.supportsDrop() calls to determine whether the
      * widget supports a particular drop operation.
@@ -666,7 +665,7 @@ qx.Class.define("qx.ui.core.Widget",
       init : null
     }
   },
-  
+
 
   /*
   *****************************************************************************
@@ -817,11 +816,11 @@ qx.Class.define("qx.ui.core.Widget",
       var objs = this._separators;
       var content = this.getContentElement();
       var el;
-      
-      if (!objs) 
+
+      if (!objs)
       {
         objs = this._separators = [];
-        for (var i=0; i<number; i++) 
+        for (var i=0; i<number; i++)
         {
           el = new qx.html.Element;
           el.setStyle("position", "absolute");
@@ -834,23 +833,23 @@ qx.Class.define("qx.ui.core.Widget",
         var length = objs.length;
         if (length < number)
         {
-          for (var i=length; i<number; i++) 
+          for (var i=length; i<number; i++)
           {
             el = new qx.html.Element;
             el.setStyle("position", "absolute");
             objs.push(el);
             content.add(el);
-          }          
+          }
         }
         else if (length > number)
         {
           for (var i=length-1; i>number-1; i--) {
             objs[i].dispose();
           }
-          
+
           objs.length = number;
         }
-      }    
+      }
     },
 
     renderHorizontalSeparator : function(separator, index, left, height)
@@ -866,11 +865,11 @@ qx.Class.define("qx.ui.core.Widget",
       el.setStyle("borderLeft", separator[0] ? "1px solid " + mgr.resolve(separator[0]) : null);
       el.setStyle("borderRight", separator[1] ? "1px solid " + mgr.resolve(separator[1]) : null);
     },
-    
+
     renderVerticalSeparator : function(separator, index, top, width)
     {
       var el = this._separators[index];
-      var mgr = qx.theme.manager.Color.getInstance();      
+      var mgr = qx.theme.manager.Color.getInstance();
 
       el.setStyle("left", "0px");
       el.setStyle("width", width + "px");
@@ -879,7 +878,7 @@ qx.Class.define("qx.ui.core.Widget",
 
       el.setStyle("borderTop", separator[0] ? "1px solid " + mgr.resolve(separator[0]) : null);
       el.setStyle("borderBottom", separator[1] ? "1px solid " + mgr.resolve(separator[1]) : null);
-    },    
+    },
 
 
 
@@ -2721,11 +2720,11 @@ qx.Class.define("qx.ui.core.Widget",
     scrollChildIntoViewY : function(child, align) {
       this._contentElement.scrollChildIntoViewY(child.getContainerElement(), align);
     },
-    
-    
-    
-    
-    
+
+
+
+
+
     /*
     ---------------------------------------------------------------------------
       DRAG AND DROP SUPPORT

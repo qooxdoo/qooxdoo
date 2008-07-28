@@ -20,7 +20,7 @@
 ************************************************************************ */
 
 /**
- * @appearance toolbar/part/container
+ *
  */
 qx.Class.define("qx.ui.toolbar.PartContainer",
 {
