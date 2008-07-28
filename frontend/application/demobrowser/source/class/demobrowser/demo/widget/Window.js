@@ -236,6 +236,7 @@ qx.Class.define("demobrowser.demo.widget.Window",
       wm1.add(btn2);
 
       var chkm1 = new qx.ui.form.CheckBox("Modal");
+      chkm1.setChecked(true);
       wm1.add(chkm1);
 
       chkm1.addListener("changeChecked", function(e) {
