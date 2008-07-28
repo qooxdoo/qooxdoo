@@ -103,6 +103,7 @@ qx.Class.define("qx.ui.basic.Label",
     {
       check : ["left", "center", "right"],
       nullable : true,
+      themeable : true,
       apply : "_applyTextAlign"
     },
 
