@@ -22,8 +22,6 @@
 /**
  * This class acts as a resizable container and allows it to be resized (not moved), normally in
  * the right and/or bottom directions. It is an alternative to splitters.
- *
- * @appearance resizer
  */
 qx.Class.define("qx.ui.container.Resizer",
 {

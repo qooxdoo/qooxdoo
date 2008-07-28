@@ -19,8 +19,8 @@
 ************************************************************************ */
 
 /**
- *
- * @appearance splitpane-pane
+ * A split panes devides a area into two panes. The ratio between the two
+ * panes is controlable by the user using the splitter.
  */
 qx.Class.define("qx.ui.splitpane.Pane",
 {

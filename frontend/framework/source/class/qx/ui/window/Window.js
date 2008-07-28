@@ -26,15 +26,6 @@
  *
  * @state active Whether the window is activated
  * @state maximized Whether the window is maximized
- *
- * @appearance window The main window object
- * @control pane {qx.ui.container.Composite}
- * @control minimize-button {qx.ui.form.Button}
- * @control restore-button {qx.ui.form.Button}
- * @control maximize-button {qx.ui.form.Button}
- * @control close-button {qx.ui.form.Button}
- * @control statusbar {qx.ui.layout.HorizontalBoxLayout}
- * @control statusbar-text {qx.ui.basic.Label}
  */
 qx.Class.define("qx.ui.window.Window",
 {
