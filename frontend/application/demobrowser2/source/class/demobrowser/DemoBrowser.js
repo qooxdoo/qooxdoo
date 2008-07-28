@@ -538,16 +538,6 @@ qx.Class.define("demobrowser.DemoBrowser",
       toolbar.add(gb);
       this.widgets["toolbar.sampbutts"] = gb;
 
-      /*
-      gb.set(
-      {
-        height : "100%",
-        width  : "auto",
-        border : null
-      });
-       */
-
-      ////gb.resetBorder();
       gb.setEnabled(false);
 
       // profiling
@@ -562,14 +552,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       // object summary
       var sb1 = new qx.ui.toolbar.Button("Object Summary", "icon/16/apps/graphics-viewer.png");
       gb.add(sb1);
-/*
-      sb1.set(
-      {
-        height : "100%",
-        width  : "auto",
-        command: this._cmdObjectSummary
-      });
-*/
+
       this.__bindCommand(sb1, this._cmdObjectSummary)
       sb1.setToolTip(new qx.ui.tooltip.ToolTip("Sample Object Summary"));
       sb1.setShow("icon");
@@ -704,7 +687,6 @@ qx.Class.define("demobrowser.DemoBrowser",
       tabview.add(p3);
 
       // -- Pane Content
-      //var f3 = new qx.legacy.ui.form.TextArea("The sample source will be displayed here.");
       var f3 = new qx.ui.embed.HtmlEmbed("<div class='script'>The sample source will be displayed here.</div>");
       p3.add(f3);
       this.widgets["outputviews.sourcepage.html.page"] = f3;
@@ -745,9 +727,10 @@ qx.Class.define("demobrowser.DemoBrowser",
       var root = new qx.ui.tree.TreeFolder("Tests");
       tree1.setRoot(root);
       tree1.select(root);
+      tree1.setWidth(200);
       
       this.tree = tree1;
-      this.widgets["treeview.flat"] = tree1;
+      this.widgets["treeview.full"] = this.widgets["treeview.flat"] = tree1;
 
       tree1.addListener("changeSelection", this.treeGetSelection, this);
 
@@ -771,7 +754,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       this.tests.selected = this.tests.handler.getFullName(modelNode);
 
       // update toolbar
-      if (treeNode instanceof qx.legacy.ui.tree.TreeFolder)
+      if (treeNode instanceof qx.ui.tree.TreeFolder)
       {
         this._cmdRunSample.setEnabled(false);
         this._cmdPrevSample.setEnabled(false);
@@ -818,8 +801,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       // set a section to open initially
       var state   = this._history.getState();
       var section =  state.match(/([^~]+)~/);
-      if (section)
-      {
+      if (section) {
         _initialSection = section[1];
       }
 
@@ -827,7 +809,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       /**
        * create widget tree from model
        *
-       * @param widgetR {qx.legacy.ui.tree.Tree}    [In/Out]
+       * @param widgetR {qx.ui.tree.Tree}    [In/Out]
        *        widget root under which the widget tree will be built
        * @param modelR  {demobrowser.Tree} [In]
        *        model root for the tree from which the widgets representation
@@ -844,19 +826,12 @@ qx.Class.define("demobrowser.DemoBrowser",
 
           if (currNode.hasChildren())
           {
-            t = new qx.legacy.ui.tree.TreeFolder(that.polish(currNode.label), "demobrowser/image/package18.gif");
+            t = new qx.ui.tree.TreeFolder(that.polish(currNode.label), "demobrowser/image/package18.gif");
+            t.setIconOpened("demobrowser/image/package18.gif");
             t.setUserData("filled", false);
             t.setUserData("node", currNode);
-            t.setAlwaysShowPlusMinusSymbol(true);
 
-            t.addListener("changeOpen", function(e)
-            {
-              if (!this.getUserData("filled"))
-              {
-                buildSubTree(this, this.getUserData("node"));
-                this.setUserData("filled", true);
-              }
-            });
+            buildSubTree(t, t.getUserData("node"));
 
             if (currNode.label == _initialSection) {
               t.setOpen(true);
@@ -864,7 +839,8 @@ qx.Class.define("demobrowser.DemoBrowser",
           }
           else
           {
-            t = new qx.legacy.ui.tree.TreeFile(that.polish(currNode.label), "demobrowser/image/method_public18.gif");
+            t = new qx.ui.tree.TreeFile(that.polish(currNode.label), "demobrowser/image/method_public18.gif");
+            t.setIconOpened("demobrowser/image/method_public18.gif");
             var fullName = currNode.pwd().slice(1).join("/") + "/" + currNode.label;
             _sampleToTreeNodeMap[fullName] = t;
           }
@@ -884,40 +860,33 @@ qx.Class.define("demobrowser.DemoBrowser",
       var ttree = this.tests.handler.ttree;
       var that = this;
 
-      /*
-      // Reset Status Pane Elements
-      this.widgets["statuspane.current"].setText("");
-      this.widgets["statuspane.number"].setText("");
-      */
-
-      // Disable Tree View
-      // this.widgets["treeview"].setEnabled(false);
-
       // Handle current Tree Selection and Content
       var fulltree = this.widgets["treeview.full"];
       var flattree = this.widgets["treeview.flat"];
       var trees = [ fulltree, flattree ];
 
-      for (var i=0; i<trees.length; i++)
-      {
-        trees[i].resetSelected();
-        trees[i].destroyContent();  // clean up before re-build
-        trees[i].setUserData("modelLink", ttree);  // link top level widgets and model
-      }
-
-      // link top level model to widgets
-      ttree.widgetLinkFull = fulltree;
-      ttree.widgetLinkFlat = flattree;
+      this.tree.setUserData("modelLink", ttree);  // link top level widgets and model
 
       var selectedElement = null;  // if selection exists will be set by
 
-      // buildSubTree* functions to a model node
-      // Build the widget trees
-      buildSubTree(this.widgets["treeview.full"], ttree);
+      this.tree.getRoot().setOpen(true)
+      buildSubTree(this.tree.getRoot(), ttree);
+
+      // select tree element and open if folder
+      /*
+      if (selectedElement.widgetLinkFull)
+      {
+        this.tree.setSelectedElement(selectedElement.widgetLinkFull);
+
+        if (selectedElement.widgetLinkFull instanceof qx.ui.tree.TreeFolder) {
+          selectedElement.widgetLinkFull.open();
+        }
+      }
+      */
 
       // Re-enable and Re-select
-      this.widgets["treeview"].setEnabled(true);
-
+      ////this.widgets["treeview"].setEnabled(true);
+/*
       if (selectedElement)  // try to re-select previously selected element
       {
         // select tree element and open if folder
@@ -925,7 +894,7 @@ qx.Class.define("demobrowser.DemoBrowser",
         {
           this.widgets["treeview.full"].setSelectedElement(selectedElement.widgetLinkFull);
 
-          if (selectedElement.widgetLinkFull instanceof qx.legacy.ui.tree.TreeFolder) {
+          if (selectedElement.widgetLinkFull instanceof qx.ui.tree.TreeFolder) {
             selectedElement.widgetLinkFull.open();
           }
         }
@@ -934,11 +903,12 @@ qx.Class.define("demobrowser.DemoBrowser",
         {
           this.widgets["treeview.flat"].setSelectedElement(selectedElement.widgetLinkFlat);
 
-          if (selectedElement.widgetLinkFlat instanceof qx.legacy.ui.tree.TreeFolder) {
+          if (selectedElement.widgetLinkFlat instanceof qx.ui.tree.TreeFolder) {
             selectedElement.widgetLinkFlat.open();
           }
         }
       }
+*/
     },  // leftReloadTree
 
 
@@ -987,11 +957,11 @@ qx.Class.define("demobrowser.DemoBrowser",
       }
 
       // -- Vars and Setup -----------------------
-      this.widgets["outputviews.bar"].getManager().setSelected(this.widgets["outputviews.demopage.button"]);
+////      this.widgets["outputviews.bar"].getManager().setSelected(this.widgets["outputviews.demopage.button"]);
       //this.widgets["outputviews.demopage.page"].setEnabled(false);
 
       this.__setStateLoading();
-
+/*
       var iDoc = this.widgets["outputviews.demopage.page"].getContentDocument();
       if (iDoc)
       {
@@ -999,7 +969,7 @@ qx.Class.define("demobrowser.DemoBrowser",
           iDoc.body.innerHTML = "";
         } catch(ex) {}
       }
-
+*/
       //this.widgets["outputviews.bar"].setEnabled(false);
       //this.widgets["outputviews"].setEnabled(false);
 
@@ -1008,7 +978,7 @@ qx.Class.define("demobrowser.DemoBrowser",
 
       if (treeNode)
       {
-        treeNode.setSelected(true);
+        treeNode.getTree().select(treeNode);
         url = 'demo/' + value;
         if (this._useProfile) {
           url += "?qxvariant:qx.aspects:on&qxsetting:qx.enableAspect:true"
