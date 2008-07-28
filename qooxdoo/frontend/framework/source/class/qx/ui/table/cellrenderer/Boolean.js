@@ -57,6 +57,8 @@ qx.Class.define("qx.ui.table.cellrenderer.Boolean",
 
   members :
   {
+    _insetY : 5,
+
     // overridden
     _getCellStyle : function(cellInfo) {
       return this.base(arguments, cellInfo) + ";padding-top:4px;";

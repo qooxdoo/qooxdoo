@@ -50,6 +50,9 @@ qx.Interface.define("qx.ui.table.ICellRenderer",
      * <li>editable (boolean): whether the cell is editable.</li>
      * <li>style (string): The CSS styles that should be applied to the outer HTML
      *   element.</li>
+     * <li>styleLeft (string): The left position of the cell.</li>
+     * <li>styleWidth (string): The cell's width (pixel).</li>
+     * <li>styleHeight (string): The cell's height (pixel).</li>
      * </ul>
      *
      * @param cellInfo {Map} A map containing the information about the cell to

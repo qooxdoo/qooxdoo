@@ -50,7 +50,6 @@ qx.Class.define("demobrowser.demo.table.Scroller.DummyTable",
   {
     this.base(arguments, new qx.ui.layout.Canvas());
     this.setAppearance("table");
-    this._fixBoxModel();
 
     this.set({
       decorator : "black",

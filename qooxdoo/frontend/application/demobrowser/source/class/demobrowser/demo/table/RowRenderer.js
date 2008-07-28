@@ -35,9 +35,6 @@ qx.Class.define("demobrowser.demo.table.RowRenderer",
 
     setUp : function()
     {
-      // TODO: box model correction
-      this._fixBoxModel();
-
       // table mock
       this.tableMock = this.getTableMock();
 
