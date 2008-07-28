@@ -162,7 +162,7 @@ qx.Mixin.define("demobrowser.demo.table.MUtil",
     },
 
 
-    permute :function(options, callback)
+    permute :function(options, callback, context)
     {
       var keys = qx.lang.Object.getKeys(options);
 
@@ -191,7 +191,7 @@ qx.Mixin.define("demobrowser.demo.table.MUtil",
           {
             indices[index] = i;
             map[key] = values[i];
-            callback(map);
+            callback.call(context || window, map);
           }
           _perm(index+1, indices[index+1]);
         }
