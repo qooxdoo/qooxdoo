@@ -22,6 +22,8 @@
 /* ************************************************************************
 
 #asset(qx/icon/${qx.icontheme}/16/*)
+#asset(qx/icon/Oxygen/*)
+#asset(qx/icon/Tango/*)
 #asset(demobrowser/image/*)
 #asset(demobrowser/css/*)
 
