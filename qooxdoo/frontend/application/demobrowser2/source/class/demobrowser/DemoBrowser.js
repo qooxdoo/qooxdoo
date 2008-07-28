@@ -450,15 +450,14 @@ qx.Class.define("demobrowser.DemoBrowser",
           setWidgetProperties(itemWidget, item);
           menu.add(itemWidget);
         }
-        ////menu.addToDocument();
         return menu;
       }
 
 
-      var bar = new qx.ui.menu.Menu();
+      var bar = new qx.ui.toolbar.ToolBar();
       for (var i=0; i<menuData.length; i++)
       {
-        var btn = new qx.ui.menu.Button(menuData[i].label);
+        var btn = new qx.ui.toolbar.MenuButton(menuData[i].label);
         btn.setMenu(createMenu(menuData[i].items));
         setWidgetProperties(btn, menuData[i]);
         bar.add(btn);
