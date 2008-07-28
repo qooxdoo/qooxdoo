@@ -21,7 +21,7 @@
 
 /* ************************************************************************
 
-#asset(qx/icon/Compat/16/*)
+#asset(qx/icon/${qx.icontheme}/16/*)
 #asset(demobrowser/image/*)
 #asset(demobrowser/css/*)
 
