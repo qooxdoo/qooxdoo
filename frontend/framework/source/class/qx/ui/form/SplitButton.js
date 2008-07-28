@@ -198,7 +198,6 @@ qx.Class.define("qx.ui.form.SplitButton",
         case "arrow":
           control = new qx.ui.form.MenuButton;
           control.setFocusable(false);
-          control.setMenuAlign("bottom-right");
           this._addAt(control, 1);
           break;
       }
