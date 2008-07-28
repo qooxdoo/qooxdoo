@@ -43,24 +43,18 @@ qx.Class.define("qx.ui.core.DragDropHandler",
 
     this.__data = {};
     this.__actions = {};
-    this.__cursors = {};
-
+    
     var root = qx.core.Init.getApplication().getRoot();
 
-    // TODO: setup these cursors as one Image -> image-combine/image-clipping
-    var vCursor, vAction;
-    var vActions = [ "move", "copy", "alias", "nodrop" ];
-
-    for (var i=0, l=vActions.length; i<l; i++)
-    {
-      vAction = vActions[i];
-      vCursor = this.__cursors[vAction] = new qx.ui.basic.Image;
-      vCursor.set({
-        appearance : "cursor-dnd-" + vAction,
-        zIndex     : 1e8
-      });
-      root.add(vCursor, { left : -50, top : -50 });
-    }
+    // create the cursors
+    // setup the combined image and change later only the source
+    // this way there is only one image class needed instead of four
+    this.__cursor = new qx.ui.basic.Image;
+    this.__cursor.set({
+      appearance : "cursors-dnd",
+      zIndex     : 1e8
+    });
+    root.add(this.__cursor, { left : -50, top : -50 });
     
     // add listeners - "mousemove" is added/removed dynamically
     qx.event.Registration.addListener(root, "mousedown", this._handleMouseDown, this, true);
@@ -691,7 +685,7 @@ qx.Class.define("qx.ui.core.DragDropHandler",
       }
 
       // Dispatch dragend event
-      this.getSourceWidget().dispatchEvent(new qx.event.type.Drag("dragend", e, this.getSourceWidget(), currentDestinationWidget), true);
+      qx.event.Registration.fireEvent(this.getSourceWidget(), "dragend", qx.event.type.Drag, [ e, this.getSourceWidget(), currentDestinationWidget ]);
 
       // Fire dragout event
       this._fireUserEvents(this.__dragCache && this.__dragCache.currentDropWidget, null, e);
@@ -721,15 +715,9 @@ qx.Class.define("qx.ui.core.DragDropHandler",
         this.__feedbackWidget = null;
       }
 
-      // Remove cursor
-      var oldCursor = this.__cursor;
-
-      if (oldCursor)
-      {
-        oldCursor.getContainerElement().hide();
-        this.__cursor = null;
-      }
-
+      // Hide cursor
+      this.__cursor.getContainerElement().hide();
+      
       this._cursorDeltaLeft = null;
       this._cursorDeltaTop = null;
 
@@ -784,43 +772,15 @@ qx.Class.define("qx.ui.core.DragDropHandler",
      */
     _renderCursor : function()
     {
-      var vNewCursor;
-      var vOldCursor = this.__cursor;
-
-      switch(this.getCurrentAction())
-      {
-        case "move":
-          vNewCursor = this.__cursors.move;
-          break;
-
-        case "copy":
-          vNewCursor = this.__cursors.copy;
-          break;
-
-        case "alias":
-          vNewCursor = this.__cursors.alias;
-          break;
-
-        default:
-          vNewCursor = this.__cursors.nodrop;
-      }
-      
-      // Hide old cursor
-      if (vNewCursor != vOldCursor && vOldCursor != null) {
-        vOldCursor.getContainerElement().hide();
-      }
+      var action = this.getCurrentAction() == null ? "nodrop" : this.getCurrentAction();
+      this.__cursor.setSource("decoration/cursors/" + action + ".gif");
 
       // Apply position with setDomLeft and setDomTop (fastest qooxdoo method)
-      vNewCursor.setDomLeft(this.__dragCache.documentLeft + ((this._cursorDeltaLeft != null) ? this._cursorDeltaLeft : this.getDefaultCursorDeltaLeft()));
-      vNewCursor.setDomTop(this.__dragCache.documentTop + ((this._cursorDeltaTop != null) ? this._cursorDeltaTop : this.getDefaultCursorDeltaTop()));
+      this.__cursor.setDomLeft(this.__dragCache.documentLeft + ((this._cursorDeltaLeft != null) ? this._cursorDeltaLeft : this.getDefaultCursorDeltaLeft()));
+      this.__cursor.setDomTop(this.__dragCache.documentTop + ((this._cursorDeltaTop != null) ? this._cursorDeltaTop : this.getDefaultCursorDeltaTop()));
 
-      // Finally show new cursor
-      if (vNewCursor != vOldCursor) {
-        vNewCursor.getContainerElement().show();
-      }
-
-      // Store new cursor
-      this.__cursor = vNewCursor;
+      // show the cursor
+      this.__cursor.getContainerElement().show();
     },
 
 
@@ -1027,7 +987,6 @@ qx.Class.define("qx.ui.core.DragDropHandler",
 
   destruct : function()
   {
-    this._disposeMap("__cursors");
     this._disposeObjects("__feedbackWidget");
     this._disposeFields("__dragCache", "__data", "__actions", "__lastDestinationEvent");
   }

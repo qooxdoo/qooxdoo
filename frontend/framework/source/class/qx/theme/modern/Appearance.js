@@ -81,46 +81,16 @@ qx.Theme.define("qx.theme.modern.Appearance",
     ---------------------------------------------------------------------------
     */
     
-    "cursor-dnd-move" :
+    "cursors-dnd" :
     {
       style : function(states)
       {
         return {
-          source : "decoration/cursors/move.gif"
+          source : "decoration/cursors-combined.gif"
         };
       }
     },
-
-    "cursor-dnd-copy" :
-    {
-      style : function(states)
-      {
-        return {
-          source : "decoration/cursors/copy.gif"
-        };
-      }
-    },
-
-    "cursor-dnd-alias" :
-    {
-      style : function(states)
-      {
-        return {
-          source : "decoration/cursors/alias.gif"
-        };
-      }
-    },
-
-    "cursor-dnd-nodrop" :
-    {
-      style : function(states)
-      {
-        return {
-          source : "decoration/cursors/nodrop.gif"
-        };
-      }
-    },
-
+    
 
 
     /*
