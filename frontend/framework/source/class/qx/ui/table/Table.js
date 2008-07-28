@@ -222,7 +222,7 @@ qx.Class.define("qx.ui.table.Table",
     "columnVisibilityMenuCreateEnd" : "qx.event.type.DataEvent",
 
      /**
-      * Dispatched when the inner width of the table has changed.
+      * Dispatched when the width of the table has changed.
       */
     "tableWidthChanged" : "qx.event.type.DataEvent",
 
@@ -1699,21 +1699,14 @@ qx.Class.define("qx.ui.table.Table",
     },
 
 
-    _onResize : function(e)
+    /**
+     * Resize event handler
+     */
+    _onResize : function()
     {
-      var self = this;
-
-      window.setTimeout(function()
-      {
-        if (self.isDisposed()) {
-          return;
-        }
-
-        self.fireEvent("tableWidthChanged");
-        self._updateScrollerWidths();
-        self._updateScrollBarVisibility();
-      },
-      0);
+      this.fireEvent("tableWidthChanged");
+      this._updateScrollerWidths();
+      this._updateScrollBarVisibility();
     },
 
 
