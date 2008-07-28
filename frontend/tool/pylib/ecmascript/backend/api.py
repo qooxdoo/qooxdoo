@@ -637,6 +637,9 @@ def handleAppearance(item, classNode, className, commentAttributes):
     thisAppearance = []
     classAppearance = None
 
+    # TODO: Needs overhaul for 0.8 features
+    return
+
     # parse appearances
     for attrib in commentAttributes:
         if attrib["category"] == "appearance":
