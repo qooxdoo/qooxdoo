@@ -68,51 +68,25 @@ qx.Class.define("demobrowser.DemoBrowser",
     // split
     var mainsplit = new qx.ui.splitpane.Pane("horizontal");
     this.mainsplit = mainsplit;
-    this.add(mainsplit);
+    this.add(mainsplit, {flex : 1});
 
     // Left
-    ////var left = this.__makeLeft();
-    var left = new qx.ui.core.Widget;
-    
-    this.left = left.buttview;
-////    this.mainsplit.addLeft(left);
-    left.setHeight(200);
+    var left = this.__makeLeft();
     mainsplit.add(left, 0);
 
 
     
     // Right
-////    var right = new qx.legacy.ui.layout.VerticalBoxLayout();
     var right = new qx.ui.container.Composite(new qx.ui.layout.VBox); 
-
-    /*
-    right.set(
-    {
-      height : "100%",
-      width  : "100%",
-      border : "line-left"
-    });
-    */
-
-////    mainsplit.addRight(right);
     mainsplit.add(right, 1);
 
     // Toolbar
     this.toolbar = this.__makeToolbar();
-
-    /*
-    this.toolbar.set(
-    {
-      show                  : "icon",
-      verticalChildrenAlign : "middle"
-    });
-    */
-
     right.add(this.toolbar);
 
     // output views
     var buttview = this.__makeOutputViews();
-    right.add(buttview);
+    right.add(buttview, {flex:1});
 
     ////this.widgets["treeview.bsb1"].setChecked(true);
 
@@ -767,113 +741,18 @@ qx.Class.define("demobrowser.DemoBrowser",
      */
     __makeLeft : function()
     {
-      var buttview = new qx.legacy.ui.pageview.buttonview.ButtonView();
 
-      buttview.set(
-      {
-        height : "100%",
-        width  : "100%",
-        border : "line-right"
-      });
-
-      buttview.getPane().setPadding(0);
-
-      this.widgets["treeview"] = buttview;
-
-      // full view
-      var bsb1 = new qx.legacy.ui.pageview.buttonview.Button("Full Tree", "icon/16/actions/view-pane-tree.png");
-      buttview.getBar().add(bsb1);
-      this.widgets["treeview.bsb1"] = bsb1;
-      bsb1.setShow("icon");
-      bsb1.setToolTip(new qx.legacy.ui.popup.ToolTip("Full tree view"));
-
-      var p1 = new qx.legacy.ui.pageview.buttonview.Page(bsb1);
-
-      p1.set(
-      {
-        width           : "100%",
-        height          : "100%",
-        backgroundColor : "white"
-      });
-
-      buttview.getPane().add(p1);
-
-      var tree = new qx.legacy.ui.tree.Tree("Samples");
-      p1.add(tree);
-      this.tree = tree;
-      this.widgets["treeview.full"] = tree;
-      bsb1.setUserData('tree', tree);  // for changeSelected handling
-
-      tree.set(
-      {
-        width    : "100%",
-        height   : "100%",
-        padding  : 5,
-        overflow : "auto"
-      });
-
-      tree.getManager().addListener("changeSelection", this.treeGetSelection, this);
-
-      tree.addListener("dblclick", function(e)
-      {
-        if (e.getTarget() instanceof qx.legacy.ui.tree.TreeFile)
-        {
-          // allow treeGetSelection to run first
-          qx.event.Timer.once(this.runSample, this, 50);
-        }
-        else
-        {
-          this.setCurrentSample(this.defaultUrl);
-        }
-      },
-      this);
-
-      // flat view
-      var bsb2 = new qx.legacy.ui.pageview.buttonview.Button("Flat Tree", "icon/16/actions/view-pane-text.png");
-
-      // buttview.getBar().add(bsb2);
-      this.widgets["treeview.bsb2"] = bsb2;
-      bsb2.setShow("icon");
-      bsb2.setToolTip(new qx.legacy.ui.popup.ToolTip("Flat tree view (only one level of containers)"));
-
-      var p2 = new qx.legacy.ui.pageview.buttonview.Page(bsb2);
-      buttview.getPane().add(p2);
-
-      var tree1 = new qx.legacy.ui.tree.Tree("Tests");
-      p2.add(tree1);
-      this.tree1 = tree1;
+      var tree1 = new qx.ui.tree.Tree;
+      var root = new qx.ui.tree.TreeFolder("Tests");
+      tree1.setRoot(root);
+      tree1.select(root);
+      
+      this.tree = tree1;
       this.widgets["treeview.flat"] = tree1;
-      bsb2.setUserData('tree', tree1);  // for changeSelected handling
 
-      tree1.set(
-      {
-        width    : "100%",
-        height   : "100%",
-        padding  : 5,
-        overflow : "auto"
-      });
+      tree1.addListener("changeSelection", this.treeGetSelection, this);
 
-      tree1.getManager().addListener("changeSelection", this.treeGetSelection, this);
-
-      // fake unique tree for selection (better to have a selection on the model)
-      this.tree = {};
-      var that = this;
-
-      this.tree.getSelectedElement = function()
-      {
-        var sel = that.widgets["treeview"].getBar().getManager().getSelected();
-        var elem;
-
-        if (sel.getLabel() == "Full Tree") {
-          elem = that.widgets["treeview.full"].getSelectedElement();
-        } else {
-          elem = that.widgets["treeview.flat"].getSelectedElement();
-        }
-
-        return elem;
-      };
-
-      return buttview;
+      return tree1;
     },
 
     // ------------------------------------------------------------------------
@@ -888,12 +767,7 @@ qx.Class.define("demobrowser.DemoBrowser",
      */
     treeGetSelection : function(e)
     {
-      if (!this.tree.getSelectedElement())
-      {  // this is a kludge!
-        return;
-      }
-
-      var treeNode = this.tree.getSelectedElement();
+      var treeNode = this.tree.getSelectedItem();
       var modelNode = treeNode.getUserData("modelLink");
       this.tests.selected = this.tests.handler.getFullName(modelNode);
 
@@ -1435,7 +1309,7 @@ qx.Class.define("demobrowser.DemoBrowser",
      */
     playPrev : function(e)
     {
-      var currSamp = this.tree.getSelectedElement();  // widget
+      var currSamp = this.tree.getSelectedItem();  // widget
 
       if (currSamp)
       {
@@ -1459,7 +1333,7 @@ qx.Class.define("demobrowser.DemoBrowser",
      */
     playNext : function(e)
     {
-      var currSamp = this.tree.getSelectedElement();  // widget
+      var currSamp = this.tree.getSelectedItem();  // widget
 
       if (currSamp)
       {
