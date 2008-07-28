@@ -19,7 +19,7 @@
 
 /* ************************************************************************
 
-#require(qx.ui.table.util.Data)
+#require(qx.ui.table.columnmodel.resizebehavior.ColumnData)
 
 ************************************************************************ */
 
@@ -59,6 +59,20 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
   extend : qx.ui.table.columnmodel.resizebehavior.Abstract,
 
 
+  construct : function()
+  {
+    this.base(arguments);
+
+    // This layout is not connected to a widget but to this class. This class
+    // must implement the method "getLayoutChildren", which must return all
+    // columns (LayoutItems) which should be recalcutated. The call
+    // "layout.renderLayout" will call the method "renderLayout" on each column
+    // data object
+    // The advantage of the use of the normal layout manager is that the
+    // samantics of flex and percent are exectly the same as in the widget code.
+    this._layout = new qx.ui.layout.HBox();
+    this._layout.connectToWidget(this);
+  },
 
 
   /*
@@ -92,7 +106,7 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
       check : "Function",
       init : function(obj)
       {
-        return new qx.ui.table.util.Data();
+        return new qx.ui.table.columnmodel.resizebehavior.ColumnData();
       }
     },
 
@@ -108,6 +122,12 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
     {
       check : "Boolean",
       init  : false
+    },
+
+
+    tableColumnModel :
+    {
+      check : "qx.ui.table.columnmodel.Resize"
     }
   },
 
@@ -130,8 +150,6 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
     /**
      * Set the width of a column.
      *
-     * @type member
-     *
      * @param col {Integer} The column whose width is to be set
      *
      * @param width {Integer, String}
@@ -153,14 +171,12 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
       }
 
       // Set the new width
-      this._resizeColumnData[col].setWidth(width);
+      this._resizeColumnData[col].setColumnWidth(width);
     },
 
 
     /**
      * Set the minimum width of a column.
-     *
-     * @type member
      *
      * @param col {Integer}
      *   The column whose minimum width is to be set
@@ -189,8 +205,6 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
     /**
      * Set the maximum width of a column.
      *
-     * @type member
-     *
      * @param col {Integer}
      *   The column whose maximum width is to be set
      *
@@ -217,8 +231,6 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
     /**
      * Set any or all of the width, minimum width, and maximum width of a
      * column in a single call.
-     *
-     * @type member
      *
      * @param col {Integer}
      *   The column whose attributes are to be changed
@@ -265,10 +277,6 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
       // they want us to reinitialize widths on every appear event...
       if (! this.widthsInitialized || this.getInitializeWidthsOnEveryAppear())
       {
-        // Get the initial available width so we know whether a resize caused
-        // an increase or decrease in the available space.
-        this._width = this._getAvailableWidth(tableColumnModel);
-
         // Calculate column widths
         this._computeColumnsFlexWidth(tableColumnModel, event);
 
@@ -337,10 +345,17 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
 
 
     /**
+     * This method is required by the box layout. If returns an array of items
+     * to relayout.
+     */
+    getLayoutChildren : function() {
+      return this._layoutChildren;
+    },
+
+
+    /**
      * Computes the width of all flexible children (based loosely on the
      * method of the same name in HorizontalBoxLayoutImpl).
-     *
-     * @type member
      *
      * @param tableColumnModel {qx.ui.table.columnmodel.Resize}
      *   The table column model in use.
@@ -362,13 +377,7 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
 
       var visibleColumns = tableColumnModel._visibleColumnArr;
       var visibleColumnsLength = visibleColumns.length;
-      var columnData;
       var i;
-
-      // Determine the available width
-      var availableWidth = this._getAvailableWidth(tableColumnModel);
-      var width = availableWidth.width;
-      var extraWidth = availableWidth.extraWidth;
 
       // Create an array of the visible columns
       var columns = [ ];
@@ -376,51 +385,23 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
       {
         columns.push(this._resizeColumnData[visibleColumns[i]]);
       }
+      this._layoutChildren = columns;
 
-      // Compute the column widths
-      qx.ui.table.util.FlexWidth.compute(columns, width);
+      // Use a horizontal boy layout to determine the available width.
+      var width = this._getAvailableWidth(tableColumnModel);
+      this._.renderLayout(width, 100);
 
-      // ************************************************
-      // Set the column widths to what we have calculated
-      // ************************************************
-      for (i=0; i<visibleColumnsLength; i++)
+      // Now that we've calculated the width, set it.
+      for (i=0,l=columns.length; i<l; i++)
       {
-        var colWidth;
-
-        // Get the current column's column data
-        columnData = this._resizeColumnData[visibleColumns[i]];
-
-        // Is this column a flex width?
-        if (columnData._computedWidthTypeFlex)
-        {
-          // Yup.  Set the width to the calculated width value based on flex
-          colWidth = columnData._computedWidthFlexValue;
-        }
-        else if (columnData._computedWidthTypePercent)
-        {
-          // Set the width to the calculated width value based on percent
-          colWidth = columnData._computedWidthPercentValue;
-        }
-        else
-        {
-          colWidth = columnData.getWidth();
-        }
-
-        // If this is the last column, add any available extra width (where
-        // the vertical scollbar will go if it's not there already)
-        if (i == visibleColumnsLength - 1) {
-          colWidth += extraWidth;
-        }
-
-        // Now that we've calculated the width, set it.
+        var colWidth = columns[i].getComputedWith();
         tableColumnModel.setColumnWidth(visibleColumns[i], colWidth);
 
         if (qx.core.Variant.isSet("qx.debug", "on"))
         {
           if (qx.core.Setting.get("qx.tableResizeDebug"))
           {
-            this.debug("col " + columnData._columnNumber +
-                       ": width=" + colWidth);
+            this.debug("col " + columns[i]._columnNumber + ": width=" + colWidth);
           }
         }
       }
@@ -455,8 +436,7 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
       var visibleColumns = tableColumnModel._visibleColumnArr;
 
       // Determine the available width
-      var availableWidth = this._getAvailableWidth(tableColumnModel);
-      var width = availableWidth.width;
+      var width = this._getAvailableWidth(tableColumnModel);
 
       // Determine the number of visible columns
       var numColumns = visibleColumns.length;
@@ -475,8 +455,7 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
       var nextCol;
       var widthUsed = 0;
 
-      for (i=0; i<numColumns; i++)
-      {
+      for (i=0; i<numColumns; i++) {
         widthUsed += tableColumnModel.getColumnWidth(visibleColumns[i]);
       }
 
@@ -538,8 +517,7 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
       var visibleColumns = tableColumnModel._visibleColumnArr;
 
       // Determine the available width
-      var availableWidth = this._getAvailableWidth(tableColumnModel);
-      var width = availableWidth.width;
+      var width = this._getAvailableWidth(tableColumnModel);
 
       // Determine the number of visible columns
       var numColumns = visibleColumns.length;
@@ -549,8 +527,7 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
       var lastCol;
       var widthUsed = 0;
 
-      for (i=0; i<numColumns; i++)
-      {
+      for (i=0; i<numColumns; i++) {
         widthUsed += tableColumnModel.getColumnWidth(visibleColumns[i]);
       }
 
@@ -580,5 +557,6 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
   destruct : function()
   {
     this._disposeFields("_resizeColumnData", "_width");
+    this._disposeObjects("_layout");
   }
 });

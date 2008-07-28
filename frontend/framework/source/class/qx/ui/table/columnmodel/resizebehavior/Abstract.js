@@ -187,7 +187,10 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Abstract",
     _getAvailableWidth : function(tableColumnModel)
     {
       // Get the inner width off the table
-      var el = tableColumnModel._table.getElement();
+      var table = tableColumnModel._table;
+      return table.getContentWidth();
+
+
       var width = qx.bom.element.Dimension.getClientWidth(el);
 
       // Get the last meta column scroller
