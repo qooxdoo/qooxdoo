@@ -245,62 +245,25 @@ qx.Class.define("qx.ui.core.DragDropHandler",
     /**
      * @signature function(e)
      */
-    getDropTarget : qx.core.Variant.select("qx.client",
+    getDropTarget : function(e)
     {
-      // This hack is no longer needed for Firefox 2.0
-      // We should verify, which Firefox version needed this hack.
-      /*
-      "gecko" : function(e)
+      var vCurrent = e.getTarget();
+      
+      while (vCurrent != null)
       {
-        var vCurrent = e.getTarget();
-
-        // work around gecko bug (all other browsers are correct)
-        // clicking on a free space and drag prohibit the get of
-        // a valid event target. The target is always the element
-        // which was the one with the mousedown event before.
-        if (vCurrent == this.__dragCache.sourceWidget) {
-          vCurrent = qx.legacy.event.handler.EventHandler.getTargetObject(qx.legacy.html.ElementFromPoint.getElementFromPoint(e.getPageX(), e.getPageY()));
-        } else {
-          vCurrent = qx.legacy.event.handler.EventHandler.getTargetObject(null, vCurrent);
+        if (!vCurrent.supportsDrop(this.__dragCache)) {
+          return null;
         }
 
-        while (vCurrent != null)
-        {
-          if (!vCurrent.supportsDrop(this.__dragCache)) {
-            return null;
-          }
-
-          if (this.supportsDrop(vCurrent)) {
-            return vCurrent;
-          }
-
-          vCurrent = vCurrent.getParent();
+        if (this.supportsDrop(vCurrent)) {
+          return vCurrent;
         }
 
-        return null;
-      },
-      */
-
-      "default" : function(e)
-      {
-        var vCurrent = e.getTarget();
-        
-        while (vCurrent != null)
-        {
-          if (!vCurrent.supportsDrop(this.__dragCache)) {
-            return null;
-          }
-
-          if (this.supportsDrop(vCurrent)) {
-            return vCurrent;
-          }
-
-          vCurrent = vCurrent.getLayoutParent();
-        }
-
-        return null;
+        vCurrent = vCurrent.getLayoutParent();
       }
-    }),
+
+      return null;
+    },
 
 
 
