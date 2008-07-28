@@ -19,7 +19,7 @@
 ************************************************************************ */
 
 /**
- * Each object, which should be managed by a {@link RadioManager} have to
+ * Each object, which should be managed by a {@link RadioGroup} have to
  * implement this interface.
  */
 qx.Interface.define("qx.ui.form.IRadioItem",

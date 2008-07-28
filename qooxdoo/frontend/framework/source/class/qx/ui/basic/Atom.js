@@ -39,8 +39,8 @@ qx.Class.define("qx.ui.basic.Atom",
   */
 
   /**
-   * @param label {String} label of the atom
-   * @param icon {String?null} Icon URL of the atom
+   * @param label {String} Label to use
+   * @param icon {String?null} Icon to use
    */
   construct : function(label, icon)
   {

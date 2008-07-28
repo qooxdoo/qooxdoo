@@ -20,7 +20,8 @@
 ************************************************************************ */
 
 /**
- * @appearance selectbox
+ * A form widget which allows a single selection. Looks somewhat like
+ * a normal button, but opens a list of items to select when clicking on it.
  */
 qx.Class.define("qx.ui.form.SelectBox",
 {

@@ -24,13 +24,17 @@ qx.Class.define("qx.ui.form.MenuButton",
 
 
 
-
   /*
   *****************************************************************************
      CONSTRUCTOR
   *****************************************************************************
   */
 
+  /**
+   * @param label {String} Label to use
+   * @param icon {String?null} Icon to use
+   * @param menu {qx.ui.menu.Menu} Connect to menu instance
+   */
   construct : function(label, icon, menu)
   {
     this.base(arguments, label, icon);
@@ -59,19 +63,6 @@ qx.Class.define("qx.ui.form.MenuButton",
       nullable : true,
       apply : "_applyMenu",
       event : "changeMenu"
-    },
-
-
-    /** The alignment of the menu in conjuntion to the button */
-    menuAlign :
-    {
-      init : "bottom-left",
-      check : [
-        "bottom-left", "bottom-right",
-        "top-left", "top-right",
-        "left-top", "left-bottom",
-        "right-top", "right-bottom"
-      ]
     }
   },
 
