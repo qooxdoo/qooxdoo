@@ -26,7 +26,7 @@
  * <pre class="javascript">
  * var widget = new qx.ui.form.Button("save");
  *
- * var tooltip = new qx.ui.popup.ToolTip("Save the opened file");
+ * var tooltip = new qx.ui.tooltip.ToolTip("Save the opened file");
  * widget.setToolTip(tooltip);
  * </pre>
  *
@@ -37,7 +37,7 @@
  *
  * @appearance tooltip
  */
-qx.Class.define("qx.ui.popup.ToolTip",
+qx.Class.define("qx.ui.tooltip.ToolTip",
 {
   extend : qx.ui.popup.Popup,
 
@@ -59,7 +59,7 @@ qx.Class.define("qx.ui.popup.ToolTip",
     this.base(arguments);
 
     // Initialize manager
-    qx.ui.popup.ToolTipManager.getInstance();
+    qx.ui.tooltip.Manager.getInstance();
 
     // Use static layout
     this.setLayout(new qx.ui.layout.Basic());

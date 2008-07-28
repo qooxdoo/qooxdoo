@@ -481,7 +481,7 @@ qx.Class.define("qx.ui.core.Widget",
     /** Contains the tooltip object connected to the widget. */
     toolTip :
     {
-      check : "qx.ui.popup.ToolTip",
+      check : "qx.ui.tooltip.ToolTip",
       nullable : true
     },
 

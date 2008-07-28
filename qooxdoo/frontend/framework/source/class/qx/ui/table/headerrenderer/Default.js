@@ -118,7 +118,7 @@ qx.Class.define("qx.ui.table.headerrenderer.Default",
       {
         if (widgetToolTip == null) {
           // We have no tooltip yet -> Create one
-          widgetToolTip = new qx.ui.popup.ToolTip(this.getToolTip());
+          widgetToolTip = new qx.ui.tooltip.ToolTip(this.getToolTip());
           cellWidget.setToolTip(widgetToolTip);
         } else {
           // Update tooltip text
