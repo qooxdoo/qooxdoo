@@ -46,11 +46,11 @@ qx.Class.define("qx.ui.tooltip.Manager",
     root.addListener("focusin", this.__onFocusInRoot, this, true);
 
     // Instantiate timers
-    this._showTimer = new qx.event.Timer();
-    this._showTimer.addListener("interval", this._onShowInterval, this);
+    this.__showTimer = new qx.event.Timer();
+    this.__showTimer.addListener("interval", this.__onShowInterval, this);
 
-    this._hideTimer = new qx.event.Timer();
-    this._hideTimer.addListener("interval", this._onHideInterval, this);
+    this.__hideTimer = new qx.event.Timer();
+    this.__hideTimer.addListener("interval", this.__onHideInterval, this);
 
     // Init mouse position
     this.__mousePosition = { left: 0, top: 0 };
@@ -106,8 +106,8 @@ qx.Class.define("qx.ui.tooltip.Manager",
       {
         old.exclude();
 
-        this._showTimer.stop();
-        this._hideTimer.stop();
+        this.__showTimer.stop();
+        this.__hideTimer.stop();
       }
 
       var root = qx.core.Init.getApplication().getRoot();
@@ -115,7 +115,7 @@ qx.Class.define("qx.ui.tooltip.Manager",
       // If new tooltip is not null, set it up and start the timer
       if (value)
       {
-        this._showTimer.startWith(value.getShowTimeout());
+        this.__showTimer.startWith(value.getShowTimeout());
 
         // Register hide handler
         root.addListener("mouseout", this.__onMouseOutRoot, this, true);
@@ -140,30 +140,42 @@ qx.Class.define("qx.ui.tooltip.Manager",
     ---------------------------------------------------------------------------
     */
 
-    _onShowInterval : function(e)
+    /**
+     * Event listener for the interval event of the show timer.
+     *
+     * @param e {qx.event.type.Event} Event object
+     */
+    __onShowInterval : function(e)
     {
       var current = this.getCurrent();
       if (current)
       {
-        this._hideTimer.startWith(current.getHideTimeout());
+        this.__hideTimer.startWith(current.getHideTimeout());
 
         current.alignToPoint(this.__mousePosition);
         current.show();
       }
 
-      this._showTimer.stop();
+      this.__showTimer.stop();
     },
 
-    _onHideInterval : function(e)
+
+    /**
+     * Event listener for the interval event of the hide timer.
+     *
+     * @param e {qx.event.type.Event} Event object
+     */
+    __onHideInterval : function(e)
     {
       var current = this.getCurrent();
       if (current) {
         current.exclude();
       }
 
-      this._hideTimer.stop();
+      this.__hideTimer.stop();
       this.resetCurrent();
     },
+
 
 
 
@@ -320,7 +332,7 @@ qx.Class.define("qx.ui.tooltip.Manager",
 
   destruct : function()
   {
-    this._disposeObjects("_showTimer", "_hideTimer");
+    this._disposeObjects("__showTimer", "__hideTimer");
     this._disposeFields("__mousePosition");
   }
 });

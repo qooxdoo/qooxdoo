@@ -60,7 +60,7 @@ qx.Class.define("qx.ui.tooltip.ToolTip",
     qx.ui.tooltip.Manager.getInstance();
 
     // Use static layout
-    this.setLayout(new qx.ui.layout.Basic());
+    this.setLayout(new qx.ui.layout.Grow);
 
     // Integrate atom
     this._createChildControl("atom");
@@ -113,7 +113,7 @@ qx.Class.define("qx.ui.tooltip.ToolTip",
     label :
     {
       check : "String",
-      init : "",
+      nullable : true,
       apply : "_applyLabel"
     },
 
@@ -121,7 +121,7 @@ qx.Class.define("qx.ui.tooltip.ToolTip",
     icon :
     {
       check : "String",
-      init : "",
+      nullable : true,
       apply : "_applyIcon",
       themeable : true
     }
@@ -164,26 +164,18 @@ qx.Class.define("qx.ui.tooltip.ToolTip",
     */
 
     // property apply
-    _applyIcon : function(value, old) {
-      this._getChildControl("atom").setIcon(value);
+    _applyIcon : function(value, old)
+    {
+      var atom = this._getChildControl("atom");
+      value == null ? atom.resetIcon : atom.setIcon(value);
     },
 
+
     // property apply
-    _applyLabel : function(value, old) {
-      this._getChildControl("atom").setLabel(value);
+    _applyLabel : function(value, old)
+    {
+      var atom = this._getChildControl("atom");
+      value == null ? atom.resetLabel() : atom.setLabel(value);
     }
-  },
-
-
-
-
-  /*
-  *****************************************************************************
-     DESTRUCTOR
-  *****************************************************************************
-  */
-
-  destruct : function() {
-    this._disposeObjects("_showTimer", "_hideTimer");
   }
 });
