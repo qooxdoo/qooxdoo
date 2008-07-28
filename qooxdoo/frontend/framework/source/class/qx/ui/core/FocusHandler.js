@@ -55,7 +55,7 @@ qx.Class.define("qx.ui.core.FocusHandler",
      */
     connectTo : function(root)
     {
-      this.debug("Connect to: " + root);
+      // this.debug("Connect to: " + root);
       root.addListener("keypress", this._onKeyEvent, this);
       root.addListener("focusin", this._onFocusIn, this, true);
       root.addListener("focusout", this._onFocusOut, this, true);
@@ -71,7 +71,7 @@ qx.Class.define("qx.ui.core.FocusHandler",
      */
     addRoot : function(widget)
     {
-      this.debug("Add focusRoot: " + widget);
+      // this.debug("Add focusRoot: " + widget);
       this.__roots[widget.$$hash] = widget;
     },
 
@@ -83,7 +83,7 @@ qx.Class.define("qx.ui.core.FocusHandler",
      */
     removeRoot : function(widget)
     {
-      this.debug("Remove focusRoot: " + widget);
+      // this.debug("Remove focusRoot: " + widget);
       delete this.__roots[widget.$$hash];
     },
 
