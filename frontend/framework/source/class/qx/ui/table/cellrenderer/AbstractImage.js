@@ -70,6 +70,8 @@ qx.Class.define("qx.ui.table.cellrenderer.AbstractImage",
 
   members :
   {
+    _insetY : 2,
+
     /**
      * Identifies the Image to show. This is a template method, which must be
      * implements by sub classes.

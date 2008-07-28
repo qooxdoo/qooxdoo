@@ -61,9 +61,6 @@ qx.Class.define("demobrowser.demo.table.CellRenderer",
 
     setUp : function()
     {
-      // TODO: box model correction
-      this._fixBoxModel();
-
       // table mock
       this.tableMock = this.getTableMock();
 
@@ -83,6 +80,7 @@ qx.Class.define("demobrowser.demo.table.CellRenderer",
         value : [null, "Juhu", 32, new Date()],
         styleLeft : [0],
         styleWidth : [width],
+        styleHeight : [20],
         style: [""]
       }
 
@@ -109,6 +107,7 @@ qx.Class.define("demobrowser.demo.table.CellRenderer",
         value : [null, true, false],
         styleLeft : [0],
         styleWidth : [width],
+        styleHeight : [20],
         style: [""]
       }
 
@@ -136,6 +135,7 @@ qx.Class.define("demobrowser.demo.table.CellRenderer",
         value : new Date(),
         styleLeft : [0],
         styleWidth : [width],
+        styleHeight : [20],
         style: [""]
       }
 
@@ -172,6 +172,7 @@ qx.Class.define("demobrowser.demo.table.CellRenderer",
         value : Math.PI,
         styleLeft : [0],
         styleWidth : [width],
+        styleHeight : [20],
         style: [""]
       }
 
@@ -218,6 +219,7 @@ qx.Class.define("demobrowser.demo.table.CellRenderer",
         ],
         styleLeft : [0],
         styleWidth : [width],
+        styleHeight : [20],
         style: [""]
       }
 
@@ -249,6 +251,7 @@ qx.Class.define("demobrowser.demo.table.CellRenderer",
         ],
         styleLeft : [0],
         styleWidth : [width],
+        styleHeight : [height],
         style: [""]
       }
 
@@ -280,6 +283,7 @@ qx.Class.define("demobrowser.demo.table.CellRenderer",
         ],
         styleLeft : [0],
         styleWidth : [width],
+        styleHeight : [height],
         style: [""]
       }
 
@@ -312,6 +316,7 @@ qx.Class.define("demobrowser.demo.table.CellRenderer",
         ],
         styleLeft : [0],
         styleWidth : [width],
+        styleHeight : [height],
         style: [""]
       }
 
@@ -354,6 +359,7 @@ qx.Class.define("demobrowser.demo.table.CellRenderer",
         styleLeft : [0],
         styleWidth : [width],
         table : [this.tableMock],
+        styleHeight : [height],
         style: [""]
       }
 
@@ -417,6 +423,7 @@ qx.Class.define("demobrowser.demo.table.CellRenderer",
         ],
         styleLeft : [0],
         styleWidth : [width],
+        styleHeight : [height],
         table : [this.tableMock],
         style: [""]
       }
@@ -454,6 +461,7 @@ qx.Class.define("demobrowser.demo.table.CellRenderer",
         styleLeft : [0],
         styleWidth : [width],
         table : [this.tableMock],
+        styleHeight : [height],
         style: [""]
       }
 
