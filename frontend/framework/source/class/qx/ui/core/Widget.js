@@ -810,7 +810,11 @@ qx.Class.define("qx.ui.core.Widget",
     },
 
 
-
+    /**
+     * Reconfigure number of separators
+     *
+     * @param number {Integer} Number of separators to show
+     */
     configureSeparators : function(number)
     {
       var objs = this._separators;
@@ -852,6 +856,15 @@ qx.Class.define("qx.ui.core.Widget",
       }
     },
 
+
+    /**
+     * Renders a horizontal separator at the given index.
+     *
+     * @param separator {Separator} Separator to render
+     * @param index {Integer} Which element to use
+     * @param left {Integer} Left position of the separator
+     * @param height {Integer} Height of the separator
+     */
     renderHorizontalSeparator : function(separator, index, left, height)
     {
       var el = this._separators[index];
@@ -866,6 +879,15 @@ qx.Class.define("qx.ui.core.Widget",
       el.setStyle("borderRight", separator[1] ? "1px solid " + mgr.resolve(separator[1]) : null);
     },
 
+
+    /**
+     * Renders a vertical separator at the given index.
+     *
+     * @param separator {Separator} Separator to render
+     * @param index {Integer} Which element to use
+     * @param top {Integer} Top position of the separator
+     * @param width {Integer} Width of the separator
+     */
     renderVerticalSeparator : function(separator, index, top, width)
     {
       var el = this._separators[index];
@@ -879,7 +901,6 @@ qx.Class.define("qx.ui.core.Widget",
       el.setStyle("borderTop", separator[0] ? "1px solid " + mgr.resolve(separator[0]) : null);
       el.setStyle("borderBottom", separator[1] ? "1px solid " + mgr.resolve(separator[1]) : null);
     },
-
 
 
     // overridden
@@ -2716,7 +2737,7 @@ qx.Class.define("qx.ui.core.Widget",
     */
 
     /**
-     * TODOC
+     * Whether the widget supports the given data for drag&drop
      *
      * @type member
      *
