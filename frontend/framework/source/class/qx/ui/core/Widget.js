@@ -2485,22 +2485,6 @@ qx.Class.define("qx.ui.core.Widget",
     },
 
 
-    findFocusRoot : function()
-    {
-      var parent = this;
-      while (parent)
-      {
-        if (parent.isFocusRoot()) {
-          return parent;
-        }
-
-        parent = parent.getLayoutParent();
-      }
-
-      return null;
-    },
-
-
     // property apply
     _applyFocusable : function(value, old)
     {

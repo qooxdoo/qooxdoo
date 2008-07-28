@@ -55,13 +55,20 @@ qx.Class.define("qx.ui.root.Page",
 
     this.base(arguments);
 
+    // Use a hard-coded basic layout
     this._setLayout(new qx.ui.layout.Basic());
 
-    // set a high zIndex to make sure the widgets really overlay the HTML page.
+    // Set a high zIndex to make sure the widgets really overlay the HTML page.
     this.setZIndex(10000);
+
+    // Directly add to layout queue
     qx.ui.core.queue.Layout.add(this);
 
+    // Register resize listener
     this.addListener("resize", this.__onResize, this);
+
+    // Register as root
+    qx.ui.core.FocusHandler.getInstance().connectTo(this);
   },
 
 
