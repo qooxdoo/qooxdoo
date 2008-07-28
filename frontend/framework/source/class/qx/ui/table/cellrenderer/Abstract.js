@@ -42,70 +42,42 @@ qx.Class.define("qx.ui.table.cellrenderer.Abstract",
       cr.__clazz = this.self(arguments);
       var stylesheet =
         ".qooxdoo-table-cell {" +
-        cr.__tableCellStyleSheet +
+        qx.bom.element.Style.compile(
+        {
+          position : "absolute",
+          top: "0px",
+          overflow: "hidden",
+          whiteSpace : "nowrap",
+          borderRight : "1px solid #eeeeee",
+          borderBottom : "1px solid #eeeeee",
+          padding : "0px 6px",
+          cursor : "default",
+          textOverflow : "ellipsis",
+          userSelect : "none",
+          boxSizing : "content-box"
+        }) +
         "} " +
-        ".qooxdoo-table-cell-right {" +
-        cr.__tableCellRightStyleSheet +
-        "} " +
-        ".qooxdoo-table-cell-italic {" +
-        cr.__tableCellItalicStyleSheet +
-        "} " +
-        ".qooxdoo-table-cell-bold {" +
-        cr.__tableCellBoldStyleSheet +
-        "} ";
+        ".qooxdoo-table-cell-right { text-align:right } " +
+        ".qooxdoo-table-cell-italic { font-style:italic} " +
+        ".qooxdoo-table-cell-bold { font-weight:bold } ";
+
       cr.__clazz.stylesheet = qx.bom.Stylesheet.createElement(stylesheet);
     }
   },
 
 
-  statics :
-  {
-    __clazz : null,
-
-    __tableCellStyleSheet :
-      "position:absolute;" +
-      "top:0px;" +
-      "height:100%;" +
-      "overflow:hidden;" +
-      "white-space:nowrap;" +
-      "border-right:1px solid #eeeeee;" +
-      "border-bottom:1px solid #eeeeee;" +
-      "padding:0px 6px;" +
-      "cursor:default;" +
-
-      // (deal text overflow)
-      // http://www.css3.info/preview/text-overflow/
-      (qx.core.Variant.isSet("qx.client", "mshtml|webkit") ? " text-overflow:ellipsis;" : "") +
-      (qx.core.Variant.isSet("qx.client", "opera") ? " -o-text-overflow:ellipsis;" : "") +
-
-      // (avoid text selection)
-      // http://www.xulplanet.com/references/elemref/ref_StyleProperties.html
-      (qx.core.Variant.isSet("qx.client", "gecko") ? " -moz-user-select:none;" : "") +
-      // http://www.colorjack.com/software/dhtml+color+picker.html
-      (qx.core.Variant.isSet("qx.client", "khtml") ? " -khtml-user-select:none;" : "") +
-
-      // (deal text overflow)
-      // http://www.css3.info/preview/text-overflow/
-      (qx.core.Variant.isSet("qx.client", "mshtml|webkit") ? " text-overflow:ellipsis;" : "") +
-      (qx.core.Variant.isSet("qx.client", "opera") ? " -o-text-overflow:ellipsis;" : "") +
-
-      // (avoid text selection)
-      // http://www.xulplanet.com/references/elemref/ref_StyleProperties.html
-      (qx.core.Variant.isSet("qx.client", "gecko") ? " -moz-user-select:none;" : "") +
-      // http://www.colorjack.com/software/dhtml+color+picker.html
-      (qx.core.Variant.isSet("qx.client", "khtml") ? " -khtml-user-select:none;" : ""),
-
-
-    __tableCellRightStyleSheet : "text-align:right;",
-
-    __tableCellItalicStyleSheet : "font-style:italic;",
-
-    __tableCellBoldStyleSheet : "font-weight:bold;"
-  },
-
-
   members :
   {
+    // the sum of the horizontal insets. This is needed to compute the box model
+    // independent size
+    _insetX : 6+6+1, // paddingLeft + paddingRight + borderRight
+
+    // the sum of the vertical insets. This is needed to compute the box model
+    // independent size
+    _insetY : 1, // borderBottom
+
+
+
     /**
      * Get a string of the cell element's HTML classes.
      *
@@ -114,7 +86,7 @@ qx.Class.define("qx.ui.table.cellrenderer.Abstract",
      * @type member
      * @param cellInfo {Map} cellInfo of the cell
      * @return {String} The table cell HTML classes as string.
-b     */
+     */
     _getCellClass : function(cellInfo) {
       return "qooxdoo-table-cell";
     },
@@ -151,6 +123,24 @@ b     */
     },
 
 
+    /**
+     * Get the cell size taking the box model into account
+     */
+    _getCellSizeStyle : function(width, height, insetX, insetY)
+    {
+      var style = "";
+      if (qx.bom.client.Feature.CONTENT_BOX)
+      {
+        width -= insetX;
+        height -= insetY;
+      }
+
+      style += ";width:" +  width + "px;";
+      style += "height:" + height + "px;";
+      return style;
+    },
+
+
     // interface implementation
     createDataCellHtml : function(cellInfo, htmlArr)
     {
@@ -159,14 +149,13 @@ b     */
         this._getCellClass(cellInfo),
         '" style="',
         'left:', cellInfo.styleLeft, 'px;',
-        'width:', cellInfo.styleWidth, 'px;',
+        this._getCellSizeStyle(cellInfo.styleWidth, cellInfo.styleHeight, this._insetX, this._insetY),
         this._getCellStyle(cellInfo),
-        // deal with unselectable text in Opera 9.2x - not effective in 9.5 beta
-        // http://dev.fckeditor.net/ticket/21
-        (qx.core.Variant.isSet("qx.client", "opera") ? '" unselectable="on">' : '">'),
+        '">' +
         this._getContentHtml(cellInfo),
         '</div>'
       );
+      console.log(htmlArr.join(""), cellInfo.styleHeight)
     }
 
   }

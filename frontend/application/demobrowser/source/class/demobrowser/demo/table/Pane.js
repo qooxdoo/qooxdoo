@@ -34,7 +34,6 @@ qx.Class.define("demobrowser.demo.table.Pane",
     main: function()
     {
       this.base(arguments);
-      this._fixBoxModel();
 
       var table = new qx.ui.container.Composite(new qx.ui.layout.Canvas()).set({
         decorator : "black",
