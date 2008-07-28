@@ -23,11 +23,13 @@
  * Static class that provides localized date information (like names of week
  * days, AM/PM markers, start of week, etc.).
  */
-
 qx.Class.define("qx.locale.Date",
 {
   statics :
   {
+    __mgr : qx.locale.Manager.getInstance(),
+    
+    
     /**
      * Get AM marker for time definitions
      *
@@ -36,7 +38,7 @@ qx.Class.define("qx.locale.Date",
      * @return {String} translated AM marker.
      */
     getAmMarker : function(locale) {
-      return qx.locale.Manager.getInstance().translate("cldr_am", [], locale);
+      return this.__mgr.translate("cldr_am", [], locale);
     },
 
 
@@ -48,7 +50,7 @@ qx.Class.define("qx.locale.Date",
      * @return {String} translated PM marker.
      */
     getPmMarker : function(locale) {
-      return qx.locale.Manager.getInstance().translate("cldr_pm", [], locale);
+      return this.__mgr.translate("cldr_pm", [], locale);
     },
 
 
@@ -74,7 +76,7 @@ qx.Class.define("qx.locale.Date",
       for (var i=0; i<days.length; i++)
       {
         var key = "cldr_day_" + length + "_" + days[i];
-        names.push(qx.locale.Manager.getInstance().translate(key, [], locale));
+        names.push(this.__mgr.translate(key, [], locale));
 
       }
 
@@ -104,7 +106,7 @@ qx.Class.define("qx.locale.Date",
       var days = [ "sun", "mon", "tue", "wed", "thu", "fri", "sat" ];
 
       var key = "cldr_day_" + length + "_" + days[day];
-      return qx.locale.Manager.getInstance().translate(key, [], locale);
+      return this.__mgr.translate(key, [], locale);
     },
 
 
@@ -128,7 +130,7 @@ qx.Class.define("qx.locale.Date",
       for (var i=0; i<12; i++)
       {
         var key = "cldr_month_" + length + "_" + (i + 1);
-        names.push(qx.locale.Manager.getInstance().translate(key, [], locale));
+        names.push(this.__mgr.translate(key, [], locale));
       }
 
       return names;
@@ -152,7 +154,7 @@ qx.Class.define("qx.locale.Date",
       }
 
       var key = "cldr_month_" + length + "_" + (month + 1);
-      return qx.locale.Manager.getInstance().translate(key, [], locale)
+      return this.__mgr.translate(key, [], locale)
     },
 
 
@@ -172,7 +174,7 @@ qx.Class.define("qx.locale.Date",
       }
 
       var key = "cldr_date_format_" + size;
-      return qx.locale.Manager.getInstance().translate(key, [], locale)
+      return this.__mgr.translate(key, [], locale)
     },
 
 
@@ -191,7 +193,7 @@ qx.Class.define("qx.locale.Date",
     getDateTimeFormat : function(canonical, fallback, locale)
     {
       var key = "cldr_date_time_format_" + canonical;
-      var localizedFormat = qx.locale.Manager.getInstance().translate(key, [], locale);
+      var localizedFormat = this.__mgr.translate(key, [], locale);
 
       if (localizedFormat == key) {
         localizedFormat = fallback;
@@ -217,7 +219,7 @@ qx.Class.define("qx.locale.Date",
       }
 
       var key = "cldr_time_format_" + size;
-      var localizedFormat = qx.locale.Manager.getInstance().translate(key, [], locale);
+      var localizedFormat = this.__mgr.translate(key, [], locale);
 
       if (localizedFormat != key) {
         return localizedFormat;
@@ -446,7 +448,7 @@ qx.Class.define("qx.locale.Date",
       if (locale) {
         var territory = locale.split("_")[1] || locale;
       } else {
-        territory = qx.locale.Manager.getInstance().getTerritory() || qx.locale.Manager.getInstance().getLanguage();
+        territory = this.__mgr.getTerritory() || this.__mgr.getLanguage();
       }
 
       return territory.toUpperCase();
