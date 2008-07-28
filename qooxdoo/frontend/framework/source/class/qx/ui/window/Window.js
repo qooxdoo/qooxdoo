@@ -83,8 +83,11 @@ qx.Class.define("qx.ui.window.Window",
     // Activation listener
     this.addListener("mousedown", this._onWindowMouseDown, this, true);
 
-    // As a default add windows always to the root widget.
+    // Automatically add to application root.
     qx.core.Init.getApplication().getRoot().add(this);
+
+    // Register as root for the focus handler
+    qx.ui.core.FocusHandler.getInstance().addRoot(this);
   },
 
 
@@ -189,6 +192,14 @@ qx.Class.define("qx.ui.window.Window",
     {
       refine : true,
       init : "excluded"
+    },
+
+
+    // overridden
+    focusable :
+    {
+      refine : true,
+      init : true
     },
 
 
@@ -602,6 +613,7 @@ qx.Class.define("qx.ui.window.Window",
     {
       this.show();
       this.setActive(true);
+      this.focus();
     },
 
 

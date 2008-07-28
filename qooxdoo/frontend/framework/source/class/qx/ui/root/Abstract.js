@@ -24,7 +24,9 @@
 qx.Class.define("qx.ui.root.Abstract",
 {
   extend : qx.ui.core.Widget,
-  include : [
+
+  include :
+  [
     qx.ui.core.MChildrenHandling,
     qx.ui.core.MBlocker,
     qx.ui.window.MDesktop
@@ -42,7 +44,8 @@ qx.Class.define("qx.ui.root.Abstract",
   {
     this.base(arguments);
 
-    this._focusHandler = new qx.ui.core.FocusHandler(this);
+    // Register as root for the focus handler
+    qx.ui.core.FocusHandler.getInstance().addRoot(this);
   },
 
 
@@ -131,12 +134,6 @@ qx.Class.define("qx.ui.root.Abstract",
     },
 
 
-    // overridden
-    isFocusRoot : function() {
-      return true;
-    },
-
-
     /**
      * Get the widget's layout manager.
      *
@@ -185,16 +182,5 @@ qx.Class.define("qx.ui.root.Abstract",
 
   defer : function(statics, members) {
     qx.ui.core.MChildrenHandling.remap(members);
-  },
-
-
-  /*
-  *****************************************************************************
-     DESTRUCTOR
-  *****************************************************************************
-  */
-
-  destruct : function() {
-    this._disposeObjects("_focusHandler");
   }
 });

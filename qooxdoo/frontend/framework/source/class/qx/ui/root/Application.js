@@ -63,11 +63,14 @@ qx.Class.define("qx.ui.root.Application",
     // Resize handling
     qx.event.Registration.addListener(this._window, "resize", this._onResize, this);
 
-    // Use static layout
+    // Use a hard-coded canvas layout
     this._setLayout(new qx.ui.layout.Canvas());
 
     // Directly schedule layout for root element
     qx.ui.core.queue.Layout.add(this);
+
+    // Register as root
+    qx.ui.core.FocusHandler.getInstance().connectTo(this);
   },
 
 
