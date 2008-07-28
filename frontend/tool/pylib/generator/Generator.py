@@ -642,6 +642,16 @@ class Generator:
 
         self._console.info("Executing shell command \"%s\"..." % shellcmd)
         self._console.indent()
+        # massage relative paths - tricky!
+        #parts = shellcmd.split()
+        #nparts= []
+        #for p in parts:
+        #    if p.find(os.sep) > -1:
+        #        if not os.path.isabs(p):
+        #            nparts.append(Config(None,{}).absPath(p))  # !!!!TODO
+        #            continue
+        #    nparts.append(p)
+                    
         rc = self._shellCmd.execute(shellcmd)
         if rc != 0:
             raise RuntimeError, "Shell command returned error code: %s" % repr(rc)
@@ -1397,8 +1407,7 @@ class Generator:
                             expanded.append(classId)
 
                 if len(expanded) == 0:
-                    self._console.error("Expression gives no results. Malformed entry: %s" % entry)
-                    sys.exit(1)
+                    raise RuntimeError, "Expression gives no results. Malformed entry: %s" % entry
 
                 result.extend(expanded)
 
