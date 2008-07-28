@@ -903,11 +903,7 @@ qx.Class.define("qx.io.remote.Exchange",
             vResponse.setStatusCode(vImpl.getStatusCode());
             vResponse.setResponseHeaders(vImpl.getResponseHeaders());
 
-            try{
-              this.dispatchEvent(vResponse);
-            } catch(ex) {
-              this.error("Dispatch failed", ex);
-            }
+            this.dispatchEvent(vResponse);
 
             //this.debug("Result Text: " + vResponse.getContent());
             //var vEventType;
