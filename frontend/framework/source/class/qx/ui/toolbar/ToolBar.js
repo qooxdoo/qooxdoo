@@ -109,7 +109,7 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
     */
 
     /**
-     * Add a spacer at the current position to the toolbar. The spacer has a flex
+     * Add a spacer to the toolbar. The spacer has a flex
      * value of one and will stretch to the available space.
      *
      * @return {qx.ui.core.Spacer} The newly added spacer object. A reference
@@ -123,6 +123,9 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
     },
 
 
+    /**
+     * Adds a separator to the toolbar.
+     */
     addSeparator : function() {
       this.add(new qx.ui.toolbar.Separator);
     },

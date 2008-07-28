@@ -127,9 +127,13 @@ qx.Class.define("qx.ui.toolbar.Part",
     ---------------------------------------------------------------------------
     */
 
+    /**
+     * Adds a separator to the toolbar part.
+     */
     addSeparator : function() {
       this.add(new qx.ui.toolbar.Separator);
     },
+
 
     /**
      * Returns all nested buttons which contains a menu to show. This is mainly
