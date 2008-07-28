@@ -22,7 +22,8 @@
 
 /* ************************************************************************
 
-#asset(qx/icon/Compat/32/actions/help-contents.png)
+#asset(qx/icon/${qx.icontheme}/32/actions/help-contents.png)
+#asset(qx/icon/${qx.icontheme}/16/actions/help-contents.png)
 
 ************************************************************************ */
 
@@ -127,8 +128,8 @@ qx.Class.define("demobrowser.DemoBrowser",
     ////right.add(this.toolbar);
 
     // output views
-    ////var buttview = this.__makeOutputViews();
-    ////right.add(buttview);
+    var buttview = this.__makeOutputViews();
+    right.add(buttview);
 
     ////this.widgets["treeview.bsb1"].setChecked(true);
 
@@ -685,73 +686,32 @@ qx.Class.define("demobrowser.DemoBrowser",
     __makeOutputViews : function()
     {
       // Main Container
-      //var buttview = new qx.legacy.ui.pageview.tabview.TabView();
       var tabview = new qx.ui.tabview.TabView;
-/*
-      buttview.set(
-      {
-        height  : "1*",
-        padding : 10
-      });
-*/
+
       this.widgets["outputviews"] = tabview;
-      this.widgets["outputviews.bar"] = tabview.getBar();
+
+////this.widgets["outputviews.bar"] = tabview.getBar();
+////  this.widgets["outputviews.demopage.button"] = bsb1;
 
       // First Page
-      var bsb1 = new qx.legacy.ui.pageview.tabview.Button("Start", "icon/16/actions/system-run.png");
-      this.widgets["outputviews.demopage.button"] = bsb1;
-      bsb1.setChecked(true);
-      buttview.getBar().add(bsb1);
+      var p1 = new qx.ui.tabview.Page("Start", "icon/16/actions/system-run.png");
+      p1.setLayout(new qx.ui.layout.Grow);
+      tabview.add(p1);
 
-      var p1 = new qx.legacy.ui.pageview.tabview.Page(bsb1);
-      p1.set({ padding : [ 5 ] });
-      buttview.getPane().add(p1);
-
-      var f1 = new qx.legacy.ui.embed.Iframe;
+      var f1 = new qx.ui.embed.Iframe;
+      f1.addListener("load", this.__ehIframeLoaded, this);
       this.f1 = f1;
       p1.add(f1);
       this.widgets["outputviews.demopage.page"] = f1;
 
-      f1.set(
-      {
-        overflow : "auto",
-        height   : "100%",
-        width    : "100%",
-        border   : "dark-shadow"
-      });
-
-      f1.addListener("load", this.__ehIframeLoaded, this);
-
-
       // Second Page
-      var bsb2 = new qx.legacy.ui.pageview.tabview.Button("Log", "icon/16/mimetypes/text-ascii.png");
-      buttview.getBar().add(bsb2);
-
-      var p2 = new qx.legacy.ui.pageview.tabview.Page(bsb2);
-      p2.set({ padding : [ 5 ] });
-      buttview.getPane().add(p2);
-
-      var pp2 = new qx.legacy.ui.layout.VerticalBoxLayout();
-      p2.add(pp2);
-
-      pp2.set(
-      {
-        height : "100%",
-        width  : "100%"
-      });
+      var p2 = new qx.ui.tabview.Page("Log", "icon/16/mimetypes/text-ascii.png");
+      p2.setLayout(new qx.ui.layout.Grow);
+      tabview.add(p2);
 
       // main output area
-      this.f2 = new qx.legacy.ui.embed.HtmlEmbed();
-      pp2.add(this.f2);
-
-      this.f2.set(
-      {
-        overflow : "auto",
-        height   : "1*",
-        width    : "100%",
-        border   : "dark-shadow",
-        font     : "monospace"
-      });
+      this.f2 = new qx.ui.embed.HtmlEmbed();
+      p2.add(this.f2);
 
       // Create appender and unregister from this logger
       // (we are interesed in demo messages only)
@@ -764,67 +724,42 @@ qx.Class.define("demobrowser.DemoBrowser",
 
       var appearFunc = function(e)
       {
-        this.f2.getElement().appendChild(this.logelem);
+        this.f2.getContentElement().getDomElement().appendChild(this.logelem);
         this.f2.removeListener("appear", appearFunc, this);
       };
 
-      this.f2.addListener("appear", appearFunc, this);
-
+      this.f2.addListener("appear", appearFunc, this);      
+      
       // Third Page
       // -- Tab Button
-      var bsb3 = new qx.legacy.ui.pageview.tabview.Button("HTML Code", "icon/16/mimetypes/text-html.png");
-      buttview.getBar().add(bsb3);
-
-      // -- Tab Pane
-      var p3 = new qx.legacy.ui.pageview.tabview.Page(bsb3);
-      p3.set({ padding : [ 5 ] });
-      buttview.getPane().add(p3);
+      var p3 = new qx.ui.tabview.Page("HTML Code", "icon/16/mimetypes/text-html.png");
+      p3.setLayout(new qx.ui.layout.Grow);
+      tabview.add(p3);
 
       // -- Pane Content
       //var f3 = new qx.legacy.ui.form.TextArea("The sample source will be displayed here.");
-      var f3 = new qx.legacy.ui.embed.HtmlEmbed("<div class='script'>The sample source will be displayed here.</div>");
+      var f3 = new qx.ui.embed.HtmlEmbed("<div class='script'>The sample source will be displayed here.</div>");
       p3.add(f3);
       this.widgets["outputviews.sourcepage.html.page"] = f3;
 
-      f3.set(
-      {
-        overflow : "auto",
-        width    : "100%",
-        height   : "100%",
-        border   : "dark-shadow",
-        font     : "monospace"
-      });
-      f3.setHtmlProperty("id", "qx_srcview");
+      f3.getContentElement().setAttribute("id", "qx_srcview");
 
-      // Fourth Page
-      // -- Tab Button
-      var bsb4 = new qx.legacy.ui.pageview.tabview.Button("Javascript Code", "icon/16/apps/graphics-snapshot.png");
-      buttview.getBar().add(bsb4);
-
+      
+      
+      
       // -- Tab Pane
-      var p4 = new qx.legacy.ui.pageview.tabview.Page(bsb4);
-      p4.set({ padding : [ 5 ] });
-      buttview.getPane().add(p4);
+      var p4 = new qx.ui.tabview.Page("JavaScript Code", "icon/16/mimetypes/text-html.png");
+      p4.setLayout(new qx.ui.layout.Grow);
+      tabview.add(p4);
 
       // -- Pane Content
-      //var f3 = new qx.legacy.ui.form.TextArea("The sample source will be displayed here.");
-      var f4 = new qx.legacy.ui.embed.HtmlEmbed("<div class='script'>The sample source will be displayed here.</div>");
+      var f4 = new qx.ui.embed.HtmlEmbed("<div class='script'>The sample JS source will be displayed here.</div>");
       p4.add(f4);
       this.widgets["outputviews.sourcepage.js.page"] = f4;
 
-      f4.set(
-      {
-        overflow : "auto",
-        width    : "100%",
-        height   : "100%",
-        border   : "dark-shadow",
-        font     : "monospace",
-        selectable: true
-      });
-      f4.setHtmlProperty("id", "qx_srcview");
+      f4.getContentElement().setAttribute("id", "qx_srcview");
 
-      return buttview;
-
+      return tabview; 
     },  // __makeOutputViews()
 
 
@@ -1240,6 +1175,8 @@ qx.Class.define("demobrowser.DemoBrowser",
      */
     __ehIframeLoaded : function()
     {
+      console.warn("skipped")
+      return ;
       var fwindow = this.f1.getContentWindow();
 
       // poll for the logger to be loaded
