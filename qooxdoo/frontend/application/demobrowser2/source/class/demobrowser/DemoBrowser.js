@@ -275,7 +275,6 @@ qx.Class.define("demobrowser.DemoBrowser",
 
     __setStateInitialized : function()
     {
-      return;
       this._cmdObjectSummary.setEnabled(false);
       this._cmdRunSample.setEnabled(false);
       this._cmdPrevSample.setEnabled(false);
@@ -291,7 +290,6 @@ qx.Class.define("demobrowser.DemoBrowser",
 
     __setStateLoading : function()
     {
-      return;
       this.__states.isLoading = true;
       this.__setStateInitialized();
       if (!this.isPlayAll()) {
@@ -304,10 +302,10 @@ qx.Class.define("demobrowser.DemoBrowser",
     {
       this.__states.isLoading = false;
       this.widgets["toolbar.playall"].setEnabled(true);
-      this.widgets["outputviews.bar"].resetEnabled();
+////      this.widgets["outputviews.bar"].resetEnabled();
       this.widgets["outputviews.demopage.page"].resetEnabled();
       this.widgets["outputviews"].resetEnabled();
-      this.widgets["treeview"].resetEnabled();
+////      this.widgets["treeview"].resetEnabled();
     },
 
 
@@ -468,6 +466,7 @@ qx.Class.define("demobrowser.DemoBrowser",
 
     __bindCommand: function(widget, command)
     {
+      console.info(arguments)
       ////widget.setCommand(command);
       command.addListener("changeEnabled", function(e) {
         widget.setEnabled(e.getData());
@@ -656,11 +655,13 @@ qx.Class.define("demobrowser.DemoBrowser",
 
       // Second Page
       var p2 = new qx.ui.tabview.Page("Log", "icon/16/mimetypes/text-plain.png");
+      p2.setBackgroundColor("white");
       p2.setLayout(new qx.ui.layout.Grow);
       tabview.add(p2);
 
       // main output area
       this.f2 = new qx.ui.embed.HtmlEmbed();
+      this.f2.setOverflowY("scroll");
       p2.add(this.f2);
 
       // Create appender and unregister from this logger
@@ -672,22 +673,20 @@ qx.Class.define("demobrowser.DemoBrowser",
       this.logelem = document.createElement("DIV");
       this.logappender.setElement(this.logelem);
 
-      var appearFunc = function(e)
-      {
+      this.f2.addListenerOnce("appear", function(){
         this.f2.getContentElement().getDomElement().appendChild(this.logelem);
-        this.f2.removeListener("appear", appearFunc, this);
-      };
-
-      this.f2.addListener("appear", appearFunc, this);      
+      }, this);     
       
       // Third Page
       // -- Tab Button
       var p3 = new qx.ui.tabview.Page("HTML Code", "icon/16/mimetypes/text-html.png");
+      p3.setBackgroundColor("white");
       p3.setLayout(new qx.ui.layout.Grow);
       tabview.add(p3);
 
       // -- Pane Content
       var f3 = new qx.ui.embed.HtmlEmbed("<div class='script'>The sample source will be displayed here.</div>");
+      f3.setOverflowY("scroll");
       p3.add(f3);
       this.widgets["outputviews.sourcepage.html.page"] = f3;
 
@@ -698,11 +697,13 @@ qx.Class.define("demobrowser.DemoBrowser",
       
       // -- Tab Pane
       var p4 = new qx.ui.tabview.Page("JavaScript Code", "icon/16/mimetypes/office-spreadsheet.png");
+      p4.setBackgroundColor("white");
       p4.setLayout(new qx.ui.layout.Grow);
       tabview.add(p4);
 
       // -- Pane Content
       var f4 = new qx.ui.embed.HtmlEmbed("<div class='script'>The sample JS source will be displayed here.</div>");
+      f4.setOverflowY("scroll");
       p4.add(f4);
       this.widgets["outputviews.sourcepage.js.page"] = f4;
 
@@ -730,9 +731,12 @@ qx.Class.define("demobrowser.DemoBrowser",
       tree1.setWidth(200);
       
       this.tree = tree1;
-      this.widgets["treeview.full"] = this.widgets["treeview.flat"] = tree1;
+      this.tree = this.widgets["treeview.flat"] = tree1;
 
       tree1.addListener("changeSelection", this.treeGetSelection, this);
+      tree1.addListener("dblclick", function(e){
+        qx.event.Timer.once(this.runSample, this, 50);
+      }, this);
 
       return tree1;
     },
@@ -861,7 +865,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       var that = this;
 
       // Handle current Tree Selection and Content
-      var fulltree = this.widgets["treeview.full"];
+      var fulltree = this.tree;
       var flattree = this.widgets["treeview.flat"];
       var trees = [ fulltree, flattree ];
 
@@ -892,7 +896,7 @@ qx.Class.define("demobrowser.DemoBrowser",
         // select tree element and open if folder
         if (selectedElement.widgetLinkFull)
         {
-          this.widgets["treeview.full"].setSelectedElement(selectedElement.widgetLinkFull);
+          this.tree.setSelectedElement(selectedElement.widgetLinkFull);
 
           if (selectedElement.widgetLinkFull instanceof qx.ui.tree.TreeFolder) {
             selectedElement.widgetLinkFull.open();
@@ -1012,16 +1016,17 @@ qx.Class.define("demobrowser.DemoBrowser",
      */
     __ehIframeLoaded : function()
     {
-      console.warn("skipped")
-      return ;
-      var fwindow = this.f1.getContentWindow();
+      var fwindow = this.f1.getWindow();
 
+      // TODO
+      /*
       // poll for the logger to be loaded
       if (!fwindow.qx || !fwindow.qx.log || !fwindow.qx.log.Logger)
       {
         qx.event.Timer.once(this.__ehIframeLoaded, this, 0);
         return;
       }
+      */
 
       var fpath = fwindow.location.pathname + "";
       var splitIndex = fpath.indexOf("?");
@@ -1080,12 +1085,12 @@ qx.Class.define("demobrowser.DemoBrowser",
 
       this.__setStateLoaded();
       try {
-        var tabName = this.widgets["treeview.full"].getSelectedElement().getLabel()
+        var tabName = this.tree.getSelectedElement().getLabel()
       } catch (e) {
         // if nothing is selected
         var tabName = "Start";
       }
-      this.widgets["outputviews.demopage.button"].setLabel(tabName);
+      ////this.widgets["outputviews.demopage.button"].setLabel(tabName);
       // this.widgets["outputviews.demopage.button"].setLabel(this.polish(path[path.length - 1]));
 
       if (this.isPlayAll())
@@ -1120,7 +1125,7 @@ qx.Class.define("demobrowser.DemoBrowser",
         this.setPlayAll(true);  // turn on global flag
         // select first example
         var first = this._sampleToTreeNodeMap['ui/Cursor_1.html'];
-        this.widgets["treeview.full"].setSelectedElement(first);
+        this.tree.select(first);
         // run sample
         this.widgets["toolbar.runbutton"].execute();
       } else                  // end playing all
@@ -1286,7 +1291,7 @@ qx.Class.define("demobrowser.DemoBrowser",
 
         if (otherSamp)
         {
-          this.widgets["treeview.full"].setSelectedElement(otherSamp);
+          this.tree.setSelectedElement(otherSamp);
           this.runSample();
         }
       }
@@ -1310,7 +1315,7 @@ qx.Class.define("demobrowser.DemoBrowser",
 
         if (otherSamp)
         {
-          this.widgets["treeview.full"].setSelectedElement(otherSamp);
+          this.tree.setSelectedElement(otherSamp);
           this.runSample();
         }
       }
