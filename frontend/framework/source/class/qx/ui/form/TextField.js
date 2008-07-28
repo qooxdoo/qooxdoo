@@ -21,8 +21,6 @@
 
 /**
  * The TextField is a single-line text input field.
- *
- * @appearance textfield
  */
 qx.Class.define("qx.ui.form.TextField",
 {

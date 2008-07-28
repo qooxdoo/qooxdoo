@@ -25,18 +25,17 @@
  *
  * Example:
  * <pre class="javascript">
+ *   var container = new qx.ui.container.Composite(new qx.ui.layout.VBox);
+ *
  *   var female = new qx.ui.form.RadioButton("female");
  *   var male = new qx.ui.form.RadioButton("male");
  *
- *   var mgr = new qx.ui.form.RadioGroup();
+ *   var mgr = new qx.ui.form.RadioGroup;
  *   mgr.add(female, male);
  *
- *   layout.add(male);
- *   layout.add(female);
+ *   container.add(male);
+ *   container.add(female);
  * </pre>
- *
- * @appearance radiobutton
- * @state checked
  */
 qx.Class.define("qx.ui.form.RadioButton",
 {
