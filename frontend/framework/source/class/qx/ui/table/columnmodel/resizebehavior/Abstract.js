@@ -188,10 +188,8 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Abstract",
     {
       // Get the inner width off the table
       var table = tableColumnModel._table;
-      return table.getContentWidth();
+      var width = table.getBounds().width;
 
-
-      var width = qx.bom.element.Dimension.getClientWidth(el);
 
       // Get the last meta column scroller
       var scrollers = tableColumnModel._table._getPaneScrollerArr();
@@ -206,24 +204,13 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Abstract",
       // being displayed, then reduce the available width by the width of those.
       if (
         tableColumnModel._table.getColumnVisibilityButtonVisible() ||
-        (
-          lastScroller._verScrollBar.getVisibility() &&
-          lastScroller._verScrollBar.getWidth() == "auto"
-        )
-      )
-      {
+        lastScroller._verScrollBar.isVisible()
+      ) {
         // provide width without scrollbar space; no scrollbar space available
-        return {
-          width      : width - qx.ui.core.Widget.SCROLLBAR_SIZE,
-          extraWidth : 0
-        };
+        return width - lastScroller._verScrollBar.getBounds().width - 1;
       }
 
-      // provide width without scrollbar space; scrollbar space is available
-      return {
-        width      : width - qx.ui.core.Widget.SCROLLBAR_SIZE,
-        extraWidth : qx.ui.core.Widget.SCROLLBAR_SIZE
-      };
+      return width;
     }
   },
 
