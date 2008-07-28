@@ -92,17 +92,17 @@ qx.Class.define("demobrowser.demo.widget.Tooltip",
       });
       container.add(c5);
 
-      var tt1 = new qx.ui.popup.ToolTip("Hello World #1");
+      var tt1 = new qx.ui.tooltip.ToolTip("Hello World #1");
       c1.setToolTip(tt1);
       c2.setToolTip(tt1);
 
-      var tt2 = new qx.ui.popup.ToolTip(null, "icon/16/actions/help-about.png");
+      var tt2 = new qx.ui.tooltip.ToolTip(null, "icon/16/actions/help-about.png");
       c3.setToolTip(tt2);
 
-      var tt3 = new qx.ui.popup.ToolTip("Hello World #3", "icon/16/actions/help-about.png");
+      var tt3 = new qx.ui.tooltip.ToolTip("Hello World #3", "icon/16/actions/help-about.png");
       c4.setToolTip(tt3);
 
-      var tt4 = new qx.ui.popup.ToolTip("Such a great tooltip with a (show) timeout of 50ms.", "icon/32/actions/help-about.png");
+      var tt4 = new qx.ui.tooltip.ToolTip("Such a great tooltip with a (show) timeout of 50ms.", "icon/32/actions/help-about.png");
       c5.setToolTip(tt4);
       tt4.setShowTimeout(50);
     }

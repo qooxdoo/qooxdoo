@@ -106,7 +106,7 @@ qx.Class.define("demobrowser.demo.table.Table",
       checkBox = new qx.ui.toolbar.CheckBox("Keep first row");
       checkBox.set({
         checked: table.getKeepFirstVisibleRowComplete(),
-        toolTip: new qx.ui.popup.ToolTip(
+        toolTip: new qx.ui.tooltip.ToolTip(
           "Whether the the first visible row should " +
           "be rendered completely when scrolling."
         )
@@ -120,7 +120,7 @@ qx.Class.define("demobrowser.demo.table.Table",
       checkBox = new qx.ui.toolbar.CheckBox("Change ID sort method");
       checkBox.set({
         checked: table.getKeepFirstVisibleRowComplete(),
-        toolTip: new qx.ui.popup.ToolTip("Demonstrate use of alternate sorting algorithm.")
+        toolTip: new qx.ui.tooltip.ToolTip("Demonstrate use of alternate sorting algorithm.")
       });
       checkBox.addListener("changeChecked", function(evt)
       {

@@ -123,19 +123,19 @@ qx.Class.define("apiviewer.Viewer",
 
       var packageTab = new qx.ui.tabview.Page("", apiviewer.TreeUtil.ICON_PACKAGE);
       packageTab.setLayout(new qx.ui.layout.Grow);
-      packageTab.getButton().setToolTip( new qx.ui.popup.ToolTip("Packages"));
+      packageTab.getButton().setToolTip( new qx.ui.tooltip.ToolTip("Packages"));
       packageTab.add(treeWidget);
       tabView.add(packageTab);
       
       var searchTab = new qx.ui.tabview.Page("", apiviewer.TreeUtil.ICON_SEARCH);
       searchTab.setLayout(new qx.ui.layout.Grow);
-      searchTab.getButton().setToolTip( new qx.ui.popup.ToolTip("Search"));
+      searchTab.getButton().setToolTip( new qx.ui.tooltip.ToolTip("Search"));
       searchTab.add(searchWidget);
       tabView.add(searchTab);
       
       var infoTab = new qx.ui.tabview.Page("", apiviewer.TreeUtil.ICON_INFO);
       infoTab.setLayout(new qx.ui.layout.Grow);
-      infoTab.getButton().setToolTip( new qx.ui.popup.ToolTip("Information"));
+      infoTab.getButton().setToolTip( new qx.ui.tooltip.ToolTip("Information"));
       infoTab.add(infoWidget);
       tabView.add(infoTab);
 
@@ -161,7 +161,7 @@ qx.Class.define("apiviewer.Viewer",
         }
 
         if (tooltip) {
-          button.setToolTip( new qx.ui.popup.ToolTip(tooltip));
+          button.setToolTip( new qx.ui.tooltip.ToolTip(tooltip));
         }
 
         button.setId(id);

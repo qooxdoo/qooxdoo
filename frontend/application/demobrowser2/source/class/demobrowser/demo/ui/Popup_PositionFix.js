@@ -35,7 +35,7 @@ qx.Class.define("demobrowser.demo.ui.Popup_PositionFix",
     {
       this.base(arguments);
 
-      var tooltip = new qx.ui.popup.ToolTip("Quite a long tool tip", "icon/32/actions/help-about.png");
+      var tooltip = new qx.ui.tooltip.ToolTip("Quite a long tool tip", "icon/32/actions/help-about.png");
 
       var c1 = new qx.ui.basic.Atom("Hover me").set({
         backgroundColor: "#BDD2EF",

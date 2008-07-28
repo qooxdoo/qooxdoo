@@ -110,7 +110,7 @@ qx.Class.define("qx.ui.popup.Popup",
     {
       this.base(arguments, value, old);
 
-      var mgr = qx.ui.popup.PopupManager.getInstance();
+      var mgr = qx.ui.popup.Manager.getInstance();
       value === "visible" ? mgr.add(this) : mgr.remove(this);
     }
   },
@@ -125,6 +125,6 @@ qx.Class.define("qx.ui.popup.Popup",
   */
 
   destruct : function() {
-    qx.ui.popup.PopupManager.getInstance().remove(this);
+    qx.ui.popup.Manager.getInstance().remove(this);
   }
 });

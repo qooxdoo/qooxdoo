@@ -76,7 +76,7 @@ qx.Class.define("feedreader.view.ToolBar",
     var reloadBtn = new qx.ui.toolbar.Button(this.tr("Reload"), "icon/22/actions/view-refresh.png");
     var reloadCmd = controller.getCommand("reload");
     reloadBtn.setCommand(reloadCmd);
-    reloadBtn.setToolTip(new qx.ui.popup.ToolTip(this.tr("Reload the feeds. (%1)", reloadCmd.toString())));
+    reloadBtn.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Reload the feeds. (%1)", reloadCmd.toString())));
     this.add(reloadBtn);
 
 
@@ -87,7 +87,7 @@ qx.Class.define("feedreader.view.ToolBar",
     // Preferences button
     var prefBtn = new qx.ui.toolbar.Button(this.tr("Preferences"), "icon/22/apps/preferences-theme.png");
     prefBtn.setCommand(controller.getCommand("preferences"));
-    prefBtn.setToolTip(new qx.ui.popup.ToolTip(this.tr("Open preferences window.")));
+    prefBtn.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Open preferences window.")));
     this.add(prefBtn);
 
 
@@ -99,7 +99,7 @@ qx.Class.define("feedreader.view.ToolBar",
     var about_btn = new qx.ui.toolbar.Button(this.tr("Help"), "icon/22/actions/help-about.png");
     var aboutCmd = controller.getCommand("about");
     about_btn.setCommand(aboutCmd);
-    about_btn.setToolTip(new qx.ui.popup.ToolTip("(" + aboutCmd.toString() + ")"));
+    about_btn.setToolTip(new qx.ui.tooltip.ToolTip("(" + aboutCmd.toString() + ")"));
     this.add(about_btn);
   }
 });
