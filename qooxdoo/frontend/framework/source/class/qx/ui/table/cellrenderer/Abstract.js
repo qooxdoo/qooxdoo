@@ -155,7 +155,6 @@ qx.Class.define("qx.ui.table.cellrenderer.Abstract",
         this._getContentHtml(cellInfo),
         '</div>'
       );
-      console.log(htmlArr.join(""), cellInfo.styleHeight)
     }
 
   }
