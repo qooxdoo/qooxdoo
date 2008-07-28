@@ -397,13 +397,13 @@ class Config:
                     for lib in newlib:
                         # handle downloads
                         manifest = lib['manifest']
-                        manipath = os.path.dirname(manifest)
+                        manidir = os.path.dirname(manifest)
                         manifile = os.path.basename(manifest)
                         
                         # wpbasti: Seems a bit crazy to handle this here
                         # What's about to process all "remote" manifest initially on file loading?
-                        if manipath.startswith("contrib://"): # it's a contrib:// lib
-                            contrib = manipath.replace("contrib://","")
+                        if manidir.startswith("contrib://"): # it's a contrib:// lib
+                            contrib = manidir.replace("contrib://","")
                             if jobObj.hasFeature('cache/downloads'):
                                 contribCachePath = jobObj.getFeature('cache/downloads')
                             else:
@@ -412,11 +412,14 @@ class Config:
                             manifest = os.path.join(contribCachePath, contrib, manifile)
                             lib['manifest'] = manifest  # patch 'manifest' entry to download path
                         else:  # patch the path which is local to the current config
-                            pass # TODO: use manipath and config._dirname, or fix it when including the config
+                            pass # TODO: use manidir and config._dirname, or fix it when including the config
                             
                         # get the local Manifest
-                        manifest = Manifest(manifest)
+                        manifest = Manifest(self.absPath(manifest))
                         lib = manifest.patchLibEntry(lib)
+                        # absolutize paths (this might not be the best place to do that)
+                        for entry in ('path',):
+                            lib[entry] = self.absPath(lib[entry])
 
         console.outdent()
 
@@ -455,6 +458,17 @@ class Config:
         self._console.outdent()
         return
 
+    def absPath(self, path):
+        'Take a path relative to config file location, and return it absolute'
+        if os.path.isabs(path):
+            return path
+        elif not self._fname:
+            raise RuntimeError, "Cannot absolutize path without a config file path."
+        else:
+            p = os.path.normpath(os.path.abspath(
+                    os.path.join(
+                        os.path.dirname(self._fname), path)))
+            return p
 
 
 
