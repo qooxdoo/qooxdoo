@@ -162,7 +162,7 @@ qx.Class.define("qx.xml.Element",
     getSingleNodeText : function(element, query)
     {
       var node = this.selectSingleNode(element, query);
-      return this.getText(node);
+      return qx.dom.Node.getText(node);
     }
   }
 });
