@@ -770,13 +770,23 @@ qx.Class.define("qx.ui.core.selection.Abstract",
         return;
       }
 
-      // Be sure that item is in view
-      this._scrollItemIntoView(item);
-
-
       // Read in keyboard modifiers
       var isCtrlPressed = event.isCtrlPressed() || (qx.bom.client.Platform.MAC && event.isMetaPressed());
       var isShiftPressed = event.isShiftPressed();
+
+      // Clicking on selected items deselect on mouseup, not on mousedown
+      if (this.isItemSelected(item) && !isShiftPressed && !isCtrlPressed)
+      {
+        this.__mouseDownOnSelected = item;
+        return;
+      }
+      else
+      {
+        this.__mouseDownOnSelected = null;
+      }
+
+      // Be sure that item is in view
+      this._scrollItemIntoView(item);
 
       // Action depends on selected mode
       switch(this.getMode())
@@ -857,7 +867,34 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      * @param event {qx.event.type.Mouse} A valid mouse event
      * @return {void}
      */
-    handleMouseUp : function(event) {
+    handleMouseUp : function(event)
+    {
+      // Read in keyboard modifiers
+      var isCtrlPressed = event.isCtrlPressed() || (qx.bom.client.Platform.MAC && event.isMetaPressed());
+      var isShiftPressed = event.isShiftPressed();
+
+      if (!isCtrlPressed && !isShiftPressed)
+      {
+        // Replace selection
+        var item = this._getSelectableFromTarget(event.getTarget());
+        if (item && this.isItemSelected(item) && this.__mouseDownOnSelected)
+        {
+          this._setSelectedItem(item);
+
+          switch(this.getMode())
+          {
+            case "single":
+            case "one":
+              break;
+
+            default:
+              this._setLeadItem(item);
+              this._setAnchorItem(item);
+          }
+        }
+      }
+
+      // Cleanup operation
       this._cleanup();
     },
 
