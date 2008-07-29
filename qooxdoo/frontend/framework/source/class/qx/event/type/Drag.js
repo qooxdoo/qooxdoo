@@ -39,8 +39,20 @@ qx.Class.define("qx.event.type.Drag",
       return qx.event.Registration.getManager(this.getTarget()).getHandler(qx.event.handler.DragDrop);
     },
 
-    getData : function(mimeType) {
-      return this.__getManager().getData(mimeType);
+    addType : function(type) {
+      this.__getManager().addType(type);
+    },
+
+    addAction : function(type) {
+      this.__getManager().addAction(type);
+    },
+
+    supportsType : function(type) {
+      return this.__getManager().supportsType(type);
+    },
+
+    supportsAction : function(action) {
+      return this.__getManager().supportsAction(action);
     }
   }
 });
