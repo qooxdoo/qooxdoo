@@ -88,24 +88,38 @@ qx.Class.define("apiviewer.ui.SearchView",
       this.add(sform);
 
       // Create the initial data
-      var rowData = [
-                     ["icon1", "foo"],
-                     ["icon2", "bar"]
-                     ];
+      var rowData = [];
 
       // table model
       var tableModel = this._tableModel = new qx.ui.table.model.Simple();
       tableModel.setColumns([ "", "Results" ]);
       tableModel.setData(rowData);
 
+      var customModel =
+      {
+        tableColumnModel : function(obj) {
+          return new qx.ui.table.columnmodel.Resize(obj);
+        }
+      };
+
+      
       // table
-      var table = new qx.ui.table.Table(tableModel);
-      
-      table.setColumnWidth(0, 10);
-      
+      var table = new qx.ui.table.Table(tableModel, customModel);
+
+      table.setShowCellFocusIndicator(false);
+      table.setStatusBarVisible(false);
+      table.setColumnVisibilityButtonVisible(false);
+
       table.addListener("cellClick", this._onCellClick, this);
+      table.addListener("cellDblClick", this._onCellClick, this);
       
       this._table = table;
+      // resize behavior
+      var tcm = table.getTableColumnModel();
+      var resizeBehavior = tcm.getBehavior();
+      resizeBehavior.set(0, {width:"0*", minWidth : 30, maxWidth : 30});
+      resizeBehavior.set(1, {width:"1*"});
+
       
       table.exclude();
 
@@ -125,18 +139,12 @@ qx.Class.define("apiviewer.ui.SearchView",
       this.sinput.focus();
 
       // Submit events
-      this.sinput.addListener("keydown", function(e) {
-        if (e.getKeyIdentifier() == "Enter") {
-          this._searchResult(this.sinput.getValue());
-        }
+      this.sinput.addListener("keypress", function(e) {
+        this._searchResult(this.sinput.getValue());
       }, this);
 
       this.__button.addListener("execute", function(e) {
         this._searchResult(this.sinput.getValue());
-      }, this);
-
-      this.sinput.addListener("changeValue", function(e) {
-        this._searchResult(this.sinput.getValue(), e);
       }, this);
 
     },
@@ -161,8 +169,6 @@ qx.Class.define("apiviewer.ui.SearchView",
         // Reset the result list
         if (this.__initresult) {
           this.listdata.splice(0, this.listdata.length);
-          ////this.rlv.getHeader()._columns["result"].headerCell.setLabel("Invalid Search");
-          ////this.rlv.update();
         }
         this.sinput.resetBackgroundColor();
         this.__button.setEnabled(false);
@@ -184,8 +190,6 @@ qx.Class.define("apiviewer.ui.SearchView",
           // Reset the result list
           if (this.__initresult) {
             this.listdata.splice(0, this.listdata.length);
-            ////this.rlv.getHeader()._columns["result"].headerCell.setLabel("Invalid Search");
-            ////this.rlv.update();
             this._table.updateContent();
           }
 
@@ -196,68 +200,16 @@ qx.Class.define("apiviewer.ui.SearchView",
 
 
        sresult = this._searchIndex(search[0], search[1]);
-       
+
+       // TODO: this should be working soon
+       //this._tableModel.setColumnName(1, (results + " Results (" + duration + " s)"));
        this._tableModel.setData(sresult);
 
-
-       var listfield = {
-         icon : { label:" ", width:30, type:"iconHtml", align:"center", sortable:true, sortMethod:this._sortByIcons, sortProp:"icon"  },
-         result : { label:results + " Results (" + duration + " s)", width:"80%", type:"text", sortable:true, sortProp:"text" }};
-
        this._table.show();
-
 
         var searchEnd = new Date();
         var results = sresult.length;
         var duration = (searchEnd.getTime() - searchStart.getTime())/1000; //seconds
-//        this.debug("Results " + results + " (" + duration + " s)");
-/*
-        // If initialized update listview
-        if (this.__initresult)
-        {
-          this.listdata.splice(0, this.listdata.length);
-
-          ////this.rlv.getHeader()._columns["result"].headerCell.setLabel(results + " Results (" + duration + " s)");
-          this._setListdata(sresult);
-          
-          this._table.show();
-
-          ////this.rlv.update();
-        }
-        // Create listview
-        else
-        {
-  */        
-/*
-          this.rlv = new qx.ui.listview.ListView(this.listdata, listfield);
-          this.rlv.setHeight("1*");
-          this.rlv.setBorder(null);
-
-          this.rlv = new qx.ui.core.Widget;
-          
-          this.add(this.rlv);
-
-          var rlvpane = this.rlv.getPane();
-          // No multi selection
-          rlvpane.getManager().setMultiSelection(false);
-
-
-          rlvpane.addListener("click", function(e) {
-            this._callDetailFrame(e.getCurrentTarget().getManager());
-          }, this);
-
-          rlvpane.addListener("keydown", function(e) {
-            if (e.getKeyIdentifier() == "Enter") {
-              this._callDetailFrame(e.getCurrentTarget().getManager());
-            }
-          }, this);
-
-          this._setListdata(sresult);
-          this.rlv.update();
-
-          this.__initresult = true;
-*/
-//        }
       }
     },
 
@@ -492,9 +444,7 @@ qx.Class.define("apiviewer.ui.SearchView",
     
     _onCellClick : function(e)
     {
-      
-      debugger;
-    },
+    }
 
   },
 
