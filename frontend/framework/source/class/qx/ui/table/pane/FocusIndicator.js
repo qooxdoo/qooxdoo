@@ -17,16 +17,16 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#module(ui_table)
-
-************************************************************************ */
-
+/**
+ * The focus indicator widget
+ */
 qx.Class.define("qx.ui.table.pane.FocusIndicator",
 {
   extend : qx.ui.container.Composite,
 
+  /**
+   * @param scroller {Scroller} The scroller, which contains this focus indicator
+   */
   construct : function(scroller)
   {
     this.base(arguments);
@@ -42,10 +42,12 @@ qx.Class.define("qx.ui.table.pane.FocusIndicator",
       init : "excluded"
     },
 
+    /** Table row, where the indicator is placed. */
     row : {
       check : "Integer"
     },
 
+    /** Table column, where the indicator is placed. */
     column : {
       check : "Integer"
     }
@@ -53,6 +55,12 @@ qx.Class.define("qx.ui.table.pane.FocusIndicator",
 
   members :
   {
+    /**
+     * Move the focus indicator to the given table cell.
+     *
+     * @param col {Integer} The table column
+     * @param row {Integer} The table row
+     */
     moveToCell : function(col, row)
     {
       if (col == null)

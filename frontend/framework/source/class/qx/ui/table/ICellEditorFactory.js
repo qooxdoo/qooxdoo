@@ -17,12 +17,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#module(ui_table)
-
-************************************************************************ */
-
 /**
  * A factory creating widgets to use for editing table cells.
  */
@@ -43,7 +37,6 @@ qx.Interface.define("qx.ui.table.ICellEditorFactory",
      * <li>table (qx.ui.table.Table) reference to the table, the cell belongs to. </li>
      * </ul>
      *
-     * @type member
      * @abstract
      * @param cellInfo {Map} A map containing the information about the cell to
      *      create.
@@ -57,7 +50,6 @@ qx.Interface.define("qx.ui.table.ICellEditorFactory",
     /**
      * Returns the current value of a cell editor.
      *
-     * @type member
      * @abstract
      * @param cellEditor {qx.ui.core.Widget} The cell editor formally created by
      *      {@link #createCellEditor}.

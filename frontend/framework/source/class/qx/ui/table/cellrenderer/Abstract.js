@@ -83,7 +83,6 @@ qx.Class.define("qx.ui.table.cellrenderer.Abstract",
      *
      * This method may be overridden by sub classes.
      *
-     * @type member
      * @param cellInfo {Map} cellInfo of the cell
      * @return {String} The table cell HTML classes as string.
      */
@@ -98,7 +97,6 @@ qx.Class.define("qx.ui.table.cellrenderer.Abstract",
      *
      * This method may be overridden by sub classes.
      *
-     * @type member
      * @param cellInfo {Map} The information about the cell.
      *          See {@link #createDataCellHtml}.
      * @return {var} the CSS styles of the main div.
@@ -113,7 +111,6 @@ qx.Class.define("qx.ui.table.cellrenderer.Abstract",
      *
      * This method may be overridden by sub classes.
      *
-     * @type member
      * @param cellInfo {Map} The information about the cell.
      *          See {@link #createDataCellHtml}.
      * @return {String} the inner HTML of the cell.
@@ -125,6 +122,14 @@ qx.Class.define("qx.ui.table.cellrenderer.Abstract",
 
     /**
      * Get the cell size taking the box model into account
+     *
+     * @param width {Integer} The cell's (border-box) width in pixel
+     * @param height {Integer} The cell's (border-box) height in pixel
+     * @param insetX {Integer} The cell's horizontal insets, i.e. the sum of
+     *    horizontal paddings and borders
+     * @param insetY {Integer} The cell's vertical insets, i.e. the sum of
+     *    vertical paddings and borders
+     * @return {String} The CSS style string for the cell size
      */
     _getCellSizeStyle : function(width, height, insetX, insetY)
     {

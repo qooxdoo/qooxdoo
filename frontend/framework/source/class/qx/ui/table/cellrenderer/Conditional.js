@@ -18,7 +18,6 @@
 
 /* ************************************************************************
 
-#module(ui_table)
 #require(qx.util.format.NumberFormat)
 
 ************************************************************************ */
@@ -218,7 +217,6 @@ qx.Class.define("qx.ui.table.cellrenderer.Conditional",
      * earlier ones. Conditions with null values will stack with other conditions
      * that apply to that value.
      *
-     * @type member
      * @param cellInfo {Map} The information about the cell.
      *          See {@link #createDataCellHtml}.
      * @return {Map}

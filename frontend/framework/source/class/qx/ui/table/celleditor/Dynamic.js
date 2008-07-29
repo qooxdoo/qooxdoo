@@ -17,17 +17,11 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#module(ui_table)
-
-************************************************************************ */
-
 /**
  * A cell editor factory which can dynamically exchange the cell editor
  * based on information retrieved at runtime. This is useful when different
  * rows in a column should have different cellEditors based on cell content
- * or row metadata. A typical example would be a spreadsheet that has different
+ * or row meta data. A typical example would be a spreadsheet that has different
  * kind of data in one column.
  *
  */
@@ -96,6 +90,9 @@ qx.Class.define("qx.ui.table.celleditor.Dynamic",
      * Creates the cell editor based on the cellEditorFactory instance
      * returned by the function stored in the cellEditorFactoryFunction
      * property. Passes the cellInfo map to the function.
+     *
+     * @param cellInfo {Map} A map containing the information about the cell to
+     *      create.
      * @return {qx.ui.core.Widget}
      */
     createCellEditor : function(cellInfo)
@@ -112,12 +109,8 @@ qx.Class.define("qx.ui.table.celleditor.Dynamic",
       return cellEditor;
     },
 
-    /**
-     * Retrieves the value  the cell editor based on the current cellEditorFactory
-     * instance.
-     * @param cellEditor {qx.ui.core.Widget}
-     * @return {Object}
-     */
+
+    // interface implementation
     getCellEditorValue : function(cellEditor)
     {
       var cellEditorFactoryFunction = this.getCellEditorFactoryFunction();
