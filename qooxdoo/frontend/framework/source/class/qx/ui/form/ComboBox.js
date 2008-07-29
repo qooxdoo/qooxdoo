@@ -72,15 +72,6 @@ qx.Class.define("qx.ui.form.ComboBox",
     {
       refine : true,
       init : "combobox"
-    },
-
-    /** The value of the element */
-    value :
-    {
-      check : "String",
-      init : "",
-      apply : "_applyValue",
-      event : "changeValue"
     }
   },
 
@@ -156,17 +147,29 @@ qx.Class.define("qx.ui.form.ComboBox",
     },
 
 
+    // interface implementation
+    setValue : function(value)
+    {
+      var textfield = this._getChildControl("textfield");
+      if (textfield.getValue() == value) {
+        return;
+      }
+
+      textfield.setValue(value);
+
+      var list = this._getChildControl("list");
+      var item = list.findItem(value);
+      if (item) {
+        list.select(item);
+      } else {
+        list.clearSelection();
+      }
+    },
 
 
-    /*
-    ---------------------------------------------------------------------------
-      APPLY ROUTINES
-    ---------------------------------------------------------------------------
-    */
-
-    // property apply
-    _applyValue : function(value, old) {
-      this._getChildControl("textfield").setValue(value);
+    // interface implementation
+    getValue : function() {
+      return this._getChildControl("textfield").getValue();
     },
 
 
@@ -182,7 +185,6 @@ qx.Class.define("qx.ui.form.ComboBox",
      * Toggles the popup's visibility.
      *
      * @param e {qx.event.type.Mouse} Mouse click event
-     * @type member
      */
     _onClick : function(e)
     {
@@ -197,8 +199,8 @@ qx.Class.define("qx.ui.form.ComboBox",
 
     /**
      * Redirect activation to the main widget
+     *
      * @param e {Object} Activation event
-     * @type member
      */
     _onActivateButton : function(e)
     {
@@ -241,6 +243,66 @@ qx.Class.define("qx.ui.form.ComboBox",
      */
     _onTextFieldChangeValue : function(e) {
       this.setValue(e.getData());
+    },
+
+
+    /*
+    ---------------------------------------------------------------------------
+      TEXTFIELD SELECTION API
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Returns the current selection.
+     * This method only works if the widget is already created and
+     * added to the document.
+     *
+     * @type member
+     * @return {String|null}
+     */
+    getSelection : function() {
+      return this._getChildControl("textfield").getSelection();
+    },
+
+
+    /**
+     * Returns the current selection length.
+     * This method only works if the widget is already created and
+     * added to the document.
+     *
+     * @type member
+     * @return {Integer|null}
+     */
+    getSelectionLength : function() {
+      return this._getChildControl("textfield").getSelectionLength();
+    },
+
+
+    /**
+     * Set the selection to the given start and end (zero-based).
+     * If no end value is given the selection will extend to the
+     * end of the textfield's content.
+     * This method only works if the widget is already created and
+     * added to the document.
+     *
+     * @param start {Integer} start of the selection (zero-based)
+     * @param end {Integer} end of the selection
+     * @return {void}
+     */
+    setSelection : function(start, end) {
+      this._getChildControl("textfield").setSelection(start, end);
+    },
+
+
+    /**
+     * Clears the current selection.
+     * This method only works if the widget is already created and
+     * added to the document.
+     *
+     * @return {void}
+     */
+    clearSelection : function() {
+      this._getChildControl("textfield").clearSelection();
     }
   }
 });
