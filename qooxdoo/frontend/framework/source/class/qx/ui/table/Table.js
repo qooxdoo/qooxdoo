@@ -185,7 +185,11 @@ qx.Class.define("qx.ui.table.Table",
 
     // attach the resize listener to the last child of the layout. This
     // ensures that all other children are layouted before
-    this._statusBar.addListener("resize", this._onResize, this);
+    var spacer = new qx.ui.core.Widget().set({
+      height: 0
+    });
+    this._add(spacer)
+    spacer.addListener("resize", this._onResize, this);
 
     this._focusedCol = 0;
     this._focusedRow = 0;
@@ -276,6 +280,13 @@ qx.Class.define("qx.ui.table.Table",
     {
       refine : true,
       init : "table"
+    },
+
+
+    focusable :
+    {
+      refine : true,
+      init : true
     },
 
 
@@ -704,7 +715,7 @@ qx.Class.define("qx.ui.table.Table",
     // property modifier
     _applyStatusBarVisible : function(value, old)
     {
-      this._statusBar.setDisplay(value);
+      this._statusBar.setVisibility(value ? "visible" : "excluded");;
 
       if (value) {
         this._updateStatusBar();

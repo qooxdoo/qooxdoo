@@ -597,16 +597,20 @@ qx.Class.define("qx.ui.table.pane.Scroller",
      */
     updateVerScrollBarMaximum : function()
     {
+      var paneSize = this._paneClipper.getBounds();
+      if (!paneSize) {
+        this._paneClipper.addListenerOnce("resize", arguments.callee, this);
+        return;
+      }
+
       var rowCount = this.getTable().getTableModel().getRowCount();
       var rowHeight = this.getTable().getRowHeight();
-
       var scrollSize = rowCount * rowHeight;
-      var paneSize = this._paneClipper.getBounds().height;
 
-      if (paneSize < scrollSize)
+      if (paneSize.height < scrollSize)
       {
-        this._verScrollBar.setMaximum(Math.max(0, scrollSize - paneSize));
-        this._verScrollBar.setKnobFactor(paneSize / scrollSize);
+        this._verScrollBar.setMaximum(Math.max(0, scrollSize - paneSize.height));
+        this._verScrollBar.setKnobFactor(paneSize.height / scrollSize);
       }
       else
       {
@@ -981,9 +985,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
         }
 
         // The mouse is over the data -> update the focus
-        if (! this.getFocusCellOnMouseMove())
-        {
-          this._focusIndicator.setAnonymous(false);
+        if (! this.getFocusCellOnMouseMove()) {
           this._focusCellAtPagePos(pageX, pageY);
         }
 
@@ -1008,7 +1010,6 @@ qx.Class.define("qx.ui.table.pane.Scroller",
           this.dispatchEvent(new qx.ui.table.pane.CellEvent(this, "cellClick", e), true);
         }
       }
-      this._focusIndicator.setAnonymous(true);
     },
 
 
@@ -1526,16 +1527,16 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       var tableModel = table.getTableModel();
       var col = this._focusedCol;
 
-      if (!this.isEditing() &&
-          (col != null) &&
-          tableModel.isColumnEditable(col))
-      {
+      if (
+        !this.isEditing() &&
+        (col != null) &&
+        tableModel.isColumnEditable(col)
+      ) {
         var row = this._focusedRow;
         var xPos = this.getTablePaneModel().getX(col);
         var value = tableModel.getValue(col, row);
 
-        this._cellEditorFactory =
-          table.getTableColumnModel().getCellEditorFactory(col);
+        this._cellEditorFactory = table.getTableColumnModel().getCellEditorFactory(col);
 
         var cellInfo =
         {
@@ -1547,8 +1548,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
         };
 
         // Get a cell editor
-        this._cellEditor =
-          this._cellEditorFactory.createCellEditor(cellInfo);
+        this._cellEditor = this._cellEditorFactory.createCellEditor(cellInfo);
 
         // We handle two types of cell editors: the traditional in-place
         // editor, where the cell editor returned by the factory must fit in
@@ -1573,20 +1573,16 @@ qx.Class.define("qx.ui.table.pane.Scroller",
           // cellEditor.hide().
           this._cellEditor.setShowClose(false);
 
-          // Add the cell editor to the document
-          this._cellEditor.addToDocument();
-
           // Arrange to be notified when it is closed.
           this._cellEditor.addListener(
-            "disappear",
+            "close",
             this._onCellEditorModalWindowClose,
             this
           );
 
           // If there's a pre-open function defined for the table...
           var f = table.getModalCellEditorPreOpenFunction();
-          if (f != null)
-          {
+          if (f != null) {
             f(this._cellEditor, cellInfo);
           }
 
@@ -1596,11 +1592,8 @@ qx.Class.define("qx.ui.table.pane.Scroller",
         else
         {
           // The cell editor is a traditional in-place editor.
-          this._cellEditor.set(
-          {
-            width  : "100%",
-            height : "100%"
-          });
+          var size = this._focusIndicator.getInnerSize();
+          this._cellEditor.setUserBounds(0, 0, size.width, size.height);
 
           // prevent click event from bubbling up to the table
           this._focusIndicator.addListener("mousedown", function(e) {
@@ -1610,16 +1603,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
           this._focusIndicator.add(this._cellEditor);
           this._focusIndicator.addState("editing");
 
-          // Workaround: Calling focus() directly has no effect
-          qx.event.Timer.once(function()
-          {
-            if (this.isDisposed())
-            {
-              return;
-            }
-
-            this._cellEditor.focus();
-          }, this, 0);
+          this._cellEditor.focus();
         }
 
         return true;
@@ -1663,32 +1647,15 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       {
         if (this._cellEditorIsModalWindow)
         {
-          // Defer the actual disposing of the cell editor briefly, as there
-          // may be more accesses to it for a short while after we leave this
-          // function.
-          qx.event.Timer.once(function()
-          {
-            var d = qx.ui.core.ClientDocument.getInstance();
-            d.remove(this._cellEditor);
-
-            this._cellEditor.removeListener(
-              "disappear",
-              this._onCellEditorModalWindowClose,
-              this
-            );
-
-            this._cellEditor.dispose();
-            this._cellEditor = null;
-            this._cellEditorFactory = null;
-          }, this, 0);
-
+          this._cellEditor.destroy();
+          this._cellEditor = null;
+          this._cellEditorFactory = null;
           this._cellEditor.pendingDispose = true;
         }
         else
         {
-          this._focusIndicator.remove(this._cellEditor);
           this._focusIndicator.removeState("editing");
-          this._cellEditor.dispose();
+          this._cellEditor.destroy();
           this._cellEditor = null;
           this._cellEditorFactory = null;
         }
@@ -1702,8 +1669,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
      * @param evt {Map} the event.
      * @return {void}
      */
-    _onCellEditorModalWindowClose : function(evt)
-    {
+    _onCellEditorModalWindowClose : function(evt) {
       this.stopEditing();
     },
 
@@ -1999,7 +1965,12 @@ qx.Class.define("qx.ui.table.pane.Scroller",
      */
     _updateContent : function()
     {
-      var paneHeight = this._tablePane.getBounds().height;
+      var paneSize = this._tablePane.getBounds();
+      if (!paneSize) {
+        return;
+      }
+      var paneHeight = paneSize.height;
+
       var scrollX = this._horScrollBar.getPosition();
       var scrollY = this._verScrollBar.getPosition();
       var rowHeight = this.getTable().getRowHeight();
