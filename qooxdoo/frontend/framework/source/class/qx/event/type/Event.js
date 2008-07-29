@@ -90,6 +90,17 @@ qx.Class.define("qx.event.type.Event",
      */
     init : function(canBubble, cancelable)
     {
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        if (canBubble != null && typeof canBubble != "boolean") {
+          throw new Error("Invalid value of canBubble: " + canBubble);
+        }
+
+        if (cancelable != null && typeof cancelable != "boolean") {
+          throw new Error("Invalid value of cancelable: " + cancelable);
+        }
+      }
+
       this._type = null;
       this._target = null;
       this._currentTarget = null;
@@ -97,8 +108,8 @@ qx.Class.define("qx.event.type.Event",
       this._originalTarget = null;
       this._stopPropagation = false;
       this._preventDefault = false;
-      this._bubbles = canBubble || false;
-      this._cancelable = cancelable || false;
+      this._bubbles = !!canBubble;
+      this._cancelable = !!cancelable;
       this._timeStamp = (new Date()).getTime();
       this._eventPhase = null;
 
