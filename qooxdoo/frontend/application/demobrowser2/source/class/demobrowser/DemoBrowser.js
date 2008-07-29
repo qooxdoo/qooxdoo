@@ -652,6 +652,7 @@ qx.Class.define("demobrowser.DemoBrowser",
 
       // Second Page
       var p2 = new qx.ui.tabview.Page("Log", "icon/16/mimetypes/text-plain.png");
+      p2.getButton().addListener("click", this.__fetchLog, this);
       p2.setBackgroundColor("white");
       p2.setLayout(new qx.ui.layout.Grow);
       tabview.add(p2);
@@ -834,7 +835,8 @@ qx.Class.define("demobrowser.DemoBrowser",
 
           if (currNode.hasChildren())
           {
-            t = new qx.ui.tree.TreeFolder(that.polish(currNode.label), "demobrowser/image/package18.gif");
+            t = new qx.ui.tree.TreeFolder(that.polish(currNode.label));
+            t.setIcon("demobrowser/image/package18.gif");
             t.setIconOpened("demobrowser/image/package18.gif");
             t.setUserData("filled", false);
             t.setUserData("node", currNode);
@@ -849,7 +851,8 @@ qx.Class.define("demobrowser.DemoBrowser",
           }
           else
           {
-            t = new qx.ui.tree.TreeFile(that.polish(currNode.label), "demobrowser/image/method_public18.gif");
+            t = new qx.ui.tree.TreeFile(that.polish(currNode.label));
+            t.setIcon("demobrowser/image/method_public18.gif");
             t.setIconOpened("demobrowser/image/method_public18.gif");
             var fullName = currNode.pwd().slice(1).join("/") + "/" + currNode.label;
             _sampleToTreeNodeMap[fullName] = t;
@@ -959,16 +962,6 @@ qx.Class.define("demobrowser.DemoBrowser",
     {
       var fwindow = this.f1.getWindow();
 
-      // TODO
-      /*
-      // poll for the logger to be loaded
-      if (!fwindow.qx || !fwindow.qx.log || !fwindow.qx.log.Logger)
-      {
-        qx.event.Timer.once(this.__ehIframeLoaded, this, 0);
-        return;
-      }
-      */
-
       var fpath = fwindow.location.pathname + "";
       var splitIndex = fpath.indexOf("?");
       if (splitIndex != -1) {
@@ -1010,9 +1003,6 @@ qx.Class.define("demobrowser.DemoBrowser",
         // update state on example change
         var sample = path.slice(-2).join('~');
         this._history.addToHistory(sample, title);
-
-        // register appender
-        fwindow.qx.log.Logger.register(this.logappender);
 
         // load sample source code
         if (this._currentSampleUrl != this.defaultUrl)
@@ -1366,6 +1356,21 @@ qx.Class.define("demobrowser.DemoBrowser",
       return str.replace(".html", "").replace("_", " ");
     },
 
+    __fetchLog : function()
+    {
+      var w = this.f1.getWindow();
+      var logger;
+      if (w.qx && w.qx.log && w.qx.log.Logger) {
+        logger = w.qx.log.Logger;
+
+        // Register to flush the log queue into the appender.
+        logger.register(this.logappender)
+
+        // Unregister again, so that the logger can flush again the next time the tab is clicked.
+        logger.unregister(this.logappender);
+      }
+    },
+    
     defaultUrl : "demo/welcome.html"
   },
 
@@ -1381,6 +1386,6 @@ qx.Class.define("demobrowser.DemoBrowser",
   destruct : function()
   {
     this._disposeFields("widgets", "tests", "_sampleToTreeNodeMap", "tree", "__states", "logelem");
-    this._disposeObjects("header", "mainsplit", "tree1", "left", "runbutton", "toolbar", "f1", "f2", "logger", "_history", "logappender", '_cmdObjectSummary', '_cmdRunSample', '_cmdPrevSample', '_cmdNextSample', '_cmdSampleInOwnWindow', '_cmdLoadProfile', '_cmdProfile', '_cmdShowLastProfile', '_cmdDisposeSample', '_cmdNamespacePollution');
+    this._disposeObjects("header", "mainsplit", "tree1", "left", "runbutton", "toolbar", "f1", "f2", "_history", "logappender", '_cmdObjectSummary', '_cmdRunSample', '_cmdPrevSample', '_cmdNextSample', '_cmdSampleInOwnWindow', '_cmdLoadProfile', '_cmdProfile', '_cmdShowLastProfile', '_cmdDisposeSample', '_cmdNamespacePollution');
   }
 });
