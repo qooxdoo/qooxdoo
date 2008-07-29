@@ -21,6 +21,8 @@
 
 import os, sys, re, types, string, copy
 
+#from generator.config.Config import ExtMap
+
 console = None
 
 class Job(object):

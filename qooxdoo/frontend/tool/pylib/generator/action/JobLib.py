@@ -29,7 +29,8 @@ from generator.runtime.ShellCmd import ShellCmd
 #
 
 class JobLib(object):
-    def __init__(self, console_):
+    def __init__(self, config, console_):
+        self._config   = config
         self._console  = console_
         self._shellCmd = ShellCmd()
 
@@ -38,7 +39,8 @@ class JobLib(object):
         for item in cleanMap:
             self._console.info(item)
             for file in cleanMap[item]:
+                file = self._config.absPath(file) 
                 # safety first
-                if os.path.splitdrive(os.path.abspath(file))[1] == os.sep:
+                if os.path.splitdrive(file)[1] == os.sep:
                     raise RuntimeError, "!!! I'm not going to delete '/' recursively !!!"
                 self._shellCmd.execute ("rm -rf %s" % file)

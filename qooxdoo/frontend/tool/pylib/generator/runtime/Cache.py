@@ -4,8 +4,8 @@ from misc import filetool
 memcache = {}
 
 class Cache:
-    def __init__(self, config, console):
-        self._path = config.get("compile", "cache")
+    def __init__(self, path, console):
+        self._path = path
         self._console = console
 
 
