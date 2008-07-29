@@ -3,12 +3,12 @@
       "library" :
       [
         {
-          "manifest" : "../../framework/Manifest.json",
+          "manifest" : "../../../framework/Manifest.json",
           "uri"      : "../../../../../framework"
         },
 
         {
-          "manifest" : "Manifest_samples.json",
+          "manifest" : "../Manifest_samples.json",
           "uri"      : "../../.."
         }
       ],
