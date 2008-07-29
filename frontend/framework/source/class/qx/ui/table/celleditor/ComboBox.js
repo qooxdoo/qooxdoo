@@ -88,7 +88,7 @@ qx.Class.define("qx.ui.table.celleditor.ComboBox",
     createCellEditor : function(cellInfo)
     {
       var cellEditor = new qx.ui.form.ComboBox().set({
-        appearance: "table-editor-textfield"
+        appearance: "table-editor-combobox"
       });
 
       var value = cellInfo.value;
@@ -103,40 +103,32 @@ qx.Class.define("qx.ui.table.celleditor.ComboBox",
       }
 
       // replace null values
-      if ( value === null )
-      {
+      if ( value === null ) {
         value = "";
       }
 
-      field.setValue("" + value);
-
-      field.addListener("appear", function() {
-        this.selectAll();
-      });
-
-      var list = cellEditor.getList();
-      if ( this.getListData() )
+      var list = this.getListData();
+      if (list)
       {
-        var selectedItem;
+        var item;
 
-        this.getListData().forEach(function(row)
+        for (var i=0,l=list.length; i<l; i++)
         {
+          var row = list[i];
           if ( row instanceof Array ) {
-            var item = new qx.ui.form.ListItem ( row[0],row[1],row[2]);
+            item = new qx.ui.form.ListItem(row[0], row[1], row[2]);
           } else {
-            var item = new qx.ui.form.ListItem (row,null,row)
+            item = new qx.ui.form.ListItem(row, null, row)
           }
-          list.add(item);
-
-          if (cellInfo.value == item.getValue()) {
-            var selectedItem = item;
-          }
-        });
-
-        if (selectedItem) {
-          cellEditor.setSelected(selectedItem);
-        }
+          cellEditor.add(item);
+        };
       }
+
+      cellEditor.setValue("" + value);
+
+      cellEditor.addListener("appear", function() {
+        cellEditor.setSelection(0, cellEditor.getValue().length);
+      });
 
       return cellEditor;
     },
@@ -149,20 +141,7 @@ qx.Class.define("qx.ui.table.celleditor.ComboBox",
      */
     getCellEditorValue : function(cellEditor)
     {
-      var value;
-
-      if (cellEditor.isEditable())
-      {
-        value = cellEditor.getValue();
-      }
-      else if( cellEditor.getList().getSelectedItem() )
-      {
-        value = cellEditor.getList().getSelectedItem().getValue();
-      }
-      else
-      {
-        value = "";
-      }
+      var value = cellEditor.getValue() || "";
 
       // validation function will be called with new and old value
       var validationFunc = this.getValidationFunction();
