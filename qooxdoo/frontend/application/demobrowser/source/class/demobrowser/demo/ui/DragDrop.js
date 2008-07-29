@@ -72,8 +72,7 @@ qx.Class.define("demobrowser.demo.ui.DragDrop",
 
         if (!e.supportsType("items"))
         {
-          this.debug("UI Over STOP!");
-          //e.preventDefault();
+
         }
       });
 
