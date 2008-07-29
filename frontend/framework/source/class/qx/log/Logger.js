@@ -287,7 +287,7 @@ qx.Bootstrap.define("qx.log.Logger",
      * @return {void}
      */
     clear : function() {
-      this.buffer.length = 0;
+      this.__buffer = [];
     },
 
 
