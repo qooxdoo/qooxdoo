@@ -18,13 +18,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#module(ui_table)
-#embed(qx.static/image/blank.gif)
-
-************************************************************************ */
-
 /**
  * A template class for cell renderers, which display images. Concrete
  * implementations must implement the method @{link #_identifyImage}.
@@ -76,7 +69,6 @@ qx.Class.define("qx.ui.table.cellrenderer.AbstractImage",
      * Identifies the Image to show. This is a template method, which must be
      * implements by sub classes.
      *
-     * @type member
      * @abstract
      * @param cellInfo {Map} The information about the cell.
      *          See {@link #createDataCellHtml}.
@@ -97,7 +89,6 @@ qx.Class.define("qx.ui.table.cellrenderer.AbstractImage",
     /**
      * Retrieves the image infos.
      *
-     * @type member
      * @param cellInfo {Map} The information about the cell.
      *          See {@link #createDataCellHtml}.
      * @return {Map} Map with an "url" attribute (type string)

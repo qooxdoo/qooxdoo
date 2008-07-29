@@ -78,7 +78,6 @@ qx.Class.define("qx.ui.table.selection.Manager",
     /**
      * Handles the mouse down event.
      *
-     * @type member
      * @param index {Integer} the index the mouse is pointing at.
      * @param evt {Map} the mouse event.
      * @return {void}

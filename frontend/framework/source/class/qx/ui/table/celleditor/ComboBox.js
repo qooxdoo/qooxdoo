@@ -17,12 +17,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#module(ui_table)
-
-************************************************************************ */
-
 /**
  * A cell editor factory creating combo boxes.
  *
@@ -133,12 +127,7 @@ qx.Class.define("qx.ui.table.celleditor.ComboBox",
       return cellEditor;
     },
 
-    /**
-     * retrieves value from TextField (editable combobox) or
-     * selected ListItem (non-editable combobox) and validates value
-     * @param cellEditor {qx.ui.core.Widget}
-     * @return {Object}
-     */
+    // interface iplementations
     getCellEditorValue : function(cellEditor)
     {
       var value = cellEditor.getValue() || "";

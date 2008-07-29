@@ -192,16 +192,12 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
       var menu = data.menu;
       var o;
 
-      var Am = qx.util.AliasManager;
-      var icon =
-        Am.getInstance().resolve("icon/16/actions/view-refresh.png");
-
       // Add a separator between the column names and our reset button
       o = new qx.ui.menu.Separator();
       menu.add(o);
 
       // Add a button to reset the column widths
-      o = new qx.ui.menu.Button("Reset column widths", icon);
+      o = new qx.ui.menu.Button("Reset column widths", "icon/16/actions/view-refresh.png");
       menu.add(o);
       o.addListener("execute", this._onappear, this);
     },
@@ -234,7 +230,7 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
         }
       }
 
-      this.getBehavior().onAppear(this, event);
+      this.getBehavior().onAppear(this, event, event.getType() !== "appear");
 
       this._table._updateScrollerWidths();
       this._table._updateScrollBarVisibility();

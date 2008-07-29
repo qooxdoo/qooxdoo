@@ -17,12 +17,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#module(ui_table)
-
-************************************************************************ */
-
 /**
  * Shows the header of a table.
  */
@@ -66,7 +60,6 @@ qx.Class.define("qx.ui.table.pane.Header",
     /**
      * Returns the TablePaneScroller this header belongs to.
      *
-     * @type member
      * @return {qx.ui.table.pane.Scroller} the TablePaneScroller.
      */
     getPaneScroller : function() {
@@ -77,7 +70,6 @@ qx.Class.define("qx.ui.table.pane.Header",
     /**
      * Returns the table this header belongs to.
      *
-     * @type member
      * @return {qx.ui.table.Table} the table.
      */
     getTable : function() {
@@ -237,7 +229,6 @@ qx.Class.define("qx.ui.table.pane.Header",
     /**
      * Returns whether the column move feedback is currently shown.
      *
-     * @type member
      * @return {var} TODOC
      */
     isShowingColumnMoveFeedback : function() {

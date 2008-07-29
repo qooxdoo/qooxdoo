@@ -14,12 +14,12 @@
 
    Authors:
      * Til Schneider (til132)
+     * Fabian Jakobs (fjakobs)
 
 ************************************************************************ */
 
 /* ************************************************************************
 
-#module(ui_table)
 #embed(qx.widgettheme/table/selectColumnOrder.png)
 
 ************************************************************************ */
@@ -837,7 +837,6 @@ qx.Class.define("qx.ui.table.Table",
     /**
      * Returns the selection manager.
      *
-     * @type member
      * @return {qx.ui.table.selection.Manager} the selection manager.
      */
     getSelectionManager : function() {
@@ -848,7 +847,6 @@ qx.Class.define("qx.ui.table.Table",
     /**
      * Returns an array containing all TablePaneScrollers in this table.
      *
-     * @type member
      * @return {qx.ui.table.pane.Scroller[]} all TablePaneScrollers in this table.
      */
     _getPaneScrollerArr : function() {
@@ -859,7 +857,6 @@ qx.Class.define("qx.ui.table.Table",
     /**
      * Returns a TablePaneScroller of this table.
      *
-     * @type member
      * @param metaColumn {Integer} the meta column to get the TablePaneScroller for.
      * @return {qx.ui.table.pane.Scroller} the qx.ui.table.pane.Scroller.
      */
@@ -998,7 +995,6 @@ qx.Class.define("qx.ui.table.Table",
     /**
      * Event handler. Called when a key was pressed.
      *
-     * @type member
      * @param evt {Map} the event.
      * @return {void}
      */
@@ -1273,7 +1269,6 @@ qx.Class.define("qx.ui.table.Table",
      * Gets the TablePaneScroller at a certain x position in the page. If there is
      * no TablePaneScroller at this postion, null is returned.
      *
-     * @type member
      * @param pageX {Integer} the position in the page to check (in pixels).
      * @return {qx.ui.table.pane.Scroller} the TablePaneScroller or null.
      * @see TablePaneScrollerPool
@@ -1318,7 +1313,6 @@ qx.Class.define("qx.ui.table.Table",
     /**
      * Returns the column of the currently focused cell.
      *
-     * @type member
      * @return {Integer} the model index of the focused cell's column.
      */
     getFocusedColumn : function() {
@@ -1329,7 +1323,6 @@ qx.Class.define("qx.ui.table.Table",
     /**
      * Returns the row of the currently focused cell.
      *
-     * @type member
      * @return {Integer} the model index of the focused cell's column.
      */
     getFocusedRow : function() {
@@ -1409,7 +1402,6 @@ qx.Class.define("qx.ui.table.Table",
      * Starts editing the currently focused cell. Does nothing if already editing
      * or if the column is not editable.
      *
-     * @type member
      * @return {Boolean} whether editing was started
      */
     startEditing : function()
@@ -1468,7 +1460,6 @@ qx.Class.define("qx.ui.table.Table",
      * Gets the meta column at a certain x position in the page. If there is no
      * meta column at this postion, -1 is returned.
      *
-     * @type member
      * @param pageX {Integer} the position in the page to check (in pixels).
      * @return {Integer} the index of the meta column or -1.
      */
@@ -1493,7 +1484,6 @@ qx.Class.define("qx.ui.table.Table",
      * Returns the meta column a column is shown in. If the column is not shown at
      * all, -1 is returned.
      *
-     * @type member
      * @param visXPos {Integer} the visible x position of the column.
      * @return {Integer} the meta column the column is shown in.
      */
@@ -1636,6 +1626,9 @@ qx.Class.define("qx.ui.table.Table",
     },
 
 
+    /**
+     * Initialize the column menu
+     */
     _initColumnMenu : function()
     {
       var tableModel = this.getTableModel();
@@ -1644,7 +1637,10 @@ qx.Class.define("qx.ui.table.Table",
       var menu = this._columnVisibilityBt.getMenu();
       if (menu)
       {
-        menu.removeAll();
+        var entries = menu.getChildren();
+        for (var i=0,l=entries.length; i<l; i++) {
+          entries[i].destroy();
+        }
       }
       else
       {
@@ -1684,7 +1680,6 @@ qx.Class.define("qx.ui.table.Table",
     /**
      * Creates a handler for a check box of the column visibility menu.
      *
-     * @type member
      * @param col {Integer} the model index of column to create the handler for.
      * @return {Function} TODOC
      */
@@ -1721,10 +1716,8 @@ qx.Class.define("qx.ui.table.Table",
     },
 
 
-    /**
-     * Add event listener to an object.
-     */
-    addListener : function(type, func, obj)
+    // overridden
+    addListener : function(type, listener, self, capture)
     {
       if (this.self(arguments).__redirectEvents[type])
       {
@@ -1740,10 +1733,8 @@ qx.Class.define("qx.ui.table.Table",
     },
 
 
-    /**
-     * Remove event listener from object
-     */
-    removeListener : function(type, func, obj)
+    // overridden
+    addListener : function(type, listener, self, capture)
     {
       if (this.self(arguments).__redirectEvents[type])
       {

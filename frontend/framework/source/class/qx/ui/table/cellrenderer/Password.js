@@ -17,12 +17,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#module(ui_table)
-
-************************************************************************ */
-
 /**
  * A cell renderer which hides cell values such as passwords form view
  * by masking them by *s
@@ -45,7 +39,6 @@ qx.Class.define("qx.ui.table.cellrenderer.Password",
     /**
      * Overridden; called whenever the cell updates.
      *
-     * @type member
      * @param cellInfo {Map} The information about the cell.
      *          See {@link #createDataCellHtml}.
      * @return {String}

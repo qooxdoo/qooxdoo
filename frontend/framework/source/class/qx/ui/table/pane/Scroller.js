@@ -440,11 +440,6 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     },
 
 
-    getPaneClipper : function() {
-      return this._paneClipper;
-    },
-
-
     /**
      * Event handler. Called when the visibility of a column has changed.
      */
@@ -554,9 +549,6 @@ qx.Class.define("qx.ui.table.pane.Scroller",
 
     /**
      * Event handler. Called when the pane model has changed.
-     *
-     * @param evt {Map} the event.
-     * @return {void}
      */
     _onPaneModelChanged : function()
     {
@@ -631,14 +623,19 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     },
 
 
-    _onResize : function(e)
+    /**
+     * Event handler for the scroller's resize event
+     */
+    _onResize : function()
     {
       // The height has changed -> Update content
       this._updateContent();
     },
 
 
-    // overridden
+    /**
+     * Event handler for the scroller's appear event
+     */
     _onAppear : function()
     {
       this._updateContent();
@@ -647,16 +644,18 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       this.updateVerScrollBarMaximum();
 
       // after the Scroller appears we start the interval again
-      this._startInterval();
+      this._startInterval(this.getScrollTimeout());
     },
 
 
-    // overridden
+    /**
+     * Event handler for the disappear event
+     */
     _onDisappear : function()
     {
       this.base(arguments);
 
-      // before the Scroller disappears we need to stop it
+      // before the scroller disappears we need to stop it
       this._stopInterval();
     },
 
@@ -996,6 +995,11 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     },
 
 
+    /**
+     * Event handler for the focus indicator's mouseup event
+     *
+     * @param e {qx.event.type.Mouse} The mouse event
+     */
     _onMouseupFocusIndicator : function(e)
     {
       if (
@@ -1017,6 +1021,8 @@ qx.Class.define("qx.ui.table.pane.Scroller",
      * Event handler. Called when the event capturing of the header changed.
      * Stops/finishes an active header resize/move session if it lost capturing
      * during the session to stay in a stable state.
+     *
+     * @param e {qx.event.type.Data} The data event
      */
     _onChangeCaptureHeader : function(e)
     {
@@ -1229,7 +1235,6 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     /**
      * Event handler. Called when a context menu is invoked in a cell.
      *
-     * @type member
      * @param evt {qx.event.type.Mouse} the event.
      * @return {void}
      */
@@ -1335,7 +1340,6 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     /**
      * Shows the feedback shown while a column is moved by the user.
      *
-     * @type member
      * @param pageX {Integer} the x position of the mouse in the page (in pixels).
      * @return {Integer} the visible x position of the column in the whole table.
      */
@@ -1440,7 +1444,6 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     /**
      * Returns the column of currently focused cell.
      *
-     * @type member
      * @return {Integer} the model index of the focused cell's column.
      */
     getFocusedColumn : function() {
@@ -1451,7 +1454,6 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     /**
      * Returns the row of currently focused cell.
      *
-     * @type member
      * @return {Integer} the model index of the focused cell's column.
      */
     getFocusedRow : function() {
@@ -1505,7 +1507,6 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     /**
      * Returns whether currently a cell is editing.
      *
-     * @type member
      * @return {var} whether currently a cell is editing.
      */
     isEditing : function() {
@@ -1518,7 +1519,6 @@ qx.Class.define("qx.ui.table.pane.Scroller",
      * editing, if the column is not editable, or if the cell editor for the
      * column ascertains that the particular cell is not editable.
      *
-     * @type member
      * @return {Boolean} whether editing was started
      */
     startEditing : function()
@@ -1678,7 +1678,6 @@ qx.Class.define("qx.ui.table.pane.Scroller",
      * Returns the model index of the column the mouse is over or null if the mouse
      * is not over a column.
      *
-     * @type member
      * @param pageX {Integer} the x position of the mouse in the page (in pixels).
      * @return {Integer} the model index of the column the mouse is over.
      */
@@ -1708,7 +1707,6 @@ qx.Class.define("qx.ui.table.pane.Scroller",
      * Returns the model index of the column that should be resized when dragging
      * starts here. Returns -1 if the mouse is in no resize region of any column.
      *
-     * @type member
      * @param pageX {Integer} the x position of the mouse in the page (in pixels).
      * @return {Integer} the column index.
      */
@@ -1815,7 +1813,6 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     /**
      * Returns the header.
      *
-     * @type member
      * @return {qx.ui.table.pane.Header} the header.
      */
     getHeader : function() {
@@ -1826,7 +1823,6 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     /**
      * Returns the table pane.
      *
-     * @type member
      * @return {qx.ui.table.pane.Pane} the table pane.
      */
     getTablePane : function() {
@@ -1837,7 +1833,6 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     /**
      * Returns which scrollbars are needed.
      *
-     * @type member
      * @param forceHorizontal {Boolean ? false} Whether to show the horizontal
      *      scrollbar always.
      * @param preventVertical {Boolean ? false} Whether to show the vertical scrollbar
@@ -1897,25 +1892,24 @@ qx.Class.define("qx.ui.table.pane.Scroller",
 
 
     // property apply method
-    _applyScrollTimeout : function(value, old)
-    {
+    _applyScrollTimeout : function(value, old) {
       this._startInterval(value);
     },
 
 
     /**
-     * starts the current running interval
+     * Starts the current running interval
+     *
+     * @param timeout {Integer} The timeout between two table updates
      */
-    _startInterval : function (value)
+    _startInterval : function (timeout)
     {
-      value = (value != null) ? value : this.getScrollTimeout();
-
       // stops the current one
       this._stopInterval();
 
       // Set up new timer if interval is non-zero
-      if (value) {
-        this._updateInterval = window.setInterval(this._onintervalWrapper, value);
+      if (timeout) {
+        this._updateInterval = window.setInterval(this._onintervalWrapper, timeout);
       }
     },
 

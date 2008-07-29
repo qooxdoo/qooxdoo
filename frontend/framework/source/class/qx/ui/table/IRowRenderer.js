@@ -17,12 +17,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#module(ui_table)
-
-************************************************************************ */
-
 /**
  * Interface for a row renderer.
  */
@@ -44,7 +38,6 @@ qx.Interface.define("qx.ui.table.IRowRenderer",
      * <li>table (qx.ui.table.Table): the table the row belongs to.</li>
      * </ul>
      *
-     * @type member
      * @abstract
      * @param rowInfo {Map} A map containing the information about the row to
      *      update.

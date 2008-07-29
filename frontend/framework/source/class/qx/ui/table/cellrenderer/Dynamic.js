@@ -17,12 +17,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#module(ui_table)
-
-************************************************************************ */
-
 /**
  * A cell renderer factory which can dynamically exchange the cell renderer
  * based on information retrieved at runtime. This is useful when different

@@ -18,9 +18,9 @@
 ************************************************************************ */
 
 /**
- * A cell editor factory creating combo boxes.
+ * A cell editor factory creating select boxes.
  *
- * @appearance table-editor-combobox {qx.ui.form.ComboBox}
+ * @appearance table-editor-combobox {qx.ui.form.SelectBox}
  */
 qx.Class.define("qx.ui.table.celleditor.SelectBox",
 {
@@ -122,12 +122,8 @@ qx.Class.define("qx.ui.table.celleditor.SelectBox",
       return cellEditor;
     },
 
-    /**
-     * retrieves value from TextField (editable combobox) or
-     * selected ListItem (non-editable combobox) and validates value
-     * @param cellEditor {qx.ui.core.Widget}
-     * @return {Object}
-     */
+
+    // interface implementation
     getCellEditorValue : function(cellEditor)
     {
       var value = cellEditor.getValue() || "";
