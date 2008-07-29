@@ -37,15 +37,17 @@ qx.Class.define("demobrowser.demo.ui.DragDrop",
 
       var target = new qx.ui.form.List;
       target.setDropable(true);
+      target.setSelectionMode("multi");
+      target.setDragSelection(false);
       root.add(target, { left : 20, top: 20 });
 
       var source = new qx.ui.form.List;
       source.setDragable(true);
-      source.add(new qx.ui.form.ListItem("Item 1"));
-      source.add(new qx.ui.form.ListItem("Item 2"));
-      source.add(new qx.ui.form.ListItem("Item 3"));
-      source.add(new qx.ui.form.ListItem("Item 4"));
-      source.add(new qx.ui.form.ListItem("Item 5"));
+      source.setSelectionMode("multi");
+      source.setDragSelection(false);
+      for (var i=0; i<20; i++) {
+        source.add(new qx.ui.form.ListItem("Item " + i));
+      }
       root.add(source, { left : 200, top : 20 });
 
 
@@ -55,8 +57,8 @@ qx.Class.define("demobrowser.demo.ui.DragDrop",
       {
         this.debug("UI Start");
 
-        e.addType("value");
-        e.addType("items");
+        e.addData("value", this.getValue());
+        e.addData("items", this.getSelection());
       });
 
       source.addListener("dragend", function(e)
@@ -66,11 +68,12 @@ qx.Class.define("demobrowser.demo.ui.DragDrop",
 
       target.addListener("dragover", function(e)
       {
-        this.debug("UI Over: " + e.getTarget());
+        this.debug("UI Over");
 
-        if (e.supportsType("items"))
+        if (!e.supportsType("items"))
         {
-          this.debug("Yuhuuu");
+          this.debug("UI Over STOP!");
+          //e.preventDefault();
         }
       });
 
@@ -82,8 +85,12 @@ qx.Class.define("demobrowser.demo.ui.DragDrop",
       target.addListener("dragdrop", function(e)
       {
         this.debug("UI DragDrop");
-      });
 
+        var items = e.getData("items");
+        for (var i=0, l=items.length; i<l; i++) {
+          this.add(items[i]);
+        }
+      });
     }
   }
 });
