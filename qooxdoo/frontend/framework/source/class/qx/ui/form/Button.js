@@ -287,6 +287,9 @@ qx.Class.define("qx.ui.form.Button",
           this.execute();
         }
       }
+
+      // Stop from further processing
+      e.stopPropagation();
     },
 
 
