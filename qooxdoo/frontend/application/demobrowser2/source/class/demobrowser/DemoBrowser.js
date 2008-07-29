@@ -233,12 +233,16 @@ qx.Class.define("demobrowser.DemoBrowser",
     
     __toggleProfile : function(e)
     {
-      var checked = e.getData().getChecked();
+      var checked = this.widgets["toolbar.profile"].getChecked();
       var cw = this.f1.getWindow();
-      if (cw && cw.qx) {
-        if (checked) {
+      if (cw && cw.qx)
+      {
+        if (checked)
+        {
           cw.qx.dev.Profile.start();
-        } else {
+        } 
+        else
+        {
           cw.qx.dev.Profile.stop();
           cw.qx.dev.Profile.normalizeProfileData();
           this.showProfile(cw.qx.dev.Profile.getProfileData());
@@ -254,7 +258,8 @@ qx.Class.define("demobrowser.DemoBrowser",
     __showLastProfile : function()
     {
       var cw = this.f1.getWindow();
-      if (cw && cw.qx) {
+      if (cw && cw.qx)
+      {
         cw.qx.dev.Profile.normalizeProfileData();
         this.showProfile(cw.qx.dev.Profile.getProfileData());
       }
@@ -314,6 +319,7 @@ qx.Class.define("demobrowser.DemoBrowser",
     __setStateLoaded : function ()
     {
       this.__states.isLoading = false;
+      this.widgets["toolbar.sampbutts"].setEnabled(true);
       this.widgets["toolbar.playall"].setEnabled(true);
       this.widgets["outputviews.demopage.page"].resetEnabled();
       this.widgets["outputviews"].resetEnabled();
@@ -1049,7 +1055,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       {
         this.setPlayAll(true);  // turn on global flag
         // select first example
-        var first = this._sampleToTreeNodeMap['ui/Cursor_1.html'];
+        var first = this._sampleToTreeNodeMap['animation/Login_Sample.html'];
         this.tree.select(first);
         // run sample
         this.widgets["toolbar.runbutton"].execute();
@@ -1365,6 +1371,9 @@ qx.Class.define("demobrowser.DemoBrowser",
 
         // Register to flush the log queue into the appender.
         logger.register(this.logappender)
+
+        // Clear buffer
+        logger.clear();
 
         // Unregister again, so that the logger can flush again the next time the tab is clicked.
         logger.unregister(this.logappender);
