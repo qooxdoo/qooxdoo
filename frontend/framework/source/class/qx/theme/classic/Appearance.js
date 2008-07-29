@@ -1201,6 +1201,148 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
 
 
+    /*
+    ---------------------------------------------------------------------------
+      DATE CHOOSER
+    ---------------------------------------------------------------------------
+    */
+    "datechooser" : {},
+    "datechooser/navigation-bar" : {
+      style : function(states)
+      {
+        return {
+          padding : [2, 10]
+        };
+      }      
+    },
+    
+    "datechooser/last-year-button"  : "datechooser/button", 
+    "datechooser/last-month-button" : "datechooser/button",
+    "datechooser/next-year-button"  : "datechooser/button",
+    "datechooser/next-month-button" : "datechooser/button",
+    "datechooser/button/icon" : {},
+
+    "datechooser/button" :
+    {
+      style : function(states)
+      {
+        var result = {
+          width  : 17,
+          show   : "icon"
+        };
+
+        if (states.lastYear) {
+          result.icon = "decoration/arrows/rewind.gif";  
+        } else if (states.lastMonth) {
+          result.icon = "decoration/arrows/left.gif";
+        } else if (states.nextYear) {
+          result.icon = "decoration/arrows/forward.gif";
+        } else if (states.nextMonth) {
+          result.icon = "decoration/arrows/right.gif";
+        }
+
+        if (states.pressed || states.checked || states.abandoned) {
+          result.decorator = "inset-thin";
+        } else if (states.over) {
+          result.decorator = "outset-thin";
+        } else {
+          result.decorator = "undefined";
+        }
+
+        if (states.pressed || states.checked || states.abandoned) {
+          result.padding = [ 2, 0, 0, 2 ];
+        } else if (states.over) {
+          result.padding = 1;
+        } else {
+          result.padding = 2;
+        }
+
+        return result;
+      }
+    },
+
+    "datechooser/month-year-label" :
+    {
+      style : function(states)
+      {
+        return {
+          font          : "bold",
+          textAlign     : "center"
+        };
+      }
+    },
+
+    "datechooser/date-pane" :
+    {
+      style : function(states)
+      {
+        return {
+          decorator       : new qx.ui.decoration.Single().set({top : [ 1, "solid", "gray" ]}),
+          backgroundColor : "date-chooser"
+        };
+      }
+    },
+
+    "datechooser-weekday" :
+    {
+      style : function(states)
+      {
+        var border = new qx.ui.decoration.Single().set({
+          bottom : [ 1, "solid", "gray" ]
+        });
+
+        return {
+          decorator       : border,
+          font            : "bold",
+          textAlign       : "center",
+          textColor       : states.weekend ? "date-chooser-title" : "date-chooser",
+          backgroundColor : states.weekend ? "date-chooser" : "date-chooser-title"
+        };
+      }
+    },
+
+    "datechooser-day" :
+    {
+      style : function(states)
+      {
+        return {
+          textAlign       : "center",
+          decorator       : states.today ? "black" : "undefined",
+          textColor       : states.selected ? "text-selected" : states.otherMonth ? "text-disabled" : "undefined",
+          backgroundColor : states.selected ? "date-chooser-selected" : "undefined",
+          padding         : [ 2, 4 ]
+        };
+      }
+    },
+
+    "datechooser-week" :
+    {
+      style : function(states)
+      {
+        if (states.header)
+        {
+          var border = new qx.ui.decoration.Single().set({
+            right : [ 1, "solid", "gray" ],
+            bottom : [ 1, "solid", "gray" ]
+          });
+        }
+        else
+        {
+          var border = new qx.ui.decoration.Single().set({
+            right : [ 1, "solid", "gray" ]
+          });
+        }
+
+        return {
+          textAlign : "center",
+          textColor : "date-chooser-title",
+          padding   : [ 2, 4 ],
+          decorator : border
+        };
+      }
+    },
+
+
 
 
     /*
