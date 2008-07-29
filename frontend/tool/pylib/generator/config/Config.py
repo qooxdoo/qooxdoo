@@ -404,8 +404,10 @@ class Config:
                         # What's about to process all "remote" manifest initially on file loading?
                         if manidir.startswith("contrib://"): # it's a contrib:// lib
                             contrib = manidir.replace("contrib://","")
-                            if jobObj.hasFeature('cache/downloads'):
-                                contribCachePath = jobObj.getFeature('cache/downloads')
+                            cacheMap = jobObj.getFeature('cache')
+                            if cacheMap and cacheMap.has_key('downloads'):
+                                contribCachePath = cacheMap('downloads')
+                                contribCachePath = self._config1.absPath(contribCachePath)
                             else:
                                 contribCachePath = "cache-downloads"
                             self._download_contrib(newlib, contrib, contribCachePath)

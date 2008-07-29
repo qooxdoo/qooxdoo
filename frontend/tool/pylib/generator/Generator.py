@@ -58,7 +58,10 @@ class Generator:
         self._console   = console_
         self._variants  = {}
         self._settings  = {}
-        self._cache     = Cache(self._config.extract("cache"), self._console)
+
+        cache_path      = self._config.get("cache/compile", "cache")
+        cache_path      = self._config1.absPath(cache_path) 
+        self._cache     = Cache(cache_path, self._console)
 
         console = console_
 
@@ -357,7 +360,7 @@ class Generator:
         self._locale         = Locale(self._classes, self._translations, self._cache, self._console, self._treeLoader)
         partBuilder          = PartBuilder(self._console, self._depLoader, self._treeCompiler)
         self._resourceHandler= _ResourceHandler(self)
-        self._jobLib         = JobLib(self._console)
+        self._jobLib         = JobLib(self._config1, self._console)
 
         # Updating translation
         self.runUpdateTranslation()
@@ -458,9 +461,10 @@ class Generator:
 
     def runApiData(self, packages):
         apiPath = self._config.get("api/path")
-
         if not apiPath:
             return
+
+        apiPath = self._config1.absPath(apiPath) 
 
         self._apiLoader      = ApiLoader(self._classes, self._docs, self._cache, self._console, self._treeLoader)
 
@@ -695,6 +699,7 @@ class Generator:
 
         # Get resource list
         buildRoot= self._config.get('compile-dist/target', "build")
+        buildRoot= self._config1.absPath(buildRoot)
         buildUri = self._config.get('compile-dist/resourceUri', ".")
 
         libs = self._config.get("library", [])
@@ -835,6 +840,7 @@ class Generator:
 
         images = self._config.get("slice-images/images", {})
         for image, imgspec in images.iteritems():
+            image = self._config1.absPath(image)
             # wpbasti: Rename: Border => Inset as in qooxdoo JS code
             prefix       = imgspec['prefix']
             border_width = imgspec['border-width']
@@ -851,8 +857,13 @@ class Generator:
 
         images = self._config.get("combine-images/images", {})
         for image, imgspec in images.iteritems():
+            image  = self._config1.absPath(image)  # abs output path
             config = {}
-            input  = imgspec['input']
+            # abs input paths
+            inp    = imgspec['input']
+            input  = []
+            for f in inp:
+                input.append(self._config1.absPath(f))
             layout = imgspec['layout'] == "horizontal"
             # create the combined image
             subconfigs = self._imageClipper.combine(image, input, layout)
