@@ -223,6 +223,7 @@ qx.Class.define("qx.event.handler.DragDrop",
 
       this._activeSession = false;
       this._startTarget = null;
+      this._lastOver = null;
     },
 
 
