@@ -77,9 +77,6 @@ qx.Class.define("qx.event.type.Native",
 
     /**
      * Prevent browser default behaviour, e.g. opening the context menu, ...
-     *
-     * @type member
-     * @return {void}
      */
     preventDefault : function()
     {
@@ -92,9 +89,6 @@ qx.Class.define("qx.event.type.Native",
      * Stops event from all further processing. Execute this when the
      * current handler should have "exclusive rights" to the event
      * and no further reaction by anyone else should happen.
-     *
-     * @type member
-     * @return {void}
      */
     stop : function()
     {

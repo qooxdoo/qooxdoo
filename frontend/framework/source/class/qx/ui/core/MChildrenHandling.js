@@ -81,7 +81,6 @@ qx.Mixin.define("qx.ui.core.MChildrenHandling",
     /**
      * Adds a new child widget.
      *
-     * @type member
      * @param child {LayoutItem} the widget to add.
      * @param options {Map?null} Optional layout data for widget.
      * @return {void}
@@ -99,7 +98,6 @@ qx.Mixin.define("qx.ui.core.MChildrenHandling",
      * layout information. Other layout manager (e.g. {@link qx.ui.layout.Grid})
      * ignore the children order for the layout process.
      *
-     * @type member
      * @param child {LayoutItem} Widget to add
      * @param index {Integer} Index, at which the widget will be inserted
      * @param options {Map?null} Optional layout data for widget.
@@ -118,7 +116,6 @@ qx.Mixin.define("qx.ui.core.MChildrenHandling",
      * layout information. Other layout manager (e.g. {@link qx.ui.layout.Grid})
      * ignore the children order for the layout process.
      *
-     * @type member
      * @param child {LayoutItem} Widget to add
      * @param before {LayoutItem} Widget before the new widget will be inserted.
      * @param options {Map?null} Optional layout data for widget.
@@ -137,7 +134,6 @@ qx.Mixin.define("qx.ui.core.MChildrenHandling",
      * layout information. Other layout manager (e.g. {@link qx.ui.layout.Grid})
      * ignore the children order for the layout process.
      *
-     * @type member
      * @param child {LayoutItem} Widget to add
      * @param after {LayoutItem} Widget, after which the new widget will be inserted
      * @param options {Map?null} Optional layout data for widget.
@@ -151,7 +147,6 @@ qx.Mixin.define("qx.ui.core.MChildrenHandling",
     /**
      * Remove the given child widget.
      *
-     * @type member
      * @param child {LayoutItem} the widget to remove
      * @return {void}
      */
@@ -168,7 +163,6 @@ qx.Mixin.define("qx.ui.core.MChildrenHandling",
      * layout information. Other layout manager (e.g. {@link qx.ui.layout.Grid})
      * ignore the children order for the layout process.
      *
-     * @type member
      * @param index {Integer} Index of the widget to remove.
      * @return {void}
      */
@@ -179,9 +173,6 @@ qx.Mixin.define("qx.ui.core.MChildrenHandling",
 
     /**
      * Remove all children.
-     *
-     * @type member
-     * @return {void}
      */
     removeAll : function() {
       this._removeAll();
