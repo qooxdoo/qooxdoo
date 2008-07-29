@@ -265,11 +265,11 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
     },
 
     // overloaded
-    onAppear : function(tableColumnModel, event)
+    onAppear : function(tableColumnModel, event, forceRefresh)
     {
       // If we haven't initialized widths at least once, or
       // they want us to reinitialize widths on every appear event...
-      if (! this.widthsInitialized || this.getInitializeWidthsOnEveryAppear())
+      if (forceRefresh === true || !this.widthsInitialized || this.getInitializeWidthsOnEveryAppear())
       {
         // Calculate column widths
         this._computeColumnsFlexWidth(tableColumnModel, event);
@@ -412,7 +412,6 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
      * changed width is extended to take up the width available within the
      * inner width of the table.
      *
-     * @type member
      *
      * @param tableColumnModel {qx.ui.table.columnmodel.Resize}
      *   The table column model in use.
@@ -486,7 +485,6 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
      * column is extended to take up the width available within the inner
      * width of the table.
      *
-     * @type member
      *
      * @param tableColumnModel {qx.ui.table.columnmodel.Resize}
      *   The table column model in use.

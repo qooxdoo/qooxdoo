@@ -55,7 +55,6 @@
  * propertyCellRenderer.addReversedReplaceMap();
  * </pre>
  *
- * @type member
  * @param cellInfo {Map} The information about the cell.
  *          See {@link #createDataCellHtml}.
  * @return {String}

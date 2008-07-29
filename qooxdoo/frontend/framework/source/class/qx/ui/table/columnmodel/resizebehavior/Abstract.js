@@ -64,7 +64,6 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Abstract",
      * a new TableModel, to allow the Resize Behaviors to know how many columns
      * are in use.
      *
-     * @type member
      * @abstract
      * @param numColumns {Integer} The numbrer of columns in use.
      * @return {void}
@@ -78,17 +77,17 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Abstract",
     /**
      * Called when the table has first been rendered.
      *
-     * @type member
      * @abstract
      * @param tableColumnModel {qx.ui.table.columnmodel.Resize} The table column model in use.  Of particular interest is the property
      *     <i>_table</i> which is a reference to the table widget.  This allows
      *     access to any other features of the table, for use in calculating widths
      *     of columns.
      * @param event {var} The <i>onappear</i> event object.
+     * @param forceRefresh {Boolean?false} Whether a refresh should be forced
      * @return {void}
      * @throws the abstract function warning.
      */
-    onAppear : function(tableColumnModel, event) {
+    onAppear : function(tableColumnModel, event, forceRefresh) {
       throw new Error("onAppear is abstract");
     },
 
@@ -97,7 +96,6 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Abstract",
      * Called when the table width changes due to either a window size change
      * or a parent object changing size causing the table to change size.
      *
-     * @type member
      * @abstract
      * @param tableColumnModel {qx.ui.table.columnmodel.Resize} The table column model in use.  Of particular interest is the property
      *     <i>_table</i> which is a reference to the table widget.  This allows
@@ -116,7 +114,6 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Abstract",
      * Called when the use of vertical scroll bar in the table changes, either
      * from present to not present, or vice versa.
      *
-     * @type member
      * @abstract
      * @param tableColumnModel {qx.ui.table.columnmodel.Resize} The table column model in use.  Of particular interest is the property
      *     <i>_table</i> which is a reference to the table widget.  This allows
@@ -136,7 +133,6 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Abstract",
     /**
      * Called when a column width is changed.
      *
-     * @type member
      * @abstract
      * @param tableColumnModel {qx.ui.table.columnmodel.Resize} The table column model in use.  Of particular interest is the property
      *     <i>_table</i> which is a reference to the table widget.  This allows
@@ -157,7 +153,6 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Abstract",
     /**
      * Called when a column visibility is changed.
      *
-     * @type member
      * @abstract
      * @param tableColumnModel {qx.ui.table.columnmodel.Resize} The table column model in use.  Of particular interest is the property
      *     <i>_table</i> which is a reference to the table widget.  This allows
@@ -177,7 +172,6 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Abstract",
     /**
      * Determine the inner width available to columns in the table.
      *
-     * @type member
      * @param tableColumnModel {qx.ui.table.columnmodel.Resize}
      *   The table column model in use.
      * @return {Map}

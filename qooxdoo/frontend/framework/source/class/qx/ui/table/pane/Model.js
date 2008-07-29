@@ -17,12 +17,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#module(ui_table)
-
-************************************************************************ */
-
 /**
  * The model of a table pane. This model works as proxy to a
  * {@link qx.ui.table.columnmodel.Basic} and manages the visual order of the columns shown in
@@ -144,6 +138,11 @@ qx.Class.define("qx.ui.table.pane.Model",
     },
 
 
+    /**
+     * Connects the table model to the column model
+     *
+     * @param tableColumnModel {qx.ui.table.columnmodel.Basic} the column model
+     */
     setTableColumnModel : function(tableColumnModel) {
       this._tableColumnModel = tableColumnModel;
     },
@@ -169,7 +168,6 @@ qx.Class.define("qx.ui.table.pane.Model",
     /**
      * Returns the number of columns in this model.
      *
-     * @type member
      * @return {Integer} the number of columns in this model.
      */
     getColumnCount : function()
@@ -194,7 +192,6 @@ qx.Class.define("qx.ui.table.pane.Model",
     /**
      * Returns the model index of the column at the position <code>xPos</code>.
      *
-     * @type member
      * @param xPos {Integer} the x postion in the table pane of the column.
      * @return {Integer} the model index of the column.
      */
@@ -208,7 +205,6 @@ qx.Class.define("qx.ui.table.pane.Model",
     /**
      * Returns the x position of the column <code>col</code>.
      *
-     * @type member
      * @param col {Integer} the model index of the column.
      * @return {Integer} the x postion in the table pane of the column.
      */
@@ -234,7 +230,6 @@ qx.Class.define("qx.ui.table.pane.Model",
      * This value corresponds to the sum of the widths of all columns left of the
      * column.
      *
-     * @type member
      * @param col {Integer} the model index of the column.
      * @return {var} the position of the left side of the column.
      */
@@ -261,7 +256,6 @@ qx.Class.define("qx.ui.table.pane.Model",
     /**
      * Returns the total width of all columns in the model.
      *
-     * @type member
      * @return {Integer} the total width of all columns in the model.
      */
     getTotalWidth : function()

@@ -18,12 +18,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#module(ui_table)
-
-************************************************************************ */
-
 /**
  * The table pane that shows a certain section from a table. This class handles
  * the display of the data part of a table and is therefore the base for virtual
@@ -136,7 +130,6 @@ qx.Class.define("qx.ui.table.pane.Pane",
     /**
      * Returns the TablePaneScroller this pane belongs to.
      *
-     * @type member
      * @return {qx.ui.table.pane.Scroller} the TablePaneScroller.
      */
     getPaneScroller : function() {
@@ -147,7 +140,6 @@ qx.Class.define("qx.ui.table.pane.Pane",
     /**
      * Returns the table this pane belongs to.
      *
-     * @type member
      * @return {qx.ui.table.Table} the table.
      */
     getTable : function() {
@@ -193,9 +185,6 @@ qx.Class.define("qx.ui.table.pane.Pane",
 
     /**
      * Event handler. Called when the table gets or looses the focus.
-     *
-     * @param evt {Map} the event.
-     * @return {void}
      */
     onFocusChanged : function() {
       this._updateContent(false, null, null, true);

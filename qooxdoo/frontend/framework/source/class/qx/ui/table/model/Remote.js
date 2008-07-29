@@ -17,12 +17,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#module(ui_table)
-
-************************************************************************ */
-
 /**
  * A table model that loads its data from a backend.
  * <p>
@@ -147,7 +141,6 @@ qx.Class.define("qx.ui.table.model.Remote",
      * server response arrived. That method has to be called! Even when there
      * was an error.
      *
-     * @type member
      * @abstract
      * @return {void}
      * @throws the abstract function warning.
@@ -162,7 +155,6 @@ qx.Class.define("qx.ui.table.model.Remote",
      *
      * Has to be called by {@link _loadRowCount()}.
      *
-     * @type member
      * @param rowCount {Integer} the number of rows in this model or null if loading.
      * @return {void}
      */
@@ -191,7 +183,6 @@ qx.Class.define("qx.ui.table.model.Remote",
     /**
      * Reloads the model and clears the local cache.
      *
-     * @type member
      * @return {void}
      */
     reloadData : function()
@@ -225,7 +216,6 @@ qx.Class.define("qx.ui.table.model.Remote",
     /**
      * Clears the cache.
      *
-     * @type member
      * @return {void}
      */
     clearCache : function()
@@ -327,7 +317,6 @@ qx.Class.define("qx.ui.table.model.Remote",
      * The iterator is called in the same order as the rows are in the model
      * (the row index is always ascending).
      *
-     * @type member
      * @param iterator {Function} The iterator function to call.
      * @param object {Object} context of the iterator
      * @return {void}
@@ -430,7 +419,6 @@ qx.Class.define("qx.ui.table.model.Remote",
      * Implementing classes have to call {@link _onRowDataLoaded()} when the server
      * response arrived. That method has to be called! Even when there was an error.
      *
-     * @type member
      * @abstract
      * @param firstRow {Integer} The index of the first row to load.
      * @param lastRow {Integer} The index of the last row to load.
@@ -447,7 +435,6 @@ qx.Class.define("qx.ui.table.model.Remote",
      *
      * Has to be called by {@link _loadRowData()}.
      *
-     * @type member
      * @param rowDataArr {Map[]} the loaded row data or null if there was an error.
      * @return {void}
      */
@@ -507,7 +494,6 @@ qx.Class.define("qx.ui.table.model.Remote",
     /**
      * Sets the data of one block.
      *
-     * @type member
      * @param block {Integer} the index of the block.
      * @param rowDataArr {var[][]} the data to set.
      * @return {void}
@@ -556,7 +542,6 @@ qx.Class.define("qx.ui.table.model.Remote",
     /**
      * Removes a rows from the model.
      *
-     * @type member
      * @param rowIndex {Integer} the index of the row to remove.
      * @return {void}
      */
@@ -653,7 +638,6 @@ qx.Class.define("qx.ui.table.model.Remote",
      *
      * See overridden method for details.
      *
-     * @type member
      * @param rowIndex {Integer} the model index of the row.
      * @return {Object} Map containing a value for each column.
      */
@@ -730,7 +714,6 @@ qx.Class.define("qx.ui.table.model.Remote",
     /**
      * Sets whether a column is sortable.
      *
-     * @type member
      * @param columnIndex {Integer} the column of which to set the sortable state.
      * @param sortable {Boolean} whether the column should be sortable.
      * @return {void}

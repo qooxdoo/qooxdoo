@@ -191,7 +191,6 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
     /**
      * Returns the width of a column.
      *
-     * @type member
      * @param col {Integer} the model index of the column.
      * @return {Integer} the width of the column in pixels.
      */
@@ -216,7 +215,6 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
     /**
      * Returns the header renderer of a column.
      *
-     * @type member
      * @param col {Integer} the model index of the column.
      * @return {HeaderCellRenderer} the header renderer of the column.
      */
@@ -240,7 +238,6 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
     /**
      * Returns the data renderer of a column.
      *
-     * @type member
      * @param col {Integer} the model index of the column.
      * @return {DataCellRenderer} the data renderer of the column.
      */
@@ -264,7 +261,6 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
     /**
      * Returns the cell editor factory of a column.
      *
-     * @type member
      * @param col {Integer} the model index of the column.
      * @return {CellEditorFactory} the cell editor factory of the column.
      */
@@ -281,7 +277,6 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
      * visX (the visible x position of the column, int). visX is missing for
      * hidden columns.
      *
-     * @type member
      * @return {var} the "column to x postion" map.
      */
     _getColToXPosMap : function()
@@ -310,7 +305,6 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
     /**
      * Returns the number of visible columns.
      *
-     * @type member
      * @return {Integer} the number of visible columns.
      */
     getVisibleColumnCount : function() {
@@ -321,7 +315,6 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
     /**
      * Returns the model index of a column at a certain visible x position.
      *
-     * @type member
      * @param visXPos {Integer} the visible x position of the column.
      * @return {Integer} the model index of the column.
      */
@@ -333,7 +326,6 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
     /**
      * Returns the visible x position of a column.
      *
-     * @type member
      * @param col {Integer} the model index of the column.
      * @return {Integer} the visible x position of the column.
      */
@@ -345,7 +337,6 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
     /**
      * Returns the overall number of columns (including hidden columns).
      *
-     * @type member
      * @return {Integer} the overall number of columns.
      */
     getOverallColumnCount : function() {
@@ -356,7 +347,6 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
     /**
      * Returns the model index of a column at a certain overall x position.
      *
-     * @type member
      * @param overXPos {Integer} the overall x position of the column.
      * @return {Integer} the model index of the column.
      */
@@ -368,7 +358,6 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
     /**
      * Returns the overall x position of a column.
      *
-     * @type member
      * @param col {Integer} the model index of the column.
      * @return {Integer} the overall x position of the column.
      */
@@ -380,7 +369,6 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
     /**
      * Returns whether a certain column is visible.
      *
-     * @type member
      * @param col {Integer} the model index of the column.
      * @return {Boolean} whether the column is visible.
      */

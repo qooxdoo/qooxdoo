@@ -17,12 +17,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#module(ui_table)
-
-************************************************************************ */
-
 /**
  * A simple table model that provides an API for changing the model data.
  */
@@ -150,7 +144,6 @@ qx.Class.define("qx.ui.table.model.Simple",
      * Returns the data of one row as map containing the column IDs as key and
      * the cell values as value.
      *
-     * @type member
      * @param rowIndex {Integer} the model index of the row.
      * @return {Map} a Map containing the column values.
      */
@@ -410,7 +403,6 @@ qx.Class.define("qx.ui.table.model.Simple",
      * Warning: Do not alter this array! If you want to change the data use
      * {@link #setData}, {@link #setDataAsMapArray} or {@link #setValue} instead.
      *
-     * @type member
      * @return {var[][]} An array containing an array for each row. Each
      *           row-array contains the values in that row in the order of the columns
      *           in this model.
@@ -518,7 +510,6 @@ qx.Class.define("qx.ui.table.model.Simple",
     /**
      * Creates an array of maps to an array of arrays.
      *
-     * @type member
      * @param mapArr {Map[]} An array containing a map for each row. Each
      *          row-map contains the column IDs as key and the cell values as value.
      * @param rememberMaps {Boolean ? false} Whether to remember the original maps.

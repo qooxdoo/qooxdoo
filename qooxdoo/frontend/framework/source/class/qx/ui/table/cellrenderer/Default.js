@@ -17,12 +17,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#module(ui_table)
-
-************************************************************************ */
-
 /**
  * The default data cell renderer.
  */
@@ -130,7 +124,6 @@ qx.Class.define("qx.ui.table.cellrenderer.Default",
     /**
      * Formats a value.
      *
-     * @type member
      * @param cellInfo {Map} A map containing the information about the cell to
      *          create. This map has the same structure as in
      *          {@link DataCellRenderer#createDataCell}.
