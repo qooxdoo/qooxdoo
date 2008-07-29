@@ -54,28 +54,27 @@ qx.Class.define("demobrowser.demo.ui.DragDrop",
       source.addListener("dragstart", function(e)
       {
         this.debug("UI Start: " + e.getTarget());
-        data = this.getSelection();
-      }, source);
+      });
 
       source.addListener("dragend", function(e)
       {
         this.debug("UI End: " + e.getTarget());
-      }, source);
+      });
 
       target.addListener("dragover", function(e)
       {
         this.debug("UI Over: " + e.getTarget());
-      }, target);
+      });
 
       target.addListener("dragout", function(e)
       {
         this.debug("UI Out: " + e.getTarget());
-      }, target);
+      });
 
       target.addListener("dragdrop", function(e)
       {
         this.debug("UI DragDrop: " + e.getData());
-      }, target);
+      });
 
     }
   }
