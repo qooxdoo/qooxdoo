@@ -823,6 +823,23 @@ qx.Class.define("qx.event.handler.Focus",
         if (!focusTarget) {
           qx.bom.Event.preventDefault(e);
         }
+
+        // Reset user select from mousedown
+        if (this.__lastUserSelectBlocked)
+        {
+          target.style.MozUserSelect = "";
+          this.__lastUserSelectBlocked = null;
+        }
+
+        // Firefox as of 3.0 goes into somewhat like selection mode
+        // when holding mouse down and start dragging. This badly influences
+        // all types of mousemove, mouseover, mouseout as they all present
+        // the target which was initially pressed which is not very helpful.
+        if (!this.__isSelectable(target))
+        {
+          this.__lastUserSelectBlocked = target;
+          target.style.MozUserSelect = "none";
+        }
       },
 
       "mshtml" : function(e)
@@ -942,6 +959,13 @@ qx.Class.define("qx.event.handler.Focus",
         }
 
         this.tryActivate(target);
+
+        // Reset user select from mousedown
+        if (this.__lastUserSelectBlocked)
+        {
+          target.style.MozUserSelect = "";
+          this.__lastUserSelectBlocked = null;
+        }
       },
 
       "webkit|opera" : function(e) {
@@ -1072,11 +1096,9 @@ qx.Class.define("qx.event.handler.Focus",
      */
     __isSelectable : function(node)
     {
-      var Attribute = qx.bom.element.Attribute;
-
       while(node && node.nodeType === 1)
       {
-        var attr = Attribute.get(node, "qxSelectable");
+        var attr = node.getAttribute("qxSelectable");
         if (attr != null) {
           return attr === "on";
         }
