@@ -388,7 +388,7 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
       // Now that we've calculated the width, set it.
       for (i=0,l=columns.length; i<l; i++)
       {
-        var colWidth = columns[i].getComputedWith();
+        var colWidth = columns[i].getComputedWidth();
         tableColumnModel.setColumnWidth(visibleColumns[i], colWidth);
 
         if (qx.core.Variant.isSet("qx.debug", "on"))

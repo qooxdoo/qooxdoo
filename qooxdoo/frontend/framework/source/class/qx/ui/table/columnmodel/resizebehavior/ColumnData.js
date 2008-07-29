@@ -45,7 +45,7 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.ColumnData",
     /**
      * Get the computed width of the column.
      */
-    getComputedWith : function() {
+    getComputedWidth : function() {
       return this._computedWidth;
     },
 
