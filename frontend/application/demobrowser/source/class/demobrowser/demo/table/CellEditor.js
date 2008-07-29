@@ -47,14 +47,26 @@ qx.Class.define("demobrowser.demo.table.CellEditor",
 
       this.testCheckBoxEditor();
       this.testComboBoxEditor();
+      this.testPasswordEditor();
+      this.testTextfieldEditor();
     },
 
     _addEditor : function(editorFactory, cellInfo)
     {
+      cellInfo = qx.lang.Object.copy(cellInfo);
+
       var box = new qx.ui.container.Composite(new qx.ui.layout.HBox(20));
 
       var editor = editorFactory.createCellEditor(cellInfo);
-      box.add(editor);
+
+      var editorContainer = new qx.ui.container.Composite().set({
+        width: 200,
+        height: 20
+      })
+      editor.setUserBounds(0, 0, 200, 20);
+      editorContainer.add(editor);
+
+      box.add(editorContainer);
 
       var btnValue = new qx.ui.form.Button("Get value");
       box.add(btnValue);
@@ -62,10 +74,28 @@ qx.Class.define("demobrowser.demo.table.CellEditor",
         label.setContent(editorFactory.getCellEditorValue(editor) + "");
       });
 
+      var btnAddRemove = new qx.ui.form.Button("Add/Remove editor");
+      box.add(btnAddRemove);
+      btnAddRemove.addListener("execute", function()
+      {
+        editor.destroy();
+        qx.ui.core.queue.Manager.flush();
+
+        editor = editorFactory.createCellEditor(cellInfo);
+        editor.setUserBounds(0, 0, 200, 20);
+        editorContainer.add(editor);
+        qx.ui.core.queue.Manager.flush();
+      });
+
       var label = new qx.ui.basic.Label("");
       box.add(label);
 
       this._container.add(box);
+
+      // manually flush to do some unit testing
+      qx.ui.core.queue.Manager.flush();
+      btnValue.execute();
+      btnAddRemove.execute();
     },
 
     testCheckBoxEditor : function()
@@ -82,11 +112,62 @@ qx.Class.define("demobrowser.demo.table.CellEditor",
     testComboBoxEditor : function()
     {
       var cellInfoOptions = {
-        value : [true, false]
+        value : ["", "cat", "rat", 2],
+        table : [this.getTableMock()]
+      }
+
+      var factory = new qx.ui.table.celleditor.ComboBox();
+      factory.setListData([
+        "dog",
+        "cat",
+        "mouse"
+      ]);
+
+      this.permute(cellInfoOptions, function(cellInfo) {
+        this._addEditor(factory, cellInfo);
+      }, this);
+    },
+
+    testPasswordEditor : function()
+    {
+      var cellInfoOptions = {
+        value : [null, 10, "Juhu"]
       }
 
       this.permute(cellInfoOptions, function(cellInfo) {
-        this._addEditor(new qx.ui.table.celleditor.ComboBox(), cellInfo);
+        this._addEditor(new qx.ui.table.celleditor.PasswordField(), cellInfo);
+      }, this);
+    },
+
+    testTextfieldEditor : function()
+    {
+      var cellInfoOptions = {
+        value : [null, 10, "Juhu"]
+      }
+
+      this.permute(cellInfoOptions, function(cellInfo) {
+        this._addEditor(new qx.ui.table.celleditor.TextField(), cellInfo);
+      }, this);
+    },
+
+    testTextfieldEditor : function()
+    {
+      var cellInfoOptions = {
+        value : [true, "Juhu"]
+      }
+
+      var editorFactory = new qx.ui.table.celleditor.Dynamic();
+      editorFactory.setCellEditorFactoryFunction(function(cellInfo)
+      {
+        if (typeof cellInfo.value == "boolean") {
+          return new qx.ui.table.celleditor.CheckBox();
+        } else {
+          return new qx.ui.table.celleditor.TextField();
+        }
+      });
+
+      this.permute(cellInfoOptions, function(cellInfo) {
+        this._addEditor(editorFactory, cellInfo);
       }, this);
     }
   }
