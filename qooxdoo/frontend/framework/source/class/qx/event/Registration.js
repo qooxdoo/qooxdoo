@@ -180,8 +180,15 @@ qx.Bootstrap.define("qx.event.Registration",
      */
     createEvent : function(type, clazz, args)
     {
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        if (arguments.length > 1 && clazz === undefined) {
+          throw new Error("Create event of type " + type + " with undefined class. Please use null to explicit fallback to default event type!");
+        }
+      }
+
       // Fallback to default
-      if (!clazz) {
+      if (clazz == null) {
         clazz = qx.event.type.Event;
       }
 
@@ -238,7 +245,14 @@ qx.Bootstrap.define("qx.event.Registration",
      */
     fireEvent : function(target, type, clazz, args)
     {
-      var evt = this.createEvent(type, clazz, args);
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        if (arguments.length > 2 && clazz === undefined && args !== undefined) {
+          throw new Error("Create event of type " + type + " with undefined class. Please use null to explicit fallback to default event type!");
+        }
+      }
+
+      var evt = this.createEvent(type, clazz||null, args);
       return this.getManager(target).dispatchEvent(target, evt);
     },
 
