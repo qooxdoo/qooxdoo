@@ -954,16 +954,18 @@ qx.Class.define("qx.event.handler.Focus",
         // Gecko fires mouseup on XUL elements
         // We only want to deal with real HTML elements
         var target = e.target;
-        while (target.offsetWidth === undefined) {
+        while (target && target.offsetWidth === undefined) {
           target = target.parentNode;
         }
 
-        this.tryActivate(target);
+        if (target) {
+          this.tryActivate(target);
+        }
 
         // Reset user select from mousedown
         if (this.__lastUserSelectBlocked)
         {
-          target.style.MozUserSelect = "";
+          this.__lastUserSelectBlocked.style.MozUserSelect = "";
           this.__lastUserSelectBlocked = null;
         }
       },
