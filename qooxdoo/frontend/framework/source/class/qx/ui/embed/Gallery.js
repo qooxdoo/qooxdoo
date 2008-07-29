@@ -262,6 +262,7 @@ qx.Class.define("qx.ui.embed.Gallery",
     {
       this._manager.deselectAll();
       this.getElement().innerHTML = "";
+      this._processedImages = 0;
     },
 
 
@@ -396,6 +397,7 @@ qx.Class.define("qx.ui.embed.Gallery",
       }
 
       this._list.splice(vPos, 1);
+      this._processedImages--; 
     },
 
 
@@ -858,7 +860,7 @@ qx.Class.define("qx.ui.embed.Gallery",
     {
       this._processedImages++;
 
-      if (this._processedImages == this._listSize) {
+      if (this._processedImages == this._list.length) {
         this.dispatchEvent(new qx.event.type.Event("loadComplete"), true);
       }
     },
