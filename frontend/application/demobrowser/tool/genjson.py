@@ -22,8 +22,6 @@
 ################################################################################
 
 ##
-#<h2>Module Description</h2>
-#<pre>
 # NAME
 #  genjson.py -- generate json struct, to prepare for generation of demo apps
 #
@@ -33,15 +31,20 @@
 #    <copy_target>  -- directory to copy demo .js files to, e.g. 'source/script'
 #
 # DESCRIPTION
-#  - scans for html files of demos (in source/demo)                                                      
-#  - creates corresponding entry in JSON jobs file                                                     
-#  - copys corresponding .js file in 'script' dir (from source/class/..., for                            
-#    the 'View Source' function in DemoBrowser)                                                          
+# This script does actually a couple of things:
+#  - scans for html files of demos (in source/demo)
+#  - creates a config json file for them (using the tmpl.json template)
+#  - copys demos' .js files to <copy_target> dir (usually one of the */script dirs)
+#    from under source/class/, for the 'View Source' function in DemoBrowser
 #
-#</pre>
+# TODO
+#  - sync with gendata.py
 ##
 
 import sys, os, re, types, shutil
+
+# go to application dir
+os.chdir(os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), os.pardir))
 
 fJSON = "./config.demo.json"
 

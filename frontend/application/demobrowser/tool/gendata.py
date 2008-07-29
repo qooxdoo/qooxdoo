@@ -1,6 +1,16 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+##
+# gendata.py -- go through all the demos (i.e. their HTML files) and generate an 
+#               index file, to be used in Demobrowser's tree navigation pane.
+#
+# usage: gendata.py <dest> <source>
+#
+#   <dest>    output file
+#   <source>  root directory for the scan
+##
+
 import sys, os, optparse, codecs, re
 
 basic = u"""[%s]"""

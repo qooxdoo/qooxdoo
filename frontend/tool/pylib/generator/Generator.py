@@ -50,13 +50,15 @@ memcache = {}
 
 
 class Generator:
-    def __init__(self, config, console_):
+    def __init__(self, config, job, console_):
         global console
-        self._config    = config
+        self._config1   = config
+        self._config    = ExtMap(config.getJob(job).getData()) # this is a kludge!
+        self._job       = config.getJob(job)
         self._console   = console_
         self._variants  = {}
         self._settings  = {}
-        self._cache     = Cache(config.extract("cache"), self._console)
+        self._cache     = Cache(self._config.extract("cache"), self._console)
 
         console = console_
 
@@ -640,17 +642,19 @@ class Generator:
         rc = 0
         self._shellCmd       = ShellCmd()
 
+        # massage relative paths - tricky!
+        parts = shellcmd.split()
+        nparts= []
+        for p in parts:
+            if p.find(os.sep) > -1:
+                if not os.path.isabs(p):
+                    nparts.append(self._config1.absPath(p))
+                    continue
+            nparts.append(p)
+
+        shellcmd = " ".join(nparts)
         self._console.info("Executing shell command \"%s\"..." % shellcmd)
         self._console.indent()
-        # massage relative paths - tricky!
-        #parts = shellcmd.split()
-        #nparts= []
-        #for p in parts:
-        #    if p.find(os.sep) > -1:
-        #        if not os.path.isabs(p):
-        #            nparts.append(Config(None,{}).absPath(p))  # !!!!TODO
-        #            continue
-        #    nparts.append(p)
                     
         rc = self._shellCmd.execute(shellcmd)
         if rc != 0:
@@ -768,6 +772,7 @@ class Generator:
         filePath = self._config.get("compile-source/file")
         #if variants:
         #    filePath = self._makeVariantsName(filePath, variants)
+        filePath = self._config1.absPath(filePath)
 
         # Whether the code should be formatted
         format = self._config.get("compile-source/format", False)

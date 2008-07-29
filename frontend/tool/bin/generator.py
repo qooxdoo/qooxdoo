@@ -123,11 +123,9 @@ Arguments:
     console.debug(pprint.pformat(config.get(".")))
 
     # Processing jobs...
-    config1 = Config(console, config.get("jobs"))
     for job in expandedjobs:
         console.head("Executing: %s" % job, True)
-        #Generator(config1.extract(job), console).run()
-        Generator(ExtMap(config.getJob(job).getData()), console).run()
+        Generator(config, job, console).run()
 
 
 if __name__ == '__main__':
