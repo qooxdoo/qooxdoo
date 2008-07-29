@@ -128,11 +128,11 @@ qx.Class.define("qx.event.handler.DragDrop",
     ---------------------------------------------------------------------------
     */
 
-    __fireEvent : function(original, target, type, bubbles)
+    __fireEvent : function(original, target, type)
     {
       var Registration = qx.event.Registration;
 
-      var evt = Registration.createEvent(type, qx.event.type.DragDrop, [original, target, null, bubbles]);
+      var evt = Registration.createEvent(type, qx.event.type.Drag, [original, target]);
       Registration.dispatchEvent(target, evt);
     },
 
@@ -198,29 +198,31 @@ qx.Class.define("qx.event.handler.DragDrop",
 
     _onMouseUp : function(e)
     {
-      if (this._activeSession) {
-        this._clearSession(e);
-      }
+      this._clearSession(e);
     },
 
 
     _onLoseCapture : function(e)
     {
-      if (this._activeSession) {
-        this._clearSession(e);
-      }
+      this._clearSession(e);
     },
 
 
     _clearSession : function(e)
     {
-      this._manager.removeListener(this._root, "mousemove", this._onMouseMove, this, true);
-      this._manager.removeListener(this._root, "mouseover", this._onMouseOver, this, true);
-      this._manager.removeListener(this._root, "mouseout", this._onMouseOut, this, true);
+      var mgr = this._manager;
+
+      mgr.removeListener(this._root, "mousemove", this._onMouseMove, this, true);
+
+      if (this._activeSession)
+      {
+        mgr.removeListener(this._root, "mouseover", this._onMouseOver, this, true);
+
+        this.__fireEvent(e, this._startTarget, "dragend");
+      }
 
       this._activeSession = false;
-
-      this.__fireEvent(e, this._startTarget, "dragend", true);
+      this._startTarget = null;
     },
 
 
@@ -240,9 +242,8 @@ qx.Class.define("qx.event.handler.DragDrop",
           this._activeSession = true;
 
           this._manager.addListener(this._root, "mouseover", this._onMouseOver, this, true);
-          this._manager.addListener(this._root, "mouseout", this._onMouseOut, this, true);
 
-          this.__fireEvent(e, this._startTarget, "dragstart", true);
+          this.__fireEvent(e, this._startTarget, "dragstart");
         }
       }
     },
@@ -257,27 +258,16 @@ qx.Class.define("qx.event.handler.DragDrop",
       {
         if (dropable != this._lastOver)
         {
-          this.__fireEvent(e, dropable, "dragover", false);
+          this.__fireEvent(e, dropable, "dragover");
           this._lastOver = dropable;
         }
       }
       else if (this._lastOver)
       {
-        this.__fireEvent(e, this._lastOver, "dragout", false);
+        this.__fireEvent(e, this._lastOver, "dragout");
         this._lastOver = null;
       }
-    },
-
-    _onMouseOut : function(e)
-    {
-
-    },
-
-
-
-
-
-
+    }
   },
 
 
