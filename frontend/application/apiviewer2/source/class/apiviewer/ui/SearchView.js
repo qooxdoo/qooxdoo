@@ -38,6 +38,7 @@ qx.Class.define("apiviewer.ui.SearchView",
     this.setLayout(new qx.ui.layout.VBox)
 
     this.__initresult = false;
+    this.listdata = [];
 
     this.apiindex = {};
 
@@ -73,7 +74,7 @@ qx.Class.define("apiviewer.ui.SearchView",
 
       // Search form - input field
       this.sinput = new qx.ui.form.TextField();
-      this.sinput.setValue("Search is disabled.");
+      ///this.sinput.setValue("Search is disabled.");
 
       // Search form - submit button
       this.__button = new qx.ui.form.Button("Find");
@@ -86,6 +87,37 @@ qx.Class.define("apiviewer.ui.SearchView",
 
       this.add(sform);
 
+      // Create the initial data
+      var rowData = [
+                     ["icon1", "foo"],
+                     ["icon2", "bar"]
+                     ];
+
+      // table model
+      var tableModel = this._tableModel = new qx.ui.table.model.Simple();
+      tableModel.setColumns([ "", "Results" ]);
+      tableModel.setData(rowData);
+
+      // table
+      var table = new qx.ui.table.Table(tableModel);
+      
+      table.setColumnWidth(0, 10);
+      
+      table.addListener("cellClick", this._onCellClick, this);
+      
+      this._table = table;
+      
+      table.exclude();
+
+      var tcm = table.getTableColumnModel();
+
+      tcm.setDataCellRenderer(0, new qx.ui.table.cellrenderer.Image());
+
+      this.__initresult = true;
+
+      this.add(table, {flex : 1})
+      
+      
       // Load index file
       qx.event.Timer.once(this._load, this, 0);
 
@@ -129,12 +161,11 @@ qx.Class.define("apiviewer.ui.SearchView",
         // Reset the result list
         if (this.__initresult) {
           this.listdata.splice(0, this.listdata.length);
-          this.rlv.getHeader()._columns["result"].headerCell.setLabel("Invalid Search");
-          this.rlv.update();
+          ////this.rlv.getHeader()._columns["result"].headerCell.setLabel("Invalid Search");
+          ////this.rlv.update();
         }
         this.sinput.resetBackgroundColor();
-        ////TODO: Activate search
-        ////this.__button.setEnabled(false);
+        this.__button.setEnabled(false);
         return;
       }
       else
@@ -146,57 +177,62 @@ qx.Class.define("apiviewer.ui.SearchView",
             var search = this._validateInput(svalue);
             new RegExp(search[0]);
             this.sinput.resetBackgroundColor();
-            ////TODO: Activate search
-            ////this.__button.setEnabled(true);
+            this.__button.setEnabled(true);
         }
         catch(ex)
         {
           // Reset the result list
           if (this.__initresult) {
             this.listdata.splice(0, this.listdata.length);
-            this.rlv.getHeader()._columns["result"].headerCell.setLabel("Invalid Search");
-            this.rlv.update();
+            ////this.rlv.getHeader()._columns["result"].headerCell.setLabel("Invalid Search");
+            ////this.rlv.update();
+            this._table.updateContent();
           }
 
           this.sinput.setBackgroundColor("#ffbfbc");
-          ////TODO: Activate search
-          ////this.__button.setEnabled(false);
+          this.__button.setEnabled(false);
           return;
         }
 
 
        sresult = this._searchIndex(search[0], search[1]);
+       
+       this._tableModel.setData(sresult);
 
+
+       var listfield = {
+         icon : { label:" ", width:30, type:"iconHtml", align:"center", sortable:true, sortMethod:this._sortByIcons, sortProp:"icon"  },
+         result : { label:results + " Results (" + duration + " s)", width:"80%", type:"text", sortable:true, sortProp:"text" }};
+
+       this._table.show();
 
 
         var searchEnd = new Date();
         var results = sresult.length;
         var duration = (searchEnd.getTime() - searchStart.getTime())/1000; //seconds
 //        this.debug("Results " + results + " (" + duration + " s)");
-
+/*
         // If initialized update listview
         if (this.__initresult)
         {
           this.listdata.splice(0, this.listdata.length);
 
-          this.rlv.getHeader()._columns["result"].headerCell.setLabel(results + " Results (" + duration + " s)");
+          ////this.rlv.getHeader()._columns["result"].headerCell.setLabel(results + " Results (" + duration + " s)");
           this._setListdata(sresult);
+          
+          this._table.show();
 
-          this.rlv.update();
+          ////this.rlv.update();
         }
         // Create listview
         else
         {
-          this.listdata = [];
-
-          var listfield = {
-            icon : { label:" ", width:30, type:"iconHtml", align:"center", sortable:true, sortMethod:this._sortByIcons, sortProp:"icon"  },
-            result : { label:results + " Results (" + duration + " s)", width:"80%", type:"text", sortable:true, sortProp:"text" }};
+  */        
 /*
           this.rlv = new qx.ui.listview.ListView(this.listdata, listfield);
           this.rlv.setHeight("1*");
           this.rlv.setBorder(null);
-*/
+
           this.rlv = new qx.ui.core.Widget;
           
           this.add(this.rlv);
@@ -220,7 +256,8 @@ qx.Class.define("apiviewer.ui.SearchView",
           this.rlv.update();
 
           this.__initresult = true;
-        }
+*/
+//        }
       }
     },
 
@@ -451,7 +488,13 @@ qx.Class.define("apiviewer.ui.SearchView",
           controller.__updateHistory(fullItemName);
 
         }, controller);
-    }
+    },
+    
+    _onCellClick : function(e)
+    {
+      
+      debugger;
+    },
 
   },
 
