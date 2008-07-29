@@ -265,7 +265,6 @@ qx.Class.define("qx.core.Object",
     /**
      * Add event listener to this object.
      *
-     * @type member
      * @param type {String} name of the event type
      * @param listener {Function} event callback function
      * @param self {Object ? null} reference to the 'this' variable inside the callback
@@ -285,7 +284,6 @@ qx.Class.define("qx.core.Object",
      * Add event listener to this object, which is only called once. After the
      * listener is called the event listener gets removed.
      *
-     * @type member
      * @param type {String} name of the event type
      * @param listener {Function} event callback function
      * @param self {Object ? window} reference to the 'this' variable inside the callback
@@ -308,7 +306,6 @@ qx.Class.define("qx.core.Object",
     /**
      * Remove event listener from this object
      *
-     * @type member
      * @param type {String} name of the event type
      * @param listener {Function} event callback function
      * @param self {Object ? null} reference to the 'this' variable inside the callback

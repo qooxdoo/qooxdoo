@@ -47,6 +47,7 @@ qx.Class.define("demobrowser.demo.table.CellEditor",
 
       this.testCheckBoxEditor();
       this.testComboBoxEditor();
+      this.testSelectBoxEditor();
       this.testPasswordEditor();
       this.testTextfieldEditor();
     },
@@ -117,6 +118,25 @@ qx.Class.define("demobrowser.demo.table.CellEditor",
       }
 
       var factory = new qx.ui.table.celleditor.ComboBox();
+      factory.setListData([
+        "dog",
+        "cat",
+        "mouse"
+      ]);
+
+      this.permute(cellInfoOptions, function(cellInfo) {
+        this._addEditor(factory, cellInfo);
+      }, this);
+    },
+
+    testSelectBoxEditor : function()
+    {
+      var cellInfoOptions = {
+        value : ["", "cat"],
+        table : [this.getTableMock()]
+      }
+
+      var factory = new qx.ui.table.celleditor.SelectBox();
       factory.setListData([
         "dog",
         "cat",

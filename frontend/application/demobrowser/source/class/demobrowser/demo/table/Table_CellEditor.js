@@ -17,28 +17,30 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#use(qx.legacy.theme.ClassicRoyale)
-
-************************************************************************ */
-
 /**
  * Using the Table, qx.ui.table.cellrenderer.Dynamic, qx.ui.table.celleditor.Dynamic, qx.ui.table.celleditor.ComboBox
  * and cell value validation to build a property editor.
  */
 qx.Class.define("demobrowser.demo.table.Table_CellEditor",
 {
-  extend : qx.legacy.application.Gui,
+  extend : demobrowser.demo.table.TableDemo,
 
   members :
   {
+    getCaption : function() {
+      return "Property editor table";
+    },
+
     main : function()
     {
       this.base(arguments);
 
-      var d = qx.ui.core.ClientDocument.getInstance();
+      this._container.resetWidth();
+      this._container.setResizable(false);
+    },
 
+    createTable : function()
+    {
       // create some example data
       var tableData =
       [
@@ -52,12 +54,7 @@ qx.Class.define("demobrowser.demo.table.Table_CellEditor",
                                                                       if (newValue.search(/^http:/)!=-1){window.open(newValue);}
                                                                       return newValue;
                                                                     }}],
-        [ 'newsletter','Newsletter', true,                          {'type':"checkbox"}],
-        [ 'custom1',   'Custom 1', '' ],
-        [ 'custom2',   'Custom 2', '' ],
-        [ 'custom3',   'Custom 3', '' ],
-        [ 'custom4',   'Custom 4', '' ],
-        [ 'custom5',   'Custom 5', '' ]
+        [ 'newsletter','Newsletter', true,                          {'type':"checkbox"}]
       ];
 
       // cell renderer factory function
@@ -95,7 +92,7 @@ qx.Class.define("demobrowser.demo.table.Table_CellEditor",
               return renderer;
   				}
         }
-        return new qx.ui.table.cellrenderer.Default;
+        return new qx.ui.table.cellrenderer.Default();
       }
 
       // create the  "meta" cell renderer object
@@ -118,10 +115,16 @@ qx.Class.define("demobrowser.demo.table.Table_CellEditor",
   				switch ( cmd )
   				{
   					case "options":
-  						cellEditor = new qx.ui.table.celleditor.ComboBox;
+  					  if (metaData.editable) {
+  					    cellEditor = new qx.ui.table.celleditor.ComboBox();
+  					  } else {
+  					    cellEditor = new qx.ui.table.celleditor.SelectBox();
+  					  }
   						cellEditor.setListData( metaData['options'] );
-  						cellEditor.setEditable( false );
   						break;
+
+  					case "editable":
+  					  break;
 
             case "type":
                switch ( metaData['type'] )
@@ -143,10 +146,6 @@ qx.Class.define("demobrowser.demo.table.Table_CellEditor",
       						 break;
                }
 
-  						break;
-
-  					case "editable":
-  						cellEditor.setEditable( metaData['editable'] === true );
   						break;
 
   					case "regExp":
@@ -191,11 +190,9 @@ qx.Class.define("demobrowser.demo.table.Table_CellEditor",
       var propertyEditor = new qx.ui.table.Table(propertyEditor_tableModel,propertyEditor_resizeBehaviour);
 
       // layout
-      propertyEditor.setDimension("100%","100%");
       propertyEditor.setColumnVisibilityButtonVisible(false);
       propertyEditor.setKeepFirstVisibleRowComplete(true);
       propertyEditor.setStatusBarVisible(false);
-      propertyEditor.setBorder("inset-thin");
 
       // selection mode
       propertyEditor.getSelectionModel().setSelectionMode(qx.ui.table.selection.Model.SINGLE_SELECTION);
@@ -220,7 +217,7 @@ qx.Class.define("demobrowser.demo.table.Table_CellEditor",
       // create event listener for data change event. this would normally
       // send the data back to the server etc.
       propertyEditor.getTableModel().addListener("dataChanged",function(event){
-  			if ( ! event instanceof qx.event.type.DataEvent )
+  			if ( ! event instanceof qx.event.type.Data )
         {
           return;
         }
@@ -235,7 +232,7 @@ qx.Class.define("demobrowser.demo.table.Table_CellEditor",
 
       },propertyEditor);
 
-      d.add(propertyEditor);
+      return propertyEditor;
     }
   }
 });

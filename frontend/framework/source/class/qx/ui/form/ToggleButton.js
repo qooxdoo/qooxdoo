@@ -123,7 +123,6 @@ qx.Class.define("qx.ui.form.ToggleButton",
     /**
      * Changes the state of the button dependent on the checked value.
      *
-     * @type member
      * @param value {Boolean} Current value
      * @param old {Boolean} Previous value
      */
@@ -139,7 +138,6 @@ qx.Class.define("qx.ui.form.ToggleButton",
      * <li>Removes "abandoned" and adds "pressed" state (if "abandoned" state is set)</li>
      * </ul>
      *
-     * @type member
      * @param e {Event} Mouse event
      * @return {void}
      */
@@ -167,7 +165,6 @@ qx.Class.define("qx.ui.form.ToggleButton",
      * <li>Removes "pressed" state (if "pressed" state is set and button is not checked)
      * </ul>
      *
-     * @type member
      * @param e {Event} Mouse event
      * @return {void}
      */
@@ -198,7 +195,6 @@ qx.Class.define("qx.ui.form.ToggleButton",
      * <li>Adds "pressed" state</li>
      * </ul>
      *
-     * @type member
      * @param e {Event} Mouse event
      * @return {void}
      */
@@ -229,7 +225,6 @@ qx.Class.define("qx.ui.form.ToggleButton",
      * <li>Toggles {@link #checked} (if state "abandoned" is not set and state "pressed" is set)</li>
      * </ul>
      *
-     * @type member
      * @param e {Event} Mouse event
      * @return {void}
      */
@@ -255,7 +250,6 @@ qx.Class.define("qx.ui.form.ToggleButton",
      * Removes "abandoned" and adds "pressed" state
      * for the keys "Enter" or "Space"
      *
-     * @type member
      * @param e {Event} Key event
      * @return {void}
      */
@@ -278,7 +272,6 @@ qx.Class.define("qx.ui.form.ToggleButton",
      * Removes "abandoned" and "pressed" state (if "pressed" state is set)
      * for the keys "Enter" or "Space". It also toggles the {@link #checked} property.
      *
-     * @type member
      * @param e {Event} Key event
      * @return {void}
      */

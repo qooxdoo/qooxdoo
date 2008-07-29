@@ -25,7 +25,7 @@
 
 qx.Class.define("qx.ui.table.pane.FocusIndicator",
 {
-  extend : qx.ui.core.Widget,
+  extend : qx.ui.container.Composite,
 
   construct : function(scroller)
   {
@@ -35,13 +35,6 @@ qx.Class.define("qx.ui.table.pane.FocusIndicator",
 
   properties :
   {
-    // overridden
-    anonymous :
-    {
-      refine : true,
-      init : true
-    },
-
     // overridden
     visibility :
     {

@@ -1213,10 +1213,10 @@ qx.Theme.define("qx.theme.classic.Appearance",
         return {
           padding : [2, 10]
         };
-      }      
+      }
     },
-    
-    "datechooser/last-year-button"  : "datechooser/button", 
+
+    "datechooser/last-year-button"  : "datechooser/button",
     "datechooser/last-month-button" : "datechooser/button",
     "datechooser/next-year-button"  : "datechooser/button",
     "datechooser/next-month-button" : "datechooser/button",
@@ -1232,7 +1232,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
         };
 
         if (states.lastYear) {
-          result.icon = "decoration/arrows/rewind.gif";  
+          result.icon = "decoration/arrows/rewind.gif";
         } else if (states.lastMonth) {
           result.icon = "decoration/arrows/left.gif";
         } else if (states.nextYear) {
@@ -1546,6 +1546,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
     ---------------------------------------------------------------------------
     */
 
+    "table" : "widget",
+
     "table/statusbar" :
     {
       style : function(states)
@@ -1706,6 +1708,19 @@ qx.Theme.define("qx.theme.classic.Appearance",
       {
         return {
           decorator : "undefined",
+          padding : [ 2, 2 ]
+        };
+      }
+    },
+
+    "table-editor-selectbox" :
+    {
+      include : "selectbox",
+      alias : "selectbox",
+
+      style : function(states)
+      {
+        return {
           padding : [ 0, 2 ]
         };
       }
@@ -1719,8 +1734,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          decorator : "undefined",
-          padding : [ 0, 2 ]
+          decorator : "undefined"
         };
       }
     }

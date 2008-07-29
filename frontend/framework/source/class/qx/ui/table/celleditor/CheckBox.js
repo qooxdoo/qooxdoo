@@ -59,15 +59,47 @@ qx.Class.define("qx.ui.table.celleditor.CheckBox",
     // interface implementation
     createCellEditor : function(cellInfo)
     {
-      var editor = new qx.ui.form.CheckBox;
-      editor.setChecked(cellInfo.value);
+      var editor = new qx.ui.container.Composite(new qx.ui.layout.HBox().set({
+        alignX: "center",
+        alignY: "middle"
+      })).set({
+        focusable: true
+      });
+
+      var checkbox = new qx.ui.form.CheckBox().set({
+        checked: cellInfo.value
+      });
+      editor.add(checkbox);
+
+      // propagate focus
+      editor.addListener("focus", function() {
+        checkbox.focus();
+      });
+
+      // propagate active state
+      editor.addListener("activate", function() {
+        checkbox.activate();
+      });
+
+      // propagate stopped enter key press to the editor
+      checkbox.addListener("keydown", function(e)
+      {
+        if (e.getKeyIdentifier() == "Enter")
+        {
+          var clone = qx.event.Pool.getInstance().getObject(qx.event.type.KeySequence);
+          var target = editor.getContainerElement().getDomElement();
+          clone.init(e.getNativeEvent(), target, e.getKeyIdentifier());
+          clone.setType("keydown");
+          qx.event.Registration.dispatchEvent(target, clone);
+        }
+      }, this);
 
       return editor;
     },
 
     // interface implementation
     getCellEditorValue : function(cellEditor) {
-      return cellEditor.getChecked();
+      return cellEditor.getChildren()[0].getChecked();
     }
   }
 });
