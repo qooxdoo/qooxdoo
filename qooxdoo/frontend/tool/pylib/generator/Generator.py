@@ -570,6 +570,7 @@ class Generator:
 
         generator._console.info("Copying resources...")
         resTargetRoot = generator._config.get("copy-resources/target", "build")
+        resTargetRoot = self._config1.absPath(resTargetRoot) 
         libs          = generator._config.get("library", [])
         generator._console.indent()
         # Copy resources
@@ -616,7 +617,9 @@ class Generator:
         appfiles = self._config.get("copy-files/files",[])
         if appfiles:
             buildRoot  = self._config.get("copy-files/target", "build")
+            buildRoot  = self._config1.absPath(buildRoot) 
             sourceRoot = self._config.get("copy-files/source", "source")
+            sourceRoot  = self._config1.absPath(sourceRoot) 
             self._console.info("Copying application files...")
             self._console.indent()
             for file in appfiles:
@@ -670,10 +673,12 @@ class Generator:
         filePath = self._config.get("compile-dist/file")
         if variants and False: # TODO: get variant names from config
             filePath = self._makeVariantsName(filePath, variants)
+        filePath = self._config1.absPath(filePath)
 
         # Read in app root dir
         if self._config.get("compile-dist/root", False):
             approot = self._config.get("compile-dist/root")
+        approot = self._config1.absPath(approot)
 
         # Read in relative file name
         fileUri = self._config.get("compile-dist/uri", filePath)
