@@ -53,27 +53,35 @@ qx.Class.define("demobrowser.demo.ui.DragDrop",
 
       source.addListener("dragstart", function(e)
       {
-        this.debug("UI Start: " + e.getTarget());
+        this.debug("UI Start");
+
+        e.addType("value");
+        e.addType("items");
       });
 
       source.addListener("dragend", function(e)
       {
-        this.debug("UI End: " + e.getTarget());
+        this.debug("UI End");
       });
 
       target.addListener("dragover", function(e)
       {
         this.debug("UI Over: " + e.getTarget());
+
+        if (e.supportsType("items"))
+        {
+          this.debug("Yuhuuu");
+        }
       });
 
       target.addListener("dragout", function(e)
       {
-        this.debug("UI Out: " + e.getTarget());
+        this.debug("UI Out");
       });
 
       target.addListener("dragdrop", function(e)
       {
-        this.debug("UI DragDrop: " + e.getData());
+        this.debug("UI DragDrop");
       });
 
     }
