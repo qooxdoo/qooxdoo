@@ -121,9 +121,6 @@ qx.Mixin.define("qx.ui.core.MSelectionHandling",
 
     /**
      * Selects all items of the managed object.
-     *
-     * @type member
-     * @return {void}
      */
     selectAll : function() {
       this.__manager.selectAll();
@@ -137,7 +134,6 @@ qx.Mixin.define("qx.ui.core.MSelectionHandling",
      * Use {@link #addToSelection} instead if you want to add new
      * items to an existing selection.
      *
-     * @type member
      * @param item {Object} Any valid item
      * @return {void}
      */
@@ -149,7 +145,6 @@ qx.Mixin.define("qx.ui.core.MSelectionHandling",
     /**
      * Detects whether the given item is currently selected.
      *
-     * @type member
      * @param item {var} Any valid selectable item
      * @return {Boolean} Whether the item is selected
      */
@@ -164,7 +159,6 @@ qx.Mixin.define("qx.ui.core.MSelectionHandling",
      * Use {@link #selectItem} instead if you want to replace
      * the current selection.
      *
-     * @type member
      * @param item {Object} Any valid item
      * @return {void}
      */
@@ -179,7 +173,6 @@ qx.Mixin.define("qx.ui.core.MSelectionHandling",
      * Use {@link #clearSelection} when you want to clear
      * the whole selection at once.
      *
-     * @type member
      * @param item {Object} Any valid item
      * @return {void}
      */
@@ -191,7 +184,6 @@ qx.Mixin.define("qx.ui.core.MSelectionHandling",
     /**
      * Selects an item range between two given items.
      *
-     * @type member
      * @param begin {Object} Item to start with
      * @param end {Object} Item to end at
      * @return {void}
@@ -206,7 +198,6 @@ qx.Mixin.define("qx.ui.core.MSelectionHandling",
      * resets the lead and anchor items and their
      * styles.
      *
-     * @type member
      * @return {void}
      */
     clearSelection : function() {
@@ -217,7 +208,6 @@ qx.Mixin.define("qx.ui.core.MSelectionHandling",
     /**
      * Replaces current selection with the given items
      *
-     * @type member
      * @param items {Object} Items to select
      * @return {void}
      */
@@ -230,7 +220,6 @@ qx.Mixin.define("qx.ui.core.MSelectionHandling",
      * Get the selected item. This method does only work in <code>single</code>
      * selection mode.
      *
-     * @type member
      * @return {Object} The selected item.
      */
     getSelectedItem : function() {

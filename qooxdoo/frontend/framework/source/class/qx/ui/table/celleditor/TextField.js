@@ -76,16 +76,15 @@ qx.Class.define("qx.ui.table.celleditor.TextField",
     {
       var cellEditor = new qx.ui.form.TextField;
       cellEditor.setAppearance("table-editor-textfield");
-      cellEditor.setLiveUpdate(true);
+
       cellEditor.originalValue = cellInfo.value;
-      if ( cellInfo.value === null )
-      {
+      if ( cellInfo.value === null ) {
         cellInfo.value = "";
       }
       cellEditor.setValue("" + cellInfo.value);
 
       cellEditor.addListener("appear", function() {
-        this.selectAll();
+        cellEditor.setSelection(0, cellEditor.getValue().length);
       });
 
       return cellEditor;

@@ -1696,6 +1696,33 @@ qx.Theme.define("qx.theme.classic.Appearance",
           alignY : "middle"
         }
       }
+    },
+
+    "table-editor-textfield" :
+    {
+      include : "textfield",
+
+      style : function(states)
+      {
+        return {
+          decorator : "undefined",
+          padding : [ 0, 2 ]
+        };
+      }
+    },
+
+    "table-editor-combobox" :
+    {
+      include : "combobox",
+      alias : "combobox",
+
+      style : function(states)
+      {
+        return {
+          decorator : "undefined",
+          padding : [ 0, 2 ]
+        };
+      }
     }
   }
 });
