@@ -37,7 +37,7 @@ qx.Class.define("demobrowser.demo.table.Table_Filtered_Model",
   members :
   {
     getCaption : function() {
-      return "Table";
+      return "Table with data filtering";
     },
 
 

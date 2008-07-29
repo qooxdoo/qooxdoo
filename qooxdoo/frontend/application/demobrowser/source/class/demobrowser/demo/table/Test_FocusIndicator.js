@@ -24,7 +24,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("demobrowser.demo.table.Pane",
+qx.Class.define("demobrowser.demo.table.Test_FocusIndicator",
 {
   extend : qx.application.Standalone,
   include : [demobrowser.demo.table.MUtil, qx.core.MAssert],
@@ -43,18 +43,28 @@ qx.Class.define("demobrowser.demo.table.Pane",
       });
       this.getRoot().add(table, {left: 10, top: 10});
 
-      var pane = new qx.ui.table.pane.Pane(this.getScrollerMock()).set({
-        firstVisibleRow: 0,
-        visibleRowCount: 20
-      });
-      table.add(pane);
+      var fi = new qx.ui.table.pane.FocusIndicator(this.getScrollerMock()).set({
+        decorator : "black"
+      })
+      table.add(fi);
 
-      var row = 0;
+
+      var row = 6;
+      var col = 2;
+      fi.moveToCell(col, row);
 
       table.addListener("keypress", function(e)
       {
         switch(e.getKeyIdentifier())
         {
+          case "Left":
+            col -= 1;
+            break;
+
+          case "Right":
+            col += 1;
+            break;
+
           case "Up":
             row -= 1;
             break;
@@ -66,8 +76,9 @@ qx.Class.define("demobrowser.demo.table.Pane",
           default:
             return;
         }
-        row = Math.min(Math.max(0, row), 499);
-        pane.setFirstVisibleRow(row);
+        col = Math.min(Math.max(0, col), 5);
+        row = Math.min(Math.max(0, row), 19);
+        fi.moveToCell(col, row);
       });
     }
   }
