@@ -177,6 +177,16 @@ qx.Bootstrap.define("qx.core.ObjectRegistry",
       qx.log.Logger.debug(this, "Disposed " + l + " objects");
 
       delete this.__registry;
+    },
+    
+    /**
+     * Returns the object registry.
+     *
+     * @type static
+     * @return {Object} The registry
+     */
+    getRegistry : function() {
+     return this.__registry; 
     }
   }
 });
