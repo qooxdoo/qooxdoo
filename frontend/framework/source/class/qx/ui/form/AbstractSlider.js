@@ -265,6 +265,9 @@ qx.Class.define("qx.ui.form.AbstractSlider",
 
       // Activate capturing
       this.capture();
+
+      // Stop event
+      e.stopPropagation();
     },
 
 
@@ -303,6 +306,11 @@ qx.Class.define("qx.ui.form.AbstractSlider",
 
       // Remove move listener again
       this.removeListener("mousemove", this._onMouseMove);
+
+      // Stop event
+      if (e.getType() === "mouseup") {
+        e.stopPropagation();
+      }
     },
 
 
@@ -328,6 +336,9 @@ qx.Class.define("qx.ui.form.AbstractSlider",
         // Update tracking end on mousemove
         this.__computeTrackingEnd(e);
       }
+
+      // Stop event
+      e.stopPropagation();
     },
 
 
