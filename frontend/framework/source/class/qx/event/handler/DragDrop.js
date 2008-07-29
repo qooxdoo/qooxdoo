@@ -130,15 +130,11 @@ qx.Class.define("qx.event.handler.DragDrop",
     ---------------------------------------------------------------------------
     */
 
-    addData : function(type, data)
-    {
-      this.debug("Add data: " + type + ": " + data);
+    addData : function(type, data) {
       this.__types[type] = data;
     },
 
-    addAction : function(action)
-    {
-      this.debug("Support action: " + action);
+    addAction : function(action) {
       this.__actions[action] = true;
     },
 
@@ -205,23 +201,24 @@ qx.Class.define("qx.event.handler.DragDrop",
       return null;
     },
 
+    __clearInit : function()
+    {
+      this.__sourceTarget = null;
+      this._manager.removeListener(this._root, "mousemove", this._onMouseMove, this, true);
+    },
+
     __clearSession : function(e)
     {
-      var mgr = this._manager;
-
-      mgr.removeListener(this._root, "mousemove", this._onMouseMove, this, true);
-
-      if (this.__sessionActive)
-      {
-        mgr.removeListener(this._root, "mouseover", this._onMouseOver, this, true);
-
-        this.__fireEvent(e, this.__startTarget, "dragend");
+      if (!this.__sessionActive) {
+        return;
       }
+
+      this._manager.removeListener(this._root, "mouseover", this._onMouseOver, this, true);
+      this.__fireEvent(e, this.__sourceTarget, "dragend");
 
       this.__dropOk = false;
       this.__sessionActive = false;
-      this.__startTarget = null;
-      this.__lastTarget = null;
+      this.__dropTarget = null;
     },
 
     __dropOk : false,
@@ -244,7 +241,7 @@ qx.Class.define("qx.event.handler.DragDrop",
       qx.event.Registration.addListener(window, "blur", this._onWindowBlur, this);
 
       var mgr = this._manager;
-      mgr.addListener(this._root, "mousedown", this._onMouseDown, this, true);
+      mgr.addListener(this._root, "mousedown", this._onMouseDown, this);
       mgr.addListener(this._root, "mouseup", this._onMouseUp, this, true);
       mgr.addListener(this._root, "losecapture", this._onLoseCapture, this, true);
     },
@@ -258,7 +255,7 @@ qx.Class.define("qx.event.handler.DragDrop",
       qx.event.Registration.removeListener(window, "blur", this._onWindowBlur, this);
 
       var mgr = this._manager;
-      mgr.removeListener(this._root, "mousedown", this._onMouseDown, this, true);
+      mgr.removeListener(this._root, "mousedown", this._onMouseDown, this);
       mgr.removeListener(this._root, "mouseup", this._onMouseUp, this, true);
       mgr.removeListener(this._root, "losecapture", this._onLoseCapture, this, true);
     },
@@ -286,15 +283,23 @@ qx.Class.define("qx.event.handler.DragDrop",
 
     _onMouseDown : function(e)
     {
+      if (this.__sessionActive) {
+        return;
+      }
+
       var dragable = this.__findDragable(e.getTarget());
       if (dragable)
       {
         this._manager.addListener(this._root, "mousemove", this._onMouseMove, this, true);
 
-        this._startLeft = e.getDocumentLeft();
-        this._startTop = e.getDocumentTop();
-        this.__startTarget = dragable;
+        // Cache coordinates for offset calculation
+        this.__startLeft = e.getDocumentLeft();
+        this.__startTop = e.getDocumentTop();
 
+        // This is the source target
+        this.__sourceTarget = dragable;
+
+        // Rebuild data structures
         this.__types = {};
         this.__actions = {};
       }
@@ -303,12 +308,19 @@ qx.Class.define("qx.event.handler.DragDrop",
 
     _onMouseUp : function(e)
     {
-      if (this.__dropOk)
-      {
-        this.__fireEvent(e, this.__lastTarget, "dragdrop");
+      // Fire dragdrop event in success case
+      if (this.__dropOk) {
+        this.__fireEvent(e, this.__dropTarget, "dragdrop");
       }
 
+      // Stop event
+      if (this.__sessionActive) {
+        e.stopPropagation();
+      }
+
+      // Clean up
       this.__clearSession(e);
+      this.__clearInit();
     },
 
 
@@ -323,13 +335,15 @@ qx.Class.define("qx.event.handler.DragDrop",
       }
       else
       {
-        if (Math.abs(left-this._startLeft) > 3 || Math.abs(top-this._startTop) > 3)
+        if (Math.abs(left-this.__startLeft) > 3 || Math.abs(top-this.__startTop) > 3)
         {
           this.__sessionActive = true;
 
           this._manager.addListener(this._root, "mouseover", this._onMouseOver, this, true);
 
-          this.__fireEvent(e, this.__startTarget, "dragstart");
+          if (this.__sourceTarget) {
+            this.__fireEvent(e, this.__sourceTarget, "dragstart");
+          }
         }
       }
     },
@@ -342,16 +356,16 @@ qx.Class.define("qx.event.handler.DragDrop",
 
       if (dropable)
       {
-        if (dropable != this.__lastTarget)
+        if (dropable != this.__dropTarget)
         {
           this.__dropOk = this.__fireEvent(e, dropable, "dragover");
-          this.__lastTarget = dropable;
+          this.__dropTarget = dropable;
         }
       }
-      else if (this.__lastTarget)
+      else if (this.__dropTarget)
       {
-        this.__fireEvent(e, this.__lastTarget, "dragout");
-        this.__lastTarget = null;
+        this.__fireEvent(e, this.__dropTarget, "dragout");
+        this.__dropTarget = null;
         this.__dropOk = false;
       }
     }
@@ -362,7 +376,7 @@ qx.Class.define("qx.event.handler.DragDrop",
   destruct : function()
   {
     this._stopObserver();
-    this._disposeFields("__dropOk", "__lastTarget", "__startTarget", "__lastTarget");
+    this._disposeFields("__dropOk", "__dropTarget", "__sourceTarget", "__dropTarget");
   },
 
 
