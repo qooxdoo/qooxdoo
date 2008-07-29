@@ -775,6 +775,8 @@ qx.Class.define("qx.html.Element",
             this._applyProperty(key, data[key]);
           }
         }
+        
+        this.__propertyJobs = null;
       }
 
       // Note: Events are directly kept in sync
