@@ -88,8 +88,6 @@ qx.Class.define("demobrowser.DemoBrowser",
     var buttview = this.__makeOutputViews();
     right.add(buttview, {flex:1});
 
-    ////this.widgets["treeview.bsb1"].setChecked(true);
-
     this.__setStateInitialized();
 
     // back button and bookmark support
@@ -178,14 +176,7 @@ qx.Class.define("demobrowser.DemoBrowser",
     __makeCommands : function()
     {
       this._cmdObjectSummary = new qx.event.Command("Ctrl-O");
-      this._cmdObjectSummary.addListener("execute", function() {
-        var cw = this.f1.getContentWindow();
-        if (cw && cw.qx) {
-          alert(cw.qx.dev.ObjectSummary.getInfo());
-        } else {
-          alert("Unable to access Sample namespace currently.");
-        }
-      }, this);
+      this._cmdObjectSummary.addListener("execute", this.__getObjectSummary, this);
 
       this._cmdRunSample = new qx.event.Command("F5");
       this._cmdRunSample.addListener("execute", this.runSample, this);
@@ -197,82 +188,94 @@ qx.Class.define("demobrowser.DemoBrowser",
       this._cmdNextSample.addListener("execute", this.playNext, this);
 
       this._cmdSampleInOwnWindow = new qx.event.Command();
-      this._cmdSampleInOwnWindow.addListener("execute", function(e)
-      {
-        var sampUrl = this.f1.getContentWindow().location.href;
-        window.open(sampUrl, "Sample", "width=700,height=550");
-      }, this);
+      this._cmdSampleInOwnWindow.addListener("execute", this.__sampleInOwnWindow, this);
 
       this._cmdLoadProfile = new qx.event.Command();
-      this._cmdLoadProfile.addListener("execute", function(e)
-      {
-        var checked = e.getData().getChecked();
-        this._useProfile = checked;
-        this.runSample();
-      }, this);
+      this._cmdLoadProfile.addListener("execute", this.__loadProfile, this);
 
       this._cmdProfile = new qx.event.Command("Ctrl-Shift-P");
-      this._cmdProfile.addListener("execute", function(e)
-      {
-        var checked = e.getData().getChecked();
-        var cw = this.f1.getContentWindow();
-        if (cw && cw.qx) {
-          if (checked) {
-            cw.qx.dev.Profile.start();
-          } else {
-            cw.qx.dev.Profile.stop();
-            cw.qx.dev.Profile.normalizeProfileData();
-            this.showProfile(cw.qx.dev.Profile.getProfileData());
-            this._cmdShowLastProfile.setEnabled(true);
-          }
-        }
-        this._cmdProfile.setEnabled(false);
-        this.widgets["toolbar.profile"].setChecked(checked)
-        this.widgets["menu.profile"].setChecked(checked);
-        this._cmdProfile.setEnabled(true);
-      }, this);
+      this._cmdProfile.addListener("execute", this.__toggleProfile, this);
       this._cmdProfile.setUserData("checked", true);
 
       this._cmdShowLastProfile = new qx.event.Command();
-      this._cmdShowLastProfile.addListener("execute", function() {
-        var cw = this.f1.getContentWindow();
-        if (cw && cw.qx) {
-          cw.qx.dev.Profile.normalizeProfileData();
-          this.showProfile(cw.qx.dev.Profile.getProfileData());
-        }
-      }, this);
+      this._cmdShowLastProfile.addListener("execute", this.__showLastProfile, this);
 
       this._cmdDisposeSample = new qx.event.Command();
-      this._cmdDisposeSample.addListener("execute", function(e) {
-        var cw = this.f1.getContentWindow();
-
-        if (cw && cw.qx)
-        {
-          cw.qx.core.Object.dispose();
-          alert("Done!");
-        }
-        else
-        {
-          alert("Unable to access Sample namespace currently.");
-        }
-        this._cmdDisposeSample.setEnabled(false);
-      }, this);
+      this._cmdDisposeSample.addListener("execute", this.__disposeSample, this);
 
       this._cmdNamespacePollution = new qx.event.Command();
-      this._cmdNamespacePollution.addListener("execute", function(e)
-      {
-        var cw = this.f1.getContentWindow();
-
-        if (cw && cw.qx) {
-          alert(cw.qx.dev.Pollution.getInfo());
-        } else {
-          alert("Unable to access Sample namespace currently.");
-        }
-      }, this);
+      this._cmdNamespacePollution.addListener("execute", this.__showPollution, this);
 
     }, //makeCommands
 
+    __getObjectSummary : function()
+    {
+      var cw = this.f1.getWindow();
+      if (cw && cw.qx) {
+        alert(cw.qx.dev.ObjectSummary.getInfo());
+      } else {
+        alert("Unable to access Sample namespace currently.");
+      }
+    },
 
+    __sampleInOwnWindow : function()
+    {
+      var sampUrl = this.f1.getWindow().location.href;
+      window.open(sampUrl, "Sample", "width=700,height=550");
+    },
+
+    __loadProfile : function(e)
+    {
+      var checked = e.getData().getChecked();
+      this._useProfile = checked;
+      this.runSample();
+    },
+    
+    __toggleProfile : function(e)
+    {
+      var checked = e.getData().getChecked();
+      var cw = this.f1.getWindow();
+      if (cw && cw.qx) {
+        if (checked) {
+          cw.qx.dev.Profile.start();
+        } else {
+          cw.qx.dev.Profile.stop();
+          cw.qx.dev.Profile.normalizeProfileData();
+          this.showProfile(cw.qx.dev.Profile.getProfileData());
+          this._cmdShowLastProfile.setEnabled(true);
+        }
+      }
+      this._cmdProfile.setEnabled(false);
+      this.widgets["toolbar.profile"].setChecked(checked)
+      this.widgets["menu.profile"].setChecked(checked);
+      this._cmdProfile.setEnabled(true);
+    },
+    
+    __showLastProfile : function()
+    {
+      var cw = this.f1.getWindow();
+      if (cw && cw.qx) {
+        cw.qx.dev.Profile.normalizeProfileData();
+        this.showProfile(cw.qx.dev.Profile.getProfileData());
+      }
+    },
+
+    __disposeSample : function(e)
+    {
+      var cw = this.f1.getWindow();
+
+      if (cw && cw.qx)
+      {
+        cw.qx.core.Object.dispose();
+        alert("Done!");
+      }
+      else
+      {
+        alert("Unable to access Sample namespace currently.");
+      }
+      this._cmdDisposeSample.setEnabled(false);
+    },
+    
     __setStateInitialized : function()
     {
       this._cmdObjectSummary.setEnabled(false);
@@ -286,7 +289,17 @@ qx.Class.define("demobrowser.DemoBrowser",
       this._cmdNamespacePollution.setEnabled(false);
       this.widgets["toolbar.playall"].setEnabled(true);
     },
+    
+    __showPollution : function(e)
+    {
+      var cw = this.f1.getWindow();
 
+      if (cw && cw.qx) {
+        alert(cw.qx.dev.Pollution.getInfo());
+      } else {
+        alert("Unable to access Sample namespace currently.");
+      }
+    },
 
     __setStateLoading : function()
     {
@@ -302,10 +315,8 @@ qx.Class.define("demobrowser.DemoBrowser",
     {
       this.__states.isLoading = false;
       this.widgets["toolbar.playall"].setEnabled(true);
-////      this.widgets["outputviews.bar"].resetEnabled();
       this.widgets["outputviews.demopage.page"].resetEnabled();
       this.widgets["outputviews"].resetEnabled();
-////      this.widgets["treeview"].resetEnabled();
     },
 
 
@@ -363,14 +374,12 @@ qx.Class.define("demobrowser.DemoBrowser",
             {
               label : "Load demos with profiling",
               type : "CheckBox",
-              checked : false,
-              command : this._cmdLoadProfile
+              checked : false
             },
             {
               label : "Profile",
               type : "CheckBox",
               checked : this._cmdProfile.getUserData("checked"),
-              command : this._cmdProfile,
               id : "menu.profile"
             },
             {
@@ -464,16 +473,6 @@ qx.Class.define("demobrowser.DemoBrowser",
     }, //makeMenuBar
 
 
-    __bindCommand: function(widget, command)
-    {
-      console.info(arguments)
-      ////widget.setCommand(command);
-      command.addListener("changeEnabled", function(e) {
-        widget.setEnabled(e.getData());
-      });
-    },
-
-
     /**
      * TODOC
      *
@@ -495,7 +494,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       this.runbutton.setShow("icon");
       mb.add(this.runbutton);
       this.widgets["toolbar.runbutton"] = this.runbutton;
-      this.__bindCommand(this.runbutton, this._cmdRunSample);
+      this.runbutton.addListener("execute", this.runSample, this);
       this.runbutton.setToolTip(new qx.ui.tooltip.ToolTip("Run/reload selected sample"));
 
       // -- playall button
@@ -511,7 +510,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       prevbutt.setShow("icon");
       mb.add(prevbutt);
       this.widgets["toolbar.prevbutt"] = prevbutt;
-      this.__bindCommand(prevbutt, this._cmdPrevSample);
+      prevbutt.addListener("execute", this.playPrev, this);
       prevbutt.setToolTip(new qx.ui.tooltip.ToolTip("Run the previous sample"));
 
       // -- next navigation
@@ -519,7 +518,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       nextbutt.setShow("icon");
       mb.add(nextbutt);
       this.widgets["toolbar.nextbutt"] = nextbutt;
-      this.__bindCommand(nextbutt, this._cmdNextSample);
+      nextbutt.addListener("execute", this.playNext, this);
       nextbutt.setToolTip(new qx.ui.tooltip.ToolTip("Run the next sample"));
 
       // -- spin-out sample
@@ -528,7 +527,8 @@ qx.Class.define("demobrowser.DemoBrowser",
       mb.add(sobutt);
       this.widgets["toolbar.sobutt"] = sobutt;
       sobutt.setToolTip(new qx.ui.tooltip.ToolTip("Open Sample in Own Window"));
-      this.__bindCommand(sobutt, this._cmdSampleInOwnWindow);
+      sobutt.addListener("execute", this.__sampleInOwnWindow, this);
+
 
       toolbar.addSpacer();
 
@@ -544,7 +544,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       sb0.setShow("icon");
       gb.add(sb0);
 
-      this.__bindCommand(sb0, this._cmdProfile);
+      sobutt.addListener("execute", this.__toggleProfile, this);
       sb0.setToolTip(new qx.ui.tooltip.ToolTip("Profile Running Sample"));
       this.widgets["toolbar.profile"] = sb0;
 
@@ -552,7 +552,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       var sb1 = new qx.ui.toolbar.Button("Object Summary", "icon/16/apps/graphics-viewer.png");
       gb.add(sb1);
 
-      this.__bindCommand(sb1, this._cmdObjectSummary)
+      sb1.addListener("execute", this.__getObjectSummary, this);
       sb1.setToolTip(new qx.ui.tooltip.ToolTip("Sample Object Summary"));
       sb1.setShow("icon");
 
@@ -560,7 +560,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       var sb2 = new qx.ui.toolbar.Button("Global Pollution", "icon/16/apps/internet-web-browser.png");
       sb2.setShow("icon");
       gb.add(sb2);
-      this.__bindCommand(sb2, this._cmdNamespacePollution)
+      sb2.addListener("execute", this.__showPollution, this);
 
       sb2.setToolTip(new qx.ui.tooltip.ToolTip("Sample Global Pollution"));
 
@@ -639,9 +639,6 @@ qx.Class.define("demobrowser.DemoBrowser",
 
       this.widgets["outputviews"] = tabview;
 
-////this.widgets["outputviews.bar"] = tabview.getBar();
-////  this.widgets["outputviews.demopage.button"] = bsb1;
-
       // First Page
       var p1 = new qx.ui.tabview.Page("Start", "icon/16/actions/system-run.png");
       p1.setLayout(new qx.ui.layout.Grow);
@@ -665,7 +662,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       p2.add(this.f2);
 
       // Create appender and unregister from this logger
-      // (we are interesed in demo messages only)
+      // (we are interested in demo messages only)
       this.logappender = new qx.log.appender.Element();
       qx.log.Logger.unregister(this.logappender);
 
@@ -961,21 +958,9 @@ qx.Class.define("demobrowser.DemoBrowser",
       }
 
       // -- Vars and Setup -----------------------
-////      this.widgets["outputviews.bar"].getManager().setSelected(this.widgets["outputviews.demopage.button"]);
-      //this.widgets["outputviews.demopage.page"].setEnabled(false);
+      this.widgets["outputviews.demopage.page"].setEnabled(false);
 
       this.__setStateLoading();
-/*
-      var iDoc = this.widgets["outputviews.demopage.page"].getContentDocument();
-      if (iDoc)
-      {
-        try {
-          iDoc.body.innerHTML = "";
-        } catch(ex) {}
-      }
-*/
-      //this.widgets["outputviews.bar"].setEnabled(false);
-      //this.widgets["outputviews"].setEnabled(false);
 
       var url;
       var treeNode = this._sampleToTreeNodeMap[value];
@@ -994,8 +979,6 @@ qx.Class.define("demobrowser.DemoBrowser",
       {
         url = this.defaultUrl;
       }
-      // disable tree *after* setSelectedElement
-      //this.widgets["treeview"].setEnabled(false);
 
       // Clear log
       this.logappender.clear();
@@ -1090,8 +1073,6 @@ qx.Class.define("demobrowser.DemoBrowser",
         // if nothing is selected
         var tabName = "Start";
       }
-      ////this.widgets["outputviews.demopage.button"].setLabel(tabName);
-      // this.widgets["outputviews.demopage.button"].setLabel(this.polish(path[path.length - 1]));
 
       if (this.isPlayAll())
       {
@@ -1130,12 +1111,9 @@ qx.Class.define("demobrowser.DemoBrowser",
         this.widgets["toolbar.runbutton"].execute();
       } else                  // end playing all
       {
-        /*
-        if (this.__states.isLoading)
-        {
+        if (this.__states.isLoading) {
           this.widgets["toolbar.playall"].setEnabled(false);
         }
-        */
         this.setPlayAll(false);
       }
     },
@@ -1291,7 +1269,7 @@ qx.Class.define("demobrowser.DemoBrowser",
 
         if (otherSamp)
         {
-          this.tree.setSelectedElement(otherSamp);
+          this.tree.select(otherSamp);
           this.runSample();
         }
       }
@@ -1311,11 +1289,16 @@ qx.Class.define("demobrowser.DemoBrowser",
 
       if (currSamp)
       {
-        var otherSamp = currSamp.getUserData('modelLink').getNextSibling().widgetLinkFull;
+        try{
+          var otherSamp = currSamp.getUserData('modelLink').getNextSibling().widgetLinkFull;
+        }catch(e)
+        {
+          debugger;
+        }
 
         if (otherSamp)
         {
-          this.tree.setSelectedElement(otherSamp);
+          this.tree.select(otherSamp);
           this.runSample();
         }
       }
