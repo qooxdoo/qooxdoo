@@ -150,7 +150,7 @@ qx.Class.define("qx.ui.table.Table",
     this._setLayout(new qx.ui.layout.VBox());
 
     // Create the child widgets
-    this._scrollerParent = new qx.ui.container.Composite(new qx.ui.layout.HBox(1));
+    this._scrollerParent = new qx.ui.container.Composite(new qx.ui.layout.HBox());
     this._statusBar = this._getChildControl("statusbar");
 
     this._add(this._scrollerParent, {flex: 1});
@@ -188,7 +188,7 @@ qx.Class.define("qx.ui.table.Table",
     var spacer = new qx.ui.core.Widget().set({
       height: 0
     });
-    this._add(spacer)
+    this._add(spacer);
     spacer.addListener("resize", this._onResize, this);
 
     this._focusedCol = 0;
