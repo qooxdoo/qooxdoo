@@ -766,18 +766,24 @@ qx.Class.define("demobrowser.DemoBrowser",
       {
         this._cmdRunSample.setEnabled(true);
 
-        if (treeNode.getUserData('modelLink').getPrevSibling()) {
+        if (treeNode.getUserData('modelLink').getPrevSibling())
+        {
           this._cmdPrevSample.setEnabled(true);
           this.__states.isFirstSample=false;
-        } else {
+        }
+        else
+        {
           this._cmdPrevSample.setEnabled(false);
           this.__states.isFirstSample=true;
         }
 
-        if (treeNode.getUserData('modelLink').getNextSibling()) {
+        if (treeNode.getUserData('modelLink').getNextSibling())
+        {
           this._cmdNextSample.setEnabled(true);
           this.__states.isLastSample=false;
-        } else {
+        }
+        else
+        {
           this._cmdNextSample.setEnabled(false);
           this.__states.isLastSample=true;
         }
@@ -798,6 +804,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       this._sampleToTreeNodeMap = {};
       var _sampleToTreeNodeMap = this._sampleToTreeNodeMap;
       var _initialSection    = "widget";
+      var _initialNode = null;
 
       // set a section to open initially
       var state   = this._history.getState();
@@ -834,7 +841,9 @@ qx.Class.define("demobrowser.DemoBrowser",
 
             buildSubTree(t, t.getUserData("node"));
 
-            if (currNode.label == _initialSection) {
+            if (currNode.label == _initialSection)
+            {
+              _initialNode = t;
               t.setOpen(true);
             }
           }
@@ -851,9 +860,6 @@ qx.Class.define("demobrowser.DemoBrowser",
           t.setUserData("modelLink", currNode);
           currNode.widgetLinkFull = t;
 
-          if (that.tests.handler.getFullName(currNode) == that.tests.selected) {
-            selectedElement = currNode;
-          }
         }
       }
 
@@ -862,54 +868,15 @@ qx.Class.define("demobrowser.DemoBrowser",
       var that = this;
 
       // Handle current Tree Selection and Content
-      var fulltree = this.tree;
-      var flattree = this.widgets["treeview.flat"];
-      var trees = [ fulltree, flattree ];
-
       this.tree.setUserData("modelLink", ttree);  // link top level widgets and model
-
-      var selectedElement = null;  // if selection exists will be set by
 
       this.tree.getRoot().setOpen(true)
       buildSubTree(this.tree.getRoot(), ttree);
 
-      // select tree element and open if folder
-      /*
-      if (selectedElement.widgetLinkFull)
-      {
-        this.tree.setSelectedElement(selectedElement.widgetLinkFull);
-
-        if (selectedElement.widgetLinkFull instanceof qx.ui.tree.TreeFolder) {
-          selectedElement.widgetLinkFull.open();
-        }
+      if (_initialNode != null) {
+        this.tree.select(_initialNode);
       }
-      */
 
-      // Re-enable and Re-select
-      ////this.widgets["treeview"].setEnabled(true);
-/*
-      if (selectedElement)  // try to re-select previously selected element
-      {
-        // select tree element and open if folder
-        if (selectedElement.widgetLinkFull)
-        {
-          this.tree.setSelectedElement(selectedElement.widgetLinkFull);
-
-          if (selectedElement.widgetLinkFull instanceof qx.ui.tree.TreeFolder) {
-            selectedElement.widgetLinkFull.open();
-          }
-        }
-
-        if (selectedElement.widgetLinkFlat)
-        {
-          this.widgets["treeview.flat"].setSelectedElement(selectedElement.widgetLinkFlat);
-
-          if (selectedElement.widgetLinkFlat instanceof qx.ui.tree.TreeFolder) {
-            selectedElement.widgetLinkFlat.open();
-          }
-        }
-      }
-*/
     },  // leftReloadTree
 
 
@@ -922,21 +889,8 @@ qx.Class.define("demobrowser.DemoBrowser",
      */
     runSample : function(e)
     {
-      // -- Feasibility Checks -----------------
-      if (!this.tests.selected) {
-        return;
-      }
-
-      if (!this.widgets["toolbar.runbutton"].isEnabled()) {
-        return;
-      }
-
-      if (true)
-      {
-        var file = this.tests.selected.replace(".", "/");
-
-        this.setCurrentSample(file);
-      }
+      var file = this.tests.selected.replace(".", "/");
+      this.setCurrentSample(file);
     },  // runSample()
 
 
@@ -949,6 +903,7 @@ qx.Class.define("demobrowser.DemoBrowser",
      */
     setCurrentSample : function(value)
     {
+
       if (!value) {
         return;
       }
@@ -987,6 +942,9 @@ qx.Class.define("demobrowser.DemoBrowser",
 
       this._currentSample = value;
       this._currentSampleUrl = url;
+      
+      // Focus first tab
+      this.widgets["outputviews"].setSelected(this.widgets["outputviews"].getChildren()[0]);
     },  // setCurrentSample
 
 
@@ -1067,12 +1025,8 @@ qx.Class.define("demobrowser.DemoBrowser",
       }
 
       this.__setStateLoaded();
-      try {
-        var tabName = this.tree.getSelectedElement().getLabel()
-      } catch (e) {
-        // if nothing is selected
-        var tabName = "Start";
-      }
+      var tabName = this.tree.getSelectedItem().getLabel();
+      this.widgets["outputviews"].getChildren()[0].setLabel(tabName);
 
       if (this.isPlayAll())
       {
@@ -1234,7 +1188,6 @@ qx.Class.define("demobrowser.DemoBrowser",
 
           if (state) {
             this.setCurrentSample(state.replace("~", "/"));
-            //this.widgets["treevi"].setSelectedElement()//TODO: this is a kludge!
           } else {
             this.setCurrentSample(this.defaultUrl);
           }
@@ -1293,7 +1246,7 @@ qx.Class.define("demobrowser.DemoBrowser",
           var otherSamp = currSamp.getUserData('modelLink').getNextSibling().widgetLinkFull;
         }catch(e)
         {
-          debugger;
+          this.debug(e)
         }
 
         if (otherSamp)
