@@ -28,7 +28,7 @@ qx.Class.define("qx.ui.form.List",
 {
   extend : qx.ui.core.ScrollArea,
   implement : qx.ui.form.IFormElement,
-  include : [ qx.ui.core.MRemoteChildrenHandling, qx.ui.core.MSelectionHandling ],
+  include : [qx.ui.core.MRemoteChildrenHandling, qx.ui.core.MSelectionHandling],
 
 
 
@@ -269,7 +269,6 @@ qx.Class.define("qx.ui.form.List",
      * Applied new selection from a comma separated list of values (labels
      * as fallback) of the list items.
      *
-     * @type member
      * @param value {String} Comma separated list
      */
     setValue : function(value)
@@ -307,7 +306,6 @@ qx.Class.define("qx.ui.form.List",
      * Used to route external <code>keypress</code> events to the list
      * handling (in fact the manager of the list)
      *
-     * @type member
      * @param e {qx.event.type.KeyEvent} KeyPress event
      * @return {void}
      */
@@ -387,8 +385,6 @@ qx.Class.define("qx.ui.form.List",
     /**
      * Reacts on change event to fire a changeValue event with the
      * value given through {@link #getValue}.
-     *
-     * @type member
      */
     _onChangeSelection : function()
     {

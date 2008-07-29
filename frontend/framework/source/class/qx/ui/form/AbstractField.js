@@ -240,7 +240,7 @@ qx.Class.define("qx.ui.form.AbstractField",
     		var font = qx.theme.manager.Font.getInstance().resolve(value);
     		styles = font.getStyles();
     	}
-    	else 
+    	else
     	{
     		styles = qx.bom.Font.getDefaultStyles()
     	}
@@ -325,12 +325,12 @@ qx.Class.define("qx.ui.form.AbstractField",
       TEXTFIELD SELECTION API
     ---------------------------------------------------------------------------
     */
-    
+
     /**
      * Returns the current selection.
      * This method only works if the widget is already created and
      * added to the document.
-     * 
+     *
      * @type member
      * @return {String|null}
      */
@@ -339,49 +339,44 @@ qx.Class.define("qx.ui.form.AbstractField",
       return this.getContentElement().getSelection();
     },
 
-    
+
     /**
      * Returns the current selection length.
      * This method only works if the widget is already created and
      * added to the document.
-     * 
+     *
      * @type member
      * @return {Integer|null}
      */
-    getSelectionLength : function()
-    {
+    getSelectionLength : function() {
       return this.getContentElement().getSelectionLength();
     },
-    
-    
+
+
     /**
      * Set the selection to the given start and end (zero-based).
-     * If no end value is given the selection will extend to the 
+     * If no end value is given the selection will extend to the
      * end of the textfield's content.
      * This method only works if the widget is already created and
      * added to the document.
-     * 
-     * @type member
+     *
      * @param start {Integer} start of the selection (zero-based)
      * @param end {Integer} end of the selection
      * @return {void}
      */
-    setSelection : function(start, end)
-    {
+    setSelection : function(start, end) {
       this.getContentElement().setSelection(start, end);
     },
-    
-    
+
+
     /**
      * Clears the current selection.
      * This method only works if the widget is already created and
      * added to the document.
-     * 
-     * @type member
+     *
      * @return {void}
      */
-    clearSelection : function()
-    {
+    clearSelection : function() {
       this.getContentElement().clearSelection();
     },
 
