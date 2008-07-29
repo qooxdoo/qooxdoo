@@ -203,7 +203,7 @@ qx.Bootstrap.define("qx.event.Manager",
       {
         if (target == null)
         {
-          this.trace();
+          qx.log.Logger.trace(this);
           throw new Error("Invalid object: " + target);
         }
       }
@@ -248,7 +248,7 @@ qx.Bootstrap.define("qx.event.Manager",
       {
         if (target == null)
         {
-          this.trace();
+          qx.log.Logger.trace(this);
           throw new Error("Invalid object: " + target);
         }
       }
