@@ -65,6 +65,10 @@ qx.Theme.define("qx.theme.classic.Color",
     "window-active-caption" : [ 51, 94, 168 ],
     "window-inactive-caption" : [ 111, 161, 217 ],
 
+    "date-chooser" : "white",
+    "date-chooser-title" : [ 116, 116, 116 ],
+    "date-chooser-selected" : [ 52, 52, 52 ],
+
     "effect" : [ 254, 200, 60 ],
     "table-pane" : "white",
     "table-header" : [ 242, 242, 242 ],
