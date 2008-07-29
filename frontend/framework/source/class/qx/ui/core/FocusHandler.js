@@ -108,6 +108,16 @@ qx.Class.define("qx.ui.core.FocusHandler",
     },
 
 
+    /**
+     * Whether the given widgets acts as a focus root.
+     *
+     * @param widget {qx.ui.core.Widget} The widget to check
+     */
+    isFocusRoot : function(widget) {
+      !!this.__roots[widget.$$hash];
+    },
+
+
 
 
 
@@ -435,7 +445,7 @@ qx.Class.define("qx.ui.core.FocusHandler",
           continue;
         }
 
-        if (!child.isFocusRoot() && child.isEnabled())
+        if (!this.isFocusRoot(child) && child.isEnabled())
         {
           if (child.isTabable() && this.__compareTabOrder(widget, child) < 0) {
             result.push(child);
@@ -472,7 +482,7 @@ qx.Class.define("qx.ui.core.FocusHandler",
           continue;
         }
 
-        if (!child.isFocusRoot() && child.isEnabled())
+        if (!this.isFocusRoot(child) && child.isEnabled())
         {
           if (child.isTabable() && this.__compareTabOrder(widget, child) > 0) {
             result.push(child);
@@ -507,7 +517,7 @@ qx.Class.define("qx.ui.core.FocusHandler",
         }
 
         // Ignore focus roots completely
-        if (!child.isFocusRoot() && child.isEnabled())
+        if (!this.isFocusRoot(child) && child.isEnabled())
         {
           if (child.isTabable())
           {
@@ -548,7 +558,7 @@ qx.Class.define("qx.ui.core.FocusHandler",
         }
 
         // Ignore focus roots completely
-        if (!child.isFocusRoot() && child.isEnabled())
+        if (!this.isFocusRoot(child) && child.isEnabled())
         {
           if (child.isTabable())
           {
