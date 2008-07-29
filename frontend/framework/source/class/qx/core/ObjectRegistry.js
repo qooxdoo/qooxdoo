@@ -106,6 +106,15 @@ qx.Bootstrap.define("qx.core.ObjectRegistry",
      */
     toHashCode : function(obj)
     {
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        if (obj == null)
+        {
+          qx.log.Logger.trace(this);
+          throw new Error("Invalid object: " + obj);
+        }
+      }
+
       if (obj.$$hash != null) {
         return obj.$$hash;
       }
@@ -178,7 +187,7 @@ qx.Bootstrap.define("qx.core.ObjectRegistry",
 
       delete this.__registry;
     },
-    
+
     /**
      * Returns the object registry.
      *
@@ -186,7 +195,7 @@ qx.Bootstrap.define("qx.core.ObjectRegistry",
      * @return {Object} The registry
      */
     getRegistry : function() {
-     return this.__registry; 
+     return this.__registry;
     }
   }
 });

@@ -199,6 +199,15 @@ qx.Bootstrap.define("qx.event.Manager",
      */
     hasListener : function(target, type, capture)
     {
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        if (target == null)
+        {
+          this.trace();
+          throw new Error("Invalid object: " + target);
+        }
+      }
+
       var targetKey = qx.core.ObjectRegistry.toHashCode(target);
       var targetMap = this.__listeners[targetKey];
 
@@ -235,6 +244,15 @@ qx.Bootstrap.define("qx.event.Manager",
      */
     importListeners : function(target, list)
     {
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        if (target == null)
+        {
+          this.trace();
+          throw new Error("Invalid object: " + target);
+        }
+      }
+
       var targetKey = qx.core.ObjectRegistry.toHashCode(target);
       var targetMap = this.__listeners[targetKey] = {};
 
