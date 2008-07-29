@@ -266,7 +266,7 @@ qx.Class.define("demobrowser.DemoBrowser",
 
       if (cw && cw.qx)
       {
-        cw.qx.core.Object.dispose();
+        cw.qx.core.ObjectRegistry.shutdown();
         alert("Done!");
       }
       else
