@@ -21,6 +21,7 @@
 /* ************************************************************************
 
 #use(qx.ui.core.EventHandler)
+#use(qx.event.handler.DragDrop)
 
 ************************************************************************ */
 
@@ -602,13 +603,18 @@ qx.Class.define("qx.ui.core.Widget",
       apply : "_applyKeepActive"
     },
 
-
-    /** Whether the widget functions as a focus root */
-    focusRoot :
+    dragable :
     {
       check : "Boolean",
       init : false,
-      apply : "_applyFocusRoot"
+      apply : "_applyDragable"
+    },
+
+    dropable :
+    {
+      check : "Boolean",
+      init : false,
+      apply : "_applyDropable"
     },
 
 
@@ -2612,11 +2618,23 @@ qx.Class.define("qx.ui.core.Widget",
     },
 
 
-    // property apply
-    _applyFocusRoot : function(value, old)
+    _applyDragable : function(value, old)
     {
+      this.debug("Dragable: " + value);
 
+      this._containerElement.setAttribute("qxDragable", value ? "on" : null);
     },
+
+
+    _applyDropable : function(value, old)
+    {
+      this.debug("Dropable: " + value);
+
+      this._containerElement.setAttribute("qxDropable", value ? "on" : null);
+    },
+
+
+
 
 
 
@@ -2767,6 +2785,16 @@ qx.Class.define("qx.ui.core.Widget",
       // Default behavior is to allow drop only if not dropping onto self
       return (this != dragCache.sourceWidget);
     },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      DRAG AND DROP SUPPORT NG
+    ---------------------------------------------------------------------------
+    */
+
 
 
 

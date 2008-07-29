@@ -27,8 +27,6 @@ qx.Class.define("qx.event.type.Drag",
   extend : qx.event.type.Mouse,
 
 
-
-
   /*
   *****************************************************************************
      MEMBERS
@@ -37,59 +35,12 @@ qx.Class.define("qx.event.type.Drag",
 
   members :
   {
-    // overridden
-    clone : function(embryo)
-    {
-      var clone = this.base(arguments, embryo);
-
-      clone._dragOffsetLeft = this._dragOffsetLeft;
-      clone._dragOffsetTop = this._dragOffsetTop;
-
-      return clone;
+    __getManager : function() {
+      return qx.event.Registration.getManager(this.getTarget()).getHandler(qx.event.handler.DragDrop);
     },
 
-
-    /**
-     * Get the difference between the current left mouse position and the mouse
-     * position at drag start.
-     *
-     * @return {Integer} The left drag offset.
-     */
-    getDragOffsetLeft : function() {
-      return this._dragOffsetLeft;
-    },
-
-
-    /**
-     * Set the difference between the current left mouse position and the mouse
-     * position at drag start.
-     *
-     * @param dragOffsetLeft {Integer} The left drag offset.
-     */
-    setDragOffsetLeft : function(dragOffsetLeft) {
-      this._dragOffsetLeft = dragOffsetLeft;
-    },
-
-
-    /**
-     * Get the difference between the current top mouse position and the mouse
-     * position at drag start.
-     *
-     * @return {Integer} The top drag offset.
-     */
-    getDragOffsetTop : function() {
-      return this._dragOffsetTop;
-    },
-
-
-    /**
-     * Set the difference between the current top mouse position and the mouse
-     * position at drag start.
-     *
-     * @param dragOffsetTop {Integer} The top drag offset.
-     */
-    setDragOffsetTop : function(dragOffsetTop) {
-      this._dragOffsetTop = dragOffsetTop;
+    getData : function(mimeType) {
+      return this.__getManager().getData(mimeType);
     }
   }
 });

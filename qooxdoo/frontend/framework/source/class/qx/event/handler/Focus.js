@@ -68,6 +68,7 @@ qx.Class.define("qx.event.handler.Focus",
     this._root = this._document.documentElement;
     this._body = this._document.body;
 
+    // Initialize
     this._initObserver();
   },
 

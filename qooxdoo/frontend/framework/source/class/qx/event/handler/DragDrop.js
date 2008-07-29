@@ -18,6 +18,14 @@
 
 ************************************************************************ */
 
+/* ************************************************************************
+
+#require(qx.event.handler.Mouse)
+#require(qx.event.handler.Keyboard)
+#require(qx.event.handler.Capture)
+
+************************************************************************ */
+
 /**
  * Event handler, which supports drag events on DOM elements.
  */
@@ -45,10 +53,12 @@ qx.Class.define("qx.event.handler.DragDrop",
     // Define shorthands
     this._manager = manager;
     this._window = manager.getWindow();
+    this._root = this._window.document.documentElement;
 
-    this.__draggableElements = {};
-    this.__droppableElements = {};
+    // Initialize
+    this._initObserver();
   },
+
 
 
 
@@ -66,20 +76,18 @@ qx.Class.define("qx.event.handler.DragDrop",
     /** {Map} Supported event types */
     SUPPORTED_TYPES :
     {
-      "dragstart": true,
-      "drag": true,
-      "dragend": true,
-      "dragenter": true,
-      "dragleave": true,
-      "drop" : true
+      dragstart : 1,
+      dragend : 1,
+      dragover : 1,
+      dragout : 1,
+      dragdrop : 1
     },
-
-    /** {Integer} Which target check to use */
-    TARGET_CHECK : qx.event.IEventHandler.TARGET_DOMNODE,
 
     /** {Integer} Whether the method "canHandleEvent" must be called */
     IGNORE_CAN_HANDLE : true
   },
+
+
 
 
 
@@ -91,393 +99,187 @@ qx.Class.define("qx.event.handler.DragDrop",
 
   members :
   {
-    /** {Map} Events dispatched on the dragged element */
-    __sourceEventTypes : {
-      "dragstart": true,
-      "drag": true,
-      "dragend": true
-    },
-
-
-    /** {Map} events dispatched on the drag target */
-    __targetEventTypes : {
-      "dragenter": true,
-      "dragleave": true,
-      "drop" : true
-    },
-
-
-    __eventTypes :
-    {
-      "dragstart": true,
-      "drag": true,
-      "dragenter": true,
-      "dragleave": true,
-      "drop" : true,
-      "dragend": true
-    },
-
-
-    /** {Map} information about all dragable DOM elements */
-    __draggableElements : null,
-
-
-    /** {Map} information about all droppable elements */
-   __droppableElements : null,
-
-
-    /**
-     * Enable drag events for the given element
-     *
-     * @param element {Element} DOM element to enable drag events for
-     * @param minDragOffset {Integer} The minimum amount of pixel the curser has
-     *     to move from the drag start position before drag events are fired.
-     */
-    __enableDragEvents : function(element, minDragOffset)
-    {
-      var dragData = {
-        element: element,
-        minDragOffset: minDragOffset == null ? 1 : minDragOffset,
-        target: null
-      }
-
-      dragData.mousedownHandler = qx.lang.Function.bind(this._onMousedown, this, dragData);
-      dragData.mouseupHandler = qx.lang.Function.bind(this._onMouseup, this, dragData);
-      dragData.mousemoveHandler = qx.lang.Function.bind(this._onMousemove, this, dragData);
-      dragData.loosecaptureHandler = qx.lang.Function.bind(this._onLoosecapture, this, dragData);
-
-      var elementKey = qx.core.ObjectRegistry.toHashCode(element);
-      this.__draggableElements[elementKey] = dragData;
-
-      this._manager.addListener(element, "mousedown", dragData.mousedownHandler);
-      this._manager.addListener(element, "mouseup", dragData.mouseupHandler);
-      this._manager.addListener(element, "losecapture", dragData.loosecaptureHandler);
-    },
-
-
-    /**
-     * Disable the drag events for the given element
-     *
-     * @param element {Element} the DOM element to disable drag events for.
-     */
-    __disableDragEvents : function(element)
-    {
-      var elementKey = qx.core.ObjectRegistry.toHashCode(element);
-      var dragData = this.__draggableElements[elementKey];
-
-      if (!dragData) {
-        return;
-      }
-
-      this._manager.removeListener(element, "mousedown", dragData.mousedownHandler);
-      this._manager.removeListener(element, "mouseup", dragData.mouseupHandler);
-      this._manager.removeListener(element, "mousemove", dragData.mousemoveHandler);
-      this._manager.removeListener(element, "losecapture", dragData.loosecaptureHandler);
-      delete(this.__draggableElements[elementKey]);
-    },
-
+    /*
+    ---------------------------------------------------------------------------
+      EVENT HANDLER INTERFACE
+    ---------------------------------------------------------------------------
+    */
 
     // interface implementation
     canHandleEvent : function(target, type) {},
 
 
     // interface implementation
-    registerEvent : function(target, type, capture)
-    {
-      var elementKey = qx.core.ObjectRegistry.toHashCode(target);
-
-      if (this.__sourceEventTypes[type])
-      {
-        var dragData = this.__draggableElements[elementKey];
-
-        if (!dragData) {
-          this.__enableDragEvents(target, 1);
-        }
-      }
-      else
-      {
-        this.__droppableElements[elementKey] = target;
-      }
+    registerEvent : function(target, type, capture) {
+      // Nothing needs to be done here
     },
 
 
     // interface implementation
-    unregisterEvent : function(target, type, capture)
-    {
-      var elementKey = qx.core.ObjectRegistry.toHashCode(target);
-      var dragData = this.__draggableElements[elementKey];
-
-      if (dragData)
-      {
-        var removeDragEvents = true;
-        for (var dragtype in this.__eventTypes)
-        {
-          if (dragtype == type) {
-            continue;
-          }
-          if (this._manager.hasListener(target, dragtype, capture)) {
-            removeDragEvents = false;
-            break;
-          }
-        }
-        if (removeDragEvents)
-        {
-          if (this.__sourceEventTypes[type]) {
-            this.__disableDragEvents(target);
-          } else {
-            delete this.__droppableElements[elementKey]
-          }
-
-        }
-      }
+    unregisterEvent : function(target, type, capture) {
+      // Nothing needs to be done here
     },
 
 
-    /**
-     * Creates a drag event object from a mouse event
-     *
-     * @param type {String} the event type (name)
-     * @param mouseEvent {qx.event.type.Mouse} The mouse event the drag event
-     *     should be based on
-     * @param dragOffsetLeft {Integer} The difference between the current left mouse
-     *     position and the mouse position at drag start.
-     * @param dragOffsetTop {Integer} The difference between the current top mouse
-     *     position and the mouse position at drag start.
-     * @return {qx.event.type.Drag} The configure drag event
-     */
-    __createDragEvent : function(type, mouseEvent, dragOffsetLeft, dragOffsetTop)
+
+    /*
+    ---------------------------------------------------------------------------
+      CUSTOM FEATURES
+    ---------------------------------------------------------------------------
+    */
+
+    __fireEvent : function(original, target, type, bubbles)
     {
-      var dragEvent = qx.event.Pool.getInstance().getObject(qx.event.type.Drag);
-      mouseEvent.clone(dragEvent);
-      dragEvent.setType(type);
-      dragEvent.setBubbles(true);
-      dragEvent.setDragOffsetLeft(dragOffsetLeft);
-      dragEvent.setDragOffsetTop(dragOffsetTop);
-      return dragEvent;
+      var Registration = qx.event.Registration;
+
+      var evt = Registration.createEvent(type, qx.event.type.DragDrop, [original, target, null, bubbles]);
+      Registration.dispatchEvent(target, evt);
     },
 
-
-    __getDroppableFromPoint : function(dropLocations, x, y)
+    __findDragable : function(elem)
     {
-      for (var i=0; i<dropLocations.length; i++)
+      while (elem && elem.nodeType == 1)
       {
-        var location = dropLocations[i].location;
-        if (location.left <= x && location.right >= x && location.top <= y && location.bottom >= y) {
-          return dropLocations[i].element;
+        if (elem.getAttribute("qxDragable") == "on") {
+          return elem;
         }
+
+        elem = elem.parentNode;
       }
+
+      return null;
+    },
+
+    __findDropable : function(elem)
+    {
+      while (elem && elem.nodeType == 1)
+      {
+        if (elem.getAttribute("qxDropable") == "on") {
+          return elem;
+        }
+
+        elem = elem.parentNode;
+      }
+
       return null;
     },
 
 
-    __getDropLocations : function()
+    /**
+     * Initializes event listeners.
+     *
+     * @type member
+     * @signature function()
+     * @return {void}
+     */
+    _initObserver : function()
     {
-      var locations = [];
-      for (var key in this.__droppableElements)
-      {
-        var el = this.__droppableElements[key];
-        var location = qx.bom.element.Location.get(el);
+      var mgr = this._manager;
 
-        var insertIndex = locations.length;
-        for (var i=0; i<locations.length; i++)
-        {
-          var other = locations[i];
-          var otherLocation = other.location;
-
-          if (qx.dom.Hierarchy.contains(other.element, el))
-          {
-            insertIndex = i;
-
-            if (otherLocation.top > location.top) {
-              location.top = otherLocation.top;
-            }
-
-            if (otherLocation.right < location.right) {
-              location.right = otherLocation.right;
-            }
-
-            if (otherLocation.bottom < location.bottom) {
-              location.bottom = otherLocation.bottom;
-            }
-
-            if (otherLocation.left > location.left) {
-              location.left = otherLocation.left;
-            }
-
-            if (location.left >= location.right || location.top >= location.bottom)
-            {
-              insertIndex = -1;
-              break;
-            }
-          }
-        }
-
-        if (insertIndex >= 0) {
-          qx.lang.Array.insertAt(locations, {
-            location: location,
-            element: el
-          }, insertIndex);
-        }
-
-      }
-
-
-
-
-      return locations;
+      mgr.addListener(this._root, "mousedown", this._onMouseDown, this, true);
+      mgr.addListener(this._root, "mouseup", this._onMouseUp, this, true);
+      mgr.addListener(this._root, "losecapture", this._onLoseCapture, this, true);
     },
 
 
-    /**
-     * Mouse down event handler
-     *
-     * @param dragData {Map} the current drag session
-     * @param e {qx.event.type.Mouse} The mouse down event object
-     */
-    _onMousedown : function(dragData, e)
+    _onMouseDown : function(e)
     {
-      qx.bom.Element.capture(dragData.element);
-      this._manager.addListener(dragData.element, "mousemove", dragData.mousemoveHandler);
-
-      dragData.dragStartLeft = e.getDocumentLeft();
-      dragData.dragStartTop = e.getDocumentTop();
-      dragData.dragStartEvent = this.__createDragEvent("dragstart", e, 0, 0);
-      dragData.dragStarted = false;
-      dragData.dropLocations = this.__getDropLocations();
-    },
-
-
-    /**
-     * The loose capture event handler
-     *
-     * @param dragData {Map} the current drag session
-     * @param e {qx.event.type.Event} The loose capture event object
-     */
-    _onLoosecapture : function(dragData, e)
-    {
-      this._manager.removeListener(dragData.element, "mousemove", dragData.mousemoveHandler);
-
-      if (!dragData.dragStarted) {
-        return;
-      }
-      dragData.dragStarted = false;
-
-      if (dragData.lastMoveEvent)
+      var dragable = this.__findDragable(e.getTarget());
+      if (dragable)
       {
-        if (dragData.target)
-        {
-          var dragOffsetLeft = dragData.lastMoveEvent.getDocumentLeft() - dragData.dragStartLeft;
-          var dragOffsetTop = dragData.lastMoveEvent.getDocumentTop() - dragData.dragStartTop;
+        this._manager.addListener(this._root, "mousemove", this._onMouseMove, this, true);
 
-          var dropEvent = this.__createDragEvent("drop", dragData.lastMoveEvent, dragOffsetLeft, dragOffsetTop);
-          this._manager.dispatchEvent(dragData.target, dropEvent);
-        }
-
-        dragData.lastMoveEvent.setType("dragend");
-        this._manager.dispatchEvent(dragData.element, dragData.lastMoveEvent);
-        dragData.lastMoveEvent = null;
+        this._startLeft = e.getDocumentLeft();
+        this._startTop = e.getDocumentTop();
+        this._startTarget = dragable;
       }
     },
 
 
-    /**
-     * Mouse up event handler
-     *
-     * @param dragData {Map} the current drag session
-     * @param e {qx.event.type.Mouse} The mouse up event object
-     */
-    _onMouseup : function(dragData, e)
+    _onMouseUp : function(e)
     {
-      qx.bom.Element.releaseCapture(dragData.element);
-      this._manager.removeListener(dragData.element, "mousemove", dragData.mousemoveHandler);
-
-      if (!dragData.dragStarted) {
-        return;
+      if (this._activeSession) {
+        this._clearSession(e);
       }
-      dragData.dragStarted = false;
-
-      var dragOffsetLeft = e.getDocumentLeft() - dragData.dragStartLeft;
-      var dragOffsetTop = e.getDocumentTop() - dragData.dragStartTop;
-
-      var dropEvent = this.__createDragEvent("drop", e, dragOffsetLeft, dragOffsetTop);
-      this._manager.dispatchEvent(e.getTarget(), dropEvent);
-
-      var stopEvent = this.__createDragEvent("dragend", e, dragOffsetLeft, dragOffsetTop);
-      this._manager.dispatchEvent(dragData.element, stopEvent);
     },
 
 
-    /**
-     * Mouse move event handler
-     *
-     * @param dragData {Map} the current drag session
-     * @param e {qx.event.type.Mouse} The mouse move event object
-     */
-    _onMousemove : function(dragData, e)
+    _onLoseCapture : function(e)
     {
-      var dragOffsetLeft = e.getDocumentLeft() - dragData.dragStartLeft;
-      var dragOffsetTop = e.getDocumentTop() - dragData.dragStartTop;
+      if (this._activeSession) {
+        this._clearSession(e);
+      }
+    },
 
-      if (!dragData.dragStarted)
+
+    _clearSession : function(e)
+    {
+      this._manager.removeListener(this._root, "mousemove", this._onMouseMove, this, true);
+      this._manager.removeListener(this._root, "mouseover", this._onMouseOver, this, true);
+      this._manager.removeListener(this._root, "mouseout", this._onMouseOut, this, true);
+
+      this._activeSession = false;
+
+      this.__fireEvent(e, this._startTarget, "dragend", true);
+    },
+
+
+    _onMouseMove : function(e)
+    {
+      var left = e.getDocumentLeft();
+      var top = e.getDocumentTop();
+
+      if (this._activeSession)
       {
-        if (
-          Math.abs(dragOffsetLeft) >= dragData.minDragOffset ||
-          Math.abs(dragOffsetTop) >= dragData.minDragOffset
-        )
-        {
-          dragData.dragStarted = true;
-          dragData.dragStartEvent.setDragOffsetLeft(0);
-          dragData.dragStartEvent.setDragOffsetTop(0);
-          this._manager.dispatchEvent(dragData.element, dragData.dragStartEvent);
-        }
+        // TODO
       }
-
-      if (!dragData.dragStarted) {
-        return;
-      }
-
-      var moveEvent = this.__createDragEvent("drag", e, dragOffsetLeft, dragOffsetTop);
-      this._manager.dispatchEvent(dragData.element, moveEvent);
-
-      if (dragData.lastMoveEvent) {
-        qx.event.Pool.getInstance().poolObject(dragData.lastMoveEvent);
-      }
-      dragData.lastMoveEvent = moveEvent.clone();
-
-
-      var target = this.__getDroppableFromPoint(dragData.dropLocations, e.getDocumentLeft(), e.getDocumentTop());
-
-      // dispatch drag leave and drag enter events
-      if (dragData.target !== target)
+      else
       {
-        if (dragData.target)
+        if (Math.abs(left-this._startLeft) > 3 || Math.abs(top-this._startTop) > 3)
         {
-          var leaveEvent = this.__createDragEvent("dragleave", e, dragOffsetLeft, dragOffsetTop);
-          this._manager.dispatchEvent(dragData.target, leaveEvent);
-        }
+          this._activeSession = true;
 
-        if (target)
-        {
-          var enterEvent = this.__createDragEvent("dragenter", e, dragOffsetLeft, dragOffsetTop);
-          this._manager.dispatchEvent(target, enterEvent);
-        }
+          this._manager.addListener(this._root, "mouseover", this._onMouseOver, this, true);
+          this._manager.addListener(this._root, "mouseout", this._onMouseOut, this, true);
 
-        dragData.target = target;
+          this.__fireEvent(e, this._startTarget, "dragstart", true);
+        }
       }
-    }
+    },
+
+
+    _onMouseOver : function(e)
+    {
+      var target = e.getTarget();
+      var dropable = this.__findDropable(target);
+
+      if (dropable)
+      {
+        if (dropable != this._lastOver)
+        {
+          this.__fireEvent(e, dropable, "dragover", false);
+          this._lastOver = dropable;
+        }
+      }
+      else if (this._lastOver)
+      {
+        this.__fireEvent(e, this._lastOver, "dragout", false);
+        this._lastOver = null;
+      }
+    },
+
+    _onMouseOut : function(e)
+    {
+
+    },
+
+
+
+
+
 
   },
 
-
-  /*
-  *****************************************************************************
-     DESTRUCTOR
-  *****************************************************************************
-  */
-
-  destruct : function() {
-    this._disposeFields("_window", "_manager", "__draggableElements", "__droppableElements");
-  },
 
 
   /*
