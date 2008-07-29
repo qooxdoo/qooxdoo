@@ -642,6 +642,7 @@ qx.Class.define("demobrowser.DemoBrowser",
     {
       // Main Container
       var tabview = new qx.ui.tabview.TabView;
+      tabview.setMarginTop(20);
 
       this.widgets["outputviews"] = tabview;
 
@@ -729,12 +730,12 @@ qx.Class.define("demobrowser.DemoBrowser",
     {
 
       var tree1 = new qx.ui.tree.Tree;
-      var root = new qx.ui.tree.TreeFolder("Tests");
+      var root = new qx.ui.tree.TreeFolder("Demos");
       tree1.setRoot(root);
       tree1.select(root);
       tree1.setWidth(200);
+      tree1.setDecorator(null);
       
-      this.tree = tree1;
       this.tree = this.widgets["treeview.flat"] = tree1;
 
       tree1.addListener("changeSelection", this.treeGetSelection, this);
