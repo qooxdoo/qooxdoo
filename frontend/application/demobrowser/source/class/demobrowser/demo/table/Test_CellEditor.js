@@ -29,7 +29,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("demobrowser.demo.table.CellEditor",
+qx.Class.define("demobrowser.demo.table.Test_CellEditor",
 {
   extend : qx.application.Standalone,
   include : [demobrowser.demo.table.MUtil],
