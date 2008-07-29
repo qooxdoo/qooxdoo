@@ -274,13 +274,19 @@ qx.Bootstrap.define("qx.event.Registration",
      */
     fireNonBubblingEvent : function(target, type, clazz, args)
     {
-      var mgr = this.getManager(target);
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        if (arguments.length > 2 && clazz === undefined && args !== undefined) {
+          throw new Error("Create event of type " + type + " with undefined class. Please use null to explicit fallback to default event type!");
+        }
+      }
 
+      var mgr = this.getManager(target);
       if (!mgr.hasListener(target, type, false)) {
         return true;
       }
 
-      var evt = this.createEvent(type, clazz, args);
+      var evt = this.createEvent(type, clazz||null, args);
       return mgr.dispatchEvent(target, evt);
     },
 
