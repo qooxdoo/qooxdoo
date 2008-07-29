@@ -16,6 +16,7 @@
      * Sebastian Werner (wpbasti)
      * Fabian Jakobs (fjakobs)
      * Hugh Gibson
+     * Jonathan Rass (jonathan_rass)
 
 ************************************************************************ */
 
@@ -34,13 +35,13 @@ qx.Class.define("qx.dev.ObjectSummary",
       var vData = {};
       var vCounter = 0;
       var vObject;
-      var vDb = qx.core.Object.getDb();
+      var vDb = qx.core.ObjectRegistry.getRegistry();
 
       for (var key in vDb)
       {
         vObject = vDb[key];
 
-        if (vObject && vObject.__disposed === false)
+        if (vObject && vObject.isDisposed() === false)
         {
           if (vData[vObject.classname] == null) {
             vData[vObject.classname] = 1;
@@ -89,7 +90,7 @@ qx.Class.define("qx.dev.ObjectSummary",
       var vData = {};
       var vCounter = 0;
       var vObject;
-      var vDb = qx.core.Object.getDb();
+      var vDb = qx.core.ObjectRegistry.getRegistry();
       var mHashCode = {};
       var ar;
 
