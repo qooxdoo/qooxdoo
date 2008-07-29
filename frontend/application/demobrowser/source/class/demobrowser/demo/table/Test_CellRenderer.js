@@ -29,7 +29,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("demobrowser.demo.table.CellRenderer",
+qx.Class.define("demobrowser.demo.table.Test_CellRenderer",
 {
   extend : qx.application.Native,
   include : [demobrowser.demo.table.MUtil],

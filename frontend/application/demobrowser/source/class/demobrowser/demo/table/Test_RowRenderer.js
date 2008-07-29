@@ -17,7 +17,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("demobrowser.demo.table.RowRenderer",
+qx.Class.define("demobrowser.demo.table.Test_RowRenderer",
 {
   extend : qx.application.Native,
   include : [demobrowser.demo.table.MUtil],
