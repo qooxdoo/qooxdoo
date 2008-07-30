@@ -171,6 +171,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
 
       // Update states for splitter and slider
       splitter.replaceState(old, value);
+      splitter._getChildControl("knob").replaceState(old, value);
       slider.replaceState(old, value);
     },
 
