@@ -194,7 +194,7 @@ qx.Class.define("qx.ui.form.SelectBox",
      * @type member
      */
     _onClick : function(e) {
-      this._togglePopup();
+      this.toggle();
     },
 
 
@@ -234,7 +234,7 @@ qx.Class.define("qx.ui.form.SelectBox",
     _onKeyPress : function(e)
     {
       if(e.getKeyIdentifier() == "Enter") {
-        this._togglePopup();
+        this.toggle();
       } else {
         this.base(arguments, e);
       }

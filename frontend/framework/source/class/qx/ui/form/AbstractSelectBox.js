@@ -48,7 +48,7 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
 
     // Register listeners
     this.addListener("keypress", this._onKeyPress);
-    this.addListener("blur", this._hidePopup, this);
+    this.addListener("blur", this.close, this);
 
     // register the resize listener
     this.addListener("resize", this._onResize, this);
@@ -141,7 +141,7 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
         case "popup":
           control = new qx.ui.popup.Popup(new qx.ui.layout.VBox);
           control.setAutoHide(false);
-          control.addListener("mouseup", this._hidePopup, this);
+          control.addListener("mouseup", this.close, this);
           control.addListener("activate", this._onActivateList, this);
           control.add(this._getChildControl("list"));
           break;
@@ -190,7 +190,7 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
     /**
      * Shows the list popup.
      */
-    _showPopup : function()
+    open : function()
     {
       var listPopup = this._getChildControl("popup");
 
@@ -202,7 +202,7 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
     /**
      * Hides the list popup.
      */
-    _hidePopup : function() {
+    close : function() {
       this._getChildControl("popup").hide();
     },
 
@@ -210,13 +210,13 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
     /**
      * Toggles the popup's visibility.
      */
-    _togglePopup : function()
+    toggle : function()
     {
       var isListOpen = this._getChildControl("popup").isVisible();
       if (isListOpen) {
-        this._hidePopup();
+        this.close();
       } else {
-        this._showPopup();
+        this.open();
       }
     },
 
@@ -263,7 +263,7 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
       // hide the list always on escape
       if (identifier == "Escape")
       {
-        this._hidePopup();
+        this.close();
 
         // stop event
         if (identifier == "Escape") {

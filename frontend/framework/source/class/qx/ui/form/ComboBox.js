@@ -190,9 +190,9 @@ qx.Class.define("qx.ui.form.ComboBox",
     {
       var target = e.getTarget();
       if (target == this._getChildControl("button")) {
-        this._togglePopup();
+        this.toggle();
       } else {
-        this._hidePopup();
+        this.close();
       }
     },
 
