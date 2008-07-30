@@ -17,7 +17,10 @@
       [
         "YYY",
         "qx.log.appender.Native",
-        "qx.log.appender.Console"
+        "qx.log.appender.Console",
+        "qx.dev.ObjectSummary",
+        "qx.dev.Pollution",
+        "qx.dev.Profile"
       ],
 
       "require" :
