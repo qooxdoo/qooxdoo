@@ -51,12 +51,15 @@ qx.Class.define("qx.event.handler.DragDrop",
     this.base(arguments);
 
     // Define shorthands
-    this._manager = manager;
-    this._window = manager.getWindow();
-    this._root = this._window.document.documentElement;
+    this.__manager = manager;
+    this.__root = manager.getWindow().document.documentElement;
 
-    // Initialize
-    this._initObserver();
+    // Initialize mousedown listener
+    this.__manager.addListener(this.__root, "mousedown", this._onMouseDown, this);
+
+    // Build data structures
+    this.__types = {};
+    this.__actions = {};
   },
 
 
@@ -194,13 +197,12 @@ qx.Class.define("qx.event.handler.DragDrop",
       return null;
     },
 
-    __fireEvent : function(original, target, type)
+    __fireEvent : function(type, target, cancelable, original)
     {
       var Registration = qx.event.Registration;
-      var domEvent = original instanceof qx.event.type.Native ? original.getNativeEvent() : null;
+      var dragEvent = Registration.createEvent(type, qx.event.type.Drag, [ cancelable, original ]);
 
-      var evt = Registration.createEvent(type, qx.event.type.Drag, [domEvent, target]);
-      return Registration.dispatchEvent(target, evt);
+      return Registration.dispatchEvent(target, dragEvent);
     },
 
     __findDragable : function(elem)
@@ -233,62 +235,42 @@ qx.Class.define("qx.event.handler.DragDrop",
 
     __clearInit : function()
     {
-      this.__sourceTarget = null;
-      this._manager.removeListener(this._root, "mousemove", this._onMouseMove, this, true);
+      // Clear drag target
+      this.__dragTarget = null;
+
+      // Deregister from root events
+      this.__manager.removeListener(this.__root, "mousemove", this._onMouseMove, this, true);
+      this.__manager.removeListener(this.__root, "mouseup", this._onMouseUp, this, true);
+
+      // Deregister from window's blur
+      qx.event.Registration.removeListener(window, "blur", this._onWindowBlur, this);
     },
 
-    __clearSession : function(e)
+    __clearSession : function()
     {
-      if (!this.__sessionActive) {
-        return;
+      if (this.__sessionActive)
+      {
+        // Deregister from root events
+        this.__manager.removeListener(this.__root, "mouseover", this._onMouseOver, this, true);
+
+        // Fire dragend event
+        this.__fireEvent("dragend", this.__dragTarget, false);
+
+        // Clear flag
+        this.__sessionActive = false;
       }
 
-      this._manager.removeListener(this._root, "mouseover", this._onMouseOver, this, true);
-      this.__fireEvent(e, this.__sourceTarget, "dragend");
-
+      // Cleanup
       this.__dropOk = false;
-      this.__sessionActive = false;
       this.__dropTarget = null;
+
+      // Clear init
+      this.__clearInit();
     },
 
     __dropOk : false,
 
 
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      NATIVE OBSERVER
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * Initializes event listeners.
-     */
-    _initObserver : function()
-    {
-      qx.event.Registration.addListener(window, "blur", this._onWindowBlur, this);
-
-      var mgr = this._manager;
-      mgr.addListener(this._root, "mousedown", this._onMouseDown, this);
-      mgr.addListener(this._root, "mouseup", this._onMouseUp, this, true);
-      mgr.addListener(this._root, "losecapture", this._onLoseCapture, this, true);
-    },
-
-
-    /**
-     * Stops event listeners.
-     */
-    _stopObserver : function()
-    {
-      qx.event.Registration.removeListener(window, "blur", this._onWindowBlur, this);
-
-      var mgr = this._manager;
-      mgr.removeListener(this._root, "mousedown", this._onMouseDown, this);
-      mgr.removeListener(this._root, "mouseup", this._onMouseUp, this, true);
-      mgr.removeListener(this._root, "losecapture", this._onLoseCapture, this, true);
-    },
 
 
 
@@ -301,13 +283,10 @@ qx.Class.define("qx.event.handler.DragDrop",
     */
 
 
-    _onLoseCapture : function(e) {
-      this.__clearSession(e);
-    },
-
-
-    _onWindowBlur : function(e) {
-      this.__clearSession(e);
+    _onWindowBlur : function(e)
+    {
+      this.debug("Window blur");
+      this.__clearSession();
     },
 
 
@@ -320,18 +299,19 @@ qx.Class.define("qx.event.handler.DragDrop",
       var dragable = this.__findDragable(e.getTarget());
       if (dragable)
       {
-        this._manager.addListener(this._root, "mousemove", this._onMouseMove, this, true);
-
         // Cache coordinates for offset calculation
         this.__startLeft = e.getDocumentLeft();
         this.__startTop = e.getDocumentTop();
 
         // This is the source target
-        this.__sourceTarget = dragable;
+        this.__dragTarget = dragable;
 
-        // Rebuild data structures
-        this.__types = {};
-        this.__actions = {};
+        // Register move event to manager
+        this.__manager.addListener(this.__root, "mousemove", this._onMouseMove, this, true);
+        this.__manager.addListener(this.__root, "mouseup", this._onMouseUp, this, true);
+
+        // Register window blur listener
+        qx.event.Registration.addListener(window, "blur", this._onWindowBlur, this);
       }
     },
 
@@ -340,7 +320,7 @@ qx.Class.define("qx.event.handler.DragDrop",
     {
       // Fire dragdrop event in success case
       if (this.__dropOk) {
-        this.__fireEvent(e, this.__dropTarget, "dragdrop");
+        this.__fireEvent("dragdrop", this.__dropTarget, false, e.getNativeEvent());
       }
 
       // Stop event
@@ -349,30 +329,33 @@ qx.Class.define("qx.event.handler.DragDrop",
       }
 
       // Clean up
-      this.__clearSession(e);
-      this.__clearInit();
+      this.__clearSession();
     },
 
 
     _onMouseMove : function(e)
     {
-      var left = e.getDocumentLeft();
-      var top = e.getDocumentTop();
-
+      // Whether the session is already active
       if (this.__sessionActive)
       {
-        this.__fireEvent(e, this.__sourceTarget, "dragmove");
+        // Fire specialized move event
+        this.__fireEvent("dragmove", this.__dragTarget, false, e.getNativeEvent());
       }
       else
       {
-        if (Math.abs(left-this.__startLeft) > 3 || Math.abs(top-this.__startTop) > 3)
+        if (Math.abs(e.getDocumentLeft()-this.__startLeft) > 3 || Math.abs(e.getDocumentTop()-this.__startTop) > 3)
         {
-          this.__sessionActive = true;
+          if (this.__fireEvent("dragstart", this.__dragTarget, true, e.getNativeEvent()))
+          {
+            // Flag session as active
+            this.__sessionActive = true;
 
-          this._manager.addListener(this._root, "mouseover", this._onMouseOver, this, true);
-
-          if (this.__sourceTarget) {
-            this.__fireEvent(e, this.__sourceTarget, "dragstart");
+            // Register to root events
+            this.__manager.addListener(this.__root, "mouseover", this._onMouseOver, this, true);
+          }
+          else
+          {
+            this.__clearInit();
           }
         }
       }
@@ -388,13 +371,13 @@ qx.Class.define("qx.event.handler.DragDrop",
       {
         if (dropable != this.__dropTarget)
         {
-          this.__dropOk = this.__fireEvent(e, dropable, "dragover");
+          this.__dropOk = this.__fireEvent("dragover", dropable, true, e.getNativeEvent());
           this.__dropTarget = dropable;
         }
       }
       else if (this.__dropTarget)
       {
-        this.__fireEvent(e, this.__dropTarget, "dragout");
+        this.__fireEvent("dragout", this.__dropTarget, false, e.getNativeEvent());
         this.__dropTarget = null;
         this.__dropOk = false;
       }
@@ -405,8 +388,15 @@ qx.Class.define("qx.event.handler.DragDrop",
 
   destruct : function()
   {
-    this._stopObserver();
-    this._disposeFields("__dropOk", "__dropTarget", "__sourceTarget", "__dropTarget");
+    // Clear a running session
+    this.__clearSession();
+
+    // Stop mousedown
+    this.__manager.removeListener(this.__root, "mousedown", this._onMouseDown, this);
+
+    // Clear fields
+    this._disposeFields("__dragTarget", "__dropTarget",
+      "__manager", "__root");
   },
 
 

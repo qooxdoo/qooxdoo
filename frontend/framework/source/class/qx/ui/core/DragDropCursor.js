@@ -85,6 +85,8 @@ qx.Class.define("qx.ui.core.DragDropCursor",
     // property apply
     _applyAction : function(value, old)
     {
+      this.debug("Action: " + value);
+
       if (old) {
         this.removeState(old);
       }
