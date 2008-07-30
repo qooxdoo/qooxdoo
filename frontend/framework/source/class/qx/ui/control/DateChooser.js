@@ -19,7 +19,28 @@
 ************************************************************************ */
 
 /**
- * Shows a calendar and allows choosing a date.
+ * A *date chooser* is a small calendar including a navigation bar to switch the shown
+ * month. It includes a column for the calendar week and shows one month. Selecting
+ * a date is as easy as clicking on it.
+ *
+ * To be conform with all form widgets, the {@link qx.ui.form.IFormElement} interface 
+ * is implemented.
+ *
+ * The following example creates and adds a fate chooser to the root element.
+ * A listener alerts the user if a new date is selected.
+ *
+ * <pre>
+ * var chooser = new qx.ui.control.DateChooser();
+ * this.getRoot().add(chooser, { left : 20, top: 20});
+ * 
+ * chooser.addListener("changeValue", function(e) {
+ *   alert(e.getData());
+ * });
+ * </pre>
+ *
+ * Additionally to a selection event a execute event is available which is 
+ * fired by doubleclick or taping the space / enter key. With this event you 
+ * can for example save the selection and close the date chooser. 
  */
 qx.Class.define("qx.ui.control.DateChooser",
 {
