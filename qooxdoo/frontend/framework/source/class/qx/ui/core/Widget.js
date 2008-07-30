@@ -2667,10 +2667,8 @@ qx.Class.define("qx.ui.core.Widget",
      *
      * @param e {qx.event.type.Drag} Drag event
      */
-    _onDragStart : function(e)
-    {
-      var cursor = qx.ui.core.DragDropCursor.getInstance();
-      cursor.alignToMouse(e);
+    _onDragStart : function(e) {
+      qx.ui.core.DragDropCursor.getInstance().alignToMouse(e);
     },
 
 
@@ -2679,10 +2677,8 @@ qx.Class.define("qx.ui.core.Widget",
      *
      * @param e {qx.event.type.Drag} Drag event
      */
-    _onDragMove : function(e)
-    {
-      var cursor = qx.ui.core.DragDropCursor.getInstance();
-      cursor.alignToMouse(e);
+    _onDragMove : function(e) {
+      qx.ui.core.DragDropCursor.getInstance().alignToMouse(e);
     },
 
 
@@ -2691,10 +2687,8 @@ qx.Class.define("qx.ui.core.Widget",
      *
      * @param e {qx.event.type.Drag} Drag event
      */
-    _onDragEnd : function(e)
-    {
-      var cursor = qx.ui.core.DragDropCursor.getInstance();
-      cursor.moveTo(-1000, -1000);
+    _onDragEnd : function(e) {
+      qx.ui.core.DragDropCursor.getInstance().moveTo(-1000, -1000);
     },
 
 
