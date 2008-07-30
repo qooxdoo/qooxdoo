@@ -118,6 +118,9 @@ qx.Class.define("qx.ui.table.celleditor.SelectBox",
       }
 
       cellEditor.setValue("" + value);
+      cellEditor.addListener("appear", function() {
+        cellEditor.open();
+      });
 
       return cellEditor;
     },

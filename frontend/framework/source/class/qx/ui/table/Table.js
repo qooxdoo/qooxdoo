@@ -18,14 +18,11 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#embed(qx.widgettheme/table/selectColumnOrder.png)
-
-************************************************************************ */
-
 /**
- * A table.
+ * Table
+ *
+ * A detailed description can be found in the package description
+ * {@link qx.ui.table}.
  */
 qx.Class.define("qx.ui.table.Table",
 {
