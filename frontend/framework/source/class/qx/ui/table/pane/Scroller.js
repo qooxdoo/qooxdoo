@@ -90,7 +90,6 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     this._excludeChildControl("resize-line");
 
     this.addListener("mouseout", this._onMouseout, this);
-    this.addListener("resize", this._onResize, this);
     this.addListener("appear", this._onAppear, this);
     this.addListener("disappear", this._onDisappear, this);
 
@@ -349,7 +348,6 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       if (!value) {
         this.setScrollY(0, true);
       }
-      this._updateContent();
     },
 
 
@@ -535,8 +533,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     /**
      * Event handler. Called when the table gets or looses the focus.
      */
-    onFocusChanged : function()
-    {
+    onFocusChanged : function() {
       this._tablePane.onFocusChanged();
     },
 
@@ -570,6 +567,10 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     {
       this._updateHorScrollBarMaximum();
       this.updateVerScrollBarMaximum();
+
+      // The height has changed -> Update content
+      this._updateContent();
+      this._header._updateContent();
     },
 
 
@@ -579,9 +580,9 @@ qx.Class.define("qx.ui.table.pane.Scroller",
      */
     _updateHorScrollBarMaximum : function()
     {
-      var paneSize = this._paneClipper.getBounds();
+      var paneSize = this._paneClipper.getInnerSize();
       if (!paneSize) {
-        this._paneClipper.addListenerOnce("resize", arguments.callee, this);
+        // will be called on the next resize event again
         return;
       }
       var scrollSize = this.getTablePaneModel().getTotalWidth();
@@ -605,9 +606,9 @@ qx.Class.define("qx.ui.table.pane.Scroller",
      */
     updateVerScrollBarMaximum : function()
     {
-      var paneSize = this._paneClipper.getBounds();
+      var paneSize = this._paneClipper.getInnerSize();
       if (!paneSize) {
-        this._paneClipper.addListenerOnce("resize", arguments.callee, this);
+        // will be called on the next resize event again
         return;
       }
 
@@ -644,23 +645,10 @@ qx.Class.define("qx.ui.table.pane.Scroller",
 
 
     /**
-     * Event handler for the scroller's resize event
-     */
-    _onResize : function()
-    {
-      // The height has changed -> Update content
-      this._updateContent();
-    },
-
-
-    /**
      * Event handler for the scroller's appear event
      */
     _onAppear : function()
     {
-      this._updateContent();
-      this._header._updateContent();
-
       // after the Scroller appears we start the interval again
       this._startInterval(this.getScrollTimeout());
     },
@@ -1488,7 +1476,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
 
       if (xPos != -1)
       {
-        var clipperSize = this._paneClipper.getBounds();
+        var clipperSize = this._paneClipper.getInnerSize();
         if (!clipperSize) {
           return;
         }
@@ -1862,7 +1850,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       var barWidth = this._verScrollBar.getSizeHint().width;
 
       // Get the width and height of the view (without scroll bars)
-      var clipperSize = this._paneClipper.getBounds();
+      var clipperSize = this._paneClipper.getInnerSize();
       var viewWidth = clipperSize.width;
 
       if (this.getVerticalScrollBarVisible()) {
@@ -1975,7 +1963,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
      */
     _updateContent : function()
     {
-      var paneSize = this._tablePane.getBounds();
+      var paneSize = this._paneClipper.getInnerSize();
       if (!paneSize) {
         return;
       }
@@ -2014,7 +2002,6 @@ qx.Class.define("qx.ui.table.pane.Scroller",
 
       // Avoid expensive calls to setScrollTop if
       // scrolling is not needed
-      //
       if (! firstVisibleRowComplete ) {
         this._paneClipper.scrollToY(paneOffset);
       }
