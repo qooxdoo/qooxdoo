@@ -15,7 +15,8 @@
     "API_EXCLUDE"  : ["${APPLICATION}.demo.*"],
     "CACHE"        : "../../cache",
     "QOOXDOO_PATH" : "../../framework",
-    "QOOXDOO_URI"  : "../${QOOXDOO_PATH}"
+    "QOOXDOO_URI"  : "../${QOOXDOO_PATH}",
+    "THEME"        : "qx.theme.Classic"
   },
 
   "jobs" :
@@ -40,13 +41,14 @@
       "include" :
       [
         "${APPLICATION}.Application",
-        "qx.legacy.theme.ClassicRoyale"
+        "${THEME}"
       ],
 
       "settings" :
       {
         "qx.version" : "0.8-alpha2",
-        "qx.application" : "${APPLICATION}.Application"
+        "qx.application" : "${APPLICATION}.Application",
+        "qx.theme" : "${THEME}"
       },
 
       // the next is in since resource copying is done here for the demos as well

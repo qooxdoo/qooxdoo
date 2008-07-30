@@ -16,12 +16,14 @@
      * Thomas Herchenroeder (thron7)
      * Fabian Jakobs (fjakobs)
      * Martin Wittemann (martinwittemann)
+     * Jonathan Rass (jonathan_rass)
 
 ************************************************************************ */
 
 /* ************************************************************************
 
-#asset(qx/icon/Compat/32/actions/help-contents.png)
+#asset(qx/icon/${qx.icontheme}/32/actions/help-contents.png)
+#asset(qx/icon/${qx.icontheme}/16/actions/help-contents.png)
 
 ************************************************************************ */
 
@@ -30,7 +32,7 @@
  */
 qx.Class.define("demobrowser.DemoBrowser",
 {
-  extend : qx.legacy.ui.layout.VerticalBoxLayout,
+  extend : qx.ui.container.Composite,
 
 
 
@@ -45,11 +47,7 @@ qx.Class.define("demobrowser.DemoBrowser",
   {
     this.base(arguments);
 
-    this.set(
-    {
-      height : "100%",
-      width  : "100%"
-    });
+    this.setLayout(new qx.ui.layout.VBox);
 
     this.widgets = {};
     this.tests = {};
@@ -60,6 +58,7 @@ qx.Class.define("demobrowser.DemoBrowser",
 
     // Header Pane
     this.header = this.__makeHeader();
+    
     this.add(this.header);
 
     // Menu Bar
@@ -67,45 +66,27 @@ qx.Class.define("demobrowser.DemoBrowser",
 
     // Main Pane
     // split
-    var mainsplit = new qx.legacy.ui.splitpane.HorizontalSplitPane(200, "1*");
-    this.add(mainsplit);
+    var mainsplit = new qx.ui.splitpane.Pane("horizontal");
     this.mainsplit = mainsplit;
-    mainsplit.setLiveResize(true);
-    mainsplit.set({ height : "1*" });
+    this.add(mainsplit, {flex : 1});
 
     // Left
     var left = this.__makeLeft();
-    this.left = left.buttview;
-    this.mainsplit.addLeft(left);
+    mainsplit.add(left, 0);
 
+
+    
     // Right
-    var right = new qx.legacy.ui.layout.VerticalBoxLayout();
-
-    right.set(
-    {
-      height : "100%",
-      width  : "100%",
-      border : "line-left"
-    });
-
-    mainsplit.addRight(right);
+    var right = new qx.ui.container.Composite(new qx.ui.layout.VBox); 
+    mainsplit.add(right, 1);
 
     // Toolbar
     this.toolbar = this.__makeToolbar();
-
-    this.toolbar.set(
-    {
-      show                  : "icon",
-      verticalChildrenAlign : "middle"
-    });
-
     right.add(this.toolbar);
 
     // output views
     var buttview = this.__makeOutputViews();
-    right.add(buttview);
-
-    this.widgets["treeview.bsb1"].setChecked(true);
+    right.add(buttview, {flex:1});
 
     this.__setStateInitialized();
 
@@ -178,13 +159,15 @@ qx.Class.define("demobrowser.DemoBrowser",
      * Create the header widget
      *
      * @type member
-     * @return {qx.legacy.ui.embed.HtmlEmbed} The header widget
+     * @return {qx.ui.embed.HtmlEmbed} The header widget
      */
     __makeHeader : function()
     {
-      var header = new qx.legacy.ui.embed.HtmlEmbed("<h1>" + "<span>" + "qooxdoo Demo Browser" + "</span>" + "</h1>" + "<div class='version'>qooxdoo " + qx.core.Setting.get("qx.version") + "</div>");
-      header.setHtmlProperty("id", "header");
-      header.setStyleProperty("background", "#134275 url(" + qx.util.ResourceManager.toUri("demobrowser/image/colorstrip.gif") + ") top left repeat-x");
+      var header = new qx.ui.embed.HtmlEmbed("<h1>" + "<span>" + "qooxdoo Demo Browser" + "</span>" + "</h1>" + "<div class='version'>qooxdoo " + qx.core.Setting.get("qx.version") + "</div>");
+      var element = header.getContentElement();
+
+      element.setAttribute("id", "header");
+      element.setStyle("background", "#134275 url(" + qx.util.ResourceManager.toUri("demobrowser/image/colorstrip.gif") + ") top left repeat-x");
       header.setHeight(70);
       return header;
     },
@@ -193,14 +176,7 @@ qx.Class.define("demobrowser.DemoBrowser",
     __makeCommands : function()
     {
       this._cmdObjectSummary = new qx.event.Command("Ctrl-O");
-      this._cmdObjectSummary.addListener("execute", function() {
-        var cw = this.f1.getContentWindow();
-        if (cw && cw.qx) {
-          alert(cw.qx.dev.ObjectSummary.getInfo());
-        } else {
-          alert("Unable to access Sample namespace currently.");
-        }
-      }, this);
+      this._cmdObjectSummary.addListener("execute", this.__getObjectSummary, this);
 
       this._cmdRunSample = new qx.event.Command("F5");
       this._cmdRunSample.addListener("execute", this.runSample, this);
@@ -212,85 +188,101 @@ qx.Class.define("demobrowser.DemoBrowser",
       this._cmdNextSample.addListener("execute", this.playNext, this);
 
       this._cmdSampleInOwnWindow = new qx.event.Command();
-      this._cmdSampleInOwnWindow.addListener("execute", function(e)
-      {
-        var sampUrl = this.f1.getContentWindow().location.href;
-        window.open(sampUrl, "Sample", "width=700,height=550");
-      }, this);
+      this._cmdSampleInOwnWindow.addListener("execute", this.__sampleInOwnWindow, this);
 
       this._cmdLoadProfile = new qx.event.Command();
-      this._cmdLoadProfile.addListener("execute", function(e)
-      {
-        var checked = e.getData().getChecked();
-        this._useProfile = checked;
-        this.runSample();
-      }, this);
+      this._cmdLoadProfile.addListener("execute", this.__loadProfile, this);
 
       this._cmdProfile = new qx.event.Command("Ctrl-Shift-P");
-      this._cmdProfile.addListener("execute", function(e)
-      {
-        var checked = e.getData().getChecked();
-        var cw = this.f1.getContentWindow();
-        if (cw && cw.qx) {
-          if (checked) {
-            cw.qx.dev.Profile.start();
-          } else {
-            cw.qx.dev.Profile.stop();
-            cw.qx.dev.Profile.normalizeProfileData();
-            this.showProfile(cw.qx.dev.Profile.getProfileData());
-            this._cmdShowLastProfile.setEnabled(true);
-          }
-        }
-        this._cmdProfile.setEnabled(false);
-        this.widgets["toolbar.profile"].setChecked(checked)
-        this.widgets["menu.profile"].setChecked(checked);
-        this._cmdProfile.setEnabled(true);
-      }, this);
+      this._cmdProfile.addListener("execute", this.__toggleProfile, this);
       this._cmdProfile.setUserData("checked", true);
 
       this._cmdShowLastProfile = new qx.event.Command();
-      this._cmdShowLastProfile.addListener("execute", function() {
-        var cw = this.f1.getContentWindow();
-        if (cw && cw.qx) {
-          cw.qx.dev.Profile.normalizeProfileData();
-          this.showProfile(cw.qx.dev.Profile.getProfileData());
-        }
-      }, this);
+      this._cmdShowLastProfile.addListener("execute", this.__showLastProfile, this);
 
       this._cmdDisposeSample = new qx.event.Command();
-      this._cmdDisposeSample.addListener("execute", function(e) {
-        var cw = this.f1.getContentWindow();
-
-        if (cw && cw.qx)
-        {
-          cw.qx.core.Object.dispose();
-          alert("Done!");
-        }
-        else
-        {
-          alert("Unable to access Sample namespace currently.");
-        }
-        this._cmdDisposeSample.setEnabled(false);
-      }, this);
+      this._cmdDisposeSample.addListener("execute", this.__disposeSample, this);
 
       this._cmdNamespacePollution = new qx.event.Command();
-      this._cmdNamespacePollution.addListener("execute", function(e)
-      {
-        var cw = this.f1.getContentWindow();
-
-        if (cw && cw.qx) {
-          alert(cw.qx.dev.Pollution.getInfo());
-        } else {
-          alert("Unable to access Sample namespace currently.");
-        }
-      }, this);
+      this._cmdNamespacePollution.addListener("execute", this.__showPollution, this);
 
     }, //makeCommands
 
+    __getObjectSummary : function()
+    {
+      var cw = this.f1.getWindow();
+      if (cw && cw.qx) {
+        alert(cw.qx.dev.ObjectSummary.getInfo());
+      } else {
+        alert("Unable to access Sample namespace currently.");
+      }
+    },
 
+    __sampleInOwnWindow : function()
+    {
+      var sampUrl = this.f1.getWindow().location.href;
+      window.open(sampUrl, "Sample", "width=700,height=550");
+    },
+
+    __loadProfile : function(e)
+    {
+      var checked = e.getData().getChecked();
+      this._useProfile = checked;
+      this.runSample();
+    },
+    
+    __toggleProfile : function(e)
+    {
+      var checked = this.widgets["toolbar.profile"].getChecked();
+      var cw = this.f1.getWindow();
+      if (cw && cw.qx)
+      {
+        if (checked)
+        {
+          cw.qx.dev.Profile.start();
+        } 
+        else
+        {
+          cw.qx.dev.Profile.stop();
+          cw.qx.dev.Profile.normalizeProfileData();
+          this.showProfile(cw.qx.dev.Profile.getProfileData());
+          this._cmdShowLastProfile.setEnabled(true);
+        }
+      }
+      this._cmdProfile.setEnabled(false);
+      this.widgets["toolbar.profile"].setChecked(checked)
+      this.widgets["menu.profile"].setChecked(checked);
+      this._cmdProfile.setEnabled(true);
+    },
+    
+    __showLastProfile : function()
+    {
+      var cw = this.f1.getWindow();
+      if (cw && cw.qx)
+      {
+        cw.qx.dev.Profile.normalizeProfileData();
+        this.showProfile(cw.qx.dev.Profile.getProfileData());
+      }
+    },
+
+    __disposeSample : function(e)
+    {
+      var cw = this.f1.getWindow();
+
+      if (cw && cw.qx)
+      {
+        cw.qx.core.ObjectRegistry.shutdown();
+        alert("Done!");
+      }
+      else
+      {
+        alert("Unable to access Sample namespace currently.");
+      }
+      this._cmdDisposeSample.setEnabled(false);
+    },
+    
     __setStateInitialized : function()
     {
-      return;
       this._cmdObjectSummary.setEnabled(false);
       this._cmdRunSample.setEnabled(false);
       this._cmdPrevSample.setEnabled(false);
@@ -302,11 +294,20 @@ qx.Class.define("demobrowser.DemoBrowser",
       this._cmdNamespacePollution.setEnabled(false);
       this.widgets["toolbar.playall"].setEnabled(true);
     },
+    
+    __showPollution : function(e)
+    {
+      var cw = this.f1.getWindow();
 
+      if (cw && cw.qx) {
+        alert(cw.qx.dev.Pollution.getInfo());
+      } else {
+        alert("Unable to access Sample namespace currently.");
+      }
+    },
 
     __setStateLoading : function()
     {
-      return;
       this.__states.isLoading = true;
       this.__setStateInitialized();
       if (!this.isPlayAll()) {
@@ -318,11 +319,10 @@ qx.Class.define("demobrowser.DemoBrowser",
     __setStateLoaded : function ()
     {
       this.__states.isLoading = false;
+      this.widgets["toolbar.sampbutts"].setEnabled(true);
       this.widgets["toolbar.playall"].setEnabled(true);
-      this.widgets["outputviews.bar"].resetEnabled();
       this.widgets["outputviews.demopage.page"].resetEnabled();
       this.widgets["outputviews"].resetEnabled();
-      this.widgets["treeview"].resetEnabled();
     },
 
 
@@ -380,14 +380,12 @@ qx.Class.define("demobrowser.DemoBrowser",
             {
               label : "Load demos with profiling",
               type : "CheckBox",
-              checked : false,
-              command : this._cmdLoadProfile
+              checked : false
             },
             {
               label : "Profile",
               type : "CheckBox",
               checked : this._cmdProfile.getUserData("checked"),
-              command : this._cmdProfile,
               id : "menu.profile"
             },
             {
@@ -440,22 +438,22 @@ qx.Class.define("demobrowser.DemoBrowser",
 
       var createMenu = function(menuItems)
       {
-        var menu = new qx.legacy.ui.menu.Menu();
+        var menu = new qx.ui.menu.Menu();
         for (var i=0; i<menuItems.length; i++)
         {
           var item = menuItems[i];
           var itemType = item.type || "Button";
           switch (itemType) {
             case "Button":
-              var itemWidget = new qx.legacy.ui.menu.Button(item.label);
+              var itemWidget = new qx.ui.menu.Button(item.label);
               break;
 
             case "CheckBox":
-              var itemWidget = new qx.legacy.ui.menu.CheckBox(item.label);
+              var itemWidget = new qx.ui.menu.CheckBox(item.label);
               break;
 
             case "Separator":
-              var itemWidget = new qx.legacy.ui.menu.Separator;
+              var itemWidget = new qx.ui.menu.Separator;
               break;
 
             default:
@@ -465,29 +463,20 @@ qx.Class.define("demobrowser.DemoBrowser",
           setWidgetProperties(itemWidget, item);
           menu.add(itemWidget);
         }
-        menu.addToDocument();
         return menu;
       }
 
 
-      var bar = new qx.legacy.ui.menubar.MenuBar();
+      var bar = new qx.ui.toolbar.ToolBar();
       for (var i=0; i<menuData.length; i++)
       {
-        var btn = new qx.legacy.ui.menubar.Button(menuData[i].label);
+        var btn = new qx.ui.toolbar.MenuButton(menuData[i].label);
         btn.setMenu(createMenu(menuData[i].items));
         setWidgetProperties(btn, menuData[i]);
         bar.add(btn);
       }
       return bar;
     }, //makeMenuBar
-
-
-    __bindCommand: function(widget, command) {
-      widget.setCommand(command);
-      command.addListener("changeEnabled", function(e) {
-        widget.setEnabled(e.getData());
-      });
-    },
 
 
     /**
@@ -498,94 +487,88 @@ qx.Class.define("demobrowser.DemoBrowser",
      */
     __makeToolbar : function()
     {
-      var toolbar = new qx.legacy.ui.toolbar.ToolBar;
-      toolbar.setBorder("line-bottom");
+      var toolbar = new qx.ui.toolbar.ToolBar;
+//      toolbar.setBorder("line-bottom");
       toolbar.setHeight(27);
 
-      var mb = new qx.legacy.ui.toolbar.Part();
+      var mb = new qx.ui.toolbar.Part();
       toolbar.add(mb);
       this.widgets["toolbar.controlbutts"] = mb;
 
       // -- run button
-      this.runbutton = new qx.legacy.ui.toolbar.Button("Run Sample", "icon/16/actions/system-run.png");
+      this.runbutton = new qx.ui.toolbar.Button("Run Sample", "icon/16/actions/system-run.png");
+      this.runbutton.setShow("icon");
       mb.add(this.runbutton);
       this.widgets["toolbar.runbutton"] = this.runbutton;
-      this.__bindCommand(this.runbutton, this._cmdRunSample);
-      this.runbutton.setToolTip(new qx.legacy.ui.popup.ToolTip("Run/reload selected sample"));
+      this.runbutton.addListener("execute", this.runSample, this);
+      this.runbutton.setToolTip(new qx.ui.tooltip.ToolTip("Run/reload selected sample"));
 
       // -- playall button
-      var playallb = new qx.legacy.ui.toolbar.Button("Play All", demobrowser.DemoBrowser.Img_PlayAll_Default);
+      var playallb = new qx.ui.toolbar.Button("Play All", demobrowser.DemoBrowser.Img_PlayAll_Default);
+      playallb.setShow("icon");
       this.widgets["toolbar.playall"] = playallb;
       mb.add(playallb);
       playallb.addListener("execute", this.__ehPlayAll, this);
-      playallb.setToolTip(new qx.legacy.ui.popup.ToolTip("Run all examples"));
+      playallb.setToolTip(new qx.ui.tooltip.ToolTip("Run all examples"));
 
       // -- previous navigation
-      var prevbutt = new qx.legacy.ui.toolbar.Button("Previous Sample", "icon/16/actions/go-previous.png");
+      var prevbutt = new qx.ui.toolbar.Button("Previous Sample", "icon/16/actions/go-previous.png");
+      prevbutt.setShow("icon");
       mb.add(prevbutt);
       this.widgets["toolbar.prevbutt"] = prevbutt;
-      this.__bindCommand(prevbutt, this._cmdPrevSample);
-      prevbutt.setToolTip(new qx.legacy.ui.popup.ToolTip("Run the previous sample"));
+      prevbutt.addListener("execute", this.playPrev, this);
+      prevbutt.setToolTip(new qx.ui.tooltip.ToolTip("Run the previous sample"));
 
       // -- next navigation
-      var nextbutt = new qx.legacy.ui.toolbar.Button("Next Sample", "icon/16/actions/go-next.png");
+      var nextbutt = new qx.ui.toolbar.Button("Next Sample", "icon/16/actions/go-next.png");
+      nextbutt.setShow("icon");
       mb.add(nextbutt);
       this.widgets["toolbar.nextbutt"] = nextbutt;
-      this.__bindCommand(nextbutt, this._cmdNextSample);
-      nextbutt.setToolTip(new qx.legacy.ui.popup.ToolTip("Run the next sample"));
+      nextbutt.addListener("execute", this.playNext, this);
+      nextbutt.setToolTip(new qx.ui.tooltip.ToolTip("Run the next sample"));
 
       // -- spin-out sample
-      var sobutt = new qx.legacy.ui.toolbar.Button("Spin out Sample", "icon/16/actions/edit-redo.png");
+      var sobutt = new qx.ui.toolbar.Button("Spin out Sample", "icon/16/actions/edit-redo.png");
+      sobutt.setShow("icon");
       mb.add(sobutt);
       this.widgets["toolbar.sobutt"] = sobutt;
-      sobutt.setToolTip(new qx.legacy.ui.popup.ToolTip("Open Sample in Own Window"));
-      this.__bindCommand(sobutt, this._cmdSampleInOwnWindow);
+      sobutt.setToolTip(new qx.ui.tooltip.ToolTip("Open Sample in Own Window"));
+      sobutt.addListener("execute", this.__sampleInOwnWindow, this);
 
-      toolbar.add((new qx.legacy.ui.basic.HorizontalSpacer).set({ width : "1*" }));
+
+      toolbar.addSpacer();
 
       // -- Sample Features
-      var gb = new qx.legacy.ui.toolbar.Part();
+      var gb = new qx.ui.toolbar.Part();
       toolbar.add(gb);
       this.widgets["toolbar.sampbutts"] = gb;
 
-      gb.set(
-      {
-        height : "100%",
-        width  : "auto",
-        border : null
-      });
-
-      gb.resetBorder();
       gb.setEnabled(false);
 
       // profiling
-      var sb0 = new qx.legacy.ui.toolbar.CheckBox("Profile", "icon/16/apps/accessories-alarm.png", this._cmdProfile.getUserData("checked"));
+      var sb0 = new qx.ui.toolbar.CheckBox("Profile", "icon/16/apps/utilities-terminal.png", this._cmdProfile.getUserData("checked"));
+      sb0.setShow("icon");
       gb.add(sb0);
 
-      this.__bindCommand(sb0, this._cmdProfile);
-      sb0.setToolTip(new qx.legacy.ui.popup.ToolTip("Profile Running Sample"));
+      sobutt.addListener("execute", this.__toggleProfile, this);
+      sb0.setToolTip(new qx.ui.tooltip.ToolTip("Profile Running Sample"));
       this.widgets["toolbar.profile"] = sb0;
 
       // object summary
-      var sb1 = new qx.legacy.ui.toolbar.Button("Object Summary", "icon/16/apps/accessories-magnifier.png");
+      var sb1 = new qx.ui.toolbar.Button("Object Summary", "icon/16/apps/graphics-viewer.png");
       gb.add(sb1);
 
-      sb1.set(
-      {
-        height : "100%",
-        width  : "auto",
-        command: this._cmdObjectSummary
-      });
-
-      this.__bindCommand(sb1, this._cmdObjectSummary)
-      sb1.setToolTip(new qx.legacy.ui.popup.ToolTip("Sample Object Summary"));
+      sb1.addListener("execute", this.__getObjectSummary, this);
+      sb1.setToolTip(new qx.ui.tooltip.ToolTip("Sample Object Summary"));
+      sb1.setShow("icon");
 
       // -- sample: global pollution
-      var sb2 = new qx.legacy.ui.toolbar.Button("Global Pollution", "icon/16/places/www.png");
+      var sb2 = new qx.ui.toolbar.Button("Global Pollution", "icon/16/apps/internet-web-browser.png");
+      sb2.setShow("icon");
       gb.add(sb2);
-      this.__bindCommand(sb2, this._cmdNamespacePollution)
+      sb2.addListener("execute", this.__showPollution, this);
 
-      sb2.setToolTip(new qx.legacy.ui.popup.ToolTip("Sample Global Pollution"));
+      sb2.setToolTip(new qx.ui.tooltip.ToolTip("Sample Global Pollution"));
 
       return toolbar;
     },  // __makeToolbar()
@@ -658,75 +641,36 @@ qx.Class.define("demobrowser.DemoBrowser",
     __makeOutputViews : function()
     {
       // Main Container
-      var buttview = new qx.legacy.ui.pageview.tabview.TabView();
+      var tabview = new qx.ui.tabview.TabView;
+      tabview.setMarginTop(20);
 
-      buttview.set(
-      {
-        height  : "1*",
-        padding : 10
-      });
-
-      this.widgets["outputviews"] = buttview;
-      this.widgets["outputviews.bar"] = buttview.getBar();
+      this.widgets["outputviews"] = tabview;
 
       // First Page
-      var bsb1 = new qx.legacy.ui.pageview.tabview.Button("Start", "icon/16/actions/system-run.png");
-      this.widgets["outputviews.demopage.button"] = bsb1;
-      bsb1.setChecked(true);
-      buttview.getBar().add(bsb1);
+      var p1 = new qx.ui.tabview.Page("Start", "icon/16/actions/system-run.png");
+      p1.setLayout(new qx.ui.layout.Grow);
+      tabview.add(p1);
 
-      var p1 = new qx.legacy.ui.pageview.tabview.Page(bsb1);
-      p1.set({ padding : [ 5 ] });
-      buttview.getPane().add(p1);
-
-      var f1 = new qx.legacy.ui.embed.Iframe;
+      var f1 = new qx.ui.embed.Iframe;
+      f1.addListener("load", this.__ehIframeLoaded, this);
       this.f1 = f1;
       p1.add(f1);
       this.widgets["outputviews.demopage.page"] = f1;
 
-      f1.set(
-      {
-        overflow : "auto",
-        height   : "100%",
-        width    : "100%",
-        border   : "dark-shadow"
-      });
-
-      f1.addListener("load", this.__ehIframeLoaded, this);
-
-
       // Second Page
-      var bsb2 = new qx.legacy.ui.pageview.tabview.Button("Log", "icon/16/mimetypes/text-ascii.png");
-      buttview.getBar().add(bsb2);
-
-      var p2 = new qx.legacy.ui.pageview.tabview.Page(bsb2);
-      p2.set({ padding : [ 5 ] });
-      buttview.getPane().add(p2);
-
-      var pp2 = new qx.legacy.ui.layout.VerticalBoxLayout();
-      p2.add(pp2);
-
-      pp2.set(
-      {
-        height : "100%",
-        width  : "100%"
-      });
+      var p2 = new qx.ui.tabview.Page("Log", "icon/16/mimetypes/text-plain.png");
+      p2.getButton().addListener("click", this.__fetchLog, this);
+      p2.setBackgroundColor("white");
+      p2.setLayout(new qx.ui.layout.Grow);
+      tabview.add(p2);
 
       // main output area
-      this.f2 = new qx.legacy.ui.embed.HtmlEmbed();
-      pp2.add(this.f2);
-
-      this.f2.set(
-      {
-        overflow : "auto",
-        height   : "1*",
-        width    : "100%",
-        border   : "dark-shadow",
-        font     : "monospace"
-      });
+      this.f2 = new qx.ui.embed.HtmlEmbed();
+      this.f2.setOverflowY("scroll");
+      p2.add(this.f2);
 
       // Create appender and unregister from this logger
-      // (we are interesed in demo messages only)
+      // (we are interested in demo messages only)
       this.logappender = new qx.log.appender.Element();
       qx.log.Logger.unregister(this.logappender);
 
@@ -734,69 +678,43 @@ qx.Class.define("demobrowser.DemoBrowser",
       this.logelem = document.createElement("DIV");
       this.logappender.setElement(this.logelem);
 
-      var appearFunc = function(e)
-      {
-        this.f2.getElement().appendChild(this.logelem);
-        this.f2.removeListener("appear", appearFunc, this);
-      };
-
-      this.f2.addListener("appear", appearFunc, this);
-
+      this.f2.addListenerOnce("appear", function(){
+        this.f2.getContentElement().getDomElement().appendChild(this.logelem);
+      }, this);     
+      
       // Third Page
       // -- Tab Button
-      var bsb3 = new qx.legacy.ui.pageview.tabview.Button("HTML Code", "icon/16/mimetypes/text-html.png");
-      buttview.getBar().add(bsb3);
-
-      // -- Tab Pane
-      var p3 = new qx.legacy.ui.pageview.tabview.Page(bsb3);
-      p3.set({ padding : [ 5 ] });
-      buttview.getPane().add(p3);
+      var p3 = new qx.ui.tabview.Page("HTML Code", "icon/16/mimetypes/text-html.png");
+      p3.setBackgroundColor("white");
+      p3.setLayout(new qx.ui.layout.Grow);
+      tabview.add(p3);
 
       // -- Pane Content
-      //var f3 = new qx.legacy.ui.form.TextArea("The sample source will be displayed here.");
-      var f3 = new qx.legacy.ui.embed.HtmlEmbed("<div class='script'>The sample source will be displayed here.</div>");
+      var f3 = new qx.ui.embed.HtmlEmbed("<div class='script'>The sample source will be displayed here.</div>");
+      f3.setOverflowY("scroll");
       p3.add(f3);
       this.widgets["outputviews.sourcepage.html.page"] = f3;
 
-      f3.set(
-      {
-        overflow : "auto",
-        width    : "100%",
-        height   : "100%",
-        border   : "dark-shadow",
-        font     : "monospace"
-      });
-      f3.setHtmlProperty("id", "qx_srcview");
+      f3.getContentElement().setAttribute("id", "qx_srcview");
 
-      // Fourth Page
-      // -- Tab Button
-      var bsb4 = new qx.legacy.ui.pageview.tabview.Button("Javascript Code", "icon/16/apps/graphics-snapshot.png");
-      buttview.getBar().add(bsb4);
-
+      
+      
+      
       // -- Tab Pane
-      var p4 = new qx.legacy.ui.pageview.tabview.Page(bsb4);
-      p4.set({ padding : [ 5 ] });
-      buttview.getPane().add(p4);
+      var p4 = new qx.ui.tabview.Page("JavaScript Code", "icon/16/mimetypes/office-spreadsheet.png");
+      p4.setBackgroundColor("white");
+      p4.setLayout(new qx.ui.layout.Grow);
+      tabview.add(p4);
 
       // -- Pane Content
-      //var f3 = new qx.legacy.ui.form.TextArea("The sample source will be displayed here.");
-      var f4 = new qx.legacy.ui.embed.HtmlEmbed("<div class='script'>The sample source will be displayed here.</div>");
+      var f4 = new qx.ui.embed.HtmlEmbed("<div class='script'>The sample JS source will be displayed here.</div>");
+      f4.setOverflowY("scroll");
       p4.add(f4);
       this.widgets["outputviews.sourcepage.js.page"] = f4;
 
-      f4.set(
-      {
-        overflow : "auto",
-        width    : "100%",
-        height   : "100%",
-        border   : "dark-shadow",
-        font     : "monospace",
-        selectable: true
-      });
-      f4.setHtmlProperty("id", "qx_srcview");
+      f4.getContentElement().setAttribute("id", "qx_srcview");
 
-      return buttview;
-
+      return tabview; 
     },  // __makeOutputViews()
 
 
@@ -810,113 +728,22 @@ qx.Class.define("demobrowser.DemoBrowser",
      */
     __makeLeft : function()
     {
-      var buttview = new qx.legacy.ui.pageview.buttonview.ButtonView();
 
-      buttview.set(
-      {
-        height : "100%",
-        width  : "100%",
-        border : "line-right"
-      });
+      var tree1 = new qx.ui.tree.Tree;
+      var root = new qx.ui.tree.TreeFolder("Demos");
+      tree1.setRoot(root);
+      tree1.select(root);
+      tree1.setWidth(200);
+      tree1.setDecorator(null);
+      
+      this.tree = this.widgets["treeview.flat"] = tree1;
 
-      buttview.getPane().setPadding(0);
+      tree1.addListener("changeSelection", this.treeGetSelection, this);
+      tree1.addListener("dblclick", function(e){
+        qx.event.Timer.once(this.runSample, this, 50);
+      }, this);
 
-      this.widgets["treeview"] = buttview;
-
-      // full view
-      var bsb1 = new qx.legacy.ui.pageview.buttonview.Button("Full Tree", "icon/16/actions/view-pane-tree.png");
-      buttview.getBar().add(bsb1);
-      this.widgets["treeview.bsb1"] = bsb1;
-      bsb1.setShow("icon");
-      bsb1.setToolTip(new qx.legacy.ui.popup.ToolTip("Full tree view"));
-
-      var p1 = new qx.legacy.ui.pageview.buttonview.Page(bsb1);
-
-      p1.set(
-      {
-        width           : "100%",
-        height          : "100%",
-        backgroundColor : "white"
-      });
-
-      buttview.getPane().add(p1);
-
-      var tree = new qx.legacy.ui.tree.Tree("Samples");
-      p1.add(tree);
-      this.tree = tree;
-      this.widgets["treeview.full"] = tree;
-      bsb1.setUserData('tree', tree);  // for changeSelected handling
-
-      tree.set(
-      {
-        width    : "100%",
-        height   : "100%",
-        padding  : 5,
-        overflow : "auto"
-      });
-
-      tree.getManager().addListener("changeSelection", this.treeGetSelection, this);
-
-      tree.addListener("dblclick", function(e)
-      {
-        if (e.getTarget() instanceof qx.legacy.ui.tree.TreeFile)
-        {
-          // allow treeGetSelection to run first
-          qx.event.Timer.once(this.runSample, this, 50);
-        }
-        else
-        {
-          this.setCurrentSample(this.defaultUrl);
-        }
-      },
-      this);
-
-      // flat view
-      var bsb2 = new qx.legacy.ui.pageview.buttonview.Button("Flat Tree", "icon/16/actions/view-pane-text.png");
-
-      // buttview.getBar().add(bsb2);
-      this.widgets["treeview.bsb2"] = bsb2;
-      bsb2.setShow("icon");
-      bsb2.setToolTip(new qx.legacy.ui.popup.ToolTip("Flat tree view (only one level of containers)"));
-
-      var p2 = new qx.legacy.ui.pageview.buttonview.Page(bsb2);
-      buttview.getPane().add(p2);
-
-      var tree1 = new qx.legacy.ui.tree.Tree("Tests");
-      p2.add(tree1);
-      this.tree1 = tree1;
-      this.widgets["treeview.flat"] = tree1;
-      bsb2.setUserData('tree', tree1);  // for changeSelected handling
-
-      tree1.set(
-      {
-        width    : "100%",
-        height   : "100%",
-        padding  : 5,
-        overflow : "auto"
-      });
-
-      tree1.getManager().addListener("changeSelection", this.treeGetSelection, this);
-
-      // fake unique tree for selection (better to have a selection on the model)
-      this.tree = {};
-      var that = this;
-
-      this.tree.getSelectedElement = function()
-      {
-        var sel = that.widgets["treeview"].getBar().getManager().getSelected();
-        var elem;
-
-        if (sel.getLabel() == "Full Tree") {
-          elem = that.widgets["treeview.full"].getSelectedElement();
-        } else {
-          elem = that.widgets["treeview.flat"].getSelectedElement();
-        }
-
-        return elem;
-      };
-
-      return buttview;
+      return tree1;
     },
 
     // ------------------------------------------------------------------------
@@ -931,17 +758,12 @@ qx.Class.define("demobrowser.DemoBrowser",
      */
     treeGetSelection : function(e)
     {
-      if (!this.tree.getSelectedElement())
-      {  // this is a kludge!
-        return;
-      }
-
-      var treeNode = this.tree.getSelectedElement();
+      var treeNode = this.tree.getSelectedItem();
       var modelNode = treeNode.getUserData("modelLink");
       this.tests.selected = this.tests.handler.getFullName(modelNode);
 
       // update toolbar
-      if (treeNode instanceof qx.legacy.ui.tree.TreeFolder)
+      if (treeNode instanceof qx.ui.tree.TreeFolder)
       {
         this._cmdRunSample.setEnabled(false);
         this._cmdPrevSample.setEnabled(false);
@@ -952,18 +774,24 @@ qx.Class.define("demobrowser.DemoBrowser",
       {
         this._cmdRunSample.setEnabled(true);
 
-        if (treeNode.getUserData('modelLink').getPrevSibling()) {
+        if (treeNode.getUserData('modelLink').getPrevSibling())
+        {
           this._cmdPrevSample.setEnabled(true);
           this.__states.isFirstSample=false;
-        } else {
+        }
+        else
+        {
           this._cmdPrevSample.setEnabled(false);
           this.__states.isFirstSample=true;
         }
 
-        if (treeNode.getUserData('modelLink').getNextSibling()) {
+        if (treeNode.getUserData('modelLink').getNextSibling())
+        {
           this._cmdNextSample.setEnabled(true);
           this.__states.isLastSample=false;
-        } else {
+        }
+        else
+        {
           this._cmdNextSample.setEnabled(false);
           this.__states.isLastSample=true;
         }
@@ -984,12 +812,12 @@ qx.Class.define("demobrowser.DemoBrowser",
       this._sampleToTreeNodeMap = {};
       var _sampleToTreeNodeMap = this._sampleToTreeNodeMap;
       var _initialSection    = "widget";
+      var _initialNode = null;
 
       // set a section to open initially
       var state   = this._history.getState();
       var section =  state.match(/([^~]+)~/);
-      if (section)
-      {
+      if (section) {
         _initialSection = section[1];
       }
 
@@ -997,7 +825,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       /**
        * create widget tree from model
        *
-       * @param widgetR {qx.legacy.ui.tree.Tree}    [In/Out]
+       * @param widgetR {qx.ui.tree.Tree}    [In/Out]
        *        widget root under which the widget tree will be built
        * @param modelR  {demobrowser.Tree} [In]
        *        model root for the tree from which the widgets representation
@@ -1014,27 +842,25 @@ qx.Class.define("demobrowser.DemoBrowser",
 
           if (currNode.hasChildren())
           {
-            t = new qx.legacy.ui.tree.TreeFolder(that.polish(currNode.label), "demobrowser/image/package18.gif");
+            t = new qx.ui.tree.TreeFolder(that.polish(currNode.label));
+            t.setIcon("demobrowser/image/package18.gif");
+            t.setIconOpened("demobrowser/image/package18.gif");
             t.setUserData("filled", false);
             t.setUserData("node", currNode);
-            t.setAlwaysShowPlusMinusSymbol(true);
 
-            t.addListener("changeOpen", function(e)
+            buildSubTree(t, t.getUserData("node"));
+
+            if (currNode.label == _initialSection)
             {
-              if (!this.getUserData("filled"))
-              {
-                buildSubTree(this, this.getUserData("node"));
-                this.setUserData("filled", true);
-              }
-            });
-
-            if (currNode.label == _initialSection) {
+              _initialNode = t;
               t.setOpen(true);
             }
           }
           else
           {
-            t = new qx.legacy.ui.tree.TreeFile(that.polish(currNode.label), "demobrowser/image/method_public18.gif");
+            t = new qx.ui.tree.TreeFile(that.polish(currNode.label));
+            t.setIcon("demobrowser/image/method_public18.gif");
+            t.setIconOpened("demobrowser/image/method_public18.gif");
             var fullName = currNode.pwd().slice(1).join("/") + "/" + currNode.label;
             _sampleToTreeNodeMap[fullName] = t;
           }
@@ -1044,9 +870,6 @@ qx.Class.define("demobrowser.DemoBrowser",
           t.setUserData("modelLink", currNode);
           currNode.widgetLinkFull = t;
 
-          if (that.tests.handler.getFullName(currNode) == that.tests.selected) {
-            selectedElement = currNode;
-          }
         }
       }
 
@@ -1054,61 +877,16 @@ qx.Class.define("demobrowser.DemoBrowser",
       var ttree = this.tests.handler.ttree;
       var that = this;
 
-      /*
-      // Reset Status Pane Elements
-      this.widgets["statuspane.current"].setText("");
-      this.widgets["statuspane.number"].setText("");
-      */
-
-      // Disable Tree View
-      // this.widgets["treeview"].setEnabled(false);
-
       // Handle current Tree Selection and Content
-      var fulltree = this.widgets["treeview.full"];
-      var flattree = this.widgets["treeview.flat"];
-      var trees = [ fulltree, flattree ];
+      this.tree.setUserData("modelLink", ttree);  // link top level widgets and model
 
-      for (var i=0; i<trees.length; i++)
-      {
-        trees[i].resetSelected();
-        trees[i].destroyContent();  // clean up before re-build
-        trees[i].setUserData("modelLink", ttree);  // link top level widgets and model
+      this.tree.getRoot().setOpen(true)
+      buildSubTree(this.tree.getRoot(), ttree);
+
+      if (_initialNode != null) {
+        this.tree.select(_initialNode);
       }
 
-      // link top level model to widgets
-      ttree.widgetLinkFull = fulltree;
-      ttree.widgetLinkFlat = flattree;
-
-      var selectedElement = null;  // if selection exists will be set by
-
-      // buildSubTree* functions to a model node
-      // Build the widget trees
-      buildSubTree(this.widgets["treeview.full"], ttree);
-
-      // Re-enable and Re-select
-      this.widgets["treeview"].setEnabled(true);
-
-      if (selectedElement)  // try to re-select previously selected element
-      {
-        // select tree element and open if folder
-        if (selectedElement.widgetLinkFull)
-        {
-          this.widgets["treeview.full"].setSelectedElement(selectedElement.widgetLinkFull);
-
-          if (selectedElement.widgetLinkFull instanceof qx.legacy.ui.tree.TreeFolder) {
-            selectedElement.widgetLinkFull.open();
-          }
-        }
-
-        if (selectedElement.widgetLinkFlat)
-        {
-          this.widgets["treeview.flat"].setSelectedElement(selectedElement.widgetLinkFlat);
-
-          if (selectedElement.widgetLinkFlat instanceof qx.legacy.ui.tree.TreeFolder) {
-            selectedElement.widgetLinkFlat.open();
-          }
-        }
-      }
     },  // leftReloadTree
 
 
@@ -1121,21 +899,8 @@ qx.Class.define("demobrowser.DemoBrowser",
      */
     runSample : function(e)
     {
-      // -- Feasibility Checks -----------------
-      if (!this.tests.selected) {
-        return;
-      }
-
-      if (!this.widgets["toolbar.runbutton"].isEnabled()) {
-        return;
-      }
-
-      if (true)
-      {
-        var file = this.tests.selected.replace(".", "/");
-
-        this.setCurrentSample(file);
-      }
+      var file = this.tests.selected.replace(".", "/");
+      this.setCurrentSample(file);
     },  // runSample()
 
 
@@ -1148,6 +913,7 @@ qx.Class.define("demobrowser.DemoBrowser",
      */
     setCurrentSample : function(value)
     {
+
       if (!value) {
         return;
       }
@@ -1157,28 +923,16 @@ qx.Class.define("demobrowser.DemoBrowser",
       }
 
       // -- Vars and Setup -----------------------
-      this.widgets["outputviews.bar"].getManager().setSelected(this.widgets["outputviews.demopage.button"]);
-      //this.widgets["outputviews.demopage.page"].setEnabled(false);
+      this.widgets["outputviews.demopage.page"].setEnabled(false);
 
       this.__setStateLoading();
-
-      var iDoc = this.widgets["outputviews.demopage.page"].getContentDocument();
-      if (iDoc)
-      {
-        try {
-          iDoc.body.innerHTML = "";
-        } catch(ex) {}
-      }
-
-      //this.widgets["outputviews.bar"].setEnabled(false);
-      //this.widgets["outputviews"].setEnabled(false);
 
       var url;
       var treeNode = this._sampleToTreeNodeMap[value];
 
       if (treeNode)
       {
-        treeNode.setSelected(true);
+        treeNode.getTree().select(treeNode);
         url = 'demo/' + value;
         if (this._useProfile) {
           url += "?qxvariant:qx.aspects:on&qxsetting:qx.enableAspect:true"
@@ -1190,8 +944,6 @@ qx.Class.define("demobrowser.DemoBrowser",
       {
         url = this.defaultUrl;
       }
-      // disable tree *after* setSelectedElement
-      //this.widgets["treeview"].setEnabled(false);
 
       // Clear log
       this.logappender.clear();
@@ -1200,6 +952,9 @@ qx.Class.define("demobrowser.DemoBrowser",
 
       this._currentSample = value;
       this._currentSampleUrl = url;
+      
+      // Focus first tab
+      this.widgets["outputviews"].setSelected(this.widgets["outputviews"].getChildren()[0]);
     },  // setCurrentSample
 
 
@@ -1212,14 +967,7 @@ qx.Class.define("demobrowser.DemoBrowser",
      */
     __ehIframeLoaded : function()
     {
-      var fwindow = this.f1.getContentWindow();
-
-      // poll for the logger to be loaded
-      if (!fwindow.qx || !fwindow.qx.log || !fwindow.qx.log.Logger)
-      {
-        qx.event.Timer.once(this.__ehIframeLoaded, this, 0);
-        return;
-      }
+      var fwindow = this.f1.getWindow();
 
       var fpath = fwindow.location.pathname + "";
       var splitIndex = fpath.indexOf("?");
@@ -1263,9 +1011,6 @@ qx.Class.define("demobrowser.DemoBrowser",
         var sample = path.slice(-2).join('~');
         this._history.addToHistory(sample, title);
 
-        // register appender
-        fwindow.qx.log.Logger.register(this.logappender);
-
         // load sample source code
         if (this._currentSampleUrl != this.defaultUrl)
         {
@@ -1277,14 +1022,8 @@ qx.Class.define("demobrowser.DemoBrowser",
       }
 
       this.__setStateLoaded();
-      try {
-        var tabName = this.widgets["treeview.full"].getSelectedElement().getLabel()
-      } catch (e) {
-        // if nothing is selected
-        var tabName = "Start";
-      }
-      this.widgets["outputviews.demopage.button"].setLabel(tabName);
-      // this.widgets["outputviews.demopage.button"].setLabel(this.polish(path[path.length - 1]));
+      var tabName = this.tree.getSelectedItem().getLabel();
+      this.widgets["outputviews"].getChildren()[0].setLabel(tabName);
 
       if (this.isPlayAll())
       {
@@ -1317,18 +1056,15 @@ qx.Class.define("demobrowser.DemoBrowser",
       {
         this.setPlayAll(true);  // turn on global flag
         // select first example
-        var first = this._sampleToTreeNodeMap['ui/Cursor_1.html'];
-        this.widgets["treeview.full"].setSelectedElement(first);
+        var first = this._sampleToTreeNodeMap['animation/Login_Sample.html'];
+        this.tree.select(first);
         // run sample
         this.widgets["toolbar.runbutton"].execute();
       } else                  // end playing all
       {
-        /*
-        if (this.__states.isLoading)
-        {
+        if (this.__states.isLoading) {
           this.widgets["toolbar.playall"].setEnabled(false);
         }
-        */
         this.setPlayAll(false);
       }
     },
@@ -1449,7 +1185,6 @@ qx.Class.define("demobrowser.DemoBrowser",
 
           if (state) {
             this.setCurrentSample(state.replace("~", "/"));
-            //this.widgets["treevi"].setSelectedElement()//TODO: this is a kludge!
           } else {
             this.setCurrentSample(this.defaultUrl);
           }
@@ -1476,7 +1211,7 @@ qx.Class.define("demobrowser.DemoBrowser",
      */
     playPrev : function(e)
     {
-      var currSamp = this.tree.getSelectedElement();  // widget
+      var currSamp = this.tree.getSelectedItem();  // widget
 
       if (currSamp)
       {
@@ -1484,7 +1219,7 @@ qx.Class.define("demobrowser.DemoBrowser",
 
         if (otherSamp)
         {
-          this.widgets["treeview.full"].setSelectedElement(otherSamp);
+          this.tree.select(otherSamp);
           this.runSample();
         }
       }
@@ -1500,15 +1235,20 @@ qx.Class.define("demobrowser.DemoBrowser",
      */
     playNext : function(e)
     {
-      var currSamp = this.tree.getSelectedElement();  // widget
+      var currSamp = this.tree.getSelectedItem();  // widget
 
       if (currSamp)
       {
-        var otherSamp = currSamp.getUserData('modelLink').getNextSibling().widgetLinkFull;
+        try{
+          var otherSamp = currSamp.getUserData('modelLink').getNextSibling().widgetLinkFull;
+        }catch(e)
+        {
+          this.debug(e)
+        }
 
         if (otherSamp)
         {
-          this.widgets["treeview.full"].setSelectedElement(otherSamp);
+          this.tree.select(otherSamp);
           this.runSample();
         }
       }
@@ -1623,6 +1363,24 @@ qx.Class.define("demobrowser.DemoBrowser",
       return str.replace(".html", "").replace("_", " ");
     },
 
+    __fetchLog : function()
+    {
+      var w = this.f1.getWindow();
+      var logger;
+      if (w.qx && w.qx.log && w.qx.log.Logger) {
+        logger = w.qx.log.Logger;
+
+        // Register to flush the log queue into the appender.
+        logger.register(this.logappender)
+
+        // Clear buffer
+        logger.clear();
+
+        // Unregister again, so that the logger can flush again the next time the tab is clicked.
+        logger.unregister(this.logappender);
+      }
+    },
+    
     defaultUrl : "demo/welcome.html"
   },
 
@@ -1638,6 +1396,6 @@ qx.Class.define("demobrowser.DemoBrowser",
   destruct : function()
   {
     this._disposeFields("widgets", "tests", "_sampleToTreeNodeMap", "tree", "__states", "logelem");
-    this._disposeObjects("header", "mainsplit", "tree1", "left", "runbutton", "toolbar", "f1", "f2", "logger", "_history", "logappender", '_cmdObjectSummary', '_cmdRunSample', '_cmdPrevSample', '_cmdNextSample', '_cmdSampleInOwnWindow', '_cmdLoadProfile', '_cmdProfile', '_cmdShowLastProfile', '_cmdDisposeSample', '_cmdNamespacePollution');
+    this._disposeObjects("header", "mainsplit", "tree1", "left", "runbutton", "toolbar", "f1", "f2", "_history", "logappender", '_cmdObjectSummary', '_cmdRunSample', '_cmdPrevSample', '_cmdNextSample', '_cmdSampleInOwnWindow', '_cmdLoadProfile', '_cmdProfile', '_cmdShowLastProfile', '_cmdDisposeSample', '_cmdNamespacePollution');
   }
 });
