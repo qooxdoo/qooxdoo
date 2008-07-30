@@ -676,9 +676,43 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
       style : "solid"
      }
-   },   
-    
+   },
+   
+   
+   
+   /*
+    ---------------------------------------------------------------------------
+      SPLITPANE
+    ---------------------------------------------------------------------------
+    */
+   
+   "splitpane-splitter-vertical" :
+   {
+      decorator : qx.ui.decoration.Single,
 
+      style :
+      {
+        widthTop : 1,
+        colorTop : "#b8b8b8",
+        style : "solid"
+      }      
+   },
+   
+   
+   "splitpane-splitter-horizontal" :
+   {
+      decorator : qx.ui.decoration.Single,
+
+      style :
+      {
+        widthLeft : 1,
+        colorLeft : "#b8b8b8",
+        style : "solid"
+      }      
+    },
+   
+   
+   
     /*
     ---------------------------------------------------------------------------
       WINDOW
