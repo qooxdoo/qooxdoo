@@ -15,12 +15,15 @@
    Authors:
      * Thomas Herchenroeder (thron7)
      * Fabian Jakobs (fjakobs)
+     * Jonathan Rass (jonathan_rass)
 
 ************************************************************************ */
 
 /* ************************************************************************
 
-#asset(qx/icon/Compat/16/*)
+#asset(qx/icon/${qx.icontheme}/16/*)
+#asset(qx/icon/Oxygen/*)
+#asset(qx/icon/Tango/*)
 #asset(demobrowser/image/*)
 #asset(demobrowser/css/*)
 
@@ -29,12 +32,10 @@
 /**
  * The main application class.
  */
+
 qx.Class.define("demobrowser.Application",
 {
-  extend : qx.legacy.application.Gui,
-
-
-
+  extend : qx.application.Standalone,
 
   /*
   *****************************************************************************
@@ -66,7 +67,7 @@ qx.Class.define("demobrowser.Application",
 
       // Initialize the viewer
       this.viewer = new demobrowser.DemoBrowser;
-      this.viewer.addToDocument();
+      this.getRoot().add(this.viewer, {edge:0});
 
       // Load data file
       qx.event.Timer.once(this._load, this, 0);
