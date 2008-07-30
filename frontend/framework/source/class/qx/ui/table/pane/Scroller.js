@@ -653,8 +653,6 @@ qx.Class.define("qx.ui.table.pane.Scroller",
      */
     _onDisappear : function()
     {
-      this.base(arguments);
-
       // before the scroller disappears we need to stop it
       this._stopInterval();
     },
