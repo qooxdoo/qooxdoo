@@ -22,8 +22,6 @@
 ################################################################################
 
 ##
-#<h2>Module Description</h2>
-#<pre>
 # NAME
 #  genjson.py -- generate json struct, to prepare for generation of demo apps
 #
@@ -33,17 +31,22 @@
 #    <copy_target>  -- directory to copy demo .js files to, e.g. 'source/script'
 #
 # DESCRIPTION
-#  - scans for html files of demos (in source/demo)                                                      
-#  - creates corresponding entry in JSON jobs file                                                     
-#  - copys corresponding .js file in 'script' dir (from source/class/..., for                            
-#    the 'View Source' function in DemoBrowser)                                                          
+# This script does actually a couple of things:
+#  - scans for html files of demos (in source/demo)
+#  - creates a config json file for them (using the tmpl.json template)
+#  - copys demos' .js files to <copy_target> dir (usually one of the */script dirs)
+#    from under source/class/, for the 'View Source' function in DemoBrowser
 #
-#</pre>
+# TODO
+#  - sync with gendata.py
 ##
 
 import sys, os, re, types, shutil
 
-fJSON = "./tool/demo_dyn.json"
+# go to application dir
+os.chdir(os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), os.pardir))
+
+fJSON = "./config.demo.json"
 
 
 def htmlfiles(rootpath):
@@ -66,6 +69,7 @@ def main():
     build  = ""
 
     JSON = open(fJSON,"w")
+    JSON.write('// This file is dynamically created by the generator!\n')
     JSON.write('{\n  "jobs":\n  {\n')
 
     jsontmplf = open(os.path.join('tool','tmpl.json'),"rU")
@@ -88,8 +92,9 @@ def main():
 
         # build classname
         clazz  = "demobrowser.demo.%s.%s" % (category,name)
-        source = source + ' "source-%s",' % clazz
-        build  = build + ' "build-%s",' % clazz
+        simple = "%s.%s" % (category,name)
+        source = source + ' "source-%s",' % simple
+        build  = build + ' "build-%s",' % simple
 
         # copy js source file
         if ('js_target' in c and len(c['js_target']) > 0):
@@ -100,7 +105,7 @@ def main():
             shutil.copyfile('source/class/%s.js' % clazz.replace('.','/'), "%s/%s.src.js" % (c['js_target'],clazz))
 
         # concat all
-        currcont = json_tmpl.replace('XXX',clazz)
+        currcont = json_tmpl.replace('XXX',"%s.%s"%(category,name)).replace("YYY",clazz)
         JSON.write("%s," % currcont[:-1])
         JSON.write("\n\n\n")
 
