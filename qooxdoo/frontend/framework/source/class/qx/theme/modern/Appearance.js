@@ -1174,9 +1174,20 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          width : states.horizontal ? 5 : "undefined",
-          height : states.vertical ? 5 : "undefined",
-          backgroundColor : states.active ? "#aaa" : "#bbb"
+          width : states.horizontal ? 6 : "undefined",
+          height : states.vertical ? 6 : "undefined",
+          backgroundColor : "#dfdfdf",
+          decorator : states.horizontal ? "splitpane-splitter-horizontal" : "splitpane-splitter-vertical"
+        };
+      }
+    },
+    
+    "splitpane/splitter/knob" :
+    {
+      style : function(states)
+      {
+        return {
+          source : states.horizontal ? "decoration/splitpane/knob-horizontal.png" : "decoration/splitpane/knob-vertical.png"
         };
       }
     },
@@ -1186,9 +1197,9 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          width : states.horizontal ? 5 : "undefined",
-          height : states.vertical ? 5 : "undefined",
-          backgroundColor : "#ccc"
+          width : states.horizontal ? 6 : "undefined",
+          height : states.vertical ? 6 : "undefined",
+          backgroundColor : "#dfdfdf"
         };
       }
     },
@@ -1438,6 +1449,45 @@ qx.Theme.define("qx.theme.modern.Appearance",
         return {
           alignY : "middle"
         }
+      }
+    },
+    
+    "table-editor-textfield" :
+    {
+      include : "textfield",
+
+      style : function(states)
+      {
+        return {
+          decorator : "undefined",
+          padding : [ 2, 2 ]
+        };
+      }
+    },
+
+    "table-editor-selectbox" :
+    {
+      include : "selectbox",
+      alias : "selectbox",
+
+      style : function(states)
+      {
+        return {
+          padding : [ 0, 2 ]
+        };
+      }
+    },
+
+    "table-editor-combobox" :
+    {
+      include : "combobox",
+      alias : "combobox",
+
+      style : function(states)
+      {
+        return {
+          decorator : "undefined"
+        };
       }
     }
   }

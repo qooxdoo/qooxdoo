@@ -1160,6 +1160,16 @@ qx.Theme.define("qx.theme.classic.Appearance",
         };
       }
     },
+    
+    "splitpane/splitter/knob" :
+    {
+      style : function(states)
+      {
+        return {
+          source : states.horizontal ? "decoration/splitpane/knob-horizontal.png" : "decoration/splitpane/knob-vertical.png"
+        };
+      }
+    },
 
     "splitpane/slider" :
     {
