@@ -592,7 +592,9 @@ qx.Class.define("qx.ui.table.Table",
           break;
 
         case "column-button":
-          control = new qx.ui.form.MenuButton();
+          control = new qx.ui.form.MenuButton().set({
+            focusable: false
+          })
           break;
       }
 
