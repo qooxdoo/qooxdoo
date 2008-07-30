@@ -1,12 +1,12 @@
 {
   "info" : 
   {
-    "name" : "DemoBrowser Samples",
+    "name" : "DemoBrowser Demos",
 
-    "summary" : "Sample applications that run in the DemoBrowser",
-    "description" : "Sample applications that run stand-alone and in the DemoBrowser",
+    "summary" : "Small sample applications that run in the DemoBrowser on stand-alone",
+    "description" : "Small sample applications that run in the DemoBrowser on stand-alone",
     
-    "keywords" : ["demos", "samples"],
+    "keywords" : ["demo"],
     "homepage" : "http://demo.qooxdoo.org/current/demobrowser",
 
     "license" : "LGPL/EPL",
