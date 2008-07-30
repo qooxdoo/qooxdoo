@@ -1,0 +1,235 @@
+// Testrunner - config.json
+{
+  "include" :
+  [
+    {
+      "path" : "../../tool/data/config/application.json",
+      "block"   : [ "source", "build", "clean" ]
+    }
+  ],
+
+	"let" :
+	{
+		"APPLICATION"  : "testrunner",
+		"CACHE"        : "../../cache",
+		"QOOXDOO_PATH" : "../../framework",
+		"QOOXDOO_URI"  : "../${QOOXDOO_PATH}"
+	},
+
+  "jobs" :
+  {
+    "common" :
+    {
+      "library" :
+      [
+        {
+          "manifest" : "${QOOXDOO_PATH}/Manifest.json",
+          "uri"      : "${QOOXDOO_URI}"
+        },
+
+        {
+          "manifest" : "Manifest.json",
+          "uri"      : ".."
+        }
+      ],
+
+      "include" :
+      [
+        "${APPLICATION}.runner.Application",
+        "qx.legacy.theme.ClassicRoyale"
+      ],
+
+      "settings" :
+      {
+        "qx.version" : "0.8-alpha1",
+        "qx.application" : "${APPLICATION}.runner.Application"
+      },
+
+      "themes" :
+      {
+        "qx.icontheme" : ["Oxygen"],
+        "qx.theme"     : ["Modern"]
+      },
+
+      "cache" :
+      {
+        "compile" : "../../cache"
+      }
+    },
+
+
+    "common-tests" :
+    {
+      "let" :
+      {
+        "QOOXDOO_PATH" : "../../framework"
+      },
+
+      "library" :
+      [
+        {
+          "manifest" : "${QOOXDOO_PATH}/Manifest.json",
+          "uri"      : "../../${QOOXDOO_PATH}"
+        },
+
+        {
+          "manifest" : "Manifest.json",
+          "uri"      : "../.."
+        }
+      ],
+
+      "include" : ["testrunner.TestLoader", "testrunner.test.*"],
+
+      "localize":
+      {
+        "locales" : ["de", "de_DE", "fr", "fr_FR" ]
+      },
+
+      "cache" :
+      {
+        "compile" : "../../cache"
+      }
+    },
+
+
+    // -- source jobs ------------------------------------------
+
+    "source-script" :
+    {
+      "extend" : ["common"],
+
+      "compile-source" :
+      {
+        "file" : "./source/script/${APPLICATION}.js",
+        "root" : "source"  // the root dir of your app, where the HTML lives
+      }
+    },
+
+
+    "source-tests" :
+    {
+      "extend" : ["common-tests"],
+
+      "compile-source" :
+      {
+        "file" : "./source/script/tests.js",
+        "root" : "source/html"
+      }
+    },
+
+
+    "source" :
+    {
+      "run" :
+      [
+        "source-script",
+        "source-tests"
+      ]
+    },
+
+
+    // -- build jobs -------------------------------------------
+
+    "build-files" :
+    {
+      "extend" : ["common"],
+
+      "copy-files" :
+      {
+        "files" :
+        [
+          "index.html",
+          "html"
+        ],
+
+        "target" : "build"
+      }
+    },
+
+
+    "build-resources":
+    {
+      "extend" : ["common"],
+
+      "include" :
+      [
+        "qx.legacy.theme.ClassicRoyale",
+        "testrunner.*"
+      ],
+
+      "copy-resources" :
+      {
+        "target" : "build"
+      }
+    },
+
+
+    "build-script" :
+    {
+      "extend" : ["common"],
+
+      "compile-dist" :
+      {
+        "target" : "build",
+        "file" : "./build/script/${APPLICATION}.js", // this should be relative to 'target'
+        "uri"  : "script/${APPLICATION}.js",  // this should be calculated from 'root'
+        "root" : "build"  // should be relative to 'target'?
+      }
+    },
+
+
+    "build-tests" :
+    {
+      "extend" : ["common-tests"],
+
+      "compile-dist" :
+      {
+        "target" : "build",
+        "file" : "./build/script/tests.js",
+        "uri"  : "../script/tests.js",
+        "root" : "build/html"
+      }
+    },
+
+
+    "build" :
+    {
+      "run" :
+      [
+        "build-resources",
+        "build-files",
+        "build-script",
+        "build-tests"
+      ]
+    },
+
+    // -- misc jobs -------------------------------------------
+
+		"clean" :
+		{
+			"extend" : [ "common" ],
+
+			"clean-files" :
+			{
+        "Cleaning up build" :
+        [
+          "${BUILD_PATH}/script/${APPLICATION}.js",
+          "${BUILD_PATH}/script/${APPLICATION}[_-]*.js",
+          "${BUILD_PATH}/script/test.js",
+          "${BUILD_PATH}/script/test[_-]*.js"
+        ],
+        "Cleaning up source" :
+        [
+          "${ROOT}/cache",
+          "${ROOT}/source/script/${APPLICATION}.js",
+          "${ROOT}/source/script/test.js",
+          "${ROOT}/source/translation/messages.pot"
+        ],
+        "Cleaning up framework" :
+        [
+          "${QOOXDOO_PATH}/source/translation/messages.pot"
+        ]
+			}
+		}
+  }
+}
