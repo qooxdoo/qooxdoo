@@ -18,10 +18,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-************************************************************************ */
-
 /**
  * Shows a calendar and allows choosing a date.
  */
@@ -40,7 +36,7 @@ qx.Class.define("qx.ui.control.DateChooser",
 
   /**
    * @param date {Date ? null} The initial date to show. If <code>null</code>
-   *        the current day (today) is shown.
+   * the current day (today) is shown.
    */
   construct : function(date)
   {
@@ -50,10 +46,11 @@ qx.Class.define("qx.ui.control.DateChooser",
     var layout = new qx.ui.layout.VBox();
     this._setLayout(layout);
     
+    // create the child controls
     this._createChildControl("navigation-bar");
     this._createChildControl("date-pane");
 
-    // Make focusable
+    // Support for key events
     this.addListener("keypress", this._onkeypress);
 
     // Show the right date
@@ -75,8 +72,7 @@ qx.Class.define("qx.ui.control.DateChooser",
   statics :
   {
     /**
-     * {string} The format for the date year
-     * label at the top center.
+     * {string} The format for the date year label at the top center.
      */
     MONTH_YEAR_FORMAT : qx.locale.Date.getDateTimeFormat("yyyyMMMM", "MMMM yyyy")
   },
@@ -128,7 +124,7 @@ qx.Class.define("qx.ui.control.DateChooser",
       event : "changeShownYear"
     },
 
-    /** {Date} The currently selected date. */
+    /** The currently selected date. */
     date :
     {
       check : "Date",
@@ -165,22 +161,24 @@ qx.Class.define("qx.ui.control.DateChooser",
     ---------------------------------------------------------------------------
     */
     /**
-     * Sets the element's string value
+     * Sets the element's string value. The String should be excepted by the
+     * JavaScript Date-Object.
      *
-     * @param value {String} The new value of the element
-     * @return {var} the value
+     * @param value {String} The new date value as a JavaScript confrom date string.
+     * @return {String} the value
      */
     setValue : function(value) 
     {
       this.assertType(value, "string");
       this.setDate(new Date(value));
+      return value;
     },
 
 
     /**
-     * The element's user set value
+     * The element's user set value (date) as a String.
      *
-     * @return {var} the value
+     * @return {String} The current set date.
      */
     getValue : function() 
     {
@@ -335,10 +333,11 @@ qx.Class.define("qx.ui.control.DateChooser",
     
     // property checker
     /**
-     * TODOC
+     * Returns a clone of the given date if one is given. If the value is 
+     * <code>null</code>, <code>null</code> will be returned.
      *
-     * @param value {var} Current value
-     * @return {var} TODOC
+     * @param value {Date} Current date.
+     * @return {Date | null} A clone of the set Date. 
      */
     _checkDate : function(value)
     {
@@ -346,13 +345,8 @@ qx.Class.define("qx.ui.control.DateChooser",
       return (value == null) ? null : new Date(value.getTime());
     },
 
-    // property modifier
-    /**
-     * TODOC
-     *
-     * @param value {var} Current value
-     * @param old {var} Previous value
-     */
+
+    // apply methods
     _applyDate : function(value, old)
     {
       // fire the changeValue event
@@ -393,11 +387,17 @@ qx.Class.define("qx.ui.control.DateChooser",
     },
 
 
+    
+    /*
+    ---------------------------------------------------------------------------
+      EVENT HANDLER
+    ---------------------------------------------------------------------------
+    */
+       
     /**
      * Event handler. Called when a navigation button has been clicked.
      *
-     * @param evt {Map} the event.
-     * @return {void}
+     * @param evt {qx.event.type.Data} The data event.
      */
     _onNavButtonClicked : function(evt)
     {
@@ -444,7 +444,7 @@ qx.Class.define("qx.ui.control.DateChooser",
     /**
      * Event handler. Called when a day has been clicked.
      *
-     * @param evt {Map} the event.
+     * @param evt {qx.event.type.Data} The event.
      */
     _onDayClicked : function(evt)
     {
@@ -453,7 +453,9 @@ qx.Class.define("qx.ui.control.DateChooser",
     },
 
 
-
+    /**
+     * Event handler. Called when a day has been double-clicked.
+     */
     _onDayDblClicked : function() {
       this.execute();
     },
@@ -462,8 +464,7 @@ qx.Class.define("qx.ui.control.DateChooser",
     /**
      * Event handler. Called when a key was pressed.
      *
-     * @param evt {Map} the event.
-     * @return {boolean | void} TODOC
+     * @param evt {qx.event.type.Data} The event.
      */
     _onkeypress : function(evt)
     {
@@ -553,14 +554,14 @@ qx.Class.define("qx.ui.control.DateChooser",
       }
     },
 
-    // ***** Methods *****
+
     /**
      * Shows a certain month.
      *
-     * @param month {Integer ? null} the month to show (0 = january). If not set the month
-     *      will remain the same.
-     * @param year {Integer ? null} the year to show. If not set the year will remain the
-     *      same.
+     * @param month {Integer ? null} the month to show (0 = january). If not set 
+     *      the month will remain the same.
+     * @param year {Integer ? null} the year to show. If not set the year will 
+     *      remain the same.
      */
     showMonth : function(month, year)
     {
