@@ -2709,18 +2709,10 @@ qx.Class.define("qx.ui.core.Widget",
      * apply states etc. to a focused widget.
      *
      * @internal
-     * @type member
      * @return {void}
      */
-    visualizeFocus : function()
-    {
+    visualizeFocus : function() {
       this.addState("focused");
-
-      // Scroll newly focused elements into view
-      var root = this.getApplicationRoot();
-      if (root) {
-        root.scrollChildIntoView(this);
-      }
     },
 
 
