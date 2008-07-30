@@ -44,7 +44,7 @@ qx.Class.define("qx.ui.table.cellrenderer.AbstractImage",
     {
       clazz.stylesheet = qx.bom.Stylesheet.createElement(
         ".qooxdoo-table-cell-icon {" +
-        "  text-align:center;" +
+        //"  text-align:center;" +
         "  padding-top:1px;" +
         "}"
       );
@@ -123,7 +123,7 @@ qx.Class.define("qx.ui.table.cellrenderer.AbstractImage",
     // overridden
     _getContentHtml : function(cellInfo)
     {
-      var content = ['<span style="position:absolute;'];
+      var content = ['<div style="position:relative;'];
       var urlAndToolTip = this._getImageInfos(cellInfo);
 
       // set image
@@ -136,6 +136,7 @@ qx.Class.define("qx.ui.table.cellrenderer.AbstractImage",
         content.push(
           'width:', urlAndToolTip.imageWidth, 'px;height:',
           urlAndToolTip.imageHeight, 'px;',
+          'left: 50%;',
           'margin-left:', (-urlAndToolTip.imageWidth >> 1), 'px" '
         );
       }
@@ -145,7 +146,7 @@ qx.Class.define("qx.ui.table.cellrenderer.AbstractImage",
       if (tooltip != null) {
         content.push('title="', tooltip, '" ');
       }
-      content.push("></span>");
+      content.push("></div>");
 
       return content.join("");
     }
