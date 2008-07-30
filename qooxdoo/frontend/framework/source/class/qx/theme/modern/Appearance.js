@@ -1279,6 +1279,166 @@ qx.Theme.define("qx.theme.modern.Appearance",
           textColor : states.disabled ? "text-disabled" : "input-text"
         };
       }
+    },
+    
+    
+    
+    /*
+    ---------------------------------------------------------------------------
+      TABLE
+    ---------------------------------------------------------------------------
+    */
+
+    "table/statusbar" :
+    {
+      style : function(states)
+      {
+        return {
+          decorator : new qx.ui.decoration.Single().set({ top : [ 1, "solid", "border-dark-shadow" ] }),
+          paddingLeft : 2,
+          paddingRight : 2
+        };
+      }
+    },
+
+    "table-header":
+    {
+      style : function(states)
+      {
+        return {
+          decoration : new qx.ui.decoration.Single().set({ bottom : [ 1, "solid", "table-header-border" ] }),
+          backgroundColor : "table-header"
+        };
+      }
+    },
+
+    "table/column-button" :
+    {
+      alias : "button",
+      style : function(states)
+      {
+        var border, padding;
+
+        if (states.pressed || states.checked || states.abandoned)
+        {
+          border = "inset-thin";
+          padding = [ 3, 2, 1, 4 ];
+        }
+        else if (states.hovered)
+        {
+          border = "outset-thin";
+          padding = [ 2, 3 ];
+        }
+        else
+        {
+          border = "undefined";
+          padding = [ 3, 4 ];
+        }
+
+        return {
+          decorator : border,
+          padding : padding,
+          backgroundColor : states.abandoned ? "button-abandoned" : "button",
+          icon : "decoration/table/select-column-order.png"
+        };
+      }
+    },
+
+    "table-scroller/scrollbar-x": "scrollbar",
+    "table-scroller/scrollbar-y": "scrollbar",
+
+    "table-scroller" : "widget",
+
+    "table-scroller/header":
+    {
+      style : function(states)
+      {
+        return {
+          decorator : new qx.ui.decoration.Single().set({
+            bottom : [ 1, "solid", "table-header-border" ]
+          }),
+          backgroundColor : "table-header"
+        };
+      }
+    },
+
+    "table-scroller/pane" :
+    {
+      style : function(states)
+      {
+        return {
+          backgroundColor : "table-pane"
+        };
+      }
+    },
+
+    "table-scroller/focus-indicator" :
+    {
+      style : function(states)
+      {
+        return {
+          decorator : new qx.ui.decoration.Single(2, "solid", "table-focus-indicator")
+        };
+      }
+    },
+
+    "table-scroller/resize-line" :
+    {
+      style : function(states)
+      {
+        return {
+          backgroundColor: "#D6D5D9",
+          width: 3
+        };
+      }
+    },
+
+    "table-header-cell" :
+    {
+      alias : "atom",
+      style : function(states)
+      {
+
+        if (states.hovered)
+        {
+          deco = new qx.ui.decoration.Single().set({
+            right : [ 1, "solid", "table-header-border" ],
+            bottom : [ 2, "solid", "effect" ]
+          });
+
+          paddingBottom = 0;
+          backgroundColor = "table-header-cell-hover";
+        }
+        else
+        {
+          deco = new qx.ui.decoration.Single().set({
+            right : [ 1, "solid", "table-header-border" ]
+          });
+
+          paddingBottom = 2;
+          backgroundColor = "table-header-cell";
+        }
+
+        return {
+          paddingLeft : 2,
+          paddingRight : 2,
+          paddingBottom : paddingBottom,
+          decorator : deco,
+          backgroundColor : backgroundColor,
+          sortIcon : states.sorted ?
+              (states.sortedAscending ? "decoration/table/ascending.png" : "decoration/table/descending.png")
+              : "undefined"
+        }
+      }
+    },
+
+    "table-header-cell/sort-icon" : {
+      style : function(states)
+      {
+        return {
+          alignY : "middle"
+        }
+      }
     }
   }
 });
