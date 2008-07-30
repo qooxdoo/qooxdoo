@@ -650,20 +650,20 @@ class Generator:
         self._shellCmd       = ShellCmd()
 
         # massage relative paths - tricky!
-        parts = shellcmd.split()
-        nparts= []
-        for p in parts:
-            if p.find(os.sep) > -1:
-                if not os.path.isabs(p):
-                    nparts.append(self._config1.absPath(p))
-                    continue
-            nparts.append(p)
+        #parts = shellcmd.split()
+        #nparts= []
+        #for p in parts:
+        #    if p.find(os.sep) > -1:
+        #        if not os.path.isabs(p):
+        #            nparts.append(self._config1.absPath(p))
+        #            continue
+        #    nparts.append(p)
 
-        shellcmd = " ".join(nparts)
+        #shellcmd = " ".join(nparts)
         self._console.info("Executing shell command \"%s\"..." % shellcmd)
         self._console.indent()
                     
-        rc = self._shellCmd.execute(shellcmd)
+        rc = self._shellCmd.execute(shellcmd, self._config1.getConfigDir())
         if rc != 0:
             raise RuntimeError, "Shell command returned error code: %s" % repr(rc)
         self._console.outdent()
