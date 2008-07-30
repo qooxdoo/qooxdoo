@@ -17,11 +17,12 @@
      * Sebastian Werner (wpbasti)
      * Andreas Ecker (ecker)
      * Fabian Jakobs (fjakobs)
+     * Jonathan Rass (jonathan_rass)
 
 ************************************************************************ */
 
 /**
- * Implements the dynamic behaviour of the API viewer.
+ * Implements the dynamic behavior of the API viewer.
  * The GUI is defined in {@link Viewer}.
  */
 qx.Class.define("apiviewer.Controller",
@@ -112,9 +113,9 @@ qx.Class.define("apiviewer.Controller",
           }
 
           this._detailLoader.setHtml(
-            '<h1><small>' +
+            '<div style="padding:10px;"><h1><small>' +
             qx.core.Setting.get("apiviewer.title") +
-            '</small>API Documentation</h1>'
+            '</small>API Documentation</h1></div>'
           );
 
         }, this, 0);
@@ -145,7 +146,7 @@ qx.Class.define("apiviewer.Controller",
      */
     __bindTree : function()
     {
-      this._tree.getManager().addListener("changeSelection", function(evt) {
+      this._tree.addListener("changeSelection", function(evt) {
         var treeNode = evt.getData()[0];
         if (treeNode && treeNode.getUserData("nodeName") && !this._ignoreTreeSelection)
         {
@@ -157,11 +158,12 @@ qx.Class.define("apiviewer.Controller",
       }, this);
 
       this._tree.addListener("appear", function(e) {
-        var item =  this._tree.getManager().getSelectedItem();
+        var item =  this._tree.getSelectedItem();
         if (item) {
-          this._tree.getManager().scrollItemIntoView(item);
+          this._tree.scrollChildIntoView(item);
         }
       }, this);
+
     },
 
 
@@ -247,10 +249,7 @@ qx.Class.define("apiviewer.Controller",
      */
     __selectClass : function(classNode, callback, self)
     {
-      this._detailLoader.setVisibility(false);
-
-      var doc = qx.legacy.ui.core.ClientDocument.getInstance();
-      doc.setGlobalCursor("wait");
+      this._detailLoader.exclude();
 
       var cb = callback ? qx.lang.Function.bind(callback, self) : function() {};
 
@@ -258,10 +257,9 @@ qx.Class.define("apiviewer.Controller",
       {
         this._classLoader.classLoadDependendClasses(classNode, function(cls)
         {
-          this._packageViewer.setVisibility(false);
+          this._packageViewer.exclude();
           this._classViewer.setDocNode(cls);
-          this._classViewer.setVisibility(true);
-          doc.resetGlobalCursor();
+          this._classViewer.show();
           cb();
         }, this);
       }
@@ -269,10 +267,9 @@ qx.Class.define("apiviewer.Controller",
       {
         this._classLoader.packageLoadDependendClasses(classNode, function()
         {
-          this._classViewer.setVisibility(false);
+          this._classViewer.exclude();
           this._packageViewer.setDocNode(classNode);
-          this._packageViewer.setVisibility(true);
-          doc.resetGlobalCursor();
+          this._packageViewer.show();
           cb();
         }, this);
       }
@@ -315,17 +312,22 @@ qx.Class.define("apiviewer.Controller",
         return;
       }
 
-      var nodeName = this._tree.getSelectedElement().getUserData("nodeName");
+      var nodeName = this._tree.getSelectedItem().getUserData("nodeName");
+      
+      
       this.__selectClass(apiviewer.dao.Class.getClassByName(nodeName), function()
       {
-        if (itemName) {
-          if (!this._classViewer.showItem(itemName)) {
+        if (itemName)
+        {
+          if (!this._classViewer.showItem(itemName))
+          {
             this.error("Unknown item of class '"+ className +"': " + itemName);
             alert("Unknown item of class '"+ className +"': " + itemName);
             return;
           }
         } else {
-          this._classViewer.setScrollTop(0);
+          // TODO
+          ////this._classViewer.setScrollTop(0);
         }
         this.__updateHistory(fullItemName);
 

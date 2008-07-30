@@ -40,7 +40,7 @@ qx.Mixin.define("apiviewer.MWidgetRegistry",
      * Returns the widget registered under the given id by {@link #register}
      *
      * @param id {String} the id of the widget
-     * @return {qx.legacy.ui.core.Widget} the widget.
+     * @return {qx.ui.core.Widget} the widget.
      */
     getWidgetById : function(id)
     {
@@ -51,7 +51,7 @@ qx.Mixin.define("apiviewer.MWidgetRegistry",
      * Registers a widget under the given widget id to be used with
      * {@link #getWidgetById}.
      *
-     * @param widget {qx.legacy.ui.core.Widget} the widget to register
+     * @param widget {qx.ui.core.Widget} the widget to register
      * @param id {String} the id of the widget.
      */
     register : function(object, id)

@@ -14,6 +14,7 @@
 
    Authors:
      * Stefan Kloiber (skloiber)
+     * Jonathan Rass (jonathan_rass)
 
 ************************************************************************ */
 
@@ -22,7 +23,7 @@
  */
 qx.Class.define("apiviewer.ui.SearchView",
 {
-  extend : qx.legacy.ui.layout.VerticalBoxLayout,
+  extend : qx.ui.container.Composite,
 
 
   /*
@@ -34,22 +35,14 @@ qx.Class.define("apiviewer.ui.SearchView",
   construct : function()
   {
     this.base(arguments);
+    this.setLayout(new qx.ui.layout.VBox)
 
-    this.__initialized = false;
     this.__initresult = false;
-    this.__livesearch = true;
-    this.__showoptions = false;
+    this.listdata = [];
 
     this.apiindex = {};
 
-    this.set({
-      width  : "100%",
-      height : "100%"
-    });
-
-    this.addListener("appear", function() {
-      qx.event.Timer.once(this._showSearchForm, this, 0);
-    }, this);
+    this._showSearchForm();
   },
 
 
@@ -69,99 +62,85 @@ qx.Class.define("apiviewer.ui.SearchView",
      */
     _showSearchForm : function()
     {
-      if (this.__initialized) {
-        return;
-      }
 
       //--------------------------------------------------------
       // Outputs the generated index file content to a textarea
       //--------------------------------------------------------
 
       // Search form
-      var sform = new qx.legacy.ui.layout.HorizontalBoxLayout;
-      sform.set({
-        height          : "auto",
-        padding         : 5,
-        backgroundColor : "white",
-        spacing         : 4,
-        verticalChildrenAlign : "middle"
-      });
-
+      var layout = new qx.ui.layout.HBox(4);
+      var sform = new qx.ui.container.Composite(layout);
 
       // Search form - input field
-      this.sinput = new qx.legacy.ui.form.TextField();
-      this.sinput.setLiveUpdate(true);
-      this.sinput.setWidth("1*");
+      this.sinput = new qx.ui.form.TextField();
 
       // Search form - submit button
-      this.__button = new qx.legacy.ui.form.Button("Find");
+      this.__button = new qx.ui.form.Button("Find");
       this.__button.setEnabled(false);
 
-      // Label for options
-      this.optLabel = new qx.legacy.ui.toolbar.Button(null, "widget/arrows/down.gif");
-      this.optLabel.set({
-        marginLeft        : 10,
-        backgroundColor   : "white"
+      sform.add(this.sinput, {
+        flex : 1
       });
-      // Tooltips for options
-      this.optTooltipShow = new qx.legacy.ui.popup.ToolTip("Show options");
-      this.optTooltipHide = new qx.legacy.ui.popup.ToolTip("Hide options");
-      this.optLabel.setToolTip(this.optTooltipShow);
+      sform.add(this.__button);
 
-      this.optLabel.addListener("click", function() {
-        this.__toggleOptions(options);
-      }, this);
+      this.add(sform);
 
-      this.add(sform.add(this.sinput, this.__button, this.optLabel));
+      // Create the initial data
+      var rowData = [];
 
-      // Options
-      var options = new qx.legacy.ui.layout.HorizontalBoxLayout;
-      options.set({
-        width             : "100%",
-        height            : 1,
-        padding           : 5,
-        overflow          : "hidden",
-        backgroundColor   : "white",
-        border            : "line-bottom",
-        spacing           : 4
-      });
-      var optCheckboxLivesearch = new qx.legacy.ui.form.CheckBox("Enable live search", "lschecked", "ls", true);
+      // table model
+      var tableModel = this._tableModel = new qx.ui.table.model.Simple();
+      tableModel.setColumns([ "", "Results" ]);
+      tableModel.setData(rowData);
 
-
-      this.add(options.add(optCheckboxLivesearch));
-
-      optCheckboxLivesearch.addListener("changeChecked", function(e)
+      var customModel =
       {
-        this.__toggleLivesearch();
-      }, this);
+        tableColumnModel : function(obj) {
+          return new qx.ui.table.columnmodel.Resize(obj);
+        }
+      };
 
+      
+      // table
+      var table = new qx.ui.table.Table(tableModel, customModel);
+      table.exclude();
+      table.setShowCellFocusIndicator(false);
+      table.setStatusBarVisible(false);
+      table.setColumnVisibilityButtonVisible(false);
+
+      table.addListener("cellClick", this._onCellClick, this);
+      
+      this._table = table;
+      // resize behavior
+      var tcm = table.getTableColumnModel();
+      var resizeBehavior = tcm.getBehavior();
+      resizeBehavior.set(0, {width:"0*", minWidth : 30, maxWidth : 30});
+      resizeBehavior.set(1, {width:"1*"});
+
+      
+      var tcm = table.getTableColumnModel();
+      tcm.setDataCellRenderer(0, new qx.ui.table.cellrenderer.Image());
+
+      this.__initresult = true;
+
+      this.add(table, {flex : 1})
+      
+      
       // Load index file
       qx.event.Timer.once(this._load, this, 0);
 
       // Give keyboard focus to the search field
-      this.sinput.addListener("appear", function(e)
-      {
-        this.sinput.getInputElement().focus();
-      }, this);
+      this.sinput.focus();
 
       // Submit events
-      this.sinput.addListener("keydown", function(e) {
-        if (e.getKeyIdentifier() == "Enter") {
-          this._searchResult(this.sinput.getValue());
-        }
+      this.sinput.addListener("keyup", function(e) {
+        this._searchResult(this.sinput.getValue());
       }, this);
 
       this.__button.addListener("execute", function(e) {
         this._searchResult(this.sinput.getValue());
       }, this);
 
-      this.sinput.addListener("changeValue", function(e) {
-        this._searchResult(this.sinput.getValue(), e);
-      }, this);
-
-
-      // Search form is initialized now
-      this.__initialized = true;
     },
 
 
@@ -170,9 +149,8 @@ qx.Class.define("apiviewer.ui.SearchView",
      *
      * @type member
      * @param svalue {String} input value
-     * @param liveSearch {Event} changeValue event
      */
-    _searchResult : function(svalue, liveSearch)
+    _searchResult : function(svalue)
     {
       var searchStart = new Date();
 
@@ -180,100 +158,52 @@ qx.Class.define("apiviewer.ui.SearchView",
       var svalue = qx.lang.String.trim(svalue);
 
       // If empty or too short search string stop here
-      if (svalue.length < 2)
+      if (svalue.length < 3)
       {
         // Reset the result list
         if (this.__initresult) {
           this.listdata.splice(0, this.listdata.length);
-          this.rlv.getHeader()._columns["result"].headerCell.setLabel("Invalid Search");
-          this.rlv.update();
         }
-        this.sinput.resetBackgroundColor();
+
         this.__button.setEnabled(false);
+        this._table.exclude();
+
         return;
       }
       else
       {
         var sresult = [];
 
-          try
-          {
-              var search = this._validateInput(svalue);
-              new RegExp(search[0]);
-              this.sinput.resetBackgroundColor();
-              this.__button.setEnabled(true);
-          }
-          catch(ex)
-          {
-            // Reset the result list
-            if (this.__initresult) {
-              this.listdata.splice(0, this.listdata.length);
-              this.rlv.getHeader()._columns["result"].headerCell.setLabel("Invalid Search");
-              this.rlv.update();
-            }
-
-            this.sinput.setBackgroundColor("#ffbfbc");
-            this.__button.setEnabled(false);
-            return;
+        try
+        {
+          var search = this._validateInput(svalue);
+          new RegExp(search[0]);
+         this.__button.setEnabled(true);
+        }
+        catch(ex)
+        {
+          // Reset the result list
+          if (this.__initresult) {
+            this.listdata.splice(0, this.listdata.length);
           }
 
+          this._table.exclude();
+          this.__button.setEnabled(false);
+          return;
+        }
 
-          if (!liveSearch || (liveSearch.getType() == "changeValue" && this.__livesearch)) {
-            sresult = this._searchIndex(search[0], search[1]);
-          }
-          else return;
 
+       sresult = this._searchIndex(search[0], search[1]);
+
+       // TODO: this should be working soon
+       //this._tableModel.setColumnName(1, (results + " Results (" + duration + " s)"));
+       this._tableModel.setColumns([ "", (sresult.length + " Result" + ((sresult.length != 1) ? "s" : "")) ]);
+       this._tableModel.setData(sresult);
+       this._table.show();
 
         var searchEnd = new Date();
         var results = sresult.length;
         var duration = (searchEnd.getTime() - searchStart.getTime())/1000; //seconds
-//        this.debug("Results " + results + " (" + duration + " s)");
-
-        // If initialized update listview
-        if (this.__initresult)
-        {
-          this.listdata.splice(0, this.listdata.length);
-
-          this.rlv.getHeader()._columns["result"].headerCell.setLabel(results + " Results (" + duration + " s)");
-          this._setListdata(sresult);
-
-          this.rlv.update();
-        }
-        // Create listview
-        else
-        {
-          this.listdata = [];
-
-          var listfield = {
-            icon : { label:" ", width:30, type:"iconHtml", align:"center", sortable:true, sortMethod:this._sortByIcons, sortProp:"icon"  },
-            result : { label:results + " Results (" + duration + " s)", width:"80%", type:"text", sortable:true, sortProp:"text" }};
-
-          this.rlv = new qx.legacy.ui.listview.ListView(this.listdata, listfield);
-          this.rlv.setHeight("1*");
-          this.rlv.setBorder(null);
-
-          this.add(this.rlv);
-
-          var rlvpane = this.rlv.getPane();
-          // No multi selection
-          rlvpane.getManager().setMultiSelection(false);
-
-
-          rlvpane.addListener("click", function(e) {
-            this._callDetailFrame(e.getCurrentTarget().getManager());
-          }, this);
-
-          rlvpane.addListener("keydown", function(e) {
-            if (e.getKeyIdentifier() == "Enter") {
-              this._callDetailFrame(e.getCurrentTarget().getManager());
-            }
-          }, this);
-
-          this._setListdata(sresult);
-          this.rlv.update();
-
-          this.__initresult = true;
-        }
       }
     },
 
@@ -419,40 +349,6 @@ qx.Class.define("apiviewer.ui.SearchView",
 
 
     /**
-     * Toggle the live search functionality
-     */
-    __toggleLivesearch : function()
-    {
-      if (this.__livesearch === false) {
-        this.__livesearch = true;
-      } else {
-        this.__livesearch = false;
-      }
-    },
-
-
-    /**
-     * Toggle the options field
-     */
-    __toggleOptions : function(field)
-    {
-      if (this.__showoptions === false) {
-        this.__showoptions = true;
-        this.optLabel.setIcon("widget/arrows/up.gif");
-        this.optLabel.setToolTip(this.optTooltipHide);
-        field.setHeight("auto");
-      } else {
-        this.__showoptions = false;
-        this.optLabel.setIcon("widget/arrows/down.gif");
-        this.optLabel.setToolTip(this.optTooltipShow);
-        field.setHeight(1);
-      }
-    },
-
-
-
-
-    /**
      * Load the api index
      */
     _load : function()
@@ -468,7 +364,7 @@ qx.Class.define("apiviewer.ui.SearchView",
       req.addListener("completed", function(evt) {
         this.apiindex = eval("(" + evt.getContent() + ")");
         var loadEnd = new Date();
-        this.info("Time to load api indexfile from server: " + (loadEnd.getTime() - loadStart.getTime()) + "ms");
+        this.debug("Time to load api indexfile from server: " + (loadEnd.getTime() - loadStart.getTime()) + "ms");
       }, this);
 
       req.addListener("failed", function(evt) {
@@ -538,6 +434,10 @@ qx.Class.define("apiviewer.ui.SearchView",
           controller.__updateHistory(fullItemName);
 
         }, controller);
+    },
+    
+    _onCellClick : function(e)
+    {
     }
 
   },
