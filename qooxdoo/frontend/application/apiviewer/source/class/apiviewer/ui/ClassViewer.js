@@ -17,6 +17,7 @@
      * Sebastian Werner (wpbasti)
      * Andreas Ecker (ecker)
      * Fabian Jakobs (fjakobs)
+     * Jonathan Rass (jonathan_rass)
 
 ************************************************************************ */
 
@@ -39,13 +40,6 @@ qx.Class.define("apiviewer.ui.ClassViewer",
   construct : function()
   {
     this.base(arguments);
-
-    this.setHtmlProperty("id", "ClassViewer");
-    this.setVisibility(false);
-    this.setDocNode(new apiviewer.dao.Class({}));
-
-    apiviewer.ui.ClassViewer.instance = this;
-
     this.addInfoPanel(new apiviewer.ui.panels.MethodPanel("constructor", "constructor", false, true));
     this.addInfoPanel(new apiviewer.ui.panels.EventPanel("events", "events", true, true));
     this.addInfoPanel(new apiviewer.ui.panels.PropertyPanel("properties", "properties", true, true));
@@ -53,6 +47,11 @@ qx.Class.define("apiviewer.ui.ClassViewer",
     this.addInfoPanel(new apiviewer.ui.panels.MethodPanel("methods-static", "static methods", false, true));
     this.addInfoPanel(new apiviewer.ui.panels.ConstantPanel("constants", "constants", false, true));
     this.addInfoPanel(new apiviewer.ui.panels.AppearancePanel("appearances", "appearances", false, true));
+
+    this.getContentElement().setAttribute("id", "ClassViewer");
+    apiviewer.ui.ClassViewer.instance = this;
+
+    this._init(new apiviewer.dao.Class({}));        
   },
 
 
@@ -556,8 +555,8 @@ qx.Class.define("apiviewer.ui.ClassViewer",
       elem.className = "marked";
       this._markedElement = elem;
 
-      qx.legacy.html.ScrollIntoView.scrollX(elem, true);
-      qx.legacy.html.ScrollIntoView.scrollY(elem, true);
+      qx.bom.element.Scroll.intoView(elem);
+
       return true;
     },
 

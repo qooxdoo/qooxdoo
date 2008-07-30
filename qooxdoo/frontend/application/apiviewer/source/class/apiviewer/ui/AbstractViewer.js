@@ -17,24 +17,25 @@
      * Sebastian Werner (wpbasti)
      * Andreas Ecker (ecker)
      * Fabian Jakobs (fjakobs)
+     * Jonathan Rass (jonathan_rass)
 
 ************************************************************************ */
 
 qx.Class.define("apiviewer.ui.AbstractViewer",
 {
-  extend : qx.legacy.ui.embed.HtmlEmbed,
+  extend : qx.ui.embed.HtmlEmbed,
 
   construct : function()
   {
     this.base(arguments);
 
-    this.setOverflow("auto");
-    this.setPadding(20);
-    this.setEdge(0);
+    this.setOverflowX("scroll");
+    this.setOverflowY("scroll");
 
     this._infoPanelHash = {};
     this._infoPanels = [];
-    apiviewer.ObjectRegistry.register(this);
+
+    apiviewer.ObjectRegistry.register(this);    
   },
 
 
@@ -91,6 +92,47 @@ qx.Class.define("apiviewer.ui.AbstractViewer",
   members :
   {
 
+    _infoPanelHash : {},
+    _infoPanels : [],
+
+    _init : function(pkg){
+      this.__initHtml();
+
+      this.addListenerOnce("appear", function(){
+        this._syncHtml();
+        this.setDocNode(pkg);
+
+        this._applyDocNode(this.__classNode)
+        this.exclude();
+      }, this);
+    },
+    
+    __initHtml : function()
+    {
+      var html = new qx.util.StringBuilder();
+
+      html.add('<div style="padding:10px;">');
+
+      // Add title
+      html.add('<h1></h1>');
+
+      // Add description
+      html.add('<div>', '</div>');
+
+      // render panels
+      var panels = this.getPanels();
+
+      for (var i=0; i<panels.length; i++)
+      {
+        var panel = panels[i];
+        html.add(panel.getPanelHtml(this));
+      }
+
+      html.add('</div>');      
+      
+      this.setHtml(html.get());
+   },
+    
     /**
      * Returns the HTML fragment for the title
      *
@@ -119,36 +161,21 @@ qx.Class.define("apiviewer.ui.AbstractViewer",
      */
     _syncHtml : function()
     {
-      var html = new qx.util.StringBuilder();
-
-      // Add title
-      html.add('<h1></h1>');
-
-      // Add description
-      html.add('<div>', '</div>');
-
-      // render panels
+      var element = this.getContentElement().getDomElement().firstChild;
+      var divArr = element.childNodes;
       var panels = this.getPanels();
-      for (var i=0; i<panels.length; i++)
-      {
-        var panel = panels[i];
-        html.add(panel.getPanelHtml(this));
-      }
 
-      // Set the html
-      this.getElement().innerHTML = html.get();
-      apiviewer.ui.AbstractViewer.fixLinks(this.getElement());
+      apiviewer.ui.AbstractViewer.fixLinks(element);
 
-      // Extract the main elements
-      var divArr = this.getElement().childNodes;
       this._titleElem = divArr[0];
       this._classDescElem = divArr[1];
-
+      
       for (var i=0; i<panels.length; i++)
       {
         var panel = panels[i];
-        html.add(panel.setElement(divArr[i+2]));
+        panel.setElement(divArr[i+2]);
       }
+
     },
 
 
@@ -178,6 +205,7 @@ qx.Class.define("apiviewer.ui.AbstractViewer",
     _updatePanels : function()
     {
       var panels = this.getPanels();
+
       for (var i=0; i<panels.length; i++)
       {
         var panel = panels[i];
@@ -194,13 +222,18 @@ qx.Class.define("apiviewer.ui.AbstractViewer",
      */
     _applyDocNode : function(classNode)
     {
+
+      this.__classNode = classNode;
+      
       if (!this._titleElem)
       {
         // _initContentDocument was not called yet
         // -> Do nothing, the class will be shown in _initContentDocument.
+        this.debug("not ready")
         return;
       }
-
+      this.debug("ready")
+      
       this._titleElem.innerHTML = this._getTitleHtml(classNode);
       this._classDescElem.innerHTML = this._getDescriptionHtml(classNode);
       apiviewer.ui.AbstractViewer.fixLinks(this._classDescElem);
