@@ -35,14 +35,19 @@ class ShellCmd(object):
         return rc
 
 
-    def execute(self,cmd):
+    def execute(self,cmd, wd=None):
         # subprocess-based version
+        if wd:
+            olddir = os.getcwdu()
+            os.chdir(wd)
         p = subprocess.Popen(cmd, shell=True,
                              # problems in python 2.4.4 with passing std streams (?)
                              #stdout=sys.stdout,
                              #stderr=subprocess.STDOUT
                              #stderr=sys.stderr
                              )
+        if wd:
+            os.chdir(olddir)
         return p.wait()
 
 
