@@ -42,7 +42,7 @@ qx.Class.define("demobrowser.demo.table.Table_Resize_Columns",
       var rowData = this.createRandomRows(50);
 
       // table model
-      var tableModel = this._tableModel = new qx.ui.table.model.Simple();
+      var tableModel = this._tableModel = this._tableModel = new qx.ui.table.model.Simple();
       tableModel.setColumns([ "ID", "A number", "A date", "Boolean test" ]);
       tableModel.setData(rowData);
 
@@ -56,7 +56,7 @@ qx.Class.define("demobrowser.demo.table.Table_Resize_Columns",
       };
 
       // table
-      var table = new qx.ui.table.Table(tableModel, custom);
+      var table = this._table = new qx.ui.table.Table(tableModel, custom);
 
       table.set({
         width: 600,
@@ -86,6 +86,53 @@ qx.Class.define("demobrowser.demo.table.Table_Resize_Columns",
       var tcm = table.getTableColumnModel();
       tcm.setDataCellRenderer(3, new qx.ui.table.cellrenderer.Boolean());
       return table;
+    },
+
+    createControls : function()
+    {
+      var bar = new qx.ui.toolbar.ToolBar();
+      var button, part, checkBox;
+
+      part = new qx.ui.toolbar.Part();
+      bar.add(part);
+
+      button = new qx.ui.toolbar.Button("Add 10 rows", "icon/22/actions/list-add.png");
+      button.addListener("execute", function(evt) {
+        var rowData = this.createRandomRows(10);
+        this._tableModel.addRows(rowData);
+        this.info("10 rows added");
+      }, this);
+      part.add(button);
+
+      button = new qx.ui.toolbar.Button("Remove 10 rows", "icon/22/actions/list-remove.png");
+      button.addListener("execute", function(evt) {
+        var rowCount = this._tableModel.getRowCount();
+        this._tableModel.removeRows(rowCount-10, 10);
+        this.info("10 rows removed");
+      }, this);
+      part.add(button);
+
+
+      part = new qx.ui.toolbar.Part();
+      bar.add(part);
+
+      var table = this._table;
+
+      checkBox = new qx.ui.toolbar.CheckBox("Keep first row");
+      checkBox.set({
+        checked: table.getKeepFirstVisibleRowComplete(),
+        toolTip: new qx.ui.tooltip.ToolTip(
+          "Whether the the first visible row should " +
+          "be rendered completely when scrolling."
+        )
+      });
+      checkBox.addListener("changeChecked", function(evt) {
+        table.setKeepFirstVisibleRowComplete(this.getChecked());
+      },
+      checkBox);
+      part.add(checkBox);
+
+      return bar;
     }
   }
 });

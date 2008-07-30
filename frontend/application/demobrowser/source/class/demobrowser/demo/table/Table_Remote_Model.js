@@ -22,22 +22,18 @@
 #asset(qx/icon/${qx.icontheme}/22/actions/list-add.png)
 #asset(qx/icon/${qx.icontheme}/22/actions/list-remove.png)
 #asset(qx/icon/${qx.icontheme}/22/actions/edit-undo.png)
+#asset(demobrowser/backend/remote_table.php)
 
 ************************************************************************ */
 
-/**
- * A table with virtual scrolling, model-view-controller, renderers,
- * editing, sorting, column resizing, column reordering,
- * column hiding.
- */
-qx.Class.define("demobrowser.demo.table.Table",
+qx.Class.define("demobrowser.demo.table.Table_Remote_Model",
 {
   extend : demobrowser.demo.table.TableDemo,
 
   members :
   {
     getCaption : function() {
-      return "Table";
+      return "Table with a remote table model";
     },
 
 
@@ -45,6 +41,17 @@ qx.Class.define("demobrowser.demo.table.Table",
     {
       // Create the initial data
       var rowData = this.createRandomRows(50);
+
+
+      // TODO write backend connection
+      var url = qx.util.ResourceManager.toUri("demobrowser/backend/remote_table.php");
+      var request = new qx.io.remote.Request(url, "GET");
+      request.addListener("completed", function(e) {
+        this.debug(e.getContent());
+      }, this);
+      request.send();
+
+
 
       // table model
       var tableModel = this._tableModel = new qx.ui.table.model.Simple();

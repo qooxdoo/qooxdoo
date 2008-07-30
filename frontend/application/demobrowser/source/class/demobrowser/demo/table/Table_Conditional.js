@@ -17,6 +17,11 @@
 
 ************************************************************************ */
 
+/**
+ * Table using the ConditionalDataCellRenderer to display values in different
+ * ranges using varying colors; and the ImageDataCellRenderer to display
+ * varying images.
+ */
 qx.Class.define("demobrowser.demo.table.Table_Conditional",
 {
   extend : demobrowser.demo.table.TableDemo,
