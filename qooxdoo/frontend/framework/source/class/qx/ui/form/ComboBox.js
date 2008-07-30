@@ -315,6 +315,6 @@ qx.Class.define("qx.ui.form.ComboBox",
     selectAll : function()
     {
       this._getChildControl("textfield").setSelection(0);
-    },
+    }
   }
 });
