@@ -57,6 +57,10 @@ qx.Class.define("qx.event.type.Drag",
 
     getData : function(type) {
       return this.__getManager().getData(type);
+    },
+
+    getAction : function() {
+      return this.__getManager().getAction();
     }
   }
 });

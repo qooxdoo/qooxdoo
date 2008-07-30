@@ -2618,21 +2618,84 @@ qx.Class.define("qx.ui.core.Widget",
     },
 
 
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      DRAG & DROP SUPPORT
+    ---------------------------------------------------------------------------
+    */
+
+    // property apply
     _applyDragable : function(value, old)
     {
-      this.debug("Dragable: " + value);
+      // Force cursor creation
+      qx.ui.core.DragDropCursor.getInstance();
 
+      // Process listeners
+      if (value)
+      {
+        this.addListener("dragstart", this._onDragStart);
+        this.addListener("dragmove", this._onDragMove);
+        this.addListener("dragend", this._onDragEnd);
+      }
+      else
+      {
+        this.removeListener("dragstart", this._onDragStart);
+        this.removeListener("dragmove", this._onDragMove);
+        this.removeListener("dragend", this._onDragEnd);
+      }
+
+      // Sync DOM attribute
       this._containerElement.setAttribute("qxDragable", value ? "on" : null);
     },
 
 
+    // property apply
     _applyDropable : function(value, old)
     {
-      this.debug("Dropable: " + value);
-
+      // Sync DOM attribute
       this._containerElement.setAttribute("qxDropable", value ? "on" : null);
     },
 
+
+    /**
+     * Event listener for own <code>dragstart</code> event.
+     *
+     * @param e {qx.event.type.Drag} Drag event
+     */
+    _onDragStart : function(e)
+    {
+      var cursor = qx.ui.core.DragDropCursor.getInstance();
+      cursor.alignToMouse(e);
+    },
+
+
+    /**
+     * Event listener for own <code>dragmove</code> event.
+     *
+     * @param e {qx.event.type.Drag} Drag event
+     */
+    _onDragMove : function(e)
+    {
+      var cursor = qx.ui.core.DragDropCursor.getInstance();
+      cursor.alignToMouse(e);
+    },
+
+
+    /**
+     * Event listener for own <code>dragend</code> event.
+     *
+     * @param e {qx.event.type.Drag} Drag event
+     */
+    _onDragEnd : function(e)
+    {
+      var cursor = qx.ui.core.DragDropCursor.getInstance();
+      cursor.moveTo(-1000, -1000);
+    },
 
 
 
