@@ -50,7 +50,7 @@
 
       "compile-dist" :
       {
-        "file" : "compile-bom-{qx.client}.js",  // compile-time variant substitution not supported yet
+        "file" : "compile-bom-{qx.client}.js",
         "root" : ".",
         "optimize" : [ "variables", "basecalls", "privates" ]
       }
