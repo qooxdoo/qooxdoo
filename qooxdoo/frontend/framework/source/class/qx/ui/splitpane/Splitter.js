@@ -21,16 +21,29 @@
 qx.Class.define("qx.ui.splitpane.Splitter",
 {
   extend : qx.ui.core.Widget,
+  
+  construct : function(parentWidget)
+  {
+    this.base(arguments);
+    
+    // set layout
+    if (parentWidget.getOrientation() == "vertical")
+    {
+      this._setLayout(new qx.ui.layout.HBox(0, "center"));
+      this._getLayout().setAlignY("middle");
+    }
+    else
+    {
+      this._setLayout(new qx.ui.layout.VBox(0, "middle"));
+      this._getLayout().setAlignX("center");
+    }   
+     
+    // create knob child control
+    this._createChildControl("knob");    
+  },
 
   properties :
   {
-    // overrridden
-    appearance :
-    {
-      refine : true,
-      init : "splitpane-splitter"
-    },
-
     // overrridden
     allowShrinkX :
     {
@@ -43,6 +56,26 @@ qx.Class.define("qx.ui.splitpane.Splitter",
     {
       refine : true,
       init : false
+    }
+  },
+  
+  members :
+  {
+    // overridden
+    _createChildControlImpl : function(id)
+    {
+      var control;
+
+      switch(id)
+      {
+        // Create splitter knob
+        case "knob":
+          control = new qx.ui.basic.Image;
+          this._add(control);
+          break;        
+      }
+
+      return control || this.base(arguments, id);
     }
   }
 });
