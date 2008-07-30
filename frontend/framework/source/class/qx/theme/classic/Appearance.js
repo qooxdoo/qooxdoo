@@ -1243,7 +1243,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
         if (states.pressed || states.checked || states.abandoned) {
           result.decorator = "inset-thin";
-        } else if (states.over) {
+        } else if (states.hovered) {
           result.decorator = "outset-thin";
         } else {
           result.decorator = "undefined";
@@ -1251,7 +1251,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
         if (states.pressed || states.checked || states.abandoned) {
           result.padding = [ 2, 0, 0, 2 ];
-        } else if (states.over) {
+        } else if (states.hover) {
           result.padding = 1;
         } else {
           result.padding = 2;

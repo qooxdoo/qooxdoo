@@ -54,7 +54,6 @@ qx.Class.define("qx.ui.control.DateChooser",
     this._createChildControl("date-pane");
 
     // Make focusable
-    this.setTabIndex(1);
     this.addListener("keypress", this._onkeypress);
 
     // Show the right date
@@ -171,6 +170,7 @@ qx.Class.define("qx.ui.control.DateChooser",
         case "last-year-button":
           control = new qx.ui.form.Button();
           control.addState("lastYear");
+          control.setFocusable(false);
           control.setToolTip(new qx.ui.tooltip.ToolTip("Last year"));
           control.addListener("click", this._onNavButtonClicked, this);
           break;
@@ -178,6 +178,7 @@ qx.Class.define("qx.ui.control.DateChooser",
         case "last-month-button":
           control = new qx.ui.toolbar.Button();
           control.addState("lastMonth");
+          control.setFocusable(false);
           control.setToolTip(new qx.ui.tooltip.ToolTip("Last month"));
           control.addListener("click", this._onNavButtonClicked, this);
           break;      
@@ -185,6 +186,7 @@ qx.Class.define("qx.ui.control.DateChooser",
         case "next-month-button":
           control = new qx.ui.toolbar.Button();
           control.addState("nextMonth");
+          control.setFocusable(false);
           control.setToolTip(new qx.ui.tooltip.ToolTip("Next month"));
           control.addListener("click", this._onNavButtonClicked, this);
           break;  
@@ -192,6 +194,7 @@ qx.Class.define("qx.ui.control.DateChooser",
         case "next-year-button":
           control = new qx.ui.toolbar.Button();
           control.addState("nextYear");
+          control.setFocusable(false);
           control.setToolTip(new qx.ui.tooltip.ToolTip("Next year"));
           control.addListener("click", this._onNavButtonClicked, this);
           break;          
@@ -200,10 +203,6 @@ qx.Class.define("qx.ui.control.DateChooser",
           control = new qx.ui.basic.Label();
           control.setAllowGrowX(true);
           break;
-          
-          
-          
-          
           
           
         // DATE PANE STUFF
