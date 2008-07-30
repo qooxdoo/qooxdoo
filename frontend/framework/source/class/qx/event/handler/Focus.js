@@ -819,26 +819,31 @@ qx.Class.define("qx.event.handler.Focus",
       "gecko" : function(e)
       {
         var target = e.target;
+
         var focusTarget = this.__findFocusableElement(target);
-        if (!focusTarget) {
+        var selectable = this.__isSelectable(target);
+
+        if (!selectable)
+        {
+          // The only working way to block selections in Firefox 3.0
+          // Note: Firefox 3.0 do not support the revert of a user-select
+          // property applied to any parent node. It is not possible to have a
+          // userSelect=normal node in a userSelect=none node. This works
+          // in Webkit, but not in Firefox 3.0. Seems to be a bug.
           qx.bom.Event.preventDefault(e);
-        }
 
-        // Reset user select from mousedown
-        if (this.__lastUserSelectBlocked)
-        {
-          target.style.MozUserSelect = "";
-          this.__lastUserSelectBlocked = null;
+          // Is we have a focusTarget we need to manually focus
+          // it as the event is already prevented to be processed
+          // by the browser
+          if (focusTarget) {
+            focusTarget.focus();
+          }
         }
-
-        // Firefox as of 3.0 goes into somewhat like selection mode
-        // when holding mouse down and start dragging. This badly influences
-        // all types of mousemove, mouseover, mouseout as they all present
-        // the target which was initially pressed which is not very helpful.
-        if (!this.__isSelectable(target))
+        else if (!focusTarget)
         {
-          this.__lastUserSelectBlocked = target;
-          target.style.MozUserSelect = "none";
+          // Selection is allowed, focus not, so prevent the event
+          // This is mainly for supporting the keepFocus attribute.
+          qx.bom.Event.preventDefault(e);
         }
       },
 
