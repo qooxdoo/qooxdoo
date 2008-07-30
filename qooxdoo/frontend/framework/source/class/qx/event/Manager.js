@@ -514,7 +514,11 @@ qx.Bootstrap.define("qx.event.Manager",
         if (entry.handler === listener && entry.context === self)
         {
           qx.lang.Array.removeAt(entryList, i);
-          this.__unregisterAtHandler(target, type, capture);
+
+          if (entryList.length == 0) {
+            this.__unregisterAtHandler(target, type, capture);
+          }
+
           return true;
         }
       }
