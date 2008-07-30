@@ -17,6 +17,9 @@
 
 ************************************************************************ */
 
+/**
+ * A Table with meta columns
+ */
 qx.Class.define("demobrowser.demo.table.Table_Meta_Columns",
 {
   extend : demobrowser.demo.table.TableDemo,
