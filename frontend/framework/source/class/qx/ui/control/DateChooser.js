@@ -29,7 +29,7 @@ qx.Class.define("qx.ui.control.DateChooser",
 {
   extend : qx.ui.core.Widget,
   include : qx.ui.core.MExecutable,
-
+  implement : qx.ui.form.IFormElement,
 
 
   /*
@@ -82,7 +82,19 @@ qx.Class.define("qx.ui.control.DateChooser",
   },
 
 
-
+  /*
+  *****************************************************************************
+     EVENTS
+  *****************************************************************************
+  */
+ 
+  events :
+  {
+    /** Fired when the value was modified */
+    changeValue : "qx.event.type.Data"
+  },
+  
+  
 
   /*
   *****************************************************************************
@@ -125,7 +137,15 @@ qx.Class.define("qx.ui.control.DateChooser",
       apply : "_applyDate",
       event : "changeDate",
       transform : "_checkDate"
-    }
+    },
+    
+    /** The name of the widget. Mainly used for serialization proposes. */
+    name :
+    {
+      check : "String",
+      nullable : true,
+      event : "changeName"
+    } 
   },
 
 
@@ -139,6 +159,35 @@ qx.Class.define("qx.ui.control.DateChooser",
 
   members :
   {
+    /*
+    ---------------------------------------------------------------------------
+      FORM API IMPLEMENTATION
+    ---------------------------------------------------------------------------
+    */
+    /**
+     * Sets the element's string value
+     *
+     * @param value {String} The new value of the element
+     * @return {var} the value
+     */
+    setValue : function(value) 
+    {
+      this.assertType(value, "string");
+      this.setDate(new Date(value));
+    },
+
+
+    /**
+     * The element's user set value
+     *
+     * @return {var} the value
+     */
+    getValue : function() 
+    {
+      return this.getDate().toString();
+    },
+
+
     /*
     ---------------------------------------------------------------------------
       WIDGET INTERNALS
@@ -288,7 +337,6 @@ qx.Class.define("qx.ui.control.DateChooser",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @return {var} TODOC
      */
@@ -302,12 +350,14 @@ qx.Class.define("qx.ui.control.DateChooser",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
     _applyDate : function(value, old)
     {
+      // fire the changeValue event
+      this.fireDataEvent("changeValue", value == null ? "" : value.toString());
+      
       if ((value != null) && (this.getShownMonth() != value.getMonth() || this.getShownYear() != value.getFullYear()))
       {
         // The new date is in another month -> Show that month
@@ -346,7 +396,6 @@ qx.Class.define("qx.ui.control.DateChooser",
     /**
      * Event handler. Called when a navigation button has been clicked.
      *
-     * @type member
      * @param evt {Map} the event.
      * @return {void}
      */
@@ -395,9 +444,7 @@ qx.Class.define("qx.ui.control.DateChooser",
     /**
      * Event handler. Called when a day has been clicked.
      *
-     * @type member
      * @param evt {Map} the event.
-     * @return {void}
      */
     _onDayClicked : function(evt)
     {
@@ -406,12 +453,7 @@ qx.Class.define("qx.ui.control.DateChooser",
     },
 
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @return {void}
-     */
+
     _onDayDblClicked : function() {
       this.execute();
     },
@@ -420,7 +462,6 @@ qx.Class.define("qx.ui.control.DateChooser",
     /**
      * Event handler. Called when a key was pressed.
      *
-     * @type member
      * @param evt {Map} the event.
      * @return {boolean | void} TODOC
      */
@@ -516,12 +557,10 @@ qx.Class.define("qx.ui.control.DateChooser",
     /**
      * Shows a certain month.
      *
-     * @type member
      * @param month {Integer ? null} the month to show (0 = january). If not set the month
      *      will remain the same.
      * @param year {Integer ? null} the year to show. If not set the year will remain the
      *      same.
-     * @return {void}
      */
     showMonth : function(month, year)
     {
@@ -542,9 +581,6 @@ qx.Class.define("qx.ui.control.DateChooser",
 
     /**
      * Updates the date pane.
-     *
-     * @type member
-     * @return {void}
      */
     _updateDatePane : function()
     {
