@@ -17,8 +17,9 @@
         "QOOXDOO_URI"    : "../${QOOXDOO_PATH}",
         "API_INCLUDE"    : ["qx.*"],
         "API_EXCLUDE"    : [],
-        "API_THEME"      : "qx.legacy.theme.ClassicRoyale",
-        "BUILD_PATH"     : "${APIVIEWER_ROOT}/build"
+        "API_THEME"      : "apiviewer.Theme",
+        "BUILD_PATH"     : "${APIVIEWER_ROOT}/build",
+        "CACHE"       : "../../cache"
       },
 
       "library" :
@@ -38,13 +39,13 @@
       {
         "qx.application"  : "${APIVIEWER}.Application",
         "qx.resourceUri"  : "${QOOXDOO_URI}/source/resource",
-        "qx.legacy.theme" : "${API_THEME}",
+        "qx.theme"        : "${API_THEME}",
         "qx.version"      : "0.8-beta1-pre"
       },
 
       "cache" :
       {
-        "compile" : "../../cache"
+        "compile" : "${CACHE}"
       }
     },
 

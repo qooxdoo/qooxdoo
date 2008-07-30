@@ -889,6 +889,7 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
      */
     _getPanelItems : function(showInherited, currentClassDocNode)
     {
+
       if (!currentClassDocNode) {
         return [];
       }
@@ -1056,6 +1057,7 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
      */
     update : function(classViewer, currentClassDocNode)
     {
+
       this.setDocNode(currentClassDocNode);
 
       var showInherited = classViewer.getShowInherited();
