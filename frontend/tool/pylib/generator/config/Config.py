@@ -460,16 +460,21 @@ class Config:
         self._console.outdent()
         return
 
+    def getConfigDir(self):
+        if self._fname:
+            return os.path.dirname(self._fname)
+        else:
+            return None
+
     def absPath(self, path):
         'Take a path relative to config file location, and return it absolute'
         if os.path.isabs(path):
             return path
-        elif not self._fname:
+        elif not self.getConfigDir():
             raise RuntimeError, "Cannot absolutize path without a config file path."
         else:
             p = os.path.normpath(os.path.abspath(
-                    os.path.join(
-                        os.path.dirname(self._fname), path)))
+                    os.path.join(self.getConfigDir(), path)))
             return p
 
 
