@@ -178,7 +178,7 @@ qx.Class.define("apiviewer.ui.SearchView",
         {
           var search = this._validateInput(svalue);
           new RegExp(search[0]);
-        ////this.__button.setEnabled(true);
+         this.__button.setEnabled(true);
         }
         catch(ex)
         {

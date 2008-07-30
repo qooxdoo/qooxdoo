@@ -60,6 +60,7 @@ qx.Theme.define("qx.theme.modern.Color",
     "button-abandoned" : "#F9F8E9",
     "button-checked" : "#F3F0F5",
     
+    "effect" : [ 254, 200, 60 ],
     "table-pane" : "white",
     "table-header" : [ 242, 242, 242 ],
     "table-header-border" : [ 214, 213, 217 ],
