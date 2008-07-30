@@ -17,7 +17,8 @@
 
   "let" : 
   {
-    "APPLICATION" : "apiviewer"
+    "APPLICATION" : "apiviewer",
+    "CACHE"       : "cache"
   }
 
 }

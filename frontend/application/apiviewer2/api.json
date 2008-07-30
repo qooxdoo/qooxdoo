@@ -17,7 +17,8 @@
         "QOOXDOO_URI"    : "../${QOOXDOO_PATH}",
         "API_INCLUDE"    : ["qx.*"],
         "API_EXCLUDE"    : [],
-        "API_THEME"      : "qx.legacy.theme.ClassicRoyale",
+        //"API_THEME"      : "qx.legacy.theme.ClassicRoyale",
+        "API_THEME"      : "qx.theme.Classic",
         "BUILD_PATH"     : "${APIVIEWER_ROOT}/build"
       },
 
@@ -44,7 +45,7 @@
 
       "cache" :
       {
-        "compile" : "../../cache"
+        "compile" : "${CACHE}"
       }
     },
 
