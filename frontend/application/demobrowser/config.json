@@ -1,0 +1,242 @@
+{
+  "name"    : "Demobrowser - config.json",
+
+  "include" :
+  [
+    {
+      "path" : "../../tool/data/config/application.json",
+      "block" : [ "source", "build" ]
+    }
+  ],
+
+  "let" :
+  {
+    "APPLICATION"  : "demobrowser",
+    "API_EXCLUDE"  : ["${APPLICATION}.demo.*"],
+    "CACHE"        : "../../cache",
+    "QOOXDOO_PATH" : "../../framework",
+    "QOOXDOO_URI"  : "../${QOOXDOO_PATH}"
+  },
+
+  "jobs" :
+  {
+    "common" :
+    {
+      "library" :
+      [
+        {
+          "manifest" : "${QOOXDOO_PATH}/Manifest.json",
+          "uri"      : "${QOOXDOO_URI}"
+          /* mind that the final uri will be computed from this 'uri' + the
+             'class' info from the manifest */
+        },
+
+        {
+          "manifest" : "Manifest.json",
+          "uri"      : ".."
+        }
+      ],
+
+      "include" :
+      [
+        "${APPLICATION}.Application",
+        "qx.legacy.theme.ClassicRoyale"
+      ],
+
+      "settings" :
+      {
+        "qx.version" : "0.8-alpha2",
+        "qx.application" : "${APPLICATION}.Application"
+      },
+
+      // the next is in since resource copying is done here for the demos as well
+      "themes" :
+      {
+        "qx.icontheme" : ["Oxygen"],
+        "qx.theme"     : ["Modern"]
+      },
+
+      "cache" :
+      {
+        "compile" : "${CACHE}"
+      }
+    },
+
+
+    "source-script" :
+    {
+      "extend" : ["common"],
+
+      "compile-source" :
+      {
+        "file" : "./source/script/${APPLICATION}.js",
+        "root" : "source"
+      }
+    },
+
+
+    "source" :
+    {
+      "run" :
+      [
+        "source-script",
+        "source-data",
+        "source-demo-jobs",
+        "source-demos"
+      ]
+    },
+
+
+    "source-data" :
+    {
+      "extend" : ["common"],
+
+      "shell" :
+      {
+        "command" : "tool/gendata.py ./source/script/demodata.js ./source/demo"
+      }
+    },
+
+
+    "source-demo-jobs" :
+    {
+      "extend" : ["common"],
+
+      "shell" :
+      {
+        "command" : "tool/genjson.py source/script"
+      }
+    },
+
+
+    "source-demos" :
+    {
+      "extend" : ["common"],
+
+      "shell" :
+      {
+        "command" : "../../../frontend/tool/bin/generator.py -c ./config.demo.json source"
+      }
+    },
+
+
+    "build-script" :
+    {
+      "extend" : ["common"],
+
+      "compile-dist" :
+      {
+        "target" : "build",
+        "file" : "./build/script/${APPLICATION}.js",
+        "uri"  : "script/${APPLICATION}.js",
+        "root" : "build"
+      }
+    },
+
+
+    "build-files" :
+    {
+      "extend" : ["common"],
+
+      "copy-files" :
+      {
+        "files" :
+        [
+          "index.html",
+          "demo"
+        ],
+
+        "target" : "build"
+      }
+    },
+
+
+    "build-resources":
+    {
+      "extend" : ["common"],
+
+      "include" :
+      [
+        "qx.legacy.theme.ClassicRoyale",
+        "demobrowser.*"
+      ],
+
+      "copy-resources" :
+      {
+        "target" : "build"
+      }
+    },
+
+
+    "build-data" :
+    {
+      "extend" : ["common"],
+
+      "shell" :
+      {
+        "command" : "tool/gendata.py ./build/script/demodata.js ./source/demo"
+      }
+    },
+
+
+    "build-demo-jobs" :
+    {
+      "extend" : ["common"],
+
+      "shell" :
+      {
+        "command" : "tool/genjson.py build/script"
+      }
+    },
+
+
+    /* generate a build version of the demo apps */
+    "build-demos" :
+    {
+      "extend" : ["common"],
+
+      "shell" :
+      {
+        "command" : "../../../frontend/tool/bin/generator.py -c ./config.demo.json build"
+      }
+    },
+
+
+    // putting it all together ...
+    "build" :
+    {
+      "run" :
+      [
+        /* this all has to be done for the build */
+        "build-data",
+        "build-demo-jobs",
+        "build-resources",
+        "build-files",
+        "build-script",
+        "build-demos"
+      ]
+    },
+
+
+    // Debug Jobs
+
+    "debug-dependencies" :
+    {
+      "extend" : ["common"],
+      "include" : ["demobrowser.demo.io.HttpRequest_1"],
+      "debug" :
+      {
+        "dependencies" : "on"
+      }
+    },
+
+    "debug-privates" :
+    {
+      "extend" : ["common"],
+      "debug" :
+      {
+        "privates" : "on"
+      }
+    }
+  }
+}
