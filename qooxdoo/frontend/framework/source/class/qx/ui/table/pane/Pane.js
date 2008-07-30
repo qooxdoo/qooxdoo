@@ -101,6 +101,20 @@ qx.Class.define("qx.ui.table.pane.Pane",
     {
       refine : true,
       init : false
+    },
+
+    // overridden
+    allowGrowY :
+    {
+      refine : true,
+      init : false
+    },
+
+    // overridden
+    allowShrinkY :
+    {
+      refine : true,
+      init : false
     }
   },
 

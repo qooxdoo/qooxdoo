@@ -528,19 +528,19 @@ qx.Class.define("qx.html.Element",
             domElement.appendChild(child._element);
           }
         }
-        
+
         this._element.appendChild(domElement);
       }
       else
       {
         var domElement = this._element;
-        for (var i=0; i<length; i++) 
+        for (var i=0; i<length; i++)
         {
           child = children[i];
           if (child._element && child._included) {
             domElement.appendChild(child._element);
           }
-        }        
+        }
       }
     },
 
@@ -775,7 +775,7 @@ qx.Class.define("qx.html.Element",
             this._applyProperty(key, data[key]);
           }
         }
-        
+
         this.__propertyJobs = null;
       }
 
@@ -1588,12 +1588,14 @@ qx.Class.define("qx.html.Element",
      *
      * @type member
      * @param x {Integer} Horizontal scroll position
+     * @param lazy {Boolean?false} Whether the scrolling should be performed
+     *    during element flush.
      * @return {void}
      */
-    scrollToX : function(x)
+    scrollToX : function(x, lazy)
     {
       var thisEl = this._element;
-      if (thisEl && thisEl.offsetWidth)
+      if (lazy !== true && thisEl && thisEl.offsetWidth)
       {
         thisEl.scrollLeft = x;
       }
@@ -1630,12 +1632,14 @@ qx.Class.define("qx.html.Element",
      *
      * @type member
      * @param y {Integer} Vertical scroll position
+     * @param lazy {Boolean?false} Whether the scrolling should be performed
+     *    during element flush.
      * @return {void}
      */
-    scrollToY : function(y)
+    scrollToY : function(y, lazy)
     {
       var thisEl = this._element;
-      if (thisEl && thisEl.offsetWidth)
+      if (lazy !== true && thisEl && thisEl.offsetWidth)
       {
         thisEl.scrollTop = y;
       }
@@ -2347,14 +2351,14 @@ qx.Class.define("qx.html.Element",
     if (el) {
       qx.event.Registration.getManager(el).removeAllListeners(el);
     }
-    
+
     if (this._parent) {
       this._parent.remove(this);
     }
 
     this._disposeArray("_children");
-    this._disposeFields("__attribValues", "__styleValues", "__eventValues", 
-      "__propertyValues", "__attribJobs", "__styleJobs", "__propertyJobs", 
+    this._disposeFields("__attribValues", "__styleValues", "__eventValues",
+      "__propertyValues", "__attribJobs", "__styleJobs", "__propertyJobs",
       "_element", "_parent");
   }
 });
