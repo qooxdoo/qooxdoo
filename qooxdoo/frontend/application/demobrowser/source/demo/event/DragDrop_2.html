@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <script type="text/javascript" src="../helper.js"></script>
+  <script type="text/javascript" src="../../script/demobrowser.demo.event.DragDrop_2.js"></script>
+</style>
+</head>
+
+<body style="margin: 0px; padding: 20px; overflow: hidden; height: 100%; width: 100%;">
+  <div style="margin-bottom:20px">
+    Click at the box and drag the mouse cursor around. The targets vary if the cursor is moving.
+    Repeat the same with clicking at the image and then drag.<br/>
+    <b style="color:red">The target is NOT changing!</b>
+  </div>
+  <div id="container" style="overflow: hidden; position: absolute; z-index: 10; width: 607px; height: 63px;">
+    <div id="atom" style="position: absolute; z-index: 0; cursor: default; left: 0px; top: 0px; width: 98px; height: 44px;" qxSelectable="off" qxClass="qx.ui.basic.Atom">
+      <div id="labelContainer" style="overflow: hidden; position: absolute; z-index: 10; left: 6px; top: 6px; width: 86px; height: 32px;">
+        <div id="label" style="position: absolute; z-index: 0; cursor: default; left: 36px; top: 9px; width: 50px; height: 15px;" qxSelectable="off" qxClass="qx.ui.basic.Label">
+          <div id="labelInner" style="position: absolute; z-index: 10; font-family: &quot;Lucida Grande&quot;,Tahoma,Verdana,&quot;Bitstream Vera Sans&quot;,&quot;Liberation Sans&quot;; font-size: 11px; line-height: 1.3; color: black; width: 50px; height: 15px; display: block; -moz-user-select: none;">
+            <label id="labelElement" value="Icon Left" crop="end" style="overflow: hidden; cursor: inherit; max-width: 100%;"></label>
+          </div>
+        </div>
+        <div id="image" style="position: absolute; z-index: 0; cursor: default; left: 0px; top: 0px; width: 32px; height: 32px;" qxSelectable="off" qxClass="qx.ui.basic.Image">
+          <div id="imageElement" style="overflow: hidden; position: absolute; z-index: 10; background-image: url(../../../../../framework/source/resource/qx/icon/Oxygen/32/actions/go-previous.png); background-position: 0px 0px; background-repeat: repeat; width: 32px; height: 32px;">
+          </div>
+        </div>
+      </div>
+      <div id="decorator" style="border: 1px solid black; z-index: 5; position: absolute; left: 0pt; top: 0pt; background-image: url(null); background-repeat: repeat; background-color: rgb(230, 250, 237); -moz-box-sizing: border-box; width: 98px; height: 44px;">
+      </div>
+    </div>
+  </div>
+  <div id="debugconsole" style="position:absolute;top:150px;width:400px;height:200px;border:1px solid black;overflow:auto"></div>
+  <button onclick="document.getElementById('debugconsole').innerHTML = ''" style="position:absolute;top:360px">Clear console</button>
+</body>
+</html>
