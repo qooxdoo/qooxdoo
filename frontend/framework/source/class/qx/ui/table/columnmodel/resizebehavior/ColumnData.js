@@ -19,8 +19,7 @@
 ************************************************************************ */
 
 /**
- * All of the resizing information about a column.  This is the class which
- * {@link qx.ui.table.util.Widths} contains in its array of column data.
+ * All of the resizing information about a column.
  */
 qx.Class.define("qx.ui.table.columnmodel.resizebehavior.ColumnData",
 {
@@ -51,13 +50,15 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.ColumnData",
 
 
     /**
-     * Set the column width. The column width can be one of the following values:
+     * Set the column width. The column width can be one of the following
+     * values:
      *
+     * * Pixels: <code>23</code>
      * * Autosized: <code>"auto"</code>
      * * Flex: e.g. <code>1*</code>
      * * Percent: e.g. <code>33%</code>
      *
-     * @param width {Integer} The column with
+     * @param width {Integer} The column width
      */
     setColumnWidth : function(width)
     {
