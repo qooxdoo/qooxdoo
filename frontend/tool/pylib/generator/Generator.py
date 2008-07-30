@@ -372,10 +372,12 @@ class Generator:
         smartExclude, explicitExclude = self.getExcludes(self._config.get("exclude", []))
 
         # Processing all combinations of variants
-        variantData = self.getVariants()
-        variantSets = idlist.computeCombinations(variantData)
+        variantData = self.getVariants()  # e.g. {'qx.debug':['on','off'], 'qx.aspects':['on','off']}
+        variantSets = idlist.computeCombinations(variantData) # e.g. [{'qx.debug':'on','qx.aspects':'on'},...]
 
         # Iterate through variant sets
+        #import pydb
+        #pydb.debugger()
         for variantSetNum, variants in enumerate(variantSets):
             if len(variantSets) > 1:
                 self._console.head("Processing variant set %s/%s" % (variantSetNum+1, len(variantSets)))
@@ -1088,6 +1090,8 @@ class Generator:
 
             value = self._toJavaScript(variants[key])
             result += 'qxvariants["%s"]=%s;' % (key, value)
+            if key == "qx.theme":  # this is a bad kludge!
+                result += '\nqxsettings["%s"]=%s;' % (key, value)
 
         return result
 
