@@ -371,7 +371,8 @@ qx.Class.define("qx.ui.table.pane.Pane",
     _updateRowStyles : function(onlyRow)
     {
       var elem = this.getContentElement().getDomElement();
-      if (!elem.firstChild) {
+
+      if (!elem || !elem.firstChild) {
         this._updateAllRows();
         return;
       }
