@@ -80,7 +80,8 @@ qx.Class.define("qx.event.handler.DragDrop",
       dragend : 1,
       dragover : 1,
       dragout : 1,
-      dragdrop : 1
+      dragdrop : 1,
+      dragmove : 1
     },
 
     /** {Integer} Whether the method "canHandleEvent" must be called */
@@ -151,7 +152,7 @@ qx.Class.define("qx.event.handler.DragDrop",
     },
 
     getAction : function() {
-      this.__currentAction = "TODO";
+      return "copy";
     },
 
 
@@ -165,11 +166,40 @@ qx.Class.define("qx.event.handler.DragDrop",
     ---------------------------------------------------------------------------
     */
 
+    __detectEventAction : function(e)
+    {
+      var shiftPressed = e.isShiftPressed();
+      var ctrlPressed = e.isCtrlPressed();
+      var altPressed = e.isAltPressed();
+
+      var actions = this.__actions;
+
+      if (shiftPressed && ctrlPressed && actions.alias) {
+        return "alias";
+      } else if (shiftPressed && altPressed && actions.copy) {
+        return "copy";
+      } else if (shiftPressed && actions.move) {
+        return "move";
+      } else if (altPressed && actions.alias) {
+        return "alias";
+      } else if (ctrlPressed && actions.copy) {
+        return "copy";
+      }
+      else
+      {
+        // Configurable default action?
+        return "move";
+      }
+
+      return null;
+    },
+
     __fireEvent : function(original, target, type)
     {
       var Registration = qx.event.Registration;
+      var domEvent = original instanceof qx.event.type.Native ? original.getNativeEvent() : null;
 
-      var evt = Registration.createEvent(type, qx.event.type.Drag, [original, target]);
+      var evt = Registration.createEvent(type, qx.event.type.Drag, [domEvent, target]);
       return Registration.dispatchEvent(target, evt);
     },
 
@@ -331,7 +361,7 @@ qx.Class.define("qx.event.handler.DragDrop",
 
       if (this.__sessionActive)
       {
-        // TODO
+        this.__fireEvent(e, this.__sourceTarget, "dragmove");
       }
       else
       {

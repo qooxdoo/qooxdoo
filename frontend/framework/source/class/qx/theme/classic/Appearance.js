@@ -133,6 +133,29 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
+    "dragdrop-cursor" :
+    {
+      style : function(states)
+      {
+        var icon = "nodrop";
+
+        if (states.copy) {
+          icon = "copy";
+        } else if (states.move) {
+          icon = "move";
+        } else if (states.alias) {
+          icon = "alias";
+        }
+
+        return {
+          source : "decoration/cursors/" + icon + ".gif",
+          offset : [ 1, 1, 20, 1 ]
+        };
+      }
+    },
+
+
+
 
 
     /*
