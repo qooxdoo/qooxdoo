@@ -194,7 +194,10 @@ qx.Class.define("qx.ui.form.AbstractSlider",
       switch(id)
       {
         case "knob":
-          control = new qx.ui.core.Widget;
+          control = new qx.ui.core.Widget().set({
+            minWidth: 4,
+            minHeight: 4
+          });
           control.addListener("resize", this._onUpdate, this);
           this._add(control);
           break;
