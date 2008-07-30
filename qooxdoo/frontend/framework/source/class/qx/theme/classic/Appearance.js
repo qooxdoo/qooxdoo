@@ -1180,11 +1180,11 @@ qx.Theme.define("qx.theme.classic.Appearance",
         return {
           width : states.horizontal ? 5 : "undefined",
           height : states.vertical ? 5 : "undefined",
-          backgroundColor : states.active ? "border-dark-shadow" : "border-dark"
+          backgroundColor : "background"
         };
       }
     },
-
+    
     "splitpane/splitter/knob" :
     {
       style : function(states)
@@ -1202,7 +1202,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
         return {
           width : states.horizontal ? 5 : "undefined",
           height : states.vertical ? 5 : "undefined",
-          backgroundColor : "border-dark-shadow"
+          backgroundColor : "background-light"
         };
       }
     },
