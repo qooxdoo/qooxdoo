@@ -97,7 +97,6 @@ qx.Class.define("demobrowser.demo.table.Test_RowRenderer",
           rowHtml.push('style="', rowStyle, '" ');
         }
         rowHtml.push('>', content, ' (init)</div>');
-        console.log(rowHtml.join(""))
         container.innerHTML += rowHtml.join("");
         self._rowTop += height;
 
