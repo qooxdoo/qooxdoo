@@ -149,7 +149,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
         return {
           source : "decoration/cursors/" + icon + ".gif",
-          offset : [ 1, 1, 20, 1 ]
+          position : "right-top",
+          offset : [ 2, 16, 2, 6 ]
         };
       }
     },
@@ -1183,7 +1184,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
         };
       }
     },
-    
+
     "splitpane/splitter/knob" :
     {
       style : function(states)
