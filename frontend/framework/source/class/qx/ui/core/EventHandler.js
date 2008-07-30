@@ -94,7 +94,8 @@ qx.Class.define("qx.ui.core.EventHandler",
       dragend : 1,
       dragover : 1,
       dragout : 1,
-      dragdrop : 1
+      dragdrop : 1,
+      dragmove : 1
     },
 
     /** {Integer} Whether the method "canHandleEvent" must be called */
