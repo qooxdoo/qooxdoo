@@ -25,13 +25,6 @@ qx.Class.define("qx.ui.splitpane.Slider",
   properties :
   {
     // overrridden
-    appearance :
-    {
-      refine : true,
-      init : "splitpane-slider"
-    },
-
-    // overrridden
     allowShrinkX :
     {
       refine : true,
