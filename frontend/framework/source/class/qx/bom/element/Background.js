@@ -61,6 +61,8 @@ qx.Class.define("qx.bom.element.Background",
 
       if (left != null || top != null) {
         var position = (left == null ? "0px" : left + "px") + " " + (top == null ? "0px" : top + "px")
+      } else {
+        position = "0 0";
       }
 
       // for IE check the given url for "HTTPS" to avoid "Mixed content" warnings
