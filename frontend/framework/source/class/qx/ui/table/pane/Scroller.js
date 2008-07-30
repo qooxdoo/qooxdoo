@@ -969,7 +969,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       var row = this._getRowForPagePos(pageX, pageY);
       var col = this._getColumnForPageX(pageX);
 
-      if (row != null && col != null)
+      if (row !== null && col !== null)
       {
         // The focus indicagtor blocks the click event on the scroller so we
         // store the current cell and listen for the mouseup event on the
@@ -1435,10 +1435,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
         this._focusedCol = col;
         this._focusedRow = row;
 
-        // Move the focus indicator
-        if (!this._updateContentPlanned) {
-          this._updateFocusIndicator();
-        }
+        this._updateFocusIndicator();
       }
     },
 
@@ -1477,6 +1474,11 @@ qx.Class.define("qx.ui.table.pane.Scroller",
 
       if (xPos != -1)
       {
+        var clipperSize = this._paneClipper.getBounds();
+        if (!clipperSize) {
+          return;
+        }
+
         var columnModel = this.getTable().getTableColumnModel();
 
         var colLeft = paneModel.getColumnLeft(col);
@@ -1486,8 +1488,6 @@ qx.Class.define("qx.ui.table.pane.Scroller",
 
         var scrollX = this.getScrollX();
         var scrollY = this.getScrollY();
-
-        var clipperSize = this._paneClipper.getBounds();
 
         // NOTE: We don't use qx.lang.Number.limit, because min should win if max < min
         var minScrollX = Math.min(colLeft, colLeft + colWidth - clipperSize.width);

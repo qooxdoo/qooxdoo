@@ -191,8 +191,8 @@ qx.Class.define("qx.ui.table.Table",
     this._add(spacer);
     spacer.addListener("resize", this._onResize, this);
 
-    this._focusedCol = 0;
-    this._focusedRow = 0;
+    this._focusedCol = null;
+    this._focusedRow = null;
 
     // add an event listener which updates the table content on locale change
     qx.locale.Manager.getInstance().addListener("changeLocale", this._onChangeLocale, this);
