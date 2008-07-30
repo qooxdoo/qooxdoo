@@ -842,7 +842,9 @@ qx.Class.define("qx.ui.table.pane.Scroller",
         }
       }
 
-      this.getApplicationRoot().setGlobalCursor(useResizeCursor ? "ew-resize" : null);
+      var cursor = useResizeCursor ? "ew-resize" : null;
+      this.getApplicationRoot().setGlobalCursor(cursor);
+      this.setCursor(cursor);
       this._header.setMouseOverColumn(mouseOverColumn);
     },
 
@@ -1059,6 +1061,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       this._headerClipper.releaseCapture();
 
       this.getApplicationRoot().setGlobalCursor(null);
+      this.setCursor(null);
     },
 
 
@@ -1306,7 +1309,9 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       // Reset the resize cursor when the mouse leaves the header
       // If currently a column is resized then do nothing
       // (the cursor will be reset on mouseup)
-      if (this._resizeColumn == null) {
+      if (this._resizeColumn == null)
+      {
+        this.setCursor(null);
         this.getApplicationRoot().setGlobalCursor(null);
       }
 
