@@ -68,13 +68,11 @@ qx.Class.define("apiviewer.ui.SearchView",
       //--------------------------------------------------------
 
       // Search form
-      //var sform = new qx.legacy.ui.layout.HorizontalBoxLayout;
       var layout = new qx.ui.layout.HBox(4);
       var sform = new qx.ui.container.Composite(layout);
 
       // Search form - input field
       this.sinput = new qx.ui.form.TextField();
-      ///this.sinput.setValue("Search is disabled.");
 
       // Search form - submit button
       this.__button = new qx.ui.form.Button("Find");
@@ -105,13 +103,12 @@ qx.Class.define("apiviewer.ui.SearchView",
       
       // table
       var table = new qx.ui.table.Table(tableModel, customModel);
-
+      table.exclude();
       table.setShowCellFocusIndicator(false);
       table.setStatusBarVisible(false);
       table.setColumnVisibilityButtonVisible(false);
 
       table.addListener("cellClick", this._onCellClick, this);
-      table.addListener("cellDblClick", this._onCellClick, this);
       
       this._table = table;
       // resize behavior
@@ -121,10 +118,7 @@ qx.Class.define("apiviewer.ui.SearchView",
       resizeBehavior.set(1, {width:"1*"});
 
       
-      table.exclude();
-
       var tcm = table.getTableColumnModel();
-
       tcm.setDataCellRenderer(0, new qx.ui.table.cellrenderer.Image());
 
       this.__initresult = true;
@@ -139,7 +133,7 @@ qx.Class.define("apiviewer.ui.SearchView",
       this.sinput.focus();
 
       // Submit events
-      this.sinput.addListener("keypress", function(e) {
+      this.sinput.addListener("keyup", function(e) {
         this._searchResult(this.sinput.getValue());
       }, this);
 
@@ -164,14 +158,16 @@ qx.Class.define("apiviewer.ui.SearchView",
       var svalue = qx.lang.String.trim(svalue);
 
       // If empty or too short search string stop here
-      if (svalue.length < 2)
+      if (svalue.length < 3)
       {
         // Reset the result list
         if (this.__initresult) {
           this.listdata.splice(0, this.listdata.length);
         }
-        this.sinput.resetBackgroundColor();
+
         this.__button.setEnabled(false);
+        this._table.exclude();
+
         return;
       }
       else
@@ -182,7 +178,6 @@ qx.Class.define("apiviewer.ui.SearchView",
         {
             var search = this._validateInput(svalue);
             new RegExp(search[0]);
-            this.sinput.resetBackgroundColor();
             this.__button.setEnabled(true);
         }
         catch(ex)
@@ -190,10 +185,9 @@ qx.Class.define("apiviewer.ui.SearchView",
           // Reset the result list
           if (this.__initresult) {
             this.listdata.splice(0, this.listdata.length);
-            this._table.updateContent();
           }
 
-          this.sinput.setBackgroundColor("#ffbfbc");
+          this._table.exclude();
           this.__button.setEnabled(false);
           return;
         }
@@ -203,8 +197,8 @@ qx.Class.define("apiviewer.ui.SearchView",
 
        // TODO: this should be working soon
        //this._tableModel.setColumnName(1, (results + " Results (" + duration + " s)"));
+       this._tableModel.setColumns([ "", (sresult.length + " Result" + ((sresult.length != 1) ? "s" : "")) ]);
        this._tableModel.setData(sresult);
-
        this._table.show();
 
         var searchEnd = new Date();
