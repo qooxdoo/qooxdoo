@@ -63,6 +63,13 @@ qx.Mixin.define("qx.ui.core.MAlign",
       themeable : true
     },
 
+    /** Whether the widget should moved using DOM methods. */
+    domMove :
+    {
+      check : "Boolean",
+      init : false
+    },
+
     /**
      * Whether the widget should be positioned in the most
      * optimal way e.g. try to keep it visible.
@@ -192,17 +199,19 @@ qx.Mixin.define("qx.ui.core.MAlign",
 
 
     /**
-     * Set the relative position
+     * Set the position. Used low-level high-performance DOM
+     * methods when the property {@link #domMove} is enabled.
      *
      * @param left {Integer} The left position
      * @param top {Integer} The top position
      */
     moveTo : function(left, top)
     {
-      this.setLayoutProperties({
-        left: left,
-        top: top
-      });
+      if (this.getDomMove()) {
+        this.setDomPosition(left, top);
+      } else {
+        this.setLayoutProperties({ left: left, top: top });
+      }
     },
 
 
