@@ -15,12 +15,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#embed(static/image/blank.gif)
-
-************************************************************************ */
-
 qx.Class.define("qx.ui.table.cellrenderer.Image",
 {
   extend : qx.ui.table.cellrenderer.AbstractImage,
@@ -80,7 +74,7 @@ qx.Class.define("qx.ui.table.cellrenderer.Image",
       };
 
       if (cellInfo.value == "") {
-        imageHints.url = this.IMG_BLANK_URL;
+        imageHints.url = null;
       } else {
         imageHints.url = this._rm.toUri(this._am.resolve(cellInfo.value));
       }
