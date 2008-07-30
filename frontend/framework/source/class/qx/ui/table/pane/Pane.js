@@ -598,12 +598,6 @@ qx.Class.define("qx.ui.table.pane.Pane",
       // update focus indicator
       this._updateRowStyles(this._focusedRow - rowOffset);
       this._updateRowStyles(this._focusedRow);
-
-      // force immediate layouting
-      // this prevents Firefox from flickering
-      if (qx.core.Variant.isSet("qx.client", "gecko")) {
-        rowElem.offsetHeight;
-      }
     },
 
 
@@ -659,26 +653,6 @@ qx.Class.define("qx.ui.table.pane.Pane",
       var data = htmlArr.join("");
 
       //this.debug(">>>" + data + "<<<")
-
-      /*
-      var self = this;
-      this._layoutPending = window.setTimeout(function()
-      {
-        elem.setAttribute("html", data);
-        qx.ui.core.queue.Manager.flush();
-
-        // force immediate layouting
-        // this prevents Firefox from flickering
-        if (qx.core.Variant.isSet("qx.client", "gecko"))
-        {
-          var dom = elem.getDomElement();
-          if (dom.childNodes.length > 0) {
-            dom.childNodes[0].offsetHeight;
-          }
-        }
-        self._layoutPending = null;
-      }, 10);
-      */
 
       elem.setAttribute("html", data);
 

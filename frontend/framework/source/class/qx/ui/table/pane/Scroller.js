@@ -78,6 +78,8 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     this._paneClipper.addListener("click", this._onClickPane, this);
     this._paneClipper.addListener("contextmenu", this._onContextMenu, this);
     this._paneClipper.addListener("dblclick", this._onDblclickPane, this);
+    this._paneClipper.addListener("resize", this._onResizePane, this);
+
     this._add(this._paneClipper, {row: 1, column: 0});
 
     // init focus indicator
@@ -562,6 +564,16 @@ qx.Class.define("qx.ui.table.pane.Scroller",
 
 
     /**
+     * Event listener for the pane clipper's resize event
+     */
+    _onResizePane : function()
+    {
+      this._updateHorScrollBarMaximum();
+      this.updateVerScrollBarMaximum();
+    },
+
+
+    /**
      * Updates the maximum of the horizontal scroll bar, so it corresponds to the
      * total width of the columns in the table pane.
      */
@@ -600,6 +612,10 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       }
 
       var rowCount = this.getTable().getTableModel().getRowCount();
+      if (this.getTable().getKeepFirstVisibleRowComplete()) {
+        rowCount += 1;
+      }
+
       var rowHeight = this.getTable().getRowHeight();
       var scrollSize = rowCount * rowHeight;
 
@@ -644,8 +660,6 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     {
       this._updateContent();
       this._header._updateContent();
-      this._updateHorScrollBarMaximum();
-      this.updateVerScrollBarMaximum();
 
       // after the Scroller appears we start the interval again
       this._startInterval(this.getScrollTimeout());
@@ -1497,7 +1511,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
         var minScrollY = rowTop + rowHeight - clipperSize.height;
 
         if (this.getTable().getKeepFirstVisibleRowComplete()) {
-          minScrollY += rowHeight - 1;
+          minScrollY += rowHeight;
         }
 
         var maxScrollY = rowTop;
@@ -2002,7 +2016,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       // scrolling is not needed
       //
       if (! firstVisibleRowComplete ) {
-        this._paneClipper.scrollToX(paneOffset);
+        this._paneClipper.scrollToY(paneOffset);
       }
     },
 
