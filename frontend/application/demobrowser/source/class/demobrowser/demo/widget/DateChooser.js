@@ -49,9 +49,9 @@ qx.Class.define("demobrowser.demo.widget.DateChooser",
       
       // listener for the execute event
       chooser.addListener("execute", function(e) {
-        var currentDate = chooser.getDate(); 
+        var currentDate = chooser.getValue(); 
         label.setContent("Execute: " + currentDate);
-      }, this);
+      }, this);     
             
       // set current Date control      
       var setDateButton = new qx.ui.form.Button("Set current date");
@@ -78,13 +78,24 @@ qx.Class.define("demobrowser.demo.widget.DateChooser",
         chooser.setDate(null);
       });
       
+      // set value stuff
+      var textField = new qx.ui.form.TextField(new Date().toString());
+      textField.setWidth(200);
+      textField.setHeight(24);
+      this.getRoot().add(textField, {left: 250, top: 110});
+      var setValueButton = new qx.ui.form.Button("Set Value");      
+      this.getRoot().add(setValueButton, {left: 455, top: 109});
+      setValueButton.addListener("execute", function(e) {      
+        chooser.setValue(textField.getValue());
+      }, this);
+      
       // Description
       var headerLabel = new qx.ui.basic.Label("Description");
       headerLabel.setFont("bold");
       this.getRoot().add(headerLabel, {left: 400, top: 20}); 
       this.getRoot().add(new qx.ui.basic.Label("- Use the cursors keys to move the selection."), {left: 400, top: 35});
-      this.getRoot().add(new qx.ui.basic.Label("- page-keys / shift + page-keys switch months /years."), {left: 400, top: 50});
-      this.getRoot().add(new qx.ui.basic.Label("- Double-click or Enter will fire an execute event."), {left: 400, top: 65});
+      this.getRoot().add(new qx.ui.basic.Label("- Page-keys / shift + page-keys switch months/years."), {left: 400, top: 50});
+      this.getRoot().add(new qx.ui.basic.Label("- Double-click or enter/space-key will fire an execute event."), {left: 400, top: 65});
       this.getRoot().add(new qx.ui.basic.Label("- Escape will remove the selection."), {left: 400, top: 80});        
 
     }
