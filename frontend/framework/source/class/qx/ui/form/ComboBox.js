@@ -303,6 +303,18 @@ qx.Class.define("qx.ui.form.ComboBox",
      */
     clearSelection : function() {
       this._getChildControl("textfield").clearSelection();
-    }
+    },
+    
+    
+    /**
+     * Selects the whole content
+     * 
+     * @type member
+     * @return {void}
+     */
+    selectAll : function()
+    {
+      this._getChildControl("textfield").setSelection(0);
+    },
   }
 });
