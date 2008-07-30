@@ -13,7 +13,12 @@
       // select everything except 'source' and 'build' which are defined locally
       "block"  : [ "source", "build" ]
     }
-  ]
+  ],
+
+  "let" : 
+  {
+    "APPLICATION" : "apiviewer"
+  }
 
 }
 
