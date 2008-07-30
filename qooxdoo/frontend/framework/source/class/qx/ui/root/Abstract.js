@@ -165,7 +165,7 @@ qx.Class.define("qx.ui.root.Abstract",
         Stylesheet.removeAllRules(sheet);
 
         if (value) {
-          Stylesheet.addRule(sheet, "*", "cursor:" + value + " !important");
+          Stylesheet.addRule(sheet, "*", qx.bom.element.Cursor.compile(value).replace(";", "") + " !important");
         }
       }
     })
