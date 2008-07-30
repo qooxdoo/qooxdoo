@@ -43,17 +43,16 @@ qx.Class.define("qx.bom.Selection",
      */
     getSelectionObject : qx.core.Variant.select("qx.client",
     {
-      "mshtml" : function(documentNode)
-      {
+      "mshtml" : function(documentNode) {
         return documentNode.selection;
       },
 
       // suitable for gecko, opera and webkit
-      "default" : function(documentNode)
-      {
+      "default" : function(documentNode) {
         return qx.dom.Node.getWindow(documentNode).getSelection();
       }
     }),
+
 
     /**
      * Returns the current selected text.
@@ -142,12 +141,9 @@ qx.Class.define("qx.bom.Selection",
       // suitable for gecko and webkit
       "default" : function(node)
       {
-        if (qx.dom.Node.isElement(node) && (node.nodeName.toLowerCase() == "input" || node.nodeName.toLowerCase() == "textarea"))
-        {
+        if (qx.dom.Node.isElement(node) && (node.nodeName.toLowerCase() == "input" || node.nodeName.toLowerCase() == "textarea")) {
           return node.selectionEnd - node.selectionStart;
-        }
-        else
-        {
+        } else {
           return qx.bom.Selection.get(node).length;
         }
 
@@ -205,7 +201,8 @@ qx.Class.define("qx.bom.Selection",
 
                 return true;
               }
-            break;
+              break;
+
             case "#text":
               if (end === undefined)
               {
@@ -227,7 +224,7 @@ qx.Class.define("qx.bom.Selection",
 
                 return true;
               }
-            break;
+              break;
 
             default:
               if (end === undefined)
@@ -295,25 +292,21 @@ qx.Class.define("qx.bom.Selection",
           // for text nodes the offsets are applied to the text content
           if (qx.dom.Node.isText(node))
           {
-            if (end === undefined)
-            {
+            if (end === undefined) {
               end = node.length;
             }
 
-            if (start >= 0 && start < node.length && end >= 0 && end <= node.length)
-            {
+            if (start >= 0 && start < node.length && end >= 0 && end <= node.length) {
               validBoundaries = true;
             }
           }
           else if (qx.dom.Node.isElement(node))
           {
-            if (end === undefined)
-            {
+            if (end === undefined) {
               end = node.childNodes.length - 1;
             }
 
-            if (start >= 0 && node.childNodes[start] && end >= 0 && node.childNodes[end])
-            {
+            if (start >= 0 && node.childNodes[start] && end >= 0 && node.childNodes[end]) {
               validBoundaries = true;
             }
           }
@@ -322,13 +315,11 @@ qx.Class.define("qx.bom.Selection",
             // work on with the body element
             node = node.body;
 
-            if (end === undefined)
-            {
+            if (end === undefined) {
               end = node.childNodes.length - 1;
             }
 
-            if (start >= 0 && node.childNodes[start] && end >= 0 && node.childNodes[end])
-            {
+            if (start >= 0 && node.childNodes[start] && end >= 0 && node.childNodes[end]) {
               validBoundaries = true;
             }
           }
@@ -336,8 +327,7 @@ qx.Class.define("qx.bom.Selection",
           if (validBoundaries)
           {
             // collapse the selection if needed
-            if (!sel.isCollapsed)
-            {
+            if (!sel.isCollapsed) {
              sel.collapseToStart();
             }
 
@@ -345,20 +335,17 @@ qx.Class.define("qx.bom.Selection",
             rng.setStart(node, start);
 
             // for element nodes set the end after the childNode
-            if (qx.dom.Node.isText(node))
-            {
+            if (qx.dom.Node.isText(node)) {
               rng.setEnd(node, end);
-            }
-            else
-            {
+            } else {
               rng.setEndAfter(node.childNodes[end]);
             }
 
             // remove all existing ranges and add the new one
-            if (sel.rangeCount > 0)
-            {
+            if (sel.rangeCount > 0) {
               sel.removeAllRanges();
             }
+
             sel.addRange(rng);
 
             return true;
@@ -377,8 +364,7 @@ qx.Class.define("qx.bom.Selection",
      * @param node {Node} text, element or document node
      * @return {Boolean} whether a selection is drawn
      */
-    setAll : function(node)
-    {
+    setAll : function(node) {
       return qx.bom.Selection.set(node, 0);
     },
 
@@ -404,8 +390,7 @@ qx.Class.define("qx.bom.Selection",
         // only collapse if the selection is really on the given node
         // -> compare the two parent elements of the ranges with each other and
         // the given node
-        if (parent == documentRange.parentElement() && parent == node)
-        {
+        if (parent == documentRange.parentElement() && parent == node) {
           sel.empty();
         }
       },
@@ -450,17 +435,13 @@ qx.Class.define("qx.bom.Selection",
             // compare the parentNode of the textNode with the given node
             // (if this node is an element) to decide whether the selection
             // is cleared or not.
-            if (qx.dom.Node.isElement(node) && qx.dom.Node.isText(commonAncestor))
-            {
+            if (qx.dom.Node.isElement(node) && qx.dom.Node.isText(commonAncestor)) {
               compareNode = commonAncestor.parentNode;
-            }
-            else
-            {
+            } else {
               compareNode = commonAncestor;
             }
 
-            if (compareNode == node)
-            {
+            if (compareNode == node) {
               sel.collapse(node,0);
             }
           }
