@@ -3,39 +3,40 @@
       "library" :
       [
         {
-          "manifest" : "../../../framework/Manifest.json",
+          "manifest" : "../../framework/Manifest.json",
           "uri"      : "../../../../../framework"
         },
 
         {
-          "manifest" : "../Manifest_samples.json",
+          "manifest" : "Manifest.demo.json",
           "uri"      : "../../.."
         }
       ],
 
       "include" :
       [
-        "XXX",
+        "YYY",
         "qx.log.appender.Native",
         "qx.log.appender.Console",
         "qx.dev.ObjectSummary",
-        "qx.dev.Pollution"
+        "qx.dev.Pollution",
+        "qx.dev.Profile"
       ],
 
       "require" :
       {
-      	"qx.ui.core.Widget" : ["qx.theme.Classic"]
+      	"qx.ui.core.Widget" : ["qx.theme.Classic","qx.theme.Modern"]
       },
 
       "themes" :
       {
         "qx.icontheme" : ["Oxygen"],
-        "qx.theme"     : ["Modern"]
+        "qx.theme"     : ["Classic","Modern"]
       },
 
       "cache" :
       {
-        "path" : "../../cache"
+        "compile" : "../../cache"
       },
 
       "localize" :
@@ -50,12 +51,12 @@
 
       "settings" :
       {
-        "qx.application" : "XXX"
+        "qx.application" : "YYY"
       },
 
       "compile-source" :
       {
-        "file" : "source/script/XXX.js",
+        "file" : "source/script/YYY.js",
         "root" : "source/demo/yyy"
       }
     },
@@ -66,19 +67,19 @@
 
       "settings" :
       {
-        "qx.application" : "XXX"
+        "qx.application" : "YYY"
       },
 
       "variants" :
       {
         "qx.debug" : ["off"],
-	"qx.aspects" : ["off"]
+	      "qx.aspects" : ["off"]
       },
 
       "compile-dist" :
       {
-        "file" : "build/script/XXX.js",
-        "uri"  : "../../script/XXX.js",
+        "file" : "build/script/YYY.js",
+        "uri"  : "../../script/YYY.js",
         "resourceUri" : "../..",
         "root" : "build/demo/yyy",
         "optimize" : [ "variables", "basecalls", "privates", "strings" ],
