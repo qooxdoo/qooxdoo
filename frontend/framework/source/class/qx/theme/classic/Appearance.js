@@ -1251,7 +1251,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
         if (states.pressed || states.checked || states.abandoned) {
           result.padding = [ 2, 0, 0, 2 ];
-        } else if (states.hover) {
+        } else if (states.hovered) {
           result.padding = 1;
         } else {
           result.padding = 2;
