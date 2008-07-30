@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 ################################################################################
 #
 #  qooxdoo - the new era of web development
@@ -5,7 +6,7 @@
 #  http://qooxdoo.org
 #
 #  Copyright:
-#    2007 1&1 Internet AG, Germany, http://www.1und1.de
+#    2008 1&1 Internet AG, Germany, http://www.1und1.de
 #
 #  License:
 #    LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -17,20 +18,19 @@
 #
 ################################################################################
 
-# need to specify a default target 'source' explicitly; all others are caught
-# by '%'
-source %: force
-	@../../tool/bin/generator.py $@
+##
+# This is a stub proxy for the real generator.py
+##
 
-# this replaces .PHONY
-force: ;
+import sys, os
 
-# the next one is a hack, since gmake insists of making a target 'Makefile'
-# with the above '%' rule
-Makefile: ;
+CMD_PYTHON     = 'python'
+REAL_GENERATOR = os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])),
+                              os.pardir, os.pardir, 'tool', 'bin', 'generator.py')
 
-# use old Makefile for other targets
-#%: force
-#	@$(MAKE) -s -f Makefile.gen1 $@
-#
+argList = []
+argList.append(CMD_PYTHON)
+argList.append(REAL_GENERATOR)
+argList.extend(sys.argv[1:])  # skip $0 (this script's name)
 
+os.execvp(CMD_PYTHON, argList)

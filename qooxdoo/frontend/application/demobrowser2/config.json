@@ -1,5 +1,6 @@
-// Demobrowser - config.json
 {
+  "name"    : "Demobrowser - config.json",
+
   "include" :
   [
     {
@@ -12,9 +13,9 @@
   {
     "APPLICATION"  : "demobrowser",
     "API_EXCLUDE"  : ["${APPLICATION}.demo.*"],
+    "CACHE"        : "../../cache",
     "QOOXDOO_PATH" : "../../framework",
-    "QOOXDOO_URI"  : "../${QOOXDOO_PATH}",
-    "THEME"        : "qx.theme.Classic"
+    "QOOXDOO_URI"  : "../${QOOXDOO_PATH}"
   },
 
   "jobs" :
@@ -39,26 +40,25 @@
       "include" :
       [
         "${APPLICATION}.Application",
-        "${THEME}"
+        "qx.legacy.theme.ClassicRoyale"
       ],
 
       "settings" :
       {
         "qx.version" : "0.8-alpha2",
-        "qx.application" : "${APPLICATION}.Application",
-        "qx.theme" : "${THEME}"
+        "qx.application" : "${APPLICATION}.Application"
       },
 
       // the next is in since resource copying is done here for the demos as well
       "themes" :
       {
-        "qx.icontheme" : ["Tango"],
-        "qx.theme"     : ["${THEME}"]
+        "qx.icontheme" : ["Oxygen"],
+        "qx.theme"     : ["Modern"]
       },
 
       "cache" :
       {
-        "path" : "./cache"
+        "compile" : "${CACHE}"
       }
     },
 
@@ -115,7 +115,7 @@
 
       "shell" :
       {
-        "command" : "../../../frontend/tool/bin/generator.py -c ./tool/demo_dyn.json source"
+        "command" : "../../../frontend/tool/bin/generator.py -c ./config.demo.json source"
       }
     },
 
@@ -157,7 +157,7 @@
 
       "include" :
       [
-        "${THEME}",
+        "qx.legacy.theme.ClassicRoyale",
         "demobrowser.*"
       ],
 
@@ -197,7 +197,7 @@
 
       "shell" :
       {
-        "command" : "../../../frontend/tool/bin/generator.py -c ./tool/demo_dyn.json build"
+        "command" : "../../../frontend/tool/bin/generator.py -c ./config.demo.json build"
       }
     },
 
