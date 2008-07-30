@@ -29,7 +29,7 @@
 qx.Class.define("qx.ui.progressive.model.Abstract",
 {
   type       : "abstract",
-  extend     : qx.core.Target,
+  extend     : qx.core.Object,
 
 
   events :
