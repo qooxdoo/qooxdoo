@@ -43,7 +43,6 @@ qx.Class.define("qx.ui.table.cellrenderer.Boolean",
 
     this._iconUrlTrue = resourceManager.toUri(aliasManager.resolve("decoration/table/boolean-true.png"));
     this._iconUrlFalse = resourceManager.toUri(aliasManager.resolve("decoration/table/boolean-false.png"));
-    this._iconUrlNull = resourceManager.toUri("qx/static/image/blank.gif");
   },
 
 
@@ -85,7 +84,7 @@ qx.Class.define("qx.ui.table.cellrenderer.Boolean",
           break;
 
         default:
-          imageHints.url = this._iconUrlNull;
+          imageHints.url = null;
           break;
       }
 

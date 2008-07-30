@@ -19,7 +19,7 @@
 
 /* ************************************************************************
 
-#embed(qx/icon/${qx.icontheme}/16/actions/view-refresh.png)
+#asset(qx/icon/${qx.icontheme}/16/actions/view-refresh.png)
 
 ************************************************************************ */
 

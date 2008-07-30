@@ -19,7 +19,7 @@
 ************************************************************************ */
 
 /**
- * A template class for cell renderers, which display images. Concrete
+ * A template class for cell renderer, which display images. Concrete
  * implementations must implement the method @{link #_identifyImage}.
  */
 qx.Class.define("qx.ui.table.cellrenderer.AbstractImage",
@@ -38,7 +38,6 @@ qx.Class.define("qx.ui.table.cellrenderer.AbstractImage",
   construct : function()
   {
     this.base(arguments);
-    this.IMG_BLANK_URL = qx.util.AliasManager.getInstance().resolve("static/image/blank.gif");
 
     var clazz = this.self(arguments);
     if (!clazz.stylesheet)
@@ -106,14 +105,9 @@ qx.Class.define("qx.ui.table.cellrenderer.AbstractImage",
       {
         urlAndTooltipMap =
         {
-          url     : urlAndTooltipMap,
+          url : urlAndTooltipMap,
           tooltip : null
         };
-      }
-
-      // If subclass gave null as url, replace with url to empty image
-      if (urlAndTooltipMap.url == null) {
-        urlAndTooltipMap.url = this.IMG_BLANK_URL;
       }
 
       return urlAndTooltipMap;
@@ -129,33 +123,29 @@ qx.Class.define("qx.ui.table.cellrenderer.AbstractImage",
     // overridden
     _getContentHtml : function(cellInfo)
     {
-      var content = ['<img '];
+      var content = ['<span style="position:absolute;'];
       var urlAndToolTip = this._getImageInfos(cellInfo);
 
-      if (qx.bom.client.Engine.MSHTML && /\.png$/i.test(urlAndToolTip.url)) {
-        content.push(
-          'src="', this.IMG_BLANK_URL, '" style="filter:',
-          "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='",
-          urlAndToolTip.url, "',sizingMethod='scale')", '" '
-        );
-      } else {
-        content.push('src="', urlAndToolTip.url, '" ');
+      // set image
+      if (urlAndToolTip.url) {
+        content.push(qx.bom.element.Background.compile(urlAndToolTip.url, "no-repeat"));
       }
 
+      // set size
       if (urlAndToolTip.imageWidth && urlAndToolTip.imageHeight) {
         content.push(
-          ' width="', urlAndToolTip.imageWidth, 'px" height="',
-          urlAndToolTip.imageHeight, 'px" '
+          'width:', urlAndToolTip.imageWidth, 'px;height:',
+          urlAndToolTip.imageHeight, 'px;',
+          'margin-left:', (-urlAndToolTip.imageWidth >> 1), 'px" '
         );
       }
 
+      // set tool tip
       var tooltip = urlAndToolTip.tooltip;
-
       if (tooltip != null) {
         content.push('title="', tooltip, '" ');
       }
-
-      content.push(">");
+      content.push("></span>");
 
       return content.join("");
     }
