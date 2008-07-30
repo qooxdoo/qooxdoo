@@ -1,0 +1,66 @@
+#header{
+  margin: 0;
+  padding: 0;
+  background-color: #134275;
+  font-family: "Trebuchet MS", "Lucida Grande", Verdana, sans-serif;
+}
+
+#header *{
+  padding: 0;
+  margin: 0
+}
+
+#header h1{
+  font-size: 18px;
+  font-weight: bold;
+  color: #DEFF83;
+  position: absolute;
+  top: 30px;
+  left: 20px;
+  margin: 0;
+  padding: 0;
+}
+
+#header .version{
+  font-size: 11px;
+  text-transform: lowercase;
+  color: #F3FFD1;
+  margin-top: -14px;
+  letter-spacing: 1px;
+  word-spacing: 4px;
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  margin: 0;
+  padding: 0;
+}
+
+.testResult{
+  font-family: "Consolas", "Courier New", monospace;
+	font-size: 11px;
+	margin-bottom: 4px;
+	padding: 4px 20px 4px 4px;
+}
+
+.testResult h3{
+  font-size: 11px;
+  font-weight: bold;
+  color: #134275;
+	margin: 0;
+}
+
+.error,
+.failure{
+	background-color: #FEF4F4;
+	border-left: 3px solid #9D1111;
+}
+
+.success{
+	background-color: #FAFFED;
+	border-left: 3px solid #DEFF83;
+}
+
+#sessionlog{
+  font-family: "Consolas", "Courier New", monospace;
+	font-size: 11px;
+}
