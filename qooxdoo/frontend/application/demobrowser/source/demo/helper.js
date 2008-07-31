@@ -22,37 +22,62 @@
     var length = splits.length;
     var div = " " + String.fromCharCode(187) + " ";
     var category = splits[length-2];
-    var s = "";
+    var filevar = "";  // variable part of .js file name
     var i;
     
+    // 'tmp' mirror line: "Atom.html?qxvariant:qx.aspects:off&qx.enableAspect:false&theme_qx.theme.Classic"
     var tmp = splits[splits.length - 1];
-    var file = tmp.split("?")[0].replace(".html", "");
+    var fileAndParms = tmp.split("?");
+    if (fileAndParms.length < 2)
+    {
+      emit("No URL parameters given! (try: \"?qxvariant:qx.aspects:off&qx.enableAspect:false&theme_qx.theme.Classic\")");
+      return
+    }
+    var base = fileAndParms[0].replace(".html", "");  // "Atom"
     
+    var parameters = fileAndParms[1].split("&");  // the url parameters "?...&..&.."
+    if (parameters.length < 3)
+    {
+      emit("Insufficient URL parameters given! (try: \"?qxvariant:qx.aspects:off&qx.enableAspect:false&theme_qx.theme.Classic\")");
+      return
+    }
     
-    var parameters = tmp.split("?")[1].split("&");
-    
-    var aspect = "off";
-    var theme = "Classic";
+    // add aspect part of filename
+    tmp = parameters[0].split(":");  // read this from "qxvariant:qx.aspects:..."
 
-    tmp = parameters[0].split(":");
-
+    filevar += "-aspects_";
     if(tmp[1] == "qx.aspects"){
-      s += "-aspects_" + tmp[2];
+      filevar += tmp[2];
     }else{
-      // default
+      filevar += defaultParameters.aspects;
     }
 
-    tmp = parameters[2].split(":");
+    // add theme part of filename
+    tmp = parameters[2].split("_");   // read this from "theme_qx.theme..."
     
+    filevar += "-theme_";
     if(tmp[0] == "theme"){
-      s += "-" + tmp[0] + "_" + tmp[1];
+      filevar += tmp[1];
     }else{
-      //default
+      filevar += defaultParameters.theme;
     }
 
     // create the URI to the source script
-    jsFileURL = "../../script/demobrowser.demo." + category + "." + file + s + ".js";
+    jsFileURL = "../../script/demobrowser.demo." + category + "." + base + filevar + ".js";
 
+  }
+
+  function emit(text)
+  {
+    var body = document.getElementsByTagName("body")[0];
+    if (!body)
+    {
+      body = document.createElement('body');
+      var html = document.getElementsByTagName("html")[0];
+      html.appendChild(body);
+    }
+    var textNode = document.createTextNode(text);
+    body.appendChild(textNode);
   }
   
   function insertSourceLink()
@@ -130,7 +155,7 @@
 
     if(req === null)
     {
-      alert("Could not create XMLHttpRequest object!\nDemo can not be loaded.");
+      emit("Could not create XMLHttpRequest object!\nDemo can not be loaded.");
       return;
     }
 
@@ -140,8 +165,7 @@
       req.send("");
     }catch(e)
     {
-      debugger;
-      alert("Could not open demo!\nTechnical information:\n" + e)
+      emit("Could not open demo!\nTechnical information:\n" + e)
     }
 
     if (req.readyState == 4 && (req.status === 0 || req.status === 304 || (req.status >= 200 && req.status < 300)) )
@@ -149,7 +173,7 @@
       if (req.responseText) {
         scriptData = req.responseText;
       } else {
-        alert("Cold not load demo!");
+        emit("Cold not load demo!");
         return;
       }
     }
