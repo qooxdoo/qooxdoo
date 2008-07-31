@@ -53,12 +53,12 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.ColumnData",
      * Set the column width. The column width can be one of the following
      * values:
      *
-     * * Pixels: <code>23</code>
+     * * Pixels: e.g. <code>23</code>
      * * Autosized: <code>"auto"</code>
-     * * Flex: e.g. <code>1*</code>
-     * * Percent: e.g. <code>33%</code>
+     * * Flex: e.g. <code>"1*"</code>
+     * * Percent: e.g. <code>"33%"</code>
      *
-     * @param width {Integer} The column width
+     * @param width {Integer|String} The column width
      */
     setColumnWidth : function(width)
     {

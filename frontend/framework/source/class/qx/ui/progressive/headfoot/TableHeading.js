@@ -78,6 +78,16 @@ qx.Class.define("qx.ui.progressive.headfoot.TableHeading",
       // Save this label so we can resize it later
       this._labels[i] = label;
     }
+
+    // This layout is not connected to a widget but to this class. This class
+    // must implement the method "getLayoutChildren", which must return all
+    // columns (LayoutItems) which should be recalcutated. The call
+    // "layout.renderLayout" will call the method "renderLayout" on each
+    // column data object The advantage of the use of the normal layout
+    // manager is that the samantics of flex and percent are exectly the same
+    // as in the widget code.
+    this._layout = new qx.ui.layout.HBox();
+    this._layout.connectToWidget(this);
   },
 
   members :
@@ -96,6 +106,16 @@ qx.Class.define("qx.ui.progressive.headfoot.TableHeading",
     },
 
     /**
+     * This method is required by the box layout. If returns an array of items
+     * to relayout.
+     */
+    getLayoutChildren : function()
+    {
+      return this._columnWidths;
+    },
+
+
+    /**
      * Event handler for the "widthChanged" event.  We recalculate and set the
      * new widths of each of our columns.
      *
@@ -110,41 +130,16 @@ qx.Class.define("qx.ui.progressive.headfoot.TableHeading",
         (! this._progressive.getContainerElement().getDomElement()
          ? 0
          : this._progressive.getInnerWidth()) -
-        qx.ui.core.Widget.SCROLLBAR_SIZE
+        qx.ui.core.Widget.SCROLLBAR_SIZE;
 
-        // Compute the column widths
-        qx.ui.util.column.FlexWidth.compute(this._columnWidths.getData(),
-                                            width);
+      // Compute the column widths
+      this._layout.renderLayout(width, 100);
 
-
-      // Get the column width data
-      var data = this._columnWidths.getData();
-      var label;
-      var columnData;
-
-      // For each label...
+      // Get the column width data.  For each label...
       for (var i = 0; i < data.length; i++)
       {
         // ... reset the width of the corresponding column (label)
-        columnData = data[i];
-
-        // Is this column a flex width?
-        if (columnData._computedWidthTypeFlex)
-        {
-          // Yup.  Set the width to the calculated width value based on flex
-          width = columnData._computedWidthFlexValue;
-        }
-        else if (columnData._computedWidthTypePercent)
-        {
-          // Set the width to the calculated width value based on percent
-          width = columnData._computedWidthPercentValue;
-        }
-        else
-        {
-          width = columnData.getWidth();
-        }
-
-        this._labels[i].setWidth(width);
+        this._labels[i].setWidth(this._columnWidths[i].getComputedWidth());
       }
     }
   }
