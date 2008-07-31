@@ -40,7 +40,7 @@ qx.Class.define("demobrowser.demo.widget.DateChooser",
       
       // date label
       var label = new qx.ui.basic.Label("select a date");
-      this.getRoot().add(label, {left: 20, top: 175});
+      this.getRoot().add(label, {left: 20, top: 185});
       
       // listener for the change event
       chooser.addListener("changeDate", function(e) {
