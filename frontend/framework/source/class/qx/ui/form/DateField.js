@@ -18,7 +18,20 @@
 ************************************************************************ */
 
 /**
- * 
+ * A *date field* is like a combo box with the date as popup. As button to 
+ * open the calendeer a calender icon is shown at the right to the textfield. 
+ *
+ * To be conform with all form widgets, the {@link qx.ui.form.IFormElement} interface 
+ * is implemented.
+ *
+ * The following example creates a date field and sets the current 
+ * date as selected.
+ *
+ * <pre>
+ * var dateField = new qx.ui.form.DateField();
+ * this.getRoot().add(dateField, {top: 20, left: 20});
+ * dateField.setDate(new Date());
+ * </pre>
  */
 qx.Class.define("qx.ui.form.DateField",
 {
