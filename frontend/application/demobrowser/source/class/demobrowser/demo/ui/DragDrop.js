@@ -46,8 +46,16 @@ qx.Class.define("demobrowser.demo.ui.DragDrop",
       source.setSelectionMode("multi");
       source.setDragSelection(false);
 
+      var check = new qx.ui.form.CheckBox("Enable drag");
+      check.setChecked(true);
+      root.add(check, { left : 20, top : 250 });
+
       source.addListener("dragstart", function(e)
       {
+        if (!check.isChecked()) {
+          e.preventDefault();
+        }
+
         e.addData("value", this.getValue());
         e.addData("items", this.getSelection());
         e.addAction("copy");
@@ -57,6 +65,7 @@ qx.Class.define("demobrowser.demo.ui.DragDrop",
         source.add(new qx.ui.form.ListItem("Item " + i));
       }
       root.add(source, { left : 20, top : 40 });
+
 
 
 
@@ -122,7 +131,6 @@ qx.Class.define("demobrowser.demo.ui.DragDrop",
       textareaTarget.addListener("dragdrop", function(e) {
         this.setValue(e.getData("value").replace(/,/g, "\n"));
       });
-
     }
   }
 });
