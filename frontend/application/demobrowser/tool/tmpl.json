@@ -39,6 +39,13 @@
         "compile" : "../../cache"
       },
 
+      "variants" :
+      {
+        "qx.debug" : ["off"],
+	      "qx.aspects" : ["on", "off"],
+        "qx.theme" : ["qx.theme.Modern", "qx.theme.Classic"]
+      },
+
       "localize" :
       {
         "locales" : ["en", "en_US", "de", "de_DE"]
