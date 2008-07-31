@@ -44,7 +44,7 @@ qx.Class.define("qx.ui.table.cellrenderer.AbstractImage",
     {
       clazz.stylesheet = qx.bom.Stylesheet.createElement(
         ".qooxdoo-table-cell-icon {" +
-        //"  text-align:center;" +
+        "  text-align:center;" +
         "  padding-top:1px;" +
         "}"
       );
@@ -123,7 +123,7 @@ qx.Class.define("qx.ui.table.cellrenderer.AbstractImage",
     // overridden
     _getContentHtml : function(cellInfo)
     {
-      var content = ['<div style="position:relative;'];
+      var content = ['<div style="display:-moz-inline-box;display:inline-block;vertical-align:top;'];
       var urlAndToolTip = this._getImageInfos(cellInfo);
 
       // set image
@@ -135,9 +135,7 @@ qx.Class.define("qx.ui.table.cellrenderer.AbstractImage",
       if (urlAndToolTip.imageWidth && urlAndToolTip.imageHeight) {
         content.push(
           'width:', urlAndToolTip.imageWidth, 'px;height:',
-          urlAndToolTip.imageHeight, 'px;',
-          'left: 50%;',
-          'margin-left:', (-urlAndToolTip.imageWidth >> 1), 'px" '
+          urlAndToolTip.imageHeight, 'px"'
         );
       }
 
