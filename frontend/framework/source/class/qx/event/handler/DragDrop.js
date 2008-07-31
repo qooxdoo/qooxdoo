@@ -57,10 +57,8 @@ qx.Class.define("qx.event.handler.DragDrop",
     // Initialize mousedown listener
     this.__manager.addListener(this.__root, "mousedown", this._onMouseDown, this);
 
-    // Build data structures
-    this.__types = {};
-    this.__actions = {};
-    this.__keys = {};
+    // Initialize data structures
+    this.__rebuildStructures();
   },
 
 
@@ -86,7 +84,8 @@ qx.Class.define("qx.event.handler.DragDrop",
       dragleave : 1,
       drop : 1,
       drag : 1,
-      dragchange : 1
+      dragchange : 1,
+      droprequest : 1
     },
 
     /** {Integer} Whether the method "canHandleEvent" must be called */
@@ -136,8 +135,8 @@ qx.Class.define("qx.event.handler.DragDrop",
     ---------------------------------------------------------------------------
     */
 
-    addData : function(type, data) {
-      this.__types[type] = data;
+    addType : function(type) {
+      this.__types[type] = true;
     },
 
     addAction : function(action) {
@@ -152,12 +151,39 @@ qx.Class.define("qx.event.handler.DragDrop",
       return !!this.__actions[type];
     },
 
-    getData : function(type) {
-      return this.__types[type];
+    getData : function(type)
+    {
+      if (!this.__validDrop || !this.__dropTarget) {
+        throw new Error("This method must not be used outside the drop event listener!");
+      }
+
+      if (!this.__types[type]) {
+        throw new Error("Unsupported data type: " + type + "!");
+      }
+
+      if (!this.__cache[type])
+      {
+        this.__currentType = type;
+        this.__fireEvent("droprequest", this.__dragTarget, false);
+      }
+
+      if (!this.__cache[type]) {
+        throw new Error("Please use a dragrequest listener to the drag target to fill the manager with data!");
+      }
+
+      return this.__cache[type] || null;
     },
 
-    getAction : function() {
+    getCurrentAction : function() {
       return this.__currentAction;
+    },
+
+    addData : function(type, data) {
+      this.__cache[type] = data;
+    },
+
+    getCurrentType : function() {
+      return this.__currentType;
     },
 
 
@@ -170,6 +196,14 @@ qx.Class.define("qx.event.handler.DragDrop",
       INTERNAL UTILS
     ---------------------------------------------------------------------------
     */
+
+    __rebuildStructures : function()
+    {
+      this.__types = {};
+      this.__actions = {};
+      this.__keys = {};
+      this.__cache = {};
+    },
 
     __detectAction : function()
     {
@@ -252,6 +286,9 @@ qx.Class.define("qx.event.handler.DragDrop",
 
       // Deregister from window's blur
       qx.event.Registration.removeListener(window, "blur", this._onWindowBlur, this);
+
+      // Clear structures
+      this.__rebuildStructures();
     },
 
     __clearSession : function()
@@ -293,14 +330,21 @@ qx.Class.define("qx.event.handler.DragDrop",
     ---------------------------------------------------------------------------
     */
 
-
-    _onWindowBlur : function(e)
-    {
-      this.debug("Window blur");
+    /**
+     * Event listener for window's <code>blur</code> event
+     *
+     * @param e {qx.event.type.Event} Event object
+     */
+    _onWindowBlur : function(e) {
       this.__clearSession();
     },
 
 
+    /**
+     * Event listener for root's <code>keydown</code> event
+     *
+     * @param e {qx.event.type.KeySequence} Event object
+     */
     _onKeyDown : function(e)
     {
       var iden = e.getKeyIdentifier();
@@ -309,13 +353,20 @@ qx.Class.define("qx.event.handler.DragDrop",
         case "Alt":
         case "Ctrl":
         case "Shift":
-          this.__keys[iden] = true;
+          if (!this.__keys[iden])
+          {
+            this.__keys[iden] = true;
+            this.__detectAction();
+          }
       }
-
-      this.__detectAction();
     },
 
 
+    /**
+     * Event listener for root's <code>keyup</code> event
+     *
+     * @param e {qx.event.type.KeySequence} Event object
+     */
     _onKeyUp : function(e)
     {
       var iden = e.getKeyIdentifier();
@@ -324,13 +375,20 @@ qx.Class.define("qx.event.handler.DragDrop",
         case "Alt":
         case "Ctrl":
         case "Shift":
-          this.__keys[iden] = false;
+          if (this.__keys[iden])
+          {
+            this.__keys[iden] = false;
+            this.__detectAction();
+          }
       }
-
-      this.__detectAction();
     },
 
 
+    /**
+     * Event listener for root's <code>mousedown</code> event
+     *
+     * @param e {qx.event.type.Mouse} Event object
+     */
     _onMouseDown : function(e)
     {
       if (this.__sessionActive) {
@@ -357,6 +415,11 @@ qx.Class.define("qx.event.handler.DragDrop",
     },
 
 
+    /**
+     * Event listener for root's <code>mouseup</code> event
+     *
+     * @param e {qx.event.type.Mouse} Event object
+     */
     _onMouseUp : function(e)
     {
       // Fire drop event in success case
@@ -374,6 +437,11 @@ qx.Class.define("qx.event.handler.DragDrop",
     },
 
 
+    /**
+     * Event listener for root's <code>mousemove</code> event
+     *
+     * @param e {qx.event.type.Mouse} Event object
+     */
     _onMouseMove : function(e)
     {
       // Whether the session is already active
@@ -419,6 +487,11 @@ qx.Class.define("qx.event.handler.DragDrop",
     },
 
 
+    /**
+     * Event listener for root's <code>mouseover</code> event
+     *
+     * @param e {qx.event.type.Mouse} Event object
+     */
     _onMouseOver : function(e)
     {
       var target = e.getTarget();
@@ -434,6 +507,11 @@ qx.Class.define("qx.event.handler.DragDrop",
     },
 
 
+    /**
+     * Event listener for root's <code>mouseout</code> event
+     *
+     * @param e {qx.event.type.Mouse} Event object
+     */
     _onMouseOut : function(e)
     {
       var target = e.getTarget();
@@ -449,6 +527,7 @@ qx.Class.define("qx.event.handler.DragDrop",
       }
     }
   },
+
 
 
 
