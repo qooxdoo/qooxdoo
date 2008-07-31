@@ -79,7 +79,8 @@ def main():
         fileH = open(html,"rU")
         selected = False
         for line in fileH:
-            if re.search(r'demobrowser\.demo',line):
+            #if re.search(r'demobrowser\.demo',line):
+            if re.search(r'src="\.\./helper.js"',line):
                 selected = True
                 break
         if not selected:
