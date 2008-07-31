@@ -192,8 +192,8 @@ qx.Class.define("qx.ui.table.Table",
     this.addEventListener("keypress", this._onkeypress);
     this.addEventListener("changeFocused", this._onFocusChanged);
 
-    this._focusedCol = 0;
-    this._focusedRow = 0;
+    this._focusedCol = null;
+    this._focusedRow = null;
 
     // add an event listener which updates the table content on locale change
     qx.locale.Manager.getInstance().addEventListener("changeLocale", this._onChangeLocale, this);
