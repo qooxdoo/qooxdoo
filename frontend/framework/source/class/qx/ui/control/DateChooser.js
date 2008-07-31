@@ -61,7 +61,7 @@ qx.Class.define("qx.ui.control.DateChooser",
    */
   construct : function(date)
   {
-    this.base(arguments);
+    this.base(arguments);   
     
     // set the layout
     var layout = new qx.ui.layout.VBox();
@@ -129,6 +129,18 @@ qx.Class.define("qx.ui.control.DateChooser",
     {
       refine : true,
       init   : "datechooser"
+    },
+    
+    width : 
+    {
+      refine : true,
+      init : 200
+    },
+    
+    height : 
+    {
+      refine : true,
+      init : 150
     },
         
     /** The currently shown month. 0 = january, 1 = february, and so on. */
@@ -284,11 +296,13 @@ qx.Class.define("qx.ui.control.DateChooser",
           control = new qx.ui.container.Composite(controlLayout);
           
           for (var i = 0; i < 8; i++) {
-            controlLayout.setColumnWidth(i, 24);
+            // controlLayout.setColumnWidth(i, 24);
+            controlLayout.setColumnFlex(i, 1);
           }
       
           for (var i = 0; i < 7; i++) {
-            controlLayout.setRowHeight(i, 18);
+            controlLayout.setRowFlex(i, 1);
+            // controlLayout.setRowHeight(i, 18);
           }
               
           // Create the weekdays
@@ -422,6 +436,12 @@ qx.Class.define("qx.ui.control.DateChooser",
     ---------------------------------------------------------------------------
     */
        
+    /**
+     * Hendler which stops the propagation of the click event if
+     * the Navigation bar or kalender headers will be clicked. 
+     *  
+     * @param e {qx.event.type.Mouse} The mouse up / down event
+     */
     _onMouseUpDown : function(e) {
       var target = e.getTarget();
       
@@ -622,7 +642,7 @@ qx.Class.define("qx.ui.control.DateChooser",
     /**
      * Event handler. Used to handle the key events.
      *
-     * @param evt {qx.event.type.Data} The event.
+     * @param e {qx.event.type.Data} The event.
      */    
     handleKeyPress : function(e) {
       this._onkeypress(e);
