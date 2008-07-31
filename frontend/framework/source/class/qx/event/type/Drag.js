@@ -197,6 +197,11 @@ qx.Class.define("qx.event.type.Drag",
     },
 
 
+    addData : function(type, data) {
+      this.getManager().addData(type, data);
+    },
+
+
     /**
      * Returns the data of the given type.
      *
@@ -204,6 +209,11 @@ qx.Class.define("qx.event.type.Drag",
      */
     getData : function(type) {
       return this.getManager().getData(type);
+    },
+
+
+    getCurrentType : function() {
+      return this.getManager().getCurrentType();
     },
 
 
@@ -215,8 +225,8 @@ qx.Class.define("qx.event.type.Drag",
      * @return {String} The action. May be one of <code>move</code>,
      *    <code>copy</code> or <code>alias</code>.
      */
-    getAction : function() {
-      return this.getManager().getAction();
+    getCurrentAction : function() {
+      return this.getManager().getCurrentAction();
     }
   }
 });
