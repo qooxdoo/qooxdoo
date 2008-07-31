@@ -93,9 +93,9 @@ qx.Class.define("qx.ui.core.EventHandler",
       dragstart : 1,
       dragend : 1,
       dragover : 1,
-      dragout : 1,
-      dragdrop : 1,
-      dragmove : 1,
+      dragleave : 1,
+      drop : 1,
+      drag : 1,
       dragchange : 1
     },
 

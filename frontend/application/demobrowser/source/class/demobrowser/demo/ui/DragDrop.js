@@ -20,6 +20,7 @@
 
 /* ************************************************************************
 
+#asset(qx/icon/${qx.icontheme}/16/places/folder.png)
 
 ************************************************************************ */
 
@@ -46,12 +47,20 @@ qx.Class.define("demobrowser.demo.ui.DragDrop",
       source.setSelectionMode("multi");
       source.setDragSelection(false);
 
+      for (var i=0; i<20; i++) {
+        source.add(new qx.ui.form.ListItem("Item " + i, "icon/16/places/folder.png"));
+      }
+
+      root.add(source, { left : 20, top : 40 });
+
       var check = new qx.ui.form.CheckBox("Enable drag");
       check.setChecked(true);
       root.add(check, { left : 20, top : 250 });
 
       source.addListener("dragstart", function(e)
       {
+        // dragstart is cancelable, you can put any runtime checks here to dynamically
+        // disallow the drag feature on a widget
         if (!check.isChecked()) {
           e.preventDefault();
         }
@@ -60,11 +69,6 @@ qx.Class.define("demobrowser.demo.ui.DragDrop",
         e.addData("items", this.getSelection());
         e.addAction("copy");
       });
-
-      for (var i=0; i<20; i++) {
-        source.add(new qx.ui.form.ListItem("Item " + i));
-      }
-      root.add(source, { left : 20, top : 40 });
 
 
 
@@ -79,8 +83,9 @@ qx.Class.define("demobrowser.demo.ui.DragDrop",
       targetSimple.setSelectionMode("multi");
       root.add(targetSimple, { left : 150, top: 40 });
 
-      targetSimple.addListener("dragdrop", function(e)
+      targetSimple.addListener("drop", function(e)
       {
+        // Move items from source to target
         var items = e.getData("items");
         for (var i=0, l=items.length; i<l; i++) {
           this.add(items[i]);
@@ -102,12 +107,15 @@ qx.Class.define("demobrowser.demo.ui.DragDrop",
 
       targetIgnore.addListener("dragover", function(e)
       {
+        // dragover is cancelable. Any widget, even if generally dropable
+        // supports it to block the drop when some runtime check delivers
+        // some type of false result.
         if (!e.supportsType("sometype")) {
           e.preventDefault();
         }
       });
 
-      targetIgnore.addListener("dragdrop", function(e)
+      targetIgnore.addListener("drop", function(e)
       {
         var items = e.getData("items");
         for (var i=0, l=items.length; i<l; i++) {
@@ -128,7 +136,8 @@ qx.Class.define("demobrowser.demo.ui.DragDrop",
       textareaTarget.setHeight(100);
       root.add(textareaTarget, { left : 410, top: 40 });
 
-      textareaTarget.addListener("dragdrop", function(e) {
+      // Serialize content to text, items are left in the list
+      textareaTarget.addListener("drop", function(e) {
         this.setValue(e.getData("value").replace(/,/g, "\n"));
       });
     }

@@ -83,9 +83,9 @@ qx.Class.define("qx.event.handler.DragDrop",
       dragstart : 1,
       dragend : 1,
       dragover : 1,
-      dragout : 1,
-      dragdrop : 1,
-      dragmove : 1,
+      dragleave : 1,
+      drop : 1,
+      drag : 1,
       dragchange : 1
     },
 
@@ -359,9 +359,9 @@ qx.Class.define("qx.event.handler.DragDrop",
 
     _onMouseUp : function(e)
     {
-      // Fire dragdrop event in success case
+      // Fire drop event in success case
       if (this.__validDrop) {
-        this.__fireEvent("dragdrop", this.__dropTarget, false, e.getNativeEvent());
+        this.__fireEvent("drop", this.__dropTarget, false, e.getNativeEvent());
       }
 
       // Stop event
@@ -380,7 +380,7 @@ qx.Class.define("qx.event.handler.DragDrop",
       if (this.__sessionActive)
       {
         // Fire specialized move event
-        this.__fireEvent("dragmove", this.__dragTarget, false, e.getNativeEvent());
+        this.__fireEvent("drag", this.__dragTarget, false, e.getNativeEvent());
       }
       else
       {
@@ -439,7 +439,7 @@ qx.Class.define("qx.event.handler.DragDrop",
 
       if (dropable && dropable == this.__dropTarget)
       {
-        this.__fireEvent("dragout", this.__dropTarget, false, e.getNativeEvent());
+        this.__fireEvent("dragleave", this.__dropTarget, false, e.getNativeEvent());
         this.__dropTarget = null;
         this.__validDrop = false;
 
