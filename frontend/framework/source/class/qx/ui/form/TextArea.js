@@ -116,6 +116,9 @@ qx.Class.define("qx.ui.form.TextArea",
       // four lines of text by default
       hint.height = hint.height * 4;
 
+      // 20 character wide
+      hint.width = this._textSize.width * 20;
+
       return hint;
     }
   }
