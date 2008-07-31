@@ -36,6 +36,14 @@ qx.Class.define("demobrowser.demo.ui.DragDrop",
 
       var root = this.getRoot();
 
+      var dragStopped = false;
+      root.addListener("keydown", function(e)
+      {
+        if (e.getKeyIdentifier() == "G") {
+          dragStopped = true;
+        }
+      });
+
 
       // Create source list
 
@@ -43,7 +51,7 @@ qx.Class.define("demobrowser.demo.ui.DragDrop",
       root.add(labelSource, { left : 20, top: 20 });
 
       var source = new qx.ui.form.List;
-      source.setDragable(true);
+      source.setDraggable(true);
       source.setSelectionMode("multi");
       source.setDragSelection(false);
 
@@ -68,7 +76,9 @@ qx.Class.define("demobrowser.demo.ui.DragDrop",
         e.addData("value", this.getValue());
         e.addData("items", this.getSelection());
         e.addAction("copy");
+        e.addAction("move");
       });
+
 
 
 
@@ -79,7 +89,7 @@ qx.Class.define("demobrowser.demo.ui.DragDrop",
       root.add(labelSimple, { left : 150, top: 20 });
 
       var targetSimple = new qx.ui.form.List;
-      targetSimple.setDropable(true);
+      targetSimple.setDroppable(true);
       targetSimple.setSelectionMode("multi");
       root.add(targetSimple, { left : 150, top: 40 });
 
@@ -101,7 +111,7 @@ qx.Class.define("demobrowser.demo.ui.DragDrop",
       root.add(labelBlocked, { left : 280, top: 20 });
 
       var targetIgnore = new qx.ui.form.List;
-      targetIgnore.setDropable(true);
+      targetIgnore.setDroppable(true);
       targetIgnore.setSelectionMode("multi");
       root.add(targetIgnore, { left : 280, top: 40 });
 
@@ -132,7 +142,7 @@ qx.Class.define("demobrowser.demo.ui.DragDrop",
       root.add(labelSimple, { left : 410, top: 20 });
 
       var textareaTarget = new qx.ui.form.TextArea;
-      textareaTarget.setDropable(true);
+      textareaTarget.setDroppable(true);
       textareaTarget.setHeight(100);
       root.add(textareaTarget, { left : 410, top: 40 });
 
