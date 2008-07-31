@@ -230,6 +230,7 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
         }
       }
 
+      // this handler is also called by the "execute" event of the menu button
       this.getBehavior().onAppear(this, event, event.getType() !== "appear");
 
       this._table._updateScrollerWidths();
