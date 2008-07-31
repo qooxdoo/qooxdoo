@@ -58,6 +58,16 @@ qx.Class.define("qx.ui.progressive.headfoot.Progress",
 
     // We're initially invisible
     this.setDisplay(false);
+
+    // This layout is not connected to a widget but to this class. This class
+    // must implement the method "getLayoutChildren", which must return all
+    // columns (LayoutItems) which should be recalcutated. The call
+    // "layout.renderLayout" will call the method "renderLayout" on each
+    // column data object The advantage of the use of the normal layout
+    // manager is that the samantics of flex and percent are exectly the same
+    // as in the widget code.
+    this._layout = new qx.ui.layout.HBox();
+    this._layout.connectToWidget(this);
   },
 
   members :
@@ -113,6 +123,16 @@ qx.Class.define("qx.ui.progressive.headfoot.Progress",
     },
 
     /**
+     * This method is required by the box layout. If returns an array of items
+     * to relayout.
+     */
+    getLayoutChildren : function()
+    {
+      return this._columnWidths;
+    },
+
+
+    /**
      * Event handler for the "widthChanged" event.  We compute and sum the new
      * widths of the columns of the table to determine our new width.
      *
@@ -127,41 +147,19 @@ qx.Class.define("qx.ui.progressive.headfoot.Progress",
         (! this._progressive.getContainerElement().getDomElement()
          ? 0
          : this._progressive.getInnerWidth()) -
-        qx.ui.core.Widget.SCROLLBAR_SIZE
+        qx.ui.core.Widget.SCROLLBAR_SIZE;
 
-        // Compute the column widths
-        qx.ui.util.column.FlexWidth.compute(this._columnWidths.getData(),
-                                            width);
+      // Compute the column widths
+      this._layout.renderLayout(width, 100);
 
-      // Use the same default column width as the standard table row renderer
+      // Sum the column widths
       var width = 0;
-      var colWidth;
-      var columnData;
 
       // Determine the total width that we'll need
-      for (var i = 0; i < this._columnWidths.getData().length; i++)
+      for (var i = 0; i < this._columnWidths.length; i++)
       {
-        // Get this column data
-        columnData = this._columnWidths.getData()[i];
-
-        // Is this column a flex width?
-        if (columnData._computedWidthTypeFlex)
-        {
-          // Yup.  Set the width to the calculated width value based on flex
-          colWidth = columnData._computedWidthFlexValue;
-        }
-        else if (columnData._computedWidthTypePercent)
-        {
-          // Set the width to the calculated width value based on percent
-          colWidth = columnData._computedWidthPercentValue;
-        }
-        else
-        {
-          colWidth = columnData.getWidth();
-        }
-
         // Cumulate the width
-        width += colWidth;
+        width += this._columnWidths[i].getComputedWidth();
       }
 
       // Set the width of the progress bar

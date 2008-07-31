@@ -47,6 +47,16 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
 
     // We don't yet know who our Progressive will be
     this._progressive = null;
+
+    // This layout is not connected to a widget but to this class. This class
+    // must implement the method "getLayoutChildren", which must return all
+    // columns (LayoutItems) which should be recalcutated. The call
+    // "layout.renderLayout" will call the method "renderLayout" on each
+    // column data object The advantage of the use of the normal layout
+    // manager is that the samantics of flex and percent are exectly the same
+    // as in the widget code.
+    this._layout = new qx.ui.layout.HBox();
+    this._layout.connectToWidget(this);
   },
 
 
@@ -331,6 +341,16 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
     },
 
     /**
+     * This method is required by the box layout. If returns an array of items
+     * to relayout.
+     */
+    getLayoutChildren : function()
+    {
+      return this._columnWidths;
+    },
+
+
+    /**
      * Event handler for the "widthChanged" event.  We recalculate the
      * widths of each of the columns, and modify the stylesheet rule
      * applicable to each column, to apply the new widths.
@@ -366,12 +386,12 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
                                  rule);
 
       // Compute the column widths
-      qx.ui.util.column.FlexWidth.compute(this._columnWidths.getData(), width);
+      this._layout.renderLayout(width, 100);
 
       // Reset each of the column style sheets to deal with width changes
       for (var i = 0,
              left = 0;
-           i < this._columnWidths.getData().length;
+           i < this._columnWidths.length;
            i++,
              left += width)
       {
@@ -383,27 +403,15 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
         qx.html.StyleSheet.removeRule(tr.__clazz[this._hash].cellstylesheet[i],
                                       stylesheet);
 
-        // Get this column data.
-        var columnData = this._columnWidths.getData()[i];
+        // Get this column width.
+        width = this._columnWidths[i].getComputedWidth();
 
-        //
-        // Get the width of this column.
-        //
-        
-        // Is this column a flex width?
-        if (columnData._computedWidthTypeFlex)
+        if (qx.core.Variant.isSet("qx.debug", "on"))
         {
-          // Yup.  Set the width to the calculated width value based on flex
-          width = columnData._computedWidthFlexValue;
-        }
-        else if (columnData._computedWidthTypePercent)
-        {
-          // Set the width to the calculated width value based on percent
-          width = columnData._computedWidthPercentValue;
-        }
-        else
-        {
-          width = columnData.getWidth();
+          if (qx.core.Setting.get("qx.tableResizeDebug"))
+          {
+            this.debug("col " + i + ": width=" + width);
+          }
         }
 
         // Create the new rule, based on calculated widths
@@ -426,7 +434,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
     var name;
 
     this._disposeFields("_name");
-    this._disposeObjects("_defaultCellRenderer");
+    this._disposeObjects("_defaultCellRenderer", "_columnData");
 
     for (name in this._renderers)
     {
