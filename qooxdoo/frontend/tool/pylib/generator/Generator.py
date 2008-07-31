@@ -541,7 +541,9 @@ class Generator:
         locales = self._config.get("localize/locales")
 
         if locales == None:
-            return
+            locales = []
+
+        locales.append("C")
 
         self._console.info("Processing translation for %s locales..." % len(locales))
         self._console.indent()
