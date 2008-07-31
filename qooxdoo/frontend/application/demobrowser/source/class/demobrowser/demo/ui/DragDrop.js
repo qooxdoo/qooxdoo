@@ -36,10 +36,13 @@ qx.Class.define("demobrowser.demo.ui.DragDrop",
 
       var root = this.getRoot();
 
+      // Helper to allow dynamic stopping of a drag event
+      // when pressing Ctrl+C during the drag
+
       var dragStopped = false;
       root.addListener("keydown", function(e)
       {
-        if (e.getKeyIdentifier() == "G") {
+        if (e.isCtrlPressed() && e.getKeyIdentifier() == "C") {
           dragStopped = true;
         }
       });
@@ -77,6 +80,18 @@ qx.Class.define("demobrowser.demo.ui.DragDrop",
         e.addData("items", this.getSelection());
         e.addAction("copy");
         e.addAction("move");
+      });
+
+      // Optional listener for drag event. This event is fired while moving the
+      // mouse in a drag&drop session. It may be used to stop the drag operation
+      // or to attach an additional cursor aka feedback widget.
+      source.addListener("drag", function(e)
+      {
+        if (dragStopped)
+        {
+          dragStopped = false;
+          e.preventDefault();
+        }
       });
 
 
