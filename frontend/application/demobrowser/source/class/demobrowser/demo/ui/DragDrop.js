@@ -35,61 +35,94 @@ qx.Class.define("demobrowser.demo.ui.DragDrop",
 
       var root = this.getRoot();
 
-      var target = new qx.ui.form.List;
-      target.setDropable(true);
-      target.setSelectionMode("multi");
-      target.setDragSelection(false);
-      root.add(target, { left : 20, top: 20 });
+
+      // Create source list
+
+      var labelSource = new qx.ui.basic.Label("Source");
+      root.add(labelSource, { left : 20, top: 20 });
 
       var source = new qx.ui.form.List;
       source.setDragable(true);
       source.setSelectionMode("multi");
       source.setDragSelection(false);
-      for (var i=0; i<20; i++) {
-        source.add(new qx.ui.form.ListItem("Item " + i));
-      }
-      root.add(source, { left : 200, top : 20 });
-
-
-      var data = null;
 
       source.addListener("dragstart", function(e)
       {
-        this.debug("UI Start");
-
         e.addData("value", this.getValue());
         e.addData("items", this.getSelection());
+        e.addAction("copy");
       });
 
-      source.addListener("dragend", function(e)
+      for (var i=0; i<20; i++) {
+        source.add(new qx.ui.form.ListItem("Item " + i));
+      }
+      root.add(source, { left : 20, top : 40 });
+
+
+
+      // Create simple target
+
+      var labelSimple = new qx.ui.basic.Label("Simple Target");
+      root.add(labelSimple, { left : 150, top: 20 });
+
+      var targetSimple = new qx.ui.form.List;
+      targetSimple.setDropable(true);
+      targetSimple.setSelectionMode("multi");
+      root.add(targetSimple, { left : 150, top: 40 });
+
+      targetSimple.addListener("dragdrop", function(e)
       {
-        this.debug("UI End");
-      });
-
-      target.addListener("dragover", function(e)
-      {
-        this.debug("UI Over");
-
-        if (!e.supportsType("items"))
-        {
-
-        }
-      });
-
-      target.addListener("dragout", function(e)
-      {
-        this.debug("UI Out");
-      });
-
-      target.addListener("dragdrop", function(e)
-      {
-        this.debug("UI DragDrop");
-
         var items = e.getData("items");
         for (var i=0, l=items.length; i<l; i++) {
           this.add(items[i]);
         }
       });
+
+
+
+      // Create blocked target
+      // Block types using a preventDefault on dragover
+
+      var labelBlocked = new qx.ui.basic.Label("Blocked Target");
+      root.add(labelBlocked, { left : 280, top: 20 });
+
+      var targetIgnore = new qx.ui.form.List;
+      targetIgnore.setDropable(true);
+      targetIgnore.setSelectionMode("multi");
+      root.add(targetIgnore, { left : 280, top: 40 });
+
+      targetIgnore.addListener("dragover", function(e)
+      {
+        if (!e.supportsType("sometype")) {
+          e.preventDefault();
+        }
+      });
+
+      targetIgnore.addListener("dragdrop", function(e)
+      {
+        var items = e.getData("items");
+        for (var i=0, l=items.length; i<l; i++) {
+          this.add(items[i]);
+        }
+      });
+
+
+
+
+      // Text Field uses value
+
+      var labelSimple = new qx.ui.basic.Label("TextArea Target");
+      root.add(labelSimple, { left : 410, top: 20 });
+
+      var textareaTarget = new qx.ui.form.TextArea;
+      textareaTarget.setDropable(true);
+      textareaTarget.setHeight(100);
+      root.add(textareaTarget, { left : 410, top: 40 });
+
+      textareaTarget.addListener("dragdrop", function(e) {
+        this.setValue(e.getData("value").replace(/,/g, "\n"));
+      });
+
     }
   }
 });
