@@ -1367,6 +1367,10 @@ qx.Class.define("qx.ui.table.Table",
       var col = this._focusedCol;
       var row = this._focusedRow;
 
+      if (col === null || row === null) {
+        return;
+      }
+      
       if (deltaX != 0)
       {
         var columnModel = this.getTableColumnModel();
