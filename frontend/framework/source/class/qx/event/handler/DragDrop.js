@@ -406,6 +406,10 @@ qx.Class.define("qx.event.handler.DragDrop",
           }
           else
           {
+            // Fire dragend event
+            this.__fireEvent("dragend", this.__dragTarget, false);
+
+            // Clean up
             this.__clearInit();
           }
         }
@@ -446,6 +450,11 @@ qx.Class.define("qx.event.handler.DragDrop",
 
 
 
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
 
   destruct : function()
   {
@@ -459,6 +468,7 @@ qx.Class.define("qx.event.handler.DragDrop",
     this._disposeFields("__dragTarget", "__dropTarget",
       "__manager", "__root");
   },
+
 
 
 
