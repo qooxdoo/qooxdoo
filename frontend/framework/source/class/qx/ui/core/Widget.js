@@ -298,7 +298,15 @@ qx.Class.define("qx.ui.core.Widget",
      * Fired when the drag configuration has been modified e.g. the user
      * pressed a key which changed the selected action.
      */
-    dragchange : "qx.event.type.Drag"
+    dragchange : "qx.event.type.Drag",
+
+    /**
+     * Fired when the drop was successfully done and the target widget
+     * is now asking for data. The listener should transfer the data,
+     * respecting the selected action, to the event. This can be done using
+     * the event's {@link #qx.event.type.Drag#addData} method.
+     */
+    droprequest : "qx.event.type.Drag"
   },
 
 
@@ -670,34 +678,6 @@ qx.Class.define("qx.ui.core.Widget",
       init : "widget",
       apply : "_applyAppearance",
       event : "changeAppearance"
-    },
-
-
-    /** Contains the support drop types for drag and drop support */
-    dropDataTypes :
-    {
-      nullable : true,
-      init : null
-    },
-
-
-    /**
-     * The method which this.supportsDrop() calls to determine whether the
-     * widget supports a particular drop operation.
-     *
-     * This is a property so that a mixin can modify it.  Otherwise, the mixin
-     * would have to override the supportsDrop() method, requiring the mixin
-     * to be applied with patch() instead of include().  All normal mixins
-     * should be able to be simply include()ed, and not have to be patch()ed.
-     *
-     * If this property is null, then the default supportsDrop() action
-     * defined herein shall be used.
-     */
-    supportsDropMethod :
-    {
-      check : "Function",
-      nullable : true,
-      init : null
     }
   },
 
@@ -2741,7 +2721,7 @@ qx.Class.define("qx.ui.core.Widget",
     _onDragChange : function(e)
     {
       var cursor = qx.ui.core.DragDropCursor.getInstance();
-      var action = e.getAction();
+      var action = e.getCurrentAction();
       action ? cursor.setAction(action) : cursor.resetAction();
     },
 
@@ -3322,6 +3302,45 @@ qx.Class.define("qx.ui.core.Widget",
       }
 
       qx.ui.core.queue.Dispose.add(this);
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      CLONE SUPPORT
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Returns a clone of this widget. Copies over all user values.
+     *
+     * @return {qx.ui.core.Widget}
+     */
+    clone : function()
+    {
+      var clazz = this.constructor
+      var clone = new clazz;
+      var props = qx.Class.getProperties(clazz);
+      var user = qx.core.Property.$$store.user;
+      var jobs = {};
+      var name;
+
+      // Iterate through properties
+      for (var i=0, l=props.length; i<l; i++)
+      {
+        name = props[i];
+        if (this.hasOwnProperty(user[name])) {
+          jobs[name] = this[user[name]];
+        }
+      }
+
+      // Apply properties
+      clone.set(jobs);
+
+      // Return clone
+      return clone;
     }
   },
 
