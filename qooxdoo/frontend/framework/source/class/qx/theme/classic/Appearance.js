@@ -22,6 +22,7 @@
 
 /* ************************************************************************
 
+#asset(qx/icon/Oxygen/16/apps/office-calendar.png)
 #asset(qx/icon/Oxygen/16/places/folder-open.png)
 #asset(qx/icon/Oxygen/16/places/folder.png)
 #asset(qx/icon/Oxygen/16/mimetypes/text-plain.png)
@@ -458,6 +459,40 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
 
 
+
+    /*
+    ---------------------------------------------------------------------------
+      DATEFIELD
+    ---------------------------------------------------------------------------
+    */
+    "datefield" : "combobox",
+    
+    "datefield/button" :
+    {
+      alias : "combobox/button",
+      include : "combobox/button",
+
+      style : function(states)
+      {
+        return {
+          icon : "icon/16/apps/office-calendar.png",
+          padding : [0, 3],
+          backgroundColor : states.disabled ? "background-disabled" : states.focused ? "background-focused" : "background-field",         
+          decorator : "undefined"
+        };
+      }
+    },
+    
+    "datefield/list" : {
+      alias : "datechooser",
+      include : "datechooser",
+      
+      style : function(states) {
+        return {
+          decorator: states.focused ? "focused-inset" : "inset"
+        }
+      }  
+    },
 
 
 
@@ -1245,6 +1280,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
+          backgroundColor : "date-chooser",
           padding : [2, 10]
         };
       }
