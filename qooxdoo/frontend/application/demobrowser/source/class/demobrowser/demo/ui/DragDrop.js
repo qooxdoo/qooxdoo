@@ -36,16 +36,6 @@ qx.Class.define("demobrowser.demo.ui.DragDrop",
 
       var root = this.getRoot();
 
-      // Helper to allow dynamic stopping of a drag event
-      // when pressing Ctrl+C during the drag
-
-      var dragStopped = false;
-      root.addListener("keydown", function(e)
-      {
-        if (e.isCtrlPressed() && e.getKeyIdentifier() == "C") {
-          dragStopped = true;
-        }
-      });
 
 
       // Create source list
@@ -66,7 +56,7 @@ qx.Class.define("demobrowser.demo.ui.DragDrop",
 
       var check = new qx.ui.form.CheckBox("Enable drag");
       check.setChecked(true);
-      root.add(check, { left : 20, top : 250 });
+      root.add(check, { left : 20, top : 260 });
 
       source.addListener("dragstart", function(e)
       {
@@ -94,6 +84,21 @@ qx.Class.define("demobrowser.demo.ui.DragDrop",
         }
       });
 
+      // Helper to allow dynamic stopping of a drag event
+      // when pressing Ctrl+C during the drag
+
+      var dragStopped = false;
+      root.addListener("keydown", function(e)
+      {
+        if (e.isCtrlPressed() && e.getKeyIdentifier() == "C") {
+          dragStopped = true;
+        }
+      });
+
+      cancelLabel = new qx.ui.basic.Label("Try to press Ctrl+C to stop a drag session");
+      cancelLabel.setWidth(120);
+      cancelLabel.setRich(true);
+      root.add(cancelLabel, { left : 20, top: 290 });
 
 
 
