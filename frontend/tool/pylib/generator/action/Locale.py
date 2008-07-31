@@ -21,6 +21,10 @@ class Locale:
         data = {}
         root = os.path.join(filetool.root(), os.pardir, "data", "cldr", "main")
         for entry in locales:
+            if entry == "C":
+                locale = "en"
+            else:
+                locale = entry
             self._console.debug("Processing locale: %s" % entry)
             data[entry] = cldr.parseCldrFile(os.path.join(root, "%s.xml" % entry))
 
