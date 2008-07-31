@@ -129,10 +129,11 @@ qx.Class.define("qx.event.handler.Appear",
     registerEvent : function(target, type, capture)
     {
       var hash = qx.core.ObjectRegistry.toHashCode(target);
+      var targets = this.__targets;
 
-      if (!this.__targets[hash])
+      if (targets && !targets[hash])
       {
-        this.__targets[hash] = target;
+        targets[hash] = target;
         target.$$displayed = target.offsetWidth > 0;
       }
     },
@@ -142,10 +143,14 @@ qx.Class.define("qx.event.handler.Appear",
     unregisterEvent : function(target, type, capture)
     {
       var hash = qx.core.ObjectRegistry.toHashCode(target);
+      var targets = this.__targets;
+      if (!targets) {
+        return;
+      }
 
-      if (this.__targets[hash])
+      if (targets[hash])
       {
-        delete this.__targets[hash];
+        delete targets[hash];
         target.$$displayed = null;
       }
     },
