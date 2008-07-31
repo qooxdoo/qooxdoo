@@ -260,6 +260,7 @@ qx.Class.define("qx.event.handler.DragDrop",
       {
         // Deregister from root events
         this.__manager.removeListener(this.__root, "mouseover", this._onMouseOver, this, true);
+        this.__manager.removeListener(this.__root, "mouseout", this._onMouseOut, this, true);
         this.__manager.removeListener(this.__root, "keydown", this._onKeyDown, this, true);
         this.__manager.removeListener(this.__root, "keyup", this._onKeyUp, this, true);
 
@@ -392,6 +393,7 @@ qx.Class.define("qx.event.handler.DragDrop",
 
             // Register to root events
             this.__manager.addListener(this.__root, "mouseover", this._onMouseOver, this, true);
+            this.__manager.addListener(this.__root, "mouseout", this._onMouseOut, this, true);
             this.__manager.addListener(this.__root, "keydown", this._onKeyDown, this, true);
             this.__manager.addListener(this.__root, "keyup", this._onKeyUp, this, true);
 
@@ -416,17 +418,22 @@ qx.Class.define("qx.event.handler.DragDrop",
       var target = e.getTarget();
       var dropable = this.__findDropable(target);
 
-      if (dropable)
+      if (dropable && dropable != this.__dropTarget)
       {
-        if (dropable != this.__dropTarget)
-        {
-          this.__validDrop = this.__fireEvent("dragover", dropable, true, e.getNativeEvent());
-          this.__dropTarget = dropable;
+        this.__validDrop = this.__fireEvent("dragover", dropable, true, e.getNativeEvent());
+        this.__dropTarget = dropable;
 
-          this.__detectAction();
-        }
+        this.__detectAction();
       }
-      else if (this.__dropTarget)
+    },
+
+
+    _onMouseOut : function(e)
+    {
+      var target = e.getTarget();
+      var dropable = this.__findDropable(target);
+
+      if (dropable && dropable == this.__dropTarget)
       {
         this.__fireEvent("dragout", this.__dropTarget, false, e.getNativeEvent());
         this.__dropTarget = null;
@@ -436,6 +443,7 @@ qx.Class.define("qx.event.handler.DragDrop",
       }
     }
   },
+
 
 
 
