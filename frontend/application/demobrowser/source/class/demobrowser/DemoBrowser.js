@@ -52,6 +52,9 @@ qx.Class.define("demobrowser.DemoBrowser",
     this.widgets = {};
     this.tests = {};
     this._useProfile = false;
+    
+    // Theme
+    this.__currentTheme = "Classic";
 
     // Commands
     this.__makeCommands();
@@ -538,6 +541,27 @@ qx.Class.define("demobrowser.DemoBrowser",
 
       toolbar.addSpacer();
 
+
+      var menu = new qx.ui.menu.Menu;
+
+      var t1 = new qx.ui.menu.Button("Classic");
+      var t2 = new qx.ui.menu.Button("Modern");
+
+      menu.setMinWidth(120);
+
+      t1.addListener("execute", this.__setTheme, this);
+      t2.addListener("execute", this.__setTheme, this);
+
+      menu.add(t1);
+      menu.add(t2);
+
+      // Create opener button
+      var splitButton = new qx.ui.form.SplitButton("Classic", "icon/16/apps/accessories-color-chooser.png", menu);
+      this._splitButton = splitButton;
+      splitButton.addListener("execute", this.__toggleTheme, this);
+
+      toolbar.add(splitButton);
+      
       // -- Sample Features
       var gb = new qx.ui.toolbar.Part();
       toolbar.add(gb);
@@ -944,6 +968,9 @@ qx.Class.define("demobrowser.DemoBrowser",
       {
         url = this.defaultUrl;
       }
+
+      // Use selected theme:
+      url += "&theme:qx.theme." + this.__currentTheme;
 
       // Clear log
       this.logappender.clear();
@@ -1380,7 +1407,28 @@ qx.Class.define("demobrowser.DemoBrowser",
         logger.unregister(this.logappender);
       }
     },
-    
+
+    __toggleTheme : function()
+    {
+      var theme = (this.__currentTheme == "Classic") ? "Modern" : "Classic";
+      this.__selectTheme(theme);
+    },
+
+    __setTheme : function(e)
+    {
+      var theme = e.getTarget().getLabel();
+      if (theme != this.__currentTheme) {
+        this.__selectTheme(theme);
+      }
+    },
+
+    __selectTheme : function(theme)
+    {
+      this.__currentTheme = theme;
+      this._splitButton.setLabel(this.__currentTheme);
+      this.runSample();
+    },
+
     defaultUrl : "demo/welcome.html"
   },
 
