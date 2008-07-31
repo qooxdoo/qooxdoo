@@ -37,6 +37,8 @@ qx.Class.define("demobrowser.demo.ui.DragDrop",
       var root = this.getRoot();
 
 
+      // ****************************************************************
+
 
       // Create source list
 
@@ -58,19 +60,67 @@ qx.Class.define("demobrowser.demo.ui.DragDrop",
       check.setChecked(true);
       root.add(check, { left : 20, top : 260 });
 
+
+
       source.addListener("dragstart", function(e)
       {
-        // dragstart is cancelable, you can put any runtime checks here to dynamically
-        // disallow the drag feature on a widget
+        // dragstart is cancelable, you can put any runtime checks
+        // here to dynamically disallow the drag feature on a widget
         if (!check.isChecked()) {
           e.preventDefault();
         }
 
-        e.addData("value", this.getValue());
-        e.addData("items", this.getSelection());
+        // Register supported types
+        e.addType("value");
+        e.addType("items");
+
+        // Register supported actions
         e.addAction("copy");
         e.addAction("move");
       });
+
+
+
+      source.addListener("droprequest", function(e)
+      {
+        var action = e.getCurrentAction();
+        var type = e.getCurrentType();
+        var result;
+
+        switch(type)
+        {
+          case "items":
+            result = this.getSelection();
+
+            if (action == "copy")
+            {
+              var copy = [];
+              for (var i=0, l=result.length; i<l; i++) {
+                copy[i] = result[i].clone();
+              }
+              result = copy;
+            }
+            break;
+
+          case "value":
+            result = this.getValue();
+            break;
+        }
+
+        // Remove selected items on move
+        if (action == "move")
+        {
+          var selection = this.getSelection();
+          for (var i=0, l=selection.length; i<l; i++) {
+            this.remove(selection[i]);
+          }
+        }
+
+        // Add data to manager
+        e.addData(type, result);
+      });
+
+
 
       // Optional listener for drag event. This event is fired while moving the
       // mouse in a drag&drop session. It may be used to stop the drag operation
@@ -83,6 +133,8 @@ qx.Class.define("demobrowser.demo.ui.DragDrop",
           e.preventDefault();
         }
       });
+
+
 
       // Helper to allow dynamic stopping of a drag event
       // when pressing Ctrl+C during the drag
@@ -101,6 +153,8 @@ qx.Class.define("demobrowser.demo.ui.DragDrop",
       root.add(cancelLabel, { left : 20, top: 290 });
 
 
+
+      // ****************************************************************
 
 
       // Create simple target
@@ -122,6 +176,9 @@ qx.Class.define("demobrowser.demo.ui.DragDrop",
         }
       });
 
+
+
+      // ****************************************************************
 
 
       // Create blocked target
@@ -153,6 +210,9 @@ qx.Class.define("demobrowser.demo.ui.DragDrop",
         }
       });
 
+
+
+      // ****************************************************************
 
 
 
