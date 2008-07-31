@@ -63,7 +63,7 @@
 
       "compile-source" :
       {
-        "file" : "source/script/YYY.js",
+        "file" : "source/script/YYY-aspects:{qx.aspects}-theme:{qx.theme}.js",
         "root" : "source/demo/yyy"
       }
     },
