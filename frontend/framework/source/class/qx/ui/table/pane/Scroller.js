@@ -449,7 +449,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
      */
     onColVisibilityChanged : function()
     {
-      this._updateHorScrollBarMaximum();
+      this.updateHorScrollBarMaximum();
       this._updateFocusIndicator();
     },
 
@@ -472,7 +472,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       if (x != -1)
       {
         // The change was in this scroller
-        this._updateHorScrollBarMaximum();
+        this.updateHorScrollBarMaximum();
         this._updateFocusIndicator();
       }
     },
@@ -488,7 +488,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       this._header.onColOrderChanged();
       this._tablePane.onColOrderChanged();
 
-      this._updateHorScrollBarMaximum();
+      this.updateHorScrollBarMaximum();
     },
 
 
@@ -565,7 +565,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
      */
     _onResizePane : function()
     {
-      this._updateHorScrollBarMaximum();
+      this.updateHorScrollBarMaximum();
       this.updateVerScrollBarMaximum();
 
       // The height has changed -> Update content
@@ -578,7 +578,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
      * Updates the maximum of the horizontal scroll bar, so it corresponds to the
      * total width of the columns in the table pane.
      */
-    _updateHorScrollBarMaximum : function()
+    updateHorScrollBarMaximum : function()
     {
       var paneSize = this._paneClipper.getInnerSize();
       if (!paneSize) {
@@ -587,15 +587,23 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       }
       var scrollSize = this.getTablePaneModel().getTotalWidth();
 
-      if (paneSize.width < scrollSize)
+      var scrollBar = this._horScrollBar;
+
+      if (paneSize.height < scrollSize)
       {
-        this._horScrollBar.setMaximum(Math.max(0, scrollSize - paneSize.width));
-        this._horScrollBar.setKnobFactor(paneSize.width / scrollSize);
+        var max = Math.max(0, scrollSize - paneSize.width);
+
+        scrollBar.setMaximum(max);
+        scrollBar.setKnobFactor(paneSize.width / scrollSize);
+
+        var pos = scrollBar.getPosition();
+        scrollBar.setPosition(Math.min(pos, max));
       }
       else
       {
-        this._horScrollBar.setMaximum(0);
-        this._horScrollBar.setKnobFactor(1);
+        scrollBar.setMaximum(0);
+        scrollBar.setKnobFactor(1);
+        scrollBar.setPosition(0);
       }
     },
 
@@ -619,16 +627,23 @@ qx.Class.define("qx.ui.table.pane.Scroller",
 
       var rowHeight = this.getTable().getRowHeight();
       var scrollSize = rowCount * rowHeight;
+      var scrollBar = this._verScrollBar;
 
       if (paneSize.height < scrollSize)
       {
-        this._verScrollBar.setMaximum(Math.max(0, scrollSize - paneSize.height));
-        this._verScrollBar.setKnobFactor(paneSize.height / scrollSize);
+        var max = Math.max(0, scrollSize - paneSize.height);
+
+        scrollBar.setMaximum(max);
+        scrollBar.setKnobFactor(paneSize.height / scrollSize);
+
+        var pos = scrollBar.getPosition();
+        scrollBar.setPosition(Math.min(pos, max));
       }
       else
       {
-        this._verScrollBar.setMaximum(0);
-        this._verScrollBar.setKnobFactor(1);
+        scrollBar.setMaximum(0);
+        scrollBar.setKnobFactor(1);
+        scrollBar.setPosition(0);
       }
     },
 
@@ -1944,18 +1959,20 @@ qx.Class.define("qx.ui.table.pane.Scroller",
      */
     _postponedUpdateContent : function()
     {
-      this._updateContentPlanned = true;
+      //this._updateContentPlanned = true;
+      this._updateContent();
     },
 
 
     /**
-     * Timer event handler. Periodically checks whether a tabe update is
-     * required. The update interval is controled by the {@link #scrollTimeout}
+     * Timer event handler. Periodically checks whether a table update is
+     * required. The update interval is controlled by the {@link #scrollTimeout}
      * property.
      */
     _oninterval : function()
     {
-      if (this._updateContentPlanned && !this._tablePane._layoutPending) {
+      if (this._updateContentPlanned && !this._tablePane._layoutPending)
+      {
         this._updateContentPlanned = false;
         this._updateContent();
       }
@@ -1982,7 +1999,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       var oldFirstRow = this._tablePane.getFirstVisibleRow();
       this._tablePane.setFirstVisibleRow(firstRow);
 
-      var rowCount = Math.ceil(paneHeight / rowHeight);
+      var visibleRowCount = Math.ceil(paneHeight / rowHeight);
       var paneOffset = 0;
       var firstVisibleRowComplete = this.getTable().getKeepFirstVisibleRowComplete();
 
@@ -1992,12 +2009,12 @@ qx.Class.define("qx.ui.table.pane.Scroller",
         // NOTE: We don't consider paneOffset, because this may cause alternating
         //       adding and deleting of one row when scrolling. Instead we add one row
         //       in every case.
-        rowCount++;
+        visibleRowCount++;
 
         paneOffset = scrollY % rowHeight;
       }
 
-      this._tablePane.setVisibleRowCount(rowCount);
+      this._tablePane.setVisibleRowCount(visibleRowCount);
 
       if (firstRow != oldFirstRow) {
         this._updateFocusIndicator();
