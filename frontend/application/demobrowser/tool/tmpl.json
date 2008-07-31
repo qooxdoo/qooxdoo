@@ -63,7 +63,7 @@
 
       "compile-source" :
       {
-        "file" : "source/script/YYY-aspects:{qx.aspects}-theme:{qx.theme}.js",
+        "file" : "source/script/YYY-aspects_{qx.aspects}-theme_{qx.theme}.js",
         "root" : "source/demo/yyy"
       }
     },
@@ -86,8 +86,8 @@
 
       "compile-dist" :
       {
-        "file" : "build/script/YYY-aspects:{qx.aspects}-theme:{qx.theme}.js",
-        "uri"  : "../../script/YYY-aspects:{qx.aspects}-theme:{qx.theme}.js",
+        "file" : "build/script/YYY-aspects_{qx.aspects}-theme_{qx.theme}.js",
+        "uri"  : "../../script/YYY-aspects_{qx.aspects}-theme_{qx.theme}.js",
         "resourceUri" : "../..",
         "root" : "build/demo/yyy",
         "optimize" : [ "variables", "basecalls", "privates", "strings" ],
