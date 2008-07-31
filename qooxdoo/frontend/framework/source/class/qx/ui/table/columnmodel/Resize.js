@@ -239,7 +239,8 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
         }
       }
 
-      this.getBehavior().onAppear(this, event);
+      // this handler is also called by the "execute" event of the menu button
+      this.getBehavior().onAppear(this, event, event.getType() !== "appear");
 
       qx.client.Timer.once(function()
                            {

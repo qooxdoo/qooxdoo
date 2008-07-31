@@ -273,11 +273,11 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
     },
 
     // overloaded
-    onAppear : function(tableColumnModel, event)
+    onAppear : function(tableColumnModel, event, forceRefresh)
     {
       // If we haven't initialized widths at least once, or
       // they want us to reinitialize widths on every appear event...
-      if (! this.widthsInitialized || this.getInitializeWidthsOnEveryAppear())
+      if (forceRefresh === true || !this.widthsInitialized || this.getInitializeWidthsOnEveryAppear())
       {
         // Get the initial available width so we know whether a resize caused
         // an increase or decrease in the available space.
