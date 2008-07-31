@@ -94,7 +94,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     drag :
     {
       check : "Boolean",
-      init : true
+      init : false
     }
   },
 
