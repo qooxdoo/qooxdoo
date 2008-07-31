@@ -35,11 +35,13 @@ qx.Class.define("qx.ui.form.ListItem",
   *****************************************************************************
   */
 
-  construct : function(vText, vIcon, vValue)
+  construct : function(label, icon, value)
   {
-    this.base(arguments, vText, vIcon);
+    this.base(arguments, label, icon);
 
-    this.setValue(vValue || null);
+    if (value != null) {
+      this.setValue(value);
+    }
   },
 
 
