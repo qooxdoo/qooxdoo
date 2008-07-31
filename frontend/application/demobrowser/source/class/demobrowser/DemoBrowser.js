@@ -961,16 +961,16 @@ qx.Class.define("demobrowser.DemoBrowser",
         if (this._useProfile) {
           url += "?qxvariant:qx.aspects:on&qxsetting:qx.enableAspect:true"
         } else {
-          url += "?qxvariant:qx.aspects:off&qx.enableAspect:false"
+          url += "?qxvariant:qx.aspects:off&qxsetting:qx.enableAspect:false"
         }
+        // Use selected theme:
+        url += "&theme_qx.theme." + this.__currentTheme;
       }
       else
       {
         url = this.defaultUrl;
       }
 
-      // Use selected theme:
-      url += "&theme:qx.theme." + this.__currentTheme;
 
       // Clear log
       this.logappender.clear();
