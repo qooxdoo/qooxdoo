@@ -26,7 +26,7 @@
  * To be conform with all form widgets, the {@link qx.ui.form.IFormElement} interface 
  * is implemented.
  *
- * The following example creates and adds a fate chooser to the root element.
+ * The following example creates and adds a date chooser to the root element.
  * A listener alerts the user if a new date is selected.
  *
  * <pre>
