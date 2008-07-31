@@ -241,35 +241,64 @@ qx.Class.define("qx.ui.core.Widget",
     losecapture : "qx.event.type.Event",
 
 
-    /**
-     * Fired by {@link qx.ui.core.DragDropHandler}
-     */
-    "dragdrop"        : "qx.event.type.Drag",
 
     /**
-     * Fired by {@link qx.ui.core.DragDropHandler}
+     * Fired on the drop target when the drag&drop action is finished
+     * successfully. This event is normally used to transfer the data
+     * from the drag to the drop target.
+     *
+     * Modeled after the WHATWG specification of Drag&Drop:
+     * http://www.whatwg.org/specs/web-apps/current-work/#dnd
      */
-    "dragout"         : "qx.event.type.Drag",
+    drop : "qx.event.type.Drag",
 
     /**
-     * Fired by {@link qx.ui.core.DragDropHandler}
+     * Fired on a potential drop target when leaving it.
+     *
+     * Modeled after the WHATWG specification of Drag&Drop:
+     * http://www.whatwg.org/specs/web-apps/current-work/#dnd
      */
-    "dragover"        : "qx.event.type.Drag",
+    dragleave : "qx.event.type.Drag",
 
     /**
-     * Fired by {@link qx.ui.core.DragDropHandler}
+     * Fired on a potential drop target when reaching it via the mouse.
+     * This event is cancelable if none of the incoming data types
+     * are supported.
+     *
+     * Modeled after the WHATWG specification of Drag&Drop:
+     * http://www.whatwg.org/specs/web-apps/current-work/#dnd
      */
-    "dragmove"        : "qx.event.type.Drag",
+    dragover : "qx.event.type.Drag",
 
     /**
-     * Fired by {@link qx.ui.core.DragDropHandler}
+     * Fired during the drag. Contains the current mouse coordinates
+     * using {@link #qx.event.type.Drag#getDocumentLeft} and
+     * {@link #qx.event.type.Drag#getDocumentTop}
+     *
+     * Modeled after the WHATWG specification of Drag&Drop:
+     * http://www.whatwg.org/specs/web-apps/current-work/#dnd
      */
-    "dragstart"       : "qx.event.type.Drag",
+    drag : "qx.event.type.Drag",
 
     /**
-     * Fired by {@link qx.ui.core.DragDropHandler}
+     * Initiate the drag-and-drop operation. This event is cancelable
+     * when the drag operation is currently not allowed/possible.
+     *
+     * Modeled after the WHATWG specification of Drag&Drop:
+     * http://www.whatwg.org/specs/web-apps/current-work/#dnd
      */
-    "dragend"         : "qx.event.type.Drag"
+    dragstart : "qx.event.type.Drag",
+
+    /**
+     * Fired on the source (drag) target every time a drag session was ended.
+     */
+    dragend : "qx.event.type.Drag",
+
+    /**
+     * Fired when the drag configuration has been modified e.g. the user
+     * pressed a key which changed the selected action.
+     */
+    dragchange : "qx.event.type.Drag"
   },
 
 
@@ -2645,14 +2674,14 @@ qx.Class.define("qx.ui.core.Widget",
       if (value)
       {
         this.addListener("dragstart", this._onDragStart);
-        this.addListener("dragmove", this._onDragMove);
+        this.addListener("drag", this._onDrag);
         this.addListener("dragend", this._onDragEnd);
         this.addListener("dragchange", this._onDragChange);
       }
       else
       {
         this.removeListener("dragstart", this._onDragStart);
-        this.removeListener("dragmove", this._onDragMove);
+        this.removeListener("drag", this._onDrag);
         this.removeListener("dragend", this._onDragEnd);
         this.removeListener("dragchange", this._onDragChange);
       }
@@ -2687,7 +2716,7 @@ qx.Class.define("qx.ui.core.Widget",
      *
      * @param e {qx.event.type.Drag} Drag event
      */
-    _onDragMove : function(e) {
+    _onDrag : function(e) {
       qx.ui.core.DragDropCursor.getInstance().alignToMouse(e);
     },
 
