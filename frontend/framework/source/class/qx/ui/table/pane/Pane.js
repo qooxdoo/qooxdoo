@@ -345,13 +345,6 @@ qx.Class.define("qx.ui.table.pane.Pane",
         this.__rowCacheClear();
       }
 
-      if (this._layoutPending)
-      {
-        window.clearTimeout(this._layoutPending);
-        this._updateAllRows();
-        return;
-      }
-
       //var start = new Date();
 
       if (scrollOffset && Math.abs(scrollOffset) <= Math.min(10, this.getVisibleRowCount()))
@@ -620,6 +613,12 @@ qx.Class.define("qx.ui.table.pane.Pane",
      */
     _updateAllRows : function()
     {
+      var elem = this.getContentElement().getDomElement();
+      if (!elem) {
+        // pane has not yet been rendered
+        return;
+      }
+
       var table = this.getTable();
 
       var tableModel = table.getTableModel();
@@ -663,12 +662,10 @@ qx.Class.define("qx.ui.table.pane.Pane",
         htmlArr = [ ];
       }
 
-      var elem = this.getContentElement();
       var data = htmlArr.join("");
 
       //this.debug(">>>" + data + "<<<")
-
-      elem.setAttribute("html", data);
+      elem.innerHTML = data;
 
       this.setHeight(rowCount * rowHeight);
       this.setWidth(rowWidth);
@@ -690,10 +687,6 @@ qx.Class.define("qx.ui.table.pane.Pane",
 
   destruct : function()
   {
-    if (this._layoutPending) {
-      window.clearTimeout(this._layoutPending);
-    }
-
     this._disposeObjects("_paneScroller");
     this._disposeFields("_tableContainer");
   }
