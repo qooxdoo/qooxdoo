@@ -395,6 +395,29 @@ qx.Bootstrap.define("qx.Class",
 
 
     /**
+     * Returns a list of all properties supported by the given class
+     *
+     * @param clazz {Class} Class to query
+     * @return {String[]} List of all property names
+     */
+    getProperties : function(clazz)
+    {
+      var list = [];
+
+      while (clazz)
+      {
+        if (clazz.$$properties) {
+          list.push.apply(list, qx.lang.Object.getKeys(clazz.$$properties));
+        }
+
+        clazz = clazz.superclass;
+      }
+
+      return list;
+    },
+
+
+    /**
      * Returns the class or one of its superclasses which contains the
      * declaration for the given property in its class definition. Returns null
      * if the property is not specified anywhere.
