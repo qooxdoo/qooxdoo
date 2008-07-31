@@ -543,7 +543,8 @@ class Generator:
         if locales == None:
             locales = []
 
-        locales.append("C")
+        if "C" not in locales:
+            locales.append("C")
 
         self._console.info("Processing translation for %s locales..." % len(locales))
         self._console.indent()
