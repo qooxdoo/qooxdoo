@@ -121,11 +121,8 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
       var fontStyle = this._fontStyle;
       var style = rowElem.style;
 
-      style.fontFamily = fontStyle.fontFamily;
-      style.fontSize = fontStyle.fontSize;
-      style.fontWeight = fontStyle.fontWeight;
-      style.fontStyle = fontStyle.fontStyle;
-      style.textDecoration = fontStyle.textDecoration;
+      // set font styles
+      qx.bom.element.Style.setStyles(rowElem, fontStyle);
 
       if (rowInfo.focusedRow && this.getHighlightFocusRow())
       {
