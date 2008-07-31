@@ -444,24 +444,7 @@ qx.Class.define("qx.event.handler.Keyboard",
         var charCode = domEvent.charCode;
         var type = domEvent.type;
 
-        // FF repeats under windows keydown events like IE
-        if (qx.bom.client.Platform.WIN)
-        {
-          var keyIdentifier = keyCode ? this._keyCodeToIdentifier(keyCode) : this._charCodeToIdentifier(charCode);
-
-          if (!(this._lastUpDownType[keyIdentifier] == "keypress" && type == "keydown")) {
-            this._idealKeyHandler(keyCode, charCode, type, domEvent);
-          }
-
-          // Store last type
-          this._lastUpDownType[keyIdentifier] = type;
-        }
-
-        // all other OSes
-        else
-        {
-          this._idealKeyHandler(keyCode, charCode, type, domEvent);
-        }
+        this._idealKeyHandler(keyCode, charCode, type, domEvent);
       },
 
       "webkit" : function(domEvent)
