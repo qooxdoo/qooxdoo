@@ -95,7 +95,8 @@ qx.Class.define("qx.ui.core.EventHandler",
       dragover : 1,
       dragout : 1,
       dragdrop : 1,
-      dragmove : 1
+      dragmove : 1,
+      dragchange : 1
     },
 
     /** {Integer} Whether the method "canHandleEvent" must be called */
@@ -238,9 +239,13 @@ qx.Class.define("qx.ui.core.EventHandler",
         listeners[i].handler.call(context, widgetEvent);
       }
 
-      // Synchronize propagation property
+      // Synchronize propagation stopped/prevent default property
       if (widgetEvent.getPropagationStopped()) {
         domEvent.stopPropagation();
+      }
+
+      if (widgetEvent.getDefaultPrevented()) {
+        domEvent.preventDefault();
       }
 
       // Release the event instance to the event pool
