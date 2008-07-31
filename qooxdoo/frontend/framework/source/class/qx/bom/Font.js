@@ -134,9 +134,9 @@ qx.Class.define("qx.bom.Font",
     __defaultStyles : {
       fontFamily: "",
       fontSize: "",
-      fontWeight: "normal",
-      fontStyle: "normal",
-      textDecoration: "none",
+      fontWeight: "",
+      fontStyle: "",
+      textDecoration: "",
       lineHeight: 1.2
     },
 
@@ -232,9 +232,9 @@ qx.Class.define("qx.bom.Font",
   {
     __size : null,
     __family : null,
-    __bold : "normal",
-    __italic : "normal",
-    __decoration : "none",
+    __bold : null,
+    __italic : null,
+    __decoration : null,
     __lineHeight : null,
 
 
