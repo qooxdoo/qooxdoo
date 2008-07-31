@@ -124,6 +124,11 @@ qx.Class.define("qx.event.handler.Element",
     // interface implementation
     unregisterEvent : function(target, type, capture)
     {
+      var events = this._registeredEvents;
+      if (!events) {
+        return;
+      }
+
       var elementId = qx.core.ObjectRegistry.toHashCode(target);
       var eventId = elementId + "-" + type;
 
@@ -151,7 +156,12 @@ qx.Class.define("qx.event.handler.Element",
      */
     _onNative : function(nativeEvent, eventId)
     {
-      var eventData = this._registeredEvents[eventId];
+      var events = this._registeredEvents;
+      if (!events) {
+        return;
+      }
+
+      var eventData = events[eventId];
 
       qx.event.Registration.fireNonBubblingEvent(eventData.element, eventData.type,
         qx.event.type.Native, [nativeEvent]);
