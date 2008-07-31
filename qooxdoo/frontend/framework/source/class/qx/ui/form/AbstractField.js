@@ -269,6 +269,15 @@ qx.Class.define("qx.ui.form.AbstractField",
     },
 
 
+    // overridden
+    tabFocus : function()
+    {
+      this.base(arguments);
+
+      this.selectAll();
+    },
+
+
 
     /*
     ---------------------------------------------------------------------------
@@ -334,8 +343,7 @@ qx.Class.define("qx.ui.form.AbstractField",
      * @type member
      * @return {String|null}
      */
-    getSelection : function()
-    {
+    getSelection : function() {
       return this.getContentElement().getSelection();
     },
 
@@ -379,16 +387,15 @@ qx.Class.define("qx.ui.form.AbstractField",
     clearSelection : function() {
       this.getContentElement().clearSelection();
     },
-    
-    
+
+
     /**
      * Selects the whole content
-     * 
+     *
      * @type member
      * @return {void}
      */
-    selectAll : function()
-    {
+    selectAll : function() {
       this.setSelection(0);
     },
 
