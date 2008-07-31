@@ -2641,12 +2641,14 @@ qx.Class.define("qx.ui.core.Widget",
         this.addListener("dragstart", this._onDragStart);
         this.addListener("dragmove", this._onDragMove);
         this.addListener("dragend", this._onDragEnd);
+        this.addListener("dragchange", this._onDragChange);
       }
       else
       {
         this.removeListener("dragstart", this._onDragStart);
         this.removeListener("dragmove", this._onDragMove);
         this.removeListener("dragend", this._onDragEnd);
+        this.removeListener("dragchange", this._onDragChange);
       }
 
       // Sync DOM attribute
@@ -2667,8 +2669,10 @@ qx.Class.define("qx.ui.core.Widget",
      *
      * @param e {qx.event.type.Drag} Drag event
      */
-    _onDragStart : function(e) {
+    _onDragStart : function(e)
+    {
       qx.ui.core.DragDropCursor.getInstance().alignToMouse(e);
+      this.getApplicationRoot().setGlobalCursor("default");
     },
 
 
@@ -2687,8 +2691,23 @@ qx.Class.define("qx.ui.core.Widget",
      *
      * @param e {qx.event.type.Drag} Drag event
      */
-    _onDragEnd : function(e) {
+    _onDragEnd : function(e)
+    {
       qx.ui.core.DragDropCursor.getInstance().moveTo(-1000, -1000);
+      this.getApplicationRoot().resetGlobalCursor();
+    },
+
+
+    /**
+     * Event listener for own <code>dragchange</code> event.
+     *
+     * @param e {qx.event.type.Drag} Drag event
+     */
+    _onDragChange : function(e)
+    {
+      var cursor = qx.ui.core.DragDropCursor.getInstance();
+      var action = e.getAction();
+      action ? cursor.setAction(action) : cursor.resetAction();
     },
 
 

@@ -60,6 +60,7 @@ qx.Class.define("qx.event.handler.DragDrop",
     // Build data structures
     this.__types = {};
     this.__actions = {};
+    this.__keys = {};
   },
 
 
@@ -84,7 +85,8 @@ qx.Class.define("qx.event.handler.DragDrop",
       dragover : 1,
       dragout : 1,
       dragdrop : 1,
-      dragmove : 1
+      dragmove : 1,
+      dragchange : 1
     },
 
     /** {Integer} Whether the method "canHandleEvent" must be called */
@@ -155,7 +157,7 @@ qx.Class.define("qx.event.handler.DragDrop",
     },
 
     getAction : function() {
-      return "copy";
+      return this.__currentAction;
     },
 
 
@@ -169,32 +171,38 @@ qx.Class.define("qx.event.handler.DragDrop",
     ---------------------------------------------------------------------------
     */
 
-    __detectEventAction : function(e)
+    __detectAction : function()
     {
-      var shiftPressed = e.isShiftPressed();
-      var ctrlPressed = e.isCtrlPressed();
-      var altPressed = e.isAltPressed();
-
       var actions = this.__actions;
+      var keys = this.__keys;
+      var current = null;
 
-      if (shiftPressed && ctrlPressed && actions.alias) {
-        return "alias";
-      } else if (shiftPressed && altPressed && actions.copy) {
-        return "copy";
-      } else if (shiftPressed && actions.move) {
-        return "move";
-      } else if (altPressed && actions.alias) {
-        return "alias";
-      } else if (ctrlPressed && actions.copy) {
-        return "copy";
-      }
-      else
+      if (this.__validDrop)
       {
-        // Configurable default action?
-        return "move";
+        if (keys.Shift && keys.Ctrl && actions.alias) {
+          current = "alias";
+        } else if (keys.Shift && keys.Alt && actions.copy) {
+          current = "copy";
+        } else if (keys.Shift && actions.move) {
+          current = "move";
+        } else if (keys.Alt && actions.alias) {
+          current = "alias";
+        } else if (keys.Ctrl && actions.copy) {
+          current = "copy";
+        } else if (actions.move) {
+          current = "move";
+        } else if (actions.copy) {
+          current = "copy";
+        } else if (actions.alias) {
+          current = "alias";
+        }
       }
 
-      return null;
+      if (current != this.__currentAction)
+      {
+        this.__currentAction = current;
+        this.__fireEvent("dragchange", this.__dragTarget, false);
+      }
     },
 
     __fireEvent : function(type, target, cancelable, original)
@@ -252,6 +260,8 @@ qx.Class.define("qx.event.handler.DragDrop",
       {
         // Deregister from root events
         this.__manager.removeListener(this.__root, "mouseover", this._onMouseOver, this, true);
+        this.__manager.removeListener(this.__root, "keydown", this._onKeyDown, this, true);
+        this.__manager.removeListener(this.__root, "keyup", this._onKeyUp, this, true);
 
         // Fire dragend event
         this.__fireEvent("dragend", this.__dragTarget, false);
@@ -261,14 +271,14 @@ qx.Class.define("qx.event.handler.DragDrop",
       }
 
       // Cleanup
-      this.__dropOk = false;
+      this.__validDrop = false;
       this.__dropTarget = null;
 
       // Clear init
       this.__clearInit();
     },
 
-    __dropOk : false,
+    __validDrop : false,
 
 
 
@@ -287,6 +297,36 @@ qx.Class.define("qx.event.handler.DragDrop",
     {
       this.debug("Window blur");
       this.__clearSession();
+    },
+
+
+    _onKeyDown : function(e)
+    {
+      var iden = e.getKeyIdentifier();
+      switch(iden)
+      {
+        case "Alt":
+        case "Ctrl":
+        case "Shift":
+          this.__keys[iden] = true;
+      }
+
+      this.__detectAction();
+    },
+
+
+    _onKeyUp : function(e)
+    {
+      var iden = e.getKeyIdentifier();
+      switch(iden)
+      {
+        case "Alt":
+        case "Ctrl":
+        case "Shift":
+          this.__keys[iden] = false;
+      }
+
+      this.__detectAction();
     },
 
 
@@ -319,7 +359,7 @@ qx.Class.define("qx.event.handler.DragDrop",
     _onMouseUp : function(e)
     {
       // Fire dragdrop event in success case
-      if (this.__dropOk) {
+      if (this.__validDrop) {
         this.__fireEvent("dragdrop", this.__dropTarget, false, e.getNativeEvent());
       }
 
@@ -352,6 +392,15 @@ qx.Class.define("qx.event.handler.DragDrop",
 
             // Register to root events
             this.__manager.addListener(this.__root, "mouseover", this._onMouseOver, this, true);
+            this.__manager.addListener(this.__root, "keydown", this._onKeyDown, this, true);
+            this.__manager.addListener(this.__root, "keyup", this._onKeyUp, this, true);
+
+            // Reevaluate current action
+            var keys = this.__keys;
+            keys.Ctrl = e.isCtrlPressed();
+            keys.Shift = e.isShiftPressed();
+            keys.Alt = e.isAltPressed();
+            this.__detectAction();
           }
           else
           {
@@ -371,15 +420,19 @@ qx.Class.define("qx.event.handler.DragDrop",
       {
         if (dropable != this.__dropTarget)
         {
-          this.__dropOk = this.__fireEvent("dragover", dropable, true, e.getNativeEvent());
+          this.__validDrop = this.__fireEvent("dragover", dropable, true, e.getNativeEvent());
           this.__dropTarget = dropable;
+
+          this.__detectAction();
         }
       }
       else if (this.__dropTarget)
       {
         this.__fireEvent("dragout", this.__dropTarget, false, e.getNativeEvent());
         this.__dropTarget = null;
-        this.__dropOk = false;
+        this.__validDrop = false;
+
+        this.__detectAction();
       }
     }
   },

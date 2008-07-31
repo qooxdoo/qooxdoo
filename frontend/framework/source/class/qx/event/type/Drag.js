@@ -121,12 +121,19 @@ qx.Class.define("qx.event.type.Drag",
     }),
 
 
-
-
+    /**
+     * Returns the drag&drop event handler responsible for the target
+     *
+     * @return {qx.event.handler.DragDrop} The drag&drop handler
+     */
     getManager : function() {
       return qx.event.Registration.getManager(this.getTarget()).getHandler(qx.event.handler.DragDrop);
     },
 
+
+    /**
+     *
+     */
     addData : function(type, data) {
       this.getManager().addData(type, data);
     },
