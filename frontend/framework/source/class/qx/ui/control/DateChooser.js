@@ -80,6 +80,10 @@ qx.Class.define("qx.ui.control.DateChooser",
 
     // listen for locale changes
     qx.locale.Manager.getInstance().addListener("changeLocale", this._updateDatePane, this);
+    
+    // register mouse up and down handler
+    this.addListener("mousedown", this._onMouseUpDown, this);
+    this.addListener("mouseup", this._onMouseUpDown, this);
   },
 
 
@@ -270,6 +274,7 @@ qx.Class.define("qx.ui.control.DateChooser",
         case "month-year-label":
           control = new qx.ui.basic.Label();
           control.setAllowGrowX(true);
+          control.setAnonymous(true);
           break;
           
           
@@ -291,7 +296,7 @@ qx.Class.define("qx.ui.control.DateChooser",
           var label = new qx.ui.basic.Label();
           label.setAllowGrowX(true);
           label.setAppearance("datechooser-week");
-      
+          label.setAnonymous(true);
           label.addState("header");
           control.add(label, {column: 0, row: 0});
       
@@ -304,6 +309,7 @@ qx.Class.define("qx.ui.control.DateChooser",
             label.setAllowGrowY(true);
             label.setAppearance("datechooser-weekday");
             label.setSelectable(false);
+            label.setAnonymous(true);
             label.setCursor("default");
       
             control.add(label, {column: i + 1, row: 0});
@@ -321,6 +327,7 @@ qx.Class.define("qx.ui.control.DateChooser",
             label.setAllowGrowX(true);
             label.setAllowGrowY(true);
             label.setAppearance("datechooser-week");
+            label.setAnonymous(true);
             label.setSelectable(false);
             label.setCursor("default");
       
@@ -414,6 +421,17 @@ qx.Class.define("qx.ui.control.DateChooser",
       EVENT HANDLER
     ---------------------------------------------------------------------------
     */
+       
+    _onMouseUpDown : function(e) {
+      var target = e.getTarget();
+      
+      if (target == this._getChildControl("navigation-bar") || 
+          target == this._getChildControl("date-pane")) {
+        e.stopPropagation();
+        return;
+      }
+    },
+      
        
     /**
      * Event handler. Called when a navigation button has been clicked.
@@ -598,6 +616,16 @@ qx.Class.define("qx.ui.control.DateChooser",
 
         this._updateDatePane();
       }
+    },
+
+
+    /**
+     * Event handler. Used to handle the key events.
+     *
+     * @param evt {qx.event.type.Data} The event.
+     */    
+    handleKeyPress : function(e) {
+      this._onkeypress(e);
     },
 
 
