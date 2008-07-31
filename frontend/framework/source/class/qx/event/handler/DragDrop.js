@@ -213,11 +213,11 @@ qx.Class.define("qx.event.handler.DragDrop",
       return Registration.dispatchEvent(target, dragEvent);
     },
 
-    __findDragable : function(elem)
+    __findDraggable : function(elem)
     {
       while (elem && elem.nodeType == 1)
       {
-        if (elem.getAttribute("qxDragable") == "on") {
+        if (elem.getAttribute("qxDraggable") == "on") {
           return elem;
         }
 
@@ -227,11 +227,11 @@ qx.Class.define("qx.event.handler.DragDrop",
       return null;
     },
 
-    __findDropable : function(elem)
+    __findDroppable : function(elem)
     {
       while (elem && elem.nodeType == 1)
       {
-        if (elem.getAttribute("qxDropable") == "on") {
+        if (elem.getAttribute("qxDroppable") == "on") {
           return elem;
         }
 
@@ -337,7 +337,7 @@ qx.Class.define("qx.event.handler.DragDrop",
         return;
       }
 
-      var dragable = this.__findDragable(e.getTarget());
+      var dragable = this.__findDraggable(e.getTarget());
       if (dragable)
       {
         // Cache coordinates for offset calculation
@@ -380,7 +380,9 @@ qx.Class.define("qx.event.handler.DragDrop",
       if (this.__sessionActive)
       {
         // Fire specialized move event
-        this.__fireEvent("drag", this.__dragTarget, false, e.getNativeEvent());
+        if (!this.__fireEvent("drag", this.__dragTarget, true, e.getNativeEvent())) {
+          this.__clearSession();
+        }
       }
       else
       {
@@ -420,7 +422,7 @@ qx.Class.define("qx.event.handler.DragDrop",
     _onMouseOver : function(e)
     {
       var target = e.getTarget();
-      var dropable = this.__findDropable(target);
+      var dropable = this.__findDroppable(target);
 
       if (dropable && dropable != this.__dropTarget)
       {
@@ -435,7 +437,7 @@ qx.Class.define("qx.event.handler.DragDrop",
     _onMouseOut : function(e)
     {
       var target = e.getTarget();
-      var dropable = this.__findDropable(target);
+      var dropable = this.__findDroppable(target);
 
       if (dropable && dropable == this.__dropTarget)
       {

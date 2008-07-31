@@ -632,18 +632,18 @@ qx.Class.define("qx.ui.core.Widget",
       apply : "_applyKeepActive"
     },
 
-    dragable :
+    draggable :
     {
       check : "Boolean",
       init : false,
-      apply : "_applyDragable"
+      apply : "_applyDraggable"
     },
 
-    dropable :
+    droppable :
     {
       check : "Boolean",
       init : false,
-      apply : "_applyDropable"
+      apply : "_applyDroppable"
     },
 
 
@@ -2665,7 +2665,7 @@ qx.Class.define("qx.ui.core.Widget",
     */
 
     // property apply
-    _applyDragable : function(value, old)
+    _applyDraggable : function(value, old)
     {
       // Force cursor creation
       qx.ui.core.DragDropCursor.getInstance();
@@ -2687,15 +2687,15 @@ qx.Class.define("qx.ui.core.Widget",
       }
 
       // Sync DOM attribute
-      this._containerElement.setAttribute("qxDragable", value ? "on" : null);
+      this._containerElement.setAttribute("qxDraggable", value ? "on" : null);
     },
 
 
     // property apply
-    _applyDropable : function(value, old)
+    _applyDroppable : function(value, old)
     {
       // Sync DOM attribute
-      this._containerElement.setAttribute("qxDropable", value ? "on" : null);
+      this._containerElement.setAttribute("qxDroppable", value ? "on" : null);
     },
 
 
