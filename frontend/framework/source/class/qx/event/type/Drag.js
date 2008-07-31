@@ -35,12 +35,26 @@ qx.Class.define("qx.event.type.Drag",
 
   members :
   {
-    // overridden
-    init : function(cancelable, original)
+    /**
+     * Initialize the fields of the event. The event must be initialized before
+     * it can be dispatched.
+     *
+     * @param cancelable {Boolean?false} Whether or not an event can have its default
+     *     action prevented. The default action can either be the browser's
+     *     default action of a native event (e.g. open the context menu on a
+     *     right click) or the default action of a qooxdoo class (e.g. close
+     *     the window widget). The default action can be prevented by calling
+     *     {@link #preventDefault}
+     * @param nativeEvent {Event?null} The native event to use
+     * @return {qx.event.type.Event} The initialized event instance
+     */
+    init : function(cancelable, nativeEvent)
     {
       this.base(arguments, false, cancelable);
 
-      this._native = original || null;
+      this._native = nativeEvent || null;
+
+      return this;
     },
 
 
@@ -132,28 +146,75 @@ qx.Class.define("qx.event.type.Drag",
 
 
     /**
+     * Used during <code>dragstart</code> listener to
+     * inform the manager about supported data types.
      *
+     * @param type {String} Data type to add to supported type list
      */
-    addData : function(type, data) {
-      this.getManager().addData(type, data);
+    addType : function(type) {
+      this.getManager().addType(type);
     },
 
-    addAction : function(type) {
-      this.getManager().addAction(type);
+
+    /**
+     * Used during <code>dragstart</code> listener to
+     * inform the manager about supported drop actions.
+     *
+     * @param type {String} Data type to add to supported type list
+     */
+    addAction : function(action) {
+      this.getManager().addAction(action);
     },
 
+
+    /**
+     * Whether the given type is supported by the drag
+     * target (source target).
+     *
+     * This is used in the event listeners for <code>dragover</code>
+     * or <code>dragdrop</code>.
+     *
+     * @param type {String} The type to look for
+     * @return {Boolean} Whether the given type is supported
+     */
     supportsType : function(type) {
       return this.getManager().supportsType(type);
     },
 
+
+    /**
+     * Whether the given action is supported by the drag
+     * target (source target).
+     *
+     * This is used in the event listeners for <code>dragover</code>
+     * or <code>dragdrop</code>.
+     *
+     * @param type {String} The type to look for
+     * @return {Boolean} Whether the given type is supported
+     */
     supportsAction : function(action) {
       return this.getManager().supportsAction(action);
     },
 
+
+    /**
+     * Returns the data of the given type.
+     *
+     * @param type {String} Any of the supported types.
+     */
     getData : function(type) {
       return this.getManager().getData(type);
     },
 
+
+    /**
+     * Returns the currently selected action. Depends on the
+     * supported actions of the source target and the modification
+     * keys pressed by the user.
+     *
+     * @return {String} The action. May be one of <code>move</code>,
+     *    <code>copy</code> or <code>alias</code>.
+     */
     getAction : function() {
       return this.getManager().getAction();
     }
