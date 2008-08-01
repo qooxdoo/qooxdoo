@@ -63,7 +63,7 @@ qx.Class.define("qx.theme.manager.Decoration",
      * @return {var} return the (translated) result of the incoming value
      */
     resolveDynamic : function(value) {
-      return typeof(value) == "object" ? value : this._dynamic[value];
+      return typeof value === "object" ? value : this._dynamic[value];
     },
 
 
@@ -74,7 +74,7 @@ qx.Class.define("qx.theme.manager.Decoration",
      * @return {Boolean} returns true if the value is interpreted dynamically
      */
     isDynamic : function(value) {
-      return value && (typeof(value) == "object" || this._dynamic[value] !== undefined);
+      return value && (typeof value == "object" || this._dynamic[value] !== undefined);
     },
 
 
