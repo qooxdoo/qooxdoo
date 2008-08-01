@@ -379,8 +379,9 @@ qx.Class.define("apiviewer.ui.SearchView",
      */
     _callDetailFrame : function(sel)
     {
-        var fullItemName = sel.getSelectedItems()[0].result.text;
-        var itemType = sel.getSelectedItems()[0].icon.icon;
+        var selected = this._tableModel.getData()[sel];
+        var fullItemName = selected[1];
+        var itemType = selected[0];
 
         var className = fullItemName;
         var itemName = null;
@@ -434,10 +435,8 @@ qx.Class.define("apiviewer.ui.SearchView",
     
     _onChangeSelection : function(e)
     {
-      var tree = this.getWidgetById("tree");
-      var column = this._selectionModel.getAnchorSelectionIndex();
-      var selectedClass = this._tableModel.getData()[column][1];
-      tree.selectTreeNodeByClassName(selectedClass);
+      var index = this._selectionModel.getAnchorSelectionIndex();
+      this._callDetailFrame(index);
     }
 
   },
