@@ -1236,9 +1236,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          width : states.horizontal ? 5 : "undefined",
-          height : states.vertical ? 5 : "undefined",
-          backgroundColor : "background-light"
+          backgroundColor : "border-dark",
+          opacity : 0.3
         };
       }
     },
