@@ -91,13 +91,8 @@ qx.Class.define("qx.event.type.Event",
     {
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        if (canBubble != null && typeof canBubble != "boolean") {
-          throw new Error("Invalid value of canBubble: " + canBubble);
-        }
-
-        if (cancelable != null && typeof cancelable != "boolean") {
-          throw new Error("Invalid value of cancelable: " + cancelable);
-        }
+        qx.core.Assert.assertBoolean(canBubble, "Invalid argument value 'canBubble'.");
+        qx.core.Assert.assertBoolean(cancelable, "Invalid argument value 'cancelable'.");
       }
 
       this._type = null;
