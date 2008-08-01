@@ -68,48 +68,24 @@ qx.Class.define("qx.ui.table.pane.CellEvent",
       * Initialize the event
       *
       * @param scroller {qx.ui.table.pane.Scroller} The tables pane scroller
-      * @param type {String} The event type
       * @param me {qx.event.type.Mouse} The original mouse event
       */
-     init : function(scroller, type, me)
+     init : function(scroller, me, row, column)
      {
        me.clone(this);
-       this._scroller = scroller;
-     },
+       this._bubbles = false;
 
+       if (row != null) {
+         this.setRow(row);
+       } else {
+         this.setRow(scroller._getRowForPagePos(this.getDocumentLeft(), this.getDocumentTop()));
+       }
 
-    /**
-     * Compute the row where the event has happened.
-     *
-     * @return {Integer} zero based row number
-     */
-    _computeRow : function()
-    {
-      if (this._row == null)
-      {
-        this._row = this._scroller._getRowForPagePos(this.getPageX(), this.getPageY());
-      }
-      return this._row;
-    },
-
-
-    /**
-     * Compute the column where the event has happened.
-     *
-     * @return {Integer} zero based column number
-     */
-    _computeColumn : function()
-    {
-      if (this._column == null)
-      {
-        this._column = this._scroller._getColumnForPageX(this.getPageX());
-      }
-      return this._column;
-    }
-  },
-
-  destruct : function()
-  {
-    this._disposeFields("_scroller");
+       if (column != null) {
+         this.setColumn(column);
+       } else {
+         this.setColumn(scroller._getColumnForPageX(this.getDocumentLeft()));
+       }
+     }
   }
 });
