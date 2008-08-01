@@ -72,6 +72,27 @@ qx.Theme.define("qx.theme.modern.Appearance",
         };
       }
     },
+    
+    
+    "move-frame" :
+    {
+      style : function(states)
+      {
+        return {
+          decorator : "dark-shadow"
+        };
+      }
+    },
+
+    "resize-frame" :
+    {
+      style : function(states)
+      {
+        return {
+          decorator : "dark-shadow"
+        };
+      }
+    },
 
     
     
@@ -1293,6 +1314,148 @@ qx.Theme.define("qx.theme.modern.Appearance",
     },
     
     
+    /*
+    ---------------------------------------------------------------------------
+      MENU
+    ---------------------------------------------------------------------------
+    */
+   
+   // TODO: style menu appearances
+   "menu" :
+    {
+      style : function(states)
+      {
+        var result =
+        {
+          backgroundColor : "background",
+          decorator : "outset",
+          spacingX : 6,
+          spacingY : 1,
+          iconColumnWidth : 16,
+          arrowColumnWidth : 4,
+          padding : 1
+        };
+
+        if (states.submenu)
+        {
+          result.position = "right-top";
+          result.offset = [-2, -3];
+        }
+
+        return result;
+      }
+    },
+
+    "menu-separator" :
+    {
+      style : function(states)
+      {
+        return {
+          height : 0,
+          decorator : "menu-separator",
+          marginTop : 4,
+          marginBottom: 4,
+          marginLeft : 2,
+          marginRight : 2
+        }
+      }
+    },
+
+    "menu-button" :
+    {
+      alias : "atom",
+
+      style : function(states)
+      {
+        return {
+          backgroundColor : states.selected ? "background-selected" : "undefined",
+          textColor : states.selected ? "text-selected" : "undefined",
+          padding : [ 2, 6 ]
+        };
+      }
+    },
+
+    "menu-button/icon" :
+    {
+      include : "image",
+
+      style : function(states)
+      {
+        return {
+          alignY : "middle"
+        };
+      }
+    },
+
+    "menu-button/label" :
+    {
+      include : "label",
+
+      style : function(states)
+      {
+        return {
+          alignY : "middle",
+          padding : 1
+        };
+      }
+    },
+
+    "menu-button/shortcut" :
+    {
+      include : "label",
+
+      style : function(states)
+      {
+        return {
+          alignY : "middle",
+          marginLeft : 14,
+          padding : 1
+        };
+      }
+    },
+
+    "menu-button/arrow" :
+    {
+      style : function(states)
+      {
+        return {
+          source : states.selected ? "decoration/arrows/right-invert.gif" : "decoration/arrows/right.gif",
+          alignY : "middle"
+        };
+      }
+    },
+
+    "menu-checkbox" :
+    {
+      alias : "menu-button",
+      include : "menu-button",
+
+      style : function(states)
+      {
+        return {
+          icon : !states.checked ? "undefined" :
+            states.selected ? "decoration/menu/checkbox-invert.gif" :
+              "decoration/menu/checkbox.gif"
+        }
+      }
+    },
+
+    "menu-radiobutton" :
+    {
+      alias : "menu-button",
+      include : "menu-button",
+
+      style : function(states)
+      {
+        return {
+          icon : !states.checked ? "undefined" :
+            states.selected ? "decoration/menu/radiobutton-invert.gif" :
+              "decoration/menu/radiobutton.gif"
+        }
+      }
+    },
+    
+    
     
     /*
     ---------------------------------------------------------------------------
@@ -1300,25 +1463,28 @@ qx.Theme.define("qx.theme.modern.Appearance",
     ---------------------------------------------------------------------------
     */
 
+    "table" : 
+    {
+      alias : "widget",
+      
+      style : function(states)
+      {
+        return {
+          decorator : "table"
+        };
+      }
+    },
+    
+    "table-header": {},
+    
     "table/statusbar" :
     {
       style : function(states)
       {
         return {
-          decorator : new qx.ui.decoration.Single().set({ top : [ 1, "solid", "border-dark-shadow" ] }),
+          decorator : "table-statusbar",
           paddingLeft : 2,
           paddingRight : 2
-        };
-      }
-    },
-
-    "table-header":
-    {
-      style : function(states)
-      {
-        return {
-          decoration : new qx.ui.decoration.Single().set({ bottom : [ 1, "solid", "table-header-border" ] }),
-          backgroundColor : "table-header"
         };
       }
     },
@@ -1328,47 +1494,25 @@ qx.Theme.define("qx.theme.modern.Appearance",
       alias : "button",
       style : function(states)
       {
-        var border, padding;
-
-        if (states.pressed || states.checked || states.abandoned)
-        {
-          border = "inset-thin";
-          padding = [ 3, 2, 1, 4 ];
-        }
-        else if (states.hovered)
-        {
-          border = "outset-thin";
-          padding = [ 2, 3 ];
-        }
-        else
-        {
-          border = "undefined";
-          padding = [ 3, 4 ];
-        }
-
         return {
-          decorator : border,
-          padding : padding,
-          backgroundColor : states.abandoned ? "button-abandoned" : "button",
-          icon : "decoration/table/select-column-order.png"
+          decorator : "table-column-button",
+          padding   : [ 3, 4 ],
+          icon      : "decoration/table/select-column-order.png"
         };
       }
     },
 
+    "table-scroller" : "widget",
+    
     "table-scroller/scrollbar-x": "scrollbar",
     "table-scroller/scrollbar-y": "scrollbar",
-
-    "table-scroller" : "widget",
 
     "table-scroller/header":
     {
       style : function(states)
       {
         return {
-          decorator : new qx.ui.decoration.Single().set({
-            bottom : [ 1, "solid", "table-header-border" ]
-          }),
-          backgroundColor : "table-header"
+          decorator       : "table-scroller-header"
         };
       }
     },
@@ -1388,7 +1532,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          decorator : new qx.ui.decoration.Single(2, "solid", "table-focus-indicator")
+          decorator : "table-scroller-focus-indicator"
         };
       }
     },
@@ -1409,34 +1553,10 @@ qx.Theme.define("qx.theme.modern.Appearance",
       alias : "atom",
       style : function(states)
       {
-
-        if (states.hovered)
-        {
-          deco = new qx.ui.decoration.Single().set({
-            right : [ 1, "solid", "table-header-border" ],
-            bottom : [ 2, "solid", "effect" ]
-          });
-
-          paddingBottom = 0;
-          backgroundColor = "table-header-cell-hover";
-        }
-        else
-        {
-          deco = new qx.ui.decoration.Single().set({
-            right : [ 1, "solid", "table-header-border" ]
-          });
-
-          paddingBottom = 2;
-          backgroundColor = "table-header-cell";
-        }
-
         return {
-          paddingLeft : 2,
-          paddingRight : 2,
-          paddingBottom : paddingBottom,
-          decorator : deco,
-          backgroundColor : backgroundColor,
-          sortIcon : states.sorted ?
+          padding   : [ 2, 4 ],
+          decorator : states.hovered ? "table-header-cell" : "table-header-cell",
+          sortIcon  : states.sorted ?
               (states.sortedAscending ? "decoration/table/ascending.png" : "decoration/table/descending.png")
               : "undefined"
         }
