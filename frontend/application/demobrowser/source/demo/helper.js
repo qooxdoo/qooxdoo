@@ -41,7 +41,7 @@
     }
 
     // add theme part of filename
-    tmp = parameters[2].split("_");   // read this from "theme_qx.theme..."
+    tmp = parameters[1].split("_");   // read this from "theme_qx.theme..."
 
     filevar += "-theme_";
     if(tmp[0] && tmp[0] == "theme"){
