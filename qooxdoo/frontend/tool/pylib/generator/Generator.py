@@ -1578,7 +1578,8 @@ class _ResourceHandler(object):
             respath = Path.posifyPath(respath)
             for res in self._resList:
                 res1 = res
-                if re.search(res1, respath):  # this might need a better 'match' algorithm
+                mo = re.search(res1, respath)  # this might need a better 'match' algorithm
+                if mo:
                     return True
             return False
 
@@ -1659,7 +1660,9 @@ class _ResourceHandler(object):
                         result.extend(expMacRec(ientry))
                 else:
                     nres = nres.replace('${'+themekey+'}','') # just remove '${...}'
-                    result.append(os.path.normpath(nres))     # get rid of '...//...'
+                    #nres = os.path.normpath(nres)     # get rid of '...//...'
+                    nres = nres.replace('//', '/')    # get rid of '...//...'
+                    result.append(nres)
                     self._genobj._console.warn("Empty replacement of macro '%s' in asset spec." % themekey)
             else:
                 raise SyntaxError, "Non-terminated macro in string: %s" % rsc
