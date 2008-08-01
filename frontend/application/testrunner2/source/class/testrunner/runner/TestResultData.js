@@ -107,7 +107,6 @@ qx.Class.define("testrunner.runner.TestResultData",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     getStackTrace : function()

@@ -254,7 +254,6 @@ qx.Class.define("qx.event.handler.Input",
     /**
      * Internal function called by input elements created using {@link qx.bom.Input}.
      *
-     * @type member
      * @param e {Event} Native DOM event
      * @return {void}
      */
@@ -281,7 +280,6 @@ qx.Class.define("qx.event.handler.Input",
     /**
      * Internal function called by input elements created using {@link qx.bom.Input}.
      *
-     * @type member
      * @param e {Event} Native DOM event
      * @return {void}
      */
@@ -305,7 +303,6 @@ qx.Class.define("qx.event.handler.Input",
     /**
      * Internal function called by input elements created using {@link qx.bom.Input}.
      *
-     * @type member
      * @signature function(e)
      * @param e {Event} Native DOM event
      * @return {void}

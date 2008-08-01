@@ -26,7 +26,6 @@ qx.Class.define("testrunner.test.lang.Array",
     /**
      * Array tests
      *
-     * @type member
      */
     testAppend : function()
     {

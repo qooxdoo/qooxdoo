@@ -74,7 +74,6 @@ qx.Class.define("qx.legacy.ui.table.cellrenderer.Icon",
      * Identifies the Image to show. This is a template method, which must be
      * implements by sub classes.
      *
-     * @type member
      * @abstract
      * @param cellInfo {Map} The information about the cell.
      *          See {@link #createDataCellHtml}.
@@ -95,7 +94,6 @@ qx.Class.define("qx.legacy.ui.table.cellrenderer.Icon",
     /**
      * Retrieves the image infos.
      *
-     * @type member
      * @param cellInfo {Map} The information about the cell.
      *          See {@link #createDataCellHtml}.
      * @return {Map} Map with an "url" attribute (type string)

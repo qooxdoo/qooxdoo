@@ -97,7 +97,6 @@ qx.Class.define("qx.io.remote.Response",
     /**
      * TODOC
      *
-     * @type member
      * @param vHeader {var} TODOC
      * @return {var | null} TODOC
      */

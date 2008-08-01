@@ -77,7 +77,6 @@ qx.Bootstrap.define("qx.core.Setting",
     /**
      * Define a new setting
      *
-     * @type static
      * @param key {String} The key to store the value under
      * @param defaultValue {String|Boolean|Number} Primitive default value for the new setting
      * @return {void}
@@ -102,7 +101,6 @@ qx.Bootstrap.define("qx.core.Setting",
     /**
      * Get the value of a previously defined setting
      *
-     * @type static
      * @param key {String} The key where the data is stored under
      * @return {String|Boolean|Number} The primitive value stored for the given setting
      * @throws an exception is the setting does not exist or the default value was not assigned
@@ -126,7 +124,6 @@ qx.Bootstrap.define("qx.core.Setting",
     /**
      * Import settings from global qxsettings into current environment
      *
-     * @type static
      * @return {void}
      * @throws an exception if a setting definition is in a wrong format
      */

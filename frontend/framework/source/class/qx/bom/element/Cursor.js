@@ -60,7 +60,6 @@ qx.Class.define("qx.bom.element.Cursor",
     /**
      * Compiles the given cursor into a CSS compatible string.
      *
-     * @type static
      * @param cursor {String} Valid CSS cursor name
      * @return {String} CSS string
      */
@@ -72,7 +71,6 @@ qx.Class.define("qx.bom.element.Cursor",
     /**
      * Returns the computed cursor style for the given element.
      *
-     * @type static
      * @param element {Element} The element to query
      * @param mode {Number} Choose one of the modes {@link qx.bom.element.Style#COMPUTED_MODE},
      *   {@link qx.bom.element.Style#CASCADED_MODE}, {@link qx.bom.element.Style#LOCAL_MODE}.

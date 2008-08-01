@@ -204,7 +204,6 @@ qx.Class.define("qx.ui.core.ScrollArea",
     /**
      * Returns the boundaries of the pane.
      *
-     * @type member
      * @return {Map} The pane boundaries.
      */
     getPaneSize : function() {
@@ -226,7 +225,6 @@ qx.Class.define("qx.ui.core.ScrollArea",
      * Returns the top offset of the given item in relation to the
      * inner height of this widget.
      *
-     * @type member
      * @param item {qx.ui.core.Widget} Item to query
      * @return {Integer} Top offset
      */
@@ -239,7 +237,6 @@ qx.Class.define("qx.ui.core.ScrollArea",
      * Returns the top offset of the end of the given item in relation to the
      * inner height of this widget.
      *
-     * @type member
      * @param item {qx.ui.core.Widget} Item to query
      * @return {Integer} Top offset
      */
@@ -252,7 +249,6 @@ qx.Class.define("qx.ui.core.ScrollArea",
      * Returns the left offset of the given item in relation to the
      * inner width of this widget.
      *
-     * @type member
      * @param item {qx.ui.core.Widget} Item to query
      * @return {Integer} Top offset
      */
@@ -265,7 +261,6 @@ qx.Class.define("qx.ui.core.ScrollArea",
      * Returns the left offset of the end of the given item in relation to the
      * inner width of this widget.
      *
-     * @type member
      * @param item {qx.ui.core.Widget} Item to query
      * @return {Integer} Right offset
      */
@@ -471,7 +466,6 @@ qx.Class.define("qx.ui.core.ScrollArea",
     /**
      * Computes the visibility state for scrollbars.
      *
-     * @type member
      * @return {void}
      */
     _computeScrollbars : function()

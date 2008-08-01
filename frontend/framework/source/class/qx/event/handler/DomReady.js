@@ -70,7 +70,6 @@ qx.Class.define("qx.event.handler.DomReady",
   /**
    * Create a new instance
    *
-   * @type constructor
    * @param manager {qx.event.Manager} Event manager for the window to use
    */
   construct : function(manager)
@@ -153,7 +152,6 @@ qx.Class.define("qx.event.handler.DomReady",
     /**
      * Initializes the native mouse event listeners.
      *
-     * @type member
      * @return {void}
      */
     _initWindowObserver : function()
@@ -199,7 +197,6 @@ qx.Class.define("qx.event.handler.DomReady",
     /**
      * Disconnect the native mouse event listeners.
      *
-     * @type member
      * @return {void}
      */
     _stopWindowObserver : function()
@@ -225,7 +222,6 @@ qx.Class.define("qx.event.handler.DomReady",
     /**
      * Native listener for browser implementations.
      *
-     * @type member
      * @return {void}
      */
     _onNative : function()

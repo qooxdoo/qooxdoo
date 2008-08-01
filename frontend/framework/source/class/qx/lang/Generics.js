@@ -89,7 +89,6 @@ qx.Bootstrap.define("qx.lang.Generics",
      *
      * TODO: maybe mode this function to qx.lang.Function
      *
-     * @type static
      * @param obj {Object} the object in which prototype the function is defined.
      * @param func {String} name of the method to wrap.
      * @return {Function} wrapped method. This function takes as first argument an
@@ -106,7 +105,6 @@ qx.Bootstrap.define("qx.lang.Generics",
     /**
      * Initialize all generic functions as defined in JavaScript 1.6.
      *
-     * @type static
      * @return {void}
      */
     __init : function()

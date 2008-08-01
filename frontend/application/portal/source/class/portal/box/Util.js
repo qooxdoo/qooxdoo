@@ -33,7 +33,6 @@ qx.Class.define("portal.box.Util",
     /**
      * Brings the given element to the front.
      *
-     * @type static
      * @param element {Element} Element to manipulate
      * @return {void} 
      */
@@ -49,7 +48,6 @@ qx.Class.define("portal.box.Util",
     /**
      * Sends the given element to the back.
      *
-     * @type static
      * @param element {Element} Element to manipulate.
      * @return {void} 
      */
@@ -64,7 +62,6 @@ qx.Class.define("portal.box.Util",
     /**
      * Returns the value of the given CSS property of the element.
      *
-     * @type static
      * @param element {Element} Element to check.
      * @param property {String} CSS Property name
      * @param asInteger {Boolean} Integer transformation
@@ -80,7 +77,6 @@ qx.Class.define("portal.box.Util",
     /**
      * Returns the computed dimension of an element
      *
-     * @type static
      * @param element {Node} DOM-Node to work on
      * @return {Map} computed width and height of the given element as a map (keys: 'width' and 'height')
      */

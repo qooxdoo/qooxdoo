@@ -56,7 +56,6 @@ qx.Class.define("qx.legacy.ui.listview.SelectionManager",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     getFirst : function() {
@@ -67,7 +66,6 @@ qx.Class.define("qx.legacy.ui.listview.SelectionManager",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     getLast : function() {
@@ -78,7 +76,6 @@ qx.Class.define("qx.legacy.ui.listview.SelectionManager",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     getItems : function() {
@@ -89,7 +86,6 @@ qx.Class.define("qx.legacy.ui.listview.SelectionManager",
     /**
      * TODOC
      *
-     * @type member
      * @param vItem {var} TODOC
      * @return {var} TODOC
      */
@@ -103,7 +99,6 @@ qx.Class.define("qx.legacy.ui.listview.SelectionManager",
     /**
      * TODOC
      *
-     * @type member
      * @param vItem {var} TODOC
      * @return {var} TODOC
      */
@@ -125,7 +120,6 @@ qx.Class.define("qx.legacy.ui.listview.SelectionManager",
     /**
      * TODOC
      *
-     * @type member
      * @param oItem {Object} TODOC
      * @return {var} TODOC
      */
@@ -150,7 +144,6 @@ qx.Class.define("qx.legacy.ui.listview.SelectionManager",
     /**
      * TODOC
      *
-     * @type member
      * @param vItem {var} TODOC
      * @param vTopLeft {var} TODOC
      * @return {void}
@@ -163,7 +156,6 @@ qx.Class.define("qx.legacy.ui.listview.SelectionManager",
     /**
      * TODOC
      *
-     * @type member
      * @param vItem {var} TODOC
      * @return {var} TODOC
      */
@@ -175,7 +167,6 @@ qx.Class.define("qx.legacy.ui.listview.SelectionManager",
     /**
      * TODOC
      *
-     * @type member
      * @param vItem {var} TODOC
      * @return {var} TODOC
      */
@@ -187,7 +178,6 @@ qx.Class.define("qx.legacy.ui.listview.SelectionManager",
     /**
      * TODOC
      *
-     * @type member
      * @param vItem {var} TODOC
      * @return {var} TODOC
      */
@@ -199,7 +189,6 @@ qx.Class.define("qx.legacy.ui.listview.SelectionManager",
     /**
      * TODOC
      *
-     * @type member
      * @param vItem {var} TODOC
      * @return {var} TODOC
      */
@@ -211,7 +200,6 @@ qx.Class.define("qx.legacy.ui.listview.SelectionManager",
     /**
      * In a qx.legacy.ui.listview.ListView there are no disabled entries support currently.
      *
-     * @type member
      * @param vItem {var} TODOC
      * @return {Object}
      */
@@ -231,7 +219,6 @@ qx.Class.define("qx.legacy.ui.listview.SelectionManager",
     /**
      * TODOC
      *
-     * @type member
      * @param vItem {var} TODOC
      * @param vIsSelected {var} TODOC
      * @return {void}
@@ -244,7 +231,6 @@ qx.Class.define("qx.legacy.ui.listview.SelectionManager",
     /**
      * TODOC
      *
-     * @type member
      * @param vItem {var} TODOC
      * @param vIsAnchor {var} TODOC
      * @return {void}
@@ -257,7 +243,6 @@ qx.Class.define("qx.legacy.ui.listview.SelectionManager",
     /**
      * TODOC
      *
-     * @type member
      * @param vItem {var} TODOC
      * @param vIsLead {var} TODOC
      * @return {void}

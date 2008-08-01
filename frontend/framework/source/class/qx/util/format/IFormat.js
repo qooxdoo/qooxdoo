@@ -28,7 +28,6 @@ qx.Interface.define("qx.util.format.IFormat",
     /**
      * Formats an object.
      *
-     * @type member
      * @abstract
      * @param obj {var} The object to format.
      * @return {String} the formatted object.
@@ -40,7 +39,6 @@ qx.Interface.define("qx.util.format.IFormat",
     /**
      * Parses an object.
      *
-     * @type member
      * @abstract
      * @param str {String} the string to parse.
      * @return {var} the parsed object.

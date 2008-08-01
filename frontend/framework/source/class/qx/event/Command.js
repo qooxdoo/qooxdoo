@@ -136,7 +136,6 @@ qx.Class.define("qx.event.Command",
     /**
      * Fire the "execute" event on this command.
      *
-     * @type member
      * @param vTarget {Object} Object which issued the execute event
      */
     execute : function(vTarget) {
@@ -147,7 +146,6 @@ qx.Class.define("qx.event.Command",
     /**
      * Key press event handler.
      *
-     * @type member
      * @param event {qx.event.type.KeyEvent} The key event object
      */
     __onKeyPress : function(event)
@@ -238,7 +236,6 @@ qx.Class.define("qx.event.Command",
     /**
      * Checks whether the given key event matches the command's shortcut
      *
-     * @type member
      * @param e {qx.event.type.KeySequenceEvent} the key event object
      * @return {Boolean} whether the commands shortcut matches the key event
      */
@@ -308,7 +305,6 @@ qx.Class.define("qx.event.Command",
     /**
      * Checks and normalizes the key identifier.
      *
-     * @type member
      * @param keyName {String} name of the key.
      * @return {String} normalized keyIdentifier or "Unidentified" if a conversion was not possible
      */
@@ -347,7 +343,6 @@ qx.Class.define("qx.event.Command",
     /**
      * Returns the shortcut as string using the currently selected locale
      *
-     * @type member
      * @return {String} shortcut
      */
     toString : function()

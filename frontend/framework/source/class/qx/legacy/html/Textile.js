@@ -42,7 +42,6 @@ qx.Class.define("qx.legacy.html.Textile",
      * Textilizes a string
      * http://www.textism.com/tools/textile/
      *
-     * @type static
      * @param s {String} Text to be textilized.
      * @return {String} The textilized text.
      */

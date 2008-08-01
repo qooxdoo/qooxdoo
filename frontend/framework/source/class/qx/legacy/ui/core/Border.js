@@ -75,7 +75,6 @@ qx.Class.define("qx.legacy.ui.core.Border",
     /**
      * Converts a typical CSS border definition string to an border object
      *
-     * @type static
      * @param str {String} the CSS string
      * @return {qx.legacy.ui.core.Border} the created instance
      */
@@ -123,7 +122,6 @@ qx.Class.define("qx.legacy.ui.core.Border",
     /**
      * Converts a map property definition into a border object.
      *
-     * @type static
      * @param config {Map} map of property values
      * @return {qx.legacy.ui.core.Border} the created instance
      */
@@ -138,7 +136,6 @@ qx.Class.define("qx.legacy.ui.core.Border",
     /**
      * Removes a border from a widget
      *
-     * @type static
      * @param widget {qx.legacy.ui.core.Widget} The widget from which the border should removed
      * @return {void}
      * @internal
@@ -172,7 +169,6 @@ qx.Class.define("qx.legacy.ui.core.Border",
     /**
      * Removes a border from a widget
      *
-     * @type static
      * @param widget {qx.legacy.ui.core.Widget} The widget from which the border should removed
      * @return {void}
      * @internal
@@ -206,7 +202,6 @@ qx.Class.define("qx.legacy.ui.core.Border",
     /**
      * Removes a border from a widget
      *
-     * @type static
      * @param widget {qx.legacy.ui.core.Widget} The widget from which the border should removed
      * @return {void}
      * @internal
@@ -240,7 +235,6 @@ qx.Class.define("qx.legacy.ui.core.Border",
     /**
      * Removes a border from a widget
      *
-     * @type static
      * @param widget {qx.legacy.ui.core.Widget} The widget from which the border should removed
      * @return {void}
      * @internal
@@ -607,7 +601,6 @@ qx.Class.define("qx.legacy.ui.core.Border",
     /**
      * Reacts on color changes reported by the connected ColorManager.
      *
-     * @type member
      * @param value {Color} the color value to apply
      */
     _changeColorTop : function(value)
@@ -621,7 +614,6 @@ qx.Class.define("qx.legacy.ui.core.Border",
     /**
      * Reacts on color changes reported by the connected ColorManager.
      *
-     * @type member
      * @param value {Color} the color value to apply
      */
     _changeColorInnerTop : function(value)
@@ -635,7 +627,6 @@ qx.Class.define("qx.legacy.ui.core.Border",
     /**
      * Reacts on color changes reported by the connected ColorManager.
      *
-     * @type member
      * @param value {Color} the color value to apply
      */
     _changeColorRight : function(value)
@@ -649,7 +640,6 @@ qx.Class.define("qx.legacy.ui.core.Border",
     /**
      * Reacts on color changes reported by the connected ColorManager.
      *
-     * @type member
      * @param value {Color} the color value to apply
      */
     _changeColorInnerRight : function(value)
@@ -663,7 +653,6 @@ qx.Class.define("qx.legacy.ui.core.Border",
     /**
      * Reacts on color changes reported by the connected ColorManager.
      *
-     * @type member
      * @param value {Color} the color value to apply
      */
     _changeColorBottom : function(value)
@@ -677,7 +666,6 @@ qx.Class.define("qx.legacy.ui.core.Border",
     /**
      * Reacts on color changes reported by the connected ColorManager.
      *
-     * @type member
      * @param value {Color} the color value to apply
      */
     _changeColorInnerBottom : function(value)
@@ -691,7 +679,6 @@ qx.Class.define("qx.legacy.ui.core.Border",
     /**
      * Reacts on color changes reported by the connected ColorManager.
      *
-     * @type member
      * @param value {Color} the color value to apply
      */
     _changeColorLeft : function(value)
@@ -705,7 +692,6 @@ qx.Class.define("qx.legacy.ui.core.Border",
     /**
      * Reacts on color changes reported by the connected ColorManager.
      *
-     * @type member
      * @param value {Color} the color value to apply
      */
     _changeColorInnerLeft : function(value)
@@ -758,7 +744,6 @@ qx.Class.define("qx.legacy.ui.core.Border",
     /**
      * Send information to BorderManager
      *
-     * @type member
      * @param edge {String} the edge which was updated
      */
     __informManager : function(edge) {
@@ -782,7 +767,6 @@ qx.Class.define("qx.legacy.ui.core.Border",
      * Renders top border for given widget
      *
      * @signature function(obj)
-     * @type member
      * @internal
      * @param obj {qx.legacy.ui.core.Widget} the widget which should get the border
      */
@@ -862,7 +846,6 @@ qx.Class.define("qx.legacy.ui.core.Border",
      * Renders right border for given widget
      *
      * @signature function(obj)
-     * @type member
      * @internal
      * @param obj {qx.legacy.ui.core.Widget} the widget which should get the border
      */
@@ -942,7 +925,6 @@ qx.Class.define("qx.legacy.ui.core.Border",
      * Renders bottom border for given widget
      *
      * @signature function(obj)
-     * @type member
      * @internal
      * @param obj {qx.legacy.ui.core.Widget} the widget which should get the border
      */
@@ -1022,7 +1004,6 @@ qx.Class.define("qx.legacy.ui.core.Border",
      * Renders left border for given widget
      *
      * @signature function(obj)
-     * @type member
      * @param obj {qx.legacy.ui.core.Widget} the widget which should get the border
      * @internal
      */

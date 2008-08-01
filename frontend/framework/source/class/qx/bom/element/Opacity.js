@@ -57,7 +57,6 @@ qx.Class.define("qx.bom.element.Opacity",
      * Accepts numbers between zero and one
      * where "0" means transparent, "1" means opaque.
      *
-     * @type static
      * @signature function(opacity)
      * @param opacity {Float} A float number between 0 and 1
      * @return {String} CSS compatible string
@@ -107,7 +106,6 @@ qx.Class.define("qx.bom.element.Opacity",
      * Sets opacity of given element. Accepts numbers between zero and one
      * where "0" means transparent, "1" means opaque.
      *
-     * @type static
      * @param element {Element} DOM element to modify
      * @param opacity {Float} A float number between 0 and 1
      * @return {void}
@@ -169,7 +167,6 @@ qx.Class.define("qx.bom.element.Opacity",
     /**
      * Resets opacity of given element.
      *
-     * @type static
      * @param element {Element} DOM element to modify
      * @return {void}
      * @signature function(element)
@@ -204,7 +201,6 @@ qx.Class.define("qx.bom.element.Opacity",
      * Gets computed opacity of given element. Accepts numbers between zero and one
      * where "0" means transparent, "1" means opaque.
      *
-     * @type static
      * @param element {Element} DOM element to modify
      * @param mode {Number} Choose one of the modes {@link qx.bom.element.Style#COMPUTED_MODE},
      *   {@link qx.bom.element.Style#CASCADED_MODE}, {@link qx.bom.element.Style#LOCAL_MODE}.

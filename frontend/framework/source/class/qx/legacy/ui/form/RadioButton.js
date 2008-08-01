@@ -95,7 +95,6 @@ qx.Class.define("qx.legacy.ui.form.RadioButton",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -116,7 +115,6 @@ qx.Class.define("qx.legacy.ui.form.RadioButton",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -135,7 +133,6 @@ qx.Class.define("qx.legacy.ui.form.RadioButton",
     /**
      * Apply method for property "name"
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -154,7 +151,6 @@ qx.Class.define("qx.legacy.ui.form.RadioButton",
     /**
      * Apply method for property "value"
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -180,7 +176,6 @@ qx.Class.define("qx.legacy.ui.form.RadioButton",
      * Does only work if the "Enter" key is not pressed in combination with
      * the "Alt" key.
      *
-     * @type member
      * @param e {qx.legacy.event.type.KeyEvent} keyDown event
      * @return {void}
      */
@@ -197,7 +192,6 @@ qx.Class.define("qx.legacy.ui.form.RadioButton",
      * Selects the previous RadioButton when pressing "Left" or "Up" and
      * selects the next RadioButton when pressing "Right" and "Down"
      *
-     * @type member
      * @param e {qx.legacy.event.type.KeyEvent} keyPress event
      * @return {null | true}
      */
@@ -228,7 +222,6 @@ qx.Class.define("qx.legacy.ui.form.RadioButton",
      * Callback method for "click" event<br/>
      * Simply sets the "checked" property to true
      *
-     * @type member
      * @param e {qx.legacy.event.type.MouseEvent} click event
      * @return {void}
      */
@@ -241,7 +234,6 @@ qx.Class.define("qx.legacy.ui.form.RadioButton",
      * Callback method for "keyUp" event<br/>
      * If "Space" is pressed the property "checked" is set to true
      *
-     * @type member
      * @param e {qx.legacy.event.type.KeyEvent} keyUp event
      * @return {void}
      */

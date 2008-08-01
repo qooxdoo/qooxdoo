@@ -98,7 +98,6 @@ qx.Class.define("qx.legacy.ui.embed.Gallery",
     /**
      * TODOC
      *
-     * @type static
      * @return {void}
      */
     imageOnLoad : function()
@@ -113,7 +112,6 @@ qx.Class.define("qx.legacy.ui.embed.Gallery",
     /**
      * TODOC
      *
-     * @type static
      * @return {void}
      */
     imageOnError : function()
@@ -193,7 +191,6 @@ qx.Class.define("qx.legacy.ui.embed.Gallery",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     _applyElementData : function() {
@@ -212,7 +209,6 @@ qx.Class.define("qx.legacy.ui.embed.Gallery",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     getManager : function() {
@@ -223,7 +219,6 @@ qx.Class.define("qx.legacy.ui.embed.Gallery",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     getList : function() {
@@ -234,7 +229,6 @@ qx.Class.define("qx.legacy.ui.embed.Gallery",
     /**
      * TODOC
      *
-     * @type member
      * @param vGalleryList {var} TODOC
      * @return {void}
      */
@@ -255,7 +249,6 @@ qx.Class.define("qx.legacy.ui.embed.Gallery",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     removeAll : function()
@@ -268,7 +261,6 @@ qx.Class.define("qx.legacy.ui.embed.Gallery",
     /**
      * TODOC
      *
-     * @type member
      * @param vId {var} TODOC
      * @param vSrc {var} TODOC
      * @param vWidth {var} TODOC
@@ -285,7 +277,6 @@ qx.Class.define("qx.legacy.ui.embed.Gallery",
     /**
      * TODOC
      *
-     * @type member
      * @param vId {var} TODOC
      * @param vWidth {var} TODOC
      * @param vHeight {var} TODOC
@@ -299,7 +290,6 @@ qx.Class.define("qx.legacy.ui.embed.Gallery",
     /**
      * TODOC
      *
-     * @type member
      * @param vPos {var} TODOC
      * @param vWidth {var} TODOC
      * @param vHeight {var} TODOC
@@ -329,7 +319,6 @@ qx.Class.define("qx.legacy.ui.embed.Gallery",
     /**
      * TODOC
      *
-     * @type member
      * @param vId {var} TODOC
      * @param vSrc {var} TODOC
      * @return {void}
@@ -342,7 +331,6 @@ qx.Class.define("qx.legacy.ui.embed.Gallery",
     /**
      * TODOC
      *
-     * @type member
      * @param vPos {var} TODOC
      * @param vSrc {var} TODOC
      * @return {void}
@@ -364,7 +352,6 @@ qx.Class.define("qx.legacy.ui.embed.Gallery",
     /**
      * TODOC
      *
-     * @type member
      * @param vId {var} TODOC
      * @return {void}
      */
@@ -376,7 +363,6 @@ qx.Class.define("qx.legacy.ui.embed.Gallery",
     /**
      * TODOC
      *
-     * @type member
      * @param vPos {var} TODOC
      * @return {void}
      * @throws TODOC
@@ -402,7 +388,6 @@ qx.Class.define("qx.legacy.ui.embed.Gallery",
     /**
      * TODOC
      *
-     * @type member
      * @param vId {var} TODOC
      * @return {var} TODOC
      */
@@ -422,7 +407,6 @@ qx.Class.define("qx.legacy.ui.embed.Gallery",
     /**
      * TODOC
      *
-     * @type member
      * @param vId {var} TODOC
      * @return {var} TODOC
      */
@@ -434,7 +418,6 @@ qx.Class.define("qx.legacy.ui.embed.Gallery",
     /**
      * TODOC
      *
-     * @type member
      * @param vId {var} TODOC
      * @return {var} TODOC
      */
@@ -446,7 +429,6 @@ qx.Class.define("qx.legacy.ui.embed.Gallery",
     /**
      * TODOC
      *
-     * @type member
      * @param vPosition {var} TODOC
      * @return {var} TODOC
      */
@@ -458,7 +440,6 @@ qx.Class.define("qx.legacy.ui.embed.Gallery",
     /**
      * TODOC
      *
-     * @type member
      * @param vPosition {var} TODOC
      * @return {var} TODOC
      */
@@ -470,7 +451,6 @@ qx.Class.define("qx.legacy.ui.embed.Gallery",
     /**
      * TODOC
      *
-     * @type member
      * @param vNode {var} TODOC
      * @return {var} TODOC
      */
@@ -482,7 +462,6 @@ qx.Class.define("qx.legacy.ui.embed.Gallery",
     /**
      * TODOC
      *
-     * @type member
      * @param vPartialList {var} TODOC
      * @return {void}
      */
@@ -499,7 +478,6 @@ qx.Class.define("qx.legacy.ui.embed.Gallery",
     /**
      * TODOC
      *
-     * @type member
      * @param vNewList {var} TODOC
      * @return {void}
      */
@@ -524,7 +502,6 @@ qx.Class.define("qx.legacy.ui.embed.Gallery",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -541,7 +518,6 @@ qx.Class.define("qx.legacy.ui.embed.Gallery",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -558,7 +534,6 @@ qx.Class.define("qx.legacy.ui.embed.Gallery",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -601,7 +576,6 @@ qx.Class.define("qx.legacy.ui.embed.Gallery",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -618,7 +592,6 @@ qx.Class.define("qx.legacy.ui.embed.Gallery",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -635,7 +608,6 @@ qx.Class.define("qx.legacy.ui.embed.Gallery",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -647,7 +619,6 @@ qx.Class.define("qx.legacy.ui.embed.Gallery",
     /**
      * TODOC
      *
-     * @type member
      * @param dt {var} TODOC
      * @return {null | var} TODOC
      */
@@ -676,7 +647,6 @@ qx.Class.define("qx.legacy.ui.embed.Gallery",
     /**
      * TODOC
      *
-     * @type member
      * @param vItem {var} TODOC
      * @return {void}
      */
@@ -690,7 +660,6 @@ qx.Class.define("qx.legacy.ui.embed.Gallery",
     /**
      * TODOC
      *
-     * @type member
      * @param vItem {var} TODOC
      * @return {void}
      */
@@ -702,7 +671,6 @@ qx.Class.define("qx.legacy.ui.embed.Gallery",
     /**
      * TODOC
      *
-     * @type member
      * @param vItem {var} TODOC
      * @return {void}
      */
@@ -722,7 +690,6 @@ qx.Class.define("qx.legacy.ui.embed.Gallery",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     getItems : function() {
@@ -733,7 +700,6 @@ qx.Class.define("qx.legacy.ui.embed.Gallery",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     getFirstChild : function() {
@@ -744,7 +710,6 @@ qx.Class.define("qx.legacy.ui.embed.Gallery",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     getLastChild : function() {
@@ -763,7 +728,6 @@ qx.Class.define("qx.legacy.ui.embed.Gallery",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     createView : function()
@@ -786,7 +750,6 @@ qx.Class.define("qx.legacy.ui.embed.Gallery",
     /**
      * TODOC
      *
-     * @type member
      * @param d {var} TODOC
      * @param i {var} TODOC
      * @return {var} TODOC
@@ -820,7 +783,6 @@ qx.Class.define("qx.legacy.ui.embed.Gallery",
     /**
      * TODOC
      *
-     * @type member
      * @param inode {var} TODOC
      * @param d {var} TODOC
      * @return {void}
@@ -850,7 +812,6 @@ qx.Class.define("qx.legacy.ui.embed.Gallery",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     imageOnComplete : function()
@@ -866,7 +827,6 @@ qx.Class.define("qx.legacy.ui.embed.Gallery",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     createProtoCell : function()

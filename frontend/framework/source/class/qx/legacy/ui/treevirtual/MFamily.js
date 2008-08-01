@@ -27,7 +27,6 @@ qx.Mixin.define("qx.legacy.ui.treevirtual.MFamily",
     /**
      * Get the first child of the specified node.
      *
-     * @type member
      *
      * @param nodeReference {Object | Integer}
      *   The node for which the first child is desired.  The node can be
@@ -66,7 +65,6 @@ qx.Mixin.define("qx.legacy.ui.treevirtual.MFamily",
     /**
      * Get the last child of the specified node.
      *
-     * @type member
      *
      * @param nodeReference {Object | Integer}
      *   The node for which the last child is desired.  The node can be
@@ -105,7 +103,6 @@ qx.Mixin.define("qx.legacy.ui.treevirtual.MFamily",
     /**
      * Get the next sibling of the specified node.
      *
-     * @type member
      *
      * @param nodeReference {Object | Integer}
      *   The node for which the next sibling is desired.  The node can be
@@ -160,7 +157,6 @@ qx.Mixin.define("qx.legacy.ui.treevirtual.MFamily",
     /**
      * Get the previous sibling of the specified node.
      *
-     * @type member
      *
      * @param nodeReference {Object | Integer}
      *   The node for which the previous sibling is desired.  The node can be

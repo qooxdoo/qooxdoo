@@ -92,7 +92,6 @@ qx.Class.define("qx.bom.element.BoxSizing",
     /**
      * Compiles the given box sizing into a CSS compatible string.
      *
-     * @type static
      * @signature function(value)
      * @param value {String} Valid CSS box-sizing value
      * @return {String} CSS string
@@ -126,7 +125,6 @@ qx.Class.define("qx.bom.element.BoxSizing",
     /**
      * Returns the box sizing for the given element.
      *
-     * @type static
      * @signature function(element)
      * @param element {Element} The element to query
      * @return {String} Box sizing value of the given element.
@@ -168,7 +166,6 @@ qx.Class.define("qx.bom.element.BoxSizing",
     /**
      * Applies a new box sizing to the given element
      *
-     * @type static
      * @signature function(element, value)
      * @param element {Element} The element to modify
      * @param value {String} New box sizing value to set

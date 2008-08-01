@@ -51,7 +51,6 @@ qx.Class.define("testrunner.TestResult",
     /**
      * TODOC
      *
-     * @type static
      * @param testResult {var} TODOC
      * @param test {var} TODOC
      * @param testFunction {var} TODOC
@@ -75,7 +74,6 @@ qx.Class.define("testrunner.TestResult",
     /**
      * TODOC
      *
-     * @type member
      * @param test {var} TODOC
      * @param testFunction {var} TODOC
      * @return {void}
@@ -107,7 +105,6 @@ qx.Class.define("testrunner.TestResult",
     /**
      * TODOC
      *
-     * @type member
      * @param eventName {var} TODOC
      * @param exception {var} TODOC
      * @param test {var} TODOC

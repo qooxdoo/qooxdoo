@@ -57,7 +57,6 @@ qx.Class.define("qx.legacy.ui.menu.Manager",
     /**
      * Updates all registered menus
      *
-     * @type member
      * @param vTarget {Object} target of the processed event
      * @param vEventName {String} processed event as string
      * @return {void}

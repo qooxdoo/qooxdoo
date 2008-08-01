@@ -112,7 +112,6 @@ qx.Class.define("qx.legacy.ui.selection.RadioManager",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     getItems : function() {
@@ -123,7 +122,6 @@ qx.Class.define("qx.legacy.ui.selection.RadioManager",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     getEnabledItems : function()
@@ -144,7 +142,6 @@ qx.Class.define("qx.legacy.ui.selection.RadioManager",
     /**
      * TODOC
      *
-     * @type member
      * @param vItem {var} TODOC
      * @param vChecked {var} TODOC
      * @return {void}
@@ -170,7 +167,6 @@ qx.Class.define("qx.legacy.ui.selection.RadioManager",
     /**
      * TODOC
      *
-     * @type member
      * @param varargs {var} TODOC
      * @return {void}
      */
@@ -208,7 +204,6 @@ qx.Class.define("qx.legacy.ui.selection.RadioManager",
     /**
      * TODOC
      *
-     * @type member
      * @param vItem {var} TODOC
      * @return {void}
      */
@@ -238,7 +233,6 @@ qx.Class.define("qx.legacy.ui.selection.RadioManager",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -257,7 +251,6 @@ qx.Class.define("qx.legacy.ui.selection.RadioManager",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -280,7 +273,6 @@ qx.Class.define("qx.legacy.ui.selection.RadioManager",
     /**
      * TODOC
      *
-     * @type member
      * @param vItem {var} TODOC
      * @return {void}
      */
@@ -311,7 +303,6 @@ qx.Class.define("qx.legacy.ui.selection.RadioManager",
     /**
      * TODOC
      *
-     * @type member
      * @param vItem {var} TODOC
      * @return {void}
      */
@@ -342,7 +333,6 @@ qx.Class.define("qx.legacy.ui.selection.RadioManager",
     /**
      * TODOC
      *
-     * @type member
      * @param vIndex {var} TODOC
      * @return {void}
      */

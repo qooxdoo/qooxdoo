@@ -82,7 +82,6 @@ qx.Class.define("portal.dragdrop.Manager",
     /**
      * Starts a drag and drop session
      * 
-     * @type member
      * @param activeBox {portal.box.Box} active box instance
      * @param startOffsets {Map} startOffsets
      * @return {void}
@@ -106,7 +105,6 @@ qx.Class.define("portal.dragdrop.Manager",
     /**
      * Creates the ghost element which is moved during the drag&drop session
      * 
-     * @type member
      * @return {void}
      */
     __createGhostElement : function()
@@ -146,7 +144,6 @@ qx.Class.define("portal.dragdrop.Manager",
     /**
      * Add the children elements of the source node to the target node.
      *
-     * @type member
      * @param source {Node} source DOM node
      * @param target {Node} target DOM node
      * @return {void} 
@@ -162,7 +159,6 @@ qx.Class.define("portal.dragdrop.Manager",
     /**
      * Stops a drag and drop session.
      * 
-     * @type member
      * @param e {qx.event.type.Drag} Drag event instance
      * @return {void}
      */
@@ -238,7 +234,6 @@ qx.Class.define("portal.dragdrop.Manager",
     /**
      * Listener method for "dragmove" events
      *
-     * @type member
      * @param top {Integer} top coordinate of the drag event
      * @param left {Integer} left coordinate of the drag event
      * @param offsetTop {Integer} offsetTop of the drag event
@@ -351,7 +346,6 @@ qx.Class.define("portal.dragdrop.Manager",
     /**
      * Helper method to check where or if at all to insert the dragged box
      * 
-     * @type member
      * @param downwards {Boolean} drag direction
      * @param top {Integer} top coordinate
      * @param activeBoxElement {Element} element of the dragged box
@@ -394,7 +388,6 @@ qx.Class.define("portal.dragdrop.Manager",
     /**
      * Fired whenever the mouse cursor enters an element of a groupBox
      * 
-     * @type member
      * @param e {qx.event.type.Drag} drag event instance
      * @return {void}
      */

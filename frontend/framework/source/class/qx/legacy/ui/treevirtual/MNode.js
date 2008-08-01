@@ -27,7 +27,6 @@ qx.Mixin.define("qx.legacy.ui.treevirtual.MNode",
     /**
      * Get a node object given its node id.
      *
-     * @type member
      *
      * @param nodeReference {Object | Integer}
      *   The node to get.  The node can be represented either by the node
@@ -60,7 +59,6 @@ qx.Mixin.define("qx.legacy.ui.treevirtual.MNode",
      * Toggle the opened state of the node: if the node is opened, close
      * it; if it is closed, open it.
      *
-     * @type member
      *
      * @param nodeReference {Object | Integer}
      *   The node to have its opened/closed state toggled.  The node can be
@@ -96,7 +94,6 @@ qx.Mixin.define("qx.legacy.ui.treevirtual.MNode",
     /**
      * Set state attributes of a tree node.
      *
-     * @type member
      *
      * @param nodeReference {Object | Integer}
      *   The node for which attributes are being set.  The node can be
@@ -134,7 +131,6 @@ qx.Mixin.define("qx.legacy.ui.treevirtual.MNode",
     /**
      * Set the label for a node.
      *
-     * @type member
      *
      * @param nodeReference {Object | Integer}
      *   The node for which the label is being set.  The node can be
@@ -155,7 +151,6 @@ qx.Mixin.define("qx.legacy.ui.treevirtual.MNode",
     /**
      * Get the label for a node.
      *
-     * @type member
      *
      * @param nodeReference {Object | Integer}
      *   The node for which the label is being retrieved.  The node can be
@@ -175,7 +170,6 @@ qx.Mixin.define("qx.legacy.ui.treevirtual.MNode",
     /**
      * Set the selected state for a node.
      *
-     * @type member
      *
      * @param nodeReference {Object | Integer}
      *   The node for which the selected state is being set.  The node can be
@@ -196,7 +190,6 @@ qx.Mixin.define("qx.legacy.ui.treevirtual.MNode",
     /**
      * Get the selected state for a node.
      *
-     * @type member
      *
      * @param nodeReference {Object | Integer}
      *   The node for which the selected state is being retrieved.  The node
@@ -217,7 +210,6 @@ qx.Mixin.define("qx.legacy.ui.treevirtual.MNode",
      * Set the opened state for a node.  (Note that this method has no effect
      * if the requested state is the same as the current state.)
      *
-     * @type member
      *
      * @param nodeReference {Object | Integer}
      *   The node for which the opened state is being set.  The node can be
@@ -258,7 +250,6 @@ qx.Mixin.define("qx.legacy.ui.treevirtual.MNode",
     /**
      * Get the opened state for a node.
      *
-     * @type member
      *
      * @param nodeReference {Object | Integer}
      *   The node for which the opened state is being retrieved.  The node can
@@ -278,7 +269,6 @@ qx.Mixin.define("qx.legacy.ui.treevirtual.MNode",
     /**
      * Set the hideOpenClose state for a node.
      *
-     * @type member
      *
      * @param nodeReference {Object | Integer}
      *   The node for which the hideOpenClose state is being set.  The node
@@ -299,7 +289,6 @@ qx.Mixin.define("qx.legacy.ui.treevirtual.MNode",
     /**
      * Get the hideOpenClose state for a node.
      *
-     * @type member
      *
      * @param nodeReference {Object | Integer}
      *   The node for which the hideOpenClose state is being retrieved.  The
@@ -319,7 +308,6 @@ qx.Mixin.define("qx.legacy.ui.treevirtual.MNode",
     /**
      * Set the icon for a node when in its unselected (normal) state.
      *
-     * @type member
      *
      * @param nodeReference {Object | Integer}
      *   The node for which the icon is being set.  The node can be
@@ -340,7 +328,6 @@ qx.Mixin.define("qx.legacy.ui.treevirtual.MNode",
     /**
      * Get the icon for a node when in its unselected (normal) state.
      *
-     * @type member
      *
      * @param nodeReference {Object | Integer}
      *   The node for which the icon is being retrieved.  The node can be
@@ -361,7 +348,6 @@ qx.Mixin.define("qx.legacy.ui.treevirtual.MNode",
     /**
      * Set the icon for a node when in its selected state.
      *
-     * @type member
      *
      * @param nodeReference {Object | Integer}
      *   The node for which the icon is being set.  The node can be
@@ -382,7 +368,6 @@ qx.Mixin.define("qx.legacy.ui.treevirtual.MNode",
     /**
      * Get the icon for a node when in its selected state.
      *
-     * @type member
      *
      * @param nodeReference {Object | Integer}
      *   The node for which the icon is being retrieved.  The node can be
@@ -403,7 +388,6 @@ qx.Mixin.define("qx.legacy.ui.treevirtual.MNode",
     /**
      * Set the cell style for a node
      *
-     * @type member
      *
      * @param nodeReference {Object | Integer}
      *   The node for which the cell style is being set.  The node can be
@@ -427,7 +411,6 @@ qx.Mixin.define("qx.legacy.ui.treevirtual.MNode",
     /**
      * Get the cell style for a node
      *
-     * @type member
      *
      * @param nodeReference {Object | Integer}
      *   The node for which the cell style is being retrieved.  The node can be
@@ -447,7 +430,6 @@ qx.Mixin.define("qx.legacy.ui.treevirtual.MNode",
     /**
      * Set the label style for a node
      *
-     * @type member
      *
      * @param nodeReference {Object | Integer}
      *   The node for which the label style is being set.  The node can be
@@ -468,7 +450,6 @@ qx.Mixin.define("qx.legacy.ui.treevirtual.MNode",
     /**
      * Get the label style for a node
      *
-     * @type member
      *
      * @param nodeReference {Object | Integer}
      *   The node for which the label style is being retrieved.  The node can

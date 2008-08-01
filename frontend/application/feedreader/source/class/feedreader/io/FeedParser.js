@@ -45,7 +45,6 @@ qx.Class.define("feedreader.io.FeedParser",
      *
      * Automatically detects Atom and RSS feeds.
      *
-     * @type static
      * @param json {Object} Incoming json data
      * @return {Map[]} List of posts
      */
@@ -76,7 +75,6 @@ qx.Class.define("feedreader.io.FeedParser",
      * Converts json RSS channel list to JavaScript array.
      * Also parses date of RSS feed to a JavaScript date object.
      *
-     * @type static
      * @param json {Object} Incoming json data
      * @return {Map[]} List of posts
      */
@@ -126,7 +124,6 @@ qx.Class.define("feedreader.io.FeedParser",
      * Converts json atom entry list to JavaScript array.
      * Also parses date of atom feed to a JavaScript date object.
      *
-     * @type static
      * @param json {Object} Incoming json data
      * @return {Map[]} List of posts
      */

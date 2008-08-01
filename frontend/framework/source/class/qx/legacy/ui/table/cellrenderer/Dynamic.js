@@ -100,7 +100,6 @@ qx.Class.define("qx.legacy.ui.table.cellrenderer.Dynamic",
      * Overridden; called whenever the cell updates. The cell will call the
      * function stored in the cellRendererFactoryFunction to retrieve the
      * cell renderer which should be used for this particular cell
-     * @type member
      * @param cellInfo {Map} The information about the cell.
      *          See {@link #createDataCellHtml}.
      * @return {String}

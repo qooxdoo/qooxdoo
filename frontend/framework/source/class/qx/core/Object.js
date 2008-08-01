@@ -95,7 +95,6 @@ qx.Class.define("qx.core.Object",
     /**
      * Return unique hash code of object
      *
-     * @type member
      * @return {Integer} unique hash code of the object
      */
     toHashCode : function() {
@@ -106,7 +105,6 @@ qx.Class.define("qx.core.Object",
     /**
      * Returns a string represantation of the qooxdoo object.
      *
-     * @type member
      * @return {String} string representation of the object
      */
     toString : function() {
@@ -117,7 +115,6 @@ qx.Class.define("qx.core.Object",
     /**
      * Call the same method of the super class.
      *
-     * @type member
      * @param args {arguments} the arguments variable of the calling method
      * @param varags {var} variable number of arguments passed to the overwritten function
      * @return {var} the return value of the method of the base class.
@@ -135,7 +132,6 @@ qx.Class.define("qx.core.Object",
     /**
      * Returns the static class (to access static members of this class)
      *
-     * @type member
      * @param args {arguments} the arguments variable of the calling method
      * @return {var} the return value of the method of the base class.
      */
@@ -230,7 +226,6 @@ qx.Class.define("qx.core.Object",
      * Sets multiple properties at once by using a property list or
      * sets one property and its value by the first and second argument.
      *
-     * @type member
      * @param data {Map | String} a map of property values. The key is the name of the property.
      * @param value {var?} the value, only used when <code>data</code> is a string.
      * @return {Object} this instance.
@@ -277,7 +272,6 @@ qx.Class.define("qx.core.Object",
     /**
      * Returns the value of the given property.
      *
-     * @type member
      * @param prop {String} Name of the property.
      * @return {var} The value of the value
      * @throws an Exception if a property defined does not exist
@@ -302,7 +296,6 @@ qx.Class.define("qx.core.Object",
     /**
      * Resets the value of the given property.
      *
-     * @type member
      * @param prop {String} Name of the property.
      * @throws an Exception if a property defined does not exist
      */
@@ -398,7 +391,6 @@ qx.Class.define("qx.core.Object",
     /**
      * Check if there are one or more listeners for an event type.
      *
-     * @type member
      * @param type {String} name of the event type
      * @param capture {Boolean ? false} Whether to check for listeners of
      *         the bubbling or of the capturing phase.
@@ -412,7 +404,6 @@ qx.Class.define("qx.core.Object",
     /**
      * Dispatch an event on this object
      *
-     * @type member
      * @param evt {qx.event.type.Event} event to dispatch
      * @return {Boolean} whether the event default was prevented or not.
      *     Returns true, when the event was NOT prevented.
@@ -430,7 +421,6 @@ qx.Class.define("qx.core.Object",
     /**
      * Creates and dispatches an event on this object.
      *
-     * @type member
      * @param type {String} Event type to fire
      * @param clazz {Class?qx.event.type.Event} The event class
      * @param args {Array?null} Arguments, which will be passed to
@@ -453,7 +443,6 @@ qx.Class.define("qx.core.Object",
      * The event dispached with this method does never bubble! Use only if you
      * are sure that bubbling is not required.
      *
-     * @type member
      * @param type {String} Event type to fire
      * @param clazz {Class?qx.event.type.Event} The event class
      * @param args {Array?null} Arguments, which will be passed to
@@ -474,7 +463,6 @@ qx.Class.define("qx.core.Object",
     /**
      * Creates and dispatches an non-bubbling data event on this object.
      *
-     * @type member
      * @param type {String} Event type to fire
      * @param data {var} User defined data attached to the event object
      * @param oldData {var?null} The event's old data (optional)
@@ -508,7 +496,6 @@ qx.Class.define("qx.core.Object",
     /**
      * Store user defined data inside the object.
      *
-     * @type member
      * @param key {String} the key
      * @param value {Object} the value of the user data
      * @return {void}
@@ -526,7 +513,6 @@ qx.Class.define("qx.core.Object",
     /**
      * Load user defined data from the object
      *
-     * @type member
      * @param key {String} the key
      * @return {Object} the user data
      */
@@ -556,7 +542,6 @@ qx.Class.define("qx.core.Object",
     /**
      * Logs a debug message.
      *
-     * @type member
      * @param msg {var} the message to log. If this is not a string, the
      *          object dump will be logged.
      * @return {void}
@@ -569,7 +554,6 @@ qx.Class.define("qx.core.Object",
     /**
      * Logs an info message.
      *
-     * @type member
      * @param msg {var} the message to log. If this is not a string, the
      *      object dump will be logged.
      * @return {void}
@@ -582,7 +566,6 @@ qx.Class.define("qx.core.Object",
     /**
      * Logs a warning message.
      *
-     * @type member
      * @param msg {var} the message to log. If this is not a string, the
      *      object dump will be logged.
      * @return {void}
@@ -595,7 +578,6 @@ qx.Class.define("qx.core.Object",
     /**
      * Logs an error message.
      *
-     * @type member
      * @param msg {var} the message to log. If this is not a string, the
      *      object dump will be logged.
      * @return {void}
@@ -608,7 +590,6 @@ qx.Class.define("qx.core.Object",
     /**
      * Prints the current stak trace
      *
-     * @type member
      * @return {void}
      */
     trace : function() {
@@ -629,7 +610,6 @@ qx.Class.define("qx.core.Object",
     /**
      * Returns true if the object is disposed.
      *
-     * @type member
      * @return {Boolean} whether the object has been disposed
      */
     isDisposed : function() {
@@ -640,7 +620,6 @@ qx.Class.define("qx.core.Object",
     /**
      * Dispose this object
      *
-     * @type member
      * @return {void}
      */
     dispose : function()
@@ -729,7 +708,6 @@ qx.Class.define("qx.core.Object",
     /**
      * Disconnects given fields from instance.
      *
-     * @type member
      * @param varargs {arguments} List of fields to dispose
      * @return {void}
      */
@@ -742,7 +720,6 @@ qx.Class.define("qx.core.Object",
      * Disconnects and disposes given objects from instance.
      * Only works with qx.core.Object based objects e.g. Widgets.
      *
-     * @type member
      * @param varargs {arguments} List of fields (which store objects) to dispose
      * @return {void}
      */
@@ -755,7 +732,6 @@ qx.Class.define("qx.core.Object",
      * Disposes all members of the given array and deletes
      * the field which refers to the array afterwards.
      *
-     * @type member
      * @param field {String} Name of the field which refers to the array
      * @return {void}
      */
@@ -768,7 +744,6 @@ qx.Class.define("qx.core.Object",
      * Disposes all members of the given map and deletes
      * the field which refers to the map afterwards.
      *
-     * @type member
      * @param field {String} Name of the field which refers to the array
      * @return {void}
      */

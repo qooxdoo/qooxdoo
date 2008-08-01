@@ -37,7 +37,6 @@ qx.Class.define("portal.Application",
     /**
      * Application start
      *
-     * @type member
      * @return {void} 
      */
     main : function()

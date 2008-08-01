@@ -36,7 +36,6 @@ qx.Class.define("qx.ui.core.queue.Widget",
     /**
      * Adds a widget to the queue.
      *
-     * @type member
      * @param widget {qx.ui.core.Widget} The widget to add.
      * @return {void}
      */

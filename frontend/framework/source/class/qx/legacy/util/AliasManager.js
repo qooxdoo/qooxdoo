@@ -94,7 +94,6 @@ qx.Class.define("qx.legacy.util.AliasManager",
     /**
      * Define an alias to a resource path
      *
-     * @type member
      * @param alias {String} alias name for the resource path/url
      * @param base {String} first part of URI for all images which use this alias
      * @return {void}
@@ -125,7 +124,6 @@ qx.Class.define("qx.legacy.util.AliasManager",
     /**
      * Remove a previously defined alias
      *
-     * @type member
      * @param alias {String} alias name for the resource path/url
      * @return {void}
      */
@@ -141,7 +139,6 @@ qx.Class.define("qx.legacy.util.AliasManager",
     /**
      * Resolves a given path
      *
-     * @type member
      * @param path {String} input path
      * @return {String} resulting path (with interpreted aliases)
      */

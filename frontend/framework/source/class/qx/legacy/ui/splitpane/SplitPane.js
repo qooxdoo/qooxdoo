@@ -228,7 +228,6 @@ qx.Class.define("qx.legacy.ui.splitpane.SplitPane",
     /**
      * adds one or more widget(s) to the left pane
      *
-     * @type member
      * @return {var} TODOC
      */
     addLeft : function()
@@ -241,7 +240,6 @@ qx.Class.define("qx.legacy.ui.splitpane.SplitPane",
     /**
      * adds one or more widget(s) to the top pane
      *
-     * @type member
      * @return {var} TODOC
      */
     addTop : function()
@@ -254,7 +252,6 @@ qx.Class.define("qx.legacy.ui.splitpane.SplitPane",
     /**
      * adds one or more widget(s) to the right pane
      *
-     * @type member
      * @return {var} TODOC
      */
     addRight : function()
@@ -267,7 +264,6 @@ qx.Class.define("qx.legacy.ui.splitpane.SplitPane",
     /**
      * adds one or more widget(s) to the bottom pane
      *
-     * @type member
      * @return {var} TODOC
      */
     addBottom : function()
@@ -280,7 +276,6 @@ qx.Class.define("qx.legacy.ui.splitpane.SplitPane",
     /**
      * Returns the splitter.
      *
-     * @type member
      * @return {qx.legacy.ui.core.Widget} The splitter.
      */
     getSplitter : function() {
@@ -291,7 +286,6 @@ qx.Class.define("qx.legacy.ui.splitpane.SplitPane",
     /**
      * Returns the knob.
      *
-     * @type member
      * @return {qx.legacy.ui.core.Widget} The knob.
      */
     getKnob : function() {
@@ -302,7 +296,6 @@ qx.Class.define("qx.legacy.ui.splitpane.SplitPane",
     /**
      * Returns the left area (CanvasLayout)
      *
-     * @type member
      * @return {qx.legacy.ui.layout.CanvasLayout} TODOC
      */
     getLeftArea : function() {
@@ -313,7 +306,6 @@ qx.Class.define("qx.legacy.ui.splitpane.SplitPane",
     /**
      * Returns the top area (CanvasLayout)
      *
-     * @type member
      * @return {qx.legacy.ui.layout.CanvasLayout} TODOC
      */
     getTopArea : function() {
@@ -324,7 +316,6 @@ qx.Class.define("qx.legacy.ui.splitpane.SplitPane",
     /**
      * Returns the right area (CanvasLayout)
      *
-     * @type member
      * @return {qx.legacy.ui.layout.CanvasLayout} TODOC
      */
     getRightArea : function() {
@@ -335,7 +326,6 @@ qx.Class.define("qx.legacy.ui.splitpane.SplitPane",
     /**
      * Returns the bottom area (CanvasLayout)
      *
-     * @type member
      * @return {qx.legacy.ui.layout.CanvasLayout} TODOC
      */
     getBottomArea : function() {
@@ -346,7 +336,6 @@ qx.Class.define("qx.legacy.ui.splitpane.SplitPane",
     /**
      * Returns the first area (CanvasLayout)
      *
-     * @type member
      * @return {qx.legacy.ui.layout.CanvasLayout} TODOC
      */
     getFirstArea : function() {
@@ -357,7 +346,6 @@ qx.Class.define("qx.legacy.ui.splitpane.SplitPane",
     /**
      * Returns the second area (CanvasLayout)
      *
-     * @type member
      * @return {qx.legacy.ui.layout.CanvasLayout} TODOC
      */
     getSecondArea : function() {
@@ -376,7 +364,6 @@ qx.Class.define("qx.legacy.ui.splitpane.SplitPane",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -388,7 +375,6 @@ qx.Class.define("qx.legacy.ui.splitpane.SplitPane",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -483,7 +469,6 @@ qx.Class.define("qx.legacy.ui.splitpane.SplitPane",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -495,7 +480,6 @@ qx.Class.define("qx.legacy.ui.splitpane.SplitPane",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -507,7 +491,6 @@ qx.Class.define("qx.legacy.ui.splitpane.SplitPane",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -519,7 +502,6 @@ qx.Class.define("qx.legacy.ui.splitpane.SplitPane",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     _syncFirstSize : function()
@@ -540,7 +522,6 @@ qx.Class.define("qx.legacy.ui.splitpane.SplitPane",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     _syncSecondSize : function()
@@ -561,7 +542,6 @@ qx.Class.define("qx.legacy.ui.splitpane.SplitPane",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     _syncSplitterSize : function()
@@ -590,7 +570,6 @@ qx.Class.define("qx.legacy.ui.splitpane.SplitPane",
     /**
      * Initializes drag session in case of a mousedown event on splitter in a horizontal splitpane.
      *
-     * @type member
      * @param e {qx.legacy.event.type.MouseEvent} The event itself.
      * @return {void}
      */
@@ -617,7 +596,6 @@ qx.Class.define("qx.legacy.ui.splitpane.SplitPane",
     /**
      * Initializes drag session in case of a mousedown event on splitter in a vertical splitpane.
      *
-     * @type member
      * @param e {qx.legacy.event.type.MouseEvent} The event itself.
      * @return {void}
      */
@@ -645,7 +623,6 @@ qx.Class.define("qx.legacy.ui.splitpane.SplitPane",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     _commonMouseDown : function()
@@ -669,7 +646,6 @@ qx.Class.define("qx.legacy.ui.splitpane.SplitPane",
     /**
      * Move the splitter in case of a mousemove event on splitter in a horizontal splitpane.
      *
-     * @type member
      * @param e {qx.legacy.event.type.MouseEvent} The event itself.
      * @return {void}
      */
@@ -687,7 +663,6 @@ qx.Class.define("qx.legacy.ui.splitpane.SplitPane",
     /**
      * Move the splitter in case of a mousemove event on splitter in a vertical splitpane.
      *
-     * @type member
      * @param e {qx.legacy.event.type.MouseEvent} The event itself.
      * @return {void}
      */
@@ -705,7 +680,6 @@ qx.Class.define("qx.legacy.ui.splitpane.SplitPane",
     /**
      * Ends the drag session and computes the new dimensions of panes in case of a mouseup event on splitter in a horizontal splitpane.
      *
-     * @type member
      * @param e {qx.legacy.event.type.MouseEvent} The event itself.
      * @return {void}
      */
@@ -726,7 +700,6 @@ qx.Class.define("qx.legacy.ui.splitpane.SplitPane",
     /**
      * Ends the drag session and computes the new dimensions of panes in case of a mouseup event on splitter in a vertical splitpane.
      *
-     * @type member
      * @param e {qx.legacy.event.type.MouseEvent} The event itself.
      * @return {void}
      */
@@ -747,7 +720,6 @@ qx.Class.define("qx.legacy.ui.splitpane.SplitPane",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     _commonMouseUp : function()
@@ -770,7 +742,6 @@ qx.Class.define("qx.legacy.ui.splitpane.SplitPane",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -786,7 +757,6 @@ qx.Class.define("qx.legacy.ui.splitpane.SplitPane",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -802,7 +772,6 @@ qx.Class.define("qx.legacy.ui.splitpane.SplitPane",
     /**
      * TODOC
      *
-     * @type member
      * @param first {var} TODOC
      * @param second {var} TODOC
      * @return {void}
@@ -817,7 +786,6 @@ qx.Class.define("qx.legacy.ui.splitpane.SplitPane",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {var} TODOC
      */
@@ -829,7 +797,6 @@ qx.Class.define("qx.legacy.ui.splitpane.SplitPane",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {var} TODOC
      */

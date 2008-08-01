@@ -118,7 +118,6 @@ qx.Bootstrap.define("qx.Class",
      * });
      * </pre>
      *
-     * @type static
      * @param name {String} Name of the class
      * @param config {Map ? null} Class definition structure. The configuration map has the following keys:
      *     <table>
@@ -258,7 +257,6 @@ qx.Bootstrap.define("qx.Class",
     /**
      * Whether the given class exists
      *
-     * @type static
      * @param name {String} class name to check
      * @return {Boolean} true if class exists
      */
@@ -270,7 +268,6 @@ qx.Bootstrap.define("qx.Class",
     /**
      * Determine the total number of classes
      *
-     * @type static
      * @return {Number} the total number of classes
      */
     getTotalNumber : function() {
@@ -281,7 +278,6 @@ qx.Bootstrap.define("qx.Class",
     /**
      * Find a class by its name
      *
-     * @type static
      * @param name {String} class name to resolve
      * @return {Class} the class
      */
@@ -345,7 +341,6 @@ qx.Bootstrap.define("qx.Class",
      * Whether a class is a direct or indirect sub class of another class,
      * or both classes coincide.
      *
-     * @type static
      * @param clazz {Class} the class to check.
      * @param superClass {Class} the potential super class
      * @return {Boolean} whether clazz is a sub class of superClass.
@@ -374,7 +369,6 @@ qx.Bootstrap.define("qx.Class",
      *
      * TODO: Correctly support refined properties?
      *
-     * @type member
      * @param clazz {Class} class to check
      * @param name {String} name of the event to check for
      * @return {Map|null} whether the object support the given event.
@@ -444,7 +438,6 @@ qx.Bootstrap.define("qx.Class",
     /**
      * Whether a class has the given property
      *
-     * @type member
      * @param clazz {Class} class to check
      * @param name {String} name of the property to check for
      * @return {Boolean} whether the class includes the given property.
@@ -458,7 +451,6 @@ qx.Bootstrap.define("qx.Class",
      * Returns the event type of the given event. Returns null if
      * the event does not exist.
      *
-     * @type member
      * @param clazz {Class} class to check
      * @param name {String} name of the event
      * @return {Map|null} Event type of the given event.
@@ -483,7 +475,6 @@ qx.Bootstrap.define("qx.Class",
     /**
      * Whether a class supports the given event type
      *
-     * @type member
      * @param clazz {Class} class to check
      * @param name {String} name of the event to check for
      * @return {Boolean} whether the class supports the given event.
@@ -496,7 +487,6 @@ qx.Bootstrap.define("qx.Class",
     /**
      * Whether a class directly includes a mixin.
      *
-     * @type static
      * @param clazz {Class} class to check
      * @param mixin {Mixin} the mixin to check for
      * @return {Boolean} whether the class includes the mixin directly.
@@ -566,7 +556,6 @@ qx.Bootstrap.define("qx.Class",
     /**
      * Whether a given class or any of its superclasses includes a given mixin.
      *
-     * @type static
      * @param clazz {Class} class to check
      * @param mixin {Mixin} the mixin to check for
      * @return {Boolean} whether the class includes the mixin.
@@ -583,7 +572,6 @@ qx.Bootstrap.define("qx.Class",
      * in the class declaration (@link qx.Class#define}) using the "implement"
      * key.
      *
-     * @type static
      * @param clazz {Class} class or instance to check
      * @param iface {Interface} the interface to check for
      * @return {Boolean} whether the class includes the mixin directly.
@@ -658,7 +646,6 @@ qx.Bootstrap.define("qx.Class",
      * or any of its super classes using the "implement"
      * key.
      *
-     * @type static
      * @param clazz {Class|Object} class or instance to check
      * @param iface {Interface} the interface to check for
      * @return {Boolean} whether the class includes the interface.
@@ -675,7 +662,6 @@ qx.Bootstrap.define("qx.Class",
      * implemented in the class. The class does not need to implement
      * the interface explicitly.
      *
-     * @type static
      * @param clazz {Class} class to check
      * @param iface {Interface} the interface to check for
      * @return {Boolean} whether the class conforms to the interface.
@@ -700,7 +686,6 @@ qx.Bootstrap.define("qx.Class",
     /**
      * Helper method to handle singletons
      *
-     * @type static
      * @internal
      * @return {var} TODOC
      */
@@ -785,7 +770,6 @@ qx.Bootstrap.define("qx.Class",
     /**
      * Validates an incoming configuration and checks for proper keys and values
      *
-     * @type static
      * @param name {String} The name of the class
      * @param config {Map} Configuration map
      * @return {void}
@@ -904,7 +888,6 @@ qx.Bootstrap.define("qx.Class",
     /**
      * Validates the interfaces required by abstract base classes
      *
-     * @type static
      * @param clazz {Class} The configured class.
      * @return {void}
      */
@@ -937,7 +920,6 @@ qx.Bootstrap.define("qx.Class",
     /**
      * Creates a class by type. Supports modern inheritance etc.
      *
-     * @type static
      * @param name {String} Full name of the class
      * @param type {String} type of the class, i.e. "static", "abstract" or "singleton"
      * @param extend {Class} Superclass to inherit from
@@ -1476,7 +1458,6 @@ qx.Bootstrap.define("qx.Class",
      * Returns the default constructor.
      * This constructor just calles the constructor of the base class.
      *
-     * @type static
      * @return {Function} The default constructor.
      */
     __createDefaultConstructor : function()
@@ -1492,7 +1473,6 @@ qx.Bootstrap.define("qx.Class",
     /**
      * Returns an empty function. This is needed to get an empty function with an empty closure.
      *
-     * @type static
      * @return {Function} empty function
      */
     __createEmptyFunction : function() {

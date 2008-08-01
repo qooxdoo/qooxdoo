@@ -87,7 +87,6 @@ qx.Class.define("qx.legacy.ui.basic.Label",
      * Create a DOM element, which can be used to measure the needed width of the label
      *
      * @internal
-     * @type static
      * @return {Element} measure node
      */
     _getMeasureNode : function()
@@ -321,7 +320,6 @@ qx.Class.define("qx.legacy.ui.basic.Label",
     /**
      * Apply the font to the label.
      *
-     * @type member
      * @param font {qx.legacy.ui.core.Font} new font.
      */
     _styleFont : function(font)
@@ -346,7 +344,6 @@ qx.Class.define("qx.legacy.ui.basic.Label",
     /**
      * Apply the text color to the label.
      *
-     * @type member
      * @param value {String} any acceptable CSS color
      */
     _styleTextColor : function(value) {
@@ -426,7 +423,6 @@ qx.Class.define("qx.legacy.ui.basic.Label",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -452,7 +448,6 @@ qx.Class.define("qx.legacy.ui.basic.Label",
     /**
      * Computes the needed dimension for the current text.
      *
-     * @type member
      */
     _computeObjectNeededDimensions : function()
     {

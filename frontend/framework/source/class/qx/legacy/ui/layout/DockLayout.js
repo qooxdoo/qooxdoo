@@ -90,7 +90,6 @@ qx.Class.define("qx.legacy.ui.layout.DockLayout",
      * This creates an new instance of the layout impl this widget uses
      *
      * @param widget {var} TODOC
-     * @type member
      * @return {qx.legacy.ui.layout.BoxLayout} TODOC
      */
     _createLayoutImpl : function() {
@@ -110,7 +109,6 @@ qx.Class.define("qx.legacy.ui.layout.DockLayout",
      * Add multiple childrens and make them left aligned
      *
      * @param widget {var} TODOC
-     * @type member
      * @return {void}
      */
     addLeft : function(widget) {
@@ -122,7 +120,6 @@ qx.Class.define("qx.legacy.ui.layout.DockLayout",
      * Add multiple childrens and make them right aligned
      *
      * @param widget {var} TODOC
-     * @type member
      * @return {void}
      */
     addRight : function(widget) {
@@ -134,7 +131,6 @@ qx.Class.define("qx.legacy.ui.layout.DockLayout",
      * Add multiple childrens and make them top aligned
      *
      * @param widget {var} TODOC
-     * @type member
      * @return {void}
      */
     addTop : function(widget) {
@@ -146,7 +142,6 @@ qx.Class.define("qx.legacy.ui.layout.DockLayout",
      * Add multiple childrens and make them bottom aligned
      *
      * @param widget {var} TODOC
-     * @type member
      * @return {void}
      */
     addBottom : function(widget) {
@@ -157,7 +152,6 @@ qx.Class.define("qx.legacy.ui.layout.DockLayout",
     /**
      * TODOC
      *
-     * @type member
      * @param vAlign {var} TODOC
      * @param vArgs {var} TODOC
      * @return {void}
@@ -175,7 +169,6 @@ qx.Class.define("qx.legacy.ui.layout.DockLayout",
     /**
      * TODOC
      *
-     * @type member
      * @param vAlign {var} TODOC
      * @param vArgs {var} TODOC
      * @return {void}

@@ -39,7 +39,6 @@ qx.Class.define("qx.event.handler.UserAction",
   /**
    * Create a new instance
    *
-   * @type constructor
    * @param manager {qx.event.Manager} Event manager for the window to use
    */
   construct : function(manager)

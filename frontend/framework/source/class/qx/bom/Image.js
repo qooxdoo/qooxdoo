@@ -33,7 +33,6 @@ qx.Class.define("qx.bom.Image",
     /**
      * Creates a image.
      *
-     * @type static
      * @param source {String} Image source to show
      * @param win {Window?null} Window to create the element for
      * @return {Element} The created image node
@@ -57,7 +56,6 @@ qx.Class.define("qx.bom.Image",
     /**
      * Sets the source to the given value.
      *
-     * @type static
      * @param element {Element} DOM element to modify
      * @param value {String} Image URL to use
      * @return {void}
@@ -70,7 +68,6 @@ qx.Class.define("qx.bom.Image",
     /**
      * Returns the configured source
      *
-     * @type static
      * @param element {Element} DOM element to query
      * @return {String} Current image
      */

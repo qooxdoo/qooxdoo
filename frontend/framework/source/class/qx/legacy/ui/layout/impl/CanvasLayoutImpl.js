@@ -74,7 +74,6 @@ qx.Class.define("qx.legacy.ui.layout.impl.CanvasLayoutImpl",
      *  [08] CHILDREN ADD/REMOVE/MOVE HANDLING
      *  [09] FLUSH LAYOUT QUEUES OF CHILDREN
      *
-     * @type member
      * @param vChild {var} TODOC
      * @return {var} TODOC
      */
@@ -95,7 +94,6 @@ qx.Class.define("qx.legacy.ui.layout.impl.CanvasLayoutImpl",
     /**
      * Compute and return the box height of the given child
      *
-     * @type member
      * @param vChild {var} TODOC
      * @return {var} TODOC
      */
@@ -124,7 +122,6 @@ qx.Class.define("qx.legacy.ui.layout.impl.CanvasLayoutImpl",
     /**
      * Compute and return the needed width of the given child
      *
-     * @type member
      * @param vChild {var} TODOC
      * @return {var} TODOC
      */
@@ -148,7 +145,6 @@ qx.Class.define("qx.legacy.ui.layout.impl.CanvasLayoutImpl",
     /**
      * Compute and return the needed height of the given child
      *
-     * @type member
      * @param vChild {var} TODOC
      * @return {var} TODOC
      */
@@ -181,7 +177,6 @@ qx.Class.define("qx.legacy.ui.layout.impl.CanvasLayoutImpl",
      * Actions that should be done if the inner width of the widget was changed.
      *  Normally this includes update to percent values and ranges.
      *
-     * @type member
      * @param vChild {var} TODOC
      * @return {var} TODOC
      */
@@ -199,7 +194,6 @@ qx.Class.define("qx.legacy.ui.layout.impl.CanvasLayoutImpl",
      * Actions that should be done if the inner height of the widget was changed.
      *  Normally this includes update to percent values and ranges.
      *
-     * @type member
      * @param vChild {var} TODOC
      * @return {var} TODOC
      */
@@ -225,7 +219,6 @@ qx.Class.define("qx.legacy.ui.layout.impl.CanvasLayoutImpl",
      * This is called from qx.legacy.ui.core.Widget and  it's task is to apply the layout
      *  (excluding border and padding) to the child.
      *
-     * @type member
      * @param vChild {var} TODOC
      * @param vJobs {var} TODOC
      * @return {void}
@@ -249,7 +242,6 @@ qx.Class.define("qx.legacy.ui.layout.impl.CanvasLayoutImpl",
     /**
      * TODOC
      *
-     * @type member
      * @param vChild {var} TODOC
      * @param vJobs {var} TODOC
      * @return {void}
@@ -281,7 +273,6 @@ qx.Class.define("qx.legacy.ui.layout.impl.CanvasLayoutImpl",
     /**
      * TODOC
      *
-     * @type member
      * @param vChild {var} TODOC
      * @param vJobs {var} TODOC
      * @return {void}
@@ -313,7 +304,6 @@ qx.Class.define("qx.legacy.ui.layout.impl.CanvasLayoutImpl",
     /**
      * TODOC
      *
-     * @type member
      * @param vChild {var} TODOC
      * @param vJobs {var} TODOC
      * @return {void}
@@ -335,7 +325,6 @@ qx.Class.define("qx.legacy.ui.layout.impl.CanvasLayoutImpl",
     /**
      * TODOC
      *
-     * @type member
      * @param vChild {var} TODOC
      * @param vJobs {var} TODOC
      * @return {void}

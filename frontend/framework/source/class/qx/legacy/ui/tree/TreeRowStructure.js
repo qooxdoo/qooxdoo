@@ -140,7 +140,6 @@ qx.Class.define("qx.legacy.ui.tree.TreeRowStructure",
      * This reinitializes the singleton TreeRowStructure so that it is ready to
      * define a new tree row.
      *
-     * @type member
      * @return {var} The singleton itself, purely for convenience.
      */
     newRow : function()
@@ -188,7 +187,6 @@ qx.Class.define("qx.legacy.ui.tree.TreeRowStructure",
      * The icon parameters may be omitted in which case the defaults will be
      * used.  If the label parameter is omitted, no label will appear.
      *
-     * @type member
      * @param vLabel {String} The label text
      * @param vIcon {String} Relative path to the 'non-selected' icon
      * @param vIconSelected {String} Relative path to the 'selected' icon
@@ -207,7 +205,6 @@ qx.Class.define("qx.legacy.ui.tree.TreeRowStructure",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      * @throws TODOC
      */
@@ -238,7 +235,6 @@ qx.Class.define("qx.legacy.ui.tree.TreeRowStructure",
     /**
      * TODOC
      *
-     * @type member
      * @param vIcon {var} TODOC
      * @param vIconSelected {var} TODOC
      * @return {void}
@@ -273,7 +269,6 @@ qx.Class.define("qx.legacy.ui.tree.TreeRowStructure",
     /**
      * TODOC
      *
-     * @type member
      * @param vLabel {var} TODOC
      * @return {void}
      * @throws TODOC
@@ -306,7 +301,6 @@ qx.Class.define("qx.legacy.ui.tree.TreeRowStructure",
      * setAnonymous or if there is no need to do so, then provide no value for
      * vAnonymous or pass 'null'.
      *
-     * @type member
      * @param vObj {qx.legacy.ui.core.Widget} Widget to add
      * @param vAnonymous {Boolean} Whether the widget should be set to be anonymous
      */

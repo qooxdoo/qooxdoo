@@ -41,7 +41,6 @@ qx.Bootstrap.define("qx.xml.Document",
      * Create an XML document.
      * http://www.w3.org/TR/DOM-Level-2-Core/core.html#i-Document
      *
-     * @type static
      * @signature function(namespaceUri, qualifiedName)
      * @param namespaceUri {String ? null} The namespace URI of the document element to create or null.
      * @param qualifiedName {String ? null} The qualified name of the document element to be created or null.
@@ -80,7 +79,6 @@ qx.Bootstrap.define("qx.xml.Document",
     /**
      * The string passed in is parsed into a DOM document.
      *
-     * @type static
      * @param str {String} the string to be parsed
      * @return {Document} TODO: move to create()
      * @signature function(str)

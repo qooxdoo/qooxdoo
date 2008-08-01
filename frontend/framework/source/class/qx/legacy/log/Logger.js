@@ -109,7 +109,6 @@ qx.Class.define("qx.legacy.log.Logger",
     /**
      * Returns the logger of a class.
      *
-     * @type static
      * @param clazz {Function} The class of which to return the logger.
      * @return {var} TODOC
      */
@@ -221,7 +220,6 @@ qx.Class.define("qx.legacy.log.Logger",
     /**
      * Returns the name of this logger. (Normally a class or package name)
      *
-     * @type member
      * @return {String} the name.
      */
     getName : function() {
@@ -232,7 +230,6 @@ qx.Class.define("qx.legacy.log.Logger",
     /**
      * Returns the parent logger.
      *
-     * @type member
      * @return {Logger} the parent logger.
      */
     getParentLogger : function() {
@@ -245,7 +242,6 @@ qx.Class.define("qx.legacy.log.Logger",
      *
      * This affects all log messages. Even those of other loggers.
      *
-     * @type member
      * @return {void}
      */
     indent : function() {
@@ -258,7 +254,6 @@ qx.Class.define("qx.legacy.log.Logger",
      *
      * This affects all log messages. Even those of other loggers.
      *
-     * @type member
      * @return {void}
      */
     unindent : function() {
@@ -273,7 +268,6 @@ qx.Class.define("qx.legacy.log.Logger",
      * appenders of parent loggers. If you want this behaviour, also append a
      * {@link ForwardAppender}.
      *
-     * @type member
      * @param appender {Appender} the appender to add.
      * @return {void}
      */
@@ -290,7 +284,6 @@ qx.Class.define("qx.legacy.log.Logger",
     /**
      * Removes an appender.
      *
-     * @type member
      * @param appender {Appender} the appender to remove.
      * @return {void}
      */
@@ -305,7 +298,6 @@ qx.Class.define("qx.legacy.log.Logger",
     /**
      * Removes all appenders.
      *
-     * @type member
      * @return {void}
      */
     removeAllAppenders : function() {
@@ -336,7 +328,6 @@ qx.Class.define("qx.legacy.log.Logger",
      * Passes a log event to the appenders. If the logger has no appenders the
      * event will be passed to the appenders of the parent logger, and so on.
      *
-     * @type member
      * @param evt {Map} The event to append.
      * @return {void}
      */
@@ -358,7 +349,6 @@ qx.Class.define("qx.legacy.log.Logger",
     /**
      * Logs a message.
      *
-     * @type member
      * @param level {Integer} the log level.
      * @param msg {var} the message to log. If this is not a string, the
      *      object dump will be logged.
@@ -387,7 +377,6 @@ qx.Class.define("qx.legacy.log.Logger",
     /**
      * Logs a debug message.
      *
-     * @type member
      * @param msg {var} the message to log. If this is not a string, the
      *      object dump will be logged.
      * @param instanceId {var ? null} the ID of the instance the log message comes from.
@@ -402,7 +391,6 @@ qx.Class.define("qx.legacy.log.Logger",
     /**
      * Logs an info message.
      *
-     * @type member
      * @param msg {var} the message to log. If this is not a string, the
      *      object dump will be logged.
      * @param instanceId {var ? null} the ID of the instance the log message comes from.
@@ -417,7 +405,6 @@ qx.Class.define("qx.legacy.log.Logger",
     /**
      * Logs a warning message.
      *
-     * @type member
      * @param msg {var} the message to log. If this is not a string, the
      *      object dump will be logged.
      * @param instanceId {var ? null} the ID of the instance the log message comes from.
@@ -432,7 +419,6 @@ qx.Class.define("qx.legacy.log.Logger",
     /**
      * Logs an error message.
      *
-     * @type member
      * @param msg {var} the message to log. If this is not a string, the
      *      object dump will be logged.
      * @param instanceId {var ? null} the ID of the instance the log message comes from.
@@ -447,7 +433,6 @@ qx.Class.define("qx.legacy.log.Logger",
     /**
      * Logs a fatal message.
      *
-     * @type member
      * @param msg {var} the message to log. If this is not a string, its
      *      object dump will be logged.
      * @param instanceId {var ? null} the ID of the instance the log message comes from.
@@ -462,7 +447,6 @@ qx.Class.define("qx.legacy.log.Logger",
     /**
      * Resets the measure timer.
      *
-     * @type member
      * @return {void}
      */
     measureReset : function()
@@ -479,7 +463,6 @@ qx.Class.define("qx.legacy.log.Logger",
     /**
      * Logs a debug message and measures the time since the last call of measure.
      *
-     * @type member
      * @param msg {String} the message to log.
      * @param instanceId {var ? null} the ID of the instance the log message comes from.
      * @param exc {var ? null} the exception to log.

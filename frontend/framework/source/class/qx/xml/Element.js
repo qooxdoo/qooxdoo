@@ -32,7 +32,6 @@ qx.Class.define("qx.xml.Element",
     /**
      * The subtree rooted by the specified element or document is serialized to a string.
      *
-     * @type static
      * @param element {Element | Document} The root of the subtree to be serialized. This could be any node, including a Document.
      * @return {String} TODOC
      */
@@ -53,7 +52,6 @@ qx.Class.define("qx.xml.Element",
     /**
      * Selects the first XmlNode that matches the XPath expression.
      *
-     * @type static
      * @param element {Element | Document} root element for the search
      * @param query {String} XPath query
      * @return {Element} first matching element
@@ -85,7 +83,6 @@ qx.Class.define("qx.xml.Element",
     /**
      * Selects a list of nodes matching the XPath expression.
      *
-     * @type static
      * @param element {Element | Document} root element for the search
      * @param query {String} XPath query
      * @return {Element[]} List of matching elements
@@ -124,7 +121,6 @@ qx.Class.define("qx.xml.Element",
     /**
      * Returns a list of elements with the given tag name belonging to the given namespace (http://developer.mozilla.org/en/docs/DOM:element.getElementsByTagNameNS).
      *
-     * @type static
      * @param element {Element | Document} the element from where the search should start.
      *       Note that only the descendants of this element are included in the search, not the node itself.
      * @param namespaceURI {var} is the namespace URI of elements to look for . For example, if you need to look

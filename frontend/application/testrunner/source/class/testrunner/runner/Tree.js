@@ -58,7 +58,6 @@ qx.Class.define("testrunner.runner.Tree",
     /**
      * TODOC
      *
-     * @type member
      * @return {Array | var} TODOC
      */
     pwd : function()  // aka 'dirname'
@@ -74,7 +73,6 @@ qx.Class.define("testrunner.runner.Tree",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     hasChildren : function() {
@@ -85,7 +83,6 @@ qx.Class.define("testrunner.runner.Tree",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     getChildren : function() {
@@ -96,7 +93,6 @@ qx.Class.define("testrunner.runner.Tree",
     /**
      * TODOC
      *
-     * @type member
      * @param fun {var} TODOC
      * @param args {var} TODOC
      * @return {void}
@@ -118,7 +114,6 @@ qx.Class.define("testrunner.runner.Tree",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     print : function()
@@ -133,7 +128,6 @@ qx.Class.define("testrunner.runner.Tree",
      * returns an iterator function for the tree from this.
      * (implemented with Agenda Search)
      *
-     * @type member
      * @param style {String} "depth"|"breadth" - traversal style
      * @return {Function} iterator {Function}
      */
@@ -175,7 +169,6 @@ qx.Class.define("testrunner.runner.Tree",
     /**
      * TODOC
      *
-     * @type member
      * @param node {Node} TODOC
      * @return {void}
      */

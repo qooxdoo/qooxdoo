@@ -48,7 +48,6 @@ qx.Class.define("qx.event.handler.Keyboard",
   /**
    * Create a new instance
    *
-   * @type constructor
    * @param manager {qx.event.Manager} Event manager for the window to use
    */
   construct : function(manager)
@@ -110,7 +109,6 @@ qx.Class.define("qx.event.handler.Keyboard",
     /**
      * Checks whether a given string is a valid keyIdentifier
      *
-     * @type member
      * @param keyIdentifier {String} The key identifier.
      * @return {Boolean} whether the given string is a valid keyIdentifier
      */
@@ -260,7 +258,6 @@ qx.Class.define("qx.event.handler.Keyboard",
     /**
      * Initializes the native key event listeners.
      *
-     * @type member
      * @signature function()
      * @return {void}
      */
@@ -280,7 +277,6 @@ qx.Class.define("qx.event.handler.Keyboard",
     /**
      * Stops the native key event listeners.
      *
-     * @type member
      * @signature function()
      * @return {void}
      */
@@ -506,7 +502,6 @@ qx.Class.define("qx.event.handler.Keyboard",
      * Key handler for an idealized browser.
      * Runs after the browser specific key handlers have normalized the key events.
      *
-     * @type member
      * @param keyCode {String} keyboard code
      * @param charCode {String} character code
      * @param eventType {String} type of the event (keydown, keypress, keyup)
@@ -645,7 +640,6 @@ qx.Class.define("qx.event.handler.Keyboard",
     /**
      * Checks whether the keyCode represents a non printable key
      *
-     * @type member
      * @param keyCode {String} key code to check.
      * @return {Boolean} Wether the keyCode represents a non printable key.
      */
@@ -657,7 +651,6 @@ qx.Class.define("qx.event.handler.Keyboard",
     /**
      * Check whether the keycode can be reliably detected in keyup/keydown events
      *
-     * @type member
      * @param keyCode {String} key code to check.
      * @return {Boolean} Wether the keycode can be reliably detected in keyup/keydown events.
      */
@@ -695,7 +688,6 @@ qx.Class.define("qx.event.handler.Keyboard",
     /**
      * converts a keyboard code to the corresponding identifier
      *
-     * @type member
      * @param keyCode {Integer} key code
      * @return {String} key identifier
      */
@@ -721,7 +713,6 @@ qx.Class.define("qx.event.handler.Keyboard",
     /**
      * converts a character code to the corresponding identifier
      *
-     * @type member
      * @param charCode {String} character code
      * @return {String} key identifier
      */
@@ -733,7 +724,6 @@ qx.Class.define("qx.event.handler.Keyboard",
     /**
      * converts a key identifier back to a keycode
      *
-     * @type member
      * @param keyIdentifier {String} The key identifier to convert
      * @return {Integer} keyboard code
      */

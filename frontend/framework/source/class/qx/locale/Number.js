@@ -31,7 +31,6 @@ qx.Class.define("qx.locale.Number",
     /**
      * Get deciaml separator for number formatting
      *
-     * @type static
      * @param locale {String} optional locale to be used
      * @return {String} deciaml separator.
      */
@@ -43,7 +42,6 @@ qx.Class.define("qx.locale.Number",
     /**
      * Get thousand grouping separator for number formatting
      *
-     * @type static
      * @param locale {String} optional locale to be used
      * @return {String} group separator.
      */
@@ -55,7 +53,6 @@ qx.Class.define("qx.locale.Number",
     /**
      * Get percent format string
      *
-     * @type static
      * @param locale {String} optional locale to be used
      * @return {String} percent format string.
      */

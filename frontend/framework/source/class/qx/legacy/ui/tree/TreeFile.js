@@ -76,7 +76,6 @@ qx.Class.define("qx.legacy.ui.tree.TreeFile",
      * Returns a string indicating the symbol used to indent the current item,
      * or null.
      *
-     * @type member
      * @param vUseTreeLines {Boolean} whether tree lines are used
      * @param vIsLastColumn {Boolean} whether the item is in the last column
      * @return {String | null} "end", "cross", "line" or null
@@ -102,7 +101,6 @@ qx.Class.define("qx.legacy.ui.tree.TreeFile",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     _updateIndent : function() {
@@ -113,7 +111,6 @@ qx.Class.define("qx.legacy.ui.tree.TreeFile",
     /**
      * Returns itself in an array.
      *
-     * @type member
      * @return {Array} array containing itself
      */
     getItems : function() {

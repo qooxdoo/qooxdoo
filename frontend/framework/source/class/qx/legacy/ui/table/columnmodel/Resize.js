@@ -100,7 +100,6 @@ qx.Class.define("qx.legacy.ui.table.columnmodel.Resize",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -120,7 +119,6 @@ qx.Class.define("qx.legacy.ui.table.columnmodel.Resize",
     /**
      * Initializes the column model.
      *
-     * @type member
      *
      * @param numColumns {var} the number of columns the model should have.
      *
@@ -180,7 +178,6 @@ qx.Class.define("qx.legacy.ui.table.columnmodel.Resize",
     /**
      * Reset the column widths to their "onappear" defaults.
      *
-     * @type member
      *
      * @param event {qx.event.type.DataEvent}
      *   The "columnVisibilityMenuCreateEnd" event indicating that the menu is
@@ -213,7 +210,6 @@ qx.Class.define("qx.legacy.ui.table.columnmodel.Resize",
     /**
      * Event handler for the "appear" event.
      *
-     * @type member
      *
      * @param event {qx.event.type.Event}
      *   The "onappear" event object.
@@ -261,7 +257,6 @@ qx.Class.define("qx.legacy.ui.table.columnmodel.Resize",
     /**
      * Event handler for the "tableWidthChanged" event.
      *
-     * @type member
      *
      * @param event {qx.event.type.Event}
      *   The "onwindowresize" event object.
@@ -295,7 +290,6 @@ qx.Class.define("qx.legacy.ui.table.columnmodel.Resize",
     /**
      * Event handler for the "verticalScrollBarChanged" event.
      *
-     * @type member
      *
      * @param event {qx.event.type.DataEvent}
      *   The "verticalScrollBarChanged" event object.  The data is a boolean
@@ -342,7 +336,6 @@ qx.Class.define("qx.legacy.ui.table.columnmodel.Resize",
     /**
      * Event handler for the "widthChanged" event.
      *
-     * @type member
      *
      * @param event {qx.event.type.DataEvent}
      *   The "widthChanged" event object.
@@ -376,7 +369,6 @@ qx.Class.define("qx.legacy.ui.table.columnmodel.Resize",
     /**
      * Event handler for the "visibilityChanged" event.
      *
-     * @type member
      *
      * @param event {qx.event.type.DataEvent}
      *   The "visibilityChanged" event object.

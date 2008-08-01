@@ -96,7 +96,6 @@ qx.Class.define("qx.legacy.ui.form.Button",
      * <li>Removes "abandoned" and adds "pressed" state (if "abandoned" state is set)</li>
      * </ul>
      *
-     * @type member
      * @param e {Event} Mouse event
      * @return {void}
      */
@@ -123,7 +122,6 @@ qx.Class.define("qx.legacy.ui.form.Button",
      * <li>Adds "abandoned" and removes "pressed" state (if "pressed" state is set)</li>
      * </ul>
      *
-     * @type member
      * @param e {Event} Mouse event
      * @return {void}
      */
@@ -154,7 +152,6 @@ qx.Class.define("qx.legacy.ui.form.Button",
      * <li>Adds "pressed" state</li>
      * </ul>
      *
-     * @type member
      * @param e {Event} Mouse event
      * @return {void}
      */
@@ -176,7 +173,6 @@ qx.Class.define("qx.legacy.ui.form.Button",
      * <li>Removes "abandoned" state (if set)</li>
      * <li>Adds "over" state (if "abandoned" state is not set)</li>
      *
-     * @type member
      * @param e {Event} Mouse event
      * @return {void}
      */
@@ -214,7 +210,6 @@ qx.Class.define("qx.legacy.ui.form.Button",
      * Removes "abandoned" and adds "pressed" state
      * for the keys "Enter" or "Space"
      *
-     * @type member
      * @param e {Event} Key event
      * @return {void}
      */
@@ -236,7 +231,6 @@ qx.Class.define("qx.legacy.ui.form.Button",
      * Removes "abandoned" and "pressed" state (if "pressed" state is set)
      * for the keys "Enter" or "Space"
      *
-     * @type member
      * @param e {Event} Key event
      * @return {void}
      */

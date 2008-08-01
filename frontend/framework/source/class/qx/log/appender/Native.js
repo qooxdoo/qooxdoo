@@ -39,7 +39,6 @@ qx.Bootstrap.define("qx.log.appender.Native",
     /**
      * Processes a single log entry
      *
-     * @type static
      * @signature function(entry)
      * @param entry {Map} The entry to process
      * @return {void}
@@ -85,7 +84,6 @@ qx.Bootstrap.define("qx.log.appender.Native",
     /**
      * Internal helper to convert an log entry to a arguments list.
      *
-     * @type static
      * @param entry {Map} The entry to process
      * @return {Array} Argument list ready message array.
      */

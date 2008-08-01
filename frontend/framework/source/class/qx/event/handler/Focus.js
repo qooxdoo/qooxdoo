@@ -54,7 +54,6 @@ qx.Class.define("qx.event.handler.Focus",
   /**
    * Create a new instance
    *
-   * @type constructor
    * @param manager {qx.event.Manager} Event manager for the window to use
    */
   construct : function(manager)
@@ -206,7 +205,6 @@ qx.Class.define("qx.event.handler.Focus",
     /**
      * Focusses the given DOM element
      *
-     * @type member
      * @param element {Element} DOM element to focus
      * @return {void}
      */
@@ -224,7 +222,6 @@ qx.Class.define("qx.event.handler.Focus",
     /**
      * Activates the given DOM element
      *
-     * @type member
      * @param element {Element} DOM element to activate
      * @return {void}
      */
@@ -236,7 +233,6 @@ qx.Class.define("qx.event.handler.Focus",
     /**
      * Blurs the given DOM element
      *
-     * @type member
      * @param element {Element} DOM element to focus
      * @return {void}
      */
@@ -259,7 +255,6 @@ qx.Class.define("qx.event.handler.Focus",
     /**
      * Deactivates the given DOM element
      *
-     * @type member
      * @param element {Element} DOM element to activate
      * @return {void}
      */
@@ -300,7 +295,6 @@ qx.Class.define("qx.event.handler.Focus",
     /**
      * Shorthand to fire events from within this class.
      *
-     * @type member
      * @param target {Element} DOM element which is the target
      * @param related {Element} DOM element which is the related target
      * @param type {String} Name of the event to fire
@@ -333,7 +327,6 @@ qx.Class.define("qx.event.handler.Focus",
     /**
      * Helper for native event listeners to react on window blur
      *
-     * @type member
      * @return {void}
      */
     __doWindowBlur : function()
@@ -351,7 +344,6 @@ qx.Class.define("qx.event.handler.Focus",
     /**
      * Helper for native event listeners to react on window focus
      *
-     * @type member
      * @return {void}
      */
     __doWindowFocus : function()
@@ -379,7 +371,6 @@ qx.Class.define("qx.event.handler.Focus",
     /**
      * Initializes event listeners.
      *
-     * @type member
      * @signature function()
      * @return {void}
      */
@@ -485,7 +476,6 @@ qx.Class.define("qx.event.handler.Focus",
     /**
      * Disconnects event listeners.
      *
-     * @type member
      * @signature function()
      * @return {void}
      */
@@ -554,7 +544,6 @@ qx.Class.define("qx.event.handler.Focus",
      * selection is disabled.
      *
      * @see http://developer.mozilla.org/en/docs/Drag_and_Drop
-     * @type member
      * @signature function(e)
      * @param e {Event} Native event
      * @return {void}
@@ -576,7 +565,6 @@ qx.Class.define("qx.event.handler.Focus",
      * Native event listener for <code>DOMFocusIn</code> or <code>focusin</code>
      * depending on the client's engine.
      *
-     * @type member
      * @signature function(e)
      * @param e {Event} Native event
      * @return {void}
@@ -643,7 +631,6 @@ qx.Class.define("qx.event.handler.Focus",
      * Native event listener for <code>DOMFocusOut</code> or <code>focusout</code>
      * depending on the client's engine.
      *
-     * @type member
      * @signature function(e)
      * @param e {Event} Native event
      * @return {void}
@@ -712,7 +699,6 @@ qx.Class.define("qx.event.handler.Focus",
     /**
      * Native event listener for <code>blur</code>.
      *
-     * @type member
      * @signature function(e)
      * @param e {Event} Native event
      * @return {void}
@@ -754,7 +740,6 @@ qx.Class.define("qx.event.handler.Focus",
     /**
      * Native event listener for <code>focus</code>.
      *
-     * @type member
      * @signature function(e)
      * @param e {Event} Native event
      * @return {void}
@@ -810,7 +795,6 @@ qx.Class.define("qx.event.handler.Focus",
     /**
      * Native event listener for <code>mousedown</code>.
      *
-     * @type member
      * @param e {Event} Native event
      * @return {void}
      */
@@ -937,7 +921,6 @@ qx.Class.define("qx.event.handler.Focus",
     /**
      * Native event listener for <code>mouseup</code>.
      *
-     * @type member
      * @param e {Event} Native event
      * @return {void}
      */
@@ -986,7 +969,6 @@ qx.Class.define("qx.event.handler.Focus",
     /**
      * Native event listener for <code>selectstart</code>.
      *
-     * @type member
      * @param e {Event} Native event
      * @return {void}
      */
@@ -1016,7 +998,6 @@ qx.Class.define("qx.event.handler.Focus",
      * Whether the given element is focusable. This is perfectly modeled to the
      * browsers behavior and this way may differ in the various clients.
      *
-     * @type member
      * @param el {Element} DOM Element to query
      * @return {Boolean} Whether the element is focusable
      */
@@ -1039,7 +1020,6 @@ qx.Class.define("qx.event.handler.Focus",
     /**
      * Returns the next focusable parent element of a activated DOM element.
      *
-     * @type member
      * @param el {Element} Element to start lookup with
      * @return {void}
      */
@@ -1072,7 +1052,6 @@ qx.Class.define("qx.event.handler.Focus",
      * there is such a parent it returns null otherwise the original
      * incoming element.
      *
-     * @type member
      * @param el {Element} Element to start lookup with
      * @return {void}
      */
@@ -1097,7 +1076,6 @@ qx.Class.define("qx.event.handler.Focus",
      * Whether the given el (or its content) should be selectable
      * by the user.
      *
-     * @type member
      * @param node {Element} Node to start lookup with
      * @return {Boolean} Whether the content is selectable.
      */

@@ -58,7 +58,6 @@ qx.Class.define("qx.legacy.theme.manager.Border",
     /**
      * Returns the dynamically interpreted result for the incoming value
      *
-     * @type member
      * @param value {String} dynamically interpreted idenfier
      * @return {var} return the (translated) result of the incoming value
      */
@@ -70,7 +69,6 @@ qx.Class.define("qx.legacy.theme.manager.Border",
     /**
      * Whether a value is interpreted dynamically
      *
-     * @type member
      * @param value {String} dynamically interpreted idenfier
      * @return {Boolean} returns true if the value is interpreted dynamically
      */
@@ -82,7 +80,6 @@ qx.Class.define("qx.legacy.theme.manager.Border",
     /**
      * Sync dependend objects with internal database
      *
-     * @type member
      * @return {void}
      */
     syncBorderTheme : function() {

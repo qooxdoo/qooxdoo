@@ -230,7 +230,6 @@ qx.Class.define("qx.legacy.ui.table.cellrenderer.Abstract",
      *
      * This method may be overridden by sub classes.
      *
-     * @type member
      * @param cellInfo {Map} cellInfo of the cell
      * @return {String} The table cell HTML classes as string.
 b     */
@@ -245,7 +244,6 @@ b     */
      *
      * This method may be overridden by sub classes.
      *
-     * @type member
      * @param cellInfo {Map} The information about the cell.
      *          See {@link #createDataCellHtml}.
      * @return {var} the CSS styles of the main div.
@@ -260,7 +258,6 @@ b     */
      *
      * This method may be overridden by sub classes.
      *
-     * @type member
      * @param cellInfo {Map} The information about the cell.
      *          See {@link #createDataCellHtml}.
      * @return {String} the inner HTML of the cell.

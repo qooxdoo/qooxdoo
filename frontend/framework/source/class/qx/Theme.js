@@ -55,7 +55,6 @@ qx.Class.define("qx.Theme",
      * });
      * </pre>
      *
-     * @type static
      * @param name {String} name of the mixin
      * @param config {Map} config structure
      * @return {void}
@@ -118,7 +117,6 @@ qx.Class.define("qx.Theme",
     /**
      * Return a map of all known themes
      *
-     * @type static
      * @return {Map} known themes
      */
     getAll : function() {
@@ -129,7 +127,6 @@ qx.Class.define("qx.Theme",
     /**
      * Returns a theme by name
      *
-     * @type static
      * @param name {String} theme name to check
      * @return {Object ? void} theme object
      */
@@ -141,7 +138,6 @@ qx.Class.define("qx.Theme",
     /**
      * Determine if theme exists
      *
-     * @type static
      * @param name {String} theme name to check
      * @return {Boolean} true if theme exists
      */
@@ -153,7 +149,6 @@ qx.Class.define("qx.Theme",
     /**
      * Determine the number of themes which are defined
      *
-     * @type static
      * @return {Number} the number of classes
      */
     getTotalNumber : function() {
@@ -311,7 +306,6 @@ qx.Class.define("qx.Theme",
     /**
      * Validates incoming configuration and checks keys and values
      *
-     * @type static
      * @signature function(name, config)
      * @param name {String} The name of the class
      * @param config {Map} Configuration map
@@ -411,7 +405,6 @@ qx.Class.define("qx.Theme",
      * include keys which are already defined in the target theme. Existing
      * features of equal name will be overwritten.
      *
-     * @type static
      * @param theme {Theme} An existing theme which should be modified by including the mixin theme.
      * @param mixinTheme {Theme} The theme to be included.
      */
@@ -436,7 +429,6 @@ qx.Class.define("qx.Theme",
      * not include any keys that are already available in the
      * class. This would only be possible using the {@link #patch} method.
      *
-     * @type static
      * @param theme {Theme} An existing theme which should be modified by including the mixin theme.
      * @param mixinTheme {Theme} The theme to be included.
      */

@@ -71,7 +71,6 @@ qx.Class.define("qx.util.format.DateFormat",
      * Returns a <code>DateFomat</code> instance that uses the
      * {@link #DEFAULT_DATE_TIME_FORMAT}.
      *
-     * @type static
      * @return {String} the date/time instance.
      */
     getDateTimeInstance : function()
@@ -92,7 +91,6 @@ qx.Class.define("qx.util.format.DateFormat",
      * Returns a <code>DateFomat</code> instance that uses the
      * {@link #DEFAULT_DATE_FORMAT}.
      *
-     * @type static
      * @return {String} the date instance.
      */
     getDateInstance : function()
@@ -149,7 +147,6 @@ qx.Class.define("qx.util.format.DateFormat",
     /**
      * Fills a number with leading zeros ("25" -> "0025").
      *
-     * @type member
      * @param number {Integer} the number to fill.
      * @param minSize {Integer} the minimum size the returned string should have.
      * @return {String} the filled number as string.
@@ -169,7 +166,6 @@ qx.Class.define("qx.util.format.DateFormat",
     /**
      * Returns the day in year of a date.
      *
-     * @type member
      * @param date {Date} the date.
      * @return {Integer} the day in year.
      */
@@ -192,7 +188,6 @@ qx.Class.define("qx.util.format.DateFormat",
     /**
      * Returns the thursday in the same week as the date.
      *
-     * @type member
      * @param date {Date} the date to get the thursday of.
      * @return {Date} the thursday in the same week as the date.
      */
@@ -204,7 +199,6 @@ qx.Class.define("qx.util.format.DateFormat",
     /**
      * Returns the week in year of a date.
      *
-     * @type member
      * @param date {Date} the date to get the week in year of.
      * @return {Integer} the week in year.
      */
@@ -237,7 +231,6 @@ qx.Class.define("qx.util.format.DateFormat",
      * <a href="http://java.sun.com/j2se/1.4.2/docs/api/java/text/SimpleDateFormat.html" target="_blank">
      * the SimpleDateFormat class in Java</a>.
      *
-     * @type member
      * @param date {Date} The date to format.
      * @return {String} the formatted date.
      */
@@ -387,7 +380,6 @@ qx.Class.define("qx.util.format.DateFormat",
      * <a href="http://java.sun.com/j2se/1.4.2/docs/api/java/text/SimpleDateFormat.html" target="_blank">
      * the SimpleDateFormat class in Java</a>.
      *
-     * @type member
      * @param dateStr {String} the date to parse.
      * @return {Date} the parsed date.
      * @throws If the format is not well formed or if the date string does not
@@ -450,7 +442,6 @@ qx.Class.define("qx.util.format.DateFormat",
      * Helper method for {@link #format()} and {@link #parse()}.
      * Parses the date format.
      *
-     * @type member
      * @return {void}
      */
     __initFormatTree : function()
@@ -627,7 +618,6 @@ qx.Class.define("qx.util.format.DateFormat",
      * The parse contains everything needed for parsing: The regular expression
      * (in compiled and uncompiled form) and the used rules.
      *
-     * @type member
      * @return {Map} the parse feed.
      * @throws TODOC
      */
@@ -722,7 +712,6 @@ qx.Class.define("qx.util.format.DateFormat",
     /**
      * Initializes the static parse rules.
      *
-     * @type member
      * @return {void}
      */
     __initParseRules : function()

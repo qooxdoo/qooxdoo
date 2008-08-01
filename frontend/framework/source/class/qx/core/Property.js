@@ -266,7 +266,6 @@ qx.Class.define("qx.core.Property",
     /**
      * Refreshes widget whose parent has changed (including the children)
      *
-     * @type static
      * @param widget {qx.ui.core.Widget} the widget
      * @return {void}
      */
@@ -329,7 +328,6 @@ qx.Class.define("qx.core.Property",
     /**
      * Attach properties to class prototype
      *
-     * @type static
      * @param clazz {Class} Class to attach properties to
      * @return {void}
      */
@@ -351,7 +349,6 @@ qx.Class.define("qx.core.Property",
     /**
      * Attach one property to class
      *
-     * @type static
      * @param clazz {Class} Class to attach properties to
      * @param name {String} Name of property
      * @param config {Map} Configuration map of property
@@ -369,7 +366,6 @@ qx.Class.define("qx.core.Property",
     /**
      * Attach group methods
      *
-     * @type static
      * @param clazz {Class} Class to attach properties to
      * @param config {Map} Property configuration
      * @param name {String} Name of the property
@@ -464,7 +460,6 @@ qx.Class.define("qx.core.Property",
     /**
      * Attach property methods
      *
-     * @type static
      * @param clazz {Class} Class to attach properties to
      * @param config {Map} Property configuration
      * @param name {String} Name of the property
@@ -563,7 +558,6 @@ qx.Class.define("qx.core.Property",
     /**
      * Error method used by the property system to report errors.
      *
-     * @type static
      * @param obj {qx.core.Object} Any qooxdoo object
      * @param id {Integer} Numeric error identifier
      * @param property {String} Name of the property
@@ -584,7 +578,6 @@ qx.Class.define("qx.core.Property",
      * Compiles a string builder object to a function, executes the function and
      * returns the return value.
      *
-     * @type static
      * @param instance {Object} Instance which have called the original method
      * @param members {Object} Prototype members map where the new function should be stored
      * @param name {String} Name of the property
@@ -636,7 +629,6 @@ qx.Class.define("qx.core.Property",
      * Generates the optimized getter
      * Supported variants: get
      *
-     * @type static
      * @param instance {Object} the instance which calls the method
      * @param clazz {Class} the class which originally defined the property
      * @param name {String} name of the property
@@ -690,7 +682,6 @@ qx.Class.define("qx.core.Property",
      * Generates the optimized setter
      * Supported variants: set, reset, init, refresh, style, unstyle
      *
-     * @type static
      * @param instance {Object} the instance which calls the method
      * @param clazz {Class} the class which originally defined the property
      * @param name {String} name of the property

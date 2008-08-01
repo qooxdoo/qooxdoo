@@ -130,7 +130,6 @@ qx.Class.define("qx.ui.core.FocusHandler",
     /**
      * Internal event handler for activate event.
      *
-     * @type member
      * @param e {qx.event.type.Focus} Focus event
      * @return {void}
      */
@@ -149,7 +148,6 @@ qx.Class.define("qx.ui.core.FocusHandler",
     /**
      * Internal event handler for deactivate event.
      *
-     * @type member
      * @param e {qx.event.type.Focus} Focus event
      * @return {void}
      */
@@ -165,7 +163,6 @@ qx.Class.define("qx.ui.core.FocusHandler",
     /**
      * Internal event handler for focusin event.
      *
-     * @type member
      * @param e {qx.event.type.Focus} Focus event
      * @return {void}
      */
@@ -183,7 +180,6 @@ qx.Class.define("qx.ui.core.FocusHandler",
     /**
      * Internal event handler for focusout event.
      *
-     * @type member
      * @param e {qx.event.type.Focus} Focus event
      * @return {void}
      */
@@ -201,7 +197,6 @@ qx.Class.define("qx.ui.core.FocusHandler",
     /**
      * Internal event handler for TAB key.
      *
-     * @type member
      * @param e {qx.event.type.KeySequence} Key event
      * @return {void}
      */
@@ -275,7 +270,6 @@ qx.Class.define("qx.ui.core.FocusHandler",
     /**
      * Compares the order of two widgets
      *
-     * @type member
      * @param widget1 {qx.ui.core.Widget} Widget A
      * @param widget2 {qx.ui.core.Widget} Widget B
      * @return {Integer} A sort() compatible integer with values
@@ -329,7 +323,6 @@ qx.Class.define("qx.ui.core.FocusHandler",
     /**
      * Returns the first widget of the given
      *
-     * @type member
      * @return {var} TODOC
      */
     __getFirstWidget : function() {
@@ -340,7 +333,6 @@ qx.Class.define("qx.ui.core.FocusHandler",
     /**
      * Returns the first widget
      *
-     * @type member
      * @return {var} TODOC
      */
     __getLastWidget : function() {
@@ -351,7 +343,6 @@ qx.Class.define("qx.ui.core.FocusHandler",
     /**
      * Returns the widget after the given one.
      *
-     * @type member
      * @param widget {qx.ui.core.Widget} Widget to start with
      * @return {qx.ui.core.Widget} The found widget.
      */
@@ -382,7 +373,6 @@ qx.Class.define("qx.ui.core.FocusHandler",
     /**
      * Returns the widget before the given one.
      *
-     * @type member
      * @param widget {qx.ui.core.Widget} Widget to start with
      * @return {qx.ui.core.Widget} The found widget.
      */
@@ -425,7 +415,6 @@ qx.Class.define("qx.ui.core.FocusHandler",
      * the given parent widget. Append all found children to the
      * <code>list</code>.
      *
-     * @type member
      * @param parent {qx.ui.core.Widget} Parent widget
      * @param widget {qx.ui.core.Widget} Child widget to start with
      * @param result {Array} Result list
@@ -462,7 +451,6 @@ qx.Class.define("qx.ui.core.FocusHandler",
      * the given parent widget. Append all found children to the
      * <code>list</code>.
      *
-     * @type member
      * @param parent {qx.ui.core.Widget} Parent widget
      * @param widget {qx.ui.core.Widget} Child widget to start with
      * @param result {Array} Result list
@@ -497,7 +485,6 @@ qx.Class.define("qx.ui.core.FocusHandler",
     /**
      * Find first (positioned) widget. (Sorted by coordinates, zIndex, etc.)
      *
-     * @type member
      * @param parent {qx.ui.core.Widget} Parent widget
      * @param firstWidget {qx.ui.core.Widget?null} Current first widget
      * @return {qx.ui.core.Widget} The first (positioned) widget
@@ -538,7 +525,6 @@ qx.Class.define("qx.ui.core.FocusHandler",
     /**
      * Find last (positioned) widget. (Sorted by coordinates, zIndex, etc.)
      *
-     * @type member
      * @param parent {qx.ui.core.Widget} Parent widget
      * @param lastWidget {qx.ui.core.Widget?null} Current last widget
      * @return {qx.ui.core.Widget} The last (positioned) widget

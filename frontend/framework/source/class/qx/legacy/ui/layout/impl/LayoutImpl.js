@@ -57,7 +57,6 @@ qx.Class.define("qx.legacy.ui.layout.impl.LayoutImpl",
     /**
      * Returns the associated widget
      *
-     * @type member
      * @return {qx.legacy.ui.core.Parent} reference to the associated widget
      */
     getWidget : function() {
@@ -87,7 +86,6 @@ qx.Class.define("qx.legacy.ui.layout.impl.LayoutImpl",
     /**
      * Compute and return the box width of the given child
      *
-     * @type member
      * @param vChild {qx.legacy.ui.core.Widget} TODOC
      * @return {Integer} box width of the given child
      */
@@ -99,7 +97,6 @@ qx.Class.define("qx.legacy.ui.layout.impl.LayoutImpl",
     /**
      * Compute and return the box height of the given child
      *
-     * @type member
      * @param vChild {qx.legacy.ui.core.Widget} TODOC
      * @return {Integer} box height of the given child
      */
@@ -119,7 +116,6 @@ qx.Class.define("qx.legacy.ui.layout.impl.LayoutImpl",
     /**
      * Compute and return the needed width of the given child
      *
-     * @type member
      * @param vChild {qx.legacy.ui.core.Widget} TODOC
      * @return {Integer} needed width
      */
@@ -139,7 +135,6 @@ qx.Class.define("qx.legacy.ui.layout.impl.LayoutImpl",
     /**
      * Compute and return the needed height of the given child
      *
-     * @type member
      * @param vChild {qx.legacy.ui.core.Widget} TODOC
      * @return {Integer} needed height
      */
@@ -167,7 +162,6 @@ qx.Class.define("qx.legacy.ui.layout.impl.LayoutImpl",
     /**
      * Calculate the maximum needed width of all children
      *
-     * @type member
      * @return {Integer} maximum needed width of all children
      */
     computeChildrenNeededWidth_max : function()
@@ -183,7 +177,6 @@ qx.Class.define("qx.legacy.ui.layout.impl.LayoutImpl",
     /**
      * Calculate the maximum needed height of all children
      *
-     * @type member
      * @return {Integer} maximum needed height of all children
      */
     computeChildrenNeededHeight_max : function()
@@ -199,7 +192,6 @@ qx.Class.define("qx.legacy.ui.layout.impl.LayoutImpl",
     /**
      * Compute and return the width needed by all children of this widget
      *
-     * @type member
      * @return {Integer} TODOC
      */
     computeChildrenNeededWidth_sum : function()
@@ -215,7 +207,6 @@ qx.Class.define("qx.legacy.ui.layout.impl.LayoutImpl",
     /**
      * Compute and return the height needed by all children of this widget
      *
-     * @type member
      * @return {Integer} height needed by all children of this widget
      */
     computeChildrenNeededHeight_sum : function()
@@ -258,7 +249,6 @@ qx.Class.define("qx.legacy.ui.layout.impl.LayoutImpl",
      *
      * Subclasses might implement this method
      *
-     * @type member
      * @param vChild {qx.legacy.ui.core.Widget} changed child widget
      * @return {void}
      */
@@ -271,7 +261,6 @@ qx.Class.define("qx.legacy.ui.layout.impl.LayoutImpl",
      *
      * Subclasses might implement this method
      *
-     * @type member
      * @param vChild {qx.legacy.ui.core.Widget} changed child widget
      * @return {void}
      */
@@ -292,7 +281,6 @@ qx.Class.define("qx.legacy.ui.layout.impl.LayoutImpl",
      *
      * Subclasses might implement this method
      *
-     * @type member
      * @param vChild {qx.legacy.ui.core.Widget} changed child widget
      * @return {boolean}
      */
@@ -305,7 +293,6 @@ qx.Class.define("qx.legacy.ui.layout.impl.LayoutImpl",
      *
      * Subclasses might implement this method
      *
-     * @type member
      * @param vChild {qx.legacy.ui.core.Widget} changed child widget
      * @return {void}
      */
@@ -326,7 +313,6 @@ qx.Class.define("qx.legacy.ui.layout.impl.LayoutImpl",
      *
      * Subclasses might implement this method
      *
-     * @type member
      * @param vJobQueue {Object} TODOC
      * @return {void}
      */
@@ -347,7 +333,6 @@ qx.Class.define("qx.legacy.ui.layout.impl.LayoutImpl",
      *
      * Subclasses might implement this method
      *
-     * @type member
      * @param vJobQueue {Object} TODOC
      * @return {boolean}
      */
@@ -367,7 +352,6 @@ qx.Class.define("qx.legacy.ui.layout.impl.LayoutImpl",
      *
      * Subclasses might implement this method
      *
-     * @type member
      * @param vChild {qx.legacy.ui.core.Widget} newly added child
      * @param vIndex {Integer} index of the child
      * @return {void}
@@ -381,7 +365,6 @@ qx.Class.define("qx.legacy.ui.layout.impl.LayoutImpl",
      *
      *  Subclasses might implement this method
      *
-     * @type member
      * @param vChild {qx.legacy.ui.core.Widget} newly added child
      * @param vIndex {Integer} index of the child
      * @return {void}
@@ -395,7 +378,6 @@ qx.Class.define("qx.legacy.ui.layout.impl.LayoutImpl",
      *
      * Subclasses might implement this method
      *
-     * @type member
      * @param vChild {qx.legacy.ui.core.Widget} newly added child
      * @param vIndex {Integer} new index of the child
      * @param vOldIndex {Integer} old index of the child
@@ -416,7 +398,6 @@ qx.Class.define("qx.legacy.ui.layout.impl.LayoutImpl",
      * Has full control of the order in which the registered
      * (or non-registered) children should be layouted.
      *
-     * @type member
      * @param vChildrenQueue {Object} TODOC
      * @return {void}
      */
@@ -442,7 +423,6 @@ qx.Class.define("qx.legacy.ui.layout.impl.LayoutImpl",
      * Called from qx.legacy.ui.core.Parent. Its task is to apply the layout
      * (excluding border and padding) to the child.
      *
-     * @type member
      * @param vChild {qx.legacy.ui.core.Widget} child to layout
      * @param vJobs {Set} layout changes to perform
      * @return {void}
@@ -455,7 +435,6 @@ qx.Class.define("qx.legacy.ui.layout.impl.LayoutImpl",
      * This is only possible in modern capable clients (i.e. excluding all current
      *  versions of Internet Explorer)
      *
-     * @type member
      * @param vChild {qx.legacy.ui.core.Widget} child to layout
      * @param vJobs {Set} layout changes to perform
      * @return {void}
@@ -487,7 +466,6 @@ qx.Class.define("qx.legacy.ui.layout.impl.LayoutImpl",
      * This is only possible in modern capable clients (i.e. excluding all current
      *  versions of Internet Explorer)
      *
-     * @type member
      * @param vChild {qx.legacy.ui.core.Widget} child to layout
      * @param vJobs {Set} layout changes to perform
      * @return {void}
@@ -517,7 +495,6 @@ qx.Class.define("qx.legacy.ui.layout.impl.LayoutImpl",
     /**
      * Apply the X margin values as pure stylesheet equivalent.
      *
-     * @type member
      * @param vChild {qx.legacy.ui.core.Widget} child to layout
      * @param vJobs {Set} layout changes to perform
      * @return {void}
@@ -541,7 +518,6 @@ qx.Class.define("qx.legacy.ui.layout.impl.LayoutImpl",
     /**
      * Apply the Y margin values as pure stylesheet equivalent.
      *
-     * @type member
      * @param vChild {qx.legacy.ui.core.Widget} child to layout
      * @param vJobs {Set} layout changes to perform
      * @return {void}
@@ -565,7 +541,6 @@ qx.Class.define("qx.legacy.ui.layout.impl.LayoutImpl",
     /**
      * TODOC
      *
-     * @type member
      * @param vChild {var} TODOC
      * @param vJobs {var} TODOC
      * @return {var} TODOC
@@ -578,7 +553,6 @@ qx.Class.define("qx.legacy.ui.layout.impl.LayoutImpl",
     /**
      * TODOC
      *
-     * @type member
      * @param vChild {var} TODOC
      * @param vJobs {var} TODOC
      * @return {var} TODOC

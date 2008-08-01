@@ -50,7 +50,6 @@ qx.Class.define("qx.legacy.ui.basic.Terminator",
     /**
      * TODOC
      *
-     * @type member
      * @param changes {Map} TODOC
      * @return {void}
      */
@@ -86,7 +85,6 @@ qx.Class.define("qx.legacy.ui.basic.Terminator",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     _renderContent : function()
@@ -117,7 +115,6 @@ qx.Class.define("qx.legacy.ui.basic.Terminator",
     /**
      * TODOC
      *
-     * @type member
      * @param changes {var} TODOC
      * @return {void}
      */
@@ -187,7 +184,6 @@ qx.Class.define("qx.legacy.ui.basic.Terminator",
     /**
      * TODOC
      *
-     * @type member
      */
     _isWidthEssential : function()
     {
@@ -218,7 +214,6 @@ qx.Class.define("qx.legacy.ui.basic.Terminator",
     /**
      * TODOC
      *
-     * @type member
      */
     _isHeightEssential : function()
     {

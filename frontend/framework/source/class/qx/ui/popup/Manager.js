@@ -123,7 +123,6 @@ qx.Class.define("qx.ui.popup.Manager",
      * Updates the zIndex of all registered items to push
      * newly added ones on top of existing ones
      *
-     * @type member
      * @return {void}
      */
     __updateIndexes : function()

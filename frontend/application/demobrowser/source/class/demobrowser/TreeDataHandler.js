@@ -48,7 +48,6 @@ qx.Class.define("demobrowser.TreeDataHandler",
     /**
      * TODOC
      *
-     * @type member
      * @param testRep {var} TODOC
      * @return {var} TODOC
      * @throws TODOC
@@ -129,7 +128,6 @@ qx.Class.define("demobrowser.TreeDataHandler",
     /**
      * recursive struct reader
      *
-     * @type member
      * @param struct {var} TODOC
      * @param node {Node} TODOC
      * @return {var} TODOC
@@ -170,7 +168,6 @@ qx.Class.define("demobrowser.TreeDataHandler",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     getRoot : function()
@@ -202,7 +199,6 @@ qx.Class.define("demobrowser.TreeDataHandler",
     /**
      * TODOC
      *
-     * @type member
      * @param node {Node} TODOC
      * @return {var} TODOC
      */
@@ -230,7 +226,6 @@ qx.Class.define("demobrowser.TreeDataHandler",
     /**
      * TODOC
      *
-     * @type member
      * @param node {Node} TODOC
      * @return {var | Array} TODOC
      */
@@ -252,7 +247,6 @@ qx.Class.define("demobrowser.TreeDataHandler",
     /**
      * TODOC
      *
-     * @type member
      * @param node {Node} TODOC
      * @return {var} TODOC
      */
@@ -273,7 +267,6 @@ qx.Class.define("demobrowser.TreeDataHandler",
     /**
      * TODO: still uses string-based class spec!!
      *
-     * @type member
      * @param node {String} a class or test name
      * @return {var | Array} TODOC
      */
@@ -304,7 +297,6 @@ qx.Class.define("demobrowser.TreeDataHandler",
     /**
      * TODOC
      *
-     * @type member
      * @param node {Node} TODOC
      * @return {boolean} TODOC
      */
@@ -321,7 +313,6 @@ qx.Class.define("demobrowser.TreeDataHandler",
     /**
      * TODOC
      *
-     * @type member
      * @param node {Node} TODOC
      * @return {boolean} TODOC
      */
@@ -345,7 +336,6 @@ qx.Class.define("demobrowser.TreeDataHandler",
     /**
      * TODOC
      *
-     * @type member
      * @param node {Node} TODOC
      * @return {var} TODOC
      */
@@ -374,7 +364,6 @@ qx.Class.define("demobrowser.TreeDataHandler",
     /**
      * return the full name of a test from its model node
      *
-     * @type member
      * @param node {Tree} a model node
      * @return {var} fullName {String} like "demobrowser.test.Class.testEmptyClass"
      */
@@ -393,7 +382,6 @@ qx.Class.define("demobrowser.TreeDataHandler",
     /**
      * TODOC
      *
-     * @type member
      * @param node {Node} TODOC
      * @return {var} TODOC
      */
@@ -410,7 +398,6 @@ qx.Class.define("demobrowser.TreeDataHandler",
     /**
      * TODOC
      *
-     * @type member
      * @param node {Node} TODOC
      * @return {var} TODOC
      */
@@ -427,7 +414,6 @@ qx.Class.define("demobrowser.TreeDataHandler",
     /**
      * TODOC
      *
-     * @type member
      * @param node {Node} TODOC
      * @return {int | Number} TODOC
      */

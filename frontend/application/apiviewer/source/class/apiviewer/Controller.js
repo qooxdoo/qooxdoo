@@ -77,7 +77,6 @@ qx.Class.define("apiviewer.Controller",
      * Loads the API doc tree from a URL. The URL must point to a JSON encoded
      * doc tree.
      *
-     * @type member
      * @param url {String} the URL.
      */
     load : function(url)
@@ -244,7 +243,6 @@ qx.Class.define("apiviewer.Controller",
     /**
      * Display information about a class
      *
-     * @type member
      * @param classNode {apiviewer.dao.Class} class node to display
      */
     __selectClass : function(classNode, callback, self)
@@ -279,7 +277,6 @@ qx.Class.define("apiviewer.Controller",
     /**
      * Selects an item (class, property, method or constant).
      *
-     * @type member
      * @param fullItemName {String} the full name of the item to select.
      *          (e.g. "qx.mypackage.MyClass" or "qx.mypackage.MyClass#myProperty")
      */

@@ -82,7 +82,6 @@ qx.Bootstrap.define("qx.event.Manager",
      * Local dispose method. Automatically executed when unloading of the
      * attached window occours.
      *
-     * @type member
      * @return {void}
      */
     dispose : function()
@@ -102,7 +101,6 @@ qx.Bootstrap.define("qx.event.Manager",
     /**
      * Get the window instance the event manager is reponsible for
      *
-     * @type member
      * @return {Window} DOM window instance
      */
     getWindow : function() {
@@ -113,7 +111,6 @@ qx.Bootstrap.define("qx.event.Manager",
     /**
      * Returns an instance of the given handler class for this manager(window).
      *
-     * @type member
      * @param clazz {Class} Any class which implements {@link qx.event.IEventHandler}
      * @return {Object} The instance used by this manager
      */
@@ -132,7 +129,6 @@ qx.Bootstrap.define("qx.event.Manager",
     /**
      * Returns an instance of the given dispatcher class for this manager(window).
      *
-     * @type member
      * @param clazz {Class} Any class which implements {@link qx.event.IEventHandler}
      * @return {Object} The instance used by this manager
      */
@@ -162,7 +158,6 @@ qx.Bootstrap.define("qx.event.Manager",
      * This method is especially useful and thoughtfor event handlers to
      * to query the listeners registered in the manager.
      *
-     * @type member
      * @param target {Object} Any valid event target
      * @param type {String} Event type
      * @param capture {Boolean ? false} Whether the listener is for the
@@ -190,7 +185,6 @@ qx.Bootstrap.define("qx.event.Manager",
      * Check whether there are one or more listeners for an event type
      * registered at the target.
      *
-     * @type member
      * @param target {Object} Any valid event target
      * @param type {String} The event type
      * @param capture {Boolean ? false} Whether to check for listeners of
@@ -237,7 +231,6 @@ qx.Bootstrap.define("qx.event.Manager",
      * identical to the parameters of {@link #addListener}. For details
      * please have a look there.
      *
-     * @type member
      * @param target {Object} Any valid event target
      * @param list {Map} A map where every listener has a unique key.
      * @return {void}
@@ -287,7 +280,6 @@ qx.Bootstrap.define("qx.event.Manager",
      * instance of {@link Event} containing all relevant information
      * about the event as parameter.
      *
-     * @type member
      * @param target {Object} Any valid event target
      * @param type {String} Name of the event e.g. "click", "keydown", ...
      * @param listener {Function} Event listener function
@@ -437,7 +429,6 @@ qx.Bootstrap.define("qx.event.Manager",
      * This method is called each time an event listener for one of the
      * supported events is added using {qx.event.Manager#addListener}.
      *
-     * @type member
      * @param target {Object} Any valid event target
      * @param type {String} event type
      * @param capture {Boolean} Whether to attach the event to the
@@ -463,7 +454,6 @@ qx.Bootstrap.define("qx.event.Manager",
     /**
      * Remove an event listener from a event target.
      *
-     * @type member
      * @param target {Object} Any valid event target
      * @param type {String} Name of the event
      * @param listener {Function} The pointer to the event listener
@@ -565,7 +555,6 @@ qx.Bootstrap.define("qx.event.Manager",
      * supported events is removed by using {qx.event.Manager#removeListener}
      * and no other event listener is listening on this type.
      *
-     * @type member
      * @param target {Object} Any valid event target
      * @param type {String} event type
      * @param capture {Boolean} Whether to attach the event to the
@@ -602,7 +591,6 @@ qx.Bootstrap.define("qx.event.Manager",
      * {@link #addListener}. After dispatching the event object will be pooled
      * for later reuse or disposed.
      *
-     * @type member
      * @param target {Object} Any valid event target
      * @param event {qx.event.type.Event} The event object to dispatch. The event
      *     object must be obtained using {@link qx.event.Registration#createEvent}

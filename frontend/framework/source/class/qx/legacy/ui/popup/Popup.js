@@ -201,7 +201,6 @@ qx.Class.define("qx.legacy.ui.popup.Popup",
      * Additionally the popup widget is registered at the popup manager and the
      * method {@link #bringToFront} is called.
      *
-     * @type member
      * @return {void}
      */
     _beforeAppear : function()
@@ -239,7 +238,6 @@ qx.Class.define("qx.legacy.ui.popup.Popup",
      * Callback method for the "beforeDisappear" event.<br/>
      * The popup widget gets deregistered from the popup manager.
      *
-     * @type member
      * @return {void}
      */
     _beforeDisappear : function()
@@ -258,7 +256,6 @@ qx.Class.define("qx.legacy.ui.popup.Popup",
      * the popup gets repositioned to get displayed within the boundaries of the
      * client document.
      *
-     * @type member
      * @return {void}
      */
     _afterAppear : function()
@@ -331,7 +328,6 @@ qx.Class.define("qx.legacy.ui.popup.Popup",
     /**
      * Sets the popup widget as active child
      *
-     * @type member
      * @return {void}
      */
     _makeActive : function() {
@@ -342,7 +338,6 @@ qx.Class.define("qx.legacy.ui.popup.Popup",
     /**
      * Give back the focus control to the focus root.
      *
-     * @type member
      * @return {void}
      */
     _makeInactive : function()
@@ -371,7 +366,6 @@ qx.Class.define("qx.legacy.ui.popup.Popup",
      * Sets the {@link #zIndex} to Infinity and calls the
      * method {@link #_sendTo}
      *
-     * @type member
      * @return {void}
      */
     bringToFront : function()
@@ -385,7 +379,6 @@ qx.Class.define("qx.legacy.ui.popup.Popup",
      * Sets the {@link #zIndex} to -Infinity and calls the
      * method {@link #_sendTo}
      *
-     * @type member
      * @return {void}
      */
     sendToBack : function()
@@ -400,7 +393,6 @@ qx.Class.define("qx.legacy.ui.popup.Popup",
      * (getting the instances via the {@link qx.legacy.ui.popup.PopupManager} and
      * the {@link qx.legacy.ui.menu.Manager}) one higher than the defined minimum zIndex.
      *
-     * @type member
      * @return {void}
      */
     _sendTo : function()
@@ -437,7 +429,6 @@ qx.Class.define("qx.legacy.ui.popup.Popup",
     /**
      * Utility method to get the current showTimeStamp
      *
-     * @type member
      * @return {Number} Timestamp
      */
     getShowTimeStamp : function() {
@@ -448,7 +439,6 @@ qx.Class.define("qx.legacy.ui.popup.Popup",
     /**
      * Utility method to get the current showTimeStamp
      *
-     * @type member
      * @return {Number} Timestamp
      */
     getHideTimeStamp : function() {
@@ -467,7 +457,6 @@ qx.Class.define("qx.legacy.ui.popup.Popup",
     /**
      * Positions the popup relative to some reference element.
      *
-     * @type member
      * @param el {Element|qx.legacy.ui.core.Widget} Reference DOM element/widget.
      * @param offsetX {Integer ? 0} Offset in pixels in X direction (optional).
      * @param offsetY {Integer ? 0} Offset in pixels in Y direction (optional).
@@ -498,7 +487,6 @@ qx.Class.define("qx.legacy.ui.popup.Popup",
      * This method does only work if the Popup has already been rendered, so it
      * is best to call it in the {@link qx.legacy.ui.core.Widget#appear} event.
      *
-     * @type member
      */
     centerToBrowser : function()
     {

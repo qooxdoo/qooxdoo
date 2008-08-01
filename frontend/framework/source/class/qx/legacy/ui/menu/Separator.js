@@ -133,7 +133,6 @@ qx.Class.define("qx.legacy.ui.menu.Separator",
      * Callback method for the "mouseDown" event<br/>
      * Simply stops the propagation of the event
      *
-     * @type member
      * @param e {qx.legacy.event.type.MouseEvent} mouseDown event
      * @return {void}
      */

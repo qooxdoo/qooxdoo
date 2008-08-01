@@ -95,7 +95,6 @@ qx.Class.define("qx.legacy.ui.listview.ContentCellImage",
     /**
      * TODOC
      *
-     * @type member
      * @param vSource {var} TODOC
      * @return {var} TODOC
      */

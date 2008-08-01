@@ -69,7 +69,6 @@ qx.Class.define("testrunner.runner.TestAppender",
     /**
      * TODOC
      *
-     * @type member
      * @param evt {Event} TODOC
      * @return {void}
      */

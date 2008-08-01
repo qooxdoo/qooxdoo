@@ -292,7 +292,6 @@ qx.Class.define("qx.legacy.ui.form.ComboBoxEx",
     /**
      * Returns a reference to the popup component.
      *
-     * @type member
      * @return {var} undefined if the popup component isn't created.  The popup is lazy created when displayed.
      */
     getPopup : function() {
@@ -303,7 +302,6 @@ qx.Class.define("qx.legacy.ui.form.ComboBoxEx",
     /**
      * Returns a reference to the popup list.
      *
-     * @type member
      * @return {qx.legacy.ui.table.Table} undefined if hasn't been created yet.  The list is lazy created when displayed.
      */
     getList : function() {
@@ -314,7 +312,6 @@ qx.Class.define("qx.legacy.ui.form.ComboBoxEx",
     /**
      * Returns a reference to the field.
      *
-     * @type member
      * @return {qx.legacy.ui.core.Widget} label or textbox, depending if the combo is editable or not.
      */
     getField : function() {
@@ -325,7 +322,6 @@ qx.Class.define("qx.legacy.ui.form.ComboBoxEx",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     getButton : function() {
@@ -336,7 +332,6 @@ qx.Class.define("qx.legacy.ui.form.ComboBoxEx",
     /**
      * Gets the current selected row of the selection.
      *
-     * @type member
      * @return {var} null if nothing selected or an array
      */
     getSelectedRow : function()
@@ -349,7 +344,6 @@ qx.Class.define("qx.legacy.ui.form.ComboBoxEx",
     /**
      * Creates the list component.
      *
-     * @type member
      * @param columns {var} TODOC
      * @return {void}
      */
@@ -431,7 +425,6 @@ qx.Class.define("qx.legacy.ui.form.ComboBoxEx",
     /**
      * Sets the list of selectable items.
      *
-     * @type member
      * @param data {var[][]} Array of values.  Its value is an array, with the following info:<ul>.
      *    <li>Column 0 represents the ID, i.e. the value that is stored internally and used by the app.</li>
      *    <li>Column 1 represents the description, the text that the end user normally sees.</li>
@@ -469,7 +462,6 @@ qx.Class.define("qx.legacy.ui.form.ComboBoxEx",
     /**
      * Getter for {@link #setSelection}.
      *
-     * @type member
      * @return {Array} the list of selectable items.
      */
     getSelection : function() {
@@ -480,7 +472,6 @@ qx.Class.define("qx.legacy.ui.form.ComboBoxEx",
     /**
      * Sets the index of the currently selected item in the list.
      *
-     * @type member
      * @param index {number} -1 means no selected index
      * @return {void}
      */
@@ -521,7 +512,6 @@ qx.Class.define("qx.legacy.ui.form.ComboBoxEx",
     /**
      * Getter for {@link #setSelectedIndex}.
      *
-     * @type member
      * @return {number} -1 if nothing selected or >=0.
      */
     getSelectedIndex : function()
@@ -558,7 +548,6 @@ qx.Class.define("qx.legacy.ui.form.ComboBoxEx",
     /**
      * TODOC
      *
-     * @type member
      * @param propVal {var} TODOC
      */
     _applyShowOnTextField : function(propVal)
@@ -574,7 +563,6 @@ qx.Class.define("qx.legacy.ui.form.ComboBoxEx",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @return {Boolean}
      */
@@ -588,7 +576,6 @@ qx.Class.define("qx.legacy.ui.form.ComboBoxEx",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @return {void}
      */
@@ -605,7 +592,6 @@ qx.Class.define("qx.legacy.ui.form.ComboBoxEx",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @return {void}
      */
@@ -621,7 +607,6 @@ qx.Class.define("qx.legacy.ui.form.ComboBoxEx",
     /**
      * Post-processing after property showColumnHeaders changes.
      *
-     * @type member
      * @param value {var} Current value
      * @return {void}
      */
@@ -637,7 +622,6 @@ qx.Class.define("qx.legacy.ui.form.ComboBoxEx",
     /**
      * Post-processing after property editable changes.
      *
-     * @type member
      * @param value {var} Current value
      * @return {void}
      */
@@ -658,7 +642,6 @@ qx.Class.define("qx.legacy.ui.form.ComboBoxEx",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      */
     _applyValue : function(value)
@@ -710,7 +693,6 @@ qx.Class.define("qx.legacy.ui.form.ComboBoxEx",
     /**
      * Creates the popup if necessary with its list.
      *
-     * @type member
      * @return {void}
      */
     _createPopup: function()
@@ -738,7 +720,6 @@ qx.Class.define("qx.legacy.ui.form.ComboBoxEx",
     /**
      * Opens the popup (and creates it if necessary).
      *
-     * @type member
      * @return {void}
      */
     _openPopup : function()
@@ -770,7 +751,6 @@ qx.Class.define("qx.legacy.ui.form.ComboBoxEx",
     /**
      * Hide the popup list.
      *
-     * @type member
      * @return {void}
      */
     _closePopup : function() {
@@ -781,7 +761,6 @@ qx.Class.define("qx.legacy.ui.form.ComboBoxEx",
     /**
      * Toggle the visibility of the popup list.
      *
-     * @type member
      * @return {void}
      */
     _togglePopup : function() {
@@ -800,7 +779,6 @@ qx.Class.define("qx.legacy.ui.form.ComboBoxEx",
     /**
      * Sizes the width of the text field component to the needed value to show any selection item.
      *
-     * @type member
      * @return {void}
      */
     sizeTextFieldToContent : function()
@@ -814,7 +792,6 @@ qx.Class.define("qx.legacy.ui.form.ComboBoxEx",
     /**
      * Calculates the needed dimensions for the text field and list components.
      * PRECONDITION: the _list must be created.
-     * @type member
      * @return {void}
      */
     _calculateDimensions : function()
@@ -923,7 +900,6 @@ qx.Class.define("qx.legacy.ui.form.ComboBoxEx",
      * Calculates the width of the given text.
      *  The default font is used.
      *
-     * @type member
      * @param text {var} TODOC
      * @return {Integer} TODOC
      */
@@ -960,7 +936,6 @@ qx.Class.define("qx.legacy.ui.form.ComboBoxEx",
     /**
      * Does this combo have the searched dialog open?
      *
-     * @type member
      * @return {Boolean}
      */
     isSearchInProgress : function() {
@@ -971,7 +946,6 @@ qx.Class.define("qx.legacy.ui.form.ComboBoxEx",
     /**
      * Searches the given text.  Called from the search dialog.
      *
-     * @type member
      * @param startIndex {number} Start index, 0 based
      * @param txt {String} Text to find
      * @param caseSens {Boolean} Case sensivity flag.
@@ -1030,7 +1004,6 @@ qx.Class.define("qx.legacy.ui.form.ComboBoxEx",
      * Opens a popup search dialog, useful when the combo has a lot of items.
      *  This dialog is triggered by double clicking the combo, pressing F3 or Ctrl+F.
      *
-     * @type member
      * @return {void}
      */
     openSearchDialog : function()
@@ -1223,7 +1196,6 @@ qx.Class.define("qx.legacy.ui.form.ComboBoxEx",
     /**
      * Event handler from changing the selected index.
      *
-     * @type member
      * @param e {var} event or row index (when called from {@link #setSelectedIndex()}).
      * @return {void}
      */
@@ -1280,7 +1252,6 @@ qx.Class.define("qx.legacy.ui.form.ComboBoxEx",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -1297,7 +1268,6 @@ qx.Class.define("qx.legacy.ui.form.ComboBoxEx",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -1321,7 +1291,6 @@ qx.Class.define("qx.legacy.ui.form.ComboBoxEx",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -1355,7 +1324,6 @@ qx.Class.define("qx.legacy.ui.form.ComboBoxEx",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -1382,7 +1350,6 @@ qx.Class.define("qx.legacy.ui.form.ComboBoxEx",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -1406,7 +1373,6 @@ qx.Class.define("qx.legacy.ui.form.ComboBoxEx",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -1493,7 +1459,6 @@ qx.Class.define("qx.legacy.ui.form.ComboBoxEx",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -1546,7 +1511,6 @@ qx.Class.define("qx.legacy.ui.form.ComboBoxEx",
     /**
      * TODOC
      *
-     * @type member
      */
     _visualizeBlur : function()
     {
@@ -1558,7 +1522,6 @@ qx.Class.define("qx.legacy.ui.form.ComboBoxEx",
     /**
      * TODOC
      *
-     * @type member
      */
     _visualizeFocus : function()
     {

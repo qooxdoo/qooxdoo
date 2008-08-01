@@ -43,7 +43,6 @@ qx.Interface.define("qx.legacy.ui.table.ICellEditorFactory",
      * <li>table (qx.legacy.ui.table.Table) reference to the table, the cell belongs to. </li>
      * </ul>
      *
-     * @type member
      * @abstract
      * @param cellInfo {Map} A map containing the information about the cell to
      *      create.
@@ -57,7 +56,6 @@ qx.Interface.define("qx.legacy.ui.table.ICellEditorFactory",
     /**
      * Returns the current value of a cell editor.
      *
-     * @type member
      * @abstract
      * @param cellEditor {qx.legacy.ui.core.Widget} The cell editor formally created by
      *      {@link #createCellEditor}.

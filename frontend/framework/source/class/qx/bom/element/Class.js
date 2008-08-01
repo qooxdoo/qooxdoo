@@ -53,7 +53,6 @@ qx.Class.define("qx.bom.element.Class",
      * Adds a className to the given element
      * If successfully added the given className will be returned
      *
-     * @type static
      * @param element {Element} The element to modify
      * @param name {String} The class name to add
      * @return {String} The added classname (if so)
@@ -71,7 +70,6 @@ qx.Class.define("qx.bom.element.Class",
     /**
      * Gets the classname of the given element
      *
-     * @type static
      * @param element {Element} The element to query
      * @return {String} The retrieved classname
      */
@@ -84,7 +82,6 @@ qx.Class.define("qx.bom.element.Class",
     /**
      * Whether the given element has the given className.
      *
-     * @type static
      * @param element {Element} The DOM element to check
      * @param name {String} The class name to check for
      * @return {Boolean} true when the element has the given classname
@@ -99,7 +96,6 @@ qx.Class.define("qx.bom.element.Class",
     /**
      * Removes a className from the given element
      *
-     * @type static
      * @param element {Element} The DOM element to modify
      * @param name {String} The class name to remove
      * @return {String} The removed class name
@@ -116,7 +112,6 @@ qx.Class.define("qx.bom.element.Class",
     /**
      * Replaces the first given class name with the second one
      *
-     * @type static
      * @param element {Element} The DOM element to modify
      * @param oldName {String} The class name to remove
      * @param newName {String} The class name to add
@@ -132,7 +127,6 @@ qx.Class.define("qx.bom.element.Class",
     /**
      * Toggles a className of the given element
      *
-     * @type static
      * @param element {Element} The DOM element to modify
      * @param name {String} The class name to toggle
      * @return {String} The class name

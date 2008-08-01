@@ -43,7 +43,6 @@ qx.Class.define("qx.legacy.html.ScrollIntoView",
      * Scroll the parent DOM element so that the element's so that the x coordinate is inside
      * the visible area of the parent.
      *
-     * @type static
      * @param vElement {Element} DOM node to be scrolled into view
      * @param vAlignLeft {Boolean?false} whether the element should be left aligned
      * @return {Boolean} Whether the element could be scrolled into the view
@@ -117,7 +116,6 @@ qx.Class.define("qx.legacy.html.ScrollIntoView",
      * Scroll the parent DOM element so that the element's so that the y coordinate is inside
      * the visible area of the parent.
      *
-     * @type static
      * @param vElement {Element} DOM node to be scrolled into view
      * @param vAlignTop {Boolean?false} whether the element should be top aligned
      * @return {Boolean} Whether the element could be scrolled into the view

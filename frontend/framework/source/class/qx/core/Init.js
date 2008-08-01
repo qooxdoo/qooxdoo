@@ -40,7 +40,6 @@ qx.Class.define("qx.core.Init",
     /**
      * Returns the instanciated qooxdoo application.
      *
-     * @type static
      * @return {qx.core.Object} The application instance.
      */
     getApplication : function() {
@@ -52,7 +51,6 @@ qx.Class.define("qx.core.Init",
      * Runs when the application is loaded. Automatically creates an instance
      * of the class defined by the setting <code>qx.application</code>.
      *
-     * @type static
      * @return {void}
      */
     __ready : function()
@@ -85,7 +83,6 @@ qx.Class.define("qx.core.Init",
      * Runs when the document is unloaded. Automatically terminates a previously
      * created application instance.
      *
-     * @type static
      * @return {void}
      */
     __shutdown : function()

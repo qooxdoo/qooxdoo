@@ -86,7 +86,6 @@ qx.Class.define("qx.io.remote.transport.Script",
     /**
      * TODOC
      *
-     * @type static
      */
     isSupported : function() {
       return true;
@@ -117,7 +116,6 @@ qx.Class.define("qx.io.remote.transport.Script",
      * This method can be called by the script loaded by the ScriptTransport
      * class.
      *
-     * @type static
      * @param id {String} Id of the corresponding transport object,
      *     which is passesd as an URL parameter to the server an
      * @param content {String} This string is passed to the content property
@@ -169,7 +167,6 @@ qx.Class.define("qx.io.remote.transport.Script",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     send : function()
@@ -241,7 +238,6 @@ qx.Class.define("qx.io.remote.transport.Script",
     /**
      * TODOC
      *
-     * @type member
      * @param vReadyState {var} TODOC
      * @return {void}
      */
@@ -276,7 +272,6 @@ qx.Class.define("qx.io.remote.transport.Script",
     /**
      * TODOC
      *
-     * @type member
      * @param vLabel {var} TODOC
      * @param vValue {var} TODOC
      * @return {void}
@@ -294,7 +289,6 @@ qx.Class.define("qx.io.remote.transport.Script",
     /**
      * TODOC
      *
-     * @type member
      * @param vLabel {var} TODOC
      * @return {Object} TODOC
      */
@@ -307,7 +301,6 @@ qx.Class.define("qx.io.remote.transport.Script",
     /**
      * Provides an hash of all response headers.
      *
-     * @type member
      * @return {Map} TODOC
      */
     getResponseHeaders : function() {
@@ -325,7 +318,6 @@ qx.Class.define("qx.io.remote.transport.Script",
     /**
      * Returns the current status code of the request if available or -1 if not.
      *
-     * @type member
      * @return {Integer} TODOC
      */
     getStatusCode : function() {
@@ -337,7 +329,6 @@ qx.Class.define("qx.io.remote.transport.Script",
     /**
      * Provides the status text for the current request if available and null otherwise.
      *
-     * @type member
      * @return {string} TODOC
      */
     getStatusText : function() {
@@ -355,7 +346,6 @@ qx.Class.define("qx.io.remote.transport.Script",
     /**
      * Returns the length of the content as fetched thus far
      *
-     * @type member
      * @return {Integer} TODOC
      */
     getFetchedLength : function() {
@@ -367,7 +357,6 @@ qx.Class.define("qx.io.remote.transport.Script",
     /**
      * TODOC
      *
-     * @type member
      * @return {null | var} TODOC
      */
     getResponseContent : function()

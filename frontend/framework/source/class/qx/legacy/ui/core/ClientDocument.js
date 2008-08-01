@@ -241,7 +241,6 @@ qx.Class.define("qx.legacy.ui.core.ClientDocument",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     getWindowElement : function() {
@@ -252,7 +251,6 @@ qx.Class.define("qx.legacy.ui.core.ClientDocument",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     getDocumentElement : function() {
@@ -263,7 +261,6 @@ qx.Class.define("qx.legacy.ui.core.ClientDocument",
     /**
      * TODOC
      *
-     * @type member
      * @return {qx.legacy.ui.core.Parent} TODOC
      * @signature function()
      */
@@ -273,7 +270,6 @@ qx.Class.define("qx.legacy.ui.core.ClientDocument",
     /**
      * TODOC
      *
-     * @type member
      * @return {qx.legacy.ui.popup.ToolTip} TODOC
      * @signature function()
      */
@@ -283,7 +279,6 @@ qx.Class.define("qx.legacy.ui.core.ClientDocument",
     /**
      * TODOC
      *
-     * @type member
      * @signature function()
      * @return {boolean}
      */
@@ -293,7 +288,6 @@ qx.Class.define("qx.legacy.ui.core.ClientDocument",
     /**
      * TODOC
      *
-     * @type member
      * @signature function()
      * @return {boolean}
      */
@@ -316,7 +310,6 @@ qx.Class.define("qx.legacy.ui.core.ClientDocument",
     /**
      * Returns the blocker widget if already created; otherwise create it first
      *
-     * @type member
      * @return {ClientDocumentBlocker} the blocker widget.
      */
     _getBlocker : function()
@@ -341,7 +334,6 @@ qx.Class.define("qx.legacy.ui.core.ClientDocument",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -364,7 +356,6 @@ qx.Class.define("qx.legacy.ui.core.ClientDocument",
     /**
      * TODOC
      *
-     * @type member
      * @param vActiveChild {var} TODOC
      * @return {void}
      */
@@ -392,7 +383,6 @@ qx.Class.define("qx.legacy.ui.core.ClientDocument",
     /**
      * TODOC
      *
-     * @type member
      * @param vActiveChild {var} TODOC
      * @return {void}
      */
@@ -435,7 +425,6 @@ qx.Class.define("qx.legacy.ui.core.ClientDocument",
     /**
      * TODOC
      *
-     * @type member
      * @param vCssText {var} TODOC
      * @return {var} TODOC
      */
@@ -447,7 +436,6 @@ qx.Class.define("qx.legacy.ui.core.ClientDocument",
     /**
      * TODOC
      *
-     * @type member
      * @param vSheet {var} TODOC
      * @param vSelector {var} TODOC
      * @param vStyle {var} TODOC
@@ -461,7 +449,6 @@ qx.Class.define("qx.legacy.ui.core.ClientDocument",
     /**
      * TODOC
      *
-     * @type member
      * @param vSheet {var} TODOC
      * @param vSelector {var} TODOC
      * @return {var} TODOC
@@ -474,7 +461,6 @@ qx.Class.define("qx.legacy.ui.core.ClientDocument",
     /**
      * TODOC
      *
-     * @type member
      * @param vSheet {var} TODOC
      * @return {var} TODOC
      */
@@ -494,7 +480,6 @@ qx.Class.define("qx.legacy.ui.core.ClientDocument",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -594,7 +579,6 @@ qx.Class.define("qx.legacy.ui.core.ClientDocument",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -617,7 +601,6 @@ qx.Class.define("qx.legacy.ui.core.ClientDocument",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     _computeInnerWidth : function() {
@@ -628,7 +611,6 @@ qx.Class.define("qx.legacy.ui.core.ClientDocument",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     _computeInnerHeight : function() {

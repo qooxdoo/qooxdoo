@@ -162,7 +162,6 @@ qx.Class.define("testrunner.runner.ProgressBar",
      * For future testing only.
      *
      * @internal
-     * @type member
      * @return {void}
      */
     showOff : function()
@@ -190,7 +189,6 @@ qx.Class.define("testrunner.runner.ProgressBar",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     increment : function() {},
@@ -199,7 +197,6 @@ qx.Class.define("testrunner.runner.ProgressBar",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     reset : function()
@@ -219,7 +216,6 @@ qx.Class.define("testrunner.runner.ProgressBar",
     /**
      * TODOC
      *
-     * @type member
      * @param val {var} TODOC
      * @return {boolean} TODOC
      * @throws TODOC
@@ -283,7 +279,6 @@ qx.Class.define("testrunner.runner.ProgressBar",
     /**
      * TODOC
      *
-     * @type member
      * @param newLabel {var} TODOC
      * @return {void}
      */
@@ -295,7 +290,6 @@ qx.Class.define("testrunner.runner.ProgressBar",
     /**
      * TODOC
      *
-     * @type member
      * @param newWidth {var} TODOC
      * @return {void}
      */
@@ -307,7 +301,6 @@ qx.Class.define("testrunner.runner.ProgressBar",
     /**
      * TODOC
      *
-     * @type member
      * @param newStatus {var} TODOC
      * @return {void}
      */
@@ -324,7 +317,6 @@ qx.Class.define("testrunner.runner.ProgressBar",
     /**
      * TODOC
      *
-     * @type member
      * @param newStatus {var} TODOC
      * @return {void}
      */
@@ -339,7 +331,6 @@ qx.Class.define("testrunner.runner.ProgressBar",
     /**
      * TODOC
      *
-     * @type member
      * @param newStatus {var} TODOC
      * @return {void}
      */
@@ -356,7 +347,6 @@ qx.Class.define("testrunner.runner.ProgressBar",
     /**
      * TODOC
      *
-     * @type member
      * @param newStatus {var} TODOC
      * @return {void}
      */
@@ -371,7 +361,6 @@ qx.Class.define("testrunner.runner.ProgressBar",
     /**
      * TODOC
      *
-     * @type member
      * @param newColor {var} TODOC
      * @return {void}
      */

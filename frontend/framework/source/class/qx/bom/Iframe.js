@@ -44,7 +44,6 @@ qx.Class.define("qx.bom.Iframe",
      * Attributes may be given directly with this call. This is critical
      * for some attributes e.g. name, type, ... in many clients.
      *
-     * @type static
      * @param attributes {Map} Map of attributes to apply
      * @param win {Window} Window to create the element for
      * @return {Element} The created iframe node
@@ -74,7 +73,6 @@ qx.Class.define("qx.bom.Iframe",
     /**
      * Get the DOM window object of an iframe.
      *
-     * @type static
      * @param iframe {Element} DOM element of the iframe.
      * @return {Window} The DOM window object of the iframe.
      * @signature function(iframe)
@@ -108,7 +106,6 @@ qx.Class.define("qx.bom.Iframe",
     /**
      * Get the DOM document object of an iframe.
      *
-     * @type static
      * @param iframe {Element} DOM element of the iframe.
      * @return {Document} The DOM document object of the iframe.
      * @signature function(iframe)
@@ -142,7 +139,6 @@ qx.Class.define("qx.bom.Iframe",
     /**
      * Get the HTML body element of the iframe.
      *
-     * @type static
      * @param iframe {Element} DOM element of the iframe.
      * @return {Element} The DOM node of the <code>body</code> element of the iframe.
      */
@@ -155,7 +151,6 @@ qx.Class.define("qx.bom.Iframe",
     /**
      * Sets iframe's source attribute to given value
      *
-     * @type static
      * @param iframe {Element} DOM element of the iframe.
      * @param source {String} URL to be set.
      * @signature function(iframe, source)
@@ -198,7 +193,6 @@ qx.Class.define("qx.bom.Iframe",
     /**
      * Returns the current (served) URL inside the iframe
      *
-     * @type static
      * @param iframe {Element} DOM element of the iframe.
      * @return {String} Returns the location href or null (if a query is not possible/allowed)
      */

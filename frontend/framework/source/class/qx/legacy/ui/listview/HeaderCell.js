@@ -156,7 +156,6 @@ qx.Class.define("qx.legacy.ui.listview.HeaderCell",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     getView : function() {
@@ -167,7 +166,6 @@ qx.Class.define("qx.legacy.ui.listview.HeaderCell",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     getNextSortOrder : function()
@@ -188,7 +186,6 @@ qx.Class.define("qx.legacy.ui.listview.HeaderCell",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     updateSort : function()
@@ -220,7 +217,6 @@ qx.Class.define("qx.legacy.ui.listview.HeaderCell",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -272,7 +268,6 @@ qx.Class.define("qx.legacy.ui.listview.HeaderCell",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -284,7 +279,6 @@ qx.Class.define("qx.legacy.ui.listview.HeaderCell",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -296,7 +290,6 @@ qx.Class.define("qx.legacy.ui.listview.HeaderCell",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */

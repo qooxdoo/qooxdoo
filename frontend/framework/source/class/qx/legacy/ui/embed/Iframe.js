@@ -183,7 +183,6 @@ qx.Class.define("qx.legacy.ui.embed.Iframe",
     /**
      * Get the DOM element of the iframe.
      *
-     * @type member
      * @return {Element} The DOM element of the iframe.
      */
     getIframeNode : function() {
@@ -194,7 +193,6 @@ qx.Class.define("qx.legacy.ui.embed.Iframe",
     /**
      * Change the DOM element of the iframe.
      *
-     * @type member
      * @param vIframeNode {Element} The new DOM element of the iframe.
      */
     setIframeNode : function(vIframeNode) {
@@ -205,7 +203,6 @@ qx.Class.define("qx.legacy.ui.embed.Iframe",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     getBlockerNode : function() {
@@ -216,7 +213,6 @@ qx.Class.define("qx.legacy.ui.embed.Iframe",
     /**
      * TODOC
      *
-     * @type member
      * @param vBlockerNode {var} TODOC
      * @return {var} TODOC
      */
@@ -236,7 +232,6 @@ qx.Class.define("qx.legacy.ui.embed.Iframe",
     /**
      * Get the DOM window object of the iframe.
      *
-     * @type member
      * @return {DOMWindow} The DOM window object of the iframe.
      */
     getContentWindow : function()
@@ -252,7 +247,6 @@ qx.Class.define("qx.legacy.ui.embed.Iframe",
     /**
      * Get the DOM document object of the iframe.
      *
-     * @type member
      * @return {DOMDocument} The DOM document object of the iframe.
      */
     getContentDocument : function()
@@ -293,7 +287,6 @@ qx.Class.define("qx.legacy.ui.embed.Iframe",
     /**
      * Reload the contents of the iframe.
      *
-     * @type member
      */
     reload : function()
     {
@@ -353,7 +346,6 @@ qx.Class.define("qx.legacy.ui.embed.Iframe",
      * mouse or key events to be handled by the iframe. To release the blocker
      * use {@link #release}.
      *
-     * @type member
      */
     block : function()
     {
@@ -366,7 +358,6 @@ qx.Class.define("qx.legacy.ui.embed.Iframe",
     /**
      * Release the blocker set by {@link #block}.
      *
-     * @type member
      */
     release : function()
     {
@@ -399,7 +390,6 @@ qx.Class.define("qx.legacy.ui.embed.Iframe",
     /**
      * Creates an template iframe element and sets all required html and style properties.
      *
-     * @type static
      * @param vFrameName {String} Name of the iframe.
      */
     _generateIframeElement : function(vFrameName)
@@ -449,7 +439,6 @@ qx.Class.define("qx.legacy.ui.embed.Iframe",
     /**
      * TODOC
      *
-     * @type static
      * @return {void}
      */
     _generateBlockerElement : function()
@@ -491,7 +480,6 @@ qx.Class.define("qx.legacy.ui.embed.Iframe",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -513,7 +501,6 @@ qx.Class.define("qx.legacy.ui.embed.Iframe",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     _beforeAppear : function()
@@ -528,7 +515,6 @@ qx.Class.define("qx.legacy.ui.embed.Iframe",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     _beforeDisappear : function()
@@ -543,7 +529,6 @@ qx.Class.define("qx.legacy.ui.embed.Iframe",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -558,7 +543,6 @@ qx.Class.define("qx.legacy.ui.embed.Iframe",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     _syncSource : function()
@@ -616,7 +600,6 @@ qx.Class.define("qx.legacy.ui.embed.Iframe",
     /**
      * Sync scrolling property to the iframe DOM node.
      *
-     * @type member
      */
     _syncScrolling : function() {
       this.getIframeNode().setAttribute("scrolling", this.getScrolling());
@@ -626,7 +609,6 @@ qx.Class.define("qx.legacy.ui.embed.Iframe",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      * @param propName {var} TODOC
@@ -652,7 +634,6 @@ qx.Class.define("qx.legacy.ui.embed.Iframe",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     _onload : function()

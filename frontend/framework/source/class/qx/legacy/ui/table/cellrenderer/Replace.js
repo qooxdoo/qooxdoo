@@ -104,7 +104,6 @@ qx.Class.define("qx.legacy.ui.table.cellrenderer.Replace",
      * propertyCellRenderer.addReversedReplaceMap();
      * </pre>
      *
-     * @type member
      * @param cellInfo {Map} The information about the cell.
      *          See {@link #createDataCellHtml}.
      * @return {String}

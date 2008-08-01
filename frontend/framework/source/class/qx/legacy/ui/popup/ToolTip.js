@@ -147,7 +147,6 @@ qx.Class.define("qx.legacy.ui.popup.ToolTip",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -159,7 +158,6 @@ qx.Class.define("qx.legacy.ui.popup.ToolTip",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -171,7 +169,6 @@ qx.Class.define("qx.legacy.ui.popup.ToolTip",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -198,7 +195,6 @@ qx.Class.define("qx.legacy.ui.popup.ToolTip",
      * Does two things: stops the timer for the show interval and
      * starts the timer for the hide interval.
      *
-     * @type member
      * @return {void}
      */
     _beforeAppear : function()
@@ -214,7 +210,6 @@ qx.Class.define("qx.legacy.ui.popup.ToolTip",
      * Callback method for the "beforeDisappear" event.<br/>
      * Stops the timer for the hide interval.
      *
-     * @type member
      * @return {void}
      */
     _beforeDisappear : function()
@@ -231,7 +226,6 @@ qx.Class.define("qx.legacy.ui.popup.ToolTip",
      * the tooltip gets repositioned to ensure it is displayed within the
      * boundaries of the {@link qx.legacy.ui.core.ClientDocument}.
      *
-     * @type member
      * @return {void}
      */
     _afterAppear : function()
@@ -324,7 +318,6 @@ qx.Class.define("qx.legacy.ui.popup.ToolTip",
      * Utility method to start the timer for the show interval
      * (if the timer is disabled)
      *
-     * @type member
      * @return {void}
      */
     _startShowTimer : function()
@@ -339,7 +332,6 @@ qx.Class.define("qx.legacy.ui.popup.ToolTip",
      * Utility method to start the timer for the hide interval
      * (if the timer is disabled)
      *
-     * @type member
      * @return {void}
      */
     _startHideTimer : function()
@@ -354,7 +346,6 @@ qx.Class.define("qx.legacy.ui.popup.ToolTip",
      * Utility method to stop the timer for the show interval
      * (if the timer is enabled)
      *
-     * @type member
      * @return {void}
      */
     _stopShowTimer : function()
@@ -369,7 +360,6 @@ qx.Class.define("qx.legacy.ui.popup.ToolTip",
      * Utility method to stop the timer for the hide interval
      * (if the timer is enabled)
      *
-     * @type member
      * @return {void}
      */
     _stopHideTimer : function()
@@ -392,7 +382,6 @@ qx.Class.define("qx.legacy.ui.popup.ToolTip",
      * Callback method for the "mouseOver" event.<br/>
      * If property {@link #hideOnOver} is enabled the tooltip gets hidden
      *
-     * @type member
      * @param e {qx.legacy.event.type.MouseEvent} mouseOver event
      * @return {void}
      */
@@ -409,7 +398,6 @@ qx.Class.define("qx.legacy.ui.popup.ToolTip",
      * Positions the tooltip (sets left and top) and calls the
      * {@link #show} method.
      *
-     * @type member
      * @param e {qx.event.type.Event} interval event
      */
     _onshowtimer : function(e)
@@ -425,7 +413,6 @@ qx.Class.define("qx.legacy.ui.popup.ToolTip",
      * Callback method for the "interval" event of the hide timer.<br/>
      * Hides the tooltip by calling the corresponding {@link #hide} method.
      *
-     * @type member
      * @param e {qx.event.type.Event} interval event
      * @return {var} TODOC
      */

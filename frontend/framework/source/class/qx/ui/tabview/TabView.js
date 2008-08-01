@@ -249,7 +249,6 @@ qx.Class.define("qx.ui.tabview.TabView",
     /**
      * Returns TabView's children widgets.
      *
-     * @type member
      * @return {Array} List of children.
      */
     getChildren : function() {

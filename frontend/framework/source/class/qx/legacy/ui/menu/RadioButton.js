@@ -78,7 +78,6 @@ qx.Class.define("qx.legacy.ui.menu.RadioButton",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -97,7 +96,6 @@ qx.Class.define("qx.legacy.ui.menu.RadioButton",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -117,7 +115,6 @@ qx.Class.define("qx.legacy.ui.menu.RadioButton",
      * Applies the name by delegating it to the
      * manager instance (if available)
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -140,7 +137,6 @@ qx.Class.define("qx.legacy.ui.menu.RadioButton",
     /**
      * Processes the execute action in calling the {@link #setChecked} method
      *
-     * @type member
      * @return {void}
      */
     _processExecute : function() {

@@ -141,7 +141,6 @@ qx.Class.define("qx.ui.form.RepeatButton",
      * button with all consequences.
      * <span style='color: red'>Be shure to call the {@link #release} function.</span>
      *
-     * @type member
      * @return {void}
      */
     press : function()
@@ -169,7 +168,6 @@ qx.Class.define("qx.ui.form.RepeatButton",
      * Usually the {@link #release} function will be called before the call of
      * this function.
      *
-     * @type member
      * @param fireExecuteEvent {Boolean?true} flag which signals, if a event should be fired
      * @return {void}
      */
@@ -240,7 +238,6 @@ qx.Class.define("qx.ui.form.RepeatButton",
      * <li>Removes "abandoned" and adds "pressed" state (if "abandoned" state is set)</li>
      * </ul>
      *
-     * @type member
      * @param e {Event} Mouse event
      * @return {void}
      */
@@ -268,7 +265,6 @@ qx.Class.define("qx.ui.form.RepeatButton",
      * <li>Adds "abandoned" and removes "pressed" state (if "pressed" state is set)</li>
      * </ul>
      *
-     * @type member
      * @param e {Event} Mouse event
      * @return {void}
      */
@@ -297,7 +293,6 @@ qx.Class.define("qx.ui.form.RepeatButton",
      * starts the timer. Additionally removes the state "abandoned" and adds the
      * state "pressed".
      *
-     * @type member
      * @param e {qx.event.type.MouseEvent} mouseDown event
      * @return {void}
      */
@@ -325,7 +320,6 @@ qx.Class.define("qx.ui.form.RepeatButton",
      * before the timer interval method got executed. This way the
      * "execute" method get executed at least one time.
      *
-     * @type member
      * @param e {qx.event.type.MouseEvent} mouseUp event
      * @return {void}
      */
@@ -356,7 +350,6 @@ qx.Class.define("qx.ui.form.RepeatButton",
      * for the keys "Enter" or "Space" and stopps the internal timer
      * (same like mouse up).
      *
-     * @type member
      * @param e {Event} Key event
      * @return {void}
      */
@@ -388,7 +381,6 @@ qx.Class.define("qx.ui.form.RepeatButton",
      * for the keys "Enter" or "Space". It also starts
      * the internal timer (same like mousedown).
      *
-     * @type member
      * @param e {Event} Key event
      * @return {void}
      */
@@ -413,7 +405,6 @@ qx.Class.define("qx.ui.form.RepeatButton",
      * (value of the "interval" property - value of the "timerDecrease" property).
      * Dispatches the "execute" event.
      *
-     * @type member
      * @param e {qx.event.type.Event} interval event
      * @return {void}
      */
@@ -452,7 +443,6 @@ qx.Class.define("qx.ui.form.RepeatButton",
      * Starts the internal timer which causes firing of execution
      * events in an interval. It also presses the button.
      *
-     * @type member
      * @return {void}
      */
     __startInternalTimer : function()
@@ -472,7 +462,6 @@ qx.Class.define("qx.ui.form.RepeatButton",
     /**
      * Stops the internal timer and releases the button.
      *
-     * @type member
      * @return {void}
      */
     __stopInternalTimer : function()

@@ -115,7 +115,6 @@ qx.Class.define("qx.legacy.ui.core.Parent",
      * Wether the widget has its own focus handler or uses one of its parent's
      * focus handler.
      *
-     * @type member
      * @return {Boolean} whether the widget has its own focus handler
      */
     isFocusRoot : function() {
@@ -126,7 +125,6 @@ qx.Class.define("qx.legacy.ui.core.Parent",
     /**
      * Return the responsible focus handler
      *
-     * @type member
      * @return {qx.legacy.event.handler.FocusHandler} TODOC
      */
     getFocusRoot : function()
@@ -146,7 +144,6 @@ qx.Class.define("qx.legacy.ui.core.Parent",
     /**
      * Let the widget use its own focus handler
      *
-     * @type member
      * @return {void}
      */
     activateFocusRoot : function()
@@ -163,7 +160,6 @@ qx.Class.define("qx.legacy.ui.core.Parent",
     /**
      * Delegate keyevent to the focus handler
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -175,7 +171,6 @@ qx.Class.define("qx.legacy.ui.core.Parent",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -215,7 +210,6 @@ qx.Class.define("qx.legacy.ui.core.Parent",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -227,7 +221,6 @@ qx.Class.define("qx.legacy.ui.core.Parent",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -349,7 +342,6 @@ qx.Class.define("qx.legacy.ui.core.Parent",
      *
      * return
      *
-     * @type member
      * @return {qx.legacy.ui.layout.BoxLayout} TODOC
      */
     _createLayoutImpl : function() {
@@ -362,7 +354,6 @@ qx.Class.define("qx.legacy.ui.core.Parent",
      *
      * return {qx.legacy.ui.layout.impl.LayoutImpl}
      *
-     * @type member
      * @return {var} TODOC
      */
     getLayoutImpl : function() {
@@ -381,7 +372,6 @@ qx.Class.define("qx.legacy.ui.core.Parent",
     /**
      * Return the array of all children
      *
-     * @type member
      * @return {qx.legacy.ui.core.Widget[]} all children
      */
     getChildren : function() {
@@ -392,7 +382,6 @@ qx.Class.define("qx.legacy.ui.core.Parent",
     /**
      * Get number of children
      *
-     * @type member
      * @return {Integer} number of children
      */
     getChildrenLength : function() {
@@ -403,7 +392,6 @@ qx.Class.define("qx.legacy.ui.core.Parent",
     /**
      * Check if the widget has children
      *
-     * @type member
      * @return {Boolean} whether the widget has children
      */
     hasChildren : function() {
@@ -414,7 +402,6 @@ qx.Class.define("qx.legacy.ui.core.Parent",
     /**
      * Check if there are any children inside
      *
-     * @type member
      * @return {Boolean} whether the number of children is 0
      */
     isEmpty : function() {
@@ -425,7 +412,6 @@ qx.Class.define("qx.legacy.ui.core.Parent",
     /**
      * Get the index of a child widget.
      *
-     * @type member
      * @param vChild {qx.legacy.ui.core.Widget} Child widget to get the index for
      * @return {Integer} index of the child widget
      */
@@ -437,7 +423,6 @@ qx.Class.define("qx.legacy.ui.core.Parent",
     /**
      * Check if the given widget is a child
      *
-     * @type member
      * @param vWidget {qx.legacy.ui.core.Widget} The widget which should be checked.
      * @return {Boolean | var} TODOC
      */
@@ -472,7 +457,6 @@ qx.Class.define("qx.legacy.ui.core.Parent",
      * Return the array of all visible children
      * (which are configured as visible=true)
      *
-     * @type member
      * @return {qx.legacy.ui.core.Widget[]} all visible children
      */
     _computeVisibleChildren : function()
@@ -503,7 +487,6 @@ qx.Class.define("qx.legacy.ui.core.Parent",
     /**
      * Get number of visible children
      *
-     * @type member
      * @return {Integer} number of visible children
      */
     getVisibleChildrenLength : function() {
@@ -514,7 +497,6 @@ qx.Class.define("qx.legacy.ui.core.Parent",
     /**
      * Check if the widget has any visible children
      *
-     * @type member
      * @return {Boolean} whether the widget has any visible children
      */
     hasVisibleChildren : function() {
@@ -525,7 +507,6 @@ qx.Class.define("qx.legacy.ui.core.Parent",
     /**
      * Check whether there are any visible children inside
      *
-     * @type member
      * @return {Boolean} whether there are any visible children inside
      */
     isVisibleEmpty : function() {
@@ -545,7 +526,6 @@ qx.Class.define("qx.legacy.ui.core.Parent",
      * Add/Append another widget. Allows to add multiple at
      *  one, a parameter could be a widget.
      *
-     * @type member
      * @param varargs {qx.legacy.ui.core.Widget} variable number of widgets to add
      * @return {Parent} This widget.
      * @throws TODOC
@@ -572,7 +552,6 @@ qx.Class.define("qx.legacy.ui.core.Parent",
     /**
      * Add a child widget at the specified index
      *
-     * @type member
      * @param vChild {widget} widget to add
      * @param vIndex {Integer} Index, at which the widget will be inserted
      */
@@ -613,7 +592,6 @@ qx.Class.define("qx.legacy.ui.core.Parent",
     /**
      * Add a child widget as the first widget
      *
-     * @type member
      * @param vChild {widget} widget to add
      */
     addAtBegin : function(vChild) {
@@ -624,7 +602,6 @@ qx.Class.define("qx.legacy.ui.core.Parent",
     /**
      * Add a child widget as the last widget
      *
-     * @type member
      * @param vChild {widget} widget to add
      */
     addAtEnd : function(vChild)
@@ -639,7 +616,6 @@ qx.Class.define("qx.legacy.ui.core.Parent",
     /**
      * Add a widget before another already inserted widget
      *
-     * @type member
      * @param vChild {var} widget to add
      * @param vBefore {var} widget before the new widget will be inserted.
      */
@@ -665,7 +641,6 @@ qx.Class.define("qx.legacy.ui.core.Parent",
     /**
      * Add a widget after another already inserted widget
      *
-     * @type member
      * @param vChild {var} widget to add
      * @param vAfter {var} widgert, after which the new widget will be inserted
      */
@@ -699,7 +674,6 @@ qx.Class.define("qx.legacy.ui.core.Parent",
     /**
      * Remove one or multiple childrens.
      *
-     * @type member
      * @param varargs {qx.legacy.ui.core.Widget} variable number of widgets to remove
      */
     remove : function(varargs)
@@ -722,7 +696,6 @@ qx.Class.define("qx.legacy.ui.core.Parent",
     /**
      * Remove the widget at the specified index.
      *
-     * @type member
      * @param vIndex {Integer} Index of the widget to remove.
      */
     removeAt : function(vIndex)
@@ -741,7 +714,6 @@ qx.Class.define("qx.legacy.ui.core.Parent",
     /**
      * Remove all children.
      *
-     * @type member
      */
     removeAll : function()
     {
@@ -767,7 +739,6 @@ qx.Class.define("qx.legacy.ui.core.Parent",
     /**
      * Get the first child
      *
-     * @type member
      * @return {Widget|null} First child widget (null if this widget does not have any children)
      */
     getFirstChild : function() {
@@ -778,7 +749,6 @@ qx.Class.define("qx.legacy.ui.core.Parent",
     /**
      * Get the first visible child
      *
-     * @type member
      * @return {Widget|null} First visible child widget (null if this widget does
      *     not have any visible children)
      */
@@ -790,7 +760,6 @@ qx.Class.define("qx.legacy.ui.core.Parent",
     /**
      * Get the first active child
      *
-     * @type member
      * @param vIgnoreClasses {Class[]} array of classes which should be ignored
      * @return {Widget|null} First active child widget (null if this widget does
      *     not have any active children)
@@ -811,7 +780,6 @@ qx.Class.define("qx.legacy.ui.core.Parent",
     /**
      * Get the last child
      *
-     * @type member
      * @return {Widget|null} Last child widget (null if this widget does
      *     not have any children)
      */
@@ -823,7 +791,6 @@ qx.Class.define("qx.legacy.ui.core.Parent",
     /**
      * Get the last visible child
      *
-     * @type member
      * @return {Widget|null} Last visible child widget (null if this widget does
      *     not have any visible children)
      */
@@ -835,7 +802,6 @@ qx.Class.define("qx.legacy.ui.core.Parent",
     /**
      * Get the last active child
      *
-     * @type member
      * @param vIgnoreClasses {Class[]} array of classes which should be ignored
      * @return {Widget|null} Last active child widget (null if this widget does
      *     not have any active children)
@@ -858,7 +824,6 @@ qx.Class.define("qx.legacy.ui.core.Parent",
      * <code>function(childWidget, widgetIndex)</code>. The first parameter is the child widget
      * and the second the index of the child widget in its parent.
      *
-     * @type member
      * @param vFunc {Function} callback function. Signature: <code>function(childWidget, widgetIndex)</code>
      */
     forEachChild : function(vFunc)
@@ -880,7 +845,6 @@ qx.Class.define("qx.legacy.ui.core.Parent",
      * <code>function(childWidget, widgetIndex)</code>. The first parameter is the child widget
      * and the second the index of the child widget in its parent.
      *
-     * @type member
      * @param vFunc {Function} callback function. Signature: <code>function(childWidget, widgetIndex)</code>
      */
     forEachVisibleChild : function(vFunc)
@@ -1036,7 +1000,6 @@ qx.Class.define("qx.legacy.ui.core.Parent",
     /**
      * TODOC
      *
-     * @type member
      * @param vDisplayable {var} TODOC
      * @param vParent {var} TODOC
      * @param vHint {var} TODOC
@@ -1061,7 +1024,6 @@ qx.Class.define("qx.legacy.ui.core.Parent",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     _addChildrenToStateQueue : function()
@@ -1105,7 +1067,6 @@ qx.Class.define("qx.legacy.ui.core.Parent",
     /**
      * TODOC
      *
-     * @type member
      * @param vChild {var} TODOC
      * @return {void}
      */
@@ -1132,7 +1093,6 @@ qx.Class.define("qx.legacy.ui.core.Parent",
     /**
      * TODOC
      *
-     * @type member
      * @param vChild {var} TODOC
      * @return {void}
      */
@@ -1152,7 +1112,6 @@ qx.Class.define("qx.legacy.ui.core.Parent",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     _flushChildrenQueue : function()
@@ -1176,7 +1135,6 @@ qx.Class.define("qx.legacy.ui.core.Parent",
     /**
      * TODOC
      *
-     * @type member
      * @param p {var} TODOC
      * @return {void}
      */
@@ -1191,7 +1149,6 @@ qx.Class.define("qx.legacy.ui.core.Parent",
     /**
      * TODOC
      *
-     * @type member
      * @param vChild {var} TODOC
      * @return {void}
      */
@@ -1289,7 +1246,6 @@ qx.Class.define("qx.legacy.ui.core.Parent",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     _computePreferredInnerWidth : function() {
@@ -1300,7 +1256,6 @@ qx.Class.define("qx.legacy.ui.core.Parent",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     _computePreferredInnerHeight : function() {
@@ -1311,7 +1266,6 @@ qx.Class.define("qx.legacy.ui.core.Parent",
     /**
      * Called on inner width changes by the layout engine.
      *
-     * @type member
      * @param vNew {var} new width value
      * @param vOld {var} old width value
      */
@@ -1338,7 +1292,6 @@ qx.Class.define("qx.legacy.ui.core.Parent",
     /**
      * Called on inner height changes by the layout engine.
      *
-     * @type member
      * @param vNew {var} new height value
      * @param vOld {var} old height value
      */
@@ -1364,7 +1317,6 @@ qx.Class.define("qx.legacy.ui.core.Parent",
     /**
      * TODOC
      *
-     * @type member
      * @param vChild {var} TODOC
      * @return {var} TODOC
      */
@@ -1376,7 +1328,6 @@ qx.Class.define("qx.legacy.ui.core.Parent",
     /**
      * TODOC
      *
-     * @type member
      * @param vChild {var} TODOC
      * @return {var} TODOC
      */
@@ -1404,7 +1355,6 @@ qx.Class.define("qx.legacy.ui.core.Parent",
     /**
      * TODOC
      *
-     * @type member
      * @param vTarget {var} TODOC
      * @return {void}
      */

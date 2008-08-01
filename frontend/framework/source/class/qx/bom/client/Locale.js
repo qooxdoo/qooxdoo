@@ -52,7 +52,6 @@ qx.Bootstrap.define("qx.bom.client.Locale",
     /**
      * Internal initialize helper
      *
-     * @type static
      * @return {void}
      */
     __init : function()

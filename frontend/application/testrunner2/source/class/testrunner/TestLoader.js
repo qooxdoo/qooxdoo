@@ -44,7 +44,6 @@ qx.Class.define("testrunner.TestLoader",
     /**
      * TODOC
      *
-     * @type static
      * @return {var} TODOC
      */
     getInstance : function() {
@@ -83,7 +82,6 @@ qx.Class.define("testrunner.TestLoader",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     main : function()
@@ -110,7 +108,6 @@ qx.Class.define("testrunner.TestLoader",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     __getClassNameFromUrl : function()
@@ -131,7 +128,6 @@ qx.Class.define("testrunner.TestLoader",
     /**
      * TODOC
      *
-     * @type member
      * @param namespace {var} TODOC
      * @return {void}
      */
@@ -146,7 +142,6 @@ qx.Class.define("testrunner.TestLoader",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     runJsUnit : function()
@@ -160,7 +155,6 @@ qx.Class.define("testrunner.TestLoader",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     runStandAlone : function()
@@ -190,7 +184,6 @@ qx.Class.define("testrunner.TestLoader",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     getTestDescriptions : function()
@@ -220,7 +213,6 @@ qx.Class.define("testrunner.TestLoader",
     /**
      * TODOC
      *
-     * @type member
      * @param testResult {var} TODOC
      * @param className {var} TODOC
      * @param methodName {var} TODOC
@@ -254,7 +246,6 @@ qx.Class.define("testrunner.TestLoader",
     /**
      * TODOC
      *
-     * @type member
      * @param testResult {var} TODOC
      * @param namespaceName {var} TODOC
      * @return {void}

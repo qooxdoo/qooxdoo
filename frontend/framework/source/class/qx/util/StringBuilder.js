@@ -45,7 +45,6 @@ qx.List.define("qx.util.StringBuilder",
     /**
      * Removes all content
      *
-     * @type member
      * @return {void}
      */
     clear : function() {
@@ -56,7 +55,6 @@ qx.List.define("qx.util.StringBuilder",
     /**
      * Returns the concatted strings.
      *
-     * @type member
      * @return {String} Concatted strings
      */
     get : function() {
@@ -67,7 +65,6 @@ qx.List.define("qx.util.StringBuilder",
     /**
      * Adds new strings.
      *
-     * @type member
      * @signature function(strings)
      * @param strings {String...} The separate strings to add
      * @return {void}
@@ -78,7 +75,6 @@ qx.List.define("qx.util.StringBuilder",
     /**
      * Whether the string builder is empty
      *
-     * @type member
      * @return {Boolean} <code>true</code> when the builder is empty
      */
     isEmpty : function() {

@@ -120,7 +120,6 @@ qx.Class.define("qx.legacy.event.handler.EventHandler",
      * extract the target node from a DOM event
      * http://www.quirksmode.org/js/events_properties.html
      *
-     * @type static
      * @param vDomEvent {Event} TODOC
      * @return {Element} the target node
      * @signature function(vDomEvent)
@@ -151,7 +150,6 @@ qx.Class.define("qx.legacy.event.handler.EventHandler",
     /**
      * stops further propagation of the event
      *
-     * @type static
      * @param vDomEvent {Element} DOM event object
      * @return {void}
      */
@@ -171,7 +169,6 @@ qx.Class.define("qx.legacy.event.handler.EventHandler",
      * Search for the container qooxdoo widget of a DOM node by searching the DOM tree
      * from the given DOM node up to the root element.
      *
-     * @type static
      * @param vNode {Element} DOM Element to get the the container qooxdoo widget of
      * @return {qx.legacy.ui.core.Widget} qooxdoo widget containing the DOM node.
      */
@@ -201,7 +198,6 @@ qx.Class.define("qx.legacy.event.handler.EventHandler",
     /**
      * Get the target widget of a DOM event.
      *
-     * @type static
      * @param vDomEvent {Event} DOM event.
      * @param vWindow {Window} TODOC
      * @return {qx.legacy.ui.core.Widget} target qooxdoo widget of the event.
@@ -228,7 +224,6 @@ qx.Class.define("qx.legacy.event.handler.EventHandler",
     /**
      * TODOC
      *
-     * @type static
      * @param vDomEvent {var} TODOC
      * @return {var} TODOC
      */
@@ -247,7 +242,6 @@ qx.Class.define("qx.legacy.event.handler.EventHandler",
      * If allowDisabled is set to <code>false</code>, the search is stopped
      * if a disabled widget is found and the <code>null</null> will be returned.
      *
-     * @type static
      * @param vNode {Element} DOM node to search the target widget for.
      * @param vObject {qx.legacy.ui.core.Widget ? null} optional qooxdoo widget to start the search from.
      * @param allowDisabled {Boolean?false} whether disabled widgets should be returned. If set
@@ -291,7 +285,6 @@ qx.Class.define("qx.legacy.event.handler.EventHandler",
     /**
      * Get the target widget the DOM event will be dispatched on.
      *
-     * @type static
      * @param vDomEvent {Event} DOM event to get the target widget from.
      * @return {qx.legacy.ui.core.Widget|null} The widget the event should be dispatched on (<code>null</code>
      *   if no widget is found).
@@ -304,7 +297,6 @@ qx.Class.define("qx.legacy.event.handler.EventHandler",
     /**
      * TODOC
      *
-     * @type static
      * @param vDomEvent {var} TODOC
      * @return {var} TODOC
      */
@@ -396,7 +388,6 @@ qx.Class.define("qx.legacy.event.handler.EventHandler",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -415,7 +406,6 @@ qx.Class.define("qx.legacy.event.handler.EventHandler",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -444,7 +434,6 @@ qx.Class.define("qx.legacy.event.handler.EventHandler",
     /**
      * TODOC
      *
-     * @type member
      * @param vCommand {var} TODOC
      * @return {void}
      */
@@ -456,7 +445,6 @@ qx.Class.define("qx.legacy.event.handler.EventHandler",
     /**
      * TODOC
      *
-     * @type member
      * @param vCommand {var} TODOC
      * @return {void}
      */
@@ -468,7 +456,6 @@ qx.Class.define("qx.legacy.event.handler.EventHandler",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -505,7 +492,6 @@ qx.Class.define("qx.legacy.event.handler.EventHandler",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     attachEvents : function()
@@ -530,7 +516,6 @@ qx.Class.define("qx.legacy.event.handler.EventHandler",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     detachEvents : function()
@@ -563,7 +548,6 @@ qx.Class.define("qx.legacy.event.handler.EventHandler",
     /**
      * TODOC
      *
-     * @type member
      * @param vEventTypes {var} TODOC
      * @param vFunctionPointer {var} TODOC
      * @return {void}
@@ -593,7 +577,6 @@ qx.Class.define("qx.legacy.event.handler.EventHandler",
     /**
      * TODOC
      *
-     * @type member
      * @param vEventTypes {var} TODOC
      * @param vFunctionPointer {var} TODOC
      * @return {void}
@@ -627,7 +610,6 @@ qx.Class.define("qx.legacy.event.handler.EventHandler",
     /**
      * TODOC
      *
-     * @type member
      * @param vDomEvent {var} TODOC
      * @param vType {var} TODOC
      * @param vKeyCode {var} TODOC
@@ -855,7 +837,6 @@ qx.Class.define("qx.legacy.event.handler.EventHandler",
     /**
      * This is the crossbrowser post handler for all mouse events.
      *
-     * @type member
      * @param vDomEvent {var} TODOC
      * @param vType {var} TODOC
      * @param vDomTarget {var} TODOC
@@ -1009,7 +990,6 @@ qx.Class.define("qx.legacy.event.handler.EventHandler",
     /**
      * TODOC
      *
-     * @type member
      * @param vType {var} TODOC
      * @param vTarget {var} TODOC
      * @param vOriginalTarget {var} TODOC
@@ -1145,7 +1125,6 @@ qx.Class.define("qx.legacy.event.handler.EventHandler",
     /**
      * TODOC
      *
-     * @type member
      * @param vEvent {var} TODOC
      * @return {void}
      */
@@ -1170,7 +1149,6 @@ qx.Class.define("qx.legacy.event.handler.EventHandler",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -1216,7 +1194,6 @@ qx.Class.define("qx.legacy.event.handler.EventHandler",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -1256,7 +1233,6 @@ qx.Class.define("qx.legacy.event.handler.EventHandler",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -1278,7 +1254,6 @@ qx.Class.define("qx.legacy.event.handler.EventHandler",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */

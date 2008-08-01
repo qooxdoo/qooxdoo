@@ -27,7 +27,6 @@ qx.Class.define("demobrowser.demo.layout.VSplitLayout",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     main : function()

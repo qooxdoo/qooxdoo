@@ -48,7 +48,6 @@ qx.Class.define("qx.dom.Hierarchy",
     /**
      * Returns the DOM index of the given node
      *
-     * @type static
      * @param node {Node} Node to look for
      * @return {Integer} The DOM index
      */
@@ -67,7 +66,6 @@ qx.Class.define("qx.dom.Hierarchy",
     /**
      * Returns the DOM index of the given element (ignoring non-elements)
      *
-     * @type static
      * @param element {Element} Element to look for
      * @return {Integer} The DOM index
      */
@@ -92,7 +90,6 @@ qx.Class.define("qx.dom.Hierarchy",
      *
      * "nextSibling" is not good enough as it might return a text or comment element
      *
-     * @type static
      * @param element {Element} Starting element node
      * @return {Element | null} Next element node
      */
@@ -111,7 +108,6 @@ qx.Class.define("qx.dom.Hierarchy",
      *
      * "previousSibling" is not good enough as it might return a text or comment element
      *
-     * @type static
      * @param element {Element} Starting element node
      * @return {Element | null} Previous element node
      */
@@ -131,7 +127,6 @@ qx.Class.define("qx.dom.Hierarchy",
      * Uses native non-standard contains() in Internet Explorer,
      * Opera and Webkit (supported since Safari 3.0 beta)
      *
-     * @type static
      * @signature function(element, target)
      * @param element {Element} Parent element
      * @param target {Node} Child node
@@ -180,7 +175,6 @@ qx.Class.define("qx.dom.Hierarchy",
      * Whether the element is inserted into the document
      * for which it was created.
      *
-     * @type static
      * @param element {Element} DOM element to check
      * @return {Boolean} <code>true</code> when the element is inserted
      *    into the document.
@@ -218,7 +212,6 @@ qx.Class.define("qx.dom.Hierarchy",
     /**
      * Checks if <code>element</code> is a descendant of <code>ancestor</code>.
      *
-     * @type static
      * @param element {Element} first element
      * @param ancestor {Element} second element
      * @return {var} TODOC
@@ -234,7 +227,6 @@ qx.Class.define("qx.dom.Hierarchy",
      *
      * Uses native non-standard contains() in Opera and Internet Explorer
      *
-     * @type static
      * @signature function(element1, element2)
      * @param element1 {Element} First element
      * @param element2 {Element} Second element
@@ -306,7 +298,6 @@ qx.Class.define("qx.dom.Hierarchy",
      * Collects all of element's ancestors and returns them as an array of
      * elements.
      *
-     * @type static
      * @param element {Element} DOM element to query for ancestors
      * @return {Array} list of all parents
      */
@@ -318,7 +309,6 @@ qx.Class.define("qx.dom.Hierarchy",
     /**
      * Returns element's children.
      *
-     * @type static
      * @param element {Element} DOM element to query for child elements
      * @return {Array} list of all child elements
      */
@@ -341,7 +331,6 @@ qx.Class.define("qx.dom.Hierarchy",
      * Collects all of element's descendants (deep) and returns them as an array
      * of elements.
      *
-     * @type static
      * @param element {Element} DOM element to query for child elements
      * @return {Array} list of all found elements
      */
@@ -354,7 +343,6 @@ qx.Class.define("qx.dom.Hierarchy",
      * Returns the first child that is an element. This is opposed to firstChild DOM
      * property which will return any node (whitespace in most usual cases).
      *
-     * @type static
      * @param element {Element} DOM element to query for first descendant
      * @return {Element} the first descendant
      */
@@ -374,7 +362,6 @@ qx.Class.define("qx.dom.Hierarchy",
      * Returns the last child that is an element. This is opposed to lastChild DOM
      * property which will return any node (whitespace in most usual cases).
      *
-     * @type static
      * @param element {Element} DOM element to query for last descendant
      * @return {Element} the last descendant
      */
@@ -393,7 +380,6 @@ qx.Class.define("qx.dom.Hierarchy",
     /**
      * Collects all of element's previous siblings and returns them as an array of elements.
      *
-     * @type static
      * @param element {Element} DOM element to query for previous siblings
      * @return {Array} list of found DOM elements
      */
@@ -406,7 +392,6 @@ qx.Class.define("qx.dom.Hierarchy",
      * Collects all of element's next siblings and returns them as an array of
      * elements.
      *
-     * @type static
      * @param element {Element} DOM element to query for next siblings
      * @return {Array} list of found DOM elements
      */
@@ -421,7 +406,6 @@ qx.Class.define("qx.dom.Hierarchy",
      * do!) of element that points to a single DOM node. Returns an array of
      * elements.
      *
-     * @type static
      * @param element {Element} DOM element to start with
      * @param property {String} property to look for
      * @return {Array} result list
@@ -444,7 +428,6 @@ qx.Class.define("qx.dom.Hierarchy",
     /**
      * Collects all of element's siblings and returns them as an array of elements.
      *
-     * @type static
      * @param element {var} DOM element to start with
      * @return {Array} list of all found siblings
      */
@@ -457,7 +440,6 @@ qx.Class.define("qx.dom.Hierarchy",
      * Whether the given element is empty.
      * Inspired by Base2 (Dean Edwards)
      *
-     * @type static
      * @param element {Element} The element to check
      * @return {Boolean} true when the element is empty
      */
@@ -481,7 +463,6 @@ qx.Class.define("qx.dom.Hierarchy",
     /**
      * Removes all of element's text nodes which contain only whitespace
      *
-     * @type static
      * @param element {Element} Element to cleanup
      * @return {void}
      */

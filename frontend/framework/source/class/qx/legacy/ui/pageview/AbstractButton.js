@@ -128,7 +128,6 @@ qx.Class.define("qx.legacy.ui.pageview.AbstractButton",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     getView : function()
@@ -149,7 +148,6 @@ qx.Class.define("qx.legacy.ui.pageview.AbstractButton",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -168,7 +166,6 @@ qx.Class.define("qx.legacy.ui.pageview.AbstractButton",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      * @return {var} TODOC
@@ -190,7 +187,6 @@ qx.Class.define("qx.legacy.ui.pageview.AbstractButton",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -211,7 +207,6 @@ qx.Class.define("qx.legacy.ui.pageview.AbstractButton",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -239,7 +234,6 @@ qx.Class.define("qx.legacy.ui.pageview.AbstractButton",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -262,7 +256,6 @@ qx.Class.define("qx.legacy.ui.pageview.AbstractButton",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -274,7 +267,6 @@ qx.Class.define("qx.legacy.ui.pageview.AbstractButton",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -286,7 +278,6 @@ qx.Class.define("qx.legacy.ui.pageview.AbstractButton",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -298,7 +289,6 @@ qx.Class.define("qx.legacy.ui.pageview.AbstractButton",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -308,7 +298,6 @@ qx.Class.define("qx.legacy.ui.pageview.AbstractButton",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */

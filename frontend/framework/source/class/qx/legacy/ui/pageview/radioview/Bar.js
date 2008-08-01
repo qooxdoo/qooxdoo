@@ -81,7 +81,6 @@ qx.Class.define("qx.legacy.ui.pageview.radioview.Bar",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     _renderAppearance : function()

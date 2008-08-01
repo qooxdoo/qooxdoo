@@ -185,7 +185,6 @@ qx.Class.define("qx.legacy.ui.table.rowrenderer.Default",
      * Utility method to render the given font. Calls the
      * {@link #_renderFont} method.
      *
-     * @type member
      * @param value {qx.legacy.ui.core.Font} new font value to render
      */
     _styleFont : function(value) {
@@ -283,7 +282,6 @@ qx.Class.define("qx.legacy.ui.table.rowrenderer.Default",
     /**
      * Does a postponed update of the table content.
      *
-     * @type member
      * @see #_updateTableContent
      */
     _postponedUpdateTableContent : function()
@@ -309,7 +307,6 @@ qx.Class.define("qx.legacy.ui.table.rowrenderer.Default",
     /**
      * Update the table pane content to reflect visual changes.
      *
-     * @type member
      */
     _updateTableContent : function()
     {

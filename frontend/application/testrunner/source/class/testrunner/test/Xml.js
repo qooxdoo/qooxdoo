@@ -26,7 +26,6 @@ qx.Class.define("testrunner.test.Xml",
     /**
      * TODOC
      *
-     * @type member
      * @param arr {Array} TODOC
      * @return {var} TODOC
      */
@@ -45,7 +44,6 @@ qx.Class.define("testrunner.test.Xml",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     testParseSerializeXml : function()
@@ -68,7 +66,6 @@ qx.Class.define("testrunner.test.Xml",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     testFromString : function()
@@ -83,7 +80,6 @@ qx.Class.define("testrunner.test.Xml",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     testCreateDocument : function()
@@ -102,7 +98,6 @@ qx.Class.define("testrunner.test.Xml",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     testXPath : function()
@@ -126,7 +121,6 @@ qx.Class.define("testrunner.test.Xml",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     __testXHR : function()
@@ -161,7 +155,6 @@ qx.Class.define("testrunner.test.Xml",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     testGetElementsByTagNameNS : function()

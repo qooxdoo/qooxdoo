@@ -58,7 +58,6 @@ qx.Class.define("qx.legacy.ui.menu.MenuLayoutImpl",
     */
 
     /** Updates children on special jobs
-     * @type member
      * @param vQueue {Hash} job queue
      * @return {Boolean} true
      */

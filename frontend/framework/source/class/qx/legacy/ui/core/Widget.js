@@ -202,7 +202,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * Flush all global queues
      *
-     * @type static
      * @return {void}
      */
     flushGlobalQueues : function()
@@ -242,7 +241,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type static
      * @param vWidget {var} TODOC
      * @return {void}
      */
@@ -260,7 +258,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type static
      * @param vWidget {var} TODOC
      * @return {void}
      */
@@ -277,7 +274,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type static
      * @return {void}
      */
     flushGlobalWidgetQueue : function()
@@ -315,7 +311,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type static
      * @param vWidget {var} TODOC
      * @return {void}
      */
@@ -333,7 +328,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type static
      * @param vWidget {var} TODOC
      * @return {void}
      */
@@ -350,7 +344,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type static
      * @return {void}
      */
     flushGlobalElementQueue : function()
@@ -388,7 +381,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type static
      * @param vWidget {var} TODOC
      * @return {void}
      */
@@ -407,7 +399,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type static
      * @param vWidget {var} TODOC
      * @return {void}
      */
@@ -424,7 +415,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type static
      * @return {void}
      */
     flushGlobalStateQueue : function()
@@ -467,7 +457,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type static
      * @param vWidget {var} TODOC
      * @return {void}
      */
@@ -486,7 +475,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type static
      * @param vWidget {var} TODOC
      * @return {void}
      */
@@ -503,7 +491,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type static
      * @return {void}
      */
     flushGlobalJobQueue : function()
@@ -541,7 +528,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type static
      * @param vParent {var} TODOC
      * @return {void}
      */
@@ -560,7 +546,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type static
      * @param vParent {var} TODOC
      * @return {void}
      */
@@ -577,7 +562,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type static
      * @return {void}
      */
     flushGlobalLayoutQueue : function()
@@ -616,7 +600,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type static
      * @param vWidget {var} TODOC
      * @return {void}
      */
@@ -651,7 +634,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type static
      * @param vWidget {var} TODOC
      * @return {void}
      */
@@ -661,7 +643,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type static
      * @return {void}
      */
     flushGlobalDisplayQueue : function()
@@ -814,7 +795,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type static
      * @param vIgnoreClasses {var} TODOC
      * @param vInstance {var} TODOC
      */
@@ -834,7 +814,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type static
      * @param vObject {var} TODOC
      * @param vParent {var} TODOC
      * @param vCalc {var} TODOC
@@ -877,7 +856,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type static
      * @param members {var} TODOC
      * @return {void}
      */
@@ -979,7 +957,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type static
      * @return {void}
      */
     __initLayoutProperties : function(statics)
@@ -1024,7 +1001,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type static
      * @return {void}
      */
     initScrollbarWidth : function()
@@ -2046,7 +2022,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * If the widget is visible and rendered on the screen.
      *
-     * @type member
      * @return {boolean} TODOC
      */
     isMaterialized : function()
@@ -2065,7 +2040,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * A single setup to the current preferred pixel values of the widget
      *
-     * @type member
      * @return {void}
      */
     pack : function()
@@ -2079,7 +2053,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
      * A bounded setup to the preferred width/height of the widget. Keeps in
      *  sync if the content or requirements of the widget changes
      *
-     * @type member
      * @return {void}
      */
     auto : function()
@@ -2111,7 +2084,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
      *
      * Compat 0.8.x layer
      *
-     * @type member
      * @return {qx.legacy.ui.core.Widget[]} all children
      */
     _getChildren : function() {
@@ -2124,7 +2096,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
      *
      * Compat 0.8.x layer
      *
-     * @type member
      * @return {qx.legacy.ui.core.Widget[]} all children
      */
     getLayoutParent : function() {
@@ -2236,7 +2207,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     isDisplayable : function() {
@@ -2247,7 +2217,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      * @return {var} TODOC
@@ -2266,7 +2235,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      * @return {var} TODOC
@@ -2334,7 +2302,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      * @return {var} TODOC
@@ -2355,7 +2322,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @param vHint {var} TODOC
      */
     _handleDisplayable : function(vHint)
@@ -2528,7 +2494,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     _computeDisplayable : function() {
@@ -2539,7 +2504,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     _beforeAppear : function()
@@ -2552,7 +2516,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     _afterAppear : function()
@@ -2566,7 +2529,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     _beforeDisappear : function()
@@ -2589,7 +2551,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     _afterDisappear : function()
@@ -2609,7 +2570,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
      * * visibility is true
      * * display is true
      *
-     * @type member
      * @return {boolean} TODOC
      */
     isSeeable : function() {
@@ -2620,7 +2580,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     isAppearRelevant : function() {
@@ -2639,7 +2598,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     _beforeInsertDom : function()
@@ -2652,7 +2610,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     _afterInsertDom : function()
@@ -2665,7 +2622,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     _beforeRemoveDom : function()
@@ -2678,7 +2634,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     _afterRemoveDom : function()
@@ -2699,7 +2654,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -2735,7 +2689,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     show : function()
@@ -2748,7 +2701,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     hide : function() {
@@ -2759,7 +2711,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     connect : function() {
@@ -2770,7 +2721,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     disconnect : function() {
@@ -2794,7 +2744,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      * @signature function()
      */
@@ -2813,7 +2762,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     addToDocument : function() {
@@ -2824,7 +2772,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * Check if the widget is created (or the element is already available).
      *
-     * @type member
      * @return {Boolean} whether the widget is already created.
      */
     isCreated : function() {
@@ -2835,7 +2782,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * Create widget with empty element.
      *
-     * @type member
      * @return {void}
      */
     _createElementImpl : function() {
@@ -2846,7 +2792,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -2903,7 +2848,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @param p {var} TODOC
      */
     addToJobQueue : function(p)
@@ -2924,7 +2868,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @param q {var} TODOC
      * @return {void}
      */
@@ -3164,7 +3107,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @return {Integer} TODOC
      */
     _computeBoxWidthFallback : function() {
@@ -3175,7 +3117,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @return {Integer} TODOC
      */
     _computeBoxHeightFallback : function() {
@@ -3186,7 +3127,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     _computeBoxWidth : function()
@@ -3199,7 +3139,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     _computeBoxHeight : function()
@@ -3212,7 +3151,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     _computeOuterWidth : function() {
@@ -3223,7 +3161,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     _computeOuterHeight : function() {
@@ -3234,7 +3171,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     _computeInnerWidth : function() {
@@ -3245,7 +3181,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     _computeInnerHeight : function() {
@@ -3256,7 +3191,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     getNeededWidth : function()
@@ -3269,7 +3203,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     getNeededHeight : function()
@@ -3293,7 +3226,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      */
     _recomputeFlexX : function()
     {
@@ -3314,7 +3246,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      */
     _recomputeFlexY : function()
     {
@@ -3346,7 +3277,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      */
     _recomputePercentX : function()
     {
@@ -3391,7 +3321,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      */
     _recomputePercentY : function()
     {
@@ -3444,7 +3373,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      * @signature function()
      */
@@ -3469,7 +3397,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      * @signature function()
      */
@@ -3503,7 +3430,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      * @signature function()
      */
@@ -3536,7 +3462,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      * @signature function()
      */
@@ -3577,7 +3502,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @param v {var} TODOC
      * @return {var} TODOC
      */
@@ -3589,7 +3513,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @param v {var} TODOC
      * @return {var} TODOC
      */
@@ -3601,7 +3524,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @param v {var} TODOC
      * @return {var} TODOC
      */
@@ -3613,7 +3535,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @param v {var} TODOC
      * @return {var} TODOC
      */
@@ -3625,7 +3546,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @param v {var} TODOC
      * @return {var} TODOC
      */
@@ -3637,7 +3557,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @param v {var} TODOC
      * @return {var} TODOC
      */
@@ -3657,7 +3576,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @return {var | null} TODOC
      * @throws TODOC
      */
@@ -3694,7 +3612,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @return {var | null} TODOC
      */
     getMinWidthValue : function()
@@ -3722,7 +3639,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @return {var | null} TODOC
      */
     getMaxWidthValue : function()
@@ -3750,7 +3666,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @return {var | null} TODOC
      */
     getLeftValue : function()
@@ -3775,7 +3690,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @return {var | null} TODOC
      */
     getRightValue : function()
@@ -3808,7 +3722,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @return {var | null} TODOC
      * @throws TODOC
      */
@@ -3845,7 +3758,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @return {var | null} TODOC
      */
     getMinHeightValue : function()
@@ -3873,7 +3785,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @return {var | null} TODOC
      */
     getMaxHeightValue : function()
@@ -3901,7 +3812,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @return {var | null} TODOC
      */
     getTopValue : function()
@@ -3926,7 +3836,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @return {var | null} TODOC
      */
     getBottomValue : function()
@@ -3951,7 +3860,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     _computeFrameWidth : function()
@@ -3978,7 +3886,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     _computeFrameHeight : function()
@@ -4005,7 +3912,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     _invalidateFrameDimensions : function()
@@ -4018,7 +3924,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     _invalidatePreferredInnerDimensions : function()
@@ -4031,7 +3936,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     _computePreferredBoxWidth : function()
@@ -4047,7 +3951,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     _computePreferredBoxHeight : function()
@@ -4074,7 +3977,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @param p {var} TODOC
      * @return {var} TODOC
      */
@@ -4091,7 +3993,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @param p {var} TODOC
      * @return {void}
      */
@@ -4103,7 +4004,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @param p {var} TODOC
      * @return {var} TODOC
      */
@@ -4127,7 +4027,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     _computeHasPercentX : function() {
@@ -4138,7 +4037,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     _computeHasPercentY : function() {
@@ -4149,7 +4047,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     _computeHasAutoX : function() {
@@ -4160,7 +4057,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     _computeHasAutoY : function() {
@@ -4171,7 +4067,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     _computeHasFlexX : function() {
@@ -4182,7 +4077,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     _computeHasFlexY : function() {
@@ -4193,7 +4087,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @return {var} TODOC
      */
@@ -4225,7 +4118,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @return {var} TODOC
      */
@@ -4257,7 +4149,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @return {var} TODOC
      */
@@ -4300,7 +4191,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @return {void}
      */
@@ -4418,7 +4308,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @return {void}
      */
@@ -4512,7 +4401,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @return {void}
      */
@@ -4593,7 +4481,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
      *  which contains all others (normally a
      *  instance of qx.legacy.ui.core.ClientDocument).
      *
-     * @type member
      * @return {var} TODOC
      */
     getTopLevelWidget : function() {
@@ -4604,7 +4491,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * Move myself to immediately before another child of the same parent.
      *
-     * @type member
      * @param vBefore {var} TODOC
      * @return {void}
      */
@@ -4616,7 +4502,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * Move myself to immediately after another child of the same parent.
      *
-     * @type member
      * @param vAfter {var} TODOC
      * @return {void}
      */
@@ -4628,7 +4513,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * Move myself to the head of the list: make me the first child.
      *
-     * @type member
      * @return {void}
      */
     moveSelfToBegin : function() {
@@ -4639,7 +4523,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * Move myself to the end of the list: make me the last child.
      *
-     * @type member
      * @return {void}
      */
     moveSelfToEnd : function() {
@@ -4650,7 +4533,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * Returns the previous sibling.
      *
-     * @type member
      * @return {null | var} TODOC
      */
     getPreviousSibling : function()
@@ -4669,7 +4551,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * Returns the next sibling.
      *
-     * @type member
      * @return {null | var} TODOC
      */
     getNextSibling : function()
@@ -4688,7 +4569,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * Returns the previous visible sibling.
      *
-     * @type member
      * @return {null | var} TODOC
      */
     getPreviousVisibleSibling : function()
@@ -4705,7 +4585,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * Returns the next visible sibling.
      *
-     * @type member
      * @return {null | var} TODOC
      */
     getNextVisibleSibling : function()
@@ -4722,7 +4601,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @param vIgnoreClasses {var} TODOC
      * @return {var} TODOC
      */
@@ -4736,7 +4614,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @param vIgnoreClasses {var} TODOC
      * @return {var} TODOC
      */
@@ -4750,7 +4627,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     isFirstChild : function() {
@@ -4761,7 +4637,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     isLastChild : function() {
@@ -4772,7 +4647,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     isFirstVisibleChild : function() {
@@ -4783,7 +4657,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     isLastVisibleChild : function() {
@@ -4805,7 +4678,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * Returns whether a state is set.
      *
-     * @type member
      * @param vState {String} the state to check.
      * @return {Boolean} whether the state is set.
      */
@@ -4817,7 +4689,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * Sets a state.
      *
-     * @type member
      * @param vState {var} TODOC
      * @return {void}
      */
@@ -4841,7 +4712,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * Clears a state.
      *
-     * @type member
      * @param vState {String} the state to clear.
      * @return {void}
      */
@@ -4870,7 +4740,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * Style multiple properties at once by using a property list
      *
-     * @type member
      * @param data {Map} a map of property values. The key is the name of the property.
      * @return {Object} this instance.
      * @throws an error if the incoming data field is not a map.
@@ -4902,7 +4771,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * Unstyle multiple properties at once by using a property list
      *
-     * @type member
      * @param data {Array} a array of property names.
      * @return {Object} this instance.
      * @throws an error if the incoming data field is not a map.
@@ -4930,7 +4798,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     _renderAppearance : function()
@@ -4966,7 +4833,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @param vNewAppearanceTheme {var} TODOC
      * @param vOldAppearanceTheme {var} TODOC
      * @return {void}
@@ -4999,7 +4865,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @param vStates {var} TODOC
      * @return {void}
      * @signature function(vStates)
@@ -5027,7 +4892,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     addToStateQueue : function() {
@@ -5038,7 +4902,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     recursiveAddToStateQueue : function() {
@@ -5049,7 +4912,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -5092,7 +4954,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @param vNewAppearanceTheme {var} TODOC
      * @param vOldAppearanceTheme {var} TODOC
      * @return {void}
@@ -5120,7 +4981,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * Placeholder method to add attributes and other content to element node
      *
-     * @type member
      * @param elem {Element} TODOC
      * @return {void}
      */
@@ -5142,7 +5002,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @param propName {var} TODOC
      * @param value {var} Current value
      */
@@ -5165,7 +5024,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @param propName {var} TODOC
      * @return {void}
      * @signature function(propName)
@@ -5209,7 +5067,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @param propName {var} TODOC
      * @return {string | var} TODOC
      */
@@ -5226,7 +5083,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @param elem {var} TODOC
      * @return {void}
      */
@@ -5251,7 +5107,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
      * This is interesting for application testing that uses the element
      * id to locate the widget.
      *
-     * @type member
      * @return {void}
      */
     _generateHtmlId : function()
@@ -5275,7 +5130,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @param propName {var} TODOC
      * @param value {var} Current value
      * @deprecated Use {@link #setHtmlProperty} instead
@@ -5299,7 +5153,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @param propName {var} TODOC
      * @return {void | Boolean} TODOC
      * @deprecated Use {@link #removeHtmlProperty} instead
@@ -5323,7 +5176,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @param propName {var} TODOC
      * @return {string | var} TODOC
      * @deprecated Use {@link #getHtmlProperty} instead
@@ -5341,7 +5193,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @param elem {var} TODOC
      * @return {void}
      * @deprecated Use {@link #_applyHtmlProperties} instead
@@ -5376,7 +5227,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @param propName {var} TODOC
      * @return {var} TODOC
      */
@@ -5407,7 +5257,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @param propName {var} TODOC
      * @param value {var} Current value
      */
@@ -5432,7 +5281,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @param propName {var} TODOC
      */
     removeStyleProperty : function(propName)
@@ -5456,7 +5304,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @param elem {var} TODOC
      * @return {void}
      */
@@ -5500,7 +5347,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -5543,7 +5389,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     isFocusable : function() {
@@ -5554,7 +5399,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @return {boolean}
      */
     isFocusRoot : function() {
@@ -5565,7 +5409,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @return {var | null} TODOC
      */
     getFocusRoot : function()
@@ -5581,7 +5424,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @return {var | null} TODOC
      */
     getActiveChild : function()
@@ -5601,7 +5443,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -5637,7 +5478,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      * @return {void}
@@ -5660,7 +5500,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      */
     _visualizeBlur : function()
     {
@@ -5681,7 +5520,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      */
     _visualizeFocus : function()
     {
@@ -5700,7 +5538,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     focus : function()
@@ -5713,7 +5550,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     blur : function()
@@ -5738,7 +5574,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -5770,7 +5605,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      * @return {var} TODOC
@@ -5796,7 +5630,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      * @return {void}
@@ -5850,7 +5683,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      * @return {void}
@@ -5952,7 +5784,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
      * become (semi-)transparent. The value should be a number between 0 and 1
      * inclusive, where 1 means totally opaque and 0 invisible.
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      * @return {void}
@@ -6072,7 +5903,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      * @return {var} TODOC
@@ -6112,7 +5942,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      * @return {var} TODOC
@@ -6125,7 +5954,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     _compileClipString : function()
@@ -6176,7 +6004,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      * @return {void}
@@ -6279,7 +6106,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @param pn {var} TODOC
      * @param pv {var} TODOC
      * @param value {var} Current value
@@ -6299,7 +6125,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     getOverflowX : function()
@@ -6312,7 +6137,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     getOverflowY : function()
@@ -6526,7 +6350,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      * @internal
      * @signature function()
@@ -6686,7 +6509,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     execute : function()
@@ -6715,7 +6537,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      * @throws TODOC
      */
@@ -6730,7 +6551,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @param nScrollLeft {Number} TODOC
      * @return {void}
      */
@@ -6744,7 +6564,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @param nScrollTop {Number} TODOC
      * @return {void}
      */
@@ -6758,7 +6577,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     getOffsetLeft : function()
@@ -6771,7 +6589,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     getOffsetTop : function()
@@ -6784,7 +6601,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     getScrollLeft : function()
@@ -6797,7 +6613,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     getScrollTop : function()
@@ -6810,7 +6625,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     getClientWidth : function()
@@ -6823,7 +6637,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     getClientHeight : function()
@@ -6836,7 +6649,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     getOffsetWidth : function()
@@ -6849,7 +6661,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     getOffsetHeight : function()
@@ -6862,7 +6673,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     getScrollWidth : function()
@@ -6875,7 +6685,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     getScrollHeight : function()
@@ -6902,7 +6711,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
      * This function works on DOM level and needs the widget to be already rendered.
      * This is true for example in the "appear" event handler of a widget.
      *
-     * @type member
      * @param alignTopLeft {Boolean} Set the alignment. "True" means top left align, "False" means bottom right.
      */
     scrollIntoView : function(alignTopLeft)
@@ -6918,7 +6726,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
      * This function works on DOM level and needs the widget to be already rendered.
      * This is true for example in the "appear" event handler of a widget.
      *
-     * @type member
      * @param alignLeft {Boolean} whether the element should be left aligned
      * @return {Boolean} Whether the element could be scrolled into the view
      */
@@ -6938,8 +6745,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
      *
      * This function works on DOM level and needs the widget to be already rendered.
      * This is true for example in the "appear" event handler of a widget.
-
-     * @type member
      * @param alignTop {Boolean} whether the element should be top aligned
      * @return {Boolean} Whether the element could be scrolled into the view
      */
@@ -6967,7 +6772,6 @@ qx.Class.define("qx.legacy.ui.core.Widget",
     /**
      * TODOC
      *
-     * @type member
      *
      * @param dragCache {var}
      *   An object describing the event, containing at least these members:

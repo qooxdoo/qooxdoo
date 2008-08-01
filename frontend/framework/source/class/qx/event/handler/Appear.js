@@ -38,7 +38,6 @@ qx.Class.define("qx.event.handler.Appear",
   /**
    * Create a new instance
    *
-   * @type constructor
    * @param manager {qx.event.Manager} Event manager for the window to use
    */
   construct : function(manager)
@@ -91,7 +90,6 @@ qx.Class.define("qx.event.handler.Appear",
      * Refreshes all appear handlers. Useful after massive DOM manipulations e.g.
      * through qx.html.Element.
      *
-     * @type static
      * @return {void}
      */
      refresh : function()

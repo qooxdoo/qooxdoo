@@ -33,7 +33,6 @@ qx.Class.define("qx.bom.Stylesheet",
     /**
      * Include a CSS file
      *
-     * @type static
      * @param href {String} Href value
      * @param doc? {Document} Document to modify
      * @return {void}
@@ -57,7 +56,6 @@ qx.Class.define("qx.bom.Stylesheet",
     /**
      * Create a new Stylesheet node and append it to the document
      *
-     * @type static
      * @param text? {String} optional string of css rules
      * @return {Stylesheet} the generates stylesheet element
      * @signature function(text)
@@ -93,7 +91,6 @@ qx.Class.define("qx.bom.Stylesheet",
     /**
      * Insert a new CSS rule into a given Stylesheet
      *
-     * @type static
      * @param sheet {Object} the target Stylesheet object
      * @param selector {String} the selector
      * @param entry {String} style rule
@@ -115,7 +112,6 @@ qx.Class.define("qx.bom.Stylesheet",
     /**
      * Remove a CSS rule from a stylesheet
      *
-     * @type static
      * @param sheet {Object} the Stylesheet
      * @param selector {String} the Selector of the rule to remove
      * @return {void}
@@ -154,7 +150,6 @@ qx.Class.define("qx.bom.Stylesheet",
     /**
      * Remove all CSS rules from a stylesheet
      *
-     * @type static
      * @param sheet {Object} the stylesheet object
      * @return {void}
      * @signature function(sheet)
@@ -186,7 +181,6 @@ qx.Class.define("qx.bom.Stylesheet",
     /**
      * Add an import of an external CSS file to a stylesheet
      *
-     * @type static
      * @param sheet {Object} the stylesheet object
      * @param url {String} URL of the external stylesheet file
      * @return {void}
@@ -207,7 +201,6 @@ qx.Class.define("qx.bom.Stylesheet",
     /**
      * Removes an import from a stylesheet
      *
-     * @type static
      * @param sheet {Object} the stylesheet object
      * @param url {String} URL of the importet CSS file
      * @return {void}
@@ -246,7 +239,6 @@ qx.Class.define("qx.bom.Stylesheet",
     /**
      * Remove all imports from a stylesheet
      *
-     * @type static
      * @param sheet {Object} the stylesheet object
      * @return {void}
      * @signature function(sheet)

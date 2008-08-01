@@ -90,7 +90,6 @@ qx.Class.define("qx.legacy.ui.pageview.tabview.TabView",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -108,7 +107,6 @@ qx.Class.define("qx.legacy.ui.pageview.tabview.TabView",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */

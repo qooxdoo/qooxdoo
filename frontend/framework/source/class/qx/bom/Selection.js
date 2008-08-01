@@ -37,7 +37,6 @@ qx.Class.define("qx.bom.Selection",
      * Returns the native selection object.
      *
      * @signature documentNode {document} Document node to retrieve the connected selection
-     * @type member
      * @param {Object} documentNode
      * @return {Selection} native selection object
      */
@@ -58,7 +57,6 @@ qx.Class.define("qx.bom.Selection",
      * Returns the current selected text.
      *
      * @signature function(node)
-     * @type member
      * @param node {Node} node to retrieve the selection for
      * @return {String?null) selected text as string
      */
@@ -160,7 +158,6 @@ qx.Class.define("qx.bom.Selection",
      * childNodes of the given element.
      *
      * @signature function(node, start, end)
-     * @type member
      * @param node {Node} node to set the selection at
      * @param start {Integer} start of the selection
      * @param end {Integer} end of the selection
@@ -360,7 +357,6 @@ qx.Class.define("qx.bom.Selection",
     /**
      * Selects all content/childNodes of the given node
      *
-     * @type member
      * @param node {Node} text, element or document node
      * @return {Boolean} whether a selection is drawn
      */
@@ -372,7 +368,6 @@ qx.Class.define("qx.bom.Selection",
     /**
      * Clears the selection on the given node.
      *
-     * @type member
      * @param node {Node} node to clear the selection for
      * @return {void}
      */

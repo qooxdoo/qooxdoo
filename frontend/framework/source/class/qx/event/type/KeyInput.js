@@ -43,7 +43,6 @@ qx.Class.define("qx.event.type.KeyInput",
     /**
      * Initialize the fileds of the event.
      *
-     * @type member
      * @param domEvent {Event} DOM event
      * @param target {Object} The event target
      * @param charCode {Integer} the character code
@@ -73,7 +72,6 @@ qx.Class.define("qx.event.type.KeyInput",
     /**
      * Unicode number of the pressed character.
      *
-     * @type member
      * @return {Integer} Unicode number of the pressed character
      */
     getCharCode : function() {
@@ -84,7 +82,6 @@ qx.Class.define("qx.event.type.KeyInput",
     /**
      * Returns the pressed character
      *
-     * @type member
      * @return {String} The character
      */
     getChar : function() {

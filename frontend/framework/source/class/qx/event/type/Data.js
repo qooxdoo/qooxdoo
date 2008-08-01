@@ -39,7 +39,6 @@ qx.Class.define("qx.event.type.Data",
     /**
      * Initializes an event object.
      *
-     * @type member
      * @param data {var} The event's new data
      * @param old {var?null} The event's old data (optional)
      * @param cancelable {Boolean?false} Whether or not an event can have its default
@@ -64,7 +63,6 @@ qx.Class.define("qx.event.type.Data",
     /**
      * Get a copy of this object
      *
-     * @type member
      * @param embryo {qx.event.type.Data?null} Optional event class, which will
      *     be configured using the data of this event instance. The event must be
      *     an instance of this event class. If the data is <code>null</code>,
@@ -86,7 +84,6 @@ qx.Class.define("qx.event.type.Data",
      * The new data of the event sending this data event.
      * The return data type is the same as the event data type.
      *
-     * @type member
      * @return {var} The new data of the event
      */
     getData : function() {
@@ -98,7 +95,6 @@ qx.Class.define("qx.event.type.Data",
      * The old data of the event sending this data event.
      * The return data type is the same as the event data type.
      *
-     * @type member
      * @return {var} The old data of the event
      */
     getOldData : function() {
@@ -118,7 +114,6 @@ qx.Class.define("qx.event.type.Data",
      * The new data of the event sending this change event.
      * The return data type is the same as the event data type.
      *
-     * @type member
      * @deprecated
      * @return {var} The new data of the event
      */
@@ -133,7 +128,6 @@ qx.Class.define("qx.event.type.Data",
      * The old data of the event sending this change event.
      * The return data type is the same as the event data type.
      *
-     * @type member
      * @deprecated
      * @return {var} The old data of the event
      */

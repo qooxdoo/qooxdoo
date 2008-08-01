@@ -73,7 +73,6 @@ qx.Class.define("qx.legacy.ui.layout.impl.HorizontalBoxLayoutImpl",
      *  Inherits from qx.legacy.ui.layout.impl.LayoutImpl:
      *  [02] COMPUTE NEEDED DIMENSIONS FOR AN INDIVIDUAL CHILD
      *
-     * @type member
      * @param vChild {var} TODOC
      * @return {var} TODOC
      */
@@ -85,7 +84,6 @@ qx.Class.define("qx.legacy.ui.layout.impl.HorizontalBoxLayoutImpl",
     /**
      * Compute and return the box height of the given child.
      *
-     * @type member
      * @param vChild {var} TODOC
      * @return {var} TODOC
      */
@@ -102,7 +100,6 @@ qx.Class.define("qx.legacy.ui.layout.impl.HorizontalBoxLayoutImpl",
     /**
      * Computes the width of all flexible children.
      *
-     * @type member
      * @return {void}
      */
     computeChildrenFlexWidth : function()
@@ -330,7 +327,6 @@ qx.Class.define("qx.legacy.ui.layout.impl.HorizontalBoxLayoutImpl",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     invalidateChildrenFlexWidth : function() {
@@ -349,7 +345,6 @@ qx.Class.define("qx.legacy.ui.layout.impl.HorizontalBoxLayoutImpl",
     /**
      * Compute and return the width needed by all children of this widget
      *
-     * @type member
      * @return {var} TODOC
      */
     computeChildrenNeededWidth : function()
@@ -371,7 +366,6 @@ qx.Class.define("qx.legacy.ui.layout.impl.HorizontalBoxLayoutImpl",
      * Things to do and layout when any of the childs changes its outer width.
      *  Needed by layouts where the children depends on each-other, like flow- or box-layouts.
      *
-     * @type member
      * @param vChild {var} TODOC
      * @return {void}
      */
@@ -395,7 +389,6 @@ qx.Class.define("qx.legacy.ui.layout.impl.HorizontalBoxLayoutImpl",
      * Actions that should be done if the inner width of the widget was changed.
      *  Normally this includes update to percent values and ranges.
      *
-     * @type member
      * @param vChild {var} TODOC
      * @return {var} TODOC
      */
@@ -418,7 +411,6 @@ qx.Class.define("qx.legacy.ui.layout.impl.HorizontalBoxLayoutImpl",
      * Actions that should be done if the inner height of the widget was changed.
      *  Normally this includes update to percent values and ranges.
      *
-     * @type member
      * @param vChild {var} TODOC
      * @return {var} TODOC
      */
@@ -449,7 +441,6 @@ qx.Class.define("qx.legacy.ui.layout.impl.HorizontalBoxLayoutImpl",
     /**
      * Invalidate and recompute things because of job in queue (before the rest of job handling will be executed).
      *
-     * @type member
      * @param vJobQueue {var} TODOC
      * @return {void}
      */
@@ -472,7 +463,6 @@ qx.Class.define("qx.legacy.ui.layout.impl.HorizontalBoxLayoutImpl",
     /**
      * Updates children on special jobs
      *
-     * @type member
      * @param vQueue {var} TODOC
      * @return {boolean}
      */
@@ -529,7 +519,6 @@ qx.Class.define("qx.legacy.ui.layout.impl.HorizontalBoxLayoutImpl",
      * This method combines calls of methods which should be done if a widget should be removed from the current layout.
      *  Needed by layouts where the children depends on each-other, like flow- or box-layouts.
      *
-     * @type member
      * @param vChild {var} TODOC
      * @param vIndex {var} TODOC
      * @return {void}
@@ -589,7 +578,6 @@ qx.Class.define("qx.legacy.ui.layout.impl.HorizontalBoxLayoutImpl",
      *  inside the same parent to a new positions.
      *  Needed by layouts where the children depends on each-other, like flow- or box-layouts.
      *
-     * @type member
      * @param vChild {var} TODOC
      * @param vIndex {var} TODOC
      * @param vOldIndex {var} TODOC
@@ -621,7 +609,6 @@ qx.Class.define("qx.legacy.ui.layout.impl.HorizontalBoxLayoutImpl",
      *  registered (or also non-registered) children should be
      *  layouted on the horizontal axis.
      *
-     * @type member
      * @param vChildrenQueue {var} TODOC
      * @return {void}
      */
@@ -711,7 +698,6 @@ qx.Class.define("qx.legacy.ui.layout.impl.HorizontalBoxLayoutImpl",
      * This is called from qx.legacy.ui.core.Widget and  it's task is to apply the layout
      *  (excluding border and padding) to the child.
      *
-     * @type member
      * @param vChild {var} TODOC
      * @param vJobs {var} TODOC
      * @return {void}
@@ -735,7 +721,6 @@ qx.Class.define("qx.legacy.ui.layout.impl.HorizontalBoxLayoutImpl",
     /**
      * TODOC
      *
-     * @type member
      * @param vChild {var} TODOC
      * @param vJobs {var} TODOC
      * @return {void}
@@ -772,7 +757,6 @@ qx.Class.define("qx.legacy.ui.layout.impl.HorizontalBoxLayoutImpl",
     /**
      * TODOC
      *
-     * @type member
      * @param vChild {var} TODOC
      * @param vJobs {var} TODOC
      * @return {void}
@@ -809,7 +793,6 @@ qx.Class.define("qx.legacy.ui.layout.impl.HorizontalBoxLayoutImpl",
     /**
      * TODOC
      *
-     * @type member
      * @param vChild {var} TODOC
      * @param vJobs {var} TODOC
      * @return {void}
@@ -884,7 +867,6 @@ qx.Class.define("qx.legacy.ui.layout.impl.HorizontalBoxLayoutImpl",
     /**
      * TODOC
      *
-     * @type member
      * @param vChild {var} TODOC
      * @param vJobs {var} TODOC
      * @return {void}

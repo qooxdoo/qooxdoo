@@ -156,7 +156,6 @@ qx.Class.define("portal.box.Box",
     /**
      * Returns the id of the box.
      *
-     * @type member
      * @return {String ? null} id of the box or null
      */
     getId : function() {
@@ -167,7 +166,6 @@ qx.Class.define("portal.box.Box",
     /**
      * Returns the data of the box.
      *
-     * @type member
      * @return {Map} data of the box.
      */
     getData : function() {
@@ -178,7 +176,6 @@ qx.Class.define("portal.box.Box",
     /**
      * Returns the draggable component if the box is capable of this feature
      *
-     * @type member
      * @return {portal.box.Draggable} draggable instance or null
      */
     getDraggableComponent : function() {
@@ -189,7 +186,6 @@ qx.Class.define("portal.box.Box",
     /**
      * Returns the resizable component if the box is capable of this feature
      *
-     * @type member
      * @return {portal.box.Resizable} resizable instance or null
      */
     getResizableComponent : function() {
@@ -200,7 +196,6 @@ qx.Class.define("portal.box.Box",
     /**
      * Prepare the box element itself.
      *
-     * @type member
      * @param element {Node} element node to prepare
      * @param styles {Map} Additional style attributes to apply
      * @return {void} 
@@ -226,7 +221,6 @@ qx.Class.define("portal.box.Box",
     /***
      * Default content
      *
-     * @type member
      * @return {void} 
      */
     __addContent : function()
@@ -249,7 +243,6 @@ qx.Class.define("portal.box.Box",
     /**
      * Listener which informs the box manager about the selection
      *
-     * @type member
      * @param e {qx.event.type.Mouse} mouse event instance
      * @return {void} 
      */

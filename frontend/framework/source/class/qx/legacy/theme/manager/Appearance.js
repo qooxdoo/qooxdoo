@@ -90,7 +90,6 @@ qx.Class.define("qx.legacy.theme.manager.Appearance",
     /**
      * Sync dependend objects with internal database
      *
-     * @type member
      * @return {void}
      */
     syncAppearanceTheme : function()
@@ -127,7 +126,6 @@ qx.Class.define("qx.legacy.theme.manager.Appearance",
     /**
      * Get the result of the "initial" function for a given id
      *
-     * @type member
      * @param id {String} id of the appearance (e.g. "button", "label", ...)
      * @param states {Map} hash map defining the set states
      * @return {Map} map of widget properties as returned by the "initial" function
@@ -147,7 +145,6 @@ qx.Class.define("qx.legacy.theme.manager.Appearance",
     /**
      * Get the result of the "state" function for a given id and states
      *
-     * @type member
      * @param theme {Object} appearance theme
      * @param id {String} id of the appearance (e.g. "button", "label", ...)
      * @param states {Map} hash map defining the set states

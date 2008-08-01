@@ -67,7 +67,6 @@ qx.Class.define("qx.bom.Font",
     /**
      * Converts a typical CSS font definition string to an font object
      *
-     * @type static
      * @param str {String} the CSS string
      * @return {qx.bom.Font} the created instance
      */
@@ -118,7 +117,6 @@ qx.Class.define("qx.bom.Font",
     /**
      * Converts a map property definition into a border object.
      *
-     * @type static
      * @param config {Map} map of property values
      * @return {qx.bom.Font} the created instance
      */
@@ -147,7 +145,6 @@ qx.Class.define("qx.bom.Font",
      * This is useful for resetting previously configured
      * font styles.
      *
-     * @type static
      * @return {Map} Default styles
      */
     getDefaultStyles : function() {

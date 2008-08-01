@@ -200,7 +200,6 @@ qx.Class.define("qx.legacy.ui.component.ColorSelector",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     _createControlBar : function()
@@ -214,7 +213,6 @@ qx.Class.define("qx.legacy.ui.component.ColorSelector",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     _createButtonBar : function()
@@ -247,7 +245,6 @@ qx.Class.define("qx.legacy.ui.component.ColorSelector",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     _createControlPane : function()
@@ -263,7 +260,6 @@ qx.Class.define("qx.legacy.ui.component.ColorSelector",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     _createHueSaturationPane : function()
@@ -295,7 +291,6 @@ qx.Class.define("qx.legacy.ui.component.ColorSelector",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     _createBrightnessPane : function()
@@ -335,7 +330,6 @@ qx.Class.define("qx.legacy.ui.component.ColorSelector",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     _createPresetFieldSet : function()
@@ -386,7 +380,6 @@ qx.Class.define("qx.legacy.ui.component.ColorSelector",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     _createInputFieldSet : function()
@@ -405,7 +398,6 @@ qx.Class.define("qx.legacy.ui.component.ColorSelector",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     _createPreviewFieldSet : function()
@@ -434,7 +426,6 @@ qx.Class.define("qx.legacy.ui.component.ColorSelector",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     _createHexField : function()
@@ -463,7 +454,6 @@ qx.Class.define("qx.legacy.ui.component.ColorSelector",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     _createRgbSpinner : function()
@@ -498,7 +488,6 @@ qx.Class.define("qx.legacy.ui.component.ColorSelector",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     _createHsbSpinner : function()
@@ -541,7 +530,6 @@ qx.Class.define("qx.legacy.ui.component.ColorSelector",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     _createPreviewContent : function()
@@ -571,7 +559,6 @@ qx.Class.define("qx.legacy.ui.component.ColorSelector",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -608,7 +595,6 @@ qx.Class.define("qx.legacy.ui.component.ColorSelector",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -645,7 +631,6 @@ qx.Class.define("qx.legacy.ui.component.ColorSelector",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -690,7 +675,6 @@ qx.Class.define("qx.legacy.ui.component.ColorSelector",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -730,7 +714,6 @@ qx.Class.define("qx.legacy.ui.component.ColorSelector",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -770,7 +753,6 @@ qx.Class.define("qx.legacy.ui.component.ColorSelector",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -820,7 +802,6 @@ qx.Class.define("qx.legacy.ui.component.ColorSelector",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -842,7 +823,6 @@ qx.Class.define("qx.legacy.ui.component.ColorSelector",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -856,7 +836,6 @@ qx.Class.define("qx.legacy.ui.component.ColorSelector",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -872,7 +851,6 @@ qx.Class.define("qx.legacy.ui.component.ColorSelector",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -894,7 +872,6 @@ qx.Class.define("qx.legacy.ui.component.ColorSelector",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -906,7 +883,6 @@ qx.Class.define("qx.legacy.ui.component.ColorSelector",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -931,7 +907,6 @@ qx.Class.define("qx.legacy.ui.component.ColorSelector",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -943,7 +918,6 @@ qx.Class.define("qx.legacy.ui.component.ColorSelector",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -963,7 +937,6 @@ qx.Class.define("qx.legacy.ui.component.ColorSelector",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -989,7 +962,6 @@ qx.Class.define("qx.legacy.ui.component.ColorSelector",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -1003,7 +975,6 @@ qx.Class.define("qx.legacy.ui.component.ColorSelector",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -1019,7 +990,6 @@ qx.Class.define("qx.legacy.ui.component.ColorSelector",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -1045,7 +1015,6 @@ qx.Class.define("qx.legacy.ui.component.ColorSelector",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -1057,7 +1026,6 @@ qx.Class.define("qx.legacy.ui.component.ColorSelector",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -1097,7 +1065,6 @@ qx.Class.define("qx.legacy.ui.component.ColorSelector",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     _setRedFromSpinner : function()
@@ -1115,7 +1082,6 @@ qx.Class.define("qx.legacy.ui.component.ColorSelector",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     _setGreenFromSpinner : function()
@@ -1133,7 +1099,6 @@ qx.Class.define("qx.legacy.ui.component.ColorSelector",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     _setBlueFromSpinner : function()
@@ -1159,7 +1124,6 @@ qx.Class.define("qx.legacy.ui.component.ColorSelector",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     _setHueFromSpinner : function()
@@ -1177,7 +1141,6 @@ qx.Class.define("qx.legacy.ui.component.ColorSelector",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     _setSaturationFromSpinner : function()
@@ -1195,7 +1158,6 @@ qx.Class.define("qx.legacy.ui.component.ColorSelector",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     _setBrightnessFromSpinner : function()
@@ -1221,7 +1183,6 @@ qx.Class.define("qx.legacy.ui.component.ColorSelector",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void | Boolean} TODOC
      */
@@ -1248,7 +1209,6 @@ qx.Class.define("qx.legacy.ui.component.ColorSelector",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     _setHexFromRgb : function() {
@@ -1269,7 +1229,6 @@ qx.Class.define("qx.legacy.ui.component.ColorSelector",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {var} TODOC
      */
@@ -1300,7 +1259,6 @@ qx.Class.define("qx.legacy.ui.component.ColorSelector",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     _setHueFromRgb : function()
@@ -1325,7 +1283,6 @@ qx.Class.define("qx.legacy.ui.component.ColorSelector",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     _setRgbFromHue : function()
@@ -1357,7 +1314,6 @@ qx.Class.define("qx.legacy.ui.component.ColorSelector",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     _setPreviewFromRgb : function() {
@@ -1368,7 +1324,6 @@ qx.Class.define("qx.legacy.ui.component.ColorSelector",
     /**
      * TODOC
      *
-     * @type member
      * @param vRed {var} TODOC
      * @param vGreen {var} TODOC
      * @param vBlue {var} TODOC

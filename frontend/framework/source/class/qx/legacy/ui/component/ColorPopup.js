@@ -136,7 +136,6 @@ qx.Class.define("qx.legacy.ui.component.ColorPopup",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     _createLayout : function()
@@ -153,7 +152,6 @@ qx.Class.define("qx.legacy.ui.component.ColorPopup",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     _createAutoBtn : function()
@@ -175,7 +173,6 @@ qx.Class.define("qx.legacy.ui.component.ColorPopup",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     _createBoxes : function()
@@ -221,7 +218,6 @@ qx.Class.define("qx.legacy.ui.component.ColorPopup",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     _createPreview : function()
@@ -254,7 +250,6 @@ qx.Class.define("qx.legacy.ui.component.ColorPopup",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     _createSelectorBtn : function()
@@ -271,7 +266,6 @@ qx.Class.define("qx.legacy.ui.component.ColorPopup",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     _createColorSelector : function()
@@ -308,7 +302,6 @@ qx.Class.define("qx.legacy.ui.component.ColorPopup",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -336,7 +329,6 @@ qx.Class.define("qx.legacy.ui.component.ColorPopup",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     _rotatePreviousColors : function()
@@ -385,7 +377,6 @@ qx.Class.define("qx.legacy.ui.component.ColorPopup",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -403,7 +394,6 @@ qx.Class.define("qx.legacy.ui.component.ColorPopup",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -415,7 +405,6 @@ qx.Class.define("qx.legacy.ui.component.ColorPopup",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -429,7 +418,6 @@ qx.Class.define("qx.legacy.ui.component.ColorPopup",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -449,7 +437,6 @@ qx.Class.define("qx.legacy.ui.component.ColorPopup",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -464,7 +451,6 @@ qx.Class.define("qx.legacy.ui.component.ColorPopup",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -476,7 +462,6 @@ qx.Class.define("qx.legacy.ui.component.ColorPopup",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */

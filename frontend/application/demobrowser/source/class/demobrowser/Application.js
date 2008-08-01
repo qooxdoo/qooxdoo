@@ -48,7 +48,6 @@ qx.Class.define("demobrowser.Application",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     main : function()
@@ -77,7 +76,6 @@ qx.Class.define("demobrowser.Application",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     _load : function() {

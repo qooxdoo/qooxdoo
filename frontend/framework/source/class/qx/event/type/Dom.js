@@ -80,7 +80,6 @@ qx.Class.define("qx.event.type.Dom",
     /**
      * Returns whether the the ctrl key is pressed.
      *
-     * @type member
      * @return {Boolean} whether the the ctrl key is pressed.
      */
     isCtrlPressed : function() {
@@ -91,7 +90,6 @@ qx.Class.define("qx.event.type.Dom",
     /**
      * Returns whether the the shift key is pressed.
      *
-     * @type member
      * @return {Boolean} whether the the shift key is pressed.
      */
     isShiftPressed : function() {
@@ -102,7 +100,6 @@ qx.Class.define("qx.event.type.Dom",
     /**
      * Returns whether the the alt key is pressed.
      *
-     * @type member
      * @return {Boolean} whether the the alt key is pressed.
      */
     isAltPressed : function() {
@@ -113,7 +110,6 @@ qx.Class.define("qx.event.type.Dom",
     /**
      * Returns whether the the meta key is pressed.
      *
-     * @type member
      * @return {Boolean} whether the the meta key is pressed.
      */
     isMetaPressed : function() {

@@ -53,7 +53,6 @@ qx.Class.define("testrunner.test.Class",
           /**
            * TODOC
            *
-           * @type member
            * @return {string} TODOC
            */
           startEngine : function() {
@@ -64,7 +63,6 @@ qx.Class.define("testrunner.test.Class",
           /**
            * TODOC
            *
-           * @type member
            * @return {string} TODOC
            */
           stopEngine : function() {
@@ -75,7 +73,6 @@ qx.Class.define("testrunner.test.Class",
           /**
            * TODOC
            *
-           * @type member
            * @return {var} TODOC
            */
           getName : function() {
@@ -102,7 +99,6 @@ qx.Class.define("testrunner.test.Class",
           /**
            * TODOC
            *
-           * @type member
            * @return {var} TODOC
            */
           startEngine : function()
@@ -115,7 +111,6 @@ qx.Class.define("testrunner.test.Class",
           /**
            * TODOC
            *
-           * @type member
            * @return {var} TODOC
            */
           stopEngine : function()
@@ -128,7 +123,6 @@ qx.Class.define("testrunner.test.Class",
           /**
            * TODOC
            *
-           * @type member
            * @return {var} TODOC
            */
           getWheels : function() {

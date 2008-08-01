@@ -49,7 +49,6 @@ qx.Bootstrap.define("qx.lang.Function",
      * Extract the caller of a function from the arguments variable.
      * This will not work in Opera.
      *
-     * @type static
      * @param args {arguments} The local arguments variable
      * @return {Function | undefined} A reference to the calling function or "undefined" if caller is not supported.
      */
@@ -137,7 +136,6 @@ qx.Bootstrap.define("qx.lang.Function",
     /**
      * Evaluates JavaScript code globally
      *
-     * @type static
      * @param data {String} JavaScript commands
      * @return {var} Result of the execution
      */
@@ -154,7 +152,6 @@ qx.Bootstrap.define("qx.lang.Function",
     /**
      * Simply return true.
      *
-     * @type static
      * @return {Boolean} Always returns true.
      */
     returnTrue : function() {
@@ -165,7 +162,6 @@ qx.Bootstrap.define("qx.lang.Function",
     /**
      * Simply return false.
      *
-     * @type static
      * @return {Boolean} Always returns false.
      */
     returnFalse : function() {
@@ -176,7 +172,6 @@ qx.Bootstrap.define("qx.lang.Function",
     /**
      * Simply return null.
      *
-     * @type static
      * @return {var} Always returns null.
      */
     returnNull : function() {
@@ -187,7 +182,6 @@ qx.Bootstrap.define("qx.lang.Function",
     /**
      * Return "this".
      *
-     * @type static
      * @return {Object} Always returns "this".
      */
     returnThis : function() {
@@ -198,7 +192,6 @@ qx.Bootstrap.define("qx.lang.Function",
     /**
      * Simply return 0.
      *
-     * @type static
      * @return {Number} Always returns 0.
      */
     returnZero : function() {
@@ -213,7 +206,6 @@ qx.Bootstrap.define("qx.lang.Function",
      *
      * <pre class='javascript'>var createdFunction = qx.lang.Function.create(myFunction, [options]);</pre>
      *
-     * @type static
      * @param func {Function} Original function to wrap
      * @param options? {Map} Map of options
      * <ul>
@@ -308,7 +300,6 @@ qx.Bootstrap.define("qx.lang.Function",
      * myBoundFunction(); // this will make the element myElement red.
      * </pre>
      *
-     * @type static
      * @param func {Function} Original function to wrap
      * @param self {Object ? null} The object that the "this" of the function will refer to.
      * @param varargs {arguments ? null} The arguments to pass to the function.
@@ -342,7 +333,6 @@ qx.Bootstrap.define("qx.lang.Function",
      * myBoundFunction(); // this will make the element myElement red.
      * </pre>
      *
-     * @type static
      * @param func {Function} Original function to wrap
      * @param varargs {arguments} The arguments to pass to the function.
      * @return {var} The pre-configured function.
@@ -362,7 +352,6 @@ qx.Bootstrap.define("qx.lang.Function",
      *
      * <pre class='javascript'>qx.lang.Function.listener(myFunction, [self, [varargs...]]);</pre>
      *
-     * @type static
      * @param func {Function} Original function to wrap
      * @param self {Object ? null} The object that the "this" of the function will refer to.
      * @param varargs {arguments ? null} The arguments to pass to the function.
@@ -420,7 +409,6 @@ qx.Bootstrap.define("qx.lang.Function",
      * var result = qx.lang.Function.attempt(myFunction, myObject, 'pig', 'cow'); // false
      * </pre>
      *
-     * @type static
      * @param func {Function} Original function to wrap
      * @param self {Object ? null} The object that the "this" of the function will refer to.
      * @param varargs {arguments ? null} The arguments to pass to the function.
@@ -455,7 +443,6 @@ qx.Bootstrap.define("qx.lang.Function",
      * qx.lang.Function.delay(function(){ alert('one second later...'); }, 1000); //wait a second and alert
      * </pre>
      *
-     * @type static
      * @param func {Function} Original function to wrap
      * @param delay {Integer} The duration to wait (in milliseconds).
      * @param self {Object ? null} The object that the "this" of the function will refer to.
@@ -488,7 +475,6 @@ qx.Bootstrap.define("qx.lang.Function",
      * qx.lang.Function.periodical(addCount, 1000, Site); // will add the number of seconds at the Site
      * </pre>
      *
-     * @type static
      * @param func {Function} Original function to wrap
      * @param interval {Integer} The duration of the intervals between executions.
      * @param self {Object ? null} The object that the "this" of the function will refer to.

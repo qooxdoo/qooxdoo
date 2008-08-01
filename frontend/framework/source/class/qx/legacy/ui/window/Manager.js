@@ -64,7 +64,6 @@ qx.Class.define("qx.legacy.ui.window.Manager",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -101,7 +100,6 @@ qx.Class.define("qx.legacy.ui.window.Manager",
     /**
      * Updates all registered window instances
      *
-     * @type member
      * @return {void}
      */
     update : function()
@@ -136,7 +134,6 @@ qx.Class.define("qx.legacy.ui.window.Manager",
      * If none of those two are active the zIndex are subtracted from each
      * other to determine the sort order.
      *
-     * @type member
      * @param w1 {qx.legacy.ui.window.Window} first window to compare
      * @param w2 {qx.legacy.ui.window.Window} second window to compare
      * @return {int | var} 1 for first window active, -1 for second window active
@@ -161,7 +158,6 @@ qx.Class.define("qx.legacy.ui.window.Manager",
      * Adds a {@link qx.legacy.ui.window.Window} instance to the manager and
      * sets it as active window.
      *
-     * @type member
      * @param vWindow {qx.legacy.ui.window.Window} window instance to add
      * @return {void}
      */
@@ -180,7 +176,6 @@ qx.Class.define("qx.legacy.ui.window.Manager",
      * existing windows are compared to determine the new active window
      * (using the {@link #compareWindows} method).
      *
-     * @type member
      * @param vWindow {qx.legacy.ui.window.Window} window instance
      * @return {void}
      */

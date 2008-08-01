@@ -34,7 +34,6 @@ qx.Mixin.define("qx.ui.core.MRemoteChildrenHandling",
     /**
      * Returns the children list
      *
-     * @type member
      * @return {LayoutItem[]} The children array (Arrays are
      *   reference types, please to not modify them in-place)
      */
@@ -46,7 +45,6 @@ qx.Mixin.define("qx.ui.core.MRemoteChildrenHandling",
     /**
      * Whether the widget contains children.
      *
-     * @type member
      * @return {Boolean} Returns <code>true</code> when the widget has children.
      */
     hasChildren : function() {
@@ -57,7 +55,6 @@ qx.Mixin.define("qx.ui.core.MRemoteChildrenHandling",
     /**
      * Adds a new child item.
      *
-     * @type member
      * @param child {LayoutItem} the item to add.
      * @param options {Map?null} Optional layout data for item.
      * @return {Widget} This object (for chaining support)
@@ -70,7 +67,6 @@ qx.Mixin.define("qx.ui.core.MRemoteChildrenHandling",
     /**
      * Remove the given child item.
      *
-     * @type member
      * @param child {LayoutItem} the item to remove
      * @return {Widget} This object (for chaining support)
      */
@@ -82,7 +78,6 @@ qx.Mixin.define("qx.ui.core.MRemoteChildrenHandling",
     /**
      * Remove all children.
      *
-     * @type member
      * @return {void}
      */
     removeAll : function() {
@@ -99,7 +94,6 @@ qx.Mixin.define("qx.ui.core.MRemoteChildrenHandling",
      * layout information. Other layout manager (e.g. {@link qx.ui.layout.Grid})
      * ignore the children order for the layout process.
      *
-     * @type member
      * @param child {LayoutItem} the item to query for
      * @return {Integer} The index position or <code>-1</code> when
      *   the given item is no child of this layout.
@@ -117,7 +111,6 @@ qx.Mixin.define("qx.ui.core.MRemoteChildrenHandling",
      * layout information. Other layout manager (e.g. {@link qx.ui.layout.Grid})
      * ignore the children order for the layout process.
      *
-     * @type member
      * @param child {LayoutItem} item to add
      * @param index {Integer} Index, at which the item will be inserted
      * @param options {Map?null} Optional layout data for item.
@@ -135,7 +128,6 @@ qx.Mixin.define("qx.ui.core.MRemoteChildrenHandling",
      * layout information. Other layout manager (e.g. {@link qx.ui.layout.Grid})
      * ignore the children order for the layout process.
      *
-     * @type member
      * @param child {LayoutItem} item to add
      * @param before {LayoutItem} item before the new item will be inserted.
      * @param options {Map?null} Optional layout data for item.
@@ -153,7 +145,6 @@ qx.Mixin.define("qx.ui.core.MRemoteChildrenHandling",
      * layout information. Other layout manager (e.g. {@link qx.ui.layout.Grid})
      * ignore the children order for the layout process.
      *
-     * @type member
      * @param child {LayoutItem} item to add
      * @param after {LayoutItem} item, after which the new item will be inserted
      * @param options {Map?null} Optional layout data for item.
@@ -171,7 +162,6 @@ qx.Mixin.define("qx.ui.core.MRemoteChildrenHandling",
      * layout information. Other layout manager (e.g. {@link qx.ui.layout.Grid})
      * ignore the children order for the layout process.
      *
-     * @type member
      * @param index {Integer} Index of the item to remove.
      */
     removeAt : function(index) {

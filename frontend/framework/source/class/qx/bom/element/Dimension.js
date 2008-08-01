@@ -40,7 +40,6 @@ qx.Class.define("qx.bom.element.Dimension",
     /**
      * Returns the (box) width of the given element.
      *
-     * @type static
      * @param element {Element} DOM element to query
      * @return {Integer} width of the element
      */
@@ -51,7 +50,6 @@ qx.Class.define("qx.bom.element.Dimension",
     /**
      * Returns the (box) height of the given element.
      *
-     * @type static
      * @param element {Element} DOM element to query
      * @return {Integer} height of the element
      */
@@ -62,7 +60,6 @@ qx.Class.define("qx.bom.element.Dimension",
     /**
      * Returns the client width of the given element.
      *
-     * @type static
      * @param element {Element} DOM element to query
      * @return {Integer} inner width of the element
      */
@@ -73,7 +70,6 @@ qx.Class.define("qx.bom.element.Dimension",
     /**
      * Returns the client height of the given element.
      *
-     * @type static
      * @param element {Element} DOM element to query
      * @return {Integer} inner height of the element
      */
@@ -84,7 +80,6 @@ qx.Class.define("qx.bom.element.Dimension",
     /**
      * Returns the scroll width of the given element.
      *
-     * @type static
      * @param element {Element} DOM element to query
      * @return {Integer} scroll width of the element
      */
@@ -95,7 +90,6 @@ qx.Class.define("qx.bom.element.Dimension",
     /**
      * Returns the scroll height of the given element.
      *
-     * @type static
      * @param element {Element} DOM element to query
      * @return {Integer} scroll height of the element
      */

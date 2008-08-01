@@ -33,7 +33,6 @@ qx.Class.define("qx.locale.Date",
     /**
      * Get AM marker for time definitions
      *
-     * @type static
      * @param locale {String} optional locale to be used
      * @return {String} translated AM marker.
      */
@@ -45,7 +44,6 @@ qx.Class.define("qx.locale.Date",
     /**
      * Get PM marker for time definitions
      *
-     * @type static
      * @param locale {String} optional locale to be used
      * @return {String} translated PM marker.
      */
@@ -57,7 +55,6 @@ qx.Class.define("qx.locale.Date",
     /**
      * Return localized names of day names
      *
-     * @type static
      * @param length {String} format of the day names.
      *       Possible values: "abbreviated", "narrow", "wide"
      * @param locale {String} optional locale to be used
@@ -87,7 +84,6 @@ qx.Class.define("qx.locale.Date",
     /**
      * Return localized name of a week day name
      *
-     * @type static
      * @param length {String} format of the day name.
      *       Possible values: "abbreviated", "narrow", "wide"
      * @param day {Integer} day number. 0=sunday, 1=monday, ...
@@ -113,7 +109,6 @@ qx.Class.define("qx.locale.Date",
     /**
      * Return localized names of month names
      *
-     * @type static
      * @param length {String} format of the month names.
      *       Possible values: "abbreviated", "narrow", "wide"
      * @param locale {String} optional locale to be used
@@ -140,7 +135,6 @@ qx.Class.define("qx.locale.Date",
     /**
      * Return localized name of a month
      *
-     * @type static
      * @param length {String} format of the month names.
      *       Possible values: "abbreviated", "narrow", "wide"
      * @param month {Integer} index of the month. 0=january, 1=februrary, ...
@@ -161,7 +155,6 @@ qx.Class.define("qx.locale.Date",
     /**
      * Return localized date format string to be used with @{link qx.util.format.DateFormat}.
      *
-     * @type static
      * @param size {String} format of the date format.
      *      Possible values: "short", "medium", "long", "full"
      * @param locale {String} optional locale to be used
@@ -183,7 +176,6 @@ qx.Class.define("qx.locale.Date",
      *
      * If now localization is availible take the fallback format string
      *
-     * @type static
      * @param canonical {String} format string containing only field information, and in a canonical order.
      *       Examples are "yyyyMMMM" for year + full month, or "MMMd" for abbreviated month + day.
      * @param fallback {String} fallback format string if no localized version is found
@@ -206,7 +198,6 @@ qx.Class.define("qx.locale.Date",
     /**
      * Return localized time format string to be used with {@link qx.util.format.DateFormat}.
      *
-     * @type static
      * @param size {String} format of the time pattern.
      *      Possible values: "short", "medium", "long", "full"
      * @param locale {String} optional locale to be used
@@ -248,7 +239,6 @@ qx.Class.define("qx.locale.Date",
      *
      * Reference: Common Locale Data Repository (cldr) supplementalData.xml
      *
-     * @type static
      * @param locale {String} optional locale to be used
      * @return {Integer} index of the first day of the week. 0=sunday, 1=monday, ...
      */
@@ -335,7 +325,6 @@ qx.Class.define("qx.locale.Date",
      *
      * Reference: Common Locale Data Repository (cldr) supplementalData.xml
      *
-     * @type static
      * @param locale {String} optional locale to be used
      * @return {Integer} index of the first day of the weekend. 0=sunday, 1=monday, ...
      */
@@ -377,7 +366,6 @@ qx.Class.define("qx.locale.Date",
      *
      * Reference: Common Locale Data Repository (cldr) supplementalData.xml
      *
-     * @type static
      * @param locale {String} optional locale to be used
      * @return {Integer} index of the last day of the weekend. 0=sunday, 1=monday, ...
      */
@@ -418,7 +406,6 @@ qx.Class.define("qx.locale.Date",
     /**
      * Returns whether a certain day of week belongs to the week end.
      *
-     * @type static
      * @param day {Integer} index of the day. 0=sunday, 1=monday, ...
      * @param locale {String} optional locale to be used
      * @return {Boolean} whether the given day is a weekend day
@@ -439,7 +426,6 @@ qx.Class.define("qx.locale.Date",
     /**
      * Extract the territory part from a locale
      *
-     * @type static
      * @param locale {String} the locale
      * @return {String} territory
      */

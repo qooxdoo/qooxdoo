@@ -54,7 +54,6 @@ qx.Class.define("apiviewer.TreeUtil",
     /**
      * Gets the child of a doc node having a certain type.
      *
-     * @type static
      * @param docNode {Map} the doc node to get the child of.
      * @param childType {String} the type of the child to get.
      * @return {Map} the wanted child or <code>null</code> if <code>docNode</code>
@@ -79,7 +78,6 @@ qx.Class.define("apiviewer.TreeUtil",
     /**
      * Gets the child of a doc node having a certain attribute value.
      *
-     * @type static
      * @param docNode {Map} the doc node to get the child of.
      * @param attributeName {String} the name of the attribute the wanted child must have.
      * @param attributeValue {String} the value of the attribute the wanted child must have.
@@ -106,7 +104,6 @@ qx.Class.define("apiviewer.TreeUtil",
     /**
      * Gets the icon URL of a doc node.
      *
-     * @type static
      * @param node {Map} the node to get the icon for.
      * @param inherited {Boolean,false} whether the node was inherited.
      * @return {var} the URL of the icon. May be a string or an array of string

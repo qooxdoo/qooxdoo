@@ -51,7 +51,6 @@ qx.Bootstrap.define("qx.bom.client.Platform",
     /**
      * Internal initialize helper
      *
-     * @type static
      * @return {void}
      * @throws TODOC
      */

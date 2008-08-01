@@ -83,7 +83,6 @@ qx.Class.define("qx.legacy.ui.table.pane.CellEvent",
     /**
      * Compute the row where the event has happened.
      *
-     * @type member
      * @return {Integer} 0-based row number
      */
     _computeRow : function()
@@ -99,7 +98,6 @@ qx.Class.define("qx.legacy.ui.table.pane.CellEvent",
     /**
      * Compute the column where the event has happened.
      *
-     * @type member
      * @return {Integer} zero based column number
      */
     _computeColumn : function()

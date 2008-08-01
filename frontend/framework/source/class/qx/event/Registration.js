@@ -54,7 +54,6 @@ qx.Bootstrap.define("qx.event.Registration",
      * Get an instance of the event manager, which can handle events for the
      * given target.
      *
-     * @type static
      * @param target {Object} Any valid event target
      * @return {qx.event.Manager} The event manger for the target.
      */
@@ -88,7 +87,6 @@ qx.Bootstrap.define("qx.event.Registration",
      * Normally only used when the manager gets disposed through
      * an unload event of the attached window.
      *
-     * @type static
      * @param mgr {qx.event.Manager} The manager to remove
      * @return {void}
      */
@@ -104,7 +102,6 @@ qx.Bootstrap.define("qx.event.Registration",
      * instance of {@link Event} containing all relevant information
      * about the event as parameter.
      *
-     * @type static
      * @param target {Object} Any valid event target
      * @param type {String} Name of the event e.g. "click", "keydown", ...
      * @param listener {Function} Event listener function
@@ -126,7 +123,6 @@ qx.Bootstrap.define("qx.event.Registration",
      *   the DOM at page unload so it is not necessary to detach events in the
      *   destructor.
      *
-     * @type static
      * @param target {Object} Any valid event target
      * @param type {String} Name of the event
      * @param listener {Function} The pointer to the event listener
@@ -154,7 +150,6 @@ qx.Bootstrap.define("qx.event.Registration",
      * Check whether there are one or more listeners for an event type
      * registered at the target.
      *
-     * @type static
      * @param target {Object} Any valid event target
      * @param type {String} The event type
      * @param capture {Boolean ? false} Whether to check for listeners of
@@ -171,7 +166,6 @@ qx.Bootstrap.define("qx.event.Registration",
      * an event manager. The created events must be initialized using
      * {@link qx.event.type.Event#init}.
      *
-     * @type static
      * @param type {String} The type of the event to create
      * @param clazz {Object?qx.event.type.Event} The event class to use
      * @param args {Array?null} Array which will be passed to
@@ -217,7 +211,6 @@ qx.Bootstrap.define("qx.event.Registration",
      * It is normally better to use {@link #fireEvent} because it uses
      * the event pooling and is quite handy otherwise as well.
      *
-     * @type static
      * @param target {Object} Any valid event target
      * @param event {qx.event.type.Event} The event object to dispatch. The event
      *       object must be obtained using {@link #createEvent} and initialized
@@ -233,7 +226,6 @@ qx.Bootstrap.define("qx.event.Registration",
     /**
      * Create an event object and dispatch it on the given target.
      *
-     * @type static
      * @param target {Object} Any valid event target
      * @param type {String} Event type to fire
      * @param clazz {Class?qx.event.type.Event} The event class
@@ -262,7 +254,6 @@ qx.Bootstrap.define("qx.event.Registration",
      * The event dispached with this method does never bubble! Use only if you
      * are sure that bubbling is not required.
      *
-     * @type static
      * @param target {Object} Any valid event target
      * @param type {String} Event type to fire
      * @param clazz {Class?qx.event.type.Event} The event class
@@ -322,7 +313,6 @@ qx.Bootstrap.define("qx.event.Registration",
     /**
      * Register an event handler.
      *
-     * @type static
      * @param handler {qx.event.handler.AbstractEventHandler} Event handler to add
      * @return {void}
      * @throws an error if the handler does not have the IEventHandler interface.
@@ -346,7 +336,6 @@ qx.Bootstrap.define("qx.event.Registration",
     /**
      * Get a list of registered event handlers.
      *
-     * @type static
      * @return {qx.event.handler.AbstractEventHandler[]} registered event handlers
      */
     getHandlers : function() {
@@ -369,7 +358,6 @@ qx.Bootstrap.define("qx.event.Registration",
     /**
      * Register an event dispatcher.
      *
-     * @type static
      * @param dispatcher {qx.event.dispatch.IEventDispatch} Event dispatcher to add
      * @param priority {Integer} One of {@link #PRIORITY_FIRST}, {@link PRIORITY_NORMAL}
      *       or {@link #PRIORITY_LAST}.
@@ -395,7 +383,6 @@ qx.Bootstrap.define("qx.event.Registration",
     /**
      * Get a list of registered event dispatchers.
      *
-     * @type static
      * @return {qx.event.dispatch.IEventDispatch[]} all registered event dispatcher
      */
     getDispatchers : function() {

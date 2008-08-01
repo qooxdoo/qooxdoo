@@ -111,7 +111,6 @@ qx.Class.define("qx.legacy.ui.table.cellrenderer.Conditional",
      * formatting set in the constructor.
      *
      *
-     * @type member
      * @param condition {String} The type of condition. Accepted strings are "==", "!=", ">", "<", ">=",
      *     and "<=".
      * @param value1 {Integer} The value to compare against.
@@ -151,7 +150,6 @@ qx.Class.define("qx.legacy.ui.table.cellrenderer.Conditional",
      * formatting set in the constructor.
      *
      *
-     * @type member
      * @param condition {String} The type of condition. Accepted strings are "between" and "!between".
      * @param value1 {Integer} The first value to compare against.
      * @param value2 {Integer} The second value to compare against.
@@ -191,7 +189,6 @@ qx.Class.define("qx.legacy.ui.table.cellrenderer.Conditional",
      * formatting set in the constructor.
      *
      *
-     * @type member
      * @param regex {String} The regular expression to match against.
      * @param align {String} The alignment to format the cell with if the condition matches.
      * @param color {String} The color to format the cell with if the condition matches.
@@ -221,7 +218,6 @@ qx.Class.define("qx.legacy.ui.table.cellrenderer.Conditional",
      * earlier ones. Conditions with null values will stack with other conditions
      * that apply to that value.
      *
-     * @type member
      * @param cellInfo {Map} The information about the cell.
      *          See {@link #createDataCellHtml}.
      * @return {Map}

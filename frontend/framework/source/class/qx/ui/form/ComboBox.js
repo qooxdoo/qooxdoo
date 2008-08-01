@@ -257,7 +257,6 @@ qx.Class.define("qx.ui.form.ComboBox",
      * This method only works if the widget is already created and
      * added to the document.
      *
-     * @type member
      * @return {String|null}
      */
     getSelection : function() {
@@ -270,7 +269,6 @@ qx.Class.define("qx.ui.form.ComboBox",
      * This method only works if the widget is already created and
      * added to the document.
      *
-     * @type member
      * @return {Integer|null}
      */
     getSelectionLength : function() {
@@ -309,7 +307,6 @@ qx.Class.define("qx.ui.form.ComboBox",
     /**
      * Selects the whole content
      * 
-     * @type member
      * @return {void}
      */
     selectAll : function()

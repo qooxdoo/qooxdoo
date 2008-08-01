@@ -43,7 +43,6 @@ qx.Class.define("qx.event.type.KeySequence",
     /**
      * Initialize the fileds of the event.
      *
-     * @type member
      * @param domEvent {Event} DOM event
      * @param target {Object} The event target
      * @param identifier {String} Key identifier
@@ -118,7 +117,6 @@ qx.Class.define("qx.event.type.KeySequence",
      * <tr><th>Apps</th><td>The Application key (Windows Context Menu)</td></tr>
      * </table>
      *
-     * @type member
      * @return {String} The key identifier
      */
     getKeyIdentifier : function() {

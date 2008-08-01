@@ -278,7 +278,6 @@ qx.Class.define("qx.ui.form.AbstractSlider",
      * Listener of mouseup event. Used for cleanup of previously
      * initialized modes.
      *
-     * @type member
      * @param e {qx.event.type.Mouse} Incoming event object
      * @return {void}
      */
@@ -320,7 +319,6 @@ qx.Class.define("qx.ui.form.AbstractSlider",
     /**
      * Listener of mousmove event for the knob. Only used in drag mode.
      *
-     * @type member
      * @param e {qx.event.type.Mouse} Incoming event object
      * @return {void}
      */
@@ -349,7 +347,6 @@ qx.Class.define("qx.ui.form.AbstractSlider",
      * Listener of interval event by the internal timer. Only used
      * in tracking sequences.
      *
-     * @type member
      * @param e {qx.event.type.Event} Incoming event object
      * @return {void}
      */
@@ -379,7 +376,6 @@ qx.Class.define("qx.ui.form.AbstractSlider",
     /**
      * Listener of resize event for both the slider itself and the knob.
      *
-     * @type member
      * @param e {qx.event.type.Data} Incoming event object
      * @return {void}
      */
@@ -422,7 +418,6 @@ qx.Class.define("qx.ui.form.AbstractSlider",
      * Computes the value where the tracking should end depending on
      * the current mouse position.
      *
-     * @type member
      * @param e {qx.event.type.Mouse} Incoming mouse event
      * @return {void}
      */
@@ -457,7 +452,6 @@ qx.Class.define("qx.ui.form.AbstractSlider",
      * Snaps the given value into the single step configured
      * stepping.
      *
-     * @type member
      * @param value {Integer} Value to use
      * @param back {Boolean?false} Whether the
      *   rounding should happen (ceil vs. floor)
@@ -497,7 +491,6 @@ qx.Class.define("qx.ui.form.AbstractSlider",
      *
      * Does not respect single or page step.
      *
-     * @type member
      * @param position {Integer} Position to use
      * @return {Integer} Resulting value (rounded)
      */
@@ -531,7 +524,6 @@ qx.Class.define("qx.ui.form.AbstractSlider",
      * Converts the given value to a position to place
      * the knob to.
      *
-     * @type member
      * @param value {Integer} Value to use
      * @return {Integer} Computed position (rounded)
      */
@@ -572,7 +564,6 @@ qx.Class.define("qx.ui.form.AbstractSlider",
      * value. Useful on reflows where the dimensions of the slider
      * itself have been modified.
      *
-     * @type member
      * @return {void}
      */
     _updateKnobPosition : function() {
@@ -583,7 +574,6 @@ qx.Class.define("qx.ui.form.AbstractSlider",
     /**
      * Moves the knob to the given position.
      *
-     * @type member
      * @param position {Integer} Any valid posititon (needs to be
      *   greater or equal than zero)
      * @return {void}
@@ -616,7 +606,6 @@ qx.Class.define("qx.ui.form.AbstractSlider",
      * Reconfigures the size of the knob depending on
      * the optionally defined {@link #knobFactor}.
      *
-     * @type member
      * @return {void}
      */
     _updateKnobSize : function()
@@ -654,7 +643,6 @@ qx.Class.define("qx.ui.form.AbstractSlider",
     /**
      * Slides backward to the minimum value
      *
-     * @type member
      * @return {void}
      */
     slideToBegin : function() {
@@ -665,7 +653,6 @@ qx.Class.define("qx.ui.form.AbstractSlider",
     /**
      * Slides forward to the maximum value
      *
-     * @type member
      * @return {void}
      */
     slideToEnd : function() {
@@ -676,7 +663,6 @@ qx.Class.define("qx.ui.form.AbstractSlider",
     /**
      * Slides forward (right or bottom depending on orientation)
      *
-     * @type member
      * @return {void}
      */
     slideForward : function() {
@@ -687,7 +673,6 @@ qx.Class.define("qx.ui.form.AbstractSlider",
     /**
      * Slides backward (to left or top depending on orientation)
      *
-     * @type member
      * @return {void}
      */
     slideBack : function() {
@@ -698,7 +683,6 @@ qx.Class.define("qx.ui.form.AbstractSlider",
     /**
      * Slides a page forward (to right or bottom depending on orientation)
      *
-     * @type member
      * @return {void}
      */
     slidePageForward : function() {
@@ -709,7 +693,6 @@ qx.Class.define("qx.ui.form.AbstractSlider",
     /**
      * Slides a page backward (to left or top depending on orientation)
      *
-     * @type member
      * @return {void}
      */
     slidePageBack : function() {
@@ -722,7 +705,6 @@ qx.Class.define("qx.ui.form.AbstractSlider",
      *
      * This method works with the value, not with the coordinate.
      *
-     * @type member
      * @param offset {Integer} Offset to scroll by
      * @return {void}
      */
@@ -736,7 +718,6 @@ qx.Class.define("qx.ui.form.AbstractSlider",
      *
      * This method works with the value, not with the coordinate.
      *
-     * @type member
      * @param value {Integer} Scroll to a value between the defined
      *   minimum and maximum.
      * @return {void}

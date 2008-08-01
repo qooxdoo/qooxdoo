@@ -51,7 +51,6 @@ qx.Class.define("qx.log.appender.Console",
      * Initializes the console, building HTML and pushing last
      * log messages to the output window.
      *
-     * @type static
      * @return {void}
      */
     init : function()
@@ -131,7 +130,6 @@ qx.Class.define("qx.log.appender.Console",
     /**
      * Used by the object registry to dispose this instance e.g. remove listeners etc.
      *
-     * @type static
      * @return {void}
      */
     dispose : function()
@@ -153,7 +151,6 @@ qx.Class.define("qx.log.appender.Console",
     /**
      * Clears the current console output.
      *
-     * @type static
      * @return {void}
      */
     clear : function()
@@ -166,7 +163,6 @@ qx.Class.define("qx.log.appender.Console",
     /**
      * Processes a single log entry
      *
-     * @type static
      * @signature function(entry)
      * @param entry {Map} The entry to process
      * @return {void}
@@ -205,7 +201,6 @@ qx.Class.define("qx.log.appender.Console",
     /**
      * Toggles the visibility of the console between visible and hidden.
      *
-     * @type static
      * @return {void}
      */
     toggle : function()
@@ -241,7 +236,6 @@ qx.Class.define("qx.log.appender.Console",
     /**
      * Executes the currently given command
      *
-     * @type static
      * @return {void}
      */
     execute : function()
@@ -288,7 +282,6 @@ qx.Class.define("qx.log.appender.Console",
     /**
      * Event handler for resize listener
      *
-     * @type static
      * @param e {Event} Event object
      * @return {void}
      */
@@ -300,7 +293,6 @@ qx.Class.define("qx.log.appender.Console",
     /**
      * Event handler for keydown listener
      *
-     * @type static
      * @param e {Event} Event object
      * @return {void}
      */

@@ -38,7 +38,6 @@ qx.Class.define("qx.legacy.html.Window",
     /**
      * Get the inner width of the given browser window
      *
-     * @type static
      * @param vWindow {window} browser window
      * @return {Integer} the window's inner width
      * @signature function(vWindow)
@@ -65,7 +64,6 @@ qx.Class.define("qx.legacy.html.Window",
     /**
      * Get the inner height of the given browser window
      *
-     * @type static
      * @param vWindow {window} browser window
      * @return {Integer} the window's inner height
      * @signature function(vWindow)
@@ -92,7 +90,6 @@ qx.Class.define("qx.legacy.html.Window",
     /**
      * Get the left scroll position of the given browser window
      *
-     * @type static
      * @param vWindow {window} browser window
      * @return {Integer} the window's left scroll position
      * @signature function(vWindow)
@@ -119,7 +116,6 @@ qx.Class.define("qx.legacy.html.Window",
     /**
      * Get the top scroll position of the given browser window
      *
-     * @type static
      * @param vWindow {window} browser window
      * @return {Integer} the window's top scroll position
      * @signature function(vWindow)

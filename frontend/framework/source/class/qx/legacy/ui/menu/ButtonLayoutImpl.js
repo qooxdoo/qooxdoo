@@ -83,7 +83,6 @@ qx.Class.define("qx.legacy.ui.menu.ButtonLayoutImpl",
 
     /** Compute and return the width needed by all children of this widget
      *
-     * @type member
      * @return {Integer} TODOC
      */
     computeChildrenNeededWidth : function()
@@ -111,7 +110,6 @@ qx.Class.define("qx.legacy.ui.menu.ButtonLayoutImpl",
      * Things to do and layout when any of the childs changes its outer width.
      *  Needed by layouts where the children depends on each-other, like flow- or box-layouts.
      *
-     * @type member
      * @param vChild {var} TODOC
      * @return {void} TODOC
      */
@@ -159,7 +157,6 @@ qx.Class.define("qx.legacy.ui.menu.ButtonLayoutImpl",
     /**
      * TODOC
      *
-     * @type member
      * @param vChild {var} TODOC
      * @param vJobs {var} TODOC
      * @return {void}

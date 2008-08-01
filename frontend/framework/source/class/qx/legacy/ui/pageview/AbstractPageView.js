@@ -62,7 +62,6 @@ qx.Class.define("qx.legacy.ui.pageview.AbstractPageView",
     /**
      * TODOC
      *
-     * @type member
      * @return {AbstractPane} TODOC
      */
     getPane : function() {
@@ -73,7 +72,6 @@ qx.Class.define("qx.legacy.ui.pageview.AbstractPageView",
     /**
      * TODOC
      *
-     * @type member
      * @return {AbstractBar} TODOC
      */
     getBar : function() {

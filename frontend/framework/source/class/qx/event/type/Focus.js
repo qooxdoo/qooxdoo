@@ -30,7 +30,6 @@ qx.Class.define("qx.event.type.Focus",
      * Initialize the fields of the event. The event must be initialized before
      * it can be dispatched.
      *
-     * @type member
      * @param target {Object} Any possible event target
      * @param relatedTarget {Object} Any possible event target
      * @param canBubble {Boolean?false} Whether or not the event is a bubbling event.

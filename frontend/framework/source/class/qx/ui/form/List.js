@@ -239,7 +239,6 @@ qx.Class.define("qx.ui.form.List",
      * Returns the stringified value of the list. This is a comma
      * separated string with all the values (or labels as fallback).
      *
-     * @type member
      * @return {String} Value of the list
      */
     getValue : function()
@@ -361,7 +360,6 @@ qx.Class.define("qx.ui.form.List",
     /**
      * Event listener for <code>keypress</code> events.
      *
-     * @type member
      * @param e {qx.event.type.KeyEvent} KeyPress event
      * @return {Boolean} Whether the event was processed
      */
@@ -406,7 +404,6 @@ qx.Class.define("qx.ui.form.List",
     /**
      * Handles the inline find - if enabled
      *
-     * @type member
      * @param e {qx.event.type.KeyEvent} keyInput event
      * @return {void}
      */

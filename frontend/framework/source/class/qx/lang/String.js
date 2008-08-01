@@ -56,7 +56,6 @@ qx.Bootstrap.define("qx.lang.String",
      * Example:
      * <pre class='javascript'>qx.lang.String.camelCase("I-like-cookies"); //returns "ILikeCookies"</pre>
      *
-     * @type static
      * @param str {String} hyphenated string
      * @return {String} camelcase string
      */
@@ -74,7 +73,6 @@ qx.Bootstrap.define("qx.lang.String",
      * Example:
      * <pre class='javascript'>qx.lang.String.camelCase("ILikeCookies"); //returns "I-like-cookies"</pre>
      *
-     * @type static
      * @param str {String} camelcased string
      * @return {String} hyphenated string
      */
@@ -92,7 +90,6 @@ qx.Bootstrap.define("qx.lang.String",
      * Example:
      * <pre class='javascript'>qx.lang.String.camelCase("i like cookies"); //returns "I Like Cookies"</pre>
      *
-     * @type static
      * @param str {String} any string
      * @return {String} capitalized string
      */
@@ -106,7 +103,6 @@ qx.Bootstrap.define("qx.lang.String",
     /**
      * removes white space from the left side of a string
      *
-     * @type static
      * @param str {String} the string to trim
      * @return {String} the trimmed string
      */
@@ -118,7 +114,6 @@ qx.Bootstrap.define("qx.lang.String",
     /**
      * removes white space from the right side of a string
      *
-     * @type static
      * @param str {String} the string to trim
      * @return {String} the trimmed string
      */
@@ -130,7 +125,6 @@ qx.Bootstrap.define("qx.lang.String",
     /**
      * removes white space from the left and the right side of a string
      *
-     * @type static
      * @param str {String} the string to trim
      * @return {String} the trimmed string
      */
@@ -142,7 +136,6 @@ qx.Bootstrap.define("qx.lang.String",
     /**
      * Check whether the string starts with the given substring
      *
-     * @type static
      * @param fullstr {String} the string to search in
      * @param substr {String} the substring to look for
      * @return {Boolean} whether the string starts with the given substring
@@ -155,7 +148,6 @@ qx.Bootstrap.define("qx.lang.String",
     /**
      * Check whether the string ends with the given substring
      *
-     * @type static
      * @param fullstr {String} the string to search in
      * @param substr {String} the substring to look for
      * @return {Boolean} whether the string ends with the given substring
@@ -168,7 +160,6 @@ qx.Bootstrap.define("qx.lang.String",
     /**
      * Pad a string up to a given length. Padding characters are added to the left of the string.
      *
-     * @type static
      * @param str {String} the string to pad
      * @param length {Integer} the final length of the string
      * @param ch {String} character used to fill up the string
@@ -193,7 +184,6 @@ qx.Bootstrap.define("qx.lang.String",
     /**
      * Convert the first character of the string to upper case.
      *
-     * @type static
      * @param str {String} the string
      * @return {String} the string with a upper case first character
      */
@@ -205,7 +195,6 @@ qx.Bootstrap.define("qx.lang.String",
     /**
      * Convert the first character of the string to lower case.
      *
-     * @type static
      * @param str {String} the string
      * @return {String} the string with a lower case first character
      */
@@ -217,7 +206,6 @@ qx.Bootstrap.define("qx.lang.String",
     /**
      * Check whether the string contains a given substring
      *
-     * @type static
      * @param str {String} the string
      * @param substring {String} substring to search for
      * @return {Boolean} whether the string contains the substring
@@ -233,7 +221,6 @@ qx.Bootstrap.define("qx.lang.String",
      * Example:
      * <pre class='javascript'>qx.lang.String.format("Hello %1, my name is %2", ["Egon", "Franz"]) == "Hello Egon, my name is Franz"</pre>
      *
-     * @type static
      * @param pattern {String} format string
      * @param args {Array} array of arguments to insert into the format string
      * @return {String} the formatted string
@@ -253,7 +240,6 @@ qx.Bootstrap.define("qx.lang.String",
     /**
      * Escapes all chars that have a special meaning in regular expressions
      *
-     * @type static
      * @param str {String} the string where to escape the chars.
      * @return {String} the string with the escaped chars.
      */
@@ -266,7 +252,6 @@ qx.Bootstrap.define("qx.lang.String",
      * Converts a string to an array of characters.
      * <pre>"hello" => [ "h", "e", "l", "l", "o" ];</pre>
      *
-     * @type static
      * @param str {String} the string which should be splitted
      * @return {Array} the result array of characters
      */
@@ -280,7 +265,6 @@ qx.Bootstrap.define("qx.lang.String",
      * Example:
      * <pre class='javascript'>qx.lang.String.stripTags("&lt;h1>Hello&lt;/h1>") == "Hello"</pre>
      *
-     * @type static
      * @param str {String} string containing tags
      * @return {String} the string with stripped tags
      */

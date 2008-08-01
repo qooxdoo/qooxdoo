@@ -71,7 +71,6 @@ qx.Class.define("qx.legacy.ui.selection.Selection",
     /**
      * Add an item to the selection
      *
-     * @type member
      * @param item {var} item to add
      * @return {void}
      */
@@ -83,7 +82,6 @@ qx.Class.define("qx.legacy.ui.selection.Selection",
     /**
      * Remove an item from the selection
      *
-     * @type member
      * @param item {var} item to remove
      * @return {void}
      */
@@ -95,7 +93,6 @@ qx.Class.define("qx.legacy.ui.selection.Selection",
     /**
      * Remove all items from the selection
      *
-     * @type member
      * @return {void}
      */
     removeAll : function() {
@@ -106,7 +103,6 @@ qx.Class.define("qx.legacy.ui.selection.Selection",
     /**
      * Check whether the selection contains a given item
      *
-     * @type member
      * @param item {var} item to check for
      * @return {Boolean} whether the selection contains the item
      */
@@ -118,7 +114,6 @@ qx.Class.define("qx.legacy.ui.selection.Selection",
     /**
      * Convert selection to an array
      *
-     * @type member
      * @return {Array} array representation of the selection
      */
     toArray : function()
@@ -136,7 +131,6 @@ qx.Class.define("qx.legacy.ui.selection.Selection",
     /**
      * Return first element of the Selection
      *
-     * @type member
      * @return {var} first item of the selection
      */
     getFirst : function()
@@ -151,7 +145,6 @@ qx.Class.define("qx.legacy.ui.selection.Selection",
     /**
      * Get a string representation of the Selection. The return value can be used to compare selections.
      *
-     * @type member
      * @return {String} string representation of the Selection
      */
     getChangeValue : function()
@@ -170,7 +163,6 @@ qx.Class.define("qx.legacy.ui.selection.Selection",
     /**
      * Compute a hash code for an item using the manager
      *
-     * @type member
      * @param item {var} the item
      * @return {var} unique hash code for the item
      */
@@ -182,7 +174,6 @@ qx.Class.define("qx.legacy.ui.selection.Selection",
     /**
      * Whether the selection is empty
      *
-     * @type member
      * @return {Boolean} whether the selection is empty
      */
     isEmpty : function() {

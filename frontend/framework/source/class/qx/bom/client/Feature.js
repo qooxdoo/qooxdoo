@@ -69,7 +69,6 @@ qx.Bootstrap.define("qx.bom.client.Feature",
     /**
      * Internal initialize helper
      *
-     * @type static
      * @return {void}
      */
     __init : function()

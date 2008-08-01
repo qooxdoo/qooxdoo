@@ -160,7 +160,6 @@ qx.Class.define("apiviewer.ui.ClassViewer",
     /**
      * Creates the HTML showing an image. Optionally with overlays
      *
-     * @type static
      * @param imgUrl {String|String[]} the URL of the image. May be a string or an array of
      *          strings (for overlay images).
      * @param tooltip {String} the tooltip to show.
@@ -189,7 +188,6 @@ qx.Class.define("apiviewer.ui.ClassViewer",
      * Creates HTML that shows an overlay image (several images on top of each other).
      * The resulting HTML will behave inline.
      *
-     * @type static
      * @param width {Integer} the width of the images.
      * @param height {Integer} the height of the images.
      * @param imgUrlArr {String[]} the URLs of the images. The last image will be
@@ -251,7 +249,6 @@ qx.Class.define("apiviewer.ui.ClassViewer",
     /**
      * Returns the HTML fragment for the title
      *
-     * @type member
      * @param classNode {apiviewer.dao.Class} the class documentation node for the title
      * @return {String} HTML fragment of the title
      */
@@ -526,7 +523,6 @@ qx.Class.define("apiviewer.ui.ClassViewer",
     /**
      * Highlights an item (property, method or constant) and scrolls it visible.
      *
-     * @type member
      * @param itemName {String} the name of the item to highlight.
      * @return {Boolean} whether the item name was valid and could be selected.
      */
@@ -566,7 +562,6 @@ qx.Class.define("apiviewer.ui.ClassViewer",
      * This code is called directly from the generated HTML of the
      * class viewer.
      *
-     * @type member
      * @param itemName {String} the name of the item.
      * @see Controller#selectItem
      */
@@ -579,7 +574,6 @@ qx.Class.define("apiviewer.ui.ClassViewer",
     /**
      * Gets the node panel for a doc node.
      *
-     * @type member
      * @param itemNode {apiviewer.dao.Class} the doc node of the item.
      * @return {InfoPanel} the item's info panel instance
      */

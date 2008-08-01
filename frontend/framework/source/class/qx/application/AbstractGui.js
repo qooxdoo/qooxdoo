@@ -90,7 +90,6 @@ qx.Class.define("qx.application.AbstractGui",
     /**
      * Updates the GUI rendering
      *
-     * @type member
      * @return {void}
      */
     render : function() {

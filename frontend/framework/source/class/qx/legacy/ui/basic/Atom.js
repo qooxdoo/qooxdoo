@@ -292,7 +292,6 @@ qx.Class.define("qx.legacy.ui.basic.Atom",
     /**
      * Creates the label object
      *
-     * @type member
      */
     _createLabel : function()
     {
@@ -308,7 +307,6 @@ qx.Class.define("qx.legacy.ui.basic.Atom",
     /**
      * Creates the icon object
      *
-     * @type member
      */
     _createIcon : function()
     {
@@ -338,7 +336,6 @@ qx.Class.define("qx.legacy.ui.basic.Atom",
     /**
      * updates the icon
      *
-     * @type member
      */
     _updateIcon : function()
     {
@@ -372,7 +369,6 @@ qx.Class.define("qx.legacy.ui.basic.Atom",
     /**
      * Get the label widget of the atom.
      *
-     * @type member
      * @return {qx.legacy.ui.basic.Label} The label widget of the atom.
      */
     getLabelObject : function() {
@@ -383,7 +379,6 @@ qx.Class.define("qx.legacy.ui.basic.Atom",
     /**
      * Get the icon widget of the atom.
      *
-     * @type member
      * @return {qx.legacy.ui.basic.Image|qx.legacy.ui.embed.Flash} The icon widget of the atom.
      */
     getIconObject : function() {
@@ -402,7 +397,6 @@ qx.Class.define("qx.legacy.ui.basic.Atom",
     /**
      * Applies the icon position
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -427,7 +421,6 @@ qx.Class.define("qx.legacy.ui.basic.Atom",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -441,7 +434,6 @@ qx.Class.define("qx.legacy.ui.basic.Atom",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -458,7 +450,6 @@ qx.Class.define("qx.legacy.ui.basic.Atom",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -472,7 +463,6 @@ qx.Class.define("qx.legacy.ui.basic.Atom",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -486,7 +476,6 @@ qx.Class.define("qx.legacy.ui.basic.Atom",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -500,7 +489,6 @@ qx.Class.define("qx.legacy.ui.basic.Atom",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -526,7 +514,6 @@ qx.Class.define("qx.legacy.ui.basic.Atom",
     /**
      * Handle label
      *
-     * @type member
      * @return {void}
      */
     _handleLabel : function()
@@ -554,7 +541,6 @@ qx.Class.define("qx.legacy.ui.basic.Atom",
     /**
      * handle icon
      *
-     * @type member
      * @return {void}
      */
     _handleIcon : function()
