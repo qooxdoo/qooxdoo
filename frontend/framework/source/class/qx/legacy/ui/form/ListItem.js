@@ -125,7 +125,6 @@ qx.Class.define("qx.legacy.ui.form.ListItem",
      * Sets/removes the styleProperties "MozOutline" and "outline" whether the
      * item has the state "lead" or not
      *
-     * @type member
      * @return {void}
      */
     handleStateChange : function()
@@ -144,7 +143,6 @@ qx.Class.define("qx.legacy.ui.form.ListItem",
     /**
      * Remove default outline focus border - currently not implemented
      *
-     * @type member
      * @param vStates {var} states
      * @return {void}
      */
@@ -163,7 +161,6 @@ qx.Class.define("qx.legacy.ui.form.ListItem",
      * Execute by the "_findItem" method at {@link qx.legacy.ui.form.List} to perform
      * a string search
      *
-     * @type member
      * @param vText {String} String which should be matched with the ListItem's label
      * @return {Boolean} Match found
      */
@@ -178,7 +175,6 @@ qx.Class.define("qx.legacy.ui.form.ListItem",
      * Execute by the "_findItem" method at {@link qx.legacy.ui.form.List} to perform
      * an exact string search
      *
-     * @type member
      * @param vText {String} String which should be matched exactly with the ListItem's label
      * @return {Boolean} Match found
      */
@@ -193,7 +189,6 @@ qx.Class.define("qx.legacy.ui.form.ListItem",
      * Execute by the "_findItem" method at {@link qx.legacy.ui.form.List} to perform
      * a value search
      *
-     * @type member
      * @param vText {String} String which should be matched with the ListItem's value
      * @return {Boolean} Match found
      */
@@ -208,7 +203,6 @@ qx.Class.define("qx.legacy.ui.form.ListItem",
      * Execute by the "_findItem" method at {@link qx.legacy.ui.form.List} to perform
      * an exact value search
      *
-     * @type member
      * @param vText {String} String which should be matched exactly with the ListItem's value
      * @return {Boolean} Match found
      */
@@ -231,7 +225,6 @@ qx.Class.define("qx.legacy.ui.form.ListItem",
      * Callback method for the double-click event of the ListItem.<br/>
      * Executes an registered command - if available.
      *
-     * @type member
      * @param e {qx.legacy.event.type.MouseEvent} double-click event
      * @return {void}
      */

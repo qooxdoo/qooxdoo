@@ -342,7 +342,6 @@ qx.Class.define("qx.legacy.ui.component.DateChooser",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @return {var} TODOC
      */
@@ -356,7 +355,6 @@ qx.Class.define("qx.legacy.ui.component.DateChooser",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -400,7 +398,6 @@ qx.Class.define("qx.legacy.ui.component.DateChooser",
     /**
      * Event handler. Called when a navigation button has been clicked.
      *
-     * @type member
      * @param evt {Map} the event.
      * @return {void}
      */
@@ -449,7 +446,6 @@ qx.Class.define("qx.legacy.ui.component.DateChooser",
     /**
      * Event handler. Called when a day has been clicked.
      *
-     * @type member
      * @param evt {Map} the event.
      * @return {void}
      */
@@ -463,7 +459,6 @@ qx.Class.define("qx.legacy.ui.component.DateChooser",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     _onDayDblClicked : function() {
@@ -474,7 +469,6 @@ qx.Class.define("qx.legacy.ui.component.DateChooser",
     /**
      * Event handler. Called when a key was pressed.
      *
-     * @type member
      * @param evt {Map} the event.
      * @return {boolean | void} TODOC
      */
@@ -570,7 +564,6 @@ qx.Class.define("qx.legacy.ui.component.DateChooser",
     /**
      * Shows a certain month.
      *
-     * @type member
      * @param month {Integer ? null} the month to show (0 = january). If not set the month
      *      will remain the same.
      * @param year {Integer ? null} the year to show. If not set the year will remain the
@@ -597,7 +590,6 @@ qx.Class.define("qx.legacy.ui.component.DateChooser",
     /**
      * Updates the date pane.
      *
-     * @type member
      * @return {void}
      */
     _updateDatePane : function()

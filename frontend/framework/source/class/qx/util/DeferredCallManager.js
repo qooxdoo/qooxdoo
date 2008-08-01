@@ -110,7 +110,6 @@ qx.Class.define("qx.util.DeferredCallManager",
     /**
      * Helper function for the timer.
      *
-     * @type static
      * @return {void}
      */
     __timeout : function()

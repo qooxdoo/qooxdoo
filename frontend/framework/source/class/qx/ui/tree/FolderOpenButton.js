@@ -101,7 +101,6 @@ qx.Class.define("qx.ui.tree.FolderOpenButton",
      * Removes "abandoned" and adds "pressed" state
      * for the keys "Enter" or "Space"
      *
-     * @type member
      * @param e {qx.ui.event.KeySequence} Key event
      */
     _onKeydown : function(e)

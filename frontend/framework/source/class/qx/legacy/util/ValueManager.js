@@ -64,7 +64,6 @@ qx.Class.define("qx.legacy.util.ValueManager",
     /**
      * Disconnect the given object from all registered value managers
      *
-     * @type static
      * @param obj {Object} any valid object
      * @return {void}
      */
@@ -80,7 +79,6 @@ qx.Class.define("qx.legacy.util.ValueManager",
     /**
      * Registers the given manager from the registry.
      *
-     * @type static
      * @param mgr {qx.legacy.util.ValueManager} value manager to remove
      * @return {void}
      */
@@ -92,7 +90,6 @@ qx.Class.define("qx.legacy.util.ValueManager",
     /**
      * Unregisters the given manager from the registry.
      *
-     * @type static
      * @param mgr {qx.legacy.util.ValueManager} value manager to remove
      * @return {void}
      */
@@ -116,7 +113,6 @@ qx.Class.define("qx.legacy.util.ValueManager",
     /**
      * Processing a value and handle callback execution on updates.
      *
-     * @type member
      * @param callback {Function} The callback function which handles the
      *   apply of the resulting dynamically resolved value.
      * @param obj {Object} The context, the callback will be caled with.
@@ -172,7 +168,6 @@ qx.Class.define("qx.legacy.util.ValueManager",
     /**
      * Disconnect all connections to the given object.
      *
-     * @type member
      * @param obj {qx.core.Object} The class, which should be disconnected.
      */
     disconnectObject : function(obj)
@@ -190,7 +185,6 @@ qx.Class.define("qx.legacy.util.ValueManager",
     /**
      * Returns the dynamically interpreted result for the incoming value
      *
-     * @type member
      * @param value {String} dynamically interpreted idenfier
      * @return {var} return the (translated) result of the incoming value
      */
@@ -202,7 +196,6 @@ qx.Class.define("qx.legacy.util.ValueManager",
     /**
      * Whether a value is interpreted dynamically
      *
-     * @type member
      * @param value {String} dynamically interpreted idenfier
      * @return {Boolean} returns true if the value is interpreted dynamically
      */
@@ -243,7 +236,6 @@ qx.Class.define("qx.legacy.util.ValueManager",
      * interpretion of all values. This normally happens on whole
      * changes of a e.g. theme, locale, etc.
      *
-     * @type member
      * @return {void}
      */
     updateAll : function()

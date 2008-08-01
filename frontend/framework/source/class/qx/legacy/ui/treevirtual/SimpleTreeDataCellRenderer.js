@@ -320,7 +320,6 @@ qx.Class.define("qx.legacy.ui.treevirtual.SimpleTreeDataCellRenderer",
      * may be a tree line.  Tree lines come in numerous varieties, so the
      * appropriate one is selected.
      *
-     * @type member
      *
      * @param column {Integer}
      *   The column of indentation being requested, zero-relative

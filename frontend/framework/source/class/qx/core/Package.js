@@ -27,7 +27,6 @@ qx.Class.define("qx.core.Package",
     /**
      * Loads a package asynchronously as defined by the config file at build time.
      *
-     * @type static
      * @param name {String} Name of the part
      * @param callback {Function} Function to execute on completetion
      * @param self {Object?window} Context to execute the given function
@@ -41,7 +40,6 @@ qx.Class.define("qx.core.Package",
     /**
      * Loads any script file asynchronously.
      *
-     * @type static
      * @param url {String} Complete URI of the script
      * @param callback {Function} Function to execute on completetion
      * @param self {Object?window} Context to execute the given function

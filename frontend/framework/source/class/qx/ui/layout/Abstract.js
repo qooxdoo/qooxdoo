@@ -203,7 +203,6 @@ qx.Class.define("qx.ui.layout.Abstract",
     /**
      * Returns the list of all layout relevant children.
      *
-     * @type member
      * @return {Array} List of layout relevant children.
      */
     _getLayoutChildren : function() {

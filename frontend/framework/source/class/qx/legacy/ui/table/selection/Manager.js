@@ -84,7 +84,6 @@ qx.Class.define("qx.legacy.ui.table.selection.Manager",
     /**
      * Handles the mouse down event.
      *
-     * @type member
      * @param index {Integer} the index the mouse is pointing at.
      * @param evt {Map} the mouse event.
      * @return {void}
@@ -123,7 +122,6 @@ qx.Class.define("qx.legacy.ui.table.selection.Manager",
     /**
      * Handles the mouse up event.
      *
-     * @type member
      * @param index {Integer} the index the mouse is pointing at.
      * @param evt {Map} the mouse event.
      * @return {void}
@@ -139,7 +137,6 @@ qx.Class.define("qx.legacy.ui.table.selection.Manager",
     /**
      * Handles the mouse click event.
      *
-     * @type member
      * @param index {Integer} the index the mouse is pointing at.
      * @param evt {Map} the mouse event.
      * @return {void}
@@ -151,7 +148,6 @@ qx.Class.define("qx.legacy.ui.table.selection.Manager",
      * Handles the key down event that is used as replacement for mouse clicks
      * (Normally space).
      *
-     * @type member
      * @param index {Integer} the index that is currently focused.
      * @param evt {Map} the key event.
      * @return {void}
@@ -164,7 +160,6 @@ qx.Class.define("qx.legacy.ui.table.selection.Manager",
     /**
      * Handles a key down event that moved the focus (E.g. up, down, home, end, ...).
      *
-     * @type member
      * @param index {Integer} the index that is currently focused.
      * @param evt {Map} the key event.
      * @return {void}
@@ -196,7 +191,6 @@ qx.Class.define("qx.legacy.ui.table.selection.Manager",
     /**
      * Handles a select event.
      *
-     * @type member
      * @param index {Integer} the index the event is pointing at.
      * @param evt {Map} the mouse event.
      * @return {void}

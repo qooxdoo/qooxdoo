@@ -56,7 +56,6 @@ qx.Class.define("qx.ui.container.Scroll",
      * may only have one child, so it always replaces the current
      * child with the given one.
      *
-     * @type member
      * @param widget {qx.ui.core.Widget} Widget to insert
      * @return {void}
      */
@@ -68,7 +67,6 @@ qx.Class.define("qx.ui.container.Scroll",
     /**
      * Returns the content of the scroll area.
      *
-     * @type member
      * @param widget {qx.ui.core.Widget} Widget to remove
      * @return {qx.ui.core.Widget}
      */
@@ -83,7 +81,6 @@ qx.Class.define("qx.ui.container.Scroll",
      * Scroll containers may only have one child. This
      * method returns exactly this one child or <code>null</code>.
      *
-     * @type member
      * @return {qx.ui.core.Widget} The child
      */
     getChild : function() {

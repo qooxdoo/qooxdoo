@@ -639,7 +639,6 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
     /**
      * Returns all children of the folder.
      *
-     * @type member
      * @param recursive {Boolean ? true} whether children of subfolder should be
      *     included
      * @param invisible {Boolean ? true} whether invisible children should be
@@ -753,7 +752,6 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
     /**
      * Adds the tree item to the current item, at the given index.
      *
-     * @type member
      * @param treeItem {AbstractTreeItem} new tree item to insert
      * @param index {Integer} position to insert into
      */

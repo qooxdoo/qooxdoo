@@ -92,7 +92,6 @@ qx.Class.define("qx.legacy.ui.embed.LinkEmbed",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     _syncHtml : function()

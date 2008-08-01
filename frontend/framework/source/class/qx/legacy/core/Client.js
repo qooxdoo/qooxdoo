@@ -266,7 +266,6 @@ qx.Class.define("qx.legacy.core.Client",
     /**
      * Returns whether the client runs locally (uses the "file:" protocol)
      *
-     * @type member
      * @return {Boolean} if the client runs locally
      */
     getRunsLocally : function() {
@@ -277,7 +276,6 @@ qx.Class.define("qx.legacy.core.Client",
     /**
      * Engine identifier
      *
-     * @type member
      * @return {String} the engine identifier
      */
     getEngine : function() {
@@ -288,7 +286,6 @@ qx.Class.define("qx.legacy.core.Client",
     /**
      * Browser name (e.g. firefox, explorer, webkit, opera etc.)
      *
-     * @type member
      * @return {String} the name of the browser
      */
     getBrowser : function() {
@@ -299,7 +296,6 @@ qx.Class.define("qx.legacy.core.Client",
     /**
      * Full qualified engine version
      *
-     * @type member
      * @return {String} full qualified engine version
      */
     getVersion : function() {
@@ -310,7 +306,6 @@ qx.Class.define("qx.legacy.core.Client",
     /**
      * Major engine version
      *
-     * @type member
      * @return {Number} major engine version
      */
     getMajor : function() {
@@ -321,7 +316,6 @@ qx.Class.define("qx.legacy.core.Client",
     /**
      * Minor engine version
      *
-     * @type member
      * @return {Number} minor engine version
      */
     getMinor : function() {
@@ -332,7 +326,6 @@ qx.Class.define("qx.legacy.core.Client",
     /**
      * Revision number of engine version
      *
-     * @type member
      * @return {Number} revision number of engine version
      */
     getRevision : function() {
@@ -343,7 +336,6 @@ qx.Class.define("qx.legacy.core.Client",
     /**
      * Build number of engine version
      *
-     * @type member
      * @return {Number} build number of engine version
      */
     getBuild : function() {
@@ -354,7 +346,6 @@ qx.Class.define("qx.legacy.core.Client",
     /**
      * Detects Opera's engine emulation
      *
-     * @type member
      * @return {String} detects Opera's engine emulation
      */
     getEmulation : function() {
@@ -365,7 +356,6 @@ qx.Class.define("qx.legacy.core.Client",
     /**
      * Returns whether the engine is mshtml
      *
-     * @type member
      * @return {Boolean} if engine is mshtml
      */
     isMshtml : function() {
@@ -376,7 +366,6 @@ qx.Class.define("qx.legacy.core.Client",
     /**
      * Returns whether the engine is gecko
      *
-     * @type member
      * @return {Boolean} if engine is gecko
      */
     isGecko : function() {
@@ -387,7 +376,6 @@ qx.Class.define("qx.legacy.core.Client",
     /**
      * Returns whether the engine is opera
      *
-     * @type member
      * @return {Boolean} if engine is opera
      */
     isOpera : function() {
@@ -398,7 +386,6 @@ qx.Class.define("qx.legacy.core.Client",
     /**
      * Returns whether the engine is khtml
      *
-     * @type member
      * @return {Boolean} if engine is khtml
      */
     isKhtml : function() {
@@ -409,7 +396,6 @@ qx.Class.define("qx.legacy.core.Client",
     /**
      * Returns whether the engine is webkit
      *
-     * @type member
      * @return {Boolean} if engine is webkit
      */
     isWebkit : function() {
@@ -420,7 +406,6 @@ qx.Class.define("qx.legacy.core.Client",
     /**
      * Returns whether the engine is a safari version 2
      *
-     * @type member
      * @return {Boolean} if engine is safari version 2
      */
     isSafari2 : function() {
@@ -431,7 +416,6 @@ qx.Class.define("qx.legacy.core.Client",
     /**
      * Returns whether the engine is in quirksmode
      *
-     * @type member
      * @return {Boolean} if engine is in quirksmode
      */
     isInQuirksMode : function() {
@@ -442,7 +426,6 @@ qx.Class.define("qx.legacy.core.Client",
     /**
      * Returns the locale setting
      *
-     * @type member
      * @return {String} locale setting
      */
     getLocale : function() {
@@ -453,7 +436,6 @@ qx.Class.define("qx.legacy.core.Client",
     /**
      * Returns the locale variant setting
      *
-     * @type member
      * @return {String} locale variant setting
      */
     getLocaleVariant : function() {
@@ -464,7 +446,6 @@ qx.Class.define("qx.legacy.core.Client",
     /**
      * Returns the default locale of qooxdoo
      *
-     * @type member
      * @return {String} default locale of qooxdoo
      */
     getDefaultLocale : function() {
@@ -475,7 +456,6 @@ qx.Class.define("qx.legacy.core.Client",
     /**
      * Returns whether the client uses the default locale of qooxdoo
      *
-     * @type member
      * @return {Boolean} if browsers use default locale of qooxdoo
      */
     usesDefaultLocale : function() {
@@ -486,7 +466,6 @@ qx.Class.define("qx.legacy.core.Client",
     /**
      * Returns the CSS attribute names for box-sizing if supported.
      *
-     * @type member
      * @return {String[]} the attribute names.
      */
     getEngineBoxSizingAttributes : function() {
@@ -497,7 +476,6 @@ qx.Class.define("qx.legacy.core.Client",
     /**
      * Returns the client platform (e.g. unix, windows, mac etc.)
      *
-     * @type member
      * @return {String} browser platform
      */
     getPlatform : function() {
@@ -508,7 +486,6 @@ qx.Class.define("qx.legacy.core.Client",
     /**
      * Returns whether the client platform is a Windows machine.
      *
-     * @type member
      * @return {Boolean} whether the client platform is a Windows.
      */
     runsOnWindows : function() {
@@ -519,7 +496,6 @@ qx.Class.define("qx.legacy.core.Client",
     /**
      * Returns whether the client platform is a Macintosh machine.
      *
-     * @type member
      * @return {Boolean} whether the client platform is a Macintosh.
      */
     runsOnMacintosh : function() {
@@ -530,7 +506,6 @@ qx.Class.define("qx.legacy.core.Client",
     /**
      * Returns whether the client platform is a X11 powered machine.
      *
-     * @type member
      * @return {Boolean} whether the client platform is a X11 powered machine.
      */
     runsOnUnix : function() {
@@ -541,7 +516,6 @@ qx.Class.define("qx.legacy.core.Client",
     /**
      * Returns whether the client supports VML (Vector Markup Language)
      *
-     * @type member
      * @return {Boolean} whether the client supports VML
      */
     supportsVml : function() {
@@ -552,7 +526,6 @@ qx.Class.define("qx.legacy.core.Client",
     /**
      * Returns whether the client supports SVG (Scalable Vector Graphics)
      *
-     * @type member
      * @return {Boolean} whether the client supports SVG
      */
     supportsSvg : function() {
@@ -563,7 +536,6 @@ qx.Class.define("qx.legacy.core.Client",
     /**
      * Returns whether SVG support is builtin
      *
-     * @type member
      * @return {Boolean} whether SVG support is builtin
      */
     usesSvgBuiltin : function() {
@@ -574,7 +546,6 @@ qx.Class.define("qx.legacy.core.Client",
     /**
      * Returns whether the client uses a SVG plugin
      *
-     * @type member
      * @return {Boolean} whether client uses a SVG plugin
      */
     usesSvgPlugin : function() {
@@ -586,7 +557,6 @@ qx.Class.define("qx.legacy.core.Client",
      * Retuns whether the Mozilla FireBug extension is installed and active
      * http://www.getfirebug.com/
      *
-     * @type member
      * @return {Boolean} whether FireBug is active
      */
     isFireBugActive : function() {
@@ -597,7 +567,6 @@ qx.Class.define("qx.legacy.core.Client",
     /**
      * Returns whether the client supports the W3C property textContent of DOM element nodes.
      *
-     * @type member
      * @return {Boolean} whether the client supports textContent.
      */
     supportsTextContent : function() {
@@ -608,7 +577,6 @@ qx.Class.define("qx.legacy.core.Client",
     /**
      * Returns whether the client supports the W3C property innerText of DOM element nodes.
      *
-     * @type member
      * @return {Boolean} whether the client supports innerText.
      */
     supportsInnerText : function() {

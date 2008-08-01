@@ -373,7 +373,6 @@ qx.Class.define("qx.ui.tree.Tree",
     /**
      * Returns all children of the tree.
      *
-     * @type member
      * @param recursive {Boolean ? false} whether children of subfolder should be
      *     included
      * @param invisible {Boolean ? true} whether invisible children should be

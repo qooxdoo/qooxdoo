@@ -129,7 +129,6 @@ qx.Class.define("qx.legacy.ui.listview.Header",
     /**
      * TODOC
      *
-     * @type member
      * @param vWidth {var} TODOC
      * @return {void}
      */
@@ -145,7 +144,6 @@ qx.Class.define("qx.legacy.ui.listview.Header",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     _syncResizeLine : function()
@@ -181,7 +179,6 @@ qx.Class.define("qx.legacy.ui.listview.Header",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -273,7 +270,6 @@ qx.Class.define("qx.legacy.ui.listview.Header",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -298,7 +294,6 @@ qx.Class.define("qx.legacy.ui.listview.Header",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -326,7 +321,6 @@ qx.Class.define("qx.legacy.ui.listview.Header",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -341,7 +335,6 @@ qx.Class.define("qx.legacy.ui.listview.Header",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     _cleanupResizing : function()

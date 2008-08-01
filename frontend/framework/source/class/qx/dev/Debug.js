@@ -27,7 +27,6 @@ qx.Class.define("qx.dev.Debug",
     /**
      * Recursively display an object (as debug messages)
      *
-     * @type static
      *
      * @param obj {Object}
      *   The object to be recursively displayed

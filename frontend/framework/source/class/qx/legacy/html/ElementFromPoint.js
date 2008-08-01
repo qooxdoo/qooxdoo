@@ -40,7 +40,6 @@ qx.Class.define("qx.legacy.html.ElementFromPoint",
     /**
      * TODOC
      *
-     * @type static
      * @param x {var} TODOC
      * @param y {var} TODOC
      * @return {var} TODOC
@@ -53,7 +52,6 @@ qx.Class.define("qx.legacy.html.ElementFromPoint",
     /**
      * TODOC
      *
-     * @type static
      * @param node {Node} TODOC
      * @param x {var} TODOC
      * @param y {var} TODOC
@@ -102,7 +100,6 @@ qx.Class.define("qx.legacy.html.ElementFromPoint",
     /**
      * TODOC
      *
-     * @type static
      * @param element {var} TODOC
      * @param x {var} TODOC
      * @param y {var} TODOC
@@ -144,7 +141,6 @@ qx.Class.define("qx.legacy.html.ElementFromPoint",
     /**
      * TODOC
      *
-     * @type static
      * @param element {var} TODOC
      * @param x {var} TODOC
      * @param y {var} TODOC

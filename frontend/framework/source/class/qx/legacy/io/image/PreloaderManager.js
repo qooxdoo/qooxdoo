@@ -54,7 +54,6 @@ qx.Class.define("qx.legacy.io.image.PreloaderManager",
     /**
      * Adds a qx.legacy.io.image.Preloader instance to the manager
      *
-     * @type member
      * @param vObject {Preloader} qx.legacy.io.image.Preloader instance
      * @return {void}
      */
@@ -66,7 +65,6 @@ qx.Class.define("qx.legacy.io.image.PreloaderManager",
     /**
      * Removes a qx.legacy.io.image.Preloader instance from the manager
      *
-     * @type member
      * @param vObject {Preloader} qx.legacy.io.image.Preloader instance
      * @return {void}
      */
@@ -78,7 +76,6 @@ qx.Class.define("qx.legacy.io.image.PreloaderManager",
     /**
      * Returns whether an image preloader instance with the given source is registered
      *
-     * @type member
      * @param vSource {String} Source of preloader image instance
      * @return {Boolean} whether an image preloader instance has given source
      */
@@ -90,7 +87,6 @@ qx.Class.define("qx.legacy.io.image.PreloaderManager",
     /**
      * Return image preloader instance with given source
      *
-     * @type member
      * @param vSource {String} Source of preloader image instance
      * @return {Preloader} qx.legacy.io.image.Preloader instance
      */
@@ -102,7 +98,6 @@ qx.Class.define("qx.legacy.io.image.PreloaderManager",
     /**
      * Create new qx.legacy.io.image.preloader instance with given source
      *
-     * @type member
      * @param vSource {String} Source of preloader image instance
      * @return {Preloader} new qx.legacy.io.image.Preloader instance
      */

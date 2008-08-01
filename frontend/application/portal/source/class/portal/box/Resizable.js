@@ -83,7 +83,6 @@ qx.Class.define("portal.box.Resizable",
     /**
      * Return the box
      *
-     * @type member
      * @return {portal.box.Box} box instance
      */
     getBox : function() {
@@ -94,7 +93,6 @@ qx.Class.define("portal.box.Resizable",
     /**
      * Decorate the box element with resizing handles
      *
-     * @type member
      * @return {void} 
      */
     __prepare : function()
@@ -144,7 +142,6 @@ qx.Class.define("portal.box.Resizable",
     /**
      * Helper to style the resizing handles
      *
-     * @type member
      * @param orientation {String} Orientation of the handle
      * @return {void} 
      */
@@ -163,7 +160,6 @@ qx.Class.define("portal.box.Resizable",
     /**
      * Add the event listener to the handle (specified by "orientation")
      *
-     * @type member
      * @param orientation {String} orientation of the handle
      * @return {void} 
      */
@@ -185,7 +181,6 @@ qx.Class.define("portal.box.Resizable",
     /**
      * Listener method for "mouseDown" events
      *
-     * @type member
      * @param e {qx.event.type.Mouse} mouse event object
      * @return {void} 
      */
@@ -200,7 +195,6 @@ qx.Class.define("portal.box.Resizable",
     /**
      * Listener method for "mouseOut" events
      *
-     * @type member
      * @param e {qx.event.type.Mouse} mouse event object
      * @return {void} 
      */
@@ -218,7 +212,6 @@ qx.Class.define("portal.box.Resizable",
     /**
      * Listener method for "mouseDown" events
      *
-     * @type member
      * @param e {qx.event.type.Mouse} mouse event object
      * @return {void} 
      */
@@ -248,7 +241,6 @@ qx.Class.define("portal.box.Resizable",
     /**
      * Listener method for "mouseUp" events
      *
-     * @type member
      * @param e {qx.event.type.Mouse} mouse event object
      * @return {void} 
      */
@@ -285,7 +277,6 @@ qx.Class.define("portal.box.Resizable",
     /**
      * Listener method for "mouseMove" event
      *
-     * @type member
      * @param e {qx.event.type.Mouse} mouse event object
      * @return {void} 
      */
@@ -330,7 +321,6 @@ qx.Class.define("portal.box.Resizable",
     /**
      * Resize the box with the given coordinates
      *
-     * @type member
      * @param mouseCoord {Map} Map with the left and top coords of the mouse move event
      * @param lastMouseCoord {Map} Map with the left and top coords of the last position of the container
      * @return {void} 

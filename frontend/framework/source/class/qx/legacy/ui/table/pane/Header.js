@@ -82,7 +82,6 @@ qx.Class.define("qx.legacy.ui.table.pane.Header",
     /**
      * Returns the TablePaneScroller this header belongs to.
      *
-     * @type member
      * @return {qx.legacy.ui.table.pane.Scroller} the TablePaneScroller.
      */
     getPaneScroller : function() {
@@ -93,7 +92,6 @@ qx.Class.define("qx.legacy.ui.table.pane.Header",
     /**
      * Returns the table this header belongs to.
      *
-     * @type member
      * @return {qx.legacy.ui.table.Table} the table.
      */
     getTable : function() {
@@ -104,7 +102,6 @@ qx.Class.define("qx.legacy.ui.table.pane.Header",
     /**
      * Event handler. Called when the width of a column has changed.
      *
-     * @type member
      * @param evt {Map} the event.
      * @return {void}
      */
@@ -118,7 +115,6 @@ qx.Class.define("qx.legacy.ui.table.pane.Header",
     /**
      * Event handler. Called the column order has changed.
      *
-     * @type member
      * @param evt {Map} the event.
      * @return {void}
      */
@@ -130,7 +126,6 @@ qx.Class.define("qx.legacy.ui.table.pane.Header",
     /**
      * Event handler. Called when the pane model has changed.
      *
-     * @type member
      * @param evt {Map} the event.
      * @return {void}
      */
@@ -142,7 +137,6 @@ qx.Class.define("qx.legacy.ui.table.pane.Header",
     /**
      * Event handler. Called when the table model meta data has changed.
      *
-     * @type member
      * @param evt {Map} the event.
      * @return {void}
      */
@@ -154,7 +148,6 @@ qx.Class.define("qx.legacy.ui.table.pane.Header",
     /**
      * Sets the column width. This overrides the width from the column model.
      *
-     * @type member
      * @param col {Integer} the column to change the width for.
      * @param width {Integer} the new width.
      * @return {void}
@@ -173,7 +166,6 @@ qx.Class.define("qx.legacy.ui.table.pane.Header",
     /**
      * Sets the column the mouse is currently over.
      *
-     * @type member
      * @param col {Integer} the model index of the column the mouse is currently over or
      *      null if the mouse is over no column.
      * @return {void}
@@ -256,7 +248,6 @@ qx.Class.define("qx.legacy.ui.table.pane.Header",
     /**
      * Hides the feedback shown while a column is moved by the user.
      *
-     * @type member
      * @return {void}
      */
     hideColumnMoveFeedback : function()
@@ -273,7 +264,6 @@ qx.Class.define("qx.legacy.ui.table.pane.Header",
     /**
      * Returns whether the column move feedback is currently shown.
      *
-     * @type member
      * @return {var} TODOC
      */
     isShowingColumnMoveFeedback : function() {
@@ -284,7 +274,6 @@ qx.Class.define("qx.legacy.ui.table.pane.Header",
     /**
      * Updates the content of the header.
      *
-     * @type member
      * @param completeUpdate {Boolean} if true a complete update is performed. On a
      *      complete update all header widgets are recreated.
      * @return {void}
@@ -353,7 +342,6 @@ qx.Class.define("qx.legacy.ui.table.pane.Header",
     /**
      * Cleans up all header cells.
      *
-     * @type member
      * @return {void}
      */
     _cleanUpCells : function()

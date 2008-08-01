@@ -60,7 +60,6 @@ qx.Class.define("testrunner.runner.TestLoaderStub",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     getTestDescriptions : function() {
@@ -71,7 +70,6 @@ qx.Class.define("testrunner.runner.TestLoaderStub",
     /**
      * TODOC
      *
-     * @type member
      * @param testResult {var} TODOC
      * @param className {var} TODOC
      * @param methodName {var} TODOC

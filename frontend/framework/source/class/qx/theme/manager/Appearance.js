@@ -96,7 +96,6 @@ qx.Class.define("qx.theme.manager.Appearance",
      * Returns the appearance entry ID to use
      * when all aliases etc. are processed.
      *
-     * @type member
      * @param id {String} ID to resolve
      * @param theme {Theme} Theme to use for lookup.
      * @return {String} Resolved ID
@@ -151,7 +150,6 @@ qx.Class.define("qx.theme.manager.Appearance",
     /**
      * Get the result of the "state" function for a given id and states
      *
-     * @type member
      * @param id {String} id of the appearance (e.g. "button", "label", ...)
      * @param states {Map} hash map defining the set states
      * @param theme {Theme?} appearance theme

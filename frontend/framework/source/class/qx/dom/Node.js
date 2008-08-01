@@ -80,7 +80,6 @@ qx.Class.define("qx.dom.Node",
     /**
      * Returns the owner document of the given node
      *
-     * @type static
      * @param node {Node|Document} the node which should be tested
      * @return {Document | null} The document of the given DOM node
      */
@@ -97,7 +96,6 @@ qx.Class.define("qx.dom.Node",
     /**
      * Returns the DOM2 <code>defaultView</code> (window).
      *
-     * @type static
      * @signature function(node)
      * @param node {Node|Document} node to inspect
      * @return {Window} the <code>defaultView</code> of the given node
@@ -121,7 +119,6 @@ qx.Class.define("qx.dom.Node",
      * node that is the root element of the document. For HTML documents,
      * this is the element with the tagName "HTML".
      *
-     * @type static
      * @param node {Node|Document} node to inspect
      * @return {Element} document element of the given node
      */
@@ -136,7 +133,6 @@ qx.Class.define("qx.dom.Node",
      * This normally only makes sense for HTML documents. It returns
      * the content area of the HTML document.
      *
-     * @type static
      * @param node {Node|Document} node to inspect
      * @return {Element} document body of the given node
      */
@@ -158,7 +154,6 @@ qx.Class.define("qx.dom.Node",
     /**
      * Whether the given node is a DOM element node
      *
-     * @type static
      * @param node {Node} the node which should be tested
      * @return {Boolean} true if the node is a DOM element
      */
@@ -170,7 +165,6 @@ qx.Class.define("qx.dom.Node",
     /**
      * Whether the given node is a DOM document node
      *
-     * @type static
      * @param node {Node} the node which should be tested
      * @return {Boolean} true when the node is a document
      */
@@ -182,7 +176,6 @@ qx.Class.define("qx.dom.Node",
     /**
      * Whether the given node is a DOM text node
      *
-     * @type static
      * @param node {Node} the node which should be tested
      * @return {Boolean} true if the node is a DOM element
      */

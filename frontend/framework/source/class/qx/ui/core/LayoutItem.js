@@ -333,7 +333,6 @@ qx.Class.define("qx.ui.core.LayoutItem",
      * This function is guaranteed to return a correct value
      * during a {@link #changeSize} or {@link #changePosition} event dispatch.
      *
-     * @type member
      * @return {Map} The location and dimensions in pixel
      *    (if the layout is valid). Contains the keys
      *    <code>width</code>, <code>height</code>, <code>left</code> and
@@ -347,7 +346,6 @@ qx.Class.define("qx.ui.core.LayoutItem",
     /**
      * Used by the layouters to apply coordinates and dimensions.
      *
-     * @type member
      * @param left {Integer} Any integer value for the left position,
      *   always in pixels
      * @param top {Integer} Any integer value for the top position,
@@ -444,7 +442,6 @@ qx.Class.define("qx.ui.core.LayoutItem",
      * Whether the layout of this item (to layout the children)
      * is valid.
      *
-     * @type member
      * @return {Boolean} Returns <code>true</code>
      */
     hasValidLayout : function() {
@@ -456,7 +453,6 @@ qx.Class.define("qx.ui.core.LayoutItem",
      * Indicate that the item has layout changes and propagate this information
      * up the item hierarchy.
      *
-     * @type member
      */
     scheduleLayoutUpdate : function() {
       qx.ui.core.queue.Layout.add(this);
@@ -499,7 +495,6 @@ qx.Class.define("qx.ui.core.LayoutItem",
      * <li>max size: Same as the preferred size.</li>
      * </ul>
      *
-     * @type member
      * @param compute {Boolean?true} Automatically compute size hint if currently not
      *   cached?
      * @return {Map} The map with the preferred width/height and the allowed
@@ -559,7 +554,6 @@ qx.Class.define("qx.ui.core.LayoutItem",
     /**
      * Computes the size hint of the layout item.
      *
-     * @type member
      * @return The map with the preferred width/height and the allowed
      *   minimum and maximum values.
      */
@@ -715,7 +709,6 @@ qx.Class.define("qx.ui.core.LayoutItem",
     /**
      * Stores the given layout properties
      *
-     * @type member
      * @param props {Map} Incoming layout property data
      * @return {void}
      */
@@ -751,7 +744,6 @@ qx.Class.define("qx.ui.core.LayoutItem",
     /**
      * Returns currently stored layout properties
      *
-     * @type member
      * @return {Map} Returns a map of layout properties
      */
     getLayoutProperties : function() {
@@ -762,7 +754,6 @@ qx.Class.define("qx.ui.core.LayoutItem",
     /**
      * Removes all stored layout properties.
      *
-     * @type member
      * @return {void}
      */
     clearLayoutProperties : function() {
@@ -779,7 +770,6 @@ qx.Class.define("qx.ui.core.LayoutItem",
      * This method is always executed on the parent not on the
      * modified widget itself.
      *
-     * @type member
      * @param props {Map?null} Optional map of known layout properties
      * @return {void}
      */
@@ -867,7 +857,6 @@ qx.Class.define("qx.ui.core.LayoutItem",
      * is directly inserted into an existing DOM node at HTML level.
      * This is often the BODY element of a typical web page.
      *
-     * @type member
      * @return {qx.ui.core.Widget} The root item (if available)
      */
     _getRoot : function()

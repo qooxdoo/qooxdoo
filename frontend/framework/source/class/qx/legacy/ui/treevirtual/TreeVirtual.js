@@ -326,7 +326,6 @@ qx.Class.define("qx.legacy.ui.treevirtual.TreeVirtual",
     /**
      * Return the data model for this tree.
      *
-     * @type member
      * @return {var} TODOC
      */
     getDataModel : function()
@@ -338,7 +337,6 @@ qx.Class.define("qx.legacy.ui.treevirtual.TreeVirtual",
     /**
      * Set whether lines linking tree children shall be drawn on the tree.
      *
-     * @type member
      *
      * @param b {Boolean}
      *   <i>true</i> if tree lines should be shown; <i>false</i> otherwise.
@@ -368,7 +366,6 @@ qx.Class.define("qx.legacy.ui.treevirtual.TreeVirtual",
     /**
      * Get whether lines linking tree children shall be drawn on the tree.
      *
-     * @type member
      *
      * @return {Boolean}
      *   <i>true</i> if tree lines are in use;
@@ -386,7 +383,6 @@ qx.Class.define("qx.legacy.ui.treevirtual.TreeVirtual",
      * Set whether the open/close button should be displayed on a branch,
      * even if the branch has no children.
      *
-     * @type member
      *
      * @param b {Boolean}
      *   <i>true</i> if the open/close button should be shown;
@@ -418,7 +414,6 @@ qx.Class.define("qx.legacy.ui.treevirtual.TreeVirtual",
      * Set whether drawing of first-level tree-node lines are disabled even
      * if drawing of tree lines is enabled.
      *
-     * @type member
      *
      * @param b {Boolean}
      *   <i>true</i> if first-level tree lines should be disabled;
@@ -451,7 +446,6 @@ qx.Class.define("qx.legacy.ui.treevirtual.TreeVirtual",
      * if drawing of tree lines is enabled.
      * (See also {@link #getUseTreeLines})
      *
-     * @type member
      *
      * @return {Boolean}
      *   <i>true</i> if tree lines are in use;
@@ -469,7 +463,6 @@ qx.Class.define("qx.legacy.ui.treevirtual.TreeVirtual",
      * Set whether the open/close button should be displayed on a branch,
      * even if the branch has no children.
      *
-     * @type member
      *
      * @return {Boolean}
      *   <i>true</i> if tree lines are in use;
@@ -486,7 +479,6 @@ qx.Class.define("qx.legacy.ui.treevirtual.TreeVirtual",
     /**
      * Set the selection mode.
      *
-     * @type member
      *
      * @param mode {Integer}
      *   The selection mode to be used.  It may be any of:
@@ -515,7 +507,6 @@ qx.Class.define("qx.legacy.ui.treevirtual.TreeVirtual",
     /**
      * Get the selection mode currently in use.
      *
-     * @type member
      *
      * @param mode {var} TODOC
      *
@@ -531,7 +522,6 @@ qx.Class.define("qx.legacy.ui.treevirtual.TreeVirtual",
     /**
      * Set the attributes used to indicate the cell that has the focus.
      *
-     * @type member
      *
      * @param attributes {Map}
      *   The set of attributes that the cell focus indicator should have.
@@ -576,7 +566,6 @@ qx.Class.define("qx.legacy.ui.treevirtual.TreeVirtual",
      * Obtain the entire hierarchy of labels from the root down to the
      * specified node.
      *
-     * @type member
      *
      * @param nodeReference {Object | Integer}
      *   The node for which the hierarchy is desired.  The node can be
@@ -638,7 +627,6 @@ qx.Class.define("qx.legacy.ui.treevirtual.TreeVirtual",
     /**
      * Allow setting the tree row colors.
      *
-     * @type member
      * @param colors {Map}
      *   The value of each property in the map is a string containing either a
      *   number (e.g. "#518ad3") or color name ("white") representing the
@@ -667,7 +655,6 @@ qx.Class.define("qx.legacy.ui.treevirtual.TreeVirtual",
     /**
      * Return the nodes that are currently selected.
      *
-     * @type member
      *
      * @return {Array}
      *   An array containing the nodes that are currently selected.
@@ -684,7 +671,6 @@ qx.Class.define("qx.legacy.ui.treevirtual.TreeVirtual",
      * We handle the Enter key to toggle opened/closed tree state.  All
      * other keydown events are passed to our superclass.
      *
-     * @type member
      *
      * @param evt {Map}
      *   The event.
@@ -870,7 +856,6 @@ qx.Class.define("qx.legacy.ui.treevirtual.TreeVirtual",
     /**
      * TODOC
      *
-     * @type member
      * @param evt {Event} TODOC
      * @return {void}
      */
@@ -911,7 +896,6 @@ qx.Class.define("qx.legacy.ui.treevirtual.TreeVirtual",
     /**
      * Event handler. Called when the selection has changed.
      *
-     * @type member
      *
      * @param evt {Map}
      *   The event.
@@ -946,7 +930,6 @@ qx.Class.define("qx.legacy.ui.treevirtual.TreeVirtual",
      * property to true, and all previously-selected nodes have their
      * <i>bSelected</i> property reset to false.
      *
-     * @type member
      *
      * @return {Array}
      *   An array of nodes matching the set of rows which are selected on the
@@ -979,7 +962,6 @@ qx.Class.define("qx.legacy.ui.treevirtual.TreeVirtual",
 
 
     /**
-     * @type member
      *
      * @param s {String}
      *   Overflow mode.  The only allowable mode is "hidden".
@@ -1002,7 +984,6 @@ qx.Class.define("qx.legacy.ui.treevirtual.TreeVirtual",
     /**
      * Set state attributes of a tree node.
      *
-     * @type member
      *
      * @deprecated Use {@link qx.legacy.ui.treevirtual.MNode.nodeSetState} instead.
      *
@@ -1029,7 +1010,6 @@ qx.Class.define("qx.legacy.ui.treevirtual.TreeVirtual",
      * Toggle the opened state of the node: if the node is opened, close
      * it; if it is closed, open it.
      *
-     * @type member
      *
      * @deprecated
      *    Use {@link qx.legacy.ui.treevirtual.MNode.nodeSetOpened} or
@@ -1054,7 +1034,6 @@ qx.Class.define("qx.legacy.ui.treevirtual.TreeVirtual",
     /**
      * Get the first child of the specified node.
      *
-     * @type member
      *
      * @deprecated
      *   Use {@link qx.legacy.ui.treevirtual.MFamily.familyGetFirstChild} instead.
@@ -1077,7 +1056,6 @@ qx.Class.define("qx.legacy.ui.treevirtual.TreeVirtual",
     /**
      * Get the last child of the specified node.
      *
-     * @type member
      *
      * @deprecated
      *   Use {@link qx.legacy.ui.treevirtual.MFamily.familyGetLastChild} instead.
@@ -1100,7 +1078,6 @@ qx.Class.define("qx.legacy.ui.treevirtual.TreeVirtual",
     /**
      * Get the next sibling of the specified node.
      *
-     * @type member
      *
      * @deprecated
      *   Use {@link qx.legacy.ui.treevirtual.MFamily.familyGetNextSibling} instead.
@@ -1123,7 +1100,6 @@ qx.Class.define("qx.legacy.ui.treevirtual.TreeVirtual",
     /**
      * Get the previous sibling of the specified node.
      *
-     * @type member
      *
      * @deprecated
      *   Use {@link qx.legacy.ui.treevirtual.MFamily.familyGetPrevSibling} instead.

@@ -198,7 +198,6 @@ qx.Class.define("qx.legacy.ui.basic.ScrollBar",
     /**
      * Limit the value to the allowed range of the scroll bar.
      *
-     * @type member
      * @param value {Number} Current value
      * @return {Number} Limited value.
      */
@@ -277,7 +276,6 @@ qx.Class.define("qx.legacy.ui.basic.ScrollBar",
     /**
      * Gets the width of vertical scroll bar.
      *
-     * @type member
      * @return {Integer} the width in pixels.
      */
     _getScrollBarWidth : function()
@@ -302,7 +300,6 @@ qx.Class.define("qx.legacy.ui.basic.ScrollBar",
     /**
      * Event handler. Called when the user scrolled.
      *
-     * @type member
      * @param evt {Map} the event.
      * @return {void}
      */
@@ -338,7 +335,6 @@ qx.Class.define("qx.legacy.ui.basic.ScrollBar",
     /**
      * Positions the scroll bar knob at a certain value.
      *
-     * @type member
      * @param value {Integer} The value where to postion the scroll bar.
      * @return {void}
      */

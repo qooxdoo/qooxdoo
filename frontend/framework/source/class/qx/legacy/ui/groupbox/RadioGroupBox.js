@@ -41,7 +41,6 @@ qx.Class.define("qx.legacy.ui.groupbox.RadioGroupBox",
      * Creates the legend sub widget. Instead of the normal <code>qx.legacy.ui.basic.Atom</code>
      * a <code>qx.legacy.ui.form.RadioButton</code> is used.
      *
-     * @type member
      * @return {void}
      */
     _createLegendObject : function()

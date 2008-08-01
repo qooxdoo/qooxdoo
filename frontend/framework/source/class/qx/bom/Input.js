@@ -65,7 +65,6 @@ qx.Class.define("qx.bom.Input",
      * Note: <code>select</code> and <code>textarea</code> elements are created
      * using the identically named <code>type</code>.
      *
-     * @type static
      * @param type {String} Any valid type for HTML, <code>select</code>
      *   and <code>textarea</code>
      * @param attributes {Map} Map of attributes to apply
@@ -100,7 +99,6 @@ qx.Class.define("qx.bom.Input",
     /**
      * Sets the value of the given element.
      *
-     * @type static
      * @signature function(element, value)
      * @param element {Element} DOM element to modify
      * @param value {var} the new value
@@ -126,7 +124,6 @@ qx.Class.define("qx.bom.Input",
     /**
      * Returns the currently configured value.
      *
-     * @type static
      * @param element {Element} DOM element to query
      * @return {String} The value
      */

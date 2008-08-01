@@ -56,7 +56,6 @@ qx.Class.define("testrunner.TestSuite",
     /**
      * TODOC
      *
-     * @type member
      * @param testClassOrNamespace {var} TODOC
      * @return {void}
      */
@@ -89,7 +88,6 @@ qx.Class.define("testrunner.TestSuite",
     /**
      * TODOC
      *
-     * @type member
      * @param namespace {var} TODOC
      * @return {void}
      */
@@ -115,7 +113,6 @@ qx.Class.define("testrunner.TestSuite",
     /**
      * TODOC
      *
-     * @type member
      * @param name {var} TODOC
      * @param fcn {var} TODOC
      * @return {void}
@@ -128,7 +125,6 @@ qx.Class.define("testrunner.TestSuite",
     /**
      * TODOC
      *
-     * @type member
      * @param clazz {var} TODOC
      * @param functionName {var} TODOC
      * @return {void}
@@ -141,7 +137,6 @@ qx.Class.define("testrunner.TestSuite",
     /**
      * TODOC
      *
-     * @type member
      * @param clazz {var} TODOC
      * @return {void}
      */
@@ -153,7 +148,6 @@ qx.Class.define("testrunner.TestSuite",
     /**
      * TODOC
      *
-     * @type member
      * @param functionName {var} TODOC
      * @param message {var} TODOC
      * @return {void}
@@ -169,7 +163,6 @@ qx.Class.define("testrunner.TestSuite",
     /**
      * TODOC
      *
-     * @type member
      * @param testResult {var} TODOC
      * @return {void}
      */
@@ -184,7 +177,6 @@ qx.Class.define("testrunner.TestSuite",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     getTestClasses : function()
@@ -207,7 +199,6 @@ qx.Class.define("testrunner.TestSuite",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     getTestMethods : function()
@@ -230,7 +221,6 @@ qx.Class.define("testrunner.TestSuite",
     /**
      * currently not working
      *
-     * @type member
      * @return {void}
      */
     addPollutionCheck : function() {},
@@ -239,7 +229,6 @@ qx.Class.define("testrunner.TestSuite",
     /**
      * currently not working !!!
      *
-     * @type member
      * @return {void}
      */
     __pollutionCheck : function()

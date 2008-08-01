@@ -206,7 +206,6 @@ qx.Class.define("qx.fx.Base",
 
     /**
      * Apply method for duration. Should be overwritten if needed.
-     * @type member
      * @param value {Number} Current value
      * @param old {Number} Previous value
      **/

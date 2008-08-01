@@ -57,7 +57,6 @@ qx.Class.define("apiviewer.ui.AbstractViewer",
     /**
      * Change the target of all external links inside the given element to open in a new browser window.
      *
-     * @type member
      * @param el {Element} Root element
      */
     fixLinks : function(el)
@@ -136,7 +135,6 @@ qx.Class.define("apiviewer.ui.AbstractViewer",
     /**
      * Returns the HTML fragment for the title
      *
-     * @type member
      * @abstract
      * @param classNode {apiviewer.dao.Class} the class documentation node for the title
      * @return {String} HTML fragment of the title
@@ -157,7 +155,6 @@ qx.Class.define("apiviewer.ui.AbstractViewer",
      * Initializes the content of the embedding DIV. Will be called by the
      * HtmlEmbed element initialization routine.
      *
-     * @type member
      */
     _syncHtml : function()
     {
@@ -200,7 +197,6 @@ qx.Class.define("apiviewer.ui.AbstractViewer",
     /**
      * Updates all info panels
      *
-     * @type member
      */
     _updatePanels : function()
     {
@@ -217,7 +213,6 @@ qx.Class.define("apiviewer.ui.AbstractViewer",
     /**
      * Shows the information about a class.
      *
-     * @type member
      * @param classNode {apiviewer.dao.Class} the doc node of the class to show.
      */
     _applyDocNode : function(classNode)
@@ -250,7 +245,6 @@ qx.Class.define("apiviewer.ui.AbstractViewer",
      * Event handler. Called when the user clicked a button for showing/hiding the
      * body of an info panel.
      *
-     * @type member
      * @param panelHashCode {Integer} hash code of the panel object.
      */
     togglePanelVisibility : function(panel)

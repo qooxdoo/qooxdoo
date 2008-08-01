@@ -34,7 +34,6 @@ qx.Class.define("testrunner.profile.Profile",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     testProfileObjectCreate : function()
@@ -80,7 +79,6 @@ qx.Class.define("testrunner.profile.Profile",
             /**
              * TODOC
              *
-             * @type static
              * @return {void}
              */
             d : function() {}
@@ -96,7 +94,6 @@ qx.Class.define("testrunner.profile.Profile",
             /**
              * TODOC
              *
-             * @type member
              * @return {void}
              */
             d : function() {}
@@ -134,7 +131,6 @@ qx.Class.define("testrunner.profile.Profile",
             /**
              * TODOC
              *
-             * @type static
              * @return {void}
              */
             d : function() {}
@@ -150,7 +146,6 @@ qx.Class.define("testrunner.profile.Profile",
             /**
              * TODOC
              *
-             * @type member
              * @return {void}
              */
             d : function() {}
@@ -165,7 +160,6 @@ qx.Class.define("testrunner.profile.Profile",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     testProfileString : function()

@@ -200,7 +200,6 @@ qx.Class.define("qx.legacy.ui.tree.TreeFolder",
     /**
      * Returns whether the folder has content, i.e. child folder or files.
      *
-     * @type member
      * @return {Boolean} true if the folder has content
      */
     hasContent : function() {
@@ -211,7 +210,6 @@ qx.Class.define("qx.legacy.ui.tree.TreeFolder",
     /**
      * Opens the current folder.
      *
-     * @type member
      * @return {void}
      */
     open : function()
@@ -240,7 +238,6 @@ qx.Class.define("qx.legacy.ui.tree.TreeFolder",
     /**
      * Closes the current folder.
      *
-     * @type member
      * @return {void}
      */
     close : function()
@@ -263,7 +260,6 @@ qx.Class.define("qx.legacy.ui.tree.TreeFolder",
     /**
      * Toggles between open and closed status of the folder.
      *
-     * @type member
      * @return {void}
      */
     toggle : function() {
@@ -274,7 +270,6 @@ qx.Class.define("qx.legacy.ui.tree.TreeFolder",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     _openCallback : function()
@@ -296,7 +291,6 @@ qx.Class.define("qx.legacy.ui.tree.TreeFolder",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     _createChildrenStructure : function()
@@ -349,7 +343,6 @@ qx.Class.define("qx.legacy.ui.tree.TreeFolder",
     /**
      * TODOC
      *
-     * @type member
      * @param vChild {var} TODOC
      * @param vRelationIndex {var} TODOC
      * @param vRelationChild {var} TODOC
@@ -394,7 +387,6 @@ qx.Class.define("qx.legacy.ui.tree.TreeFolder",
     /**
      * Adds the passed tree elements to the current folder.
      *
-     * @type member
      * @param varargs {AbstractTreeElement} variable number of tree nodes to add
      */
     addToFolder : function(varargs)
@@ -411,7 +403,6 @@ qx.Class.define("qx.legacy.ui.tree.TreeFolder",
      * Adds the new tree element vChild to the current folder, before the
      * existing child vBefore.
      *
-     * @type member
      * @param vChild {AbstractTreeElement} new tree element to insert
      * @param vBefore {AbstractTreeElement} existing child of folder
      */
@@ -431,7 +422,6 @@ qx.Class.define("qx.legacy.ui.tree.TreeFolder",
      * Adds the new tree element vChild to the current folder, after the
      * existing child vAfter.
      *
-     * @type member
      * @param vChild {AbstractTreeElement} new tree element to insert
      * @param vAfter {AbstractTreeElement} existing child of folder
      */
@@ -451,7 +441,6 @@ qx.Class.define("qx.legacy.ui.tree.TreeFolder",
      * Adds the new tree element vChild to the current folder, at position
      * vIndex.
      *
-     * @type member
      * @param vChild {AbstractTreeElement} new tree element to insert
      * @param vIndex {Integer} position to insert into
      */
@@ -470,7 +459,6 @@ qx.Class.define("qx.legacy.ui.tree.TreeFolder",
     /**
      * Adds the new tree element vChild at the beginning of the current folder.
      *
-     * @type member
      * @param vChild {AbstractTreeElement} new tree element to insert
      */
     addAtBeginToFolder : function(vChild) {
@@ -481,7 +469,6 @@ qx.Class.define("qx.legacy.ui.tree.TreeFolder",
     /**
      * Adds the new tree element vChild at the end of the current folder.
      *
-     * @type member
      * @param vChild {AbstractTreeElement} new tree element to insert
      */
     addAtEndToFolder : function(vChild)
@@ -579,7 +566,6 @@ qx.Class.define("qx.legacy.ui.tree.TreeFolder",
     /**
      * Returns the container of the current tree element.
      *
-     * @type member
      * @return {qx.legacy.ui.layout.VerticalBoxLayout} the widget container
      */
     getContainerObject : function() {
@@ -590,7 +576,6 @@ qx.Class.define("qx.legacy.ui.tree.TreeFolder",
     /**
      * Returns the HorizontalBoxLayout of the folder.
      *
-     * @type member
      * @return {qx.legacy.ui.layout.HorizontalBoxLayout} the horizontal layout widget
      */
     getHorizontalLayout : function() {
@@ -601,7 +586,6 @@ qx.Class.define("qx.legacy.ui.tree.TreeFolder",
     /**
      * Returns the first visible child of the folder.
      *
-     * @type member
      * @return {AbstractTreeElement} the first visible child element
      */
     getFirstVisibleChildOfFolder : function()
@@ -615,7 +599,6 @@ qx.Class.define("qx.legacy.ui.tree.TreeFolder",
     /**
      * Returns the last visible child of the folder.
      *
-     * @type member
      * @return {AbstractTreeElement} the last visible child element
      */
     getLastVisibleChildOfFolder : function()
@@ -629,7 +612,6 @@ qx.Class.define("qx.legacy.ui.tree.TreeFolder",
     /**
      * Returns all children of the folder.
      *
-     * @type member
      * @param recursive {Boolean ? false} whether children of subfolder should be
      * included
      * @param invisible {Boolean ? true} whether invisible children should be included
@@ -670,7 +652,6 @@ qx.Class.define("qx.legacy.ui.tree.TreeFolder",
      * hierarchy. The current item is left as is.
      *
      *
-     * @type member
      */
     destroyContent : function()
     {
@@ -774,7 +755,6 @@ qx.Class.define("qx.legacy.ui.tree.TreeFolder",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -797,7 +777,6 @@ qx.Class.define("qx.legacy.ui.tree.TreeFolder",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -821,7 +800,6 @@ qx.Class.define("qx.legacy.ui.tree.TreeFolder",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     _updateLastColumn : function()
@@ -848,7 +826,6 @@ qx.Class.define("qx.legacy.ui.tree.TreeFolder",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -890,7 +867,6 @@ qx.Class.define("qx.legacy.ui.tree.TreeFolder",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -923,7 +899,6 @@ qx.Class.define("qx.legacy.ui.tree.TreeFolder",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -950,7 +925,6 @@ qx.Class.define("qx.legacy.ui.tree.TreeFolder",
      * Returns a string indicating the symbol used to indent the current item,
      * or null.
      *
-     * @type member
      * @param vUseTreeLines {Boolean} whether tree lines are used
      * @param vIsLastColumn {Boolean} whether the item is in the last column
      * @return {String | null} "end", "cross", "line" or null
@@ -1021,7 +995,6 @@ qx.Class.define("qx.legacy.ui.tree.TreeFolder",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     _updateIndent : function()

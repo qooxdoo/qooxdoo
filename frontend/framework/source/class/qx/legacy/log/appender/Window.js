@@ -86,7 +86,6 @@ qx.Class.define("qx.legacy.log.appender.Window",
      * Registers a WindowAppender. This is used by the WindowAppender internally.
      * You don't have to call this.
      *
-     * @type static
      * @param appender {WindowAppender} the WindowAppender to register.
      * @return {Integer} the ID.
      */
@@ -104,7 +103,6 @@ qx.Class.define("qx.legacy.log.appender.Window",
     /**
      * Returns a previously registered WindowAppender.
      *
-     * @type static
      * @param id {Integer} the ID of the wanted WindowAppender.
      * @return {WindowAppender} the WindowAppender or null if no
      *       WindowAppender with this ID is registered.
@@ -201,7 +199,6 @@ qx.Class.define("qx.legacy.log.appender.Window",
     /**
      * Creates and opens the log window if it doesn't alread exist.
      *
-     * @type member
      * @return {void}
      */
     openWindow : function()
@@ -340,7 +337,6 @@ qx.Class.define("qx.legacy.log.appender.Window",
     /**
      * Closes the log window.
      *
-     * @type member
      * @return {void}
      */
     closeWindow : function()
@@ -358,7 +354,6 @@ qx.Class.define("qx.legacy.log.appender.Window",
      * Called when the window should be automatically closed (because the page that opened
      * is is unloaded). Will only close the window if the autoClose***-Properties allow it
      *
-     * @type member
      * @return {void}
      */
     _autoCloseWindow : function()
@@ -377,7 +372,6 @@ qx.Class.define("qx.legacy.log.appender.Window",
     /**
      * Appends a line to the log showing the given text
      *
-     * @type member
      * @param msg {String} message to show, may be HTML
      * @return {void}
      */
@@ -502,7 +496,6 @@ qx.Class.define("qx.legacy.log.appender.Window",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */

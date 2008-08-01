@@ -72,7 +72,6 @@ qx.Mixin.define("qx.ui.core.MExecutable",
     /**
      * Initiate the execute action.
      *
-     * @type member
      */
     execute : function()
     {

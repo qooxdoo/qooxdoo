@@ -262,7 +262,6 @@ qx.Class.define("qx.legacy.ui.menu.Menu",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     getLayout : function() {
@@ -273,7 +272,6 @@ qx.Class.define("qx.legacy.ui.menu.Menu",
     /**
      * Returns if the given element is a child of this menu
      *
-     * @type member
      * @param vElement {Object} element to test
      * @param vButtonsOnly {boolean ? false} if true, child elements other than buttons
      *                                         will be ignored
@@ -309,7 +307,6 @@ qx.Class.define("qx.legacy.ui.menu.Menu",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     _beforeAppear : function()
@@ -331,7 +328,6 @@ qx.Class.define("qx.legacy.ui.menu.Menu",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     _beforeDisappear : function()
@@ -451,7 +447,6 @@ qx.Class.define("qx.legacy.ui.menu.Menu",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     _computeMaxIconWidth : function()
@@ -477,7 +472,6 @@ qx.Class.define("qx.legacy.ui.menu.Menu",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     _computeMaxLabelWidth : function()
@@ -500,7 +494,6 @@ qx.Class.define("qx.legacy.ui.menu.Menu",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     _computeMaxLabelWidthIncShortcut : function()
@@ -523,7 +516,6 @@ qx.Class.define("qx.legacy.ui.menu.Menu",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     _computeMaxShortcutWidth : function()
@@ -546,7 +538,6 @@ qx.Class.define("qx.legacy.ui.menu.Menu",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     _computeMaxArrowWidth : function()
@@ -572,7 +563,6 @@ qx.Class.define("qx.legacy.ui.menu.Menu",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     _computeMaxContentWidth : function()
@@ -617,7 +607,6 @@ qx.Class.define("qx.legacy.ui.menu.Menu",
     /**
      * TODOC
      *
-     * @type member
      * @return {int} TODOC
      */
     _computeIconPosition : function() {
@@ -628,7 +617,6 @@ qx.Class.define("qx.legacy.ui.menu.Menu",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     _computeLabelPosition : function()
@@ -641,7 +629,6 @@ qx.Class.define("qx.legacy.ui.menu.Menu",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     _computeShortcutPosition : function() {
@@ -652,7 +639,6 @@ qx.Class.define("qx.legacy.ui.menu.Menu",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     _computeArrowPosition : function()
@@ -674,7 +660,6 @@ qx.Class.define("qx.legacy.ui.menu.Menu",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     _invalidateMaxIconWidth : function()
@@ -689,7 +674,6 @@ qx.Class.define("qx.legacy.ui.menu.Menu",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     _invalidateMaxLabelWidth : function()
@@ -707,7 +691,6 @@ qx.Class.define("qx.legacy.ui.menu.Menu",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     _invalidateMaxShortcutWidth : function()
@@ -723,7 +706,6 @@ qx.Class.define("qx.legacy.ui.menu.Menu",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     _invalidateLabelPosition : function()
@@ -736,7 +718,6 @@ qx.Class.define("qx.legacy.ui.menu.Menu",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     _invalidateShortcutPosition : function()
@@ -758,7 +739,6 @@ qx.Class.define("qx.legacy.ui.menu.Menu",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     _computeMenuButtonNeededWidth : function()
@@ -812,7 +792,6 @@ qx.Class.define("qx.legacy.ui.menu.Menu",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -911,7 +890,6 @@ qx.Class.define("qx.legacy.ui.menu.Menu",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -935,7 +913,6 @@ qx.Class.define("qx.legacy.ui.menu.Menu",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -956,7 +933,6 @@ qx.Class.define("qx.legacy.ui.menu.Menu",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -973,7 +949,6 @@ qx.Class.define("qx.legacy.ui.menu.Menu",
     /**
      * Wraps key events to target functions
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -990,7 +965,6 @@ qx.Class.define("qx.legacy.ui.menu.Menu",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -1026,7 +1000,6 @@ qx.Class.define("qx.legacy.ui.menu.Menu",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -1042,7 +1015,6 @@ qx.Class.define("qx.legacy.ui.menu.Menu",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -1058,7 +1030,6 @@ qx.Class.define("qx.legacy.ui.menu.Menu",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -1094,7 +1065,6 @@ qx.Class.define("qx.legacy.ui.menu.Menu",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -1178,7 +1148,6 @@ qx.Class.define("qx.legacy.ui.menu.Menu",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */

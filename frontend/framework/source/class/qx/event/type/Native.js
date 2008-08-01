@@ -32,7 +32,6 @@ qx.Class.define("qx.event.type.Native",
      * Initialize the fields of the event. The event must be initialized before
      * it can be dispatched.
      *
-     * @type member
      * @param nativeEvent {Event} The DOM event to use
      * @param target {Object} The event target
      * @param relatedTarget {Object?null} The related event target

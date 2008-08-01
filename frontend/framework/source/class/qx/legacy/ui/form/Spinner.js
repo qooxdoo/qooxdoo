@@ -416,7 +416,6 @@ qx.Class.define("qx.legacy.ui.form.Spinner",
      * Returns the prefered inner width for the spinner widget. Currently this
      * method returns 50.
      *
-     * @type member
      * @return {Integer} prefered inner width for the spinner widget
      */
     _computePreferredInnerWidth : function() {
@@ -428,7 +427,6 @@ qx.Class.define("qx.legacy.ui.form.Spinner",
      * Return the prefered inner height for the spinner widget. Currently this
      * method returns 14
      *
-     * @type member
      * @return {Integer} prefered inner height for the spinner widget
      */
     _computePreferredInnerHeight : function() {
@@ -450,7 +448,6 @@ qx.Class.define("qx.legacy.ui.form.Spinner",
      * and numeric (0-9) keys are pressed. Suppress all key events for
      * events without modifiers.
      *
-     * @type member
      * @param e {qx.legacy.event.type.KeyEvent} keyPress event
      * @return {void}
      */
@@ -519,7 +516,6 @@ qx.Class.define("qx.legacy.ui.form.Spinner",
      * Starting a timer to control the incrementing of the
      * spinner value.
      *
-     * @type member
      * @param e {qx.legacy.event.type.KeyEvent} keyDown event
      * @return {void}
      */
@@ -568,7 +564,6 @@ qx.Class.define("qx.legacy.ui.form.Spinner",
      * and the timer for the control of the increase of the spinner value
      * gets stopped.
      *
-     * @type member
      * @param e {qx.legacy.event.type.KeyEvent} keyUp event
      * @return {void}
      */
@@ -604,7 +599,6 @@ qx.Class.define("qx.legacy.ui.form.Spinner",
      * State handling, registering event listeners at the spinner button and
      * invoking the increment management (resets increments, setup and start timer etc.).
      *
-     * @type member
      * @param e {qx.legacy.event.type.MouseEvent} mouseDown event
      * @return {void}
      */
@@ -642,7 +636,6 @@ qx.Class.define("qx.legacy.ui.form.Spinner",
      * the text field and resetting the interval management (stopping timer,
      * resetting interval increase).
      *
-     * @type member
      * @param e {qx.legacy.event.type.MouseEvent} mouseUp event
      * @return {void}
      */
@@ -670,7 +663,6 @@ qx.Class.define("qx.legacy.ui.form.Spinner",
      * Delegates the in-/decrementing to the manager and
      * selects the text field.
      *
-     * @type member
      * @param e {qx.legacy.event.type.MouseEvent} mouseWheel event
      * @return {void}
      */
@@ -711,7 +703,6 @@ qx.Class.define("qx.legacy.ui.form.Spinner",
      * Delegates the further processing to the method
      * hold by the "checkValue" property.
      *
-     * @type member
      * @param e {qx.event.type.Data} input event
      * @return {void}
      */
@@ -727,7 +718,6 @@ qx.Class.define("qx.legacy.ui.form.Spinner",
      * (additionally stops the timer of the min-/max-boundaries are reached)
      * Dispatched the "change" event.
      *
-     * @type member
      * @param e {qx.event.type.Data} change event
      * @return {void}
      */
@@ -770,7 +760,6 @@ qx.Class.define("qx.legacy.ui.form.Spinner",
      * Callback method for the "blur" event.<br/>
      * Calls the method of the "checkValueFunction" property
      *
-     * @type member
      * @param e {qx.legacy.event.type.FocusEvent} blur event
      * @return {void}
      */
@@ -790,7 +779,6 @@ qx.Class.define("qx.legacy.ui.form.Spinner",
     /**
      * Mapping to the "setValue" method of the Range manager
      *
-     * @type member
      * @param nValue {Number} new value of the spinner
      * @return {void}
      */
@@ -802,7 +790,6 @@ qx.Class.define("qx.legacy.ui.form.Spinner",
     /**
      * Mapping to the "getValue" method of the Range manager
      *
-     * @type member
      * @return {Number} Current value of the spinner
      */
     getValue : function()
@@ -816,7 +803,6 @@ qx.Class.define("qx.legacy.ui.form.Spinner",
     /**
      * Mapping to the "resetValue" method of the Range manager
      *
-     * @type member
      * @return {void}
      */
     resetValue : function() {
@@ -827,7 +813,6 @@ qx.Class.define("qx.legacy.ui.form.Spinner",
     /**
      * Mapping to the "setMax" method of the Range manager
      *
-     * @type member
      * @param vMax {Number} new max value of the spinner
      * @return {Number} new max value of the spinner
      */
@@ -839,7 +824,6 @@ qx.Class.define("qx.legacy.ui.form.Spinner",
     /**
      * Mapping to the "getMax" method of the Range manager
      *
-     * @type member
      * @return {Number} current max value of the spinner
      */
     getMax : function() {
@@ -850,7 +834,6 @@ qx.Class.define("qx.legacy.ui.form.Spinner",
     /**
      * Mapping to the "setMin" method of the Range manager
      *
-     * @type member
      * @param vMin {Number} new min value of the spinner
      * @return {Number} new min value of the spinner
      */
@@ -862,7 +845,6 @@ qx.Class.define("qx.legacy.ui.form.Spinner",
     /**
      * Mapping to the "getMin" method of the Range manager
      *
-     * @type member
      * @return {Number} current min value of the spinner
      */
     getMin : function() {
@@ -885,7 +867,6 @@ qx.Class.define("qx.legacy.ui.form.Spinner",
      * of the spinner depending on the intervalMode and restarts the timer with
      * the new interval.
      *
-     * @type member
      * @param e {qx.event.type.Event} interval event
      * @return {void}
      */
@@ -937,7 +918,6 @@ qx.Class.define("qx.legacy.ui.form.Spinner",
     /**
      * Default check value utility method
      *
-     * @type member
      * @param acceptEmpty {Boolean} Whether empty values are allowed or not.
      * @param acceptEdit {Boolean} Whether editing is accepted or not.
      * @return {void}
@@ -1035,7 +1015,6 @@ qx.Class.define("qx.legacy.ui.form.Spinner",
     /**
      * Performs a normal increment
      *
-     * @type member
      * @return {void}
      */
     _increment : function()
@@ -1061,7 +1040,6 @@ qx.Class.define("qx.legacy.ui.form.Spinner",
     /**
      * Performs a page increment
      *
-     * @type member
      * @return {void}
      */
     _pageIncrement : function()
@@ -1086,7 +1064,6 @@ qx.Class.define("qx.legacy.ui.form.Spinner",
     /**
      * Reset the increments
      *
-     * @type member
      * @return {void}
      */
     _resetIncrements : function()

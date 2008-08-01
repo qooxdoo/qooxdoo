@@ -63,7 +63,6 @@ qx.Class.define("qx.legacy.ui.popup.PopupManager",
     /**
      * Updates all registered popups
      *
-     * @type member
      * @param vTarget {qx.legacy.ui.popup.Popup | qx.legacy.ui.popup.ToolTip} current widget
      * @return {void}
      */

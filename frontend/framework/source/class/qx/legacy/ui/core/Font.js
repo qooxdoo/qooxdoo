@@ -66,7 +66,6 @@ qx.Class.define("qx.legacy.ui.core.Font",
     /**
      * Converts a typical CSS font definition string to an font object
      *
-     * @type static
      * @param str {String} the CSS string
      * @return {qx.legacy.ui.core.Font} the created instance
      */
@@ -117,7 +116,6 @@ qx.Class.define("qx.legacy.ui.core.Font",
     /**
      * Converts a map property definition into a border object.
      *
-     * @type static
      * @param config {Map} map of property values
      * @return {qx.legacy.ui.core.Font} the created instance
      */
@@ -165,7 +163,6 @@ qx.Class.define("qx.legacy.ui.core.Font",
      * Reset a style map by setting the font attributes to empty.
      *
      * @param style {Map} The style map
-     * @type static
      * @return {void}
      */
     resetStyle : function(style)
@@ -302,7 +299,6 @@ qx.Class.define("qx.legacy.ui.core.Font",
      * Generate a style map with the current font attributes.
      *
      * @param style {Map} The style map
-     * @type member
      * @return {void}
      */
     renderStyle : function(style)
@@ -333,7 +329,6 @@ qx.Class.define("qx.legacy.ui.core.Font",
     /**
      * Generate a style string with the current font attributes.
      *
-     * @type member
      * @return {String} The generated style string for this font
      */
     generateStyle : function() {

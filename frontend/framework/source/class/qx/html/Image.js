@@ -87,7 +87,6 @@ qx.Class.define("qx.html.Image",
     /**
      * Configures the image source (a full qualified URL)
      *
-     * @type member
      * @param value {Boolean} Whether the HTML mode should be used.
      * @return {qx.html.Label} This instance for for chaining support.
      */
@@ -101,7 +100,6 @@ qx.Class.define("qx.html.Image",
     /**
      * Returns the image source.
      *
-     * @type member
      * @return {String} Current image source.
      */
     getSource : function() {

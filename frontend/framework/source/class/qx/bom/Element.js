@@ -68,7 +68,6 @@ qx.Class.define("qx.bom.Element",
      * Attributes may be given directly with this call. This is critical
      * for some attributes e.g. name, type, ... in many clients.
      *
-     * @type static
      * @param name {String} Tag name of the element
      * @param attributes {Map?} Map of attributes to apply
      * @param win {Window?} Window to create the element for
@@ -140,7 +139,6 @@ qx.Class.define("qx.bom.Element",
     /**
      * Removes all content from the given element
      *
-     * @type static
      * @param element {Element} element to clean
      * @return {String} empty string (new HTML content)
      */
@@ -154,7 +152,6 @@ qx.Class.define("qx.bom.Element",
      * instance of {@link Event} containing all relevant information
      * about the event as parameter.
      *
-     * @type static
      * @param element {Element} DOM element to attach the event on.
      * @param type {String} Name of the event e.g. "click", "keydown", ...
      * @param listener {Function} Event listener function
@@ -175,7 +172,6 @@ qx.Class.define("qx.bom.Element",
      * Note: All registered event listeners will automatically be removed from
      *   the DOM at page unload so it is not necessary to detach events yourself.
      *
-     * @type static
      * @param element {Element} DOM Element
      * @param type {String} Name of the event
      * @param listener {Function} The pointer to the event listener
@@ -193,7 +189,6 @@ qx.Class.define("qx.bom.Element",
      * Check whether there are one or more listeners for an event type
      * registered at the element.
      *
-     * @type static
      * @param element {Element} DOM element
      * @param type {String} The event type
      * @param capture {Boolean ? false} Whether to check for listeners of
@@ -208,7 +203,6 @@ qx.Class.define("qx.bom.Element",
     /**
      * Focusses the given element. The element needs to have a positive <code>tabIndex</code> value.
      *
-     * @type static
      * @param element {Element} DOM element to focus
      * @return {void}
      */
@@ -220,7 +214,6 @@ qx.Class.define("qx.bom.Element",
     /**
      * Blurs the given element
      *
-     * @type static
      * @param element {Element} DOM element to blur
      * @return {void}
      */
@@ -232,7 +225,6 @@ qx.Class.define("qx.bom.Element",
     /**
      * Activates the given element. The active element receives all key board events.
      *
-     * @type static
      * @param element {Element} DOM element to focus
      * @return {void}
      */
@@ -244,7 +236,6 @@ qx.Class.define("qx.bom.Element",
     /**
      * Deactivates the given element. The active element receives all key board events.
      *
-     * @type static
      * @param element {Element} DOM element to focus
      * @return {void}
      */
@@ -256,7 +247,6 @@ qx.Class.define("qx.bom.Element",
     /**
      * Captures the given element
      *
-     * @type static
      * @param element {Element} DOM element to capture
      * @return {void}
      */
@@ -268,7 +258,6 @@ qx.Class.define("qx.bom.Element",
     /**
      * Releases the given element (from a previous {@link #capture} call)
      *
-     * @type static
      * @param element {Element} DOM element to release
      * @return {void}
      */

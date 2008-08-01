@@ -49,7 +49,6 @@ qx.Class.define("qx.legacy.io.local.CookieTransport",
     /**
      * TODOC
      *
-     * @type static
      * @param vName {var} TODOC
      * @param vValue {var} TODOC
      * @return {var} TODOC
@@ -69,7 +68,6 @@ qx.Class.define("qx.legacy.io.local.CookieTransport",
     /**
      * TODOC
      *
-     * @type static
      * @param vName {var} TODOC
      * @return {var} TODOC
      */
@@ -84,7 +82,6 @@ qx.Class.define("qx.legacy.io.local.CookieTransport",
     /**
      * TODOC
      *
-     * @type static
      * @param vName {var} TODOC
      * @return {void}
      */
@@ -99,7 +96,6 @@ qx.Class.define("qx.legacy.io.local.CookieTransport",
     /**
      * TODOC
      *
-     * @type static
      * @param vHash {var} TODOC
      * @return {void}
      */
@@ -114,7 +110,6 @@ qx.Class.define("qx.legacy.io.local.CookieTransport",
     /**
      * TODOC
      *
-     * @type static
      * @return {var} TODOC
      */
     getAll : function() {
@@ -125,7 +120,6 @@ qx.Class.define("qx.legacy.io.local.CookieTransport",
     /**
      * TODOC
      *
-     * @type static
      * @param vHash {var} TODOC
      * @return {void}
      */
@@ -137,7 +131,6 @@ qx.Class.define("qx.legacy.io.local.CookieTransport",
     /**
      * TODOC
      *
-     * @type static
      * @return {void}
      */
     delAll : function() {
@@ -156,7 +149,6 @@ qx.Class.define("qx.legacy.io.local.CookieTransport",
     /**
      * TODOC
      *
-     * @type static
      * @return {var} TODOC
      */
     _getAll : function()
@@ -187,7 +179,6 @@ qx.Class.define("qx.legacy.io.local.CookieTransport",
     /**
      * TODOC
      *
-     * @type static
      * @param vHash {var} TODOC
      */
     _setAll : function(vHash)
@@ -241,7 +232,6 @@ qx.Class.define("qx.legacy.io.local.CookieTransport",
     /**
      * TODOC
      *
-     * @type static
      * @param vIndex {var} TODOC
      * @param vString {var} TODOC
      * @return {void}
@@ -256,7 +246,6 @@ qx.Class.define("qx.legacy.io.local.CookieTransport",
     /**
      * TODOC
      *
-     * @type static
      * @param vIndex {var} TODOC
      * @return {void}
      */

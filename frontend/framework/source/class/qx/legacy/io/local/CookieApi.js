@@ -49,7 +49,6 @@ qx.Class.define("qx.legacy.io.local.CookieApi",
     /**
      * TODOC
      *
-     * @type static
      * @param vName {var} TODOC
      * @return {null | var} TODOC
      */
@@ -79,7 +78,6 @@ qx.Class.define("qx.legacy.io.local.CookieApi",
     /**
      * TODOC
      *
-     * @type static
      * @param vName {var} TODOC
      * @param vValue {var} TODOC
      * @param vExpires {var} TODOC
@@ -134,7 +132,6 @@ qx.Class.define("qx.legacy.io.local.CookieApi",
     /**
      * TODOC
      *
-     * @type static
      * @param vName {var} TODOC
      * @param vPath {var} TODOC
      * @param vDomain {var} TODOC

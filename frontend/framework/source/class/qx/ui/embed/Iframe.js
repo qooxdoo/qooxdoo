@@ -165,7 +165,6 @@ qx.Class.define("qx.ui.embed.Iframe",
     /**
      * Creates <div> element which is aligned over iframe node to avoid losing mouse events.
      *
-     * @type member
      * @return {Object} Blocker element node
      */
     _createBlockerElement : function()
@@ -237,7 +236,6 @@ qx.Class.define("qx.ui.embed.Iframe",
     /**
      * Get the current name.
      *
-     * @type member
      * @return {String} The iframe's name.
      */
     getName : function() {
@@ -250,7 +248,6 @@ qx.Class.define("qx.ui.embed.Iframe",
      * mouse or key events to be handled by the iframe. To release the blocker
      * use {@link #release}.
      *
-     * @type member
      */
     block : function() {
       this._blockerElement.setStyle("display", "block");
@@ -260,7 +257,6 @@ qx.Class.define("qx.ui.embed.Iframe",
     /**
      * Release the blocker set by {@link #block}.
      *
-     * @type member
      */
     release : function() {
       this._blockerElement.setStyle("display", "none");
@@ -270,7 +266,6 @@ qx.Class.define("qx.ui.embed.Iframe",
     /**
      * Reload the contents of the iframe.
      *
-     * @type member
      */
     reload : function() {
       this.getContentElement().reload();

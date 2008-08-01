@@ -80,7 +80,6 @@ qx.Class.define("qx.legacy.ui.toolbar.CheckBox",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -100,7 +99,6 @@ qx.Class.define("qx.legacy.ui.toolbar.CheckBox",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */

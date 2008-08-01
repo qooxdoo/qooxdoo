@@ -124,7 +124,6 @@ qx.Class.define("qx.io.remote.RequestQueue",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     _debug : function()
@@ -146,7 +145,6 @@ qx.Class.define("qx.io.remote.RequestQueue",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     _check : function()
@@ -218,7 +216,6 @@ qx.Class.define("qx.io.remote.RequestQueue",
     /**
      * TODOC
      *
-     * @type member
      * @param vTransport {var} TODOC
      * @return {void}
      */
@@ -249,7 +246,6 @@ qx.Class.define("qx.io.remote.RequestQueue",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -271,7 +267,6 @@ qx.Class.define("qx.io.remote.RequestQueue",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -304,7 +299,6 @@ qx.Class.define("qx.io.remote.RequestQueue",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -369,7 +363,6 @@ qx.Class.define("qx.io.remote.RequestQueue",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -394,7 +387,6 @@ qx.Class.define("qx.io.remote.RequestQueue",
     /**
      * Add the request to the pending requests queue.
      *
-     * @type member
      * @param vRequest {var} TODOC
      * @return {void}
      */
@@ -419,7 +411,6 @@ qx.Class.define("qx.io.remote.RequestQueue",
      *  signal are notified about the event. If the request isn't in the
      *  pending requests queue, this method is a noop.
      *
-     * @type member
      * @param vRequest {var} TODOC
      * @return {void}
      */

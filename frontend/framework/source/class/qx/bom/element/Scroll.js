@@ -40,7 +40,6 @@ qx.Class.define("qx.bom.element.Scroll",
     /**
      * The method scrolls the element into view (x-axis only).
      *
-     * @type static
      * @param element {Element} DOM element to scroll into view
      * @param stop {Element?null} Any parent element which functions as
      *   outest element to scroll. Default is the HTML document.
@@ -167,7 +166,6 @@ qx.Class.define("qx.bom.element.Scroll",
     /**
      * The method scrolls the element into view (y-axis only).
      *
-     * @type static
      * @param element {Element} DOM element to scroll into view
      * @param stop {Element?null} Any parent element which functions as
      *   outest element to scroll. Default is the HTML document.
@@ -293,7 +291,6 @@ qx.Class.define("qx.bom.element.Scroll",
     /**
      * The method scrolls the element into view.
      *
-     * @type static
      * @param element {Element} DOM element to scroll into view
      * @param stop {Element?null} Any parent element which functions as
      *   outest element to scroll. Default is the HTML document.

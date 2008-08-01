@@ -50,7 +50,6 @@ qx.Class.define("portal.box.Draggable",
     /**
      * Return the box
      *
-     * @type member
      * @return {portal.box.Box} box instance
      */
     getBox : function() {
@@ -60,7 +59,6 @@ qx.Class.define("portal.box.Draggable",
     /**
      * Return the element of the box
      * 
-     * @type member
      * @return {Element} Element node of the box
      */
     getElement : function()
@@ -72,7 +70,6 @@ qx.Class.define("portal.box.Draggable",
     /**
      * Internal preparation (adding handle)
      *
-     * @type member
      * @return {void} 
      */
     __prepare : function()
@@ -85,7 +82,6 @@ qx.Class.define("portal.box.Draggable",
     /**
      * Creates the handle to drag the box around.
      *
-     * @type member
      * @return {void} 
      */
     __createHandle : function()
@@ -102,7 +98,6 @@ qx.Class.define("portal.box.Draggable",
     /**
      * Internal method to add all needed event listener methods
      *
-     * @type member
      * @return {void} 
      */
     __addListener : function()
@@ -122,7 +117,6 @@ qx.Class.define("portal.box.Draggable",
      * Listener method for "mousedown" events.
      * Sets the start offset for the drag and drop session
      * 
-     * @type member
      * @param e {qx.event.type.Mouse} mouse event instance
      * @return {void}
      */
@@ -155,7 +149,6 @@ qx.Class.define("portal.box.Draggable",
     /**
      * Listener method for "dragStart" event
      *
-     * @type member
      * @param e {qx.event.type.Drag} drag event instance
      * @return {void} 
      */
@@ -175,7 +168,6 @@ qx.Class.define("portal.box.Draggable",
     /**
      * Listener method for all "drag" events
      * 
-     * @type member
      * @param e {qx.event.type.Drag} drag event instance
      * @return {void}
      */

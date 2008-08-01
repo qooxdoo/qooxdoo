@@ -82,7 +82,6 @@ qx.Class.define("qx.legacy.log.appender.RingBuffer",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      * @return {void}
@@ -117,7 +116,6 @@ qx.Class.define("qx.legacy.log.appender.RingBuffer",
     /**
      * Returns log events which have been logged previously.
      *
-     * @type member
      * @param count {Integer} The number of events to retreive. If there are more events than the
      *                      given count, the oldest ones will not be returned.
      * @return {array} array of stored log events
@@ -150,7 +148,6 @@ qx.Class.define("qx.legacy.log.appender.RingBuffer",
     /**
      * Returns a string holding the information of log events which have been logged previously.
      *
-     * @type member
      * @param count {Integer} The number of events to retreive. If there are more events than the
      *                      given count, the oldest ones will not be returned.
      * @return {String} string

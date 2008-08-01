@@ -152,7 +152,6 @@ qx.Class.define("qx.legacy.ui.component.DateChooserButton",
     /**
      * Modifier for property targetWidget.
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      * @return {Boolean} true if modification succeeded
@@ -171,7 +170,6 @@ qx.Class.define("qx.legacy.ui.component.DateChooserButton",
     /**
      * Modifier for property dateFormatSize.
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      * @return {Boolean} true if modification succeeded
@@ -192,7 +190,6 @@ qx.Class.define("qx.legacy.ui.component.DateChooserButton",
     /**
      * Create the popup window with for the date chooser and add the date chooser to it.
      *
-     * @type member
      * @return {void}
      */
     _createChooserWindow : function()
@@ -228,7 +225,6 @@ qx.Class.define("qx.legacy.ui.component.DateChooserButton",
     /**
      * Create the date chooser
      *
-     * @type member
      * @return {void}
      */
     _createChooser : function()
@@ -256,7 +252,6 @@ qx.Class.define("qx.legacy.ui.component.DateChooserButton",
     /**
      * Change the date format to the current locale with the given size
      *
-     * @type member
      * @param dateFormatSize {String} The date format size according to the size parameter in {qx.locale.Date.getDateFormat}
      * @return {void}
      * @throws exception if the target widget is not instance of qx.legacy.ui.core.Widget or does not have setter and getter for property value
@@ -295,7 +290,6 @@ qx.Class.define("qx.legacy.ui.component.DateChooserButton",
     /**
      * Event hanlder for the execute event of the date chooser button.
      *
-     * @type member
      * @param e {Event} the received event
      * @return {void}
      * @throws exception if the target widget is not instance of qx.legacy.ui.core.Widget or does not have setter and getter for property value
@@ -335,7 +329,6 @@ qx.Class.define("qx.legacy.ui.component.DateChooserButton",
     /**
      * Handle locale changes. Update the date format of the target widget.
      *
-     * @type member
      * @param e {Event} the received event
      * @return {void}
      * @throws TODOC
@@ -349,7 +342,6 @@ qx.Class.define("qx.legacy.ui.component.DateChooserButton",
     /**
      * Event handler for keydown events of the chooser window. Closes the window on hitting the 'Escape' key.
      *
-     * @type member
      * @param e {Event} the received key event
      * @return {void}
      */
@@ -368,7 +360,6 @@ qx.Class.define("qx.legacy.ui.component.DateChooserButton",
     /**
      * Event handler for chooser window appear event. Positions the window above the target widget.
      *
-     * @type member
      * @param e {Event} the received appear event
      * @return {void}
      */
@@ -382,7 +373,6 @@ qx.Class.define("qx.legacy.ui.component.DateChooserButton",
     /**
      * Event handler for the date chooser select event. Formats the selected date as string and sets the target widgets value.
      *
-     * @type member
      * @param e {Event} the select event
      * @return {void}
      */

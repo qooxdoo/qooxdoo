@@ -149,7 +149,6 @@ qx.Bootstrap.define("qx.Bootstrap",
      * Creates a namespace and assigns the given object to it.
      * Lightweight version of {@link qx.Class#createNamespace} only used during bootstrap phase.
      *
-     * @type static
      * @internal
      * @param name {String} The complete namespace to create. Typically, the last part is the class name itself
      * @param object {Object} The object to attach to the namespace
@@ -163,7 +162,6 @@ qx.Bootstrap.define("qx.Bootstrap",
      * Define a new class using the qooxdoo class system.
      * Lightweight version of {@link qx.Class#define} only used during bootstrap phase.
      *
-     * @type map
      * @internal
      * @signature function(name, config)
      * @param name {String} Name of the class
@@ -187,7 +185,6 @@ qx.Bootstrap.define("qx.Bootstrap",
     /**
      * Find a class by its name
      *
-     * @type static
      * @param name {String} class name to resolve
      * @return {Class} the class
      */

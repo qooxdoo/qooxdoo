@@ -144,7 +144,6 @@ qx.Class.define("qx.legacy.ui.table.columnmodel.resizebehavior.Default",
     /**
      * Set the width of a column.
      *
-     * @type member
      *
      * @param col {Integer} The column whose width is to be set
      *
@@ -174,7 +173,6 @@ qx.Class.define("qx.legacy.ui.table.columnmodel.resizebehavior.Default",
     /**
      * Set the minimum width of a column.
      *
-     * @type member
      *
      * @param col {Integer}
      *   The column whose minimum width is to be set
@@ -203,7 +201,6 @@ qx.Class.define("qx.legacy.ui.table.columnmodel.resizebehavior.Default",
     /**
      * Set the maximum width of a column.
      *
-     * @type member
      *
      * @param col {Integer}
      *   The column whose maximum width is to be set
@@ -232,7 +229,6 @@ qx.Class.define("qx.legacy.ui.table.columnmodel.resizebehavior.Default",
      * Set any or all of the width, minimum width, and maximum width of a
      * column in a single call.
      *
-     * @type member
      *
      * @param col {Integer}
      *   The column whose attributes are to be changed
@@ -354,7 +350,6 @@ qx.Class.define("qx.legacy.ui.table.columnmodel.resizebehavior.Default",
      * Computes the width of all flexible children (based loosely on the
      * method of the same name in HorizontalBoxLayoutImpl).
      *
-     * @type member
      *
      * @param tableColumnModel {qx.legacy.ui.table.columnmodel.Resize}
      *   The table column model in use.
@@ -451,7 +446,6 @@ qx.Class.define("qx.legacy.ui.table.columnmodel.resizebehavior.Default",
      * changed width is extended to take up the width available within the
      * inner width of the table.
      *
-     * @type member
      *
      * @param tableColumnModel {qx.legacy.ui.table.columnmodel.Resize}
      *   The table column model in use.
@@ -527,7 +521,6 @@ qx.Class.define("qx.legacy.ui.table.columnmodel.resizebehavior.Default",
      * column is extended to take up the width available within the inner
      * width of the table.
      *
-     * @type member
      *
      * @param tableColumnModel {qx.legacy.ui.table.columnmodel.Resize}
      *   The table column model in use.

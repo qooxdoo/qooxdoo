@@ -71,7 +71,6 @@ qx.Bootstrap.define("qx.bom.client.Flash",
     /**
      * If the system support the given version of Flash(TM) movie.
      *
-     * @type static
      * @param input {String} Version string e.g. 6.0.64
      * @return {Boolean} <code>true</code> when supported, otherwise <code>false</code>
      */
@@ -87,7 +86,6 @@ qx.Bootstrap.define("qx.bom.client.Flash",
     /**
      * Internal initialize helper
      *
-     * @type static
      * @return {void}
      */
     __init : qx.core.Variant.select("qx.client",
@@ -168,7 +166,6 @@ qx.Bootstrap.define("qx.bom.client.Flash",
     /**
      * Internal storage helper
      *
-     * @type static
      * @param full {String} Full version string
      * @return {void}
      */

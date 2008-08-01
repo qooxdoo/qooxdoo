@@ -98,7 +98,6 @@ qx.Class.define("portal.box.Manager",
     /**
      * Method to start the initialisations of the manager
      *
-     * @type member
      * @return {void} 
      */
     load : function()
@@ -114,7 +113,6 @@ qx.Class.define("portal.box.Manager",
     /**
      * Internal init method which is used by the {@link #load} method
      *
-     * @type member
      * @param boxData {Map} data structure of the boxes/groupBoxes
      * @return {void} 
      */
@@ -163,7 +161,6 @@ qx.Class.define("portal.box.Manager",
     /**
      * Return all members (boxes)
      *
-     * @type member
      * @return {Array} All members as array
      */
     getBoxes : function() {
@@ -174,7 +171,6 @@ qx.Class.define("portal.box.Manager",
     /**
      * Return all groupboxes
      *
-     * @type member
      * @return {Array} All members as array
      */
     getGroupBoxes : function() {
@@ -186,7 +182,6 @@ qx.Class.define("portal.box.Manager",
      * Updates the members of groupBoxes. If a box is moved or added to a 
      * groupBox the data structure has to be updated.
      *
-     * @type member
      * @param newGroupBoxId {String} Id of the new groupBox
      * @param oldGroupBoxId {String} Id of the old groupBox
      * @param box {portal.box.Box} moved box instance
@@ -208,7 +203,6 @@ qx.Class.define("portal.box.Manager",
     /**
      * Get the groupBox which contains the given box
      *
-     * @type member
      * @param boxId {Integer} Id of the box
      * @return {Map | null} Data structure of a group box or null
      */

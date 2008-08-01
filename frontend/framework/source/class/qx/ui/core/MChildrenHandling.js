@@ -39,7 +39,6 @@ qx.Mixin.define("qx.ui.core.MChildrenHandling",
     /**
      * Returns the children list
      *
-     * @type member
      * @return {LayoutItem[]} The children array (Arrays are
      *   reference types, please to not modify them in-place)
      */
@@ -51,7 +50,6 @@ qx.Mixin.define("qx.ui.core.MChildrenHandling",
     /**
      * Whether the widget contains children.
      *
-     * @type member
      * @return {Boolean} Returns <code>true</code> when the widget has children.
      */
     hasChildren : function() {
@@ -68,7 +66,6 @@ qx.Mixin.define("qx.ui.core.MChildrenHandling",
      * layout information. Other layout manager (e.g. {@link qx.ui.layout.Grid})
      * ignore the children order for the layout process.
      *
-     * @type member
      * @param child {Widget} the widget to query for
      * @return {Integer} The index position or <code>-1</code> when
      *   the given widget is no child of this layout.

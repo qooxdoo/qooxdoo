@@ -216,7 +216,6 @@ qx.Class.define("qx.legacy.ui.basic.Image",
     /**
      * Listener method of the "load" event - sets "loaded" property
      *
-     * @type member
      * @return {void}
      */
     _onload : function() {
@@ -227,7 +226,6 @@ qx.Class.define("qx.legacy.ui.basic.Image",
     /**
      * Listener method of the "error" event
      *
-     * @type member
      * @return {void}
      */
     _onerror : function()
@@ -251,7 +249,6 @@ qx.Class.define("qx.legacy.ui.basic.Image",
      * Registers an image at the image manager (qx.legacy.io.image.Manager) and increases the
      * visible counter
      *
-     * @type member
      * @return {void}
      */
     _beforeAppear : function()
@@ -271,7 +268,6 @@ qx.Class.define("qx.legacy.ui.basic.Image",
      * Registers an image at the image manager (qx.legacy.io.image.Manager) and reduces the
      * visible counter
      *
-     * @type member
      * @return {void}
      */
     _beforeDisappear : function()
@@ -298,7 +294,6 @@ qx.Class.define("qx.legacy.ui.basic.Image",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -337,7 +332,6 @@ qx.Class.define("qx.legacy.ui.basic.Image",
      * Connects a callback method to the value manager to ensure
      * that changes to the source are handled by the image instance
      *
-     * @type member
      * @return {void}
      */
     _connect : function()
@@ -369,7 +363,6 @@ qx.Class.define("qx.legacy.ui.basic.Image",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -409,7 +402,6 @@ qx.Class.define("qx.legacy.ui.basic.Image",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -430,7 +422,6 @@ qx.Class.define("qx.legacy.ui.basic.Image",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -489,7 +480,6 @@ qx.Class.define("qx.legacy.ui.basic.Image",
      * Internal method (called by the layout engine)
      * Applies the dimensions and then sets the source of the image instance
      *
-     * @type member
      * @return {void}
      */
     _postApply : function()
@@ -502,7 +492,6 @@ qx.Class.define("qx.legacy.ui.basic.Image",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      * @return {void}
@@ -521,7 +510,6 @@ qx.Class.define("qx.legacy.ui.basic.Image",
     /**
      * Updates the source of the image instance
      *
-     * @type member
      * @return {void}
      * @signature function()
      */
@@ -559,7 +547,6 @@ qx.Class.define("qx.legacy.ui.basic.Image",
     /**
      * Reset the source of the image instance to a blank image
      *
-     * @type member
      * @return {void}
      * @signature function()
      */
@@ -580,7 +567,6 @@ qx.Class.define("qx.legacy.ui.basic.Image",
     /**
      * Sets the style values for the states enabled/disabled
      *
-     * @type member
      * @return {void}
      * @signature function()
      */
@@ -615,7 +601,6 @@ qx.Class.define("qx.legacy.ui.basic.Image",
     /**
      * Returns width value of preloader or 0 (if preloader is not available)
      *
-     * @type member
      * @return {Integer} Returns width value of preloader or 0 (if preloader is not available)
      */
     _computePreferredInnerWidth : function()
@@ -628,7 +613,6 @@ qx.Class.define("qx.legacy.ui.basic.Image",
     /**
      * Returns height value of preloader or 0 (if preloader is not available)
      *
-     * @type member
      * @return {Integer} Returns height value of preloader or 0 (if preloader is not available)
      */
     _computePreferredInnerHeight : function()
@@ -650,7 +634,6 @@ qx.Class.define("qx.legacy.ui.basic.Image",
      * Additionally (in comparison to base method) flushes global queues to
      * get an up-to-date view when an image is loaded
      *
-     * @type member
      * @return {void}
      */
     _renderContent : function()
@@ -666,7 +649,6 @@ qx.Class.define("qx.legacy.ui.basic.Image",
     /**
      * Sets the style attributes for width and height
      *
-     * @type member
      * @return {void}
      * @signature function()
      */
@@ -731,7 +713,6 @@ qx.Class.define("qx.legacy.ui.basic.Image",
     /**
      * Sets the width style attribute
      *
-     * @type member
      * @param vNew {var} new inner width value
      * @param vOld {var} old inner width value
      * @return {void}
@@ -758,7 +739,6 @@ qx.Class.define("qx.legacy.ui.basic.Image",
     /**
      * Sets the height style attribute
      *
-     * @type member
      * @param vNew {var} new inner height value
      * @param vOld {var} old inner height value
      * @return {void}

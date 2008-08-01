@@ -160,7 +160,6 @@ qx.Class.define("qx.legacy.ui.listview.ListView",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     getData : function() {
@@ -171,7 +170,6 @@ qx.Class.define("qx.legacy.ui.listview.ListView",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     getColumns : function() {
@@ -182,7 +180,6 @@ qx.Class.define("qx.legacy.ui.listview.ListView",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     getHeader : function() {
@@ -193,7 +190,6 @@ qx.Class.define("qx.legacy.ui.listview.ListView",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     getFrame : function() {
@@ -204,7 +200,6 @@ qx.Class.define("qx.legacy.ui.listview.ListView",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     getPane : function() {
@@ -215,7 +210,6 @@ qx.Class.define("qx.legacy.ui.listview.ListView",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     getScroll : function() {
@@ -226,7 +220,6 @@ qx.Class.define("qx.legacy.ui.listview.ListView",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     getResizeLine : function() {
@@ -237,7 +230,6 @@ qx.Class.define("qx.legacy.ui.listview.ListView",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     update : function()
@@ -250,7 +242,6 @@ qx.Class.define("qx.legacy.ui.listview.ListView",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     updateScrollBar : function()
@@ -262,7 +253,6 @@ qx.Class.define("qx.legacy.ui.listview.ListView",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     updateContent : function() {
@@ -273,7 +263,6 @@ qx.Class.define("qx.legacy.ui.listview.ListView",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     updateLayout : function() {
@@ -284,7 +273,6 @@ qx.Class.define("qx.legacy.ui.listview.ListView",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     updateSort : function()
@@ -306,7 +294,6 @@ qx.Class.define("qx.legacy.ui.listview.ListView",
     /**
      * TODOC
      *
-     * @type member
      * @param vCellId {var} TODOC
      * @return {var} TODOC
      */
@@ -328,7 +315,6 @@ qx.Class.define("qx.legacy.ui.listview.ListView",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -365,7 +351,6 @@ qx.Class.define("qx.legacy.ui.listview.ListView",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -377,7 +362,6 @@ qx.Class.define("qx.legacy.ui.listview.ListView",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -397,7 +381,6 @@ qx.Class.define("qx.legacy.ui.listview.ListView",
     /**
      * TODOC
      *
-     * @type member
      * @param vDisplayable {var} TODOC
      * @param vParent {var} TODOC
      * @param vHint {var} TODOC

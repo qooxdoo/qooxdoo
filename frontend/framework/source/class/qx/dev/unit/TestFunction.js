@@ -104,7 +104,6 @@ qx.Class.define("qx.dev.unit.TestFunction",
     /**
      * TODOC
      *
-     * @type member
      * @param testResult {var} TODOC
      * @return {void}
      */
@@ -116,7 +115,6 @@ qx.Class.define("qx.dev.unit.TestFunction",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     getFullName : function() {

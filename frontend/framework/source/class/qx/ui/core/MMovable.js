@@ -156,7 +156,6 @@ qx.Mixin.define("qx.ui.core.MMovable",
      * Enables the capturing of the caption bar and prepares the drag session and the
      * appearance (translucent, frame or opaque) for the moving of the window.
      *
-     * @type member
      * @param e {qx.event.type.MouseEvent} mouse down event
      * @return {void}
      */
@@ -204,7 +203,6 @@ qx.Mixin.define("qx.ui.core.MMovable",
      * Does the moving of the window by rendering the position
      * of the window (or frame) at runtime using direct dom methods.
      *
-     * @type member
      * @param e {qx.event.type.Event} mouse move event
      * @return {void}
      */
@@ -230,7 +228,6 @@ qx.Mixin.define("qx.ui.core.MMovable",
      * to the last position of the drag session. Also restores the appearance
      * of the window.
      *
-     * @type member
      * @param e {qx.event.type.MouseEvent} mouse up event
      * @return {void}
      */

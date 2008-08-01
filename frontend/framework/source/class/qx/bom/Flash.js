@@ -76,7 +76,6 @@ qx.Class.define("qx.bom.Flash",
      * It is possible to add these parameters as supported by Flash movies:
      * http://kb.adobe.com/selfservice/viewContent.do?externalId=tn_12701
      *
-     * @type static
      * @param movie {String} URI to the movie
      * @param variables? {Map} Flash variable data (these are available in the movie later)
      * @param params? {Map} Flash parameter data (these are used to configure the movie itself)
@@ -140,7 +139,6 @@ qx.Class.define("qx.bom.Flash",
     /**
      * Creates a DOM element with a flash movie
      *
-     * @type static
      * @param attributes {Map} Flash attribute data
      * @param params {Map} Flash parameter data
      * @return {Element} DOM element node with the Flash movie

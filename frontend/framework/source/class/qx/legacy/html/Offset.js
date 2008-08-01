@@ -42,7 +42,6 @@ qx.Class.define("qx.legacy.html.Offset",
     /**
      * TODOC
      *
-     * @type static
      * @param vElement {var} TODOC
      * @return {void}
      * @signature function(el)
@@ -96,7 +95,6 @@ qx.Class.define("qx.legacy.html.Offset",
     /**
      * TODOC
      *
-     * @type static
      * @param vElement {var} TODOC
      * @return {void}
      * @signature function(el)

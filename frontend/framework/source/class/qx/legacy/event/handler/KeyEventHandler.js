@@ -68,7 +68,6 @@ qx.Class.define("qx.legacy.event.handler.KeyEventHandler",
     /**
      * attach the key event handler to the DOM events
      *
-     * @type member
      * @return {void}
      * @signature function()
      */
@@ -85,7 +84,6 @@ qx.Class.define("qx.legacy.event.handler.KeyEventHandler",
     /**
      * detach the key event handler from the DOM events
      *
-     * @type member
      * @return {void}
      * @signature function()
      */
@@ -460,7 +458,6 @@ qx.Class.define("qx.legacy.event.handler.KeyEventHandler",
     /**
      * Checks whether the keyCode represents a non printable key
      *
-     * @type member
      * @param keyCode {String} key code to check.
      * @return {Boolean} Wether the keyCode represents a non printable key.
      */
@@ -472,7 +469,6 @@ qx.Class.define("qx.legacy.event.handler.KeyEventHandler",
     /**
      * Check whether the keycode can be reliably detected in keyup/keydown events
      *
-     * @type member
      * @param keyCode {String} key code to check.
      * @return {Boolean} Wether the keycode can be reliably detected in keyup/keydown events.
      */
@@ -510,7 +506,6 @@ qx.Class.define("qx.legacy.event.handler.KeyEventHandler",
     /**
      * Checks whether a given string is a valid keyIdentifier
      *
-     * @type member
      * @param keyIdentifier {String} The key identifier.
      * @return {Boolean} whether the given string is a valid keyIdentifier
      */
@@ -549,7 +544,6 @@ qx.Class.define("qx.legacy.event.handler.KeyEventHandler",
     /**
      * converts a keyboard code to the corresponding identifier
      *
-     * @type member
      * @param keyCode {Integer} key code
      * @return {String} key identifier
      */
@@ -575,7 +569,6 @@ qx.Class.define("qx.legacy.event.handler.KeyEventHandler",
     /**
      * converts a character code to the corresponding identifier
      *
-     * @type member
      * @param charCode {String} character code
      * @return {String} key identifier
      */
@@ -587,7 +580,6 @@ qx.Class.define("qx.legacy.event.handler.KeyEventHandler",
     /**
      * converts a key identifier back to a keycode
      *
-     * @type member
      * @param keyIdentifier {String} The key identifier to convert
      * @return {Integer} keyboard code
      */
@@ -608,7 +600,6 @@ qx.Class.define("qx.legacy.event.handler.KeyEventHandler",
      * Key handler for an idealized browser.
      * Runs after the browser specific key handlers have normalized the key events.
      *
-     * @type member
      * @param keyCode {String} keyboard code
      * @param charCode {String} character code
      * @param eventType {String} type of the event (keydown, keypress, keyup)

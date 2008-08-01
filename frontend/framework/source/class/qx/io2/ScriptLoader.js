@@ -67,7 +67,6 @@ qx.Bootstrap.define("qx.io2.ScriptLoader",
      * The callback is executed when the process is done with any
      * of these status messages: success, fail or abort.
      *
-     * @type static
      * @param options {var} TODOC
      * @param callback {var} TODOC
      * @return {void}
@@ -108,7 +107,6 @@ qx.Bootstrap.define("qx.io2.ScriptLoader",
     /**
      * Aborts a currently running process.
      *
-     * @type member
      * @return {void}
      */
     abort : function()
@@ -123,7 +121,6 @@ qx.Bootstrap.define("qx.io2.ScriptLoader",
      * Internal cleanup method used after every successful
      * or failed loading attempt.
      *
-     * @type member
      * @param status {String} Any of success, fail or abort.
      * @return {void}
      */
@@ -149,7 +146,6 @@ qx.Bootstrap.define("qx.io2.ScriptLoader",
     /**
      * Internal event listener for load and error events.
      *
-     * @type member
      * @param e {Event} Native event object
      * @return {void}
      */

@@ -55,7 +55,6 @@ qx.Class.define("qx.dev.unit.TestSuite",
     /**
      * TODOC
      *
-     * @type member
      * @param testClassOrNamespace {var} TODOC
      * @return {void}
      */
@@ -88,7 +87,6 @@ qx.Class.define("qx.dev.unit.TestSuite",
     /**
      * TODOC
      *
-     * @type member
      * @param namespace {var} TODOC
      * @return {void}
      */
@@ -114,7 +112,6 @@ qx.Class.define("qx.dev.unit.TestSuite",
     /**
      * TODOC
      *
-     * @type member
      * @param name {var} TODOC
      * @param fcn {var} TODOC
      * @return {void}
@@ -127,7 +124,6 @@ qx.Class.define("qx.dev.unit.TestSuite",
     /**
      * TODOC
      *
-     * @type member
      * @param clazz {var} TODOC
      * @param functionName {var} TODOC
      * @return {void}
@@ -140,7 +136,6 @@ qx.Class.define("qx.dev.unit.TestSuite",
     /**
      * TODOC
      *
-     * @type member
      * @param clazz {var} TODOC
      * @return {void}
      */
@@ -181,7 +176,6 @@ qx.Class.define("qx.dev.unit.TestSuite",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     getTestClasses : function()
@@ -204,7 +198,6 @@ qx.Class.define("qx.dev.unit.TestSuite",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     getTestMethods : function()
@@ -227,7 +220,6 @@ qx.Class.define("qx.dev.unit.TestSuite",
     /**
      * currently not working
      *
-     * @type member
      * @return {void}
      */
     addPollutionCheck : function() {},
@@ -236,7 +228,6 @@ qx.Class.define("qx.dev.unit.TestSuite",
     /**
      * currently not working !!!
      *
-     * @type member
      * @return {void}
      */
     __pollutionCheck : function()

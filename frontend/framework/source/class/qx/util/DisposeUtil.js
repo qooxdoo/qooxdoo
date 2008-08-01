@@ -27,7 +27,6 @@ qx.Class.define("qx.util.DisposeUtil",
     /**
      * Disconnects given fields from instance.
      *
-     * @type static
      * @param obj {Object} Object which contains the fields
      * @param arr {Array} List of fields to dispose
      * @return {void}
@@ -53,7 +52,6 @@ qx.Class.define("qx.util.DisposeUtil",
      * Disconnects and disposes given objects from instance.
      * Only works with qx.core.Object based objects e.g. Widgets.
      *
-     * @type static
      * @param obj {Object} Object which contains the fields
      * @param arr {Array} List of fields (which store objects) to dispose
      * @return {void}
@@ -80,7 +78,6 @@ qx.Class.define("qx.util.DisposeUtil",
      * Disposes all members of the given array and deletes
      * the field which refers to the array afterwards.
      *
-     * @type static
      * @param obj {Object} Object which contains the field
      * @param field {String} Name of the field which refers to the array
      * @return {void}
@@ -109,7 +106,6 @@ qx.Class.define("qx.util.DisposeUtil",
      * Disposes all members of the given map and deletes
      * the field which refers to the map afterwards.
      *
-     * @type static
      * @param obj {Object} Object which contains the field
      * @param field {String} Name of the field which refers to the array
      * @return {void}

@@ -203,7 +203,6 @@ qx.Mixin.define("qx.core.MAssert",
     /**
      * Asserts that the callback raises a matching exception.
      *
-     * @type member
      * @param callback {Function} function to check
      * @param exception {Error?Error} Expected constructor of the exception.
      *   The assertion fails if the raised exception is not an instance of the

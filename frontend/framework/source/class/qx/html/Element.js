@@ -161,7 +161,6 @@ qx.Class.define("qx.html.Element",
     /**
      * Flush the global modified list
      *
-     * @type static
      */
     flush : function()
     {
@@ -407,7 +406,6 @@ qx.Class.define("qx.html.Element",
     /**
      * Add the element to the global modification list.
      *
-     * @type static
      * @return {void}
      */
     _scheduleChildrenUpdate : function()
@@ -425,7 +423,6 @@ qx.Class.define("qx.html.Element",
     /**
      * Internal helper to generate the DOM element
      *
-     * @type member
      */
     _createDomElement : function() {
       return qx.bom.Element.create(this._nodeName);
@@ -445,7 +442,6 @@ qx.Class.define("qx.html.Element",
     /**
      * Syncs data of an HtmlElement object to the DOM.
      *
-     * @type member
      * @return {void}
      */
     __flush : function()
@@ -509,7 +505,6 @@ qx.Class.define("qx.html.Element",
      * created. After this initial apply {@link #_syncChildren} is used
      * instead.
      *
-     * @type member
      * @return {void}
      */
     _insertChildren : function()
@@ -550,7 +545,6 @@ qx.Class.define("qx.html.Element",
      * for further runtime updates after the element has been created
      * initially.
      *
-     * @type member
      * @return {void}
      */
     _syncChildren : function()
@@ -648,7 +642,6 @@ qx.Class.define("qx.html.Element",
      * simply copies all the data and only works well directly after
      * element creation. After this the data must be synced using {@link #_syncData}
      *
-     * @type member
      * @return {void}
      */
     _copyData : function()
@@ -707,7 +700,6 @@ qx.Class.define("qx.html.Element",
      * is the counterpart of {@link #_copyData} and is used for further updates
      * after the element has been created.
      *
-     * @type member
      * @return {void}
      */
     _syncData : function()
@@ -827,7 +819,6 @@ qx.Class.define("qx.html.Element",
     /**
      * Generates a unique key for a listener configuration
      *
-     * @type member
      * @param type {String} Name of the event
      * @param listener {Function} Function to execute on event
      * @param self {Object} Execution context of given function
@@ -854,7 +845,6 @@ qx.Class.define("qx.html.Element",
     /**
      * Internal helper for all children addition needs
      *
-     * @type member
      * @param child {var} the element to add
      * @throws an exception if the given element is already a child
      *     of this element
@@ -887,7 +877,6 @@ qx.Class.define("qx.html.Element",
     /**
      * Internal helper for all children removal needs
      *
-     * @type member
      * @param child {qx.html.Element} the removed element
      * @throws an exception if the given element is not a child
      *     of this element
@@ -911,7 +900,6 @@ qx.Class.define("qx.html.Element",
     /**
      * Internal helper for all children move needs
      *
-     * @type member
      * @param child {qx.html.Element} the moved element
      * @throws an exception if the given element is not a child
      *     of this element
@@ -940,7 +928,6 @@ qx.Class.define("qx.html.Element",
     /**
      * Returns a copy of the internal children structure.
      *
-     * @type member
      * @return {Array} the children list
      */
     getChildren : function()
@@ -975,7 +962,6 @@ qx.Class.define("qx.html.Element",
     /**
      * Find the position of the given child
      *
-     * @type member
      * @param child {qx.html.Element} the child
      * @return {Integer} returns the position. If the element
      *     is not a child <code>-1</code> will be returned.
@@ -988,7 +974,6 @@ qx.Class.define("qx.html.Element",
     /**
      * Whether the given element is a child of this element.
      *
-     * @type member
      * @param child {qx.html.Element} the child
      * @return {Boolean} Returns <code>true</code> when the given
      *    element is a child of this element.
@@ -1001,7 +986,6 @@ qx.Class.define("qx.html.Element",
     /**
      * Append all given children at the end of this element.
      *
-     * @type member
      * @param childs {qx.html.Element...} elements to insert
      * @return {qx.html.Element} this object (for chaining support)
      */
@@ -1031,7 +1015,6 @@ qx.Class.define("qx.html.Element",
     /**
      * Inserts a new element into this element at the given position.
      *
-     * @type member
      * @param child {qx.html.Element} the element to insert
      * @param index {Integer} the index (starts at 0 for the
      *     first child) to insert (the index of the following
@@ -1051,7 +1034,6 @@ qx.Class.define("qx.html.Element",
     /**
      * Removes all given children
      *
-     * @type member
      * @param childs {qx.html.Element...} children to remove
      * @return {qx.html.Element} this object (for chaining support)
      */
@@ -1082,7 +1064,6 @@ qx.Class.define("qx.html.Element",
     /**
      * Removes the child at the given index
      *
-     * @type member
      * @param index {Integer} the position of the
      *     child (starts at 0 for the first child)
      * @return {qx.html.Element} this object (for chaining support)
@@ -1106,7 +1087,6 @@ qx.Class.define("qx.html.Element",
     /**
      * Remove all children from this element.
      *
-     * @type member
      * @return
      */
     removeAll : function()
@@ -1137,7 +1117,6 @@ qx.Class.define("qx.html.Element",
     /**
      * Returns the parent of this element.
      *
-     * @type member
      * @return {qx.html.Element|null} The parent of this element
      */
     getParent : function() {
@@ -1150,7 +1129,6 @@ qx.Class.define("qx.html.Element",
      * but optionally a position can be defined. With index <code>0</code> it
      * will be inserted at the begin.
      *
-     * @type member
      * @param parent {qx.html.Element} The new parent of this element
      * @param index {Integer?null} Optional position
      * @return {qx.html.Element} this object (for chaining support)
@@ -1172,7 +1150,6 @@ qx.Class.define("qx.html.Element",
     /**
      * Insert self before the given (related) element
      *
-     * @type member
      * @param rel {qx.html.Element} the related element
      * @return {qx.html.Element} this object (for chaining support)
      */
@@ -1190,7 +1167,6 @@ qx.Class.define("qx.html.Element",
     /**
      * Insert self after the given (related) element
      *
-     * @type member
      * @param rel {qx.html.Element} the related element
      * @return {qx.html.Element} this object (for chaining support)
      */
@@ -1208,7 +1184,6 @@ qx.Class.define("qx.html.Element",
     /**
      * Move self to the given index in the current parent.
      *
-     * @type member
      * @param index {Integer} the index (starts at 0 for the first child)
      * @return {qx.html.Element} this object (for chaining support)
      * @throws an exception when the given element is not child
@@ -1238,7 +1213,6 @@ qx.Class.define("qx.html.Element",
     /**
      * Move self before the given (related) child.
      *
-     * @type member
      * @param rel {qx.html.Element} the related child
      * @return {qx.html.Element} this object (for chaining support)
      */
@@ -1252,7 +1226,6 @@ qx.Class.define("qx.html.Element",
     /**
      * Move self after the given (related) child.
      *
-     * @type member
      * @param rel {qx.html.Element} the related child
      * @return {qx.html.Element} this object (for chaining support)
      */
@@ -1266,7 +1239,6 @@ qx.Class.define("qx.html.Element",
     /**
      * Remove self from the current parent.
      *
-     * @type member
      * @return {qx.html.Element} this object (for chaining support)
      */
     free : function()
@@ -1299,7 +1271,6 @@ qx.Class.define("qx.html.Element",
      * It is better to make all changes to the object itself using the public
      * API rather than to the underlying DOM element.
      *
-     * @type member
      * @return {Element} The DOM element node
      */
     getDomElement : function() {
@@ -1310,7 +1281,6 @@ qx.Class.define("qx.html.Element",
     /**
      * Returns the nodeName of the DOM element.
      *
-     * @type member
      * @return {String} The node name
      */
     getNodeName : function() {
@@ -1321,7 +1291,6 @@ qx.Class.define("qx.html.Element",
     /**
      * Whether the element is focusable (or will be when created)
      *
-     * @type member
      * @return {Boolean} <code>true</code> when the element is focusable.
      */
     isFocusable : function()
@@ -1345,7 +1314,6 @@ qx.Class.define("qx.html.Element",
      *
      * This ignores the configured tabIndex.
      *
-     * @type member
      * @return {Boolean} <code>true</code> when the element is focusable.
      */
     isNativelyFocusable : function() {
@@ -1368,7 +1336,6 @@ qx.Class.define("qx.html.Element",
      * Marks the element as included which means it will be moved into
      * the DOM again and synced with the internal data representation.
      *
-     * @type member
      * @return {qx.html.Element} this object (for chaining support)
      */
     include : function()
@@ -1391,7 +1358,6 @@ qx.Class.define("qx.html.Element",
      * Marks the element as excluded which means it will be removed
      * from the DOM and ignored for updates until it gets included again.
      *
-     * @type member
      * @return {qx.html.Element} this object (for chaining support)
      */
     exclude : function()
@@ -1435,7 +1401,6 @@ qx.Class.define("qx.html.Element",
      * CSS style of display=none gets removed and the element will inserted
      * into the DOM, when this had not already happend before.
      *
-     * @type member
      * @return {qx.html.Element} this object (for chaining support)
      */
     show : function()
@@ -1463,7 +1428,6 @@ qx.Class.define("qx.html.Element",
      * Marks the element as hidden which means it will kept in DOM (if it
      * is already there, but configured hidden using a CSS style of display=none).
      *
-     * @type member
      * @return {qx.html.Element} this object (for chaining support)
      */
     hide : function()
@@ -1513,7 +1477,6 @@ qx.Class.define("qx.html.Element",
      * If the element is currently invisible it gets scrolled automatically
      * at the next time it is visible again (queued).
      *
-     * @type member
      * @param elem {qx.html.Element} The element to scroll into the viewport.
      * @param align {String?null} Alignment of the element. Allowed values:
      *   <code>left</code> or <code>right</code>. Could also be null.
@@ -1586,7 +1549,6 @@ qx.Class.define("qx.html.Element",
     /**
      * Scrolls the element to the given left position.
      *
-     * @type member
      * @param x {Integer} Horizontal scroll position
      * @param lazy {Boolean?false} Whether the scrolling should be performed
      *    during element flush.
@@ -1613,7 +1575,6 @@ qx.Class.define("qx.html.Element",
     /**
      * Get the horizontal scroll position.
      *
-     * @type member
      * @return {Integer} Horizontal scroll position
      */
     getScrollX : function()
@@ -1630,7 +1591,6 @@ qx.Class.define("qx.html.Element",
     /**
      * Scrolls the element to the given top position.
      *
-     * @type member
      * @param y {Integer} Vertical scroll position
      * @param lazy {Boolean?false} Whether the scrolling should be performed
      *    during element flush.
@@ -1657,7 +1617,6 @@ qx.Class.define("qx.html.Element",
     /**
      * Get the vertical scroll position.
      *
-     * @type member
      * @return {Integer} Vertical scroll position
      */
     getScrollY : function()
@@ -1685,7 +1644,6 @@ qx.Class.define("qx.html.Element",
      * If the underlaying DOM element is not yet created, this methods returns
      * a null value.
      *
-     * @type member
      * @return {String|null}
      */
     getSelection : function()
@@ -1706,7 +1664,6 @@ qx.Class.define("qx.html.Element",
      * If the underlaying DOM element is not yet created, this methods returns
      * a null value.
      *
-     * @type member
      * @return {Integer|null}
      */
     getSelectionLength : function()
@@ -1727,7 +1684,6 @@ qx.Class.define("qx.html.Element",
      *
      * This method only works if the underlying DOM element is already created.
      *
-     * @type member
      * @param start {Integer} start of the selection (zero based)
      * @param end {Integer} end of the selection
      * @return {void}
@@ -1747,7 +1703,6 @@ qx.Class.define("qx.html.Element",
      *
      * This method only works if the underlying DOM element is already created.
      *
-     * @type member
      * @return {void}
      */
     clearSelection : function()
@@ -1774,7 +1729,6 @@ qx.Class.define("qx.html.Element",
      * If the underlaying DOM element is not yet created, the
      * focus is queued for processing after the element creation.
      *
-     * @type member
      * @return {void}
      */
     focus : function()
@@ -1792,7 +1746,6 @@ qx.Class.define("qx.html.Element",
     /**
      * Mark this element to get blurred on the next flush of the queue
      *
-     * @type member
      * @return {void}
      */
     blur : function()
@@ -1807,7 +1760,6 @@ qx.Class.define("qx.html.Element",
     /**
      * Mark this element to get activated on the next flush of the queue
      *
-     * @type member
      * @return {void}
      */
     activate : function()
@@ -1825,7 +1777,6 @@ qx.Class.define("qx.html.Element",
     /**
      * Mark this element to get deactivated on the next flush of the queue
      *
-     * @type member
      * @return {void}
      */
     deactivate : function()
@@ -1876,7 +1827,6 @@ qx.Class.define("qx.html.Element",
     /**
      * Set up the given style attribute
      *
-     * @type member
      * @param key {String} the name of the style attribute
      * @param value {var} the value
      * @param direct {Boolean?false} Whether the value should be applied
@@ -1931,7 +1881,6 @@ qx.Class.define("qx.html.Element",
     /**
      * Convenience method to modify a set of styles at once.
      *
-     * @type member
      * @param map {Map} a map where the key is the name of the property
      *    and the value is the value to use.
      * @param direct {Boolean?false} Whether the values should be applied
@@ -1951,7 +1900,6 @@ qx.Class.define("qx.html.Element",
     /**
      * Removes the given style attribute
      *
-     * @type member
      * @param key {String} the name of the style attribute
      * @param direct {Boolean?false} Whether the value should be removed
      *    directly (without queuing)
@@ -1965,7 +1913,6 @@ qx.Class.define("qx.html.Element",
     /**
      * Get the value of the given style attribute.
      *
-     * @type member
      * @param key {String} name of the style attribute
      * @return {var} the value of the style attribute
      */
@@ -1986,7 +1933,6 @@ qx.Class.define("qx.html.Element",
     /**
      * Set up the given attribute
      *
-     * @type member
      * @param key {String} the name of the attribute
      * @param value {var} the value
      * @param direct {Boolean?false} Whether the value should be applied
@@ -2041,7 +1987,6 @@ qx.Class.define("qx.html.Element",
     /**
      * Convenience method to modify a set of attributes at once.
      *
-     * @type member
      * @param map {Map} a map where the key is the name of the property
      *    and the value is the value to use.
      * @param direct {Boolean?false} Whether the values should be applied
@@ -2061,7 +2006,6 @@ qx.Class.define("qx.html.Element",
     /**
      * Removes the given attribute
      *
-     * @type member
      * @param key {String} the name of the attribute
      * @param direct {Boolean?false} Whether the value should be removed
      *    directly (without queuing)
@@ -2075,7 +2019,6 @@ qx.Class.define("qx.html.Element",
     /**
      * Get the value of the given attribute.
      *
-     * @type member
      * @param key {String} name of the attribute
      * @return {var} the value of the attribute
      */
@@ -2100,7 +2043,6 @@ qx.Class.define("qx.html.Element",
      * extended by sub classes to add new low level features which
      * are not easily possible using styles and attributes.
      *
-     * @type member
      * @param name {String} Unique property identifier
      * @param value {var} Any valid value (depends on the property)
      * @return {qx.html.Element} this object (for chaining support)
@@ -2113,7 +2055,6 @@ qx.Class.define("qx.html.Element",
     /**
      * Set up the given property.
      *
-     * @type member
      * @param key {String} the name of the property
      * @param value {var} the value
      * @param direct {Boolean?false} Whether the value should be applied
@@ -2168,7 +2109,6 @@ qx.Class.define("qx.html.Element",
     /**
      * Removes the given misc
      *
-     * @type member
      * @param key {String} the name of the misc
      * @param direct {Boolean?false} Whether the value should be removed
      *    directly (without queuing)
@@ -2182,7 +2122,6 @@ qx.Class.define("qx.html.Element",
     /**
      * Get the value of the given misc.
      *
-     * @type member
      * @param key {String} name of the misc
      * @return {var} the value of the misc
      */
@@ -2205,7 +2144,6 @@ qx.Class.define("qx.html.Element",
     /**
      * Adds an event listener to the element.
      *
-     * @type member
      * @param type {String} Name of the event
      * @param listener {Function} Function to execute on event
      * @param self {Object} Execution context of given function
@@ -2266,7 +2204,6 @@ qx.Class.define("qx.html.Element",
     /**
      * Removes an event listener from the element.
      *
-     * @type member
      * @param type {String} Name of the event
      * @param listener {Function} Function to execute on event
      * @param self {Object} Execution context of given function

@@ -32,7 +32,6 @@ qx.Class.define("qx.ui.core.queue.Layout",
      *
      * Should only be used by {@link qx.ui.core.Widget}.
      *
-     * @type static
      * @param widget {qx.ui.core.Widget} Widget to add.
      * @return {void}
      */
@@ -48,7 +47,6 @@ qx.Class.define("qx.ui.core.queue.Layout",
      *
      * This is used exclusively by the {@link qx.ui.core.queue.Manager}.
      *
-     * @type static
      * @return {void}
      */
     flush : function()
@@ -90,7 +88,6 @@ qx.Class.define("qx.ui.core.queue.Layout",
      * Get the widget's nesting level. Top level widgets have a nesting level
      * of <code>0</code>.
      *
-     * @type static
      * @param widget {qx.ui.core.Widget} The widget to query.
      * @return {Integer} The nesting level
      */
@@ -132,7 +129,6 @@ qx.Class.define("qx.ui.core.queue.Layout",
     /**
      * Whether the given widget is visible.
      *
-     * @type static
      * @param widget {qx.ui.core.Widget} The widget to test
      * @return {Boolean} <code>true</code> when the widget is visible.
      */

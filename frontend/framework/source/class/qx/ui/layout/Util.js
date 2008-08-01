@@ -32,7 +32,6 @@ qx.Class.define("qx.ui.layout.Util",
      * potential of the given elements (being in the range of
      * their min/max values)
      *
-     * @type static
      * @param flexibles {Map[]) Each entry must have these keys:
      *   <code>id</code>, <code>potential</code> and <code>flex</code>.
      *   The ID is used in the result map as the key for the user to work
@@ -139,7 +138,6 @@ qx.Class.define("qx.ui.layout.Util",
      * to result in the stated vertical alignment. Also respects
      * existing margins (without collapsing).
      *
-     * @type static
      * @param align {String} One of <code>top</code>, <code>center</code> or <code>bottom</code>.
      * @param width {Integer} The visible width of the widget
      * @param availWidth {Integer} The available inner width of the parent
@@ -193,7 +191,6 @@ qx.Class.define("qx.ui.layout.Util",
      * to result in the stated vertical alignment. Also respects
      * existing margins (without collapsing).
      *
-     * @type static
      * @param align {String} One of <code>top</code>, <code>middle</code> or <code>bottom</code>.
      * @param height {Integer} The visible height of the widget
      * @param availHeight {Integer} The available inner height of the parent
@@ -250,7 +247,6 @@ qx.Class.define("qx.ui.layout.Util",
      * negative value. Afterwards the result is computed through the
      * substraction of the negative from the positive value.
      *
-     * @type member
      * @param varargs {arguments} Any number of configured margins
      * @return {Integer} The collapsed margin
      */
@@ -279,7 +275,6 @@ qx.Class.define("qx.ui.layout.Util",
      * The method optionally respects margin collapsing as well. In
      * this mode the spacing is collapsed together with the margins.
      *
-     * @type member
      * @param children {Array} List of children
      * @param spacing {Integer?0} Spacing between every child
      * @param collapse {Boolean?false} Optional margin collapsing mode
@@ -327,7 +322,6 @@ qx.Class.define("qx.ui.layout.Util",
      * The method optionally respects margin collapsing as well. In
      * this mode the spacing is collapsed together with the margins.
      *
-     * @type member
      * @param children {Array} List of children
      * @param spacing {Integer?0} Spacing between every child
      * @param collapse {Boolean?false} Optional margin collapsing mode
@@ -371,7 +365,6 @@ qx.Class.define("qx.ui.layout.Util",
     /**
      * Computes the gaps together with the configuration of separators.
      *
-     * @type member
      * @param children {qx.ui.core.LayoutItem[]} List of children
      * @param spacing {Integer} Configured spacing
      * @param width {Integer} Width of the separator
@@ -399,7 +392,6 @@ qx.Class.define("qx.ui.layout.Util",
      * Mainly used by split layouts (Split Panes) where the layout is mainly defined
      * by the outer dimensions.
      *
-     * @type member
      * @param beginMin {Integer} Minimum size of first widget (from size hint)
      * @param beginIdeal {Integer} Ideal size of first widget (maybe after dragging the splitter)
      * @param beginMax {Integer} Maximum size of first widget (from size hint)

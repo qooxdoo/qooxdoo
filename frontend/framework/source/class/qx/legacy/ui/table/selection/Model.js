@@ -160,7 +160,6 @@ qx.Class.define("qx.legacy.ui.table.selection.Model",
      * In this case, batch mode will not end until it has been turned off once for each
      * turning on.
      *
-     * @type member
      * @param batchMode {Boolean} true to activate batch mode, false to deactivate
      * @return {Boolean} true if batch mode is active, false otherwise
      * @throws Error if batch mode is turned off once more than it has been turned on
@@ -193,7 +192,6 @@ qx.Class.define("qx.legacy.ui.table.selection.Model",
      *
      * Returns whether batch mode is active. See setter for a description of batch mode.
      *
-     * @type member
      * @return {Boolean} true if batch mode is active, false otherwise
      */
     hasBatchMode : function() {
@@ -205,7 +203,6 @@ qx.Class.define("qx.legacy.ui.table.selection.Model",
      * Returns the first argument of the last call to {@link #setSelectionInterval()},
      * {@link #addSelectionInterval()} or {@link #removeSelectionInterval()}.
      *
-     * @type member
      * @return {Integer} the ancor selection index.
      */
     getAnchorSelectionIndex : function() {
@@ -217,7 +214,6 @@ qx.Class.define("qx.legacy.ui.table.selection.Model",
      * Returns the second argument of the last call to {@link #setSelectionInterval()},
      * {@link #addSelectionInterval()} or {@link #removeSelectionInterval()}.
      *
-     * @type member
      * @return {Integer} the lead selection index.
      */
     getLeadSelectionIndex : function() {
@@ -228,7 +224,6 @@ qx.Class.define("qx.legacy.ui.table.selection.Model",
     /**
      * Clears the selection.
      *
-     * @type member
      * @return {void}
      */
     clearSelection : function()
@@ -244,7 +239,6 @@ qx.Class.define("qx.legacy.ui.table.selection.Model",
     /**
      * Returns whether the selection is empty.
      *
-     * @type member
      * @return {Boolean} whether the selection is empty.
      */
     isSelectionEmpty : function() {
@@ -255,7 +249,6 @@ qx.Class.define("qx.legacy.ui.table.selection.Model",
     /**
      * Returns the number of selected items.
      *
-     * @type member
      * @return {Integer} the number of selected items.
      */
     getSelectedCount : function()
@@ -275,7 +268,6 @@ qx.Class.define("qx.legacy.ui.table.selection.Model",
     /**
      * Returns whether a index is selected.
      *
-     * @type member
      * @param index {Integer} the index to check.
      * @return {Boolean} whether the index is selected.
      */
@@ -298,7 +290,6 @@ qx.Class.define("qx.legacy.ui.table.selection.Model",
      * Returns the selected ranges as an array. Each array element has a
      * <code>minIndex</code> and a <code>maxIndex</code> property.
      *
-     * @type member
      * @return {Map[]} the selected ranges.
      */
     getSelectedRanges : function()
@@ -331,7 +322,6 @@ qx.Class.define("qx.legacy.ui.table.selection.Model",
      * });
      * </pre>
      *
-     * @type member
      * @param iterator {Function} the function to call for each selected index.
      *          Gets the current index as parameter.
      * @param object {var ? null} the object to use when calling the handler.
@@ -352,7 +342,6 @@ qx.Class.define("qx.legacy.ui.table.selection.Model",
     /**
      * Sets the selected interval. This will clear the former selection.
      *
-     * @type member
      * @param fromIndex {Integer} the first index of the selection (including).
      * @param toIndex {Integer} the last index of the selection (including).
      * @return {void}
@@ -404,7 +393,6 @@ qx.Class.define("qx.legacy.ui.table.selection.Model",
     /**
      * Adds a selection interval to the current selection.
      *
-     * @type member
      * @param fromIndex {Integer} the first index of the selection (including).
      * @param toIndex {Integer} the last index of the selection (including).
      * @return {void}
@@ -434,7 +422,6 @@ qx.Class.define("qx.legacy.ui.table.selection.Model",
     /**
      * Removes a interval from the current selection.
      *
-     * @type member
      * @param fromIndex {Integer} the first index of the interval (including).
      * @param toIndex {Integer} the last index of the interval (including).
      * @return {void}
@@ -508,7 +495,6 @@ qx.Class.define("qx.legacy.ui.table.selection.Model",
     /**
      * Clears the selection, but doesn't inform the listeners.
      *
-     * @type member
      * @return {void}
      */
     _clearSelection : function()
@@ -523,7 +509,6 @@ qx.Class.define("qx.legacy.ui.table.selection.Model",
      * Adds a selection interval to the current selection, but doesn't inform
      * the listeners.
      *
-     * @type member
      * @param fromIndex {Integer} the first index of the selection (including).
      * @param toIndex {Integer} the last index of the selection (including).
      * @return {void}
@@ -584,7 +569,6 @@ qx.Class.define("qx.legacy.ui.table.selection.Model",
     /**
      * Logs the current ranges for debug perposes.
      *
-     * @type member
      * @return {void}
      */
     _dumpRanges : function()
@@ -605,7 +589,6 @@ qx.Class.define("qx.legacy.ui.table.selection.Model",
      * Fires the "changeSelection" event to all registered listeners. If the selection model
      * currently is in batch mode, only one event will be thrown when batch mode is ended.
      *
-     * @type member
      * @return {void}
      */
     _fireChangeSelection : function()

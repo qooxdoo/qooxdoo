@@ -122,7 +122,6 @@ qx.Class.define("qx.bom.element.Overflow",
     /**
      * Compiles the given property into a cross-browser style string.
      *
-     * @type static
      * @signature function(prop, value)
      * @param prop {String} Property name (overflowX or overflowY)
      * @param value {String} Overflow value for the given axis
@@ -173,7 +172,6 @@ qx.Class.define("qx.bom.element.Overflow",
     /**
      * Compiles the horizontal overflow property into a cross-browser style string.
      *
-     * @type static
      * @param value {String} Overflow value
      * @return {String} CSS string
      */
@@ -185,7 +183,6 @@ qx.Class.define("qx.bom.element.Overflow",
     /**
      * Compiles the vertical overflow property into a cross-browser style string.
      *
-     * @type static
      * @param value {String} Overflow value
      * @return {String} CSS string
      */
@@ -211,7 +208,6 @@ qx.Class.define("qx.bom.element.Overflow",
     /**
      * Returns the computed value of the horizontal overflow
      *
-     * @type static
      * @signature function(element, mode)
      * @param element {Element} DOM element to query
      * @param mode {Number} Choose one of the modes {@link qx.bom.element.Style#COMPUTED_MODE},
@@ -266,7 +262,6 @@ qx.Class.define("qx.bom.element.Overflow",
     /**
      * Sets the local horizontal overflow value to the given value
      *
-     * @type static
      * @signature function(element, value)
      * @param element {Element} DOM element to modify
      * @param value {String} Any of "visible", "scroll", "hidden", "auto" or ""
@@ -317,7 +312,6 @@ qx.Class.define("qx.bom.element.Overflow",
     /**
      * Removes the locally configured horizontal overflow property
      *
-     * @type static
      * @signature function(element)
      * @param element {Element} DOM element to modify
      * @return {void}
@@ -358,7 +352,6 @@ qx.Class.define("qx.bom.element.Overflow",
     /**
      * Returns the computed value of the vertical overflow
      *
-     * @type static
      * @signature function(element, mode)
      * @param element {Element} DOM element to query
      * @param mode {Number} Choose one of the modes {@link qx.bom.element.Style#COMPUTED_MODE},
@@ -413,7 +406,6 @@ qx.Class.define("qx.bom.element.Overflow",
     /**
      * Sets the local vertical overflow value to the given value
      *
-     * @type static
      * @signature function(element, value)
      * @param element {Element} DOM element to modify
      * @param value {String} Any of "visible", "scroll", "hidden", "auto" or ""
@@ -466,7 +458,6 @@ qx.Class.define("qx.bom.element.Overflow",
     /**
      * Removes the locally configured vertical overflow property
      *
-     * @type static
      * @signature function(element)
      * @param element {Element} DOM element to modify
      * @return {void}

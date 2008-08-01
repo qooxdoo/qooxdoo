@@ -35,7 +35,6 @@ qx.Mixin.define("qx.ui.core.MRemoteLayoutHandling",
      * with one widget. Reset the connection with a previous widget first, if you
      * like to use it in another widget instead.
      *
-     * @type member
      * @param layout {qx.ui.layout.Abstract} The new layout or
      *     <code>null</code> to reset the layout.
      * @return {void}
@@ -48,7 +47,6 @@ qx.Mixin.define("qx.ui.core.MRemoteLayoutHandling",
     /**
      * Get the widget's layout manager.
      *
-     * @type member
      * @return {qx.ui.layout.Abstract} The widget's layout manager
      */
     getLayout : function() {

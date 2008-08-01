@@ -374,7 +374,6 @@ qx.Class.define("qx.ui.window.Window",
      * The children container needed by the {@link qx.ui.core.MRemoteChildrenHandling}
      * mixin
      *
-     * @type member
      * @return {qx.ui.container.Composite} pane sub widget
      */
     getChildrenContainer : function() {

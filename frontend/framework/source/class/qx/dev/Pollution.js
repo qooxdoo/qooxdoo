@@ -104,7 +104,6 @@ qx.Class.define("qx.dev.Pollution",
     /**
      * Show the namespace pollution of a given object or the golbal namespace.
      *
-     * @type static
      * @param objectName {String ? "window"} name of the object to inspect. Valid Names are:
      *     <ul>
      *       <li>window</li>
@@ -128,7 +127,6 @@ qx.Class.define("qx.dev.Pollution",
     /**
      * Return a list of objects which are not supposed to be in the given object.
      *
-     * @type static
      * @param objectName {String} Name of the objects to inspect. Valid names are:
      *     <ul>
      *       <li>window</li>
@@ -212,7 +210,6 @@ qx.Class.define("qx.dev.Pollution",
     /**
      * Format the global pollution list as a HTML fragment
      *
-     * @type static
      * @param objectName {String} Name of the objects to inspect. Valid names are:
      *     <ul>
      *       <li>window</li>
@@ -246,7 +243,6 @@ qx.Class.define("qx.dev.Pollution",
     /**
      * Format the global pollution list as a test list
      *
-     * @type static
      * @param objectName {String} Name of the objects to inspect. Valid names are:
      *     <ul>
      *       <li>window</li>

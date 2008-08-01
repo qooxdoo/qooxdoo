@@ -51,7 +51,6 @@ qx.Bootstrap.define("qx.core.ObjectRegistry",
      * shutdown. Each registered object must at least have a method
      * called <code>dispose</code>.
      *
-     * @type static
      * @param obj {Object} Any object with a dispose() method
      * @return {void}
      */
@@ -78,7 +77,6 @@ qx.Bootstrap.define("qx.core.ObjectRegistry",
     /**
      * Removes the given object from the database.
      *
-     * @type static
      * @param obj {Object} Any previously registered object
      * @return {void}
      */
@@ -100,7 +98,6 @@ qx.Bootstrap.define("qx.core.ObjectRegistry",
      * Returns an unique identifier for the given object. If such an identifier
      * does not yet exist, create it.
      *
-     * @type static
      * @param obj {Object} the Object to get the hashcode for
      * @return {Integer} unique identifier for the given object
      */
@@ -140,7 +137,6 @@ qx.Bootstrap.define("qx.core.ObjectRegistry",
      * Disposing all registered object and cleaning up registry. This is
      * automatically executed at application shutdown.
      *
-     * @type static
      * @return {void}
      */
     shutdown : function()
@@ -191,7 +187,6 @@ qx.Bootstrap.define("qx.core.ObjectRegistry",
     /**
      * Returns the object registry.
      *
-     * @type static
      * @return {Object} The registry
      */
     getRegistry : function() {

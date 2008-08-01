@@ -63,7 +63,6 @@ qx.Class.define("qx.bom.Viewport",
      * * Safari 3.0 beta (3.0.2)
      * * Internet Explorer 7.0
      *
-     * @type static
      * @signature function(win)
      * @param win {Window?window} The window to query
      * @return {Integer} The width of the viewable area of the page (excludes scrollbars).
@@ -111,7 +110,6 @@ qx.Class.define("qx.bom.Viewport",
      * * Safari 3.0 beta (3.0.2)
      * * Internet Explorer 7.0
      *
-     * @type static
      * @signature function(win)
      * @param win {Window?window} The window to query
      * @return {Integer} The Height of the viewable area of the page (excludes scrollbars).
@@ -151,7 +149,6 @@ qx.Class.define("qx.bom.Viewport",
      * * Safari 3.0 beta (3.0.2)
      * * Internet Explorer 7.0
      *
-     * @type static
      * @signature function(win)
      * @param win {Window?window} The window to query
      * @return {Integer} Scroll position from left edge, always a positive integer
@@ -187,7 +184,6 @@ qx.Class.define("qx.bom.Viewport",
      * * Safari 3.0 beta (3.0.2)
      * * Internet Explorer 7.0
      *
-     * @type static
      * @signature function(win)
      * @param win {Window?window} The window to query
      * @return {Integer} Scroll position from left edge, always a positive integer

@@ -66,7 +66,6 @@ qx.Class.define("qx.legacy.theme.manager.Widget",
 
     /**
      * Sync dependend objects with internal database
-     * @type member
      * @return {void}
      */
     syncWidgetTheme : function()

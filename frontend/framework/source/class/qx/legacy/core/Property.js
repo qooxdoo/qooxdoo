@@ -46,7 +46,6 @@ qx.Class.define("qx.legacy.core.Property",
      * Adds a so-named fast property to a prototype.
      *
      * @deprecated
-     * @type static
      * @param config {Map} Configuration structure
      * @param proto {Object} Prototype where the methods should be attached
      * @return {void}
@@ -121,7 +120,6 @@ qx.Class.define("qx.legacy.core.Property",
      * Adds a so-named cached property to a prototype
      *
      * @deprecated
-     * @type static
      * @param config {Map} Configuration structure
      * @param proto {Object} Prototype where the methods should be attached
      * @return {void}

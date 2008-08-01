@@ -209,7 +209,6 @@ qx.Class.define("qx.ui.layout.Dock",
     /**
      * Rebuilds cache for sorted children list.
      *
-     * @type member
      * @return {void}
      */
     __rebuildCache : function()

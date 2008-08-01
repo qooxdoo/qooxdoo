@@ -37,7 +37,6 @@ qx.Class.define("qx.locale.Key",
      * Return localized name of a key identifier
      * @{link qx.event.type.KeySequence}
      *
-     * @type static
      * @param size {String} format of the key identifier.
      *       Possible values: "short", "full"
      * @param keyIdentifier {String} key identifier to translate {@link qx.event.type.KeySequence}

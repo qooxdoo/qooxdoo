@@ -139,7 +139,6 @@ qx.Class.define("qx.legacy.ui.listview.ListViewPane",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     getView : function() {
@@ -177,7 +176,6 @@ qx.Class.define("qx.legacy.ui.listview.ListViewPane",
     /**
      * TODOC
      *
-     * @type member
      * @param vUpdate {var} TODOC
      * @return {void}
      */
@@ -271,7 +269,6 @@ qx.Class.define("qx.legacy.ui.listview.ListViewPane",
     /**
      * TODOC
      *
-     * @type member
      * @param vForce {var} TODOC
      * @return {void}
      */
@@ -297,7 +294,6 @@ qx.Class.define("qx.legacy.ui.listview.ListViewPane",
     /**
      * TODOC
      *
-     * @type member
      * @param vRelativeRow {var} TODOC
      * @return {void}
      */
@@ -342,7 +338,6 @@ qx.Class.define("qx.legacy.ui.listview.ListViewPane",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -362,7 +357,6 @@ qx.Class.define("qx.legacy.ui.listview.ListViewPane",
     /**
      * TODOC
      *
-     * @type member
      * @param vNew {var} TODOC
      * @param vOld {var} TODOC
      * @return {void} TODOC
@@ -387,7 +381,6 @@ qx.Class.define("qx.legacy.ui.listview.ListViewPane",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     getManager : function() {
@@ -398,7 +391,6 @@ qx.Class.define("qx.legacy.ui.listview.ListViewPane",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {var} TODOC
      */
@@ -415,7 +407,6 @@ qx.Class.define("qx.legacy.ui.listview.ListViewPane",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     getSelectedItem : function() {
@@ -426,7 +417,6 @@ qx.Class.define("qx.legacy.ui.listview.ListViewPane",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     getSelectedItems : function() {
@@ -437,7 +427,6 @@ qx.Class.define("qx.legacy.ui.listview.ListViewPane",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     getData : function() {
@@ -448,7 +437,6 @@ qx.Class.define("qx.legacy.ui.listview.ListViewPane",
     /**
      * TODOC
      *
-     * @type member
      * @param vItem {var} TODOC
      * @return {var} TODOC
      */
@@ -460,7 +448,6 @@ qx.Class.define("qx.legacy.ui.listview.ListViewPane",
     /**
      * TODOC
      *
-     * @type member
      * @param vItem {var} TODOC
      * @return {var} TODOC
      */
@@ -472,7 +459,6 @@ qx.Class.define("qx.legacy.ui.listview.ListViewPane",
     /**
      * TODOC
      *
-     * @type member
      * @param vItem {var} TODOC
      * @return {int} TODOC
      */
@@ -484,7 +470,6 @@ qx.Class.define("qx.legacy.ui.listview.ListViewPane",
     /**
      * TODOC
      *
-     * @type member
      * @param vItem {var} TODOC
      * @return {var} TODOC
      */
@@ -504,7 +489,6 @@ qx.Class.define("qx.legacy.ui.listview.ListViewPane",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -519,7 +503,6 @@ qx.Class.define("qx.legacy.ui.listview.ListViewPane",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -536,7 +519,6 @@ qx.Class.define("qx.legacy.ui.listview.ListViewPane",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -553,7 +535,6 @@ qx.Class.define("qx.legacy.ui.listview.ListViewPane",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -570,7 +551,6 @@ qx.Class.define("qx.legacy.ui.listview.ListViewPane",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -587,7 +567,6 @@ qx.Class.define("qx.legacy.ui.listview.ListViewPane",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -612,7 +591,6 @@ qx.Class.define("qx.legacy.ui.listview.ListViewPane",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -634,7 +612,6 @@ qx.Class.define("qx.legacy.ui.listview.ListViewPane",
     /**
      * TODOC
      *
-     * @type member
      * @param vItem {var} TODOC
      * @param vIsSelected {var} TODOC
      * @return {void}
@@ -649,7 +626,6 @@ qx.Class.define("qx.legacy.ui.listview.ListViewPane",
     /**
      * TODOC
      *
-     * @type member
      * @param vItem {var} TODOC
      * @param vIsAnchor {var} TODOC
      * @return {void}
@@ -664,7 +640,6 @@ qx.Class.define("qx.legacy.ui.listview.ListViewPane",
     /**
      * TODOC
      *
-     * @type member
      * @param vItem {var} TODOC
      * @param vIsLead {var} TODOC
      * @return {void}
@@ -679,7 +654,6 @@ qx.Class.define("qx.legacy.ui.listview.ListViewPane",
     /**
      * TODOC
      *
-     * @type member
      * @param vItem {var} TODOC
      * @param vAlignLeftTop {var} TODOC
      * @return {void}
@@ -694,7 +668,6 @@ qx.Class.define("qx.legacy.ui.listview.ListViewPane",
     /**
      * TODOC
      *
-     * @type member
      * @param vItem {var} TODOC
      * @param vAlignLeft {var} TODOC
      * @return {void}
@@ -705,7 +678,6 @@ qx.Class.define("qx.legacy.ui.listview.ListViewPane",
     /**
      * TODOC
      *
-     * @type member
      * @param vItem {var} TODOC
      * @param vAlignTop {var} TODOC
      * @return {void}
@@ -741,7 +713,6 @@ qx.Class.define("qx.legacy.ui.listview.ListViewPane",
     /**
      * TODOC
      *
-     * @type member
      * @param vScrollTop {var} TODOC
      * @return {void}
      */
@@ -755,7 +726,6 @@ qx.Class.define("qx.legacy.ui.listview.ListViewPane",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     getScrollTop : function() {
@@ -766,7 +736,6 @@ qx.Class.define("qx.legacy.ui.listview.ListViewPane",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     setScrollLeft : function() {
@@ -777,7 +746,6 @@ qx.Class.define("qx.legacy.ui.listview.ListViewPane",
     /**
      * TODOC
      *
-     * @type member
      * @return {Integer} TODOC
      */
     getScrollLeft : function() {
@@ -788,7 +756,6 @@ qx.Class.define("qx.legacy.ui.listview.ListViewPane",
     /**
      * TODOC
      *
-     * @type member
      * @param vItem {var} TODOC
      * @return {var} TODOC
      */
@@ -805,7 +772,6 @@ qx.Class.define("qx.legacy.ui.listview.ListViewPane",
     /**
      * TODOC
      *
-     * @type member
      * @param vItem {var} TODOC
      * @return {var} TODOC
      */
@@ -821,7 +787,6 @@ qx.Class.define("qx.legacy.ui.listview.ListViewPane",
     /**
      * TODOC
      *
-     * @type member
      * @param vItem {var} TODOC
      * @return {void}
      */

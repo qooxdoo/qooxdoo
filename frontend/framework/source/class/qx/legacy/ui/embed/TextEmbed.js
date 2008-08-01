@@ -106,7 +106,6 @@ qx.Class.define("qx.legacy.ui.embed.TextEmbed",
     /**
      * TODOC
      *
-     * @type member
      */
     _applyText : function()
     {
@@ -140,7 +139,6 @@ qx.Class.define("qx.legacy.ui.embed.TextEmbed",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -150,7 +148,6 @@ qx.Class.define("qx.legacy.ui.embed.TextEmbed",
 
 
     /**
-     * @type member
      * @param value {qx.legacy.ui.core.Font}
      */
     _styleFont : function(value) {
@@ -170,7 +167,6 @@ qx.Class.define("qx.legacy.ui.embed.TextEmbed",
     },
 
     /**
-     * @type member
      * @param value {var} any acceptable CSS color property
      */
     _styleTextColor : function(value) {
@@ -202,7 +198,6 @@ qx.Class.define("qx.legacy.ui.embed.TextEmbed",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     _applyElementData : function() {
@@ -213,7 +208,6 @@ qx.Class.define("qx.legacy.ui.embed.TextEmbed",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     _syncText : function() {

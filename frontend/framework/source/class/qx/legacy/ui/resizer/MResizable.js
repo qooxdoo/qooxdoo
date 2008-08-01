@@ -121,7 +121,6 @@ qx.Mixin.define("qx.legacy.ui.resizer.MResizable",
     /**
      * Adjust so that it returns a boolean instead of an array.
      *
-     * @type member
      * @return {Boolean} TODOC
      */
     isResizable : function() {
@@ -133,7 +132,6 @@ qx.Mixin.define("qx.legacy.ui.resizer.MResizable",
      * Adjust so that it returns a boolean instead of an array.
      * Wrapper around isResizable. Please use isResizable instead.
      *
-     * @type member
      * @return {Boolean} TODOC
      */
     getResizable : function() {
@@ -150,7 +148,6 @@ qx.Mixin.define("qx.legacy.ui.resizer.MResizable",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -254,7 +251,6 @@ qx.Mixin.define("qx.legacy.ui.resizer.MResizable",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -324,7 +320,6 @@ qx.Mixin.define("qx.legacy.ui.resizer.MResizable",
     /**
      * TODOC
      *
-     * @type member
      * @param p {var} TODOC
      * @param e {Event} TODOC
      * @return {var} TODOC
@@ -337,7 +332,6 @@ qx.Mixin.define("qx.legacy.ui.resizer.MResizable",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */

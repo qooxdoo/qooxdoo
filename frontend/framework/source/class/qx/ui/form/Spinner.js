@@ -295,7 +295,6 @@ qx.Class.define("qx.ui.form.Spinner",
      * It sets the value of the spinner to the maximum of the current spinner
      * value and the given min property value.
      *
-     * @type member
      * @param value {Number} The new value of the min property
      * @param old {Number} The old value of the min property
      */
@@ -312,7 +311,6 @@ qx.Class.define("qx.ui.form.Spinner",
      * It sets the value of the spinner to the minnimum of the current spinner
      * value and the given max property value.
      *
-     * @type member
      * @param value {Number} The new value of the max property
      * @param old {Number} The old value of the max property
      */
@@ -329,7 +327,6 @@ qx.Class.define("qx.ui.form.Spinner",
      * It checks the min and max values, disables / enables the
      * buttons and handles the wrap around.
      *
-     * @type member
      * @param value {Number} The new value of the spinner
      * @param old {Number} The former value of the spinner
      */
@@ -387,7 +384,6 @@ qx.Class.define("qx.ui.form.Spinner",
      * Apply routine for the editable property.<br/>
      * It sets the textfield of the spinner to not read only.
      *
-     * @type member
      * @param value {Boolean} The new value of the editable property
      * @param old {Boolean} The former value of the editable property
      */
@@ -405,7 +401,6 @@ qx.Class.define("qx.ui.form.Spinner",
      * Apply routine for the wrap property.<br/>
      * Enables all buttons if the wrapping is enabled.
      *
-     * @type member
      * @param value {Boolean} The new value of the wrap property
      * @param old {Boolean} The former value of the wrap property
      */
@@ -430,7 +425,6 @@ qx.Class.define("qx.ui.form.Spinner",
      * When setting a number format, the display of the
      * value in the textfield will be changed immediately.
      *
-     * @type member
      * @param value {Boolean} The new value of the numberFormat property
      * @param old {Boolean} The former value of the numberFormat property
      */
@@ -455,7 +449,6 @@ qx.Class.define("qx.ui.form.Spinner",
      * and "PageUp"/"PageDown" keys.<br/>
      * The corresponding button will be pressed.
      *
-     * @type member
      * @param e {qx.event.type.KeyEvent} keyDown event
      */
     _onKeyDown: function(e)
@@ -493,7 +486,6 @@ qx.Class.define("qx.ui.form.Spinner",
      * Detecting "Up"/"Down" and "PageUp"/"PageDown" keys.<br/>
      * Releases the button and disabled the page mode, if necessary.
      *
-     * @type member
      * @param e {qx.event.type.KeyEvent} keyUp event
      * @return {void}
      */
@@ -534,7 +526,6 @@ qx.Class.define("qx.ui.form.Spinner",
      * Callback method for the "mouseWheel" event.<br/>
      * Increments or decrements the value of the spinner.
      *
-     * @type member
      * @param e {qx.event.type.MouseEvent} mouseWheel event
      */
     _onMouseWheel: function(e)
@@ -547,7 +538,6 @@ qx.Class.define("qx.ui.form.Spinner",
     /**
      * Callback method for the "change" event of the textfield.
      *
-     * @type member
      * @param e {qx.ui.event.type.Event} text change event or blur event
      */
     _onTextChange : function(e)
@@ -617,7 +607,6 @@ qx.Class.define("qx.ui.form.Spinner",
      * Checks if the spinner is in page mode and couts either the single
      * or page Step up.
      *
-     * @type member
      */
     _countUp: function()
     {
@@ -645,7 +634,6 @@ qx.Class.define("qx.ui.form.Spinner",
      * Checks if the spinner is in page mode and couts either the single
      * or page Step down.
      *
-     * @type member
      */
     _countDown: function()
     {

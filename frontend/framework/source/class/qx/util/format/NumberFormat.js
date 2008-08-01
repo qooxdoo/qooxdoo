@@ -56,7 +56,6 @@ qx.Class.define("qx.util.format.NumberFormat",
     /**
      * Returns an integer number format.
      *
-     * @type static
      * @return {NumberFormat} an integer number format.
      */
     getIntegerInstance : function()
@@ -182,7 +181,6 @@ qx.Class.define("qx.util.format.NumberFormat",
     /**
      * Formats a number.
      *
-     * @type member
      * @param num {number} the number to format.
      * @return {String} the formatted number as a string.
      */
@@ -279,7 +277,6 @@ qx.Class.define("qx.util.format.NumberFormat",
     /**
      * Parses a number.
      *
-     * @type member
      * @param str {String} the string to parse.
      * @return {Double} the number.
      * @throws TODOC

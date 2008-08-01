@@ -141,7 +141,6 @@ qx.Class.define("qx.legacy.ui.layout.FlowLayout",
     /**
      * This creates an new instance of the layout impl this widget uses
      *
-     * @type member
      * @return {qx.legacy.ui.layout.BoxLayout} TODOC
      */
     _createLayoutImpl : function() {
@@ -160,7 +159,6 @@ qx.Class.define("qx.legacy.ui.layout.FlowLayout",
     /**
      * TODOC
      *
-     * @type member
      * @param vNew {var} TODOC
      * @param vOld {var} TODOC
      * @return {void}

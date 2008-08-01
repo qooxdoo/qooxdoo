@@ -156,7 +156,6 @@ qx.Class.define("apiviewer.ui.panels.PropertyPanel", {
     /**
      * Creates the HTML showing the information about a property.
      *
-     * @type member
      * @param node {Map} the doc node of the property.
      * @param currentClassDocNode {Map} the doc node of the currently displayed class
      * @param showDetails {Boolean} whether to show the details.

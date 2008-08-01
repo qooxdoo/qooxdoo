@@ -173,7 +173,6 @@ qx.Class.define("qx.bom.History",
     /**
      * Adds an entry to the browser history.
      *
-     * @type member
      * @param state {String} a string representing the state of the
      *          application. This command will be delivered in the data property of
      *          the "request" event.
@@ -224,7 +223,6 @@ qx.Class.define("qx.bom.History",
     /**
      * Apply the interval of the timer.
      *
-     * @type member
      * @param newInterval {Integer} new timeout interval
      */
     _applyTimeoutInterval : function(value) {

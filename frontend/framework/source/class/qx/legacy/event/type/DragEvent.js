@@ -68,7 +68,6 @@ qx.Class.define("qx.legacy.event.type.DragEvent",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     getMouseEvent : function() {
@@ -87,7 +86,6 @@ qx.Class.define("qx.legacy.event.type.DragEvent",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      * @throws TODOC
      */
@@ -113,7 +111,6 @@ qx.Class.define("qx.legacy.event.type.DragEvent",
     /**
      * TODOC
      *
-     * @type member
      * @param sType {String} TODOC
      * @param oData {Object} TODOC
      * @return {void}
@@ -126,7 +123,6 @@ qx.Class.define("qx.legacy.event.type.DragEvent",
     /**
      * TODOC
      *
-     * @type member
      * @param sType {String} TODOC
      * @return {var} TODOC
      */
@@ -138,7 +134,6 @@ qx.Class.define("qx.legacy.event.type.DragEvent",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     clearData : function() {
@@ -149,7 +144,6 @@ qx.Class.define("qx.legacy.event.type.DragEvent",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     getDropDataTypes : function() {
@@ -168,7 +162,6 @@ qx.Class.define("qx.legacy.event.type.DragEvent",
     /**
      * TODOC
      *
-     * @type member
      * @param sAction {String} TODOC
      * @return {void}
      */
@@ -180,7 +173,6 @@ qx.Class.define("qx.legacy.event.type.DragEvent",
     /**
      * TODOC
      *
-     * @type member
      * @param sAction {String} TODOC
      * @return {void}
      */
@@ -192,7 +184,6 @@ qx.Class.define("qx.legacy.event.type.DragEvent",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     getAction : function() {
@@ -203,7 +194,6 @@ qx.Class.define("qx.legacy.event.type.DragEvent",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     clearActions : function() {
@@ -223,7 +213,6 @@ qx.Class.define("qx.legacy.event.type.DragEvent",
      * Sets the widget to show as feedback for the user. This widget should
      * represent the object(s) the user is dragging.
      *
-     * @type member
      * @param widget {qx.legacy.ui.core.Widget} the feedback widget.
      * @param deltaX {int ? 10} the number of pixels the top-left corner of the widget
      *          should be away from the mouse cursor in x direction.
@@ -250,7 +239,6 @@ qx.Class.define("qx.legacy.event.type.DragEvent",
      * Sets the position of the cursor feedback (the icon showing whether dropping
      * is allowed at the current position and which action a drop will do).
      *
-     * @type member
      * @param deltaX {int} The number of pixels the top-left corner of the
      *          cursor feedback should be away from the mouse cursor in x direction.
      * @param deltaY {int} The number of pixels the top-left corner of the

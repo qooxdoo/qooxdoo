@@ -174,7 +174,6 @@ qx.Class.define("qx.io.remote.Rpc",
      * lives in the same application as the page calling the service. For backends
      * that don't support this auto-generation, this method returns null.
      *
-     * @type static
      * @param instanceId {String ? null} an optional identifier for the
      *                                   server side instance that should be
      *                                   used. All calls to the same service
@@ -331,7 +330,6 @@ qx.Class.define("qx.io.remote.Rpc",
     /**
      * Internal RPC call method
      *
-     * @type member
      *
      * @param args {Array}
      *   array of arguments
@@ -581,7 +579,6 @@ qx.Class.define("qx.io.remote.Rpc",
      * Helper method to rewrite a URL with a stale session id (so that it includes
      * the correct session id afterwards).
      *
-     * @type member
      * @param url {String} the URL to examine.
      * @return {String} the (possibly re-written) URL.
      */
@@ -626,7 +623,6 @@ qx.Class.define("qx.io.remote.Rpc",
      * YOU HAVE BEEN WARNED.
      *
      *
-     * @type member
      * @param methodName {String} the name of the method to call.
      * @return {var} the result returned by the server.
      */
@@ -664,7 +660,6 @@ qx.Class.define("qx.io.remote.Rpc",
      * number value is a value which increments with each request.)
      *
      *
-     * @type member
      * @param handler {Function} the callback function.
      * @param methodName {String} the name of the method to call.
      * @return {var} the method call reference.
@@ -710,7 +705,6 @@ qx.Class.define("qx.io.remote.Rpc",
      * number value is a value which increments with each request.)
      *
      *
-     * @type member
      * @param coalesce {Boolean} coalesce all failure types ("failed",
      *                           "timeout", and "aborted") to "failed".
      *                           This is reasonable in many cases, as
@@ -738,7 +732,6 @@ qx.Class.define("qx.io.remote.Rpc",
      * indicating that there was an error when refreshing the session.
      *
      *
-     * @type member
      * @param handler {Function} a callback function that is called when the
      *                           refresh is complete (or failed).
      * @return {void}
@@ -781,7 +774,6 @@ qx.Class.define("qx.io.remote.Rpc",
      * provided to <code>callAsync</code> or <code>callAsyncListeners</code>
      * will be called with an exception.
      *
-     * @type member
      * @param opaqueCallRef {var} the call reference as returned by
      *                            <code>callAsync</code> or
      *                            <code>callAsyncListeners</code>

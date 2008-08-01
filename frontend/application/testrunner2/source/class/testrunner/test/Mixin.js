@@ -93,7 +93,6 @@ qx.Class.define("testrunner.test.Mixin",
               /**
                * TODOC
                *
-               * @type member
                * @return {string} TODOC
                */
               bar : function() {

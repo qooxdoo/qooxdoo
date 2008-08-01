@@ -35,7 +35,6 @@ qx.Mixin.define("qx.legacy.application.MGuiCompat",
      * Called in the document.onload event of the browser. This method should
      * be overridden to implement the GUI setup code of the application.
      *
-     * @type member
      */
     compat : function()
     {

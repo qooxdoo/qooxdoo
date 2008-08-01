@@ -203,7 +203,6 @@ qx.Class.define("buildtool.AppFrame",
     /**
      * Create the header widget
      *
-     * @type member
      * @return {qx.legacy.ui.embed.HtmlEmbed} The header widget
      */
     __makeHeader : function()
@@ -366,7 +365,6 @@ qx.Class.define("buildtool.AppFrame",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     __makeToolRun : function()
@@ -402,7 +400,6 @@ qx.Class.define("buildtool.AppFrame",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     __makeButtRun : function()
@@ -457,7 +454,6 @@ qx.Class.define("buildtool.AppFrame",
      * - only make root node; rest will befilled when iframe has loaded (with
      *   leftReloadTree)
      *
-     * @type member
      * @return {var} TODOC
      */
     __makeLeft : function()
@@ -845,7 +841,6 @@ qx.Class.define("buildtool.AppFrame",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     __makeToolInfo : function()
@@ -866,7 +861,6 @@ qx.Class.define("buildtool.AppFrame",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     __makeButtInfo : function()
@@ -971,7 +965,6 @@ qx.Class.define("buildtool.AppFrame",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -990,7 +983,6 @@ qx.Class.define("buildtool.AppFrame",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -1037,7 +1029,6 @@ qx.Class.define("buildtool.AppFrame",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -1337,7 +1328,6 @@ qx.Class.define("buildtool.AppFrame",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -1368,7 +1358,6 @@ qx.Class.define("buildtool.AppFrame",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -1408,7 +1397,6 @@ qx.Class.define("buildtool.AppFrame",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @param oldData {Array} Array like [{'lab':'QOOXDOO_PATH','dat':'../qooxdoo'},...]
      *                        containing previously set variables (via Makefile)
@@ -1662,7 +1650,6 @@ qx.Class.define("buildtool.AppFrame",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -1719,7 +1706,6 @@ qx.Class.define("buildtool.AppFrame",
     /**
      * event handler for the Run Test button - performs the tests
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -1746,7 +1732,6 @@ qx.Class.define("buildtool.AppFrame",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} TODOC
      * @return {void}
      */
@@ -1812,7 +1797,6 @@ qx.Class.define("buildtool.AppFrame",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -1833,7 +1817,6 @@ qx.Class.define("buildtool.AppFrame",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -1877,7 +1860,6 @@ qx.Class.define("buildtool.AppFrame",
     /**
      * TODOC
      *
-     * @type member
      * @param url {var} TODOC
      * @return {String} TODOC
      */
@@ -1913,7 +1895,6 @@ qx.Class.define("buildtool.AppFrame",
     /**
      * TODOC
      *
-     * @type member
      * @param url {var} TODOC
      * @return {void}
      */
@@ -1953,7 +1934,6 @@ qx.Class.define("buildtool.AppFrame",
     /**
      * Return the array of ancestor folders of a given element.
      *
-     * @type member
      * @param treeElem {qx.legacy.ui.tree.AbstractTreeElement} Element of a tree
      * @return {qx.legacy.ui.tree.AbstractTreeElement[]|null} Array of ancestor folders
      */

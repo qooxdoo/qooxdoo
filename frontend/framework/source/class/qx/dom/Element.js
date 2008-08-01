@@ -28,7 +28,6 @@ qx.Class.define("qx.dom.Element",
     /**
      * Whether the given <code>child</code> is a child of <code>parent</code>
      *
-     * @type static
      * @param parent {Element} parent element
      * @param child {Node} child node
      * @return {Boolean} true when the given <code>child</code> is a child of <code>parent</code>
@@ -41,7 +40,6 @@ qx.Class.define("qx.dom.Element",
     /**
      * Whether the given <code>element</code> has children.
      *
-     * @type static
      * @param element {Element} element to test
      * @return {Boolean} true when the given <code>element</code> has at least one child node
      */
@@ -53,7 +51,6 @@ qx.Class.define("qx.dom.Element",
     /**
      * Whether the given <code>element</code> has any child elements.
      *
-     * @type static
      * @param element {Element} element to test
      * @return {Boolean} true when the given <code>element</code> has at least one child element
      */
@@ -87,7 +84,6 @@ qx.Class.define("qx.dom.Element",
      * Inserts <code>node</code> at the given <code>index</code>
      * inside <code>parent</code>.
      *
-     * @type static
      * @param node {Node} node to insert
      * @param parent {Element} parent element node
      * @param index {Integer} where to insert
@@ -111,7 +107,6 @@ qx.Class.define("qx.dom.Element",
      * Insert <code>node</code> into <code>parent</code> as first child.
      * Indexes of other children will be incremented by one.
      *
-     * @type static
      * @param node {Node} Node to insert
      * @param parent {Element} parent element node
      * @return {Boolean} returns true (successful)
@@ -129,7 +124,6 @@ qx.Class.define("qx.dom.Element",
     /**
      * Insert <code>node</code> into <code>parent</code> as last child.
      *
-     * @type static
      * @param node {Node} Node to insert
      * @param parent {Element} parent element node
      * @return {Boolean} returns true (successful)
@@ -142,7 +136,6 @@ qx.Class.define("qx.dom.Element",
     /**
      * Inserts <code>node</code> before <code>ref</code> in the same parent.
      *
-     * @type static
      * @param node {Node} Node to insert
      * @param ref {Node} Node which will be used as reference for insertion
      * @return {Boolean} returns true (successful)
@@ -157,7 +150,6 @@ qx.Class.define("qx.dom.Element",
     /**
      * Inserts <code>node</code> after <code>ref</code> in the same parent.
      *
-     * @type static
      * @param node {Node} Node to insert
      * @param ref {Node} Node which will be used as reference for insertion
      * @return {Boolean} returns true (successful)
@@ -188,7 +180,6 @@ qx.Class.define("qx.dom.Element",
     /**
      * Removes the given <code>node</code> from its parent element.
      *
-     * @type static
      * @param node {Node} Node to remove
      * @return {Boolean} <code>true</code> when node was successfully removed,
      *   otherwise <code>false</code>
@@ -207,7 +198,6 @@ qx.Class.define("qx.dom.Element",
     /**
      * Removes the given <code>node</code> from the <code>parent</code>.
      *
-     * @type static
      * @param node {Node} Node to remove
      * @param parent {Element} parent element which contains the <code>node</code>
      * @return {Boolean} <code>true</code> when node was successfully removed,
@@ -228,7 +218,6 @@ qx.Class.define("qx.dom.Element",
      * Removes the node at the given <code>index</code>
      * from the <code>parent</code>.
      *
-     * @type static
      * @param index {Integer} position of the node which should be removed
      * @param parent {Element} parent DOM element
      * @return {Boolean} <code>true</code> when node was successfully removed,
@@ -260,7 +249,6 @@ qx.Class.define("qx.dom.Element",
      * Replaces <code>oldNode</code> with <code>newNode</code> in the current
      * parent of <code>oldNode</code>.
      *
-     * @type static
      * @param newNode {Node} DOM node to insert
      * @param oldNode {Node} DOM node to remove
      * @return {Boolean} <code>true</code> when node was successfully replaced
@@ -280,7 +268,6 @@ qx.Class.define("qx.dom.Element",
      * Replaces the node at <code>index</code> with <code>newNode</code> in
      * the given parent.
      *
-     * @type static
      * @param newNode {Node} DOM node to insert
      * @param index {Integer} position of old DOM node
      * @param parent {Element} parent DOM element

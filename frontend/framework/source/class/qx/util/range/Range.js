@@ -113,7 +113,6 @@ qx.Class.define("qx.util.range.Range",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -125,7 +124,6 @@ qx.Class.define("qx.util.range.Range",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */

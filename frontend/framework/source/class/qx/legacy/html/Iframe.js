@@ -36,7 +36,6 @@ qx.Class.define("qx.legacy.html.Iframe",
     /**
      * Get the DOM window object of an iframe.
      *
-     * @type static
      * @param vIframe {Element} DOM element of the iframe.
      * @return {DOMWindow} The DOM window object of the iframe.
      * @signature function(vIframe)
@@ -70,7 +69,6 @@ qx.Class.define("qx.legacy.html.Iframe",
     /**
      * Get the DOM document object of an iframe.
      *
-     * @type static
      * @param vIframe {Element} DOM element of the iframe.
      * @return {DOMDocument} The DOM document object of the iframe.
      * @signature function(vIframe)
@@ -104,7 +102,6 @@ qx.Class.define("qx.legacy.html.Iframe",
     /**
      * Get the HTML body element of the iframe.
      *
-     * @type static
      * @param vIframe {Element} DOM element of the iframe.
      * @return {Element} The DOM node of the <code>body</code> element of the iframe.
      */

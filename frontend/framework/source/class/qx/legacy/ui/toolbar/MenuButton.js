@@ -87,7 +87,6 @@ qx.Class.define("qx.legacy.ui.toolbar.MenuButton",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     getParentToolBar : function()
@@ -105,7 +104,6 @@ qx.Class.define("qx.legacy.ui.toolbar.MenuButton",
     /**
      * TODOC
      *
-     * @type member
      * @param vFromKeyEvent {var} TODOC
      * @return {void}
      */
@@ -152,7 +150,6 @@ qx.Class.define("qx.legacy.ui.toolbar.MenuButton",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     _hideMenu : function()
@@ -176,7 +173,6 @@ qx.Class.define("qx.legacy.ui.toolbar.MenuButton",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -211,7 +207,6 @@ qx.Class.define("qx.legacy.ui.toolbar.MenuButton",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -228,7 +223,6 @@ qx.Class.define("qx.legacy.ui.toolbar.MenuButton",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -238,7 +232,6 @@ qx.Class.define("qx.legacy.ui.toolbar.MenuButton",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -255,7 +248,6 @@ qx.Class.define("qx.legacy.ui.toolbar.MenuButton",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void} TODOC
      */
@@ -297,7 +289,6 @@ qx.Class.define("qx.legacy.ui.toolbar.MenuButton",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -318,7 +309,6 @@ qx.Class.define("qx.legacy.ui.toolbar.MenuButton",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */

@@ -37,7 +37,6 @@ qx.Mixin.define("qx.locale.MTranslation",
      * Translate a message
      * Mark the message for translation.
      *
-     * @type member
      * @param messageId {String} message id (may contain format strings)
      * @param varargs {Object} variable number of argumes applied to the format string
      * @return {String} the localized string
@@ -59,7 +58,6 @@ qx.Mixin.define("qx.locale.MTranslation",
      *
      * Depending on the third argument the plursl or the singular form is chosen.
      *
-     * @type member
      * @param singularMessageId {String} message id of the singular form (may contain format strings)
      * @param pluralMessageId {String} message id of the plural form (may contain format strings)
      * @param count {Integer} if greater than 1 the plural form otherwhise the singular form is returned.
@@ -80,7 +78,6 @@ qx.Mixin.define("qx.locale.MTranslation",
     /**
      * Mark the message for translation but return the original message.
      *
-     * @type member
      * @param messageId {String} the message ID
      * @return {String} messageId
      */

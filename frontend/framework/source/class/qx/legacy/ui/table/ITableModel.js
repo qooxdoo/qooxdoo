@@ -85,7 +85,6 @@ qx.Interface.define("qx.legacy.ui.table.ITableModel",
     /**
      * Returns the number of rows in the model.
      *
-     * @type member
      * @abstract
      * @return {Integer} the number of rows.
      */
@@ -103,7 +102,6 @@ qx.Interface.define("qx.legacy.ui.table.ITableModel",
      * <b>Important:</b>Models which do not have their row data accessible in one object
      * may return null.
      *
-     * @type member
      * @param rowIndex {Integer} the model index of the row.
      * @return {Object} the row data as an object or null if the model does not support row data
      *                    objects. The details on the object returned are determined by the model
@@ -117,7 +115,6 @@ qx.Interface.define("qx.legacy.ui.table.ITableModel",
     /**
      * Returns the number of columns in the model.
      *
-     * @type member
      * @abstract
      * @return {Integer} the number of columns.
      */
@@ -131,7 +128,6 @@ qx.Interface.define("qx.legacy.ui.table.ITableModel",
      * independent from their index in the model. E.g. for being aware of added
      * columns when saving the width of a column.
      *
-     * @type member
      * @abstract
      * @param columnIndex {Integer} the index of the column.
      * @return {String} the ID of the column.
@@ -144,7 +140,6 @@ qx.Interface.define("qx.legacy.ui.table.ITableModel",
     /**
      * Returns the index of a column.
      *
-     * @type member
      * @abstract
      * @param columnId {String} the ID of the column.
      * @return {Integer} the index of the column.
@@ -158,7 +153,6 @@ qx.Interface.define("qx.legacy.ui.table.ITableModel",
      * Returns the name of a column. This name will be shown to the user in the
      * table header.
      *
-     * @type member
      * @abstract
      * @param columnIndex {Integer} the index of the column.
      * @return {String} the name of the column.
@@ -171,7 +165,6 @@ qx.Interface.define("qx.legacy.ui.table.ITableModel",
     /**
      * Returns whether a column is editable.
      *
-     * @type member
      * @param columnIndex {Integer} the column to check.
      * @return {Boolean} whether the column is editable.
      */
@@ -183,7 +176,6 @@ qx.Interface.define("qx.legacy.ui.table.ITableModel",
     /**
      * Returns whether a column is sortable.
      *
-     * @type member
      * @param columnIndex {Integer} the column to check.
      * @return {Boolean} whether the column is sortable.
      */
@@ -195,7 +187,6 @@ qx.Interface.define("qx.legacy.ui.table.ITableModel",
     /**
      * Sorts the model by a column.
      *
-     * @type member
      * @param columnIndex {Integer} the column to sort by.
      * @param ascending {Boolean} whether to sort ascending.
      * @return {void}
@@ -209,7 +200,6 @@ qx.Interface.define("qx.legacy.ui.table.ITableModel",
      * Returns the column index the model is sorted by. If the model is not sorted
      * -1 is returned.
      *
-     * @type member
      * @return {Integer} the column index the model is sorted by.
      */
     getSortColumnIndex : function() {
@@ -220,7 +210,6 @@ qx.Interface.define("qx.legacy.ui.table.ITableModel",
     /**
      * Returns whether the model is sorted ascending.
      *
-     * @type member
      * @return {Boolean} whether the model is sorted ascending.
      */
     isSortAscending : function() {
@@ -232,7 +221,6 @@ qx.Interface.define("qx.legacy.ui.table.ITableModel",
      * Prefetches some rows. This is a hint to the model that the specified rows
      * will be read soon.
      *
-     * @type member
      * @param firstRowIndex {Integer} the index of first row.
      * @param lastRowIndex {Integer} the index of last row.
      * @return {void}
@@ -245,7 +233,6 @@ qx.Interface.define("qx.legacy.ui.table.ITableModel",
     /**
      * Returns a cell value by column index.
      *
-     * @type member
      * @abstract
      * @param columnIndex {Integer} the index of the column.
      * @param rowIndex {Integer} the index of the row.
@@ -263,7 +250,6 @@ qx.Interface.define("qx.legacy.ui.table.ITableModel",
      * Whenever you have the choice, use {@link #getValue()} instead,
      * because this should be faster.
      *
-     * @type member
      * @param columnId {String} the ID of the column.
      * @param rowIndex {Integer} the index of the row.
      * @return {var} the value of the cell.
@@ -277,7 +263,6 @@ qx.Interface.define("qx.legacy.ui.table.ITableModel",
     /**
      * Sets a cell value by column index.
      *
-     * @type member
      * @abstract
      * @param columnIndex {Integer} The index of the column.
      * @param rowIndex {Integer} the index of the row.
@@ -296,7 +281,6 @@ qx.Interface.define("qx.legacy.ui.table.ITableModel",
      * Whenever you have the choice, use {@link #setValue()} instead,
      * because this should be faster.
      *
-     * @type member
      * @param columnId {String} The ID of the column.
      * @param rowIndex {Integer} The index of the row.
      * @param value {var} The new value.

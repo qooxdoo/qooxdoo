@@ -150,7 +150,6 @@ qx.Class.define("qx.bom.element.Attribute",
      * This method silently ignores runtime attributes like
      * <code>html</code> or <code>text</code>.
      *
-     * @type static
      * @param map {Map} Map of attributes. The key is the name of the attribute.
      * @return {String} Returns a compiled string ready for usage.
      */
@@ -173,7 +172,6 @@ qx.Class.define("qx.bom.element.Attribute",
     /**
      * Returns the value of the given HTML attribute
      *
-     * @type static
      * @param element {Element} The DOM element to query
      * @param name {String} Name of the attribute
      * @return {var} New value of the attribute
@@ -249,7 +247,6 @@ qx.Class.define("qx.bom.element.Attribute",
     /**
      * Sets an HTML attribute on the given DOM element
      *
-     * @type static
      * @param element {Element} The DOM element to modify
      * @param name {String} Name of the attribute
      * @param value {var} New value of the attribute
@@ -283,7 +280,6 @@ qx.Class.define("qx.bom.element.Attribute",
     /**
      * Resets an HTML attribute on the given DOM element
      *
-     * @type static
      * @param element {Element} The DOM element to modify
      * @param name {String} Name of the attribute
      * @return {void}

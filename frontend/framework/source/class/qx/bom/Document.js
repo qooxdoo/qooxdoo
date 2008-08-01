@@ -41,7 +41,6 @@ qx.Class.define("qx.bom.Document",
     /**
      * Whether the document is in quirks mode (e.g. non XHTML, HTML4 Strict or missing doctype)
      *
-     * @type static
      * @param win {Window?window} The window to query
      * @return {Boolean} true when containing document is in quirks mode
      */
@@ -53,7 +52,6 @@ qx.Class.define("qx.bom.Document",
     /**
      * Whether the document is in quirks mode (e.g. non XHTML, HTML4 Strict or missing doctype)
      *
-     * @type static
      * @param win {Window?window} The window to query
      * @return {Boolean} true when containing document is in quirks mode
      */
@@ -81,7 +79,6 @@ qx.Class.define("qx.bom.Document",
      * * Safari 3.0 beta (3.0.2)
      * * Internet Explorer 7.0
      *
-     * @type static
      * @param win {Window?window} The window to query
      * @return {Integer} The width of the actual document (which includes the body and its margin).
      */
@@ -113,7 +110,6 @@ qx.Class.define("qx.bom.Document",
      * * Safari 3.0 beta (3.0.2)
      * * Internet Explorer 7.0
      *
-     * @type static
      * @param win {Window?window} The window to query
      * @return {Integer} The height of the actual document (which includes the body and its margin).
      */

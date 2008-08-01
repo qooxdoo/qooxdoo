@@ -60,7 +60,6 @@ qx.Class.define("qx.legacy.dev.TimeTracker",
     /**
      * Internal comparison method
      *
-     * @type static
      * @param a {Number} first number
      * @param b {Number} second number
      * @return {Number} Returns the result of a-b
@@ -90,7 +89,6 @@ qx.Class.define("qx.legacy.dev.TimeTracker",
     /**
      * Generate the basic button set layout
      *
-     * @type member
      * @return {void}
      */
     buttonSets : function()
@@ -155,7 +153,6 @@ qx.Class.define("qx.legacy.dev.TimeTracker",
     /**
      * Start the measuring process
      *
-     * @type member
      * @param rounds {Integer} number of rounds
      * @param loops {Integer} number of loops
      * @return {void}

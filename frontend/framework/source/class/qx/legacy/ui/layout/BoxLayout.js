@@ -171,7 +171,6 @@ qx.Class.define("qx.legacy.ui.layout.BoxLayout",
     /**
      * This creates an new instance of the layout impl this widget uses
      *
-     * @type member
      * @return {qx.legacy.ui.layout.BoxLayout} TODOC
      */
     _createLayoutImpl : function() {
@@ -195,7 +194,6 @@ qx.Class.define("qx.legacy.ui.layout.BoxLayout",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     isHorizontal : function() {
@@ -206,7 +204,6 @@ qx.Class.define("qx.legacy.ui.layout.BoxLayout",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     isVertical : function() {
@@ -217,7 +214,6 @@ qx.Class.define("qx.legacy.ui.layout.BoxLayout",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     getLayoutMode : function()
@@ -233,7 +229,6 @@ qx.Class.define("qx.legacy.ui.layout.BoxLayout",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     _updateLayoutMode : function()
@@ -249,7 +244,6 @@ qx.Class.define("qx.legacy.ui.layout.BoxLayout",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     _invalidateLayoutMode : function() {
@@ -268,7 +262,6 @@ qx.Class.define("qx.legacy.ui.layout.BoxLayout",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      * @return {var} TODOC
@@ -333,7 +326,6 @@ qx.Class.define("qx.legacy.ui.layout.BoxLayout",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      * @return {var} TODOC
@@ -351,7 +343,6 @@ qx.Class.define("qx.legacy.ui.layout.BoxLayout",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -369,7 +360,6 @@ qx.Class.define("qx.legacy.ui.layout.BoxLayout",
     /**
      * TODOC
      *
-     * @type member
      * @return {String} TODOC
      */
     _computeAccumulatedChildrenOuterWidth : function()
@@ -387,7 +377,6 @@ qx.Class.define("qx.legacy.ui.layout.BoxLayout",
     /**
      * TODOC
      *
-     * @type member
      * @return {String} TODOC
      */
     _computeAccumulatedChildrenOuterHeight : function()
@@ -413,7 +402,6 @@ qx.Class.define("qx.legacy.ui.layout.BoxLayout",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     _recomputeChildrenStretchingX : function()
@@ -432,7 +420,6 @@ qx.Class.define("qx.legacy.ui.layout.BoxLayout",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     _recomputeChildrenStretchingY : function()

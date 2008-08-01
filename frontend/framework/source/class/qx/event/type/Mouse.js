@@ -87,7 +87,6 @@ qx.Class.define("qx.event.type.Mouse",
      * all other browsers the button only contains sensible data during
      * "click" events like "click", "dblclick", "mousedown", "mouseup" or "contextmenu".
      *
-     * @type member
      * @return {String} One of "left", "right", "middle" or "none"
      */
     getButton : function()
@@ -110,7 +109,6 @@ qx.Class.define("qx.event.type.Mouse",
     /**
      * Whether the left button is pressed
      *
-     * @type member
      * @return {Boolean} true when the left button is pressed
      */
     isLeftPressed : function() {
@@ -121,7 +119,6 @@ qx.Class.define("qx.event.type.Mouse",
     /**
      * Whether the middle button is pressed
      *
-     * @type member
      * @return {Boolean} true when the middle button is pressed
      */
     isMiddlePressed : function() {
@@ -132,7 +129,6 @@ qx.Class.define("qx.event.type.Mouse",
     /**
      * Whether the right button is pressed
      *
-     * @type member
      * @return {Boolean} true when the right button is pressed
      */
     isRightPressed : function() {
@@ -182,7 +178,6 @@ qx.Class.define("qx.event.type.Mouse",
      * left of the document. This property takes into account any scrolling of
      * the page.
      *
-     * @type member
      * @return {Integer} The horizontal mouse position in the document.
      * @signature function()
      */
@@ -206,7 +201,6 @@ qx.Class.define("qx.event.type.Mouse",
      * top of the document. This property takes into account any scrolling of
      * the page.
      *
-     * @type member
      * @return {Integer} The vertical mouse position in the document.
      * @signature function()
      */
@@ -232,7 +226,6 @@ qx.Class.define("qx.event.type.Mouse",
      * Note: This value is usually not very useful unless you want to
      * position a native popup window at this coordiante.
      *
-     * @type member
      * @return {Integer} The horizontal mouse position on the screen.
      */
     getScreenLeft : function() {
@@ -247,7 +240,6 @@ qx.Class.define("qx.event.type.Mouse",
      * Note: This value is usually not very useful unless you want to
      * position a native popup window at this coordiante.
      *
-     * @type member
      * @return {Integer} The vertical mouse position on the screen.
      */
     getScreenTop : function() {

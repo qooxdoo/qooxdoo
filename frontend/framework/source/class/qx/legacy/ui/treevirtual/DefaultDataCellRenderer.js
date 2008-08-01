@@ -53,7 +53,6 @@ qx.Class.define("qx.legacy.ui.treevirtual.DefaultDataCellRenderer",
     /**
      * TODOC
      *
-     * @type member
      * @param cellInfo {var} TODOC
      * @return {var} TODOC
      */

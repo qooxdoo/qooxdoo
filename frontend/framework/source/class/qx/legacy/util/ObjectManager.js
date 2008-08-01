@@ -116,7 +116,6 @@ qx.Class.define("qx.legacy.util.ObjectManager",
     /**
      * TODOC
      *
-     * @type member
      * @param vObject {var} TODOC
      * @return {var} TODOC
      */
@@ -143,7 +142,6 @@ qx.Class.define("qx.legacy.util.ObjectManager",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     getAll : function() {
@@ -154,7 +152,6 @@ qx.Class.define("qx.legacy.util.ObjectManager",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     enableAll : function()
@@ -168,7 +165,6 @@ qx.Class.define("qx.legacy.util.ObjectManager",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     disableAll : function()

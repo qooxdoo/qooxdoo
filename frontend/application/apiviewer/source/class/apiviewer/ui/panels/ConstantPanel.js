@@ -8,7 +8,6 @@ qx.Class.define("apiviewer.ui.panels.ConstantPanel", {
     /**
      * Checks whether a constant has details.
      *
-     * @type member
      * @param node {Map} the doc node of the constant.
      * @param currentClassDocNode {Map} the doc node of the currently displayed class
      * @return {Boolean} whether the constant has details.
@@ -38,7 +37,6 @@ qx.Class.define("apiviewer.ui.panels.ConstantPanel", {
     /**
      * Creates the HTML showing the information about a constant.
      *
-     * @type member
      * @param node {Map} the doc node of the constant.
      * @param currentClassDocNode {Map} the doc node of the currently displayed class
      * @param showDetails {Boolean} whether to show the details.
@@ -64,7 +62,6 @@ qx.Class.define("apiviewer.ui.panels.ConstantPanel", {
     /**
      * Checks whether a constant value is provided
      *
-     * @type member
      * @param node {Map} the doc node of the item.
      * @return {Boolean} whether the constant provides a value
      */
@@ -76,7 +73,6 @@ qx.Class.define("apiviewer.ui.panels.ConstantPanel", {
     /**
      * Creates the HTML showing the value of a constant
      *
-     * @type member
      * @param node {Map} the doc node of the item.
      * @return {String} the HTML showing the value of the constant
      */

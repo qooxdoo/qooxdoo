@@ -58,7 +58,6 @@ qx.Class.define("qx.Mixin",
      * });
      * </pre>
      *
-     * @type static
      * @param name {String} name of the mixin
      * @param config {Map ? null} Mixin definition structure. The configuration map has the following keys:
      *   <table>
@@ -229,7 +228,6 @@ qx.Class.define("qx.Mixin",
     /**
      * Returns a mixin by name
      *
-     * @type static
      * @param name {String} class name to resolve
      * @return {Class} the class
      */
@@ -241,7 +239,6 @@ qx.Class.define("qx.Mixin",
     /**
      * Determine if mixin exists
      *
-     * @type static
      * @name isDefined
      * @param name {String} mixin name to check
      * @return {Boolean} true if mixin exists
@@ -254,7 +251,6 @@ qx.Class.define("qx.Mixin",
     /**
      * Determine the number of mixins which are defined
      *
-     * @type static
      * @return {Number} the number of classes
      */
     getTotalNumber : function() {
@@ -337,7 +333,6 @@ qx.Class.define("qx.Mixin",
     /**
      * Validates incoming configuration and checks keys and values
      *
-     * @type static
      * @param name {String} The name of the class
      * @param config {Map} Configuration map
      */

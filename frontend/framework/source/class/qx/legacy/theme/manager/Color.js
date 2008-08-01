@@ -97,7 +97,6 @@ qx.Class.define("qx.legacy.theme.manager.Color",
     /**
      * Sync dependend objects with internal database
      *
-     * @type member
      * @return {void}
      */
     syncColorTheme : function() {

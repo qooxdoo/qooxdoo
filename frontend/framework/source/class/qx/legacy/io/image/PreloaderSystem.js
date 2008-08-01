@@ -105,7 +105,6 @@ qx.Class.define("qx.legacy.io.image.PreloaderSystem",
     /**
      * Start the preloading
      *
-     * @type member
      * @return {void}
      */
     start : function()
@@ -148,7 +147,6 @@ qx.Class.define("qx.legacy.io.image.PreloaderSystem",
     /**
      * Load event handler
      *
-     * @type member
      * @param e {Event} Event object
      */
     __onload : function(e)
@@ -165,7 +163,6 @@ qx.Class.define("qx.legacy.io.image.PreloaderSystem",
     /**
      * Error handler
      *
-     * @type member
      * @param e {Event} Event object
      */
     __onerror : function(e)
@@ -182,7 +179,6 @@ qx.Class.define("qx.legacy.io.image.PreloaderSystem",
     /**
      * Timer interval handler
      *
-     * @type member
      * @param e {Event} Event object
      */
     __oninterval : function(e)
@@ -207,7 +203,6 @@ qx.Class.define("qx.legacy.io.image.PreloaderSystem",
     /**
      * Checks whether the pre loading is complete and dispatches the "complete" event.
      *
-     * @type member
      */
     _check : function()
     {

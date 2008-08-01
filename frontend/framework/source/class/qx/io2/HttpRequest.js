@@ -254,7 +254,6 @@ qx.Class.define("qx.io2.HttpRequest",
     /**
      * Assigns a label/value pair to the header to be sent with a request
      *
-     * @type member
      * @param label {String} Name of the header label
      * @param value {String} Value of the header field
      * @return {void}
@@ -267,7 +266,6 @@ qx.Class.define("qx.io2.HttpRequest",
     /**
      * Deletes a header label which should be send previously.
      *
-     * @type member
      * @param label {String} Name of the header label
      * @return {void}
      */
@@ -279,7 +277,6 @@ qx.Class.define("qx.io2.HttpRequest",
     /**
      * Returns the value of a given header label.
      *
-     * @type member
      * @param label {String} Label of the header entry
      * @return {String} The value or <code>null</code> when not defined.
      */
@@ -306,7 +303,6 @@ qx.Class.define("qx.io2.HttpRequest",
     /**
      * Returns the (currently downloaded) response text.
      *
-     * @type member
      * @return {String} String version of data returned from server process
      */
     getResponseText : function()
@@ -321,7 +317,6 @@ qx.Class.define("qx.io2.HttpRequest",
     /**
      * Returns the XML document of the response (only available if content in mimetype application/xml was send).
      *
-     * @type member
      * @return {Element} DOM-compatible document object of data returned from server process
      */
     getResponseXml : function()
@@ -340,7 +335,6 @@ qx.Class.define("qx.io2.HttpRequest",
      *
      * Content-Type: text/plain; charset=utf-8
      *
-     * @type member
      * @param label {String} Name of the header label
      * @return {String} The selected header's value.
      */
@@ -365,7 +359,6 @@ qx.Class.define("qx.io2.HttpRequest",
      * Transfer-Encoding: chunked
      * Content-Type: text/plain; charset=utf-8
      *
-     * @type member
      * @return {String} All headers
      */
     getAllResponseHeaders : function()
@@ -389,7 +382,6 @@ qx.Class.define("qx.io2.HttpRequest",
     /**
      * Wether the currently running or finished request returns modified results.
      *
-     * @type member
      * @return {Boolean} Returns <code>true</code> when the request contains modified results.
      */
     isNotModified : function()
@@ -408,7 +400,6 @@ qx.Class.define("qx.io2.HttpRequest",
     /**
      * Wether the currently running or finished request is successful.
      *
-     * @type member
      * @return {Boolean} Returns <code>true</code> when the request is successful.
      */
     isSuccessful : function()
@@ -421,7 +412,6 @@ qx.Class.define("qx.io2.HttpRequest",
     /**
      * Returns the response status code.
      *
-     * @type member
      * @return {Integer} Numeric code returned by server, such as 404 for "Not Found" or 200 for "OK"
      */
     getStatusCode : function()
@@ -436,7 +426,6 @@ qx.Class.define("qx.io2.HttpRequest",
     /**
      * Returns the response status text. This is the human readable version of {@link #getStatusCode}.
      *
-     * @type member
      * @return {String} String message accompanying the status code
      */
     getStatusText : function()
@@ -457,7 +446,6 @@ qx.Class.define("qx.io2.HttpRequest",
      * * 3 = loading result
      * * 4 = done
      *
-     * @type member
      * @return {Integer} Ready state of the request
      */
     getReadyState : function()
@@ -472,7 +460,6 @@ qx.Class.define("qx.io2.HttpRequest",
     /**
      * Sends the configured request
      *
-     * @type member
      * @return {void}
      */
     send : function()
@@ -554,7 +541,6 @@ qx.Class.define("qx.io2.HttpRequest",
     /**
      * Aborts a running request
      *
-     * @type member
      * @return {void}
      */
     abort : function()
@@ -576,7 +562,6 @@ qx.Class.define("qx.io2.HttpRequest",
     /**
      * Internal change listener
      *
-     * @type member
      * @return {void}
      */
     __onchange : function()
@@ -600,7 +585,6 @@ qx.Class.define("qx.io2.HttpRequest",
     /**
      * Internal timeout listener
      *
-     * @type member
      * @return {void}
      */
     __ontimeout : function()
@@ -614,7 +598,6 @@ qx.Class.define("qx.io2.HttpRequest",
     /**
      * Internal timeout listener
      *
-     * @type member
      * @return {void}
      */
     __onload : function()
@@ -628,7 +611,6 @@ qx.Class.define("qx.io2.HttpRequest",
     /**
      * Internal timeout listener
      *
-     * @type member
      * @return {void}
      */
     __onerror : function()
@@ -642,7 +624,6 @@ qx.Class.define("qx.io2.HttpRequest",
     /**
      * Internal timeout listener
      *
-     * @type member
      * @return {void}
      */
     __onabort : function()

@@ -177,7 +177,6 @@ qx.Class.define("qx.legacy.ui.menu.Button",
     /**
      * Returns <code>true</code> if the button instance has an icon
      *
-     * @type member
      * @return {Boolean} icon available
      */
     hasIcon : function() {
@@ -188,7 +187,6 @@ qx.Class.define("qx.legacy.ui.menu.Button",
     /**
      * Returns <code>true</code> if the button instance has a label
      *
-     * @type member
      * @return {Boolean} label available
      */
     hasLabel : function() {
@@ -199,7 +197,6 @@ qx.Class.define("qx.legacy.ui.menu.Button",
     /**
      * Returns <code>true</code> if the button instance has a shortcut
      *
-     * @type member
      * @return {Boolean} shortcut available
      */
     hasShortcut : function() {
@@ -210,7 +207,6 @@ qx.Class.define("qx.legacy.ui.menu.Button",
     /**
      * Returns <code>true</code> if the button instance has a submenu
      *
-     * @type member
      * @return {Boolean} sub menu available
      */
     hasMenu : function() {
@@ -221,7 +217,6 @@ qx.Class.define("qx.legacy.ui.menu.Button",
     /**
      * Accessor method for the button icon
      *
-     * @type member
      * @return {qx.legacy.ui.basic.Image} button icon
      */
     getIconObject : function() {
@@ -232,7 +227,6 @@ qx.Class.define("qx.legacy.ui.menu.Button",
     /**
      * Accessor method for the button label
      *
-     * @type member
      * @return {qx.legacy.ui.basic.Label} button label
      */
     getLabelObject : function() {
@@ -243,7 +237,6 @@ qx.Class.define("qx.legacy.ui.menu.Button",
     /**
      * Accessor method for the button shortcut
      *
-     * @type member
      * @return {qx.legacy.ui.basic.Label} button shortcut
      */
     getShortcutObject : function() {
@@ -254,7 +247,6 @@ qx.Class.define("qx.legacy.ui.menu.Button",
     /**
      * Accessor method for the button arrow
      *
-     * @type member
      * @return {qx.legacy.ui.basic.Image} button arrow
      */
     getArrowObject : function() {
@@ -265,7 +257,6 @@ qx.Class.define("qx.legacy.ui.menu.Button",
     /**
      * Accessor method for the parent menu (if available)
      *
-     * @type member
      * @return {qx.legacy.ui.menu.Menu | null} Returns the parent menu (if available)
      */
     getParentMenu : function()
@@ -296,7 +287,6 @@ qx.Class.define("qx.legacy.ui.menu.Button",
     /**
      * This creates an new instance of the layout impl this widget uses
      *
-     * @type member
      * @return {qx.legacy.ui.layout.BoxLayout} instance of a button layout implementation
      */
     _createLayoutImpl : function() {
@@ -315,7 +305,6 @@ qx.Class.define("qx.legacy.ui.menu.Button",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -342,7 +331,6 @@ qx.Class.define("qx.legacy.ui.menu.Button",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -369,7 +357,6 @@ qx.Class.define("qx.legacy.ui.menu.Button",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -405,7 +392,6 @@ qx.Class.define("qx.legacy.ui.menu.Button",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -439,7 +425,6 @@ qx.Class.define("qx.legacy.ui.menu.Button",
      * Callback method for "mouseUp" event<br/>
      * Simply calls the {@link #execute} method
      *
-     * @type member
      * @param e {qx.legacy.event.type.MouseEvent} mouseUp event
      * @return {void}
      */

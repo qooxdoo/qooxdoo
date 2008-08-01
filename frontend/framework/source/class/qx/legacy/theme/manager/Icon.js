@@ -67,7 +67,6 @@ qx.Class.define("qx.legacy.theme.manager.Icon",
     /**
      * Sync dependend objects with internal database
      *
-     * @type member
      * @return {void}
      */
     syncIconTheme : function()

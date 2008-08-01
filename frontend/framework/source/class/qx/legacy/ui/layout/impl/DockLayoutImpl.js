@@ -139,7 +139,6 @@ qx.Class.define("qx.legacy.ui.layout.impl.DockLayoutImpl",
     /**
      * Compute and return the box width of the given child
      *
-     * @type member
      * @param vChild {var} TODOC
      * @return {var} TODOC
      */
@@ -156,7 +155,6 @@ qx.Class.define("qx.legacy.ui.layout.impl.DockLayoutImpl",
     /**
      * Compute and return the box height of the given child
      *
-     * @type member
      * @param vChild {var} TODOC
      * @return {var} TODOC
      */
@@ -182,7 +180,6 @@ qx.Class.define("qx.legacy.ui.layout.impl.DockLayoutImpl",
      * Actions that should be done if the inner width of the widget was changed.
      *  Normally this includes update to percent values and ranges.
      *
-     * @type member
      * @param vChild {var} TODOC
      */
     updateChildOnInnerWidthChange : function(vChild)
@@ -199,7 +196,6 @@ qx.Class.define("qx.legacy.ui.layout.impl.DockLayoutImpl",
      * Actions that should be done if the inner height of the widget was changed.
      *  Normally this includes update to percent values and ranges.
      *
-     * @type member
      * @param vChild {var} TODOC
      */
     updateChildOnInnerHeightChange : function(vChild)
@@ -240,7 +236,6 @@ qx.Class.define("qx.legacy.ui.layout.impl.DockLayoutImpl",
     /**
      * Updates children on special jobs
      *
-     * @type member
      * @param vQueue {var} TODOC
      * @return {boolean}
      */
@@ -265,7 +260,6 @@ qx.Class.define("qx.legacy.ui.layout.impl.DockLayoutImpl",
      *  registered (or also non-registered) children should be
      *  layouted on the horizontal axis.
      *
-     * @type member
      * @param vChildrenQueue {var} TODOC
      * @return {void}
      */
@@ -293,7 +287,6 @@ qx.Class.define("qx.legacy.ui.layout.impl.DockLayoutImpl",
     /**
      * TODOC
      *
-     * @type member
      * @param vChild {var} TODOC
      * @return {var} TODOC
      */
@@ -305,7 +298,6 @@ qx.Class.define("qx.legacy.ui.layout.impl.DockLayoutImpl",
     /**
      * TODOC
      *
-     * @type member
      * @param vChild {var} TODOC
      * @return {var} TODOC
      */
@@ -326,7 +318,6 @@ qx.Class.define("qx.legacy.ui.layout.impl.DockLayoutImpl",
      * This is called from qx.legacy.ui.core.Widget and  it's task is to apply the layout
      *  (excluding border and padding) to the child.
      *
-     * @type member
      * @param vChild {var} TODOC
      * @param vJobs {var} TODOC
      * @return {void}
@@ -349,7 +340,6 @@ qx.Class.define("qx.legacy.ui.layout.impl.DockLayoutImpl",
     /**
      * TODOC
      *
-     * @type member
      * @param vChild {var} TODOC
      * @param vJobs {var} TODOC
      * @return {void}
@@ -368,7 +358,6 @@ qx.Class.define("qx.legacy.ui.layout.impl.DockLayoutImpl",
     /**
      * TODOC
      *
-     * @type member
      * @param vChild {var} TODOC
      * @param vJobs {var} TODOC
      * @return {void}
@@ -387,7 +376,6 @@ qx.Class.define("qx.legacy.ui.layout.impl.DockLayoutImpl",
     /**
      * TODOC
      *
-     * @type member
      * @param vChild {var} TODOC
      * @return {void}
      * @signature function(vChild)
@@ -426,7 +414,6 @@ qx.Class.define("qx.legacy.ui.layout.impl.DockLayoutImpl",
     /**
      * TODOC
      *
-     * @type member
      * @param vChild {var} TODOC
      * @return {void}
      * @signature function(vChild)
@@ -465,7 +452,6 @@ qx.Class.define("qx.legacy.ui.layout.impl.DockLayoutImpl",
     /**
      * TODOC
      *
-     * @type member
      * @param vChild {var} TODOC
      * @param vJobs {var} TODOC
      * @return {void}
@@ -493,7 +479,6 @@ qx.Class.define("qx.legacy.ui.layout.impl.DockLayoutImpl",
     /**
      * TODOC
      *
-     * @type member
      * @param vChild {var} TODOC
      * @param vJobs {var} TODOC
      * @return {void}
@@ -521,7 +506,6 @@ qx.Class.define("qx.legacy.ui.layout.impl.DockLayoutImpl",
     /**
      * TODOC
      *
-     * @type member
      * @param vChild {var} TODOC
      * @return {void}
      * @signature function(vChild)
@@ -543,7 +527,6 @@ qx.Class.define("qx.legacy.ui.layout.impl.DockLayoutImpl",
     /**
      * TODOC
      *
-     * @type member
      * @param vChild {var} TODOC
      * @return {void}
      * @signature function(vChild)
@@ -565,7 +548,6 @@ qx.Class.define("qx.legacy.ui.layout.impl.DockLayoutImpl",
     /**
      * TODOC
      *
-     * @type member
      * @param vChild {var} TODOC
      * @param vJobs {var} TODOC
      * @return {void}
@@ -598,7 +580,6 @@ qx.Class.define("qx.legacy.ui.layout.impl.DockLayoutImpl",
     /**
      * TODOC
      *
-     * @type member
      * @param vChild {var} TODOC
      * @param vJobs {var} TODOC
      * @return {void}
@@ -631,7 +612,6 @@ qx.Class.define("qx.legacy.ui.layout.impl.DockLayoutImpl",
     /**
      * TODOC
      *
-     * @type member
      * @param vChild {var} TODOC
      * @param vJobs {var} TODOC
      * @return {void}

@@ -121,7 +121,6 @@ qx.Class.define("qx.legacy.ui.tree.Tree",
     /**
      * Returns whether the passed object vObject is a TreeFolder.
      *
-     * @type static
      * @param vObject {Object} an object
      */
     isTreeFolder : function(vObject) {
@@ -133,7 +132,6 @@ qx.Class.define("qx.legacy.ui.tree.Tree",
      * Returns whether vObject is a TreeFolder and is open and
      * has content.
      *
-     * @type static
      * @param vObject {Object} an object
      */
     isOpenTreeFolder : function(vObject) {
@@ -283,7 +281,6 @@ qx.Class.define("qx.legacy.ui.tree.Tree",
      * managing the whole tree, not just the root Tree element or some part of
      * it.
      *
-     * @type member
      * @return {SelectionManager} the selection manager of the tree.
      */
     getManager : function() {
@@ -295,7 +292,6 @@ qx.Class.define("qx.legacy.ui.tree.Tree",
      * Returns the currently selected element within the tree. This is a
      * descendant of the root tree element.
      *
-     * @type member
      * @return {AbstractTreeElement} the currently selected element
      */
     getSelectedElement : function() {
@@ -306,7 +302,6 @@ qx.Class.define("qx.legacy.ui.tree.Tree",
     /**
      * Returns all children of the folder.
      *
-     * @type member
      * @param recursive {Boolean ? false} whether children of subfolder should be
      * included
      * @param invisible {Boolean ? false} whether invisible children should be included
@@ -351,7 +346,6 @@ qx.Class.define("qx.legacy.ui.tree.Tree",
     /**
      * Adds vChild to the tree queue.
      *
-     * @type member
      * @param vChild {AbstractTreeElement} child to add
      * @return {void}
      */
@@ -380,7 +374,6 @@ qx.Class.define("qx.legacy.ui.tree.Tree",
     /**
      * Removes vChild from the tree queue.
      *
-     * @type member
      * @param vChild {AbstractTreeElement} child to remove
      * @return {void}
      */
@@ -400,7 +393,6 @@ qx.Class.define("qx.legacy.ui.tree.Tree",
     /**
      * Flushes the tree queue.
      *
-     * @type member
      * @return {void}
      */
     flushWidgetQueue : function() {
@@ -411,7 +403,6 @@ qx.Class.define("qx.legacy.ui.tree.Tree",
     /**
      * Flushes the tree queue.
      *
-     * @type member
      * @return {void}
      */
     flushTreeQueue : function()
@@ -441,7 +432,6 @@ qx.Class.define("qx.legacy.ui.tree.Tree",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -456,7 +446,6 @@ qx.Class.define("qx.legacy.ui.tree.Tree",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -483,7 +472,6 @@ qx.Class.define("qx.legacy.ui.tree.Tree",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -500,7 +488,6 @@ qx.Class.define("qx.legacy.ui.tree.Tree",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     getExcludeSpecificTreeLines : function()
@@ -512,7 +499,6 @@ qx.Class.define("qx.legacy.ui.tree.Tree",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -533,7 +519,6 @@ qx.Class.define("qx.legacy.ui.tree.Tree",
     /**
      * Returns the current tree instance, i.e. itself.
      *
-     * @type member
      * @return {Tree} the current tree instance
      */
     getTree : function() {
@@ -545,7 +530,6 @@ qx.Class.define("qx.legacy.ui.tree.Tree",
      * Always returns null since a Tree instance is always the root of a tree,
      * and therefore has no parent.
      *
-     * @type member
      * @return {qx.legacy.ui.tree.TreeFolder} returns null
      */
     getParentFolder : function() {
@@ -557,7 +541,6 @@ qx.Class.define("qx.legacy.ui.tree.Tree",
      * Always returns 0 since a Tree instance is always the root of a tree, and
      * therefore is on level 0.
      *
-     * @type member
      * @return {Integer} returns 0
      */
     getLevel : function() {
@@ -576,7 +559,6 @@ qx.Class.define("qx.legacy.ui.tree.Tree",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {var} TODOC
      */
@@ -590,7 +572,6 @@ qx.Class.define("qx.legacy.ui.tree.Tree",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {var | void} TODOC
      */
@@ -691,7 +672,6 @@ qx.Class.define("qx.legacy.ui.tree.Tree",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -716,7 +696,6 @@ qx.Class.define("qx.legacy.ui.tree.Tree",
     /**
      * TODOC
      *
-     * @type member
      * @return {AbstractTreeElement | null} TODOC
      */
     getLastTreeChild : function()
@@ -739,7 +718,6 @@ qx.Class.define("qx.legacy.ui.tree.Tree",
     /**
      * Returns itself.
      *
-     * @type member
      * @return {AbstractTreeElement} itself
      */
     getFirstTreeChild : function() {
@@ -750,7 +728,6 @@ qx.Class.define("qx.legacy.ui.tree.Tree",
     /**
      * Sets the selected element in the tree to vElement.
      *
-     * @type member
      * @param vElement {AbstractTreeElement} the tree element to be selected
      */
     setSelectedElement : function(vElement)
@@ -766,7 +743,6 @@ qx.Class.define("qx.legacy.ui.tree.Tree",
     /**
      * TODOC
      *
-     * @type member
      * @param vArr {var} TODOC
      * @return {var} TODOC
      */
@@ -783,7 +759,6 @@ qx.Class.define("qx.legacy.ui.tree.Tree",
     /**
      * TODOC
      *
-     * @type member
      * @param vUseTreeLines {var} TODOC
      * @param vColumn {var} TODOC
      * @param vLastColumn {var} TODOC

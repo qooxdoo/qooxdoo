@@ -41,7 +41,6 @@ qx.Class.define("qx.legacy.ui.groupbox.CheckGroupBox",
      * Creates the legend sub widget. Instead of the normal <code>qx.legacy.ui.basic.Atom</code>
      * a <code>qx.legacy.ui.form.CheckBox</code> is used.
      *
-     * @type member
      * @return {void}
      */
     _createLegendObject : function()

@@ -53,7 +53,6 @@ qx.Class.define("demobrowser.Tree",
     /**
      * TODOC
      *
-     * @type member
      * @return {Array | var} TODOC
      */
     pwd : function()  // aka 'dirname'
@@ -69,7 +68,6 @@ qx.Class.define("demobrowser.Tree",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     hasChildren : function() {
@@ -80,7 +78,6 @@ qx.Class.define("demobrowser.Tree",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     getChildren : function() {
@@ -91,7 +88,6 @@ qx.Class.define("demobrowser.Tree",
     /**
      * TODOC
      *
-     * @type member
      * @param fun {var} TODOC
      * @param args {var} TODOC
      * @return {void}
@@ -113,7 +109,6 @@ qx.Class.define("demobrowser.Tree",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     print : function()
@@ -128,7 +123,6 @@ qx.Class.define("demobrowser.Tree",
      * returns an iterator function for the tree from this.
      * (implemented with Agenda Search)
      *
-     * @type member
      * @param style {String} "depth"|"breadth" - traversal style
      * @return {Function} iterator {Function}
      */
@@ -171,7 +165,6 @@ qx.Class.define("demobrowser.Tree",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     getPrevSibling : function() {
@@ -182,7 +175,6 @@ qx.Class.define("demobrowser.Tree",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     getNextSibling : function() {
@@ -193,7 +185,6 @@ qx.Class.define("demobrowser.Tree",
     /**
      * TODOC
      *
-     * @type member
      * @param offset {var} TODOC
      * @return {var} TODOC
      */
@@ -212,7 +203,6 @@ qx.Class.define("demobrowser.Tree",
     /**
      * TODOC
      *
-     * @type member
      * @param node {Node} TODOC
      * @return {void}
      */
@@ -229,7 +219,6 @@ qx.Class.define("demobrowser.Tree",
     /**
      * TODOC
      *
-     * @type static
      * @param arr {Array} TODOC
      * @param obj {Object} TODOC
      * @return {var} TODOC

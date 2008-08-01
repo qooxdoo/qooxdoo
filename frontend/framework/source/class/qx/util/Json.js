@@ -73,7 +73,6 @@ qx.Class.define("qx.util.Json",
     /**
      * Converts the incoming value from Function to String.
      *
-     * @type static
      * @param incoming {function} The incoming value
      * @return {String} value converted to a JSON string
      */
@@ -85,7 +84,6 @@ qx.Class.define("qx.util.Json",
     /**
      * Converts the incoming value from Boolean to String.
      *
-     * @type static
      * @param incoming {Boolean} The incoming value
      * @return {String} value converted to a JSON string
      */
@@ -97,7 +95,6 @@ qx.Class.define("qx.util.Json",
     /**
      * Converts the incoming value from Number to String.
      *
-     * @type static
      * @param incoming {Number} The incoming value
      * @return {String} value converted to a JSON string
      */
@@ -109,7 +106,6 @@ qx.Class.define("qx.util.Json",
     /**
      * Converts the incoming value from String to JSON String.
      *
-     * @type static
      * @param incoming {String} The incoming value
      * @return {String} value converted to a JSON string
      */
@@ -141,7 +137,6 @@ qx.Class.define("qx.util.Json",
     /**
      * callback for JavaScript string escaping
      *
-     * @type static
      * @param a {Array} incoming array
      * @param b {String} character to convert
      * @return {String} converted character
@@ -162,7 +157,6 @@ qx.Class.define("qx.util.Json",
     /**
      * Converts the incoming value from Array to String.
      *
-     * @type static
      * @param incoming {Array} The incoming value
      * @return {String} value converted to a JSON string
      */
@@ -275,7 +269,6 @@ qx.Class.define("qx.util.Json",
      * milliseconds, it must maintain milliseconds in dates
      * sent to it by the client.
      *
-     * @type static
      * @param incoming {Date} incoming value
      * @return {String} value converted to a JSON string
      */
@@ -289,7 +282,6 @@ qx.Class.define("qx.util.Json",
     /**
      * Converts the incoming value from Map to String.
      *
-     * @type static
      * @param incoming {Map} The incoming value
      * @return {String} value converted to a JSON string
      */
@@ -347,7 +339,6 @@ qx.Class.define("qx.util.Json",
     /**
      * Converts the incoming value from Object to String.
      *
-     * @type static
      * @param incoming {Object} The incoming value
      * @return {String} value converted to a JSON string
      */
@@ -375,7 +366,6 @@ qx.Class.define("qx.util.Json",
     /**
      * Converts the incoming value from undefined to String.
      *
-     * @type static
      * @param incoming {undefined} The incoming value
      * @return {String} value converted to a JSON string
      */
@@ -390,7 +380,6 @@ qx.Class.define("qx.util.Json",
     /**
      * Stringify a JavaScript value, producing a JSON text.
      *
-     * @type static
      * @param obj {var} the object to serialize.
      * @param beautify {Boolean ? false} whether to beautify the serialized string
      *          by adding some white space that indents objects and arrays.
@@ -421,7 +410,6 @@ qx.Class.define("qx.util.Json",
      * Parse a JSON text, producing a JavaScript value.
      * It returns false if there is a syntax error.
      *
-     * @type static
      * @param text {String} JSON string
      * @return {Object} Returns the object
      * @throws an error if the text could not be parsed or evaluated

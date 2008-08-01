@@ -318,7 +318,6 @@ qx.Bootstrap.define("qx.core.Variant",
      * * type is object
      * * instance is Array
      *
-     * @type static
      * @name __isValidArray
      * @param v {var} the value to validate.
      * @return {Boolean} whether the variable is valid
@@ -334,7 +333,6 @@ qx.Bootstrap.define("qx.core.Variant",
      * * type is object
      * * instance != Array
      *
-     * @type static
      * @name __isValidObject
      * @param v {var} the value to validate.
      * @return {Boolean} whether the variable is valid
@@ -347,7 +345,6 @@ qx.Bootstrap.define("qx.core.Variant",
     /**
      * Whether the array contains the given element
      *
-     * @type static
      * @name __arrayContains
      * @param arr {Array} the array
      * @param obj {var} object to look for

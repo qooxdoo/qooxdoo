@@ -229,7 +229,6 @@ qx.Class.define("qx.legacy.ui.window.Window",
      * Returns the default window manager. If no exists a new instance of
      * the manager is created.
      *
-     * @type static
      * @return {qx.legacy.ui.window.Manager} window manager instance
      */
     getDefaultWindowManager : function()
@@ -461,7 +460,6 @@ qx.Class.define("qx.legacy.ui.window.Window",
     /**
      * Accessor method for the pane sub widget
      *
-     * @type member
      * @return {qx.legacy.ui.layout.CanvasLayout} pane sub widget
      */
     getPane : function() {
@@ -472,7 +470,6 @@ qx.Class.define("qx.legacy.ui.window.Window",
     /**
      * Accessor method for the captionbar sub widget
      *
-     * @type member
      * @return {qx.legacy.ui.layout.HorizontalBoxLayout} captionbar sub widget
      */
     getCaptionBar : function() {
@@ -483,7 +480,6 @@ qx.Class.define("qx.legacy.ui.window.Window",
     /**
      * Accessor method for the statusbar sub widget
      *
-     * @type member
      * @return {qx.legacy.ui.layout.HorizontalBoxLayout} statusbar sub widget
      */
     getStatusBar : function() {
@@ -495,7 +491,6 @@ qx.Class.define("qx.legacy.ui.window.Window",
      * Closes the current window instance.
      * Technically calls the {@link qx.legacy.ui.core.Widget#hide} method.
      *
-     * @type member
      * @return {void}
      */
     close : function() {
@@ -508,7 +503,6 @@ qx.Class.define("qx.legacy.ui.window.Window",
      * Sets the opener property (if available) and centers
      * the window if the property {@link #centered} is enabled.
      *
-     * @type member
      * @param vOpener {Object} Opener widget
      * @return {void}
      */
@@ -530,7 +524,6 @@ qx.Class.define("qx.legacy.ui.window.Window",
      * Set the focus on the window.<br/>
      * Setting the {@link #active} property to <code>true</code>
      *
-     * @type member
      * @return {void}
      */
     focus : function() {
@@ -542,7 +535,6 @@ qx.Class.define("qx.legacy.ui.window.Window",
      * Release the focus on the window.<br/>
      * Setting the {@link #active} property to <code>false</code>
      *
-     * @type member
      * @return {void}
      */
     blur : function() {
@@ -553,7 +545,6 @@ qx.Class.define("qx.legacy.ui.window.Window",
     /**
      * Maximize the window by setting the property {@link mode} to <code>maximized</code>
      *
-     * @type member
      * @return {void}
      */
     maximize : function() {
@@ -564,7 +555,6 @@ qx.Class.define("qx.legacy.ui.window.Window",
     /**
      * Maximize the window by setting the property {@link mode} to <code>minimized</code>
      *
-     * @type member
      * @return {void}
      */
     minimize : function() {
@@ -575,7 +565,6 @@ qx.Class.define("qx.legacy.ui.window.Window",
     /**
      * Maximize the window by setting the property {@link mode} to <code>null</code>
      *
-     * @type member
      * @return {void}
      */
     restore : function() {
@@ -596,7 +585,6 @@ qx.Class.define("qx.legacy.ui.window.Window",
      * Hides all open popups, sets the focus root to the current window, adds
      * the current window to the window manager and calls {@link qx.legacy.ui.popup.Popup#_makeActive}.
      *
-     * @type member
      * @return {void}
      */
     _beforeAppear : function()
@@ -620,7 +608,6 @@ qx.Class.define("qx.legacy.ui.window.Window",
      * Resets the focus root, release the capturing on any contained widget,
      * deregisters from the window manager and calls {@link qx.legacy.ui.popup.Popup#_makeInactive}.
      *
-     * @type member
      * @return {void}
      */
     _beforeDisappear : function()
@@ -664,7 +651,6 @@ qx.Class.define("qx.legacy.ui.window.Window",
      * Gets all registered window instances (sorted by the zIndex) and resets
      * the zIndex on all instances.
      *
-     * @type member
      * @return {void}
      */
     _sendTo : function()
@@ -690,7 +676,6 @@ qx.Class.define("qx.legacy.ui.window.Window",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -738,7 +723,6 @@ qx.Class.define("qx.legacy.ui.window.Window",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -756,7 +740,6 @@ qx.Class.define("qx.legacy.ui.window.Window",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      * @return {var} TODOC
@@ -769,7 +752,6 @@ qx.Class.define("qx.legacy.ui.window.Window",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      * @return {var} TODOC
@@ -782,7 +764,6 @@ qx.Class.define("qx.legacy.ui.window.Window",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      * @return {var} TODOC
@@ -795,7 +776,6 @@ qx.Class.define("qx.legacy.ui.window.Window",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -832,7 +812,6 @@ qx.Class.define("qx.legacy.ui.window.Window",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -849,7 +828,6 @@ qx.Class.define("qx.legacy.ui.window.Window",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -866,7 +844,6 @@ qx.Class.define("qx.legacy.ui.window.Window",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -883,7 +860,6 @@ qx.Class.define("qx.legacy.ui.window.Window",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -900,7 +876,6 @@ qx.Class.define("qx.legacy.ui.window.Window",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -927,7 +902,6 @@ qx.Class.define("qx.legacy.ui.window.Window",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -944,7 +918,6 @@ qx.Class.define("qx.legacy.ui.window.Window",
     /**
      * Enables/disables the minimize button in order of the {@link #allowMinimize} property
      *
-     * @type member
      */
     _minimizeButtonManager : function() {
       this.getAllowMinimize() === false ? this._minimizeButton.setEnabled(false) : this._minimizeButton.resetEnabled();
@@ -954,7 +927,6 @@ qx.Class.define("qx.legacy.ui.window.Window",
     /**
      * Enables/disables the close button in order of the {@link #allowClose} property
      *
-     * @type member
      */
     _closeButtonManager : function() {
       this.getAllowClose() === false ? this._closeButton.setEnabled(false) : this._closeButton.resetEnabled();
@@ -965,7 +937,6 @@ qx.Class.define("qx.legacy.ui.window.Window",
      * Disables the maximize and restore buttons when the window instance is already maximized,
      * otherwise the {@link #enabled} property of both buttons get resetted.
      *
-     * @type member
      */
     _maximizeButtonManager : function()
     {
@@ -984,7 +955,6 @@ qx.Class.define("qx.legacy.ui.window.Window",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -996,7 +966,6 @@ qx.Class.define("qx.legacy.ui.window.Window",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      * @return {void} TODOC
@@ -1011,7 +980,6 @@ qx.Class.define("qx.legacy.ui.window.Window",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      * @return {void} TODOC
@@ -1026,7 +994,6 @@ qx.Class.define("qx.legacy.ui.window.Window",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      * @return {var} TODOC
@@ -1039,7 +1006,6 @@ qx.Class.define("qx.legacy.ui.window.Window",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -1050,7 +1016,6 @@ qx.Class.define("qx.legacy.ui.window.Window",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -1071,7 +1036,6 @@ qx.Class.define("qx.legacy.ui.window.Window",
      * Minimizes the window. Technically this methods calls the {@link qx.legacy.ui.core.Widget#blur}
      * and the {@link qx.legacy.ui.core.Widget#hide} methods.
      *
-     * @type member
      * @return {void}
      */
     _minimize : function()
@@ -1087,7 +1051,6 @@ qx.Class.define("qx.legacy.ui.window.Window",
      * state <code>maximized</code> and replaces the restore button
      * with the maximize button.
      *
-     * @type member
      * @return {void}
      */
     _restoreFromMaximized : function()
@@ -1125,7 +1088,6 @@ qx.Class.define("qx.legacy.ui.window.Window",
      * has the state maximized and call {@link qx.legacy.ui.core.Widget#show} and
      * {@link qx.legacy.ui.core.Widget#focus}
      *
-     * @type member
      * @return {void}
      */
     _restoreFromMinimized : function()
@@ -1145,7 +1107,6 @@ qx.Class.define("qx.legacy.ui.window.Window",
      * the new ones. Adds the state <code>maximized</code> and toggles
      * the buttons in the caption bar.
      *
-     * @type member
      * @return {void}
      */
     _maximize : function()
@@ -1200,7 +1161,6 @@ qx.Class.define("qx.legacy.ui.window.Window",
     /**
      * Stops every mouse click on the window by calling {@link qx.event.type.Event#stopPropagation}
      *
-     * @type member
      * @param e {qx.legacy.event.type.MouseEvent} mouse click event
      * @return {void}
      */
@@ -1214,7 +1174,6 @@ qx.Class.define("qx.legacy.ui.window.Window",
     /**
      * Focuses the window instance.
      *
-     * @type member
      * @param e {qx.legacy.event.type.MouseEvent} mouse down event
      * @return {void}
      */
@@ -1234,7 +1193,6 @@ qx.Class.define("qx.legacy.ui.window.Window",
      * Stops every mouse down event on each button in the captionbar
      * by calling {@link qx.event.type.Event#stopPropagation}
      *
-     * @type member
      * @param e {qx.legacy.event.type.MouseEvent} mouse down event
      * @return {void}
      */
@@ -1247,7 +1205,6 @@ qx.Class.define("qx.legacy.ui.window.Window",
      * Minmizes the window, removes all states from the minimize button and
      * stops the further propagation of the event (calling {@link qx.event.type.Event#stopPropagation}).
      *
-     * @type member
      * @param e {qx.legacy.event.type.MouseEvent} mouse click event
      * @return {void}
      */
@@ -1269,7 +1226,6 @@ qx.Class.define("qx.legacy.ui.window.Window",
      * Restores the window, removes all states from the restore button and
      * stops the further propagation of the event (calling {@link qx.event.type.Event#stopPropagation}).
      *
-     * @type member
      * @param e {qx.legacy.event.type.MouseEvent} mouse click event
      * @return {void}
      */
@@ -1291,7 +1247,6 @@ qx.Class.define("qx.legacy.ui.window.Window",
      * Maximizes the window, removes all states from the maximize button and
      * stops the further propagation of the event (calling {@link qx.event.type.Event#stopPropagation}).
      *
-     * @type member
      * @param e {qx.legacy.event.type.MouseEvent} mouse click event
      * @return {void}
      */
@@ -1313,7 +1268,6 @@ qx.Class.define("qx.legacy.ui.window.Window",
      * Closes the window, removes all states from the close button and
      * stops the further propagation of the event (calling {@link qx.event.type.Event#stopPropagation}).
      *
-     * @type member
      * @param e {qx.legacy.event.type.MouseEvent} mouse click event
      * @return {void}
      */
@@ -1343,7 +1297,6 @@ qx.Class.define("qx.legacy.ui.window.Window",
      * Enables the capturing of the caption bar and prepares the drag session and the
      * appearance (translucent, frame or opaque) for the moving of the window.
      *
-     * @type member
      * @param e {qx.legacy.event.type.MouseEvent} mouse down event
      * @return {void}
      */
@@ -1414,7 +1367,6 @@ qx.Class.define("qx.legacy.ui.window.Window",
      * to the last position of the drag session. Also restores the appearance
      * of the window.
      *
-     * @type member
      * @param e {qx.legacy.event.type.MouseEvent} mouse up event
      * @return {void}
      */
@@ -1459,7 +1411,6 @@ qx.Class.define("qx.legacy.ui.window.Window",
      * Does the moving of the window by rendering the position
      * of the window (or frame) at runtime using direct dom methods.
      *
-     * @type member
      * @param e {qx.event.type.Event} mouse move event
      * @return {void}
      */
@@ -1489,7 +1440,6 @@ qx.Class.define("qx.legacy.ui.window.Window",
      * Maximizes the window or restores it if it is already
      * maximized.
      *
-     * @type member
      * @param e {qx.legacy.event.type.MouseEvent} double click event
      * @return {void}
      */

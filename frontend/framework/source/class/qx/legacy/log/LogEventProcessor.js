@@ -59,7 +59,6 @@ qx.Class.define("qx.legacy.log.LogEventProcessor",
     /**
      * Appends a filter to the filter chain.
      *
-     * @type member
      * @param filter {Filter} The filter to append.
      * @return {void}
      */
@@ -76,7 +75,6 @@ qx.Class.define("qx.legacy.log.LogEventProcessor",
     /**
      * Clears the filter chain.
      *
-     * @type member
      * @return {void}
      */
     clearFilters : function() {
@@ -87,7 +85,6 @@ qx.Class.define("qx.legacy.log.LogEventProcessor",
     /**
      * Returns the head filter from the chain. Returns null if there are no filters.
      *
-     * @type member
      * @return {Filter} the head filter from the chain.
      */
     getHeadFilter : function() {
@@ -99,7 +96,6 @@ qx.Class.define("qx.legacy.log.LogEventProcessor",
      * Returns the default filter from the chain. If the head filter is no default
      * filter, the chain will be cleared and a default filter will be created.
      *
-     * @type member
      * @return {Filter} the default filter.
      */
     _getDefaultFilter : function()
@@ -125,7 +121,6 @@ qx.Class.define("qx.legacy.log.LogEventProcessor",
      *
      * Note: This will clear all custom filters.
      *
-     * @type member
      * @param enabled {Boolean} whether event processing should be enabled.
      * @return {void}
      */
@@ -139,7 +134,6 @@ qx.Class.define("qx.legacy.log.LogEventProcessor",
      *
      * Note: This will clear all custom filters.
      *
-     * @type member
      * @param minLevel {Integer} the new min level.
      * @return {void}
      */
@@ -151,7 +145,6 @@ qx.Class.define("qx.legacy.log.LogEventProcessor",
     /**
      * Decides whether a log event is processed.
      *
-     * @type member
      * @param evt {Map} the event to check.
      * @return {Integer} {@link Filter#ACCEPT}, {@link Filter#DENY} or
      *       {@link Filter#NEUTRAL}.
@@ -180,7 +173,6 @@ qx.Class.define("qx.legacy.log.LogEventProcessor",
     /**
      * Processes a log event.
      *
-     * @type member
      * @abstract
      * @param evt {Map} The log event to process.
      * @return {void}

@@ -44,7 +44,6 @@ qx.Class.define("qx.bom.Label",
     /**
      * Generates the helper DOM element for text measuring
      *
-     * @type static
      * @return {Element} Helper DOM element
      */
     __prepareText : function()
@@ -74,7 +73,6 @@ qx.Class.define("qx.bom.Label",
     /**
      * Generates the helper DOM element for HTML measuring
      *
-     * @type static
      * @return {Element} Helper DOM element
      */
     __prepareHtml : function()
@@ -108,7 +106,6 @@ qx.Class.define("qx.bom.Label",
      *
      * It is not possible to modify the mode afterwards.
      *
-     * @type static
      * @param content {String} Content of the label
      * @param html {Boolean?false} Whether HTML markup should be used.
      * @param win {Window?null} Window to create the element for
@@ -158,7 +155,6 @@ qx.Class.define("qx.bom.Label",
      * Returns a map of all styles which should be applied as
      * a basic set.
      *
-     * @type static
      * @param html {Boolean?false} Whether HTML markup should be used.
      * @return {Map} Initial styles which should be applied to a label element.
      */
@@ -224,7 +220,6 @@ qx.Class.define("qx.bom.Label",
     /**
      * Returns the content of the element.
      *
-     * @type static
      * @param element {Element} DOM element to query.
      * @return {String} Content stored in the element.
      */
@@ -248,7 +243,6 @@ qx.Class.define("qx.bom.Label",
     /**
      * Returns the preferred dimensions of the given HTML content.
      *
-     * @type static
      * @param content {String} The HTML markup to measure
      * @param styles {Map} Optional styles to apply
      * @param width {Integer} To support width for height it is possible to limit the width
@@ -286,7 +280,6 @@ qx.Class.define("qx.bom.Label",
     /**
      * Returns the preferred dimensions of the given text.
      *
-     * @type static
      * @param text {String} The text to measure
      * @param styles {Map} Optional styles to apply
      * @return {Map} A map with preferred <code>width</code> and <code>height</code>.

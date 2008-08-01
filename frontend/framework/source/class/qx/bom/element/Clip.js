@@ -37,7 +37,6 @@ qx.Class.define("qx.bom.element.Clip",
      * Changing the clipping does not change the dimensions of
      * an element.
      *
-     * @type static
      * @param map {Map}  Map which contains <code>left</code>, <code>top</code>
      *   <code>width</code> and <code>height</code> of the clipped area.
      * @return {String} CSS compatible string
@@ -80,7 +79,6 @@ qx.Class.define("qx.bom.element.Clip",
     /**
      * Gets the clipping of the given element.
      *
-     * @type static
      * @param element {Element} DOM element to query
      * @param mode {Number} Choose one of the modes {@link qx.bom.element.Style#COMPUTED_MODE},
      *   {@link qx.bom.element.Style#CASCADED_MODE}, {@link qx.bom.element.Style#LOCAL_MODE}.
@@ -181,7 +179,6 @@ qx.Class.define("qx.bom.element.Clip",
      * Changing the clipping does not change the dimensions of
      * an element.
      *
-     * @type static
      * @param element {Element} DOM element to modify
      * @param map {Map} A map with one or more of these available keys:
      *   <code>left</code>, <code>top</code>, <code>width</code>, <code>height</code>.
@@ -225,7 +222,6 @@ qx.Class.define("qx.bom.element.Clip",
     /**
      * Resets the clipping of the given DOM element.
      *
-     * @type static
      * @param element {Element} DOM element to modify
      * @return {void}
      */

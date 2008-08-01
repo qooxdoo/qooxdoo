@@ -44,7 +44,6 @@ qx.Interface.define("qx.legacy.ui.table.IHeaderRenderer",
      * <li>sortedAscending (boolean): whether sorting is ascending.</li>
      * </ul>
      *
-     * @type member
      * @abstract
      * @param cellInfo {Map} A map containing the information about the cell to
      *      create.
@@ -58,7 +57,6 @@ qx.Interface.define("qx.legacy.ui.table.IHeaderRenderer",
     /**
      * Updates a header cell.
      *
-     * @type member
      * @abstract
      * @param cellInfo {Map} A map containing the information about the cell to
      *      create. This map has the same structure as in {@link #createHeaderCell}.

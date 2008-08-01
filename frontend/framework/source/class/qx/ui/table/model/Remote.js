@@ -717,7 +717,6 @@ qx.Class.define("qx.ui.table.model.Remote",
     /**
      * Sets all columns editable or not editable.
      *
-     * @type member
      * @param editable {Boolean} whether all columns are editable.
      * @return {void}
      */
@@ -736,7 +735,6 @@ qx.Class.define("qx.ui.table.model.Remote",
     /**
      * Sets whether a column is editable.
      *
-     * @type member
      * @param columnIndex {Integer} the column of which to set the editable state.
      * @param editable {Boolean} whether the column should be editable.
      * @return {void}

@@ -111,7 +111,6 @@ qx.Class.define("qx.legacy.ui.menu.CheckBox",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -132,7 +131,6 @@ qx.Class.define("qx.legacy.ui.menu.CheckBox",
      * Calls the protected method {@link #_processExecute} to process
      * the execute action.
      *
-     * @type member
      * @return {void}
      */
     execute : function()
@@ -144,7 +142,6 @@ qx.Class.define("qx.legacy.ui.menu.CheckBox",
     /**
      * Processes the execute action in calling the {@link #toggleChecked} method
      *
-     * @type member
      * @return {void}
      */
     _processExecute : function() {

@@ -57,7 +57,6 @@ qx.Class.define("qx.legacy.io.image.Manager",
      * Register an image.
      * Gives the application the possibility to preload images.
      *
-     * @type member
      * @param source {String} The incoming (unresolved) URL.
      * @return {void}
      */
@@ -78,7 +77,6 @@ qx.Class.define("qx.legacy.io.image.Manager",
     /**
      * Unregister an image.
      *
-     * @type member
      * @param source {String} The incoming (unresolved) URL.
      * @return {void}
      */
@@ -102,7 +100,6 @@ qx.Class.define("qx.legacy.io.image.Manager",
      * Register an visible image.
      * Gives the application the possibility to preload visible images.
      *
-     * @type member
      * @param source {String} The incoming (unresolved) URL.
      * @return {void}
      */
@@ -123,7 +120,6 @@ qx.Class.define("qx.legacy.io.image.Manager",
      * Register an image and reduce the visible counter
      * Warning: Only use after using show() before
      *
-     * @type member
      * @param source {String} The incoming (unresolved) URL.
      * @return {void}
      */
@@ -146,7 +142,6 @@ qx.Class.define("qx.legacy.io.image.Manager",
     /**
      * Returns a map with the sources of all visible images
      *
-     * @type member
      * @return {Map} Map with sources of all visible images
      */
     getVisibleImages : function()
@@ -168,7 +163,6 @@ qx.Class.define("qx.legacy.io.image.Manager",
     /**
      * Returns a map with the sources of all hidden images
      *
-     * @type member
      * @return {Map} Map with sources of all hidden images
      */
     getHiddenImages : function()

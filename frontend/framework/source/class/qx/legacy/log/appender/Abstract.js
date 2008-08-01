@@ -81,7 +81,6 @@ qx.Class.define("qx.legacy.log.appender.Abstract",
     /**
      * Appends a log event to the log.
      *
-     * @type member
      * @abstract
      * @param evt {Map} The event to append.
      * @return {void}
@@ -95,7 +94,6 @@ qx.Class.define("qx.legacy.log.appender.Abstract",
     /**
      * Formats a log event.
      *
-     * @type member
      * @param evt {Map} The log event to format.
      * @return {String} The formatted event.
      */

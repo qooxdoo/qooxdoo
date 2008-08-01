@@ -175,7 +175,6 @@ qx.Class.define("qx.ui.form.RadioButton",
      *
      * Sets the property "checked" to true.
      *
-     * @type member
      * @param e {qx.event.type.Event} execute event
      * @return {void}
      */
@@ -190,7 +189,6 @@ qx.Class.define("qx.ui.form.RadioButton",
      * Selects the previous RadioButton when pressing "Left" or "Up" and
      * Selects the next RadioButton when pressing "Right" and "Down"
      *
-     * @type member
      * @param e {qx.event.type.KeySequence} KeyPress event
      * @return {void}
      */

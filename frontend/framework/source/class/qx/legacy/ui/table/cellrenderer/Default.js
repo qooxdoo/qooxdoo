@@ -80,7 +80,6 @@ qx.Class.define("qx.legacy.ui.table.cellrenderer.Default",
     /**
      * Determines the styles to apply to the cell
      *
-     * @type member
      * @param cellInfo {Map} cellInfo of the cell
      *     See {@link #createDataCellHtml}.
      * @return {Integer} the sum of any of the STYLEFLAGS defined below
@@ -131,7 +130,6 @@ qx.Class.define("qx.legacy.ui.table.cellrenderer.Default",
     /**
      * Formats a value.
      *
-     * @type member
      * @param cellInfo {Map} A map containing the information about the cell to
      *          create. This map has the same structure as in
      *          {@link DataCellRenderer#createDataCell}.

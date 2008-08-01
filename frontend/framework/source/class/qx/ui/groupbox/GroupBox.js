@@ -193,7 +193,6 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
      * The children container needed by the {@link qx.ui.core.MRemoteChildrenHandling}
      * mixin
      *
-     * @type member
      * @return {qx.ui.container.Composite} pane sub widget
      */
     getChildrenContainer : function() {
@@ -214,7 +213,6 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
      * Sets the label of the legend sub widget if the given string is
      * valid. Otherwise the legend sub widget get not displayed.
      *
-     * @type member
      * @param legend {String} new label of the legend sub widget
      * @return {void}
      */
@@ -237,7 +235,6 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
     /**
      * Accessor method for the label of the legend sub widget
      *
-     * @type member
      * @return {String} Label of the legend sub widget
      */
     getLegend : function() {
@@ -248,7 +245,6 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
     /**
      * Sets the icon of the legend sub widget.
      *
-     * @type member
      * @param icon {String} source of the new icon of the legend sub widget
      * @return {void}
      */
@@ -260,7 +256,6 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
     /**
      * Accessor method for the icon of the legend sub widget
      *
-     * @type member
      * @return {String} source of the new icon of the legend sub widget
      */
     getIcon : function() {

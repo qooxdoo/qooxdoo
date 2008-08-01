@@ -458,7 +458,6 @@ qx.Class.define("qx.legacy.ui.table.pane.Scroller",
     /**
      * Returns the table this scroller belongs to.
      *
-     * @type member
      * @return {qx.legacy.ui.table.Table} the table.
      */
     getTable : function() {
@@ -469,7 +468,6 @@ qx.Class.define("qx.legacy.ui.table.pane.Scroller",
     /**
      * Event handler. Called when the visibility of a column has changed.
      *
-     * @type member
      * @param evt {Map} the event.
      * @return {void}
      */
@@ -483,7 +481,6 @@ qx.Class.define("qx.legacy.ui.table.pane.Scroller",
     /**
      * Event handler. Called when the width of a column has changed.
      *
-     * @type member
      * @param evt {Map} the event.
      * @return {void}
      */
@@ -508,7 +505,6 @@ qx.Class.define("qx.legacy.ui.table.pane.Scroller",
     /**
      * Event handler. Called when the column order has changed.
      *
-     * @type member
      * @param evt {Map} the event.
      * @return {void}
      */
@@ -524,7 +520,6 @@ qx.Class.define("qx.legacy.ui.table.pane.Scroller",
     /**
      * Event handler. Called when the table model has changed.
      *
-     * @type member
      * @param evt {Map} the event.
      * @return {void}
      */
@@ -553,7 +548,6 @@ qx.Class.define("qx.legacy.ui.table.pane.Scroller",
     /**
      * Event handler. Called when the selection has changed.
      *
-     * @type member
      * @param evt {Map} the event.
      * @return {void}
      */
@@ -565,7 +559,6 @@ qx.Class.define("qx.legacy.ui.table.pane.Scroller",
     /**
      * Event handler. Called when the table gets or looses the focus.
      *
-     * @type member
      * @param evt {Map} the event.
      * @return {void}
      */
@@ -578,7 +571,6 @@ qx.Class.define("qx.legacy.ui.table.pane.Scroller",
     /**
      * Event handler. Called when the table model meta data has changed.
      *
-     * @type member
      * @param evt {Map} the event.
      * @return {void}
      */
@@ -592,7 +584,6 @@ qx.Class.define("qx.legacy.ui.table.pane.Scroller",
     /**
      * Event handler. Called when the pane model has changed.
      *
-     * @type member
      * @param evt {Map} the event.
      * @return {void}
      */
@@ -607,7 +598,6 @@ qx.Class.define("qx.legacy.ui.table.pane.Scroller",
      * Updates the maximum of the horizontal scroll bar, so it corresponds to the
      * total width of the columns in the table pane.
      *
-     * @type member
      * @return {void}
      */
     _updateHorScrollBarMaximum : function() {
@@ -619,7 +609,6 @@ qx.Class.define("qx.legacy.ui.table.pane.Scroller",
      * Updates the maximum of the vertical scroll bar, so it corresponds to the
      * number of rows in the table.
      *
-     * @type member
      * @return {void}
      */
     _updateVerScrollBarMaximum : function()
@@ -639,7 +628,6 @@ qx.Class.define("qx.legacy.ui.table.pane.Scroller",
      * Event handler. Called when the table property "keepFirstVisibleRowComplete"
      * changed.
      *
-     * @type member
      * @return {void}
      */
     _onKeepFirstVisibleRowCompleteChanged : function()
@@ -689,7 +677,6 @@ qx.Class.define("qx.legacy.ui.table.pane.Scroller",
     /**
      * Event handler. Called when the horizontal scroll bar moved.
      *
-     * @type member
      * @param evt {Map} the event.
      * @return {void}
      */
@@ -711,7 +698,6 @@ qx.Class.define("qx.legacy.ui.table.pane.Scroller",
     /**
      * Event handler. Called when the vertical scroll bar moved.
      *
-     * @type member
      * @param evt {Map} the event.
      * @return {void}
      */
@@ -725,7 +711,6 @@ qx.Class.define("qx.legacy.ui.table.pane.Scroller",
     /**
      * Event handler. Called when the user moved the mouse wheel.
      *
-     * @type member
      * @param evt {Map} the event.
      * @return {void}
      */
@@ -749,7 +734,6 @@ qx.Class.define("qx.legacy.ui.table.pane.Scroller",
     /**
      * Common column resize logic.
      *
-     * @type member
      * @param pageX {Integer} the current mouse x position.
      * @return {void}
      */
@@ -817,7 +801,6 @@ qx.Class.define("qx.legacy.ui.table.pane.Scroller",
     /**
      * Event handler. Called when the user moved the mouse over the header.
      *
-     * @type member
      * @param evt {Map} the event.
      * @return {void}
      */
@@ -872,7 +855,6 @@ qx.Class.define("qx.legacy.ui.table.pane.Scroller",
     /**
      * Event handler. Called when the user moved the mouse over the pane.
      *
-     * @type member
      * @param evt {Map} the event.
      * @return {void}
      */
@@ -923,7 +905,6 @@ qx.Class.define("qx.legacy.ui.table.pane.Scroller",
     /**
      * Event handler. Called when the user pressed a mouse button over the header.
      *
-     * @type member
      * @param evt {Map} the event.
      * @return {void}
      */
@@ -953,7 +934,6 @@ qx.Class.define("qx.legacy.ui.table.pane.Scroller",
     /**
      * Start a resize session of the header.
      *
-     * @type member
      * @param resizeCol {Integer} the column index
      * @param pageX {Integer} x coordinate of the mouse event
      * @return {void}
@@ -973,7 +953,6 @@ qx.Class.define("qx.legacy.ui.table.pane.Scroller",
     /**
      * Start a move session of the header.
      *
-     * @type member
      * @param moveCol {Integer} the column index
      * @param pageX {Integer} x coordinate of the mouse event
      * @return {void}
@@ -992,7 +971,6 @@ qx.Class.define("qx.legacy.ui.table.pane.Scroller",
     /**
      * Event handler. Called when the user pressed a mouse button over the pane.
      *
-     * @type member
      * @param evt {Map} the event.
      * @return {void}
      */
@@ -1081,7 +1059,6 @@ qx.Class.define("qx.legacy.ui.table.pane.Scroller",
     /**
      * Stop a resize session of the header.
      *
-     * @type member
      * @return {void}
      */
     _stopResizeHeader : function()
@@ -1104,7 +1081,6 @@ qx.Class.define("qx.legacy.ui.table.pane.Scroller",
     /**
      * Stop a move session of the header.
      *
-     * @type member
      * @return {void}
      */
     _stopMoveHeader : function()
@@ -1150,7 +1126,6 @@ qx.Class.define("qx.legacy.ui.table.pane.Scroller",
     /**
      * Event handler. Called when the user released a mouse button over the pane.
      *
-     * @type member
      * @param evt {Map} the event.
      * @return {void}
      */
@@ -1172,7 +1147,6 @@ qx.Class.define("qx.legacy.ui.table.pane.Scroller",
     /**
      * Event handler. Called when the user released a mouse button over the header.
      *
-     * @type member
      * @param evt {Map} the event.
      * @return {void}
      */
@@ -1199,7 +1173,6 @@ qx.Class.define("qx.legacy.ui.table.pane.Scroller",
     /**
      * Event handler. Called when the user clicked a mouse button over the header.
      *
-     * @type member
      * @param evt {Map} the event.
      * @return {void}
      */
@@ -1244,7 +1217,6 @@ qx.Class.define("qx.legacy.ui.table.pane.Scroller",
     /**
      * Event handler. Called when the user clicked a mouse button over the pane.
      *
-     * @type member
      * @param evt {Map} the event.
      * @return {void}
      */
@@ -1283,7 +1255,6 @@ qx.Class.define("qx.legacy.ui.table.pane.Scroller",
     /**
      * Event handler. Called when a context menu is invoked in a cell.
      *
-     * @type member
      * @param evt {qx.legacy.event.type.MouseEvent} the event.
      * @return {void}
      */
@@ -1311,7 +1282,6 @@ qx.Class.define("qx.legacy.ui.table.pane.Scroller",
     /**
      * Event handler. Called when the user double clicked a mouse button over the pane.
      *
-     * @type member
      * @param evt {Map} the event.
      * @return {void}
      */
@@ -1337,7 +1307,6 @@ qx.Class.define("qx.legacy.ui.table.pane.Scroller",
     /**
      * Event handler. Called when the mouse moved out.
      *
-     * @type member
      * @param evt {Map} the event.
      * @return {void}
      */
@@ -1363,7 +1332,6 @@ qx.Class.define("qx.legacy.ui.table.pane.Scroller",
     /**
      * Shows the resize line.
      *
-     * @type member
      * @param x {Integer} the position where to show the line (in pixels, relative to
      *      the left side of the pane).
      * @return {void}
@@ -1393,7 +1361,6 @@ qx.Class.define("qx.legacy.ui.table.pane.Scroller",
     /**
      * Hides the resize line.
      *
-     * @type member
      * @return {void}
      */
     _hideResizeLine : function() {
@@ -1406,7 +1373,6 @@ qx.Class.define("qx.legacy.ui.table.pane.Scroller",
     /**
      * Shows the feedback shown while a column is moved by the user.
      *
-     * @type member
      * @param pageX {Integer} the x position of the mouse in the page (in pixels).
      * @return {Integer} the visible x position of the column in the whole table.
      */
@@ -1453,7 +1419,6 @@ qx.Class.define("qx.legacy.ui.table.pane.Scroller",
     /**
      * Hides the feedback shown while a column is moved by the user.
      *
-     * @type member
      * @return {void}
      */
     hideColumnMoveFeedback : function() {
@@ -1466,7 +1431,6 @@ qx.Class.define("qx.legacy.ui.table.pane.Scroller",
      * <code>pageX</code>/<code>pageY</code>. If there is no cell at that position,
      * nothing happens.
      *
-     * @type member
      * @param pageX {Integer} the x position in the page (in pixels).
      * @param pageY {Integer} the y position in the page (in pixels).
      * @return {void}
@@ -1490,7 +1454,6 @@ qx.Class.define("qx.legacy.ui.table.pane.Scroller",
     /**
      * Sets the currently focused cell.
      *
-     * @type member
      * @param col {Integer} the model index of the focused cell's column.
      * @param row {Integer} the model index of the focused cell's row.
      * @return {void}
@@ -1515,7 +1478,6 @@ qx.Class.define("qx.legacy.ui.table.pane.Scroller",
     /**
      * Returns the column of currently focused cell.
      *
-     * @type member
      * @return {Integer} the model index of the focused cell's column.
      */
     getFocusedColumn : function() {
@@ -1526,7 +1488,6 @@ qx.Class.define("qx.legacy.ui.table.pane.Scroller",
     /**
      * Returns the row of currently focused cell.
      *
-     * @type member
      * @return {Integer} the model index of the focused cell's column.
      */
     getFocusedRow : function() {
@@ -1537,7 +1498,6 @@ qx.Class.define("qx.legacy.ui.table.pane.Scroller",
     /**
      * Scrolls a cell visible.
      *
-     * @type member
      * @param col {Integer} the model index of the column the cell belongs to.
      * @param row {Integer} the model index of the row the cell belongs to.
      * @return {void}
@@ -1581,7 +1541,6 @@ qx.Class.define("qx.legacy.ui.table.pane.Scroller",
     /**
      * Returns whether currently a cell is editing.
      *
-     * @type member
      * @return {var} whether currently a cell is editing.
      */
     isEditing : function() {
@@ -1594,7 +1553,6 @@ qx.Class.define("qx.legacy.ui.table.pane.Scroller",
      * editing, if the column is not editable, or if the cell editor for the
      * column ascertains that the particular cell is not editable.
      *
-     * @type member
      * @return {Boolean} whether editing was started
      */
     startEditing : function()
@@ -1709,7 +1667,6 @@ qx.Class.define("qx.legacy.ui.table.pane.Scroller",
     /**
      * Stops editing and writes the editor's value to the model.
      *
-     * @type member
      * @return {void}
      */
     stopEditing : function()
@@ -1722,7 +1679,6 @@ qx.Class.define("qx.legacy.ui.table.pane.Scroller",
     /**
      * Writes the editor's value to the model.
      *
-     * @type member
      * @return {void}
      */
     flushEditor : function()
@@ -1740,7 +1696,6 @@ qx.Class.define("qx.legacy.ui.table.pane.Scroller",
     /**
      * Stops editing without writing the editor's value to the model.
      *
-     * @type member
      * @return {void}
      */
     cancelEditing : function()
@@ -1785,7 +1740,6 @@ qx.Class.define("qx.legacy.ui.table.pane.Scroller",
     /**
      * Event handler. Called when the modal window of the cell editor closes.
      *
-     * @type member
      * @param evt {Map} the event.
      * @return {void}
      */
@@ -1799,7 +1753,6 @@ qx.Class.define("qx.legacy.ui.table.pane.Scroller",
      * Returns the model index of the column the mouse is over or null if the mouse
      * is not over a column.
      *
-     * @type member
      * @param pageX {Integer} the x position of the mouse in the page (in pixels).
      * @return {Integer} the model index of the column the mouse is over.
      */
@@ -1831,7 +1784,6 @@ qx.Class.define("qx.legacy.ui.table.pane.Scroller",
      * Returns the model index of the column that should be resized when dragging
      * starts here. Returns -1 if the mouse is in no resize region of any column.
      *
-     * @type member
      * @param pageX {Integer} the x position of the mouse in the page (in pixels).
      * @return {Integer} the column index.
      */
@@ -1865,7 +1817,6 @@ qx.Class.define("qx.legacy.ui.table.pane.Scroller",
      * the mouse is over the header. Returns null if the mouse is not over any
      * column.
      *
-     * @type member
      * @param pageX {Integer} the mouse x position in the page.
      * @param pageY {Integer} the mouse y position in the page.
      * @return {Integer} the model index of the row the mouse is currently over.
@@ -1921,7 +1872,6 @@ qx.Class.define("qx.legacy.ui.table.pane.Scroller",
      * The widget will not be disposed, when this table scroller is disposed. So the
      * caller has to dispose it.
      *
-     * @type member
      * @param widget {qx.legacy.ui.core.Widget} The widget to set. May be null.
      * @return {void}
      */
@@ -1950,7 +1900,6 @@ qx.Class.define("qx.legacy.ui.table.pane.Scroller",
     /**
      * Returns the header.
      *
-     * @type member
      * @return {qx.legacy.ui.table.pane.Header} the header.
      */
     getHeader : function() {
@@ -1961,7 +1910,6 @@ qx.Class.define("qx.legacy.ui.table.pane.Scroller",
     /**
      * Returns the table pane.
      *
-     * @type member
      * @return {qx.legacy.ui.table.pane.Pane} the table pane.
      */
     getTablePane : function() {
@@ -1972,7 +1920,6 @@ qx.Class.define("qx.legacy.ui.table.pane.Scroller",
     /**
      * Returns which scrollbars are needed.
      *
-     * @type member
      * @param forceHorizontal {Boolean ? false} Whether to show the horizontal
      *      scrollbar always.
      * @param preventVertical {Boolean ? false} Whether tp show the vertical scrollbar
@@ -2040,7 +1987,6 @@ qx.Class.define("qx.legacy.ui.table.pane.Scroller",
     /**
      * starts the current running interval
      *
-     * @type member
      * @return {void}
      */
     _startInterval : function (value)
@@ -2060,7 +2006,6 @@ qx.Class.define("qx.legacy.ui.table.pane.Scroller",
     /**
      * stops the current running interval
      *
-     * @type member
      * @return {void}
      */
     _stopInterval : function ()
@@ -2077,7 +2022,6 @@ qx.Class.define("qx.legacy.ui.table.pane.Scroller",
     /**
      * Does a postponed update of the content.
      *
-     * @type member
      * @return {void}
      * @see #_updateContent
      */
@@ -2092,7 +2036,6 @@ qx.Class.define("qx.legacy.ui.table.pane.Scroller",
      * required. The update interval is controled by the {@link #scrollTimeout}
      * property.
      *
-     * @type member
      * @return {void}
      */
     _oninterval : function()
@@ -2108,7 +2051,6 @@ qx.Class.define("qx.legacy.ui.table.pane.Scroller",
      * Updates the content. Sets the right section the table pane should show and
      * does the scrolling.
      *
-     * @type member
      * @return {void}
      */
     _updateContent : function()
@@ -2173,7 +2115,6 @@ qx.Class.define("qx.legacy.ui.table.pane.Scroller",
     /**
      * Updates the location and the visibility of the focus indicator.
      *
-     * @type member
      * @return {void}
      */
     _updateFocusIndicator : function()

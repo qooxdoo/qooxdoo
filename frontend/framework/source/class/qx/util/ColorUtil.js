@@ -164,7 +164,6 @@ qx.Class.define("qx.util.ColorUtil",
      * Supports themed, named and system colors, but also RGB strings,
      * hex3 and hex6 values.
      *
-     * @type static
      * @param str {String} any string
      * @return {Array} returns an array of red, green, blue on a successful transformation
      * @throws an error if the string could not be parsed
@@ -204,7 +203,6 @@ qx.Class.define("qx.util.ColorUtil",
      * Try to convert a incoming string to an RGB array.
      * Support named colors, RGB strings, hex3 and hex6 values.
      *
-     * @type static
      * @param str {String} any string
      * @return {Array} returns an array of red, green, blue on a successful transformation
      * @throws an error if the string could not be parsed
@@ -242,7 +240,6 @@ qx.Class.define("qx.util.ColorUtil",
      * Supports themed, named and system colors, but also RGB strings,
      * hex3 and hex6 values.
      *
-     * @type static
      * @param str {String} any string
      * @return {String} a RGB string
      * @throws an error if the string could not be parsed
@@ -255,7 +252,6 @@ qx.Class.define("qx.util.ColorUtil",
     /**
      * Converts a RGB array to an RGB string
      *
-     * @type static
      * @param rgb {Array} an array with red, green and blue
      * @return {String} a RGB string
      */
@@ -267,7 +263,6 @@ qx.Class.define("qx.util.ColorUtil",
     /**
      * Converts a RGB array to an hex6 string
      *
-     * @type static
      * @param rgb {Array} an array with red, green and blue
      * @return {String} a hex6 string
      */
@@ -283,7 +278,6 @@ qx.Class.define("qx.util.ColorUtil",
     /**
      * Detects if a string is a valid qooxdoo color
      *
-     * @type static
      * @param str {String} any string
      * @return {Boolean} true when the incoming value is a valid qooxdoo color
      */
@@ -295,7 +289,6 @@ qx.Class.define("qx.util.ColorUtil",
     /**
      * Detects if a string is a valid CSS color string
      *
-     * @type static
      * @param str {String} any string
      * @return {Boolean} true when the incoming value is a valid CSS color string
      */
@@ -307,7 +300,6 @@ qx.Class.define("qx.util.ColorUtil",
     /**
      * Detects if a string is a valid hex3 string
      *
-     * @type static
      * @param str {String} any string
      * @return {Boolean} true when the incoming value is a valid hex3 string
      */
@@ -319,7 +311,6 @@ qx.Class.define("qx.util.ColorUtil",
     /**
      * Detects if a string is a valid hex6 string
      *
-     * @type static
      * @param str {String} any string
      * @return {Boolean} true when the incoming value is a valid hex6 string
      */
@@ -331,7 +322,6 @@ qx.Class.define("qx.util.ColorUtil",
     /**
      * Detects if a string is a valid RGB string
      *
-     * @type static
      * @param str {String} any string
      * @return {Boolean} true when the incoming value is a valid RGB string
      */
@@ -343,7 +333,6 @@ qx.Class.define("qx.util.ColorUtil",
     /**
      * Converts a regexp object match of a rgb string to an RGB array.
      *
-     * @type static
      * @return {Array} an array with red, green, blue
      */
     __rgbStringToRgb : function()
@@ -359,7 +348,6 @@ qx.Class.define("qx.util.ColorUtil",
     /**
      * Converts a regexp object match of a hex3 string to an RGB array.
      *
-     * @type static
      * @return {Array} an array with red, green, blue
      */
     __hex3StringToRgb : function()
@@ -375,7 +363,6 @@ qx.Class.define("qx.util.ColorUtil",
     /**
      * Converts a regexp object match of a hex6 string to an RGB array.
      *
-     * @type static
      * @return {Array} an array with red, green, blue
      */
     __hex6StringToRgb : function()
@@ -391,7 +378,6 @@ qx.Class.define("qx.util.ColorUtil",
     /**
      * Converts a hex3 string to an RGB array
      *
-     * @type static
      * @param value {String} a hex3 (#xxx) string
      * @return {Array} an array with red, green, blue
      */
@@ -408,7 +394,6 @@ qx.Class.define("qx.util.ColorUtil",
     /**
      * Converts a hex6 string to an RGB array
      *
-     * @type static
      * @param value {String} a hex6 (#xxxxxx) string
      * @return {Array} an array with red, green, blue
      */
@@ -425,7 +410,6 @@ qx.Class.define("qx.util.ColorUtil",
     /**
      * Converts a hex string to an RGB array
      *
-     * @type static
      * @param value {String} a hex3 (#xxx) or hex6 (#xxxxxx) string
      * @return {Array} an array with red, green, blue
      */
@@ -446,7 +430,6 @@ qx.Class.define("qx.util.ColorUtil",
     /**
      * Convert RGB colors to HSB
      *
-     * @type static
      * @param rgb {Number[]} red, blue and green as array
      * @return {Array} an array with hue, saturation and brightness
      */
@@ -510,7 +493,6 @@ qx.Class.define("qx.util.ColorUtil",
     /**
      * Convert HSB colors to RGB
      *
-     * @type static
      * @param hsb {Number[]} an array with hue, saturation and brightness
      * @return {Array} an array with red, green, blue
      */

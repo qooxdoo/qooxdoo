@@ -40,7 +40,6 @@ qx.Class.define("qx.util.EditDistance",
      * Returns a distant matrix following a concept
      * named Levenshtein distance for two data structures
      *
-     * @type static
      * @param dataA {Array} incoming source data
      * @param dataB {Array} incoming target data
      * @return {Integer[][]} outgoing matrix
@@ -88,7 +87,6 @@ qx.Class.define("qx.util.EditDistance",
     /**
      * Computes the operations needed to transform dataA to dataB.
      *
-     * @type static
      * @param distance {Integer[][]} Precomputed matrix for the data fields
      * @param dataA {Array} incoming source data
      * @param dataB {Array} incoming target data
@@ -157,7 +155,6 @@ qx.Class.define("qx.util.EditDistance",
     /**
      * Returns the operations needed to transform dataA to dataB.
      *
-     * @type static
      * @param dataA {Array} incoming source data
      * @param dataB {Array} incoming target data
      * @return {Map[]} Array of maps describing the operations needed

@@ -128,7 +128,6 @@ qx.Class.define("qx.legacy.theme.manager.Meta",
      * Initialize the themes which were selected using the settings. Should only
      * be called from qooxdoo based application.
      *
-     * @type static
      */
     initialize : function()
     {
@@ -240,7 +239,6 @@ qx.Class.define("qx.legacy.theme.manager.Meta",
     /**
      * Returns a list of all registered meta themes
      *
-     * @type static
      * @return {Theme[]} list of meta themes
      */
     getMetaThemes : function() {
@@ -251,7 +249,6 @@ qx.Class.define("qx.legacy.theme.manager.Meta",
     /**
      * Returns a list of all registered color themes
      *
-     * @type static
      * @return {Theme[]} list of color themes
      */
     getColorThemes : function() {
@@ -262,7 +259,6 @@ qx.Class.define("qx.legacy.theme.manager.Meta",
     /**
      * Returns a list of all registered border themes
      *
-     * @type static
      * @return {Theme[]} list of border themes
      */
     getBorderThemes : function() {
@@ -273,7 +269,6 @@ qx.Class.define("qx.legacy.theme.manager.Meta",
     /**
      * Returns a list of all registered font themes
      *
-     * @type static
      * @return {Theme[]} list of font themes
      */
     getFontThemes : function() {
@@ -284,7 +279,6 @@ qx.Class.define("qx.legacy.theme.manager.Meta",
     /**
      * Returns a list of all registered widget themes
      *
-     * @type static
      * @return {Theme[]} list of widget themes
      */
     getWidgetThemes : function() {
@@ -295,7 +289,6 @@ qx.Class.define("qx.legacy.theme.manager.Meta",
     /**
      * Returns a list of all registered icon themes
      *
-     * @type static
      * @return {Theme[]} list of icon themes
      */
     getIconThemes : function() {
@@ -306,7 +299,6 @@ qx.Class.define("qx.legacy.theme.manager.Meta",
     /**
      * Returns a list of all registered appearance themes
      *
-     * @type static
      * @return {Theme[]} list of appearance themes
      */
     getAppearanceThemes : function() {

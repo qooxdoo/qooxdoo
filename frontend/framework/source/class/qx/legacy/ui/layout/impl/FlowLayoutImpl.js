@@ -89,7 +89,6 @@ qx.Class.define("qx.legacy.ui.layout.impl.FlowLayoutImpl",
      *  [02] COMPUTE NEEDED DIMENSIONS FOR AN INDIVIDUAL CHILD
      *  [06] UPDATE LAYOUT ON JOB QUEUE FLUSH
      *
-     * @type member
      * @return {var} TODOC
      */
     computeChildrenNeededWidth : function()
@@ -102,7 +101,6 @@ qx.Class.define("qx.legacy.ui.layout.impl.FlowLayoutImpl",
     /**
      * Calculate the layout to get the needed height of the children
      *
-     * @type member
      * @return {var} TODOC
      */
     computeChildrenNeededHeight : function()
@@ -156,7 +154,6 @@ qx.Class.define("qx.legacy.ui.layout.impl.FlowLayoutImpl",
      * Things to do and layout when any of the childs changes it's outer width.
      *  Needed by layouts where the children depends on each-other, like flow- or box-layouts.
      *
-     * @type member
      * @param vChild {var} TODOC
      * @return {void}
      */
@@ -181,7 +178,6 @@ qx.Class.define("qx.legacy.ui.layout.impl.FlowLayoutImpl",
      * Actions that should be done if the inner width of the widget was changed.
      *  Normally this includes update to percent values and ranges.
      *
-     * @type member
      * @param vChild {var} TODOC
      */
     updateChildOnInnerWidthChange : function(vChild)
@@ -197,7 +193,6 @@ qx.Class.define("qx.legacy.ui.layout.impl.FlowLayoutImpl",
      * Actions that should be done if the inner height of the widget was changed.
      *  Normally this includes update to percent values and ranges.
      *
-     * @type member
      * @param vChild {var} TODOC
      */
     updateChildOnInnerHeightChange : function(vChild)
@@ -220,7 +215,6 @@ qx.Class.define("qx.legacy.ui.layout.impl.FlowLayoutImpl",
     /**
      * Updates children on special jobs
      *
-     * @type member
      * @param vQueue {var} TODOC
      * @return {boolean}
      */
@@ -244,7 +238,6 @@ qx.Class.define("qx.legacy.ui.layout.impl.FlowLayoutImpl",
      * This method combines calls of methods which should be done if a widget should be removed from the current layout.
      *  Needed by layouts where the children depends on each-other, like flow- or box-layouts.
      *
-     * @type member
      * @param vChild {var} TODOC
      * @param vIndex {var} TODOC
      * @return {void}
@@ -275,7 +268,6 @@ qx.Class.define("qx.legacy.ui.layout.impl.FlowLayoutImpl",
      *  inside the same parent to a new positions.
      *  Needed by layouts where the children depends on each-other, like flow- or box-layouts.
      *
-     * @type member
      * @param vChild {var} TODOC
      * @param vIndex {var} TODOC
      * @param vOldIndex {var} TODOC
@@ -302,7 +294,6 @@ qx.Class.define("qx.legacy.ui.layout.impl.FlowLayoutImpl",
      *  registered (or also non-registered) children should be
      *  layouted on the horizontal axis.
      *
-     * @type member
      * @param vChildrenQueue {var} TODOC
      * @return {void}
      */
@@ -358,7 +349,6 @@ qx.Class.define("qx.legacy.ui.layout.impl.FlowLayoutImpl",
     /**
      * TODOC
      *
-     * @type member
      * @param vChild {var} TODOC
      * @param vJobs {var} TODOC
      * @return {void}
@@ -381,7 +371,6 @@ qx.Class.define("qx.legacy.ui.layout.impl.FlowLayoutImpl",
     /**
      * TODOC
      *
-     * @type member
      * @param vChild {var} TODOC
      * @param vJobs {var} TODOC
      * @return {void}
@@ -408,7 +397,6 @@ qx.Class.define("qx.legacy.ui.layout.impl.FlowLayoutImpl",
     /**
      * TODOC
      *
-     * @type member
      * @param vChild {var} TODOC
      * @param vJobs {var} TODOC
      * @return {void}
@@ -435,7 +423,6 @@ qx.Class.define("qx.legacy.ui.layout.impl.FlowLayoutImpl",
     /**
      * TODOC
      *
-     * @type member
      * @param vChild {var} TODOC
      * @param vJobs {var} TODOC
      * @return {void}
