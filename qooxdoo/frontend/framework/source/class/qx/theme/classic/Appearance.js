@@ -1213,8 +1213,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          width : states.horizontal ? 5 : "undefined",
-          height : states.vertical ? 5 : "undefined",
           backgroundColor : "background"
         };
       }
@@ -1225,7 +1223,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          source : states.horizontal ? "decoration/splitpane/knob-horizontal.png" : "decoration/splitpane/knob-vertical.png"
+          source : states.horizontal ? "decoration/splitpane/knob-horizontal.png" : "decoration/splitpane/knob-vertical.png",
+          padding : 2
         };
       }
     },
