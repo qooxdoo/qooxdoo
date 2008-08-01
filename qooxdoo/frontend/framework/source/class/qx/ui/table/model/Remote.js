@@ -68,6 +68,9 @@ qx.Class.define("qx.ui.table.model.Remote",
 
     this._rowBlockCache = {};
     this._rowBlockCount = 0;
+
+    this._sortableColArr = null;
+    this._editableColArr = null;
   },
 
 
@@ -712,6 +715,55 @@ qx.Class.define("qx.ui.table.model.Remote",
 
 
     /**
+     * Sets all columns editable or not editable.
+     *
+     * @type member
+     * @param editable {Boolean} whether all columns are editable.
+     * @return {void}
+     */
+    setEditable : function(editable)
+    {
+      this._editableColArr = [];
+
+      for (var col=0; col<this.getColumnCount(); col++) {
+        this._editableColArr[col] = editable;
+      }
+
+      this.fireEvent(qx.ui.table.ITableModel.EVENT_TYPE_META_DATA_CHANGED);
+    },
+
+
+    /**
+     * Sets whether a column is editable.
+     *
+     * @type member
+     * @param columnIndex {Integer} the column of which to set the editable state.
+     * @param editable {Boolean} whether the column should be editable.
+     * @return {void}
+     */
+    setColumnEditable : function(columnIndex, editable)
+    {
+      if (editable != this.isColumnEditable(columnIndex))
+      {
+        if (this._editableColArr == null) {
+          this._editableColArr = [];
+        }
+
+        this._editableColArr[columnIndex] = editable;
+
+        this.fireEvent(qx.ui.table.ITableModel.EVENT_TYPE_META_DATA_CHANGED);
+      }
+    },
+
+    // overridden
+    isColumnEditable : function(columnIndex)
+    {
+      return (this._editableColArr
+              ? (this._editableColArr[columnIndex] == true)
+              : false);
+    }
+
+   /**
      * Sets whether a column is sortable.
      *
      * @param columnIndex {Integer} the column of which to set the sortable state.
@@ -733,8 +785,11 @@ qx.Class.define("qx.ui.table.model.Remote",
     },
 
     // overridden
-    isColumnSortable : function(columnIndex) {
-      return this._sortableColArr ? (this._sortableColArr[columnIndex] == true) : false;
+    isColumnSortable : function(columnIndex)
+    {
+      return (this._sortableColArr
+              ? (this._sortableColArr[columnIndex] == true)
+              : false);
     },
 
     // overridden
@@ -761,5 +816,10 @@ qx.Class.define("qx.ui.table.model.Remote",
     isSortAscending : function() {
       return this._sortAscending;
     }
+  },
+
+  destruct : function()
+  {
+    this._disposeFields("_sortableColArr", "_editableColArr");
   }
 });
