@@ -60,7 +60,6 @@ qx.Class.define("qx.legacy.ui.pageview.AbstractBar",
     /**
      * Get the selection manager.
      *
-     * @type member
      * @return {qx.legacy.ui.selection.RadioManager} the selection manager of the bar.
      */
     getManager : function() {
@@ -74,7 +73,6 @@ qx.Class.define("qx.legacy.ui.pageview.AbstractBar",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -122,7 +120,6 @@ qx.Class.define("qx.legacy.ui.pageview.AbstractBar",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {var} TODOC
      */

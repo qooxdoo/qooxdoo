@@ -66,7 +66,6 @@ qx.Class.define("qx.legacy.ui.embed.IframeManager",
     /**
      * TODOC
      *
-     * @type member
      * @param evt {Event} TODOC
      * @return {void}
      */
@@ -84,7 +83,6 @@ qx.Class.define("qx.legacy.ui.embed.IframeManager",
     /**
      * TODOC
      *
-     * @type member
      * @param evt {Event} TODOC
      * @return {void}
      */

@@ -109,7 +109,6 @@ qx.Class.define("apiviewer.ui.panels.AppearancePanel", {
     /**
      * Creates the HTML showing the information about an appearance.
      *
-     * @type member
      * @param node {Map} the doc node of the property.
      * @param currentClassDocNode {Map} the doc node of the currently displayed class
      * @param showDetails {Boolean} whether to show the details.
@@ -171,7 +170,6 @@ qx.Class.define("apiviewer.ui.panels.AppearancePanel", {
     /**
      * Checks whether an appearance has details.
      *
-     * @type member
      * @param node {Map} the doc node of the method.
      * @param currentClassDocNode {Map} the doc node of the currently displayed class
      * @return {Boolean} whether the method has details.

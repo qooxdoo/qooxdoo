@@ -278,7 +278,6 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
     /**
      * Add a state to the finite state machine.
      *
-     * @type member
      *
      * @param state {qx.util.fsm.State}
      *   An object of class qx.util.fsm.State representing a state which is to
@@ -326,7 +325,6 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
      * state machine and their associated gui pages loaded at run time can
      * help prevent long delays at application start-up time.
      *
-     * @type member
      *
      * @param state {qx.util.fsm.State}
      *   An object of class qx.util.fsm.State representing a state which is to
@@ -374,7 +372,6 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
      * Add an object (typically a widget) that is to be accessed during state
      * transitions, to the finite state machine.
      *
-     * @type member
      *
      * @param friendlyName {String}
      *   The friendly name to used for access to the object being added.
@@ -441,7 +438,6 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
     /**
      * Remove an object which had previously been added by {@link #addObject}.
      *
-     * @type member
      *
      * @param friendlyName {String}
      *   The friendly name associated with an object, specifying which object
@@ -475,7 +471,6 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
      * Retrieve an object previously saved via {@link #addObject}, using its
      * Friendly Name.
      *
-     * @type member
      *
      * @param friendlyName {String}
      *   The friendly name of the object to be retrieved.
@@ -493,7 +488,6 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
     /**
      * Get the friendly name of an object.
      *
-     * @type member
      *
      * @param obj {Object}
      *   The object for which the friendly name is desired
@@ -513,7 +507,6 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
      * Retrieve the list of objects which have registered, via {@link
      * addObject} as being members of the specified group.
      *
-     * @type member
      *
      * @param groupName {String}
      *   The name of the group for which the member list is desired.
@@ -538,7 +531,6 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
     /**
      * Display all of the saved objects and their reverse mappings.
      *
-     * @type member
      * @return {void}
      */
     displayAllObjects : function()
@@ -563,7 +555,6 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
      * from the starting state.  The starting state is defined as the first
      * state added to the finite state machine.
      *
-     * @type member
      * @return {void}
      * @throws TODOC
      */
@@ -625,7 +616,6 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
      * saved-state stack, and remove that top element from the saved-state
      * stack.
      *
-     * @type member
      *
      * @param bCurrent {Boolean}
      *   When <i>true</i>, then push the current state onto the stack.  This
@@ -664,7 +654,6 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
      * Add the specified event to a list of events to be passed to the next
      * state following state transition.
      *
-     * @type member
      *
      * @param event {qx.event.type.Event}
      *   The event to add to the event queue for processing after state change.
@@ -682,7 +671,6 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
     /**
      * Copy an event
      *
-     * @type member
      * @param event {qx.event.type.Event} The event to be copied
      * @return {qx.event.type.Event} The new copy of the provided event
      */
@@ -702,7 +690,6 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
     /**
      * Enqueue an event for processing
      *
-     * @type member
      *
      * @param event {qx.event.type.Event}
      *   The event to be enqueued
@@ -746,7 +733,6 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
     /**
      * Event listener for all event types in the finite state machine
      *
-     * @type member
      * @param event {qx.event.type.Event} The event that was dispatched.
      * @return {void}
      */
@@ -771,7 +757,6 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
     /**
      * Process all of the events on the event queue.
      *
-     * @type member
      * @return {void}
      */
     __processEvents : function()
@@ -811,7 +796,6 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
     /**
      * Run the finite state machine to process a single event.
      *
-     * @type member
      *
      * @param event {qx.event.type.Event}
      *   An event that has been dispatched.  The event may be handled (if the

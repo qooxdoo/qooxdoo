@@ -35,7 +35,6 @@ qx.Bootstrap.define("qx.lang.Array",
     /**
      * Convert an arguments object into an arr
      *
-     * @type static
      * @param args {arguments} arguments object
      * @param offset {Integer?0} position to start from
      * @return {Array} a newly created arr (copy) with the content of the arguments object.
@@ -48,7 +47,6 @@ qx.Bootstrap.define("qx.lang.Array",
     /**
      * Convert a (node) collection into an arr
      *
-     * @type static
      * @param coll {var} node collection
      * @return {Array} a newly created arr (copy) with the content of the node collection.
      */
@@ -77,7 +75,6 @@ qx.Bootstrap.define("qx.lang.Array",
      * Expand shorthand definition to a four element list.
      * This is an utility function for padding/margin and all other shorthand handling.
      *
-     * @type static
      * @param input {Array} arr with one to four elements
      * @return {Array} an arr with four elements
      */
@@ -109,7 +106,6 @@ qx.Bootstrap.define("qx.lang.Array",
     /**
      * Return a copy of the given arr
      *
-     * @type static
      * @param arr {Array} the arr to copy
      * @return {Array} copy of the arr
      */
@@ -122,7 +118,6 @@ qx.Bootstrap.define("qx.lang.Array",
      * Return a copy of the given arr
      * The same as {@link qx.lang.Array#copy}
      *
-     * @type static
      * @param arr {Array} the arr to copy
      * @return {Array} copy of the arr
      */
@@ -134,7 +129,6 @@ qx.Bootstrap.define("qx.lang.Array",
     /**
      * Return the last element of an arr
      *
-     * @type static
      * @param arr {Array} the arr
      * @return {var} the last element of the arr
      */
@@ -146,7 +140,6 @@ qx.Bootstrap.define("qx.lang.Array",
     /**
      * Return the first element of an arr
      *
-     * @type static
      * @param arr {Array} the arr
      * @return {var} the first element of the arr
      */
@@ -158,7 +151,6 @@ qx.Bootstrap.define("qx.lang.Array",
     /**
      * Insert an element at a given position into the arr
      *
-     * @type static
      * @param arr {Array} the arr
      * @param obj {var} the element to insert
      * @param i {Integer} position where to insert the element into the arr
@@ -175,7 +167,6 @@ qx.Bootstrap.define("qx.lang.Array",
     /**
      * Insert an element into the arr before a given second element
      *
-     * @type static
      * @param arr {Array} the arr
      * @param obj {var} object to be inserted
      * @param obj2 {var} insert obj1 before this object
@@ -198,7 +189,6 @@ qx.Bootstrap.define("qx.lang.Array",
     /**
      * Insert an element into the arr after a given second element
      *
-     * @type static
      * @param arr {Array} the arr
      * @param obj {var} object to be inserted
      * @param obj2 {var} insert obj1 after this object
@@ -221,7 +211,6 @@ qx.Bootstrap.define("qx.lang.Array",
     /**
      * Remove an element from the arr at the given index
      *
-     * @type static
      * @param arr {Array} the arr
      * @param i {Integer} index of the element to be removed
      * @return {var} The removed element.
@@ -234,7 +223,6 @@ qx.Bootstrap.define("qx.lang.Array",
     /**
      * Remmove all elements from the arr
      *
-     * @type static
      * @param arr {Array} the arr
      * @return {Array} empty arr
      */
@@ -246,7 +234,6 @@ qx.Bootstrap.define("qx.lang.Array",
     /**
      * Append the elements of an arr to the arr
      *
-     * @type static
      * @param arr {Array} the arr
      * @param a {Array} the elements of this arr will be appended to the arr
      * @return {Array} The modified arr.
@@ -269,7 +256,6 @@ qx.Bootstrap.define("qx.lang.Array",
     /**
      * Remove an element from the arr
      *
-     * @type static
      * @param arr {Array} the arr
      * @param obj {var} element to be removed from the arr
      * @return {var} the removed element
@@ -289,7 +275,6 @@ qx.Bootstrap.define("qx.lang.Array",
     /**
      * Whether the arr contains the given element
      *
-     * @type static
      * @param arr {Array} the arr
      * @param obj {var} object to look for
      * @return {Boolean} whether the arr contains the element
@@ -330,7 +315,6 @@ qx.Bootstrap.define("qx.lang.Array",
      * Returns the sum of all values in the given arr. Supports
      * numeric values only.
      *
-     * @type static
      * @param arr {Number[]} Array to process
      * @return {Number} The sum of all values.
      */
@@ -349,7 +333,6 @@ qx.Bootstrap.define("qx.lang.Array",
      * Returns the highest value in the given arr. Supports
      * numeric values only.
      *
-     * @type static
      * @param arr {Number[]} Array to process
      * @return {Number} The highest of all values.
      */
@@ -372,7 +355,6 @@ qx.Bootstrap.define("qx.lang.Array",
      * Returns the lowest value in the given arr. Supports
      * numeric values only.
      *
-     * @type static
      * @param arr {Number[]} Array to process
      * @return {Number} The lowest of all values.
      */

@@ -51,7 +51,6 @@ qx.Class.define("qx.bom.element.Location",
     /**
      * Queries a style property for the given element
      *
-     * @type static
      * @param elem {Element} DOM element to query
      * @param style {String} Style property
      * @return {String} Value of given style property
@@ -64,7 +63,6 @@ qx.Class.define("qx.bom.element.Location",
     /**
      * Queries a style property for the given element and parses it to a integer value
      *
-     * @type static
      * @param elem {Element} DOM element to query
      * @param style {String} Style property
      * @return {Integer} Value of given style property
@@ -78,7 +76,6 @@ qx.Class.define("qx.bom.element.Location",
      * Computes the scroll offset of the given element relative to the document
      * <code>body</code>.
      *
-     * @type static
      * @param elem {Element} DOM element to query
      * @return {Map} Map which contains the <code>left</code> and <code>top</code> scroll offsets
      */
@@ -132,7 +129,6 @@ qx.Class.define("qx.bom.element.Location",
      * Computes the offset of the given element relative to the document
      * <code>body</code>.
      *
-     * @type static
      * @param elem {Element} DOM element to query
      * @return {Map} Map which contains the <code>left</code> and <code>top</code> offsets
      */
@@ -278,7 +274,6 @@ qx.Class.define("qx.bom.element.Location",
      * implementation, and therefor use the tranditional offset calculation
      * the gecko 1.9 fix in <code>__computeBody</code> must not be applied.
      *
-     * @type static
      * @signature function(elem)
      * @param elem {Element} DOM element to query
      * @return {Map} Map which contains the <code>left</code> and <code>top</code> offsets
@@ -444,7 +439,6 @@ qx.Class.define("qx.bom.element.Location",
      * * <code>scroll</code>: Calculate the scroll box (relevant for absolute positioned content).
      * * <code>padding</code>: Calculate the padding box (relevant for static/relative positioned content).
      *
-     * @type static
      * @param elem {Element} DOM element to query
      * @param mode {String} A supported option. See comment above.
      * @return {Map} Returns a map with <code>left</code>, <code>top</code>,
@@ -538,7 +532,6 @@ qx.Class.define("qx.bom.element.Location",
      * the document dimensions. For supported modes please
      * have a look at the {@link qx.bom.element.Location#get} method.
      *
-     * @type static
      * @param elem {Element} DOM element to query
      * @param mode {String} A supported option. See comment above.
      * @return {Integer} The left distance
@@ -554,7 +547,6 @@ qx.Class.define("qx.bom.element.Location",
      * the document dimensions.For supported modes please
      * have a look at the {@link qx.bom.element.Location#get} method.
      *
-     * @type static
      * @param elem {Element} DOM element to query
      * @param mode {String} A supported option. See comment above.
      * @return {Integer} The top distance
@@ -570,7 +562,6 @@ qx.Class.define("qx.bom.element.Location",
      * the document dimenions.For supported modes please
      * have a look at the {@link qx.bom.element.Location#get} method.
      *
-     * @type static
      * @param elem {Element} DOM element to query
      * @param mode {String} A supported option. See comment above.
      * @return {Integer} The right distance
@@ -586,7 +577,6 @@ qx.Class.define("qx.bom.element.Location",
      * the document dimenions.For supported modes please
      * have a look at the {@link qx.bom.element.Location#get} method.
      *
-     * @type static
      * @param elem {Element} DOM element to query
      * @param mode {String} A supported option. See comment above.
      * @return {Integer} The bottom distance
@@ -601,7 +591,6 @@ qx.Class.define("qx.bom.element.Location",
      * Returns the distance between two DOM elements. For supported modes please
      * have a look at the {@link qx.bom.element.Location#get} method.
      *
-     * @type static
      * @param elem1 {Element} First element
      * @param elem2 {Element} Second element
      * @param mode1 {String?null} Mode for first element

@@ -74,7 +74,6 @@ qx.Class.define("qx.event.type.Drag",
      * left of the document. This property takes into account any scrolling of
      * the page.
      *
-     * @type member
      * @return {Integer} The horizontal mouse position in the document.
      * @signature function()
      */
@@ -107,7 +106,6 @@ qx.Class.define("qx.event.type.Drag",
      * top of the document. This property takes into account any scrolling of
      * the page.
      *
-     * @type member
      * @return {Integer} The vertical mouse position in the document.
      * @signature function()
      */

@@ -112,7 +112,6 @@ qx.Class.define("qx.ui.form.Slider",
     /**
      * Listener of mousewheel event
      *
-     * @type member
      * @param e {qx.event.type.Mouse} Incoming event object
      * @return {void}
      */
@@ -128,7 +127,6 @@ qx.Class.define("qx.ui.form.Slider",
      *
      * Adds support for arrow keys, page up, page down, home and end keys.
      *
-     * @type member
      * @param e {qx.event.type.Keypress} Incoming keypress event
      * @return {void}
      */

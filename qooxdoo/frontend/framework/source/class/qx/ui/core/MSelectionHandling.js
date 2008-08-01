@@ -230,7 +230,6 @@ qx.Mixin.define("qx.ui.core.MSelectionHandling",
     /**
      * Returns an array of currently selected items.
      *
-     * @type member
      * @return {Object[]} The item or a list of items.
      */
     getSelection : function() {
@@ -241,7 +240,6 @@ qx.Mixin.define("qx.ui.core.MSelectionHandling",
     /**
      * Whether the selection is empty
      *
-     * @type member
      * @return {Boolean} Whether the selection is empty
      */
     isSelectionEmpty : function() {
@@ -253,7 +251,6 @@ qx.Mixin.define("qx.ui.core.MSelectionHandling",
      * Returns the internal selection manager. Use this with
      * caution!
      *
-     * @type member
      * @return {qx.ui.core.selection.Abstract} The selection manager
      */
     _getManager : function() {
@@ -292,7 +289,6 @@ qx.Mixin.define("qx.ui.core.MSelectionHandling",
     /**
      * Event listener for <code>change</code> event on selection manager.
      *
-     * @type member
      * @param e {qx.event.type.Data} Data event
      * @return {void}
      */

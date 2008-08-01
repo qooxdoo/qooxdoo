@@ -368,7 +368,6 @@ qx.Class.define("qx.ui.menu.Menu",
     /**
      * Event listener for mouseover event.
      *
-     * @type member
      * @param e {qx.event.type.Mouse} mouseover event
      * @return {void}
      */
@@ -422,7 +421,6 @@ qx.Class.define("qx.ui.menu.Menu",
     /**
      * Event listener for mouseout event.
      *
-     * @type member
      * @param e {qx.event.type.Mouse} mouseout event
      * @return {void}
      */

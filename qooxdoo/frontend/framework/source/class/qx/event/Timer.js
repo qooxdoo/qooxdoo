@@ -85,7 +85,6 @@ qx.Class.define("qx.event.Timer",
     /**
      * Start a function after a given timeout.
      *
-     * @type static
      * @param func {Function} Function to call
      * @param obj {Object} context (this), the function is called with
      * @param timeout {Number} Number of milliseconds to wait before the function is called.
@@ -175,7 +174,6 @@ qx.Class.define("qx.event.Timer",
     /**
      * Apply the interval of the timer.
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -190,7 +188,6 @@ qx.Class.define("qx.event.Timer",
     /**
      * Apply the enabled state of the timer.
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -219,7 +216,6 @@ qx.Class.define("qx.event.Timer",
     /**
      * Start the timer
      *
-     * @type member
      */
     start : function() {
       this.setEnabled(true);
@@ -229,7 +225,6 @@ qx.Class.define("qx.event.Timer",
     /**
      * Start the timer with a giben interval
      *
-     * @type member
      * @param interval {Integer} Time in milliseconds between two callback calls.
      */
     startWith : function(interval)
@@ -242,7 +237,6 @@ qx.Class.define("qx.event.Timer",
     /**
      * Stop the timer.
      *
-     * @type member
      */
     stop : function() {
       this.setEnabled(false);
@@ -253,7 +247,6 @@ qx.Class.define("qx.event.Timer",
      * Restart the timer.
      * This makes it possible to change the interval of a running timer.
      *
-     * @type member
      */
     restart : function()
     {
@@ -265,7 +258,6 @@ qx.Class.define("qx.event.Timer",
     /**
      * Restart the timer. with a given interval.
      *
-     * @type member
      * @param interval {Integer} Time in milliseconds between two callback calls.
      */
     restartWith : function(interval)
@@ -286,7 +278,6 @@ qx.Class.define("qx.event.Timer",
     /**
      * timer callback
      *
-     * @type member
      */
     _oninterval : function()
     {

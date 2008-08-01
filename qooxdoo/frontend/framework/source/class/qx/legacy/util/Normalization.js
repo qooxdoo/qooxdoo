@@ -39,7 +39,6 @@ qx.Class.define("qx.legacy.util.Normalization",
     /**
      * Private helper
      *
-     * @type static
      * @param vChar {String} char to convert
      * @return {String} TODOC
      */
@@ -52,7 +51,6 @@ qx.Class.define("qx.legacy.util.Normalization",
      * Converts (German) umlauts in the string to a one letter ASCI form.
      * Example: &Auml; -> A, &uuml; -> u, &szlig; -> s, ...
      *
-     * @type static
      * @param vString {String} string to normalize
      * @return {String} normalized string
      */
@@ -78,7 +76,6 @@ qx.Class.define("qx.legacy.util.Normalization",
     /**
      * Private helper
      *
-     * @type static
      * @param vChar {String} char to convert
      * @return {String} TODOC
      */
@@ -91,7 +88,6 @@ qx.Class.define("qx.legacy.util.Normalization",
      * Converts (German) umlauts in the string to a two letter ASCI form.
      * Example: &Auml; -> Ae, &uuml; -> ue, &szlig; -> ss, ...
      *
-     * @type static
      * @param vString {String} string to normalize
      * @return {String} normalized string
      */

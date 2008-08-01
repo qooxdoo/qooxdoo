@@ -99,7 +99,6 @@ qx.Class.define("qx.html.Iframe",
     /**
      * Get the DOM window object of an iframe.
      *
-     * @type member
      * @return {DOMWindow} The DOM window object of the iframe.
      */
     getWindow : function()
@@ -116,7 +115,6 @@ qx.Class.define("qx.html.Iframe",
     /**
      * Get the DOM document object of an iframe.
      *
-     * @type member
      * @return {DOMDocument} The DOM document object of the iframe.
      */
     getDocument : function()
@@ -132,7 +130,6 @@ qx.Class.define("qx.html.Iframe",
     /**
      * Get the HTML body element of the iframe.
      *
-     * @type member
      * @return {Element} The DOM node of the <code>body</code> element of the iframe.
      */
     getBody : function()
@@ -148,7 +145,6 @@ qx.Class.define("qx.html.Iframe",
     /**
      * Sets iframe's source attribute to given value
      *
-     * @type member
      * @param source {String} URL to be set.
      */
     setSource : function(source)
@@ -161,7 +157,6 @@ qx.Class.define("qx.html.Iframe",
     /**
      * Get the current source.
      *
-     * @type member
      * @return {String} The iframe's source
      */
     getSource : function() {
@@ -172,7 +167,6 @@ qx.Class.define("qx.html.Iframe",
     /**
      * Sets iframe's name attribute to given value
      *
-     * @type member
      * @param name {String} Name to be set.
      */
     setName : function(name)
@@ -185,7 +179,6 @@ qx.Class.define("qx.html.Iframe",
     /**
      * Get the current name.
      *
-     * @type member
      * @return {String} The iframe's name.
      */
     getName : function() {
@@ -196,7 +189,6 @@ qx.Class.define("qx.html.Iframe",
     /**
      * Reloads iframe
      *
-     * @type member
      */
     reload : function()
     {

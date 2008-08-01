@@ -74,7 +74,6 @@ qx.Class.define("qx.legacy.log.Filter",
     /**
      * Decidies whether a log event is accepted.
      *
-     * @type member
      * @abstract
      * @param evt {Map} The event to check.
      * @return {Integer} {@link #ACCEPT}, {@link #DENY} or {@link #NEUTRAL}.

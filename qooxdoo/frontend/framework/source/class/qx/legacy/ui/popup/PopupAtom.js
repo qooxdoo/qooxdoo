@@ -54,7 +54,6 @@ qx.Class.define("qx.legacy.ui.popup.PopupAtom",
     /**
      * Accessor method to get the atom sub widget
      *
-     * @type member
      * @return {qx.legacy.ui.basic.Atom} atom sub widget
      */
     getAtom : function() {

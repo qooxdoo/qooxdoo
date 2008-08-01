@@ -161,7 +161,6 @@ qx.Class.define("demobrowser.DemoBrowser",
     /**
      * Create the header widget
      *
-     * @type member
      * @return {qx.ui.embed.HtmlEmbed} The header widget
      */
     __makeHeader : function()
@@ -485,7 +484,6 @@ qx.Class.define("demobrowser.DemoBrowser",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     __makeToolbar : function()
@@ -659,7 +657,6 @@ qx.Class.define("demobrowser.DemoBrowser",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     __makeOutputViews : function()
@@ -747,7 +744,6 @@ qx.Class.define("demobrowser.DemoBrowser",
      * - only make root node; rest will befilled when iframe has loaded (with
      *   leftReloadTree)
      *
-     * @type member
      * @return {var} TODOC
      */
     __makeLeft : function()
@@ -776,7 +772,6 @@ qx.Class.define("demobrowser.DemoBrowser",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -827,7 +822,6 @@ qx.Class.define("demobrowser.DemoBrowser",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -917,7 +911,6 @@ qx.Class.define("demobrowser.DemoBrowser",
     /**
      * event handler for the Run Test button - performs the tests
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -931,7 +924,6 @@ qx.Class.define("demobrowser.DemoBrowser",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} TODOC
      * @return {void}
      */
@@ -988,7 +980,6 @@ qx.Class.define("demobrowser.DemoBrowser",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -1073,7 +1064,6 @@ qx.Class.define("demobrowser.DemoBrowser",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -1103,7 +1093,6 @@ qx.Class.define("demobrowser.DemoBrowser",
     /**
      * TODOC
      *
-     * @type member
      * @param url {var} TODOC
      * @return {String} TODOC
      */
@@ -1123,7 +1112,6 @@ qx.Class.define("demobrowser.DemoBrowser",
     /**
      * TODOC
      *
-     * @type member
      * @param url {var} TODOC
      * @return {String} TODOC
      */
@@ -1184,7 +1172,6 @@ qx.Class.define("demobrowser.DemoBrowser",
     /**
      * TODOC
      *
-     * @type member
      * @param url {var} TODOC
      * @return {void}
      */
@@ -1232,7 +1219,6 @@ qx.Class.define("demobrowser.DemoBrowser",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -1256,7 +1242,6 @@ qx.Class.define("demobrowser.DemoBrowser",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -1382,7 +1367,6 @@ qx.Class.define("demobrowser.DemoBrowser",
     /**
      * 'Atom_1.html' -> 'Atom 1'
      *
-     * @type member
      * @param str {String} TODOC
      * @return {var} TODOC
      */

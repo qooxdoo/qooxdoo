@@ -100,7 +100,6 @@ qx.Class.define("qx.legacy.ui.treevirtual.RecursiveSelectionModel",
     /**
      * Clears the selection.
      *
-     * @type member
      * @return {void}
      */
     clearSelection : function()
@@ -113,7 +112,6 @@ qx.Class.define("qx.legacy.ui.treevirtual.RecursiveSelectionModel",
     /**
      * Returns whether the selection is empty.
      *
-     * @type member
      * @return {Boolean} whether the selection is empty.
      */
     isSelectionEmpty : function()
@@ -126,7 +124,6 @@ qx.Class.define("qx.legacy.ui.treevirtual.RecursiveSelectionModel",
     /**
      * Returns the number of selected leaf items.
      *
-     * @type member
      * @return {Integer} the number of selected items.
      */
     getSelectedCount : function()
@@ -144,7 +141,6 @@ qx.Class.define("qx.legacy.ui.treevirtual.RecursiveSelectionModel",
     /**
      * Returns whether a index is selected.
      *
-     * @type member
      * @param index {Integer} the index to check.
      * @return {Boolean} whether the index is selected.
      */
@@ -165,7 +161,6 @@ qx.Class.define("qx.legacy.ui.treevirtual.RecursiveSelectionModel",
      * });
      * </pre>
      *
-     * @type member
      * @param iterator {Function} the function to call for each selected index.
      *          Gets the current node as parameter.
      * @param object {var ? null} the object to use when calling the handler.
@@ -199,7 +194,6 @@ qx.Class.define("qx.legacy.ui.treevirtual.RecursiveSelectionModel",
     /**
      * Toggle the selection state of the selected interval.
      *
-     * @type member
      * @param fromIndex {Integer} the first index of the selection (including).
      * @param toIndex {Integer} the last index of the selection (including).
      * @return {void}
@@ -217,7 +211,6 @@ qx.Class.define("qx.legacy.ui.treevirtual.RecursiveSelectionModel",
 
     /**
      * Unselects a range
-     * @type member
      * @param fromIndex {Integer} the first index of the interval (including).
      * @param toIndex {Integer} the last index of the interval (including).
      * @return {void}
@@ -234,7 +227,6 @@ qx.Class.define("qx.legacy.ui.treevirtual.RecursiveSelectionModel",
 
     /**
      * Removes a interval from the current selection.
-     * @type member
      * @param fromIndex {Integer} the first index of the interval (including).
      * @param toIndex {Integer} the last index of the interval (including).
      * @return {void}
@@ -269,7 +261,6 @@ qx.Class.define("qx.legacy.ui.treevirtual.RecursiveSelectionModel",
     /**
      * This is called by {@link qx.legacy.ui.treevirtual.SimpleTreeDataRowRenderer#updateDataRowElement()}
      * Do nothing.
-     * @type member
      * @param fromIndex {Integer} the first index of the selection (including).
      * @param toIndex {Integer} the last index of the selection (including).
      * @return {void}
@@ -280,7 +271,6 @@ qx.Class.define("qx.legacy.ui.treevirtual.RecursiveSelectionModel",
 
     /**
      * Updates the selection state of parent nodes.
-     * @type member
      * @param node {Map} the node whose parents must be updated.
     * @return {void}
      */
@@ -347,7 +337,6 @@ qx.Class.define("qx.legacy.ui.treevirtual.RecursiveSelectionModel",
      * Fires the "changeSelection" event to all registered listeners. If the selection model
      * currently is in batch mode, only one event will be thrown when batch mode is ended.
      *
-     * @type member
      * @return {void}
      */
     _fireChangeSelection : function()

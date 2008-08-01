@@ -55,7 +55,6 @@ qx.Class.define("buildtool.Application",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     main : function()
@@ -77,7 +76,6 @@ qx.Class.define("buildtool.Application",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     _load : function() {

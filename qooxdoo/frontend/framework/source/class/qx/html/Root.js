@@ -53,7 +53,6 @@ qx.Class.define("qx.html.Root",
      * assumed that this DOM element is already visible e.g.
      * like a normal displayed element in the document's body.
      *
-     * @type member
      * @param elem {Element} the dom element to set
      * @return {void}
      * @throws an exception if the element is assigned again

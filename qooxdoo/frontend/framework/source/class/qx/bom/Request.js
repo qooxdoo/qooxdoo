@@ -135,7 +135,6 @@ qx.Bootstrap.define("qx.bom.Request",
      * This method needs to be overwritten by the user to get
      * informed about the communication progress.
      *
-     * @type member
      * @return {void}
      */
     onreadystatechange : function() {
@@ -149,7 +148,6 @@ qx.Bootstrap.define("qx.bom.Request",
      * This method needs to be overwritten by the user to get
      * informed about the timeout.
      *
-     * @type member
      * @return {void}
      */
     ontimeout : function() {
@@ -163,7 +161,6 @@ qx.Bootstrap.define("qx.bom.Request",
      * This method needs to be overwritten by the user to get
      * informed about the successful load of the request.
      *
-     * @type member
      * @return {void}
      */
     onload : function() {
@@ -177,7 +174,6 @@ qx.Bootstrap.define("qx.bom.Request",
      * This method needs to be overwritten by the user to get
      * informed about the failure of the running request.
      *
-     * @type member
      * @return {void}
      */
     onerror : function() {
@@ -191,7 +187,6 @@ qx.Bootstrap.define("qx.bom.Request",
      * This method needs to be overwritten by the user to get
      * informed about the user abort.
      *
-     * @type member
      * @return {void}
      */
     onabort : function() {
@@ -211,7 +206,6 @@ qx.Bootstrap.define("qx.bom.Request",
     /**
      * Assigns destination URL, method, and other optional attributes of a pending request
      *
-     * @type member
      * @param method {String} The HTTP method to use. Valid values: GET, POST, PUT, HEAD and DELETE.
      * @param url {String} The URL to open
      * @param async {Boolean?false} Whether the request should be asynchronous
@@ -255,7 +249,6 @@ qx.Bootstrap.define("qx.bom.Request",
     /**
      * Transmits the request, optionally with postable string or XML DOM object data
      *
-     * @type member
      * @param data {String|Element?} String or XML DOM object data
      * @return {void}
      */
@@ -317,7 +310,6 @@ qx.Bootstrap.define("qx.bom.Request",
     /**
      * Wether the currently running or finished request is successful.
      *
-     * @type member
      * @return {Boolean} Returns <code>true</code> when the request is successful.
      */
     isSuccessful : function()
@@ -330,7 +322,6 @@ qx.Bootstrap.define("qx.bom.Request",
     /**
      * Stops the current request.
      *
-     * @type member
      * @return {void}
      */
     abort : function()
@@ -355,7 +346,6 @@ qx.Bootstrap.define("qx.bom.Request",
     /**
      * Internal callback for native <code>readystatechange</code> event.
      *
-     * @type member
      * @return {void}
      */
     __onNativeReadyStateChange : function()
@@ -397,7 +387,6 @@ qx.Bootstrap.define("qx.bom.Request",
     /**
      * Internal callback for native <code>timeout</code> event.
      *
-     * @type member
      * @return {void}
      */
     __onNativeTimeout : function()
@@ -422,7 +411,6 @@ qx.Bootstrap.define("qx.bom.Request",
     /**
      * Returns complete set of headers (labels and values) as a string
      *
-     * @type member
      * @return {String} All headers
      */
     getAllResponseHeaders : function()
@@ -438,7 +426,6 @@ qx.Bootstrap.define("qx.bom.Request",
     /**
      * Returns the string value of a single header label
      *
-     * @type member
      * @param label {String} Name of the header label
      * @return {String} The selected header's value.
      */
@@ -466,7 +453,6 @@ qx.Bootstrap.define("qx.bom.Request",
      *
      * Uses local cache to omit dependency to <code>open()</code> call.
      *
-     * @type member
      * @param label {String} Name of the header label
      * @param value {String} Value of the header field
      * @return {void}
@@ -486,7 +472,6 @@ qx.Bootstrap.define("qx.bom.Request",
      *
      * Uses local cache to omit dependency to <code>open()</code> call.
      *
-     * @type member
      * @param label {String} Name of the header label
      * @param value {String} Value of the header field
      * @return {void}
@@ -499,7 +484,6 @@ qx.Bootstrap.define("qx.bom.Request",
     /**
      * Returns the value of a given header label.
      *
-     * @type member
      * @param label {String} Label of the header entry
      * @return {String} The value or <code>null</code> when not defined.
      */
@@ -521,7 +505,6 @@ qx.Bootstrap.define("qx.bom.Request",
     /**
      * Internal helper for all aborting actions.
      *
-     * @type member
      * @return {void}
      */
     __abortHelper : function()
@@ -546,7 +529,6 @@ qx.Bootstrap.define("qx.bom.Request",
      * Internal helper to return a new native XMLHttpRequest object suitable for
      * the client.
      *
-     * @type static
      * @return {Object} TODOC
      * @signature function()
      */
@@ -582,7 +564,6 @@ qx.Bootstrap.define("qx.bom.Request",
     /**
      * Internal helper to "fire" the onreadystatechange function
      *
-     * @type member
      * @return {void}
      */
     __fireReadyStateChange : function()
@@ -614,7 +595,6 @@ qx.Bootstrap.define("qx.bom.Request",
      * Internal helper to preprocess the <code>responseXML</code> to get
      * a valid XML document.
      *
-     * @type member
      * @return {Object} The document. If the document contained an error <code>null</code> instead.
      */
     __getDocument : function()
@@ -649,7 +629,6 @@ qx.Bootstrap.define("qx.bom.Request",
      * Internal helper to store the values from the native object locally. This helps
      * to omit exceptions when the user tries this directly.
      *
-     * @type member
      * @return {void}
      */
     __synchronizeValues : function()
@@ -691,7 +670,6 @@ qx.Bootstrap.define("qx.bom.Request",
     /**
      * Cleans up the native transport object and some other internal stuff.
      *
-     * @type member
      * @return {void}
      */
     __cleanTransport : function()
@@ -727,7 +705,6 @@ qx.Bootstrap.define("qx.bom.Request",
     /**
      * Dummy function as fallback for internal ready state listener
      *
-     * @type member
      * @return {void}
      */
     __dummyFunction : function() {

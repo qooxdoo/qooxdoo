@@ -105,7 +105,6 @@ qx.Class.define("qx.legacy.ui.pageview.tabview.Button",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -124,7 +123,6 @@ qx.Class.define("qx.legacy.ui.pageview.tabview.Button",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -174,7 +172,6 @@ qx.Class.define("qx.legacy.ui.pageview.tabview.Button",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -202,7 +199,6 @@ qx.Class.define("qx.legacy.ui.pageview.tabview.Button",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -229,7 +225,6 @@ qx.Class.define("qx.legacy.ui.pageview.tabview.Button",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -252,7 +247,6 @@ qx.Class.define("qx.legacy.ui.pageview.tabview.Button",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     _renderAppearance : function()

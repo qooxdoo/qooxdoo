@@ -38,7 +38,6 @@ qx.Class.define("qx.event.handler.Application",
   /**
    * Create a new instance
    *
-   * @type constructor
    * @param manager {qx.event.Manager} Event manager for the window to use
    */
   construct : function(manager)
@@ -93,7 +92,6 @@ qx.Class.define("qx.event.handler.Application",
      * exclusively by package loader system.
      *
      * @internal
-     * @type static
      * @return {void}
      */
     ready : function()
@@ -150,7 +148,6 @@ qx.Class.define("qx.event.handler.Application",
     /**
      * Fires a global ready event.
      *
-     * @type member
      * @return {void}
      */
     __fireReady : function()
@@ -177,7 +174,6 @@ qx.Class.define("qx.event.handler.Application",
     /**
      * Initializes the native mouse event listeners.
      *
-     * @type member
      * @return {void}
      */
     _initObserver : function()
@@ -193,7 +189,6 @@ qx.Class.define("qx.event.handler.Application",
     /**
      * Disconnect the native mouse event listeners.
      *
-     * @type member
      * @return {void}
      */
     _stopObserver : function()
@@ -218,7 +213,6 @@ qx.Class.define("qx.event.handler.Application",
     /**
      * Event listener for native load event
      *
-     * @type member
      * @param e {Event} Native event object
      * @return {void}
      */
@@ -234,7 +228,6 @@ qx.Class.define("qx.event.handler.Application",
     /**
      * Event listener for native unload event
      *
-     * @type member
      * @param e {Event} Native event object
      * @return {void}
      */

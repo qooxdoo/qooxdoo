@@ -163,7 +163,6 @@ qx.Class.define("qx.ui.container.SlideBar",
     /**
      * Scrolls the element's content by the given amount.
      *
-     * @type member
      * @param offset {Integer?0} Amount to scroll
      * @return {void}
      */
@@ -181,7 +180,6 @@ qx.Class.define("qx.ui.container.SlideBar",
     /**
      * Scrolls the element's content to the given coordinate
      *
-     * @type member
      * @param value {Integer} The position to scroll to.
      * @return {void}
      */
@@ -235,7 +233,6 @@ qx.Class.define("qx.ui.container.SlideBar",
      * first flush of the element which leads to another queueing
      * when the changes modify the visibility of the scroll buttons.
      *
-     * @type member
      * @param e {Event} Event object
      * @return {void}
      */
@@ -260,7 +257,6 @@ qx.Class.define("qx.ui.container.SlideBar",
     /**
      * Scroll handler for left scrolling
      *
-     * @type member
      * @return {void}
      */
     _onExecuteBackward : function() {
@@ -271,7 +267,6 @@ qx.Class.define("qx.ui.container.SlideBar",
     /**
      * Scroll handler for right scrolling
      *
-     * @type member
      * @return {void}
      */
     _onExecuteForward : function() {
@@ -290,7 +285,6 @@ qx.Class.define("qx.ui.container.SlideBar",
     /**
      * Show the arrows (Called from resize event)
      *
-     * @type member
      * @return {void}
      */
     _showArrows : function()
@@ -303,7 +297,6 @@ qx.Class.define("qx.ui.container.SlideBar",
     /**
      * Hide the arrows (Called from resize event)
      *
-     * @type member
      * @return {void}
      */
     _hideArrows : function()

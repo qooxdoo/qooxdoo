@@ -103,7 +103,6 @@ qx.Class.define("qx.legacy.ui.util.column.Widths",
     /**
      * Set the width of a column.
      *
-     * @type member
      *
      * @param col {Integer} The column whose width is to be set
      *
@@ -131,7 +130,6 @@ qx.Class.define("qx.legacy.ui.util.column.Widths",
     /**
      * Set the minimum width of a column.
      *
-     * @type member
      *
      * @param col {Integer}
      *   The column whose minimum width is to be set
@@ -157,7 +155,6 @@ qx.Class.define("qx.legacy.ui.util.column.Widths",
     /**
      * Set the maximum width of a column.
      *
-     * @type member
      *
      * @param col {Integer}
      *   The column whose maximum width is to be set

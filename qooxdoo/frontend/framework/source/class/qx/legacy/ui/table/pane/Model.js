@@ -133,7 +133,6 @@ qx.Class.define("qx.legacy.ui.table.pane.Model",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -147,7 +146,6 @@ qx.Class.define("qx.legacy.ui.table.pane.Model",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -161,7 +159,6 @@ qx.Class.define("qx.legacy.ui.table.pane.Model",
     /**
      * Event handler. Called when the visibility of a column has changed.
      *
-     * @type member
      * @param evt {Map} the event.
      * @return {void}
      */
@@ -179,7 +176,6 @@ qx.Class.define("qx.legacy.ui.table.pane.Model",
     /**
      * Returns the number of columns in this model.
      *
-     * @type member
      * @return {Integer} the number of columns in this model.
      */
     getColumnCount : function()
@@ -204,7 +200,6 @@ qx.Class.define("qx.legacy.ui.table.pane.Model",
     /**
      * Returns the model index of the column at the position <code>xPos</code>.
      *
-     * @type member
      * @param xPos {Integer} the x postion in the table pane of the column.
      * @return {Integer} the model index of the column.
      */
@@ -218,7 +213,6 @@ qx.Class.define("qx.legacy.ui.table.pane.Model",
     /**
      * Returns the x position of the column <code>col</code>.
      *
-     * @type member
      * @param col {Integer} the model index of the column.
      * @return {Integer} the x postion in the table pane of the column.
      */
@@ -244,7 +238,6 @@ qx.Class.define("qx.legacy.ui.table.pane.Model",
      * This value corresponds to the sum of the widths of all columns left of the
      * column.
      *
-     * @type member
      * @param col {Integer} the model index of the column.
      * @return {var} the position of the left side of the column.
      */
@@ -271,7 +264,6 @@ qx.Class.define("qx.legacy.ui.table.pane.Model",
     /**
      * Returns the total width of all columns in the model.
      *
-     * @type member
      * @return {Integer} the total width of all columns in the model.
      */
     getTotalWidth : function()

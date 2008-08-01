@@ -133,7 +133,6 @@ qx.Class.define("qx.legacy.ui.embed.IconHtmlEmbed",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     _syncHtml : function()

@@ -53,7 +53,6 @@ qx.Class.define("qx.lang.BaseString",
     /**
      * Return unique hash code of object
      *
-     * @type member
      * @return {Integer} unique hash code of the object
      */
     toHashCode : function() {
@@ -64,7 +63,6 @@ qx.Class.define("qx.lang.BaseString",
     /**
      * Call the same method of the super class.
      *
-     * @type member
      * @param args {arguments} the arguments variable of the calling method
      * @param varags {var} variable number of arguments passed to the overwritten function
      * @return {var} the return value of the method of the base class.

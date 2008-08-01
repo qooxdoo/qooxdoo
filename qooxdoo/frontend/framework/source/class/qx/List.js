@@ -29,7 +29,6 @@ qx.Bootstrap.define("qx.List",
     /**
      * Defines a new array like data structure class.
      *
-     * @type static
      * @param name {String} Name of the class
      * @param config {Map ? null} Class definition structure. The configuration map has the following keys:
      *     <table>
@@ -153,7 +152,6 @@ qx.Bootstrap.define("qx.List",
     /**
      * Validates incoming configuration and checks keys and values
      *
-     * @type static
      * @signature function(name, config)
      * @param name {String} The name of the class
      * @param config {Map} Configuration map

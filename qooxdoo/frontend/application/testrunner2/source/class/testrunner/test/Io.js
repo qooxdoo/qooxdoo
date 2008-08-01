@@ -26,7 +26,6 @@ qx.Class.define("testrunner.test.Io",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     testIO : function() {
@@ -37,7 +36,6 @@ qx.Class.define("testrunner.test.Io",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     testJson : function() {

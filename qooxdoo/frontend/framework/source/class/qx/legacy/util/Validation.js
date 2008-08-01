@@ -41,7 +41,6 @@ qx.Class.define("qx.legacy.util.Validation",
      * </ul>
      * All other values are considered valid.
      *
-     * @type static
      * @param v {var} the value to validate.
      * @return {Boolean} whether the variable is valid
      */
@@ -81,7 +80,6 @@ qx.Class.define("qx.legacy.util.Validation",
      * </ul>
      * All other values are considered valid.
      *
-     * @type static
      * @param v {var} the value to validate.
      * @return {Boolean} whether the variable is invalid
      */
@@ -117,7 +115,6 @@ qx.Class.define("qx.legacy.util.Validation",
      *   <li>not NaN</li>
      * </ul>
      *
-     * @type static
      * @param v {var} the value to validate.
      * @return {Boolean} whether the variable is valid
      */
@@ -129,7 +126,6 @@ qx.Class.define("qx.legacy.util.Validation",
     /**
      * Whether a value is an invalid number.
      *
-     * @type static
      * @param v {var} the value to validate.
      * @return {Boolean} whether the variable is valid
      */
@@ -145,7 +141,6 @@ qx.Class.define("qx.legacy.util.Validation",
      *   <li>not an empty string</li>
      * </ul>
      *
-     * @type static
      * @param v {var} the value to validate.
      * @return {Boolean} whether the variable is valid
      */
@@ -157,7 +152,6 @@ qx.Class.define("qx.legacy.util.Validation",
     /**
      * Whether a value is an invalid string.
      *
-     * @type static
      * @param v {var} the value to validate.
      * @return {Boolean} whether the variable is valid
      */
@@ -173,7 +167,6 @@ qx.Class.define("qx.legacy.util.Validation",
      *   <li>instance is Array</li>
      * </ul>
      *
-     * @type static
      * @param v {var} the value to validate.
      * @return {Boolean} whether the variable is valid
      */
@@ -185,7 +178,6 @@ qx.Class.define("qx.legacy.util.Validation",
     /**
      * Whether a value is an invalid array.
      *
-     * @type static
      * @param v {var} the value to validate.
      * @return {Boolean} whether the variable is valid
      */
@@ -201,7 +193,6 @@ qx.Class.define("qx.legacy.util.Validation",
      *   <li>instance != Array</li>
      * </ul>
      *
-     * @type static
      * @param v {var} the value to validate.
      * @return {Boolean} whether the variable is valid
      */
@@ -213,7 +204,6 @@ qx.Class.define("qx.legacy.util.Validation",
     /**
      * Whether a value is an invalid object.
      *
-     * @type static
      * @param v {var} the value to validate.
      * @return {Boolean} whether the variable is valid
      */
@@ -228,7 +218,6 @@ qx.Class.define("qx.legacy.util.Validation",
      *   <li>type is object</li>
      * </ul>
      *
-     * @type static
      * @param v {var} the value to validate.
      * @return {Boolean} whether the variable is valid
      */
@@ -240,7 +229,6 @@ qx.Class.define("qx.legacy.util.Validation",
     /**
      * Whether a value is an invalid node.
      *
-     * @type static
      * @param v {var} the value to validate.
      * @return {Boolean} whether the variable is valid
      */
@@ -256,7 +244,6 @@ qx.Class.define("qx.legacy.util.Validation",
      *   <li>v.nodeType === 1</li>
      * </ul>
      *
-     * @type static
      * @param v {var} the value to validate.
      * @return {Boolean} whether the variable is valid
      */
@@ -268,7 +255,6 @@ qx.Class.define("qx.legacy.util.Validation",
     /**
      * Whether a value is not a DOM element.
      *
-     * @type static
      * @param v {var} the value to validate.
      * @return {Boolean} whether the variable is valid
      */
@@ -283,7 +269,6 @@ qx.Class.define("qx.legacy.util.Validation",
      *   <li>type is function</li>
      * </ul>
      *
-     * @type static
      * @param v {var} the value to validate.
      * @return {Boolean} whether the variable is valid
      */
@@ -295,7 +280,6 @@ qx.Class.define("qx.legacy.util.Validation",
     /**
      * Whether a value is not a function.
      *
-     * @type static
      * @param v {var} the value to validate.
      * @return {Boolean} whether the variable is valid
      */
@@ -310,7 +294,6 @@ qx.Class.define("qx.legacy.util.Validation",
      *   <li>type is boolean</li>
      * </ul>
      *
-     * @type static
      * @param v {var} the value to validate.
      * @return {Boolean} whether the variable is valid
      */
@@ -322,7 +305,6 @@ qx.Class.define("qx.legacy.util.Validation",
     /**
      * Whether a value is not boolean.
      *
-     * @type static
      * @param v {var} the value to validate.
      * @return {Boolean} whether the variable is valid
      */
@@ -338,7 +320,6 @@ qx.Class.define("qx.legacy.util.Validation",
      *   <li>values is not "" or NaN</li>
      * </ul>
      *
-     * @type static
      * @param v {var} the value to validate.
      * @return {Boolean} whether the variable is valid
      */
@@ -360,7 +341,6 @@ qx.Class.define("qx.legacy.util.Validation",
     /**
      * Whether a value not a valid string or number.
      *
-     * @type static
      * @param v {var} the value to validate.
      * @return {Boolean} whether the variable is valid
      */

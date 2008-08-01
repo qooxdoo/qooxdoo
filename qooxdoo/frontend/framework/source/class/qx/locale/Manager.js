@@ -75,7 +75,6 @@ qx.Class.define("qx.locale.Manager",
     /**
      * Translate a message
      *
-     * @type static
      * @param messageId {String} message id (may contain format strings)
      * @param varargs {Object} variable number of argumes applied to the format string
      * @return {String} The translated string
@@ -95,7 +94,6 @@ qx.Class.define("qx.locale.Manager",
      *
      * Depending on the third argument the plural or the singular form is chosen.
      *
-     * @type static
      * @param singularMessageId {String} message id of the singular form (may contain format strings)
      * @param pluralMessageId {String} message id of the plural form (may contain format strings)
      * @param count {Integer} singular form if equals 1, otherwise plural
@@ -122,7 +120,6 @@ qx.Class.define("qx.locale.Manager",
     /**
      * Translate a message with translation hint
      *
-     * @type static
      * @param hint {String} hint for the translator of the message. Will be included in the .pot file.
      * @param messageId {String} message id (may contain format strings)
      * @param varargs {Object} variable number of argumes applied to the format string
@@ -141,7 +138,6 @@ qx.Class.define("qx.locale.Manager",
     /**
      * Mark the message for translation but return the original message.
      *
-     * @type static
      * @param messageId {String} the message ID
      * @return {String} messageId
      */
@@ -190,7 +186,6 @@ qx.Class.define("qx.locale.Manager",
      *
      * This is the first part of a locale definition. The language for "de_DE" would be "de"
      *
-     * @type member
      * @return {String} language code
      */
     getLanguage : function() {
@@ -203,7 +198,6 @@ qx.Class.define("qx.locale.Manager",
      *
      * This is the second part of a locale definition. The territory for "de_DE" would be "DE"
      *
-     * @type member
      * @return {String} territory code
      */
     getTerritory : function() {
@@ -216,7 +210,6 @@ qx.Class.define("qx.locale.Manager",
      *
      * This corresponds to the Makefile APPLICATION_LOCALES setting
      *
-     * @type member
      * @return {String[]} array of available locales
      */
     getAvailableLocales : function()
@@ -237,7 +230,6 @@ qx.Class.define("qx.locale.Manager",
     /**
      * Extract the language part from a locale.
      *
-     * @type member
      * @param locale {String} locale to be used
      * @return {String} language
      */
@@ -267,7 +259,6 @@ qx.Class.define("qx.locale.Manager",
     /**
      * Add a translation to the translation manager
      *
-     * @type member
      * @param languageCode {String} language code of the translation like de, de_AT, en, en_GB, fr, ...
      * @param translationMap {Map} mapping of message identifiers (english text) to the target language
      * @return {void}
@@ -290,7 +281,6 @@ qx.Class.define("qx.locale.Manager",
     /**
      * Translate a message using the current locale and apply format string to the arguments.
      *
-     * @type member
      * @param messageId {String} message id (may contain format strings)
      * @param args {Object[]} array of objects, which are inserted into the format string.
      * @param locale {String} optional locale to be used for translation

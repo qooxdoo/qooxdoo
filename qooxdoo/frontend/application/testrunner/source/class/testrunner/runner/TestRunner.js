@@ -209,7 +209,6 @@ qx.Class.define("testrunner.runner.TestRunner",
     /**
      * Create the header widget
      *
-     * @type member
      * @return {qx.legacy.ui.embed.HtmlEmbed} The header widget
      */
     __makeHeader : function()
@@ -225,7 +224,6 @@ qx.Class.define("testrunner.runner.TestRunner",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     __makeToolbar : function()
@@ -297,7 +295,6 @@ qx.Class.define("testrunner.runner.TestRunner",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     __makeOutputViews : function()
@@ -398,7 +395,6 @@ qx.Class.define("testrunner.runner.TestRunner",
      * - only make root node; rest will befilled when iframe has loaded (with
      *   leftReloadTree)
      *
-     * @type member
      * @return {var} TODOC
      */
     __makeLeft : function()
@@ -489,7 +485,6 @@ qx.Class.define("testrunner.runner.TestRunner",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     __makeProgress : function()
@@ -550,7 +545,6 @@ qx.Class.define("testrunner.runner.TestRunner",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     __makeStatus : function()
@@ -596,7 +590,6 @@ qx.Class.define("testrunner.runner.TestRunner",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -654,7 +647,6 @@ qx.Class.define("testrunner.runner.TestRunner",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -855,7 +847,6 @@ qx.Class.define("testrunner.runner.TestRunner",
     /**
      * event handler for the Run Test button - performs the tests
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -1064,7 +1055,6 @@ qx.Class.define("testrunner.runner.TestRunner",
     /**
      * reloads iframe's URL
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -1093,7 +1083,6 @@ qx.Class.define("testrunner.runner.TestRunner",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -1133,7 +1122,6 @@ qx.Class.define("testrunner.runner.TestRunner",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     resetGui : function()
@@ -1146,7 +1134,6 @@ qx.Class.define("testrunner.runner.TestRunner",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     resetProgress : function()
@@ -1162,7 +1149,6 @@ qx.Class.define("testrunner.runner.TestRunner",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     resetTabView : function() {
@@ -1173,7 +1159,6 @@ qx.Class.define("testrunner.runner.TestRunner",
     /**
      * TODOC
      *
-     * @type member
      * @param newSucc {var} TODOC
      * @return {void}
      */
@@ -1185,7 +1170,6 @@ qx.Class.define("testrunner.runner.TestRunner",
     /**
      * TODOC
      *
-     * @type member
      * @param newFail {var} TODOC
      * @return {void}
      */
@@ -1197,7 +1181,6 @@ qx.Class.define("testrunner.runner.TestRunner",
     /**
      * TODOC
      *
-     * @type member
      * @param str {String} TODOC
      * @return {void}
      */

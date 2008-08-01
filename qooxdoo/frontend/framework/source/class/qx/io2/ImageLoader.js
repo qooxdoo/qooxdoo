@@ -39,7 +39,6 @@ qx.Bootstrap.define("qx.io2.ImageLoader",
      * Whether the given image has previously been loaded using the
      * {@link #load} method.
      *
-     * @type static
      * @param source {String} Image source to query
      * @return {Boolean} <code>true</code> when the image is loaded
      */
@@ -54,7 +53,6 @@ qx.Bootstrap.define("qx.io2.ImageLoader",
      * Whether the given image has previously been requested using the
      * {@link #load} method but failed.
      *
-     * @type static
      * @param source {String} Image source to query
      * @return {Boolean} <code>true</code> when the image loading failed
      */
@@ -68,7 +66,6 @@ qx.Bootstrap.define("qx.io2.ImageLoader",
     /**
      * Whether the given image is currently loading.
      *
-     * @type static
      * @param source {String} Image source to query
      * @return {Boolean} <code>true</code> when the image is loading in the moment.
      */
@@ -82,7 +79,6 @@ qx.Bootstrap.define("qx.io2.ImageLoader",
     /**
      * Returns the size of a previously loaded image
      *
-     * @type static
      * @param source {String} Image source to query
      * @return {Map} The dimension of the image. If the image is not yet loaded,
      *    the dimensions are given as 0x0 pixel.
@@ -98,7 +94,6 @@ qx.Bootstrap.define("qx.io2.ImageLoader",
      *
      * This method works asychronous.
      *
-     * @type static
      * @param source {String} Image source to load
      * @param callback {Function} Callback function to execute
      * @param context {Object} Context in which the given callback should be executed
@@ -159,7 +154,6 @@ qx.Bootstrap.define("qx.io2.ImageLoader",
     /**
      * Internal event listener for all load/error events.
      *
-     * @type static
      * @param event {Event} Native event object
      * @param element {Element} DOM element which represents the image
      * @param source {String} The image source loaded
@@ -202,7 +196,6 @@ qx.Bootstrap.define("qx.io2.ImageLoader",
     /**
      * Returns the natural width of the given image element.
      *
-     * @type static
      * @param element {Element} DOM element which represents the image
      * @return {Integer} Image width
      */
@@ -221,7 +214,6 @@ qx.Bootstrap.define("qx.io2.ImageLoader",
     /**
      * Returns the natural height of the given image element.
      *
-     * @type static
      * @param element {Element} DOM element which represents the image
      * @return {Integer} Image height
      */

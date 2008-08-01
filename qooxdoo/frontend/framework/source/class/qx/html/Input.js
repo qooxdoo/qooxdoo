@@ -103,7 +103,6 @@ qx.Class.define("qx.html.Input",
     /**
      * Sets the value of the input element.
      *
-     * @type member
      * @param value {var} the new value
      * @return {qx.html.Input} This instance for for chaining support.
      */
@@ -129,7 +128,6 @@ qx.Class.define("qx.html.Input",
     /**
      * Get the current value.
      *
-     * @type member
      * @return {String} The element's current value.
      */
     getValue : function()
@@ -147,7 +145,6 @@ qx.Class.define("qx.html.Input",
      *
      * This property uses the style property "wrap" (IE) respectively "whiteSpace"
      *
-     * @type member
      * @param wrap {Boolean} Whether to turn text wrap on or off.
      * @return {qx.html.Input} This instance for for chaining support.
      */
@@ -168,7 +165,6 @@ qx.Class.define("qx.html.Input",
      *
      * This property uses the style property "wrap" (IE) respectively "whiteSpace"
      *
-     * @type member
      * @return {Boolean} Whether wrapping is enabled or disabled.
      */
     getWrap : function()

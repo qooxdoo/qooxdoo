@@ -84,7 +84,6 @@ qx.Class.define("qx.legacy.util.GuiBuilder",
      * Asynchronous method - fetches XML data from the URL then delegates to build to process the xml
      * Dispatches a qx.event.type.Event("done") after the hierarchy is built
      *
-     * @type member
      * @param parent {qx.legacy.ui.core.Widget} can either be the application instance, or a widget to append the xml toplevel widgets to
      * @param url {String} URL of the XML files
      * @return {void}
@@ -106,7 +105,6 @@ qx.Class.define("qx.legacy.util.GuiBuilder",
     /**
      * parse the children of the xml and appending all widgets to the parent widget
      *
-     * @type member
      * @param parent {qx.legacy.ui.core.Widget} can either be the application instance, or a widget to append the xml toplevel widgets to
      * @param node {String | Document | Element} can be either a xml string, or a xml dom document or fragment
      * @return {void}
@@ -131,7 +129,6 @@ qx.Class.define("qx.legacy.util.GuiBuilder",
     /**
      * TODOC
      *
-     * @type member
      * @param parent {var} TODOC
      * @param nodes {var} TODOC
      * @return {void}
@@ -153,7 +150,6 @@ qx.Class.define("qx.legacy.util.GuiBuilder",
     /**
      * TODOC
      *
-     * @type member
      * @param widget {var} TODOC
      * @param args {var} TODOC
      * @param text {var} TODOC
@@ -223,7 +219,6 @@ qx.Class.define("qx.legacy.util.GuiBuilder",
     /**
      * A node builder that will be used if no node builder is declared for a nodeName
      *
-     * @type member
      * @param parent {qx.legacy.ui.core.Widget} can either be the application instance, or a widget to append the xml toplevel widgets to
      * @param node {String | Document | Element} can be either a xml string, or a xml dom document or fragment
      * @return {void}
@@ -344,7 +339,6 @@ qx.Class.define("qx.legacy.util.GuiBuilder",
     /**
      * Set a widget's property using a propertyEditor
      *
-     * @type member
      * @param widget {var} TODOC
      * @param name {var} TODOC
      * @param value {var} TODOC
@@ -365,7 +359,6 @@ qx.Class.define("qx.legacy.util.GuiBuilder",
     /**
      * TODOC
      *
-     * @type member
      * @param className {var} TODOC
      * @param propertyName {var} TODOC
      * @return {var | null} TODOC
@@ -394,7 +387,6 @@ qx.Class.define("qx.legacy.util.GuiBuilder",
     /**
      * TODOC
      *
-     * @type member
      * @param className {var} TODOC
      * @param propertyName {var} TODOC
      * @param editor {var} TODOC
@@ -410,7 +402,6 @@ qx.Class.define("qx.legacy.util.GuiBuilder",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     _registerDefaultPropertyEditors : function()
@@ -493,7 +484,6 @@ qx.Class.define("qx.legacy.util.GuiBuilder",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} TODOC
      * @return {var | boolean | null} TODOC
      */
@@ -536,7 +526,6 @@ qx.Class.define("qx.legacy.util.GuiBuilder",
     /**
      * TODOC
      *
-     * @type member
      * @param widget {var} TODOC
      * @param name {var} TODOC
      * @param value {var} TODOC
@@ -550,7 +539,6 @@ qx.Class.define("qx.legacy.util.GuiBuilder",
     /**
      * TODOC
      *
-     * @type member
      * @param widget {var} TODOC
      * @param name {var} TODOC
      * @param value {var} TODOC
@@ -599,7 +587,6 @@ qx.Class.define("qx.legacy.util.GuiBuilder",
     /**
      * TODOC
      *
-     * @type member
      * @param node {Node} TODOC
      * @return {null | var} TODOC
      */
@@ -620,7 +607,6 @@ qx.Class.define("qx.legacy.util.GuiBuilder",
     /**
      * TODOC
      *
-     * @type member
      * @param node {Node} TODOC
      * @return {var} TODOC
      */
@@ -648,7 +634,6 @@ qx.Class.define("qx.legacy.util.GuiBuilder",
     /**
      * TODOC
      *
-     * @type member
      * @param message {var} TODOC
      * @param data {var} TODOC
      * @param exception {var} TODOC

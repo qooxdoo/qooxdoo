@@ -93,7 +93,6 @@ qx.Class.define("qx.legacy.ui.groupbox.GroupBox",
     /**
      * Creates the legend sub widget
      *
-     * @type member
      * @return {void}
      */
     _createLegendObject : function()
@@ -108,7 +107,6 @@ qx.Class.define("qx.legacy.ui.groupbox.GroupBox",
     /**
      * Creates the frame sub widget
      *
-     * @type member
      * @return {void}
      */
     _createFrameObject : function()
@@ -131,7 +129,6 @@ qx.Class.define("qx.legacy.ui.groupbox.GroupBox",
     /**
      * Accessor method for the frame sub widget
      *
-     * @type member
      * @return {qx.legacy.ui.layout.CanvasLayout} frame sub widget
      */
     getFrameObject : function() {
@@ -142,7 +139,6 @@ qx.Class.define("qx.legacy.ui.groupbox.GroupBox",
     /**
      * Accessor method for the legend sub widget
      *
-     * @type member
      * @return {qx.legacy.ui.basic.Atom} legend sub widget
      */
     getLegendObject : function() {
@@ -162,7 +158,6 @@ qx.Class.define("qx.legacy.ui.groupbox.GroupBox",
      * Sets the label of the legend sub widget if the given string is
      * valid. Otherwise the legend sub widget get not displayed.
      *
-     * @type member
      * @param vLegend {String} new label of the legend sub widget
      * @return {void}
      */
@@ -179,7 +174,6 @@ qx.Class.define("qx.legacy.ui.groupbox.GroupBox",
     /**
      * Accessor method for the label of the legend sub widget
      *
-     * @type member
      * @return {String} Label of the legend sub widget
      */
     getLegend : function() {
@@ -190,7 +184,6 @@ qx.Class.define("qx.legacy.ui.groupbox.GroupBox",
     /**
      * Sets the icon of the legend sub widget.
      *
-     * @type member
      * @param vIcon {String} source of the new icon of the legend sub widget
      * @return {void}
      */
@@ -202,7 +195,6 @@ qx.Class.define("qx.legacy.ui.groupbox.GroupBox",
     /**
      * Accessor method for the icon of the legend sub widget
      *
-     * @type member
      * @return {String} source of the new icon of the legend sub widget
      */
     getIcon : function() {

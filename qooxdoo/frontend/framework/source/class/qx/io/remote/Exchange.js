@@ -105,7 +105,6 @@ qx.Class.define("qx.io.remote.Exchange",
     /**
      * TODOC
      *
-     * @type static
      * @param vClass {var} TODOC
      * @param vId {var} TODOC
      * @return {void}
@@ -118,7 +117,6 @@ qx.Class.define("qx.io.remote.Exchange",
     /**
      * TODOC
      *
-     * @type static
      * @return {void}
      * @throws TODOC
      */
@@ -148,7 +146,6 @@ qx.Class.define("qx.io.remote.Exchange",
     /**
      * TODOC
      *
-     * @type static
      * @param vImpl {var} TODOC
      * @param vNeeds {var} TODOC
      * @param vResponseType {var} TODOC
@@ -218,7 +215,6 @@ qx.Class.define("qx.io.remote.Exchange",
     /**
      * TODOC
      *
-     * @type static
      * @param vStatusCode {var} TODOC
      * @param vReadyState {var} TODOC
      * @param vIsLocal {var} TODOC
@@ -357,7 +353,6 @@ qx.Class.define("qx.io.remote.Exchange",
     /**
      * TODOC
      *
-     * @type static
      * @param vStatusCode {var} TODOC
      * @return {string} TODOC
      */
@@ -546,7 +541,6 @@ qx.Class.define("qx.io.remote.Exchange",
     /**
      * TODOC
      *
-     * @type member
      * @return {var | Boolean} TODOC
      */
     send : function()
@@ -638,7 +632,6 @@ qx.Class.define("qx.io.remote.Exchange",
      * Force the transport into the aborted ("aborted")
      *  state.
      *
-     * @type member
      * @return {void}
      */
     abort : function()
@@ -673,7 +666,6 @@ qx.Class.define("qx.io.remote.Exchange",
     /**
      * Force the transport into the timeout state.
      *
-     * @type member
      * @return {void}
      */
     timeout : function()
@@ -709,7 +701,6 @@ qx.Class.define("qx.io.remote.Exchange",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -721,7 +712,6 @@ qx.Class.define("qx.io.remote.Exchange",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -733,7 +723,6 @@ qx.Class.define("qx.io.remote.Exchange",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -745,7 +734,6 @@ qx.Class.define("qx.io.remote.Exchange",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -757,7 +745,6 @@ qx.Class.define("qx.io.remote.Exchange",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -769,7 +756,6 @@ qx.Class.define("qx.io.remote.Exchange",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -789,7 +775,6 @@ qx.Class.define("qx.io.remote.Exchange",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -836,7 +821,6 @@ qx.Class.define("qx.io.remote.Exchange",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */

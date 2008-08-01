@@ -259,7 +259,6 @@ qx.Class.define("qx.util.fsm.State",
      *     };
      *     </pre>
      *
-     * @type static
      *
      * @param actionType {String}
      *   The name of the action being validated (for debug messages)
@@ -678,7 +677,6 @@ qx.Class.define("qx.util.fsm.State",
     /**
      * Internal transform method
      *
-     * @type member
      * @param value {var} Value passed to setter
      * @return {var} the final value
      * @throws when an invalid value is detected
@@ -698,7 +696,6 @@ qx.Class.define("qx.util.fsm.State",
     /**
      * Internal transform method
      *
-     * @type member
      * @param value {var} Current value
      * @return {var} the final value
      * @throws when an invalid value is detected
@@ -726,7 +723,6 @@ qx.Class.define("qx.util.fsm.State",
     /**
      * Internal transform method
      *
-     * @type member
      * @param value {var} Current value
      * @return {var} the final value
      * @throws when an invalid value is detected
@@ -754,7 +750,6 @@ qx.Class.define("qx.util.fsm.State",
     /**
      * Internal transform method
      *
-     * @type member
      * @param value {var} Current value
      * @return {var} the final value
      * @throws when an invalid value is detected
@@ -829,7 +824,6 @@ qx.Class.define("qx.util.fsm.State",
     /**
      * Internal transform method
      *
-     * @type member
      * @param value {var} Current value
      * @return {var} the final value
      */
@@ -844,7 +838,6 @@ qx.Class.define("qx.util.fsm.State",
     /**
      * Internal transform method
      *
-     * @type member
      * @param value {var} Current value
      * @return {var} the final value
      */
@@ -859,7 +852,6 @@ qx.Class.define("qx.util.fsm.State",
     /**
      * Internal transform method
      *
-     * @type member
      * @param value {var} Current value
      * @return {var} the final value
      */
@@ -874,7 +866,6 @@ qx.Class.define("qx.util.fsm.State",
     /**
      * Internal transform method
      *
-     * @type member
      * @param value {var} Current value
      * @return {var} the final value
      */
@@ -897,7 +888,6 @@ qx.Class.define("qx.util.fsm.State",
     /**
      * Add a transition to a state
      *
-     * @type member
      *
      * @param trans {qx.util.fsm.Transition}
      *   An object of class qx.util.fsm.Transition representing a transition

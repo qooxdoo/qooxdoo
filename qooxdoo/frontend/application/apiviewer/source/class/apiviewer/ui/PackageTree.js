@@ -59,7 +59,6 @@ qx.Class.define("apiviewer.ui.PackageTree",
     /**
      * Updates the tree on the left.
      *
-     * @type member
      * @param docTree {apiviewer.dao.Package} the documentation tree to use for updating.
      * @return {void}
      */
@@ -81,7 +80,6 @@ qx.Class.define("apiviewer.ui.PackageTree",
     /**
      * Selects a certain class.
      *
-     * @type member
      * @param className {String} the name of the class to show.
      * @return {Boolean} Whether the class name was valid and could be selected.
      */
@@ -122,7 +120,6 @@ qx.Class.define("apiviewer.ui.PackageTree",
     /**
      * Create a callback which loads the child nodes of a tree folder
      *
-     * @type member
      * @param packageTreeNode {qx.ui.tree.TreeFolder} the package tree folder.
      * @param packageDoc {apiviewer.dao.Package} the documentation node of the package.
      * @param depth {var} current depth in the tree
@@ -143,7 +140,6 @@ qx.Class.define("apiviewer.ui.PackageTree",
     /**
      * Fills a package tree node with tree nodes for the sub packages and classes.
      *
-     * @type member
      * @param treeNode {qx.ui.tree.TreeFolder} the package tree node.
      * @param docNode {apiviewer.dao.Package} the documentation node of the package.
      * @param depth {var} current depth in the tree

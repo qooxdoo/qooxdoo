@@ -44,7 +44,6 @@ qx.Bootstrap.define("qx.util.StringSplit",
     /**
      * ECMA-compliant, uniform cross-browser split method
      *
-     * @type static
      * @param string {String} Incoming string to split
      * @param separator {RegExp} Specifies the character to use for separating the string.
      *   The separator is treated as a string or a  regular expression. If separator is

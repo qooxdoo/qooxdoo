@@ -184,7 +184,6 @@ qx.Class.define("qx.io.remote.transport.Abstract",
     /**
      * TODOC
      *
-     * @type member
      * @abstract
      * @return {void}
      * @throws the abstract function warning.
@@ -197,7 +196,6 @@ qx.Class.define("qx.io.remote.transport.Abstract",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     abort : function()
@@ -216,7 +214,6 @@ qx.Class.define("qx.io.remote.transport.Abstract",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     timeout : function()
@@ -237,7 +234,6 @@ qx.Class.define("qx.io.remote.transport.Abstract",
      *
      *  Listeners of the "failed" signal are notified about the event.
      *
-     * @type member
      * @return {void}
      */
     failed : function()
@@ -267,7 +263,6 @@ qx.Class.define("qx.io.remote.transport.Abstract",
      *  This method is virtual and concrete subclasses are supposed to
      *  implement it.
      *
-     * @type member
      * @abstract
      * @param vLabel {var} TODOC
      * @param vValue {var} TODOC
@@ -290,7 +285,6 @@ qx.Class.define("qx.io.remote.transport.Abstract",
     /**
      * TODOC
      *
-     * @type member
      * @abstract
      * @param vLabel {var} TODOC
      * @return {Object}
@@ -304,7 +298,6 @@ qx.Class.define("qx.io.remote.transport.Abstract",
     /**
      * Provides an hash of all response headers.
      *
-     * @type member
      * @abstract
      * @return {Object}
      * @throws the abstract function warning.
@@ -325,7 +318,6 @@ qx.Class.define("qx.io.remote.transport.Abstract",
     /**
      * Returns the current status code of the request if available or -1 if not.
      *
-     * @type member
      * @abstract
      * @return {Integer}
      * @throws the abstract function warning.
@@ -338,7 +330,6 @@ qx.Class.define("qx.io.remote.transport.Abstract",
     /**
      * Provides the status text for the current request if available and null otherwise.
      *
-     * @type member
      * @abstract
      * @return {String}
      * @throws the abstract function warning.
@@ -361,7 +352,6 @@ qx.Class.define("qx.io.remote.transport.Abstract",
      *  By passing true as the "partial" parameter of this method, incomplete data will
      *  be made available to the caller.
      *
-     * @type member
      * @abstract
      * @return {String}
      * @throws the abstract function warning.
@@ -376,7 +366,6 @@ qx.Class.define("qx.io.remote.transport.Abstract",
      *  By passing true as the "partial" parameter of this method, incomplete data will
      *  be made available to the caller.
      *
-     * @type member
      * @abstract
      * @return {Object}
      * @throws the abstract function warning.
@@ -389,7 +378,6 @@ qx.Class.define("qx.io.remote.transport.Abstract",
     /**
      * Returns the length of the content as fetched thus far
      *
-     * @type member
      * @abstract
      * @return {Integer}
      * @throws the abstract function warning.
@@ -410,7 +398,6 @@ qx.Class.define("qx.io.remote.transport.Abstract",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */

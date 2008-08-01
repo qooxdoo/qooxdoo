@@ -27,7 +27,6 @@ qx.Class.define("qx.dev.ObjectSummary",
     /**
      * Summary of allocated objects
      *
-     * @type static
      * @return {String} summary of allocated objects.
      */
     getInfo : function()
@@ -82,7 +81,6 @@ qx.Class.define("qx.dev.ObjectSummary",
      * Allocated objects and lists all objects, which have been newly created
      * since the last call of this function.
      *
-     * @type static
      * @return {String} summary of allocated objects.
      */
     getNewObjects : function()

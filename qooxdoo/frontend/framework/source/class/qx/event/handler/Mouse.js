@@ -46,7 +46,6 @@ qx.Class.define("qx.event.handler.Mouse",
   /**
    * Create a new instance
    *
-   * @type constructor
    * @param manager {qx.event.Manager} Event manager for the window to use
    */
   construct : function(manager)
@@ -182,7 +181,6 @@ qx.Class.define("qx.event.handler.Mouse",
     /**
      * Initializes the native mouse button event listeners.
      *
-     * @type member
      * @signature function()
      * @return {void}
      */
@@ -203,7 +201,6 @@ qx.Class.define("qx.event.handler.Mouse",
     /**
      * Initializes the native mouse move event listeners.
      *
-     * @type member
      * @signature function()
      * @return {void}
      */
@@ -222,7 +219,6 @@ qx.Class.define("qx.event.handler.Mouse",
     /**
      * Initializes the native mouse wheel event listeners.
      *
-     * @type member
      * @signature function()
      * @return {void}
      */
@@ -250,7 +246,6 @@ qx.Class.define("qx.event.handler.Mouse",
     /**
      * Disconnects the native mouse button event listeners.
      *
-     * @type member
      * @signature function()
      * @return {void}
      */
@@ -269,7 +264,6 @@ qx.Class.define("qx.event.handler.Mouse",
     /**
      * Disconnects the native mouse move event listeners.
      *
-     * @type member
      * @signature function()
      * @return {void}
      */
@@ -286,7 +280,6 @@ qx.Class.define("qx.event.handler.Mouse",
     /**
      * Disconnects the native mouse wheel event listeners.
      *
-     * @type member
      * @signature function()
      * @return {void}
      */
@@ -313,7 +306,6 @@ qx.Class.define("qx.event.handler.Mouse",
      * Global handler for all mouse move related events like "mousemove",
      * "mouseout" and "mouseover".
      *
-     * @type member
      * @param domEvent {Event} DOM event
      */
     _onMoveEvent : function(domEvent) {
@@ -325,7 +317,6 @@ qx.Class.define("qx.event.handler.Mouse",
      * Global handler for all mouse button related events like "mouseup",
      * "mousedown", "click", "dblclick" and "contextmenu".
      *
-     * @type member
      * @param domEvent {Event} DOM event
      */
     _onButtonEvent : function(domEvent)
@@ -367,7 +358,6 @@ qx.Class.define("qx.event.handler.Mouse",
     /**
      * Global handler for the mouse wheel event.
      *
-     * @type member
      * @param domEvent {Event} DOM event
      */
     _onWheelEvent : function(domEvent) {

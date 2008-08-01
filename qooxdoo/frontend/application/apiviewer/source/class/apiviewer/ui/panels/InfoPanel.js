@@ -87,7 +87,6 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
     /**
      * Creates HTML that replaces all &#64;link-attributes with links.
      *
-     * @type member
      * @param description {String} the description.
      * @param packageBaseClass {apiviewer.dao.Class?null} the doc node of the class to use for
      *          auto-adding packages.
@@ -122,7 +121,6 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
     /**
      * Creates the HTML for a link to an item.
      *
-     * @type member
      * @param linkText {String} the link text
      *          (e.g. "mypackage.MyClass#myMethod alt text")
      * @param packageBaseClass {apiviewer.dao.Class?null} the doc node of the class to use when
@@ -245,7 +243,6 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
     /**
      * Creates the HTML showing the &#64;see attributes of an item.
      *
-     * @type member
      * @param node {apiviewer.dao.ClassItem} the doc node of the item.
      * @return {String} the HTML showing the &#64;see attributes.
      */
@@ -365,7 +362,6 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
     /**
      * Creates the HTML showing the description of an item.
      *
-     * @type member
      * @param node {apiviewer.dao.Node} the doc node of the item.
      * @param packageBaseClass {apiviewer.dao.Class|apiviewer.dao.Package?null} the doc node of the class to use for
      *          auto-adding packages.
@@ -394,7 +390,6 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
     /**
      * Extracts the first sentence from a text.
      *
-     * @type member
      * @param text {String} the text.
      * @return {String} the first sentence from the text.
      */
@@ -424,7 +419,6 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
      * Returns whether the description of an item has details (has more than one
      * sentence).
      *
-     * @type member
      * @param node {apiviewer.dao.Node} the doc node of the item.
      * @return {Boolean} whether the description of an item has details.
      */
@@ -444,7 +438,6 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
     /**
      * Creates the HTML showing the type of a doc node.
      *
-     * @type member
      * @param typeNode {apiviewer.dao.ClassItem} the doc node to show the type for.
      * @param defaultType {String} the type name to use if <code>typeNode</code> is
      *          <code>null</code> or defines no type.
@@ -523,7 +516,6 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
     /**
      * Creates the HTML showing the documentation errors of an item.
      *
-     * @type member
      * @param node {apiviewer.dao.Node} the doc node of the item.
      * @param currentClassDocNode {Map} the doc node of the currently displayed class
      * @return {String} the HTML showing the documentation errors.
@@ -564,7 +556,6 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
     /**
      * Creates the HTML showing whether the item is deprecated
      *
-     * @type member
      * @param node {apiviewer.dao.ClassItem} the doc node of the item.
      * @param itemName {String} type of the item, e.g. "method", "property", "constant", ...
      * @return {String} the HTML fragment.
@@ -593,7 +584,6 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
     /**
      * Creates the HTML showing the access protection for a class item.
      *
-     * @type member
      * @param node {apiviewer.dao.ClassItem} the doc node of the item.
      * @return {String} the HTML fragment.
      */
@@ -625,7 +615,6 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
     /**
      * Creates the HTML showing interfaces requiring this node
      *
-     * @type member
      * @param node {apiviewer.dao.ClassItem} the doc node of the item.
      * @return {String} the HTML.
      */
@@ -754,7 +743,6 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
      * Creates the HTML showing the information about a class item.
      * The root HTML element must be a table row (&lt;tr&gt;).
      *
-     * @type member
      * @abstract
      * @param node {apiviewer.dao.ClassItem} the doc node of the item.
      * @param showDetails {Boolean} whether to show the details.
@@ -838,7 +826,6 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
      * Checks whether a class item has details.
      * This method is abstract. Sub classes must override it.
      *
-     * @type member
      * @abstract
      * @param node {apiviewer.dao.ClassItem} the doc node of the item.
      * @param currentClassDocNode {apiviewer.dao.Class} the doc node of the currently displayed class
@@ -1100,7 +1087,6 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
     /**
      * Gets the HTML element showing the details of an item.
      *
-     * @type member
      * @param panel {InfoPanel} the info panel of the item.
      * @param name {String} the item's name.
      * @return {Element} the HTML element showing the details of the item.
@@ -1124,7 +1110,6 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
      * Event handler. Called when the user clicked a button for showing/hiding the
      * details of an item.
      *
-     * @type member
      * @param panelHashCode {Integer} hash code of the panel object.
      * @param name {String} the name of the item.
      * @param fromClassName {String} the name of the class the item the item was

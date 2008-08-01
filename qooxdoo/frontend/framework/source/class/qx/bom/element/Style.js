@@ -136,7 +136,6 @@ qx.Class.define("qx.bom.element.Style",
      * Compiles the given styles into a string which can be used to
      * concat a HTML string for innerHTML usage.
      *
-     * @type static
      * @param map {Map} Map of style properties to compile
      * @return {String} Compiled string of given style properties.
      */
@@ -214,7 +213,6 @@ qx.Class.define("qx.bom.element.Style",
     /**
      * Set the full CSS content of the style attribute
      *
-     * @type static
      * @param element {Element} The DOM element to modify
      * @param value {String} The full CSS string
      * @signature function(element, value)
@@ -235,7 +233,6 @@ qx.Class.define("qx.bom.element.Style",
     /**
      * Returns the full content of the style attribute.
      *
-     * @type static
      * @param element {Element} The DOM element to query
      * @return {String} the full CSS string
      * @signature function(element)
@@ -365,7 +362,6 @@ qx.Class.define("qx.bom.element.Style",
     /**
      * Resets the value of a style property
      *
-     * @type static
      * @param element {Element} The DOM element to modify
      * @param name {String} Name of the style attribute (js variant e.g. marginTop, wordSpacing)
      * @param smart {Boolean?true} Whether the implementation should automatically use
@@ -426,7 +422,6 @@ qx.Class.define("qx.bom.element.Style",
      *
      * Ignores inheritance cascade. Does not interpret values.
      *
-     * @type static
      * @signature function(element, name, mode, smart)
      * @param element {Element} The DOM element to modify
      * @param name {String} Name of the style attribute (js variant e.g. marginTop, wordSpacing)

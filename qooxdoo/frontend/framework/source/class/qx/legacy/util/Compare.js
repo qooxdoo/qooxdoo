@@ -28,7 +28,6 @@ qx.Class.define("qx.legacy.util.Compare",
     /**
      * Compare two Strings
      *
-     * @type static
      * @param a {String} first value
      * @param b {String} second value
      * @return {Number} 0 if both values are equal
@@ -43,7 +42,6 @@ qx.Class.define("qx.legacy.util.Compare",
     /**
      * Compare two Strings ignoring the letter case.
      *
-     * @type static
      * @param a {String} first value
      * @param b {String} second value
      * @return {Number} 0 if both values are equal
@@ -58,7 +56,6 @@ qx.Class.define("qx.legacy.util.Compare",
     /**
      * Compare two Strings but first convert umlauts to an ascii character.
      *
-     * @type static
      * @param a {String} first value
      * @param b {String} second value
      * @return {Number} 0 if both values are equal
@@ -73,7 +70,6 @@ qx.Class.define("qx.legacy.util.Compare",
     /**
      * Compare two Strings but first convert umlauts to an ascii character and ignore letter case.
      *
-     * @type static
      * @param a {String} first value
      * @param b {String} second value
      * @return {Number} 0 if both values are equal
@@ -88,7 +84,6 @@ qx.Class.define("qx.legacy.util.Compare",
     /**
      * Compare two Strings but first convert umlauts to ascii characters.
      *
-     * @type static
      * @param a {String} first value
      * @param b {String} second value
      * @return {Number} 0 if both values are equal
@@ -103,7 +98,6 @@ qx.Class.define("qx.legacy.util.Compare",
     /**
      * Compare two Strings but first convert umlauts to ascii characters and ignore letter case.
      *
-     * @type static
      * @param a {String} first value
      * @param b {String} second value
      * @return {Number} 0 if both values are equal
@@ -118,7 +112,6 @@ qx.Class.define("qx.legacy.util.Compare",
     /**
      * Compare two Float numbers.
      *
-     * @type static
      * @param a {Float} first value
      * @param b {Float} second value
      * @return {Number} 0 if both values are equal
@@ -133,7 +126,6 @@ qx.Class.define("qx.legacy.util.Compare",
     /**
      * Compare two Strings representing integers. First convert the strings to  an interger.
      *
-     * @type static
      * @param a {String} first value
      * @param b {String} second value
      * @return {Number} 0 if both values are equal
@@ -148,7 +140,6 @@ qx.Class.define("qx.legacy.util.Compare",
     /**
      * Compare two Strings representing floats. First convert the strings to  an float.
      *
-     * @type static
      * @param a {String} first value
      * @param b {String} second value
      * @return {Number} 0 if both values are equal
@@ -164,7 +155,6 @@ qx.Class.define("qx.legacy.util.Compare",
      * Compare two Strings representing IPv4 adresses.
      * Example: "192.168.1.2"
      *
-     * @type static
      * @param a {String} first value
      * @param b {String} second value
      * @return {Number} 0 if both values are equal
@@ -193,7 +183,6 @@ qx.Class.define("qx.legacy.util.Compare",
     /**
      * Compare the zIndex property of two widgets.
      *
-     * @type static
      * @param a {qx.legacy.ui.core.Widget} first value
      * @param b {qx.legacy.ui.core.Widget} second value
      * @return {Number} 0 if both values are equal

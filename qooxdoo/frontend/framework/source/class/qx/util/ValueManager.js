@@ -56,7 +56,6 @@ qx.Class.define("qx.util.ValueManager",
     /**
      * Returns the dynamically interpreted result for the incoming value
      *
-     * @type member
      * @param value {String} dynamically interpreted identifier
      * @return {var} return the (translated) result of the incoming value
      */
@@ -68,7 +67,6 @@ qx.Class.define("qx.util.ValueManager",
     /**
      * Whether a value is interpreted dynamically
      *
-     * @type member
      * @param value {String} dynamically interpreted identifier
      * @return {Boolean} returns true if the value is interpreted dynamically
      */

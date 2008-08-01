@@ -42,7 +42,6 @@ qx.Class.define("qx.legacy.html.Form",
     /**
      * TODOC
      *
-     * @type static
      * @param vNode {var} TODOC
      */
     inputFilter : function(vNode)
@@ -74,7 +73,6 @@ qx.Class.define("qx.legacy.html.Form",
     /**
      * TODOC
      *
-     * @type static
      * @param vForm {var} TODOC
      * @return {var} TODOC
      */
@@ -86,7 +84,6 @@ qx.Class.define("qx.legacy.html.Form",
     /**
      * TODOC
      *
-     * @type static
      * @param vNode {var} TODOC
      * @return {var} TODOC
      */
@@ -118,7 +115,6 @@ qx.Class.define("qx.legacy.html.Form",
     /**
      * TODOC
      *
-     * @type static
      * @param vForm {var} TODOC
      * @return {var} TODOC
      */
@@ -138,7 +134,6 @@ qx.Class.define("qx.legacy.html.Form",
     /**
      * TODOC
      *
-     * @type static
      * @param vForm {var} TODOC
      * @param vMethod {var} TODOC
      * @return {void}

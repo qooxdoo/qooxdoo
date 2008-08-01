@@ -224,7 +224,6 @@ qx.Class.define("qx.legacy.ui.tree.AbstractTreeElement",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -257,7 +256,6 @@ qx.Class.define("qx.legacy.ui.tree.AbstractTreeElement",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -321,7 +319,6 @@ qx.Class.define("qx.legacy.ui.tree.AbstractTreeElement",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     _evalCurrentIcon : function()
@@ -345,7 +342,6 @@ qx.Class.define("qx.legacy.ui.tree.AbstractTreeElement",
     /**
      * Returns the parent folder of this tree element.
      *
-     * @type member
      * @return {AbstractTreeElement | null} TODOC
      */
     getParentFolder : function()
@@ -364,7 +360,6 @@ qx.Class.define("qx.legacy.ui.tree.AbstractTreeElement",
      * Returns the level of the tree element in the tree hierarchy (starting
      * with 0 at the root element).
      *
-     * @type member
      * @return {Integer} the level
      */
     getLevel : function()
@@ -377,7 +372,6 @@ qx.Class.define("qx.legacy.ui.tree.AbstractTreeElement",
     /**
      * Returns the tree from the parent folder of this element.
      *
-     * @type member
      * @return {AbstractTreeElement} the tree root node
      */
     getTree : function()
@@ -390,7 +384,6 @@ qx.Class.define("qx.legacy.ui.tree.AbstractTreeElement",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     getIndentObject : function() {
@@ -401,7 +394,6 @@ qx.Class.define("qx.legacy.ui.tree.AbstractTreeElement",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     getIconObject : function() {
@@ -412,7 +404,6 @@ qx.Class.define("qx.legacy.ui.tree.AbstractTreeElement",
     /**
      * TODOC
      *
-     * @type member
      * @return {qx.legacy.ui.basic.Label} TODOC
      */
     getLabelObject : function() {
@@ -436,7 +427,6 @@ qx.Class.define("qx.legacy.ui.tree.AbstractTreeElement",
      * The method destroyContent is defined in the TreeFolder class.
      *
      *
-     * @type member
      * @return {void}
      */
     destroy : function()
@@ -505,7 +495,6 @@ qx.Class.define("qx.legacy.ui.tree.AbstractTreeElement",
      * Obtain the entire hierarchy of labels from the root down to the current
      * node.
      *
-     * @type member
      * @param vArr {[String]}
      *       When called by the user, arr should typically be an empty array.
      *       Each level from the current node upwards will push its label onto
@@ -545,7 +534,6 @@ qx.Class.define("qx.legacy.ui.tree.AbstractTreeElement",
     /**
      * Adds the current element to the tree queue.
      *
-     * @type member
      * @return {void}
      */
     addToTreeQueue : function()
@@ -561,7 +549,6 @@ qx.Class.define("qx.legacy.ui.tree.AbstractTreeElement",
     /**
      * Removes the current element from the tree queue.
      *
-     * @type member
      * @return {void}
      */
     removeFromTreeQueue : function()
@@ -577,7 +564,6 @@ qx.Class.define("qx.legacy.ui.tree.AbstractTreeElement",
     /**
      * Adds the current item to a custom queue.
      *
-     * @type member
      * @param vHint {var} TODOC
      * @return {void}
      */
@@ -592,7 +578,6 @@ qx.Class.define("qx.legacy.ui.tree.AbstractTreeElement",
     /**
      * Removes the current element from the custom queue.
      *
-     * @type member
      * @param vHint {var} TODOC
      * @return {void}
      */
@@ -615,7 +600,6 @@ qx.Class.define("qx.legacy.ui.tree.AbstractTreeElement",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      * @return {Object}
@@ -641,7 +625,6 @@ qx.Class.define("qx.legacy.ui.tree.AbstractTreeElement",
     /**
      * TODOC
      *
-     * @type member
      * @param vDisplayable {var} TODOC
      * @param vParent {var} TODOC
      * @param vHint {var} TODOC
@@ -696,7 +679,6 @@ qx.Class.define("qx.legacy.ui.tree.AbstractTreeElement",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -745,7 +727,6 @@ qx.Class.define("qx.legacy.ui.tree.AbstractTreeElement",
     /**
      * Flush the tree from the current element on.
      *
-     * @type member
      * @return {void}
      */
     flushTree : function()

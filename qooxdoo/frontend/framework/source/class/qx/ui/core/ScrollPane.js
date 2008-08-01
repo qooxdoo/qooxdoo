@@ -160,7 +160,6 @@ qx.Class.define("qx.ui.core.ScrollPane",
     /**
      * Returns the current content.
      *
-     * @type member
      * @return {qx.ui.core.Widget|null} The current layout content
      */
     getChild : function() {
@@ -237,7 +236,6 @@ qx.Class.define("qx.ui.core.ScrollPane",
      * Returns the top offset of the given item in relation to the
      * inner height of this widget.
      *
-     * @type member
      * @param item {qx.ui.core.Widget} Item to query
      * @return {Integer} Top offset
      */
@@ -260,7 +258,6 @@ qx.Class.define("qx.ui.core.ScrollPane",
      * Returns the top offset of the end of the given item in relation to the
      * inner height of this widget.
      *
-     * @type member
      * @param item {qx.ui.core.Widget} Item to query
      * @return {Integer} Top offset
      */
@@ -273,7 +270,6 @@ qx.Class.define("qx.ui.core.ScrollPane",
      * Returns the left offset of the given item in relation to the
      * inner width of this widget.
      *
-     * @type member
      * @param item {qx.ui.core.Widget} Item to query
      * @return {Integer} Top offset
      */
@@ -301,7 +297,6 @@ qx.Class.define("qx.ui.core.ScrollPane",
      * Returns the left offset of the end of the given item in relation to the
      * inner width of this widget.
      *
-     * @type member
      * @param item {qx.ui.core.Widget} Item to query
      * @return {Integer} Right offset
      */
@@ -322,7 +317,6 @@ qx.Class.define("qx.ui.core.ScrollPane",
     /**
      * The size (identical with the preferred size) of of the content.
      *
-     * @type member
      * @return {Map} Size of the content (keys: <code>width</code> and <code>height</code>)
      */
     getScrollSize : function() {
@@ -343,7 +337,6 @@ qx.Class.define("qx.ui.core.ScrollPane",
     /**
      * The maximum horizontal scroll position.
      *
-     * @type member
      * @return {Integer} Maximum horizontal scroll position.
      */
     getScrollMaxX : function()
@@ -362,7 +355,6 @@ qx.Class.define("qx.ui.core.ScrollPane",
     /**
      * The maximum vertical scroll position.
      *
-     * @type member
      * @return {Integer} Maximum vertical scroll position.
      */
     getScrollMaxY : function()

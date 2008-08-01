@@ -354,7 +354,6 @@ qx.Class.define("qx.bom.String",
      * * <a href="http://www.w3.org/TR/html401/charset.html#h-5.3">HTML 4.01 Character References</a>
      * * <a href="http://www.w3.org/TR/html401/charset.html#code-position">HTML 4.01 Code positions</a>
      *
-     * @type static
      * @param str {String} the String to escape
      * @return {String} a new escaped String
      * @see #unescape
@@ -376,7 +375,6 @@ qx.Class.define("qx.bom.String",
      * verbatim into the result string. e.g. "&amp;gt;&amp;zzzz;x" will
      * become "&gt;&amp;zzzz;x".
      *
-     * @type static
      * @param str {String} the String to unescape, may be null
      * @return {var} a new unescaped String
      * @see #escape
@@ -391,7 +389,6 @@ qx.Class.define("qx.bom.String",
      * This is similar to {@link #escape} but converts new lines to
      * <tt>&lt:br&gt:</tt> and preserves whitespaces.
      *
-     * @type static
      * @param str {String} the String to convert
      * @return {String} a new converted String
      * @see #escape
@@ -418,7 +415,6 @@ qx.Class.define("qx.bom.String",
      * * converts <tt>&lt:br&gt:</tt> to new line
      * * unescapes HTML entities
      *
-     * @type static
      * @param str {String} HTML string to converts
      * @return {String} plain text representaion of the HTML string
      */

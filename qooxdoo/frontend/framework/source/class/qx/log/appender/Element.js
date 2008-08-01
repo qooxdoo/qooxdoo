@@ -52,7 +52,6 @@ qx.Class.define("qx.log.appender.Element",
     /**
      * Configures the DOM element to use.
      *
-     * @type member
      * @param element {Element} DOM element to log to
      * @return {void}
      */
@@ -74,7 +73,6 @@ qx.Class.define("qx.log.appender.Element",
     /**
      * Clears the current output.
      *
-     * @type static
      * @return {void}
      */
     clear : function()
@@ -91,7 +89,6 @@ qx.Class.define("qx.log.appender.Element",
     /**
      * Processes a single log entry
      *
-     * @type static
      * @signature function(entry)
      * @param entry {Map} The entry to process
      * @return {void}

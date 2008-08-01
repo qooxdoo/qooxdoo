@@ -34,7 +34,6 @@ qx.Class.define("testrunner.profile.String",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     testProfileString : function()
@@ -112,7 +111,6 @@ qx.Class.define("testrunner.profile.String",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     testSplitOptimize : function()

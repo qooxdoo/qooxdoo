@@ -72,7 +72,6 @@ qx.Class.define("qx.legacy.ui.embed.NodeEmbed",
     /**
      * TODOC
      *
-     * @type member
      * @return {void} TODOC
      * @throws TODOC
      */

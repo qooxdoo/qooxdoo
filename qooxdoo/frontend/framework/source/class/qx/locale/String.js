@@ -31,7 +31,6 @@ qx.Class.define("qx.locale.String",
     /**
      * Get quotation start sign
      *
-     * @type static
      * @param locale {String} optional locale to be used
      * @return {String} quotation start sign
      */
@@ -43,7 +42,6 @@ qx.Class.define("qx.locale.String",
     /**
      * Get quotation end sign
      *
-     * @type static
      * @param locale {String} optional locale to be used
      * @return {String} quotation end sign
      */
@@ -55,7 +53,6 @@ qx.Class.define("qx.locale.String",
     /**
      * Get quotation alternative start sign
      *
-     * @type static
      * @param locale {String} optional locale to be used
      * @return {String} alternative quotation start sign
      */
@@ -67,7 +64,6 @@ qx.Class.define("qx.locale.String",
     /**
      * Get quotation alternative end sign
      *
-     * @type static
      * @param locale {String} optional locale to be used
      * @return {String} alternative quotation end sign
      */

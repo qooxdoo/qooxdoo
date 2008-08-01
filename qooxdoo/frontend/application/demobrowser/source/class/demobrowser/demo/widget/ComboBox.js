@@ -32,7 +32,6 @@ qx.Class.define("demobrowser.demo.widget.ComboBox",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     main : function()
@@ -55,7 +54,6 @@ qx.Class.define("demobrowser.demo.widget.ComboBox",
      * This means that a regular combobox will be created and filled with
      * some tempaltes.
      *
-     * @type member
      * @return {void}
      */
     _createDefaultExample : function()
@@ -103,7 +101,6 @@ qx.Class.define("demobrowser.demo.widget.ComboBox",
      * some icons and text. in the textfield of the combo box is only
      * the text displayed.
      *
-     * @type member
      * @return {void}
      */
     _createIconExample : function()
@@ -140,7 +137,6 @@ qx.Class.define("demobrowser.demo.widget.ComboBox",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     _createWideExample : function()

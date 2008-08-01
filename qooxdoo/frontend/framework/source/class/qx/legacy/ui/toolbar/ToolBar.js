@@ -106,7 +106,6 @@ qx.Class.define("qx.legacy.ui.toolbar.ToolBar",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     getAllButtons : function()
@@ -142,7 +141,6 @@ qx.Class.define("qx.legacy.ui.toolbar.ToolBar",
     /**
      * Wraps key events to target functions
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {var} TODOC
      */
@@ -162,7 +160,6 @@ qx.Class.define("qx.legacy.ui.toolbar.ToolBar",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     _onkeypress_left : function()
@@ -225,7 +222,6 @@ qx.Class.define("qx.legacy.ui.toolbar.ToolBar",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     _onkeypress_right : function()

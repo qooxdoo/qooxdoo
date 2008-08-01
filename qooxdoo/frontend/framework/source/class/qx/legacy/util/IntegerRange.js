@@ -109,7 +109,6 @@ qx.Class.define("qx.legacy.util.IntegerRange",
     /**
      * Return the next number in the range, or null.
      *
-     * @type member
      * @return {Integer/Null}
      */
     next: function () {

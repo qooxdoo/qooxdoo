@@ -74,7 +74,6 @@ qx.Class.define("qx.legacy.ui.layout.impl.GridLayoutImpl",
      *  [08] CHILDREN ADD/REMOVE/MOVE HANDLING
      *  [09] FLUSH LAYOUT QUEUES OF CHILDREN
      *
-     * @type member
      * @param vChild {var} TODOC
      * @return {var} TODOC
      */
@@ -111,7 +110,6 @@ qx.Class.define("qx.legacy.ui.layout.impl.GridLayoutImpl",
     /**
      * Compute and return the box height of the given child.
      *
-     * @type member
      * @param vChild {var} TODOC
      * @return {var} TODOC
      */
@@ -157,7 +155,6 @@ qx.Class.define("qx.legacy.ui.layout.impl.GridLayoutImpl",
      * Compute and return the width needed by all children of this widget
      *  which is in a grid layout the width used by all columns.
      *
-     * @type member
      * @return {var} TODOC
      */
     computeChildrenNeededWidth : function()
@@ -178,7 +175,6 @@ qx.Class.define("qx.legacy.ui.layout.impl.GridLayoutImpl",
      * Compute and return the height needed by all children of this widget
      *  which is in a grid layout the height used by all rows.
      *
-     * @type member
      * @return {var} TODOC
      */
     computeChildrenNeededHeight : function()
@@ -207,7 +203,6 @@ qx.Class.define("qx.legacy.ui.layout.impl.GridLayoutImpl",
      * Actions that should be done if the inner width of the widget was changed.
      *  Normally this includes update to percent values and ranges.
      *
-     * @type member
      * @param vChild {var} TODOC
      */
     updateChildOnInnerWidthChange : function(vChild)
@@ -223,7 +218,6 @@ qx.Class.define("qx.legacy.ui.layout.impl.GridLayoutImpl",
      * Actions that should be done if the inner height of the widget was changed.
      *  Normally this includes update to percent values and ranges.
      *
-     * @type member
      * @param vChild {var} TODOC
      */
     updateChildOnInnerHeightChange : function(vChild)
@@ -247,7 +241,6 @@ qx.Class.define("qx.legacy.ui.layout.impl.GridLayoutImpl",
      * This is called from qx.legacy.ui.core.Widget and  it's task is to apply the layout
      *  (excluding border and padding) to the child.
      *
-     * @type member
      * @param vChild {var} TODOC
      * @param vJobs {var} TODOC
      * @return {void}
@@ -271,7 +264,6 @@ qx.Class.define("qx.legacy.ui.layout.impl.GridLayoutImpl",
     /**
      * TODOC
      *
-     * @type member
      * @param vChild {var} TODOC
      * @param vJobs {var} TODOC
      * @return {void}
@@ -284,7 +276,6 @@ qx.Class.define("qx.legacy.ui.layout.impl.GridLayoutImpl",
     /**
      * TODOC
      *
-     * @type member
      * @param vChild {var} TODOC
      * @param vJobs {var} TODOC
      * @return {void}
@@ -297,7 +288,6 @@ qx.Class.define("qx.legacy.ui.layout.impl.GridLayoutImpl",
     /**
      * TODOC
      *
-     * @type member
      * @param vChild {var} TODOC
      * @param vJobs {var} TODOC
      * @return {void}
@@ -330,7 +320,6 @@ qx.Class.define("qx.legacy.ui.layout.impl.GridLayoutImpl",
     /**
      * TODOC
      *
-     * @type member
      * @param vChild {var} TODOC
      * @param vJobs {var} TODOC
      * @return {void}

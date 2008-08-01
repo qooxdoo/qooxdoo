@@ -26,7 +26,6 @@ qx.Class.define("testrunner.test.Property",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     testBasic : function()
@@ -56,7 +55,6 @@ qx.Class.define("testrunner.test.Property",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     testBuiltinTypes : function()
@@ -116,7 +114,6 @@ qx.Class.define("testrunner.test.Property",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     testInheritance : function()
@@ -167,7 +164,6 @@ qx.Class.define("testrunner.test.Property",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     testParent : function()
@@ -205,7 +201,6 @@ qx.Class.define("testrunner.test.Property",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     testMultiValues : function()

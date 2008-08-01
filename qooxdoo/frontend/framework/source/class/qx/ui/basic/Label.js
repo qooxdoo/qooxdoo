@@ -253,7 +253,6 @@ qx.Class.define("qx.ui.basic.Label",
     /**
      * Internal utility to compute the content dimensions.
      *
-     * @type member
      * @return {void}
      */
     __computeContentSize : function()

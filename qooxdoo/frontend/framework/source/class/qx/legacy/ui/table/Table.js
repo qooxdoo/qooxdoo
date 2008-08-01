@@ -565,7 +565,6 @@ qx.Class.define("qx.legacy.ui.table.Table",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -587,7 +586,6 @@ qx.Class.define("qx.legacy.ui.table.Table",
      * changed.  We loop through each scroller and reset its vertical
      * scrollbar's maximum value.
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -612,7 +610,6 @@ qx.Class.define("qx.legacy.ui.table.Table",
      * changed.  We loop through each scroller and set its height to the
      * newly-requested value.
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -630,7 +627,6 @@ qx.Class.define("qx.legacy.ui.table.Table",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -687,7 +683,6 @@ qx.Class.define("qx.legacy.ui.table.Table",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -702,7 +697,6 @@ qx.Class.define("qx.legacy.ui.table.Table",
   
   // property modifier
   /**
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -719,7 +713,6 @@ qx.Class.define("qx.legacy.ui.table.Table",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -731,7 +724,6 @@ qx.Class.define("qx.legacy.ui.table.Table",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -798,7 +790,6 @@ qx.Class.define("qx.legacy.ui.table.Table",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -815,7 +806,6 @@ qx.Class.define("qx.legacy.ui.table.Table",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -833,7 +823,6 @@ qx.Class.define("qx.legacy.ui.table.Table",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -850,7 +839,6 @@ qx.Class.define("qx.legacy.ui.table.Table",
     /**
      * Returns the selection manager.
      *
-     * @type member
      * @return {qx.legacy.ui.table.selection.Manager} the selection manager.
      */
     _getSelectionManager : function() {
@@ -861,7 +849,6 @@ qx.Class.define("qx.legacy.ui.table.Table",
     /**
      * Returns an array containing all TablePaneScrollers in this table.
      *
-     * @type member
      * @return {qx.legacy.ui.table.pane.Scroller[]} all TablePaneScrollers in this table.
      */
     _getPaneScrollerArr : function() {
@@ -872,7 +859,6 @@ qx.Class.define("qx.legacy.ui.table.Table",
     /**
      * Returns a TablePaneScroller of this table.
      *
-     * @type member
      * @param metaColumn {Integer} the meta column to get the TablePaneScroller for.
      * @return {qx.legacy.ui.table.pane.Scroller} the qx.legacy.ui.table.pane.Scroller.
      */
@@ -884,7 +870,6 @@ qx.Class.define("qx.legacy.ui.table.Table",
     /**
      * Cleans up the meta columns.
      *
-     * @type member
      * @param fromMetaColumn {Integer} the first meta column to clean up. All following
      *      meta columns will be cleaned up, too. All previous meta columns will
      *      stay unchanged. If 0 all meta columns will be cleaned up.
@@ -907,7 +892,6 @@ qx.Class.define("qx.legacy.ui.table.Table",
     /**
      * Event handler. Called when the locale has changed.
      *
-     * @type member
      * @param evt {Event} the event.
      * @return {void}
      */
@@ -921,7 +905,6 @@ qx.Class.define("qx.legacy.ui.table.Table",
     /**
      * Event handler. Called when the selection has changed.
      *
-     * @type member
      * @param evt {Map} the event.
      * @return {void}
      */
@@ -940,7 +923,6 @@ qx.Class.define("qx.legacy.ui.table.Table",
     /**
      * Event handler. Called when the table model meta data has changed.
      *
-     * @type member
      * @param evt {Map} the event.
      * @return {void}
      */
@@ -959,7 +941,6 @@ qx.Class.define("qx.legacy.ui.table.Table",
     /**
      * Event handler. Called when the table model data has changed.
      *
-     * @type member
      * @param evt {Map} the event.
      * @return {void}
      */
@@ -986,7 +967,6 @@ qx.Class.define("qx.legacy.ui.table.Table",
     /**
      * Event handler. Called when a TablePaneScroller has been scrolled vertically.
      *
-     * @type member
      * @param evt {Map} the event.
      * @return {void}
      */
@@ -1011,7 +991,6 @@ qx.Class.define("qx.legacy.ui.table.Table",
     /**
      * Event handler. Called when a key was pressed.
      *
-     * @type member
      * @param evt {Map} the event.
      * @return {void}
      */
@@ -1135,7 +1114,6 @@ qx.Class.define("qx.legacy.ui.table.Table",
     /**
      * Event handler. Called when a key was pressed.
      *
-     * @type member
      * @param evt {qx.legacy.event.type.KeyEvent} the event.
      * @return {void}
      */
@@ -1210,7 +1188,6 @@ qx.Class.define("qx.legacy.ui.table.Table",
     /**
      * Event handler. Called when the table gets the focus.
      *
-     * @type member
      * @param evt {Map} the event.
      * @return {void}
      */
@@ -1227,7 +1204,6 @@ qx.Class.define("qx.legacy.ui.table.Table",
     /**
      * Event handler. Called when the visibility of a column has changed.
      *
-     * @type member
      * @param evt {Map} the event.
      * @return {void}
      */
@@ -1247,7 +1223,6 @@ qx.Class.define("qx.legacy.ui.table.Table",
     /**
      * Event handler. Called when the width of a column has changed.
      *
-     * @type member
      * @param evt {Map} the event.
      * @return {void}
      */
@@ -1267,7 +1242,6 @@ qx.Class.define("qx.legacy.ui.table.Table",
     /**
      * Event handler. Called when the column order has changed.
      *
-     * @type member
      * @param evt {Map} the event.
      * @return {void}
      */
@@ -1289,7 +1263,6 @@ qx.Class.define("qx.legacy.ui.table.Table",
      * Gets the TablePaneScroller at a certain x position in the page. If there is
      * no TablePaneScroller at this postion, null is returned.
      *
-     * @type member
      * @param pageX {Integer} the position in the page to check (in pixels).
      * @return {qx.legacy.ui.table.pane.Scroller} the TablePaneScroller or null.
      * @see TablePaneScrollerPool
@@ -1304,7 +1277,6 @@ qx.Class.define("qx.legacy.ui.table.Table",
     /**
      * Sets the currently focused cell.
      *
-     * @type member
      * @param col {Integer} the model index of the focused cell's column.
      * @param row {Integer} the model index of the focused cell's row.
      * @param scrollVisible {Boolean ? false} whether to scroll the new focused cell
@@ -1335,7 +1307,6 @@ qx.Class.define("qx.legacy.ui.table.Table",
     /**
      * Returns the column of the currently focused cell.
      *
-     * @type member
      * @return {Integer} the model index of the focused cell's column.
      */
     getFocusedColumn : function() {
@@ -1346,7 +1317,6 @@ qx.Class.define("qx.legacy.ui.table.Table",
     /**
      * Returns the row of the currently focused cell.
      *
-     * @type member
      * @return {Integer} the model index of the focused cell's column.
      */
     getFocusedRow : function() {
@@ -1357,7 +1327,6 @@ qx.Class.define("qx.legacy.ui.table.Table",
     /**
      * Moves the focus.
      *
-     * @type member
      * @param deltaX {Integer} The delta by which the focus should be moved on the x axis.
      * @param deltaY {Integer} The delta by which the focus should be moved on the y axis.
      * @return {void}
@@ -1389,7 +1358,6 @@ qx.Class.define("qx.legacy.ui.table.Table",
     /**
      * Scrolls a cell visible.
      *
-     * @type member
      * @param col {Integer} the model index of the column the cell belongs to.
      * @param row {Integer} the model index of the row the cell belongs to.
      * @return {void}
@@ -1410,7 +1378,6 @@ qx.Class.define("qx.legacy.ui.table.Table",
     /**
      * Returns whether currently a cell is editing.
      *
-     * @type member
      * @return {var} whether currently a cell is editing.
      */
     isEditing : function()
@@ -1428,7 +1395,6 @@ qx.Class.define("qx.legacy.ui.table.Table",
      * Starts editing the currently focused cell. Does nothing if already editing
      * or if the column is not editable.
      *
-     * @type member
      * @return {Boolean} whether editing was started
      */
     startEditing : function()
@@ -1447,7 +1413,6 @@ qx.Class.define("qx.legacy.ui.table.Table",
     /**
      * Stops editing and writes the editor's value to the model.
      *
-     * @type member
      * @return {void}
      */
     stopEditing : function()
@@ -1464,7 +1429,6 @@ qx.Class.define("qx.legacy.ui.table.Table",
     /**
      * Stops editing without writing the editor's value to the model.
      *
-     * @type member
      * @return {void}
      */
     cancelEditing : function()
@@ -1481,7 +1445,6 @@ qx.Class.define("qx.legacy.ui.table.Table",
     /**
      * Does a postponed update of the table content.
      *
-     * @type member
      * @return {void}
      * @see #updateContent
      */
@@ -1509,7 +1472,6 @@ qx.Class.define("qx.legacy.ui.table.Table",
     /**
      * Update the table content of every attached table pane.
      *
-     * @type member
      * @return {void}
      */
     updateContent : function() {
@@ -1524,7 +1486,6 @@ qx.Class.define("qx.legacy.ui.table.Table",
      * Gets the meta column at a certain x position in the page. If there is no
      * meta column at this postion, -1 is returned.
      *
-     * @type member
      * @param pageX {Integer} the position in the page to check (in pixels).
      * @return {Integer} the index of the meta column or -1.
      */
@@ -1549,7 +1510,6 @@ qx.Class.define("qx.legacy.ui.table.Table",
      * Returns the meta column a column is shown in. If the column is not shown at
      * all, -1 is returned.
      *
-     * @type member
      * @param visXPos {Integer} the visible x position of the column.
      * @return {Integer} the meta column the column is shown in.
      */
@@ -1575,7 +1535,6 @@ qx.Class.define("qx.legacy.ui.table.Table",
     /**
      * Updates the text shown in the status bar.
      *
-     * @type member
      * @return {void}
      */
     _updateStatusBar : function()
@@ -1613,7 +1572,6 @@ qx.Class.define("qx.legacy.ui.table.Table",
     /**
      * Updates the widths of all scrollers.
      *
-     * @type member
      * @return {void}
      */
     _updateScrollerWidths : function()
@@ -1634,7 +1592,6 @@ qx.Class.define("qx.legacy.ui.table.Table",
     /**
      * Updates the visibility of the scrollbars in the meta columns.
      *
-     * @type member
      * @return {void}
      */
     _updateScrollBarVisibility : function()
@@ -1698,7 +1655,6 @@ qx.Class.define("qx.legacy.ui.table.Table",
     /**
      * Event handler. Called when the column visibiliy button was executed.
      *
-     * @type member
      * @return {void}
      */
     _onColumnVisibilityBtExecuted : function()
@@ -1712,7 +1668,6 @@ qx.Class.define("qx.legacy.ui.table.Table",
     /**
      * Toggels the visibility of the menu used to change the visibility of columns.
      *
-     * @type member
      * @return {void}
      */
     _toggleColumnVisibilityMenu : function()
@@ -1795,7 +1750,6 @@ qx.Class.define("qx.legacy.ui.table.Table",
     /**
      * Cleans up the column visibility menu.
      *
-     * @type member
      * @return {void}
      */
     _cleanupColumnVisibilityMenu : function()
@@ -1815,7 +1769,6 @@ qx.Class.define("qx.legacy.ui.table.Table",
     /**
      * Creates a handler for a check box of the column visibility menu.
      *
-     * @type member
      * @param col {Integer} the model index of column to create the handler for.
      * @return {Function} TODOC
      */
@@ -1832,7 +1785,6 @@ qx.Class.define("qx.legacy.ui.table.Table",
     /**
      * Sets the width of a column.
      *
-     * @type member
      * @param col {Integer} the model index of column.
      * @param width {Integer} the new width in pixels.
      * @return {void}

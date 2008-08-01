@@ -81,7 +81,6 @@ qx.Class.define("qx.Interface",
      * });
      * </pre>
      *
-     * @type static
      * @param name {String} name of the interface
      * @param config {Map ? null} Interface definition structure. The configuration map has the following keys:
      *   <table>
@@ -157,7 +156,6 @@ qx.Class.define("qx.Interface",
     /**
      * Returns an interface by name
      *
-     * @type static
      * @param name {String} class name to resolve
      * @return {Class} the class
      */
@@ -169,7 +167,6 @@ qx.Class.define("qx.Interface",
     /**
      * Determine if interface exists
      *
-     * @type static
      * @param name {String} Interface name to check
      * @return {Boolean} true if interface exists
      */
@@ -181,7 +178,6 @@ qx.Class.define("qx.Interface",
     /**
      * Determine the number of interfaces which are defined
      *
-     * @type static
      * @return {Number} the number of classes
      */
     getTotalNumber : function() {
@@ -221,7 +217,6 @@ qx.Class.define("qx.Interface",
     /**
      * Checks if an interface is implemented by a class
      *
-     * @type static
      * @param clazz {Class} class to check interface for
      * @param iface {Interface} the interface to verify
      * @param wrap {Boolean ? false} wrap functions required by interface to check parameters etc.

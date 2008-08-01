@@ -83,7 +83,6 @@ qx.Class.define("qx.legacy.event.type.DomEvent",
     /**
      * property computer
      *
-     * @type member
      * @return {var} TODOC
      */
     _computeModifiers : function()
@@ -109,7 +108,6 @@ qx.Class.define("qx.legacy.event.type.DomEvent",
     /**
      * Returns whether the the ctrl key is pressed.
      *
-     * @type member
      * @return {Boolean} whether the the ctrl key is pressed.
      */
     isCtrlPressed : function() {
@@ -120,7 +118,6 @@ qx.Class.define("qx.legacy.event.type.DomEvent",
     /**
      * Returns whether the the shift key is pressed.
      *
-     * @type member
      * @return {Boolean} whether the the shift key is pressed.
      */
     isShiftPressed : function() {
@@ -131,7 +128,6 @@ qx.Class.define("qx.legacy.event.type.DomEvent",
     /**
      * Returns whether the the alt key is pressed.
      *
-     * @type member
      * @return {Boolean} whether the the alt key is pressed.
      */
     isAltPressed : function() {
@@ -142,7 +138,6 @@ qx.Class.define("qx.legacy.event.type.DomEvent",
     /**
      * Returns whether the the meta key is pressed.
      *
-     * @type member
      * @return {Boolean} whether the the meta key is pressed.
      */
     isMetaPressed : function() {
@@ -153,7 +148,6 @@ qx.Class.define("qx.legacy.event.type.DomEvent",
     /**
      * Returns whether the ctrl key or (on the Mac) the command key is pressed.
      *
-     * @type member
      * @return {Boolean} <code>true</code> if the command key is pressed on the Mac
      *           or the ctrl key is pressed on another system.
      */
@@ -177,7 +171,6 @@ qx.Class.define("qx.legacy.event.type.DomEvent",
     /**
      * TODOC
      *
-     * @type member
      * @param vValue {var} TODOC
      * @return {var} TODOC
      * @signature function(vValue)

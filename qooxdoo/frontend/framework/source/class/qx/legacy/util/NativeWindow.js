@@ -258,7 +258,6 @@ qx.Class.define("qx.legacy.util.NativeWindow",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -287,7 +286,6 @@ qx.Class.define("qx.legacy.util.NativeWindow",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -316,7 +314,6 @@ qx.Class.define("qx.legacy.util.NativeWindow",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -331,7 +328,6 @@ qx.Class.define("qx.legacy.util.NativeWindow",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -347,7 +343,6 @@ qx.Class.define("qx.legacy.util.NativeWindow",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -366,7 +361,6 @@ qx.Class.define("qx.legacy.util.NativeWindow",
     /**
      * Whether the window is closed
      *
-     * @type member
      * @return {Boolean} Returns true when the window is closed
      */
     isClosed : function()
@@ -387,7 +381,6 @@ qx.Class.define("qx.legacy.util.NativeWindow",
     /**
      * Open the window (if not already opened)
      *
-     * @type member
      * @return {void}
      */
     open : function() {
@@ -398,7 +391,6 @@ qx.Class.define("qx.legacy.util.NativeWindow",
     /**
      * Close the window (if not already closed)
      *
-     * @type member
      * @return {void}
      */
     close : function() {
@@ -409,7 +401,6 @@ qx.Class.define("qx.legacy.util.NativeWindow",
     /**
      * Whether the content of the window is loaded.
      *
-     * @type member
      * @return {Boolean} Returns true when the content is loaded.
      */
     isLoaded : function() {
@@ -431,7 +422,6 @@ qx.Class.define("qx.legacy.util.NativeWindow",
      *
      * Used by the property {@link #open}.
      *
-     * @type member
      * @return {void}
      */
     _open : function()
@@ -561,7 +551,6 @@ qx.Class.define("qx.legacy.util.NativeWindow",
     /**
      * Implementation of close logic. Used by the property {@link #open}.
      *
-     * @type member
      * @return {void}
      */
     _close : function()
@@ -608,7 +597,6 @@ qx.Class.define("qx.legacy.util.NativeWindow",
     /**
      * Centers the window to the screen
      *
-     * @type member
      * @return {void}
      */
     centerToScreen : function() {
@@ -619,7 +607,6 @@ qx.Class.define("qx.legacy.util.NativeWindow",
     /**
      * Centers the window to the available screen area
      *
-     * @type member
      * @return {void}
      */
     centerToScreenArea : function() {
@@ -630,7 +617,6 @@ qx.Class.define("qx.legacy.util.NativeWindow",
     /**
      * Centers the window to the opener window
      *
-     * @type member
      * @return {void}
      */
     centerToOpener : function() {
@@ -641,7 +627,6 @@ qx.Class.define("qx.legacy.util.NativeWindow",
     /**
      * Internal helper to handle centering of native windows.
      *
-     * @type member
      * @param l {Integer} left location
      * @param t {Integer} top location
      * @return {void}
@@ -670,7 +655,6 @@ qx.Class.define("qx.legacy.util.NativeWindow",
     /**
      * Focus the window (opposite of {@link #blur})
      *
-     * @type member
      * @return {void}
      */
     focus : function()
@@ -684,7 +668,6 @@ qx.Class.define("qx.legacy.util.NativeWindow",
     /**
      * Blur the window (opposite of {@link #focus})
      *
-     * @type member
      * @return {void}
      */
     blur : function()
@@ -709,7 +692,6 @@ qx.Class.define("qx.legacy.util.NativeWindow",
      * * the load status of the document
      * * if the window was closed
      *
-     * @type member
      * @param e {Event} DOM Event
      * @return {void}
      */
@@ -737,7 +719,6 @@ qx.Class.define("qx.legacy.util.NativeWindow",
     /**
      * Fires the qooxdoo load event
      *
-     * @type member
      * @param e {Event} DOM Event
      * @return {void}
      */

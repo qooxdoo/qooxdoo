@@ -345,7 +345,6 @@ qx.Class.define("qx.io.remote.Request",
      * The request is added to the singleton class qx.io.remote.RequestQueue's
      * list of pending requests.
      *
-     * @type member
      * @return {void}
      */
     send : function() {
@@ -360,7 +359,6 @@ qx.Class.define("qx.io.remote.Request",
      * list of pending events. If the request haven't been scheduled this
      * method is a noop.
      *
-     * @type member
      * @return {void}
      */
     abort : function() {
@@ -371,7 +369,6 @@ qx.Class.define("qx.io.remote.Request",
     /**
      * Abort sending this request if it has not already been aborted.
      *
-     * @type member
      * @return {void}
      */
     reset : function()
@@ -402,7 +399,6 @@ qx.Class.define("qx.io.remote.Request",
     /**
      * Determine if this request is in the configured state.
      *
-     * @type member
      * @return {Boolean} <true> if the request is in the configured state; <false> otherwise.
      */
     isConfigured : function() {
@@ -413,7 +409,6 @@ qx.Class.define("qx.io.remote.Request",
     /**
      * Determine if this request is in the queued state.
      *
-     * @type member
      * @return {Boolean} <true> if the request is in the queued state; <false> otherwise.
      */
     isQueued : function() {
@@ -424,7 +419,6 @@ qx.Class.define("qx.io.remote.Request",
     /**
      * Determine if this request is in the sending state.
      *
-     * @type member
      * @return {Boolean} <true> if the request is in the sending state; <false> otherwise.
      */
     isSending : function() {
@@ -435,7 +429,6 @@ qx.Class.define("qx.io.remote.Request",
     /**
      * Determine if this request is in the receiving state.
      *
-     * @type member
      * @return {Boolean} <true> if the request is in the receiving state; <false> otherwise.
      */
     isReceiving : function() {
@@ -446,7 +439,6 @@ qx.Class.define("qx.io.remote.Request",
     /**
      * Determine if this request is in the completed state.
      *
-     * @type member
      * @return {Boolean} <true> if the request is in the completed state; <false> otherwise.
      */
     isCompleted : function() {
@@ -457,7 +449,6 @@ qx.Class.define("qx.io.remote.Request",
     /**
      * Determine if this request is in the aborted state.
      *
-     * @type member
      * @return {Boolean} <true> if the request is in the aborted state; <false> otherwise.
      */
     isAborted : function() {
@@ -468,7 +459,6 @@ qx.Class.define("qx.io.remote.Request",
     /**
      * Determine if this request is in the timeout state.
      *
-     * @type member
      * @return {Boolean} <true> if the request is in the timeout state; <false> otherwise.
      */
     isTimeout : function() {
@@ -479,7 +469,6 @@ qx.Class.define("qx.io.remote.Request",
     /**
      * Determine if this request is in the failed state.
      *
-     * @type member
      * @return {Boolean} <true> if the request is in the failed state; <false> otherwise.
      */
     isFailed : function() {
@@ -512,7 +501,6 @@ qx.Class.define("qx.io.remote.Request",
     /**
      * Event handler called when the request enters the queued state.
      *
-     * @type member
      * @param e {qx.event.type.Event} Event indicating state change
      * @return {void}
      */
@@ -529,7 +517,6 @@ qx.Class.define("qx.io.remote.Request",
     /**
      * Event handler called when the request enters the sending state.
      *
-     * @type member
      * @param e {qx.event.type.Event} Event indicating state change
      * @return {void}
      */
@@ -546,7 +533,6 @@ qx.Class.define("qx.io.remote.Request",
     /**
      * Event handler called when the request enters the receiving state.
      *
-     * @type member
      * @param e {qx.event.type.Event} Event indicating state change
      * @return {void}
      */
@@ -563,7 +549,6 @@ qx.Class.define("qx.io.remote.Request",
     /**
      * Event handler called when the request enters the completed state.
      *
-     * @type member
      * @param e {qx.event.type.Event} Event indicating state change
      * @return {void}
      */
@@ -583,7 +568,6 @@ qx.Class.define("qx.io.remote.Request",
     /**
      * Event handler called when the request enters the aborted state.
      *
-     * @type member
      * @param e {qx.event.type.Event} Event indicating state change
      * @return {void}
      */
@@ -603,7 +587,6 @@ qx.Class.define("qx.io.remote.Request",
     /**
      * Event handler called when the request enters the timeout state.
      *
-     * @type member
      * @param e {qx.event.type.Event} Event indicating state change
      * @return {void}
      */
@@ -637,7 +620,6 @@ qx.Class.define("qx.io.remote.Request",
     /**
      * Event handler called when the request enters the failed state.
      *
-     * @type member
      * @param e {qx.event.type.Event} Event indicating state change
      * @return {void}
      */
@@ -665,7 +647,6 @@ qx.Class.define("qx.io.remote.Request",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -683,7 +664,6 @@ qx.Class.define("qx.io.remote.Request",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -714,7 +694,6 @@ qx.Class.define("qx.io.remote.Request",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -731,7 +710,6 @@ qx.Class.define("qx.io.remote.Request",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -753,7 +731,6 @@ qx.Class.define("qx.io.remote.Request",
      *
      * Example: request.setRequestHeader("Content-Type", "text/html")
      *
-     * @type member
      * @param vId {String} The identifier to use for this added header
      * @param vValue {String} The value to use for this added header
      * @return {void}
@@ -766,7 +743,6 @@ qx.Class.define("qx.io.remote.Request",
     /**
      * Remove a previously-added request header
      *
-     * @type member
      * @param vId {String} The id of the header to be removed
      * @return {void}
      */
@@ -778,7 +754,6 @@ qx.Class.define("qx.io.remote.Request",
     /**
      * Retrieve the value of a header which was previously set
      *
-     * @type member
      * @param vId {String} The id of the header value being requested
      * @return {String} The value of the header wiith the specified id
      */
@@ -790,7 +765,6 @@ qx.Class.define("qx.io.remote.Request",
     /**
      * Return the object containing all of the headers which have been added.
      *
-     * @type member
      * @return {Object} The returned object has as its property names each of the ids of headers
      *     which have been added, and as each property value, the value of the
      *     property corresponding to that id.
@@ -811,7 +785,6 @@ qx.Class.define("qx.io.remote.Request",
     /**
      * Add a parameter to the request.
      *
-     * @type member
      * @param vId {String} String identifier of the parameter to add.
      * @param vValue {var} Value of parameter. May be a string (for one parameter) or an array of
      *     strings (for setting multiple parameter values with the same parameter
@@ -826,7 +799,6 @@ qx.Class.define("qx.io.remote.Request",
     /**
      * Remove a parameter from the request.
      *
-     * @type member
      * @param vId {String} Identifier of the parameter to remove.
      * @return {void}
      */
@@ -838,7 +810,6 @@ qx.Class.define("qx.io.remote.Request",
     /**
      * Get a parameter in the request.
      *
-     * @type member
      * @param vId {String} Identifier of the parameter to get.
      * @return {var} TODOC
      */
@@ -850,7 +821,6 @@ qx.Class.define("qx.io.remote.Request",
     /**
      * Returns the object containg all parameters for the request.
      *
-     * @type member
      * @return {Object} The returned object has as its property names each of the ids of
      *     parameters which have been added, and as each property value, the value
      *     of the property corresponding to that id.
@@ -878,7 +848,6 @@ qx.Class.define("qx.io.remote.Request",
      *       requests and cross-domain requests.  Be sure that you do not need
      *       those features when setting these programatic form fields.
      *
-     * @type member
      * @param vId {String} String identifier of the form field to add.
      * @param vValue {String} Value of form field
      * @return {void}
@@ -891,7 +860,6 @@ qx.Class.define("qx.io.remote.Request",
     /**
      * Remove a form field from the POST request.
      *
-     * @type member
      * @param vId {String} Identifier of the form field to remove.
      * @return {void}
      */
@@ -903,7 +871,6 @@ qx.Class.define("qx.io.remote.Request",
     /**
      * Get a form field in the POST request.
      *
-     * @type member
      * @param vId {String} Identifier of the form field to get.
      * @return {var} TODOC
      */
@@ -915,7 +882,6 @@ qx.Class.define("qx.io.remote.Request",
     /**
      * Returns the object containg all form fields for the POST request.
      *
-     * @type member
      * @return {Object} The returned object has as its property names each of the ids of
      *     form fields which have been added, and as each property value, the value
      *     of the property corresponding to that id.
@@ -928,7 +894,6 @@ qx.Class.define("qx.io.remote.Request",
     /**
      * Obtain the sequence (id) number used for this request
      *
-     * @type member
      * @return {Integer} The sequence number of this request
      */
     getSequenceNumber : function() {

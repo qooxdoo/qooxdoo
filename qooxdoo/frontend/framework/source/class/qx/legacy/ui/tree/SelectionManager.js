@@ -81,7 +81,6 @@ qx.Class.define("qx.legacy.ui.tree.SelectionManager",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     _getFirst : function() {
@@ -92,7 +91,6 @@ qx.Class.define("qx.legacy.ui.tree.SelectionManager",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     _getLast : function() {
@@ -103,7 +101,6 @@ qx.Class.define("qx.legacy.ui.tree.SelectionManager",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     getItems : function() {
@@ -114,7 +111,6 @@ qx.Class.define("qx.legacy.ui.tree.SelectionManager",
     /**
      * TODOC
      *
-     * @type member
      * @param vItem {var} TODOC
      * @return {var} TODOC
      */
@@ -153,7 +149,6 @@ qx.Class.define("qx.legacy.ui.tree.SelectionManager",
     /**
      * TODOC
      *
-     * @type member
      * @param vItem {var} TODOC
      * @return {void | var} TODOC
      */
@@ -211,7 +206,6 @@ qx.Class.define("qx.legacy.ui.tree.SelectionManager",
     /**
      * TODOC
      *
-     * @type member
      * @param vItem {var} TODOC
      * @return {var} TODOC
      */
@@ -236,7 +230,6 @@ qx.Class.define("qx.legacy.ui.tree.SelectionManager",
     /**
      * TODOC
      *
-     * @type member
      * @param vItem {var} TODOC
      * @return {var} TODOC
      */
@@ -253,7 +246,6 @@ qx.Class.define("qx.legacy.ui.tree.SelectionManager",
     /**
      * TODOC
      *
-     * @type member
      * @param vItem {var} TODOC
      * @return {var} TODOC
      */

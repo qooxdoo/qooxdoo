@@ -124,7 +124,6 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Conditional",
      * the default formatting set in the constructor.
      *
      *
-     * @type member
      *
      * @param condition {String}
      *   The type of condition. Accepted strings are "==", "!=", ">", "<",
@@ -181,7 +180,6 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Conditional",
      * the default formatting set in the constructor.
      *
      *
-     * @type member
      *
      * @param condition {String}
      *   The type of condition. Accepted strings are "between" and "!between".
@@ -246,7 +244,6 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Conditional",
      * the default formatting set in the constructor.
      *
      *
-     * @type member
      *
      * @param regex {String}
      *   The regular expression to match against.
@@ -294,7 +291,6 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Conditional",
      * override earlier ones. Conditions with null values will stack with
      * other conditions that apply to that value.
      *
-     * @type member
      *
      * @param cellInfo {Map}
      *   The information about the cell.  See {@link #createDataCellHtml}.

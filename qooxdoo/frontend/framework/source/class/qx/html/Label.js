@@ -85,7 +85,6 @@ qx.Class.define("qx.html.Label",
     /**
      * Toggles between rich HTML mode and pure text mode.
      *
-     * @type member
      * @param value {Boolean} Whether the HTML mode should be used.
      * @return {qx.html.Label} This instance for for chaining support.
      */
@@ -109,7 +108,6 @@ qx.Class.define("qx.html.Label",
     /**
      * Sets the HTML/text content depending on the content mode.
      *
-     * @type member
      * @param value {Boolean} Whether the HTML mode should be used.
      * @return {qx.html.Label} This instance for for chaining support.
      */
@@ -123,7 +121,6 @@ qx.Class.define("qx.html.Label",
     /**
      * Get the current content.
      *
-     * @type member
      * @return {String} The labels's content
      */
     getContent : function() {

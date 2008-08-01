@@ -86,7 +86,6 @@ qx.Class.define("qx.legacy.event.type.MouseEvent",
     /**
      * TODOC
      *
-     * @type static
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -105,7 +104,6 @@ qx.Class.define("qx.legacy.event.type.MouseEvent",
     /**
      * TODOC
      *
-     * @type static
      * @return {var} TODOC
      */
     getScreenX : function() {
@@ -116,7 +114,6 @@ qx.Class.define("qx.legacy.event.type.MouseEvent",
     /**
      * TODOC
      *
-     * @type static
      * @return {var} TODOC
      */
     getScreenY : function() {
@@ -127,7 +124,6 @@ qx.Class.define("qx.legacy.event.type.MouseEvent",
     /**
      * TODOC
      *
-     * @type static
      * @return {var} TODOC
      */
     getClientX : function() {
@@ -138,7 +134,6 @@ qx.Class.define("qx.legacy.event.type.MouseEvent",
     /**
      * TODOC
      *
-     * @type static
      * @return {var} TODOC
      */
     getClientY : function() {
@@ -149,7 +144,6 @@ qx.Class.define("qx.legacy.event.type.MouseEvent",
     /**
      * TODOC
      *
-     * @type static
      * @return {var} TODOC
      */
     getPageX : function() {
@@ -160,7 +154,6 @@ qx.Class.define("qx.legacy.event.type.MouseEvent",
     /**
      * TODOC
      *
-     * @type static
      * @return {var} TODOC
      */
     getPageY : function() {
@@ -171,7 +164,6 @@ qx.Class.define("qx.legacy.event.type.MouseEvent",
     /**
      * TODOC
      *
-     * @type static
      * @return {var} TODOC
      */
     getButton : function() {
@@ -210,7 +202,6 @@ qx.Class.define("qx.legacy.event.type.MouseEvent",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      * @signature function()
      */
@@ -228,7 +219,6 @@ qx.Class.define("qx.legacy.event.type.MouseEvent",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      * @signature function()
      */
@@ -270,7 +260,6 @@ qx.Class.define("qx.legacy.event.type.MouseEvent",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     getScreenX : function() {
@@ -281,7 +270,6 @@ qx.Class.define("qx.legacy.event.type.MouseEvent",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     getScreenY : function() {
@@ -300,7 +288,6 @@ qx.Class.define("qx.legacy.event.type.MouseEvent",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      * @signature function()
      */
@@ -324,7 +311,6 @@ qx.Class.define("qx.legacy.event.type.MouseEvent",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     isMiddleButtonPressed : function() {
@@ -335,7 +321,6 @@ qx.Class.define("qx.legacy.event.type.MouseEvent",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     isRightButtonPressed : function() {
@@ -365,7 +350,6 @@ qx.Class.define("qx.legacy.event.type.MouseEvent",
      * During mouse events caused by the depression or release of a mouse button,
      * this method can be used to check which mouse button changed state.
      *
-     * @type member
      * @return {String} One of "left", "right", "middle" or "none"
      */
     getButton : function()
@@ -395,7 +379,6 @@ qx.Class.define("qx.legacy.event.type.MouseEvent",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      * @signature function()
      */

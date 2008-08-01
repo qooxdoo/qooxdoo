@@ -146,7 +146,6 @@ qx.Class.define("qx.ui.splitpane.Pane",
      *
      * Sets the pane's layout to vertical or horizontal split layout.
      *
-     * @type member
      * @param value {String} The new value of the orientation property
      * @param old {String} The old value of the orientation property
      */
@@ -192,7 +191,6 @@ qx.Class.define("qx.ui.splitpane.Pane",
      * the bottom or left widget. Adding more than two widgets will overwrite the
      * existing ones.
      *
-     * @type member
      * @param widget {qx.ui.core.Widget} The widget to be inserted into pane.
      * @param flex {Number} The (optional) layout property for the widget's flex value.
      */
@@ -209,7 +207,6 @@ qx.Class.define("qx.ui.splitpane.Pane",
     /**
      * Removes the given widget from the pane.
      *
-     * @type member
      * @param widget {qx.ui.core.Widget} The widget to be removed.
      */
     remove : function(widget) {
@@ -231,7 +228,6 @@ qx.Class.define("qx.ui.splitpane.Pane",
      *
      * Shows slider widget and starts drag session if mouse is near/on splitter widget.
      *
-     * @type member
      * @param e {qx.event.type.MouseEvent} mouseDown event
      */
     _onMouseDown : function(e)
@@ -272,7 +268,6 @@ qx.Class.define("qx.ui.splitpane.Pane",
     /**
      * Handler for mousemove event.
      *
-     * @type member
      * @param e {qx.event.type.MouseEvent} mouseMove event
      */
     _onMouseMove : function(e)
@@ -305,7 +300,6 @@ qx.Class.define("qx.ui.splitpane.Pane",
     /**
      * Handler for mouseout event
      *
-     * @type member
      * @param e {qx.event.type.MouseEvent} mouseout event
      */
     _onMouseOut : function(e)
@@ -325,7 +319,6 @@ qx.Class.define("qx.ui.splitpane.Pane",
      *
      * Sets widget sizes if dragging session has been active.
      *
-     * @type member
      * @param e {qx.event.type.MouseEvent} mouseup event
      */
     _onMouseUp : function(e)
@@ -354,7 +347,6 @@ qx.Class.define("qx.ui.splitpane.Pane",
     /**
      * Handler for move event of splitter
      *
-     * @type member
      */
     _onSplitterMove : function() {
       this.__updateCursor();
@@ -372,7 +364,6 @@ qx.Class.define("qx.ui.splitpane.Pane",
     /**
      * Updates widgets' sizes bases on slider position.
      *
-     * @type member
      */
     __finalizeSizes : function()
     {
@@ -420,7 +411,6 @@ qx.Class.define("qx.ui.splitpane.Pane",
      * Checks if mouse cursor is on or near the splitter widget.
      * This method will be used for horizontal orientation.
      *
-     * @type member
      * @return {Boolean} True if mouse cursor is near to splitter, otherwise false.
      */
     __isNear : function()
@@ -468,7 +458,6 @@ qx.Class.define("qx.ui.splitpane.Pane",
     /**
      * Updates the pane's cursor based on the mouse position
      *
-     * @type member
      */
     __updateCursor : function()
     {
@@ -495,7 +484,6 @@ qx.Class.define("qx.ui.splitpane.Pane",
     /**
      * Computes widgets' sizes based on the mouse coordinate
      *
-     * @type member
      */
     __computeSizes : function()
     {

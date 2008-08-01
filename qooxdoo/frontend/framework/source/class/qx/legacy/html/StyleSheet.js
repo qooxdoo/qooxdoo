@@ -57,7 +57,6 @@ qx.Class.define("qx.legacy.html.StyleSheet",
     /**
      * create a new Stylesheet node and append it to the document
      *
-     * @type static
      * @param vCssText {String} optional string of css rules
      * @return {Stylesheet} stylesheet object
      * @signature function(vCssText)
@@ -109,7 +108,6 @@ qx.Class.define("qx.legacy.html.StyleSheet",
     /**
      * insert a new CSS rule into a given Stylesheet
      *
-     * @type static
      * @param vSheet {Object} the target Stylesheet object
      * @param vSelector {String} the selector
      * @param vStyle {String} style rule
@@ -149,7 +147,6 @@ qx.Class.define("qx.legacy.html.StyleSheet",
     /**
      * remove a CSS rule from a stylesheet
      *
-     * @type static
      * @param vSheet {Object} the Stylesheet
      * @param vSelector {String} the Selector of the rule to remove
      * @return {void}
@@ -214,7 +211,6 @@ qx.Class.define("qx.legacy.html.StyleSheet",
     /**
      * remove all CSS rules from a stylesheet
      *
-     * @type static
      * @param vSheet {Object} the stylesheet object
      * @return {void}
      * @signature function(vSheet)
@@ -261,7 +257,6 @@ qx.Class.define("qx.legacy.html.StyleSheet",
     /**
      * add an import of an external CSS file to a stylesheet
      *
-     * @type static
      * @param vSheet {Object} the stylesheet object
      * @param vUrl {String} URL of the external stylesheet file
      * @return {void}
@@ -289,7 +284,6 @@ qx.Class.define("qx.legacy.html.StyleSheet",
     /**
      * removes an import from a stylesheet
      *
-     * @type static
      * @param vSheet {Object} the stylesheet object
      * @param vUrl {String} URL of the importet CSS file
      * @return {void}
@@ -328,7 +322,6 @@ qx.Class.define("qx.legacy.html.StyleSheet",
     /**
      * remove all imports from a stylesheet
      *
-     * @type static
      * @param vSheet {Object} the stylesheet object
      * @return {void}
      * @signature function(vSheet)

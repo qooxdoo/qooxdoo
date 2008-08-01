@@ -149,7 +149,6 @@ qx.Class.define("apiviewer.ui.SearchView",
     /**
      * Execute the search query.
      *
-     * @type member
      * @param svalue {String} input value
      */
     _searchResult : function(svalue)
@@ -213,7 +212,6 @@ qx.Class.define("apiviewer.ui.SearchView",
     /**
      * Validation
      *
-     * @type member
      * @param svalue {String} input value
      */
     _validateInput : function(svalue)
@@ -247,7 +245,6 @@ qx.Class.define("apiviewer.ui.SearchView",
     /**
      * Sets the output
      *
-     * @type member
      * @param svalue {String} input value or 1st RegExp subexpression from _validateInput
      * @param spath {String} matched 2nd subexpression from _validateInput
      */
@@ -291,7 +288,6 @@ qx.Class.define("apiviewer.ui.SearchView",
     /**
      * Set data for the listview
      *
-     * @type member
      * @param sresult {Array} search value
      */
     _setListdata : function(sresult)
@@ -315,7 +311,6 @@ qx.Class.define("apiviewer.ui.SearchView",
     /**
      * Sort elements in order of type
      *
-     * @type member
      * @param a {String} icon url first argument
      * @param b {String} icon url second argument
      */
@@ -380,7 +375,6 @@ qx.Class.define("apiviewer.ui.SearchView",
     /**
      * Display information in the detail frame
      *
-     * @type member
      * @param sel {SelectionManager} selected item
      */
     _callDetailFrame : function(sel)

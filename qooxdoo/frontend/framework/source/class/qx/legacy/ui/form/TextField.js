@@ -88,7 +88,6 @@ qx.Class.define("qx.legacy.ui.form.TextField",
      * If the input string matches the regular expression, the
      * text is considered valid.
      *
-     * @type static
      * @param vRegExp {RegExp} Regular expression to match the text against.
      * @return {Function} Validator function.
      */
@@ -482,7 +481,6 @@ qx.Class.define("qx.legacy.ui.form.TextField",
     /**
      * Apply the enabled property.
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -499,7 +497,6 @@ qx.Class.define("qx.legacy.ui.form.TextField",
     /**
      * Apply the value property
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -525,7 +522,6 @@ qx.Class.define("qx.legacy.ui.form.TextField",
     /**
      * Apply the maxLength property.
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -540,7 +536,6 @@ qx.Class.define("qx.legacy.ui.form.TextField",
     /**
      * Apply the readOnly property.
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -561,7 +556,6 @@ qx.Class.define("qx.legacy.ui.form.TextField",
     /**
     * TODOC
     *
-    * @type member
     * @param value {var} Current value
     * @param old {var} Previous value
     */
@@ -601,7 +595,6 @@ qx.Class.define("qx.legacy.ui.form.TextField",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -614,7 +607,6 @@ qx.Class.define("qx.legacy.ui.form.TextField",
      * Utility method to render the given font. Calls the
      * {@link #_renderFont} method.
      *
-     * @type member
      * @param value {qx.legacy.ui.core.Font} new font value to render
      * @return {void}
      */
@@ -659,7 +651,6 @@ qx.Class.define("qx.legacy.ui.form.TextField",
      * Overridden from {@link qx.legacy.ui.core.Widget#_visualizeFocus}: set the focus to the inputElement
      * and not to the parent div.
      *
-     * @type member
      */
     _visualizeFocus : function()
     {
@@ -678,7 +669,6 @@ qx.Class.define("qx.legacy.ui.form.TextField",
      * Overridden from {@link qx.legacy.ui.core.Widget#_visualizeFocus}: set the focus to the inputElement
      * and not to the parent div.
      *
-     * @type member
      */
     _visualizeBlur : function()
     {
@@ -701,7 +691,6 @@ qx.Class.define("qx.legacy.ui.form.TextField",
      * Return the current value of the text field. The computed values is
      * independent of the value of the {@link #liveUpdate} property.
      *
-     * @type member
      * @return {String} The current value of the text field.
      */
     getComputedValue : function()
@@ -729,7 +718,6 @@ qx.Class.define("qx.legacy.ui.form.TextField",
      * The validatore function ({@link #validator}) is used to
      * validate the text.
      *
-     * @type member
      * @return {Boolean} Whether the text is valid.
      */
     isValid : function()
@@ -745,7 +733,6 @@ qx.Class.define("qx.legacy.ui.form.TextField",
      * The validatore function ({@link #validator}) is used to
      * validate the text.
      *
-     * @type member
      * @return {Boolean} Whether the computed value is valid.
      */
     isComputedValid : function()
@@ -790,7 +777,6 @@ qx.Class.define("qx.legacy.ui.form.TextField",
     /**
      * Fix IE's input event for filled text fields
      *
-     * @type member
      * @signature function()
      */
     _ieFirstInputFix : qx.core.Variant.select("qx.client",
@@ -810,7 +796,6 @@ qx.Class.define("qx.legacy.ui.form.TextField",
     /**
      * Apply {@link #_ieFirstInputFix} in the appear event of the widget.
      *
-     * @type member
      * @signature function()
      */
     _afterAppear : qx.core.Variant.select("qx.client",
@@ -861,7 +846,6 @@ qx.Class.define("qx.legacy.ui.form.TextField",
     /**
      * Tab focus event handler
      *
-     * @type member
      */
     _ontabfocus : function() {
       this.selectAll();
@@ -871,7 +855,6 @@ qx.Class.define("qx.legacy.ui.form.TextField",
     /**
      * Focus event handler.
      *
-     * @type member
      */
     _onfocus : function() {
       this._textOnFocus = this.getComputedValue();
@@ -881,7 +864,6 @@ qx.Class.define("qx.legacy.ui.form.TextField",
     /**
      * Blur event handler.
      *
-     * @type member
      */
     _onblur : function()
     {
@@ -898,7 +880,6 @@ qx.Class.define("qx.legacy.ui.form.TextField",
     /**
      * Input event handler.
      *
-     * @type member
      */
     _oninput : function()
     {
@@ -924,7 +905,6 @@ qx.Class.define("qx.legacy.ui.form.TextField",
     /**
      * Internal IE text selection helper.
      *
-     * @type member
      * @signature function()
      */
     __getRange : qx.core.Variant.select("qx.client",
@@ -942,7 +922,6 @@ qx.Class.define("qx.legacy.ui.form.TextField",
     /**
      * Internal IE text selection helper.
      *
-     * @type member
      * @signature function()
      */
     __getSelectionRange : qx.core.Variant.select("qx.client",
@@ -960,7 +939,6 @@ qx.Class.define("qx.legacy.ui.form.TextField",
     /**
      * Set the start index of the text selection in the field.
      *
-     * @type member
      * @param vStart {Number} Start index of a new text selection.
      * @signature function(vStart)
      */
@@ -1019,7 +997,6 @@ qx.Class.define("qx.legacy.ui.form.TextField",
     /**
      * Get the start index of the text selection in the field.
      *
-     * @type member
      * @return {Number} Start index of the current selection.
      * @signature function()
      */
@@ -1077,7 +1054,6 @@ qx.Class.define("qx.legacy.ui.form.TextField",
      * Set the length of the selection. The selection starts at the index specified by the
      * method {@link #setSelectionStart}.
      *
-     * @type member
      * @param vLength {Number} Lenght of the new selection.
      * @signature function(vLength)
      */
@@ -1130,7 +1106,6 @@ qx.Class.define("qx.legacy.ui.form.TextField",
     /**
      * Get the number of charaters in the current selection.
      *
-     * @type member
      * @return {Number} The lenght of the selection.
      * @signature function()
      */
@@ -1175,7 +1150,6 @@ qx.Class.define("qx.legacy.ui.form.TextField",
     /**
      * Set the text of the current selection.
      *
-     * @type member
      * @param vText {String} New text value of the current selection
      * @signature function(vText)
      */
@@ -1261,7 +1235,6 @@ qx.Class.define("qx.legacy.ui.form.TextField",
     /**
      * Get the text value of the current selection.
      *
-     * @type member
      * @return {String} The text value of the current selection.
      * @signature function()
      */
@@ -1292,7 +1265,6 @@ qx.Class.define("qx.legacy.ui.form.TextField",
     /**
      * Select all text in the input field.
      *
-     * @type member
      */
     selectAll : function()
     {
@@ -1313,7 +1285,6 @@ qx.Class.define("qx.legacy.ui.form.TextField",
     /**
      * Select text within a given index range in the input field.
      *
-     * @type member
      * @param vStart {Number} start index of the selection
      * @param vEnd {Number} end index of the selection.
      * @signature function(vStart, vEnd)

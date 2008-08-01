@@ -49,7 +49,6 @@ qx.Class.define("qx.dev.unit.JsUnitTestResult",
     /**
      * TODOC
      *
-     * @type member
      * @param test {var} TODOC
      * @param testFunction {var} TODOC
      * @return {void}
@@ -65,7 +64,6 @@ qx.Class.define("qx.dev.unit.JsUnitTestResult",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     exportToJsUnit : function()

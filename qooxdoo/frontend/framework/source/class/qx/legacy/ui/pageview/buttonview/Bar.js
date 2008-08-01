@@ -64,7 +64,6 @@ qx.Class.define("qx.legacy.ui.pageview.buttonview.Bar",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {var} TODOC
      */
@@ -94,7 +93,6 @@ qx.Class.define("qx.legacy.ui.pageview.buttonview.Bar",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     _renderAppearance : function()

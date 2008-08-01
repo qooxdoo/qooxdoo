@@ -56,7 +56,6 @@ qx.Class.define("qx.legacy.ui.table.cellrenderer.Password",
     /**
      * Overridden; called whenever the cell updates.
      *
-     * @type member
      * @param cellInfo {Map} The information about the cell.
      *          See {@link #createDataCellHtml}.
      * @return {String}

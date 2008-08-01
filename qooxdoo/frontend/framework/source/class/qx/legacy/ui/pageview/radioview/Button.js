@@ -71,7 +71,6 @@ qx.Class.define("qx.legacy.ui.pageview.radioview.Button",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */

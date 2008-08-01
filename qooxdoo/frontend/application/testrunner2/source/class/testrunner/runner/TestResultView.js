@@ -58,7 +58,6 @@ qx.Class.define("testrunner.runner.TestResultView",
     /**
      * TODOC
      *
-     * @type member
      * @return {String} complete HTML of the list
      */
     __createHtml : function()
@@ -78,7 +77,6 @@ qx.Class.define("testrunner.runner.TestResultView",
     /**
      * TODOC
      *
-     * @type member
      * @param testResult {var} TODOC
      * @return {String} HTML fragemnt of a single test
      */
@@ -105,7 +103,6 @@ qx.Class.define("testrunner.runner.TestResultView",
     /**
      * TODOC
      *
-     * @type member
      * @param testResult {var} TODOC
      * @return {void}
      */
@@ -128,7 +125,6 @@ qx.Class.define("testrunner.runner.TestResultView",
     /**
      * TODOC
      *
-     * @type member
      * @param testResult {var} TODOC
      * @return {void}
      */
@@ -140,7 +136,6 @@ qx.Class.define("testrunner.runner.TestResultView",
     /**
      * Clear all entries of the list.
      *
-     * @type member
      * @return {void}
      */
     clear : function()

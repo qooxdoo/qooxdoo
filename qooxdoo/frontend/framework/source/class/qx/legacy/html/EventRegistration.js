@@ -41,7 +41,6 @@ qx.Class.define("qx.legacy.html.EventRegistration",
     /**
      * Assign a function to an event.
      *
-     * @type static
      * @param vElement {Element} DOM Element
      * @param vType {String} Name of the event
      * @param vFunction {Function} The pointer to the function to assign
@@ -63,7 +62,6 @@ qx.Class.define("qx.legacy.html.EventRegistration",
     /**
      * Unassign a function from an event.
      *
-     * @type static
      * @param vElement {Element} DOM Element
      * @param vType {String} Name of the event
      * @param vFunction {Function} The pointer to the function to assign

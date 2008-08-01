@@ -35,7 +35,6 @@ qx.Class.define("qx.legacy.html.Location",
     /**
      * TODOC
      *
-     * @type static
      * @param el {Element} TODOC
      * @return {var} TODOC
      */
@@ -47,7 +46,6 @@ qx.Class.define("qx.legacy.html.Location",
     /**
      * TODOC
      *
-     * @type static
      * @param el {Element} TODOC
      * @return {var} TODOC
      */
@@ -59,7 +57,6 @@ qx.Class.define("qx.legacy.html.Location",
     /**
      * TODOC
      *
-     * @type static
      * @param el {Element} TODOC
      * @return {var} TODOC
      */
@@ -71,7 +68,6 @@ qx.Class.define("qx.legacy.html.Location",
     /**
      * TODOC
      *
-     * @type static
      * @param el {Element} TODOC
      * @return {var} TODOC
      */
@@ -83,7 +79,6 @@ qx.Class.define("qx.legacy.html.Location",
     /**
      * TODOC
      *
-     * @type static
      * @param el {Element} TODOC
      * @return {var} TODOC
      */
@@ -95,7 +90,6 @@ qx.Class.define("qx.legacy.html.Location",
     /**
      * TODOC
      *
-     * @type static
      * @param el {Element} TODOC
      * @return {var} TODOC
      */
@@ -107,7 +101,6 @@ qx.Class.define("qx.legacy.html.Location",
     /**
      * TODOC
      *
-     * @type static
      * @param el {Element} TODOC
      * @return {var} TODOC
      */
@@ -119,7 +112,6 @@ qx.Class.define("qx.legacy.html.Location",
     /**
      * TODOC
      *
-     * @type static
      * @param el {Element} TODOC
      * @return {var} TODOC
      */
@@ -131,7 +123,6 @@ qx.Class.define("qx.legacy.html.Location",
     /**
      * TODOC
      *
-     * @type static
      * @param el {Element} TODOC
      * @return {void}
      * @signature function(el)
@@ -164,7 +155,6 @@ qx.Class.define("qx.legacy.html.Location",
     /**
      * TODOC
      *
-     * @type static
      * @param el {Element} TODOC
      * @return {void}
      * @signature function(el)
@@ -197,7 +187,6 @@ qx.Class.define("qx.legacy.html.Location",
     /**
      * TODOC
      *
-     * @type static
      * @param el {Element} TODOC
      * @return {void}
      * @signature function(el)
@@ -217,7 +206,6 @@ qx.Class.define("qx.legacy.html.Location",
     /**
      * TODOC
      *
-     * @type static
      * @param el {Element} TODOC
      * @return {void}
      * @signature function(el)
@@ -237,7 +225,6 @@ qx.Class.define("qx.legacy.html.Location",
     /**
      * TODOC
      *
-     * @type static
      * @param el {Element} TODOC
      * @return {void}
      * @signature function(el)
@@ -270,7 +257,6 @@ qx.Class.define("qx.legacy.html.Location",
     /**
      * TODOC
      *
-     * @type static
      * @param el {Element} TODOC
      * @return {void}
      * @signature function(el)
@@ -303,7 +289,6 @@ qx.Class.define("qx.legacy.html.Location",
     /**
      * TODOC
      *
-     * @type static
      * @param el {Element} TODOC
      * @return {void}
      * @signature function(el)
@@ -323,7 +308,6 @@ qx.Class.define("qx.legacy.html.Location",
     /**
      * TODOC
      *
-     * @type static
      * @param el {Element} TODOC
      * @return {void}
      * @signature function(el)
@@ -343,7 +327,6 @@ qx.Class.define("qx.legacy.html.Location",
     /**
      * TODOC
      *
-     * @type static
      * @param el {Element} TODOC
      * @return {void}
      * @signature function(el)
@@ -364,7 +347,6 @@ qx.Class.define("qx.legacy.html.Location",
     /**
      * TODOC
      *
-     * @type static
      * @param el {Element} TODOC
      * @return {void}
      * @signature function(el)
@@ -385,7 +367,6 @@ qx.Class.define("qx.legacy.html.Location",
     /**
      * TODOC
      *
-     * @type static
      * @param el {Element} TODOC
      * @return {var} TODOC
      */
@@ -397,7 +378,6 @@ qx.Class.define("qx.legacy.html.Location",
     /**
      * TODOC
      *
-     * @type static
      * @param el {Element} TODOC
      * @return {var} TODOC
      */
@@ -409,7 +389,6 @@ qx.Class.define("qx.legacy.html.Location",
     /**
      * TODOC
      *
-     * @type static
      * @param el {Element} TODOC
      * @return {void}
      * @signature function(el)
@@ -429,7 +408,6 @@ qx.Class.define("qx.legacy.html.Location",
     /**
      * TODOC
      *
-     * @type static
      * @param el {Element} TODOC
      * @return {void}
      * @signature function(el)
@@ -449,7 +427,6 @@ qx.Class.define("qx.legacy.html.Location",
     /**
      * TODOC
      *
-     * @type static
      * @param el {Element} TODOC
      * @return {var} TODOC
      */
@@ -461,7 +438,6 @@ qx.Class.define("qx.legacy.html.Location",
     /**
      * TODOC
      *
-     * @type static
      * @param el {Element} TODOC
      * @return {var} TODOC
      */
@@ -473,7 +449,6 @@ qx.Class.define("qx.legacy.html.Location",
     /**
      * TODOC
      *
-     * @type static
      * @param el {Element} TODOC
      * @return {var} TODOC
      */
@@ -485,7 +460,6 @@ qx.Class.define("qx.legacy.html.Location",
     /**
      * TODOC
      *
-     * @type static
      * @param el {Element} TODOC
      * @return {var} TODOC
      */
@@ -497,7 +471,6 @@ qx.Class.define("qx.legacy.html.Location",
     /**
      * TODOC
      *
-     * @type static
      * @param el {Element} TODOC
      * @return {var} TODOC
      */
@@ -509,7 +482,6 @@ qx.Class.define("qx.legacy.html.Location",
     /**
      * TODOC
      *
-     * @type static
      * @param el {Element} TODOC
      * @return {var} TODOC
      */
@@ -521,7 +493,6 @@ qx.Class.define("qx.legacy.html.Location",
     /**
      * TODOC
      *
-     * @type static
      * @param el {Element} TODOC
      * @return {var} TODOC
      */
@@ -533,7 +504,6 @@ qx.Class.define("qx.legacy.html.Location",
     /**
      * TODOC
      *
-     * @type static
      * @param el {Element} TODOC
      * @return {var} TODOC
      */
@@ -545,7 +515,6 @@ qx.Class.define("qx.legacy.html.Location",
     /**
      * TODOC
      *
-     * @type static
      * @param el {Element} TODOC
      * @return {var} TODOC
      */
@@ -557,7 +526,6 @@ qx.Class.define("qx.legacy.html.Location",
     /**
      * TODOC
      *
-     * @type static
      * @param el {Element} TODOC
      * @return {var} TODOC
      */
@@ -569,7 +537,6 @@ qx.Class.define("qx.legacy.html.Location",
     /**
      * TODOC
      *
-     * @type static
      * @param el {Element} TODOC
      * @return {void}
      * @signature function(el)
@@ -606,7 +573,6 @@ qx.Class.define("qx.legacy.html.Location",
     /**
      * TODOC
      *
-     * @type static
      * @param el {Element} TODOC
      * @return {void}
      * @signature function(el)
@@ -638,7 +604,6 @@ qx.Class.define("qx.legacy.html.Location",
     /**
      * TODOC
      *
-     * @type static
      * @param el {Element} TODOC
      * @return {var} TODOC
      */
@@ -650,7 +615,6 @@ qx.Class.define("qx.legacy.html.Location",
     /**
      * TODOC
      *
-     * @type static
      * @param el {Element} TODOC
      * @return {var} TODOC
      */
@@ -662,7 +626,6 @@ qx.Class.define("qx.legacy.html.Location",
     /**
      * TODOC
      *
-     * @type static
      * @param el {Element} TODOC
      * @return {var} TODOC
      */
@@ -674,7 +637,6 @@ qx.Class.define("qx.legacy.html.Location",
     /**
      * TODOC
      *
-     * @type static
      * @param el {Element} TODOC
      * @return {var} TODOC
      */
@@ -686,7 +648,6 @@ qx.Class.define("qx.legacy.html.Location",
     /**
      * TODOC
      *
-     * @type static
      * @param el {Element} TODOC
      * @return {var} TODOC
      */
@@ -698,7 +659,6 @@ qx.Class.define("qx.legacy.html.Location",
     /**
      * TODOC
      *
-     * @type static
      * @param el {Element} TODOC
      * @return {var} TODOC
      */
@@ -710,7 +670,6 @@ qx.Class.define("qx.legacy.html.Location",
     /**
      * TODOC
      *
-     * @type static
      * @param el {Element} TODOC
      * @return {var} TODOC
      */
@@ -722,7 +681,6 @@ qx.Class.define("qx.legacy.html.Location",
     /**
      * TODOC
      *
-     * @type static
      * @param el {Element} TODOC
      * @return {var} TODOC
      */
@@ -734,7 +692,6 @@ qx.Class.define("qx.legacy.html.Location",
     /**
      * TODOC
      *
-     * @type static
      * @param el {Element} TODOC
      * @return {var} TODOC
      */
@@ -746,7 +703,6 @@ qx.Class.define("qx.legacy.html.Location",
     /**
      * TODOC
      *
-     * @type static
      * @param el {Element} TODOC
      * @return {var} TODOC
      */
@@ -758,7 +714,6 @@ qx.Class.define("qx.legacy.html.Location",
     /**
      * TODOC
      *
-     * @type static
      * @param el {Element} TODOC
      * @return {var} TODOC
      */
@@ -770,7 +725,6 @@ qx.Class.define("qx.legacy.html.Location",
     /**
      * TODOC
      *
-     * @type static
      * @param el {Element} TODOC
      * @return {var} TODOC
      */
@@ -782,7 +736,6 @@ qx.Class.define("qx.legacy.html.Location",
     /**
      * TODOC
      *
-     * @type static
      * @param el {Element} TODOC
      * @return {var} TODOC
      */
@@ -794,7 +747,6 @@ qx.Class.define("qx.legacy.html.Location",
     /**
      * TODOC
      *
-     * @type static
      * @param el {Element} TODOC
      * @return {var} TODOC
      */
@@ -806,7 +758,6 @@ qx.Class.define("qx.legacy.html.Location",
     /**
      * TODOC
      *
-     * @type static
      * @param el {Element} TODOC
      * @return {void}
      * @signature function(el)
@@ -833,7 +784,6 @@ qx.Class.define("qx.legacy.html.Location",
     /**
      * TODOC
      *
-     * @type static
      * @param el {Element} TODOC
      * @return {void}
      * @signature function(el)
@@ -853,7 +803,6 @@ qx.Class.define("qx.legacy.html.Location",
     /**
      * TODOC
      *
-     * @type static
      * @param el {Element} TODOC
      * @return {void}
      * @signature function(el)
@@ -871,7 +820,6 @@ qx.Class.define("qx.legacy.html.Location",
     /**
      * TODOC
      *
-     * @type static
      * @param el {Element} TODOC
      * @return {void}
      * @signature function(el)

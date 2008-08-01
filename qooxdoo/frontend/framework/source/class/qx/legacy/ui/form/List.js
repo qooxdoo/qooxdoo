@@ -124,7 +124,6 @@ qx.Class.define("qx.legacy.ui.form.List",
     /**
      * Accessor method for the selection manager
      *
-     * @type member
      * @return {qx.legacy.ui.selection.SelectionManager} TODOC
      */
     getManager : function() {
@@ -137,7 +136,6 @@ qx.Class.define("qx.legacy.ui.form.List",
      * corresponding qx.legacy.ui.form.ListItem to given vItem
      * (event target) is found.
      *
-     * @type member
      * @param vItem {var} event target
      * @return {qx.legacy.ui.form.ListItem} List item
      */
@@ -154,7 +152,6 @@ qx.Class.define("qx.legacy.ui.form.List",
     /**
      * Returns the first selected list item.
      *
-     * @type member
      * @return {qx.legacy.ui.form.ListItem|null} Selected item or null
      */
     getSelectedItem : function() {
@@ -165,7 +162,6 @@ qx.Class.define("qx.legacy.ui.form.List",
     /**
      * Returns all selected list items (uses the selection manager).
      *
-     * @type member
      * @return {Array} Returns all selected list items.
      */
     getSelectedItems : function() {
@@ -185,7 +181,6 @@ qx.Class.define("qx.legacy.ui.form.List",
      * Delegates the event to the selection manager if a list item could be
      * resolved out of the event target.
      *
-     * @type member
      * @param e {qx.legacy.event.type.MouseEvent} mouseOver event
      * @return {void}
      */
@@ -203,7 +198,6 @@ qx.Class.define("qx.legacy.ui.form.List",
      * Delegates the event to the selection manager if a list item could be
      * resolved out of the event target.
      *
-     * @type member
      * @param e {qx.legacy.event.type.MouseEvent} mouseDown event
      * @return {void}
      */
@@ -221,7 +215,6 @@ qx.Class.define("qx.legacy.ui.form.List",
      * Delegates the event to the selection manager if a list item could be
      * resolved out of the event target.
      *
-     * @type member
      * @param e {qx.legacy.event.type.MouseEvent} mouseUp event
      * @return {void}
      */
@@ -239,7 +232,6 @@ qx.Class.define("qx.legacy.ui.form.List",
      * Delegates the event to the selection manager if a list item could be
      * resolved out of the event target.
      *
-     * @type member
      * @param e {qx.legacy.event.type.MouseEvent} click event
      * @return {void}
      */
@@ -257,7 +249,6 @@ qx.Class.define("qx.legacy.ui.form.List",
      * Delegates the event to the selection manager if a list item could be
      * resolved out of the event target.
      *
-     * @type member
      * @param e {qx.legacy.event.type.MouseEvent} double-click event
      * @return {void}
      */
@@ -283,7 +274,6 @@ qx.Class.define("qx.legacy.ui.form.List",
      * Dispatches the "action" event on every selected list item
      * when the "Enter" key is pressed
      *
-     * @type member
      * @param e {qx.legacy.event.type.KeyEvent} keyDown event
      * @return {void}
      */
@@ -303,7 +293,6 @@ qx.Class.define("qx.legacy.ui.form.List",
     /**
      * Delegates the control of the event to selection manager
      *
-     * @type member
      * @param e {qx.legacy.event.type.KeyEvent} keyPress event
      * @return {void}
      */
@@ -319,7 +308,6 @@ qx.Class.define("qx.legacy.ui.form.List",
     /**
      * Handles the inline find - if enabled
      *
-     * @type member
      * @param e {qx.legacy.event.type.KeyEvent} keyInput event
      * @return {void}
      */
@@ -388,7 +376,6 @@ qx.Class.define("qx.legacy.ui.form.List",
      * Returns a reference to the qx.legacy.ui.form.ListItem where the search string
      * is found first.
      *
-     * @type member
      * @param vUserValue {String} search string
      * @param vStartIndex {Number} start index
      * @param vType {String} type of matching
@@ -433,7 +420,6 @@ qx.Class.define("qx.legacy.ui.form.List",
     /**
      * Perform a search for a string
      *
-     * @type member
      * @param vText {String} search string
      * @param vStartIndex {Number} start index
      * @return {qx.legacy.ui.form.ListItem | null} list item or null
@@ -446,7 +432,6 @@ qx.Class.define("qx.legacy.ui.form.List",
     /**
      * Perform a exact search for a string
      *
-     * @type member
      * @param vText {String} search string
      * @param vStartIndex {Number} start index
      * @return {qx.legacy.ui.form.ListItem | null} list item or null
@@ -459,7 +444,6 @@ qx.Class.define("qx.legacy.ui.form.List",
     /**
      * Perform a search for a value
      *
-     * @type member
      *@param vText {String} search string
      * @param vStartIndex {Number} start index
      * @return {qx.legacy.ui.form.ListItem | null} list item or null
@@ -472,7 +456,6 @@ qx.Class.define("qx.legacy.ui.form.List",
     /**
      * Perform a exact search for a value
      *
-     * @type member
      * @param vText {String} search string
      * @param vStartIndex {Number} start index
      * @return {qx.legacy.ui.form.ListItem | null} list item or null
@@ -493,7 +476,6 @@ qx.Class.define("qx.legacy.ui.form.List",
     /**
      * Compare method called by the sort method
      *
-     * @type member
      * @param a {Hash} first hash to compare
      * @param b {Hash} second hash to compare
      * @return {Number} Returns -1|0|1 for the sort method to control the order of the items to sort.
@@ -506,7 +488,6 @@ qx.Class.define("qx.legacy.ui.form.List",
     /**
      * Sorts all items by using the string of the label.
      *
-     * @type member
      * @param vReverse {Boolean} Whether the items should be sorted reverse or not.
      * @return {void}
      */
@@ -539,7 +520,6 @@ qx.Class.define("qx.legacy.ui.form.List",
     /**
      * Sorts all items by using the value.
      *
-     * @type member
      * @param vReverse {Boolean} Whether the items should be sorted reverse or not.
      * @return {void}
      */

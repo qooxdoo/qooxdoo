@@ -30,7 +30,6 @@ qx.Class.define("apiviewer.ui.panels.EventPanel", {
     /**
      * Checks whether an event has details.
      *
-     * @type member
      * @param node {Map} the doc node of the event.
      * @param currentClassDocNode {Map} the doc node of the currently displayed class
      * @return {Boolean} whether the event has details.
@@ -60,7 +59,6 @@ qx.Class.define("apiviewer.ui.panels.EventPanel", {
     /**
      * Creates the HTML showing the information about an event.
      *
-     * @type member
      * @param node {Map} the doc node of the event.
      * @param currentClassDocNode {Map} the doc node of the currently displayed class
      * @param showDetails {Boolean} whether to show the details.

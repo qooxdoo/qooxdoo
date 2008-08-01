@@ -191,7 +191,6 @@ qx.Class.define("qx.ui.form.SelectBox",
      * Toggles the popup's visibility.
      *
      * @param e {qx.event.type.Mouse} Mouse event
-     * @type member
      */
     _onClick : function(e) {
       this.toggle();
@@ -245,7 +244,6 @@ qx.Class.define("qx.ui.form.SelectBox",
      * Forwards key event to list widget.
      *
      * @param e {qx.event.type.KeyInput} Key event
-     * @type member
      */
     _onKeyInput : function(e)
     {

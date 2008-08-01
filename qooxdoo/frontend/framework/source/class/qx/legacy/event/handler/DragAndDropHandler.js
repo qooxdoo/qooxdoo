@@ -142,7 +142,6 @@ qx.Class.define("qx.legacy.event.handler.DragAndDropHandler",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -170,7 +169,6 @@ qx.Class.define("qx.legacy.event.handler.DragAndDropHandler",
      * #param vMimeType[String]: A valid mimetype
      * #param vData[Any]: Any value for the mimetype
      *
-     * @type member
      * @param vMimeType {var} TODOC
      * @param vData {var} TODOC
      * @return {void}
@@ -183,7 +181,6 @@ qx.Class.define("qx.legacy.event.handler.DragAndDropHandler",
     /**
      * TODOC
      *
-     * @type member
      * @param vMimeType {var} TODOC
      * @return {var} TODOC
      */
@@ -195,7 +192,6 @@ qx.Class.define("qx.legacy.event.handler.DragAndDropHandler",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     clearData : function() {
@@ -214,7 +210,6 @@ qx.Class.define("qx.legacy.event.handler.DragAndDropHandler",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     getDropDataTypes : function()
@@ -313,7 +308,6 @@ qx.Class.define("qx.legacy.event.handler.DragAndDropHandler",
     /**
      * This needed be called from any "dragstart" event to really start drag session.
      *
-     * @type member
      * @return {void}
      * @throws TODOC
      */
@@ -352,7 +346,6 @@ qx.Class.define("qx.legacy.event.handler.DragAndDropHandler",
     /**
      * TODOC
      *
-     * @type member
      * @param fromWidget {var} TODOC
      * @param toWidget {var} TODOC
      * @param e {Event} TODOC
@@ -386,7 +379,6 @@ qx.Class.define("qx.legacy.event.handler.DragAndDropHandler",
     /**
      * This wraps the mouse events to custom handlers.
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {var} TODOC
      */
@@ -413,7 +405,6 @@ qx.Class.define("qx.legacy.event.handler.DragAndDropHandler",
      * a function which you attach to "dragstart"-event, which
      * invokes at least this.startDrag()
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -442,7 +433,6 @@ qx.Class.define("qx.legacy.event.handler.DragAndDropHandler",
     /**
      * Handler for mouse move events
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -516,7 +506,6 @@ qx.Class.define("qx.legacy.event.handler.DragAndDropHandler",
     /**
      * Handle mouse up event. Normally this finalize the drag and drop event.
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -549,7 +538,6 @@ qx.Class.define("qx.legacy.event.handler.DragAndDropHandler",
     /**
      * This wraps the key events to custom handlers.
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -575,7 +563,6 @@ qx.Class.define("qx.legacy.event.handler.DragAndDropHandler",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -607,7 +594,6 @@ qx.Class.define("qx.legacy.event.handler.DragAndDropHandler",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -642,7 +628,6 @@ qx.Class.define("qx.legacy.event.handler.DragAndDropHandler",
     /**
      * Cancel current drag and drop session
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -667,7 +652,6 @@ qx.Class.define("qx.legacy.event.handler.DragAndDropHandler",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     globalCancelDrag : function()
@@ -681,7 +665,6 @@ qx.Class.define("qx.legacy.event.handler.DragAndDropHandler",
     /**
      * This will be called to the end of each drag and drop session
      *
-     * @type member
      * @param currentDestinationWidget {var} TODOC
      * @param e {Event} TODOC
      * @return {void}
@@ -709,7 +692,6 @@ qx.Class.define("qx.legacy.event.handler.DragAndDropHandler",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     _endDragCore : function()
@@ -771,7 +753,6 @@ qx.Class.define("qx.legacy.event.handler.DragAndDropHandler",
      * Sets the position of the cursor feedback (the icon showing whether dropping
      * is allowed at the current position and which action a drop will do).
      *
-     * @type member
      * @param deltaX {int} The number of pixels the top-left corner of the
      *          cursor feedback should be away from the mouse cursor in x direction.
      * @param deltaY {int} The number of pixels the top-left corner of the
@@ -788,7 +769,6 @@ qx.Class.define("qx.legacy.event.handler.DragAndDropHandler",
     /**
      * Select and setup the current used cursor
      *
-     * @type member
      * @return {void}
      */
     _renderCursor : function()
@@ -851,7 +831,6 @@ qx.Class.define("qx.legacy.event.handler.DragAndDropHandler",
     /**
      * TODOC
      *
-     * @type member
      * @param vWidget {var} TODOC
      */
     supportsDrop : function(vWidget)
@@ -884,7 +863,6 @@ qx.Class.define("qx.legacy.event.handler.DragAndDropHandler",
     /**
      * TODOC
      *
-     * @type member
      * @param vAction {var} TODOC
      * @param vForce {var} TODOC
      * @return {void}
@@ -903,7 +881,6 @@ qx.Class.define("qx.legacy.event.handler.DragAndDropHandler",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     clearActions : function()
@@ -916,7 +893,6 @@ qx.Class.define("qx.legacy.event.handler.DragAndDropHandler",
     /**
      * TODOC
      *
-     * @type member
      * @param vAction {var} TODOC
      * @return {void}
      */
@@ -934,7 +910,6 @@ qx.Class.define("qx.legacy.event.handler.DragAndDropHandler",
     /**
      * TODOC
      *
-     * @type member
      * @param vAction {var} TODOC
      * @return {void}
      */
@@ -951,7 +926,6 @@ qx.Class.define("qx.legacy.event.handler.DragAndDropHandler",
     /**
      * TODOC
      *
-     * @type member
      * @param vKeyShift {var} TODOC
      * @param vKeyCtrl {var} TODOC
      * @param vKeyAlt {var} TODOC
@@ -994,7 +968,6 @@ qx.Class.define("qx.legacy.event.handler.DragAndDropHandler",
      * Sets the widget to show as feedback for the user. This widget should
      * represent the object(s) the user is dragging.
      *
-     * @type member
      * @param widget {qx.legacy.ui.core.Widget} the feedback widget.
      * @param deltaX {int ? 10} the number of pixels the top-left corner of the widget
      *          should be away from the mouse cursor in x direction.
@@ -1016,7 +989,6 @@ qx.Class.define("qx.legacy.event.handler.DragAndDropHandler",
     /**
      * Renders the user feedback widget at the correct location.
      *
-     * @type member
      * @return {void}
      */
     _renderFeedbackWidget : function()

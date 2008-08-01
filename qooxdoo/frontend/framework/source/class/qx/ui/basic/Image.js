@@ -174,7 +174,6 @@ qx.Class.define("qx.ui.basic.Image",
      * Applies the source to the clipped image instance or preload
      * a image to detect sizes and apply it afterwards.
      *
-     * @type member
      * @return {void}
      */
     _styleSource : function()
@@ -257,7 +256,6 @@ qx.Class.define("qx.ui.basic.Image",
     /**
      * Event handler fired after the preloader has finished loading the icon
      *
-     * @type member
      * @param source {String} Image source which was loaded
      * @param size {Map} Dimensions of the loaded image
      * @return {void}
@@ -283,7 +281,6 @@ qx.Class.define("qx.ui.basic.Image",
     /**
      * Updates the size if size has changed
      *
-     * @type member
      * @param width {Integer} width of the image
      * @param height {Integer} height of the image
      * @return {void}

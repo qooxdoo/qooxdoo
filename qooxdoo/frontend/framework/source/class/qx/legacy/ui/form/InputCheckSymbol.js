@@ -119,7 +119,6 @@ qx.Class.define("qx.legacy.ui.form.InputCheckSymbol",
     /**
      * Create widget with empty element
      *
-     * @type member
      * @return {void}
      */
     _createElementImpl : function() {
@@ -130,7 +129,6 @@ qx.Class.define("qx.legacy.ui.form.InputCheckSymbol",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      * @return {var} TODOC
@@ -143,7 +141,6 @@ qx.Class.define("qx.legacy.ui.form.InputCheckSymbol",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      * @return {var} TODOC
@@ -156,7 +153,6 @@ qx.Class.define("qx.legacy.ui.form.InputCheckSymbol",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      * @return {var} TODOC
@@ -169,7 +165,6 @@ qx.Class.define("qx.legacy.ui.form.InputCheckSymbol",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      * @return {var} TODOC
@@ -183,7 +178,6 @@ qx.Class.define("qx.legacy.ui.form.InputCheckSymbol",
      * Returns the box width of the checkbox widget.
      * Currently this value is 13.
      *
-     * @type member
      * @return {int} Box width of the checkbox
      */
     getPreferredBoxWidth : function() {
@@ -195,7 +189,6 @@ qx.Class.define("qx.legacy.ui.form.InputCheckSymbol",
      * Returns the box height of the checkbox widget.
      * Currently this value is 13.
      *
-     * @type member
      * @return {int} Box height of the checkbox
      */
     getPreferredBoxHeight : function() {
@@ -207,7 +200,6 @@ qx.Class.define("qx.legacy.ui.form.InputCheckSymbol",
      * Sets an additional HtmlProperty "disabled" for the IE
      * if the checkbox widget is not enabled.
      *
-     * @type member
      * @return {void}
      * @signature function()
      */
@@ -232,7 +224,6 @@ qx.Class.define("qx.legacy.ui.form.InputCheckSymbol",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      * @return {void} TODOC

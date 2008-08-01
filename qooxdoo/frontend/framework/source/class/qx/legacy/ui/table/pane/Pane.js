@@ -142,7 +142,6 @@ qx.Class.define("qx.legacy.ui.table.pane.Pane",
     /**
      * Returns the TablePaneScroller this pane belongs to.
      *
-     * @type member
      * @return {qx.legacy.ui.table.pane.Scroller} the TablePaneScroller.
      */
     getPaneScroller : function() {
@@ -153,7 +152,6 @@ qx.Class.define("qx.legacy.ui.table.pane.Pane",
     /**
      * Returns the table this pane belongs to.
      *
-     * @type member
      * @return {qx.legacy.ui.table.Table} the table.
      */
     getTable : function() {
@@ -164,7 +162,6 @@ qx.Class.define("qx.legacy.ui.table.pane.Pane",
     /**
      * Sets the currently focused cell.
      *
-     * @type member
      * @param col {Integer} the model index of the focused cell's column.
      * @param row {Integer} the model index of the focused cell's row.
      * @param massUpdate {Boolean ? false} Whether other updates are planned as well.
@@ -193,7 +190,6 @@ qx.Class.define("qx.legacy.ui.table.pane.Pane",
     /**
      * Event handler. Called when the selection has changed.
      *
-     * @type member
      * @param evt {Map} the event.
      * @return {void}
      */
@@ -205,7 +201,6 @@ qx.Class.define("qx.legacy.ui.table.pane.Pane",
     /**
      * Event handler. Called when the table gets or looses the focus.
      *
-     * @type member
      * @param evt {Map} the event.
      * @return {void}
      */
@@ -217,7 +212,6 @@ qx.Class.define("qx.legacy.ui.table.pane.Pane",
     /**
      * Event handler. Called when the width of a column has changed.
      *
-     * @type member
      * @param evt {Map} the event.
      * @return {void}
      */
@@ -229,7 +223,6 @@ qx.Class.define("qx.legacy.ui.table.pane.Pane",
     /**
      * Event handler. Called the column order has changed.
      *
-     * @type member
      * @param evt {Map} the event.
      * @return {void}
      */
@@ -241,7 +234,6 @@ qx.Class.define("qx.legacy.ui.table.pane.Pane",
     /**
      * Event handler. Called when the pane model has changed.
      *
-     * @type member
      * @param evt {Map} the event.
      * @return {void}
      */
@@ -253,7 +245,6 @@ qx.Class.define("qx.legacy.ui.table.pane.Pane",
     /**
      * Event handler. Called when the table model data has changed.
      *
-     * @type member
      * @param evt {Map} the event.
      * @return {void}
      */
@@ -276,7 +267,6 @@ qx.Class.define("qx.legacy.ui.table.pane.Pane",
     /**
      * Event handler. Called when the table model meta data has changed.
      *
-     * @type member
      * @param evt {Map} the event.
      * @return {void}
      */
@@ -348,7 +338,6 @@ qx.Class.define("qx.legacy.ui.table.pane.Pane",
     /**
      * Updates the content of the pane.
      *
-     * @type member
      * @param completeUpdate {Boolean ? false} if true a complete update is performed.
      *      On a complete update all cell widgets are recreated.
      * @param scrollOffset {Integer ? null} If set specifies how many rows to scroll.

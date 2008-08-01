@@ -119,7 +119,6 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     /**
      * Selects all items of the managed object.
      *
-     * @type member
      * @return {void}
      */
     selectAll : function()
@@ -136,7 +135,6 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      * Use {@link #addItem} instead if you want to add new
      * items to an existing selection.
      *
-     * @type member
      * @param item {Object} Any valid item
      * @return {void}
      */
@@ -162,7 +160,6 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      * Use {@link #selectItem} instead if you want to replace
      * the current selection.
      *
-     * @type member
      * @param item {Object} Any valid item
      * @return {void}
      */
@@ -193,7 +190,6 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      * Use {@link #clearSelection} when you want to clear
      * the whole selection at once.
      *
-     * @type member
      * @param item {Object} Any valid item
      * @return {void}
      */
@@ -224,7 +220,6 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     /**
      * Selects an item range between two given items.
      *
-     * @type member
      * @param begin {Object} Item to start with
      * @param end {Object} Item to end at
      * @return {void}
@@ -247,7 +242,6 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      * resets the lead and anchor items and their
      * styles.
      *
-     * @type member
      * @return {void}
      */
     clearSelection : function()
@@ -267,7 +261,6 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     /**
      * Replaces current selection with the given items
      *
-     * @type member
      * @param items {Object} Items to select
      * @return {void}
      */
@@ -308,7 +301,6 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      * Get the selected item. This method does only work in <code>single</code>
      * selection mode.
      *
-     * @type member
      * @return {Object} The selected item.
      */
     getSelectedItem : function()
@@ -325,7 +317,6 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     /**
      * Returns an array of currently selected items.
      *
-     * @type member
      * @return {Object[]} The item or a list of items.
      */
     getSelection : function() {
@@ -336,7 +327,6 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     /**
      * Detects whether the given item is currently selected.
      *
-     * @type member
      * @param item {var} Any valid selectable item
      * @return {Boolean} Whether the item is selected
      */
@@ -350,7 +340,6 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     /**
      * Whether the selection is empty
      *
-     * @type member
      * @return {Boolean} Whether the selection is empty
      */
     isSelectionEmpty : function() {
@@ -371,7 +360,6 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      * Sets the lead item. Generally the item which was last modified
      * by the user (clicked on etc.)
      *
-     * @type member
      * @param value {Object} Any valid item or <code>null</code>
      * @return {void}
      */
@@ -395,7 +383,6 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      * Returns the current lead item. Generally the item which was last modified
      * by the user (clicked on etc.)
      *
-     * @type member
      * @return {Object} The lead item or <code>null</code>
      */
     _getLeadItem : function() {
@@ -408,7 +395,6 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      * point for all range selections. Normally this is the item which was
      * clicked on the last time without any modifier keys pressed.
      *
-     * @type member
      * @param value {Object} Any valid item or <code>null</code>
      * @return {void}
      */
@@ -433,7 +419,6 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      * point for all range selections. Normally this is the item which was
      * clicked on the last time without any modifier keys pressed.
      *
-     * @type member
      * @return {Object} The anchor item or <code>null</code>
      */
     _getAnchorItem : function() {
@@ -453,7 +438,6 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     /**
      * Whether the given item is selectable.
      *
-     * @type member
      * @param item {var} Any item
      * @return {Boolean} <code>true</code> when the item is selectable
      */
@@ -466,7 +450,6 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      * Finds the selectable instance from any given target inside
      * the connected widget.
      *
-     * @type member
      * @param target {Object} The event target
      * @return {Object} The resulting selectable
      */
@@ -478,7 +461,6 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     /**
      * Returns a unique hashcode for the given item.
      *
-     * @type member
      * @param item {var} Any item
      * @return {String} A valid hashcode
      */
@@ -490,7 +472,6 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     /**
      * Updates the style (appearance) of the given item.
      *
-     * @type member
      * @param item {var} Item to modify
      * @param type {String} Any of <code>selected</code>, <code>anchor</code> or <code>lead</code>
      * @param enabled {Boolean} Whether the given style should be added or removed.
@@ -504,7 +485,6 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     /**
      * Enables capturing of the container.
      *
-     * @type member
      * @return {void}
      */
     _capture : function() {
@@ -515,7 +495,6 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     /**
      * Releases capturing of the container
      *
-     * @type member
      * @return {void}
      */
     _releaseCapture : function() {
@@ -536,7 +515,6 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     /**
      * Returns the location of the container
      *
-     * @type member
      * @return {Map} Map with the keys <code>top</code>, <code>right</code>,
      *    <code>bottom</code> and <code>left</code>.
      */
@@ -548,7 +526,6 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     /**
      * Returns the dimension of the container (available scrolling space).
      *
-     * @type member
      * @return {Map} Map with the keys <code>width</code> and <code>height</code>.
      */
     _getDimension : function() {
@@ -559,7 +536,6 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     /**
      * Returns the relative (to the container) horizontal location of the given item.
      *
-     * @type member
      * @param item {var} Any item
      * @return {Map} A map with the keys <code>left</code> and <code>right</code>.
      */
@@ -571,7 +547,6 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     /**
      * Returns the relative (to the container) horizontal location of the given item.
      *
-     * @type member
      * @param item {var} Any item
      * @return {Map} A map with the keys <code>top</code> and <code>bottom</code>.
      */
@@ -593,7 +568,6 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     /**
      * Returns the scroll position of the container.
      *
-     * @type member
      * @return {Map} Map with the keys <code>left</code> and <code>top</code>.
      */
     _getScroll : function() {
@@ -604,7 +578,6 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     /**
      * Scrolls by the given offset
      *
-     * @type member
      * @param xoff {Integer} Horizontal offset to scroll by
      * @param yoff {Integer} Vertical offset to scroll by
      * @return {void}
@@ -617,7 +590,6 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     /**
      * Scrolls the given item into the view (make it visible)
      *
-     * @type member
      * @param item {var} Any item
      * @return {void}
      */
@@ -639,7 +611,6 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     /**
      * Returns all selectable items of the container.
      *
-     * @type member
      * @return {Array} A list of items
      */
     _getSelectables : function() {
@@ -652,7 +623,6 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      *
      * The items could be given in any order.
      *
-     * @type member
      * @param item1 {var} First item
      * @param item2 {var} Second item
      * @return {Array} List of items
@@ -665,7 +635,6 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     /**
      * Returns the first selectable item.
      *
-     * @type member
      * @return {var} The first selectable item
      */
     _getFirstSelectable : function() {
@@ -676,7 +645,6 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     /**
      * Returns the last selectable item.
      *
-     * @type member
      * @return {var} The last selectable item
      */
     _getLastSelectable : function() {
@@ -688,7 +656,6 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      * Returns a selectable item which is related to the given
      * <code>item</code> through the value of <code>relation</code>.
      *
-     * @type member
      * @param item {var} Any item
      * @param relation {String} A valid relation: <code>above</code>,
      *    <code>right</code>, <code>under</code> or <code>left</code>
@@ -704,7 +671,6 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      *
      * May also scroll to the needed position.
      *
-     * @type member
      * @param lead {var} The current lead item
      * @param up {Boolean?false} Which page key was pressed:
      *   <code>up</code> or <code>down</code>.
@@ -759,7 +725,6 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      * This method should be connected to the <code>mousedown</code> event
      * of the managed object.
      *
-     * @type member
      * @param event {qx.event.type.Mouse} A valid mouse event
      * @return {void}
      */
@@ -863,7 +828,6 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      * This method should be connected to the <code>mouseup</code> event
      * of the managed object.
      *
-     * @type member
      * @param event {qx.event.type.Mouse} A valid mouse event
      * @return {void}
      */
@@ -903,7 +867,6 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      * This method should be connected to the <code>losecapture</code> event
      * of the managed object.
      *
-     * @type member
      * @param event {qx.event.type.Mouse} A valid mouse event
      * @return {void}
      */
@@ -916,7 +879,6 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      * This method should be connected to the <code>mousemove</code> event
      * of the managed object.
      *
-     * @type member
      * @param event {qx.event.type.Mouse} A valid mouse event
      * @return {void}
      */
@@ -994,7 +956,6 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      * This method should be connected to the <code>addItem</code> event
      * of the managed object.
      *
-     * @type member
      * @param e {qx.event.type.Data} The event object
      * @return {void}
      */
@@ -1011,7 +972,6 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      * This method should be connected to the <code>removeItem</code> event
      * of the managed object.
      *
-     * @type member
      * @param e {qx.event.type.Data} The event object
      * @return {void}
      */
@@ -1218,7 +1178,6 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      * This method should be connected to the <code>keypress</code> event
      * of the managed object.
      *
-     * @type member
      * @param event {qx.event.type.KeySequence} A valid key sequence event
      * @return {void}
      */
@@ -1498,7 +1457,6 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      * Returns the first selected item. Only makes sense
      * when using manager in single selection mode.
      *
-     * @type member
      * @return {var} The selected item (or <code>null</code>)
      */
     _getSelectedItem : function()
@@ -1514,7 +1472,6 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     /**
      * Replace current selection with given item.
      *
-     * @type member
      * @param item {var} Any valid selectable item
      * @return {void}
      */

@@ -83,7 +83,6 @@ qx.Class.define("qx.legacy.event.handler.FocusHandler",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     getAttachedWidget : function() {
@@ -94,7 +93,6 @@ qx.Class.define("qx.legacy.event.handler.FocusHandler",
     /**
      * TODOC
      *
-     * @type member
      * @param container {var} TODOC
      * @param ev {Event} TODOC
      * @return {void}
@@ -132,7 +130,6 @@ qx.Class.define("qx.legacy.event.handler.FocusHandler",
     /**
      * TODOC
      *
-     * @type member
      * @param c1 {var} TODOC
      * @param c2 {var} TODOC
      * @return {int | var} TODOC
@@ -191,7 +188,6 @@ qx.Class.define("qx.legacy.event.handler.FocusHandler",
     /**
      * TODOC
      *
-     * @type member
      * @param parentContainer {var} TODOC
      * @return {var} TODOC
      */
@@ -203,7 +199,6 @@ qx.Class.define("qx.legacy.event.handler.FocusHandler",
     /**
      * TODOC
      *
-     * @type member
      * @param parentContainer {var} TODOC
      * @return {var} TODOC
      */
@@ -215,7 +210,6 @@ qx.Class.define("qx.legacy.event.handler.FocusHandler",
     /**
      * TODOC
      *
-     * @type member
      * @param parentContainer {var} TODOC
      * @param widget {var} TODOC
      * @return {var | Array} TODOC
@@ -247,7 +241,6 @@ qx.Class.define("qx.legacy.event.handler.FocusHandler",
     /**
      * TODOC
      *
-     * @type member
      * @param parentContainer {var} TODOC
      * @param widget {var} TODOC
      * @return {var | Array} TODOC
@@ -280,7 +273,6 @@ qx.Class.define("qx.legacy.event.handler.FocusHandler",
     /**
      * TODOC
      *
-     * @type member
      * @param parent {var} TODOC
      * @param widget {var} TODOC
      * @param arr {var} TODOC
@@ -314,7 +306,6 @@ qx.Class.define("qx.legacy.event.handler.FocusHandler",
     /**
      * TODOC
      *
-     * @type member
      * @param parent {var} TODOC
      * @param widget {var} TODOC
      * @param arr {var} TODOC
@@ -348,7 +339,6 @@ qx.Class.define("qx.legacy.event.handler.FocusHandler",
     /**
      * TODOC
      *
-     * @type member
      * @param parent {var} TODOC
      * @param firstWidget {var} TODOC
      * @return {var} TODOC
@@ -386,7 +376,6 @@ qx.Class.define("qx.legacy.event.handler.FocusHandler",
     /**
      * TODOC
      *
-     * @type member
      * @param parent {var} TODOC
      * @param lastWidget {var} TODOC
      * @return {var} TODOC

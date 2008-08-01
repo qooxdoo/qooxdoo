@@ -5,7 +5,6 @@ qx.Class.define("qx.log.appender.Util",
     /**
      * Converts a single log entry to HTML
      *
-     * @type static
      * @signature function(entry)
      * @param entry {Map} The entry to process
      * @return {void}
@@ -78,7 +77,6 @@ qx.Class.define("qx.log.appender.Util",
     /**
      * Formats a numeric time offset to 8 characters.
      *
-     * @type static
      * @param offset {Integer} Current offset value
      * @param length {Integer?8} Refine the length
      * @return {String} Padded string
@@ -100,7 +98,6 @@ qx.Class.define("qx.log.appender.Util",
     /**
      * Escapes the HTML in the given value
      *
-     * @type static
      * @param value {String} value to escape
      * @return {String} escaped value
      */
@@ -112,7 +109,6 @@ qx.Class.define("qx.log.appender.Util",
     /**
      * Internal replacement helper for HTML escape.
      *
-     * @type static
      * @param ch {String} Single item to replace.
      * @return {String} Replaced item
      */

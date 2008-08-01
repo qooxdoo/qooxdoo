@@ -119,7 +119,6 @@ qx.Class.define("qx.legacy.io.image.Preloader",
     /**
      * Get the full URI of the image
      *
-     * @type member
      * @return {String} The URI of the image
      */
     getUri : function() {
@@ -130,7 +129,6 @@ qx.Class.define("qx.legacy.io.image.Preloader",
     /**
      * Get the full URI of the image
      *
-     * @type member
      * @return {String} The URI of the image
      */
     getSource : function() {
@@ -141,7 +139,6 @@ qx.Class.define("qx.legacy.io.image.Preloader",
     /**
      * Check whether the image is already loaded
      *
-     * @type member
      * @return {Boolean} Whether the image is already loaded
      */
     isLoaded : function() {
@@ -152,7 +149,6 @@ qx.Class.define("qx.legacy.io.image.Preloader",
     /**
      * Check whether the loading of the image failed
      *
-     * @type member
      * @return {Boolean} Whether the loading of the image failed
      */
     isErroneous : function() {
@@ -166,7 +162,6 @@ qx.Class.define("qx.legacy.io.image.Preloader",
     /**
      * Check whether the image format if PNG
      *
-     * @type member
      * @return {Boolean} whether the image format if PNG
      */
     getIsPng : function() {
@@ -178,7 +173,6 @@ qx.Class.define("qx.legacy.io.image.Preloader",
     /**
      * Return the width of the image in pixel.
      *
-     * @type member
      * @return {Integer} The width of the image in pixel.
      * @signature function()
      */
@@ -197,7 +191,6 @@ qx.Class.define("qx.legacy.io.image.Preloader",
     /**
      * Return the height of the image in pixel.
      *
-     * @type member
      * @return {Integer} The height of the image in pixel.
      * @signature function()
      */
@@ -216,7 +209,6 @@ qx.Class.define("qx.legacy.io.image.Preloader",
     /**
      * Load handler
      *
-     * @type member
      * @return {void}
      */
     __onload : function()
@@ -235,7 +227,6 @@ qx.Class.define("qx.legacy.io.image.Preloader",
     /**
      * Error handler
      *
-     * @type member
      * @return {void}
      */
     __onerror : function()

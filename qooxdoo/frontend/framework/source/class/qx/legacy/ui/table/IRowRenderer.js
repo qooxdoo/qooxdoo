@@ -44,7 +44,6 @@ qx.Interface.define("qx.legacy.ui.table.IRowRenderer",
      * <li>table (qx.legacy.ui.table.Table): the table the row belongs to.</li>
      * </ul>
      *
-     * @type member
      * @abstract
      * @param rowInfo {Map} A map containing the information about the row to
      *      update.

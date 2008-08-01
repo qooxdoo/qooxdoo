@@ -38,7 +38,6 @@ qx.Class.define("qx.event.handler.Element",
   /**
    * Create a new instance
    *
-   * @type constructor
    * @param manager {qx.event.Manager} Event manager for the window to use
    */
   construct : function(manager)
@@ -149,7 +148,6 @@ qx.Class.define("qx.event.handler.Element",
     /**
      * Default event handler.
      *
-     * @type member
      * @param nativeEvent {Event} Native event
      * @param eventId {Integer} ID of the event (as stored internally)
      * @return {void}

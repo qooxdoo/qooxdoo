@@ -57,7 +57,6 @@ if (!Error.prototype.toString || Error.prototype.toString() == "[object Error]")
    * error objects like other browsers usually do. This feature is added to
    * those browsers.
    *
-   * @type member
    * @return {var} TODOC
    */
   Error.prototype.toString = function() {
@@ -83,7 +82,6 @@ if (!Array.prototype.indexOf)
    * Natively supported in Gecko since version 1.8.
    * http://developer.mozilla.org/en/docs/Core_JavaScript_1.5_Reference:Objects:Array:indexOf
    *
-   * @type member
    * @param searchElement {var} Element to locate in the array.
    * @param fromIndex {Integer} The index at which to begin the search. Defaults to 0, i.e. the whole
    *         array will be searched. If the index is greater than or equal to the length of the array,
@@ -122,7 +120,6 @@ if (!Array.prototype.lastIndexOf)
    * Natively supported in Gecko since version 1.8.
    * http://developer.mozilla.org/en/docs/Core_JavaScript_1.5_Reference:Objects:Array:lastIndexOf
    *
-   * @type member
    * @param searchElement {var} Element to locate in the array.
    * @param fromIndex {Integer} The index at which to start searching backwards.
    *         Defaults to the array's length, i.e. the whole array will be searched. If
@@ -181,7 +178,6 @@ if (!Array.prototype.forEach)
    * Natively supported in Gecko since version 1.8.
    * http://developer.mozilla.org/en/docs/Core_JavaScript_1.5_Reference:Objects:Array:forEach
    *
-   * @type member
    * @param callback {Function} Function to execute for each element.
    * @param obj {Object} Object to use as this when executing callback.
    * @return {void}
@@ -230,7 +226,6 @@ if (!Array.prototype.filter)
    * Natively supported in Gecko since version 1.8.
    * http://developer.mozilla.org/en/docs/Core_JavaScript_1.5_Reference:Objects:Array:filter
    *
-   * @type member
    * @param callback {Function} Function to test each element of the array.
    * @param obj {Object} Object to use as <code>this</code> when executing <code>callback</code>.
    * @return {var} TODOC
@@ -280,7 +275,6 @@ if (!Array.prototype.map)
    * Natively supported in Gecko since version 1.8.
    * http://developer.mozilla.org/en/docs/Core_JavaScript_1.5_Reference:Objects:Array:map
    *
-   * @type member
    * @param callback {Function} Function produce an element of the new Array from an element of the current one.
    * @param obj {Object} Object to use as <code>this</code> when executing <code>callback</code>.
    * @return {var} TODOC
@@ -330,7 +324,6 @@ if (!Array.prototype.some)
    * Natively supported in Gecko since version 1.8.
    * http://developer.mozilla.org/en/docs/Core_JavaScript_1.5_Reference:Objects:Array:some
    *
-   * @type member
    * @param callback {Function} Function to test for each element.
    * @param obj {Object} Object to use as <code>this</code> when executing <code>callback</code>.
    * @return {Boolean} TODOC
@@ -381,7 +374,6 @@ if (!Array.prototype.every)
    * Natively supported in Gecko since version 1.8.
    * http://developer.mozilla.org/en/docs/Core_JavaScript_1.5_Reference:Objects:Array:every
    *
-   * @type member
    * @param callback {Function} Function to test for each element.
    * @param obj {Object} Object to use as <code>this</code> when executing <code>callback</code>.
    * @return {Boolean} TODOC
@@ -419,7 +411,6 @@ if (!String.prototype.quote)
    *       3rd edition (December 1999), but implemented by Gecko:
    *       http://lxr.mozilla.org/seamonkey/source/js/src/jsstr.c
    *
-   * @type member
    * @return {var} TODOC
    */
   String.prototype.quote = function() {

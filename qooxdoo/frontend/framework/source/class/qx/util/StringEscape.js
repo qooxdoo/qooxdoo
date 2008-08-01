@@ -30,7 +30,6 @@ qx.Bootstrap.define("qx.util.StringEscape",
     /**
      * generic escaping method
      *
-     * @type static
      * @param str {String} string to escape
      * @param charCodeToEntities {Map} entity to charcode map
      * @return {String} escaped string
@@ -101,7 +100,6 @@ qx.Bootstrap.define("qx.util.StringEscape",
     /**
      * generic unescaping method
      *
-     * @type static
      * @param str {String} string to unescape
      * @param entitiesToCharCode {Map} charcode to entity map
      * @return {var} TODOC

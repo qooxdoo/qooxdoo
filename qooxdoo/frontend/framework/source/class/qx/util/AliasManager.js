@@ -139,7 +139,6 @@ qx.Class.define("qx.util.AliasManager",
     /**
      * Resolves a given path
      *
-     * @type member
      * @param path {String} input path
      * @return {String} resulting path (with interpreted aliases)
      */

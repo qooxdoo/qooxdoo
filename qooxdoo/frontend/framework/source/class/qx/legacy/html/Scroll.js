@@ -35,7 +35,6 @@ qx.Class.define("qx.legacy.html.Scroll",
     /**
      * TODOC
      *
-     * @type static
      * @param el {Element} TODOC
      * @return {var} TODOC
      */
@@ -57,7 +56,6 @@ qx.Class.define("qx.legacy.html.Scroll",
     /**
      * TODOC
      *
-     * @type static
      * @param el {Element} TODOC
      * @return {var} TODOC
      */

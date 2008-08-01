@@ -29,7 +29,6 @@ qx.Bootstrap.define("qx.bom.Event",
      * Use this with caution. This is only thought for event handlers and
      * qualified developers. These are not mem-leak protected!
      *
-     * @type static
      * @param target {Object} Any valid native event target
      * @param type {String} Name of the event
      * @param listener {Function} The pointer to the function to assign
@@ -51,7 +50,6 @@ qx.Bootstrap.define("qx.bom.Event",
      * Use the low level browser functionality to remove event listeners
      * from DOM nodes.
      *
-     * @type static
      * @param target {Object} Any valid native event target
      * @param type {String} Name of the event
      * @param listener {Function} The pointer to the function to assign
@@ -72,7 +70,6 @@ qx.Bootstrap.define("qx.bom.Event",
     /**
      * Returns the target of the event.
      *
-     * @type static
      * @param e {Event} Native event object
      * @return {Object} Any valid native event target
      */
@@ -136,7 +133,6 @@ qx.Bootstrap.define("qx.bom.Event",
      *
      * Only useful for events which bubble e.g. mousedown.
      *
-     * @type static
      * @param e {Event} Native event object
      * @return {void}
      */

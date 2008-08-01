@@ -88,7 +88,6 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
     /**
      * Return a new XMLHttpRequest object suitable for the client browser.
      *
-     * @type static
      * @return {Object} TODOC
      * @signature function()
      */
@@ -124,7 +123,6 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
     /**
      * TODOC
      *
-     * @type static
      * @return {var} TODOC
      */
     isSupported : function() {
@@ -135,7 +133,6 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
     /**
      * Dummy function to use for onreadystatechange after disposal
      *
-     * @type static
      * @return {var} none
      */
     __dummy : function() {}
@@ -165,7 +162,6 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     getRequest : function() {
@@ -184,7 +180,6 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     send : function()
@@ -357,7 +352,6 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
      *  This method should be used only if the requests URI was local
      *  access. I.e. it started with "file://".
      *
-     * @type member
      * @return {void}
      */
     failedLocally : function()
@@ -384,7 +378,6 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void | var} TODOC
      */
@@ -440,7 +433,6 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
      *
      * For qx.io.remote.transport.XmlHttp, ready state is a number between 1 to 4.
      *
-     * @type member
      * @return {var} TODOC
      */
     getReadyState : function()
@@ -466,7 +458,6 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
     /**
      * Set a request header to this transports request.
      *
-     * @type member
      * @param vLabel {var} TODOC
      * @param vValue {var} TODOC
      * @return {void}
@@ -491,7 +482,6 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
      *  Only available at readyState 3 and 4 universally and in readyState 2
      *  in Gecko.
      *
-     * @type member
      * @param vLabel {var} TODOC
      * @return {var} TODOC
      */
@@ -510,7 +500,6 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     getStringResponseHeaders : function()
@@ -534,7 +523,6 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
     /**
      * Provides a hash of all response headers.
      *
-     * @type member
      * @return {var} TODOC
      */
     getResponseHeaders : function()
@@ -571,7 +559,6 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
     /**
      * Returns the current status code of the request if available or -1 if not.
      *
-     * @type member
      * @return {Integer} TODOC
      */
     getStatusCode : function()
@@ -590,7 +577,6 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
      * Provides the status text for the current request if available and null
      *  otherwise.
      *
-     * @type member
      * @return {String} TODOC
      */
     getStatusText : function()
@@ -618,7 +604,6 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
      *  otherwise.  By passing true as the "partial" parameter of this method,
      *  incomplete data will be made available to the caller.
      *
-     * @type member
      * @return {String} TODOC
      */
     getResponseText : function()
@@ -644,7 +629,6 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
      *  passing true as the "partial" parameter of this method, incomplete data will
      *  be made available to the caller.
      *
-     * @type member
      * @return {var} TODOC
      * @throws TODOC
      */
@@ -697,7 +681,6 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
     /**
      * Returns the length of the content as fetched thus far
      *
-     * @type member
      * @return {Integer} TODOC
      */
     getFetchedLength : function()
@@ -710,7 +693,6 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
     /**
      * TODOC
      *
-     * @type member
      * @return {null | var} TODOC
      */
     getResponseContent : function()
@@ -823,7 +805,6 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */

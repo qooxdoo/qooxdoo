@@ -36,7 +36,6 @@ qx.Class.define("qx.legacy.html.Style",
     /**
      * TODO
      *
-     * @type static
      * @param vElement {var} TODOC
      * @param propertyName {var} TODOC
      * @return {void}
@@ -88,7 +87,6 @@ qx.Class.define("qx.legacy.html.Style",
     /**
      * Get the computed (CSS) style property of a given DOM element
      *
-     * @type static
      * @param vElement {Element} the DOM element
      * @param propertyName {String} the name of the style property. e.g. "color", "border", ...
      * @return {String} the (CSS) style property
@@ -131,7 +129,6 @@ qx.Class.define("qx.legacy.html.Style",
     /**
      * Get a (CSS) style property of a given DOM element and interpret the property as integer value
      *
-     * @type static
      * @param vElement {Element} the DOM element
      * @param propertyName {String} the name of the style property. e.g. "paddingTop", "marginLeft", ...
      * @return {Integer} the (CSS) style property converted to an integer value
@@ -144,7 +141,6 @@ qx.Class.define("qx.legacy.html.Style",
     /**
      * Get the element's left margin.
      *
-     * @type static
      * @param vElement {Element} the DOM element
      * @return {Integer} the element's left margin size
      */
@@ -156,7 +152,6 @@ qx.Class.define("qx.legacy.html.Style",
     /**
      * Get the element's top margin.
      *
-     * @type static
      * @param vElement {Element} the DOM element
      * @return {Integer} the element's top margin size
      */
@@ -168,7 +163,6 @@ qx.Class.define("qx.legacy.html.Style",
     /**
      * Get the element's right margin.
      *
-     * @type static
      * @param vElement {Element} the DOM element
      * @return {Integer} the element's right margin size
      */
@@ -180,7 +174,6 @@ qx.Class.define("qx.legacy.html.Style",
     /**
      * Get the element's bottom margin.
      *
-     * @type static
      * @param vElement {Element} the DOM element
      * @return {Integer} the element's bottom margin size
      */
@@ -192,7 +185,6 @@ qx.Class.define("qx.legacy.html.Style",
     /**
      * Get the element's left padding.
      *
-     * @type static
      * @param vElement {Element} the DOM element
      * @return {Integer} the element's left padding size
      */
@@ -204,7 +196,6 @@ qx.Class.define("qx.legacy.html.Style",
     /**
      * Get the element's top padding.
      *
-     * @type static
      * @param vElement {Element} the DOM element
      * @return {Integer} the element's top padding size
      */
@@ -216,7 +207,6 @@ qx.Class.define("qx.legacy.html.Style",
     /**
      * Get the element's right padding.
      *
-     * @type static
      * @param vElement {Element} the DOM element
      * @return {Integer} the element's right padding size
      */
@@ -228,7 +218,6 @@ qx.Class.define("qx.legacy.html.Style",
     /**
      * Get the element's bottom padding.
      *
-     * @type static
      * @param vElement {Element} the DOM element
      * @return {Integer} the element's bottom padding size
      */
@@ -240,7 +229,6 @@ qx.Class.define("qx.legacy.html.Style",
     /**
      * Get the element's left border width.
      *
-     * @type static
      * @param vElement {Element} the DOM element
      * @return {Integer} the element's left border width
      */
@@ -252,7 +240,6 @@ qx.Class.define("qx.legacy.html.Style",
     /**
      * Get the element's top border width.
      *
-     * @type static
      * @param vElement {Element} the DOM element
      * @return {Integer} the element's top border width
      */
@@ -264,7 +251,6 @@ qx.Class.define("qx.legacy.html.Style",
     /**
      * Get the element's right border width.
      *
-     * @type static
      * @param vElement {Element} the DOM element
      * @return {Integer} the element's right border width
      */
@@ -276,7 +262,6 @@ qx.Class.define("qx.legacy.html.Style",
     /**
      * Get the element's bottom border width.
      *
-     * @type static
      * @param vElement {Element} the DOM element
      * @return {Integer} the element's bottom border width
      */

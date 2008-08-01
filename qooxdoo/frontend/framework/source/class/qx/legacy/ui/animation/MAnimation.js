@@ -118,7 +118,6 @@ qx.Mixin.define("qx.legacy.ui.animation.MAnimation", {
     /**
      * TODOC
      *
-     * @type member
      * @param vSteps {var} TODOC
      * @param vTime {var} TODOC
      * @return {void}
@@ -138,7 +137,6 @@ qx.Mixin.define("qx.legacy.ui.animation.MAnimation", {
     /**
      * TODOC
      *
-     * @type member
      * @param vSteps {var} TODOC
      * @param vTime {var} TODOC
      * @return {void}
@@ -158,7 +156,6 @@ qx.Mixin.define("qx.legacy.ui.animation.MAnimation", {
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     getFadeTimer : function()
@@ -176,7 +173,6 @@ qx.Mixin.define("qx.legacy.ui.animation.MAnimation", {
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     resetFader : function()
@@ -197,7 +193,6 @@ qx.Mixin.define("qx.legacy.ui.animation.MAnimation", {
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -244,7 +239,6 @@ qx.Mixin.define("qx.legacy.ui.animation.MAnimation", {
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      * @return {void | Boolean} TODOC
@@ -261,7 +255,6 @@ qx.Mixin.define("qx.legacy.ui.animation.MAnimation", {
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      * @return {void | Boolean} TODOC
@@ -277,7 +270,6 @@ qx.Mixin.define("qx.legacy.ui.animation.MAnimation", {
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -291,7 +283,6 @@ qx.Mixin.define("qx.legacy.ui.animation.MAnimation", {
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -305,7 +296,6 @@ qx.Mixin.define("qx.legacy.ui.animation.MAnimation", {
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     _computeFadeOpacity : function()

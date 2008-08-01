@@ -73,7 +73,6 @@ qx.Class.define("qx.legacy.ui.menu.Layout",
     /**
      * This creates an new instance of the layout impl this widget uses
      *
-     * @type member
      * @return {qx.legacy.ui.layout.BoxLayout} TODOC
      */
     _createLayoutImpl : function() {

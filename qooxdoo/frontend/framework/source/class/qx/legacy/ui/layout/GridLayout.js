@@ -190,7 +190,6 @@ qx.Class.define("qx.legacy.ui.layout.GridLayout",
     /**
      * This creates an new instance of the layout impl this widget uses
      *
-     * @type member
      * @return {qx.legacy.ui.layout.BoxLayout} TODOC
      */
     _createLayoutImpl : function() {
@@ -209,7 +208,6 @@ qx.Class.define("qx.legacy.ui.layout.GridLayout",
     /**
      * TODOC
      *
-     * @type member
      * @param vChild {var} TODOC
      * @param vCol {var} TODOC
      * @param vRow {var} TODOC
@@ -242,7 +240,6 @@ qx.Class.define("qx.legacy.ui.layout.GridLayout",
     /**
      * TODOC
      *
-     * @type member
      * @param vData {var} TODOC
      * @param vOldLength {var} TODOC
      * @param vNewLength {var} TODOC
@@ -277,7 +274,6 @@ qx.Class.define("qx.legacy.ui.layout.GridLayout",
     /**
      * TODOC
      *
-     * @type member
      * @param vCount {var} TODOC
      * @return {void}
      */
@@ -291,7 +287,6 @@ qx.Class.define("qx.legacy.ui.layout.GridLayout",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     getColumnCount : function() {
@@ -302,7 +297,6 @@ qx.Class.define("qx.legacy.ui.layout.GridLayout",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     addColumn : function()
@@ -315,7 +309,6 @@ qx.Class.define("qx.legacy.ui.layout.GridLayout",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     removeColumn : function()
@@ -331,7 +324,6 @@ qx.Class.define("qx.legacy.ui.layout.GridLayout",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     _syncColumnDataFields : function()
@@ -358,7 +350,6 @@ qx.Class.define("qx.legacy.ui.layout.GridLayout",
     /**
      * TODOC
      *
-     * @type member
      * @param vCount {var} TODOC
      * @return {void}
      */
@@ -372,7 +363,6 @@ qx.Class.define("qx.legacy.ui.layout.GridLayout",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     getRowCount : function() {
@@ -383,7 +373,6 @@ qx.Class.define("qx.legacy.ui.layout.GridLayout",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     addRow : function()
@@ -396,7 +385,6 @@ qx.Class.define("qx.legacy.ui.layout.GridLayout",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     removeRow : function()
@@ -412,7 +400,6 @@ qx.Class.define("qx.legacy.ui.layout.GridLayout",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     _syncRowDataFields : function()
@@ -436,7 +423,6 @@ qx.Class.define("qx.legacy.ui.layout.GridLayout",
     /**
      * TODOC
      *
-     * @type member
      * @param vColumnIndex {var} TODOC
      * @param vProperty {var} TODOC
      * @return {var | null} TODOC
@@ -457,7 +443,6 @@ qx.Class.define("qx.legacy.ui.layout.GridLayout",
     /**
      * TODOC
      *
-     * @type member
      * @param vColumnIndex {var} TODOC
      * @param vProperty {var} TODOC
      * @param vValue {var} TODOC
@@ -473,7 +458,6 @@ qx.Class.define("qx.legacy.ui.layout.GridLayout",
     /**
      * TODOC
      *
-     * @type member
      * @param vColumnIndex {var} TODOC
      * @param vProperty {var} TODOC
      * @param vValue {var} TODOC
@@ -489,7 +473,6 @@ qx.Class.define("qx.legacy.ui.layout.GridLayout",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     _invalidateColumnLayout : function()
@@ -515,7 +498,6 @@ qx.Class.define("qx.legacy.ui.layout.GridLayout",
     /**
      * TODOC
      *
-     * @type member
      * @param vRowIndex {var} TODOC
      * @param vProperty {var} TODOC
      * @return {var | null} TODOC
@@ -536,7 +518,6 @@ qx.Class.define("qx.legacy.ui.layout.GridLayout",
     /**
      * TODOC
      *
-     * @type member
      * @param vRowIndex {var} TODOC
      * @param vProperty {var} TODOC
      * @param vValue {var} TODOC
@@ -552,7 +533,6 @@ qx.Class.define("qx.legacy.ui.layout.GridLayout",
     /**
      * TODOC
      *
-     * @type member
      * @param vRowIndex {var} TODOC
      * @param vProperty {var} TODOC
      * @param vValue {var} TODOC
@@ -568,7 +548,6 @@ qx.Class.define("qx.legacy.ui.layout.GridLayout",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     _invalidateRowLayout : function()
@@ -595,7 +574,6 @@ qx.Class.define("qx.legacy.ui.layout.GridLayout",
     /**
      * TODOC
      *
-     * @type member
      * @param vIndex {var} TODOC
      * @param vValue {var} TODOC
      * @return {void}
@@ -638,7 +616,6 @@ qx.Class.define("qx.legacy.ui.layout.GridLayout",
     /**
      * TODOC
      *
-     * @type member
      * @param vIndex {var} TODOC
      * @param vValue {var} TODOC
      * @return {void}
@@ -680,7 +657,6 @@ qx.Class.define("qx.legacy.ui.layout.GridLayout",
     /**
      * TODOC
      *
-     * @type member
      * @param vIndex {var} TODOC
      * @return {var} TODOC
      */
@@ -725,7 +701,6 @@ qx.Class.define("qx.legacy.ui.layout.GridLayout",
     /**
      * TODOC
      *
-     * @type member
      * @param vIndex {var} TODOC
      * @return {var} TODOC
      */
@@ -770,7 +745,6 @@ qx.Class.define("qx.legacy.ui.layout.GridLayout",
     /**
      * TODOC
      *
-     * @type member
      * @param vCol {var} TODOC
      * @param vRow {var} TODOC
      * @return {var} TODOC
@@ -783,7 +757,6 @@ qx.Class.define("qx.legacy.ui.layout.GridLayout",
     /**
      * TODOC
      *
-     * @type member
      * @param vCol {var} TODOC
      * @param vRow {var} TODOC
      * @return {var} TODOC
@@ -796,7 +769,6 @@ qx.Class.define("qx.legacy.ui.layout.GridLayout",
     /**
      * TODOC
      *
-     * @type member
      * @param vCol {var} TODOC
      * @param vRow {var} TODOC
      * @return {var} TODOC
@@ -809,7 +781,6 @@ qx.Class.define("qx.legacy.ui.layout.GridLayout",
     /**
      * TODOC
      *
-     * @type member
      * @param vCol {var} TODOC
      * @param vRow {var} TODOC
      * @return {var} TODOC
@@ -822,7 +793,6 @@ qx.Class.define("qx.legacy.ui.layout.GridLayout",
     /**
      * TODOC
      *
-     * @type member
      * @param vCol {var} TODOC
      * @param vRow {var} TODOC
      * @return {var} TODOC
@@ -835,7 +805,6 @@ qx.Class.define("qx.legacy.ui.layout.GridLayout",
     /**
      * TODOC
      *
-     * @type member
      * @param vCol {var} TODOC
      * @param vRow {var} TODOC
      * @return {var} TODOC
@@ -857,7 +826,6 @@ qx.Class.define("qx.legacy.ui.layout.GridLayout",
     /**
      * TODOC
      *
-     * @type member
      * @param vIndex {var} TODOC
      * @param vValue {var} TODOC
      * @return {void}
@@ -870,7 +838,6 @@ qx.Class.define("qx.legacy.ui.layout.GridLayout",
     /**
      * TODOC
      *
-     * @type member
      * @param vIndex {var} TODOC
      * @param vValue {var} TODOC
      * @return {void}
@@ -883,7 +850,6 @@ qx.Class.define("qx.legacy.ui.layout.GridLayout",
     /**
      * TODOC
      *
-     * @type member
      * @param vIndex {var} TODOC
      * @param vValue {var} TODOC
      * @return {void}
@@ -896,7 +862,6 @@ qx.Class.define("qx.legacy.ui.layout.GridLayout",
     /**
      * TODOC
      *
-     * @type member
      * @param vIndex {var} TODOC
      * @param vValue {var} TODOC
      * @return {void}
@@ -909,7 +874,6 @@ qx.Class.define("qx.legacy.ui.layout.GridLayout",
     /**
      * TODOC
      *
-     * @type member
      * @param vIndex {var} TODOC
      * @return {var} TODOC
      */
@@ -921,7 +885,6 @@ qx.Class.define("qx.legacy.ui.layout.GridLayout",
     /**
      * TODOC
      *
-     * @type member
      * @param vIndex {var} TODOC
      * @return {var} TODOC
      */
@@ -933,7 +896,6 @@ qx.Class.define("qx.legacy.ui.layout.GridLayout",
     /**
      * TODOC
      *
-     * @type member
      * @param vIndex {var} TODOC
      * @return {var} TODOC
      */
@@ -945,7 +907,6 @@ qx.Class.define("qx.legacy.ui.layout.GridLayout",
     /**
      * TODOC
      *
-     * @type member
      * @param vIndex {var} TODOC
      * @return {var} TODOC
      */
@@ -966,7 +927,6 @@ qx.Class.define("qx.legacy.ui.layout.GridLayout",
     /**
      * TODOC
      *
-     * @type member
      * @param vIndex {var} TODOC
      * @param vValue {var} TODOC
      * @return {void}
@@ -979,7 +939,6 @@ qx.Class.define("qx.legacy.ui.layout.GridLayout",
     /**
      * TODOC
      *
-     * @type member
      * @param vIndex {var} TODOC
      * @param vValue {var} TODOC
      * @return {void}
@@ -992,7 +951,6 @@ qx.Class.define("qx.legacy.ui.layout.GridLayout",
     /**
      * TODOC
      *
-     * @type member
      * @param vIndex {var} TODOC
      * @param vValue {var} TODOC
      * @return {void}
@@ -1005,7 +963,6 @@ qx.Class.define("qx.legacy.ui.layout.GridLayout",
     /**
      * TODOC
      *
-     * @type member
      * @param vIndex {var} TODOC
      * @param vValue {var} TODOC
      * @return {void}
@@ -1018,7 +975,6 @@ qx.Class.define("qx.legacy.ui.layout.GridLayout",
     /**
      * TODOC
      *
-     * @type member
      * @param vIndex {var} TODOC
      * @param vValue {var} TODOC
      * @return {void}
@@ -1031,7 +987,6 @@ qx.Class.define("qx.legacy.ui.layout.GridLayout",
     /**
      * TODOC
      *
-     * @type member
      * @param vIndex {var} TODOC
      * @param vValue {var} TODOC
      * @return {void}
@@ -1044,7 +999,6 @@ qx.Class.define("qx.legacy.ui.layout.GridLayout",
     /**
      * TODOC
      *
-     * @type member
      * @param vIndex {var} TODOC
      * @param vValue {var} TODOC
      * @return {void}
@@ -1057,7 +1011,6 @@ qx.Class.define("qx.legacy.ui.layout.GridLayout",
     /**
      * TODOC
      *
-     * @type member
      * @param vIndex {var} TODOC
      * @param vValue {var} TODOC
      * @return {void}
@@ -1070,7 +1023,6 @@ qx.Class.define("qx.legacy.ui.layout.GridLayout",
     /**
      * TODOC
      *
-     * @type member
      * @param vIndex {var} TODOC
      * @return {var} TODOC
      */
@@ -1082,7 +1034,6 @@ qx.Class.define("qx.legacy.ui.layout.GridLayout",
     /**
      * TODOC
      *
-     * @type member
      * @param vIndex {var} TODOC
      * @return {var} TODOC
      */
@@ -1094,7 +1045,6 @@ qx.Class.define("qx.legacy.ui.layout.GridLayout",
     /**
      * TODOC
      *
-     * @type member
      * @param vIndex {var} TODOC
      * @return {var} TODOC
      */
@@ -1106,7 +1056,6 @@ qx.Class.define("qx.legacy.ui.layout.GridLayout",
     /**
      * TODOC
      *
-     * @type member
      * @param vIndex {var} TODOC
      * @return {var} TODOC
      */
@@ -1118,7 +1067,6 @@ qx.Class.define("qx.legacy.ui.layout.GridLayout",
     /**
      * TODOC
      *
-     * @type member
      * @param vIndex {var} TODOC
      * @return {var} TODOC
      */
@@ -1130,7 +1078,6 @@ qx.Class.define("qx.legacy.ui.layout.GridLayout",
     /**
      * TODOC
      *
-     * @type member
      * @param vIndex {var} TODOC
      * @return {var} TODOC
      */
@@ -1142,7 +1089,6 @@ qx.Class.define("qx.legacy.ui.layout.GridLayout",
     /**
      * TODOC
      *
-     * @type member
      * @param vIndex {var} TODOC
      * @return {var} TODOC
      */
@@ -1154,7 +1100,6 @@ qx.Class.define("qx.legacy.ui.layout.GridLayout",
     /**
      * TODOC
      *
-     * @type member
      * @param vIndex {var} TODOC
      * @return {var} TODOC
      */
@@ -1174,7 +1119,6 @@ qx.Class.define("qx.legacy.ui.layout.GridLayout",
     /**
      * TODOC
      *
-     * @type member
      * @param vNew {var} TODOC
      * @param vOld {var} TODOC
      * @return {void}
@@ -1195,7 +1139,6 @@ qx.Class.define("qx.legacy.ui.layout.GridLayout",
     /**
      * TODOC
      *
-     * @type member
      * @param vNew {var} TODOC
      * @param vOld {var} TODOC
      * @return {void}
@@ -1224,7 +1167,6 @@ qx.Class.define("qx.legacy.ui.layout.GridLayout",
     /**
      * TODOC
      *
-     * @type member
      * @param vChild {var} TODOC
      * @return {var} TODOC
      */
@@ -1236,7 +1178,6 @@ qx.Class.define("qx.legacy.ui.layout.GridLayout",
     /**
      * TODOC
      *
-     * @type member
      * @param vChild {var} TODOC
      * @return {var} TODOC
      */
@@ -1256,7 +1197,6 @@ qx.Class.define("qx.legacy.ui.layout.GridLayout",
     /**
      * TODOC
      *
-     * @type member
      * @param vStartCol {var} TODOC
      * @param vStartRow {var} TODOC
      * @param vColLength {var} TODOC
@@ -1297,7 +1237,6 @@ qx.Class.define("qx.legacy.ui.layout.GridLayout",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     hasSpans : function() {
@@ -1308,7 +1247,6 @@ qx.Class.define("qx.legacy.ui.layout.GridLayout",
     /**
      * TODOC
      *
-     * @type member
      * @param vCol {var} TODOC
      * @param vRow {var} TODOC
      * @return {var | null} TODOC
@@ -1331,7 +1269,6 @@ qx.Class.define("qx.legacy.ui.layout.GridLayout",
     /**
      * TODOC
      *
-     * @type member
      * @param vCol {var} TODOC
      * @param vRow {var} TODOC
      */
@@ -1353,7 +1290,6 @@ qx.Class.define("qx.legacy.ui.layout.GridLayout",
     /**
      * TODOC
      *
-     * @type member
      * @param vCol {var} TODOC
      * @param vRow {var} TODOC
      */
@@ -1375,7 +1311,6 @@ qx.Class.define("qx.legacy.ui.layout.GridLayout",
     /**
      * TODOC
      *
-     * @type member
      * @param vCol {var} TODOC
      * @param vRow {var} TODOC
      */
@@ -1397,7 +1332,6 @@ qx.Class.define("qx.legacy.ui.layout.GridLayout",
     /**
      * TODOC
      *
-     * @type member
      * @param vStartCol {var} TODOC
      * @param vStartRow {var} TODOC
      * @param vEndCol {var} TODOC

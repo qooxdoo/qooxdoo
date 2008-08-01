@@ -161,7 +161,6 @@ qx.Class.define("qx.legacy.ui.selection.SelectionManager",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -180,7 +179,6 @@ qx.Class.define("qx.legacy.ui.selection.SelectionManager",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -207,7 +205,6 @@ qx.Class.define("qx.legacy.ui.selection.SelectionManager",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     _getFirst : function() {
@@ -218,7 +215,6 @@ qx.Class.define("qx.legacy.ui.selection.SelectionManager",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     _getLast : function() {
@@ -229,7 +225,6 @@ qx.Class.define("qx.legacy.ui.selection.SelectionManager",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     getFirst : function()
@@ -245,7 +240,6 @@ qx.Class.define("qx.legacy.ui.selection.SelectionManager",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     getLast : function()
@@ -261,7 +255,6 @@ qx.Class.define("qx.legacy.ui.selection.SelectionManager",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     getItems : function() {
@@ -272,7 +265,6 @@ qx.Class.define("qx.legacy.ui.selection.SelectionManager",
     /**
      * TODOC
      *
-     * @type member
      * @param vItem {var} TODOC
      * @return {var} TODOC
      */
@@ -284,7 +276,6 @@ qx.Class.define("qx.legacy.ui.selection.SelectionManager",
     /**
      * TODOC
      *
-     * @type member
      * @param vItem {var} TODOC
      * @return {var} TODOC
      */
@@ -296,7 +287,6 @@ qx.Class.define("qx.legacy.ui.selection.SelectionManager",
     /**
      * TODOC
      *
-     * @type member
      * @param vItem {var} TODOC
      * @return {var | null} TODOC
      */
@@ -322,7 +312,6 @@ qx.Class.define("qx.legacy.ui.selection.SelectionManager",
     /**
      * TODOC
      *
-     * @type member
      * @param vItem {var} TODOC
      * @return {var | null} TODOC
      */
@@ -348,7 +337,6 @@ qx.Class.define("qx.legacy.ui.selection.SelectionManager",
     /**
      * TODOC
      *
-     * @type member
      * @param vItem1 {var} TODOC
      * @param vItem2 {var} TODOC
      * @return {boolean} TODOC
@@ -363,7 +351,6 @@ qx.Class.define("qx.legacy.ui.selection.SelectionManager",
     /**
      * TODOC
      *
-     * @type member
      * @param vItem1 {var} TODOC
      * @param vItem2 {var} TODOC
      * @return {var} TODOC
@@ -384,7 +371,6 @@ qx.Class.define("qx.legacy.ui.selection.SelectionManager",
     /**
      * TODOC
      *
-     * @type member
      * @param vItem {var} TODOC
      * @return {var} TODOC
      */
@@ -404,7 +390,6 @@ qx.Class.define("qx.legacy.ui.selection.SelectionManager",
     /**
      * TODOC
      *
-     * @type member
      * @param vItem {var} TODOC
      * @param vTopLeft {var} TODOC
      * @return {void}
@@ -417,7 +402,6 @@ qx.Class.define("qx.legacy.ui.selection.SelectionManager",
     /**
      * TODOC
      *
-     * @type member
      * @param vItem {var} TODOC
      * @return {var} TODOC
      */
@@ -429,7 +413,6 @@ qx.Class.define("qx.legacy.ui.selection.SelectionManager",
     /**
      * TODOC
      *
-     * @type member
      * @param vItem {var} TODOC
      * @return {var} TODOC
      */
@@ -441,7 +424,6 @@ qx.Class.define("qx.legacy.ui.selection.SelectionManager",
     /**
      * TODOC
      *
-     * @type member
      * @param vItem {var} TODOC
      * @return {var} TODOC
      */
@@ -453,7 +435,6 @@ qx.Class.define("qx.legacy.ui.selection.SelectionManager",
     /**
      * TODOC
      *
-     * @type member
      * @param vItem {var} TODOC
      * @return {var} TODOC
      */
@@ -465,7 +446,6 @@ qx.Class.define("qx.legacy.ui.selection.SelectionManager",
     /**
      * TODOC
      *
-     * @type member
      * @param vItem {var} TODOC
      * @return {var} TODOC
      */
@@ -485,7 +465,6 @@ qx.Class.define("qx.legacy.ui.selection.SelectionManager",
     /**
      * TODOC
      *
-     * @type member
      * @param vItem {var} TODOC
      * @param vIsSelected {var} TODOC
      * @return {void}
@@ -503,7 +482,6 @@ qx.Class.define("qx.legacy.ui.selection.SelectionManager",
     /**
      * TODOC
      *
-     * @type member
      * @param vItem {var} TODOC
      * @param vIsAnchor {var} TODOC
      * @return {void}
@@ -521,7 +499,6 @@ qx.Class.define("qx.legacy.ui.selection.SelectionManager",
     /**
      * TODOC
      *
-     * @type member
      * @param vItem {var} TODOC
      * @param vIsLead {var} TODOC
      * @return {void}
@@ -547,7 +524,6 @@ qx.Class.define("qx.legacy.ui.selection.SelectionManager",
     /**
      * TODOC
      *
-     * @type member
      * @param vItem {var} TODOC
      * @return {var} TODOC
      */
@@ -562,7 +538,6 @@ qx.Class.define("qx.legacy.ui.selection.SelectionManager",
      * #param vItem[qx.legacy.ui.core.Widget]: Item which should be selected / not selected
      * #param vSelected[Boolean]: Should this item be selected?
      *
-     * @type member
      * @param vItem {var} TODOC
      * @param vSelected {var} TODOC
      * @return {void}
@@ -649,7 +624,6 @@ qx.Class.define("qx.legacy.ui.selection.SelectionManager",
     /**
      * Get the selected items (objects)
      *
-     * @type member
      * @return {var} TODOC
      */
     getSelectedItems : function() {
@@ -660,7 +634,6 @@ qx.Class.define("qx.legacy.ui.selection.SelectionManager",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     getSelectedItem : function() {
@@ -673,7 +646,6 @@ qx.Class.define("qx.legacy.ui.selection.SelectionManager",
      *
      * #param vItems[Array of Widgets]: Items to select
      *
-     * @type member
      * @param vItems {var} TODOC
      * @return {void}
      */
@@ -720,7 +692,6 @@ qx.Class.define("qx.legacy.ui.selection.SelectionManager",
     /**
      * TODOC
      *
-     * @type member
      * @param vItem {var} TODOC
      * @return {void}
      */
@@ -762,7 +733,6 @@ qx.Class.define("qx.legacy.ui.selection.SelectionManager",
     /**
      * Select all items.
      *
-     * @type member
      * @return {void}
      */
     selectAll : function()
@@ -790,7 +760,6 @@ qx.Class.define("qx.legacy.ui.selection.SelectionManager",
      * Sub method for selectAll. Handles the real work
      *  to select all items.
      *
-     * @type member
      * @return {void | Boolean} TODOC
      */
     _selectAll : function()
@@ -828,7 +797,6 @@ qx.Class.define("qx.legacy.ui.selection.SelectionManager",
     /**
      * Deselect all items.
      *
-     * @type member
      * @return {void}
      */
     deselectAll : function()
@@ -854,7 +822,6 @@ qx.Class.define("qx.legacy.ui.selection.SelectionManager",
      * Sub method for deselectAll. Handles the real work
      *  to deselect all items.
      *
-     * @type member
      */
     _deselectAll : function()
     {
@@ -878,7 +845,6 @@ qx.Class.define("qx.legacy.ui.selection.SelectionManager",
      * #param vItem1[qx.legacy.ui.core.Widget]: Start item
      * #param vItem2[qx.legacy.ui.core.Widget]: Stop item
      *
-     * @type member
      * @param vItem1 {var} TODOC
      * @param vItem2 {var} TODOC
      * @return {void}
@@ -912,7 +878,6 @@ qx.Class.define("qx.legacy.ui.selection.SelectionManager",
      * #param vItem2[qx.legacy.ui.core.Widget]: Stop item
      * #param vDelect[Boolean]: Deselect currently selected items first?
      *
-     * @type member
      * @param vItem1 {var} TODOC
      * @param vItem2 {var} TODOC
      * @param vDeselect {var} TODOC
@@ -964,7 +929,6 @@ qx.Class.define("qx.legacy.ui.selection.SelectionManager",
      * #param vItem1[qx.legacy.ui.core.Widget]: Start item
      * #param vItem2[qx.legacy.ui.core.Widget]: Stop item
      *
-     * @type member
      * @param vItem1 {var} TODOC
      * @param vItem2 {var} TODOC
      * @return {var} TODOC
@@ -1011,7 +975,6 @@ qx.Class.define("qx.legacy.ui.selection.SelectionManager",
     /**
      * TODOC
      *
-     * @type member
      * @param vItem {var} TODOC
      * @param e {Event} TODOC
      * @return {void}
@@ -1065,7 +1028,6 @@ qx.Class.define("qx.legacy.ui.selection.SelectionManager",
     /**
      * TODOC
      *
-     * @type member
      * @param e {Event} TODOC
      * @return {void}
      */
@@ -1080,7 +1042,6 @@ qx.Class.define("qx.legacy.ui.selection.SelectionManager",
     /**
      * TODOC
      *
-     * @type member
      * @param vItem {var} TODOC
      * @param e {Event} TODOC
      * @return {void}
@@ -1106,7 +1067,6 @@ qx.Class.define("qx.legacy.ui.selection.SelectionManager",
     /**
      * TODOC
      *
-     * @type member
      * @param oItem {Object} TODOC
      * @param e {Event} TODOC
      * @return {void}
@@ -1124,7 +1084,6 @@ qx.Class.define("qx.legacy.ui.selection.SelectionManager",
     /**
      * TODOC
      *
-     * @type member
      * @param vItem {var} TODOC
      * @param e {Event} TODOC
      * @return {void}
@@ -1135,7 +1094,6 @@ qx.Class.define("qx.legacy.ui.selection.SelectionManager",
     /**
      * TODOC
      *
-     * @type member
      * @param vItem {var} TODOC
      * @param e {Event} TODOC
      * @return {void}
@@ -1146,7 +1104,6 @@ qx.Class.define("qx.legacy.ui.selection.SelectionManager",
     /**
      * Internal handler for all mouse events bound to this manager.
      *
-     * @type member
      * @param oItem {Object} TODOC
      * @param e {Event} TODOC
      * @param bOver {Boolean} TODOC
@@ -1329,7 +1286,6 @@ qx.Class.define("qx.legacy.ui.selection.SelectionManager",
     /**
      * Handles key event to perform selection and navigation
      *
-     * @type member
      * @param vDomEvent {qx.legacy.event.type.KeyEvent} event object
      * @return {void}
      */
@@ -1448,7 +1404,6 @@ qx.Class.define("qx.legacy.ui.selection.SelectionManager",
     /**
      * TODOC
      *
-     * @type member
      * @param vKeyboardEvent {var} TODOC
      * @return {null | var} TODOC
      */
@@ -1507,7 +1462,6 @@ qx.Class.define("qx.legacy.ui.selection.SelectionManager",
     /**
      * TODOC
      *
-     * @type member
      * @return {void}
      */
     _dispatchChange : function()
@@ -1523,7 +1477,6 @@ qx.Class.define("qx.legacy.ui.selection.SelectionManager",
     /**
      * TODOC
      *
-     * @type member
      * @param sOldValue {String} TODOC
      * @return {var} TODOC
      */
@@ -1535,7 +1488,6 @@ qx.Class.define("qx.legacy.ui.selection.SelectionManager",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     _getChangeValue : function() {
@@ -1554,7 +1506,6 @@ qx.Class.define("qx.legacy.ui.selection.SelectionManager",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     getHome : function() {
@@ -1565,7 +1516,6 @@ qx.Class.define("qx.legacy.ui.selection.SelectionManager",
     /**
      * TODOC
      *
-     * @type member
      * @return {var} TODOC
      */
     getEnd : function() {
@@ -1576,7 +1526,6 @@ qx.Class.define("qx.legacy.ui.selection.SelectionManager",
     /**
      * TODOC
      *
-     * @type member
      * @param vItem {var} TODOC
      * @return {var} TODOC
      */
@@ -1593,7 +1542,6 @@ qx.Class.define("qx.legacy.ui.selection.SelectionManager",
     /**
      * TODOC
      *
-     * @type member
      * @param vItem {var} TODOC
      * @return {var} TODOC
      */
@@ -1610,7 +1558,6 @@ qx.Class.define("qx.legacy.ui.selection.SelectionManager",
     /**
      * TODOC
      *
-     * @type member
      * @param vItem {var} TODOC
      * @return {null | var} TODOC
      */
@@ -1627,7 +1574,6 @@ qx.Class.define("qx.legacy.ui.selection.SelectionManager",
     /**
      * TODOC
      *
-     * @type member
      * @param vItem {var} TODOC
      * @return {null | var} TODOC
      */
@@ -1644,7 +1590,6 @@ qx.Class.define("qx.legacy.ui.selection.SelectionManager",
     /**
      * TODOC
      *
-     * @type member
      * @abstract
      * @param vItem {var} TODOC
      * @return {var}
@@ -1658,7 +1603,6 @@ qx.Class.define("qx.legacy.ui.selection.SelectionManager",
     /**
      * TODOC
      *
-     * @type member
      * @abstract
      * @param vItem {var} TODOC
      * @return {var}
@@ -1682,7 +1626,6 @@ qx.Class.define("qx.legacy.ui.selection.SelectionManager",
      *
      * #param vItem[qx.legacy.ui.core.Widget]: Relative to this widget
      *
-     * @type member
      * @param vItem {var} TODOC
      * @return {var} TODOC
      */
@@ -1744,7 +1687,6 @@ qx.Class.define("qx.legacy.ui.selection.SelectionManager",
      *
      * #param vItem[qx.legacy.ui.core.Widget]: Relative to this widget
      *
-     * @type member
      * @param vItem {var} TODOC
      * @return {var} TODOC
      */

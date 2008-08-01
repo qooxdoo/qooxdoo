@@ -64,7 +64,6 @@ qx.Bootstrap.define("qx.bom.client.Multimedia",
     /**
      * Detects if the given plugin is available.
      *
-     * @type static
      * @param id {String} Feature-ID. One of quicktime, wmv, divx or silverlight
      * @param version {Float?0} Optional version minimum check
      * @return {Boolean} Returns <code>true</code> when the given plugin is available.
@@ -79,7 +78,6 @@ qx.Bootstrap.define("qx.bom.client.Multimedia",
     /**
      * Internal initialize helper
      *
-     * @type static
      * @return {void}
      */
     __init : qx.core.Variant.select("qx.client",

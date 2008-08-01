@@ -41,7 +41,6 @@ qx.Class.define("qx.legacy.util.Type",
     /**
      * Returns the type of object that matches the element passed in.
      *
-     * @type static
      * @param obj {var} the object to inspect
      * @return {String} "element" obj is a DOM element node
      *    "textnode" obj is a DOM text node

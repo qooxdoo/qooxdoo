@@ -764,7 +764,6 @@ qx.Class.define("qx.ui.core.Widget",
     /**
      * Get the widget's layout manager.
      *
-     * @type member
      * @return {qx.ui.layout.Abstract} The widget's layout manager
      */
     _getLayout : function() {
@@ -1119,7 +1118,6 @@ qx.Class.define("qx.ui.core.Widget",
      * Developer note: This can be overwritten by the derived classes to allow
      * a custom handling here.
      *
-     * @type member
      * @return {Map}
      */
     _getContentHint : function()
@@ -1184,7 +1182,6 @@ qx.Class.define("qx.ui.core.Widget",
      * Returns the computed height for the given width.
      *
      * @abstract
-     * @type member
      * @param width {Integer} Incoming width (as limitation)
      * @return {Integer} Computed height while respecting the given width.
      */
@@ -1262,7 +1259,6 @@ qx.Class.define("qx.ui.core.Widget",
      * This function is guaranteed to return a correct value
      * during a {@link #changeSize} or {@link #changePosition} event dispatch.
      *
-     * @type member
      * @return {Map} The widget inner dimension in pixel (if the layout is
      *    valid). Contains the keys <code>width</code> and <code>height</code>.
      */
@@ -1295,7 +1291,6 @@ qx.Class.define("qx.ui.core.Widget",
     /**
      * Make this widget visible.
      *
-     * @type member
      * @return {void}
      */
     show : function() {
@@ -1306,7 +1301,6 @@ qx.Class.define("qx.ui.core.Widget",
     /**
      * Hide this widget.
      *
-     * @type member
      * @return {void}
      */
     hide : function() {
@@ -1317,7 +1311,6 @@ qx.Class.define("qx.ui.core.Widget",
     /**
      * Hide this widget and exclude it from the underlying layout.
      *
-     * @type member
      * @return {void}
      */
     exclude : function() {
@@ -1330,7 +1323,6 @@ qx.Class.define("qx.ui.core.Widget",
      *
      * Note: This method does not respect the hierarchy.
      *
-     * @type member
      * @return {Boolean} Returns <code>true</code> when the widget is visible
      */
     isVisible : function() {
@@ -1343,7 +1335,6 @@ qx.Class.define("qx.ui.core.Widget",
      *
      * Note: This method does not respect the hierarchy.
      *
-     * @type member
      * @return {Boolean} Returns <code>true</code> when the widget is hidden
      */
     isHidden : function() {
@@ -1356,7 +1347,6 @@ qx.Class.define("qx.ui.core.Widget",
      *
      * Note: This method does not respect the hierarchy.
      *
-     * @type member
      * @return {Boolean} Returns <code>true</code> when the widget is excluded
      */
     isExcluded : function() {
@@ -1540,7 +1530,6 @@ qx.Class.define("qx.ui.core.Widget",
      * excludes all widgets, which have a {@link qx.ui.core.Widget#visibility}
      * value of <code>exclude</code>.
      *
-     * @type member
      * @return {Boolean} Whether the layout has layout relevant children
      */
     hasLayoutChildren : function() {
@@ -1553,7 +1542,6 @@ qx.Class.define("qx.ui.core.Widget",
      * is relevant for layouting them. This is from the user point of
      * view and may not be identical to the technical structure.
      *
-     * @type member
      * @return {qx.ui.core.Widget} Widget which contains the children.
      */
     getChildrenContainer : function() {
@@ -1564,7 +1552,6 @@ qx.Class.define("qx.ui.core.Widget",
     /**
      * Returns the children list
      *
-     * @type member
      * @return {LayoutItem[]} The children array (Arrays are
      *   reference types, please to not modify them in-place)
      */
@@ -1577,7 +1564,6 @@ qx.Class.define("qx.ui.core.Widget",
      * Returns the index position of the given widget if it is
      * a child widget. Otherwise it returns <code>-1</code>.
      *
-     * @type member
      * @param child {Widget} the widget to query for
      * @return {Integer} The index position or <code>-1</code> when
      *   the given widget is no child of this layout.
@@ -1590,7 +1576,6 @@ qx.Class.define("qx.ui.core.Widget",
     /**
      * Whether the widget contains children.
      *
-     * @type member
      * @return {Boolean} Returns <code>true</code> when the widget has children.
      */
     _hasChildren : function() {
@@ -2143,7 +2128,6 @@ qx.Class.define("qx.ui.core.Widget",
     /**
      * Returns whether a state is set.
      *
-     * @type member
      * @param state {String} the state to check.
      * @return {Boolean} whether the state is set.
      */
@@ -2157,7 +2141,6 @@ qx.Class.define("qx.ui.core.Widget",
     /**
      * Sets a state.
      *
-     * @type member
      * @param state {String} The state to add
      * @return {void}
      */
@@ -2198,7 +2181,6 @@ qx.Class.define("qx.ui.core.Widget",
     /**
      * Clears a state.
      *
-     * @type member
      * @param state {String} the state to clear.
      * @return {void}
      */
@@ -2236,7 +2218,6 @@ qx.Class.define("qx.ui.core.Widget",
      *
      * This method is ideal for state transitions e.g. normal => selected.
      *
-     * @type member
      * @param old {String} Previous state
      * @param value {String} New state
      * @return {void}
@@ -2289,7 +2270,6 @@ qx.Class.define("qx.ui.core.Widget",
      *
      * Used exlusively by {qx.ui.core.queue.Appearance}.
      *
-     * @type member
      */
     syncAppearance : function()
     {
@@ -2446,7 +2426,6 @@ qx.Class.define("qx.ui.core.Widget",
      * Returns the next event target in the parent chain. May
      * also return the widget itself if it is not anonymous.
      *
-     * @type member
      * @return {qx.ui.core.Widget} A working event target of this widget.
      *    May be <code>null</code> as well.
      */
@@ -2470,7 +2449,6 @@ qx.Class.define("qx.ui.core.Widget",
      * Returns the next focus target in the parent chain. May
      * also return the widget itself if it is not anonymous and focusable.
      *
-     * @type member
      * @return {qx.ui.core.Widget} A working focus target of this widget.
      *    May be <code>null</code> as well.
      */
@@ -2497,7 +2475,6 @@ qx.Class.define("qx.ui.core.Widget",
     /**
      * Returns the element which should be focused.
      *
-     * @type member
      * @return {qx.html.Element} The html element to focus.
      */
     getFocusElement : function() {
@@ -2511,7 +2488,6 @@ qx.Class.define("qx.ui.core.Widget",
      * Normally tests for both, the focusable property and a positive or
      * undefined tabIndex property.
      *
-     * @type member
      * @return {Boolean} Whether the element is tabable.
      */
     isTabable : function() {
@@ -2757,7 +2733,6 @@ qx.Class.define("qx.ui.core.Widget",
      * remove states etc. from a previously focused widget.
      *
      * @internal
-     * @type member
      * @return {void}
      */
     visualizeBlur : function() {
@@ -2778,7 +2753,6 @@ qx.Class.define("qx.ui.core.Widget",
     /**
      * The method scrolls the given item into view.
      *
-     * @type member
      * @param child {qx.ui.core.Widget} Child to scroll into view
      * @param alignX {String?null} Alignment of the item. Allowed values:
      *   <code>left</code> or <code>right</code>. Could also be null.
@@ -2799,7 +2773,6 @@ qx.Class.define("qx.ui.core.Widget",
     /**
      * The method scrolls the given item into view (x-axis only).
      *
-     * @type member
      * @param child {qx.ui.core.Widget} Child to scroll into view
      * @param align {String?null} Alignment of the item. Allowed values:
      *   <code>left</code> or <code>right</code>. Could also be null.
@@ -2814,7 +2787,6 @@ qx.Class.define("qx.ui.core.Widget",
     /**
      * The method scrolls the given item into view (y-axis only).
      *
-     * @type member
      * @param child {qx.ui.core.Widget} Child to scroll into view
      * @param align {String?null} Alignment of the element. Allowed values:
      *   <code>top</code> or <code>bottom</code>. Could also be null.
@@ -2838,7 +2810,6 @@ qx.Class.define("qx.ui.core.Widget",
     /**
      * Whether the widget supports the given data for drag&drop
      *
-     * @type member
      *
      * @param dragCache {var}
      *   An object describing the event, containing at least these members:
@@ -2893,7 +2864,6 @@ qx.Class.define("qx.ui.core.Widget",
     /**
      * Focus this widget.
      *
-     * @type member
      * @return {void}
      */
     focus : function()
@@ -2909,7 +2879,6 @@ qx.Class.define("qx.ui.core.Widget",
     /**
      * Remove focus from this widget.
      *
-     * @type member
      * @return {void}
      */
     blur : function()
@@ -2925,7 +2894,6 @@ qx.Class.define("qx.ui.core.Widget",
     /**
      * Activate this widget e.g. for keyboard events.
      *
-     * @type member
      * @return {void}
      */
     activate : function() {
@@ -2936,7 +2904,6 @@ qx.Class.define("qx.ui.core.Widget",
     /**
      * Deactivate this widget e.g. for keyboard events.
      *
-     * @type member
      * @return {void}
      */
     deactivate : function() {
@@ -2949,7 +2916,6 @@ qx.Class.define("qx.ui.core.Widget",
      * mainly thought for the advanced qooxdoo keyboard handling
      * and should not be used by the application developer.
      *
-     * @type member
      * @internal
      * @return {void}
      */
@@ -2970,7 +2936,6 @@ qx.Class.define("qx.ui.core.Widget",
     /**
      * Whether the given ID is assigned to a child control.
      *
-     * @type member
      * @param id {String} ID of the child control
      * @return {Boolean} <code>true</code> when the child control is registered.
      */
@@ -2988,7 +2953,6 @@ qx.Class.define("qx.ui.core.Widget",
      * Returns the child control from the given ID. Returns
      * <code>null</code> when the child control is unknown.
      *
-     * @type member
      * @param id {String} ID of the child control
      * @param notcreate {Boolean?false} Whether the child control
      *    should not be created dynamically if not yet available.
@@ -3021,7 +2985,6 @@ qx.Class.define("qx.ui.core.Widget",
     /**
      * Shows the given child control by ID
      *
-     * @type member
      * @param id {String} ID of the child control
      * @return {qx.ui.core.Widget} the child control
      */
@@ -3036,7 +2999,6 @@ qx.Class.define("qx.ui.core.Widget",
     /**
      * Excludes the given child control by ID
      *
-     * @type member
      * @param id {String} ID of the child control
      * @return {void}
      */
@@ -3052,7 +3014,6 @@ qx.Class.define("qx.ui.core.Widget",
     /**
      * Whether the given child control is visible.
      *
-     * @type member
      * @param id {String} ID of the child control
      * @return {Boolean} <code>true</code> when the child control is visible.
      */
@@ -3073,7 +3034,6 @@ qx.Class.define("qx.ui.core.Widget",
      * Do not override this method! Override {@link #_createChildControlImpl}
      * instead if you need to support new controls.
      *
-     * @type member
      * @param id {String} ID of the child control
      * @return {qx.ui.core.Widget} The created control
      * @throws when the control was created before
@@ -3133,7 +3093,6 @@ qx.Class.define("qx.ui.core.Widget",
      * Dispose all registered controls. This is automatically
      * executed by the widget.
      *
-     * @type member
      * @return {void}
      */
     _disposeChildControls : function()
@@ -3170,7 +3129,6 @@ qx.Class.define("qx.ui.core.Widget",
      * * <code>scroll</code>: Calculate the scroll box (relevant for absolute positioned content).
      * * <code>padding</code>: Calculate the padding box (relevant for static/relative positioned content).
      *
-     * @type member
      * @param mode {String} A supported option. See comment above.
      * @return {Map} Returns a map with <code>left</code>, <code>top</code>,
      *   <code>right</code> and <code>bottom</code> which contains the distance
@@ -3194,7 +3152,6 @@ qx.Class.define("qx.ui.core.Widget",
      * * <code>scroll</code>: Calculate the scroll box (relevant for absolute positioned content).
      * * <code>padding</code>: Calculate the padding box (relevant for static/relative positioned content).
      *
-     * @type member
      * @param mode {String} A supported option. See comment above.
      * @return {Map} Returns a map with <code>left</code>, <code>top</code>,
      *   <code>right</code> and <code>bottom</code> which contains the distance

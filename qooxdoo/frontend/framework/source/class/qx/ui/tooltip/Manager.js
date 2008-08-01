@@ -204,7 +204,6 @@ qx.Class.define("qx.ui.tooltip.Manager",
      * is found this instance is bound to the target widget and the tooltip is
      * set as {@link #currentToolTip}
      *
-     * @type member
      * @param e {qx.event.type.Mouse} mouseOver event
      * @return {void}
      */
@@ -235,7 +234,6 @@ qx.Class.define("qx.ui.tooltip.Manager",
      * Resets the property {@link #currentToolTip} if there was a
      * tooltip and no new one is created.
      *
-     * @type member
      * @param e {qx.event.type.Mouse} mouseOut event
      * @return {void}
      */
@@ -280,7 +278,6 @@ qx.Class.define("qx.ui.tooltip.Manager",
      * If a widget with a tooltip get focused, bind the tooltip
      * to the target widget and set the {@link #currentToolTip} property.
      *
-     * @type member
      * @param e {qx.event.type.Focus} focus event
      * @return {void}
      */
@@ -300,7 +297,6 @@ qx.Class.define("qx.ui.tooltip.Manager",
      * Reset the property {@link #currentToolTip} if the
      * current tooltip is the tooltip of the target widget.
      *
-     * @type member
      * @param e {qx.event.type.Focus} blur event
      * @return {void}
      */

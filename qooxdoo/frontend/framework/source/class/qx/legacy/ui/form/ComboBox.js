@@ -258,7 +258,6 @@ qx.Class.define("qx.legacy.ui.form.ComboBox",
     /**
      * Accessor method for the selection manager
      *
-     * @type member
      * @return {qx.legacy.ui.selection.SelectionManager} Reference to the selection manager
      */
     getManager : function() {
@@ -269,7 +268,6 @@ qx.Class.define("qx.legacy.ui.form.ComboBox",
     /**
      * Accessor method for the popup widget
      *
-     * @type member
      * @return {qx.legacy.ui.popup.Popup} Reference to the popup widget
      */
     getPopup : function() {
@@ -280,7 +278,6 @@ qx.Class.define("qx.legacy.ui.form.ComboBox",
     /**
      * Accessor method for the list widget
      *
-     * @type member
      * @return {qx.legacy.ui.form.List} Reference to the list widget
      */
     getList : function() {
@@ -291,7 +288,6 @@ qx.Class.define("qx.legacy.ui.form.ComboBox",
     /**
      * Accessor method for the text field widget
      *
-     * @type member
      * @return {qx.legacy.ui.form.TextField} Reference to the text field widget
      */
     getField : function() {
@@ -302,7 +298,6 @@ qx.Class.define("qx.legacy.ui.form.ComboBox",
     /**
      * Accessor method for the button widget
      *
-     * @type member
      * @return {qx.legacy.ui.basic.Atom} Reference to the button widget
      */
     getButton : function() {
@@ -321,7 +316,6 @@ qx.Class.define("qx.legacy.ui.form.ComboBox",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -354,7 +348,6 @@ qx.Class.define("qx.legacy.ui.form.ComboBox",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -396,7 +389,6 @@ qx.Class.define("qx.legacy.ui.form.ComboBox",
     /**
      * TODOC
      *
-     * @type member
      * @param value {var} Current value
      * @param old {var} Previous value
      */
@@ -426,7 +418,6 @@ qx.Class.define("qx.legacy.ui.form.ComboBox",
      * if the popup is opened the first time.
      * Enables the event capturing.
      *
-     * @type member
      * @return {void}
      */
     _openPopup : function()
@@ -457,7 +448,6 @@ qx.Class.define("qx.legacy.ui.form.ComboBox",
     /**
      * Hides the popup and disables the event capturing.
      *
-     * @type member
      * @return {void}
      */
     _closePopup : function()
@@ -471,7 +461,6 @@ qx.Class.define("qx.legacy.ui.form.ComboBox",
      * Closes the popup widget if it is seeable. Used e.g. as listener
      * method for the "windowblur" event.
      *
-     * @type member
      * @return {void}
      */
     _testClosePopup : function()
@@ -485,7 +474,6 @@ qx.Class.define("qx.legacy.ui.form.ComboBox",
     /**
      * Toggle opening/closing of the popup widget.
      *
-     * @type member
      * @return {void}
      */
     _togglePopup : function() {
@@ -504,7 +492,6 @@ qx.Class.define("qx.legacy.ui.form.ComboBox",
     /**
      * Listener method for the "appear" event of the popup widget
      *
-     * @type member
      * @param e {qx.event.type.Event} Appear event
      * @return {void}
      */
@@ -521,7 +508,6 @@ qx.Class.define("qx.legacy.ui.form.ComboBox",
     /**
      * Listener method for the "input" event of the text field widget
      *
-     * @type member
      * @param e {qx.event.type.Data} Input event
      * @return {void}
      */
@@ -545,7 +531,6 @@ qx.Class.define("qx.legacy.ui.form.ComboBox",
      * Listener method for the "disappear" event of the combo box. Only tests
      * if the popup widget is closed.
      *
-     * @type member
      * @param e {qx.event.type.Event} Disappear event
      * @return {void}
      */
@@ -556,7 +541,6 @@ qx.Class.define("qx.legacy.ui.form.ComboBox",
     /**
      * Listener method for the "changeLocale" event of the locale manager
      *
-     * @type member
      * @param e {qx.event.type.Data} ChangeLocale event
      * @return {void}
      */
@@ -577,7 +561,6 @@ qx.Class.define("qx.legacy.ui.form.ComboBox",
     /**
      * Listener method of the "mousedown" event of the combo box.<br/>
      *
-     * @type member
      * @param e {qx.legacy.event.type.MouseEvent} MouseDown event
      * @return {void}
      */
@@ -618,7 +601,6 @@ qx.Class.define("qx.legacy.ui.form.ComboBox",
      * clicked on the list. Hides the popup and release the event capturing if
      * the user is clicking outside the combo box.
      *
-     * @type member
      * @param e {qx.event.type.MouseEvent} MouseDown event
      * @return {void}
      */
@@ -660,7 +642,6 @@ qx.Class.define("qx.legacy.ui.form.ComboBox",
     /**
      * Listener method for the mouseUp event of the combo box.
      *
-     * @type member
      * @param e {qx.legacy.event.type.MouseEvent} MouseUp event
      * @return {void}
      */
@@ -678,7 +659,6 @@ qx.Class.define("qx.legacy.ui.form.ComboBox",
      * Listener method for the "mouseOver" event of the combo box.<br/>
      * Delegates the control the selection manager if target is a listitem widget.
      *
-     * @type member
      * @param e {qx.legacy.event.type.MouseEvent} MouseOver event
      * @return {void}
      */
@@ -704,7 +684,6 @@ qx.Class.define("qx.legacy.ui.form.ComboBox",
      * Listener method for the "mouseWheel" event of the combo box.<br/>
      * Only works if the popup is not seeable.
      *
-     * @type member
      * @param e {qx.legacy.event.type.MouseEvent} MouseWheel event
      * @return {void}
      */
@@ -756,7 +735,6 @@ qx.Class.define("qx.legacy.ui.form.ComboBox",
      * Listener method for "keyDown" event of the combo box.<br/>
      * Handles hitting "Enter", "Escape" and "Alt+Down".
      *
-     * @type member
      * @param e {qx.legacy.event.type.KeyEvent} KeyDown event
      * @return {void}
      */
@@ -819,7 +797,6 @@ qx.Class.define("qx.legacy.ui.form.ComboBox",
      * Handles especially hitting "PageUp" and "PageDown". If the user
      * hits other keys a match is searched and (if found) selected.
      *
-     * @type member
      * @param e {qx.legacy.event.type.KeyEvent} KeyPress event
      * @return {void}
      */
@@ -905,7 +882,6 @@ qx.Class.define("qx.legacy.ui.form.ComboBox",
     /**
      * Listener method for the "keyInput" event of combo box.
      *
-     * @type member
      * @param e {qx.legacy.event.type.KeyEvent} KeyInput event
      * @return {void}
      */
@@ -938,7 +914,6 @@ qx.Class.define("qx.legacy.ui.form.ComboBox",
     /**
      * Invokes the blur method directly at the DOM elements and removes the "focused" state.
      *
-     * @type member
      * @return {void}
      */
     _visualizeBlur : function()
@@ -951,7 +926,6 @@ qx.Class.define("qx.legacy.ui.form.ComboBox",
     /**
      * Invokes the focus method directly at the DOM elements and adds the "focused" state.
      *
-     * @type member
      * @return {void}
      */
     _visualizeFocus : function()

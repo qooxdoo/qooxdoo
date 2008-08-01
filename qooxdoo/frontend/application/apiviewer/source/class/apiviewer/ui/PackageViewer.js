@@ -65,7 +65,6 @@ qx.Class.define("apiviewer.ui.PackageViewer",
     /**
      * Returns the HTML fragment for the title
      *
-     * @type member
      * @param classNode {apiviewer.dao.Package} the package documentation node for the title
      * @return {String} HTML fragment of the title
      */

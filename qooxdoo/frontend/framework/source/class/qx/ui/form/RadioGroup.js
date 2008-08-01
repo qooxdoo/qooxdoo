@@ -216,7 +216,6 @@ qx.Class.define("qx.ui.form.RadioGroup",
     /**
      * Add the passed items to the radio group.
      *
-     * @type member
      * @param varargs {IRadioItem} A variable number of items to add
      * @return {void}
      */

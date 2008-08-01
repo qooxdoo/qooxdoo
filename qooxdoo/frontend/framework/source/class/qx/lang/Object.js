@@ -28,7 +28,6 @@ qx.Bootstrap.define("qx.lang.Object",
     /**
      * Check if the hash has any keys
      *
-     * @type static
      * @param map {Object} the map to check
      * @return {Boolean} whether the map has any keys
      */
@@ -45,7 +44,6 @@ qx.Bootstrap.define("qx.lang.Object",
     /**
      * Check whether the number of objects in the maps is at least "length"
      *
-     * @type static
      * @param map {Object} the map to check
      * @param length {Integer} minimum number of objects in the map
      * @return {Boolean} whether the map contains at least "length" objects.
@@ -68,7 +66,6 @@ qx.Bootstrap.define("qx.lang.Object",
     /**
      * Get the number of objects in the map
      *
-     * @type static
      * @param map {Object} the map
      * @return {Integer} number of objects in the map
      */
@@ -99,7 +96,6 @@ qx.Bootstrap.define("qx.lang.Object",
      *
      * TODO: Rename to keys() like in prototype and python
      *
-     * @type static
      * @param map {Object} the map
      * @return {Array} array of the keys of the map
      */
@@ -141,7 +137,6 @@ qx.Bootstrap.define("qx.lang.Object",
     /**
      * Get the keys of a map as string
      *
-     * @type static
      * @param map {Object} the map
      * @return {String} String of the keys of the map
      *         The keys are separated by ", "
@@ -162,7 +157,6 @@ qx.Bootstrap.define("qx.lang.Object",
      *
      * TODO: Rename to values() like in prototype and python
      *
-     * @type static
      * @param map {Object} the map
      * @return {Array} array of the values of the map
      */
@@ -184,7 +178,6 @@ qx.Bootstrap.define("qx.lang.Object",
      *
      * TODO: Rename to update() like in python
      *
-     * @type static
      * @param target {Object} target object
      * @param source {Object} object to be merged
      * @param overwrite {Boolean ? true} If enabled existing keys will be overwritten
@@ -211,7 +204,6 @@ qx.Bootstrap.define("qx.lang.Object",
      * Inserts all keys of the source object into the
      * target objects but don't override existing keys
      *
-     * @type static
      * @param target {Object} target object
      * @param source {Object} object to be merged
      * @return {Object} target with merged values from source
@@ -224,7 +216,6 @@ qx.Bootstrap.define("qx.lang.Object",
     /**
      * Merge a number of objects.
      *
-     * @type static
      * @param target {Object} target object
      * @param varargs {Object} variable number of objects to merged with target
      * @return {Object} target with merged values from the other objects
@@ -246,7 +237,6 @@ qx.Bootstrap.define("qx.lang.Object",
      *
      * TODO: Rename to clone() like in prototype and python
      *
-     * @type static
      * @param source {Object} Object to copy
      * @return {Object} copy of vObject
      */
@@ -267,7 +257,6 @@ qx.Bootstrap.define("qx.lang.Object",
      * If the map has the same values for different keys, information will get lost.
      * The values will be converted to Strings using the toString methos.
      *
-     * @type static
      * @param map {Object} Map to invert
      * @return {Object} inverted Map
      */
