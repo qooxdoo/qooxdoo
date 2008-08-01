@@ -1023,9 +1023,10 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          padding : 5,
           backgroundColor : "#ffffdd",
-          decorator : "tooltip"
+          decorator : "tooltip",
+          padding : [ 1, 3, 2, 3 ],
+          offset : [ 1, 1, 20, 1 ]
         };
       }
     },
