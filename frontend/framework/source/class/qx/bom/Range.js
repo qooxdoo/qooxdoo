@@ -52,9 +52,21 @@ qx.Class.define("qx.bom.Range",
           switch(node.nodeName.toLowerCase())
           {
             case "input":
-              if (node.type == "text")
+              
+              switch(node.type)
               {
-                return node.createTextRange();
+                case "text":
+                case "password":
+                case "hidden":
+                case "button":
+                case "reset":
+                case "file":
+                case "submit":
+                  return node.createTextRange();
+                  break;  
+                
+                default:
+                  return qx.bom.Selection.getSelectionObject(qx.dom.Node.getDocument(node)).createRange();
               }
             break;
             
