@@ -1554,8 +1554,9 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          padding   : [ 2, 4 ],
-          decorator : states.hovered ? "table-header-cell" : "table-header-cell",
+          padding   : [ 3, 4 ],
+          marginBottom : states.hovered ? 0 : 1,
+          decorator : states.hovered ? "table-header-cell-hovered" : "table-header-cell",
           sortIcon  : states.sorted ?
               (states.sortedAscending ? "decoration/table/ascending.png" : "decoration/table/descending.png")
               : "undefined"
