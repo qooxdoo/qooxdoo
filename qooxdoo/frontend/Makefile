@@ -181,7 +181,7 @@ exec-quickstart-archive:
 ################################################################################
 
 SKELETON_TEMP = temp-skeleton
-SKELETON_FILES = Makefile Makefile.gen1 config.json Manifest.json source/class source/resource source/translation source/index.html
+SKELETON_FILES = generate.py config.json Manifest.json source/class source/resource source/translation source/index.html
 
 info-skeleton:
 	@echo
