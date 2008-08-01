@@ -322,7 +322,8 @@ qx.Class.define("qx.ui.table.pane.Scroller",
 
         case "scrollbar-x":
           control = new qx.ui.core.ScrollBar("horizontal").set({
-            minWidth: 0
+            minWidth: 0,
+            alignY: "bottom"
           });
           control.addListener("scroll", this._onScrollX, this);
           this._add(control, {row: 2, column: 0});
@@ -330,7 +331,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
 
         case "scrollbar-y":
           control = new qx.ui.core.ScrollBar("vertical").set({
-            minWidth: 0
+            alignX: "right"
           });
           control.addListener("scroll", this._onScrollY, this);
           this._add(control, {row: 1, column: 1});
