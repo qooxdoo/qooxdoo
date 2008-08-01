@@ -93,7 +93,7 @@
         "target" : "${BUILD_PATH}",
         "file" : "${BUILD_PATH}/script/${APIVIEWER}.js",
         "format" : "on",
-        "optimize" : ["strings", "basecalls", "variables", "privates"],
+        "optimize" : ["strings", "basecalls", "variables"],
         "uri"  : "script/${APIVIEWER}.js",
         "root" : "${BUILD_PATH}"
       }
