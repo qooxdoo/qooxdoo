@@ -3307,40 +3307,56 @@ qx.Class.define("qx.ui.core.Widget",
 
 
 
+
     /*
     ---------------------------------------------------------------------------
-      CLONE SUPPORT
+      CLONE/SERIALIZE SUPPORT
     ---------------------------------------------------------------------------
     */
 
-    /**
-     * Returns a clone of this widget. Copies over all user values.
-     *
-     * @return {qx.ui.core.Widget}
-     */
+    // overridden
     clone : function()
     {
-      var clazz = this.constructor
-      var clone = new clazz;
-      var props = qx.Class.getProperties(clazz);
-      var user = qx.core.Property.$$store.user;
-      var jobs = {};
-      var name;
+      var clone = this.base(arguments);
 
-      // Iterate through properties
-      for (var i=0, l=props.length; i<l; i++)
+      if (this.getChildren)
       {
-        name = props[i];
-        if (this.hasOwnProperty(user[name])) {
-          jobs[name] = this[user[name]];
+        var children = this.getChildren();
+        for (var i=0, l=children.length; i<l; i++) {
+          clone.add(children[i].clone());
         }
       }
 
-      // Apply properties
-      clone.set(jobs);
-
-      // Return clone
       return clone;
+    },
+
+
+    // overridden
+    serialize : function()
+    {
+      var result = this.base(arguments);
+
+      if (this.getChildren)
+      {
+        var children = this.getChildren();
+        if (children.length > 0)
+        {
+          result.children = [];
+          for (var i=0, l=children.length; i<l; i++) {
+            result.children.push(children[i].serialize());
+          }
+        }
+      }
+
+      if (this.getLayout)
+      {
+        var layout = this.getLayout();
+        if (layout) {
+          result.layout = layout.serialize();
+        }
+      }
+
+      return result;
     }
   },
 
