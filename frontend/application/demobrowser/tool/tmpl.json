@@ -39,12 +39,6 @@
         "compile" : "../../cache"
       },
 
-      "variants" :
-      {
-        "qx.debug" : ["off"],
-        "qx.theme" : ["qx.theme.Modern", "qx.theme.Classic"]
-      },
-
       "settings" :
       {
         "qx.application" : "YYY",
@@ -62,6 +56,11 @@
     {
       "extend" : ["common-XXX"],
 
+      "variants" :
+      {
+        "qx.theme" : ["qx.theme.Modern", "qx.theme.Classic"]
+      },
+
       "compile-source" :
       {
         "file" : "source/script/YYY-theme_{qx.theme}.js",
@@ -72,6 +71,12 @@
     "build-XXX" :
     {
       "extend" : ["common-XXX"],
+
+      "variants" :
+      {
+        "qx.debug" : ["off"],
+        "qx.theme" : ["qx.theme.Modern", "qx.theme.Classic"]
+      },
 
       "compile-dist" :
       {
