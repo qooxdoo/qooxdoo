@@ -20,12 +20,10 @@
 
 /* ************************************************************************
 
-#asset(qx/decoration/Classic/*)
-
-#asset(qx/icon/Tango/16/actions/go-previous.png)
-#asset(qx/icon/Tango/16/actions/go-up.png)
-#asset(qx/icon/Tango/16/actions/go-next.png)
-#asset(qx/icon/Tango/16/actions/go-down.png)
+#asset(qx/icon/${qx.icontheme}/16/actions/go-previous.png)
+#asset(qx/icon/${qx.icontheme}/16/actions/go-up.png)
+#asset(qx/icon/${qx.icontheme}/16/actions/go-next.png)
+#asset(qx/icon/${qx.icontheme}/16/actions/go-down.png)
 
 ************************************************************************ */
 
