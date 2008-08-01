@@ -342,8 +342,8 @@ qx.Class.define("qx.ui.core.LayoutItem",
     getBounds : function() {
       return this.__userBounds || this.__computedLayout || null;
     },
-    
-    
+
+
     /**
      * Used by the layouters to apply coordinates and dimensions.
      *
@@ -721,6 +721,10 @@ qx.Class.define("qx.ui.core.LayoutItem",
      */
     setLayoutProperties : function(props)
     {
+      if (props == null) {
+        return;
+      }
+
       var storage = this.__layoutProperties;
       if (!storage) {
         storage = this.__layoutProperties = {};
@@ -880,6 +884,43 @@ qx.Class.define("qx.ui.core.LayoutItem",
       }
 
       return null;
+    },
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      CLONE/SERIALIZE SUPPORT
+    ---------------------------------------------------------------------------
+    */
+
+    // overridden
+    clone : function()
+    {
+      var clone = this.base(arguments);
+
+      var props = this.__layoutProperties;
+      if (props) {
+        clone.__layoutProperties = qx.lang.Object.copy(props);
+      }
+
+      return clone;
+    },
+
+
+    // overridden
+    serialize : function()
+    {
+      var result = this.base(arguments);
+
+      var props = this.__layoutProperties;
+      if (props) {
+        result.layoutProperties = qx.lang.Object.copy(props);
+      }
+
+      return result;
     }
   }
 });

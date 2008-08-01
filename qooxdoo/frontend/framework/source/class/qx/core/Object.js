@@ -146,6 +146,80 @@ qx.Class.define("qx.core.Object",
 
 
 
+
+    /*
+    ---------------------------------------------------------------------------
+      CLONE SUPPORT
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Returns a clone of this object. Copies over all user configured
+     * property values. Do not configure a parent nor apply the appearance
+     * styles directly.
+     *
+     * @return {qx.core.Object} The clone
+     */
+    clone : function()
+    {
+      var clazz = this.constructor
+      var clone = new clazz;
+      var props = qx.Class.getProperties(clazz);
+      var user = qx.core.Property.$$store.user;
+      var setter = qx.core.Property.$$method.set;
+      var name;
+
+      // Iterate through properties
+      for (var i=0, l=props.length; i<l; i++)
+      {
+        name = props[i];
+        if (this.hasOwnProperty(user[name])) {
+          clone[setter[name]](this[user[name]]);
+        }
+      }
+
+      // Return clone
+      return clone;
+    },
+
+
+
+    serialize : function()
+    {
+      var clazz = this.constructor
+      var props = qx.Class.getProperties(clazz);
+      var user = qx.core.Property.$$store.user;
+      var setter = qx.core.Property.$$method.set;
+      var name;
+
+      var result =
+      {
+        classname : clazz.classname,
+        properties : {}
+      };
+
+      // Iterate through properties
+      for (var i=0, l=props.length; i<l; i++)
+      {
+        name = props[i];
+        if (this.hasOwnProperty(user[name]))
+        {
+          value = this[user[name]];
+          if (value instanceof qx.core.Object) {
+            result.properties[name] = { $$hash : value.$$hash };
+          } else {
+            result.properties[name] = value;
+          }
+        }
+      }
+
+      // Return clone
+      return result;
+    },
+
+
+
+
     /*
     ---------------------------------------------------------------------------
       COMMON SETTER/GETTER/RESETTER SUPPORT
