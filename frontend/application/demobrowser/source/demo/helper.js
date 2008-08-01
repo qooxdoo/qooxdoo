@@ -35,22 +35,10 @@
     {
       parameters = ['','',''];
     }
-    else 
+    else
     {
       parameters = fileAndParms[1].split("&");  // the url parameters "?...&..&.."
     }
-
-    /*
-    // add aspect part of filename
-    tmp = parameters[0].split(":");  // read this from "qxvariant:qx.aspects:..."
-
-    filevar += "-aspects_";
-    if(tmp[1] == "qx.aspects"){
-      filevar += tmp[2];
-    }else{
-      filevar += defaultParameters.aspects;
-    }
-    */
 
     // add theme part of filename
     tmp = parameters[2].split("_");   // read this from "theme_qx.theme..."

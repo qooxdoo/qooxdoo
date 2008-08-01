@@ -31,7 +31,7 @@
       "themes" :
       {
         "qx.icontheme" : ["Oxygen", "Tango"],
-        "qx.theme"     : ["Classic","Modern"]
+        "qx.theme"     : ["Classic", "Modern"]
       },
 
       "cache" :
@@ -42,24 +42,25 @@
       "variants" :
       {
         "qx.debug" : ["off"],
-	      //"qx.aspects" : ["on", "off"],
         "qx.theme" : ["qx.theme.Modern", "qx.theme.Classic"]
+      },
+
+      "settings" :
+      {
+        "qx.application" : "YYY",
+        "qx.allowUrlVariants": true,
+        "qx.allowUrlSettings" : true
       },
 
       "localize" :
       {
-        "locales" : ["en", "en_US", "de", "de_DE"]
+        "locales" : ["en", "en_US", "de", "de_DE", "fr", "fr_FR"]
       }
     },
 
     "source-XXX" :
     {
       "extend" : ["common-XXX"],
-
-      "settings" :
-      {
-        "qx.application" : "YYY"
-      },
 
       "compile-source" :
       {
@@ -72,18 +73,12 @@
     {
       "extend" : ["common-XXX"],
 
-      "settings" :
-      {
-        "qx.application" : "YYY"
-      },
-
       "compile-dist" :
       {
-        "file" : "build/script/YYY-aspects_{qx.aspects}-theme_{qx.theme}.js",
-        "uri"  : "../../script/YYY-aspects_{qx.aspects}-theme_{qx.theme}.js",
+        "file" : "build/script/YYY-theme_{qx.theme}.js",
+        "uri"  : "../../script/YYY-theme_{qx.theme}.js",
         "resourceUri" : "../..",
         "root" : "build/demo/yyy",
-        "optimize" : [ "variables", "basecalls", "privates", "strings" ],
-        "format" : "on"
+        "optimize" : [ "variables", "basecalls", "privates", "strings" ]
       }
     }

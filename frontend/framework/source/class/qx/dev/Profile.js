@@ -301,13 +301,16 @@ qx.Bootstrap.define("qx.dev.Profile",
 
   defer : function(statics)
   {
-    // Inform user
-    qx.log.Logger.debug("Enable global profiling...");
+    if (qx.core.Variant.isSet("qx.aspects", "on"))
+    {
+      // Inform user
+      qx.log.Logger.debug("Enable global profiling...");
 
-    // Add advices for profiling
-    qx.core.Aspect.addAdvice(statics.profileBefore, "before");
-    qx.core.Aspect.addAdvice(statics.profileAfter, "after");
+      // Add advices for profiling
+      qx.core.Aspect.addAdvice(statics.profileBefore, "before");
+      qx.core.Aspect.addAdvice(statics.profileAfter, "after");
 
-    statics.__calibrateHelper = qx.core.Aspect.wrap("qx.dev.Profile.__calibrateHelper", statics.__calibrateHelper, "static");
+      statics.__calibrateHelper = qx.core.Aspect.wrap("qx.dev.Profile.__calibrateHelper", statics.__calibrateHelper, "static");
+    }
   }
 });
