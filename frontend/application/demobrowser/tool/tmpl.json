@@ -48,8 +48,8 @@
       "settings" :
       {
         "qx.application" : "YYY",
-        "qx.allowUrlVariants": true,
-        "qx.allowUrlSettings" : true
+        "qx.allowUrlVariants": "true",
+        "qx.allowUrlSettings" : "true"
       },
 
       "localize" :
