@@ -252,6 +252,9 @@ qx.Class.define("qx.ui.form.AbstractSlider",
         // Compute end value
         this.__computeTrackingEnd(e);
 
+        // Directly call interval method once
+        this._onInterval();
+
         // Initialize timer (when needed)
         if (!this.__timer)
         {
