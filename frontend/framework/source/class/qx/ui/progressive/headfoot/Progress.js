@@ -150,7 +150,7 @@ qx.Class.define("qx.ui.progressive.headfoot.Progress",
         (! this._progressive.getContainerElement().getDomElement()
          ? 0
          : this._progressive.getInnerWidth()) -
-        qx.ui.core.Widget.SCROLLBAR_SIZE;
+        qx.bom.element.Overflow.getScrollbarSize();
 
       // Compute the column widths
       this._layout.renderLayout(width, 100);
