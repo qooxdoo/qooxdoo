@@ -846,7 +846,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
    
    "table-header-cell-hovered" :
    {
-     decorator :  qx.ui.decoration.Single,
+     decorator :  qx.ui.decoration.Double,
      
      style :
      {
@@ -854,9 +854,12 @@ qx.Theme.define("qx.theme.modern.Decoration",
        backgroundRepeat : "scale",
        
        widthRight : 1,
-       colorRight : "border-dark-shadow",
+       colorRight : "#F2F2F2",
        
-       widthBottom : 2,
+       innerWidthRight : 1,
+       innerColorRight : "#A6A6A6",
+       
+       widthBottom : 1,
        colorBottom : "effect",
        
        style      : "solid"
@@ -888,6 +891,28 @@ qx.Theme.define("qx.theme.modern.Decoration",
        color : "table-focus-indicator",
        style : "solid"
      }
-   }
+   },
+   
+   
+   
+   /*
+    ---------------------------------------------------------------------------
+      MENU
+    ---------------------------------------------------------------------------
+   */
+   
+   "menu-separator" :
+    {
+      decorator :  qx.ui.decoration.Single,
+
+      style :
+      {
+        width: 1,
+        widthLeft: 0,
+        widthRight : 0,
+        colorTop : "border-dark",
+        colorBottom : "border-light"
+      }
+    }
   }
 });
