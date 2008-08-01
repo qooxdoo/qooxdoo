@@ -108,7 +108,9 @@ qx.Class.define("apiviewer.ui.SearchView",
       table.setStatusBarVisible(false);
       table.setColumnVisibilityButtonVisible(false);
 
-      table.addListener("cellClick", this._onCellClick, this);
+      this._selectionModel = table.getSelectionManager().getSelectionModel();
+      
+      this._selectionModel.addListener("changeSelection", this._onChangeSelection, this);
       
       this._table = table;
       // resize behavior
@@ -436,8 +438,12 @@ qx.Class.define("apiviewer.ui.SearchView",
         }, controller);
     },
     
-    _onCellClick : function(e)
+    _onChangeSelection : function(e)
     {
+      var tree = this.getWidgetById("tree");
+      var column = this._selectionModel.getAnchorSelectionIndex();
+      var selectedClass = this._tableModel.getData()[column][1];
+      tree.selectTreeNodeByClassName(selectedClass);
     }
 
   },
