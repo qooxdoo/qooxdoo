@@ -1657,7 +1657,7 @@ qx.Class.define("qx.ui.table.Table",
         table : this,
         menu  : menu
       };
-      this.fireDataEvent("columnVisibilityMenuCreateStart", data, true);
+      this.fireDataEvent("columnVisibilityMenuCreateStart", data);
 
       for (var col=0, l=tableModel.getColumnCount(); col<l; col++)
       {
@@ -1673,7 +1673,7 @@ qx.Class.define("qx.ui.table.Table",
         table : this,
         menu  : menu
       };
-      this.fireDataEvent("columnVisibilityMenuCreateEnd", data, true);
+      this.fireDataEvent("columnVisibilityMenuCreateEnd", data);
     },
 
 
