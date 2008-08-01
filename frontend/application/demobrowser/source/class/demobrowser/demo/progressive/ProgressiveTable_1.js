@@ -48,7 +48,7 @@ qx.Class.define("demobrowser.demo.progressive.ProgressiveTable_1",
         return rowData;
       };
 
-      var columnWidths = new qx.ui.util.column.Widths(3);
+      var columnWidths = new qx.ui.progressive.renderer.table.Widths(3);
       columnWidths.setWidth(0, 100);
       columnWidths.setWidth(1, "1*");
         columnWidths.setMaxWidth(1, 200);
