@@ -31,7 +31,7 @@ qx.Class.define("qx.ui.progressive.headfoot.TableHeading",
   extend     : qx.ui.progressive.headfoot.Abstract,
 
   /**
-   * @param columnWidths {qx.ui.util.column.Widths}
+   * @param columnWidths {qx.ui.progressive.renderer.table.Widths}
    *   The set of widths, minimum widths, and maximum widths to be used for
    *   each of the columns in the table.
    *
@@ -57,17 +57,14 @@ qx.Class.define("qx.ui.progressive.headfoot.TableHeading",
     // Create a place to put labels
     this._labels = [ ];
 
-    // Get the column width data
-    var data = columnWidths.getData();
-
     // For each label...
-    for (var i = 0; i < data.length; i++)
+    for (var i = 0; i < columnWidths.length; i++)
     {
       // ... create an atom to hold the label
       label = new qx.ui.basic.Atom(labelArr[i]);
 
       // Use the width of the corresponding column
-      label.setWidth(data[i].getWidth());
+      label.setWidth(columnWidths[i].getWidth());
 
       // Set borders for the headings
       label.setBorder(border);
