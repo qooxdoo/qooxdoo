@@ -93,7 +93,7 @@ qx.Class.define("qx.ui.embed.HtmlEmbed",
     selectable :
     {
       refine : true,
-      init : true,
+      init : true
     }
 
   },
