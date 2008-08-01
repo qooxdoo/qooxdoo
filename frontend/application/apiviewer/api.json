@@ -40,7 +40,7 @@
         "qx.application"  : "${APIVIEWER}.Application",
         "qx.resourceUri"  : "${QOOXDOO_URI}/source/resource",
         "qx.theme"        : "${API_THEME}",
-        "qx.version"      : "0.8-beta1-pre"
+        "qx.version"      : "0.8-beta1"
       },
 
       "cache" :
