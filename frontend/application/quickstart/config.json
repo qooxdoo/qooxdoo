@@ -19,7 +19,7 @@
 
       // hard include all qooxdoo classes, except legacy stuff
       "include" : ["qx.*"],
-      "exclude" : ["=qx.legacy.*","qx.dev.Profile"],
+      "exclude" : ["=qx.legacy.*"],
 
       // enable debug build
       "variants" :
@@ -48,6 +48,11 @@
       "copy-files" :
       {
         "files" : ["index.html", "button.png", "Application.js"],
+        "target" : "build"
+      },
+
+      "copy-resources" :
+      {
         "target" : "build"
       }
     }
