@@ -1609,6 +1609,35 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
 
 
+    /*
+    ---------------------------------------------------------------------------
+      COLOR SELECTOR
+    ---------------------------------------------------------------------------
+    */
+    "colorselector" : "widget",
+    
+    "colorselector/cancle-button" : "button",
+    "colorselector/ok-button" : "button",
+
+    "colorselector/control-bar" : "widget",
+    
+    "colorselector/preset-field-set" : "groupbox",
+    "colorselector/input-field-set" : "groupbox",
+    "colorselector/preview-field-set" : "groupbox",
+    
+    "colorselector/hex-field" : "textfield",
+    
+    "colorselector/rgb-spinner-red" : "spinner",
+    "colorselector/rgb-spinner-green" : "spinner",
+    "colorselector/rgb-spinner-blue" : "spinner",
+    
+    "colorselector/hsb-spinner-hue" : "spinner",
+    "colorselector/hsb-spinner-saturation" : "spinner",
+    "colorselector/hsb-spinner-brightness" : "spinner",
+
+
+
+
 
     /*
     ---------------------------------------------------------------------------
