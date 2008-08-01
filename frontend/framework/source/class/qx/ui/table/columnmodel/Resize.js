@@ -17,12 +17,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#asset(qx/icon/${qx.icontheme}/16/actions/view-refresh.png)
-
-************************************************************************ */
-
 /**
  * A table column model that automagically resizes columns based on a
  * selected behavior.
@@ -197,7 +191,9 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
       menu.add(o);
 
       // Add a button to reset the column widths
-      o = new qx.ui.menu.Button("Reset column widths", "icon/16/actions/view-refresh.png");
+      o = new qx.ui.menu.Button("Reset column widths").set({
+        appearance: "table-column-reset-button"
+      });
       menu.add(o);
       o.addListener("execute", this._onappear, this);
     },
