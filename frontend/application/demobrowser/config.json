@@ -16,7 +16,8 @@
     "CACHE"        : "../../cache",
     "QOOXDOO_PATH" : "../../framework",
     "QOOXDOO_URI"  : "../${QOOXDOO_PATH}",
-    "THEME"        : "qx.theme.Classic"
+    "THEME"        : "qx.theme.Classic",
+    "PYTHON"       : "python"
   },
 
   "jobs" :
@@ -95,7 +96,7 @@
 
       "shell" :
       {
-        "command" : "tool/gendata.py ./source/script/demodata.js ./source/demo"
+        "command" : "${PYTHON} tool/gendata.py ./source/script/demodata.js ./source/demo"
       }
     },
 
@@ -106,7 +107,7 @@
 
       "shell" :
       {
-        "command" : "tool/genjson.py source/script"
+        "command" : "${PYTHON} tool/genjson.py source/script"
       }
     },
 
@@ -117,7 +118,7 @@
 
       "shell" :
       {
-        "command" : "../../../frontend/tool/bin/generator.py -c ./config.demo.json source"
+        "command" : "${PYTHON} ../../../frontend/tool/bin/generator.py -c ./config.demo.json source"
       }
     },
 
@@ -176,7 +177,7 @@
 
       "shell" :
       {
-        "command" : "tool/gendata.py ./build/script/demodata.js ./source/demo"
+        "command" : "${PYTHON} tool/gendata.py ./build/script/demodata.js ./source/demo"
       }
     },
 
@@ -187,7 +188,7 @@
 
       "shell" :
       {
-        "command" : "tool/genjson.py build/script"
+        "command" : "${PYTHON} tool/genjson.py build/script"
       }
     },
 
@@ -199,7 +200,7 @@
 
       "shell" :
       {
-        "command" : "../../../frontend/tool/bin/generator.py -c ./config.demo.json build"
+        "command" : "${PYTHON} ../../../frontend/tool/bin/generator.py -c ./config.demo.json build"
       }
     },
 
