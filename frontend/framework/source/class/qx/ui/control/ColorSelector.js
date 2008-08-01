@@ -257,7 +257,7 @@ qx.Class.define("qx.ui.control.ColorSelector",
           break;
           
         case "hue-saturation-handle":
-          control = new qx.ui.basic.Image("decoration/colorselector/huesaturation-handle.gif");      
+          control = new qx.ui.basic.Image("decoration/colorselector/huesaturation-handle.gif");
           control.addListener("mousedown", this._onHueSaturationHandleMouseDown, this);
           control.addListener("mouseup", this._onHueSaturationHandleMouseUp, this);
           control.addListener("mousemove", this._onHueSaturationHandleMouseMove, this);        
@@ -476,7 +476,7 @@ qx.Class.define("qx.ui.control.ColorSelector",
       }
 
       if (this._updateContext !== "rgbSpinner") {
-        this._rgbSpinRed.setValue(value);
+        this._getChildControl("rgb-spinner-red").setValue(value);
       }
 
       if (this._updateContext !== "hexField") {
@@ -513,7 +513,7 @@ qx.Class.define("qx.ui.control.ColorSelector",
       }
 
       if (this._updateContext !== "rgbSpinner") {
-        this._rgbSpinGreen.setValue(value);
+        this._getChildControl("rgb-spinner-green").setValue(value);
       }
 
       if (this._updateContext !== "hexField") {
@@ -550,7 +550,7 @@ qx.Class.define("qx.ui.control.ColorSelector",
       }
 
       if (this._updateContext !== "rgbSpinner") {
-        this._rgbSpinBlue.setValue(value);
+        this._getChildControl("rgb-spinner-blue").setValue(value);
       }
 
       if (this._updateContext !== "hexField") {
@@ -595,15 +595,15 @@ qx.Class.define("qx.ui.control.ColorSelector",
       }
 
       if (this._updateContext !== "hsbSpinner") {
-        this._hsbSpinHue.setValue(value);
+        this._getChildControl("hsb-spinner-hue").setValue(value);
       }
 
       if (this._updateContext !== "hueSaturationField")
       {
-        if (this._hueSaturationHandle.isCreated()) {
-          this._hueSaturationHandle._renderRuntimeLeft(Math.round(value / 1.40625) + this._hueSaturationPane.getPaddingLeft());
+        if (this._getChildControl("hue-saturation-handle").getBounds()) {          
+          this._getChildControl("hue-saturation-handle").setDomLeft(Math.round(value / 1.40625) + this._getChildControl("hue-saturation-pane").getPaddingLeft());
         } else {
-          this._hueSaturationHandle.setLeft(Math.round(value / 1.40625));
+          this._getChildControl("hue-saturation-handle").setLeft(Math.round(value / 1.40625));
         }
       }
 
@@ -635,15 +635,15 @@ qx.Class.define("qx.ui.control.ColorSelector",
       }
 
       if (this._updateContext !== "hsbSpinner") {
-        this._hsbSpinSaturation.setValue(value);
+        this._getChildControl("hsb-spinner-saturation").setValue(value);
       }
 
       if (this._updateContext !== "hueSaturationField")
       {
-        if (this._hueSaturationHandle.isCreated()) {
-          this._hueSaturationHandle._renderRuntimeTop(256 - Math.round(value * 2.56) + this._hueSaturationPane.getPaddingTop());
+        if (this._getChildControl("hue-saturation-handle").getBounds()) {
+          this._getChildControl("hue-saturation-handle").setDomTop(256 - Math.round(value * 2.56) + this._getChildControl("hue-saturation-pane").getPaddingTop());
         } else {
-          this._hueSaturationHandle.setTop(256 - Math.round(value * 2.56));
+          this._getChildControl("hue-saturation-handle").setTop(256 - Math.round(value * 2.56));
         }
       }
 
@@ -675,17 +675,17 @@ qx.Class.define("qx.ui.control.ColorSelector",
       }
 
       if (this._updateContext !== "hsbSpinner") {
-        this._hsbSpinBrightness.setValue(value);
+        this._getChildControl("hsb-spinner-brightness").setValue(value);
       }
 
       if (this._updateContext !== "brightnessField")
       {
         var topValue = 256 - Math.round(value * 2.56);
 
-        if (this._brightnessHandle.isCreated()) {
-          this._brightnessHandle._renderRuntimeTop(topValue + this._brightnessPane.getPaddingTop());
+        if (this._getChildControl("brightness-handle").getBounds()) {
+          this._getChildControl("brightness-handle").setDomTop(topValue + this._getChildControl("brightness-pane").getPaddingTop());
         } else {
-          this._brightnessHandle.setTop(topValue);
+          this._getChildControl("brightness-handle").setTop(topValue);
         }
       }
 
@@ -721,15 +721,18 @@ qx.Class.define("qx.ui.control.ColorSelector",
     _onBrightnessHandleMouseDown : function(e)
     {
       // Activate Capturing
-      this._brightnessHandle.setCapture(true);
+      this._getChildControl("brightness-handle").capture();
+      this._capture = "brightness-handle";
 
       // Calculate subtract: Position of Brightness Field - Current Mouse Offset
-      this._brightnessSubtract =
-        qx.bom.element.Location.getTop(this._brightnessField.getElement()) +
-        (e.getPageY() - qx.bom.element.Location.getTop(this._brightnessHandle.getElement()));
+      var locationBrightnessField = this._getChildControl("brightness-field").getContainerLocation();
+      var locationBrightnessHandle = this._getChildControl("brightness-handle").getContainerLocation();
+
+      this._brightnessSubtract = locationBrightnessField.top +
+        (e.getDocumentTop() - locationBrightnessHandle.top);
 
       // Block field event handling
-      e.setPropagationStopped(true);
+      e.stopPropagation();
     },
 
 
@@ -743,7 +746,8 @@ qx.Class.define("qx.ui.control.ColorSelector",
     _onBrightnessHandleMouseUp : function(e)
     {
       // Disabling capturing
-      this._brightnessHandle.setCapture(false);
+      this._getChildControl("brightness-handle").releaseCapture();
+      this._capture = null;
     },
 
 
@@ -757,7 +761,7 @@ qx.Class.define("qx.ui.control.ColorSelector",
     _onBrightnessHandleMouseMove : function(e)
     {
       // Update if captured currently (through previous mousedown)
-      if (this._brightnessHandle.getCapture()) {
+      if (this._capture === "brightness-handle") {
         this._setBrightnessOnFieldEvent(e);
       }
     },
@@ -773,15 +777,16 @@ qx.Class.define("qx.ui.control.ColorSelector",
     _onBrightnessFieldMouseDown : function(e)
     {
       // Calculate substract: Half height of handler
-      this._brightnessSubtract =
-        qx.bom.element.Location.getTop(this._brightnessField.getElement(), "margin") +
-        Math.round(qx.bom.element.Dimension.getHeight(this._brightnessHandle.getElement()) / 2);
+      var location  = this._getChildControl("brightness-field").getContainerLocation();
+      var bounds = this._getChildControl("brightness-handle").getBounds();
+      this._brightnessSubtract = location.top + (bounds.height / 2);
 
       // Update
       this._setBrightnessOnFieldEvent(e);
 
       // Afterwards: Activate Capturing for handle
-      this._brightnessHandle.setCapture(true);
+      this._getChildControl("brightness-handle").capture();
+      this._capture = "brightness-handle";
     },
 
 
@@ -806,14 +811,14 @@ qx.Class.define("qx.ui.control.ColorSelector",
      */
     _setBrightnessOnFieldEvent : function(e)
     {
-      var value = qx.lang.Number.limit(e.getPageY() - this._brightnessSubtract, 0, 256);
+      var value = qx.lang.Number.limit(e.getDocumentTop() - this._brightnessSubtract, 0, 256);
 
       this._updateContext = "brightnessField";
 
-      if (this._brightnessHandle.isCreated()) {
-        this._brightnessHandle._renderRuntimeTop(value + this._brightnessPane.getPaddingTop());
+      if (this._getChildControl("brightness-handle").getBounds()) {
+        this._getChildControl("brightness-handle").setDomTop(value + this._getChildControl("brightness-pane").getPaddingTop());
       } else {
-        this._brightnessHandle.setTop(value);
+        this._getChildControl("brightness-handle").setTop(value);
       }
 
       this.setBrightness(100 - Math.round(value / 2.56));
@@ -830,7 +835,7 @@ qx.Class.define("qx.ui.control.ColorSelector",
      * @return {void}
      */
     _onButtonOkExecute : function(e) {
-      this.createDispatchEvent("dialogok");
+      this.fireEvent("dialogok");
     },
 
 
@@ -842,7 +847,7 @@ qx.Class.define("qx.ui.control.ColorSelector",
      * @return {void}
      */
     _onButtonCancelExecute : function(e) {
-      this.createDispatchEvent("dialogcancel");
+      this.fireEvent("dialogcancel");
     },
 
 
@@ -864,19 +869,18 @@ qx.Class.define("qx.ui.control.ColorSelector",
     _onHueSaturationHandleMouseDown : function(e)
     {
       // Activate Capturing      
-      this._getChildControl("hue-saturation-handle").setCapture(true);
+      this._getChildControl("hue-saturation-handle").capture();
+      this._capture = "hue-saturation-handle";
 
       // Calculate subtract: Position of HueSaturation Field - Current Mouse Offset
-      this._hueSaturationSubtractTop =
-        qx.bom.element.Location.getTop(this._getChildControl("hue-saturation-field").getElement(), "margin") +
-        (e.getPageY() - qx.bom.element.Location.getTop(this._getChildControl("hue-saturation-handle").getElement()));
+      var location = this._getChildControl("hue-saturation-field").getContainerLocation();
+      var bounds = this._getChildControl("hue-saturation-handle").getBounds();
 
-      this._hueSaturationSubtractLeft =
-        qx.bom.element.Location.getLeft(this._getChildControl("hue-saturation-field").getElement(), "margin") +
-        (e.getPageX() - qx.bom.element.Location.getLeft(this._getChildControl("hue-saturation-handle").getElement()));
+      this._hueSaturationSubtractTop = location.top + (e.getDocumentTop() - bounds.top);
+      this._hueSaturationSubtractLeft = location.left + (e.getDocumentLeft() - bounds.left);
 
       // Block field event handling
-      e.setPropagationStopped(true);
+      e.stopPropagation();
     },
 
 
@@ -890,7 +894,8 @@ qx.Class.define("qx.ui.control.ColorSelector",
     _onHueSaturationHandleMouseUp : function(e)
     {
       // Disabling capturing
-      this._getChildControl("hue-saturation-handle").setCapture(false);
+      this._getChildControl("hue-saturation-handle").releaseCapture();
+      this._capture = null;
     },
 
 
@@ -902,9 +907,9 @@ qx.Class.define("qx.ui.control.ColorSelector",
      * @return {void}
      */
     _onHueSaturationHandleMouseMove : function(e)
-    {
+    {      
       // Update if captured currently (through previous mousedown)
-      if (this._getChildControl("hue-saturation-handle").getCapture()) {
+      if (this._capture === "hue-saturation-handle") {
         this._setHueSaturationOnFieldEvent(e);
       }
     },
@@ -920,19 +925,17 @@ qx.Class.define("qx.ui.control.ColorSelector",
     _onHueSaturationFieldMouseDown : function(e)
     {
       // Calculate substract: Half width/height of handler
-      this._hueSaturationSubtractTop =
-        qx.bom.element.Location.getTop(this._getChildControl("hue-saturation-field").getElement(), "margin") +
-        Math.round(qx.bom.element.Dimension.getHeight(this._getChildControl("hue-saturation-handle").getElement()) / 2);
-
-      this._hueSaturationSubtractLeft =
-        qx.bom.element.Location.getLeft(this._getChildControl("hue-saturation-field").getElement(), "margin") +
-        Math.round(qx.bom.element.Dimension.getWidth(this._getChildControl("hue-saturation-handle").getElement()) / 2);
+      var location = this._getChildControl("hue-saturation-field").getContainerLocation();
+      var bounds = this._getChildControl("hue-saturation-handle").getBounds();
+      this._hueSaturationSubtractTop = location.top + (bounds.height / 2);
+      this._hueSaturationSubtractLeft = location.left + (bounds.width / 2);
 
       // Update
       this._setHueSaturationOnFieldEvent(e);
 
       // Afterwards: Activate Capturing for handle
-      this._getChildControl("hue-saturation-handle").setCapture(true);
+      this._getChildControl("hue-saturation-handle").capture();
+      this._capture = "hue-saturation-handle";
     },
 
 
@@ -957,18 +960,13 @@ qx.Class.define("qx.ui.control.ColorSelector",
      */
     _setHueSaturationOnFieldEvent : function(e)
     {
-      var vTop = qx.lang.Number.limit(e.getPageY() - this._hueSaturationSubtractTop, 0, 256);
-      var vLeft = qx.lang.Number.limit(e.getPageX() - this._hueSaturationSubtractLeft, 0, 256);
+      var vTop = qx.lang.Number.limit(e.getDocumentTop() - this._hueSaturationSubtractTop, 0, 256);
+      var vLeft = qx.lang.Number.limit(e.getDocumentLeft() - this._hueSaturationSubtractLeft, 0, 256);
 
-      if (this._getChildControl("hue-saturation-handle").isCreated())
-      {
-        this._getChildControl("hue-saturation-handle")._renderRuntimeTop(vTop + this._getChildControl("hue-saturation-pane").getPaddingTop());
-        this._getChildControl("hue-saturation-handle")._renderRuntimeLeft(vLeft + this._getChildControl("hue-saturation-pane").getPaddingLeft());
-      }
-      else
-      {
-        this._getChildControl("hue-saturation-handle").setTop(vTop);
-        this._getChildControl("hue-saturation-handle").setLeft(vLeft);
+      if (this._getChildControl("hue-saturation-handle").getBounds()) {
+        this._getChildControl("hue-saturation-handle").setDomPosition(vLeft, vTop);        
+      } else {
+        this._getChildControl("hue-saturation-handle").setLayoutProperties({top: vTop, left: vLeft});        
       }
 
       this._updateContext = "hueSaturationField";
@@ -1146,7 +1144,7 @@ qx.Class.define("qx.ui.control.ColorSelector",
      * @return {void}
      */
     _setHexFromRgb : function() {
-      this._hexField.setValue(
+      this._getChildControl("hex-field").setValue(
         qx.util.ColorUtil.rgbToHexString([this.getRed(),this.getGreen(),this.getBlue()])
       );
     },
@@ -1255,7 +1253,7 @@ qx.Class.define("qx.ui.control.ColorSelector",
      * @return {void}
      */
     _setPreviewFromRgb : function() {
-      this._newColorPreview.setBackgroundColor(qx.util.ColorUtil.rgbToRgbString([this.getRed(), this.getGreen(), this.getBlue()]));
+      this._getChildControl("preview-content-new").setBackgroundColor(qx.util.ColorUtil.rgbToRgbString([this.getRed(), this.getGreen(), this.getBlue()]));
     },
 
 
