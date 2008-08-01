@@ -87,7 +87,15 @@ qx.Class.define("qx.ui.embed.HtmlEmbed",
     {
       refine : true,
       init : null
+    },
+
+    // overridden
+    selectable :
+    {
+      refine : true,
+      init : true,
     }
+
   },
 
 
