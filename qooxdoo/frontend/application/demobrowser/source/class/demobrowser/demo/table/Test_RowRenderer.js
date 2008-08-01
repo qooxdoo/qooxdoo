@@ -37,13 +37,6 @@ qx.Class.define("demobrowser.demo.table.Test_RowRenderer",
     {
       // table mock
       this.tableMock = this.getTableMock();
-
-      // setup aliases
-      qx.util.AliasManager.getInstance().add("decoration", "qx/decoration/Classic");
-      qx.util.AliasManager.getInstance().add("icon", "qx/icon/Tango");
-
-      qx.theme.manager.Font.getInstance().setTheme(qx.theme.classic.Font);
-      qx.theme.manager.Color.getInstance().setTheme(qx.theme.classic.Color);
     },
 
 

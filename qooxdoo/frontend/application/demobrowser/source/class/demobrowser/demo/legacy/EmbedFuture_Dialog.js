@@ -40,7 +40,6 @@ qx.Class.define("demobrowser.demo.legacy.EmbedFuture_Dialog",
       this.base(arguments);
       this.compat();
 
-      qx.theme.manager.Meta.getInstance().setTheme(qx.theme.Classic);
       var root = new qx.ui.root.Page(document);
 
       // Create button
