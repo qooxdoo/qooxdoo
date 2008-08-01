@@ -366,7 +366,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
         (! this._progressive.getContainerElement().getDomElement()
          ? 0
          : this._progressive.getInnerWidth()) -
-        qx.ui.core.Widget.SCROLLBAR_SIZE;
+        qx.bom.element.Overflow.getScrollbarSize();
       
       // Get the style sheet rule name for this row
       var stylesheet = ".qx-progressive-" + this._hash + "-row";
