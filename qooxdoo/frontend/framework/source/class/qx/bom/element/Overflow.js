@@ -30,6 +30,134 @@ qx.Class.define("qx.bom.element.Overflow",
 
   statics :
   {
+    /** The typical native scrollbar size in the environment */
+    SCROLLBAR_SIZE : null,
+
+    /**
+     * Measure the typical native scrollbar size in the environment and save
+     * it as qx.bom.element.Overflow.SCROLLBAR_SIZE.
+     *
+     * This function is called from qx.application.AbstractGui.main() and
+     * should typically not need to be called from elsewhere.
+     *
+     * @return {void}
+     */
+    initScrollbarWidth : function()
+    {
+      var getStyleProperty = qx.lang.Object.select(
+        (document.defaultView &&
+         document.defaultView.getComputedStyle) ? "hasComputed" : "noComputed",
+      {
+        "hasComputed" : function(el, prop)
+        {
+          try
+          {
+            return el.ownerDocument.defaultView.getComputedStyle(el, "")[prop];
+          }
+          catch(ex)
+          {
+            throw new Error("Could not evaluate computed style: " +
+                            el + "[" + prop + "]: " + ex);
+          }
+        },
+
+        "noComputed" : qx.core.Variant.select("qx.client",
+        {
+          "mshtml" : function(el, prop)
+          {
+            try
+            {
+              return el.currentStyle[prop];
+            }
+            catch(ex)
+            {
+              throw new Error("Could not evaluate computed style: " +
+                              el + "[" + prop + "]: " + ex);
+            }
+          },
+
+            "default" : function(el, prop)
+          {
+            try
+            {
+              return el.style[prop];
+            }
+            catch(ex)
+            {
+              throw new Error("Could not evaluate computed style: " +
+                              el + "[" + prop + "]");
+            }
+          }
+        })
+      });
+
+      var getBorderRight = function(el)
+      {
+        return (getStyleProperty(el, "borderRightStyle") == "none"
+                ? 0
+                : getStyleSize(el, "borderRightWidth"));
+      };
+
+      var getBorderLeft = function(el)
+      {
+        return (getStyleProperty(el, "borderLeftStyle") == "none"
+                ? 0
+                : getStyleSize(el, "borderLeftWidth"));
+      };
+
+      var getInsetRight = qx.core.Variant.select("qx.client",
+      {
+        "mshtml" : function(el)
+        {
+          if (getStyleProperty(el, "overflowY") == "hidden" ||
+              el.clientWidth == 0)
+          {
+            return getBorderRight(el);
+          }
+
+          return Math.max(0, el.offsetWidth - el.clientLeft - el.clientWidth);
+        },
+
+          "default" : function(el)
+        {
+          // Alternative method if clientWidth is unavailable
+          // clientWidth == 0 could mean both: unavailable or really 0
+          if (el.clientWidth == 0)
+          {
+            var ov = getStyleProperty(el, "overflow");
+            var sbv = (ov == "scroll" ||
+                       ov == "-moz-scrollbars-vertical" ? 16 : 0);
+            return Math.max(0, getBorderRight(el) + sbv);
+          }
+
+          return Math.max(0,
+                          (el.offsetWidth -
+                           el.clientWidth -
+                           getBorderLeft(el)));
+        }
+      });
+      
+      var getScrollBarSizeRight = function(el)
+      {
+        return getInsetRight(el) - getBorderRight(el);
+      };
+
+      var t = document.createElement("div");
+      var s = t.style;
+
+      s.height = s.width = "100px";
+      s.overflow = "scroll";
+
+      document.body.appendChild(t);
+
+      var c = getScrollBarSizeRight(t);
+
+      qx.ui.core.Widget.SCROLLBAR_SIZE = c ? c : 16;
+
+      document.body.removeChild(t);
+    },
+
+
     /**
      * Compiles the given property into a cross-browser style string.
      *
