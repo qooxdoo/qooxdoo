@@ -775,6 +775,119 @@ qx.Theme.define("qx.theme.modern.Decoration",
       {
         baseImage : "decoration/window/statusbar.png"
       }
-    }
+    },
+    
+    
+    
+    /*
+    ---------------------------------------------------------------------------
+      TABLE
+    ---------------------------------------------------------------------------
+    */
+
+   
+   "table" :
+   {
+     decorator : qx.ui.decoration.Single,
+     
+     style :
+     {
+       width : 1,
+       color : "border-dark-shadow",
+       style : "solid"       
+     }
+   },
+     
+   "table-statusbar" :
+   {
+     decorator : qx.ui.decoration.Single,
+     
+     style :
+     {
+       widthTop : 1,
+       colorTop : "border-dark-shadow",
+       style    : "solid"
+     }
+   },
+   
+   "table-scroller-header" :
+   {
+     decorator : qx.ui.decoration.Single,
+     
+     style :
+     {
+       backgroundImage  : "decoration/table/header-cell.png",
+       backgroundRepeat : "scale",
+       
+       widthBottom : 1,
+       colorBottom : "border-dark-shadow",
+       style       : "solid"
+     }
+   },
+   
+   "table-header-cell" :
+   {
+     decorator :  qx.ui.decoration.Double,
+     
+     style :
+     {
+       backgroundImage  : "decoration/table/header-cell.png",
+       backgroundRepeat : "scale",
+       
+       widthRight : 1,
+       colorRight : "#F2F2F2",
+       
+       innerWidthRight : 1,
+       innerColorRight : "#A6A6A6",
+       
+       style      : "solid"
+     }
+   },
+   
+   "table-header-cell-hovered" :
+   {
+     decorator :  qx.ui.decoration.Single,
+     
+     style :
+     {
+       backgroundImage  : "decoration/table/header-cell.png",
+       backgroundRepeat : "scale",
+       
+       widthRight : 1,
+       colorRight : "border-dark-shadow",
+       
+       widthBottom : 2,
+       colorBottom : "effect",
+       
+       style      : "solid"
+     }
+   },
+   
+   "table-column-button" :
+   {
+     decorator : qx.ui.decoration.Single,
+     
+     style :
+     {
+       backgroundImage  : "decoration/table/header-cell.png",
+       backgroundRepeat : "scale",
+       
+       widthBottom : 1,
+       colorBottom : "border-dark-shadow",
+       style       : "solid"
+     }
+   },
+   
+   "table-scroller-focus-indicator" :
+   {
+     decorator : qx.ui.decoration.Single,
+     
+     style : 
+     {
+       width : 2,
+       color : "table-focus-indicator",
+       style : "solid"
+     }
+   }
   }
 });

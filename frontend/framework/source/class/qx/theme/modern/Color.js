@@ -60,20 +60,24 @@ qx.Theme.define("qx.theme.modern.Color",
     "button-abandoned" : "#F9F8E9",
     "button-checked" : "#F3F0F5",
     
-    "effect" : [ 254, 200, 60 ],
     "table-pane" : "white",
+    
+    // TODO: check these four colors
+    "table-focus-indicator" : "#0073FF",
+    "table-row-background-focused-selected" : "#084CA6",
+    "table-row-background-focused" : "#0053DD",
+    "table-row-background-selected" : "#084CA6",
+
+    "table-row-background-even" : "#F4F4F4",
+    "table-row-background-odd" : "#E4E4E4",
+    "table-row-selected" : "white",
+    "table-row" : "#1a1a1a",
+
+    // no impact (decorators with backgroundImages are used)
+    "effect" : [ 254, 200, 60 ],
     "table-header" : [ 242, 242, 242 ],
     "table-header-border" : [ 214, 213, 217 ],
     "table-header-cell" : [ 235, 234, 219 ],
-    "table-header-cell-hover" : [ 255, 255, 255 ],
-    "table-focus-indicator" : [ 179, 217, 255 ],
-    "table-row-background-focused-selected" : [ 90, 138, 211 ],
-    "table-row-background-focused" : [ 221, 238, 255 ],
-    "table-row-background-selected" : [ 51, 94, 168 ],
-    "table-row-background-even" : [ 250, 248, 243 ],
-    "table-row-background-odd" : [ 255, 255, 255 ],
-    "table-row-selected" : [ 255, 255, 255 ],
-    "table-row" : [ 0, 0, 0]
-
+    "table-header-cell-hover" : [ 255, 255, 255 ]
   }
 });
