@@ -252,7 +252,6 @@ qx.Class.define("demobrowser.demo.widget.Menu",
 
       var searchField = new qx.ui.form.TextField;
       searchField.setFont("small");
-      searchField.setDecorator("inset-thin");
       searchField.setAlignY("middle");
       searchPart.add(searchField);
 
