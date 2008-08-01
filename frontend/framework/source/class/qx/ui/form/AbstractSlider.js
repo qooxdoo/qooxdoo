@@ -228,10 +228,11 @@ qx.Class.define("qx.ui.form.AbstractSlider",
       var knob = this._getChildControl("knob");
 
       var locationProperty = isHorizontal ? "left" : "top";
+      var sizeProperty = isHorizontal ? "width" : "height";
 
       var cursorLocation = isHorizontal ? e.getDocumentLeft() : e.getDocumentTop();
-      var sliderLocation = this._sliderLocation = qx.bom.element.Location.get(this.getContentElement().getDomElement())[locationProperty];
-      var knobLocation = this._knobLocation = qx.bom.element.Location.get(knob.getContainerElement().getDomElement())[locationProperty];
+      var sliderLocation = this.__sliderLocation = qx.bom.element.Location.get(this.getContentElement().getDomElement())[locationProperty];
+      var knobLocation = this.__knobLocation = qx.bom.element.Location.get(knob.getContainerElement().getDomElement())[locationProperty];
 
       if (e.getTarget() === knob)
       {
@@ -387,15 +388,15 @@ qx.Class.define("qx.ui.form.AbstractSlider",
       // Update sliding space
       var availSize = this.getInnerSize();
       var knobSize = this._getChildControl("knob").getBounds();
-      if (this.__isHorizontal) {
-        this.__slidingSpace = availSize.width - knobSize.width;
-      } else {
-        this.__slidingSpace = availSize.height - knobSize.height;
-      }
+      var sizeProperty = this.__isHorizontal ? "width" : "height";
 
       // Sync knob position and size
       this._updateKnobSize();
       this._updateKnobPosition();
+
+      // Store knob size
+      this.__slidingSpace = availSize[sizeProperty] - knobSize[sizeProperty];
+      this.__knobSize = knobSize[sizeProperty];
     },
 
 
@@ -428,9 +429,9 @@ qx.Class.define("qx.ui.form.AbstractSlider",
     {
       var isHorizontal = this.__isHorizontal;
       var cursorLocation = isHorizontal ? e.getDocumentLeft() : e.getDocumentTop();
-      var sliderLocation = this._sliderLocation;
-      var knobLocation = this._knobLocation;
-      var knobSize = this._knobSize;
+      var sliderLocation = this.__sliderLocation;
+      var knobLocation = this.__knobLocation;
+      var knobSize = this.__knobSize;
       var slideBack = cursorLocation <= knobLocation;
 
       // Compute relative position
