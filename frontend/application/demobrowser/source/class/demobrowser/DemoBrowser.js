@@ -1119,6 +1119,8 @@ qx.Class.define("demobrowser.DemoBrowser",
      * @param url {var} TODOC
      * @return {String} TODOC
      */
+    
+    // TODO: This method needs a rewrite
     __getPageSource : function(url) {
 
       if( typeof(url) != "string" ){
@@ -1141,6 +1143,17 @@ qx.Class.define("demobrowser.DemoBrowser",
           var srcAttributeEnd = content.indexOf("\"", srcAttributeStart + 5);
           var jsFileName = content.substring(srcAttributeStart + 5, srcAttributeEnd);
           var jsSourceFileName = jsFileName.substring(4, jsFileName.length - 3) + ".src.js";
+
+
+          // construct url to demo script source
+          var u = "script/demobrowser.demo";
+          var parts = url.split('/');
+          var cat = parts[1];
+          var base = parts[2];
+          base = base.substr(0, base.indexOf('.html'))
+          u += "." + cat + "." + base + ".src.js";
+          jsSourceFileName = u;
+
           // get the javascript code
           var reqJSFile = new qx.io.remote.Request(jsSourceFileName);
           reqJSFile.setTimeout(180000);
