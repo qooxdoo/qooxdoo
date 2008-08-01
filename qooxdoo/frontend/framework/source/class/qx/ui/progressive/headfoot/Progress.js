@@ -42,13 +42,13 @@ qx.Class.define("qx.ui.progressive.headfoot.Progress",
     this.setHeight(16);
 
     // We show progress by continually increasing our border width.
-    this._border = new qx.ui.decoration.Single(1, "solid", "#cccccc");
-    this._border.set({
+    this._decorator = new qx.ui.decoration.Single(1, "solid", "#cccccc");
+    this._decorator.set({
                        widthTop : 1,
                        widthRight : 0,
                        widthBottom : 0
                      });
-    this.setBorder(this._border);
+    this.setDecorator(this._decorator);
     
     this.setPadding(0);
 
@@ -95,14 +95,17 @@ qx.Class.define("qx.ui.progressive.headfoot.Progress",
                                 var complete =
                                   1.0 -
                                   (e.getData().remaining / this.__total);
-                                var borderWidth =
+                                var decoratorWidth =
                                   Math.floor(this.getWidth() * complete);
-                                if (! isNaN(borderWidth))
+                                if (! isNaN(decoratorWidth))
                                   {
                                     var percent =
                                       Math.floor(complete * 100) + "%";
                                     this._percentDone.setLabel(percent);
-                                    this._border.setWidthLeft(borderWidth);
+                                    this._decorator.set(
+                                      {
+                                        widthLeft : decoratorWidth
+                                      });
                                   }
                               },
                               this);
