@@ -426,7 +426,8 @@ qx.Class.define("apiviewer.ui.SearchView",
               return;
             }
           } else {
-            classViewer.setScrollTop(0);
+            // TODO:
+            ////classViewer.setScrollTop(0);
           }
           controller.__updateHistory(fullItemName);
 
