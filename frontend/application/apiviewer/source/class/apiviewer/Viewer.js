@@ -271,7 +271,8 @@ qx.Class.define("apiviewer.Viewer",
     __createSplitPane : function(leftWidget, rightWidget)
     {
       var mainSplitPane = new qx.ui.splitpane.Pane("horizontal");
-      mainSplitPane.add(leftWidget, 1);
+      leftWidget.setWidth(270)
+      mainSplitPane.add(leftWidget, 0);
       mainSplitPane.add(rightWidget, 4);
       return mainSplitPane;
     }
