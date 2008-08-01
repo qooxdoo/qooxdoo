@@ -26,6 +26,8 @@
 #asset(qx/icon/Oxygen/16/places/folder-open.png)
 #asset(qx/icon/Oxygen/16/places/folder.png)
 #asset(qx/icon/Oxygen/16/mimetypes/text-plain.png)
+#asset(qx/icon/Oxygen/16/actions/view-refresh.png)
+
 #asset(qx/decoration/Classic/*)
 
 ************************************************************************* */
@@ -1614,22 +1616,22 @@ qx.Theme.define("qx.theme.classic.Appearance",
     ---------------------------------------------------------------------------
     */
     "colorselector" : "widget",
-    
+
     "colorselector/cancle-button" : "button",
     "colorselector/ok-button" : "button",
 
     "colorselector/control-bar" : "widget",
-    
+
     "colorselector/preset-field-set" : "groupbox",
     "colorselector/input-field-set" : "groupbox",
     "colorselector/preview-field-set" : "groupbox",
-    
+
     "colorselector/hex-field" : "textfield",
-    
+
     "colorselector/rgb-spinner-red" : "spinner",
     "colorselector/rgb-spinner-green" : "spinner",
     "colorselector/rgb-spinner-blue" : "spinner",
-    
+
     "colorselector/hsb-spinner-hue" : "spinner",
     "colorselector/hsb-spinner-saturation" : "spinner",
     "colorselector/hsb-spinner-brightness" : "spinner",
@@ -1687,6 +1689,19 @@ qx.Theme.define("qx.theme.classic.Appearance",
           backgroundColor : states.abandoned ? "button-abandoned" : "button",
           icon : "decoration/table/select-column-order.png"
         };
+      }
+    },
+
+    "table-column-reset-button" :
+    {
+      extend : "menu-button",
+      alias : "menu-button",
+
+      style : function()
+      {
+        return {
+          icon : "icon/16/actions/view-refresh.png"
+        }
       }
     },
 
