@@ -47,7 +47,7 @@
 
       "settings" :
       {
-        "qx.version" : "0.8-alpha2",
+        "qx.version" : "0.8-beta1",
         "qx.application" : "${APPLICATION}.Application",
         "qx.theme" : "${THEME}"
       },
