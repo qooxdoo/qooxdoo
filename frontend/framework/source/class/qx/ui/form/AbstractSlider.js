@@ -440,13 +440,22 @@ qx.Class.define("qx.ui.form.AbstractSlider",
         position -= knobSize;
       }
 
+      var oriValue = this._positionToValue(position);
+
       // Compute stop value
-      var value = this._snapValue(this._positionToValue(position), slideBack);
+      var value = this._positionToValue(position);
+
+      // Snap into grid
+      var value = this._snapValue(value, slideBack);
+
+      this.debug("NORM: " + oriValue + " => " + value);
 
       // Follow direction directive
       if (this.__trackingEnd == null || (this.__trackingDirection == -1 && value <= this.__trackingEnd) || (this.__trackingDirection == 1 && value >= this.__trackingEnd)) {
         this.__trackingEnd = value;
       }
+
+      this.debug("Tracking to: " + value);
 
       this._trackingEndPosition = position;
     },
@@ -478,9 +487,9 @@ qx.Class.define("qx.ui.form.AbstractSlider",
 
       var block = this.getSingleStep();
       if (back) {
-        value = Math.ceil(value / block) * block;
-      } else {
         value = Math.floor(value / block) * block;
+      } else {
+        value = Math.ceil(value / block) * block;
       }
 
       // Substract minimum afterwards
