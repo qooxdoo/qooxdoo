@@ -1,8 +1,8 @@
 (function()
 {
-  
+
   var jsFileURL;
-  
+
   function init()
   {
     detachEvents();
@@ -16,7 +16,7 @@
       "aspects" : "off",
       "theme" : "Classic"
     };
-    
+
     // extract category and file
     var splits = location.href.split("/");
     var length = splits.length;
@@ -24,7 +24,7 @@
     var category = splits[length-2];
     var filevar = "";  // variable part of .js file name
     var i;
-    
+
     // 'tmp' mirror line: "Atom.html?qxvariant:qx.aspects:off&qx.enableAspect:false&theme_qx.theme.Classic"
     var tmp = splits[splits.length - 1];
     var fileAndParms = tmp.split("?");
@@ -34,14 +34,14 @@
       return
     }
     var base = fileAndParms[0].replace(".html", "");  // "Atom"
-    
+
     var parameters = fileAndParms[1].split("&");  // the url parameters "?...&..&.."
     if (parameters.length < 3)
     {
       emit("Insufficient URL parameters given! (try: \"?qxvariant:qx.aspects:off&qx.enableAspect:false&theme_qx.theme.Classic\")");
       return
     }
-    
+
     // add aspect part of filename
     tmp = parameters[0].split(":");  // read this from "qxvariant:qx.aspects:..."
 
@@ -54,7 +54,7 @@
 
     // add theme part of filename
     tmp = parameters[2].split("_");   // read this from "theme_qx.theme..."
-    
+
     filevar += "-theme_";
     if(tmp[0] == "theme"){
       filevar += tmp[1];
@@ -79,7 +79,7 @@
     var textNode = document.createTextNode(text);
     body.appendChild(textNode);
   }
-  
+
   function insertSourceLink()
   {
     // if the current frame is the top frame
@@ -135,57 +135,18 @@
       window.removeEventListener("load", init, false);
     }
   }
-  
+
   function loadScript()
   {
-    function createXHRObject()
-    {
-      if (typeof XMLHttpRequest != "undefined") {
-        return new XMLHttpRequest();
-      } else if (typeof ActiveXObject != "undefined") {
-        return new ActiveXObject("Microsoft.XMLHTTP");
-      } else {
-        return null;
-      }
-    }
-
-    var req = createXHRObject();
-    var scriptData = "";
-    var url = jsFileURL;
-
-    if(req === null)
-    {
-      emit("Could not create XMLHttpRequest object!\nDemo can not be loaded.");
-      return;
-    }
-
-    req.open("GET", url, false);
-    
-    try{
-      req.send("");
-    }catch(e)
-    {
-      emit("Could not open demo!\nTechnical information:\n" + e)
-    }
-
-    if (req.readyState == 4 && (req.status === 0 || req.status === 304 || (req.status >= 200 && req.status < 300)) )
-    {
-      if (req.responseText) {
-        scriptData = req.responseText;
-      } else {
-        emit("Cold not load demo!");
-        return;
-      }
-    }
-    eval(scriptData);
-
+    var head = document.getElementsByTagName("head")[0];
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src = jsFileURL;
+    head.appendChild(script);
   }
-  
+
   getDataFromLocation();
   loadScript();
   attachEvents();
   updateTitle();
-
 })();
-
-
