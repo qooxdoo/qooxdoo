@@ -145,7 +145,7 @@ qx.Class.define("qx.core.Object",
 
     /*
     ---------------------------------------------------------------------------
-      CLONE SUPPORT
+      CLONE/SERIALIZE SUPPORT
     ---------------------------------------------------------------------------
     */
 
@@ -179,7 +179,11 @@ qx.Class.define("qx.core.Object",
     },
 
 
-
+    /**
+     * Returns a json map of the object configuration.
+     *
+     * @return {Map} The json result
+     */
     serialize : function()
     {
       var clazz = this.constructor

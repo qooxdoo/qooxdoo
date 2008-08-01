@@ -1010,7 +1010,7 @@ qx.Class.define("qx.ui.core.Widget",
       delete this.__updateInsets;
       delete this.__updateMargin;
     },
-    
+
 
 
 
@@ -3115,19 +3115,26 @@ qx.Class.define("qx.ui.core.Widget",
 
       delete this.__childControls;
     },
-    
+
+
+    /**
+     * Finds and returns the top level control. This is the first
+     * widget which is not a child control of any other widget.
+     *
+     * @return {qx.ui.core.Widget} The top control
+     */
     _findTopControl : function()
     {
       var obj = this;
-      while (obj) 
+      while (obj)
       {
         if (!obj.$$subparent) {
           return obj;
         }
-        
+
         obj = obj.$$subparent;
       }
-      
+
       return null;
     },
 
