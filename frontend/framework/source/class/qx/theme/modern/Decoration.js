@@ -164,6 +164,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
       }
     },
 
+    // TODO: check these inset/outset decorators (used for datefield/list and datechooser/button)
     "outset" :
     {
       decorator : qx.ui.decoration.Double,
@@ -175,6 +176,54 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
         color : [ "border-light-shadow", "border-dark", "border-dark", "border-light-shadow" ],
         innerColor : [ "border-light", "border-dark-shadow", "border-dark-shadow", "border-light" ]
+      }
+    },
+    
+    "outset-thin" :
+    {
+      decorator : qx.ui.decoration.Single,
+
+      style :
+      {
+        width : 1,
+        color : [ "border-light", "border-dark-shadow", "border-dark-shadow", "border-light" ]
+      }
+    },
+    
+    "inset" :
+    {
+      decorator : qx.ui.decoration.Double,
+
+      style :
+      {
+        width : 1,
+        innerWidth: 1,
+        color : [ "border-dark-shadow", "border-light", "border-light", "border-dark-shadow" ],
+        innerColor : [ "border-dark", "border-light-shadow", "border-light-shadow", "border-dark" ]
+      }
+    },
+    
+    "inset-thin" :
+    {
+      decorator : qx.ui.decoration.Single,
+
+      style :
+      {
+        width : 1,
+        color : [ "border-dark-shadow", "border-light", "border-light", "border-dark-shadow" ]
+      }
+    },
+    
+    "focused-inset" :
+    {
+      decorator : qx.ui.decoration.Double,
+
+      style :
+      {
+        width : 1,
+        innerWidth: 1,
+        color : [ "border-focused-dark-shadow", "border-focused-light", "border-focused-light", "border-focused-dark-shadow" ],
+        innerColor : [ "border-focused-dark", "border-focused-light-shadow", "border-focused-light-shadow", "border-focused-dark" ]
       }
     },
 

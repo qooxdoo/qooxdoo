@@ -30,6 +30,11 @@ qx.Theme.define("qx.theme.modern.Color",
   {
     "background" : "#dfdfdf",
     "background-light" : "#F2F2F2",
+    
+    // TODO: adjust these colors to Modern theme (used for datefield-button)
+    "background-disabled" : "#F4F4F4",
+    "background-selected" : "#3E6CA8",
+    "background-field" : "white",
 
     "text" : "#1a1a1a",
     "text-disabled" : [ 107, 106, 110 ],
@@ -59,6 +64,11 @@ qx.Theme.define("qx.theme.modern.Color",
     "button-hovered" : "#F6F5F7",
     "button-abandoned" : "#F9F8E9",
     "button-checked" : "#F3F0F5",
+    
+    // TODO
+    "date-chooser" : "white",
+    "date-chooser-title" : [ 116, 116, 116 ],
+    "date-chooser-selected" : [ 52, 52, 52 ],
     
     "table-pane" : "white",
     
