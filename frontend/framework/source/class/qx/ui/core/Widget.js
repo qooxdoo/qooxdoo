@@ -1772,7 +1772,11 @@ qx.Class.define("qx.ui.core.Widget",
       // Import options: This call will
       //  - clear the layout's children cache as well and
       //  - add its parent (this widget) to the layout queue
-      child.setLayoutProperties(options);
+      if (options) {
+        child.setLayoutProperties(options);
+      } else {
+        this.updateLayoutProperties();
+      }
 
       // invalidate cached layout children
       this.__layoutChildren = null;
