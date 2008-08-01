@@ -93,21 +93,26 @@ qx.Theme.define("qx.theme.modern.Appearance",
         };
       }
     },
-
     
     
-    /*
-    ---------------------------------------------------------------------------
-      DRAG AND DROP CURSORS
-    ---------------------------------------------------------------------------
-    */
-    
-    "cursors-dnd" :
+    "dragdrop-cursor" :
     {
       style : function(states)
       {
+        var icon = "nodrop";
+
+        if (states.copy) {
+          icon = "copy";
+        } else if (states.move) {
+          icon = "move";
+        } else if (states.alias) {
+          icon = "alias";
+        }
+
         return {
-          source : "decoration/cursors-combined.gif"
+          source : "decoration/cursors/" + icon + ".gif",
+          position : "right-top",
+          offset : [ 2, 16, 2, 6 ]
         };
       }
     },
@@ -368,6 +373,41 @@ qx.Theme.define("qx.theme.modern.Appearance",
           padding : states.pressed ? [2, 2, 0, 4] : [1, 3, 1, 3],
           backgroundColor : states.focused ? "background-focused-inner" : states.hovered ? "button-hovered" : "button"
         };
+      }
+    },
+    
+    
+    /*
+    ---------------------------------------------------------------------------
+      DATEFIELD
+    ---------------------------------------------------------------------------
+    */
+    "datefield" : "combobox",
+
+    "datefield/button" :
+    {
+      alias : "combobox/button",
+      include : "combobox/button",
+
+      style : function(states)
+      {
+        return {
+          icon : "icon/16/apps/office-calendar.png",
+          padding : [0, 3],
+          backgroundColor : states.disabled ? "background-disabled" : states.focused ? "background-focused" : "background-field",
+          decorator : "undefined"
+        };
+      }
+    },
+
+    "datefield/list" : {
+      alias : "datechooser",
+      include : "datechooser",
+
+      style : function(states) {
+        return {
+          decorator : states.focused ? "focused-inset" : "inset"
+        }
       }
     },
 
@@ -1068,7 +1108,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
       {
         return {
           decorator : states.active ? "window-captionbar-active" : "window-captionbar-inactive",
-          textColor : states.active ? "#ffffff" : "#4a4a4a"
+          textColor : states.active ? "#ffffff" : "#4a4a4a",
+          minHeight : 22
         };
       }
     },
@@ -1103,7 +1144,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          icon : states.active ? "decoration/window/minimize-active.png" : "decoration/window/minimize-inactive.png"
+          icon : states.active ? "decoration/window/minimize-active.png" : "decoration/window/minimize-inactive.png",
+          margin : [ 4, 6, 2, 0 ]
         };
       }
     },
@@ -1116,7 +1158,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
       {
         return {
           // icons seems to be missing in resource folder, Alex?
-          //icon : states.active ? "decoration/window/restore-active.png" : "decoration/window/restore-inactive.png"
+          //icon : states.active ? "decoration/window/restore-active.png" : "decoration/window/restore-inactive.png",
+          margin : [ 4, 6, 2, 0 ]
         };
       }
     },
@@ -1128,7 +1171,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          icon : states.active ? "decoration/window/maximize-active.png" : "decoration/window/maximize-inactive.png"
+          icon : states.active ? "decoration/window/maximize-active.png" : "decoration/window/maximize-inactive.png",
+          margin : [ 4, 6, 2, 0 ]
         };
       }
     },
@@ -1141,7 +1185,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       {
         return {
           icon : states.active ? "decoration/window/close-active.png" : "decoration/window/close-inactive.png",
-          margin : [ 4, 6, 2, 4 ]
+          margin : [ 4, 6, 2, 0 ]
         };
       }
     },
@@ -1296,6 +1340,150 @@ qx.Theme.define("qx.theme.modern.Appearance",
         };
       }
     },*/
+   
+   
+   /*
+    ---------------------------------------------------------------------------
+      DATE CHOOSER
+    ---------------------------------------------------------------------------
+    */
+    "datechooser" : {},
+    "datechooser/navigation-bar" : {
+      style : function(states)
+      {
+        return {
+          backgroundColor : "date-chooser",
+          padding : [2, 10]
+        };
+      }
+    },
+
+    "datechooser/last-year-button"  : "datechooser/button",
+    "datechooser/last-month-button" : "datechooser/button",
+    "datechooser/next-year-button"  : "datechooser/button",
+    "datechooser/next-month-button" : "datechooser/button",
+    "datechooser/button/icon" : {},
+
+    "datechooser/button" :
+    {
+      style : function(states)
+      {
+        var result = {
+          width  : 17,
+          show   : "icon"
+        };
+
+        // TODO: check these icons
+        if (states.lastYear) {
+          result.icon = "decoration/arrows/rewind.gif";
+        } else if (states.lastMonth) {
+          result.icon = "decoration/arrows/left.gif";
+        } else if (states.nextYear) {
+          result.icon = "decoration/arrows/forward.gif";
+        } else if (states.nextMonth) {
+          result.icon = "decoration/arrows/right.gif";
+        }
+
+        if (states.pressed || states.checked || states.abandoned) {
+          result.decorator = "inset-thin";
+        } else if (states.hovered) {
+          result.decorator = "outset-thin";
+        } else {
+          result.decorator = "undefined";
+        }
+
+        if (states.pressed || states.checked || states.abandoned) {
+          result.padding = [ 2, 0, 0, 2 ];
+        } else if (states.hovered) {
+          result.padding = 1;
+        } else {
+          result.padding = 2;
+        }
+
+        return result;
+      }
+    },
+
+    "datechooser/month-year-label" :
+    {
+      style : function(states)
+      {
+        return {
+          font          : "bold",
+          textAlign     : "center"
+        };
+      }
+    },
+
+    "datechooser/date-pane" :
+    {
+      style : function(states)
+      {
+        return {
+          decorator       : new qx.ui.decoration.Single().set({top : [ 1, "solid", "gray" ]}),
+          backgroundColor : "date-chooser"
+        };
+      }
+    },
+
+    "datechooser-weekday" :
+    {
+      style : function(states)
+      {
+        var border = new qx.ui.decoration.Single().set({
+          bottom : [ 1, "solid", "gray" ]
+        });
+
+        return {
+          decorator       : border,
+          font            : "bold",
+          textAlign       : "center",
+          textColor       : states.weekend ? "date-chooser-title" : "date-chooser",
+          backgroundColor : states.weekend ? "date-chooser" : "date-chooser-title"
+        };
+      }
+    },
+
+    "datechooser-day" :
+    {
+      style : function(states)
+      {
+        return {
+          textAlign       : "center",
+          decorator       : states.today ? "black" : "undefined",
+          textColor       : states.selected ? "text-selected" : states.otherMonth ? "text-disabled" : "undefined",
+          backgroundColor : states.selected ? "date-chooser-selected" : "undefined",
+          padding         : [ 2, 4 ]
+        };
+      }
+    },
+
+    "datechooser-week" :
+    {
+      style : function(states)
+      {
+        if (states.header)
+        {
+          var border = new qx.ui.decoration.Single().set({
+            right : [ 1, "solid", "gray" ],
+            bottom : [ 1, "solid", "gray" ]
+          });
+        }
+        else
+        {
+          var border = new qx.ui.decoration.Single().set({
+            right : [ 1, "solid", "gray" ]
+          });
+        }
+
+        return {
+          textAlign : "center",
+          textColor : "date-chooser-title",
+          padding   : [ 2, 4 ],
+          decorator : border
+        };
+      }
+    },
 
 
     /*
