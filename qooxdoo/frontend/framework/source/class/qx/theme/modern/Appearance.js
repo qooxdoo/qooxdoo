@@ -1362,8 +1362,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
           spacingX : 6,
           spacingY : 1,
           iconColumnWidth : 16,
-          arrowColumnWidth : 4,
-          padding : 1
+          arrowColumnWidth : 4
         };
 
         if (states.submenu)
@@ -1397,7 +1396,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         return {
           decorator : states.selected ? "menu-button-selected" : "undefined",
           textColor : states.selected ? "text-selected" : "undefined",
-          padding   : [ 2, 6 ]
+          padding   : [ 4, 6 ]
         };
       }
     },
