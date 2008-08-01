@@ -74,9 +74,6 @@ qx.Class.define("qx.application.AbstractGui",
     // interface method
     main : function()
     {
-      // Determine the scrollbar width
-      qx.bom.element.Overflow.initScrollbarWidth();
-
       // Initialize themes
       qx.theme.manager.Meta.getInstance().initialize();
 

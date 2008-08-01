@@ -168,9 +168,7 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Abstract",
      *
      * @param tableColumnModel {qx.ui.table.columnmodel.Resize}
      *   The table column model in use.
-     * @return {Map}
-     *   {'width'} Provide width without scrollbar space; scrollbar space is available
-     *   {'extraWidth'} qx.ui.core.Widget.SCROLLBAR_SIZE
+     * @return {Integer} The available width
      */
     _getAvailableWidth : function(tableColumnModel)
     {
