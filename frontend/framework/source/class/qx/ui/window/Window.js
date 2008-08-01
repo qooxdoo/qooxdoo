@@ -437,6 +437,7 @@ qx.Class.define("qx.ui.window.Window",
           // captionbar
           var layout = new qx.ui.layout.Grid();
           layout.setColumnFlex(2, 1);
+          layout.setRowFlex(0, 1);
           control = new qx.ui.container.Composite(layout);
           this._add(control);
 
