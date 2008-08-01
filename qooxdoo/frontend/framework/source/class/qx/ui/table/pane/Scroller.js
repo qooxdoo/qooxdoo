@@ -682,14 +682,14 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     /**
      * Event handler. Called when the horizontal scroll bar moved.
      *
-     * @param evt {Map} the event.
+     * @param e {Map} the event.
      * @return {void}
      */
-    _onScrollX : function(evt)
+    _onScrollX : function(e)
     {
-      var scrollLeft = evt.getData();
+      var scrollLeft = e.getData();
 
-      this.fireDataEvent("changeScrollX", scrollLeft, evt.getOldData());
+      this.fireDataEvent("changeScrollX", scrollLeft, e.getOldData());
       this._headerClipper.scrollToX(scrollLeft);
       this._paneClipper.scrollToX(scrollLeft);
     },
@@ -698,12 +698,12 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     /**
      * Event handler. Called when the vertical scroll bar moved.
      *
-     * @param evt {Map} the event.
+     * @param e {Map} the event.
      * @return {void}
      */
-    _onScrollY : function(evt)
+    _onScrollY : function(e)
     {
-      this.fireDataEvent("changeScrollY", evt.getData(), evt.getOldData());
+      this.fireDataEvent("changeScrollY", e.getData(), e.getOldData());
       this._postponedUpdateContent();
     },
 
@@ -711,10 +711,10 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     /**
      * Event handler. Called when the user moved the mouse wheel.
      *
-     * @param evt {Map} the event.
+     * @param e {Map} the event.
      * @return {void}
      */
-    _onMousewheel : function(evt)
+    _onMousewheel : function(e)
     {
       var table = this.getTable();
 
@@ -724,7 +724,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
 
       this._verScrollBar.scrollTo(
         this._verScrollBar.getPosition() +
-        ((evt.getWheelDelta() * 3) * table.getRowHeight())
+        ((e.getWheelDelta() * 3) * table.getRowHeight())
       );
 
       // Update the focus
@@ -806,10 +806,10 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     /**
      * Event handler. Called when the user moved the mouse over the header.
      *
-     * @param evt {Map} the event.
+     * @param e {Map} the event.
      * @return {void}
      */
-    _onMousemoveHeader : function(evt)
+    _onMousemoveHeader : function(e)
     {
       var table = this.getTable();
 
@@ -820,8 +820,8 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       var useResizeCursor = false;
       var mouseOverColumn = null;
 
-      var pageX = evt.getDocumentLeft();
-      var pageY = evt.getDocumentTop();
+      var pageX = e.getDocumentLeft();
+      var pageY = e.getDocumentTop();
 
       // Workaround: In onmousewheel the event has wrong coordinates for pageX
       //       and pageY. So we remember the last move event.
@@ -867,10 +867,10 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     /**
      * Event handler. Called when the user moved the mouse over the pane.
      *
-     * @param evt {Map} the event.
+     * @param e {Map} the event.
      * @return {void}
      */
-    _onMousemovePane : function(evt)
+    _onMousemovePane : function(e)
     {
       var table = this.getTable();
 
@@ -880,8 +880,8 @@ qx.Class.define("qx.ui.table.pane.Scroller",
 
       //var useResizeCursor = false;
 
-      var pageX = evt.getDocumentLeft();
-      var pageY = evt.getDocumentTop();
+      var pageX = e.getDocumentLeft();
+      var pageY = e.getDocumentTop();
 
       // Workaround: In onmousewheel the event has wrong coordinates for pageX
       //       and pageY. So we remember the last move event.
@@ -902,16 +902,16 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     /**
      * Event handler. Called when the user pressed a mouse button over the header.
      *
-     * @param evt {Map} the event.
+     * @param e {Map} the event.
      * @return {void}
      */
-    _onMousedownHeader : function(evt)
+    _onMousedownHeader : function(e)
     {
       if (! this.getTable().getEnabled()) {
         return;
       }
 
-      var pageX = evt.getDocumentLeft();
+      var pageX = e.getDocumentLeft();
 
       // mouse is in header
       var resizeCol = this._getResizeColumnForPageX(pageX);
@@ -968,10 +968,10 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     /**
      * Event handler. Called when the user pressed a mouse button over the pane.
      *
-     * @param evt {Map} the event.
+     * @param e {Map} the event.
      * @return {void}
      */
-    _onMousedownPane : function(evt)
+    _onMousedownPane : function(e)
     {
       var table = this.getTable();
 
@@ -983,8 +983,8 @@ qx.Class.define("qx.ui.table.pane.Scroller",
         this.stopEditing();
       }
 
-      var pageX = evt.getDocumentLeft();
-      var pageY = evt.getDocumentTop();
+      var pageX = e.getDocumentLeft();
+      var pageY = e.getDocumentTop();
       var row = this._getRowForPagePos(pageX, pageY);
       var col = this._getColumnForPageX(pageX);
 
@@ -1001,7 +1001,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
         var selectBeforeFocus = this.getSelectBeforeFocus();
 
         if (selectBeforeFocus) {
-          table.getSelectionManager().handleMouseDown(row, evt);
+          table.getSelectionManager().handleMouseDown(row, e);
         }
 
         // The mouse is over the data -> update the focus
@@ -1010,7 +1010,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
         }
 
         if (! selectBeforeFocus) {
-          table.getSelectionManager().handleMouseDown(row, evt);
+          table.getSelectionManager().handleMouseDown(row, e);
         }
       }
     },
@@ -1029,11 +1029,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
         this._focusIndicator.getColumn() == this._lastMouseDownCell.col
       ) {
         this._lastMouseDownCell = {};
-
-        if (this.hasListener("cellClick"))
-        {
-          this.dispatchEvent(new qx.ui.table.pane.CellEvent(this, "cellClick", e), true);
-        }
+        this.fireEvent("cellClick", qx.ui.table.pane.CellEvent, [this, e, this._lastMouseDownCell.row, this._lastMouseDownCell.col], true);
       }
     },
 
@@ -1128,10 +1124,10 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     /**
      * Event handler. Called when the user released a mouse button over the pane.
      *
-     * @param evt {Map} the event.
+     * @param e {Map} the event.
      * @return {void}
      */
-    _onMouseupPane : function(evt)
+    _onMouseupPane : function(e)
     {
       var table = this.getTable();
 
@@ -1139,9 +1135,9 @@ qx.Class.define("qx.ui.table.pane.Scroller",
         return;
       }
 
-      var row = this._getRowForPagePos(evt.getDocumentLeft(), evt.getDocumentTop());
-      if (row != -1 && row != null && this._getColumnForPageX(evt.getDocumentLeft()) != null) {
-        table.getSelectionManager().handleMouseUp(row, evt);
+      var row = this._getRowForPagePos(e.getDocumentLeft(), e.getDocumentTop());
+      if (row != -1 && row != null && this._getColumnForPageX(e.getDocumentLeft()) != null) {
+        table.getSelectionManager().handleMouseUp(row, e);
       }
     },
 
@@ -1149,10 +1145,10 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     /**
      * Event handler. Called when the user released a mouse button over the header.
      *
-     * @param evt {Map} the event.
+     * @param e {Map} the event.
      * @return {void}
      */
-    _onMouseupHeader : function(evt)
+    _onMouseupHeader : function(e)
     {
       var table = this.getTable();
 
@@ -1175,10 +1171,10 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     /**
      * Event handler. Called when the user clicked a mouse button over the header.
      *
-     * @param evt {Map} the event.
+     * @param e {Map} the event.
      * @return {void}
      */
-    _onClickHeader : function(evt)
+    _onClickHeader : function(e)
     {
       if (this.__ignoreClick)
       {
@@ -1194,7 +1190,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
 
       var tableModel = table.getTableModel();
 
-      var pageX = evt.getDocumentLeft();
+      var pageX = e.getDocumentLeft();
 
       var resizeCol = this._getResizeColumnForPageX(pageX);
 
@@ -1219,10 +1215,10 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     /**
      * Event handler. Called when the user clicked a mouse button over the pane.
      *
-     * @param evt {Map} the event.
+     * @param e {Map} the event.
      * @return {void}
      */
-    _onClickPane : function(evt)
+    _onClickPane : function(e)
     {
       var table = this.getTable();
 
@@ -1230,14 +1226,14 @@ qx.Class.define("qx.ui.table.pane.Scroller",
         return;
       }
 
-      var pageX = evt.getDocumentLeft();
-      var pageY = evt.getDocumentTop();
+      var pageX = e.getDocumentLeft();
+      var pageY = e.getDocumentTop();
       var row = this._getRowForPagePos(pageX, pageY);
       var col = this._getColumnForPageX(pageX);
 
       if (row != null && col != null)
       {
-        table.getSelectionManager().handleClick(row, evt);
+        table.getSelectionManager().handleClick(row, e);
 
         if (
           this._lastMouseDownCell &&
@@ -1246,9 +1242,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
         ) {
           this._lastMouseDownCell = {};
 
-          if (this.hasListener("cellClick")) {
-            this.dispatchEvent(new qx.ui.table.pane.CellEvent(this, "cellClick", evt), true);
-          }
+          this.fireEvent("cellClick", qx.ui.table.pane.CellEvent, [this, e, row, col], true);
         }
       }
     },
@@ -1257,13 +1251,13 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     /**
      * Event handler. Called when a context menu is invoked in a cell.
      *
-     * @param evt {qx.event.type.Mouse} the event.
+     * @param e {qx.event.type.Mouse} the event.
      * @return {void}
      */
-    _onContextMenu : function(evt)
+    _onContextMenu : function(e)
     {
-      var pageX = evt.getDocumentLeft();
-      var pageY = evt.getDocumentTop();
+      var pageX = e.getDocumentLeft();
+      var pageY = e.getDocumentTop();
       var row = this._getRowForPagePos(pageX, pageY);
       var col = this._getColumnForPageX(pageX);
 
@@ -1273,11 +1267,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
         col == this._lastMouseDownCell.col
       ) {
         this._lastMouseDownCell = {};
-
-        if (this.hasListener("cellContextmenu"))
-        {
-          this.dispatchEvent(new qx.ui.table.pane.CellEvent(this, "cellContextmenu", evt), true);
-        }
+        this.fireEvent("cellContextmenu", qx.ui.table.pane.CellEvent, [this, e, row, col], true);
       }
     },
 
@@ -1285,24 +1275,21 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     /**
      * Event handler. Called when the user double clicked a mouse button over the pane.
      *
-     * @param evt {Map} the event.
+     * @param e {Map} the event.
      * @return {void}
      */
-    _onDblclickPane : function(evt)
+    _onDblclickPane : function(e)
     {
-      var pageX = evt.getDocumentLeft();
-      var pageY = evt.getDocumentTop();
+      var pageX = e.getDocumentLeft();
+      var pageY = e.getDocumentTop();
 
 
       this._focusCellAtPagePos(pageX, pageY);
       this.startEditing();
-      if (this.hasListener("cellDblclick"))
-      {
-        var row = this._getRowForPagePos(pageX, pageY);
-        if (row != -1 && row != null)
-        {
-          this.dispatchEvent(new qx.ui.table.pane.CellEvent(this, "cellDblclick", evt), true);
-        }
+
+      var row = this._getRowForPagePos(pageX, pageY);
+      if (row != -1 && row != null) {
+        this.fireEvent("cellDblclick", qx.ui.table.pane.CellEvent, [this, e, row], true);
       }
     },
 
@@ -1310,10 +1297,10 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     /**
      * Event handler. Called when the mouse moved out.
      *
-     * @param evt {Map} the event.
+     * @param e {Map} the event.
      * @return {void}
      */
-    _onMouseout : function(evt)
+    _onMouseout : function(e)
     {
       var table = this.getTable();
 
@@ -1690,10 +1677,10 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     /**
      * Event handler. Called when the modal window of the cell editor closes.
      *
-     * @param evt {Map} the event.
+     * @param e {Map} the event.
      * @return {void}
      */
-    _onCellEditorModalWindowClose : function(evt) {
+    _onCellEditorModalWindowClose : function(e) {
       this.stopEditing();
     },
 

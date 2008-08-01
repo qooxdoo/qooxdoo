@@ -225,7 +225,7 @@ qx.Class.define("qx.ui.table.Table",
      /**
       * Dispatched when the width of the table has changed.
       */
-    "tableWidthChanged" : "qx.event.type.DataEvent",
+    "tableWidthChanged" : "qx.event.type.Event",
 
     /**
      * Dispatched when updating scrollbars discovers that a vertical scrollbar
@@ -1731,13 +1731,13 @@ qx.Class.define("qx.ui.table.Table",
       }
       else
       {
-        arguments.callee.base.apply(this, arguments);
+        this.base(arguments, type, listener, self, capture);
       }
     },
 
 
     // overridden
-    addListener : function(type, listener, self, capture)
+    removeListener : function(type, listener, self, capture)
     {
       if (this.self(arguments).__redirectEvents[type])
       {
@@ -1748,7 +1748,7 @@ qx.Class.define("qx.ui.table.Table",
       }
       else
       {
-        arguments.callee.base.apply(this, arguments);
+        this.base(arguments, type, listener, self, capture);
       }
     }
   },

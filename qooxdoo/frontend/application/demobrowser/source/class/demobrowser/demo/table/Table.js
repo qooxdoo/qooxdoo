@@ -26,7 +26,7 @@
 ************************************************************************ */
 
 /**
- * A table with virtual scrolling, model-view-controller, renderers,
+ * A table with virtual scrolling, model-view-controller, renderer,
  * editing, sorting, column resizing, column reordering,
  * column hiding.
  */
