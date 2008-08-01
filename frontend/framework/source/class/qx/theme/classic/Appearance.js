@@ -466,7 +466,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
     ---------------------------------------------------------------------------
     */
     "datefield" : "combobox",
-    
+
     "datefield/button" :
     {
       alias : "combobox/button",
@@ -477,21 +477,21 @@ qx.Theme.define("qx.theme.classic.Appearance",
         return {
           icon : "icon/16/apps/office-calendar.png",
           padding : [0, 3],
-          backgroundColor : states.disabled ? "background-disabled" : states.focused ? "background-focused" : "background-field",         
+          backgroundColor : states.disabled ? "background-disabled" : states.focused ? "background-focused" : "background-field",
           decorator : "undefined"
         };
       }
     },
-    
+
     "datefield/list" : {
       alias : "datechooser",
       include : "datechooser",
-      
+
       style : function(states) {
         return {
           decorator: states.focused ? "focused-inset" : "inset"
         }
-      }  
+      }
     },
 
 
@@ -1219,7 +1219,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
         };
       }
     },
-    
+
     "splitpane/splitter/knob" :
     {
       style : function(states)
@@ -1626,17 +1626,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
           decorator : new qx.ui.decoration.Single().set({ top : [ 1, "solid", "border-dark-shadow" ] }),
           paddingLeft : 2,
           paddingRight : 2
-        };
-      }
-    },
-
-    "table-header":
-    {
-      style : function(states)
-      {
-        return {
-          decoration : new qx.ui.decoration.Single().set({ bottom : [ 1, "solid", "table-header-border" ] }),
-          backgroundColor : "table-header"
         };
       }
     },
