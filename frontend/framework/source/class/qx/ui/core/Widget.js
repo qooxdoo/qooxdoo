@@ -993,6 +993,8 @@ qx.Class.define("qx.ui.core.Widget",
       {
         if (this.__layout && this.hasLayoutChildren()) {
           this.__layout.renderLayout(innerWidth, innerHeight);
+        } else if (this.hasLayoutChildren()) {
+          throw new Error("At least one child in control " + this._findTopControl() + " requires a layout, but no one was defined!");
         }
       }
 
@@ -1008,6 +1010,7 @@ qx.Class.define("qx.ui.core.Widget",
       delete this.__updateInsets;
       delete this.__updateMargin;
     },
+    
 
 
 
@@ -3111,6 +3114,21 @@ qx.Class.define("qx.ui.core.Widget",
       }
 
       delete this.__childControls;
+    },
+    
+    _findTopControl : function()
+    {
+      var obj = this;
+      while (obj) 
+      {
+        if (!obj.$$subparent) {
+          return obj;
+        }
+        
+        obj = obj.$$subparent;
+      }
+      
+      return null;
     },
 
 
