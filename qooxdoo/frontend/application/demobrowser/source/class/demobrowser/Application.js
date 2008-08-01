@@ -21,9 +21,6 @@
 
 /* ************************************************************************
 
-#asset(qx/icon/${qx.icontheme}/16/*)
-#asset(qx/icon/Oxygen/*)
-#asset(qx/icon/Tango/*)
 #asset(demobrowser/image/*)
 #asset(demobrowser/css/*)
 
@@ -54,10 +51,10 @@ qx.Class.define("demobrowser.Application",
     {
       this.base(arguments);
 
-      if (qx.core.Variant.isSet("qx.debug", "on")) 
+      if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         qx.log.appender.Native;
-        qx.log.appender.Console;        
+        qx.log.appender.Console;
       }
 
       // Include CSS files
