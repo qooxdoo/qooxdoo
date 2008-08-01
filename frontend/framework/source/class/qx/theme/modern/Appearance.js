@@ -193,6 +193,22 @@ qx.Theme.define("qx.theme.modern.Appearance",
         };
       }
     },
+    
+    
+    "splitbutton" : {},
+    "splitbutton/button" : "button",
+    "splitbutton/arrow" :
+    {
+      alias : "button",
+      include : "button",
+
+      style : function(states)
+      {
+        return {
+          icon : "decoration/arrows/down.gif"
+        };
+      }
+    },
 
 
 
@@ -869,6 +885,21 @@ qx.Theme.define("qx.theme.modern.Appearance",
         };
       }
     },
+    
+    "toolbar-splitbutton" : {},
+    "toolbar-splitbutton/button" : "toolbar-button",
+    "toolbar-splitbutton/arrow" :
+    {
+      alias : "toolbar-button",
+      include : "toolbar-button",
+
+      style : function(states)
+      {
+        return {
+          icon : "decoration/arrows/down.gif"
+        };
+      }
+    },    
 
     "toolbar-separator" :
     {
@@ -1327,8 +1358,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       {
         var result =
         {
-          backgroundColor : "background",
-          decorator : "outset",
+          decorator : "menu",
           spacingX : 6,
           spacingY : 1,
           iconColumnWidth : 16,
@@ -1353,10 +1383,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         return {
           height : 0,
           decorator : "menu-separator",
-          marginTop : 4,
-          marginBottom: 4,
-          marginLeft : 2,
-          marginRight : 2
+          margin    : [ 4, 2 ]
         }
       }
     },
@@ -1368,9 +1395,9 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          backgroundColor : states.selected ? "background-selected" : "undefined",
+          decorator : states.selected ? "menu-button-selected" : "undefined",
           textColor : states.selected ? "text-selected" : "undefined",
-          padding : [ 2, 6 ]
+          padding   : [ 2, 6 ]
         };
       }
     },
@@ -1419,7 +1446,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          source : states.selected ? "decoration/arrows/right-invert.gif" : "decoration/arrows/right.gif",
+          source : states.selected ? "decoration/arrows/right-invert.png" : "decoration/arrows/right.png",
           alignY : "middle"
         };
       }
