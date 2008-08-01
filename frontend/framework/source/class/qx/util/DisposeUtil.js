@@ -90,8 +90,19 @@ qx.Class.define("qx.util.DisposeUtil",
       }
 
       // Dispose all content
-      for (var i=0, l=data.length; i<l; i++) {
-        data[i].dispose();
+      try
+      {
+        var entry;
+        for (var i=data.length-1; i>=0; i--)
+        {
+          entry = data[i];
+          if (entry) {
+            entry.dispose();
+          }
+        }
+      }
+      catch(ex) {
+        throw new Error("The array field: " + field + " of object: " + obj + " has non disposable entries: " + ex);
       }
 
       // Reduce array size to zero
@@ -118,11 +129,17 @@ qx.Class.define("qx.util.DisposeUtil",
       }
 
       // Dispose all content
-      for (var key in data)
+      try
       {
-        if (data.hasOwnProperty(key)) {
-          data[key].dispose();
+        for (var key in data)
+        {
+          if (data.hasOwnProperty(key)) {
+            data[key].dispose();
+          }
         }
+      }
+      catch(ex) {
+        throw new Error("The map field: " + field + " of object: " + obj + " has non disposable entries: " + ex);
       }
 
       // Finally remove field
