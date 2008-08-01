@@ -52,7 +52,7 @@ qx.Class.define("demobrowser.DemoBrowser",
     this.widgets = {};
     this.tests = {};
     this._useProfile = false;
-    
+
     // Theme
     this.__currentTheme = "Classic";
 
@@ -61,7 +61,7 @@ qx.Class.define("demobrowser.DemoBrowser",
 
     // Header Pane
     this.header = this.__makeHeader();
-    
+
     this.add(this.header);
 
     // Menu Bar
@@ -78,9 +78,9 @@ qx.Class.define("demobrowser.DemoBrowser",
     mainsplit.add(left, 0);
 
 
-    
+
     // Right
-    var right = new qx.ui.container.Composite(new qx.ui.layout.VBox); 
+    var right = new qx.ui.container.Composite(new qx.ui.layout.VBox);
     mainsplit.add(right, 1);
 
     // Toolbar
@@ -232,7 +232,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       this._useProfile = checked;
       this.runSample();
     },
-    
+
     __toggleProfile : function(e)
     {
       var checked = this.widgets["toolbar.profile"].getChecked();
@@ -242,7 +242,7 @@ qx.Class.define("demobrowser.DemoBrowser",
         if (checked)
         {
           cw.qx.dev.Profile.start();
-        } 
+        }
         else
         {
           cw.qx.dev.Profile.stop();
@@ -256,7 +256,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       this.widgets["menu.profile"].setChecked(checked);
       this._cmdProfile.setEnabled(true);
     },
-    
+
     __showLastProfile : function()
     {
       var cw = this.f1.getWindow();
@@ -282,7 +282,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       }
       this._cmdDisposeSample.setEnabled(false);
     },
-    
+
     __setStateInitialized : function()
     {
       this._cmdObjectSummary.setEnabled(false);
@@ -296,7 +296,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       this._cmdNamespacePollution.setEnabled(false);
       this.widgets["toolbar.playall"].setEnabled(true);
     },
-    
+
     __showPollution : function(e)
     {
       var cw = this.f1.getWindow();
@@ -559,7 +559,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       splitButton.addListener("execute", this.__toggleTheme, this);
 
       toolbar.add(splitButton);
-      
+
       // -- Sample Features
       var gb = new qx.ui.toolbar.Part();
       toolbar.add(gb);
@@ -701,8 +701,8 @@ qx.Class.define("demobrowser.DemoBrowser",
 
       this.f2.addListenerOnce("appear", function(){
         this.f2.getContentElement().getDomElement().appendChild(this.logelem);
-      }, this);     
-      
+      }, this);
+
       // Third Page
       // -- Tab Button
       var p3 = new qx.ui.tabview.Page("HTML Code", "icon/16/mimetypes/text-html.png");
@@ -718,9 +718,9 @@ qx.Class.define("demobrowser.DemoBrowser",
 
       f3.getContentElement().setAttribute("id", "qx_srcview");
 
-      
-      
-      
+
+
+
       // -- Tab Pane
       var p4 = new qx.ui.tabview.Page("JavaScript Code", "icon/16/mimetypes/office-spreadsheet.png");
       p4.setBackgroundColor("white");
@@ -735,7 +735,7 @@ qx.Class.define("demobrowser.DemoBrowser",
 
       f4.getContentElement().setAttribute("id", "qx_srcview");
 
-      return tabview; 
+      return tabview;
     },  // __makeOutputViews()
 
 
@@ -755,7 +755,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       tree1.select(root);
       tree1.setWidth(200);
       tree1.setDecorator(null);
-      
+
       this.tree = this.widgets["treeview.flat"] = tree1;
 
       tree1.addListener("changeSelection", this.treeGetSelection, this);
@@ -951,9 +951,9 @@ qx.Class.define("demobrowser.DemoBrowser",
         treeNode.getTree().select(treeNode);
         url = 'demo/' + value;
         if (this._useProfile) {
-          url += "?qxvariant:qx.aspects:on&qxsetting:qx.enableAspect:true"
+          url += "?qxvariant:qx.aspects:on"
         } else {
-          url += "?qxvariant:qx.aspects:off&qxsetting:qx.enableAspect:false"
+          url += "?qxvariant:qx.aspects:off"
         }
         // Use selected theme:
         url += "&theme_qx.theme." + this.__currentTheme;
@@ -971,7 +971,7 @@ qx.Class.define("demobrowser.DemoBrowser",
 
       this._currentSample = value;
       this._currentSampleUrl = url;
-      
+
       // Focus first tab
       this.widgets["outputviews"].setSelected(this.widgets["outputviews"].getChildren()[0]);
     },  // setCurrentSample
