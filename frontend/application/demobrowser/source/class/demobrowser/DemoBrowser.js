@@ -1110,7 +1110,11 @@ qx.Class.define("demobrowser.DemoBrowser",
 
 
     /**
-     * TODOC
+     * This method re-gets (through XHR) the HTML page of the current demo.  The page is
+     * then scanned (in the request callback) for the second "<script>" tag, which
+     * supposedly loads the demo application .js.  The 'src' uri of this script tag is
+     * then used to construct the uri of the corresponding Javascript source file, which
+     * is then loaded into the source tab (through another XHR).
      *
      * @param url {var} TODOC
      * @return {String} TODOC
