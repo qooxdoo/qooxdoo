@@ -30,7 +30,7 @@
 
       "themes" :
       {
-        "qx.icontheme" : ["Oxygen"],
+        "qx.icontheme" : ["Oxygen", "Tango"],
         "qx.theme"     : ["Classic","Modern"]
       },
 
