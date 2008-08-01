@@ -157,29 +157,15 @@ qx.Theme.define("qx.theme.classic.Appearance",
         };
       }
     },
-
-
-
-
-
+    
+    
+    
     /*
     ---------------------------------------------------------------------------
-      DRAG AND DROP CURSORS
+      BUTTON
     ---------------------------------------------------------------------------
     */
-
-   "cursors-dnd" :
-    {
-      style : function(states)
-      {
-        return {
-          source : "decoration/cursors-combined.png"
-        };
-      }
-    },
-
-
-
+    
     "button" :
     {
       alias : "atom",
