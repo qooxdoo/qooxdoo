@@ -50,6 +50,12 @@ qx.Theme.define("qx.theme.modern.Color",
     "border-light-shadow" : "#DCDFE4",
     "border-dark-shadow" : "#4d4d4d",
     "border-dark" : "#85878C",
+    
+    // TODO: adjust these colors to the Modern theme!
+    "border-focused-light" : "#BCCEE5",
+    "border-focused-light-shadow" : "#A5BDDE",
+    "border-focused-dark-shadow" : "#7CA0CF",
+    "border-focused-dark" : "#3E6CA8",
 
 
     "focus" : "#92B1DC",
