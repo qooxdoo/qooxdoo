@@ -30,7 +30,7 @@
 qx.Class.define("qx.ui.progressive.headfoot.Abstract",
 {
   type       : "abstract",
-  extend     : qx.ui.layout.HBox,
+  extend     : qx.ui.core.Widget,
 
   members    :
   {
