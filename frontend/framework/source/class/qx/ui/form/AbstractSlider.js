@@ -440,62 +440,30 @@ qx.Class.define("qx.ui.form.AbstractSlider",
         position -= knobSize;
       }
 
-      var oriValue = this._positionToValue(position);
-
       // Compute stop value
       var value = this._positionToValue(position);
 
-      // Snap into grid
-      var value = this._snapValue(value, slideBack);
-
-      this.debug("NORM: " + oriValue + " => " + value);
-
-      // Follow direction directive
-      if (this.__trackingEnd == null || (this.__trackingDirection == -1 && value <= this.__trackingEnd) || (this.__trackingDirection == 1 && value >= this.__trackingEnd)) {
-        this.__trackingEnd = value;
-      }
-
-      this.debug("Tracking to: " + value);
-
-      this._trackingEndPosition = position;
-    },
-
-
-    /**
-     * Snaps the given value into the single step configured
-     * stepping.
-     *
-     * @param value {Integer} Value to use
-     * @param back {Boolean?false} Whether the
-     *   rounding should happen (ceil vs. floor)
-     * @return {Integer} Snapped value
-     */
-    _snapValue : function(value, back)
-    {
       var min = this.getMinimum();
       var max = this.getMaximum();
 
-      // Do not snap at minimum or maximum as these
-      // should be always reachable - even if not
-      // in the snapping grid.
-      if (value == min || value == max) {
-        return value;
-      }
-
-      // Add min to value to be in stepping with minimum value
-      value += min;
-
-      var block = this.getSingleStep();
-      if (back) {
-        value = Math.floor(value / block) * block;
+      if (value < min) {
+        value = min;
+      } else if (value > max) {
+        value = max;
       } else {
-        value = Math.ceil(value / block) * block;
+        var old = this.getValue();
+        var step = this.getPageStep();
+        var method = this.__trackingDirection < 0 ? "floor" : "ceil";
+
+        // Fix to page step
+        value = old + (Math[method]((value - old) / step) * step);
       }
 
-      // Substract minimum afterwards
-      value -= min;
-
-      return value;
+      // Store value when undefined, otherwise only when it follows the
+      // current direction e.g. goes up or down
+      if (this.__trackingEnd == null || (this.__trackingDirection == -1 && value <= this.__trackingEnd) || (this.__trackingDirection == 1 && value >= this.__trackingEnd)) {
+        this.__trackingEnd = value;
+      }
     },
 
 
@@ -737,13 +705,17 @@ qx.Class.define("qx.ui.form.AbstractSlider",
      */
     slideTo : function(value)
     {
+      // Bring into allowed range or fix to single step grid
       if (value < this.getMinimum()) {
         value = this.getMinimum();
       } else if (value > this.getMaximum()) {
         value = this.getMaximum();
+      } else {
+        value = this.getMinimum() + Math.round((value - this.getMinimum()) / this.getSingleStep()) * this.getSingleStep()
       }
 
-      this.setValue(this._snapValue(value));
+      // Sync with property
+      this.setValue(value);
     },
 
 
