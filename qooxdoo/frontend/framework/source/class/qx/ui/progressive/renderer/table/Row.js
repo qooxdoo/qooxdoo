@@ -140,7 +140,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
 
         var stylesheet =
           ".qx-progressive-" + hash + "-row {" +
-          "  width : '100%';"
+          "  width : '100%';" +
           "}";
         tr.__clazz[hash].rowstylesheet =
           qx.html.StyleSheet.createElement(stylesheet);
@@ -221,7 +221,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
 
     // overridden
     render : function(state, element)
-    {  
+    {
       var data = element.data;
       var html = [ ];
       var cellInfo;
@@ -321,7 +321,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
           // Update state for next time
           rendererData.start = (index == 0 ? 1 : 0);
 
-          // Insert our new row before the first child.   
+          // Insert our new row before the first child.
           elem.insertBefore(div, children[0]);
           break;
         }
@@ -367,7 +367,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
          ? 0
          : this._progressive.getInnerWidth()) -
         qx.bom.element.Overflow.getScrollbarSize();
-      
+
       // Get the style sheet rule name for this row
       var stylesheet = ".qx-progressive-" + this._hash + "-row";
 
