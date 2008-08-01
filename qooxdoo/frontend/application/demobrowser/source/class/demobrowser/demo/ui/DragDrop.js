@@ -48,7 +48,6 @@ qx.Class.define("demobrowser.demo.ui.DragDrop",
       var source = new qx.ui.form.List;
       source.setDraggable(true);
       source.setSelectionMode("multi");
-      source.setDragSelection(false);
 
       for (var i=0; i<20; i++) {
         source.add(new qx.ui.form.ListItem("Item " + i, "icon/16/places/folder.png"));
@@ -133,6 +132,8 @@ qx.Class.define("demobrowser.demo.ui.DragDrop",
           e.preventDefault();
         }
       });
+
+
 
 
 
