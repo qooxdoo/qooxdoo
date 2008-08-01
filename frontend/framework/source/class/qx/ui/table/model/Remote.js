@@ -761,7 +761,7 @@ qx.Class.define("qx.ui.table.model.Remote",
       return (this._editableColArr
               ? (this._editableColArr[columnIndex] == true)
               : false);
-    }
+    },
 
    /**
      * Sets whether a column is sortable.
