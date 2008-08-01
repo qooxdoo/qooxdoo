@@ -28,20 +28,19 @@
     // 'tmp' mirror line: "Atom.html?qxvariant:qx.aspects:off&qx.enableAspect:false&theme_qx.theme.Classic"
     var tmp = splits[splits.length - 1];
     var fileAndParms = tmp.split("?");
-    if (fileAndParms.length < 2)
-    {
-      emit("No URL parameters given! (try: \"?qxvariant:qx.aspects:off&qx.enableAspect:false&theme_qx.theme.Classic\")");
-      return
-    }
     var base = fileAndParms[0].replace(".html", "");  // "Atom"
 
-    var parameters = fileAndParms[1].split("&");  // the url parameters "?...&..&.."
-    if (parameters.length < 3)
+    var parametes;
+    if (fileAndParms.length < 2) // no url parameters
     {
-      emit("Insufficient URL parameters given! (try: \"?qxvariant:qx.aspects:off&qx.enableAspect:false&theme_qx.theme.Classic\")");
-      return
+      parameters = ['','',''];
+    }
+    else 
+    {
+      parameters = fileAndParms[1].split("&");  // the url parameters "?...&..&.."
     }
 
+    /*
     // add aspect part of filename
     tmp = parameters[0].split(":");  // read this from "qxvariant:qx.aspects:..."
 
@@ -51,12 +50,13 @@
     }else{
       filevar += defaultParameters.aspects;
     }
+    */
 
     // add theme part of filename
     tmp = parameters[2].split("_");   // read this from "theme_qx.theme..."
 
     filevar += "-theme_";
-    if(tmp[0] == "theme"){
+    if(tmp[0] && tmp[0] == "theme"){
       filevar += tmp[1];
     }else{
       filevar += defaultParameters.theme;

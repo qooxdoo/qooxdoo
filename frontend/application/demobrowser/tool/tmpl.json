@@ -42,7 +42,7 @@
       "variants" :
       {
         "qx.debug" : ["off"],
-	      "qx.aspects" : ["on", "off"],
+	      //"qx.aspects" : ["on", "off"],
         "qx.theme" : ["qx.theme.Modern", "qx.theme.Classic"]
       },
 
@@ -63,7 +63,7 @@
 
       "compile-source" :
       {
-        "file" : "source/script/YYY-aspects_{qx.aspects}-theme_{qx.theme}.js",
+        "file" : "source/script/YYY-theme_{qx.theme}.js",
         "root" : "source/demo/yyy"
       }
     },
@@ -75,13 +75,6 @@
       "settings" :
       {
         "qx.application" : "YYY"
-      },
-
-      "variants" :
-      {
-        "qx.debug" : ["off"],
-	      "qx.aspects" : ["on", "off"],
-        "qx.theme" : ["qx.theme.Modern", "qx.theme.Classic"]
       },
 
       "compile-dist" :
