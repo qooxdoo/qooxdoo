@@ -901,17 +901,44 @@ qx.Theme.define("qx.theme.modern.Decoration",
     ---------------------------------------------------------------------------
    */
    
+   // TODO: add shadow
+   "menu" :
+   {
+     decorator : qx.ui.decoration.Single,
+     
+     style :
+     {
+       backgroundImage  : "decoration/menu/background.png",
+       backgroundRepeat : "scale", 
+       
+       width : 1,
+       color : "border-dark-shadow",
+       style : "solid"
+     }     
+   },
+   
+   "menu-button-selected" :
+   {
+     decorator : qx.ui.decoration.Single,
+
+     style :
+     {
+       backgroundImage  : "decoration/selection.png",
+       backgroundRepeat : "scale"
+     }
+   },
+   
    "menu-separator" :
     {
       decorator :  qx.ui.decoration.Single,
 
       style :
       {
-        width: 1,
-        widthLeft: 0,
-        widthRight : 0,
-        colorTop : "border-dark",
-        colorBottom : "border-light"
+        widthTop    : 1,
+        colorTop    : "#C5C5C5",
+        
+        widthBottom : 1,
+        colorBottom : "#FAFAFA"
       }
     }
   }
