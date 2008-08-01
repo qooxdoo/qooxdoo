@@ -640,6 +640,8 @@ qx.Class.define("qx.ui.core.Widget",
       apply : "_applyKeepActive"
     },
 
+
+    /** Whether the widget acts as a source for drag&drop operations */
     draggable :
     {
       check : "Boolean",
@@ -647,6 +649,8 @@ qx.Class.define("qx.ui.core.Widget",
       apply : "_applyDraggable"
     },
 
+
+    /** Whether the widget acts as a target for drag&drop operations */
     droppable :
     {
       check : "Boolean",
