@@ -2,6 +2,7 @@
 {
 
   var jsFileURL;
+  var jsSourceURL;
 
   function init()
   {
@@ -52,7 +53,7 @@
 
     // create the URI to the source script
     jsFileURL = "../../script/demobrowser.demo." + category + "." + base + filevar + ".js";
-
+    jsSourceURL = "../../script/demobrowser.demo." + category + "." + base + ".src.js";
   }
 
   function emit(text)
@@ -89,7 +90,7 @@
 
 
     // set the link
-    div.innerHTML ="<a style='color:black;text-decoration:none' href='" + jsFileURL + "' target='_blank'>Show Javascript Source</a>";
+    div.innerHTML ="<a style='color:black;text-decoration:none' href='" + jsSourceURL + "' target='_blank'>Show Javascript Source</a>";
 
     // append the div to the document
     document.body.appendChild(div);
