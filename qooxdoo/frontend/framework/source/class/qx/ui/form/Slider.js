@@ -117,7 +117,8 @@ qx.Class.define("qx.ui.form.Slider",
      */
     _onMouseWheel : function(e)
     {
-      this.slideBy(e.getWheelDelta() * this.getSingleStep());
+      var direction = e.getWheelDelta() > 0 ? 1 : -1;
+      this.slideBy(direction * this.getSingleStep());
       e.stop();
     },
 

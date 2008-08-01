@@ -530,7 +530,8 @@ qx.Class.define("qx.ui.form.Spinner",
      */
     _onMouseWheel: function(e)
     {
-      this.gotoValue(this.getValue() + e.getWheelDelta());
+      var direction = e.getWheelDelta() > 0 ? 1 : -1;
+      this.gotoValue(this.getValue() + (direction * this.getSingleStep()));
       e.stopPropagation();
     },
 
