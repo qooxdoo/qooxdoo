@@ -208,6 +208,7 @@ qx.Class.define("qx.ui.form.SelectBox",
         return;
       }
 
+      var direction = e.getWheelDelta() > 0 ? 1 : -1;
       var children = this.getChildren();
       var selected = this.getSelected();
 
@@ -215,7 +216,7 @@ qx.Class.define("qx.ui.form.SelectBox",
         selected = children[0];
       }
 
-      var index = children.indexOf(selected) + e.getWheelDelta();
+      var index = children.indexOf(selected) + direction;
       var max = children.length - 1;
 
       // Limit
