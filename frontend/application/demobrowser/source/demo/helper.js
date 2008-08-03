@@ -1,6 +1,5 @@
 (function()
 {
-
   var jsFileURL;
   var jsSourceURL;
 
@@ -13,9 +12,10 @@
   function getDataFromLocation()
   {
 
-    var defaultParameters = {
+    var defaultParameters = 
+    {
       "aspects" : "off",
-      "theme" : "Classic"
+      "theme" : "qx.theme.Classic"
     };
 
     // extract category and file
@@ -26,7 +26,7 @@
     var filevar = "";  // variable part of .js file name
     var i;
 
-    // 'tmp' mirror line: "Atom.html?qxvariant:qx.aspects:off&qx.enableAspect:false&theme_qx.theme.Classic"
+    // 'tmp' mirror line: "Atom.html?qxvariant:qx.aspects:off&theme_qx.theme.Classic"
     var tmp = splits[splits.length - 1];
     var fileAndParms = tmp.split("?");
     var base = fileAndParms[0].replace(".html", "");  // "Atom"
