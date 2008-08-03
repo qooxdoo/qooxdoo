@@ -43,7 +43,7 @@ qx.Class.define("testrunner.test.Property",
       this.assertFunction(inst.getPublicProp, "public getter");
       this.assertFunction(inst.resetPublicProp, "public reset");
       this.assertUndefined(inst.togglePublicProp, "public toggler");
-      this.assertUndefined(inst.stylePublicProp, "public style");
+      this.assertUndefined(inst.setThemedPublicProp, "public themed");
 
       // Boolean property
       this.assertFunction(inst.toggleBooleanProp, "boolean toggler");
@@ -230,7 +230,7 @@ qx.Class.define("testrunner.test.Property",
       this.assertIdentical(inst.getNullProp(), "bar", "b7");
 
       // Check appearance value
-      this.assertIdentical(inst.styleAppearanceProp("black"), "black", "c1");
+      this.assertIdentical(inst.setThemedAppearanceProp("black"), "black", "c1");
       this.assertIdentical(inst.getAppearanceProp(), "black", "c2");
       this.assertIdentical(inst.setAppearanceProp("white"), "white", "c3");
       this.assertIdentical(inst.getAppearanceProp(), "white", "c4");
