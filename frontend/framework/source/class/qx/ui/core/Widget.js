@@ -2289,8 +2289,8 @@ qx.Class.define("qx.ui.core.Widget",
       var manager = qx.theme.manager.Appearance.getInstance();
 
       // Cache deep accessor
-      var styler = qx.core.Property.$$method.style;
-      var unstyler = qx.core.Property.$$method.unstyle;
+      var styler = qx.core.Property.$$method.setThemed;
+      var unstyler = qx.core.Property.$$method.resetThemed;
 
       // Check for requested selector update
       if (this.__updateSelector)
