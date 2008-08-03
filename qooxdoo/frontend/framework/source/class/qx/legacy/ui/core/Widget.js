@@ -4746,8 +4746,8 @@ qx.Class.define("qx.legacy.ui.core.Widget",
      */
     _styleFromMap : function(data)
     {
-      var styler = qx.core.Property.$$method.style;
-      var unstyler = qx.core.Property.$$method.unstyle;
+      var styler = qx.core.Property.$$method.setThemed;
+      var unstyler = qx.core.Property.$$method.resetThemed;
       var value;
 
       if (qx.core.Variant.isSet("qx.debug", "on"))
@@ -4777,7 +4777,7 @@ qx.Class.define("qx.legacy.ui.core.Widget",
      */
     _unstyleFromArray : function(data)
     {
-      var unstyler = qx.core.Property.$$method.unstyle;
+      var unstyler = qx.core.Property.$$method.resetThemed;
 
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
