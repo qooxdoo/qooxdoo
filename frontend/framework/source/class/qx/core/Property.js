@@ -192,18 +192,13 @@ qx.Class.define("qx.core.Property",
 
 
     /**
-     * Used in build version for storage names
-     */
-    $$idcounter : 0,
-
-
-    /**
      * Caching field names for each property created
      *
      * @internal
      */
     $$store :
     {
+      runtime : {},
       user    : {},
       theme   : {},
       inherit : {},
@@ -223,9 +218,11 @@ qx.Class.define("qx.core.Property",
       set     : {},
       reset   : {},
       init    : {},
-      refresh : {},
-      style   : {},
-      unstyle : {}
+      refresh : {},      
+      setRuntime : {},
+      resetRuntime : {},      
+      setThemed   : {},
+      resetThemed : {}
     },
 
 
@@ -246,10 +243,16 @@ qx.Class.define("qx.core.Property",
       apply        : "string",   // String
       event        : "string",   // String
       check        : null,       // Array, String, Function
-      transform    : "string",    // String
+      transform    : "string",   // String
       deferredInit : "boolean"   // Boolean
     },
 
+
+    /**
+     * Supported keys for property group definitions
+     *
+     * @internal
+     */
     $$allowedGroupKeys :
     {
       name        : "string",   // String
@@ -427,12 +430,13 @@ qx.Class.define("qx.core.Property",
         {
           if (qx.core.Variant.isSet("qx.debug", "on"))
           {
-            if (!this.$$method.style[a[i]]) {
+            if (!this.$$method.setThemed[a[i]]) {
               throw new Error("Cannot add the non themable property '" + a[i] + "' to the themable property group '"+ name +"'");
             }
           }
-          styler.push("this.", this.$$method.style[a[i]], "(a[", i, "]);");
-          unstyler.push("this.", this.$$method.unstyle[a[i]], "();");
+          
+          styler.push("this.", this.$$method.setThemed[a[i]], "(a[", i, "]);");
+          unstyler.push("this.", this.$$method.resetThemed[a[i]], "();");
         }
       }
 
@@ -447,12 +451,12 @@ qx.Class.define("qx.core.Property",
       if (themeable)
       {
         // Attach styler
-        this.$$method.style[name] = "style" + upname;
-        members[this.$$method.style[name]] = new Function(styler.join(""));
+        this.$$method.setThemed[name] = "setThemed" + upname;
+        members[this.$$method.setThemed[name]] = new Function(styler.join(""));
 
         // Attach unstyler
-        this.$$method.unstyle[name] = "unstyle" + upname;
-        members[this.$$method.unstyle[name]] = new Function(unstyler.join(""));
+        this.$$method.resetThemed[name] = "resetThemed" + upname;
+        members[this.$$method.resetThemed[name]] = new Function(unstyler.join(""));
       }
     },
 
@@ -485,6 +489,7 @@ qx.Class.define("qx.core.Property",
       var method = this.$$method;
       var store = this.$$store;
 
+      store.runtime[name] = "$$runtime_" + name;
       store.user[name] = "$$user_" + name;
       store.theme[name] = "$$theme_" + name;
       store.init[name] = "$$init_" + name;
@@ -524,14 +529,14 @@ qx.Class.define("qx.core.Property",
 
       if (config.themeable)
       {
-        method.style[name] = "style" + upname;
-        members[method.style[name]] = function(value) {
-          return qx.core.Property.executeOptimizedSetter(this, clazz, name, "style", arguments);
+        method.setThemed[name] = "setThemed" + upname;
+        members[method.setThemed[name]] = function(value) {
+          return qx.core.Property.executeOptimizedSetter(this, clazz, name, "setThemed", arguments);
         }
 
-        method.unstyle[name] = "unstyle" + upname;
-        members[method.unstyle[name]] = function() {
-          return qx.core.Property.executeOptimizedSetter(this, clazz, name, "unstyle");
+        method.resetThemed[name] = "resetThemed" + upname;
+        members[method.resetThemed[name]] = function() {
+          return qx.core.Property.executeOptimizedSetter(this, clazz, name, "resetThemed");
         }
       }
 
@@ -609,7 +614,7 @@ qx.Class.define("qx.core.Property",
         members[store] = new Function("value", code.join(""));
       }
 
-      // profiling
+      // Enable profiling code
       if (qx.core.Variant.isSet("qx.aspects", "on")) {
         members[store] = qx.core.Aspect.wrap(instance.classname + "." + store, members[store], "property");
       }
@@ -648,8 +653,11 @@ qx.Class.define("qx.core.Property",
         code.push('return this.', store.inherit[name], ';');
         code.push('else ');
       }
+      
+      code.push('if(this.', store.runtime[name], '!==undefined)');
+      code.push('return this.', store.runtime[name], ';');
 
-      code.push('if(this.', store.user[name], '!==undefined)');
+      code.push('else if(this.', store.user[name], '!==undefined)');
       code.push('return this.', store.user[name], ';');
 
       if (config.themeable)
@@ -695,11 +703,11 @@ qx.Class.define("qx.core.Property",
       var members = clazz.prototype;
       var code = [];
 
-      var incomingValue = variant === "set" || variant === "style" || (variant === "init" && config.init === undefined);
-      var resetValue = variant === "reset" || variant === "unstyle";
+      var incomingValue = variant === "set" || variant === "setThemed" || variant === "setRuntime" || (variant === "init" && config.init === undefined);
+      var resetValue = variant === "reset" || variant === "resetThemed" || variant === "resetRuntime";
       var hasCallback = config.apply || config.event || config.inheritable;
 
-      if (variant === "style" || variant === "unstyle") {
+      if (variant === "setThemed" || variant === "resetThemed") {
         var store = this.$$store.theme[name];
       } else if (variant === "init") {
         var store = this.$$store.init[name];
@@ -884,11 +892,11 @@ qx.Class.define("qx.core.Property",
           code.push('delete this.', this.$$store.user[name], ';');
         }
         // Store incoming value
-        else if (variant === "style")
+        else if (variant === "setThemed")
         {
           code.push('this.', this.$$store.theme[name], '=value;');
         }
-        else if (variant === "unstyle")
+        else if (variant === "resetThemed")
         {
           code.push('if(this.', this.$$store.theme[name], '!==undefined)');
           code.push('delete this.', this.$$store.theme[name], ';');
@@ -960,11 +968,11 @@ qx.Class.define("qx.core.Property",
           }
 
           // Store incoming value
-          if (variant === "style")
+          if (variant === "setThemed")
           {
             code.push('this.', this.$$store.theme[name], '=value;');
           }
-          else if (variant === "unstyle")
+          else if (variant === "resetThemed")
           {
             code.push('delete this.', this.$$store.theme[name], ';');
           }
@@ -1000,11 +1008,11 @@ qx.Class.define("qx.core.Property",
           // the themed value, so the themed value has no chance to ever get used,
           // when there is a user value, too.
 
-          else if (variant === "style")
+          else if (variant === "setThemed")
           {
             code.push('computed=this.', this.$$store.theme[name], '=value;');
           }
-          else if (variant === "unstyle")
+          else if (variant === "resetThemed")
           {
             // Delete entry
             code.push('delete this.', this.$$store.theme[name], ';');
@@ -1057,13 +1065,13 @@ qx.Class.define("qx.core.Property",
         // higher priority than the init value, so the themed value has no chance to ever get used,
         // when there is a user or themed value, too.
 
-        else if (variant === "set" || variant === "style" || variant === "refresh")
+        else if (variant === "set" || variant === "setThemed" || variant === "refresh")
         {
           code.push('delete this.', this.$$store.useinit[name], ';');
 
           if (variant === "set") {
             code.push('computed=this.', this.$$store.user[name], '=value;');
-          } else if (variant === "style") {
+          } else if (variant === "setThemed") {
             code.push('computed=this.', this.$$store.theme[name], '=value;');
           } else if (variant === "refresh") {
             code.push('computed=this.', this.$$store.init[name], ';');
@@ -1082,7 +1090,7 @@ qx.Class.define("qx.core.Property",
         // reset() and unstyle() are impossible because otherwise there
         // is already an old value
 
-        if (variant === "set" || variant === "style" || variant === "init")
+        if (variant === "set" || variant === "setThemed" || variant === "init")
         {
           code.push('else{');
 
@@ -1091,7 +1099,7 @@ qx.Class.define("qx.core.Property",
             code.push('computed=this.', this.$$store.user[name], '=value;');
           }
 
-          else if (variant === "style")
+          else if (variant === "setThemed")
           {
             code.push('computed=this.', this.$$store.theme[name], '=value;');
           }
@@ -1169,7 +1177,7 @@ qx.Class.define("qx.core.Property",
       {
         // Properties which are not inheritable have no possiblity to get
         // undefined at this position. (Hint: set() and style() only allow non undefined values)
-        if (variant !== "set" && variant !== "style") {
+        if (variant !== "set" && variant !== "setThemed") {
           code.push('if(computed===undefined)computed=null;');
         }
 
