@@ -214,15 +214,15 @@ qx.Class.define("qx.core.Property",
      */
     $$method :
     {
-      get     : {},
-      set     : {},
-      reset   : {},
-      init    : {},
-      refresh : {},      
-      setRuntime : {},
+      get          : {},
+      set          : {},
+      reset        : {},
+      init         : {},
+      refresh      : {},      
+      setRuntime   : {},
       resetRuntime : {},      
-      setThemed   : {},
-      resetThemed : {}
+      setThemed    : {},
+      resetThemed  : {}
     },
 
 
@@ -255,10 +255,10 @@ qx.Class.define("qx.core.Property",
      */
     $$allowedGroupKeys :
     {
-      name        : "string",   // String
-      group       : "object",   // Array
-      mode        : "string",   // String
-      themeable   : "boolean"   // Boolean
+      name      : "string",   // String
+      group     : "object",   // Array
+      mode      : "string",   // String
+      themeable : "boolean"   // Boolean
     },
 
 
@@ -526,6 +526,16 @@ qx.Class.define("qx.core.Property",
           return qx.core.Property.executeOptimizedSetter(this, clazz, name, "refresh", arguments);
         }
       }
+      
+      method.setRuntime[name] = "setRuntime" + upname;
+      members[method.setRuntime[name]] = function(value) {
+        return qx.core.Property.executeOptimizedSetter(this, clazz, name, "setRuntime", arguments);
+      }
+
+      method.resetRuntime[name] = "resetRuntime" + upname;
+      members[method.resetRuntime[name]] = function() {
+        return qx.core.Property.executeOptimizedSetter(this, clazz, name, "resetRuntime");
+      }      
 
       if (config.themeable)
       {
@@ -647,17 +657,17 @@ qx.Class.define("qx.core.Property",
       var code = [];
       var store = this.$$store;
 
+      code.push('if(this.', store.runtime[name], '!==undefined)');
+      code.push('return this.', store.runtime[name], ';');
+      
       if (config.inheritable)
       {
-        code.push('if(this.', store.inherit[name], '!==undefined)');
+        code.push('else if(this.', store.inherit[name], '!==undefined)');
         code.push('return this.', store.inherit[name], ';');
         code.push('else ');
       }
       
-      code.push('if(this.', store.runtime[name], '!==undefined)');
-      code.push('return this.', store.runtime[name], ';');
-
-      code.push('else if(this.', store.user[name], '!==undefined)');
+      code.push('if(this.', store.user[name], '!==undefined)');
       code.push('return this.', store.user[name], ';');
 
       if (config.themeable)
@@ -707,7 +717,9 @@ qx.Class.define("qx.core.Property",
       var resetValue = variant === "reset" || variant === "resetThemed" || variant === "resetRuntime";
       var hasCallback = config.apply || config.event || config.inheritable;
 
-      if (variant === "setThemed" || variant === "resetThemed") {
+      if (variant === "setRuntime" || variant === "resetRuntime") {
+        var store = this.$$store.runtime[name];
+      } else if (variant === "setThemed" || variant === "resetThemed") {
         var store = this.$$store.theme[name];
       } else if (variant === "init") {
         var store = this.$$store.init[name];
@@ -856,9 +868,7 @@ qx.Class.define("qx.core.Property",
             }
             else if (config.check instanceof Array)
             {
-              // reconfigure for faster access trough map usage
-              config.checkMap = qx.lang.Object.fromArray(config.check);
-              code.push('qx.core.Assert.assertKeyInMap(value, ', clazz.classname, '.$$properties.', name, '.checkMap, msg)');
+              code.push('qx.core.Assert.assertInArray(value, ', clazz.classname, '.$$properties.', name, '.check, msg)');
             }
             else
             {
@@ -882,7 +892,16 @@ qx.Class.define("qx.core.Property",
 
       if (!hasCallback)
       {
-        if (variant === "set")
+        if (variant === "setRuntime")
+        {
+          code.push('this.', this.$$store.runtime[name], '=value;');          
+        }
+        else if (variant === "resetRuntime")
+        {
+          code.push('if(this.', this.$$store.runtime[name], '!==undefined)');
+          code.push('delete this.', this.$$store.runtime[name], ';');
+        }
+        else if (variant === "set")
         {
           code.push('this.', this.$$store.user[name], '=value;');
         }
@@ -891,7 +910,6 @@ qx.Class.define("qx.core.Property",
           code.push('if(this.', this.$$store.user[name], '!==undefined)');
           code.push('delete this.', this.$$store.user[name], ';');
         }
-        // Store incoming value
         else if (variant === "setThemed")
         {
           code.push('this.', this.$$store.theme[name], '=value;');
@@ -920,9 +938,66 @@ qx.Class.define("qx.core.Property",
 
 
 
+        // OLD = RUNTIME VALUE
+        
+        code.push('if(this.', this.$$store.runtime[name], '!==undefined){');
+        
+        if (variant === "setRuntime")
+        {
+          // Replace it with new value
+          code.push('computed=this.', this.$$store.runtime[name], '=value;');          
+        }
+        else if (variant === "resetRuntime")
+        {
+          // Delete field
+          code.push('delete this.', this.$$store.runtime[name], ';');          
+          
+          // Complex compution of new value
+          code.push('if(this.', this.$$store.user[name], '!==undefined)')
+          code.push('computed=this.', this.$$store.user[name], ';');
+          code.push('else if(this.', this.$$store.theme[name], '!==undefined)');
+          code.push('computed=this.', this.$$store.theme[name], ';');
+          code.push('else if(this.', this.$$store.init[name], '!==undefined){');
+          code.push('computed=this.', this.$$store.init[name], ';');
+          code.push('this.', this.$$store.useinit[name], '=true;');
+          code.push('}');          
+        }
+        else
+        {
+          // Use runtime value as it has higher priority
+          code.push('old=computed=this.', this.$$store.runtime[name], ';');
+            
+          // Store incoming value
+          if (variant === "set")
+          {
+            code.push('this.', this.$$store.user[name], '=value;');
+          }
+          else if (variant === "reset")
+          {
+            code.push('delete this.', this.$$store.user[name], ';');
+          }
+          else if (variant === "setThemed")
+          {
+            code.push('this.', this.$$store.theme[name], '=value;');
+          }
+          else if (variant === "resetThemed")
+          {
+            code.push('delete this.', this.$$store.theme[name], ';');
+          }
+          else if (variant === "init" && incomingValue)
+          {
+            code.push('this.', this.$$store.init[name], '=value;');
+          }                      
+        }       
+        
+        code.push('}');
+        
+        
+
+
         // OLD = USER VALUE
 
-        code.push('if(this.', this.$$store.user[name], '!==undefined){');
+        code.push('else if(this.', this.$$store.user[name], '!==undefined){');
 
         if (variant === "set")
         {
@@ -947,6 +1022,8 @@ qx.Class.define("qx.core.Property",
           code.push('delete this.', this.$$store.user[name], ';');
 
           // Complex compution of new value
+          code.push('if(this.', this.$$store.runtime[name], '!==undefined)')
+          code.push('computed=this.', this.$$store.runtime[name], ';');
           code.push('if(this.', this.$$store.theme[name], '!==undefined)');
           code.push('computed=this.', this.$$store.theme[name], ';');
           code.push('else if(this.', this.$$store.init[name], '!==undefined){');
@@ -956,7 +1033,12 @@ qx.Class.define("qx.core.Property",
         }
         else
         {
-          if (config.inheritable)
+          if (variant === "setRuntime")
+          {
+            // Use runtime value where it has higher priority
+            code.push('computed=this.', this.$$store.runtime[name], '=value;');
+          }
+          else if (config.inheritable)
           {
             // Use user value where it has higher priority
             code.push('computed=this.', this.$$store.user[name], ';');
@@ -999,7 +1081,12 @@ qx.Class.define("qx.core.Property",
             code.push('old=this.', this.$$store.theme[name], ';');
           }
 
-          if (variant === "set")
+          if (variant === "setRuntime")
+          {
+            code.push('computed=this.', this.$$store.runtime[name], '=value;');
+          }
+          
+          else if (variant === "set")
           {
             code.push('computed=this.', this.$$store.user[name], '=value;');
           }
@@ -1061,15 +1148,17 @@ qx.Class.define("qx.core.Property",
           // useinit flag is already initialized
         }
 
-        // reset() and unstyle() are impossible, because the user and themed values have a
-        // higher priority than the init value, so the themed value has no chance to ever get used,
+        // reset(), resetRuntime() and resetStyle() are impossible, because the user and themed values have a
+        // higher priority than the init value, so the init value has no chance to ever get used,
         // when there is a user or themed value, too.
 
-        else if (variant === "set" || variant === "setThemed" || variant === "refresh")
+        else if (variant === "set" || variant === "setRuntime" || variant === "setThemed" || variant === "refresh")
         {
           code.push('delete this.', this.$$store.useinit[name], ';');
 
-          if (variant === "set") {
+          if (variant === "setRuntime") {
+            code.push('computed=this.', this.$$store.runtime[name], '=value;');
+          } else if (variant === "set") {
             code.push('computed=this.', this.$$store.user[name], '=value;');
           } else if (variant === "setThemed") {
             code.push('computed=this.', this.$$store.theme[name], '=value;');
@@ -1087,14 +1176,19 @@ qx.Class.define("qx.core.Property",
 
         // OLD = NONE
 
-        // reset() and unstyle() are impossible because otherwise there
+        // reset(), resetRuntime() and resetStyle() are impossible because otherwise there
         // is already an old value
 
-        if (variant === "set" || variant === "setThemed" || variant === "init")
+        if (variant === "set" || variant === "setRuntime" || variant === "setThemed" || variant === "init")
         {
           code.push('else{');
 
-          if (variant === "set")
+          if (variant === "setRuntime")
+          {
+            code.push('computed=this.', this.$$store.runtime[name], '=value;');
+          }
+
+          else if (variant === "set")
           {
             code.push('computed=this.', this.$$store.user[name], '=value;');
           }
@@ -1176,8 +1270,8 @@ qx.Class.define("qx.core.Property",
       else if (hasCallback)
       {
         // Properties which are not inheritable have no possiblity to get
-        // undefined at this position. (Hint: set() and style() only allow non undefined values)
-        if (variant !== "set" && variant !== "setThemed") {
+        // undefined at this position. (Hint: set(), setRuntime() and setThemed() only allow non undefined values)
+        if (variant !== "set" && variant !== "setRuntime" && variant !== "setThemed") {
           code.push('if(computed===undefined)computed=null;');
         }
 

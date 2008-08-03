@@ -325,7 +325,7 @@ qx.Class.define("qx.core.Assert",
     assertInArray : function(value, array, msg)
     {
       this.__assert(
-        array.indexOf(value) > -1,
+        array.indexOf(value) !== -1,
         msg || "",
         "The value '" + value + "' must have any of the values defined in the array '"
         + qx.util.Json.stringify(array) + "'"
@@ -343,7 +343,7 @@ qx.Class.define("qx.core.Assert",
     assertKeyInMap : function(value, map, msg)
     {
       this.__assert(
-        map[value],
+        map[value] !== undefined,
         msg || "",
         "The value '" + value + "' must must be a key of the map '"
         + qx.util.Json.stringify(map) + "'"
@@ -357,7 +357,8 @@ qx.Class.define("qx.core.Assert",
      * @param value {var} Value to check
      * @param msg {String} Message to be shown if the assertion fails.
      */
-    assertFunction : function(value, msg) {
+    assertFunction : function(value, msg) 
+    {
       this.__assert(
         typeof value === "function",
         msg || "",
@@ -478,7 +479,8 @@ qx.Class.define("qx.core.Assert",
      * @param max {Number} upper bound
      * @param msg {String} Message to be shown if the assertion fails.
      */
-    assertInRange : function(value, min, max, msg) {
+    assertInRange : function(value, min, max, msg) 
+    {
       this.__assert(
         value >= min && value <= max,
         msg || "",
