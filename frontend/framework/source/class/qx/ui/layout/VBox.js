@@ -366,7 +366,7 @@ qx.Class.define("qx.ui.layout.VBox",
 
 
       // Start with top coordinate
-      var top = (length > 0 ? children[0].getMarginTop() : 0)
+      var top = children[0].getMarginTop();
 
       // Alignment support
       if (allocatedHeight < availHeight && this.getAlignY() != "top")
