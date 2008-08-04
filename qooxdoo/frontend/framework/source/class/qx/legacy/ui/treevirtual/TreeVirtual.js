@@ -859,7 +859,7 @@ qx.Class.define("qx.legacy.ui.treevirtual.TreeVirtual",
      * @param evt {Event} TODOC
      * @return {void}
      */
-    _onkeypress : function(evt)
+    _onKeyPress : function(evt)
     {
       if (!this.getEnabled())
       {

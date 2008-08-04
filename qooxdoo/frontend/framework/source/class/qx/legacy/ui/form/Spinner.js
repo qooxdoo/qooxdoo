@@ -138,7 +138,7 @@ qx.Class.define("qx.legacy.ui.form.Spinner",
     // ************************************************************************
     //   EVENTS
     // ************************************************************************
-    this.addListener("keypress", this._onkeypress, this);
+    this.addListener("keypress", this._onKeyPress, this);
     this.addListener("keydown", this._onkeydown, this);
     this.addListener("keyup", this._onkeyup, this);
     this.addListener("mousewheel", this._onmousewheel, this);
@@ -451,7 +451,7 @@ qx.Class.define("qx.legacy.ui.form.Spinner",
      * @param e {qx.legacy.event.type.KeyEvent} keyPress event
      * @return {void}
      */
-    _onkeypress : function(e)
+    _onKeyPress : function(e)
     {
       var vIdentifier = e.getKeyIdentifier();
 

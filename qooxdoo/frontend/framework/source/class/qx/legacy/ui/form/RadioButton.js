@@ -35,7 +35,7 @@ qx.Class.define("qx.legacy.ui.form.RadioButton",
   {
     this.base(arguments, vText, vValue, vName, vChecked);
 
-    this.addListener("keypress", this._onkeypress);
+    this.addListener("keypress", this._onKeyPress);
   },
 
 
@@ -195,7 +195,7 @@ qx.Class.define("qx.legacy.ui.form.RadioButton",
      * @param e {qx.legacy.event.type.KeyEvent} keyPress event
      * @return {null | true}
      */
-    _onkeypress : function(e)
+    _onKeyPress : function(e)
     {
       switch(e.getKeyIdentifier())
       {

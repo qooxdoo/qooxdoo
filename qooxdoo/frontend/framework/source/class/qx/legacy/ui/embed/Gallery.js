@@ -63,7 +63,7 @@ qx.Class.define("qx.legacy.ui.embed.Gallery",
     this.addListener("click", this._onclick);
     this.addListener("dblclick", this._ondblclick);
 
-    this.addListener("keypress", this._onkeypress);
+    this.addListener("keypress", this._onKeyPress);
   },
 
 
@@ -611,7 +611,7 @@ qx.Class.define("qx.legacy.ui.embed.Gallery",
      * @param e {Event} TODOC
      * @return {void}
      */
-    _onkeypress : function(e) {
+    _onKeyPress : function(e) {
       this._manager.handleKeyPress(e);
     },
 

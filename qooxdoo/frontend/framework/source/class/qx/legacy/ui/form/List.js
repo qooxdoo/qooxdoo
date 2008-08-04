@@ -47,7 +47,7 @@ qx.Class.define("qx.legacy.ui.form.List",
     this.addListener("dblclick", this._ondblclick);
 
     this.addListener("keydown", this._onkeydown);
-    this.addListener("keypress", this._onkeypress);
+    this.addListener("keypress", this._onKeyPress);
     this.addListener("keyinput", this._onkeyinput);
 
     // Initialize properties
@@ -296,7 +296,7 @@ qx.Class.define("qx.legacy.ui.form.List",
      * @param e {qx.legacy.event.type.KeyEvent} keyPress event
      * @return {void}
      */
-    _onkeypress : function(e)
+    _onKeyPress : function(e)
     {
       // Give control to selectionManager
       this._manager.handleKeyPress(e);

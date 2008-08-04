@@ -83,7 +83,7 @@ qx.Class.define("qx.ui.table.celleditor.CheckBox",
           var clone = qx.event.Pool.getInstance().getObject(qx.event.type.KeySequence);
           var target = editor.getContainerElement().getDomElement();
           clone.init(e.getNativeEvent(), target, e.getKeyIdentifier());
-          clone.setType("keydown");
+          clone.setType("keypress");
           qx.event.Registration.dispatchEvent(target, clone);
         }
       }, this);

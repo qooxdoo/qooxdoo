@@ -74,7 +74,7 @@ qx.Class.define("qx.legacy.ui.pageview.radioview.Button",
      * @param e {Event} TODOC
      * @return {void}
      */
-    _onkeypress : function(e)
+    _onKeyPress : function(e)
     {
       switch(e.getKeyIdentifier())
       {

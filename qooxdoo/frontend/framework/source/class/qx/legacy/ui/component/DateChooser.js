@@ -224,7 +224,7 @@ qx.Class.define("qx.legacy.ui.component.DateChooser",
 
     // Make focusable
     this.setTabIndex(1);
-    this.addListener("keypress", this._onkeypress);
+    this.addListener("keypress", this._onKeyPress);
 
     // Show the right date
     var shownDate = (date != null) ? date : new Date();
@@ -472,7 +472,7 @@ qx.Class.define("qx.legacy.ui.component.DateChooser",
      * @param evt {Map} the event.
      * @return {boolean | void} TODOC
      */
-    _onkeypress : function(evt)
+    _onKeyPress : function(evt)
     {
       var dayIncrement = null;
       var monthIncrement = null;

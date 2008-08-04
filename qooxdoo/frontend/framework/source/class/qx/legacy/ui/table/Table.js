@@ -189,7 +189,7 @@ qx.Class.define("qx.legacy.ui.table.Table",
     // Make focusable
     this.setTabIndex(1);
     this.addListener("keydown", this._onkeydown);
-    this.addListener("keypress", this._onkeypress);
+    this.addListener("keypress", this._onKeyPress);
     this.addListener("changeFocused", this._onFocusChanged);
 
     this._focusedCol = 0;
@@ -1117,7 +1117,7 @@ qx.Class.define("qx.legacy.ui.table.Table",
      * @param evt {qx.legacy.event.type.KeyEvent} the event.
      * @return {void}
      */
-    _onkeypress : function(evt)
+    _onKeyPress : function(evt)
     {
       if (!this.getEnabled()) {
         return;

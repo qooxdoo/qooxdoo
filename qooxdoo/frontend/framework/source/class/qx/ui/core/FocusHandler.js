@@ -56,7 +56,7 @@ qx.Class.define("qx.ui.core.FocusHandler",
     connectTo : function(root)
     {
       // this.debug("Connect to: " + root);
-      root.addListener("keypress", this._onKeyEvent, this);
+      root.addListener("keypress", this.__onKeyPress, this);
       root.addListener("focusin", this._onFocusIn, this, true);
       root.addListener("focusout", this._onFocusOut, this, true);
       root.addListener("activate", this._onActivate, this, true);
@@ -200,7 +200,7 @@ qx.Class.define("qx.ui.core.FocusHandler",
      * @param e {qx.event.type.KeySequence} Key event
      * @return {void}
      */
-    _onKeyEvent : function(e)
+    __onKeyPress : function(e)
     {
       if (e.getKeyIdentifier() != "Tab") {
         return;
