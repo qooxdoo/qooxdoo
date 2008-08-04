@@ -45,6 +45,7 @@ qx.Class.define("demobrowser.demo.widget.Menu",
       container.add(this.getMenuButton(), {left: 20, top: 20});
       container.add(this.getSplitButton(), {left: 150, top: 20});
       container.add(this.getMenuBar(), {left: 20, top: 100});
+      container.add(this.getList(), {left: 20, top: 200});
     },
 
 
@@ -570,6 +571,37 @@ qx.Class.define("demobrowser.demo.widget.Menu",
       menu.add(onlineButton);
       menu.addSeparator();
       menu.add(infoButton);
+
+      return menu;
+    },
+
+    getList : function()
+    {
+      var list = new qx.ui.form.List;
+      list.setContextMenu(this.getContextMenu());
+
+      for (var i=0; i<20; i++) {
+        list.add(new qx.ui.form.ListItem("Item " + i));
+      }
+
+      return list;
+    },
+
+    getContextMenu : function()
+    {
+      var menu = new qx.ui.menu.Menu;
+
+      var cutButton = new qx.ui.menu.Button("Cut", "icon/16/actions/edit-cut.png", this._cutCommand);
+      var copyButton = new qx.ui.menu.Button("Copy", "icon/16/actions/edit-copy.png", this._copyCommand);
+      var pasteButton = new qx.ui.menu.Button("Paste", "icon/16/actions/edit-paste.png", this._pasteCommand);
+
+      cutButton.addListener("execute", this.debugButton);
+      copyButton.addListener("execute", this.debugButton);
+      pasteButton.addListener("execute", this.debugButton);
+
+      menu.add(cutButton);
+      menu.add(copyButton);
+      menu.add(pasteButton);
 
       return menu;
     }
