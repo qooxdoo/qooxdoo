@@ -48,11 +48,20 @@ qx.Class.define("qx.event.type.Drag",
      * @param nativeEvent {Event?null} The native event to use
      * @return {qx.event.type.Event} The initialized event instance
      */
-    init : function(cancelable, nativeEvent)
+    init : function(cancelable, originalEvent)
     {
       this.base(arguments, false, cancelable);
 
-      this._native = nativeEvent || null;
+      if (originalEvent)
+      {
+        this._native = originalEvent.getNativeEvent() || null;
+        this._originalTarget = originalEvent.getTarget() || null;
+      }
+      else
+      {
+        this._native = null;
+        this._originalTarget = null;
+      }
 
       return this;
     },

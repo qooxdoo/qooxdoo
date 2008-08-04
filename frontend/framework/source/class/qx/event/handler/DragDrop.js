@@ -243,6 +243,15 @@ qx.Class.define("qx.event.handler.DragDrop",
       var Registration = qx.event.Registration;
       var dragEvent = Registration.createEvent(type, qx.event.type.Drag, [ cancelable, original ]);
 
+      if (this.__dragTarget !== this.__dropTarget)
+      {
+        if (target == this.__dragTarget) {
+          dragEvent.setRelatedTarget(this.__dropTarget);
+        } else {
+          dragEvent.setRelatedTarget(this.__dragTarget);
+        }
+      }
+
       return Registration.dispatchEvent(target, dragEvent);
     },
 
@@ -423,7 +432,7 @@ qx.Class.define("qx.event.handler.DragDrop",
     {
       // Fire drop event in success case
       if (this.__validDrop) {
-        this.__fireEvent("drop", this.__dropTarget, false, e.getNativeEvent());
+        this.__fireEvent("drop", this.__dropTarget, false, e);
       }
 
       // Stop event
@@ -447,7 +456,7 @@ qx.Class.define("qx.event.handler.DragDrop",
       if (this.__sessionActive)
       {
         // Fire specialized move event
-        if (!this.__fireEvent("drag", this.__dragTarget, true, e.getNativeEvent())) {
+        if (!this.__fireEvent("drag", this.__dragTarget, true, e)) {
           this.__clearSession();
         }
       }
@@ -455,7 +464,7 @@ qx.Class.define("qx.event.handler.DragDrop",
       {
         if (Math.abs(e.getDocumentLeft()-this.__startLeft) > 3 || Math.abs(e.getDocumentTop()-this.__startTop) > 3)
         {
-          if (this.__fireEvent("dragstart", this.__dragTarget, true, e.getNativeEvent()))
+          if (this.__fireEvent("dragstart", this.__dragTarget, true, e))
           {
             // Flag session as active
             this.__sessionActive = true;
@@ -498,7 +507,7 @@ qx.Class.define("qx.event.handler.DragDrop",
 
       if (dropable && dropable != this.__dropTarget)
       {
-        this.__validDrop = this.__fireEvent("dragover", dropable, true, e.getNativeEvent());
+        this.__validDrop = this.__fireEvent("dragover", dropable, true, e);
         this.__dropTarget = dropable;
 
         this.__detectAction();
@@ -518,7 +527,7 @@ qx.Class.define("qx.event.handler.DragDrop",
 
       if (dropable && dropable == this.__dropTarget)
       {
-        this.__fireEvent("dragleave", this.__dropTarget, false, e.getNativeEvent());
+        this.__fireEvent("dragleave", this.__dropTarget, false, e);
         this.__dropTarget = null;
         this.__validDrop = false;
 
