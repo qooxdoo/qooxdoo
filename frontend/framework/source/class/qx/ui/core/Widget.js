@@ -673,6 +673,18 @@ qx.Class.define("qx.ui.core.Widget",
 
 
     /**
+     * Whether to show a context menu and which one
+     */
+    contextMenu :
+    {
+      check : "qx.ui.menu.Menu",
+      apply : "_applyContextMenu",
+      nullable : true,
+      event : "changeContextMenu"
+    },
+
+
+    /**
      * The appearance ID. This ID is used to identify the appearance theme
      * entry to use for this widget. This controls the styling of the element.
      */
@@ -2620,6 +2632,75 @@ qx.Class.define("qx.ui.core.Widget",
     },
 
 
+
+
+    /*
+    ---------------------------------------------------------------------------
+      MENU
+    ---------------------------------------------------------------------------
+    */
+
+    // property apply
+    _applyContextMenu : function(value, old)
+    {
+      if (old)
+      {
+        old.removeState("contextmenu");
+
+        if (old.getOpener() == this) {
+          old.resetOpener();
+        }
+
+        if (!value) {
+          this.removeListener("contextmenu", this._onContextMenuOpen);
+        }
+      }
+
+      if (value)
+      {
+        value.setOpener(this);
+        value.addState("contextmenu");
+
+        if (!old) {
+          this.addListener("contextmenu", this._onContextMenuOpen);
+        }
+      }
+    },
+
+
+    /**
+     * Event listener for <code>contextmenu</code> event
+     *
+     * @param e {qx.event.type.Mouse} The event object
+     */
+    _onContextMenuOpen : function(e)
+    {
+      var menu = this.getContextMenu();
+      menu.alignToMouse(e);
+      menu.show();
+
+      // Do not show native menu
+      e.preventDefault();
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      USEFUL COMMON EVENT LISTENERS
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Event listener which stops a bubbling event from
+     * propagates further.
+     *
+     * @param e {qx.event.type.Event} Any bubbling event
+     */
+    _onStopEvent : function(e) {
+      e.stopPropagation();
+    },
 
 
 
