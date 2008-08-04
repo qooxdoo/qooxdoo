@@ -42,7 +42,7 @@
  */
 qx.Class.define("qx.ui.progressive.Progressive",
 {
-  extend : qx.ui.layout.VBox,
+  extend : qx.ui.container.Composite,
 
 
   /**
@@ -50,7 +50,7 @@ qx.Class.define("qx.ui.progressive.Progressive",
    */
   construct : function(structure)
   {
-    this.base(arguments);
+    this.base(arguments, new qx.ui.layout.VBox());
 
     // Create an object in which we'll track renderers that have been added
     this._renderer = { };
