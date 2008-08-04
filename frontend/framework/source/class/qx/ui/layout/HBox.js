@@ -366,16 +366,7 @@ qx.Class.define("qx.ui.layout.HBox",
 
 
       // Start with left coordinate
-      var left;
-      if (children.length > 0)
-      {
-        left = children[0].getMarginLeft();
-      }
-      else
-      {
-        left = 0;
-      }
-
+      var left = (length > 0 ? children[0].getMarginLeft() : 0);
 
       // Alignment support
       if (allocatedWidth < availWidth && this.getAlignX() != "left")
