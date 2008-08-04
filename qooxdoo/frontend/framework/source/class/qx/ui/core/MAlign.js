@@ -216,25 +216,25 @@ qx.Mixin.define("qx.ui.core.MAlign",
 
 
     /**
-     * Aligns this widget to another (at least layouted) widget. The DOM
+     * Places the widget to another (at least layouted) widget. The DOM
      * element is not needed, but the bounds are needed to compute the
      * location of the widget to align to.
      *
      * @param target {qx.ui.core.Widget} Target coords align coords
      */
-    alignToWidget : function(target)
+    placeToWidget : function(target)
     {
       var coords = target.getContainerLocation() || this.getLayoutLocation(target);
-      this.__align(coords);
+      this.__place(coords);
     },
 
 
     /**
-     * Aligns the widget to the mouse cursor position.
+     * Places the widget to the mouse cursor position.
      *
      * @param event {qx.event.type.Mouse} Mouse event to align to
      */
-    alignToMouse : function(event)
+    placeToMouse : function(event)
     {
       var left=event.getDocumentLeft();
       var top=event.getDocumentTop();
@@ -247,16 +247,16 @@ qx.Mixin.define("qx.ui.core.MAlign",
         bottom: top
       };
 
-      this.__align(coords);
+      this.__place(coords);
     },
 
 
     /**
-     * Aligns the widget to any (rendered) DOM element.
+     * Places the widget to any (rendered) DOM element.
      *
      * @param elem {Element} DOM element to align to
      */
-    alignToElement : function(elem)
+    placeToElement : function(elem)
     {
       var location = qx.bom.element.Location.get(elem);
       var coords =
@@ -267,17 +267,17 @@ qx.Mixin.define("qx.ui.core.MAlign",
         bottom: location.top + elem.offsetHeight
       };
 
-      this.__align(coords);
+      this.__place(coords);
     },
 
 
     /**
-     * Aligns the widget to the given point
+     * Places the widget in relation to the given point
      *
      * @param point {Map} Coordinate of any point with the keys <code>left</code>
      *   and <code>top</code>.
      */
-    alignToPoint : function(point)
+    placeToPoint : function(point)
     {
       var coords =
       {
@@ -287,7 +287,7 @@ qx.Mixin.define("qx.ui.core.MAlign",
         bottom: point.top
       };
 
-      this.__align(coords);
+      this.__place(coords);
     },
 
 
@@ -299,7 +299,7 @@ qx.Mixin.define("qx.ui.core.MAlign",
      *   should have the keys <code>left</code>, <code>top</code>, <code>right</code>
      *   and <code>bottom</code>.
      */
-    __align : function(coords)
+    __place : function(coords)
     {
       var size = this.getSizeHint();
       var area = this.getLayoutParent().getBounds();
@@ -313,7 +313,7 @@ qx.Mixin.define("qx.ui.core.MAlign",
         bottom : this.getOffsetBottom()
       }
 
-      var result = qx.util.AlignUtil.compute(size, area, coords, position, smart, offsets);
+      var result = qx.util.PlaceUtil.compute(size, area, coords, position, smart, offsets);
       this.moveTo(result.left, result.top);
     }
   }
