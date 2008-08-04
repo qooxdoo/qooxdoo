@@ -157,15 +157,15 @@ qx.Theme.define("qx.theme.classic.Appearance",
         };
       }
     },
-    
-    
-    
+
+
+
     /*
     ---------------------------------------------------------------------------
       BUTTON
     ---------------------------------------------------------------------------
     */
-    
+
     "button" :
     {
       alias : "atom",
@@ -1477,6 +1477,10 @@ qx.Theme.define("qx.theme.classic.Appearance",
         {
           result.position = "right-top";
           result.offset = [-2, -3];
+        }
+
+        if (states.contextmenu) {
+          result.offset = 4;
         }
 
         return result;
