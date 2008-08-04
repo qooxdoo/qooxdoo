@@ -66,11 +66,12 @@ qx.Class.define("demobrowser.demo.progressive.ProgressiveTable_1",
       var progressive = new qx.ui.progressive.Progressive(structure);
 
       // Add a message
-      var message = new qx.ui.basic.Atom("Last item is intentionally " +
+      var message = new qx.ui.basic.Atom("<span style='color:red;'>" +
+                                         "Last item is intentionally " +
                                          "inserted at the top to show how " +
-                                         "it's done");
+                                         "it's done" +
+                                         "</span>");
       message.setHeight(16);
-      message.getLabelObject().setTextColor("red");
       progressive.add(message);
 
       // Instantiate a data model and populate it.
