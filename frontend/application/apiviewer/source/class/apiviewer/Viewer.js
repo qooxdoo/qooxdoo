@@ -245,9 +245,9 @@ qx.Class.define("apiviewer.Viewer",
     /**
      * Creates the main frame at the right
      *
-     * @param toolbar {qx.legacy.ui.toolbar.ToolBar} Toolbar of the main frame
-     * @param detailFrame {qx.legacy.ui.core.Widget} the detail widget
-     * @return {qx.legacy.ui.layout.VerticalBoxLayout} the main frame
+     * @param toolbar {qx.ui.toolbar.ToolBar} Toolbar of the main frame
+     * @param detailFrame {qx.ui.core.Widget} the detail widget
+     * @return {qx.ui.layout.VBox} the main frame
      */
     __createMainFrame : function(toolbar, detailFrame)
     {
@@ -266,7 +266,7 @@ qx.Class.define("apiviewer.Viewer",
      *
      * @param leftWidget {qx.ui.core.Widget} the widget on the left of the splitter
      * @param rightWidget {qx.ui.core.Widget} the widget on the right of the splitter
-     * @return {qx.legacy.ui.splitpane.HorizontalSplitPane} the split pane
+     * @return {qx.ui.splitpane.SplitPane} the split pane
      */
     __createSplitPane : function(leftWidget, rightWidget)
     {

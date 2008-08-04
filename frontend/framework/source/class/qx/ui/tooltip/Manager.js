@@ -152,7 +152,7 @@ qx.Class.define("qx.ui.tooltip.Manager",
       {
         this.__hideTimer.startWith(current.getHideTimeout());
 
-        current.alignToPoint(this.__mousePosition);
+        current.placeToPoint(this.__mousePosition);
         current.show();
       }
 
