@@ -91,11 +91,13 @@ qx.Class.define("qx.event.type.Event",
     {
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        if (canBubble !== undefined) {
+        if (canBubble !== undefined)
+        {
           qx.core.Assert.assertBoolean(canBubble, "Invalid argument value 'canBubble'.");
         }
 
-        if (cancelable !== undefined) {
+        if (cancelable !== undefined)
+        {
           qx.core.Assert.assertBoolean(cancelable, "Invalid argument value 'cancelable'.");
         }
       }
