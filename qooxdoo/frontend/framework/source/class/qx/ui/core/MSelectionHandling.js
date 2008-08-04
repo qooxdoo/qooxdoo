@@ -230,10 +230,21 @@ qx.Mixin.define("qx.ui.core.MSelectionHandling",
     /**
      * Returns an array of currently selected items.
      *
-     * @return {Object[]} The item or a list of items.
+     * @return {Object[]} List of items.
      */
     getSelection : function() {
       return this.__manager.getSelection();
+    },
+
+
+    /**
+     * Returns an array of currently selected items sorted
+     * by their index in the container.
+     *
+     * @return {Object[]} Sorted list of items
+     */
+    getSortedSelection : function() {
+      return this.__manager.getSortedSelection();
     },
 
 
