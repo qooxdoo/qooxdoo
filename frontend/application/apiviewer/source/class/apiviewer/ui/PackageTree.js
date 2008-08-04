@@ -157,7 +157,6 @@ qx.Class.define("apiviewer.ui.PackageTree",
         var iconUrl = apiviewer.TreeUtil.getIconUrl(packageDoc);
         var packageTreeNode = new qx.ui.tree.TreeFolder(packageDoc.getName());
         packageTreeNode.setIcon(iconUrl);
-        packageTreeNode.setIconOpened(iconUrl);
         packageTreeNode.setOpenSymbolMode("always");
         packageTreeNode.setUserData("nodeName", packageDoc.getFullName());
         treeNode.add(packageTreeNode);
@@ -182,7 +181,6 @@ qx.Class.define("apiviewer.ui.PackageTree",
         var iconUrl = apiviewer.TreeUtil.getIconUrl(classDoc);
         var classTreeNode = new qx.ui.tree.TreeFolder(classDoc.getName());
         classTreeNode.setIcon(iconUrl);
-        classTreeNode.setIconOpened(iconUrl);
         classTreeNode.setUserData("nodeName", classDoc.getFullName());
         classTreeNode.treeType = PackageTree.PACKAGE_TREE;
         treeNode.add(classTreeNode);

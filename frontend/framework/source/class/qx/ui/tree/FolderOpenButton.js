@@ -67,12 +67,6 @@ qx.Class.define("qx.ui.tree.FolderOpenButton",
       init : false,
       event : "changeOpen",
       apply : "_applyOpen"
-    },
-
-    appearance :
-    {
-      refine : true,
-      init : "folder-open-button"
     }
   },
 
@@ -133,7 +127,8 @@ qx.Class.define("qx.ui.tree.FolderOpenButton",
      *
      * @param e {qx.ui.event.Mouse} Mouse event
      */
-    _onClick : function(e) {
+    _onClick : function(e) 
+    {
       this.toggleOpen();
       e.stopPropagation();
     }

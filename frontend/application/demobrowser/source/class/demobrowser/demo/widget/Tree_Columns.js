@@ -130,6 +130,7 @@ qx.Class.define("demobrowser.demo.widget.Tree_Columns",
 
       // A checkbox comes right after the tree icon
       var checkbox = new qx.ui.form.CheckBox();
+      checkbox.setFocusable(false);
       treeItem.addWidget(checkbox);
 
       // The label
