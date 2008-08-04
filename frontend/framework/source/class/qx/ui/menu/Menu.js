@@ -29,7 +29,7 @@
 qx.Class.define("qx.ui.menu.Menu",
 {
   extend : qx.ui.core.Widget,
-  include : [ qx.ui.core.MAlign, qx.ui.core.MChildrenHandling ],
+  include : [ qx.ui.core.MPlacement, qx.ui.core.MChildrenHandling ],
 
 
 
