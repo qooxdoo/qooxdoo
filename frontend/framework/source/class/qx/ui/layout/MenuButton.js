@@ -18,6 +18,9 @@
 
 ************************************************************************ */
 
+/**
+ * @internal
+ */
 qx.Class.define("qx.ui.layout.MenuButton",
 {
   extend : qx.ui.layout.Abstract,

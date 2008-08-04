@@ -80,11 +80,11 @@ qx.Class.define("apiviewer.Viewer",
     /**
      * Create the header widget
      *
-     * @return {qx.ui.embed.HtmlEmbed} The header widget
+     * @return {qx.ui.embed.Html} The header widget
      */
     __createHeader : function()
     {
-      var header = new qx.ui.embed.HtmlEmbed(
+      var header = new qx.ui.embed.Html(
         "<h1>" +
         "<span>" + qx.core.Setting.get("apiviewer.title") + "</span>" +
         " API Documentation" +
@@ -224,7 +224,7 @@ qx.Class.define("apiviewer.Viewer",
       detailFrame.getContentElement().setAttribute("id", "content");
       detailFrame.setBackgroundColor("white");
 
-      this._detailLoader = new qx.ui.embed.HtmlEmbed('<div style="padding:10px;"><h1><small>please wait</small>Loading data...</h1></div>');
+      this._detailLoader = new qx.ui.embed.Html('<div style="padding:10px;"><h1><small>please wait</small>Loading data...</h1></div>');
       this._detailLoader.getContentElement().setAttribute("id", "SplashScreen");
 
       this._detailLoader.setId("detail_loader");
