@@ -336,7 +336,7 @@ qx.Class.define("qx.bom.element.Style",
      * Convenience method to modify a set of styles at once.
      *
      * @param element {Element} The DOM element to modify
-     * @param map {Map} a map where the key is the name of the property
+     * @param styles {Map} a map where the key is the name of the property
      *    and the value is the value to use.
      * @param smart {Boolean?true} Whether the implementation should automatically use
      *    special implementations for some properties
