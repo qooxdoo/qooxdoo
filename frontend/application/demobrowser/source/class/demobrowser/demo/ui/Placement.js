@@ -46,7 +46,7 @@ qx.Class.define("demobrowser.demo.ui.AlignUtil",
       root.add(this.createTestField("left-bottom"), { right: 20, top: 250 });
 
       // Add root click test
-      root.add(this.createRootClick(), { left: 300, top: 100 });
+      // root.add(this.createRootClick(), { left: 300, top: 100 });
 
       // DOM align test
       root.add(this.createDomClick(), { left: 500, top: 100 });
@@ -84,7 +84,7 @@ qx.Class.define("demobrowser.demo.ui.AlignUtil",
       composite.add(button);
       button.addListener("mousedown", function(e)
       {
-        popup.alignToWidget(button);
+        popup.placeToWidget(button);
         popup.show();
       });
 
@@ -125,7 +125,7 @@ qx.Class.define("demobrowser.demo.ui.AlignUtil",
       {
         if (event.getTarget() == root)
         {
-          popup.alignToMouse(event);
+          popup.placeToMouse(event);
           popup.show();
         }
       });
@@ -166,7 +166,7 @@ qx.Class.define("demobrowser.demo.ui.AlignUtil",
       composite.add(button);
       button.addListener("mousedown", function(e)
       {
-        popup.alignToElement(document.getElementById("domanchor"));
+        popup.placeToElement(document.getElementById("domanchor"));
         popup.show();
       });
 
