@@ -134,7 +134,7 @@ qx.Class.define("qx.log.appender.Console",
      */
     dispose : function()
     {
-      qx.event.Registration.removeListener(document.documentElement, "keydown", this.__onKeyDown, this);
+      qx.event.Registration.removeListener(document.documentElement, "keypress", this.__onKeyPress, this);
       qx.log.Logger.unregister(this);
     },
 
@@ -296,7 +296,7 @@ qx.Class.define("qx.log.appender.Console",
      * @param e {Event} Event object
      * @return {void}
      */
-    __onKeyDown : function(e)
+    __onKeyPress : function(e)
     {
       var iden = e.getKeyIdentifier();
 
@@ -347,6 +347,6 @@ qx.Class.define("qx.log.appender.Console",
   */
 
   defer : function(statics) {
-    qx.event.Registration.addListener(document.documentElement, "keydown", statics.__onKeyDown, statics);
+    qx.event.Registration.addListener(document.documentElement, "keypress", statics.__onKeyPress, statics);
   }
 });

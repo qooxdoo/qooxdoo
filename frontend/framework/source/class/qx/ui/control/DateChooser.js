@@ -23,7 +23,7 @@
  * month. It includes a column for the calendar week and shows one month. Selecting
  * a date is as easy as clicking on it.
  *
- * To be conform with all form widgets, the {@link qx.ui.form.IFormElement} interface 
+ * To be conform with all form widgets, the {@link qx.ui.form.IFormElement} interface
  * is implemented.
  *
  * The following example creates and adds a date chooser to the root element.
@@ -32,15 +32,15 @@
  * <pre>
  * var chooser = new qx.ui.control.DateChooser();
  * this.getRoot().add(chooser, { left : 20, top: 20});
- * 
+ *
  * chooser.addListener("changeValue", function(e) {
  *   alert(e.getData());
  * });
  * </pre>
  *
- * Additionally to a selection event a execute event is available which is 
- * fired by doubleclick or taping the space / enter key. With this event you 
- * can for example save the selection and close the date chooser. 
+ * Additionally to a selection event a execute event is available which is
+ * fired by doubleclick or taping the space / enter key. With this event you
+ * can for example save the selection and close the date chooser.
  */
 qx.Class.define("qx.ui.control.DateChooser",
 {
@@ -61,18 +61,18 @@ qx.Class.define("qx.ui.control.DateChooser",
    */
   construct : function(date)
   {
-    this.base(arguments);   
-    
+    this.base(arguments);
+
     // set the layout
     var layout = new qx.ui.layout.VBox();
     this._setLayout(layout);
-    
+
     // create the child controls
     this._createChildControl("navigation-bar");
     this._createChildControl("date-pane");
 
     // Support for key events
-    this.addListener("keypress", this._onkeypress);
+    this.addListener("keypress", this._onKeyPress);
 
     // Show the right date
     var shownDate = (date != null) ? date : new Date();
@@ -80,7 +80,7 @@ qx.Class.define("qx.ui.control.DateChooser",
 
     // listen for locale changes
     qx.locale.Manager.getInstance().addListener("changeLocale", this._updateDatePane, this);
-    
+
     // register mouse up and down handler
     this.addListener("mousedown", this._onMouseUpDown, this);
     this.addListener("mouseup", this._onMouseUpDown, this);
@@ -108,14 +108,14 @@ qx.Class.define("qx.ui.control.DateChooser",
      EVENTS
   *****************************************************************************
   */
- 
+
   events :
   {
     /** Fired when the value was modified */
     changeValue : "qx.event.type.Data"
   },
-  
-  
+
+
 
   /*
   *****************************************************************************
@@ -125,24 +125,24 @@ qx.Class.define("qx.ui.control.DateChooser",
 
   properties :
   {
-    appearance : 
+    appearance :
     {
       refine : true,
       init   : "datechooser"
     },
-    
-    width : 
+
+    width :
     {
       refine : true,
       init : 200
     },
-    
-    height : 
+
+    height :
     {
       refine : true,
       init : 150
     },
-        
+
     /** The currently shown month. 0 = january, 1 = february, and so on. */
     shownMonth :
     {
@@ -171,14 +171,14 @@ qx.Class.define("qx.ui.control.DateChooser",
       event : "changeDate",
       transform : "_checkDate"
     },
-    
+
     /** The name of the widget. Mainly used for serialization proposes. */
     name :
     {
       check : "String",
       nullable : true,
       event : "changeName"
-    } 
+    }
   },
 
 
@@ -204,7 +204,7 @@ qx.Class.define("qx.ui.control.DateChooser",
      * @param value {String} The new date value as a JavaScript confrom date string.
      * @return {String} the value
      */
-    setValue : function(value) 
+    setValue : function(value)
     {
       this.assertType(value, "string");
       this.setDate(new Date(value));
@@ -217,7 +217,7 @@ qx.Class.define("qx.ui.control.DateChooser",
      *
      * @return {String} The current set date.
      */
-    getValue : function() 
+    getValue : function()
     {
       return this.getDate().toString();
     },
@@ -239,7 +239,7 @@ qx.Class.define("qx.ui.control.DateChooser",
         // NAVIGATION BAR STUFF
         case "navigation-bar":
           // Create the navigation bar
-          control = new qx.ui.container.Composite(new qx.ui.layout.HBox());          
+          control = new qx.ui.container.Composite(new qx.ui.layout.HBox());
 
           // add the navigation bar elements
           control.add(this._getChildControl("last-year-button"));
@@ -250,7 +250,7 @@ qx.Class.define("qx.ui.control.DateChooser",
 
           this._add(control);
           break;
-        
+
         case "last-year-button":
           control = new qx.ui.form.Button();
           control.addState("lastYear");
@@ -258,53 +258,53 @@ qx.Class.define("qx.ui.control.DateChooser",
           control.setToolTip(new qx.ui.tooltip.ToolTip("Last year"));
           control.addListener("click", this._onNavButtonClicked, this);
           break;
-          
+
         case "last-month-button":
           control = new qx.ui.toolbar.Button();
           control.addState("lastMonth");
           control.setFocusable(false);
           control.setToolTip(new qx.ui.tooltip.ToolTip("Last month"));
           control.addListener("click", this._onNavButtonClicked, this);
-          break;      
-          
+          break;
+
         case "next-month-button":
           control = new qx.ui.toolbar.Button();
           control.addState("nextMonth");
           control.setFocusable(false);
           control.setToolTip(new qx.ui.tooltip.ToolTip("Next month"));
           control.addListener("click", this._onNavButtonClicked, this);
-          break;  
-          
+          break;
+
         case "next-year-button":
           control = new qx.ui.toolbar.Button();
           control.addState("nextYear");
           control.setFocusable(false);
           control.setToolTip(new qx.ui.tooltip.ToolTip("Next year"));
           control.addListener("click", this._onNavButtonClicked, this);
-          break;          
-          
+          break;
+
         case "month-year-label":
           control = new qx.ui.basic.Label();
           control.setAllowGrowX(true);
           control.setAnonymous(true);
           break;
-          
-          
+
+
         // DATE PANE STUFF
         case "date-pane":
           var controlLayout = new qx.ui.layout.Grid()
           control = new qx.ui.container.Composite(controlLayout);
-          
+
           for (var i = 0; i < 8; i++) {
             // controlLayout.setColumnWidth(i, 24);
             controlLayout.setColumnFlex(i, 1);
           }
-      
+
           for (var i = 0; i < 7; i++) {
             controlLayout.setRowFlex(i, 1);
             // controlLayout.setRowHeight(i, 18);
           }
-              
+
           // Create the weekdays
           // Add an empty label as spacer for the week numbers
           var label = new qx.ui.basic.Label();
@@ -313,27 +313,27 @@ qx.Class.define("qx.ui.control.DateChooser",
           label.setAnonymous(true);
           label.addState("header");
           control.add(label, {column: 0, row: 0});
-      
+
           this._weekdayLabelArr = [];
-      
+
           for (var i=0; i<7; i++)
           {
-            var label = new qx.ui.basic.Label();            
+            var label = new qx.ui.basic.Label();
             label.setAllowGrowX(true);
             label.setAllowGrowY(true);
             label.setAppearance("datechooser-weekday");
             label.setSelectable(false);
             label.setAnonymous(true);
             label.setCursor("default");
-      
+
             control.add(label, {column: i + 1, row: 0});
             this._weekdayLabelArr.push(label);
-          }              
-              
+          }
+
           // Add the days
           this._dayLabelArr = [];
           this._weekLabelArr = [];
-      
+
           for (var y = 0; y < 6; y++)
           {
             // Add the week label
@@ -344,10 +344,10 @@ qx.Class.define("qx.ui.control.DateChooser",
             label.setAnonymous(true);
             label.setSelectable(false);
             label.setCursor("default");
-      
+
             control.add(label, {column: 0, row: y + 1});
             this._weekLabelArr.push(label);
-      
+
             // Add the day labels
             for (var x = 0; x < 7; x++)
             {
@@ -357,29 +357,29 @@ qx.Class.define("qx.ui.control.DateChooser",
               label.setAppearance("datechooser-day");
               label.setSelectable(false);
               label.setCursor("default");
-      
+
               label.addListener("mousedown", this._onDayClicked, this);
               label.addListener("dblclick", this._onDayDblClicked, this);
               control.add(label, {column:x + 1, row:y + 1});
               this._dayLabelArr.push(label);
             }
           }
-              
+
           this._add(control);
           break;
       }
 
       return control || this.base(arguments, id);
     },
-    
-    
+
+
     // property checker
     /**
-     * Returns a clone of the given date if one is given. If the value is 
+     * Returns a clone of the given date if one is given. If the value is
      * <code>null</code>, <code>null</code> will be returned.
      *
      * @param value {Date} Current date.
-     * @return {Date | null} A clone of the set Date. 
+     * @return {Date | null} A clone of the set Date.
      */
     _checkDate : function(value)
     {
@@ -393,7 +393,7 @@ qx.Class.define("qx.ui.control.DateChooser",
     {
       // fire the changeValue event
       this.fireDataEvent("changeValue", value == null ? "" : value.toString());
-      
+
       if ((value != null) && (this.getShownMonth() != value.getMonth() || this.getShownYear() != value.getFullYear()))
       {
         // The new date is in another month -> Show that month
@@ -429,30 +429,30 @@ qx.Class.define("qx.ui.control.DateChooser",
     },
 
 
-    
+
     /*
     ---------------------------------------------------------------------------
       EVENT HANDLER
     ---------------------------------------------------------------------------
     */
-       
+
     /**
      * Hendler which stops the propagation of the click event if
-     * the Navigation bar or kalender headers will be clicked. 
-     *  
+     * the Navigation bar or kalender headers will be clicked.
+     *
      * @param e {qx.event.type.Mouse} The mouse up / down event
      */
     _onMouseUpDown : function(e) {
       var target = e.getTarget();
-      
-      if (target == this._getChildControl("navigation-bar") || 
+
+      if (target == this._getChildControl("navigation-bar") ||
           target == this._getChildControl("date-pane")) {
         e.stopPropagation();
         return;
       }
     },
-      
-       
+
+
     /**
      * Event handler. Called when a navigation button has been clicked.
      *
@@ -464,7 +464,7 @@ qx.Class.define("qx.ui.control.DateChooser",
       var month = this.getShownMonth();
 
       switch(evt.getCurrentTarget())
-      {       
+      {
         case this._getChildControl("last-year-button"):
           year--;
           break;
@@ -525,7 +525,7 @@ qx.Class.define("qx.ui.control.DateChooser",
      *
      * @param evt {qx.event.type.Data} The event.
      */
-    _onkeypress : function(evt)
+    _onKeyPress : function(evt)
     {
       var dayIncrement = null;
       var monthIncrement = null;
@@ -604,9 +604,9 @@ qx.Class.define("qx.ui.control.DateChooser",
         }
         else
         {
-          if (dayIncrement != null) date.setDate(date.getDate() + dayIncrement);
-          if (monthIncrement != null) date.setMonth(date.getMonth() + monthIncrement);
-          if (yearIncrement != null) date.setFullYear(date.getFullYear() + yearIncrement);
+          if (dayIncrement != null){date.setDate(date.getDate() + dayIncrement);}
+          if (monthIncrement != null){date.setMonth(date.getMonth() + monthIncrement);}
+          if (yearIncrement != null){date.setFullYear(date.getFullYear() + yearIncrement);}
         }
 
         this.setDate(date);
@@ -617,9 +617,9 @@ qx.Class.define("qx.ui.control.DateChooser",
     /**
      * Shows a certain month.
      *
-     * @param month {Integer ? null} the month to show (0 = january). If not set 
+     * @param month {Integer ? null} the month to show (0 = january). If not set
      *      the month will remain the same.
-     * @param year {Integer ? null} the year to show. If not set the year will 
+     * @param year {Integer ? null} the year to show. If not set the year will
      *      remain the same.
      */
     showMonth : function(month, year)
@@ -643,9 +643,9 @@ qx.Class.define("qx.ui.control.DateChooser",
      * Event handler. Used to handle the key events.
      *
      * @param e {qx.event.type.Data} The event.
-     */    
+     */
     handleKeyPress : function(e) {
-      this._onkeypress(e);
+      this._onKeyPress(e);
     },
 
 

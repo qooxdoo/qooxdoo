@@ -261,14 +261,10 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
       }
 
       // hide the list always on escape
-      if (identifier == "Escape")
+      if (identifier == "Escape" && !listPopup.isHidden())
       {
         this.close();
-
-        // stop event
-        if (identifier == "Escape") {
-          e.stopPropagation();
-        }
+        e.stopPropagation();
 
         return;
       }

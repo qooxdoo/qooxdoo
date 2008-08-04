@@ -40,7 +40,7 @@ qx.Class.define("qx.ui.tree.FolderOpenButton",
 
     this.initOpen();
 
-    this.addListener("keydown", this._onKeydown);
+    this.addListener("keypress", this._onKeyPress);
     this.addListener("click", this._onClick);
     this.addListener("mousedown", this._stopPropagation, this);
     this.addListener("mouseup", this._stopPropagation, this);
@@ -103,7 +103,7 @@ qx.Class.define("qx.ui.tree.FolderOpenButton",
      *
      * @param e {qx.ui.event.KeySequence} Key event
      */
-    _onKeydown : function(e)
+    _onKeyPress : function(e)
     {
       switch(e.getKeyIdentifier())
       {

@@ -77,7 +77,7 @@ qx.Class.define("qx.legacy.ui.listview.ListViewPane",
     // ************************************************************************
     //   KEY EVENT LISTENER
     // ************************************************************************
-    this.addListener("keypress", this._onkeypress);
+    this.addListener("keypress", this._onKeyPress);
 
     // Initialize properties
     this.initWidth();
@@ -594,7 +594,7 @@ qx.Class.define("qx.legacy.ui.listview.ListViewPane",
      * @param e {Event} TODOC
      * @return {void}
      */
-    _onkeypress : function(e)
+    _onKeyPress : function(e)
     {
       this._manager.handleKeyPress(e);
       e.preventDefault();

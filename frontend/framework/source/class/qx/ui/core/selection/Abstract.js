@@ -1191,16 +1191,22 @@ qx.Class.define("qx.ui.core.selection.Abstract",
       var isCtrlPressed = event.isCtrlPressed() || (qx.bom.client.Platform.MAC && event.isMetaPressed());
       var isShiftPressed = event.isShiftPressed();
 
+      var consumed = false;
+      
       if (key === "A" && isCtrlPressed)
       {
-        if (mode !== "single" && mode !== "one") {
+        if (mode !== "single" && mode !== "one")
+        {
           this._selectAllItems();
+          consumed = true;
         }
       }
       else if (key === "Escape")
       {
-        if (mode !== "single" && mode !== "one") {
+        if (mode !== "single" && mode !== "one")
+        {
           this._clearSelection();
+          consumed = true;
         }
       }
       else if (key === "Space")
@@ -1213,10 +1219,12 @@ qx.Class.define("qx.ui.core.selection.Abstract",
           } else {
             this._setSelectedItem(lead);
           }
+          consumed = true;
         }
       }
       else if (this.__navigationKeys[key])
-      {
+      {       
+        consumed = true;
         if (mode === "single" || mode == "one") {
           current = this._getSelectedItem();
         } else {
@@ -1324,19 +1332,15 @@ qx.Class.define("qx.ui.core.selection.Abstract",
           this._scrollItemIntoView(next);
         }
       }
-      else
+
+
+      if (consumed)
       {
-        // Do not stop this event
-        return;
+        // Stop processed events
+        event.stop();
+        // Fire change event as needed
+        this._fireChange();
       }
-
-
-      // Stop processed events
-      event.stop();
-
-
-      // Fire change event as needed
-      this._fireChange();
     },
 
 

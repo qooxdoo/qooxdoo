@@ -48,7 +48,7 @@ qx.Class.define("qx.legacy.ui.pageview.AbstractButton",
     this.addListener("mouseout", this._onmouseout);
     this.addListener("mousedown", this._onmousedown);
     this.addListener("keydown", this._onkeydown);
-    this.addListener("keypress", this._onkeypress);
+    this.addListener("keypress", this._onKeyPress);
   },
 
 
@@ -301,6 +301,6 @@ qx.Class.define("qx.legacy.ui.pageview.AbstractButton",
      * @param e {Event} TODOC
      * @return {void}
      */
-    _onkeypress : function(e) {}
+    _onKeyPress : function(e) {}
   }
 });

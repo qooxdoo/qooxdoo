@@ -58,7 +58,7 @@ qx.Class.define("qx.legacy.ui.menu.Menu",
     this.addListener("mouseout", this._onmouseout);
 
     this.addListener("keydown", this._onkeydown);
-    this.addListener("keypress", this._onkeypress);
+    this.addListener("keypress", this._onKeyPress);
 
     // Activate remapping
     this.remapChildrenHandlingTo(this._layout);
@@ -968,24 +968,24 @@ qx.Class.define("qx.legacy.ui.menu.Menu",
      * @param e {Event} TODOC
      * @return {void}
      */
-    _onkeypress : function(e)
+    _onKeyPress : function(e)
     {
       switch(e.getKeyIdentifier())
       {
         case "Up":
-          this._onkeypress_up(e);
+          this._onKeyPress_up(e);
           break;
 
         case "Down":
-          this._onkeypress_down(e);
+          this._onKeyPress_down(e);
           break;
 
         case "Left":
-          this._onkeypress_left(e);
+          this._onKeyPress_left(e);
           break;
 
         case "Right":
-          this._onkeypress_right(e);
+          this._onKeyPress_right(e);
           break;
 
         default:
@@ -1003,7 +1003,7 @@ qx.Class.define("qx.legacy.ui.menu.Menu",
      * @param e {Event} TODOC
      * @return {void}
      */
-    _onkeypress_up : function(e)
+    _onKeyPress_up : function(e)
     {
       var vHover = this.getHoverItem();
       var vPrev = vHover ? vHover.isFirstChild() ? this.getLastActiveChild() : vHover.getPreviousActiveSibling([ qx.legacy.ui.menu.Separator ]) : this.getLastActiveChild();
@@ -1018,7 +1018,7 @@ qx.Class.define("qx.legacy.ui.menu.Menu",
      * @param e {Event} TODOC
      * @return {void}
      */
-    _onkeypress_down : function(e)
+    _onKeyPress_down : function(e)
     {
       var vHover = this.getHoverItem();
       var vNext = vHover ? vHover.isLastChild() ? this.getFirstActiveChild() : vHover.getNextActiveSibling([ qx.legacy.ui.menu.Separator ]) : this.getFirstActiveChild();
@@ -1033,7 +1033,7 @@ qx.Class.define("qx.legacy.ui.menu.Menu",
      * @param e {Event} TODOC
      * @return {void}
      */
-    _onkeypress_left : function(e)
+    _onKeyPress_left : function(e)
     {
       var vOpener = this.getOpener();
 
@@ -1057,7 +1057,7 @@ qx.Class.define("qx.legacy.ui.menu.Menu",
         this.getFocusRoot().setActiveChild(vToolBar);
 
         // execute toolbars keydown implementation
-        vToolBar._onkeypress(e);
+        vToolBar._onKeyPress(e);
       }
     },
 
@@ -1068,7 +1068,7 @@ qx.Class.define("qx.legacy.ui.menu.Menu",
      * @param e {Event} TODOC
      * @return {void}
      */
-    _onkeypress_right : function(e)
+    _onKeyPress_right : function(e)
     {
       var vHover = this.getHoverItem();
 
@@ -1106,7 +1106,7 @@ qx.Class.define("qx.legacy.ui.menu.Menu",
         this.getFocusRoot().setActiveChild(vToolBar);
 
         // execute toolbars keydown implementation
-        vToolBar._onkeypress(e);
+        vToolBar._onKeyPress(e);
       }
       else if (vOpener instanceof qx.legacy.ui.menu.Button && vHover)
       {
@@ -1139,7 +1139,7 @@ qx.Class.define("qx.legacy.ui.menu.Menu",
         {
           // jump to next menubarbutton
           this.getFocusRoot().setActiveChild(vOpenerParent);
-          vOpenerParent._onkeypress(e);
+          vOpenerParent._onKeyPress(e);
         }
       }
     },

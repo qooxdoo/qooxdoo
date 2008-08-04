@@ -106,7 +106,7 @@ qx.Class.define("qx.legacy.ui.form.ComboBox",
 
     // Key Events
     this.addListener("keydown", this._onkeydown);
-    this.addListener("keypress", this._onkeypress);
+    this.addListener("keypress", this._onKeyPress);
     this.addListener("keyinput", this._onkeyinput);
 
     // Other Events
@@ -800,7 +800,7 @@ qx.Class.define("qx.legacy.ui.form.ComboBox",
      * @param e {qx.legacy.event.type.KeyEvent} KeyPress event
      * @return {void}
      */
-    _onkeypress : function(e)
+    _onKeyPress : function(e)
     {
       var vVisible = this._popup.isSeeable();
       var vManager = this._manager;
@@ -866,7 +866,7 @@ qx.Class.define("qx.legacy.ui.form.ComboBox",
       // Default Handling
       if (!this.isEditable() || vVisible)
       {
-        this._list._onkeypress(e);
+        this._list._onKeyPress(e);
 
         var vSelected = this._manager.getSelectedItem();
 

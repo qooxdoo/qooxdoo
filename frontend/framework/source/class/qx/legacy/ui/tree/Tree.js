@@ -97,7 +97,7 @@ qx.Class.define("qx.legacy.ui.tree.Tree",
     //   KEY EVENT LISTENER
     // ************************************************************************
     this.addListener("keydown", this._onkeydown);
-    this.addListener("keypress", this._onkeypress);
+    this.addListener("keypress", this._onKeyPress);
     this.addListener("keyup", this._onkeyup);
   },
 
@@ -575,7 +575,7 @@ qx.Class.define("qx.legacy.ui.tree.Tree",
      * @param e {Event} TODOC
      * @return {var | void} TODOC
      */
-    _onkeypress : function(e)
+    _onKeyPress : function(e)
     {
       var vManager = this.getManager();
       var vSelectedItem = vManager.getSelectedItem();
