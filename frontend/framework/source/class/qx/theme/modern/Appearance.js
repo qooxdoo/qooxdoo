@@ -740,8 +740,6 @@ qx.Theme.define("qx.theme.modern.Appearance",
     ---------------------------------------------------------------------------
     */
 
-
-    // TODO: still classic style
     "tabview" : {},
 
     "tabview/bar" :
@@ -755,8 +753,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
 
           paddingLeft     : (states.barLeft || states.barRight) ? 0 : 10,
           paddingRight    : (states.barLeft || states.barRight) ? 0 : 10,
-          paddingTop     : (states.barTop || states.barBottom) ? 0 : 10,
-          paddingBottom    : (states.barTop || states.barBottom) ? 0 : 10,
+          paddingTop      : (states.barTop || states.barBottom) ? 0 : 10,
+          paddingBottom   : (states.barTop || states.barBottom) ? 0 : 10,
 
           marginBottom    : states.barTop ? -1 : 0,
           marginTop       : states.barBottom ? -4 : 0,
