@@ -970,9 +970,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          //backgroundColor : states.selected ? "selected" : "undefined",
-
-          padding    : [4, 3, 3, 3],
+          padding    : [ 1, 4 ],
           textColor  : states.selected ? "text-selected" : "undefined",
           decorator  : states.selected ? "tree-folder-selected" : "tree-folder",
           icon       : "icon/16/places/folder-open.png",
@@ -993,11 +991,12 @@ qx.Theme.define("qx.theme.modern.Appearance",
       }
     },
 
-    "tree-folder-icon" : {
+    "tree-folder-icon" : 
+    {
       style : function(states)
       {
         return {
-          padding : [0, 5, 0, 0]
+          paddingRight : 5
         }
       }
     },
@@ -1007,18 +1006,13 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          padding : [ 1, 0, 0, 0 ]
+
         }
       }
     },
 
-    "tree-file-icon" : {
-      include : "tree-folder-icon"
-    },
-
-    "tree-file-label" : {
-      include : "tree-folder-label"
-    },
+    "tree-file-icon" : "tree-folder-icon",
+    "tree-file-label" : "tree-folder-label",
 
     "folder-open-button" :
     {
@@ -1048,6 +1042,9 @@ qx.Theme.define("qx.theme.modern.Appearance",
         }
       }
     },
+    
+    
+    
 
 
     /*
