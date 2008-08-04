@@ -18,6 +18,9 @@
 
 ************************************************************************ */
 
+/**
+ * @internal
+ */
 qx.Class.define("qx.ui.layout.Menu",
 {
   extend : qx.ui.layout.VBox,

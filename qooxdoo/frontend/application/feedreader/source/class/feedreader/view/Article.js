@@ -24,7 +24,7 @@
  */
 qx.Class.define("feedreader.view.Article",
 {
-  extend : qx.ui.embed.HtmlEmbed,
+  extend : qx.ui.embed.Html,
 
 
   /*

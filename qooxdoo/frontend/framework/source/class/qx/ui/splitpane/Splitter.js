@@ -16,16 +16,19 @@
      * Sebastian Werner (wpbasti)
      * Jonathan Rass (jonathan_rass)
 
- ************************************************************************ */
+************************************************************************ */
 
+/**
+ * @internal
+ */
 qx.Class.define("qx.ui.splitpane.Splitter",
 {
   extend : qx.ui.core.Widget,
-  
+
   construct : function(parentWidget)
   {
     this.base(arguments);
-    
+
     // set layout
     if (parentWidget.getOrientation() == "vertical")
     {
@@ -36,10 +39,10 @@ qx.Class.define("qx.ui.splitpane.Splitter",
     {
       this._setLayout(new qx.ui.layout.VBox(0, "middle"));
       this._getLayout().setAlignX("center");
-    }   
-     
+    }
+
     // create knob child control
-    this._createChildControl("knob");    
+    this._createChildControl("knob");
   },
 
   properties :
@@ -58,7 +61,7 @@ qx.Class.define("qx.ui.splitpane.Splitter",
       init : false
     }
   },
-  
+
   members :
   {
     // overridden
@@ -72,7 +75,7 @@ qx.Class.define("qx.ui.splitpane.Splitter",
         case "knob":
           control = new qx.ui.basic.Image;
           this._add(control);
-          break;        
+          break;
       }
 
       return control || this.base(arguments, id);

@@ -161,11 +161,11 @@ qx.Class.define("demobrowser.DemoBrowser",
     /**
      * Create the header widget
      *
-     * @return {qx.ui.embed.HtmlEmbed} The header widget
+     * @return {qx.ui.embed.Html} The header widget
      */
     __makeHeader : function()
     {
-      var header = new qx.ui.embed.HtmlEmbed("<h1>" + "<span>" + "qooxdoo Demo Browser" + "</span>" + "</h1>" + "<div class='version'>qooxdoo " + qx.core.Setting.get("qx.version") + "</div>");
+      var header = new qx.ui.embed.Html("<h1>" + "<span>" + "qooxdoo Demo Browser" + "</span>" + "</h1>" + "<div class='version'>qooxdoo " + qx.core.Setting.get("qx.version") + "</div>");
       var element = header.getContentElement();
 
       element.setAttribute("id", "header");
@@ -686,7 +686,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       tabview.add(p2);
 
       // main output area
-      this.f2 = new qx.ui.embed.HtmlEmbed();
+      this.f2 = new qx.ui.embed.Html();
       this.f2.setOverflowY("scroll");
       p2.add(this.f2);
 
@@ -711,7 +711,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       tabview.add(p3);
 
       // -- Pane Content
-      var f3 = new qx.ui.embed.HtmlEmbed("<div class='script'>The sample source will be displayed here.</div>");
+      var f3 = new qx.ui.embed.Html("<div class='script'>The sample source will be displayed here.</div>");
       f3.setOverflowY("scroll");
       p3.add(f3);
       this.widgets["outputviews.sourcepage.html.page"] = f3;
@@ -728,7 +728,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       tabview.add(p4);
 
       // -- Pane Content
-      var f4 = new qx.ui.embed.HtmlEmbed("<div class='script'>The sample JS source will be displayed here.</div>");
+      var f4 = new qx.ui.embed.Html("<div class='script'>The sample JS source will be displayed here.</div>");
       f4.setOverflowY("scroll");
       p4.add(f4);
       this.widgets["outputviews.sourcepage.js.page"] = f4;
