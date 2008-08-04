@@ -1616,6 +1616,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
           this._focusIndicator.addState("editing");
 
           this._cellEditor.focus();
+          this._cellEditor.activate();
         }
 
         return true;

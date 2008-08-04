@@ -175,8 +175,7 @@ qx.Class.define("qx.ui.table.Table",
 
     // Make focusable
     this.setTabIndex(1);
-    this.addListener("keydown", this._onkeydown);
-    this.addListener("keypress", this._onkeypress);
+    this.addListener("keypress", this._onKeyPress);
     this.addListener("focus", this._onFocusChanged);
     this.addListener("blur", this._onFocusChanged);
 
@@ -994,27 +993,28 @@ qx.Class.define("qx.ui.table.Table",
     /**
      * Event handler. Called when a key was pressed.
      *
-     * @param evt {Map} the event.
+     * @param evt {qx.event.type.Key} the event.
      * @return {void}
      */
-    _onkeydown : function(evt)
+    _onKeyPress : function(evt)
     {
       if (!this.getEnabled()) {
         return;
       }
 
-      var identifier = evt.getKeyIdentifier();
-
-      var consumed = false;
+      // No editing mode
       var oldFocusedRow = this._focusedRow;
+      var consumed = true;
+
+      // Handle keys that are independent from the modifiers
+      var identifier = evt.getKeyIdentifier();
 
       if (this.isEditing())
       {
         // Editing mode
+        console.log(evt.getModifiers());
         if (evt.getModifiers() == 0)
         {
-          consumed = true;
-
           switch(identifier)
           {
             case "Enter":
@@ -1038,48 +1038,68 @@ qx.Class.define("qx.ui.table.Table",
               break;
           }
         }
+        return
       }
       else
       {
         // No editing mode
-        // Handle keys that are independent from the modifiers
-        consumed = true;
-
-        switch(identifier)
-        {
-          case "Home":
-            this.setFocusedCell(this._focusedCol, 0, true);
-            break;
-
-          case "End":
-            var rowCount = this.getTableModel().getRowCount();
-            this.setFocusedCell(this._focusedCol, rowCount - 1, true);
-            break;
-
-          default:
-            consumed = false;
-            break;
-        }
-
-        // Handle keys that depend on modifiers
         if (evt.getModifiers() == 0)
         {
-          consumed = true;
-
+          // Handle keys that are independent from the modifiers
           switch(identifier)
           {
+            case "Space":
+              this._selectionManager.handleSelectKeyDown(this._focusedRow, evt);
+              break;
+
             case "F2":
             case "Enter":
               consumed = this.startEditing();
               break;
 
+            case "Home":
+              this.setFocusedCell(this._focusedCol, 0, true);
+              break;
+
+            case "End":
+              var rowCount = this.getTableModel().getRowCount();
+              this.setFocusedCell(this._focusedCol, rowCount - 1, true);
+              break;
+
+            case "Left":
+              this.moveFocusedCell(-1, 0);
+              break;
+
+            case "Right":
+              this.moveFocusedCell(1, 0);
+              break;
+
+            case "Up":
+              this.moveFocusedCell(0, -1);
+              break;
+
+            case "Down":
+              this.moveFocusedCell(0, 1);
+              break;
+
+            case "PageUp":
+            case "PageDown":
+              var scroller = this.getPaneScroller(0);
+              var pane = scroller.getTablePane();
+              var rowCount = pane.getVisibleRowCount() - 1;
+              var rowHeight = this.getRowHeight();
+              var direction = (identifier == "PageUp") ? -1 : 1;
+              scroller.setScrollY(scroller.getScrollY() + direction * rowCount * rowHeight);
+              this.moveFocusedCell(0, direction * rowCount);
+              break;
+
             default:
               consumed = false;
-              break;
           }
         }
         else if (evt.isCtrlPressed())
         {
+          // Handle keys that depend on modifiers
           consumed = true;
 
           switch(identifier)
@@ -1098,80 +1118,6 @@ qx.Class.define("qx.ui.table.Table",
               break;
           }
         }
-      }
-
-      if (oldFocusedRow != this._focusedRow)
-      {
-        // The focus moved -> Let the selection manager handle this event
-        this._selectionManager.handleMoveKeyDown(this._focusedRow, evt);
-      }
-
-      if (consumed)
-      {
-        evt.preventDefault();
-        evt.stopPropagation();
-      }
-    },
-
-
-    /**
-     * Event handler. Called when a key was pressed.
-     *
-     * @param evt {qx.event.type.Key} the event.
-     * @return {void}
-     */
-    _onkeypress : function(evt)
-    {
-      if (!this.getEnabled()) {
-        return;
-      }
-
-      if (this.isEditing()) {
-        return;
-      }
-
-      // No editing mode
-      var oldFocusedRow = this._focusedRow;
-      var consumed = true;
-
-      // Handle keys that are independant from the modifiers
-      var identifier = evt.getKeyIdentifier();
-
-      switch(identifier)
-      {
-        case "Space":
-          this._selectionManager.handleSelectKeyDown(this._focusedRow, evt);
-          break;
-
-        case "Left":
-          this.moveFocusedCell(-1, 0);
-          break;
-
-        case "Right":
-          this.moveFocusedCell(1, 0);
-          break;
-
-        case "Up":
-          this.moveFocusedCell(0, -1);
-          break;
-
-        case "Down":
-          this.moveFocusedCell(0, 1);
-          break;
-
-        case "PageUp":
-        case "PageDown":
-          var scroller = this.getPaneScroller(0);
-          var pane = scroller.getTablePane();
-          var rowCount = pane.getVisibleRowCount() - 1;
-          var rowHeight = this.getRowHeight();
-          var direction = (identifier == "PageUp") ? -1 : 1;
-          scroller.setScrollY(scroller.getScrollY() + direction * rowCount * rowHeight);
-          this.moveFocusedCell(0, direction * rowCount);
-          break;
-
-        default:
-          consumed = false;
       }
 
       if (oldFocusedRow != this._focusedRow)

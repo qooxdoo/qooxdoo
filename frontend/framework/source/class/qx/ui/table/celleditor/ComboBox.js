@@ -86,13 +86,11 @@ qx.Class.define("qx.ui.table.celleditor.ComboBox",
       });
 
       var value = cellInfo.value;
-      cellEditor.originalValue = value;
 
       // check if renderer does something with value
       var cellRenderer = cellInfo.table.getTableColumnModel().getDataCellRenderer(cellInfo.col);
       var label = cellRenderer._getContentHtml(cellInfo);
-      if ( value != label )
-      {
+      if ( value != label ) {
         value = label;
       }
 

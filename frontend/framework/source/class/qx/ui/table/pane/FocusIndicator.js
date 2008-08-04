@@ -31,6 +31,8 @@ qx.Class.define("qx.ui.table.pane.FocusIndicator",
   {
     this.base(arguments);
     this._scroller = scroller;
+
+    this.addListener("keypress", this._onKeyPress, this);
   },
 
   properties :
@@ -55,6 +57,20 @@ qx.Class.define("qx.ui.table.pane.FocusIndicator",
 
   members :
   {
+    /**
+     * Keypress handler. Suppress all key events but "Enter" and "Escape"
+     *
+     * @param e {qx.event.type.KeySequence} key event
+     */
+    _onKeyPress : function(e)
+    {
+      iden = e.getKeyIdentifier();
+      if (iden !== "Escape" && iden !== "Enter") {
+        e.stopPropagation();
+      }
+    },
+
+
     /**
      * Move the focus indicator to the given table cell.
      *

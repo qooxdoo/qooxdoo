@@ -113,7 +113,7 @@ qx.Class.define("qx.legacy.ui.form.ComboBoxEx",
     });
 
     this.addListener("keydown", this._onkeydown);
-    this.addListener("keypress", this._onkeypress);
+    this.addListener("keypress", this._onKeyPress);
     this.addListener("beforeDisappear", this._closePopup);
 
     // Initialize properties
@@ -1462,7 +1462,7 @@ qx.Class.define("qx.legacy.ui.form.ComboBoxEx",
      * @param e {Event} TODOC
      * @return {void}
      */
-    _onkeypress : function(e)
+    _onKeyPress : function(e)
     {
       var vVisible = this._popup && this._popup.isSeeable();
 

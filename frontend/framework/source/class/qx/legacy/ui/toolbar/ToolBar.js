@@ -38,7 +38,7 @@ qx.Class.define("qx.legacy.ui.toolbar.ToolBar",
   {
     this.base(arguments);
 
-    this.addListener("keypress", this._onkeypress);
+    this.addListener("keypress", this._onKeyPress);
 
     // Initialize properties
     this.initHeight();
@@ -144,15 +144,15 @@ qx.Class.define("qx.legacy.ui.toolbar.ToolBar",
      * @param e {Event} TODOC
      * @return {var} TODOC
      */
-    _onkeypress : function(e)
+    _onKeyPress : function(e)
     {
       switch(e.getKeyIdentifier())
       {
         case "Left":
-          return this._onkeypress_left();
+          return this._onKeyPress_left();
 
         case "Right":
-          return this._onkeypress_right();
+          return this._onKeyPress_right();
       }
     },
 
@@ -162,7 +162,7 @@ qx.Class.define("qx.legacy.ui.toolbar.ToolBar",
      *
      * @return {void}
      */
-    _onkeypress_left : function()
+    _onKeyPress_left : function()
     {
       var vMenu = this.getOpenMenu();
 
@@ -224,7 +224,7 @@ qx.Class.define("qx.legacy.ui.toolbar.ToolBar",
      *
      * @return {void}
      */
-    _onkeypress_right : function()
+    _onKeyPress_right : function()
     {
       var vMenu = this.getOpenMenu();
 
