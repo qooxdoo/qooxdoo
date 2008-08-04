@@ -205,7 +205,7 @@ qx.Class.define("testrunner.runner.TestRunner",
      */
     __makeHeader : function()
     {
-      var header = new qx.ui.embed.HtmlEmbed("<h1>" + "<span>" + "qooxdoo Test Runner" + "</span>" + "</h1>" + "<div class='version'>qooxdoo " + qx.core.Setting.get("qx.version") + "</div>");
+      var header = new qx.ui.embed.Html("<h1>" + "<span>" + "qooxdoo Test Runner" + "</span>" + "</h1>" + "<div class='version'>qooxdoo " + qx.core.Setting.get("qx.version") + "</div>");
       var element = header.getContentElement();
       element.setAttribute("id", "header");
       element.setStyle("background", "#134275 url(" + qx.util.ResourceManager.toUri("testrunner/image/colorstrip.gif") + ") top left repeat-x");

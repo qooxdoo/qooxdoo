@@ -16,8 +16,11 @@
      * Sebastian Werner (wpbasti)
      * Jonathan Rass (jonathan_rass)
 
- ************************************************************************ */
+************************************************************************ */
 
+/**
+ * @internal
+ */
 qx.Class.define("qx.ui.splitpane.Slider",
 {
   extend : qx.ui.core.Widget,

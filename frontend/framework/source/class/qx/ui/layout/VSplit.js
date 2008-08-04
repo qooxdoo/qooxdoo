@@ -20,28 +20,7 @@
 ************************************************************************ */
 
 /**
- * ...
- *
- * *Features*
- *
- * * ...
- *
- * *Item Properties*
- *
- * None
- *
- * *Notes*
- *
- * * ...
- *
- * *External Documentation*
- *
- * <a href='http://qooxdoo.org/documentation/0.8/layout/split'>
- * Extended documentation</a> and links to demos of this layout in the qooxdoo wiki.
- *
- * *Alternative Names*
- *
- * None
+ * @internal
  */
 qx.Class.define("qx.ui.layout.VSplit",
 {
