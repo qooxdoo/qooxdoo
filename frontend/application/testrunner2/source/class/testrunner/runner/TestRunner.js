@@ -62,9 +62,8 @@ qx.Class.define("testrunner.runner.TestRunner",
     
     // Main Pane
     // split
-    //var mainsplit = new qx.legacy.ui.splitpane.HorizontalSplitPane(250, "1*");
     var mainsplit = new qx.ui.splitpane.Pane("horizontal");
-    this.add(mainsplit);
+    this.add(mainsplit, {flex : 1});
     this.mainsplit = mainsplit;
 
     // Left -- is done when iframe is loaded
@@ -75,7 +74,6 @@ qx.Class.define("testrunner.runner.TestRunner",
 
 
     // Right
-//    var right = new qx.legacy.ui.layout.VerticalBoxLayout();
     var right = new qx.ui.container.Composite(new qx.ui.layout.VBox);
 
     mainsplit.add(right, 1);
@@ -85,20 +83,17 @@ qx.Class.define("testrunner.runner.TestRunner",
     right.add(this.toolbar);
 
     var rightSub = new qx.ui.container.Composite(new qx.ui.layout.VBox);
-/*
     rightSub.setPadding(10);
-    rightSub.setHeight("1*");
-    rightSub.setSpacing(20);
-*/
-    right.add(rightSub);
-
-    return ;
+    //rightSub.setHeight("1*");
+    //rightSub.setSpacing(20);
+    right.add(rightSub, {flex : 1});
 
     var groupBox = new qx.ui.groupbox.GroupBox();
+    groupBox.setLayout(new qx.ui.layout.Grow)
     //groupBox.set({ height : "auto" });
 
     var vert = new qx.ui.container.Composite(new qx.ui.layout.VBox);
-    debugger;
+
 /*
     vert.set(
     {
@@ -107,11 +102,9 @@ qx.Class.define("testrunner.runner.TestRunner",
     });
 */
     groupBox.add(vert);
-    
+
     rightSub.add(groupBox);
     
-    return ;
-
     // status
     var statuspane = this.__makeStatus();
 
@@ -126,14 +119,18 @@ qx.Class.define("testrunner.runner.TestRunner",
     // right.add(progress);
     // output views
     var buttview = this.__makeOutputViews();
-    rightSub.add(buttview);
+    rightSub.add(buttview, {flex : 1});
 
+    
     // add eventhandler now, after objects are created
-    this.widgets["treeview"].getBar().getManager().addListener("changeSelected", function(e)
+    this.widgets["treeview"].addListener("changeSelected", function(e)
     {
+      // TODO
+      /*
       if (e.getData().getUserData('tree').getSelectedElement() == null) {
         this.widgets["toolbar.runbutton"].setEnabled(false);
       }
+      */
     },
     this);
 
@@ -142,11 +139,13 @@ qx.Class.define("testrunner.runner.TestRunner",
 
     // Last but not least:
     // Hidden IFrame for test runs
-    var iframe = new qx.legacy.ui.embed.Iframe;
-    iframe.setEdge(0);
+    var iframe = new qx.ui.embed.Iframe;
+    iframe.setSource("about:blank")
+    //iframe.setEdge(0);
     this.iframe = iframe;
-    iframe.addToDocument();
+    //iframe.addToDocument();
     this.setZIndex(5);
+    this._add(iframe);
 
     // Get the TestLoader from the Iframe (in the event handler)
     iframe.addListener("load", this.ehIframeOnLoad, this);
@@ -201,7 +200,7 @@ qx.Class.define("testrunner.runner.TestRunner",
     /**
      * Create the header widget
      *
-     * @return {qx.legacy.ui.embed.HtmlEmbed} The header widget
+     * @return {qx.ui.embed.Html} The header widget
      */
     __makeHeader : function()
     {
@@ -296,27 +295,33 @@ qx.Class.define("testrunner.runner.TestRunner",
     __makeOutputViews : function()
     {
       // Main Container
-      var buttview = new qx.legacy.ui.pageview.tabview.TabView();
-      buttview.set({ height : "1*" });
-
+      //var buttview = new qx.legacy.ui.pageview.tabview.TabView();
+      //buttview.set({ height : "1*" });
+      var tabview = new qx.ui.tabview.TabView;
+/*
       var bsb1 = new qx.legacy.ui.pageview.tabview.Button("Test Results", "icon/16/devices/video-display.png");
       var bsb2 = new qx.legacy.ui.pageview.tabview.Button("Log", "icon/16/apps/graphics-snapshot.png");
       bsb1.setChecked(true);
       buttview.getBar().add(bsb1, bsb2);
+*/
 
-      var p1 = new qx.legacy.ui.pageview.tabview.Page(bsb1);
+      var p1 = new qx.ui.tabview.Page("Test Results", "icon/16/devices/video-display.png");
+      p1.setLayout(new qx.ui.layout.Grow);
       p1.set({ padding : [ 5 ] });
 
       // spacing   : 5
-      var p2 = new qx.legacy.ui.pageview.tabview.Page(bsb2);
+      var p2 = new qx.ui.tabview.Page("Log", "icon/16/apps/graphics-snapshot.png");
+      p2.setLayout(new qx.ui.layout.Grow);
       p2.set({ padding : [ 5 ] });
-      buttview.getPane().add(p1, p2);
-
+      tabview.add(p1);
+      tabview.add(p2);
+      
       // First Page
       var f1 = new testrunner.runner.TestResultView();
+
       this.f1 = f1;
       p1.add(f1);
-
+/*
       f1.set(
       {
         overflow : "auto",
@@ -325,23 +330,25 @@ qx.Class.define("testrunner.runner.TestRunner",
         border   : "dark-shadow",
         padding  : 10
       });
-
+*/
       // Second Page
-      var pp2 = new qx.legacy.ui.layout.VerticalBoxLayout();
+      var pp2 = new qx.ui.container.Composite(new qx.ui.layout.VBox(20)) ;// new qx.legacy.ui.layout.VerticalBoxLayout();
       p2.add(pp2);
-
+/*
       pp2.set(
       {
         height : "100%",
         width  : "100%",
         spacing : 20
       });
-
+*/
       // main output area
-      this.f2 = new qx.legacy.ui.embed.HtmlEmbed('');
+      this.f2 = new qx.ui.embed.Html('');
       pp2.add(this.f2);
-      this.f2.setHtmlProperty("id", "sessionlog");
+      //this.f2.setHtmlProperty("id", "sessionlog");
+      this.f2.getContentElement().setAttribute("id", "sessionlog");
 
+      /*
       this.f2.set(
       {
         overflow : "auto",
@@ -350,9 +357,11 @@ qx.Class.define("testrunner.runner.TestRunner",
         border   : "dark-shadow",
         padding  : 10
       });
-
+      */
+      
       // toolbar
-      var ff1_b1 = new qx.legacy.ui.form.Button("Clear");
+      var ff1_b1 = new qx.ui.form.Button("Clear");
+      ff1_b1.setAllowGrowX(false);
       pp2.add(ff1_b1);
 
       // width : "auto"
@@ -363,26 +372,30 @@ qx.Class.define("testrunner.runner.TestRunner",
       // log appender
       // this.logappender = new qx.legacy.log.appender.Window("qooxdoo Test Runner");
       // this.logappender = new qx.legacy.log.appender.Div("sessionlog");
-      this.logappender = new testrunner.runner.TestAppender(this.f2);
+
+      ////this.logappender = new testrunner.runner.TestAppender(this.f2);
 
       // TODO: the next line needs re-activation
       //this.getLogger().getParentLogger().getParentLogger().addAppender(this.logappender);
 
       // Third Page
       // -- Tab Button
-      var bsb3 = new qx.legacy.ui.pageview.tabview.Button("Tabled Results", "icon/16/apps/graphics-snapshot.png");
+      ////var bsb3 = new qx.ui.pageview.tabview.Button("Tabled Results", "icon/16/apps/graphics-snapshot.png");
 
       // buttview.getBar().add(bsb3);
       // -- Tab Pane
-      var p3 = new qx.legacy.ui.pageview.tabview.Page(bsb3);
+      //var p3 = new qx.legacy.ui.pageview.tabview.Page(bsb3);
+      var p3 = new qx.ui.tabview.Page("Tabled Results", "icon/16/apps/graphics-snapshot.png");
+      p3.setLayout(new qx.ui.layout.Grow)
       p3.set({ padding : [ 5 ] });
-      buttview.getPane().add(p3);
 
       // -- Pane Content
-      var f3 = new qx.legacy.ui.embed.HtmlEmbed("Results should go into a table here.");
+      var f3 = new qx.ui.embed.Html("Results should go into a table here.");
       p3.add(f3);
+      
+      tabview.add(p3);
 
-      return buttview;
+      return tabview;
     },  // makeOutputViews
 
     // -------------------------------------------------------------------------
@@ -411,7 +424,7 @@ qx.Class.define("testrunner.runner.TestRunner",
       this.widgets["treeview.full"] = tree;
       
 ////      bsb1.setUserData('tree', tree);  // for changeSelected handling
-////      tree.getManager().addListener("changeSelection", this.treeGetSelection, this);
+      tree.addListener("changeSelection", this.treeGetSelection, this);
 
       // flat view
       var p2 = new qx.ui.tabview.Page(null, "icon/16/apps/preferences-display.png");
@@ -424,7 +437,7 @@ qx.Class.define("testrunner.runner.TestRunner",
       this.tree1 = tree1;
       this.widgets["treeview.flat"] = tree1;
       ////bsb2.setUserData('tree', tree1);  // for changeSelected handling
-      ////tree1.getManager().addListener("changeSelection", this.treeGetSelection, this);
+      tree1.addListener("changeSelection", this.treeGetSelection, this);
 
       // fake unique tree for selection (better to have a selection on the model)
       this.tree = {};
@@ -437,9 +450,9 @@ qx.Class.define("testrunner.runner.TestRunner",
         var elem;
 
         if (sel.getIcon() == "icon/16/apps/network-manager.png") {
-          elem = that.widgets["treeview.full"].getSelectedElement();
+          elem = that.widgets["treeview.full"].getSelectedItem();
         } else {
-          elem = that.widgets["treeview.flat"].getSelectedElement();
+          elem = that.widgets["treeview.flat"].getSelectedItem();
         }
 
         return elem;        
@@ -456,29 +469,23 @@ qx.Class.define("testrunner.runner.TestRunner",
      */
     __makeProgress : function()
     {
-      var progress = new qx.legacy.ui.layout.HorizontalBoxLayout();
-
-      progress.set(
-      {
-        height  : "auto",
-        padding : [ 10 ],
-        spacing : 10,
-        width   : "100%"
-      });
+      var layout = new qx.ui.layout.HBox(10);
+      var progress = new qx.ui.container.Composite(layout);// new qx.legacy.ui.layout.HorizontalBoxLayout();
+      progress.setPadding(10)
 
       var progressb = new testrunner.runner.ProgressBar();
       progress.add(progressb);
-
+/*
       progressb.set(
       {
         showStepStatus : true,
         showPcntStatus : true,
         barColor       : "#36a618"
       });
-
+*/
       this.widgets["progresspane"] = progress;
       this.widgets["progresspane.progressbar"] = progressb;
-      progress.add(new qx.legacy.ui.toolbar.Separator);
+      progress.add(new qx.ui.toolbar.Separator);
 
       /* Wishlist:
       var progressb = new qx.legacy.ui.component.ProgressBar();
@@ -493,13 +500,13 @@ qx.Class.define("testrunner.runner.TestRunner",
       progressb.update("68%");  // dito
       */
 
-      progress.add(new qx.legacy.ui.basic.Label("Failed: "));
-      var failcnt = new qx.legacy.ui.basic.Label("0");
+      progress.add(new qx.ui.basic.Label("Failed: "));
+      var failcnt = new qx.ui.basic.Label("0");
       progress.add(failcnt);
       failcnt.set({ backgroundColor : "#C1ECFF" });
 
-      progress.add(new qx.legacy.ui.basic.Label("Succeeded: "));
-      var succcnt = new qx.legacy.ui.basic.Label("0");
+      progress.add(new qx.ui.basic.Label("Succeeded: "));
+      var succcnt = new qx.ui.basic.Label("0");
       progress.add(succcnt);
       succcnt.set({ backgroundColor : "#C1ECFF" });
       this.widgets["progresspane.succ_cnt"] = succcnt;
@@ -516,37 +523,31 @@ qx.Class.define("testrunner.runner.TestRunner",
      */
     __makeStatus : function()
     {
-      var statuspane = new qx.legacy.ui.layout.HorizontalBoxLayout();
-
-      statuspane.set(
-      {
-        padding : [ 10 ],
-        spacing : 10,
-        height  : "auto",
-        width   : "100%"
-      });
+      var layout = new qx.ui.layout.HBox(10);
+      var statuspane = new qx.ui.container.Composite(layout);
+      statuspane.setPadding(10);
 
       // Test Info
-      statuspane.add(new qx.legacy.ui.basic.Label("Selected Test: "));
-      var l1 = new qx.legacy.ui.basic.Label("");
+      statuspane.add(new qx.ui.basic.Label("Selected Test: "));
+      var l1 = new qx.ui.basic.Label("");
       statuspane.add(l1);
       l1.set({ backgroundColor : "#C1ECFF" });
       this.widgets["statuspane.current"] = l1;
-      statuspane.add(new qx.legacy.ui.basic.Label("Number of Tests: "));
-      var l2 = new qx.legacy.ui.basic.Label("");
+      statuspane.add(new qx.ui.basic.Label("Number of Tests: "));
+      var l2 = new qx.ui.basic.Label("");
       statuspane.add(l2);
       l2.set({ backgroundColor : "#C1ECFF" });
       this.widgets["statuspane.number"] = l2;
 
-      statuspane.add((new qx.legacy.ui.basic.HorizontalSpacer).set({ width : "1*" }));
+      ////statuspane.add((new qx.ui.basic.HorizontalSpacer).set({ width : "1*" }));
 
       // System Info
-      statuspane.add(new qx.legacy.ui.basic.Label("System Status: "));
-      var l3 = new qx.legacy.ui.basic.Label("");
+      statuspane.add(new qx.ui.basic.Label("System Status: "));
+      var l3 = new qx.ui.basic.Label("");
       statuspane.add(l3);
       l3.set({ width : 150 });
       this.widgets["statuspane.systeminfo"] = l3;
-      this.widgets["statuspane.systeminfo"].setText("Loading...");
+      this.widgets["statuspane.systeminfo"].setContent("Loading...");
 
       return statuspane;
     },  // makeStatus
@@ -562,52 +563,50 @@ qx.Class.define("testrunner.runner.TestRunner",
      */
     treeGetSelection : function(e)
     {
-      if (!this.tree.getSelectedElement())
-      {  // this is a kludge!
-        return;
-      }
 
       var treeNode = this.tree.getSelectedElement();
       var modelNode = treeNode.getUserData("modelLink");
       this.tests.selected = this.tests.handler.getFullName(modelNode);
 
       // update status pane
-      this.widgets["statuspane.current"].setText(this.tests.selected);
+      this.widgets["statuspane.current"].setContent(this.tests.selected);
       this.tests.selected_cnt = this.tests.handler.testCount(modelNode);
-      this.widgets["statuspane.number"].setText(this.tests.selected_cnt + "");
+      this.widgets["statuspane.number"].setContent(this.tests.selected_cnt + "");
 
       // update toolbar
       this.widgets["toolbar.runbutton"].resetEnabled();
 
       // update selection in other tree
       // -- not working!
-      var selButt = this.widgets["treeview"].getBar().getManager().getSelected();
 
-      if (selButt.getLabel() == "Full Tree")
+      /*
+      var selButt = this.widgets["treeview"].getSelected();
+
+      if (selButt.getIcon() == "icon/16/apps/network-manager.png")
       {
         if (modelNode.widgetLinkFlat)
         {
-          this.widgets["treeview.flat"].setSelectedElement(modelNode.widgetLinkFlat);
+          this.widgets["treeview.flat"].select(modelNode.widgetLinkFlat);
 
-          if (modelNode.widgetLinkFlat instanceof qx.legacy.ui.tree.TreeFolder) {
+          if (modelNode.widgetLinkFlat instanceof qx.ui.tree.TreeFolder) {
             modelNode.widgetLinkFlat.open();
           }
         }
         else
         {
-          this.widgets["treeview.flat"].getManager().deselectAll();
+          ////this.widgets["treeview.flat"].deselectAll();
         }
       }
       else
       {
-        this.widgets["treeview.full"].setSelectedElement(modelNode.widgetLinkFull);
+        this.widgets["treeview.full"].select(modelNode.widgetLinkFull);
 
-        if (modelNode.widgetLinkFull instanceof qx.legacy.ui.tree.TreeFolder) {
+        if (modelNode.widgetLinkFull instanceof qx.ui.tree.TreeFolder) {
           modelNode.widgetLinkFull.open();
         }
       }
-
-      this.widgets["statuspane.systeminfo"].setText("Tests selected");
+*/
+      this.widgets["statuspane.systeminfo"].setContent("Tests selected");
     },  // treeGetSelection
 
     // -------------------------------------------------------------------------
@@ -624,7 +623,7 @@ qx.Class.define("testrunner.runner.TestRunner",
       /**
        * create widget tree from model
        *
-       * @param widgetR {qx.legacy.ui.tree.Tree}    [In/Out]
+       * @param widgetR {qx.ui.tree.TreeFolder}    [In/Out]
        *        widget root under which the widget tree will be built
        * @param modelR  {testrunner.runner.Tree} [In]
        *        model root for the tree from which the widgets representation
@@ -682,12 +681,12 @@ qx.Class.define("testrunner.runner.TestRunner",
 
           if (currNode.hasChildren())
           {
-            t = new qx.legacy.ui.tree.TreeFolder(currNode.label, ico);
+            t = new qx.ui.tree.TreeFolder(currNode.label, ico);
             buildSubTree(t, currNode);
           }
           else
           {
-            t = new qx.legacy.ui.tree.TreeFile(currNode.label, ico);
+            t = new qx.ui.tree.TreeFile(currNode.label, ico);
           }
 
           // make connections
@@ -717,7 +716,7 @@ qx.Class.define("testrunner.runner.TestRunner",
             if (handler.hasTests(currNode))
             {
               var fullName = handler.getFullName(currNode);
-              var t = new qx.legacy.ui.tree.TreeFolder(fullName, "testrunner/image/class18.gif");
+              var t = new qx.ui.tree.TreeFolder(fullName, "testrunner/image/class18.gif");
               widgetR.add(t);
               t.setUserData("modelLink", currNode);
               currNode.widgetLinkFlat = t;
@@ -732,7 +731,7 @@ qx.Class.define("testrunner.runner.TestRunner",
               {
                 if (children[i].type && children[i].type == "test")
                 {
-                  var c = new qx.legacy.ui.tree.TreeFile(children[i].label, "testrunner/image/method_public18.gif");
+                  var c = new qx.ui.tree.TreeFile(children[i].label, "testrunner/image/method_public18.gif");
                   t.add(c);
                   c.setUserData("modelLink", children[i]);
                   children[i].widgetLinkFlat = c;
@@ -754,8 +753,8 @@ qx.Class.define("testrunner.runner.TestRunner",
       var that = this;
 
       // Reset Status Pane Elements
-      this.widgets["statuspane.current"].setText("");
-      this.widgets["statuspane.number"].setText("");
+      this.widgets["statuspane.current"].setContent("");
+      this.widgets["statuspane.number"].setContent("");
 
       // Disable Tree View
       this.widgets["treeview"].setEnabled(false);
@@ -764,12 +763,12 @@ qx.Class.define("testrunner.runner.TestRunner",
       var fulltree = this.widgets["treeview.full"];
       var flattree = this.widgets["treeview.flat"];
       var trees = [ fulltree, flattree ];
-      var stree = this.widgets["treeview"].getBar().getManager().getSelected();
+      var stree = this.widgets["treeview"].getSelected();
 
       for (var i=0; i<trees.length; i++)
       {
-        trees[i].resetSelected();
-        trees[i].destroyContent();  // clean up before re-build
+        ////trees[i].resetSelected();
+        ////trees[i].destroyContent();  // clean up before re-build
         trees[i].setUserData("modelLink", ttree);  // link top level widgets and model
       }
 
@@ -781,8 +780,21 @@ qx.Class.define("testrunner.runner.TestRunner",
 
       // buildSubTree* functions to a model node
       // Build the widget trees
-      buildSubTree(this.widgets["treeview.full"], ttree);
-      buildSubTreeFlat(this.widgets["treeview.flat"], ttree);
+      
+      var root1 = new qx.ui.tree.TreeFolder("root1");
+      root1.setOpen(true);
+      fulltree.setRoot(root1);
+      fulltree.setHideRoot(true);
+
+      var root2 = new qx.ui.tree.TreeFolder("root2");
+      root2.setOpen(true);
+      flattree.setRoot(root2);
+      flattree.setHideRoot(true);
+
+      
+      
+      buildSubTree(this.widgets["treeview.full"].getRoot(), ttree);
+      buildSubTreeFlat(this.widgets["treeview.flat"].getRoot(), ttree);
 
       // Re-enable and Re-select
       this.widgets["treeview"].setEnabled(true);
@@ -794,7 +806,7 @@ qx.Class.define("testrunner.runner.TestRunner",
         {
           this.widgets["treeview.full"].setSelectedElement(selectedElement.widgetLinkFull);
 
-          if (selectedElement.widgetLinkFull instanceof qx.legacy.ui.tree.TreeFolder) {
+          if (selectedElement.widgetLinkFull instanceof qx.ui.tree.TreeFolder) {
             selectedElement.widgetLinkFull.open();
           }
         }
@@ -803,7 +815,7 @@ qx.Class.define("testrunner.runner.TestRunner",
         {
           this.widgets["treeview.flat"].setSelectedElement(selectedElement.widgetLinkFlat);
 
-          if (selectedElement.widgetLinkFlat instanceof qx.legacy.ui.tree.TreeFolder) {
+          if (selectedElement.widgetLinkFlat instanceof qx.ui.tree.TreeFolder) {
             selectedElement.widgetLinkFlat.open();
           }
         }
@@ -823,7 +835,7 @@ qx.Class.define("testrunner.runner.TestRunner",
       this.toolbar.setEnabled(false);
 
       // this.tree.setEnabled(false);
-      this.widgets["statuspane.systeminfo"].setText("Preparing...");
+      this.widgets["statuspane.systeminfo"].setContent("Preparing...");
 
       this.resetGui();
       var bar = this.widgets["progresspane.progressbar"];
@@ -897,7 +909,7 @@ qx.Class.define("testrunner.runner.TestRunner",
           {
             that.currentTestData.setState("success");
 
-            // that.widgets["progresspane.succ_cnt"].setText(++that.tests.succ_cnt+"");
+            // that.widgets["progresspane.succ_cnt"].setContent(++that.tests.succ_cnt+"");
             var val = that.getSuccCnt();
             that.setSuccCnt(++val);
             that.widgets["progresspane.progressbar"].update(String(tstCurr + "/" + tstCnt));
@@ -918,7 +930,7 @@ qx.Class.define("testrunner.runner.TestRunner",
 
       function runtest()
       {
-        that.widgets["statuspane.systeminfo"].setText("Running tests...");
+        that.widgets["statuspane.systeminfo"].setContent("Running tests...");
         that.toolbar.setEnabled(false);  // if we are run as run_pending
 
         if (tlist.length)
@@ -937,11 +949,11 @@ qx.Class.define("testrunner.runner.TestRunner",
           {
             that.reloadswitch.setChecked(true);
             that.tests.firstrun = false;
-            that.widgets["statuspane.systeminfo"].setText("Enabled auto-reload");
+            that.widgets["statuspane.systeminfo"].setContent("Enabled auto-reload");
           }
           else
           {
-            that.widgets["statuspane.systeminfo"].setText("Ready");
+            that.widgets["statuspane.systeminfo"].setContent("Ready");
           }
         }
       }
@@ -1030,7 +1042,7 @@ qx.Class.define("testrunner.runner.TestRunner",
       var curr = this.iframe.getSource();
       var neu = this.testSuiteUrl.getValue();
       this.toolbar.setEnabled(false);
-      this.widgets["statuspane.systeminfo"].setText("Reloading test suite...");
+      this.widgets["statuspane.systeminfo"].setContent("Reloading test suite...");
 
       // reset status information
       this.resetGui();
@@ -1057,7 +1069,7 @@ qx.Class.define("testrunner.runner.TestRunner",
     {
       var iframe = this.iframe;
 
-      this.frameWindow = iframe.getContentWindow();
+      this.frameWindow = iframe.getWindow();
 
       if (!this.frameWindow.testrunner) {
         qx.event.Timer.once(this.ehIframeOnLoad, this, 100);
@@ -1080,7 +1092,7 @@ qx.Class.define("testrunner.runner.TestRunner",
         delete this.tests.run_pending;
       }
 
-      this.widgets["statuspane.systeminfo"].setText("Ready");
+      this.widgets["statuspane.systeminfo"].setContent("Ready");
     },  // ehIframeOnLoad
 
     // ------------------------------------------------------------------------
@@ -1130,7 +1142,7 @@ qx.Class.define("testrunner.runner.TestRunner",
      * @return {void}
      */
     _applySuccCnt : function(newSucc) {
-      this.widgets["progresspane.succ_cnt"].setText(newSucc + "");
+      this.widgets["progresspane.succ_cnt"].setContent(newSucc + "");
     },
 
 
@@ -1141,7 +1153,7 @@ qx.Class.define("testrunner.runner.TestRunner",
      * @return {void}
      */
     _applyFailCnt : function(newFail) {
-      this.widgets["progresspane.fail_cnt"].setText(newFail + "");
+      this.widgets["progresspane.fail_cnt"].setContent(newFail + "");
     },
 
 
