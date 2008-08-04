@@ -45,7 +45,7 @@ qx.Class.define("qx.event.type.Drag",
      *     right click) or the default action of a qooxdoo class (e.g. close
      *     the window widget). The default action can be prevented by calling
      *     {@link #preventDefault}
-     * @param nativeEvent {Event?null} The native event to use
+     * @param originalEvent {qx.event.type.Mouse} The original (mouse) event to use
      * @return {qx.event.type.Event} The initialized event instance
      */
     init : function(cancelable, originalEvent)
@@ -156,7 +156,7 @@ qx.Class.define("qx.event.type.Drag",
      * Used during <code>dragstart</code> listener to
      * inform the manager about supported data types.
      *
-     * @param type {String} Data type to add to supported type list
+     * @param type {String} Data type to add to list of supported types
      */
     addType : function(type) {
       this.getManager().addType(type);
@@ -167,7 +167,7 @@ qx.Class.define("qx.event.type.Drag",
      * Used during <code>dragstart</code> listener to
      * inform the manager about supported drop actions.
      *
-     * @param type {String} Data type to add to supported type list
+     * @param action {String} Action to add to the list of supported actions
      */
     addAction : function(action) {
       this.getManager().addAction(action);
@@ -196,21 +196,28 @@ qx.Class.define("qx.event.type.Drag",
      * This is used in the event listeners for <code>dragover</code>
      * or <code>dragdrop</code>.
      *
-     * @param type {String} The type to look for
-     * @return {Boolean} Whether the given type is supported
+     * @param action {String} The action to look for
+     * @return {Boolean} Whether the given action is supported
      */
     supportsAction : function(action) {
       return this.getManager().supportsAction(action);
     },
 
 
+    /**
+     * Adds data of the given type to the internal storage. The data
+     * is available until the <code>dragend</code> event is fired.
+     *
+     * @param type {String} Any valid type
+     * @param data {var} Any data to store
+     */
     addData : function(type, data) {
       this.getManager().addData(type, data);
     },
 
 
     /**
-     * Returns the data of the given type.
+     * Returns the data of the given type. Used in the <code>drop</code> listener.
      *
      * @param type {String} Any of the supported types.
      */
@@ -219,6 +226,12 @@ qx.Class.define("qx.event.type.Drag",
     },
 
 
+    /**
+     * Returns the type which was requested last.
+     * Used in the <code>droprequest</code> listener.
+     *
+     * @return {String} The last requested data type
+     */
     getCurrentType : function() {
       return this.getManager().getCurrentType();
     },
@@ -228,6 +241,8 @@ qx.Class.define("qx.event.type.Drag",
      * Returns the currently selected action. Depends on the
      * supported actions of the source target and the modification
      * keys pressed by the user.
+     *
+     * Used in the <code>droprequest</code> listener.     
      *
      * @return {String} The action. May be one of <code>move</code>,
      *    <code>copy</code> or <code>alias</code>.
