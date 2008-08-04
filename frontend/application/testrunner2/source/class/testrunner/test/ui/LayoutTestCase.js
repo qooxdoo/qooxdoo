@@ -17,10 +17,6 @@
 
 ************************************************************************ */
 
-/*
-#use(qx.theme.Classic)
-*/
-
 qx.Class.define("testrunner.test.ui.LayoutTestCase",
 {
   extend : qx.dev.unit.TestCase,
