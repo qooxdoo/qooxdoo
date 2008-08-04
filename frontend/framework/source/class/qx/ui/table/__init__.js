@@ -45,11 +45,11 @@
  * *Model*
  *
  * The model represents the data of the grid.  It is implemented by a subclass
- * of {@link qx.legacy.ui.table.ITableModel}.
+ * of {@link qx.ui.table.ITableModel}.
  *
  * *Selection*
  *
- * The selection of a table is managed by {@link qx.legacy.ui.table.selection.Manager}.
+ * The selection of a table is managed by {@link qx.ui.table.selection.Manager}.
  *
  * *Example*
  *

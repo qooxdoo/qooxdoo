@@ -38,7 +38,6 @@ qx.Class.define("demobrowser.CallTrace",
     callTraceEnter: function(fullName, fcn, type, args)
     {
       // time stamp
-      // code from qx.legacy.log.appender.Abstract
       var time = new String(new Date().getTime() - qx.Bootstrap.LOADSTART);
       while (time.length < 6) {
         time = "0" + time;
@@ -52,6 +51,5 @@ qx.Class.define("demobrowser.CallTrace",
   defer : function(statics)
   {
     qx.core.Aspect.addAdvice("before", "*", "demobrowser\.(?!(DemoBrowser\.(init|get|set)|Application))", statics.callTraceEnter);
-    //qx.core.Aspect.addAdvice("before", "*", "(?!qx.legacy.event.*)", statics.callTraceEnter);
   }
 });

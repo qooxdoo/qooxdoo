@@ -238,7 +238,7 @@ qx.Class.define("qx.ui.menu.Menu",
      */
     open : function()
     {
-      this.alignToWidget(this.getOpener());
+      this.placeToWidget(this.getOpener());
       this.show();
     },
 
