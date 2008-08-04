@@ -114,6 +114,18 @@ qx.Class.define("qx.ui.root.Abstract",
       themeable : true,
       apply : "_applyGlobalCursor",
       event : "changeGlobalCursor"
+    },
+
+
+    /**
+     * Whether to show the native context menu
+     */
+    nativeContextMenu :
+    {
+      check : "Boolean",
+      nullable : true,
+      apply : "_applyNativeContextMenu",
+      init : true
     }
   },
 
@@ -168,7 +180,28 @@ qx.Class.define("qx.ui.root.Abstract",
           Stylesheet.addRule(sheet, "*", qx.bom.element.Cursor.compile(value).replace(";", "") + " !important");
         }
       }
-    })
+    }),
+
+
+    // property apply
+    _applyNativeContextMenu : function(value, old)
+    {
+      if (value) {
+        this.removeListener("contextmenu", this._onNativeContextMenu, this, true);
+      } else {
+        this.addListener("contextmenu", this._onNativeContextMenu, this, true);
+      }
+    },
+
+
+    /**
+     * Stops the <code>contextmenu</code> event from showing the native context menu
+     *
+     * @param e {qx.event.type.Mouse} The event object
+     */
+    _onNativeContextMenu : function(e) {
+      e.preventDefault();
+    }
   },
 
 
