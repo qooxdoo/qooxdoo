@@ -21,7 +21,7 @@
  * Contains methods to compute a position for any object which should
  * be positioned to any other object.
  */
-qx.Class.define("qx.util.AlignUtil",
+qx.Class.define("qx.util.PlaceUtil",
 {
   statics :
   {
