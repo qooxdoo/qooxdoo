@@ -110,7 +110,7 @@ qx.Class.define("apiviewer.ui.AbstractViewer",
     {
       var html = new qx.util.StringBuilder();
 
-      html.add('<div style="padding:10px;">');
+      html.add('<div style="padding:24px;">');
 
       // Add title
       html.add('<h1></h1>');
