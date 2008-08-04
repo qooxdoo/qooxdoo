@@ -119,7 +119,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.Widths",
         throw new Error("Column number out of range");
       }
 
-      this._columnData[column].setWidth(width);
+      this._columnData[column].setColumnWidth(width);
     },
       
     /**
