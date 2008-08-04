@@ -134,22 +134,56 @@ qx.Class.define("qx.event.handler.DragDrop",
     ---------------------------------------------------------------------------
     */
 
+    /**
+     * Registers a supported type
+     *
+     * @param type {String} The type to add
+     */
     addType : function(type) {
       this.__types[type] = true;
     },
 
+    /**
+     * Registers a supported action. One of <code>move</code>,
+     * <code>copy</code> or <code>alias</code>.
+     *
+     * @param action {String} The action to add
+     */
     addAction : function(action) {
       this.__actions[action] = true;
     },
 
+
+    /**
+     * Whether the current drag target supports the given type
+     *
+     * @param type {String} Any type
+     * @return {Boolean} Whether the type is supported
+     */
     supportsType : function(type) {
       return !!this.__types[type];
     },
 
+
+    /**
+     * Whether the current drag target supports the given action
+     *
+     * @param type {String} Any type
+     * @return {Boolean} Whether the action is supported
+     */
     supportsAction : function(type) {
       return !!this.__actions[type];
     },
 
+
+    /**
+     * Returns the data of the given type during the <code>drop</code> event
+     * on the drop target. This method fires a <code>droprequest</code> at
+     * the drag target which should be answered by calls to {@link #addData}.
+     *
+     * @param type {String} Any supported type
+     * @return {var} The result data
+     */
     getData : function(type)
     {
       if (!this.__validDrop || !this.__dropTarget) {
@@ -173,14 +207,35 @@ qx.Class.define("qx.event.handler.DragDrop",
       return this.__cache[type] || null;
     },
 
+
+    /**
+     * Returns the currently selected action (by user keyboard modifiers)
+     *
+     * @return {String} One of <code>move</code>, <code>copy</code> or
+     *    <code>alias</code>
+     */
     getCurrentAction : function() {
       return this.__currentAction;
     },
 
+
+    /**
+     * Adds data of the given type to the internal storage. The data
+     * is available until the <code>dragend</code> event is fired.
+     *
+     * @param type {String} Any valid type
+     * @param data {var} Any data to store
+     */
     addData : function(type, data) {
       this.__cache[type] = data;
     },
 
+
+    /**
+     * Returns the type which was requested last.
+     *
+     * @return {String} The last requested data type
+     */
     getCurrentType : function() {
       return this.__currentType;
     },
@@ -196,6 +251,9 @@ qx.Class.define("qx.event.handler.DragDrop",
     ---------------------------------------------------------------------------
     */
 
+    /**
+     * Rebuilds the internal data storage used during a drag&drop session
+     */
     __rebuildStructures : function()
     {
       this.__types = {};
@@ -204,6 +262,12 @@ qx.Class.define("qx.event.handler.DragDrop",
       this.__cache = {};
     },
 
+
+    /**
+     * Detects the current action and stores it under the private
+     * field <code>__currentAction</code>. Also fires the event
+     * <code>dragchange</code> on every modification.
+     */
     __detectAction : function()
     {
       var actions = this.__actions;
@@ -238,6 +302,16 @@ qx.Class.define("qx.event.handler.DragDrop",
       }
     },
 
+
+    /**
+     * Wrapper for {@link qx.event.Registration#fireEvent} for drag&drop events
+     * needed in this class.
+     *
+     * @param type {String} Event type
+     * @param target {Object} Target to fire on
+     * @param cancelable {Boolean} Whether the event is cancelable
+     * @param original {qx.event.type.Mouse} Original mouse event
+     */
     __fireEvent : function(type, target, cancelable, original)
     {
       var Registration = qx.event.Registration;
