@@ -119,19 +119,6 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
 
 
     /**
-     * The icon to show if the tree item is opened.
-     * Any URI String supported by qx.ui.basic.Image.
-     **/
-    iconOpened :
-    {
-      check : "String",
-      apply : "_applyIcon",
-      nullable : true,
-      themeable : true
-    },
-
-
-    /**
      * The label/caption/text
      */
     label :
@@ -166,42 +153,37 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
     },
 
 
-    /**
-     * Returns the tree items's label widget.
-     *
-     * @return {qx.ui.basic.Label} The label widget
-     */
-    getLabelObject : function()
+    // overridden
+    _createChildControlImpl : function(id)
     {
-      if (!this._label)
+      var control;
+      
+      switch(id)
       {
-        this._label = new qx.ui.basic.Label().set({
-          appearance: this.getAppearance() + "-label",
-          alignY: "middle"
-        });
+        case "label":
+          control = new qx.ui.basic.Label().set({
+            appearance: this.getAppearance() + "-label",
+            alignY: "middle"
+          });
+          break;
+          
+        case "icon":
+          control = new qx.ui.basic.Image().set({
+            appearance: this.getAppearance() + "-icon",
+            alignY: "middle"
+          });    
+          break;  
+          
+        case "open":
+          control = new qx.ui.tree.FolderOpenButton().set({
+            alignY: "middle"
+          });
+          control.addListener("changeOpen", this._onChangeOpen, this);
+          control.addListener("resize", this._updateIndent, this);        
+          break;
       }
-
-      return this._label;
-    },
-
-
-    /**
-     * Returns the tree item's icon widget
-     *
-     * @return {qx.ui.basic.Icon} The tree item's icon widget.
-     */
-    getIconObject : function()
-    {
-      if (!this._icon)
-      {
-        this._icon = new qx.ui.basic.Image().set({
-          appearance: this.getAppearance() + "-icon",
-          alignY: "middle"
-        });
-        this.__updateIcon();
-      }
-
-      return this._icon;
+      
+      return control || this.base(arguments, id);
     },
 
 
@@ -227,12 +209,13 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
 
 
 
+
+
     /*
     ---------------------------------------------------------------------------
       TREE ITEM CONFIGURATION
     ---------------------------------------------------------------------------
     */
-
 
     /**
      * Adds a sub widget to the tree item's horizontal box layout.
@@ -257,8 +240,8 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
       } else {
         this._remove(this._spacer);
       }
+      
       this._add(this._spacer);
-
     },
 
 
@@ -267,22 +250,8 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
      * button has been added before, it is removed from its old position and
      * added to the end of the layout.
      */
-    addOpenButton : function()
-    {
-      if (!this._open)
-      {
-        this._open = new qx.ui.tree.FolderOpenButton().set({
-          alignY: "middle"
-        });
-        this._open.addListener("changeOpen", this._onChangeOpen, this);
-        this._open.addListener("resize", this._updateIndent, this);
-      }
-      else
-      {
-        this._remove(this._open);
-      }
-
-      this._add(this._open);
+    addOpenButton : function() {
+      this._add(this._getChildControl("open"));
     },
 
 
@@ -306,7 +275,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
      */
     addIcon : function()
     {
-      var icon = this.getIconObject();
+      var icon = this._getChildControl("icon");
 
       if (this._iconAdded) {
         this._remove(icon);
@@ -326,7 +295,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
      */
     addLabel : function(text)
     {
-      var label = this.getLabelObject();
+      var label = this._getChildControl("label");
 
       if (this._labelAdded) {
         this._remove(label);
@@ -387,30 +356,15 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
     ---------------------------------------------------------------------------
     */
 
-    /**
-     * Updates the tree item's icon source
-     */
-    __updateIcon : function()
-    {
-      var icon = this.getIconObject();
-
-      if (this.isOpen() && this.getIconOpened()) {
-        icon.setSource(this.getIconOpened())
-      } else {
-        icon.setSource(this.getIcon())
-      }
-    },
-
-
     // property apply
     _applyIcon : function(value, old) {
-      this.__updateIcon();
+      this._getChildControl("icon").setSource(value);
     },
 
 
     // property apply
     _applyLabel : function(value, old) {
-      this.getLabelObject().setContent(value);
+      this._getChildControl("label").setContent(value);
     },
 
 
@@ -421,11 +375,11 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
         this.getChildrenContainer().setVisibility(value ? "visible" : "excluded");
       }
 
-      if (this._open) {
-        this._open.setOpen(value);
+      var open = this._getChildControl("open", true);
+      if (open) {
+        open.setOpen(value);
       }
 
-      this.__updateIcon();
       value ? this.addState("opened") : this.removeState("opened");
     },
 
@@ -458,14 +412,16 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
      */
     _shouldShowOpenSymbol : function()
     {
-      if (!this._open) {
+      var open = this._getChildControl("open", true);
+      if (!open) {
         return false;
       }
 
       var tree = this.getTree();
       if (!tree.getRootOpenClose())
       {
-        if (tree.getHideRoot()) {
+        if (tree.getHideRoot()) 
+        {
           if (tree.getRoot() == this.getParent()) {
             return false;
           }
@@ -498,17 +454,18 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
       }
 
       var openWidth = 0;
-
-      if (this._open)
+      var open = this._getChildControl("open", true);
+      
+      if (open)
       {
         if (this._shouldShowOpenSymbol())
         {
-          this._open.show();
-          openWidth = this._open.getSizeHint().width;
+          open.show();
+          openWidth = open.getSizeHint().width;
         }
         else
         {
-          this._open.exclude();
+          open.exclude();
         }
       }
 
