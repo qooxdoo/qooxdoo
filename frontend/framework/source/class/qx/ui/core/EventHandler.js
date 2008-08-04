@@ -231,7 +231,22 @@ qx.Class.define("qx.ui.core.EventHandler",
       widgetEvent.setTarget(widgetTarget);
       widgetEvent.setRelatedTarget(widgetRelatedTarget||null);
       widgetEvent.setCurrentTarget(widgetTarget);
-      widgetEvent.setOriginalTarget(domTarget);
+
+      // Keep original target of DOM event, otherwise map it to the original
+      var orig = domEvent.getOriginalTarget();
+      if (orig)
+      {
+        var widgetOriginalTarget = qx.ui.core.Widget.getWidgetByElement(orig);
+        while (widgetOriginalTarget && widgetOriginalTarget.isAnonymous()) {
+          widgetOriginalTarget = widgetOriginalTarget.getLayoutParent();
+        }
+
+        widgetEvent.setOriginalTarget(widgetOriginalTarget);
+      }
+      else
+      {
+        widgetEvent.setOriginalTarget(domTarget);
+      }
 
       // Dispatch it on all listeners
       for (var i=0, l=listeners.length; i<l; i++)
