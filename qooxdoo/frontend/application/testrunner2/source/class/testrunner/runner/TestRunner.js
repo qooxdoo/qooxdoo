@@ -145,6 +145,7 @@ qx.Class.define("testrunner.runner.TestRunner",
     this.iframe = iframe;
     //iframe.addToDocument();
     this.setZIndex(5);
+    ////iframe.setVisibility("hidden");
     this._add(iframe);
 
     // Get the TestLoader from the Iframe (in the event handler)
@@ -385,6 +386,7 @@ qx.Class.define("testrunner.runner.TestRunner",
       // buttview.getBar().add(bsb3);
       // -- Tab Pane
       //var p3 = new qx.legacy.ui.pageview.tabview.Page(bsb3);
+      /*
       var p3 = new qx.ui.tabview.Page("Tabled Results", "icon/16/apps/graphics-snapshot.png");
       p3.setLayout(new qx.ui.layout.Grow)
       p3.set({ padding : [ 5 ] });
@@ -394,6 +396,7 @@ qx.Class.define("testrunner.runner.TestRunner",
       p3.add(f3);
       
       tabview.add(p3);
+      */
 
       return tabview;
     },  // makeOutputViews
@@ -804,19 +807,19 @@ qx.Class.define("testrunner.runner.TestRunner",
         // select tree element and open if folder
         if (selectedElement.widgetLinkFull)
         {
-          this.widgets["treeview.full"].setSelectedElement(selectedElement.widgetLinkFull);
+          this.widgets["treeview.full"].select(selectedElement.widgetLinkFull);
 
           if (selectedElement.widgetLinkFull instanceof qx.ui.tree.TreeFolder) {
-            selectedElement.widgetLinkFull.open();
+            ////selectedElement.widgetLinkFull.open();
           }
         }
 
         if (selectedElement.widgetLinkFlat)
         {
-          this.widgets["treeview.flat"].setSelectedElement(selectedElement.widgetLinkFlat);
+          this.widgets["treeview.flat"].select(selectedElement.widgetLinkFlat);
 
           if (selectedElement.widgetLinkFlat instanceof qx.ui.tree.TreeFolder) {
-            selectedElement.widgetLinkFlat.open();
+            ////selectedElement.widgetLinkFlat.open();
           }
         }
       }

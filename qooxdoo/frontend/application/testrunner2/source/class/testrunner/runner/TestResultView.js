@@ -15,11 +15,12 @@
    Authors:
      * Thomas Herchenroeder (thron7)
      * Fabian Jakobs (fjakobs)
+     * Jonathan Rass (jonathan_rass)
 
 ************************************************************************ */
 
 /**
- * Widget which displayes the test results as a formatted list.
+ * Widget which displays the test results as a formatted list.
  */
 qx.Class.define("testrunner.runner.TestResultView",
 {
@@ -37,6 +38,8 @@ qx.Class.define("testrunner.runner.TestResultView",
   {
     this.base(arguments);
     this._testResults = [];
+    
+    this.setOverflowY("scroll");
 
     this.addListener("appear", function() {
       this.setHtml(this.__createHtml());
@@ -108,17 +111,14 @@ qx.Class.define("testrunner.runner.TestResultView",
      */
     addTestResult : function(testResult)
     {
+
       this._testResults.push(testResult);
 
       testResult.addListener("changeState", function() {
         this.__onStateChange(testResult);
       }, this);
 
-      var element = this.getElement();
-
-      if (element) {
-        element.innerHTML = this.__createResultHtml(testResult) + element.innerHTML;
-      }
+      this.setHtml(this.__createResultHtml(testResult) + this.getHtml());
     },
 
 
