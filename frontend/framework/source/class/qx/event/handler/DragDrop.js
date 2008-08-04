@@ -329,6 +329,15 @@ qx.Class.define("qx.event.handler.DragDrop",
       return Registration.dispatchEvent(target, dragEvent);
     },
 
+
+    /**
+     * Finds next draggable parent of the given element. Maybe the element itself as well.
+     *
+     * Looks for the attribute <code>qxDraggable</code> with the value <code>on</code>.
+     *
+     * @param elem {Element} The element to query
+     * @return {Element} The next parent element which is draggable. May also be <code>null</code>
+     */
     __findDraggable : function(elem)
     {
       while (elem && elem.nodeType == 1)
@@ -343,6 +352,15 @@ qx.Class.define("qx.event.handler.DragDrop",
       return null;
     },
 
+
+    /**
+     * Finds next droppable parent of the given element. Maybe the element itself as well.
+     *
+     * Looks for the attribute <code>qxDroppable</code> with the value <code>on</code>.
+     *
+     * @param elem {Element} The element to query
+     * @return {Element} The next parent element which is droppable. May also be <code>null</code>
+     */
     __findDroppable : function(elem)
     {
       while (elem && elem.nodeType == 1)
@@ -357,6 +375,11 @@ qx.Class.define("qx.event.handler.DragDrop",
       return null;
     },
 
+
+    /**
+     * Clean up event listener and structures when a drag was ended without ever starting into session mode
+     * (e.g. not reaching the required offset before)
+     */
     __clearInit : function()
     {
       // Clear drag target
@@ -373,6 +396,10 @@ qx.Class.define("qx.event.handler.DragDrop",
       this.__rebuildStructures();
     },
 
+
+    /**
+     * Cleans up a drag&drop session when <code>dragstart</code> was fired before.
+     */
     __clearSession : function()
     {
       if (this.__sessionActive)
@@ -398,6 +425,8 @@ qx.Class.define("qx.event.handler.DragDrop",
       this.__clearInit();
     },
 
+
+    /** {Boolean} Whether a valid drop object exists */
     __validDrop : false,
 
 
