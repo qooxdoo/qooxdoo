@@ -15,17 +15,18 @@
    Authors:
      * Thomas Herchenroeder (thron7)
      * Fabian Jakobs (fjakobs)
+     * Jonathan Rass (jonathan_rass)
 
 ************************************************************************ */
 
 /* ************************************************************************
 
-#asset(qx/icon/Compat/16/actions/view-refresh.png)
-#asset(qx/icon/Compat/16/actions/media-playback-start.png)
-#asset(qx/icon/Compat/16/devices/video-display.png)
-#asset(qx/icon/Compat/16/apps/graphics-snapshot.png)
-#asset(qx/icon/Compat/16/actions/view-pane-tree.png)
-#asset(qx/icon/Compat/16/actions/view-pane-text.png)
+#asset(qx/icon/${qx.icontheme}/16/actions/view-refresh.png)
+#asset(qx/icon/${qx.icontheme}/16/actions/media-playback-start.png)
+#asset(qx/icon/${qx.icontheme}/16/devices/video-display.png)
+#asset(qx/icon/${qx.icontheme}/16/apps/graphics-snapshot.png)
+#asset(qx/icon/${qx.icontheme}/16/apps/network-manager.png)
+#asset(qx/icon/${qx.icontheme}/16/apps/preferences-display.png)
 
 ************************************************************************ */
 
@@ -34,7 +35,7 @@
  */
 qx.Class.define("testrunner.runner.TestRunner",
 {
-  extend : qx.legacy.ui.layout.VerticalBoxLayout,
+  extend : qx.ui.container.Composite,
 
   /*
   *****************************************************************************
@@ -46,10 +47,7 @@ qx.Class.define("testrunner.runner.TestRunner",
   {
     this.base(arguments);
 
-    this.set(
-    {
-      edge : 0
-    });
+    this.setLayout(new qx.ui.layout.VBox);
 
     // Dependencies to loggers
     qx.log.appender.Native;
@@ -61,62 +59,58 @@ qx.Class.define("testrunner.runner.TestRunner",
     // Header Pane
     this.header = this.__makeHeader();
     this.add(this.header);
-
+    
     // Main Pane
     // split
-    var mainsplit = new qx.legacy.ui.splitpane.HorizontalSplitPane(250, "1*");
+    //var mainsplit = new qx.legacy.ui.splitpane.HorizontalSplitPane(250, "1*");
+    var mainsplit = new qx.ui.splitpane.Pane("horizontal");
     this.add(mainsplit);
     this.mainsplit = mainsplit;
-    mainsplit.setLiveResize(true);
-    mainsplit.set({ height : "1*" });
 
     // Left -- is done when iframe is loaded
     var left = this.__makeLeft();
+    left.setWidth(250);
     this.left = left;
-    this.mainsplit.addLeft(left);
+    this.mainsplit.add(left, 0);
+
 
     // Right
-    var right = new qx.legacy.ui.layout.VerticalBoxLayout();
+//    var right = new qx.legacy.ui.layout.VerticalBoxLayout();
+    var right = new qx.ui.container.Composite(new qx.ui.layout.VBox);
 
-    right.set(
-    {
-      edge : 0,
-      border : "line-left"
-    });
-
-    mainsplit.addRight(right);
+    mainsplit.add(right, 1);
 
     // Toolbar
     this.toolbar = this.__makeToolbar();
-
-    this.toolbar.set(
-    {
-      height: 27,
-      show : "icon",
-      border : "line-bottom"
-    });
-
     right.add(this.toolbar);
 
-    var rightSub = new qx.legacy.ui.layout.VerticalBoxLayout();
+    var rightSub = new qx.ui.container.Composite(new qx.ui.layout.VBox);
+/*
     rightSub.setPadding(10);
     rightSub.setHeight("1*");
     rightSub.setSpacing(20);
+*/
     right.add(rightSub);
 
-    var groupBox = new qx.legacy.ui.groupbox.GroupBox();
-    groupBox.set({ height : "auto" });
-    rightSub.add(groupBox);
+    return ;
 
-    var vert = new qx.legacy.ui.layout.VerticalBoxLayout();
+    var groupBox = new qx.ui.groupbox.GroupBox();
+    //groupBox.set({ height : "auto" });
 
+    var vert = new qx.ui.container.Composite(new qx.ui.layout.VBox);
+    debugger;
+/*
     vert.set(
     {
       height : "auto",
       width  : "100%"
     });
-
+*/
     groupBox.add(vert);
+    
+    rightSub.add(groupBox);
+    
+    return ;
 
     // status
     var statuspane = this.__makeStatus();
@@ -142,8 +136,6 @@ qx.Class.define("testrunner.runner.TestRunner",
       }
     },
     this);
-
-    this.widgets["treeview.bsb1"].setChecked(true);
 
     // Log Appender
     this.debug("This should go to the dedicated log window ...");
@@ -213,9 +205,10 @@ qx.Class.define("testrunner.runner.TestRunner",
      */
     __makeHeader : function()
     {
-      var header = new qx.legacy.ui.embed.HtmlEmbed("<h1>" + "<span>" + "qooxdoo Test Runner" + "</span>" + "</h1>" + "<div class='version'>qooxdoo " + qx.core.Setting.get("qx.version") + "</div>");
-      header.setHtmlProperty("id", "header");
-      header.setStyleProperty("background", "#134275 url(" + qx.util.ResourceManager.toUri("testrunner/image/colorstrip.gif") + ") top left repeat-x");
+      var header = new qx.ui.embed.HtmlEmbed("<h1>" + "<span>" + "qooxdoo Test Runner" + "</span>" + "</h1>" + "<div class='version'>qooxdoo " + qx.core.Setting.get("qx.version") + "</div>");
+      var element = header.getContentElement();
+      element.setAttribute("id", "header");
+      element.setStyle("background", "#134275 url(" + qx.util.ResourceManager.toUri("testrunner/image/colorstrip.gif") + ") top left repeat-x");
       header.setHeight(70);
       return header;
     },
@@ -228,29 +221,31 @@ qx.Class.define("testrunner.runner.TestRunner",
      */
     __makeToolbar : function()
     {
-      var toolbar = new qx.legacy.ui.toolbar.ToolBar;
+      var toolbar = new qx.ui.toolbar.ToolBar;
 
       // -- run button
-      this.runbutton = new qx.legacy.ui.toolbar.Button("Run Test", "icon/16/actions/media-playback-start.png");
+      this.runbutton = new qx.ui.toolbar.Button(null, "icon/16/actions/media-playback-start.png");
       toolbar.add(this.runbutton);
       this.widgets["toolbar.runbutton"] = this.runbutton;
       this.runbutton.addListener("execute", this.runTest, this);
-      this.runbutton.setToolTip(new qx.legacy.ui.popup.ToolTip("Run selected test(s)"));
+      this.runbutton.setToolTip(new qx.ui.tooltip.ToolTip("Run selected test(s)"));
 
-      toolbar.add(new qx.legacy.ui.toolbar.Separator);
+      toolbar.add(new qx.ui.toolbar.Separator);
 
       var testUri   = qx.core.Setting.get("qx.testPageUri");
       var nameSpace = qx.core.Setting.get("qx.testNameSpace");
       this.__testSuiteUrl = testUri+"?testclass="+nameSpace;
-      this.testSuiteUrl = new qx.legacy.ui.form.TextField(this.__testSuiteUrl);
+      this.testSuiteUrl = new qx.ui.form.TextField(this.__testSuiteUrl);
       toolbar.add(this.testSuiteUrl);
-      this.testSuiteUrl.setToolTip(new qx.legacy.ui.popup.ToolTip("Test backend application URL"));
+      this.testSuiteUrl.setToolTip(new qx.ui.tooltip.ToolTip("Test backend application URL"));
 
       this.testSuiteUrl.set(
       {
         width       : 300,
         marginRight : 5,
-        marginTop : 2
+        marginTop : 2,
+        marginBottom : 2,
+        allowGrowY : true
       });
 
       this.testSuiteUrl.addListener("keydown", function(e)
@@ -262,21 +257,22 @@ qx.Class.define("testrunner.runner.TestRunner",
       this);
 
       // -- reload button
-      this.reloadbutton = new qx.legacy.ui.toolbar.Button("Reload", "icon/16/actions/view-refresh.png");
+      this.reloadbutton = new qx.ui.toolbar.Button(null, "icon/16/actions/view-refresh.png");
       toolbar.add(this.reloadbutton);
-      this.reloadbutton.setToolTip(new qx.legacy.ui.popup.ToolTip("Reload test backend application"));
+      this.reloadbutton.setToolTip(new qx.ui.tooltip.ToolTip("Reload test backend application"));
       this.reloadbutton.addListener("execute", this.reloadTestSuite, this);
 
-      toolbar.add((new qx.legacy.ui.basic.HorizontalSpacer).set({ width : "1*" }));
+      ////toolbar.addSeparator();
+      toolbar.addSpacer();
 
       // -- reload switch
-      var part = new qx.legacy.ui.toolbar.Part();
-      part.setVerticalChildrenAlign("middle");
+      var part = new qx.ui.toolbar.Part();
+      //part.setVerticalChildrenAlign("middle");
       toolbar.add(part);
-      this.reloadswitch = new qx.legacy.ui.toolbar.CheckBox("Reload before Test", "testrunner/image/yellow_diamond_hollow18.gif");
+      this.reloadswitch = new qx.ui.toolbar.CheckBox("Reload before Test", "testrunner/image/yellow_diamond_hollow18.gif");
       part.add(this.reloadswitch);
       this.reloadswitch.setShow("both");
-      this.reloadswitch.setToolTip(new qx.legacy.ui.popup.ToolTip("Always reload test backend before testing"));
+      this.reloadswitch.setToolTip(new qx.ui.tooltip.ToolTip("Always reload test backend before testing"));
 
       this.reloadswitch.addListener("changeChecked", function(e)
       {
@@ -399,66 +395,36 @@ qx.Class.define("testrunner.runner.TestRunner",
      */
     __makeLeft : function()
     {
-      var buttview = new qx.legacy.ui.pageview.buttonview.ButtonView();
-
-      buttview.setEdge(0);
-      buttview.setBorder("line-right");
-
-      this.widgets["treeview"] = buttview;
+      //var buttview = new qx.legacy.ui.pageview.buttonview.ButtonView();
+      var tabview = new qx.ui.tabview.TabView;
+      this.widgets["treeview"] = tabview;
 
       // full view
-      var bsb1 = new qx.legacy.ui.pageview.buttonview.Button("Full Tree", "icon/16/actions/view-pane-tree.png");
-      buttview.getBar().add(bsb1);
-      this.widgets["treeview.bsb1"] = bsb1;
-      bsb1.setShow("icon");
-      bsb1.setToolTip(new qx.legacy.ui.popup.ToolTip("Full tree view"));
+      var p1 = new qx.ui.tabview.Page(null, "icon/16/apps/network-manager.png");
+      p1.setLayout(new qx.ui.layout.Grow);
+      p1.getButton().setToolTip( new qx.ui.tooltip.ToolTip("Full Tree"));
+      tabview.add(p1);
 
-      var p1 = new qx.legacy.ui.pageview.buttonview.Page(bsb1);
-      buttview.getPane().add(p1);
-      buttview.getPane().setPadding(0);
-      buttview.getPane().setBackgroundColor("white");
-
-      var tree = new qx.legacy.ui.tree.Tree("Tests");
+      var tree = new qx.ui.tree.Tree("Tests");
       p1.add(tree);
       this.tree = tree;
       this.widgets["treeview.full"] = tree;
-      bsb1.setUserData('tree', tree);  // for changeSelected handling
-
-      tree.set(
-      {
-        height : null,
-        overflow : "auto",
-        edge : 0,
-        padding: 5
-      });
-
-      tree.getManager().addListener("changeSelection", this.treeGetSelection, this);
+      
+////      bsb1.setUserData('tree', tree);  // for changeSelected handling
+////      tree.getManager().addListener("changeSelection", this.treeGetSelection, this);
 
       // flat view
-      var bsb2 = new qx.legacy.ui.pageview.buttonview.Button("Flat Tree", "icon/16/actions/view-pane-text.png");
-      buttview.getBar().add(bsb2);
-      this.widgets["treeview.bsb2"] = bsb2;
-      bsb2.setShow("icon");
-      bsb2.setToolTip(new qx.legacy.ui.popup.ToolTip("Flat tree view (only one level of containers)"));
+      var p2 = new qx.ui.tabview.Page(null, "icon/16/apps/preferences-display.png");
+      p2.setLayout(new qx.ui.layout.Grow);
+      p2.getButton().setToolTip( new qx.ui.tooltip.ToolTip("Flat tree view (only one level of containers)"));
+      tabview.add(p2);
 
-      var p2 = new qx.legacy.ui.pageview.buttonview.Page(bsb2);
-      buttview.getPane().add(p2);
-
-      var tree1 = new qx.legacy.ui.tree.Tree("Tests");
+      var tree1 = new qx.ui.tree.Tree("Tests");
       p2.add(tree1);
       this.tree1 = tree1;
       this.widgets["treeview.flat"] = tree1;
-      bsb2.setUserData('tree', tree1);  // for changeSelected handling
-
-      tree1.set(
-      {
-        height : null,
-        overflow : "auto",
-        edge : 0,
-        padding: 5
-      });
-
-      tree1.getManager().addListener("changeSelection", this.treeGetSelection, this);
+      ////bsb2.setUserData('tree', tree1);  // for changeSelected handling
+      ////tree1.getManager().addListener("changeSelection", this.treeGetSelection, this);
 
       // fake unique tree for selection (better to have a selection on the model)
       this.tree = {};
@@ -466,19 +432,20 @@ qx.Class.define("testrunner.runner.TestRunner",
 
       this.tree.getSelectedElement = function()
       {
-        var sel = that.widgets["treeview"].getBar().getManager().getSelected();
+        //var sel = that.widgets["treeview"].getBar().getManager().getSelected();
+        var sel = that.widgets["treeview"].getSelected();
         var elem;
 
-        if (sel.getLabel() == "Full Tree") {
+        if (sel.getIcon() == "icon/16/apps/network-manager.png") {
           elem = that.widgets["treeview.full"].getSelectedElement();
         } else {
           elem = that.widgets["treeview.flat"].getSelectedElement();
         }
 
-        return elem;
+        return elem;        
       };
 
-      return buttview;
+      return tabview;
     },  // makeLeft
 
     // -------------------------------------------------------------------------

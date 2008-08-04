@@ -15,6 +15,7 @@
    Authors:
      * Thomas Herchenroeder (thron7)
      * Fabian Jakobs (fjakobs)
+     * Jonathan Rass (jonathan_rass)
 
 ************************************************************************ */
 
@@ -29,7 +30,7 @@
  */
 qx.Class.define("testrunner.runner.Application",
 {
-  extend : qx.legacy.application.Gui,
+  extend : qx.application.Standalone,
 
 
 
@@ -52,17 +53,16 @@ qx.Class.define("testrunner.runner.Application",
       // Initialize the viewer
       this.viewer = new testrunner.runner.TestRunner;
 
-      // this.viewer = new testrunner.runner.BasicRunner;
-      this.viewer.addToDocument();
+      this.getRoot().add(this.viewer, {edge:0});      
+
+      // Load data file
+      qx.event.Timer.once(this._load, this, 0);
     },
 
-    // overridden
-    finalize : function()
+    _load : function()
     {
-      this.base(arguments);
-
       // Finally load the data
-      this.viewer.load();
+      ////this.viewer.load();
     }
   },
 
