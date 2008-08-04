@@ -15,12 +15,13 @@
    Authors:
      * Thomas Herchenroeder (thron7)
      * Fabian Jakobs (fjakobs)
+     * Jonathan Rass (jonathan_rass)
 
 ************************************************************************ */
 
 qx.Class.define("testrunner.runner.ProgressBar",
 {
-  extend : qx.legacy.ui.layout.HorizontalBoxLayout,
+  extend : qx.ui.container.Composite, //qx.legacy.ui.layout.HorizontalBoxLayout,
 
 
 
@@ -34,19 +35,15 @@ qx.Class.define("testrunner.runner.ProgressBar",
   {
     this.base(arguments);
 
-    this.set(
-    {
-      width   : "auto",
-      spacing : 10
-    });
+    this.setLayout(new qx.ui.layout.HBox(10));
 
     var label = arguments[0] || "Progress:";
 
-    this.label = new qx.legacy.ui.basic.Label(label);
+    this.label = new qx.ui.basic.Label(label);
     this.add(this.label);
     this.setLabel(label);
 
-    this.hull = new qx.legacy.ui.layout.CanvasLayout();
+    this.hull = new qx.ui.container.Composite(new qx.ui.layout.Canvas);
     this.add(this.hull);
 
     this.hull.set(
@@ -54,9 +51,10 @@ qx.Class.define("testrunner.runner.ProgressBar",
       height          : 20,
       width           : 200,
       backgroundColor : "#C1ECFF",
-      border          : "inset"
+      decorator       : "inset"
     });
 
+/*
     this.bar = new qx.legacy.ui.basic.Terminator();
     this.hull.add(this.bar);
 
@@ -71,19 +69,19 @@ qx.Class.define("testrunner.runner.ProgressBar",
     });
 
     this.bar.setStyleProperty("fontSize", 0);  // for IE
-
-    this.stepStatus = new qx.legacy.ui.basic.Label("(0/0)");
+*/
+    this.stepStatus = new qx.ui.basic.Label("(0/0)");
     this.add(this.stepStatus);
 
     if (!this.isShowStepStatus()) {
-      this.stepStatus.setDisplay(false);
+      this.stepStatus.exclude();
     }
 
-    this.pcntStatus = new qx.legacy.ui.basic.Label("(0%)");
+    this.pcntStatus = new qx.ui.basic.Label("(0%)");
     this.add(this.pcntStatus);
 
     if (!this.isShowPcntStatus()) {
-      this.pcntStatus.setDisplay(false);
+      this.pcntStatus.exclude();
     }
   },
 
@@ -201,8 +199,8 @@ qx.Class.define("testrunner.runner.ProgressBar",
      */
     reset : function()
     {
-      this.stepStatus.setText("");
-      this.pcntStatus.setText("");
+      this.stepStatus.setContent("");
+      this.pcntStatus.setContent("");
       this.bar.setWidth("0%");
     },
 
@@ -242,8 +240,8 @@ qx.Class.define("testrunner.runner.ProgressBar",
           quotVal = Math.round(quot[0] / quot[1] * 100);
           this.bar.setWidth(quotVal + "%");
           qx.legacy.ui.core.Widget.flushGlobalQueues();
-          this.stepStatus.setText("(" + val + ")");
-          this.pcntStatus.setText("(" + quotVal + "%)");
+          this.stepStatus.setContent("(" + val + ")");
+          this.pcntStatus.setContent("(" + quotVal + "%)");
         }
       }
 
@@ -261,9 +259,9 @@ qx.Class.define("testrunner.runner.ProgressBar",
         {
           this.bar.setWidth(pcnt + "%");
           qx.legacy.ui.core.Widget.flushGlobalQueues();
-          this.pcntStatus.setText("(" + pcnt + "%)");
+          this.pcntStatus.setContent("(" + pcnt + "%)");
           quotVal = pcnt + "/100";
-          this.stepStatus.setText("(" + quotVal + ")");
+          this.stepStatus.setContent("(" + quotVal + ")");
         }
       }
       else
@@ -283,7 +281,7 @@ qx.Class.define("testrunner.runner.ProgressBar",
      * @return {void}
      */
     _applyLabel : function(newLabel) {
-      this.label.setText(newLabel);
+      this.label.setContent(newLabel);
     },
 
 
@@ -307,9 +305,9 @@ qx.Class.define("testrunner.runner.ProgressBar",
     _applyShowStepStatus : function(newStatus)
     {
       if (newStatus) {
-        this.stepStatus.setDisplay(true);
+        this.stepStatus.show();
       } else {
-        this.stepStatus.setDisplay(false);
+        this.stepStatus.exclude();
       }
     },
 
@@ -323,7 +321,7 @@ qx.Class.define("testrunner.runner.ProgressBar",
     _applyStepStatus : function(newStatus)
     {
       if (this.isShowStepStatus()) {
-        this.stepStatus.setText(newStatus);
+        this.stepStatus.setContent(newStatus);
       }
     },
 
@@ -337,9 +335,9 @@ qx.Class.define("testrunner.runner.ProgressBar",
     _applyShowPcntStatus : function(newStatus)
     {
       if (newStatus) {
-        this.pcntStatus.setDisplay(true);
+        this.pcntStatus.show();
       } else {
-        this.pcntStatus.setDisplay(false);
+        this.pcntStatus.exclude();
       }
     },
 
@@ -353,7 +351,7 @@ qx.Class.define("testrunner.runner.ProgressBar",
     _applyPcntStatus : function(newStatus)
     {
       if (this.isShowPcntStatus()) {
-        this.pcntStatus.setText(newStatus);
+        this.pcntStatus.setContent(newStatus);
       }
     },
 
