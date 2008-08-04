@@ -54,22 +54,16 @@ qx.Class.define("testrunner.runner.ProgressBar",
       decorator       : "inset"
     });
 
-/*
-    this.bar = new qx.legacy.ui.basic.Terminator();
+
+    this.bar = new qx.ui.core.Widget
     this.hull.add(this.bar);
 
-    this.bar.set(
-    {
-      // height : 10,
-      height          : "100%",
-      width           : "0%",
-
-      // left   : 0,
+    this.bar.set({
+      width : 0,
+      height: 20,
       backgroundColor : "#0000FF"
     });
 
-    this.bar.setStyleProperty("fontSize", 0);  // for IE
-*/
     this.stepStatus = new qx.ui.basic.Label("(0/0)");
     this.add(this.stepStatus);
 
@@ -201,7 +195,7 @@ qx.Class.define("testrunner.runner.ProgressBar",
     {
       this.stepStatus.setContent("");
       this.pcntStatus.setContent("");
-      this.bar.setWidth("0%");
+      this.bar.setWidth(0);
     },
 
     /*
@@ -238,8 +232,7 @@ qx.Class.define("testrunner.runner.ProgressBar",
         else
         {
           quotVal = Math.round(quot[0] / quot[1] * 100);
-          this.bar.setWidth(quotVal + "%");
-          qx.legacy.ui.core.Widget.flushGlobalQueues();
+          this.bar.setWidth(quotVal * (this.hull.getWidth() / 100) );
           this.stepStatus.setContent("(" + val + ")");
           this.pcntStatus.setContent("(" + quotVal + "%)");
         }
@@ -248,6 +241,8 @@ qx.Class.define("testrunner.runner.ProgressBar",
       // alternative use properties, e.g. this.setPcntStatus(..)
       else if (val[val.length - 1] = "%")
       {  // ends in '%'
+        console.error("percentage found")
+        return true;
 
         // handle percent spec
         var pcnt = parseInt(val.slice(0, val.length - 1));
@@ -257,8 +252,7 @@ qx.Class.define("testrunner.runner.ProgressBar",
         }
         else
         {
-          this.bar.setWidth(pcnt + "%");
-          qx.legacy.ui.core.Widget.flushGlobalQueues();
+          this.bar.setWidth(pcnt);
           this.pcntStatus.setContent("(" + pcnt + "%)");
           quotVal = pcnt + "/100";
           this.stepStatus.setContent("(" + quotVal + ")");
