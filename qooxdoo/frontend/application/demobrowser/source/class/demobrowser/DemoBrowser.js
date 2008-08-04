@@ -862,7 +862,6 @@ qx.Class.define("demobrowser.DemoBrowser",
           {
             t = new qx.ui.tree.TreeFolder(that.polish(currNode.label));
             t.setIcon("demobrowser/image/package18.gif");
-            t.setIconOpened("demobrowser/image/package18.gif");
             t.setUserData("filled", false);
             t.setUserData("node", currNode);
 
@@ -878,7 +877,6 @@ qx.Class.define("demobrowser.DemoBrowser",
           {
             t = new qx.ui.tree.TreeFile(that.polish(currNode.label));
             t.setIcon("demobrowser/image/method_public18.gif");
-            t.setIconOpened("demobrowser/image/method_public18.gif");
             var fullName = currNode.pwd().slice(1).join("/") + "/" + currNode.label;
             _sampleToTreeNodeMap[fullName] = t;
           }
