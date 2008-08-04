@@ -36,7 +36,7 @@ qx.Class.define("portal.box.Draggable",
     this.__box          = box;
     this.__element      = box.getElement();
     this.__handle       = null;
-    this.__startOffsets = null;
+    this.__offsets = null;
     
     this.__prepare();
   },
@@ -138,11 +138,41 @@ qx.Class.define("portal.box.Draggable",
           var top = qx.bom.element.Location.getTop(this.__element);
         }
         
-        this.__startOffsets = {
+        this.__offsets = {
           left : e.getDocumentLeft() - qx.bom.element.Location.getLeft(this.__element),
           top  : e.getDocumentTop() - top
         };
+        
+        // add "mouseup" event listener
+        qx.bom.Element.addListener(document.body, "mouseup", this._onMouseUp, this, true);
+        
+        // fire dragstart event
+        qx.event.Registration.fireEvent(this.__handle, "dragstart", qx.event.type.Event);
       }
+    },
+    
+    
+    /**
+     * Listener method for "mouseup" events.
+     * Removes the "mousemove" event listener
+     * 
+     * @param e {qx.event.type.Mouse} mouse event instance
+     * @return {void}
+     */
+    _onMouseUp : function(e)
+    {
+      e.stopPropagation();
+      
+      if (portal.dragdrop.Manager.getInstance().isSessionActive()) 
+      {
+        // remove "mousemove" listener
+        qx.event.Registration.removeListener(document.body, "mousemove", this._onDragMove, this, true);
+      }
+      
+      // remove "mouseup" event listener
+      qx.bom.Element.removeListener(document.body, "mouseup", this._onMouseUp, this, true);  
+      
+      portal.dragdrop.Manager.getInstance().stopSession();
     },
     
     
@@ -154,14 +184,14 @@ qx.Class.define("portal.box.Draggable",
      */
     _onDragStart : function(e)
     {
-      if (e.isLeftPressed())
-      {
-        // set the current box as the active one
-        portal.box.Manager.getInstance().setActiveBox(this.__box);
-        
-        // let the dragDrop manager take control
-        portal.dragdrop.Manager.getInstance().startSession(this.__box, this.__startOffsets);
-      }
+      // set the current box as the active one
+      portal.box.Manager.getInstance().setActiveBox(this.__box);
+      
+      // let the dragDrop manager take control
+      portal.dragdrop.Manager.getInstance().startSession(this.__box);
+      
+      // add "mousemove" listener
+      qx.event.Registration.addListener(document.body, "mousemove", this._onDragMove, this, true);
     },
     
     
@@ -173,15 +203,17 @@ qx.Class.define("portal.box.Draggable",
      */
     _onDragMove : function(e)
     {
+      e.stopPropagation();
+      
       // get the needed infos from the event and call the manager
-      var left = e.getDocumentLeft();
-      var top  = e.getDocumentTop();
-      var offsetLeft = e.getDragOffsetLeft(); 
-      var offsetTop  = e.getDragOffsetTop();
+      var left = e.getDocumentLeft() - this.__offsets.left;
+      var top  = e.getDocumentTop() - this.__offsets.top;
       
       // with this timeout everything is a little bit smoother
-      qx.event.Timer.once(function(){
-        this.onDragMove(top, left, offsetLeft, offsetTop);
+      qx.event.Timer.once(function()
+      {
+        this.checkGroupBox(left);
+        this.onDragMove(top, left);
       }, portal.dragdrop.Manager.getInstance(), 0);
     }
   },
