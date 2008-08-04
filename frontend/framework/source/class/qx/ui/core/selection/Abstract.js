@@ -317,10 +317,29 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     /**
      * Returns an array of currently selected items.
      *
-     * @return {Object[]} The item or a list of items.
+     * @return {Object[]} List of items.
      */
     getSelection : function() {
       return qx.lang.Object.getValues(this.__selection);
+    },
+
+
+    /**
+     * Returns the selection sorted by the index in the
+     * container of the selection (the assigned widget)
+     *
+     * @return {Object[]} Sorted list of items
+     */
+    getSortedSelection : function()
+    {
+      var children = this._getSelectables();
+      var sel = qx.lang.Object.getValues(this.__selection);
+
+      sel.sort(function(a, b) {
+        return children.indexOf(a) - children.indexOf(b);
+      });
+
+      return sel;
     },
 
 
