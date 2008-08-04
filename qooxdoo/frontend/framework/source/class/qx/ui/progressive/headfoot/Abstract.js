@@ -30,7 +30,12 @@
 qx.Class.define("qx.ui.progressive.headfoot.Abstract",
 {
   type       : "abstract",
-  extend     : qx.ui.core.Widget,
+  extend     : qx.ui.container.Composite,
+
+  construct : function()
+  {
+    this.base(arguments, new qx.ui.layout.VBox());
+  },
 
   members    :
   {

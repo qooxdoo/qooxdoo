@@ -57,7 +57,7 @@ qx.Class.define("qx.ui.progressive.headfoot.Progress",
     this.add(this._percentDone);
 
     // We're initially invisible
-    this.setDisplay(false);
+    this.setVisibility("excluded");
 
     // This layout is not connected to a widget but to this class. This class
     // must implement the method "getLayoutChildren", which must return all
@@ -84,7 +84,7 @@ qx.Class.define("qx.ui.progressive.headfoot.Progress",
                               function(e)
                               {
                                 this.__total = e.getData().initial;
-                                this.setDisplay(true);
+                                this.setVisibility("visible");
                               },
                               this);
 
@@ -114,7 +114,7 @@ qx.Class.define("qx.ui.progressive.headfoot.Progress",
       progressive.addListener("renderEnd",
                               function(e)
                               {
-                                this.setDisplay(false);
+                                this.setVisibility("excluded");
                               },
                               this);
 
