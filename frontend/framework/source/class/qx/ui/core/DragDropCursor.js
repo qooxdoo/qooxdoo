@@ -21,7 +21,7 @@
 qx.Class.define("qx.ui.core.DragDropCursor",
 {
   extend : qx.ui.basic.Image,
-  include : qx.ui.core.MAlign,
+  include : qx.ui.core.MPlacement,
   type : "singleton",
 
 

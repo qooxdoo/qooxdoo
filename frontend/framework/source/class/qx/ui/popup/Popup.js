@@ -29,7 +29,7 @@
 qx.Class.define("qx.ui.popup.Popup",
 {
   extend : qx.ui.container.Composite,
-  include : qx.ui.core.MAlign,
+  include : qx.ui.core.MPlacement,
 
 
 
