@@ -36,7 +36,7 @@ CMD_ZIP = $(CMD_NICE) zip
 CMD_ZIP_CREATE = $(CMD_ZIP) -rq
 CMD_ANY2UNIX = | xargs $(CMD_PYTHON) tool/pylib/misc/textutil.py --command any2Unix
 CMD_MKEXEC = $(CMD_NICE) chmod a+rx
-CMD_GENERATOR2 := $(CMD_PYTHON) $(CURDIR)/tool/bin/generator.py
+CMD_GENERATOR2 := $(CMD_PYTHON) "$(CURDIR)/tool/bin/generator.py"
 
 FILES_TEXT = \( -name "*.py" -o -name "*.sh" -o -name "*.js" -o -name "*.html" -o -name "*.css" -o -name "*.xml" -o -name Makefile -o -name AUTHORS -o -name LICENSE -o -name README -o -name RELEASENOTES -o -name TODO \)
 FILES_TEMP = \( -name "*.rej" -o -name "*.orig" -o -name "*.pyc" -o -name "*.pyo" -o -name "*.bak" -o -name "*.old" -o -name "*~" -o -name "messages.pot" \)
