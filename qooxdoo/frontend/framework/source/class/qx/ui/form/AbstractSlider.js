@@ -59,10 +59,14 @@ qx.Class.define("qx.ui.form.AbstractSlider",
     this._setLayout(new qx.ui.layout.Canvas());
 
     // Add listeners
-    this.addListener("mousedown", this._onMouseDown, this);
-    this.addListener("mouseup", this._onMouseUp, this);
-    this.addListener("losecapture", this._onMouseUp, this);
-    this.addListener("resize", this._onUpdate, this);
+    this.addListener("mousedown", this._onMouseDown);
+    this.addListener("mouseup", this._onMouseUp);
+    this.addListener("losecapture", this._onMouseUp);
+    this.addListener("resize", this._onUpdate);
+
+    // Stop events
+    this.addListener("contextmenu", this._onStopEvent);
+    this.addListener("click", this._onStopEvent);
 
     // Initialize orientation
     if (orientation != null) {
