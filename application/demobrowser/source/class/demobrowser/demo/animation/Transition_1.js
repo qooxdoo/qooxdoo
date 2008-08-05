@@ -17,19 +17,12 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#use(qx.legacy.theme.ClassicRoyale)
-
-************************************************************************ */
-
-
 /**
  * qx.fx.Transition contains mathematical functions for non-linear transitions in effects.
  */
 qx.Class.define("demobrowser.demo.animation.Transition_1",
 {
-  extend : qx.legacy.application.Gui,
+  extend : qx.application.Standalone,
 
   members :
   {
@@ -37,7 +30,7 @@ qx.Class.define("demobrowser.demo.animation.Transition_1",
     {
       this.base(arguments);
 
-      var doc = qx.legacy.ui.core.ClientDocument.getInstance();
+      var doc = this.getRoot();
 
       var elementStyle = 'font-size:12pt;text-align:center;font-family:"Trebuchet MS","Lucida Grande",Verdana,sans-serif;color:white;left:90px;top:90px;position:absolute;width:200px;height:55px;border:2px #E5E5E5 solid;background-color:#134275;z-Index:2;';
       myElement = qx.bom.Element.create('div', { style : elementStyle });
@@ -58,30 +51,20 @@ qx.Class.define("demobrowser.demo.animation.Transition_1",
       };
 
 
-      var combo = new qx.legacy.ui.form.ComboBox;
-      var btnShow = new qx.legacy.ui.form.Button("Show it!");
-      var lblName = new qx.legacy.ui.basic.Label("Name");
-      var lblDesc = new qx.legacy.ui.basic.Label("Description");
-      var lblDur = new qx.legacy.ui.basic.Label("Duration");
-      var textDesc = new qx.legacy.ui.embed.TextEmbed;
-      var spDuration = new qx.legacy.ui.form.Spinner;
-
-      lblName.setLocation(25, 50);
-      lblDesc.setLocation(25, 75);
-      lblDur.setLocation(25, 25);
-
-      combo.setLocation(90, 50);
-      textDesc.setLocation(90, 75);
-      spDuration.setLocation(90, 25);
-
-      btnShow.setLocation(23, 100);
+      var combo = new qx.ui.form.ComboBox;
+      var btnShow = new qx.ui.form.Button("Show it!");
+      var lblName = new qx.ui.basic.Label("Name");
+      var lblDesc = new qx.ui.basic.Label("Description");
+      var lblDur = new qx.ui.basic.Label("Duration");
+      var lblDesc =new qx.ui.basic.Label;
+      var spDuration = new qx.ui.form.Spinner;
 
       for (var transition in transitionData) {
-        combo.add(new qx.legacy.ui.form.ListItem(transition));
+        combo.add(new qx.ui.form.ListItem(transition));
       }
 
       combo.addListener("changeValue", function(){
-        textDesc.setText(transitionData[this.getSelected().getLabel()]);
+        lblDesc.setText(transitionData[this.getSelected().getLabel()]);
       });
 
       spDuration.set({
@@ -110,10 +93,9 @@ qx.Class.define("demobrowser.demo.animation.Transition_1",
       var nf = new qx.util.format.NumberFormat();
       nf.setMaximumFractionDigits(2);
       spDuration.setNumberFormat(nf);
-      spDuration.getManager().setPrecision(2);
 
       btnShow.addListener("execute", function(){
-        var transition = combo.getSelected().getLabel();
+        var transition = combo.getValue();
         animMove.set({
           transition : transition,
           duration : spDuration.getValue()
@@ -122,7 +104,14 @@ qx.Class.define("demobrowser.demo.animation.Transition_1",
         animMove.start();
       });
 
-      qx.legacy.ui.core.ClientDocument.getInstance().add(lblName, lblDesc, lblDur, combo, textDesc, spDuration, btnShow);
+      doc.add(lblName, {left : 25, top : 50});
+      doc.add(lblDesc, {left : 25, top : 75});
+      doc.add(lblDur, {left : 25, top : 25});
+      doc.add(combo, {left : 90, top : 50});
+      doc.add(lblDesc, {left : 90, top : 75});
+      doc.add(spDuration, {left : 90, top : 25});
+      doc.add(btnShow, {left : 23, top : 100});
+
     }
   }
 });
