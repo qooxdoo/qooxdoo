@@ -1670,6 +1670,58 @@ qx.Theme.define("qx.theme.modern.Appearance",
     
     /*
     ---------------------------------------------------------------------------
+      COLOR SELECTOR
+    ---------------------------------------------------------------------------
+    */
+    "colorselector" : "widget",
+    
+    // TODO: "button-bar"
+    "colorselector/button-bar" : "widget",
+    "colorselector/cancle-button" : "button",
+    "colorselector/ok-button" : "button",
+
+    // TODO: "control-bar"
+    "colorselector/control-bar" : "widget",
+    "colorselector/control-pane" : "widget",
+
+    // TODO: "preset-grid" 
+    "colorselector/preset-grid" : "widget",
+    "colorselector/preset-field-set" : "groupbox",
+    "colorselector/input-field-set" : "groupbox",
+    "colorselector/preview-field-set" : "groupbox",
+
+    // TODO: "hex-field-composite"
+    "colorselector/hex-field-composite" : "widget",
+    "colorselector/hex-field" : "textfield",
+
+    // TODO: "rgb-spinner-composite"
+    "colorselector/rgb-spinner-composite" : "widget",
+    "colorselector/rgb-spinner-red" : "spinner",
+    "colorselector/rgb-spinner-green" : "spinner",
+    "colorselector/rgb-spinner-blue" : "spinner",
+
+    // TODO: "hsb-spinner-composite"
+    "colorselector/hsb-spinner-composite" : "widget",
+    "colorselector/hsb-spinner-hue" : "spinner",
+    "colorselector/hsb-spinner-saturation" : "spinner",
+    "colorselector/hsb-spinner-brightness" : "spinner",
+    
+    // TODO
+    "colorselector/preview-content-old" : "widget",
+    "colorselector/preview-content-new" : "widget",
+    
+    // TODO
+    "colorselector/hue-saturation-pane" : "widget",
+    "colorselector/hue-saturation-field" : "widget",
+    "colorselector/hue-saturation-handle" : "widget",
+    "colorselector/brightness-pane" : "widget",
+    "colorselector/brightness-field" : "widget",
+    "colorselector/brightness-handle" : "widget",
+    
+    
+    
+    /*
+    ---------------------------------------------------------------------------
       TABLE
     ---------------------------------------------------------------------------
     */
