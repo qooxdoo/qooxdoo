@@ -106,6 +106,17 @@ qx.Class.define("demobrowser.demo.table.Table",
       }, this);
       part.add(button);
 
+      button = new qx.ui.toolbar.Button("Show selection");
+      button.addListener("execute", function(evt)
+      {
+        var selection = [];
+        table.getSelectionModel().iterateSelection(function(ind) {
+          selection.push(ind + "");
+        });
+        this.showDialog("Selected rows: " + selection.join(", "));
+      }, this);
+      part.add(button);
+
 
       part = new qx.ui.toolbar.Part();
       bar.add(part);
