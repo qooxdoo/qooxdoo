@@ -434,10 +434,22 @@ qx.Class.define("apiviewer.ui.SearchView",
         }, controller);
     },
     
+    
     _onChangeSelection : function(e)
     {
-      var index = this._selectionModel.getAnchorSelectionIndex();
-      this._callDetailFrame(index);
+      var tree = this.getWidgetById("tree");
+      var column = this._selectionModel.getAnchorSelectionIndex();
+      var selectedClass = this._tableModel.getData()[column][1];
+
+      if(selectedClass.indexOf("#"))
+      {
+        var tmp = selectedClass.split("#");
+        tree.selectTreeNodeByClassName(tmp[0]);
+      }
+      else
+      {
+        tree.selectTreeNodeByClassName(selectedClass);
+      }
     }
 
   },
