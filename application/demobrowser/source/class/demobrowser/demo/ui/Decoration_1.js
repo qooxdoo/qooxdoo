@@ -54,16 +54,17 @@ qx.Class.define("demobrowser.demo.ui.Decoration_1",
       });
 
       var decorations = theme.decorations;
-      var columns = 5;
+      var columns = 8;
 
       var i=0;
       for (var key in decorations)
       {
         box.add(new qx.ui.basic.Label(key).set({
           decorator: key,
+          //backgroundColor: "red",
           padding: 5,
-          height: 100,
-          width: 100
+          height: 80,
+          width: 80
         }), {row: Math.floor(i/columns), column: i%columns});
         i += 1;
       }

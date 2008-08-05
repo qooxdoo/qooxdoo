@@ -43,6 +43,9 @@ qx.Class.define("qx.ui.decoration.Single",
   {
     this.base(arguments);
 
+    // Create template
+    this._tmpl = new qx.util.Template;
+
     // Initialize properties
     if (width != null) {
       this.setWidth(width);
@@ -120,7 +123,8 @@ qx.Class.define("qx.ui.decoration.Single",
     {
       nullable : true,
       check : [ "solid", "dotted", "dashed", "double"],
-      init : "solid"
+      init : "solid",
+      apply : "_applyStyle"
     },
 
     /** right style of border */
@@ -128,7 +132,8 @@ qx.Class.define("qx.ui.decoration.Single",
     {
       nullable : true,
       check : [ "solid", "dotted", "dashed", "double"],
-      init : "solid"
+      init : "solid",
+      apply : "_applyStyle"
     },
 
     /** bottom style of border */
@@ -136,7 +141,8 @@ qx.Class.define("qx.ui.decoration.Single",
     {
       nullable : true,
       check : [ "solid", "dotted", "dashed", "double"],
-      init : "solid"
+      init : "solid",
+      apply : "_applyStyle"
     },
 
     /** left style of border */
@@ -144,7 +150,8 @@ qx.Class.define("qx.ui.decoration.Single",
     {
       nullable : true,
       check : [ "solid", "dotted", "dashed", "double"],
-      init : "solid"
+      init : "solid",
+      apply : "_applyStyle"
     },
 
 
@@ -160,28 +167,32 @@ qx.Class.define("qx.ui.decoration.Single",
     colorTop :
     {
       nullable : true,
-      check : "Color"
+      check : "Color",
+      apply : "_applyStyle"
     },
 
     /** right color of border */
     colorRight :
     {
       nullable : true,
-      check : "Color"
+      check : "Color",
+      apply : "_applyStyle"
     },
 
     /** bottom color of border */
     colorBottom :
     {
       nullable : true,
-      check : "Color"
+      check : "Color",
+      apply : "_applyStyle"
     },
 
     /** left color of border */
     colorLeft :
     {
       nullable : true,
-      check : "Color"
+      check : "Color",
+      apply : "_applyStyle"
     },
 
 
@@ -197,21 +208,16 @@ qx.Class.define("qx.ui.decoration.Single",
     backgroundImage :
     {
       check : "String",
-      nullable : true
+      nullable : true,
+      apply : "_applyStyle"
     },
 
     /** How the background should be repeated */
     backgroundRepeat :
     {
       check : ["repeat", "repeat-x", "repeat-y", "no-repeat", "scale"],
-      init : "repeat"
-    },
-
-
-    stretchedImage :
-    {
-      check : "String",
-      nullable : true
+      init : "repeat",
+      apply : "_applyStyle"
     },
 
 
@@ -294,25 +300,27 @@ qx.Class.define("qx.ui.decoration.Single",
     // interface implementation
     render : function(element, width, height, backgroundColor, changes)
     {
-      if (changes.style || changes.init)
+      // Be sure template is up-to-date first
+      this._updateTemplate();
+
+      // Fix box model
+      if (qx.bom.client.Feature.CONTENT_BOX)
       {
-        element.setStyles(this._getStyles());
-        this._updateScaledImage(element, width, height);
+        var insets = this.getInsets();
+        width -= insets.left + insets.right;
+        height -= insets.top + insets.bottom;
       }
 
-      if (changes.bgcolor || changes.init) {
-        element.setStyle("backgroundColor", qx.theme.manager.Color.getInstance().resolve(backgroundColor) || null);
-      }
-
-      if (changes.size || changes.init)
+      // Compile HTML
+      var html = this._tmpl.run(
       {
-        qx.ui.decoration.Util.updateSize(
-          element,
-          width, height,
-          this.getWidthLeft() + this.getWidthRight(),
-          this.getWidthTop() + this.getWidthBottom()
-        );
-      }
+        width: width,
+        height: height,
+        bgcolor: backgroundColor
+      });
+
+      // Apply HTML
+      element.setAttribute("html", html);
     },
 
 
@@ -327,110 +335,19 @@ qx.Class.define("qx.ui.decoration.Single",
     // interface implementation
     getInsets : function()
     {
-      if (this.__insets) {
-        return this.__insets;
+      if (this._insets) {
+        return this._insets;
       }
 
-      this.__insets = {
+      this._insets =
+      {
         top : this.getWidthTop(),
         right : this.getWidthRight(),
         bottom : this.getWidthBottom(),
         left : this.getWidthLeft()
       };
 
-      return this.__insets;
-    },
-
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      HELPERS
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * Get the CSS style map for the decoration
-     *
-     * @param width {Integer} The widget's width
-     * @param height {Integer} The widget's height
-     */
-    _getStyles : function(width, height)
-    {
-      var bgRepeat = this.getBackgroundRepeat();
-      var bgImage = null;
-
-      if (bgRepeat === "scale") {
-        bgRepeat = null;
-      } else {
-        bgImage = qx.util.ResourceManager.toUri(qx.util.AliasManager.getInstance().resolve(this.getBackgroundImage()));
-      }
-
-      var Color = qx.theme.manager.Color.getInstance();
-
-      var styles =
-      {
-        "borderTopWidth": this.getWidthTop() + "px",
-        "borderTopStyle": this.getStyleTop() || "none",
-        "borderTopColor": Color.resolve(this.getColorTop()),
-        "borderRightWidth": this.getWidthRight() + "px",
-        "borderRightStyle": this.getStyleRight() || "none",
-        "borderRightColor": Color.resolve(this.getColorRight()),
-        "borderBottomWidth": this.getWidthBottom() + "px",
-        "borderBottomStyle": this.getStyleBottom() || "none",
-        "borderBottomColor": Color.resolve(this.getColorBottom()),
-        "borderLeftWidth": this.getWidthLeft() + "px",
-        "borderLeftStyle": this.getStyleLeft() || "none",
-        "borderLeftColor": Color.resolve(this.getColorLeft()),
-        "backgroundImage": bgImage ? "url(" + bgImage + ")" : null,
-        "backgroundRepeat": bgRepeat
-      };
-
-      return styles;
-    },
-
-
-    _updateScaledImage : function(el, width, height)
-    {
-      var bgImage = qx.util.ResourceManager.toUri(qx.util.AliasManager.getInstance().resolve(this.getBackgroundImage()));
-      if (!bgImage || this.getBackgroundRepeat() !== "scale")
-      {
-        el.removeAll();
-        return;
-      }
-
-      var img = el.getChild(0);
-      if (!img)
-      {
-        img = new qx.html.Image();
-        el.add(img);
-      }
-
-      img.setSource(bgImage);
-      img.setStyle("height", "100%");
-      img.setStyle("width", "100%");
-    },
-
-
-    _emptyStyles :
-    {
-      borderTopWidth: null,
-      borderTopStyle: null,
-      borderTopColor: null,
-      borderRightWidth: null,
-      borderRightStyle: null,
-      borderRightColor: null,
-      borderBottomWidth: null,
-      borderBottomStyle: null,
-      borderBottomColor: null,
-      borderLeftWidth: null,
-      borderLeftStyle: null,
-      borderLeftColor: null,
-      backgroundColor: null,
-      backgroundImage: null,
-      backgroundRepeat: null
+      return this._insets;
     },
 
 
@@ -442,10 +359,73 @@ qx.Class.define("qx.ui.decoration.Single",
     ---------------------------------------------------------------------------
     */
 
-    _applyWidth : function(value, old)
+    // property apply
+    _applyWidth : function()
     {
-      this.__insets = null;
-      this.__styles = null;
+      this._insets = null;
+      this._invalidTemplate = true;
+    },
+
+
+    // property apply
+    _applyStyle : function() {
+      this._invalidTemplate = true;
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      HELPERS
+    ---------------------------------------------------------------------------
+    */
+
+    _invalidTemplate : true,
+
+    _updateTemplate : function()
+    {
+      if (!this._invalidTemplate) {
+        return;
+      }
+
+      var Color = qx.theme.manager.Color.getInstance();
+
+
+
+      // Add borders
+      var styles = {};
+
+      var width = this.getWidthTop();
+      if (width > 0) {
+        styles.borderTop = width + "px " + this.getStyleTop() + " " + Color.resolve(this.getColorTop());
+      }
+
+      var width = this.getWidthRight();
+      if (width > 0) {
+        styles.borderRight = width + "px " + this.getStyleRight() + " " + Color.resolve(this.getColorRight());
+      }
+
+      var width = this.getWidthBottom();
+      if (width > 0) {
+        styles.borderBottom = width + "px " + this.getStyleBottom() + " " + Color.resolve(this.getColorBottom());
+      }
+
+      var width = this.getWidthLeft();
+      if (width > 0) {
+        styles.borderLeft = width + "px " + this.getStyleLeft() + " " + Color.resolve(this.getColorLeft());
+      }
+
+      // Generate tag
+      var image = this.getBackgroundImage();
+      var repeat = this.getBackgroundRepeat();
+      var html = qx.ui.decoration.Util.generateBasicDecor(image, repeat, styles);
+
+      // Update template
+      this._tmpl.setContent(html.join(""));
+
+      // Cleanup flag
+      this._invalidTemplate = false;
     }
   }
 });

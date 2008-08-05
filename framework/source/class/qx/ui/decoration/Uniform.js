@@ -120,19 +120,24 @@ qx.Class.define("qx.ui.decoration.Uniform",
     // interface implementation
     render : function(element, width, height, backgroundColor, changes)
     {
-      // Be sure markup is up-to-date first
-      this._updateMarkup();
+      // Be sure template is up-to-date first
+      this._updateTemplate();
 
       // Fix box model
       if (qx.bom.client.Feature.CONTENT_BOX)
       {
-        var inset = this.getWidth() * 2;
+        var inset = this.getInsets().top * 2;
         width -= inset;
         height -= inset;
       }
 
       // Compile HTML
-      var html = this._tmpl.run({width: width, height: height});
+      var html = this._tmpl.run(
+      {
+        width: width,
+        height: height,
+        bgcolor: backgroundColor
+      });
 
       // Apply HTML
       element.setAttribute("html", html);
@@ -148,12 +153,12 @@ qx.Class.define("qx.ui.decoration.Uniform",
     // interface implementation
     getInsets : function()
     {
-      if (this.__insets) {
-        return this.__insets;
+      if (this._insets) {
+        return this._insets;
       }
 
       var width = this.getWidth();
-      this.__insets =
+      this._insets =
       {
         top : width,
         right : width,
@@ -161,7 +166,7 @@ qx.Class.define("qx.ui.decoration.Uniform",
         left : width
       };
 
-      return this.__insets;
+      return this._insets;
     },
 
 
@@ -174,14 +179,16 @@ qx.Class.define("qx.ui.decoration.Uniform",
     */
 
     // property apply
-    _applyWidth : function() {
-      this.__insets = this.__markup = null;
+    _applyWidth : function()
+    {
+      this._insets = null;
+      this._invalidTemplate = true;
     },
 
 
     // property apply
     _applyStyle : function() {
-      this.__markup = null;
+      this._invalidTemplate = true;
     },
 
 
@@ -193,65 +200,33 @@ qx.Class.define("qx.ui.decoration.Uniform",
     ---------------------------------------------------------------------------
     */
 
-    _updateMarkup : function()
+    _invalidTemplate : true,
+
+    _updateTemplate : function()
     {
-      if (this.__markup) {
+      if (!this._invalidTemplate) {
         return;
       }
 
-      var html = [];
-
-      var image = this.getBackgroundImage();
-      var repeat = this.getBackgroundRepeat();
-
-      var tag = image && repeat == "scale" ? "img" : "div";
-
-      // Starttag
-      html.push('<', tag, ' ');
-
-
-      // Support for images
-      if (image)
-      {
-        var resolved = qx.util.AliasManager.getInstance().resolve(image);
-
-        // Scaled images
-        if (repeat == "scale")
-        {
-          var Resource = qx.util.ResourceManager;
-          var uri = Resource.toUri(resolved);
-          html.push('src="', uri, '" style="');
-        }
-
-        // Repeated images
-        else
-        {
-          html.push('style="');
-
-          var Background = qx.bom.element.Background;
-          html.push(Background.compile(resolved, repeat, 0, 0));
-        }
-      }
-      else
-      {
-        html.push('style="');
-      }
-
-      html.push('position:absolute;top:0;left:0;width:{width}px;height:{height}px;');
-
+      // Add border
+      var styles = {};
       var width = this.getWidth();
       if (width > 0)
       {
         var Color = qx.theme.manager.Color.getInstance();
-        html.push('border:', this.getWidth(), 'px ', this.getStyle(), ' ', Color.resolve(this.getColor()), ';');
+        styles.border = width + 'px ' + this.getStyle() + ' ' + Color.resolve(this.getColor());
       }
 
-      // Endtag
-      html.push('"></', tag, '>');
-
+      // Generate tag
+      var image = this.getBackgroundImage();
+      var repeat = this.getBackgroundRepeat();
+      var html = qx.ui.decoration.Util.generateBasicDecor(image, repeat, styles);
 
       // Update template
       this._tmpl.setContent(html.join(""));
+
+      // Cleanup flag
+      this._invalidTemplate = false;
     }
   }
 });
