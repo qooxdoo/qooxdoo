@@ -435,7 +435,7 @@ qx.Class.define("qx.bom.element.Style",
     {
       "mshtml" : function(element, name, mode, smart)
       {
-        var hints = qx.bom.element.Style.__hints;
+        var hints = this.__hints;
 
         // normalize name
         name = hints.styleNames[name] || name;
@@ -522,7 +522,7 @@ qx.Class.define("qx.bom.element.Style",
 
       "default" : function(element, name, mode, smart)
       {
-        var hints = qx.bom.element.Style.__hints;
+        var hints = this.__hints;
 
         // normalize name
         name = hints.styleNames[name] || name;
