@@ -105,7 +105,6 @@ qx.Theme.define("qx.theme.classic.Decoration",
 
 
 
-
     "inset" :
     {
       decorator : qx.ui.decoration.Double,
@@ -232,6 +231,27 @@ qx.Theme.define("qx.theme.classic.Decoration",
       }
     },
 
+
+    "shadow" :
+    {
+      decorator : qx.ui.decoration.Grid,
+
+      style : {
+        baseImage : "decoration/shadow/shadow.png",
+        insets    : [ 4, 8, 8, 4 ]
+      }
+    },
+
+
+    "shadow-small" :
+    {
+      decorator : qx.ui.decoration.Grid,
+
+      style : {
+        baseImage : "decoration/shadow/shadow-small.png",
+        insets    : [ 0, 3, 3, 0 ]
+      }
+    },
 
 
     "divider-vertical" :

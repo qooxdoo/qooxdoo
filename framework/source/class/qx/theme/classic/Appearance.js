@@ -97,6 +97,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
           backgroundColor : "tooltip",
           textColor : "tooltip-text",
           decorator : "tooltip",
+          shadow : "shadow-small",
           padding : [ 1, 3, 2, 3 ],
           offset : [ 1, 1, 20, 1 ]
         };
@@ -1053,7 +1054,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
       {
         return {
           backgroundColor : "background",
-          decorator : states.maximized ? "undefined" : "outset"
+          decorator : states.maximized ? "undefined" : "outset",
+          shadow : "shadow-small"
         };
       }
     },
@@ -1471,6 +1473,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
         var result =
         {
           backgroundColor : "background",
+          shadow : "shadow-small",
           decorator : "outset",
           spacingX : 6,
           spacingY : 1,
