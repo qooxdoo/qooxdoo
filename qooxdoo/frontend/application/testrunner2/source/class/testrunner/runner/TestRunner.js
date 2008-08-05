@@ -718,30 +718,21 @@ qx.Class.define("testrunner.runner.TestRunner",
 
       if (selectedElement)  // try to re-select previously selected element
       {
-        var activeTree;
-        var link;
-
-        if(that.widgets["treeview"].getSelected().getIcon() == "icon/16/apps/network-manager.png")
+        for (var i=0; i<trees.length; i++)
         {
-          activeTree = this.widgets["treeview.full"];
-          link = "widgetLinkFull";
-        }
-        else
-        {
-          activeTree = this.widgets["treeview.flat"];
-          link = "widgetLinkFlat";
-        }
+          // Open all element's parents
+          link = (i==0) ? "widgetLinkFull" : "widgetLinkFlat";
+          var element = selectedElement[link].getParent();
 
-        // Open all element's parents 
-        var element = selectedElement[link].getParent();
-        while(element != null)
-        {
-          element.setOpen(true);
-          element = element.getParent();
-        }
+          while(element != null)
+          {
+            element.setOpen(true);
+            element = element.getParent();
+          }
 
-        // Finally select the element
-        selectedElement[link].getTree().select(selectedElement[link]);
+          // Finally select the element
+          selectedElement[link].getTree().select(selectedElement[link]);
+        }
       }
 
     },  // leftReloadTree
