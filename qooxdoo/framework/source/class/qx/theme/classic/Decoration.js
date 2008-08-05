@@ -58,6 +58,7 @@ qx.Theme.define("qx.theme.classic.Decoration",
       }
     },
 
+    /*
     "dark-shadow" :
     {
       decorator: qx.ui.decoration.Uniform,
@@ -101,6 +102,7 @@ qx.Theme.define("qx.theme.classic.Decoration",
         color : "border-dark"
       }
     },
+    */
 
 
 
@@ -186,7 +188,7 @@ qx.Theme.define("qx.theme.classic.Decoration",
 
 
 
-
+    /*
     "line-left" :
     {
       decorator : qx.ui.decoration.Single,
@@ -275,6 +277,7 @@ qx.Theme.define("qx.theme.classic.Decoration",
         colorLeft : "border-dark-shadow"
       }
     },
+    */
 
 
 
@@ -346,7 +349,7 @@ qx.Theme.define("qx.theme.classic.Decoration",
 
     "menu-separator" :
     {
-      decorator :  qx.ui.decoration.Single,
+      decorator : qx.ui.decoration.Single,
 
       style :
       {
@@ -356,6 +359,73 @@ qx.Theme.define("qx.theme.classic.Decoration",
         colorTop : "border-dark",
         colorBottom : "border-light"
       }
+    },
+
+
+
+
+
+
+    "test-uni-1" :
+    {
+      decorator : qx.ui.decoration.Uniform,
+
+      style :
+      {
+        width : 1,
+        style : "solid",
+        color : "black",
+        backgroundImage : "decoration/colorselector/brightness-field.jpg",
+        backgroundRepeat : "scale"
+      }
+    },
+
+
+    "test-uni-2" :
+    {
+      decorator : qx.ui.decoration.Uniform,
+
+      style :
+      {
+        width : 1,
+        style : "solid",
+        color : "black",
+        backgroundImage : "decoration/core/dotted-white.gif",
+        backgroundRepeat : "repeat"
+      }
+    },
+
+
+
+    "test-single-1" :
+    {
+      decorator : qx.ui.decoration.Solid,
+
+      style :
+      {
+        width : 1,
+        style : "solid",
+        color : "black",
+        backgroundImage : "decoration/colorselector/brightness-field.jpg",
+        backgroundRepeat : "scale"
+      }
+    },
+
+
+    "test-single-2" :
+    {
+      decorator : qx.ui.decoration.Solid,
+
+      style :
+      {
+        width : 1,
+        style : "solid",
+        color : "black",
+        backgroundImage : "decoration/core/dotted-white.gif",
+        backgroundRepeat : "repeat"
+      }
     }
+
+
   }
 });

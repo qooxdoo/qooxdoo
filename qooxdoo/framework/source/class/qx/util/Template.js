@@ -76,8 +76,7 @@ qx.Class.define("qx.util.Template",
     /**
      * Returns the result string
      *
-     * @param values {Map|Array} Supports both, arrays, when using numeric
-     *   identifiers or keys when using maps.
+     * @param values {Map} Map of keys used in the template
      * @return {String} The result
      */
     run : function(values) {
