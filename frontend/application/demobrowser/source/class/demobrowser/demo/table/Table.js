@@ -22,6 +22,7 @@
 #asset(qx/icon/${qx.icontheme}/22/actions/list-add.png)
 #asset(qx/icon/${qx.icontheme}/22/actions/list-remove.png)
 #asset(qx/icon/${qx.icontheme}/22/actions/edit-undo.png)
+#asset(qx/icon/${qx.icontheme}/22/status/dialog-information.png)
 
 ************************************************************************ */
 
@@ -106,7 +107,7 @@ qx.Class.define("demobrowser.demo.table.Table",
       }, this);
       part.add(button);
 
-      button = new qx.ui.toolbar.Button("Show selection");
+      button = new qx.ui.toolbar.Button("Show selection", "icon/22/status/dialog-information.png");
       button.addListener("execute", function(evt)
       {
         var selection = [];
