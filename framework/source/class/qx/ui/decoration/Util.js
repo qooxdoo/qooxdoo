@@ -53,6 +53,54 @@ qx.Class.define("qx.ui.decoration.Util",
 
       decorationElement.setStyle("width", width + "px");
       decorationElement.setStyle("height", height + "px");
+    },
+
+
+
+    generateBasicDecor : function(image, repeat, styles)
+    {
+      var html = [];
+      var tag = image && repeat == "scale" ? "img" : "div";
+
+      // Starttag
+      html.push('<', tag, ' ');
+
+      // Support for images
+      if (image)
+      {
+        var resolved = qx.util.AliasManager.getInstance().resolve(image);
+
+        // Scaled image
+        if (repeat == "scale")
+        {
+          var Resource = qx.util.ResourceManager;
+          var uri = Resource.toUri(resolved);
+          html.push('src="', uri, '" style="');
+        }
+
+        // Repeated image
+        else
+        {
+          html.push('style="');
+
+          var Background = qx.bom.element.Background;
+          html.push(Background.compile(resolved, repeat, 0, 0));
+        }
+      }
+      else
+      {
+        html.push('style="');
+      }
+
+      html.push('width:{width}px;height:{height}px;background-color:{bgcolor};');
+
+      if (styles) {
+        html.push(qx.bom.element.Style.compile(styles));
+      }
+
+      html.push('"></', tag, '>');
+
+      return html;
     }
   }
 });
