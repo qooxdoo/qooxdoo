@@ -20,6 +20,7 @@
 /* ************************************************************************
 
 #asset(qx/icon/${qx.icontheme}/16/apps/office-spreadsheet.png)
+#asset(qx/icon/${qx.icontheme}/32/status/dialog-information.png)
 
 ************************************************************************ */
 
@@ -80,6 +81,48 @@ qx.Class.define("demobrowser.demo.table.TableDemo",
 
     createControls : function() {
       return null;
+    },
+
+
+    showDialog : function(text)
+    {
+      if (!this.__dlg)
+      {
+        var dlg = this.__dlg = new qx.ui.window.Window().set({
+          modal: true,
+          width: 180,
+          padding: 10
+        });
+        dlg.moveTo(315, 100);
+
+        var layout = new qx.ui.layout.Grid(15, 15);
+        layout.setRowFlex(0, 1);
+        layout.setColumnFlex(1, 1);
+        dlg.setLayout(layout);
+
+        dlg.add(
+          new qx.ui.basic.Image("icon/32/status/dialog-information.png"),
+          {row: 0, column: 0}
+        );
+
+        dlg.add(new qx.ui.basic.Label().set({
+          rich: true,
+          allowGrowY: true
+        }), {row: 0, column: 1});
+
+        var button = new qx.ui.form.Button("OK").set({
+          alignX: "center",
+          allowGrowX: false,
+          padding: [2, 10]
+        });
+        button.addListener("execute", function(e) {
+          dlg.close();
+        }, this);
+        dlg.add(button, {row: 1, column: 0, colSpan: 2});
+      }
+
+      this.__dlg.getChildren()[1].setContent(text);
+      this.__dlg.open();
     }
   }
 });
