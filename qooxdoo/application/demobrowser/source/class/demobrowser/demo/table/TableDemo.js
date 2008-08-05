@@ -55,6 +55,7 @@ qx.Class.define("demobrowser.demo.table.TableDemo",
       this._container.add(this._table, {flex: 1});
     },
 
+
     nextId : 0,
     createRandomRows : function(rowCount)
     {
