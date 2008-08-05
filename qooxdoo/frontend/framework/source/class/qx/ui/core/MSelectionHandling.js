@@ -275,6 +275,16 @@ qx.Mixin.define("qx.ui.core.MSelectionHandling",
 
 
     /**
+     * Returns the last selection context. One of <code>click</code>,
+     * <code>quick</code>, <code>drag</code> or <code>key</code> or
+     * <code>null</code>.
+     */
+    getSelectionContext : function() {
+      return this.__manager.getSelectionContext();
+    },
+
+
+    /**
      * Returns the internal selection manager. Use this with
      * caution!
      *
