@@ -1141,7 +1141,7 @@ class Generator:
             # normalize paths (esp. "./x" -> "x")
             (uriFromMetafile, trueCombinedUri, combinedUriFromMetafile) = map(os.path.normpath,(uriFromMetafile, trueCombinedUri, combinedUriFromMetafile))
             # get the "wrong" prefix (in mappedUriPrefix)
-            trueUriPrefix, mappedUriPrefix, sfx = Path.getCommonSuffix(trueCombinedUri, combinedUriFromMetafile)
+            trueUriPrefix, mappedUriPrefix, sfx = Path.getCommonSuffixS(trueCombinedUri, combinedUriFromMetafile)
             # ...and strip it from contained image uri, to get a correct suffix (in uriSuffix)
             pre, mappedUriSuffix, uriSuffix = Path.getCommonPrefix(mappedUriPrefix, uriFromMetafile)
             # ...then compose the correct prefix with the correct suffix
