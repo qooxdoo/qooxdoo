@@ -45,17 +45,17 @@ qx.Class.define("qx.bom.element.Overflow",
       }
 
 
-      var getStyleProperty = qx.bom.element.Style.get;
+      var Style = qx.bom.element.Style;
 
       var getStyleSize = function(el, propertyName)
       {
-        return parseInt(getStyleProperty(el, propertyName)) || 0;
+        return parseInt(Style.get(el, propertyName)) || 0;
       };
 
       var getBorderRight = function(el)
       {
         return (
-          getStyleProperty(el, "borderRightStyle") == "none"
+          Style.get(el, "borderRightStyle") == "none"
           ? 0
           : getStyleSize(el, "borderRightWidth")
         );
@@ -64,7 +64,7 @@ qx.Class.define("qx.bom.element.Overflow",
       var getBorderLeft = function(el)
       {
         return (
-          getStyleProperty(el, "borderLeftStyle") == "none"
+          Style.get(el, "borderLeftStyle") == "none"
           ? 0
           : getStyleSize(el, "borderLeftWidth")
         );
@@ -75,7 +75,7 @@ qx.Class.define("qx.bom.element.Overflow",
         "mshtml" : function(el)
         {
           if (
-            getStyleProperty(el, "overflowY") == "hidden" ||
+            Style.get(el, "overflowY") == "hidden" ||
             el.clientWidth == 0
           ) {
             return getBorderRight(el);
@@ -90,7 +90,7 @@ qx.Class.define("qx.bom.element.Overflow",
           // clientWidth == 0 could mean both: unavailable or really 0
           if (el.clientWidth == 0)
           {
-            var ov = getStyleProperty(el, "overflow");
+            var ov = Style.get(el, "overflow");
             var sbv = (
               ov == "scroll" ||
               ov == "-moz-scrollbars-vertical" ? 16 : 0
