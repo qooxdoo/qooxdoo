@@ -1103,7 +1103,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
         return {
           decorator : states.active ? "window-captionbar-active" : "window-captionbar-inactive",
           textColor : states.active ? "#ffffff" : "#4a4a4a",
-          minHeight : 22
+          minHeight : 22,
+          paddingRight : 2
         };
       }
     },
@@ -1190,8 +1191,9 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          paddingLeft : 2,
-          decorator   : "window-statusbar"
+          padding   : [ 2, 6 ],
+          decorator : "window-statusbar",
+          minHeight : 18
         };
       }
     },
