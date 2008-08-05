@@ -143,16 +143,18 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
           "  width : '100%';" +
           "}";
         tr.__clazz[hash].rowstylesheet =
-          qx.html.StyleSheet.createElement(stylesheet);
+          qx.bom.Stylesheet.createElement(stylesheet);
 
-        for (var i = 0; i < this._columnWidths.getData().length; i++)
+        var columnData = this._columnWidths.getData();
+
+        for (var i = 0; i < columnData.length; i++)
         {
           var stylesheet =
             ".qx-progressive-" + hash + "-cell-" + i + " {" +
             tr.__tableCellStyleSheet +
             "}";
           tr.__clazz[hash].cellstylesheet[i] =
-            qx.html.StyleSheet.createElement(stylesheet);
+            qx.bom.Stylesheet.createElement(stylesheet);
         }
 
         // Save the hash too
@@ -180,12 +182,13 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
      */
     addRenderer : function(column, renderer)
     {
-      if (column < 0 || column >= this._columnWidths.length)
+      var columnData = this._columnWidths.getData();
+      if (column < 0 || column >= columnData.length)
       {
         throw new Error("Column " +
                         column +
                         " out of range (max: " +
-                        (this._columnWidths.length - 1) +
+                        (columnData.length - 1) +
                         ")");
       }
 
@@ -202,12 +205,13 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
      */
     removeRenderer : function(column)
     {
-      if (column < 0 || column >= this._columnWidths.length)
+      var columnData = this._columnWidths.getData();
+      if (column < 0 || column >= columnData.length)
       {
         throw new Error("Column " +
                         column +
                         " out of range (max: " +
-                        (this._columnWidths.length - 1) +
+                        (columnData.length - 1) +
                         ")");
       }
 
@@ -346,7 +350,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
      */
     getLayoutChildren : function()
     {
-      return this._columnWidths;
+      return this._columnWidths.getData();
     },
 
 
@@ -365,15 +369,15 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
       var width =
         (! this._progressive.getContainerElement().getDomElement()
          ? 0
-         : this._progressive.getInnerWidth()) -
-        qx.bom.element.Overflow.getScrollbarSize();
+         : this._progressive.getBounds().width) -
+        qx.bom.element.Overflow.getScrollbarWidth();
 
       // Get the style sheet rule name for this row
       var stylesheet = ".qx-progressive-" + this._hash + "-row";
 
       // Remove the style rule for this row
       var tr = qx.ui.progressive.renderer.table.Row;
-      qx.html.StyleSheet.removeRule(tr.__clazz[this._hash].rowstylesheet,
+      qx.bom.Stylesheet.removeRule(tr.__clazz[this._hash].rowstylesheet,
                                     stylesheet);
 
 
@@ -381,17 +385,20 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
       var rule = "width: " + width + ";";
 
       // Apply the new rule
-      qx.html.StyleSheet.addRule(tr.__clazz[this._hash].rowstylesheet,
+      qx.bom.Stylesheet.addRule(tr.__clazz[this._hash].rowstylesheet,
                                  stylesheet,
                                  rule);
 
       // Compute the column widths
       this._layout.renderLayout(width, 100);
 
+      // Get the column data
+      var columnData = this._columnWidths.getData();
+
       // Reset each of the column style sheets to deal with width changes
       for (var i = 0,
              left = 0;
-           i < this._columnWidths.length;
+           i < columnData.length;
            i++,
              left += width)
       {
@@ -400,11 +407,11 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
 
         // Remove the style rule for this column
         var tr = qx.ui.progressive.renderer.table.Row;
-        qx.html.StyleSheet.removeRule(tr.__clazz[this._hash].cellstylesheet[i],
+        qx.bom.Stylesheet.removeRule(tr.__clazz[this._hash].cellstylesheet[i],
                                       stylesheet);
 
         // Get this column width.
-        width = this._columnWidths[i].getComputedWidth();
+        width = columnData[i].getComputedWidth();
 
         if (qx.core.Variant.isSet("qx.debug", "on"))
         {
@@ -421,7 +428,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
           "width: " + width + ";";
 
         // Apply the new rule
-        qx.html.StyleSheet.addRule(tr.__clazz[this._hash].cellstylesheet[i],
+        qx.bom.Stylesheet.addRule(tr.__clazz[this._hash].cellstylesheet[i],
                                    stylesheet,
                                    rule);
       }
@@ -454,7 +461,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
 
         // Remove the style rule for this row
         var tr = qx.ui.progressive.renderer.table.Row;
-        qx.html.StyleSheet.removeRule(tr.__clazz[this._hash].rowstylesheet,
+        qx.bom.Stylesheet.removeRule(tr.__clazz[this._hash].rowstylesheet,
                                       stylesheet);
 
       }
@@ -470,7 +477,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
 
           // Remove the style rule for this column
           var tr = qx.ui.progressive.renderer.table.Row;
-          qx.html.StyleSheet.removeRule(rule, stylesheet);
+          qx.bom.Stylesheet.removeRule(rule, stylesheet);
         }
       }
     }

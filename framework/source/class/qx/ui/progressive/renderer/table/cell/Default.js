@@ -44,7 +44,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Default",
     // overridden
     _getContentHtml : function(cellInfo)
     {
-      return qx.html.String.escape(this._formatValue(cellInfo.cellData));
+      return qx.bom.String.escape(this._formatValue(cellInfo.cellData));
     },
 
 

@@ -58,6 +58,7 @@ qx.Class.define("qx.ui.progressive.Progressive",
     // Prepare to have our pane structure added to us.
     this.set(
       {
+/*
         left            : 20,
         top             : 20,
         right           : 20,
@@ -65,6 +66,7 @@ qx.Class.define("qx.ui.progressive.Progressive",
         spacing         : 0,
         border          : new qx.ui.decoration.Single(1, "solid", "#dddddd"),
         overflow        : "hidden",
+*/
         backgroundColor : "white"
       });
 
