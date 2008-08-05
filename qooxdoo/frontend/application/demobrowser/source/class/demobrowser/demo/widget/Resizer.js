@@ -18,18 +18,8 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#asset(qx/icon/${qx.icontheme}/48/apps/video-player.png)
-#asset(qx/icon/${qx.icontheme}/48/apps/internet-mail.png)
-#asset(qx/icon/${qx.icontheme}/48/apps/internet-web-browser.png)
-#asset(qx/icon/${qx.icontheme}/48/apps/photo-album.png)
-#asset(qx/icon/${qx.icontheme}/48/apps/office-writer.png)
-
-************************************************************************ */
-
 /**
- * The Resizer widget acts as a wrapper of another widget.  It allows the child
+ * The Resizer widget acts as a wrapper of another widget. It allows the child
  * widget to be resized by the end user.
  */
 qx.Class.define("demobrowser.demo.widget.Resizer",
