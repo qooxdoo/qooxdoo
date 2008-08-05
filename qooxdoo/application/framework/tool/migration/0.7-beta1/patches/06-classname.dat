@@ -1,2 +1,0 @@
-\.getCssClassName\(\)=.getHtmlProperty("className")
-\.setCssClassName\((.*?)\)=.setHtmlProperty("className", \1)

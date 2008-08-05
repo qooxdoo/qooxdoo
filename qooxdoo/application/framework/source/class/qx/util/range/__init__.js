@@ -1,3 +1,0 @@
-/**
- * Some implementations of ranges.
- */

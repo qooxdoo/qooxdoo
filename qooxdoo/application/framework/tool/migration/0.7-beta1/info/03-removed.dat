@@ -1,5 +1,0 @@
-\.getTagName\b=The tag name property if qx.ui.core.Widget has been removed. All widgets now use "div" elements as root element.
-\.setTagName\b=The tag name property if qx.ui.core.Widget has been removed. All widgets now use "div" elements as root element.
-\.setState\b=The method "setState" of qx.ui.core.Widget has been removed. Use "addState" or "removeState" instead.
-\.disableInlineEvent\b=Inline events are no longer supported.
-\.enableInlineEvent\b=Inline events are no longer supported.

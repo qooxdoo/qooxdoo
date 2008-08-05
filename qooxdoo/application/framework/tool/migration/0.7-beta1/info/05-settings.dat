@@ -1,7 +1,0 @@
-qx\.Settings\.getValueOfClass=The settings have been reworked for 0.7 and cannot be migrated automatically. Have a look at http://qooxdoo.org/documentation/user_manual/settings.
-qx\.Settings\.getValue=The settings have been reworked for 0.7 and cannot be migrated automatically. Have a look at http://qooxdoo.org/documentation/user_manual/settings.
-qx\.Settings\.setDefault=The settings have been reworked for 0.7 and cannot be migrated automatically. Have a look at http://qooxdoo.org/documentation/user_manual/settings.
-qx\.Settings\.setDefaultOfClass=The settings have been reworked for 0.7 and cannot be migrated automatically. Have a look at http://qooxdoo.org/documentation/user_manual/settings.
-qx\.Settings\.setCustom=The settings have been reworked for 0.7 and cannot be migrated automatically. Have a look at http://qooxdoo.org/documentation/user_manual/settings.
-qx\.Settings\.setCustomOfClass=The settings have been reworked for 0.7 and cannot be migrated automatically. Have a look at http://qooxdoo.org/documentation/user_manual/settings.
-\bsettings\s*:=The settings have been reworked for 0.7 and cannot be migrated automatically. Have a look at http://qooxdoo.org/documentation/user_manual/settings.
