@@ -81,15 +81,10 @@ qx.Class.define("demobrowser.DemoBrowser",
     var left = this.__makeLeft();
     mainsplit.add(left, 0);
 
-
-
     // Right
-    var right = new qx.ui.container.Composite(new qx.ui.layout.VBox);
-    mainsplit.add(right, 1);
-
     // output views
     var buttview = this.__makeOutputViews();
-    right.add(buttview, {flex:1});
+    mainsplit.add(buttview, 1);
 
     this.__setStateInitialized();
 
@@ -664,7 +659,7 @@ qx.Class.define("demobrowser.DemoBrowser",
     __makeOutputViews : function()
     {
       // Main Container
-      var tabview = new qx.ui.tabview.TabView;
+      var tabview = new qx.ui.tabview.TabView();
 
       this.widgets["outputviews"] = tabview;
 
