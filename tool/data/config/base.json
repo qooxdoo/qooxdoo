@@ -14,7 +14,7 @@
     "BUILD_PATH"   : "${ROOT}/build"
   },
 
-  "export" : 
+  "export" :
   [
     "build",
     "clean",
@@ -29,7 +29,7 @@
     "translate"
   ],
 
-        
+
   "jobs" :
   {
     // the next one is needed wherever the local lib is to be scanned
@@ -183,9 +183,9 @@
       {
         "update" : ["${APPLICATION}"]
       }
-    },    
-    
-    
+    },
+
+
     // can be used as an 'extend' to activate profiling
     "profiling" :
     {
@@ -199,8 +199,8 @@
         "qx.Class" : [ "qx.core.Aspect", "qx.dev.Profile" ]
       }
     },
-    
-    
+
+
     "pretty" :
     {
       "extend" : [ "scan-local-lib" ],
@@ -227,12 +227,11 @@
         "Cleaning up source" :
         [
           "${ROOT}/cache",
-          "${ROOT}/source/script/${APPLICATION}.js",
-          "${ROOT}/source/translation/messages.pot"
+          "${ROOT}/source/script/${APPLICATION}.js"
         ],
         "Cleaning up framework" :
         [
-          "${QOOXDOO_PATH}/source/translation/messages.pot"
+
         ]
       }
     },
@@ -242,7 +241,7 @@
     {
       "extend" : [ "scan-local-lib" ],
 
-      "clean-files" : 
+      "clean-files" :
       {
         "Deleting build" :
         [
@@ -268,17 +267,11 @@
         ],
         "Cleaning up source" :
         [
-          "${ROOT}/source/script",
-          "${ROOT}/source/class/${APPLICATION}/translation",
-          "${ROOT}/source/translation/messages.pot"
+          "${ROOT}/source/script"
         ],
         "Cleaning up framework" :
         [
-          "${CACHE}",
-          "${QOOXDOO_PATH}/.cache",
-          "${QOOXDOO_PATH}/source/translation/messages.pot",
-          "${QOOXDOO_PATH}/source/class/qx/locale/data",
-          "${QOOXDOO_PATH}/source/class/qx/locale/translation"
+          "${CACHE}"
         ]
       }
     },
@@ -307,11 +300,11 @@
     },
 
 
-    "publish" : 
+    "publish" :
     {
       "extend" : [ "scan-local-lib" ],
 
-      "shell" : 
+      "shell" :
       {
         "command" : "rsync --checksum --compress --recursive --delete --inplace --links --safe-links --exclude .svn ${BUILD_PATH}/* root@qooxdoo.org:/var/www/qooxdoo/demo/${QXVERSION}/${APPLICATION}"
       }
