@@ -1,0 +1,3 @@
+/**
+ * The qx.core package.
+ */

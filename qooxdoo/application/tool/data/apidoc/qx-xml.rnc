@@ -1,0 +1,148 @@
+# Doctree
+
+doctree = element doctree { attlist.doctree, packages* }
+attlist.doctree &= attribute hasWarning { "true" | "false" }?
+packages = element packages { attlist.packages, package* }
+attlist.packages &= empty
+package =
+  element package {
+    attlist.package,
+    (packages* | (classes?, functions?))
+  }
+attlist.package &=
+  attribute name { text },
+  attribute packageName { text },
+  attribute fullName { text },
+  attribute hasWarning { "true" | "false" }?
+classes = element classes { attlist.classes, class* }
+attlist.classes &= empty
+functions = element functions { attlist.functions, function* }
+attlist.functions &= empty
+
+# Class
+
+class =
+  element class {
+    attlist.class,
+    (desc?
+     & deprecated?
+     & superInterfaces?
+     & superMixins?
+     & constants?
+     & constructor?
+     & methods-static?
+     & events?
+     & properties?
+     & methods?)
+  }
+attlist.class &=
+  attribute name { text },
+  attribute packageName { text },
+  attribute fullName { text },
+  attribute type { "class" | "interface" | "mixin" }?,
+  attribute isStatic { "true" | "false" }?,
+  attribute isAbstract { "true" | "false" }?,
+  attribute childClasses { text }?,
+  attribute superClass { text }?,
+  attribute implementations { text }?,
+  attribute interfaces { text }?,
+  attribute mixins { text }?,
+  attribute includer { text }?,
+  attribute hasWarning { "true" | "false" }?
+superInterfaces =
+  element superInterfaces { attlist.superInterfaces, interface* }
+attlist.superInterfaces &= empty
+superMixins = element superMixins { attlist.superMixins, interface* }
+attlist.superMixins &= empty
+constants = element constants { attlist.constants, constant* }
+attlist.constants &= empty
+constructor = element constructor { attlist.constructor, method }
+attlist.constructor &= empty
+methods-static =
+  element methods-static { attlist.methods-static, method* }
+attlist.methods-static &= empty
+events = element events { attlist.events, event* }
+attlist.events &= empty
+properties = element properties { attlist.properties, property* }
+attlist.properties &= empty
+methods = element methods { attlist.methods, method* }
+attlist.methods &= empty
+
+# Interface
+
+interface = element interface { attlist.interface, empty }
+attlist.interface &= attribute name { text }
+
+# Constant
+
+constant =
+  element constant { attlist.constant, deprecated?, desc?, types? }
+attlist.constant &=
+  attribute name { text },
+  attribute value { text },
+  attribute type { text }
+
+# Property
+
+property = element property { attlist.property, deprecated?, errors? }
+attlist.property &=
+  attribute name { text },
+  attribute hasError { "true" | "false" }?,
+  attribute docFrom { text }?,
+  attribute overriddenFrom { text }?,
+  attribute hasWarning { "true" | "false" }?,
+  attribute defaultValue { text }?,
+  attribute type { text }?,
+  attribute isMixin { "true" | "false" }?
+
+# Method
+
+method =
+  element method {
+    attlist.method, (deprecated? & desc? & params? & return? & errors?)
+  }
+attlist.method &=
+  attribute overriddenFrom { text }?,
+  attribute name { text }?,
+  attribute hasError { "true" | "false" }?,
+  attribute isCtor { "true" | "false" }?,
+  attribute isStatic { "true" | "false" }?,
+  attribute isInternal { "true" | "false" }?,
+  attribute isMixin { "true" | "false" }?
+params = element params { attlist.params, param* }
+attlist.params &= empty
+param = element param { attlist.param, desc?, types? }
+attlist.param &= attribute name { text }
+return = element return { attlist.return, desc?, types? }
+attlist.return &= 
+  empty,
+  attribute defaultValue { text }?
+
+# Errors
+
+errors = element errors { attlist.errors, error* }
+attlist.errors &= empty
+error = element error { attlist.error, empty }
+attlist.error &=
+  attribute msg { text },
+  attribute column { xsd:NMTOKEN },
+  attribute line { xsd:NMTOKEN }
+
+# Misc
+
+deprecated = element deprecated { attlist.deprecated, desc? }
+attlist.deprecated &= empty
+desc = element desc { attlist.desc, \text* }
+attlist.desc &= empty
+\text = element text { attlist.text, text }
+attlist.text &= empty
+types = element types { attlist.types, entry* }
+attlist.types &= empty
+entry = element entry { attlist.entry, empty }
+attlist.entry &= attribute type { text }
+event = element event { attlist.event, errors?, types?, deprecated? }
+attlist.event &=
+  attribute name { text },
+  attribute hasError { "true" | "false" }?
+function |= notAllowed
+start = package
