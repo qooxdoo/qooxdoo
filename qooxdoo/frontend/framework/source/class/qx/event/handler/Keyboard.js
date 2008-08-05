@@ -344,7 +344,7 @@ qx.Class.define("qx.event.handler.Keyboard",
         {
           var keyIdentifier = keyCode ? this._keyCodeToIdentifier(keyCode) : this._charCodeToIdentifier(charCode);
 
-          if (!(this._lastUpDownType[keyIdentifier] == "keypress" && type == "keydown")) {
+          if (!(this._lastUpDownType[keyIdentifier] == "keydown" && type == "keydown")) {
             this._idealKeyHandler(keyCode, charCode, type, domEvent);
           }
 
