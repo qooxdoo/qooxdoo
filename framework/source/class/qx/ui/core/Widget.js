@@ -424,6 +424,26 @@ qx.Class.define("qx.ui.core.Widget",
 
 
     /**
+     * The decorator used to render the widget's outline/shadow. The decorator's
+     * insets are interpreted as the amount of pixels the shadow extends the
+     * widget's size.
+     *
+     * Note that shadows work only properly in top level widgets like menus, windows
+     * or tooltips. If used in inner widgets the shadow may not be cut by the
+     * parent widget.
+     */
+    shadow :
+    {
+      nullable : true,
+      init : null,
+      apply : "_applyShadow",
+      event : "changeShadow",
+      check : "Decorator",
+      themeable : true
+    },
+
+
+    /**
      * The background color the rendered widget.
      */
     backgroundColor :
@@ -1005,6 +1025,10 @@ qx.Class.define("qx.ui.core.Widget",
         delete this.__initDecorator;
       }
 
+      if (changes.size && this._shadow) {
+        this.__updateShadow(false, false, true)
+      }
+
       if (inner || changes.local || this.__updateMargin)
       {
         if (this.__layout && this.hasLayoutChildren()) {
@@ -1413,6 +1437,19 @@ qx.Class.define("qx.ui.core.Widget",
       el.setStyle("left", 0);
       el.setStyle("top", 0);
 
+      return el;
+    },
+
+
+    /**
+     * Create the widget's shadow HTML element.
+     *
+     * @return {qx.html.Element} The shadow HTML element
+     */
+    __createShadowElement : function()
+    {
+      var el = new qx.html.Element("div");
+      el.setStyle("position", "absolute");
       return el;
     },
 
@@ -1927,7 +1964,9 @@ qx.Class.define("qx.ui.core.Widget",
     _applyDecorator : function(value, old)
     {
       var oldInsets = this.__oldInsets;
+      var oldDecorator = this._decorator;
       var newInsets;
+
       if(value)
       {
         this._decorator = qx.theme.manager.Decoration.getInstance().resolve(value);
@@ -1948,7 +1987,7 @@ qx.Class.define("qx.ui.core.Widget",
       // When both values are set (transition)
       if (old && value)
       {
-        var classChanged = old.classname !== value.classname;
+        var classChanged = oldDecorator.classname !== this._decorator.classname;
         var insetsChanged = oldInsets.top !== newInsets.top ||
                             oldInsets.right !== newInsets.right ||
                             oldInsets.bottom !== newInsets.bottom ||
@@ -2022,8 +2061,66 @@ qx.Class.define("qx.ui.core.Widget",
     },
 
 
+    // property apply
+    _applyShadow : function(value, old)
+    {
+      var oldShadow = this._shadow;
+      var classChanged = false;
+
+      if (value) {
+        this._shadow = qx.theme.manager.Decoration.getInstance().resolve(value);
+      } else {
+        this._shadow = null;
+      }
+
+      if (old && value)
+      {
+        // When both values are set (transition)
+        classChanged = oldShadow.classname !== this._shadow.classname;
+      }
+      else
+      {
+        // When only one is configured
+        classChanged = true;
+
+        if (value)
+        {
+          // Create shadow element on demand
+          if (!this._shadowElement)
+          {
+            this._shadowElement = this.__createShadowElement();
+            this._containerElement.add(this._shadowElement);
+          }
+        }
+      }
+
+      // Reset old shadow
+      if (old && classChanged) {
+        oldShadow.reset(this._shadowElement);
+      }
+
+      if (value && this.getBounds()) {
+        this.__updateShadow(classChanged, true, true);
+      }
+    },
 
 
+    __updateShadow : function(classChanged, doStyle, updateSize)
+    {
+      var bounds = this.getBounds();
+      var insets = this._shadow.getInsets();
+      this._shadowElement.setStyles({
+        left: (-insets.left) + "px",
+        top: (-insets.top) + "px"
+      });
+      this._shadow.render(
+        this._shadowElement,
+        bounds.width + insets.left + insets.right,
+        bounds.height + insets.top + insets.bottom,
+        null,
+        {init:classChanged, style:true, size: updateSize}
+      );
+    },
 
 
     /*

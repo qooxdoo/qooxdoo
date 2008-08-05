@@ -1060,6 +1060,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         return {
           backgroundColor : "#ffffdd",
           decorator : "tooltip",
+          shadow : "shadow-small",
           padding : [ 1, 3, 2, 3 ],
           offset : [ 1, 1, 20, 1 ]
         };
@@ -1080,10 +1081,11 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          decorator       : "window"
+          shadow : "shadow"
         };
       }
     },
+
 
     "window/pane" :
     {
@@ -1545,6 +1547,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         var result =
         {
           decorator : "menu",
+          shadow : "shadow-small",
           spacingX : 6,
           spacingY : 1,
           iconColumnWidth : 16,
