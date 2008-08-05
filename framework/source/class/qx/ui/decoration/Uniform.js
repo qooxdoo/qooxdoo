@@ -29,6 +29,22 @@ qx.Class.define("qx.ui.decoration.Uniform",
 
 
 
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  construct : function()
+  {
+    this.base(arguments);
+
+    // Create template
+    this._tmpl = new qx.util.Template;
+  },
+
+
+
 
   /*
   *****************************************************************************
@@ -78,7 +94,7 @@ qx.Class.define("qx.ui.decoration.Uniform",
     /** How the background should be repeated */
     backgroundRepeat :
     {
-      check : ["repeat", "repeat-x", "repeat-y", "no-repeat"],
+      check : ["repeat", "repeat-x", "repeat-y", "no-repeat", "scale"],
       init : "repeat",
       apply : "_applyStyle"
     }
@@ -104,27 +120,28 @@ qx.Class.define("qx.ui.decoration.Uniform",
     // interface implementation
     render : function(element, width, height, backgroundColor, changes)
     {
-      if (changes.style || changes.init) {
-        element.setStyles(this.__getStyles());
+      // Be sure markup is up-to-date first
+      this._updateMarkup();
+
+      // Fix box model
+      if (qx.bom.client.Feature.CONTENT_BOX)
+      {
+        var inset = this.getWidth() * 2;
+        width -= inset;
+        height -= inset;
       }
 
-      if (changes.bgcolor || changes.init)
-      {
-        var Color = qx.theme.manager.Color.getInstance();
-        element.setStyle("backgroundColor", Color.resolve(backgroundColor));
-      }
+      // Compile HTML
+      var html = this._tmpl.run({width: width, height: height});
 
-      if (changes.size || changes.init)
-      {
-        var axis = this.__insetAxis;
-        qx.ui.decoration.Util.updateSize(element, width, height, axis, axis);
-      }
+      // Apply HTML
+      element.setAttribute("html", html);
     },
 
 
     // interface implementation
     reset : function(element) {
-      element.setStyles(this.__emptyStyles);
+      element.setAttribute("html", null);
     },
 
 
@@ -157,16 +174,14 @@ qx.Class.define("qx.ui.decoration.Uniform",
     */
 
     // property apply
-    _applyWidth : function(value, old)
-    {
-      this.__insets = null;
-      this.__styles = null;
+    _applyWidth : function() {
+      this.__insets = this.__markup = null;
     },
 
 
     // property apply
-    _applyStyle : function(value, old) {
-      this.__styles = null;
+    _applyStyle : function() {
+      this.__markup = null;
     },
 
 
@@ -178,42 +193,65 @@ qx.Class.define("qx.ui.decoration.Uniform",
     ---------------------------------------------------------------------------
     */
 
-    /** {Map} Default styles */
-    __emptyStyles :
+    _updateMarkup : function()
     {
-      border: null,
-      backgroundImage: null,
-      backgroundRepeat: null,
-      backgroundColor: null
-    },
-
-
-    /**
-     * Compiles styles for background and border into one cached map
-     */
-    __getStyles : function()
-    {
-      if (this.__styles) {
-        return this.__styles;
+      if (this.__markup) {
+        return;
       }
 
-      var Color = qx.theme.manager.Color.getInstance();
-      var Alias = qx.util.AliasManager.getInstance();
-      var Background = qx.bom.element.Background;
+      var html = [];
 
-      var image = Alias.resolve(this.getBackgroundImage());
-      var styles = Background.getStyles(image, this.getBackgroundRepeat());
+      var image = this.getBackgroundImage();
+      var repeat = this.getBackgroundRepeat();
 
-      var color = Color.resolve(this.getColor());
+      var tag = image && repeat == "scale" ? "img" : "div";
+
+      // Starttag
+      html.push('<', tag, ' ');
+
+
+      // Support for images
+      if (image)
+      {
+        var resolved = qx.util.AliasManager.getInstance().resolve(image);
+
+        // Scaled images
+        if (repeat == "scale")
+        {
+          var Resource = qx.util.ResourceManager;
+          var uri = Resource.toUri(resolved);
+          html.push('src="', uri, '" style="');
+        }
+
+        // Repeated images
+        else
+        {
+          html.push('style="');
+
+          var Background = qx.bom.element.Background;
+          html.push(Background.compile(resolved, repeat, 0, 0));
+        }
+      }
+      else
+      {
+        html.push('style="');
+      }
+
+      html.push('position:absolute;top:0;left:0;width:{width}px;height:{height}px;');
+
       var width = this.getWidth();
-
-      if (width > 0) {
-        styles.border = this.getWidth() + "px " + this.getStyle() + " " + color;
-      } else {
-        styles.border = null;
+      if (width > 0)
+      {
+        var Color = qx.theme.manager.Color.getInstance();
+        html.push('border:', this.getWidth(), 'px ', this.getStyle(), ' ', Color.resolve(this.getColor()), ';');
       }
 
-      return this.__styles = styles;
+      // Endtag
+      html.push('"></', tag, '>');
+
+
+      // Update template
+      this._tmpl.setContent(html.join(""));
     }
   }
 });
