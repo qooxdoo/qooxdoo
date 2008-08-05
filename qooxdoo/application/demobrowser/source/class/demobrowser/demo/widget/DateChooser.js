@@ -33,7 +33,6 @@ qx.Class.define("demobrowser.demo.widget.DateChooser",
       
       // Date chooser
       var container = new qx.ui.container.Composite(new qx.ui.layout.HBox());
-      container.setDecorator("outset");
       var chooser = new qx.ui.control.DateChooser();
       container.add(chooser);
       this.getRoot().add(container, { left : 20, top: 20});
