@@ -131,7 +131,7 @@ qx.Class.define("qx.ui.progressive.headfoot.Progress",
      */
     getLayoutChildren : function()
     {
-      return this._columnWidths;
+      return this._columnWidths.getData();
     },
 
 
@@ -149,8 +149,8 @@ qx.Class.define("qx.ui.progressive.headfoot.Progress",
       var width =
         (! this._progressive.getContainerElement().getDomElement()
          ? 0
-         : this._progressive.getInnerWidth()) -
-        qx.bom.element.Overflow.getScrollbarSize();
+         : this._progressive.getBounds().width) -
+        qx.bom.element.Overflow.getScrollbarWidth();
 
       // Compute the column widths
       this._layout.renderLayout(width, 100);
@@ -158,11 +158,14 @@ qx.Class.define("qx.ui.progressive.headfoot.Progress",
       // Sum the column widths
       var width = 0;
 
+      // Get the column data
+      var columnData = this._columnWidths.getData();
+
       // Determine the total width that we'll need
-      for (var i = 0; i < this._columnWidths.length; i++)
+      for (var i = 0; i < columnData.length; i++)
       {
         // Cumulate the width
-        width += this._columnWidths[i].getComputedWidth();
+        width += columnData[i].getComputedWidth();
       }
 
       // Set the width of the progress bar

@@ -34,7 +34,7 @@ qx.Class.define("qx.ui.progressive.headfoot.Abstract",
 
   construct : function()
   {
-    this.base(arguments, new qx.ui.layout.VBox());
+    this.base(arguments, new qx.ui.layout.HBox());
   },
 
   members    :
@@ -52,5 +52,10 @@ qx.Class.define("qx.ui.progressive.headfoot.Abstract",
     {
       this._progressive = progressive;
     }
+  },
+
+  settings :
+  {
+    "qx.tableResizeDebug" : false
   }
 });
