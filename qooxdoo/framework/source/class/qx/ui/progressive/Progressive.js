@@ -70,13 +70,6 @@ qx.Class.define("qx.ui.progressive.Progressive",
         backgroundColor : "white"
       });
 
-    // Generate a widthChanged event when we first appear
-    this.addListener("appear",
-                     function(e)
-                     {
-                       this.fireEvent("widthChanged");
-                     });
-
     // If no structure is provided...
     if (! structure)
     {
@@ -176,13 +169,7 @@ qx.Class.define("qx.ui.progressive.Progressive",
      *       changes such as progress bars are being updated, use the
      *       "progress" event.
      */
-    "progressDetail" : "qx.event.type.Data",
-
-      /**
-       * This event is fired when the Progressive first appears, and whenever
-       * the width of this Progressive changes.
-       */
-    "widthChanged"   : "qx.event.type.Event"
+    "progressDetail" : "qx.event.type.Data"
   },
 
 
@@ -322,12 +309,14 @@ qx.Class.define("qx.ui.progressive.Progressive",
       }
     },
 
+/*
     // overridden
     _changeInnerWidth : function(newValue, oldValue)
     {
       this.base(arguments, newValue, oldValue);
       this.fireEvent("widthChanged");
     },
+*/
 
     /**
      * Called when the dataModel property is changed.
