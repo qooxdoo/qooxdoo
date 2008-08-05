@@ -29,7 +29,6 @@ qx.Class.define("qx.ui.decoration.Double",
 
 
 
-
   /*
   *****************************************************************************
      PROPERTIES
@@ -169,17 +168,16 @@ qx.Class.define("qx.ui.decoration.Double",
      * @return {Map} a map containing the computed CSS styles
      */
     _getInnerStyles : function(width, height)
-    {    	
+    {
       var styles = {
         borderTopWidth: this.getInnerWidthTop() + "px",
-        borderTopColor: this._resolveColor(this.getInnerColorTop()),
+        borderTopColor: qx.theme.manager.Color.getInstance().resolve(this.getInnerColorTop()),
         borderRightWidth: this.getInnerWidthRight() + "px",
-        borderRightColor: this._resolveColor(this.getInnerColorRight()),
+        borderRightColor: qx.theme.manager.Color.getInstance().resolve(this.getInnerColorRight()),
         borderBottomWidth: this.getInnerWidthBottom() + "px",
-        borderBottomColor: this._resolveColor(this.getInnerColorBottom()),
+        borderBottomColor: qx.theme.manager.Color.getInstance().resolve(this.getInnerColorBottom()),
         borderLeftWidth: this.getInnerWidthLeft() + "px",
-        borderLeftColor: this._resolveColor(this.getInnerColorLeft()),
-        backgroundColor: this._resolveColor(this.getBackgroundColor()),
+        borderLeftColor: qx.theme.manager.Color.getInstance().resolve(this.getInnerColorLeft()),
         borderStyle: "solid"
       };
 

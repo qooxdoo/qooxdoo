@@ -34,8 +34,8 @@
  */
 qx.Class.define("qx.ui.decoration.Grid",
 {
-  extend : qx.ui.decoration.Abstract,
-
+  extend : qx.core.Object,
+  implement : [qx.ui.decoration.IDecorator],
 
 
 
@@ -198,7 +198,7 @@ qx.Class.define("qx.ui.decoration.Grid",
       var l  = mgr.getClipped(images.l);
       var c  = mgr.getClipped(images.c);
       var r  = mgr.getClipped(images.r);
-      
+
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         if (!(tl&&t&&tr&&bl&&b&&br&&l&&c&&r)) {
@@ -350,9 +350,9 @@ qx.Class.define("qx.ui.decoration.Grid",
       var pixel = "px";
 
       if (backgroundColor) {
-      	element.setStyle("backgroundColor", this._resolveColor(backgroundColor));
+      	element.setStyle("backgroundColor", qx.theme.manager.Color.getInstance().resolve(backgroundColor));
       }
-      
+
       // Sync width/height of outer element
       element.setStyle("width", width + pixel);
       element.setStyle("height", height + pixel);
