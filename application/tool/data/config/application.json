@@ -1,0 +1,69 @@
+// generic application.json
+{
+  "name"    : "generic application.json",
+
+  "include" :
+  [
+    {
+      "path" : "./base.json"
+    },
+
+    {
+      "path" : "../../../application/apiviewer/api.json",
+      "as"   : "apiconf"
+    }
+  ],
+
+  "export" : 
+  [
+    "api",
+    "build",
+    "clean",
+    "distclean",
+    "fix",
+    "lint",
+    "migration",
+    "pretty",
+    "profiling",
+    "publish",
+    "source",
+    "translate"
+  ],
+
+        
+
+  "let" :
+  {
+    "ROOT"         : ".",
+    "QOOXDOO_PATH" : "../../framework",
+    "QOOXDOO_URI"  : "../${QOOXDOO_PATH}",
+    "CACHE"        : "cache",
+    "QXTHEME"      : "qx.theme.Classic",
+    "QXVERSION"    : "0.8-rc1-pre",
+    "LOCALES"      : [ "en" ],
+    "BUILD_PATH"   : "${ROOT}/build"
+  },
+
+  "jobs" :
+  {
+    "api" :
+    {
+      "extend" : ["apiconf::build"],
+
+      "let" :
+      {
+        "APIVIEWER_ROOT" : "${QOOXDOO_PATH}/../application/apiviewer",
+        "BUILD_PATH" : "./api",
+        "API_INCLUDE" : ["qx.*", "${APPLICATION}.*"]
+      },
+
+      "library" :
+      [
+        {
+          "manifest" : "Manifest.json",
+          "uri"      : ".."
+        }
+      ]
+    }
+  }
+}

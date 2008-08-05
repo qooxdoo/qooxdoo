@@ -1,0 +1,5 @@
+- create Interfaces for each of the commonly extended classes
+
+- convert to use appearances instead of hard-coded styles
+
+- dispose VBox used in Composite constructor calls

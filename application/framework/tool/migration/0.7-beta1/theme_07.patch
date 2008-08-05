@@ -1,0 +1,5865 @@
+Index: application/showcase/source/class/showcase/Application.js
+===================================================================
+--- application/showcase/source/class/showcase/Application.js	(Revision 6514)
++++ application/showcase/source/class/showcase/Application.js	(Arbeitskopie)
+@@ -126,6 +126,14 @@
+       var page = new qx.ui.pageview.buttonview.Page(bt);
+       barView.getPane().add(page);
+ 
++      page.set(
++      {
++        left   : 0,
++        right  : 0,
++        top    : 0,
++        bottom : 0
++      });
++
+       widget.setLocation(0, 0);
+ 
+       widget.set(
+Index: framework/source/class/qx/core/Variant.js
+===================================================================
+--- framework/source/class/qx/core/Variant.js	(Revision 6514)
++++ framework/source/class/qx/core/Variant.js	(Arbeitskopie)
+@@ -293,7 +293,7 @@
+   defer : function(statics)
+   {
+     statics.define("qx.debug", [ "on", "off" ], "on");
+-    statics.define("qx.compatibility", [ "on", "off" ], "off");
++    statics.define("qx.compatibility", [ "on", "off" ], "on");
+ 
+     statics.__init();
+   }
+Index: framework/source/class/qx/theme/appearance/Classic.js
+===================================================================
+--- framework/source/class/qx/theme/appearance/Classic.js	(Revision 6514)
++++ framework/source/class/qx/theme/appearance/Classic.js	(Arbeitskopie)
+@@ -14,14 +14,16 @@
+      See the LICENSE file in the project's top-level directory for details.
+ 
+    Authors:
+-   * Sebastian Werner (wpbasti)
+-   * Andreas Ecker (ecker)
+-   * Til Schneider (til132)
++ * Sebastian Werner (wpbasti)
++ * Andreas Ecker (ecker)
++ * Til Schneider (til132)
+ 
+  ************************************************************************ */
+ 
+ /* ************************************************************************
+ 
++#module(ui_core)
++#module(theme_appearance)
+ #ignore(auto-use)
+ #embed(qx.static/image/dotted_white.gif)
+ #embed(qx.static/image/blank.gif)
+@@ -30,1918 +32,2427 @@
+ 
+ /**
+  * The default qooxdoo appearance theme.
++ *
++ * @param vTitle {String?"qooxdoo default appearance"} appearance title
+  */
+-qx.Theme.define("qx.theme.appearance.Classic",
++qx.Clazz.define("qx.theme.appearance.Classic",
+ {
+-  title : "Classic",
++  type : "singleton",
++  extend : qx.renderer.theme.AppearanceTheme,
+ 
+-  appearances :
+-  {
+-    /*
+-    ---------------------------------------------------------------------------
+-      CORE
+-    ---------------------------------------------------------------------------
+-    */
+ 
+-    "image" :
+-    {
+-      style : function(states)
+-      {
+-        return {
+-          allowStretchX : false,
+-          allowStretchY : false
+-        };
+-      }
+-    },
+ 
+-    "client-document" :
+-    {
+-      style : function(states)
+-      {
+-        return {
+-          backgroundColor    : "threedface",
+-          color              : "windowtext",
+-          hideFocus          : true,
+-          enableElementFocus : false
+-        };
+-      }
+-    },
+ 
+-    "blocker" :
+-    {
+-      style : function(states)
+-      {
+-        // You could also use: "static/image/dotted_white.gif" for example as backgroundImage here
+-        // (Visible) background tiles could be dramatically slow down mshtml!
+-        // A background image or color is always needed for mshtml to block the events successfully.
+-        return {
+-          cursor          : "default",
+-          backgroundImage : "static/image/blank.gif"
+-        };
+-      }
+-    },
++  /*
++  *****************************************************************************
++     CONSTRUCTOR
++  *****************************************************************************
++  */
+ 
+-    "atom" :
+-    {
+-      style : function(states)
+-      {
+-        return {
+-          cursor                        : "default",
+-          spacing                       : 4,
+-          width                         : "auto",
+-          height                        : "auto",
+-          horizontalChildrenAlign       : "center",
+-          verticalChildrenAlign         : "middle",
+-          stretchChildrenOrthogonalAxis : false,
+-          allowStretchY                 : false,
+-          allowStretchX                 : false
+-        };
+-      }
+-    },
++  construct : function(vTitle) {
++    qx.renderer.theme.AppearanceTheme.call(this, vTitle || "qooxdoo default appearance");
++  },
+ 
+-    "label" :
+-    {
+-      style : function(states)
+-      {
+-        return {
+-          font : '11px "Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif',
+-          wrap : false,
+-          color : states.disabled ? "graytext" : null
+-        };
+-      }
+-    },
+ 
+-    "htmlcontainer" :
+-    {
+-      extend : "label"
+-    },
+ 
+-    "popup" :
+-    {
+-      style : function(states)
+-      {
+-        return {
+-          width  : "auto",
+-          height : "auto"
+-        };
+-      }
+-    },
+ 
+-    "tool-tip" :
++  /*
++  *****************************************************************************
++     MEMBERS
++  *****************************************************************************
++  */
++
++  members :
++  {
++    _appearances : qx.lang.Object.carefullyMergeWith(
+     {
+-      extend : "popup",
++      /*
++      ---------------------------------------------------------------------------
++        CORE
++      ---------------------------------------------------------------------------
++      */
+ 
+-      style : function(states)
++      "image" :
+       {
+-        return {
+-          backgroundColor : "InfoBackground",
+-          color           : "InfoText",
+-          border          : qx.renderer.border.BorderPresets.getInstance().info,
+-          paddingTop      : 1,
+-          paddingRight    : 3,
+-          paddingBottom   : 2,
+-          paddingLeft     : 3
+-        };
+-      }
+-    },
++        initial : function(vTheme)
++        {
++          return {
++            allowStretchX : false,
++            allowStretchY : false
++          };
++        }
++      },
+ 
+-    "iframe" :
+-    {
+-      style : function(states) {
+-        return { border : qx.renderer.border.BorderPresets.getInstance().inset };
+-      }
+-    },
++      "client-document" :
++      {
++        setup : function()
++        {
++          this.bgcolor = new qx.renderer.color.ColorObject("threedface");
++          this.color = new qx.renderer.color.ColorObject("windowtext");
++        },
+ 
++        initial : function(vTheme)
++        {
++          return {
++            backgroundColor    : this.bgcolor,
++            color              : this.color,
++            hideFocus          : true,
++            enableElementFocus : false
++          };
++        }
++      },
+ 
++      "blocker" :
++      {
++        initial : function(vTheme)
++        {
++          // You could also use: "static/image/dotted_white.gif" for example as backgroundImage here
++          // (Visible) background tiles could be dramatically slow down mshtml!
++          // A background image or color is always needed for mshtml to block the events successfully.
++          return {
++            cursor          : "default",
++            backgroundImage : "static/image/blank.gif"
++          };
++        }
++      },
+ 
++      "atom" :
++      {
++        initial : function(vTheme)
++        {
++          return {
++            cursor                        : "default",
++            spacing                       : 4,
++            width                         : "auto",
++            height                        : "auto",
++            horizontalChildrenAlign       : "center",
++            verticalChildrenAlign         : "middle",
++            stretchChildrenOrthogonalAxis : false,
++            allowStretchY                 : false,
++            allowStretchX                 : false
++          };
++        }
++      },
+ 
+-    /*
+-    ---------------------------------------------------------------------------
+-      BUTTON
+-    ---------------------------------------------------------------------------
+-    */
++      "label" :
++      {
++        setup : function()
++        {
++          this.color_disabled = new qx.renderer.color.ColorObject("graytext");
++          this.font = new qx.renderer.font.Font(11, '"Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif');
++        },
+ 
+-    "button" :
+-    {
+-      extend : "atom",
++        initial : function(vTheme)
++        {
++          return {
++            font : this.font,
++            wrap : false
++          };
++        },
+ 
+-      style : function(states)
++        state : function(vTheme, vStates) {
++          return { color : vStates.disabled ? this.color_disabled : null };
++        }
++      },
++
++      "htmlcontainer" :
+       {
+-        var result = {
+-          backgroundColor : states.abandoned ? "#FFF0C9" : states.over ? "#87BCE5" : "buttonface"
+-        };
++        initial : function(vTheme) {
++          return vTheme.initialFrom("label");
++        },
+ 
+-        if (states.pressed || states.checked || states.abandoned)
+-        {
+-          result.border = qx.renderer.border.BorderPresets.getInstance().inset;
++        state : function(vTheme, vStates) {
++          return vTheme.stateFrom("label", vStates);
+         }
+-        else
++      },
++
++      "popup" :
++      {
++        initial : function(vTheme)
+         {
+-          result.border = qx.renderer.border.BorderPresets.getInstance().outset;
++          return {
++            width  : "auto",
++            height : "auto"
++          };
+         }
++      },
+ 
+-        if (states.pressed || states.abandoned)
++      "tool-tip" :
++      {
++        setup : function()
+         {
+-          result.paddingTop = 4;
+-          result.paddingRight = 3;
+-          result.paddingBottom = 2;
+-          result.paddingLeft = 5;
+-        }
+-        else
++          this.bgcolor = new qx.renderer.color.ColorObject("InfoBackground");
++          this.color = new qx.renderer.color.ColorObject("InfoText");
++        },
++
++        initial : function(vTheme)
+         {
+-          result.paddingTop = result.paddingBottom = 3;
+-          result.paddingRight = result.paddingLeft = 4;
++          return qx.lang.Object.mergeWith(vTheme.initialFrom("popup"),
++          {
++            backgroundColor : this.bgcolor,
++            color           : this.color,
++            border          : qx.renderer.border.BorderPresets.getInstance().info,
++            paddingTop      : 1,
++            paddingRight    : 3,
++            paddingBottom   : 2,
++            paddingLeft     : 3
++          });
+         }
++      },
+ 
+-        return result;
+-      }
+-    },
++      "iframe" :
++      {
++        initial : function(vTheme) {
++          return { border : qx.renderer.border.BorderPresets.getInstance().inset };
++        }
++      },
+ 
+ 
+ 
+ 
+-    /*
+-    ---------------------------------------------------------------------------
+-      TOOLBAR
+-    ---------------------------------------------------------------------------
+-    */
++      /*
++      ---------------------------------------------------------------------------
++        BUTTON
++      ---------------------------------------------------------------------------
++      */
+ 
+-    "toolbar" :
+-    {
+-      style : function(states)
++      "button" :
+       {
+-        return {
+-          border          : qx.renderer.border.BorderPresets.getInstance().thinOutset,
+-          backgroundColor : "threedface",
+-          height          : "auto"
+-        };
+-      }
+-    },
++        setup : function()
++        {
++          this.bgcolor_default = new qx.renderer.color.ColorObject("buttonface");
++          this.bgcolor_over = new qx.renderer.color.Color("#87BCE5");
++          this.bgcolor_left = new qx.renderer.color.Color("#FFF0C9");
+ 
+-    "toolbar-part" :
+-    {
+-      style : function(states) {
+-        return { width : "auto" };
+-      }
+-    },
++          this.border_pressed = qx.renderer.border.BorderPresets.getInstance().inset;
++          this.border_default = qx.renderer.border.BorderPresets.getInstance().outset;
++        },
+ 
+-    "toolbar-part-handle" :
+-    {
+-      style : function(states) {
+-        return { width : 10 };
+-      }
+-    },
++        initial : function(vTheme) {
++          return vTheme.initialFrom("atom");
++        },
+ 
+-    "toolbar-part-handle-line" :
+-    {
+-      style : function(states)
+-      {
+-        return {
+-          top    : 2,
+-          left   : 3,
+-          bottom : 2,
+-          width  : 4,
+-          border : qx.renderer.border.BorderPresets.getInstance().thinOutset
+-        };
+-      }
+-    },
++        state : function(vTheme, vStates)
++        {
++          var vReturn =
++          {
++            backgroundColor : vStates.abandoned ? this.bgcolor_left : vStates.over ? this.bgcolor_over : this.bgcolor_default,
++            border          : vStates.pressed || vStates.checked || vStates.abandoned ? this.border_pressed : this.border_default
++          };
+ 
+-    "toolbar-separator" :
+-    {
+-      style : function(states) {
+-        return { width : 8 };
+-      }
+-    },
++          if (vStates.pressed || vStates.abandoned)
++          {
++            vReturn.paddingTop = 4;
++            vReturn.paddingRight = 3;
++            vReturn.paddingBottom = 2;
++            vReturn.paddingLeft = 5;
++          }
++          else
++          {
++            vReturn.paddingTop = vReturn.paddingBottom = 3;
++            vReturn.paddingRight = vReturn.paddingLeft = 4;
++          }
+ 
+-    "toolbar-separator-line" :
+-    {
+-      style : function(states)
+-      {
+-        var result = {
+-          top    : 2,
+-          left   : 3,
+-          width  : 2,
+-          bottom : 2
+-        };
++          return vReturn;
++        }
++      },
+ 
+-        var b = result.border = new qx.renderer.border.BorderObject;
+ 
+-        b.setLeftColor("threedshadow");
+-        b.setRightColor("threedhighlight");
+ 
+-        b.setLeftStyle("solid");
+-        b.setRightStyle("solid");
+ 
+-        b.setLeftWidth(1);
+-        b.setRightWidth(1);
+-        b.setTopWidth(0);
+-        b.setBottomWidth(0);
++      /*
++      ---------------------------------------------------------------------------
++        TOOLBAR
++      ---------------------------------------------------------------------------
++      */
+ 
+-        return result;
+-      }
+-    },
+-
+-    "toolbar-button" :
+-    {
+-      style : function(states)
++      "toolbar" :
+       {
+-        var result =
+-        {
+-          cursor                : "default",
+-          spacing               : 4,
+-          width                 : "auto",
+-          verticalChildrenAlign : "middle",
+-          backgroundColor       : states.abandoned ? "#FFF0C9" : "buttonface",
+-          backgroundImage       : states.checked && !states.over ? "static/image/dotted_white.gif" : null
+-        };
++        setup : function() {
++          this.bgcolor = new qx.renderer.color.ColorObject("threedface");
++        },
+ 
+-        if (states.pressed || states.checked || states.abandoned)
++        initial : function(vTheme)
+         {
+-          result.border = qx.renderer.border.BorderPresets.getInstance().thinInset;
++          return {
++            border          : qx.renderer.border.BorderPresets.getInstance().thinOutset,
++            backgroundColor : this.bgcolor,
++            height          : "auto"
++          };
++        }
++      },
+ 
+-          result.paddingTop = 3;
+-          result.paddingRight = 2;
+-          result.paddingBottom = 1;
+-          result.paddingLeft = 4;
++      "toolbar-part" :
++      {
++        initial : function(vTheme) {
++          return { width : "auto" };
+         }
+-        else if (states.over)
+-        {
+-          result.border = qx.renderer.border.BorderPresets.getInstance().thinOutset;
++      },
+ 
+-          result.paddingTop = result.paddingBottom = 2;
+-          result.paddingLeft = result.paddingRight = 3;
++      "toolbar-part-handle" :
++      {
++        initial : function(vTheme) {
++          return { width : 10 };
+         }
+-        else
++      },
++
++      "toolbar-part-handle-line" :
++      {
++        initial : function(vTheme)
+         {
+-          result.border = qx.renderer.border.BorderPresets.getInstance().none;
++          return {
++            top    : 2,
++            left   : 3,
++            bottom : 2,
++            width  : 4,
++            border : qx.renderer.border.BorderPresets.getInstance().thinOutset
++          };
++        }
++      },
+ 
+-          result.paddingTop = result.paddingBottom = 3;
+-          result.paddingLeft = result.paddingRight = 4;
++      "toolbar-separator" :
++      {
++        initial : function(vTheme) {
++          return { width : 8 };
+         }
++      },
+ 
+-        return result;
+-      }
+-    },
++      "toolbar-separator-line" :
++      {
++        setup : function()
++        {
++          var b = this.border = new qx.renderer.border.BorderObject;
+ 
++          b.setLeftColor("threedshadow");
++          b.setRightColor("threedhighlight");
+ 
++          b.setLeftStyle("solid");
++          b.setRightStyle("solid");
+ 
++          b.setLeftWidth(1);
++          b.setRightWidth(1);
++          b.setTopWidth(0);
++          b.setBottomWidth(0);
++        },
+ 
+-    /*
+-    ---------------------------------------------------------------------------
+-      BUTTON VIEW
+-    ---------------------------------------------------------------------------
+-    */
+-
+-    "button-view" :
+-    {
+-      style : function(states)
+-      {
+-        return {
+-          backgroundColor : "#FAFBFE",
+-          border          : qx.renderer.border.BorderPresets.getInstance().shadow
+-        };
+-      }
+-    },
+-
+-    "button-view-pane" :
+-    {
+-      style : function(states)
+-      {
+-        if (states.barHorizontal)
++        initial : function(vTheme)
+         {
+           return {
+-            width  : null,
+-            height : "1*"
++            top    : 2,
++            left   : 3,
++            width  : 2,
++            bottom : 2,
++            border : this.border
+           };
+         }
+-        else
++      },
++
++      "toolbar-button" :
++      {
++        setup : function()
+         {
++          this.bgcolor_default = new qx.renderer.color.ColorObject("buttonface");
++          this.bgcolor_left = new qx.renderer.color.Color("#FFF0C9");
++
++          this.border_pressed = qx.renderer.border.BorderPresets.getInstance().thinInset;
++          this.border_over = qx.renderer.border.BorderPresets.getInstance().thinOutset;
++          this.border_default = qx.renderer.border.BorderPresets.getInstance().none;
++
++          this.checked_background = "static/image/dotted_white.gif";
++        },
++
++        initial : function(vTheme)
++        {
+           return {
+-            width  : "1*",
+-            height : null
++            cursor                : "default",
++            spacing               : 4,
++            width                 : "auto",
++            verticalChildrenAlign : "middle"
+           };
+-        }
+-      }
+-    },
++        },
+ 
+-    "button-view-page" :
+-    {
+-      style : function(states)
+-      {
+-        return {
+-          left   : 0,
+-          right  : 0,
+-          top    : 0,
+-          bottom : 0
+-        };
+-      }
+-    },
+-
+-    "button-view-bar" :
+-    {
+-      style : function(states)
+-      {
+-        if (states.barTop)
++        state : function(vTheme, vStates)
+         {
+-          var result =
++          var vReturn =
+           {
+-            backgroundColor : "#E1EEFF",
+-            paddingTop    : 1,
+-            paddingRight  : 0,
+-            paddingBottom : 1,
+-            paddingLeft   : 0,
+-            border        : new qx.renderer.border.BorderObject,
+-            height        : "auto",
+-            width         : null,
+-            orientation   : "horizontal"
++            backgroundColor : vStates.abandoned ? this.bgcolor_left : this.bgcolor_default,
++            backgroundImage : vStates.checked && !vStates.over ? this.checked_background : null
+           };
+ 
+-          result.border.setBottom(1, "solid", "threedshadow");
++          if (vStates.pressed || vStates.checked || vStates.abandoned)
++          {
++            vReturn.border = this.border_pressed;
+ 
+-          return result;
+-        }
+-        else if (states.barBottom)
+-        {
+-          var result =
++            vReturn.paddingTop = 3;
++            vReturn.paddingRight = 2;
++            vReturn.paddingBottom = 1;
++            vReturn.paddingLeft = 4;
++          }
++          else if (vStates.over)
+           {
+-            backgroundColor : "#E1EEFF",
+-            paddingTop    : 1,
+-            paddingRight  : 0,
+-            paddingBottom : 1,
+-            paddingLeft   : 0,
+-            border        : new qx.renderer.border.BorderObject,
+-            height        : "auto",
+-            width         : null,
+-            orientation   : "horizontal"
+-          };
++            vReturn.border = this.border_over;
+ 
+-          result.border.setTop(1, "solid", "threedshadow");
++            vReturn.paddingTop = vReturn.paddingBottom = 2;
++            vReturn.paddingLeft = vReturn.paddingRight = 3;
++          }
++          else
++          {
++            vReturn.border = this.border_default;
+ 
+-          return result;
++            vReturn.paddingTop = vReturn.paddingBottom = 3;
++            vReturn.paddingLeft = vReturn.paddingRight = 4;
++          }
++
++          return vReturn;
+         }
+-        else if (states.barLeft)
++      },
++
++
++
++
++      /*
++      ---------------------------------------------------------------------------
++        BAR VIEW
++      ---------------------------------------------------------------------------
++      */
++
++      "bar-view" :
++      {
++        setup : function() {
++          this.background = new qx.renderer.color.ColorObject("#FAFBFE");
++        },
++
++        initial : function(vTheme)
+         {
+-          var result =
+-          {
+-            backgroundColor : "#E1EEFF",
+-            paddingTop    : 0,
+-            paddingRight  : 1,
+-            paddingBottom : 0,
+-            paddingLeft   : 1,
+-            border        : new qx.renderer.border.BorderObject,
+-            height        : null,
+-            width         : "auto",
+-            orientation   : "vertical"
++          return {
++            backgroundColor : this.background,
++            border          : qx.renderer.border.BorderPresets.getInstance().shadow
+           };
++        }
++      },
+ 
+-          result.border.setRight(1, "solid", "threedshadow");
++      "bar-view-pane" :
++      {
++        state : function(vTheme, vStates)
++        {
++          if (vStates.barHorizontal)
++          {
++            return {
++              width  : null,
++              height : "1*"
++            };
++          }
++          else
++          {
++            return {
++              width  : "1*",
++              height : null
++            };
++          }
++        }
++      },
+ 
+-          return result;
+-        }
+-        else if (states.barRight)
++      "bar-view-page" :
++      {
++        initial : function(vTheme)
+         {
+-          var result =
+-          {
+-            backgroundColor : "#E1EEFF",
+-            paddingTop    : 0,
+-            paddingRight  : 1,
+-            paddingBottom : 0,
+-            paddingLeft   : 1,
+-            border        : new qx.renderer.border.BorderObject,
+-            height        : null,
+-            width         : "auto",
+-            orientation   : "vertical"
++          return {
++            left   : 10,
++            right  : 10,
++            top    : 10,
++            bottom : 10
+           };
+-
+-          result.border.setLeft(1, "solid", "threedshadow");
+-
+-          return result;
+         }
+-      }
+-    },
++      },
+ 
+-    "button-view-button" :
+-    {
+-      extend : "atom",
+-
+-      style : function(states)
++      "bar-view-bar" :
+       {
+-        var result =
++        setup : function()
+         {
+-          backgroundColor : states.checked ? "#FAFBFE" : null,
+-          allowStretchX   : true,
+-          allowStretchY   : true,
+-          iconPosition : "top"
+-        };
++          this.background_color = new qx.renderer.color.ColorObject("#E1EEFF");
+ 
+-        if (states.checked || states.over)
++          this.border_color = new qx.renderer.color.ColorObject("threedshadow");
++
++          this.border_top = new qx.renderer.border.BorderObject;
++          this.border_top.setBottom(1, "solid", this.border_color);
++
++          this.border_bottom = new qx.renderer.border.BorderObject;
++          this.border_bottom.setTop(1, "solid", this.border_color);
++
++          this.border_left = new qx.renderer.border.BorderObject;
++          this.border_left.setRight(1, "solid", this.border_color);
++
++          this.border_right = new qx.renderer.border.BorderObject;
++          this.border_right.setLeft(1, "solid", this.border_color);
++        },
++
++        initial : function(vTheme) {
++          return { backgroundColor : this.background_color };
++        },
++
++        state : function(vTheme, vStates)
+         {
+-          if (states.barTop)
++          if (vStates.barTop)
+           {
+-            result.border = new qx.renderer.border.Border(1, "solid", "threedshadow");
+-            result.border.setBottom(3, "solid", "#FEC83C");
+-            result.paddingTop = 3;
+-            result.paddingRight = 6;
+-            result.paddingBottom = 1;
+-            result.paddingLeft = 6;
++            return {
++              paddingTop    : 1,
++              paddingRight  : 0,
++              paddingBottom : 1,
++              paddingLeft   : 0,
++              border        : this.border_top,
++              height        : "auto",
++              width         : null,
++              orientation   : "horizontal"
++            };
+           }
+-          else if (states.barBottom)
++          else if (vStates.barBottom)
+           {
+-            result.border = new qx.renderer.border.Border(1, "solid", "threedshadow");
+-            result.border.setTop(3, "solid", "#FEC83C");
+-            result.paddingTop = 1;
+-            result.paddingRight = 6;
+-            result.paddingBottom = 3;
+-            result.paddingLeft = 6;
++            return {
++              paddingTop    : 1,
++              paddingRight  : 0,
++              paddingBottom : 1,
++              paddingLeft   : 0,
++              border        : this.border_bottom,
++              height        : "auto",
++              width         : null,
++              orientation   : "horizontal"
++            };
+           }
+-          else if (states.barLeft)
++          else if (vStates.barLeft)
+           {
+-            result.border = new qx.renderer.border.Border(1, "solid", "threedshadow");
+-            result.border.setRight(3, "solid", "#FEC83C");
+-            result.paddingTop = 3;
+-            result.paddingRight = 4;
+-            result.paddingBottom = 3;
+-            result.paddingLeft = 6;
++            return {
++              paddingTop    : 0,
++              paddingRight  : 1,
++              paddingBottom : 0,
++              paddingLeft   : 1,
++              border        : this.border_left,
++              height        : null,
++              width         : "auto",
++              orientation   : "vertical"
++            };
+           }
+-          else if (states.barRight)
++          else if (vStates.barRight)
+           {
+-            result.border = new qx.renderer.border.Border(1, "solid", "threedshadow");
+-            result.border.setLeft(3, "solid", "#FEC83C");
+-            result.paddingTop = 3;
+-            result.paddingRight = 6;
+-            result.paddingBottom = 3;
+-            result.paddingLeft = 4;
++            return {
++              paddingTop    : 0,
++              paddingRight  : 1,
++              paddingBottom : 0,
++              paddingLeft   : 1,
++              border        : this.border_right,
++              height        : null,
++              width         : "auto",
++              orientation   : "vertical"
++            };
+           }
+         }
+-        else
++      },
++
++      "bar-view-button" :
++      {
++        setup : function()
+         {
+-          result.border = qx.renderer.border.BorderPresets.getInstance().none;
+-          result.paddingTop = result.paddingBottom = 4;
+-          result.paddingRight = result.paddingLeft = 7;
+-        }
++          this.background_color_normal = null;
++          this.background_color_checked = new qx.renderer.color.ColorObject("#FAFBFE");
+ 
+-        if (states.barTop || states.barBottom)
++          this.border_color = new qx.renderer.color.ColorObject("threedshadow");
++          this.border_color_checked = new qx.renderer.color.ColorObject("#FEC83C");
++
++          this.border_top_checked = new qx.renderer.border.Border(1, "solid", this.border_color);
++          this.border_top_checked.setBottom(3, "solid", this.border_color_checked);
++
++          this.border_bottom_checked = new qx.renderer.border.Border(1, "solid", this.border_color);
++          this.border_bottom_checked.setTop(3, "solid", this.border_color_checked);
++
++          this.border_left_checked = new qx.renderer.border.Border(1, "solid", this.border_color);
++          this.border_left_checked.setRight(3, "solid", this.border_color_checked);
++
++          this.border_right_checked = new qx.renderer.border.Border(1, "solid", this.border_color);
++          this.border_right_checked.setLeft(3, "solid", this.border_color_checked);
++        },
++
++        initial : function(vTheme) {
++          return qx.lang.Object.mergeWith(vTheme.initialFrom("atom"), { iconPosition : "top" });
++        },
++
++        state : function(vTheme, vStates)
+         {
+-          result.marginTop = result.marginBottom = 0;
+-          result.marginRight = result.marginLeft = 1;
+-          result.width = "auto";
+-          result.height = null;
++          var vReturn =
++          {
++            backgroundColor : vStates.checked ? this.background_color_checked : this.background_color_normal,
++            allowStretchX   : true,
++            allowStretchY   : true
++          };
++
++          if (vStates.checked || vStates.over)
++          {
++            if (vStates.barTop)
++            {
++              vReturn.border = this.border_top_checked;
++              vReturn.paddingTop = 3;
++              vReturn.paddingRight = 6;
++              vReturn.paddingBottom = 1;
++              vReturn.paddingLeft = 6;
++            }
++            else if (vStates.barBottom)
++            {
++              vReturn.border = this.border_bottom_checked;
++              vReturn.paddingTop = 1;
++              vReturn.paddingRight = 6;
++              vReturn.paddingBottom = 3;
++              vReturn.paddingLeft = 6;
++            }
++            else if (vStates.barLeft)
++            {
++              vReturn.border = this.border_left_checked;
++              vReturn.paddingTop = 3;
++              vReturn.paddingRight = 4;
++              vReturn.paddingBottom = 3;
++              vReturn.paddingLeft = 6;
++            }
++            else if (vStates.barRight)
++            {
++              vReturn.border = this.border_right_checked;
++              vReturn.paddingTop = 3;
++              vReturn.paddingRight = 6;
++              vReturn.paddingBottom = 3;
++              vReturn.paddingLeft = 4;
++            }
++          }
++          else
++          {
++            vReturn.border = qx.renderer.border.BorderPresets.getInstance().none;
++            vReturn.paddingTop = vReturn.paddingBottom = 4;
++            vReturn.paddingRight = vReturn.paddingLeft = 7;
++          }
++
++          if (vStates.barTop || vStates.barBottom)
++          {
++            vReturn.marginTop = vReturn.marginBottom = 0;
++            vReturn.marginRight = vReturn.marginLeft = 1;
++            vReturn.width = "auto";
++            vReturn.height = null;
++          }
++          else if (vStates.barLeft || vStates.barRight)
++          {
++            vReturn.marginTop = vReturn.marginBottom = 1;
++            vReturn.marginRight = vReturn.marginLeft = 0;
++            vReturn.height = "auto";
++            vReturn.width = null;
++          }
++
++          return vReturn;
+         }
+-        else if (states.barLeft || states.barRight)
+-        {
+-          result.marginTop = result.marginBottom = 1;
+-          result.marginRight = result.marginLeft = 0;
+-          result.height = "auto";
+-          result.width = null;
+-        }
++      },
+ 
+-        return result;
+-      }
+-    },
+ 
+ 
+ 
++      /*
++      ---------------------------------------------------------------------------
++        WINDOW
++      ---------------------------------------------------------------------------
++      */
+ 
+-    /*
+-    ---------------------------------------------------------------------------
+-      WINDOW
+-    ---------------------------------------------------------------------------
+-    */
+-
+-    "window" :
+-    {
+-      style : function(states)
++      "window" :
+       {
+-        return {
+-          backgroundColor : "threedface",
+-          color           : "windowtext",
+-          paddingTop      : 1,
+-          paddingRight    : 1,
+-          paddingBottom   : 1,
+-          paddingLeft     : 1,
+-          border : states.maximized ?
+-            qx.renderer.border.BorderPresets.getInstance().none :
+-            qx.renderer.border.BorderPresets.getInstance().outset
+-        };
+-      }
+-    },
++        setup : function()
++        {
++          this.bgcolor = new qx.renderer.color.ColorObject("threedface");
++          this.color = new qx.renderer.color.ColorObject("windowtext");
++        },
+ 
+-    "window-captionbar" :
+-    {
+-      style : function(states)
++        initial : function(vTheme)
++        {
++          return {
++            backgroundColor : this.bgcolor,
++            color           : this.color,
++            paddingTop      : 1,
++            paddingRight    : 1,
++            paddingBottom   : 1,
++            paddingLeft     : 1
++          };
++        },
++
++        state : function(vTheme, vStates) {
++          return { border : vStates.maximized ? qx.renderer.border.BorderPresets.getInstance().none : qx.renderer.border.BorderPresets.getInstance().outset };
++        }
++      },
++
++      "window-captionbar" :
+       {
+-        return {
+-          paddingTop            : 1,
+-          paddingRight          : 2,
+-          paddingBottom         : 2,
+-          paddingLeft           : 2,
+-          verticalChildrenAlign : "middle",
+-          height                : "auto",
+-          overflow              : "hidden",
+-          backgroundColor : states.active ? "activecaption" : "inactivecaption",
+-          color           : states.active ? "captiontext" : "inactivecaptiontext"
+-        };
+-      }
+-    },
++        setup : function()
++        {
++          this.bgcolor_active = new qx.renderer.color.ColorObject("activecaption");
++          this.color_active = new qx.renderer.color.ColorObject("captiontext");
++          this.bgcolor_inactive = new qx.renderer.color.ColorObject("inactivecaption");
++          this.color_inactive = new qx.renderer.color.ColorObject("inactivecaptiontext");
++        },
+ 
+-    "window-resize-frame" :
+-    {
+-      style : function(states) {
+-        return { border : qx.renderer.border.BorderPresets.getInstance().shadow };
+-      }
+-    },
++        initial : function(vTheme)
++        {
++          return {
++            paddingTop            : 1,
++            paddingRight          : 2,
++            paddingBottom         : 2,
++            paddingLeft           : 2,
++            verticalChildrenAlign : "middle",
++            height                : "auto",
++            overflow              : "hidden"
++          };
++        },
+ 
+-    "window-captionbar-icon" :
+-    {
+-      style : function(states) {
+-        return { marginRight : 2 };
+-      }
+-    },
++        state : function(vTheme, vStates)
++        {
++          return {
++            backgroundColor : vStates.active ? this.bgcolor_active : this.bgcolor_inactive,
++            color           : vStates.active ? this.color_active : this.color_inactive
++          };
++        }
++      },
+ 
+-    "window-captionbar-title" :
+-    {
+-      style : function(states)
++      "window-resize-frame" :
+       {
+-        return {
+-          cursor      : "default",
+-          font        : '11px bold "Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif',
+-          marginRight : 2,
+-          wrap        : false
+-        };
+-      }
+-    },
++        initial : function(vTheme) {
++          return { border : qx.renderer.border.BorderPresets.getInstance().shadow };
++        }
++      },
+ 
+-    "window-captionbar-button" :
+-    {
+-      extend : "button",
++      "window-captionbar-icon" :
++      {
++        initial : function(vTheme) {
++          return { marginRight : 2 };
++        }
++      },
+ 
+-      style : function(states)
++      "window-captionbar-title" :
+       {
+-        var result = {};
++        setup : function()
++        {
++          this.font = new qx.renderer.font.Font(11, '"Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif');
++          this.font.setBold(true);
++        },
+ 
+-        if (states.pressed || states.abandoned)
++        initial : function(vTheme)
+         {
+-          result.paddingTop = 2;
+-          result.paddingRight = 1;
+-          result.paddingBottom = 0;
+-          result.paddingLeft = 3;
++          return {
++            cursor      : "default",
++            font        : this.font,
++            marginRight : 2,
++            wrap        : false
++          };
+         }
+-        else
++      },
++
++      "window-captionbar-button" :
++      {
++        initial : function(vTheme) {
++          return vTheme.initialFrom("button");
++        },
++
++        state : function(vTheme, vStates)
+         {
+-          result.paddingTop = result.paddingBottom = 1;
+-          result.paddingRight = result.paddingLeft = 2;
++          var vReturn = vTheme.stateFrom("button", vStates);
++
++          if (vStates.pressed || vStates.abandoned)
++          {
++            vReturn.paddingTop = 2;
++            vReturn.paddingRight = 1;
++            vReturn.paddingBottom = 0;
++            vReturn.paddingLeft = 3;
++          }
++          else
++          {
++            vReturn.paddingTop = vReturn.paddingBottom = 1;
++            vReturn.paddingRight = vReturn.paddingLeft = 2;
++          }
++
++          return vReturn;
+         }
++      },
+ 
+-        return result;
+-      }
+-    },
++      "window-captionbar-minimize-button" :
++      {
++        initial : function(vTheme) {
++          return vTheme.initialFrom("window-captionbar-button");
++        },
+ 
+-    "window-captionbar-minimize-button" :
+-    {
+-      extend : "window-captionbar-button"
+-    },
++        state : function(vTheme, vStates) {
++          return vTheme.stateFrom("window-captionbar-button", vStates);
++        }
++      },
+ 
+-    "window-captionbar-restore-button" :
+-    {
+-      extend : "window-captionbar-button"
+-    },
++      "window-captionbar-restore-button" :
++      {
++        initial : function(vTheme) {
++          return vTheme.initialFrom("window-captionbar-button");
++        },
+ 
+-    "window-captionbar-maximize-button" :
+-    {
+-      extend : "window-captionbar-button"
+-    },
++        state : function(vTheme, vStates) {
++          return vTheme.stateFrom("window-captionbar-button", vStates);
++        }
++      },
+ 
+-    "window-captionbar-close-button" :
+-    {
+-      extend : "window-captionbar-button",
++      "window-captionbar-maximize-button" :
++      {
++        initial : function(vTheme) {
++          return vTheme.initialFrom("window-captionbar-button");
++        },
+ 
+-      style : function(states) {
+-        return { marginLeft : 2 };
+-      }
+-    },
++        state : function(vTheme, vStates) {
++          return vTheme.stateFrom("window-captionbar-button", vStates);
++        }
++      },
+ 
+-    "window-statusbar" :
+-    {
+-      style : function(states)
++      "window-captionbar-close-button" :
+       {
+-        return {
+-          border : qx.renderer.border.BorderPresets.getInstance().thinInset,
+-          height : "auto"
+-        };
+-      }
+-    },
++        initial : function(vTheme) {
++          return qx.lang.Object.mergeWith(vTheme.initialFrom("window-captionbar-button"), { marginLeft : 2 });
++        },
+ 
+-    "window-statusbar-text" :
+-    {
+-      style : function(states)
++        state : function(vTheme, vStates) {
++          return vTheme.stateFrom("window-captionbar-button", vStates);
++        }
++      },
++
++      "window-statusbar" :
+       {
+-        return {
+-          paddingTop    : 1,
+-          paddingRight  : 4,
+-          paddingBottom : 1,
+-          paddingLeft   : 4,
+-          cursor        : "default"
+-        };
+-      }
+-    },
++        initial : function(vTheme)
++        {
++          return {
++            border : qx.renderer.border.BorderPresets.getInstance().thinInset,
++            height : "auto"
++          };
++        }
++      },
+ 
++      "window-statusbar-text" :
++      {
++        initial : function(vTheme)
++        {
++          return {
++            paddingTop    : 1,
++            paddingRight  : 4,
++            paddingBottom : 1,
++            paddingLeft   : 4,
++            cursor        : "default"
++          };
++        }
++      },
+ 
+ 
+ 
+-    /*
+-    ---------------------------------------------------------------------------
+-      RESIZER
+-    ---------------------------------------------------------------------------
+-    */
+ 
+-    "resizer" :
+-    {
+-      style : function(states) {
+-        return { border : qx.renderer.border.BorderPresets.getInstance().outset };
+-      }
+-    },
++      /*
++      ---------------------------------------------------------------------------
++        RESIZER
++      ---------------------------------------------------------------------------
++      */
+ 
+-    "resizer-frame" :
+-    {
+-      style : function(states) {
+-        return { border : qx.renderer.border.BorderPresets.getInstance().shadow };
+-      }
+-    },
++      "resizer" :
++      {
++        initial : function(vTheme) {
++          return { border : qx.renderer.border.BorderPresets.getInstance().outset };
++        }
++      },
+ 
++      "resizer-frame" :
++      {
++        initial : function(vTheme) {
++          return { border : qx.renderer.border.BorderPresets.getInstance().shadow };
++        }
++      },
+ 
+ 
+ 
+-    /*
+-    ---------------------------------------------------------------------------
+-      MENU
+-    ---------------------------------------------------------------------------
+-    */
+ 
+-    "menu" :
+-    {
+-      style : function(states)
++      /*
++      ---------------------------------------------------------------------------
++        MENU
++      ---------------------------------------------------------------------------
++      */
++
++      "menu" :
+       {
+-        return {
+-          width           : "auto",
+-          height          : "auto",
+-          backgroundColor : "menu",
+-          border          : qx.renderer.border.BorderPresets.getInstance().outset,
+-          paddingTop      : 1,
+-          paddingRight    : 1,
+-          paddingBottom   : 1,
+-          paddingLeft     : 1
+-        };
+-      }
+-    },
++        setup : function() {
++          this.bgcolor = new qx.renderer.color.ColorObject("menu");
++        },
+ 
+-    "menu-layout" :
+-    {
+-      style : function(states)
++        initial : function(vTheme)
++        {
++          return {
++            width           : "auto",
++            height          : "auto",
++            backgroundColor : this.bgcolor,
++            border          : qx.renderer.border.BorderPresets.getInstance().outset,
++            paddingTop      : 1,
++            paddingRight    : 1,
++            paddingBottom   : 1,
++            paddingLeft     : 1
++          };
++        }
++      },
++
++      "menu-layout" :
+       {
+-        return {
+-          top    : 0,
+-          right  : 0,
+-          bottom : 0,
+-          left   : 0
+-        };
+-      }
+-    },
++        initial : function(vTheme)
++        {
++          return {
++            top    : 0,
++            right  : 0,
++            bottom : 0,
++            left   : 0
++          };
++        }
++      },
+ 
+-    "menu-button" :
+-    {
+-      style : function(states)
++      "menu-button" :
+       {
+-        return {
+-          minWidth              : "auto",
+-          height                : "auto",
+-          spacing               : 2,
+-          paddingTop            : 2,
+-          paddingRight          : 4,
+-          paddingBottom         : 2,
+-          paddingLeft           : 4,
+-          cursor                : "default",
+-          verticalChildrenAlign : "middle",
+-          allowStretchX         : true,
+-          backgroundColor       : states.over ? "highlight" : null,
+-          color                 : states.over ? "highlighttext" : null
+-        };
+-      }
+-    },
++        setup : function()
++        {
++          this.BGCOLOR_OVER = new qx.renderer.color.ColorObject("highlight");
++          this.BGCOLOR_OUT = null;
+ 
+-    "menu-check-box" :
+-    {
+-      extend : "menu-button"
+-    },
++          this.COLOR_OVER = new qx.renderer.color.ColorObject("highlighttext");
++          this.COLOR_OUT = null;
++        },
+ 
+-    "menu-radio-button" :
+-    {
+-      extend : "menu-button"
+-    },
++        initial : function(vTheme)
++        {
++          return {
++            minWidth              : "auto",
++            height                : "auto",
++            spacing               : 2,
++            paddingTop            : 2,
++            paddingRight          : 4,
++            paddingBottom         : 2,
++            paddingLeft           : 4,
++            cursor                : "default",
++            verticalChildrenAlign : "middle",
++            allowStretchX         : true
++          };
++        },
+ 
+-    "menu-separator" :
+-    {
+-      style : function(states)
+-      {
+-        return {
+-          height       : "auto",
+-          marginTop    : 3,
+-          marginBottom : 2,
+-          paddingLeft  : 3,
+-          paddingRight : 3
+-        };
+-      }
+-    },
++        state : function(vTheme, vStates)
++        {
++          return {
++            backgroundColor : vStates.over ? this.BGCOLOR_OVER : this.BGCOLOR_OUT,
++            color           : vStates.over ? this.COLOR_OVER : this.COLOR_OUT
++          };
++        }
++      },
+ 
+-    "menu-separator-line" :
+-    {
+-      style : function(states)
++      "menu-check-box" :
+       {
+-        return {
+-          right  : 0,
+-          left   : 0,
+-          height : "auto",
+-          border : qx.renderer.border.BorderPresets.getInstance().verticalDivider
+-        };
+-      }
+-    },
++        initial : function(vTheme) {
++          return vTheme.initialFrom("menu-button");
++        },
+ 
++        state : function(vTheme, vStates) {
++          return vTheme.stateFrom("menu-button", vStates);
++        }
++      },
+ 
++      "menu-radio-button" :
++      {
++        initial : function(vTheme) {
++          return vTheme.initialFrom("menu-button");
++        },
+ 
++        state : function(vTheme, vStates) {
++          return vTheme.stateFrom("menu-button", vStates);
++        }
++      },
+ 
+-    /*
+-    ---------------------------------------------------------------------------
+-      LIST
+-    ---------------------------------------------------------------------------
+-    */
+-
+-    "list" :
+-    {
+-      style : function(states)
++      "menu-separator" :
+       {
+-        return {
+-          border          : qx.renderer.border.BorderPresets.getInstance().thinInset,
+-          backgroundColor : "white"
+-        };
+-      }
+-    },
++        initial : function(vTheme)
++        {
++          return {
++            height       : "auto",
++            marginTop    : 3,
++            marginBottom : 2,
++            paddingLeft  : 3,
++            paddingRight : 3
++          };
++        }
++      },
+ 
+-    "list-item" :
+-    {
+-      style : function(states)
++      "menu-separator-line" :
+       {
+-        return {
+-          cursor                  : "default",
+-          height                  : "auto",
+-          horizontalChildrenAlign : "left",
+-          verticalChildrenAlign   : "middle",
+-          spacing                 : 4,
+-          paddingTop              : 3,
+-          paddingRight            : 5,
+-          paddingBottom           : 3,
+-          paddingLeft             : 5,
+-          minWidth                : "auto",
+-          backgroundColor         : states.selected ? "highlight" : null,
+-          color                   : states.selected ? "highlighttext" : null
+-        };
+-      }
+-    },
++        initial : function(vTheme)
++        {
++          return {
++            right  : 0,
++            left   : 0,
++            height : "auto",
++            border : qx.renderer.border.BorderPresets.getInstance().verticalDivider
++          };
++        }
++      },
+ 
+ 
+ 
+ 
+-    /*
+-    ---------------------------------------------------------------------------
+-      FIELDS
+-    ---------------------------------------------------------------------------
+-    */
++      /*
++      ---------------------------------------------------------------------------
++        LIST
++      ---------------------------------------------------------------------------
++      */
+ 
+-    "text-field" :
+-    {
+-      style : function(states)
++      "list" :
+       {
+-        return {
+-          hideFocus     : true,
+-          border        : qx.renderer.border.BorderPresets.getInstance().inset,
+-          paddingTop    : 1,
+-          paddingRight  : 3,
+-          paddingBottom : 1,
+-          paddingLeft   : 3,
+-          allowStretchY : false,
+-          allowStretchX : true,
+-          font          : '11px "Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif',
+-          width         : "auto",
+-          height        : "auto",
+-          color         : states.disabled ? "graytext" : null
+-        };
+-      }
+-    },
++        setup : function() {
++          this.bgcolor = new qx.renderer.color.Color("white");
++        },
+ 
+-    "text-area" :
+-    {
+-      extend : "text-field",
++        initial : function(vTheme)
++        {
++          return {
++            overflow        : "hidden",
++            border          : qx.renderer.border.BorderPresets.getInstance().thinInset,
++            backgroundColor : this.bgcolor
++          };
++        }
++      },
+ 
+-      style : function(states)
++      "list-item" :
+       {
+-        return {
+-          overflow     : "auto",
++        setup : function()
++        {
++          this.bgcolor_selected = new qx.renderer.color.ColorObject("highlight");
++          this.color_selected = new qx.renderer.color.ColorObject("highlighttext");
++        },
+ 
+-          // gecko automatically defines a marginTop/marginBottom of 1px. We need to reset these values.
+-          marginTop    : 0,
+-          marginBottom : 0
+-        };
+-      }
+-    },
++        initial : function(vTheme)
++        {
++          return {
++            cursor                  : "default",
++            height                  : "auto",
++            horizontalChildrenAlign : "left",
++            verticalChildrenAlign   : "middle",
++            spacing                 : 4,
++            paddingTop              : 3,
++            paddingRight            : 5,
++            paddingBottom           : 3,
++            paddingLeft             : 5,
++            minWidth                : "auto"
++          };
++        },
+ 
++        state : function(vTheme, vStates)
++        {
++          return {
++            backgroundColor : vStates.selected ? this.bgcolor_selected : null,
++            color           : vStates.selected ? this.color_selected : null
++          };
++        }
++      },
+ 
+ 
+ 
+-    /*
+-    ---------------------------------------------------------------------------
+-      COMBOBOX
+-    ---------------------------------------------------------------------------
+-    */
+ 
+-    "combo-box" :
+-    {
+-      style : function(states)
++      /*
++      ---------------------------------------------------------------------------
++        FIELDS
++      ---------------------------------------------------------------------------
++      */
++
++      "text-field" :
+       {
+-        return {
+-          minWidth        : 40,
+-          width           : 120,
+-          height          : "auto",
+-          border          : qx.renderer.border.BorderPresets.getInstance().inset,
+-          backgroundColor : "white",
+-          allowStretchY   : false
+-        };
+-      }
+-    },
++        setup : function() {
++          this.font = new qx.renderer.font.Font(11, '"Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif');
++        },
+ 
+-    "combo-box-ex" :
+-    {
+-      style : function(states)
++        initial : function(vTheme)
++        {
++          return {
++            hideFocus     : true,
++            border        : qx.renderer.border.BorderPresets.getInstance().inset,
++            paddingTop    : 1,
++            paddingRight  : 3,
++            paddingBottom : 1,
++            paddingLeft   : 3,
++            allowStretchY : false,
++            allowStretchX : true,
++            font          : this.font,
++            width         : "auto",
++            height        : "auto"
++          };
++        },
++
++        state : function(vTheme, vStates) {
++          return vTheme.stateFrom("label", vStates);
++        }
++      },
++
++      "text-area" :
+       {
+-        return {
+-          width           : "auto",
+-          height          : "auto",
+-          border          : qx.renderer.border.BorderPresets.getInstance().inset,
+-          backgroundColor : "white",
+-          allowStretchY   : false
+-        };
+-      }
+-    },
++        initial : function(vTheme)
++        {
++          return qx.lang.Object.mergeWith(vTheme.initialFrom("text-field"),
++          {
++            overflow     : "auto",
+ 
+-    "combo-box-list" :
+-    {
+-      extend : "list",
++            // gecko automatically defines a marginTop/marginBottom of 1px. We need to reset these values.
++            marginTop    : 0,
++            marginBottom : 0
++          });
++        },
+ 
+-      style : function(states)
++        state : function(vTheme, vStates) {
++          return vTheme.stateFrom("text-field", vStates);
++        }
++      },
++
++
++
++
++      /*
++      ---------------------------------------------------------------------------
++        COMBOBOX
++      ---------------------------------------------------------------------------
++      */
++
++      "combo-box" :
+       {
+-        return {
+-          top      : 0,
+-          right    : 0,
+-          bottom   : 0,
+-          left     : 0,
+-          border   : null,
+-          overflow : "scrollY"
+-        };
+-      }
+-    },
++        setup : function() {
++          this.bgcolor = new qx.renderer.color.Color("white");
++        },
+ 
+-    "combo-box-ex-list" :
+-    {
+-      extend : "list",
++        initial : function(vTheme)
++        {
++          return {
++            minWidth        : 40,
++            width           : 120,
++            height          : "auto",
++            border          : qx.renderer.border.BorderPresets.getInstance().inset,
++            backgroundColor : this.bgcolor,
++            allowStretchY   : false
++          };
++        }
++      },
+ 
+-      style : function(states)
++      "combo-box-ex" :
+       {
+-        return {
+-          statusBarVisible              : false,
+-          columnVisibilityButtonVisible : false,
+-          height                        : 'auto',
+-          maxHeight                     : 150,
+-          top                           : 0,
+-          left                          : 0,
+-          border                        : null
+-        };
+-      }
+-    },
++        setup : function() {
++          this.bgcolor = new qx.renderer.color.Color("white");
++        },
+ 
+-    "combo-box-popup" :
+-    {
+-      extend : "list",
++        initial : function(vTheme)
++        {
++          return {
++            width           : "auto",
++            height          : "auto",
++            border          : qx.renderer.border.BorderPresets.getInstance().inset,
++            backgroundColor : this.bgcolor,
++            allowStretchY   : false
++          };
++        }
++      },
+ 
+-      style : function(states)
++      "combo-box-list" :
+       {
+-        return {
+-          height    : "auto",
+-          maxHeight : 150,
+-          border    : qx.renderer.border.BorderPresets.getInstance().shadow
+-        };
+-      }
+-    },
++        initial : function(vTheme)
++        {
++          return qx.lang.Object.mergeWith(vTheme.initialFrom("list"),
++          {
++            top      : 0,
++            right    : 0,
++            bottom   : 0,
++            left     : 0,
++            border   : null,
++            overflow : "scrollY"
++          });
++        }
++      },
+ 
+-    "combo-box-ex-popup" :
+-    {
+-      extend : "list",
++      "combo-box-ex-list" :
++      {
++        initial : function(vTheme)
++        {
++          return qx.lang.Object.mergeWith(vTheme.initialFrom("list"),
++          {
++            statusBarVisible              : false,
++            columnVisibilityButtonVisible : false,
++            height                        : 'auto',
++            maxHeight                     : 150,
++            top                           : 0,
++            left                          : 0,
++            border                        : null
++          });
++        }
++      },
+ 
+-      style : function(states)
++      "combo-box-popup" :
+       {
+-        return {
+-          width  : "auto",
+-          height : "auto",
+-          border : qx.renderer.border.BorderPresets.getInstance().shadow
+-        };
+-      }
+-    },
++        initial : function(vTheme)
++        {
++          return qx.lang.Object.mergeWith(vTheme.initialFrom("list"),
++          {
++            height    : "auto",
++            maxHeight : 150,
++            border    : qx.renderer.border.BorderPresets.getInstance().shadow
++          });
++        }
++      },
+ 
+-    "combo-box-text-field" :
+-    {
+-      extend : "text-field",
++      "combo-box-ex-popup" :
++      {
++        initial : function(vTheme)
++        {
++          return qx.lang.Object.mergeWith(vTheme.initialFrom("list"),
++          {
++            width  : "auto",
++            height : "auto",
++            border : qx.renderer.border.BorderPresets.getInstance().shadow
++          });
++        }
++      },
+ 
+-      style : function(states)
++      "combo-box-text-field" :
+       {
+-        return {
+-          border          : qx.renderer.border.BorderPresets.getInstance().none,
+-          width           : "1*",
+-          backgroundColor : "transparent"
+-        };
+-      }
+-    },
++        setup : function() {
++          this.bgcolor = new qx.renderer.color.Color("transparent");
++        },
+ 
+-    "combo-box-ex-text-field" :
+-    {
+-      extend : "text-field",
++        initial : function(vTheme)
++        {
++          return qx.lang.Object.mergeWith(vTheme.initialFrom("text-field"),
++          {
++            border          : qx.renderer.border.BorderPresets.getInstance().none,
++            width           : "1*",
++            backgroundColor : this.bgcolor
++          });
++        }
++      },
+ 
+-      style : function(states)
++      "combo-box-ex-text-field" :
+       {
+-        return {
+-          border          : qx.renderer.border.BorderPresets.getInstance().none,
+-          minWidth        : 30,
+-          width           : 100,
+-          backgroundColor : "transparent"
+-        };
+-      }
+-    },
++        setup : function() {
++          this.bgcolor = new qx.renderer.color.Color("transparent");
++        },
+ 
+-    // Used both for ComboBox and ComboBoxEx
+-    "combo-box-button" :
+-    {
+-      extend : "button",
++        initial : function(vTheme)
++        {
++          return qx.lang.Object.mergeWith(vTheme.initialFrom("text-field"),
++          {
++            border          : qx.renderer.border.BorderPresets.getInstance().none,
++            minWidth        : 30,
++            width           : 100,
++            backgroundColor : this.bgcolor
++          });
++        }
++      },
+ 
+-      style : function(states)
++      // Used both for ComboBox and ComboBoxEx
++      "combo-box-button" :
+       {
+-        return {
+-          height        : null,
+-          allowStretchY : true,
+-          paddingTop    : 0,
+-          paddingRight  : 3,
+-          paddingBottom : 0,
+-          paddingLeft   : 2
+-        };
+-      }
+-    },
++        initial : function(vTheme)
++        {
++          return qx.lang.Object.mergeWith(vTheme.initialFrom("button"),
++          {
++            height        : null,
++            allowStretchY : true
++          });
++        },
+ 
++        state : function(vTheme, vStates)
++        {
++          return qx.lang.Object.mergeWith(vTheme.stateFrom("button", vStates),
++          {
++            paddingTop    : 0,
++            paddingRight  : 3,
++            paddingBottom : 0,
++            paddingLeft   : 2
++          });
++        }
++      },
+ 
+ 
+ 
+-    /*
+-    ---------------------------------------------------------------------------
+-      TREEVIRTUAL
+-    ---------------------------------------------------------------------------
+-    */
+ 
+-    "treevirtual-focus-indicator" :
+-    {
+-    },
++      /*
++      ---------------------------------------------------------------------------
++        TREEVIRTUAL
++      ---------------------------------------------------------------------------
++      */
+ 
++      "treevirtual-focus-indicator" : {},
+ 
+ 
+ 
+-    /*
+-    ---------------------------------------------------------------------------
+-      TREE
+-    ---------------------------------------------------------------------------
+-    */
+ 
+-    "tree-element" :
+-    {
+-      style : function(states)
++      /*
++      ---------------------------------------------------------------------------
++        TREE
++      ---------------------------------------------------------------------------
++      */
++
++      "tree-element" :
+       {
+-        return {
+-          height                : 16,
+-          verticalChildrenAlign : "middle"
+-        };
+-      }
+-    },
++        initial : function(vTheme)
++        {
++          return {
++            height                : 16,
++            verticalChildrenAlign : "middle"
++          };
++        }
++      },
+ 
+-    "tree-element-icon" :
+-    {
+-      style : function(states)
++      "tree-element-icon" :
+       {
+-        return {
+-          width  : 16,
+-          height : 16
+-        };
+-      }
+-    },
++        initial : function(vTheme)
++        {
++          return {
++            width  : 16,
++            height : 16
++          };
++        }
++      },
+ 
+-    "tree-element-label" :
+-    {
+-      extend : "label",
++      "tree-element-label" :
++      {
++        setup : function()
++        {
++          this.bgcolor_selected = new qx.renderer.color.ColorObject("highlight");
++          this.color_selected = new qx.renderer.color.ColorObject("highlighttext");
++        },
+ 
+-      style : function(states)
++        initial : function(vTheme)
++        {
++          return qx.lang.Object.mergeWith(vTheme.initialFrom("label"),
++          {
++            cursor        : "default",
++            marginLeft    : 3,
++            height        : 15,
++            paddingTop    : 2,
++            paddingRight  : 2,
++            paddingBottom : 2,
++            paddingLeft   : 2,
++            allowStretchY : false
++          });
++        },
++
++        state : function(vTheme, vStates)
++        {
++          return qx.lang.Object.mergeWith(vTheme.stateFrom("label", vStates),
++          {
++            backgroundColor : vStates.selected ? this.bgcolor_selected : null,
++            color           : vStates.selected ? this.color_selected : null
++          });
++        }
++      },
++
++      "tree-folder" :
+       {
+-        return {
+-          cursor        : "default",
+-          marginLeft    : 3,
+-          height        : 15,
+-          paddingTop    : 2,
+-          paddingRight  : 2,
+-          paddingBottom : 2,
+-          paddingLeft   : 2,
+-          allowStretchY : false,
+-          backgroundColor : states.selected ? "highlight" : null,
+-          color           : states.selected ? "highlighttext" : null
+-        };
+-      }
+-    },
++        initial : function(vTheme) {
++          return vTheme.initialFrom("tree-element");
++        },
+ 
+-    "tree-folder" :
+-    {
+-      extend : "tree-element"
+-    },
++        state : function(vTheme, vStates) {
++          return vTheme.stateFrom("tree-element", vStates);
++        }
++      },
+ 
+-    "tree-folder-icon" :
+-    {
+-      style : function(states)
++      "tree-folder-icon" :
+       {
+-        return {
+-          width  : 16,
+-          height : 16
+-        };
+-      }
+-    },
++        initial : function(vTheme)
++        {
++          return {
++            width  : 16,
++            height : 16
++          };
++        }
++      },
+ 
+-    "tree-folder-label" :
+-    {
+-      extend : "tree-element-label"
+-    },
++      "tree-folder-label" :
++      {
++        initial : function(vTheme) {
++          return vTheme.initialFrom("tree-element-label");
++        },
+ 
+-    "tree" :
+-    {
+-      extend : "tree-folder"
+-    },
++        state : function(vTheme, vStates) {
++          return vTheme.stateFrom("tree-element-label", vStates);
++        }
++      },
+ 
+-    "tree-icon" :
+-    {
+-      extend : "tree-folder-icon"
+-    },
++      "tree" :
++      {
++        initial : function(vTheme) {
++          return vTheme.initialFrom("tree-folder");
++        },
+ 
+-    "tree-label" :
+-    {
+-      extend : "tree-folder-label"
+-    },
++        state : function(vTheme, vStates) {
++          return vTheme.stateFrom("tree-folder", vStates);
++        }
++      },
+ 
+-    "tree-container" :
+-    {
+-      style : function(states) {
+-        return { verticalChildrenAlign : "top" };
+-      }
+-    },
++      "tree-icon" :
++      {
++        initial : function(vTheme) {
++          return vTheme.initialFrom("tree-folder-icon");
++        },
+ 
+-    "tree-folder-container" :
+-    {
+-      style : function(states)
++        state : function(vTheme, vStates) {
++          return vTheme.stateFrom("tree-folder-icon", vStates);
++        }
++      },
++
++      "tree-label" :
+       {
+-        return {
+-          height                : "auto",
+-          verticalChildrenAlign : "top"
+-        };
+-      }
+-    },
++        initial : function(vTheme) {
++          return vTheme.initialFrom("tree-folder-label");
++        },
+ 
++        state : function(vTheme, vStates) {
++          return vTheme.stateFrom("tree-folder-label", vStates);
++        }
++      },
+ 
++      "tree-container" :
++      {
++        initial : function(vTheme) {
++          return { verticalChildrenAlign : "top" };
++        }
++      },
+ 
++      "tree-folder-container" :
++      {
++        initial : function(vTheme)
++        {
++          return {
++            height                : "auto",
++            verticalChildrenAlign : "top"
++          };
++        }
++      },
+ 
+-    /*
+-    ---------------------------------------------------------------------------
+-      LISTVIEW
+-    ---------------------------------------------------------------------------
+-    */
+ 
+-    "list-view" :
+-    {
+-      style : function(states)
++
++
++      /*
++      ---------------------------------------------------------------------------
++        LISTVIEW
++      ---------------------------------------------------------------------------
++      */
++
++      "list-view" :
+       {
+-        return {
+-          cursor   : "default",
+-          overflow : "hidden"
+-        };
+-      }
+-    },
++        initial : function(vTheme)
++        {
++          return {
++            cursor   : "default",
++            overflow : "hidden"
++          };
++        }
++      },
+ 
+-    "list-view-pane" :
+-    {
+-      style : function(states)
++      "list-view-pane" :
+       {
+-        return {
+-          width             : "1*",
+-          horizontalSpacing : 1,
+-          overflow          : "hidden"
+-        };
+-      }
+-    },
++        initial : function(vTheme)
++        {
++          return {
++            width             : "1*",
++            horizontalSpacing : 1,
++            overflow          : "hidden"
++          };
++        }
++      },
+ 
+-    "list-view-header" :
+-    {
+-      style : function(states)
++      "list-view-header" :
+       {
+-        var result =
++        setup : function()
+         {
+-          height          : "auto",
+-          overflow        : "hidden",
+-          border          : new qx.renderer.border.Border,
+-          backgroundColor : "#f2f2f2"
+-        };
++          this.border = new qx.renderer.border.Border;
++          this.border.setBottom(1, "solid", "#e2e2e2");
+ 
+-        result.border.setBottom(1, "solid", "#e2e2e2");
++          this.bgcolor = new qx.renderer.color.Color("#f2f2f2");
++        },
+ 
+-        return result;
+-      }
+-    },
++        initial : function(vTheme)
++        {
++          return {
++            height          : "auto",
++            overflow        : "hidden",
++            border          : this.border,
++            backgroundColor : this.bgcolor
++          };
++        }
++      },
+ 
+-    "list-view-header-cell" :
+-    {
+-      style : function(states)
++      "list-view-header-cell" :
+       {
+-        var border_hover = new qx.renderer.border.Border;
+-        border_hover.setBottom(2, "solid", "#F9B119");
++        setup : function()
++        {
++          this.border_hover = new qx.renderer.border.Border;
++          this.border_hover.setBottom(2, "solid", "#F9B119");
+ 
+-        return {
+-          overflow      : "hidden",
+-          paddingTop    : 2,
+-          paddingRight  : 6,
+-          paddingBottom : 2,
+-          paddingLeft   : 6,
+-          spacing       : 4,
+-          backgroundColor : states.over ? "white" : null,
+-          paddingBottom   : states.over ? 0 : 2,
+-          border          : states.over ? border_hover : null
+-        };
+-      }
+-    },
++          this.bgcolor_hover = new qx.renderer.color.Color("white");
++        },
+ 
+-    "list-view-header-separator" :
+-    {
+-      style : function(states)
++        initial : function(vTheme)
++        {
++          return {
++            overflow      : "hidden",
++            paddingTop    : 2,
++            paddingRight  : 6,
++            paddingBottom : 2,
++            paddingLeft   : 6,
++            spacing       : 4
++          };
++        },
++
++        state : function(vTheme, vStates)
++        {
++          if (vStates.over)
++          {
++            return {
++              backgroundColor : this.bgcolor_hover,
++              paddingBottom   : 0,
++              border          : this.border_hover
++            };
++          }
++          else
++          {
++            return {
++              backgroundColor : null,
++              paddingBottom   : 2,
++              border          : null
++            };
++          }
++        }
++      },
++
++      "list-view-header-separator" :
+       {
+-        return {
+-          backgroundColor : "#D6D5D9",
+-          width           : 1,
+-          marginTop       : 1,
+-          marginBottom    : 1
+-        };
+-      }
+-    },
++        setup : function() {
++          this.bgcolor = new qx.renderer.color.Color("#D6D5D9");
++        },
+ 
+-    "list-view-content-cell" :
+-    {
+-      style : function(states)
++        initial : function(vTheme)
++        {
++          return {
++            backgroundColor : this.bgcolor,
++            width           : 1,
++            marginTop       : 1,
++            marginBottom    : 1
++          };
++        }
++      },
++
++      "list-view-content-cell" :
+       {
+-        return {
+-          backgroundColor : states.selected ? "highlight" : null,
+-          color           : states.selected ? "highlighttext" : null
+-        };
+-      }
+-    },
++        setup : function()
++        {
++          this.bgcolor_selected = new qx.renderer.color.ColorObject("highlight");
++          this.color_selected = new qx.renderer.color.ColorObject("highlighttext");
++        },
+ 
+-    "list-view-content-cell-image" :
+-    {
+-      extend : "list-view-content-cell",
++        state : function(vTheme, vStates)
++        {
++          return {
++            backgroundColor : vStates.selected ? this.bgcolor_selected : null,
++            color           : vStates.selected ? this.color_selected : null
++          };
++        }
++      },
+ 
+-      style : function(states)
++      "list-view-content-cell-image" :
+       {
+-        return {
+-          paddingLeft  : 6,
+-          paddingRight : 6
+-        };
+-      }
+-    },
++        initial : function(vTheme)
++        {
++          return {
++            paddingLeft  : 6,
++            paddingRight : 6
++          };
++        },
+ 
+-    "list-view-content-cell-text" :
+-    {
+-      extend : "list-view-content-cell",
++        state : function(vTheme, vStates) {
++          return vTheme.stateFrom("list-view-content-cell", vStates);
++        }
++      },
+ 
+-      style : function(states)
++      "list-view-content-cell-text" :
+       {
+-        return {
+-          overflow     : "hidden",
+-          paddingLeft  : 6,
+-          paddingRight : 6,
+-          font         : '11px "Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif'
+-        };
+-      }
+-    },
++        initial : function(vTheme)
++        {
++          return qx.lang.Object.mergeWith(vTheme.initialFrom("htmlcontainer"),
++          {
++            overflow     : "hidden",
++            paddingLeft  : 6,
++            paddingRight : 6
++          });
++        },
+ 
+-    "list-view-content-cell-html" :
+-    {
+-      extend : "list-view-content-cell-text"
+-    },
++        state : function(vTheme, vStates) {
++          return qx.lang.Object.mergeWith(vTheme.stateFrom("htmlcontainer", vStates), vTheme.stateFrom("list-view-content-cell", vStates));
++        }
++      },
+ 
+-    "list-view-content-cell-icon-html" :
+-    {
+-      extend : "list-view-content-cell-text"
+-    },
++      "list-view-content-cell-html" :
++      {
++        initial : function(vTheme) {
++          return vTheme.initialFrom("list-view-content-cell-text");
++        },
+ 
+-    "list-view-content-cell-link" :
+-    {
+-      extend : "list-view-content-cell-text"
+-    },
++        state : function(vTheme, vStates) {
++          return vTheme.stateFrom("list-view-content-cell-text", vStates);
++        }
++      },
+ 
++      "list-view-content-cell-icon-html" :
++      {
++        initial : function(vTheme) {
++          return vTheme.initialFrom("list-view-content-cell-text");
++        },
+ 
++        state : function(vTheme, vStates) {
++          return vTheme.stateFrom("list-view-content-cell-text", vStates);
++        }
++      },
+ 
++      "list-view-content-cell-link" :
++      {
++        initial : function(vTheme) {
++          return vTheme.initialFrom("list-view-content-cell-text");
++        },
+ 
+-    /*
+-    ---------------------------------------------------------------------------
+-      TABVIEW
+-    ---------------------------------------------------------------------------
+-    */
++        state : function(vTheme, vStates) {
++          return vTheme.stateFrom("list-view-content-cell-text", vStates);
++        }
++      },
+ 
+-    "tab-view" :
+-    {
+-      style : function(states) {
+-        return { spacing : -1 };
+-      }
+-    },
+ 
+-    "tab-view-bar" :
+-    {
+-      style : function(states) {
+-        return { height : "auto" };
+-      }
+-    },
+ 
+-    "tab-view-pane" :
+-    {
+-      style : function(states)
++
++      /*
++      ---------------------------------------------------------------------------
++        TABVIEW
++      ---------------------------------------------------------------------------
++      */
++
++      "tab-view" :
+       {
+-        return {
+-          height          : "1*",
+-          backgroundColor : "#FAFBFE",
+-          border          : "1px solid #91A5BD",
+-          paddingTop      : 10,
+-          paddingRight    : 10,
+-          paddingBottom   : 10,
+-          paddingLeft     : 10
+-        };
+-      }
+-    },
++        initial : function(vTheme) {
++          return { spacing : -1 };
++        }
++      },
+ 
+-    "tab-view-page" :
+-    {
+-      style : function(states)
++      "tab-view-bar" :
+       {
+-        return {
+-          top    : 0,
+-          right  : 0,
+-          bottom : 0,
+-          left   : 0
+-        };
+-      }
+-    },
++        initial : function(vTheme) {
++          return { height : "auto" };
++        }
++      },
+ 
+-    "tab-view-button" :
+-    {
+-      extend : "atom",
++      "tab-view-pane" :
++      {
++        setup : function()
++        {
++          this.border = new qx.renderer.border.Border(1, "solid", "#91A5BD");
++          this.bgcolor = new qx.renderer.color.ColorObject("#FAFBFE");
++        },
+ 
+-      style : function(states)
++        initial : function(vTheme)
++        {
++          return {
++            height          : "1*",
++            backgroundColor : this.bgcolor,
++            border          : this.border,
++            paddingTop      : 10,
++            paddingRight    : 10,
++            paddingBottom   : 10,
++            paddingLeft     : 10
++          };
++        }
++      },
++
++      "tab-view-page" :
+       {
+-        var border_top_normal = new qx.renderer.border.Border(1, "solid", "#91A5BD");
+-        border_top_normal.setBottomWidth(0);
++        initial : function(vTheme)
++        {
++          return {
++            top    : 0,
++            right  : 0,
++            bottom : 0,
++            left   : 0
++          };
++        }
++      },
+ 
+-        var border_top_checked = new qx.renderer.border.Border(1, "solid", "#91A5BD");
+-        border_top_checked.setBottomWidth(0);
+-        border_top_checked.setTop(3, "solid", "#FEC83C");
++      "tab-view-button" :
++      {
++        setup : function()
++        {
++          this.bgcolor_normal = new qx.renderer.color.ColorObject("#E1EEFF");
++          this.bgcolor_checked = new qx.renderer.color.ColorObject("#FAFBFE");
+ 
+-        var border_bottom_normal = new qx.renderer.border.Border(1, "solid", "#91A5BD");
+-        border_bottom_normal.setTopWidth(0);
++          this.border_top_normal = new qx.renderer.border.Border(1, "solid", "#91A5BD");
++          this.border_top_normal.setBottomWidth(0);
+ 
+-        var border_bottom_checked = new qx.renderer.border.Border(1, "solid", "#91A5BD");
+-        border_bottom_checked.setTopWidth(0);
+-        border_bottom_checked.setBottom(3, "solid", "#FEC83C");
++          this.border_top_checked = new qx.renderer.border.Border(1, "solid", "#91A5BD");
++          this.border_top_checked.setBottomWidth(0);
++          this.border_top_checked.setTop(3, "solid", "#FEC83C");
+ 
+-        var result;
++          this.border_bottom_normal = new qx.renderer.border.Border(1, "solid", "#91A5BD");
++          this.border_bottom_normal.setTopWidth(0);
+ 
+-        if (states.checked)
++          this.border_bottom_checked = new qx.renderer.border.Border(1, "solid", "#91A5BD");
++          this.border_bottom_checked.setTopWidth(0);
++          this.border_bottom_checked.setBottom(3, "solid", "#FEC83C");
++        },
++
++        initial : function(vTheme) {
++          return vTheme.initialFrom("atom");
++        },
++
++        state : function(vTheme, vStates)
+         {
+-          result =
+-          {
+-            backgroundColor : "#FAFBFE",
+-            zIndex          : 1,
+-            paddingTop      : 2,
+-            paddingBottom   : 4,
+-            paddingLeft     : 7,
+-            paddingRight    : 8,
+-            border          : states.barTop ? border_top_checked : border_bottom_checked,
+-            marginTop       : 0,
+-            marginBottom    : 0,
+-            marginRight     : -1,
+-            marginLeft      : -2
+-          };
++          var vReturn;
+ 
+-          if (states.alignLeft)
++          if (vStates.checked)
+           {
+-            if (states.firstChild)
++            vReturn =
+             {
+-              result.paddingLeft = 6;
+-              result.paddingRight = 7;
+-              result.marginLeft = 0;
++              backgroundColor : this.bgcolor_checked,
++              zIndex          : 1,
++              paddingTop      : 2,
++              paddingBottom   : 4,
++              paddingLeft     : 7,
++              paddingRight    : 8,
++              border          : vStates.barTop ? this.border_top_checked : this.border_bottom_checked,
++              marginTop       : 0,
++              marginBottom    : 0,
++              marginRight     : -1,
++              marginLeft      : -2
++            };
++
++            if (vStates.alignLeft)
++            {
++              if (vStates.firstChild)
++              {
++                vReturn.paddingLeft = 6;
++                vReturn.paddingRight = 7;
++                vReturn.marginLeft = 0;
++              }
+             }
++            else
++            {
++              if (vStates.lastChild)
++              {
++                vReturn.paddingLeft = 8;
++                vReturn.paddingRight = 5;
++                vReturn.marginRight = 0;
++              }
++            }
+           }
+           else
+           {
+-            if (states.lastChild)
++            vReturn =
+             {
+-              result.paddingLeft = 8;
+-              result.paddingRight = 5;
+-              result.marginRight = 0;
++              backgroundColor : vStates.over ? this.bgcolor_checked : this.bgcolor_normal,
++              zIndex          : 0,
++              paddingTop      : 2,
++              paddingBottom   : 2,
++              paddingLeft     : 5,
++              paddingRight    : 6,
++              marginRight     : 1,
++              marginLeft      : 0
++            };
++
++            if (vStates.alignLeft)
++            {
++              if (vStates.firstChild)
++              {
++                vReturn.paddingLeft = 6;
++                vReturn.paddingRight = 5;
++              }
+             }
+-          }
+-        }
+-        else
+-        {
+-          result =
+-          {
+-            backgroundColor : states.over ? "#FAFBFE" : "#E1EEFF",
+-            zIndex          : 0,
+-            paddingTop      : 2,
+-            paddingBottom   : 2,
+-            paddingLeft     : 5,
+-            paddingRight    : 6,
+-            marginRight     : 1,
+-            marginLeft      : 0
+-          };
++            else
++            {
++              if (vStates.lastChild)
++              {
++                vReturn.paddingLeft = 6;
++                vReturn.paddingRight = 5;
++                vReturn.marginRight = 0;
++              }
++            }
+ 
+-          if (states.alignLeft)
+-          {
+-            if (states.firstChild)
++            if (vStates.barTop)
+             {
+-              result.paddingLeft = 6;
+-              result.paddingRight = 5;
++              vReturn.border = this.border_top_normal;
++              vReturn.marginTop = 3;
++              vReturn.marginBottom = 1;
+             }
+-          }
+-          else
+-          {
+-            if (states.lastChild)
++            else
+             {
+-              result.paddingLeft = 6;
+-              result.paddingRight = 5;
+-              result.marginRight = 0;
++              vReturn.border = this.border_bottom_normal;
++              vReturn.marginTop = 1;
++              vReturn.marginBottom = 3;
+             }
+           }
+ 
+-          if (states.barTop)
+-          {
+-            result.border = border_top_normal;
+-            result.marginTop = 3;
+-            result.marginBottom = 1;
+-          }
+-          else
+-          {
+-            result.border = border_bottom_normal;
+-            result.marginTop = 1;
+-            result.marginBottom = 3;
+-          }
++          return vReturn;
+         }
++      },
+ 
+-        return result;
+-      }
+-    },
+ 
+ 
+ 
++      /*
++      ---------------------------------------------------------------------------
++        FIELDSET
++      ---------------------------------------------------------------------------
++      */
+ 
+-    /*
+-    ---------------------------------------------------------------------------
+-      FIELDSET
+-    ---------------------------------------------------------------------------
+-    */
++      "field-set" :
++      {
++        setup : function() {
++          this.bgcolor = new qx.renderer.color.ColorObject("threedface");
++        },
+ 
+-    "field-set" :
+-    {
+-      style : function(states) {
+-        return { backgroundColor : "threedface" };
+-      }
+-    },
++        initial : function(vTheme) {
++          return { backgroundColor : this.bgcolor };
++        }
++      },
+ 
+-    "field-set-legend" :
+-    {
+-      extend : "atom",
++      "field-set-legend" :
++      {
++        setup : function() {
++          this.bgcolor = new qx.renderer.color.ColorObject("threedface");
++        },
+ 
+-      style : function(states)
++        initial : function(vTheme)
++        {
++          return qx.lang.Object.mergeWith(vTheme.initialFrom("atom"),
++          {
++            top             : 1,
++            left            : 10,
++            backgroundColor : this.bgcolor,
++            paddingRight    : 3,
++            paddingLeft     : 4,
++            marginRight     : 10
++          });
++        }
++      },
++
++      "field-set-frame" :
+       {
+-        return {
+-          top             : 1,
+-          left            : 10,
+-          backgroundColor : "threedface",
+-          paddingRight    : 3,
+-          paddingLeft     : 4,
+-          marginRight     : 10
+-        };
+-      }
+-    },
++        initial : function(vTheme)
++        {
++          return {
++            top           : 8,
++            left          : 2,
++            right         : 2,
++            bottom        : 2,
++            paddingTop    : 12,
++            paddingRight  : 9,
++            paddingBottom : 12,
++            paddingLeft   : 9,
++            border        : qx.renderer.border.BorderPresets.getInstance().groove
++          };
++        }
++      },
+ 
+-    "field-set-frame" :
+-    {
+-      style : function(states)
++      "check-box-field-set-legend" :
+       {
+-        return {
+-          top           : 8,
+-          left          : 2,
+-          right         : 2,
+-          bottom        : 2,
+-          paddingTop    : 12,
+-          paddingRight  : 9,
+-          paddingBottom : 12,
+-          paddingLeft   : 9,
+-          border        : qx.renderer.border.BorderPresets.getInstance().groove
+-        };
+-      }
+-    },
++        setup : function() {
++          this.bgcolor = new qx.renderer.color.ColorObject("threedface");
++        },
+ 
+-    "check-box-field-set-legend" :
+-    {
+-      extend : "atom",
++        initial : function(vTheme)
++        {
++          return qx.lang.Object.mergeWith(vTheme.initialFrom("atom"),
++          {
++            top             : 1,
++            left            : 10,
++            backgroundColor : this.bgcolor,
++            paddingRight    : 3
++          });
++        }
++      },
+ 
+-      style : function(states)
++      "radio-button-field-set-legend" :
+       {
+-        return {
+-          top             : 1,
+-          left            : 10,
+-          backgroundColor : "threedface",
+-          paddingRight    : 3
+-        };
+-      }
+-    },
++        initial : function(vTheme) {
++          return vTheme.initialFrom("check-box-field-set-legend");
++        }
++      },
+ 
+-    "radio-button-field-set-legend" :
+-    {
+-      extend : "check-box-field-set-legend"
+-    },
+ 
+ 
+ 
++      /*
++      ---------------------------------------------------------------------------
++        SPINNER
++      ---------------------------------------------------------------------------
++      */
+ 
+-    /*
+-    ---------------------------------------------------------------------------
+-      SPINNER
+-    ---------------------------------------------------------------------------
+-    */
+-
+-    "spinner" :
+-    {
+-      style : function(states)
++      "spinner" :
+       {
+-        return {
+-          width           : 60,
+-          height          : 22,
+-          border          : qx.renderer.border.BorderPresets.getInstance().inset,
+-          backgroundColor : "white"
+-        };
+-      }
+-    },
++        setup : function() {
++          this.bgcolor = new qx.renderer.color.Color("white");
++        },
+ 
+-    "spinner-field" :
+-    {
+-      extend : "text-field",
++        initial : function(vTheme)
++        {
++          return {
++            width           : 60,
++            height          : 22,
++            border          : qx.renderer.border.BorderPresets.getInstance().inset,
++            backgroundColor : this.bgcolor
++          };
++        }
++      },
+ 
+-      style : function(states)
++      "spinner-field" :
+       {
+-        return {
+-          width  : "1*",
+-          border : qx.renderer.border.BorderPresets.getInstance().none
+-        };
+-      }
+-    },
++        initial : function(vTheme)
++        {
++          return qx.lang.Object.mergeWith(vTheme.initialFrom("text-field"),
++          {
++            width  : "1*",
++            border : qx.renderer.border.BorderPresets.getInstance().none
++          });
++        },
+ 
+-    "spinner-button-up" :
+-    {
+-      style : function(states)
++        state : function(vTheme, vStates) {
++          return vTheme.stateFrom("text-field", vStates);
++        }
++      },
++
++      "spinner-button-up" :
+       {
+-        return {
+-          allowStretchX : false,
+-          allowStretchY : false,
+-          height          : "1*",
+-          width           : 16,
+-          backgroundColor : new qx.renderer.color.ColorObject("threedface"),
+-          paddingTop    : 0,
+-          paddingRight  : 0,
+-          paddingBottom : 0,
+-          paddingLeft   : 3,
+-          border : states.pressed || states.checked || states.abandoned ?
+-            qx.renderer.border.BorderPresets.getInstance().inset :
+-            qx.renderer.border.BorderPresets.getInstance().outset
+-        };
+-      }
+-    },
++        initial : function(vTheme)
++        {
++          return qx.lang.Object.mergeWith(vTheme.initialFrom("image"),
++          {
++            height          : "1*",
++            width           : 16,
++            backgroundColor : new qx.renderer.color.ColorObject("threedface")
++          });
++        },
+ 
+-    "spinner-button-down" :
+-    {
+-      style : function(states)
++        state : function(vTheme, vStates)
++        {
++          return qx.lang.Object.mergeWith(vTheme.stateFrom("button", vStates),
++          {
++            paddingTop    : 0,
++            paddingRight  : 0,
++            paddingBottom : 0,
++            paddingLeft   : 3
++          });
++        }
++      },
++
++      "spinner-button-down" :
+       {
+-        return {
+-          allowStretchX : false,
+-          allowStretchY : false,
+-          height          : "1*",
+-          width           : 16,
+-          backgroundColor : new qx.renderer.color.ColorObject("threedface"),
+-          paddingTop    : 1,
+-          paddingRight  : 0,
+-          paddingBottom : 0,
+-          paddingLeft   : 3,
+-          border : states.pressed || states.checked || states.abandoned ?
+-            qx.renderer.border.BorderPresets.getInstance().inset :
+-            qx.renderer.border.BorderPresets.getInstance().outset
+-        };
+-      }
+-    },
++        initial : function(vTheme)
++        {
++          return qx.lang.Object.mergeWith(vTheme.initialFrom("image"),
++          {
++            height          : "1*",
++            width           : 16,
++            backgroundColor : new qx.renderer.color.ColorObject("threedface")
++          });
++        },
+ 
++        state : function(vTheme, vStates)
++        {
++          return qx.lang.Object.mergeWith(vTheme.stateFrom("button", vStates),
++          {
++            paddingTop    : 1,
++            paddingRight  : 0,
++            paddingBottom : 0,
++            paddingLeft   : 3
++          });
++        }
++      },
+ 
+ 
+ 
+-    /*
+-    ---------------------------------------------------------------------------
+-      COLORSELECTOR
+-    ---------------------------------------------------------------------------
+-    */
+ 
+-    "colorselector" :
+-    {
+-      style : function(states)
++      /*
++      ---------------------------------------------------------------------------
++        COLORSELECTOR
++      ---------------------------------------------------------------------------
++      */
++
++      "colorselector" :
+       {
+-        return {
+-          border : qx.renderer.border.BorderPresets.getInstance().outset,
+-          width  : "auto",
+-          height : "auto"
+-        };
+-      }
+-    },
++        setup : function() {
++          this.border = qx.renderer.border.BorderPresets.getInstance().outset;
++        },
+ 
++        initial : function(vTheme)
++        {
++          return {
++            border : this.border,
++            width  : "auto",
++            height : "auto"
++          };
++        },
+ 
++        state : function(vTheme, vStates) {}
++      },
+ 
+ 
+-    /*
+-    ---------------------------------------------------------------------------
+-      DATECHOOSER
+-    ---------------------------------------------------------------------------
+-    */
+ 
+-    "datechooser-toolbar-button" :
+-    {
+-      style : function(states)
++
++      /*
++      ---------------------------------------------------------------------------
++        DATECHOOSER
++      ---------------------------------------------------------------------------
++      */
++
++      "datechooser-toolbar-button" :
+       {
+-        var result =
++        setup : function()
+         {
+-          backgroundColor : states.abandoned ? "#FFF0C9" : "buttonface",
+-          backgroundImage : (states.checked && !states.over) ? "static/image/dotted_white.gif" : null,
+-          cursor                : "default",
+-          spacing               : 4,
+-          width                 : "auto",
+-          verticalChildrenAlign : "middle"
+-        };
++          this.bgcolor_default = new qx.renderer.color.ColorObject("buttonface");
++          this.bgcolor_left = new qx.renderer.color.Color("#FFF0C9");
+ 
+-        if (states.pressed || states.checked || states.abandoned) {
+-          result.border = qx.renderer.border.BorderPresets.getInstance().thinInset;
+-        } else if (states.over) {
+-          result.border = qx.renderer.border.BorderPresets.getInstance().thinOutset;
+-        } else {
+-          result.border = null;
+-        }
++          this.border_pressed = qx.renderer.border.BorderPresets.getInstance().thinInset;
++          this.border_over = qx.renderer.border.BorderPresets.getInstance().thinOutset;
++          this.border_default = null;
+ 
+-        if (states.pressed || states.checked || states.abandoned)
++          this.checked_background = "static/image/dotted_white.gif";
++        },
++
++        initial : function(vTheme)
+         {
+-          result.paddingTop = 2;
+-          result.paddingRight = 0;
+-          result.paddingBottom = 0;
+-          result.paddingLeft = 2;
+-        }
+-        else if (states.over)
++          return {
++            cursor                : "default",
++            spacing               : 4,
++            width                 : "auto",
++            verticalChildrenAlign : "middle"
++          };
++        },
++
++        state : function(vTheme, vStates)
+         {
+-          result.paddingTop = result.paddingBottom = 1;
+-          result.paddingLeft = result.paddingRight = 1;
++          var vReturn =
++          {
++            backgroundColor : vStates.abandoned ? this.bgcolor_left : this.bgcolor_default,
++            backgroundImage : (vStates.checked && !vStates.over) ? this.checked_background : null
++          };
++
++          if (vStates.pressed || vStates.checked || vStates.abandoned) {
++            vReturn.border = this.border_pressed;
++          } else if (vStates.over) {
++            vReturn.border = this.border_over;
++          } else {
++            vReturn.border = this.border_default;
++          }
++
++          if (vStates.pressed || vStates.checked || vStates.abandoned)
++          {
++            vReturn.paddingTop = 2;
++            vReturn.paddingRight = 0;
++            vReturn.paddingBottom = 0;
++            vReturn.paddingLeft = 2;
++          }
++          else if (vStates.over)
++          {
++            vReturn.paddingTop = vReturn.paddingBottom = 1;
++            vReturn.paddingLeft = vReturn.paddingRight = 1;
++          }
++          else
++          {
++            vReturn.paddingTop = vReturn.paddingBottom = 2;
++            vReturn.paddingLeft = vReturn.paddingRight = 2;
++          }
++
++          return vReturn;
+         }
+-        else
++      },
++
++      "datechooser-monthyear" :
++      {
++        setup : function() {
++          this.font = new qx.renderer.font.Font(13, '"Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif');
++        },
++
++        initial : function(vTheme)
+         {
+-          result.paddingTop = result.paddingBottom = 2;
+-          result.paddingLeft = result.paddingRight = 2;
++          return {
++            font          : this.font,
++            textAlign     : "center",
++            verticalAlign : "middle"
++          };
+         }
++      },
+ 
+-        return result;
+-      }
+-    },
+-
+-    "datechooser-monthyear" :
+-    {
+-      style : function(states)
++      "datechooser-datepane" :
+       {
+-        return {
+-          font          : '13px "Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif',
+-          textAlign     : "center",
+-          verticalAlign : "middle"
+-        };
+-      }
+-    },
++        setup : function()
++        {
++          this.border = new qx.renderer.border.Border(1, "solid", "gray");
++          this.bgcolor = new qx.renderer.color.ColorObject("window");
++        },
+ 
+-    "datechooser-datepane" :
+-    {
+-      style : function(states)
+-      {
+-        return {
+-          border          : "1px solid gray",
+-          backgroundColor : "window"
+-        };
+-      }
+-    },
++        initial : function(vTheme)
++        {
++          return {
++            border          : this.border,
++            backgroundColor : this.bgcolor
++          };
++        }
++      },
+ 
+-    "datechooser-weekday" :
+-    {
+-      style : function(states)
++      "datechooser-weekday" :
+       {
+-        var border = new qx.renderer.border.Border;
+-        border.setBottom(1, "solid", "gray");
++        setup : function()
++        {
++          this.border = new qx.renderer.border.Border;
+ 
+-        return {
+-          border          : border,
+-          font            : '11px bold "Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif',
+-          textAlign       : "center",
+-          color           : states.weekend ? "#6285BA" : "window",
+-          backgroundColor : states.weekend ? "window" : "#6285BA"
+-        };
+-      }
+-    },
++          this.border.set(
++          {
++            bottomColor : "gray",
++            bottomStyle : "solid",
++            bottomWidth : 1
++          });
+ 
+-    "datechooser-day" :
+-    {
+-      style : function(states)
++          this.color = new qx.renderer.color.ColorObject("window");
++          this.bgcolor = new qx.renderer.color.ColorObject("#6285BA");
++          this.font = new qx.renderer.font.Font(11, '"Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif');
++          this.font.setBold(true);
++        },
++
++        initial : function(vTheme)
++        {
++          return {
++            border    : this.border,
++            font      : this.font,
++            textAlign : "center"
++          };
++        },
++
++        state : function(vTheme, vStates)
++        {
++          return {
++            color           : vStates.weekend ? this.bgcolor : this.color,
++            backgroundColor : vStates.weekend ? this.color : this.bgcolor
++          };
++        }
++      },
++
++      "datechooser-day" :
+       {
+-        return {
+-          cursor        : "default",
+-          color         : "windowText",
+-          font          : '11px "Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif',
+-          textAlign     : "center",
+-          verticalAlign : "middle",
+-          selectable    : false,
+-          border          : states.today ? qx.renderer.border.BorderPresets.getInstance().black : "1px none",
+-          color           : states.selected ? "highlightText" : states.otherMonth ? "graytext" : "windowText",
+-          backgroundColor : states.selected ? "highlight" : null
+-        };
+-      }
+-    },
++        setup : function()
++        {
++          this.font = new qx.renderer.font.Font(11, '"Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif');
+ 
+-    "datechooser-week" :
+-    {
+-      style : function(states)
++          this.selectedColor = new qx.renderer.color.ColorObject("highlightText");
++          this.selectedBgColor = new qx.renderer.color.ColorObject("highlight");
++          this.color = new qx.renderer.color.ColorObject("windowText");
++          this.otherMonthColor = new qx.renderer.color.ColorObject("grayText");
++
++          this.transparentBorder = new qx.renderer.border.Border(1, "none");
++        },
++
++        initial : function(vTheme)
++        {
++          return {
++            cursor        : "default",
++            border        : this.border,
++            color         : this.color,
++            font          : this.font,
++            textAlign     : "center",
++            verticalAlign : "middle",
++            selectable    : false
++          };
++        },
++
++        state : function(vTheme, vStates)
++        {
++          return {
++            border          : vStates.today ? qx.renderer.border.BorderPresets.getInstance().black : this.transparentBorder,
++            color           : vStates.selected ? this.selectedColor : (vStates.otherMonth ? this.otherMonthColor : this.color),
++            backgroundColor : vStates.selected ? this.selectedBgColor : null
++          };
++        }
++      },
++
++      "datechooser-week" :
+       {
+-        var border = new qx.renderer.border.Border;
+-        border.setRight(1, "solid", "gray");
++        setup : function()
++        {
++          this.border = new qx.renderer.border.Border;
+ 
+-        var headerBorder = new qx.renderer.border.Border;
+-        headerBorder.setRight(1, "solid", "gray");
+-        headerBorder.setBottom(1, "solid", "gray");
++          this.border.set(
++          {
++            rightColor : "gray",
++            rightStyle : "solid",
++            rightWidth : 1
++          });
+ 
+-        return {
+-          font        : '11px "Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif',
+-          color       : "#6285BA",
+-          paddingLeft : 2,
+-          border : states.header ? headerBorder : border
+-        };
+-      }
+-    },
++          this.headerBorder = new qx.renderer.border.Border;
+ 
++          this.headerBorder.set(
++          {
++            rightColor  : "gray",
++            rightStyle  : "solid",
++            rightWidth  : 1,
++            bottomColor : "gray",
++            bottomStyle : "solid",
++            bottomWidth : 1
++          });
+ 
++          this.color = new qx.renderer.color.ColorObject("#6285BA");
++          this.font = new qx.renderer.font.Font(11, '"Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif');
++        },
+ 
++        initial : function(vTheme)
++        {
++          return {
++            border      : this.border,
++            font        : this.font,
++            color       : this.color,
++            paddingLeft : 2
++          };
++        },
+ 
+-    /*
+-    ---------------------------------------------------------------------------
+-      TABLE
+-    ---------------------------------------------------------------------------
+-    */
++        state : function(vTheme, vStates) {
++          return { border : vStates.header ? this.headerBorder : this.border };
++        }
++      },
+ 
+-    "table-focus-statusbar" :
+-    {
+-      style : function(states)
+-      {
+-        var border = new qx.renderer.border.Border;
+-        border.setTop(1, "solid", "threedshadow");
+ 
+-        return {
+-          font         : '11px "Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif',
+-          border       : border,
+-          paddingLeft  : 2,
+-          paddingRight : 2
+-        };
+-      }
+-    },
+ 
+-    "table-focus-indicator" :
+-    {
+-      style : function(states)
++
++      /*
++      ---------------------------------------------------------------------------
++        TABLE
++      ---------------------------------------------------------------------------
++      */
++
++      "table-focus-statusbar" :
+       {
+-        var result = {};
++        setup : function()
++        {
++          this.font = new qx.renderer.font.Font(11, '"Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif');
++          this.border = new qx.renderer.border.Border;
+ 
+-        if (states.editing)
++          this.border.set(
++          {
++            topColor : "threedshadow",
++            topStyle : "solid",
++            topWidth : 1
++          });
++        },
++
++        initial : function(vTheme)
+         {
+-          result.border = new qx.renderer.border.Border(2, "solid", "#b3d9ff");
++          return {
++            font         : this.font,
++            border       : this.border,
++            paddingLeft  : 2,
++            paddingRight : 2
++          };
+         }
+-        else if (states.tableHasFocus)
++      },
++
++      "table-focus-indicator" :
++      {
++        setup : function()
+         {
+-          result.border = new qx.renderer.border.Border(3, "solid", "#b3d9ff");
++          this.border = new qx.renderer.border.Border(3, "solid", "#b3d9ff");
++          this.blurBorder = new qx.renderer.border.Border(3, "solid", "#c5c8ca");
++          this.editingBorder = new qx.renderer.border.Border(2, "solid", "#b3d9ff");
++        },
++
++        state : function(vTheme, vStates) {
++          return { border : vStates.editing ? this.editingBorder : (vStates.tableHasFocus ? this.border : this.blurBorder) };
+         }
+-        else
++      },
++
++      "table-editor-textfield" :
++      {
++        setup : function() {
++          this.font = new qx.renderer.font.Font(11, '"Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif');
++        },
++
++        initial : function(vTheme)
+         {
+-          result.border = new qx.renderer.border.Border(3, "solid", "#c5c8ca");
++          return {
++            font          : this.font,
++            border        : qx.renderer.border.BorderPresets.getInstance().none,
++            paddingLeft   : 2,
++            paddingRight  : 2,
++            paddingTop    : 0,
++            paddingBottom : 0
++          };
+         }
++      },
+ 
+-        return result;
+-      }
+-    },
+-
+-    "table-editor-textfield" :
+-    {
+-      style : function(states)
++      "table-header-cell" :
+       {
+-        return {
+-          font          : '11px "Segoe UI", Corbel, Calibri, Tahoma, "Lucida Sans Unicode", sans-serif',
+-          border        : qx.renderer.border.BorderPresets.getInstance().none,
+-          paddingLeft   : 2,
+-          paddingRight  : 2,
+-          paddingTop    : 0,
+-          paddingBottom : 0
+-        };
+-      }
+-    },
++        setup : function()
++        {
++          this.border = new qx.renderer.border.Border;
+ 
+-    "table-header-cell" :
+-    {
+-      style : function(states)
+-      {
+-        if (states.mouseover)
+-        {
+-          var border = new qx.renderer.border.Border;
+-          border.set(
++          this.border.set(
+           {
+             rightColor  : "#d6d2c2",
+             rightStyle  : "solid",
+             rightWidth  : 1,
+-            bottomColor : "#F9B119",
++            bottomColor : "#d6d2c2",
+             bottomStyle : "solid",
+             bottomWidth : 2
+           });
+-        }
+-        else
+-        {
+-          var border = new qx.renderer.border.Border;
+-          border.set(
++
++          this.mouseOverBorder = new qx.renderer.border.Border;
++
++          this.mouseOverBorder.set(
+           {
+             rightColor  : "#d6d2c2",
+             rightStyle  : "solid",
+             rightWidth  : 1,
+-            bottomColor : "#d6d2c2",
++            bottomColor : "#F9B119",
+             bottomStyle : "solid",
+             bottomWidth : 2
+           });
+-        }
+ 
+-        return {
+-          cursor                : "default",
+-          paddingLeft           : 2,
+-          paddingRight          : 2,
+-          spacing               : 2,
+-          overflow              : "hidden",
+-          selectable            : false,
+-          iconPosition          : "right",
+-          verticalChildrenAlign : "middle",
+-          border                : border,
+-          backgroundColor       : states.mouseover ? "white" : "#ebeadb"
+-        };
+-      }
+-    },
++          this.mouseOverBackground = new qx.renderer.color.ColorObject("white");
++          this.background = new qx.renderer.color.ColorObject("#ebeadb");
++        },
+ 
++        initial : function(vTheme)
++        {
++          return {
++            cursor                : "default",
++            border                : this.border,
++            paddingLeft           : 2,
++            paddingRight          : 2,
++            spacing               : 2,
++            overflow              : "hidden",
++            selectable            : false,
++            backgroundColor       : this.background,
++            iconPosition          : "right",
++            verticalChildrenAlign : "middle"
++          };
++        },
+ 
++        state : function(vTheme, vStates)
++        {
++          return {
++            backgroundColor : vStates.mouseover ? this.mouseOverBackground : this.background,
++            border          : vStates.mouseover ? this.mouseOverBorder : this.border
++          };
++        }
++      },
+ 
+ 
+-    /*
+-    ---------------------------------------------------------------------------
+-      SPLITPANE
+-    ---------------------------------------------------------------------------
+-    */
+ 
+-    "splitpane" :
+-    {
+-      style : function(states) {
+-        return { overflow : "hidden" };
+-      }
+-    },
+ 
+-    "splitpane-glasspane" :
+-    {
+-      style : function(states)
++      /*
++      ---------------------------------------------------------------------------
++        SPLITPANE
++      ---------------------------------------------------------------------------
++      */
++
++      "splitpane" :
+       {
+-        return {
+-          zIndex          : 1e7,
+-          backgroundColor : "threedshadow",
+-          opacity : states.visible ? 0.2 : 0
+-        };
+-      }
+-    },
++        initial : function(vTheme) {
++          return { overflow : "hidden" };
++        }
++      },
+ 
+-    "splitpane-splitter" :
+-    {
+-      style : function(states)
++      "splitpane-glasspane" :
+       {
+-        return {
+-          backgroundColor : "threedface",
+-          cursor : states.horizontal ? "col-resize" : "row-resize"
+-        };
+-      }
+-    },
++        setup : function() {
++          this.background = new qx.renderer.color.ColorObject("threedshadow");
++        },
+ 
+-    "splitpane-slider" :
+-    {
+-      style : function(states)
++        initial : function(vTheme)
++        {
++          return {
++            zIndex          : 1e7,
++            backgroundColor : this.background
++          };
++        },
++
++        state : function(vTheme, vStates) {
++          return { opacity : vStates.visible ? 0.2 : 0 };
++        }
++      },
++
++      "splitpane-splitter" :
+       {
+-        return {
+-          opacity : 0.5,
+-          zIndex  : 1e8,
+-          backgroundColor : states.dragging ? "threeddarkshadow" : "threedface"
+-        };
+-      }
+-    },
++        initial : function(vTheme) {
++          return { backgroundColor : "threedface" };
++        },
+ 
+-    "splitpane-knob" :
+-    {
+-      style : function(states)
++        state : function(vTheme, vStates) {
++          return { cursor : vStates.horizontal ? "col-resize" : "row-resize" };
++        }
++      },
++
++      "splitpane-slider" :
+       {
+-        var result = { opacity : states.dragging ? 0.5 : 1.0 };
++        initial : function(vTheme)
++        {
++          return {
++            opacity : 0.5,
++            zIndex  : 1e8
++          };
++        },
+ 
+-        if (states.horizontal)
+-        {
+-          result.top = "33%";
+-          result.left = null;
+-          result.marginLeft = -6;
+-          result.marginTop = 0;
+-          result.cursor = "col-resize";
++        state : function(vTheme, vStates) {
++          return { backgroundColor : vStates.dragging ? "threeddarkshadow" : "threedface" };
+         }
+-        else if (states.vertical)
++      },
++
++      "splitpane-knob" :
++      {
++        state : function(vTheme, vStates)
+         {
+-          result.top = null;
+-          result.left = "33%";
+-          result.marginTop = -6;
+-          result.marginLeft = 0;
+-          result.cursor = "row-resize";
++          var vReturn = { opacity : vStates.dragging ? 0.5 : 1.0 };
++
++          if (vStates.horizontal)
++          {
++            vReturn.top = "33%";
++            vReturn.left = null;
++            vReturn.marginLeft = -6;
++            vReturn.marginTop = 0;
++            vReturn.cursor = "col-resize";
++          }
++          else if (vStates.vertical)
++          {
++            vReturn.top = null;
++            vReturn.left = "33%";
++            vReturn.marginTop = -6;
++            vReturn.marginLeft = 0;
++            vReturn.cursor = "row-resize";
++          }
++
++          return vReturn;
+         }
++      }
++    },
+ 
+-        return result;
+-      }
+-    }
++
++
++
++    /*
++    ---------------------------------------------------------------------------
++      END
++    ---------------------------------------------------------------------------
++    */
++
++    qx.Super.prototype._appearances)
++    
++  },
++      
++  defer : function(clazz)
++  {
++    qx.manager.object.AppearanceManager.getInstance().registerAppearanceTheme(clazz);     
+   }
++  
+ });
++
++
++
++
++
+Index: framework/source/class/qx/theme/widget/Windows.js
+===================================================================
+--- framework/source/class/qx/theme/widget/Windows.js	(Revision 6514)
++++ framework/source/class/qx/theme/widget/Windows.js	(Arbeitskopie)
+@@ -20,6 +20,8 @@
+ 
+ /* ************************************************************************
+ 
++#module(ui_core)
++#module(theme_widget)
+ #resource(widgettheme:widget/Windows)
+ 
+ ************************************************************************ */
+@@ -27,11 +29,30 @@
+ /**
+  * Default qooxdoo widget theme
+  */
+-qx.Theme.define("qx.theme.widget.Windows",
++qx.Clazz.define("qx.theme.widget.Windows",
+ {
+-  title : "Windows",
++  type : "singleton",
++  extend : qx.renderer.theme.WidgetTheme,
+ 
+-  widgets : {
+-    uri : qx.core.Setting.get("qx.resourceUri") + "/widget/Windows"
++
++
++
++  /*
++  *****************************************************************************
++     CONSTRUCTOR
++  *****************************************************************************
++  */
++
++  construct : function()
++  {
++    qx.renderer.theme.WidgetTheme.call(this, "Windows");
++
++    this.uri = qx.core.Setting.get("qx.resourceUri") + "/widget/Windows";
++  },
++  
++  defer : function(clazz)
++  {
++    qx.manager.object.ImageManager.getInstance().registerWidgetTheme(clazz);    
+   }
++    
+ });
+Index: framework/source/class/qx/theme/icon/Nuvola.js
+===================================================================
+--- framework/source/class/qx/theme/icon/Nuvola.js	(Revision 6514)
++++ framework/source/class/qx/theme/icon/Nuvola.js	(Arbeitskopie)
+@@ -20,6 +20,7 @@
+ 
+ /* ************************************************************************
+ 
++#module(theme_icon)
+ #resource(icontheme:icon/Nuvola)
+ 
+ ************************************************************************ */
+@@ -30,11 +31,30 @@
+  * License: LGPL
+  * Home: http://www.kde-look.org/content/show.php?content=5358
+  */
+-qx.Theme.define("qx.theme.icon.Nuvola",
++qx.Clazz.define("qx.theme.icon.Nuvola",
+ {
+-  title : "Nuvola",
++  type : "singleton",
++  extend : qx.renderer.theme.IconTheme,
+ 
+-  icons : {
+-    uri : qx.core.Setting.get("qx.resourceUri") + "/icon/Nuvola"
++
++
++
++  /*
++  *****************************************************************************
++     CONSTRUCTOR
++  *****************************************************************************
++  */
++
++  construct : function()
++  {
++    qx.renderer.theme.IconTheme.call(this, "Nuvola");
++
++    this.uri = qx.core.Setting.get("qx.resourceUri") + "/icon/Nuvola";
++  },
++  
++  defer : function(clazz)
++  {
++    qx.manager.object.ImageManager.getInstance().registerIconTheme(clazz);    
+   }
++    
+ });
+Index: framework/source/class/qx/theme/icon/VistaInspirate.js
+===================================================================
+--- framework/source/class/qx/theme/icon/VistaInspirate.js	(Revision 6514)
++++ framework/source/class/qx/theme/icon/VistaInspirate.js	(Arbeitskopie)
+@@ -20,6 +20,8 @@
+ 
+ /* ************************************************************************
+ 
++#module(ui_core)
++#module(theme_icon)
+ #resource(icontheme:icon/VistaInspirate)
+ 
+ ************************************************************************ */
+@@ -31,11 +33,30 @@
+  * Home: http://www.kde-look.org/content/show.php?content=31585
+  * Comment: Based on nuoveXT by the same author
+  */
+-qx.Theme.define("qx.theme.icon.VistaInspirate",
++qx.Clazz.define("qx.theme.icon.VistaInspirate",
+ {
+-  title : "VistaInspirate",
++  type : "singleton",
++  extend : qx.renderer.theme.IconTheme,
+ 
+-  icons : {
+-    uri : qx.core.Setting.get("qx.resourceUri") + "/icon/VistaInspirate"
++
++
++
++  /*
++  *****************************************************************************
++     CONSTRUCTOR
++  *****************************************************************************
++  */
++
++  construct : function()
++  {
++    qx.renderer.theme.IconTheme.call(this, "VistaInspirate");
++
++    this.uri = qx.core.Setting.get("qx.resourceUri") + "/icon/VistaInspirate";
++  },
++  
++  defer : function(clazz)
++  {
++    qx.manager.object.ImageManager.getInstance().registerIconTheme(clazz);    
+   }
++    
+ });
+Index: framework/source/class/qx/theme/icon/CrystalClear.js
+===================================================================
+--- framework/source/class/qx/theme/icon/CrystalClear.js	(Revision 6514)
++++ framework/source/class/qx/theme/icon/CrystalClear.js	(Arbeitskopie)
+@@ -20,6 +20,8 @@
+ 
+ /* ************************************************************************
+ 
++#module(ui_core)
++#module(theme_icon)
+ #resource(icontheme:icon/CrystalClear)
+ 
+ ************************************************************************ */
+@@ -30,11 +32,31 @@
+  * License: LGPL
+  * Home: http://www.kde-look.org/content/show.php?content=25668
+  */
+-qx.Theme.define("qx.theme.icon.CrystalClear",
++qx.Clazz.define("qx.theme.icon.CrystalClear",
+ {
+-  title : "CrystalClear",
++  type : "singleton",
++  extend : qx.renderer.theme.IconTheme,
+ 
+-  icons : {
+-    uri : qx.core.Setting.get("qx.resourceUri") + "/icon/CrystalClear"
++
++
++
++  /*
++  *****************************************************************************
++     CONSTRUCTOR
++  *****************************************************************************
++  */
++
++  construct : function()
++  {
++    qx.renderer.theme.IconTheme.call(this, "CrystalClear");
++
++    this.uri = qx.core.Setting.get("qx.resourceUri") + "/icon/CrystalClear";
++  },
++  
++  defer : function(clazz)
++  {
++    qx.manager.object.ImageManager.getInstance().registerIconTheme(clazz);    
+   }
++    
+ });
++
+Index: framework/source/class/qx/theme/icon/NuoveXT.js
+===================================================================
+--- framework/source/class/qx/theme/icon/NuoveXT.js	(Revision 6514)
++++ framework/source/class/qx/theme/icon/NuoveXT.js	(Arbeitskopie)
+@@ -20,6 +20,8 @@
+ 
+ /* ************************************************************************
+ 
++#module(ui_core)
++#module(theme_icon)
+ #resource(icontheme:icon/NuoveXT)
+ 
+ ************************************************************************ */
+@@ -30,11 +32,30 @@
+  * License: GPL & LGPL/EPL
+  * Home: http://www.kde-look.org/content/show.php?content=26449
+  */
+-qx.Theme.define("qx.theme.icon.NuoveXT",
++qx.Clazz.define("qx.theme.icon.NuoveXT",
+ {
+-  title : "NuoveXT",
++  type : "singleton",
++  extend : qx.renderer.theme.IconTheme,
+ 
+-  icons : {
+-    uri : qx.core.Setting.get("qx.resourceUri") + "/icon/NuoveXT"
++
++
++
++  /*
++  *****************************************************************************
++     CONSTRUCTOR
++  *****************************************************************************
++  */
++
++  construct : function()
++  {
++    qx.renderer.theme.IconTheme.call(this, "NuoveXT");
++
++    this.uri = qx.core.Setting.get("qx.resourceUri") + "/icon/NuoveXT";
++  },
++  
++  defer : function(clazz)
++  {
++    qx.manager.object.ImageManager.getInstance().registerIconTheme(clazz);    
+   }
++    
+ });
+Index: framework/source/class/qx/theme/color/System.js
+===================================================================
+--- framework/source/class/qx/theme/color/System.js	(Revision 6514)
++++ framework/source/class/qx/theme/color/System.js	(Arbeitskopie)
+@@ -20,16 +20,39 @@
+ 
+ /* ************************************************************************
+ 
++#module(theme_color)
++
+ ************************************************************************ */
+ 
+ /**
+  * System color theme
+  */
+-qx.Theme.define("qx.theme.color.System",
++qx.Clazz.define("qx.theme.color.System",
+ {
+-  title : "Operating System Default",
++  type : "singleton",
++  extend : qx.renderer.theme.ColorTheme,
+ 
+-  colors : {
+-    // empty: use system colors
++
++
++
++  /*
++  *****************************************************************************
++     CONSTRUCTOR
++  *****************************************************************************
++  */
++
++  construct : function() {
++    qx.renderer.theme.ColorTheme.call(this, "Operating System Default");
++  },
++  
++  defer : function(clazz)
++  {
++    qx.manager.object.ColorManager.getInstance().registerColorTheme(clazz);    
+   }
++  
+ });
++
++
++
++
++
+Index: framework/source/class/qx/theme/color/WindowsRoyale.js
+===================================================================
+--- framework/source/class/qx/theme/color/WindowsRoyale.js	(Revision 6514)
++++ framework/source/class/qx/theme/color/WindowsRoyale.js	(Arbeitskopie)
+@@ -20,44 +20,86 @@
+ 
+ /* ************************************************************************
+ 
++#module(ui_core)
++#module(theme_color)
++
+ ************************************************************************ */
+ 
+ /**
+- * Windows Royale color theme
++ * Windows royale color theme
+  */
+-qx.Theme.define("qx.theme.color.WindowsRoyale",
++qx.Clazz.define("qx.theme.color.WindowsRoyale",
+ {
+-  title : "Windows Royale",
++  type : "singleton",
++  extend : qx.renderer.theme.ColorTheme,
+ 
+-  colors :
++
++
++
++  /*
++  *****************************************************************************
++     CONSTRUCTOR
++  *****************************************************************************
++  */
++
++  construct : function() {
++    qx.renderer.theme.ColorTheme.call(this, "Windows Royale");
++  },
++
++
++
++
++  /*
++  *****************************************************************************
++     MEMBERS
++  *****************************************************************************
++  */
++
++  members :
+   {
+-    activeborder        : [ 212, 208, 200 ],
+-    activecaption       : [ 51, 94, 168 ],
+-    appworkspace        : [ 128, 128, 128 ],
+-    background          : [ 0, 0, 64 ],
+-    buttonface          : [ 235, 233, 237 ],
+-    buttonhighlight     : [ 255, 255, 255 ],
+-    buttonshadow        : [ 167, 166, 170 ],
+-    buttontext          : [ 0, 0, 0 ],
+-    captiontext         : [ 255, 255, 255 ],
+-    graytext            : [ 167, 166, 170 ],
+-    highlight           : [ 51, 94, 168 ],
+-    highlighttext       : [ 255, 255, 255 ],
+-    inactiveborder      : [ 212, 208, 200 ],
+-    inactivecaption     : [ 111, 161, 217 ],
+-    inactivecaptiontext : [ 255, 255, 255 ],
+-    infobackground      : [ 255, 255, 225 ],
+-    infotext            : [ 0, 0, 0 ],
+-    menu                : [ 255, 255, 255 ],
+-    menutext            : [ 0, 0, 0 ],
+-    scrollbar           : [ 212, 208, 200 ],
+-    threeddarkshadow    : [ 133, 135, 140 ],
+-    threedface          : [ 235, 233, 237 ],
+-    threedhighlight     : [ 255, 255, 255 ],
+-    threedlightshadow   : [ 220, 223, 228 ],
+-    threedshadow        : [ 167, 166, 170 ],
+-    window              : [ 255, 255, 255 ],
+-    windowframe         : [ 0, 0, 0 ],
+-    windowtext          : [ 0, 0, 0 ]
++    /*
++    ---------------------------------------------------------------------------
++      DEFINE COLORS
++    ---------------------------------------------------------------------------
++    */
++
++    _colors : qx.lang.Object.carefullyMergeWith(
++    {
++      activeborder        : [ 212, 208, 200 ],
++      activecaption       : [ 51, 94, 168 ],
++      appworkspace        : [ 128, 128, 128 ],
++      background          : [ 0, 0, 64 ],
++      buttonface          : [ 235, 233, 237 ],
++      buttonhighlight     : [ 255, 255, 255 ],
++      buttonshadow        : [ 167, 166, 170 ],
++      buttontext          : [ 0, 0, 0 ],
++      captiontext         : [ 255, 255, 255 ],
++      graytext            : [ 167, 166, 170 ],
++      highlight           : [ 51, 94, 168 ],
++      highlighttext       : [ 255, 255, 255 ],
++      inactiveborder      : [ 212, 208, 200 ],
++      inactivecaption     : [ 111, 161, 217 ],
++      inactivecaptiontext : [ 255, 255, 255 ],
++      infobackground      : [ 255, 255, 225 ],
++      infotext            : [ 0, 0, 0 ],
++      menu                : [ 255, 255, 255 ],
++      menutext            : [ 0, 0, 0 ],
++      scrollbar           : [ 212, 208, 200 ],
++      threeddarkshadow    : [ 133, 135, 140 ],
++      threedface          : [ 235, 233, 237 ],
++      threedhighlight     : [ 255, 255, 255 ],
++      threedlightshadow   : [ 220, 223, 228 ],
++      threedshadow        : [ 167, 166, 170 ],
++      window              : [ 255, 255, 255 ],
++      windowframe         : [ 0, 0, 0 ],
++      windowtext          : [ 0, 0, 0 ]
++    },
++    qx.renderer.theme.ColorTheme.prototype._colors)
++  },
++  
++  defer : function(clazz)
++  {
++    qx.manager.object.ColorManager.getInstance().registerColorTheme(clazz);    
+   }
++  
+ });
+Index: framework/source/class/qx/theme/color/WindowsLunaGreen.js
+===================================================================
+--- framework/source/class/qx/theme/color/WindowsLunaGreen.js	(Revision 6514)
++++ framework/source/class/qx/theme/color/WindowsLunaGreen.js	(Arbeitskopie)
+@@ -20,44 +20,85 @@
+ 
+ /* ************************************************************************
+ 
++#module(theme_color)
++
+ ************************************************************************ */
+ 
+ /**
+- * Windows Luna Green color theme
++ * Windows luna green color theme
+  */
+-qx.Theme.define("qx.theme.color.WindowsLunaGreen",
++qx.Clazz.define("qx.theme.color.WindowsLunaGreen",
+ {
+-  title : "Windows Luna Green",
++  type : "singleton",
++  extend : qx.renderer.theme.ColorTheme,
+ 
+-  colors :
++
++
++
++  /*
++  *****************************************************************************
++     CONSTRUCTOR
++  *****************************************************************************
++  */
++
++  construct : function() {
++    qx.renderer.theme.ColorTheme.call(this, "Windows Luna Green");
++  },
++
++
++
++
++  /*
++  *****************************************************************************
++     MEMBERS
++  *****************************************************************************
++  */
++
++  members :
+   {
+-    activeborder        : [ 212, 208, 200 ],
+-    activecaption       : [ 139, 161, 105 ],
+-    appworkspace        : [ 128, 128, 128 ],
+-    background          : [ 157, 172, 189 ],
+-    buttonface          : [ 236, 233, 216 ],
+-    buttonhighlight     : [ 255, 255, 255 ],
+-    buttonshadow        : [ 172, 168, 153 ],
+-    buttontext          : [ 0, 0, 0 ],
+-    captiontext         : [ 255, 255, 255 ],
+-    graytext            : [ 172, 168, 153 ],
+-    highlight           : [ 147, 160, 112 ],
+-    highlighttext       : [ 255, 255, 255 ],
+-    inactiveborder      : [ 212, 208, 200 ],
+-    inactivecaption     : [ 212, 214, 186 ],
+-    inactivecaptiontext : [ 255, 255, 255 ],
+-    infobackground      : [ 255, 255, 225 ],
+-    infotext            : [ 0, 0, 0 ],
+-    menu                : [ 255, 255, 255 ],
+-    menutext            : [ 0, 0, 0 ],
+-    scrollbar           : [ 212, 208, 200 ],
+-    threeddarkshadow    : [ 113, 111, 100 ],
+-    threedface          : [ 236, 233, 216 ],
+-    threedhighlight     : [ 255, 255, 255 ],
+-    threedlightshadow   : [ 241, 239, 226 ],
+-    threedshadow        : [ 172, 168, 153 ],
+-    window              : [ 255, 255, 255 ],
+-    windowframe         : [ 0, 0, 0 ],
+-    windowtext          : [ 0, 0, 0 ]
++    /*
++    ---------------------------------------------------------------------------
++      DEFINE COLORS
++    ---------------------------------------------------------------------------
++    */
++
++    _colors : qx.lang.Object.carefullyMergeWith(
++    {
++      activeborder        : [ 212, 208, 200 ],
++      activecaption       : [ 139, 161, 105 ],
++      appworkspace        : [ 128, 128, 128 ],
++      background          : [ 157, 172, 189 ],
++      buttonface          : [ 236, 233, 216 ],
++      buttonhighlight     : [ 255, 255, 255 ],
++      buttonshadow        : [ 172, 168, 153 ],
++      buttontext          : [ 0, 0, 0 ],
++      captiontext         : [ 255, 255, 255 ],
++      graytext            : [ 172, 168, 153 ],
++      highlight           : [ 147, 160, 112 ],
++      highlighttext       : [ 255, 255, 255 ],
++      inactiveborder      : [ 212, 208, 200 ],
++      inactivecaption     : [ 212, 214, 186 ],
++      inactivecaptiontext : [ 255, 255, 255 ],
++      infobackground      : [ 255, 255, 225 ],
++      infotext            : [ 0, 0, 0 ],
++      menu                : [ 255, 255, 255 ],
++      menutext            : [ 0, 0, 0 ],
++      scrollbar           : [ 212, 208, 200 ],
++      threeddarkshadow    : [ 113, 111, 100 ],
++      threedface          : [ 236, 233, 216 ],
++      threedhighlight     : [ 255, 255, 255 ],
++      threedlightshadow   : [ 241, 239, 226 ],
++      threedshadow        : [ 172, 168, 153 ],
++      window              : [ 255, 255, 255 ],
++      windowframe         : [ 0, 0, 0 ],
++      windowtext          : [ 0, 0, 0 ]
++    },
++    qx.renderer.theme.ColorTheme.prototype._colors)
++  },
++  
++  defer : function(clazz)
++  {
++    qx.manager.object.ColorManager.getInstance().registerColorTheme(clazz);    
+   }
++  
+ });
+Index: framework/source/class/qx/theme/color/WindowsClassic.js
+===================================================================
+--- framework/source/class/qx/theme/color/WindowsClassic.js	(Revision 6514)
++++ framework/source/class/qx/theme/color/WindowsClassic.js	(Arbeitskopie)
+@@ -20,44 +20,85 @@
+ 
+ /* ************************************************************************
+ 
++#module(theme_color)
++
+ ************************************************************************ */
+ 
+ /**
+  * Windows classic color theme
+  */
+-qx.Theme.define("qx.theme.color.WindowsClassic",
++qx.Clazz.define("qx.theme.color.WindowsClassic",
+ {
+-  title : "Windows Classic",
++  type : "singleton",
++  extend : qx.renderer.theme.ColorTheme,
+ 
+-  colors :
++
++
++
++  /*
++  *****************************************************************************
++     CONSTRUCTOR
++  *****************************************************************************
++  */
++
++  construct : function() {
++    qx.renderer.theme.ColorTheme.call(this, "Windows Classic");
++  },
++
++
++
++
++  /*
++  *****************************************************************************
++     MEMBERS
++  *****************************************************************************
++  */
++
++  members :
+   {
+-    activeborder        : [ 212, 208, 200 ],
+-    activecaption       : [ 10, 36, 106 ],
+-    appworkspace        : [ 128, 128, 128 ],
+-    background          : [ 58, 110, 165 ],
+-    buttonface          : [ 212, 208, 200 ],
+-    buttonhighlight     : [ 255, 255, 255 ],
+-    buttonshadow        : [ 128, 128, 128 ],
+-    buttontext          : [ 0, 0, 0 ],
+-    captiontext         : [ 255, 255, 255 ],
+-    graytext            : [ 128, 128, 128 ],
+-    highlight           : [ 10, 36, 106 ],
+-    highlighttext       : [ 255, 255, 255 ],
+-    inactiveborder      : [ 212, 208, 200 ],
+-    inactivecaption     : [ 128, 128, 128 ],
+-    inactivecaptiontext : [ 212, 208, 200 ],
+-    infobackground      : [ 255, 255, 225 ],
+-    infotext            : [ 0, 0, 0 ],
+-    menu                : [ 212, 208, 200 ],
+-    menutext            : [ 0, 0, 0 ],
+-    scrollbar           : [ 212, 208, 200 ],
+-    threeddarkshadow    : [ 64, 64, 64 ],
+-    threedface          : [ 212, 208, 200 ],
+-    threedhighlight     : [ 255, 255, 255 ],
+-    threedlightshadow   : [ 212, 208, 200 ],
+-    threedshadow        : [ 128, 128, 128 ],
+-    window              : [ 255, 255, 255 ],
+-    windowframe         : [ 0, 0, 0 ],
+-    windowtext          : [ 0, 0, 0 ]
++    /*
++    ---------------------------------------------------------------------------
++      DEFINE COLORS
++    ---------------------------------------------------------------------------
++    */
++
++    _colors : qx.lang.Object.carefullyMergeWith(
++    {
++      activeborder        : [ 212, 208, 200 ],
++      activecaption       : [ 10, 36, 106 ],
++      appworkspace        : [ 128, 128, 128 ],
++      background          : [ 58, 110, 165 ],
++      buttonface          : [ 212, 208, 200 ],
++      buttonhighlight     : [ 255, 255, 255 ],
++      buttonshadow        : [ 128, 128, 128 ],
++      buttontext          : [ 0, 0, 0 ],
++      captiontext         : [ 255, 255, 255 ],
++      graytext            : [ 128, 128, 128 ],
++      highlight           : [ 10, 36, 106 ],
++      highlighttext       : [ 255, 255, 255 ],
++      inactiveborder      : [ 212, 208, 200 ],
++      inactivecaption     : [ 128, 128, 128 ],
++      inactivecaptiontext : [ 212, 208, 200 ],
++      infobackground      : [ 255, 255, 225 ],
++      infotext            : [ 0, 0, 0 ],
++      menu                : [ 212, 208, 200 ],
++      menutext            : [ 0, 0, 0 ],
++      scrollbar           : [ 212, 208, 200 ],
++      threeddarkshadow    : [ 64, 64, 64 ],
++      threedface          : [ 212, 208, 200 ],
++      threedhighlight     : [ 255, 255, 255 ],
++      threedlightshadow   : [ 212, 208, 200 ],
++      threedshadow        : [ 128, 128, 128 ],
++      window              : [ 255, 255, 255 ],
++      windowframe         : [ 0, 0, 0 ],
++      windowtext          : [ 0, 0, 0 ]
++    },
++    qx.renderer.theme.ColorTheme.prototype._colors)
++  },
++  
++  defer : function(clazz)
++  {
++    qx.manager.object.ColorManager.getInstance().registerColorTheme(clazz);    
+   }
++  
+ });
+Index: framework/source/class/qx/theme/color/WindowsLunaSilver.js
+===================================================================
+--- framework/source/class/qx/theme/color/WindowsLunaSilver.js	(Revision 6514)
++++ framework/source/class/qx/theme/color/WindowsLunaSilver.js	(Arbeitskopie)
+@@ -20,44 +20,85 @@
+ 
+ /* ************************************************************************
+ 
++#module(theme_color)
++
+ ************************************************************************ */
+ 
+ /**
+- * Windows Luna Silver color theme
++ * Windows luna silver color theme
+  */
+-qx.Theme.define("qx.theme.color.WindowsLunaSilver",
++qx.Clazz.define("qx.theme.color.WindowsLunaSilver",
+ {
+-  title : "Windows Luna Silver",
++  type : "singleton",
++  extend : qx.renderer.theme.ColorTheme,
+ 
+-  colors :
++
++
++
++  /*
++  *****************************************************************************
++     CONSTRUCTOR
++  *****************************************************************************
++  */
++
++  construct : function() {
++    qx.renderer.theme.ColorTheme.call(this, "Windows Luna Silver");
++  },
++
++
++
++
++  /*
++  *****************************************************************************
++     MEMBERS
++  *****************************************************************************
++  */
++
++  members :
+   {
+-    activeborder        : [ 212, 208, 200 ],
+-    activecaption       : [ 192, 192, 192 ],
+-    appworkspace        : [ 128, 128, 128 ],
+-    background          : [ 88, 87, 104 ],
+-    buttonface          : [ 224, 223, 227 ],
+-    buttonhighlight     : [ 255, 255, 255 ],
+-    buttonshadow        : [ 157, 157, 161 ],
+-    buttontext          : [ 0, 0, 0 ],
+-    captiontext         : [ 14, 16, 16 ],
+-    graytext            : [ 172, 168, 153 ],
+-    highlight           : [ 178, 180, 191 ],
+-    highlighttext       : [ 0, 0, 0 ],
+-    inactiveborder      : [ 212, 208, 200 ],
+-    inactivecaption     : [ 255, 255, 255 ],
+-    inactivecaptiontext : [ 162, 161, 161 ],
+-    infobackground      : [ 255, 255, 225 ],
+-    infotext            : [ 0, 0, 0 ],
+-    menu                : [ 255, 255, 255 ],
+-    menutext            : [ 0, 0, 0 ],
+-    scrollbar           : [ 212, 208, 200 ],
+-    threeddarkshadow    : [ 113, 111, 100 ],
+-    threedface          : [ 224, 223, 227 ],
+-    threedhighlight     : [ 255, 255, 255 ],
+-    threedlightshadow   : [ 241, 239, 226 ],
+-    threedshadow        : [ 157, 157, 161 ],
+-    window              : [ 255, 255, 255 ],
+-    windowframe         : [ 0, 0, 0 ],
+-    windowtext          : [ 0, 0, 0 ]
++    /*
++    ---------------------------------------------------------------------------
++      DEFINE COLORS
++    ---------------------------------------------------------------------------
++    */
++
++    _colors : qx.lang.Object.carefullyMergeWith(
++    {
++      activeborder        : [ 212, 208, 200 ],
++      activecaption       : [ 192, 192, 192 ],
++      appworkspace        : [ 128, 128, 128 ],
++      background          : [ 88, 87, 104 ],
++      buttonface          : [ 224, 223, 227 ],
++      buttonhighlight     : [ 255, 255, 255 ],
++      buttonshadow        : [ 157, 157, 161 ],
++      buttontext          : [ 0, 0, 0 ],
++      captiontext         : [ 14, 16, 16 ],
++      graytext            : [ 172, 168, 153 ],
++      highlight           : [ 178, 180, 191 ],
++      highlighttext       : [ 0, 0, 0 ],
++      inactiveborder      : [ 212, 208, 200 ],
++      inactivecaption     : [ 255, 255, 255 ],
++      inactivecaptiontext : [ 162, 161, 161 ],
++      infobackground      : [ 255, 255, 225 ],
++      infotext            : [ 0, 0, 0 ],
++      menu                : [ 255, 255, 255 ],
++      menutext            : [ 0, 0, 0 ],
++      scrollbar           : [ 212, 208, 200 ],
++      threeddarkshadow    : [ 113, 111, 100 ],
++      threedface          : [ 224, 223, 227 ],
++      threedhighlight     : [ 255, 255, 255 ],
++      threedlightshadow   : [ 241, 239, 226 ],
++      threedshadow        : [ 157, 157, 161 ],
++      window              : [ 255, 255, 255 ],
++      windowframe         : [ 0, 0, 0 ],
++      windowtext          : [ 0, 0, 0 ]
++    },
++    qx.renderer.theme.ColorTheme.prototype._colors)
++  },
++  
++  defer : function(clazz)
++  {
++    qx.manager.object.ColorManager.getInstance().registerColorTheme(clazz);    
+   }
++  
+ });
+Index: framework/source/class/qx/theme/color/WindowsLunaBlue.js
+===================================================================
+--- framework/source/class/qx/theme/color/WindowsLunaBlue.js	(Revision 6514)
++++ framework/source/class/qx/theme/color/WindowsLunaBlue.js	(Arbeitskopie)
+@@ -20,44 +20,85 @@
+ 
+ /* ************************************************************************
+ 
++#module(theme_color)
++
+ ************************************************************************ */
+ 
+ /**
+- * Windows Luna Blue color theme
++ * Windows luna blue color theme
+  */
+-qx.Theme.define("qx.theme.color.WindowsLunaBlue",
++qx.Clazz.define("qx.theme.color.WindowsLunaBlue",
+ {
+-  title : "Windows Luna Blue",
++  type : "singleton",
++  extend : qx.renderer.theme.ColorTheme,
+ 
+-  colors :
++
++
++
++  /*
++  *****************************************************************************
++     CONSTRUCTOR
++  *****************************************************************************
++  */
++
++  construct : function() {
++    qx.renderer.theme.ColorTheme.call(this, "Windows Luna Blue");
++  },
++
++
++
++
++  /*
++  *****************************************************************************
++     MEMBERS
++  *****************************************************************************
++  */
++
++  members :
+   {
+-    activeborder        : [ 212, 208, 200 ],
+-    activecaption       : [ 0, 84, 227 ],
+-    appworkspace        : [ 128, 128, 128 ],
+-    background          : [ 0, 78, 152 ],
+-    buttonface          : [ 236, 233, 216 ],
+-    buttonhighlight     : [ 255, 255, 255 ],
+-    buttonshadow        : [ 172, 168, 153 ],
+-    buttontext          : [ 0, 0, 0 ],
+-    captiontext         : [ 255, 255, 255 ],
+-    graytext            : [ 172, 168, 153 ],
+-    highlight           : [ 49, 106, 197 ],
+-    highlighttext       : [ 255, 255, 255 ],
+-    inactiveborder      : [ 212, 208, 200 ],
+-    inactivecaption     : [ 122, 150, 223 ],
+-    inactivecaptiontext : [ 216, 228, 248 ],
+-    infobackground      : [ 255, 255, 225 ],
+-    infotext            : [ 0, 0, 0 ],
+-    menu                : [ 255, 255, 255 ],
+-    menutext            : [ 0, 0, 0 ],
+-    scrollbar           : [ 212, 208, 200 ],
+-    threeddarkshadow    : [ 113, 111, 100 ],
+-    threedface          : [ 236, 233, 216 ],
+-    threedhighlight     : [ 255, 255, 255 ],
+-    threedlightshadow   : [ 241, 239, 226 ],
+-    threedshadow        : [ 172, 168, 153 ],
+-    window              : [ 255, 255, 255 ],
+-    windowframe         : [ 0, 0, 0 ],
+-    windowtext          : [ 0, 0, 0 ]
++    /*
++    ---------------------------------------------------------------------------
++      DEFINE COLORS
++    ---------------------------------------------------------------------------
++    */
++
++    _colors : qx.lang.Object.carefullyMergeWith(
++    {
++      activeborder        : [ 212, 208, 200 ],
++      activecaption       : [ 0, 84, 227 ],
++      appworkspace        : [ 128, 128, 128 ],
++      background          : [ 0, 78, 152 ],
++      buttonface          : [ 236, 233, 216 ],
++      buttonhighlight     : [ 255, 255, 255 ],
++      buttonshadow        : [ 172, 168, 153 ],
++      buttontext          : [ 0, 0, 0 ],
++      captiontext         : [ 255, 255, 255 ],
++      graytext            : [ 172, 168, 153 ],
++      highlight           : [ 49, 106, 197 ],
++      highlighttext       : [ 255, 255, 255 ],
++      inactiveborder      : [ 212, 208, 200 ],
++      inactivecaption     : [ 122, 150, 223 ],
++      inactivecaptiontext : [ 216, 228, 248 ],
++      infobackground      : [ 255, 255, 225 ],
++      infotext            : [ 0, 0, 0 ],
++      menu                : [ 255, 255, 255 ],
++      menutext            : [ 0, 0, 0 ],
++      scrollbar           : [ 212, 208, 200 ],
++      threeddarkshadow    : [ 113, 111, 100 ],
++      threedface          : [ 236, 233, 216 ],
++      threedhighlight     : [ 255, 255, 255 ],
++      threedlightshadow   : [ 241, 239, 226 ],
++      threedshadow        : [ 172, 168, 153 ],
++      window              : [ 255, 255, 255 ],
++      windowframe         : [ 0, 0, 0 ],
++      windowtext          : [ 0, 0, 0 ]
++    },
++    qx.renderer.theme.ColorTheme.prototype._colors)
++  },
++  
++  defer : function(clazz)
++  {
++    qx.manager.object.ColorManager.getInstance().registerColorTheme(clazz);    
+   }
++  
+ });
+Index: framework/source/class/qx/renderer/color/ColorObject.js
+===================================================================
+--- framework/source/class/qx/renderer/color/ColorObject.js	(Revision 6514)
++++ framework/source/class/qx/renderer/color/ColorObject.js	(Arbeitskopie)
+@@ -107,7 +107,7 @@
+      *
+      * @type member
+      * @param vTheme {var} TODOC
+-     * @return {void}
++     * @return {void} 
+      * @throws TODOC
+      */
+     _updateTheme : function(vTheme)
+@@ -125,12 +125,12 @@
+      * TODOC
+      *
+      * @type member
+-     * @return {void}
++     * @return {void} 
+      */
+     _applyThemedValue : function()
+     {
+       var vTheme = qx.manager.object.ColorManager.getInstance().getColorTheme();
+-      var vRgb = vTheme.colors[this._value];
++      var vRgb = vTheme.getValueByName(this._value);
+ 
+       if (vRgb)
+       {
+@@ -139,7 +139,7 @@
+         this._blue = vRgb[2];
+       }
+ 
+-      this._style = vTheme._compiledColors[this._value];
++      this._style = vTheme.getStyleByName(this._value);
+       this._hex = null;
+     },
+ 
+@@ -148,7 +148,7 @@
+      * TODOC
+      *
+      * @type member
+-     * @return {void}
++     * @return {void} 
+      */
+     _syncObjects : function()
+     {
+@@ -163,7 +163,7 @@
+      *
+      * @type member
+      * @param vValue {var} TODOC
+-     * @return {void}
++     * @return {void} 
+      */
+     setValue : function(vValue)
+     {
+@@ -185,7 +185,7 @@
+      *
+      * @type member
+      * @param vObject {var} TODOC
+-     * @return {void}
++     * @return {void} 
+      */
+     add : function(vObject) {
+       this._dependentObjects[vObject.toHashCode()] = vObject;
+@@ -197,7 +197,7 @@
+      *
+      * @type member
+      * @param vObject {var} TODOC
+-     * @return {void}
++     * @return {void} 
+      */
+     remove : function(vObject) {
+       delete this._dependentObjects[vObject.toHashCode()];
+Index: framework/source/class/qx/manager/object/ColorManager.js
+===================================================================
+--- framework/source/class/qx/manager/object/ColorManager.js	(Revision 6514)
++++ framework/source/class/qx/manager/object/ColorManager.js	(Arbeitskopie)
+@@ -73,7 +73,8 @@
+     {
+       _legacy   : true,
+       type      : "object",
+-      allowNull : false
++      allowNull : false,
++      instance  : "qx.renderer.theme.ColorTheme"
+     }
+   },
+ 
+@@ -99,14 +100,14 @@
+      *
+      * @type member
+      * @param vThemeClass {var} TODOC
+-     * @return {void}
++     * @return {void} 
+      */
+     registerColorTheme : function(vThemeClass)
+     {
+-      this._colorThemes[vThemeClass.name] = vThemeClass;
++      this._colorThemes[vThemeClass.classname] = vThemeClass;
+ 
+-      if (vThemeClass.name == qx.core.Setting.get("qx.colorTheme")) {
+-        this.setColorTheme(vThemeClass);
++      if (vThemeClass.classname == qx.core.Setting.get("qx.colorTheme")) {
++        this.setColorTheme(vThemeClass.getInstance());
+       }
+     },
+ 
+@@ -116,10 +117,10 @@
+      *
+      * @type member
+      * @param vId {var} TODOC
+-     * @return {void}
++     * @return {void} 
+      */
+     setColorThemeById : function(vId) {
+-      this.setColorTheme(this._colorThemes[vId]);
++      this.setColorTheme(this._colorThemes[vId].getInstance());
+     },
+ 
+ 
+@@ -136,7 +137,7 @@
+      *
+      * @type member
+      * @param oObject {Object} TODOC
+-     * @return {void}
++     * @return {void} 
+      */
+     add : function(oObject)
+     {
+@@ -155,7 +156,7 @@
+      *
+      * @type member
+      * @param oObject {Object} TODOC
+-     * @return {void}
++     * @return {void} 
+      */
+     remove : function(oObject)
+     {
+@@ -209,7 +210,7 @@
+      */
+     _modifyColorTheme : function(propValue, propOldValue, propData)
+     {
+-      this._compileTheme(propValue);
++      propValue.compile();
+ 
+       for (var i in this._dependentObjects) {
+         this._dependentObjects[i]._updateTheme(propValue);
+@@ -223,35 +224,6 @@
+ 
+     /*
+     ---------------------------------------------------------------------------
+-      PROTECTED METHODS
+-    ---------------------------------------------------------------------------
+-    */
+-
+-    /**
+-     * TODOC
+-     *
+-     * @type member
+-     * @return {void}
+-     */
+-    _compileTheme : function(theme)
+-    {
+-      if (theme._compiledColors) {
+-        return;
+-      }
+-
+-      var colors = theme.colors;
+-      var compiled = theme._compiledColors = {};
+-
+-      for (var name in qx.renderer.color.Color.themedNames) {
+-        compiled[name] = colors[name] ? qx.renderer.color.Color.rgb2style.apply(this, colors[name]) : name;
+-      }
+-    },
+-
+-
+-
+-
+-    /*
+-    ---------------------------------------------------------------------------
+       UTILITY
+     ---------------------------------------------------------------------------
+     */
+@@ -263,7 +235,7 @@
+      * @param vParent {var} TODOC
+      * @param xCor {var} TODOC
+      * @param yCor {var} TODOC
+-     * @return {void}
++     * @return {void} 
+      */
+     createThemeList : function(vParent, xCor, yCor)
+     {
+@@ -275,8 +247,8 @@
+ 
+       for (var vId in vThemes)
+       {
+-        var vObj = vThemes[vId];
+-        var vButton = new qx.ui.form.Button(vPrefix + vObj.title, vIcon);
++        var vObj = vThemes[vId].getInstance();
++        var vButton = new qx.ui.form.Button(vPrefix + vObj.getTitle(), vIcon);
+ 
+         vButton.setLocation(xCor, yCor);
+         vButton.addEventListener(vEvent, new Function("qx.manager.object.ColorManager.getInstance().setColorThemeById('" + vId + "')"));
+@@ -331,7 +303,14 @@
+   *****************************************************************************
+   */
+ 
+-  settings : {
++  settings :
++  {
++    /*
++    ---------------------------------------------------------------------------
++      DEFAULT SETTINGS
++    ---------------------------------------------------------------------------
++    */
++
+     "qx.colorTheme" : "qx.theme.color.WindowsRoyale"
+   }
+ });
+Index: framework/source/class/qx/manager/object/AppearanceManager.js
+===================================================================
+--- framework/source/class/qx/manager/object/AppearanceManager.js	(Revision 6514)
++++ framework/source/class/qx/manager/object/AppearanceManager.js	(Arbeitskopie)
+@@ -46,7 +46,7 @@
+     qx.manager.object.ObjectManager.call(this);
+ 
+     // Themes
+-    this.__themes = {};
++    this._appearanceThemes = {};
+   },
+ 
+ 
+@@ -71,7 +71,8 @@
+     {
+       _legacy   : true,
+       type      : "object",
+-      allowNull : false
++      allowNull : false,
++      instance  : "qx.renderer.theme.AppearanceTheme"
+     }
+   },
+ 
+@@ -98,14 +99,14 @@
+      *
+      * @type member
+      * @param vThemeClass {qx.renderer.theme.AppearanceTheme} TODOC
+-     * @return {void}
++     * @return {void} 
+      */
+     registerAppearanceTheme : function(vThemeClass)
+     {
+-      this.__themes[vThemeClass.name] = vThemeClass;
++      this._appearanceThemes[vThemeClass.classname] = vThemeClass;
+ 
+-      if (vThemeClass.name == qx.core.Setting.get("qx.appearanceTheme")) {
+-        this.setAppearanceTheme(vThemeClass);
++      if (vThemeClass.classname == qx.core.Setting.get("qx.appearanceTheme")) {
++        this.setAppearanceTheme(vThemeClass.getInstance());
+       }
+     },
+ 
+@@ -135,11 +136,6 @@
+         qx.ui.core.ClientDocument.getInstance()._recursiveAppearanceThemeUpdate(propValue, propOldValue);
+       }
+ 
+-      // Reset cache
+-      if (propValue) {
+-        this.__cache = {};
+-      }
+-
+       return true;
+     },
+ 
+@@ -148,97 +144,6 @@
+ 
+     /*
+     ---------------------------------------------------------------------------
+-      THEME HELPER
+-    ---------------------------------------------------------------------------
+-    */
+-
+-    __cache : {},
+-
+-
+-    /**
+-     * Get the result of the "initial" function for a given id
+-     *
+-     * @type member
+-     * @param theme {Object} appearance theme
+-     * @param id {String} id of the apperance (e.g. "button", "label", ...)
+-     * @return {Map} map of widget properties as returned by the "initial" function
+-     */
+-    styleFrom : function(id, states) {
+-      return this.styleFromTheme(this.getAppearanceTheme(), id, states);
+-    },
+-
+-
+-    /**
+-     * Get the result of the "state" function for a given id and states
+-     *
+-     * @type member
+-     * @param theme {Object} appearance theme
+-     * @param id {String} id of the apperance (e.g. "button", "label", ...)
+-     * @param states {Map} hash map defining the set states
+-     * @return {Map} map of widget properties as returned by the "state" function
+-     */
+-    styleFromTheme : function(theme, id, states)
+-    {
+-      var cache = this.__cache;
+-      var entry = theme.appearances[id];
+-
+-      if (!entry) {
+-        throw new Error("Missing appearance entry: " + id);
+-      }
+-
+-      // Fast fallback to super entry
+-      if (!entry.style && entry.extend) {
+-        return this.styleFromTheme(theme, entry.extend, states);
+-      }
+-
+-      // Creating cache-able ID
+-      var helper = [];
+-      for (var state in states)
+-      {
+-        if (states[state]) {
+-          helper.push(state);
+-        }
+-      }
+-      helper.sort().unshift(id);
+-      var unique = helper.join(":");
+-
+-      // Using cache if available
+-      if (cache[unique] !== undefined) {
+-        return cache[unique];
+-      }
+-
+-      // Otherwise "compile" the appearance
+-      var ret;
+-
+-      // This is the place where we really call the appearance theme
+-      if (entry.style)
+-      {
+-        // Executing appearance theme style definition
+-        ret = entry.style(states);
+-
+-        // Fill with data from inheritance
+-        if (entry.extend) {
+-          qx.lang.Object.carefullyMergeWith(ret, this.styleFromTheme(theme, entry.extend, states));
+-        }
+-      }
+-
+-      // Normalize to null (needed for caching)
+-      ret = ret || null;
+-
+-      // Cache new entry
+-      cache[unique] = ret;
+-
+-      // Debug
+-      // this.debug("Cached: " + qx.lang.Object.getLength(cache) + " :: " + unique);
+-
+-      return ret;
+-    },
+-
+-
+-
+-
+-    /*
+-    ---------------------------------------------------------------------------
+       DISPOSER
+     ---------------------------------------------------------------------------
+     */
+@@ -255,8 +160,8 @@
+         return;
+       }
+ 
+-      this.__cache = null;
+-      this.__themes = null;
++      // Themes
++      this._appearanceThemes = null;
+ 
+       return qx.manager.object.ObjectManager.prototype.dispose.call(this);
+     }
+@@ -271,7 +176,14 @@
+   *****************************************************************************
+   */
+ 
+-  settings : {
++  settings :
++  {
++    /*
++    ---------------------------------------------------------------------------
++      DEFAULT SETTINGS
++    ---------------------------------------------------------------------------
++    */
++
+     "qx.appearanceTheme" : "qx.theme.appearance.Classic"
+   }
+ });
+Index: framework/source/class/qx/manager/object/ImageManager.js
+===================================================================
+--- framework/source/class/qx/manager/object/ImageManager.js	(Revision 6514)
++++ framework/source/class/qx/manager/object/ImageManager.js	(Arbeitskopie)
+@@ -78,13 +78,15 @@
+     iconTheme :
+     {
+       _legacy  : true,
+-      type     : "object"
++      type     : "object",
++      instance : "qx.renderer.theme.IconTheme"
+     },
+ 
+     widgetTheme :
+     {
+       _legacy  : true,
+-      type     : "object"
++      type     : "object",
++      instance : "qx.renderer.theme.WidgetTheme"
+     }
+   },
+ 
+@@ -110,14 +112,14 @@
+      *
+      * @type member
+      * @param vThemeClass {var} TODOC
+-     * @return {void}
++     * @return {void} 
+      */
+     registerIconTheme : function(vThemeClass)
+     {
+-      this._iconThemes[vThemeClass.name] = vThemeClass;
++      this._iconThemes[vThemeClass.classname] = vThemeClass;
+ 
+-      if (vThemeClass.name == qx.core.Setting.get("qx.iconTheme")) {
+-        this.setIconTheme(vThemeClass);
++      if (vThemeClass.classname == qx.core.Setting.get("qx.iconTheme")) {
++        this.setIconTheme(vThemeClass.getInstance());
+       }
+     },
+ 
+@@ -127,14 +129,14 @@
+      *
+      * @type member
+      * @param vThemeClass {var} TODOC
+-     * @return {void}
++     * @return {void} 
+      */
+     registerWidgetTheme : function(vThemeClass)
+     {
+-      this._widgetThemes[vThemeClass.name] = vThemeClass;
++      this._widgetThemes[vThemeClass.classname] = vThemeClass;
+ 
+-      if (vThemeClass.name == qx.core.Setting.get("qx.widgetTheme")) {
+-        this.setWidgetTheme(vThemeClass);
++      if (vThemeClass.classname == qx.core.Setting.get("qx.widgetTheme")) {
++        this.setWidgetTheme(vThemeClass.getInstance());
+       }
+     },
+ 
+@@ -144,10 +146,10 @@
+      *
+      * @type member
+      * @param vId {var} TODOC
+-     * @return {void}
++     * @return {void} 
+      */
+     setIconThemeById : function(vId) {
+-      this.setIconTheme(this._iconThemes[vId]);
++      this.setIconTheme(this._iconThemes[vId].getInstance());
+     },
+ 
+ 
+@@ -156,10 +158,10 @@
+      *
+      * @type member
+      * @param vId {var} TODOC
+-     * @return {void}
++     * @return {void} 
+      */
+     setWidgetThemeById : function(vId) {
+-      this.setWidgetTheme(this._widgetThemes[vId]);
++      this.setWidgetTheme(this._widgetThemes[vId].getInstance());
+     },
+ 
+ 
+@@ -175,7 +177,7 @@
+      * TODOC
+      *
+      * @type member
+-     * @return {void}
++     * @return {void} 
+      */
+     _onaliaschange : function() {
+       this._updateImages();
+@@ -201,7 +203,7 @@
+      */
+     _modifyIconTheme : function(propValue, propOldValue, propData)
+     {
+-      propValue ? qx.manager.object.AliasManager.getInstance().add("icon", propValue.icons.uri) : qx.manager.object.AliasManager.getInstance().remove("icon");
++      propValue ? qx.manager.object.AliasManager.getInstance().add("icon", propValue.uri) : qx.manager.object.AliasManager.getInstance().remove("icon");
+       return true;
+     },
+ 
+@@ -217,7 +219,7 @@
+      */
+     _modifyWidgetTheme : function(propValue, propOldValue, propData)
+     {
+-      propValue ? qx.manager.object.AliasManager.getInstance().add("widget", propValue.widgets.uri) : qx.manager.object.AliasManager.getInstance().remove("widget");
++      propValue ? qx.manager.object.AliasManager.getInstance().add("widget", propValue.uri) : qx.manager.object.AliasManager.getInstance().remove("widget");
+       return true;
+     },
+ 
+@@ -320,7 +322,7 @@
+      * @param vParent {var} TODOC
+      * @param xCor {var} TODOC
+      * @param yCor {var} TODOC
+-     * @return {void}
++     * @return {void} 
+      */
+     createThemeList : function(vParent, xCor, yCor)
+     {
+@@ -332,8 +334,8 @@
+ 
+       for (var vId in vThemes)
+       {
+-        var vObj = vThemes[vId];
+-        var vButton = new qx.ui.form.Button(vPrefix + vObj.title, vIcon);
++        var vObj = vThemes[vId].getInstance();
++        var vButton = new qx.ui.form.Button(vPrefix + vObj.getTitle(), vIcon);
+ 
+         vButton.setLocation(xCor, yCor);
+         vButton.addEventListener(vEvent, new Function("qx.manager.object.ImageManager.getInstance().setIconThemeById('" + vId + "')"));
+@@ -350,7 +352,7 @@
+      *
+      * @type member
+      * @param vPath {var} TODOC
+-     * @return {void}
++     * @return {void} 
+      */
+     preload : function(vPath) {
+       qx.manager.object.ImagePreloaderManager.getInstance().create(qx.manager.object.AliasManager.getInstance().resolvePath(vPath));
+@@ -403,12 +405,19 @@
+   settings :
+   {
+     /*
++    ---------------------------------------------------------------------------
++      DEFAULT SETTINGS
++    ---------------------------------------------------------------------------
++    */
++
++    /*
+       Make sure to select an icon theme that is compatible to the license you
+       chose to receive the qooxdoo code under. For more information, please
+       see the LICENSE file in the project's top-level directory.
+      */
+ 
+     "qx.iconTheme"   : "qx.theme.icon.Nuvola",
++
+     "qx.widgetTheme" : "qx.theme.widget.Windows"
+   }
+ });
+Index: framework/source/class/qx/ui/core/Widget.js
+===================================================================
+--- framework/source/class/qx/ui/core/Widget.js	(Revision 6514)
++++ framework/source/class/qx/ui/core/Widget.js	(Arbeitskopie)
+@@ -21,8 +21,6 @@
+ /* ************************************************************************
+ 
+ #module(ui_core)
+-#require(qx.core.Init)
+-#require(qx.lang.Object)
+ #use(qx.component.init.InterfaceInitComponent)
+ #optional(qx.ui.core.Parent)
+ #optional(qx.ui.form.Button)
+@@ -79,7 +77,7 @@
+     //   APPEARANCE
+     // ************************************************************************
+     this._states = {};
+-    this._applyAppearance();
++    this._applyInitialAppearance();
+   },
+ 
+ 
+@@ -514,7 +512,7 @@
+         {
+           vWidget = vQueue[i];
+ 
+-          vWidget._applyAppearance();
++          vWidget._applyStateAppearance();
+ 
+           delete vWidget._isInGlobalStateQueue;
+         }
+@@ -3760,11 +3758,18 @@
+           return this._computedWidthValue = this.getPreferredBoxWidth();
+ 
+         case qx.ui.core.Widget.TYPE_FLEX:
+-          if (this.getParent().getLayoutImpl().computeChildrenFlexWidth === undefined) {
+-            throw new Error("Widget " + this + ": having horizontal flex size (width=" + this.getWidth() + ") but parent layout " + this.getParent() + " does not support it");
++          try {
++            this.getParent().getLayoutImpl().computeChildrenFlexWidth();
+           }
++          catch(e)
++          {
++            if (this.getParent().getLayoutImpl()["computeChildrenFlexWidth"] == null) {
++              throw new Error("Widget " + this + ": having flex size but parent layout does not support it");
++            } else {
++              throw e;
++            }
++          }
+ 
+-          this.getParent().getLayoutImpl().computeChildrenFlexWidth();
+           return this._computedWidthValue = this._computedWidthFlexValue;
+       }
+ 
+@@ -3911,11 +3916,18 @@
+           return this._computedHeightValue = this.getPreferredBoxHeight();
+ 
+         case qx.ui.core.Widget.TYPE_FLEX:
+-          if (this.getParent().getLayoutImpl().computeChildrenFlexHeight === undefined) {
+-            throw new Error("Widget " + this + ": having vertical flex size (height=" + this.getHeight() + ") but parent layout " + this.getParent() + " does not support it");
++          try {
++            this.getParent().getLayoutImpl().computeChildrenFlexHeight();
+           }
++          catch(e)
++          {
++            if (this.getParent().getLayoutImpl()["computeChildrenFlexHeight"] == null) {
++              throw new Error("Widget " + this + ": having flex size but parent layout does not support it");
++            } else {
++              throw e;
++            }
++          }
+ 
+-          this.getParent().getLayoutImpl().computeChildrenFlexHeight();
+           return this._computedHeightValue = this._computedHeightFlexValue;
+       }
+ 
+@@ -5238,8 +5250,36 @@
+      * @type member
+      * @return {void}
+      */
+-    _applyAppearance : function()
++    _applyInitialAppearance : function()
+     {
++      var vAppearance = this.getAppearance();
++
++      if (vAppearance)
++      {
++        try
++        {
++          var r = qx.manager.object.AppearanceManager.getInstance().getAppearanceTheme().initialFrom(vAppearance);
++
++          if (r) {
++            this.set(r);
++          }
++        }
++        catch(ex)
++        {
++          this.error("Could not apply initial appearance", ex);
++        }
++      }
++    },
++
++
++    /**
++     * TODOC
++     *
++     * @type member
++     * @return {void}
++     */
++    _applyStateAppearance : function()
++    {
+       // HACK: Is there a cleaner way to implement this?
+       // Maybe not use the appearance for this, but a simple property and event handler combination?
+       this._applyStateStyleFocus(this._states);
+@@ -5250,7 +5290,7 @@
+       {
+         try
+         {
+-          var r = qx.manager.object.AppearanceManager.getInstance().styleFrom(vAppearance, this._states);
++          var r = qx.manager.object.AppearanceManager.getInstance().getAppearanceTheme().stateFrom(vAppearance, this._states);
+ 
+           if (r) {
+             this.set(r);
+@@ -5278,16 +5318,15 @@
+ 
+       if (vAppearance)
+       {
+-        var vAppearanceManager = qx.manager.object.AppearanceManager.getInstance();
++        var vOldAppearanceThemeObject = qx.manager.object.AppearanceManager.getInstance().getThemeById(vOldAppearanceTheme);
++        var vNewAppearanceThemeObject = qx.manager.object.AppearanceManager.getInstance().getThemeById(vNewAppearanceTheme);
+ 
+-        var vOldAppearanceThemeObject = vAppearanceManager.getThemeById(vOldAppearanceTheme);
+-        var vNewAppearanceThemeObject = vAppearanceManager.getThemeById(vNewAppearanceTheme);
++        var vOldAppearanceProperties = qx.lang.Object.mergeWith(vOldAppearanceThemeObject.initialFrom(vAppearance), vOldAppearanceThemeObject.stateFrom(vAppearance, this._states));
++        var vNewAppearanceProperties = qx.lang.Object.mergeWith(vNewAppearanceThemeObject.initialFrom(vAppearance), vNewAppearanceThemeObject.stateFrom(vAppearance, this._states));
+ 
+-        var vOldAppearanceProperties = vAppearanceManager.styleFromTheme(vOldAppearanceThemeObject, vAppearance);
+-        var vNewAppearanceProperties = vAppearanceManager.styleFromTheme(vNewAppearanceThemeObject, vAppearance);
+-
+         for (var vProp in vOldAppearanceProperties)
+         {
++          // TODO: Access to private member (bad style) - please correct
+           if (!(vProp in vNewAppearanceProperties)) {
+             this[qx.core.LegacyProperty.getResetterName(vProp)]();
+           }
+@@ -5380,28 +5419,32 @@
+      */
+     _modifyAppearance : function(propValue, propOldValue, propData)
+     {
+-      var vAppearanceManager = qx.manager.object.AppearanceManager.getInstance();
++      var vAppearanceThemeObject = qx.manager.object.AppearanceManager.getInstance().getAppearanceTheme();
+ 
+-      if (propValue)
+-      {
+-        var vNewAppearanceProperties = vAppearanceManager.styleFrom(propValue, this._states) || {};
++      var vNewAppearanceProperties = vAppearanceThemeObject.initialFrom(propValue);
++
++      if (this.isCreated()) {
++        qx.lang.Object.mergeWith(vNewAppearanceProperties, vAppearanceThemeObject.stateFrom(propValue, this._states));
+       }
+ 
+       if (propOldValue)
+       {
+-        var vOldAppearanceProperties = vAppearanceManager.styleFrom(propOldValue, this._states) || {};
++        var vOldAppearanceProperties = vAppearanceThemeObject.initialFrom(propOldValue);
+ 
++        if (this.isCreated()) {
++          qx.lang.Object.mergeWith(vOldAppearanceProperties, vAppearanceThemeObject.stateFrom(propOldValue, this._states));
++        }
++
+         for (var vProp in vOldAppearanceProperties)
+         {
++          // TODO: Access to private member (bad style) - please correct
+           if (!(vProp in vNewAppearanceProperties)) {
+             this[qx.core.LegacyProperty.getResetterName(vProp)]();
+           }
+         }
+       }
+ 
+-      if (vNewAppearanceProperties) {
+-        this.set(vNewAppearanceProperties);
+-      }
++      this.set(vNewAppearanceProperties);
+ 
+       return true;
+     },
+@@ -7519,14 +7562,6 @@
+   },
+ 
+ 
+-
+-
+-  /*
+-  *****************************************************************************
+-     DEFER
+-  *****************************************************************************
+-  */
+-
+   defer : function(statics, members)
+   {
+     statics.__initApplyMethods(members);
+@@ -7543,13 +7578,7 @@
+             return;
+           }
+ 
+-          if (!(statics._globalWidgetQueue.length > 0 ||
+-                statics._globalElementQueue.length > 0 ||
+-                statics._globalStateQueue.length > 0 ||
+-                statics._globalJobQueue.length > 0 ||
+-                statics._globalLayoutQueue.length > 0 ||
+-                statics._fastGlobalDisplayQueue.length > 0 ||
+-                !qx.lang.Object.isEmpty(statics._lazyGlobalDisplayQueue))) {
++          if (!(qx.ui.core.Widget._globalWidgetQueue.length > 0 || qx.ui.core.Widget._globalElementQueue.length > 0 || qx.ui.core.Widget._globalStateQueue.length > 0 || qx.ui.core.Widget._globalJobQueue.length > 0 || qx.ui.core.Widget._globalLayoutQueue.length > 0 || qx.ui.core.Widget._fastGlobalDisplayQueue.length > 0 || !qx.lang.Object.isEmpty(qx.ui.core.Widget._lazyGlobalDisplayQueue))) {
+             return;
+           }
+ 
+@@ -7559,10 +7588,10 @@
+           var globalJobQueueLength = statics._globalJobQueue.length;
+           var globalLayoutQueueLength = statics._globalLayoutQueue.length;
+           var fastGlobalDisplayQueueLength = statics._fastGlobalDisplayQueue.length;
+-          var lazyGlobalDisplayQueueLength = statics._lazyGlobalDisplayQueue ? statics._lazyGlobalDisplayQueue.length : 0;
++          var lazyGlobalDisplayQueueLength = statics._lazyGlobalDisplayQueue ? qx.ui.core.Widget._lazyGlobalDisplayQueue.length : 0;
+ 
+           // Also used for inline event handling to seperate 'real' events
+-          statics._inFlushGlobalQueues = true;
++          qx.ui.core.Widget._inFlushGlobalQueues = true;
+ 
+           var vStart;
+ 
+Index: framework/source/class/qx/ui/pageview/tabview/Button.js
+===================================================================
+--- framework/source/class/qx/ui/pageview/tabview/Button.js	(Revision 6514)
++++ framework/source/class/qx/ui/pageview/tabview/Button.js	(Arbeitskopie)
+@@ -271,17 +271,14 @@
+      * @type member
+      * @return {void}
+      */
+-    _applyAppearance : function()
++    _applyStateAppearance : function()
+     {
+-      if (this.getView())
+-      {
+-        this._states.firstChild = this.isFirstVisibleChild();
+-        this._states.lastChild = this.isLastVisibleChild();
+-        this._states.alignLeft = this.getView().getAlignTabsToLeft();
+-        this._states.barTop = this.getView().getPlaceBarOnTop();
+-      }
++      this._states.firstChild = this.isFirstVisibleChild();
++      this._states.lastChild = this.isLastVisibleChild();
++      this._states.alignLeft = this.getView().getAlignTabsToLeft();
++      this._states.barTop = this.getView().getPlaceBarOnTop();
+ 
+-      qx.ui.pageview.AbstractButton.prototype._applyAppearance.call(this);
++      qx.ui.pageview.AbstractButton.prototype._applyStateAppearance.call(this);
+     },
+ 
+ 
+Index: framework/source/class/qx/ui/pageview/buttonview/Bar.js
+===================================================================
+--- framework/source/class/qx/ui/pageview/buttonview/Bar.js	(Revision 6514)
++++ framework/source/class/qx/ui/pageview/buttonview/Bar.js	(Arbeitskopie)
+@@ -56,7 +56,7 @@
+     {
+       _legacy      : true,
+       type         : "string",
+-      defaultValue : "button-view-bar"
++      defaultValue : "bar-view-bar"
+     }
+   },
+ 
+@@ -113,19 +113,16 @@
+      * @type member
+      * @return {void}
+      */
+-    _applyAppearance : function()
++    _applyStateAppearance : function()
+     {
+-      if (this.getParent())
+-      {
+-        var vPos = this.getParent().getBarPosition();
++      var vPos = this.getParent().getBarPosition();
+ 
+-        this._states.barLeft = vPos === "left";
+-        this._states.barRight = vPos === "right";
+-        this._states.barTop = vPos === "top";
+-        this._states.barBottom = vPos === "bottom";
+-      }
++      this._states.barLeft = vPos === "left";
++      this._states.barRight = vPos === "right";
++      this._states.barTop = vPos === "top";
++      this._states.barBottom = vPos === "bottom";
+ 
+-      qx.ui.pageview.AbstractButton.prototype._applyAppearance.call(this);
++      qx.ui.pageview.AbstractButton.prototype._applyStateAppearance.call(this);
+     }
+   }
+ });
+Index: framework/source/class/qx/ui/pageview/buttonview/ButtonView.js
+===================================================================
+--- framework/source/class/qx/ui/pageview/buttonview/ButtonView.js	(Revision 6514)
++++ framework/source/class/qx/ui/pageview/buttonview/ButtonView.js	(Arbeitskopie)
+@@ -79,7 +79,7 @@
+     {
+       _legacy      : true,
+       type         : "string",
+-      defaultValue : "button-view"
++      defaultValue : "bar-view"
+     }
+   },
+ 
+Index: framework/source/class/qx/ui/pageview/buttonview/Button.js
+===================================================================
+--- framework/source/class/qx/ui/pageview/buttonview/Button.js	(Revision 6514)
++++ framework/source/class/qx/ui/pageview/buttonview/Button.js	(Arbeitskopie)
+@@ -56,7 +56,7 @@
+     {
+       _legacy      : true,
+       type         : "string",
+-      defaultValue : "button-view-button"
++      defaultValue : "bar-view-button"
+     }
+   },
+ 
+@@ -152,19 +152,16 @@
+      * @type member
+      * @return {void}
+      */
+-    _applyAppearance : function()
++    _applyStateAppearance : function()
+     {
+-      if (this.getView())
+-      {
+-        var vPos = this.getView().getBarPosition();
++      var vPos = this.getView().getBarPosition();
+ 
+-        this._states.barLeft = vPos === "left";
+-        this._states.barRight = vPos === "right";
+-        this._states.barTop = vPos === "top";
+-        this._states.barBottom = vPos === "bottom";
+-      }
++      this._states.barLeft = vPos === "left";
++      this._states.barRight = vPos === "right";
++      this._states.barTop = vPos === "top";
++      this._states.barBottom = vPos === "bottom";
+ 
+-      qx.ui.pageview.AbstractButton.prototype._applyAppearance.call(this);
++      qx.ui.pageview.AbstractButton.prototype._applyStateAppearance.call(this);
+     }
+   }
+ });
+Index: framework/source/class/qx/ui/pageview/buttonview/Page.js
+===================================================================
+--- framework/source/class/qx/ui/pageview/buttonview/Page.js	(Revision 6514)
++++ framework/source/class/qx/ui/pageview/buttonview/Page.js	(Arbeitskopie)
+@@ -56,7 +56,7 @@
+     {
+       _legacy      : true,
+       type         : "string",
+-      defaultValue : "button-view-page"
++      defaultValue : "bar-view-page"
+     }
+   }
+ });
+Index: framework/source/class/qx/ui/pageview/buttonview/Pane.js
+===================================================================
+--- framework/source/class/qx/ui/pageview/buttonview/Pane.js	(Revision 6514)
++++ framework/source/class/qx/ui/pageview/buttonview/Pane.js	(Arbeitskopie)
+@@ -56,7 +56,7 @@
+     {
+       _legacy      : true,
+       type         : "string",
+-      defaultValue : "button-view-pane"
++      defaultValue : "bar-view-pane"
+     }
+   },
+ 
+@@ -83,16 +83,13 @@
+      * @type member
+      * @return {void}
+      */
+-    _applyAppearance : function()
++    _applyStateAppearance : function()
+     {
+-      if (this.getParent())
+-      {
+-        var vPos = this.getParent().getBarPosition();
++      var vPos = this.getParent().getBarPosition();
+ 
+-        this._states.barHorizontal = vPos === "top" || vPos === "bottom";
+-      }
++      this._states.barHorizontal = vPos === "top" || vPos === "bottom";
+ 
+-      qx.ui.pageview.AbstractButton.prototype._applyAppearance.call(this);
++      qx.ui.pageview.AbstractButton.prototype._applyStateAppearance.call(this);
+     }
+   }
+ });
+Index: framework/source/class/qx/ui/pageview/AbstractButton.js
+===================================================================
+--- framework/source/class/qx/ui/pageview/AbstractButton.js	(Revision 6514)
++++ framework/source/class/qx/ui/pageview/AbstractButton.js	(Arbeitskopie)
+@@ -134,10 +134,8 @@
+      * @type member
+      * @return {var} TODOC
+      */
+-    getView : function()
+-    {
+-      var pa = this.getParent();
+-      return pa ? pa.getParent() : null;
++    getView : function() {
++      return this.getParent().getParent();
+     },
+ 
+ 
