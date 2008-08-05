@@ -1,3 +1,0 @@
-/**
- * User interface selection handling.
- */

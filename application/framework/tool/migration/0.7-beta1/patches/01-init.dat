@@ -1,7 +1,0 @@
-\bBasicInitComponent\b=Basic
-\bInterfaceInitComponent\b=Gui
-\bAbstractInitComponent\b=AbstractInit
-
-\bqx\.component\.AbstractApplication\b=qx.application.Gui
-
-\bqx\.core\.Init\.getInstance\(\)\.setApplication\(\s*([a-zA-Z_\.]+)\s*\)=qx.core.Init.getInstance().setApplication(new \1)

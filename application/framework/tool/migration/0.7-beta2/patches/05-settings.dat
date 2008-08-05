@@ -1,2 +1,0 @@
-\bthis\.getSetting\(\s*([\"\'])(.+?)([\"\'])\s*\)=qx.core.Setting.get("\2")
-\bqx\.Settings\.getValueOfClass\(\s*([\"\'])(.+?)([\"\'])\s*\,\s*([\"\'])(.+?)([\"\'])\s*\)=qx.core.Setting.get("\5")
