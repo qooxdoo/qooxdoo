@@ -1138,12 +1138,14 @@ class Generator:
             return imgsfx                # use the bare img suffix as its asset Id
 
         def normalizeImgUri(uriFromMetafile, trueCombinedUri, combinedUriFromMetafile):
+            # normalize paths (esp. "./x" -> "x")
+            (uriFromMetafile, trueCombinedUri, combinedUriFromMetafile) = map(os.path.normpath,(uriFromMetafile, trueCombinedUri, combinedUriFromMetafile))
             # get the "wrong" prefix (in mappedUriPrefix)
             trueUriPrefix, mappedUriPrefix, sfx = Path.getCommonSuffix(trueCombinedUri, combinedUriFromMetafile)
             # ...and strip it from contained image uri, to get a correct suffix (in uriSuffix)
             pre, mappedUriSuffix, uriSuffix = Path.getCommonPrefix(mappedUriPrefix, uriFromMetafile)
             # ...then compose the correct prefix with the correct suffix
-            normalUri = trueUriPrefix + uriSuffix
+            normalUri = os.path.normpath(os.path.join(trueUriPrefix, uriSuffix))
             return normalUri
 
         def processCombinedImg(data, meta_fname, cimguri, cimgshorturi, cimgfmt):
@@ -1193,8 +1195,7 @@ class Generator:
                     imgfmt = ImgInfoFmt()
                     imgfmt.lib = lib['namespace']
                     if not 'type' in imageInfo:
-                        self._console.error("Unable to get image info from file: %s" % imgpath)
-                        sys.exit(1)
+                        raise RuntimeError, "Unable to get image info from file: %s" % imgpath
                     imgfmt.type = imageInfo['type']
 
                     # check for a combined image and process the contained images
@@ -1205,8 +1206,7 @@ class Generator:
                     # add this image directly
                     # imageInfo = {width, height, filetype}
                     if not 'width' in imageInfo or not 'height' in imageInfo:
-                        self._console.error("Unable to get image info from file: %s" % imgpath)
-                        sys.exit(1)
+                        raise RuntimeError, "Unable to get image info from file: %s" % imgpath
                     imgfmt.width, imgfmt.height, imgfmt.type = (
                         imageInfo['width'], imageInfo['height'], imageInfo['type'])
                     # check if img is already registered as part of a combined image
