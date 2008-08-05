@@ -24,6 +24,18 @@
 #asset(demobrowser/image/*)
 #asset(demobrowser/css/*)
 
+#asset(qx/icon/${qx.icontheme}/16/actions/system-run.png) 
+#asset(qx/icon/${qx.icontheme}/16/actions/media-seek-forward.png) 
+#asset(qx/icon/${qx.icontheme}/16/actions/go-previous.png) 
+#asset(qx/icon/${qx.icontheme}/16/actions/go-next.png) 
+#asset(qx/icon/${qx.icontheme}/16/actions/edit-redo.png) 
+#asset(qx/icon/${qx.icontheme}/16/apps/accessories-color-chooser.png) 
+#asset(qx/icon/${qx.icontheme}/16/apps/utilities-terminal.png) 
+#asset(qx/icon/${qx.icontheme}/16/apps/graphics-viewer.png) 
+#asset(qx/icon/${qx.icontheme}/16/apps/internet-web-browser.png) 
+#asset(qx/icon/${qx.icontheme}/16/mimetypes/text-html.png) 
+#asset(qx/icon/${qx.icontheme}/16/mimetypes/office-spreadsheet.png)
+
 ************************************************************************ */
 
 /**
