@@ -178,44 +178,11 @@ qx.Class.define("demobrowser.demo.widget.List",
 
 
       ////////////////////////////////////////////////////////////////
-      // styled list
-      var configureLabel = new qx.ui.basic.Label("Styled");
-      configureLabel.setFont("bold");
-      this.getRoot().add(configureLabel, {left: 500, top: 20});
 
-      var styledList = new qx.ui.form.List;
-
-      styledList.set({ width: 150, selectionMode : "one", spacing : 1 });
-
-      var l2l = [ "black", "silver", "gray", "maroon",
-        "red", "purple", "fuchsia", "green", "lime", "olive",
-        "yellow", "navy", "blue", "teal", "aqua", "magenta",
-        "orange", "brown" ];
-
-
-      var item2;
-      for (var i=0; i<l2l.length; i++)
-      {
-        var decorator = new qx.ui.decoration.Single();
-        decorator.set({widthLeft:16, style:"solid", color:l2l[i]});
-
-        item2 = new qx.ui.form.ListItem(l2l[i]);
-        item2.setDecorator(decorator);
-
-        styledList.add(item2);
-      };
-
-      this.getRoot().add(styledList, {left: 500, top: 40});
-      ////////////////////////////////////////////////////////////////
-
-
-
-
-      ////////////////////////////////////////////////////////////////
       // additive selecion list
       var configureLabel = new qx.ui.basic.Label("Additive selection");
       configureLabel.setFont("bold");
-      this.getRoot().add(configureLabel, {left: 670, top: 20});
+      this.getRoot().add(configureLabel, {left: 520, top: 20});
 
       var additiveList = new qx.ui.form.List;
       var item3;
@@ -239,7 +206,7 @@ qx.Class.define("demobrowser.demo.widget.List",
         }
       };
 
-      this.getRoot().add(additiveList, {left: 670, top: 40});
+      this.getRoot().add(additiveList, {left: 520, top: 40});
       ////////////////////////////////////////////////////////////////
 
 
