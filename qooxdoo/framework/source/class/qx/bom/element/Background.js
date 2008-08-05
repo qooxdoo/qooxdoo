@@ -37,6 +37,15 @@ qx.Class.define("qx.bom.element.Background",
     ],
 
 
+    /** {Map} Empty styles when no image is given */
+    __emptyStyles :
+    {
+      backgroundImage : null,
+      backgroundPosition : null,
+      backgroundRepeat : null
+    },
+
+
     /**
      * Compiles the background into a CSS compatible string.
      *
@@ -96,6 +105,10 @@ qx.Class.define("qx.bom.element.Background",
      */
     getStyles : function(source, repeat, left, top)
     {
+      if (!source) {
+        return this.__emptyStyles;
+      }
+
       var Engine = qx.bom.client.Engine;
       if (Engine.GECKO && Engine.VERSION < 1.9 && left == top && left != null) {
         top += 0.01;
