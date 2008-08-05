@@ -503,7 +503,9 @@ qx.Class.define("qx.ui.table.model.Simple",
         firstRow    : startIndex,
         lastRow     : this._rowArr.length - 1,
         firstColumn : 0,
-        lastColumn  : this.getColumnCount() - 1
+        lastColumn  : this.getColumnCount() - 1,
+        removeStart : startIndex,
+        removeCount : howMany        
       };
 
       this.createDispatchDataEvent(qx.ui.table.ITableModel.EVENT_TYPE_DATA_CHANGED, data);
