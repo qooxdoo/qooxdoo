@@ -89,9 +89,23 @@ qx.Class.define("qx.ui.core.selection.Abstract",
 
     /**
      * Enable drag selection (multi selection of items through
-     * dragging the mouse in pressed states)
+     * dragging the mouse in pressed states).
+     *
+     * Only possible for the modes <code>multi</code> and <code>additive</code>
      */
     drag :
+    {
+      check : "Boolean",
+      init : false
+    },
+
+
+    /**
+     * Enable quick selection mode, where no click is needed to change the selection.
+     *
+     * Only possible for the modes <code>single</code> and <code>one</code>.
+     */
+    quick :
     {
       check : "Boolean",
       init : false
@@ -741,6 +755,39 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     */
 
     /**
+     * This method should be connected to the <code>mouseover</code> event
+     * of the managed object.
+     *
+     * @param event {qx.event.type.Mouse} A valid mouse event
+     * @return {void}
+     */
+    handleMouseOver : function(event)
+    {
+      if (!this.getQuick()) {
+        return;
+      }
+
+      var mode = this.getMode();
+      if (mode !== "one" && mode !== "single") {
+        return;
+      }
+
+      var item = this._getSelectableFromTarget(event.getTarget());
+      if (!item) {
+        return;
+      }
+
+      this._setSelectedItem(item);
+
+      // Be sure that item is in view
+      this._scrollItemIntoView(item);
+
+      // Fire change event as needed
+      this._fireChange();
+    },
+
+
+    /**
      * This method should be connected to the <code>mousedown</code> event
      * of the managed object.
      *
@@ -994,10 +1041,8 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      * @param e {qx.event.type.Data} The event object
      * @return {void}
      */
-    handleRemoveItem : function(e)
-    {
-      var item = e.getData();
-      this.removeItem(item);
+    handleRemoveItem : function(e) {
+      this.removeItem(e.getData());
     },
 
 
@@ -1211,7 +1256,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
       var isShiftPressed = event.isShiftPressed();
 
       var consumed = false;
-      
+
       if (key === "A" && isCtrlPressed)
       {
         if (mode !== "single" && mode !== "one")
@@ -1242,7 +1287,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
         }
       }
       else if (this.__navigationKeys[key])
-      {       
+      {
         consumed = true;
         if (mode === "single" || mode == "one") {
           current = this._getSelectedItem();

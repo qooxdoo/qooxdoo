@@ -116,12 +116,36 @@ qx.Class.define("demobrowser.demo.widget.List",
         }
       });
 
-      var drag1 = new qx.ui.form.CheckBox("Enable drag selection");
+      var dragCheck = new qx.ui.form.CheckBox("Enable drag selection");
+      var quickCheck = new qx.ui.form.CheckBox("Enable quick selection");
 
-      this.getRoot().add(drag1, {left: 180, top: 220});
+      this.getRoot().add(dragCheck, {left: 180, top: 220});
+      this.getRoot().add(quickCheck, {left: 180, top: 240});
 
-      drag1.addListener("changeChecked", function(e) {
+      dragCheck.addListener("changeChecked", function(e)
+      {
+        if (e.getData())
+        {
+          var mode = configList.getSelectionMode();
+          if (mode == "single" || mode == "one") {
+            this.debug("Drag selection is only available for the modes multi or additive");
+          }
+        }
+
         configList.setDragSelection(e.getData());
+      });
+
+      quickCheck.addListener("changeChecked", function(e)
+      {
+        if (e.getData())
+        {
+          var mode = configList.getSelectionMode();
+          if (mode == "multi" || mode == "additive") {
+            this.debug("Quick selection is only available for the modes multi or additive");
+          }
+        }
+
+        configList.setQuickSelection(e.getData());
       });
       ////////////////////////////////////////////////////////////////
 
