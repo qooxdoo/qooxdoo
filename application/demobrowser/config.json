@@ -118,7 +118,7 @@
 
       "shell" :
       {
-        "command" : "${PYTHON} ../../../frontend/tool/bin/generator.py -c ./config.demo.json source"
+        "command" : "${PYTHON} ../../tool/bin/generator.py -c ./config.demo.json source"
       }
     },
 
@@ -200,7 +200,7 @@
 
       "shell" :
       {
-        "command" : "${PYTHON} ../../../frontend/tool/bin/generator.py -c ./config.demo.json build"
+        "command" : "${PYTHON} ../../tool/bin/generator.py -c ./config.demo.json build"
       }
     },
 
