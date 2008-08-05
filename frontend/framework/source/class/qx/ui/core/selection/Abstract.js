@@ -131,6 +131,16 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     */
 
     /**
+     * Returns the selection context. One of <code>click</code>,
+     * <code>quick</code>, <code>drag</code> or <code>key</code> or
+     * <code>null</code>.
+     */
+    getSelectionContext : function() {
+      return this.__selectionContext;
+    },
+
+
+    /**
      * Selects all items of the managed object.
      *
      * @return {void}
@@ -780,10 +790,11 @@ qx.Class.define("qx.ui.core.selection.Abstract",
       this._setSelectedItem(item);
 
       // Be sure that item is in view
-      this._scrollItemIntoView(item);
+      // This does not feel good when mouseover is used
+      // this._scrollItemIntoView(item);
 
       // Fire change event as needed
-      this._fireChange();
+      this._fireChange("quick");
     },
 
 
@@ -886,7 +897,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
 
 
       // Fire change event as needed
-      this._fireChange();
+      this._fireChange("click");
     },
 
 
@@ -1210,7 +1221,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
 
 
       // Fire change event as needed
-      this._fireChange();
+      this._fireChange("drag");
     },
 
 
@@ -1402,8 +1413,9 @@ qx.Class.define("qx.ui.core.selection.Abstract",
       {
         // Stop processed events
         event.stop();
+
         // Fire change event as needed
-        this._fireChange();
+        this._fireChange("key");
       }
     },
 
@@ -1627,11 +1639,18 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     /**
      * Fires the selection change event if the selection has
      * been modified.
+     *
+     * @param context {String} One of <code>click</code>, <code>quick</code>,
+     *    <code>drag</code> or <code>key</code> or <code>null</code>
      */
-    _fireChange : function()
+    _fireChange : function(context)
     {
       if (this.__selectionModified)
       {
+        // Store context
+        this.__selectionContext = context || null;
+
+        // Fire data event which contains the current selection
         this.fireDataEvent("changeSelection", this.getSelection());
         delete this.__selectionModified;
       }
