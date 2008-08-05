@@ -126,7 +126,7 @@ qx.Class.define("testrunner.runner.TestRunner",
     });
 
     // Get the TestLoader from the Iframe (in the event handler)
-    iframe.addListener("load", this.ehIframeOnLoad, this);
+    iframe.addListener("load", this._ehIframeOnLoad, this);
   },
 
 
@@ -273,6 +273,7 @@ qx.Class.define("testrunner.runner.TestRunner",
     {
       // Main Container
       var tabview = new qx.ui.tabview.TabView;
+      this.widgets["tabview"] = tabview;
 
       var p1 = new qx.ui.tabview.Page("Test Results", "icon/16/apps/video-player.png");
       p1.setLayout(new qx.ui.layout.Grow);
@@ -298,8 +299,11 @@ qx.Class.define("testrunner.runner.TestRunner",
 
       // main output area
       this.f2 = new qx.ui.embed.Html('');
-      this.f2.setBackgroundColor("white");
-      pp2.add(this.f2);
+      this.f2.set({
+        backgroundColor : "white",
+        overflowY : "scroll"
+      });
+      pp2.add(this.f2, {flex:1});
       this.f2.getContentElement().setAttribute("id", "sessionlog");
 
       // toolbar
@@ -707,6 +711,9 @@ qx.Class.define("testrunner.runner.TestRunner",
         {
           // Open all element's parents
           link = (i==0) ? "widgetLinkFull" : "widgetLinkFlat";
+          if (!selectedElement[link]) {
+            continue;
+          }
           var element = selectedElement[link].getParent();
 
           while(element != null)
@@ -733,6 +740,9 @@ qx.Class.define("testrunner.runner.TestRunner",
     {
       // -- Vars and Setup -----------------------
       this.toolbar.setEnabled(false);
+
+      this.logelem.innerHTML = "";
+      this.widgets["tabview"].setSelected(this.widgets["tabview"].getChildren()[0]);
 
       // this.tree.setEnabled(false);
       this.widgets["statuspane.systeminfo"].setContent("Preparing...");
@@ -966,14 +976,14 @@ qx.Class.define("testrunner.runner.TestRunner",
      * @param e {Event} TODOC
      * @return {void}
      */
-    ehIframeOnLoad : function(e)
+    _ehIframeOnLoad : function(e)
     {
       var iframe = this.iframe;
 
       this.frameWindow = iframe.getWindow();
 
       if (!this.frameWindow.testrunner) {
-        qx.event.Timer.once(this.ehIframeOnLoad, this, 100);
+        qx.event.Timer.once(this._ehIframeOnLoad, this, 100);
         return;
       }
 
@@ -997,7 +1007,7 @@ qx.Class.define("testrunner.runner.TestRunner",
       }
 
       this.widgets["statuspane.systeminfo"].setContent("Ready");
-    },  // ehIframeOnLoad
+    },  // _ehIframeOnLoad
 
     // ------------------------------------------------------------------------
     //   MISC HELPERS
@@ -1073,20 +1083,24 @@ qx.Class.define("testrunner.runner.TestRunner",
     
     __fetchLog : function()
     {
-      debugger;
-      logger = qx.log.Logger;
+      var w = this.iframe.getWindow();
 
-      // Register to flush the log queue into the appender.
-      logger.register(this.logappender)
+      var logger;
+      if (w.qx && w.qx.log && w.qx.log.Logger)
+      {
+        logger = w.qx.log.Logger;
 
-      // Clear buffer
-      logger.clear();
-
-      // Unregister again, so that the logger can flush again the next time the tab is clicked.
-      logger.unregister(this.logappender);
+        // Register to flush the log queue into the appender.
+        logger.register(this.logappender)
+  
+        // Clear buffer
+        logger.clear();
+  
+        // Unregister again, so that the logger can flush again the next time the tab is clicked.
+        logger.unregister(this.logappender);
+      }
     }
 
-    
   },
 
 
