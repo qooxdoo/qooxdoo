@@ -164,7 +164,7 @@ qx.Class.define("qx.event.handler.Mouse",
       );
 
       // Fire user action event
-      qx.event.Registration.fireEvent(this._window, "useraction");
+      qx.event.Registration.fireEvent(this._window, "useraction", qx.event.type.Data, [type||domEvent.type]);
     },
 
 
