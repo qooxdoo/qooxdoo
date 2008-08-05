@@ -69,6 +69,10 @@ this.warn("Adding label " + label + " (" + labelArr[i] + ") to parent " + this);
       this._labels[i] = label;
     }
 
+    // Arrange to be called when the window appears or is resized, so we
+    // can set each style sheet's left and width field appropriately.
+    this.addListener("resize", this._resizeColumns, this);
+
     // This layout is not connected to a widget but to this class. This class
     // must implement the method "getLayoutChildren", which must return all
     // columns (LayoutItems) which should be recalcutated. The call
@@ -87,12 +91,6 @@ this.warn("Adding label " + label + " (" + labelArr[i] + ") to parent " + this);
     {
       // Save the progressive handle
       this.base(arguments, progressive);
-
-      // Arrange to be called when the window appears or is resized, so we
-      // can set each style sheet's left and width field appropriately.
-      progressive.addListener("widthChanged",
-                              this._resizeColumns,
-                              this);
     },
 
     /**
@@ -113,7 +111,7 @@ this.warn("Adding label " + label + " (" + labelArr[i] + ") to parent " + this);
 
 
     /**
-     * Event handler for the "widthChanged" event.  We recalculate and set the
+     * Event handler for the "resize" event.  We recalculate and set the
      * new widths of each of our columns.
      *
      * @param e {qx.event.type.Event}
@@ -123,11 +121,16 @@ this.warn("Adding label " + label + " (" + labelArr[i] + ") to parent " + this);
      */
     _resizeColumns : function(e)
     {
+
+      var width =
+        this.getBounds().width - qx.bom.element.Overflow.getScrollbarWidth();
+/*
       var width =
         (! this._progressive.getContainerElement().getDomElement()
          ? 0
          : this._progressive.getBounds().width) -
         qx.bom.element.Overflow.getScrollbarWidth();
+*/
 
       // Compute the column widths
       this.__bCalculateWidths = true;

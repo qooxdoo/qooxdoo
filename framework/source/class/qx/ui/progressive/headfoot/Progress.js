@@ -59,6 +59,10 @@ qx.Class.define("qx.ui.progressive.headfoot.Progress",
     // We're initially invisible
     this.setVisibility("excluded");
 
+    // Arrange to be called when the window appears or is resized, so we
+    // can set each style sheet's left and width field appropriately.
+    this.addListener("resize", this._resizeColumns, this);
+
     // This layout is not connected to a widget but to this class. This class
     // must implement the method "getLayoutChildren", which must return all
     // columns (LayoutItems) which should be recalcutated. The call
@@ -117,12 +121,6 @@ qx.Class.define("qx.ui.progressive.headfoot.Progress",
                                 this.setVisibility("excluded");
                               },
                               this);
-
-      // Arrange to be called when the window appears or is resized, so we
-      // can set each style sheet's left and width field appropriately.
-      progressive.addListener("widthChanged",
-                              this._resizeColumns,
-                              this);
     },
 
     /**
@@ -136,7 +134,7 @@ qx.Class.define("qx.ui.progressive.headfoot.Progress",
 
 
     /**
-     * Event handler for the "widthChanged" event.  We compute and sum the new
+     * Event handler for the "resize" event.  We compute and sum the new
      * widths of the columns of the table to determine our new width.
      *
      * @param e {qx.event.type.Event}
