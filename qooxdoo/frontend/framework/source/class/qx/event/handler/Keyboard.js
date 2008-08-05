@@ -209,7 +209,7 @@ qx.Class.define("qx.event.handler.Keyboard",
       }
 
       // Fire user action event
-      qx.event.Registration.fireEvent(this._window, "useraction");
+      qx.event.Registration.fireEvent(this._window, "useraction", qx.event.type.Data, ["keyinput"]);
     },
 
 
@@ -240,7 +240,7 @@ qx.Class.define("qx.event.handler.Keyboard",
       this._manager.dispatchEvent(target, event);
 
       // Fire user action event
-      qx.event.Registration.fireEvent(this._window, "useraction");
+      qx.event.Registration.fireEvent(this._window, "useraction", qx.event.type.Data, [type]);
     },
 
 
