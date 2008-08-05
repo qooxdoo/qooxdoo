@@ -39,6 +39,7 @@ qx.Class.define("testrunner.runner.TestResultView",
     this.base(arguments);
     this._testResults = [];
     
+    this.setBackgroundColor("white");
     this.setOverflowY("scroll");
 
     this.addListener("appear", function() {

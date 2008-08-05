@@ -20,11 +20,10 @@
 ************************************************************************ */
 
 /* ************************************************************************
-
+#asset(qx/icon/${qx.icontheme}/16/apps/video-player.png)
+#asset(qx/icon/${qx.icontheme}/16/apps/photo-album.png)
 #asset(qx/icon/${qx.icontheme}/16/actions/view-refresh.png)
 #asset(qx/icon/${qx.icontheme}/16/actions/media-playback-start.png)
-#asset(qx/icon/${qx.icontheme}/16/devices/video-display.png)
-#asset(qx/icon/${qx.icontheme}/16/apps/graphics-snapshot.png)
 #asset(qx/icon/${qx.icontheme}/16/apps/network-manager.png)
 #asset(qx/icon/${qx.icontheme}/16/apps/preferences-display.png)
 
@@ -84,23 +83,13 @@ qx.Class.define("testrunner.runner.TestRunner",
 
     var rightSub = new qx.ui.container.Composite(new qx.ui.layout.VBox);
     rightSub.setPadding(10);
-    //rightSub.setHeight("1*");
-    //rightSub.setSpacing(20);
     right.add(rightSub, {flex : 1});
 
     var groupBox = new qx.ui.groupbox.GroupBox();
     groupBox.setLayout(new qx.ui.layout.Grow)
-    //groupBox.set({ height : "auto" });
 
     var vert = new qx.ui.container.Composite(new qx.ui.layout.VBox);
 
-/*
-    vert.set(
-    {
-      height : "auto",
-      width  : "100%"
-    });
-*/
     groupBox.add(vert);
 
     rightSub.add(groupBox);
@@ -121,19 +110,6 @@ qx.Class.define("testrunner.runner.TestRunner",
     var buttview = this.__makeOutputViews();
     rightSub.add(buttview, {flex : 1});
 
-    
-    // add eventhandler now, after objects are created
-    this.widgets["treeview"].addListener("changeSelected", function(e)
-    {
-      // TODO
-      /*
-      if (e.getData().getUserData('tree').getSelectedElement() == null) {
-        this.widgets["toolbar.runbutton"].setEnabled(false);
-      }
-      */
-    },
-    this);
-
     // Log Appender
     this.debug("This should go to the dedicated log window ...");
 
@@ -141,12 +117,14 @@ qx.Class.define("testrunner.runner.TestRunner",
     // Hidden IFrame for test runs
     var iframe = new qx.ui.embed.Iframe;
     iframe.setSource("about:blank")
-    //iframe.setEdge(0);
     this.iframe = iframe;
-    //iframe.addToDocument();
-    this.setZIndex(5);
-    ////iframe.setVisibility("hidden");
+
     this._add(iframe);
+    iframe.set({
+      width  : 0,
+      height : 0,
+      zIndex : 5
+    })
 
     // Get the TestLoader from the Iframe (in the event handler)
     iframe.addListener("load", this.ehIframeOnLoad, this);
@@ -262,7 +240,6 @@ qx.Class.define("testrunner.runner.TestRunner",
       this.reloadbutton.setToolTip(new qx.ui.tooltip.ToolTip("Reload test backend application"));
       this.reloadbutton.addListener("execute", this.reloadTestSuite, this);
 
-      ////toolbar.addSeparator();
       toolbar.addSpacer();
 
       // -- reload switch
@@ -296,22 +273,14 @@ qx.Class.define("testrunner.runner.TestRunner",
     __makeOutputViews : function()
     {
       // Main Container
-      //var buttview = new qx.legacy.ui.pageview.tabview.TabView();
-      //buttview.set({ height : "1*" });
       var tabview = new qx.ui.tabview.TabView;
-/*
-      var bsb1 = new qx.legacy.ui.pageview.tabview.Button("Test Results", "icon/16/devices/video-display.png");
-      var bsb2 = new qx.legacy.ui.pageview.tabview.Button("Log", "icon/16/apps/graphics-snapshot.png");
-      bsb1.setChecked(true);
-      buttview.getBar().add(bsb1, bsb2);
-*/
 
-      var p1 = new qx.ui.tabview.Page("Test Results", "icon/16/devices/video-display.png");
+      var p1 = new qx.ui.tabview.Page("Test Results", "icon/16/apps/video-player.png");
       p1.setLayout(new qx.ui.layout.Grow);
       p1.set({ padding : [ 5 ] });
 
       // spacing   : 5
-      var p2 = new qx.ui.tabview.Page("Log", "icon/16/apps/graphics-snapshot.png");
+      var p2 = new qx.ui.tabview.Page("Log", "icon/16/apps/photo-album.png");
       p2.setLayout(new qx.ui.layout.Grow);
       p2.set({ padding : [ 5 ] });
       tabview.add(p1);
@@ -322,44 +291,18 @@ qx.Class.define("testrunner.runner.TestRunner",
 
       this.f1 = f1;
       p1.add(f1);
-/*
-      f1.set(
-      {
-        overflow : "auto",
-        height   : "100%",
-        width    : "100%",
-        border   : "dark-shadow",
-        padding  : 10
-      });
-*/
+
       // Second Page
       var pp2 = new qx.ui.container.Composite(new qx.ui.layout.VBox(20)) ;// new qx.legacy.ui.layout.VerticalBoxLayout();
       p2.add(pp2);
-/*
-      pp2.set(
-      {
-        height : "100%",
-        width  : "100%",
-        spacing : 20
-      });
-*/
+
       // main output area
       this.f2 = new qx.ui.embed.Html('');
+      this.f2.setBackgroundColor("white");
       pp2.add(this.f2);
       //this.f2.setHtmlProperty("id", "sessionlog");
       this.f2.getContentElement().setAttribute("id", "sessionlog");
 
-      /*
-      this.f2.set(
-      {
-        overflow : "auto",
-        height   : "1*",
-        width    : "100%",
-        border   : "dark-shadow",
-        padding  : 10
-      });
-      */
-      
       // toolbar
       var ff1_b1 = new qx.ui.form.Button("Clear");
       ff1_b1.setAllowGrowX(false);
@@ -419,27 +362,30 @@ qx.Class.define("testrunner.runner.TestRunner",
       var p1 = new qx.ui.tabview.Page(null, "icon/16/apps/network-manager.png");
       p1.setLayout(new qx.ui.layout.Grow);
       p1.getButton().setToolTip( new qx.ui.tooltip.ToolTip("Full Tree"));
+      p1.getButton().setHeight(25);
       tabview.add(p1);
 
       var tree = new qx.ui.tree.Tree("Tests");
+      tree.setSelectionMode("single");
       p1.add(tree);
       this.tree = tree;
       this.widgets["treeview.full"] = tree;
-      
-////      bsb1.setUserData('tree', tree);  // for changeSelected handling
+
       tree.addListener("changeSelection", this.treeGetSelection, this);
 
       // flat view
       var p2 = new qx.ui.tabview.Page(null, "icon/16/apps/preferences-display.png");
       p2.setLayout(new qx.ui.layout.Grow);
       p2.getButton().setToolTip( new qx.ui.tooltip.ToolTip("Flat tree view (only one level of containers)"));
+      p2.getButton().setHeight(25);
       tabview.add(p2);
 
       var tree1 = new qx.ui.tree.Tree("Tests");
       p2.add(tree1);
+      tree1.setSelectionMode("single");
       this.tree1 = tree1;
       this.widgets["treeview.flat"] = tree1;
-      ////bsb2.setUserData('tree', tree1);  // for changeSelected handling
+
       tree1.addListener("changeSelection", this.treeGetSelection, this);
 
       // fake unique tree for selection (better to have a selection on the model)
@@ -448,7 +394,6 @@ qx.Class.define("testrunner.runner.TestRunner",
 
       this.tree.getSelectedElement = function()
       {
-        //var sel = that.widgets["treeview"].getBar().getManager().getSelected();
         var sel = that.widgets["treeview"].getSelected();
         var elem;
 
@@ -478,14 +423,14 @@ qx.Class.define("testrunner.runner.TestRunner",
 
       var progressb = new testrunner.runner.ProgressBar();
       progress.add(progressb);
-/*
+
       progressb.set(
       {
         showStepStatus : true,
         showPcntStatus : true,
         barColor       : "#36a618"
       });
-*/
+
       this.widgets["progresspane"] = progress;
       this.widgets["progresspane.progressbar"] = progressb;
       progress.add(new qx.ui.toolbar.Separator);
@@ -582,33 +527,6 @@ qx.Class.define("testrunner.runner.TestRunner",
       // update selection in other tree
       // -- not working!
 
-      /*
-      var selButt = this.widgets["treeview"].getSelected();
-
-      if (selButt.getIcon() == "icon/16/apps/network-manager.png")
-      {
-        if (modelNode.widgetLinkFlat)
-        {
-          this.widgets["treeview.flat"].select(modelNode.widgetLinkFlat);
-
-          if (modelNode.widgetLinkFlat instanceof qx.ui.tree.TreeFolder) {
-            modelNode.widgetLinkFlat.open();
-          }
-        }
-        else
-        {
-          ////this.widgets["treeview.flat"].deselectAll();
-        }
-      }
-      else
-      {
-        this.widgets["treeview.full"].select(modelNode.widgetLinkFull);
-
-        if (modelNode.widgetLinkFull instanceof qx.ui.tree.TreeFolder) {
-          modelNode.widgetLinkFull.open();
-        }
-      }
-*/
       this.widgets["statuspane.systeminfo"].setContent("Tests selected");
     },  // treeGetSelection
 
@@ -621,7 +539,6 @@ qx.Class.define("testrunner.runner.TestRunner",
      */
     leftReloadTree : function(e)
     {  // use tree struct
-
 
       /**
        * create widget tree from model
@@ -768,10 +685,7 @@ qx.Class.define("testrunner.runner.TestRunner",
       var trees = [ fulltree, flattree ];
       var stree = this.widgets["treeview"].getSelected();
 
-      for (var i=0; i<trees.length; i++)
-      {
-        ////trees[i].resetSelected();
-        ////trees[i].destroyContent();  // clean up before re-build
+      for (var i=0; i<trees.length; i++) {
         trees[i].setUserData("modelLink", ttree);  // link top level widgets and model
       }
 
@@ -804,25 +718,32 @@ qx.Class.define("testrunner.runner.TestRunner",
 
       if (selectedElement)  // try to re-select previously selected element
       {
-        // select tree element and open if folder
-        if (selectedElement.widgetLinkFull)
-        {
-          this.widgets["treeview.full"].select(selectedElement.widgetLinkFull);
+        var activeTree;
+        var link;
 
-          if (selectedElement.widgetLinkFull instanceof qx.ui.tree.TreeFolder) {
-            ////selectedElement.widgetLinkFull.open();
-          }
+        if(that.widgets["treeview"].getSelected().getIcon() == "icon/16/apps/network-manager.png")
+        {
+          activeTree = this.widgets["treeview.full"];
+          link = "widgetLinkFull";
+        }
+        else
+        {
+          activeTree = this.widgets["treeview.flat"];
+          link = "widgetLinkFlat";
         }
 
-        if (selectedElement.widgetLinkFlat)
+        // Open all element's parents 
+        var element = selectedElement[link].getParent();
+        while(element != null)
         {
-          this.widgets["treeview.flat"].select(selectedElement.widgetLinkFlat);
-
-          if (selectedElement.widgetLinkFlat instanceof qx.ui.tree.TreeFolder) {
-            ////selectedElement.widgetLinkFlat.open();
-          }
+          element.setOpen(true);
+          element = element.getParent();
         }
+
+        // Finally select the element
+        selectedElement[link].getTree().select(selectedElement[link]);
       }
+
     },  // leftReloadTree
 
     // -------------------------------------------------------------------------
@@ -1003,6 +924,7 @@ qx.Class.define("testrunner.runner.TestRunner",
       else
       {  // no selected tree node - this should never happen here!
         alert("Please select a test node from the tree!");
+        that.toolbar.setEnabled(true);
         return;
       }
 
