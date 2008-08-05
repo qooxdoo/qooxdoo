@@ -117,8 +117,6 @@ apps/internet-telephony:apps/internet-phone,apps/ekiga
 apps/internet-feed-reader:apps/gnome-blog,apps/akregator,apps/feed
 apps/office-address-book:apps/kaddressbook,apps/kontact,apps/emesene
 apps/office-calendar:apps/kontact
-apps/office-database:apps/kexi
-apps/office-writer:apps/kword
 apps/office-spreadsheet:apps/gnome-gnumeric,apps/kchart
 apps/audio-player:apps/xmms,apps/amarok,apps/preferences-desktop-sound
 apps/video-player:apps/totem,apps/kaffeine,apps/kmplayer,apps/mplayer
