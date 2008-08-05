@@ -309,7 +309,7 @@ qx.Class.define("testrunner.runner.TestRunner",
 
       // width : "auto"
       ff1_b1.addListener("execute", function(e) {
-        this.f2.getContentElement().getDomElement().innerHTML = "";
+        this.logelem.innerHTML = "";
       }, this);
 
       // log appender
@@ -980,6 +980,9 @@ qx.Class.define("testrunner.runner.TestRunner",
       this.loader = this.frameWindow.testrunner.TestLoader.getInstance();
       // TODO: the next line needs re-activation
       //this.loader.getLogger().getParentLogger().addAppender(this.logappender);
+
+//      this.loader.getLogger().addAppender(this.logappender);
+
       var testRep = this.loader.getTestDescriptions();
       this.tests.handler = new testrunner.runner.TestHandler(testRep);
       this.tests.firstrun = true;
@@ -1070,6 +1073,7 @@ qx.Class.define("testrunner.runner.TestRunner",
     
     __fetchLog : function()
     {
+      debugger;
       logger = qx.log.Logger;
 
       // Register to flush the log queue into the appender.
