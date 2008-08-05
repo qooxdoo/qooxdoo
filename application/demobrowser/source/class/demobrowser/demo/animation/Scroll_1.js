@@ -17,18 +17,12 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#use(qx.legacy.theme.ClassicRoyale)
-
-************************************************************************ */
-
 /**
  * qx.fx.effect.core.Scroll offers animated scrolling possibilites
  */
 qx.Class.define("demobrowser.demo.animation.Scroll_1",
 {
-  extend : qx.legacy.application.Gui,
+  extend : qx.application.Standalone,
 
   members :
   {
@@ -36,7 +30,7 @@ qx.Class.define("demobrowser.demo.animation.Scroll_1",
     {
       this.base(arguments);
 
-      var doc = qx.legacy.ui.core.ClientDocument.getInstance();
+      var doc = this.getRoot();
       myElement = document.getElementById("testDiv");
 
       // Only one effect should be executed at the same time in gloabl queue
@@ -75,21 +69,13 @@ qx.Class.define("demobrowser.demo.animation.Scroll_1",
 
 
       /* Buttons */
-      var btnUp = new qx.legacy.ui.form.Button("Scroll Up");
-      var btnDown = new qx.legacy.ui.form.Button("Scroll Down");
+      var btnUp = new qx.ui.form.Button("Scroll Up");
+      var btnDown = new qx.ui.form.Button("Scroll Down");
 
-      var btnLeft = new qx.legacy.ui.form.Button("Scroll Left");
-      var btnRight = new qx.legacy.ui.form.Button("Scroll Right");
+      var btnLeft = new qx.ui.form.Button("Scroll Left");
+      var btnRight = new qx.ui.form.Button("Scroll Right");
 
-      var btnGoto = new qx.legacy.ui.form.Button("Scroll to 40, 100");
-
-      btnUp.setLocation(10, 10);
-      btnDown.setLocation(70, 10);
-
-      btnLeft.setLocation(170, 10);
-      btnRight.setLocation(235, 10);
-      btnGoto.setLocation(325, 10);
-
+      var btnGoto = new qx.ui.form.Button("Scroll to 40, 100");
 
       /* Events */
       btnUp.addListener("execute", function(){
@@ -112,8 +98,11 @@ qx.Class.define("demobrowser.demo.animation.Scroll_1",
         animScrollTo.start();
       });
 
-
-      qx.legacy.ui.core.ClientDocument.getInstance().add(btnUp, btnDown, btnLeft, btnRight, btnGoto);
+      doc.add(btnUp, {left: 10, top: 10});
+      doc.add(btnDown, {left: 75, top: 10});
+      doc.add(btnLeft, {left: 175, top: 10});
+      doc.add(btnRight, {left: 245, top: 10});
+      doc.add(btnGoto, {left: 330, top: 10});
     }
   }
 });

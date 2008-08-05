@@ -17,20 +17,12 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#use(qx.legacy.theme.ClassicRoyale)
-
-************************************************************************ */
-
-
-
 /**
  * qx.fx offers low level animation capabilites for DOM elements.
  */
 qx.Class.define("demobrowser.demo.animation.Showcase_1",
 {
-  extend : qx.legacy.application.Gui,
+  extend : qx.application.Standalone,
 
   members :
   {
@@ -51,72 +43,87 @@ qx.Class.define("demobrowser.demo.animation.Showcase_1",
       this._demoElement = document.getElementById("testDiv");
       this._demoImage = document.getElementById("testImg");
 
-      var doc = qx.legacy.ui.core.ClientDocument.getInstance();
+      var doc = this.getRoot();
       this._vBoxes = [];
 
       /* UI elements: */
-      var main = new qx.legacy.ui.layout.VerticalBoxLayout();
-      main.setPadding(10);
-      main.setWidth(140);
+      var main = new qx.ui.container.Composite(new qx.ui.layout.VBox(10));
+      main.setWidth(150);
 
       var groupBoxes = {
-        gbxBase : new qx.legacy.ui.groupbox.GroupBox("Base effects"),
-        gbxAttention : new qx.legacy.ui.groupbox.GroupBox("Attention effects"),
-        gbxVanish : new qx.legacy.ui.groupbox.GroupBox("Vanish effects")
+        gbxBase : new qx.ui.groupbox.GroupBox("Base effects"),
+        gbxAttention : new qx.ui.groupbox.GroupBox("Attention effects"),
+        gbxVanish : new qx.ui.groupbox.GroupBox("Vanish effects")
       };
 
-      var vbxBase = this.test = new qx.legacy.ui.layout.VerticalBoxLayout();
+      var groupBoxes = {
+        gbxBase : new qx.ui.groupbox.GroupBox("Base effects"),
+        gbxAttention : new qx.ui.groupbox.GroupBox("Attention effects"),
+        gbxVanish : new qx.ui.groupbox.GroupBox("Vanish effects")
+      };
+      for(var box in groupBoxes){
+        groupBoxes[box].setLayout(new qx.ui.layout.Grow);
+      }
+
+      var vbxBase = new qx.ui.container.Composite(new qx.ui.layout.VBox(5));
       vbxBase.set({
-        spacing : 5,
         minWidth : 120
       });
       this._vBoxes.push(vbxBase);
 
-      var btnOpacity = new qx.legacy.ui.form.Button("Toggle Opacity");
-      var btnDimensions = new qx.legacy.ui.form.Button("Toggle Size");
-      var btnPosition = new qx.legacy.ui.form.Button("Toggle Position");
-      var btnBackground = new qx.legacy.ui.form.Button("Toggle Background");
+      var btnOpacity = new qx.ui.form.Button("Toggle Opacity");
+      var btnDimensions = new qx.ui.form.Button("Toggle Size");
+      var btnPosition = new qx.ui.form.Button("Toggle Position");
+      var btnBackground = new qx.ui.form.Button("Toggle Background");
 
-      vbxBase.add(btnOpacity, btnDimensions, btnPosition, btnBackground);
+      vbxBase.add(btnOpacity)
+      vbxBase.add(btnDimensions);
+      vbxBase.add(btnPosition)
+      vbxBase.add(btnBackground);
+
       groupBoxes.gbxBase.add(vbxBase);
 
 
-      var vbxAttention = new qx.legacy.ui.layout.VerticalBoxLayout();
+      var vbxAttention = new qx.ui.container.Composite(new qx.ui.layout.VBox(5));
       vbxAttention.set({
-        spacing : 5,
         minWidth : 120
       });
       this._vBoxes.push(vbxAttention);
 
-      var btnShake = new qx.legacy.ui.form.Button("Shake");
-      var btnColorFlow = new qx.legacy.ui.form.Button("ColorFlow");
-      var btnPulsate = new qx.legacy.ui.form.Button("Pulsate");
-      vbxAttention.add(btnShake, btnColorFlow, btnPulsate);
+      var btnShake = new qx.ui.form.Button("Shake");
+      var btnColorFlow = new qx.ui.form.Button("ColorFlow");
+      var btnPulsate = new qx.ui.form.Button("Pulsate");
+      vbxAttention.add(btnShake);
+      vbxAttention.add(btnColorFlow);
+      vbxAttention.add(btnPulsate);
+
       groupBoxes.gbxAttention.add(vbxAttention);
 
 
-      var vbxVanish = new qx.legacy.ui.layout.VerticalBoxLayout();
+      var vbxVanish = new qx.ui.container.Composite(new qx.ui.layout.VBox(5));
       vbxVanish.set({
-        spacing : 5,
         minWidth : 120
       });
       this._vBoxes.push(vbxVanish);
 
-      var btnPuff = new qx.legacy.ui.form.Button("Puff");
-      var btnDrop = new qx.legacy.ui.form.Button("Drop out");
-      var btnSwitchOff = new qx.legacy.ui.form.Button("Switch Off");
-      var btnShrink = new qx.legacy.ui.form.Button("Shrink")
-      var btnFold = new qx.legacy.ui.form.Button("Fold in");
-      vbxVanish.add(btnPuff, btnDrop, btnShrink, btnSwitchOff, btnFold);
+      var btnPuff = new qx.ui.form.Button("Puff");
+      var btnDrop = new qx.ui.form.Button("Drop out");
+      var btnSwitchOff = new qx.ui.form.Button("Switch Off");
+      var btnShrink = new qx.ui.form.Button("Shrink")
+      var btnFold = new qx.ui.form.Button("Fold in");
+      vbxVanish.add(btnPuff);
+      vbxVanish.add(btnDrop);
+      vbxVanish.add(btnShrink);
+      vbxVanish.add(btnSwitchOff);
+      vbxVanish.add(btnFold);
+
       groupBoxes.gbxVanish.add(vbxVanish);
 
-      for(var box in groupBoxes)
-      {
-        groupBoxes[box].setDimension("auto", "auto");
+      for (var box in groupBoxes) {
         main.add(groupBoxes[box]);
       }
 
-      main.addToDocument();
+      doc.add(main)
 
 
       /* Effects: */
@@ -281,8 +288,8 @@ qx.Class.define("demobrowser.demo.animation.Showcase_1",
 
       var shrinkBtnNotifier;
 
-      btnShrink.addListener("insertDom", function(){
-        shrinkBtnNotifier = new qx.fx.effect.combination.ColorFlow(this.getElement());
+      btnShrink.addListener("appear", function(){
+        shrinkBtnNotifier = new qx.fx.effect.combination.ColorFlow(this.getContentElement().getDomElement());
         shrinkBtnNotifier.set({
           startColor   : "#EBE9ED",
           endColor     : "#FFA823",
@@ -355,8 +362,8 @@ qx.Class.define("demobrowser.demo.animation.Showcase_1",
 
       var dropBtnNotifier;
 
-      btnDrop.addListener("insertDom", function(){
-        dropBtnNotifier = new qx.fx.effect.combination.ColorFlow(this.getElement());
+      btnDrop.addListener("appear", function(){
+        dropBtnNotifier = new qx.fx.effect.combination.ColorFlow(this.getContentElement().getDomElement());
         dropBtnNotifier.set({
           startColor   : "#EBE9ED",
           endColor     : "#FFA823",
@@ -396,8 +403,8 @@ qx.Class.define("demobrowser.demo.animation.Showcase_1",
       var fold = new qx.fx.effect.combination.Fold(this._demoElement);
       var foldBtnNotifier;
 
-      btnFold.addListener("insertDom", function(){
-        foldBtnNotifier = new qx.fx.effect.combination.ColorFlow(this.getElement());
+      btnFold.addListener("appear", function(){
+        foldBtnNotifier = new qx.fx.effect.combination.ColorFlow(this.getContentElement().getDomElement());
         foldBtnNotifier.set({
           startColor   : "#EBE9ED",
           endColor     : "#FFA823",
@@ -453,19 +460,15 @@ qx.Class.define("demobrowser.demo.animation.Showcase_1",
 
 
 
-      qx.legacy.ui.core.ClientDocument.getInstance().addListener("appear", function()
+      for(var box in groupBoxes)
       {
-        for(var box in groupBoxes)
-        {
-          groupBoxes[box].setDimension("auto", "auto");
-          groupBoxes[box].setFont("bold");
-          main.add(groupBoxes[box]);
-        }
+        groupBoxes[box].setFont("bold");
+        main.add(groupBoxes[box]);
+      }
 
-        for (var i=0; i<this._vBoxes.length; i++) {
-          this._vBoxes[i].setFont("normal");
-        }
-      });
+      for (var i=0; i<this._vBoxes.length; i++) {
+        this._vBoxes[i].setFont("default");
+      }
 
     }
 
