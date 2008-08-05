@@ -114,7 +114,7 @@ qx.Class.define("demobrowser.demo.table.Table",
         table.getSelectionModel().iterateSelection(function(ind) {
           selection.push(ind + "");
         });
-        this.showDialog("Selected rows: " + selection.join(", "));
+        this.showDialog("Selected rows:<br>" + selection.join(", "));
       }, this);
       part.add(button);
 
