@@ -12,10 +12,10 @@
   function getDataFromLocation()
   {
 
-    var defaultParameters = 
+    var defaultParameters =
     {
       "aspects" : "off",
-      "theme" : "qx.theme.Classic"
+      "theme" : "qx.theme.Modern"
     };
 
     // extract category and file
