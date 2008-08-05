@@ -211,7 +211,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          icon : "decoration/arrows/down.gif"
+          icon : "decoration/arrows/down.png"
         };
       }
     },
@@ -774,7 +774,6 @@ qx.Theme.define("qx.theme.modern.Appearance",
       {
         return {
           decorator       : "pane",
-          padding         : 10,
           marginBottom    : states.barBottom ? -1 : 0,
           marginTop       : states.barTop ? -1 : 0,
           marginLeft      : states.barLeft ? -1 : 0,
@@ -783,7 +782,15 @@ qx.Theme.define("qx.theme.modern.Appearance",
       }
     },
 
-    "tabview-page" : {},
+    "tabview-page" :
+    {
+      style : function(states)
+      {
+        return {
+          padding : 10
+        };
+      }
+    },
 
     /*
      * TODO
@@ -927,7 +934,20 @@ qx.Theme.define("qx.theme.modern.Appearance",
     },
 
     "toolbar-splitbutton" : {},
-    "toolbar-splitbutton/button" : "toolbar-button",
+    "toolbar-splitbutton/button" :
+    {
+      alias : "toolbar-button",
+      include : "toolbar-button",
+
+      style : function(states)
+      {
+        return {
+          marginRight: 0,
+          icon : "decoration/arrows/down.png"
+        };
+      }
+    },
+
     "toolbar-splitbutton/arrow" :
     {
       alias : "toolbar-button",
@@ -936,7 +956,9 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          icon : "decoration/arrows/down.gif"
+          padding : states.pressed||states.checked ? 1 : states.hovered ? 1 : 3,
+          marginLeft : 0,
+          icon : "decoration/arrows/down.png"
         };
       }
     },
@@ -963,7 +985,18 @@ qx.Theme.define("qx.theme.modern.Appearance",
     */
 
 
-    "tree" : "list",
+    "tree" :
+    {
+      include : "list",
+      alias : "list",
+
+      style : function(states)
+      {
+        return {
+          padding : 4
+        }
+      }
+    },
 
     "tree-folder" :
     {
@@ -1348,7 +1381,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
     ---------------------------------------------------------------------------
     */
     "datechooser" : {
-      
+
       style : function(states)
       {
         return {

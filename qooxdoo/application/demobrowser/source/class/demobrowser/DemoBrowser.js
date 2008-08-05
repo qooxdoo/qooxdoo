@@ -54,18 +54,22 @@ qx.Class.define("demobrowser.DemoBrowser",
     this._useProfile = false;
 
     // Theme
-    this.__currentTheme = "Classic";
+    this.__currentTheme = "Modern";
 
     // Commands
     this.__makeCommands();
 
     // Header Pane
-    this.header = this.__makeHeader();
+    //this.header = this.__makeHeader();
 
-    this.add(this.header);
+    //this.add(this.header);
 
     // Menu Bar
     this.add(this.__makeMenuBar());
+
+    // Toolbar
+    this.toolbar = this.__makeToolbar();
+    this.add(this.toolbar);
 
     // Main Pane
     // split
@@ -82,10 +86,6 @@ qx.Class.define("demobrowser.DemoBrowser",
     // Right
     var right = new qx.ui.container.Composite(new qx.ui.layout.VBox);
     mainsplit.add(right, 1);
-
-    // Toolbar
-    this.toolbar = this.__makeToolbar();
-    right.add(this.toolbar);
 
     // output views
     var buttview = this.__makeOutputViews();
@@ -497,7 +497,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       this.widgets["toolbar.controlbutts"] = mb;
 
       // -- run button
-      this.runbutton = new qx.ui.toolbar.Button("Run Sample", "icon/16/actions/system-run.png");
+      this.runbutton = new qx.ui.toolbar.Button("Run Sample", "icon/16/actions/media-playback-start.png");
       this.runbutton.setShow("icon");
       mb.add(this.runbutton);
       this.widgets["toolbar.runbutton"] = this.runbutton;
@@ -554,7 +554,9 @@ qx.Class.define("demobrowser.DemoBrowser",
       menu.add(t2);
 
       // Create opener button
-      var splitButton = new qx.ui.form.SplitButton("Classic", "icon/16/apps/accessories-color-chooser.png", menu);
+      var splitButton = new qx.ui.toolbar.SplitButton("Classic", "icon/16/apps/accessories-color-chooser.png", menu).set({
+        focusable: false
+      });
       this._splitButton = splitButton;
       splitButton.addListener("execute", this.__toggleTheme, this);
 
@@ -663,16 +665,19 @@ qx.Class.define("demobrowser.DemoBrowser",
     {
       // Main Container
       var tabview = new qx.ui.tabview.TabView;
-      tabview.setMarginTop(20);
 
       this.widgets["outputviews"] = tabview;
 
       // First Page
-      var p1 = new qx.ui.tabview.Page("Start", "icon/16/actions/system-run.png");
+      var p1 = new qx.ui.tabview.Page("Start", "icon/16/actions/system-run.png").set({
+        padding: 2
+      });
       p1.setLayout(new qx.ui.layout.Grow);
       tabview.add(p1);
 
-      var f1 = new qx.ui.embed.Iframe;
+      var f1 = new qx.ui.embed.Iframe().set({
+        decorator : null
+      });
       f1.addListener("load", this.__ehIframeLoaded, this);
       this.f1 = f1;
       p1.add(f1);
@@ -1117,7 +1122,7 @@ qx.Class.define("demobrowser.DemoBrowser",
      * @param url {var} TODOC
      * @return {String} TODOC
      */
-    
+
     // TODO: This method needs a rewrite
     __getPageSource : function(url) {
 
