@@ -90,6 +90,8 @@ qx.Class.define("demobrowser.demo.table.TableDemo",
       {
         var dlg = this.__dlg = new qx.ui.window.Window().set({
           modal: true,
+          showMinimize: false,
+          showMaximize: false,
           width: 180,
           padding: 10
         });
@@ -123,6 +125,7 @@ qx.Class.define("demobrowser.demo.table.TableDemo",
 
       this.__dlg.getChildren()[1].setContent(text);
       this.__dlg.open();
+      this.__dlg.getChildren()[2].focus();
     }
   }
 });

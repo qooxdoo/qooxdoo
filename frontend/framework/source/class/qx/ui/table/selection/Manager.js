@@ -60,7 +60,7 @@ qx.Class.define("qx.ui.table.selection.Manager",
      */
     selectionModel :
     {
-      //check : "qx.ui.table.selection.Model"
+      check : "qx.ui.table.selection.Model"
     }
   },
 
