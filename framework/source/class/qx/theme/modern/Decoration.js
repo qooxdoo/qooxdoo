@@ -979,6 +979,40 @@ qx.Theme.define("qx.theme.modern.Decoration",
         widthBottom : 1,
         colorBottom : "#FAFAFA"
       }
-    }
+    },
+    
+    
+    
+    /*
+    ---------------------------------------------------------------------------
+      DATE CHOOSER
+    ---------------------------------------------------------------------------
+   */
+   
+   "date-chooser" :
+   {
+      decorator : qx.ui.decoration.Double,
+      
+      style :
+      {
+        width      : 1,
+        innerWidth : 1,
+        
+        color      : "border-dark",
+        innerColor : "white"
+      }
+   },
+    
+   "date-chooser-pane" :
+   {
+      decorator : qx.ui.decoration.Single,
+      
+      style :
+      {
+        widthTop : 1,
+        colorTop : "border-dark",
+        style    : "solid"        
+      }
+   }    
   }
 });
