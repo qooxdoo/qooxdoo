@@ -228,6 +228,27 @@ qx.Theme.define("qx.theme.modern.Decoration",
     },
 
 
+    "shadow" :
+    {
+      decorator : qx.ui.decoration.Grid,
+
+      style : {
+        baseImage : "decoration/shadow/shadow.png",
+        insets    : [ 4, 8, 8, 4 ]
+      }
+    },
+
+
+    "shadow-small" :
+    {
+      decorator : qx.ui.decoration.Grid,
+
+      style : {
+        baseImage : "decoration/shadow/shadow-small.png",
+        insets    : [ 0, 3, 3, 0 ]
+      }
+    },
+
 
     /*
     ---------------------------------------------------------------------------
@@ -684,7 +705,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
      style :
      {
        width : 1,
-       color : "#d1d1d1",
+       color : "#666",
        style : "solid"
      }
    },
@@ -752,21 +773,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
       WINDOW
     ---------------------------------------------------------------------------
     */
-
-    "window" :
-    {
-      decorator : qx.ui.decoration.Grid,
-
-      style :
-      {
-        baseImage : "decoration/window/shadow.png",
-        insets    : [ 3, 8, 8, 4 ]
-
-    /*    width : 1,
-        color : "#4d4d4d",
-        style : "solid"*/
-      }
-    },
 
     "window-border" :
     {
@@ -935,7 +941,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
     ---------------------------------------------------------------------------
    */
 
-   // TODO: add shadow
    "menu" :
    {
      decorator : qx.ui.decoration.Single,
