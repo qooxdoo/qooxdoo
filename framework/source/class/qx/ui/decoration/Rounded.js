@@ -28,7 +28,6 @@ qx.Class.define("qx.ui.decoration.Rounded",
   extend : qx.ui.decoration.Single,
 
 
-
   /*
   *****************************************************************************
      PROPERTIES
@@ -165,7 +164,7 @@ qx.Class.define("qx.ui.decoration.Rounded",
         // use VML in IE to render borders
         // http://www.w3.org/TR/NOTE-VML
 
-        var fillColor = this._resolveColor(backgroundColor || this.getBackgroundColor()) || "white";
+        var fillColor = qx.theme.manager.Color.getInstance().resolve(backgroundColor || this.getBackgroundColor()) || "white";
 
         // VML currently only supports the "imageRepeat" = "repeat"
         var backgroundImage = qx.util.ResourceManager.toUri(qx.util.AliasManager.getInstance().resolve(this.getBackgroundImage()));
