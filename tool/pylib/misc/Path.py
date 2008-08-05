@@ -19,10 +19,19 @@
 #
 ################################################################################
 
+'''provide extra path functions beyond os.path'''
+
 import os, sys, re, types
 
-'''provide extra path functions beyond os.path'''
-def getCommonSuffix1(p1, p2):
+def getCommonSuffix(p1, p2):
+    return getCommonSuffixA(p1, p2)  # dispatch to real implementation
+
+
+def getCommonPrefix(p1, p2):
+    return getCommonPrefixA(p1, p2)  # dispatch to real implementation
+
+
+def getCommonSuffixS2(p1, p2):  # direct String-based implementation (repeats much of getCommonPrefixS)
     '''computes the common suffix of path1, path2, and returns the two different prefixes
        and the common suffix'''
     pre1 = pre2 = suffx = ""
@@ -40,19 +49,32 @@ def getCommonSuffix1(p1, p2):
     return pre1, pre2, suffx
 
 
-def getCommonPrefix1(p1, p2):
+def getCommonPrefixS(p1, p2):  # String-based
     '''computes the common prefix of p1, p2, and returns the common prefix and the two
        different suffixes'''
     pre = sfx1 = sfx2 = ""
+    # catch corner cases
     if (len(p1) == 0 or len(p2) == 0): return "",p1,p2
+    if p1 == p2: return p1,"",""
+    # treat the others
+    len_p2 = len(p2)
     for i in range(len(p1)):
-        if i >= len(p2):
+        if i >= len_p2:
             break
         elif p1[i] == p2[i]:
-            pre += p1[i]
+            continue
         else:
             i -= 1  # correct i, since the loop ends differently with range() or !=
             break
+    # treat path elements atomic
+    if p1[i] != os.sep: # the commonality did not end in a path sep
+        # calculate backwards to the last encountered os.sep or the beginning of the string
+        j = p1.rfind(os.sep,0,i)
+        if j >-1:
+            i = j 
+        else: # there is no os.sep in the commen prefix so use start of string
+            i = j  # this complies with the suffix "[i+1:]" slice later
+    pre  = p1[0:i+1]
     sfx1 = p1[i+1:]
     sfx2 = p2[i+1:]
 
@@ -92,7 +114,7 @@ def _getCommonPrefixA(pa1, pa2):
     return getCommonPrefixRec([], pa1, pa2)
 
 
-def getCommonPrefix(p1, p2):
+def getCommonPrefixA(p1, p2):  # Array-based
     '''treat directory names atomic, so that "a/b.1/c" and "a/b.2/d" will have
        ("a", "b.1/c", "b.2/d") and not ("a/b.", "1/c", "2/d")'''
     
@@ -107,7 +129,7 @@ def getCommonPrefix(p1, p2):
     return map(lambda x: ((len(x)>0 and os.path.join(*x)) or ""), (prea, sfx1a, sfx2a))
 
 
-def getCommonSuffix(p1, p2):
+def getCommonSuffixA(p1, p2):  # Array-based
     '''uses _getCommonPrefixA as well by reversing arguments and return values; such a pitty that
        there is no functional equivalent to array.reverse(), which is destructive :-('''
     
@@ -122,6 +144,22 @@ def getCommonSuffix(p1, p2):
     sfxa.reverse()
 
     return map(lambda x: ((len(x)>0 and os.path.join(*x)) or ""), (pre1a, pre2a, sfxa))
+
+
+def getCommonSuffixS(p1, p2):  # String-based
+    'use getCommonPrefixS, but with reversed arguments and return values'
+    p1r = p1[::-1]  # this is string reverse in Python
+    p2r = p2[::-1]
+    sfx, pre1, pre2 = getCommonPrefixS(p1r, p2r)
+    sfx  = sfx[::-1]
+    pre1 = pre1[::-1]
+    pre2 = pre2[::-1]
+    if sfx.startswith(os.sep):  # don't return a real suffix that looks like an absolute path
+        sfx = sfx[len(os.sep):]   # skip the leading os.sep
+        pre1 += os.sep            # and push it to the prefixes
+        pre2 += os.sep
+
+    return pre1, pre2, sfx
 
 
 def posifyPath(path):
