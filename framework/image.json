@@ -152,7 +152,19 @@
           {
             "prefix" : "../../${MODERN}/shadow/shadow-small",
             "border-width" : 5
-          }   
+          },
+          // large shadow e.g. for windows
+          "${RESPATH}/source/Modern/shadow.png" :
+          {
+            "prefix" : "../../${CLASSIC}/shadow/shadow",
+            "border-width" : 15
+          },
+          // small shadow e.g. for menus
+          "${RESPATH}/source/Modern/shadow-small.png" :
+          {
+            "prefix" : "../../${CLASSIC}/shadow/shadow-small",
+            "border-width" : 5
+          }          
         }
       }
     },
@@ -231,7 +243,6 @@
           {
             "input"  : 
             [ 
-              "${RESPATH}/${MODERN}/shadow/shadow-*-[tb]*.png",
               "${RESPATH}/${MODERN}/shadow/shadow-[tb]*.png"
             ],
             "layout" : "vertical"
@@ -241,7 +252,6 @@
           {
             "input"  : 
             [ 
-              "${RESPATH}/${MODERN}/shadow/shadow-*-[lr].png",
               "${RESPATH}/${MODERN}/shadow/shadow-[lr].png"
             ],
             "layout" : "horizontal"
@@ -251,7 +261,6 @@
           {
             "input"  : 
             [ 
-              "${RESPATH}/${MODERN}/shadow/shadow-small-*-[tb]*.png",
               "${RESPATH}/${MODERN}/shadow/shadow-small-[tb]*.png"
             ],
             "layout" : "vertical"
@@ -261,11 +270,46 @@
           {
             "input"  : 
             [ 
-              "${RESPATH}/${MODERN}/shadow/shadow-small-*-[lr].png",
               "${RESPATH}/${MODERN}/shadow/shadow-small-[lr].png"
             ],
             "layout" : "horizontal"
           },          
+          
+          "${RESPATH}/${CLASSIC}/shadow-tb-combined.png":
+          {
+            "input"  : 
+            [ 
+              "${RESPATH}/${CLASSIC}/shadow/shadow-[tb]*.png"
+            ],
+            "layout" : "vertical"
+          },
+
+          "${RESPATH}/${CLASSIC}/shadow-lr-combined.png":
+          {
+            "input"  : 
+            [ 
+              "${RESPATH}/${CLASSIC}/shadow/shadow-[lr].png"
+            ],
+            "layout" : "horizontal"
+          },
+          
+          "${RESPATH}/${CLASSIC}/shadow-small-tb-combined.png":
+          {
+            "input"  : 
+            [ 
+              "${RESPATH}/${CLASSIC}/shadow/shadow-small-[tb]*.png"
+            ],
+            "layout" : "vertical"
+          },
+
+          "${RESPATH}/${MODERN}/shadow-small-lr-combined.png":
+          {
+            "input"  : 
+            [ 
+              "${RESPATH}/${CLASSIC}/shadow/shadow-small-[lr].png"
+            ],
+            "layout" : "horizontal"
+          },            
           
           "${RESPATH}/${CLASSIC}/cursors-combined.png":
           {
