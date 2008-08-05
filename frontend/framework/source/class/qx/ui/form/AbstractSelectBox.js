@@ -136,15 +136,17 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
           });
 
           control.addListener("changeSelection", this._onListChangeSelection, this);
-          control.addListener("changeValue", this._onListChangeValue, this);
+          control.addListener("mousedown", this._onListMouseDown, this);
           break;
 
         case "popup":
           control = new qx.ui.popup.Popup(new qx.ui.layout.VBox);
           control.setAutoHide(false);
+          control.setKeepActive(true);
           control.addListener("mouseup", this.close, this);
-          control.addListener("activate", this._onActivateList, this);
           control.add(this._getChildControl("list"));
+
+          control.addListener("changeVisibility", this._onPopupChangeVisibility, this);
           break;
       }
 
@@ -193,10 +195,10 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
      */
     open : function()
     {
-      var listPopup = this._getChildControl("popup");
+      var popup = this._getChildControl("popup");
 
-      listPopup.placeToWidget(this);
-      listPopup.show();
+      popup.placeToWidget(this);
+      popup.show();
     },
 
 
@@ -231,18 +233,6 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
     */
 
     /**
-     * Redirects the activation to the main widget
-     *
-     * @param e {Object} Activation event
-     */
-    _onActivateList : function(e)
-    {
-      this.activate();
-      e.stopPropagation();
-    },
-
-
-    /**
      * Reacts on special keys and forwards other key events to the list widget.
      *
      * @param e {qx.event.type.KeyEvent} Keypress event
@@ -254,24 +244,22 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
       var listPopup = this._getChildControl("popup");
 
       // disabled pageUp and pageDown keys
-      if (identifier == "PageDown" || identifier == "PageUp")
-      {
-        if (listPopup.isHidden()) {
-          return;
-        }
+      if (listPopup.isHidden() && (identifier == "PageDown" || identifier == "PageUp")) {
+        e.stopPropagation();
       }
 
       // hide the list always on escape
-      if (identifier == "Escape" && !listPopup.isHidden())
+      else if (!listPopup.isHidden() && identifier == "Escape")
       {
         this.close();
         e.stopPropagation();
-
-        return;
       }
 
       // forward the rest of the events to the list
-      this._getChildControl("list").handleKeyPress(e);
+      else
+      {
+        this._getChildControl("list").handleKeyPress(e);
+      }
     },
 
 
@@ -296,12 +284,22 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
 
 
     /**
-     * Redirects changeValue event from the list to this widget.
+     * Redirects mousedown event from the list to this widget.
      *
-     * @param e {qx.event.type.Data} Data Event
+     * @param e {qx.event.type.Mouse} Mouse Event
      */
-    _onListChangeValue : function(e) {
-      throw new Error("Abstract method: _onListChangeValue()");
+    _onListMouseDown : function(e) {
+      throw new Error("Abstract method: _onListMouseDown()");
+    },
+
+
+    /**
+     * Redirects changeVisibility event from the list to this widget.
+     *
+     * @param e {qx.event.type.Data} Property change event
+     */
+    _onPopupChangeVisibility : function(e) {
+      throw new Error("Abstract method: _onPopupChangeVisibility()");
     }
   }
 });

@@ -155,6 +155,11 @@ qx.Class.define("qx.ui.form.SelectBox",
 
       var icon = value.getIcon();
       icon == null ? atom.resetIcon() : atom.setIcon(icon);
+
+      // Fire value event
+      if (this.hasListener("changeValue")) {
+        this.fireDataEvent("changeValue", list.getValue());
+      }
     },
 
 
@@ -259,18 +264,64 @@ qx.Class.define("qx.ui.form.SelectBox",
 
 
     // overridden
-    _onListChangeSelection : function(e)
+    _onListMouseDown : function(e)
     {
-      var current = e.getData();
-      if (current.length > 0) {
-        this.setSelected(current[0]);
+      // Apply pre-selected item (translate quick selection to real selection)
+      if (this._preSelectedItem)
+      {
+        this.setSelected(this._preSelectedItem);
+        this._preSelectedItem = null;
       }
     },
 
 
     // overridden
-    _onListChangeValue : function(e) {
-      this.fireDataEvent("changeValue", e.getData());
+    _onListChangeSelection : function(e)
+    {
+      var current = e.getData();
+      if (current.length > 0)
+      {
+        // Ignore quick context (e.g. mouseover)
+        // and configure the new value when closing the popup afterwards
+        var list = this._getChildControl("list");
+        if (list.getSelectionContext() == "quick")
+        {
+          this._preSelectedItem = current[0];
+        }
+        else
+        {
+          this.setSelected(current[0]);
+          this._preSelectedItem = null;
+        }
+      }
+    },
+
+
+    // overridden
+    _onPopupChangeVisibility : function(e)
+    {
+      // Synchronize the current selection to the list selection
+      // when the popup is closed. The list selection may be invalid
+      // because of the quick selection handling which is not
+      // directly applied to the selectbox
+      var popup = this._getChildControl("popup");
+      if (!popup.isVisible())
+      {
+        var list = this._getChildControl("list");
+        list.select(this.getSelected());
+      }
     }
+  },
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCT
+  *****************************************************************************
+  */
+
+  destruct : function() {
+    this._disposeFields("_preSelectedItem");
   }
 });

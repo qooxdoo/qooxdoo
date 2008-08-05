@@ -125,8 +125,8 @@ qx.Class.define("qx.ui.form.ComboBox",
         case "button":
           control = new qx.ui.form.Button();
           control.setFocusable(false);
+          control.setKeepActive(true);
           control.addState("inner");
-          control.addListener("activate", this._onActivateButton, this);
           this._add(control);
           break;
       }
@@ -197,15 +197,15 @@ qx.Class.define("qx.ui.form.ComboBox",
     },
 
 
-    /**
-     * Redirect activation to the main widget
-     *
-     * @param e {Object} Activation event
-     */
-    _onActivateButton : function(e)
+    // overridden
+    _onListMouseDown : function(e)
     {
-      this.activate();
-      e.stopPropagation();
+      // Apply pre-selected item (translate quick selection to real selection)
+      if (this._preSelectedItem)
+      {
+        this.setValue(this._preSelectedItem.getLabel());
+        this._preSelectedItem = null;
+      }
     },
 
 
@@ -213,15 +213,38 @@ qx.Class.define("qx.ui.form.ComboBox",
     _onListChangeSelection : function(e)
     {
       var current = e.getData();
-      if (current.length > 0) {
-        this.setValue(current[0].getLabel());
+      if (current.length > 0)
+      {
+        // Ignore quick context (e.g. mouseover)
+        // and configure the new value when closing the popup afterwards
+        var list = this._getChildControl("list");
+        if (list.getSelectionContext() == "quick")
+        {
+          this._preSelectedItem = current[0];
+        }
+        else
+        {
+          this.setValue(current[0].getLabel());
+          this._preSelectedItem = null;
+        }
       }
     },
 
 
     // overridden
-    _onListChangeValue : function(e) {
-      // empty implementation
+    _onPopupChangeVisibility : function(e)
+    {
+      // Synchronize the list with the current value on every
+      // opening of the popup. This is useful because through
+      // the quick selection mode, the list may keep an invalid
+      // selection on close or the user may enter text while
+      // the combobox is closed and reopen it afterwards.
+      var popup = this._getChildControl("popup");
+      if (popup.isVisible())
+      {
+        var list = this._getChildControl("list");
+        list.setValue(this.getValue());
+      }
     },
 
 
@@ -244,6 +267,8 @@ qx.Class.define("qx.ui.form.ComboBox",
     _onTextFieldChangeValue : function(e) {
       this.setValue(e.getData());
     },
+
+
 
 
     /*
@@ -302,16 +327,15 @@ qx.Class.define("qx.ui.form.ComboBox",
     clearSelection : function() {
       this._getChildControl("textfield").clearSelection();
     },
-    
-    
+
+
     /**
      * Selects the whole content
-     * 
+     *
      * @return {void}
      */
-    selectAll : function()
-    {
-      this._getChildControl("textfield").setSelection(0);
+    selectAll : function() {
+      this._getChildControl("textfield").selectAll();
     }
   }
 });
