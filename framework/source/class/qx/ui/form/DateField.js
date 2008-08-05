@@ -209,7 +209,6 @@ qx.Class.define("qx.ui.form.DateField",
           control = new qx.ui.popup.Popup(new qx.ui.layout.VBox);
           control.setAutoHide(false);
           control.add(this._getChildControl("list"));
-          control.addListener("activate", this._onActivateList, this);
           control.addListener("mouseup", this._onChangeDate, this);
           break;          
       }
