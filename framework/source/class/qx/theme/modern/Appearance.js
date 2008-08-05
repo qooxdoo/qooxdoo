@@ -993,7 +993,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          padding : 4
+          contentPadding : [4, 4, 4, 4]
         }
       }
     },
