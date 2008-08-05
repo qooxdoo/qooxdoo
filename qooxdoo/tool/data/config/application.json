@@ -9,12 +9,12 @@
     },
 
     {
-      "path" : "../../../application/apiviewer/api.json",
+      "path" : "../../../component/apiviewer/api.json",
       "as"   : "apiconf"
     }
   ],
 
-  "export" : 
+  "export" :
   [
     "api",
     "build",
@@ -30,7 +30,7 @@
     "translate"
   ],
 
-        
+
 
   "let" :
   {
@@ -52,7 +52,7 @@
 
       "let" :
       {
-        "APIVIEWER_ROOT" : "${QOOXDOO_PATH}/../application/apiviewer",
+        "APIVIEWER_ROOT" : "${QOOXDOO_PATH}/../component/apiviewer",
         "BUILD_PATH" : "./api",
         "API_INCLUDE" : ["qx.*", "${APPLICATION}.*"]
       },
