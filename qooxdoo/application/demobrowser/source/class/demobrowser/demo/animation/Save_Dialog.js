@@ -53,9 +53,9 @@ qx.Class.define("demobrowser.demo.animation.Save_Dialog",
       var layout1 = new qx.ui.layout.VBox();
 
       this.__container = new qx.ui.container.Composite(layout1).set({
-        decorator: "pane",
+        decorator: "outset",
         padding: 16,
-        backgroundColor: "pane"
+        backgroundColor: "#ebe9ed"
       });
 
       document.add(this.__container, {left:40, top:40});
@@ -103,9 +103,9 @@ qx.Class.define("demobrowser.demo.animation.Save_Dialog",
 
       /* Dialog widget */
       this.__dialog = new qx.ui.container.Composite(layout2).set({
-        decorator: "pane",
+        decorator: "outset",
         padding: 16,
-        backgroundColor: "pane",
+        backgroundColor: "#ebe9ed",
         zIndex : -1
       });
 

@@ -45,9 +45,9 @@ qx.Class.define("demobrowser.demo.animation.Login_Sample",
 
       /* Container widget */
       this.__container = new qx.ui.container.Composite(layout).set({
-        decorator: "pane",
+        decorator: "outset",
         padding: 16,
-        backgroundColor: "pane"
+        backgroundColor: "#ebe9ed"
       });
 
       this.getRoot().add(this.__container, {left:40, top:40});

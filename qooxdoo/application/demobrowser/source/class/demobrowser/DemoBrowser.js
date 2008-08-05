@@ -597,7 +597,7 @@ qx.Class.define("demobrowser.DemoBrowser",
     {
       if (!this._profWindow)
       {
-        var win = new qx.legacy.ui.window.Window("Profiling Data");
+        var win = new qx.ui.window.Window("Profiling Data");
         win.set({
           space: [20, 800, 20, 600],
           minWidth : 400,
@@ -608,18 +608,18 @@ qx.Class.define("demobrowser.DemoBrowser",
         win.addToDocument();
         this._profWindow = win;
 
-        var tableModel = new qx.legacy.ui.table.model.Simple();
+        var tableModel = new qx.ui.table.model.Simple();
         tableModel.setColumns([ "Function", "Type", "Own Time", "Avg Time", "Call Count" ]);
         tableModel.setData([]);
         this._profTableModel = tableModel;
 
         var custom = {
           tableColumnModel : function(obj) {
-            return new qx.legacy.ui.table.columnmodel.Resize(obj);
+            return new qx.ui.table.columnmodel.Resize(obj);
           }
         };
 
-        var table = new qx.legacy.ui.table.Table(tableModel, custom);
+        var table = new qx.ui.table.Table(tableModel, custom);
         table.set({
           height: "100%",
           width: "100%"
