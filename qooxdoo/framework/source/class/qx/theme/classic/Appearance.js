@@ -595,6 +595,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       {
         return {
           decorator : "toolbar-part-handle",
+          backgroundColor : "background",
           width     : 4,
           margin    : [ 3, 2 ]
         };
@@ -1602,7 +1603,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
     ---------------------------------------------------------------------------
     */
     "colorselector" : "widget",
-    
+
     // TODO: "button-bar"
     "colorselector/button-bar" : "widget",
     "colorselector/cancle-button" : "button",
@@ -1612,7 +1613,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
     "colorselector/control-bar" : "widget",
     "colorselector/control-pane" : "widget",
 
-    // TODO: "preset-grid" 
+    // TODO: "preset-grid"
     "colorselector/preset-grid" : "widget",
     "colorselector/preset-field-set" : "groupbox",
     "colorselector/input-field-set" : "groupbox",
@@ -1633,11 +1634,11 @@ qx.Theme.define("qx.theme.classic.Appearance",
     "colorselector/hsb-spinner-hue" : "spinner",
     "colorselector/hsb-spinner-saturation" : "spinner",
     "colorselector/hsb-spinner-brightness" : "spinner",
-    
+
     // TODO
     "colorselector/preview-content-old" : "widget",
     "colorselector/preview-content-new" : "widget",
-    
+
     // TODO
     "colorselector/hue-saturation-pane" : "widget",
     "colorselector/hue-saturation-field" : "widget",

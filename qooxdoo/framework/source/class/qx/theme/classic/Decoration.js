@@ -314,7 +314,6 @@ qx.Theme.define("qx.theme.classic.Decoration",
       style :
       {
         width : 1,
-        backgroundColor : "background",
         style : "solid",
 
         colorTop    : "#ffffff",
