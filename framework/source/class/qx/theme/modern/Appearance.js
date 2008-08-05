@@ -72,8 +72,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
         };
       }
     },
-    
-    
+
+
     "move-frame" :
     {
       style : function(states)
@@ -93,8 +93,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
         };
       }
     },
-    
-    
+
+
     "dragdrop-cursor" :
     {
       style : function(states)
@@ -116,7 +116,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         };
       }
     },
-    
+
 
 
     /*
@@ -198,8 +198,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
         };
       }
     },
-    
-    
+
+
     "splitbutton" : {},
     "splitbutton/button" : "button",
     "splitbutton/arrow" :
@@ -375,8 +375,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
         };
       }
     },
-    
-    
+
+
     /*
     ---------------------------------------------------------------------------
       DATEFIELD
@@ -449,7 +449,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
       {
         return {
           padding   : [ 12, 9 ],
-          decorator : "groupbox-frame"
+          decorator : "groupbox-frame",
+          backgroundColor : "#ececec"
         };
       }
     },
@@ -923,7 +924,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         };
       }
     },
-    
+
     "toolbar-splitbutton" : {},
     "toolbar-splitbutton/button" : "toolbar-button",
     "toolbar-splitbutton/arrow" :
@@ -937,7 +938,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
           icon : "decoration/arrows/down.gif"
         };
       }
-    },    
+    },
 
     "toolbar-separator" :
     {
@@ -989,7 +990,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       }
     },
 
-    "tree-folder/icon" : 
+    "tree-folder/icon" :
     {
       style : function(states)
       {
@@ -1002,7 +1003,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
     "tree-folder/label" :
     {
       include : "label",
-      
+
       style : function(states)
       {
         return {
@@ -1039,9 +1040,9 @@ qx.Theme.define("qx.theme.modern.Appearance",
         }
       }
     },
-    
-    
-    
+
+
+
 
 
     /*
@@ -1274,7 +1275,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         };
       }
     },
-    
+
     "splitpane/splitter/knob" :
     {
       style : function(states)
@@ -1336,8 +1337,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
         };
       }
     },*/
-   
-   
+
+
    /*
     ---------------------------------------------------------------------------
       DATE CHOOSER
@@ -1528,14 +1529,14 @@ qx.Theme.define("qx.theme.modern.Appearance",
         };
       }
     },
-    
-    
+
+
     /*
     ---------------------------------------------------------------------------
       MENU
     ---------------------------------------------------------------------------
     */
-   
+
    // TODO: style menu appearances
    "menu" :
     {
@@ -1665,16 +1666,16 @@ qx.Theme.define("qx.theme.modern.Appearance",
         }
       }
     },
-    
-    
-    
+
+
+
     /*
     ---------------------------------------------------------------------------
       COLOR SELECTOR
     ---------------------------------------------------------------------------
     */
     "colorselector" : "widget",
-    
+
     // TODO: "button-bar"
     "colorselector/button-bar" : "widget",
     "colorselector/cancle-button" : "button",
@@ -1684,7 +1685,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
     "colorselector/control-bar" : "widget",
     "colorselector/control-pane" : "widget",
 
-    // TODO: "preset-grid" 
+    // TODO: "preset-grid"
     "colorselector/preset-grid" : "widget",
     "colorselector/preset-field-set" : "groupbox",
     "colorselector/input-field-set" : "groupbox",
@@ -1705,11 +1706,11 @@ qx.Theme.define("qx.theme.modern.Appearance",
     "colorselector/hsb-spinner-hue" : "spinner",
     "colorselector/hsb-spinner-saturation" : "spinner",
     "colorselector/hsb-spinner-brightness" : "spinner",
-    
+
     // TODO
     "colorselector/preview-content-old" : "widget",
     "colorselector/preview-content-new" : "widget",
-    
+
     // TODO
     "colorselector/hue-saturation-pane" : "widget",
     "colorselector/hue-saturation-field" : "widget",
@@ -1717,19 +1718,19 @@ qx.Theme.define("qx.theme.modern.Appearance",
     "colorselector/brightness-pane" : "widget",
     "colorselector/brightness-field" : "widget",
     "colorselector/brightness-handle" : "widget",
-    
-    
-    
+
+
+
     /*
     ---------------------------------------------------------------------------
       TABLE
     ---------------------------------------------------------------------------
     */
 
-    "table" : 
+    "table" :
     {
       alias : "widget",
-      
+
       style : function(states)
       {
         return {
@@ -1737,9 +1738,9 @@ qx.Theme.define("qx.theme.modern.Appearance",
         };
       }
     },
-    
+
     "table-header": {},
-    
+
     "table/statusbar" :
     {
       style : function(states)
@@ -1766,7 +1767,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
     },
 
     "table-scroller" : "widget",
-    
+
     "table-scroller/scrollbar-x": "scrollbar",
     "table-scroller/scrollbar-y": "scrollbar",
 
@@ -1835,7 +1836,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         }
       }
     },
-    
+
     "table-editor-textfield" :
     {
       include : "textfield",
