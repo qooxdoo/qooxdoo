@@ -46,31 +46,24 @@ qx.Class.define("qx.ui.progressive.headfoot.TableHeading",
 
     this._columnWidths = columnWidths;
     
+    // Set a default height for the progress bar
     this.setHeight(16);
 
-    var border = new qx.ui.decoration.Single(1, "solid", "#eeeeee");
-    border.setWidthTop(0);
-    border.setWidthLeft(0);
-    border.setWidthBottom(2);
-    border.setColorBottom("#aaaaaa");
-    
+    // Get the array of column width data
+    var columnData = columnWidths.getData();
+
     // Create a place to put labels
     this._labels = [ ];
 
     // For each label...
-    for (var i = 0; i < columnWidths.length; i++)
+    for (var i = 0; i < columnData.length; i++)
     {
       // ... create an atom to hold the label
       label = new qx.ui.basic.Atom(labelArr[i]);
 
-      // Use the width of the corresponding column
-      label.setWidth(columnWidths[i].getWidth());
-
-      // Set borders for the headings
-      label.setBorder(border);
-
       // Add the label to this heading.
       this.add(label);
+this.warn("Adding label " + label + " (" + labelArr[i] + ") to parent " + this);
 
       // Save this label so we can resize it later
       this._labels[i] = label;
@@ -108,7 +101,14 @@ qx.Class.define("qx.ui.progressive.headfoot.TableHeading",
      */
     getLayoutChildren : function()
     {
-      return this._columnWidths;
+      if (this.__bCalculateWidths)
+      {
+        return this._columnWidths.getData();
+      }
+      else
+      {
+        return this.getChildren();
+      }
     },
 
 
@@ -126,17 +126,24 @@ qx.Class.define("qx.ui.progressive.headfoot.TableHeading",
       var width =
         (! this._progressive.getContainerElement().getDomElement()
          ? 0
-         : this._progressive.getInnerWidth()) -
-        qx.bom.element.Overflow.getScrollbarSize();
+         : this._progressive.getBounds().width) -
+        qx.bom.element.Overflow.getScrollbarWidth();
 
       // Compute the column widths
+      this.__bCalculateWidths = true;
+this.warn("rendering into width " + width + " with scrollbar width " + qx.bom.element.Overflow.getScrollbarWidth());
       this._layout.renderLayout(width, 100);
+      this.__bCalculateWidths = false;
+
+      // Get the column data
+      var columnData = this._columnWidths.getData();
 
       // Get the column width data.  For each label...
-      for (var i = 0; i < data.length; i++)
+      for (var i = 0; i < columnData.length; i++)
       {
+this.warn("resize column " + i + " to " + columnData[i].getComputedWidth());
         // ... reset the width of the corresponding column (label)
-        this._labels[i].setWidth(this._columnWidths[i].getComputedWidth());
+        this._labels[i].setWidth(columnData[i].getComputedWidth());
       }
     }
   }
