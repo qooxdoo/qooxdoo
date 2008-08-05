@@ -1393,7 +1393,8 @@ qx.Class.define("demobrowser.DemoBrowser",
     {
       var w = this.f1.getWindow();
       var logger;
-      if (w.qx && w.qx.log && w.qx.log.Logger) {
+      if (w.qx && w.qx.log && w.qx.log.Logger)
+      {
         logger = w.qx.log.Logger;
 
         // Register to flush the log queue into the appender.
