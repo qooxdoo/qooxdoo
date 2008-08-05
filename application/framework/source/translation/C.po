@@ -1,0 +1,325 @@
+# (Default)
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: qooxdoo framework\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2008-05-19 10:11+0200\n"
+"PO-Revision-Date: 2006-12-19 15:52+0100\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=ASCII\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: class/qx/legacy/ui/component/ColorPopup.js:161
+msgid "Automatic"
+msgstr ""
+
+#: class/qx/legacy/ui/component/ColorPopup.js:229
+#: class/qx/legacy/ui/component/ColorSelector.js:413
+msgid "Preview (Old/New)"
+msgstr ""
+
+#: class/qx/legacy/ui/component/ColorPopup.js:262
+msgid "Open ColorSelector"
+msgstr ""
+
+#: class/qx/legacy/ui/component/ColorPopup.js:283
+msgid "Color Selector"
+msgstr ""
+
+#: class/qx/legacy/ui/component/ColorSelector.js:229
+msgid "Cancel"
+msgstr ""
+
+#: class/qx/legacy/ui/component/ColorSelector.js:230
+msgid "OK"
+msgstr ""
+
+#: class/qx/legacy/ui/component/ColorSelector.js:343
+msgid "Presets"
+msgstr ""
+
+#: class/qx/legacy/ui/component/ColorSelector.js:394
+msgid "Details"
+msgstr ""
+
+#: class/qx/legacy/ui/component/ColorSelector.js:448
+msgid "Hex"
+msgstr ""
+
+#: class/qx/legacy/ui/component/ColorSelector.js:477
+msgid "RGB"
+msgstr ""
+
+#: class/qx/legacy/ui/component/ColorSelector.js:512
+msgid "HSB"
+msgstr ""
+
+#: class/qx/legacy/ui/component/DateChooser.js:85
+msgid "Last year"
+msgstr ""
+
+#: class/qx/legacy/ui/component/DateChooser.js:92
+msgid "Last month"
+msgstr ""
+
+#: class/qx/legacy/ui/component/DateChooser.js:98
+msgid "Next month"
+msgstr ""
+
+#: class/qx/legacy/ui/component/DateChooser.js:104
+msgid "Next year"
+msgstr ""
+
+#: class/qx/legacy/ui/component/DateChooserButton.js:61
+msgid "Choose a date"
+msgstr ""
+
+#: class/qx/legacy/ui/form/ComboBoxEx.js:269
+msgid "Description"
+msgstr ""
+
+#: class/qx/legacy/ui/form/ComboBoxEx.js:269
+msgid "ID"
+msgstr ""
+
+#: class/qx/legacy/ui/form/ComboBoxEx.js:953
+msgid "Search"
+msgstr ""
+
+#: class/qx/legacy/ui/form/ComboBoxEx.js:1069
+msgid "Case sensitive"
+msgstr ""
+
+#: class/qx/legacy/ui/form/ComboBoxEx.js:1111
+msgid "Search next occurrence"
+msgstr ""
+
+#: class/qx/legacy/ui/form/ComboBoxEx.js:1155
+msgid "Search items in list"
+msgstr ""
+
+#: class/qx/legacy/ui/table/Table.js:1522
+msgid "one row"
+msgid_plural "%1 rows"
+msgstr[0] ""
+msgstr[1] ""
+
+#: class/qx/legacy/ui/table/Table.js:1524
+msgid "one of one row"
+msgid_plural "%1 of %2 rows"
+msgstr[0] ""
+msgstr[1] ""
+
+#. TRANSLATION: short representation of key names
+#: class/qx/locale/Key.js:77
+msgid "key_short_Backspace"
+msgstr ""
+
+#: class/qx/locale/Key.js:78
+msgid "key_short_Tab"
+msgstr ""
+
+#: class/qx/locale/Key.js:79
+msgid "key_short_Space"
+msgstr ""
+
+#: class/qx/locale/Key.js:80
+msgid "key_short_Enter"
+msgstr ""
+
+#: class/qx/locale/Key.js:81
+msgid "key_short_Shift"
+msgstr ""
+
+#: class/qx/locale/Key.js:82
+msgid "key_short_Control"
+msgstr ""
+
+#: class/qx/locale/Key.js:83
+msgid "key_short_Alt"
+msgstr ""
+
+#: class/qx/locale/Key.js:84
+msgid "key_short_CapsLock"
+msgstr ""
+
+#: class/qx/locale/Key.js:85
+msgid "key_short_Meta"
+msgstr ""
+
+#: class/qx/locale/Key.js:86
+msgid "key_short_Escape"
+msgstr ""
+
+#: class/qx/locale/Key.js:87
+msgid "key_short_Left"
+msgstr ""
+
+#: class/qx/locale/Key.js:88
+msgid "key_short_Up"
+msgstr ""
+
+#: class/qx/locale/Key.js:89
+msgid "key_short_Right"
+msgstr ""
+
+#: class/qx/locale/Key.js:90
+msgid "key_short_Down"
+msgstr ""
+
+#: class/qx/locale/Key.js:91
+msgid "key_short_PageUp"
+msgstr ""
+
+#: class/qx/locale/Key.js:92
+msgid "key_short_PageDown"
+msgstr ""
+
+#: class/qx/locale/Key.js:93
+msgid "key_short_End"
+msgstr ""
+
+#: class/qx/locale/Key.js:94
+msgid "key_short_Home"
+msgstr ""
+
+#: class/qx/locale/Key.js:95
+msgid "key_short_Insert"
+msgstr ""
+
+#: class/qx/locale/Key.js:96
+msgid "key_short_Delete"
+msgstr ""
+
+#: class/qx/locale/Key.js:97
+msgid "key_short_NumLock"
+msgstr ""
+
+#: class/qx/locale/Key.js:98
+msgid "key_short_PrintScreen"
+msgstr ""
+
+#: class/qx/locale/Key.js:99
+msgid "key_short_Scroll"
+msgstr ""
+
+#: class/qx/locale/Key.js:100
+msgid "key_short_Pause"
+msgstr ""
+
+#: class/qx/locale/Key.js:101
+msgid "key_short_Win"
+msgstr ""
+
+#: class/qx/locale/Key.js:102
+msgid "key_short_Apps"
+msgstr ""
+
+#. TRANSLATION: full/long representation of key names
+#: class/qx/locale/Key.js:105
+msgid "key_full_Backspace"
+msgstr ""
+
+#: class/qx/locale/Key.js:106
+msgid "key_full_Tab"
+msgstr ""
+
+#: class/qx/locale/Key.js:107
+msgid "key_full_Space"
+msgstr ""
+
+#: class/qx/locale/Key.js:108
+msgid "key_full_Enter"
+msgstr ""
+
+#: class/qx/locale/Key.js:109
+msgid "key_full_Shift"
+msgstr ""
+
+#: class/qx/locale/Key.js:110
+msgid "key_full_Control"
+msgstr ""
+
+#: class/qx/locale/Key.js:111
+msgid "key_full_Alt"
+msgstr ""
+
+#: class/qx/locale/Key.js:112
+msgid "key_full_CapsLock"
+msgstr ""
+
+#: class/qx/locale/Key.js:113
+msgid "key_full_Meta"
+msgstr ""
+
+#: class/qx/locale/Key.js:114
+msgid "key_full_Escape"
+msgstr ""
+
+#: class/qx/locale/Key.js:115
+msgid "key_full_Left"
+msgstr ""
+
+#: class/qx/locale/Key.js:116
+msgid "key_full_Up"
+msgstr ""
+
+#: class/qx/locale/Key.js:117
+msgid "key_full_Right"
+msgstr ""
+
+#: class/qx/locale/Key.js:118
+msgid "key_full_Down"
+msgstr ""
+
+#: class/qx/locale/Key.js:119
+msgid "key_full_PageUp"
+msgstr ""
+
+#: class/qx/locale/Key.js:120
+msgid "key_full_PageDown"
+msgstr ""
+
+#: class/qx/locale/Key.js:121
+msgid "key_full_End"
+msgstr ""
+
+#: class/qx/locale/Key.js:122
+msgid "key_full_Home"
+msgstr ""
+
+#: class/qx/locale/Key.js:123
+msgid "key_full_Insert"
+msgstr ""
+
+#: class/qx/locale/Key.js:124
+msgid "key_full_Delete"
+msgstr ""
+
+#: class/qx/locale/Key.js:125
+msgid "key_full_NumLock"
+msgstr ""
+
+#: class/qx/locale/Key.js:126
+msgid "key_full_PrintScreen"
+msgstr ""
+
+#: class/qx/locale/Key.js:127
+msgid "key_full_Scroll"
+msgstr ""
+
+#: class/qx/locale/Key.js:128
+msgid "key_full_Pause"
+msgstr ""
+
+#: class/qx/locale/Key.js:129
+msgid "key_full_Win"
+msgstr ""
+
+#: class/qx/locale/Key.js:130
+msgid "key_full_Apps"
+msgstr ""

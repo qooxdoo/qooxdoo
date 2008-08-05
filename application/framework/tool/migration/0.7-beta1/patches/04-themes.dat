@@ -1,0 +1,2 @@
+\bqx\.manager\.object\.ColorManager\.getInstance\(\)\.createThemeList=qx.util.ThemeList.createColorButtons
+\bqx\.manager\.object\.ImageManager\.getInstance\(\)\.createThemeList=qx.util.ThemeList.createIconButtons

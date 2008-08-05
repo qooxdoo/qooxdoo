@@ -1,0 +1,3 @@
+/**
+ * The qx.locale package.
+ */
