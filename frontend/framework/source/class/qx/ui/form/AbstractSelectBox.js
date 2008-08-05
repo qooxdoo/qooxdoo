@@ -131,7 +131,8 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
             height: null,
             width: null,
             maxHeight: this.getMaxListHeight(),
-            selectionMode: "one"
+            selectionMode: "one",
+            quickSelection: true
           });
 
           control.addListener("changeSelection", this._onListChangeSelection, this);
