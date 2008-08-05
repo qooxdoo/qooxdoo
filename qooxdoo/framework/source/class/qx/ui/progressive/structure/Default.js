@@ -74,7 +74,7 @@ qx.Class.define("qx.ui.progressive.structure.Default",
 
       // Add the header, pane, and footer to the Progressive.
       progressive.add(this._header);
-      progressive.add(this._pane);
+      progressive.add(this._pane, { flex : 1 });
       progressive.add(this._footer);
     },
 
