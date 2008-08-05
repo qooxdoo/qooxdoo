@@ -105,7 +105,6 @@ qx.Class.define("testrunner.runner.TestRunner",
     var progress = this.__makeProgress();
     vert.add(progress);
 
-    // right.add(progress);
     // output views
     var buttview = this.__makeOutputViews();
     rightSub.add(buttview, {flex : 1});
@@ -124,7 +123,7 @@ qx.Class.define("testrunner.runner.TestRunner",
       width  : 0,
       height : 0,
       zIndex : 5
-    })
+    });
 
     // Get the TestLoader from the Iframe (in the event handler)
     iframe.addListener("load", this.ehIframeOnLoad, this);
@@ -283,6 +282,7 @@ qx.Class.define("testrunner.runner.TestRunner",
       var p2 = new qx.ui.tabview.Page("Log", "icon/16/apps/photo-album.png");
       p2.setLayout(new qx.ui.layout.Grow);
       p2.set({ padding : [ 5 ] });
+      p2.getButton().addListener("execute", this.__fetchLog, this);
       tabview.add(p1);
       tabview.add(p2);
       
@@ -300,7 +300,6 @@ qx.Class.define("testrunner.runner.TestRunner",
       this.f2 = new qx.ui.embed.Html('');
       this.f2.setBackgroundColor("white");
       pp2.add(this.f2);
-      //this.f2.setHtmlProperty("id", "sessionlog");
       this.f2.getContentElement().setAttribute("id", "sessionlog");
 
       // toolbar
@@ -310,36 +309,23 @@ qx.Class.define("testrunner.runner.TestRunner",
 
       // width : "auto"
       ff1_b1.addListener("execute", function(e) {
-        this.f2.setHtml("");
+        this.f2.getContentElement().getDomElement().innerHTML = "";
       }, this);
 
       // log appender
-      // this.logappender = new qx.legacy.log.appender.Window("qooxdoo Test Runner");
-      // this.logappender = new qx.legacy.log.appender.Div("sessionlog");
+      this.logappender = new qx.log.appender.Element();
+      qx.log.Logger.unregister(this.logappender);
 
-      ////this.logappender = new testrunner.runner.TestAppender(this.f2);
+      // Directly create DOM element to use
+      this.logelem = document.createElement("DIV");
+      this.logappender.setElement(this.logelem);
+
+      this.f2.addListenerOnce("appear", function(){
+        this.f2.getContentElement().getDomElement().appendChild(this.logelem);
+      }, this);
 
       // TODO: the next line needs re-activation
       //this.getLogger().getParentLogger().getParentLogger().addAppender(this.logappender);
-
-      // Third Page
-      // -- Tab Button
-      ////var bsb3 = new qx.ui.pageview.tabview.Button("Tabled Results", "icon/16/apps/graphics-snapshot.png");
-
-      // buttview.getBar().add(bsb3);
-      // -- Tab Pane
-      //var p3 = new qx.legacy.ui.pageview.tabview.Page(bsb3);
-      /*
-      var p3 = new qx.ui.tabview.Page("Tabled Results", "icon/16/apps/graphics-snapshot.png");
-      p3.setLayout(new qx.ui.layout.Grow)
-      p3.set({ padding : [ 5 ] });
-
-      // -- Pane Content
-      var f3 = new qx.ui.embed.Html("Results should go into a table here.");
-      p3.add(f3);
-      
-      tabview.add(p3);
-      */
 
       return tabview;
     },  // makeOutputViews
@@ -354,7 +340,6 @@ qx.Class.define("testrunner.runner.TestRunner",
      */
     __makeLeft : function()
     {
-      //var buttview = new qx.legacy.ui.pageview.buttonview.ButtonView();
       var tabview = new qx.ui.tabview.TabView;
       this.widgets["treeview"] = tabview;
 
@@ -1081,7 +1066,23 @@ qx.Class.define("testrunner.runner.TestRunner",
      */
     appender : function(str) {
 
+    },
+    
+    __fetchLog : function()
+    {
+      logger = qx.log.Logger;
+
+      // Register to flush the log queue into the appender.
+      logger.register(this.logappender)
+
+      // Clear buffer
+      logger.clear();
+
+      // Unregister again, so that the logger can flush again the next time the tab is clicked.
+      logger.unregister(this.logappender);
     }
+
+    
   },
 
 
