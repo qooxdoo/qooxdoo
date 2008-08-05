@@ -75,18 +75,6 @@
             "prefix" : "../../${MODERN}/pane/pane",
             "border-width" : 6
           },
-          // window background split
-          "${RESPATH}/source/Modern/window-background.png" :
-          {
-            "prefix" : "../../${MODERN}/window/background",
-            "border-width" : 14
-          },
-          // window background split II
-          "${RESPATH}/source/Modern/window-shadow.png" :
-          {
-            "prefix" : "../../${MODERN}/window/shadow",
-            "border-width" : 14
-          },
           // window captionbar active split
           "${RESPATH}/source/Modern/window-captionbar-active.png" :
           {
@@ -152,7 +140,19 @@
           {
             "prefix" : "../../${MODERN}/tabview/tab-button-right-inactive",
             "border-width" : 5
-          }
+          },
+          // large shadow e.g. for windows
+          "${RESPATH}/source/Modern/shadow.png" :
+          {
+            "prefix" : "../../${MODERN}/shadow/shadow",
+            "border-width" : 15
+          },
+          // small shadow e.g. for menus
+          "${RESPATH}/source/Modern/shadow-small.png" :
+          {
+            "prefix" : "../../${MODERN}/shadow/shadow-small",
+            "border-width" : 5
+          }   
         }
       }
     },
@@ -226,44 +226,46 @@
               ],
              "layout" : "horizontal"
           },
+                  
+          "${RESPATH}/${MODERN}/shadow-tb-combined.png":
+          {
+            "input"  : 
+            [ 
+              "${RESPATH}/${MODERN}/shadow/shadow-*-[tb]*.png",
+              "${RESPATH}/${MODERN}/shadow/shadow-[tb]*.png"
+            ],
+            "layout" : "vertical"
+          },
+
+          "${RESPATH}/${MODERN}/shadow-lr-combined.png":
+          {
+            "input"  : 
+            [ 
+              "${RESPATH}/${MODERN}/shadow/shadow-*-[lr].png",
+              "${RESPATH}/${MODERN}/shadow/shadow-[lr].png"
+            ],
+            "layout" : "horizontal"
+          },
           
-          "${RESPATH}/${MODERN}/window-background-tb-combined.png":
+          "${RESPATH}/${MODERN}/shadow-small-tb-combined.png":
           {
             "input"  : 
-              [
-                "${RESPATH}/${MODERN}/window/background-t*.png",
-                "${RESPATH}/${MODERN}/window/background-b*.png"
-              ],
-             "layout" : "vertical"
+            [ 
+              "${RESPATH}/${MODERN}/shadow/shadow-small-*-[tb]*.png",
+              "${RESPATH}/${MODERN}/shadow/shadow-small-[tb]*.png"
+            ],
+            "layout" : "vertical"
           },
 
-          "${RESPATH}/${MODERN}/window-background-lr-combined.png":
+          "${RESPATH}/${MODERN}/shadow-small-lr-combined.png":
           {
             "input"  : 
-              [
-                "${RESPATH}/${MODERN}/window/background-[lr].png"
-              ],
-             "layout" : "horizontal"
-          },
-
-          "${RESPATH}/${MODERN}/window-shadow-tb-combined.png":
-          {
-            "input"  : 
-              [
-                "${RESPATH}/${MODERN}/window/shadow-t*.png",
-                "${RESPATH}/${MODERN}/window/shadow-b*.png"
-              ],
-             "layout" : "vertical"
-          },
-
-          "${RESPATH}/${MODERN}/window-shadow-lr-combined.png":
-          {
-            "input"  : 
-              [
-                "${RESPATH}/${MODERN}/window/shadow-[lr].png"
-              ],
-             "layout" : "horizontal"
-          },
+            [ 
+              "${RESPATH}/${MODERN}/shadow/shadow-small-*-[lr].png",
+              "${RESPATH}/${MODERN}/shadow/shadow-small-[lr].png"
+            ],
+            "layout" : "horizontal"
+          },          
           
           "${RESPATH}/${CLASSIC}/cursors-combined.png":
           {
