@@ -52,9 +52,11 @@ qx.Class.define("apiviewer.Viewer",
     var tree = new apiviewer.ui.PackageTree();
     tree.setId("tree");
 
+    this._searchView = new apiviewer.ui.SearchView();
+    
     var buttonView = this.__createTabView(
       tree,
-      new apiviewer.ui.SearchView(),
+      this._searchView,
       new apiviewer.ui.LegendView()
     );
 
@@ -130,6 +132,11 @@ qx.Class.define("apiviewer.Viewer",
       var searchTab = new qx.ui.tabview.Page(null, apiviewer.TreeUtil.ICON_SEARCH);
       searchTab.setLayout(new qx.ui.layout.Grow);
       searchTab.getButton().setToolTip( new qx.ui.tooltip.ToolTip("Search"));
+
+      searchTab.getButton().addListener("execute", function(){
+        this._searchView.sinput.focus();
+      }, this);
+
       searchTab.add(searchWidget);
       tabView.add(searchTab);
       
