@@ -27,7 +27,6 @@
 #asset(qx/icon/${qx.icontheme}/22/apps/graphics-viewer.png)
 #asset(qx/icon/${qx.icontheme}/22/apps/preferences-wallpaper.png)
 #asset(qx/icon/${qx.icontheme}/16/apps/internet-telephony.png)
-#asset(qx/icon/${qx.icontheme}/16/apps/office-database.png)
 #asset(qx/icon/${qx.icontheme}/32/status/dialog-error.png)
 #asset(qx/icon/${qx.icontheme}/16/actions/dialog-ok.png)
 #asset(qx/icon/${qx.icontheme}/16/actions/dialog-cancel.png)
@@ -214,7 +213,7 @@ qx.Class.define("demobrowser.demo.widget.Window",
       this.getRoot().add(win, {left:100, top:250});
 
       var wm1 = this.getModalWindow1();
-      var btn1 = new qx.ui.form.Button("Open Modal Dialog 1", "icon/16/apps/office-database.png");
+      var btn1 = new qx.ui.form.Button("Open Modal Dialog 1", "icon/16/apps/office-calendar.png");
       btn1.addListener("execute", wm1.open, wm1);
       win.add(btn1);
     },
@@ -231,7 +230,7 @@ qx.Class.define("demobrowser.demo.widget.Window",
 
       var wm2 = this.getModalWindow2();
 
-      var btn2 = new qx.ui.form.Button("Open Modal Dialog 2", "icon/16/apps/office-database.png");
+      var btn2 = new qx.ui.form.Button("Open Modal Dialog 2", "icon/16/apps/office-calendar.png");
       btn2.addListener("execute", wm2.open, wm2);
       wm1.add(btn2);
 
