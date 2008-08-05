@@ -38,6 +38,7 @@ qx.Mixin.define("qx.ui.core.MSelectionHandling",
     // Add widget event listeners
     this.addListener("mousedown", manager.handleMouseDown, manager);
     this.addListener("mouseup", manager.handleMouseUp, manager);
+    this.addListener("mouseover", manager.handleMouseOver, manager);
     this.addListener("mousemove", manager.handleMouseMove, manager);
     this.addListener("losecapture", manager.handleLoseCapture, manager);
     this.addListener("keypress", manager.handleKeyPress, manager);
@@ -91,14 +92,29 @@ qx.Mixin.define("qx.ui.core.MSelectionHandling",
 
 
     /**
-     * Whether drag selection (multi selection of items through
-     * dragging the mouse in pressed states) should be enabled.
+     * Enable drag selection (multi selection of items through
+     * dragging the mouse in pressed states).
+     *
+     * Only possible for the selection modes <code>multi</code> and <code>additive</code>
      */
     dragSelection :
     {
       check : "Boolean",
       init : false,
       apply : "_applyDragSelection"
+    },
+
+
+    /**
+     * Enable quick selection mode, where no click is needed to change the selection.
+     *
+     * Only possible for the modes <code>single</code> and <code>one</code>.
+     */
+    quickSelection :
+    {
+      check : "Boolean",
+      init : false,
+      apply : "_applyQuickSelection"
     }
   },
 
@@ -286,6 +302,12 @@ qx.Mixin.define("qx.ui.core.MSelectionHandling",
     // property apply
     _applyDragSelection : function(value, old) {
       this.__manager.setDrag(value);
+    },
+
+
+    // property apply
+    _applyQuickSelection : function(value, old) {
+      this.__manager.setQuick(value);
     },
 
 
