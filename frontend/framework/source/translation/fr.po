@@ -32,7 +32,7 @@ msgstr "Sélecteur de couleur"
 
 #: class/qx/legacy/ui/component/ColorSelector.js:229
 msgid "Cancel"
-msgstr "Annuller"
+msgstr "Annuler"
 
 #: class/qx/legacy/ui/component/ColorSelector.js:230
 msgid "OK"
