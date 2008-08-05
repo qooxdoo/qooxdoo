@@ -115,12 +115,6 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
       // Save the name that Progressive knows us by
       this._name = name;
 
-      // Arrange to be called when the window appears or is resized, so we
-      // can set each style sheet's left and width field appropriately.
-      progressive.addListener("widthChanged",
-                              this._resizeColumns,
-                              this);
-
       // If we haven't created style sheets for this table yet...
       var tr = qx.ui.progressive.renderer.table.Row;
       if (!tr.__clazz)
@@ -162,9 +156,8 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
 
         // Arrange to be called when the window appears or is resized, so we
         // can set each style sheet's left and width field appropriately.
-        progressive.addListener("widthChanged",
-                                this._resizeColumns,
-                                this);
+        progressive.addListener("resize", this._resizeColumns, this);
+
       }
     },
 
@@ -355,7 +348,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
 
 
     /**
-     * Event handler for the "widthChanged" event.  We recalculate the
+     * Event handler for the "resize" event.  We recalculate the
      * widths of each of the columns, and modify the stylesheet rule
      * applicable to each column, to apply the new widths.
      *
