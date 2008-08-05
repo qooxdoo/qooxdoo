@@ -1259,7 +1259,15 @@ qx.Theme.define("qx.theme.classic.Appearance",
       DATE CHOOSER
     ---------------------------------------------------------------------------
     */
-    "datechooser" : {},
+    "datechooser" : {
+      style : function(states)
+      {
+        return {
+          decorator : "outset"
+        }
+      }
+    },
+    
     "datechooser/navigation-bar" : {
       style : function(states)
       {

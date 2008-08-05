@@ -26,6 +26,7 @@
 #asset(qx/icon/Tango/16/places/folder-open.png)
 #asset(qx/icon/Tango/16/places/folder.png)
 #asset(qx/icon/Tango/16/mimetypes/text-plain.png)
+#asset(qx/icon/Tango/16/apps/office-calendar.png)
 #asset(qx/decoration/Modern/*)
 
 ************************************************************************* */
@@ -1346,7 +1347,15 @@ qx.Theme.define("qx.theme.modern.Appearance",
       DATE CHOOSER
     ---------------------------------------------------------------------------
     */
-    "datechooser" : {},
+    "datechooser" : {
+      
+      style : function(states)
+      {
+        return {
+          decorator : "date-chooser"
+        }
+      }
+    },
     "datechooser/navigation-bar" : {
       style : function(states)
       {
@@ -1372,15 +1381,14 @@ qx.Theme.define("qx.theme.modern.Appearance",
           show   : "icon"
         };
 
-        // TODO: check these icons
         if (states.lastYear) {
-          result.icon = "decoration/arrows/rewind.gif";
+          result.icon = "decoration/arrows/rewind.png";
         } else if (states.lastMonth) {
-          result.icon = "decoration/arrows/left.gif";
+          result.icon = "decoration/arrows/left.png";
         } else if (states.nextYear) {
-          result.icon = "decoration/arrows/forward.gif";
+          result.icon = "decoration/arrows/forward.png";
         } else if (states.nextMonth) {
-          result.icon = "decoration/arrows/right.gif";
+          result.icon = "decoration/arrows/right.png";
         }
 
         if (states.pressed || states.checked || states.abandoned) {
@@ -1419,7 +1427,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          decorator       : new qx.ui.decoration.Single().set({top : [ 1, "solid", "gray" ]}),
+          decorator       : "date-chooser-pane",
           backgroundColor : "date-chooser"
         };
       }
@@ -1430,7 +1438,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         var border = new qx.ui.decoration.Single().set({
-          bottom : [ 1, "solid", "gray" ]
+          bottom : [ 1, "solid", "border-dark" ]
         });
 
         return {
@@ -1449,9 +1457,9 @@ qx.Theme.define("qx.theme.modern.Appearance",
       {
         return {
           textAlign       : "center",
-          decorator       : states.today ? "black" : "undefined",
+          decorator       : states.today ? "focus-line" : "undefined",
           textColor       : states.selected ? "text-selected" : states.otherMonth ? "text-disabled" : "undefined",
-          backgroundColor : states.selected ? "date-chooser-selected" : "undefined",
+          backgroundColor : states.selected ? "selected" : "undefined",
           padding         : [ 2, 4 ]
         };
       }
@@ -1464,14 +1472,14 @@ qx.Theme.define("qx.theme.modern.Appearance",
         if (states.header)
         {
           var border = new qx.ui.decoration.Single().set({
-            right : [ 1, "solid", "gray" ],
-            bottom : [ 1, "solid", "gray" ]
+            right : [ 1, "solid", "border-dark" ],
+            bottom : [ 1, "solid", "border-dark" ]
           });
         }
         else
         {
           var border = new qx.ui.decoration.Single().set({
-            right : [ 1, "solid", "gray" ]
+            right : [ 1, "solid", "border-dark" ]
           });
         }
 
