@@ -24,7 +24,9 @@
  */
 qx.Class.define("qx.ui.decoration.Uniform",
 {
-  extend : qx.ui.decoration.Abstract,
+  extend : qx.core.Object,
+  implement : [qx.ui.decoration.IDecorator],
+
 
 
 
@@ -39,44 +41,46 @@ qx.Class.define("qx.ui.decoration.Uniform",
     /** Set the border width of all sides */
     width :
     {
-      check : "Number",
-      init : 0
+      check : "PositiveInteger",
+      init : 0,
+      apply : "_applyWidth"
     },
+
 
     /** The border style of all sides */
     style :
     {
       nullable : true,
       check : [ "solid", "dotted", "dashed", "double"],
-      init : "solid"
+      init : "solid",
+      apply : "_applyStyle"
     },
+
 
     /** Set the border color of all sides */
     color :
     {
       nullable : true,
-      check : "Color"
+      check : "Color",
+      apply : "_applyStyle"
     },
 
-    /** The background color */
-    backgroundColor :
-    {
-      nullable : true,
-      check : "Color"
-    },
 
     /** The URL of the background image */
     backgroundImage :
     {
       check : "String",
-      nullable : true
+      nullable : true,
+      apply : "_applyStyle"
     },
+
 
     /** How the background should be repeated */
     backgroundRepeat :
     {
       check : ["repeat", "repeat-x", "repeat-y", "no-repeat"],
-      init : "repeat"
+      init : "repeat",
+      apply : "_applyStyle"
     }
   },
 
@@ -91,35 +95,91 @@ qx.Class.define("qx.ui.decoration.Uniform",
 
   members :
   {
+    /*
+    ---------------------------------------------------------------------------
+      INTERFACE IMPLEMENTATION
+    ---------------------------------------------------------------------------
+    */
+
     // interface implementation
     render : function(element, width, height, backgroundColor, changes)
     {
-      if (changes.style || changes.init)
-      {
-        element.setStyle("border", this.getWidth() + "px " + this.getStyle() + " " + (this._resolveColor(this.getColor()) || ""));
-
-        var imageId = qx.util.AliasManager.getInstance().resolve(this.getBackgroundImage());
-        var bgStyles = qx.bom.element.Background.getStyles(imageId, this.getBackgroundRepeat());
-        element.setStyles(bgStyles);
+      if (changes.style || changes.init) {
+        element.setStyles(this.__getStyles());
       }
 
-      if (changes.bgcolor || changes.init) {
-        element.setStyle("backgroundColor", this._resolveColor(backgroundColor || this.getBackgroundColor()) || null);
+      if (changes.bgcolor || changes.init)
+      {
+        var Color = qx.theme.manager.Color.getInstance();
+        element.setStyle("backgroundColor", Color.resolve(backgroundColor));
       }
 
       if (changes.size || changes.init)
       {
-        var inset = 2 * this.getWidth();
-        qx.ui.decoration.Util.updateSize(
-          element,
-          width, height,
-          inset, inset
-        );
+        var axis = this.__insetAxis;
+        qx.ui.decoration.Util.updateSize(element, width, height, axis, axis);
       }
     },
 
 
-    _emptyStyles :
+    // interface implementation
+    reset : function(element) {
+      element.setStyles(this.__emptyStyles);
+    },
+
+
+    // interface implementation
+    getInsets : function()
+    {
+      if (this.__insets) {
+        return this.__insets;
+      }
+
+      var width = this.getWidth();
+      this.__insets =
+      {
+        top : width,
+        right : width,
+        bottom : width,
+        left : width
+      };
+
+      return this.__insets;
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      PROPERTY APPLY ROUTINES
+    ---------------------------------------------------------------------------
+    */
+
+    // property apply
+    _applyWidth : function(value, old)
+    {
+      this.__insets = null;
+      this.__styles = null;
+    },
+
+
+    // property apply
+    _applyStyle : function(value, old) {
+      this.__styles = null;
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      HELPERS
+    ---------------------------------------------------------------------------
+    */
+
+    /** {Map} Default styles */
+    __emptyStyles :
     {
       border: null,
       backgroundImage: null,
@@ -128,22 +188,32 @@ qx.Class.define("qx.ui.decoration.Uniform",
     },
 
 
-    // interface implementation
-    reset : function(element) {
-      element.setStyles(this._emptyStyles);
-    },
-
-
-    // interface implementation
-    getInsets : function()
+    /**
+     * Compiles styles for background and border into one cached map
+     */
+    __getStyles : function()
     {
-      var width = this.getWidth();
-      return {
-        top : width,
-        right : width,
-        bottom : width,
-        left : width
+      if (this.__styles) {
+        return this.__styles;
       }
+
+      var Color = qx.theme.manager.Color.getInstance();
+      var Alias = qx.util.AliasManager.getInstance();
+      var Background = qx.bom.element.Background;
+
+      var image = Alias.resolve(this.getBackgroundImage());
+      var styles = Background.getStyles(image, this.getBackgroundRepeat());
+
+      var color = Color.resolve(this.getColor());
+      var width = this.getWidth();
+
+      if (width > 0) {
+        styles.border = this.getWidth() + "px " + this.getStyle() + " " + color;
+      } else {
+        styles.border = null;
+      }
+
+      return this.__styles = styles;
     }
   }
 });

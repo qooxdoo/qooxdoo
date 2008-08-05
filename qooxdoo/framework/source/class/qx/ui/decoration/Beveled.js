@@ -23,7 +23,9 @@
  */
 qx.Class.define("qx.ui.decoration.Beveled",
 {
-  extend : qx.ui.decoration.Abstract,
+  extend : qx.core.Object,
+  implement : [qx.ui.decoration.IDecorator],
+
 
 
   /*
@@ -199,8 +201,8 @@ qx.Class.define("qx.ui.decoration.Beveled",
       var inner = vert.getChild(0);
       var overlay = vert.getChild(1);
 
-      var outerStyle = "1px solid " + this._resolveColor(this.getOuterColor());
-      var innerStyle = "1px solid " + this._resolveColor(this.getInnerColor());
+      var outerStyle = "1px solid " + qx.theme.manager.Color.getInstance().resolve(this.getOuterColor());
+      var innerStyle = "1px solid " + qx.theme.manager.Color.getInstance().resolve(this.getInnerColor());
 
       var bgSource = qx.util.ResourceManager.toUri(qx.util.AliasManager.getInstance().resolve(this.getBackgroundImage()));
 
@@ -215,7 +217,7 @@ qx.Class.define("qx.ui.decoration.Beveled",
       vert.setStyle("borderTop", outerStyle);
       vert.setStyle("borderBottom", outerStyle);
 
-      inner.setStyle("backgroundColor", this._resolveColor(backgroundColor || this.getBackgroundColor()) || null);
+      inner.setStyle("backgroundColor", qx.theme.manager.Color.getInstance().resolve(backgroundColor || this.getBackgroundColor()) || null);
       inner.setAttribute("src", bgSource);
 
       overlay.setStyle("border", innerStyle);

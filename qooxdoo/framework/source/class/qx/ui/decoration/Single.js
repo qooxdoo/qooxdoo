@@ -24,8 +24,8 @@
  */
 qx.Class.define("qx.ui.decoration.Single",
 {
-  extend : qx.ui.decoration.Abstract,
-
+  extend : qx.core.Object,
+  implement : [qx.ui.decoration.IDecorator],
 
 
   /*
@@ -43,20 +43,19 @@ qx.Class.define("qx.ui.decoration.Single",
   {
     this.base(arguments);
 
-    if (width !== undefined) {
+    // Initialize properties
+    if (width != null) {
       this.setWidth(width);
     }
 
-    if (style !== undefined) {
+    if (style != null) {
       this.setStyle(style);
     }
 
-    if (color !== undefined) {
+    if (color != null) {
       this.setColor(color);
     }
   },
-
-
 
 
 
@@ -79,28 +78,32 @@ qx.Class.define("qx.ui.decoration.Single",
     widthTop :
     {
       check : "Number",
-      init : 0
+      init : 0,
+      apply : "_applyWidth"
     },
 
     /** right width of border */
     widthRight :
     {
       check : "Number",
-      init : 0
+      init : 0,
+      apply : "_applyWidth"
     },
 
     /** bottom width of border */
     widthBottom :
     {
       check : "Number",
-      init : 0
+      init : 0,
+      apply : "_applyWidth"
     },
 
     /** left width of border */
     widthLeft :
     {
       check : "Number",
-      init : 0
+      init : 0,
+      apply : "_applyWidth"
     },
 
 
@@ -181,12 +184,6 @@ qx.Class.define("qx.ui.decoration.Single",
       check : "Color"
     },
 
-    /** The background color */
-    backgroundColor :
-    {
-      nullable : true,
-      check : "Color"
-    },
 
 
 
@@ -216,6 +213,8 @@ qx.Class.define("qx.ui.decoration.Single",
       check : "String",
       nullable : true
     },
+
+
 
 
     /*
@@ -286,6 +285,72 @@ qx.Class.define("qx.ui.decoration.Single",
 
   members :
   {
+    /*
+    ---------------------------------------------------------------------------
+      INTERFACE IMPLEMENTATION
+    ---------------------------------------------------------------------------
+    */
+
+    // interface implementation
+    render : function(element, width, height, backgroundColor, changes)
+    {
+      if (changes.style || changes.init)
+      {
+        element.setStyles(this._getStyles());
+        this._updateScaledImage(element, width, height);
+      }
+
+      if (changes.bgcolor || changes.init) {
+        element.setStyle("backgroundColor", qx.theme.manager.Color.getInstance().resolve(backgroundColor) || null);
+      }
+
+      if (changes.size || changes.init)
+      {
+        qx.ui.decoration.Util.updateSize(
+          element,
+          width, height,
+          this.getWidthLeft() + this.getWidthRight(),
+          this.getWidthTop() + this.getWidthBottom()
+        );
+      }
+    },
+
+
+    // interface implementation
+    reset : function(element)
+    {
+      element.setStyles(this._emptyStyles);
+      element.removeAll();
+    },
+
+
+    // interface implementation
+    getInsets : function()
+    {
+      if (this.__insets) {
+        return this.__insets;
+      }
+
+      this.__insets = {
+        top : this.getWidthTop(),
+        right : this.getWidthRight(),
+        bottom : this.getWidthBottom(),
+        left : this.getWidthLeft()
+      };
+
+      return this.__insets;
+    },
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      HELPERS
+    ---------------------------------------------------------------------------
+    */
+
     /**
      * Get the CSS style map for the decoration
      *
@@ -303,20 +368,22 @@ qx.Class.define("qx.ui.decoration.Single",
         bgImage = qx.util.ResourceManager.toUri(qx.util.AliasManager.getInstance().resolve(this.getBackgroundImage()));
       }
 
+      var Color = qx.theme.manager.Color.getInstance();
+
       var styles =
       {
         "borderTopWidth": this.getWidthTop() + "px",
         "borderTopStyle": this.getStyleTop() || "none",
-        "borderTopColor": this._resolveColor(this.getColorTop()),
+        "borderTopColor": Color.resolve(this.getColorTop()),
         "borderRightWidth": this.getWidthRight() + "px",
         "borderRightStyle": this.getStyleRight() || "none",
-        "borderRightColor": this._resolveColor(this.getColorRight()),
+        "borderRightColor": Color.resolve(this.getColorRight()),
         "borderBottomWidth": this.getWidthBottom() + "px",
         "borderBottomStyle": this.getStyleBottom() || "none",
-        "borderBottomColor": this._resolveColor(this.getColorBottom()),
+        "borderBottomColor": Color.resolve(this.getColorBottom()),
         "borderLeftWidth": this.getWidthLeft() + "px",
         "borderLeftStyle": this.getStyleLeft() || "none",
-        "borderLeftColor": this._resolveColor(this.getColorLeft()),
+        "borderLeftColor": Color.resolve(this.getColorLeft()),
         "backgroundImage": bgImage ? "url(" + bgImage + ")" : null,
         "backgroundRepeat": bgRepeat
       };
@@ -347,31 +414,6 @@ qx.Class.define("qx.ui.decoration.Single",
     },
 
 
-    // interface implementation
-    render : function(element, width, height, backgroundColor, changes)
-    {
-      if (changes.style || changes.init)
-      {
-        element.setStyles(this._getStyles());
-        this._updateScaledImage(element, width, height);
-      }
-
-      if (changes.bgcolor || changes.init) {
-        element.setStyle("backgroundColor", this._resolveColor(backgroundColor || this.getBackgroundColor()) || null);
-      }
-
-      if (changes.size || changes.init)
-      {
-        qx.ui.decoration.Util.updateSize(
-          element,
-          width, height,
-          this.getWidthLeft() + this.getWidthRight(),
-          this.getWidthTop() + this.getWidthBottom()
-        );
-      }
-    },
-
-
     _emptyStyles :
     {
       borderTopWidth: null,
@@ -392,23 +434,18 @@ qx.Class.define("qx.ui.decoration.Single",
     },
 
 
-    // interface implementation
-    reset : function(element)
-    {
-      element.setStyles(this._emptyStyles);
-      element.removeAll();
-    },
 
 
-    // interface implementation
-    getInsets : function()
+    /*
+    ---------------------------------------------------------------------------
+      PROPERTY APPLY ROUTINES
+    ---------------------------------------------------------------------------
+    */
+
+    _applyWidth : function(value, old)
     {
-      return {
-        top : this.getWidthTop(),
-        right : this.getWidthRight(),
-        bottom : this.getWidthBottom(),
-        left : this.getWidthLeft()
-      }
+      this.__insets = null;
+      this.__styles = null;
     }
   }
 });
