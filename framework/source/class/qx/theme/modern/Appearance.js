@@ -630,7 +630,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          decorator : states.horizontal ? "input" : "input-vertical"
+          decorator : "input"
         }
       }
     },
