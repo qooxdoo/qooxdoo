@@ -59,12 +59,6 @@ qx.Class.define("qx.ui.decoration.Util",
 
     generateBasicDecor : function(image, repeat, styles)
     {
-      var html = [];
-      var tag = image && repeat == "scale" ? "img" : "div";
-
-      // Starttag
-      html.push('<', tag, ' ');
-
       // Support for images
       if (image)
       {
@@ -73,32 +67,25 @@ qx.Class.define("qx.ui.decoration.Util",
         // Scaled image
         if (repeat == "scale")
         {
-          var Resource = qx.util.ResourceManager;
-          var uri = Resource.toUri(resolved);
-          html.push('src="', uri, '" style="vertical-align:top;');
+          var uri = qx.util.ResourceManager.toUri(resolved);
+          return '<img src="' + uri + '" style="vertical-align:top;' + styles + '"/>';
         }
 
         // Repeated image
         else
         {
-          html.push('style="');
-
-          var Background = qx.bom.element.Background;
-          html.push(Background.compile(resolved, repeat, 0, 0));
+          var back = qx.bom.element.Background.compile(resolved, repeat, 0, 0);
+          return '<div style="' + back + styles + '"></div>';
         }
       }
       else
       {
-        html.push('style="');
+        if (styles) {
+          return '<div style="' + styles + '"></div>';
+        } else {
+          return "";
+        }
       }
-
-      if (styles) {
-        html.push(styles);
-      }
-
-      html.push('"></', tag, '>');
-
-      return html.join("");
     }
   }
 });
