@@ -48,72 +48,35 @@ qx.Class.define("demobrowser.demo.widget.TextField",
       }, this);
       container.add(input1);
 
-      var input2 = new qx.ui.form.TextField("centered").set({
-        padding: 10,
-        allowGrowX: false,
-        textAlign: "center"
-      });
-      container.add(input2);
-
-      var input3 = new qx.ui.form.TextField("another").set({
-        padding: 5,
-        width: 200
-      });
-      container.add(input3);
-
       var input4 = new qx.ui.form.TextField("Web 2.0").set({
-        decorator: "light-shadow",
-        backgroundColor: "#FAEC84",
         font: qx.bom.Font.fromString("20px sans-serif"),
-        padding: 7,
-        width: 200
+        padding: 7
       });
       container.add(input4);
 
       var input6 = new qx.ui.form.TextField("read only").set({
-        readOnly: true,
-        padding: 5
+        readOnly: true
       });
       container.add(input6);
 
-      var input7 = new qx.ui.form.PasswordField("geheim").set({
-        padding: 5
-      });
-      container.add(input7);
-
-      var input8 = new qx.ui.form.TextField("A").set({
-        padding: [0, 10],
-        backgroundColor : "#DFDFDF",
-        decorator : new qx.ui.decoration.Beveled().set({
-          outerColor : "#ABABAB"
-        })
-      });
-      container.add(input8);
-
-      var input9 = new qx.ui.form.TextArea("text\narea").set({
-        padding: 3,
-        backgroundColor : "#DFDFDF",
-        decorator : new qx.ui.decoration.Beveled().set({
-          outerColor : "#ABABAB"
-        })
-      });
+      var input9 = new qx.ui.form.TextArea("text\narea");
       container.add(input9);
 
       var input10 = new qx.ui.form.TextArea("text\narea\nnowrap").set({
-        padding: 3,
         wrap : false
       });
       container.add(input10);
 
       var input11 = new qx.ui.form.TextField("large font").set({
-        padding: 3,
         font : qx.bom.Font.fromString("24px sans-serif")
       });
       container.add(input11);
 
-      var controls = new qx.ui.container.Composite(new qx.ui.layout.VBox());
-      controls.getLayout().setSpacing(8);
 
+
+
+      var controls = new qx.ui.container.Composite(new qx.ui.layout.VBox(8));
+      controls.setPadding(20);
 
       var btnEnabled = new qx.ui.form.Button("Toggle enabled");
       var enable = false;
@@ -140,7 +103,7 @@ qx.Class.define("demobrowser.demo.widget.TextField",
       controls.add(btnSend2);
 
 
-      this.getRoot().add(controls, {left:300, top:10});
+      this.getRoot().add(controls, {left:200, top:0});
     }
   }
 });
