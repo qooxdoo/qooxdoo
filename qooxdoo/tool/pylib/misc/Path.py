@@ -30,24 +30,7 @@ def getCommonSuffix(p1, p2):
 def getCommonPrefix(p1, p2):
     return getCommonPrefixS(p1, p2)  # dispatch to real implementation
 
-
-def getCommonSuffixS2(p1, p2):  # direct String-based implementation (repeats much of getCommonPrefixS)
-    '''computes the common suffix of path1, path2, and returns the two different prefixes
-       and the common suffix'''
-    pre1 = pre2 = suffx = ""
-    if (len(p1) == 0 or len(p2) == 0): return p1,p2,""
-    for i in range(1,len(p1)):
-        if i >= len(p2):
-            break
-        elif p1[-i] == p2[-i]:
-            suffx = p1[-i] + suffx
-        else:
-            break
-    pre1 = p1[:-i+1]
-    pre2 = p2[:-i+1]
-
-    return pre1, pre2, suffx
-
+# -- string-based versions ----------------------------------------------------
 
 def _getCommonPrefixS(p1, p2):  # String-based
     '''computes the common prefix of p1, p2, and returns the common prefix and the two
@@ -123,24 +106,38 @@ def getCommonPrefixS(p1, p2):  # String-based
     return pre,sfx1,sfx2
 
 
-def _getCommonPrefixA1(pa1, pa2):
-    '''comparing lists of strings'''
-    prea = sfx1a = sfx2a = []
-    if (len(pa1) == 0 or len(pa2) == 0): return [],pa1,pa2
-    for i in range(len(pa1)):
-        if i >= len(pa2):
-            break
-        elif pa1[i] == pa2[i]:
-            prea.append(pa1[i])
-        else:
-            break
-    else:
-        i += 1  # correct i, since the loop ends differently with range() or break
-    sfx1a = pa1[i:]
-    sfx2a = pa2[i:]
+def getCommonSuffixS(p1, p2):  # String-based
+    'use getCommonPrefixS, but with reversed arguments and return values'
+    p1, p2 = map(os.path.normpath, (p1, p2))
+    p = [p1, p2]
+    # undo normpath abnormalities
+    if p1=='.':
+        p1=''
+    if p2=='.':
+        p2=''
 
-    return prea, sfx1a, sfx2a
+    p1r = p1[::-1]  # this is string reverse in Python
+    p2r = p2[::-1]
+    sfx, pre1, pre2 = _getCommonPrefixS(p1r, p2r)
+    sfx  = sfx[::-1]
+    pre1 = pre1[::-1]
+    pre2 = pre2[::-1]
 
+    # fix surrounding os.sep's
+    if (len(pre1)==0 and len(pre2)==0):  # leave ('','',sfx) alone
+        pass
+    elif sfx.startswith(os.sep):  # don't return a real suffix that looks like an absolute path
+        sfx = sfx[len(os.sep):]   # skip the leading os.sep
+        if pre1=='': pre1 += os.sep    # and push it to the prefixes
+        if pre2=='': pre2 += os.sep
+    if len(pre1)>1 and pre1.endswith(os.sep):
+        pre1 = pre1[:-len(os.sep)]
+    if len(pre2)>1 and pre2.endswith(os.sep):
+        pre2 = pre2[:-len(os.sep)]
+
+    return pre1, pre2, sfx
+
+# -- array-based versions ----------------------------------------------------
 
 def _getCommonPrefixA(pa1, pa2):
     '''comparing lists of strings, returning common head list and separate tail lists'''
@@ -187,38 +184,7 @@ def getCommonSuffixA(p1, p2):  # Array-based
 
     return map(lambda x: ((len(x)>0 and os.path.join(*x)) or ""), (pre1a, pre2a, sfxa))
 
-
-def getCommonSuffixS(p1, p2):  # String-based
-    'use getCommonPrefixS, but with reversed arguments and return values'
-    p1, p2 = map(os.path.normpath, (p1, p2))
-    p = [p1, p2]
-    # undo normpath abnormalities
-    if p1=='.':
-        p1=''
-    if p2=='.':
-        p2=''
-
-    p1r = p1[::-1]  # this is string reverse in Python
-    p2r = p2[::-1]
-    sfx, pre1, pre2 = _getCommonPrefixS(p1r, p2r)
-    sfx  = sfx[::-1]
-    pre1 = pre1[::-1]
-    pre2 = pre2[::-1]
-
-    # fix surrounding os.sep's
-    if (len(pre1)==0 and len(pre2)==0):  # leave ('','',sfx) alone
-        pass
-    elif sfx.startswith(os.sep):  # don't return a real suffix that looks like an absolute path
-        sfx = sfx[len(os.sep):]   # skip the leading os.sep
-        if pre1=='': pre1 += os.sep    # and push it to the prefixes
-        if pre2=='': pre2 += os.sep
-    if len(pre1)>1 and pre1.endswith(os.sep):
-        pre1 = pre1[:-len(os.sep)]
-    if len(pre2)>1 and pre2.endswith(os.sep):
-        pre2 = pre2[:-len(os.sep)]
-
-    return pre1, pre2, sfx
-
+# -- other helpers ------------------------------------------------------------
 
 def posifyPath(path):
     "replace '\' with '/' in strings"
@@ -246,6 +212,7 @@ def rel_from_to(fromdir, todir, commonroot=None):
 
     return os.path.join(ups,sfx2)
 
+# -- test functions -----------------------------------------------------------
 
 def _testCP():
     'test getCommonPrefix()'
