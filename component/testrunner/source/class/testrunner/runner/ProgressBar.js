@@ -21,7 +21,7 @@
 
 qx.Class.define("testrunner.runner.ProgressBar",
 {
-  extend : qx.ui.container.Composite, //qx.legacy.ui.layout.HorizontalBoxLayout,
+  extend : qx.ui.container.Composite,
 
 
 
@@ -36,12 +36,6 @@ qx.Class.define("testrunner.runner.ProgressBar",
     this.base(arguments);
 
     this.setLayout(new qx.ui.layout.HBox(10));
-
-    var label = arguments[0] || "Progress:";
-
-    this.label = new qx.ui.basic.Label(label);
-    this.add(this.label);
-    this.setLabel(label);
 
     this.hull = new qx.ui.container.Composite(new qx.ui.layout.Canvas);
     this.add(this.hull);
