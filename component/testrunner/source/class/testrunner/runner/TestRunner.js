@@ -100,7 +100,7 @@ qx.Class.define("testrunner.runner.TestRunner",
     // Last but not least:
     // Hidden IFrame for test runs (will be added to statusbar)
     var iframe = new qx.ui.embed.Iframe;
-    iframe.setSource("about:blank")
+    iframe.setSource(null)
     this.iframe = iframe;
 
     iframe.set({
@@ -141,6 +141,13 @@ qx.Class.define("testrunner.runner.TestRunner",
       check : "Integer",
       init  : 0,
       apply : "_applyFailCnt"
+    },
+
+    queCnt :
+    {
+      check : "Integer",
+      init  : 0,
+      apply : "_applyQueCnt"
     }
   },
 
@@ -523,8 +530,6 @@ qx.Class.define("testrunner.runner.TestRunner",
       this.tests.selected_cnt = this.tests.handler.testCount(modelNode);
       this.widgets["statuspane.number"].setValue(this.tests.selected_cnt + "");
 
-      this.widgets["progresspane.queue_cnt"].setValue(this.tests.selected_cnt + "");
-      
       // update toolbar
       this.widgets["toolbar.runbutton"].resetEnabled();
 
@@ -725,7 +730,11 @@ qx.Class.define("testrunner.runner.TestRunner",
       this.toolbar.setEnabled(false);
 
       this.logelem.innerHTML = "";
-      ////this.widgets["tabview"].setSelected(this.widgets["tabview"].getChildren()[0]);
+      if (this.__state === 0)
+      {
+        this.setQueCnt(this.tests.selected_cnt);
+        this.__state = 1;
+      }
 
       // this.tree.setEnabled(false);
       this.widgets["statuspane.systeminfo"].setContent("Preparing...");
@@ -774,6 +783,7 @@ qx.Class.define("testrunner.runner.TestRunner",
           bar.setBarColor("#9d1111");
           var val = that.getFailCnt();
           that.setFailCnt(++val);
+          that.setQueCnt(that.getQueCnt() - 1);
           that.appender("Test '" + test.getFullName() + "' failed: " + ex.getMessage() + " - " + ex.getComment());
           that.widgets["progresspane.progressbar"].update(String(tstCurr + "/" + tstCnt));
           tstCurr++;
@@ -788,6 +798,7 @@ qx.Class.define("testrunner.runner.TestRunner",
           bar.setBarColor("#9d1111");
           var val = that.getFailCnt();
           that.setFailCnt(++val);
+          that.setQueCnt(that.getQueCnt() - 1);
           that.appender("The test '" + e.getData().test.getFullName() + "' had an error: " + ex, ex);
           that.widgets["progresspane.progressbar"].update(String(tstCurr + "/" + tstCnt));
           tstCurr++;
@@ -804,9 +815,9 @@ qx.Class.define("testrunner.runner.TestRunner",
           {
             that.currentTestData.setState("success");
 
-            // that.widgets["progresspane.succ_cnt"].setContent(++that.tests.succ_cnt+"");
             var val = that.getSuccCnt();
             that.setSuccCnt(++val);
+            that.setQueCnt(that.getQueCnt() - 1);
             that.widgets["progresspane.progressbar"].update(String(tstCurr + "/" + tstCnt));
             tstCurr++;
           }
@@ -838,8 +849,7 @@ qx.Class.define("testrunner.runner.TestRunner",
         else
         {  // no more tests -> re-enable toolbar
           that.toolbar.setEnabled(true);
-
-          // that.tree.setEnabled(true);
+          this.__state == 0;
           if (that.tests.firstrun)
           {
             that.reloadswitch.setChecked(true);
@@ -916,6 +926,7 @@ qx.Class.define("testrunner.runner.TestRunner",
           }
         };
 
+        this.setQueCnt(this.tests.selected_cnt);
         this.reloadTestSuite();
       }
       else
@@ -967,12 +978,23 @@ qx.Class.define("testrunner.runner.TestRunner",
 
       this.frameWindow = iframe.getWindow();
 
-      if (!this.frameWindow.testrunner) {
+      // Repeat until testrunner in iframe is loaded
+      if (!this.frameWindow.testrunner)
+      {
         qx.event.Timer.once(this._ehIframeOnLoad, this, 100);
         return;
       }
 
       this.loader = this.frameWindow.testrunner.TestLoader.getInstance();
+      // Avoid errors in slow browsers
+      
+      if(
+        qx.bom.client.Engine.GECKO &&
+        (qx.bom.client.Engine.VERSION < 1.9) &&
+        (!this.loader)
+      ){
+        return;
+      }
 
       var testRep = this.loader.getTestDescriptions();
       this.tests.handler = new testrunner.runner.TestHandler(testRep);
@@ -1051,6 +1073,10 @@ qx.Class.define("testrunner.runner.TestRunner",
       this.widgets["progresspane.fail_cnt"].setValue(newFail + "");
     },
 
+    // property apply
+    _applyQueCnt : function(value, old){
+      this.widgets["progresspane.queue_cnt"].setValue(value + "");
+    },
 
     /**
      * TODOC
@@ -1080,8 +1106,9 @@ qx.Class.define("testrunner.runner.TestRunner",
         // Unregister again, so that the logger can flush again the next time the tab is clicked.
         logger.unregister(this.logappender);
       }
-    }
+    },
 
+    __state : 0
   },
 
 
