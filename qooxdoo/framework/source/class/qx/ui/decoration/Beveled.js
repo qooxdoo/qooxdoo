@@ -245,6 +245,7 @@ qx.Class.define("qx.ui.decoration.Beveled",
         position:"absolute",
         top:"1px",
         left:"1px",
+        backgroundColor:"{bgcolor}",
         width:"{frameWidth}px",
         height:"{frameHeight}px"
       };
