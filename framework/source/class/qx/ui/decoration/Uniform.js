@@ -224,7 +224,7 @@ qx.Class.define("qx.ui.decoration.Uniform",
 
       styles.width = "{width}px";
       styles.height = "{height}px";
-      styles.backgroundColor = "{bgcolor}px";
+      styles.backgroundColor = "{bgcolor}";
 
       // Generate tag
       var image = this.getBackgroundImage();

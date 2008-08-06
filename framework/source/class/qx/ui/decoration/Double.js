@@ -189,7 +189,7 @@ qx.Class.define("qx.ui.decoration.Double",
 
       innerStyles.width = "{width}px";
       innerStyles.height = "{height}px";
-      innerStyles.backgroundColor = "{bgcolor}px";
+      innerStyles.backgroundColor = "{bgcolor}";
 
       // Generate inner tag
       var image = this.getBackgroundImage();
