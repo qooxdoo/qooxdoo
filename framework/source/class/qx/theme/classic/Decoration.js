@@ -232,6 +232,7 @@ qx.Theme.define("qx.theme.classic.Decoration",
         colorBottom : "border-dark-shadow"
       }
     },
+    */
 
 
     "shadow" :
@@ -255,7 +256,7 @@ qx.Theme.define("qx.theme.classic.Decoration",
       }
     },
 
-
+    /*
     "divider-vertical" :
     {
       decorator : qx.ui.decoration.Single,
@@ -266,8 +267,11 @@ qx.Theme.define("qx.theme.classic.Decoration",
         colorTop : "border-dark-shadow"
       }
     },
+    */
 
-    "divider-horizontal" :
+
+
+    "toolbar-separator" :
     {
       decorator : qx.ui.decoration.Single,
 
@@ -277,7 +281,7 @@ qx.Theme.define("qx.theme.classic.Decoration",
         colorLeft : "border-dark-shadow"
       }
     },
-    */
+
 
 
 
