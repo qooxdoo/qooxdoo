@@ -304,7 +304,9 @@ qx.Class.define("qx.ui.decoration.Single",
       this._updateTemplate();
 
       // Fix box model
-      if (qx.bom.client.Feature.CONTENT_BOX)
+      // Note: Scaled images are always using content box
+      var scaledImage = this.getBackgroundImage() && this.getBackgroundRepeat() == "scale";
+      if (scaledImage || qx.bom.client.Feature.CONTENT_BOX)
       {
         var insets = this.getInsets();
         width -= insets.left + insets.right;
