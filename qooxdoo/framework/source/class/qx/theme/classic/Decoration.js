@@ -232,7 +232,19 @@ qx.Theme.define("qx.theme.classic.Decoration",
         colorBottom : "border-dark-shadow"
       }
     },
+
+    "divider-vertical" :
+    {
+      decorator : qx.ui.decoration.Single,
+
+      style :
+      {
+        widthTop : 1,
+        colorTop : "border-dark-shadow"
+      }
+    },
     */
+
 
 
     "shadow" :
@@ -256,31 +268,11 @@ qx.Theme.define("qx.theme.classic.Decoration",
       }
     },
 
-    /*
-    "divider-vertical" :
-    {
-      decorator : qx.ui.decoration.Single,
-
-      style :
-      {
-        widthTop : 1,
-        colorTop : "border-dark-shadow"
-      }
-    },
-    */
 
 
 
-    "toolbar-separator" :
-    {
-      decorator : qx.ui.decoration.Single,
 
-      style :
-      {
-        widthLeft : 1,
-        colorLeft : "border-dark-shadow"
-      }
-    },
+
 
 
 
@@ -323,6 +315,13 @@ qx.Theme.define("qx.theme.classic.Decoration",
       }
     },
 
+
+
+
+
+
+
+
     "tooltip" :
     {
       decorator: qx.ui.decoration.Uniform,
@@ -331,6 +330,17 @@ qx.Theme.define("qx.theme.classic.Decoration",
       {
         width : 1,
         color : "tooltip-text"
+      }
+    },
+
+    "toolbar-separator" :
+    {
+      decorator : qx.ui.decoration.Single,
+
+      style :
+      {
+        widthLeft : 1,
+        colorLeft : "border-dark-shadow"
       }
     },
 
@@ -351,6 +361,11 @@ qx.Theme.define("qx.theme.classic.Decoration",
     },
 
 
+
+
+
+
+
     "menu-separator" :
     {
       decorator : qx.ui.decoration.Single,
@@ -363,6 +378,9 @@ qx.Theme.define("qx.theme.classic.Decoration",
         colorBottom : "border-light"
       }
     },
+
+
+
 
 
 
@@ -402,7 +420,7 @@ qx.Theme.define("qx.theme.classic.Decoration",
 
     "test-single-1" :
     {
-      decorator : qx.ui.decoration.Solid,
+      decorator : qx.ui.decoration.Single,
 
       style :
       {
@@ -417,7 +435,7 @@ qx.Theme.define("qx.theme.classic.Decoration",
 
     "test-single-2" :
     {
-      decorator : qx.ui.decoration.Solid,
+      decorator : qx.ui.decoration.Single,
 
       style :
       {
