@@ -31,16 +31,18 @@ qx.Class.define("demobrowser.demo.ui.Decoration_1",
       var box = new qx.ui.layout.HBox();
       box.setSpacing(10);
 
+      var scroller = new qx.ui.container.Scroll();
+      this.getRoot().add(scroller, {edge: 0});
+
       var container = new qx.ui.container.Composite(box);
       container.setPadding(20);
+      scroller.add(container);
 
-      this.getRoot().add(container, {left:0,top:0});
-
-      container.add(this.getGrid1());
+      container.add(this.getDecorations());
     },
 
 
-    getGrid1 : function()
+    getDecorations : function()
     {
       var theme = qx.theme.manager.Decoration.getInstance().getTheme();
 
