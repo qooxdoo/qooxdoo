@@ -1796,7 +1796,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       {
         return {
           decorator : "table-column-button",
-          padding   : [ 3, 4 ],
+          padding   : [ 3, 1, 3, 2],
           icon      : "decoration/table/select-column-order.png"
         };
       }
@@ -1864,11 +1864,13 @@ qx.Theme.define("qx.theme.modern.Appearance",
       }
     },
 
-    "table-header-cell/sort-icon" : {
+    "table-header-cell/sort-icon" :
+    {
       style : function(states)
       {
         return {
-          alignY : "middle"
+          alignY : "middle",
+          padding : [0, 3, 0, 0]
         }
       }
     },
