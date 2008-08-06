@@ -38,6 +38,10 @@ qx.Class.define("qx.ui.decoration.Beveled",
   {
     this.base(arguments);
 
+    // Create template
+    this._tmpl = new qx.util.Template;
+
+    // Initialize properties
     if (outerColor) {
       this.setOuterColor(outerColor);
     }
@@ -63,43 +67,46 @@ qx.Class.define("qx.ui.decoration.Beveled",
     {
       check : "Color",
       nullable : true,
-      apply : "_applyInnerColor"
+      apply : "_applyStyle"
     },
 
     innerOpacity :
     {
       check : "Number",
       init : 1,
-      apply : "_applyInnerOpacity"
+      apply : "_applyStyle"
     },
 
     outerColor :
     {
       check : "Color",
       nullable : true,
-      apply : "_applyOuterColor"
+      apply : "_applyStyle"
     },
 
     backgroundImage :
     {
       check : "String",
       nullable : true,
-      apply : "_applyBackgroundImage"
+      apply : "_applyStyle"
     },
 
-    backgroundColor :
+
+    /** How the background should be repeated */
+    backgroundRepeat :
     {
-      check : "Color",
-      nullable : true,
-      apply : "_applyBackgroundColor"
+      check : ["repeat", "repeat-x", "repeat-y", "no-repeat", "scale"],
+      init : "repeat",
+      apply : "_applyStyle"
     },
+
 
     /** Whether the top border should be visible */
     topBorder :
     {
       check : "Boolean",
       init : true,
-      apply : "_changeBorderVisibility"
+      apply : "_applyBorder"
     },
 
     /** Whether the right border should be visible */
@@ -107,7 +114,7 @@ qx.Class.define("qx.ui.decoration.Beveled",
     {
       check : "Boolean",
       init : true,
-      apply : "_changeBorderVisibility"
+      apply : "_applyBorder"
     },
 
     /** Whether the bottom border should be visible */
@@ -115,7 +122,7 @@ qx.Class.define("qx.ui.decoration.Beveled",
     {
       check : "Boolean",
       init : true,
-      apply : "_changeBorderVisibility"
+      apply : "_applyBorder"
     },
 
     /** Whether the left border should be visible */
@@ -123,7 +130,7 @@ qx.Class.define("qx.ui.decoration.Beveled",
     {
       check : "Boolean",
       init : true,
-      apply : "_changeBorderVisibility"
+      apply : "_applyBorder"
     }
   },
 
@@ -138,144 +145,170 @@ qx.Class.define("qx.ui.decoration.Beveled",
 
   members :
   {
-    // property apply
-    _applyInnerColor : function(value, old) {
-    },
+    /*
+    ---------------------------------------------------------------------------
+      INTERFACE IMPLEMENTATION
+    ---------------------------------------------------------------------------
+    */
 
-    // property apply
-    _applyOuterColor : function(value, old) {
-    },
-
-    _applyBackgroundImage : function()
-    {
-
-    },
-
-    _applyBackgroundColor : function()
-    {
-    },
-
-
-
-    _applyInnerOpacity : function()
-    {
-    },
-
-
-
-    _changeBorderVisibility : function(value)
-    {
-      // TODO
-    },
-
-
-
-    // interface implementation
     render : function(element, width, height, backgroundColor, changes)
     {
-      if (!element.getChild(0))
+      // Be sure template is up-to-date first
+      this._updateTemplate();
+
+      // Fix box model
+      if (qx.bom.client.Feature.CONTENT_BOX)
       {
-        var frame = new qx.html.Element;
-        var horiz = new qx.html.Element;
-        var vert = new qx.html.Element;
-        var inner = new qx.html.Image;
-        var overlay = new qx.html.Element;
+        var insets = this.getInsets();
+        var frameWidth = width - 2;
+        var frameHeight = height - 2;
+        var innerWidth = width - 4;
+        var innerHeight = height - 4;
+      }
+      else
+      {
 
-        element.add(frame, horiz, vert);
-        vert.add(inner, overlay);
-
-        // Position
-        frame.setStyle("position", "absolute");
-        horiz.setStyle("position", "absolute");
-        vert.setStyle("position", "absolute");
-        inner.setStyle("position", "absolute");
-        overlay.setStyle("position", "absolute");
       }
 
+      // Resolve background color
+      if (backgroundColor) {
+        backgroundColor = qx.theme.manager.Color.getInstance().resolve(backgroundColor);
+      }
 
-      var pixel = "px";
+      // Compile HTML
+      var html = this._tmpl.run(
+      {
+        frameWidth : frameWidth,
+        frameHeight : frameHeight,
+        innerWidth : innerWidth,
+        innerHeight : innerHeight,
+        bgcolor: backgroundColor
+      });
 
-      var frame = element.getChild(0);
-      var horiz = element.getChild(1);
-      var vert = element.getChild(2);
-      var inner = vert.getChild(0);
-      var overlay = vert.getChild(1);
-
-      var outerStyle = "1px solid " + qx.theme.manager.Color.getInstance().resolve(this.getOuterColor());
-      var innerStyle = "1px solid " + qx.theme.manager.Color.getInstance().resolve(this.getInnerColor());
-
-      var bgSource = qx.util.ResourceManager.toUri(qx.util.AliasManager.getInstance().resolve(this.getBackgroundImage()));
-
-
-      // Colors
-      frame.setStyle("border", outerStyle);
-      frame.setStyle("opacity", 0.35);
-
-      horiz.setStyle("borderLeft", outerStyle);
-      horiz.setStyle("borderRight", outerStyle);
-
-      vert.setStyle("borderTop", outerStyle);
-      vert.setStyle("borderBottom", outerStyle);
-
-      inner.setStyle("backgroundColor", qx.theme.manager.Color.getInstance().resolve(backgroundColor || this.getBackgroundColor()) || null);
-      inner.setAttribute("src", bgSource);
-
-      overlay.setStyle("border", innerStyle);
-      overlay.setStyle("opacity", this.getInnerOpacity());
-
-
-
-      // Border Widths
-      var outerBorder = 1;
-      var innerBorder = 1;
-
-
-      // Dimension
-      element.setStyle("width", width + pixel);
-      element.setStyle("height", height + pixel);
-
-      frame.setStyle("width", (width-(outerBorder*2)) + pixel);
-      frame.setStyle("height", (height-(outerBorder*2)) + pixel);
-
-      horiz.setStyle("width", (width-(outerBorder*2)) + pixel);
-      horiz.setStyle("height", (height-(outerBorder*2)) + pixel);
-      horiz.setStyle("left", "0px");
-      horiz.setStyle("top", outerBorder + pixel);
-
-      vert.setStyle("width", (width-(outerBorder*2)) + pixel);
-      vert.setStyle("height", (height-(outerBorder*2)) + pixel);
-      vert.setStyle("left", outerBorder + pixel);
-      vert.setStyle("top", "0px");
-
-      inner.setStyle("width", (width-(outerBorder*2)) + pixel);
-      inner.setStyle("height", (height-(outerBorder*2)) + pixel);
-
-      overlay.setStyle("width", (width-(outerBorder*2)-(innerBorder*2)) + pixel);
-      overlay.setStyle("height", (height-(outerBorder*2)-(innerBorder*2)) + pixel);
-
+      // Apply HTML
+      element.setAttribute("html", html);
     },
 
 
     // interface implementation
-    reset : function(element)
-    {
-      element.setStyles({
-        "width" : null,
-        "height" : null
-      });
-      element.removeAll();
+    reset : function(element) {
+      element.setAttribute("html", null);
     },
 
 
     // interface implementation
     getInsets : function()
     {
-      return {
+      if (this._insets) {
+        return this._insets;
+      }
+
+      this._insets =
+      {
         top : this.getTopBorder() ? 2 : 0,
         right : this.getRightBorder() ? 2 : 0,
         bottom : this.getBottomBorder() ? 2 : 0,
         left : this.getLeftBorder() ? 2 : 0
       };
+
+      return this._insets;
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      PROPERTY APPLY ROUTINES
+    ---------------------------------------------------------------------------
+    */
+
+    // property apply
+    _applyWidth : function()
+    {
+      this._insets = null;
+      this._invalidTemplate = true;
+    },
+
+
+    // property apply
+    _applyStyle : function() {
+      this._invalidTemplate = true;
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      HELPERS
+    ---------------------------------------------------------------------------
+    */
+
+    _invalidTemplate : true,
+
+    _updateTemplate : function()
+    {
+      if (!this._invalidTemplate) {
+        return;
+      }
+
+      var Color = qx.theme.manager.Color.getInstance();
+
+
+      var outerStyle = "1px solid " + Color.resolve(this.getOuterColor()) + ";";
+      var innerStyle = "1px solid " + Color.resolve(this.getInnerColor()) + ";";
+
+
+      var html = [];
+
+      // Background frame
+      html.push('<div style="width:{frameWidth}px;height:{frameHeight}px;');
+      html.push('border:', outerStyle);
+      html.push(qx.bom.element.Opacity.compile(0.35));
+      html.push('"></div>');
+
+      // Horizontal frame
+      html.push('<div style="width:{frameWidth}px;height:{frameHeight}px;');
+      html.push('position:absolute;top:1px;left:0px;');
+      html.push('border-left:', outerStyle);
+      html.push('border-right:', outerStyle);
+      html.push('"></div>');
+
+      // Vertical frame
+      html.push('<div style="width:{frameWidth}px;height:{frameHeight}px;');
+      html.push('position:absolute;top:0px;left:1px;');
+      html.push('border-top:', outerStyle);
+      html.push('border-bottom:', outerStyle);
+      html.push('"></div>');
+
+      // Inner background frame
+      var image = this.getBackgroundImage();
+      var repeat = this.getBackgroundRepeat();
+      var styles =
+      {
+        position:"absolute",
+        top:"1px",
+        left:"1px",
+        width:"{frameWidth}px",
+        height:"{frameHeight}px"
+      };
+      html.push(qx.ui.decoration.Util.generateBasicDecor(image, repeat, styles).join(""));
+
+
+      // Inner overlay frame
+      html.push('<div style="width:{innerWidth}px;height:{innerHeight}px;');
+      html.push('position:absolute;top:1px;left:1px;');
+      html.push('border:', innerStyle);
+      html.push(qx.bom.element.Opacity.compile(this.getInnerOpacity()));
+      html.push('"></div>');
+
+
+      // Update template
+      this._tmpl.setContent(html.join(""));
+
+      // Cleanup flag
+      this._invalidTemplate = false;
     }
   }
 });

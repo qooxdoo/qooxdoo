@@ -419,6 +419,10 @@ qx.Class.define("qx.ui.decoration.Single",
         styles.borderLeft = width + "px " + this.getStyleLeft() + " " + Color.resolve(this.getColorLeft());
       }
 
+      styles.width = "{width}px";
+      styles.height = "{height}px";
+      styles.backgroundColor = "{bgcolor}px";
+
       // Generate tag
       var image = this.getBackgroundImage();
       var repeat = this.getBackgroundRepeat();
