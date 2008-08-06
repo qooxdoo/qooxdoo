@@ -49,6 +49,10 @@ qx.Class.define("qx.ui.decoration.Grid",
   {
     this.base(arguments);
 
+    // Create template
+    this._tmpl = new qx.util.Template;
+
+    // Initialize properties
     if (baseImage) {
       this.setBaseImage(baseImage);
     }
@@ -90,67 +94,39 @@ qx.Class.define("qx.ui.decoration.Grid",
     {
       check : "String",
       nullable : true,
-      apply : "_changeBaseImage"
+      apply : "_applyBaseImage"
     },
 
-    /** Whether the top border should be visible */
-    topBorder :
-    {
-      check : "Boolean",
-      init : true,
-      apply : "_changeBorderVisibility"
-    },
-
-    /** Whether the right border should be visible */
-    rightBorder :
-    {
-      check : "Boolean",
-      init : true,
-      apply : "_changeBorderVisibility"
-    },
-
-    /** Whether the bottom border should be visible */
-    bottomBorder :
-    {
-      check : "Boolean",
-      init : true,
-      apply : "_changeBorderVisibility"
-    },
-
-    /** Whether the left border should be visible */
-    leftBorder :
-    {
-      check : "Boolean",
-      init : true,
-      apply : "_changeBorderVisibility"
-    },
-
-    /** Width of the left inset */
+    /** Width of the left inset (keep this margin to the outer box) */
     insetLeft :
     {
       check : "Number",
-      init  : 0
+      init  : 0,
+      apply : "_applyInsets"
     },
 
-    /** Width of the right inset */
+    /** Width of the right inset (keep this margin to the outer box) */
     insetRight :
     {
       check : "Number",
-      init  : 0
+      init  : 0,
+      apply : "_applyInsets"
     },
 
-    /** Width of the bottom inset */
+    /** Width of the bottom inset (keep this margin to the outer box) */
     insetBottom :
     {
       check : "Number",
-      init  : 0
+      init  : 0,
+      apply : "_applyInsets"
     },
 
-    /** Width of the top inset */
+    /** Width of the top inset (keep this margin to the outer box) */
     insetTop :
     {
       check : "Number",
-      init  : 0
+      init  : 0,
+      apply : "_applyInsets"
     },
 
     /** Property group for insets */
@@ -172,20 +148,126 @@ qx.Class.define("qx.ui.decoration.Grid",
 
   members :
   {
-    _changeBaseImage : function(value)
-    {
-      this.__markup = null;
-      this.__images = null;
+    /*
+    ---------------------------------------------------------------------------
+      INTERFACE IMPLEMENTATION
+    ---------------------------------------------------------------------------
+    */
+
+    // interface implementation
+    reset : function(element) {
+      element.setAttribute("html", null);
     },
 
-    _changeBorderVisibility : function(value) {
-      this.__markup = null;
+
+    // interface implementation
+    getInsets : function()
+    {
+      if (this._insets) {
+        return this._insets;
+      }
+
+      this._insets =
+      {
+        left : this.getInsetLeft(),
+        right : this.getInsetRight(),
+        bottom : this.getInsetBottom(),
+        top : this.getInsetTop()
+      };
+
+      return this._insets;
     },
 
-    __computeMarkup : function()
+
+    // interface implementation
+    render : function(element, width, height, backgroundColor, changes)
     {
-      // Compute image names
-      var images = this.__images || this.__computeImages();
+      // Be sure template is up-to-date first
+      this._updateTemplate();
+
+      // Resolve background color
+      if (backgroundColor) {
+        backgroundColor = qx.theme.manager.Color.getInstance().resolve(backgroundColor);
+      }
+
+      var innerWidth = width - this._edges.left - this._edges.right;
+      var innerHeight = height - this._edges.top - this._edges.bottom;
+
+      // Compile HTML
+      var html = this._tmpl.run(
+      {
+        width : width,
+        height : height,
+        innerWidth: innerWidth,
+        innerHeight: innerHeight,
+        bgcolor: backgroundColor
+      });
+
+      // Apply HTML
+      element.setAttribute("html", html);
+    },
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      PROPERTY APPLY ROUTINES
+    ---------------------------------------------------------------------------
+    */
+
+    // property apply
+    _applyBaseImage : function()
+    {
+      this._invalidTemplate = true;
+      this._edges = null;
+      this._images = null;
+    },
+
+    // property apply
+    _applyInsets : function() {
+      this._insets = null;
+    },
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      HELPERS
+    ---------------------------------------------------------------------------
+    */
+
+    _invalidTemplate : true,
+
+    _updateTemplate : function()
+    {
+      if (!this._invalidTemplate) {
+        return;
+      }
+
+      var base = qx.util.AliasManager.getInstance().resolve(this.getBaseImage());
+      var split = /(.*)(\.[a-z]+)$/.exec(base);
+      var prefix = split[1];
+      var ext = split[2];
+
+      // Store images
+      var images =
+      {
+        tl : prefix + "-tl" + ext,
+        t : prefix + "-t" + ext,
+        tr : prefix + "-tr" + ext,
+
+        bl : prefix + "-bl" + ext,
+        b : prefix + "-b" + ext,
+        br : prefix + "-br" + ext,
+
+        l : prefix + "-l" + ext,
+        c : prefix + "-c" + ext,
+        r : prefix + "-r" + ext
+      };
 
       // Resolve image data
       var mgr = qx.util.ResourceManager;
@@ -206,8 +288,8 @@ qx.Class.define("qx.ui.decoration.Grid",
         }
       }
 
-      // Store dimensions
-      this.__insets =
+      // Store edges
+      this._edges =
       {
         top : t[4],
         bottom : b[4],
@@ -215,10 +297,10 @@ qx.Class.define("qx.ui.decoration.Grid",
         right : r[3]
       };
 
-      var topWidth = this.__insets.top;
-      var bottomWidth = this.__insets.bottom;
-      var leftWidth = this.__insets.left;
-      var rightWidth = this.__insets.right;
+      var topWidth = this._edges.top;
+      var bottomWidth = this._edges.bottom;
+      var leftWidth = this._edges.left;
+      var rightWidth = this._edges.right;
 
 
       // Create edges and vertical sides
@@ -232,6 +314,11 @@ qx.Class.define("qx.ui.decoration.Grid",
       var rightImageWidth = rightCombined ? rightCombined[3] : r[3];
 
 
+      // Frame start
+      html.push('<div style="position:relative;width:{width}px;height:{height}px;">');
+
+
+
       // Top: left, center, right
       html.push(
         '<div style="position:absolute;top:0;left:0;',
@@ -241,7 +328,7 @@ qx.Class.define("qx.ui.decoration.Grid",
         '"></div>'
       );
       html.push(
-        '<div style="position:absolute;top:0;',
+        '<div style="position:absolute;top:0;width:{innerWidth}px;',
         'left:', leftWidth,
         'px;height:',topWidth, 'px;',
         qx.bom.element.Background.compile(t[0], "repeat-x", t[1], t[2]),
@@ -264,7 +351,7 @@ qx.Class.define("qx.ui.decoration.Grid",
         '"></div>'
       );
       html.push(
-        '<div style="position:absolute;bottom:0;',
+        '<div style="position:absolute;bottom:0;width:{innerWidth}px;',
         'left:', leftWidth,
         'px;height:', bottomWidth, "px;",
         qx.bom.element.Background.compile(b[0], "repeat-x", b[1], b[2]),
@@ -280,122 +367,44 @@ qx.Class.define("qx.ui.decoration.Grid",
 
       // Middle: left, center, right
       html.push(
-        '<img src="', mgr.toUri(l[0]), '" style="position:absolute;left:' + l[1] + 'px;',
-        'top:', topWidth,
-        'px;width:', leftImageWidth,
-        'px;', qx.bom.element.Clip.compile({left: -l[1], width: leftWidth}),'"/>'
+        '<img src="', mgr.toUri(l[0]), '" style="',
+        'position:absolute;',
+        'left:' + l[1] + 'px;',
+        'top:', topWidth, 'px;',
+        'width:', leftImageWidth, 'px;',
+        'height:{innerHeight}px;',
+        qx.bom.element.Clip.compile({left: -l[1], width: leftWidth}),
+        '"/>'
       );
       html.push(
-        '<img src="', mgr.toUri(c[0]), '" style="position:absolute;',
+        '<img src="', mgr.toUri(c[0]), '" style="',
+        'position:absolute;',
+        'width:{innerWidth}px;',
+        'height:{innerHeight}px;',
         'top:', topWidth, 'px;left:', leftWidth, 'px;"/>'
       );
       html.push(
-        '<img src="', mgr.toUri(r[0]), '" style="position:absolute;',
-        'right:', rightWidth - (rightImageWidth + r[1]) , 'px;top:', topWidth, 'px;width:', rightImageWidth,
-        'px;', qx.bom.element.Clip.compile({left: -r[1], width: rightWidth}),'"/>'
+        '<img src="', mgr.toUri(r[0]), '" style="',
+        'position:absolute;',
+        'right:', rightWidth - (rightImageWidth + r[1]) , 'px;',
+        'top:', topWidth, 'px;',
+        'width:', rightImageWidth, 'px;',
+        'height:{innerHeight}px;',
+        qx.bom.element.Clip.compile({left: -r[1], width: rightWidth}),
+        '"/>'
       );
 
-      return this.__markup = html.join("");
-    },
 
 
-    __computeImages : function()
-    {
-      var base = qx.util.AliasManager.getInstance().resolve(this.getBaseImage());
-      var split = /(.*)(\.[a-z]+)$/.exec(base);
-      var prefix = split[1];
-      var ext = split[2];
-
-      return this.__images =
-      {
-        tl : prefix + "-tl" + ext,
-        t : prefix + "-t" + ext,
-        tr : prefix + "-tr" + ext,
-
-        bl : prefix + "-bl" + ext,
-        b : prefix + "-b" + ext,
-        br : prefix + "-br" + ext,
-
-        l : prefix + "-l" + ext,
-        c : prefix + "-c" + ext,
-        r : prefix + "-r" + ext
-      };
-    },
-
-    __createInnerElement : function()
-    {
-      var content = document.createElement("div");
-      content.innerHTML = this.__markup || this.__computeMarkup();
-      return content;
-    },
-
-    // interface implementation
-    render : function(element, width, height, backgroundColor, changes)
-    {
-      if (changes.style || changes.init)
-      {
-        if (element._element)
-        {
-          var content = element._element;
-          content.innerHTML = this.__markup || this.__computeMarkup();
-        } else {
-          var content = this.__createInnerElement();
-        }
-      }
-
-      if (!content) {
-        var content = element._element ? element._element : this.__createInnerElement();
-      }
-
-      var pixel = "px";
-
-      if (backgroundColor) {
-      	element.setStyle("backgroundColor", qx.theme.manager.Color.getInstance().resolve(backgroundColor));
-      }
-
-      // Sync width/height of outer element
-      element.setStyle("width", width + pixel);
-      element.setStyle("height", height + pixel);
-      element.setStyle("overflow", "hidden");
-
-      var innerWidth = width - this.__insets.left - this.__insets.right;
-      var innerHeight = height - this.__insets.top - this.__insets.bottom;
-
-      // Dimension dependending styles
-      content.childNodes[1].style.width =
-      content.childNodes[4].style.width =
-      content.childNodes[7].style.width =
-        innerWidth + pixel;
-
-      content.childNodes[6].style.height =
-      content.childNodes[7].style.height =
-      content.childNodes[8].style.height =
-        innerHeight + pixel;
-
-      // Sync to HTML attribute
-      if (!element._element) {
-        element.setAttribute("html", content.innerHTML);
-      }
-    },
+      // Frame end
+      html.push('</div>');
 
 
-    // interface implementation
-    reset : function(element) {
-      element.setAttribute("html", "");
-    },
+      // Update template
+      this._tmpl.setContent(html.join(""));
 
-
-    // interface implementation
-    getInsets : function()
-    {
-      var insets = {
-        left : this.getInsetLeft(),
-        right : this.getInsetRight(),
-        bottom : this.getInsetBottom(),
-        top : this.getInsetTop()
-      };
-
-      return insets;
+      // Cleanup flag
+      this._invalidTemplate = false;
     }
   }
 });
