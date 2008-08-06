@@ -57,7 +57,7 @@ qx.Class.define("qx.ui.progressive.headfoot.Progress",
     this.add(this._percentDone);
 
     // We're initially invisible
-    this.setVisibility("excluded");
+    this.exclude();
 
     // Arrange to be called when the window appears or is resized, so we
     // can set each style sheet's left and width field appropriately.
@@ -88,7 +88,7 @@ qx.Class.define("qx.ui.progressive.headfoot.Progress",
                               function(e)
                               {
                                 this.__total = e.getData().initial;
-                                this.setVisibility("visible");
+                                this.show();
                               },
                               this);
 
@@ -118,7 +118,7 @@ qx.Class.define("qx.ui.progressive.headfoot.Progress",
       progressive.addListener("renderEnd",
                               function(e)
                               {
-                                this.setVisibility("excluded");
+                                this.exclude();
                               },
                               this);
     },
@@ -145,10 +145,7 @@ qx.Class.define("qx.ui.progressive.headfoot.Progress",
     _resizeColumns : function(e)
     {
       var width =
-        (! this._progressive.getContainerElement().getDomElement()
-         ? 0
-         : this._progressive.getBounds().width) -
-        qx.bom.element.Overflow.getScrollbarWidth();
+        this.getBounds().width - qx.bom.element.Overflow.getScrollbarWidth();
 
       // Compute the column widths
       this._layout.renderLayout(width, 100);
