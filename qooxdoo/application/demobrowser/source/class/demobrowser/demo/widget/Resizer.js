@@ -32,13 +32,13 @@ qx.Class.define("demobrowser.demo.widget.Resizer",
     {
       this.base(arguments);
 
-      var container = new qx.ui.container.Composite(new qx.ui.layout.Grid(10, 10));
+      var container = new qx.ui.container.Composite(new qx.ui.layout.Canvas(10, 10));
 
-      container.add(this._getResizerList(), {row: 0, column: 0, colSpan: 2});
-      container.add(this._getResizer(), {row: 1, column: 0});
-      container.add(this._getResizer(), {row: 1, column: 1});
-      container.add(this._getResizer(), {row: 2, column: 0});
-      container.add(this._getResizer(), {row: 2, column: 1});
+      container.add(this._getResizerList(), { left : 10, top : 0 });
+      container.add(this._getResizer(), { left : 10,  top : 220 });
+      container.add(this._getResizer(), { left : 250, top : 220 });
+      container.add(this._getResizer(), { left : 10,  top : 400 });
+      container.add(this._getResizer(), { left : 250, top : 400 });
 
       this.getRoot().add(container, {left: 30, top: 50});
     },
@@ -57,10 +57,7 @@ qx.Class.define("demobrowser.demo.widget.Resizer",
         list.add(new qx.ui.form.ListItem('Option number '+i));
       }
 
-      var resizer = new qx.ui.container.Resizer().set({
-        allowGrowX: false,
-        allowGrowY: false
-      });
+      var resizer = new qx.ui.container.Resizer().setResizeAllEdges(false);
       resizer.setLayout(new qx.ui.layout.Canvas());
       resizer.add(list, {top: 0, right: 0, bottom: 0, left: 0});
 
@@ -78,8 +75,7 @@ qx.Class.define("demobrowser.demo.widget.Resizer",
         minHeight: 50,
         width: 200,
         height: 100,
-        allowGrowX: false,
-        allowGrowY: false
+        resizeAllEdges : false
       });
 
       resizer.setLayout(new qx.ui.layout.Canvas());
