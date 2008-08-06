@@ -222,6 +222,10 @@ qx.Class.define("qx.ui.decoration.Uniform",
         styles.border = width + 'px ' + this.getStyle() + ' ' + Color.resolve(this.getColor());
       }
 
+      styles.width = "{width}px";
+      styles.height = "{height}px";
+      styles.backgroundColor = "{bgcolor}px";
+
       // Generate tag
       var image = this.getBackgroundImage();
       var repeat = this.getBackgroundRepeat();

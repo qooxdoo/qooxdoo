@@ -187,6 +187,10 @@ qx.Class.define("qx.ui.decoration.Double",
         innerStyles.borderLeft = width + "px " + this.getStyleLeft() + " " + Color.resolve(this.getInnerColorLeft());
       }
 
+      innerStyles.width = "{width}px";
+      innerStyles.height = "{height}px";
+      innerStyles.backgroundColor = "{bgcolor}px";
+
       // Generate inner tag
       var image = this.getBackgroundImage();
       var repeat = this.getBackgroundRepeat();
@@ -215,6 +219,8 @@ qx.Class.define("qx.ui.decoration.Double",
       if (width > 0) {
         outerStyles.borderLeft = width + "px " + this.getStyleLeft() + " " + Color.resolve(this.getColorLeft());
       }
+
+
 
 
       // Combine inner and outer

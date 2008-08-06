@@ -92,8 +92,6 @@ qx.Class.define("qx.ui.decoration.Util",
         html.push('style="');
       }
 
-      html.push('width:{width}px;height:{height}px;background-color:{bgcolor};');
-
       if (styles) {
         html.push(qx.bom.element.Style.compile(styles));
       }
