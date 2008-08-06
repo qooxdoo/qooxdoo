@@ -37,16 +37,13 @@ qx.Theme.define("demobrowser.demo.ui.BackgroundImage_Decoration",
 
     "shaded-round" :
     {
-      decorator: qx.ui.decoration.Rounded,
+      decorator: qx.ui.decoration.Beveled,
 
       style :
       {
-        radius: 4,
-        width: 1,
-        color: "#334563",
-        style: "solid",
+        outerColor: "#334563",
         backgroundImage: "demobrowser/demo/background/gradient.png",
-        backgroundRepeat: "repeat-x"
+        //backgroundRepeat: "repeat-x"
       }
     },
 
@@ -56,12 +53,9 @@ qx.Theme.define("demobrowser.demo.ui.BackgroundImage_Decoration",
 
       style :
       {
-        radius: 4,
-        width: 1,
-        color: "#334563",
-        style: "solid",
+        outerColor: "#334563",
         backgroundImage: "demobrowser/demo/background/gradient-pressed.png",
-        backgroundRepeat: "repeat-x"
+        //backgroundRepeat: "repeat-x"
       }
     },
 
