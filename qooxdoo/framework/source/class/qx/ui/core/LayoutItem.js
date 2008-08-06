@@ -513,7 +513,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
       }
 
       // Compute as defined
-      var hint = this.__sizeHint = this._computeSizeHint();
+      hint = this.__sizeHint = this._computeSizeHint();
 
       // Respect height for width
       if (this.__computedHeightForWidth && this.getHeight() == null) {

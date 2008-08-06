@@ -2870,7 +2870,7 @@ qx.Class.define("qx.ui.core.Widget",
      */
     _onDragStart : function(e)
     {
-      qx.ui.core.DragDropCursor.getInstance().alignToMouse(e);
+      qx.ui.core.DragDropCursor.getInstance().placeToMouse(e);
       this.getApplicationRoot().setGlobalCursor("default");
     },
 
@@ -2881,7 +2881,7 @@ qx.Class.define("qx.ui.core.Widget",
      * @param e {qx.event.type.Drag} Drag event
      */
     _onDrag : function(e) {
-      qx.ui.core.DragDropCursor.getInstance().alignToMouse(e);
+      qx.ui.core.DragDropCursor.getInstance().placeToMouse(e);
     },
 
 
