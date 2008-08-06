@@ -376,8 +376,6 @@ class Generator:
         variantSets = idlist.computeCombinations(variantData) # e.g. [{'qx.debug':'on','qx.aspects':'on'},...]
 
         # Iterate through variant sets
-        #import pydb
-        #pydb.debugger()
         for variantSetNum, variants in enumerate(variantSets):
             if len(variantSets) > 1:
                 self._console.head("Processing variant set %s/%s" % (variantSetNum+1, len(variantSets)))
@@ -1141,7 +1139,7 @@ class Generator:
             # normalize paths (esp. "./x" -> "x")
             (uriFromMetafile, trueCombinedUri, combinedUriFromMetafile) = map(os.path.normpath,(uriFromMetafile, trueCombinedUri, combinedUriFromMetafile))
             # get the "wrong" prefix (in mappedUriPrefix)
-            trueUriPrefix, mappedUriPrefix, sfx = Path.getCommonSuffixS(trueCombinedUri, combinedUriFromMetafile)
+            trueUriPrefix, mappedUriPrefix, sfx = Path.getCommonSuffix(trueCombinedUri, combinedUriFromMetafile)
             # ...and strip it from contained image uri, to get a correct suffix (in uriSuffix)
             pre, mappedUriSuffix, uriSuffix = Path.getCommonPrefix(mappedUriPrefix, uriFromMetafile)
             # ...then compose the correct prefix with the correct suffix
