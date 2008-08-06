@@ -98,7 +98,7 @@ qx.Class.define("qx.ui.decoration.Util",
 
       html.push('"></', tag, '>');
 
-      return html;
+      return html.join("");
     }
   }
 });

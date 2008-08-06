@@ -224,7 +224,7 @@ qx.Class.define("qx.ui.decoration.Double",
 
 
       // Combine inner and outer
-      var html = '<div style="' + qx.bom.element.Style.compile(outerStyles) + '">' + innerHtml.join("") + '</div>';
+      var html = '<div style="' + qx.bom.element.Style.compile(outerStyles) + '">' + innerHtml + '</div>';
 
       // Update template
       this._tmpl.setContent(html);
