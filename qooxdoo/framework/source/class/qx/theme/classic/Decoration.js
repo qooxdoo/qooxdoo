@@ -480,9 +480,38 @@ qx.Theme.define("qx.theme.classic.Decoration",
         backgroundImage : "decoration/core/dotted-white.gif",
         backgroundRepeat : "repeat"
       }
+    },
+
+
+
+    "test-beveled-1" :
+    {
+      decorator : qx.ui.decoration.Beveled,
+
+      style :
+      {
+        outerColor : "#555",
+        innerColor : "white",
+        innerOpacity : 0.5,
+        backgroundImage : "decoration/colorselector/brightness-field.jpg",
+        backgroundRepeat : "scale"
+      }
+    },
+
+
+    "test-beveled-2" :
+    {
+      decorator : qx.ui.decoration.Beveled,
+
+      style :
+      {
+        outerColor : "#555",
+        innerColor : "white",
+        innerOpacity : 0.5,
+        backgroundImage : "decoration/core/dotted-white.gif",
+        backgroundRepeat : "repeat"
+      }
     }
-
-
 
   }
 });
