@@ -402,7 +402,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
     ---------------------------------------------------------------------------
     */
 
-    "textfield" :
+    "input" :
     {
       decorator : qx.ui.decoration.Beveled,
 
@@ -414,7 +414,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
       }
     },
 
-    "textfield-focused" :
+    "input-focused" :
     {
       decorator : qx.ui.decoration.Beveled,
 
@@ -422,6 +422,18 @@ qx.Theme.define("qx.theme.modern.Decoration",
       {
         outerColor: "border",
         innerColor: "focus"
+      }
+    },
+    
+    "input-vertical" :
+    {
+      decorator : qx.ui.decoration.Beveled,
+
+      style :
+      {
+        outerColor      : "border",
+        innerColor      : "white",
+        backgroundImage : "decoration/form/input-vertical.png"
       }
     },
 
