@@ -102,15 +102,15 @@ qx.Class.define("qx.ui.progressive.headfoot.Progress",
                                 var decoratorWidth =
                                   Math.floor(this.getWidth() * complete);
                                 if (! isNaN(decoratorWidth))
-                                  {
-                                    var percent =
-                                      Math.floor(complete * 100) + "%";
-                                    this._percentDone.setLabel(percent);
-                                    this._decorator.set(
-                                      {
-                                        widthLeft : decoratorWidth
-                                      });
-                                  }
+                                {
+                                  var percent =
+                                    Math.floor(complete * 100) + "%";
+                                  this._percentDone.setLabel(percent);
+                                  this._decorator.set(
+                                    {
+                                      widthLeft : decoratorWidth
+                                    });
+                                }
                               },
                               this);
 
