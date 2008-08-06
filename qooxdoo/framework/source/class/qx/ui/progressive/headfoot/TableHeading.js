@@ -127,13 +127,6 @@ qx.Class.define("qx.ui.progressive.headfoot.TableHeading",
 
       var width =
         this.getBounds().width - qx.bom.element.Overflow.getScrollbarWidth();
-/*
-      var width =
-        (! this._progressive.getContainerElement().getDomElement()
-         ? 0
-         : this._progressive.getBounds().width) -
-        qx.bom.element.Overflow.getScrollbarWidth();
-*/
 
       // Compute the column widths
       this.__bCalculateWidths = true;
