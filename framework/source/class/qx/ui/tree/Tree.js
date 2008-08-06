@@ -38,7 +38,7 @@
  */
 qx.Class.define("qx.ui.tree.Tree",
 {
-  extend : qx.ui.core.ScrollArea,
+  extend : qx.ui.core.AbstractScrollArea,
   include : [ qx.ui.core.MSelectionHandling ],
 
 

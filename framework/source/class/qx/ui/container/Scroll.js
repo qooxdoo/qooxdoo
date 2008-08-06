@@ -20,7 +20,7 @@
 
 qx.Class.define("qx.ui.container.Scroll",
 {
-  extend : qx.ui.core.ScrollArea,
+  extend : qx.ui.core.AbstractScrollArea,
 
 
 
