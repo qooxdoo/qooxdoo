@@ -67,6 +67,7 @@ qx.Class.define("qx.ui.form.AbstractSlider",
     // Stop events
     this.addListener("contextmenu", this._onStopEvent);
     this.addListener("click", this._onStopEvent);
+    this.addListener("dblclick", this._onStopEvent);
 
     // Initialize orientation
     if (orientation != null) {
