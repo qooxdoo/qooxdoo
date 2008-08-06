@@ -67,6 +67,8 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
 
     __clazz : null,
 
+    __padding : 6, // modify padding parameter below too if this changes
+
     __tableCellStyleSheet :
         "  position: absolute;" +
         "  top: 0px;" +
@@ -77,7 +79,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
         "  white-space:nowrap;" +
         "  border-right:1px solid #eeeeee;" +
         "  border-bottom:1px solid #eeeeee;" +
-        "  padding : 0px 6px;" +
+        "  padding : 0px 6px 0px 6px" +
         "  cursor:default;" +
         "  font-size: 11px;" +
         "  font-family: 'Segoe UI', Corbel, Calibri, Tahoma, 'Lucida Sans Unicode', sans-serif;" +
@@ -144,7 +146,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
         for (var i = 0; i < columnData.length; i++)
         {
           var stylesheet =
-            ".qx-progressive-" + hash + "-cell-" + i + " {" +
+            ".qx-progressive-" + hash + "-col-" + i + " {" +
             tr.__tableCellStyleSheet +
             "}";
           tr.__clazz[hash].cellstylesheet[i] =
@@ -244,7 +246,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
       // For each cell...
       for (i = 0; i < data.length; i++)
       {
-        var stylesheet = "qx-progressive-" + this._hash + "-cell-" + i;
+        var stylesheet = "qx-progressive-" + this._hash + "-col-" + i;
 
         // Determine what renderer to use for this column
         renderer = this._renderers[i] || this._defaultCellRenderer;
@@ -365,15 +367,6 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
 
       var width =
         pane.getBounds().width - qx.bom.element.Overflow.getScrollbarWidth();
-/*
-      var width =
-        (! this._progressive.getContainerElement().getDomElement()
-         ? 0
-         : this._progressive.getBounds().width) -
-        qx.bom.element.Overflow.getScrollbarWidth();
-*/
-
-this.warn("rendering into width " + width + " with scrollbar width " + qx.bom.element.Overflow.getScrollbarWidth());
 
       // Get the style sheet rule name for this row
       var stylesheet = ".qx-progressive-" + this._hash + "-row";
@@ -386,6 +379,7 @@ this.warn("rendering into width " + width + " with scrollbar width " + qx.bom.el
 
       // Create the new rule for this row
       var rule = "width: " + width + "px;";
+
 
       // Apply the new rule
       qx.bom.Stylesheet.addRule(tr.__clazz[this._hash].rowstylesheet,
@@ -406,7 +400,7 @@ this.warn("rendering into width " + width + " with scrollbar width " + qx.bom.el
              left += width)
       {
         // Get the style sheet rule name for this cell
-        var stylesheet = ".qx-progressive-" + this._hash + "-cell-" + i;
+        var stylesheet = ".qx-progressive-" + this._hash + "-col-" + i;
 
         // Remove the style rule for this column
         var tr = qx.ui.progressive.renderer.table.Row;
@@ -425,10 +419,25 @@ this.warn("rendering into width " + width + " with scrollbar width " + qx.bom.el
         }
 
         // Create the new rule, based on calculated widths
+        var widthRule =
+          (width -
+           (qx.ui.progressive.renderer.table.Row.__padding * 2)) +
+          "px;";
+
+        var paddingRule =
+          "0px " +
+          qx.ui.progressive.renderer.table.Row.__padding + "px" +
+          " 0px " +
+          qx.ui.progressive.renderer.table.Row.__padding + "px;";
+
+        var leftRule = left + "px;";
+        
         var rule =
           tr.__tableCellStyleSheet +
-          "left: " + left + "px;" +
-          "width: " + width + "px;";
+          "width: " + widthRule +
+          "left: " + leftRule +
+          "padding: " + paddingRule;
+
 this.warn("resize column " + i + ": rule=" + rule);
 
         // Apply the new rule
@@ -476,7 +485,7 @@ this.warn("resize column " + i + ": rule=" + rule);
         for (var i = tr.__clazz[hash].cellstylesheet.length - 1; i >= 0; i--)
         {
           // Get the style sheet rule name for this cell
-          var stylesheet = ".qx-progressive-" + this._hash + "-cell-" + i;
+          var stylesheet = ".qx-progressive-" + this._hash + "-col-" + i;
           var rule = tr.__clazz[this._hash].cellstylesheet[i];
 
           // Remove the style rule for this column
