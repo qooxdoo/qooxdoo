@@ -161,6 +161,8 @@
       "include" :
       [
         "qx.legacy.theme.ClassicRoyale",
+        "qx.theme.Classic",
+        "qx.theme.Modern",
         "demobrowser.*"
       ],
 
