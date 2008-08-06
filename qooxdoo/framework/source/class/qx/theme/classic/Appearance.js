@@ -610,7 +610,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
         return {
           width     : 1, // TODO: functional?
           margin    : [ 3, 2 ],
-          decorator : "divider-horizontal"
+          decorator : "toolbar-separator"
         };
       }
     },
@@ -1269,7 +1269,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
         }
       }
     },
-    
+
     "datechooser/navigation-bar" : {
       style : function(states)
       {
