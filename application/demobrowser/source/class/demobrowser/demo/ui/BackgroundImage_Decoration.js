@@ -42,7 +42,7 @@ qx.Theme.define("demobrowser.demo.ui.BackgroundImage_Decoration",
       style :
       {
         outerColor: "#334563",
-        backgroundImage: "demobrowser/demo/background/gradient.png",
+        backgroundImage: "demobrowser/demo/background/gradient.png"
         //backgroundRepeat: "repeat-x"
       }
     },
@@ -54,7 +54,7 @@ qx.Theme.define("demobrowser.demo.ui.BackgroundImage_Decoration",
       style :
       {
         outerColor: "#334563",
-        backgroundImage: "demobrowser/demo/background/gradient-pressed.png",
+        backgroundImage: "demobrowser/demo/background/gradient-pressed.png"
         //backgroundRepeat: "repeat-x"
       }
     },
