@@ -445,7 +445,43 @@ qx.Theme.define("qx.theme.classic.Decoration",
         backgroundImage : "decoration/core/dotted-white.gif",
         backgroundRepeat : "repeat"
       }
+    },
+
+
+
+    "test-double-1" :
+    {
+      decorator : qx.ui.decoration.Double,
+
+      style :
+      {
+        width : 1,
+        style : "solid",
+        color : "black",
+        innerWidth : 1,
+        innerColor : "gray",
+        backgroundImage : "decoration/colorselector/brightness-field.jpg",
+        backgroundRepeat : "scale"
+      }
+    },
+
+
+    "test-double-2" :
+    {
+      decorator : qx.ui.decoration.Double,
+
+      style :
+      {
+        width : 1,
+        style : "solid",
+        color : "black",
+        innerWidth : 1,
+        innerColor : "gray",
+        backgroundImage : "decoration/core/dotted-white.gif",
+        backgroundRepeat : "repeat"
+      }
     }
+
 
 
   }
