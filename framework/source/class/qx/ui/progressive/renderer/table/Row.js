@@ -156,7 +156,8 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
 
         // Arrange to be called when the window appears or is resized, so we
         // can set each style sheet's left and width field appropriately.
-        progressive.addListener("resize", this._resizeColumns, this);
+        var pane = progressive._structure.getPane();
+        pane.addListener("resize", this._resizeColumns, this);
 
       }
     },
@@ -273,7 +274,8 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
 
       // Set properties for the row div
       div.style.position = "relative";
-      div.style.height = height > 0 ? height : this.getDefaultRowHeight();
+      div.style.height =
+        (height > 0 ? height : this.getDefaultRowHeight()) + "px";
       div.className = "qx-progressive-" + this._hash + "-row";
       div.innerHTML = html.join("");
 
@@ -359,11 +361,19 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
      */
     _resizeColumns : function(e)
     {
+      var pane = this._progressive._structure.getPane();
+
+      var width =
+        pane.getBounds().width - qx.bom.element.Overflow.getScrollbarWidth();
+/*
       var width =
         (! this._progressive.getContainerElement().getDomElement()
          ? 0
          : this._progressive.getBounds().width) -
         qx.bom.element.Overflow.getScrollbarWidth();
+*/
+
+this.warn("rendering into width " + width + " with scrollbar width " + qx.bom.element.Overflow.getScrollbarWidth());
 
       // Get the style sheet rule name for this row
       var stylesheet = ".qx-progressive-" + this._hash + "-row";
@@ -375,7 +385,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
 
 
       // Create the new rule for this row
-      var rule = "width: " + width + ";";
+      var rule = "width: " + width + "px;";
 
       // Apply the new rule
       qx.bom.Stylesheet.addRule(tr.__clazz[this._hash].rowstylesheet,
@@ -417,8 +427,9 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
         // Create the new rule, based on calculated widths
         var rule =
           tr.__tableCellStyleSheet +
-          "left: " + left + ";" +
-          "width: " + width + ";";
+          "left: " + left + "px;" +
+          "width: " + width + "px;";
+this.warn("resize column " + i + ": rule=" + rule);
 
         // Apply the new rule
         qx.bom.Stylesheet.addRule(tr.__clazz[this._hash].cellstylesheet[i],
