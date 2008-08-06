@@ -38,8 +38,7 @@ qx.Class.define("qx.ui.progressive.structure.Abstract",
     // If no pane was specified. Create one.
     if (! pane)
     {
-      this.__container =
-        new qx.ui.container.Composite(new qx.ui.layout.Basic());
+      this.__container = new qx.ui.core.Widget();
       this._pane = this.__container;
     }
     else
