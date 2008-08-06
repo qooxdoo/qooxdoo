@@ -488,12 +488,12 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
     "groupbox-frame" :
     {
-      decorator : qx.ui.decoration.Rounded,
+      decorator : qx.ui.decoration.Single,
 
       style :
       {
         color : "#c6c6c6",
-        radius : 5,
+        style : "solid",
         width : 1
       }
     },
