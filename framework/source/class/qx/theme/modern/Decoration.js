@@ -232,7 +232,8 @@ qx.Theme.define("qx.theme.modern.Decoration",
     {
       decorator : qx.ui.decoration.Grid,
 
-      style : {
+      style :
+      {
         baseImage : "decoration/shadow/shadow.png",
         insets    : [ 4, 8, 8, 4 ]
       }
@@ -243,7 +244,8 @@ qx.Theme.define("qx.theme.modern.Decoration",
     {
       decorator : qx.ui.decoration.Grid,
 
-      style : {
+      style :
+      {
         baseImage : "decoration/shadow/shadow-small.png",
         insets    : [ 0, 3, 3, 0 ]
       }
@@ -424,7 +426,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
         innerColor: "focus"
       }
     },
-    
+
     "input-vertical" :
     {
       decorator : qx.ui.decoration.Beveled,
@@ -985,39 +987,39 @@ qx.Theme.define("qx.theme.modern.Decoration",
         colorBottom : "#FAFAFA"
       }
     },
-    
-    
-    
+
+
+
     /*
     ---------------------------------------------------------------------------
       DATE CHOOSER
     ---------------------------------------------------------------------------
    */
-   
+
    "date-chooser" :
    {
       decorator : qx.ui.decoration.Double,
-      
+
       style :
       {
         width      : 1,
         innerWidth : 1,
-        
+
         color      : "border-dark",
         innerColor : "white"
       }
    },
-    
+
    "date-chooser-pane" :
    {
       decorator : qx.ui.decoration.Single,
-      
+
       style :
       {
         widthTop : 1,
         colorTop : "border-dark",
-        style    : "solid"        
+        style    : "solid"
       }
-   }    
+   }
   }
 });
