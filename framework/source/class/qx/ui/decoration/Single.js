@@ -330,10 +330,8 @@ qx.Class.define("qx.ui.decoration.Single",
 
 
     // interface implementation
-    reset : function(element)
-    {
-      element.setStyles(this._emptyStyles);
-      element.removeAll();
+    reset : function(element) {
+      element.setAttribute("html", null);
     },
 
 

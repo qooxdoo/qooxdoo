@@ -309,7 +309,7 @@ qx.Theme.define("qx.theme.classic.Decoration",
 
     "lead-item" :
     {
-      decorator : qx.ui.decoration.Single,
+      decorator : qx.ui.decoration.Uniform,
 
       style :
       {
@@ -353,9 +353,8 @@ qx.Theme.define("qx.theme.classic.Decoration",
 
       style :
       {
-        width: 1,
-        widthLeft: 0,
-        widthRight : 0,
+        widthTop: 1,
+        widthBottom: 1,
         colorTop : "border-dark",
         colorBottom : "border-light"
       }
