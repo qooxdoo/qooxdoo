@@ -24,11 +24,11 @@
 import os, sys, re, types
 
 def getCommonSuffix(p1, p2):
-    return getCommonSuffixA(p1, p2)  # dispatch to real implementation
+    return getCommonSuffixS(p1, p2)  # dispatch to real implementation
 
 
 def getCommonPrefix(p1, p2):
-    return getCommonPrefixA(p1, p2)  # dispatch to real implementation
+    return getCommonPrefixS(p1, p2)  # dispatch to real implementation
 
 
 def getCommonSuffixS2(p1, p2):  # direct String-based implementation (repeats much of getCommonPrefixS)
@@ -49,34 +49,76 @@ def getCommonSuffixS2(p1, p2):  # direct String-based implementation (repeats mu
     return pre1, pre2, suffx
 
 
-def getCommonPrefixS(p1, p2):  # String-based
+def _getCommonPrefixS(p1, p2):  # String-based
     '''computes the common prefix of p1, p2, and returns the common prefix and the two
        different suffixes'''
     pre = sfx1 = sfx2 = ""
+
     # catch corner cases
     if (len(p1) == 0 or len(p2) == 0): return "",p1,p2
     if p1 == p2: return p1,"",""
+
     # treat the others
+    len_p1 = len(p1)
     len_p2 = len(p2)
-    for i in range(len(p1)):
+    # compare paths char by char
+    for i in range(len_p1):
+        k = i      # k will keep the last common index - i don't trust 'i' after the for loop
         if i >= len_p2:
+            k -= 1 # correct to last common index (a value of -1 is fine)
             break
         elif p1[i] == p2[i]:
             continue
         else:
-            i -= 1  # correct i, since the loop ends differently with range() or !=
+            k -= 1 # correct to last common index
             break
-    # treat path elements atomic
-    if p1[i] != os.sep: # the commonality did not end in a path sep
+    # assert: 'k' points to last common char of the operands, -1 means no commonality
+
+    # make sure path elements are treated atomic (no split in the middle of a dir name)
+    # check whether the commonality did not end in a dir boundary
+    if (k==-1): # there is no commonality
+        pass
+    elif (((k+1 < len_p1)  # we're not at the end of p1
+         and (p1[k] != os.sep))  # the last common char was not a '/'
+         and (k+1 < len_p2)): 
         # calculate backwards to the last encountered os.sep or the beginning of the string
-        j = p1.rfind(os.sep,0,i)
+        #print ">>> searching backward"
+        j = p1.rfind(os.sep,0,k)
         if j >-1:
-            i = j 
+            k = j 
         else: # there is no os.sep in the commen prefix so use start of string
-            i = j  # this complies with the suffix "[i+1:]" slice later
-    pre  = p1[0:i+1]
-    sfx1 = p1[i+1:]
-    sfx2 = p2[i+1:]
+            k = j  # this complies with the suffix "[k+1:]" slice later
+    # assert: 'k' points to dir boundary (os.sep or EOS)
+
+    # assign results
+    #print ">>> k+1: ", k+1
+    pre  = p1[0:k+1]
+    sfx1 = p1[k+1:]
+    sfx2 = p2[k+1:]
+
+    return pre,sfx1,sfx2
+
+
+def getCommonPrefixS(p1, p2):  # String-based
+    p1, p2 = map(os.path.normpath, (p1, p2))
+    p = [p1, p2]
+    # undo normpath abnormalities
+    if p1=='.':
+        p1=''
+    if p2=='.':
+        p2=''
+    pre,sfx1,sfx2 = _getCommonPrefixS(p1, p2)
+
+    # fix surrounding os.sep's
+    # the intention here is to clear unnecessary trailing separators, and 
+    # artificial leading separators that stem from the splitting
+    if len(pre)>1:        # only if there's a real prefix (not '' or just '/')
+        if pre.endswith(os.sep): # clear trailing '/'
+            pre  = pre[:-len(os.sep)]
+        if len(sfx1)>1 and sfx1.startswith(os.sep): # clear leading '/'
+            sfx1 = sfx1[len(os.sep):]
+        if len(sfx2)>1 and sfx2.startswith(os.sep): # clear leading '/'
+            sfx2 = sfx2[len(os.sep):]
 
     return pre,sfx1,sfx2
 
@@ -148,16 +190,32 @@ def getCommonSuffixA(p1, p2):  # Array-based
 
 def getCommonSuffixS(p1, p2):  # String-based
     'use getCommonPrefixS, but with reversed arguments and return values'
+    p1, p2 = map(os.path.normpath, (p1, p2))
+    p = [p1, p2]
+    # undo normpath abnormalities
+    if p1=='.':
+        p1=''
+    if p2=='.':
+        p2=''
+
     p1r = p1[::-1]  # this is string reverse in Python
     p2r = p2[::-1]
-    sfx, pre1, pre2 = getCommonPrefixS(p1r, p2r)
+    sfx, pre1, pre2 = _getCommonPrefixS(p1r, p2r)
     sfx  = sfx[::-1]
     pre1 = pre1[::-1]
     pre2 = pre2[::-1]
-    if sfx.startswith(os.sep):  # don't return a real suffix that looks like an absolute path
+
+    # fix surrounding os.sep's
+    if (len(pre1)==0 and len(pre2)==0):  # leave ('','',sfx) alone
+        pass
+    elif sfx.startswith(os.sep):  # don't return a real suffix that looks like an absolute path
         sfx = sfx[len(os.sep):]   # skip the leading os.sep
-        pre1 += os.sep            # and push it to the prefixes
-        pre2 += os.sep
+        if pre1=='': pre1 += os.sep    # and push it to the prefixes
+        if pre2=='': pre2 += os.sep
+    if len(pre1)>1 and pre1.endswith(os.sep):
+        pre1 = pre1[:-len(os.sep)]
+    if len(pre2)>1 and pre2.endswith(os.sep):
+        pre2 = pre2[:-len(os.sep)]
 
     return pre1, pre2, sfx
 
@@ -189,4 +247,64 @@ def rel_from_to(fromdir, todir, commonroot=None):
     return os.path.join(ups,sfx2)
 
 
+def _testCP():
+    'test getCommonPrefix()'
+    tests = [
+        (('', ''), ('','','')),
+        (('a', ''), ('','a','')),
+        (('/a', ''), ('','/a','')),
+        (('', 'a'), ('','','a')),
+        (('', '/a'), ('','','/a')),
+        (('/a', 'e/f/g'), ('','/a','e/f/g')),
+        (('/a/b/c', '/a/b/c/d/e'), ('/a/b/c','','d/e')),
+        (('/a/b/c', '/a/b/c/d/'), ('/a/b/c','','d')),
+        (('/a/b/c', '/a/b/c/d'), ('/a/b/c','','d')),
+        (('/a/b/c', '/a/b/c/'), ('/a/b/c','','')),
+        (('/a/b/c', '/a/b/c'), ('/a/b/c','','')),
+        (('/a/b/c', '/a/b/'), ('/a/b','c','')),
+        (('/a/b/c', '/a/b'), ('/a/b','c','')),
+        (('/a/b/c', '/a/'), ('/a','b/c','')),
+        (('/a/b/c', '/a'), ('/a','b/c','')),
+        (('/a/b/c', '/'), ('/','a/b/c','')),
+        (('/a/b/x.1/c', '/a/b/x.2/c'),   ('/a/b','x.1/c','x.2/c')),
+        (('x.1/a/b/c', 'x.2/a/b/c/d'), ('','x.1/a/b/c','x.2/a/b/c/d')),
+        (('a/b/./c', 'a/b/c/d'), ('a/b/c','','d')),
+        (('a/b/c', 'a/b/c/././d'), ('a/b/c','','d')),
+        (('a/b/../c', 'a/c/d'), ('a/c','','d')),
+        (('a/b/c', 'a/b/c/../d'), ('a/b','c','d')),
+        (('../../../a/b/c', '../../a/b/c/d'), ('../..','../a/b/c','a/b/c/d')),
+        (('../../../a/b/c', '../../x/y/../z/../../../a/b/c/d'), ('../../../a/b/c','','d')),
+    ]
+
+    for t in tests:
+        x = getCommonPrefix(*t[0])
+        assert x == t[1], "%r != %r" % (x, t[1])
+
+
+def _testCS():
+    'test getCommonSuffix()'
+    tests = [
+        (('', ''), ('','','')),
+        (('a', ''), ('a','','')),
+        (('/a', ''), ('/a','','')),
+        (('', 'a'), ('','a','')),
+        (('', '/a'), ('','/a','')),
+        (('/a', 'e/f/g'), ('/a','e/f/g','')),
+        (('a/b/c','a/b/c'), ('','','a/b/c')),
+        (('/a/b/c','/a/b/c'), ('','','/a/b/c')),
+        (('x/y/a/b/c','/a/b/c'), ('x/y','/','a/b/c')),
+        (('/y/a/b/c','/a/b/c'), ('/y','/','a/b/c')),
+        (('y/a/b/c','/a/b/c'), ('y','/','a/b/c')),
+        (('/a/b/c','/a/b/c'), ('','','/a/b/c')),
+        (('a/b/c','/a/b/c'), ('','/','a/b/c')),
+        (('/b/c','/a/b/c'), ('/','/a','b/c')),
+        (('b/c','/a/b/c'), ('','/a','b/c')),
+        (('/c','/a/b/c'), ('/','/a/b','c')),
+        (('c','/a/b/c'), ('','/a/b','c')),
+        (('','/a/b/c'), ('','/a/b/c','')),
+    ]
+
+    for t in tests:
+        x = getCommonSuffix(*t[0])
+        assert x == t[1], "%r != %r" % (x, t[1])
 
