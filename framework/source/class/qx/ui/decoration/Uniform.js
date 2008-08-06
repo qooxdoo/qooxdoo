@@ -124,7 +124,9 @@ qx.Class.define("qx.ui.decoration.Uniform",
       this._updateTemplate();
 
       // Fix box model
-      if (qx.bom.client.Feature.CONTENT_BOX)
+      // Note: Scaled images are always using content box
+      var scaledImage = this.getBackgroundImage() && this.getBackgroundRepeat() == "scale";
+      if (scaledImage || qx.bom.client.Feature.CONTENT_BOX)
       {
         var inset = this.getInsets().top * 2;
         width -= inset;
@@ -213,7 +215,7 @@ qx.Class.define("qx.ui.decoration.Uniform",
         return;
       }
 
-      // Styles
+      // Init styles
       var styles = "width:{width}px;height:{height}px;background-color:{bgcolor};";
 
       // Add border
@@ -224,10 +226,8 @@ qx.Class.define("qx.ui.decoration.Uniform",
         styles += "border:" + width + "px " + this.getStyle() + " " + Color.resolve(this.getColor()) + ";";
       }
 
-      // Generate tag
-      var image = this.getBackgroundImage();
-      var repeat = this.getBackgroundRepeat();
-      var html = qx.ui.decoration.Util.generateBasicDecor(image, repeat, styles);
+      // Generate markup
+      var html = qx.ui.decoration.Util.generateBasicDecor(this.getBackgroundImage(), this.getBackgroundRepeat(), styles);
 
       // Update template
       this._tmpl.setContent(html);

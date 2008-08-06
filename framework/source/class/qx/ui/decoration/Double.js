@@ -136,6 +136,46 @@ qx.Class.define("qx.ui.decoration.Double",
   members :
   {
     // interface implementation
+    render : function(element, width, height, backgroundColor, changes)
+    {
+      // Be sure template is up-to-date first
+      this._updateTemplate();
+
+      // Fix box model
+      // Note: Scaled images are always using content box
+      var scaledImage = this.getBackgroundImage() && this.getBackgroundRepeat() == "scale";
+      if (scaledImage || qx.bom.client.Feature.CONTENT_BOX)
+      {
+        var insets = this.getInsets();
+        width -= insets.left + insets.right;
+        height -= insets.top + insets.bottom;
+      }
+      else
+      {
+        // Substract outer border
+        width -= this.getWidthLeft() + this.getWidthRight();
+        height -= this.getWidthTop() + this.getWidthBottom();
+      }
+
+      // Resolve background color
+      if (backgroundColor) {
+        backgroundColor = qx.theme.manager.Color.getInstance().resolve(backgroundColor);
+      }
+
+      // Compile HTML
+      var html = this._tmpl.run(
+      {
+        innerWidth: width,
+        innerHeight: height,
+        bgcolor: backgroundColor
+      });
+
+      // Apply HTML
+      element.setAttribute("html", html);
+    },
+
+
+    // interface implementation
     getInsets : function()
     {
       if (this._insets) {
@@ -165,7 +205,7 @@ qx.Class.define("qx.ui.decoration.Double",
 
 
       // Inner styles
-      var innerStyles = "width:{width}px;height:{height}px;background-color:{bgcolor};";
+      var innerStyles = "width:{innerWidth}px;height:{innerHeight}px;background-color:{bgcolor};";
 
       // Add inner borders
       var width = this.getInnerWidthTop();

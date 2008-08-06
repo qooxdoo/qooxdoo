@@ -141,15 +141,21 @@ qx.Class.define("qx.ui.decoration.Beveled",
       // Fix box model
       if (qx.bom.client.Feature.CONTENT_BOX)
       {
-        var insets = this.getInsets();
-        var frameWidth = width - 2;
-        var frameHeight = height - 2;
+        var outerWidth = width - 2;
+        var outerHeight = height - 2;
+        var frameWidth = outerWidth;
+        var frameHeight = outerHeight;
         var innerWidth = width - 4;
         var innerHeight = height - 4;
       }
       else
       {
-
+        var outerWidth = width;
+        var outerHeight = height;
+        var frameWidth = width - 2;
+        var frameHeight = height - 2;
+        var innerWidth = frameWidth;
+        var innerHeight = frameHeight;
       }
 
       // Resolve background color
@@ -162,6 +168,8 @@ qx.Class.define("qx.ui.decoration.Beveled",
       {
         frameWidth : frameWidth,
         frameHeight : frameHeight,
+        outerWidth : outerWidth,
+        outerHeight : outerHeight,
         innerWidth : innerWidth,
         innerHeight : innerHeight,
         bgcolor: backgroundColor
@@ -209,41 +217,35 @@ qx.Class.define("qx.ui.decoration.Beveled",
       }
 
       var Color = qx.theme.manager.Color.getInstance();
+      var html = [];
 
-
+      // Prepare border styles
       var outerStyle = "1px solid " + Color.resolve(this.getOuterColor()) + ";";
       var innerStyle = "1px solid " + Color.resolve(this.getInnerColor()) + ";";
 
-
-      var html = [];
-
       // Background frame
-      html.push('<div style="width:{frameWidth}px;height:{frameHeight}px;');
+      html.push('<div style="width:{outerWidth}px;height:{outerHeight}px;');
       html.push('border:', outerStyle);
       html.push(qx.bom.element.Opacity.compile(0.35));
       html.push('"></div>');
 
       // Horizontal frame
-      html.push('<div style="width:{frameWidth}px;height:{frameHeight}px;');
+      html.push('<div style="width:{outerWidth}px;height:{frameHeight}px;');
       html.push('position:absolute;top:1px;left:0px;');
       html.push('border-left:', outerStyle);
       html.push('border-right:', outerStyle);
       html.push('"></div>');
 
       // Vertical frame
-      html.push('<div style="width:{frameWidth}px;height:{frameHeight}px;');
+      html.push('<div style="width:{frameWidth}px;height:{outerHeight}px;');
       html.push('position:absolute;top:0px;left:1px;');
       html.push('border-top:', outerStyle);
       html.push('border-bottom:', outerStyle);
       html.push('"></div>');
 
       // Inner background frame
-      var image = this.getBackgroundImage();
-      var repeat = this.getBackgroundRepeat();
       var styles = "position:absolute;top:1px;left:1px;background-color:{bgcolor};width:{frameWidth}px;height:{frameHeight}px";
-
-      html.push(qx.ui.decoration.Util.generateBasicDecor(image, repeat, styles));
-
+      html.push(qx.ui.decoration.Util.generateBasicDecor(this.getBackgroundImage(), this.getBackgroundRepeat(), styles));
 
       // Inner overlay frame
       html.push('<div style="width:{innerWidth}px;height:{innerHeight}px;');
@@ -251,7 +253,6 @@ qx.Class.define("qx.ui.decoration.Beveled",
       html.push('border:', innerStyle);
       html.push(qx.bom.element.Opacity.compile(this.getInnerOpacity()));
       html.push('"></div>');
-
 
       // Update template
       this._tmpl.setContent(html.join(""));
