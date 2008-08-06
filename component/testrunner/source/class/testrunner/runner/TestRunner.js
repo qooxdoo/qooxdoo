@@ -62,8 +62,19 @@ qx.Class.define("testrunner.runner.TestRunner",
     // Main Pane
     // split
     var mainsplit = new qx.ui.splitpane.Pane("horizontal");
+    mainsplit.setPadding(5, 5, 0, 5);
     this.add(mainsplit, {flex : 1});
     this.mainsplit = mainsplit;
+
+    var deco = new qx.ui.decoration.Single().set({
+      backgroundImage  : "decoration/table/header-cell.png",
+      backgroundRepeat : "scale",
+      widthBottom : 1,
+      colorBottom : "border-dark",
+      style       : "solid"
+    });
+    
+    this._labelDeco = deco;
 
     // Left -- is done when iframe is loaded
     var left = this.__makeLeft();
@@ -238,11 +249,30 @@ qx.Class.define("testrunner.runner.TestRunner",
       // Main Container
       var pane = new qx.ui.splitpane.Pane("horizontal");
       this.widgets["tabview"] = pane;
-      var p1 = new qx.ui.container.Composite(new qx.ui.layout.VBox(10)).set({padding : 5, width : 400});
-      var p2 = new qx.ui.container.Composite(new qx.ui.layout.VBox(10)).set({padding : 5});
+      var p1 = new qx.ui.container.Composite(new qx.ui.layout.VBox(10)).set({
+        width : 400,
+        decorator : "dark"
+      });
+      
+      var p2 = new qx.ui.container.Composite(new qx.ui.layout.VBox()).set({
+        decorator : "dark"
+      });
 
-      var caption1 = new qx.ui.basic.Label("Test Results").set({font : "large"});
-      var caption2 = new qx.ui.basic.Label("Log").set({font : "large"});
+      var caption1 = new qx.ui.basic.Label("Test Results").set({
+        font : "bold",
+        decorator : this._labelDeco,
+        padding : [4, 3],
+        allowGrowX : true,
+        allowGrowY : true
+      });
+      
+      var caption2 = new qx.ui.basic.Label("Log").set({
+        font : "bold",
+        decorator : this._labelDeco,
+        padding : [4, 3],
+        allowGrowX : true,
+        allowGrowY : true
+      });
 
       pane.add(p1, 0);
       pane.add(p2, 1);
@@ -296,9 +326,6 @@ qx.Class.define("testrunner.runner.TestRunner",
         this.f2.getContentElement().getDomElement().appendChild(this.logelem);
       }, this);
 
-      // TODO: the next line needs re-activation
-      //this.getLogger().getParentLogger().getParentLogger().addAppender(this.logappender);
-
       return pane;
     },  // makeOutputViews
 
@@ -312,8 +339,24 @@ qx.Class.define("testrunner.runner.TestRunner",
      */
     __makeLeft : function()
     {
+      var container = new qx.ui.container.Composite(new qx.ui.layout.VBox).set({
+        decorator : "dark"
+      });
+
+      var caption = new qx.ui.basic.Label("Tests").set({
+        font : "bold",
+        decorator : this._labelDeco,
+        padding : [4, 3],
+        allowGrowX : true,
+        allowGrowY : true
+      });
+      container.add(caption)
+
       var tree = new qx.ui.tree.Tree("Tests");
-      tree.setSelectionMode("single");
+      tree.set({
+        decorator : null,
+        selectionMode : "single"
+      });
       this.tree = tree;
       this.widgets["treeview.full"] = tree;
 
@@ -327,7 +370,8 @@ qx.Class.define("testrunner.runner.TestRunner",
         return elem = that.widgets["treeview.full"].getSelectedItem();
       };
 
-      return tree;
+      container.add(tree, {flex : 1});
+      return container;
     },  // makeLeft
 
     // -------------------------------------------------------------------------
@@ -340,6 +384,7 @@ qx.Class.define("testrunner.runner.TestRunner",
     {
       var layout = new qx.ui.layout.VBox();
       var progress = new qx.ui.container.Composite(layout);
+      progress.setMarginLeft(10)
       var labelBox = new qx.ui.container.Composite(new qx.ui.layout.HBox(10));
       labelBox.setPadding(2);
       labelBox.setMarginTop(2)
@@ -349,28 +394,48 @@ qx.Class.define("testrunner.runner.TestRunner",
       progress.add(labelBox);
 
       progressb.set({
-        barColor       : "#36a618"
+        barColor       : "#ffffff",
+        marginBottom   : 8
       });
 
       this.widgets["progresspane"] = progress;
       this.widgets["progresspane.progressbar"] = progressb;
 
-      labelBox.add(new qx.ui.basic.Label("Queued: "));
-      var queuecnt = new qx.ui.basic.Label("0");
+      labelBox.add(new qx.ui.basic.Label("Queued: ").set({
+        alignY : "middle"
+      }));
+      var queuecnt = new qx.ui.form.TextField("0").set({
+        width : 30,
+        font : "small",
+        readOnly : true,
+        textAlign : "right"
+      });
       labelBox.add(queuecnt);
-      queuecnt.set({ backgroundColor : "#C1ECFF" });
       
       
       
-      labelBox.add(new qx.ui.basic.Label("Failed: "));
-      var failcnt = new qx.ui.basic.Label("0");
+      labelBox.add(new qx.ui.basic.Label("Failed: ").set({
+        alignY : "middle"
+      }));
+      var failcnt = new qx.ui.form.TextField("0").set({
+        width : 30,
+        font : "small",
+        readOnly : true,
+        textAlign : "right"
+      });
       labelBox.add(failcnt);
-      failcnt.set({ backgroundColor : "#C1ECFF" });
 
-      labelBox.add(new qx.ui.basic.Label("Succeeded: "));
-      var succcnt = new qx.ui.basic.Label("0");
+      labelBox.add(new qx.ui.basic.Label("Succeeded: ").set({
+        alignY : "middle"
+      }));
+      var succcnt = new qx.ui.form.TextField("0").set({
+        width : 30,
+        font : "small",
+        readOnly : true,
+        textAlign : "right"
+      });
+
       labelBox.add(succcnt);
-      succcnt.set({ backgroundColor : "#C1ECFF" });
       this.widgets["progresspane.succ_cnt"] = succcnt;
       this.widgets["progresspane.fail_cnt"] = failcnt;
       this.widgets["progresspane.queue_cnt"] = queuecnt;
@@ -388,25 +453,42 @@ qx.Class.define("testrunner.runner.TestRunner",
     {
       var layout = new qx.ui.layout.HBox(10);
       var statuspane = new qx.ui.container.Composite(layout);
-      statuspane.setDecorator("line-top");
-      statuspane.setPadding(2);
+      statuspane.setPadding(2, 2, 2, 7);
       statuspane.setMarginTop(2)
 
       // Test Info
-      statuspane.add(new qx.ui.basic.Label("Selected Test: "));
-      var l1 = new qx.ui.basic.Label("");
+      statuspane.add(new qx.ui.basic.Label("Selected Test: ").set({
+        alignY : "middle"
+      }));
+      var l1 = new qx.ui.form.TextField("").set({
+        width : 150,
+        font : "small",
+        readOnly : true
+      });
       statuspane.add(l1);
-      l1.set({ backgroundColor : "#C1ECFF" });
+      
+      
       this.widgets["statuspane.current"] = l1;
-      statuspane.add(new qx.ui.basic.Label("Number of Tests: "));
-      var l2 = new qx.ui.basic.Label("");
+      statuspane.add(new qx.ui.basic.Label("Number of Tests: ").set({
+        alignY : "middle"
+      }));
+      var l2 = new qx.ui.form.TextField("").set({
+        width : 30,
+        font : "small",
+        readOnly : true,
+        textAlign : "right"
+      });
+
       statuspane.add(l2);
-      l2.set({ backgroundColor : "#C1ECFF" });
       this.widgets["statuspane.number"] = l2;
 
       // System Info
-      statuspane.add(new qx.ui.basic.Label("System Status: "));
-      var l3 = new qx.ui.basic.Label("");
+      statuspane.add(new qx.ui.basic.Label("System Status: ").set({
+        alignY : "middle"
+      }));
+      var l3 = new qx.ui.basic.Label("").set({
+        alignY : "middle"
+      });
       statuspane.add(l3);
       l3.set({ width : 150 });
       this.widgets["statuspane.systeminfo"] = l3;
@@ -437,11 +519,11 @@ qx.Class.define("testrunner.runner.TestRunner",
       this.tests.selected = this.tests.handler.getFullName(modelNode);
 
       // update status pane
-      this.widgets["statuspane.current"].setContent(this.tests.selected);
+      this.widgets["statuspane.current"].setValue(this.tests.selected);
       this.tests.selected_cnt = this.tests.handler.testCount(modelNode);
-      this.widgets["statuspane.number"].setContent(this.tests.selected_cnt + "");
+      this.widgets["statuspane.number"].setValue(this.tests.selected_cnt + "");
 
-      this.widgets["progresspane.queue_cnt"].setContent(this.tests.selected_cnt + "");
+      this.widgets["progresspane.queue_cnt"].setValue(this.tests.selected_cnt + "");
       
       // update toolbar
       this.widgets["toolbar.runbutton"].resetEnabled();
@@ -595,73 +677,27 @@ qx.Class.define("testrunner.runner.TestRunner",
       var that = this;
 
       // Reset Status Pane Elements
-      this.widgets["statuspane.current"].setContent("");
-      this.widgets["statuspane.number"].setContent("");
+      this.widgets["statuspane.current"].setValue("");
+      this.widgets["statuspane.number"].setValue("");
 
-      // Disable Tree View
-////      this.widgets["treeview"].setEnabled(false);
-
-      // Handle current Tree Selection and Content
       var fulltree = this.widgets["treeview.full"];
-      ////var flattree = this.widgets["treeview.flat"];
-      ////var trees = [ fulltree ];
-      //var stree = this.widgets["treeview"].getSelected();
-
-      ////for (var i=0; i<trees.length; i++) {
-      ////  trees[i].setUserData("modelLink", ttree);  // link top level widgets and model
-      ////}
 
       fulltree.setUserData("modelLink", ttree);
 
       // link top level model to widgets
       ttree.widgetLinkFull = fulltree;
-////      ttree.widgetLinkFlat = flattree;
 
       var selectedElement = null;  // if selection exists will be set by
 
-      // buildSubTree* functions to a model node
-      // Build the widget trees
-      
       var root1 = new qx.ui.tree.TreeFolder("root1");
       root1.setOpen(true);
       fulltree.setRoot(root1);
       fulltree.setHideRoot(true);
-/*
-      var root2 = new qx.ui.tree.TreeFolder("root2");
-      root2.setOpen(true);
-      flattree.setRoot(root2);
-      flattree.setHideRoot(true);
-*/
-      
-      
-      buildSubTree(this.widgets["treeview.full"].getRoot(), ttree);
-      ////buildSubTreeFlat(this.widgets["treeview.flat"].getRoot(), ttree);
 
-      // Re-enable and Re-select
-      ////this.widgets["treeview"].setEnabled(true);
+      buildSubTree(this.widgets["treeview.full"].getRoot(), ttree);
 
       if (selectedElement)  // try to re-select previously selected element
       {
-        /*
-        for (var i=0; i<trees.length; i++)
-        {
-          // Open all element's parents
-          link = (i==0) ? "widgetLinkFull" : "widgetLinkFlat";
-          if (!selectedElement[link]) {
-            continue;
-          }
-          var element = selectedElement[link].getParent();
-
-          while(element != null)
-          {
-            element.setOpen(true);
-            element = element.getParent();
-          }
-
-          // Finally select the element
-          selectedElement[link].getTree().select(selectedElement[link]);
-        }
-        */
         var element = selectedElement.widgetLinkFull.getParent();
 
         while(element != null)
@@ -672,8 +708,6 @@ qx.Class.define("testrunner.runner.TestRunner",
 
         // Finally select the element
         selectedElement.widgetLinkFull.getTree().select(selectedElement.widgetLinkFull);
-        
-        
       }
 
     },  // leftReloadTree
@@ -939,10 +973,6 @@ qx.Class.define("testrunner.runner.TestRunner",
       }
 
       this.loader = this.frameWindow.testrunner.TestLoader.getInstance();
-      // TODO: the next line needs re-activation
-      //this.loader.getLogger().getParentLogger().addAppender(this.logappender);
-
-//      this.loader.getLogger().addAppender(this.logappender);
 
       var testRep = this.loader.getTestDescriptions();
       this.tests.handler = new testrunner.runner.TestHandler(testRep);
@@ -1007,7 +1037,7 @@ qx.Class.define("testrunner.runner.TestRunner",
      * @return {void}
      */
     _applySuccCnt : function(newSucc) {
-      this.widgets["progresspane.succ_cnt"].setContent(newSucc + "");
+      this.widgets["progresspane.succ_cnt"].setValue(newSucc + "");
     },
 
 
@@ -1018,7 +1048,7 @@ qx.Class.define("testrunner.runner.TestRunner",
      * @return {void}
      */
     _applyFailCnt : function(newFail) {
-      this.widgets["progresspane.fail_cnt"].setContent(newFail + "");
+      this.widgets["progresspane.fail_cnt"].setValue(newFail + "");
     },
 
 
