@@ -507,17 +507,10 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
     "toolbar" :
     {
-      decorator : qx.ui.decoration.Double,
+      decorator : qx.ui.decoration.Uniform,
 
       style :
       {
-        width : 1,
-        innerWidthBottom : 1,
-
-        color : "#c1c1c1",
-        innerColorBottom : "#8a8a8a",
-
-        style : "solid",
         backgroundImage : "decoration/toolbar/toolbar-gradient.png",
         backgroundRepeat : "scale"
       }
