@@ -330,9 +330,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
           break;
 
         case "scrollbar-y":
-          control = new qx.ui.core.ScrollBar("vertical").set({
-            alignX: "right"
-          });
+          control = new qx.ui.core.ScrollBar("vertical");
           control.addListener("scroll", this._onScrollY, this);
           this._add(control, {row: 1, column: 1});
           break;
@@ -1816,6 +1814,12 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       }
 
       if (widget != null) {
+        widget.set({
+          width: 0,
+          height: 0,
+          minWidth: 0,
+          minHeight: 0
+        });
         this._add(widget, {row: 0, column: 1});
       }
 
