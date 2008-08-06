@@ -773,24 +773,17 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          decorator       : "pane",
-          marginBottom    : states.barBottom ? -1 : 0,
-          marginTop       : states.barTop ? -1 : 0,
-          marginLeft      : states.barLeft ? -1 : 0,
-          marginRight     : states.barRight ? -1 : 0
+          decorator : "pane",
+          padding : 2,
+          marginBottom : states.barBottom ? -1 : 0,
+          marginTop : states.barTop ? -1 : 0,
+          marginLeft : states.barLeft ? -1 : 0,
+          marginRight : states.barRight ? -1 : 0
         };
       }
     },
 
-    "tabview-page" :
-    {
-      style : function(states)
-      {
-        return {
-          padding : 10
-        };
-      }
-    },
+    "tabview-page" : "widget",
 
     /*
      * TODO
