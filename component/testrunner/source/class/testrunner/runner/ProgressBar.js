@@ -44,8 +44,7 @@ qx.Class.define("testrunner.runner.ProgressBar",
     {
       height          : 20,
       width           : 200,
-      backgroundColor : "#C1ECFF",
-      decorator       : "inset"
+      decorator       : "input"
     });
 
 
