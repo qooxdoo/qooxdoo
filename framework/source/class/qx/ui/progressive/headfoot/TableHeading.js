@@ -63,7 +63,6 @@ qx.Class.define("qx.ui.progressive.headfoot.TableHeading",
 
       // Add the label to this heading.
       this.add(label);
-this.warn("Adding label " + label + " (" + labelArr[i] + ") to parent " + this);
 
       // Save this label so we can resize it later
       this._labels[i] = label;
@@ -134,7 +133,6 @@ this.warn("Adding label " + label + " (" + labelArr[i] + ") to parent " + this);
 
       // Compute the column widths
       this.__bCalculateWidths = true;
-this.warn("rendering into width " + width + " with scrollbar width " + qx.bom.element.Overflow.getScrollbarWidth());
       this._layout.renderLayout(width, 100);
       this.__bCalculateWidths = false;
 
@@ -144,7 +142,6 @@ this.warn("rendering into width " + width + " with scrollbar width " + qx.bom.el
       // Get the column width data.  For each label...
       for (var i = 0; i < columnData.length; i++)
       {
-this.warn("resize column " + i + " to " + columnData[i].getComputedWidth());
         // ... reset the width of the corresponding column (label)
         this._labels[i].setWidth(columnData[i].getComputedWidth());
       }
