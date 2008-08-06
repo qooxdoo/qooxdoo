@@ -95,24 +95,25 @@ qx.Class.define("qx.theme.manager.Decoration",
       if (value)
       {
         var source = value.decorations;
+        var entry, clazz;
 
         for (var key in source)
         {
-          var styles = source[key].style;
-          var decorationClass = source[key].decorator;
+          entry = source[key];
 
-          if (decorationClass === undefined) {
-            decorationClass = qx.ui.decoration.Uniform;
-          }
-
-          if (qx.core.Variant.isSet("qx.debug", "on"))
+          if (entry.hasOwnProperty("decorator"))
           {
-            if (decorationClass == null) {
+            clazz = entry.decorator;
+            if (clazz == null) {
               throw new Error("Could not find decoration class required by decorator: " + key + "!");
             }
           }
+          else
+          {
+            clazz = qx.ui.decoration.Uniform;
+          }
 
-          dest[key] = (new decorationClass).set(styles);
+          dest[key] = (new clazz).set(entry.style);
           dest[key].themed = true;
         }
       }
