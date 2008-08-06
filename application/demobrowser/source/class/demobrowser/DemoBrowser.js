@@ -664,9 +664,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       this.widgets["outputviews"] = tabview;
 
       // First Page
-      var p1 = new qx.ui.tabview.Page("Start", "icon/16/actions/system-run.png").set({
-        padding: 2
-      });
+      var p1 = new qx.ui.tabview.Page("Start", "icon/16/actions/system-run.png");
       p1.setLayout(new qx.ui.layout.Grow);
       tabview.add(p1);
 
