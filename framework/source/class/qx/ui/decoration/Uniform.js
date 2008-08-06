@@ -131,6 +131,11 @@ qx.Class.define("qx.ui.decoration.Uniform",
         height -= inset;
       }
 
+      // Resolve background color
+      if (backgroundColor) {
+        backgroundColor = qx.theme.manager.Color.getInstance().resolve(backgroundColor);
+      }
+
       // Compile HTML
       var html = this._tmpl.run(
       {
