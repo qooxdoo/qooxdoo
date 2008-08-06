@@ -38,7 +38,7 @@
 .testResult{
   font-family: "Consolas", "Courier New", monospace;
 	font-size: 11px;
-	margin-bottom: 4px;
+	margin: 4px;
 	padding: 4px 20px 4px 4px;
 }
 
@@ -63,4 +63,11 @@
 #sessionlog{
   font-family: "Consolas", "Courier New", monospace;
 	font-size: 11px;
+}
+
+.level-debug,
+.level-info,
+.level-warn,
+.level-error{
+  margin: 4px;
 }
