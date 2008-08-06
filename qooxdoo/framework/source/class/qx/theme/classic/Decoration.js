@@ -309,7 +309,7 @@ qx.Theme.define("qx.theme.classic.Decoration",
 
     "lead-item" :
     {
-      decorator : qx.ui.decoration.Double,
+      decorator : qx.ui.decoration.Single,
 
       style :
       {
