@@ -30,6 +30,14 @@ qx.Theme.define("qx.theme.modern.Color",
   {
     "background" : "#dfdfdf",
     "background-light" : "#F2F2F2",
+
+    // TODO: adjust these colors to Modern theme 
+    "background-focused" : "#F3F8FD",
+    "background-focused-inner" : "#DBEAF9",
+    "background-disabled" : "#F4F4F4",
+    "background-selected" : "#3E6CA8",
+    "background-field" : "white",
+    
     
     // TODO: adjust these colors to Modern theme (used for datefield-button)
     "background-focused" : "#F3F8FD",
