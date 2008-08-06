@@ -22,9 +22,10 @@
  * The ScrollArea provides a container widget with on demand scroll bars
  * if the content size exceeds the size of the container.
  */
-qx.Class.define("qx.ui.core.ScrollArea",
+qx.Class.define("qx.ui.core.AbstractScrollArea",
 {
   extend : qx.ui.core.Widget,
+  type : "abstract",
 
 
   /*
