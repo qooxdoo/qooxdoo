@@ -75,7 +75,7 @@ qx.Class.define("qx.ui.decoration.Util",
         {
           var Resource = qx.util.ResourceManager;
           var uri = Resource.toUri(resolved);
-          html.push('src="', uri, '" style="');
+          html.push('src="', uri, '" style="vertical-align:top;');
         }
 
         // Repeated image
