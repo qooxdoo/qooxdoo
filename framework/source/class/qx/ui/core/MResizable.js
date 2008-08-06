@@ -132,7 +132,7 @@ qx.Mixin.define("qx.ui.core.MResizable",
      */
     __showResizeFrame : function()
     {
-      var bounds = this.getBounds();
+      var bounds = this.__resizeStart;
       var frame = this.__getResizeFrame();
       frame.setUserBounds(bounds.left, bounds.top, bounds.width, bounds.height);
       frame.show();
@@ -306,7 +306,12 @@ qx.Mixin.define("qx.ui.core.MResizable",
       this.__resizeTop = e.getDocumentTop();
 
       // Cache bounds
-      this.__resizeStart = qx.lang.Object.copy(this.getBounds());
+      var location = this.getContainerLocation();
+      var bounds   = this.getBounds();
+      this.__resizeStart = { top    : location.top,
+                             left   : location.left,
+                             width  : bounds.width,
+                             height : bounds.height };
 
       // Show frame if configured this way
       if (this.getUseResizeFrame()) {
@@ -344,10 +349,13 @@ qx.Mixin.define("qx.ui.core.MResizable",
       this.setHeight(bounds.height);
 
       // Update coordinate in canvas
-      this.setLayoutProperties({
-        left : bounds.left,
-        top : bounds.top
-      });
+      if (this.getResizeAllEdges())
+      {
+        this.setLayoutProperties({
+          left : bounds.left,
+          top : bounds.top
+        });
+      }
 
       // Clear mode
       this._resizeActive = 0;
@@ -384,8 +392,8 @@ qx.Mixin.define("qx.ui.core.MResizable",
       this.removeState("move");
 
       // Hide frame afterwards
-      if (this.getUseMoveFrame()) {
-        this.__getMoveFrame().exclude();
+      if (this.getUseResizeFrame()) {
+        this.__getResizeFrame().exclude();
       }
     },
 
@@ -416,10 +424,13 @@ qx.Mixin.define("qx.ui.core.MResizable",
           this.setHeight(bounds.height);
 
           // Update coordinate in canvas
-          this.setLayoutProperties({
-            left : bounds.left,
-            top : bounds.top
-          });
+          if (this.getResizeAllEdges())
+          {
+            this.setLayoutProperties({
+              left : bounds.left,
+              top : bounds.top
+            });
+          }
         }
 
         // Full stop for event
