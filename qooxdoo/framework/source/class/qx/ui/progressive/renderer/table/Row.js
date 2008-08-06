@@ -299,12 +299,12 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
         rendererData.end = (index == 0 ? 1 : 0);
 
         // Append our new row to the pane.
-        state.getPane().getContainerElement().getDomElement().appendChild(div);
+        state.getPane().getContentElement().getDomElement().appendChild(div);
         break;
 
       case "start":
         // Get the pane element
-        var elem = state.getPane().getContainerElement().getDomElement();
+        var elem = state.getPane().getContentElement().getDomElement();
 
         // Get its children array
         var children = elem.childNodes;
@@ -437,8 +437,6 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
           "width: " + widthRule +
           "left: " + leftRule +
           "padding: " + paddingRule;
-
-this.warn("resize column " + i + ": rule=" + rule);
 
         // Apply the new rule
         qx.bom.Stylesheet.addRule(tr.__clazz[this._hash].cellstylesheet[i],

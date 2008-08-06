@@ -35,10 +35,11 @@ qx.Class.define("qx.ui.progressive.structure.Abstract",
   {
     this.base(arguments);
 
-    // If no pane was specified, use a vertical box layout
+    // If no pane was specified. Create one.
     if (! pane)
     {
-      this.__container = new qx.ui.container.Composite();
+      this.__container =
+        new qx.ui.container.Composite(new qx.ui.layout.Basic());
       this._pane = this.__container;
     }
     else
@@ -46,8 +47,8 @@ qx.Class.define("qx.ui.progressive.structure.Abstract",
       this.__container = null;
       this._pane = pane;
     }
-    //    this._pane.setHeight("1*");
-    //    this._pane.setOverflow("auto");
+
+    this._pane.getContentElement().setStyle("overflowY", "auto");
   },
 
   members :
