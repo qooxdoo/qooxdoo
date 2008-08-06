@@ -2792,7 +2792,7 @@ qx.Class.define("qx.ui.core.Widget",
     _onContextMenuOpen : function(e)
     {
       var menu = this.getContextMenu();
-      menu.alignToMouse(e);
+      menu.placeToMouse(e);
       menu.show();
 
       // Do not show native menu
