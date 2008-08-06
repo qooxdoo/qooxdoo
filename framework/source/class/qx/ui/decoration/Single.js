@@ -429,7 +429,7 @@ qx.Class.define("qx.ui.decoration.Single",
       var html = qx.ui.decoration.Util.generateBasicDecor(image, repeat, styles);
 
       // Update template
-      this._tmpl.setContent(html.join(""));
+      this._tmpl.setContent(html);
 
       // Cleanup flag
       this._invalidTemplate = false;

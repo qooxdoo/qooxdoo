@@ -98,39 +98,6 @@ qx.Class.define("qx.ui.decoration.Beveled",
       check : ["repeat", "repeat-x", "repeat-y", "no-repeat", "scale"],
       init : "repeat",
       apply : "_applyStyle"
-    },
-
-
-    /** Whether the top border should be visible */
-    topBorder :
-    {
-      check : "Boolean",
-      init : true,
-      apply : "_applyBorder"
-    },
-
-    /** Whether the right border should be visible */
-    rightBorder :
-    {
-      check : "Boolean",
-      init : true,
-      apply : "_applyBorder"
-    },
-
-    /** Whether the bottom border should be visible */
-    bottomBorder :
-    {
-      check : "Boolean",
-      init : true,
-      apply : "_applyBorder"
-    },
-
-    /** Whether the left border should be visible */
-    leftBorder :
-    {
-      check : "Boolean",
-      init : true,
-      apply : "_applyBorder"
     }
   },
 
@@ -145,6 +112,21 @@ qx.Class.define("qx.ui.decoration.Beveled",
 
   members :
   {
+    /*
+    ---------------------------------------------------------------------------
+      PROPERTY APPLY ROUTINES
+    ---------------------------------------------------------------------------
+    */
+
+    // property apply
+    _applyStyle : function() {
+      this._invalidTemplate = true;
+    },
+
+
+
+
+
     /*
     ---------------------------------------------------------------------------
       INTERFACE IMPLEMENTATION
@@ -197,43 +179,8 @@ qx.Class.define("qx.ui.decoration.Beveled",
 
 
     // interface implementation
-    getInsets : function()
-    {
-      if (this._insets) {
-        return this._insets;
-      }
-
-      this._insets =
-      {
-        top : this.getTopBorder() ? 2 : 0,
-        right : this.getRightBorder() ? 2 : 0,
-        bottom : this.getBottomBorder() ? 2 : 0,
-        left : this.getLeftBorder() ? 2 : 0
-      };
-
+    getInsets : function() {
       return this._insets;
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      PROPERTY APPLY ROUTINES
-    ---------------------------------------------------------------------------
-    */
-
-    // property apply
-    _applyWidth : function()
-    {
-      this._insets = null;
-      this._invalidTemplate = true;
-    },
-
-
-    // property apply
-    _applyStyle : function() {
-      this._invalidTemplate = true;
     },
 
 
@@ -244,6 +191,14 @@ qx.Class.define("qx.ui.decoration.Beveled",
       HELPERS
     ---------------------------------------------------------------------------
     */
+
+    _insets :
+    {
+      top : 2,
+      right : 2,
+      bottom : 2,
+      left : 2
+    },
 
     _invalidTemplate : true,
 
@@ -293,7 +248,7 @@ qx.Class.define("qx.ui.decoration.Beveled",
         width:"{frameWidth}px",
         height:"{frameHeight}px"
       };
-      html.push(qx.ui.decoration.Util.generateBasicDecor(image, repeat, styles).join(""));
+      html.push(qx.ui.decoration.Util.generateBasicDecor(image, repeat, styles));
 
 
       // Inner overlay frame
