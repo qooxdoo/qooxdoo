@@ -68,7 +68,7 @@ qx.Class.define("demobrowser.demo.widget.Popup",
 
       button.addListener("click", function(e)
       {
-        popup.alignToMouse(e);
+        popup.placeToMouse(e);
         popup.show();
       }, this);
 
@@ -97,7 +97,7 @@ qx.Class.define("demobrowser.demo.widget.Popup",
 
       button.addListener("click", function(e)
       {
-        popup.alignToMouse(e);
+        popup.placeToMouse(e);
         popup.show();
       }, this);
 
