@@ -854,14 +854,16 @@ qx.Theme.define("qx.theme.modern.Appearance",
             marginRight = 4;
             marginTop = 1;
             marginBottom = 1;
+            marginLeft = 1;
           }
           else
           {
             decorator = "tabview-page-button-left-inactive";
             padding = [ 6, 10 ];
             marginLeft = 4;
-            marginTop = 1;
-            marginBottom = 1;
+            marginTop = 2;
+            marginBottom = 2;
+            marginRight = 1;
           }
         }
 
