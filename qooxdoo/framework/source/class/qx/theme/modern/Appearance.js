@@ -305,7 +305,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          decorator       : states.focused ? "textfield-focused" : "textfield",
+          decorator       : states.focused ? "input-focused" : "input",
           padding         : [ 1, 3 ],
           textColor       : states.disabled ? "text-disabled" : "input-text",
           backgroundColor : "white"
@@ -328,7 +328,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          decorator       : states.focused ? "textfield-focused" : "textfield",
+          decorator       : states.focused ? "input-focused" : "input",
           textColor       : states.disabled ? "text-disabled" : "undefined"
         };
       }
@@ -629,9 +629,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
     {
       style : function(states)
       {
-        // TODO
         return {
-
+          decorator : states.horizontal ? "input" : "input-vertical"
         }
       }
     },
@@ -1530,7 +1529,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          decorator       : states.focused ? "textfield-focused" : "textfield",
+          decorator       : states.focused ? "input-focused" : "input",
           backgroundColor : "white"
         };
       }
