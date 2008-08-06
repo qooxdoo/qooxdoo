@@ -134,17 +134,6 @@ qx.Mixin.define("demobrowser.demo.table.MUtil",
     },
 
 
-    _fixBoxModel : function()
-    {
-      var boxSizingAttr = qx.legacy.core.Client.getInstance().getEngineBoxSizingAttributes();
-      var borderBoxCss = boxSizingAttr.join(":border-box;") + ":border-box;";
-
-      qx.bom.Stylesheet.createElement(
-        "*{" + borderBoxCss +"} "
-      );
-    },
-
-
     _getNewTableDiv : function(width)
     {
       var div = qx.bom.Element.create("div");

@@ -777,7 +777,9 @@ qx.Class.define("qx.ui.table.Table",
           // Register event listener for vertical scrolling
           paneScroller.addListener("changeScrollY", this._onScrollY, this);
 
-          this._scrollerParent.add(paneScroller);
+          // last meta column is flexible
+          var flex = (i == metaColumnCounts.length - 1) ? 1 : 0;
+          this._scrollerParent.add(paneScroller, {flex: flex});
         }
       }
 
