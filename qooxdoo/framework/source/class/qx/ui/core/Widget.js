@@ -1979,8 +1979,42 @@ qx.Class.define("qx.ui.core.Widget",
     ---------------------------------------------------------------------------
     */
 
-    // property apply
     _applyDecorator : function(value, old)
+    {
+      var Manager = qx.theme.manager.Decoration.getInstance();
+
+      if (old)
+      {
+        var oldDeco = Manager.resolve(old);
+      }
+
+      if (value)
+      {
+        this.__initDecorator = true;
+        this.__updateInsets = true;
+        this.__styleDecorator = true;
+
+        var newDeco = Manager.resolve(value);
+
+        this._decorator = newDeco;
+
+        if (!this._decorationElement)
+        {
+          this._decorationElement = this.__createDecorationElement();
+          this._containerElement.add(this._decorationElement);
+        }
+      }
+      else
+      {
+        this._decorator = null;
+      }
+
+      qx.ui.core.queue.Layout.add(this);
+    },
+
+
+    // property apply
+    _applyDecoratorOld : function(value, old)
     {
       var oldInsets = this.__oldInsets;
       var oldDecorator = this._decorator;
