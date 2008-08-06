@@ -213,18 +213,16 @@ qx.Class.define("qx.ui.decoration.Uniform",
         return;
       }
 
+      // Styles
+      var styles = "width:{width}px;height:{height}px;background-color:{bgcolor};";
+
       // Add border
-      var styles = {};
       var width = this.getWidth();
       if (width > 0)
       {
         var Color = qx.theme.manager.Color.getInstance();
-        styles.border = width + 'px ' + this.getStyle() + ' ' + Color.resolve(this.getColor());
+        styles += "border:" + width + "px " + this.getStyle() + " " + Color.resolve(this.getColor()) + ";";
       }
-
-      styles.width = "{width}px";
-      styles.height = "{height}px";
-      styles.backgroundColor = "{bgcolor}";
 
       // Generate tag
       var image = this.getBackgroundImage();

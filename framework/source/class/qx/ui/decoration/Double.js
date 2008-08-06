@@ -164,70 +164,64 @@ qx.Class.define("qx.ui.decoration.Double",
 
 
 
-      // Add inner borders
-      var innerStyles = {};
+      // Inner styles
+      var innerStyles = "width:{width}px;height:{height}px;background-color:{bgcolor};";
 
+      // Add inner borders
       var width = this.getInnerWidthTop();
       if (width > 0) {
-        innerStyles.borderTop = width + "px " + this.getStyleTop() + " " + Color.resolve(this.getInnerColorTop());
+        innerStyles += "border-top:" + width + "px " + this.getStyleTop() + " " + Color.resolve(this.getInnerColorTop()) + ";";
       }
 
       var width = this.getInnerWidthRight();
       if (width > 0) {
-        innerStyles.borderRight = width + "px " + this.getStyleRight() + " " + Color.resolve(this.getInnerColorRight());
+        innerStyles += "border-right:" + width + "px " + this.getStyleRight() + " " + Color.resolve(this.getInnerColorRight()) + ";";
       }
 
       var width = this.getInnerWidthBottom();
       if (width > 0) {
-        innerStyles.borderBottom = width + "px " + this.getStyleBottom() + " " + Color.resolve(this.getInnerColorBottom());
+        innerStyles += "border-bottom:" + width + "px " + this.getStyleBottom() + " " + Color.resolve(this.getInnerColorBottom()) + ";";
       }
 
       var width = this.getInnerWidthLeft();
       if (width > 0) {
-        innerStyles.borderLeft = width + "px " + this.getStyleLeft() + " " + Color.resolve(this.getInnerColorLeft());
+        innerStyles += "border-left:" + width + "px " + this.getStyleLeft() + " " + Color.resolve(this.getInnerColorLeft()) + ";";
       }
 
-      innerStyles.width = "{width}px";
-      innerStyles.height = "{height}px";
-      innerStyles.backgroundColor = "{bgcolor}";
-
-      // Generate inner tag
-      var image = this.getBackgroundImage();
-      var repeat = this.getBackgroundRepeat();
-      var innerHtml = qx.ui.decoration.Util.generateBasicDecor(image, repeat, innerStyles);
+      // Generate inner HTML
+      var innerHtml = qx.ui.decoration.Util.generateBasicDecor(this.getBackgroundImage(), this.getBackgroundRepeat(), innerStyles);
 
 
 
-      // Add outer border
-      var outerStyles = {};
+      // Generate outer HTML
+      var outerHtml = '<div style="';
+
       var width = this.getWidthTop();
       if (width > 0) {
-        outerStyles.borderTop = width + "px " + this.getStyleTop() + " " + Color.resolve(this.getColorTop());
+        outerHtml += "border-top:" + width + "px " + this.getStyleTop() + " " + Color.resolve(this.getColorTop()) + ";";
       }
 
       var width = this.getWidthRight();
       if (width > 0) {
-        outerStyles.borderRight = width + "px " + this.getStyleRight() + " " + Color.resolve(this.getColorRight());
+        outerHtml += "border-right:" + width + "px " + this.getStyleRight() + " " + Color.resolve(this.getColorRight()) + ";";
       }
 
       var width = this.getWidthBottom();
       if (width > 0) {
-        outerStyles.borderBottom = width + "px " + this.getStyleBottom() + " " + Color.resolve(this.getColorBottom());
+        outerHtml += "border-bottom:" + width + "px " + this.getStyleBottom() + " " + Color.resolve(this.getColorBottom()) + ";";
       }
 
       var width = this.getWidthLeft();
       if (width > 0) {
-        outerStyles.borderLeft = width + "px " + this.getStyleLeft() + " " + Color.resolve(this.getColorLeft());
+        outerHtml += "border-left:" + width + "px " + this.getStyleLeft() + " " + Color.resolve(this.getColorLeft()) + ";";
       }
 
+      outerHtml += '">' + innerHtml + '</div>';
 
 
-
-      // Combine inner and outer
-      var html = '<div style="' + qx.bom.element.Style.compile(outerStyles) + '">' + innerHtml + '</div>';
 
       // Update template
-      this._tmpl.setContent(html);
+      this._tmpl.setContent(outerHtml);
 
       // Cleanup flag
       this._invalidTemplate = false;

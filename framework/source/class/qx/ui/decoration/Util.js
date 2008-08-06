@@ -93,7 +93,7 @@ qx.Class.define("qx.ui.decoration.Util",
       }
 
       if (styles) {
-        html.push(qx.bom.element.Style.compile(styles));
+        html.push(styles);
       }
 
       html.push('"></', tag, '>');

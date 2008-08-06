@@ -240,15 +240,8 @@ qx.Class.define("qx.ui.decoration.Beveled",
       // Inner background frame
       var image = this.getBackgroundImage();
       var repeat = this.getBackgroundRepeat();
-      var styles =
-      {
-        position:"absolute",
-        top:"1px",
-        left:"1px",
-        backgroundColor:"{bgcolor}",
-        width:"{frameWidth}px",
-        height:"{frameHeight}px"
-      };
+      var styles = "position:absolute;top:1px;left:1px;background-color:{bgcolor};width:{frameWidth}px;height:{frameHeight}px";
+
       html.push(qx.ui.decoration.Util.generateBasicDecor(image, repeat, styles));
 
 
