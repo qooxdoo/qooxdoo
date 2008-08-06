@@ -262,12 +262,18 @@ qx.Class.define("testrunner.runner.TestRunner",
       p2.add(pp2, {flex : 1});
 
       // toolbar
+      /*
       var ff1_b1 = new qx.ui.form.Button("Clear");
       ff1_b1.set({
         allowGrowX : false,
         alignX : "right"
       });
+      ff1_b1.addListener("execute", function(e) {
+        this.logelem.innerHTML = "";
+      }, this);
+
       pp2.add(ff1_b1);
+      */
 
       // main output area
       this.f2 = new qx.ui.embed.Html('');
@@ -277,11 +283,6 @@ qx.Class.define("testrunner.runner.TestRunner",
       });
       pp2.add(this.f2, {flex:1});
       this.f2.getContentElement().setAttribute("id", "sessionlog");
-
-      // width : "auto"
-      ff1_b1.addListener("execute", function(e) {
-        this.logelem.innerHTML = "";
-      }, this);
 
       // log appender
       this.logappender = new qx.log.appender.Element();
@@ -440,6 +441,8 @@ qx.Class.define("testrunner.runner.TestRunner",
       this.tests.selected_cnt = this.tests.handler.testCount(modelNode);
       this.widgets["statuspane.number"].setContent(this.tests.selected_cnt + "");
 
+      this.widgets["progresspane.queue_cnt"].setContent(this.tests.selected_cnt + "");
+      
       // update toolbar
       this.widgets["toolbar.runbutton"].resetEnabled();
 
@@ -761,6 +764,8 @@ qx.Class.define("testrunner.runner.TestRunner",
         {
           var state = that.currentTestData.getState();
 
+          this.__fetchLog();
+          
           if (state == "start")
           {
             that.currentTestData.setState("success");

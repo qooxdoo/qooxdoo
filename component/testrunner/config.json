@@ -14,7 +14,7 @@
 		"CACHE"        : "../../cache",
 		"QOOXDOO_PATH" : "../../framework",
 		"QOOXDOO_URI"  : "../${QOOXDOO_PATH}",
-		"THEME"        : "qx.theme.Classic"
+		"THEME"        : "qx.theme.Modern"
 	},
 
   "jobs" :
@@ -49,7 +49,7 @@
 
       "themes" :
       {
-        "qx.icontheme" : ["Oxygen"],
+        "qx.icontheme" : ["Tango"],
         "qx.theme"     : ["${THEME}"]
       },
 
