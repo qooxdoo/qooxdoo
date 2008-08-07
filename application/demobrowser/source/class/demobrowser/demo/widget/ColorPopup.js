@@ -40,6 +40,26 @@ qx.Class.define("demobrowser.demo.widget.ColorPopup",
 
       var doc = this.getRoot();
 
+      var mytables =
+      {
+        core : {
+          label : "Basic Colors",
+          values : [ "#000", "#333", "#666", "#999", "#CCC", "#FFF", "red", "green", "blue", "yellow", "teal", "maroon" ]
+        },
+
+        template : {
+          label : "Template Colors",
+          values : [ "#B07B30", "#B07BC9", "#E3AEC9", "#7A2A53" ]
+        },
+
+        recent : {
+          label : "Recent Colors",
+
+          // In this case we need named colors or rgb-value-strings, hex is not allowed currently
+          values : [ "rgb(122,195,134)", "orange" ]
+        }
+      }
+
       var mypop = new qx.ui.control.ColorPopup(mytables);
       mypop.exclude();
       mypop.setValue("#23F3C1");
@@ -65,26 +85,6 @@ qx.Class.define("demobrowser.demo.widget.ColorPopup",
         top : 20
       })
 
-      var mytables =
-      {
-        core : {
-          label : "Basic Colors",
-          values : [ "#000", "#333", "#666", "#999", "#CCC", "#FFF", "red", "green", "blue", "yellow", "teal", "maroon" ]
-        },
-
-        template : {
-          label : "Template Colors",
-          values : [ "#B07B30", "#B07BC9", "#E3AEC9", "#7A2A53" ]
-        },
-
-        recent : {
-          label : "Recent Colors",
-
-          // In this case we need named colors or rgb-value-strings, hex is not allowed currently
-          values : [ "rgb(122,195,134)", "orange" ]
-        }
-      }
-
       doc.add(mybtn, {
         left : 20,
         top : 20
@@ -97,7 +97,7 @@ qx.Class.define("demobrowser.demo.widget.ColorPopup",
       mypop.addListener("changeValue", function(e) {
         this.debug("Value Listener: " + e.getData());
         myview.setBackgroundColor(e.getData());
-        myview.setBackgroundImage(e.getData() ? null : "static/image/dotted_white.gif");
+//        myview.setBackgroundImage(e.getData() ? null : "static/image/dotted_white.gif");
       });
 
       mypop.addListener("changeRed", function(e) {
