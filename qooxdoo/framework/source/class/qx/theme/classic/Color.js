@@ -82,6 +82,8 @@ qx.Theme.define("qx.theme.classic.Color",
     "table-row-background-even" : [ 250, 248, 243 ],
     "table-row-background-odd" : [ 255, 255, 255 ],
     "table-row-selected" : [ 255, 255, 255 ],
-    "table-row" : [ 0, 0, 0]
+    "table-row" : [ 0, 0, 0],
+    "table-row-line" : "#EEE",
+    "table-column-line" : "#EEE"
   }
 });
