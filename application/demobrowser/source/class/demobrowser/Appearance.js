@@ -47,6 +47,21 @@ qx.Theme.define("demobrowser.Appearance",
     "html-page" : "log-page",
     "code-page" : "log-page",
 
+		"demo-header" : {
+      extend : "toolbar",
+      alias : "toolbar",
+
+      style : function(states)
+      {
+        return {
+          decorator : new qx.ui.decoration.Double().set({
+		        colorBottom: "border-dark-shadow",
+		        widthBottom: 1
+				  })
+			  }
+		  }
+		},
+
     "demo-menubar" : "toolbar",
     "demo-toolbar" :
     {
@@ -58,9 +73,7 @@ qx.Theme.define("demobrowser.Appearance",
         return {
           decorator : new qx.ui.decoration.Double().set({
             backgroundImage : "decoration/toolbar/toolbar-gradient.png",
-            backgroundRepeat : "scale",
-            colorBottom: "border-dark-shadow",
-            widthBottom: 1
+            backgroundRepeat : "scale"
           })
         };
       }

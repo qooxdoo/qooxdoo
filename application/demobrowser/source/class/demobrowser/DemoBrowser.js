@@ -62,14 +62,17 @@ qx.Class.define("demobrowser.DemoBrowser",
     // Header Pane
     //this.header = this.__makeHeader();
 
-    //this.add(this.header);
+
+		var header = new qx.ui.container.Composite(new qx.ui.layout.HBox);
+		header.setAppearance("demo-header");
+    this.add(header);
 
     // Menu Bar
-    this.add(this.__makeMenuBar());
+    header.add(this.__makeMenuBar());
 
     // Toolbar
     this.toolbar = this.__makeToolbar();
-    this.add(this.toolbar);
+    header.add(this.toolbar, {flex : 1});
 
     // Main Pane
     // split
@@ -492,6 +495,8 @@ qx.Class.define("demobrowser.DemoBrowser",
       });
 
       var mb = new qx.ui.toolbar.Part();
+			mb.addSeparator();
+
       toolbar.add(mb);
       this.widgets["toolbar.controlbutts"] = mb;
 
