@@ -496,7 +496,8 @@ qx.Theme.define("qx.theme.modern.Decoration",
       {
         outerColor : "#b6b6b6",
         innerColor : "#f8f8f8",
-        backgroundImage : "decoration/form/button-c.png"
+        backgroundImage : "decoration/form/button-c.png",
+        backgroundRepeat : "scale"
       }
     },
 
@@ -508,7 +509,8 @@ qx.Theme.define("qx.theme.modern.Decoration",
       {
         outerColor : "#b6b6b6",
         innerColor : "#f8f8f8",
-        backgroundImage : "decoration/form/button-checked-c.png"
+        backgroundImage : "decoration/form/button-checked-c.png",
+        backgroundRepeat : "scale"
       }
     },
 

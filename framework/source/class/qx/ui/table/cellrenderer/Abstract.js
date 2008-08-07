@@ -39,6 +39,7 @@ qx.Class.define("qx.ui.table.cellrenderer.Abstract",
     var cr = qx.ui.table.cellrenderer.Abstract;
     if (!cr.__clazz)
     {
+      var colorMgr = qx.theme.manager.Color.getInstance();
       cr.__clazz = this.self(arguments);
       var stylesheet =
         ".qooxdoo-table-cell {" +
@@ -48,8 +49,7 @@ qx.Class.define("qx.ui.table.cellrenderer.Abstract",
           top: "0px",
           overflow: "hidden",
           whiteSpace : "nowrap",
-          borderRight : "1px solid #eeeeee",
-          borderBottom : "1px solid #eeeeee",
+          borderRight : "1px solid " + colorMgr.resolve("table-row-line"),
           padding : "0px 6px",
           cursor : "default",
           textOverflow : "ellipsis",
@@ -68,13 +68,17 @@ qx.Class.define("qx.ui.table.cellrenderer.Abstract",
 
   members :
   {
-    // the sum of the horizontal insets. This is needed to compute the box model
-    // independent size
+    /**
+     * the sum of the horizontal insets. This is needed to compute the box model
+     * independent size
+     */
     _insetX : 6+6+1, // paddingLeft + paddingRight + borderRight
 
-    // the sum of the vertical insets. This is needed to compute the box model
-    // independent size
-    _insetY : 1, // borderBottom
+    /**
+     * the sum of the vertical insets. This is needed to compute the box model
+     * independent size
+     */
+    _insetY : 0,
 
 
 

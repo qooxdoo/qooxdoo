@@ -60,6 +60,7 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
     this._colors.bgcolOdd = colorMgr.resolve("table-row-background-odd");
     this._colors.colSelected = colorMgr.resolve("table-row-selected");
     this._colors.colNormal = colorMgr.resolve("table-row");
+    this._colors.horLine = colorMgr.resolve("table-row-line");
   },
 
 
@@ -91,6 +92,12 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
 
   members :
   {
+    /**
+     * the sum of the vertical insets. This is needed to compute the box model
+     * independent size
+     */
+    _insetY : 1, // borderBottom
+
     /**
      * Render the new font and update the table pane content
      * to reflect the font change.
@@ -141,6 +148,23 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
       }
 
       style.color = rowInfo.selected ? this._colors.colSelected : this._colors.colNormal;
+      style.borderBottom = "1px solid " + this._colors.horLine;
+    },
+
+
+    /**
+     * Get the row's height CSS style taking the box model into account
+     *
+     * @param height {Integer} The row's (border-box) height in pixel
+     */
+    getRowHeightStyle : function(height)
+    {
+      if (qx.bom.client.Feature.CONTENT_BOX)
+      {
+        height -= this._insetY;
+      }
+
+      return ";height:" + height + "px;";
     },
 
 
@@ -170,6 +194,8 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
 
       rowStyle.push(';color:');
       rowStyle.push(rowInfo.selected ? this._colors.colSelected : this._colors.colNormal);
+
+      rowStyle.push(';border-bottom: 1px solid ', this._colors.horLine);
 
       return rowStyle.join("");
     },

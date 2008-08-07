@@ -32,6 +32,9 @@ qx.Mixin.define("qx.ui.core.MBlocker",
 
   properties :
   {
+    /**
+     * Color of the blocker
+     */
     blockerColor  :
     {
       check : "Color",
@@ -41,6 +44,10 @@ qx.Mixin.define("qx.ui.core.MBlocker",
       themeable: true
     },
 
+
+    /**
+     * Color of the blocker
+     */
     blockerOpacity :
     {
       check : "Number",
