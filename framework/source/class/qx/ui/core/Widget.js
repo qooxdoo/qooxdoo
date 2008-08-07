@@ -1252,20 +1252,10 @@ qx.Class.define("qx.ui.core.Widget",
      */
     getInsets : function()
     {
-      if (this._getStyleTarget && this._getStyleTarget() !== this)
-      {
-        var top = 0;
-        var right = 0;
-        var bottom = 0;
-        var left = 0;
-      }
-      else
-      {
-        var top = this.getPaddingTop();
-        var right = this.getPaddingRight();
-        var bottom = this.getPaddingBottom();
-        var left = this.getPaddingLeft();
-      }
+      var top = this.getPaddingTop();
+      var right = this.getPaddingRight();
+      var bottom = this.getPaddingBottom();
+      var left = this.getPaddingLeft();
 
       if (this._decorator)
       {
@@ -1930,26 +1920,6 @@ qx.Class.define("qx.ui.core.Widget",
 
     /*
     ---------------------------------------------------------------------------
-      STYLE TARGET
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * Some compound widgets might want to redirect the values of the properties
-     * {@link #padding}, {@link #font} and {@link textColor} to a sub widget.
-     * This method can be overridden to return the target widget for those
-     * properties.
-     *
-     * @signature function()
-     * @return {Widget} The target for the redirected properties
-     */
-    _getStyleTarget : null,
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
       PADDING SUPPORT
     ---------------------------------------------------------------------------
     */
@@ -1957,17 +1927,8 @@ qx.Class.define("qx.ui.core.Widget",
     // property apply
     _applyPadding : function(value, old, name)
     {
-      if (this._getStyleTarget && this._getStyleTarget() !== this)
-      {
-        var options = {};
-        options[name] = value;
-        this._getStyleTarget().set(options);
-      }
-      else
-      {
-        this.__updateInsets = true;
-        qx.ui.core.queue.Layout.add(this);
-      }
+      this.__updateInsets = true;
+      qx.ui.core.queue.Layout.add(this);
     },
 
 
@@ -2183,20 +2144,9 @@ qx.Class.define("qx.ui.core.Widget",
     */
 
     // property apply
-    _applyTextColor : function(value, old)
-    {
-      if (this._getStyleTarget && this._getStyleTarget() !== this)
-      {
-        var target = this._getStyleTarget();
-        if (value) {
-          target.setTextColor(value);
-        } else {
-          target.resetTextColor();
-        }
-        return;
-      }
+    _applyTextColor : function(value, old) {
+      // empty template
     },
-
 
 
 
@@ -2274,17 +2224,8 @@ qx.Class.define("qx.ui.core.Widget",
 
 
     // property apply
-    _applyFont : function(value, old)
-    {
-      if (this._getStyleTarget && this._getStyleTarget() !== this)
-      {
-        var target = this._getStyleTarget();
-        if (value) {
-          target.setFont(value);
-        } else {
-          target.resetFont();
-        }
-      }
+    _applyFont : function(value, old) {
+      // empty template
     },
 
 
