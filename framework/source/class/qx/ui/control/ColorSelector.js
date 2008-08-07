@@ -21,10 +21,10 @@
 
 /* ************************************************************************
 
-#embed(${qx.widgettheme}/colorselector/*)
-#embed(${qx.icontheme}/16/actions/dialog-cancel.png)
-#embed(${qx.icontheme}/16/actions/dialog-ok.png)
-#embed(${qx.static}/image/dotted_white.gif)
+#asset(qx/decoration/${qx.theme}/colorselector/*)
+#asset(qx/icon/${qx.icontheme}/16/actions/dialog-cancel.png)
+#asset(qx/icon/${qx.icontheme}/16/actions/dialog-ok.png)
+#asset(${qx.static}/image/dotted_white.gif)
 
 ************************************************************************ */
 
@@ -54,39 +54,12 @@ qx.Class.define("qx.ui.control.ColorSelector",
     
     // add the basic layout
     this._setLayout(new qx.ui.layout.VBox());
-    
-    this.setDecorator("outset");
-    
-    // 1. Base Structure (Vertical Split)
+
+    this.setDecorator("pane");
+		this.setPadding(5);
+
     this._createChildControl("control-bar");
     this._createChildControl("button-bar");
-
-    // 2. Panes (Horizontal Split)
-/*
-    this._createBrightnessPane();
-
-    // 3. Control Pane Content
-    this._createPresetFieldSet();
-    this._createInputFieldSet();
-    this._createPreviewFieldSet();
-
-    // 4. Input FieldSet Content
-    this._createHexField();
-    this._createRgbSpinner();
-    this._createHsbSpinner();
-
-    // 5. Preview FieldSet Content
-    this._createPreviewContent();
-
-    // Apply colors
-    if (arguments.length == 3) {
-      this.setPreviousColor(vPreviousRed, vPreviousGreen, vPreviousBlue);
-    }
-
-    // Initialize properties
-    this.initWidth();
-    this.initHeight();    
-*/    
   },
 
 
