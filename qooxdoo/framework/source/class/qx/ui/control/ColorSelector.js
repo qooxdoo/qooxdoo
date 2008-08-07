@@ -15,15 +15,16 @@
    Authors:
      * Sebastian Werner (wpbasti)
      * Andreas Ecker (ecker)
+     * Jonathan Rass (jonathan_rass)
 
 ************************************************************************ */
 
 /* ************************************************************************
 
-#embed(qx.widgettheme/colorselector/*)
-#embed(qx.icontheme/16/actions/dialog-cancel.png)
-#embed(qx.icontheme/16/actions/dialog-ok.png)
-#embed(qx.static/image/dotted_white.gif)
+#embed(${qx.widgettheme}/colorselector/*)
+#embed(${qx.icontheme}/16/actions/dialog-cancel.png)
+#embed(${qx.icontheme}/16/actions/dialog-ok.png)
+#embed(${qx.static}/image/dotted_white.gif)
 
 ************************************************************************ */
 
@@ -384,19 +385,19 @@ qx.Class.define("qx.ui.control.ColorSelector",
         case "rgb-spinner-red":
           control = new qx.ui.form.Spinner(0, 255, 255);
           control.setWidth(50);
-          control.addListener("change", this._setRedFromSpinner, this);
+          control.addListener("changeValue", this._setRedFromSpinner, this);
           break;
           
         case "rgb-spinner-green":
           control = new qx.ui.form.Spinner(0, 255, 255);
           control.setWidth(50);
-          control.addListener("change", this._setGreenFromSpinner, this);
+          control.addListener("changeValue", this._setGreenFromSpinner, this);
           break;
         
         case "rgb-spinner-blue":
           control = new qx.ui.form.Spinner(0, 255, 255);
           control.setWidth(50);
-          control.addListener("change", this._setBlueFromSpinner, this);   
+          control.addListener("changeValue", this._setBlueFromSpinner, this);   
           break;        
        
         case "hsb-spinner-composite":
@@ -414,19 +415,19 @@ qx.Class.define("qx.ui.control.ColorSelector",
         case "hsb-spinner-hue":    
           control = new qx.ui.form.Spinner(0, 0, 360);
           control.setWidth(50);
-          control.addListener("change", this._setHueFromSpinner, this);
+          control.addListener("changeValue", this._setHueFromSpinner, this);
           break;
           
         case "hsb-spinner-saturation":
           control = new qx.ui.form.Spinner(0, 0, 100);
           control.setWidth(50);
-          control.addListener("change", this._setSaturationFromSpinner, this);
+          control.addListener("changeValue", this._setSaturationFromSpinner, this);
           break;
           
         case "hsb-spinner-brightness":
           control = new qx.ui.form.Spinner(0, 100, 100);
           control.setWidth(50);
-          control.addListener("change", this._setBrightnessFromSpinner, this);
+          control.addListener("changeValue", this._setBrightnessFromSpinner, this);
           break;
           
           
@@ -999,7 +1000,7 @@ qx.Class.define("qx.ui.control.ColorSelector",
       }
 
       this._updateContext = "rgbSpinner";
-      this.setRed(this._rgbSpinRed.getValue());
+      this.setRed(this._getChildControl("rgb-spinner-red").getValue());
       this._updateContext = null;
     },
 
@@ -1017,7 +1018,7 @@ qx.Class.define("qx.ui.control.ColorSelector",
       }
 
       this._updateContext = "rgbSpinner";
-      this.setGreen(this._rgbSpinGreen.getValue());
+      this.setGreen(this._getChildControl("rgb-spinner-green").getValue());
       this._updateContext = null;
     },
 
@@ -1035,7 +1036,7 @@ qx.Class.define("qx.ui.control.ColorSelector",
       }
 
       this._updateContext = "rgbSpinner";
-      this.setBlue(this._rgbSpinBlue.getValue());
+      this.setBlue(this._getChildControl("rgb-spinner-blue").getValue());
       this._updateContext = null;
     },
 
