@@ -37,24 +37,29 @@ qx.Class.define("demobrowser.demo.widget.ColorPopup",
     main: function()
     {
       this.base(arguments);
-      
-      
+
       var doc = this.getRoot();
-      
+
+      var mypop = new qx.ui.control.ColorPopup(mytables);
+      mypop.exclude();
+      mypop.setValue("#23F3C1");
+
       var mybtn = new qx.ui.form.Button("Open Popup");
-      //mybtn.setLocation(20, 20);
-      mybtn.addListener("execute", function() {
-        mypop.setTop(qx.html.Location.getPageBoxBottom(this.getElement()));
-        mypop.setLeft(qx.html.Location.getPageBoxLeft(this.getElement()));
+      mybtn.addListener("mousedown", function(e)
+      {
+        mypop.placeToMouse(e)
         mypop.show();
       });
 
-      var myview = new qx.ui.basic.Label("Selected Color");
-      myview.setDecorator("inset");
-      /*
-      myview.setPadding(3, 6);
-      myview.setBackgroundImage("static/image/dotted_white.gif");
-      */
+      var myview = new qx.ui.basic.Label("Selected Color").set({
+        decorator : "inset",
+        padding : [3, 6]
+        /*
+        ,
+        backgroundImage : "static/image/dotted_white.gif"
+        */
+      });
+
       doc.add(myview, {
         left : 100,
         top : 20
@@ -80,9 +85,6 @@ qx.Class.define("demobrowser.demo.widget.ColorPopup",
         }
       }
 
-      var mypop = new qx.ui.control.ColorPopup(mytables);
-      mypop.setValue("#23F3C1");
-
       doc.add(mybtn, {
         left : 20,
         top : 20
@@ -92,21 +94,21 @@ qx.Class.define("demobrowser.demo.widget.ColorPopup",
         top : 100
       });
 
-      mypop.addEventListener("changeValue", function(e) {
+      mypop.addListener("changeValue", function(e) {
         this.debug("Value Listener: " + e.getData());
         myview.setBackgroundColor(e.getData());
         myview.setBackgroundImage(e.getData() ? null : "static/image/dotted_white.gif");
       });
 
-      mypop.addEventListener("changeRed", function(e) {
+      mypop.addListener("changeRed", function(e) {
         this.debug("Red Listener: " + e.getData());
       });
 
-      mypop.addEventListener("changeGreen", function(e) {
+      mypop.addListener("changeGreen", function(e) {
         this.debug("Green Listener: " + e.getData());
       });
 
-      mypop.addEventListener("changeBlue", function(e) {
+      mypop.addListener("changeBlue", function(e) {
         this.debug("Blue Listener: " + e.getData());
       });
 
