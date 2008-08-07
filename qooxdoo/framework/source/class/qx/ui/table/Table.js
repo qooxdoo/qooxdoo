@@ -1220,7 +1220,6 @@ qx.Class.define("qx.ui.table.Table",
      *
      * @param pageX {Integer} the position in the page to check (in pixels).
      * @return {qx.ui.table.pane.Scroller} the TablePaneScroller or null.
-     * @see TablePaneScrollerPool
      */
     getTablePaneScrollerAtPageX : function(pageX)
     {
@@ -1238,7 +1237,6 @@ qx.Class.define("qx.ui.table.Table",
      * @param scrollVisible {Boolean ? false} whether to scroll the new focused cell
      *          visible.
      * @return {void}
-     * @see TablePaneScrollerPool
      */
     setFocusedCell : function(col, row, scrollVisible)
     {
@@ -1253,7 +1251,7 @@ qx.Class.define("qx.ui.table.Table",
           scrollerArr[i].setFocusedCell(col, row);
         }
 
-        if (col != null && scrollVisible) {
+        if (col !== null && scrollVisible) {
           this.scrollCellVisible(col, row);
         }
       }
