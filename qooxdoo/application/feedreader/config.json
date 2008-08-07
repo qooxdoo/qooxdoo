@@ -15,7 +15,7 @@
     "QOOXDOO_PATH" : "../../framework",
     "QOOXDOO_URI"  : "../${QOOXDOO_PATH}",
     "CACHE"        : "../../cache",
-    "QXTHEME"      : "qx.theme.Classic",
+    "QXTHEME"      : "qx.theme.Modern",
     "LOCALES"      : ["en", "de", "es", "it"], 
     "ROOT"         : "."
   }
