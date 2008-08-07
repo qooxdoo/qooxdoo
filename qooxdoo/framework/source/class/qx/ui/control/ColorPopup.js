@@ -37,21 +37,22 @@ qx.Class.define("qx.ui.control.ColorPopup",
   construct : function(tables)
   {
     this.base(arguments);
+    
+    this.setLayout(new qx.ui.layout.VBox(5));
 
-    this._pane = new qx.ui.container.Composite(new qx.ui.layout.VBox(5)).set({
+    this.set({
       padding : 5,
       backgroundColor : "white"
     });
 
+
     this._tables = tables;
-/*
     this._createAutoBtn();
     this._createBoxes();
+
     this._createPreview();
     this._createSelectorBtn();
-*/
 
-    //this._currentPreview.setBackgroundColor(null);
   },
 
 
@@ -68,13 +69,13 @@ qx.Class.define("qx.ui.control.ColorPopup",
     width :
     {
       refine : true,
-      init : "auto"
+      init : 300
     },
 
     height :
     {
       refine : true,
-      init : "auto"
+      init : 500
     },
 
     appearance :
@@ -128,9 +129,6 @@ qx.Class.define("qx.ui.control.ColorPopup",
   {
     _minZIndex : 1e5,
 
-
-
-
     /*
     ---------------------------------------------------------------------------
       CREATOR SUBS
@@ -146,11 +144,13 @@ qx.Class.define("qx.ui.control.ColorPopup",
     _createAutoBtn : function()
     {
       this._automaticBtn = new qx.ui.form.Button(this.tr("Automatic"));
+      /*
       this._automaticBtn.setWidth(null);
+      */
       this._automaticBtn.setAllowStretchX(true);
-      this._automaticBtn.addEventListener("execute", this._onAutomaticBtnExecute, this);
+      this._automaticBtn.addListener("execute", this._onAutomaticBtnExecute, this);
 
-      this._layout.add(this._automaticBtn);
+      this.add(this._automaticBtn);
     },
 
     _recentTableId : "recent",
@@ -177,29 +177,27 @@ qx.Class.define("qx.ui.control.ColorPopup",
         table = tables[tableId];
 
         box = new qx.ui.groupbox.GroupBox(table.label);
-        box.setHeight("auto");
+        box.setLayout(new qx.ui.layout.HBox);
 
         this._boxes[tableId] = box;
-        this._layout.add(box);
-
-        boxLayout = new qx.ui.layout.HorizontalBoxLayout;
-        boxLayout.setLocation(0, 0);
-        boxLayout.setSpacing(1);
-        boxLayout.auto();
-        box.add(boxLayout);
+        this.add(box);
 
         for (var i=0; i<this._fieldNumber; i++)
         {
-          field = new qx.ui.basic.Terminator;
+          field = new qx.ui.container.Composite(new qx.ui.layout.Basic);
 
-          field.setBorder("inset-thin");
-          field.setBackgroundColor(table.values[i] || null);
-          field.setDimension(this._fieldWidth, this._fieldHeight);
+          field.setDecorator("inset-thin");
 
-          field.addEventListener("mousedown", this._onFieldMouseDown, this);
-          field.addEventListener("mouseover", this._onFieldMouseOver, this);
+          field.set({
+            width : this._fieldWidth,
+            height : this._fieldHeight,
+            backgroundColor : table.values[i] || null
+          });
 
-          boxLayout.add(field);
+          field.addListener("mousedown", this._onFieldMouseDown, this);
+          field.addListener("mouseover", this._onFieldMouseOver, this);
+
+          box.add(field);
         }
       }
     },
@@ -214,20 +212,35 @@ qx.Class.define("qx.ui.control.ColorPopup",
     _createPreview : function()
     {
       this._previewBox = new qx.ui.groupbox.GroupBox(this.tr("Preview (Old/New)"));
-      this._previewLayout = new qx.ui.layout.HorizontalBoxLayout;
-      this._selectedPreview = new qx.ui.basic.Terminator;
-      this._currentPreview = new qx.ui.basic.Terminator;
+      this._previewBox.setLayout(new qx.ui.layout.HBox);
 
+      this._selectedPreview = new qx.ui.container.Composite(new qx.ui.layout.Basic).set({
+        width : 24,
+        height : 24,
+        padding: 4,
+        decorator : "inset",
+        allowGrowX : true
+      });
+      this._currentPreview = new qx.ui.container.Composite(new qx.ui.layout.Basic).set({
+        width : 24,
+        height : 24,
+        padding: 4,
+        decorator : "inset",
+        allowGrowX : true
+      });
+/*
       this._previewLayout.setHeight("auto");
       this._previewLayout.setWidth("100%");
       this._previewLayout.setSpacing(4);
-      this._previewLayout.add(this._selectedPreview, this._currentPreview);
+*/
+      this._previewBox.add(this._selectedPreview, {flex : 1});
+      this._previewBox.add(this._currentPreview, {flex : 1});
 
-      this._previewBox.setHeight("auto");
-      this._previewBox.add(this._previewLayout);
+//      this._previewBox.setHeight("auto");
+//      this._previewBox.add(this._previewLayout);
 
-      this._layout.add(this._previewBox);
-
+      this.add(this._previewBox);
+/*
       this._selectedPreview.setBorder("inset");
       this._selectedPreview.setWidth("1*");
       this._selectedPreview.setHeight(24);
@@ -235,6 +248,7 @@ qx.Class.define("qx.ui.control.ColorPopup",
       this._currentPreview.setBorder("inset");
       this._currentPreview.setWidth("1*");
       this._currentPreview.setHeight(24);
+*/
     },
 
 
@@ -247,11 +261,13 @@ qx.Class.define("qx.ui.control.ColorPopup",
     _createSelectorBtn : function()
     {
       this._selectorButton = new qx.ui.form.Button(this.tr("Open ColorSelector"));
+      /*
       this._selectorButton.setWidth(null);
       this._selectorButton.setAllowStretchX(true);
-      this._selectorButton.addEventListener("execute", this._onSelectorButtonExecute, this);
+      */
+      this._selectorButton.addListener("execute", this._onSelectorButtonExecute, this);
 
-      this._layout.add(this._selectorButton);
+      this.add(this._selectorButton);
     },
 
 
