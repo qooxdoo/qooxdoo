@@ -63,11 +63,11 @@ qx.Class.define("feedreader.view.Tree",
     this.setRoot(this._root);
 
     // Add the subfolders
-    this._staticFeedsFolder = new qx.ui.tree.TreeFolder("Static Feeds");
+    this._staticFeedsFolder = new qx.ui.tree.TreeFolder(this.tr("Static Feeds"));
     this._staticFeedsFolder.setOpen(true);
     this.getRoot().add(this._staticFeedsFolder);
 
-    this._userFeedsFolder = new qx.ui.tree.TreeFolder("User Feeds");
+    this._userFeedsFolder = new qx.ui.tree.TreeFolder(this.tr("User Feeds"));
     this._userFeedsFolder.setOpen(true);
     this.getRoot().add(this._userFeedsFolder);
 

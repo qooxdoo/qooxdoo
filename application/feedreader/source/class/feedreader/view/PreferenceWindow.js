@@ -23,6 +23,8 @@
 
 #asset(qx/icon/Tango/16/apps/preferences-theme.png)
 #asset(qx/icon/Oxygen/16/apps/preferences-theme.png)
+#asset(qx/icon/Tango/16/actions/dialog-ok.png)
+#asset(qx/icon/Tango/16/actions/dialog-cancel.png)
 
 ************************************************************************ */
 
@@ -75,46 +77,66 @@ qx.Class.define("feedreader.view.PreferenceWindow",
     _addContent : function()
     {
       // Set the layout of the window
-      this.setLayout(new qx.ui.layout.VBox());
-
+      var windowLayout = new qx.ui.layout.VBox(1);
+      this.setLayout(windowLayout);
+      this.setMinWidth(350);
+      
+      // Create container for groupBox
+      var container = new qx.ui.container.Composite(new qx.ui.layout.VBox());
+      var containerDecorator = new qx.ui.decoration.Single(1, "solid", "#4d4d4d");
+      container.set({ backgroundColor : "#f6f6f6", padding : 3, decorator : containerDecorator });
+      
       // Create and add a groupbox
-      var groupBox = new qx.ui.groupbox.GroupBox(this.tr("Theme"));
-      groupBox.setMargin(10, 4);
+      var groupBox = new qx.ui.groupbox.GroupBox(this.tr("Language"));
+      groupBox.setMargin(6, 4);
       groupBox.setMinWidth(150);
       groupBox.setLayout(new qx.ui.layout.VBox());
-      this.add(groupBox);
+      container.add(groupBox);
+      this.add(container, { flex : 1 });
 
-      // Create the radio buttons for the themes
-      var button_classic = new qx.ui.form.RadioButton(this.tr("Classic"));
-      button_classic.setValue(qx.theme.Classic.name);
-
-      var button_modern = new qx.ui.form.RadioButton(this.tr("Modern"));
-      button_modern.setValue(qx.theme.Modern.name);
-      button_modern.setChecked(true);
-
-      // Create and apply the radio manager
+      // Create radio manager
       var radioManager = new qx.ui.form.RadioGroup();
-      radioManager.add(button_modern, button_classic);
-
-      // Add the buttons to the groupbox
-      groupBox.add(button_classic);
-      groupBox.add(button_modern);
-
-      // Register the listener for the theme changes
-      radioManager.addListener("changeSelected", this._onThemeChange, this);
-    },
-
-
-    /**
-     * Event handler. Called on a selcetion change on the radio buttons.
-     *
-     * @param e {qx.event.type.Event} The event object
-     */
-    _onThemeChange : function(e)
-    {
-      var mgr = qx.theme.manager.Meta.getInstance();
-      var clazz = qx.Theme.getByName(e.getData().getValue());
-      mgr.setTheme(clazz);
+      
+      // Create the radio buttons for the languages
+      var languages = { "de" : "Deutsch", 
+                        "en" : "English", 
+                        "es" : "Espanol", 
+                        "it" : "Italiano" };
+      
+      var radioButton;
+      for (var lang in languages )
+      {
+        radioButton = new qx.ui.form.RadioButton(languages[lang]);
+        radioButton.setValue(lang);
+        
+        // add to radioManager and groupBox
+        radioManager.add(radioButton);
+        groupBox.add(radioButton);
+      }
+      radioManager.getItems()[0].setChecked(true);
+ 
+      // add the button bar
+      var buttonBarLayout = new qx.ui.layout.HBox(10, "right");
+      var buttonBar = new qx.ui.container.Composite(buttonBarLayout);
+      buttonBar.set({ backgroundColor : "#f6f6f6",
+                      decorator : containerDecorator,
+                      padding   : 6 });
+      
+      var cancelButton = new qx.ui.form.Button(this.tr("Cancel"), "icon/16/actions/dialog-cancel.png");
+      cancelButton.addListener("execute", this.close, this);
+      
+      var okButton = new qx.ui.form.Button(this.tr("OK"), "icon/16/actions/dialog-ok.png");
+      okButton.addListener("execute", function(e){
+        var selectedLanguage = radioManager.getSelected().getValue();
+        qx.locale.Manager.getInstance().setLocale(selectedLanguage);
+        
+        this.close();
+      }, this);
+      
+      buttonBar.add(cancelButton);
+      buttonBar.add(okButton);
+      
+      this.add(buttonBar);
     }
   }
 });
