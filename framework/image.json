@@ -164,7 +164,13 @@
           {
             "prefix" : "../../${CLASSIC}/shadow/shadow-small",
             "border-width" : 5
-          }          
+          },
+          // groupBox
+          "${RESPATH}/source/Modern/groupbox.png" :
+          {
+            "prefix" : "../../${MODERN}/groupbox/groupbox",
+            "border-width" : 2
+          }
         }
       }
     },

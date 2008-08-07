@@ -266,8 +266,24 @@ qx.Theme.define("qx.theme.modern.Decoration",
       }
     },
 
+    
+    
+    /*
+    ---------------------------------------------------------------------------
+      GROUPBOX
+    ---------------------------------------------------------------------------
+    */
 
-
+    "groupbox-frame" :
+    {
+      decorator : qx.ui.decoration.Grid,
+      
+      style :
+      {
+        baseImage : "decoration/groupbox/groupbox.png"
+      }
+    },
+      
 
 
     /*
