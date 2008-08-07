@@ -1,6 +1,8 @@
 actions/application-exit
 actions/bookmark-new
 actions/contact-new
+actions/appointment-new
+actions/address-book-new
 
 actions/dialog-cancel:actions/gtk-cancel,actions/cancel,actions/button_cancel
 actions/dialog-close:actions/gtk-close,actions/window-close,actions/close
@@ -16,6 +18,7 @@ actions/document-properties
 actions/document-revert
 actions/document-save:actions/filesave,actions/gtk-save
 actions/document-save-as:actions/filesaveas,actions/gtk-save-as
+actions/document-send:actions/document-export
 
 actions/edit-clear:actions/editclear
 actions/edit-copy:actions/editcopy
@@ -42,6 +45,9 @@ actions/format-text-italic:actions/text_italic
 actions/format-text-strikethrough:actions/text_strike
 actions/format-text-underline:actions/text_under
 
+actions/format-text-direction-ltr
+actions/format-text-direction-rtl
+
 actions/go-bottom:actions/bottom
 actions/go-down:actions/down
 actions/go-first:actions/start
@@ -50,19 +56,22 @@ actions/go-next:actions/forward
 actions/go-previous:actions/back
 actions/go-top:actions/top
 actions/go-up:actions/up
+actions/go-home
 
 actions/help-about:actions/help,apps/help
 actions/help-contents:apps/help_index,apps/help-browser
+actions/help-faq:actions/help-hint
 
 actions/insert-image
 actions/insert-text
-actions/insert-table:actions/insert-object
+actions/insert-link
 
 actions/list-add
 actions/list-remove
 
 actions/mail-forward
 actions/mail-mark-important
+actions/mail-mark-junk
 actions/mail-mark-read
 actions/mail-mark-unread
 actions/mail-message-new
@@ -92,11 +101,11 @@ actions/system-run
 actions/system-search
 actions/system-shutdown
 
-actions/tab-new
-actions/tools-check-spelling
+actions/check-spelling:actions/tools-check-spelling
 
 actions/view-fullscreen
 actions/view-refresh
+actions/view-restore
 actions/view-sort-ascending
 actions/view-sort-descending
 
@@ -108,40 +117,60 @@ actions/zoom-in:actions/viewmag+
 actions/zoom-original:actions/viewmag1
 actions/zoom-out:actions/viewmag-
 
-apps/graphics-viewer:apps/kview,apps/gwenview,apps/eog,apps/kuickshow
-apps/graphics-editor:apps/inkscape,apps/gimp-2
-apps/internet-mail:apps/email,apps/evolution
-apps/internet-web-browser:apps/browser
-apps/internet-messenger:apps/konversation,apps/kopete,apps/gaim
+apps/internet-mail:apps/evolution,apps/email
+apps/internet-web-browser:apps/browser,apps/web-browser
+apps/internet-messenger:apps/internet-group-chat,apps/konversation,apps/kopete,apps/gaim
 apps/internet-telephony:apps/internet-phone,apps/ekiga
 apps/internet-feed-reader:apps/gnome-blog,apps/akregator,apps/feed
+apps/internet-download-manager:apps/download,apps/gwget,apps/preferences-web-browser-shortcuts
+apps/internet-transfer:apps/gftp,apps/preferences-system-network-sharing
+apps/internet-blog:apps/gnome-blog,apps/kblogger
+
 apps/office-address-book:apps/kaddressbook,apps/kontact,apps/emesene
 apps/office-calendar:apps/kontact
-apps/office-spreadsheet:apps/gnome-gnumeric,apps/kchart
-apps/audio-player:apps/xmms,apps/amarok,apps/preferences-desktop-sound
-apps/video-player:apps/totem,apps/kaffeine,apps/kmplayer,apps/mplayer
-apps/photo-album:apps/digikam,apps/f-spot
-apps/accessories-calculator
-apps/accessories-character-map
-apps/accessories-dictionary
-apps/accessories-text-editor
-apps/accessories-color-chooser:apps/gnome-color-browser,apps/kcolorchooser
-apps/accessories-notes:apps/sticky-notes,apps/tomboy,apps/knotes
+apps/office-spreadsheet:apps/gnome-gnumeric,apps/kchart,apps/ooo-calc
+apps/office-project:apps/gnome-planner,apps/preferences-desktop-launch-feedback
+apps/office-chart:apps/invest,apps/kchart
+apps/office-database:apps/kexi,apps/ooo-base
+apps/office-draw:apps/krita,apps/ooo-draw
+apps/office-presentation:apps/kuickshow,apps/ooo-impress
+apps/office-web:apps/akonadi,apps/ooo-web
+apps/office-writer:apps/kword,apps/ooo-writer
+apps/office-layout:apps/scrbius,apps/scribus
+apps/office-graphics:apps/graphics-editor,apps/inkscape,apps/gimp-2
+
+apps/utilities-archiver:apps/archiver,apps/utilities-file-archiver,apps/accessories-archiver
+apps/utilities-calculator:apps/accessories-calculator
+apps/utilities-character-map:apps/accessories-character-map
+apps/utilities-dictionary:apps/accessories-dictionary
+apps/utilities-text-editor:apps/accessories-text-editor
+apps/utilities-color-chooser:apps/gnome-color-browser,apps/kcolorchooser
+apps/utilities-notes:apps/sticky-notes,apps/tomboy,apps/knotes
 apps/utilities-system-monitor
 apps/utilities-terminal
 apps/utilities-log-viewer:apps/logviewer
+apps/utilities-keyring:apps/gnome-keyring-manager,apps/seahorse,apps/preferences-desktop-user-password
+apps/utilities-statistics:apps/gnome-power-statistics,apps/esd
+apps/utilities-network-manager:apps/krfb,apps/neat
+apps/utilities-help:apps/help-browser
+apps/utilities-graphics-viewer:apps/graphics-viewer,apps/kview,apps/gwenview,apps/eog,apps/graphics-viewer-document
+
 apps/preferences-accessibility:apps/preferences-desktop-accessibility
 apps/preferences-keyboard:apps/preferences-desktop-keyboard
 apps/preferences-locale:apps/preferences-desktop-locale
 apps/preferences-font:apps/preferences-desktop-font
 apps/preferences-display:apps/preferences-desktop-screensaver
-apps/preferences-sound:apps/preferences-desktop-sound
+apps/preferences-sound:apps/preferences-desktop-sound,apps/gstreamer-properties
 apps/preferences-theme:apps/preferences-desktop-theme
 apps/preferences-wallpaper:apps/preferences-desktop-wallpaper
 apps/preferences-users:apps/system-users
-apps/keyring-manager:apps/seahorse,apps/preferences-desktop-user-password
-apps/help-browser
-apps/network-manager:apps/krfb
+apps/preferences-security:apps/firewall,apps/preferences-system-login
+apps/preferences-network:apps/gnome-nettool,apps/krdc
+apps/preferences-clock:apps/clock,apps/preferences-system-time
+
+apps/media-audio-player:apps/audio-player,apps/rhythmbox,apps/xmms,apps/amarok,apps/preferences-desktop-sound
+apps/media-video-player:apps/video-player,apps/totem,apps/kaffeine,apps/kmplayer,apps/mplayer
+apps/media-photo-album:apps/photo-album,apps/digikam,apps/f-spot
 
 categories/accessories:categories/applications-accessories
 categories/development:categories/applications-development,apps/package_development
@@ -174,10 +203,10 @@ devices/network-wireless
 devices/pda
 devices/phone
 devices/printer
+devices/scanner
 
 emblems/emblem-favorite
 emblems/emblem-important
-emblems/emblem-symbolic-link
 
 mimetypes/archive:mimetypes/application-x-archive,mimetypes/package-x-generic,mimetypes/tgz
 mimetypes/executable:mimetypes/application-x-executable,mimetypes/binary
@@ -204,24 +233,28 @@ places/user-trash-full:status/user-trash-full
 places/user-home
 places/user-desktop
 
-emotes/face-angel:emotes/small/22x22/face-angel
-emotes/face-crying:emotes/small/22x22/face-crying
-emotes/face-devilish:emotes/small/22x22/face-devilish
-emotes/face-embarrassed:emotes/small/22x22/face-embarrassed
-emotes/face-glasses:emotes/small/22x22/face-glasses
-emotes/face-kiss:emotes/small/22x22/face-kiss
-emotes/face-plain:emotes/small/22x22/face-plain
-emotes/face-raspberry:emotes/small/22x22/face-raspberry
-emotes/face-sad:emotes/small/22x22/face-sad
-emotes/face-smile-big:emotes/small/22x22/face-smile-big
-emotes/face-smile:emotes/small/22x22/face-smile
-emotes/face-surprise:emotes/small/22x22/face-surprise
-emotes/face-wink:emotes/small/22x22/face-wink
+emotes/face-angel
+emotes/face-embarrassed
+emotes/face-kiss
+emotes/face-laugh:emotes/face-grin
+emotes/face-plain
+emotes/face-raspberry
+emotes/face-sad
+emotes/face-smile-big
+emotes/face-smile
+emotes/face-surprise
 
 status/dialog-error:actions/messagebox_critical
 status/dialog-information:actions/messagebox_info
 status/dialog-warning:actions/messagebox_warning
 status/dialog-password
+
+status/image-loading
+status/image-missing
+
+status/mail-read
+status/mail-replied
+status/mail-unread
 
 status/security-high
 status/security-low
