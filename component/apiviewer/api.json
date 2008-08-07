@@ -87,12 +87,18 @@
       {
         "${APIVIEWER}.resourceUri" : "./resource"
       },
+      
+      "variants" :
+      {
+        "qx.aspects" : ["off"],
+        "qx.debug" : ["off"]
+      },
 
       "compile-dist" :
       {
         "target" : "${BUILD_PATH}",
         "file" : "${BUILD_PATH}/script/${APIVIEWER}.js",
-        "format" : "on",
+        "format" : "off",
         "optimize" : ["strings", "basecalls", "variables"],
         "uri"  : "script/${APIVIEWER}.js",
         "root" : "${BUILD_PATH}"
