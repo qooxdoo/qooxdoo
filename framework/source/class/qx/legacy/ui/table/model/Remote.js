@@ -739,8 +739,13 @@ qx.Class.define("qx.legacy.ui.table.model.Remote",
     },
 
     // overridden
-    isColumnSortable : function(columnIndex) {
-      return this._sortableColArr ? (this._sortableColArr[columnIndex] == true) : false;
+    isColumnSortable : function(columnIndex)
+    {
+      return (
+        this._sortableColArr
+        ? (this._sortableColArr[columnIndex] !== false)
+        : true
+      );
     },
 
     // overridden

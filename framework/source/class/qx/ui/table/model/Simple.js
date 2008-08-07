@@ -227,7 +227,11 @@ qx.Class.define("qx.ui.table.model.Simple",
 
     // overridden
     isColumnSortable : function(columnIndex) {
-      return this._sortableColArr ? (this._sortableColArr[columnIndex] == true) : true;
+      return (
+        this._sortableColArr
+        ? (this._sortableColArr[columnIndex] !== false)
+        : true
+      );
     },
 
     // overridden
