@@ -47,20 +47,12 @@ msgstr ""
 msgid "Posts"
 msgstr ""
 
-#: feedreader/view/PreferenceWindow.js:46 feedreader/view/ToolBar.js:88
+#: feedreader/view/PreferenceWindow.js:48 feedreader/view/ToolBar.js:88
 msgid "Preferences"
 msgstr ""
 
-#: feedreader/view/PreferenceWindow.js:81
-msgid "Theme"
-msgstr ""
-
-#: feedreader/view/PreferenceWindow.js:88
-msgid "Classic"
-msgstr ""
-
 #: feedreader/view/PreferenceWindow.js:91
-msgid "Modern"
+msgid "Language"
 msgstr ""
 
 #: feedreader/view/ToolBar.js:62
@@ -88,6 +80,14 @@ msgstr ""
 msgid "Help"
 msgstr "Yardım"
 
+#: feedreader/view/Tree.js:66
+msgid "Static Feeds"
+msgstr ""
+
+#: feedreader/view/Tree.js:70
+msgid "User Feeds"
+msgstr ""
+
 #~ msgid "(%1) Reload the feeds."
 #~ msgstr "(%1) Beslemesini yenile."
 
@@ -96,6 +96,12 @@ msgstr "Yardım"
 
 #~ msgid "Date"
 #~ msgstr "Tarih"
+
+#~ msgid "Theme"
+#~ msgstr ""
+
+#~ msgid "Classic"
+#~ msgstr ""
 
 #~ msgid "English"
 #~ msgstr "İngilizce"
@@ -107,6 +113,9 @@ msgstr "Yardım"
 #~ msgstr ""
 
 #~ msgid "Italian"
+#~ msgstr ""
+
+#~ msgid "Modern"
 #~ msgstr ""
 
 #~ msgid "News feeds"
