@@ -308,7 +308,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
           decorator       : states.focused ? "input-focused" : "input",
           padding         : [ 1, 3 ],
           textColor       : states.disabled ? "text-disabled" : "input-text",
-          backgroundColor : "white"
+          backgroundColor : "#fcfcfc"
         };
       }
     },
@@ -450,7 +450,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       {
         return {
           padding   : [ 12, 9 ],
-          decorator : "groupbox-frame",
+          decorator : "pane",
           backgroundColor : "#ececec"
         };
       }

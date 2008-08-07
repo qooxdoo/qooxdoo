@@ -232,8 +232,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
     {
       decorator : qx.ui.decoration.Grid,
 
-      style :
-      {
+      style : {
         baseImage : "decoration/shadow/shadow.png",
         insets    : [ 4, 8, 8, 4 ]
       }
@@ -244,8 +243,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
     {
       decorator : qx.ui.decoration.Grid,
 
-      style :
-      {
+      style : {
         baseImage : "decoration/shadow/shadow-small.png",
         insets    : [ 0, 3, 3, 0 ]
       }
@@ -264,7 +262,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
       style : {
         baseImage : "decoration/pane/pane.png",
-        insets    : [ 0, 2, 3, 0 ]
+        insets    : [0, 2, 3, 0]
       }
     },
 
@@ -430,6 +428,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
       }
     },
 
+
     "listitem" :
     {
       decorator : qx.ui.decoration.Single,
@@ -468,25 +467,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
       {
         backgroundImage : "decoration/scrollbar/scrollbar-bg-vertical.png",
         backgroundRepeat : "repeat-y"
-      }
-    },
-
-
-    /*
-    ---------------------------------------------------------------------------
-      GROUPBOX
-    ---------------------------------------------------------------------------
-    */
-
-    "groupbox-frame" :
-    {
-      decorator : qx.ui.decoration.Single,
-
-      style :
-      {
-        color : "#c6c6c6",
-        style : "solid",
-        width : 1
       }
     },
 
