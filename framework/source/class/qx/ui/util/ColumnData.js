@@ -20,8 +20,11 @@
 
 /**
  * All of the resizing information about a column.
+ *
+ *  This is used internally by qx.ui.table and qx.ui.progressive's table and
+ *  may be used for other widgets as well.
  */
-qx.Class.define("qx.ui.table.columnmodel.resizebehavior.ColumnData",
+qx.Class.define("qx.ui.util.ColumnData",
 {
   extend : qx.ui.core.LayoutItem,
 

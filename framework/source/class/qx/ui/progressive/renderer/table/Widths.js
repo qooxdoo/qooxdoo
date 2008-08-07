@@ -37,8 +37,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.Widths",
     this._columnData = [ ];
     for (var i = 0; i < numColumns; i++)
     {
-      this._columnData[i] =
-        new qx.ui.table.columnmodel.resizebehavior.ColumnData();
+      this._columnData[i] = new qx.ui.util.ColumnData();
     }
   },
 
