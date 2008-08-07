@@ -29,11 +29,10 @@ qx.Class.define("qx.ui.table.headerrenderer.HeaderCell",
     this.base(arguments);
 
     var layout = new qx.ui.layout.Grid();
+    layout.setRowFlex(0, 1);
     layout.setColumnFlex(1, 1);
+    layout.setColumnFlex(2, 1);
     this.setLayout(layout);
-
-    // manually set a min width. We want the label to shrink
-    this.setMinWidth(30);
   },
 
   properties :
@@ -116,21 +115,26 @@ qx.Class.define("qx.ui.table.headerrenderer.HeaderCell",
       switch(id)
       {
         case "label":
-          control = new qx.ui.basic.Label(this.getLabel());
-          control.setAnonymous(true);
+          control = new qx.ui.basic.Label(this.getLabel()).set({
+            anonymous: true,
+            allowShrinkX: true
+          });
+          this.getLayout().setColumnMaxWidth(1, control.getSizeHint().width);
           this._add(control, {row: 0, column: 1});
           break;
 
         case "sort-icon":
           control = new qx.ui.basic.Image(this.getSortIcon());
           control.setAnonymous(true);
-          this._add(control, {row: 0, column: 0});
+          this._add(control, {row: 0, column: 2});
           break;
 
         case "icon":
-          control = new qx.ui.basic.Image(this.getIcon());
-          control.setAnonymous(true);
-          this._add(control, {row: 0, column: 2});
+          control = new qx.ui.basic.Image(this.getIcon()).set({
+            anonymous: true,
+            allowShrinkX: true
+          });
+          this._add(control, {row: 0, column: 0});
           break;
       }
 

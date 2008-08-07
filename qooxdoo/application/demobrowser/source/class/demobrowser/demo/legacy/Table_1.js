@@ -20,6 +20,7 @@
 /* ************************************************************************
 
 #use(qx.legacy.theme.ClassicRoyale)
+#asset(qx/icon/Compat/16/apps/accessories-date.png)
 
 ************************************************************************ */
 
@@ -104,6 +105,7 @@ qx.Class.define("demobrowser.demo.legacy.Table_1",
 
         // Display a checkbox in column 3
         tcm.setDataCellRenderer(3, new qx.legacy.ui.table.cellrenderer.Boolean());
+        tcm.setHeaderCellRenderer(2, new qx.legacy.ui.table.headerrenderer.Icon("icon/16/apps/accessories-date.png", "A date"));
       };
 
       main.add(table);
