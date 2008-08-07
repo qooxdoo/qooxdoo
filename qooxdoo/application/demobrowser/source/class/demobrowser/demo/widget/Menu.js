@@ -21,7 +21,7 @@
 /* ************************************************************************
 
 #asset(qx/icon/${qx.icontheme}/16/actions/*)
-#asset(qx/icon/${qx.icontheme}/16/apps/help-browser.png)
+#asset(qx/icon/${qx.icontheme}/16/apps/utilities-help.png)
 #asset(qx/icon/${qx.icontheme}/22/apps/preferences-users.png)
 
 ************************************************************************ */
@@ -201,12 +201,10 @@ qx.Class.define("demobrowser.demo.widget.Menu",
       var basicPart = new qx.ui.toolbar.Part;
       var menuPart = new qx.ui.toolbar.Part;
       var helpPart = new qx.ui.toolbar.Part;
-      var searchPart = new qx.ui.toolbar.Part;
 
       toolbar.add(basicPart);
       toolbar.add(menuPart);
       toolbar.addSpacer();
-      toolbar.add(searchPart);
       toolbar.add(helpPart);
 
       var backButton = new qx.ui.toolbar.SplitButton("Back", "icon/16/actions/go-previous.png", this.getBackMenu());
@@ -249,12 +247,6 @@ qx.Class.define("demobrowser.demo.widget.Menu",
       menuPart.add(searchMenu);
       menuPart.add(viewMenu);
       menuPart.add(formatMenu);
-
-
-      var searchField = new qx.ui.form.TextField;
-      searchField.setFont("small");
-      searchField.setAlignY("middle");
-      searchPart.add(searchField);
 
 
       var helpMenu = new qx.ui.toolbar.MenuButton("Help");
@@ -555,7 +547,7 @@ qx.Class.define("demobrowser.demo.widget.Menu",
     {
       var menu = new qx.ui.menu.Menu;
 
-      var topicsButton = new qx.ui.menu.Button("Topics", "icon/16/apps/help-browser.png");
+      var topicsButton = new qx.ui.menu.Button("Topics", "icon/16/apps/utilities-help.png");
       var quickButton = new qx.ui.menu.Button("Quickstart");
       var onlineButton = new qx.ui.menu.Button("Online Forum");
       var infoButton = new qx.ui.menu.Button("Info...");
