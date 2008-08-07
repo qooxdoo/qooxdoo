@@ -449,8 +449,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       {
         return {
           padding   : [ 12, 9 ],
-          decorator : "pane",
-          backgroundColor : "#ececec"
+          decorator : "groupbox-frame"
         };
       }
     },
@@ -1108,7 +1107,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          shadow : "shadow"
+          shadow : "shadow",
+          contentPadding : [ 2, 3, 4, 3 ]
         };
       }
     },
@@ -1119,7 +1119,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          backgroundColor : "#f3f3f3",
+          backgroundColor : "#a9a9a9",
           decorator       : "window-border"
         };
       }
@@ -1169,7 +1169,9 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          icon : states.active ? "decoration/window/minimize-active.png" : "decoration/window/minimize-inactive.png",
+          icon : states.active ? states.hovered ? "decoration/window/minimize-active-hovered.png" : 
+                                                  "decoration/window/minimize-active.png" : 
+                                                  "decoration/window/minimize-inactive.png",
           margin : [ 4, 6, 2, 0 ]
         };
       }
@@ -1196,7 +1198,9 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          icon : states.active ? "decoration/window/maximize-active.png" : "decoration/window/maximize-inactive.png",
+          icon : states.active ? states.hovered ? "decoration/window/maximize-active-hovered.png" :
+                                                  "decoration/window/maximize-active.png" :
+                                                  "decoration/window/maximize-inactive.png",
           margin : [ 4, 6, 2, 0 ]
         };
       }
@@ -1209,7 +1213,9 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          icon : states.active ? "decoration/window/close-active.png" : "decoration/window/close-inactive.png",
+          icon : states.active ? states.hovered ? "decoration/window/close-active-hovered.png" : 
+                                                  "decoration/window/close-active.png" : 
+                                                  "decoration/window/close-inactive.png",
           margin : [ 4, 6, 2, 0 ]
         };
       }
