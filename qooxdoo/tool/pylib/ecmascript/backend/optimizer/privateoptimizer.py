@@ -98,6 +98,15 @@ def lookup(id, node, privates):
     elif node.type == "keyvalue":
         name = node.get("key", False)
         
+    elif node.type == "assignment":
+        left = node.getChild("left", False)
+        if left:
+            var = left.getChild("variable", False)
+            if var:
+                last = var.getLastChild()
+                if last.type == "identifier":
+                    name = last.get("name")
+        
     if name and name.startswith("__") and not privates.has_key(name):
         privates[name] = crypt(id, name)
         
