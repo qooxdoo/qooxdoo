@@ -87,6 +87,19 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
       init      : "middle",
       apply     : "_applyLegendPosition",
       themeable : true
+    },
+
+
+    /**
+     * Padding of the group box pane
+     */
+    contentPadding :
+    {
+      check : "Array",
+      nullable : true,
+      init : null,
+      apply : "_applyContentPadding",
+      themeable : true
     }
   },
 
@@ -125,19 +138,13 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
     },
 
 
-
-
-    /*
-    ---------------------------------------------------------------------------
-      WIDGET INTERNALS
-    ---------------------------------------------------------------------------
-    */
-
-    _getStyleTarget : function() {
-      return this._getChildControl("frame");
+    // property apply
+    _applyContentPadding : function(value, old)
+    {
+      if (value) {
+        this._getChildControl("frame").setPadding(value);
+      }
     },
-
-
 
 
     /*

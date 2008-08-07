@@ -424,7 +424,6 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          padding : [ 4, 10 ],
           legendPosition : "top"
         };
       }

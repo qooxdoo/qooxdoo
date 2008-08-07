@@ -216,6 +216,17 @@ qx.Class.define("qx.ui.window.Window",
     },
 
 
+    /**
+     * Padding of the window pane
+     */
+    contentPadding :
+    {
+      check : "Array",
+      nullable : true,
+      init : null,
+      apply : "_applyContentPadding",
+      themeable : true
+    },
 
 
     /*
@@ -377,12 +388,6 @@ qx.Class.define("qx.ui.window.Window",
      * @return {qx.ui.container.Composite} pane sub widget
      */
     getChildrenContainer : function() {
-      return this._getChildControl("pane");
-    },
-
-
-    // overridden
-    _getStyleTarget : function() {
       return this._getChildControl("pane");
     },
 
@@ -753,6 +758,15 @@ qx.Class.define("qx.ui.window.Window",
         this.removeState("active");
       } else {
         this.addState("active");
+      }
+    },
+
+
+    // property apply
+    _applyContentPadding : function(value, old)
+    {
+      if (value) {
+        this._getChildControl("pane").setPadding(value);
       }
     },
 

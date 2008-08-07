@@ -94,7 +94,7 @@ qx.Class.define("demobrowser.demo.table.TableDemo",
           showMinimize: false,
           showMaximize: false,
           width: 180,
-          padding: 10
+          contentPadding: [10, 10, 10, 10]
         });
         dlg.moveTo(315, 100);
 

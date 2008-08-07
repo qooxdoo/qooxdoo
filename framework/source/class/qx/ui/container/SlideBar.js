@@ -111,12 +111,6 @@ qx.Class.define("qx.ui.container.SlideBar",
 
 
     // overridden
-    _getStyleTarget : function() {
-      return this._getChildControl("content");
-    },
-
-
-    // overridden
     _createChildControlImpl : function(id)
     {
       var control;

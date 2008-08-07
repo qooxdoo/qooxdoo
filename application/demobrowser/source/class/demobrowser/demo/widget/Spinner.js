@@ -64,7 +64,7 @@ qx.Class.define("demobrowser.demo.widget.Spinner",
         width: 140,
         font: qx.bom.Font.fromString("30px sans-serif"),
         backgroundColor: "#FABBBB",
-        padding: 10
+        contentPadding: [10, 10, 10, 10]
       });
       container.add(new qx.ui.basic.Label("Big font"), {column: 0, row: row});
       container.add(new qx.ui.basic.Label("0"), {column: 1, row: row});

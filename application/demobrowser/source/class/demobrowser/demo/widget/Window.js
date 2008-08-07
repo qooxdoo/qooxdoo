@@ -44,7 +44,7 @@ qx.Class.define("demobrowser.demo.widget.Window",
       // Create the Window
       var win = new qx.ui.window.Window("First Window", "icon/16/apps/office-calendar.png");
       win.setLayout(new qx.ui.layout.VBox(10));
-      win.setPadding(10);
+      win.setContentPadding([10, 10, 10, 10]);
       win.setShowStatusbar(true);
       win.setStatus("Demo loaded");
       win.open();
@@ -84,7 +84,7 @@ qx.Class.define("demobrowser.demo.widget.Window",
     {
       var win = new qx.ui.window.Window("Second Window", "icon/16/apps/internet-feed-reader.png");
       win.setLayout(new qx.ui.layout.VBox(10));
-      win.setPadding(10);
+      win.setContentPadding([10, 10, 10, 10]);
       win.setStatus("Application is ready");
       win.open();
       this.getRoot().add(win, {left:350, top:120});
@@ -209,7 +209,7 @@ qx.Class.define("demobrowser.demo.widget.Window",
       win.setMaxHeight(400);
       win.setAllowMaximize(false);
       win.open();
-      win.setPadding(10);
+      win.setContentPadding([10, 10, 10, 10]);
       this.getRoot().add(win, {left:100, top:250});
 
       var wm1 = this.getModalWindow1();
@@ -222,7 +222,7 @@ qx.Class.define("demobrowser.demo.widget.Window",
     getModalWindow1 : function()
     {
       var wm1 = new qx.ui.window.Window("First Modal Dialog");
-      wm1.setPadding(10);
+      wm1.setContentPadding([10, 10, 10, 10]);
       wm1.setLayout(new qx.ui.layout.VBox(10));
       wm1.setModal(true);
       wm1.moveTo(150, 150);
@@ -249,7 +249,7 @@ qx.Class.define("demobrowser.demo.widget.Window",
     getModalWindow2 : function()
     {
       var wm2 = new qx.ui.window.Window("Second Modal Dialog");
-      wm2.setPadding(10);
+      wm2.setContentPadding([10, 10, 10, 10]);
       wm2.setLayout(new qx.ui.layout.VBox(10));
       wm2.setModal(true);
       wm2.setShowClose(false);

@@ -200,6 +200,16 @@ qx.Class.define("qx.ui.form.Spinner",
       nullable : true
     },
 
+    /** Padding of the spinner's input field */
+    contentPadding :
+    {
+      check : "Array",
+      nullable : true,
+      init : null,
+      apply : "_applyContentPadding",
+      themeable : true
+    },
+
     // overridden
     allowShrinkY :
     {
@@ -265,12 +275,6 @@ qx.Class.define("qx.ui.form.Spinner",
     // overridden
     _forwardStates : {
       focused : true
-    },
-
-
-    // overridden
-    _getStyleTarget : function() {
-      return this._getChildControl("textfield");
     },
 
 
@@ -433,7 +437,13 @@ qx.Class.define("qx.ui.form.Spinner",
     },
 
 
-
+    // property apply
+    _applyContentPadding : function(value, old)
+    {
+      if (value) {
+        this._getChildControl("textfield").setPadding(value);
+      }
+    },
 
 
     /*
