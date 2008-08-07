@@ -44,10 +44,16 @@ qx.Class.define("qx.ui.progressive.headfoot.TableHeading",
   {
     this.base(arguments);
 
+    // Save the Widths object containing all of our column widths
     this._columnWidths = columnWidths;
     
-    // Set a default height for the progress bar
+    // Set a default height for the table heading
     this.setHeight(16);
+
+    // The table heading should have a decorator
+    var decorator = new qx.ui.decoration.Single(0, "solid", "#aaaaaa");
+    decorator.setWidthBottom(2);
+    this.setDecorator(decorator);
 
     // We want the same padding here as in the table row
     this.setPaddingLeft(qx.ui.progressive.renderer.table.Row.__padding);
