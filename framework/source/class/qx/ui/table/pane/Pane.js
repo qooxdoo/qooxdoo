@@ -157,8 +157,8 @@ qx.Class.define("qx.ui.table.pane.Pane",
     /**
      * Sets the currently focused cell.
      *
-     * @param col {Integer} the model index of the focused cell's column.
-     * @param row {Integer} the model index of the focused cell's row.
+     * @param col {Integer?null} the model index of the focused cell's column.
+     * @param row {Integer?null} the model index of the focused cell's row.
      * @param massUpdate {Boolean ? false} Whether other updates are planned as well.
      *          If true, no repaint will be done.
      * @return {void}
