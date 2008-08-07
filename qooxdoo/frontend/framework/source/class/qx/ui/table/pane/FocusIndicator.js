@@ -48,12 +48,16 @@ qx.Class.define("qx.ui.table.pane.FocusIndicator",
       init : "table-focus-indicator"
     },
 
+    /** Table row, where the indicator is placed. */
     row : {
-      check : "Integer"
+      check : "Integer",
+      nullable : true
     },
 
+    /** Table column, where the indicator is placed. */
     column : {
-      check : "Integer"
+      check : "Integer",
+      nullable : true
     }
 
   },
@@ -65,8 +69,8 @@ qx.Class.define("qx.ui.table.pane.FocusIndicator",
       if (col == null)
       {
         this.hide();
-        this.setRow(-1);
-        this.setColumn(-1);
+        this.setRow(null);
+        this.setColumn(null);
       }
       else
       {
@@ -75,8 +79,8 @@ qx.Class.define("qx.ui.table.pane.FocusIndicator",
         if (xPos == -1)
         {
           this.hide();
-          this.setRow(-1);
-          this.setColumn(-1);
+          this.setRow(null);
+          this.setColumn(null);
         }
         else
         {

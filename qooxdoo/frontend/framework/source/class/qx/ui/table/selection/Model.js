@@ -142,11 +142,8 @@ qx.Class.define("qx.ui.table.selection.Model",
   members :
   {
     // selectionMode property modifier
-    _applySelectionMode : function(selectionMode)
-    {
-      if (selectionMode == qx.ui.table.selection.Model.NO_SELECTION) {
-        this.clearSelection();
-      }
+    _applySelectionMode : function(selectionMode) {
+      this.clearSelection();
     },
 
 

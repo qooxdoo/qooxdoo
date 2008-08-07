@@ -182,9 +182,14 @@ qx.Class.define("qx.ui.table.pane.Pane",
         // Update the focused row background
         if (row != oldRow && !massUpdate)
         {
-          // NOTE: Only the old and the new row need update
-          this._updateContent(false, null, oldRow, true);
-          this._updateContent(false, null, row, true);
+          if (row !== null && oldRow !== null)
+          {
+            // NOTE: Only the old and the new row need update
+            this._updateContent(false, null, oldRow, true);
+            this._updateContent(false, null, row, true);
+          } else {
+            this._updateContent();
+          }
         }
       }
     },
@@ -631,8 +636,11 @@ qx.Class.define("qx.ui.table.pane.Pane",
       }
 
       // update focus indicator
-      this._updateRowStyles(this._focusedRow - rowOffset);
-      this._updateRowStyles(this._focusedRow);
+      if (this._focusedRow !== null)
+      {
+        this._updateRowStyles(this._focusedRow - rowOffset);
+        this._updateRowStyles(this._focusedRow);
+      }
 
       // force immediate layouting
       // this prevents Firefox from flickering
