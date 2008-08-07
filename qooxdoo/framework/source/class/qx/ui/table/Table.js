@@ -725,10 +725,7 @@ qx.Class.define("qx.ui.table.Table",
     _applyAdditionalStatusBarText : function(value, old)
     {
       this._additionalStatusBarText = value;
-
-      if(value) {
-         this._updateStatusBar();
-      }
+      this._updateStatusBar();
     },
 
 
