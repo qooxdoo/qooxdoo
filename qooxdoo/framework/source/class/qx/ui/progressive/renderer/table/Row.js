@@ -289,7 +289,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
       {
       case "end":
         // Determine color of row based on state of last added row
-        var index = state.getRendererData()[this._name].end;
+        var index = state.getRendererData()[this._name].end || 0;
 
         // Set the background color of this row
         div.style.backgroundColor =
