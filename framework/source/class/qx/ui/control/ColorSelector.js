@@ -1062,7 +1062,7 @@ qx.Class.define("qx.ui.control.ColorSelector",
       }
 
       this._updateContext = "hsbSpinner";
-      this.setHue(this._hsbSpinHue.getValue());
+      this.setHue(this._getChildControl("hsb-spinner-hue").getValue());
       this._updateContext = null;
     },
 
@@ -1080,7 +1080,7 @@ qx.Class.define("qx.ui.control.ColorSelector",
       }
 
       this._updateContext = "hsbSpinner";
-      this.setSaturation(this._hsbSpinSaturation.getValue());
+      this.setSaturation(this._getChildControl("hsb-spinner-saturation").getValue());
       this._updateContext = null;
     },
 
@@ -1098,7 +1098,7 @@ qx.Class.define("qx.ui.control.ColorSelector",
       }
 
       this._updateContext = "hsbSpinner";
-      this.setBrightness(this._hsbSpinBrightness.getValue());
+      this.setBrightness(this._getChildControl("hsb-spinner-brightness").getValue());
       this._updateContext = null;
     },
 
