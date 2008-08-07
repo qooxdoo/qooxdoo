@@ -418,6 +418,17 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
           }
         }
 
+        /**
+         * WE NEED SOMETHING LIKE THIS FOR THE BOX MODEL...
+         *
+         *      if (scaledImage || qx.bom.client.Feature.CONTENT_BOX)
+         *      {
+         *        var insets = this.getInsets();
+         *        width -= insets.left + insets.right;
+         *        height -= insets.top + insets.bottom;
+         *      }
+         */
+
         // Create the new rule, based on calculated widths
         var widthRule =
           (width -
