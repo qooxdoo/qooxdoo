@@ -54,9 +54,11 @@ qx.Class.define("demobrowser.demo.table.Table",
       tableModel.setData(rowData);
       tableModel.setColumnEditable(1, true);
       tableModel.setColumnEditable(2, true);
+      tableModel.setColumnSortable(3, false);
 
       // table
       var table = new qx.ui.table.Table(tableModel);
+      TABLE = table;
 
       table.set({
         width: 600,
@@ -71,7 +73,7 @@ qx.Class.define("demobrowser.demo.table.Table",
       tcm.setDataCellRenderer(3, new qx.ui.table.cellrenderer.Boolean());
 
       // use a different header renderer
-      tcm.setHeaderCellRenderer(1, new qx.ui.table.headerrenderer.Icon("icon/16/apps/office-calendar.png", "A date"));
+      tcm.setHeaderCellRenderer(2, new qx.ui.table.headerrenderer.Icon("icon/16/apps/office-calendar.png", "A date"));
 
       return table;
     },
