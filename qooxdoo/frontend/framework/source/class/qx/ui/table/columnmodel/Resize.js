@@ -204,7 +204,7 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
       menu.add(o);
 
       // Add a button to reset the column widths
-      o = new qx.ui.menu.Button("Reset column widths", icon);
+      o = new qx.ui.menu.Button(this.tr("Reset column widths"), icon);
       menu.add(o);
       o.addEventListener("execute", this._onappear, this);
     },
