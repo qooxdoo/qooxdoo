@@ -20,7 +20,7 @@
 
 qx.Class.define("demobrowser.demo.util.PropertyEditor",
 {
-  extend : qx.ui.core.ScrollArea,
+  extend : qx.ui.core.AbstractScrollArea,
 
   construct : function()
   {
