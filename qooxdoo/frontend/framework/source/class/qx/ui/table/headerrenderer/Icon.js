@@ -94,8 +94,6 @@ qx.Class.define("qx.ui.table.headerrenderer.Icon",
     // overridden
     updateHeaderCell : function(cellInfo, cellWidget)
     {
-      this.base(arguments, cellInfo, cellWidget);
-
       // Set URL to icon
       var img = cellWidget.getUserData("qx_ui_table_IconHeaderCellRenderer_icon");
 
@@ -107,6 +105,8 @@ qx.Class.define("qx.ui.table.headerrenderer.Icon",
       }
 
       img.setSource(this.getIconUrl());
+      
+      this.base(arguments, cellInfo, cellWidget);      
     }
   }
 });
