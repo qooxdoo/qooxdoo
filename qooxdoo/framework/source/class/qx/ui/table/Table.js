@@ -1244,6 +1244,9 @@ qx.Class.define("qx.ui.table.Table",
      */
     setFocusedCell : function(col, row, scrollVisible)
     {
+      row = row || this._focusedRow;
+      col = col || this._focusedCol;
+
       if (!this.isEditing() && (col != this._focusedCol || row != this._focusedRow))
       {
         this._focusedCol = col;

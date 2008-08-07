@@ -16,7 +16,7 @@
     "CACHE"        : "../../cache",
     "QOOXDOO_PATH" : "../../framework",
     "QOOXDOO_URI"  : "../${QOOXDOO_PATH}",
-    "THEME"        : "qx.theme.Modern",
+    "THEME"        : "demobrowser.Theme",
     "PYTHON"       : "python"
   },
 
