@@ -21,7 +21,7 @@
 
 /* ************************************************************************
 
-#asset(qx/icon/${qx.icontheme}/16/apps/accessories-text-editor.png)
+#asset(qx/icon/${qx.icontheme}/16/apps/utilities-text-editor.png)
 
 ************************************************************************ */
 
@@ -45,7 +45,7 @@ qx.Class.define("demobrowser.demo.widget.GroupBox",
 
 
       // create the first group box
-      var box1 = new qx.ui.groupbox.GroupBox("Code Assist", "icon/16/apps/accessories-text-editor.png");
+      var box1 = new qx.ui.groupbox.GroupBox("Code Assist", "icon/16/apps/utilities-text-editor.png");
       container.add(box1);
 
       // create and add the content of the first group box

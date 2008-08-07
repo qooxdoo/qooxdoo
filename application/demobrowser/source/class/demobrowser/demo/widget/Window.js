@@ -23,7 +23,7 @@
 #asset(qx/icon/${qx.icontheme}/16/apps/office-calendar.png)
 #asset(qx/icon/${qx.icontheme}/32/apps/office-address-book.png)
 #asset(qx/icon/${qx.icontheme}/16/apps/internet-feed-reader.png)
-#asset(qx/icon/${qx.icontheme}/22/apps/accessories-calculator.png)
+#asset(qx/icon/${qx.icontheme}/22/apps/utilities-calculator.png)
 #asset(qx/icon/${qx.icontheme}/22/apps/graphics-viewer.png)
 #asset(qx/icon/${qx.icontheme}/22/apps/preferences-wallpaper.png)
 #asset(qx/icon/${qx.icontheme}/16/apps/internet-telephony.png)
@@ -89,7 +89,7 @@ qx.Class.define("demobrowser.demo.widget.Window",
       win.open();
       this.getRoot().add(win, {left:350, top:120});
 
-      var atom = new qx.ui.basic.Atom("The second window", "icon/22/apps/accessories-calculator.png");
+      var atom = new qx.ui.basic.Atom("The second window", "icon/22/apps/utilities-calculator.png");
       win.add(atom);
 
 

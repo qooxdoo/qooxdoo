@@ -21,8 +21,8 @@
 /* ************************************************************************
 
 #asset(qx/icon/${qx.icontheme}/16/apps/utilities-terminal.png)
-#asset(qx/icon/${qx.icontheme}/16/apps/accessories-notes.png)
-#asset(qx/icon/${qx.icontheme}/16/apps/accessories-calculator.png)
+#asset(qx/icon/${qx.icontheme}/16/apps/utilities-notes.png)
+#asset(qx/icon/${qx.icontheme}/16/apps/utilities-calculator.png)
 #asset(qx/icon/${qx.icontheme}/16/apps/help-browser.png)
 #asset(qx/icon/${qx.icontheme}/16/apps/utilities-terminal.png)
 #asset(qx/icon/${qx.icontheme}/32/apps/utilities-terminal.png)
@@ -65,14 +65,14 @@ qx.Class.define("demobrowser.demo.widget.TabView",
 
 
       ////////////////// TEST PAGE 2 ////////////////////
-      var page2 = new qx.ui.tabview.Page("Notes", "icon/16/apps/accessories-notes.png");
+      var page2 = new qx.ui.tabview.Page("Notes", "icon/16/apps/utilities-notes.png");
       page2.setLayout(new qx.ui.layout.VBox());
       page2.add(new qx.ui.basic.Label("Notes..."));
       tabView.add(page2);
 
 
       ////////////////// TEST PAGE 3 ////////////////////
-      var page3 = new qx.ui.tabview.Page("Calculator", "icon/16/apps/accessories-calculator.png");
+      var page3 = new qx.ui.tabview.Page("Calculator", "icon/16/apps/utilities-calculator.png");
       page3.setLayout(new qx.ui.layout.VBox());
       page3.add(new qx.ui.basic.Label("Calculator..."));
       tabView.add(page3);
