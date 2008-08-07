@@ -73,7 +73,9 @@ qx.Class.define("demobrowser.DemoBrowser",
 
     // Main Pane
     // split
-    var mainsplit = new qx.ui.splitpane.Pane("horizontal");
+    var mainsplit = new qx.ui.splitpane.Pane("horizontal").set({
+      appearance: "main-splitpane"
+    });
     this.mainsplit = mainsplit;
     this.add(mainsplit, {flex : 1});
 
@@ -464,7 +466,9 @@ qx.Class.define("demobrowser.DemoBrowser",
       }
 
 
-      var bar = new qx.ui.toolbar.ToolBar();
+      var bar = new qx.ui.toolbar.ToolBar().set({
+        appearance: "demo-menubar"
+      });
       for (var i=0; i<menuData.length; i++)
       {
         var btn = new qx.ui.toolbar.MenuButton(menuData[i].label);
@@ -483,9 +487,9 @@ qx.Class.define("demobrowser.DemoBrowser",
      */
     __makeToolbar : function()
     {
-      var toolbar = new qx.ui.toolbar.ToolBar;
-//      toolbar.setBorder("line-bottom");
-      toolbar.setHeight(27);
+      var toolbar = new qx.ui.toolbar.ToolBar().set({
+        appearance: "demo-toolbar"
+      });
 
       var mb = new qx.ui.toolbar.Part();
       toolbar.add(mb);
@@ -664,12 +668,12 @@ qx.Class.define("demobrowser.DemoBrowser",
       this.widgets["outputviews"] = tabview;
 
       // First Page
-      var p1 = new qx.ui.tabview.Page("Start", "icon/16/actions/system-run.png");
+      var p1 = new qx.ui.tabview.Page("Start");
       p1.setLayout(new qx.ui.layout.Grow);
       tabview.add(p1);
 
       var f1 = new qx.ui.embed.Iframe().set({
-        decorator : null
+        appearance : "demo-frame"
       });
       f1.addListener("load", this.__ehIframeLoaded, this);
       this.f1 = f1;
@@ -677,9 +681,10 @@ qx.Class.define("demobrowser.DemoBrowser",
       this.widgets["outputviews.demopage.page"] = f1;
 
       // Second Page
-      var p2 = new qx.ui.tabview.Page("Log", "icon/16/mimetypes/text-plain.png");
+      var p2 = new qx.ui.tabview.Page("Log", "icon/16/mimetypes/text-plain.png").set({
+        appearance: "log-page"
+      });
       p2.getButton().addListener("click", this.__fetchLog, this);
-      p2.setBackgroundColor("white");
       p2.setLayout(new qx.ui.layout.Grow);
       tabview.add(p2);
 
@@ -703,8 +708,9 @@ qx.Class.define("demobrowser.DemoBrowser",
 
       // Third Page
       // -- Tab Button
-      var p3 = new qx.ui.tabview.Page("HTML Code", "icon/16/mimetypes/text-html.png");
-      p3.setBackgroundColor("white");
+      var p3 = new qx.ui.tabview.Page("HTML Code", "icon/16/mimetypes/text-html.png").set({
+        appearance: "html-page"
+      })
       p3.setLayout(new qx.ui.layout.Grow);
       tabview.add(p3);
 
@@ -720,8 +726,9 @@ qx.Class.define("demobrowser.DemoBrowser",
 
 
       // -- Tab Pane
-      var p4 = new qx.ui.tabview.Page("JavaScript Code", "icon/16/mimetypes/office-spreadsheet.png");
-      p4.setBackgroundColor("white");
+      var p4 = new qx.ui.tabview.Page("JavaScript Code", "icon/16/mimetypes/office-spreadsheet.png").set({
+        appearance: "code-page"
+      });
       p4.setLayout(new qx.ui.layout.Grow);
       tabview.add(p4);
 
@@ -747,12 +754,12 @@ qx.Class.define("demobrowser.DemoBrowser",
     __makeLeft : function()
     {
 
-      var tree1 = new qx.ui.tree.Tree;
+      var tree1 = new qx.ui.tree.Tree().set({
+        appearance: "demo-tree"
+      });
       var root = new qx.ui.tree.TreeFolder("Demos");
       tree1.setRoot(root);
       tree1.select(root);
-      tree1.setWidth(200);
-      tree1.setDecorator(null);
 
       this.tree = this.widgets["treeview.flat"] = tree1;
 
@@ -1012,7 +1019,7 @@ qx.Class.define("demobrowser.DemoBrowser",
         {
           var category = split[0];
           category = category.charAt(0).toUpperCase() + category.substring(1);
-          var pagename = split[1].replace(".html", "").replace(/_/g, " ");
+          var pagename = split[1].replace(".html", "").replace("_", " ");
           pagename = pagename.charAt(0).toUpperCase() + pagename.substring(1);
           var title = "qooxdoo " + div + " Demo Browser " + div + " " + category + " " + div + " " + pagename;
         }
@@ -1282,7 +1289,7 @@ qx.Class.define("demobrowser.DemoBrowser",
 
     __beautySource : function (src, type)
     {
-      var bsrc = "<pre>";
+      var bsrc = "<pre class='script'>";
       var lines = [];
       var currBlock = ""
       var PScriptStart = /^\s*<script\b[^>]*?(?!\bsrc\s*=)[^>]*?>\s*$/i;
@@ -1294,7 +1301,7 @@ qx.Class.define("demobrowser.DemoBrowser",
 
       // if the source is a javascript file
       if (type == "javascript") {
-        return "<pre><div class='script'>" +
+        return "<pre ><div class='script'>" +
                      qx.dev.Tokenizer.javaScriptToHtml(src) +
                      "</div></pre>";
       }

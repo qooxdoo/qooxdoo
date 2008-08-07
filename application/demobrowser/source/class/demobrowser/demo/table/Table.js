@@ -23,6 +23,7 @@
 #asset(qx/icon/${qx.icontheme}/22/actions/list-remove.png)
 #asset(qx/icon/${qx.icontheme}/22/actions/edit-undo.png)
 #asset(qx/icon/${qx.icontheme}/22/status/dialog-information.png)
+#asset(qx/icon/${qx.icontheme}/16/apps/office-calendar.png)
 
 ************************************************************************ */
 
@@ -54,7 +55,6 @@ qx.Class.define("demobrowser.demo.table.Table",
       tableModel.setColumnEditable(1, true);
       tableModel.setColumnEditable(2, true);
 
-
       // table
       var table = new qx.ui.table.Table(tableModel);
 
@@ -65,10 +65,14 @@ qx.Class.define("demobrowser.demo.table.Table",
 
       table.getSelectionModel().setSelectionMode(qx.ui.table.selection.Model.MULTIPLE_INTERVAL_SELECTION);
 
-      // Display a checkbox in column 3
       var tcm = table.getTableColumnModel();
 
+      // Display a checkbox in column 3
       tcm.setDataCellRenderer(3, new qx.ui.table.cellrenderer.Boolean());
+
+      // use a different header renderer
+      tcm.setHeaderCellRenderer(1, new qx.ui.table.headerrenderer.Icon("icon/16/apps/office-calendar.png", "A date"));
+
       return table;
     },
 

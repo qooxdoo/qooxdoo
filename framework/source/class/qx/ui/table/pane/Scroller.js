@@ -987,9 +987,9 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       var row = this._getRowForPagePos(pageX, pageY);
       var col = this._getColumnForPageX(pageX);
 
-      if (row !== null && col !== null)
+      if (row !== null)
       {
-        // The focus indicagtor blocks the click event on the scroller so we
+        // The focus indicator blocks the click event on the scroller so we
         // store the current cell and listen for the mouseup event on the
         // focus indicator
         this._lastMouseDownCell = {
@@ -1419,10 +1419,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       {
         // The mouse is over the data -> update the focus
         var col = this._getColumnForPageX(pageX);
-
-        if (col != null) {
-          this._table.setFocusedCell(col, row);
-        }
+        this._table.setFocusedCell(col, row);
       }
     },
 
