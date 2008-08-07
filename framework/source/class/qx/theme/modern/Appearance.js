@@ -1856,6 +1856,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
+          minWidth : 40,
           padding   : [ 3, 4 ],
           marginBottom : states.hovered ? 0 : 1,
           decorator : states.hovered ? "table-header-cell-hovered" : "table-header-cell",
@@ -1866,13 +1867,37 @@ qx.Theme.define("qx.theme.modern.Appearance",
       }
     },
 
+    "table-header-cell/label" :
+    {
+      style : function(states)
+      {
+        return {
+          minWidth : 0,
+          alignY : "middle",
+          paddingRight : 5
+        }
+      }
+    },
+
     "table-header-cell/sort-icon" :
     {
       style : function(states)
       {
         return {
           alignY : "middle",
-          padding : [0, 3, 0, 0]
+          alignX : "right"
+        }
+      }
+    },
+
+    "table-header-cell/icon" :
+    {
+      style : function(states)
+      {
+        return {
+          minWidth : 0,
+          alignY : "middle",
+          paddingRight : 5
         }
       }
     },
