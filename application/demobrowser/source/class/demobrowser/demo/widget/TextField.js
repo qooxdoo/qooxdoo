@@ -50,7 +50,7 @@ qx.Class.define("demobrowser.demo.widget.TextField",
 
       var input4 = new qx.ui.form.TextField("Web 2.0").set({
         font: qx.bom.Font.fromString("20px sans-serif"),
-        padding: 7
+        padding: 6
       });
       container.add(input4);
 
@@ -67,10 +67,6 @@ qx.Class.define("demobrowser.demo.widget.TextField",
       });
       container.add(input10);
 
-      var input11 = new qx.ui.form.TextField("large font").set({
-        font : qx.bom.Font.fromString("24px sans-serif")
-      });
-      container.add(input11);
 
 
 
