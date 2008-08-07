@@ -1233,10 +1233,11 @@ qx.Class.define("qx.ui.table.Table",
 
 
     /**
-     * Sets the currently focused cell.
+     * Sets the currently focused cell. A value of <code>null</code> hides the
+     * focus cell.
      *
-     * @param col {Integer} the model index of the focused cell's column.
-     * @param row {Integer} the model index of the focused cell's row.
+     * @param col {Integer?null} the model index of the focused cell's column.
+     * @param row {Integer?null} the model index of the focused cell's row.
      * @param scrollVisible {Boolean ? false} whether to scroll the new focused cell
      *          visible.
      * @return {void}
@@ -1244,9 +1245,6 @@ qx.Class.define("qx.ui.table.Table",
      */
     setFocusedCell : function(col, row, scrollVisible)
     {
-      row = row || this._focusedRow;
-      col = col || this._focusedCol;
-
       if (!this.isEditing() && (col != this._focusedCol || row != this._focusedRow))
       {
         this._focusedCol = col;
@@ -1258,10 +1256,20 @@ qx.Class.define("qx.ui.table.Table",
           scrollerArr[i].setFocusedCell(col, row);
         }
 
-        if (scrollVisible) {
+        if (col != null && scrollVisible) {
           this.scrollCellVisible(col, row);
         }
       }
+    },
+
+
+    clearSelection : function() {
+      this.getSelectionModel().clearSelection();
+    },
+
+
+    resetCellFocus : function() {
+      this.setFocusedCell(null, null, false);
     },
 
 
