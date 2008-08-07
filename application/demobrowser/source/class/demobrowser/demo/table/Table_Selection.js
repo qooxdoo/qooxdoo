@@ -84,6 +84,34 @@ qx.Class.define("demobrowser.demo.table.Table_Selection",
       var bar = new qx.ui.toolbar.ToolBar();
       var button, part, checkBox;
 
+
+      part = new qx.ui.toolbar.Part();
+      bar.add(part);
+
+      selectBox = new qx.ui.form.SelectBox().set({
+        allowGrowY: false,
+        alignY: "middle"
+      });
+      var Model = qx.ui.table.selection.Model;
+      var selections = {
+        "Single selection" : Model.SINGLE_SELECTION,
+        "Single interval" : Model.SINGLE_INTERVAL_SELECTION,
+        "Multiple intervals" : Model.MULTIPLE_INTERVAL_SELECTION,
+        "Multiple intervals (toggle)" : Model.MULTIPLE_INTERVAL_SELECTION_TOGGLE,
+        "No selection" : Model.NO_SELECTION
+      };
+      for (var key in selections)
+      {
+        selectBox.add(new qx.ui.form.ListItem(key).set({
+          value: selections[key] + ""
+        }));
+      }
+      selectBox.addListener("changeValue", function(e) {
+        this._table.getSelectionModel().setSelectionMode(parseInt(selectBox.getValue()));
+      }, this);
+      part.add(selectBox);
+
+
       part = new qx.ui.toolbar.Part();
       bar.add(part);
 
@@ -119,6 +147,12 @@ qx.Class.define("demobrowser.demo.table.Table_Selection",
       }, this);
       part.add(button);
 
+      var btnHideCellFocus = new qx.ui.toolbar.CheckBox("Hide Cell Focus");
+      btnHideCellFocus.addListener("changeChecked", function(evt) {
+        this._table.setShowCellFocusIndicator(!btnHideCellFocus.isChecked());
+      }, this);
+      part.add(btnHideCellFocus);
+
       button = new qx.ui.toolbar.Button("Show selection", "icon/22/status/dialog-information.png");
       button.addListener("execute", function(evt)
       {
@@ -129,34 +163,6 @@ qx.Class.define("demobrowser.demo.table.Table_Selection",
         this.showDialog("Selected rows:<br>" + selection.join(", "));
       }, this);
       part.add(button);
-
-
-      part = new qx.ui.toolbar.Part();
-      bar.add(part);
-
-      selectBox = new qx.ui.form.SelectBox().set({
-        allowGrowY: false,
-        alignY: "middle"
-      });
-      var Model = qx.ui.table.selection.Model;
-      var selections = {
-        "Single selection" : Model.SINGLE_SELECTION,
-        "Single interval" : Model.SINGLE_INTERVAL_SELECTION,
-        "Multiple intervals" : Model.MULTIPLE_INTERVAL_SELECTION,
-        "Multiple intervals (toggle)" : Model.MULTIPLE_INTERVAL_SELECTION_TOGGLE,
-        "No selection" : Model.NO_SELECTION
-      };
-      for (var key in selections)
-      {
-        selectBox.add(new qx.ui.form.ListItem(key).set({
-          value: selections[key] + ""
-        }));
-      }
-      selectBox.addListener("changeValue", function(e) {
-        this._table.getSelectionModel().setSelectionMode(parseInt(selectBox.getValue()));
-      }, this);
-      part.add(selectBox);
-
 
       return bar;
     }

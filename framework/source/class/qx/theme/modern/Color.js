@@ -31,14 +31,14 @@ qx.Theme.define("qx.theme.modern.Color",
     "background" : "#dfdfdf",
     "background-light" : "#F2F2F2",
 
-    // TODO: adjust these colors to Modern theme 
+    // TODO: adjust these colors to Modern theme
     "background-focused" : "#F3F8FD",
     "background-focused-inner" : "#DBEAF9",
     "background-disabled" : "#F4F4F4",
     "background-selected" : "#3E6CA8",
     "background-field" : "white",
-    
-    
+
+
     // TODO: adjust these colors to Modern theme (used for datefield-button)
     "background-focused" : "#F3F8FD",
     "background-disabled" : "#F4F4F4",
@@ -59,7 +59,7 @@ qx.Theme.define("qx.theme.modern.Color",
     "border-light-shadow" : "#DCDFE4",
     "border-dark-shadow" : "#4d4d4d",
     "border-dark" : "#85878C",
-    
+
     // TODO: adjust these colors to the Modern theme!
     "border-focused-light" : "#BCCEE5",
     "border-focused-light-shadow" : "#A5BDDE",
@@ -73,18 +73,18 @@ qx.Theme.define("qx.theme.modern.Color",
 
     "selected" : "#00439d",
     "selected-inactive" : "#7a9bc8",
-    
+
     // TODO
     "button" : "#EBE9ED",
     "button-hovered" : "#F6F5F7",
     "button-abandoned" : "#F9F8E9",
     "button-checked" : "#F3F0F5",
-    
+
     "date-chooser" : "#F2F2F2",
     "date-chooser-title" : "#00439d",
-    
+
     "table-pane" : "white",
-    
+
     // TODO: check these four colors
     "table-focus-indicator" : "#0073FF",
     "table-row-background-focused-selected" : "#084CA6",
@@ -95,6 +95,9 @@ qx.Theme.define("qx.theme.modern.Color",
     "table-row-background-odd" : "#E4E4E4",
     "table-row-selected" : "white",
     "table-row" : "#1a1a1a",
+
+    "table-row-line" : "#EEE",
+    "table-column-line" : "#EEE",
 
     // no impact (decorators with backgroundImages are used)
     "effect" : [ 254, 200, 60 ],
