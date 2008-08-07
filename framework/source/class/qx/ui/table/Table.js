@@ -1263,11 +1263,17 @@ qx.Class.define("qx.ui.table.Table",
     },
 
 
+    /**
+     * Clears the current selection
+     */
     clearSelection : function() {
       this.getSelectionModel().clearSelection();
     },
 
 
+    /**
+     * Resets the focused cell.
+     */
     resetCellFocus : function() {
       this.setFocusedCell(null, null, false);
     },
