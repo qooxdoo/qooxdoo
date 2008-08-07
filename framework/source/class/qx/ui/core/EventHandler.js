@@ -199,7 +199,7 @@ qx.Class.define("qx.ui.core.EventHandler",
 
 
       var currentWidget = qx.ui.core.Widget.getWidgetByElement(currentTarget);
-      if (!currentWidget || currentWidget.getAnonymous()) {
+      if (!currentWidget || currentWidget.isAnonymous()) {
         return;
       }
 
