@@ -34,7 +34,7 @@ qx.Class.define("qx.ui.control.ColorPopup",
   *****************************************************************************
   */
 
-  construct : function(tables)
+  construct : function()
   {
     this.base(arguments);
     
@@ -45,8 +45,6 @@ qx.Class.define("qx.ui.control.ColorPopup",
       backgroundColor : "white"
     });
 
-
-    this._tables = tables;
     this._createAutoBtn();
     this._createBoxes();
 
@@ -303,6 +301,11 @@ qx.Class.define("qx.ui.control.ColorPopup",
      */
     _rotatePreviousColors : function()
     {
+      
+      if(!this._tables){
+        return;
+      }
+      
       var vRecentTable = this._tables[this._recentTableId].values;
       var vRecentBox = this._boxes[this._recentTableId];
 
@@ -431,6 +434,21 @@ qx.Class.define("qx.ui.control.ColorPopup",
      */
     _onColorSelectorCancel : function(e) {
       this._colorSelectorWindow.close();
+    },
+
+    _tables :
+    {
+      core :
+      {
+        label : "Basic Colors",
+        values : [ "#000", "#333", "#666", "#999", "#CCC", "#FFF", "red", "green", "blue", "yellow", "teal", "maroon" ]
+      },
+
+      recent :
+      {
+        label : "Recent Colors",
+        values : [ ]
+      }
     }
 
   },

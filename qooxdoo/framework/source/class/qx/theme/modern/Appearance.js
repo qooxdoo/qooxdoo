@@ -27,6 +27,7 @@
 #asset(qx/icon/Tango/16/places/folder.png)
 #asset(qx/icon/Tango/16/mimetypes/text-plain.png)
 #asset(qx/icon/Tango/16/apps/office-calendar.png)
+#asset(qx/icon/Tango/16/apps/utilities-color-chooser.png)
 #asset(qx/decoration/Modern/*)
 
 ************************************************************************* */
@@ -404,6 +405,41 @@ qx.Theme.define("qx.theme.modern.Appearance",
     "datefield/list" : {
       alias : "datechooser",
       include : "datechooser",
+
+      style : function(states) {
+        return {
+          decorator : states.focused ? "focused-inset" : "inset"
+        }
+      }
+    },
+
+
+    /*
+    ---------------------------------------------------------------------------
+      COLORFIELD
+    ---------------------------------------------------------------------------
+    */
+    "colorfield" : "combobox",
+
+    "colorfield/button" :
+    {
+      alias : "combobox/button",
+      include : "combobox/button",
+
+      style : function(states)
+      {
+        return {
+          icon : "icon/16/apps/utilities-color-chooser.png",
+          padding : [0, 3],
+          backgroundColor : states.disabled ? "background-disabled" : states.focused ? "background-focused" : "background-field",
+          decorator : "undefined"
+        };
+      }
+    },
+
+    "colorfield/list" : {
+      alias : "list",
+      include : "list",
 
       style : function(states) {
         return {
