@@ -391,7 +391,41 @@ class Lint:
                             self.log(child, "Map key '%s' redefined." % key)
                         else:
                             knownkeys[key] = child
-
+                          
+                            
+    def checkFields(self):        
+        define = treeutil.findQxDefine(self.tree)
+        classMapNode = treeutil.selectNode(define, "params/2")
+        if classMapNode is None:
+            return
+        
+        classMap = treeutil.mapNodeToMap(classMapNode)
+        if not classMap.has_key("members"):
+            return
+        
+        members = treeutil.mapNodeToMap(classMap["members"].children[0])       
+        restricted = [key for key in members if key.startswith("_")]
+                
+        assignNodes = [node for node in nodeIterator(classMap["members"], "assignment")]
+        if classMap.has_key("construct"):
+            for node in nodeIterator(classMap["construct"], "assignment"):
+                assignNodes.append(node)
+        
+        for node in assignNodes:
+            field = treeutil.selectNode(node, "left/variable/identifier[2]/@name")
+            if field is None:
+                continue
+            
+            if field[0] != "_":
+                continue
+            elif field[1] == "_":
+                prot = "private"
+            else:
+                prot = "protected"
+            
+            if not field in restricted:
+                self.log(node, "Implicit declatation of %s field '%s'. You should list this filed in the members section." % (prot, field))
+        
 
 
     def checkUnusedVariables(self):
@@ -487,7 +521,7 @@ def main(argv=None):
     parser = OptionParser(description="Checks ECMAScript/JavaScript files for common errors.")
     parser.add_option(
         "--action", "-a", dest="actions", metavar="ACTION",
-        choices=["ALL", "undefined_variables", "unused_variables", "maps", "blocks"], action="append", default=[],
+        choices=["ALL", "undefined_variables", "unused_variables", "maps", "blocks", "fields"], action="append", default=[],
         help="""Performs the given checks on the input files. This parameter may be supplied multiple times.
 Valid arguments are: "ALL" (default): Perform all checks
 "undefined_variables": Look for identifier, which are referenced in the global scope. This action can find
@@ -523,6 +557,9 @@ misspelled identifier and missing 'var' statements. You can use the '-g' flag to
 
         if checkAll or "blocks" in options.actions:
             lint.checkRequiredBlocks()
+            
+        if checkAll or "fields" in options.actions:
+            lint.checkFields()            
             
 
 
