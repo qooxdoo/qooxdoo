@@ -39,8 +39,11 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Icon",
   {
     this.base(arguments);
 
-    this.IMG_BLANK_URL =
-      qx.util.AliasManager.getInstance().resolve("static/image/blank.gif");
+    var aliasManager = qx.util.AliasManager.getInstance();
+    var resourceManager = qx.util.ResourceManager;
+    var blankImg = aliasManager.resolve("static/image/blank.gif");
+
+    this.IMG_BLANK = resourceManager.toUri(blankImg);
   },
 
 
@@ -94,7 +97,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Icon",
       var ret =
         this.base(arguments, cellInfo) +
         "text-align:center;" +
-        "padding-top:1px;";
+        "vertical-align:middle;";
       return ret;
     },
 
@@ -114,10 +117,10 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Icon",
       html.push('<img ');
 
       // Add magic to make png images work in IE
-      if (qx.core.Client.getInstance().isMshtml() &&
+      if (qx.core.Variant.isSet("qx.client", "mshtml") &&
           /\.png$/i.test(imageData.url))
       {
-        html.push('src="', this.IMG_BLANK_URL, '" style="filter:',
+        html.push('src="', this.IMG_BLANK, '" style="filter:',
                   "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='",
                   imageData.url,
                   "',sizingMethod='scale')",
@@ -141,6 +144,9 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Icon",
         // ... then add it.
         html.push(" height='", imageData.imageHeight, "px'");
       }
+
+      // Move the image off of the top border
+      html.push(" style='padding-top:2px;'");
 
       // If a tooltip is specified...
       if (imageData.tooltip)
