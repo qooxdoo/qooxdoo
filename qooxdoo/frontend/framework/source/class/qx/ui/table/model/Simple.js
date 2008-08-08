@@ -315,7 +315,7 @@ qx.Class.define("qx.ui.table.model.Simple",
      * @type member
      * @return {void}
      */
-    _clearSorting : function()
+    clearSorting : function()
     {
       if (this._sortColumnIndex != -1)
       {
@@ -373,7 +373,7 @@ qx.Class.define("qx.ui.table.model.Simple",
         }
 
         if (columnIndex == this._sortColumnIndex) {
-          this._clearSorting();
+          this.clearSorting();
         }
       }
     },
@@ -399,7 +399,7 @@ qx.Class.define("qx.ui.table.model.Simple",
       }
 
     if (clearSorting) {
-      this._clearSorting();
+      this.clearSorting();
     }
     },
 
@@ -469,7 +469,7 @@ qx.Class.define("qx.ui.table.model.Simple",
       };
       this.createDispatchDataEvent(qx.ui.table.ITableModel.EVENT_TYPE_DATA_CHANGED, data);
 
-      this._clearSorting();
+      this.clearSorting();
     },
 
 
@@ -515,7 +515,7 @@ qx.Class.define("qx.ui.table.model.Simple",
 
       this.createDispatchDataEvent(qx.ui.table.ITableModel.EVENT_TYPE_DATA_CHANGED, data);
 
-      this._clearSorting();
+      this.clearSorting();
     },
 
 
