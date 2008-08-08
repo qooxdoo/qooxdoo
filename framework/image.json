@@ -354,6 +354,56 @@
                 "${RESPATH}/${MODERN}/toolbar/*.png"
               ],
              "layout" : "horizontal"
+          },
+          
+          // arrow images
+          "${RESPATH}/${MODERN}/arrows-combined.png":
+          {
+            "input"  : 
+              [
+                "${RESPATH}/${MODERN}/arrows/*.png"
+              ],
+             "layout" : "horizontal"
+          },
+          
+          // tree images
+          "${RESPATH}/${MODERN}/tree-combined.png":
+          {
+            "input"  : 
+              [
+                "${RESPATH}/${MODERN}/tree/*.png"
+              ],
+             "layout" : "horizontal"
+          },
+          
+          // menu images
+          "${RESPATH}/${MODERN}/menu-combined.png":
+          {
+            "input"  : 
+              [
+                "${RESPATH}/${MODERN}/menu/*.png"
+              ],
+             "layout" : "horizontal"
+          },
+          
+          // table images
+          "${RESPATH}/${MODERN}/table-combined.png":
+          {
+            "input"  : 
+              [
+                "${RESPATH}/${MODERN}/table/*.png"
+              ],
+             "layout" : "horizontal"
+          },
+          
+          // colorselector images
+          "${RESPATH}/${MODERN}/colorselector-combined.png":
+          {
+            "input"  : 
+              [
+                "${RESPATH}/${MODERN}/colorselector/*.*"
+              ],
+             "layout" : "horizontal"
           }
         }
       }
