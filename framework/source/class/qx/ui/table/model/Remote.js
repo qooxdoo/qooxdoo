@@ -690,7 +690,7 @@ qx.Class.define("qx.ui.table.model.Remote",
 
       if (rowData == null) {
         // row has not yet been loaded or does not exist
-        return null;
+        return;
       }
       else
       {
