@@ -259,7 +259,6 @@ qx.Class.define("qx.ui.control.ColorPopup",
       this._colorSelector.addListener("dialogcancel", this._onColorSelectorCancel, this);
 
       this._colorSelectorWindow.add(this._colorSelector);
-      this._parent.add(this._colorSelectorWindow);
     },
 
     /*
