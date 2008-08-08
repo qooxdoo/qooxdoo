@@ -178,12 +178,12 @@ qx.Class.define("demobrowser.demo.widget.Window",
       resizeMove.setLayout(new qx.ui.layout.VBox(4));
       box.add(resizeMove, {flex:1});
 
-      var resizeable = new qx.ui.form.CheckBox("Resizeable");
-      resizeable.setChecked(true);
-      resizeable.addListener("changeChecked", function(e) {
+      var resizable = new qx.ui.form.CheckBox("Resizable");
+      resizable.setChecked(true);
+      resizable.addListener("changeChecked", function(e) {
         win.setResizable(e.getData());
       });
-      resizeMove.add(resizeable);
+      resizeMove.add(resizable);
 
       var resizeFrame = new qx.ui.form.CheckBox("Use resize frame");
       resizeFrame.setChecked(true);
@@ -200,12 +200,12 @@ qx.Class.define("demobrowser.demo.widget.Window",
       resizeMove.add(resizeAll);
 
 
-      var moveable = new qx.ui.form.CheckBox("Moveable");
-      moveable.setChecked(true);
-      moveable.addListener("changeChecked", function(e) {
-        win.setMoveable(e.getData());
+      var movable = new qx.ui.form.CheckBox("Movable");
+      movable.setChecked(true);
+      movable.addListener("changeChecked", function(e) {
+        win.setMovable(e.getData());
       });
-      resizeMove.add(moveable);
+      resizeMove.add(movable);
 
       var moveFrame = new qx.ui.form.CheckBox("Use move frame");
       moveFrame.addListener("changeChecked", function(e) {
