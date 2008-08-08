@@ -156,7 +156,8 @@ class Generator:
                 # Reading configuration
                 partsCfg = self._config.get("packages/parts", {})
                 collapseCfg = self._config.get("packages/collapse", [])
-                sizeCfg = self._config.get("packages/size", 0)
+                minPackageSize = self._config.get("packages/size", 0)
+                minPackageSizeForUnshared = self._config.get("packages/sizeForUnshared", None)
                 boot = self._config.get("packages/init", "boot")
 
                 # Automatically add boot part to collapse list
@@ -170,7 +171,7 @@ class Generator:
                     partIncludes[partId] = self._expandRegExps(partsCfg[partId])
 
                 # Computing packages
-                parts, packages = self._partBuilder.getPackages(partIncludes, smartExclude, classList, collapseCfg, variants, sizeCfg)
+                parts, packages = self._partBuilder.getPackages(partIncludes, smartExclude, classList, collapseCfg, variants, minPackageSize, minPackageSizeForUnshared)
 
             else:
                 # Emulate configuration

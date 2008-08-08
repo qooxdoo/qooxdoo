@@ -27,7 +27,7 @@ class PartBuilder:
 
 
 
-    def getPackages(self, partIncludes, smartExclude, classList, collapseParts, variants, minPackageSize):
+    def getPackages(self, partIncludes, smartExclude, classList, collapseParts, variants, minPackageSize, minPackageSizeForUnshared):
         # Preprocess part data
         partBits = self._getPartBits(partIncludes)
         partDeps = self._getPartDeps(partIncludes, variants, smartExclude, classList)
@@ -44,7 +44,7 @@ class PartBuilder:
 
         # Optimize packages
         if minPackageSize != None and minPackageSize != 0:
-            self._optimizePackages(packageClasses, packageUsers, partPackages, variants, minPackageSize)
+            self._optimizePackages(packageClasses, packageUsers, partPackages, variants, minPackageSize, minPackageSizeForUnshared)
 
         self._printPartStats(packageClasses, partPackages)
 
@@ -216,7 +216,7 @@ class PartBuilder:
 
 
 
-    def _optimizePackages(self, packageClasses, packageUsers, partPackages, variants, minPackageSize):
+    def _optimizePackages(self, packageClasses, packageUsers, partPackages, variants, minPackageSize, minPackageSizeForUnshared):
         # Support for merging small packages
         # The first common package before the selected package between two
         # or more parts is allowed to merge with. As the package which should be merged
@@ -227,6 +227,9 @@ class PartBuilder:
         self._console.indent()
         self._console.debug("Minimum size: %sKB" % minPackageSize)
         self._console.indent()
+        
+        if minPackageSizeForUnshared == None:
+            minPackageSizeForUnshared = minPackageSize
 
         # Start at the end with the sorted list
         # e.g. merge 4->7 etc.
@@ -238,7 +241,9 @@ class PartBuilder:
         for fromId in packageIds:
             packageSize = self._computePackageSize(packageClasses, fromId, variants) / 1024
             self._console.debug("Package #%s: %sKB" % (fromId, packageSize))
-            if packageSize >= minPackageSize:
+            if (packageUsers[fromId] == 1) and (packageSize >= minPackageSizeForUnshared):
+                continue
+            if (packageUsers[fromId] > 1) and (packageSize >= minPackageSize):
                 continue
 
             toId = self._getPreviousCommonPackage(fromId, partPackages, packageUsers)
