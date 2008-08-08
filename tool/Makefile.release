@@ -49,7 +49,8 @@ RELEASE_BUILD = release/temp/build/qooxdoo-$(FRAMEWORK_VERSION)-build
 RELEASE_SDK = release/temp/sdk/qooxdoo-$(FRAMEWORK_VERSION)-sdk
 
 APPLICATIONS = demobrowser feedreader portal
-SDK_COPY = Makefile application/index.html
+COMPONENTS = apiviewer testrunner
+SDK_COPY = application/index.html
 
 
 
@@ -138,21 +139,28 @@ release-sdk-collect:
 	@echo "  * Synchronizing applications..."
 	@for APPLICATION in $(APPLICATIONS); do \
 		echo "    - $$APPLICATION"; \
-	  $(CMD_DIR) $(RELEASE_SDK)/frontend/application/$$APPLICATION; \
-	  $(CMD_SYNC_OFFLINE) --exclude script --exclude build --exclude publish application/$$APPLICATION/* $(RELEASE_SDK)/frontend/application/$$APPLICATION; \
+	  $(CMD_DIR) $(RELEASE_SDK)/application/$$APPLICATION; \
+	  $(CMD_SYNC_OFFLINE) --exclude script --exclude build --exclude publish application/$$APPLICATION/* $(RELEASE_SDK)/application/$$APPLICATION; \
+	done
+
+	@echo "  * Synchronizing components..."
+	@for APPLICATION in $(COMPONENTS); do \
+		echo "    - $$APPLICATION"; \
+	  $(CMD_DIR) $(RELEASE_SDK)/component/$$APPLICATION; \
+	  $(CMD_SYNC_OFFLINE) --exclude script --exclude build --exclude publish component/$$APPLICATION/* $(RELEASE_SDK)/component/$$APPLICATION; \
 	done
 
 	@echo "  * Synchronizing framework..."
-	@$(CMD_DIR) $(RELEASE_SDK)/frontend/framework
-	@$(CMD_SYNC_OFFLINE) --exclude *.pyo --exclude *.pyc --exclude .cache --exclude tool/icon/themes --exclude tool/icon/temp framework/* $(RELEASE_SDK)/frontend/framework
+	@$(CMD_DIR) $(RELEASE_SDK)/framework
+	@$(CMD_SYNC_OFFLINE) --exclude *.pyo --exclude *.pyc --exclude .cache --exclude tool/icon/themes --exclude tool/icon/temp framework/* $(RELEASE_SDK)/framework
 
 	@echo "  * Synchronizing tools..."
-	@$(CMD_DIR) $(RELEASE_SDK)/frontend/tool
-	@$(CMD_SYNC_OFFLINE) --exclude *.pyo --exclude *.pyc tool/* $(RELEASE_SDK)/frontend/tool
+	@$(CMD_DIR) $(RELEASE_SDK)/tool
+	@$(CMD_SYNC_OFFLINE) --exclude *.pyo --exclude *.pyc tool/* $(RELEASE_SDK)/tool
 
 	@echo "  * Copying remaining SDK files..."
 	@for ITEM in $(SDK_COPY); do \
-	  cp -rf $$ITEM $(RELEASE_SDK)/frontend/$$ITEM; \
+	  cp -rf $$ITEM $(RELEASE_SDK)/$$ITEM; \
 	done
 
 	@echo "  * Switching to Unix line endings..."
@@ -160,11 +168,11 @@ release-sdk-collect:
 
 release-sdk-archive:
 	@echo "  * Synchronizing quickstart & skeleton..."
-	@$(CMD_SYNC_OFFLINE) component/qooxdoo-$(FRAMEWORK_VERSION)-quickstart.zip $(RELEASE_SDK)/frontend/component/
-	@$(CMD_SYNC_OFFLINE) component/qooxdoo-$(FRAMEWORK_VERSION)-skeleton.zip $(RELEASE_SDK)/frontend/component/
+	@$(CMD_SYNC_OFFLINE) component/qooxdoo-$(FRAMEWORK_VERSION)-quickstart.zip $(RELEASE_SDK)/component/
+	@$(CMD_SYNC_OFFLINE) component/qooxdoo-$(FRAMEWORK_VERSION)-skeleton.zip $(RELEASE_SDK)/component/
 
 	@echo "  * Generating zip archive..."
-	@cd release/temp/sdk; $(CMD_REMOVE) ../../../qooxdoo-$(FRAMEWORK_VERSION)-sdk.zip; $(CMD_ZIP_CREATE) ../../../qooxdoo-$(FRAMEWORK_VERSION)-sdk.zip qooxdoo-$(FRAMEWORK_VERSION)-sdk
+	@cd release/temp/sdk; $(CMD_REMOVE) ../../../qooxdoo-$(FRAMEWORK_VERSION)-sdk.zip; $(CMD_ZIP_CREATE) ../../../qooxdoo-$(FRAMEWORK_VERSION)-sdk.zip release/qooxdoo-$(FRAMEWORK_VERSION)-sdk
 
 	@echo "  * Cleaning up..."
 	@rm -rf release/temp
@@ -295,6 +303,15 @@ exec-skeleton-archive:
 	@echo "  * Created component/qooxdoo-$(FRAMEWORK_VERSION)-skeleton.zip"
 
 
+################################################################################
+# BASIC TARGETS
+################################################################################
+distclean:
+	@for APPLICATION in $(APPLICATIONS); do ( cd application/$$APPLICATION && $(CMD_GENERATOR) distclean ) || exit 1; done
+	@for APPLICATION in $(COMPONENTS); do ( cd component/$$APPLICATION && $(CMD_GENERATOR) distclean ) || exit 1; done
+	@cd framework && $(CMD_GENERATOR) distclean
+	@$(CMD_REMOVE) application/*.zip
+	@$(CMD_REMOVE) release
 
 
 
