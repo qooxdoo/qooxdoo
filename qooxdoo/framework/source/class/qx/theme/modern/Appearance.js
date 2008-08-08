@@ -436,7 +436,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          padding   : [1, 0, 1, 0],
+          padding   : [1, 0, 1, 4],
           textColor : "#314a6e",
           font      : "bold"
         };
