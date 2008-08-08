@@ -133,13 +133,13 @@ qx.Mixin.define("qx.ui.core.MMovable",
      */
     __computeMoveCoordinates : function(e)
     {
-      var range = this._dragRange;
+      var range = this.__dragRange;
       var mouseLeft = Math.max(range.left, Math.min(range.right, e.getDocumentLeft()));
       var mouseTop = Math.max(range.top, Math.min(range.bottom, e.getDocumentTop()));
 
       return {
-        left : this._dragLeft + mouseLeft,
-        top : this._dragTop + mouseTop
+        left : this.__dragLeft + mouseLeft,
+        top : this.__dragTop + mouseTop
       };
     },
 
@@ -170,7 +170,7 @@ qx.Mixin.define("qx.ui.core.MMovable",
       var parentLocation = parent.getContentLocation();
       var parentBounds = parent.getBounds();
 
-      this._dragRange =
+      this.__dragRange =
       {
         left : parentLocation.left,
         top : parentLocation.top,
@@ -180,8 +180,8 @@ qx.Mixin.define("qx.ui.core.MMovable",
 
       // Compute drag positions
       var widgetLocation = this.getContainerLocation();
-      this._dragLeft = widgetLocation.left - e.getDocumentLeft();
-      this._dragTop = widgetLocation.top - e.getDocumentTop();
+      this.__dragLeft = widgetLocation.left - e.getDocumentLeft();
+      this.__dragTop = widgetLocation.top - e.getDocumentTop();
 
       // Add state
       this.addState("move");

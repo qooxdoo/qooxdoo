@@ -72,7 +72,7 @@ qx.Class.define("qx.ui.embed.Iframe",
     qx.event.Registration.addListener(document.body, "mouseup", this.release, this, true);
 
     this._blockerElement = this._createBlockerElement();
-    this._containerElement.add(this._blockerElement);
+    this.getContainerElement().add(this._blockerElement);
   },
 
 

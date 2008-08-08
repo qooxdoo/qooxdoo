@@ -497,6 +497,9 @@ qx.Class.define("qx.core.Object",
     ---------------------------------------------------------------------------
     */
 
+    /** {Map} stored user data */
+    __userData : null,
+
     /**
      * Store user defined data inside the object.
      *

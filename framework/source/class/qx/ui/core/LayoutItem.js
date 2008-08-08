@@ -326,6 +326,27 @@ qx.Class.define("qx.ui.core.LayoutItem",
     ---------------------------------------------------------------------------
     */
 
+    /** {Integer} The computed height */
+    __computedHeightForWidth : null,
+
+    /** {Map} The computed size of the layout item */
+    __computedLayout : null,
+
+    /** {Boolean} Whether the current layout is valid */
+    __hasInvalidLayout : null,
+
+    /** {Map} Chached size hint */
+    __sizeHint : null,
+
+    /** {Boolean} Whether the margins have changed and must be updated */
+    __updateMargin : null,
+
+    /** {Map} user provided bounds of the widget, which override the layout manager */
+    __userBounds : null,
+
+    /** {Map} The item's layout properties */
+    __layoutProperties : null,
+
     /**
      * Get the computed location and dimension as computed by
      * the layout manager.
@@ -354,7 +375,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
      *   always in pixels
      * @param height {Integer} Any positive integer value for the height,
      *   always in pixels
-     * @return {void}
+     * @return {Map} A map of which layout sizes changed.
      */
     renderLayout : function(left, top, width, height)
     {
@@ -378,7 +399,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
 
       if (flowHeight != null && flowHeight !== this.__computedHeightForWidth)
       {
-        // This variable is used in the next compution of the size hint
+        // This variable is used in the next computation of the size hint
         this.__computedHeightForWidth = flowHeight;
 
         // Re-add to layout queue
@@ -388,39 +409,43 @@ qx.Class.define("qx.ui.core.LayoutItem",
       }
 
       // Detect size changes
-      else
+
+      // Dynamically create data structure for computed layout
+      var computed = this.__computedLayout;
+      if (!computed) {
+        computed = this.__computedLayout = {};
+      }
+
+      // Detect changes
+      var changes = {};
+
+      if (left !== computed.left || top !== computed.top)
       {
-        // Dynamically create data structure for computed layout
-        var computed = this.__computedLayout;
-        if (!computed) {
-          computed = this.__computedLayout = {};
-        }
+        changes.position = true;
 
-        // Detect changes
-        var changes = {};
+        computed.left = left;
+        computed.top = top;
+      }
 
-        if (left !== computed.left || top !== computed.top)
-        {
-          changes.position = true;
+      if (width !== computed.width || height !== computed.height)
+      {
+        changes.size = true;
 
-          computed.left = left;
-          computed.top = top;
-        }
+        computed.width = width;
+        computed.height = height;
+      }
 
-        if (width !== computed.width || height !== computed.height)
-        {
-          changes.size = true;
+      // Clear invalidation marker
+      if (this.__hasInvalidLayout)
+      {
+        changes.local = true;
+        delete this.__hasInvalidLayout;
+      }
 
-          computed.width = width;
-          computed.height = height;
-        }
-
-        // Clear invalidation marker
-        if (this.__hasInvalidLayout)
-        {
-          changes.local = true;
-          delete this.__hasInvalidLayout;
-        }
+      if (this.__updateMargin)
+      {
+        changes.margin = true;
+        delete this.__updateMargin;
       }
 
       // Returns changes, especially for deriving classes
@@ -608,7 +633,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
     {
       this.__updateMargin = true;
 
-      var parent = this._parent;
+      var parent = this.$$parent;
       if (parent) {
         parent.updateLayoutProperties();
       }
@@ -618,7 +643,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
     // property apply
     _applyAlign : function()
     {
-      var parent = this._parent;
+      var parent = this.$$parent;
       if (parent) {
         parent.updateLayoutProperties();
       }
@@ -827,7 +852,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
      * @return {qx.ui.core.Widget|null} The parent.
      */
     getLayoutParent : function() {
-      return this._parent || null;
+      return this.$$parent || null;
     },
 
 
@@ -837,7 +862,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
      * @param parent {qx.ui.core.Widget|null} The new parent.
      */
     setLayoutParent : function(parent) {
-      this._parent = parent;
+      this.$$parent = parent;
     },
 
 
@@ -869,7 +894,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
           return parent;
         }
 
-        parent = parent._parent;
+        parent = parent.$$parent;
       }
 
       return null;
