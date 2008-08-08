@@ -50,10 +50,7 @@ qx.Class.define("demobrowser.demo.ui.Decoration_1",
       var layout = new qx.ui.layout.Grid();
       layout.setSpacing(10);
 
-      var box = new qx.ui.container.Composite(layout).set({
-        padding: 5,
-        backgroundColor: "background"
-      });
+      var box = new qx.ui.container.Composite(layout);
 
       var decorations = theme.decorations;
       var columns = 8;
@@ -61,9 +58,29 @@ qx.Class.define("demobrowser.demo.ui.Decoration_1",
       var i=0;
       for (var key in decorations)
       {
+        if (key.toLowerCase().indexOf("shadow") != -1) {
+          continue;
+        }
+
         box.add(new qx.ui.basic.Label(key).set({
           decorator: key,
-          //backgroundColor: "red",
+          backgroundColor: "#DEAB52",
+          padding: 5,
+          height: 80,
+          width: 80
+        }), {row: Math.floor(i/columns), column: i%columns});
+        i += 1;
+      }
+
+      for (var key in decorations)
+      {
+        if (key.toLowerCase().indexOf("shadow") == -1) {
+          continue;
+        }
+
+        box.add(new qx.ui.basic.Label(key).set({
+          shadow: key,
+          backgroundColor: "#DEAB52",
           padding: 5,
           height: 80,
           width: 80
