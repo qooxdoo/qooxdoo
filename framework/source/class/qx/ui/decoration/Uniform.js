@@ -29,22 +29,6 @@ qx.Class.define("qx.ui.decoration.Uniform",
 
 
 
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
-  construct : function()
-  {
-    this.base(arguments);
-
-    // Create template
-    this._tmpl = new qx.util.Template;
-  },
-
-
-
 
   /*
   *****************************************************************************
@@ -91,11 +75,19 @@ qx.Class.define("qx.ui.decoration.Uniform",
     },
 
 
-    /** How the background should be repeated */
+    /** How the background image should be repeated */
     backgroundRepeat :
     {
       check : ["repeat", "repeat-x", "repeat-y", "no-repeat", "scale"],
       init : "repeat",
+      apply : "_applyStyle"
+    },
+
+    /** Color of the background */
+    backgroundColor :
+    {
+      check : "Color",
+      nullable : true,
       apply : "_applyStyle"
     }
   },
@@ -118,42 +110,73 @@ qx.Class.define("qx.ui.decoration.Uniform",
     */
 
     // interface implementation
-    render : function(element, width, height, backgroundColor, changes)
+    getMarkup : function()
     {
-      // Be sure template is up-to-date first
-      this._updateTemplate();
+      if (this.__markup) {
+        return this.__markup;
+      }
 
+      // Init styles
+      var styles = "position:absolute;top:0;left:0;";
+
+      // Add background color
+      var bgcolor = this.getBackgroundColor();
+      if (bgcolor) {
+        styles += "background-color:" + Color.resolve(bgcolor) + ";";
+      }
+
+      // Add border
+      var width = this.getWidth();
+      if (width > 0)
+      {
+        var Color = qx.theme.manager.Color.getInstance();
+        styles += "border:" + width + "px " + this.getStyle() + " " + Color.resolve(this.getColor()) + ";";
+      }
+
+      // Generate markup
+      var html = qx.ui.decoration.Util.generateBasicDecor(this.getBackgroundImage(), this.getBackgroundRepeat(), styles);
+
+      // Store
+      return this.__markup = html;
+    },
+
+
+    // interface implementation
+    resize : function(element, width, height)
+    {
       // Fix box model
       // Note: Scaled images are always using content box
       var scaledImage = this.getBackgroundImage() && this.getBackgroundRepeat() == "scale";
       if (scaledImage || qx.bom.client.Feature.CONTENT_BOX)
       {
-        var inset = this.getInsets().top * 2;
+        var inset = this.getWidth() * 2;
         width -= inset;
         height -= inset;
       }
 
-      // Resolve background color
-      if (backgroundColor) {
-        backgroundColor = qx.theme.manager.Color.getInstance().resolve(backgroundColor);
-      }
-
-      // Compile HTML
-      var html = this._tmpl.run(
-      {
-        width: width,
-        height: height,
-        bgcolor: backgroundColor
-      });
-
-      // Apply HTML
-      element.setAttribute("html", html);
+      var dom = element.getDomElement();
+      dom.style.width = width + "px";
+      dom.style.height = height + "px";
     },
 
 
     // interface implementation
-    reset : function(element) {
-      element.setAttribute("html", null);
+    tint : function(element, bgcolor)
+    {
+      var Color = qx.theme.manager.Color.getInstance();
+      var dom = element.getDomElement();
+
+      if (bgcolor === undefined) {
+        bgcolor = this.getBackgroundColor();
+      }
+
+      if (bgcolor == null) {
+        bgcolor = "";
+      } else {
+        bgcolor = Color.resolve(bgcolor);
+      }
+
+      dom.style.backgroundColor = bgcolor;
     },
 
 
@@ -188,52 +211,26 @@ qx.Class.define("qx.ui.decoration.Uniform",
     // property apply
     _applyWidth : function()
     {
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        if (this.__markup) {
+          throw new Error("This decorator is already in-use. Modification is not possible anymore!");
+        }
+      }
+
       this._insets = null;
-      this._invalidTemplate = true;
     },
 
 
     // property apply
-    _applyStyle : function() {
-      this._invalidTemplate = true;
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      HELPERS
-    ---------------------------------------------------------------------------
-    */
-
-    _invalidTemplate : true,
-
-    _updateTemplate : function()
+    _applyStyle : function()
     {
-      if (!this._invalidTemplate) {
-        return;
-      }
-
-      // Init styles
-      var styles = "width:{width}px;height:{height}px;background-color:{bgcolor};";
-
-      // Add border
-      var width = this.getWidth();
-      if (width > 0)
+      if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        var Color = qx.theme.manager.Color.getInstance();
-        styles += "border:" + width + "px " + this.getStyle() + " " + Color.resolve(this.getColor()) + ";";
+        if (this.__markup) {
+          throw new Error("This decorator is already in-use. Modification is not possible anymore!");
+        }
       }
-
-      // Generate markup
-      var html = qx.ui.decoration.Util.generateBasicDecor(this.getBackgroundImage(), this.getBackgroundRepeat(), styles);
-
-      // Update template
-      this._tmpl.setContent(html);
-
-      // Cleanup flag
-      this._invalidTemplate = false;
     }
   }
 });

@@ -39,28 +39,6 @@ qx.Class.define("qx.ui.decoration.Grid",
 
 
 
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
-  construct : function(baseImage)
-  {
-    this.base(arguments);
-
-    // Create template
-    this._tmpl = new qx.util.Template;
-
-    // Initialize properties
-    if (baseImage) {
-      this.setBaseImage(baseImage);
-    }
-  },
-
-
-
-
 
   /*
   *****************************************************************************
@@ -155,97 +133,10 @@ qx.Class.define("qx.ui.decoration.Grid",
     */
 
     // interface implementation
-    reset : function(element) {
-      element.setAttribute("html", null);
-    },
-
-
-    // interface implementation
-    getInsets : function()
+    getMarkup : function()
     {
-      if (this._insets) {
-        return this._insets;
-      }
-
-      this._insets =
-      {
-        left : this.getInsetLeft(),
-        right : this.getInsetRight(),
-        bottom : this.getInsetBottom(),
-        top : this.getInsetTop()
-      };
-
-      return this._insets;
-    },
-
-
-    // interface implementation
-    render : function(element, width, height, backgroundColor, changes)
-    {
-      // Be sure template is up-to-date first
-      this._updateTemplate();
-
-      // Resolve background color
-      if (backgroundColor) {
-        backgroundColor = qx.theme.manager.Color.getInstance().resolve(backgroundColor);
-      }
-
-      var innerWidth = width - this._edges.left - this._edges.right;
-      var innerHeight = height - this._edges.top - this._edges.bottom;
-
-      // Compile HTML
-      var html = this._tmpl.run(
-      {
-        width : width,
-        height : height,
-        innerWidth: innerWidth,
-        innerHeight: innerHeight,
-        bgcolor: backgroundColor
-      });
-
-      // Apply HTML
-      element.setAttribute("html", html);
-    },
-
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      PROPERTY APPLY ROUTINES
-    ---------------------------------------------------------------------------
-    */
-
-    // property apply
-    _applyBaseImage : function()
-    {
-      this._invalidTemplate = true;
-      this._edges = null;
-      this._images = null;
-    },
-
-    // property apply
-    _applyInsets : function() {
-      this._insets = null;
-    },
-
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      HELPERS
-    ---------------------------------------------------------------------------
-    */
-
-    _invalidTemplate : true,
-
-    _updateTemplate : function()
-    {
-      if (!this._invalidTemplate) {
-        return;
+      if (this.__markup) {
+        return this.__markup;
       }
 
       var base = qx.util.AliasManager.getInstance().resolve(this.getBaseImage());
@@ -314,10 +205,8 @@ qx.Class.define("qx.ui.decoration.Grid",
       var rightImageWidth = rightCombined ? rightCombined[3] : r[3];
 
 
-      // Frame start
-      html.push('<div style="position:relative;width:{width}px;height:{height}px;">');
-
-
+      // Outer frame
+      html.push('<div style="width:{width}px;height:{height}px">');
 
       // Top: left, center, right
       html.push(
@@ -394,17 +283,96 @@ qx.Class.define("qx.ui.decoration.Grid",
         '"/>'
       );
 
-
-
-      // Frame end
+      // Outer frame
       html.push('</div>');
 
 
-      // Update template
-      this._tmpl.setContent(html.join(""));
+      // Store
+      return this.__markup = html.join("");
+    },
 
-      // Cleanup flag
-      this._invalidTemplate = false;
+
+    // interface implementation
+    resize : function(element, width, height)
+    {
+      // Compute inner sizes
+      var innerWidth = width - this._edges.left - this._edges.right;
+      var innerHeight = height - this._edges.top - this._edges.bottom;
+
+      // Update nodes
+      var frame = element.getDomElement();
+
+      frame.style.width = width + "px";
+      frame.style.height = height + "px";
+
+      frame.childNodes[1].style.width = innerWidth + "px";
+      frame.childNodes[4].style.width = innerWidth + "px";
+      frame.childNodes[7].style.width = innerWidth + "px";
+
+      frame.childNodes[6].style.height = innerHeight + "px";
+      frame.childNodes[7].style.height = innerHeight + "px";
+      frame.childNodes[8].style.height = innerHeight + "px";
+    },
+
+
+    // interface implementation
+    tint : function(element, bgcolor) {
+      // not implemented
+    },
+
+
+    // interface implementation
+    getInsets : function()
+    {
+      if (this._insets) {
+        return this._insets;
+      }
+
+      this._insets =
+      {
+        left : this.getInsetLeft(),
+        right : this.getInsetRight(),
+        bottom : this.getInsetBottom(),
+        top : this.getInsetTop()
+      };
+
+      return this._insets;
+    },
+
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      PROPERTY APPLY ROUTINES
+    ---------------------------------------------------------------------------
+    */
+
+    // property apply
+    _applyInsets : function()
+    {
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        if (this.__markup) {
+          throw new Error("This decorator is already in-use. Modification is not possible anymore!");
+        }
+      }
+
+      this._insets = null;
+    },
+
+
+    // property apply
+    _applyBaseImage : function()
+    {
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        if (this.__markup) {
+          throw new Error("This decorator is already in-use. Modification is not possible anymore!");
+        }
+      }
     }
   }
 });
