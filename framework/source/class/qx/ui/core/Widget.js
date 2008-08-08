@@ -87,7 +87,6 @@ qx.Class.define("qx.ui.core.Widget",
     qx.ui.core.queue.Appearance.add(this);
 
     // Initialize properties
-    // TODO: Any possible optimizations here?
     this.initFocusable();
     this.initSelectable();
     this.initCursor();
@@ -2258,10 +2257,11 @@ qx.Class.define("qx.ui.core.Widget",
           var instance = qx.theme.manager.Decoration.getInstance().resolve(decorator);
           instance.tint(this._decoratorElement, color);
         }
-        else
-        {
-          this.debug("Missing target for bgcolor!");
-        }
+
+        // Please note:
+        // The else case is not handled handled currently, but it
+        // only comes true when there is a shadow but no decoration
+        // which is quite unlikely.
 
         // Remove from container
         container.setStyle("backgroundColor", null);
@@ -2447,10 +2447,10 @@ qx.Class.define("qx.ui.core.Widget",
     */
 
 
-    /** {String} TODOC */
-    __selector : null,
+    /** {String} The currently compiled selector to lookup the matching appearance */
+    __appearanceSelector : null,
 
-    /** {Boolean} TODOC */
+    /** {Boolean} Whether the selectors needs to be recomputed before updating appearance */
     __updateSelector : null,
 
     /**
@@ -2462,7 +2462,7 @@ qx.Class.define("qx.ui.core.Widget",
     syncAppearance : function()
     {
       var states = this.__states;
-      var selector = this.__selector;
+      var selector = this.__appearanceSelector;
       var manager = qx.theme.manager.Appearance.getInstance();
 
       // Cache deep accessor
@@ -2498,7 +2498,7 @@ qx.Class.define("qx.ui.core.Widget",
           id.push(obj.$$subcontrol||obj.getAppearance());
         } while (obj = obj.$$subparent)
 
-        selector = this.__selector = id.reverse().join("/");
+        selector = this.__appearanceSelector = id.reverse().join("/");
       }
 
       // Query current selector

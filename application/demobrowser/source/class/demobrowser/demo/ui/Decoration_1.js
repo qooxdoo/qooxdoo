@@ -64,7 +64,6 @@ qx.Class.define("demobrowser.demo.ui.Decoration_1",
 
         box.add(new qx.ui.basic.Label(key).set({
           decorator: key,
-          backgroundColor: "#DEAB52",
           padding: 5,
           height: 80,
           width: 80
@@ -80,7 +79,6 @@ qx.Class.define("demobrowser.demo.ui.Decoration_1",
 
         box.add(new qx.ui.basic.Label(key).set({
           shadow: key,
-          backgroundColor: "#DEAB52",
           padding: 5,
           height: 80,
           width: 80

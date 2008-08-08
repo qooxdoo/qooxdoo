@@ -286,7 +286,6 @@ qx.Class.define("qx.ui.decoration.Grid",
       // Outer frame
       html.push('</div>');
 
-
       // Store
       return this.__markup = html.join("");
     },
