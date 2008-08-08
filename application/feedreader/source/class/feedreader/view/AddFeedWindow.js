@@ -114,7 +114,7 @@ qx.Class.define("feedreader.view.AddFeedWindow",
       urlTextField.setWidth(200);
 
       // Right aligned button
-      var addButton = new qx.ui.form.Button("Add", "icon/16/actions/dialog-apply.png");
+      var addButton = new qx.ui.form.Button(this.tr("Add"), "icon/16/actions/dialog-apply.png");
       addButton.set({
         alignX     : "right",
         allowGrowX : false
