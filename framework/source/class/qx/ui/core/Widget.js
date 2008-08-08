@@ -966,14 +966,6 @@ qx.Class.define("qx.ui.core.Widget",
     /** {Boolean} Whether insets have changed and must be updated */
     __updateInsets : null,
 
-    /** {Boolean} Whether the decorator must be initialized */
-    __initDecorator : null,
-
-    /** {Boolean} Whether the CSS styles of the decorator must be updated */
-    __styleDecorator : null,
-
-    /** {Boolean} Whether the background color has changed */
-    __styleBackgroundColor : null,
 
     // overridden
     renderLayout : function(left, top, width, height)
@@ -988,7 +980,7 @@ qx.Class.define("qx.ui.core.Widget",
 
       var container = this._containerElement;
       var content = this._contentElement;
-      var inner = changes.size || this._updateInsets;
+      var inner = changes.size || this.__updateInsets;
       var pixel = "px";
 
       // Move container to new position
@@ -1012,7 +1004,7 @@ qx.Class.define("qx.ui.core.Widget",
         var innerHeight = height - insets.top - insets.bottom;
       }
 
-      if (this._updateInsets)
+      if (this.__updateInsets)
       {
         content.setStyle("left", insets.left + pixel);
         content.setStyle("top", insets.top + pixel);
@@ -1967,7 +1959,7 @@ qx.Class.define("qx.ui.core.Widget",
     // property apply
     _applyPadding : function(value, old, name)
     {
-      this._updateInsets = true;
+      this.__updateInsets = true;
       qx.ui.core.queue.Layout.add(this);
     },
 
@@ -2118,7 +2110,7 @@ qx.Class.define("qx.ui.core.Widget",
       {
         // We have changes to the insets, which means we
         // delegate the resize to the layout system.
-        this._updateInsets = true;
+        this.__updateInsets = true;
         qx.ui.core.queue.Layout.add(this);
       }
       else if (value)
