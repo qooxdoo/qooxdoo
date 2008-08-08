@@ -35,8 +35,7 @@ qx.Mixin.define("qx.ui.core.MMovable",
     movable :
     {
       check : "Boolean",
-      init : true,
-      apply : "_applyMoveable"
+      init : true
     },
 
     /** Whether to use a frame instead of the original widget during move sequences */
