@@ -35,43 +35,45 @@ qx.Class.define("qx.ui.progressive.headfoot.Progress",
   {
     this.base(arguments);
 
-    // Save the column widths
-    this._columnWidths = columnWidths;
-
     // Set a default height for the progress bar
     this.setHeight(16);
-
-    // We show progress by continually increasing our border width.
-    this._decorator = new qx.ui.decoration.Single(1, "solid", "#cccccc");
-    this._decorator.set({
-                       widthTop : 1,
-                       widthRight : 0,
-                       widthBottom : 0
-                     });
-    this.setDecorator(this._decorator);
-    
     this.setPadding(0);
 
+    this.set(
+      {
+        backgroundColor : "gray"
+      });
+
+    // Create a widget that continually increases its width for progress bar
+    this._progressBar = new qx.ui.core.Widget();
+    this._progressBar.set(
+      {
+        width : 0,
+        backgroundColor : "#cccccc"
+      });
+    this.add(this._progressBar);
+
+    // Create a flex area between the progress bar and the percent done
+    var spacer = new qx.ui.core.Widget();
+    spacer.set(
+      {
+        backgroundColor : "white"
+      });
+    this.add(spacer, { flex : 1 });
+
     // We also like to show progress as a percentage done string.
-    this._percentDone = new qx.ui.basic.Atom("");
+    this._percentDone = new qx.ui.basic.Atom("0%");
+    this._percentDone.set(
+      {
+        width : 100,
+        decorator : "black",
+        backgroundColor : "gray",
+        textColor : "white"
+      });
     this.add(this._percentDone);
 
     // We're initially invisible
     this.exclude();
-
-    // Arrange to be called when the window appears or is resized, so we
-    // can set each style sheet's left and width field appropriately.
-    this.addListener("resize", this._resizeColumns, this);
-
-    // This layout is not connected to a widget but to this class. This class
-    // must implement the method "getLayoutChildren", which must return all
-    // columns (LayoutItems) which should be recalcutated. The call
-    // "layout.renderLayout" will call the method "renderLayout" on each
-    // column data object The advantage of the use of the normal layout
-    // manager is that the samantics of flex and percent are exectly the same
-    // as in the widget code.
-    this._layout = new qx.ui.layout.HBox();
-    this._layout.connectToWidget(this);
   },
 
   members :
@@ -84,87 +86,46 @@ qx.Class.define("qx.ui.progressive.headfoot.Progress",
 
       // Listen for the "renderStart" event, to save the number of elements on
       // the queue, and to set ourself visible
-      progressive.addListener("renderStart",
-                              function(e)
-                              {
-                                this.__total = e.getData().initial;
-                                this.show();
-                              },
-                              this);
+      progressive.addListener(
+        "renderStart",
+        function(e)
+        {
+          this.__total = e.getData().initial;
+          this.show();
+        },
+        this);
 
       // Listen for the "progress" event, to update the progress bar
-      progressive.addListener("progress",
-                              function(e)
-                              {
-                                var complete =
-                                  1.0 -
-                                  (e.getData().remaining / this.__total);
-                                var decoratorWidth =
-                                  Math.floor(this.getWidth() * complete);
-                                if (! isNaN(decoratorWidth))
-                                {
-                                  var percent =
-                                    Math.floor(complete * 100) + "%";
-                                  this._percentDone.setLabel(percent);
-                                  this._decorator.set(
-                                    {
-                                      widthLeft : decoratorWidth
-                                    });
-                                }
-                              },
+      progressive.addListener(
+        "progress",
+        function(e)
+        {
+          var complete = 1.0 - (e.getData().remaining / this.__total);
+          var mySize = this.getBounds();
+          if (mySize)
+          {
+            var barWidth = Math.floor((mySize.width -
+                                       this._percentDone.getBounds().width) *
+                                      complete);
+            var percent = Math.floor(complete * 100) + "%";
+
+            if (! isNaN(barWidth))
+            {
+              this._progressBar.setMinWidth(barWidth);
+              this._percentDone.setLabel(percent);
+            }
+          }
+        },
                               this);
 
       // Listen for the "renderEnd" event to make ourself invisible
-      progressive.addListener("renderEnd",
-                              function(e)
-                              {
-                                this.exclude();
-                              },
-                              this);
-    },
-
-    /**
-     * This method is required by the box layout. If returns an array of items
-     * to relayout.
-     */
-    getLayoutChildren : function()
-    {
-      return this._columnWidths.getData();
-    },
-
-
-    /**
-     * Event handler for the "resize" event.  We compute and sum the new
-     * widths of the columns of the table to determine our new width.
-     *
-     * @param e {qx.event.type.Event}
-     *   Ignored.
-     *
-     * @return {Void}
-     */
-    _resizeColumns : function(e)
-    {
-      var width =
-        this.getBounds().width - qx.bom.element.Overflow.getScrollbarWidth();
-
-      // Compute the column widths
-      this._layout.renderLayout(width, 100);
-
-      // Sum the column widths
-      var width = 0;
-
-      // Get the column data
-      var columnData = this._columnWidths.getData();
-
-      // Determine the total width that we'll need
-      for (var i = 0; i < columnData.length; i++)
-      {
-        // Cumulate the width
-        width += columnData[i].getComputedWidth();
-      }
-
-      // Set the width of the progress bar
-      this.setWidth(width);
+      progressive.addListener(
+        "renderEnd",
+        function(e)
+        {
+          this.exclude();
+        },
+        this);
     }
   }
 });
