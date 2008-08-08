@@ -47,11 +47,6 @@ qx.Class.define("demobrowser.demo.widget.ColorPopup",
           values : [ "#000", "#333", "#666", "#999", "#CCC", "#FFF", "red", "green", "blue", "yellow", "teal", "maroon" ]
         },
 
-        template : {
-          label : "Template Colors",
-          values : [ "#B07B30", "#B07BC9", "#E3AEC9", "#7A2A53" ]
-        },
-
         recent : {
           label : "Recent Colors",
 

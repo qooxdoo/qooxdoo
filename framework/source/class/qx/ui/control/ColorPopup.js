@@ -141,7 +141,7 @@ qx.Class.define("qx.ui.control.ColorPopup",
     _recentTableId : "recent",
     _fieldWidth : 14,
     _fieldHeight : 14,
-    _fieldNumber : 14,
+    _fieldNumber : 12,
 
 
     /**
@@ -201,7 +201,7 @@ qx.Class.define("qx.ui.control.ColorPopup",
       this._previewBox.setLayout(new qx.ui.layout.HBox);
 
       this._selectedPreview = new qx.ui.container.Composite(new qx.ui.layout.Basic).set({
-        height : 40,
+        height : 20,
         padding: 4,
         marginRight : 4,
         decorator : "dark",
@@ -209,7 +209,7 @@ qx.Class.define("qx.ui.control.ColorPopup",
       });
 
       this._currentPreview = new qx.ui.container.Composite(new qx.ui.layout.Basic).set({
-        height : 40,
+        height : 20,
         padding: 4,
         marginLeft: 4,
         decorator : "dark",
