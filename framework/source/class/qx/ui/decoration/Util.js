@@ -57,6 +57,29 @@ qx.Class.define("qx.ui.decoration.Util",
 
 
 
+    insetsModified : function(a, b)
+    {
+      if (a == b) {
+        return false;
+      }
+
+      if (a == null || b == null) {
+        return true;
+      }
+
+      var manager = qx.theme.manager.Decoration.getInstance();
+
+      var first = manager.resolve(a).getInsets();
+      var second = manager.resolve(b).getInsets();
+
+      if (first.top != second.top || first.right != second.right || first.bottom != second.bottom || first.left != second.left) {
+        return true;
+      }
+
+      return false;
+    },
+
+
     generateBasicDecor : function(image, repeat, styles)
     {
       // Support for images

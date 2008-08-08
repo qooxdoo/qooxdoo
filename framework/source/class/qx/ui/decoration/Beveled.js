@@ -28,31 +28,6 @@ qx.Class.define("qx.ui.decoration.Beveled",
 
 
 
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
-  construct : function(outerColor, innerColor)
-  {
-    this.base(arguments);
-
-    // Create template
-    this._tmpl = new qx.util.Template;
-
-    // Initialize properties
-    if (outerColor) {
-      this.setOuterColor(outerColor);
-    }
-
-    if (innerColor) {
-      this.setInnerColor(innerColor);
-    }
-  },
-
-
-
 
 
   /*
@@ -98,6 +73,15 @@ qx.Class.define("qx.ui.decoration.Beveled",
       check : ["repeat", "repeat-x", "repeat-y", "no-repeat", "scale"],
       init : "repeat",
       apply : "_applyStyle"
+    },
+
+
+    /** Color of the background */
+    backgroundColor :
+    {
+      check : "Color",
+      nullable : true,
+      apply : "_applyStyle"
     }
   },
 
@@ -119,8 +103,14 @@ qx.Class.define("qx.ui.decoration.Beveled",
     */
 
     // property apply
-    _applyStyle : function() {
-      this._invalidTemplate = true;
+    _applyStyle : function()
+    {
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        if (this.__markup) {
+          throw new Error("This decorator is already in-use. Modification is not possible anymore!");
+        }
+      }
     },
 
 
@@ -133,87 +123,11 @@ qx.Class.define("qx.ui.decoration.Beveled",
     ---------------------------------------------------------------------------
     */
 
-    render : function(element, width, height, backgroundColor, changes)
-    {
-      // Be sure template is up-to-date first
-      this._updateTemplate();
-
-      // Fix box model
-      if (qx.bom.client.Feature.CONTENT_BOX)
-      {
-        var outerWidth = width - 2;
-        var outerHeight = height - 2;
-        var frameWidth = outerWidth;
-        var frameHeight = outerHeight;
-        var innerWidth = width - 4;
-        var innerHeight = height - 4;
-      }
-      else
-      {
-        var outerWidth = width;
-        var outerHeight = height;
-        var frameWidth = width - 2;
-        var frameHeight = height - 2;
-        var innerWidth = frameWidth;
-        var innerHeight = frameHeight;
-      }
-
-      // Resolve background color
-      if (backgroundColor) {
-        backgroundColor = qx.theme.manager.Color.getInstance().resolve(backgroundColor);
-      }
-
-      // Compile HTML
-      var html = this._tmpl.run(
-      {
-        frameWidth : frameWidth,
-        frameHeight : frameHeight,
-        outerWidth : outerWidth,
-        outerHeight : outerHeight,
-        innerWidth : innerWidth,
-        innerHeight : innerHeight,
-        bgcolor: backgroundColor
-      });
-
-      // Apply HTML
-      element.setAttribute("html", html);
-    },
-
-
     // interface implementation
-    reset : function(element) {
-      element.setAttribute("html", null);
-    },
-
-
-    // interface implementation
-    getInsets : function() {
-      return this._insets;
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      HELPERS
-    ---------------------------------------------------------------------------
-    */
-
-    _insets :
+    getMarkup : function()
     {
-      top : 2,
-      right : 2,
-      bottom : 2,
-      left : 2
-    },
-
-    _invalidTemplate : true,
-
-    _updateTemplate : function()
-    {
-      if (!this._invalidTemplate) {
-        return;
+      if (this.__markup) {
+        return this.__markup;
       }
 
       var Color = qx.theme.manager.Color.getInstance();
@@ -222,6 +136,9 @@ qx.Class.define("qx.ui.decoration.Beveled",
       // Prepare border styles
       var outerStyle = "1px solid " + Color.resolve(this.getOuterColor()) + ";";
       var innerStyle = "1px solid " + Color.resolve(this.getInnerColor()) + ";";
+
+      // Outer frame
+      html.push('<div>');
 
       // Background frame
       html.push('<div style="width:{outerWidth}px;height:{outerHeight}px;');
@@ -254,11 +171,83 @@ qx.Class.define("qx.ui.decoration.Beveled",
       html.push(qx.bom.element.Opacity.compile(this.getInnerOpacity()));
       html.push('"></div>');
 
-      // Update template
-      this._tmpl.setContent(html.join(""));
+      // Outer frame
+      html.push('</div>');
 
-      // Cleanup flag
-      this._invalidTemplate = false;
+      // Store
+      return this.__markup = html.join("");
+    },
+
+
+    // interface implementation
+    resize : function(element, width, height)
+    {
+      // Fix box model
+      if (qx.bom.client.Feature.CONTENT_BOX)
+      {
+        var outerWidth = width - 2;
+        var outerHeight = height - 2;
+        var frameWidth = outerWidth;
+        var frameHeight = outerHeight;
+        var innerWidth = width - 4;
+        var innerHeight = height - 4;
+      }
+      else
+      {
+        var outerWidth = width;
+        var outerHeight = height;
+        var frameWidth = width - 2;
+        var frameHeight = height - 2;
+        var innerWidth = frameWidth;
+        var innerHeight = frameHeight;
+      }
+
+      var dom = element.getDomElement();
+
+      var backgroundFrame = dom.childNodes[0].style;
+      backgroundFrame.width = outerWidth + "px";
+      backgroundFrame.height = outerHeight + "px";
+
+      var horizontalFrame = dom.childNodes[1].style;
+      horizontalFrame.width = outerWidth + "px";
+      horizontalFrame.height = frameHeight + "px";
+
+      var verticalFrame = dom.childNodes[2].style;
+      verticalFrame.width = frameWidth + "px";
+      verticalFrame.height = outerHeight + "px";
+
+      var innerBackground = dom.childNodes[3].style;
+      innerBackground.width = frameWidth + "px";
+      innerBackground.height = frameHeight + "px";
+
+      var innerOverlay = dom.childNodes[4].style;
+      innerOverlay.width = innerWidth + "px";
+      innerOverlay.height = innerHeight + "px";
+    },
+
+
+    // interface implementation
+    tint : function(element, bgcolor)
+    {
+      var dom = element.getDomElement();
+      var innerBackground = dom.childNodes[3].style;
+      innerBackground.backgroundColor = bgcolor;
+    },
+
+
+    // interface implementation
+    getInsets : function() {
+      return this.__insets;
+    },
+
+
+    /** {Map} Static map with insets */
+    __insets :
+    {
+      top : 2,
+      right : 2,
+      bottom : 2,
+      left : 2
     }
   }
 });

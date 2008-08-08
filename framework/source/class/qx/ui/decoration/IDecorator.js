@@ -32,30 +32,6 @@ qx.Interface.define("qx.ui.decoration.IDecorator",
 {
   members :
   {
-    /**
-     * Render the decoration size of the given decoration element.
-     *
-     * @param element {qx.html.Element} The widget's decoration element.
-     * @param width {Integer} The widget's new width
-     * @param height {Integer} The widget's new height
-     * @param backgroundColor {String} an optional CSS background color value.
-     * @param updateSize {Boolean} Whether the size of the widget has changed and
-     *     the decoration size needs to be updated. Is also <code>true</code> when
-     *     this decoration should be applied initially.
-     * @param changes {Map} Flags for all changes: <code>init</code>, <code>size</code>,
-     *   <code>style</code> and <code>bgcolor</code>.
-     */
-    render : function(element, width, height, backgroundColor, changes) {},
-
-
-    /**
-     * Reset all properties set by the decoration on the widget's decoration
-     * element.
-     *
-     * @param element {qx.html.Element} The widget's decoration element.
-     */
-    reset : function(element) {},
-
 
     /**
      * Get the amount of space, the decoration needs for its border on each
