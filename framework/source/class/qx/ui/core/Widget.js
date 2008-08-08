@@ -1026,7 +1026,10 @@ qx.Class.define("qx.ui.core.Widget",
             height : height + "px"
           });
         }
+      }
 
+      if (changes.size || this.__updateInsets)
+      {
         var manager = qx.theme.manager.Decoration.getInstance();
 
         var decorator = this.getDecorator();
@@ -2044,8 +2047,6 @@ qx.Class.define("qx.ui.core.Widget",
       return element;
     },
 
-
-    __oldInsets : null,
 
     // property apply
     _applyDecorator : function(value, old)
