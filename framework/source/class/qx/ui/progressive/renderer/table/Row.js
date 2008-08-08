@@ -274,10 +274,11 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
         }
       }
 
+      height = (height > 0 ? height : this.getDefaultRowHeight());
+
       // Set properties for the row div
       div.style.position = "relative";
-      div.style.height =
-        (height > 0 ? height : this.getDefaultRowHeight()) + "px";
+      div.style.height = height + "px";
       div.className = "qx-progressive-" + this._hash + "-row";
       div.innerHTML = html.join("");
 
