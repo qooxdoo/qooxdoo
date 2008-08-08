@@ -305,7 +305,7 @@ qx.Class.define("qx.ui.table.model.Simple",
     /**
      * Clears the sorting.
      */
-    _clearSorting : function()
+    clearSorting : function()
     {
       if (this._sortColumnIndex != -1)
       {
@@ -363,7 +363,7 @@ qx.Class.define("qx.ui.table.model.Simple",
         }
 
         if (columnIndex == this._sortColumnIndex) {
-          this._clearSorting();
+          this.clearSorting();
         }
       }
     },
@@ -395,8 +395,8 @@ qx.Class.define("qx.ui.table.model.Simple",
         this.fireDataEvent(qx.ui.table.ITableModel.EVENT_TYPE_DATA_CHANGED, data);
       }
 
-      if (clearSorting) {
-        this._clearSorting();
+      if (clearSorting !== false) {
+        this.clearSorting();
       }
     },
 
@@ -440,9 +440,10 @@ qx.Class.define("qx.ui.table.model.Simple",
      *          in this model.
      * @param startIndex {Integer ? null} The index where to insert the new rows. If null,
      *          the rows are appended to the end.
+     * @param clearSorting {Boolean ? true} Whether to clear the sort state.
      * @return {void}
      */
-    addRows : function(rowArr, startIndex)
+    addRows : function(rowArr, startIndex, clearSorting)
     {
       if (startIndex == null) {
         startIndex = this._rowArr.length;
@@ -464,7 +465,9 @@ qx.Class.define("qx.ui.table.model.Simple",
       };
       this.fireDataEvent(qx.ui.table.ITableModel.EVENT_TYPE_DATA_CHANGED, data);
 
-      this._clearSorting();
+      if (clearSorting !== false) {
+        this.clearSorting();
+      }
     },
 
 
@@ -479,9 +482,10 @@ qx.Class.define("qx.ui.table.model.Simple",
      *        the rows are appended to the end.
      * @param rememberMaps {Boolean ? false} Whether to remember the original maps.
      *        If true {@link #getRowData} will return the original map.
+     * @param clearSorting {Boolean ? true} Whether to clear the sort state.
      */
-    addRowsAsMapArray : function(mapArr, startIndex, rememberMaps) {
-      this.addRows(this._mapArray2RowArr(mapArr, rememberMaps), startIndex);
+    addRowsAsMapArray : function(mapArr, startIndex, rememberMaps, clearSorting) {
+      this.addRows(this._mapArray2RowArr(mapArr, rememberMaps), startIndex, clearSorting);
     },
 
 
@@ -490,9 +494,10 @@ qx.Class.define("qx.ui.table.model.Simple",
      *
      * @param startIndex {Integer} the index of the first row to remove.
      * @param howMany {Integer} the number of rows to remove.
+     * @param clearSorting {Boolean ? true} Whether to clear the sort state.
      * @return {void}
      */
-    removeRows : function(startIndex, howMany)
+    removeRows : function(startIndex, howMany, clearSorting)
     {
       this._rowArr.splice(startIndex, howMany);
 
@@ -508,7 +513,9 @@ qx.Class.define("qx.ui.table.model.Simple",
       };
 
       this.fireDataEvent(qx.ui.table.ITableModel.EVENT_TYPE_DATA_CHANGED, data);
-      this._clearSorting();
+      if (clearSorting !== false) {
+        this.clearSorting();
+      }
     },
 
 

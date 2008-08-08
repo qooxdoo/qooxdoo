@@ -309,7 +309,7 @@ qx.Class.define("qx.legacy.ui.table.model.Simple",
     /**
      * Clears the sorting.
      */
-    _clearSorting : function()
+    clearSorting : function()
     {
       if (this._sortColumnIndex != -1)
       {
@@ -367,7 +367,7 @@ qx.Class.define("qx.legacy.ui.table.model.Simple",
         }
 
         if (columnIndex == this._sortColumnIndex) {
-          this._clearSorting();
+          this.clearSorting();
         }
       }
     },
@@ -392,7 +392,7 @@ qx.Class.define("qx.legacy.ui.table.model.Simple",
       }
 
     if (clearSorting) {
-      this._clearSorting();
+      this.clearSorting();
     }
     },
 
@@ -460,7 +460,7 @@ qx.Class.define("qx.legacy.ui.table.model.Simple",
       };
       this.fireDataEvent(qx.legacy.ui.table.ITableModel.EVENT_TYPE_DATA_CHANGED, data);
 
-      this._clearSorting();
+      this.clearSorting();
     },
 
 
@@ -503,7 +503,7 @@ qx.Class.define("qx.legacy.ui.table.model.Simple",
 
       this.fireDataEvent(qx.legacy.ui.table.ITableModel.EVENT_TYPE_DATA_CHANGED, data);
 
-      this._clearSorting();
+      this.clearSorting();
     },
 
 
