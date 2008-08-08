@@ -51,7 +51,7 @@ qx.Class.define("demobrowser.demo.progressive.ProgressiveTable_1",
       var columnWidths = new qx.ui.progressive.renderer.table.Widths(3);
       columnWidths.setWidth(0, 100);
       columnWidths.setWidth(1, "1*");
-        columnWidths.setMaxWidth(1, 200);
+      columnWidths.setMaxWidth(1, 200);
       columnWidths.setWidth(2, 300);
 
       var columnNames = [ "Id", "Number", "Date" ];
@@ -71,6 +71,7 @@ qx.Class.define("demobrowser.demo.progressive.ProgressiveTable_1",
                                          "inserted at the top to show how " +
                                          "it's done" +
                                          "</span>");
+      message.setRich(true);
       message.setHeight(16);
       progressive.add(message);
 
@@ -89,7 +90,12 @@ qx.Class.define("demobrowser.demo.progressive.ProgressiveTable_1",
       // Give Progressive the renderer, and assign a name
       progressive.addRenderer("row", renderer);
 
-      this.getRoot().add(progressive);
+      progressive.set(
+        {
+          width : 500,
+          maxWidth : 500
+        });
+      this.getRoot().add(progressive, { left : 50, top : 50, bottom : 50 });
 
       progressive.render();
     }
