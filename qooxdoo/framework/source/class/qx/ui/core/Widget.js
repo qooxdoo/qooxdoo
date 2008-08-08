@@ -80,9 +80,6 @@ qx.Class.define("qx.ui.core.Widget",
       this._containerElement.setAttribute("qxClass", this.classname);
     }
 
-    // Children array
-    this.__children = [];
-
     // Add to appearance queue for initial apply of styles
     qx.ui.core.queue.Appearance.add(this);
 
@@ -1556,11 +1553,13 @@ qx.Class.define("qx.ui.core.Widget",
     /** {qx.ui.core.LayoutItem[]} List of all child widgets */
     __children : null,
 
+
     /**
      * {qx.ui.core.LayoutItem[]} List of child widget, which should be considered
      *    by the layout manager.
      */
     __layoutChildren: null,
+
 
     /**
      * Returns all children, which are layout relevant. This excludes all widgets,
@@ -1571,22 +1570,26 @@ qx.Class.define("qx.ui.core.Widget",
      */
     getLayoutChildren : function()
     {
+      var children = this.__children;
+      if (!children) {
+        return this.__emptyChildren;
+      }
+
       if (this.__layoutChildren) {
         return this.__layoutChildren;
       }
 
       var layoutChildren = [];
 
-      for (var i=0, l=this.__children.length; i<l; i++)
+      for (var i=0, l=children.length; i<l; i++)
       {
-        var child = this.__children[i];
+        var child = children[i];
         if (!child.hasUserBounds() && child.shouldBeLayouted()) {
           layoutChildren.push(child);
         }
       }
 
       this.__layoutChildren = layoutChildren;
-
       return layoutChildren;
     },
 
@@ -1632,8 +1635,10 @@ qx.Class.define("qx.ui.core.Widget",
      *
      * @return {Boolean} Whether the layout has layout relevant children
      */
-    hasLayoutChildren : function() {
-      return this.getLayoutChildren().length > 0;
+    hasLayoutChildren : function()
+    {
+      var children = this.getLayoutChildren();
+      return children && children.length > 0;
     },
 
 
@@ -1650,13 +1655,20 @@ qx.Class.define("qx.ui.core.Widget",
 
 
     /**
+     * {Array} Placeholder for children list in empty widgets.
+     * Mainly to keep instance number low.
+     */
+    __emptyChildren : [],
+
+
+    /**
      * Returns the children list
      *
      * @return {LayoutItem[]} The children array (Arrays are
      *   reference types, please to not modify them in-place)
      */
     _getChildren : function() {
-      return this.__children;
+      return this.__children || this.__emptyChildren;
     },
 
 
@@ -1668,8 +1680,14 @@ qx.Class.define("qx.ui.core.Widget",
      * @return {Integer} The index position or <code>-1</code> when
      *   the given widget is no child of this layout.
      */
-    _indexOf : function(child) {
-      return this.__children.indexOf(child);
+    _indexOf : function(child)
+    {
+      var children = this.__children;
+      if (!children) {
+        return -1;
+      }
+
+      return children.indexOf(child);
     },
 
 
@@ -1678,8 +1696,10 @@ qx.Class.define("qx.ui.core.Widget",
      *
      * @return {Boolean} Returns <code>true</code> when the widget has children.
      */
-    _hasChildren : function() {
-      return !!this.__children[0];
+    _hasChildren : function()
+    {
+      var children = this.__children;
+      return children && (!!children[0]);
     },
 
 
@@ -1693,7 +1713,12 @@ qx.Class.define("qx.ui.core.Widget",
     _add : function(child, options)
     {
       this.__addHelper(child, options);
-      this.__children.push(child);
+
+      if (this.__children) {
+        this.__children.push(child);
+      } else {
+        this.__children = [ child ];
+      }
     },
 
 
@@ -1713,6 +1738,10 @@ qx.Class.define("qx.ui.core.Widget",
       }
 
       this.__addHelper(child, options);
+
+      if (!this.__children) {
+        this.__children = [];
+      }
 
       if (ref) {
         qx.lang.Array.insertBefore(this.__children, child, ref);
@@ -1737,6 +1766,11 @@ qx.Class.define("qx.ui.core.Widget",
       }
 
       this.__addHelper(child, options);
+
+      if (!this.__children) {
+        this.__children = [];
+      }
+
       qx.lang.Array.insertBefore(this.__children, child, before);
     },
 
@@ -1756,6 +1790,11 @@ qx.Class.define("qx.ui.core.Widget",
       }
 
       this.__addHelper(child, options);
+
+      if (!this.__children) {
+        this.__children = [];
+      }
+
       qx.lang.Array.insertAfter(this.__children, child, after);
     },
 
@@ -1768,6 +1807,10 @@ qx.Class.define("qx.ui.core.Widget",
      */
     _remove : function(child)
     {
+      if (!this.__children) {
+        throw new Error("This widget has no children!");
+      }
+
       this.__removeHelper(child);
       qx.lang.Array.remove(this.__children, child);
     },
@@ -1781,6 +1824,10 @@ qx.Class.define("qx.ui.core.Widget",
      */
     _removeAt : function(index)
     {
+      if (!this.__children) {
+        throw new Error("This widget has no children!");
+      }
+
       var child = this.__children[index];
 
       this.__removeHelper(child);
@@ -1793,6 +1840,10 @@ qx.Class.define("qx.ui.core.Widget",
      */
     _removeAll : function()
     {
+      if (!this.__children) {
+        throw new Error("This widget has no children!");
+      }
+
       var children = this.__children;
 
       for (var i = children.length-1; i>=0; i--) {
