@@ -30,9 +30,9 @@ from generator.runtime.Log import Log
 from misc import Path
 
 
-SCRIPT_DIR = os.path.dirname(os.path.abspath(sys.argv[0]))
+SCRIPT_DIR    = qxenviron.scriptDir
 FRAMEWORK_DIR = os.path.normpath(os.path.join(SCRIPT_DIR, os.pardir, os.pardir))
-SCELETON_DIR = os.path.normpath(os.path.join(FRAMEWORK_DIR, "component", "skeleton"))
+SKELETON_DIR  = os.path.normpath(os.path.join(FRAMEWORK_DIR, "component", "skeleton"))
 
 
 def createProject(name, out, namespace):
@@ -45,7 +45,7 @@ def copySkeleton(dir, namespace):
     console.log("Copy skeleton into the output directory: %s" % dir)
    
     try:
-        shutil.copytree(SCELETON_DIR, dir)
+        shutil.copytree(SKELETON_DIR, dir)
     except OSError:
         console.error("Failed to copy skeleton")
         sys.exit(1)
