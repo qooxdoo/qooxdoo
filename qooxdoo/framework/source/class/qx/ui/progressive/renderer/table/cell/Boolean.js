@@ -38,12 +38,15 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Boolean",
   {
     this.base(arguments);
 
-    this._iconUrlTrue =
-      qx.util.AliasManager.getInstance().resolve("widget/table/boolean-true.png");
-    this._iconUrlFalse =
-      qx.util.AliasManager.getInstance().resolve("widget/table/boolean-false.png");
-    this._iconUrlNull =
-      qx.util.AliasManager.getInstance().resolve("static/image/blank.gif");
+    var aliasManager = qx.util.AliasManager.getInstance();
+    var resourceManager = qx.util.ResourceManager;
+    var boolTrueImg =
+      aliasManager.resolve("decoration/table/boolean-true.png");
+    var boolFalseImg =
+      aliasManager.resolve("decoration/table/boolean-false.png");
+
+    this._iconUrlTrue = resourceManager.toUri(boolTrueImg);
+    this._iconUrlFalse = resourceManager.toUri(boolFalseImg);
   },
 
 
@@ -85,7 +88,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Boolean",
           break;
 
         default:
-          imageData.url = this._iconUrlNull;
+          imageData.url = null;
           break;
       }
 
@@ -116,9 +119,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Boolean",
     // overridden
     _getCellStyle : function(cellInfo)
     {
-      var ret =
-        this.base(arguments, cellInfo) +
-        "padding-top:4px;";
+      var ret = this.base(arguments, cellInfo);
       return ret;
     }
   },
