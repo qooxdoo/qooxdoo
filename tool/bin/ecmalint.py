@@ -424,7 +424,7 @@ class Lint:
                 prot = "protected"
             
             if not field in restricted:
-                self.log(node, "Implicit declatation of %s field '%s'. You should list this filed in the members section." % (prot, field))
+                self.log(node, "Implicit declatation of %s field '%s'. You should list this field in the members section." % (prot, field))
         
 
 
