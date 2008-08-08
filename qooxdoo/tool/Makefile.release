@@ -62,7 +62,8 @@ SDK_COPY = application/index.html
 
 release: release-sdk release-build release-quickstart
 
-release-build: build release-build-info release-build-collect quickstart release-build-archive
+release-build: build release-build-sans-build
+release-build-sans-build: release-build-info release-build-collect quickstart release-build-archive
 
 release-build-info:
 	@echo
@@ -85,28 +86,39 @@ release-build-collect:
 	@echo "  * Synchronizing applications..."
 	@for APPLICATION in $(APPLICATIONS); do \
 		echo "    - $$APPLICATION"; \
-	  $(CMD_DIR) $(RELEASE_BUILD)/frontend/$$APPLICATION; \
+	  $(CMD_DIR) $(RELEASE_BUILD)/$$APPLICATION; \
 		if [ ! -r application/$$APPLICATION/build ]; then \
 		  echo "      - Missing build folder! Run $(CMD_GENERATOR) build first!"; \
 		  exit 1; \
 		fi; \
-	  $(CMD_SYNC_OFFLINE) application/$$APPLICATION/build/* $(RELEASE_BUILD)/frontend/$$APPLICATION; \
+	  $(CMD_SYNC_OFFLINE) application/$$APPLICATION/build/* $(RELEASE_BUILD)/$$APPLICATION; \
+	done
+
+	@echo "  * Synchronizing components..."
+	@for APPLICATION in $(COMPONENTS); do \
+		echo "    - $$APPLICATION"; \
+	  $(CMD_DIR) $(RELEASE_BUILD)/$$APPLICATION; \
+		if [ ! -r component/$$APPLICATION/build ]; then \
+		  echo "      - Missing build folder! Run $(CMD_GENERATOR) build first!"; \
+		  exit 1; \
+		fi; \
+	  $(CMD_SYNC_OFFLINE) component/$$APPLICATION/build/* $(RELEASE_BUILD)/$$APPLICATION; \
 	done
 
 	@echo "  * Generating index.html..."
 	@cat application/index.html | \
 		sed 's/class="local"/class="local hide"/g' | \
-		sed 's/ class="publish"//g' > $(RELEASE_BUILD)/frontend/index.html
+		sed 's/ class="publish"//g' > $(RELEASE_BUILD)/index.html
 
 	@echo "  * Switching to Unix line endings..."
 	@$(CMD_FIND) $(RELEASE_BUILD) $(FILES_TEXT) $(CMD_ANY2UNIX)
 
 release-build-archive:
 	@echo "  * Synchronizing quickstart..."
-	@$(CMD_SYNC_OFFLINE) component/qooxdoo-$(FRAMEWORK_VERSION)-quickstart.zip $(RELEASE_BUILD)/frontend/
+	@$(CMD_SYNC_OFFLINE) component/qooxdoo-$(FRAMEWORK_VERSION)-quickstart.zip $(RELEASE_BUILD)/
 
 	@echo "  * Generating zip archive..."
-	@cd release/temp/build; $(CMD_REMOVE) ../../../qooxdoo-$(FRAMEWORK_VERSION)-build.zip; $(CMD_NICE) zip -rq ../../../qooxdoo-$(FRAMEWORK_VERSION)-build.zip qooxdoo-$(FRAMEWORK_VERSION)-build
+	@cd release/temp/build; $(CMD_REMOVE) ../../qooxdoo-$(FRAMEWORK_VERSION)-build.zip; $(CMD_NICE) zip -rq ../../qooxdoo-$(FRAMEWORK_VERSION)-build.zip qooxdoo-$(FRAMEWORK_VERSION)-build
 
 	@echo "  * Cleaning up..."
 	@rm -rf release/temp
@@ -116,7 +128,8 @@ release-build-archive:
 
 
 
-release-sdk: distclean release-sdk-info release-sdk-collect skeleton quickstart release-sdk-archive
+#release-sdk: distclean release-sdk-info release-sdk-collect skeleton quickstart release-sdk-archive
+release-sdk: release-sdk-info release-sdk-collect skeleton quickstart release-sdk-archive
 
 release-sdk-info:
 	@echo
@@ -172,7 +185,7 @@ release-sdk-archive:
 	@$(CMD_SYNC_OFFLINE) component/qooxdoo-$(FRAMEWORK_VERSION)-skeleton.zip $(RELEASE_SDK)/component/
 
 	@echo "  * Generating zip archive..."
-	@cd release/temp/sdk; $(CMD_REMOVE) ../../../qooxdoo-$(FRAMEWORK_VERSION)-sdk.zip; $(CMD_ZIP_CREATE) ../../../qooxdoo-$(FRAMEWORK_VERSION)-sdk.zip release/qooxdoo-$(FRAMEWORK_VERSION)-sdk
+	@cd release/temp/sdk; $(CMD_REMOVE) ../../qooxdoo-$(FRAMEWORK_VERSION)-sdk.zip; $(CMD_ZIP_CREATE) ../../qooxdoo-$(FRAMEWORK_VERSION)-sdk.zip qooxdoo-$(FRAMEWORK_VERSION)-sdk
 
 	@echo "  * Cleaning up..."
 	@rm -rf release/temp
@@ -313,5 +326,30 @@ distclean:
 	@$(CMD_REMOVE) application/*.zip
 	@$(CMD_REMOVE) release
 
+build:
+	@time for APPLICATION in $(APPLICATIONS); do ( cd application/$$APPLICATION && $(CMD_GENERATOR) build ) || exit 1; done
+	@time for APPLICATION in $(COMPONENTS); do ( cd component/$$APPLICATION && $(CMD_GENERATOR) build ) || exit 1; done
 
+source:
+	@time for APPLICATION in $(APPLICATIONS); do ( cd application/$$APPLICATION && $(CMD_GENERATOR) source ) || exit 1; done
+	@time for APPLICATION in $(COMPONENTS); do ( cd component/$$APPLICATION && $(CMD_GENERATOR) source ) || exit 1; done
+
+publish:
+	@echo "  * Preparing index.html..."
+	@$(CMD_DIR) temp/
+	@cat application/index.html | \
+		sed 's/class="local"/class="local hide"/g' | \
+		sed 's/ class="publish"//g' > temp/index.html
+	@echo "  * Syncing index.html..."
+	@$(CMD_SYNC_ONLINE) temp/index.html root@qooxdoo.org:/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/
+	@$(CMD_REMOVE) temp
+	@echo "  * Syncing applications..."
+	@for APPLICATION in $(APPLICATIONS); do \
+	  echo "    - $$APPLICATION..."; \
+	  rsync --checksum --compress --recursive --delete --inplace --links --safe-links --exclude .svn application/$$APPLICATION/build/* root@qooxdoo.org:/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$APPLICATION || exit 1; \
+	done
+	@for APPLICATION in $(COMPONENTS); do \
+	  echo "    - $$APPLICATION..."; \
+	  rsync --checksum --compress --recursive --delete --inplace --links --safe-links --exclude .svn component/$$APPLICATION/build/* root@qooxdoo.org:/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$APPLICATION || exit 1; \
+	done
 
