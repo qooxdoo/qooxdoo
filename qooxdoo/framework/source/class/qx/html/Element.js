@@ -471,7 +471,7 @@ qx.Class.define("qx.html.Element",
         this._element = this._createDomElement();
         this._element.$$hash = this.$$hash;
 
-        this._copyData();
+        this._copyData(false);
 
         if (length > 0) {
           this._insertChildren();
@@ -642,9 +642,11 @@ qx.Class.define("qx.html.Element",
      * simply copies all the data and only works well directly after
      * element creation. After this the data must be synced using {@link #_syncData}
      *
+     * @param fromMarkup {Boolean} Whether the copy should respect styles
+     *   given from markup
      * @return {void}
      */
-    _copyData : function()
+    _copyData : function(fromMarkup)
     {
       var elem = this._element;
 
@@ -663,10 +665,19 @@ qx.Class.define("qx.html.Element",
       var data = this.__styleValues;
       if (data)
       {
-        // Set styles at once which is a lot faster in most browsers
-        // compared to separate modifications of many single style properties.
         var Style = qx.bom.element.Style;
-        Style.setCss(elem, Style.compile(data));
+        if (fromMarkup)
+        {
+          for (var key in data) {
+            Style.set(elem, key, data[key]);
+          }
+        }
+        else
+        {
+          // Set styles at once which is a lot faster in most browsers
+          // compared to separate modifications of many single style properties.
+          Style.setCss(elem, Style.compile(data));
+        }
       }
 
       // Copy properties
@@ -1285,6 +1296,33 @@ qx.Class.define("qx.html.Element",
      */
     getNodeName : function() {
       return this._nodeName;
+    },
+
+
+    /**
+     * Uses existing markup for this element. This is mainly used
+     * to insert pre-built markup blocks into the element hierarchy.
+     *
+     * @param html {String} HTML markup with one root element
+     *   which is used as the main element for this instance.
+     * @return {Element} The created DOM element
+     */
+    useMarkup : function(html)
+    {
+      if (this._element) {
+        throw new Error("Could not overwrite existing element!");
+      }
+
+      // Prepare extraction
+      var helper = document.createElement("DIV");
+      helper.innerHTML = html;
+
+      // Extract first element
+      this._element = helper.firstChild;
+      this._element.$$hash = this.$$hash;
+
+      // Copy currently existing data over to element
+      this._copyData(true);
     },
 
 
