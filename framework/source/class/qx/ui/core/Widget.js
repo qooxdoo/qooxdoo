@@ -2009,6 +2009,8 @@ qx.Class.define("qx.ui.core.Widget",
         zIndex: 7
       });
 
+      // IE needs some extra love here to convince him to
+      // block events.
       if (qx.core.Variant.isSet("qx.client", "mshtml"))
       {
         protect.setStyles(
@@ -2084,8 +2086,11 @@ qx.Class.define("qx.ui.core.Widget",
         // Reuse or create element
         if (pool[value] && pool[value].length > 0) {
           elem = pool[value].pop();
-        } else {
+        }
+        else
+        {
           elem = this._createDecoratorElement(value);
+          elem.setStyle("zIndex", 5);
         }
 
         // Tint decorator
@@ -2125,12 +2130,6 @@ qx.Class.define("qx.ui.core.Widget",
       }
     },
 
-
-    /** {qx.ui.decoration.IDecorator} The resolved decorator */
-    __shadow : null,
-
-    /** {qx.html.Element} The shadow element */
-    __shadowElement : null,
 
     // property apply
     _applyShadow : function(value, old)
