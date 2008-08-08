@@ -71,6 +71,8 @@ qx.Class.define("demobrowser.demo.widget.ColorPopup",
         mypop.show();
       });
 
+
+
       var myview = new qx.ui.basic.Label("Selected Color").set({
         decorator : "inset",
         padding : [3, 6]
