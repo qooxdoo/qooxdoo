@@ -292,6 +292,29 @@ qx.Theme.define("qx.theme.modern.Decoration",
     ---------------------------------------------------------------------------
     */
 
+    "scrollbar-horizontal" :
+    {
+      decorator : qx.ui.decoration.Uniform,
+
+      style :
+      {
+        backgroundImage : "decoration/scrollbar/scrollbar-bg-horizontal.png",
+        backgroundRepeat : "repeat-x"
+      }
+    },
+
+
+    "scrollbar-vertical" :
+    {
+      decorator : qx.ui.decoration.Uniform,
+
+      style :
+      {
+        backgroundImage : "decoration/scrollbar/scrollbar-bg-vertical.png",
+        backgroundRepeat : "repeat-y"
+      }
+    },
+    
     "slider-knob-vertical" :
     {
       decorator : qx.ui.decoration.Beveled,
@@ -457,36 +480,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
     },
 
 
-    /*
-    ---------------------------------------------------------------------------
-      SCROLLBAR
-    ---------------------------------------------------------------------------
-    */
-
-    "scrollbar-horizontal" :
-    {
-      decorator : qx.ui.decoration.Uniform,
-
-      style :
-      {
-        backgroundImage : "decoration/scrollbar/scrollbar-bg-horizontal.png",
-        backgroundRepeat : "repeat-x"
-      }
-    },
-
-
-    "scrollbar-vertical" :
-    {
-      decorator : qx.ui.decoration.Uniform,
-
-      style :
-      {
-        backgroundImage : "decoration/scrollbar/scrollbar-bg-vertical.png",
-        backgroundRepeat : "repeat-y"
-      }
-    },
-
-
+    
     /*
     ---------------------------------------------------------------------------
       TOOLBAR

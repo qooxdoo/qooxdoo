@@ -224,12 +224,13 @@
              "layout" : "horizontal"
           },
 
-          "${RESPATH}/${MODERN}/checkradio-combined.png":
+          "${RESPATH}/${MODERN}/inputcheckradio-combined.png":
           {
             "input"  : 
               [
                 "${RESPATH}/${MODERN}/form/checkbox-*.png", 
-                "${RESPATH}/${MODERN}/form/radiobutton-*.png"
+                "${RESPATH}/${MODERN}/form/radiobutton-*.png",
+                "${RESPATH}/${MODERN}/form/input.png"
               ],
              "layout" : "horizontal"
           },
@@ -331,6 +332,26 @@
             "input"  : 
               [
                 "${RESPATH}/${MODERN}/cursors/*.gif"
+              ],
+             "layout" : "horizontal"
+          },
+          
+          // scrollbar images
+          "${RESPATH}/${MODERN}/scrollbar-combined.png":
+          {
+            "input"  : 
+              [
+                "${RESPATH}/${MODERN}/scrollbar/*.png"
+              ],
+             "layout" : "horizontal"
+          },
+          
+          // toolbar images
+          "${RESPATH}/${MODERN}/toolbar-combined.png":
+          {
+            "input"  : 
+              [
+                "${RESPATH}/${MODERN}/toolbar/*.png"
               ],
              "layout" : "horizontal"
           }
