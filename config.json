@@ -1,0 +1,21 @@
+{
+  "name"    : "Juhu",
+
+  "include" :
+  [
+    {
+      "path" : "..//tool/data/config/application.json"
+    }
+  ],
+
+  "let" :
+  {
+    "APPLICATION"  : "juhu",
+    "QOOXDOO_PATH" : "../",
+    "QOOXDOO_URI"  : "../../",
+    "CACHE"        : "./cache",
+    "QXTHEME"      : "qx.theme.Modern",
+    "LOCALES"      : [ "en" ],
+    "ROOT"         : "."
+  }
+}
