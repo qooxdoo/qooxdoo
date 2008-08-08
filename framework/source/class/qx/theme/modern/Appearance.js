@@ -1762,6 +1762,26 @@ qx.Theme.define("qx.theme.modern.Appearance",
     "colorselector/brightness-field" : "widget",
     "colorselector/brightness-handle" : "widget",
 
+    
+    /*
+    ---------------------------------------------------------------------------
+      COLOR POPUP
+    ---------------------------------------------------------------------------
+    */
+
+
+    "color-popup" :
+    {
+      alias : "popup",
+      include : "popup",
+
+      style : function(states)
+      {
+        return {
+          decorator : "pane"
+        }
+      }
+    },
 
 
     /*
