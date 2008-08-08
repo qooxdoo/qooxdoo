@@ -132,11 +132,11 @@ qx.Class.define("qx.ui.root.Page",
 
       // set the size to 0 so make the content element invisible
       // this works because the content element has overflow "show"
-      this._containerElement.setStyles({
+      this.getContainerElement().setStyles({
         width: 0,
         height: 0
       });
-      this._contentElement.setStyles({
+      this.getContentElement().setStyles({
         width: 0,
         height: 0
       });

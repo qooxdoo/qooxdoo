@@ -106,11 +106,11 @@ qx.Class.define("qx.ui.core.queue.Layout",
           break;
         }
 
-        if (!parent._parent) {
+        if (!parent.$$parent) {
           break;
         }
 
-        parent = parent._parent;
+        parent = parent.$$parent;
         level += 1;
       }
 
@@ -119,7 +119,7 @@ qx.Class.define("qx.ui.core.queue.Layout",
       while (widget && widget !== parent)
       {
         cache[widget.$$hash] = leveldown--;
-        widget = widget._parent;
+        widget = widget.$$parent;
       }
 
       return level;
@@ -160,14 +160,14 @@ qx.Class.define("qx.ui.core.queue.Layout",
           break;
         }
 
-        parent = parent._parent;
+        parent = parent.$$parent;
       }
 
       // Update the processed hierarchy
       while (widget && widget !== parent)
       {
         cache[widget.$$hash] = value;
-        widget = widget._parent;
+        widget = widget.$$parent;
       }
 
       return value;
