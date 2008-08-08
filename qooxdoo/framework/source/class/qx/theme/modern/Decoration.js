@@ -266,8 +266,8 @@ qx.Theme.define("qx.theme.modern.Decoration",
       }
     },
 
-    
-    
+
+
     /*
     ---------------------------------------------------------------------------
       GROUPBOX
@@ -277,13 +277,13 @@ qx.Theme.define("qx.theme.modern.Decoration",
     "groupbox-frame" :
     {
       decorator : qx.ui.decoration.Grid,
-      
+
       style :
       {
         baseImage : "decoration/groupbox/groupbox.png"
       }
     },
-      
+
 
 
     /*
@@ -314,7 +314,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
         backgroundRepeat : "repeat-y"
       }
     },
-    
+
     "slider-knob-vertical" :
     {
       decorator : qx.ui.decoration.Beveled,
@@ -480,7 +480,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
     },
 
 
-    
+
     /*
     ---------------------------------------------------------------------------
       TOOLBAR
@@ -805,11 +805,11 @@ qx.Theme.define("qx.theme.modern.Decoration",
         baseImage : "decoration/window/statusbar.png"
       }
     },
-    
+
     "window-pane-content" :
     {
       decorator : qx.ui.decoration.Single,
-      
+
       style :
       {
         width : 1,
