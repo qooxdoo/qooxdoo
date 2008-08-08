@@ -52,6 +52,9 @@ qx.Class.define("qx.ui.menu.Menu",
     // Register mouse listeners
     this.addListener("mouseover", this._onMouseOver);
     this.addListener("mouseout", this._onMouseOut);
+
+    // Initialize visibiltiy
+    this.initVisibility();
   },
 
 
@@ -312,7 +315,7 @@ qx.Class.define("qx.ui.menu.Menu",
           parentMenu.setOpenedButton(opener);
         }
       }
-      else
+      else if (old === "visible")
       {
         // Deregister from manager (zIndex handling etc.)
         mgr.remove(this);

@@ -86,6 +86,9 @@ qx.Class.define("qx.ui.window.Window",
     // Automatically add to application root.
     qx.core.Init.getApplication().getRoot().add(this);
 
+    // Initialize visibiltiy
+    this.initVisibility();
+
     // Register as root for the focus handler
     qx.ui.core.FocusHandler.getInstance().addRoot(this);
   },
