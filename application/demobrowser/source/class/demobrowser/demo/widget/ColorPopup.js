@@ -40,22 +40,7 @@ qx.Class.define("demobrowser.demo.widget.ColorPopup",
 
       var doc = this.getRoot();
 
-      var mytables =
-      {
-        core : {
-          label : "Basic Colors",
-          values : [ "#000", "#333", "#666", "#999", "#CCC", "#FFF", "red", "green", "blue", "yellow", "teal", "maroon" ]
-        },
-
-        recent : {
-          label : "Recent Colors",
-
-          // In this case we need named colors or rgb-value-strings, hex is not allowed currently
-          values : [ "rgb(122,195,134)", "orange" ]
-        }
-      }
-
-      var mypop = new qx.ui.control.ColorPopup(mytables);
+      var mypop = new qx.ui.control.ColorPopup();
       mypop.exclude();
       mypop.setValue("#23F3C1");
 
