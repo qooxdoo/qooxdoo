@@ -1841,7 +1841,7 @@ qx.Class.define("qx.ui.core.Widget",
     _removeAll : function()
     {
       if (!this.__children) {
-        throw new Error("This widget has no children!");
+        return;
       }
 
       var children = this.__children;
