@@ -44,7 +44,6 @@ qx.Class.define("demobrowser.demo.widget.Window",
       // Create the Window
       var win = new qx.ui.window.Window("First Window", "icon/16/apps/office-calendar.png");
       win.setLayout(new qx.ui.layout.VBox(10));
-      win.setContentPadding([10, 10, 10, 10]);
       win.setShowStatusbar(true);
       win.setStatus("Demo loaded");
       win.open();
@@ -59,15 +58,23 @@ qx.Class.define("demobrowser.demo.widget.Window",
       win.addListener("resize", function(e) {
         this.debug("Resized to: " + e.getData().width + "x" + e.getData().height);
       });
+      
+      // Add container for content
+      var contentContainer = new qx.ui.container.Composite(new qx.ui.layout.VBox(20));
+      contentContainer.set({
+        appearance : "window-pane-content",
+        padding    : 8
+      });
+      win.add(contentContainer);
 
       // Add an Atom
       var atom = new qx.ui.basic.Atom("Welcome to your first own Window.<br/>Have fun!", "icon/32/apps/office-address-book.png");
       atom.setRich(true);
-      win.add(atom);
+      contentContainer.add(atom);
 
       // Add a TabView
       var tabView = new qx.ui.tabview.TabView;
-      win.add(tabView, {flex:1});
+      contentContainer.add(tabView, {flex:1});
 
       var page1 = new qx.ui.tabview.Page("Page 1");
       tabView.add(page1);
@@ -84,18 +91,25 @@ qx.Class.define("demobrowser.demo.widget.Window",
     {
       var win = new qx.ui.window.Window("Second Window", "icon/16/apps/internet-feed-reader.png");
       win.setLayout(new qx.ui.layout.VBox(10));
-      win.setContentPadding([10, 10, 10, 10]);
       win.setStatus("Application is ready");
       win.open();
       this.getRoot().add(win, {left:350, top:120});
 
+      
+      var contentContainer = new qx.ui.container.Composite(new qx.ui.layout.VBox(10));
+      contentContainer.set({
+        appearance : "window-pane-content",
+        padding    : 8
+      });
+      win.add(contentContainer);
+      
       var atom = new qx.ui.basic.Atom("The second window", "icon/22/apps/utilities-calculator.png");
-      win.add(atom);
+      contentContainer.add(atom);
 
 
       var box = new qx.ui.container.Composite;
       box.setLayout(new qx.ui.layout.HBox(10));
-      win.add(box, {flex:1});
+      contentContainer.add(box, {flex:1});
 
 
 
@@ -249,15 +263,21 @@ qx.Class.define("demobrowser.demo.widget.Window",
     getModalWindow2 : function()
     {
       var wm2 = new qx.ui.window.Window("Second Modal Dialog");
-      wm2.setContentPadding([10, 10, 10, 10]);
       wm2.setLayout(new qx.ui.layout.VBox(10));
       wm2.setModal(true);
       wm2.setShowClose(false);
       wm2.moveTo(300, 300);
       this.getRoot().add(wm2);
 
+      var contentContainer = new qx.ui.container.Composite(new qx.ui.layout.VBox(10));
+      contentContainer.set({
+        appearance : "window-pane-content",
+        padding    : 8
+      });
+      wm2.add(contentContainer);
+      
       var warn1 = new qx.ui.basic.Atom("Do you want to fly to Berlin?", "icon/32/status/dialog-error.png");
-      wm2.add(warn1);
+      contentContainer.add(warn1);
 
       var box = new qx.ui.container.Composite;
       box.setLayout(new qx.ui.layout.HBox(10, "right"));
