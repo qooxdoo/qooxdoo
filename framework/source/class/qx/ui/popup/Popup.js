@@ -45,6 +45,9 @@ qx.Class.define("qx.ui.popup.Popup",
 
     // Automatically add to application's root
     qx.core.Init.getApplication().getRoot().add(this);
+
+    // Initialize visibiltiy
+    this.initVisibility();
   },
 
 
