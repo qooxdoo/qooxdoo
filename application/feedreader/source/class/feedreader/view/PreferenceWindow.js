@@ -78,14 +78,13 @@ qx.Class.define("feedreader.view.PreferenceWindow",
     _addContent : function()
     {
       // Set the layout of the window
-      var windowLayout = new qx.ui.layout.VBox(1);
+      var windowLayout = new qx.ui.layout.VBox(10);
       this.setLayout(windowLayout);
       this.setMinWidth(350);
       
       // Create container for groupBox
       var container = new qx.ui.container.Composite(new qx.ui.layout.VBox());
-      var containerDecorator = new qx.ui.decoration.Single(1, "solid", "#4d4d4d");
-      container.set({ backgroundColor : "#f6f6f6", padding : 3, decorator : containerDecorator });
+      container.setAppearance("window-pane-content");
       
       // Create and add a groupbox
       var groupBox = new qx.ui.groupbox.GroupBox(this.tr("Language"), "icon/16/apps/preferences-locale.png");
@@ -119,9 +118,6 @@ qx.Class.define("feedreader.view.PreferenceWindow",
       // add the button bar
       var buttonBarLayout = new qx.ui.layout.HBox(10, "right");
       var buttonBar = new qx.ui.container.Composite(buttonBarLayout);
-      buttonBar.set({ backgroundColor : "#f6f6f6",
-                      decorator : containerDecorator,
-                      padding   : 6 });
       
       var cancelButton = new qx.ui.form.Button(this.tr("Cancel"), "icon/16/actions/dialog-cancel.png");
       cancelButton.addListener("execute", this.close, this);
