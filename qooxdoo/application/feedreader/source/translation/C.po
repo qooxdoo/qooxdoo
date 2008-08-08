@@ -21,23 +21,27 @@ msgstr ""
 msgid "Add a feed"
 msgstr ""
 
-#: feedreader/view/AddFeedWindow.js:86
+#: feedreader/view/AddFeedWindow.js:95
 msgid "Feed Information"
 msgstr ""
 
-#: feedreader/view/AddFeedWindow.js:95
+#: feedreader/view/AddFeedWindow.js:102
 msgid "Title:"
 msgstr ""
 
-#: feedreader/view/AddFeedWindow.js:98
+#: feedreader/view/AddFeedWindow.js:105
 msgid "URL:"
 msgstr ""
 
-#: feedreader/view/AddFeedWindow.js:132
+#: feedreader/view/AddFeedWindow.js:117
+msgid "Add"
+msgstr ""
+
+#: feedreader/view/AddFeedWindow.js:139
 msgid "Please enter a title."
 msgstr ""
 
-#: feedreader/view/AddFeedWindow.js:140
+#: feedreader/view/AddFeedWindow.js:147
 msgid "Please enter a url."
 msgstr ""
 
@@ -45,19 +49,19 @@ msgstr ""
 msgid "Posts"
 msgstr ""
 
-#: feedreader/view/PreferenceWindow.js:48 feedreader/view/ToolBar.js:88
+#: feedreader/view/PreferenceWindow.js:49 feedreader/view/ToolBar.js:88
 msgid "Preferences"
 msgstr ""
 
-#: feedreader/view/PreferenceWindow.js:91
+#: feedreader/view/PreferenceWindow.js:90
 msgid "Language"
 msgstr ""
 
-#: feedreader/view/PreferenceWindow.js:126
+#: feedreader/view/PreferenceWindow.js:122
 msgid "Cancel"
 msgstr ""
 
-#: feedreader/view/PreferenceWindow.js:129
+#: feedreader/view/PreferenceWindow.js:125
 msgid "OK"
 msgstr ""
 
@@ -93,11 +97,11 @@ msgstr ""
 msgid "User Feeds"
 msgstr ""
 
-#~ msgid "Theme"
-#~ msgstr ""
-
 #~ msgid "Classic"
 #~ msgstr ""
 
 #~ msgid "Modern"
+#~ msgstr ""
+
+#~ msgid "Theme"
 #~ msgstr ""
