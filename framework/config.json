@@ -1,6 +1,6 @@
 // qooxdoo framework - config.json
 {
-  "include" : 
+  "include" :
   [
     {
       "path" : "../tool/data/config/application.json"
@@ -9,12 +9,23 @@
       "path" : "image.json"
     }
   ],
-  
+
   "let" :
   {
     "APPLICATION"  : "qx",
     "QOOXDOO_PATH" : ".",
     "QOOXDOO_URI"  : "../${QOOXDOO_PATH}",
     "CACHE"        : "../cache"
+  },
+
+  "jobs":
+  {
+    "publish-api" :
+    {
+      "shell" :
+      {
+        "command" : "rsync --checksum --compress --recursive --delete --inplace --links --safe-links --exclude .svn api/* root@qooxdoo.org:/var/www/qooxdoo/demo/0.8-rc1-pre/apiviewer"
+      }
+    }
   }
 }
