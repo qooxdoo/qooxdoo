@@ -1731,6 +1731,10 @@ qx.Class.define("qx.ui.core.Widget",
      */
     _addAt : function(child, index, options)
     {
+      if (!this.__children) {
+        this.__children = [];
+      }
+
       var ref = this.__children[index];
 
       if (ref === child) {
@@ -1738,10 +1742,6 @@ qx.Class.define("qx.ui.core.Widget",
       }
 
       this.__addHelper(child, options);
-
-      if (!this.__children) {
-        this.__children = [];
-      }
 
       if (ref) {
         qx.lang.Array.insertBefore(this.__children, child, ref);
