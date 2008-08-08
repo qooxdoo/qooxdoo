@@ -798,6 +798,12 @@ qx.Class.define("qx.ui.core.Widget",
     */
 
     /**
+     * {qx.ui.layout.Abstract} The connected layout manager
+     */
+    __layout : null,
+
+
+    /**
      * Get the widget's layout manager.
      *
      * @return {qx.ui.layout.Abstract} The widget's layout manager
@@ -841,23 +847,27 @@ qx.Class.define("qx.ui.core.Widget",
     // overridden
     setLayoutParent : function(parent)
     {
-      if (this._parent === parent) {
+      if (this.$$parent === parent) {
         return;
       }
 
-      if (this._parent) {
-        this._parent.getContentElement().remove(this._containerElement);
+      if (this.$$parent) {
+        this.$$parent.getContentElement().remove(this._containerElement);
       }
 
-      this._parent = parent || null;
+      this.$$parent = parent || null;
 
-      if (this._parent) {
-        this._parent.getContentElement().add(this._containerElement);
+      if (this.$$parent) {
+        this.$$parent.getContentElement().add(this._containerElement);
       }
 
       // Update inheritable properties
       qx.core.Property.refresh(this);
     },
+
+
+    /** {Array} list of separators */
+    __separators : null,
 
 
     /**
@@ -867,13 +877,13 @@ qx.Class.define("qx.ui.core.Widget",
      */
     configureSeparators : function(number)
     {
-      var objs = this._separators;
+      var objs = this.__separators;
       var content = this.getContentElement();
       var el;
 
       if (!objs)
       {
-        objs = this._separators = [];
+        objs = this.__separators = [];
         for (var i=0; i<number; i++)
         {
           el = new qx.html.Element;
@@ -917,7 +927,7 @@ qx.Class.define("qx.ui.core.Widget",
      */
     renderHorizontalSeparator : function(separator, index, left, height)
     {
-      var el = this._separators[index];
+      var el = this.__separators[index];
       var mgr = qx.theme.manager.Color.getInstance();
 
       el.setStyle("left", left + "px");
@@ -940,7 +950,7 @@ qx.Class.define("qx.ui.core.Widget",
      */
     renderVerticalSeparator : function(separator, index, top, width)
     {
-      var el = this._separators[index];
+      var el = this.__separators[index];
       var mgr = qx.theme.manager.Color.getInstance();
 
       el.setStyle("left", "0px");
@@ -952,6 +962,18 @@ qx.Class.define("qx.ui.core.Widget",
       el.setStyle("borderBottom", separator[1] ? "1px solid " + mgr.resolve(separator[1]) : null);
     },
 
+
+    /** {Boolean} Whether insets have changed and must be updated */
+    __updateInsets : null,
+
+    /** {Boolean} Whether the decorator must be initialized */
+    __initDecorator : null,
+
+    /** {Boolean} Whether the CSS styles of the decorator must be updated */
+    __styleDecorator : null,
+
+    /** {Boolean} Whether the background color has changed */
+    __styleBackgroundColor : null,
 
     // overridden
     renderLayout : function(left, top, width, height)
@@ -984,7 +1006,7 @@ qx.Class.define("qx.ui.core.Widget",
       }
 
 
-      if (inner || changes.local || this.__updateMargin)
+      if (inner || changes.local || changes.margin)
       {
         var insets = this.getInsets();
         var innerWidth = width - insets.left - insets.right;
@@ -1005,7 +1027,7 @@ qx.Class.define("qx.ui.core.Widget",
 
       if (changes.size || this.__styleDecorator || this.__initDecorator)
       {
-        if (this._decorator)
+        if (this.__decorator)
         {
           var decoBack = this.getBackgroundColor();
           var decoElement = this._decorationElement;
@@ -1017,7 +1039,7 @@ qx.Class.define("qx.ui.core.Widget",
             bgcolor : this.__styleBackgroundColor
           };
 
-          this._decorator.render(decoElement, width, height, decoBack, decoChanges);
+          this.__decorator.render(decoElement, width, height, decoBack, decoChanges);
         }
 
         delete this.__styleDecorator;
@@ -1025,11 +1047,11 @@ qx.Class.define("qx.ui.core.Widget",
         delete this.__initDecorator;
       }
 
-      if (changes.size && this._shadow) {
+      if (changes.size && this.__shadow) {
         this.__updateShadow(false, false, true)
       }
 
-      if (inner || changes.local || this.__updateMargin)
+      if (inner || changes.local || changes.margin)
       {
         if (this.__layout && this.hasLayoutChildren()) {
           this.__layout.renderLayout(innerWidth, innerHeight);
@@ -1048,7 +1070,6 @@ qx.Class.define("qx.ui.core.Widget",
       }
 
       delete this.__updateInsets;
-      delete this.__updateMargin;
     },
 
 
@@ -1257,9 +1278,9 @@ qx.Class.define("qx.ui.core.Widget",
       var bottom = this.getPaddingBottom();
       var left = this.getPaddingLeft();
 
-      if (this._decorator)
+      if (this.__decorator)
       {
-        var inset = this._decorator.getInsets();
+        var inset = this.__decorator.getInsets();
 
         if (qx.core.Variant.isSet("qx.debug", "on"))
         {
@@ -1527,6 +1548,15 @@ qx.Class.define("qx.ui.core.Widget",
     ---------------------------------------------------------------------------
     */
 
+    /** {qx.ui.core.LayoutItem[]} List of all child widgets */
+    __children : null,
+
+    /**
+     * {qx.ui.core.LayoutItem[]} List of child widget, which should be considered
+     *    by the layout manager.
+     */
+    __layoutChildren: null,
+
     /**
      * Returns all children, which are layout relevant. This excludes all widgets,
      * which have a {@link qx.ui.core.Widget#visibility} value of <code>exclude</code>.
@@ -1668,7 +1698,6 @@ qx.Class.define("qx.ui.core.Widget",
      * @param child {LayoutItem} widget to add
      * @param index {Integer} Index, at which the widget will be inserted
      * @param options {Map?null} Optional layout data for widget.
-     * @return {void}
      */
     _addAt : function(child, index, options)
     {
@@ -1940,6 +1969,10 @@ qx.Class.define("qx.ui.core.Widget",
     ---------------------------------------------------------------------------
     */
 
+    /** {qx.ui.decoration.IDecorator} The resolved decorator */
+    __decorator : null,
+
+    // property apply
     _applyDecorator : function(value, old)
     {
       var Manager = qx.theme.manager.Decoration.getInstance();
@@ -1957,7 +1990,7 @@ qx.Class.define("qx.ui.core.Widget",
 
         var newDeco = Manager.resolve(value);
 
-        this._decorator = newDeco;
+        this.__decorator = newDeco;
 
         if (!this._decorationElement)
         {
@@ -1967,29 +2000,31 @@ qx.Class.define("qx.ui.core.Widget",
       }
       else
       {
-        this._decorator = null;
+        this.__decorator = null;
       }
 
       qx.ui.core.queue.Layout.add(this);
     },
 
 
+    __oldInsets : null,
+
     // property apply
     _applyDecoratorOld : function(value, old)
     {
       var oldInsets = this.__oldInsets;
-      var oldDecorator = this._decorator;
+      var oldDecorator = this.__decorator;
       var newInsets;
 
       if(value)
       {
-        this._decorator = qx.theme.manager.Decoration.getInstance().resolve(value);
-      	newInsets = this._decorator.getInsets();
+        this.__decorator = qx.theme.manager.Decoration.getInstance().resolve(value);
+      	newInsets = this.__decorator.getInsets();
         this.__oldInsets = qx.lang.Object.copy(newInsets);
       }
       else
       {
-      	this._decorator = null;
+      	this.__decorator = null;
       	newInsets = null;
       }
 
@@ -2001,7 +2036,7 @@ qx.Class.define("qx.ui.core.Widget",
       // When both values are set (transition)
       if (old && value)
       {
-        var classChanged = oldDecorator.classname !== this._decorator.classname;
+        var classChanged = oldDecorator.classname !== this.__decorator.classname;
         var insetsChanged = oldInsets.top !== newInsets.top ||
                             oldInsets.right !== newInsets.right ||
                             oldInsets.bottom !== newInsets.bottom ||
@@ -2058,7 +2093,7 @@ qx.Class.define("qx.ui.core.Widget",
         else if (!this.__styleDecorator)
         {
           var bounds = this.getBounds();
-          this._decorator.render(
+          this.__decorator.render(
             decorationElement,
             bounds.width, bounds.height,
             backgroundColor,
@@ -2075,22 +2110,28 @@ qx.Class.define("qx.ui.core.Widget",
     },
 
 
+    /** {qx.ui.decoration.IDecorator} The resolved decorator */
+    __shadow : null,
+
+    /** {qx.html.Element} The shadow element */
+    __shadowElement : null,
+
     // property apply
     _applyShadow : function(value, old)
     {
-      var oldShadow = this._shadow;
+      var oldShadow = this.__shadow;
       var classChanged = false;
 
       if (value) {
-        this._shadow = qx.theme.manager.Decoration.getInstance().resolve(value);
+        this.__shadow = qx.theme.manager.Decoration.getInstance().resolve(value);
       } else {
-        this._shadow = null;
+        this.__shadow = null;
       }
 
       if (old && value)
       {
         // When both values are set (transition)
-        classChanged = oldShadow.classname !== this._shadow.classname;
+        classChanged = oldShadow.classname !== this.__shadow.classname;
       }
       else
       {
@@ -2100,17 +2141,17 @@ qx.Class.define("qx.ui.core.Widget",
         if (value)
         {
           // Create shadow element on demand
-          if (!this._shadowElement)
+          if (!this.__shadowElement)
           {
-            this._shadowElement = this.__createShadowElement();
-            this._containerElement.add(this._shadowElement);
+            this.__shadowElement = this.__createShadowElement();
+            this._containerElement.add(this.__shadowElement);
           }
         }
       }
 
       // Reset old shadow
       if (old && classChanged) {
-        oldShadow.reset(this._shadowElement);
+        oldShadow.reset(this.__shadowElement);
       }
 
       if (value && this.getBounds()) {
@@ -2122,13 +2163,13 @@ qx.Class.define("qx.ui.core.Widget",
     __updateShadow : function(classChanged, doStyle, updateSize)
     {
       var bounds = this.getBounds();
-      var insets = this._shadow.getInsets();
-      this._shadowElement.setStyles({
+      var insets = this.__shadow.getInsets();
+      this.__shadowElement.setStyles({
         left: (-insets.left) + "px",
         top: (-insets.top) + "px"
       });
-      this._shadow.render(
-        this._shadowElement,
+      this.__shadow.render(
+        this.__shadowElement,
         bounds.width + insets.left + insets.right,
         bounds.height + insets.top + insets.bottom,
         null,
@@ -2172,7 +2213,7 @@ qx.Class.define("qx.ui.core.Widget",
       }
 
       // only force a layout update if visibility change from/to "exclude"
-      var parent = this._parent;
+      var parent = this.$$parent;
       if (parent && (old == null || value == null || old === "excluded" || value === "excluded")) {
         parent.invalidateLayoutChildren();
       }
@@ -2199,13 +2240,13 @@ qx.Class.define("qx.ui.core.Widget",
     // property apply
     _applyBackgroundColor : function(value, old)
     {
-      if (this._decorator)
+      if (this.__decorator)
       {
         if (!this.__styleDecorator)
         {
           var bounds = this.getBounds();
 
-          this._decorator.render(
+          this.__decorator.render(
             this._decorationElement,
             bounds.width, bounds.height,
             value, {bgcolor:true}
@@ -2251,6 +2292,9 @@ qx.Class.define("qx.ui.core.Widget",
       return states && states[state];
     },
 
+
+    /** {Map} The current widget states */
+    __states : null,
 
     /**
      * Sets a state.
@@ -2378,6 +2422,13 @@ qx.Class.define("qx.ui.core.Widget",
       APPEARANCE SUPPORT
     ---------------------------------------------------------------------------
     */
+
+
+    /** {String} TODOC */
+    __selector : null,
+
+    /** {Boolean} TODOC */
+    __updateSelector : null,
 
     /**
      * Renders the appearance using the current widget states.
@@ -3131,6 +3182,9 @@ qx.Class.define("qx.ui.core.Widget",
       return !!this.__childControls[id];
     },
 
+
+    /** {Map} Map of instantiated child controls */
+    __childControls : null,
 
     /**
      * Returns the child control from the given ID. Returns

@@ -1896,6 +1896,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       {
         return {
           minWidth : 40,
+          minHeight : 25,
           padding   : [ 3, 4 ],
           marginBottom : states.hovered ? 0 : 1,
           decorator : states.hovered ? "table-header-cell-hovered" : "table-header-cell",
