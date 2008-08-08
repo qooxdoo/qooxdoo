@@ -135,77 +135,23 @@ qx.Class.define("qx.ui.decoration.Double",
 
   members :
   {
-    // interface implementation
-    render : function(element, width, height, backgroundColor, changes)
+    /*
+    ---------------------------------------------------------------------------
+      INTERFACE IMPLEMENTATION
+    ---------------------------------------------------------------------------
+    */
+
+    getMarkup : function()
     {
-      // Be sure template is up-to-date first
-      this._updateTemplate();
-
-      // Fix box model
-      // Note: Scaled images are always using content box
-      var scaledImage = this.getBackgroundImage() && this.getBackgroundRepeat() == "scale";
-      if (scaledImage || qx.bom.client.Feature.CONTENT_BOX)
-      {
-        var insets = this.getInsets();
-        width -= insets.left + insets.right;
-        height -= insets.top + insets.bottom;
-      }
-      else
-      {
-        // Substract outer border
-        width -= this.getWidthLeft() + this.getWidthRight();
-        height -= this.getWidthTop() + this.getWidthBottom();
-      }
-
-      // Resolve background color
-      if (backgroundColor) {
-        backgroundColor = qx.theme.manager.Color.getInstance().resolve(backgroundColor);
-      }
-
-      // Compile HTML
-      var html = this._tmpl.run(
-      {
-        innerWidth: width,
-        innerHeight: height,
-        bgcolor: backgroundColor
-      });
-
-      // Apply HTML
-      element.setAttribute("html", html);
-    },
-
-
-    // interface implementation
-    getInsets : function()
-    {
-      if (this._insets) {
-        return this._insets;
-      }
-
-      this._insets =
-      {
-        top : this.getWidthTop() + this.getInnerWidthTop(),
-        right : this.getWidthRight() + this.getInnerWidthRight(),
-        bottom : this.getWidthBottom() + this.getInnerWidthBottom(),
-        left : this.getWidthLeft() + this.getInnerWidthLeft()
-      };
-
-      return this._insets;
-    },
-
-
-    _updateTemplate : function()
-    {
-      if (!this._invalidTemplate) {
-        return;
+      if (this.__markup) {
+        return this.__markup;
       }
 
       var Color = qx.theme.manager.Color.getInstance();
 
 
-
       // Inner styles
-      var innerStyles = "width:{innerWidth}px;height:{innerHeight}px;background-color:{bgcolor};";
+      var innerStyles = "width:{innerWidth}px;height:{innerHeight}px;";
 
       // Add inner borders
       var width = this.getInnerWidthTop();
@@ -234,7 +180,7 @@ qx.Class.define("qx.ui.decoration.Double",
 
 
       // Generate outer HTML
-      var outerHtml = '<div style="';
+      var outerHtml = '<div style="position:absolute;top:0;left:0;background-color:{bgcolor};';
 
       var width = this.getWidthTop();
       if (width > 0) {
@@ -259,12 +205,51 @@ qx.Class.define("qx.ui.decoration.Double",
       outerHtml += '">' + innerHtml + '</div>';
 
 
+      // Store
+      return this.__markup = outerHtml;
+    },
 
-      // Update template
-      this._tmpl.setContent(outerHtml);
 
-      // Cleanup flag
-      this._invalidTemplate = false;
+    resize : function(element, width, height)
+    {
+      // Fix box model
+      // Note: Scaled images are always using content box
+      var scaledImage = this.getBackgroundImage() && this.getBackgroundRepeat() == "scale";
+      if (scaledImage || qx.bom.client.Feature.CONTENT_BOX)
+      {
+        var insets = this.getInsets();
+        var innerWidth = width - insets.left - insets.right;
+        var innerHeight = height - insets.top - insets.bottom;
+      }
+      else
+      {
+        // Substract outer border
+        var innerWidth = width - this.getWidthLeft() - this.getWidthRight();
+        var innerHeight = height - this.getWidthTop() - this.getWidthBottom();
+      }
+
+      var dom = element.getDomElement();
+      dom.firstChild.style.width = innerWidth + "px";
+      dom.firstChild.style.height = innerHeight + "px";
+    },
+
+
+    // interface implementation
+    getInsets : function()
+    {
+      if (this._insets) {
+        return this._insets;
+      }
+
+      this._insets =
+      {
+        top : this.getWidthTop() + this.getInnerWidthTop(),
+        right : this.getWidthRight() + this.getInnerWidthRight(),
+        bottom : this.getWidthBottom() + this.getInnerWidthBottom(),
+        left : this.getWidthLeft() + this.getInnerWidthLeft()
+      };
+
+      return this._insets;
     }
   }
 });

@@ -988,7 +988,7 @@ qx.Class.define("qx.ui.core.Widget",
 
       var container = this._containerElement;
       var content = this._contentElement;
-      var inner = changes.size || this.__updateInsets;
+      var inner = changes.size || this._updateInsets;
       var pixel = "px";
 
       // Move container to new position
@@ -1005,7 +1005,6 @@ qx.Class.define("qx.ui.core.Widget",
         container.setStyle("height", height + pixel);
       }
 
-
       if (inner || changes.local || changes.margin)
       {
         var insets = this.getInsets();
@@ -1013,7 +1012,7 @@ qx.Class.define("qx.ui.core.Widget",
         var innerHeight = height - insets.top - insets.bottom;
       }
 
-      if (this.__updateInsets)
+      if (this._updateInsets)
       {
         content.setStyle("left", insets.left + pixel);
         content.setStyle("top", insets.top + pixel);
@@ -1025,30 +1024,39 @@ qx.Class.define("qx.ui.core.Widget",
         content.setStyle("height", innerHeight + pixel);
       }
 
-      if (changes.size || this.__styleDecorator || this.__initDecorator)
+      if (changes.size)
       {
-        if (this.__decorator)
+        var protector = this._protectorElement;
+        if (protector)
         {
-          var decoBack = this.getBackgroundColor();
-          var decoElement = this._decorationElement;
-          var decoChanges =
-          {
-            size : changes.size,
-            style : this.__styleDecorator,
-            init : this.__initDecorator,
-            bgcolor : this.__styleBackgroundColor
-          };
-
-          this.__decorator.render(decoElement, width, height, decoBack, decoChanges);
+          protector.setStyles({
+            width : width + "px",
+            height : height + "px"
+          });
         }
 
-        delete this.__styleDecorator;
-        delete this.__styleBackgroundColor;
-        delete this.__initDecorator;
-      }
+        var manager = qx.theme.manager.Decoration.getInstance();
 
-      if (changes.size && this.__shadow) {
-        this.__updateShadow(false, false, true)
+        var decorator = this.getDecorator();
+        if (decorator)
+        {
+          var element = this._decoratorElement;
+          var instance = manager.resolve(decorator);
+
+          instance.resize(element, width, height);
+        }
+
+        var shadow = this.getShadow();
+        if (shadow)
+        {
+          var element = this._shadowElement;
+          var instance = manager.resolve(shadow);
+          var insets = instance.getInsets();
+          var shadowWidth = width + insets.left + insets.right;
+          var shadowHeight = height + insets.top + insets.bottom;
+
+          instance.resize(element, shadowWidth, shadowHeight);
+        }
       }
 
       if (inner || changes.local || changes.margin)
@@ -1069,6 +1077,7 @@ qx.Class.define("qx.ui.core.Widget",
         this.fireDataEvent("resize", this.getBounds());
       }
 
+      // Cleanup flags
       delete this.__updateInsets;
     },
 
@@ -1277,10 +1286,12 @@ qx.Class.define("qx.ui.core.Widget",
       var right = this.getPaddingRight();
       var bottom = this.getPaddingBottom();
       var left = this.getPaddingLeft();
-
-      if (this.__decorator)
+      var decorator = this.getDecorator();
+      if (decorator)
       {
-        var inset = this.__decorator.getInsets();
+        var manager = qx.theme.manager.Decoration.getInstance();
+        var instance = manager.resolve(decorator);
+        var inset = instance.getInsets();
 
         if (qx.core.Variant.isSet("qx.debug", "on"))
         {
@@ -1956,7 +1967,7 @@ qx.Class.define("qx.ui.core.Widget",
     // property apply
     _applyPadding : function(value, old, name)
     {
-      this.__updateInsets = true;
+      this._updateInsets = true;
       qx.ui.core.queue.Layout.add(this);
     },
 
@@ -1969,143 +1980,155 @@ qx.Class.define("qx.ui.core.Widget",
     ---------------------------------------------------------------------------
     */
 
-    /** {qx.ui.decoration.IDecorator} The resolved decorator */
-    __decorator : null,
+    /** {Map} Contains all pooled decorators for reuse */
+    __decoratorPool : {},
 
-    // property apply
-    _applyDecorator : function(value, old)
+
+    /**
+     * Creates the protector element used to block mouse events
+     * from the decoration.
+     *
+     * This is needed because of the way the decorations work. Most
+     * of them tend to replace the underlying HTML of a widget
+     * dynamically on mouse over. But this also means that the
+     * native mouse out is not fired on the new content with which
+     * the old content is replaced. This is a fact given through
+     * the native behavior of the browser.
+     *
+     * The protector is placed between the content and the decoration.
+     *
+     * @return {qx.html.Element} The protector element
+     */
+    _createProtectorElement : function()
     {
-      var Manager = qx.theme.manager.Decoration.getInstance();
-
-      if (old)
-      {
-        var oldDeco = Manager.resolve(old);
+      if (this._protectorElement) {
+        return
       }
 
-      if (value)
+      var protect = this._protectorElement = new qx.html.Element;
+      protect.setStyles(
       {
-        this.__initDecorator = true;
-        this.__updateInsets = true;
-        this.__styleDecorator = true;
+        position: "absolute",
+        top: 0,
+        left: 0,
+        zIndex: 7
+      });
 
-        var newDeco = Manager.resolve(value);
-
-        this.__decorator = newDeco;
-
-        if (!this._decorationElement)
+      if (qx.core.Variant.isSet("qx.client", "mshtml"))
+      {
+        protect.setStyles(
         {
-          this._decorationElement = this.__createDecorationElement();
-          this._containerElement.add(this._decorationElement);
-        }
-      }
-      else
-      {
-        this.__decorator = null;
+          backgroundColor: "white",
+          opacity: 0
+        });
       }
 
-      qx.ui.core.queue.Layout.add(this);
+      this._containerElement.add(protect);
+    },
+
+
+    /**
+     * Creates an element which may be used for a
+     * decoration render to fill.
+     *
+     * @return {qx.html.Element} The element to be used for decorations/shadows
+     */
+    _createDecoratorElement : function(decorator)
+    {
+      var element = new qx.html.Element;
+      element.setStyles({
+        position: "absolute",
+        top: 0,
+        left: 0
+      });
+
+      var instance = qx.theme.manager.Decoration.getInstance().resolve(decorator);
+      var markup = instance.getMarkup();
+
+      if (markup) {
+        element.useMarkup(markup);
+      }
+
+      return element;
     },
 
 
     __oldInsets : null,
 
     // property apply
-    _applyDecoratorOld : function(value, old)
+    _applyDecorator : function(value, old)
     {
-      var oldInsets = this.__oldInsets;
-      var oldDecorator = this.__decorator;
-      var newInsets;
+      var pool = this.__decoratorPool;
+      var mgr = qx.theme.manager.Decoration.getInstance();
+      var container = this._containerElement;
+      var elem = this._decoratorElement;
 
-      if(value)
-      {
-        this.__decorator = qx.theme.manager.Decoration.getInstance().resolve(value);
-      	newInsets = this.__decorator.getInsets();
-        this.__oldInsets = qx.lang.Object.copy(newInsets);
-      }
-      else
-      {
-      	this.__decorator = null;
-      	newInsets = null;
+      // Create protector
+      if (!this._protectorElement) {
+        this._createProtectorElement();
       }
 
 
-      // Shorthands
-      var containerElement = this._containerElement;
-      var decorationElement = this._decorationElement;
-
-      // When both values are set (transition)
-      if (old && value)
+      // Process old value
+      if (old)
       {
-        var classChanged = oldDecorator.classname !== this.__decorator.classname;
-        var insetsChanged = oldInsets.top !== newInsets.top ||
-                            oldInsets.right !== newInsets.right ||
-                            oldInsets.bottom !== newInsets.bottom ||
-                            oldInsets.left !== newInsets.left;
-      }
-      // When only one is configured
-      else
-      {
-        var classChanged = true;
-        var insetsChanged = true;
-        var backgroundColor = this.getBackgroundColor();
-
-        if (value)
-        {
-          // Create decoration element on demand
-          if (!decorationElement)
-          {
-            decorationElement = this._decorationElement = this.__createDecorationElement();
-            containerElement.add(decorationElement);
-          }
-
-          // Background color will be applied on decorator in layout process
-          if (backgroundColor) {
-            containerElement.removeStyle("backgroundColor");
-          }
+        // Dynamically created needed pool
+        if (!pool[old]) {
+          pool[old] = [];
         }
-        else if (backgroundColor)
-        {
-          // Background color will be removed through reset
-          containerElement.setStyle("backgroundColor", qx.theme.manager.Color.getInstance().resolve(backgroundColor) || null);
-        }
+
+        // Remove from container
+        container.remove(elem);
+
+        // Add to pool
+        pool[old].push(elem);
       }
 
-      // Reset old decoration
-      if (old && classChanged)
-      {
-        var oldDecorator = qx.theme.manager.Decoration.getInstance().resolve(old);
-        oldDecorator.reset(decorationElement);
-      }
 
+      // Process new value
       if (value)
       {
-        if (insetsChanged)
-        {
-          if (classChanged && !this.__initDecorator) {
-            this.__initDecorator = true;
-          }
-
-          this.__updateInsets = true;
-          this.__styleDecorator = true;
-
-          qx.ui.core.queue.Layout.add(this);
+        // Reuse or create element
+        if (pool[value] && pool[value].length > 0) {
+          elem = pool[value].pop();
+        } else {
+          elem = this._createDecoratorElement(value);
         }
-        else if (!this.__styleDecorator)
-        {
-          var bounds = this.getBounds();
-          this.__decorator.render(
-            decorationElement,
-            bounds.width, bounds.height,
-            backgroundColor,
-            {init:classChanged, style:true}
-          );
+
+        // Tint decorator
+        var bgcolor = this.getBackgroundColor();
+        if (bgcolor) {
+          mgr.resolve(value).tint(elem, mgr.resolve(bgcolor));
         }
+
+        // Add to container
+        container.add(elem);
+
+        // Register element
+        this._decoratorElement = elem;
       }
       else
       {
-        // reset insets
-        this.__updateInsets = true;
+        delete this._decoratorElement;
+      }
+
+
+      // Apply change
+      if (qx.ui.decoration.Util.insetsModified(old, value))
+      {
+        // We have changes to the insets, which means we
+        // delegate the resize to the layout system.
+        this._updateInsets = true;
         qx.ui.core.queue.Layout.add(this);
+      }
+      else if (value)
+      {
+        // When bounds are existing directly resize the decorator
+        // otherwise wait for initial resize through layouter
+        var bounds = this.getBounds();
+        if (bounds) {
+          mgr.resolve(value).resize(elem, bounds.width, bounds.height);
+        }
       }
     },
 
@@ -2119,75 +2142,58 @@ qx.Class.define("qx.ui.core.Widget",
     // property apply
     _applyShadow : function(value, old)
     {
-      var oldShadow = this.__shadow;
-      var classChanged = false;
+      var pool = this.__decoratorPool;
+      var mgr = qx.theme.manager.Decoration.getInstance();
+      var container = this._containerElement;
 
-      if (value) {
-        this.__shadow = qx.theme.manager.Decoration.getInstance().resolve(value);
-      } else {
-        this.__shadow = null;
+      // Clear old value
+      if (old)
+      {
+        // Dynamically created needed pool
+        if (!pool[old]) {
+          pool[old] = [];
+        }
+
+        // Remove from container
+        container.remove(this._shadowElement);
+
+        // Add to pool
+        pool[old].push(this._shadowElement);
       }
 
-      if (old && value)
+      // Apply new value
+      if (value)
       {
-        // When both values are set (transition)
-        classChanged = oldShadow.classname !== this.__shadow.classname;
+        // Reuse or create element
+        var newElement;
+        if (pool[value] && pool[value].length > 0) {
+          newElement = pool[value].pop();
+        } else {
+          newElement = this._createDecoratorElement(value);
+        }
+
+        // Add to container
+        container.add(newElement);
+
+        // Register element
+        this._shadowElement = newElement;
+
+        // Get decorator instance
+        var newDecorator = mgr.resolve(value);
+
+        // Move out of container by top/left inset
+        var insets = newDecorator.getInsets();
+        newElement.setStyles({
+          left: (-insets.left) + "px",
+          top: (-insets.top) + "px"
+        });
       }
       else
       {
-        // When only one is configured
-        classChanged = true;
-
-        if (value)
-        {
-          // Create shadow element on demand
-          if (!this.__shadowElement)
-          {
-            this.__shadowElement = this.__createShadowElement();
-            this._containerElement.add(this.__shadowElement);
-          }
-        }
-      }
-
-      // Reset old shadow
-      if (old && classChanged) {
-        oldShadow.reset(this.__shadowElement);
-      }
-
-      if (value && this.getBounds()) {
-        this.__updateShadow(classChanged, true, true);
+        delete this._shadowElement;
       }
     },
 
-
-    __updateShadow : function(classChanged, doStyle, updateSize)
-    {
-      var bounds = this.getBounds();
-      var insets = this.__shadow.getInsets();
-      this.__shadowElement.setStyles({
-        left: (-insets.left) + "px",
-        top: (-insets.top) + "px"
-      });
-      this.__shadow.render(
-        this.__shadowElement,
-        bounds.width + insets.left + insets.right,
-        bounds.height + insets.top + insets.bottom,
-        null,
-        {init:classChanged, style:true, size: updateSize}
-      );
-    },
-
-
-    /*
-    ---------------------------------------------------------------------------
-      TEXT COLOR SUPPORT
-    ---------------------------------------------------------------------------
-    */
-
-    // property apply
-    _applyTextColor : function(value, old) {
-      // empty template
-    },
 
 
 
@@ -2196,6 +2202,12 @@ qx.Class.define("qx.ui.core.Widget",
       OTHER PROPERTIES
     ---------------------------------------------------------------------------
     */
+
+    // property apply
+    _applyTextColor : function(value, old) {
+      // empty template
+    },
+
 
     // property apply
     _applyZIndex : function(value, old) {
@@ -2240,26 +2252,33 @@ qx.Class.define("qx.ui.core.Widget",
     // property apply
     _applyBackgroundColor : function(value, old)
     {
-      if (this.__decorator)
-      {
-        if (!this.__styleDecorator)
-        {
-          var bounds = this.getBounds();
+      var decorator = this.getDecorator();
+      var shadow = this.getShadow();
+      var color = this.getBackgroundColor();
+      var container = this._containerElement;
 
-          this.__decorator.render(
-            this._decorationElement,
-            bounds.width, bounds.height,
-            value, {bgcolor:true}
-          );
+      if (decorator || shadow)
+      {
+        // Apply to decoration element
+        var elem = this._decoratorElement;
+        if (elem)
+        {
+          var instance = qx.theme.manager.Decoration.getInstance().resolve(decorator);
+          instance.tint(this._decoratorElement, color);
         }
         else
         {
-          this.__styleBackgroundColor = true;
+          this.debug("Missing target for bgcolor!");
         }
+
+        // Remove from container
+        container.setStyle("backgroundColor", null);
       }
       else
       {
-        this._containerElement.setStyle("backgroundColor", qx.theme.manager.Color.getInstance().resolve(value) || null);
+        // Add color to container
+        var resolved = qx.theme.manager.Color.getInstance().resolve(color);
+        container.setStyle("backgroundColor", resolved);
       }
     },
 
@@ -2316,7 +2335,13 @@ qx.Class.define("qx.ui.core.Widget",
 
       // Add state and queue
       this.__states[state] = true;
-      qx.ui.core.queue.Appearance.add(this);
+
+      // Fast path for hovered state
+      if (state === "hovered") {
+        this.syncAppearance();
+      } else {
+        qx.ui.core.queue.Appearance.add(this);
+      }
 
       // Forward state change to child controls
       var forward = this._forwardStates;
@@ -2352,7 +2377,13 @@ qx.Class.define("qx.ui.core.Widget",
 
       // Clear state and queue
       delete this.__states[state];
-      qx.ui.core.queue.Appearance.add(this);
+
+      // Fast path for hovered state
+      if (state === "hovered") {
+        this.syncAppearance();
+      } else {
+        qx.ui.core.queue.Appearance.add(this);
+      }
 
       // Forward state change to child controls
       var forward = this._forwardStates;
@@ -3590,6 +3621,6 @@ qx.Class.define("qx.ui.core.Widget",
   {
     this._disposeChildControls();
     this._disposeArray("__children");
-    this._disposeObjects("__states", "_containerElement", "_contentElement", "_decorationElement");
+    this._disposeObjects("__states", "_containerElement", "_contentElement", "_decoratorElement");
   }
 });
