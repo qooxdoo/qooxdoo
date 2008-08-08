@@ -83,10 +83,17 @@ qx.Class.define("feedreader.view.AddFeedWindow",
      */
     _addContent : function()
     {
+      this.setLayout(new qx.ui.layout.VBox(10));
+      
+      var contentContainer = new qx.ui.container.Composite(new qx.ui.layout.VBox(10));
+      contentContainer.set({
+        appearance : "window-pane-content",
+        padding    : 8
+      });
+      this.add(contentContainer);
+      
       var groupBox = new qx.ui.groupbox.GroupBox(this.tr("Feed Information"));
-      groupBox.setMargin(10, 4);
-      this.setLayout(new qx.ui.layout.Canvas);
-      this.add(groupBox, {edge:0});
+      contentContainer.add(groupBox);
 
       var layout = new qx.ui.layout.Grid();
       layout.setSpacing(10);
@@ -113,7 +120,7 @@ qx.Class.define("feedreader.view.AddFeedWindow",
         allowGrowX : false
       });
 
-      groupBox.add(addButton, {row: 2, column: 0, colSpan: 2});
+      this.add(addButton);
       addButton.addListener("execute", this._addFeed, this);
     },
 
