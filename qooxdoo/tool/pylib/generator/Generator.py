@@ -182,6 +182,12 @@ class Generator:
         "type"   : "JSimpleJob"
       },
 
+      "clean-files" :
+      {
+        "action" :Generator.runClean,
+        "type"   : "JSimpleJob"
+      },
+
       "copy-resources" :
       {
         "action" :Generator.runResources,
@@ -342,9 +348,18 @@ class Generator:
 
     def run(self):
         config = self._config
+        job    = config.get(".")
 
         require = config.get("require", {})
         use = config.get("use", {})
+
+        self._jobLib         = JobLib(self._config1, self._console)
+
+        triggerNameSet = set(self.listJobTriggers().keys())  # list of trigger names
+        jobKeySet      = set(job.keys())
+        if jobKeySet.intersection(triggerNameSet) == set(['clean-files']):
+            self.runClean()
+            return  # cleaning was the only job
 
         # Scanning given library paths
         (self._namespaces,
@@ -360,7 +375,6 @@ class Generator:
         self._locale         = Locale(self._classes, self._translations, self._cache, self._console, self._treeLoader)
         partBuilder          = PartBuilder(self._console, self._depLoader, self._treeCompiler)
         self._resourceHandler= _ResourceHandler(self)
-        self._jobLib         = JobLib(self._config1, self._console)
 
         # Updating translation
         self.runUpdateTranslation()
