@@ -448,7 +448,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          padding   : [ 12, 9 ],
+          padding   : 12,
           decorator : "groupbox-frame"
         };
       }
@@ -1124,6 +1124,20 @@ qx.Theme.define("qx.theme.modern.Appearance",
         };
       }
     },
+    
+    // this appearance is a helper appearance to easily set this appearance
+    // to the container holding the content of the window
+    "window-pane-content" :
+    {
+      style : function(states)
+      {
+        return {
+          decorator       : "window-pane-content",
+          backgroundColor : "#f6f6f6",
+          padding         : 0
+        }
+      }
+    },
 
 
     "window/captionbar" :
@@ -1133,7 +1147,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         return {
           decorator : states.active ? "window-captionbar-active" : "window-captionbar-inactive",
           textColor : states.active ? "#ffffff" : "#4a4a4a",
-          minHeight : 22,
+          minHeight : 26,
           paddingRight : 2
         };
       }
@@ -1144,7 +1158,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          margin : [ 4, 0, 2, 4 ]
+          margin : [ 5, 0, 3, 6 ]
         };
       }
     },
