@@ -335,7 +335,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
     /** {Boolean} Whether the current layout is valid */
     __hasInvalidLayout : null,
 
-    /** {Map} Chached size hint */
+    /** {Map} Cached size hint */
     __sizeHint : null,
 
     /** {Boolean} Whether the margins have changed and must be updated */
