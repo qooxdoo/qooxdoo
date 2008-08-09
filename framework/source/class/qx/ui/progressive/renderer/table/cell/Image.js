@@ -61,8 +61,6 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Image",
     {
       this._imageHeight = 16;
     }
-
-    this._am = qx.util.AliasManager.getInstance();
   },
 
 
@@ -95,11 +93,16 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Image",
 
       if (imageData.url == "")
       {
-        imageData.url = this.IMG_BLANK_URL;
+        imageData.url = this.IMG_BLANK;
       }
       else
       {
-        imageData.url = this._am.resolve(imageData.url);
+
+        var am = qx.util.AliasManager.getInstance();
+        var aliasManager = qx.util.AliasManager.getInstance();
+        var resourceManager = qx.util.ResourceManager;
+        var resolved = aliasManager.resolve(imageData.url);
+        imageData.url = resourceManager.toUri(resolved);
       }
 
       // Adjust the row height, if necessary, to let this image fit
