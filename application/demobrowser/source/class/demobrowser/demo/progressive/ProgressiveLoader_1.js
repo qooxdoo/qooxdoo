@@ -81,7 +81,7 @@ qx.Class.define("demobrowser.demo.progressive.ProgressiveLoader_1",
           document : this.getRoot(),
           pages    : pages
         };
-      progressive.addEventListener(
+      progressive.addListener(
         "renderStart",
         function(e)
         {
@@ -91,13 +91,16 @@ qx.Class.define("demobrowser.demo.progressive.ProgressiveLoader_1",
           var initialNum = e.getData().initial;
 
           // Center ourself
-          var root = this.getRoot();
+          var rootBounds = this.getRoot().getBounds();
           var progressive = e.getData().state.getProgressive();
+          var progressiveBounds = progressive.getBounds();
 
-          var left = (root.getClientWidth() - progressive.getBoxWidth()) / 2;
-          var top = (root.getClientHeight() - progressive.getBoxHeight()) / 2;
+          var left =
+            Math.floor((rootBounds.width - progressiveBounds.width) / 2);
+          var top =
+            Math.floor((rootBounds.height - progressiveBounds.height) / 2);
 
-          progressive.set(
+          progressive.setLayoutProperties(
             {
               left : left < 0 ? 0 : left,
               top  : top < 0 ? 0 : top
@@ -111,16 +114,16 @@ qx.Class.define("demobrowser.demo.progressive.ProgressiveLoader_1",
         },
         this);
 
-      progressive.addEventListener(
+      progressive.addListener(
         "renderEnd",
         function(e)
         {
           // We don't need the Progressive any longer.  Arrange for it to be
           // destroyed.
-          qx.client.Timer.once(
+          qx.event.Timer.once(
             function()
             {
-              this.getParent().remove(this);
+              this.getLayoutParent().remove(this);
               this.dispose();
             },
             this, 0);
@@ -134,16 +137,22 @@ qx.Class.define("demobrowser.demo.progressive.ProgressiveLoader_1",
           context = userData.context;
 
           // Create the tabview
-          context.tabview = new qx.ui.pageview.tabview.TabView();
-          context.tabview.setEdge(20);
-          context.document.add(context.tabview);
+          context.tabview = new qx.ui.tabview.TabView();
+          context.tabview.set(
+            {
+//              height : 500
+            });
+          context.document.add(context.tabview,
+                               {
+                                 left  : 20,
+                                 right : 20,
+                                 top   : 20,
+                                 bottom : 20
+                               });
 
           // We're ready to create our first page
           context.page = 0;
           context.currentPage = null;
-
-          // We want to save the first button to get back to it later
-          context.firstButton = null;
         }));
 
       for (var page = 0; page < pages.length; page++)
@@ -152,47 +161,28 @@ qx.Class.define("demobrowser.demo.progressive.ProgressiveLoader_1",
         dataModel.addElement(addFunc(
           function(userData)
           {
+            // Get our context
+            context = userData.context;
+
             // Get our page index
             var pageInfo = context.pages[context.page];
 
-            // Create the first button
-            var button = new qx.ui.pageview.tabview.Button(pageInfo.text);
-            button.setWidth(80);
-            button.setBackgroundColor(pageInfo.background);
-            button.setTextColor(pageInfo.color);
-            button.setChecked(true);
-
-            // If this is the first button, save it
-            if (! context.firstButton)
-            {
-              context.firstButton = button;
-            }
-
-            // Add the button to the tabview's button bar
-            context.tabview.getBar().add(button);
-
             // Create the page
-            var page = new qx.ui.pageview.tabview.Page(button);
+            context.currentPage = new qx.ui.tabview.Page(pageInfo.text);
+            context.currentPage.setLayout(new qx.ui.layout.VBox(4));
 
             // Add the page to the tabview's pane
-            context.tabview.getPane().add(page);
+            context.tabview.add(context.currentPage);
 
             // Save a starting row and column number for our page widgets
             context.row = 0;
             context.col = 0;
 
-            // Create a vertical layout in which we'll place each row
-            context.vLayout = new qx.ui.layout.VerticalBoxLayout();
-            context.vLayout.set(
-              {
-                left    : 0,
-                right   : 0,
-                height  : "auto",
-                spacing : 4
-              });
-
-            // Add the vertical layout to this page
-            page.add(context.vLayout);
+            // Save the first page
+            if (page == 0)
+            {
+              context.firstPage = context.currentPage;
+            }
           }));
 
         // For each row on this page...
@@ -206,18 +196,14 @@ qx.Class.define("demobrowser.demo.progressive.ProgressiveLoader_1",
               context = userData.context;
 
               // Create the horizontal layout
-              context.hLayout = new qx.ui.layout.HorizontalBoxLayout();
-              context.hLayout.set(
-                {
-                  left                  : 0,
-                  width                 : "100%",
-                  height                : "auto",
-                  verticalChildrenAlign : "middle",
-                  spacing               : 4
-                });
+              context.hBox =
+                new qx.ui.container.Composite(new qx.ui.layout.HBox(4));
 
               // Add this horizontal layout to the vertical layout
-              context.vLayout.add(context.hLayout);
+              context.currentPage.add(context.hBox);
+
+              // Set this page active to watch it do its thing
+              context.tabview.setSelected(context.currentPage);
 
               // Reset the column number
               context.col = 0;
@@ -225,7 +211,7 @@ qx.Class.define("demobrowser.demo.progressive.ProgressiveLoader_1",
 
           for (var col = 0; col < 10; col++)
           {
-            // A an element to the horizontal layout
+            // Add elements to the horizontal layout
             dataModel.addElement(addFunc(
               function(userData)
               {
@@ -241,13 +227,13 @@ qx.Class.define("demobrowser.demo.progressive.ProgressiveLoader_1",
                                              "col " + context.col);
                 o.set(
                   {
-                    width           : "1*",
+                    width           : 90,
                     backgroundColor : pageInfo.background,
                     textColor       : pageInfo.color
                   });
 
                 // Add it to the current horizontal layout
-                context.hLayout.add(o);
+                context.hBox.add(o);
               }));
 
             // Increment to the next column
@@ -279,7 +265,7 @@ qx.Class.define("demobrowser.demo.progressive.ProgressiveLoader_1",
       dataModel.addElement(addFunc(
         function(userData)
         {
-          userData.context.firstButton.setChecked(true);
+          userData.context.tabview.setSelected(userData.context.firstPage);
         }));
 
       // Tell Progressive about its data model
