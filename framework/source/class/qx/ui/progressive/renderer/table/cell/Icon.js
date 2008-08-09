@@ -43,12 +43,17 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Icon",
     var resourceManager = qx.util.ResourceManager;
     var blankImg = aliasManager.resolve("static/image/blank.gif");
 
-    this.IMG_BLANK = resourceManager.toUri(blankImg);
+    this._imageBlank = resourceManager.toUri(blankImg);
   },
 
 
   members :
   {
+    /**
+     * A blank image for use as a spacer in place of another image
+     */
+    _imageBlank : null,
+
     /**
      * Identify the image to be displayed in the cell.
      *
@@ -120,7 +125,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Icon",
       if (qx.core.Variant.isSet("qx.client", "mshtml") &&
           /\.png$/i.test(imageData.url))
       {
-        html.push('src="', this.IMG_BLANK, '" style="filter:',
+        html.push('src="', this._imageBlank, '" style="filter:',
                   "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='",
                   imageData.url,
                   "',sizingMethod='scale')",
@@ -186,7 +191,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Icon",
       // If subclass gave null as url, replace with url to empty image
       if (imageData.url == null)
       {
-        imageData.url = this.IMG_BLANK_URL;
+        imageData.url = this._imageBlank;
       }
 
       return imageData;
@@ -195,6 +200,6 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Icon",
 
   destruct : function()
   {
-    this._disposeFields("IMG_BLANK_URL");
+    this._disposeFields("_imageBlank");
   }
 });
