@@ -40,24 +40,24 @@ qx.Class.define("qx.ui.progressive.structure.Default",
     if (! header)
     {
       this.__nullHeader = new qx.ui.progressive.headfoot.Null();
-      this._header = this.__nullHeader;
+      this.__header = this.__nullHeader;
     }
     else
     {
       this.__nullHeader = null;
-      this._header = header;
+      this.__header = header;
     }
 
     // If no footer was specified, use a null footer
     if (! footer)
     {
       this.__nullFooter = new qx.ui.progressive.headfoot.Null();
-      this._footer = this.__nullFooter;
+      this.__footer = this.__nullFooter;
     }
     else
     {
       this.__nullFooter = null;
-      this._footer = footer;
+      this.__footer = footer;
     }
   },
 
@@ -69,23 +69,23 @@ qx.Class.define("qx.ui.progressive.structure.Default",
     applyStructure : function(progressive)
     {
       // Tell the header/footer components who their Progressive is
-      this._header.join(progressive);
-      this._footer.join(progressive);
+      this.__header.join(progressive);
+      this.__footer.join(progressive);
 
       // Add the header, pane, and footer to the Progressive.
-      progressive.add(this._header);
-      progressive.add(this._pane, { flex : 1 });
-      progressive.add(this._footer);
+      progressive.add(this.__header);
+      progressive.add(this.__pane, { flex : 1 });
+      progressive.add(this.__footer);
     },
 
     getHeader : function()
     {
-      return this._header;
+      return this.__header;
     },
 
     getFooter : function()
     {
-      return this._footer;
+      return this.__footer;
     }
   },
 
