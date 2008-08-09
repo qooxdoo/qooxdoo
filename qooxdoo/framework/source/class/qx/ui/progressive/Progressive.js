@@ -53,20 +53,11 @@ qx.Class.define("qx.ui.progressive.Progressive",
     this.base(arguments, new qx.ui.layout.VBox());
 
     // Create an object in which we'll track renderers that have been added
-    this._renderer = { };
+    this.__renderer = { };
 
     // Prepare to have our pane structure added to us.
     this.set(
       {
-/*
-        left            : 20,
-        top             : 20,
-        right           : 20,
-        bottom          : 20,
-        spacing         : 0,
-        border          : new qx.ui.decoration.Single(1, "solid", "#dddddd"),
-        overflow        : "hidden",
-*/
         backgroundColor : "white"
       });
 
@@ -78,7 +69,7 @@ qx.Class.define("qx.ui.progressive.Progressive",
     }
 
     // Prepare our pane structure
-    this._structure = structure;
+    this.__structure = structure;
     structure.applyStructure(this);
 
     // We've not yet done our initial render
@@ -196,6 +187,13 @@ qx.Class.define("qx.ui.progressive.Progressive",
 
   members :
   {
+    /**
+     * Return the structure object
+     */
+    getStructure : function()
+    {
+      return this.__structure;
+    },
 
     /**
      * Add a renderer that can be referenced by the data model.
@@ -210,7 +208,7 @@ qx.Class.define("qx.ui.progressive.Progressive",
      */
     addRenderer : function(name, renderer)
     {
-      this._renderer[name] = renderer;
+      this.__renderer[name] = renderer;
       renderer.join(this, name);
     },
 
@@ -224,12 +222,12 @@ qx.Class.define("qx.ui.progressive.Progressive",
      */
     removeRenderer : function(name)
     {
-      if (! this._renderers[name])
+      if (! this.__renderer[name])
       {
         throw new Error("No existing renderer named " + name);
       }
 
-      delete this._renderer[name];
+      delete this.__renderer[name];
     },
 
     /**
@@ -258,7 +256,7 @@ qx.Class.define("qx.ui.progressive.Progressive",
         {
           progressive  : this,
           model        : this.getDataModel(),
-          pane         : this._structure.getPane(),
+          pane         : this.__structure.getPane(),
           batchSize    : this.getBatchSize(),
           rendererData : this.__createStateRendererData(),
           userData     : { }
@@ -308,15 +306,6 @@ qx.Class.define("qx.ui.progressive.Progressive",
                             this, 10);
       }
     },
-
-/*
-    // overridden
-    _changeInnerWidth : function(newValue, oldValue)
-    {
-      this.base(arguments, newValue, oldValue);
-      this.fireEvent("widthChanged");
-    },
-*/
 
     /**
      * Called when the dataModel property is changed.
@@ -379,7 +368,7 @@ qx.Class.define("qx.ui.progressive.Progressive",
         element = current.element;
 
         // Get the element's renderer
-        renderer = this._renderer[element.renderer];
+        renderer = this.__renderer[element.renderer];
 
         // Render this element
         renderer.render(state, element);
@@ -416,7 +405,7 @@ qx.Class.define("qx.ui.progressive.Progressive",
     {
       var rendererData = { };
 
-      for (var name in this._renderer)
+      for (var name in this.__renderer)
       {
         rendererData[name] = { };
       }
@@ -440,10 +429,10 @@ qx.Class.define("qx.ui.progressive.Progressive",
   destruct : function()
   {
     // For each renderer...
-    for (var name in this._renderer)
+    for (var name in this.__renderer)
     {
       // ... dispose it
-      this._renderer[name].dispose();
+      this.__renderer[name].dispose();
     }
 
     // Clean up references

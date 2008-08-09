@@ -1,4 +1,4 @@
-/* ************************************************************************
+ /* ************************************************************************
 
    qooxdoo - the new era of web development
 
@@ -36,17 +36,17 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
     this.base(arguments);
 
     // Save the column widths
-    this._columnWidths = columnWidths;
+    this.__columnWidths = columnWidths;
 
     // Create space to store renderers for each column
-    this._renderers = { };
+    this.__renderers = { };
 
     // We need a default cell renderer to use if none is specified
     this._defaultCellRenderer =
       new qx.ui.progressive.renderer.table.cell.Default();
 
     // We don't yet know who our Progressive will be
-    this._progressive = null;
+    this.__progressive = null;
 
     // This layout is not connected to a widget but to this class. This class
     // must implement the method "getLayoutChildren", which must return all
@@ -55,8 +55,8 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
     // column data object The advantage of the use of the normal layout
     // manager is that the samantics of flex and percent are exectly the same
     // as in the widget code.
-    this._layout = new qx.ui.layout.HBox();
-    this._layout.connectToWidget(this);
+    this.__layout = new qx.ui.layout.HBox();
+    this.__layout.connectToWidget(this);
   },
 
 
@@ -105,14 +105,14 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
     join : function(progressive, name)
     {
       // Are we already joined?
-      if (this._progressive)
+      if (this.__progressive)
       {
         // Yup.  Let 'em know they can't do that.
         throw new Error("Renderer is already joined to a Progressive.");
       }
 
       // Save the Progressive to which we're joined
-      this._progressive = progressive;
+      this.__progressive = progressive;
 
       // Save the name that Progressive knows us by
       this._name = name;
@@ -141,7 +141,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
         tr.__clazz[hash].rowstylesheet =
           qx.bom.Stylesheet.createElement(stylesheet);
 
-        var columnData = this._columnWidths.getData();
+        var columnData = this.__columnWidths.getData();
 
         for (var i = 0; i < columnData.length; i++)
         {
@@ -158,7 +158,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
 
         // Arrange to be called when the window appears or is resized, so we
         // can set each style sheet's left and width field appropriately.
-        var pane = progressive._structure.getPane();
+        var pane = progressive.getStructure().getPane();
         pane.addListener("resize", this._resizeColumns, this);
 
       }
@@ -178,7 +178,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
      */
     addRenderer : function(column, renderer)
     {
-      var columnData = this._columnWidths.getData();
+      var columnData = this.__columnWidths.getData();
       if (column < 0 || column >= columnData.length)
       {
         throw new Error("Column " +
@@ -188,7 +188,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
                         ")");
       }
 
-      this._renderers[column] = renderer;
+      this.__renderers[column] = renderer;
     },
 
     /**
@@ -201,7 +201,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
      */
     removeRenderer : function(column)
     {
-      var columnData = this._columnWidths.getData();
+      var columnData = this.__columnWidths.getData();
       if (column < 0 || column >= columnData.length)
       {
         throw new Error("Column " +
@@ -211,12 +211,12 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
                         ")");
       }
 
-      if (! this._renderers[column])
+      if (! this.__renderers[column])
       {
         throw new Error("No existing renderer for column " + column);
       }
 
-      delete this._renderers[column];
+      delete this.__renderers[column];
     },
 
     // overridden
@@ -249,7 +249,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
         var stylesheet = "qx-progressive-" + this._hash + "-col-" + i;
 
         // Determine what renderer to use for this column
-        renderer = this._renderers[i] || this._defaultCellRenderer;
+        renderer = this.__renderers[i] || this._defaultCellRenderer;
 
         // Specify information that cell renderer will need
         cellInfo =
@@ -348,7 +348,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
      */
     getLayoutChildren : function()
     {
-      return this._columnWidths.getData();
+      return this.__columnWidths.getData();
     },
 
 
@@ -364,7 +364,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
      */
     _resizeColumns : function(e)
     {
-      var pane = this._progressive._structure.getPane();
+      var pane = this.__progressive.getStructure().getPane();
 
       var width =
         pane.getBounds().width - qx.bom.element.Overflow.getScrollbarWidth();
@@ -388,10 +388,10 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
                                  rule);
 
       // Compute the column widths
-      this._layout.renderLayout(width, 100);
+      this.__layout.renderLayout(width, 100);
 
       // Get the column data
-      var columnData = this._columnWidths.getData();
+      var columnData = this.__columnWidths.getData();
 
       // Reset each of the column style sheets to deal with width changes
       for (var i = 0,
@@ -466,14 +466,14 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
     this._disposeFields("_name");
     this._disposeObjects("_defaultCellRenderer", "_columnData");
 
-    for (name in this._renderers)
+    for (name in this.__renderers)
     {
-      this._renderers[name] = null;
+      this.__renderers[name] = null;
     }
 
     // Remove any style sheets that we had added
     var tr = qx.ui.progressive.renderer.table.Row;
-    var hash = this._progressive.toHashCode();
+    var hash = this.__progressive.toHashCode();
     if (tr.__clazz && tr.__clazz[hash])
     {
       // Remove the row stylesheet
@@ -505,7 +505,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
       }
     }
 
-    this._renderers = null;
-    this._progressive = null;
+    this.__renderers = null;
+    this.__progressive = null;
   }
 });

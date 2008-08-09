@@ -39,15 +39,15 @@ qx.Class.define("qx.ui.progressive.structure.Abstract",
     if (! pane)
     {
       this.__container = new qx.ui.core.Widget();
-      this._pane = this.__container;
+      this.__pane = this.__container;
     }
     else
     {
       this.__container = null;
-      this._pane = pane;
+      this.__pane = pane;
     }
 
-    this._pane.getContentElement().setStyle("overflowY", "auto");
+    this.__pane.getContentElement().setStyle("overflowY", "auto");
   },
 
   members :
@@ -61,7 +61,7 @@ qx.Class.define("qx.ui.progressive.structure.Abstract",
 
     getPane : function()
     {
-      return this._pane;
+      return this.__pane;
     }
   },
 
@@ -73,6 +73,6 @@ qx.Class.define("qx.ui.progressive.structure.Abstract",
       this.__container = null;
     }
     
-    this._pane = null;
+    this.__pane = null;
   }
 });
