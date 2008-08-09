@@ -63,7 +63,7 @@ qx.Class.define("qx.ui.progressive.headfoot.TableHeading",
     var columnData = columnWidths.getData();
 
     // Create a place to put labels
-    this._labels = [ ];
+    this.__labels = [ ];
 
     // For each label...
     for (var i = 0; i < columnData.length; i++)
@@ -75,7 +75,7 @@ qx.Class.define("qx.ui.progressive.headfoot.TableHeading",
       this.add(label);
 
       // Save this label so we can resize it later
-      this._labels[i] = label;
+      this.__labels[i] = label;
     }
 
     // Arrange to be called when the window appears or is resized, so we
@@ -146,7 +146,7 @@ qx.Class.define("qx.ui.progressive.headfoot.TableHeading",
       for (var i = 0; i < columnData.length; i++)
       {
         // ... reset the width of the corresponding column (label)
-        this._labels[i].setWidth(columnData[i].getComputedWidth());
+        this.__labels[i].setWidth(columnData[i].getComputedWidth());
       }
     }
   }
