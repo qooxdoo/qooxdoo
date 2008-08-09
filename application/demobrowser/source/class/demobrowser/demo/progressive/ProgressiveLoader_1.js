@@ -134,7 +134,7 @@ qx.Class.define("demobrowser.demo.progressive.ProgressiveLoader_1",
         function(userData)
         {
           // Get our context
-          context = userData.context;
+          var context = userData.context;
 
           // Create the tabview
           context.tabview = new qx.ui.tabview.TabView();
@@ -162,7 +162,7 @@ qx.Class.define("demobrowser.demo.progressive.ProgressiveLoader_1",
           function(userData)
           {
             // Get our context
-            context = userData.context;
+            var context = userData.context;
 
             // Get our page index
             var pageInfo = context.pages[context.page];
@@ -179,7 +179,7 @@ qx.Class.define("demobrowser.demo.progressive.ProgressiveLoader_1",
             context.col = 0;
 
             // Save the first page
-            if (page == 0)
+            if (context.page == 0)
             {
               context.firstPage = context.currentPage;
             }
@@ -193,7 +193,7 @@ qx.Class.define("demobrowser.demo.progressive.ProgressiveLoader_1",
             function(userData)
             {
               // Get our context
-              context = userData.context;
+              var context = userData.context;
 
               // Create the horizontal layout
               context.hBox =
@@ -216,7 +216,7 @@ qx.Class.define("demobrowser.demo.progressive.ProgressiveLoader_1",
               function(userData)
               {
                 // Get our context
-                context = userData.context;
+                var context = userData.context;
 
                 // Get our page index
                 var pageInfo = context.pages[context.page];
@@ -261,7 +261,7 @@ qx.Class.define("demobrowser.demo.progressive.ProgressiveLoader_1",
       }
 
 
-      // Switch to the first page
+      // Switch back to the first page
       dataModel.addElement(addFunc(
         function(userData)
         {
