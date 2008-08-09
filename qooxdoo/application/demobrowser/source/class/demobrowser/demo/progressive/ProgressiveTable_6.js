@@ -1,4 +1,8 @@
 /*
+#asset(demobrowser/demo/icons/*)
+*/
+
+/*
  * Example of using the Image cell renderer with Progressive''s Table.
  * This also demonstrates how the minimum row height can be set by a
  * cell renderer.
@@ -13,17 +17,18 @@ qx.Class.define("demobrowser.demo.progressive.ProgressiveTable_6",
     {
       this.base(arguments);
 
+      var base = "demobrowser/demo/icons/"
       var imageData =
         [
           {
-            url     : "icon/16/status/dialog-error.png",
+            url     : base + "format-justify-left.png",
             height  : 20,
             tooltip : "small icon"
           },
 
           {
-            url     : "icon/32/status/dialog-error.png",
-            height  : 40,
+            url     : base + "multimedia-player.png",
+            height  : 140,
             tooltip : "TALL ICON"
           },
 
@@ -48,7 +53,7 @@ qx.Class.define("demobrowser.demo.progressive.ProgressiveTable_6",
 
       var columnNames = [ "Id", "Image" ];
 
-      // Instantiate a Progressive with a default structure with header
+      // Instantiate a Progressive with a structure including header & footer
       var header = new qx.ui.progressive.headfoot.TableHeading(columnWidths,
                                                                columnNames);
       var footer = new qx.ui.progressive.headfoot.Progress(columnWidths,
