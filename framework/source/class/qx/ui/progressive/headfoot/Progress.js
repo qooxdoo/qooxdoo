@@ -45,13 +45,13 @@ qx.Class.define("qx.ui.progressive.headfoot.Progress",
       });
 
     // Create a widget that continually increases its width for progress bar
-    this._progressBar = new qx.ui.core.Widget();
-    this._progressBar.set(
+    this.__progressBar = new qx.ui.core.Widget();
+    this.__progressBar.set(
       {
         width : 0,
         backgroundColor : "#cccccc"
       });
-    this.add(this._progressBar);
+    this.add(this.__progressBar);
 
     // Create a flex area between the progress bar and the percent done
     var spacer = new qx.ui.core.Widget();
@@ -62,15 +62,15 @@ qx.Class.define("qx.ui.progressive.headfoot.Progress",
     this.add(spacer, { flex : 1 });
 
     // We also like to show progress as a percentage done string.
-    this._percentDone = new qx.ui.basic.Atom("0%");
-    this._percentDone.set(
+    this.__percentDone = new qx.ui.basic.Atom("0%");
+    this.__percentDone.set(
       {
         width : 100,
         decorator : "black",
         backgroundColor : "gray",
         textColor : "white"
       });
-    this.add(this._percentDone);
+    this.add(this.__percentDone);
 
     // We're initially invisible
     this.exclude();
@@ -105,14 +105,14 @@ qx.Class.define("qx.ui.progressive.headfoot.Progress",
           if (mySize)
           {
             var barWidth = Math.floor((mySize.width -
-                                       this._percentDone.getBounds().width) *
+                                       this.__percentDone.getBounds().width) *
                                       complete);
             var percent = Math.floor(complete * 100) + "%";
 
             if (! isNaN(barWidth))
             {
-              this._progressBar.setMinWidth(barWidth);
-              this._percentDone.setLabel(percent);
+              this.__progressBar.setMinWidth(barWidth);
+              this.__percentDone.setLabel(percent);
             }
           }
         },

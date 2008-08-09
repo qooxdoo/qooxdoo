@@ -50,7 +50,7 @@ qx.Class.define("qx.ui.progressive.headfoot.Abstract",
      */
     join : function(progressive)
     {
-      this._progressive = progressive;
+      this.__progressive = progressive;
     }
   },
 
