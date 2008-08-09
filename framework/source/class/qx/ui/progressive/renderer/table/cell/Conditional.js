@@ -52,7 +52,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Conditional",
   {
     this.base(arguments);
 
-    this.numericAllowed =
+    this.__numericAllowed =
       [
         "==",
         "!=",
@@ -62,18 +62,18 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Conditional",
         "<="
       ];
     
-    this.betweenAllowed =
+    this.__betweenAllowed =
       [
         "between",
         "!between"
       ];
     
-    this.conditions = [ ];
+    this.__conditions = [ ];
 
-    this._defaultTextAlign = align || "";
-    this._defaultColor = color || "";
-    this._defaultFontStyle = style || "";
-    this._defaultFontWeight = weight || "";
+    this.__defaultTextAlign = align || "";
+    this.__defaultColor = color || "";
+    this.__defaultFontStyle = style || "";
+    this.__defaultFontWeight = weight || "";
   },
 
 
@@ -151,13 +151,13 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Conditional",
     addNumericCondition : function(condition, value1, align,
                                    color, style, weight, target)
     {
-      if (! qx.lang.Array.contains(this.numericAllowed, condition) ||
+      if (! qx.lang.Array.contains(this.__numericAllowed, condition) ||
           value1 == null)
       {
         throw new Error("Condition not recognized or value is null!");
       }
 
-      this.conditions.push(
+      this.__conditions.push(
         {
           condition : condition,
           align     : align,
@@ -213,14 +213,14 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Conditional",
     addBetweenCondition : function(condition, value1, value2, align,
                                    color, style, weight, target)
     {
-      if (! qx.lang.Array.contains(this.betweenAllowed, condition) ||
+      if (! qx.lang.Array.contains(this.__betweenAllowed, condition) ||
           value1 == null ||
           value2 == null)
       {
         throw new Error("Condition not recognized or value1/value2 is null!");
       }
 
-      this.conditions.push(
+      this.__conditions.push(
         {
           condition : condition,
           align     : align,
@@ -271,7 +271,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Conditional",
         throw new Error("regex cannot be null!");
       }
 
-      this.conditions.push(
+      this.__conditions.push(
         {
           condition : "regex",
           align     : align,
@@ -299,7 +299,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Conditional",
      */
     _getCellStyle : function(cellInfo)
     {
-      if (this.conditions.length == 0)
+      if (this.__conditions.length == 0)
       {
         return cellInfo.style || "";
       }
@@ -310,19 +310,19 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Conditional",
 
       var style =
         {
-          "text-align"  : this._defaultTextAlign,
-          "color"       : this._defaultColor,
-          "font-style"  : this._defaultFontStyle,
-          "font-weight" : this._defaultFontWeight
+          "text-align"  : this.__defaultTextAlign,
+          "color"       : this.__defaultColor,
+          "font-style"  : this.__defaultFontStyle,
+          "font-weight" : this.__defaultFontWeight
         };
 
-      for (i = 0; i < this.conditions.length; i++)
+      for (i = 0; i < this.__conditions.length; i++)
       {
-        var test = this.conditions[i];
+        var test = this.__conditions[i];
 
         bTestPassed = false;
 
-        if (qx.lang.Array.contains(this.numericAllowed, test.condition))
+        if (qx.lang.Array.contains(this.__numericAllowed, test.condition))
         {
           if (test.target == null)
           {
@@ -384,7 +384,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Conditional",
             break;
           }
         }
-        else if (qx.lang.Array.contains(this.betweenAllowed,
+        else if (qx.lang.Array.contains(this.__betweenAllowed,
                                         test.condition))
         {
           if (test.target == null)
@@ -454,12 +454,12 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Conditional",
 
   destruct : function()
   {
-    this._disposeFields("numericAllowed",
-                        "betweenAllowed",
-                        "conditions",
-                        "_defaultTextAlign",
-                        "_defaultColor",
-                        "_defaultFontStyle",
-                        "_defaultFontWeight");
+    this._disposeFields("__numericAllowed",
+                        "__betweenAllowed",
+                        "__conditions",
+                        "__defaultTextAlign",
+                        "__defaultColor",
+                        "__defaultFontStyle",
+                        "__defaultFontWeight");
   }
 });
