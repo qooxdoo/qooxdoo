@@ -35,7 +35,7 @@ qx.Class.define("qx.ui.progressive.model.Default",
   {
     this.base(arguments);
 
-    this._elements = [ ];
+    this.__elements = [ ];
   },
 
 
@@ -52,10 +52,10 @@ qx.Class.define("qx.ui.progressive.model.Default",
     addElements : function(elems)
     {
       // Add the new elements to our elements queue.
-      this._elements = this._elements.concat(elems);
+      this.__elements = this.__elements.concat(elems);
 
       // Tell Progressive that data is available
-      this.fireDataEvent("dataAvailable", this._elements.length);
+      this.fireDataEvent("dataAvailable", this.__elements.length);
     },
 
     /**
@@ -69,29 +69,29 @@ qx.Class.define("qx.ui.progressive.model.Default",
     addElement : function(elem)
     {
       // Add the new elements to our elements queue.
-      this._elements.push(elem);
+      this.__elements.push(elem);
 
       // Tell Progressive that data is available
-      this.fireDataEvent("dataAvailable", this._elements.length);
+      this.fireDataEvent("dataAvailable", this.__elements.length);
     },
 
     // overridden
     getElementCount : function()
     {
-      return this._elements.length;
+      return this.__elements.length;
     },
 
     // overridden
     getNextElement : function()
     {
       // Do we have any remaining elements?
-      if (this._elements.length > 0)
+      if (this.__elements.length > 0)
       {
         // Yup.  Give 'em the first one and remove it from our queue.
         return(
           {
-            element   : this._elements.shift(),
-            remaining : this._elements.length
+            element   : this.__elements.shift(),
+            remaining : this.__elements.length
           });
       }
 

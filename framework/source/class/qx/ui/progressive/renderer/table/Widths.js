@@ -34,10 +34,10 @@ qx.Class.define("qx.ui.progressive.renderer.table.Widths",
 
     // Create an array of the specified number of columns, and use the default
     // column data.
-    this._columnData = [ ];
+    this.__columnData = [ ];
     for (var i = 0; i < numColumns; i++)
     {
-      this._columnData[i] = new qx.ui.util.ColumnData();
+      this.__columnData[i] = new qx.ui.util.ColumnData();
     }
   },
 
@@ -52,7 +52,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.Widths",
      */
     getData : function()
     {
-      return this._columnData;
+      return this.__columnData;
     },
 
     /**
@@ -113,12 +113,12 @@ qx.Class.define("qx.ui.progressive.renderer.table.Widths",
      */
     setWidth : function(column, width)
     {
-      if (column > this._columnData.length - 1 || column < 0)
+      if (column > this.__columnData.length - 1 || column < 0)
       {
         throw new Error("Column number out of range");
       }
 
-      this._columnData[column].setColumnWidth(width);
+      this.__columnData[column].setColumnWidth(width);
     },
       
     /**
@@ -138,12 +138,12 @@ qx.Class.define("qx.ui.progressive.renderer.table.Widths",
      */
     setMinWidth : function(column, width)
     {
-      if (column > this._columnData.length - 1 || column < 0)
+      if (column > this.__columnData.length - 1 || column < 0)
       {
         throw new Error("Column number out of range");
       }
 
-      this._columnData[column].setMinWidth(width);
+      this.__columnData[column].setMinWidth(width);
     },
       
     /**
@@ -163,12 +163,12 @@ qx.Class.define("qx.ui.progressive.renderer.table.Widths",
      */
     setMaxWidth : function(column, width)
     {
-      if (column > this._columnData.length - 1 || column < 0)
+      if (column > this.__columnData.length - 1 || column < 0)
       {
         throw new Error("Column number out of range");
       }
 
-      this._columnData[column].setMaxWidth(width);
+      this.__columnData[column].setMaxWidth(width);
     }
   }
 });
