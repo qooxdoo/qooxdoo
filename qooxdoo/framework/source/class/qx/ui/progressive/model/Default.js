@@ -101,6 +101,6 @@ qx.Class.define("qx.ui.progressive.model.Default",
 
   destruct : function()
   {
-    this._disposeFields("_elements");
+    this._disposeFields("__elements");
   }
 });

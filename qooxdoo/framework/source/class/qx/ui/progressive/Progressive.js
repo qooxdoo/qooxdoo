@@ -436,6 +436,6 @@ qx.Class.define("qx.ui.progressive.Progressive",
     }
 
     // Clean up references
-    this._disposeFields("_renderer");
+    this._disposeFields("__renderer");
   }
 });
