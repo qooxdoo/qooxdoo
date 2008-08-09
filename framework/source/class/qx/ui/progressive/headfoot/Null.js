@@ -36,6 +36,6 @@ qx.Class.define("qx.ui.progressive.headfoot.Null",
     this.base(arguments);
 
     // We're null, so don't display.
-    this.setDisplay(false);
+    this.exclude();
   }
 });
