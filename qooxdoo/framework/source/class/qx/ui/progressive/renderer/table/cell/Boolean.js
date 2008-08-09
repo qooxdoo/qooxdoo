@@ -45,8 +45,8 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Boolean",
     var boolFalseImg =
       aliasManager.resolve("decoration/table/boolean-false.png");
 
-    this._iconUrlTrue = resourceManager.toUri(boolTrueImg);
-    this._iconUrlFalse = resourceManager.toUri(boolFalseImg);
+    this.__iconUrlTrue = resourceManager.toUri(boolTrueImg);
+    this.__iconUrlFalse = resourceManager.toUri(boolFalseImg);
   },
 
 
@@ -78,12 +78,12 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Boolean",
       switch(cellInfo.cellData)
       {
         case true:
-          imageData.url = this._iconUrlTrue;
+          imageData.url = this.__iconUrlTrue;
           imageData.extras = "celldata='1'";
           break;
 
         case false:
-          imageData.url = this._iconUrlFalse;
+          imageData.url = this.__iconUrlFalse;
           imageData.extras = "celldata='0' ";
           break;
 
@@ -101,12 +101,12 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Boolean",
           "var value = node.nodeValue; " +
           "if (value == '0') " +
           "{" +
-          "  this.src='" + this._iconUrlTrue + "'; " +
+          "  this.src='" + this.__iconUrlTrue + "'; " +
           "  node.nodeValue='1'; " +
           "}" +
           "else " +
           "{" +
-          "  this.src='" + this._iconUrlFalse + "'; " +
+          "  this.src='" + this.__iconUrlFalse + "'; " +
           "  node.nodeValue='0'; " +
           "}" +
         "this.attributes.setNamedItem(node); " +
@@ -127,7 +127,6 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Boolean",
   destruct : function()
   {
     this._disposeFields("_iconUrlTrue",
-                        "_iconUrlFalse",
-                        "_iconUrlNull");
+                        "_iconUrlFalse");
   }
 });

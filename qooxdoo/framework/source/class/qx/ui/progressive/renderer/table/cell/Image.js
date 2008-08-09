@@ -46,20 +46,20 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Image",
 
     if (width === undefined)
     {
-      this._imageWidth = width;
+      this.__imageWidth = width;
     }
     else
     {
-      this._imageWidth = 16;
+      this.__imageWidth = 16;
     }
 
     if (height === undefined)
     {
-      this._imageHeight = height;
+      this.__imageHeight = height;
     }
     else
     {
-      this._imageHeight = 16;
+      this.__imageHeight = 16;
     }
   },
 
@@ -71,8 +71,8 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Image",
     {
       var imageData =
       {
-        imageWidth  : this._imageWidth,
-        imageHeight : this._imageHeight
+        imageWidth  : this.__imageWidth,
+        imageHeight : this.__imageHeight
       };
 
       var url;
@@ -93,7 +93,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Image",
 
       if (imageData.url == "")
       {
-        imageData.url = this.IMG_BLANK;
+        imageData.url = this._imageBlank;
       }
       else
       {
@@ -117,7 +117,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Image",
 
   destruct : function()
   {
-    this._disposeFields("_imageWidth",
-                        "imageHeight");
+    this._disposeFields("__imageWidth",
+                        "__imageHeight");
   }
 });
