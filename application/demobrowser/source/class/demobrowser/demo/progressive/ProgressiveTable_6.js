@@ -18,31 +18,108 @@ qx.Class.define("demobrowser.demo.progressive.ProgressiveTable_6",
       this.base(arguments);
 
       var base = "demobrowser/demo/icons/"
-      var imageData =
+
+      this.imageData =
         [
           {
             url     : base + "format-justify-left.png",
-            height  : 20,
+            height  : 4,        // will be overwritten by actual image height
             tooltip : "small icon"
           },
 
           {
             url     : base + "multimedia-player.png",
-            height  : 140,
+            height  : 4,        // will be overwritten by actual image height
             tooltip : "TALL ICON"
           },
 
-          "icon/32/status/dialog-error.png"
+          ""
         ];
 
+      // Pre-load each of the images so we can determine its size.  We'll need
+      // to track whether all images have been loaded before we call our
+      // doLoad function.
+      this.__loadCount = 0;
+
+      var am = qx.util.AliasManager.getInstance();
+      var aliasManager = qx.util.AliasManager.getInstance();
+      var resourceManager = qx.util.ResourceManager;
+      var resolved;
+      var source;
+
+      for (var i = 0; i < this.imageData.length; i++)
+      {
+        // Skip null entries
+        if (! this.imageData[i])
+        {
+          continue;
+        }
+
+        resolved = aliasManager.resolve(this.imageData[i].url);
+        source = resourceManager.toUri(resolved);
+
+        // Since we had to resolve it, save the resolved name
+        this.imageData[i].url = source;
+
+        // Increment the number of images we're waiting on load completion
+        ++this.__loadCount;
+
+        // Pre-load the image.  Call doLoad() when images is loaded.
+        qx.io2.ImageLoader.load(
+          source,
+          function(source, entry)
+          {
+            this.warn("Searching for [" + source + "]");
+
+            // Find this source entry
+            for (var j = 0; j < this.imageData.length; j++)
+            {
+              // Is this the one?
+              if (this.imageData[j].url == source)
+              {
+                // Yup. Save its height
+                this.imageData[j].height = entry.height;
+
+                // Increment the count of loaded images
+                --this.__loadCount;
+
+                this.debug("Found [" + this.imageData[j].url + "].  loadCount=" + this.__loadCount + ", end=" + this.imageData.length);
+
+                // Have we loaded all images?
+                if (this.__loadCount == 0)
+                {
+                  // Yup.  Begin our loader.
+                  this.doLoad();
+                }
+
+                return;
+              }
+            }
+            
+            // Should never get here
+            throw new Error("Image data for " + source + " not found");
+          },
+          this);
+      }
+
+      // Catch the (nonexistent in this demo) case where no images need loading
+      if (this.__loadCount == 0)
+      {
+        this.doLoad();
+      }
+    },
+
+    doLoad : function()
+    {
       var nextId = 0;
+      var _this = this;
       var createRow = function(imageNum, text)
       {
         var ret =
         {
           renderer : "row",
           location : "end",
-          data     : [ text, imageData[imageNum] ]
+          data     : [ text, _this.imageData[imageNum] ]
         };
         return ret;
       };
