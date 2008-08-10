@@ -206,7 +206,7 @@ qx.Class.define("qx.ui.decoration.Grid",
 
 
       // Outer frame
-      html.push('<div style="width:{width}px;height:{height}px">');
+      html.push('<div>');
 
       // Top: left, center, right
       html.push(
@@ -217,7 +217,7 @@ qx.Class.define("qx.ui.decoration.Grid",
         '"></div>'
       );
       html.push(
-        '<div style="position:absolute;top:0;width:{innerWidth}px;',
+        '<div style="position:absolute;top:0;',
         'left:', leftWidth,
         'px;height:',topWidth, 'px;',
         qx.bom.element.Background.compile(t[0], "repeat-x", t[1], t[2]),
@@ -240,7 +240,7 @@ qx.Class.define("qx.ui.decoration.Grid",
         '"></div>'
       );
       html.push(
-        '<div style="position:absolute;bottom:0;width:{innerWidth}px;',
+        '<div style="position:absolute;bottom:0;',
         'left:', leftWidth,
         'px;height:', bottomWidth, "px;",
         qx.bom.element.Background.compile(b[0], "repeat-x", b[1], b[2]),
@@ -261,15 +261,12 @@ qx.Class.define("qx.ui.decoration.Grid",
         'left:' + l[1] + 'px;',
         'top:', topWidth, 'px;',
         'width:', leftImageWidth, 'px;',
-        'height:{innerHeight}px;',
         qx.bom.element.Clip.compile({left: -l[1], width: leftWidth}),
         '"/>'
       );
       html.push(
         '<img src="', mgr.toUri(c[0]), '" style="',
         'position:absolute;',
-        'width:{innerWidth}px;',
-        'height:{innerHeight}px;',
         'top:', topWidth, 'px;left:', leftWidth, 'px;"/>'
       );
       html.push(
@@ -278,7 +275,6 @@ qx.Class.define("qx.ui.decoration.Grid",
         'right:', rightWidth - (rightImageWidth + r[1]) , 'px;',
         'top:', topWidth, 'px;',
         'width:', rightImageWidth, 'px;',
-        'height:{innerHeight}px;',
         qx.bom.element.Clip.compile({left: -r[1], width: rightWidth}),
         '"/>'
       );
