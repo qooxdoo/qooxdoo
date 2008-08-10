@@ -28,6 +28,12 @@ qx.Theme.define("qx.theme.modern.Color",
 
   colors :
   {
+    /*
+    ---------------------------------------------------------------------------
+      BACKGROUND
+    ---------------------------------------------------------------------------
+    */
+        
     "background" : "#dfdfdf",
     "background-light" : "#F2F2F2",
 
@@ -39,19 +45,45 @@ qx.Theme.define("qx.theme.modern.Color",
     "background-field" : "white",
 
 
-    // TODO: adjust these colors to Modern theme (used for datefield-button)
-    "background-focused" : "#F3F8FD",
-    "background-disabled" : "#F4F4F4",
-    "background-selected" : "#3E6CA8",
-    "background-field" : "white",
 
+    /*
+    ---------------------------------------------------------------------------
+      TEXT
+    ---------------------------------------------------------------------------
+    */
+    
     "text" : "#1a1a1a",
     "text-disabled" : [ 107, 106, 110 ],
     "text-selected" : "#fffefe",
     "text-focused" : "#1a1a1a", // TODO: check this one
 
-    "input-text" : "black",
 
+
+    /*
+    ---------------------------------------------------------------------------
+      OTHER
+    ---------------------------------------------------------------------------
+    */
+    
+    // TODO: Rename to text-field for example
+    "input-text" : "black",
+    
+    // TODO: Where are these used?
+    "focus" : "#92B1DC",
+    "pane" : "#ededed",
+
+    // TODO: Are these background colors? Shouldn't they be named this way?
+    "selected" : "#00439d",
+    "selected-inactive" : "#7a9bc8",
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      BORDER
+    ---------------------------------------------------------------------------
+    */
+        
     "border" : "#2D405A",
 
     // TODO: adjust border colors
@@ -67,21 +99,40 @@ qx.Theme.define("qx.theme.modern.Color",
     "border-focused-dark" : "#3E6CA8",
 
 
-    "focus" : "#92B1DC",
 
-    "pane" : "#ededed",
 
-    "selected" : "#00439d",
-    "selected-inactive" : "#7a9bc8",
+    /*
+    ---------------------------------------------------------------------------
+      BUTTON
+    ---------------------------------------------------------------------------
+    */
 
-    // TODO
+    // TODO: Are these used anywhere? Can we remove them?
     "button" : "#EBE9ED",
     "button-hovered" : "#F6F5F7",
     "button-abandoned" : "#F9F8E9",
     "button-checked" : "#F3F0F5",
 
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      DATE CHOOSER
+    ---------------------------------------------------------------------------
+    */
+
     "date-chooser" : "#F2F2F2",
     "date-chooser-title" : "#00439d",
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      TABLE
+    ---------------------------------------------------------------------------
+    */
 
     "table-pane" : "white",
 
@@ -100,7 +151,7 @@ qx.Theme.define("qx.theme.modern.Color",
     "table-column-line" : "#EEE",
 
     // no impact (decorators with backgroundImages are used)
-    "effect" : [ 254, 200, 60 ],
+    // TODO: Why not remove them then?
     "table-header" : [ 242, 242, 242 ],
     "table-header-border" : [ 214, 213, 217 ],
     "table-header-cell" : [ 235, 234, 219 ],
