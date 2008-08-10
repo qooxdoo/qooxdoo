@@ -674,7 +674,6 @@ qx.Theme.define("qx.theme.modern.Appearance",
       }
     },
 
-
     "slider/knob" :
     {
       include : "button",
@@ -682,6 +681,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
+          // TODO: Shouldn't this be the same image independend from the orientation? The light always comes from top!
           decorator: states.horizontal ? "slider-knob-horizontal" : "slider-knob-vertical",
           height : 14,
           width : 14

@@ -778,7 +778,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
        innerColorRight : "#A6A6A6",
 
        widthBottom : 1,
-       colorBottom : "effect",
+       colorBottom : "white",
 
        style      : "solid"
      }
