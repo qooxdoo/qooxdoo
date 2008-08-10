@@ -43,7 +43,6 @@ qx.Class.define("feedreader.view.List",
     var listHeader = new qx.ui.basic.Label(this.tr("Posts"));
     listHeader.setBackgroundColor("background-light");
     listHeader.setPadding(5);
-    listHeader.setDecorator("line-bottom");
     listHeader.setAllowGrowX(true);
     listHeader.setFont("bold");
     this._add(listHeader);
@@ -55,7 +54,6 @@ qx.Class.define("feedreader.view.List",
     // create list view
     this._list = new qx.ui.form.List()
     this._list.setSelectionMode("single");
-    this._list.setDecorator(null);
     this._list.addListener("changeSelection", this._onChangeSelectionView, this);
     this._stack.add(this._list);
 
