@@ -813,6 +813,29 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
 
 
+
+    /*
+    ---------------------------------------------------------------------------
+      PROGRESSIVE
+    ---------------------------------------------------------------------------
+    */
+
+
+   "progressive-table-header" :
+   {
+      decorator : qx.ui.decoration.Single,
+
+      style :
+      {
+        widthBottom : 1,
+        color       : "border-dark-shadow",
+        style       : "solid"
+      }
+   },
+
+
+
+
     /*
     ---------------------------------------------------------------------------
       MENU
