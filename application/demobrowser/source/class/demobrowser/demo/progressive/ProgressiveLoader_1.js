@@ -23,6 +23,10 @@ qx.Class.define("demobrowser.demo.progressive.ProgressiveLoader_1",
       var structure = new qx.ui.progressive.structure.Default(null, footer);
       var progressive = new qx.ui.progressive.Progressive(structure);
 
+      // We definitely want to see each progress as we're loading.  Ensure
+      // that the widget queue gets flushed
+      progressive.setFlushWidgetQueueAfterBatch(true);
+
       var addFunc = function(func)
       {
         var ret =
