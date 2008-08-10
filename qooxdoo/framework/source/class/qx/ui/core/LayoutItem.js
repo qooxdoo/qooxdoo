@@ -347,6 +347,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
     /** {Map} The item's layout properties */
     __layoutProperties : null,
 
+
     /**
      * Get the computed location and dimension as computed by
      * the layout manager.
@@ -363,6 +364,26 @@ qx.Class.define("qx.ui.core.LayoutItem",
       return this.__userBounds || this.__computedLayout || null;
     },
 
+
+    /**
+     * Reconfigure number of separators
+     */
+    clearSeparators : function() {
+      // empty template
+    },
+    
+    
+    /**
+     * Renders a separator between two children
+     *
+     * @param separator {Separator} The separator to render
+     * @param bounds {Map} Contains the left and top coordinate and the width and height
+     *    of the separator to render.
+     */
+    renderSeparator : function(separator, bounds) {
+      // empty template
+    },
+          
 
     /**
      * Used by the layouters to apply coordinates and dimensions.
