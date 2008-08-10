@@ -36,6 +36,12 @@ qx.Theme.define("qx.theme.classic.Decoration",
 
   decorations :
   {
+    /*
+    ---------------------------------------------------------------------------
+      CORE
+    ---------------------------------------------------------------------------
+    */
+        
     "black" :
     {
       decorator: qx.ui.decoration.Uniform,
@@ -58,54 +64,14 @@ qx.Theme.define("qx.theme.classic.Decoration",
       }
     },
 
+
+
+
     /*
-    "dark-shadow" :
-    {
-      decorator: qx.ui.decoration.Uniform,
-
-      style :
-      {
-        width : 1,
-        color : "border-dark-shadow"
-      }
-    },
-
-    "light-shadow" :
-    {
-      decorator: qx.ui.decoration.Uniform,
-
-      style :
-      {
-        width : 1,
-        color : "border-light-shadow"
-      }
-    },
-
-    "light" :
-    {
-      decorator: qx.ui.decoration.Uniform,
-
-      style :
-      {
-        width : 1,
-        color : "border-light"
-      }
-    },
-
-    "dark" :
-    {
-      decorator: qx.ui.decoration.Uniform,
-
-      style :
-      {
-        width : 1,
-        color : "border-dark"
-      }
-    },
+    ---------------------------------------------------------------------------
+      THREE DIMENSIONAL
+    ---------------------------------------------------------------------------
     */
-
-
-
 
     "inset" :
     {
@@ -159,10 +125,6 @@ qx.Theme.define("qx.theme.classic.Decoration",
       }
     },
 
-
-
-
-
     "inset-thin" :
     {
       decorator : qx.ui.decoration.Single,
@@ -184,98 +146,6 @@ qx.Theme.define("qx.theme.classic.Decoration",
         color : [ "border-light", "border-dark-shadow", "border-dark-shadow", "border-light" ]
       }
     },
-
-
-
-
-    /*
-    "line-left" :
-    {
-      decorator : qx.ui.decoration.Single,
-
-      style :
-      {
-        widthLeft : 1,
-        colorLeft : "border-dark-shadow"
-      }
-    },
-
-    "line-right" :
-    {
-      decorator : qx.ui.decoration.Single,
-
-      style :
-      {
-        widthRight : 1,
-        colorRight : "border-dark-shadow"
-      }
-    },
-
-    "line-top" :
-    {
-      decorator : qx.ui.decoration.Single,
-
-      style :
-      {
-        widthTop : 1,
-        colorTop : "border-dark-shadow"
-      }
-    },
-
-    "line-bottom" :
-    {
-      decorator : qx.ui.decoration.Single,
-
-      style :
-      {
-        widthBottom : 1,
-        colorBottom : "border-dark-shadow"
-      }
-    },
-
-    "divider-vertical" :
-    {
-      decorator : qx.ui.decoration.Single,
-
-      style :
-      {
-        widthTop : 1,
-        colorTop : "border-dark-shadow"
-      }
-    },
-    */
-
-
-
-    "shadow" :
-    {
-      decorator : qx.ui.decoration.Grid,
-
-      style : {
-        baseImage : "decoration/shadow/shadow.png",
-        insets    : [ 4, 8, 8, 4 ]
-      }
-    },
-
-
-    "shadow-small" :
-    {
-      decorator : qx.ui.decoration.Grid,
-
-      style : {
-        baseImage : "decoration/shadow/shadow-small.png",
-        insets    : [ 0, 3, 3, 0 ]
-      }
-    },
-
-
-
-
-
-
-
-
-
 
     "focused-inset" :
     {
@@ -303,6 +173,46 @@ qx.Theme.define("qx.theme.classic.Decoration",
       }
     },
 
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      SHADOWS
+    ---------------------------------------------------------------------------
+    */
+
+    "shadow" :
+    {
+      decorator : qx.ui.decoration.Grid,
+
+      style : {
+        baseImage : "decoration/shadow/shadow.png",
+        insets    : [ 4, 8, 8, 4 ]
+      }
+    },
+
+
+    "shadow-small" :
+    {
+      decorator : qx.ui.decoration.Grid,
+
+      style : {
+        baseImage : "decoration/shadow/shadow-small.png",
+        insets    : [ 0, 3, 3, 0 ]
+      }
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      LIST ITEM
+    ---------------------------------------------------------------------------
+    */
+
     "lead-item" :
     {
       decorator : qx.ui.decoration.Uniform,
@@ -318,10 +228,12 @@ qx.Theme.define("qx.theme.classic.Decoration",
 
 
 
-
-
-
-
+    /*
+    ---------------------------------------------------------------------------
+      TOOL TIP
+    ---------------------------------------------------------------------------
+    */
+    
     "tooltip" :
     {
       decorator: qx.ui.decoration.Uniform,
@@ -333,6 +245,15 @@ qx.Theme.define("qx.theme.classic.Decoration",
       }
     },
 
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      TOOLBAR
+    ---------------------------------------------------------------------------
+    */
+    
     "toolbar-separator" :
     {
       decorator : qx.ui.decoration.Single,
@@ -364,7 +285,11 @@ qx.Theme.define("qx.theme.classic.Decoration",
 
 
 
-
+    /*
+    ---------------------------------------------------------------------------
+      MENU
+    ---------------------------------------------------------------------------
+    */
 
     "menu-separator" :
     {
@@ -377,141 +302,6 @@ qx.Theme.define("qx.theme.classic.Decoration",
         colorTop : "border-dark",
         colorBottom : "border-light"
       }
-    },
-
-
-
-
-
-
-
-
-
-    "test-uni-1" :
-    {
-      decorator : qx.ui.decoration.Uniform,
-
-      style :
-      {
-        width : 1,
-        style : "solid",
-        color : "black",
-        backgroundImage : "decoration/colorselector/brightness-field.jpg",
-        backgroundRepeat : "scale"
-      }
-    },
-
-
-    "test-uni-2" :
-    {
-      decorator : qx.ui.decoration.Uniform,
-
-      style :
-      {
-        width : 1,
-        style : "solid",
-        color : "black",
-        backgroundImage : "decoration/core/dotted-white.gif",
-        backgroundRepeat : "repeat"
-      }
-    },
-
-
-
-    "test-single-1" :
-    {
-      decorator : qx.ui.decoration.Single,
-
-      style :
-      {
-        width : 1,
-        style : "solid",
-        color : "black",
-        backgroundImage : "decoration/colorselector/brightness-field.jpg",
-        backgroundRepeat : "scale"
-      }
-    },
-
-
-    "test-single-2" :
-    {
-      decorator : qx.ui.decoration.Single,
-
-      style :
-      {
-        width : 1,
-        style : "solid",
-        color : "black",
-        backgroundImage : "decoration/core/dotted-white.gif",
-        backgroundRepeat : "repeat"
-      }
-    },
-
-
-
-    "test-double-1" :
-    {
-      decorator : qx.ui.decoration.Double,
-
-      style :
-      {
-        width : 1,
-        style : "solid",
-        color : "black",
-        innerWidth : 1,
-        innerColor : "gray",
-        backgroundImage : "decoration/colorselector/brightness-field.jpg",
-        backgroundRepeat : "scale"
-      }
-    },
-
-
-    "test-double-2" :
-    {
-      decorator : qx.ui.decoration.Double,
-
-      style :
-      {
-        width : 1,
-        style : "solid",
-        color : "black",
-        innerWidth : 1,
-        innerColor : "gray",
-        backgroundImage : "decoration/core/dotted-white.gif",
-        backgroundRepeat : "repeat"
-      }
-    },
-
-
-
-    "test-beveled-1" :
-    {
-      decorator : qx.ui.decoration.Beveled,
-
-      style :
-      {
-        outerColor : "#555",
-        innerColor : "white",
-        innerOpacity : 0.5,
-        backgroundImage : "decoration/colorselector/brightness-field.jpg",
-        backgroundRepeat : "scale"
-      }
-    },
-
-
-    "test-beveled-2" :
-    {
-      decorator : qx.ui.decoration.Beveled,
-
-      style :
-      {
-        outerColor : "#555",
-        innerColor : "white",
-        innerOpacity : 0.5,
-        backgroundImage : "decoration/core/dotted-white.gif",
-        backgroundRepeat : "repeat"
-      }
     }
-
   }
 });
