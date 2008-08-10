@@ -54,7 +54,7 @@ qx.Theme.define("demobrowser.Appearance",
       style : function(states)
       {
         return {
-          decorator : new qx.ui.decoration.Double().set({
+          decorator : new qx.ui.decoration.Single().set({
 		        colorBottom: "border-dark-shadow",
 		        widthBottom: 1
 				  })
@@ -71,7 +71,7 @@ qx.Theme.define("demobrowser.Appearance",
       style : function(states)
       {
         return {
-          decorator : new qx.ui.decoration.Double().set({
+          decorator : new qx.ui.decoration.Uniform().set({
             backgroundImage : "decoration/toolbar/toolbar-gradient.png",
             backgroundRepeat : "scale"
           })
