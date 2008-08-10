@@ -29,14 +29,14 @@ qx.Theme.define("qx.theme.modern.Font",
   {
     "default" :
     {
-      size : 11,
+      size : 12,
       lineHeight : 1.4,
       family : [ "Segoe UI", "Lucida Grande", "Candara", "Liberation Sans", "Arial" ]
     },
     
     "bold" :
     {
-      size : 11,
+      size : 12,
       lineHeight : 1.4,
       family : [ "Segoe UI", "Lucida Grande", "Candara", "Liberation Sans", "Arial" ],
       bold : true
@@ -44,7 +44,7 @@ qx.Theme.define("qx.theme.modern.Font",
 
     "small" :
     {
-      size : 10,
+      size : 11,
       lineHeight : 1.4,
       family : [ "Segoe UI", "Lucida Grande", "Candara", "Liberation Sans", "Arial" ]
     }
