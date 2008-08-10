@@ -50,13 +50,6 @@ qx.Class.define("qx.ui.progressive.headfoot.TableHeading",
     // Set a default height for the table heading
     this.setHeight(16);
 
-    /*
-    // The table heading should have a decorator
-    var decorator = new qx.ui.decoration.Single();
-    decorator.setBottom(2, "solid", "#aaaaaa");
-    this.setDecorator(decorator);
-    */
-
     // We want the same padding here as in the table row
     this.setPaddingLeft(qx.ui.progressive.renderer.table.Row.__padding);
     this.setPaddingRight(qx.ui.progressive.renderer.table.Row.__padding);
