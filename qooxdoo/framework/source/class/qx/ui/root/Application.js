@@ -71,28 +71,8 @@ qx.Class.define("qx.ui.root.Application",
 
     // Register as root
     qx.ui.core.FocusHandler.getInstance().connectTo(this);
-
-    // Initialize native context menu
-    this.initNativeContextMenu();
   },
 
-
-
-  /*
-  *****************************************************************************
-     PROPERTIES
-  *****************************************************************************
-  */
-
-  properties :
-  {
-    // overridden
-    nativeContextMenu :
-    {
-      refine : true,
-      init : false
-    }
-  },
 
 
 
