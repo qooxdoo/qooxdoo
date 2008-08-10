@@ -42,7 +42,6 @@ qx.Class.define("feedreader.view.Article",
 
     // Configure
     this.setCssClass("blogEntry");
-    this.setDecorator("line-top");
     this.setOverflowY("scroll");
     this.setBackgroundColor("#FFFCE8");
   },
