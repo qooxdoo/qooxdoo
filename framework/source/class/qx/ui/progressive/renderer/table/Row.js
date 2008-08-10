@@ -48,6 +48,16 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
     // We don't yet know who our Progressive will be
     this.__progressive = null;
 
+    this.__colors = {};
+
+    // link to color theme
+    var colorMgr = qx.theme.manager.Color.getInstance();
+    this.__colors.bgcol = [];
+    this.__colors.bgcol[0] =
+      colorMgr.resolve("progressive-table-row-background-even");
+    this.__colors.bgcol[1] =
+      colorMgr.resolve("progressive-table-row-background-odd");
+    
     // This layout is not connected to a widget but to this class. This class
     // must implement the method "getLayoutChildren", which must return all
     // columns (LayoutItems) which should be recalcutated. The call
@@ -62,9 +72,6 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
 
   statics :
   {
-    /** Background colors of alternating rows */
-    BACKGROUND_COLOR : [ "rgb(238, 255, 255)", "rgb(255, 255, 255)" ],
-
     __clazz : null,
 
     __padding : 6, // modify padding parameter below too if this changes
@@ -293,8 +300,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
         var index = state.getRendererData()[this.__name].end || 0;
 
         // Set the background color of this row
-        div.style.backgroundColor =
-          qx.ui.progressive.renderer.table.Row.BACKGROUND_COLOR[index];
+        div.style.backgroundColor = this.__colors.bgcol[index];
 
         // Update state for next time
         rendererData.end = (index == 0 ? 1 : 0);
@@ -317,8 +323,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
           var index = rendererData.start;
 
           // Set the background color of this row
-          div.style.backgroundColor =
-            qx.ui.progressive.renderer.table.Row.BACKGROUND_COLOR[index];
+          div.style.backgroundColor = this.__colors.bgcol[index];
 
           // Update state for next time
           rendererData.start = (index == 0 ? 1 : 0);
