@@ -151,7 +151,7 @@ qx.Class.define("qx.ui.decoration.Double",
 
 
       // Inner styles
-      var innerStyles = "width:{innerWidth}px;height:{innerHeight}px;";
+      var innerStyles = "";
 
       // Add inner borders
       var width = this.getInnerWidthTop();
@@ -178,9 +178,8 @@ qx.Class.define("qx.ui.decoration.Double",
       var innerHtml = qx.ui.decoration.Util.generateBasicDecor(this.getBackgroundImage(), this.getBackgroundRepeat(), innerStyles);
 
 
-
       // Generate outer HTML
-      var outerHtml = '<div style="position:absolute;top:0;left:0;background-color:{bgcolor};';
+      var outerHtml = '<div style="position:absolute;top:0;left:0;';
 
       var width = this.getWidthTop();
       if (width > 0) {
