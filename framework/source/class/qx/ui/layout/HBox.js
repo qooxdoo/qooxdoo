@@ -160,7 +160,7 @@ qx.Class.define("qx.ui.layout.HBox",
     /** Separator lines to use between the objects */
     separator :
     {
-      check : "Array",
+      check : "Decorator",
       nullable : true,
       apply : "_applyLayoutChange"
     },
@@ -305,7 +305,7 @@ qx.Class.define("qx.ui.layout.HBox",
       var spacing = this.getSpacing();
       var separator = this.getSeparator();
       if (separator) {
-        var gaps = util.computeSeparatorGaps(children, spacing, separator.length);
+        var gaps = util.computeHorizontalSeparatorGaps(children, spacing, separator);
       } else {
         var gaps = util.computeHorizontalGaps(children, spacing, true);
       }
@@ -382,11 +382,15 @@ qx.Class.define("qx.ui.layout.HBox",
       // Layouting children
       var hint, top, height, width, marginRight, marginTop, marginBottom;
       var spacing = this.getSpacing();
-      var separator = length > 1 && this.getSeparator();
 
       // Pre configure separators
-      if (separator) {
-        this._configureSeparators(length-1);
+      this._clearSeparators();
+      
+      // Compute separator width
+      if (separator) 
+      {
+        var separatorInsets = qx.theme.manager.Decoration.getInstance().resolve(separator).getInsets();
+        var separatorWidth = separatorInsets.left + separatorInsets.right;
       }
       
       // Render children and separators
@@ -415,10 +419,15 @@ qx.Class.define("qx.ui.layout.HBox",
             left += marginRight + spacing;
             
             // then render the separator at this position
-            this._renderHorizontalSeparator(separator, i-1, left, availHeight);
+            this._renderSeparator(separator, {
+              left : left,
+              top : 0,
+              width : separatorWidth,
+              height : availHeight
+            });
             
             // and finally add the size of the separator, the spacing (again) and the left margin
-            left += separator.length + spacing + child.getMarginLeft();
+            left += separatorWidth + spacing + child.getMarginLeft();
           }
           else
           {
@@ -485,7 +494,7 @@ qx.Class.define("qx.ui.layout.HBox",
       var spacing = this.getSpacing();
       var separator = this.getSeparator();
       if (separator) {
-        var gaps = util.computeSeparatorGaps(children, spacing, separator.length);
+        var gaps = util.computeHorizontalSeparatorGaps(children, spacing, separator);
       } else {
         var gaps = util.computeHorizontalGaps(children, spacing, true);
       }

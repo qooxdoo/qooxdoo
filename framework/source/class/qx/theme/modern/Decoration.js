@@ -39,7 +39,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
   {
     /*
     ---------------------------------------------------------------------------
-      BASE
+      CORE
     ---------------------------------------------------------------------------
     */
 
@@ -87,6 +87,37 @@ qx.Theme.define("qx.theme.modern.Decoration",
       }
     },
 
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      SEPARATOR
+    ---------------------------------------------------------------------------
+    */
+    
+    "separator-horizontal" :
+    {
+      decorator: qx.ui.decoration.Single,
+
+      style :
+      {
+        widthLeft : 1,
+        colorLeft : "border"
+      }      
+    },
+    
+    "separator-vertical" :
+    {
+      decorator: qx.ui.decoration.Single,
+
+      style :
+      {
+        widthTop : 1,
+        colorTop : "border"
+      }      
+    },    
+    
 
 
 

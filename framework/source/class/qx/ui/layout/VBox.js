@@ -160,7 +160,7 @@ qx.Class.define("qx.ui.layout.VBox",
     /** Separator lines to use between the objects */
     separator :
     {
-      check : "Array",
+      check : "Decorator",
       nullable : true,
       apply : "_applyLayoutChange"
     },
@@ -305,7 +305,7 @@ qx.Class.define("qx.ui.layout.VBox",
       var spacing = this.getSpacing();
       var separator = this.getSeparator();
       if (separator) {
-        var gaps = util.computeSeparatorGaps(children, spacing, separator.length);
+        var gaps = util.computeVerticalSeparatorGaps(children, spacing, separator);
       } else {
         var gaps = util.computeVerticalGaps(children, spacing, true);
       }
@@ -382,11 +382,15 @@ qx.Class.define("qx.ui.layout.VBox",
       // Layouting children
       var hint, left, width, height, marginBottom, marginLeft, marginRight;
       var spacing = this.getSpacing();
-      var separator = length > 1 && this.getSeparator();
 
       // Pre configure separators
-      if (separator) {
-        this._configureSeparators(length-1);
+      this._clearSeparators();
+      
+      // Compute separator height
+      if (separator) 
+      {
+        var separatorInsets = qx.theme.manager.Decoration.getInstance().resolve(separator).getInsets();
+        var separatorHeight = separatorInsets.top + separatorInsets.bottom;
       }
       
       // Render children and separators
@@ -415,10 +419,15 @@ qx.Class.define("qx.ui.layout.VBox",
             top += marginBottom + spacing;
             
             // then render the separator at this position
-            this._renderVerticalSeparator(separator, i-1, top, availWidth);
+            this._renderSeparator(separator, {
+              top : top,
+              left : 0,
+              height : separatorHeight,
+              width : availWidth
+            });
             
             // and finally add the size of the separator, the spacing (again) and the top margin
-            top += separator.length + spacing + child.getMarginTop();
+            top += separatorHeight + spacing + child.getMarginTop();
           }
           else
           {
@@ -485,7 +494,7 @@ qx.Class.define("qx.ui.layout.VBox",
       var spacing = this.getSpacing();
       var separator = this.getSeparator();
       if (separator) {
-        var gaps = util.computeSeparatorGaps(children, spacing, separator.length);
+        var gaps = util.computeVerticalSeparatorGaps(children, spacing, separator);
       } else {
         var gaps = util.computeVerticalGaps(children, spacing, true);
       }

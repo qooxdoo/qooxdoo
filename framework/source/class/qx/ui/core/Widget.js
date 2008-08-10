@@ -864,104 +864,7 @@ qx.Class.define("qx.ui.core.Widget",
       // Update inheritable properties
       qx.core.Property.refresh(this);
     },
-
-
-    /** {Array} list of separators */
-    __separators : null,
-
-
-    /**
-     * Reconfigure number of separators
-     *
-     * @param number {Integer} Number of separators to show
-     */
-    configureSeparators : function(number)
-    {
-      var objs = this.__separators;
-      var content = this.getContentElement();
-      var el;
-
-      if (!objs)
-      {
-        objs = this.__separators = [];
-        for (var i=0; i<number; i++)
-        {
-          el = new qx.html.Element;
-          el.setStyle("position", "absolute");
-          objs.push(el);
-          content.add(el);
-        }
-      }
-      else
-      {
-        var length = objs.length;
-        if (length < number)
-        {
-          for (var i=length; i<number; i++)
-          {
-            el = new qx.html.Element;
-            el.setStyle("position", "absolute");
-            objs.push(el);
-            content.add(el);
-          }
-        }
-        else if (length > number)
-        {
-          for (var i=length-1; i>number-1; i--) {
-            objs[i].dispose();
-          }
-
-          objs.length = number;
-        }
-      }
-    },
-
-
-    /**
-     * Renders a horizontal separator at the given index.
-     *
-     * @param separator {Separator} Separator to render
-     * @param index {Integer} Which element to use
-     * @param left {Integer} Left position of the separator
-     * @param height {Integer} Height of the separator
-     */
-    renderHorizontalSeparator : function(separator, index, left, height)
-    {
-      var el = this.__separators[index];
-      var mgr = qx.theme.manager.Color.getInstance();
-
-      el.setStyle("left", left + "px");
-      el.setStyle("width", "0px");
-      el.setStyle("top", "0px");
-      el.setStyle("height", height + "px");
-
-      el.setStyle("borderLeft", separator[0] ? "1px solid " + mgr.resolve(separator[0]) : null);
-      el.setStyle("borderRight", separator[1] ? "1px solid " + mgr.resolve(separator[1]) : null);
-    },
-
-
-    /**
-     * Renders a vertical separator at the given index.
-     *
-     * @param separator {Separator} Separator to render
-     * @param index {Integer} Which element to use
-     * @param top {Integer} Top position of the separator
-     * @param width {Integer} Width of the separator
-     */
-    renderVerticalSeparator : function(separator, index, top, width)
-    {
-      var el = this.__separators[index];
-      var mgr = qx.theme.manager.Color.getInstance();
-
-      el.setStyle("left", "0px");
-      el.setStyle("width", width + "px");
-      el.setStyle("top", top + "px");
-      el.setStyle("height", "0px");
-
-      el.setStyle("borderTop", separator[0] ? "1px solid " + mgr.resolve(separator[0]) : null);
-      el.setStyle("borderBottom", separator[1] ? "1px solid " + mgr.resolve(separator[1]) : null);
-    },
-
+    
 
     /** {Boolean} Whether insets have changed and must be updated */
     __updateInsets : null,
@@ -1080,6 +983,97 @@ qx.Class.define("qx.ui.core.Widget",
 
 
 
+    
+    
+    
+    
+    
+    /*
+    ---------------------------------------------------------------------------
+      SEPARATOR SUPPORT
+    ---------------------------------------------------------------------------
+    */
+
+    /**
+     * Reconfigure number of separators
+     */
+    clearSeparators : function()
+    {
+      var reg = this.__separators;
+      if (!reg) {
+        return;
+      }
+      
+      var pool = qx.ui.core.Widget.__decoratorPool;
+      var mgr = qx.theme.manager.Decoration.getInstance();
+      var content = this._contentElement;
+      var separator, elem;
+      
+      for (var i=0, l=reg.length; i<l; i++) 
+      {
+        elem = reg[i];
+        separator = elem.$$separator;
+        
+        // Pool instance
+        if (!pool[separator]) {
+          pool[separator] = [elem];
+        } else {
+          pool[separator].push(elem);
+        }
+        
+        // Remove from content
+        content.remove(elem);       
+      }
+      
+      // Clear registry
+      reg.length = 0;
+    },
+
+
+    /**
+     * Renders a horizontal separator at the given index.
+     *
+     */
+    renderSeparator : function(separator, bounds)
+    {
+      var pool = qx.ui.core.Widget.__decoratorPool;
+      var mgr = qx.theme.manager.Decoration.getInstance();
+      var instance = mgr.resolve(separator);
+      
+      // Instance Managment
+      var list = pool[separator];
+      if (list && list.length > 0) {
+        var elem = list.pop();
+      } else {
+        var elem = this._createDecoratorElement(separator);
+      }
+      
+      // Insert
+      this._contentElement.add(elem);
+      
+      // Resize
+      instance.resize(elem, bounds.width, bounds.height);
+      
+      // Move
+      var style = elem.getDomElement().style;
+      style.left = bounds.left + "px";
+      style.top = bounds.top + "px";      
+      
+      // Remember element
+      if (!this.__separators) {
+        this.__separators = [elem];
+      } else {
+        this.__separators.push(elem);
+      }
+      
+      // Remember separator used
+      elem.$$separator = separator;
+    },
+
+  
+    
+    
+    
 
 
     /*
