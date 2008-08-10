@@ -181,7 +181,16 @@ qx.Class.define("qx.ui.progressive.Progressive",
     batchSize :
     {
       init  : 20
-    }
+    },
+
+    /**
+     * Flush the widget queue after each batch is rendered.  This is
+     * particularly relevant for such things as progressive loading, where
+     * the whole purpose is to be able to see the loading progressing.
+     */
+    flushWidgetQueueAfterBatch :
+    {
+      init : false    }
   },
 
 
@@ -389,6 +398,12 @@ qx.Class.define("qx.ui.progressive.Progressive",
                            remaining : current.remaining
                          });
 
+      // Flush the widget queue
+      if (this.getFlushWidgetQueueAfterBatch())
+      {
+        qx.ui.core.queue.Manager.flush();
+      }
+      
       // Set a timer to render the next element
       qx.event.Timer.once(function()
                           {
