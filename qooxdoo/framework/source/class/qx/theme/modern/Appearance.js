@@ -49,7 +49,6 @@ qx.Theme.define("qx.theme.modern.Appearance",
 
     "widget" : {},
 
-
     "root" :
     {
       style : function(states)
@@ -61,7 +60,6 @@ qx.Theme.define("qx.theme.modern.Appearance",
         };
       }
     },
-
 
     "label" :
     {
@@ -75,13 +73,12 @@ qx.Theme.define("qx.theme.modern.Appearance",
       }
     },
 
-
     "move-frame" :
     {
       style : function(states)
       {
         return {
-          decorator : "dark-shadow"
+          decorator : "frame"
         };
       }
     },
@@ -91,11 +88,10 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          decorator : "dark-shadow"
+          decorator : "frame"
         };
       }
     },
-
 
     "dragdrop-cursor" :
     {
@@ -119,14 +115,6 @@ qx.Theme.define("qx.theme.modern.Appearance",
       }
     },
 
-
-
-    /*
-    ---------------------------------------------------------------------------
-      IMAGE
-    ---------------------------------------------------------------------------
-    */
-
     "image" :
     {
       style : function(states)
@@ -142,14 +130,10 @@ qx.Theme.define("qx.theme.modern.Appearance",
     "atom/label" : "label",
     "atom/icon" : "image",
 
-
-    /*
-    ---------------------------------------------------------------------------
-      POPUP
-    ---------------------------------------------------------------------------
-    */
-
     "popup" : "widget",
+
+
+
 
 
     /*
@@ -201,7 +185,6 @@ qx.Theme.define("qx.theme.modern.Appearance",
       }
     },
 
-
     "splitbutton" : {},
     "splitbutton/button" : "button",
     "splitbutton/arrow" :
@@ -220,12 +203,12 @@ qx.Theme.define("qx.theme.modern.Appearance",
 
 
 
+
     /*
     ---------------------------------------------------------------------------
       FORM FIELDS
     ---------------------------------------------------------------------------
     */
-
 
     "checkbox":
     {
@@ -263,7 +246,6 @@ qx.Theme.define("qx.theme.modern.Appearance",
       }
     },
 
-
     "radiobutton":
     {
       alias : "atom",
@@ -300,7 +282,6 @@ qx.Theme.define("qx.theme.modern.Appearance",
       }
     },
 
-
     "textfield" :
     {
       style : function(states)
@@ -314,8 +295,9 @@ qx.Theme.define("qx.theme.modern.Appearance",
       }
     },
 
-
     "textarea" : "textfield",
+
+
 
 
     /*
@@ -329,8 +311,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          decorator       : states.focused ? "input-focused" : "input",
-          textColor       : states.disabled ? "text-disabled" : "undefined"
+          decorator : states.focused ? "input-focused" : "input",
+          textColor : states.disabled ? "text-disabled" : "undefined"
         };
       }
     },
@@ -343,7 +325,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       {
         return {
           decorator : "undefined",
-          padding: [2, 3]
+          padding : [2, 3]
         };
       }
     },
@@ -377,6 +359,9 @@ qx.Theme.define("qx.theme.modern.Appearance",
         };
       }
     },
+    
+    
+    
 
 
     /*
@@ -384,6 +369,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       DATEFIELD
     ---------------------------------------------------------------------------
     */
+    
     "datefield" : "combobox",
 
     "datefield/button" :
@@ -402,7 +388,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
       }
     },
 
-    "datefield/list" : {
+    "datefield/list" : 
+    {
       alias : "datechooser",
       include : "datechooser",
 
@@ -414,11 +401,15 @@ qx.Theme.define("qx.theme.modern.Appearance",
     },
 
 
+
+
+
     /*
     ---------------------------------------------------------------------------
       COLORFIELD
     ---------------------------------------------------------------------------
     */
+
     "colorfield" : "combobox",
 
     "colorfield/button" :
@@ -447,6 +438,9 @@ qx.Theme.define("qx.theme.modern.Appearance",
         }
       }
     },
+
+
+
 
 
     /*
@@ -521,7 +515,6 @@ qx.Theme.define("qx.theme.modern.Appearance",
       }
     },
 
-
     "radio-groupbox" :
     {
       alias : "groupbox",
@@ -551,6 +544,10 @@ qx.Theme.define("qx.theme.modern.Appearance",
         };
       }
     },
+    
+    
+    
+    
 
 
     /*
@@ -559,13 +556,14 @@ qx.Theme.define("qx.theme.modern.Appearance",
     ---------------------------------------------------------------------------
     */
 
-
     "scrollarea/corner" :
     {
       style : function(states)
       {
         return {
           backgroundColor : "#e4e4e4",
+          
+          // Functional!
           width: 0,
           height: 0
         };
@@ -575,6 +573,10 @@ qx.Theme.define("qx.theme.modern.Appearance",
     "scrollarea/pane" : "widget",
     "scrollarea/scrollbar-x" : "scrollbar",
     "scrollarea/scrollbar-y" : "scrollbar",
+    
+    
+    
+    
 
 
     /*
@@ -651,6 +653,9 @@ qx.Theme.define("qx.theme.modern.Appearance",
 
     "scrollbar/button-begin" : "scrollbar/button",
     "scrollbar/button-end" : "scrollbar/button",
+    
+    
+    
 
 
     /*
@@ -701,22 +706,13 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          decorator : states.focused ? "focus-line" : "black",
-          backgroundColor : states.focused ? "#F0F4FA" : "white"
+          backgroundColor : "white"
         };
       }
     },
 
-    // TODO
     "list/pane" : "widget",
-
-
-    /*
-    ---------------------------------------------------------------------------
-      LIST ITEM
-    ---------------------------------------------------------------------------
-    */
-
+    
     "listitem" :
     {
       alias : "atom",
@@ -730,6 +726,9 @@ qx.Theme.define("qx.theme.modern.Appearance",
         };
       }
     },
+
+
+
 
 
     /*
@@ -913,6 +912,10 @@ qx.Theme.define("qx.theme.modern.Appearance",
         };
       }
     },
+    
+    
+    
+    
 
 
     /*
@@ -944,7 +947,6 @@ qx.Theme.define("qx.theme.modern.Appearance",
         };
       }
     },
-
 
     "toolbar-button" :
     {
@@ -1006,12 +1008,14 @@ qx.Theme.define("qx.theme.modern.Appearance",
 
 
 
+
+
+
     /*
     ---------------------------------------------------------------------------
       TREE
     ---------------------------------------------------------------------------
     */
-
 
     "tree" :
     {
@@ -1106,10 +1110,9 @@ qx.Theme.define("qx.theme.modern.Appearance",
 
 
 
-
     /*
     ---------------------------------------------------------------------------
-      tooltip
+      TOOL TIP
     ---------------------------------------------------------------------------
     */
 
@@ -1122,7 +1125,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         return {
           backgroundColor : "#ffffdd",
           decorator : "tooltip",
-          shadow : "shadow-small",
+          shadow : "popup-shadow",
           padding : [ 1, 3, 2, 3 ],
           offset : [ 1, 1, 20, 1 ]
         };
@@ -1130,6 +1133,9 @@ qx.Theme.define("qx.theme.modern.Appearance",
     },
 
     "tooltip/atom" : "atom",
+
+
+
 
 
     /*
@@ -1143,12 +1149,11 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          shadow : "shadow",
+          shadow : "window-shadow",
           contentPadding : [ 2, 3, 4, 3 ]
         };
       }
     },
-
 
     "window/pane" :
     {
@@ -1174,7 +1179,6 @@ qx.Theme.define("qx.theme.modern.Appearance",
         }
       }
     },
-
 
     "window/captionbar" :
     {
@@ -1210,7 +1214,6 @@ qx.Theme.define("qx.theme.modern.Appearance",
         };
       }
     },
-
 
     "window/minimize-button" :
     {
@@ -1271,7 +1274,6 @@ qx.Theme.define("qx.theme.modern.Appearance",
       }
     },
 
-
     "window/statusbar" :
     {
       style : function(states)
@@ -1296,6 +1298,11 @@ qx.Theme.define("qx.theme.modern.Appearance",
     },
 
 
+
+
+
+
+
     /*
     ---------------------------------------------------------------------------
       IFRAME
@@ -1314,6 +1321,10 @@ qx.Theme.define("qx.theme.modern.Appearance",
     },
 
 
+
+
+
+
     /*
     ---------------------------------------------------------------------------
       RESIZER
@@ -1325,20 +1336,14 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          decorator : "outset"
+          decorator : "pane"
         };
       }
     },
-
-    "resizer-frame" :
-    {
-      style : function(states)
-      {
-        return {
-          decorator : "dark-shadow"
-        };
-      }
-    },
+    
+    
+    
+    
 
     /*
     ---------------------------------------------------------------------------
@@ -1382,6 +1387,10 @@ qx.Theme.define("qx.theme.modern.Appearance",
         };
       }
     },
+    
+    
+    
+    
 
     /*
     ---------------------------------------------------------------------------
@@ -1406,31 +1415,18 @@ qx.Theme.define("qx.theme.modern.Appearance",
       }
     },
 
-    // TODO: check if this is the right appearance
-    /*"selectbox" : {
-      style : function(states)
-      {
-        var decorator, textColor;
-        decorator = "button";
-        textColor = "text";
-
-        return {
-          padding    : 2,
-          textColor  : textColor,
-          font       : "default",
-          decorator  : decorator
-        };
-      }
-    },*/
 
 
-   /*
+
+
+    /*
     ---------------------------------------------------------------------------
       DATE CHOOSER
     ---------------------------------------------------------------------------
     */
-    "datechooser" : {
 
+    "datechooser" : 
+    {
       style : function(states)
       {
         return {
@@ -1438,7 +1434,9 @@ qx.Theme.define("qx.theme.modern.Appearance",
         }
       }
     },
-    "datechooser/navigation-bar" : {
+    
+    "datechooser/navigation-bar" : 
+    {
       style : function(states)
       {
         return {
@@ -1474,9 +1472,9 @@ qx.Theme.define("qx.theme.modern.Appearance",
         }
 
         if (states.pressed || states.checked || states.abandoned) {
-          result.decorator = "inset-thin";
+          result.decorator = "button-pressed";
         } else if (states.hovered) {
-          result.decorator = "outset-thin";
+          result.decorator = "button";
         } else {
           result.decorator = "undefined";
         }
@@ -1519,6 +1517,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
     {
       style : function(states)
       {
+        // TODO: Please do not use inline decorators!
         var border = new qx.ui.decoration.Single().set({
           bottom : [ 1, "solid", "border-dark" ]
         });
@@ -1539,7 +1538,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       {
         return {
           textAlign       : "center",
-          decorator       : states.today ? "focus-line" : "undefined",
+          decorator       : states.today ? "focus" : "undefined",
           textColor       : states.selected ? "text-selected" : states.otherMonth ? "text-disabled" : "undefined",
           backgroundColor : states.selected ? "selected" : "undefined",
           padding         : [ 2, 4 ]
@@ -1551,6 +1550,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
     {
       style : function(states)
       {
+        // TODO: Please do not use inline decorators!
         if (states.header)
         {
           var border = new qx.ui.decoration.Single().set({
@@ -1573,6 +1573,9 @@ qx.Theme.define("qx.theme.modern.Appearance",
         };
       }
     },
+
+
+
 
 
     /*
@@ -1623,13 +1626,16 @@ qx.Theme.define("qx.theme.modern.Appearance",
     },
 
 
+
+
+
+
     /*
     ---------------------------------------------------------------------------
       MENU
     ---------------------------------------------------------------------------
     */
 
-   // TODO: style menu appearances
    "menu" :
     {
       style : function(states)
@@ -1637,7 +1643,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         var result =
         {
           decorator : "menu",
-          shadow : "shadow-small",
+          shadow : "popup-shadow",
           spacingX : 6,
           spacingY : 1,
           iconColumnWidth : 16,
@@ -1762,11 +1768,14 @@ qx.Theme.define("qx.theme.modern.Appearance",
 
 
 
+
+
     /*
     ---------------------------------------------------------------------------
       COLOR SELECTOR
     ---------------------------------------------------------------------------
     */
+    
     "colorselector" : "widget",
 
     // TODO: "button-bar"
@@ -1813,13 +1822,14 @@ qx.Theme.define("qx.theme.modern.Appearance",
     "colorselector/brightness-handle" : "widget",
 
     
+    
+    
     /*
     ---------------------------------------------------------------------------
       COLOR POPUP
     ---------------------------------------------------------------------------
     */
-
-
+    
     "color-popup" :
     {
       alias : "popup",
@@ -1832,6 +1842,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
         }
       }
     },
+
+
 
 
     /*
