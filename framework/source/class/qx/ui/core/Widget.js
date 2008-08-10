@@ -771,7 +771,11 @@ qx.Class.define("qx.ui.core.Widget",
       }
 
       return false;
-    }
+    },
+    
+    
+    /** {Map} Contains all pooled decorators for reuse */
+    __decoratorPool : {},
   },
 
 
@@ -2025,10 +2029,6 @@ qx.Class.define("qx.ui.core.Widget",
     ---------------------------------------------------------------------------
     */
 
-    /** {Map} Contains all pooled decorators for reuse */
-    __decoratorPool : {},
-
-
     /**
      * Creates the protector element used to block mouse events
      * from the decoration.
@@ -2103,7 +2103,7 @@ qx.Class.define("qx.ui.core.Widget",
     // property apply
     _applyDecorator : function(value, old)
     {
-      var pool = this.__decoratorPool;
+      var pool = qx.ui.core.Widget.__decoratorPool;
       var mgr = qx.theme.manager.Decoration.getInstance();
       var container = this._containerElement;
       var elem = this._decoratorElement;
@@ -2184,7 +2184,7 @@ qx.Class.define("qx.ui.core.Widget",
     // property apply
     _applyShadow : function(value, old)
     {
-      var pool = this.__decoratorPool;
+      var pool = qx.ui.core.Widget.__decoratorPool;
       var mgr = qx.theme.manager.Decoration.getInstance();
       var container = this._containerElement;
 
