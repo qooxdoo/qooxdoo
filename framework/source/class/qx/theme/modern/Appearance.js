@@ -2045,7 +2045,6 @@ qx.Theme.define("qx.theme.modern.Appearance",
           decorator : "progressive-table-header"
         };
       }
-    },
-
+    }
   }
 });

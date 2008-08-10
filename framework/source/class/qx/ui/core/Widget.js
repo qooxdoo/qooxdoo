@@ -775,7 +775,7 @@ qx.Class.define("qx.ui.core.Widget",
     
     
     /** {Map} Contains all pooled decorators for reuse */
-    __decoratorPool : {},
+    __decoratorPool : {}
   },
 
 
