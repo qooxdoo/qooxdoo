@@ -155,6 +155,15 @@ qx.Theme.define("qx.theme.modern.Color",
     "table-header" : [ 242, 242, 242 ],
     "table-header-border" : [ 214, 213, 217 ],
     "table-header-cell" : [ 235, 234, 219 ],
-    "table-header-cell-hover" : [ 255, 255, 255 ]
+    "table-header-cell-hover" : [ 255, 255, 255 ],
+
+    "progressive-table-row-background-even" : "#F4F4F4",
+    "progressive-table-row-background-odd " : "#E4E4E4",
+
+    "progressive-progressbar-background"         : "gray",
+    "progressive-progressbar-indicator-done"     : "#cccccc",
+    "progressive-progressbar-indicator-undone"   : "white",
+    "progressive-progressbar-percent-background" : "gray",
+    "progressive-progressbar-percent-text"       : "white"
   }
 });

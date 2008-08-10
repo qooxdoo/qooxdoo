@@ -39,9 +39,24 @@ qx.Class.define("qx.ui.progressive.headfoot.Progress",
     this.setHeight(16);
     this.setPadding(0);
 
+    this.__colors = {};
+
+    // link to color theme
+    var colorMgr = qx.theme.manager.Color.getInstance();
+    this.__colors.background =
+      colorMgr.resolve("progressive-progressbar-background");
+    this.__colors.indicatorDone =
+      colorMgr.resolve("progressive-progressbar-indicator-done");
+    this.__colors.indicatorUndone =
+      colorMgr.resolve("progressive-progressbar-indicator-undone");
+    this.__colors.percentBackground =
+      colorMgr.resolve("progressive-progressbar-percent-background");
+    this.__colors.percentText =
+      colorMgr.resolve("progressive-progressbar-percent-text");
+    
     this.set(
       {
-        backgroundColor : "gray"
+        backgroundColor : this.__colors.background
       });
 
     // Create a widget that continually increases its width for progress bar
@@ -49,7 +64,7 @@ qx.Class.define("qx.ui.progressive.headfoot.Progress",
     this.__progressBar.set(
       {
         width : 0,
-        backgroundColor : "#cccccc"
+        backgroundColor : this.__colors.indicatorDone
       });
     this.add(this.__progressBar);
 
@@ -57,7 +72,7 @@ qx.Class.define("qx.ui.progressive.headfoot.Progress",
     var spacer = new qx.ui.core.Widget();
     spacer.set(
       {
-        backgroundColor : "white"
+        backgroundColor : this.__colors.indicatorUndone
       });
     this.add(spacer, { flex : 1 });
 
@@ -65,10 +80,9 @@ qx.Class.define("qx.ui.progressive.headfoot.Progress",
     this.__percentDone = new qx.ui.basic.Atom("0%");
     this.__percentDone.set(
       {
-        width : 100,
-        decorator : "black",
-        backgroundColor : "gray",
-        textColor : "white"
+        width           : 100,
+        backgroundColor : this.__colors.percentBackground,
+        textColor       : this.__colors.percentText
       });
     this.add(this.__percentDone);
 
