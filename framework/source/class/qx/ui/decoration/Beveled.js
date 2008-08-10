@@ -141,32 +141,30 @@ qx.Class.define("qx.ui.decoration.Beveled",
       html.push('<div>');
 
       // Background frame
-      html.push('<div style="width:{outerWidth}px;height:{outerHeight}px;');
+      html.push('<div style="');
       html.push('border:', outerStyle);
       html.push(qx.bom.element.Opacity.compile(0.35));
       html.push('"></div>');
 
       // Horizontal frame
-      html.push('<div style="width:{outerWidth}px;height:{frameHeight}px;');
-      html.push('position:absolute;top:1px;left:0px;');
+      html.push('<div style="position:absolute;top:1px;left:0px;');
       html.push('border-left:', outerStyle);
       html.push('border-right:', outerStyle);
       html.push('"></div>');
 
       // Vertical frame
-      html.push('<div style="width:{frameWidth}px;height:{outerHeight}px;');
+      html.push('<div style="');
       html.push('position:absolute;top:0px;left:1px;');
       html.push('border-top:', outerStyle);
       html.push('border-bottom:', outerStyle);
       html.push('"></div>');
 
       // Inner background frame
-      var styles = "position:absolute;top:1px;left:1px;background-color:{bgcolor};width:{frameWidth}px;height:{frameHeight}px";
+      var styles = "position:absolute;top:1px;left:1px;";
       html.push(qx.ui.decoration.Util.generateBasicDecor(this.getBackgroundImage(), this.getBackgroundRepeat(), styles));
 
       // Inner overlay frame
-      html.push('<div style="width:{innerWidth}px;height:{innerHeight}px;');
-      html.push('position:absolute;top:1px;left:1px;');
+      html.push('<div style="position:absolute;top:1px;left:1px;');
       html.push('border:', innerStyle);
       html.push(qx.bom.element.Opacity.compile(this.getInnerOpacity()));
       html.push('"></div>');
@@ -203,26 +201,27 @@ qx.Class.define("qx.ui.decoration.Beveled",
       }
 
       var dom = element.getDomElement();
+      var pixel = "px";
 
       var backgroundFrame = dom.childNodes[0].style;
-      backgroundFrame.width = outerWidth + "px";
-      backgroundFrame.height = outerHeight + "px";
+      backgroundFrame.width = outerWidth + pixel;
+      backgroundFrame.height = outerHeight + pixel;
 
       var horizontalFrame = dom.childNodes[1].style;
-      horizontalFrame.width = outerWidth + "px";
-      horizontalFrame.height = frameHeight + "px";
+      horizontalFrame.width = outerWidth + pixel;
+      horizontalFrame.height = frameHeight + pixel;
 
       var verticalFrame = dom.childNodes[2].style;
-      verticalFrame.width = frameWidth + "px";
-      verticalFrame.height = outerHeight + "px";
+      verticalFrame.width = frameWidth + pixel;
+      verticalFrame.height = outerHeight + pixel;
 
       var innerBackground = dom.childNodes[3].style;
-      innerBackground.width = frameWidth + "px";
-      innerBackground.height = frameHeight + "px";
+      innerBackground.width = frameWidth + pixel;
+      innerBackground.height = frameHeight + pixel;
 
       var innerOverlay = dom.childNodes[4].style;
-      innerOverlay.width = innerWidth + "px";
-      innerOverlay.height = innerHeight + "px";
+      innerOverlay.width = innerWidth + pixel;
+      innerOverlay.height = innerHeight + pixel;
     },
 
 
