@@ -96,6 +96,14 @@ qx.Class.define("qx.ui.layout.VBox",
   extend : qx.ui.layout.Abstract,
 
 
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+  
   /**
    * @param spacing {Integer?0} The spacing between child widgets {@link #spacing}.
    * @param alignY {String?"top"} Vertical alignment of the whole children
@@ -113,6 +121,9 @@ qx.Class.define("qx.ui.layout.VBox",
       this.setAlignY(alignY);
     }
   },
+
+
+
 
 
   /*
