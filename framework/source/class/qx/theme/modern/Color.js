@@ -87,6 +87,7 @@ qx.Theme.define("qx.theme.modern.Color",
     "border" : "#2D405A",
 
     // TODO: adjust border colors
+    // TODO: Are these still used anywhere? In the Modern theme?
     "border-light" : "white",
     "border-light-shadow" : "#DCDFE4",
     "border-dark-shadow" : "#4d4d4d",

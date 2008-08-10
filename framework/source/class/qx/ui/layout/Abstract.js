@@ -130,41 +130,22 @@ qx.Class.define("qx.ui.layout.Abstract",
 
 
     /**
-     * Number of separators to render. This is mainly needed for instance managment and 
-     * should be called by the layout manager before rendering the first child
-     *
-     * @param number {Integer} Number of separators needed. Often the children number minus one.
+     * Remove all currently visible separators
      */
-    _configureSeparators : function(number) {
-      this.__widget.configureSeparators(number);
+    _clearSeparators : function() {
+      this.__widget.clearSeparators();
     },
 
     
     /**
-     * Renders a horizontal separator between two children
+     * Renders a separator between two children
      *
-     * @param lines {Color[]} Array of colors. Each color renders exactly one line. 
-     *    This could only be length of one or two (simple or shaded separator)   
-     * @param index {Integer} Which separator should be used
-     * @param left {Integer} Left position of the separator
-     * @param height {Integer} The height of the separator
+     * @param separator {Separator} The separator to render
+     * @param bounds {Map} Contains the left and top coordinate and the width and height
+     *    of the separator to render.
      */     
-    _renderHorizontalSeparator : function(lines, index, left, height) {
-      this.__widget.renderHorizontalSeparator(lines, index, left, height);
-    },
-    
-
-    /**
-     * Renders a vertical separator between two children
-     *
-     * @param lines {Color[]} Array of colors. Each color renders exactly one line. 
-     *    This could only be length of one or two (simple or shaded separator)   
-     * @param index {Integer} Which separator should be used
-     * @param top {Integer} Top position of the separator
-     * @param width {Integer} The width of the separator
-     */     
-    _renderVerticalSeparator : function(lines, index, top, width) {
-      this.__widget.renderVerticalSeparator(lines, index, top, width);
+    _renderSeparator : function(separator, bounds) {
+      this.__widget.renderSeparator(separator, bounds);
     },
     
 
