@@ -132,8 +132,14 @@ qx.Class.define("qx.ui.layout.Abstract",
     /**
      * Remove all currently visible separators
      */
-    _clearSeparators : function() {
-      this.__widget.clearSeparators();
+    _clearSeparators : function() 
+    {
+      // It may be that the widget do not implement clearSeparators which is especially true
+      // when it do not inherit from LayoutItem.
+      var widget = this.__widget;
+      if (widget instanceof qx.ui.core.LayoutItem) {
+        widget.clearSeparators();
+      }
     },
 
     
