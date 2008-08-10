@@ -370,13 +370,16 @@ qx.Class.define("qx.ui.layout.Util",
      *
      * @param children {qx.ui.core.LayoutItem[]} List of children
      * @param spacing {Integer} Configured spacing
-     * @param width {Integer} Width of the separator
+     * @param separator {Separator} Separator to render
      * @return {Integer} Sum of gaps
      */
-    computeSeparatorGaps : function(children, spacing, width)
+    computeHorizontalSeparatorGaps : function(children, spacing, separator)
     {
-      var gaps = 0;
+      var instance = qx.theme.manager.Decoration.getInstance().resolve(separator);
+      var insets = instance.getInsets();
+      var width = insets.left + insets.right;
 
+      var gaps = 0;
       for (var i=0, l=children.length; i<l; i++)
       {
         var child = children[i];
@@ -384,6 +387,33 @@ qx.Class.define("qx.ui.layout.Util",
       }
 
       gaps += (spacing + width + spacing) * (l-1);
+
+      return gaps;
+    },
+
+
+    /**
+     * Computes the gaps together with the configuration of separators.
+     *
+     * @param children {qx.ui.core.LayoutItem[]} List of children
+     * @param spacing {Integer} Configured spacing
+     * @param separator {Separator} Separator to render
+     * @return {Integer} Sum of gaps
+     */
+    computeVerticalSeparatorGaps : function(children, spacing, separator)
+    {
+      var instance = qx.theme.manager.Decoration.getInstance().resolve(separator);
+      var insets = instance.getInsets();
+      var height = insets.top + insets.bottom;
+
+      var gaps = 0;
+      for (var i=0, l=children.length; i<l; i++)
+      {
+        var child = children[i];
+        gaps += child.getMarginTop() + child.getMarginBottom();
+      }
+
+      gaps += (spacing + height + spacing) * (l-1);
 
       return gaps;
     },

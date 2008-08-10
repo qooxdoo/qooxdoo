@@ -117,6 +117,24 @@ qx.Class.define("qx.ui.layout.Dock",
       init : "auto",
       apply : "_applySort"
     },
+    
+    
+    /** Separator lines to use between the horizontal objects */
+    separatorX :
+    {
+      check : "Decorator",
+      nullable : true,
+      apply : "_applyLayoutChange"
+    },    
+
+
+    /** Separator lines to use between the vertical objects */
+    separatorY :
+    {
+      check : "Decorator",
+      nullable : true,
+      apply : "_applyLayoutChange"
+    },    
 
 
     /** Horizontal spacing between two children */
