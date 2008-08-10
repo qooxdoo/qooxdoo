@@ -31,43 +31,22 @@ qx.Theme.define("qx.theme.modern.Font",
     {
       size : 11,
       lineHeight : 1.4,
-      family : [ "Lucida Grande", "Tahoma", "Verdana", "Bitstream Vera Sans", "Liberation Sans" ]
+      family : [ "Segoe UI", "Lucida Grande", "Candara", "Liberation Sans", "Arial" ]
     },
     
-    "small" :
-    {
-      size : 10,
-      lineHeight : 1.3,
-      family : [ "Lucida Grande", "Tahoma", "Verdana", "Bitstream Vera Sans", "Liberation Sans" ]
-    },
-
     "bold" :
     {
       size : 11,
       lineHeight : 1.4,
-      family : [ "Lucida Grande", "Tahoma", "Verdana", "Bitstream Vera Sans", "Liberation Sans" ],
+      family : [ "Segoe UI", "Lucida Grande", "Candara", "Liberation Sans", "Arial" ],
       bold : true
     },
 
-    "medium" :
+    "small" :
     {
       size : 10,
       lineHeight : 1.4,
-      family : [ "Lucida Grande", "Tahoma", "Verdana", "Bitstream Vera Sans", "Liberation Sans" ]
-    },
-
-    "large" :
-    {
-      size : 16,
-      lineHeight : 1.4,
-      family : [ "Lucida Grande", "Tahoma", "Verdana", "Bitstream Vera Sans", "Liberation Sans" ]
-    },
-
-    "monospace" :
-    {
-      size : 11,
-      lineHeight : 1.4,
-      family : ["Consolas", "Bitstream Vera Sans Mono", "Courier New", "monospace"]
+      family : [ "Segoe UI", "Lucida Grande", "Candara", "Liberation Sans", "Arial" ]
     }
   }
 });
