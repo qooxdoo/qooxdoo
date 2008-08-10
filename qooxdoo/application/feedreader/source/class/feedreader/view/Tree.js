@@ -53,7 +53,6 @@ qx.Class.define("feedreader.view.Tree",
     // Set the properties of the tree
     this.setBackgroundColor("white");
     this.setWidth(200);
-    this.setDecorator("line-right");
 
     // Add the root folder
     this._root = new qx.ui.tree.TreeFolder;
