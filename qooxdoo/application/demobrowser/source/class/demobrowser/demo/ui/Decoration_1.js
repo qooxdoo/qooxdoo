@@ -58,27 +58,8 @@ qx.Class.define("demobrowser.demo.ui.Decoration_1",
       var i=0;
       for (var key in decorations)
       {
-        if (key.toLowerCase().indexOf("shadow") != -1) {
-          continue;
-        }
-
         box.add(new qx.ui.basic.Label(key).set({
           decorator: key,
-          padding: 5,
-          height: 80,
-          width: 80
-        }), {row: Math.floor(i/columns), column: i%columns});
-        i += 1;
-      }
-
-      for (var key in decorations)
-      {
-        if (key.toLowerCase().indexOf("shadow") == -1) {
-          continue;
-        }
-
-        box.add(new qx.ui.basic.Label(key).set({
-          shadow: key,
           padding: 5,
           height: 80,
           width: 80
