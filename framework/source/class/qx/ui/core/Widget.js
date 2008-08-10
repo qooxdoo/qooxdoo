@@ -994,9 +994,7 @@ qx.Class.define("qx.ui.core.Widget",
     ---------------------------------------------------------------------------
     */
 
-    /**
-     * Reconfigure number of separators
-     */
+    // overridden
     clearSeparators : function()
     {
       var reg = this.__separators;
@@ -1030,10 +1028,7 @@ qx.Class.define("qx.ui.core.Widget",
     },
 
 
-    /**
-     * Renders a horizontal separator at the given index.
-     *
-     */
+    // overridden
     renderSeparator : function(separator, bounds)
     {
       var pool = qx.ui.core.Widget.__decoratorPool;
