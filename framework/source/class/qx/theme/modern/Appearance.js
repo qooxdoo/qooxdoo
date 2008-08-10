@@ -1209,7 +1209,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       {
         return {
           alignY     : "middle",
-          font       : "default",
+          font       : "bold",
           marginLeft : 6
         };
       }
@@ -1291,7 +1291,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          font      : "medium",
+          font      : "small",
           textColor : "text"
         };
       }
