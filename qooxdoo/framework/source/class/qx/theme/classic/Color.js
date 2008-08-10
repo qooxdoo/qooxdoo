@@ -86,11 +86,13 @@ qx.Theme.define("qx.theme.classic.Color",
     "table-row-line" : "#EEE",
     "table-column-line" : "#EEE",
 
+    "progressive-table-heading" : "#AAAAAA",
+
     "progressive-table-row-background-even" : [ 250, 248, 243 ],
     "progressive-table-row-background-odd " : [ 255, 255, 255 ],
 
     "progressive-progressbar-background"         : "gray",
-    "progressive-progressbar-indicator-done"     : "#cccccc",
+    "progressive-progressbar-indicator-done"     : "#CCCCCC",
     "progressive-progressbar-indicator-undone"   : "white",
     "progressive-progressbar-percent-background" : "gray",
     "progressive-progressbar-percent-text"       : "white"
