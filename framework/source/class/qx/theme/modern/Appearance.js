@@ -2027,6 +2027,25 @@ qx.Theme.define("qx.theme.modern.Appearance",
           decorator : "undefined"
         };
       }
-    }
+    },
+
+    /*
+    ---------------------------------------------------------------------------
+      PROGRESSIVE
+    ---------------------------------------------------------------------------
+    */
+
+    "progressive-table-header" :
+    {
+      alias : "widget",
+
+      style : function(states)
+      {
+        return {
+          decorator : "progressive-table-header"
+        };
+      }
+    },
+
   }
 });
