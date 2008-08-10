@@ -2145,9 +2145,7 @@ qx.Class.define("qx.ui.core.Widget",
 
         // Tint decorator
         var bgcolor = this.getBackgroundColor();
-        if (bgcolor) {
-          mgr.resolve(value).tint(elem, mgr.resolve(bgcolor));
-        }
+        mgr.resolve(value).tint(elem, bgcolor ? mgr.resolve(bgcolor) : null);
 
         // Add to container
         container.add(elem);
@@ -2654,7 +2652,6 @@ qx.Class.define("qx.ui.core.Widget",
 
 
 
-
     /*
     ---------------------------------------------------------------------------
       EVENT SUPPORT
@@ -2852,7 +2849,7 @@ qx.Class.define("qx.ui.core.Widget",
 
     /*
     ---------------------------------------------------------------------------
-      MENU
+      CONTEXT MENU
     ---------------------------------------------------------------------------
     */
 
@@ -3104,59 +3101,6 @@ qx.Class.define("qx.ui.core.Widget",
     scrollChildIntoViewY : function(child, align) {
       this._contentElement.scrollChildIntoViewY(child.getContainerElement(), align);
     },
-
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      DRAG AND DROP SUPPORT
-    ---------------------------------------------------------------------------
-    */
-
-    /**
-     * Whether the widget supports the given data for drag&drop
-     *
-     *
-     * @param dragCache {var}
-     *   An object describing the event, containing at least these members:
-     *     <ul>
-     *       <li>startScreenX</li>
-     *       <li>startScreenY</li>
-     *       <li>pageX</li>
-     *       <li>pageY</li>
-     *       <li>sourceWidget</li>
-     *       <li>sourceTopLevel</li>
-     *       <li>dragHandlerActive</li>
-     *       <li>hasFiredDragStart</li>
-     *     </ul>
-     *
-     * @return {Boolean}
-     *   <i>true</i> if the widget can accept this drop operation;
-     *   <i>false</i> otherwise.
-     */
-    supportsDrop : function(dragCache) {
-      // Is there a user-supplied supportsDropMethod?
-      var supportsDropMethod = this.getSupportsDropMethod();
-      if (supportsDropMethod !== null) {
-        // Yup.  Let it determine whether a drop is allowed.
-        return supportsDropMethod.call(this, dragCache);
-      }
-
-      // Default behavior is to allow drop only if not dropping onto self
-      return (this != dragCache.sourceWidget);
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      DRAG AND DROP SUPPORT NG
-    ---------------------------------------------------------------------------
-    */
-
 
 
 
