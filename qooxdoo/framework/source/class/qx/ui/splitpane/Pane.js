@@ -91,6 +91,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
      */
     orientation :
     {
+      init  : "horizontal",
       check : [ "horizontal", "vertical" ],
       apply : "_applyOrientation"
     }
