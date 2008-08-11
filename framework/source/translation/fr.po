@@ -1,5 +1,5 @@
 # French
-# 
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: qooxdoo framework\n"
@@ -20,7 +20,7 @@ msgstr "Automatique"
 #: class/qx/legacy/ui/component/ColorPopup.js:229
 #: class/qx/legacy/ui/component/ColorSelector.js:413
 msgid "Preview (Old/New)"
-msgstr "Aperçu (Nouveau/Ancien)"
+msgstr "Aperçu (Ancien/Nouveau)"
 
 #: class/qx/legacy/ui/component/ColorPopup.js:262
 msgid "Open ColorSelector"
