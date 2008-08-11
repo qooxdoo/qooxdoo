@@ -19,7 +19,12 @@
 ************************************************************************ */
 
 /**
+ * Beveled is a variant of a rounded decorator which is quite optimal
+ * regarding performance and still delivers a good set of features:
  *
+ * * One pixel rounded border
+ * * Inner glow color with optional transparency
+ * * Repeated or scaled background image
  */
 qx.Class.define("qx.ui.decoration.Beveled",
 {
@@ -38,6 +43,9 @@ qx.Class.define("qx.ui.decoration.Beveled",
 
   properties :
   {
+    /**
+     * The color of the inner frame.
+     */
     innerColor :
     {
       check : "Color",
@@ -45,6 +53,11 @@ qx.Class.define("qx.ui.decoration.Beveled",
       apply : "_applyStyle"
     },
 
+    /**
+     * The opacity of the inner frame. As this inner frame
+     * is rendered above the background image this may be
+     * intersting to configure as semi-transparent e.g. <code>0.4</code>.
+     */
     innerOpacity :
     {
       check : "Number",
@@ -52,6 +65,10 @@ qx.Class.define("qx.ui.decoration.Beveled",
       apply : "_applyStyle"
     },
 
+    /**
+     * Color of the outer frame. The corners are automatically
+     * rendered with a slight opacity to fade into the background
+     */
     outerColor :
     {
       check : "Color",
@@ -59,6 +76,11 @@ qx.Class.define("qx.ui.decoration.Beveled",
       apply : "_applyStyle"
     },
 
+
+    /**
+     * A background image to show. The background image is rendered
+     * behind the inner frame.
+     */
     backgroundImage :
     {
       check : "String",
@@ -124,6 +146,12 @@ qx.Class.define("qx.ui.decoration.Beveled",
     */
 
     // interface implementation
+    init : function(element) {
+      element.useMarkup(this.getMarkup());
+    },
+
+
+    // interface implementation
     getMarkup : function()
     {
       if (this.__markup) {
@@ -161,7 +189,7 @@ qx.Class.define("qx.ui.decoration.Beveled",
 
       // Inner background frame
       var styles = "position:absolute;top:1px;left:1px;";
-      html.push(qx.ui.decoration.Util.generateBasicDecor(this.getBackgroundImage(), this.getBackgroundRepeat(), styles));
+      html.push(qx.ui.decoration.Util.generateBackgroundMarkup(this.getBackgroundImage(), this.getBackgroundRepeat(), styles));
 
       // Inner overlay frame
       html.push('<div style="position:absolute;top:1px;left:1px;');

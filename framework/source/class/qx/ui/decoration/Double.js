@@ -21,7 +21,7 @@
 /**
  * Border implementation with two CSS borders. Both borders can be styled
  * independent of each other. This decorator is used to create 3D effects like
- * <code>inset</code>, <code>outset</code> or <code>ridge</code>.
+ * <code>inset</code>, <code>outset</code>, <code>ridge</code> or <code>groove</code>.
  */
 qx.Class.define("qx.ui.decoration.Double",
 {
@@ -141,6 +141,7 @@ qx.Class.define("qx.ui.decoration.Double",
     ---------------------------------------------------------------------------
     */
 
+    // interface implementation
     getMarkup : function()
     {
       if (this.__markup) {
@@ -175,7 +176,7 @@ qx.Class.define("qx.ui.decoration.Double",
       }
 
       // Generate inner HTML
-      var innerHtml = qx.ui.decoration.Util.generateBasicDecor(this.getBackgroundImage(), this.getBackgroundRepeat(), innerStyles);
+      var innerHtml = qx.ui.decoration.Util.generateBackgroundMarkup(this.getBackgroundImage(), this.getBackgroundRepeat(), innerStyles);
 
 
       // Generate outer HTML
@@ -209,6 +210,7 @@ qx.Class.define("qx.ui.decoration.Double",
     },
 
 
+    // interface implementation
     resize : function(element, width, height)
     {
       // Fix box model
