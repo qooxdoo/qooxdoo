@@ -18,6 +18,9 @@
 
 ************************************************************************ */
 
+/**
+ * Manager for font themes
+ */
 qx.Class.define("qx.theme.manager.Font",
 {
   type : "singleton",

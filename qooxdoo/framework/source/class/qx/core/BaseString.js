@@ -28,6 +28,9 @@ qx.Class.define("qx.core.BaseString",
 {
   extend : String,
 
+  /**
+   * @param txt {String} Initialize with this string
+   */
   construct : function(txt)
   {
     if (qx.core.Variant.isSet("qx.debug", "on")) {

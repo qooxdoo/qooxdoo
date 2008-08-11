@@ -19,7 +19,7 @@
 ************************************************************************ */
 
 /**
- * This singleton manages the current theme
+ * Manager for appearance themes
  */
 qx.Class.define("qx.theme.manager.Appearance",
 {
