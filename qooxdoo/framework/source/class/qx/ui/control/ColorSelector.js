@@ -19,15 +19,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#asset(qx/decoration/${qx.theme}/colorselector/*)
-#asset(qx/icon/${qx.icontheme}/16/actions/dialog-cancel.png)
-#asset(qx/icon/${qx.icontheme}/16/actions/dialog-ok.png)
-#asset(${qx.static}/image/dotted_white.gif)
-
-************************************************************************ */
-
 /**
  * A typical color selector as known from native applications.
  *
@@ -290,11 +281,12 @@ qx.Class.define("qx.ui.control.ColorSelector",
           CREATE #4: INPUT FIELDSET CONTENT
         ---------------------------------------------------------------------------
         */    
-        case "hex-field-composite":        
-          control = new qx.ui.container.Composite(new qx.ui.layout.HBox(4));
+        case "hex-field-composite":
+          var layout = new qx.ui.layout.HBox(4);
+          layout.setAlignY("middle");
+          control = new qx.ui.container.Composite(layout);
     
           var hexLabel = new qx.ui.basic.Label(this.tr("Hex"));
-          hexLabel.setWidth(25);
           control.add(hexLabel);
     
           var hexHelper = new qx.ui.basic.Label("#");
@@ -305,12 +297,14 @@ qx.Class.define("qx.ui.control.ColorSelector",
         
         case "hex-field":
           control = new qx.ui.form.TextField("FFFFFF");
-          control.setWidth(50);
+          control.setWidth(55);
           control.addListener("changeValue", this._onHexFieldChange, this);        
           break;
           
         case "rgb-spinner-composite":
-          control = new qx.ui.container.Composite(new qx.ui.layout.HBox(4));
+          var layout = new qx.ui.layout.HBox(4);
+          layout.setAlignY("middle");
+          control = new qx.ui.container.Composite(layout);
     
           var rgbSpinLabel = new qx.ui.basic.Label(this.tr("RGB"));
           rgbSpinLabel.setWidth(25);
@@ -340,7 +334,9 @@ qx.Class.define("qx.ui.control.ColorSelector",
           break;        
        
         case "hsb-spinner-composite":
-          control = new qx.ui.container.Composite(new qx.ui.layout.HBox(4)); 
+          var layout = new qx.ui.layout.HBox(4);
+          layout.setAlignY("middle");
+          control = new qx.ui.container.Composite(layout); 
     
           var hsbSpinLabel = new qx.ui.basic.Label(this.tr("HSB"));
           hsbSpinLabel.setWidth(25);
@@ -782,14 +778,6 @@ qx.Class.define("qx.ui.control.ColorSelector",
       // Activate Capturing      
       this._getChildControl("hue-saturation-handle").capture();
       this._capture = "hue-saturation-handle";
-
-      // Calculate subtract: Position of HueSaturation Field - Current Mouse Offset
-      var location = this._getChildControl("hue-saturation-field").getContainerLocation();
-      var bounds = this._getChildControl("hue-saturation-handle").getBounds();
-      var fieldBounds = this._getChildControl("hue-saturation-field").getBounds();
-
-      this._hueSaturationSubtractTop = location.top + (e.getDocumentTop() - bounds.top) - fieldBounds.top;
-      this._hueSaturationSubtractLeft = location.left + (e.getDocumentLeft() - bounds.left) - fieldBounds.left;
 
       // Block field event handling
       e.stopPropagation();
