@@ -51,15 +51,9 @@ qx.Class.define("demobrowser.demo.widget.ColorPopup",
         mypop.show();
       });
 
-
-
       var myview = new qx.ui.basic.Label("Selected Color").set({
-        decorator : "inset",
+//        decorator : "inset",
         padding : [3, 6]
-        /*
-        ,
-        backgroundImage : "static/image/dotted_white.gif"
-        */
       });
 
       doc.add(myview, {
@@ -79,7 +73,6 @@ qx.Class.define("demobrowser.demo.widget.ColorPopup",
       mypop.addListener("changeValue", function(e) {
         this.debug("Value Listener: " + e.getData());
         myview.setBackgroundColor(e.getData());
-//        myview.setBackgroundImage(e.getData() ? null : "static/image/dotted_white.gif");
       });
 
       mypop.addListener("changeRed", function(e) {

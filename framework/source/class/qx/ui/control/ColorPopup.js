@@ -40,17 +40,11 @@ qx.Class.define("qx.ui.control.ColorPopup",
     
     this.setLayout(new qx.ui.layout.VBox(5));
 
-    this.set({
-      padding : 5,
-      backgroundColor : "white"
-    });
-
     this._createAutoBtn();
     this._createBoxes();
 
     this._createPreview();
     this._createSelectorBtn();
-
   },
 
 
@@ -67,7 +61,7 @@ qx.Class.define("qx.ui.control.ColorPopup",
     appearance :
     {
       refine : true,
-      init : "color-popup"
+      init : "colorpopup"
     },
 
     value :
@@ -137,8 +131,6 @@ qx.Class.define("qx.ui.control.ColorPopup",
     },
 
     _recentTableId : "recent",
-    _fieldWidth : 14,
-    _fieldHeight : 14,
     _fieldNumber : 12,
 
 
@@ -169,12 +161,8 @@ qx.Class.define("qx.ui.control.ColorPopup",
         {
           field = new qx.ui.container.Composite(new qx.ui.layout.Basic);
 
-          field.setDecorator("dark");
-
           field.set({
-            margin : 2,
-            width : this._fieldWidth,
-            height : this._fieldHeight,
+            appearance : "colorpopup/field",
             backgroundColor : table.values[i] || "white"
           });
 
@@ -198,20 +186,17 @@ qx.Class.define("qx.ui.control.ColorPopup",
       this._previewBox = new qx.ui.groupbox.GroupBox(this.tr("Preview (Old/New)"));
       this._previewBox.setLayout(new qx.ui.layout.HBox);
 
-      this._selectedPreview = new qx.ui.container.Composite(new qx.ui.layout.Basic).set({
-        height : 20,
-        padding: 4,
-        marginRight : 4,
-        decorator : "dark",
-        allowGrowX : true
+      this._selectedPreview = new qx.ui.container.Composite(new qx.ui.layout.Basic);
+      this._currentPreview = new qx.ui.container.Composite(new qx.ui.layout.Basic);
+      
+      this._selectedPreview.set({
+        appearance :"colorpopup/preview-pane",
+        marginRight : 4
       });
-
-      this._currentPreview = new qx.ui.container.Composite(new qx.ui.layout.Basic).set({
-        height : 20,
-        padding: 4,
-        marginLeft: 4,
-        decorator : "dark",
-        allowGrowX : true
+        
+      this._currentPreview.set({
+        appearance :"colorpopup/preview-pane",
+        marginLeft : 4
       });
 
       this._previewBox.add(this._selectedPreview, {flex : 1});
