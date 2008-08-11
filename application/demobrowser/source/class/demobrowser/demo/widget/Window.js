@@ -58,7 +58,7 @@ qx.Class.define("demobrowser.demo.widget.Window",
       win.addListener("resize", function(e) {
         this.debug("Resized to: " + e.getData().width + "x" + e.getData().height);
       });
-      
+
       // Add container for content
       var contentContainer = new qx.ui.container.Composite(new qx.ui.layout.VBox(20));
       contentContainer.set({
@@ -95,15 +95,16 @@ qx.Class.define("demobrowser.demo.widget.Window",
       win.open();
       this.getRoot().add(win, {left:350, top:120});
 
-      
+
       var contentContainer = new qx.ui.container.Composite(new qx.ui.layout.VBox(10));
       contentContainer.set({
         appearance : "window-pane-content",
         padding    : 8
       });
       win.add(contentContainer);
-      
+
       var atom = new qx.ui.basic.Atom("The second window", "icon/22/apps/utilities-calculator.png");
+      atom.setCenter(false);
       contentContainer.add(atom);
 
 
@@ -275,7 +276,7 @@ qx.Class.define("demobrowser.demo.widget.Window",
         padding    : 8
       });
       wm2.add(contentContainer);
-      
+
       var warn1 = new qx.ui.basic.Atom("Do you want to fly to Berlin?", "icon/32/status/dialog-error.png");
       contentContainer.add(warn1);
 
