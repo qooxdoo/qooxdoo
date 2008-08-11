@@ -1552,7 +1552,7 @@ qx.Class.define("qx.ui.core.Widget",
     */
 
     /** {qx.ui.core.LayoutItem[]} List of all child widgets */
-    __children : null,
+    __widgetChildren : null,
 
 
     /**
@@ -1571,7 +1571,7 @@ qx.Class.define("qx.ui.core.Widget",
      */
     getLayoutChildren : function()
     {
-      var children = this.__children;
+      var children = this.__widgetChildren;
       if (!children) {
         return this.__emptyChildren;
       }
@@ -1669,7 +1669,7 @@ qx.Class.define("qx.ui.core.Widget",
      *   reference types, please to not modify them in-place)
      */
     _getChildren : function() {
-      return this.__children || this.__emptyChildren;
+      return this.__widgetChildren || this.__emptyChildren;
     },
 
 
@@ -1683,7 +1683,7 @@ qx.Class.define("qx.ui.core.Widget",
      */
     _indexOf : function(child)
     {
-      var children = this.__children;
+      var children = this.__widgetChildren;
       if (!children) {
         return -1;
       }
@@ -1699,7 +1699,7 @@ qx.Class.define("qx.ui.core.Widget",
      */
     _hasChildren : function()
     {
-      var children = this.__children;
+      var children = this.__widgetChildren;
       return children && (!!children[0]);
     },
 
@@ -1715,10 +1715,10 @@ qx.Class.define("qx.ui.core.Widget",
     {
       this.__addHelper(child, options);
 
-      if (this.__children) {
-        this.__children.push(child);
+      if (this.__widgetChildren) {
+        this.__widgetChildren.push(child);
       } else {
-        this.__children = [ child ];
+        this.__widgetChildren = [ child ];
       }
     },
 
@@ -1732,11 +1732,11 @@ qx.Class.define("qx.ui.core.Widget",
      */
     _addAt : function(child, index, options)
     {
-      if (!this.__children) {
-        this.__children = [];
+      if (!this.__widgetChildren) {
+        this.__widgetChildren = [];
       }
 
-      var ref = this.__children[index];
+      var ref = this.__widgetChildren[index];
 
       if (ref === child) {
         return child.setLayoutProperties(options);
@@ -1745,9 +1745,9 @@ qx.Class.define("qx.ui.core.Widget",
       this.__addHelper(child, options);
 
       if (ref) {
-        qx.lang.Array.insertBefore(this.__children, child, ref);
+        qx.lang.Array.insertBefore(this.__widgetChildren, child, ref);
       } else {
-        this.__children.push(child);
+        this.__widgetChildren.push(child);
       }
     },
 
@@ -1768,11 +1768,11 @@ qx.Class.define("qx.ui.core.Widget",
 
       this.__addHelper(child, options);
 
-      if (!this.__children) {
-        this.__children = [];
+      if (!this.__widgetChildren) {
+        this.__widgetChildren = [];
       }
 
-      qx.lang.Array.insertBefore(this.__children, child, before);
+      qx.lang.Array.insertBefore(this.__widgetChildren, child, before);
     },
 
 
@@ -1792,11 +1792,11 @@ qx.Class.define("qx.ui.core.Widget",
 
       this.__addHelper(child, options);
 
-      if (!this.__children) {
-        this.__children = [];
+      if (!this.__widgetChildren) {
+        this.__widgetChildren = [];
       }
 
-      qx.lang.Array.insertAfter(this.__children, child, after);
+      qx.lang.Array.insertAfter(this.__widgetChildren, child, after);
     },
 
 
@@ -1808,12 +1808,12 @@ qx.Class.define("qx.ui.core.Widget",
      */
     _remove : function(child)
     {
-      if (!this.__children) {
+      if (!this.__widgetChildren) {
         throw new Error("This widget has no children!");
       }
 
       this.__removeHelper(child);
-      qx.lang.Array.remove(this.__children, child);
+      qx.lang.Array.remove(this.__widgetChildren, child);
     },
 
 
@@ -1825,14 +1825,14 @@ qx.Class.define("qx.ui.core.Widget",
      */
     _removeAt : function(index)
     {
-      if (!this.__children) {
+      if (!this.__widgetChildren) {
         throw new Error("This widget has no children!");
       }
 
-      var child = this.__children[index];
+      var child = this.__widgetChildren[index];
 
       this.__removeHelper(child);
-      qx.lang.Array.removeAt(this.__children, index);
+      qx.lang.Array.removeAt(this.__widgetChildren, index);
     },
 
 
@@ -1841,11 +1841,11 @@ qx.Class.define("qx.ui.core.Widget",
      */
     _removeAll : function()
     {
-      if (!this.__children) {
+      if (!this.__widgetChildren) {
         return;
       }
 
-      var children = this.__children;
+      var children = this.__widgetChildren;
 
       for (var i = children.length-1; i>=0; i--) {
         children[i].setLayoutParent(null);
@@ -3604,7 +3604,7 @@ qx.Class.define("qx.ui.core.Widget",
   destruct : function()
   {
     this._disposeChildControls();
-    this._disposeArray("__children");
+    this._disposeArray("__widgetChildren");
     this._disposeObjects(
       "__states",
       "__containerElement",
