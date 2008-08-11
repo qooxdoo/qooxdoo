@@ -791,6 +791,7 @@ qx.Class.define("qx.ui.table.Table",
           // last meta column is flexible
           var flex = (i == metaColumnCounts.length - 1) ? 1 : 0;
           this.__scrollerParent.add(paneScroller, {flex: flex});
+          scrollerArr = this._getPaneScrollerArr();
         }
       }
 
