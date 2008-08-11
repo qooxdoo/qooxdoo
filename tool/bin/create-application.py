@@ -7,7 +7,7 @@
 #  http://qooxdoo.org
 #
 #  Copyright:
-#    2006-2008 1&1 Internet AG, Germany, http://www.1und1.de
+#    2008 1&1 Internet AG, Germany, http://www.1und1.de
 #
 #  License:
 #    LGPL: http://www.gnu.org/licenses/lgpl.html
@@ -16,6 +16,7 @@
 #
 #  Authors:
 #    * Fabian Jakobs (fjakobs)
+#    * Andreas Ecker (ecker)
 #
 ################################################################################
 
@@ -23,7 +24,7 @@ import re
 import os
 import sys
 import optparse
-import shutil
+import shutil, errno
 from string import Template
 
 import qxenviron
@@ -36,11 +37,14 @@ FRAMEWORK_DIR = os.path.normpath(os.path.join(SCRIPT_DIR, os.pardir, os.pardir))
 SKELETON_DIR  = os.path.normpath(os.path.join(FRAMEWORK_DIR, "component", "skeleton"))
 
 
-def createProject(name, out, namespace):
+def createApplication(name, out, namespace):
+
+    if sys.platform == 'win32' and re.match( r'^[a-zA-Z]:$', out):
+        out = out + '\\'
 
     if not os.path.isdir(out):
-        if os.path.isdir(fixPath(out)):
-            out = fixPath(out)
+        if os.path.isdir(normalizePath(out)):
+            out = normalizePath(out)
         else:
             console.error("Output directory '%s' does not exist" % out)
             sys.exit(1)
@@ -57,7 +61,7 @@ def copySkeleton(dir, namespace):
     try:
         shutil.copytree(SKELETON_DIR, dir)
     except OSError:
-        console.error("Failed to copy skeleton")
+        console.error("Failed to copy skeleton, maybe the directory already exists")
         sys.exit(1)
        
     # rename namespace
@@ -74,21 +78,32 @@ def copySkeleton(dir, namespace):
     #clean svn directories
     for root, dirs, files in os.walk(dir, topdown=False):
         if ".svn" in dirs:
-            shutil.rmtree(os.path.join(root, ".svn"), ignore_errors=True)  
+            filename = os.path.join(root, ".svn")
+#            console.log("Removing %s" % filename)
+            shutil.rmtree(filename, ignore_errors=False, onerror=handleRemoveReadonly)  
             
 
 def patchSkeleton(dir, name, namespace):
-    absPath = FRAMEWORK_DIR
-    if absPath[-1] in ["/", "\\"]:
+    absPath = normalizePath(FRAMEWORK_DIR)
+    if absPath[-1] == "/":
         absPath = absPath[:-1]
     
-    relPath = Path.rel_from_to(fixPath(dir), fixPath(FRAMEWORK_DIR))
+    if sys.platform == 'cygwin':
+        if re.match( r'^\.\.', dir ):
+            relPath = Path.rel_from_to(normalizePath(dir), FRAMEWORK_DIR)
+        elif re.match( r'^/cygdrive\b', dir):
+            relPath = Path.rel_from_to(dir, FRAMEWORK_DIR)
+        else:
+            relPath = Path.rel_from_to(normalizePath(dir), normalizePath(FRAMEWORK_DIR))
+    else:
+        relPath = Path.rel_from_to(normalizePath(dir), normalizePath(FRAMEWORK_DIR))
+
     relPath = re.sub(r'\\', "/", relPath)
-    if relPath[-1] in ["/"]:
+    if relPath[-1] == "/":
         relPath = relPath[:-1]
     
     if not os.path.isdir(os.path.join(dir, relPath)):
-        console.error("Relative path to qooxdoo directory not correct '%s'" % relPath)
+        console.error("Relative path to qooxdoo directory is not correct: '%s'" % relPath)
         sys.exit(1)
             
         
@@ -118,57 +133,63 @@ def patchSkeleton(dir, name, namespace):
         )
         out.close()
         
+        console.log("Removing %s" % inFile)
         os.remove(inFile)
 
 
-def fixDriveLetter(path):
-# Fix Windows annoyance to randomly return drive letters uppercase or lowercase
-    if sys.platform == 'win32':
-        drive, rest = os.path.splitdrive(path)    
-        if drive:
-            return drive.lower() + rest
-
-    return path
-
-
-def fixCygdrive(path):
-# Fix path with leading /cygdrive/
-    if sys.platform == 'cygwin':
-        search = re.match(r'^\/cygdrive(\/|[\\]+)(\w)(\/|[\\]+)(.*)$', path)
-        if search:
-            return os.path.join(search.group(2), ":", search.group(4))
-
-    return path
-
-
-def fixPath(path):
-    if sys.platform == 'win32':
-        return fixDriveLetter(path)
-    elif sys.platform == 'cygwin':
-        return fixCygdrive(path)
+def handleRemoveReadonly(func, path, exc):
+# For Windows the 'readonly' must not be set for resources to be removed    
+    excvalue = exc[1]
+    if func in (os.rmdir, os.remove) and excvalue.errno == errno.EACCES:
+        os.chmod(path, 0777)
+        func(path)
     else:
+        raise
+    
+    
+def normalizePath(path):
+# Fix Windows annoyance to randomly return drive letters uppercase or lowercase. 
+# Under Cygwin the user could also supply a lowercase drive letter. For those 
+# two systems, the drive letter is always converted to uppercase, the remaining 
+# path to lowercase
+
+    if not sys.platform == 'win32' and not sys.platform == 'cygwin':
         return path
+
+    path = re.sub(r'\\+', "/", path)
+
+    if sys.platform == 'cygwin':
+        search = re.match( r'^/cygdrive/([a-zA-Z])(/.*)$', path)
+        if search:
+            return search.group(1).upper() + ":" + search.group(2).lower()
+
+    search = re.match( r'^([a-zA-Z])(:.*)$', path )
+    if search:
+        return search.group(1).upper() + search.group(2).lower()
+
+    return path
+
 
 def main():
     parser = optparse.OptionParser()
     
-    parser.set_usage("%prog --name ProjectName [--out dir] [--namespace custom] [-l logfile]")
-    parser.set_description("qooxdoo project creator");
+    parser.set_usage("%prog --name ApplicationName [--out dir] [--namespace custom] [-l logfile]")
+    parser.set_description("Script to create a new qooxdoo application");
     parser.add_option(
-        "-n", "--name", dest="name", metavar="PROJECTNAME",
-        help="Name of the qooxdoo project. The top level directory will named by this name."
+        "-n", "--name", dest="name", metavar="APPLICATIONNAME",
+        help="Name of the application. Its top-level directory will be named accordingly."
     )
     parser.add_option(
         "-o", "--out", dest="out", metavar="DIRECTORY", default=".",
-        help="The directory to write the program files into (Defaults to the current directory)"
+        help="The output directory for the application folder (Defaults to the current directory)"
     )
     parser.add_option(
         "--namespace", dest="namespace", default="custom",
-        help="The applications's top level namespace (defaults to 'custom')"
+        help="The applications's top-level namespace (Defaults to 'custom')"
     )
     parser.add_option(
         "-l", "--logfile", dest="logfile", metavar="FILENAME",
-        default=None, type="string", help="log file"
+        default=None, type="string", help="Log file"
     )
     
     (options, args) = parser.parse_args(sys.argv[1:])
@@ -181,7 +202,9 @@ def main():
     global console
     console = Log(options.logfile, "info")
         
-    createProject(options.name, options.out, options.namespace)
+    createApplication(options.name, options.out, options.namespace)
+    
+    console.log("DONE")
 
 
 if __name__ == '__main__':
