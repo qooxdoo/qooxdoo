@@ -14,7 +14,7 @@ qx.Mixin.define("demobrowser.demo.table.MUtil",
     {
       var columnModel = this.getColumnModelMock();
       var model = this.getModelMock();
-      var selection = this.getSelectionMock();
+      var selection = new qx.ui.table.selection.Model();
       var selectionManager = new qx.ui.table.selection.Manager();
       selectionManager.setSelectionModel(selection);
 
