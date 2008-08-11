@@ -17,6 +17,9 @@
 
 ************************************************************************ */
 
+/**
+ * Test result class, which can export the results to JSUnit
+ */
 qx.Class.define("qx.dev.unit.JsUnitTestResult",
 {
   extend : qx.dev.unit.TestResult,
@@ -46,13 +49,7 @@ qx.Class.define("qx.dev.unit.JsUnitTestResult",
 
   members :
   {
-    /**
-     * TODOC
-     *
-     * @param test {var} TODOC
-     * @param testFunction {var} TODOC
-     * @return {void}
-     */
+    // overridden
     run : function(test, testFunction)
     {
       var testFunctionName = "$test_" + test.getFullName().replace(/\W/g, "_");
@@ -62,9 +59,7 @@ qx.Class.define("qx.dev.unit.JsUnitTestResult",
 
 
     /**
-     * TODOC
-     *
-     * @return {void}
+     * Export the test functions to JSUnit
      */
     exportToJsUnit : function()
     {

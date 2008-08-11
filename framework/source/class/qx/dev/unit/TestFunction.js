@@ -17,6 +17,9 @@
 
 ************************************************************************ */
 
+/**
+ * Wrapper object for a method containing unit test code.
+ */
 qx.Class.define("qx.dev.unit.TestFunction",
 {
   extend : qx.core.Object,
@@ -30,9 +33,14 @@ qx.Class.define("qx.dev.unit.TestFunction",
   */
 
   /**
-   * @param clazz {Class?null}
-   * @param methodName {String?null}
-   * @param testFunction {Function?null}
+   * There are two ways to define a test function. First by passing a class
+   * and a method name to the contructor or second by giving a the method
+   * directly.
+   *
+   * @param clazz {Class?null} The test class, which contains the test method
+   * @param methodName {String?null} The name of the method
+   * @param testFunction {Function?null} A reference to a test function. If this
+   *    parameter is set the other parameters are ignored.
    */
   construct : function(clazz, methodName, testFunction)
   {
@@ -81,9 +89,13 @@ qx.Class.define("qx.dev.unit.TestFunction",
 
   properties :
   {
+    /** The test function */
     testFunction : { check : "Function" },
+
+    /** Name of the test */
     name : { check : "String" },
 
+    /** Name of the class containing the test */
     className :
     {
       check : "String",
@@ -102,10 +114,9 @@ qx.Class.define("qx.dev.unit.TestFunction",
   members :
   {
     /**
-     * TODOC
+     * Runs the test and logs the test result to a {@link TestResult} instance,
      *
-     * @param testResult {var} TODOC
-     * @return {void}
+     * @param testResult {TestResult} The class used to log the test result.
      */
     run : function(testResult) {
       testResult.run(this, this.getTestFunction());
@@ -113,9 +124,9 @@ qx.Class.define("qx.dev.unit.TestFunction",
 
 
     /**
-     * TODOC
+     * Get the full name of the test.
      *
-     * @return {var} TODOC
+     * @return {String} The test's full name
      */
     getFullName : function() {
       return [ this.getClassName(), this.getName() ].join(":");

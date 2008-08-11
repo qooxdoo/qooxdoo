@@ -17,31 +17,13 @@
 
 ************************************************************************ */
 
+/**
+ * The test loader is the base class of a native application, which can be used
+ * to run tests in from a non GUI application or from within JSUnit.
+ */
 qx.Class.define("qx.dev.unit.TestLoader",
 {
   extend : qx.application.Native,
-
-
-
-  /*
-  *****************************************************************************
-     STATICS
-  *****************************************************************************
-  */
-
-  statics :
-  {
-    /**
-     * TODOC
-     *
-     * @return {var} TODOC
-     */
-    getInstance : function() {
-      return this.instance;
-    }
-  },
-
-
 
 
   /*
@@ -52,6 +34,7 @@ qx.Class.define("qx.dev.unit.TestLoader",
 
   properties :
   {
+    /** The test suite */
     suite :
     {
       check    : "qx.dev.unit.TestSuite",
@@ -69,11 +52,7 @@ qx.Class.define("qx.dev.unit.TestLoader",
 
   members :
   {
-    /**
-     * TODOC
-     *
-     * @return {void}
-     */
+    // overridden
     main : function()
     {
       this.base(arguments);
@@ -95,9 +74,10 @@ qx.Class.define("qx.dev.unit.TestLoader",
 
 
     /**
-     * TODOC
+     * Parses the url parameters and tries to find the classes to test.
+     * The pattern is like <code>index.html?testclass=qx.test</code>
      *
-     * @return {var} TODOC
+     * @return {String} the class/namespae to test
      */
     __getClassNameFromUrl : function()
     {
@@ -115,10 +95,10 @@ qx.Class.define("qx.dev.unit.TestLoader",
 
 
     /**
-     * TODOC
+     * Sets the top level namespace of the test cases to test. All classes
+     * below this namespace extending {@link TestCase} will be tested.
      *
-     * @param namespace {var} TODOC
-     * @return {void}
+     * @param namespace {Object} Namespace to add
      */
     setTestNamespace : function(namespace)
     {
@@ -129,9 +109,7 @@ qx.Class.define("qx.dev.unit.TestLoader",
 
 
     /**
-     * TODOC
-     *
-     * @return {void}
+     * Run all tests and export the results to JSUnit
      */
     runJsUnit : function()
     {
@@ -142,9 +120,7 @@ qx.Class.define("qx.dev.unit.TestLoader",
 
 
     /**
-     * TODOC
-     *
-     * @return {void}
+     * Run tests as standalone application
      */
     runStandAlone : function()
     {
@@ -170,10 +146,11 @@ qx.Class.define("qx.dev.unit.TestLoader",
     },
 
 
+
     /**
-     * TODOC
+     * Get a list of test descriptions
      *
-     * @return {var} TODOC
+     * @return {String} A description of all tests.
      */
     getTestDescriptions : function()
     {
@@ -200,12 +177,11 @@ qx.Class.define("qx.dev.unit.TestLoader",
 
 
     /**
-     * TODOC
+     * Runs exactly one test from the test suite
      *
-     * @param testResult {var} TODOC
-     * @param className {var} TODOC
-     * @param methodName {var} TODOC
-     * @return {void}
+     * @param testResult {TestResult} the result logger
+     * @param className {String} Name of the test class
+     * @param methodName {String} Name of the test method
      */
     runTests : function(testResult, className, methodName)
     {
@@ -233,11 +209,10 @@ qx.Class.define("qx.dev.unit.TestLoader",
 
 
     /**
-     * TODOC
+     * Runs all tests inside of the given namespace
      *
-     * @param testResult {var} TODOC
-     * @param namespaceName {var} TODOC
-     * @return {void}
+     * @param testResult {TestResult} the result logger
+     * @param namespaceName {String} Namespace of the tests to run
      */
     runTestsFromNamespace : function(testResult, namespaceName)
     {
