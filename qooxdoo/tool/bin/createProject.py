@@ -19,6 +19,7 @@
 #
 ################################################################################
 
+import re
 import os
 import sys
 import optparse
@@ -36,6 +37,15 @@ SKELETON_DIR  = os.path.normpath(os.path.join(FRAMEWORK_DIR, "component", "skele
 
 
 def createProject(name, out, namespace):
+
+    if not os.path.isdir(out):
+        if os.path.isdir(fixPath(out)):
+            out = fixPath(out)
+        else:
+            console.error("Output directory '%s' does not exist" % out)
+            sys.exit(1)
+        
+
     outDir = os.path.join(out, name)
     copySkeleton(outDir, namespace)
     patchSkeleton(outDir, name, namespace)
@@ -68,6 +78,20 @@ def copySkeleton(dir, namespace):
             
 
 def patchSkeleton(dir, name, namespace):
+    absPath = FRAMEWORK_DIR
+    if absPath[-1] in ["/", "\\"]:
+        absPath = absPath[:-1]
+    
+    relPath = Path.rel_from_to(fixPath(dir), fixPath(FRAMEWORK_DIR))
+    relPath = re.sub(r'\\', "/", relPath)
+    if relPath[-1] in ["/"]:
+        relPath = relPath[:-1]
+    
+    if not os.path.isdir(os.path.join(dir, relPath)):
+        console.error("Relative path to qooxdoo directory not correct '%s'" % relPath)
+        sys.exit(1)
+            
+        
     files = [
         "config.json",
         "generate.py",
@@ -81,14 +105,6 @@ def patchSkeleton(dir, name, namespace):
         inFile = os.path.join(dir, file + ".tmpl")
         console.log("Patching file '%s'" % outFile)
     
-        absPath = FRAMEWORK_DIR
-        if absPath[-1] in ["/", "\\"]:
-            absPath = absPath[:-1]
-        
-        relPath = Path.rel_from_to(dir, FRAMEWORK_DIR)
-        if relPath[-1] in ["/", "\\"]:
-            relPath = relPath[:-1]
-        
         config = Template(open(inFile).read())
         out = open(outFile, "w")
         out.write(
@@ -104,6 +120,34 @@ def patchSkeleton(dir, name, namespace):
         
         os.remove(inFile)
 
+
+def fixDriveLetter(path):
+# Fix Windows annoyance to randomly return drive letters uppercase or lowercase
+    if sys.platform == 'win32':
+        drive, rest = os.path.splitdrive(path)    
+        if drive:
+            return drive.lower() + rest
+
+    return path
+
+
+def fixCygdrive(path):
+# Fix path with leading /cygdrive/
+    if sys.platform == 'cygwin':
+        search = re.match(r'^\/cygdrive(\/|[\\]+)(\w)(\/|[\\]+)(.*)$', path)
+        if search:
+            return os.path.join(search.group(2), ":", search.group(4))
+
+    return path
+
+
+def fixPath(path):
+    if sys.platform == 'win32':
+        return fixDriveLetter(path)
+    elif sys.platform == 'cygwin':
+        return fixCygdrive(path)
+    else:
+        return path
 
 def main():
     parser = optparse.OptionParser()
