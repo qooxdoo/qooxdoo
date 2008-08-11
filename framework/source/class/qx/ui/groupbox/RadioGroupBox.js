@@ -91,6 +91,7 @@ qx.Class.define("qx.ui.groupbox.RadioGroupBox",
           control.addListener("changeChecked", this._onRadioChangeChecked, this);
           control.addListener("changeName", this._onRadioChangeName, this);
           control.addListener("changeValue", this._onRadioChangeValue, this);
+          control.addListener("resize", this._repositionFrame, this);
 
           this._add(control);
       }
