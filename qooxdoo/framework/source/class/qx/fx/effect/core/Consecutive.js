@@ -51,7 +51,7 @@ qx.Class.define("qx.fx.effect.core.Consecutive",
 
 
   /**
-   * @param effects {Array} List of effects
+   * @param varargs {varargs} List of effects
    */
   construct : function()
   {
@@ -59,6 +59,7 @@ qx.Class.define("qx.fx.effect.core.Consecutive",
 
     this._effects = arguments;
   },
+
 
 
   /*
