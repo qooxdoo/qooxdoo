@@ -22,8 +22,23 @@
 
 /* ************************************************************************
 
-#asset(qx/icon/${qx.icontheme}/32/actions/help-contents.png)
-#asset(qx/icon/${qx.icontheme}/16/actions/help-contents.png)
+#asset(qx/icon/${qx.icontheme}/16/actions/media-seek-forward.png)
+#asset(qx/icon/${qx.icontheme}/16/actions/media-playback-stop.png)
+#asset(qx/icon/${qx.icontheme}/16/actions/media-playback-start.png)
+
+#asset(qx/icon/${qx.icontheme}/16/actions/go-previous.png)
+#asset(qx/icon/${qx.icontheme}/16/actions/go-next.png)
+
+#asset(qx/icon/${qx.icontheme}/16/actions/edit-redo.png)
+
+#asset(qx/icon/${qx.icontheme}/16/apps/utilities-color-chooser.png)
+#asset(qx/icon/${qx.icontheme}/16/apps/utilities-terminal.png)
+#asset(qx/icon/${qx.icontheme}/16/apps/utilities-graphics-viewer.png)
+#asset(qx/icon/${qx.icontheme}/16/apps/internet-web-browser.png)
+
+#asset(qx/icon/${qx.icontheme}/16/mimetypes/text-plain.png)
+#asset(qx/icon/${qx.icontheme}/16/mimetypes/text-html.png)
+#asset(qx/icon/${qx.icontheme}/16/mimetypes/office-spreadsheet.png)
 
 ************************************************************************ */
 
@@ -558,7 +573,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       menu.add(t2);
 
       // Create opener button
-      var splitButton = new qx.ui.toolbar.SplitButton("Classic", "icon/16/apps/accessories-color-chooser.png", menu).set({
+      var splitButton = new qx.ui.toolbar.SplitButton("Classic", "icon/16/apps/utilities-color-chooser.png", menu).set({
         focusable: false
       });
       this._splitButton = splitButton;
@@ -583,7 +598,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       this.widgets["toolbar.profile"] = sb0;
 
       // object summary
-      var sb1 = new qx.ui.toolbar.Button("Object Summary", "icon/16/apps/graphics-viewer.png");
+      var sb1 = new qx.ui.toolbar.Button("Object Summary", "icon/16/apps/utilities-graphics-viewer.png");
       gb.add(sb1);
 
       sb1.addListener("execute", this.__getObjectSummary, this);
