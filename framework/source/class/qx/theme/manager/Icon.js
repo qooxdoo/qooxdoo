@@ -18,7 +18,9 @@
 
 ************************************************************************ */
 
-/** This singleton selects the icon theme to use. */
+/**
+ * Manager for icon themes
+ */
 qx.Class.define("qx.theme.manager.Icon",
 {
   type : "singleton",

@@ -19,6 +19,9 @@
 
 ************************************************************************ */
 
+/**
+ * Manager for decoration themes
+ */
 qx.Class.define("qx.theme.manager.Decoration",
 {
   type : "singleton",

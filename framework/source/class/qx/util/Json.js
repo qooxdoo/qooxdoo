@@ -49,6 +49,9 @@
 
 ************************************************************************ */
 
+/**
+ * JSON (JavaScript Object Notation) for qooxdoo
+ */
 qx.Class.define("qx.util.Json",
 {
   statics :
