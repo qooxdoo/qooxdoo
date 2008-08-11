@@ -1861,6 +1861,59 @@ qx.Theme.define("qx.theme.classic.Appearance",
           decorator : "undefined"
         };
       }
-    }
+    },
+    
+
+    /*
+    ---------------------------------------------------------------------------
+      COLOR POPUP
+    ---------------------------------------------------------------------------
+    */
+
+    "colorpopup" :
+    {
+      alias : "popup",
+      include : "popup",
+
+      style : function(states)
+      {
+        return {
+          decorator : "outset",
+          padding : 5,
+          backgroundColor : "background"
+        }
+      }
+    },
+    
+    "colorpopup/field":
+    {
+      style : function(states)
+      {
+        return {
+          decorator : "inset-thin",
+          margin : 2,
+          width : 14,
+          height : 14,
+          backgroundColor : "white"
+        }
+      }
+    },
+    
+    "colorpopup/preview-pane":
+    {
+      style : function(state)
+      {
+        return {
+          height : 20,
+          padding: 4,
+          decorator : "inset-thin",
+          allowGrowX : true
+        }
+      }
+    },
+
+
+    
+    
   }
 });
