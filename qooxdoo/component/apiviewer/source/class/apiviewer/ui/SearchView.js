@@ -35,7 +35,7 @@ qx.Class.define("apiviewer.ui.SearchView",
   construct : function()
   {
     this.base(arguments);
-    this.setLayout(new qx.ui.layout.VBox)
+    this.setLayout(new qx.ui.layout.VBox(8))
 
     this.__initresult = false;
     this.listdata = [];
@@ -72,7 +72,9 @@ qx.Class.define("apiviewer.ui.SearchView",
       var sform = new qx.ui.container.Composite(layout);
 
       // Search form - input field
-      this.sinput = new qx.ui.form.TextField();
+      this.sinput = new qx.ui.form.TextField().set({
+        allowGrowY: true
+      });
 
       // Search form - submit button
       this.__button = new qx.ui.form.Button("Find");
@@ -100,7 +102,7 @@ qx.Class.define("apiviewer.ui.SearchView",
         }
       };
 
-      
+
       // table
       var table = new qx.ui.table.Table(tableModel, customModel);
       table.exclude();
@@ -109,9 +111,9 @@ qx.Class.define("apiviewer.ui.SearchView",
       table.setColumnVisibilityButtonVisible(false);
 
       this._selectionModel = table.getSelectionManager().getSelectionModel();
-      
+
       this._selectionModel.addListener("changeSelection", this._onChangeSelection, this);
-      
+
       this._table = table;
       // resize behavior
       var tcm = table.getTableColumnModel();
@@ -119,15 +121,15 @@ qx.Class.define("apiviewer.ui.SearchView",
       resizeBehavior.set(0, {width:"0*", minWidth : 30, maxWidth : 30});
       resizeBehavior.set(1, {width:"1*"});
 
-      
+
       var tcm = table.getTableColumnModel();
       tcm.setDataCellRenderer(0, new qx.ui.table.cellrenderer.Image());
 
       this.__initresult = true;
 
       this.add(table, {flex : 1})
-      
-      
+
+
       // Load index file
       qx.event.Timer.once(this._load, this, 0);
 
@@ -198,7 +200,7 @@ qx.Class.define("apiviewer.ui.SearchView",
 
        // TODO: this should be working soon
        //this._tableModel.setColumnName(1, (results + " Results (" + duration + " s)"));
-       this._tableModel.setColumns([ "", (sresult.length + " Result" + ((sresult.length != 1) ? "s" : "")) ]);
+       //this._tableModel.setColumns([ "", (sresult.length + " Result" + ((sresult.length != 1) ? "s" : "")) ]);
        this._tableModel.setData(sresult);
        this._table.show();
 
@@ -295,9 +297,13 @@ qx.Class.define("apiviewer.ui.SearchView",
       sresult.sort(function(a, b)
       {
           if (a[1] < b[1])
-             return -1;
+          {
+            return -1;
+          }
           if (a[1] > b[1])
-             return 1;
+          {
+            return 1;
+          }
           return 0;
       });
       for (var i=0, l=sresult.length; i<l; i++) {
@@ -433,8 +439,8 @@ qx.Class.define("apiviewer.ui.SearchView",
 
         }, controller);
     },
-    
-    
+
+
     _onChangeSelection : function(e)
     {
       var tree = this.getWidgetById("tree");

@@ -42,10 +42,14 @@ qx.Class.define("apiviewer.Viewer",
   construct : function()
   {
     this.base(arguments);
-    
+
     this.setLayout(new qx.ui.layout.Dock);
 
     this.add(this.__createHeader(), {
+      edge : "north"
+    });
+
+    this.add(this.__createToolbar(), {
       edge : "north"
     });
 
@@ -53,20 +57,16 @@ qx.Class.define("apiviewer.Viewer",
     tree.setId("tree");
 
     this._searchView = new apiviewer.ui.SearchView();
-    
+
     var buttonView = this.__createTabView(
       tree,
       this._searchView,
       new apiviewer.ui.LegendView()
     );
 
-    var mainFrame = this.__createMainFrame(
-      this.__createToolbar(),
-      this.__createDetailFrame()
-    );
+    var mainFrame = this.__createDetailFrame();
 
     this.add(this.__createSplitPane(buttonView, mainFrame));
-
   },
 
 
@@ -93,10 +93,10 @@ qx.Class.define("apiviewer.Viewer",
         "</h1>" +
         "<div class='version'>qooxdoo " + qx.core.Setting.get("qx.version") + "</div>"
       );
-      
+
       var el = header.getContentElement();
       el.setAttribute("id", "header");
-      
+
       el.setStyle(
         "background",
         "#134275 url(" +
@@ -119,17 +119,22 @@ qx.Class.define("apiviewer.Viewer",
      */
     __createTabView : function(treeWidget, searchWidget, infoWidget)
     {
-      
-      var tabView = new qx.ui.tabview.TabView;
-      tabView.setPadding(5)
+
+      var tabView = new qx.ui.tabview.TabView().set({
+        appearance: "api-tabview"
+      });
 
       var packageTab = new qx.ui.tabview.Page(null, apiviewer.TreeUtil.ICON_PACKAGE);
       packageTab.setLayout(new qx.ui.layout.Grow);
-      packageTab.getButton().setToolTip( new qx.ui.tooltip.ToolTip("Packages"));
+      packageTab.getButton().setToolTip( new qx.ui.tooltip.ToolTip("Packages")).set({
+        appearance: "package-page"
+      });
       packageTab.add(treeWidget);
       tabView.add(packageTab);
-      
-      var searchTab = new qx.ui.tabview.Page(null, apiviewer.TreeUtil.ICON_SEARCH);
+
+      var searchTab = new qx.ui.tabview.Page(null, apiviewer.TreeUtil.ICON_SEARCH).set({
+        appearance: "search-page"
+      });
       searchTab.setLayout(new qx.ui.layout.Grow);
       searchTab.getButton().setToolTip( new qx.ui.tooltip.ToolTip("Search"));
 
@@ -139,8 +144,10 @@ qx.Class.define("apiviewer.Viewer",
 
       searchTab.add(searchWidget);
       tabView.add(searchTab);
-      
-      var infoTab = new qx.ui.tabview.Page(null, apiviewer.TreeUtil.ICON_INFO);
+
+      var infoTab = new qx.ui.tabview.Page(null, apiviewer.TreeUtil.ICON_INFO).set({
+        appearance: "info-page"
+      });
       infoTab.setLayout(new qx.ui.layout.Grow);
       infoTab.getButton().setToolTip( new qx.ui.tooltip.ToolTip("Information"));
       infoTab.add(infoWidget);
@@ -176,7 +183,7 @@ qx.Class.define("apiviewer.Viewer",
       }
 
       var toolbar = new qx.ui.toolbar.ToolBar;
-      
+
       toolbar.addSpacer();
 
       var part = new qx.ui.toolbar.Part;
@@ -226,10 +233,11 @@ qx.Class.define("apiviewer.Viewer",
      */
     __createDetailFrame : function()
     {
-      var detailFrame = new qx.ui.container.Composite(new qx.ui.layout.Canvas);
+      var detailFrame = new qx.ui.container.Composite(new qx.ui.layout.Canvas).set({
+        appearance : "detail-frame"
+      });
 
       detailFrame.getContentElement().setAttribute("id", "content");
-      detailFrame.setBackgroundColor("white");
 
       this._detailLoader = new qx.ui.embed.Html('<div style="padding:10px;"><h1><small>please wait</small>Loading data...</h1></div>');
       this._detailLoader.getContentElement().setAttribute("id", "SplashScreen");
@@ -269,7 +277,7 @@ qx.Class.define("apiviewer.Viewer",
 
 
     /**
-     * Creates the vertival splitter and populates the split panes
+     * Creates the vertical splitter and populates the split panes
      *
      * @param leftWidget {qx.ui.core.Widget} the widget on the left of the splitter
      * @param rightWidget {qx.ui.core.Widget} the widget on the right of the splitter
@@ -277,8 +285,9 @@ qx.Class.define("apiviewer.Viewer",
      */
     __createSplitPane : function(leftWidget, rightWidget)
     {
-      var mainSplitPane = new qx.ui.splitpane.Pane("horizontal");
-      leftWidget.setWidth(270)
+      var mainSplitPane = new qx.ui.splitpane.Pane("horizontal").set({
+        appearance: "main-splitpane"
+      });
       mainSplitPane.add(leftWidget, 0);
       mainSplitPane.add(rightWidget, 4);
       return mainSplitPane;
