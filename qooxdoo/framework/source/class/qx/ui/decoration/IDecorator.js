@@ -21,17 +21,60 @@
 /**
  * A decorator is responsible for rendering a widget's background and
  * border. It is passed the widget's decoration element {@link qx.html.Element}
- * and configures it to display the decoration. Each time a widget is resized
- * the decorator's {@link #render} gets called. Each decorator must also support
- * the method {@link #reset} which is called when the decoration changed to
- * another class. Switches of a decoration object of the same class should
- * be supported by the {@link #render} method as well. This means that every
- * update must apply all relevant styles for the decoration.
+ * and configures it to display the decoration.
+ *
+ * A {@link qx.html.Element} can be initialized for usage calling the
+ * method {@link #init} and given the element as a parameter.
+ *
+ * Later elements are updated using the decorator methods {@link #resize}
+ * and {@link #tint} to scale and tint the element to the local
+ * configuration of the widget.
  */
 qx.Interface.define("qx.ui.decoration.IDecorator",
 {
   members :
   {
+    /**
+     * Initialized the given element for being used
+     * as a decorator element.
+     *
+     * @param element {qx.html.Element} The element to initialize
+     */
+    init : function(element) {},
+
+
+    /**
+     * Resizes the element respecing the configured borders
+     * to the given width and height. Should automatically
+     * respect the box model of the client to correctly
+     * compute the dimensions.
+     *
+     * @param element {qx.html.Element} The element to update
+     * @param width {Integer} Width of the element
+     * @param height {Integer} Height of the element
+     */
+    resize : function(element, width, height) {},
+
+
+    /**
+     * Applies the given background color to the element
+     * or fallback to the background color defined
+     * by the decoration itself.
+     *
+     * @param element {qx.html.Element} The element to update
+     * @param bgcolor {Color} The color to apply or <code>null</code>
+     */
+    tint : function(element, bgcolor) {},
+
+
+    /**
+     * Returns the basic markup structure used for this decoration.
+     * This later updated on DOM to resize or tint the element.
+     *
+     * @return {String} Basic markup
+     */
+    getMarkup : function() {},
+
 
     /**
      * Get the amount of space, the decoration needs for its border on each
