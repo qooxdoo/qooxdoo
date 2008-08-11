@@ -19,6 +19,9 @@
 
 ************************************************************************ */
 
+/**
+ * A group box, which has a radio button near the legend.
+ */
 qx.Class.define("qx.ui.groupbox.RadioGroupBox",
 {
   extend : qx.ui.groupbox.GroupBox,

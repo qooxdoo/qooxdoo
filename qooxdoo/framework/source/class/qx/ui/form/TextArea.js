@@ -33,6 +33,9 @@ qx.Class.define("qx.ui.form.TextArea",
   *****************************************************************************
   */
 
+  /**
+   * @param value {String?""} The text area's initial value
+   */
   construct : function(value)
   {
     this.base(arguments, value);
@@ -96,7 +99,7 @@ qx.Class.define("qx.ui.form.TextArea",
     */
 
     _applyWrap : function(value, old) {
-      this._contentElement.setWrap(value);
+      this.getContentElement().setWrap(value);
     },
 
 

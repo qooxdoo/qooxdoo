@@ -37,7 +37,7 @@ qx.Class.define("qx.ui.table.pane.Clipper",
      * @return {void}
      */
     scrollToX : function(value) {
-      this._contentElement.scrollToX(value, false);
+      this.getContentElement().scrollToX(value, false);
     },
 
 
@@ -48,7 +48,7 @@ qx.Class.define("qx.ui.table.pane.Clipper",
      * @return {void}
      */
     scrollToY : function(value) {
-      this._contentElement.scrollToY(value, true);
+      this.getContentElement().scrollToY(value, true);
     }
   }
 });

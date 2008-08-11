@@ -19,6 +19,9 @@
 
 ************************************************************************ */
 
+/**
+ * A group box, which has a check box near the legend.
+ */
 qx.Class.define("qx.ui.groupbox.CheckGroupBox",
 {
   extend : qx.ui.groupbox.GroupBox,

@@ -57,6 +57,13 @@ qx.Mixin.define("qx.ui.core.MMovable",
 
   members :
   {
+    __moveHandle : null,
+    __moveFrame : null,
+    __dragRange : null,
+    __dragLeft : null,
+    __dragTop : null,
+
+
     /*
     ---------------------------------------------------------------------------
       CORE FEATURES

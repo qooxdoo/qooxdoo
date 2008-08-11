@@ -175,6 +175,9 @@ qx.Class.define("qx.ui.form.SplitButton",
 
   members :
   {
+    __cursorIsOut : null,
+
+
     /*
     ---------------------------------------------------------------------------
       WIDGET API
@@ -293,7 +296,7 @@ qx.Class.define("qx.ui.form.SplitButton",
       this.addState("hovered");
 
       // Delete cursor out flag
-      delete this._cursorIsOut;
+      delete this.__cursorIsOut;
     },
 
 
@@ -325,7 +328,7 @@ qx.Class.define("qx.ui.form.SplitButton",
       var menu = this.getMenu();
       if (menu && menu.isVisible())
       {
-        this._cursorIsOut = true;
+        this.__cursorIsOut = true;
         return;
       }
 
@@ -393,7 +396,7 @@ qx.Class.define("qx.ui.form.SplitButton",
      */
     _onChangeMenuVisibility : function(e)
     {
-      if (!this.getMenu().isVisible() && this._cursorIsOut) {
+      if (!this.getMenu().isVisible() && this.__cursorIsOut) {
         this.removeState("hovered");
       }
     }

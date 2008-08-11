@@ -69,6 +69,8 @@ qx.Class.define("qx.ui.table.pane.CellEvent",
       *
       * @param scroller {qx.ui.table.pane.Scroller} The tables pane scroller
       * @param me {qx.event.type.Mouse} The original mouse event
+      * @param row {Integer?null} The cell's row index
+      * @param column {Integer?null} The cell's column index
       */
      init : function(scroller, me, row, column)
      {

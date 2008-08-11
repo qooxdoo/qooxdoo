@@ -35,6 +35,11 @@ qx.Class.define("qx.ui.form.ListItem",
   *****************************************************************************
   */
 
+  /**
+   * @param label {String} Label to use
+   * @param icon {String?null} Icon to use
+   * @param value {String?null} The items string value
+   */
   construct : function(label, icon, value)
   {
     this.base(arguments, label, icon);

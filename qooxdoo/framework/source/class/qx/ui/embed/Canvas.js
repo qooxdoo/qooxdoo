@@ -86,7 +86,7 @@ qx.Class.define("qx.ui.embed.Canvas",
   {
     this.base(arguments);
 
-    this._deferredDraw = new qx.util.DeferredCall(this.__redraw, this);
+    this.__deferredDraw = new qx.util.DeferredCall(this.__redraw, this);
     this.addListener("resize", this._onResize, this);
 
     if (canvasWidth !== undefined) {
@@ -161,6 +161,9 @@ qx.Class.define("qx.ui.embed.Canvas",
 
   members :
   {
+    /** {qx.util.DeferredCall} */
+    __deferredDraw : null,
+
     /*
     ---------------------------------------------------------------------------
       WIDGET API
@@ -200,7 +203,7 @@ qx.Class.define("qx.ui.embed.Canvas",
     _applyCanvasWidth : function(value, old)
     {
       this.getContentElement().setWidth(value);
-      this._deferredDraw.schedule();
+      this.__deferredDraw.schedule();
     },
 
 
@@ -208,7 +211,7 @@ qx.Class.define("qx.ui.embed.Canvas",
     _applyCanvasHeight : function(value, old)
     {
       this.getContentElement().setHeight(value);
-      this._deferredDraw.schedule();
+      this.__deferredDraw.schedule();
     },
 
 

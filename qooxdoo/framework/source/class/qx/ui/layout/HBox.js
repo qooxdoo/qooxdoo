@@ -103,7 +103,7 @@ qx.Class.define("qx.ui.layout.HBox",
      CONSTRUCTOR
   *****************************************************************************
   */
-  
+
   /**
    * @param spacing {Integer?0} The spacing between child widgets {@link #spacing}.
    * @param alignX {String?"left"} Horizontal alignment of the whole children
@@ -198,6 +198,12 @@ qx.Class.define("qx.ui.layout.HBox",
 
   members :
   {
+    __widths : null,
+    __flexs : null,
+    __enableFlex : null,
+    __children : null,
+
+
     /*
     ---------------------------------------------------------------------------
       HELPER METHODS
@@ -311,7 +317,7 @@ qx.Class.define("qx.ui.layout.HBox",
       var length = children.length;
       var util = qx.ui.layout.Util;
 
-      
+
       // Compute gaps
       var spacing = this.getSpacing();
       var separator = this.getSeparator();
@@ -396,14 +402,14 @@ qx.Class.define("qx.ui.layout.HBox",
 
       // Pre configure separators
       this._clearSeparators();
-      
+
       // Compute separator width
-      if (separator) 
+      if (separator)
       {
         var separatorInsets = qx.theme.manager.Decoration.getInstance().resolve(separator).getInsets();
         var separatorWidth = separatorInsets.left + separatorInsets.right;
       }
-      
+
       // Render children and separators
       for (i=0; i<length; i+=1)
       {
@@ -428,7 +434,7 @@ qx.Class.define("qx.ui.layout.HBox",
           {
             // add margin of last child and spacing
             left += marginRight + spacing;
-            
+
             // then render the separator at this position
             this._renderSeparator(separator, {
               left : left,
@@ -436,7 +442,7 @@ qx.Class.define("qx.ui.layout.HBox",
               width : separatorWidth,
               height : availHeight
             });
-            
+
             // and finally add the size of the separator, the spacing (again) and the left margin
             left += separatorWidth + spacing + child.getMarginLeft();
           }

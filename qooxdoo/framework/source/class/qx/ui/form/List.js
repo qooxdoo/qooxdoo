@@ -71,7 +71,7 @@ qx.Class.define("qx.ui.form.List",
     this.addListener("changeSelection", this._onChangeSelection);
 
     // initialize the search string
-    this._pressedString = "";
+    this.__pressedString = "";
   },
 
 
@@ -183,6 +183,13 @@ qx.Class.define("qx.ui.form.List",
 
   members :
   {
+    __pressedString : null,
+    __lastKeyPress : null,
+
+    /** {qx.ui.core.Widget} The children container */
+    __content : null,
+
+
     /*
     ---------------------------------------------------------------------------
       SELECTION API
@@ -421,15 +428,15 @@ qx.Class.define("qx.ui.form.List",
       }
 
       // Reset string after a second of non pressed key
-      if (((new Date).valueOf() - this._lastKeyPress) > 1000) {
-        this._pressedString = "";
+      if (((new Date).valueOf() - this.__lastKeyPress) > 1000) {
+        this.__pressedString = "";
       }
 
       // Combine keys the user pressed to a string
-      this._pressedString += e.getChar();
+      this.__pressedString += e.getChar();
 
       // Find matching item
-      var matchedItem = this.findItemByLabelFuzzy(this._pressedString);
+      var matchedItem = this.findItemByLabelFuzzy(this.__pressedString);
 
       // if an item was found, select it
       if (matchedItem) {
@@ -437,7 +444,7 @@ qx.Class.define("qx.ui.form.List",
       }
 
       // Store timestamp
-      this._lastKeyPress = (new Date).valueOf();
+      this.__lastKeyPress = (new Date).valueOf();
       e.preventDefault();
     },
 

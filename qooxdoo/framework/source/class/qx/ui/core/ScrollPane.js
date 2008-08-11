@@ -45,12 +45,14 @@ qx.Class.define("qx.ui.core.ScrollPane",
     // Add resize listener to "translate" event
     this.addListener("resize", this._onUpdate);
 
+    var contentEl = getContentElement();
+
     // Synchronizes the DOM scroll position with the properties
-    this._contentElement.addListener("scroll", this._onScroll, this);
+    contentEl.addListener("scroll", this._onScroll, this);
 
     // Fixed some browser quirks e.g. correcting scroll position
     // to the previous value on re-display of a pane
-    this._contentElement.addListener("appear", this._onAppear, this);
+    contentEl.addListener("appear", this._onAppear, this);
   },
 
 
@@ -191,7 +193,7 @@ qx.Class.define("qx.ui.core.ScrollPane",
      */
     _onScroll : function(e)
     {
-      var contentEl = this._contentElement;
+      var contentEl = this.getContentElement();
 
       this.setScrollX(contentEl.getScrollX());
       this.setScrollY(contentEl.getScrollY());
@@ -205,7 +207,7 @@ qx.Class.define("qx.ui.core.ScrollPane",
      */
     _onAppear : function(e)
     {
-      var contentEl = this._contentElement;
+      var contentEl = this.getContentElement();
 
       var internalX = this.getScrollX();
       var domX = contentEl.getScrollX();
@@ -442,13 +444,13 @@ qx.Class.define("qx.ui.core.ScrollPane",
 
     // property apply
     _applyScrollX : function(value) {
-      this._contentElement.scrollToX(value);
+      this.getContentElement().scrollToX(value);
     },
 
 
     // property apply
     _applyScrollY : function(value) {
-      this._contentElement.scrollToY(value);
+      this.getContentElement().scrollToY(value);
     }
   }
 });
