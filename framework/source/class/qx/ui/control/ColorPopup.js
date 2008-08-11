@@ -20,6 +20,14 @@
 
 ************************************************************************ */
 
+/* ************************************************************************
+
+#asset(qx/icon/${qx.icontheme}/16/actions/dialog-cancel.png)
+#asset(qx/icon/${qx.icontheme}/16/actions/dialog-ok.png)
+
+************************************************************************ */
+
+
 /** A color popup */
 qx.Class.define("qx.ui.control.ColorPopup",
 {
