@@ -41,7 +41,7 @@ qx.Class.define("qx.ui.tabview.TabView",
     this._createChildControl("pane");
 
     // Create manager
-    var mgr = this._radioGroup = new qx.ui.form.RadioGroup;
+    var mgr = this.__radioGroup = new qx.ui.form.RadioGroup;
     mgr.setWrap(false);
     mgr.addListener("changeValue", this._onRadioChangeValue, this);
 
@@ -104,6 +104,9 @@ qx.Class.define("qx.ui.tabview.TabView",
 
   members :
   {
+    __radioGroup : null,
+
+
     /*
     ---------------------------------------------------------------------------
       WIDGET API
@@ -167,7 +170,7 @@ qx.Class.define("qx.ui.tabview.TabView",
       page.exclude();
 
       // Register button
-      this._radioGroup.add(button);
+      this.__radioGroup.add(button);
 
       // Add button and page
       bar.add(button);
@@ -222,7 +225,7 @@ qx.Class.define("qx.ui.tabview.TabView",
       pane.remove(page);
 
       // Remove the button from the radio group
-      this._radioGroup.remove(button);
+      this.__radioGroup.remove(button);
 
       // Remove state from page
       page.removeState(this.__barPositionToState[this.getBarPosition()]);
@@ -358,12 +361,12 @@ qx.Class.define("qx.ui.tabview.TabView",
       if (value)
       {
         this._getChildControl("pane").setSelected(value);
-        this._radioGroup.setSelected(value.getButton());
+        this.__radioGroup.setSelected(value.getButton());
       }
       else
       {
         this._getChildControl("pane").resetSelected();
-        this._radioGroup.resetSelected();
+        this.__radioGroup.resetSelected();
       }
     },
 

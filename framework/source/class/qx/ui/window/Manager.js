@@ -27,10 +27,13 @@ qx.Class.define("qx.ui.window.Manager",
 
   members :
   {
+    __desktop : null,
+
+
     // interface implementation
     setDesktop : function(desktop)
     {
-      this._desktop = desktop;
+      this.__desktop = desktop;
       this.updateStack();
     },
 
@@ -48,9 +51,9 @@ qx.Class.define("qx.ui.window.Manager",
     // interface implementation
     updateStack : function()
     {
-      this._desktop.unblockContent();
+      this.__desktop.unblockContent();
 
-      var windows = this._desktop.getWindows();
+      var windows = this.__desktop.getWindows();
       var zIndex = this._minZIndex - 1;
       var hasActive = false;
       var win, last;
@@ -69,7 +72,7 @@ qx.Class.define("qx.ui.window.Manager",
 
         // move blocker below the topmost modal window
         if (win.getModal()) {
-          this._desktop.blockContent(zIndex - 1);
+          this.__desktop.blockContent(zIndex - 1);
         }
 
         // ensure that at least one window is active
@@ -86,7 +89,7 @@ qx.Class.define("qx.ui.window.Manager",
     // interface implementation
     bringToFront : function(win)
     {
-      var windows = this._desktop.getWindows();
+      var windows = this.__desktop.getWindows();
 
       var removed = qx.lang.Array.remove(windows, win);
       if (removed)
@@ -100,7 +103,7 @@ qx.Class.define("qx.ui.window.Manager",
     // interface implementation
     sendToBack : function(win)
     {
-      var windows = this._desktop.getWindows();
+      var windows = this.__desktop.getWindows();
 
       var removed = qx.lang.Array.remove(_windows, win);
       if (removed)

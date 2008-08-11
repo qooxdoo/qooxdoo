@@ -44,6 +44,10 @@ qx.Mixin.define("qx.ui.window.MDesktop",
 
   members :
   {
+    __windows : null,
+    __manager: null,
+
+
     /**
      * Get the desktop's window manager. Each desktop must have a window manager.
      * If none is configured the default window maanger {@link qx.ui.window.Window#DEFAULT_MANAGER_CLASS}
@@ -197,10 +201,10 @@ qx.Mixin.define("qx.ui.window.MDesktop",
      */
     getWindows : function()
     {
-      if (!this._windows) {
-        this._windows = [];
+      if (!this.__windows) {
+        this.__windows = [];
       }
-      return this._windows;
+      return this.__windows;
     }
   }
 });
