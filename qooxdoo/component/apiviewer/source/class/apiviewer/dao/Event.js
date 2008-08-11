@@ -41,10 +41,6 @@ qx.Class.define("apiviewer.dao.Event", {
       }
     },
 
-    _initializeFields : function() {
-      this.base(arguments);
-    },
-
     _addChildNode : function(childNode)
     {
       switch (childNode.type) {

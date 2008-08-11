@@ -154,8 +154,10 @@ qx.Class.define("apiviewer.dao.Package", {
     },
 
 
-    _initializeFields : function() {
+    _initializeFields : function()
+    {
       this.base(arguments);
+
       this._classes = [];
       this._packages = [];
     },
