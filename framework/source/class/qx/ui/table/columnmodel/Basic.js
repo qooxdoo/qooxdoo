@@ -155,6 +155,16 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
 
 
     /**
+     * Return the array of visible columns
+     *
+     * @param {Array} List of all visible columns
+     */
+    getVisibleColumns : function() {
+      return this.__visibleColumnArr;
+    },
+
+
+    /**
      * Sets the width of a column.
      *
      * @param col {Integer} the model index of the column.

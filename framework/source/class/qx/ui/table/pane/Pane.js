@@ -47,6 +47,8 @@ qx.Class.define("qx.ui.table.pane.Pane",
 
     this.__lastColCount = 0;
     this.__lastRowCount = 0;
+
+    this.__rowCache = [];
   },
 
 
@@ -130,6 +132,10 @@ qx.Class.define("qx.ui.table.pane.Pane",
 
     __focusedRow : null,
     __focusedCol : null,
+
+    // sparse array to cache rendered rows
+    __rowCache : null,
+    __rowCacheCount : 0,
 
 
     // property modifier
@@ -276,11 +282,6 @@ qx.Class.define("qx.ui.table.pane.Pane",
     },
 
 
-    // sparse array to cache rendered rows
-    __rowCache : [],
-    __rowCacheCount : 0,
-
-
     // property apply method
     _applyMaxCacheLines : function(value, old)
     {
@@ -293,7 +294,8 @@ qx.Class.define("qx.ui.table.pane.Pane",
     /**
      * Clear the row cache
      */
-    __rowCacheClear : function() {
+    __rowCacheClear : function()
+    {
       this.__rowCache = [];
       this.__rowCacheCount = 0;
     },
@@ -627,6 +629,7 @@ qx.Class.define("qx.ui.table.pane.Pane",
       var elem = this.getContentElement().getDomElement();
       if (!elem) {
         // pane has not yet been rendered
+        this.addListenerOnce("appear", arguments.callee, this);
         return;
       }
 
