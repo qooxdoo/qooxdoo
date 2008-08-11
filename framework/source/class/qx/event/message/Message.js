@@ -33,6 +33,10 @@ qx.Class.define("qx.event.message.Message",
   *****************************************************************************
   */
 
+  /**
+   * @param name {String} The name of the message
+   * @param data {var} Any type of data to attach
+   */
   construct : function(name, data)
   {
     this.base(arguments);
