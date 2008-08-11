@@ -241,7 +241,8 @@
               [
                 "${RESPATH}/${MODERN}/window/close-*.png",
                 "${RESPATH}/${MODERN}/window/minimize-*.png",
-                "${RESPATH}/${MODERN}/window/maximize-*.png"
+                "${RESPATH}/${MODERN}/window/maximize-*.png",
+                "${RESPATH}/${MODERN}/window/restore-*.png"                
               ],
              "layout" : "horizontal"
           },
