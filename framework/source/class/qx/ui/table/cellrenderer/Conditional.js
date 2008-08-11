@@ -22,7 +22,10 @@
 
 ************************************************************************ */
 
-
+/**
+ * The conditional cell renderer allows special per cell formatting based on
+ * conditions on the cell's value.
+ */
 qx.Class.define("qx.ui.table.cellrenderer.Conditional",
 {
   extend : qx.ui.table.cellrenderer.Default,
