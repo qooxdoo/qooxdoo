@@ -101,7 +101,6 @@ qx.Class.define("qx.ui.progressive.headfoot.TableHeading",
       refine : true,
       init : "progressive-table-header"
     }
-    
   },
 
   members :
