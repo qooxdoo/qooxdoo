@@ -20,6 +20,9 @@
 
 ************************************************************************ */
 
+/**
+ * Statics around created qooxdoo instances.
+ */
 qx.Class.define("qx.dev.ObjectSummary",
 {
   statics:
