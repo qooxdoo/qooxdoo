@@ -102,18 +102,6 @@
       }
     },
 
-    "localize-all" :
-    {
-      "extend" : ["common"],
-
-      "localize" :
-      {
-        "locales" : ["de", "en", "fr"]
-      }
-    },
-
-
-
     // Feedreader Jobs
 
     "api-feedreader" :
@@ -124,16 +112,6 @@
       "api" :
       {
         "path" : "application/apiviewer/source/script"
-      }
-    },
-
-    "po-feedreader" :
-    {
-      "extend" : ["common"],
-
-      "localize" :
-      {
-        "update" : ["feedreader"]
       }
     },
 
@@ -152,13 +130,10 @@
       {
         "file" : "feedreader-source.js",
         "root" : ".",
+        "locales" : ["en", "de", "es", "it"],
         "gzip" : "true"
       },
 
-      "localize" :
-      {
-        "locales" : ["en", "de", "es", "it"]
-      }
     },
 
     "source-feedreader-parts" :
@@ -175,11 +150,6 @@
           "table" : ["feedreader.view.Table"],
           "tree" : ["feedreader.view.Tree"]
         }
-      },
-
-      "localize" :
-      {
-        "locales" : ["en", "de", "es", "it"]
       }
     },
 
@@ -204,6 +174,7 @@
         "file" : "application/feedreader/build/script/feedreader.js",
         "root" : ".",
         "uri" : "script/feedreader.js",
+        "locales" : ["en", "de", "es", "it"],
         "optimize" : [ "variables", "basecalls", "privates" ]
       }
     },
