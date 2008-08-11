@@ -32,7 +32,7 @@ qx.Class.define("qx.ui.table.model.Filtered",
 
     this.numericAllowed = new Array("==", "!=", ">", "<", ">=", "<=");
     this.betweenAllowed = new Array("between", "!between");
-    this._applyingFilters = false;
+    this.__applyingFilters = false;
     this.Filters = new Array();
 
   },
@@ -40,6 +40,10 @@ qx.Class.define("qx.ui.table.model.Filtered",
 
   members :
   {
+    __fullArr : null,
+    __applyingFilters : null,
+
+
     /**
      * Whether the given string (needle) is in the array (haystack)
      *
@@ -171,7 +175,8 @@ qx.Class.define("qx.ui.table.model.Filtered",
       var i;
       var filter_test;
       var compareValue;
-      var rowLength = this._rowArr.length;
+      var rowArr = this.getData();
+      var rowLength = rowArr.length;
       for (var row = 0; row<rowLength;row++)
       {
         filter_test = false;
@@ -273,7 +278,7 @@ qx.Class.define("qx.ui.table.model.Filtered",
       var data =
       {
         firstRow    : 0,
-        lastRow     : this._rowArr - 1,
+        lastRow     : rowArr - 1,
         firstColumn : 0,
         lastColumn  : this.getColumnCount() - 1
       };
@@ -299,10 +304,12 @@ qx.Class.define("qx.ui.table.model.Filtered",
      */
     hideRows : function(rowNum, numOfRows, dispatchEvent)
     {
+      var rowArr = this.getData();
+
       dispatchEvent = (dispatchEvent != null ? dispatchEvent : true);
-      if (!this._applyingFilters) {
-        this._fullArr = this._rowArr.slice();
-        this._applyingFilters = true;
+      if (!this.__applyingFilters) {
+        this.__fullArr = rowArr.slice();
+        this.__applyingFilters = true;
       }
 
       if (numOfRows == null || numOfRows < 1) {
@@ -310,9 +317,9 @@ qx.Class.define("qx.ui.table.model.Filtered",
       }
 
       for (var kludge = rowNum;
-           kludge<(this._rowArr.length - numOfRows);
+           kludge<(rowArr.length - numOfRows);
            kludge++) {
-        this._rowArr[kludge] = this._rowArr[kludge + numOfRows];
+        rowArr[kludge] = rowArr[kludge + numOfRows];
       }
       this.removeRows(kludge, numOfRows);
 
@@ -322,7 +329,7 @@ qx.Class.define("qx.ui.table.model.Filtered",
         var data =
         {
           firstRow    : 0,
-          lastRow     : this._rowArr.length - 1,
+          lastRow     : rowArr.length - 1,
           firstColumn : 0,
           lastColumn  : this.getColumnCount() - 1
         };
@@ -340,22 +347,13 @@ qx.Class.define("qx.ui.table.model.Filtered",
      */
     resetHiddenRows : function()
     {
-      if (!this._fullArr) {
+      if (!this.__fullArr) {
         // nothing to reset
         return;
       }
-      this.Filters = new Array();
-      this._rowArr = this._fullArr.slice();
+      this.Filters = [];
 
-      // Inform the listeners
-      var data =
-      {
-        firstRow    : 0,
-        lastRow     : this._rowArr.length - 1,
-        firstColumn : 0,
-        lastColumn  : this.getColumnCount() - 1
-      };
-      this.fireDataEvent(qx.ui.table.ITableModel.EVENT_TYPE_DATA_CHANGED, data);
+      this.setData(this.__fullArr);
     }
   },
 
@@ -363,8 +361,7 @@ qx.Class.define("qx.ui.table.model.Filtered",
   destruct : function()
   {
     this._disposeFields(
-      "_rowArr",
-      "_fullArr",
+      "__fullArr",
       "numericAllowed",
       "betweenAllowed",
       "Filters"

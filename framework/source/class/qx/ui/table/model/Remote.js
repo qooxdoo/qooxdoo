@@ -45,32 +45,32 @@ qx.Class.define("qx.ui.table.model.Remote",
   {
     this.base(arguments);
 
-    this._sortColumnIndex = -1;
-    this._sortAscending = true;
-    this._rowCount = -1;
+    this.__sortColumnIndex = -1;
+    this.__sortAscending = true;
+    this.__rowCount = -1;
 
-    this._lruCounter = 0;
+    this.__lruCounter = 0;
 
     // Holds the index of the first block that is currently loading.
     // Is -1 if there is currently no request on its way.
-    this._firstLoadingBlock = -1;
+    this.__firstLoadingBlock = -1;
 
     // Holds the index of the first row that should be loaded when the response of
     // the current request arrives. Is -1 we need no following request.
-    this._firstRowToLoad = -1;
+    this.__firstRowToLoad = -1;
 
-    // Counterpart to _firstRowToLoad
-    this._lastRowToLoad = -1;
+    // Counterpart to __firstRowToLoad
+    this.__lastRowToLoad = -1;
 
     // Holds whether the current request will bring obsolete data. When true the
     // response of the current request will be ignored.
-    this._ignoreCurrentRequest = false;
+    this.__ignoreCurrentRequest = false;
 
-    this._rowBlockCache = {};
-    this._rowBlockCount = 0;
+    this.__rowBlockCache = {};
+    this.__rowBlockCount = 0;
 
-    this._sortableColArr = null;
-    this._editableColArr = null;
+    this.__sortableColArr = null;
+    this.__editableColArr = null;
   },
 
 
@@ -122,19 +122,36 @@ qx.Class.define("qx.ui.table.model.Remote",
 
   members :
   {
+    __rowCount : null,
+    __ignoreCurrentRequest : null,
+
+    __lruCounter : null,
+    __firstLoadingBlock : null,
+    __firstRowToLoad : null,
+    __lastRowToLoad : null,
+    __rowBlockCache : null,
+    __rowBlockCount : null,
+
+    __sortColumnIndex : null,
+    __sortAscending : null,
+
+    __editableColArr : null,
+    __sortableColArr : null,
+
+
     // overridden
     getRowCount : function()
     {
-      if (this._rowCount == -1)
+      if (this.__rowCount == -1)
       {
         this._loadRowCount();
 
-        // NOTE: _loadRowCount may set this._rowCount
-        return (this._rowCount == -1) ? 0 : this._rowCount;
+        // NOTE: _loadRowCount may set this.__rowCount
+        return (this.__rowCount == -1) ? 0 : this.__rowCount;
       }
       else
       {
-        return this._rowCount;
+        return this.__rowCount;
       }
     },
 
@@ -168,7 +185,7 @@ qx.Class.define("qx.ui.table.model.Remote",
         rowCount = 0;
       }
 
-      this._rowCount = rowCount;
+      this.__rowCount = rowCount;
 
       // Inform the listeners
       var data =
@@ -194,22 +211,22 @@ qx.Class.define("qx.ui.table.model.Remote",
 
       // If there is currently a request on its way, then this request will bring
       // obsolete data -> Ignore it
-      if (this._firstLoadingBlock != -1) {
+      if (this.__firstLoadingBlock != -1) {
         var cancelingSuceed = this._cancelCurrentRequest();
         if (cancelingSuceed) {
           // The request was cancelled -> We're not loading any blocks any more
-          this._firstLoadingBlock = -1;
-          this._ignoreCurrentRequest = false;
+          this.__firstLoadingBlock = -1;
+          this.__ignoreCurrentRequest = false;
         } else {
           // The request was not cancelled -> Ignore it
-          this._ignoreCurrentRequest = true;
+          this.__ignoreCurrentRequest = true;
         }
       }
 
       // Forget a possibly outstanding request
       // (_loadRowCount will tell the listeners anyway, that the whole table changed)
-      this._firstRowToLoad = -1;
-      this._lastRowToLoad = -1;
+      this.__firstRowToLoad = -1;
+      this.__lastRowToLoad = -1;
 
       // NOTE: This will inform the listeners as soon as the new row count is known
       this._loadRowCount();
@@ -223,8 +240,8 @@ qx.Class.define("qx.ui.table.model.Remote",
      */
     clearCache : function()
     {
-      this._rowBlockCache = {};
-      this._rowBlockCount = 0;
+      this.__rowBlockCache = {};
+      this.__rowBlockCount = 0;
     },
 
 
@@ -239,12 +256,12 @@ qx.Class.define("qx.ui.table.model.Remote",
      */
     getCacheContent : function() {
       return {
-        sortColumnIndex : this._sortColumnIndex,
-        sortAscending   : this._sortAscending,
-        rowCount        : this._rowCount,
-        lruCounter      : this._lruCounter,
-        rowBlockCache   : this._rowBlockCache,
-        rowBlockCount   : this._rowBlockCount
+        sortColumnIndex : this.__sortColumnIndex,
+        sortAscending   : this.__sortAscending,
+        rowCount        : this.__rowCount,
+        lruCounter      : this.__lruCounter,
+        rowBlockCache   : this.__rowBlockCache,
+        rowBlockCount   : this.__rowBlockCount
       };
     },
 
@@ -258,7 +275,7 @@ qx.Class.define("qx.ui.table.model.Remote",
     {
       // If there is currently a request on its way, then this request will bring
       // obsolete data -> Ignore it
-      if (this._firstLoadingBlock != -1)
+      if (this.__firstLoadingBlock != -1)
       {
         // Try to cancel the current request
         var cancelingSuceed = this._cancelCurrentRequest();
@@ -266,29 +283,29 @@ qx.Class.define("qx.ui.table.model.Remote",
         if (cancelingSuceed)
         {
           // The request was cancelled -> We're not loading any blocks any more
-          this._firstLoadingBlock = -1;
-          this._ignoreCurrentRequest = false;
+          this.__firstLoadingBlock = -1;
+          this.__ignoreCurrentRequest = false;
         }
         else
         {
           // The request was not cancelled -> Ignore it
-          this._ignoreCurrentRequest = true;
+          this.__ignoreCurrentRequest = true;
         }
       }
 
       // Restore the cache content
-      this._sortColumnIndex = cacheContent.sortColumnIndex;
-      this._sortAscending = cacheContent.sortAscending;
-      this._rowCount = cacheContent.rowCount;
-      this._lruCounter = cacheContent.lruCounter;
-      this._rowBlockCache = cacheContent.rowBlockCache;
-      this._rowBlockCount = cacheContent.rowBlockCount;
+      this.__sortColumnIndex = cacheContent.sortColumnIndex;
+      this.__sortAscending = cacheContent.sortAscending;
+      this.__rowCount = cacheContent.rowCount;
+      this.__lruCounter = cacheContent.lruCounter;
+      this.__rowBlockCache = cacheContent.rowBlockCache;
+      this.__rowBlockCount = cacheContent.rowBlockCount;
 
       // Inform the listeners
       var data =
       {
         firstRow    : 0,
-        lastRow     : this._rowCount - 1,
+        lastRow     : this.__rowCount - 1,
         firstColumn : 0,
         lastColumn  : this.getColumnCount() - 1
       };
@@ -332,7 +349,7 @@ qx.Class.define("qx.ui.table.model.Remote",
       // Remove the row and move the rows of all following blocks
       for (var block=0; block<=blockCount; block++)
       {
-        var blockData = this._rowBlockCache[block];
+        var blockData = this.__rowBlockCache[block];
 
         if (blockData != null)
         {
@@ -357,10 +374,10 @@ qx.Class.define("qx.ui.table.model.Remote",
     prefetchRows : function(firstRowIndex, lastRowIndex)
     {
       // this.debug("Prefetch wanted: " + firstRowIndex + ".." + lastRowIndex);
-      if (this._firstLoadingBlock == -1)
+      if (this.__firstLoadingBlock == -1)
       {
         var blockSize = this.getBlockSize();
-        var totalBlockCount = Math.ceil(this._rowCount / blockSize);
+        var totalBlockCount = Math.ceil(this.__rowCount / blockSize);
 
         // There is currently no request running -> Start a new one
         // NOTE: We load one more block above and below to have a smooth
@@ -383,7 +400,7 @@ qx.Class.define("qx.ui.table.model.Remote",
 
         for (var block=firstBlock; block<=lastBlock; block++)
         {
-          if (this._rowBlockCache[block] == null || this._rowBlockCache[block].isDirty)
+          if (this.__rowBlockCache[block] == null || this.__rowBlockCache[block].isDirty)
           {
             // We don't have this block
             if (firstBlockToLoad == -1) {
@@ -397,10 +414,10 @@ qx.Class.define("qx.ui.table.model.Remote",
         // Load the blocks
         if (firstBlockToLoad != -1)
         {
-          this._firstRowToLoad = -1;
-          this._lastRowToLoad = -1;
+          this.__firstRowToLoad = -1;
+          this.__lastRowToLoad = -1;
 
-          this._firstLoadingBlock = firstBlockToLoad;
+          this.__firstLoadingBlock = firstBlockToLoad;
 
           // this.debug("Starting server request. rows: " + firstRowIndex + ".." + lastRowIndex + ", blocks: " + firstBlockToLoad + ".." + lastBlockToLoad);
           this._loadRowData(firstBlockToLoad * blockSize, (lastBlockToLoad + 1) * blockSize - 1);
@@ -410,8 +427,8 @@ qx.Class.define("qx.ui.table.model.Remote",
       {
         // There is already a request running -> Remember this request
         // so it can be executed after the current one is finished.
-        this._firstRowToLoad = firstRowIndex;
-        this._lastRowToLoad = lastRowIndex;
+        this.__firstRowToLoad = firstRowIndex;
+        this.__lastRowToLoad = lastRowIndex;
       }
     },
 
@@ -443,7 +460,7 @@ qx.Class.define("qx.ui.table.model.Remote",
      */
     _onRowDataLoaded : function(rowDataArr)
     {
-      if (rowDataArr != null && !this._ignoreCurrentRequest)
+      if (rowDataArr != null && !this.__ignoreCurrentRequest)
       {
         var blockSize = this.getBlockSize();
         var blockCount = Math.ceil(rowDataArr.length / blockSize);
@@ -451,7 +468,7 @@ qx.Class.define("qx.ui.table.model.Remote",
         if (blockCount == 1)
         {
           // We got one block -> Use the rowData directly
-          this._setRowBlockData(this._firstLoadingBlock, rowDataArr);
+          this._setRowBlockData(this.__firstLoadingBlock, rowDataArr);
         }
         else
         {
@@ -466,16 +483,16 @@ qx.Class.define("qx.ui.table.model.Remote",
               blockRowData.push(rowDataArr[rowOffset + row]);
             }
 
-            this._setRowBlockData(this._firstLoadingBlock + i, blockRowData);
+            this._setRowBlockData(this.__firstLoadingBlock + i, blockRowData);
           }
         }
 
-        // this.debug("Got server answer. blocks: " + this._firstLoadingBlock + ".." + (this._firstLoadingBlock + blockCount - 1) + ". mail count: " + rowDataArr.length + " block count:" + blockCount);
+        // this.debug("Got server answer. blocks: " + this.__firstLoadingBlock + ".." + (this.__firstLoadingBlock + blockCount - 1) + ". mail count: " + rowDataArr.length + " block count:" + blockCount);
         // Inform the listeners
         var data =
         {
-          firstRow    : this._firstLoadingBlock * blockSize,
-          lastRow     : (this._firstLoadingBlock + blockCount + 1) * blockSize - 1,
+          firstRow    : this.__firstLoadingBlock * blockSize,
+          lastRow     : (this.__firstLoadingBlock + blockCount + 1) * blockSize - 1,
           firstColumn : 0,
           lastColumn  : this.getColumnCount() - 1
         };
@@ -484,12 +501,12 @@ qx.Class.define("qx.ui.table.model.Remote",
       }
 
       // We're not loading any blocks any more
-      this._firstLoadingBlock = -1;
-      this._ignoreCurrentRequest = false;
+      this.__firstLoadingBlock = -1;
+      this.__ignoreCurrentRequest = false;
 
       // Check whether we have to start a new request
-      if (this._firstRowToLoad != -1) {
-        this.prefetchRows(this._firstRowToLoad, this._lastRowToLoad);
+      if (this.__firstRowToLoad != -1) {
+        this.prefetchRows(this.__firstRowToLoad, this.__lastRowToLoad);
       }
     },
 
@@ -503,22 +520,22 @@ qx.Class.define("qx.ui.table.model.Remote",
      */
     _setRowBlockData : function(block, rowDataArr)
     {
-      if (this._rowBlockCache[block] == null)
+      if (this.__rowBlockCache[block] == null)
       {
 
         // This is a new block -> Check whether we have to remove another block first
-        this._rowBlockCount++;
+        this.__rowBlockCount++;
 
-        while (this._rowBlockCount > this.getMaxCachedBlockCount())
+        while (this.__rowBlockCount > this.getMaxCachedBlockCount())
         {
           // Find the last recently used block
           // NOTE: We never remove block 0 and 1
           var lruBlock;
-          var minLru = this._lruCounter;
+          var minLru = this.__lruCounter;
 
-          for (var currBlock in this._rowBlockCache)
+          for (var currBlock in this.__rowBlockCache)
           {
-            var currLru = this._rowBlockCache[currBlock].lru;
+            var currLru = this.__rowBlockCache[currBlock].lru;
 
             if (currLru < minLru && currBlock > 1)
             {
@@ -528,15 +545,15 @@ qx.Class.define("qx.ui.table.model.Remote",
           }
 
           // Remove that block
-          // this.debug("Removing block: " + lruBlock + ". current LRU: " + this._lruCounter);
-          delete this._rowBlockCache[lruBlock];
-          this._rowBlockCount--;
+          // this.debug("Removing block: " + lruBlock + ". current LRU: " + this.__lruCounter);
+          delete this.__rowBlockCache[lruBlock];
+          this.__rowBlockCount--;
         }
       }
 
-      this._rowBlockCache[block] =
+      this.__rowBlockCache[block] =
       {
-        lru        : ++this._lruCounter,
+        lru        : ++this.__lruCounter,
         rowDataArr : rowDataArr
       };
     },
@@ -574,7 +591,7 @@ qx.Class.define("qx.ui.table.model.Remote",
         // Remove the row and move the rows of all following blocks
         for (var block=startBlock; block<=blockCount; block++)
         {
-          var blockData = this._rowBlockCache[block];
+          var blockData = this.__rowBlockCache[block];
 
           if (blockData != null)
           {
@@ -595,14 +612,14 @@ qx.Class.define("qx.ui.table.model.Remote",
               if (blockData.rowDataArr.length == 0)
               {
                 // It is empty now -> Remove it
-                delete this._rowBlockCache[block];
+                delete this.__rowBlockCache[block];
               }
             }
             else
             {
               // Try to copy the first row of the next block to the end of this block
               // so this block can stays clean
-              var nextBlockData = this._rowBlockCache[block + 1];
+              var nextBlockData = this.__rowBlockCache[block + 1];
 
               if (nextBlockData != null) {
                 blockData.rowDataArr.push(nextBlockData.rowDataArr[0]);
@@ -616,8 +633,8 @@ qx.Class.define("qx.ui.table.model.Remote",
           }
         }
 
-        if (this._rowCount != -1) {
-          this._rowCount--;
+        if (this.__rowCount != -1) {
+          this.__rowCount--;
         }
 
         // Inform the listeners
@@ -648,7 +665,7 @@ qx.Class.define("qx.ui.table.model.Remote",
     {
       var blockSize = this.getBlockSize();
       var block = parseInt(rowIndex / blockSize);
-      var blockData = this._rowBlockCache[block];
+      var blockData = this.__rowBlockCache[block];
 
       if (blockData == null)
       {
@@ -660,8 +677,8 @@ qx.Class.define("qx.ui.table.model.Remote",
         var rowData = blockData.rowDataArr[rowIndex - (block * blockSize)];
 
         // Update the last recently used counter
-        if (blockData.lru != this._lruCounter) {
-          blockData.lru = ++this._lruCounter;
+        if (blockData.lru != this.__lruCounter) {
+          blockData.lru = ++this.__lruCounter;
         }
 
         return rowData;
@@ -722,10 +739,10 @@ qx.Class.define("qx.ui.table.model.Remote",
      */
     setEditable : function(editable)
     {
-      this._editableColArr = [];
+      this.__editableColArr = [];
 
       for (var col=0; col<this.getColumnCount(); col++) {
-        this._editableColArr[col] = editable;
+        this.__editableColArr[col] = editable;
       }
 
       this.fireEvent(qx.ui.table.ITableModel.EVENT_TYPE_META_DATA_CHANGED);
@@ -743,11 +760,11 @@ qx.Class.define("qx.ui.table.model.Remote",
     {
       if (editable != this.isColumnEditable(columnIndex))
       {
-        if (this._editableColArr == null) {
-          this._editableColArr = [];
+        if (this.__editableColArr == null) {
+          this.__editableColArr = [];
         }
 
-        this._editableColArr[columnIndex] = editable;
+        this.__editableColArr[columnIndex] = editable;
 
         this.fireEvent(qx.ui.table.ITableModel.EVENT_TYPE_META_DATA_CHANGED);
       }
@@ -756,8 +773,8 @@ qx.Class.define("qx.ui.table.model.Remote",
     // overridden
     isColumnEditable : function(columnIndex)
     {
-      return (this._editableColArr
-              ? (this._editableColArr[columnIndex] == true)
+      return (this.__editableColArr
+              ? (this.__editableColArr[columnIndex] == true)
               : false);
     },
 
@@ -772,11 +789,11 @@ qx.Class.define("qx.ui.table.model.Remote",
     {
       if (sortable != this.isColumnSortable(columnIndex))
       {
-        if (this._sortableColArr == null) {
-          this._sortableColArr = [];
+        if (this.__sortableColArr == null) {
+          this.__sortableColArr = [];
         }
 
-        this._sortableColArr[columnIndex] = sortable;
+        this.__sortableColArr[columnIndex] = sortable;
 
         this.fireEvent(qx.ui.table.ITableModel.EVENT_TYPE_META_DATA_CHANGED);
       }
@@ -786,8 +803,8 @@ qx.Class.define("qx.ui.table.model.Remote",
     isColumnSortable : function(columnIndex)
     {
       return (
-        this._sortableColArr
-        ? (this._sortableColArr[columnIndex] !== false)
+        this.__sortableColArr
+        ? (this.__sortableColArr[columnIndex] !== false)
         : true
       );
     },
@@ -795,10 +812,10 @@ qx.Class.define("qx.ui.table.model.Remote",
     // overridden
     sortByColumn : function(columnIndex, ascending)
     {
-      if (this._sortColumnIndex != columnIndex || this._sortAscending != ascending)
+      if (this.__sortColumnIndex != columnIndex || this.__sortAscending != ascending)
       {
-        this._sortColumnIndex = columnIndex;
-        this._sortAscending = ascending;
+        this.__sortColumnIndex = columnIndex;
+        this.__sortAscending = ascending;
 
         this.clearCache();
 
@@ -809,17 +826,17 @@ qx.Class.define("qx.ui.table.model.Remote",
 
     // overridden
     getSortColumnIndex : function() {
-      return this._sortColumnIndex;
+      return this.__sortColumnIndex;
     },
 
     // overridden
     isSortAscending : function() {
-      return this._sortAscending;
+      return this.__sortAscending;
     }
   },
 
   destruct : function()
   {
-    this._disposeFields("_sortableColArr", "_editableColArr");
+    this._disposeFields("__sortableColArr", "__editableColArr");
   }
 });

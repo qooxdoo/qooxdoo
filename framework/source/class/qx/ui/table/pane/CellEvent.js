@@ -75,7 +75,7 @@ qx.Class.define("qx.ui.table.pane.CellEvent",
      init : function(scroller, me, row, column)
      {
        me.clone(this);
-       this._bubbles = false;
+       this.setBubbles(false);
 
        if (row != null) {
          this.setRow(row);

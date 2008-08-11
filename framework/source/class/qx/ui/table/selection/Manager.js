@@ -75,6 +75,9 @@ qx.Class.define("qx.ui.table.selection.Manager",
 
   members :
   {
+    __lastMouseDownHandled : null,
+
+
     /**
      * Handles the mouse down event.
      *
@@ -92,12 +95,12 @@ qx.Class.define("qx.ui.table.selection.Manager",
         {
           // This index is not selected -> We react when the mouse is pressed (because of drag and drop)
           this._handleSelectEvent(index, evt);
-          this._lastMouseDownHandled = true;
+          this.__lastMouseDownHandled = true;
         }
         else
         {
           // This index is already selected -> We react when the mouse is released (because of drag and drop)
-          this._lastMouseDownHandled = false;
+          this.__lastMouseDownHandled = false;
         }
       }
       else if (evt.isRightPressed() && evt.getModifiers() == 0)
@@ -122,7 +125,7 @@ qx.Class.define("qx.ui.table.selection.Manager",
      */
     handleMouseUp : function(index, evt)
     {
-      if (evt.isLeftPressed() && !this._lastMouseDownHandled) {
+      if (evt.isLeftPressed() && !this.__lastMouseDownHandled) {
         this._handleSelectEvent(index, evt);
       }
     },

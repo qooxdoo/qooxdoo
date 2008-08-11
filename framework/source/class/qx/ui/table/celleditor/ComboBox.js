@@ -132,10 +132,10 @@ qx.Class.define("qx.ui.table.celleditor.ComboBox",
 
       // validation function will be called with new and old value
       var validationFunc = this.getValidationFunction();
-      if ( ! this._done && validationFunc )
+      if ( ! this.__done && validationFunc )
       {
          value = validationFunc( value, cellEditor.originalValue );
-         this._done = true;
+         this.__done = true;
       }
 
       if (typeof cellEditor.originalValue == "number") {

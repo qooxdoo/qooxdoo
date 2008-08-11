@@ -53,14 +53,20 @@ qx.Class.define("qx.ui.table.model.Abstract",
   {
     this.base(arguments);
 
-    this._columnIdArr = [];
-    this._columnNameArr = [];
-    this._columnIndexMap = {};
+    this.__columnIdArr = [];
+    this.__columnNameArr = [];
+    this.__columnIndexMap = {};
   },
 
 
   members :
   {
+    __columnIdArr : null,
+    __columnNameArr : null,
+    __columnIndexMap : null,
+    __internalChange : null,
+
+
     getRowCount : function() {
       throw new Error("getRowCount is abstract");
     },
@@ -109,22 +115,22 @@ qx.Class.define("qx.ui.table.model.Abstract",
 
     // overridden
     getColumnCount : function() {
-      return this._columnIdArr.length;
+      return this.__columnIdArr.length;
     },
 
     // overridden
     getColumnIndexById : function(columnId) {
-      return this._columnIndexMap[columnId];
+      return this.__columnIndexMap[columnId];
     },
 
     // overridden
     getColumnId : function(columnIndex) {
-      return this._columnIdArr[columnIndex];
+      return this.__columnIdArr[columnIndex];
     },
 
     // overridden
     getColumnName : function(columnIndex) {
-      return this._columnNameArr[columnIndex];
+      return this.__columnNameArr[columnIndex];
     },
 
 
@@ -141,19 +147,19 @@ qx.Class.define("qx.ui.table.model.Abstract",
      */
     setColumnIds : function(columnIdArr)
     {
-      this._columnIdArr = columnIdArr;
+      this.__columnIdArr = columnIdArr;
 
       // Create the reverse map
-      this._columnIndexMap = {};
+      this.__columnIndexMap = {};
 
       for (var i=0; i<columnIdArr.length; i++) {
-        this._columnIndexMap[columnIdArr[i]] = i;
+        this.__columnIndexMap[columnIdArr[i]] = i;
       }
 
-      this._columnNameArr = new Array(columnIdArr.length);
+      this.__columnNameArr = new Array(columnIdArr.length);
 
       // Inform the listeners
-      if (!this._internalChange) {
+      if (!this.__internalChange) {
         this.fireEvent(qx.ui.table.ITableModel.EVENT_TYPE_META_DATA_CHANGED);
       }
     },
@@ -172,11 +178,11 @@ qx.Class.define("qx.ui.table.model.Abstract",
      */
     setColumnNamesByIndex : function(columnNameArr)
     {
-      if (this._columnIdArr.length != columnNameArr.length) {
-        throw new Error("this._columnIdArr and columnNameArr have different length: " + this._columnIdArr.length + " != " + columnNameArr.length);
+      if (this.__columnIdArr.length != columnNameArr.length) {
+        throw new Error("this.__columnIdArr and columnNameArr have different length: " + this.__columnIdArr.length + " != " + columnNameArr.length);
       }
 
-      this._columnNameArr = columnNameArr;
+      this.__columnNameArr = columnNameArr;
 
       // Inform the listeners
       this.fireEvent(qx.ui.table.ITableModel.EVENT_TYPE_META_DATA_CHANGED);
@@ -196,10 +202,10 @@ qx.Class.define("qx.ui.table.model.Abstract",
      */
     setColumnNamesById : function(columnNameMap)
     {
-      this._columnNameArr = new Array(this._columnIdArr.length);
+      this.__columnNameArr = new Array(this.__columnIdArr.length);
 
-      for (var i=0; i<this._columnIdArr.length; ++i) {
-        this._columnNameArr[i] = columnNameMap[this._columnIdArr[i]];
+      for (var i=0; i<this.__columnIdArr.length; ++i) {
+        this.__columnNameArr[i] = columnNameMap[this.__columnIdArr[i]];
       }
     },
 
@@ -231,15 +237,15 @@ qx.Class.define("qx.ui.table.model.Abstract",
         throw new Error("columnIdArr and columnNameArr have different length: " + columnIdArr.length + " != " + columnNameArr.length);
       }
 
-      this._internalChange = true;
+      this.__internalChange = true;
       this.setColumnIds(columnIdArr);
-      this._internalChange = false;
+      this.__internalChange = false;
       this.setColumnNamesByIndex(columnNameArr);
     }
   },
 
 
   destruct : function() {
-    this._disposeFields("_columnIdArr", "_columnNameArr", "_columnIndexMap");
+    this._disposeFields("__columnIdArr", "__columnNameArr", "__columnIndexMap");
   }
 });

@@ -28,23 +28,6 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Abstract",
 
 
 
-
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
-  construct : function()
-  {
-    this.base(arguments);
-
-    this._resizeColumnData = [];
-  },
-
-
-
-
   /*
   *****************************************************************************
      MEMBERS
@@ -72,8 +55,8 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Abstract",
      * Called when the table has first been rendered.
      *
      * @abstract
-     * @param tableColumnModel {qx.ui.table.columnmodel.Resize} The table column model in use.  Of particular interest is the property
-     *     <i>_table</i> which is a reference to the table widget.  This allows
+     * @param tableColumnModel {qx.ui.table.columnmodel.Resize} The table column model in use.  Of particular interest is the method
+     *     <i>getTable</i> which is a reference to the table widget.  This allows
      *     access to any other features of the table, for use in calculating widths
      *     of columns.
      * @param event {var} The <i>onappear</i> event object.
@@ -91,8 +74,8 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Abstract",
      * or a parent object changing size causing the table to change size.
      *
      * @abstract
-     * @param tableColumnModel {qx.ui.table.columnmodel.Resize} The table column model in use.  Of particular interest is the property
-     *     <i>_table</i> which is a reference to the table widget.  This allows
+     * @param tableColumnModel {qx.ui.table.columnmodel.Resize} The table column model in use.  Of particular interest is the method
+     *     <i>getTable</i> which is a reference to the table widget.  This allows
      *     access to any other features of the table, for use in calculating widths
      *     of columns.
      * @param event {var} The <i>tableWidthChanged</i> event object.
@@ -109,8 +92,8 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Abstract",
      * from present to not present, or vice versa.
      *
      * @abstract
-     * @param tableColumnModel {qx.ui.table.columnmodel.Resize} The table column model in use.  Of particular interest is the property
-     *     <i>_table</i> which is a reference to the table widget.  This allows
+     * @param tableColumnModel {qx.ui.table.columnmodel.Resize} The table column model in use.  Of particular interest is the method
+     *     <i>getTable</i> which is a reference to the table widget.  This allows
      *     access to any other features of the table, for use in calculating widths
      *     of columns.
      * @param event {var} The <i>verticalScrollBarChanged</i> event object.  This event has data,
@@ -128,8 +111,8 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Abstract",
      * Called when a column width is changed.
      *
      * @abstract
-     * @param tableColumnModel {qx.ui.table.columnmodel.Resize} The table column model in use.  Of particular interest is the property
-     *     <i>_table</i> which is a reference to the table widget.  This allows
+     * @param tableColumnModel {qx.ui.table.columnmodel.Resize} The table column model in use.  Of particular interest is the method
+     *     <i>getTable</i> which is a reference to the table widget.  This allows
      *     access to any other features of the table, for use in calculating widths
      *     of columns.
      * @param event {var} The <i>widthChanged</i> event object.  This event has data, obtained via
@@ -148,8 +131,8 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Abstract",
      * Called when a column visibility is changed.
      *
      * @abstract
-     * @param tableColumnModel {qx.ui.table.columnmodel.Resize} The table column model in use.  Of particular interest is the property
-     *     <i>_table</i> which is a reference to the table widget.  This allows
+     * @param tableColumnModel {qx.ui.table.columnmodel.Resize} The table column model in use.  Of particular interest is the method
+     *     <i>getTable</i> which is a reference to the table widget.  This allows
      *     access to any other features of the table, for use in calculating widths
      *     of columns.
      * @param event {var} The <i>visibilityChanged</i> event object.  This event has data, obtained
@@ -173,43 +156,7 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Abstract",
     _getAvailableWidth : function(tableColumnModel)
     {
       // Get the inner width off the table
-      var table = tableColumnModel._table;
-      var width = table.getBounds().width;
-
-
-      // Get the last meta column scroller
-      var scrollers = tableColumnModel._table._getPaneScrollerArr();
-      var lastScroller = scrollers[scrollers.length - 1];
-
-      // Update the scroll bar visibility so we can determine if the vertical bar
-      // is displayed.  If it is, we'll need to reduce available space by its
-      // width.
-      tableColumnModel._table._updateScrollBarVisibility();
-
-      // If the column visibility button is displayed or a verticalscroll bar is
-      // being displayed, then reduce the available width by the width of those.
-      if (
-        tableColumnModel._table.getColumnVisibilityButtonVisible() ||
-        lastScroller._verScrollBar.isVisible()
-      ) {
-        // provide width without scrollbar space; no scrollbar space available
-        return width - lastScroller._verScrollBar.getBounds().width - 1;
-      }
-
-      return width;
+      var table = tableColumnModel.getTable();
+      return table.getPaneScroller(0).getLayoutParent().getBounds().width;
     }
-  },
-
-
-
-
-  /*
-  *****************************************************************************
-     DESTRUCTOR
-  *****************************************************************************
-  */
-
-  destruct : function() {
-    this._disposeFields("_resizeColumnData");
-  }
-});
+  }});

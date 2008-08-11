@@ -46,7 +46,7 @@ qx.Class.define("qx.ui.table.pane.Model",
 
     tableColumnModel.addListener("visibilityChangedPre", this._onColVisibilityChanged, this);
 
-    this._tableColumnModel = tableColumnModel;
+    this.__tableColumnModel = tableColumnModel;
   },
 
 
@@ -123,17 +123,21 @@ qx.Class.define("qx.ui.table.pane.Model",
 
   members :
   {
+    __columnCount : null,
+    __tableColumnModel : null,
+
+
     // property modifier
     _applyFirstColumnX : function(value, old)
     {
-      this._columnCount = null;
+      this.__columnCount = null;
       this.fireEvent(qx.ui.table.pane.Model.EVENT_TYPE_MODEL_CHANGED);
     },
 
     // property modifier
     _applyMaxColumnCount : function(value, old)
     {
-      this._columnCount = null;
+      this.__columnCount = null;
       this.fireEvent(qx.ui.table.pane.Model.EVENT_TYPE_MODEL_CHANGED);
     },
 
@@ -144,7 +148,7 @@ qx.Class.define("qx.ui.table.pane.Model",
      * @param tableColumnModel {qx.ui.table.columnmodel.Basic} the column model
      */
     setTableColumnModel : function(tableColumnModel) {
-      this._tableColumnModel = tableColumnModel;
+      this.__tableColumnModel = tableColumnModel;
     },
 
 
@@ -156,7 +160,7 @@ qx.Class.define("qx.ui.table.pane.Model",
      */
     _onColVisibilityChanged : function(evt)
     {
-      this._columnCount = null;
+      this.__columnCount = null;
 
       // TODO: Check whether the column is in this model (This is a little bit
       //     tricky, because the column could _have been_ in this model, but is
@@ -172,20 +176,20 @@ qx.Class.define("qx.ui.table.pane.Model",
      */
     getColumnCount : function()
     {
-      if (this._columnCount == null)
+      if (this.__columnCount == null)
       {
         var firstX = this.getFirstColumnX();
         var maxColCount = this.getMaxColumnCount();
-        var totalColCount = this._tableColumnModel.getVisibleColumnCount();
+        var totalColCount = this.__tableColumnModel.getVisibleColumnCount();
 
         if (maxColCount == -1 || (firstX + maxColCount) > totalColCount) {
-          this._columnCount = totalColCount - firstX;
+          this.__columnCount = totalColCount - firstX;
         } else {
-          this._columnCount = maxColCount;
+          this.__columnCount = maxColCount;
         }
       }
 
-      return this._columnCount;
+      return this.__columnCount;
     },
 
 
@@ -198,7 +202,7 @@ qx.Class.define("qx.ui.table.pane.Model",
     getColumnAtX : function(xPos)
     {
       var firstX = this.getFirstColumnX();
-      return this._tableColumnModel.getVisibleColumnAtX(firstX + xPos);
+      return this.__tableColumnModel.getVisibleColumnAtX(firstX + xPos);
     },
 
 
@@ -213,7 +217,7 @@ qx.Class.define("qx.ui.table.pane.Model",
       var firstX = this.getFirstColumnX();
       var maxColCount = this.getMaxColumnCount();
 
-      var x = this._tableColumnModel.getVisibleX(col) - firstX;
+      var x = this.__tableColumnModel.getVisibleX(col) - firstX;
 
       if (x >= 0 && (maxColCount == -1 || x < maxColCount)) {
         return x;
@@ -246,7 +250,7 @@ qx.Class.define("qx.ui.table.pane.Model",
           return left;
         }
 
-        left += this._tableColumnModel.getColumnWidth(currCol);
+        left += this.__tableColumnModel.getColumnWidth(currCol);
       }
 
       return -1;
@@ -266,7 +270,7 @@ qx.Class.define("qx.ui.table.pane.Model",
       for (var x=0; x<colCount; x++)
       {
         var col = this.getColumnAtX(x);
-        totalWidth += this._tableColumnModel.getColumnWidth(col);
+        totalWidth += this.__tableColumnModel.getColumnWidth(col);
       }
 
       return totalWidth;
@@ -283,6 +287,6 @@ qx.Class.define("qx.ui.table.pane.Model",
   */
 
   destruct : function() {
-    this._disposeObjects("_tableColumnModel");
+    this._disposeObjects("__tableColumnModel");
   }
 });

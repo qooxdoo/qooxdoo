@@ -30,7 +30,7 @@ qx.Class.define("qx.ui.table.pane.FocusIndicator",
   construct : function(scroller)
   {
     this.base(arguments);
-    this._scroller = scroller;
+    this.__scroller = scroller;
 
     this.addListener("keypress", this._onKeyPress, this);
   },
@@ -59,6 +59,9 @@ qx.Class.define("qx.ui.table.pane.FocusIndicator",
 
   members :
   {
+    __scroller : null,
+
+
     /**
      * Keypress handler. Suppress all key events but "Enter" and "Escape"
      *
@@ -89,7 +92,7 @@ qx.Class.define("qx.ui.table.pane.FocusIndicator",
       }
       else
       {
-        var xPos = this._scroller.getTablePaneModel().getX(col);
+        var xPos = this.__scroller.getTablePaneModel().getX(col);
 
         if (xPos == -1)
         {
@@ -99,11 +102,11 @@ qx.Class.define("qx.ui.table.pane.FocusIndicator",
         }
         else
         {
-          var table = this._scroller.getTable();
+          var table = this.__scroller.getTable();
           var columnModel = table.getTableColumnModel();
-          var paneModel = this._scroller.getTablePaneModel();
+          var paneModel = this.__scroller.getTablePaneModel();
 
-          var firstRow = this._scroller.getTablePane().getFirstVisibleRow();
+          var firstRow = this.__scroller.getTablePane().getFirstVisibleRow();
           var rowHeight = table.getRowHeight();
 
           this.setUserBounds(
@@ -124,7 +127,7 @@ qx.Class.define("qx.ui.table.pane.FocusIndicator",
   destruct : function ()
   {
      this._disposeFields(
-       "_scroller"
+       "__scroller"
      );
   }
 });

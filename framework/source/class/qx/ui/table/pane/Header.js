@@ -41,7 +41,7 @@ qx.Class.define("qx.ui.table.pane.Header",
     this.base(arguments);
     this._setLayout(new qx.ui.layout.HBox());
 
-    this._paneScroller = paneScroller;
+    this.__paneScroller = paneScroller;
   },
 
 
@@ -57,13 +57,18 @@ qx.Class.define("qx.ui.table.pane.Header",
 
   members :
   {
+    __paneScroller : null,
+    __moveFeedback : null,
+    __lastMouseOverColumn : null,
+
+
     /**
      * Returns the TablePaneScroller this header belongs to.
      *
      * @return {qx.ui.table.pane.Scroller} the TablePaneScroller.
      */
     getPaneScroller : function() {
-      return this._paneScroller;
+      return this.__paneScroller;
     },
 
 
@@ -73,7 +78,7 @@ qx.Class.define("qx.ui.table.pane.Header",
      * @return {qx.ui.table.Table} the table.
      */
     getTable : function() {
-      return this._paneScroller.getTable();
+      return this.__paneScroller.getTable();
     },
 
 
@@ -131,11 +136,11 @@ qx.Class.define("qx.ui.table.pane.Header",
      */
     setMouseOverColumn : function(col)
     {
-      if (col != this._lastMouseOverColumn)
+      if (col != this.__lastMouseOverColumn)
       {
-        if (this._lastMouseOverColumn != null)
+        if (this.__lastMouseOverColumn != null)
         {
-          var widget = this.getHeaderWidgetAtColumn(this._lastMouseOverColumn);
+          var widget = this.getHeaderWidgetAtColumn(this.__lastMouseOverColumn);
 
           if (widget != null) {
             widget.removeState("hovered");
@@ -146,7 +151,7 @@ qx.Class.define("qx.ui.table.pane.Header",
           this.getHeaderWidgetAtColumn(col).addState("hovered");
         }
 
-        this._lastMouseOverColumn = col;
+        this.__lastMouseOverColumn = col;
       }
     },
 
@@ -176,7 +181,7 @@ qx.Class.define("qx.ui.table.pane.Header",
     {
       var pos = this.getContainerLocation();
 
-      if (this._moveFeedback == null)
+      if (this.__moveFeedback == null)
       {
         var xPos = this.getPaneScroller().getTablePaneModel().getX(col);
         var cellWidget = this._getChildren()[xPos];
@@ -204,11 +209,11 @@ qx.Class.define("qx.ui.table.pane.Header",
         feedback.setLayoutProperties({top: pos.top});
 
         this.getApplicationRoot().add(feedback);
-        this._moveFeedback = feedback;
+        this.__moveFeedback = feedback;
       }
 
-      this._moveFeedback.setLayoutProperties({left: pos.left + x});
-      this._moveFeedback.show();
+      this.__moveFeedback.setLayoutProperties({left: pos.left + x});
+      this.__moveFeedback.show();
     },
 
 
@@ -217,11 +222,11 @@ qx.Class.define("qx.ui.table.pane.Header",
      */
     hideColumnMoveFeedback : function()
     {
-      if (this._moveFeedback != null)
+      if (this.__moveFeedback != null)
       {
-        this._moveFeedback.getLayoutParent().remove(this._moveFeedback);
-        this._moveFeedback.dispose();
-        this._moveFeedback = null;
+        this.__moveFeedback.getLayoutParent().remove(this.__moveFeedback);
+        this.__moveFeedback.dispose();
+        this.__moveFeedback = null;
       }
     },
 
@@ -232,7 +237,7 @@ qx.Class.define("qx.ui.table.pane.Header",
      * @return {var} TODOC
      */
     isShowingColumnMoveFeedback : function() {
-      return this._moveFeedback != null;
+      return this.__moveFeedback != null;
     },
 
 
@@ -332,6 +337,6 @@ qx.Class.define("qx.ui.table.pane.Header",
   */
 
   destruct : function() {
-    this._disposeObjects("_paneScroller");
+    this._disposeObjects("__paneScroller");
   }
 });

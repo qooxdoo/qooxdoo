@@ -41,8 +41,8 @@ qx.Class.define("qx.ui.table.cellrenderer.Boolean",
     var aliasManager = qx.util.AliasManager.getInstance();
     var resourceManager = qx.util.ResourceManager;
 
-    this._iconUrlTrue = resourceManager.toUri(aliasManager.resolve("decoration/table/boolean-true.png"));
-    this._iconUrlFalse = resourceManager.toUri(aliasManager.resolve("decoration/table/boolean-false.png"));
+    this.__iconUrlTrue = resourceManager.toUri(aliasManager.resolve("decoration/table/boolean-true.png"));
+    this.__iconUrlFalse = resourceManager.toUri(aliasManager.resolve("decoration/table/boolean-false.png"));
   },
 
 
@@ -56,6 +56,10 @@ qx.Class.define("qx.ui.table.cellrenderer.Boolean",
 
   members :
   {
+    __iconUrlTrue : null,
+    __iconUrlFalse : false,
+
+    // overridden
     _insetY : 5,
 
     // overridden
@@ -76,11 +80,11 @@ qx.Class.define("qx.ui.table.cellrenderer.Boolean",
       switch(cellInfo.value)
       {
         case true:
-          imageHints.url = this._iconUrlTrue;
+          imageHints.url = this.__iconUrlTrue;
           break;
 
         case false:
-          imageHints.url = this._iconUrlFalse;
+          imageHints.url = this.__iconUrlFalse;
           break;
 
         default:
