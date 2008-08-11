@@ -26,6 +26,15 @@
       {
         "command" : "rsync --checksum --compress --recursive --delete --inplace --links --safe-links --exclude .svn api/* root@qooxdoo.org:/var/www/qooxdoo/demo/0.8-rc1-pre/apiviewer"
       }
+    },
+
+    "publish-framework" :
+    {
+        "run" :
+        [
+            //"publish-test",
+            "publish-api"
+        ]
     }
   }
 }
