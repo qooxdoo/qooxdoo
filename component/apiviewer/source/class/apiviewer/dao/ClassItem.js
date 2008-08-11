@@ -71,17 +71,6 @@ qx.Class.define("apiviewer.dao.ClassItem",
 
 
     /**
-     * Get a list of errors of this item.
-     *
-     * @return {Map[]} errors of this item.
-     */
-    getErrors : function()
-    {
-      return this._errors;
-    },
-
-
-    /**
      * Get class description
      *
      * @return {String} class description
@@ -203,10 +192,12 @@ qx.Class.define("apiviewer.dao.ClassItem",
     },
 
 
-    _initializeFields : function() {
+    // overridden
+    _initializeFields : function()
+    {
       this.base(arguments);
+
       this._see = [];
-      this._errors = [];
       this._types = [];
     },
 
@@ -214,9 +205,6 @@ qx.Class.define("apiviewer.dao.ClassItem",
     _addChildNode : function(childNode)
     {
       switch (childNode.type) {
-        case "errors":
-          this._errors = this._createNodeList(childNode);
-          break;
         case "desc":
           this._desc = childNode.attributes.text || "";
           break;

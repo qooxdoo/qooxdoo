@@ -72,6 +72,17 @@ qx.Class.define("apiviewer.dao.Node", {
 
 
     /**
+     * Get a list of errors of this item.
+     *
+     * @return {Map[]} errors of this item.
+     */
+    getErrors : function()
+    {
+      return this._errors;
+    },
+
+
+    /**
      * Get the text of the deprecation message.
      *
      * @return {String} the deprecation message.
@@ -193,6 +204,7 @@ qx.Class.define("apiviewer.dao.Node", {
      * the child nodes are parsed.
      */
     _initializeFields : function() {
+      this._errors = [];
     },
 
 
@@ -207,6 +219,9 @@ qx.Class.define("apiviewer.dao.Node", {
       switch (childNode.type) {
         case "deprecated":
           this._deprecated = childNode.children ? childNode.children[0].attributes.text || "" : "";
+          break;
+        case "errors":
+          this._errors = this._createNodeList(childNode);
           break;
         default:
           return false;
