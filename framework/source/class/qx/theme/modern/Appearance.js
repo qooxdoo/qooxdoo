@@ -404,7 +404,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
 
       style : function(states) {
         return {
-          decorator : states.focused ? "focused-inset" : "inset"
+//          decorator : states.focused ? "focused-inset" : "inset"
         }
       }
     },
@@ -443,7 +443,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
 
       style : function(states) {
         return {
-          decorator : states.focused ? "focused-inset" : "inset"
+          //decorator : states.focused ? "focused-inset" : "inset"
         }
       }
     },
@@ -1811,7 +1811,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
     ---------------------------------------------------------------------------
     */
 
-    "color-popup" :
+    "colorpopup" :
     {
       alias : "popup",
       include : "popup",
@@ -1819,7 +1819,35 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          decorator : "pane"
+          decorator : "pane",
+          padding : 5
+        }
+      }
+    },
+    
+    "colorpopup/field":
+    {
+      style : function(states)
+      {
+        return {
+          decorator : "tooltip",
+          margin : 2,
+          width : 14,
+          height : 14,
+          backgroundColor : "white"
+        }
+      }
+    },
+    
+    "colorpopup/preview-pane":
+    {
+      style : function(state)
+      {
+        return {
+          height : 20,
+          padding: 4,
+          decorator : "tooltip",
+          allowGrowX : true
         }
       }
     },
