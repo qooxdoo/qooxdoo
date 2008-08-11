@@ -41,7 +41,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
   {
     this.base(arguments);
 
-    this._children = [];
+    this.__children = [];
 
     this._setLayout(new qx.ui.layout.HBox());
     this._addWidgets();
@@ -142,6 +142,13 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
 
   members :
   {
+    __children : null,
+    __childrenContainer : null,
+    __labelAdded : null,
+    __iconAdded : null,
+    __spacer : null,
+
+
     /**
      * This method configures the tree item by adding its sub widgets like
      * label, icon, open symbol, ...
@@ -157,7 +164,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
     _createChildControlImpl : function(id)
     {
       var control;
-      
+
       switch(id)
       {
         case "label":
@@ -166,23 +173,23 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
             alignY: "middle"
           });
           break;
-          
+
         case "icon":
           control = new qx.ui.basic.Image().set({
             appearance: this.getAppearance() + "-icon",
             alignY: "middle"
-          });    
-          break;  
-          
+          });
+          break;
+
         case "open":
           control = new qx.ui.tree.FolderOpenButton().set({
             alignY: "middle"
           });
           control.addListener("changeOpen", this._onChangeOpen, this);
-          control.addListener("resize", this._updateIndent, this);        
+          control.addListener("resize", this._updateIndent, this);
           break;
       }
-      
+
       return control || this.base(arguments, id);
     },
 
@@ -235,13 +242,13 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
      */
     addSpacer : function()
     {
-      if (!this._spacer) {
-        this._spacer = new qx.ui.core.Spacer();
+      if (!this.__spacer) {
+        this.__spacer = new qx.ui.core.Spacer();
       } else {
-        this._remove(this._spacer);
+        this._remove(this.__spacer);
       }
-      
-      this._add(this._spacer);
+
+      this._add(this.__spacer);
     },
 
 
@@ -277,12 +284,12 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
     {
       var icon = this._getChildControl("icon");
 
-      if (this._iconAdded) {
+      if (this.__iconAdded) {
         this._remove(icon);
       }
 
       this._add(icon);
-      this._iconAdded = true;
+      this.__iconAdded = true;
     },
 
 
@@ -297,7 +304,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
     {
       var label = this._getChildControl("label");
 
-      if (this._labelAdded) {
+      if (this.__labelAdded) {
         this._remove(label);
       }
 
@@ -308,7 +315,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
       }
 
       this._add(label);
-      this._labelAdded = true;
+      this.__labelAdded = true;
     },
 
 
@@ -420,7 +427,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
       var tree = this.getTree();
       if (!tree.getRootOpenClose())
       {
-        if (tree.getHideRoot()) 
+        if (tree.getHideRoot())
         {
           if (tree.getRoot() == this.getParent()) {
             return false;
@@ -455,7 +462,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
 
       var openWidth = 0;
       var open = this._getChildControl("open", true);
-      
+
       if (open)
       {
         if (this._shouldShowOpenSymbol())
@@ -469,7 +476,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
         }
       }
 
-      this._spacer.setWidth((this.getLevel()+1) * this.getIndent() - openWidth);
+      this.__spacer.setWidth((this.getLevel()+1) * this.getIndent() - openWidth);
     },
 
 
@@ -534,14 +541,14 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
      */
     getChildrenContainer : function()
     {
-      if (!this._childrenContainer)
+      if (!this.__childrenContainer)
       {
-        this._childrenContainer = new qx.ui.container.Composite(new qx.ui.layout.VBox()).set({
+        this.__childrenContainer = new qx.ui.container.Composite(new qx.ui.layout.VBox()).set({
           visibility : this.isOpen() ? "visible" : "excluded"
         });
       }
 
-      return this._childrenContainer;
+      return this.__childrenContainer;
     },
 
 
@@ -579,7 +586,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
      * @return {AbstractTreeItem[]} An array of all child items.
      */
     getChildren : function() {
-      return this._children;
+      return this.__children;
     },
 
 
@@ -589,7 +596,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
      * @return {Boolean} Whether the item has any children.
      */
     hasChildren : function() {
-      return this._children ? this._children.length > 0 : false;
+      return this.__children ? this.__children.length > 0 : false;
     },
 
 
@@ -688,7 +695,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
         if (treeItem.hasChildren()) {
           container.add(treeItem.getChildrenContainer());
         }
-        this._children.push(treeItem);
+        this.__children.push(treeItem);
 
         if (!hasChildren) {
           this.__addChildrenToParent();
@@ -716,12 +723,12 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
     {
       if (qx.core.Variant.isSet("qx.debug", "on")) {
         this.assert(
-          index <= this._children.length && index >= 0,
+          index <= this.__children.length && index >= 0,
           "Invalid child index: " + index
         );
       }
 
-      if (index == this._children.length)
+      if (index == this.__children.length)
       {
         this.add(treeItem);
         return;
@@ -737,13 +744,13 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
       treeItem.setParent(this);
       var hasChildren = this.hasChildren();
 
-      var nextItem = this._children[index];
+      var nextItem = this.__children[index];
       container.addBefore(treeItem, nextItem);
 
       if (treeItem.hasChildren()) {
         container.addAfter(treeItem.getChildrenContainer(), treeItem);
       }
-      qx.lang.Array.insertAt(this._children, treeItem, index);
+      qx.lang.Array.insertAt(this.__children, treeItem, index);
 
       if (!hasChildren) {
         this.__addChildrenToParent();
@@ -766,10 +773,10 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
     addBefore : function(treeItem, before)
     {
       if (qx.core.Variant.isSet("qx.debug", "on")) {
-        this.assert(this._children.indexOf(before) >= 0)
+        this.assert(this.__children.indexOf(before) >= 0)
       }
 
-      this.addAt(treeItem, this._children.indexOf(before))
+      this.addAt(treeItem, this.__children.indexOf(before))
     },
 
 
@@ -782,10 +789,10 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
     addAfter : function(treeItem, after)
     {
       if (qx.core.Variant.isSet("qx.debug", "on")) {
-        this.assert(this._children.indexOf(after) >= 0)
+        this.assert(this.__children.indexOf(after) >= 0)
       }
 
-      this.addAt(treeItem, this._children.indexOf(after)+1)
+      this.addAt(treeItem, this.__children.indexOf(after)+1)
     },
 
 
@@ -809,7 +816,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
       for (var i=0, l=arguments.length; i<l; i++)
       {
         var treeItem = arguments[i];
-        if (this._children.indexOf(treeItem) == -1) {
+        if (this.__children.indexOf(treeItem) == -1) {
           this.warn("Cannot remove treeitem '"+treeItem+"'. It is not a child of this tree item.");
           return;
         }
@@ -819,7 +826,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
         if (treeItem.hasChildren()) {
           container.remove(treeItem.getChildrenContainer());
         }
-        qx.lang.Array.remove(this._children, treeItem);
+        qx.lang.Array.remove(this.__children, treeItem);
 
         treeItem.setParent(null);
         container.remove(treeItem);
@@ -841,7 +848,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
      */
     removeAt : function(index)
     {
-      var item = this._children[index];
+      var item = this.__children[index];
       if (item) {
         this.remove(item);
       }
@@ -853,8 +860,8 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
      */
     removeAll : function()
     {
-      for (var i=this._children.length-1; i>=0; i--) {
-        this.remove(this._children[i]);
+      for (var i=this.__children.length-1; i>=0; i--) {
+        this.remove(this.__children[i]);
       }
     }
   }

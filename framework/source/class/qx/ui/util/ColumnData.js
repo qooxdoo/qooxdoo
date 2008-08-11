@@ -38,9 +38,12 @@ qx.Class.define("qx.ui.util.ColumnData",
 
   members :
   {
+    __computedWidth : null,
+
+
     // overridden
     renderLayout : function(left, top, width, height) {
-      this._computedWidth = width;
+      this.__computedWidth = width;
     },
 
 
@@ -48,7 +51,7 @@ qx.Class.define("qx.ui.util.ColumnData",
      * Get the computed width of the column.
      */
     getComputedWidth : function() {
-      return this._computedWidth;
+      return this.__computedWidth;
     },
 
 

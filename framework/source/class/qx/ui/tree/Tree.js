@@ -193,6 +193,9 @@ qx.Class.define("qx.ui.tree.Tree",
 
   members :
   {
+    __content : null,
+
+
     /*
     ---------------------------------------------------------------------------
       SELECTION API
