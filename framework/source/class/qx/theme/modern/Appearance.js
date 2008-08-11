@@ -613,6 +613,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         if (states.left || states.right)
         {
           return {
+            center : false,
             padding : [0, 0, 0, states.left ? 3 : 4],
             icon : icon,
             width: 15,
@@ -623,6 +624,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         else
         {
           return {
+            center : false,
             padding : [0, 0, 0, 2],
             icon : icon,
             width: 14,
@@ -1219,8 +1221,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          icon : states.active ? states.hovered ? "decoration/window/restore-active-hovered.png" : 
-                                                  "decoration/window/restore-active.png" : 
+          icon : states.active ? states.hovered ? "decoration/window/restore-active-hovered.png" :
+                                                  "decoration/window/restore-active.png" :
                                                   "decoration/window/restore-inactive.png",
           margin : [ 5, 6, 2, 0 ]
         };

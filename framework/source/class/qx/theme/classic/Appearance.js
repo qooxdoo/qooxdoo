@@ -907,6 +907,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
         }
 
         return {
+          center : false,
           padding : padding,
           icon : icon
         }
