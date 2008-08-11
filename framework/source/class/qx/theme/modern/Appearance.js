@@ -1766,7 +1766,6 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          decorator : "pane",
     		  padding : 5
   		  }
       }
@@ -1920,8 +1919,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          decorator : "pane",
-          padding : 5
+          padding : 5,
+          backgroundColor : "background"
         }
       }
     },
