@@ -50,12 +50,10 @@ qx.Class.define("demobrowser.demo.widget.Image",
       container.add(new qx.ui.basic.Image(base + "multimedia-player.png"));
 
       // toggle button
-      var enable = false;
-      var btn = new qx.ui.form.Button("Toggle enabled");
-      btn.addListener("execute", function()
-      {
-        container.setEnabled(enable);
-        enable = !enable;
+      var btn = new qx.ui.form.ToggleButton("Toggle enabled");
+      btn.setChecked(true);
+      btn.addListener("changeChecked", function(e) {
+        container.setEnabled(e.getData());
       });
 
       this.getRoot().add(btn, {left:10, top:140});
