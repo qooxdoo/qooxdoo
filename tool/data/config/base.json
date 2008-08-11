@@ -76,11 +76,6 @@
         "compile" :  "${CACHE}"
       },
 
-      "localize" :
-      {
-        "locales" : "${LOCALES}"
-      },
-
       "settings" :
       {
         "qx.version"     : "${QXVERSION}",
@@ -99,6 +94,7 @@
       "compile-source" :
       {
         "file" : "${ROOT}/source/script/${APPLICATION}.js",
+        "locales" : "${LOCALES}",
         "root" : "source"
       }
     },
@@ -130,6 +126,7 @@
         "uri"  : "script/${APPLICATION}.js",
         "root" : "${BUILD_PATH}",
         "format" : "on",
+        "locales" : "${LOCALES}",
         "optimize" : ["basecalls", "variables", "privates", "strings"]
       }
     },

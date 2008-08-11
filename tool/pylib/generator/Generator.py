@@ -546,16 +546,7 @@ class Generator:
 
 
 
-    def getTranslationMaps(self, parts, packages, variants):
-        # wpbasti: This is mainly an option for source/compile and not a separate job
-        # Should be handled this way!
-        # Still locales are also needed for the locale update process (bring po files in sync with source code)
-        # Double definition is also not nice.
-        locales = self._config.get("localize/locales")
-
-        if locales == None:
-            locales = []
-
+    def getTranslationMaps(self, parts, packages, variants, locales):
         if "C" not in locales:
             locales.append("C")
 
@@ -729,7 +720,8 @@ class Generator:
         self._console.info("Generating boot script...")
 
         # Get translation maps
-        translationMaps = self.getTranslationMaps(parts, packages, variants)
+        locales = self._config.get("compile-dist/locales", [])
+        translationMaps = self.getTranslationMaps(parts, packages, variants, locales)
 
         # wpbasti: Most of this stuff is identical between source/compile. Put together somewhere else.
         bootBlocks = []
@@ -821,7 +813,8 @@ class Generator:
         libs = self._config.get("library", [])
 
         # Get translation maps
-        translationMaps = self.getTranslationMaps(parts, packages, variants)
+        locales = self._config.get("compile-source/locales", [])
+        translationMaps = self.getTranslationMaps(parts, packages, variants, locales)
 
         # Add data from settings, variants and packages
         sourceBlocks = []
