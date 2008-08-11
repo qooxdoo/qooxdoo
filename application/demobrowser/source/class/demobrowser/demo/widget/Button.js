@@ -20,7 +20,7 @@
 
 /* ************************************************************************
 
-#asset(qx/icon/${qx.icontheme}/22/apps/video-player.png)
+#asset(qx/icon/${qx.icontheme}/22/apps/media-video-player.png)
 #asset(qx/icon/${qx.icontheme}/22/apps/internet-mail.png)
 #asset(qx/icon/${qx.icontheme}/22/apps/internet-web-browser.png)
 
@@ -44,9 +44,10 @@ qx.Class.define("demobrowser.demo.widget.Button",
 
       this.getRoot().add(container, {left:0,top:0});
 
-      var btn1 = new qx.ui.form.Button("Button A", "icon/22/apps/video-player.png");
+      var btn1 = new qx.ui.form.Button("Button A", "icon/22/apps/media-video-player.png");
       container.add(btn1);
       var btn2 = new qx.ui.form.Button("Button B", "icon/22/apps/internet-mail.png");
+      btn2.setEnabled(false);
       container.add(btn2);
       var btn3 = new qx.ui.form.ToggleButton("Toggle Button", "icon/22/apps/internet-web-browser.png");
       container.add(btn3);
