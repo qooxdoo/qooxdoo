@@ -1209,7 +1209,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
           icon : states.active ? states.hovered ? "decoration/window/minimize-active-hovered.png" :
                                                   "decoration/window/minimize-active.png" :
                                                   "decoration/window/minimize-inactive.png",
-          margin : [ 4, 6, 2, 0 ]
+          margin : [ 4, 8, 2, 0 ]
         };
       }
     },
@@ -1224,7 +1224,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
           icon : states.active ? states.hovered ? "decoration/window/restore-active-hovered.png" :
                                                   "decoration/window/restore-active.png" :
                                                   "decoration/window/restore-inactive.png",
-          margin : [ 5, 6, 2, 0 ]
+          margin : [ 5, 8, 2, 0 ]
         };
       }
     },
@@ -1239,7 +1239,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
           icon : states.active ? states.hovered ? "decoration/window/maximize-active-hovered.png" :
                                                   "decoration/window/maximize-active.png" :
                                                   "decoration/window/maximize-inactive.png",
-          margin : [ 4, 6, 2, 0 ]
+          margin : [ 4, 8, 2, 0 ]
         };
       }
     },
@@ -1254,7 +1254,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
           icon : states.active ? states.hovered ? "decoration/window/close-active-hovered.png" :
                                                   "decoration/window/close-active.png" :
                                                   "decoration/window/close-inactive.png",
-          margin : [ 4, 6, 2, 0 ]
+          margin : [ 4, 8, 2, 0 ]
         };
       }
     },
@@ -1591,7 +1591,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          icon : "decoration/arrows/down.png"
+          icon : "decoration/arrows/down.png",
+          padding : 2
         };
       }
     },
@@ -1783,8 +1784,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
     },
 
     "colorselector/control-bar" : "widget",
-    
-    
+
+
     "colorselector/control-pane":
     {
       style : function(states)
@@ -1798,8 +1799,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
 
     // TODO: "preset-grid"
     "colorselector/preset-grid" : "widget",
-    
-    
+
+
     "colorselector/preset-grid/colorbucket":
     {
       style : function(states)
@@ -1860,19 +1861,19 @@ qx.Theme.define("qx.theme.modern.Appearance",
         }
       }
     },
-    
-    
+
+
     "colorselector/hue-saturation-field":
     {
       style : function(states)
       {
         return {
           decorator : "tooltip",
-          margin : 5      
+          margin : 5
         }
       }
     },
-    
+
     "colorselector/hue-saturation-handle" : "widget",
 
     "colorselector/brightness-pane":
@@ -1884,7 +1885,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         }
       }
     },
-    
+
     "colorselector/brightness-field":
     {
       style : function(states)
@@ -1895,7 +1896,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         }
       }
     },
-    
+
     "colorselector/brightness-handle" : "widget",
 
 
