@@ -241,7 +241,14 @@ qx.Class.define("qx.ui.control.ColorPopup",
       this._colorSelector.addListener("dialogok", this._onColorSelectorOk, this);
       this._colorSelector.addListener("dialogcancel", this._onColorSelectorCancel, this);
 
-      this._colorSelectorWindow.add(this._colorSelector);
+      // Add container for content
+      var contentContainer = new qx.ui.container.Composite(new qx.ui.layout.VBox(20));
+      contentContainer.set({
+        appearance : "window-pane-content"
+      });
+      this._colorSelectorWindow.add(contentContainer);
+
+      contentContainer.add(this._colorSelector);
     },
 
     /*

@@ -1611,7 +1611,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          decorator : "outset",
     		  padding : 5
   		  }
       }
