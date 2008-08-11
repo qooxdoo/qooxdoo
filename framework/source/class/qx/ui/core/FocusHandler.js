@@ -100,7 +100,7 @@ qx.Class.define("qx.ui.core.FocusHandler",
      * @param widget {qx.ui.core.Widget} The widget to check
      */
     isActive : function(widget) {
-      return this.__activeWidget == widget;
+      return this.__activeChild == widget;
     },
 
 
@@ -110,7 +110,7 @@ qx.Class.define("qx.ui.core.FocusHandler",
      * @param widget {qx.ui.core.Widget} The widget to check
      */
     isFocused : function(widget) {
-      return this.__focusedWidget == widget;
+      return this.__focusedChild == widget;
     },
 
 
