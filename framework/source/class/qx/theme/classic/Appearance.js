@@ -1862,7 +1862,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
         };
       }
     },
-    
+
 
     /*
     ---------------------------------------------------------------------------
@@ -1884,7 +1884,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
         }
       }
     },
-    
+
     "colorpopup/field":
     {
       style : function(states)
@@ -1898,7 +1898,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
         }
       }
     },
-    
+
     "colorpopup/preview-pane":
     {
       style : function(state)
@@ -1910,10 +1910,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
           allowGrowX : true
         }
       }
-    },
-
-
-    
-    
+    }
   }
 });
