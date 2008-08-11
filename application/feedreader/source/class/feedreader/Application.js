@@ -205,29 +205,27 @@ qx.Class.define("feedreader.Application",
       this._toolBarView = new feedreader.view.ToolBar(this);
       dockLayoutComposite.add(this._toolBarView, {edge: "north"});
 
-      // Create horizontal splitter
-      var hBoxLayout = new qx.ui.layout.HBox();
-      hBoxLayout.setSeparator("separator-horizontal");
-      var hBoxComposite = new qx.ui.container.Composite(hBoxLayout);
-      dockLayoutComposite.add(hBoxComposite, {edge: "center"});
-
+      // Create horizontal splitpane for tree and list+article view
+      this._horizontalSplitPane = new qx.ui.splitpane.Pane();
+      dockLayoutComposite.add(this._horizontalSplitPane);
+      
       // Create tree view
       this._treeView = new feedreader.view.Tree(this._feedList);
-      hBoxComposite.add(this._treeView);
-
-      // Create vertical spliter
-      var vBoxLayout = new qx.ui.layout.VBox();
-      vBoxLayout.setSeparator("separator-vertical");
-      var vBoxComposite = new qx.ui.container.Composite(vBoxLayout);
-      hBoxComposite.add(vBoxComposite, {flex: 1});
+      this._treeView.setWidth(250);
+      this._horizontalSplitPane.add(this._treeView, 0);
+      
+      // Create vertical splitpane for list and detail view
+      this._verticalSplitPane = new qx.ui.splitpane.Pane("vertical");
+      this._horizontalSplitPane.add(this._verticalSplitPane, 1);
 
       // Create the list view
       this._listView = new feedreader.view.List(this._feedList);
-      vBoxComposite.add(this._listView, {flex: 1, height : "30%"});
+      this._listView.setHeight(200);
+      this._verticalSplitPane.add(this._listView, 0);
 
       // Create article view
       this._articleView = new feedreader.view.Article();
-      vBoxComposite.add(this._articleView, {flex: 1, height : "70%"});
+      this._verticalSplitPane.add(this._articleView, 1);
     },
 
 
