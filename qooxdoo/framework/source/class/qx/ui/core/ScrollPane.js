@@ -45,7 +45,7 @@ qx.Class.define("qx.ui.core.ScrollPane",
     // Add resize listener to "translate" event
     this.addListener("resize", this._onUpdate);
 
-    var contentEl = getContentElement();
+    var contentEl = this.getContentElement();
 
     // Synchronizes the DOM scroll position with the properties
     contentEl.addListener("scroll", this._onScroll, this);
