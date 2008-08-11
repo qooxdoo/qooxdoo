@@ -494,18 +494,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
     },
 
 
-    "check-groupbox" :
-    {
-      alias : "groupbox",
-      include : "groupbox",
-
-      style : function(states)
-      {
-        return {
-          padding : 10
-        }
-      }
-    },
+    "check-groupbox" : "groupbox",
 
     "check-groupbox/legend" :
     {
@@ -515,27 +504,14 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          backgroundColor : "background",
-          paddingRight    : 3,
-          paddingLeft     : 3,
-          marginRight     : 10,
-          marginLeft      : 10
+          padding   : [1, 0, 1, 4],
+          textColor : "#314a6e",
+          font      : "bold"
         };
       }
     },
 
-    "radio-groupbox" :
-    {
-      alias : "groupbox",
-      include : "groupbox",
-
-      style : function(states)
-      {
-        return {
-          padding : 10
-        }
-      }
-    },
+    "radio-groupbox" : "groupbox",
 
     "radio-groupbox/legend" :
     {
@@ -545,11 +521,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          backgroundColor : "background",
-          paddingRight    : 3,
-          paddingLeft     : 3,
-          marginRight     : 10,
-          marginLeft      : 10
+          padding   : [1, 0, 1, 4],
+          textColor : "#314a6e"
         };
       }
     },
