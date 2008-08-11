@@ -64,6 +64,7 @@
     {
       "let" :
       {
+        "LOCALES" : ["de", "de_DE", "fr", "fr_FR" ],
         "QOOXDOO_PATH" : "../../framework"
       },
 
@@ -81,11 +82,6 @@
       ],
 
       "include" : ["testrunner.TestLoader", "testrunner.test.*"],
-
-      "localize":
-      {
-        "locales" : ["de", "de_DE", "fr", "fr_FR" ]
-      },
 
       "cache" :
       {
@@ -115,6 +111,7 @@
       "compile-source" :
       {
         "file" : "./source/script/tests.js",
+        "locales" : "${LOCALES}",
         "root" : "source/html"
       }
     },
@@ -189,6 +186,7 @@
         "target" : "build",
         "file" : "./build/script/tests.js",
         "uri"  : "../script/tests.js",
+        "locales" : "${LOCALES}",
         "root" : "build/html"
       }
     },
