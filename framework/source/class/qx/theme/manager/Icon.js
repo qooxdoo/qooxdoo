@@ -43,8 +43,7 @@ qx.Class.define("qx.theme.manager.Icon",
     {
       check : "Theme",
       nullable : true,
-      apply : "_applyTheme",
-      event : "changeTheme"
+      apply : "_applyTheme"
     }
   },
 
