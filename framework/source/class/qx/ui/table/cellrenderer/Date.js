@@ -52,7 +52,7 @@ qx.Class.define("qx.ui.table.cellrenderer.Date",
     {
       check : "qx.util.format.DateFormat",
       init : null,
-      apply : "_applyDateFormat"
+      nullable : true
     }
   },
 
@@ -65,24 +65,24 @@ qx.Class.define("qx.ui.table.cellrenderer.Date",
 
   members :
   {
-    _applyDateFormat : function(value, old) {
-      var method;
-      if (value) {
-        method = function(cellInfo) {
-          if (cellInfo.value) {
-            return qx.bom.String.escape(value.format(cellInfo.value));
-          } else {
-            return "";
-          }
-        }
-      } else {
-        method = function(cellInfo) {
-          return cellInfo.value || "";
+    _getContentHtml : function(cellInfo)
+    {
+      var df = this.getDateFormat();
+
+      if (df)
+      {
+        if (cellInfo.value) {
+          return qx.bom.String.escape(df.format(cellInfo.value));
+        } else {
+          return "";
         }
       }
-      // dynamically override _getContentHtml method
-      this._getContentHtml = method;
+      else
+      {
+        return cellInfo.value || "";
+      }
     },
+
 
     // overridden
     _getCellClass : function(cellInfo) {

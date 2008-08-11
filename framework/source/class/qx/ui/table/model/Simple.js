@@ -29,14 +29,14 @@ qx.Class.define("qx.ui.table.model.Simple",
   {
     this.base(arguments);
 
-    this._rowArr = [];
-    this._sortColumnIndex = -1;
-    this._sortAscending;
+    this.__rowArr = [];
+    this.__sortColumnIndex = -1;
+    this.__sortAscending;
 
     // Array of objects, each with property "ascending" and "descending"
-    this._sortMethods = [];
+    this.__sortMethods = [];
 
-    this._editableColArr = null;
+    this.__editableColArr = null;
   },
 
   properties :
@@ -62,13 +62,12 @@ qx.Class.define("qx.ui.table.model.Simple",
      * @param row2 {var} second row
      * @return {Integer} 1 of row1 is > row2, -1 if row1 is < row2, 0 if row1 == row2
      */
-    _defaultSortComparatorAscending :
-      function(row1, row2)
-      {
-        var obj1 = row1[arguments.callee.columnIndex];
-        var obj2 = row2[arguments.callee.columnIndex];
-        return (obj1 > obj2) ? 1 : ((obj1 == obj2) ? 0 : -1);
-      },
+    _defaultSortComparatorAscending : function(row1, row2)
+    {
+      var obj1 = row1[arguments.callee.columnIndex];
+      var obj2 = row2[arguments.callee.columnIndex];
+      return (obj1 > obj2) ? 1 : ((obj1 == obj2) ? 0 : -1);
+    },
 
 
     /**
@@ -78,15 +77,14 @@ qx.Class.define("qx.ui.table.model.Simple",
      * @param row2 {var} second row
      * @return {Integer} 1 of row1 is > row2, -1 if row1 is < row2, 0 if row1 == row2
      */
-      _defaultSortComparatorInsensitiveAscending :
-  function(row1, row2)
-  {
-    var obj1 = (isNaN(row1[arguments.callee.columnIndex]) ?
-          row1[arguments.callee.columnIndex].toLowerCase() : row1[arguments.callee.columnIndex]);
-    var obj2 = (isNaN(row2[arguments.callee.columnIndex]) ?
-          row2[arguments.callee.columnIndex].toLowerCase() : row2[arguments.callee.columnIndex]);
-    return (obj1 > obj2) ? 1 : ((obj1 == obj2) ? 0 : -1);
-  },
+    _defaultSortComparatorInsensitiveAscending : function(row1, row2)
+    {
+      var obj1 = (isNaN(row1[arguments.callee.columnIndex]) ?
+            row1[arguments.callee.columnIndex].toLowerCase() : row1[arguments.callee.columnIndex]);
+      var obj2 = (isNaN(row2[arguments.callee.columnIndex]) ?
+            row2[arguments.callee.columnIndex].toLowerCase() : row2[arguments.callee.columnIndex]);
+      return (obj1 > obj2) ? 1 : ((obj1 == obj2) ? 0 : -1);
+    },
 
 
     /**
@@ -97,13 +95,12 @@ qx.Class.define("qx.ui.table.model.Simple",
      * @param row2 {var} second row
      * @return {Integer} 1 of row1 is > row2, -1 if row1 is < row2, 0 if row1 == row2
      */
-    _defaultSortComparatorDescending :
-      function(row1, row2)
-      {
-        var obj1 = row1[arguments.callee.columnIndex];
-        var obj2 = row2[arguments.callee.columnIndex];
-        return (obj1 < obj2) ? 1 : ((obj1 == obj2) ? 0 : -1);
-      },
+    _defaultSortComparatorDescending : function(row1, row2)
+    {
+      var obj1 = row1[arguments.callee.columnIndex];
+      var obj2 = row2[arguments.callee.columnIndex];
+      return (obj1 < obj2) ? 1 : ((obj1 == obj2) ? 0 : -1);
+    },
 
 
     /**
@@ -113,25 +110,32 @@ qx.Class.define("qx.ui.table.model.Simple",
      * @param row2 {var} second row
      * @return {Integer} 1 of row1 is > row2, -1 if row1 is < row2, 0 if row1 == row2
      */
-      _defaultSortComparatorInsensitiveDescending :
-      function(row1, row2)
-      {
-  var obj1 = (isNaN(row1[arguments.callee.columnIndex]) ?
-        row1[arguments.callee.columnIndex].toLowerCase() : row1[arguments.callee.columnIndex]);
-  var obj2 = (isNaN(row2[arguments.callee.columnIndex]) ?
-        row2[arguments.callee.columnIndex].toLowerCase() : row2[arguments.callee.columnIndex]);
-  return (obj1 < obj2) ? 1 : ((obj1 == obj2) ? 0 : -1);
-      }
+    _defaultSortComparatorInsensitiveDescending : function(row1, row2)
+    {
+      var obj1 = (isNaN(row1[arguments.callee.columnIndex]) ?
+          row1[arguments.callee.columnIndex].toLowerCase() : row1[arguments.callee.columnIndex]);
+      var obj2 = (isNaN(row2[arguments.callee.columnIndex]) ?
+          row2[arguments.callee.columnIndex].toLowerCase() : row2[arguments.callee.columnIndex]);
+      return (obj1 < obj2) ? 1 : ((obj1 == obj2) ? 0 : -1);
+    }
 
   },
 
 
   members :
   {
+    __rowArr : null,
+    __editableColArr : null,
+    __sortableColArr : null,
+    __sortMethods : null,
+    __sortColumnIndex : null,
+    __sortAscending : null,
+
+
     // overridden
     getRowData : function(rowIndex)
     {
-      var rowData = this._rowArr[rowIndex];
+      var rowData = this.__rowArr[rowIndex];
       if (rowData == null || rowData.originalData == null) {
         return rowData;
       } else {
@@ -149,7 +153,7 @@ qx.Class.define("qx.ui.table.model.Simple",
      */
     getRowDataAsMap : function(rowIndex)
     {
-      var columnArr = this._rowArr[rowIndex];
+      var columnArr = this.__rowArr[rowIndex];
       var map = {};
 
       for (var col=0; col<this.getColumnCount(); col++) {
@@ -168,10 +172,10 @@ qx.Class.define("qx.ui.table.model.Simple",
      */
     setEditable : function(editable)
     {
-      this._editableColArr = [];
+      this.__editableColArr = [];
 
       for (var col=0; col<this.getColumnCount(); col++) {
-        this._editableColArr[col] = editable;
+        this.__editableColArr[col] = editable;
       }
 
       this.fireEvent(qx.ui.table.ITableModel.EVENT_TYPE_META_DATA_CHANGED);
@@ -189,11 +193,11 @@ qx.Class.define("qx.ui.table.model.Simple",
     {
       if (editable != this.isColumnEditable(columnIndex))
       {
-        if (this._editableColArr == null) {
-          this._editableColArr = [];
+        if (this.__editableColArr == null) {
+          this.__editableColArr = [];
         }
 
-        this._editableColArr[columnIndex] = editable;
+        this.__editableColArr[columnIndex] = editable;
 
         this.fireEvent(qx.ui.table.ITableModel.EVENT_TYPE_META_DATA_CHANGED);
       }
@@ -201,7 +205,7 @@ qx.Class.define("qx.ui.table.model.Simple",
 
     // overridden
     isColumnEditable : function(columnIndex) {
-      return this._editableColArr ? (this._editableColArr[columnIndex] == true) : false;
+      return this.__editableColArr ? (this.__editableColArr[columnIndex] == true) : false;
     },
 
 
@@ -215,11 +219,11 @@ qx.Class.define("qx.ui.table.model.Simple",
     {
       if (sortable != this.isColumnSortable(columnIndex))
       {
-        if (this._sortableColArr == null) {
-          this._sortableColArr = [];
+        if (this.__sortableColArr == null) {
+          this.__sortableColArr = [];
         }
 
-        this._sortableColArr[columnIndex] = sortable;
+        this.__sortableColArr[columnIndex] = sortable;
         this.fireEvent(qx.ui.table.ITableModel.EVENT_TYPE_META_DATA_CHANGED);
       }
     },
@@ -228,8 +232,8 @@ qx.Class.define("qx.ui.table.model.Simple",
     // overridden
     isColumnSortable : function(columnIndex) {
       return (
-        this._sortableColArr
-        ? (this._sortableColArr[columnIndex] !== false)
+        this.__sortableColArr
+        ? (this.__sortableColArr[columnIndex] !== false)
         : true
       );
     },
@@ -241,7 +245,7 @@ qx.Class.define("qx.ui.table.model.Simple",
       //     because comperators should be really fast.
       var comparator;
 
-      var sortMethods = this._sortMethods[columnIndex];
+      var sortMethods = this.__sortMethods[columnIndex];
       if (sortMethods)
       {
         comparator =
@@ -268,10 +272,10 @@ qx.Class.define("qx.ui.table.model.Simple",
       }
 
       comparator.columnIndex = columnIndex;
-      this._rowArr.sort(comparator);
+      this.__rowArr.sort(comparator);
 
-      this._sortColumnIndex = columnIndex;
-      this._sortAscending = ascending;
+      this.__sortColumnIndex = columnIndex;
+      this.__sortAscending = ascending;
 
       this.fireEvent(qx.ui.table.ITableModel.EVENT_TYPE_META_DATA_CHANGED);
     },
@@ -298,7 +302,7 @@ qx.Class.define("qx.ui.table.model.Simple",
      */
     setSortMethods : function(columnIndex, methods)
     {
-      this._sortMethods[columnIndex] = methods;
+      this.__sortMethods[columnIndex] = methods;
     },
 
 
@@ -307,10 +311,10 @@ qx.Class.define("qx.ui.table.model.Simple",
      */
     clearSorting : function()
     {
-      if (this._sortColumnIndex != -1)
+      if (this.__sortColumnIndex != -1)
       {
-        this._sortColumnIndex = -1;
-        this._sortAscending = true;
+        this.__sortColumnIndex = -1;
+        this.__sortAscending = true;
 
         this.fireEvent(qx.ui.table.ITableModel.EVENT_TYPE_META_DATA_CHANGED);
       }
@@ -318,35 +322,35 @@ qx.Class.define("qx.ui.table.model.Simple",
 
     // overridden
     getSortColumnIndex : function() {
-      return this._sortColumnIndex;
+      return this.__sortColumnIndex;
     },
 
     // overridden
     isSortAscending : function() {
-      return this._sortAscending;
+      return this.__sortAscending;
     },
 
     // overridden
     getRowCount : function() {
-      return this._rowArr.length;
+      return this.__rowArr.length;
     },
 
     // overridden
     getValue : function(columnIndex, rowIndex)
     {
-      if (rowIndex < 0 || rowIndex >= this._rowArr.length) {
-        throw new Error("this._rowArr out of bounds: " + rowIndex + " (0.." + this._rowArr.length + ")");
+      if (rowIndex < 0 || rowIndex >= this.__rowArr.length) {
+        throw new Error("this.__rowArr out of bounds: " + rowIndex + " (0.." + this.__rowArr.length + ")");
       }
 
-      return this._rowArr[rowIndex][columnIndex];
+      return this.__rowArr[rowIndex][columnIndex];
     },
 
     // overridden
     setValue : function(columnIndex, rowIndex, value)
     {
-      if (this._rowArr[rowIndex][columnIndex] != value)
+      if (this.__rowArr[rowIndex][columnIndex] != value)
       {
-        this._rowArr[rowIndex][columnIndex] = value;
+        this.__rowArr[rowIndex][columnIndex] = value;
 
         // Inform the listeners
         if (this.hasListener(qx.ui.table.ITableModel.EVENT_TYPE_DATA_CHANGED))
@@ -362,7 +366,7 @@ qx.Class.define("qx.ui.table.model.Simple",
           this.fireDataEvent(qx.ui.table.ITableModel.EVENT_TYPE_DATA_CHANGED, data);
         }
 
-        if (columnIndex == this._sortColumnIndex) {
+        if (columnIndex == this.__sortColumnIndex) {
           this.clearSorting();
         }
       }
@@ -380,7 +384,7 @@ qx.Class.define("qx.ui.table.model.Simple",
      */
     setData : function(rowArr, clearSorting)
     {
-      this._rowArr = rowArr;
+      this.__rowArr = rowArr;
 
       // Inform the listeners
       var data =
@@ -412,7 +416,7 @@ qx.Class.define("qx.ui.table.model.Simple",
      *           in this model.
      */
     getData : function() {
-      return this._rowArr;
+      return this.__rowArr;
     },
 
 
@@ -446,20 +450,20 @@ qx.Class.define("qx.ui.table.model.Simple",
     addRows : function(rowArr, startIndex, clearSorting)
     {
       if (startIndex == null) {
-        startIndex = this._rowArr.length;
+        startIndex = this.__rowArr.length;
       }
 
       // Prepare the rowArr so it can be used for apply
       rowArr.splice(0, 0, startIndex, 0);
 
       // Insert the new rows
-      Array.prototype.splice.apply(this._rowArr, rowArr);
+      Array.prototype.splice.apply(this.__rowArr, rowArr);
 
       // Inform the listeners
       var data =
       {
         firstRow    : startIndex,
-        lastRow     : this._rowArr.length - 1,
+        lastRow     : this.__rowArr.length - 1,
         firstColumn : 0,
         lastColumn  : this.getColumnCount() - 1
       };
@@ -499,13 +503,13 @@ qx.Class.define("qx.ui.table.model.Simple",
      */
     removeRows : function(startIndex, howMany, clearSorting)
     {
-      this._rowArr.splice(startIndex, howMany);
+      this.__rowArr.splice(startIndex, howMany);
 
       // Inform the listeners
       var data =
       {
         firstRow    : startIndex,
-        lastRow     : this._rowArr.length - 1,
+        lastRow     : this.__rowArr.length - 1,
         firstColumn : 0,
         lastColumn  : this.getColumnCount() - 1,
         removeStart : startIndex,
@@ -557,6 +561,6 @@ qx.Class.define("qx.ui.table.model.Simple",
 
 
   destruct : function() {
-    this._disposeFields("_rowArr", "_editableColArr", "_sortMethods");
+    this._disposeFields("__rowArr", "__editableColArr", "__sortMethods");
   }
 });

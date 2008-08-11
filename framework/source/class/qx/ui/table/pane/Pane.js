@@ -43,10 +43,10 @@ qx.Class.define("qx.ui.table.pane.Pane",
   {
     this.base(arguments);
 
-    this._paneScroller = paneScroller;
+    this.__paneScroller = paneScroller;
 
-    this._lastColCount = 0;
-    this._lastRowCount = 0;
+    this.__lastColCount = 0;
+    this.__lastRowCount = 0;
   },
 
 
@@ -122,6 +122,16 @@ qx.Class.define("qx.ui.table.pane.Pane",
 
   members :
   {
+    __lastRowCount : null,
+    __lastColCount : null,
+
+    __paneScroller : null,
+    __tableContainer : null,
+
+    __focusedRow : null,
+    __focusedCol : null,
+
+
     // property modifier
     _applyFirstVisibleRow : function(value, old) {
       this._updateContent(false, value-old);
@@ -140,7 +150,7 @@ qx.Class.define("qx.ui.table.pane.Pane",
      * @return {qx.ui.table.pane.Scroller} the TablePaneScroller.
      */
     getPaneScroller : function() {
-      return this._paneScroller;
+      return this.__paneScroller;
     },
 
 
@@ -150,7 +160,7 @@ qx.Class.define("qx.ui.table.pane.Pane",
      * @return {qx.ui.table.Table} the table.
      */
     getTable : function() {
-      return this._paneScroller.getTable();
+      return this.__paneScroller.getTable();
     },
 
 
@@ -165,11 +175,11 @@ qx.Class.define("qx.ui.table.pane.Pane",
      */
     setFocusedCell : function(col, row, massUpdate)
     {
-      if (col != this._focusedCol || row != this._focusedRow)
+      if (col != this.__focusedCol || row != this.__focusedRow)
       {
-        var oldRow = this._focusedRow;
-        this._focusedCol = col;
-        this._focusedRow = row;
+        var oldRow = this.__focusedRow;
+        this.__focusedCol = col;
+        this.__focusedRow = row;
 
         // Update the focused row background
         if (row != oldRow && !massUpdate)
@@ -418,7 +428,7 @@ qx.Class.define("qx.ui.table.pane.Pane",
       {
         cellInfo.row = row;
         cellInfo.selected = selectionModel.isSelectedIndex(row);
-        cellInfo.focusedRow = (this._focusedRow == row);
+        cellInfo.focusedRow = (this.__focusedRow == row);
         cellInfo.rowData = tableModel.getRowData(row);
 
         rowRenderer.updateDataRowElement(cellInfo, rowNodes[y]);
@@ -459,7 +469,7 @@ qx.Class.define("qx.ui.table.pane.Pane",
           col: col,
           xPos: x,
           editable: tableModel.isColumnEditable(col),
-          focusedCol: this._focusedCol == col,
+          focusedCol: this.__focusedCol == col,
           styleLeft: left,
           styleWidth: cellWidth
         });
@@ -471,7 +481,7 @@ qx.Class.define("qx.ui.table.pane.Pane",
       for (var row=firstRow; row < firstRow + rowCount; row++)
       {
         var selected = selectionModel.isSelectedIndex(row);
-        var focusedRow = (this._focusedRow == row);
+        var focusedRow = (this.__focusedRow == row);
 
         var cachedRow = this.__rowCacheGet(row, selected, focusedRow);
         if (cachedRow) {
@@ -573,14 +583,14 @@ qx.Class.define("qx.ui.table.pane.Pane",
       }
 
       // render new lines
-      if (!this._tableContainer) {
-        this._tableContainer = document.createElement("div");
+      if (!this.__tableContainer) {
+        this.__tableContainer = document.createElement("div");
       }
       var tableDummy = '<div>';
       tableDummy += this._getRowsHtml(firstRow + addRowBase, Math.abs(rowOffset));
       tableDummy += '</div>';
-      this._tableContainer.innerHTML = tableDummy;
-      var newTableRows = this._tableContainer.firstChild.childNodes;
+      this.__tableContainer.innerHTML = tableDummy;
+      var newTableRows = this.__tableContainer.firstChild.childNodes;
 
       // append new lines
       if (rowOffset > 0)
@@ -601,10 +611,10 @@ qx.Class.define("qx.ui.table.pane.Pane",
       }
 
       // update focus indicator
-      if (this._focusedRow !== null)
+      if (this.__focusedRow !== null)
       {
-        this._updateRowStyles(this._focusedRow - rowOffset);
-        this._updateRowStyles(this._focusedRow);
+        this._updateRowStyles(this.__focusedRow - rowOffset);
+        this._updateRowStyles(this.__focusedRow);
       }
     },
 
@@ -671,8 +681,8 @@ qx.Class.define("qx.ui.table.pane.Pane",
       this.setHeight(rowCount * rowHeight);
       this.setWidth(rowWidth);
 
-      this._lastColCount = colCount;
-      this._lastRowCount = rowCount;
+      this.__lastColCount = colCount;
+      this.__lastRowCount = rowCount;
     }
 
   },
@@ -686,9 +696,7 @@ qx.Class.define("qx.ui.table.pane.Pane",
   *****************************************************************************
   */
 
-  destruct : function()
-  {
-    this._disposeObjects("_paneScroller");
-    this._disposeFields("_tableContainer");
+  destruct : function() {
+    this._disposeFields("__tableContainer", "__paneScroller");
   }
 });

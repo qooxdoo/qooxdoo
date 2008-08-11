@@ -29,20 +29,6 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
 
 
 
-
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
-  construct : function() {
-    this.base(arguments);
-  },
-
-
-
-
   /*
   *****************************************************************************
      EVENTS
@@ -126,6 +112,13 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
 
   members :
   {
+    __internalChange : null,
+    __colToXPosMap : null,
+    __visibleColumnArr : null,
+    __overallColumnArr : null,
+    __columnDataArr : null,
+
+
     /**
      * Initializes the column model.
      *
@@ -134,18 +127,18 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
      */
     init : function(colCount)
     {
-      this._columnDataArr = [];
+      this.__columnDataArr = [];
 
       var width = qx.ui.table.columnmodel.Basic.DEFAULT_WIDTH;
       var headerRenderer = new qx.ui.table.columnmodel.Basic.DEFAULT_HEADER_RENDERER();
       var dataRenderer = new qx.ui.table.columnmodel.Basic.DEFAULT_DATA_RENDERER();
       var editorFactory = new qx.ui.table.columnmodel.Basic.DEFAULT_EDITOR_FACTORY();
-      this._overallColumnArr = [];
-      this._visibleColumnArr = [];
+      this.__overallColumnArr = [];
+      this.__visibleColumnArr = [];
 
       for (var col=0; col<colCount; col++)
       {
-        this._columnDataArr[col] =
+        this.__columnDataArr[col] =
         {
           width          : width,
           headerRenderer : headerRenderer,
@@ -153,11 +146,11 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
           editorFactory  : editorFactory
         };
 
-        this._overallColumnArr[col] = col;
-        this._visibleColumnArr[col] = col;
+        this.__overallColumnArr[col] = col;
+        this.__visibleColumnArr[col] = col;
       }
 
-      this._colToXPosMap = null;
+      this.__colToXPosMap = null;
     },
 
 
@@ -170,11 +163,11 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
      */
     setColumnWidth : function(col, width)
     {
-      var oldWidth = this._columnDataArr[col].width;
+      var oldWidth = this.__columnDataArr[col].width;
 
       if (oldWidth != width)
       {
-        this._columnDataArr[col].width = width;
+        this.__columnDataArr[col].width = width;
 
         var data =
         {
@@ -195,7 +188,7 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
      * @return {Integer} the width of the column in pixels.
      */
     getColumnWidth : function(col) {
-      return this._columnDataArr[col].width;
+      return this.__columnDataArr[col].width;
     },
 
 
@@ -208,7 +201,7 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
      * @return {void}
      */
     setHeaderCellRenderer : function(col, renderer) {
-      this._columnDataArr[col].headerRenderer = renderer;
+      this.__columnDataArr[col].headerRenderer = renderer;
     },
 
 
@@ -219,7 +212,7 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
      * @return {HeaderCellRenderer} the header renderer of the column.
      */
     getHeaderCellRenderer : function(col) {
-      return this._columnDataArr[col].headerRenderer;
+      return this.__columnDataArr[col].headerRenderer;
     },
 
 
@@ -231,7 +224,7 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
      * @return {void}
      */
     setDataCellRenderer : function(col, renderer) {
-      this._columnDataArr[col].dataRenderer = renderer;
+      this.__columnDataArr[col].dataRenderer = renderer;
     },
 
 
@@ -242,7 +235,7 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
      * @return {DataCellRenderer} the data renderer of the column.
      */
     getDataCellRenderer : function(col) {
-      return this._columnDataArr[col].dataRenderer;
+      return this.__columnDataArr[col].dataRenderer;
     },
 
 
@@ -254,7 +247,7 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
      * @return {void}
      */
     setCellEditorFactory : function(col, factory) {
-      this._columnDataArr[col].editorFactory = factory;
+      this.__columnDataArr[col].editorFactory = factory;
     },
 
 
@@ -265,7 +258,7 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
      * @return {CellEditorFactory} the cell editor factory of the column.
      */
     getCellEditorFactory : function(col) {
-      return this._columnDataArr[col].editorFactory;
+      return this.__columnDataArr[col].editorFactory;
     },
 
 
@@ -281,24 +274,24 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
      */
     _getColToXPosMap : function()
     {
-      if (this._colToXPosMap == null)
+      if (this.__colToXPosMap == null)
       {
-        this._colToXPosMap = {};
+        this.__colToXPosMap = {};
 
-        for (var overX=0; overX<this._overallColumnArr.length; overX++)
+        for (var overX=0; overX<this.__overallColumnArr.length; overX++)
         {
-          var col = this._overallColumnArr[overX];
-          this._colToXPosMap[col] = { overX : overX };
+          var col = this.__overallColumnArr[overX];
+          this.__colToXPosMap[col] = { overX : overX };
         }
 
-        for (var visX=0; visX<this._visibleColumnArr.length; visX++)
+        for (var visX=0; visX<this.__visibleColumnArr.length; visX++)
         {
-          var col = this._visibleColumnArr[visX];
-          this._colToXPosMap[col].visX = visX;
+          var col = this.__visibleColumnArr[visX];
+          this.__colToXPosMap[col].visX = visX;
         }
       }
 
-      return this._colToXPosMap;
+      return this.__colToXPosMap;
     },
 
 
@@ -308,7 +301,7 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
      * @return {Integer} the number of visible columns.
      */
     getVisibleColumnCount : function() {
-      return this._visibleColumnArr.length;
+      return this.__visibleColumnArr.length;
     },
 
 
@@ -319,7 +312,7 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
      * @return {Integer} the model index of the column.
      */
     getVisibleColumnAtX : function(visXPos) {
-      return this._visibleColumnArr[visXPos];
+      return this.__visibleColumnArr[visXPos];
     },
 
 
@@ -340,7 +333,7 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
      * @return {Integer} the overall number of columns.
      */
     getOverallColumnCount : function() {
-      return this._overallColumnArr.length;
+      return this.__overallColumnArr.length;
     },
 
 
@@ -351,7 +344,7 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
      * @return {Integer} the model index of the column.
      */
     getOverallColumnAtX : function(overXPos) {
-      return this._overallColumnArr[overXPos];
+      return this.__overallColumnArr[overXPos];
     },
 
 
@@ -402,9 +395,9 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
           // get the visX of the next visible column after the column to show
           var nextVisX;
 
-          for (var x=overX+1; x<this._overallColumnArr.length; x++)
+          for (var x=overX+1; x<this.__overallColumnArr.length; x++)
           {
-            var currCol = this._overallColumnArr[x];
+            var currCol = this.__overallColumnArr[x];
             var currVisX = colToXPosMap[currCol].visX;
 
             if (currVisX != null)
@@ -417,23 +410,23 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
           // If there comes no visible column any more, then show the column
           // at the end
           if (nextVisX == null) {
-            nextVisX = this._visibleColumnArr.length;
+            nextVisX = this.__visibleColumnArr.length;
           }
 
           // Add the column to the visible columns
-          this._visibleColumnArr.splice(nextVisX, 0, col);
+          this.__visibleColumnArr.splice(nextVisX, 0, col);
         }
         else
         {
           var visX = this.getVisibleX(col);
-          this._visibleColumnArr.splice(visX, 1);
+          this.__visibleColumnArr.splice(visX, 1);
         }
 
-        // Invalidate the _colToXPosMap
-        this._colToXPosMap = null;
+        // Invalidate the __colToXPosMap
+        this.__colToXPosMap = null;
 
         // Inform the listeners
-        if (!this._internalChange)
+        if (!this.__internalChange)
         {
           var data =
           {
@@ -458,26 +451,26 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
      */
     moveColumn : function(fromOverXPos, toOverXPos)
     {
-      this._internalChange = true;
+      this.__internalChange = true;
 
-      var col = this._overallColumnArr[fromOverXPos];
+      var col = this.__overallColumnArr[fromOverXPos];
       var visible = this.isColumnVisible(col);
 
       if (visible) {
         this.setColumnVisible(col, false);
       }
 
-      this._overallColumnArr.splice(fromOverXPos, 1);
-      this._overallColumnArr.splice(toOverXPos, 0, col);
+      this.__overallColumnArr.splice(fromOverXPos, 1);
+      this.__overallColumnArr.splice(toOverXPos, 0, col);
 
-      // Invalidate the _colToXPosMap
-      this._colToXPosMap = null;
+      // Invalidate the __colToXPosMap
+      this.__colToXPosMap = null;
 
       if (visible) {
         this.setColumnVisible(col, true);
       }
 
-      this._internalChange = false;
+      this.__internalChange = false;
 
       // Inform the listeners
       var data =
@@ -502,7 +495,7 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
 
   destruct : function()
   {
-    this._disposeFields("_overallColumnArr", "_visibleColumnArr",
-      "_columnDataArr", "_colToXPosMap");
+    this._disposeFields("__overallColumnArr", "__visibleColumnArr",
+      "__columnDataArr", "__colToXPosMap");
   }
 });

@@ -42,12 +42,12 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
 
     // We don't want to recursively call ourself based on our resetting of
     // column sizes.  Track when we're resizing.
-    this._bInProgress = false;
+    this.__bInProgress = false;
 
     // Track when the table has appeared.  We want to ignore resize events
     // until then since we won't be able to determine the available width
     // anyway.
-    this._bAppeared = false;
+    this.__bAppeared = false;
   },
 
 
@@ -89,6 +89,11 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
 
   members :
   {
+    __bAppeared : null,
+    __bInProgress : null,
+    __table : null,
+
+
     // Behavior modifier
     _applyBehavior : function(value, old)
     {
@@ -125,7 +130,7 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
       }
 
       // Save the table so we can get at its features, as necessary.
-      this._table = table;
+      this.__table = table;
 
       // We'll do our column resizing when the table appears, ...
       table.addListener("appear", this._onappear, this);
@@ -159,7 +164,7 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
       );
 
       // We want to manipulate the button visibility menu
-      this._table.addListener(
+      this.__table.addListener(
         "columnVisibilityMenuCreateEnd",
         this._addResetColumnWidthButton,
         this
@@ -167,6 +172,16 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
 
       // Tell the behavior how many columns there are
       this.getBehavior()._setNumColumns(numColumns);
+    },
+
+
+    /**
+     * Get the table widget
+     *
+     * @return {qx.ui.table.Table} the table widget
+     */
+    getTable : function() {
+      return this.__table;
     },
 
 
@@ -210,13 +225,13 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
     _onappear : function(event)
     {
       // Is this a recursive call?
-      if (this._bInProgress)
+      if (this.__bInProgress)
       {
         // Yup.  Ignore it.
         return ;
       }
 
-      this._bInProgress = true;
+      this.__bInProgress = true;
 
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
@@ -229,12 +244,12 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
       // this handler is also called by the "execute" event of the menu button
       this.getBehavior().onAppear(this, event, event.getType() !== "appear");
 
-      this._table._updateScrollerWidths();
-      this._table._updateScrollBarVisibility();
+      this.__table._updateScrollerWidths();
+      this.__table._updateScrollBarVisibility();
 
-      this._bInProgress = false;
+      this.__bInProgress = false;
 
-      this._bAppeared = true;
+      this.__bAppeared = true;
     },
 
 
@@ -249,13 +264,13 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
     _onTableWidthChanged : function(event)
     {
       // Is this a recursive call or has the table not yet been rendered?
-      if (this._bInProgress || !this._bAppeared)
+      if (this.__bInProgress || !this.__bAppeared)
       {
         // Yup.  Ignore it.
         return;
       }
 
-      this._bInProgress = true;
+      this.__bInProgress = true;
 
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
@@ -266,7 +281,7 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
       }
 
       this.getBehavior().onTableWidthChanged(this, event);
-      this._bInProgress = false;
+      this.__bInProgress = false;
     },
 
 
@@ -282,13 +297,13 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
     _onverticalscrollbarchanged : function(event)
     {
       // Is this a recursive call or has the table not yet been rendered?
-      if (this._bInProgress || !this._bAppeared)
+      if (this.__bInProgress || !this.__bAppeared)
       {
         // Yup.  Ignore it.
         return;
       }
 
-      this._bInProgress = true;
+      this.__bInProgress = true;
 
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
@@ -302,14 +317,14 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
 
       qx.event.Timer.once(function()
       {
-        if (this._table && !this._table.isDisposed())
+        if (this.__table && !this.__table.isDisposed())
         {
-          this._table._updateScrollerWidths();
-          this._table._updateScrollBarVisibility();
+          this.__table._updateScrollerWidths();
+          this.__table._updateScrollBarVisibility();
         }
       }, this, 0);
 
-      this._bInProgress = false;
+      this.__bInProgress = false;
     },
 
 
@@ -324,13 +339,13 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
     _oncolumnwidthchanged : function(event)
     {
       // Is this a recursive call or has the table not yet been rendered?
-      if (this._bInProgress || !this._bAppeared)
+      if (this.__bInProgress || !this.__bAppeared)
       {
         // Yup.  Ignore it.
         return;
       }
 
-      this._bInProgress = true;
+      this.__bInProgress = true;
 
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
@@ -341,7 +356,7 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
       }
 
       this.getBehavior().onColumnWidthChanged(this, event);
-      this._bInProgress = false;
+      this.__bInProgress = false;
     },
 
 
@@ -356,13 +371,13 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
     _onvisibilitychanged : function(event)
     {
       // Is this a recursive call or has the table not yet been rendered?
-      if (this._bInProgress || !this._bAppeared)
+      if (this.__bInProgress || !this.__bAppeared)
       {
         // Yup.  Ignore it.
         return;
       }
 
-      this._bInProgress = true;
+      this.__bInProgress = true;
 
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
@@ -373,7 +388,7 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
       }
 
       this.getBehavior().onVisibilityChanged(this, event);
-      this._bInProgress = false;
+      this.__bInProgress = false;
     }
   },
 
@@ -392,6 +407,6 @@ qx.Class.define("qx.ui.table.columnmodel.Resize",
 
   destruct : function()
   {
-    this._disposeFields("_table");
+    this._disposeFields("__table");
   }
 });
