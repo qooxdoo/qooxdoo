@@ -15,6 +15,9 @@
 
 ************************************************************************ */
 
+/**
+ * The image cell renderer renders image into table cells.
+ */
 qx.Class.define("qx.ui.table.cellrenderer.Image",
 {
   extend : qx.ui.table.cellrenderer.AbstractImage,

@@ -38,7 +38,7 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
   *****************************************************************************
   */
 
-  construct : function(table)
+  construct : function()
   {
     this.base(arguments);
 
@@ -46,7 +46,6 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
     this.__fontStyleString = {};
 
     this.__colors = {};
-    this.__table = table;
 
     // link to font theme
     this._renderFont(qx.theme.manager.Font.getInstance().resolve("default"));
@@ -95,7 +94,6 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
     __colors : null,
     __fontStyle : null,
     __fontStyleString : null,
-    __table : null,
 
 
     /**
@@ -220,6 +218,6 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
   */
 
   destruct : function() {
-    this._disposeFields("__colors", "__fontStyle", "__fontStyleString", "__table");
+    this._disposeFields("__colors", "__fontStyle", "__fontStyleString");
   }
 });

@@ -37,7 +37,12 @@ qx.Class.define("qx.ui.table.celleditor.Dynamic",
   *****************************************************************************
   */
 
-  construct : function(cellEditorFactoryFunction) {
+  /**
+   * @param cellEditorFactoryFunction {Function?null} the factory function
+   *    {@link #cellEditorFactoryFunction}.
+   */
+  construct : function(cellEditorFactoryFunction)
+  {
     this.base(arguments);
     if (cellEditorFactoryFunction)
     {
