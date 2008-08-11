@@ -39,57 +39,24 @@ qx.Class.define("demobrowser.demo.widget.Tooltip",
       box.setSpacing(20);
 
       var container = new qx.ui.container.Composite(box).set({
-        padding: [48, 20]
+        padding: 20
       })
 
       this.getRoot().add(container);
 
-      var c1 = new qx.ui.basic.Atom("Shared ToolTip").set({
-        backgroundColor: "#BDD2EF",
-        height: 100,
-        padding: 20,
-        decorator: "outset",
-        focusable: true
-      });
+      var c1 = new qx.ui.form.Button("Shared ToolTip");
       container.add(c1);
 
-      var c2 = new qx.ui.basic.Atom("Shared ToolTip").set({
-        backgroundColor: "#D1DFAD",
-        height: 100,
-        padding: 20,
-        paddingLeft: 20,
-        decorator: "outset",
-        focusable: true
-      });
+      var c2 = new qx.ui.form.Button("Shared ToolTip");
       container.add(c2);
 
-      var c3 = new qx.ui.basic.Atom("Icon only ToolTip").set({
-        backgroundColor: "#D1A4AD",
-        height: 100,
-        padding: 20,
-        paddingLeft: 20,
-        decorator: "outset",
-        focusable: true
-      });
+      var c3 = new qx.ui.form.Button("Icon only ToolTip");
       container.add(c3);
 
-      var c4 = new qx.ui.basic.Atom("ToolTip with icon and label").set({
-        backgroundColor: "#F5E0BB",
-        height: 100,
-        padding: 20,
-        paddingLeft: 20,
-        decorator: "outset",
-        focusable: true
-      });
+      var c4 = new qx.ui.form.Button("ToolTip with icon and label");
       container.add(c4);
 
-      var c5 = new qx.ui.basic.Atom("Short timeout ToolTip").set({
-        backgroundColor: "#F5E0BB",
-        height: 100,
-        padding: 20,
-        decorator: "outset",
-        focusable: true
-      });
+      var c5 = new qx.ui.form.Button("Short timeout ToolTip");
       container.add(c5);
 
       var tt1 = new qx.ui.tooltip.ToolTip("Hello World #1");
