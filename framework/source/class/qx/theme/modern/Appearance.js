@@ -2045,6 +2045,20 @@ qx.Theme.define("qx.theme.modern.Appearance",
           decorator : "progressive-table-header"
         };
       }
+    },
+
+    "progressive-table-header-cell" :
+    {
+      alias : "atom",
+      style : function(states)
+      {
+        return {
+          minWidth : 40,
+          minHeight : 25,
+          paddingLeft : 6,
+          decorator : "progressive-table-header-cell"
+        }
+      }
     }
   }
 });

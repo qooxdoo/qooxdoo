@@ -158,7 +158,7 @@ qx.Theme.define("qx.theme.modern.Color",
     "table-header-cell" : [ 235, 234, 219 ],
     "table-header-cell-hover" : [ 255, 255, 255 ],
 
-    "progressive-table-heading" : "#AAAAAA",
+    "progressive-table-header" : "#AAAAAA",
 
     "progressive-table-row-background-even" : "#F4F4F4",
     "progressive-table-row-background-odd " : "#E4E4E4",
