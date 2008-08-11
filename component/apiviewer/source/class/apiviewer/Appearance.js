@@ -99,7 +99,7 @@ qx.Theme.define("apiviewer.Appearance",
       style : function(states)
       {
         return {
-          font: "large",
+          font : new qx.bom.Font(16, [ "Segoe UI", "Lucida Grande", "Candara", "Liberation Sans", "Arial" ]),
           textColor: "#134275"
         };
       }
