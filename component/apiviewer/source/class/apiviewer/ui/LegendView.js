@@ -37,15 +37,14 @@ qx.Class.define("apiviewer.ui.LegendView",
   construct : function()
   {
     this.base(arguments);
-
-    this.setBackgroundColor("white")
+    this.setAppearance("legend");
 
     var layout = new qx.ui.layout.Grid(10, 10);
     layout.setColumnWidth(1, 150);
     layout.setColumnFlex(1, 1);
 
     var content = new qx.ui.container.Composite(layout);
-    
+
     var length = this.__legend.length;
     var entry, imageUrl;
 
@@ -71,7 +70,7 @@ qx.Class.define("apiviewer.ui.LegendView",
         appearance : (i<17) ? "legendview-label-important" : "legendview-label"
       }), {row: i, column: 1});
     }
-    
+
     this.add(content)
   },
 
