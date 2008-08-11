@@ -30,9 +30,7 @@ qx.Class.define("demobrowser.demo.widget.SlideBar",
 
       slideBar = new qx.ui.container.SlideBar();
       slideBar.set({
-        width: 300,
-        backgroundColor : "yellow",
-        padding : 10
+        width: 300
       });
 
       slideBar.setLayout(new qx.ui.layout.HBox());
@@ -47,20 +45,14 @@ qx.Class.define("demobrowser.demo.widget.SlideBar",
       }
 
 
-      var toggle = new qx.ui.basic.Label("Toggle size").set({
-        padding : 5,
-        backgroundColor: "orange"
+      var toggle = new qx.ui.form.ToggleButton("Toggle size");
+
+      toggle.addListener("changeChecked", function(e) {
+        slideBar.setWidth(e.getData() ? 800 : 300);
       });
 
-      var grow = true;
-      toggle.addListener("click", function()
-      {
-        slideBar.setWidth(grow ? 800 : 300);
-        grow = !grow;
-      });
-
-      this.getRoot().add(toggle, {left:10, top:100});
-      this.getRoot().add(slideBar, {left:10, top:10});
+      this.getRoot().add(toggle, {left:20, top:80});
+      this.getRoot().add(slideBar, {left:20, top:20});
     }
   }
 });
