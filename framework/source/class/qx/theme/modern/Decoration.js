@@ -648,6 +648,10 @@ qx.Theme.define("qx.theme.modern.Decoration",
       {
         widthTop : 1,
         colorTop : "#b8b8b8",
+        
+        widthBottom : 1,
+        colorBottom : "#b8b8b8",
+        
         style : "solid"
       }
     },
@@ -660,6 +664,10 @@ qx.Theme.define("qx.theme.modern.Decoration",
       {
         widthLeft : 1,
         colorLeft : "#b8b8b8",
+        
+        widthRight : 1,
+        colorRight : "#b8b8b8",
+        
         style : "solid"
       }
     },
