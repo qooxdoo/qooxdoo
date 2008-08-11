@@ -103,17 +103,10 @@ qx.Class.define("qx.theme.manager.Decoration",
         for (var key in source)
         {
           entry = source[key];
+          clazz = entry.decorator;
 
-          if (entry.hasOwnProperty("decorator"))
-          {
-            clazz = entry.decorator;
-            if (clazz == null) {
-              throw new Error("Could not find decoration class required by decorator: " + key + "!");
-            }
-          }
-          else
-          {
-            clazz = qx.ui.decoration.Uniform;
+          if (clazz == null) {
+            throw new Error("Missing definition of which decorator to use in entry: " + key + "!");
           }
 
           dest[key] = (new clazz).set(entry.style);

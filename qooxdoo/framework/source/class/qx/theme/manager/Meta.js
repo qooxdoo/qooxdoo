@@ -44,17 +44,7 @@ qx.Class.define("qx.theme.manager.Meta",
     {
       check : "Theme",
       nullable : true,
-      apply : "_applyTheme",
-      event : "changeTheme"
-    },
-
-    /**
-     * Controls whether sync is done automatically
-     */
-    autoSync :
-    {
-      check : "Boolean",
-      init : true
+      apply : "_applyTheme"
     }
   },
 
@@ -69,6 +59,7 @@ qx.Class.define("qx.theme.manager.Meta",
 
   members :
   {
+    // property apply
     _applyTheme : function(value, old)
     {
       var color = null;
@@ -103,7 +94,6 @@ qx.Class.define("qx.theme.manager.Meta",
     /**
      * Initialize the themes which were selected using the settings. Should only
      * be called from qooxdoo based application.
-     *
      */
     initialize : function()
     {
@@ -115,149 +105,11 @@ qx.Class.define("qx.theme.manager.Meta",
       {
         obj = qx.Theme.getByName(theme);
         if (!obj) {
-          throw new Error("The meta theme to use is not available: " + theme);
+          throw new Error("The theme to use is not available: " + theme);
         }
 
         this.setTheme(obj);
       }
-
-      theme = setting.get("qx.colorTheme");
-      if (theme)
-      {
-        obj = qx.Theme.getByName(theme);
-        if (!obj) {
-          throw new Error("The color theme to use is not available: " + theme);
-        }
-
-        qx.theme.manager.Color.getInstance().setTheme(obj);
-      }
-
-      theme = setting.get("qx.decorationTheme");
-      if (theme)
-      {
-        obj = qx.Theme.getByName(theme);
-        if (!obj) {
-          throw new Error("The decoration theme to use is not available: " + theme);
-        }
-
-        qx.theme.manager.Decoration.getInstance().setTheme(obj);
-      }
-
-      theme = setting.get("qx.fontTheme");
-      if (theme)
-      {
-        obj = qx.Theme.getByName(theme);
-        if (!obj) {
-          throw new Error("The font theme to use is not available: " + theme);
-        }
-
-        qx.theme.manager.Font.getInstance().setTheme(obj);
-      }
-
-      theme = setting.get("qx.iconTheme");
-      if (theme)
-      {
-        obj = qx.Theme.getByName(theme);
-        if (!obj) {
-          throw new Error("The icon theme to use is not available: " + theme);
-        }
-
-        qx.theme.manager.Icon.getInstance().setTheme(obj);
-      }
-
-      theme = setting.get("qx.appearanceTheme");
-      if (theme)
-      {
-        obj = qx.Theme.getByName(theme);
-        if (!obj) {
-          throw new Error("The appearance theme to use is not available: " + theme);
-        }
-
-        qx.theme.manager.Appearance.getInstance().setAppearanceTheme(obj);
-      }
-    },
-
-    /**
-     * Query the theme list to get all themes the given key
-     *
-     * @param key {String} the key to look for
-     * @return {Theme[]} list of matching themes
-     */
-    __queryThemes : function(key)
-    {
-      var reg = qx.Theme.getAll();
-      var theme;
-      var list = [];
-
-      for (var name in reg)
-      {
-        theme = reg[name];
-        if (theme[key]) {
-          list.push(theme);
-        }
-      }
-
-      return list;
-    },
-
-
-    /**
-     * Returns a list of all registered meta themes
-     *
-     * @return {Theme[]} list of meta themes
-     */
-    getMetaThemes : function() {
-      return this.__queryThemes("meta");
-    },
-
-
-    /**
-     * Returns a list of all registered color themes
-     *
-     * @return {Theme[]} list of color themes
-     */
-    getColorThemes : function() {
-      return this.__queryThemes("colors");
-    },
-
-
-    /**
-     * Returns a list of all registered decoration themes
-     *
-     * @return {Theme[]} list of decoration themes
-     */
-    getDecorationThemes : function() {
-      return this.__queryThemes("decorations");
-    },
-
-
-    /**
-     * Returns a list of all registered font themes
-     *
-     * @return {Theme[]} list of font themes
-     */
-    getFontThemes : function() {
-      return this.__queryThemes("fonts");
-    },
-
-
-    /**
-     * Returns a list of all registered icon themes
-     *
-     * @return {Theme[]} list of icon themes
-     */
-    getIconThemes : function() {
-      return this.__queryThemes("icons");
-    },
-
-
-    /**
-     * Returns a list of all registered appearance themes
-     *
-     * @return {Theme[]} list of appearance themes
-     */
-    getAppearanceThemes : function() {
-      return this.__queryThemes("appearances");
     }
   },
 
@@ -270,13 +122,7 @@ qx.Class.define("qx.theme.manager.Meta",
   *****************************************************************************
   */
 
-  settings :
-  {
-    "qx.theme"           : "qx.theme.Classic",
-    "qx.colorTheme"      : null,
-    "qx.decorationTheme" : null,
-    "qx.fontTheme"       : null,
-    "qx.appearanceTheme" : null,
-    "qx.iconTheme"       : null
+  settings : {
+    "qx.theme"           : "qx.theme.Classic"
   }
 });
