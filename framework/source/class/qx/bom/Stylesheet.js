@@ -20,6 +20,9 @@
 
 ************************************************************************ */
 
+/**
+ * Cross-browser wrapper to work with CSS stylesheets.
+ */
 qx.Class.define("qx.bom.Stylesheet",
 {
   /*

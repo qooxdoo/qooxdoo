@@ -18,6 +18,11 @@
 
 ************************************************************************ */
 
+/**
+ * Wrapper around native event managment capabilities of the browser.
+ * This class should not be used directly normally. It's better
+ * to use {@link qx.event.Registration} instead.
+ */
 qx.Bootstrap.define("qx.bom.Event",
 {
   statics :
