@@ -181,7 +181,8 @@
 
       "translation" :
       {
-        "update" : ["${APPLICATION}"]
+        "locales": "${LOCALES}",
+        "namespaces" : ["${APPLICATION}"]
       }
     },
 

@@ -444,7 +444,7 @@ class Generator:
 
             # Execute real tasks
             self.runApiData(packageClasses)
-            self._translationMaps = self.runTranslation(partPackages, packageClasses, variants)
+            #self._translationMaps = self.getTranslationMaps(partPackages, packageClasses, variants)
             self.runSource(partPackages, packageClasses, boot, variants)
             self.runResources()  # run before runCompiled, to get image infos
             self.runCompiled(partPackages, packageClasses, boot, variants)
@@ -532,20 +532,21 @@ class Generator:
 
 
     def runUpdateTranslation(self):
-        namespaces = self._config.get("translation/update")
+        namespaces = self._config.get("translation/namespaces")
         if not namespaces:
             return
 
+        locales = self._config.get("translation/locales", None)
         self._console.info("Updating translations...")
         self._console.indent()
         for namespace in namespaces:
-            self._locale.updateTranslations(namespace)
+            self._locale.updateTranslations(namespace, locales)
 
         self._console.outdent()
 
 
 
-    def runTranslation(self, parts, packages, variants):
+    def getTranslationMaps(self, parts, packages, variants):
         # wpbasti: This is mainly an option for source/compile and not a separate job
         # Should be handled this way!
         # Still locales are also needed for the locale update process (bring po files in sync with source code)
@@ -571,6 +572,7 @@ class Generator:
             # Would also be better to let the translation code nothing know about parts
             # Another thing: Why not generate both structures in different js-objects
             # It's totally easy in JS to build a wrapper.
+            # [thron7] means: generate different data structs for locales and translations
             pac_dat = self._locale.generatePackageData(classes, variants, locales)
             loc_dat = self._locale.getLocalizationData(locales)
             packageTranslation.append(self._mergeDicts(pac_dat,loc_dat))
@@ -726,13 +728,16 @@ class Generator:
         # Generating boot script
         self._console.info("Generating boot script...")
 
+        # Get translation maps
+        translationMaps = self.getTranslationMaps(parts, packages, variants)
+
         # wpbasti: Most of this stuff is identical between source/compile. Put together somewhere else.
         bootBlocks = []
         bootBlocks.append(self.generateSettingsCode(settings, format))
         bootBlocks.append(self.generateVariantsCode(variants, format))
         bootBlocks.append(self.generateLibInfoCode(libs, format, forceUri))
         bootBlocks.append(self.generateResourceInfoCode(settings, libs, format))
-        bootBlocks.append(self.generateLocalesCode(self._translationMaps, format))
+        bootBlocks.append(self.generateLocalesCode(translationMaps, format))
         bootBlocks.append(self.generateCompiledPackageCode(fileUri, parts, packages, boot, variants, settings, format))
 
         if format:
@@ -815,13 +820,16 @@ class Generator:
         # Get resource list
         libs = self._config.get("library", [])
 
+        # Get translation maps
+        translationMaps = self.getTranslationMaps(parts, packages, variants)
+
         # Add data from settings, variants and packages
         sourceBlocks = []
         sourceBlocks.append(self.generateSettingsCode(settings, format))
         sourceBlocks.append(self.generateVariantsCode(variants, format))
         sourceBlocks.append(self.generateLibInfoCode(self._config.get("library",[]),format))
         sourceBlocks.append(self.generateResourceInfoCode(settings, libs, format))
-        sourceBlocks.append(self.generateLocalesCode(self._translationMaps, format))
+        sourceBlocks.append(self.generateLocalesCode(translationMaps, format))
         sourceBlocks.append(self.generateSourcePackageCode(parts, packages, boot, format))
 
         # TODO: Do we really need this optimization here. Could this be solved
