@@ -376,6 +376,10 @@ qx.Class.define("qx.ui.window.Window",
 
   members :
   {
+    __restoredTop : null,
+    __restoredLeft : null,
+
+
     /*
     ---------------------------------------------------------------------------
       WIDGET API

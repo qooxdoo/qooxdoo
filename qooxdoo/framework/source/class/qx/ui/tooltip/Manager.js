@@ -87,6 +87,11 @@ qx.Class.define("qx.ui.tooltip.Manager",
 
   members :
   {
+    __mousePosition : null,
+    __hideTimer : null,
+    __showTimer : null,
+
+
     /*
     ---------------------------------------------------------------------------
       PROPERTY APPLY ROUTINES
