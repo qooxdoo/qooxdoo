@@ -20,7 +20,7 @@
 
 /* ************************************************************************
 
-#asset(qx/icon/${qx.icontheme}/32/apps/photo-album.png)
+#asset(qx/icon/${qx.icontheme}/32/apps/media-photo-album.png)
 
 ************************************************************************ */
 
@@ -38,7 +38,7 @@ qx.Class.define("demobrowser.demo.widget.Popup",
       box.setSpacing(20);
 
       var container = new qx.ui.container.Composite(box).set({
-        padding: [48, 20]
+        padding: 20
       })
       this.getRoot().add(container);
 
@@ -49,22 +49,16 @@ qx.Class.define("demobrowser.demo.widget.Popup",
 
     _getPopupButton1 : function()
     {
-      var button = new qx.ui.basic.Atom("Open Popup #1").set({
-        backgroundColor: "#BDD2EF",
-        height: 100,
-        padding: 20,
-        decorator: "outset"
-      });
+      var button = new qx.ui.form.Button("Open Popup #1");
 
       var popup = new qx.ui.popup.Popup(new qx.ui.layout.Canvas()).set({
         backgroundColor: "#FFFAD3",
         padding: [2, 4],
-        decorator: "black",
         offset : 3,
         offsetBottom : 20
       });
 
-      popup.add(new qx.ui.basic.Atom("Hello World #1", "icon/32/apps/photo-album.png"));
+      popup.add(new qx.ui.basic.Atom("Hello World #1", "icon/32/apps/media-photo-album.png"));
 
       button.addListener("click", function(e)
       {
@@ -78,22 +72,16 @@ qx.Class.define("demobrowser.demo.widget.Popup",
 
     _getPopupButton2 : function()
     {
-      var button = new qx.ui.basic.Atom("Open Popup #2").set({
-        backgroundColor: "#D1DFAD",
-        height: 100,
-        padding: 20,
-        decorator: "outset"
-      });
+      var button = new qx.ui.form.Button("Open Popup #2");
 
       var popup = new qx.ui.popup.Popup(new qx.ui.layout.Canvas()).set({
         backgroundColor: "#DFFAD3",
         padding: [2, 4],
-        decorator: "black",
         offset : 3,
         position : "top-right"
       });
 
-      popup.add(new qx.ui.basic.Atom("Hello World #1", "icon/32/apps/photo-album.png"));
+      popup.add(new qx.ui.basic.Atom("Hello World #1", "icon/32/apps/media-photo-album.png"));
 
       button.addListener("click", function(e)
       {
