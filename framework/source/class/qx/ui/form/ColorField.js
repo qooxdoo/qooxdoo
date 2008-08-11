@@ -122,7 +122,7 @@ qx.Class.define("qx.ui.form.ColorField",
     */
     
     _onChangeValue : function(e) {
-      this.setValue(e.getData());
+//      this.setValue(e.getData());
     },
     
     _onKeyPress : function(e)

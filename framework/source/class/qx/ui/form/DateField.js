@@ -99,7 +99,8 @@ qx.Class.define("qx.ui.form.DateField",
      *  
      * @param date {Date} The date to set.
      */
-    setDate : function(date) {
+    setDate : function(date)
+    {
       // set the date to the textfield
       var textField = this._getChildControl("textfield");
       textField.setValue(this.getDateFormat().format(date));
@@ -115,7 +116,8 @@ qx.Class.define("qx.ui.form.DateField",
      * 
      * @return {Date} The currently set date. 
      */
-    getDate : function() {
+    getDate : function()
+    {
       // get the value of the textfield
       var textfieldValue = this._getChildControl("textfield").getValue();
 
@@ -173,7 +175,8 @@ qx.Class.define("qx.ui.form.DateField",
     ---------------------------------------------------------------------------
     */    
     // apply method
-    _applyDateFormat : function(value, old) {
+    _applyDateFormat : function(value, old)
+    {
       // get the date with the old date format
       try {
         var textfield = this._getChildControl("textfield");
@@ -227,7 +230,8 @@ qx.Class.define("qx.ui.form.DateField",
     * 
     * @param e {qx.event.type.Mouse} The mouse event of the click.
     */
-    _onChangeDate : function(e) {
+    _onChangeDate : function(e)
+    {
       var textField = this._getChildControl("textfield");
       
       var selectedDate = this._getChildControl("list").getDate();
