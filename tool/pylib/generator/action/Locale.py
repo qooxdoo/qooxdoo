@@ -67,7 +67,7 @@ class Locale:
 
 
 
-    def updateTranslations(self, namespace):
+    def updateTranslations(self, namespace, localesList=None):
         self._console.debug("Updating namespace: %s" % namespace)
         self._console.indent()
         
@@ -85,7 +85,13 @@ class Locale:
         self._console.debug("Updating translations...")
         self._console.indent()
 
-        files = self._translation[namespace]
+        if localesList == None:
+            files = self._translation[namespace]
+        else:
+            files = {}
+            for key,val in self._translation[namespace].iteritems():
+                if key in localesList:
+                    files[key] = val
         for name in files:
             self._console.debug("Processing: %s" % name)
 
