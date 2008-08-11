@@ -24,7 +24,7 @@
  * Instances of this class can be used everywhere, where a JavaScript string is
  * valid.
  */
-qx.Class.define("qx.lang.BaseString",
+qx.Class.define("qx.core.BaseString",
 {
   extend : String,
 
