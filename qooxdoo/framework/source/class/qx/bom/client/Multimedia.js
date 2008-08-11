@@ -17,6 +17,9 @@
 
 ************************************************************************ */
 
+/**
+ * Contains detection for QuickTime, Windows Media, DivX and Silverlight.
+ */
 qx.Bootstrap.define("qx.bom.client.Multimedia",
 {
   /*

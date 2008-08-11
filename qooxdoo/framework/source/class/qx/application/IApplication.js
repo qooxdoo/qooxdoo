@@ -17,6 +17,10 @@
 
 ************************************************************************ */
 
+/**
+ * This interface is used to define what a application class
+ * in qooxdoo has to implement.
+ */
 qx.Interface.define("qx.application.IApplication",
 {
   members :
