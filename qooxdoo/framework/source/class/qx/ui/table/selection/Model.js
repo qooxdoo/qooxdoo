@@ -38,11 +38,11 @@ qx.Class.define("qx.ui.table.selection.Model",
   {
     this.base(arguments);
 
-    this._selectedRangeArr = [];
-    this._anchorSelectionIndex = -1;
-    this._leadSelectionIndex = -1;
+    this.__selectedRangeArr = [];
+    this.__anchorSelectionIndex = -1;
+    this.__leadSelectionIndex = -1;
     this.hasBatchModeRefCount = 0;
-    this._hadChangeEventInBatchMode = false;
+    this.__hadChangeEventInBatchMode = false;
   },
 
 
@@ -135,6 +135,12 @@ qx.Class.define("qx.ui.table.selection.Model",
 
   members :
   {
+    __hadChangeEventInBatchMode : null,
+    __anchorSelectionIndex : null,
+    __leadSelectionIndex : null,
+    __selectedRangeArr : null,
+    
+    
     // selectionMode property modifier
     _applySelectionMode : function(selectionMode) {
       this.clearSelection();
@@ -168,9 +174,9 @@ qx.Class.define("qx.ui.table.selection.Model",
 
         this.hasBatchModeRefCount -= 1;
 
-        if (this._hadChangeEventInBatchMode)
+        if (this.__hadChangeEventInBatchMode)
         {
-          this._hadChangeEventInBatchMode = false;
+          this.__hadChangeEventInBatchMode = false;
           this._fireChangeSelection();
         }
       }
@@ -197,7 +203,7 @@ qx.Class.define("qx.ui.table.selection.Model",
      * @return {Integer} the ancor selection index.
      */
     getAnchorSelectionIndex : function() {
-      return this._anchorSelectionIndex;
+      return this.__anchorSelectionIndex;
     },
 
 
@@ -208,7 +214,7 @@ qx.Class.define("qx.ui.table.selection.Model",
      * @return {Integer} the lead selection index.
      */
     getLeadSelectionIndex : function() {
-      return this._leadSelectionIndex;
+      return this.__leadSelectionIndex;
     },
 
 
@@ -233,7 +239,7 @@ qx.Class.define("qx.ui.table.selection.Model",
      * @return {Boolean} whether the selection is empty.
      */
     isSelectionEmpty : function() {
-      return this._selectedRangeArr.length == 0;
+      return this.__selectedRangeArr.length == 0;
     },
 
 
@@ -246,9 +252,9 @@ qx.Class.define("qx.ui.table.selection.Model",
     {
       var selectedCount = 0;
 
-      for (var i=0; i<this._selectedRangeArr.length; i++)
+      for (var i=0; i<this.__selectedRangeArr.length; i++)
       {
-        var range = this._selectedRangeArr[i];
+        var range = this.__selectedRangeArr[i];
         selectedCount += range.maxIndex - range.minIndex + 1;
       }
 
@@ -264,9 +270,9 @@ qx.Class.define("qx.ui.table.selection.Model",
      */
     isSelectedIndex : function(index)
     {
-      for (var i=0; i<this._selectedRangeArr.length; i++)
+      for (var i=0; i<this.__selectedRangeArr.length; i++)
       {
-        var range = this._selectedRangeArr[i];
+        var range = this.__selectedRangeArr[i];
 
         if (index >= range.minIndex && index <= range.maxIndex) {
           return true;
@@ -289,12 +295,12 @@ qx.Class.define("qx.ui.table.selection.Model",
       // caller from messing with the internal model
       var retVal = [];
 
-      for (var i=0; i<this._selectedRangeArr.length; i++)
+      for (var i=0; i<this.__selectedRangeArr.length; i++)
       {
         retVal.push(
         {
-          minIndex : this._selectedRangeArr[i].minIndex,
-          maxIndex : this._selectedRangeArr[i].maxIndex
+          minIndex : this.__selectedRangeArr[i].minIndex,
+          maxIndex : this.__selectedRangeArr[i].maxIndex
         });
       }
 
@@ -321,9 +327,9 @@ qx.Class.define("qx.ui.table.selection.Model",
      */
     iterateSelection : function(iterator, object)
     {
-      for (var i=0; i<this._selectedRangeArr.length; i++)
+      for (var i=0; i<this.__selectedRangeArr.length; i++)
       {
-        for (var j=this._selectedRangeArr[i].minIndex; j<=this._selectedRangeArr[i].maxIndex; j++) {
+        for (var j=this.__selectedRangeArr[i].minIndex; j<=this.__selectedRangeArr[i].maxIndex; j++) {
           iterator.call(object, j);
         }
       }
@@ -419,16 +425,16 @@ qx.Class.define("qx.ui.table.selection.Model",
      */
     removeSelectionInterval : function(fromIndex, toIndex)
     {
-      this._anchorSelectionIndex = fromIndex;
-      this._leadSelectionIndex = toIndex;
+      this.__anchorSelectionIndex = fromIndex;
+      this.__leadSelectionIndex = toIndex;
 
       var minIndex = Math.min(fromIndex, toIndex);
       var maxIndex = Math.max(fromIndex, toIndex);
 
       // Crop the affected ranges
-      for (var i=0; i<this._selectedRangeArr.length; i++)
+      for (var i=0; i<this.__selectedRangeArr.length; i++)
       {
-        var range = this._selectedRangeArr[i];
+        var range = this.__selectedRangeArr[i];
 
         if (range.minIndex > maxIndex)
         {
@@ -444,7 +450,7 @@ qx.Class.define("qx.ui.table.selection.Model",
           if (minIsIn && maxIsIn)
           {
             // This range is removed completely
-            this._selectedRangeArr.splice(i, 1);
+            this.__selectedRangeArr.splice(i, 1);
 
             // Check this index another time
             i--;
@@ -468,7 +474,7 @@ qx.Class.define("qx.ui.table.selection.Model",
               maxIndex : range.maxIndex
             };
 
-            this._selectedRangeArr.splice(i + 1, 0, newRange);
+            this.__selectedRangeArr.splice(i + 1, 0, newRange);
 
             range.maxIndex = minIndex - 1;
 
@@ -490,9 +496,9 @@ qx.Class.define("qx.ui.table.selection.Model",
      */
     _clearSelection : function()
     {
-      this._selectedRangeArr = [];
-      this._anchorSelectionIndex = -1;
-      this._leadSelectionIndex = -1;
+      this.__selectedRangeArr = [];
+      this.__anchorSelectionIndex = -1;
+      this.__leadSelectionIndex = -1;
     },
 
 
@@ -506,8 +512,8 @@ qx.Class.define("qx.ui.table.selection.Model",
      */
     _addSelectionInterval : function(fromIndex, toIndex)
     {
-      this._anchorSelectionIndex = fromIndex;
-      this._leadSelectionIndex = toIndex;
+      this.__anchorSelectionIndex = fromIndex;
+      this.__leadSelectionIndex = toIndex;
 
       var minIndex = Math.min(fromIndex, toIndex);
       var maxIndex = Math.max(fromIndex, toIndex);
@@ -515,9 +521,9 @@ qx.Class.define("qx.ui.table.selection.Model",
       // Find the index where the new range should be inserted
       var newRangeIndex = 0;
 
-      for (;newRangeIndex<this._selectedRangeArr.length; newRangeIndex++)
+      for (;newRangeIndex<this.__selectedRangeArr.length; newRangeIndex++)
       {
-        var range = this._selectedRangeArr[newRangeIndex];
+        var range = this.__selectedRangeArr[newRangeIndex];
 
         if (range.minIndex > minIndex) {
           break;
@@ -525,18 +531,18 @@ qx.Class.define("qx.ui.table.selection.Model",
       }
 
       // Add the new range
-      this._selectedRangeArr.splice(newRangeIndex, 0,
+      this.__selectedRangeArr.splice(newRangeIndex, 0,
       {
         minIndex : minIndex,
         maxIndex : maxIndex
       });
 
       // Merge overlapping ranges
-      var lastRange = this._selectedRangeArr[0];
+      var lastRange = this.__selectedRangeArr[0];
 
-      for (var i=1; i<this._selectedRangeArr.length; i++)
+      for (var i=1; i<this.__selectedRangeArr.length; i++)
       {
-        var range = this._selectedRangeArr[i];
+        var range = this.__selectedRangeArr[i];
 
         if (lastRange.maxIndex + 1 >= range.minIndex)
         {
@@ -544,7 +550,7 @@ qx.Class.define("qx.ui.table.selection.Model",
           lastRange.maxIndex = Math.max(lastRange.maxIndex, range.maxIndex);
 
           // Remove the current range
-          this._selectedRangeArr.splice(i, 1);
+          this.__selectedRangeArr.splice(i, 1);
 
           // Check this index another time
           i--;
@@ -566,9 +572,9 @@ qx.Class.define("qx.ui.table.selection.Model",
     {
       var text = "Ranges:";
 
-      for (var i=0; i<this._selectedRangeArr.length; i++)
+      for (var i=0; i<this.__selectedRangeArr.length; i++)
       {
-        var range = this._selectedRangeArr[i];
+        var range = this.__selectedRangeArr[i];
         text += " [" + range.minIndex + ".." + range.maxIndex + "]";
       }
 
@@ -586,7 +592,7 @@ qx.Class.define("qx.ui.table.selection.Model",
     {
       // In batch mode, remember event but do not throw (yet)
       if (this.hasBatchMode()) {
-        this._hadChangeEventInBatchMode = true;
+        this.__hadChangeEventInBatchMode = true;
       }
 
       // If not in batch mode, throw event
@@ -604,6 +610,6 @@ qx.Class.define("qx.ui.table.selection.Model",
   */
 
   destruct : function() {
-    this._disposeFields("_selectedRangeArr");
+    this._disposeFields("__selectedRangeArr");
   }
 });

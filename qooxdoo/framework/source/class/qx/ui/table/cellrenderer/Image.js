@@ -38,19 +38,15 @@ qx.Class.define("qx.ui.table.cellrenderer.Image",
     this.base(arguments);
 
     if (width) {
-      this._imageWidth = width;
-    } else {
-      this._imageWidth = 16;
+      this.__imageWidth = width;
     }
 
     if (height) {
-      this._imageHeight = height;
-    } else {
-      this._imageHeight = 16;
+      this.__imageHeight = height;
     }
 
-    this._am = qx.util.AliasManager.getInstance();
-    this._rm = qx.util.ResourceManager;
+    this.__am = qx.util.AliasManager.getInstance();
+    this.__rm = qx.util.ResourceManager;
   },
 
 
@@ -64,19 +60,25 @@ qx.Class.define("qx.ui.table.cellrenderer.Image",
 
   members :
   {
+    __am : null,
+    __rm : null,
+    __imageHeight : 16,
+    __imageWidth : 16,
+
+
     // overridden
     _identifyImage : function(cellInfo)
     {
       var imageHints =
       {
-        imageWidth  : this._imageWidth,
-        imageHeight : this._imageHeight
+        imageWidth  : this.__imageWidth,
+        imageHeight : this.__imageHeight
       };
 
       if (cellInfo.value == "") {
         imageHints.url = null;
       } else {
-        imageHints.url = this._rm.toUri(this._am.resolve(cellInfo.value));
+        imageHints.url = this.__rm.toUri(this.__am.resolve(cellInfo.value));
       }
 
       return imageHints;

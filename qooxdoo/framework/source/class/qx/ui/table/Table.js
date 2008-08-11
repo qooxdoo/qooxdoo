@@ -147,19 +147,19 @@ qx.Class.define("qx.ui.table.Table",
     this._setLayout(new qx.ui.layout.VBox());
 
     // Create the child widgets
-    this._scrollerParent = new qx.ui.container.Composite(new qx.ui.layout.HBox());
-    this._statusBar = this._getChildControl("statusbar");
+    this.__scrollerParent = new qx.ui.container.Composite(new qx.ui.layout.HBox());
+    this.__statusBar = this._getChildControl("statusbar");
 
-    this._add(this._scrollerParent, {flex: 1});
-    this._add(this._statusBar);
+    this._add(this.__scrollerParent, {flex: 1});
+    this._add(this.__statusBar);
 
-    this._columnVisibilityBt = this._getChildControl("column-button");
+    this.__columnVisibilityBt = this._getChildControl("column-button");
 
     // Allocate a default data row renderer
     this.setDataRowRenderer(new qx.ui.table.rowrenderer.Default(this));
 
     // Create the models
-    this._selectionManager = this.getNewSelectionManager()(this);
+    this.__selectionManager = this.getNewSelectionManager()(this);
     this.setSelectionModel(this.getNewSelectionModel()(this));
     this.setTableColumnModel(this.getNewTableColumnModel()(this));
 
@@ -187,8 +187,8 @@ qx.Class.define("qx.ui.table.Table",
     this._add(spacer);
     spacer.addListener("resize", this._onResize, this);
 
-    this._focusedCol = null;
-    this._focusedRow = null;
+    this.__focusedCol = null;
+    this.__focusedRow = null;
 
     // add an event listener which updates the table content on locale change
     qx.locale.Manager.getInstance().addListener("changeLocale", this._onChangeLocale, this);
@@ -577,6 +577,20 @@ qx.Class.define("qx.ui.table.Table",
 
   members :
   {
+    __focusedCol : null,
+    __focusedRow : null,
+
+    __scrollerParent : null,
+    __statusBar : null,
+    __columnVisibilityBt : null,
+
+    __selectionManager : null,
+
+    __additionalStatusBarText : null,
+    __lastRowCount : null,
+    __internalChange : null,
+
+
     // overridden
     _createChildControlImpl : function(id)
     {
@@ -605,7 +619,7 @@ qx.Class.define("qx.ui.table.Table",
     // property modifier
     _applySelectionModel : function(value, old)
     {
-      this._selectionManager.setSelectionModel(value);
+      this.__selectionManager.setSelectionModel(value);
 
       if (old != null) {
         old.removeListener("changeSelection", this._onSelectionChanged, this);
@@ -713,7 +727,7 @@ qx.Class.define("qx.ui.table.Table",
     // property modifier
     _applyStatusBarVisible : function(value, old)
     {
-      this._statusBar.setVisibility(value ? "visible" : "excluded");;
+      this.__statusBar.setVisibility(value ? "visible" : "excluded");;
 
       if (value) {
         this._updateStatusBar();
@@ -724,14 +738,14 @@ qx.Class.define("qx.ui.table.Table",
     // property modifier
     _applyAdditionalStatusBarText : function(value, old)
     {
-      this._additionalStatusBarText = value;
+      this.__additionalStatusBarText = value;
       this._updateStatusBar();
     },
 
 
     // property modifier
     _applyColumnVisibilityButtonVisible : function(value, old) {
-      this._columnVisibilityBt.setVisibility(value ? "visible" : "excluded");
+      this.__columnVisibilityBt.setVisibility(value ? "visible" : "excluded");
     },
 
 
@@ -776,7 +790,7 @@ qx.Class.define("qx.ui.table.Table",
 
           // last meta column is flexible
           var flex = (i == metaColumnCounts.length - 1) ? 1 : 0;
-          this._scrollerParent.add(paneScroller, {flex: flex});
+          this.__scrollerParent.add(paneScroller, {flex: flex});
         }
       }
 
@@ -789,8 +803,8 @@ qx.Class.define("qx.ui.table.Table",
         // Set the right header height
         paneScroller.getHeader().setHeight(this.getHeaderCellHeight());
 
-        // Put the _columnVisibilityBt in the top right corner of the last meta column
-        paneScroller.setTopRightWidget(isLast ? this._columnVisibilityBt : null);
+        // Put the __columnVisibilityBt in the top right corner of the last meta column
+        paneScroller.setTopRightWidget(isLast ? this.__columnVisibilityBt : null);
       }
 
       this._updateScrollerWidths();
@@ -837,7 +851,7 @@ qx.Class.define("qx.ui.table.Table",
      * @return {qx.ui.table.selection.Manager} the selection manager.
      */
     getSelectionManager : function() {
-      return this._selectionManager;
+      return this.__selectionManager;
     },
 
 
@@ -847,7 +861,7 @@ qx.Class.define("qx.ui.table.Table",
      * @return {qx.ui.table.pane.Scroller[]} all TablePaneScrollers in this table.
      */
     _getPaneScrollerArr : function() {
-      return this._scrollerParent.getChildren();
+      return this.__scrollerParent.getChildren();
     },
 
 
@@ -960,9 +974,9 @@ qx.Class.define("qx.ui.table.Table",
 
       var rowCount = this.getTableModel().getRowCount();
 
-      if (rowCount != this._lastRowCount)
+      if (rowCount != this.__lastRowCount)
       {
-        this._lastRowCount = rowCount;
+        this.__lastRowCount = rowCount;
 
         this._updateScrollBarVisibility();
         this._updateStatusBar();
@@ -978,9 +992,9 @@ qx.Class.define("qx.ui.table.Table",
      */
     _onScrollY : function(evt)
     {
-      if (!this._internalChange)
+      if (!this.__internalChange)
       {
-        this._internalChange = true;
+        this.__internalChange = true;
 
         // Set the same scroll position to all meta columns
         var scrollerArr = this._getPaneScrollerArr();
@@ -989,7 +1003,7 @@ qx.Class.define("qx.ui.table.Table",
           scrollerArr[i].setScrollY(evt.getData());
         }
 
-        this._internalChange = false;
+        this.__internalChange = false;
       }
     },
 
@@ -1007,7 +1021,7 @@ qx.Class.define("qx.ui.table.Table",
       }
 
       // No editing mode
-      var oldFocusedRow = this._focusedRow;
+      var oldFocusedRow = this.__focusedRow;
       var consumed = true;
 
       // Handle keys that are independent from the modifiers
@@ -1023,10 +1037,10 @@ qx.Class.define("qx.ui.table.Table",
           {
             case "Enter":
               this.stopEditing();
-              var oldFocusedRow = this._focusedRow;
+              var oldFocusedRow = this.__focusedRow;
               this.moveFocusedCell(0, 1);
 
-              if (this._focusedRow != oldFocusedRow) {
+              if (this.__focusedRow != oldFocusedRow) {
                 consumed = this.startEditing();
               }
 
@@ -1053,7 +1067,7 @@ qx.Class.define("qx.ui.table.Table",
           switch(identifier)
           {
             case "Space":
-              this._selectionManager.handleSelectKeyDown(this._focusedRow, evt);
+              this.__selectionManager.handleSelectKeyDown(this.__focusedRow, evt);
               break;
 
             case "F2":
@@ -1062,12 +1076,12 @@ qx.Class.define("qx.ui.table.Table",
               break;
 
             case "Home":
-              this.setFocusedCell(this._focusedCol, 0, true);
+              this.setFocusedCell(this.__focusedCol, 0, true);
               break;
 
             case "End":
               var rowCount = this.getTableModel().getRowCount();
-              this.setFocusedCell(this._focusedCol, rowCount - 1, true);
+              this.setFocusedCell(this.__focusedCol, rowCount - 1, true);
               break;
 
             case "Left":
@@ -1124,10 +1138,10 @@ qx.Class.define("qx.ui.table.Table",
         }
       }
 
-      if (oldFocusedRow != this._focusedRow)
+      if (oldFocusedRow != this.__focusedRow)
       {
         // The focus moved -> Let the selection manager handle this event
-        this._selectionManager.handleMoveKeyDown(this._focusedRow, evt);
+        this.__selectionManager.handleMoveKeyDown(this.__focusedRow, evt);
       }
 
       if (consumed)
@@ -1240,10 +1254,10 @@ qx.Class.define("qx.ui.table.Table",
      */
     setFocusedCell : function(col, row, scrollVisible)
     {
-      if (!this.isEditing() && (col != this._focusedCol || row != this._focusedRow))
+      if (!this.isEditing() && (col != this.__focusedCol || row != this.__focusedRow))
       {
-        this._focusedCol = col;
-        this._focusedRow = row;
+        this.__focusedCol = col;
+        this.__focusedRow = row;
 
         var scrollerArr = this._getPaneScrollerArr();
 
@@ -1280,7 +1294,7 @@ qx.Class.define("qx.ui.table.Table",
      * @return {Integer} the model index of the focused cell's column.
      */
     getFocusedColumn : function() {
-      return this._focusedCol;
+      return this.__focusedCol;
     },
 
 
@@ -1290,7 +1304,7 @@ qx.Class.define("qx.ui.table.Table",
      * @return {Integer} the model index of the focused cell's column.
      */
     getFocusedRow : function() {
-      return this._focusedRow;
+      return this.__focusedRow;
     },
 
 
@@ -1303,8 +1317,8 @@ qx.Class.define("qx.ui.table.Table",
      */
     moveFocusedCell : function(deltaX, deltaY)
     {
-      var col = this._focusedCol;
-      var row = this._focusedRow;
+      var col = this.__focusedCol;
+      var row = this.__focusedRow;
 
       if (col === null || row === null) {
         return;
@@ -1356,9 +1370,9 @@ qx.Class.define("qx.ui.table.Table",
      */
     isEditing : function()
     {
-      if (this._focusedCol != null)
+      if (this.__focusedCol != null)
       {
-        var x = this.getTableColumnModel().getVisibleX(this._focusedCol);
+        var x = this.getTableColumnModel().getVisibleX(this.__focusedCol);
         var metaColumn = this._getMetaColumnAtColumnX(x);
         return this.getPaneScroller(metaColumn).isEditing();
       }
@@ -1374,9 +1388,9 @@ qx.Class.define("qx.ui.table.Table",
      */
     startEditing : function()
     {
-      if (this._focusedCol != null)
+      if (this.__focusedCol != null)
       {
-        var x = this.getTableColumnModel().getVisibleX(this._focusedCol);
+        var x = this.getTableColumnModel().getVisibleX(this.__focusedCol);
         var metaColumn = this._getMetaColumnAtColumnX(x);
         return this.getPaneScroller(metaColumn).startEditing();
       }
@@ -1390,9 +1404,9 @@ qx.Class.define("qx.ui.table.Table",
      */
     stopEditing : function()
     {
-      if (this._focusedCol != null)
+      if (this.__focusedCol != null)
       {
-        var x = this.getTableColumnModel().getVisibleX(this._focusedCol);
+        var x = this.getTableColumnModel().getVisibleX(this.__focusedCol);
         var metaColumn = this._getMetaColumnAtColumnX(x);
         this.getPaneScroller(metaColumn).stopEditing();
       }
@@ -1404,9 +1418,9 @@ qx.Class.define("qx.ui.table.Table",
      */
     cancelEditing : function()
     {
-      if (this._focusedCol != null)
+      if (this.__focusedCol != null)
       {
-        var x = this.getTableColumnModel().getVisibleX(this._focusedCol);
+        var x = this.getTableColumnModel().getVisibleX(this.__focusedCol);
         var metaColumn = this._getMetaColumnAtColumnX(x);
         this.getPaneScroller(metaColumn).cancelEditing();
       }
@@ -1495,17 +1509,17 @@ qx.Class.define("qx.ui.table.Table",
           }
         }
 
-        if (this._additionalStatusBarText)
+        if (this.__additionalStatusBarText)
         {
           if (text) {
-            text += this._additionalStatusBarText;
+            text += this.__additionalStatusBarText;
           } else {
-            text = this._additionalStatusBarText;
+            text = this.__additionalStatusBarText;
           }
         }
 
         if(text) {
-          this._statusBar.setContent(text);
+          this.__statusBar.setContent(text);
         }
       }
     },
@@ -1602,7 +1616,7 @@ qx.Class.define("qx.ui.table.Table",
       var tableModel = this.getTableModel();
       var columnModel = this.getTableColumnModel();
 
-      var menu = this._columnVisibilityBt.getMenu();
+      var menu = this.__columnVisibilityBt.getMenu();
       if (menu)
       {
         var entries = menu.getChildren();
@@ -1613,7 +1627,7 @@ qx.Class.define("qx.ui.table.Table",
       else
       {
         var menu = new qx.ui.menu.Menu();
-        this._columnVisibilityBt.setMenu(menu);
+        this.__columnVisibilityBt.setMenu(menu);
       }
 
       // Inform listeners who may want to insert menu items at the beginning
@@ -1748,6 +1762,6 @@ qx.Class.define("qx.ui.table.Table",
     }
 
     this._cleanUpMetaColumns(0);
-    this._disposeObjects("_selectionManager", "_columnVisibilityMenu", "_tableModel", "_columnVisibilityBt", "_scrollerParent", "_statusBar");
+    this._disposeObjects("__selectionManager", "_columnVisibilityMenu", "_tableModel", "__columnVisibilityBt", "__scrollerParent", "__statusBar");
   }
 });

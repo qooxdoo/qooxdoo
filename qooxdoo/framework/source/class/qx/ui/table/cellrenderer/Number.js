@@ -55,7 +55,7 @@ qx.Class.define("qx.ui.table.cellrenderer.Number",
     {
       check : "qx.util.format.NumberFormat",
       init : null,
-      apply : "_applyNumberFormat"
+      nullable : true
     }
   },
 
@@ -68,29 +68,29 @@ qx.Class.define("qx.ui.table.cellrenderer.Number",
 
   members :
   {
-    _applyNumberFormat : function(value, old) {
-      var method;
-      if (value) {
-        method = function(cellInfo) {
-          if (cellInfo.value || cellInfo.value == 0) {
-            // I don't think we need to escape the resulting string, as I
-            // don't know of any decimal or separator which use a character
-            // which needs escaping. It is much more plausible to have a
-            // prefix, postfix containing such characters but those can be
-            // (should be) added in their escaped form to the number format.
-            return value.format(cellInfo.value);
-          } else {
-            return "";
-          }
-        }
-      } else {
-        method = function(cellInfo) {
-          return cellInfo.value == 0 ? "0" : (cellInfo.value || "");
+    _getContentHtml : function(cellInfo)
+    {
+      var nf = this.getNumberFormat();
+
+      if (nf)
+      {
+        if (cellInfo.value || cellInfo.value == 0) {
+          // I don't think we need to escape the resulting string, as I
+          // don't know of any decimal or separator which use a character
+          // which needs escaping. It is much more plausible to have a
+          // prefix, postfix containing such characters but those can be
+          // (should be) added in their escaped form to the number format.
+          return nf.format(cellInfo.value);
+        } else {
+          return "";
         }
       }
-      // dynamically override _getContentHtml method
-      this._getContentHtml = method;
+      else
+      {
+        return cellInfo.value == 0 ? "0" : (cellInfo.value || "");
+      }
     },
+
 
     // overridden
     _getCellClass : function(cellInfo) {

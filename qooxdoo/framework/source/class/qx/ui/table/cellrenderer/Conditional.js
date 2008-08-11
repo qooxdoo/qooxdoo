@@ -57,10 +57,10 @@ qx.Class.define("qx.ui.table.cellrenderer.Conditional",
     this.betweenAllowed = ["between", "!between"];
     this.conditions = [];
 
-    this._defaultTextAlign = align || "";
-    this._defaultColor = color || "";
-    this._defaultFontStyle = style || "";
-    this._defaultFontWeight = weight || "";
+    this.__defaultTextAlign = align || "";
+    this.__defaultColor = color || "";
+    this.__defaultFontStyle = style || "";
+    this.__defaultFontWeight = weight || "";
   },
 
 
@@ -74,6 +74,11 @@ qx.Class.define("qx.ui.table.cellrenderer.Conditional",
 
   members :
   {
+    __defaultTextAlign : null,
+    __defaultColor : null,
+    __defaultFontStyle : null,
+    __defaultFontWeight : null,
+
 
     /**
      * Applies the cell styles to the style map.
@@ -235,10 +240,10 @@ qx.Class.define("qx.ui.table.cellrenderer.Conditional",
 
       var style =
       {
-        "text-align": this._defaultTextAlign,
-        "color": this._defaultColor,
-        "font-style": this._defaultFontStyle,
-        "font-weight": this._defaultFontWeight
+        "text-align": this.__defaultTextAlign,
+        "color": this.__defaultColor,
+        "font-style": this.__defaultFontStyle,
+        "font-weight": this.__defaultFontWeight
       };
 
       for (i in this.conditions)
