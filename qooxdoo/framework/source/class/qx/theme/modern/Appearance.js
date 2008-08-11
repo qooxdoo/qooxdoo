@@ -186,7 +186,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         }
 
         return {
-          padding    : 2,
+          padding    : [ 2, 8 ],
           textColor  : textColor,
           font       : "default",
           decorator  : decorator
@@ -704,7 +704,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
         return {
           padding   : 4,
           textColor : states.selected ? "text-selected" : "undefined",
-          decorator : states.selected ? "listitem" : "undefined"
+          decorator : states.selected ? "listitem" : "undefined",
+          center    : false
         };
       }
     },
@@ -1825,7 +1826,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         }
       }
     },
-    
+
     "colorpopup/field":
     {
       style : function(states)
@@ -1839,7 +1840,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         }
       }
     },
-    
+
     "colorpopup/preview-pane":
     {
       style : function(state)
