@@ -1,5 +1,10 @@
     "common-XXX" :
     {
+      "let" :
+      {
+        "LOCALES" : ["en", "en_US", "de", "de_DE", "fr", "fr_FR"] 
+      },
+      
       "library" :
       [
         {
@@ -44,11 +49,6 @@
         "qx.application" : "YYY",
         "qx.allowUrlVariants": "true",
         "qx.allowUrlSettings" : "true"
-      },
-
-      "localize" :
-      {
-        "locales" : ["en", "en_US", "de", "de_DE", "fr", "fr_FR"]
       }
     },
 
@@ -64,6 +64,7 @@
       "compile-source" :
       {
         "file" : "source/script/YYY-theme_{qx.theme}.js",
+        "locales" : "${LOCALES}",
         "root" : "source/demo/yyy"
       }
     },
@@ -84,6 +85,7 @@
         "uri"  : "../../script/YYY-theme_{qx.theme}.js",
         "resourceUri" : "../..",
         "root" : "build/demo/yyy",
+        "locales" : "${LOCALES}",
         "optimize" : [ "variables", "basecalls", "privates", "strings" ]
       }
     }
