@@ -56,7 +56,6 @@ qx.Class.define("qx.ui.control.ColorSelector",
     this._setLayout(new qx.ui.layout.VBox());
 
     this._createChildControl("control-bar");
-    this._createChildControl("button-bar");
   },
 
 
@@ -176,25 +175,7 @@ qx.Class.define("qx.ui.control.ColorSelector",
           
           this._add(control);
           break;
-          
-        case "button-bar":
-          control = new qx.ui.container.Composite(new qx.ui.layout.HBox(4, "right"));      
-          this._add(control);
-          control.add(this._getChildControl("cancle-button"));
-          control.add(this._getChildControl("ok-button"));
-          break;
-          
-        case "cancle-button":
-          control = new qx.ui.form.Button(this.tr("Cancel"), "icon/16/actions/dialog-cancel.png"); 
-          control.addListener("execute", this._onButtonCancelExecute, this);
-          break;
-          
-        case "ok-button":
-          control = new qx.ui.form.Button(this.tr("OK"), "icon/16/actions/dialog-ok.png"); 
-          control.addListener("execute", this._onButtonOkExecute, this);
-          break;   
-          
-          
+
         /*
         ---------------------------------------------------------------------------
           CREATE #2: PANES
@@ -782,33 +763,6 @@ qx.Class.define("qx.ui.control.ColorSelector",
 
       this._updateContext = null;
     },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param e {Event} TODOC
-     * @return {void}
-     */
-    _onButtonOkExecute : function(e) {
-      this.fireEvent("dialogok");
-    },
-
-
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param e {Event} TODOC
-     * @return {void}
-     */
-    _onButtonCancelExecute : function(e) {
-      this.fireEvent("dialogcancel");
-    },
-
-
-
 
     /*
     ---------------------------------------------------------------------------

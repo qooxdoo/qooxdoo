@@ -1627,14 +1627,11 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
-    "colorselector/cancle-button" : "button",
-    "colorselector/ok-button" : "button",
-
     // TODO: "control-bar"
     "colorselector/control-bar" : "widget",
     
     
-    "coloselector/control-panel":
+    "coloselector/control-pane":
     {
       style : function(states)
       {
