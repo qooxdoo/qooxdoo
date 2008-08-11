@@ -35,9 +35,7 @@ qx.Class.define("demobrowser.demo.widget.Tooltip",
     {
       this.base(arguments);
 
-      var box = new qx.ui.layout.HBox();
-      box.setSpacing(20);
-
+      var box = new qx.ui.layout.HBox(20);
       var container = new qx.ui.container.Composite(box).set({
         padding: 20
       })

@@ -85,7 +85,7 @@ qx.Class.define("demobrowser.demo.widget.TextField",
 
       var btnSend1 = new qx.ui.form.Button("Send content");
       btnSend1.addListener("execute", function() {
-        this.debug("Sending content: " + input4.getValue());
+        this.debug("Sending content: " + input1.getValue());
       });
       controls.add(btnSend1);
 
@@ -94,7 +94,7 @@ qx.Class.define("demobrowser.demo.widget.TextField",
       btnSend2.setFocusable(false);
       btnSend2.setKeepFocus(true);
       btnSend2.addListener("execute", function() {
-        this.debug("Sending selection: " + input4.getValue());
+        this.debug("Sending selection: " + input1.getSelection());
       });
       controls.add(btnSend2);
 
