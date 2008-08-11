@@ -47,7 +47,10 @@ qx.Class.define("apiviewer.dao.Class",
      */
     registerClass : function(cls)
     {
-      if (!cls.getFullName()) return;
+      if (!cls.getFullName())
+      {
+        return;
+      }
       this._class_registry[cls.getFullName()] = cls;
       if (!cls._docNode.attributes.superClass) {
         this._top_level_classes.push(cls);
@@ -648,6 +651,17 @@ qx.Class.define("apiviewer.dao.Class",
     },
 
 
+    /**
+     * Get the node, which contains the documentation for this node. Overridden properties
+     * and methods may refer to the overridden item for documentation.
+     *
+     * @return {ClassItem} The node, which contains the documentation for this node.
+     */
+    getDocNode : function() {
+      return this;
+    },
+
+
     _findClasses : function(clazz, foundClasses)
     {
       foundClasses.push(clazz);
@@ -708,6 +722,8 @@ qx.Class.define("apiviewer.dao.Class",
 
     _initializeFields : function()
     {
+      this.base(arguments);
+
       this._desc = "";
       this._see = [];
       this._superInterfaces = [];

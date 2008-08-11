@@ -178,6 +178,10 @@ def handleClassDefinition(docTree, item, variant):
             handleEvents(valueItem, classNode)
 
     handleSingleton(classNode, docTree)
+    
+    if not classNode.hasChild("desc"):
+        addError(classNode, "Class documentation is missing.", item)    
+    
 
 
 def handleClassExtend(valueItem, classNode, docTree, className):
@@ -292,8 +296,7 @@ def handleInterfaces(item, classNode, docTree):
 def handleConstructor(ctorItem, classNode):
     if ctorItem and ctorItem.type == "function":
         commentAttributes = comment.parseNode(ctorItem.parent.parent)
-        ctor = handleFunction(ctorItem, "ctor", commentAttributes, classNode)
-        removeErrors(ctor)
+        ctor = handleFunction(ctorItem, "ctor", commentAttributes, classNode, reportMissingDesc=False)
         ctor.set("isCtor", True)
         classNode.addListChild("constructor", ctor)
 
@@ -766,7 +769,7 @@ def handleConstantDefinition(item, classNode):
     classNode.addListChild("constants", node)
 
 
-def handleFunction(funcItem, name, commentAttributes, classNode):
+def handleFunction(funcItem, name, commentAttributes, classNode, reportMissingDesc=True):
 
     node = tree.Node("method")
     node.set("name", name)
@@ -792,10 +795,6 @@ def handleFunction(funcItem, name, commentAttributes, classNode):
         firstStatement = bodyBlockItem.children[0];
 
     handleAccess(node, commentAttributes)
-
-    if len(commentAttributes) == 0:
-        addError(node, "Documentation is missing.", funcItem)
-        return node
 
     handleDeprecated(node, commentAttributes)
 
@@ -846,7 +845,7 @@ def handleFunction(funcItem, name, commentAttributes, classNode):
             if not paramNode.getChild("desc", False):
                 addError(node, "Parameter <code>%s</code> is not documented." % paramNode.get("name"), funcItem)
 
-    if not node.hasChild("desc"):
+    if reportMissingDesc and not node.hasChild("desc"):
         addError(node, "Documentation is missing.", funcItem)
 
     return node
@@ -1122,9 +1121,15 @@ def connectClass(docTree, classNode):
         classNode.set("isAbstract", True)
 
     # Check for errors
-    childHasError = listHasError(classNode, "constructor") or listHasError(classNode, "properties") \
-        or listHasError(classNode, "methods") or listHasError(classNode, "methods-static") \
-        or listHasError(classNode, "constants") or listHasError(classNode, "events")
+    childHasError = (
+        classNode.get("hasError", False) or
+        listHasError(classNode, "constructor") or
+        listHasError(classNode, "properties") or
+        listHasError(classNode, "methods") or
+        listHasError(classNode, "methods-static") or
+        listHasError(classNode, "constants") or
+        listHasError(classNode, "events")
+    )
 
     if childHasError:
         classNode.set("hasWarning", True)

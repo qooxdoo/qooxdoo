@@ -51,7 +51,7 @@ qx.Class.define("apiviewer.ui.ClassViewer",
     this.getContentElement().setAttribute("id", "ClassViewer");
     apiviewer.ui.ClassViewer.instance = this;
 
-    this._init(new apiviewer.dao.Class({}));        
+    this._init(new apiviewer.dao.Class({}));
   },
 
 
@@ -213,22 +213,6 @@ qx.Class.define("apiviewer.ui.ClassViewer",
 
       html += '</span>';
 
-      /*
-      // NOTE: See testOverlay.html
-      var html = '<table cellpadding="0" cellspacing="0" '
-        + 'style="display:inline;position:relative;border:1px solid blue'
-        + ((styleAttributes == null) ? '' : (';' + styleAttributes)) + '"><tr>'
-        + '<td style="width:' + width + 'px;height:' + height + 'px">';
-      for (var i = 0; i < imgUrlArr.length; i++) {
-        html += '<img';
-        if (toolTip != null) {
-          html += ' title="' + toolTip + '"';
-        }
-        html += ' style="position:absolute;top:0px;left:0px" src="' + imgUrlArr[i] + '"></img>';
-      }
-      html += '</td></tr></table>';
-      */
-
       return html;
     }
   },
@@ -312,8 +296,21 @@ qx.Class.define("apiviewer.ui.ClassViewer",
       var desc = classNode.getDescription();
 
       if (desc != "") {
-        classHtml.add('<div class="class-description">', apiviewer.ui.panels.InfoPanel.resolveLinkAttributes(desc, classNode), '</div>');
+        classHtml.add(
+          '<div class="class-description">',
+          apiviewer.ui.panels.InfoPanel.resolveLinkAttributes(desc, classNode),
+          '</div>'
+        );
       }
+
+      if (classNode.getErrors().length > 0) {
+        classHtml.add(
+          '<div class="class-description">',
+          apiviewer.ui.panels.InfoPanel.createErrorHtml(classNode, classNode),
+          '</div>'
+        );
+      }
+
 
       // Add the class hierarchy
       switch (classNode.getType())
