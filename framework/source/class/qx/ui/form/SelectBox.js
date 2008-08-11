@@ -238,9 +238,21 @@ qx.Class.define("qx.ui.form.SelectBox",
     // overridden
     _onKeyPress : function(e)
     {
-      if(e.getKeyIdentifier() == "Enter") {
+      var iden = e.getKeyIdentifier();
+      if(iden == "Enter" || iden == "Space")
+      {
+        // Apply pre-selected item (translate quick selection to real selection)
+        if (this._preSelectedItem)
+        {
+          this.setSelected(this._preSelectedItem);
+          this._preSelectedItem = null;
+        }
+
         this.toggle();
-      } else {
+
+      }
+      else
+      {
         this.base(arguments, e);
       }
     },
@@ -283,8 +295,11 @@ qx.Class.define("qx.ui.form.SelectBox",
       {
         // Ignore quick context (e.g. mouseover)
         // and configure the new value when closing the popup afterwards
+        var popup = this._getChildControl("popup");
         var list = this._getChildControl("list");
-        if (list.getSelectionContext() == "quick")
+        var context = list.getSelectionContext();
+
+        if (popup.isVisible() && (context == "quick" || context == "key"))
         {
           this._preSelectedItem = current[0];
         }
