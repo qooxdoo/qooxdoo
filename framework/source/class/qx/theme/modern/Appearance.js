@@ -130,7 +130,16 @@ qx.Theme.define("qx.theme.modern.Appearance",
     "atom/label" : "label",
     "atom/icon" : "image",
 
-    "popup" : "widget",
+    "popup" :
+    {
+      style : function(states)
+      {
+        return {
+          decorator : "black",
+          shadow : "popup-shadow"
+        }
+      }
+    },
 
 
 
@@ -359,9 +368,9 @@ qx.Theme.define("qx.theme.modern.Appearance",
         };
       }
     },
-    
-    
-    
+
+
+
 
 
     /*
@@ -369,7 +378,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       DATEFIELD
     ---------------------------------------------------------------------------
     */
-    
+
     "datefield" : "combobox",
 
     "datefield/button" :
@@ -388,7 +397,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       }
     },
 
-    "datefield/list" : 
+    "datefield/list" :
     {
       alias : "datechooser",
       include : "datechooser",
@@ -544,10 +553,10 @@ qx.Theme.define("qx.theme.modern.Appearance",
         };
       }
     },
-    
-    
-    
-    
+
+
+
+
 
 
     /*
@@ -562,7 +571,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       {
         return {
           backgroundColor : "#e4e4e4",
-          
+
           // Functional!
           width: 0,
           height: 0
@@ -573,10 +582,10 @@ qx.Theme.define("qx.theme.modern.Appearance",
     "scrollarea/pane" : "widget",
     "scrollarea/scrollbar-x" : "scrollbar",
     "scrollarea/scrollbar-y" : "scrollbar",
-    
-    
-    
-    
+
+
+
+
 
 
     /*
@@ -653,9 +662,9 @@ qx.Theme.define("qx.theme.modern.Appearance",
 
     "scrollbar/button-begin" : "scrollbar/button",
     "scrollbar/button-end" : "scrollbar/button",
-    
-    
-    
+
+
+
 
 
     /*
@@ -712,7 +721,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
     },
 
     "list/pane" : "widget",
-    
+
     "listitem" :
     {
       alias : "atom",
@@ -912,10 +921,10 @@ qx.Theme.define("qx.theme.modern.Appearance",
         };
       }
     },
-    
-    
-    
-    
+
+
+
+
 
 
     /*
@@ -1125,7 +1134,6 @@ qx.Theme.define("qx.theme.modern.Appearance",
         return {
           backgroundColor : "#ffffdd",
           decorator : "tooltip",
-          shadow : "popup-shadow",
           padding : [ 1, 3, 2, 3 ],
           offset : [ 1, 1, 20, 1 ]
         };
@@ -1165,7 +1173,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         };
       }
     },
-    
+
     // this appearance is a helper appearance to easily set this appearance
     // to the container holding the content of the window
     "window-pane-content" :
@@ -1222,8 +1230,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          icon : states.active ? states.hovered ? "decoration/window/minimize-active-hovered.png" : 
-                                                  "decoration/window/minimize-active.png" : 
+          icon : states.active ? states.hovered ? "decoration/window/minimize-active-hovered.png" :
+                                                  "decoration/window/minimize-active.png" :
                                                   "decoration/window/minimize-inactive.png",
           margin : [ 4, 6, 2, 0 ]
         };
@@ -1266,8 +1274,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          icon : states.active ? states.hovered ? "decoration/window/close-active-hovered.png" : 
-                                                  "decoration/window/close-active.png" : 
+          icon : states.active ? states.hovered ? "decoration/window/close-active-hovered.png" :
+                                                  "decoration/window/close-active.png" :
                                                   "decoration/window/close-inactive.png",
           margin : [ 4, 6, 2, 0 ]
         };
@@ -1340,10 +1348,10 @@ qx.Theme.define("qx.theme.modern.Appearance",
         };
       }
     },
-    
-    
-    
-    
+
+
+
+
 
     /*
     ---------------------------------------------------------------------------
@@ -1387,10 +1395,10 @@ qx.Theme.define("qx.theme.modern.Appearance",
         };
       }
     },
-    
-    
-    
-    
+
+
+
+
 
     /*
     ---------------------------------------------------------------------------
@@ -1425,7 +1433,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
     ---------------------------------------------------------------------------
     */
 
-    "datechooser" : 
+    "datechooser" :
     {
       style : function(states)
       {
@@ -1434,8 +1442,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
         }
       }
     },
-    
-    "datechooser/navigation-bar" : 
+
+    "datechooser/navigation-bar" :
     {
       style : function(states)
       {
@@ -1775,7 +1783,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       COLOR SELECTOR
     ---------------------------------------------------------------------------
     */
-    
+
     "colorselector" : "widget",
 
     // TODO: "button-bar"
@@ -1821,15 +1829,15 @@ qx.Theme.define("qx.theme.modern.Appearance",
     "colorselector/brightness-field" : "widget",
     "colorselector/brightness-handle" : "widget",
 
-    
-    
-    
+
+
+
     /*
     ---------------------------------------------------------------------------
       COLOR POPUP
     ---------------------------------------------------------------------------
     */
-    
+
     "color-popup" :
     {
       alias : "popup",
