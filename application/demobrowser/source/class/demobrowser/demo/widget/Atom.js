@@ -26,6 +26,7 @@
 #asset(qx/icon/${qx.icontheme}/32/actions/go-down.png)
 
 #asset(qx/icon/${qx.icontheme}/32/apps/internet-feed-reader.png)
+#asset(qx/icon/${qx.icontheme}/32/apps/utilities-notes.png)
 
 ************************************************************************ */
 
@@ -111,7 +112,6 @@ qx.Class.define("demobrowser.demo.widget.Atom",
       this.getRoot().add(container2, { left : 20, top: 150});
 
 
-
       // Shrinking (horizontally)
       container2.add(new qx.ui.basic.Atom("Atom With Long Label").set({
         backgroundColor : "#E6EDFA",
@@ -129,15 +129,7 @@ qx.Class.define("demobrowser.demo.widget.Atom",
         allowGrowY: false
       }));
 
-
-
-      // Spacer
-      container2.add(new qx.ui.core.Spacer().set({width:40}));
-
-
-
-      // Shrinking (vertically)
-      container2.add(new qx.ui.basic.Atom("Atom With Long Label").set({
+      container2.add(new qx.ui.basic.Atom("Atom With Long Label", "icon/32/apps/internet-feed-reader.png").set({
         backgroundColor : "#EAE6FA",
         decorator : "black",
         iconPosition : "top",
@@ -146,12 +138,36 @@ qx.Class.define("demobrowser.demo.widget.Atom",
         allowGrowY: false
       }));
 
-      container2.add(new qx.ui.basic.Atom("Atom With Long Label", "icon/32/apps/internet-feed-reader.png").set({
-        backgroundColor : "#EAE6FA",
+
+
+
+      // Container of Row #3
+      var container3 = new qx.ui.container.Composite(new qx.ui.layout.HBox(10));
+      this.getRoot().add(container3, { left : 20, top: 250});
+
+      container3.add(new qx.ui.basic.Atom("Wider Atom").set({
+        backgroundColor : "#E6EDFA",
+        decorator : "black",
+        padding : 5,
+        width : 100,
+        allowGrowY: false
+      }));
+
+      container3.add(new qx.ui.basic.Atom("Wider Atom", "icon/32/apps/utilities-notes.png").set({
+        backgroundColor : "#E6EDFA",
+        decorator : "black",
+        padding : 5,
+        width : 140,
+        allowGrowY: false
+      }));
+
+
+      container3.add(new qx.ui.basic.Atom("Higher Atom", "icon/32/apps/utilities-notes.png").set({
+        backgroundColor : "#E6EDFA",
         decorator : "black",
         iconPosition : "top",
         padding : 5,
-        width : 100,
+        height : 100,
         allowGrowY: false
       }));
     }
