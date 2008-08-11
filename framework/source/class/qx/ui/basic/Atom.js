@@ -153,6 +153,19 @@ qx.Class.define("qx.ui.basic.Atom",
       check : [ "top", "right", "bottom", "left" ],
       themeable : true,
       apply : "_applyIconPosition"
+    },
+
+
+    /**
+     * Whether the content should be rendered centrally when to much space
+     * is available. Affects both axis.
+     */
+    center :
+    {
+      init : true,
+      check : "Boolean",
+      themeable : true,
+      apply : "_applyCenter"
     }
   },
 
@@ -281,7 +294,13 @@ qx.Class.define("qx.ui.basic.Atom",
 
     // property apply
     _applyIconPosition : function(value, old) {
-      this._getLayout().setAlign(value);
+      this._getLayout().setIconPosition(value);
+    },
+
+
+    // property apply
+    _applyCenter : function(value, old) {
+      this._getLayout().setCenter(value);
     }
   }
 });
