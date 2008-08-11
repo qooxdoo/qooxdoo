@@ -32,12 +32,8 @@ qx.Class.define("demobrowser.demo.widget.Resizer",
     {
       this.base(arguments);
 
-      var container = new qx.ui.container.Composite(new qx.ui.layout.Canvas(10, 10));
-
-      container.add(this._getResizerList(), { left : 10, top : 0 });
-      container.add(this._getResizer(), { left : 10,  top : 220 });
-
-      this.getRoot().add(container, {left: 30, top: 50});
+      this.getRoot().add(this._getResizer(), {left: 20, top: 20});
+      this.getRoot().add(this._getResizerList(), {left: 400, top: 20});
     },
 
 
@@ -56,8 +52,8 @@ qx.Class.define("demobrowser.demo.widget.Resizer",
       }
 
       var resizer = new qx.ui.container.Resizer();
-      resizer.setLayout(new qx.ui.layout.Canvas());
-      resizer.add(list, {top: 0, right: 0, bottom: 0, left: 0});
+      resizer.setLayout(new qx.ui.layout.Grow());
+      resizer.add(list);
 
       return resizer;
     },
