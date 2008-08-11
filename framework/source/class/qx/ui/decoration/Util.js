@@ -26,37 +26,13 @@ qx.Class.define("qx.ui.decoration.Util",
   statics :
   {
     /**
-     * Update the element's size respecting the current box model
+     * Detects whether the move from decorator <code>a</code> to <code>b</code>
+     * results into modified insets.
      *
-     * @param decorationElement {qx.html.Element} The widget's decoration element.
-     * @param height {Integer} The widget's new height
-     * @param width {Integer} The widget's new width
-     * @param horizontalInsets {Integer} The sum of the horizontal border widths
-     *     and paddings applied to the element
-     * @param verticalInsets {Integer} The sum of the vertical border heights
-     *     and paddings applied to the element
+     * @param a {Decorator} Old decorator or <code>null</code>
+     * @param b {Decorator} New decorator or <code>null</code>
+     * @return {Boolean} Whether the insets have been modified
      */
-    updateSize : function(decorationElement, width, height, horizontalInsets, verticalInsets)
-    {
-      if (qx.core.Variant.isSet("qx.client", "mshtml"))
-      {
-        if (qx.bom.client.Feature.CONTENT_BOX)
-        {
-          width -= horizontalInsets;
-          height -= verticalInsets;
-        }
-      }
-      else
-      {
-        decorationElement.setStyle("boxSizing", "border-box");
-      }
-
-      decorationElement.setStyle("width", width + "px");
-      decorationElement.setStyle("height", height + "px");
-    },
-
-
-
     insetsModified : function(a, b)
     {
       if (a == b) {
@@ -80,7 +56,18 @@ qx.Class.define("qx.ui.decoration.Util",
     },
 
 
-    generateBasicDecor : function(image, repeat, styles)
+    /**
+     * Computes and returns a set of markup to output the given
+     * image configuration.
+     *
+     * @param image {String} URL to the image to show
+     * @param repeat {String} Any supported background repeat: <code>repeat</code>,
+     *    <code>repeat-x</code>, <code>repeat-y</code>, <code>no-repeat</code> or
+     *    <code>scale</code>
+     * @param styles {String} Additional styles to insert into the element
+     * @return {String} Markup which contains the given image specification
+     */
+    generateBackgroundMarkup : function(image, repeat, styles)
     {
       // Support for images
       if (image)

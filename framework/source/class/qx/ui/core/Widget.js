@@ -2086,12 +2086,7 @@ qx.Class.define("qx.ui.core.Widget",
         left: 0
       });
 
-      var instance = qx.theme.manager.Decoration.getInstance().resolve(decorator);
-      var markup = instance.getMarkup();
-
-      if (markup) {
-        element.useMarkup(markup);
-      }
+      qx.theme.manager.Decoration.getInstance().resolve(decorator).init(element);
 
       return element;
     },

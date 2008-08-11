@@ -110,6 +110,12 @@ qx.Class.define("qx.ui.decoration.Uniform",
     */
 
     // interface implementation
+    init : function(element) {
+      element.useMarkup(this.getMarkup());
+    },
+
+
+    // interface implementation
     getMarkup : function()
     {
       if (this.__markup) {
@@ -134,7 +140,7 @@ qx.Class.define("qx.ui.decoration.Uniform",
       }
 
       // Generate markup
-      var html = qx.ui.decoration.Util.generateBasicDecor(this.getBackgroundImage(), this.getBackgroundRepeat(), styles);
+      var html = qx.ui.decoration.Util.generateBackgroundMarkup(this.getBackgroundImage(), this.getBackgroundRepeat(), styles);
 
       // Store
       return this.__markup = html;

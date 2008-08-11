@@ -275,6 +275,13 @@ qx.Class.define("qx.ui.decoration.Single",
     ---------------------------------------------------------------------------
     */
 
+    // interface implementation
+    init : function(element) {
+      element.useMarkup(this.getMarkup());
+    },
+
+
+    // interface implementation
     getMarkup : function(element)
     {
       if (this.__markup) {
@@ -314,13 +321,14 @@ qx.Class.define("qx.ui.decoration.Single",
       }
 
       // Generate markup
-      var html = qx.ui.decoration.Util.generateBasicDecor(this.getBackgroundImage(), this.getBackgroundRepeat(), styles);
+      var html = qx.ui.decoration.Util.generateBackgroundMarkup(this.getBackgroundImage(), this.getBackgroundRepeat(), styles);
 
       // Store
       return this.__markup = html;
     },
 
 
+    // interface implementation
     resize : function(element, width, height)
     {
       // Fix box model
@@ -339,6 +347,7 @@ qx.Class.define("qx.ui.decoration.Single",
     },
 
 
+    // interface implementation
     tint : function(element, bgcolor)
     {
       var Color = qx.theme.manager.Color.getInstance();
