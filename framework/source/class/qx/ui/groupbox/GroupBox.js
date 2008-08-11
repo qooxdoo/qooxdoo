@@ -21,7 +21,7 @@
 ************************************************************************ */
 
 /**
- * Groupboxes are used to group a set of form elements.
+ * Group boxes are used to group a set of form elements.
  */
 qx.Class.define("qx.ui.groupbox.GroupBox",
 {
@@ -40,6 +40,10 @@ qx.Class.define("qx.ui.groupbox.GroupBox",
   *****************************************************************************
   */
 
+  /**
+   * @param legend {String?""} The group boxes legend
+   * @param icon {String?""} The icon of the legend
+   */
   construct : function(legend, icon)
   {
     this.base(arguments);

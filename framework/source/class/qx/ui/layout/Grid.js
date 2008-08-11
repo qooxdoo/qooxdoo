@@ -161,6 +161,24 @@ qx.Class.define("qx.ui.layout.Grid",
 
   members :
   {
+    /** {Array} 2D array of grid cell data */
+    __grid : null,
+    __rowData : null,
+    __colData : null,
+
+    __colSpans : null,
+    __rowSpans : null,
+    __maxRowIndex : null,
+    __maxColIndex : null,
+
+    /** {Array} cached row heights */
+    __rowHeights : null,
+
+    /** {Array} cached column widths */
+    __colWidths : null,
+
+
+
     // overridden
     verifyLayoutProperty : qx.core.Variant.select("qx.debug",
     {
@@ -252,8 +270,8 @@ qx.Class.define("qx.ui.layout.Grid",
       this.__colSpans = colSpans;
       this.__rowSpans = rowSpans;
 
-      this._maxRowIndex = maxRowIndex;
-      this._maxColIndex = maxColIndex;
+      this.__maxRowIndex = maxRowIndex;
+      this.__maxColIndex = maxColIndex;
 
       // Clear invalidation marker
       delete this._invalidChildrenCache;
@@ -948,8 +966,8 @@ qx.Class.define("qx.ui.layout.Grid",
 
       var rowHeights = [];
 
-      var maxRowIndex = this._maxRowIndex;
-      var maxColIndex = this._maxColIndex;
+      var maxRowIndex = this.__maxRowIndex;
+      var maxColIndex = this.__maxColIndex;
 
       for (var row=0; row<=maxRowIndex; row++)
       {
@@ -1022,8 +1040,8 @@ qx.Class.define("qx.ui.layout.Grid",
 
       var colWidths = [];
 
-      var maxColIndex = this._maxColIndex;
-      var maxRowIndex = this._maxRowIndex;
+      var maxColIndex = this.__maxColIndex;
+      var maxRowIndex = this.__maxRowIndex;
 
       for (var col=0; col<=maxColIndex; col++)
       {
@@ -1190,8 +1208,8 @@ qx.Class.define("qx.ui.layout.Grid",
 
       var colWidths = [];
 
-      var maxColIndex = this._maxColIndex;
-      var maxRowIndex = this._maxRowIndex;
+      var maxColIndex = this.__maxColIndex;
+      var maxRowIndex = this.__maxRowIndex;
 
       var offset;
 

@@ -103,7 +103,7 @@ qx.Class.define("qx.ui.layout.VBox",
      CONSTRUCTOR
   *****************************************************************************
   */
-  
+
   /**
    * @param spacing {Integer?0} The spacing between child widgets {@link #spacing}.
    * @param alignY {String?"top"} Vertical alignment of the whole children
@@ -198,6 +198,12 @@ qx.Class.define("qx.ui.layout.VBox",
 
   members :
   {
+    __heights : null,
+    __flexs : null,
+    __enableFlex : null,
+    __children : null,
+
+
     /*
     ---------------------------------------------------------------------------
       HELPER METHODS
@@ -311,7 +317,7 @@ qx.Class.define("qx.ui.layout.VBox",
       var length = children.length;
       var util = qx.ui.layout.Util;
 
-      
+
       // Compute gaps
       var spacing = this.getSpacing();
       var separator = this.getSeparator();
@@ -396,14 +402,14 @@ qx.Class.define("qx.ui.layout.VBox",
 
       // Pre configure separators
       this._clearSeparators();
-      
+
       // Compute separator height
-      if (separator) 
+      if (separator)
       {
         var separatorInsets = qx.theme.manager.Decoration.getInstance().resolve(separator).getInsets();
         var separatorHeight = separatorInsets.top + separatorInsets.bottom;
       }
-      
+
       // Render children and separators
       for (i=0; i<length; i+=1)
       {
@@ -428,7 +434,7 @@ qx.Class.define("qx.ui.layout.VBox",
           {
             // add margin of last child and spacing
             top += marginBottom + spacing;
-            
+
             // then render the separator at this position
             this._renderSeparator(separator, {
               top : top,
@@ -436,7 +442,7 @@ qx.Class.define("qx.ui.layout.VBox",
               height : separatorHeight,
               width : availWidth
             });
-            
+
             // and finally add the size of the separator, the spacing (again) and the top margin
             top += separatorHeight + spacing + child.getMarginTop();
           }

@@ -18,6 +18,12 @@
 
 ************************************************************************ */
 
+/**
+ * Container, which allows vertical and horizontal scrolling if the contents is
+ * larger than the container.
+ *
+ * Note that this class can only have one child widget.
+ */
 qx.Class.define("qx.ui.container.Scroll",
 {
   extend : qx.ui.core.AbstractScrollArea,
@@ -30,6 +36,10 @@ qx.Class.define("qx.ui.container.Scroll",
   *****************************************************************************
   */
 
+  /**
+   * @param content {qx.ui.core.LayoutItem?null} The content widget of the scroll
+   *    container.
+   */
   construct : function(content)
   {
     this.base(arguments);

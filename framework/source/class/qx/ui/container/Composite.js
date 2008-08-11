@@ -18,6 +18,12 @@
 
 ************************************************************************ */
 
+
+/**
+ * The composite exposes all methods to set layouts and to manage child widgets
+ * as public methods. This class can be used to manually compose widgets using
+ * layout manager.
+ */
 qx.Class.define("qx.ui.container.Composite",
 {
   extend : qx.ui.core.Widget,

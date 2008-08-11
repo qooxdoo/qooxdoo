@@ -19,6 +19,23 @@
 
 ************************************************************************ */
 
+/**
+ * The Html widget embeds plain HTML code into the application
+ *
+ * *Example*
+ *
+ * Here is a little example of how to use the canvas widget.
+ *
+ * <pre class='javascript'>
+ * var html = new qx.ui.embed.Html();
+ * html.setHtml("<h1>Hello World</h1>");
+ * </pre>
+ *
+ * *External Documentation*
+ *
+ * <a href='http://qooxdoo.org/documentation/0.8/widget/html' target='_blank'>
+ * Documentation of this widget in the qooxdoo wiki.</a>
+ */
 qx.Class.define("qx.ui.embed.Html",
 {
   extend : qx.ui.core.Widget,
@@ -148,7 +165,7 @@ qx.Class.define("qx.ui.embed.Html",
     _applyFont : function(value, old)
     {
       var styles = value ? qx.theme.manager.Font.getInstance().resolve(value).getStyles() : qx.bom.Font.getDefaultStyles();
-      this._contentElement.setStyles(styles);
+      this.getContentElement().setStyles(styles);
     },
 
 

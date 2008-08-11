@@ -38,6 +38,18 @@ qx.Class.define("qx.ui.layout.Abstract",
 
   members :
   {
+    /** {Map} The cached size hint */
+    __sizeHint : null,
+
+    /** {Boolean} Whether the children cache is valid. This field is protected
+     *    because sub classes must be able to access it quickly.
+     */
+    _invalidChildrenCache : null,
+
+    /** {qx.ui.core.Widget} The connected widget */
+    __widget : null,
+
+
     /*
     ---------------------------------------------------------------------------
       LAYOUT INTERFACE
@@ -132,7 +144,7 @@ qx.Class.define("qx.ui.layout.Abstract",
     /**
      * Remove all currently visible separators
      */
-    _clearSeparators : function() 
+    _clearSeparators : function()
     {
       // It may be that the widget do not implement clearSeparators which is especially true
       // when it do not inherit from LayoutItem.
@@ -142,18 +154,18 @@ qx.Class.define("qx.ui.layout.Abstract",
       }
     },
 
-    
+
     /**
      * Renders a separator between two children
      *
      * @param separator {Separator} The separator to render
      * @param bounds {Map} Contains the left and top coordinate and the width and height
      *    of the separator to render.
-     */     
+     */
     _renderSeparator : function(separator, bounds) {
       this.__widget.renderSeparator(separator, bounds);
     },
-    
+
 
     /**
      * This method is called by the widget to connect the widget with the layout.

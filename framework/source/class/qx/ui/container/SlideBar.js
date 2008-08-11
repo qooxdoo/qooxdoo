@@ -20,8 +20,7 @@
 ************************************************************************ */
 
 /**
- * Preliminary test class for overflow handling. Could be used
- * for scrolling tab panes etc. in the future.
+ * Container, which provides scrolling in one dimension (vertical or horizontal).
  */
 qx.Class.define("qx.ui.container.SlideBar",
 {
@@ -98,6 +97,8 @@ qx.Class.define("qx.ui.container.SlideBar",
 
   members :
   {
+    __isHorizontal : null,
+
     /*
     ---------------------------------------------------------------------------
       WIDGET API
@@ -163,7 +164,7 @@ qx.Class.define("qx.ui.container.SlideBar",
     scrollBy : function(offset)
     {
       var pane = this._getChildControl("scrollpane");
-      if (this._isHorizontal) {
+      if (this.__isHorizontal) {
         pane.scrollByX(offset);
       } else {
         pane.scrollByY(offset);
@@ -180,7 +181,7 @@ qx.Class.define("qx.ui.container.SlideBar",
     scrollTo : function(value)
     {
       var pane = this._getChildControl("scrollpane");
-      if (this._isHorizontal) {
+      if (this.__isHorizontal) {
         pane.scrollToX(value);
       } else {
         pane.scrollToY(value);
@@ -203,13 +204,13 @@ qx.Class.define("qx.ui.container.SlideBar",
       {
         this._setLayout(new qx.ui.layout.HBox());
         this.setLayout(new qx.ui.layout.HBox());
-        this._isHorizontal = true;
+        this.__isHorizontal = true;
       }
       else
       {
         this._setLayout(new qx.ui.layout.VBox());
         this.setLayout(new qx.ui.layout.VBox());
-        this._isHorizontal = false;
+        this.__isHorizontal = false;
       }
     },
 
@@ -240,7 +241,7 @@ qx.Class.define("qx.ui.container.SlideBar",
       var innerSize = this.getInnerSize();
       var contentSize = content.getBounds();
 
-      var overflow = this._isHorizontal ?
+      var overflow = this.__isHorizontal ?
         contentSize.width > innerSize.width :
         contentSize.height > innerSize.height;
 

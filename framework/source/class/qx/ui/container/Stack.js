@@ -18,6 +18,10 @@
 
 ************************************************************************ */
 
+/**
+ * The stack container puts its child widgets on top of each other. Only the
+ * topmost widget is visible. This is used e.g. in the tab view widget.
+ */
 qx.Class.define("qx.ui.container.Stack",
 {
   extend : qx.ui.core.Widget,

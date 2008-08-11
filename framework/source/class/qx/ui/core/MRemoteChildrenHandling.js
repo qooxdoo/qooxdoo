@@ -19,7 +19,12 @@
 ************************************************************************ */
 
 /**
- * TODOC
+ * This mixin redirects all children handling methods to a child widget of the
+ * including class. This is e.g. used in {@link qx.ui.window.Window} to add
+ * child widgets directly to the window pane.
+ *
+ * The including class must implement the method <code>getChildrenContainer</code>,
+ * which has to return the widget, to which the child widgets should be added.
  */
 qx.Mixin.define("qx.ui.core.MRemoteChildrenHandling",
 {

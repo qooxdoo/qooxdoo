@@ -52,7 +52,7 @@ qx.Class.define("qx.ui.form.AbstractField",
       this.setValue(value);
     }
 
-    this._contentElement.addListener("change", this._onChangeContent, this);
+    this.getContentElement().addListener("change", this._onChangeContent, this);
   },
 
 
@@ -160,7 +160,7 @@ qx.Class.define("qx.ui.form.AbstractField",
 
     // overridden
     getFocusElement : function() {
-      return this._contentElement;
+      return this.getContentElement();
     },
 
 
@@ -208,7 +208,7 @@ qx.Class.define("qx.ui.form.AbstractField",
     {
       this.base(arguments, value, old);
 
-      this._contentElement.setAttribute("disabled", value===false);
+      this.getContentElement().setAttribute("disabled", value===false);
     },
 
 
@@ -244,7 +244,7 @@ qx.Class.define("qx.ui.form.AbstractField",
     	{
     		styles = qx.bom.Font.getDefaultStyles()
     	}
-      this._contentElement.setStyles(styles);
+      this.getContentElement().setStyles(styles);
 
       // Compute text size
       if (value) {
@@ -294,7 +294,7 @@ qx.Class.define("qx.ui.form.AbstractField",
     {
       if (typeof value === "string" || value instanceof String)
       {
-        var elem = this._contentElement;
+        var elem = this.getContentElement();
         if (elem.getValue() != value)
         {
           elem.setValue(value);
@@ -314,7 +314,7 @@ qx.Class.define("qx.ui.form.AbstractField",
      * @return {String} The current value
      */
     getValue : function() {
-      return this._contentElement.getValue();
+      return this.getContentElement().getValue();
     },
 
 
@@ -406,14 +406,14 @@ qx.Class.define("qx.ui.form.AbstractField",
 
     // property apply
     _applyTextAlign : function(value, old) {
-      this._contentElement.setStyle("textAlign", value);
+      this.getContentElement().setStyle("textAlign", value);
     },
 
 
     // property apply
     _applyReadOnly : function(value, old)
     {
-      this._contentElement.setAttribute("readOnly", value);
+      this.getContentElement().setAttribute("readOnly", value);
 
       if (value) {
         this.addState("readonly");

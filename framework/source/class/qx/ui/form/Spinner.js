@@ -228,6 +228,11 @@ qx.Class.define("qx.ui.form.Spinner",
 
   members :
   {
+    __lastValidValue : null,
+    __pageUpMode : null,
+    __pageDownMode : null,
+
+
     /*
     ---------------------------------------------------------------------------
       WIDGET INTERNALS
@@ -373,7 +378,7 @@ qx.Class.define("qx.ui.form.Spinner",
       }
 
       // save the last valid value of the spinner
-      this._lastValidValue = value;
+      this.__lastValidValue = value;
 
       // write the value of the spinner to the textfield
       if (this.getNumberFormat()) {
@@ -433,7 +438,7 @@ qx.Class.define("qx.ui.form.Spinner",
      * @param old {Boolean} The former value of the numberFormat property
      */
     _applyNumberFormat : function(value, old) {
-      this._getChildControl("textfield").setValue(this.getNumberFormat().format(this._lastValidValue));
+      this._getChildControl("textfield").setValue(this.getNumberFormat().format(this.__lastValidValue));
     },
 
 
@@ -467,7 +472,7 @@ qx.Class.define("qx.ui.form.Spinner",
       {
         case "PageUp":
           // mark that the spinner is in page mode and process further
-          this._pageUpMode = true;
+          this.__pageUpMode = true;
 
         case "Up":
           this._getChildControl("upbutton").press();
@@ -475,7 +480,7 @@ qx.Class.define("qx.ui.form.Spinner",
 
         case "PageDown":
           // mark that the spinner is in page mode and process further
-          this._pageDownMode = true;
+          this.__pageDownMode = true;
 
         case "Down":
           this._getChildControl("downbutton").press();
@@ -505,7 +510,7 @@ qx.Class.define("qx.ui.form.Spinner",
       {
         case "PageUp":
           this._getChildControl("upbutton").release();
-          this._pageUpMode = false;
+          this.__pageUpMode = false;
           break;
 
         case "Up":
@@ -514,7 +519,7 @@ qx.Class.define("qx.ui.form.Spinner",
 
         case "PageDown":
           this._getChildControl("downbutton").release();
-          this._pageDownMode = false;
+          this.__pageDownMode = false;
           break;
 
         case "Down":
@@ -599,7 +604,7 @@ qx.Class.define("qx.ui.form.Spinner",
       else
       {
         // otherwise, reset the last valid value
-        textField.setValue(this._lastValidValue + "");
+        textField.setValue(this.__lastValidValue + "");
       }
     },
 
@@ -621,7 +626,7 @@ qx.Class.define("qx.ui.form.Spinner",
      */
     _countUp: function()
     {
-      if (this._pageUpMode) {
+      if (this.__pageUpMode) {
         var newValue = this.getValue() + this.getPageStep();
       } else {
         var newValue = this.getValue() + this.getSingleStep();
@@ -648,7 +653,7 @@ qx.Class.define("qx.ui.form.Spinner",
      */
     _countDown: function()
     {
-      if (this._pageDownMode) {
+      if (this.__pageDownMode) {
         var newValue = this.getValue() - this.getPageStep();
       } else {
         var newValue = this.getValue() - this.getSingleStep();

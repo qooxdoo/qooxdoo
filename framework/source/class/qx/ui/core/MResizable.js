@@ -99,6 +99,13 @@ qx.Mixin.define("qx.ui.core.MResizable",
 
   members :
   {
+    __resizeFrame : null,
+    __resizeActive : null,
+    __resizeLeft : null,
+    __resizeTop : null,
+    __resizeStart : null,
+
+
     /*
     ---------------------------------------------------------------------------
       CORE FEATURES
@@ -157,7 +164,7 @@ qx.Mixin.define("qx.ui.core.MResizable",
     __computeResizeResult : function(e)
     {
       // Detect mode
-      var resizeActive = this._resizeActive;
+      var resizeActive = this.__resizeActive;
 
       // Read size hint
       var hint = this.getSizeHint();
@@ -168,11 +175,12 @@ qx.Mixin.define("qx.ui.core.MResizable",
       var height = start.height;
       var left = start.left;
       var top = start.top;
+      var diff;
 
       // North or south
       if (resizeActive&1 || resizeActive&2)
       {
-        var diff = e.getDocumentTop() - this.__resizeTop;
+        diff = e.getDocumentTop() - this.__resizeTop;
 
         if (resizeActive&1) {
           height -= diff;
@@ -194,7 +202,7 @@ qx.Mixin.define("qx.ui.core.MResizable",
       // West or east
       if (resizeActive&4 || resizeActive&8)
       {
-        var diff = e.getDocumentLeft() - this.__resizeLeft;
+        diff = e.getDocumentLeft() - this.__resizeLeft;
 
         if (resizeActive&4) {
           width -= diff;
@@ -270,7 +278,7 @@ qx.Mixin.define("qx.ui.core.MResizable",
         resizeActive += 8;
       }
 
-      this._resizeActive = resizeActive;
+      this.__resizeActive = resizeActive;
     },
 
 
@@ -291,7 +299,7 @@ qx.Mixin.define("qx.ui.core.MResizable",
     __onResizeMouseDown : function(e)
     {
       // Check for active resize
-      if (!this._resizeActive) {
+      if (!this.__resizeActive) {
         return;
       }
 
@@ -332,7 +340,7 @@ qx.Mixin.define("qx.ui.core.MResizable",
     __onResizeMouseUp : function(e)
     {
       // Check for active resize
-      if (!this._resizeActive) {
+      if (!this.__resizeActive) {
         return;
       }
 
@@ -358,7 +366,7 @@ qx.Mixin.define("qx.ui.core.MResizable",
       }
 
       // Clear mode
-      this._resizeActive = 0;
+      this.__resizeActive = 0;
 
       // Remove resize state
       this.removeState("resize");
@@ -380,7 +388,7 @@ qx.Mixin.define("qx.ui.core.MResizable",
     __onResizeLoseCapture : function(e)
     {
       // Check for active resize
-      if (!this._resizeActive) {
+      if (!this.__resizeActive) {
         return;
       }
 
@@ -440,7 +448,7 @@ qx.Mixin.define("qx.ui.core.MResizable",
       {
         this.__computeResizeMode(e);
 
-        var resizeActive = this._resizeActive;
+        var resizeActive = this.__resizeActive;
         var root = this.getApplicationRoot();
 
         if (resizeActive)

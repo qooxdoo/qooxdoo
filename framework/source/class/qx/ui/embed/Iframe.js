@@ -63,7 +63,7 @@ qx.Class.define("qx.ui.embed.Iframe",
   construct : function(source)
   {
     if (source != null) {
-      this._source = source;
+      this.__source = source;
     }
 
     this.base(arguments);
@@ -71,8 +71,8 @@ qx.Class.define("qx.ui.embed.Iframe",
     qx.event.Registration.addListener(document.body, "mousedown", this.block, this, true);
     qx.event.Registration.addListener(document.body, "mouseup", this.release, this, true);
 
-    this._blockerElement = this._createBlockerElement();
-    this.getContainerElement().add(this._blockerElement);
+    this.__blockerElement = this._createBlockerElement();
+    this.getContainerElement().add(this.__blockerElement);
   },
 
 
@@ -137,6 +137,9 @@ qx.Class.define("qx.ui.embed.Iframe",
 
   members :
   {
+    __source : null,
+    __blockerElement : null,
+
 
     // overridden
     renderLayout : function(left, top, width, height)
@@ -146,17 +149,17 @@ qx.Class.define("qx.ui.embed.Iframe",
       var pixel = "px";
       var insets = this.getInsets();
 
-      this._blockerElement.setStyle("left", insets.left + pixel);
-      this._blockerElement.setStyle("top", insets.top + pixel);
-      this._blockerElement.setStyle("width", (width - insets.left - insets.right) + pixel);
-      this._blockerElement.setStyle("height", (height - insets.top - insets.bottom) + pixel);
+      this.__blockerElement.setStyle("left", insets.left + pixel);
+      this.__blockerElement.setStyle("top", insets.top + pixel);
+      this.__blockerElement.setStyle("width", (width - insets.left - insets.right) + pixel);
+      this.__blockerElement.setStyle("height", (height - insets.top - insets.bottom) + pixel);
     },
 
 
     // overridden
     _createContentElement : function()
     {
-      var iframe = new qx.html.Iframe(this._source);
+      var iframe = new qx.html.Iframe(this.__source);
       iframe.addListener("load", this._onIframeLoad, this);
       return iframe;
     },
@@ -250,7 +253,7 @@ qx.Class.define("qx.ui.embed.Iframe",
      *
      */
     block : function() {
-      this._blockerElement.setStyle("display", "block");
+      this.__blockerElement.setStyle("display", "block");
     },
 
 
@@ -259,7 +262,7 @@ qx.Class.define("qx.ui.embed.Iframe",
      *
      */
     release : function() {
-      this._blockerElement.setStyle("display", "none");
+      this.__blockerElement.setStyle("display", "none");
     },
 
 
@@ -301,6 +304,6 @@ qx.Class.define("qx.ui.embed.Iframe",
   */
 
   destruct : function() {
-    this._disposeObjects("_blockerElement")
+    this._disposeObjects("__blockerElement")
   }
 });

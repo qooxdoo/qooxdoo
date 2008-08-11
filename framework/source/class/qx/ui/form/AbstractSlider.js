@@ -191,6 +191,17 @@ qx.Class.define("qx.ui.form.AbstractSlider",
 
   members :
   {
+    __sliderLocation : null,
+    __knobLocation : null,
+    __knobSize : null,
+    __dragMode : null,
+    __dragOffset : null,
+    __trackingMode : null,
+    __trackingDirection : null,
+    __trackingEnd : null,
+    __timer : null,
+
+
     // overridden
     _createChildControlImpl : function(id)
     {

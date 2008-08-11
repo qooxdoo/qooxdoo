@@ -174,13 +174,20 @@ qx.Class.define("qx.ui.root.Page",
     },
 
 
-    // overridden
+    /**
+     * Whether the configured layout supports a maximized window
+     * e.g. is a Canvas.
+     *
+     * @return {Boolean} Whether the layout supports maximized windows
+     */
     supportsMaximize : function() {
       return false;
     },
 
 
-    // overridden
+    /**
+     * Remove the content blocker.
+     */
     unblockContent : function()
     {
       if (!this.isContentBlocked()) {
@@ -192,7 +199,12 @@ qx.Class.define("qx.ui.root.Page",
     },
 
 
-    // overridden
+    /**
+     * Block direct child widgets with a zIndex below <code>zIndex</code>
+     *
+     * @param zIndex {zIndex} All child widgets with a zIndex below this value
+     *     will be blocked
+     */
     blockContent : function(zIndex)
     {
       if (this.isContentBlocked()) {

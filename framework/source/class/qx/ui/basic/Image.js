@@ -123,6 +123,10 @@ qx.Class.define("qx.ui.basic.Image",
 
   members :
   {
+    __width : null,
+    __height : null,
+
+
     /*
     ---------------------------------------------------------------------------
       WIDGET API
@@ -179,7 +183,7 @@ qx.Class.define("qx.ui.basic.Image",
     _styleSource : function()
     {
       var source = qx.util.AliasManager.getInstance().resolve(this.getSource());
-      var el = this._contentElement;
+      var el = this.getContentElement();
 
       if (!source)
       {
@@ -233,14 +237,14 @@ qx.Class.define("qx.ui.basic.Image",
         {
           var self = this.self(arguments);
 
-          if (!self._warned) {
-            self._warned = {};
+          if (!self.__warned) {
+            self.__warned = {};
           }
 
-          if (!self._warned[source])
+          if (!self.__warned[source])
           {
             this.debug("Unmanaged image: " + source);
-            self._warned[source] = true;
+            self.__warned[source] = true;
           }
         }
 

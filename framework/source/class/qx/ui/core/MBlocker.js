@@ -59,6 +59,13 @@ qx.Mixin.define("qx.ui.core.MBlocker",
 
   members :
   {
+    __blocker : null,
+    __isBlocked : null,
+    __oldAnonymous : null,
+    __contentBlocker : null,
+    __isContentBlocked : null,
+
+
     // property apply
     _applyBlockerColor : function(value, old)
     {

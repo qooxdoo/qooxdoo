@@ -144,6 +144,10 @@ qx.Class.define("qx.ui.basic.Label",
 
   members :
   {
+    __font : null,
+    __invalidContentSize : null,
+
+
     /*
     ---------------------------------------------------------------------------
       WIDGET API
@@ -179,7 +183,7 @@ qx.Class.define("qx.ui.basic.Label",
         return null;
       }
 
-      var styles = this._font ? this._font.getStyles() : qx.bom.Font.getDefaultStyles();
+      var styles = this.__font ? this.__font.getStyles() : qx.bom.Font.getDefaultStyles();
 
       return qx.bom.Label.getHtmlSize(this.getContent(), styles, width).height;
     },
@@ -193,7 +197,7 @@ qx.Class.define("qx.ui.basic.Label",
 
     // property apply
     _applyTextAlign : function(value, old) {
-      this._contentElement.setStyle("textAlign", value);
+      this.getContentElement().setStyle("textAlign", value);
     },
 
 
@@ -234,13 +238,13 @@ qx.Class.define("qx.ui.basic.Label",
       // Apply
     	var styles;
     	if (value) {
-    		this._font = qx.theme.manager.Font.getInstance().resolve(value);
-    		styles = this._font.getStyles();
+    		this.__font = qx.theme.manager.Font.getInstance().resolve(value);
+    		styles = this.__font.getStyles();
     	} else {
-    		this._font = null;
+    		this.__font = null;
     		styles = qx.bom.Font.getDefaultStyles();
     	}
-    	this._contentElement.setStyles(styles);
+    	this.getContentElement().setStyles(styles);
 
       // Invalidate text size
       this.__invalidContentSize = true;
@@ -270,7 +274,7 @@ qx.Class.define("qx.ui.basic.Label",
         }
       }
 
-      var styles = font ? this._font.getStyles() : qx.bom.Font.getDefaultStyles();
+      var styles = font ? this.__font.getStyles() : qx.bom.Font.getDefaultStyles();
       var content = this.getContent() || "A";
       var rich = this.getRich();
 
@@ -292,7 +296,7 @@ qx.Class.define("qx.ui.basic.Label",
     _applyRich : function(value)
     {
       // Sync with content element
-      this._contentElement.setRich(value);
+      this.getContentElement().setRich(value);
 
       // Mark text size cache as invalid
       this.__invalidContentSize = true;
@@ -320,7 +324,7 @@ qx.Class.define("qx.ui.basic.Label",
     _applyContent : function(value)
     {
       // Sync with content element
-      this._contentElement.setContent(value);
+      this.getContentElement().setContent(value);
 
       // Mark text size cache as invalid
       this.__invalidContentSize = true;
