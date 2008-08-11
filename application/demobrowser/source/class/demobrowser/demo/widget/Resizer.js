@@ -36,9 +36,6 @@ qx.Class.define("demobrowser.demo.widget.Resizer",
 
       container.add(this._getResizerList(), { left : 10, top : 0 });
       container.add(this._getResizer(), { left : 10,  top : 220 });
-      container.add(this._getResizer(), { left : 250, top : 220 });
-      container.add(this._getResizer(), { left : 10,  top : 400 });
-      container.add(this._getResizer(), { left : 250, top : 400 });
 
       this.getRoot().add(container, {left: 30, top: 50});
     },
@@ -50,14 +47,15 @@ qx.Class.define("demobrowser.demo.widget.Resizer",
         width: 100,
         height: 200,
         minWidth: 50,
-        minHeight: 100
+        minHeight: 100,
+        decorator : "black"
       });
 
       for (var i = 0; i < 100; i++) {
         list.add(new qx.ui.form.ListItem('Option number '+i));
       }
 
-      var resizer = new qx.ui.container.Resizer().setResizeAllEdges(false);
+      var resizer = new qx.ui.container.Resizer();
       resizer.setLayout(new qx.ui.layout.Canvas());
       resizer.add(list, {top: 0, right: 0, bottom: 0, left: 0});
 
