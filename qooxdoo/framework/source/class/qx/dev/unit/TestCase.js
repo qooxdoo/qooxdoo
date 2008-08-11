@@ -17,6 +17,9 @@
 
 ************************************************************************ */
 
+/**
+ * Base class for all unit tests.
+ */
 qx.Class.define("qx.dev.unit.TestCase",
 {
   extend  : qx.core.Object,

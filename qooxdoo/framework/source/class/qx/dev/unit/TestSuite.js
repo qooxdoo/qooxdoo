@@ -17,6 +17,10 @@
 
 ************************************************************************ */
 
+/**
+ * A TestSuite is a collection of test functions, classes and other test suites,
+ * which should be run together.
+ */
 qx.Class.define("qx.dev.unit.TestSuite",
 {
   extend : qx.core.Object,
@@ -30,6 +34,11 @@ qx.Class.define("qx.dev.unit.TestSuite",
   *****************************************************************************
   */
 
+  /**
+   * @param testClassOrNamespace {var} Either a string with the name of the test
+   *    class or test namespace or a reference to the the test class or namespace.
+   *    All test in the given class/namespace will be aded to the suite.
+   */
   construct : function(testClassOrNamespace)
   {
     this.base(arguments);
@@ -53,10 +62,11 @@ qx.Class.define("qx.dev.unit.TestSuite",
   members :
   {
     /**
-     * TODOC
+     * Add a test class or namespace to the suite
      *
-     * @param testClassOrNamespace {var} TODOC
-     * @return {void}
+     * @param testClassOrNamespace {var} Either a string with the name of the test
+     *    class or test namespace or a reference to the the test class or namespace.
+     *    All test in the given class/namespace will be aded to the suite.
      */
     add : function(testClassOrNamespace)
     {
@@ -85,10 +95,9 @@ qx.Class.define("qx.dev.unit.TestSuite",
 
 
     /**
-     * TODOC
+     * Add all tests from the given namespace to the suite
      *
-     * @param namespace {var} TODOC
-     * @return {void}
+     * @param namespace {Object} The topmost namespace of the tests classes to add.
      */
     addTestNamespace : function(namespace)
     {
@@ -110,11 +119,10 @@ qx.Class.define("qx.dev.unit.TestSuite",
 
 
     /**
-     * TODOC
+     * Add a single function to test
      *
-     * @param name {var} TODOC
-     * @param fcn {var} TODOC
-     * @return {void}
+     * @param name {String} Name of the function
+     * @param fcn {Function} The test function
      */
     addTestFunction : function(name, fcn) {
       this.__tests.push(new qx.dev.unit.TestFunction(null, name, fcn));
@@ -122,11 +130,10 @@ qx.Class.define("qx.dev.unit.TestSuite",
 
 
     /**
-     * TODOC
+     * Add a method from a class as test to the suite
      *
-     * @param clazz {var} TODOC
-     * @param functionName {var} TODOC
-     * @return {void}
+     * @param clazz {Class} The class containing the test method
+     * @param functionName {String} The name of the test method
      */
     addTestMethod : function(clazz, functionName) {
       this.__tests.push(new qx.dev.unit.TestFunction(clazz, functionName));
@@ -134,10 +141,9 @@ qx.Class.define("qx.dev.unit.TestSuite",
 
 
     /**
-     * TODOC
+     * Add a test class to the suite
      *
-     * @param clazz {var} TODOC
-     * @return {void}
+     * @param clazz {Class} The test class to add
      */
     addTestClass : function(clazz) {
       this.__tests.push(new qx.dev.unit.run.TestClass(clazz));
@@ -145,11 +151,10 @@ qx.Class.define("qx.dev.unit.TestSuite",
 
 
     /**
-     * TODOC
+     * Add a test function to the suite, which fails.
      *
-     * @param functionName {var} TODOC
-     * @param message {var} TODOC
-     * @return {void}
+     * @param functionName {String} Name of the function
+     * @param message {String} The fail message
      */
     addFail : function(functionName, message)
     {
@@ -160,10 +165,9 @@ qx.Class.define("qx.dev.unit.TestSuite",
 
 
     /**
-     * TODOC
+     * Run all tests using the given test result
      *
-     * @param testResult {var} TODOC
-     * @return {void}
+     * @param testResult {TestResult} Test result class, which runs the tests.
      */
     run : function(testResult)
     {
@@ -174,9 +178,9 @@ qx.Class.define("qx.dev.unit.TestSuite",
 
 
     /**
-     * TODOC
+     * Get a list of all test classes in the suite
      *
-     * @return {var} TODOC
+     * @return {Class[]} A list of all test classes in the suite
      */
     getTestClasses : function()
     {
@@ -196,9 +200,9 @@ qx.Class.define("qx.dev.unit.TestSuite",
 
 
     /**
-     * TODOC
+     * Get a list of all test methods in the suite
      *
-     * @return {var} TODOC
+     * @return {Function[]} A list of all test methods in the suite
      */
     getTestMethods : function()
     {
@@ -214,41 +218,6 @@ qx.Class.define("qx.dev.unit.TestSuite",
       }
 
       return methods;
-    },
-
-
-    /**
-     * currently not working
-     *
-     * @return {void}
-     */
-    addPollutionCheck : function() {},
-
-    // this.addTestFunction("$pollutionCheck", qx.lang.Function.bind(this.__pollutionCheck, this));
-    /**
-     * currently not working !!!
-     *
-     * @return {void}
-     */
-    __pollutionCheck : function()
-    {
-      // ignore test functions
-      var testFunctionNames = qx.lang.Object.getKeys(this.__tests);
-      qx.lang.Array.append(qx.dev.Pollution.ignore.window, testFunctionNames);
-
-      // ignore JsUnit functions
-      qx.lang.Array.append(qx.dev.Pollution.ignore.window, [ "jsUnitSetOnLoad", "newOnLoadEvent", "jsUnitGetParm", "setJsUnitTracer", "JsUnitException", "parseErrorStack", "getStackTrace", "tearDown", "setUp", "assertContains", "assertRoughlyEquals", "assertHashEquals", "assertHTMLEquals", "assertEvaluatesToFalse", "assertEvaluatesToTrue", "assertArrayEquals", "assertObjectEquals", "assertNotNaN", "assertNaN", "assertNotUndefined", "assertUndefined", "assertNotNull", "assertNull", "assertNotEquals", "assertEquals", "assertFalse", "assertTrue", "assert", "_assert", "_validateArguments", "nonCommentArg", "commentArg", "argumentsIncludeComments", "error", "fail", "_displayStringForValue", "_trueTypeOf", "jsUnitFixTop", "isTestPageLoaded", "JSUNIT_VERSION", "standardizeHTML", "isLoaded", "getFunctionName", "warn", "info", "inform", "debug", "trim", "push", "pop", "isBlank" ]);
-
-      // ignore test namespaces
-      qx.lang.Array.append(qx.dev.Pollution.ignore.window, this.__testClassNames.map(function(name) {
-        return name.split(".")[0];
-      }));
-
-      // ignore global functions from this file
-      qx.lang.Array.append(qx.dev.Pollution.ignore.window, [ "exposeTestFunctionNames" ]);
-
-      var pollution = qx.dev.Pollution.extract("window");
-      new qx.dev.unit.TestCase().assertJsonEquals([], pollution);
     }
   }
 });

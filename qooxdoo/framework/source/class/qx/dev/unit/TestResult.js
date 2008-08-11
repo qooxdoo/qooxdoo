@@ -17,6 +17,10 @@
 
 ************************************************************************ */
 
+/**
+ * The test result class runs the test functions and fires events depending on
+ * the result of the test run.
+ */
 qx.Class.define("qx.dev.unit.TestResult",
 {
   extend : qx.core.Object,
@@ -31,9 +35,16 @@ qx.Class.define("qx.dev.unit.TestResult",
 
   events :
   {
+    /** Fired before the test is started */
     startTest : "qx.event.type.Data",
+
+    /** Fired after the test has finished */
     endTest   : "qx.event.type.Data",
+
+    /** Fired if the test raised an {@link qx.core.AssertionError} */
     error     : "qx.event.type.Data",
+
+    /** Fired if the test failed with a different exception */
     failure   : "qx.event.type.Data"
   },
 
@@ -49,12 +60,11 @@ qx.Class.define("qx.dev.unit.TestResult",
   statics :
   {
     /**
-     * TODOC
+     * Run a test function using a given test result
      *
-     * @param testResult {var} TODOC
-     * @param test {var} TODOC
-     * @param testFunction {var} TODOC
-     * @return {void}
+     * @param testResult {TestResult} The test result to use to run the test
+     * @param test {TestSuite|TestFunction} The test
+     * @param testFunction {var} The test function
      */
     run : function(testResult, test, testFunction) {
       testResult.run(test, testFunction);
@@ -72,11 +82,10 @@ qx.Class.define("qx.dev.unit.TestResult",
   members :
   {
     /**
-     * TODOC
+     * Run the test
      *
-     * @param test {var} TODOC
-     * @param testFunction {var} TODOC
-     * @return {void}
+     * @param test {TestSuite|TestFunction} The test
+     * @param testFunction {var} The test function
      */
     run : function(test, testFunction)
     {
@@ -103,11 +112,11 @@ qx.Class.define("qx.dev.unit.TestResult",
 
 
     /**
-     * TODOC
+     * Fire an error event
      *
-     * @param eventName {var} TODOC
-     * @param exception {var} TODOC
-     * @param test {var} TODOC
+     * @param eventName {String} Name of the event
+     * @param exception {Error} The exception, which caused the test to fail
+     * @param test {TestSuite|TestFunction} The test
      * @return {void}
      */
     __createError : function(eventName, exception, test)

@@ -17,6 +17,9 @@
 
 ************************************************************************ */
 
+/**
+ * This class represents a test suite for a unit test class.
+ */
 qx.Class.define("qx.dev.unit.TestClass",
 {
   extend : qx.dev.unit.TestSuite,
@@ -29,6 +32,9 @@ qx.Class.define("qx.dev.unit.TestClass",
   *****************************************************************************
   */
 
+  /**
+   * @param clazz {Class} Test class. Must be a sub class of {@link TestCase}.
+   */
   construct : function(clazz)
   {
     this.base(arguments);
@@ -70,6 +76,7 @@ qx.Class.define("qx.dev.unit.TestClass",
 
   properties :
   {
+    /** Name of the test suite */
     name : {
       check : "String"
     }
