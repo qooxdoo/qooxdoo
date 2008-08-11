@@ -115,6 +115,9 @@ qx.Class.define("qx.ui.core.EventHandler",
 
   members :
   {
+    __manager : null,
+
+
     /** {Map} Supported focus event types */
     __focusEvents :
     {

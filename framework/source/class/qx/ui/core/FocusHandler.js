@@ -45,6 +45,12 @@ qx.Class.define("qx.ui.core.FocusHandler",
 
   members :
   {
+    __roots : null,
+    __activeChild : null,
+    __focusedChild : null,
+    __currentRoot : null,
+
+
     /**
      * Connects to a top-level root element (which initially receives
      * all events of the root). This are normally all page and application

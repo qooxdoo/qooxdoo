@@ -19,7 +19,14 @@
 ************************************************************************ */
 
 /**
+ * This mixin redirects the layout manager to a child widget of the
+ * including class. This is e.g. used in {@link qx.ui.window.Window} to configure
+ * the layout manager of the window pane instead of the window directly.
+ *
+ * The including class must implement the method <code>getChildrenContainer</code>,
+ * which has to return the widget, to which the layout should be set.
  */
+
 qx.Mixin.define("qx.ui.core.MRemoteLayoutHandling",
 {
   /*

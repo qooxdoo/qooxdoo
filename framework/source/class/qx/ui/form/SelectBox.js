@@ -94,6 +94,9 @@ qx.Class.define("qx.ui.form.SelectBox",
 
   members :
   {
+    __preSelectedItem : null,
+
+
     /*
     ---------------------------------------------------------------------------
       WIDGET API
@@ -279,10 +282,10 @@ qx.Class.define("qx.ui.form.SelectBox",
     _onListMouseDown : function(e)
     {
       // Apply pre-selected item (translate quick selection to real selection)
-      if (this._preSelectedItem)
+      if (this.__preSelectedItem)
       {
-        this.setSelected(this._preSelectedItem);
-        this._preSelectedItem = null;
+        this.setSelected(this.__preSelectedItem);
+        this.__preSelectedItem = null;
       }
     },
 
@@ -301,12 +304,12 @@ qx.Class.define("qx.ui.form.SelectBox",
 
         if (popup.isVisible() && (context == "quick" || context == "key"))
         {
-          this._preSelectedItem = current[0];
+          this.__preSelectedItem = current[0];
         }
         else
         {
           this.setSelected(current[0]);
-          this._preSelectedItem = null;
+          this.__preSelectedItem = null;
         }
       }
     },
@@ -337,6 +340,6 @@ qx.Class.define("qx.ui.form.SelectBox",
   */
 
   destruct : function() {
-    this._disposeFields("_preSelectedItem");
+    this._disposeFields("__preSelectedItem");
   }
 });

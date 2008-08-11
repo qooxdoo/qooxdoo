@@ -41,6 +41,10 @@ qx.Class.define("qx.ui.form.RepeatButton",
   *****************************************************************************
   */
 
+  /**
+   * @param label {String} Label to use
+   * @param icon {String?null} Icon to use
+   */
   construct : function(label, icon)
   {
     this.base(arguments, label, icon);
@@ -136,6 +140,11 @@ qx.Class.define("qx.ui.form.RepeatButton",
 
   members :
   {
+    __currentInterval : null,
+    __executed : null,
+    __timer : null,
+
+
     /**
      * Calling this function is like a click from the user on the
      * button with all consequences.
@@ -281,7 +290,7 @@ qx.Class.define("qx.ui.form.RepeatButton",
         this.removeState("pressed");
         this.addState("abandoned");
         this.__timer.stop();
-        this._currentInterval = this.getInterval();
+        this.__currentInterval = this.getInterval();
       }
     },
 
@@ -413,17 +422,17 @@ qx.Class.define("qx.ui.form.RepeatButton",
       this.__timer.stop();
 
       // if the current interval is not set
-      if (this._currentInterval == null)
+      if (this.__currentInterval == null)
       {
         // set the current interval to the given interval
-        this._currentInterval = this.getInterval();
+        this.__currentInterval = this.getInterval();
       }
 
       // reduce the current interval
-      this._currentInterval = (Math.max(this.getMinTimer(), this._currentInterval - this.getTimerDecrease()));
+      this.__currentInterval = (Math.max(this.getMinTimer(), this.__currentInterval - this.getTimerDecrease()));
 
       // restart the timer
-      this.__timer.restartWith(this._currentInterval);
+      this.__timer.restartWith(this.__currentInterval);
 
       // fire the execute event
       this.__executed = true;
@@ -470,7 +479,7 @@ qx.Class.define("qx.ui.form.RepeatButton",
 
       this.__timer.stop();
 
-      this._currentInterval = null;
+      this.__currentInterval = null;
 
       this.removeState("abandoned");
       this.removeState("pressed");

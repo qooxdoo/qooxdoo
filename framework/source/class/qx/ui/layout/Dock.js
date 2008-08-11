@@ -88,7 +88,7 @@ qx.Class.define("qx.ui.layout.Dock",
      CONSTRUCTOR
   *****************************************************************************
   */
-  
+
   /**
    * @param spacingX {Integer?0} The horizontal spacing. Sets {@link #spacingX}.
    * @param spacingY {Integer?0} The vertical spacing. Sets {@link #spacingY}.
@@ -128,15 +128,15 @@ qx.Class.define("qx.ui.layout.Dock",
       init : "auto",
       apply : "_applySort"
     },
-    
-    
+
+
     /** Separator lines to use between the horizontal objects */
     separatorX :
     {
       check : "Decorator",
       nullable : true,
       apply : "_applyLayoutChange"
-    },    
+    },
 
 
     /** Separator lines to use between the vertical objects */
@@ -146,11 +146,11 @@ qx.Class.define("qx.ui.layout.Dock",
       nullable : true,
       apply : "_applyLayoutChange"
     },
-    
-    
-    /** 
-     * Whether separators should be collapsed so when a spacing is 
-     * configured the line go over into each other 
+
+
+    /**
+     * Whether separators should be collapsed so when a spacing is
+     * configured the line go over into each other
      */
     collapseSeparators :
     {
@@ -158,7 +158,7 @@ qx.Class.define("qx.ui.layout.Dock",
       init : false,
       apply : "_applyLayoutChange"
     },
-    
+
 
     /** Horizontal spacing between two children */
     spacingX :
@@ -191,6 +191,10 @@ qx.Class.define("qx.ui.layout.Dock",
 
   members :
   {
+    __children : null,
+    __edges : null,
+
+
     // overridden
     verifyLayoutProperty : qx.core.Variant.select("qx.debug",
     {
@@ -353,14 +357,14 @@ qx.Class.define("qx.ui.layout.Dock",
 
       var allocatedWidth = -spacingX;
       var allocatedHeight = -spacingY;
-      
+
       if (separatorWidths.x) {
         allocatedWidth -= separatorWidths.x + spacingX;
       }
 
       if (separatorWidths.y) {
         allocatedHeight -= separatorWidths.y + spacingY;
-      }      
+      }
 
       for (var i=0; i<length; i++)
       {
@@ -419,14 +423,14 @@ qx.Class.define("qx.ui.layout.Dock",
           default:
             allocatedWidth += width + child.getMarginLeft() + child.getMarginRight() + spacingX;
             allocatedHeight += height + child.getMarginTop() + child.getMarginBottom() + spacingY;
-            
+
             if (separatorWidths.x) {
               allocatedWidth += separatorWidths.x + spacingX;
             }
-            
+
             if (separatorWidths.y) {
               allocatedHeight += separatorWidths.y + spacingY;
-            }                        
+            }
         }
       }
 
@@ -545,9 +549,9 @@ qx.Class.define("qx.ui.layout.Dock",
       // **************************************
       //   Layout children
       // **************************************
-      
+
       // Pre configure separators
-      this._clearSeparators();      
+      this._clearSeparators();
 
       // Prepare loop
       var separatorX=this.getSeparatorX(), separatorY=this.getSeparatorY();
@@ -595,26 +599,26 @@ qx.Class.define("qx.ui.layout.Dock",
             left = nextLeft + util.computeHorizontalAlignOffset(child.getAlignX()||"left", width, availWidth, marginLeft, marginRight);
 
             // Render the separator
-            if (separatorWidths.x) 
+            if (separatorWidths.x)
             {
               if (edge == 1) {
-                separatorTop = nextTop + height + marginTop + spacingY + marginBottom; 
+                separatorTop = nextTop + height + marginTop + spacingY + marginBottom;
               } else {
                 separatorTop = nextTop + availHeight - height - marginTop - spacingY - marginBottom - separatorWidths.y;
               }
-              
+
               separatorLeft = left;
               separatorWidth = availWidth;
 
-              if (collapseSeparators && separatorLeft > 0) 
+              if (collapseSeparators && separatorLeft > 0)
               {
                 separatorLeft -= spacingX + marginLeft;
                 separatorWidth += (spacingX) * 2;
-              }           
+              }
               else
               {
                 separatorLeft -= marginLeft;
-              }              
+              }
 
               this._renderSeparator(separatorY, {
                 left : separatorLeft,
@@ -623,15 +627,15 @@ qx.Class.define("qx.ui.layout.Dock",
                 height : separatorWidths.y
               });
             }
-            
+
             // Update available height
             used = height + marginTop + marginBottom + spacingY;
             if (separatorWidths.y) {
               used += separatorWidths.y + spacingY;
-            }        
-            
+            }
+
             availHeight -= used;
-            
+
             // Update coordinates, for next child
             if (edge == 1) {
               nextTop += used;
@@ -661,18 +665,18 @@ qx.Class.define("qx.ui.layout.Dock",
             top = nextTop + util.computeVerticalAlignOffset(child.getAlignY()||"top", height, availHeight, marginTop, marginBottom);
 
             // Render the separator
-            if (separatorWidths.x) 
+            if (separatorWidths.x)
             {
               if (edge == 3) {
-                separatorLeft = nextLeft + width + marginLeft + spacingX + marginRight; 
+                separatorLeft = nextLeft + width + marginLeft + spacingX + marginRight;
               } else {
                 separatorLeft = nextLeft + availWidth - width - marginLeft - spacingX - marginRight - separatorWidths.x;
               }
-              
+
               separatorTop = top;
               separatorHeight = availHeight;
 
-              if (collapseSeparators && separatorTop > 0) 
+              if (collapseSeparators && separatorTop > 0)
               {
                 separatorTop -= spacingY + marginTop;
                 separatorHeight += (spacingY) * 2;
@@ -689,12 +693,12 @@ qx.Class.define("qx.ui.layout.Dock",
                 height : separatorHeight
               });
             }
-            
+
             // Update available height
             used = width + marginLeft + marginRight + spacingX;
             if (separatorWidths.x) {
               used += separatorWidths.x + spacingX;
-            }        
+            }
             availWidth -= used;
 
             // Update coordinates, for next child
@@ -742,25 +746,25 @@ qx.Class.define("qx.ui.layout.Dock",
       if (separatorX || separatorY) {
         var decorationManager = qx.theme.manager.Decoration.getInstance();
       }
-      
-      if (separatorX) 
+
+      if (separatorX)
       {
         var separatorInstanceX = decorationManager.resolve(separatorX);
         var separatorInsetsX = separatorInstanceX.getInsets();
         var separatorWidthX = separatorInsetsX.left + separatorInsetsX.right;
       }
 
-      if (separatorY) 
+      if (separatorY)
       {
         var separatorInstanceY = decorationManager.resolve(separatorY);
         var separatorInsetsY = separatorInstanceY.getInsets();
         var separatorWidthY = separatorInsetsY.top + separatorInsetsY.bottom;
       }
-      
+
       return {
         x : separatorWidthX || 0,
-        y : separatorWidthY || 0 
-      }      
+        y : separatorWidthY || 0
+      }
     },
 
     // overridden
@@ -781,11 +785,11 @@ qx.Class.define("qx.ui.layout.Dock",
       var heightX=0, minHeightX=0;
       var widthY=0, minWidthY=0;
       var heightY=0, minHeightY=0;
-      
+
       var separatorWidths = this._getSeparatorWidths();
       var spacingX=this.getSpacingX(), spacingY=this.getSpacingY();
       var spacingSumX=-spacingX, spacingSumY=-spacingY;
-      
+
       if (separatorWidths.x) {
         spacingSumX -= separatorWidths.x + spacingX;
       }
@@ -793,7 +797,7 @@ qx.Class.define("qx.ui.layout.Dock",
       if (separatorWidths.y) {
         spacingSumY -= separatorWidths.y + spacingY;
       }
-      
+
       // Detect children sizes
       for (var i=0; i<length; i++)
       {
@@ -843,7 +847,7 @@ qx.Class.define("qx.ui.layout.Dock",
             spacingSumX += spacingX;
             if (separatorWidths.x) {
               spacingSumX += separatorWidths.x + spacingX;
-            }            
+            }
 
             break;
 
@@ -860,12 +864,12 @@ qx.Class.define("qx.ui.layout.Dock",
             spacingSumX += spacingX;
             if (separatorWidths.x) {
               spacingSumX += separatorWidths.x + spacingX;
-            } 
-            
+            }
+
             spacingSumY += spacingY;
             if (separatorWidths.y) {
               spacingSumY += separatorWidths.y + spacingY;
-            }            
+            }
         }
       }
 
@@ -873,7 +877,7 @@ qx.Class.define("qx.ui.layout.Dock",
       var width = Math.max(widthX, widthY) + spacingSumX;
       var minHeight = Math.max(minHeightX, minHeightY) + spacingSumY;
       var height = Math.max(heightX, heightY) + spacingSumY;
-      
+
       // Return hint
       return {
         minWidth : minWidth,

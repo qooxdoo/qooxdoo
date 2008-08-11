@@ -100,6 +100,8 @@ qx.Class.define("qx.ui.form.ComboBox",
 
   members :
   {
+    __preSelectedItem : null,
+
     /*
     ---------------------------------------------------------------------------
       WIDGET API
@@ -201,10 +203,10 @@ qx.Class.define("qx.ui.form.ComboBox",
     _onListMouseDown : function(e)
     {
       // Apply pre-selected item (translate quick selection to real selection)
-      if (this._preSelectedItem)
+      if (this.__preSelectedItem)
       {
-        this.setValue(this._preSelectedItem.getLabel());
-        this._preSelectedItem = null;
+        this.setValue(this.__preSelectedItem.getLabel());
+        this.__preSelectedItem = null;
       }
     },
 
@@ -220,12 +222,12 @@ qx.Class.define("qx.ui.form.ComboBox",
         var list = this._getChildControl("list");
         if (list.getSelectionContext() == "quick")
         {
-          this._preSelectedItem = current[0];
+          this.__preSelectedItem = current[0];
         }
         else
         {
           this.setValue(current[0].getLabel());
-          this._preSelectedItem = null;
+          this.__preSelectedItem = null;
         }
       }
     },

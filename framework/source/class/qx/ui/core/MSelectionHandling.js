@@ -129,6 +129,9 @@ qx.Mixin.define("qx.ui.core.MSelectionHandling",
 
   members :
   {
+    __manager : null,
+
+
     /*
     ---------------------------------------------------------------------------
       USER API

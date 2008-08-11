@@ -84,6 +84,8 @@ qx.Class.define("qx.ui.layout.Menu",
 
   members :
   {
+    __columnSizes : null,
+
     /*
     ---------------------------------------------------------------------------
       LAYOUT INTERFACE
@@ -94,10 +96,10 @@ qx.Class.define("qx.ui.layout.Menu",
     _computeSizeHint : function()
     {
       var children = this._getLayoutChildren();
-      var child, sizes;
+      var child, sizes, spacing;
 
       var spanColumn = this.getSpanColumn();
-      var columnSizes = this._columnSizes = [0, 0, 0, 0];
+      var columnSizes = this.__columnSizes = [0, 0, 0, 0];
       var columnSpacing = this.getColumnSpacing();
       var spanColumnWidth = 0;
       var maxInset = 0;
@@ -135,9 +137,9 @@ qx.Class.define("qx.ui.layout.Menu",
       // When merging the cells for label and shortcut
       // ignore the spacing between them
       if (spanColumnWidth == 0) {
-        var spacing = columnSpacing * 2;
+        spacing = columnSpacing * 2;
       } else {
-        var spacing = columnSpacing * 3;
+        spacing = columnSpacing * 3;
       }
 
       // Fix zero size icon column
@@ -171,7 +173,7 @@ qx.Class.define("qx.ui.layout.Menu",
      * @return {Array} List of all column widths
      */
     getColumnSizes : function() {
-      return this._columnSizes || null;
+      return this.__columnSizes || null;
     }
   }
 });

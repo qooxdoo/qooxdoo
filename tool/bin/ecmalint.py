@@ -414,6 +414,9 @@ class Lint:
                             
     def checkFields(self):        
         define = treeutil.findQxDefine(self.tree)
+        if not define:
+            return
+        
         classMapNode = treeutil.selectNode(define, "params/2")
         if classMapNode is None:
             return
@@ -442,7 +445,9 @@ class Lint:
             else:
                 prot = "protected"
             
-            if not field in restricted:
+            if prot == "protected":
+                self.log(node, "Protected data field '%s'. Protected fields are deprecated. Better use private fileds in combination with getter and setter methods." % field)
+            elif not field in restricted:
                 self.log(node, "Implicit declaration of %s field '%s'. You should list this field in the members section." % (prot, field))
         
 
@@ -554,6 +559,10 @@ misspelled identifier and missing 'var' statements. You can use the '-g' flag to
     )
 
     (options, args) = parser.parse_args(argv)
+
+    if len(args) == 1:
+        parser.print_help()
+        sys.exit(1)
 
     if options.globals:
         globals = options.globals

@@ -50,7 +50,7 @@ qx.Class.define("qx.ui.window.Window",
   *****************************************************************************
   */
 
-  construct : function(caption, icon, parentWindow)
+  construct : function(caption, icon)
   {
     this.base(arguments);
 
@@ -69,8 +69,6 @@ qx.Class.define("qx.ui.window.Window",
     if (caption != null) {
       this.setCaption(caption);
     }
-
-    this._parentWindow = parentWindow || null;
 
     // Update captionbar
     this._updateCaptionBar();
@@ -734,17 +732,6 @@ qx.Class.define("qx.ui.window.Window",
         left : left,
         top : top
       });
-    },
-
-
-    /*
-    ---------------------------------------------------------------------------
-      Parent window handling
-    ---------------------------------------------------------------------------
-    */
-
-    getParentWindow : function() {
-      return this._parentWindow;
     },
 
 
