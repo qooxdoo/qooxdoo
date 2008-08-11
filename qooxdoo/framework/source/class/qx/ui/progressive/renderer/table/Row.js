@@ -237,7 +237,8 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
 
       // Initialize row counter, if necessary.  We'll use this for shading
       // alternate rows.
-      if (state.getRendererData()[this.__name] === undefined)
+
+      if (state.getRendererData()[this.__name].end === undefined)
       {
         state.getRendererData()[this.__name] =
           {
@@ -301,7 +302,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
       {
       case "end":
         // Determine color of row based on state of last added row
-        var index = state.getRendererData()[this.__name].end || 0;
+        var index = rendererData.end || 0;
 
         // Set the background color of this row
         div.style.backgroundColor = this.__colors.bgcol[index];
