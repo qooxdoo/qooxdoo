@@ -25,8 +25,8 @@
  * *Features*
  *
  * * Gap between icon and text (using {@link #gap})
- * * Vertical and horizontal mode (using {@link #align})
- * * Sorting options to place first child on top/left or bottom/right (using {@link #align})
+ * * Vertical and horizontal mode (using {@link #iconPosition})
+ * * Sorting options to place first child on top/left or bottom/right (using {@link #iconPosition})
  * * Automatically middles/centers content to the available space
  * * Auto-sizing
  * * Supports more than two children (will be processed the same way like the previous ones)
@@ -73,11 +73,23 @@ qx.Class.define("qx.ui.layout.Atom",
 
 
     /** The position of the icon in relation to the text */
-    align :
+    iconPosition :
     {
       check : [ "left", "top", "right", "bottom" ],
       init : "left",
       apply  : "_applyLayoutChange"
+    },
+
+
+    /**
+     * Whether the content should be rendered centrally when to much space
+     * is available. Affects both axis.
+     */
+    center :
+    {
+      check : "Boolean",
+      init : true,
+      apply : "_applyLayoutChange"
     }
   },
 
@@ -114,16 +126,17 @@ qx.Class.define("qx.ui.layout.Atom",
     {
       var Util = qx.ui.layout.Util;
 
-      var align = this.getAlign();
+      var iconPosition = this.getIconPosition();
       var children = this._getLayoutChildren();
       var length = children.length;
 
       var left, top, width, height;
       var child, hint;
       var gap = this.getGap();
+      var center = this.getCenter();
 
       // reverse ordering
-      if (align === "bottom" || align === "right")
+      if (iconPosition === "bottom" || iconPosition === "right")
       {
         var start = length-1;
         var end = -1;
@@ -137,9 +150,32 @@ qx.Class.define("qx.ui.layout.Atom",
       }
 
       // vertical
-      if (align == "top" || align == "bottom")
+      if (iconPosition == "top" || iconPosition == "bottom")
       {
-        top = 0;
+        if (center)
+        {
+          var allocatedHeight = 0;
+          for (var i=start; i!=end; i+=increment)
+          {
+            height = children[i].getSizeHint().height;
+
+            if (height > 0)
+            {
+              allocatedHeight += height;
+
+              if (i != start) {
+                allocatedHeight += gap;
+              }
+            }
+          }
+
+          top = Math.round((availHeight - allocatedHeight) / 2);
+        }
+        else
+        {
+          top = 0;
+        }
+
         for (var i=start; i!=end; i+=increment)
         {
           child = children[i];
@@ -151,6 +187,7 @@ qx.Class.define("qx.ui.layout.Atom",
           left = Util.computeHorizontalAlignOffset("center", width, availWidth);
           child.renderLayout(left, top, width, height);
 
+          // Ignore pseudo invisible elements
           if (height > 0) {
             top += height + gap;
           }
@@ -162,6 +199,7 @@ qx.Class.define("qx.ui.layout.Atom",
       else
       {
         var remainingWidth = availWidth;
+        var allocatedWidth = 0;
         var shrinkTarget = null;
 
         for (var i=start; i!=end; i+=increment)
@@ -180,13 +218,22 @@ qx.Class.define("qx.ui.layout.Atom",
               remainingWidth -= width;
             }
 
-            if (i < (length - 1)) {
+            if (i != start)
+            {
               remainingWidth -= gap;
+              allocatedWidth += gap;
             }
+
+            allocatedWidth += width;
           }
         }
 
-        left = 0;
+        if (center && allocatedWidth < availWidth) {
+          left = Math.round((availWidth - allocatedWidth) / 2);
+        } else {
+          left = 0;
+        }
+
         for (var i=start; i!=end; i+=increment)
         {
           child = children[i];
@@ -240,10 +287,10 @@ qx.Class.define("qx.ui.layout.Atom",
         var minWidth=0, width=0;
         var minHeight=0, height=0;
 
-        var align = this.getAlign();
+        var iconPosition = this.getIconPosition();
         var gap = this.getGap();
 
-        if (align === "top" || align === "bottom")
+        if (iconPosition === "top" || iconPosition === "bottom")
         {
           for (var i=0; i<length; i++)
           {
