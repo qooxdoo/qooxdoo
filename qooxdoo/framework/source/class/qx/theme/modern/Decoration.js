@@ -858,10 +858,25 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
       style :
       {
-        widthBottom : 1,
+        width       : 1,
         color       : "border-dark-shadow",
         style       : "solid"
       }
+   },
+
+   "progressive-table-header-cell" :
+   {
+     decorator :  qx.ui.decoration.Double,
+
+     style :
+     {
+       backgroundImage  : "decoration/table/header-cell.png",
+       backgroundRepeat : "scale",
+
+       widthRight : 1,
+       colorRight : "#F2F2F2",
+       style      : "solid"
+     }
    },
 
 

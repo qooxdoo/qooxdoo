@@ -86,7 +86,7 @@ qx.Theme.define("qx.theme.classic.Color",
     "table-row-line" : "#EEE",
     "table-column-line" : "#EEE",
 
-    "progressive-table-heading" : "#AAAAAA",
+    "progressive-table-header" : "#AAAAAA",
 
     "progressive-table-row-background-even" : [ 250, 248, 243 ],
     "progressive-table-row-background-odd " : [ 255, 255, 255 ],

@@ -47,13 +47,6 @@ qx.Class.define("qx.ui.progressive.headfoot.TableHeading",
     // Save the Widths object containing all of our column widths
     this._columnWidths = columnWidths;
     
-    // Set a default height for the table heading
-    this.setHeight(16);
-
-    // We want the same padding here as in the table row
-    this.setPaddingLeft(qx.ui.progressive.renderer.table.Row.__padding);
-    this.setPaddingRight(qx.ui.progressive.renderer.table.Row.__padding);
-
     // Get the array of column width data
     var columnData = columnWidths.getData();
 
@@ -65,6 +58,7 @@ qx.Class.define("qx.ui.progressive.headfoot.TableHeading",
     {
       // ... create an atom to hold the label
       label = new qx.ui.basic.Atom(labelArr[i]);
+      label.setAppearance("progressive-table-header-cell");
 
       // Add the label to this heading.
       this.add(label);
@@ -90,13 +84,12 @@ qx.Class.define("qx.ui.progressive.headfoot.TableHeading",
 
   properties :
   {
-    // overridden
     appearance :
     {
       refine : true,
-        //      init : "progressive-table-header"
       init : "progressive-table-header"
-    }
+    },
+    
   },
 
   members :
