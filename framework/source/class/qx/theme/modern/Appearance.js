@@ -67,7 +67,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       {
         return {
           textColor : states.disabled ? "text-disabled" :
-                      states.focused ? "text-focused" :
+                      states.focused ? "text" :
                       "undefined"
         };
       }
@@ -298,7 +298,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         return {
           decorator       : states.focused ? "input-focused" : "input",
           padding         : [ 1, 3 ],
-          textColor       : states.disabled ? "text-disabled" : "input-text",
+          textColor       : states.disabled ? "text-disabled" : "text-field",
           backgroundColor : "#fcfcfc"
         };
       }
@@ -348,8 +348,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       {
         return {
           icon : "decoration/arrows/up-small.png",
-          padding : states.pressed ? [2, 2, 0, 4] : [1, 3, 1, 3],
-          backgroundColor : states.focused ? "background-focused-inner" : states.hovered ? "button-hovered" : "button"
+          padding : states.pressed ? [2, 2, 0, 4] : [1, 3, 1, 3]
         }
       }
     },
@@ -363,8 +362,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       {
         return {
           icon : "decoration/arrows/down-small.png",
-          padding : states.pressed ? [2, 2, 0, 4] : [1, 3, 1, 3],
-          backgroundColor : states.focused ? "background-focused-inner" : states.hovered ? "button-hovered" : "button"
+          padding : states.pressed ? [2, 2, 0, 4] : [1, 3, 1, 3]
         };
       }
     },
@@ -1525,7 +1523,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
           textAlign       : "center",
           decorator       : states.today ? "focus" : "undefined",
           textColor       : states.selected ? "text-selected" : states.otherMonth ? "text-disabled" : "undefined",
-          backgroundColor : states.selected ? "selected" : "undefined",
+          backgroundColor : states.selected ? "datechooser-day-selected" : "undefined",
           padding         : [ 2, 4 ]
         };
       }
@@ -1606,7 +1604,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         return {
           decorator : null,
           padding   : [ 2, 3 ],
-          textColor : states.disabled ? "text-disabled" : "input-text"
+          textColor : states.disabled ? "text-disabled" : "text-field"
         };
       }
     },

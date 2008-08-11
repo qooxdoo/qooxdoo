@@ -55,7 +55,6 @@ qx.Theme.define("qx.theme.modern.Color",
     "text" : "#1a1a1a",
     "text-disabled" : [ 107, 106, 110 ],
     "text-selected" : "#fffefe",
-    "text-focused" : "#1a1a1a", // TODO: check this one
 
 
 
@@ -65,19 +64,13 @@ qx.Theme.define("qx.theme.modern.Color",
     ---------------------------------------------------------------------------
     */
     
-    // TODO: Rename to text-field for example
-    "input-text" : "black",
+    "text-field" : "black",
     
-    // TODO: Where are these used?
+    // Used for the "input-focused" and "focus" decorator
     "focus" : "#92B1DC",
-    "pane" : "#ededed",
-
-    // TODO: Are these background colors? Shouldn't they be named this way?
-    "selected" : "#00439d",
-    "selected-inactive" : "#7a9bc8",
 
 
-
+    
     /*
     ---------------------------------------------------------------------------
       BORDER
@@ -86,34 +79,9 @@ qx.Theme.define("qx.theme.modern.Color",
         
     "border" : "#2D405A",
 
-    // TODO: adjust border colors
-    // TODO: Are these still used anywhere? In the Modern theme?
-    "border-light" : "white",
-    "border-light-shadow" : "#DCDFE4",
+    // these two borders are used in the appearance theme and for decorators
     "border-dark-shadow" : "#4d4d4d",
     "border-dark" : "#85878C",
-
-    // TODO: adjust these colors to the Modern theme!
-    "border-focused-light" : "#BCCEE5",
-    "border-focused-light-shadow" : "#A5BDDE",
-    "border-focused-dark-shadow" : "#7CA0CF",
-    "border-focused-dark" : "#3E6CA8",
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      BUTTON
-    ---------------------------------------------------------------------------
-    */
-
-    // TODO: Are these used anywhere? Can we remove them?
-    "button" : "#EBE9ED",
-    "button-hovered" : "#F6F5F7",
-    "button-abandoned" : "#F9F8E9",
-    "button-checked" : "#F3F0F5",
-
 
 
 
@@ -125,6 +93,7 @@ qx.Theme.define("qx.theme.modern.Color",
 
     "date-chooser" : "#F2F2F2",
     "date-chooser-title" : "#00439d",
+    "datechooser-day-selected" : "#00439d",
 
 
 
@@ -150,14 +119,15 @@ qx.Theme.define("qx.theme.modern.Color",
 
     "table-row-line" : "#EEE",
     "table-column-line" : "#EEE",
+    
 
-    // no impact (decorators with backgroundImages are used)
-    // TODO: Why not remove them then?
-    "table-header" : [ 242, 242, 242 ],
-    "table-header-border" : [ 214, 213, 217 ],
-    "table-header-cell" : [ 235, 234, 219 ],
-    "table-header-cell-hover" : [ 255, 255, 255 ],
-
+    
+    /*
+    ---------------------------------------------------------------------------
+      PROGRESSIVE TABLE
+    ---------------------------------------------------------------------------
+    */
+    
     "progressive-table-header"              : "#AAAAAA",
 
     "progressive-table-row-background-even" : "#F4F4F4",
