@@ -29,24 +29,30 @@ qx.Theme.define("qx.theme.modern.Font",
   {
     "default" :
     {
-      size : 12,
+      size : qx.bom.client.System.WINVISTA ? 12 : 11,
       lineHeight : 1.4,
-      family : [ "Segoe UI", "Lucida Grande", "Candara", "Liberation Sans", "Arial" ]
+      family : qx.bom.client.Platform.MAC ? [ "Lucida Grande" ] :
+        qx.bom.client.System.WINVISTA ? [ "Segoe UI", "Candara" ] :
+        [ "Tahoma", "Liberation Sans", "Arial" ]
     },
-    
+
     "bold" :
     {
-      size : 12,
+      size : qx.bom.client.System.WINVISTA ? 12 : 11,
       lineHeight : 1.4,
-      family : [ "Segoe UI", "Lucida Grande", "Candara", "Liberation Sans", "Arial" ],
+      family : qx.bom.client.Platform.MAC ? [ "Lucida Grande" ] :
+        qx.bom.client.System.WINVISTA ? [ "Segoe UI", "Candara" ] :
+        [ "Tahoma", "Liberation Sans", "Arial" ],
       bold : true
     },
 
     "small" :
     {
-      size : 11,
+      size : qx.bom.client.System.WINVISTA ? 11 : 10,
       lineHeight : 1.4,
-      family : [ "Segoe UI", "Lucida Grande", "Candara", "Liberation Sans", "Arial" ]
+      family : qx.bom.client.Platform.MAC ? [ "Lucida Grande" ] :
+        qx.bom.client.System.WINVISTA ? [ "Segoe UI", "Candara" ] :
+        [ "Tahoma", "Liberation Sans", "Arial" ]
     }
   }
 });
