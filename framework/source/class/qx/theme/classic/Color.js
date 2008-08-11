@@ -89,7 +89,7 @@ qx.Theme.define("qx.theme.classic.Color",
     "progressive-table-header" : "#AAAAAA",
 
     "progressive-table-row-background-even" : [ 250, 248, 243 ],
-    "progressive-table-row-background-odd " : [ 255, 255, 255 ],
+    "progressive-table-row-background-odd"  : [ 255, 255, 255 ],
 
     "progressive-progressbar-background"         : "gray",
     "progressive-progressbar-indicator-done"     : "#CCCCCC",
