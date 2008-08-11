@@ -398,13 +398,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
     "datefield/list" :
     {
       alias : "datechooser",
-      include : "datechooser",
-
-      style : function(states) {
-        return {
-//          decorator : states.focused ? "focused-inset" : "inset"
-        }
-      }
+      include : "datechooser"
     },
 
 
@@ -437,13 +431,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
 
     "colorfield/list" : {
       alias : "list",
-      include : "list",
-
-      style : function(states) {
-        return {
-          //decorator : states.focused ? "focused-inset" : "inset"
-        }
-      }
+      include : "list"
     },
 
 
@@ -1408,15 +1396,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
     ---------------------------------------------------------------------------
     */
 
-    "datechooser" :
-    {
-      style : function(states)
-      {
-        return {
-          decorator : "date-chooser"
-        }
-      }
-    },
+    "datechooser" : "widget",
 
     "datechooser/navigation-bar" :
     {
@@ -1799,12 +1779,14 @@ qx.Theme.define("qx.theme.modern.Appearance",
     "colorselector/preset-grid" : "widget",
 
 
-    "colorselector/preset-grid/colorbucket":
+    "colorselector-colorbucket":
     {
       style : function(states)
       {
         return {
-          decorator : "tooltip"
+          decorator : "tooltip",
+          width : 14,
+          height : 14
         }
       }
     },
@@ -1834,7 +1816,9 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          decorator : "tooltip"
+          decorator : "tooltip",
+          width : 50,
+          height : 20
         }
       }
     },
@@ -1845,7 +1829,9 @@ qx.Theme.define("qx.theme.modern.Appearance",
       {
         return {
           decorator : "tooltip",
-          backgroundColor : "white"
+          backgroundColor : "white",
+          width : 50,
+          height : 20
         }
       }
     },

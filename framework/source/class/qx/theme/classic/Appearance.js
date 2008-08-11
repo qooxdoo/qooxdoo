@@ -1646,12 +1646,14 @@ qx.Theme.define("qx.theme.classic.Appearance",
     "colorselector/preset-grid" : "widget",
     
     
-    "colorselector/preset-grid/colorbucket":
+    "colorselector-colorbucket":
     {
       style : function(states)
       {
         return {
-          decorator : "inset-thin"
+          decorator : "inset-thin",
+          width : 14,
+          height : 14
         }
       }
     },
@@ -1681,7 +1683,9 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          decorator : "inset-thin"
+          decorator : "inset-thin",
+          width : 50,
+          height : 20
         }
       }
     },
@@ -1692,7 +1696,9 @@ qx.Theme.define("qx.theme.classic.Appearance",
       {
         return {
           decorator : "inset-thin",
-          backgroundColor : "white"
+          backgroundColor : "white",
+          width : 50,
+          height : 20
         }
       }
     },

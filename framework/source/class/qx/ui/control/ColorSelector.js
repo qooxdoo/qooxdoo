@@ -167,7 +167,9 @@ qx.Class.define("qx.ui.control.ColorSelector",
         ---------------------------------------------------------------------------
         */                
         case "control-bar":
-          control = new qx.ui.container.Composite(new qx.ui.layout.HBox());
+          control = new qx.ui.container.Composite(new qx.ui.layout.HBox().set({
+            alignY : "bottom"
+          }));
                     
           control.add(this._getChildControl("control-pane"));
           control.add(this._getChildControl("hue-saturation-pane"));
@@ -190,6 +192,7 @@ qx.Class.define("qx.ui.control.ColorSelector",
           
         case "hue-saturation-pane":
           control = new qx.ui.container.Composite(new qx.ui.layout.Canvas());
+          control.setAllowGrowY(false);
           control.addListener("mousewheel", this._onHueSaturationPaneMouseWheel, this);
           control.add(this._getChildControl("hue-saturation-field"));      
           control.add(this._getChildControl("hue-saturation-handle"), {left: 0, top: 256});
@@ -209,6 +212,7 @@ qx.Class.define("qx.ui.control.ColorSelector",
           
         case "brightness-pane":
           control = new qx.ui.container.Composite(new qx.ui.layout.Canvas());          
+          control.setAllowGrowY(false);
           control.addListener("mousewheel", this._onBrightnessPaneMouseWheel, this);            
           control.add(this._getChildControl("brightness-field"));
           control.add(this._getChildControl("brightness-handle"));
@@ -241,12 +245,7 @@ qx.Class.define("qx.ui.control.ColorSelector",
         case "preset-grid":
           controlLayout = new qx.ui.layout.Grid(2, 2);
           control = new qx.ui.container.Composite(controlLayout);
-          for (var i = 0; i < 10; i++) {
-            controlLayout.setColumnWidth(i, 18);            
-          }
-          controlLayout.setRowHeight(0, 16);
-          controlLayout.setRowHeight(1, 16);
-    
+
           this._presetTable = [ "maroon", "red", "orange", "yellow", "olive", "purple", "fuchsia", "lime", "green", "navy", "blue", "aqua", "teal", "black", "#333", "#666", "#999", "#BBB", "#EEE", "white" ];
     
           var colorField;
@@ -256,7 +255,7 @@ qx.Class.define("qx.ui.control.ColorSelector",
             for (var j=0; j<10; j++)
             {
               colorField = new qx.ui.core.Widget();
-              colorField.setAppearance("colorselector/preset-grid/colorbucket");
+              colorField.setAppearance("colorselector-colorbucket");
               colorField.setBackgroundColor(this._presetTable[i * 10 + j]);
               colorField.addListener("mousedown", this._onColorFieldClick, this);
     
@@ -665,9 +664,10 @@ qx.Class.define("qx.ui.control.ColorSelector",
       // Calculate subtract: Position of Brightness Field - Current Mouse Offset
       var locationBrightnessField = this._getChildControl("brightness-field").getContainerLocation();
       var locationBrightnessHandle = this._getChildControl("brightness-handle").getContainerLocation();
+      var fieldBounds = this._getChildControl("brightness-field").getBounds();
 
       this._brightnessSubtract = locationBrightnessField.top +
-        (e.getDocumentTop() - locationBrightnessHandle.top);
+        (e.getDocumentTop() - locationBrightnessHandle.top) - fieldBounds.top;
 
       // Block field event handling
       e.stopPropagation();
@@ -786,9 +786,10 @@ qx.Class.define("qx.ui.control.ColorSelector",
       // Calculate subtract: Position of HueSaturation Field - Current Mouse Offset
       var location = this._getChildControl("hue-saturation-field").getContainerLocation();
       var bounds = this._getChildControl("hue-saturation-handle").getBounds();
+      var fieldBounds = this._getChildControl("hue-saturation-field").getBounds();
 
-      this._hueSaturationSubtractTop = location.top + (e.getDocumentTop() - bounds.top);
-      this._hueSaturationSubtractLeft = location.left + (e.getDocumentLeft() - bounds.left);
+      this._hueSaturationSubtractTop = location.top + (e.getDocumentTop() - bounds.top) - fieldBounds.top;
+      this._hueSaturationSubtractLeft = location.left + (e.getDocumentLeft() - bounds.left) - fieldBounds.left;
 
       // Block field event handling
       e.stopPropagation();
@@ -837,9 +838,11 @@ qx.Class.define("qx.ui.control.ColorSelector",
     {
       // Calculate substract: Half width/height of handler
       var location = this._getChildControl("hue-saturation-field").getContainerLocation();
-      var bounds = this._getChildControl("hue-saturation-handle").getBounds();
-      this._hueSaturationSubtractTop = location.top + (bounds.height / 2);
-      this._hueSaturationSubtractLeft = location.left + (bounds.width / 2);
+      var handleBounds = this._getChildControl("hue-saturation-handle").getBounds();
+      var fieldBounds = this._getChildControl("hue-saturation-field").getBounds();
+
+      this._hueSaturationSubtractTop = location.top + (handleBounds.height / 2) - fieldBounds.top;
+      this._hueSaturationSubtractLeft = location.left + (handleBounds.width / 2) - fieldBounds.left;
 
       // Update
       this._setHueSaturationOnFieldEvent(e);
