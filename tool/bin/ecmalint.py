@@ -434,6 +434,10 @@ class Lint:
                 assignNodes.append(node)
         
         for node in assignNodes:
+            this = treeutil.selectNode(node, "left/variable/identifier[1]/@name")
+            if this != "this":
+                continue
+            
             field = treeutil.selectNode(node, "left/variable/identifier[2]/@name")
             if field is None:
                 continue
