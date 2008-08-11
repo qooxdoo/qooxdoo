@@ -41,6 +41,26 @@ qx.Class.define("qx.ui.container.Scroll",
 
 
 
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+
+  properties :
+  {
+    /** Padding of the spinner's input field */
+    contentPadding :
+    {
+      check : "Array",
+      nullable : true,
+      init : null,
+      apply : "_applyContentPadding",
+      themeable : true
+    }
+  },
+
+
 
 
   /*
@@ -59,7 +79,12 @@ qx.Class.define("qx.ui.container.Scroll",
      * @param widget {qx.ui.core.Widget} Widget to insert
      * @return {void}
      */
-    add : function(widget) {
+    add : function(widget)
+    {
+      var padding = this.getContentPadding();
+      if (padding) {
+        widget.setPadding(pading);
+      }
       this._getChildControl("pane").add(widget);
     },
 
@@ -85,6 +110,16 @@ qx.Class.define("qx.ui.container.Scroll",
      */
     getChild : function() {
       return this._getChildControl("pane").getChild();
+    },
+
+
+    // property apply
+    _applyContentPadding : function(value, old)
+    {
+      var child = this.getChild();
+      if (value && child) {
+        child.setPadding(value);
+      }
     }
   }
 });

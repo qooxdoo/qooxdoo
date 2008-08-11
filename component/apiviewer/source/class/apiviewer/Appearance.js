@@ -28,6 +28,72 @@ qx.Theme.define("apiviewer.Appearance",
 
   appearances :
   {
+    "api-tabview" :
+    {
+      include : "tabview",
+      alias : "tabview",
+
+      style : function(states)
+      {
+        return {
+          width: 270
+        };
+      }
+    },
+
+    "detail-frame" :
+    {
+      style : function(states)
+      {
+        return {
+          decorator: "pane",
+          padding: 2
+        };
+      }
+    },
+
+    "main-splitpane" :
+    {
+      extend : "splitpane",
+      alias : "splitpane",
+
+      style : function(states)
+      {
+        return {
+          margin : [2, 0, 0, 2]
+        };
+      }
+    },
+
+    "legend" :
+    {
+      extend : "scrollarea",
+      alias : "scrollarea",
+
+      style : function(states)
+      {
+        return {
+          contentPadding: [5, 5, 5, 5]
+        };
+      }
+    },
+
+    "package-page" : "tabview-page",
+    "info-page" : "tabview-page",
+    "search-page" :
+    {
+      extend : "tabview-page",
+      alias : "tabview-page",
+
+      style : function(states)
+      {
+        return {
+          padding: [5, 5, 5, 5]
+        };
+      }
+    },
+
+
     "legendview-label-important" :
     {
       style : function(states)
@@ -38,12 +104,24 @@ qx.Theme.define("apiviewer.Appearance",
         };
       }
     },
+
     "legendview-label" :
     {
       style : function(states)
       {
         return {
           textColor: "#134275"
+        };
+      }
+    },
+
+    "splitpane/splitter" :
+    {
+      style : function(states)
+      {
+        return {
+          paddingRight : 1,
+          backgroundColor : "#dfdfdf"
         };
       }
     }
