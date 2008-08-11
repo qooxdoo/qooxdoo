@@ -241,9 +241,10 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
       {
         state.getRendererData()[this.__name] =
           {
-            end   : 0,
-            start : 1,
-            rows  : 0
+            end         : 0,
+            start       : 1,
+            rows        : 0,
+            totalHeight : 0
           };
       }
 
@@ -283,14 +284,17 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
 
       height = (height > 0 ? height : this.getDefaultRowHeight());
 
+      // Get a reference to our renderer data
+      var rendererData = state.getRendererData()[this.__name];
+
+      // Track total height so we can determine if there's a vertical scrollbar
+      rendererData.totalHeight += height;
+
       // Set properties for the row div
       div.style.position = "relative";
       div.style.height = height + "px";
       div.className = "qx-progressive-" + this.__hash + "-row";
       div.innerHTML = html.join("");
-
-      // Get a reference to our renderer data
-      var rendererData = state.getRendererData()[this.__name];
 
       // Add this row to the table
       switch(element.location)

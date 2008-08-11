@@ -67,6 +67,18 @@ qx.Class.define("qx.ui.progressive.headfoot.TableHeading",
       this.__labels[i] = label;
     }
 
+    // link to color theme
+    var colorMgr = qx.theme.manager.Color.getInstance();
+
+    // Add a spacer to take up the scroll-bar width
+    var spacer = new qx.ui.core.Widget();
+    spacer.set(
+      {
+        height : 16,
+        backgroundColor : colorMgr.resolve("progressive-table-header")
+      });
+    this.add(spacer, { flex : 1 });
+
     // Arrange to be called when the window appears or is resized, so we
     // can set each style sheet's left and width field appropriately.
     this.addListener("resize", this._resizeColumns, this);
@@ -129,7 +141,6 @@ qx.Class.define("qx.ui.progressive.headfoot.TableHeading",
      */
     _resizeColumns : function(e)
     {
-
       var width =
         this.getBounds().width - qx.bom.element.Overflow.getScrollbarWidth();
 
