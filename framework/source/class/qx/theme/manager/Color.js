@@ -18,6 +18,9 @@
 
 ************************************************************************ */
 
+/**
+ * Manager for color themes
+ */
 qx.Class.define("qx.theme.manager.Color",
 {
   type : "singleton",

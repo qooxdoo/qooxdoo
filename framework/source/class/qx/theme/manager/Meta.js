@@ -18,6 +18,9 @@
 
 ************************************************************************ */
 
+/**
+ * Manager for meta themes
+ */
 qx.Class.define("qx.theme.manager.Meta",
 {
   type : "singleton",
