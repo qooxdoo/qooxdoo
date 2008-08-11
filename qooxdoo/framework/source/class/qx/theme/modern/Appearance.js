@@ -1761,19 +1761,60 @@ qx.Theme.define("qx.theme.modern.Appearance",
     ---------------------------------------------------------------------------
     */
 
-    "colorselector" : "widget",
+    "colorselector" :
+    {
+      style : function(states)
+      {
+        return {
+          decorator : "pane",
+    		  padding : 5
+  		  }
+      }
+    },
 
-    // TODO: "button-bar"
-    "colorselector/button-bar" : "widget",
+
+    "colorselector/button-bar":
+    {
+      style : function(states)
+      {
+        return {
+          padding : [2, 4]
+        }
+      }
+    },
+
     "colorselector/cancle-button" : "button",
     "colorselector/ok-button" : "button",
 
     // TODO: "control-bar"
     "colorselector/control-bar" : "widget",
-    "colorselector/control-pane" : "widget",
+    
+    
+    "coloselector/control-panel":
+    {
+      style : function(states)
+      {
+        return {
+          padding : 4,
+          paddingBottom : 7
+        }
+      }
+    },
 
     // TODO: "preset-grid"
     "colorselector/preset-grid" : "widget",
+    
+    
+    "colorselector/preset-grid/colorbucket":
+    {
+      style : function(states)
+      {
+        return {
+          decorator : "tooltip"
+        }
+      }
+    },
+
     "colorselector/preset-field-set" : "groupbox",
     "colorselector/input-field-set" : "groupbox",
     "colorselector/preview-field-set" : "groupbox",
@@ -1794,16 +1835,72 @@ qx.Theme.define("qx.theme.modern.Appearance",
     "colorselector/hsb-spinner-saturation" : "spinner",
     "colorselector/hsb-spinner-brightness" : "spinner",
 
-    // TODO
-    "colorselector/preview-content-old" : "widget",
-    "colorselector/preview-content-new" : "widget",
+    "colorselector/preview-content-old":
+    {
+      style : function(states)
+      {
+        return {
+          decorator : "tooltip"
+        }
+      }
+    },
 
-    // TODO
-    "colorselector/hue-saturation-pane" : "widget",
-    "colorselector/hue-saturation-field" : "widget",
+    "colorselector/preview-content-new":
+    {
+      style : function(states)
+      {
+        return {
+          decorator : "tooltip",
+          backgroundColor : "white"
+        }
+      }
+    },
+
+    "colorselector/hue-saturation-pane":
+    {
+      style : function(states)
+      {
+        return {
+          padding : [6, 4]
+        }
+      }
+    },
+    
+    
+    "colorselector/hue-saturation-field":
+    {
+      style : function(states)
+      {
+        return {
+          decorator : "tooltip",
+          margin : 5      
+        }
+      }
+    },
+    
     "colorselector/hue-saturation-handle" : "widget",
-    "colorselector/brightness-pane" : "widget",
-    "colorselector/brightness-field" : "widget",
+
+    "colorselector/brightness-pane":
+    {
+      style : function(states)
+      {
+        return {
+          padding : [6, 4]
+        }
+      }
+    },
+    
+    "colorselector/brightness-field":
+    {
+      style : function(states)
+      {
+        return {
+          decorator : "tooltip",
+          margin : [5, 7]
+        }
+      }
+    },
+    
     "colorselector/brightness-handle" : "widget",
 
 

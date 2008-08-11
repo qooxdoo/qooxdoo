@@ -55,9 +55,6 @@ qx.Class.define("qx.ui.control.ColorSelector",
     // add the basic layout
     this._setLayout(new qx.ui.layout.VBox());
 
-    this.setDecorator("pane");
-		this.setPadding(5);
-
     this._createChildControl("control-bar");
     this._createChildControl("button-bar");
   },
@@ -182,9 +179,7 @@ qx.Class.define("qx.ui.control.ColorSelector",
           
         case "button-bar":
           control = new qx.ui.container.Composite(new qx.ui.layout.HBox(4, "right"));      
-          control.setPadding(2, 4);
           this._add(control);
-    
           control.add(this._getChildControl("cancle-button"));
           control.add(this._getChildControl("ok-button"));
           break;
@@ -207,9 +202,6 @@ qx.Class.define("qx.ui.control.ColorSelector",
         */
         case "control-pane":
           control = new qx.ui.container.Composite(new qx.ui.layout.VBox());
-          control.setPadding(4);
-          control.setPaddingBottom(7);
-          
           control.add(this._getChildControl("preset-field-set"));
           control.add(this._getChildControl("input-field-set"));
           control.add(this._getChildControl("preview-field-set"), {flex: 1});
@@ -217,7 +209,6 @@ qx.Class.define("qx.ui.control.ColorSelector",
           
         case "hue-saturation-pane":
           control = new qx.ui.container.Composite(new qx.ui.layout.Canvas());
-          control.setPadding(6, 4);
           control.addListener("mousewheel", this._onHueSaturationPaneMouseWheel, this);
           control.add(this._getChildControl("hue-saturation-field"));      
           control.add(this._getChildControl("hue-saturation-handle"), {left: 0, top: 256});
@@ -225,8 +216,6 @@ qx.Class.define("qx.ui.control.ColorSelector",
           
         case "hue-saturation-field":
             control = new qx.ui.basic.Image("decoration/colorselector/huesaturation-field.jpg");
-            control.setDecorator("inset-thin");
-            control.setMargin(5);      
             control.addListener("mousedown", this._onHueSaturationFieldMouseDown, this);        
           break;
           
@@ -239,7 +228,6 @@ qx.Class.define("qx.ui.control.ColorSelector",
           
         case "brightness-pane":
           control = new qx.ui.container.Composite(new qx.ui.layout.Canvas());          
-          control.setPadding(6, 4);          
           control.addListener("mousewheel", this._onBrightnessPaneMouseWheel, this);            
           control.add(this._getChildControl("brightness-field"));
           control.add(this._getChildControl("brightness-handle"));
@@ -247,8 +235,6 @@ qx.Class.define("qx.ui.control.ColorSelector",
           
         case "brightness-field":
             control = new qx.ui.basic.Image("decoration/colorselector/brightness-field.jpg");
-            control.setDecorator("inset-thin");
-            control.setMargin(5, 7);      
             control.addListener("mousedown", this._onBrightnessFieldMouseDown, this);
           break;
           
@@ -289,7 +275,7 @@ qx.Class.define("qx.ui.control.ColorSelector",
             for (var j=0; j<10; j++)
             {
               colorField = new qx.ui.core.Widget();
-              colorField.setDecorator("inset-thin");
+              colorField.setAppearance("colorselector/preset-grid/colorbucket");
               colorField.setBackgroundColor(this._presetTable[i * 10 + j]);
               colorField.addListener("mousedown", this._onColorFieldClick, this);
     
@@ -411,13 +397,10 @@ qx.Class.define("qx.ui.control.ColorSelector",
         */
         case "preview-content-old":
           control = new qx.ui.core.Widget();
-          control.setDecorator("inset-thin");
           break;
       
         case "preview-content-new":
           control = new qx.ui.core.Widget();
-          control.setDecorator("inset-thin");
-          control.setBackgroundColor("white");
           break;
       }
       
