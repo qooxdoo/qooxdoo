@@ -145,7 +145,7 @@ qx.Class.define("qx.ui.form.ComboBox",
 
     // overridden
     tabFocus : function() {
-      this._getChildControl("textfield").getFocusElement().focus();
+      this._getChildControl("textfield").tabFocus();
     },
 
 
