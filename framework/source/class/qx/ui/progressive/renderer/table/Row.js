@@ -84,7 +84,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
         "  text-overflow:ellipsis;" +
         "  -o-text-overflow: ellipsis;" +
         "  white-space:nowrap;" +
-        "  border-right:1px solid #eeeeee;" +
+        "  border-right:1px solid #f2f2f2;" +
         "  border-bottom:1px solid #eeeeee;" +
         "  padding : 0px 6px 0px 6px" +
         "  cursor:default;" +
@@ -437,7 +437,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
 
         // Create the new rule, based on calculated widths
         var widthRule =
-          (width -
+          (width - 1 -
            (qx.ui.progressive.renderer.table.Row.__padding * 2)) +
           "px;";
 
