@@ -233,9 +233,10 @@ qx.Class.define("qx.ui.control.ColorPopup",
         return;
       }
 
-      this._colorSelectorWindow = new qx.ui.window.Window(this.tr("Color Selector"));
-      this._colorSelectorWindow.setLayout(new qx.ui.layout.Grow);
-      this._colorSelectorWindow.setResizable(false);
+      var win = new qx.ui.window.Window(this.tr("Color Selector"));
+      this._colorSelectorWindow = win;
+      win.setLayout(new qx.ui.layout.VBox);
+      win.setResizable(false);
 
       this._colorSelector = new qx.ui.control.ColorSelector;
       this._colorSelector.addListener("dialogok", this._onColorSelectorOk, this);
@@ -246,7 +247,24 @@ qx.Class.define("qx.ui.control.ColorPopup",
       contentContainer.set({
         appearance : "window-pane-content"
       });
-      this._colorSelectorWindow.add(contentContainer);
+      win.add(contentContainer, {flex:1});
+      
+      var buttonBar = new qx.ui.container.Composite(new qx.ui.layout.HBox(4, "right"));      
+      buttonBar.setPaddingTop(3);
+      win.add(buttonBar);
+
+      var btnCancel = new qx.ui.form.Button(this.tr("Cancel"), "icon/16/actions/dialog-cancel.png"); 
+      btnCancel.addListener("execute", function(e){
+         this.fireEvent("dialogcancel");
+      }, this._colorSelector);
+
+      var btnOk = new qx.ui.form.Button(this.tr("OK"), "icon/16/actions/dialog-ok.png"); 
+      btnOk.addListener("execute", function(e){
+         this.fireEvent("dialogok");
+      }, this._colorSelector);
+
+      buttonBar.add(btnCancel);
+      buttonBar.add(btnOk);
 
       contentContainer.add(this._colorSelector);
     },

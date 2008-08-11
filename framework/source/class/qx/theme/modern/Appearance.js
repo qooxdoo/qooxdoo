@@ -1782,14 +1782,10 @@ qx.Theme.define("qx.theme.modern.Appearance",
       }
     },
 
-    "colorselector/cancle-button" : "button",
-    "colorselector/ok-button" : "button",
-
-    // TODO: "control-bar"
     "colorselector/control-bar" : "widget",
     
     
-    "coloselector/control-panel":
+    "colorselector/control-pane":
     {
       style : function(states)
       {
