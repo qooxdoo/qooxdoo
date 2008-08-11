@@ -1343,9 +1343,9 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          width : states.horizontal ? 6 : "undefined",
-          height : states.vertical ? 6 : "undefined",
-          backgroundColor : "#dfdfdf",
+          width : states.horizontal ? 7 : "undefined",
+          height : states.vertical ? 7 : "undefined",
+          backgroundColor : "background",
           decorator : states.horizontal ? "splitpane-splitter-horizontal" : "splitpane-splitter-vertical"
         };
       }
@@ -1366,9 +1366,9 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          width : states.horizontal ? 6 : "undefined",
-          height : states.vertical ? 6 : "undefined",
-          backgroundColor : "#dfdfdf"
+          width : states.horizontal ? 5 : "undefined",
+          height : states.vertical ? 5 : "undefined",
+          backgroundColor : "background"
         };
       }
     },
