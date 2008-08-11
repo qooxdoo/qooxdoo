@@ -31,8 +31,10 @@ qx.Class.define("demobrowser.demo.widget.GroupBox",
 
   members :
   {
-    main: function() {
+    main: function()
+    {
       this.base(arguments);
+
       // create the main layout
       var mainLayout = new qx.ui.layout.VBox();
       mainLayout.setSpacing(10);
@@ -73,8 +75,6 @@ qx.Class.define("demobrowser.demo.widget.GroupBox",
 
       // create the third group box
       var radioButton1 = new qx.ui.form.RadioButton("Normal Settings");
-      radioButton1.setPaddingLeft(13);
-      radioButton1.setPaddingBottom(-10);
       container.add(radioButton1);
 
       box3 = new qx.ui.groupbox.RadioGroupBox("Advanced Settings");
