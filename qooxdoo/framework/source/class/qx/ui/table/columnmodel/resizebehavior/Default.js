@@ -376,7 +376,7 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
         }
       }
 
-      var visibleColumns = tableColumnModel._visibleColumnArr;
+      var visibleColumns = tableColumnModel.getVisibleColumns();
       var visibleColumnsLength = visibleColumns.length;
       var i;
 
@@ -433,7 +433,7 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
       // Event data properties: col, oldWidth, newWidth
       var data = event.getData();
 
-      var visibleColumns = tableColumnModel._visibleColumnArr;
+      var visibleColumns = tableColumnModel.getVisibleColumns();
 
       // Determine the available width
       var width = this._getAvailableWidth(tableColumnModel);
@@ -513,7 +513,7 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
       }
 
       // Get the array of visible columns
-      var visibleColumns = tableColumnModel._visibleColumnArr;
+      var visibleColumns = tableColumnModel.getVisibleColumns();
 
       // Determine the available width
       var width = this._getAvailableWidth(tableColumnModel);

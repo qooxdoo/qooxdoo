@@ -24,18 +24,6 @@ qx.Class.define("qx.ui.table.cellrenderer.Number",
 {
   extend : qx.ui.table.cellrenderer.Conditional,
 
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
-  construct : function(align, color, style, weight)
-  {
-    this.base(arguments, align, color, style, weight);
-
-    this.initNumberFormat();
-  },
 
   /*
   *****************************************************************************
