@@ -107,34 +107,26 @@ def patchSkeleton(dir, name, namespace):
         sys.exit(1)
             
         
-    files = [
-        "config.json",
-        "generate.py",
-        "Manifest.json",
-        os.path.join("source", "index.html"),
-        os.path.join("source", "class", namespace, "Application.js")
-    ]
-
-    for file in files:
-        outFile = os.path.join(dir, file)
-        inFile = os.path.join(dir, file + ".tmpl")
-        console.log("Patching file '%s'" % outFile)
-    
-        config = Template(open(inFile).read())
-        out = open(outFile, "w")
-        out.write(
-            config.substitute({
-                "Name": name,
-                "Namespace": namespace,
-                "REL_QOOXDOO_PATH": relPath,
-                "ABS_QOOXDOO_PATH": absPath,
-                "QOOXDOO_VERSION": "0.8"
-            })
-        )
-        out.close()
+    for root, dirs, files in os.walk(dir):
+        for file in [file[:-5] for file in files if file.endswith(".tmpl")]:
+            outFile = os.path.join(root, file)
+            inFile = os.path.join(root, file + ".tmpl")
+            console.log("Patching file '%s'" % outFile)
         
-        console.log("Removing %s" % inFile)
-        os.remove(inFile)
+            config = Template(open(inFile).read())
+            out = open(outFile, "w")
+            out.write(
+                config.substitute({
+                    "Name": name,
+                    "Namespace": namespace,
+                    "REL_QOOXDOO_PATH": relPath,
+                    "ABS_QOOXDOO_PATH": absPath,
+                    "QOOXDOO_VERSION": "0.8"
+                })
+            )
+            out.close()
+            
+            os.remove(inFile)
 
 
 def handleRemoveReadonly(func, path, exc):
