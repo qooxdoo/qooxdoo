@@ -110,6 +110,7 @@ qx.Class.define("qx.ui.form.SelectBox",
 
         case "atom":
           control = new qx.ui.basic.Atom(" ");
+          control.setCenter(false);
           this._add(control, {flex:1});
           break;
 
