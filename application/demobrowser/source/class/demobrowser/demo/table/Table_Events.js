@@ -45,7 +45,7 @@ qx.Class.define("demobrowser.demo.table.Table_Events",
 
       var eventsWin = this._eventsWin = new qx.ui.window.Window("Event log").set({
         height: 400,
-        width: 250,
+        width: 290,
         showClose: false,
         showMinimize: false
       });
@@ -60,8 +60,8 @@ qx.Class.define("demobrowser.demo.table.Table_Events",
 
       var table = new qx.ui.table.Table(this._events);
       table.getTableColumnModel().setColumnWidth(0, 150);
-      table.getTableColumnModel().setColumnWidth(1, 40);
-      table.getTableColumnModel().setColumnWidth(2, 40);
+      table.getTableColumnModel().setColumnWidth(1, 60);
+      table.getTableColumnModel().setColumnWidth(2, 60);
 
       eventsWin.add(table, {edge: 0});
     },
