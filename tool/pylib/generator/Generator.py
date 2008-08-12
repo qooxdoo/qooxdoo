@@ -100,6 +100,7 @@ class Generator:
         _classes = {}
         _docs = {}
         _translations = {}
+        _libs = {}
         if not isinstance(library, types.ListType):
             return (_namespaces, _classes, _docs, _translations)
 
@@ -139,6 +140,7 @@ class Generator:
             _classes.update(classes)
             _docs.update(path.getDocs())
             _translations[namespace] = path.getTranslations()
+            _libs[namespace] = entry
 
             memcache[key] = path
 
@@ -146,7 +148,7 @@ class Generator:
         self._console.debug("Loaded %s libraries" % len(_namespaces))
         self._console.debug("")
 
-        return (_namespaces, _classes, _docs, _translations)
+        return (_namespaces, _classes, _docs, _translations, _libs)
 
 
 
@@ -366,7 +368,8 @@ class Generator:
          self._classes,
          self._docs,
          #self._translations) = self.scanLibrary(config.extract("library"))
-         self._translations) = self.scanLibrary(config.get("library"))
+         self._translations,
+         self._libs) = self.scanLibrary(config.get("library"))
 
         # Create tool chain instances
         self._treeLoader     = TreeLoader(self._classes, self._cache, self._console)
@@ -543,7 +546,9 @@ class Generator:
         self._console.info("Updating translations...")
         self._console.indent()
         for namespace in namespaces:
-            self._locale.updateTranslations(namespace, locales)
+            lib = self._libs[namespace]
+            self._locale.updateTranslations(namespace, os.path.join(lib['path'],lib['translation']), 
+                                            locales)
 
         self._console.outdent()
 
