@@ -237,7 +237,6 @@ qx.Class.define("qx.ui.form.SelectBox",
       var iden = e.getKeyIdentifier();
       if(iden == "Enter" || iden == "Space")
       {
-        this.debug(iden + " :: " + this.__preSelectedItem);
         // Apply pre-selected item (translate quick selection to real selection)
         if (this.__preSelectedItem)
         {
