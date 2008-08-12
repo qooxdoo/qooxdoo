@@ -40,7 +40,7 @@ qx.Class.define("qx.ui.menu.AbstractButton",
     this.base(arguments);
 
     // Use hard coded layout
-    this._setLayout(new qx.ui.layout.MenuButton);
+    this._setLayout(new qx.ui.menu.ButtonLayout);
 
     // Add listeners
     this.addListener("mouseup", this._onMouseUp);

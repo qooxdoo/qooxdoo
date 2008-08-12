@@ -23,7 +23,7 @@
  *
  * @internal
  */
-qx.Class.define("qx.ui.layout.Menu",
+qx.Class.define("qx.ui.menu.Layout",
 {
   extend : qx.ui.layout.VBox,
 
