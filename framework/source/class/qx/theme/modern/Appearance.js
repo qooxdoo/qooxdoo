@@ -430,9 +430,18 @@ qx.Theme.define("qx.theme.modern.Appearance",
       }
     },
 
-    "colorfield/list" : {
-      alias : "list",
-      include : "list"
+    "colorfield/list" : "list",
+
+
+    "colorfield/popup" : {
+      alias : "widget",
+      include : "widget",
+      style : function(states)
+      {
+        return {
+          shadow : "popup-shadow"
+        }
+      }
     },
 
 
@@ -1786,7 +1795,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       {
         return {
           decorator : "tooltip",
-          width : 14,
+          width : 18,
           height : 14
         }
       }

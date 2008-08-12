@@ -28,13 +28,13 @@
 ************************************************************************ */
 
 
-/** A color popup */
+/**
+ * A popup which contains paletts of colors and the possibility to open the
+ * Colorselector to choose a color.
+ */
 qx.Class.define("qx.ui.control.ColorPopup",
 {
   extend : qx.ui.popup.Popup,
-
-
-
 
   /*
   *****************************************************************************
@@ -66,12 +66,15 @@ qx.Class.define("qx.ui.control.ColorPopup",
 
   properties :
   {
+
+    // overridden
     appearance :
     {
       refine : true,
       init : "colorpopup"
     },
 
+    /** The hex value of the selected color. */
     value :
     {
       nullable : true,
@@ -79,6 +82,7 @@ qx.Class.define("qx.ui.control.ColorPopup",
       event : "changeValue"
     },
 
+    /** The numeric red value of the selected color. */
     red :
     {
       check : "Number",
@@ -87,6 +91,7 @@ qx.Class.define("qx.ui.control.ColorPopup",
       event : "changeRed"
     },
 
+    /** The numeric green value of the selected color. */
     green :
     {
       check : "Number",
@@ -95,6 +100,7 @@ qx.Class.define("qx.ui.control.ColorPopup",
       event : "changeGreen"
     },
 
+    /** The numeric blue value of the selected color. */
     blue :
     {
       check : "Number",
@@ -124,10 +130,7 @@ qx.Class.define("qx.ui.control.ColorPopup",
     */
 
     /**
-     * TODOC
-     *
-     * @type member
-     * @return {void}
+     * Creates the button labeled "Automatic"
      */
     _createAutoBtn : function()
     {
@@ -143,10 +146,7 @@ qx.Class.define("qx.ui.control.ColorPopup",
 
 
     /**
-     * TODOC
-     *
-     * @type member
-     * @return {void}
+     * Creates the GroupBoxes containing the colored fields.
      */
     _createBoxes : function()
     {
@@ -184,10 +184,7 @@ qx.Class.define("qx.ui.control.ColorPopup",
 
 
     /**
-     * TODOC
-     *
-     * @type member
-     * @return {void}
+     * Creates the GroupBox containing the panes for the old and current color.
      */
     _createPreview : function()
     {
@@ -216,10 +213,7 @@ qx.Class.define("qx.ui.control.ColorPopup",
 
 
     /**
-     * TODOC
-     *
-     * @type member
-     * @return {void}
+     * Creates the GroupBox containing the panes for the old and current color.
      */
     _createSelectorBtn : function()
     {
@@ -230,10 +224,7 @@ qx.Class.define("qx.ui.control.ColorPopup",
 
 
     /**
-     * TODOC
-     *
-     * @type member
-     * @return {void}
+     * Creates the ColorSelector and adds buttons.
      */
     _createColorSelector : function()
     {
@@ -283,13 +274,8 @@ qx.Class.define("qx.ui.control.ColorPopup",
     ---------------------------------------------------------------------------
     */
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param value {var} Current value
-     * @param old {var} Previous value
-     */
+
+    // Property apply
     _applyValue : function(value, old)
     {
       if (value === null)
@@ -312,10 +298,9 @@ qx.Class.define("qx.ui.control.ColorPopup",
 
 
     /**
-     * TODOC
-     *
-     * @type member
-     * @return {void}
+     * Adds the most recent selected color to the "Recent colors" list.
+     * If this list is full, the first color will be removed before inserting
+     * the new one.
      */
     _rotatePreviousColors : function()
     {
@@ -366,11 +351,10 @@ qx.Class.define("qx.ui.control.ColorPopup",
     */
 
     /**
-     * TODOC
+     * Listener of mousedown event on a color field. Sets the ColorPoup's value
+     * to field's color value and paint the preview pane.
      *
-     * @type member
-     * @param e {Event} TODOC
-     * @return {void}
+     * @param e {qx.event.type.Mouse} Incoming event object
      */
     _onFieldMouseDown : function(e)
     {
@@ -384,23 +368,20 @@ qx.Class.define("qx.ui.control.ColorPopup",
 
 
     /**
-     * TODOC
+     * Listener of mousemove event on a color field. Sets preview pane's
+     * background color to the field's color value.
      *
-     * @type member
-     * @param e {Event} TODOC
-     * @return {void}
+     * @param e {qx.event.type.Mouse} Incoming event object
      */
     _onFieldMouseOver : function(e) {
       this._currentPreview.setBackgroundColor(e.getTarget().getBackgroundColor());
     },
 
-
     /**
-     * TODOC
+     * Listener of execute event on the "cancel" button.
+     * Hides the ColorPopup and resets it's color value.
      *
-     * @type member
-     * @param e {Event} TODOC
-     * @return {void}
+     * @param e {qx.event.Command} Incoming event object
      */
     _onAutomaticBtnExecute : function(e)
     {
@@ -408,12 +389,12 @@ qx.Class.define("qx.ui.control.ColorPopup",
       this.hide();
     },
 
+
     /**
-     * TODOC
+     * Listener of execute event on the "Open ColorSelector" button.
+     * Opens a ColorSelector widget and hides the ColorPopup.
      *
-     * @type member
-     * @param e {Event} TODOC
-     * @return {void}
+     * @param e {qx.event.Command} Incoming event object
      */
     _onSelectorButtonExecute : function(e)
     {
@@ -429,11 +410,10 @@ qx.Class.define("qx.ui.control.ColorPopup",
 
 
     /**
-     * TODOC
+     * Listener of execute event on the "OK" button.
+     * Hides the ColorPopup and sets it's color value to the selected color.
      *
-     * @type member
-     * @param e {Event} TODOC
-     * @return {void}
+     * @param e {qx.event.Command} Incoming event object
      */
     _onColorSelectorOk : function(e)
     {
@@ -444,11 +424,10 @@ qx.Class.define("qx.ui.control.ColorPopup",
 
 
     /**
-     * TODOC
+     * Listener of execute event on the "Cancel" button.
+     * Hides the ColorPopup.
      *
-     * @type member
-     * @param e {Event} TODOC
-     * @return {void}
+     * @param e {qx.event.Command} Incoming event object
      */
     _onColorSelectorCancel : function(e) {
       this._colorSelectorWindow.close();
