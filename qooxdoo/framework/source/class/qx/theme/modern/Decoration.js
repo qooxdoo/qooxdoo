@@ -446,9 +446,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
       style :
       {
-        width : 7,
-        style : null,
-
         backgroundImage : "decoration/toolbar/toolbar-handle.png",
         backgroundRepeat : "no-repeat"
       }
