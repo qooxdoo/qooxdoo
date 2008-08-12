@@ -21,7 +21,9 @@
 ************************************************************************ */
 
 /**
- *
+ * A tab view is a multi page view where only one page is visible
+ * at each moment. It is possible to switch the pages using the
+ * buttons rendered by each page.
  */
 qx.Class.define("qx.ui.tabview.TabView",
 {

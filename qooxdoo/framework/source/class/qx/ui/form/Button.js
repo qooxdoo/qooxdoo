@@ -64,7 +64,7 @@ qx.Class.define("qx.ui.form.Button",
 
     this.addListener("keydown", this._onKeyDown);
     this.addListener("keyup", this._onKeyUp);
-    
+
     // Stop events
     this.addListener("dblclick", this._onStopEvent);
   },

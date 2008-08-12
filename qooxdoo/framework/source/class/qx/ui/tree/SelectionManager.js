@@ -17,6 +17,11 @@
 
 ************************************************************************ */
 
+/**
+ * Responsible for the selection management of the {@link Tree}.
+ *
+ * @internal
+ */
 qx.Class.define("qx.ui.tree.SelectionManager",
 {
   extend : qx.ui.core.selection.ScrollArea,

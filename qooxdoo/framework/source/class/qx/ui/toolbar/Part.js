@@ -20,7 +20,11 @@
 ************************************************************************ */
 
 /**
- *
+ * A part is a container for multiple toolbar buttons. Each part comes
+ * with a handle which may be used in later versions to drag the part
+ * around and move it to another position. Currently mainly used
+ * for structuring large toolbars beyond the capabilities of the
+ * {@link Separator}.
  */
 qx.Class.define("qx.ui.toolbar.Part",
 {
