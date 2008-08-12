@@ -1652,7 +1652,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       {
         return {
           decorator : "inset-thin",
-          width : 14,
+          width : 18,
           height : 14
         }
       }
