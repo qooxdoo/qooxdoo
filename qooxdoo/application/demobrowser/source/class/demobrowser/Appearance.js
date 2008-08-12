@@ -16,7 +16,7 @@ qx.Theme.define("demobrowser.Appearance",
           decorator: "pane",
           padding: 2,
           backgroundColor: "undefined",
-          width: 200
+          width: 300
         }
       }
     },

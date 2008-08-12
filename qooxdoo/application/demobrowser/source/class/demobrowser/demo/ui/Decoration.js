@@ -18,7 +18,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("demobrowser.demo.ui.Decoration_1",
+qx.Class.define("demobrowser.demo.ui.Decoration",
 {
   extend : qx.application.Standalone,
 

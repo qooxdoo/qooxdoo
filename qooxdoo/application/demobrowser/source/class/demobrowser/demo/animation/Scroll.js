@@ -20,7 +20,7 @@
 /**
  * qx.fx.effect.core.Scroll offers animated scrolling possibilites
  */
-qx.Class.define("demobrowser.demo.animation.Scroll_1",
+qx.Class.define("demobrowser.demo.animation.Scroll",
 {
   extend : qx.application.Standalone,
 
@@ -98,11 +98,16 @@ qx.Class.define("demobrowser.demo.animation.Scroll_1",
         animScrollTo.start();
       });
 
-      doc.add(btnUp, {left: 10, top: 10});
-      doc.add(btnDown, {left: 75, top: 10});
-      doc.add(btnLeft, {left: 175, top: 10});
-      doc.add(btnRight, {left: 245, top: 10});
-      doc.add(btnGoto, {left: 330, top: 10});
+      var btnContainer = new qx.ui.container.Composite(new qx.ui.layout.HBox(5));
+      doc.add(btnContainer, {left: 10, top: 10});
+
+      btnContainer.add(btnUp);
+      btnContainer.add(btnDown);
+      btnContainer.add(new qx.ui.core.Spacer(10));
+      btnContainer.add(btnLeft);
+      btnContainer.add(btnRight);
+      btnContainer.add(new qx.ui.core.Spacer(10));
+      btnContainer.add(btnGoto);
     }
   }
 });
