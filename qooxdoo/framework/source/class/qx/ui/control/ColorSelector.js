@@ -224,7 +224,7 @@ qx.Class.define("qx.ui.control.ColorSelector",
         case "hue-saturation-pane":
           control = new qx.ui.container.Composite(new qx.ui.layout.Canvas());
           control.setAllowGrowY(false);
-          control.addListener("mousewheel", this._onHueSaturationPaneMouseWheel, this);
+          control.addListener("mouseup", this._onHueSaturationPaneMouseWheel, this);
           control.add(this._getChildControl("hue-saturation-field"));      
           control.add(this._getChildControl("hue-saturation-handle"), {left: 0, top: 256});
           break;
@@ -582,10 +582,11 @@ qx.Class.define("qx.ui.control.ColorSelector",
 
       if (this.__updateContext !== "hueSaturationField")
       {
+        var offset = this._getChildControl("hue-saturation-field").getBounds().top;
         if (this._getChildControl("hue-saturation-handle").getBounds()) {
-          this._getChildControl("hue-saturation-handle").setDomTop(256 - Math.round(value * 2.56) + this._getChildControl("hue-saturation-pane").getPaddingTop());
+          this._getChildControl("hue-saturation-handle").setDomTop(256 - offset - Math.round(value * 2.56) + this._getChildControl("hue-saturation-pane").getPaddingTop());
         } else {
-          this._getChildControl("hue-saturation-handle").setTop(256 - Math.round(value * 2.56));
+          this._getChildControl("hue-saturation-handle").setTop(256 - offset - Math.round(value * 2.56));
         }
       }
 
@@ -616,7 +617,7 @@ qx.Class.define("qx.ui.control.ColorSelector",
 
       if (this.__updateContext !== "brightnessField")
       {
-        var topValue = 256 - Math.round(value * 2.56);
+        var topValue = 256 - Math.round(value * 2.56) - this._getChildControl("hue-saturation-field").getBounds().top;
 
         if (this._getChildControl("brightness-handle").getBounds()) {
           this._getChildControl("brightness-handle").setDomTop(topValue + this._getChildControl("brightness-pane").getPaddingTop());
