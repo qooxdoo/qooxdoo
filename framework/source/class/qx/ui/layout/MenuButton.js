@@ -19,6 +19,9 @@
 ************************************************************************ */
 
 /**
+ * Layout used for the menu buttons which may contain four elements. A icon,
+ * a label, a shortcut text and a arrow (for a sub menu)
+ *
  * @internal
  */
 qx.Class.define("qx.ui.layout.MenuButton",

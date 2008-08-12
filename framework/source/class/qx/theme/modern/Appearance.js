@@ -188,7 +188,6 @@ qx.Theme.define("qx.theme.modern.Appearance",
         return {
           padding    : [ 2, 8 ],
           textColor  : textColor,
-          font       : "default",
           decorator  : decorator
         };
       }
@@ -204,7 +203,9 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          icon : "decoration/arrows/down.png"
+          icon : "decoration/arrows/down.png",
+          padding : 2,
+          marginLeft : 1
         };
       }
     },

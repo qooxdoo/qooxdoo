@@ -740,6 +740,13 @@ qx.Class.define("qx.ui.layout.Dock",
     },
 
 
+    /**
+     * Computes the dimensions each separater on both the <code>x</code> and
+     * <code>y</code> axis needs.
+     *
+     * @return {Map} Map with the keys <code>x</code> and
+     *   <code>y</code>
+     */
     _getSeparatorWidths : function()
     {
       var separatorX=this.getSeparatorX(), separatorY=this.getSeparatorY();
@@ -766,6 +773,7 @@ qx.Class.define("qx.ui.layout.Dock",
         y : separatorWidthY || 0
       }
     },
+
 
     // overridden
     _computeSizeHint : function()
