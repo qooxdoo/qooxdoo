@@ -33,7 +33,6 @@ qx.Class.define("demobrowser.demo.widget.ColorSelector",
       
       var selector = new qx.ui.control.ColorSelector();
       selector.setDecorator("black");
-      selector.setBackgroundColor("white");
       this.getRoot().add(selector, {left: 20, top: 20});
  
     }
