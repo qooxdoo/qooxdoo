@@ -37,7 +37,7 @@ qx.Class.define("qx.locale.Date",
      * @return {String} translated AM marker.
      */
     getAmMarker : function(locale) {
-      return this.__mgr.translate("cldr_am", [], locale);
+      return this.__mgr.localize("cldr_am", [], locale);
     },
 
 
@@ -48,7 +48,7 @@ qx.Class.define("qx.locale.Date",
      * @return {String} translated PM marker.
      */
     getPmMarker : function(locale) {
-      return this.__mgr.translate("cldr_pm", [], locale);
+      return this.__mgr.localize("cldr_pm", [], locale);
     },
 
 
@@ -73,7 +73,7 @@ qx.Class.define("qx.locale.Date",
       for (var i=0; i<days.length; i++)
       {
         var key = "cldr_day_" + length + "_" + days[i];
-        names.push(this.__mgr.translate(key, [], locale));
+        names.push(this.__mgr.localize(key, [], locale));
 
       }
 
@@ -102,7 +102,7 @@ qx.Class.define("qx.locale.Date",
       var days = [ "sun", "mon", "tue", "wed", "thu", "fri", "sat" ];
 
       var key = "cldr_day_" + length + "_" + days[day];
-      return this.__mgr.translate(key, [], locale);
+      return this.__mgr.localize(key, [], locale);
     },
 
 
@@ -125,7 +125,7 @@ qx.Class.define("qx.locale.Date",
       for (var i=0; i<12; i++)
       {
         var key = "cldr_month_" + length + "_" + (i + 1);
-        names.push(this.__mgr.translate(key, [], locale));
+        names.push(this.__mgr.localize(key, [], locale));
       }
 
       return names;
@@ -148,7 +148,7 @@ qx.Class.define("qx.locale.Date",
       }
 
       var key = "cldr_month_" + length + "_" + (month + 1);
-      return this.__mgr.translate(key, [], locale)
+      return this.__mgr.localize(key, [], locale)
     },
 
 
@@ -167,7 +167,7 @@ qx.Class.define("qx.locale.Date",
       }
 
       var key = "cldr_date_format_" + size;
-      return this.__mgr.translate(key, [], locale)
+      return this.__mgr.localize(key, [], locale)
     },
 
 
@@ -185,7 +185,7 @@ qx.Class.define("qx.locale.Date",
     getDateTimeFormat : function(canonical, fallback, locale)
     {
       var key = "cldr_date_time_format_" + canonical;
-      var localizedFormat = this.__mgr.translate(key, [], locale);
+      var localizedFormat = this.__mgr.localize(key, [], locale);
 
       if (localizedFormat == key) {
         localizedFormat = fallback;
@@ -210,7 +210,7 @@ qx.Class.define("qx.locale.Date",
       }
 
       var key = "cldr_time_format_" + size;
-      var localizedFormat = this.__mgr.translate(key, [], locale);
+      var localizedFormat = this.__mgr.localize(key, [], locale);
 
       if (localizedFormat != key) {
         return localizedFormat;

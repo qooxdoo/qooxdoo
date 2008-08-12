@@ -35,7 +35,7 @@ qx.Class.define("qx.locale.Number",
      * @return {String} deciaml separator.
      */
     getDecimalSeparator : function(locale) {
-      return qx.locale.Manager.getInstance().translate("cldr_number_decimal_separator", [], locale)
+      return qx.locale.Manager.getInstance().localize("cldr_number_decimal_separator", [], locale)
     },
 
 
@@ -46,7 +46,7 @@ qx.Class.define("qx.locale.Number",
      * @return {String} group separator.
      */
     getGroupSeparator : function(locale) {
-      return qx.locale.Manager.getInstance().translate("cldr_number_group_separator", [], locale)
+      return qx.locale.Manager.getInstance().localize("cldr_number_group_separator", [], locale)
     },
 
 
@@ -57,7 +57,7 @@ qx.Class.define("qx.locale.Number",
      * @return {String} percent format string.
      */
     getPercentFormat : function(locale) {
-      return qx.locale.Manager.getInstance().translate("cldr_number_percent_format", [], locale)
+      return qx.locale.Manager.getInstance().localize("cldr_number_percent_format", [], locale)
     }
   }
 });
