@@ -58,7 +58,11 @@ qx.Mixin.define("qx.ui.core.MRemoteChildrenHandling",
 
 
     /**
-     * Adds a new child item.
+     * Adds a new child widget.
+     *
+     * The supported keys of the layout options map depend on the layout manager
+     * used to position the widget. The options are documented in the class
+     * documentation of each layout manager {@link qx.ui.layout}.
      *
      * @param child {LayoutItem} the item to add.
      * @param options {Map?null} Optional layout data for item.
