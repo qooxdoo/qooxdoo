@@ -124,11 +124,11 @@ qx.Class.define("apiviewer.Viewer",
         appearance: "api-tabview"
       });
 
-      var packageTab = new qx.ui.tabview.Page(null, apiviewer.TreeUtil.ICON_PACKAGE);
-      packageTab.setLayout(new qx.ui.layout.Grow);
-      packageTab.getButton().setToolTip( new qx.ui.tooltip.ToolTip("Packages")).set({
-        appearance: "package-page"
+      var packageTab = new qx.ui.tabview.Page(null, apiviewer.TreeUtil.ICON_PACKAGE).set({
+        appearance : "package-page"
       });
+      packageTab.setLayout(new qx.ui.layout.Grow);
+      packageTab.getButton().setToolTip( new qx.ui.tooltip.ToolTip("Packages"));
       packageTab.add(treeWidget);
       tabView.add(packageTab);
 
