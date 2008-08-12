@@ -27,6 +27,17 @@ qx.Class.define("qx.ui.splitpane.Splitter",
 {
   extend : qx.ui.core.Widget,
 
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  /**
+   * @param parentWidget {qx.ui.splitpane.Pane} The underlaying split pane.
+   */
   construct : function(parentWidget)
   {
     this.base(arguments);
@@ -47,6 +58,14 @@ qx.Class.define("qx.ui.splitpane.Splitter",
     this._createChildControl("knob");
   },
 
+
+
+  /*
+  *****************************************************************************
+     PROPERTIES
+  *****************************************************************************
+  */
+
   properties :
   {
     // overrridden
@@ -63,6 +82,15 @@ qx.Class.define("qx.ui.splitpane.Splitter",
       init : false
     }
   },
+
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
 
   members :
   {
