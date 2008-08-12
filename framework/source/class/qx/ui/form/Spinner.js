@@ -284,8 +284,12 @@ qx.Class.define("qx.ui.form.Spinner",
 
 
     // overridden
-    tabFocus : function() {
-      this._getChildControl("textfield").getFocusElement().focus();
+    tabFocus : function()
+    {
+      var field = this._getChildControl("textfield");
+
+      field.getFocusElement().focus();
+      field.selectAll();
     },
 
 
