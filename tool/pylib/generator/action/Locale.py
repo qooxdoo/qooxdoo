@@ -68,19 +68,19 @@ class Locale:
 
 
 
-    def updateTranslations(self, namespace, localesList=None):
+    def updateTranslations(self, namespace, translationDir, localesList=None):
         self._console.info("Updating namespace: %s" % namespace)
         self._console.indent()
         
         self._console.debug("Looking up relevant class files...")
-        content = []
+        classList = []
         classes = self._classes
         for classId in classes:
             if classes[classId]["namespace"] == namespace:
-                content.append(classId)
+                classList.append(classId)
                     
         self._console.debug("Compiling filter...")
-        pot = self.getPotFile(content)
+        pot = self.getPotFile(classList)
         pot.sort()
 
         allfiles = self._translation[namespace]
@@ -90,8 +90,7 @@ class Locale:
             filenames = localesList
             for name in filenames:
                 if name not in allfiles:
-                    path = allfiles[allfiles.keys()[0]]['path']
-                    path = os.path.join(os.path.dirname(path), name + ".po")
+                    path = os.path.join(translationDir, name + ".po")
                     f    = open(path, 'w')  # create stanza file
                     pof  = self.createPoFile()
                     f.write(str(pof))
