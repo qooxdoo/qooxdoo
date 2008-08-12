@@ -20,7 +20,7 @@
 /**
  * qx.fx offers low level animation capabilites for DOM elements.
  */
-qx.Class.define("demobrowser.demo.animation.Showcase_1",
+qx.Class.define("demobrowser.demo.animation.Showcase",
 {
   extend : qx.application.Standalone,
 
@@ -286,18 +286,6 @@ qx.Class.define("demobrowser.demo.animation.Showcase_1",
         puff.start();
       });
 
-      var shrinkBtnNotifier;
-
-      btnShrink.addListener("appear", function(){
-        shrinkBtnNotifier = new qx.fx.effect.combination.ColorFlow(this.getContentElement().getDomElement());
-        shrinkBtnNotifier.set({
-          startColor   : "#EBE9ED",
-          endColor     : "#FFA823",
-          duration     : 2,
-          delayBetween : 0.5
-        });
-      });
-
 
       var shrink = new qx.fx.effect.combination.Shrink(this._demoImage);
       var grow = new qx.fx.effect.combination.Grow(this._demoImage);
@@ -320,8 +308,6 @@ qx.Class.define("demobrowser.demo.animation.Showcase_1",
           btnShrink.setLabel("Shrink");
           vanishEffect = shrink;
         }
-
-        shrinkBtnNotifier.start();
       }, this);
 
       grow.addListener("setup", function(){
@@ -341,8 +327,6 @@ qx.Class.define("demobrowser.demo.animation.Showcase_1",
           btnShrink.setLabel("Shrink");
           vanishEffect = shrink;
         }
-
-        shrinkBtnNotifier.start();
       }, this);
 
 
@@ -358,18 +342,6 @@ qx.Class.define("demobrowser.demo.animation.Showcase_1",
       drop.set({
         direction : "south",
         yAmount : 90
-      });
-
-      var dropBtnNotifier;
-
-      btnDrop.addListener("appear", function(){
-        dropBtnNotifier = new qx.fx.effect.combination.ColorFlow(this.getContentElement().getDomElement());
-        dropBtnNotifier.set({
-          startColor   : "#EBE9ED",
-          endColor     : "#FFA823",
-          duration     : 2,
-          delayBetween : 0.5
-        });
       });
 
 
@@ -390,8 +362,6 @@ qx.Class.define("demobrowser.demo.animation.Showcase_1",
           btnDrop.setLabel("Drop out");
           drop.setMode("out");
         }
-
-        dropBtnNotifier.start();
       }, this);
 
       btnDrop.addListener("execute", function(){
@@ -401,18 +371,6 @@ qx.Class.define("demobrowser.demo.animation.Showcase_1",
 
 
       var fold = new qx.fx.effect.combination.Fold(this._demoElement);
-      var foldBtnNotifier;
-
-      btnFold.addListener("appear", function(){
-        foldBtnNotifier = new qx.fx.effect.combination.ColorFlow(this.getContentElement().getDomElement());
-        foldBtnNotifier.set({
-          startColor   : "#EBE9ED",
-          endColor     : "#FFA823",
-          duration     : 2,
-          delayBetween : 1
-        });
-      });
-
 
       fold.addListener("setup", function(){
         this._toggleEnable();
@@ -432,7 +390,6 @@ qx.Class.define("demobrowser.demo.animation.Showcase_1",
             btnFold.setLabel("Fold in");
             fold.setMode("in");
           }
-        foldBtnNotifier.start();
         }, 100, this);
 
       }, this);

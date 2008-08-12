@@ -23,7 +23,7 @@
 #asset(qx/icon/${qx.icontheme}/22/actions/dialog-cancel.png)
 */
 
-qx.Class.define("demobrowser.demo.ui.Decoration_3",
+qx.Class.define("demobrowser.demo.showcase.Dialog",
 {
   extend : qx.application.Standalone,
 
