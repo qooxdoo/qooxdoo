@@ -19,6 +19,8 @@
 ************************************************************************ */
 
 /**
+ * The splitter is the element between the two panes.
+ *
  * @internal
  */
 qx.Class.define("qx.ui.splitpane.Splitter",
