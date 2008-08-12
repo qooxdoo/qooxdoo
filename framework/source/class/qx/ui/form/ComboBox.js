@@ -194,6 +194,16 @@ qx.Class.define("qx.ui.form.ComboBox",
       {
         this.toggle();
         e.stopPropagation();
+
+        // Focus popup, this is a hack for Firefox 3.0
+        // until bug #1161 is fixed.
+        if (qx.core.Variant.isSet("qx.client", "gecko"))
+        {
+          var popup = this._getChildControl("popup");
+          if (popup.isVisible()) {
+            this.getContainerElement().getDomElement().focus();
+          }
+        }
       }
     },
 
