@@ -214,24 +214,12 @@ qx.Theme.define("qx.theme.modern.Decoration",
       }
     },
 
-    "slider-knob-vertical" :
+    "slider-knob" :
     {
       decorator : qx.ui.decoration.Beveled,
 
       style : {
-        backgroundImage : "decoration/scrollbar/slider-knob-bg-vertical.png",
-        backgroundRepeat : "scale",
-        outerColor : "#4d4d4d",
-        innerColor : "#e1e1e1"
-      }
-    },
-
-    "slider-knob-horizontal" :
-    {
-      decorator : qx.ui.decoration.Beveled,
-
-      style : {
-        backgroundImage : "decoration/scrollbar/slider-knob-bg-horizontal.png",
+        backgroundImage : "decoration/scrollbar/slider-knob-background.png",
         backgroundRepeat : "scale",
         outerColor : "#4d4d4d",
         innerColor : "#e1e1e1"
@@ -968,6 +956,46 @@ qx.Theme.define("qx.theme.modern.Decoration",
         widthTop : 1,
         colorTop : "border-dark",
         style    : "solid"
+      }
+    },
+    
+    "date-chooser-weekday" :
+    {
+      decorator : qx.ui.decoration.Single,
+      
+      style :
+      {
+        widthBottom : 1,
+        colorBottom : "border-dark",
+        style       : "solid"
+      }
+    },
+    
+    "date-chooser-week" :
+    {
+      decorator : qx.ui.decoration.Single,
+      
+      style :
+      {
+        widthRight : 1,
+        colorRight : "border-dark",
+        style       : "solid"
+      }
+    },
+    
+    "date-chooser-week-header" :
+    {
+      decorator : qx.ui.decoration.Single,
+      
+      style :
+      {
+        widthRight : 1,
+        colorRight : "border-dark",
+      
+        widthBottom : 1,
+        colorBottom : "border-dark",
+        
+        style       : "solid"
       }
     }
   }
