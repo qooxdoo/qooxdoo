@@ -49,7 +49,7 @@ RELEASE_BUILD = release/temp/build/qooxdoo-$(FRAMEWORK_VERSION)-build
 RELEASE_SDK = release/temp/sdk/qooxdoo-$(FRAMEWORK_VERSION)-sdk
 
 APPLICATIONS = demobrowser feedreader portal
-COMPONENTS = apiviewer testrunner
+COMPONENTS = apiviewer testrunner skeleton
 SDK_COPY = application/index.html
 
 
@@ -60,7 +60,7 @@ SDK_COPY = application/index.html
 # RELEASE TARGETS
 ################################################################################
 
-release: release-sdk release-build release-quickstart
+release: release-sdk
 
 release-build: build release-build-sans-build
 release-build-sans-build: release-build-info release-build-collect quickstart release-build-archive
@@ -128,8 +128,7 @@ release-build-archive:
 
 
 
-#release-sdk: distclean release-sdk-info release-sdk-collect skeleton quickstart release-sdk-archive
-release-sdk: release-sdk-info release-sdk-collect skeleton quickstart release-sdk-archive
+release-sdk: distclean release-sdk-info apiviewer release-sdk-collect release-sdk-archive
 
 release-sdk-info:
 	@echo
@@ -166,6 +165,7 @@ release-sdk-collect:
 	@echo "  * Synchronizing framework..."
 	@$(CMD_DIR) $(RELEASE_SDK)/framework
 	@$(CMD_SYNC_OFFLINE) --exclude *.pyo --exclude *.pyc --exclude .cache --exclude tool/icon/themes --exclude tool/icon/temp framework/* $(RELEASE_SDK)/framework
+	@$(CMD_SYNC_OFFLINE) framework/api/* $(RELEASE_SDK)/framework/api
 
 	@echo "  * Synchronizing tools..."
 	@$(CMD_DIR) $(RELEASE_SDK)/tool
@@ -180,10 +180,6 @@ release-sdk-collect:
 	@$(CMD_FIND) $(RELEASE_SDK) $(FILES_TEXT) $(CMD_ANY2UNIX)
 
 release-sdk-archive:
-	@echo "  * Synchronizing quickstart & skeleton..."
-	@$(CMD_SYNC_OFFLINE) component/qooxdoo-$(FRAMEWORK_VERSION)-quickstart.zip $(RELEASE_SDK)/component/
-	@$(CMD_SYNC_OFFLINE) component/qooxdoo-$(FRAMEWORK_VERSION)-skeleton.zip $(RELEASE_SDK)/component/
-
 	@echo "  * Generating zip archive..."
 	@cd release/temp/sdk; $(CMD_REMOVE) ../../qooxdoo-$(FRAMEWORK_VERSION)-sdk.zip; $(CMD_ZIP_CREATE) ../../qooxdoo-$(FRAMEWORK_VERSION)-sdk.zip qooxdoo-$(FRAMEWORK_VERSION)-sdk
 
@@ -192,7 +188,24 @@ release-sdk-archive:
 
 
 
+info-apiviewer:
+	@echo
+	@echo "****************************************************************************"
+	@echo "  GENERATING APIVIEWER"
+	@echo "****************************************************************************"
 
+
+apiviewer: info-apiviewer exec-apiviewer-build
+
+exec-apiviewer-build:
+	@time ( cd framework && $(CMD_GENERATOR) api ) || exit 1
+
+
+
+
+################################################################################
+# QUICKSTART TARGETS
+################################################################################
 
 release-quickstart: quickstart
 	@echo
@@ -208,14 +221,6 @@ release-quickstart: quickstart
 	@$(CMD_DIR) release
 	@$(CMD_SYNC_OFFLINE) component/qooxdoo-$(FRAMEWORK_VERSION)-quickstart.zip release/
 
-
-
-
-
-
-################################################################################
-# QUICKSTART TARGETS
-################################################################################
 
 QUICKSTART_TEMP = temp-quickstart
 
@@ -320,8 +325,8 @@ exec-skeleton-archive:
 # BASIC TARGETS
 ################################################################################
 distclean:
-	@for APPLICATION in $(APPLICATIONS); do ( cd application/$$APPLICATION && $(CMD_GENERATOR) distclean ) || exit 1; done
-	@for APPLICATION in $(COMPONENTS); do ( cd component/$$APPLICATION && $(CMD_GENERATOR) distclean ) || exit 1; done
+	#@for APPLICATION in $(APPLICATIONS); do ( cd application/$$APPLICATION && $(CMD_GENERATOR) distclean ) || exit 1; done
+	#@for APPLICATION in $(COMPONENTS); do ( cd component/$$APPLICATION && $(CMD_GENERATOR) distclean ) || exit 1; done
 	@cd framework && $(CMD_GENERATOR) distclean
 	@$(CMD_REMOVE) application/*.zip
 	@$(CMD_REMOVE) release
