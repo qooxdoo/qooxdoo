@@ -19,6 +19,8 @@
 ************************************************************************ */
 
 /**
+ * The slider of the SplitPane (used during drag sessions for fast feedback)
+ *
  * @internal
  */
 qx.Class.define("qx.ui.splitpane.Slider",

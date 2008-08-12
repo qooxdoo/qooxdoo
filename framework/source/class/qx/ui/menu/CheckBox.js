@@ -31,6 +31,10 @@ qx.Class.define("qx.ui.menu.CheckBox",
   *****************************************************************************
   */
 
+  /**
+   * @param label {String} Initial label
+   * @param menu {qx.ui.menu.Menu} Initial sub menu
+   */
   construct : function(label, menu)
   {
     this.base(arguments);

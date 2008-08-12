@@ -18,6 +18,9 @@
 
 ************************************************************************ */
 
+/**
+ * A button which opens the connected menu when clicking on it.
+ */
 qx.Class.define("qx.ui.form.MenuButton",
 {
   extend : qx.ui.form.Button,
@@ -31,8 +34,8 @@ qx.Class.define("qx.ui.form.MenuButton",
   */
 
   /**
-   * @param label {String} Label to use
-   * @param icon {String?null} Icon to use
+   * @param label {String} Initial label
+   * @param icon {String?null} Initial icon
    * @param menu {qx.ui.menu.Menu} Connect to menu instance
    */
   construct : function(label, icon, menu)

@@ -48,6 +48,10 @@ qx.Class.define("qx.ui.embed.Html",
      CONSTRUCTOR
   *****************************************************************************
   */
+
+  /**
+   * @param html {String} Initial HTML content
+   */
   construct : function(html)
   {
     this.base(arguments);
@@ -76,6 +80,7 @@ qx.Class.define("qx.ui.embed.Html",
       event : "changeHtml",
       nullable : true
     },
+
 
     /**
      * The css classname for the html embed.

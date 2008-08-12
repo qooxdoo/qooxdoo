@@ -33,6 +33,10 @@ qx.Class.define("qx.ui.tabview.TabView",
      CONSTRUCTOR
   *****************************************************************************
   */
+
+  /**
+   * @param barPosition {String} Initial bar position ({@link #barPosition})
+   */
   construct : function(barPosition)
   {
     this.base(arguments);
@@ -46,9 +50,7 @@ qx.Class.define("qx.ui.tabview.TabView",
     mgr.addListener("changeValue", this._onRadioChangeValue, this);
 
     // Initialize bar position
-    if (barPosition == null || barPosition === "top") {
-      this.initBarPosition();
-    } else if (barPosition) {
+    if (barPosition != null) {
       this.setBarPosition(barPosition);
     }
   },
