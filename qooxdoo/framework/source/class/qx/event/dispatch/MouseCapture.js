@@ -181,7 +181,7 @@ qx.Class.define("qx.event.dispatch.MouseCapture",
       }
 
       this._captureElement = element;
-      qx.event.Registration.fireEvent(element, "capture");
+      qx.event.Registration.fireEvent(element, "capture", qx.event.type.Event, [true, false]);
     },
 
 
@@ -197,7 +197,7 @@ qx.Class.define("qx.event.dispatch.MouseCapture",
       }
 
       this._captureElement = null;
-      qx.event.Registration.fireEvent(element, "losecapture");
+      qx.event.Registration.fireEvent(element, "losecapture", qx.event.type.Event, [true, false]);
     }
   },
 
