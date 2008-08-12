@@ -84,6 +84,9 @@ qx.Class.define("qx.theme.manager.Decoration",
     // property apply
     _applyTheme : function(value)
     {
+      var alias = qx.util.AliasManager.getInstance();
+      value ? alias.add("decoration", value.resource) : alias.remove("decoration");
+
       var dest = this._dynamic;
 
       for (var key in dest)
@@ -113,9 +116,6 @@ qx.Class.define("qx.theme.manager.Decoration",
           dest[key].themed = true;
         }
       }
-
-      var alias = qx.util.AliasManager.getInstance();
-      value ? alias.add("decoration", value.resource) : alias.remove("decoration");
     }
   }
 });
