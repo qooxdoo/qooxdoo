@@ -160,6 +160,8 @@ The Error Object
           error, the value of the code property is entirely by agreement
           between the invoking client and the and invoked method.
 
+        * message - A free-form textual message describing the error.
+
 Other Errors
 
   Errors detected by the server which indicate that the received data is not a
