@@ -19,6 +19,8 @@
 ************************************************************************ */
 
 /**
+ * Common set of utility methods used by the standard qooxdoo layouts.
+ *
  * @internal
  */
 qx.Class.define("qx.ui.layout.Util",

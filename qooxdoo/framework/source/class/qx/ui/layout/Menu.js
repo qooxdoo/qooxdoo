@@ -19,6 +19,8 @@
 ************************************************************************ */
 
 /**
+ * Layouter used by the qooxdoo menu's to render their buttons
+ *
  * @internal
  */
 qx.Class.define("qx.ui.layout.Menu",
