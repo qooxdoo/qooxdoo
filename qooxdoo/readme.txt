@@ -24,6 +24,23 @@ rights and obligations that come with it. See the top-level LICENSE
 file for more details.
 
 
+Quick start
+===========================================================================
+
+Use the 'create-application.py' script to start a new application,
+This will create a minimal application directory structure in a
+convenient path which is ready to be built and run. Use the contained
+'generate.py' script and run the command 'generate.py source', in
+order to build a development version of the application. Run it by
+opening the 'source/index.html' file in your browser. You can then go
+on and extend it into an application of your liking, by changing the
+'source/class/<namespace>/Application.js' source file.
+
+You might also want to open the Apiviewer in a separate browser window,
+which offers the qooxdoo framework API in a convenient way (See the
+index.html file).
+
+
 Learn more
 ===========================================================================
 
