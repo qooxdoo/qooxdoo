@@ -211,26 +211,34 @@ qx.Class.define("qx.ui.decoration.Grid",
       var rightImageWidth = rightCombined ? rightCombined[3] : r[3];
 
 
+      // Base markup
+      if (qx.core.Variant.isSet("qx.client", "mshtml")) {
+        var base = "font-size:0;line-height:0;position:absolute;";
+      } else {
+        var base = "position:absolute;";
+      }
+
+
       // Outer frame
       html.push('<div>');
 
       // Top: left, center, right
       html.push(
-        '<div style="position:absolute;top:0;left:0;',
+        '<div style="', base, 'top:0;left:0;',
         'width:', leftWidth,
         'px;height:', topWidth, "px;",
         qx.bom.element.Background.compile(tl[0], "repeat-x", tl[1], tl[2]),
         '"></div>'
       );
       html.push(
-        '<div style="position:absolute;top:0;',
+        '<div style="', base, 'top:0;',
         'left:', leftWidth,
         'px;height:',topWidth, 'px;',
         qx.bom.element.Background.compile(t[0], "repeat-x", t[1], t[2]),
         '"></div>'
       );
       html.push(
-        '<div style="position:absolute;top:0;right:0;',
+        '<div style="', base, 'top:0;right:0;',
         'width:', rightWidth,
         'px;height:', topWidth, "px;",
         qx.bom.element.Background.compile(tr[0], "repeat-x", tr[1], tr[2]),
@@ -239,21 +247,22 @@ qx.Class.define("qx.ui.decoration.Grid",
 
       // Bottom: left, center, right
       html.push(
-        '<div style="position:absolute;bottom:0;left:0;',
+        '<div style="', base, 'bottom:0px;left:0;',
         'width:', leftWidth,
         'px;height:', bottomWidth, "px;",
         qx.bom.element.Background.compile(bl[0], "repeat-x", bl[1], bl[2]),
         '"></div>'
       );
+
       html.push(
-        '<div style="position:absolute;bottom:0;',
+        '<div style="', base, 'bottom:0;',
         'left:', leftWidth,
         'px;height:', bottomWidth, "px;",
         qx.bom.element.Background.compile(b[0], "repeat-x", b[1], b[2]),
         '"></div>'
       );
       html.push(
-        '<div style="position:absolute;bottom:0;right:0;',
+        '<div style="', base, 'bottom:0;right:0;',
         'width:', rightWidth,
         'px;height:', bottomWidth, "px;",
         qx.bom.element.Background.compile(br[0], "repeat-x", br[1], br[2]),
