@@ -2075,6 +2075,7 @@ qx.Class.define("qx.ui.core.Widget",
      * Creates an element which may be used for a
      * decoration render to fill.
      *
+     * @param decorator {qx.ui.decoration.IDecorator} Any instance implementing the decorator interface
      * @return {qx.html.Element} The element to be used for decorations/shadows
      */
     _createDecoratorElement : function(decorator)

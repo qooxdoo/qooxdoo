@@ -17,6 +17,10 @@
 
 ************************************************************************ */
 
+/**
+ * Methods to place popup like widgets to other widgets, points,
+ * mouse event coordinates, etc.
+ */
 qx.Mixin.define("qx.ui.core.MPlacement",
 {
   /*
