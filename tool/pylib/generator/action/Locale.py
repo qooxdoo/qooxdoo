@@ -3,6 +3,7 @@ import os, sys
 from polib import polib
 from ecmascript.frontend import treeutil, tree
 from misc import cldr, idlist, filetool
+from generator.code.LibraryPath import LibraryPath
 
 class Locale:
     def __init__(self, classes, translation, cache, console, treeLoader):
@@ -68,7 +69,7 @@ class Locale:
 
 
     def updateTranslations(self, namespace, localesList=None):
-        self._console.debug("Updating namespace: %s" % namespace)
+        self._console.info("Updating namespace: %s" % namespace)
         self._console.indent()
         
         self._console.debug("Looking up relevant class files...")
@@ -82,20 +83,28 @@ class Locale:
         pot = self.getPotFile(content)
         pot.sort()
 
-        self._console.debug("Updating translations...")
+        allfiles = self._translation[namespace]
+        if localesList == None:
+            filenames = allfiles.keys()
+        else:
+            filenames = localesList
+            for name in filenames:
+                if name not in allfiles:
+                    path = allfiles[allfiles.keys()[0]]['path']
+                    path = os.path.join(os.path.dirname(path), name + ".po")
+                    f    = open(path, 'w')  # create stanza file
+                    pof  = self.createPoFile()
+                    f.write(str(pof))
+                    f.close()
+                    allfiles[name] = LibraryPath.translationEntry(name, path, namespace)
+
+        self._console.info("Updating %d translations..." % len(filenames))
         self._console.indent()
 
-        if localesList == None:
-            files = self._translation[namespace]
-        else:
-            files = {}
-            for key,val in self._translation[namespace].iteritems():
-                if key in localesList:
-                    files[key] = val
-        for name in files:
+        for name in filenames:
             self._console.debug("Processing: %s" % name)
 
-            entry = files[name]
+            entry = allfiles[name]
             po = polib.pofile(entry["path"])
             po.merge(pot)
             po.sort()

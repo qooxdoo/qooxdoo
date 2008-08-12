@@ -200,7 +200,7 @@ class LibraryPath:
 
     def _scanTranslationPath(self, path):
         if not os.path.exists(path):
-            self._console.error("The given path does not contains a translation folder: %s" % path)
+            self._console.error("The given path does not contain a translation folder: %s" % path)
             sys.exit(1)
 
         self._console.debug("Scanning translation folder...")
@@ -221,24 +221,29 @@ class LibraryPath:
                 filePath = os.path.join(root, fileName)
                 fileLocale = os.path.splitext(fileName)[0]
 
-                if "_" in fileLocale:
-                    split = fileLocale.index("_")
-                    parent = fileLocale[:split]
-                    variant = fileLocale[split+1:]
-
-                else:
-                    parent = "C"
-                    variant = ""
-
-                # Store file data
-                self._translations[fileLocale] = {
-                    "path" : filePath,
-                    "id" : fileLocale,
-                    "parent" : parent,
-                    "variant" : variant,
-                    "namespace" : self._namespace
-                }
+                self._translations[fileLocale] = self.translationEntry(fileLocale, filePath, self._namespace)
 
         self._console.indent()
         self._console.debug("Found %s translations" % len(self._translations))
         self._console.outdent()
+
+
+    @staticmethod
+    def translationEntry(fileLocale, filePath, namespace):
+
+        if "_" in fileLocale:
+            split = fileLocale.index("_")
+            parent = fileLocale[:split]
+            variant = fileLocale[split+1:]
+
+        else:
+            parent = "C"
+            variant = ""
+
+        return {
+            "path" : filePath,
+            "id" : fileLocale,
+            "parent" : parent,
+            "variant" : variant,
+            "namespace" : namespace
+        }
