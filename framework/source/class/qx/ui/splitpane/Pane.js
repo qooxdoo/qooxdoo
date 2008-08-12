@@ -166,7 +166,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
 
       // Create new layout
       var newLayout = value === "vertical" ?
-        new qx.ui.layout.VSplit : new qx.ui.layout.HSplit;
+        new qx.ui.splitpane.VLayout : new qx.ui.splitpane.HLayout;
       this._setLayout(newLayout);
 
       // Update states for splitter and slider

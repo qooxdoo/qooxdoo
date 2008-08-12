@@ -44,7 +44,7 @@ qx.Class.define("qx.ui.menu.Menu",
     this.base(arguments);
 
     // Use hard coded layout
-    this._setLayout(new qx.ui.layout.Menu);
+    this._setLayout(new qx.ui.menu.Layout);
 
     // Automatically add to application's root
     this.getApplicationRoot().add(this);

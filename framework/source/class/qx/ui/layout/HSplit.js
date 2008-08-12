@@ -24,7 +24,7 @@
  *
  * @internal
  */
-qx.Class.define("qx.ui.layout.HSplit",
+qx.Class.define("qx.ui.splitpane.HLayout",
 {
   extend : qx.ui.layout.Abstract,
 
