@@ -1,10 +1,10 @@
-for class in HBox HSplit
+for class in layout/HBox splitpane/HLayout
 do
 
-repl=V`echo $class | cut -dH -f2`
+repl=`echo $class | sed s:"/H":"/V":g`
 echo ">>> Processing $class => $repl"
 
-cat framework/source/class/qx/ui/layout/${class}.js | \
+cat framework/source/class/qx/ui/${class}.js | \
   sed s:width:_xx1_:g | \
   sed s:height:_xx2_:g | \
   sed s:left:_xx3_:g | \
@@ -68,12 +68,12 @@ cat framework/source/class/qx/ui/layout/${class}.js | \
 
   sed s:"HBox":"VBox":g | \
   sed s:"hbox":"vbox":g | \
-  sed s:"HSplit":"VSplit":g | \
-  sed s:"hsplit":"vsplit":g | \
+  sed s:"HLayout":"VLayout":g | \
+  sed s:"hlayout":"vlayout":g | \
   sed s:"vertical row":"vertical column":g | \
   sed s:"Copybottom":"Copyright":g \
-> framework/source/class/qx/ui/layout/${repl}.js
+> framework/source/class/qx/ui/${repl}.js
 
-dos2unix framework/source/class/qx/ui/layout/${repl}.js
+dos2unix framework/source/class/qx/ui/${repl}.js
 
 done

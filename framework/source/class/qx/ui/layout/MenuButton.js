@@ -24,7 +24,7 @@
  *
  * @internal
  */
-qx.Class.define("qx.ui.layout.MenuButton",
+qx.Class.define("qx.ui.menu.ButtonLayout",
 {
   extend : qx.ui.layout.Abstract,
 
