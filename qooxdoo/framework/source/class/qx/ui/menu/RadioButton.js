@@ -18,6 +18,11 @@
 
 ************************************************************************ */
 
+/**
+ * Renders a special radio button inside a menu. The button behaves like
+ * a normal {@link qx.ui.form.RadioButton} and shows a radio icon when
+ * checked; normally shows no icon when not checked (depends on the theme).
+ */
 qx.Class.define("qx.ui.menu.RadioButton",
 {
   extend : qx.ui.menu.AbstractButton,
