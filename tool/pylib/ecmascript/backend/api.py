@@ -1103,6 +1103,7 @@ def connectClass(docTree, classNode):
         classNode.set("childClasses", childClasses)
 
     # Mark overridden items
+    postWorkItemList(docTree, classNode, "constructor", True)
     postWorkItemList(docTree, classNode, "properties", True)
     postWorkItemList(docTree, classNode, "events", False)
     postWorkItemList(docTree, classNode, "methods", True)
