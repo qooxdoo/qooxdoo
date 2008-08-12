@@ -42,7 +42,7 @@ qx.Theme.define("qx.theme.modern.Color",
     "background-focused-inner" : "#DBEAF9",
     "background-disabled" : "#F4F4F4",
     "background-selected" : "#3E6CA8",
-    "background-field" : "white",
+    "background-field" : "#FCFCFC",
 
 
 

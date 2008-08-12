@@ -83,16 +83,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
       }
     },
 
-    "resize-frame" :
-    {
-      style : function(states)
-      {
-        return {
-          decorator : "frame"
-        };
-      }
-    },
-
+    "resize-frame" : "move-frame",
+    
     "dragdrop-cursor" :
     {
       style : function(states)
@@ -300,7 +292,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
           decorator       : states.focused ? "input-focused" : "input",
           padding         : [ 1, 3 ],
           textColor       : states.disabled ? "text-disabled" : "text-field",
-          backgroundColor : "#fcfcfc"
+          backgroundColor : "background-field"
         };
       }
     },
@@ -1543,7 +1535,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       {
         return {
           decorator       : states.focused ? "input-focused" : "input",
-          backgroundColor : "white"
+          backgroundColor : "background-field"
         };
       }
     },
