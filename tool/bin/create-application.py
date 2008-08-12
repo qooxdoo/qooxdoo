@@ -71,7 +71,7 @@ def copySkeleton(dir, namespace):
     )
 
     os.rename(
-        os.path.join(dir, "source", "resource", "sample"),
+        os.path.join(dir, "source", "resource", "custom"),
         os.path.join(dir, "source", "resource", namespace)
     )
     
