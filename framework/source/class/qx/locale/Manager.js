@@ -48,7 +48,8 @@ qx.Class.define("qx.locale.Manager",
   {
     this.base(arguments);
 
-    this._translationCatalog = window.qxlocales || {};
+    this._translationCatalog = window.qxtranslations || {};
+    this._localeCatalog      = window.qxlocales || {};
 
     var clazz = qx.bom.client.Locale;
 
@@ -216,7 +217,7 @@ qx.Class.define("qx.locale.Manager",
     {
       var locales = [];
 
-      for (var locale in this._translationCatalog)
+      for (var locale in this._localeCatalog)
       {
         if (locale != this._defaultLocale) {
           locales.push(locale);
@@ -335,6 +336,66 @@ qx.Class.define("qx.locale.Manager",
       }
 
       return txt;
+    },
+
+
+    /**
+     * Provide localisation (CLDR) data
+     *
+     * @param messageId {String} message id (may contain format strings)
+     * @param args {Object[]} array of objects, which are inserted into the format string.
+     * @param locale {String} optional locale to be used for translation
+     * @return {String} translated message.
+     */
+    localize : function(messageId, args, locale)
+    {
+      var txt;
+
+      if (locale) {
+        var language = this.__extractLanguage(locale);
+      }
+      else
+      {
+        locale = this._locale;
+        language = this._language;
+      }
+
+      if (!txt && this._localeCatalog[locale]) {
+        txt = this._localeCatalog[locale][messageId];
+      }
+
+      if (!txt && this._localeCatalog[language]) {
+        txt = this._localeCatalog[language][messageId];
+      }
+
+      if (!txt && this._localeCatalog[this._defaultLocale]) {
+        txt = this._localeCatalog[this._defaultLocale][messageId];
+      }
+
+      if (!txt) {
+        txt = messageId;
+      }
+
+      if (args.length > 0)
+      {
+        var translatedArgs = [];
+        for ( var i = 0; i < args.length; i++)
+        {
+          var arg = args[i];
+          if (arg.translate) {
+            translatedArgs[i] = arg.translate();
+          } else {
+            translatedArgs[i] = arg;
+          }
+        }
+        txt = qx.lang.String.format(txt, translatedArgs);
+      }
+
+      if (qx.core.Variant.isSet("qx.dynamicLocaleSwitch", "on")) {
+        txt = new qx.locale.LocalizedString(txt, messageId, args);
+      }
+
+      return txt;
     }
   },
 
@@ -346,6 +407,6 @@ qx.Class.define("qx.locale.Manager",
   */
 
   destruct : function() {
-    this._disposeFields("_translationCatalog");
+    this._disposeFields("_translationCatalog", "_localeCatalog");
   }
 });

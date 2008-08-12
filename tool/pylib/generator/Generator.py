@@ -531,6 +531,9 @@ class Generator:
 
 
 
+    ##
+    # update .po files
+    #
     def runUpdateTranslation(self):
         namespaces = self._config.get("translation/namespaces")
         if not namespaces:
@@ -546,6 +549,9 @@ class Generator:
 
 
 
+    ##
+    # generate localisation JS data
+    #
     def getTranslationMaps(self, parts, packages, variants, locales):
         if "C" not in locales:
             locales.append("C")
@@ -561,12 +567,14 @@ class Generator:
             # wpbasti: TODO: This code includes localization in every package. Bad idea.
             # This needs further work
             # Would also be better to let the translation code nothing know about parts
+
             # Another thing: Why not generate both structures in different js-objects
             # It's totally easy in JS to build a wrapper.
             # [thron7] means: generate different data structs for locales and translations
-            pac_dat = self._locale.generatePackageData(classes, variants, locales)
-            loc_dat = self._locale.getLocalizationData(locales)
-            packageTranslation.append(self._mergeDicts(pac_dat,loc_dat))
+            pac_dat = self._locale.generatePackageData(classes, variants, locales) # .po data
+            loc_dat = self._locale.getLocalizationData(locales)  # cldr data
+            #packageTranslation.append(self._mergeDicts(pac_dat,loc_dat))
+            packageTranslation.extend((pac_dat,loc_dat))
 
             self._console.outdent()
 
@@ -1246,26 +1254,32 @@ class Generator:
         return result
 
 
-    # wpbasti: Rename to generateLocalesCode
+    ##
+    # generate the 'qxlocales',... JS bootstrap entries
+    #
     def generateLocalesCode(self, translationMaps, format=False):
         if translationMaps == None:
             return ""
 
         self._console.info("Generate translation code...")
 
-        result = 'if(!window.qxlocales)qxlocales={};'
-        locales = translationMaps[0]  # TODO: just one currently
+        result = ["", ""]
+        jskeys = ["qxtranslations", "qxlocales"]
 
-        for key in locales:
-            if format:
-                result += "\n"
+        for i in range(len(jskeys)):
+            result[i] = 'if(!window.'+jskeys[i]+')'+jskeys[i]+'={};'
+            locales = translationMaps[i]  # 0: .po data, 1: cldr data
 
-            value = locales[key]
-            result += 'qxlocales["%s"]=' % (key)
-            result += simplejson.dumps(value)
-            result += ';'
+            for key in locales:
+                if format:
+                    result += "\n"
 
-        return result
+                value = locales[key]
+                result[i] += jskeys[i]+'["%s"]=' % (key)
+                result[i] += simplejson.dumps(value)
+                result[i] += ';'
+
+        return "".join(result)
 
 
     # wpbasti: This needs a lot of work. What's about the generation of a small bootstrap script
