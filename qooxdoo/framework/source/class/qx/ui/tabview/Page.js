@@ -30,6 +30,10 @@ qx.Class.define("qx.ui.tabview.Page",
   *****************************************************************************
   */
 
+  /**
+   * @param label {String} Initial label of the tab
+   * @param icon {String} Initial icon of the tab
+   */
   construct : function(label, icon)
   {
     this.base(arguments);

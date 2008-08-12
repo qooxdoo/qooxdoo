@@ -17,10 +17,16 @@
 
 ************************************************************************ */
 
-/**
-#asses icon/16/apps/utilities-color-chooser.png
-*/
+/* ************************************************************************
 
+#asset icon/16/apps/utilities-color-chooser.png
+
+************************************************************************ */
+
+/**
+ * A form field for colors. Integrates a {@link qx.ui.component.ColorPopup}
+ * for easy color selection.
+ */
 qx.Class.define("qx.ui.form.ColorField",
 {
   extend  : qx.ui.form.ComboBox,
@@ -36,6 +42,8 @@ qx.Class.define("qx.ui.form.ColorField",
   construct : function()
   {
     this.base(arguments);
+
+    // TODO: No inline functions, please
     this.addListener("click", function(){
       this._getChildControl("list").show();
     }, this);
@@ -60,6 +68,8 @@ qx.Class.define("qx.ui.form.ColorField",
   },
 
 
+
+
   /*
   *****************************************************************************
      MEMBERS
@@ -72,25 +82,25 @@ qx.Class.define("qx.ui.form.ColorField",
     ---------------------------------------------------------------------------
       PUBLIC METHODS
     ---------------------------------------------------------------------------
-    */    
+    */
 
     setColor: function(color)
     {
-  
+
     },
 
     /*
     ---------------------------------------------------------------------------
       APPLY METHODS
     ---------------------------------------------------------------------------
-    */    
+    */
 
 
     /*
     ---------------------------------------------------------------------------
       OVERRIDDEN METHODS
     ---------------------------------------------------------------------------
-    */    
+    */
     // overridden
     _createChildControlImpl : function(id)
     {
@@ -102,37 +112,39 @@ qx.Class.define("qx.ui.form.ColorField",
           control = new qx.ui.control.ColorPopup();
           control.addListener("changeValue", this._onChangeValue, this);
           control.setFocusable(false);
-          control.setKeepFocus(true);        
+          control.setKeepFocus(true);
           break;
-          
+
         case "popup":
           control = new qx.ui.popup.Popup(new qx.ui.layout.VBox);
           control.setAutoHide(false);
           control.add(this._getChildControl("list"));
-          break;          
+          break;
       }
 
       return control || this.base(arguments, id);
     },
 
-   /*
+
+
+    /*
     ---------------------------------------------------------------------------
       EVENT LISTENERS
     ---------------------------------------------------------------------------
     */
-    
+
     _onChangeValue : function(e) {
 //      this.setValue(e.getData());
     },
-    
+
     _onKeyPress : function(e)
     {
-      // if the list is closed, ignore all 
+      // if the list is closed, ignore all
       var list = this._getChildControl("list");
       if (list.getVisibility() == "hidden") {
         return;
       }
-      
+
       // get the key identifier
       var identifier = e.getKeyIdentifier();
 
@@ -143,11 +155,9 @@ qx.Class.define("qx.ui.form.ColorField",
         e.stopPropagation();
         return;
       }
-      
+
       // forward the rest of the events to the date chooser
       ////this._getChildControl("list").handleKeyPress(e);
     }
-
   }
-
 });
