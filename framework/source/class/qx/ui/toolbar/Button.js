@@ -19,7 +19,8 @@
 ************************************************************************ */
 
 /**
- *
+ * The normal toolbar button. Like a normal {@link qx.ui.form.Button}
+ * but with a style matching the toolbar and without keyboard support.
  */
 qx.Class.define("qx.ui.toolbar.Button",
 {

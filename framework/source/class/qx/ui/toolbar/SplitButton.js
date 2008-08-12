@@ -18,6 +18,10 @@
 
 ************************************************************************ */
 
+/**
+ * A button which acts as a normal button and shows a menu on one
+ * of the sides to open something like a history list.
+ */
 qx.Class.define("qx.ui.toolbar.SplitButton",
 {
   extend : qx.ui.form.SplitButton,
