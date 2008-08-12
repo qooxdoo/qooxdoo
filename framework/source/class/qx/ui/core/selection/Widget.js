@@ -32,6 +32,9 @@ qx.Class.define("qx.ui.core.selection.Widget",
   *****************************************************************************
   */
 
+  /**
+   * @param widget {qx.ui.core.Widget} The widget to connect to
+   */
   construct : function(widget)
   {
     this.base(arguments);
