@@ -52,6 +52,8 @@ qx.Class.define("qx.ui.tabview.TabView",
     // Initialize bar position
     if (barPosition != null) {
       this.setBarPosition(barPosition);
+    } else {
+      this.initBarPosition();
     }
   },
 
