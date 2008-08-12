@@ -60,7 +60,7 @@ class Generator:
         self._settings  = {}
 
         cache_path      = self._config.get("cache/compile", "cache")
-        cache_path      = self._config1.absPath(cache_path) 
+        cache_path      = self._config1.absPath(cache_path)
         self._cache     = Cache(cache_path, self._console)
 
         console = console_
@@ -481,7 +481,7 @@ class Generator:
         if not apiPath:
             return
 
-        apiPath = self._config1.absPath(apiPath) 
+        apiPath = self._config1.absPath(apiPath)
 
         self._apiLoader      = ApiLoader(self._classes, self._docs, self._cache, self._console, self._treeLoader)
 
@@ -597,7 +597,7 @@ class Generator:
 
         generator._console.info("Copying resources...")
         resTargetRoot = generator._config.get("copy-resources/target", "build")
-        resTargetRoot = self._config1.absPath(resTargetRoot) 
+        resTargetRoot = self._config1.absPath(resTargetRoot)
         libs          = generator._config.get("library", [])
         generator._console.indent()
         # Copy resources
@@ -644,9 +644,9 @@ class Generator:
         appfiles = self._config.get("copy-files/files",[])
         if appfiles:
             buildRoot  = self._config.get("copy-files/target", "build")
-            buildRoot  = self._config1.absPath(buildRoot) 
+            buildRoot  = self._config1.absPath(buildRoot)
             sourceRoot = self._config.get("copy-files/source", "source")
-            sourceRoot  = self._config1.absPath(sourceRoot) 
+            sourceRoot  = self._config1.absPath(sourceRoot)
             self._console.info("Copying application files...")
             self._console.indent()
             for file in appfiles:
@@ -685,7 +685,7 @@ class Generator:
         #shellcmd = " ".join(nparts)
         self._console.info("Executing shell command \"%s\"..." % shellcmd)
         self._console.indent()
-                    
+
         rc = self._shellCmd.execute(shellcmd, self._config1.getConfigDir())
         if rc != 0:
             raise RuntimeError, "Shell command returned error code: %s" % repr(rc)
@@ -1252,7 +1252,7 @@ class Generator:
 
         # wpbasti: Image data is not part relevant yet.
         # Also: Simpejson does no allow unformatted output as far as I know. This result into additional spaces which is suboptimal.
-        result += 'if(!window.qxresourceinfo)qxresourceinfo=' + simplejson.dumps(resdata,ensure_ascii=False) + ";"
+        result += 'if(!window.qxresources)qxresources=' + simplejson.dumps(resdata,ensure_ascii=False) + ";"
 
         self._console.outdent()
 

@@ -27,19 +27,7 @@ qx.Bootstrap.define("qx.util.ResourceManager",
   statics :
   {
     /** {Map} the shared image registry */
-    __registry : window.qxresourceinfo || {},
-
-
-    registerImage : function(uri, width, height)
-    {
-      // Protect overwriting
-      if (this.__registry[uri]) {
-        return;
-      }
-
-      qx.log.Logger.debug("Dynamically registering: " + uri);
-      this.__registry[uri] = [width, height];
-    },
+    __registry : window.qxresources || {},
 
 
     /**
@@ -64,41 +52,91 @@ qx.Bootstrap.define("qx.util.ResourceManager",
     },
 
 
-    // only used in grid decoration currently
-    // internal structure:
-    // images: [width, height, format, library, [clipped, left, top]]
-    // other: library
-    getClipped : function(id)
+    /**
+     * Returns the width of the given resource ID,
+     * when it is not a known image <code>0</code> is
+     * returned.
+     *
+     * @param id {String} Resource identifier
+     * @return {Integer} The image width
+     */
+    getImageWidth : function(id)
+    {
+      var entry = this.__registry[id];
+      return entry ? entry[0] : 0;
+    },
+
+
+    /**
+     * Returns the height of the given resource ID,
+     * when it is not a known image <code>0</code> is
+     * returned.
+     *
+     * @param id {String} Resource identifier
+     * @return {Integer} The image height
+     */
+    getImageHeight : function(id)
+    {
+      var entry = this.__registry[id];
+      return entry ? entry[1] : 0;
+    },
+
+
+    /**
+     * Whether the given resource identifier is a image
+     * with clipping information available.
+     *
+     * @param id {String} Resource identifier
+     * @return {Boolean} Whether the resource ID is known as a clipped image
+     */
+    isClippedImage : function(id)
+    {
+      var entry = this.__registry[id];
+      return entry.length > 4;
+    },
+
+
+    /**
+     * Returns the source and location of a image when
+     * it is clipped. Otherwise returns pseudo values
+     * to work with a simple image
+     *
+     * @param id {String} Resource identifier
+     * @return {Map} Image data for a clipped image. Has the keys
+     *    <code>source</code>, <code>left</code> and <code>top</code>.
+     */
+    getClippedImageData : function(id)
     {
       var entry = this.__registry[id];
       if (!entry) {
         return null;
       }
 
-      var width = entry[0];
-      var height = entry[1];
-      var format = entry[2];
-
-      // format non-clipped: width, height, type, lib
       if (entry.length < 5)
       {
-        var left = 0;
-        var top = 0;
+        return {
+          source : id,
+          left : 0,
+          top : 0
+        };
       }
-
-      // format clipped: width, height, type, lib, left, top
       else
       {
-        id = entry[4];
-
-        var left = entry[5];
-        var top = entry[6];
+        return {
+          source : entry[4],
+          left : entry[5],
+          top : entry[6]
+        };
       }
-
-      return [id, left, top, width, height, format];
     },
 
 
+    /**
+     * Converts the given resource ID to a full qualified URI
+     *
+     * @param id {String} Resource ID
+     * @return {String} Resulting URI
+     */
     toUri : function(id)
     {
       if (id == null) {
