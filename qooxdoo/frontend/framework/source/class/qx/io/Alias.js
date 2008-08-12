@@ -86,7 +86,7 @@ qx.Class.define("qx.io.Alias",
       }
       else if (dynamics[value] === undefined)
       {
-        if (value.charAt(0) === "/" || value.charAt(0) === "." || value.indexOf("http://") === 0 || value.indexOf("https://") === "0" || value.indexOf("file://") === 0)
+        if (value.charAt(0) === "/" || value.charAt(0) === "." || value.indexOf("http://") === 0 || value.indexOf("https://") === 0 || value.indexOf("file://") === 0)
         {
           dynamics[value] = false;
           return value;
@@ -125,8 +125,8 @@ qx.Class.define("qx.io.Alias",
                */
               else if (resolved.match(/^\.\//) != null)
               {
-                resolved  = resolved.substring(value.indexOf("/"));
-                urlPrefix = document.URL.substring(0, document.URL.lastIndexOf("/")); 
+                resolved  = "/" + value.substring(0, alias.length);
+                urlPrefix = document.URL.substring(0, document.URL.lastIndexOf("/"));
               }
               else
               {
