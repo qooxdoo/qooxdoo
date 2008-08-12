@@ -39,7 +39,10 @@ qx.Class.define("qx.ui.control.ColorSelector",
   *****************************************************************************
   */
 
-  construct : function(vPreviousRed, vPreviousGreen, vPreviousBlue)
+  /**
+   * Creates a ColorSelector.
+   */
+  construct : function()
   {
     this.base(arguments);
     
@@ -58,8 +61,12 @@ qx.Class.define("qx.ui.control.ColorSelector",
   *****************************************************************************
   */
 
-  events: {
+  events:
+  {
+    /** Fired when the "OK" button is clicked. */
     "dialogok"     : "qx.event.type.Event",
+
+    /** Fired when the "Cancel" button is clicked. */
     "dialogcancel" : "qx.event.type.Event"
   },
 
@@ -74,12 +81,14 @@ qx.Class.define("qx.ui.control.ColorSelector",
 
   properties :
   {
+    // overridden
     appearance :
     {
       refine : true,
       init : "colorselector"
     },
 
+    /** The numeric red value of the selected color. */
     red :
     {
       check : "Integer",
@@ -87,6 +96,7 @@ qx.Class.define("qx.ui.control.ColorSelector",
       apply : "_applyRed"
     },
 
+    /** The numeric green value of the selected color. */
     green :
     {
       check : "Integer",
@@ -94,6 +104,7 @@ qx.Class.define("qx.ui.control.ColorSelector",
       apply : "_applyGreen"
     },
 
+    /** The numeric blue value of the selected color. */
     blue :
     {
       check : "Integer",
@@ -101,6 +112,7 @@ qx.Class.define("qx.ui.control.ColorSelector",
       apply : "_applyBlue"
     },
 
+    /** The numeric hue value. */
     hue :
     {
       check : "Number",
@@ -108,6 +120,7 @@ qx.Class.define("qx.ui.control.ColorSelector",
       apply : "_applyHue"
     },
 
+    /** The numeric saturation value. */
     saturation :
     {
       check : "Number",
@@ -115,6 +128,7 @@ qx.Class.define("qx.ui.control.ColorSelector",
       apply : "_applySaturation"
     },
 
+    /** The numeric brightness value. */
     brightness :
     {
       check : "Number",
@@ -134,16 +148,42 @@ qx.Class.define("qx.ui.control.ColorSelector",
 
   members :
   {
+
     /*
     ---------------------------------------------------------------------------
       CONTEXT HANDLING
     ---------------------------------------------------------------------------
     */
 
-    _updateContext : null,
+    /**
+     * {String} The context in which an update has occured.
+     */
+    __updateContext : null,
 
+    /**
+     * {Array} Map containing the preset colors.
+     */
+    __presetTable : [ "maroon", "red", "orange", "yellow", "olive", "purple", "fuchsia", "lime", "green", "navy", "blue", "aqua", "teal", "black", "#333", "#666", "#999", "#BBB", "#EEE", "white" ],
 
+    /**
+     * {String} Name of child control which is captured.
+     */
+    __capture : "",
 
+    /**
+     * {Number} Numeric brightness value
+     */
+    __brightnessSubtract : 0,
+
+    /**
+     * {Integer} HueSaturation's X coordinate
+     */
+    __hueSaturationSubtractTop : 0,
+
+    /**
+     * {Integer} HueSaturation's Y coordinate
+     */
+    __hueSaturationSubtractLeft : 0,
 
     // overridden
     _createChildControlImpl : function(id)
@@ -237,8 +277,6 @@ qx.Class.define("qx.ui.control.ColorSelector",
           controlLayout = new qx.ui.layout.Grid(2, 2);
           control = new qx.ui.container.Composite(controlLayout);
 
-          this._presetTable = [ "maroon", "red", "orange", "yellow", "olive", "purple", "fuchsia", "lime", "green", "navy", "blue", "aqua", "teal", "black", "#333", "#666", "#999", "#BBB", "#EEE", "white" ];
-    
           var colorField;
     
           for (var i=0; i<2; i++)
@@ -247,7 +285,7 @@ qx.Class.define("qx.ui.control.ColorSelector",
             {
               colorField = new qx.ui.core.Widget();
               colorField.setAppearance("colorselector-colorbucket");
-              colorField.setBackgroundColor(this._presetTable[i * 10 + j]);
+              colorField.setBackgroundColor(this.__presetTable[i * 10 + j]);
               colorField.addListener("mousedown", this._onColorFieldClick, this);
     
               control.add(colorField, {column: j, row: i});
@@ -395,28 +433,23 @@ qx.Class.define("qx.ui.control.ColorSelector",
     ---------------------------------------------------------------------------
     */
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param value {var} Current value
-     * @param old {var} Previous value
-     */
+
+    // property apply
     _applyRed : function(value, old)
     {
-      if (this._updateContext === null) {
-        this._updateContext = "redModifier";
+      if (this.__updateContext === null) {
+        this.__updateContext = "redModifier";
       }
 
-      if (this._updateContext !== "rgbSpinner") {
+      if (this.__updateContext !== "rgbSpinner") {
         this._getChildControl("rgb-spinner-red").setValue(value);
       }
 
-      if (this._updateContext !== "hexField") {
+      if (this.__updateContext !== "hexField") {
         this._setHexFromRgb();
       }
 
-      switch(this._updateContext)
+      switch(this.__updateContext)
       {
         case "rgbSpinner":
         case "hexField":
@@ -426,34 +459,28 @@ qx.Class.define("qx.ui.control.ColorSelector",
 
       this._setPreviewFromRgb();
 
-      if (this._updateContext === "redModifier") {
-        this._updateContext = null;
+      if (this.__updateContext === "redModifier") {
+        this.__updateContext = null;
       }
     },
 
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param value {var} Current value
-     * @param old {var} Previous value
-     */
+    // property apply
     _applyGreen : function(value, old)
     {
-      if (this._updateContext === null) {
-        this._updateContext = "greenModifier";
+      if (this.__updateContext === null) {
+        this.__updateContext = "greenModifier";
       }
 
-      if (this._updateContext !== "rgbSpinner") {
+      if (this.__updateContext !== "rgbSpinner") {
         this._getChildControl("rgb-spinner-green").setValue(value);
       }
 
-      if (this._updateContext !== "hexField") {
+      if (this.__updateContext !== "hexField") {
         this._setHexFromRgb();
       }
 
-      switch(this._updateContext)
+      switch(this.__updateContext)
       {
         case "rgbSpinner":
         case "hexField":
@@ -463,34 +490,28 @@ qx.Class.define("qx.ui.control.ColorSelector",
 
       this._setPreviewFromRgb();
 
-      if (this._updateContext === "greenModifier") {
-        this._updateContext = null;
+      if (this.__updateContext === "greenModifier") {
+        this.__updateContext = null;
       }
     },
 
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param value {var} Current value
-     * @param old {var} Previous value
-     */
+    // property apply
     _applyBlue : function(value, old)
     {
-      if (this._updateContext === null) {
-        this._updateContext = "blueModifier";
+      if (this.__updateContext === null) {
+        this.__updateContext = "blueModifier";
       }
 
-      if (this._updateContext !== "rgbSpinner") {
+      if (this.__updateContext !== "rgbSpinner") {
         this._getChildControl("rgb-spinner-blue").setValue(value);
       }
 
-      if (this._updateContext !== "hexField") {
+      if (this.__updateContext !== "hexField") {
         this._setHexFromRgb();
       }
 
-      switch(this._updateContext)
+      switch(this.__updateContext)
       {
         case "rgbSpinner":
         case "hexField":
@@ -500,8 +521,8 @@ qx.Class.define("qx.ui.control.ColorSelector",
 
       this._setPreviewFromRgb();
 
-      if (this._updateContext === "blueModifier") {
-        this._updateContext = null;
+      if (this.__updateContext === "blueModifier") {
+        this.__updateContext = null;
       }
     },
 
@@ -514,24 +535,18 @@ qx.Class.define("qx.ui.control.ColorSelector",
     ---------------------------------------------------------------------------
     */
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param value {var} Current value
-     * @param old {var} Previous value
-     */
+    // property apply
     _applyHue : function(value, old)
     {
-      if (this._updateContext === null) {
-        this._updateContext = "hueModifier";
+      if (this.__updateContext === null) {
+        this.__updateContext = "hueModifier";
       }
 
-      if (this._updateContext !== "hsbSpinner") {
+      if (this.__updateContext !== "hsbSpinner") {
         this._getChildControl("hsb-spinner-hue").setValue(value);
       }
 
-      if (this._updateContext !== "hueSaturationField")
+      if (this.__updateContext !== "hueSaturationField")
       {
         if (this._getChildControl("hue-saturation-handle").getBounds()) {          
           this._getChildControl("hue-saturation-handle").setDomLeft(Math.round(value / 1.40625) + this._getChildControl("hue-saturation-pane").getPaddingLeft());
@@ -540,7 +555,7 @@ qx.Class.define("qx.ui.control.ColorSelector",
         }
       }
 
-      switch(this._updateContext)
+      switch(this.__updateContext)
       {
         case "hsbSpinner":
         case "hueSaturationField":
@@ -548,30 +563,24 @@ qx.Class.define("qx.ui.control.ColorSelector",
           this._setRgbFromHue();
       }
 
-      if (this._updateContext === "hueModifier") {
-        this._updateContext = null;
+      if (this.__updateContext === "hueModifier") {
+        this.__updateContext = null;
       }
     },
 
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param value {var} Current value
-     * @param old {var} Previous value
-     */
+    // property apply
     _applySaturation : function(value, old)
     {
-      if (this._updateContext === null) {
-        this._updateContext = "saturationModifier";
+      if (this.__updateContext === null) {
+        this.__updateContext = "saturationModifier";
       }
 
-      if (this._updateContext !== "hsbSpinner") {
+      if (this.__updateContext !== "hsbSpinner") {
         this._getChildControl("hsb-spinner-saturation").setValue(value);
       }
 
-      if (this._updateContext !== "hueSaturationField")
+      if (this.__updateContext !== "hueSaturationField")
       {
         if (this._getChildControl("hue-saturation-handle").getBounds()) {
           this._getChildControl("hue-saturation-handle").setDomTop(256 - Math.round(value * 2.56) + this._getChildControl("hue-saturation-pane").getPaddingTop());
@@ -580,7 +589,7 @@ qx.Class.define("qx.ui.control.ColorSelector",
         }
       }
 
-      switch(this._updateContext)
+      switch(this.__updateContext)
       {
         case "hsbSpinner":
         case "hueSaturationField":
@@ -588,30 +597,24 @@ qx.Class.define("qx.ui.control.ColorSelector",
           this._setRgbFromHue();
       }
 
-      if (this._updateContext === "saturationModifier") {
-        this._updateContext = null;
+      if (this.__updateContext === "saturationModifier") {
+        this.__updateContext = null;
       }
     },
 
 
-    /**
-     * TODOC
-     *
-     * @type member
-     * @param value {var} Current value
-     * @param old {var} Previous value
-     */
+    // property apply
     _applyBrightness : function(value, old)
     {
-      if (this._updateContext === null) {
-        this._updateContext = "brightnessModifier";
+      if (this.__updateContext === null) {
+        this.__updateContext = "brightnessModifier";
       }
 
-      if (this._updateContext !== "hsbSpinner") {
+      if (this.__updateContext !== "hsbSpinner") {
         this._getChildControl("hsb-spinner-brightness").setValue(value);
       }
 
-      if (this._updateContext !== "brightnessField")
+      if (this.__updateContext !== "brightnessField")
       {
         var topValue = 256 - Math.round(value * 2.56);
 
@@ -622,7 +625,7 @@ qx.Class.define("qx.ui.control.ColorSelector",
         }
       }
 
-      switch(this._updateContext)
+      switch(this.__updateContext)
       {
         case "hsbSpinner":
         case "brightnessField":
@@ -630,8 +633,8 @@ qx.Class.define("qx.ui.control.ColorSelector",
           this._setRgbFromHue();
       }
 
-      if (this._updateContext === "brightnessModifier") {
-        this._updateContext = null;
+      if (this.__updateContext === "brightnessModifier") {
+        this.__updateContext = null;
       }
     },
 
@@ -645,24 +648,23 @@ qx.Class.define("qx.ui.control.ColorSelector",
     */
 
     /**
-     * TODOC
+     * Listener of mousedown event on the brightness handle.
+     * Adjusts the color by changing the brightness.
      *
-     * @type member
-     * @param e {Event} TODOC
-     * @return {void}
+     * @param e {qx.event.type.Mouse} Incoming event object
      */
     _onBrightnessHandleMouseDown : function(e)
     {
       // Activate Capturing
       this._getChildControl("brightness-handle").capture();
-      this._capture = "brightness-handle";
+      this.__capture = "brightness-handle";
 
       // Calculate subtract: Position of Brightness Field - Current Mouse Offset
       var locationBrightnessField = this._getChildControl("brightness-field").getContainerLocation();
       var locationBrightnessHandle = this._getChildControl("brightness-handle").getContainerLocation();
       var fieldBounds = this._getChildControl("brightness-field").getBounds();
 
-      this._brightnessSubtract = locationBrightnessField.top +
+      this.__brightnessSubtract = locationBrightnessField.top +
         (e.getDocumentTop() - locationBrightnessHandle.top) - fieldBounds.top;
 
       // Block field event handling
@@ -671,65 +673,61 @@ qx.Class.define("qx.ui.control.ColorSelector",
 
 
     /**
-     * TODOC
+     * Listener of mouseup event on the brightness handle.
+     * Releases the capture.
      *
-     * @type member
-     * @param e {Event} TODOC
-     * @return {void}
+     * @param e {qx.event.type.Mouse} Incoming event object
      */
     _onBrightnessHandleMouseUp : function(e)
     {
       // Disabling capturing
       this._getChildControl("brightness-handle").releaseCapture();
-      this._capture = null;
+      this.__capture = null;
     },
 
 
     /**
-     * TODOC
+     * Listener of mousemove event on the brightness handle.
+     * Forwards the event to _setBrightnessOnFieldEvent().
      *
-     * @type member
-     * @param e {Event} TODOC
-     * @return {void}
+     * @param e {qx.event.type.Mouse} Incoming event object
      */
     _onBrightnessHandleMouseMove : function(e)
     {
       // Update if captured currently (through previous mousedown)
-      if (this._capture === "brightness-handle") {
+      if (this.__capture === "brightness-handle") {
         this._setBrightnessOnFieldEvent(e);
       }
     },
 
 
     /**
-     * TODOC
+     * Listener of mousedown event on the brightness field.
+     * Adjusts the color by changing the brightness.
      *
-     * @type member
-     * @param e {Event} TODOC
-     * @return {void}
+     * @param e {qx.event.type.Mouse} Incoming event object
      */
     _onBrightnessFieldMouseDown : function(e)
     {
       // Calculate substract: Half height of handler
       var location  = this._getChildControl("brightness-field").getContainerLocation();
       var bounds = this._getChildControl("brightness-handle").getBounds();
-      this._brightnessSubtract = location.top + (bounds.height / 2);
+      this.__brightnessSubtract = location.top + (bounds.height / 2);
 
       // Update
       this._setBrightnessOnFieldEvent(e);
 
       // Afterwards: Activate Capturing for handle
       this._getChildControl("brightness-handle").capture();
-      this._capture = "brightness-handle";
+      this.__capture = "brightness-handle";
     },
 
 
     /**
-     * TODOC
+     * Listener of mousewheel event on the brightness pane.
+     * Adjusts the color by changing the brightness.
      *
-     * @type member
-     * @param e {Event} TODOC
-     * @return {void}
+     * @param e {qx.event.type.Mouse} Incoming event object
      */
     _onBrightnessPaneMouseWheel : function(e) {
       this.setBrightness(qx.lang.Number.limit(this.getBrightness() + e.getWheelDelta(), 0, 100));
@@ -737,17 +735,15 @@ qx.Class.define("qx.ui.control.ColorSelector",
 
 
     /**
-     * TODOC
+     * Sets the brightness and moves the brightness handle.
      *
-     * @type member
-     * @param e {Event} TODOC
-     * @return {void}
+     * @param e {qx.event.type.Mouse} Incoming event object
      */
     _setBrightnessOnFieldEvent : function(e)
     {
-      var value = qx.lang.Number.limit(e.getDocumentTop() - this._brightnessSubtract, 0, 256);
+      var value = qx.lang.Number.limit(e.getDocumentTop() - this.__brightnessSubtract, 0, 256);
 
-      this._updateContext = "brightnessField";
+      this.__updateContext = "brightnessField";
 
       if (this._getChildControl("brightness-handle").getBounds()) {
         this._getChildControl("brightness-handle").setDomTop(value + this._getChildControl("brightness-pane").getPaddingTop());
@@ -757,7 +753,7 @@ qx.Class.define("qx.ui.control.ColorSelector",
 
       this.setBrightness(100 - Math.round(value / 2.56));
 
-      this._updateContext = null;
+      this.__updateContext = null;
     },
 
     /*
@@ -766,18 +762,18 @@ qx.Class.define("qx.ui.control.ColorSelector",
     ---------------------------------------------------------------------------
     */
 
+
     /**
-     * TODOC
+     * Listener of mousedown event on the saturation handle.
+     * Sets mouse capture.
      *
-     * @type member
-     * @param e {Event} TODOC
-     * @return {void}
+     * @param e {qx.event.type.Mouse} Incoming event object
      */
     _onHueSaturationHandleMouseDown : function(e)
     {
       // Activate Capturing      
       this._getChildControl("hue-saturation-handle").capture();
-      this._capture = "hue-saturation-handle";
+      this.__capture = "hue-saturation-handle";
 
       // Block field event handling
       e.stopPropagation();
@@ -785,42 +781,40 @@ qx.Class.define("qx.ui.control.ColorSelector",
 
 
     /**
-     * TODOC
+     * Listener of mouseup event on the saturation handle.
+     * Releases mouse capture.
      *
-     * @type member
-     * @param e {Event} TODOC
-     * @return {void}
+     * @param e {qx.event.type.Mouse} Incoming event object
      */
     _onHueSaturationHandleMouseUp : function(e)
     {
       // Disabling capturing
       this._getChildControl("hue-saturation-handle").releaseCapture();
-      this._capture = null;
+      this.__capture = null;
     },
 
 
     /**
-     * TODOC
+     * Listener of mousemove event on the saturation handle.
+     * Forwards the event to _onHueSaturationHandleMouseMove().
      *
-     * @type member
-     * @param e {Event} TODOC
-     * @return {void}
+     * @param e {qx.event.type.Mouse} Incoming event object
      */
     _onHueSaturationHandleMouseMove : function(e)
     {      
       // Update if captured currently (through previous mousedown)
-      if (this._capture === "hue-saturation-handle") {
+      if (this.__capture === "hue-saturation-handle") {
         this._setHueSaturationOnFieldEvent(e);
       }
     },
 
 
     /**
-     * TODOC
+     * Listener of mousedown event on the saturation field.
+     * Adjusts the color by changing the saturation.
+     * Sets mouse capture.
      *
-     * @type member
-     * @param e {Event} TODOC
-     * @return {void}
+     * @param e {qx.event.type.Mouse} Incoming event object
      */
     _onHueSaturationFieldMouseDown : function(e)
     {
@@ -829,24 +823,23 @@ qx.Class.define("qx.ui.control.ColorSelector",
       var handleBounds = this._getChildControl("hue-saturation-handle").getBounds();
       var fieldBounds = this._getChildControl("hue-saturation-field").getBounds();
 
-      this._hueSaturationSubtractTop = location.top + (handleBounds.height / 2) - fieldBounds.top;
-      this._hueSaturationSubtractLeft = location.left + (handleBounds.width / 2) - fieldBounds.left;
+      this.__hueSaturationSubtractTop = location.top + (handleBounds.height / 2) - fieldBounds.top;
+      this.__hueSaturationSubtractLeft = location.left + (handleBounds.width / 2) - fieldBounds.left;
 
       // Update
       this._setHueSaturationOnFieldEvent(e);
 
       // Afterwards: Activate Capturing for handle
       this._getChildControl("hue-saturation-handle").capture();
-      this._capture = "hue-saturation-handle";
+      this.__capture = "hue-saturation-handle";
     },
 
 
     /**
-     * TODOC
+     * Listener of mousewheel event on the saturation pane.
+     * Adjusts the color by changing the saturation.
      *
-     * @type member
-     * @param e {Event} TODOC
-     * @return {void}
+     * @param e {qx.event.type.Mouse} Incoming event object
      */
     _onHueSaturationPaneMouseWheel : function(e) {
       this.setSaturation(qx.lang.Number.limit(this.getSaturation() + e.getWheelDelta(), 0, 100));
@@ -854,16 +847,14 @@ qx.Class.define("qx.ui.control.ColorSelector",
 
 
     /**
-     * TODOC
+     * Sets the saturation and moves the saturation handle.
      *
-     * @type member
-     * @param e {Event} TODOC
-     * @return {void}
+     * @param e {qx.event.type.Mouse} Incoming event object
      */
     _setHueSaturationOnFieldEvent : function(e)
     {
-      var vTop = qx.lang.Number.limit(e.getDocumentTop() - this._hueSaturationSubtractTop, 0, 256);
-      var vLeft = qx.lang.Number.limit(e.getDocumentLeft() - this._hueSaturationSubtractLeft, 0, 256);
+      var vTop = qx.lang.Number.limit(e.getDocumentTop() - this.__hueSaturationSubtractTop, 0, 256);
+      var vLeft = qx.lang.Number.limit(e.getDocumentLeft() - this.__hueSaturationSubtractLeft, 0, 256);
 
       if (this._getChildControl("hue-saturation-handle").getBounds()) {
         this._getChildControl("hue-saturation-handle").setDomPosition(vLeft, vTop);        
@@ -871,12 +862,12 @@ qx.Class.define("qx.ui.control.ColorSelector",
         this._getChildControl("hue-saturation-handle").setLayoutProperties({top: vTop, left: vLeft});        
       }
 
-      this._updateContext = "hueSaturationField";
+      this.__updateContext = "hueSaturationField";
 
       this.setSaturation(100 - Math.round(vTop / 2.56));
       this.setHue(Math.round(vLeft * 1.40625));
 
-      this._updateContext = null;
+      this.__updateContext = null;
     },
 
 
@@ -889,56 +880,47 @@ qx.Class.define("qx.ui.control.ColorSelector",
     */
 
     /**
-     * TODOC
-     *
-     * @type member
-     * @return {void}
+     * Sets widget's red value to spinner's value.
      */
     _setRedFromSpinner : function()
     {
-      if (this._updateContext !== null) {
+      if (this.__updateContext !== null) {
         return;
       }
 
-      this._updateContext = "rgbSpinner";
+      this.__updateContext = "rgbSpinner";
       this.setRed(this._getChildControl("rgb-spinner-red").getValue());
-      this._updateContext = null;
+      this.__updateContext = null;
     },
 
 
     /**
-     * TODOC
-     *
-     * @type member
-     * @return {void}
+     * Sets widget's green value to spinner's value.
      */
     _setGreenFromSpinner : function()
     {
-      if (this._updateContext !== null) {
+      if (this.__updateContext !== null) {
         return;
       }
 
-      this._updateContext = "rgbSpinner";
+      this.__updateContext = "rgbSpinner";
       this.setGreen(this._getChildControl("rgb-spinner-green").getValue());
-      this._updateContext = null;
+      this.__updateContext = null;
     },
 
 
     /**
-     * TODOC
-     *
-     * @type member
-     * @return {void}
+     * Sets widget's blue value to spinner's value.
      */
     _setBlueFromSpinner : function()
     {
-      if (this._updateContext !== null) {
+      if (this.__updateContext !== null) {
         return;
       }
 
-      this._updateContext = "rgbSpinner";
+      this.__updateContext = "rgbSpinner";
       this.setBlue(this._getChildControl("rgb-spinner-blue").getValue());
-      this._updateContext = null;
+      this.__updateContext = null;
     },
 
 
@@ -951,56 +933,47 @@ qx.Class.define("qx.ui.control.ColorSelector",
     */
 
     /**
-     * TODOC
-     *
-     * @type member
-     * @return {void}
+     * Sets widget's hue value to spinner's value.
      */
     _setHueFromSpinner : function()
     {
-      if (this._updateContext !== null) {
+      if (this.__updateContext !== null) {
         return;
       }
 
-      this._updateContext = "hsbSpinner";
+      this.__updateContext = "hsbSpinner";
       this.setHue(this._getChildControl("hsb-spinner-hue").getValue());
-      this._updateContext = null;
+      this.__updateContext = null;
     },
 
 
     /**
-     * TODOC
-     *
-     * @type member
-     * @return {void}
+     * Sets widget's saturation value to spinner's value.
      */
     _setSaturationFromSpinner : function()
     {
-      if (this._updateContext !== null) {
+      if (this.__updateContext !== null) {
         return;
       }
 
-      this._updateContext = "hsbSpinner";
+      this.__updateContext = "hsbSpinner";
       this.setSaturation(this._getChildControl("hsb-spinner-saturation").getValue());
-      this._updateContext = null;
+      this.__updateContext = null;
     },
 
 
     /**
-     * TODOC
-     *
-     * @type member
-     * @return {void}
+     * Sets widget's brightness value to spinner's value.
      */
     _setBrightnessFromSpinner : function()
     {
-      if (this._updateContext !== null) {
+      if (this.__updateContext !== null) {
         return;
       }
 
-      this._updateContext = "hsbSpinner";
+      this.__updateContext = "hsbSpinner";
       this.setBrightness(this._getChildControl("hsb-spinner-brightness").getValue());
-      this._updateContext = null;
+      this.__updateContext = null;
     },
 
 
@@ -1013,15 +986,12 @@ qx.Class.define("qx.ui.control.ColorSelector",
     */
 
     /**
-     * TODOC
-     *
-     * @type member
-     * @param e {Event} TODOC
-     * @return {void | Boolean} TODOC
+     * Changes red, green and blue value to the corresponding hexfield value.
+     * @param e {qx.event.type.Data} Incoming event object
      */
     _onHexFieldChange : function(e)
     {
-      if (this._updateContext !== null) {
+      if (this.__updateContext !== null) {
         return;
       }
 
@@ -1031,19 +1001,16 @@ qx.Class.define("qx.ui.control.ColorSelector",
         return;
       };
 
-      this._updateContext = "hexField";
+      this.__updateContext = "hexField";
       this.setRed(rgb[0]);
       this.setGreen(rgb[1]);
       this.setBlue(rgb[2]);
-      this._updateContext = null;
+      this.__updateContext = null;
     },
 
 
     /**
-     * TODOC
-     *
-     * @type member
-     * @return {void}
+     * Sets hexfield value to it's corresponding red, green and blue value.
      */
     _setHexFromRgb : function() {
       this._getChildControl("hex-field").setValue(
@@ -1061,11 +1028,10 @@ qx.Class.define("qx.ui.control.ColorSelector",
     */
 
     /**
-     * TODOC
-     *
-     * @type member
-     * @param e {Event} TODOC
-     * @return {var} TODOC
+     * Listener of click event on the color field.
+     * Sets red, green and blue values to clicked color field's background color.
+     * 
+     * @param e {qx.event.type.Mouse} Incoming event object
      */
     _onColorFieldClick : function(e)
     {
@@ -1092,14 +1058,11 @@ qx.Class.define("qx.ui.control.ColorSelector",
     */
 
     /**
-     * TODOC
-     *
-     * @type member
-     * @return {void}
+     * Sets hue value to it's corresponding red, green and blue value.
      */
     _setHueFromRgb : function()
     {
-      switch(this._updateContext)
+      switch(this.__updateContext)
       {
         case "hsbSpinner":
         case "hueSaturationField":
@@ -1117,14 +1080,11 @@ qx.Class.define("qx.ui.control.ColorSelector",
 
 
     /**
-     * TODOC
-     *
-     * @type member
-     * @return {void}
+     * Sets red, green and blue value to corresponding hue value.
      */
     _setRgbFromHue : function()
     {
-      switch(this._updateContext)
+      switch(this.__updateContext)
       {
         case "rgbSpinner":
         case "hexField":
@@ -1149,10 +1109,7 @@ qx.Class.define("qx.ui.control.ColorSelector",
     */
 
     /**
-     * TODOC
-     *
-     * @type member
-     * @return {void}
+     * Sets preview pane's background color to corresponding red, green and blue color values.
      */
     _setPreviewFromRgb : function() {
       this._getChildControl("preview-content-new").setBackgroundColor(qx.util.ColorUtil.rgbToRgbString([this.getRed(), this.getGreen(), this.getBlue()]));
@@ -1160,13 +1117,11 @@ qx.Class.define("qx.ui.control.ColorSelector",
 
 
     /**
-     * TODOC
-     *
-     * @type member
-     * @param vRed {var} TODOC
-     * @param vGreen {var} TODOC
-     * @param vBlue {var} TODOC
-     * @return {void}
+     * Sets previous color's to given values.
+     * 
+     * @param vRed {Number} Red color value.
+     * @param vGreen {Number} Green color value.
+     * @param vBlue {Number} Blue color value.
      */
     setPreviousColor : function(vRed, vGreen, vBlue)
     {
@@ -1198,6 +1153,6 @@ qx.Class.define("qx.ui.control.ColorSelector",
       "_rgbSpinBlue", "_hsbSpinLayout", "_hsbSpinLabel", "_hsbSpinHue", "_hsbSpinSaturation",
       "_hsbSpinBrightness", "_oldColorPreview", "_newColorPreview");
 
-    this._disposeFields("_presetTable");
+    this._disposeFields("__presetTable");
   }
 });
