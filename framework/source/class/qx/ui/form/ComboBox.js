@@ -48,6 +48,7 @@ qx.Class.define("qx.ui.form.ComboBox",
     this._createChildControl("button");
 
     this.addListener("click", this._onClick);
+    this.addListener("keydown", this._onKeyDown);
   },
 
 
@@ -60,13 +61,6 @@ qx.Class.define("qx.ui.form.ComboBox",
 
   properties :
   {
-    // overridden
-    focusable :
-    {
-      refine : true,
-      init : true
-    },
-
     // overridden
     appearance :
     {
@@ -121,6 +115,7 @@ qx.Class.define("qx.ui.form.ComboBox",
           control.addState("inner");
           control.addListener("changeValue", this._onTextFieldChangeValue, this);
           control.addListener("input", this._onTextFieldInput, this);
+          control.addListener("blur", this.close, this);
           this._add(control, {flex: 1});
           break;
 
@@ -144,8 +139,12 @@ qx.Class.define("qx.ui.form.ComboBox",
 
 
     // overridden
-    tabFocus : function() {
-      this._getChildControl("textfield").tabFocus();
+    tabFocus : function()
+    {
+      var field = this._getChildControl("textfield");
+
+      field.getFocusElement().focus();
+      field.selectAll();
     },
 
 
@@ -182,6 +181,43 @@ qx.Class.define("qx.ui.form.ComboBox",
       EVENT LISTENERS
     ---------------------------------------------------------------------------
     */
+
+    /**
+     * Event handler for keydown. Used to toggle the list.
+     *
+     * @param e {qx.event.type.KeyEvent} Keypress event
+     */
+    _onKeyDown : function(e)
+    {
+      var iden = e.getKeyIdentifier();
+      if (e.isAltPressed() && iden == "Down")
+      {
+        this.toggle();
+        e.stopPropagation();
+      }
+    },
+
+
+    // overridden
+    _onKeyPress : function(e)
+    {
+      var popup = this._getChildControl("popup");
+      var iden = e.getKeyIdentifier();
+
+      if (iden == "Enter")
+      {
+        if (popup.isVisible())
+        {
+          this.close();
+          e.stopPropagation();
+        }
+      }
+      else if (popup.isVisible())
+      {
+        this.base(arguments, e);
+      }
+    },
+
 
     /**
      * Toggles the popup's visibility.

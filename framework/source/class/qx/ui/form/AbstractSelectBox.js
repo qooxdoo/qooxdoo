@@ -65,6 +65,13 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
   properties :
   {
     // overridden
+    focusable :
+    {
+      refine : true,
+      init : true
+    },
+
+    // overridden
     width :
     {
       refine : true,
