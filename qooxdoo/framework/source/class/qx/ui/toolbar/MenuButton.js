@@ -34,9 +34,9 @@ qx.Class.define("qx.ui.toolbar.MenuButton",
   *****************************************************************************
   */
 
-  construct : function(label, icon, command)
+  construct : function(label, icon, menu)
   {
-    this.base(arguments, label, icon, command);
+    this.base(arguments, label, icon, menu);
 
     this.removeListener("keydown", this._onKeyDown);
     this.removeListener("keyup", this._onKeyUp);
