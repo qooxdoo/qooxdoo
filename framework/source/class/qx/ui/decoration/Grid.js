@@ -145,154 +145,129 @@ qx.Class.define("qx.ui.decoration.Grid",
         return this.__markup;
       }
 
-      var base = qx.util.AliasManager.getInstance().resolve(this.getBaseImage());
-      var split = /(.*)(\.[a-z]+)$/.exec(base);
-      var prefix = split[1];
-      var ext = split[2];
+      var Background = qx.bom.element.Background;
+      var Clip = qx.bom.element.Clip;
+      var ResourceManager = qx.util.ResourceManager;
 
-      // Store images
-      var images =
-      {
-        tl : prefix + "-tl" + ext,
-        t : prefix + "-t" + ext,
-        tr : prefix + "-tr" + ext,
+      var images = this.__images;
+      var edges = this.__edges;
 
-        bl : prefix + "-bl" + ext,
-        b : prefix + "-b" + ext,
-        br : prefix + "-br" + ext,
-
-        l : prefix + "-l" + ext,
-        c : prefix + "-c" + ext,
-        r : prefix + "-r" + ext
-      };
-
-      // Resolve image data
-      var mgr = qx.util.ResourceManager;
-      var tl = mgr.getClipped(images.tl);
-      var t  = mgr.getClipped(images.t);
-      var tr = mgr.getClipped(images.tr);
-      var bl = mgr.getClipped(images.bl);
-      var b  = mgr.getClipped(images.b);
-      var br = mgr.getClipped(images.br);
-      var l  = mgr.getClipped(images.l);
-      var c  = mgr.getClipped(images.c);
-      var r  = mgr.getClipped(images.r);
-
-      if (qx.core.Variant.isSet("qx.debug", "on"))
-      {
-        if (!(tl&&t&&tr&&bl&&b&&br&&l&&c&&r)) {
-          throw new Error("Invalid source for grid decorator: " + this.getBaseImage() + " => " + images.t);
-        }
-      }
-
-      // Store edges
-      this._edges =
-      {
-        top : t[4],
-        bottom : b[4],
-        left : l[3],
-        right : r[3]
-      };
-
-      var topWidth = this._edges.top;
-      var bottomWidth = this._edges.bottom;
-      var leftWidth = this._edges.left;
-      var rightWidth = this._edges.right;
-
-
-      // Create edges and vertical sides
-      // Order: tl, t, tr, bl, b, bt, l, c, r
-      var html = [];
-
-      var leftCombined = mgr.getClipped(l[0]);
-      var leftImageWidth = leftCombined ? leftCombined[3] : l[3];
-
-      var rightCombined = mgr.getClipped(r[0]);
-      var rightImageWidth = rightCombined ? rightCombined[3] : r[3];
 
 
       // Base markup
+      // Contains a fix for small blocks where IE has a minHeight
+      // of the fontSize in quirks mode
       if (qx.core.Variant.isSet("qx.client", "mshtml")) {
         var base = "font-size:0;line-height:0;position:absolute;";
       } else {
         var base = "position:absolute;";
       }
 
+      // Create edges and vertical sides
+      // Order: tl, t, tr, bl, b, bt, l, c, r
+      var html = [];
 
       // Outer frame
       html.push('<div>');
 
+
+
       // Top: left, center, right
+      var tl = ResourceManager.getClippedImageData(images.tl);
       html.push(
         '<div style="', base, 'top:0;left:0;',
-        'width:', leftWidth,
-        'px;height:', topWidth, "px;",
-        qx.bom.element.Background.compile(tl[0], "repeat-x", tl[1], tl[2]),
+        'width:', edges.left,
+        'px;height:', edges.top, "px;",
+        Background.compile(tl.source, "repeat-x", tl.left, tl.top),
         '"></div>'
       );
+
+      var t  = ResourceManager.getClippedImageData(images.t);
       html.push(
         '<div style="', base, 'top:0;',
-        'left:', leftWidth,
-        'px;height:',topWidth, 'px;',
-        qx.bom.element.Background.compile(t[0], "repeat-x", t[1], t[2]),
+        'left:', edges.left,
+        'px;height:',edges.top, 'px;',
+        Background.compile(t.source, "repeat-x", t.left, t.top),
         '"></div>'
       );
+
+      var tr = ResourceManager.getClippedImageData(images.tr);
       html.push(
         '<div style="', base, 'top:0;right:0;',
-        'width:', rightWidth,
-        'px;height:', topWidth, "px;",
-        qx.bom.element.Background.compile(tr[0], "repeat-x", tr[1], tr[2]),
+        'width:', edges.right,
+        'px;height:', edges.top, "px;",
+        Background.compile(tr.source, "repeat-x", tr.left, tr.top),
         '"></div>'
       );
+
+
 
       // Bottom: left, center, right
+      var bl = ResourceManager.getClippedImageData(images.bl);
       html.push(
         '<div style="', base, 'bottom:0px;left:0;',
-        'width:', leftWidth,
-        'px;height:', bottomWidth, "px;",
-        qx.bom.element.Background.compile(bl[0], "repeat-x", bl[1], bl[2]),
+        'width:', edges.left,
+        'px;height:', edges.bottom, "px;",
+        Background.compile(bl.source, "repeat-x", bl.left, bl.top),
         '"></div>'
       );
 
+      var b  = ResourceManager.getClippedImageData(images.b);
       html.push(
         '<div style="', base, 'bottom:0;',
-        'left:', leftWidth,
-        'px;height:', bottomWidth, "px;",
-        qx.bom.element.Background.compile(b[0], "repeat-x", b[1], b[2]),
-        '"></div>'
-      );
-      html.push(
-        '<div style="', base, 'bottom:0;right:0;',
-        'width:', rightWidth,
-        'px;height:', bottomWidth, "px;",
-        qx.bom.element.Background.compile(br[0], "repeat-x", br[1], br[2]),
+        'left:', edges.left,
+        'px;height:', edges.bottom, "px;",
+        Background.compile(b.source, "repeat-x", b.left, b.top),
         '"></div>'
       );
 
+      var br = ResourceManager.getClippedImageData(images.br);
+      html.push(
+        '<div style="', base, 'bottom:0;right:0;',
+        'width:', edges.right,
+        'px;height:', edges.bottom, "px;",
+        Background.compile(br.source, "repeat-x", br.left, br.top),
+        '"></div>'
+      );
+
+
+
       // Middle: left, center, right
+      var l  = ResourceManager.getClippedImageData(images.l);
+      var c  = ResourceManager.getClippedImageData(images.c);
+      var r  = ResourceManager.getClippedImageData(images.r);
+
+      // Real image widths (of the maybe combined image)
+      var leftImageWidth = ResourceManager.getImageWidth(l.source);
+      var rightImageWidth = ResourceManager.getImageWidth(r.source);
+
       html.push(
-        '<img src="', mgr.toUri(l[0]), '" style="',
+        '<img src="', ResourceManager.toUri(l.source), '" style="',
         'position:absolute;',
-        'left:' + l[1] + 'px;',
-        'top:', topWidth, 'px;',
+        'left:' + l.left + 'px;',
+        'top:', edges.top, 'px;',
         'width:', leftImageWidth, 'px;',
-        qx.bom.element.Clip.compile({left: -l[1], width: leftWidth}),
+        Clip.compile({left: -l.left, width: edges.left}),
         '"/>'
       );
+
       html.push(
-        '<img src="', mgr.toUri(c[0]), '" style="',
+        '<img src="', ResourceManager.toUri(c.source), '" style="',
         'position:absolute;',
-        'top:', topWidth, 'px;left:', leftWidth, 'px;"/>'
+        'top:', edges.top, 'px;left:', edges.left, 'px;"/>'
       );
+
       html.push(
-        '<img src="', mgr.toUri(r[0]), '" style="',
+        '<img src="', ResourceManager.toUri(r.source), '" style="',
         'position:absolute;',
-        'right:', rightWidth - (rightImageWidth + r[1]) , 'px;',
-        'top:', topWidth, 'px;',
+        'right:', edges.right - rightImageWidth - r.left, 'px;',
+        'top:', edges.top, 'px;',
         'width:', rightImageWidth, 'px;',
-        qx.bom.element.Clip.compile({left: -r[1], width: rightWidth}),
+        Clip.compile({left: -r.left, width: edges.right}),
         '"/>'
       );
+
+
 
       // Outer frame
       html.push('</div>');
@@ -306,8 +281,9 @@ qx.Class.define("qx.ui.decoration.Grid",
     resize : function(element, width, height)
     {
       // Compute inner sizes
-      var innerWidth = width - this._edges.left - this._edges.right;
-      var innerHeight = height - this._edges.top - this._edges.bottom;
+      var edges = this.__edges;
+      var innerWidth = width - edges.left - edges.right;
+      var innerHeight = height - edges.top - edges.bottom;
 
       // Update nodes
       var frame = element.getDomElement();
@@ -334,19 +310,17 @@ qx.Class.define("qx.ui.decoration.Grid",
     // interface implementation
     getInsets : function()
     {
-      if (this._insets) {
-        return this._insets;
+      if (this.__insets) {
+        return this.__insets;
       }
 
-      this._insets =
+      return this.__insets =
       {
         left : this.getInsetLeft(),
         right : this.getInsetRight(),
         bottom : this.getInsetBottom(),
         top : this.getInsetTop()
       };
-
-      return this._insets;
     },
 
 
@@ -370,18 +344,54 @@ qx.Class.define("qx.ui.decoration.Grid",
         }
       }
 
-      this._insets = null;
+      this.__insets = null;
     },
 
 
     // property apply
-    _applyBaseImage : function()
+    _applyBaseImage : function(value, old)
     {
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         if (this.__markup) {
           throw new Error("This decorator is already in-use. Modification is not possible anymore!");
         }
+      }
+
+      if (value)
+      {
+        var Alias = qx.util.AliasManager.getInstance();
+        var ResourceManager = qx.util.ResourceManager;
+
+        var base = Alias.resolve(value);
+        var split = /(.*)(\.[a-z]+)$/.exec(base);
+        var prefix = split[1];
+        var ext = split[2];
+
+        // Store images
+        var images = this.__images =
+        {
+          tl : prefix + "-tl" + ext,
+          t : prefix + "-t" + ext,
+          tr : prefix + "-tr" + ext,
+
+          bl : prefix + "-bl" + ext,
+          b : prefix + "-b" + ext,
+          br : prefix + "-br" + ext,
+
+          l : prefix + "-l" + ext,
+          c : prefix + "-c" + ext,
+          r : prefix + "-r" + ext
+        };
+
+        // Store edges
+        var edges = this.__edges =
+        {
+          top : ResourceManager.getImageHeight(images.t),
+          bottom : ResourceManager.getImageHeight(images.b),
+          left : ResourceManager.getImageWidth(images.l),
+          right : ResourceManager.getImageWidth(images.r)
+        };
       }
     }
   }
