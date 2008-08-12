@@ -67,13 +67,6 @@ qx.Class.define("qx.ui.form.SelectBox",
       init : "selectbox"
     },
 
-    // overridden
-    focusable :
-    {
-      refine : true,
-      init : true
-    },
-
     /**
      * The selected item inside the list.
      */
@@ -244,15 +237,15 @@ qx.Class.define("qx.ui.form.SelectBox",
       var iden = e.getKeyIdentifier();
       if(iden == "Enter" || iden == "Space")
       {
+        this.debug(iden + " :: " + this.__preSelectedItem);
         // Apply pre-selected item (translate quick selection to real selection)
-        if (this._preSelectedItem)
+        if (this.__preSelectedItem)
         {
-          this.setSelected(this._preSelectedItem);
-          this._preSelectedItem = null;
+          this.setSelected(this.__preSelectedItem);
+          this.__preSelectedItem = null;
         }
 
         this.toggle();
-
       }
       else
       {
