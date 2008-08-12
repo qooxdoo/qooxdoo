@@ -614,7 +614,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
             icon : icon,
             width: 15,
             height: 14,
-            decorator : states.pressed ? "slider-knob-pressed-horizontal" : "slider-knob-horizontal"
+            decorator : states.pressed ? "slider-knob-pressed-horizontal" : "slider-knob"
           }
         }
         else
@@ -625,7 +625,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
             icon : icon,
             width: 14,
             height: 15,
-            decorator : states.pressed ? "slider-knob-pressed-vertical" : "slider-knob-vertical"
+            decorator : states.pressed ? "slider-knob-pressed-vertical" : "slider-knob"
           }
         }
       }
@@ -661,8 +661,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          // TODO: Shouldn't this be the same image independend from the orientation? The light always comes from top!
-          decorator: states.horizontal ? "slider-knob-horizontal" : "slider-knob-vertical",
+          decorator : "slider-knob",
           height : 14,
           width : 14
         };
@@ -1413,7 +1412,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          backgroundColor : "date-chooser",
+          backgroundColor : "background-light",
           padding : [2, 10]
         };
       }
@@ -1481,7 +1480,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       {
         return {
           decorator       : "date-chooser-pane",
-          backgroundColor : "date-chooser"
+          backgroundColor : "background-light"
         };
       }
     },
@@ -1490,17 +1489,13 @@ qx.Theme.define("qx.theme.modern.Appearance",
     {
       style : function(states)
       {
-        // TODO: Please do not use inline decorators!
-        var border = new qx.ui.decoration.Single().set({
-          bottom : [ 1, "solid", "border-dark" ]
-        });
-
         return {
-          decorator       : border,
+          decorator       : "date-chooser-weekday",
           font            : "bold",
           textAlign       : "center",
-          textColor       : states.weekend ? "date-chooser-title" : "date-chooser",
-          backgroundColor : states.weekend ? "date-chooser" : "date-chooser-title"
+          textColor       : states.weekend ? "background-selected" : "text-selected",
+          backgroundColor : states.weekend ? "background-light" : "background-selected",
+          paddingTop      : 2
         };
       }
     },
@@ -1513,7 +1508,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
           textAlign       : "center",
           decorator       : states.today ? "focus" : "undefined",
           textColor       : states.selected ? "text-selected" : states.otherMonth ? "text-disabled" : "undefined",
-          backgroundColor : states.selected ? "datechooser-day-selected" : "undefined",
+          backgroundColor : states.selected ? "background-selected" : "undefined",
           padding         : [ 2, 4 ]
         };
       }
@@ -1523,26 +1518,11 @@ qx.Theme.define("qx.theme.modern.Appearance",
     {
       style : function(states)
       {
-        // TODO: Please do not use inline decorators!
-        if (states.header)
-        {
-          var border = new qx.ui.decoration.Single().set({
-            right : [ 1, "solid", "border-dark" ],
-            bottom : [ 1, "solid", "border-dark" ]
-          });
-        }
-        else
-        {
-          var border = new qx.ui.decoration.Single().set({
-            right : [ 1, "solid", "border-dark" ]
-          });
-        }
-
         return {
           textAlign : "center",
-          textColor : "date-chooser-title",
+          textColor : "text",
           padding   : [ 2, 4 ],
-          decorator : border
+          decorator : states.header ? "date-chooser-week-header" : "date-chooser-week"
         };
       }
     },
