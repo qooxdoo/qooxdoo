@@ -53,7 +53,7 @@ qx.Class.define("qx.fx.effect.core.Parallel",
   /**
    * @param varargs {varargs} List of effects
    */
-  construct : function()
+  construct : function(varargs)
   {
     this.base(arguments);
 
