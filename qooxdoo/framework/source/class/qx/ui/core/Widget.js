@@ -1707,6 +1707,10 @@ qx.Class.define("qx.ui.core.Widget",
     /**
      * Adds a new child widget.
      *
+     * The supported keys of the layout options map depend on the layout manager
+     * used to position the widget. The options are documented in the class
+     * documentation of each layout manager {@link qx.ui.layout}.
+     *
      * @param child {LayoutItem} the widget to add.
      * @param options {Map?null} Optional layout data for widget.
      * @return {void}
