@@ -20,7 +20,7 @@
 /**
  * qx.fx.Transition contains mathematical functions for non-linear transitions in effects.
  */
-qx.Class.define("demobrowser.demo.animation.Transition_1",
+qx.Class.define("demobrowser.demo.animation.Transition_Position",
 {
   extend : qx.application.Standalone,
 

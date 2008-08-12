@@ -17,7 +17,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("demobrowser.demo.animation.Login_Sample",
+qx.Class.define("demobrowser.demo.animation.Login",
 {
   extend : qx.application.Standalone,
 
@@ -44,13 +44,21 @@ qx.Class.define("demobrowser.demo.animation.Login_Sample",
       layout.setColumnAlign(2, "right", "top");
 
       /* Container widget */
-      this.__container = new qx.ui.container.Composite(layout).set({
-        decorator: "outset",
-        padding: 16,
-        backgroundColor: "#ebe9ed"
+      this.__container = new qx.ui.groupbox.GroupBox().set({
+        contentPadding: [16, 16, 16, 16]
       });
+      this.__container.setLayout(layout);
 
-      this.getRoot().add(this.__container, {left:40, top:40});
+      this.__container.addListener("resize", function(e)
+      {
+        var bounds = this.__container.getBounds();
+        this.__container.set({
+          marginTop: Math.round(-bounds.height / 2),
+          marginLeft : Math.round(-bounds.width / 2)
+        });
+      }, this);
+
+      this.getRoot().add(this.__container, {left: "50%", top: "30%"});
 
       /* Labels */
       var labels = ["Name", "Password"];

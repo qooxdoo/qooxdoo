@@ -42,7 +42,9 @@ qx.Class.define("demobrowser.demo.ui.Cursor",
 
     getGrid1 : function()
     {
-      var container = new qx.ui.container.Composite().set({decorator: "black", backgroundColor: "yellow"});
+      var container = new qx.ui.container.Composite().set({
+        textColor: "#DDD"
+      });
 
       var layout = new qx.ui.layout.Grid();
       layout.setSpacing(20);
@@ -71,7 +73,7 @@ qx.Class.define("demobrowser.demo.ui.Cursor",
       {
         container.add(new qx.ui.basic.Label(cursors[i]).set({
           decorator: "black",
-          backgroundColor: "green",
+          backgroundColor: "#555",
           cursor: cursors[i],
           padding: 5,
           height: 100,

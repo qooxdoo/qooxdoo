@@ -26,7 +26,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("demobrowser.demo.widget.Window_Browser",
+qx.Class.define("demobrowser.demo.showcase.Browser",
 {
   extend : qx.application.Standalone,
 

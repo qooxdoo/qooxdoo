@@ -50,13 +50,10 @@ qx.Class.define("demobrowser.demo.animation.Save_Dialog",
       var document = this.getRoot();
 
       /* Container widget */
-      var layout1 = new qx.ui.layout.VBox();
-
-      this.__container = new qx.ui.container.Composite(layout1).set({
-        decorator: "outset",
-        padding: 16,
-        backgroundColor: "#ebe9ed"
+      this.__container = new qx.ui.groupbox.GroupBox().set({
+        contentPadding: [16, 16, 16, 16]
       });
+      this.__container.setLayout(new qx.ui.layout.VBox());
 
       document.add(this.__container, {left:40, top:40});
 
@@ -102,12 +99,11 @@ qx.Class.define("demobrowser.demo.animation.Save_Dialog",
       layout2.setRowAlign(3, "center", "middle");
 
       /* Dialog widget */
-      this.__dialog = new qx.ui.container.Composite(layout2).set({
-        decorator: "outset",
-        padding: 16,
-        backgroundColor: "#ebe9ed",
+      this.__dialog = new qx.ui.groupbox.GroupBox().set({
+        contentPadding: [16, 16, 16, 16],
         zIndex : -1
       });
+      this.__dialog.setLayout(layout2);
 
       document.add(this.__dialog, {
         left:65,
