@@ -18,6 +18,10 @@
 
 ************************************************************************ */
 
+/**
+ * Like the normal {@link Button} but instead of executing a command
+ * it opens menu when clicked on.
+ */
 qx.Class.define("qx.ui.toolbar.MenuButton",
 {
   extend : qx.ui.form.MenuButton,

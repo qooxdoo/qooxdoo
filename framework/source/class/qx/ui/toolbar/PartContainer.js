@@ -20,6 +20,8 @@
 ************************************************************************ */
 
 /**
+ * The container used by {@link Part} to insert the buttons.
+ *
  * @internal
  */
 qx.Class.define("qx.ui.toolbar.PartContainer",
