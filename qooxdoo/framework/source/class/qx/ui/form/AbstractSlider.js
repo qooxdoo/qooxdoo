@@ -244,7 +244,6 @@ qx.Class.define("qx.ui.form.AbstractSlider",
       var knob = this._getChildControl("knob");
 
       var locationProperty = isHorizontal ? "left" : "top";
-      var sizeProperty = isHorizontal ? "width" : "height";
 
       var cursorLocation = isHorizontal ? e.getDocumentLeft() : e.getDocumentTop();
       var sliderLocation = this.__sliderLocation = qx.bom.element.Location.get(this.getContentElement().getDomElement())[locationProperty];
@@ -448,7 +447,6 @@ qx.Class.define("qx.ui.form.AbstractSlider",
       var sliderLocation = this.__sliderLocation;
       var knobLocation = this.__knobLocation;
       var knobSize = this.__knobSize;
-      var slideBack = cursorLocation <= knobLocation;
 
       // Compute relative position
       var position = cursorLocation - sliderLocation;
