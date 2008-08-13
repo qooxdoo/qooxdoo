@@ -1397,7 +1397,6 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       var paneModel = this.getTablePaneModel();
       var columnModel = this.getTable().getTableColumnModel();
       var paneLeft = this.__tablePane.getContainerLocation().left;
-      var paneWidth = this.__tablePane.getBounds().width;
       var colCount = paneModel.getColumnCount();
 
       var targetXPos = 0;
