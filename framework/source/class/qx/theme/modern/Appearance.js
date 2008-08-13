@@ -579,6 +579,20 @@ qx.Theme.define("qx.theme.modern.Appearance",
         }
       }
     },
+    
+    "scrollbar/slider/knob" :
+    {
+      include : "button",
+
+      style : function(states)
+      {
+        return {
+          decorator : states.horizontal ? "scrollbar-button-horizontal" : "scrollbar-button-vertical",
+          height : 14,
+          width : 14
+        };
+      }
+    },
 
     "scrollbar/button" :
     {
