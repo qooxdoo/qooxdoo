@@ -42,7 +42,7 @@ qx.Class.define("demobrowser.CallTrace",
       while (time.length < 6) {
         time = "0" + time;
       }
-      console.log(time+" "+fullName+'(%o)', args);
+      qx.log.Logger.log(time+" "+fullName+'(%o)', args);
     }
 
   },
