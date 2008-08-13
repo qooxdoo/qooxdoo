@@ -2110,7 +2110,7 @@ qx.Class.define("qx.ui.core.Widget",
         this._createProtectorElement();
       }
 
-      if (typeof value === "object") {
+      if (value != null && typeof value === "object") {
         this.debug("Oops, Sebastian, here is something wrong!");
       }
 
