@@ -195,13 +195,18 @@ qx.Class.define("qx.ui.control.DateChooser",
 
   members :
   {
+
+    __weekdayLabelArr : null,
+    __dayLabelArr : null,
+    __weekLabelArr : null,
+
     /*
     ---------------------------------------------------------------------------
       FORM API IMPLEMENTATION
     ---------------------------------------------------------------------------
     */
     /**
-     * Sets the element's string value. The String should be excepted by the
+     * Sets the element's string value. The String should bye excepted by the
      * JavaScript Date-Object.
      *
      * @param value {String} The new date value as a JavaScript confrom date string.
@@ -317,7 +322,7 @@ qx.Class.define("qx.ui.control.DateChooser",
           label.addState("header");
           control.add(label, {column: 0, row: 0});
 
-          this._weekdayLabelArr = [];
+          this.__weekdayLabelArr = [];
 
           for (var i=0; i<7; i++)
           {
@@ -330,12 +335,12 @@ qx.Class.define("qx.ui.control.DateChooser",
             label.setCursor("default");
 
             control.add(label, {column: i + 1, row: 0});
-            this._weekdayLabelArr.push(label);
+            this.__weekdayLabelArr.push(label);
           }
 
           // Add the days
-          this._dayLabelArr = [];
-          this._weekLabelArr = [];
+          this.__dayLabelArr = [];
+          this.__weekLabelArr = [];
 
           for (var y = 0; y < 6; y++)
           {
@@ -349,7 +354,7 @@ qx.Class.define("qx.ui.control.DateChooser",
             label.setCursor("default");
 
             control.add(label, {column: 0, row: y + 1});
-            this._weekLabelArr.push(label);
+            this.__weekLabelArr.push(label);
 
             // Add the day labels
             for (var x = 0; x < 7; x++)
@@ -364,7 +369,7 @@ qx.Class.define("qx.ui.control.DateChooser",
               label.addListener("mousedown", this._onDayClicked, this);
               label.addListener("dblclick", this._onDayDblClicked, this);
               control.add(label, {column:x + 1, row:y + 1});
-              this._dayLabelArr.push(label);
+              this.__dayLabelArr.push(label);
             }
           }
 
@@ -409,7 +414,7 @@ qx.Class.define("qx.ui.control.DateChooser",
 
         for (var i=0; i<6*7; i++)
         {
-          var dayLabel = this._dayLabelArr[i];
+          var dayLabel = this.__dayLabelArr[i];
 
           if (dayLabel.hasState("otherMonth"))
           {
@@ -688,7 +693,7 @@ qx.Class.define("qx.ui.control.DateChooser",
       {
         var day = (i + startOfWeek) % 7;
 
-        var dayLabel = this._weekdayLabelArr[i];
+        var dayLabel = this.__weekdayLabelArr[i];
 
         helpDate.setDate(firstSundayInMonth + day);
         dayLabel.setContent(weekDayFormat.format(helpDate));
@@ -709,11 +714,11 @@ qx.Class.define("qx.ui.control.DateChooser",
 
       for (var week=0; week<6; week++)
       {
-        this._weekLabelArr[week].setContent(weekFormat.format(helpDate));
+        this.__weekLabelArr[week].setContent(weekFormat.format(helpDate));
 
         for (var i=0; i<7; i++)
         {
-          var dayLabel = this._dayLabelArr[week * 7 + i];
+          var dayLabel = this.__dayLabelArr[week * 7 + i];
 
           var year = helpDate.getFullYear();
           var month = helpDate.getMonth();
@@ -764,8 +769,8 @@ qx.Class.define("qx.ui.control.DateChooser",
   {
     qx.locale.Manager.getInstance().removeEventListener("changeLocale", this._updateDatePane, this);
 
-    this._disposeObjectDeep("_weekdayLabelArr", 1);
-    this._disposeObjectDeep("_dayLabelArr", 1);
-    this._disposeObjectDeep("_weekLabelArr", 1);
+    this._disposeObjectDeep("__weekdayLabelArr", 1);
+    this._disposeObjectDeep("__dayLabelArr", 1);
+    this._disposeObjectDeep("__weekLabelArr", 1);
   }
 });
