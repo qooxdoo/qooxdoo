@@ -31,13 +31,13 @@ qx.Class.define("demobrowser.demo.layout.Grid_Alignment",
     {
       this.base(arguments);
 
-      var layout = new qx.ui.layout.Grid();
-      layout.setSpacing(20);
+      var scroll = new qx.ui.container.Scroll();
+      this.getRoot().add(scroll, {edge: 0});
 
-      var container = new qx.ui.container.Composite(layout);
-      container.setPadding(20);
-
-      this.getRoot().add(container, {left:0,top:0});
+      var container = new qx.ui.container.Composite(new qx.ui.layout.Grid(20)).set({
+        padding: 20
+      });
+      scroll.add(container);
 
       container.add(this.getCellAlignGrid(), {row: 0, column: 0});
       container.add(this.getRowColumnAlignGrid(), {row: 0, column: 1});

@@ -28,10 +28,13 @@ qx.Class.define("demobrowser.demo.layout.Grid_Simple",
     {
       this.base(arguments);
 
-      var container = new qx.ui.container.Composite(new qx.ui.layout.HBox(10));
-      container.setPadding(20);
+      var scroll = new qx.ui.container.Scroll();
+      this.getRoot().add(scroll, {edge: 0});
 
-      this.getRoot().add(container, {left:0,top:0});
+      var container = new qx.ui.container.Composite(new qx.ui.layout.VBox(20)).set({
+        padding: 20
+      })
+      scroll.add(container);
 
       container.add(this.getGrid1());
       container.add(this.getGrid2());
