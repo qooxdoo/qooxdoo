@@ -57,7 +57,7 @@ qx.Class.define("qx.ui.progressive.headfoot.TableHeading",
     for (var i = 0; i < columnData.length; i++)
     {
       // ... create an atom to hold the label
-      label = new qx.ui.basic.Atom(labelArr[i]);
+      var label = new qx.ui.basic.Atom(labelArr[i]);
       label.setAppearance("progressive-table-header-cell");
 
       // Add the label to this heading.
@@ -105,6 +105,10 @@ qx.Class.define("qx.ui.progressive.headfoot.TableHeading",
 
   members :
   {
+
+    __bCalculateWidths : null,
+    __labels : null,
+
     // overridden
     join : function(progressive)
     {

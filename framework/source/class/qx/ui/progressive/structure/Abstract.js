@@ -52,6 +52,10 @@ qx.Class.define("qx.ui.progressive.structure.Abstract",
 
   members :
   {
+
+    __container : null,
+    __pane : null,
+
     /**
      */
     applyStructure : function(progressive)

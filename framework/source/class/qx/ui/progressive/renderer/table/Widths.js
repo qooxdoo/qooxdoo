@@ -43,6 +43,9 @@ qx.Class.define("qx.ui.progressive.renderer.table.Widths",
 
   members :
   {
+    
+    __columnData : null,
+    
     /**
      * Get the array of column data.
      *

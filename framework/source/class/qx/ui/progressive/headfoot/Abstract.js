@@ -39,6 +39,9 @@ qx.Class.define("qx.ui.progressive.headfoot.Abstract",
 
   members    :
   {
+
+    __progressive : null,
+
     /**
      * Join this header/footer to a Progressive.  This makes the Progressive
      * object available to the header/footer through the _progressive member.
