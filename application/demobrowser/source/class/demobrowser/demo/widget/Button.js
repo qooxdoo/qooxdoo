@@ -48,8 +48,8 @@ qx.Class.define("demobrowser.demo.widget.Button",
 
       // Two normal buttons
       var btn1 = new qx.ui.form.Button("Button A", "icon/22/apps/media-video-player.png");
-
       container.add(btn1);
+
       var btn2 = new qx.ui.form.Button("Button B", "icon/22/apps/internet-mail.png");
       btn2.setEnabled(false);
       container.add(btn2);
