@@ -108,6 +108,15 @@ qx.Class.define("qx.ui.splitpane.Pane",
 
   members :
   {
+
+    __splitterOffset : null,
+    __activeDragSession : null,
+    __lastMouseX : null,
+    __lastMouseY : null,
+    __isHorizontal : null,
+    __beginSize : null,
+    __endSize : null,
+
     // overridden
     _createChildControlImpl : function(id)
     {
@@ -156,7 +165,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
       var splitter = this._getChildControl("splitter")
 
       // Store boolean flag for faster access
-      this._isHorizontal = value === "horizontal";
+      this.__isHorizontal = value === "horizontal";
 
       // Dispose old layout
       var oldLayout = this._getLayout();
@@ -247,7 +256,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
       // Store offset between mouse event coordinates and splitter
       var splitterLocation = splitter.getContainerLocation();
       var paneLocation = this.getContentLocation();
-      this.__splitterOffset = this._isHorizontal ?
+      this.__splitterOffset = this.__isHorizontal ?
         e.getDocumentLeft() - splitterLocation.left + paneLocation.left :
         e.getDocumentTop() - splitterLocation.top + paneLocation.top ;
 
@@ -285,10 +294,10 @@ qx.Class.define("qx.ui.splitpane.Pane",
 
         // Update slider position
         var slider = this._getChildControl("slider");
-        if(this._isHorizontal) {
-          slider.setDomLeft(this._beginSize);
+        if(this.__isHorizontal) {
+          slider.setDomLeft(this.__beginSize);
         } else {
-          slider.setDomTop(this._beginSize);
+          slider.setDomTop(this.__beginSize);
         }
       }
       else
@@ -368,8 +377,8 @@ qx.Class.define("qx.ui.splitpane.Pane",
      */
     __finalizeSizes : function()
     {
-      var beginSize = this._beginSize;
-      var endSize = this._endSize;
+      var beginSize = this.__beginSize;
+      var endSize = this.__endSize;
 
       if (beginSize == null) {
         return;
@@ -394,7 +403,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
       else
       {
         // Set widths to static widgets
-        if (this._isHorizontal)
+        if (this.__isHorizontal)
         {
           firstWidget.setWidth(beginSize);
           secondWidget.setWidth(endSize);
@@ -468,7 +477,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
       // Whether the cursor is near enough to the splitter
       if (this.__activeDragSession || this.__isNear())
       {
-        var cursor = this._isHorizontal ? "col-resize" : "row-resize";
+        var cursor = this.__isHorizontal ? "col-resize" : "row-resize";
         this.setCursor(cursor);
         root.setGlobalCursor(cursor);
         splitter.addState("active");
@@ -488,7 +497,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
      */
     __computeSizes : function()
     {
-      if (this._isHorizontal) {
+      if (this.__isHorizontal) {
         var min="minWidth", size="width", max="maxWidth", mouse=this.__lastMouseX;
       } else {
         var min="minHeight", size="height", max="maxHeight", mouse=this.__lastMouseY;
@@ -530,8 +539,8 @@ qx.Class.define("qx.ui.splitpane.Pane",
       }
 
       // Store sizes
-      this._beginSize = beginSize;
-      this._endSize = endSize;
+      this.__beginSize = beginSize;
+      this.__endSize = endSize;
     }
   }
 });
