@@ -46,7 +46,7 @@ qx.Class.define("qx.html.Image",
     {
       this.base(arguments, name, value);
 
-      if (name === "source" || name === "scale")
+      if (name === "source")
       {
         var dom = this._element;
 
@@ -64,13 +64,10 @@ qx.Class.define("qx.html.Image",
     // overridden
     _createDomElement : function()
     {
-      var source = this._getProperty("source");
       var repeat = this._getProperty("scale") || "no-repeat";
+      this._nodeName = qx.bom.element.Decoration.getTagName(repeat);
 
-      var html = qx.bom.element.Decoration.create(source, repeat);
-      var el = document.createElement("div");
-      el.innerHTML = html;
-      return el.firstChild;
+      return this.base(arguments);
     },
 
 
@@ -91,7 +88,7 @@ qx.Class.define("qx.html.Image",
     */
 
     /**
-     * Configures the image source (a full qualified URL)
+     * Configures the image source
      *
      * @param value {Boolean} Whether the HTML mode should be used.
      * @return {qx.html.Label} This instance for for chaining support.
@@ -114,7 +111,8 @@ qx.Class.define("qx.html.Image",
 
 
 
-    resetSource : function() {
+    resetSource : function()
+    {
       this._removeProperty("source");
       return this;
     },
