@@ -75,31 +75,38 @@ qx.Class.define("qx.bom.History",
    */
   construct : qx.core.Variant.select("qx.client",
   {
+
+    __iframe : null,
+    __titles : null,
+    __state : null,
+    __timer : null,
+    __locationState : null,
+
     "mshtml" : function()
     {
       this.base(arguments);
 
-      this._iframe = document.createElement("iframe");
-      this._iframe.style.visibility = "hidden";
-      this._iframe.style.position = "absolute";
-      this._iframe.style.left = "-1000px";
-      this._iframe.style.top = "-1000px";
+      this.__iframe = document.createElement("iframe");
+      this.__iframe.style.visibility = "hidden";
+      this.__iframe.style.position = "absolute";
+      this.__iframe.style.left = "-1000px";
+      this.__iframe.style.top = "-1000px";
 
       /*
        * IMPORTANT NOTE FOR IE:
        * Setting the source before adding the iframe to the document.
        * Otherwise IE will bring up a "Unsecure items ..." warning in SSL mode
        */
-      this._iframe.src = qx.util.ResourceManager.toUri("qx/static/html/blank.html");
-      document.body.appendChild(this._iframe);
+      this.__iframe.src = qx.util.ResourceManager.toUri("qx/static/html/blank.html");
+      document.body.appendChild(this.__iframe);
 
-      this._titles = {};
-      this._state = decodeURIComponent(this.__getHash());
-      this._locationState = decodeURIComponent(this.__getHash());
+      this.__titles = {};
+      this.__state = decodeURIComponent(this.__getHash());
+      this.__locationState = decodeURIComponent(this.__getHash());
 
       this.__waitForIFrame(function()
       {
-        this.__storeState(this._state);
+        this.__storeState(this.__state);
         this.__startTimer();
       }, this);
     },
@@ -108,8 +115,8 @@ qx.Class.define("qx.bom.History",
     {
       this.base(arguments);
 
-      this._titles = {};
-      this._state = this.__getState();
+      this.__titles = {};
+      this.__state = this.__getState();
 
       this.__startTimer();
     }
@@ -183,9 +190,9 @@ qx.Class.define("qx.bom.History",
     {
       if (newTitle != null) {
         document.title = newTitle;
-        this._titles[state] = newTitle;
+        this.__titles[state] = newTitle;
       }
-      if (state != this._state) {
+      if (state != this.__state) {
         top.location.hash = "#" + encodeURIComponent(state)
         this.__storeState(state);
       }
@@ -198,7 +205,7 @@ qx.Class.define("qx.bom.History",
      * @return {String} The current state
      */
     getState : function() {
-      return this._state;
+      return this.__state;
     },
 
 
@@ -226,7 +233,7 @@ qx.Class.define("qx.bom.History",
      * @param newInterval {Integer} new timeout interval
      */
     _applyTimeoutInterval : function(value) {
-      this._timer.setInterval(value);
+      this.__timer.setInterval(value);
     },
 
 
@@ -236,10 +243,10 @@ qx.Class.define("qx.bom.History",
      * @param state {String} new state of the history
      */
     __onHistoryLoad : function(state) {
-      this._state = state;
+      this.__state = state;
       this.fireDataEvent("request", state);
-      if (this._titles[state] != null) {
-        document.title = this._titles[state];
+      if (this.__titles[state] != null) {
+        document.title = this.__titles[state];
       }
     },
 
@@ -250,16 +257,16 @@ qx.Class.define("qx.bom.History",
      */
     __startTimer : function()
     {
-      this._timer = new qx.event.Timer(this.getTimeoutInterval());
+      this.__timer = new qx.event.Timer(this.getTimeoutInterval());
 
-      this._timer.addListener("interval", function(e) {
+      this.__timer.addListener("interval", function(e) {
         var newHash = this.__getState();
-        if (newHash != this._state) {
+        if (newHash != this.__state) {
           this.__onHistoryLoad(newHash);
         }
       }, this);
 
-      this._timer.start();
+      this.__timer.start();
     },
 
 
@@ -288,14 +295,14 @@ qx.Class.define("qx.bom.History",
         // the location only changes if the user manually changes the fragment
         // identifier.
         var locationState = decodeURIComponent(this.__getHash());
-        if (locationState != this._locationState)
+        if (locationState != this.__locationState)
         {
-          this._locationState = locationState;
+          this.__locationState = locationState;
           this.__storeState(locationState);
           return locationState;
         }
 
-        var doc = this._iframe.contentWindow.document;
+        var doc = this.__iframe.contentWindow.document;
         var elem = doc.getElementById("state");
         var iframeState = elem ? decodeURIComponent(elem.innerText) : "";
 
@@ -323,7 +330,7 @@ qx.Class.define("qx.bom.History",
         var html = '<html><body><div id="state">' + encodeURIComponent(state) + '</div></body></html>';
         try
         {
-          var doc = this._iframe.contentWindow.document;
+          var doc = this.__iframe.contentWindow.document;
           doc.open();
           doc.write(html);
           doc.close();
@@ -356,7 +363,7 @@ qx.Class.define("qx.bom.History",
     {
       "mshtml" : function(callback, context)
       {
-        if ( !this._iframe.contentWindow || !this._iframe.contentWindow.document ) {
+        if ( !this.__iframe.contentWindow || !this.__iframe.contentWindow.document ) {
             // Check again in 10 msec...
             qx.event.Timer.once(function() {
               this.__waitForIFrame(callback, context);
@@ -382,8 +389,8 @@ qx.Class.define("qx.bom.History",
 
   destruct : function()
   {
-    this._timer.stop();
-    this._disposeObjects("_timer");
-    this._disposeFields("_iframe", "_titles");
+    this.__timer.stop();
+    this._disposeObjects("__timer");
+    this._disposeFields("__iframe", "__titles");
   }
 });
