@@ -59,22 +59,14 @@ qx.Class.define("demobrowser.demo.widget.Window",
         this.debug("Resized to: " + e.getData().width + "x" + e.getData().height);
       });
 
-      // Add container for content
-      var contentContainer = new qx.ui.container.Composite(new qx.ui.layout.VBox(20));
-      contentContainer.set({
-        appearance : "window-pane-content",
-        padding    : 8
-      });
-      win.add(contentContainer);
-
       // Add an Atom
       var atom = new qx.ui.basic.Atom("Welcome to your first own Window.<br/>Have fun!", "icon/32/apps/office-address-book.png");
       atom.setRich(true);
-      contentContainer.add(atom);
+      win.add(atom);
 
       // Add a TabView
       var tabView = new qx.ui.tabview.TabView;
-      contentContainer.add(tabView, {flex:1});
+      win.add(tabView, {flex:1});
 
       var page1 = new qx.ui.tabview.Page("Page 1");
       tabView.add(page1);
@@ -95,22 +87,14 @@ qx.Class.define("demobrowser.demo.widget.Window",
       win.open();
       this.getRoot().add(win, {left:350, top:120});
 
-
-      var contentContainer = new qx.ui.container.Composite(new qx.ui.layout.VBox(10));
-      contentContainer.set({
-        appearance : "window-pane-content",
-        padding    : 8
-      });
-      win.add(contentContainer);
-
       var atom = new qx.ui.basic.Atom("The second window", "icon/22/apps/utilities-calculator.png");
       atom.setCenter(false);
-      contentContainer.add(atom);
+      win.add(atom);
 
 
       var box = new qx.ui.container.Composite;
       box.setLayout(new qx.ui.layout.HBox(10));
-      contentContainer.add(box, {flex:1});
+      win.add(box, {flex:1});
 
 
 
@@ -270,15 +254,8 @@ qx.Class.define("demobrowser.demo.widget.Window",
       wm2.moveTo(300, 300);
       this.getRoot().add(wm2);
 
-      var contentContainer = new qx.ui.container.Composite(new qx.ui.layout.VBox(10));
-      contentContainer.set({
-        appearance : "window-pane-content",
-        padding    : 8
-      });
-      wm2.add(contentContainer);
-
       var warn1 = new qx.ui.basic.Atom("Do you want to fly to Berlin?", "icon/32/status/dialog-error.png");
-      contentContainer.add(warn1);
+      wm2.add(warn1);
 
       var box = new qx.ui.container.Composite;
       box.setLayout(new qx.ui.layout.HBox(10, "right"));

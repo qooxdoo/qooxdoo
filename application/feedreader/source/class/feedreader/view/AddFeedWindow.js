@@ -85,15 +85,8 @@ qx.Class.define("feedreader.view.AddFeedWindow",
     {
       this.setLayout(new qx.ui.layout.VBox(10));
       
-      var contentContainer = new qx.ui.container.Composite(new qx.ui.layout.VBox(10));
-      contentContainer.set({
-        appearance : "window-pane-content",
-        padding    : 8
-      });
-      this.add(contentContainer);
-      
       var groupBox = new qx.ui.groupbox.GroupBox(this.tr("Feed Information"));
-      contentContainer.add(groupBox);
+      this.add(groupBox);
 
       var layout = new qx.ui.layout.Grid();
       layout.setSpacing(10);
