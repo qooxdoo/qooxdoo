@@ -146,7 +146,7 @@ qx.Class.define("qx.dev.unit.TestSuite",
      * @param clazz {Class} The test class to add
      */
     addTestClass : function(clazz) {
-      this.__tests.push(new qx.dev.unit.run.TestClass(clazz));
+      this.__tests.push(new qx.dev.unit.TestClass(clazz));
     },
 
 
@@ -190,7 +190,7 @@ qx.Class.define("qx.dev.unit.TestSuite",
       {
         var test = this.__tests[i];
 
-        if (test instanceof qx.dev.unit.run.TestClass) {
+        if (test instanceof qx.dev.unit.TestClass) {
           classes.push(test);
         }
       }
