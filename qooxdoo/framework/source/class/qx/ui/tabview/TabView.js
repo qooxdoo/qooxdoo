@@ -309,7 +309,6 @@ qx.Class.define("qx.ui.tabview.TabView",
     _applyBarPosition : function(value, old)
     {
       var bar = this._getChildControl("bar");
-      var pane = this._getChildControl("pane");
 
       var horizontal = value == "left" || value == "right";
       var reversed = value == "right" || value == "bottom";

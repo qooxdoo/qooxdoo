@@ -52,6 +52,7 @@ qx.Class.define("qx.util.PlaceUtil",
     {
       var left = 0;
       var top = 0;
+      var fixedRatingX, fixedRatingY;
 
       // Split position string
       var splitted = position.split("-");
