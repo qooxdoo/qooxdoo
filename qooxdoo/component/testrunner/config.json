@@ -18,8 +18,6 @@
       "APPLICATION"  : "testrunner",
       "CACHE"        : "../../cache",
       "QOOXDOO_PATH" : "../../framework",
-      "QOOXDOO_URI"  : "../${QOOXDOO_PATH}",
-      "BUILD_PATH"   : "build",
-      "THEME"        : "qx.theme.Modern"
+      "QOOXDOO_URI"  : "../${QOOXDOO_PATH}"
   }
 }
