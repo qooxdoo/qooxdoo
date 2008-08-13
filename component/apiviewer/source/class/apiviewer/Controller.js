@@ -151,8 +151,8 @@ qx.Class.define("apiviewer.Controller",
         {
           var nodeName = treeNode.getUserData("nodeName");
 
-          // the history update will cause __selectClass to be called.
-          this.__updateHistory(nodeName);
+          // the history update will cause _selectClass to be called.
+          this._updateHistory(nodeName);
         }
       }, this);
 
@@ -233,7 +233,7 @@ qx.Class.define("apiviewer.Controller",
      *
      * @param className {String} name of the class
      */
-    __updateHistory : function(className)
+    _updateHistory : function(className)
     {
       var newTitle = this._titlePrefix + " - class " + className;
       qx.bom.History.getInstance().addToHistory(this.__encodeState(className), newTitle);
@@ -245,7 +245,7 @@ qx.Class.define("apiviewer.Controller",
      *
      * @param classNode {apiviewer.dao.Class} class node to display
      */
-    __selectClass : function(classNode, callback, self)
+    _selectClass : function(classNode, callback, self)
     {
       this._detailLoader.exclude();
 
@@ -312,7 +312,7 @@ qx.Class.define("apiviewer.Controller",
       var nodeName = this._tree.getSelectedItem().getUserData("nodeName");
       
       
-      this.__selectClass(apiviewer.dao.Class.getClassByName(nodeName), function()
+      this._selectClass(apiviewer.dao.Class.getClassByName(nodeName), function()
       {
         if (itemName)
         {
@@ -323,10 +323,9 @@ qx.Class.define("apiviewer.Controller",
             return;
           }
         } else {
-          // TODO
-          ////this._classViewer.setScrollTop(0);
+          this._classViewer.getContainerElement().scrollToY(0);
         }
-        this.__updateHistory(fullItemName);
+        this._updateHistory(fullItemName);
 
       }, this);
 
