@@ -1,7 +1,7 @@
 {
   "name" : "Testrunner (export) config",
 
-  "export" : [ "source", "build", "clean" ],
+  //"export" : [ "source", "build", "clean" ],
 
   "let" :
   {
@@ -70,17 +70,17 @@
         },
 
         {
-          "manifest" : "Manifest.json",
+          "manifest" : "${TESTRUNNER_ROOT}/Manifest.json",
           "uri"      : "../.."
         }
       ],
 
-      "include" : ["testrunner.TestLoader", "testrunner.test.*"],
+      "include" : ["testrunner.TestLoader", "${APPLICATION}.test.*"],
 
       "settings" : 
       {
         "qx.testPageUri"   : "html/tests.html",
-        "qx.testNameSpace" : "${APPLICATION}",
+        "qx.testNameSpace" : "${APPLICATION}.test",
         "testrunner.title" : "${APPLICATION}"
       },
 
