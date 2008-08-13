@@ -31,8 +31,8 @@ qx.Class.define("demobrowser.demo.bom.ScrollIntoView_1",
       for (var i=0, l=ids.length; i<l; i++)
       {
         var el = document.getElementById(ids[i]);
-        console.log("Width: " + ids[i] + ": offset=" + el.offsetWidth + ", scroll=" + el.scrollWidth + ", client=" + el.clientWidth);
-        console.log("Height: " + ids[i] + ": offset=" + el.offsetHeight + ", scroll=" + el.scrollHeight + ", client=" + el.clientHeight);
+        qx.log.Logger.log("Width: " + ids[i] + ": offset=" + el.offsetWidth + ", scroll=" + el.scrollWidth + ", client=" + el.clientWidth);
+        qx.log.Logger.log("Height: " + ids[i] + ": offset=" + el.offsetHeight + ", scroll=" + el.scrollHeight + ", client=" + el.clientHeight);
       }
     }
   }

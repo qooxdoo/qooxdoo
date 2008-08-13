@@ -254,8 +254,6 @@ qx.Class.define("qx.ui.embed.Iframe",
      *
      */
     block : function() {
-      console.log("block")
-      this.trace();
       this.__blockerElement.setStyle("display", "block");
     },
 
@@ -265,7 +263,6 @@ qx.Class.define("qx.ui.embed.Iframe",
      *
      */
     release : function() {
-      console.log("release")
       this.__blockerElement.setStyle("display", "none");
     },
 
