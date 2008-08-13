@@ -126,6 +126,12 @@ qx.Class.define("qx.ui.decoration.Grid",
 
   members :
   {
+    
+    __markup : null,
+    __insets : null,
+    __images : null,
+    __edges : null,
+    
     /*
     ---------------------------------------------------------------------------
       INTERFACE IMPLEMENTATION
@@ -358,7 +364,7 @@ qx.Class.define("qx.ui.decoration.Grid",
         };
 
         // Store edges
-        var edges = this.__edges =
+        this.__edges =
         {
           top : ResourceManager.getImageHeight(images.t),
           bottom : ResourceManager.getImageHeight(images.b),
