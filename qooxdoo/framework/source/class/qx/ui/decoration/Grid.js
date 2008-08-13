@@ -126,12 +126,13 @@ qx.Class.define("qx.ui.decoration.Grid",
 
   members :
   {
-    
     __markup : null,
     __insets : null,
     __images : null,
     __edges : null,
-    
+
+
+
     /*
     ---------------------------------------------------------------------------
       INTERFACE IMPLEMENTATION
@@ -152,22 +153,8 @@ qx.Class.define("qx.ui.decoration.Grid",
       }
 
       var Background = qx.bom.element.Background;
-      var Clip = qx.bom.element.Clip;
-      var ResourceManager = qx.util.ResourceManager;
-
       var images = this.__images;
       var edges = this.__edges;
-
-
-
-      // Base markup
-      // Contains a fix for small blocks where IE has a minHeight
-      // of the fontSize in quirks mode
-      if (qx.core.Variant.isSet("qx.client", "mshtml")) {
-        var base = "font-size:0;line-height:0;position:absolute;";
-      } else {
-        var base = "position:absolute;";
-      }
 
       // Create edges and vertical sides
       // Order: tl, t, tr, bl, b, bt, l, c, r
@@ -176,76 +163,20 @@ qx.Class.define("qx.ui.decoration.Grid",
       // Outer frame
       html.push('<div>');
 
-
-
       // Top: left, center, right
-      // The center image must be styled in a way that it can be repeated or stretched
-      // because the way the image is rendered differs between the clients.
-
-      html.push(Background.create(images.tl, "no-repeat",
-        base + 'top:0;left:0;width:' + edges.left + "px;height:" + edges.top + "px;"));
-
-      html.push(Background.create(images.t, "repeat-x",
-        base + 'top:0;left:' + edges.left + "px;height:" + edges.top + "px;"));
-
-      html.push(Background.create(images.tr, "no-repeat",
-        base + 'top:0;right:0;width:' + edges.right + "px;height:" + edges.top + "px;"));
-
-
-
+      html.push(Background.create(images.tl, "no-repeat", "top:0;left:0;"));
+      html.push(Background.create(images.t, "scale-x", "top:0;left:" + edges.left + "px;"));
+      html.push(Background.create(images.tr, "no-repeat", "top:0;right:0;"));
 
       // Bottom: left, center, right
-      // The center image must be styled in a way that it can be repeated or stretched
-      // because the way the image is rendered differs between the clients.
-
-      html.push(Background.create(images.bl, "no-repeat",
-        base + 'bottom:0;left:0;width:' + edges.left + "px;height:" + edges.top + "px;"));
-
-      html.push(Background.create(images.b, "repeat-x",
-        base + 'bottom:0;left:' + edges.left + "px;height:" + edges.top + "px;"));
-
-      html.push(Background.create(images.br, "no-repeat",
-        base + 'bottom:0;right:0;width:' + edges.right + "px;height:" + edges.top + "px;"));
-
-
-
+      html.push(Background.create(images.bl, "no-repeat", "bottom:0;left:0;"));
+      html.push(Background.create(images.b, "scale-x", "bottom:0;left:" + edges.left + "px;"));
+      html.push(Background.create(images.br, "no-repeat", "bottom:0;right:0;"));
 
       // Middle: left, center, right
-      var l  = ResourceManager.getClippedImageData(images.l);
-      var c  = ResourceManager.getClippedImageData(images.c);
-      var r  = ResourceManager.getClippedImageData(images.r);
-
-      // Real image widths (of the maybe combined image)
-      var leftImageWidth = ResourceManager.getImageWidth(l.source);
-      var rightImageWidth = ResourceManager.getImageWidth(r.source);
-
-      html.push(
-        '<img src="', ResourceManager.toUri(l.source), '" style="',
-        'position:absolute;',
-        'left:' + l.left + 'px;',
-        'top:', edges.top, 'px;',
-        'width:', leftImageWidth, 'px;',
-        Clip.compile({left: -l.left, width: edges.left}),
-        '"/>'
-      );
-
-      html.push(
-        '<img src="', ResourceManager.toUri(c.source), '" style="',
-        'position:absolute;',
-        'top:', edges.top, 'px;left:', edges.left, 'px;"/>'
-      );
-
-      html.push(
-        '<img src="', ResourceManager.toUri(r.source), '" style="',
-        'position:absolute;',
-        'right:', edges.right - rightImageWidth - r.left, 'px;',
-        'top:', edges.top, 'px;',
-        'width:', rightImageWidth, 'px;',
-        Clip.compile({left: -r.left, width: edges.right}),
-        '"/>'
-      );
-
-
+      html.push(Background.create(images.l, "scale-y", "top:" + edges.top + "px;left:0;"));
+      html.push(Background.create(images.c, "scale", "top:" + edges.top + "px;left:" + edges.left + "px;"));
+      html.push(Background.create(images.r, "scale-y", "top:" + edges.top + "px;right:0;"));
 
       // Outer frame
       html.push('</div>');
@@ -337,7 +268,7 @@ qx.Class.define("qx.ui.decoration.Grid",
       }
 
       var ResourceManager = qx.util.ResourceManager;
-      
+
       if (value)
       {
         var Alias = qx.util.AliasManager.getInstance();
