@@ -28,7 +28,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("demobrowser.demo.event.Event_2",
+qx.Class.define("demobrowser.demo.event.Event_Iframe",
 {
   extend : qx.application.Native,
 
@@ -40,7 +40,7 @@ qx.Class.define("demobrowser.demo.event.Event_2",
 
       var iframe = qx.bom.Iframe.create({
         name : "iframe",
-        src : "Event_2_frame.html"
+        src : "data/Event_2_frame.html"
       });
       iframe.id = "iframe";
       document.body.appendChild(iframe);
@@ -123,5 +123,4 @@ qx.Class.define("demobrowser.demo.event.Event_2",
       this.debug(e.getType() + " 2: " + e);
     }
   }
-
 });

@@ -1,0 +1,32 @@
+body {
+  font-family:Arial,Helvetica,Verdana,sans-serif;
+  padding: 20px;
+}
+
+h1 {
+  font-size: 150%;
+  color : #012469;
+}
+
+#logger {
+	margin-top: 10px;
+  width: 650px;
+  height: 400px;
+  color: black;
+  background-color: #EEE;
+  padding: 5px;
+  border: 1px inset;
+  overflow: scroll;
+}
+
+#logger table {
+  width: 100%;
+}
+
+#logger td {
+  text-align: center;
+}
+
+#btnClear {
+  margin-top: 10px;
+}

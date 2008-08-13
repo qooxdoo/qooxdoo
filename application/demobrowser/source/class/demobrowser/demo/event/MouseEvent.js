@@ -27,9 +27,9 @@
 /**
  * Native mouse events
  */
-qx.Class.define("demobrowser.demo.event.MouseEvent_1",
+qx.Class.define("demobrowser.demo.event.MouseEvent",
 {
-  extend : qx.application.Native,
+  extend : demobrowser.demo.event.EventDemo,
 
   members :
   {
@@ -37,12 +37,11 @@ qx.Class.define("demobrowser.demo.event.MouseEvent_1",
     {
       this.base(arguments);
 
-      this.tableHead = "<table><tr><th>Target</th><th>Event</th><th>button</th><th>pageX</th><th>pageY</th><th>clientX</th><th>clientY</th><th>screenX</th><th>screenY</th><th>phase</th><th>relatedTarget</th></tr>";
-      this.keyEvents = [];
-      this.maxLogSize = 50;
-      this.logDiv = document.getElementById("keylogger");
-
-      this.initializeLogger();
+      this._initLogger(
+        ["Target", "Event", "button", "pageX", "pageY", "clientX", "clientY", "screenX", "screenY", "relatedTarget"],
+        document.getElementById("logger"),
+        50
+      );
 
       var mouseDiv = document.getElementById("mouse");
 
@@ -79,23 +78,6 @@ qx.Class.define("demobrowser.demo.event.MouseEvent_1",
         function(e) { captureDiv.checked = false; },
         this
       );
-
-      /*
-      qx.bom.Element.addListener(
-        document.body,
-        "selectstart",
-        function(e) { e.preventDefault(); },
-        this
-      )
-      */
-
-      qx.bom.Element.addListener(
-        document.getElementById("btnClear"),
-        "click",
-        this.initializeLogger,
-        this
-      );
-
     },
 
 
@@ -126,61 +108,22 @@ qx.Class.define("demobrowser.demo.event.MouseEvent_1",
     },
 
 
-    initializeLogger: function()
-    {
-      this.logDiv.innerHTML = this.tableHead + "</table>";
-      this.keyEvents = [];
-    },
-
-
     logMouseEvent: function(mouseEvent)
     {
       mouseEvent.preventDefault();
-      var eventCopy = {
-        target: mouseEvent.getTarget().id,
-        type: mouseEvent.getType(),
-        button: mouseEvent.getButton(),
-        documentX: mouseEvent.getDocumentLeft(),
-        documentY: mouseEvent.getDocumentTop(),
-        screenX: mouseEvent.getScreenLeft(),
-        screenY: mouseEvent.getScreenTop(),
-        viewportX: mouseEvent.getViewportLeft(),
-        viewportY: mouseEvent.getViewportTop(),
-        relatedTarget: mouseEvent.getRelatedTarget() ? mouseEvent.getRelatedTarget().id : "",
-        phase: mouseEvent.getEventPhase()
-      }
-      this.keyEvents.unshift(eventCopy);
-      this.keyEvents = this.keyEvents.slice(0, this.maxLogSize);
-      str = [this.tableHead];
-      for (var i=0; i<this.keyEvents.length; i++) {
-        var e = this.keyEvents[i];
-        str.push("<tr><td>");
-        str.push(e.target);
-        str.push("</td><td>");
-        str.push(e.type);
-        str.push("</td><td>");
-        str.push(e.button);
-        str.push("</td><td>");
-        str.push(e.documentX);
-        str.push("</td><td>");
-        str.push(e.documentY);
-        str.push("</td><td>");
-        str.push(e.viewportX);
-        str.push("</td><td>");
-        str.push(e.viewportY);
-        str.push("</td><td>");
-        str.push(e.screenX);
-        str.push("</td><td>");
-        str.push(e.screenY);
-        str.push("</td><td>");
-        str.push(e.phase);
-        str.push("</td><td>");
-        str.push(e.relatedTarget);
-        str.push("</td></tr>");
-      }
-      str.push("</table>");
-      this.logDiv.innerHTML = str.join("");
-      this.logDiv.scrollTop = 0;
+
+      this._log([
+        mouseEvent.getTarget().id,
+        mouseEvent.getType(),
+        mouseEvent.getButton(),
+        mouseEvent.getDocumentLeft(),
+        mouseEvent.getDocumentTop(),
+        mouseEvent.getScreenLeft(),
+        mouseEvent.getScreenTop(),
+        mouseEvent.getViewportLeft(),
+        mouseEvent.getViewportTop(),
+        mouseEvent.getRelatedTarget() ? mouseEvent.getRelatedTarget().id : ""
+      ]);
     }
 
   }

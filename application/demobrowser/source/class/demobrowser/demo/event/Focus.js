@@ -18,7 +18,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("demobrowser.demo.event.Focus_1",
+qx.Class.define("demobrowser.demo.event.Focus",
 {
   extend : qx.application.Native,
 
