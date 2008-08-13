@@ -61,12 +61,12 @@ qx.Class.define("qx.ui.menu.Manager",
     qx.bom.Element.addListener(window, "blur", this.hideAll, this);
 
     // Create open timer
-    this._openTimer = new qx.event.Timer;
-    this._openTimer.addListener("interval", this._onOpenInterval, this);
+    this.__openTimer = new qx.event.Timer;
+    this.__openTimer.addListener("interval", this._onOpenInterval, this);
 
     // Create close timer
-    this._closeTimer = new qx.event.Timer;
-    this._closeTimer.addListener("interval", this._onCloseInterval, this);
+    this.__closeTimer = new qx.event.Timer;
+    this.__closeTimer.addListener("interval", this._onCloseInterval, this);
   },
 
 
@@ -80,6 +80,12 @@ qx.Class.define("qx.ui.menu.Manager",
 
   members :
   {
+    __scheduleOpen : null,
+    __scheduleClose : null,
+    __openTimer : null,
+    __closeTimer : null,
+    __objects : null,
+
     /*
     ---------------------------------------------------------------------------
       HELPER METHODS
@@ -188,7 +194,7 @@ qx.Class.define("qx.ui.menu.Manager",
         }
       }
 
-      var ret = qx.lang.Array.remove(this.__objects, obj);
+      qx.lang.Array.remove(this.__objects, obj);
     },
 
 
@@ -241,18 +247,18 @@ qx.Class.define("qx.ui.menu.Manager",
       if (menu.isVisible())
       {
         // Cancel all other open requests
-        if (this._scheduleOpen) {
-          this.cancelOpen(this._scheduleOpen);
+        if (this.__scheduleOpen) {
+          this.cancelOpen(this.__scheduleOpen);
         }
       }
 
       // When the menu is not visible and not scheduled already
       // then schedule it for opening
-      else if (this._scheduleOpen != menu)
+      else if (this.__scheduleOpen != menu)
       {
         // menu.debug("Schedule open");
-        this._scheduleOpen = menu;
-        this._openTimer.restartWith(menu.getOpenInterval());
+        this.__scheduleOpen = menu;
+        this.__openTimer.restartWith(menu.getOpenInterval());
       }
     },
 
@@ -273,18 +279,18 @@ qx.Class.define("qx.ui.menu.Manager",
       if (!menu.isVisible())
       {
         // Cancel all other close requests
-        if (this._scheduleClose) {
-          this.cancelClose(this._scheduleClose);
+        if (this.__scheduleClose) {
+          this.cancelClose(this.__scheduleClose);
         }
       }
 
       // When the menu is visible and not scheduled already
       // then schedule it for closing
-      else if (this._scheduleClose != menu)
+      else if (this.__scheduleClose != menu)
       {
         // menu.debug("Schedule close");
-        this._scheduleClose = menu;
-        this._closeTimer.restartWith(menu.getCloseInterval());
+        this.__scheduleClose = menu;
+        this.__closeTimer.restartWith(menu.getCloseInterval());
       }
     },
 
@@ -297,11 +303,11 @@ qx.Class.define("qx.ui.menu.Manager",
      */
     cancelOpen : function(menu)
     {
-      if (this._scheduleOpen == menu)
+      if (this.__scheduleOpen == menu)
       {
         // menu.debug("Cancel open");
-        this._openTimer.stop();
-        this._scheduleOpen = null;
+        this.__openTimer.stop();
+        this.__scheduleOpen = null;
       }
     },
 
@@ -314,11 +320,11 @@ qx.Class.define("qx.ui.menu.Manager",
      */
     cancelClose : function(menu)
     {
-      if (this._scheduleClose == menu)
+      if (this.__scheduleClose == menu)
       {
         // menu.debug("Cancel close");
-        this._closeTimer.stop();
-        this._scheduleClose = null;
+        this.__closeTimer.stop();
+        this.__scheduleClose = null;
       }
     },
 
@@ -340,11 +346,11 @@ qx.Class.define("qx.ui.menu.Manager",
     _onOpenInterval : function(e)
     {
       // Stop timer
-      this._openTimer.stop();
+      this.__openTimer.stop();
 
       // Open menu and reset flag
-      this._scheduleOpen.open();
-      this._scheduleOpen = null;
+      this.__scheduleOpen.open();
+      this.__scheduleOpen = null;
     },
 
 
@@ -357,11 +363,11 @@ qx.Class.define("qx.ui.menu.Manager",
     _onCloseInterval : function(e)
     {
       // Stop timer, reset scheduling flag
-      this._closeTimer.stop();
+      this.__closeTimer.stop();
 
       // Close menu and reset flag
-      this._scheduleClose.exclude();
-      this._scheduleClose = null;
+      this.__scheduleClose.exclude();
+      this.__scheduleClose = null;
     },
 
 
