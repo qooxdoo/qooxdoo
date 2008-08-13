@@ -44,6 +44,18 @@ qx.Class.define("qx.bom.element.Decoration",
     },
 
 
+    __repeatToTagname :
+    {
+      "scale-x" : "img",
+      "scale-y" : "img",
+      "scale" : "img",
+      "repeat" : "div",
+      "no-repeat" : "div",
+      "repeat-x" : "div",
+      "repeat-y" : "div"
+    },
+
+
     __switchStyles :
     {
       backgroundImage : null,
@@ -55,7 +67,7 @@ qx.Class.define("qx.bom.element.Decoration",
 
     update : function(element, source, repeat)
     {
-      var ret = this.collect(source, repeat);
+      var ret = this.getAttributes(source, repeat);
       if (ret.tag != element.tagName.toLowerCase()) {
         throw new Error("Image modification not possible because elements could not be replaced at runtime anymore!");
       }
@@ -73,7 +85,7 @@ qx.Class.define("qx.bom.element.Decoration",
 
     create : function(source, repeat, style)
     {
-      var ret = this.collect(source, repeat, style);
+      var ret = this.getAttributes(source, repeat, style);
       var css = qx.bom.element.Style.compile(ret.style);
 
       if (ret.tag == "img") {
@@ -81,6 +93,12 @@ qx.Class.define("qx.bom.element.Decoration",
       } else {
         return '<div style="' + css + '"></div>';
       }
+    },
+
+
+
+    getTagName : function(repeat) {
+      return this.__repeatToTagname[repeat];
     },
 
 
@@ -95,7 +113,7 @@ qx.Class.define("qx.bom.element.Decoration",
      * @param repeat {String} Repeat mode of the image
      * @return {String} Markup for image
      */
-    collect : function(source, repeat, style)
+    getAttributes : function(source, repeat, style)
     {
       var ResourceManager = qx.util.ResourceManager;
       var Background = qx.bom.element.Background;
@@ -204,7 +222,7 @@ qx.Class.define("qx.bom.element.Decoration",
             }
           }
 
-          // No clipped image available or scaled on both axis
+          // No clipped image available
           else
           {
             if (qx.core.Variant.isSet("qx.debug", "on")) {
