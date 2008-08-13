@@ -99,7 +99,7 @@ qx.Class.define("testrunner.runner.TestLoaderStub",
           };
 
           var fcn = testClass.tests[j] == "testAddRemovelistItem" ? failTest : testFunction;
-          var test = new testrunner.TestFunction(testClass, testClass.tests[j], fcn);
+          var test = new qx.dev.unit.TestFunction(testClass, testClass.tests[j], fcn);
           test.run(testResult);
         }
       }

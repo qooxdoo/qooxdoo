@@ -19,7 +19,7 @@
 
 /*
 #optional(testrunner.TestLoader)
-#optional(testrunner.TestResult)
+#optional(qx.dev.unit.TestResult)
 */
 
 qx.Class.define("testrunner.runner.BasicRunner",
@@ -63,7 +63,7 @@ qx.Class.define("testrunner.runner.BasicRunner",
         return;
       }
 
-      var testResult = new (iframe.getContentWindow().testrunner.TestResult)();
+      var testResult = new (iframe.getContentWindow().qx.dev.unit.TestResult)();
 
       testResult.addListener("startTest", function(e)
       {
