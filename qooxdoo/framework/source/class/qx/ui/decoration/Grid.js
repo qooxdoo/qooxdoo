@@ -152,7 +152,7 @@ qx.Class.define("qx.ui.decoration.Grid",
         return this.__markup;
       }
 
-      var Background = qx.bom.element.Background;
+      var Decoration = qx.bom.element.Decoration;
       var images = this.__images;
       var edges = this.__edges;
 
@@ -164,19 +164,19 @@ qx.Class.define("qx.ui.decoration.Grid",
       html.push('<div>');
 
       // Top: left, center, right
-      html.push(Background.create(images.tl, "no-repeat", "top:0;left:0;"));
-      html.push(Background.create(images.t, "scale-x", "top:0;left:" + edges.left + "px;"));
-      html.push(Background.create(images.tr, "no-repeat", "top:0;right:0;"));
+      html.push(Decoration.create(images.tl, "no-repeat", {top:0, left:0}));
+      html.push(Decoration.create(images.t, "scale-x", {top:0, left:edges.left+"px"}));
+      html.push(Decoration.create(images.tr, "no-repeat", {top:0, right:0}));
 
       // Bottom: left, center, right
-      html.push(Background.create(images.bl, "no-repeat", "bottom:0;left:0;"));
-      html.push(Background.create(images.b, "scale-x", "bottom:0;left:" + edges.left + "px;"));
-      html.push(Background.create(images.br, "no-repeat", "bottom:0;right:0;"));
+      html.push(Decoration.create(images.bl, "no-repeat", {bottom:0, left:0}));
+      html.push(Decoration.create(images.b, "scale-x", {bottom:0, left:edges.left+"px"}));
+      html.push(Decoration.create(images.br, "no-repeat", {bottom:0, right:0}));
 
       // Middle: left, center, right
-      html.push(Background.create(images.l, "scale-y", "top:" + edges.top + "px;left:0;"));
-      html.push(Background.create(images.c, "scale", "top:" + edges.top + "px;left:" + edges.left + "px;"));
-      html.push(Background.create(images.r, "scale-y", "top:" + edges.top + "px;right:0;"));
+      html.push(Decoration.create(images.l, "scale-y", {top:edges.top+"px", left:0}));
+      html.push(Decoration.create(images.c, "scale", {top:edges.top+"px", left:edges.left+"px"}));
+      html.push(Decoration.create(images.r, "scale-y", {top:edges.top+"px", right:0}));
 
       // Outer frame
       html.push('</div>');
