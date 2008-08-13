@@ -66,6 +66,10 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Image",
 
   members :
   {
+
+    __imageWidth : null,
+    __imageHeight : null,
+
     // overridden
     _identifyImage : function(cellInfo)
     {
@@ -75,7 +79,6 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Image",
         imageHeight : this.__imageHeight
       };
 
-      var url;
       var height;
 
       // String data is the unresolved url for the image.
@@ -98,7 +101,6 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Image",
       else
       {
 
-        var am = qx.util.AliasManager.getInstance();
         var aliasManager = qx.util.AliasManager.getInstance();
         var resourceManager = qx.util.ResourceManager;
         var resolved = aliasManager.resolve(imageData.url);

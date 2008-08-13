@@ -108,6 +108,16 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
 
   members :
   {
+    
+    __progressive : null,
+    __name : null,
+    __hash : null,
+    __columnWidths : null,
+    __renderers : null,
+    __defaultCellRenderer : null,
+    __colors : null,
+    __layout : null,
+    
     // overridden
     join : function(progressive, name)
     {
@@ -253,7 +263,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
       var div = document.createElement("div");
 
       // For each cell...
-      for (i = 0; i < data.length; i++)
+      for (var i = 0; i < data.length; i++)
       {
         var stylesheet = "qx-progressive-" + this.__hash + "-col-" + i;
 
