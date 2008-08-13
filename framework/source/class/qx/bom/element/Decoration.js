@@ -89,7 +89,11 @@ qx.Class.define("qx.bom.element.Decoration",
       var ret = this.getAttributes(source, repeat, style);
 
       if (tag === "img") {
-        element.src = ret.source;
+        element.src = ret.src;
+      }
+
+      if (element.style.backgroundPosition != null) {
+        ret.style.backgroundPosition = null;
       }
 
       var Style = qx.bom.element.Style;
@@ -112,8 +116,8 @@ qx.Class.define("qx.bom.element.Decoration",
       var ret = this.getAttributes(source, repeat, style);
       var css = qx.bom.element.Style.compile(ret.style);
 
-      if (tag == "img") {
-        return '<img src="' + ret.source + '" style="' + css + '"/>';
+      if (tag === "img") {
+        return '<img src="' + ret.src + '" style="' + css + '"/>';
       } else {
         return '<div style="' + css + '"></div>';
       }
@@ -196,7 +200,7 @@ qx.Class.define("qx.bom.element.Decoration",
         {
           var uri = ResourceManager.toUri(source);
           return {
-            source : uri,
+            src : uri,
             style : style
           };
         }
@@ -225,7 +229,7 @@ qx.Class.define("qx.bom.element.Decoration",
               }
 
               return {
-                source : uri,
+                src : uri,
                 style : style
               };
             }
@@ -251,7 +255,7 @@ qx.Class.define("qx.bom.element.Decoration",
               }
 
               return {
-                source : uri,
+                src : uri,
                 style : style
               };
             }
@@ -272,7 +276,7 @@ qx.Class.define("qx.bom.element.Decoration",
 
             var uri = ResourceManager.toUri(source);
             return {
-              source : uri,
+              src : uri,
               style : style
             };
           }
