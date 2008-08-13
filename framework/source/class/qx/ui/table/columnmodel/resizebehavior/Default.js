@@ -378,7 +378,7 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
 
       var visibleColumns = tableColumnModel.getVisibleColumns();
       var visibleColumnsLength = visibleColumns.length;
-      var i;
+      var i, l;
 
       // Create an array of the visible columns
       var columns = [ ];
