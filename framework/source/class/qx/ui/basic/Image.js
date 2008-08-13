@@ -217,8 +217,8 @@ qx.Class.define("qx.ui.basic.Image",
           return;
         }
 
-        // Apply source to ClippedImage instance
-        el.setSource(source, false);
+        // Apply source
+        el.setSource(source);
 
         // Compare with old sizes and relayout if necessary
         this._updateSize(ResourceManager.getImageWidth(source),
@@ -226,8 +226,8 @@ qx.Class.define("qx.ui.basic.Image",
       }
       else if (ImageLoader.isLoaded(source))
       {
-        // Apply source to ClippedImage instance
-        el.setSource(source, false);
+        // Apply source
+        el.setSource(source);
 
         // Compare with old sizes and relayout if necessary
         var size = ImageLoader.getSize(source);
