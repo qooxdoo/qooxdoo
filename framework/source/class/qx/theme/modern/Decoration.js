@@ -699,7 +699,8 @@ qx.Theme.define("qx.theme.modern.Decoration",
       {
         width : 1,
         color : "#00204D",
-        styleTop : null
+        
+        widthTop : 0
       }
     },
 
@@ -730,22 +731,8 @@ qx.Theme.define("qx.theme.modern.Decoration",
       }
     },
 
-    "window-pane-content" :
-    {
-      decorator : qx.ui.decoration.Single,
-
-      style :
-      {
-        width : 1,
-        color : "border-dark-shadow",
-        style : "solid"
-      }
-    },
-
-
-
-
-
+    
+    
     /*
     ---------------------------------------------------------------------------
       TABLE
