@@ -1140,7 +1140,7 @@ qx.Class.define("testrunner.runner.TestRunner",
 
   defer : function()
   {
-    qx.core.Setting.define("qx.testPageUri",   "html/QooxdooTest.html");
+    qx.core.Setting.define("qx.testPageUri",   "html/tests.html");
     qx.core.Setting.define("qx.testNameSpace", "testrunner.test");
   }
 

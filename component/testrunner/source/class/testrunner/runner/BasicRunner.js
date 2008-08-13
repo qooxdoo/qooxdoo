@@ -44,7 +44,7 @@ qx.Class.define("testrunner.runner.BasicRunner",
       width  : "100%"
     });
 
-    var iframe = new qx.legacy.ui.embed.Iframe("html/QooxdooTest.html?testclass=testrunner.test");
+    var iframe = new qx.legacy.ui.embed.Iframe("html/tests.html?testclass=testrunner.test");
 
     iframe.set(
     {
