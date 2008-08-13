@@ -92,10 +92,17 @@ qx.Class.define("qx.bom.element.Decoration",
         element.src = ret.src;
       }
 
-      if (element.style.backgroundPosition != null) {
+      // Fix for old background position
+      if (element.style.backgroundPosition != null && ret.style.backgroundPosition == null) {
         ret.style.backgroundPosition = null;
       }
 
+      // Fix for old clip
+      if (element.style.clip != null && ret.style.clip == null) {
+        ret.style.clip = null;
+      }
+
+      // Apply new styles
       var Style = qx.bom.element.Style;
       Style.setStyles(element, ret.style);
     },
@@ -264,8 +271,11 @@ qx.Class.define("qx.bom.element.Decoration",
           // No clipped image available
           else
           {
-            if (qx.core.Variant.isSet("qx.debug", "on")) {
-              qx.log.Logger.warn("Please make use of clipped image for: " + source);
+            if (qx.core.Variant.isSet("qx.debug", "on"))
+            {
+              if (source.indexOf("qx/icon") == -1) {
+                qx.log.Logger.debug("Potential clipped image candidate: " + source);
+              }
             }
 
             if (repeat == "scale-x") {
@@ -308,6 +318,13 @@ qx.Class.define("qx.bom.element.Decoration",
           }
           else
           {
+            if (qx.core.Variant.isSet("qx.debug", "on"))
+            {
+              if (repeat !== "repeat" && source.indexOf("qx/icon") == -1) {
+                qx.log.Logger.debug("Potential clipped image candidate: " + source);
+              }
+            }
+
             var bg = Background.getStyles(source, repeat);
             for (var key in bg) {
               style[key] = bg[key];
