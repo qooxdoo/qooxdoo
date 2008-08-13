@@ -112,9 +112,14 @@ qx.Class.define("qx.bom.element.Background",
       {
         var clipped = ResourceManager.isClippedImage(source);
 
-        if (repeat === "scale" || repeat === "scale-x" || repeat === "scale-y")
+        if (repeat === "scale")
         {
-          if (repeat !== "scale" && clipped)
+          var uri = ResourceManager.toUri(source);
+          return '<img src="' + uri + '" style="' + styles + '"/>';
+        }
+        else if (repeat === "scale-x" || repeat === "scale-y")
+        {
+          if (clipped)
           {
             // Scale on x-axis
             if (repeat === "scale-x")
@@ -182,8 +187,19 @@ qx.Class.define("qx.bom.element.Background",
           // No clipped image available or scaled on both axis
           else
           {
+            if (qx.core.Variant.isSet("qx.debug", "on")) {
+              qx.log.Logger.warn("Please make use of clipped image for: " + source);
+            }
+
+            var size = "";
+            if (repeat == "scale-x") {
+              size = "height:" + ResourceManager.getImageHeight(source) + "px;";
+            } else if (repeat == "scale-y") {
+              size = "width:" + ResourceManager.getImageWidth(source) + "px;";
+            }
+
             var uri = ResourceManager.toUri(source);
-            return '<img src="' + uri + '" style="' + styles + '"/>';
+            return '<img src="' + uri + '" style="' + size + styles + '"/>';
           }
         }
 
