@@ -51,7 +51,8 @@ qx.Class.define("qx.html.Image",
         var elem = this._element;
 
         var source = this._getProperty("source");
-        var repeat = this._getProperty("scale") || "no-repeat";
+        var scale = this._getProperty("scale");
+        var repeat = scale ? "scale" : "no-repeat";
 
         qx.bom.element.Decoration.update(elem, source, repeat);
       }
@@ -61,7 +62,9 @@ qx.Class.define("qx.html.Image",
     // overridden
     _createDomElement : function()
     {
-      var repeat = this._getProperty("scale") || "no-repeat";
+      var scale = this._getProperty("scale");
+      var repeat = scale ? "scale" : "no-repeat";
+
       this._nodeName = qx.bom.element.Decoration.getTagName(repeat);
 
       return this.base(arguments);
