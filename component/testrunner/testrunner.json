@@ -31,15 +31,14 @@
 
       "include" :
       [
-        "${APPLICATION}.runner.Application",
+        "testrunner.runner.Application",
         "${THEME}"
       ],
 
       "settings" :
       {
-        "qx.version" : "0.8-alpha1",
-        "qx.application" : "${APPLICATION}.runner.Application",
-        "qx.theme": "${THEME}"
+        "qx.application" : "testrunner.runner.Application",
+        "qx.theme"       : "${THEME}"
       },
 
       "themes" :
@@ -80,7 +79,7 @@
 
       "settings" : 
       {
-        "qx.testPageUri" : "html/tests.html",
+        "qx.testPageUri"   : "html/tests.html",
         "qx.testNameSpace" : "${APPLICATION}",
         "testrunner.title" : "${APPLICATION}"
       },

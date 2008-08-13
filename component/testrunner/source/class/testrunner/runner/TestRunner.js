@@ -762,7 +762,7 @@ qx.Class.define("testrunner.runner.TestRunner",
       // create testResult obj
       function init_testResult()
       {
-        var testResult = new that.frameWindow.testrunner.TestResult();
+        var testResult = new that.frameWindow.qx.dev.unit.TestResult();
 
         // set up event listeners
         testResult.addListener("startTest", function(e)
@@ -784,7 +784,7 @@ qx.Class.define("testrunner.runner.TestRunner",
           var val = that.getFailCnt();
           that.setFailCnt(++val);
           that.setQueCnt(that.getQueCnt() - 1);
-          that.appender("Test '" + test.getFullName() + "' failed: " + ex.getMessage() + " - " + ex.getComment());
+          that.appender("Test '" + test.getFullName() + "' failed: " + ex.message() + " - " + ex.getComment());
           that.widgets["progresspane.progressbar"].update(String(tstCurr + "/" + tstCnt));
           tstCurr++;
         },
