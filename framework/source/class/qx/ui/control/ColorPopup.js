@@ -248,13 +248,7 @@ qx.Class.define("qx.ui.control.ColorPopup",
       this.__colorSelector = new qx.ui.control.ColorSelector;
       this.__colorSelector.addListener("dialogok", this._onColorSelectorOk, this);
       this.__colorSelector.addListener("dialogcancel", this._onColorSelectorCancel, this);
-
-      // Add container for content
-      var contentContainer = new qx.ui.container.Composite(new qx.ui.layout.VBox(20));
-      contentContainer.set({
-        appearance : "window-pane-content"
-      });
-      win.add(contentContainer, {flex:1});
+      win.add(this.__colorSelector);
       
       var buttonBar = new qx.ui.container.Composite(new qx.ui.layout.HBox(4, "right"));      
       buttonBar.setPaddingTop(3);
@@ -272,8 +266,6 @@ qx.Class.define("qx.ui.control.ColorPopup",
 
       buttonBar.add(btnCancel);
       buttonBar.add(btnOk);
-
-      contentContainer.add(this.__colorSelector);
     },
 
     /*
