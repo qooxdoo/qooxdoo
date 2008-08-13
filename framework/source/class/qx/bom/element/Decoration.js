@@ -31,17 +31,22 @@ qx.Class.define("qx.bom.element.Decoration",
   {
 
     /** {Boolean} Whether the alpha image loader is needed */
-    __enableAlphaFix : qx.core.Variant.isSet("qx.client", "mshtml") && qx.bom.client.Engine.VERSION < 8,
+    __enableAlphaFix : qx.core.Variant.isSet("qx.client", "mshtml") && qx.bom.client.Engine.VERSION < 7,
 
 
     /** {Map} List of repeat modes which supports the IE AlphaImageLoader */
-    __alphaFixRepeats :
+    __alphaFixRepeats : qx.core.Variant.select("qx.client",
     {
-      "scale-x" : true,
-      "scale-y" : true,
-      "scale" : true,
-      "no-repeat" : true
-    },
+      "mshtml" :
+      {
+        "scale-x" : true,
+        "scale-y" : true,
+        "scale" : true,
+        "no-repeat" : true
+      },
+
+      "default" : null
+    }),
 
 
     __repeatToTagname :
@@ -97,7 +102,15 @@ qx.Class.define("qx.bom.element.Decoration",
 
 
 
-    getTagName : function(repeat) {
+    getTagName : function(repeat)
+    {
+      if (qx.core.Variant.isSet("qx.client", "mshtml"))
+      {
+        if (this.__enableAlphaFix && this.__alphaFixRepeats[repeat]) {
+          return "div";
+        }
+      }
+
       return this.__repeatToTagname[repeat];
     },
 
