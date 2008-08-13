@@ -186,6 +186,7 @@ class Generator:
             self.runSource(parts, packages, boot, variants)
             self.runCompiled(parts, packages, boot, variants)
             self.runDependencyDebug(parts, packages, variants)
+            self.runUnusedClassesTest(parts, packages, variants)
 
 
 
@@ -200,6 +201,40 @@ class Generator:
             apiContent.extend(classes)
             
         self._apiLoader.storeApi(apiContent, apiPath)
+
+
+
+    def runUnusedClassesTest(self, parts, packages, variants):
+        if not self._config.get("debug/unusedclassescheck", False):
+            return
+
+        namespace = self._config.get("debug/unusedclassescheckNamespace")
+        
+        self._console.info("Find unused classes...");
+        self._console.indent()
+        self._console.info("Check following namespace: %s" % namespace);
+        self._console.indent()
+        usedClassesArr = []
+        allClassesArr = []
+        for packageId, packages in enumerate(packages):
+            for fileId in packages:
+                if self._classes[fileId]["namespace"] == namespace:
+                    usedClassesArr.append(self._classes[fileId]["id"])
+        
+        for classId in self._classes:
+            if self._classes[classId]["namespace"] == namespace:
+                allClassesArr.append(self._classes[classId]["id"])
+        
+        for cid in allClassesArr:
+            printMe = True
+            for fid in usedClassesArr:
+                if fid == cid:
+                    printMe = False
+                    break
+            if printMe == True:
+                self._console.info("Unused class: %s" % cid)
+        self._console.outdent()
+        self._console.outdent()
 
 
 
