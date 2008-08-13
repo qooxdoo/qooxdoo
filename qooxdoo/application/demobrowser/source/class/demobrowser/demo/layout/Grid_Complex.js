@@ -28,8 +28,16 @@ qx.Class.define("demobrowser.demo.layout.Grid_Complex",
     {
       this.base(arguments);
 
-      this.getRoot().add(this.getGrid1(), {left: 20, top: 10});
-      this.getRoot().add(this.getGrid2(), {left: 260, top: 10});
+      var scroll = new qx.ui.container.Scroll();
+      this.getRoot().add(scroll, {edge: 0});
+
+      var container = new qx.ui.container.Composite(new qx.ui.layout.VBox(20)).set({
+        padding: 20
+      })
+      scroll.add(container);
+
+      container.add(this.getGrid1());
+      container.add(this.getGrid2());
     },
 
 

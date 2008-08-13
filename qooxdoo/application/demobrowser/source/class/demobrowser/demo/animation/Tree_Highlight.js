@@ -37,8 +37,17 @@ qx.Class.define("demobrowser.demo.animation.Tree_Highlight",
       this.getRoot().add(this._container);
 
 
+      var treeGroup = new qx.ui.groupbox.GroupBox("Tree").set({
+        contentPadding: [4,4,4,4]
+      })
+      treeGroup.setLayout(new qx.ui.layout.Canvas());
+      this._container.add(treeGroup);
+
       var tree = this.getTree();
-      this._container.add(tree);
+      treeGroup.add(tree, {edge: 0});
+
+
+      //this._container.add(tree);
       this._tree = tree;
 
       this._container.add(this.getCommandFrame());

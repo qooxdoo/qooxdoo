@@ -1096,7 +1096,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       {
         this.setPlayAll(true);  // turn on global flag
         // select first example
-        var first = this._sampleToTreeNodeMap['animation/Login_Sample.html'];
+        var first = this._sampleToTreeNodeMap['animation/Login.html'];
         this.tree.select(first);
         // run sample
         this.widgets["toolbar.runbutton"].execute();
