@@ -1031,7 +1031,6 @@ qx.Class.define("qx.ui.table.Table",
       if (this.isEditing())
       {
         // Editing mode
-        console.log(evt.getModifiers());
         if (evt.getModifiers() == 0)
         {
           switch(identifier)
