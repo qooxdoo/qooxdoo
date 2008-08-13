@@ -135,7 +135,7 @@ qx.Class.define("qx.ui.basic.Image",
 
     // overridden
     _createContentElement : function() {
-      return new qx.html.ClippedImage();
+      return new qx.html.Image();
     },
 
 
@@ -191,17 +191,17 @@ qx.Class.define("qx.ui.basic.Image",
         return;
       }
 
-      var Registry = qx.util.ResourceManager;
+      var ResourceManager = qx.util.ResourceManager;
       var ImageLoader = qx.io2.ImageLoader;
 
       // Detect if the image registry knows this image
-      if (Registry.has(source))
+      if (ResourceManager.has(source))
       {
         // Try to find a disabled image in registry
         if (!this.getEnabled())
         {
           var disabled = source.replace(/\.([a-z]+)$/, "-disabled.$1");
-          if (Registry.has(disabled))
+          if (ResourceManager.has(disabled))
           {
             source = disabled;
             this.addState("replacement");
@@ -221,7 +221,8 @@ qx.Class.define("qx.ui.basic.Image",
         el.setSource(source, false);
 
         // Compare with old sizes and relayout if necessary
-        this._updateSize(el.getWidth(), el.getHeight());
+        this._updateSize(ResourceManager.getImageWidth(source),
+          ResourceManager.getImageHeight(source));
       }
       else if (ImageLoader.isLoaded(source))
       {
@@ -229,7 +230,8 @@ qx.Class.define("qx.ui.basic.Image",
         el.setSource(source, false);
 
         // Compare with old sizes and relayout if necessary
-        this._updateSize(el.getWidth(), el.getHeight());
+        var size = ImageLoader.getSize(source);
+        this._updateSize(size.width, size.height);
       }
       else
       {
@@ -249,8 +251,7 @@ qx.Class.define("qx.ui.basic.Image",
         }
 
         // only try to load the image if it not already failed
-        if(!qx.io2.ImageLoader.isFailed(source))
-        {
+        if(!qx.io2.ImageLoader.isFailed(source)) {
           qx.io2.ImageLoader.load(source, this.__loaderCallback, this);
         }
       }
@@ -272,7 +273,8 @@ qx.Class.define("qx.ui.basic.Image",
       }
 
       // Output a warning if the image could not loaded and quit
-      if (!size) {
+      if (!size)
+      {
         this.warn("Image could not be loaded: " + source);
         return;
       }
@@ -294,7 +296,7 @@ qx.Class.define("qx.ui.basic.Image",
       // Compare with old sizes and relayout if necessary
       if (width !== this.__width || height !== this.__height)
       {
-        this.__width  = width;
+        this.__width = width;
         this.__height = height;
 
         qx.ui.core.queue.Layout.add(this);

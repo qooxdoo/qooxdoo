@@ -20,27 +20,10 @@
 /**
  * This is a simple image class using the low level image features of
  * qooxdoo and wraps it for the qx.html layer.
- *
- * Also have a look at the class {@link qx.html.ClippedImage} for network
- * efficient clipped image support.
  */
 qx.Class.define("qx.html.Image",
 {
   extend : qx.html.Element,
-
-
-
-  /*
-  *****************************************************************************
-     CONSTRUCTOR
-  *****************************************************************************
-  */
-
-  construct : function() {
-    this.base(arguments, "img");
-  },
-
-
 
 
 
@@ -63,15 +46,38 @@ qx.Class.define("qx.html.Image",
     {
       this.base(arguments, name, value);
 
-      if (name == "source") {
-        qx.bom.Image.setSource(this._element, value);
+      if (name === "source" || name === "scale")
+      {
+        var dom = this._element;
+
+        if (dom)
+        {
+          var source = this._getProperty("source");
+          var repeat = this._getProperty("scale") || "no-repeat";
+
+          qx.bom.element.Decoration.update(dom, source, repeat);
+        }
       }
     },
 
 
     // overridden
-    _createDomElement : function() {
-      return qx.bom.Image.create(this._source);
+    _createDomElement : function()
+    {
+      var source = this._getProperty("source");
+      var repeat = this._getProperty("scale") || "no-repeat";
+
+      var html = qx.bom.element.Decoration.create(source, repeat);
+      var el = document.createElement("div");
+      el.innerHTML = html;
+      return el;
+    },
+
+
+    // overridden
+    // be sure that style attributes are merged and not overwritten
+    _copyData : function(fromMarkup) {
+      return this.base(arguments, true);
     },
 
 
@@ -104,6 +110,29 @@ qx.Class.define("qx.html.Image",
      */
     getSource : function() {
       return this._getProperty("source");
+    },
+
+
+    /**
+     * Whether the image should be scaled or not.
+     *
+     * @param value {Boolean} Scale the image
+     * @return {qx.html.Label} This instance for for chaining support.
+     */
+    setScale : function(value)
+    {
+      this._setProperty("scale", value);
+      return this;
+    },
+
+
+    /**
+     * Returns whether the image is scaled or not.
+     *
+     * @return {Boolean} Whether the image is scaled
+     */
+    getScale : function() {
+      return this._getProperty("scale");
     }
   }
 });
