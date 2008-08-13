@@ -125,18 +125,21 @@ qx.Class.define("qx.ui.control.DateChooser",
 
   properties :
   {
+    // overridden
     appearance :
     {
       refine : true,
       init   : "datechooser"
     },
 
+    // overrridden
     width :
     {
       refine : true,
       init : 200
     },
 
+    // overridden
     height :
     {
       refine : true,
