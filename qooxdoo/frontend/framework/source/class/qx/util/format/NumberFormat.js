@@ -6,6 +6,7 @@
 
    Copyright:
      2006 STZ-IDA, Germany, http://www.stz-ida.de
+     2004-2008 1&1 Internet AG, Germany, http://www.1und1.de
 
    License:
      LGPL: http://www.gnu.org/licenses/lgpl.html
