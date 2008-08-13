@@ -280,7 +280,6 @@ qx.Class.define("qx.bom.Selection",
         {
           var validBoundaries = false;
           var sel = qx.dom.Node.getWindow(node).getSelection();
-          var doc = qx.dom.Node.getDocument(node);
 
           var rng = qx.bom.Range.get(node);
 
@@ -380,7 +379,6 @@ qx.Class.define("qx.bom.Selection",
         var parent = rng.parentElement();
 
         var documentRange = qx.bom.Range.get(qx.dom.Node.getDocument(node));
-        var nodeName = node.nodeName.toLowerCase();
 
         // only collapse if the selection is really on the given node
         // -> compare the two parent elements of the ranges with each other and
