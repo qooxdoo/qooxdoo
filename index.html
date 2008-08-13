@@ -1,7 +1,7 @@
 <html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-  <title>qooxdoo &raquo; Demo</title>
+  <title>qooxdoo &raquo; Welcome</title>
   <style type="text/css">
 *{
   box-sizing: border-box;
@@ -43,6 +43,7 @@ p{
   top: 0px;
 }
 
+#demoFoot,
 #demoHead span{
   font-weight: normal;
   color: white;
@@ -93,8 +94,40 @@ ul ul{
 
   <div id="content" style="position:absolute;top:0px;left:0px">
 
-    <h1>Demo</h1>
+    <h1>Welcome to qooxdoo</h1>
 
+    Welcome to qooxdoo! 
+    Please read the <a href="readme.txt">readme</a> and the <a href="license.txt">license</a>.
+    <p>
+    <h1>Quick Start</h1>
+    Use the 'create-application.py' script to start a new application, This will create a
+    minimal application directory structure in a convenient path which is ready to be
+    built and run. Use the contained 'generate.py' script and run the command 'generate.py
+    source', in order to build a development version of the application. Run it by opening
+    the 'source/index.html' file in your browser. You can then go on and extend it into an
+    application of your liking, by changing the 'source/class/<namespace>/Application.js'
+    source file.                               
+                                                                                     
+    You might also want to open the Apiviewer in a separate browser window, which offers
+    the qooxdoo framework API in a convenient way (See the index.html file).                                                                    
+
+    <p>
+    <h1>Developer Tools</h1>
+    <ul>
+      <li>
+        <h2>API Viewer</h2>
+        <p>qooxdoo-based API viewer featuring the qooxdoo Framework API.</p>
+        <span class="local"><a href="framework/api/index.html"><b>Framework API</b></a>
+      </li>
+      <li>
+        <h2>Test Runner</h2>
+        <p>Client-side testing framework similar to JSUnit.</p>
+        <span class="local"><a href="component/testrunner/build/index.html"><b>Framework Tests</b></a>
+      </li>
+    </ul>
+
+    <p>
+    <h1>Demos</h1>
     <ul>
       <li>
         <h2>Feed Reader</h2>
@@ -109,24 +142,13 @@ ul ul{
       	<span class="publish"><a href="portal/index.html"><b>Open Portal</b></a></span>
       </li>
       <li>
-        <h2>API Viewer</h2>
-        <p>qooxdoo-based API viewer featuring an (almost) complete API reference.</p>
-        <span class="local"><a href="framework/api/index.html"><b>Framework API</b></a> | <a href="component/apiviewer/source/index.html">Source (Developer)</a></span>
-        <span class="publish"><a href="apiviewer/index.html"><b>Open API Viewer</b></a></span>
-      </li>
-      <li>
         <h2>Demo Browser</h2>
         <p>Contains examples and tests for widgets and other framework functionalities.</p>
         <span class="local"><a href="application/demobrowser/build/index.html"><b>Build</b></a> | <a href="application/demobrowser/source/index.html">Source (Developer)</a></span>
         <span class="publish"><a href="demobrowser/index.html"><b>Open Demo Browser</b></a></span>
       </li>
-      <li>
-        <h2>Test Runner</h2>
-        <p>Client-side testing framework similar to JSUnit.</p>
-        <span class="local"><a href="component/testrunner/build/index.html"><b>Build</b></a> | <a href="component/testrunner/source/index.html">Source (Developer)</a></span>
-        <span class="publish"><a href="testrunner/index.html"><b>Open Test Runner</b></a></span>
-      </li>
     </ul>
+    <div id="demoFoot">External links: <span><a href="http://qooxdoo.org">qooxdoo Home</a> <a href="http://demo.qooxdoo.org/current/">Demos</a> <a href="http://qooxdoo.org/documentation/current/">Manual</a> <a href="http://api.qooxdoo.org">API</a></span></div>
   </div>
 </body>
 </html>
