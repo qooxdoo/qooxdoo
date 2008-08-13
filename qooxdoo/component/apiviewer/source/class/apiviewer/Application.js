@@ -46,7 +46,14 @@ qx.Class.define("apiviewer.Application",
     {
       // Call super class
       this.base(arguments);
-      
+
+      // Add log appenders
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        qx.log.appender.Native;
+        qx.log.appender.Console;
+      }
+
       // Include CSS file
       qx.bom.Stylesheet.includeFile("apiviewer/css/apiviewer.css");
 
