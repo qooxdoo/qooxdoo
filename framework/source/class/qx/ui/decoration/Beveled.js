@@ -118,6 +118,9 @@ qx.Class.define("qx.ui.decoration.Beveled",
 
   members :
   {
+
+    __markup : null,
+
     /*
     ---------------------------------------------------------------------------
       PROPERTY APPLY ROUTINES
