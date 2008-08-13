@@ -48,15 +48,12 @@ qx.Class.define("qx.html.Image",
 
       if (name === "source")
       {
-        var dom = this._element;
+        var elem = this._element;
 
-        if (dom)
-        {
-          var source = this._getProperty("source");
-          var repeat = this._getProperty("scale") || "no-repeat";
+        var source = this._getProperty("source");
+        var repeat = this._getProperty("scale") || "no-repeat";
 
-          qx.bom.element.Decoration.update(dom, source, repeat);
-        }
+        qx.bom.element.Decoration.update(elem, source, repeat);
       }
     },
 
