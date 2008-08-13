@@ -330,10 +330,11 @@ qx.Class.define("qx.ui.decoration.Grid",
         }
       }
 
+      var ResourceManager = qx.util.ResourceManager;
+      
       if (value)
       {
         var Alias = qx.util.AliasManager.getInstance();
-        var ResourceManager = qx.util.ResourceManager;
 
         var base = Alias.resolve(value);
         var split = /(.*)(\.[a-z]+)$/.exec(base);
