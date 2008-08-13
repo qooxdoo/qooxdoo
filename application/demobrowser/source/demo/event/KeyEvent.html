@@ -3,45 +3,31 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <script type="text/javascript" src="../helper.js"></script>
+  <link href="data/logger.css" rel="stylesheet" type="text/css">
 	<style type="text/css">
-	#keylogger {
-		position: absolute;
-		width: 500px;
-		height: 500px;
-		left: 30px;
-		top: 140px;
-		color: black;
-		background-color: #EEE;
-		padding: 5px;
-		border: 1px inset;
-		overflow: scroll;
-		/* display:none; */
-	}
 
-	table {
-		width: 100%;
-	}
-
-	td {
-		text-align: center;
-	}
-
+  body {
+    padding: 30px;
+  }
+  
   #btnClear {
     position: absolute;
-    left: 550px;
-    top: 140px;
+    left: 700px;
+    top: 200px;
   }
 
 	</style>
 </head>
 <body>
 
-  <h1>Low Level Key Events</h1>
+  <h1>Qooxood key events</h1>
+  
   <p>
-    These events are not normalized using the qooxdoo key event handler.
+  This logger prints the key events as they are fired by the qooxdoo
+  event layer.
   </p>
 
-  <div id="keylogger">
+	<div id="logger">
 	</div>
 
   <input type="button" id="btnClear" value="clear">

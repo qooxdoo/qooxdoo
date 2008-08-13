@@ -3,39 +3,10 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <script type="text/javascript" src="../helper.js"></script>
+  <link href="data/logger.css" rel="stylesheet" type="text/css">
 	<style type="text/css">
-	#keylogger {
-		position: absolute;
-		width: 600px;
-		height: 500px;
-		left: 30px;
-		top: 200px;
-		color: black;
-		background-color: #EEE;
-		padding: 5px;
-		border: 1px inset;
-		overflow: scroll;
-		/* display:none; */
-	}
-
-	table {
-		width: 100%;
-	}
-
-	td {
-		text-align: center;
-	}
-
-  #btnClear {
-    position: absolute;
-    left: 650px;
-    top: 200px;
-  }
 
   #mouse {
-    position: absolute;
-    left: 30px;
-    top: 10px;
     height: 180px;
     width: 600;
     background-color: orange;
@@ -59,7 +30,7 @@
   #form {
     position: absolute;
     top: 250px;
-    left: 650px;
+    left: 700px;
     width: 200px;
   }
 
@@ -77,10 +48,11 @@
     </div>
   </div>
 
-  <div id="keylogger">
+  <div id="logger">
 	</div>
 
   <div id="form">
+    <input type="button" id="btnClear" value="clear">
     <table>
       <tr>
         <td><input type="checkbox" id="check_mousedown" checked="checked"></td>
@@ -113,8 +85,7 @@
         <td><label for="capture">enable event capturing for #mouse</label></td>
       </tr>
     </table>
-  </div>
-  <input type="button" id="btnClear" value="clear">
+  </div>  
 
 </body>
 </html>
