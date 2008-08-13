@@ -50,7 +50,7 @@ RELEASE_SDK = release/temp/sdk/qooxdoo-$(FRAMEWORK_VERSION)-sdk
 
 APPLICATIONS = demobrowser feedreader portal
 COMPONENTS = apiviewer testrunner skeleton
-SDK_COPY = application/index.html
+SDK_COPY = index.html
 
 
 
@@ -128,7 +128,8 @@ release-build-archive:
 
 
 
-release-sdk: distclean release-sdk-info apiviewer release-sdk-collect release-sdk-archive
+release-sdk: distclean release-sdk-sans-clean
+release-sdk-sans-clean: release-sdk-info apiviewer release-sdk-collect release-sdk-archive
 
 release-sdk-info:
 	@echo
@@ -143,7 +144,7 @@ release-sdk-collect:
 
 	@echo "  * Copying info files..."
 	@$(CMD_DIR) $(RELEASE_SDK)
-	@for FILE in `find ../ -maxdepth 1 -type f -name "*.txt"`; do \
+	@for FILE in `find . -maxdepth 1 -type f -name "*.txt"`; do \
 	  echo "    - `basename $$FILE`"; \
 	  cp -f $$FILE $(RELEASE_SDK); \
 	done
