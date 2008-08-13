@@ -35,6 +35,11 @@
             //"publish-test",
             "publish-api"
         ]
+    },
+
+    "machet" :
+    {
+      "run" : [ "image-clipping", "image-combine" ]
     }
   }
 }
