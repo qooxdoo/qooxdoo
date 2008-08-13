@@ -34,12 +34,22 @@ qx.Class.define("qx.bom.element.Decoration",
     __enableAlphaFix : qx.core.Variant.isSet("qx.client", "mshtml") && qx.bom.client.Engine.VERSION < 8,
 
 
+    /** {Map} List of repeat modes which supports the IE AlphaImageLoader */
     __alphaFixRepeats :
     {
       "scale-x" : true,
       "scale-y" : true,
       "scale" : true,
       "no-repeat" : true
+    },
+
+
+    __switchStyles :
+    {
+      backgroundImage : null,
+      backgroundRepeat : null,
+      backgroundPosition : null,
+      clip : null
     },
 
 
@@ -50,14 +60,14 @@ qx.Class.define("qx.bom.element.Decoration",
         throw new Error("Image modification not possible because elements could not be replaced at runtime anymore!");
       }
 
-      /*
       if (ret.tag === "img") {
         element.src = ret.source;
       }
 
       var Style = qx.bom.element.Style;
-      Style.setCss(element, ret.style);
-      */
+
+      Style.setStyles(element, this.__switchStyles);
+      Style.setStyles(element, ret.style);
     },
 
 
