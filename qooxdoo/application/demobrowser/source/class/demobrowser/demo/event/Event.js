@@ -28,9 +28,9 @@
 
 ************************************************************************ */
 
-qx.Class.define("demobrowser.demo.event.Event_1",
+qx.Class.define("demobrowser.demo.event.Event",
 {
-  extend : qx.application.Native,
+  extend : demobrowser.demo.event.EventDemo,
 
 
   members :
@@ -38,6 +38,12 @@ qx.Class.define("demobrowser.demo.event.Event_1",
     main : function()
     {
       this.base(arguments);
+
+      this._initLogger(
+        ["Events"],
+        document.getElementById("logger"),
+        50
+      );
 
       qx.event.Registration.addListener(window, "resize", this._onResize, this);
 
@@ -66,20 +72,14 @@ qx.Class.define("demobrowser.demo.event.Event_1",
       qx.event.Registration.addListener(
         document.getElementById("input"),
         "keydown",
-        this._onkeydown, this
+        this._onKeydown, this
       );
 
       qx.event.Registration.addListener(
         document.getElementById("input"),
         "keyinput",
-        this._onkeyinput, this
+        this._onKeyinput, this
       );
-
-      for (var i=1; i<10; i++) {
-        var div = document.getElementById("div"+i);
-        qx.event.Registration.addListener(div, "click", this._cascadeCapture, this, true);
-        qx.event.Registration.addListener(div, "click", this._cascadeBubble, this, false);
-      }
 
       qx.event.Registration.addListener(
         document.getElementById("scroll"),
@@ -87,86 +87,54 @@ qx.Class.define("demobrowser.demo.event.Event_1",
         this._scroll,
         this
       );
-
-      qx.event.Registration.addListener(document.getElementById("div9"), "mousewheel", function(e)
-      {
-        this.debug("wheel: " + e.getTarget().id + " " + e.getWheelDelta());
-      }, this);
-
     },
 
     _onResize : function(e) {
-      this.debug("Resize:" + e);
+      this.log(["Resize:" + e]);
     },
 
-    _onJuhu : function(e) {
-      this.debug("Juhu:" + e);
+    _onKeydown: function(e) {
+      this._log(["keydown: " + e.getKeyIdentifier()]);
     },
 
-    _onkeydown: function(e) {
-      this.debug("keydown: " + e.getKeyIdentifier());
-    },
-
-    _onkeyinput: function(e) {
-      this.debug("keyinput: " + e.getCharCode());
+    _onKeyinput: function(e) {
+      this._log(["keyinput: " + e.getCharCode()]);
     },
 
     _onmouseover : function(e) {
-      this.debug("mouse over");
+      this._log(["mouse over"]);
     },
 
     _onmouseout : function(e) {
-      this.debug("mouse out");
+      this._log(["mouse out"]);
     },
 
     _scroll: function(e) {
-      this.debug("scroll:" + e.getTarget());
-    },
-
-    _cascadeCapture : function(e)
-    {
-      var elem = e.getCurrentTarget();
-      var title = e.getEventPhase() == 2 ? "at-target: " : "capture: ";
-
-      this.debug(title + elem.id + " (capture-listener)");
-    },
-
-    _cascadeBubble : function(e)
-    {
-      var elem = e.getCurrentTarget();
-      var title = e.getEventPhase() == 2 ? "at-target: " : "bubble: ";
-
-      this.debug(title + elem.id + " (bubble-listener)");
+      this._log(["scroll:" + e.getTarget()]);
     },
 
     _preventDefault : function(e)
     {
-      this.debug(e.getType() + ": " + e);
+      this._log(["prevent default " + e.getType() + ": " + e]);
       e.preventDefault();
     },
 
     _stopPropagation : function(e)
     {
-      this.debug(e.getType() + " (inner): " + e);
+      this._log([e.getType() + " (inner): " + e]);
       e.stopPropagation();
     },
 
 
     _onclick1 : function(e)
     {
-      this.debug(e.getType() + " 1: " +  e);
+      this._log([e.getType() + " 1: " +  e]);
       qx.event.Registration.removeListener(this._juhu, "click", this._onclick1);
     },
 
     _onclick2 : function(e)
     {
-      this.debug(e.getType() + " 2: " + e);
-    },
-
-    _positionDiv : function(e) {
-      var div = document.getElementById("moveable");
-      div.style.left = (e.getDocumentLeft() - 16) + "px";
-      div.style.top = (e.getDocumentTop() -16) + "px";
+      this._log([e.getType() + " 2: " + e]);
     }
   },
 
