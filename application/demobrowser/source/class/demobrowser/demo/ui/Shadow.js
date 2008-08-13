@@ -29,12 +29,12 @@ qx.Class.define("demobrowser.demo.ui.Shadow",
       this.base(arguments);
 
       var shadow = new qx.ui.core.Widget().set({
-        decorator: "shadow"
+        decorator: "window-shadow"
       });
       this.getRoot().add(shadow, {top: 10, left: 10});
 
       var shadow = new qx.ui.core.Widget().set({
-        shadow: "shadow",
+        shadow: "window-shadow",
         decorator : "black",
         backgroundColor: "yellow"
       });
