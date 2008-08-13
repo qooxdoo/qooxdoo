@@ -230,6 +230,9 @@ qx.Class.define("qx.ui.menu.Menu",
 
   members :
   {
+    
+    __scheduledOpen : null,
+    
     /*
     ---------------------------------------------------------------------------
       PUBLIC API
@@ -396,7 +399,7 @@ qx.Class.define("qx.ui.menu.Menu",
           mgr.scheduleOpen(subMenu);
 
           // Remember scheduled menu for opening
-          this._scheduledOpen = subMenu;
+          this.__scheduledOpen = subMenu;
         }
         else
         {
@@ -405,10 +408,10 @@ qx.Class.define("qx.ui.menu.Menu",
             mgr.scheduleClose(opened.getMenu());
           }
 
-          if (this._scheduledOpen)
+          if (this.__scheduledOpen)
           {
-            mgr.cancelOpen(this._scheduledOpen);
-            this._scheduledOpen = null;
+            mgr.cancelOpen(this.__scheduledOpen);
+            this.__scheduledOpen = null;
           }
         }
       }
@@ -450,8 +453,8 @@ qx.Class.define("qx.ui.menu.Menu",
 
         // When leaving this menu to the outside, stop
         // all pending requests to open any other sub menu
-        if (this._scheduledOpen) {
-          mgr.cancelOpen(this._scheduledOpen);
+        if (this.__scheduledOpen) {
+          mgr.cancelOpen(this.__scheduledOpen);
         }
       }
     }
