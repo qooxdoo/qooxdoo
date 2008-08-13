@@ -93,7 +93,7 @@ qx.Class.define("qx.ui.container.Scroll",
     {
       var padding = this.getContentPadding();
       if (padding) {
-        widget.setPadding(pading);
+        widget.setPadding(padding);
       }
       this._getChildControl("pane").add(widget);
     },
