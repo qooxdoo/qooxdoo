@@ -43,6 +43,10 @@ qx.Class.define("qx.bom.element.Clip",
      */
     compile : function(map)
     {
+      if (!map) {
+        return "clip:auto;";
+      }
+
       var left = map.left;
       var top = map.top;
       var width = map.width;
@@ -186,6 +190,12 @@ qx.Class.define("qx.bom.element.Clip",
      */
     set : function(element, map)
     {
+      if (!map)
+      {
+        element.style.clip = "rect(auto,auto,auto,auto)";
+        return;
+      }
+
       var left = map.left;
       var top = map.top;
       var width = map.width;
