@@ -70,7 +70,7 @@ qx.Class.define("qx.html.Image",
       var html = qx.bom.element.Decoration.create(source, repeat);
       var el = document.createElement("div");
       el.innerHTML = html;
-      return el;
+      return el.firstChild;
     },
 
 
@@ -110,6 +110,13 @@ qx.Class.define("qx.html.Image",
      */
     getSource : function() {
       return this._getProperty("source");
+    },
+
+
+
+    resetSource : function() {
+      this._removeProperty("source");
+      return this;
     },
 
 
