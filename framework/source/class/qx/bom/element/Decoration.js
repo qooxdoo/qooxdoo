@@ -18,6 +18,11 @@
 ************************************************************************ */
 
 /**
+ * Powerful creation and update features for images used for decoration
+ * proposes like for rounded borders, icons, etc.
+ *
+ * Includes support for image clipping, PNG alpha channel support, additional
+ * repeat options like <code>scale-x</code> or <code>scale-y</code>.
  */
 qx.Class.define("qx.bom.element.Decoration",
 {
@@ -31,7 +36,8 @@ qx.Class.define("qx.bom.element.Decoration",
   {
 
     /** {Boolean} Whether the alpha image loader is needed */
-    __enableAlphaFix : qx.core.Variant.isSet("qx.client", "mshtml") && qx.bom.client.Engine.VERSION < 7,
+    __enableAlphaFix : qx.core.Variant.isSet("qx.client", "mshtml") &&
+      qx.bom.client.Engine.VERSION < 7,
 
 
     /** {Map} List of repeat modes which supports the IE AlphaImageLoader */
@@ -49,6 +55,7 @@ qx.Class.define("qx.bom.element.Decoration",
     }),
 
 
+    /** {Map} Mapping between background repeat and the tag to create */
     __repeatToTagname :
     {
       "scale-x" : "img",
@@ -61,39 +68,51 @@ qx.Class.define("qx.bom.element.Decoration",
     },
 
 
-    __switchStyles :
+    /**
+     * Updates the element to display the given source
+     * with the repeat option.
+     *
+     * @param element {Element} DOM element to update
+     * @param source {String} Any valid URI
+     * @param repeat {String} One of <code>scale-x</code>, <code>scale-y</code>,
+     *   <code>scale</code>, <code>repeat</code>, <code>repeat-x</code>,
+     *   <code>repeat-y</code>, <code>repeat</code>
+     * @param style {Map} Additional styles to apply
+     */
+    update : function(element, source, repeat, style)
     {
-      backgroundImage : null,
-      backgroundRepeat : null,
-      backgroundPosition : null,
-      clip : null
-    },
-
-
-    update : function(element, source, repeat)
-    {
-      var ret = this.getAttributes(source, repeat);
-      if (ret.tag != element.tagName.toLowerCase()) {
+      var tag = this.getTagName(repeat);
+      if (tag != element.tagName.toLowerCase()) {
         throw new Error("Image modification not possible because elements could not be replaced at runtime anymore!");
       }
 
-      if (ret.tag === "img") {
+      var ret = this.getAttributes(source, repeat, style);
+
+      if (tag === "img") {
         element.src = ret.source;
       }
 
       var Style = qx.bom.element.Style;
-
-      Style.setStyles(element, this.__switchStyles);
       Style.setStyles(element, ret.style);
     },
 
 
+    /**
+     * Creates a decorator image element with the given options.
+     *
+     * @param source {String} Any valid URI
+     * @param repeat {String} One of <code>scale-x</code>, <code>scale-y</code>,
+     *   <code>scale</code>, <code>repeat</code>, <code>repeat-x</code>,
+     *   <code>repeat-y</code>, <code>repeat</code>
+     * @param style {Map} Additional styles to apply
+     */
     create : function(source, repeat, style)
     {
+      var tag = this.getTagName(repeat);
       var ret = this.getAttributes(source, repeat, style);
       var css = qx.bom.element.Style.compile(ret.style);
 
-      if (ret.tag == "img") {
+      if (tag == "img") {
         return '<img src="' + ret.source + '" style="' + css + '"/>';
       } else {
         return '<div style="' + css + '"></div>';
@@ -101,7 +120,16 @@ qx.Class.define("qx.bom.element.Decoration",
     },
 
 
-
+    /**
+     * Translates the given repeat option to a tag name. Useful
+     * for systems which depends on early information of the tag
+     * name to prepare element like {@link qx.html.Image}.
+     *
+     * @param repeat {String} One of <code>scale-x</code>, <code>scale-y</code>,
+     *   <code>scale</code>, <code>repeat</code>, <code>repeat-x</code>,
+     *   <code>repeat-y</code>, <code>repeat</code>
+     * @return {String} The tag name: <code>div</code> or <code>img</code>
+     */
     getTagName : function(repeat)
     {
       if (qx.core.Variant.isSet("qx.client", "mshtml"))
@@ -116,14 +144,12 @@ qx.Class.define("qx.bom.element.Decoration",
 
 
     /**
-     * A method to create images.
-     *
-     * This method automatically fall-backs to
-     * IE's alpha image loader to render images with alpha
-     * transparency.
+     * This method is used to collect all needed attributes for
+     * the tag name detected by {@link #getTagName}.
      *
      * @param source {String} Image source
      * @param repeat {String} Repeat mode of the image
+     * @param style {Map} Additional styles to apply
      * @return {String} Markup for image
      */
     getAttributes : function(source, repeat, style)
@@ -159,7 +185,6 @@ qx.Class.define("qx.bom.element.Decoration",
           + ResourceManager.toUri(source) + "', sizingMethod='scale')";
 
         return {
-          tag : "div",
           style : style
         };
       }
@@ -171,7 +196,6 @@ qx.Class.define("qx.bom.element.Decoration",
         {
           var uri = ResourceManager.toUri(source);
           return {
-            tag : "img",
             source : uri,
             style : style
           };
@@ -201,7 +225,6 @@ qx.Class.define("qx.bom.element.Decoration",
               }
 
               return {
-                tag : "img",
                 source : uri,
                 style : style
               };
@@ -228,7 +251,6 @@ qx.Class.define("qx.bom.element.Decoration",
               }
 
               return {
-                tag : "img",
                 source : uri,
                 style : style
               };
@@ -250,7 +272,6 @@ qx.Class.define("qx.bom.element.Decoration",
 
             var uri = ResourceManager.toUri(source);
             return {
-              tag : "img",
               source : uri,
               style : style
             };
@@ -278,7 +299,6 @@ qx.Class.define("qx.bom.element.Decoration",
             }
 
             return {
-              tag : "div",
               style : style
             };
           }
@@ -293,7 +313,6 @@ qx.Class.define("qx.bom.element.Decoration",
             style.height = ResourceManager.getImageHeight(source) + "px";
 
             return {
-              tag : "div",
               style : style
             };
           }
