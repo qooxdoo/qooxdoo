@@ -69,7 +69,7 @@ qx.Class.define("qx.ui.table.pane.FocusIndicator",
      */
     _onKeyPress : function(e)
     {
-      iden = e.getKeyIdentifier();
+      var iden = e.getKeyIdentifier();
       if (iden !== "Escape" && iden !== "Enter") {
         e.stopPropagation();
       }
