@@ -101,6 +101,16 @@ qx.Bootstrap.define("qx.bom.Request",
 
   members :
   {
+
+    __async : null,
+    __stateListener : null,
+    __xmlhttp : null,
+    __timeoutListener : null,
+    __timeoutHandle : null,
+    __aborted : null,
+    __lastFired : null,
+    __headers : null,
+
     /** {Integer} Current ready state: 0=uninitialized, 1=sending request, 2=headers loaded, 3=loading result, 4=done */
     readyState : 0,
 
