@@ -124,6 +124,29 @@ qx.Class.define("qx.ui.core.selection.Abstract",
 
   members :
   {
+    
+    __scrollStepX : 0,
+    __scrollStepY : 0,
+    __scrollTimer : null,
+    __frameScroll : null,
+    __lastRelX : null,
+    __lastRelY : null,
+    __frameLocation : null,
+    __dragStartX : null,
+    __dragStartY : null,
+    __inCapture : null,
+    __mouseX : null,
+    __mouseY : null,
+    __moveDirectionX : null,
+    __moveDirectionY : null,
+    __selectionModified : null,
+    __selectionContext : null,
+    __leadItem : null,
+    __selection : null,
+    __anchorItem : null,
+    __mouseDownOnSelected : null,
+    
+    
     /*
     ---------------------------------------------------------------------------
       USER APIS
@@ -883,15 +906,15 @@ qx.Class.define("qx.ui.core.selection.Abstract",
         !isShiftPressed && !isCtrlPressed)
       {
         // Cache location/scroll data
-        this._frameLocation = this._getLocation();
-        this._frameScroll = this._getScroll();
+        this.__frameLocation = this._getLocation();
+        this.__frameScroll = this._getScroll();
 
         // Store position at start
-        this._dragStartX = event.getDocumentLeft() + this._frameScroll.left;
-        this._dragStartY = event.getDocumentTop() + this._frameScroll.top;
+        this.__dragStartX = event.getDocumentLeft() + this.__frameScroll.left;
+        this.__dragStartY = event.getDocumentTop() + this.__frameScroll.top;
 
         // Switch to capture mode
-        this._inCapture = true;
+        this.__inCapture = true;
         this._capture();
       }
 
@@ -962,66 +985,66 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     handleMouseMove : function(event)
     {
       // Only relevant when capturing is enabled
-      if (!this._inCapture) {
+      if (!this.__inCapture) {
         return;
       }
 
 
       // Update mouse position cache
-      this._mouseX = event.getDocumentLeft();
-      this._mouseY = event.getDocumentTop();
+      this.__mouseX = event.getDocumentLeft();
+      this.__mouseY = event.getDocumentTop();
 
 
       // Detect move directions
-      var dragX = this._mouseX + this._frameScroll.left;
-      if (dragX > this._dragStartX) {
-        this._moveDirectionX = 1;
-      } else if (dragX < this._dragStartX) {
-        this._moveDirectionX = -1;
+      var dragX = this.__mouseX + this.__frameScroll.left;
+      if (dragX > this.__dragStartX) {
+        this.__moveDirectionX = 1;
+      } else if (dragX < this.__dragStartX) {
+        this.__moveDirectionX = -1;
       } else {
-        this._moveDirectionX = 0;
+        this.__moveDirectionX = 0;
       }
 
-      var dragY = this._mouseY + this._frameScroll.top;
-      if (dragY > this._dragStartY) {
-        this._moveDirectionY = 1;
-      } else if (dragY < this._dragStartY) {
-        this._moveDirectionY = -1;
+      var dragY = this.__mouseY + this.__frameScroll.top;
+      if (dragY > this.__dragStartY) {
+        this.__moveDirectionY = 1;
+      } else if (dragY < this.__dragStartY) {
+        this.__moveDirectionY = -1;
       } else {
-        this._moveDirectionY = 0;
+        this.__moveDirectionY = 0;
       }
 
 
       // Update scroll steps
-      var location = this._frameLocation;
+      var location = this.__frameLocation;
 
-      if (this._mouseX < location.left) {
-        this._scrollStepX = this._mouseX - location.left;
-      } else if (this._mouseX > location.right) {
-        this._scrollStepX = this._mouseX - location.right;
+      if (this.__mouseX < location.left) {
+        this.__scrollStepX = this.__mouseX - location.left;
+      } else if (this.__mouseX > location.right) {
+        this.__scrollStepX = this.__mouseX - location.right;
       } else {
-        this._scrollStepX = 0;
+        this.__scrollStepX = 0;
       }
 
-      if (this._mouseY < location.top) {
-        this._scrollStepY = this._mouseY - location.top;
-      } else if (this._mouseY > location.bottom) {
-        this._scrollStepY = this._mouseY - location.bottom;
+      if (this.__mouseY < location.top) {
+        this.__scrollStepY = this.__mouseY - location.top;
+      } else if (this.__mouseY > location.bottom) {
+        this.__scrollStepY = this.__mouseY - location.bottom;
       } else {
-        this._scrollStepY = 0;
+        this.__scrollStepY = 0;
       }
 
 
       // Dynamically create required timer instance
-      if (!this._scrollTimer)
+      if (!this.__scrollTimer)
       {
-        this._scrollTimer = new qx.event.Timer(100);
-        this._scrollTimer.addListener("interval", this._onInterval, this);
+        this.__scrollTimer = new qx.event.Timer(100);
+        this.__scrollTimer.addListener("interval", this._onInterval, this);
       }
 
 
       // Start interval
-      this._scrollTimer.start();
+      this.__scrollTimer.start();
 
 
       // Auto select based on new cursor position
@@ -1070,21 +1093,21 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      */
     _cleanup : function()
     {
-      if (!this.getDrag() && this._inCapture) {
+      if (!this.getDrag() && this.__inCapture) {
         return;
       }
 
       // Remove flags
-      delete this._inCapture;
-      delete this._lastRelX;
-      delete this._lastRelY;
+      delete this.__inCapture;
+      delete this.__lastRelX;
+      delete this.__lastRelY;
 
       // Stop capturing
       this._releaseCapture();
 
       // Stop timer
-      if (this._scrollTimer) {
-        this._scrollTimer.stop();
+      if (this.__scrollTimer) {
+        this.__scrollTimer.stop();
       }
     },
 
@@ -1097,12 +1120,12 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     _onInterval : function(e)
     {
       // Scroll by defined block size
-      this._scrollBy(this._scrollStepX, this._scrollStepY);
+      this._scrollBy(this.__scrollStepX, this.__scrollStepY);
 
       // TODO: Optimization: Detect real scroll changes first?
 
       // Update scroll cache
-      this._frameScroll = this._getScroll();
+      this.__frameScroll = this._getScroll();
 
       // Auto select based on new scroll position and cursor
       this._autoSelect();
@@ -1117,17 +1140,17 @@ qx.Class.define("qx.ui.core.selection.Abstract",
       var inner = this._getDimension();
 
       // Get current relative Y position and compare it with previous one
-      var relX = Math.max(0, Math.min(this._mouseX - this._frameLocation.left, inner.width)) + this._frameScroll.left;
-      var relY = Math.max(0, Math.min(this._mouseY - this._frameLocation.top, inner.height)) + this._frameScroll.top;
+      var relX = Math.max(0, Math.min(this.__mouseX - this.__frameLocation.left, inner.width)) + this.__frameScroll.left;
+      var relY = Math.max(0, Math.min(this.__mouseY - this.__frameLocation.top, inner.height)) + this.__frameScroll.top;
 
 
       // Compare old and new relative coordinates (for performance reasons)
-      if (this._lastRelX === relX && this._lastRelY === relY) {
+      if (this.__lastRelX === relX && this.__lastRelY === relY) {
         return;
       }
 
-      this._lastRelX = relX;
-      this._lastRelY = relY;
+      this.__lastRelX = relX;
+      this.__lastRelY = relY;
 
 
       // Cache anchor
@@ -1135,7 +1158,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
 
 
       // Process X-coordinate
-      var moveX=this._moveDirectionX, leadX=anchor;
+      var moveX=this.__moveDirectionX, leadX=anchor;
       var nextX, locationX, countX=0;
 
       while (moveX !== 0)
@@ -1164,7 +1187,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
 
 
       // Process Y-coordinate
-      var moveY=this._moveDirectionY, leadY=anchor;
+      var moveY=this.__moveDirectionY, leadY=anchor;
       var nextY, locationY, countY=0;
 
       while (moveY !== 0)
@@ -1668,7 +1691,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
 
   destruct : function()
   {
-    this._disposeObjects("_scrollTimer");
+    this._disposeObjects("__scrollTimer");
     this._disposeFields("__selection");
   }
 });
