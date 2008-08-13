@@ -61,6 +61,9 @@ qx.Class.define("qx.ui.popup.Manager",
 
   members :
   {
+    
+    __objects : null,
+    
     /**
      * Registers a visible popup.
      *
@@ -155,7 +158,7 @@ qx.Class.define("qx.ui.popup.Manager",
       var reg = this.__objects;
       for (var hash in reg)
       {
-        obj = reg[hash];
+        var obj = reg[hash];
 
         if (!obj.getAutoHide() || target == obj || qx.ui.core.Widget.contains(obj, target)) {
           continue;
