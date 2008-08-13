@@ -24,7 +24,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("demobrowser.demo.table.Test_Scroller",
+qx.Class.define("demobrowser.demo.test.Table_Scroller",
 {
   extend : qx.application.Standalone,
 

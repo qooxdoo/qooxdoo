@@ -18,7 +18,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("demobrowser.demo.io.HttpRequest_1",
+qx.Class.define("demobrowser.demo.test.HttpRequest",
 {
   extend : qx.application.Native,
 
