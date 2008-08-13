@@ -213,6 +213,30 @@ qx.Theme.define("qx.theme.modern.Decoration",
         backgroundRepeat : "repeat-y"
       }
     },
+    
+    "scrollbar-button-horizontal" :
+    {
+      decorator : qx.ui.decoration.Beveled,
+
+      style : {
+        backgroundImage : "decoration/scrollbar/scrollbar-button-bg-horizontal.png",
+        backgroundRepeat : "scale",
+        outerColor : "#4d4d4d",
+        innerColor : "#e1e1e1"
+      }
+    },
+    
+    "scrollbar-button-vertical" :
+    {
+      decorator : qx.ui.decoration.Beveled,
+
+      style : {
+        backgroundImage : "decoration/scrollbar/scrollbar-button-bg-vertical.png",
+        backgroundRepeat : "scale",
+        outerColor : "#4d4d4d",
+        innerColor : "#e1e1e1"
+      }
+    },    
 
     "slider-knob" :
     {
