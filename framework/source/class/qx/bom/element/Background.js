@@ -46,6 +46,50 @@ qx.Class.define("qx.bom.element.Background",
     },
 
 
+    /** {Boolean} Whether the alpha image loader is needed */
+    __alphaFix : qx.core.Variant.isSet("qx.client", "mshtml") && qx.bom.client.Engine.VERSION < 10,
+
+
+    /**
+     * A method to create images. Automatically fall-backs to
+     * IE's alpha image loader to render images with alpha
+     * transparency.
+     *
+     * @param source {String} Image source
+     * @param repeat {String} Repeat mode of the image
+     * @param styles {String} Additional styles to insert into the element
+     * @param content {String} Additional content to insert into the element
+     * @return {String} Markup for image
+     */
+    create : function(source, repeat, styles, content)
+    {
+      var ResourceManager = qx.util.ResourceManager;
+
+      if (!styles) {
+        styles = "";
+      }
+
+      if (!content) {
+        content = "";
+      }
+
+      if (this.__alphaFix)
+      {
+        // Repeats are not supported when using alpha image loader
+        // All images will be stretched!
+        var uri = ResourceManager.toUri(source);
+        var filter = 'filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src="' + uri + '", sizingMethod="scale");';
+        return "<div style='" + filter + styles + "'>" + content + "</div>";
+      }
+      else
+      {
+        var data = ResourceManager.getClippedImageData(source);
+        var bgstyles = this.compile(data.source, repeat, data.left, data.top);
+        return '<div style="' + bgstyles + styles + '">' + content + '</div>';
+      }
+    },
+
+
     /**
      * Compiles the background into a CSS compatible string.
      *
