@@ -76,7 +76,7 @@ qx.Class.define("qx.ui.menu.ButtonLayout",
 
         if (child)
         {
-          hint = child.getSizeHint();
+          var hint = child.getSizeHint();
           var top = Util.computeVerticalAlignOffset(child.getAlignY()||"middle", hint.height, availHeight, 0, 0);
           var offsetLeft = Util.computeHorizontalAlignOffset(child.getAlignX()||"left", hint.width, columns[i], child.getMarginLeft(), child.getMarginRight());
           child.renderLayout(left + offsetLeft, top, hint.width, hint.height);
