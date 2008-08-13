@@ -1,6 +1,5 @@
-// generic application.json
 {
-  "name"    : "generic application.json",
+  "name"    : "Generic application.json",
 
   "include" :
   [
@@ -11,6 +10,11 @@
     {
       "path" : "../../../component/apiviewer/api.json",
       "as"   : "apiconf"
+    },
+    
+    {
+      "path" : "../../../component/testrunner/testrunner.json",
+      "as"   : "testrunner"
     }
   ],
 
@@ -27,6 +31,7 @@
     "profiling",
     "publish",
     "source",
+    "test",
     "translate"
   ],
 
@@ -73,9 +78,8 @@
 
       "let" :
       {
-        "APIVIEWER_ROOT" : "${QOOXDOO_PATH}/../component/apiviewer",
-        "BUILD_PATH" : "./test",
-        "API_INCLUDE" : ["qx.*", "${APPLICATION}.*"]
+        "TESTRUNNER_ROOT" : "${QOOXDOO_PATH}/../component/testrunner",
+        "BUILD_PATH" : "./test"
       },
 
       "library" :
