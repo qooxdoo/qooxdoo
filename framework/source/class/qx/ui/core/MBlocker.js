@@ -74,7 +74,7 @@ qx.Mixin.define("qx.ui.core.MBlocker",
       this.__contentBlocker && blockers.push(this.__contentBlocker);
 
       for (var i=0; i<blockers.length; i++) {
-        blocker.setStlye("backgroundColor", qx.theme.manager.Color.getInstance().resolve(value));
+        blockers[i].setStlye("backgroundColor", qx.theme.manager.Color.getInstance().resolve(value));
       }
     },
 
@@ -87,7 +87,7 @@ qx.Mixin.define("qx.ui.core.MBlocker",
       this.__contentBlocker && blockers.push(this.__contentBlocker);
 
       for (var i=0; i<blockers.length; i++) {
-        blocker.setStlye("opacity", value);
+        blockers[i].setStlye("opacity", value);
       }
     },
 
