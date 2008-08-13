@@ -198,9 +198,7 @@ qx.Class.define("apiviewer.ui.SearchView",
 
        sresult = this._searchIndex(search[0], search[1]);
 
-       // TODO: this should be working soon
-       //this._tableModel.setColumnName(1, (results + " Results (" + duration + " s)"));
-       //this._tableModel.setColumns([ "", (sresult.length + " Result" + ((sresult.length != 1) ? "s" : "")) ]);
+       this._tableModel.setColumns([ "", (sresult.length + " Result" + ((sresult.length != 1) ? "s" : "")) ]);
        this._tableModel.setData(sresult);
        this._table.show();
 
@@ -422,7 +420,7 @@ qx.Class.define("apiviewer.ui.SearchView",
         }
 
         // Highlight item
-        controller.__selectClass(apiviewer.dao.Class.getClassByName(className), function()
+        controller._selectClass(apiviewer.dao.Class.getClassByName(className), function()
         {
           if (itemName) {
             if (!classViewer.showItem(itemName))
@@ -432,10 +430,9 @@ qx.Class.define("apiviewer.ui.SearchView",
               return;
             }
           } else {
-            // TODO:
-            ////classViewer.setScrollTop(0);
+            classViewer.getContainerElement().scrollToY(0);
           }
-          controller.__updateHistory(fullItemName);
+          controller._updateHistory(fullItemName);
 
         }, controller);
     },
