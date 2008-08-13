@@ -24,7 +24,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("demobrowser.demo.io.ImageLoader_1",
+qx.Class.define("demobrowser.demo.test.ImageLoader",
 {
   extend : qx.application.Native,
 

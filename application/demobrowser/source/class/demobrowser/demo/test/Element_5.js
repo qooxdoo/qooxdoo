@@ -18,7 +18,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("demobrowser.demo.html.Element_5",
+qx.Class.define("demobrowser.demo.test.Element_5",
 {
   extend : qx.application.Native,
 

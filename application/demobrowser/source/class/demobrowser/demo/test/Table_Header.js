@@ -24,7 +24,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("demobrowser.demo.table.Test_Header",
+qx.Class.define("demobrowser.demo.test.Table_Header",
 {
   extend : qx.application.Standalone,
   include : [demobrowser.demo.table.MUtil],
