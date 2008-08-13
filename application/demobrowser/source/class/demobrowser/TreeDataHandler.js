@@ -252,6 +252,10 @@ qx.Class.define("demobrowser.TreeDataHandler",
      */
     getPath : function(node)
     {  // node is a modelNode
+      if (!node) {
+        return "";
+      }
+      
       var path = node.pwd();
       path.shift();  // remove leading 'All'
 
@@ -369,6 +373,10 @@ qx.Class.define("demobrowser.TreeDataHandler",
      */
     getFullName : function(node)  // node is a tree node
     {
+      if (!node) {
+        return "";
+      }
+
       var path = this.getPath(node);
 
       if (node.type && node.type == "test") {
