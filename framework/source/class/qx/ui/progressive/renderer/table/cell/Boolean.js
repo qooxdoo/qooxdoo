@@ -66,6 +66,16 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Boolean",
 
   members :
   {
+
+    __iconUrlTrue : null,
+    __iconUrlFalse : null,
+    __numericAllowed : null,
+    __conditions : null,
+    __defaultTextAlign : null,
+    __defaultColor : null,
+    __defaultFontStyle : null,
+    __defaultFontWeight : null,
+
     // overridden
     _identifyImage : function(cellInfo)
     {

@@ -92,6 +92,12 @@ qx.Class.define("qx.ui.progressive.headfoot.Progress",
 
   members :
   {
+
+    __total : null,
+    __colors : null,
+    __progressBar : null,
+    __percentDone : null,
+
     // overridden
     join : function(progressive)
     {

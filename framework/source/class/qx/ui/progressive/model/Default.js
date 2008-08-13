@@ -41,6 +41,9 @@ qx.Class.define("qx.ui.progressive.model.Default",
 
   members :
   {
+
+    __elements : null,
+
     /**
      * Add elements to be progressively renderered.  Each element must be an
      * object which contains at least two members: renderer (the renderer
