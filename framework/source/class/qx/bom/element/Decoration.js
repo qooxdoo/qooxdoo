@@ -184,11 +184,11 @@ qx.Class.define("qx.bom.element.Decoration",
 
       if (this.__enableAlphaFix && this.__alphaFixRepeats[repeat])
       {
-        if (repeat !== "scale-x") {
+        if (repeat === "scale-y" || repeat === "no-repeat") {
           style.width = ResourceManager.getImageWidth(source) + "px";
         }
 
-        if (repeat !== "scale-y") {
+        if (repeat === "scale-x" || repeat === "no-repeat") {
           style.height = ResourceManager.getImageHeight(source) + "px";
         }
 
