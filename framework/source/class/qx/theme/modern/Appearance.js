@@ -1135,7 +1135,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       {
         return {
           shadow : "window-shadow",
-          contentPadding : [ 2, 3, 4, 3 ]
+          contentPadding : [ 4, 4, 4, 4 ]
         };
       }
     },
@@ -1145,23 +1145,9 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          backgroundColor : "#a9a9a9",
+          backgroundColor : "#f6f6f6",
           decorator       : "window-border"
         };
-      }
-    },
-
-    // this appearance is a helper appearance to easily set this appearance
-    // to the container holding the content of the window
-    "window-pane-content" :
-    {
-      style : function(states)
-      {
-        return {
-          decorator       : "window-pane-content",
-          backgroundColor : "#f6f6f6",
-          padding         : 0
-        }
       }
     },
 
