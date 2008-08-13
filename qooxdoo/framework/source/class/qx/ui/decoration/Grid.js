@@ -173,62 +173,34 @@ qx.Class.define("qx.ui.decoration.Grid",
 
 
       // Top: left, center, right
-      var tl = ResourceManager.getClippedImageData(images.tl);
-      html.push(
-        '<div style="', base, 'top:0;left:0;',
-        'width:', edges.left,
-        'px;height:', edges.top, "px;",
-        Background.compile(tl.source, "repeat-x", tl.left, tl.top),
-        '"></div>'
-      );
+      // The center image must be styled in a way that it can be repeated or stretched
+      // because the way the image is rendered differs between the clients.
 
-      var t  = ResourceManager.getClippedImageData(images.t);
-      html.push(
-        '<div style="', base, 'top:0;',
-        'left:', edges.left,
-        'px;height:',edges.top, 'px;',
-        Background.compile(t.source, "repeat-x", t.left, t.top),
-        '"></div>'
-      );
+      html.push(Background.create(images.tl, "no-repeat",
+        base + 'top:0;left:0;width:' + edges.left + "px;height:" + edges.top + "px;"));
 
-      var tr = ResourceManager.getClippedImageData(images.tr);
-      html.push(
-        '<div style="', base, 'top:0;right:0;',
-        'width:', edges.right,
-        'px;height:', edges.top, "px;",
-        Background.compile(tr.source, "repeat-x", tr.left, tr.top),
-        '"></div>'
-      );
+      html.push(Background.create(images.t, "repeat-x",
+        base + 'top:0;left:' + edges.left + "px;height:" + edges.top + "px;"));
+
+      html.push(Background.create(images.tr, "no-repeat",
+        base + 'top:0;right:0;width:' + edges.right + "px;height:" + edges.top + "px;"));
+
 
 
 
       // Bottom: left, center, right
-      var bl = ResourceManager.getClippedImageData(images.bl);
-      html.push(
-        '<div style="', base, 'bottom:0px;left:0;',
-        'width:', edges.left,
-        'px;height:', edges.bottom, "px;",
-        Background.compile(bl.source, "repeat-x", bl.left, bl.top),
-        '"></div>'
-      );
+      // The center image must be styled in a way that it can be repeated or stretched
+      // because the way the image is rendered differs between the clients.
 
-      var b  = ResourceManager.getClippedImageData(images.b);
-      html.push(
-        '<div style="', base, 'bottom:0;',
-        'left:', edges.left,
-        'px;height:', edges.bottom, "px;",
-        Background.compile(b.source, "repeat-x", b.left, b.top),
-        '"></div>'
-      );
+      html.push(Background.create(images.bl, "no-repeat",
+        base + 'bottom:0;left:0;width:' + edges.left + "px;height:" + edges.top + "px;"));
 
-      var br = ResourceManager.getClippedImageData(images.br);
-      html.push(
-        '<div style="', base, 'bottom:0;right:0;',
-        'width:', edges.right,
-        'px;height:', edges.bottom, "px;",
-        Background.compile(br.source, "repeat-x", br.left, br.top),
-        '"></div>'
-      );
+      html.push(Background.create(images.b, "repeat-x",
+        base + 'bottom:0;left:' + edges.left + "px;height:" + edges.top + "px;"));
+
+      html.push(Background.create(images.br, "no-repeat",
+        base + 'bottom:0;right:0;width:' + edges.right + "px;height:" + edges.top + "px;"));
+
 
 
 
