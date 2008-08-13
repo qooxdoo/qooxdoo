@@ -135,6 +135,9 @@ qx.Class.define("qx.ui.decoration.Double",
 
   members :
   {
+    __markup : null,
+    __insets : null,
+
     /*
     ---------------------------------------------------------------------------
       INTERFACE IMPLEMENTATION
@@ -238,11 +241,11 @@ qx.Class.define("qx.ui.decoration.Double",
     // interface implementation
     getInsets : function()
     {
-      if (this._insets) {
-        return this._insets;
+      if (this.__insets) {
+        return this.__insets;
       }
 
-      this._insets =
+      this.__insets =
       {
         top : this.getWidthTop() + this.getInnerWidthTop(),
         right : this.getWidthRight() + this.getInnerWidthRight(),
@@ -250,7 +253,7 @@ qx.Class.define("qx.ui.decoration.Double",
         left : this.getWidthLeft() + this.getInnerWidthLeft()
       };
 
-      return this._insets;
+      return this.__insets;
     }
   }
 });
