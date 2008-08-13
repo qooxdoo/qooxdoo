@@ -64,6 +64,27 @@
           "uri"      : ".."
         }
       ]
+    },
+
+
+    "test" :
+    {
+      "extend" : ["testrunner::build"],
+
+      "let" :
+      {
+        "APIVIEWER_ROOT" : "${QOOXDOO_PATH}/../component/apiviewer",
+        "BUILD_PATH" : "./test",
+        "API_INCLUDE" : ["qx.*", "${APPLICATION}.*"]
+      },
+
+      "library" :
+      [
+        {
+          "manifest" : "Manifest.json",
+          "uri"      : ".."
+        }
+      ]
     }
   }
 }
