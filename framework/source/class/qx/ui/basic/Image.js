@@ -73,6 +73,21 @@ qx.Class.define("qx.ui.basic.Image",
     },
 
 
+    /**
+     * Whether the image should be scaled to the given dimensions
+     *
+     * This is disabled by default because it prevents the usage
+     * of image clipping when enabled.
+     */
+    scale :
+    {
+      check : "Boolean",
+      init : false,
+      themeable : true,
+      apply : "_applyScale"
+    },
+
+
     // overridden
     appearance :
     {
@@ -171,6 +186,14 @@ qx.Class.define("qx.ui.basic.Image",
     // property apply
     _applySource : function(value) {
       this._styleSource();
+    },
+
+
+    // property apply
+    _applyScale : function(value)
+    {
+      var el = this.getContentElement();
+      el.setScale(value);
     },
 
 
