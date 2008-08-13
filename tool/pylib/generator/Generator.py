@@ -102,7 +102,7 @@ class Generator:
         _translations = {}
         _libs = {}
         if not isinstance(library, types.ListType):
-            return (_namespaces, _classes, _docs, _translations)
+            return (_namespaces, _classes, _docs, _translations, _libs)
 
         for entry in library:
             key  = entry["path"]
