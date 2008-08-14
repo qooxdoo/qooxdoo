@@ -27,15 +27,42 @@
  *
  * The edges could use different styles of rounded borders. Even different
  * edge sizes are supported. The sizes are automatically detected by
- * the build system using the image metadata.
+ * the build system using the image meta data.
  *
  * The decoration uses clipped images to reduce the number of external
- * resources.
+ * resources to load.
  */
 qx.Class.define("qx.ui.decoration.Grid",
 {
   extend : qx.core.Object,
   implement : [qx.ui.decoration.IDecorator],
+
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  /**
+   * @param baseImage {String} Base image to use
+   * @param insets {Integer|Array} Insets for the grid
+   */
+  construct : function(baseImage, insets)
+  {
+    this.base(arguments);
+
+    // Initialize properties
+    if (baseImage != null) {
+      this.setBaseImage(baseImage);
+    }
+
+    if (insets != null) {
+      this.setInsets(insets);
+    }
+  },
+
 
 
 
@@ -49,7 +76,7 @@ qx.Class.define("qx.ui.decoration.Grid",
   properties :
   {
     /**
-     * Base Image URL. All the different images needed are named by the default
+     * Base image URL. All the different images needed are named by the default
      * naming scheme:
      *
      * ${baseImageWithoutExtension}-${imageName}.${baseImageExtension}
