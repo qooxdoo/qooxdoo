@@ -27,6 +27,14 @@ qx.Class.define("qx.ui.core.FocusHandler",
   type : "singleton",
 
 
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
   construct : function()
   {
     this.base(arguments);
@@ -34,6 +42,7 @@ qx.Class.define("qx.ui.core.FocusHandler",
     // Create data structure
     this.__roots = {};
   },
+
 
 
 
