@@ -54,8 +54,8 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
     this.__rm = qx.util.ResourceManager;
 
     // Base URL used for tree lines
-    this.STATIC_TREE_URI =
-      this.__rm.toUri(this.__am.resolve("static/tree/"));
+    this.DECOR_TREE_URI =
+      this.__rm.toUri(this.__am.resolve("decoration/tree/"));
 
     // Base URL used for indentation
     this.STATIC_IMAGE_URI =
@@ -65,7 +65,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
     var imageLoader = qx.io2.ImageLoader;
 
     // Pre-load the tree widgets so they always show up quickly
-    var uri = this.STATIC_TREE_URI;
+    var uri = this.DECOR_TREE_URI;
     imageLoader.load(uri + "line.gif");
     imageLoader.load(uri + "minus.gif");
     imageLoader.load(uri + "plus.gif");
@@ -376,7 +376,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
         // then return either a line or a blank icon, depending on
         // bUseTreeLines
         return (bUseTreeLines && ! node.lastChild[column]
-                 ? this.STATIC_TREE_URI + "line.gif"
+                 ? this.DECOR_TREE_URI + "line.gif"
                  : this.STATIC_IMAGE_URI + "blank.gif");
       }
 
@@ -395,8 +395,8 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
           {
             // ... then just use a plus or minus
             return (node.bOpened
-                    ? this.STATIC_TREE_URI + "minus.gif"
-                    : this.STATIC_TREE_URI + "plus.gif");
+                    ? this.DECOR_TREE_URI + "minus.gif"
+                    : this.DECOR_TREE_URI + "plus.gif");
           }
 
           // Are we looking at a top-level, first child of its parent?
@@ -407,15 +407,15 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
             {
               // ... then use no tree lines.
               return (node.bOpened
-                      ? this.STATIC_TREE_URI + "only_minus.gif"
-                      : this.STATIC_TREE_URI + "only_plus.gif");
+                      ? this.DECOR_TREE_URI + "only_minus.gif"
+                      : this.DECOR_TREE_URI + "only_plus.gif");
             }
             else
             {
               // otherwise, use descender lines but no ascender.
               return (node.bOpened
-                      ? this.STATIC_TREE_URI + "start_minus.gif"
-                      : this.STATIC_TREE_URI + "start_plus.gif");
+                      ? this.DECOR_TREE_URI + "start_minus.gif"
+                      : this.DECOR_TREE_URI + "start_plus.gif");
             }
           }
 
@@ -425,14 +425,14 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
           {
             // Yup.  Return an ending plus or minus.
             return (node.bOpened
-                    ? this.STATIC_TREE_URI + "end_minus.gif"
-                    : this.STATIC_TREE_URI + "end_plus.gif");
+                    ? this.DECOR_TREE_URI + "end_minus.gif"
+                    : this.DECOR_TREE_URI + "end_plus.gif");
           }
 
           // Otherwise, return a crossing plus or minus.
           return (node.bOpened
-                  ? this.STATIC_TREE_URI + "cross_minus.gif"
-                  : this.STATIC_TREE_URI + "cross_plus.gif");
+                  ? this.DECOR_TREE_URI + "cross_minus.gif"
+                  : this.DECOR_TREE_URI + "cross_plus.gif");
         }
       }
 
@@ -454,21 +454,21 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
           if (bLastChild)
           {
             // ... then return an end line.
-            return this.STATIC_TREE_URI + "end.gif";
+            return this.DECOR_TREE_URI + "end.gif";
           }
 
           // Otherwise if this is the first child...
           if (node.bFirstChild)
           {
             // ... then return a start line.
-            return this.STATIC_TREE_URI + "start.gif";
+            return this.DECOR_TREE_URI + "start.gif";
           }
         }
 
         // If this is a last child, return and ending line; otherwise cross.
         return (bLastChild
-                ? this.STATIC_TREE_URI + "end.gif"
-                : this.STATIC_TREE_URI + "cross.gif");
+                ? this.DECOR_TREE_URI + "end.gif"
+                : this.DECOR_TREE_URI + "cross.gif");
       }
 
       return this.STATIC_IMAGE_URI + "blank.gif";
