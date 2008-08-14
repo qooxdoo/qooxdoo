@@ -166,8 +166,7 @@ qx.Class.define("apiviewer.ui.PackageTree",
 
         // Open the package node if it has child packages
         if (depth < qx.core.Setting.get("apiviewer.initialTreeDepth") && packageDoc.getPackages().length > 0) {
-          //TODO: do we still need this?
-          //packageTreeNode.open();
+          packageTreeNode.setOpen(true);
         }
 
         // Register the tree node
