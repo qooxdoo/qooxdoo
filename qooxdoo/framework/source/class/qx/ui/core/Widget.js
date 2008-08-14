@@ -2146,7 +2146,7 @@ qx.Class.define("qx.ui.core.Widget",
 
         // Tint decorator
         var bgcolor = this.getBackgroundColor();
-        mgr.resolve(value).tint(elem, bgcolor ? bgcolor : null);
+        mgr.resolve(value).tint(elem, bgcolor);
 
         // Add to container
         container.add(elem);

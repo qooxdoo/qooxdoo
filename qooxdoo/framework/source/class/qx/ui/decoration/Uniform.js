@@ -172,17 +172,11 @@ qx.Class.define("qx.ui.decoration.Uniform",
       var Color = qx.theme.manager.Color.getInstance();
       var dom = element.getDomElement();
 
-      if (bgcolor === undefined) {
+      if (bgcolor == null) {
         bgcolor = this.getBackgroundColor();
       }
 
-      if (bgcolor == null) {
-        bgcolor = "";
-      } else {
-        bgcolor = Color.resolve(bgcolor);
-      }
-
-      dom.style.backgroundColor = bgcolor;
+      dom.style.backgroundColor = Color.resolve(bgcolor);
     },
 
 

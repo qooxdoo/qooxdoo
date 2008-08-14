@@ -261,7 +261,11 @@ qx.Class.define("qx.ui.decoration.Beveled",
     {
       var dom = element.getDomElement();
       var Color = qx.theme.manager.Color.getInstance();
-
+      
+      if (bgcolor == null) {
+        bgcolor = this.getBackgroundColor();
+      }
+      
       dom.childNodes[3].style.backgroundColor = Color.resolve(bgcolor);
     },
 
