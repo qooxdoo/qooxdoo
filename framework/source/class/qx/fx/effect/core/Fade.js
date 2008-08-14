@@ -104,25 +104,26 @@ qx.Class.define("qx.fx.effect.core.Fade",
     {
       this.base(arguments);
 
-      qx.bom.element.Opacity.set(this._element, position);
+      qx.bom.element.Opacity.set(this._getElement(), position);
     },
 
 
     beforeSetup : function()
     {
       this.base(arguments);
+      var element = this._getElement();
 
       if ( (this.getModifyDisplay()) && (this.getTo() > 0) ){
-        qx.bom.element.Style.set(this._element, "display", "block");
+        qx.bom.element.Style.set(element, "display", "block");
       }
-      qx.bom.element.Opacity.set(this._element, this.getFrom());
+      qx.bom.element.Opacity.set(element, this.getFrom());
     },
 
 
     afterFinishInternal : function()
     {
       if ( (this.getModifyDisplay()) && (this.getTo() == 0) ){
-        qx.bom.element.Style.set(this._element, "display", "none");
+        qx.bom.element.Style.set(this._getElement(), "display", "none");
       }
     }
 

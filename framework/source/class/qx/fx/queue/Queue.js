@@ -84,7 +84,9 @@ qx.Class.define("qx.fx.queue.Queue",
 
    members :
    {
-    _effects  : [],
+
+     __interval : null,
+     __effects  : [],
 
     /**
      * This method adds the given effect to the queue and starts the timer (if necessary).
@@ -97,12 +99,12 @@ qx.Class.define("qx.fx.queue.Queue",
       effect._startOn  += timestamp;
       effect._finishOn += timestamp;
 
-      if (this._effects.length < this.getLimit()) {
-        this._effects.push(effect)
+      if (this.__effects.length < this.getLimit()) {
+        this.__effects.push(effect)
       }
 
-      if (!this._interval) {
-        this._interval = qx.lang.Function.periodical(this.loop, 15, this);
+      if (!this.__interval) {
+        this.__interval = qx.lang.Function.periodical(this.loop, 15, this);
       }
     },
 
@@ -112,12 +114,12 @@ qx.Class.define("qx.fx.queue.Queue",
      */
     remove : function(effect)
     {
-      qx.lang.Array.remove(this._effects, effect);
+      qx.lang.Array.remove(this.__effects, effect);
 
-      if (this._effects.length == 0)
+      if (this.__effects.length == 0)
       {
-        window.clearInterval(this._interval);
-        delete this._interval;
+        window.clearInterval(this.__interval);
+        delete this.__interval;
       }
     },
 
@@ -128,25 +130,22 @@ qx.Class.define("qx.fx.queue.Queue",
     {
       var timePos = new Date().getTime();
 
-      for (var i=0, len=this._effects.length; i<len; i++) {
-        this._effects[i] && this._effects[i].loop(timePos);
+      for (var i=0, len=this.__effects.length; i<len; i++) {
+        this.__effects[i] && this.__effects[i].loop(timePos);
       }
-
     }
 
-   },
+  },
 
 
-   /*
-   *****************************************************************************
-      DESTRUCTOR
-   *****************************************************************************
-   */
+  /*
+  *****************************************************************************
+    DESTRUCTOR
+  *****************************************************************************
+  */
 
-   destruct : function()
-   {
-     this._disposeFields("_effects");
-   }
+  destruct : function() {
+    this._disposeFields("__effects");
+  }
 
 });
-

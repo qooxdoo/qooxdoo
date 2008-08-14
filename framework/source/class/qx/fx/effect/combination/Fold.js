@@ -99,10 +99,15 @@ qx.Class.define("qx.fx.effect.combination.Fold",
   members :
   {
 
+    __outerScaleEffect : null,
+    __innerScaleEffect : null,
+    __oldStyle : null,
+
     afterFinish : function()
     {
+      var element = this._getElement();
       if ( (this.getModifyDisplay()) && (this.getMode() == "in") ) {
-        qx.bom.element.Style.set(this._element, "display", "block");
+        qx.bom.element.Style.set(element, "display", "block");
       }
     },
 
@@ -111,30 +116,31 @@ qx.Class.define("qx.fx.effect.combination.Fold",
       if (!this.base(arguments)) {
         return;
       }
+      var element = this._getElement();
 
       // Hack: the scale effects should be moved back to the constructor
       var self = this;
 
-      this._outerScaleEffect = new qx.fx.effect.core.Scale(this._element);
-      this._innerScaleEffect = new qx.fx.effect.core.Scale(this._element);
+      this.__outerScaleEffect = new qx.fx.effect.core.Scale(element);
+      this.__innerScaleEffect = new qx.fx.effect.core.Scale(element);
 
-      this._outerScaleEffect.afterFinishInternal = function() {
-        self._innerScaleEffect.start();
+      this.__outerScaleEffect.afterFinishInternal = function() {
+        self.__innerScaleEffect.start();
       };
 
-      this._innerScaleEffect.afterFinishInternal = function(){
+      this.__innerScaleEffect.afterFinishInternal = function(){
         self._cleanUp();
       }
 
 
-      this._oldStyle = this._getStyle();
-      qx.bom.element.Style.set(this._element, "overflow", "hidden");
+      this.__oldStyle = this._getStyle();
+      qx.bom.element.Style.set(element, "overflow", "hidden");
 
 
       if(this.getMode() == "in")
       {
 
-        this._outerScaleEffect.set({
+        this.__outerScaleEffect.set({
           scaleTo              : 5,
           scaleContent         : false,
           scaleX               : false,
@@ -144,7 +150,7 @@ qx.Class.define("qx.fx.effect.combination.Fold",
           alternateDimensions  : []
         });
 
-        this._innerScaleEffect.set({
+        this.__innerScaleEffect.set({
           scaleTo              : 5,
           scaleContent         : false,
           scaleY               : false,
@@ -158,33 +164,33 @@ qx.Class.define("qx.fx.effect.combination.Fold",
       else
       {
 
-        this._outerScaleEffect.set({
+        this.__outerScaleEffect.set({
           scaleTo              : 100,
           scaleContent         : false,
           scaleY               : false,
           duration             : this.getDuration() / 2,
           scaleFrom            : 0,
           scaleFromCenter      : true,
-          alternateDimensions  : [this._oldStyle.width, this._oldStyle.height]
+          alternateDimensions  : [this.__oldStyle.width, this.__oldStyle.height]
         });
 
-        this._innerScaleEffect.set({
+        this.__innerScaleEffect.set({
           scaleTo              : 100,
           scaleContent         : false,
           scaleX               : false,
           duration             : this.getDuration() / 2,
           scaleFrom            : 0,
           scaleFromCenter      : false,
-          alternateDimensions  : [this._oldStyle.width, this._oldStyle.height]
+          alternateDimensions  : [this.__oldStyle.width, this.__oldStyle.height]
         });
 
-        qx.bom.element.Style.set(this._element, "display", "block");
-        qx.bom.element.Style.set(this._element, "height", "0px");
-        qx.bom.element.Style.set(this._element, "width", "0px");
+        qx.bom.element.Style.set(element, "display", "block");
+        qx.bom.element.Style.set(element, "height", "0px");
+        qx.bom.element.Style.set(element, "width", "0px");
 
       }
 
-      this._outerScaleEffect.start();
+      this.__outerScaleEffect.start();
     },
 
 
@@ -195,20 +201,21 @@ qx.Class.define("qx.fx.effect.combination.Fold",
     _cleanUp : function()
     {
       var value;
+      var element = this._getElement();
 
       if ( (this.getMode() == "in") && (this.getModifyDisplay()) ) {
-        qx.bom.element.Style.set(this._element, "display", "none");
+        qx.bom.element.Style.set(element, "display", "none");
       }
 
-      for (var property in this._oldStyle)
+      for (var property in this.__oldStyle)
       {
-        value = this._oldStyle[property];
+        value = this.__oldStyle[property];
         if (property != "overflow") {
           value += "px";
         }
-        qx.bom.element.Style.set(this._element, property, value);
+        qx.bom.element.Style.set(element, property, value);
       }
-      qx.bom.element.Style.set(this._element, "overflow", "visible");
+      qx.bom.element.Style.set(element, "overflow", "visible");
     },
 
     /**
@@ -216,26 +223,27 @@ qx.Class.define("qx.fx.effect.combination.Fold",
      */
     _getStyle : function()
     {
-      var hidden = (qx.bom.element.Style.get(this._element, "display") ==  "none");
+      var element = this._getElement();
+      var hidden = (qx.bom.element.Style.get(element, "display") ==  "none");
 
       if(hidden)
       {
-        qx.bom.element.Style.set(this._element, "visiblity", "hidden");
-        qx.bom.element.Style.set(this._element, "display", "block");
+        qx.bom.element.Style.set(element, "visiblity", "hidden");
+        qx.bom.element.Style.set(element, "display", "block");
       }
 
       var style = {
-        overflow : qx.bom.element.Style.get(this._element, "overflow"),
-        top      : qx.bom.element.Location.getTop(this._element),
-        left     : qx.bom.element.Location.getLeft(this._element),
-        width    : qx.bom.element.Dimension.getWidth(this._element),
-        height   : qx.bom.element.Dimension.getHeight(this._element)
+        overflow : qx.bom.element.Style.get(element, "overflow"),
+        top      : qx.bom.element.Location.getTop(element),
+        left     : qx.bom.element.Location.getLeft(element),
+        width    : qx.bom.element.Dimension.getWidth(element),
+        height   : qx.bom.element.Dimension.getHeight(element)
       };
 
       if(hidden)
       {
-        qx.bom.element.Style.set(this._element, "display", "none");
-        qx.bom.element.Style.set(this._element, "visiblity", "visible");
+        qx.bom.element.Style.set(element, "display", "none");
+        qx.bom.element.Style.set(element, "visiblity", "visible");
       }
 
       return style;
@@ -253,7 +261,7 @@ qx.Class.define("qx.fx.effect.combination.Fold",
 
    destruct : function()
    {
-     this._disposeObjects("_outerScaleEffect", "_innerScaleEffect");
+     this._disposeObjects("__outerScaleEffect", "__innerScaleEffect");
    }
 
 });

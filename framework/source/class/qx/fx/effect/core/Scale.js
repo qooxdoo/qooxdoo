@@ -138,7 +138,15 @@ qx.Class.define("qx.fx.effect.core.Scale",
    members :
    {
 
-    _originalStyle :
+     __elementPositioning : null,
+     __originalTop : null,
+     __originalLeft : null,
+     __fontSize : null,
+     __fontSizeType : null,
+     __factor : null,
+     __dims : null,
+
+    __originalStyle :
     {
       'top'      : null,
       'left'     : null,
@@ -147,7 +155,7 @@ qx.Class.define("qx.fx.effect.core.Scale",
       'fontSize' : null
     },
 
-    _fontTypes :
+    __fontTypes :
     {
       'em' : 'em',
       'px' : 'px',
@@ -158,43 +166,44 @@ qx.Class.define("qx.fx.effect.core.Scale",
     setup : function()
     {
       this.base(arguments);
+      var element = this._getElement();
 
-      this._elementPositioning = qx.bom.element.Style.get(this._element, "position");
+      this.__elementPositioning = qx.bom.element.Style.get(element, "position");
 
-      for (var property in this._originalStyle) {
-        this._originalStyle[property] = this._element.style[property];
+      for (var property in this.__originalStyle) {
+        this.__originalStyle[property] = element.style[property];
       }
 
-      this._originalTop = qx.bom.element.Location.getTop(this._element);
-      this._originalLeft = qx.bom.element.Location.getLeft(this._element);
+      this.__originalTop = qx.bom.element.Location.getTop(element);
+      this.__originalLeft = qx.bom.element.Location.getLeft(element);
 
       try {
-        var fontSize = qx.bom.element.Style.get(this._element, "fontSize");
+        var fontSize = qx.bom.element.Style.get(element, "fontSize");
       } catch(e) {
         if(typeof(fontSize) != "string") {
           fontSize = (qx.bom.client.Engine.MSHTML) ? "12px" : "100%";
         }
       }
 
-      for(var type in this._fontTypes)
+      for(var type in this.__fontTypes)
       {
         if (fontSize.indexOf(type) > 0)
         {
-          this._fontSize     = parseFloat(fontSize);
-          this._fontSizeType = type;
+          this.__fontSize     = parseFloat(fontSize);
+          this.__fontSizeType = type;
 
           break;
         }
       }
 
-      this._factor = (this.getScaleTo() - this.getScaleFrom()) / 100;
+      this.__factor = (this.getScaleTo() - this.getScaleFrom()) / 100;
 
       var dims = this.getAlternateDimensions();
 
       if (dims.length == 0) {
-        this._dims = [this._element.offsetWidth, this._element.offsetHeight];
+        this.__dims = [element.offsetWidth, element.offsetHeight];
       } else {
-        this._dims = dims;
+        this.__dims = dims;
       }
 
 
@@ -203,27 +212,29 @@ qx.Class.define("qx.fx.effect.core.Scale",
 
     update : function(position)
     {
+      var element = this._getElement();
       this.base(arguments);
 
-      var currentScale = (this.getScaleFrom() / 100.0) + (this._factor * position);
+      var currentScale = (this.getScaleFrom() / 100.0) + (this.__factor * position);
 
-      if (this.getScaleContent() && this._fontSize) {
-        qx.bom.element.Style.set(this._element, "fontSize", this._fontSize * currentScale + this._fontSizeType);
+      if (this.getScaleContent() && this.__fontSize) {
+        qx.bom.element.Style.set(element, "fontSize", this.__fontSize * currentScale + this.__fontSizeType);
       }
 
-      this._setDimensions(this._dims[0] * currentScale, this._dims[1] * currentScale);
+      this._setDimensions(this.__dims[0] * currentScale, this.__dims[1] * currentScale);
     },
 
    finish : function()
    {
      this.base(arguments);
+     var element = this._getElement();
 
      if (this.getRestoreAfterFinish())
      {
-       for(var property in this._originalStyle)
+       for(var property in this.__originalStyle)
        {
-         var value = this._originalStyle[property];
-         qx.bom.element.Style.set(this._element, property, value);
+         var value = this.__originalStyle[property];
+         qx.bom.element.Style.set(element, property, value);
        }
      }
    },
@@ -239,6 +250,7 @@ qx.Class.define("qx.fx.effect.core.Scale",
    {
 
      var d = { };
+     var element = this._getElement();
      var scaleX = this.getScaleX();
      var scaleY = this.getScaleY()
 
@@ -253,18 +265,18 @@ qx.Class.define("qx.fx.effect.core.Scale",
      if (this.getScaleFromCenter())
      {
 
-       var leftd = (width  - this._dims[0]) / 2;
-       var topd  = (height - this._dims[1]) / 2;
+       var leftd = (width  - this.__dims[0]) / 2;
+       var topd  = (height - this.__dims[1]) / 2;
 
-       if (this._elementPositioning == "absolute")
+       if (this.__elementPositioning == "absolute")
        {
 
          if (scaleY) {
-           d.top = this._originalTop-topd + 'px';
+           d.top = this.__originalTop-topd + 'px';
          }
 
          if (scaleX) {
-           d.left = this._originalLeft-leftd + 'px';
+           d.left = this.__originalLeft-leftd + 'px';
          }
 
        }
@@ -283,7 +295,7 @@ qx.Class.define("qx.fx.effect.core.Scale",
      }
 
      for(var property in d) {
-       qx.bom.element.Style.set(this._element, property, d[property])
+       qx.bom.element.Style.set(element, property, d[property])
      }
 
    }
@@ -299,7 +311,7 @@ qx.Class.define("qx.fx.effect.core.Scale",
 
    destruct : function()
    {
-     this._disposeFields("_dims");
+     this._disposeFields("__dims");
    }
 
 });

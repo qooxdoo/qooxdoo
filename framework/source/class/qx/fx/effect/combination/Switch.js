@@ -60,14 +60,14 @@ qx.Class.define("qx.fx.effect.combination.Switch",
     this.base(arguments, element);
     this.setTransition("flicker");
 
-    var scaleEffect = this._scaleEffect = new qx.fx.effect.core.Scale(this._element);
+    var scaleEffect = this.__scaleEffect = new qx.fx.effect.core.Scale(element);
 
-    this._scaleEffect.beforeSetup = function() {
-      qx.bom.element.Style.set(this._element, "overflow", "hidden");
+    this.__scaleEffect.beforeSetup = function() {
+      qx.bom.element.Style.set(element, "overflow", "hidden");
     };
 
-    this._appearEffect = new qx.fx.effect.core.Fade(this._element);
-    this._appearEffect.afterFinishInternal = function() {
+    this.__appearEffect = new qx.fx.effect.core.Fade(element);
+    this.__appearEffect.afterFinishInternal = function() {
       scaleEffect.start();
     };
 
@@ -143,15 +143,19 @@ qx.Class.define("qx.fx.effect.combination.Switch",
   members :
   {
 
+    __scaleEffect : null,
+    __appearEffect : null,
+
     setup : function()
     {
       this.base(arguments);
+      var element = this._getElement();
 
-      var oldOverflow = qx.bom.element.Style.get(this._element, "overflow");
+      var oldOverflow = qx.bom.element.Style.get(element, "overflow");
 
-      this._scaleEffect.afterFinishInternal = function()
+      this.__scaleEffect.afterFinishInternal = function()
       {
-        qx.bom.element.Style.set(this._element, "overflow", oldOverflow);
+        qx.bom.element.Style.set(element, "overflow", oldOverflow);
       };
 
     },
@@ -159,7 +163,7 @@ qx.Class.define("qx.fx.effect.combination.Switch",
     afterFinish : function()
     {
       if (this.getModifyDisplay() && (this.getMode() == "off")) {
-        qx.bom.element.Style.set(this._element, "display", "none");
+        qx.bom.element.Style.set(this._getElement(), "display", "none");
       }
     },
 
@@ -173,7 +177,7 @@ qx.Class.define("qx.fx.effect.combination.Switch",
       if(this.getMode() == "off")
       {
 
-        this._scaleEffect.set({
+        this.__scaleEffect.set({
           scaleTo            : 1.0,
           duration           : this.getDuration() / 2,
           scaleFromCenter    : true,
@@ -182,7 +186,7 @@ qx.Class.define("qx.fx.effect.combination.Switch",
           restoreAfterFinish : true
         });
 
-        this._appearEffect.set({
+        this.__appearEffect.set({
           duration : this.getDuration() / 2,
           from : this.getFrom(),
           to : 1
@@ -195,13 +199,13 @@ qx.Class.define("qx.fx.effect.combination.Switch",
       }
 
 
-      this._appearEffect.start();
+      this.__appearEffect.start();
     },
 
     _applyDuration : function(value, old)
     {
-      this._scaleEffect.setDuration(value / 2);
-      this._appearEffect.setDuration(value / 2);
+      this.__scaleEffect.setDuration(value / 2);
+      this.__appearEffect.setDuration(value / 2);
     }
 
   },
@@ -215,7 +219,7 @@ qx.Class.define("qx.fx.effect.combination.Switch",
 
   destruct : function()
   {
-    this._disposeObjects("_appearEffect", "_scaleEffect");
+    this._disposeObjects("__appearEffect", "__scaleEffect");
   }
 
 });

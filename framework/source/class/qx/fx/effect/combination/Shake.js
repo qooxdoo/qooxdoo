@@ -58,13 +58,13 @@ qx.Class.define("qx.fx.effect.combination.Shake",
   {
     this.base(arguments, element);
 
-    this._effects = [
-      new qx.fx.effect.core.Move(this._element),
-      new qx.fx.effect.core.Move(this._element),
-      new qx.fx.effect.core.Move(this._element),
-      new qx.fx.effect.core.Move(this._element),
-      new qx.fx.effect.core.Move(this._element),
-      new qx.fx.effect.core.Move(this._element)
+    this.__effects = [
+      new qx.fx.effect.core.Move(element),
+      new qx.fx.effect.core.Move(element),
+      new qx.fx.effect.core.Move(element),
+      new qx.fx.effect.core.Move(element),
+      new qx.fx.effect.core.Move(element),
+      new qx.fx.effect.core.Move(element)
     ];
   },
 
@@ -114,15 +114,18 @@ qx.Class.define("qx.fx.effect.combination.Shake",
    members :
    {
 
+     __effects : null,
+
     start : function()
     {
       if (!this.base(arguments)) {
         return;
       }
+      var element = this._getElement();
 
       var oldStyle = {
-        top  : qx.bom.element.Location.getTop(this._element),
-        left : qx.bom.element.Location.getLeft(this._element)
+        top  : qx.bom.element.Location.getTop(element),
+        left : qx.bom.element.Location.getLeft(element)
       };
 
 
@@ -131,44 +134,44 @@ qx.Class.define("qx.fx.effect.combination.Shake",
 
       if(this.getDirection() == "horizontal")
       {
-        this._effects[0].set({ x : distance,    y : 0, duration : split});
-        this._effects[1].set({ x : -distance*2, y : 0, duration : split*2});
-        this._effects[2].set({ x : distance*2,  y : 0, duration : split*2});
-        this._effects[3].set({ x : -distance*2, y : 0, duration : split*2});
-        this._effects[4].set({ x : distance*2,  y : 0, duration : split*2});
-        this._effects[5].set({ x : -distance,   y : 0, duration : split*2});
+        this.__effects[0].set({ x : distance,    y : 0, duration : split});
+        this.__effects[1].set({ x : -distance*2, y : 0, duration : split*2});
+        this.__effects[2].set({ x : distance*2,  y : 0, duration : split*2});
+        this.__effects[3].set({ x : -distance*2, y : 0, duration : split*2});
+        this.__effects[4].set({ x : distance*2,  y : 0, duration : split*2});
+        this.__effects[5].set({ x : -distance,   y : 0, duration : split*2});
       }
       else if(this.getDirection() == "vertical")
       {
-        this._effects[0].set({ y : distance,    x : 0, duration : split});
-        this._effects[1].set({ y : -distance*2, x : 0, duration : split*2});
-        this._effects[2].set({ y : distance*2,  x : 0, duration : split*2});
-        this._effects[3].set({ y : -distance*2, x : 0, duration : split*2});
-        this._effects[4].set({ y : distance*2,  x : 0, duration : split*2});
-        this._effects[5].set({ y : -distance,   x : 0, duration : split*2});
+        this.__effects[0].set({ y : distance,    x : 0, duration : split});
+        this.__effects[1].set({ y : -distance*2, x : 0, duration : split*2});
+        this.__effects[2].set({ y : distance*2,  x : 0, duration : split*2});
+        this.__effects[3].set({ y : -distance*2, x : 0, duration : split*2});
+        this.__effects[4].set({ y : distance*2,  x : 0, duration : split*2});
+        this.__effects[5].set({ y : -distance,   x : 0, duration : split*2});
       }
 
-      var effects = this._effects;
-      for (var i=0, len=this._effects.length; i<len; i++)
+      var effects = this.__effects;
+      for (var i=0, len=this.__effects.length; i<len; i++)
       {
-        this._effects[i].id = i;
+        this.__effects[i].id = i;
         if (i < 5)
         {
-          this._effects[i].afterFinishInternal = function(){
+          this.__effects[i].afterFinishInternal = function(){
             effects[this.id + 1].start();
           };
         }
         else
         {
-          this._effects[i].afterFinishInternal = function(){
+          this.__effects[i].afterFinishInternal = function(){
             for(var property in oldStyle) {
-              qx.bom.element.Style.set(this._element, property, (oldStyle[property] + "px"));
+              qx.bom.element.Style.set(this._getElement(), property, (oldStyle[property] + "px"));
             }
           };
         }
 
       }
-      this._effects[0].start();
+      this.__effects[0].start();
 
     }
 
@@ -182,6 +185,6 @@ qx.Class.define("qx.fx.effect.combination.Shake",
    */
 
    destruct : function() {
-     this._disposeArray("_effects");
+     this._disposeArray("__effects");
    }
 });
