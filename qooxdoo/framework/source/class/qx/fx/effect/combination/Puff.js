@@ -58,10 +58,10 @@ qx.Class.define("qx.fx.effect.combination.Puff",
   {
     this.base(arguments, element);
 
-    this._scaleEffect = new qx.fx.effect.core.Scale(this._element);
-    this._fadeEffect = new qx.fx.effect.core.Fade(this._element);
+    this.__scaleEffect = new qx.fx.effect.core.Scale(element);
+    this.__fadeEffect = new qx.fx.effect.core.Fade(element);
 
-    this._mainEffect = new qx.fx.effect.core.Parallel(this._scaleEffect, this._fadeEffect);
+    this.__mainEffect = new qx.fx.effect.core.Parallel(this.__scaleEffect, this.__fadeEffect);
   },
 
 
@@ -94,10 +94,15 @@ qx.Class.define("qx.fx.effect.combination.Puff",
 
    members :
    {
+
+     __fadeEffect : null,
+     __scaleEffect : null,
+     __mainEffect : null,
+
     afterFinishInternal : function()
     {
       if (this.getModifyDisplay()) {
-        qx.bom.element.Style.set(this._element, "display", "none");
+        qx.bom.element.Style.set(this._getElement(), "display", "none");
       }
     },
 
@@ -107,20 +112,22 @@ qx.Class.define("qx.fx.effect.combination.Puff",
       if (!this.base(arguments)) {
         return;
       }
+      var element = this._getElement();
 
       var oldStyle = {
-        opacity  : qx.bom.element.Style.get(this._element, "opacity")
+        opacity  : qx.bom.element.Style.get(element, "opacity")
       };
 
-      this._fadeEffect.afterFinishInternal = function()
+      this.__fadeEffect.afterFinishInternal = function()
       {
+        var element = this._getElement();
         for (var property in oldStyle) {
-          qx.bom.element.Style.set(this._element, property, oldStyle[property]);
+          qx.bom.element.Style.set(element, property, oldStyle[property]);
         }
       };
 
 
-      this._scaleEffect.set({
+      this.__scaleEffect.set({
         scaleTo : 200,
         sync : true,
         scaleFromCenter : true,
@@ -128,13 +135,13 @@ qx.Class.define("qx.fx.effect.combination.Puff",
         restoreAfterFinish : true
       });
 
-      this._fadeEffect.set({
+      this.__fadeEffect.set({
         sync: true,
         to: 0.0,
         modifyDisplay : false
       });
 
-      this._mainEffect.start();
+      this.__mainEffect.start();
     }
 
    },
@@ -149,6 +156,6 @@ qx.Class.define("qx.fx.effect.combination.Puff",
    destruct : function()
    {
      this._disposeArray("_effects");
-     this._disposeObjects("_mainEffect");
+     this._disposeObjects("__mainEffect");
    }
 });

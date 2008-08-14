@@ -91,27 +91,31 @@ qx.Class.define("qx.fx.effect.core.Scroll",
    members :
    {
 
+     __startOffsets : null,
+     __deltaOffsets : null,
+
     start : function()
     {
       if (!this.base(arguments)) {
         return;
       }
+      var element = this._getElement();
 
-      this._startOffsets = {
-        x : this._element.scrollLeft,
-        y : this._element.scrollTop
+      this.__startOffsets = {
+        x : element.scrollLeft,
+        y : element.scrollTop
       };
 
       // Stop if element can not scroll further
-      if (this._atEndPosition(this._startOffsets.x, this._startOffsets.y)) {
+      if (this._atEndPosition(this.__startOffsets.x, this.__startOffsets.y)) {
         return ;
       }
 
       if(this.getMode() == "absolute")
       {
-        this._deltaOffsets = {
-          left : this.getX() - this._startOffsets.x,
-          top  : this.getY() - this._startOffsets.y
+        this.__deltaOffsets = {
+          left : this.getX() - this.__startOffsets.x,
+          top  : this.getY() - this.__startOffsets.y
         };
       }
 
@@ -121,23 +125,24 @@ qx.Class.define("qx.fx.effect.core.Scroll",
     update : function(position)
     {
       this.base(arguments);
+      var element = this._getElement();
 
       if(this.getMode() == "relative")
       {
 
         if (this.getX() != 0) {
-          this._element.scrollLeft = this._startOffsets.x + (this.getX() * position);
+          element.scrollLeft = this.__startOffsets.x + (this.getX() * position);
         }
 
         if (this.getY() != 0) {
-          this._element.scrollTop = this._startOffsets.y + (this.getY() * position);
+          element.scrollTop = this.__startOffsets.y + (this.getY() * position);
         }
 
       }
       else
       {
-        this._element.scrollLeft = this._startOffsets.x + (this._deltaOffsets.left * position);
-        this._element.scrollTop = this._startOffsets.y + (this._deltaOffsets.top * position);
+        element.scrollLeft = this.__startOffsets.x + (this.__deltaOffsets.left * position);
+        element.scrollTop = this.__startOffsets.y + (this.__deltaOffsets.top * position);
       }
 
     },
@@ -155,7 +160,7 @@ qx.Class.define("qx.fx.effect.core.Scroll",
      */
     _atEndPosition : function(left, top)
     {
-      var element = this._element;
+      var element = this._getElement();
       var x = this.getX();
       var y = this.getY();
 

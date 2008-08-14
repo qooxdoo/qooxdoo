@@ -56,9 +56,9 @@ qx.Class.define("qx.fx.Base",
     this.base(arguments);
 
     this.setQueue( qx.fx.queue.Manager.getInstance().getDefaultQueue() );
-    this._state = qx.fx.Base.EffectState.IDLE;
+    this.__state = qx.fx.Base.EffectState.IDLE;
 
-    this._element = element;
+    this.__element = element;
   },
 
 
@@ -204,6 +204,32 @@ qx.Class.define("qx.fx.Base",
   members :
   {
 
+    __state : null,
+    __currentFrame : null,
+    __startOn : null,
+    __finishOn : null,
+    __fromToDelta : null,
+    __totalTime : null,
+    __totalFrames : null,
+    __position : null,
+    __element : null,
+
+    /**
+     * Returns the effect's DOM element
+     * @return {Object} the element
+     */
+    _getElement : function() {
+      return this.__element;
+    },
+    
+    /**
+     * Sets the element to be animated.
+     * @param element {Object} the element
+     */
+    _setElement : function(element) {
+      this.__element = element;
+    },
+
     /**
      * Apply method for duration. Should be overwritten if needed.
      * @param value {Number} Current value
@@ -217,13 +243,13 @@ qx.Class.define("qx.fx.Base",
      */
     init : function()
     {
-      this._state        = qx.fx.Base.EffectState.PREPARING;
-      this._currentFrame = 0;
-      this._startOn      = this.getDelay() * 1000;
-      this._finishOn     = this._startOn + (this.getDuration() * 1000);
-      this._fromToDelta  = this.getTo() - this.getFrom();
-      this._totalTime    = this._finishOn - this._startOn;
-      this._totalFrames  = this.getFps() * this.getDuration();
+      this.__state        = qx.fx.Base.EffectState.PREPARING;
+      this.__currentFrame = 0;
+      this.__startOn      = this.getDelay() * 1000 + (new Date().getTime());
+      this.__finishOn     = this.__startOn + (this.getDuration() * 1000);
+      this.__fromToDelta  = this.getTo() - this.getFrom();
+      this.__totalTime    = this.__finishOn - this.__startOn;
+      this.__totalFrames  = this.getFps() * this.getDuration();
     },
 
     /**
@@ -368,7 +394,7 @@ qx.Class.define("qx.fx.Base",
     start : function()
     {
 
-      if (this._state != qx.fx.Base.EffectState.IDLE) {
+      if (this.__state != qx.fx.Base.EffectState.IDLE) {
         // Return a value to use this in overwritten start() methods
         return false;
       }
@@ -417,9 +443,9 @@ qx.Class.define("qx.fx.Base",
     render : function(pos)
     {
 
-      if(this._state == qx.fx.Base.EffectState.PREPARING)
+      if(this.__state == qx.fx.Base.EffectState.PREPARING)
       {
-        this._state = qx.fx.Base.EffectState.RUNNING
+        this.__state = qx.fx.Base.EffectState.RUNNING
 
         this.beforeSetupInternal();
         this.beforeSetup();
@@ -430,16 +456,16 @@ qx.Class.define("qx.fx.Base",
         this.afertSetup();
       }
 
-      if(this._state == qx.fx.Base.EffectState.RUNNING)
+      if(this.__state == qx.fx.Base.EffectState.RUNNING)
       {
 
         // adjust position depending on transition function
-        this._position = qx.fx.Transition.get(this.getTransition())(pos) * this._fromToDelta + this.getFrom();
+        this.__position = qx.fx.Transition.get(this.getTransition())(pos) * this.__fromToDelta + this.getFrom();
 
         this.beforeUpdateInternal();
         this.beforeUpdate();
 
-        this.update(this._position);
+        this.update(this.__position);
 
         this.afterUpdateInternal();
         this.afterUpdate();
@@ -462,22 +488,22 @@ qx.Class.define("qx.fx.Base",
     loop : function(timePos)
     {
       // check if effect should be rendered now
-      if (timePos >= this._startOn)
+      if (timePos >= this.__startOn)
       {
 
         // check if effect effect finish
-        if (timePos >= this._finishOn) {
+        if (timePos >= this.__finishOn) {
           this.end();
         }
 
-        var pos   = (timePos - this._startOn) / this._totalTime;
-        var frame = Math.round(pos * this._totalFrames);
+        var pos   = (timePos - this.__startOn) / this.__totalTime;
+        var frame = Math.round(pos * this.__totalFrames);
 
         // check if effect has to be drawn in this frame
-        if (frame > this._currentFrame)
+        if (frame > this.__currentFrame)
         {
           this.render(pos);
-          this._currentFrame = frame;
+          this.__currentFrame = frame;
         }
 
       }
@@ -493,7 +519,7 @@ qx.Class.define("qx.fx.Base",
         this.getQueue().remove(this);
       }
 
-      this._state = qx.fx.Base.EffectState.IDLE;
+      this.__state = qx.fx.Base.EffectState.IDLE;
     }
 
 
@@ -508,7 +534,7 @@ qx.Class.define("qx.fx.Base",
 
   destruct : function()
   {
-    this._disposeFields("_element");
+    this._disposeFields("__element");
   }
 
 });

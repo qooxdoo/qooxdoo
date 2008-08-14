@@ -57,7 +57,7 @@ qx.Class.define("qx.fx.effect.core.Consecutive",
   {
     this.base(arguments);
 
-    this._effects = arguments;
+    this.__effects = arguments;
   },
 
 
@@ -70,7 +70,7 @@ qx.Class.define("qx.fx.effect.core.Consecutive",
 
    members :
    {
-
+     __effects : null
    },
 
 

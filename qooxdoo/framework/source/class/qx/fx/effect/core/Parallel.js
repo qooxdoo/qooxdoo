@@ -57,7 +57,7 @@ qx.Class.define("qx.fx.effect.core.Parallel",
   {
     this.base(arguments);
 
-    this._effects = arguments;
+    this.__effects = arguments;
   },
 
 
@@ -70,6 +70,8 @@ qx.Class.define("qx.fx.effect.core.Parallel",
    members :
    {
 
+     __effects : null,
+
     /**
      * Finishes all child effects
      */
@@ -77,7 +79,7 @@ qx.Class.define("qx.fx.effect.core.Parallel",
     {
       this.base(arguments);
 
-      var effects = this._effects;
+      var effects = this.__effects;
 
       for(var i=0; i<effects.length; i++)
       {
@@ -104,7 +106,7 @@ qx.Class.define("qx.fx.effect.core.Parallel",
     {
       this.base(arguments);
 
-      var effects = this._effects;
+      var effects = this.__effects;
 
       for (var i=0; i<effects.length; i++) {
         effects[i].render(position);
@@ -118,7 +120,7 @@ qx.Class.define("qx.fx.effect.core.Parallel",
         return;
       }
 
-      var effects = this._effects;
+      var effects = this.__effects;
 
       for (var i=0; i<effects.length; i++) {
         effects[i].start();
@@ -135,6 +137,6 @@ qx.Class.define("qx.fx.effect.core.Parallel",
    */
 
    destruct : function() {
-     this._disposeArray("_effects");
+     this._disposeArray("__effects");
    }
 });
