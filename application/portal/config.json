@@ -15,6 +15,7 @@
     "APPLICATION"  : "portal",
     "QOOXDOO_PATH" : "../../framework",
     "QOOXDOO_URI"  : "../${QOOXDOO_PATH}",
+    "TEST_INCLUDE"   : "${APPLICATION}.*",
     "CACHE"        : "../../cache"
   }
 }
