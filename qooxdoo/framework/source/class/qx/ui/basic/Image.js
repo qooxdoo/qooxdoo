@@ -253,8 +253,9 @@ qx.Class.define("qx.ui.basic.Image",
         el.setSource(source);
 
         // Compare with old sizes and relayout if necessary
-        var size = ImageLoader.getSize(source);
-        this._updateSize(size.width, size.height);
+        var width = ImageLoader.getWidth(source);
+        var height = ImageLoader.getHeight(source);
+        this._updateSize(width, height);
       }
       else
       {
@@ -268,7 +269,7 @@ qx.Class.define("qx.ui.basic.Image",
 
           if (!self.__warned[source])
           {
-            this.debug("Unmanaged image: " + source);
+            this.debug("Unknown image: " + source);
             self.__warned[source] = true;
           }
         }

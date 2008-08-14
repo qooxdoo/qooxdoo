@@ -89,6 +89,32 @@ qx.Bootstrap.define("qx.io2.ImageLoader",
 
 
     /**
+     * Returns the image width
+     *
+     * @param source {String} Image source to query
+     * @return {Boolean} The width
+     */
+    getWidth : function(source)
+    {
+      var entry = this.__data[source];
+      return entry ? entry.width : 0;
+    },
+
+
+    /**
+     * Returns the image height
+     *
+     * @param source {String} Image source to query
+     * @return {Boolean} The height
+     */
+    getHeight : function(source)
+    {
+      var entry = this.__data[source];
+      return entry ? entry.height : 0;
+    },
+
+
+    /**
      * Loads the given image. Supports a callback which is
      * executed when the image is loaded.
      *

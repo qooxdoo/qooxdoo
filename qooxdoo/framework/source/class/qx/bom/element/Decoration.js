@@ -34,6 +34,9 @@ qx.Class.define("qx.bom.element.Decoration",
 
   statics :
   {
+    /** {Boolean} Whether clipping hints should be logged */
+    DEBUG : true,
+
 
     /** {Boolean} Whether the alpha image loader is needed */
     __enableAlphaFix : qx.core.Variant.isSet("qx.client", "mshtml") &&
@@ -166,6 +169,7 @@ qx.Class.define("qx.bom.element.Decoration",
     getAttributes : function(source, repeat, style)
     {
       var ResourceManager = qx.util.ResourceManager;
+      var ImageLoader = qx.io2.ImageLoader;
       var Background = qx.bom.element.Background;
 
       if (!style) {
@@ -182,14 +186,19 @@ qx.Class.define("qx.bom.element.Decoration",
         style.lineHeight = 0;
       }
 
+      // Cache image sizes
+      var width = ResourceManager.getImageWidth(source) || ImageLoader.getWidth(source);
+      var height = ResourceManager.getImageHeight(source) || ImageLoader.getHeight(source);
+
+      // Enable AlphaImageLoader in IE6
       if (this.__enableAlphaFix && this.__alphaFixRepeats[repeat])
       {
-        if (repeat === "scale-y" || repeat === "no-repeat") {
-          style.width = ResourceManager.getImageWidth(source) + "px";
+        if (style.width == null) {
+          style.width = width == null ? width : width + "px";
         }
 
-        if (repeat === "scale-x" || repeat === "no-repeat") {
-          style.height = ResourceManager.getImageHeight(source) + "px";
+        if (style.height == null) {
+          style.height = height == null ? height : height + "px";
         }
 
         style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='"
@@ -206,6 +215,15 @@ qx.Class.define("qx.bom.element.Decoration",
         if (repeat === "scale")
         {
           var uri = ResourceManager.toUri(source);
+
+          if (!style.width) {
+            style.width = width == null ? width : width + "px";
+          }
+
+          if (!style.height) {
+            style.height = height == null ? height : height + "px";
+          }
+
           return {
             src : uri,
             style : style
@@ -220,19 +238,18 @@ qx.Class.define("qx.bom.element.Decoration",
             {
               // Use clipped image (multi-images on x-axis)
               var data = ResourceManager.getClippedImageData(source);
-              var showHeight = ResourceManager.getImageHeight(source);
               var imageHeight = ResourceManager.getImageHeight(data.source);
               var uri = ResourceManager.toUri(data.source);
 
               // Add size and clipping
-              style.clip = {top: -data.top, height: showHeight};
+              style.clip = {top: -data.top, height: height};
               style.height = imageHeight + "px";
 
               // Fix user given y-coordinate to include the combined image offset
               if (style.top != null) {
                 style.top = (parseInt(style.top) + data.top) + "px";
               } else if (style.bottom != null) {
-                style.bottom = (parseInt(style.bottom) + showHeight - imageHeight - data.top) + "px";
+                style.bottom = (parseInt(style.bottom) + height - imageHeight - data.top) + "px";
               }
 
               return {
@@ -246,19 +263,18 @@ qx.Class.define("qx.bom.element.Decoration",
             {
               // Use clipped image (multi-images on x-axis)
               var data = ResourceManager.getClippedImageData(source);
-              var showWidth = ResourceManager.getImageWidth(source);
               var imageWidth = ResourceManager.getImageWidth(data.source);
               var uri = ResourceManager.toUri(data.source);
 
               // Add size and clipping
-              style.clip = {left: -data.left, width: showWidth};
+              style.clip = {left: -data.left, width: width};
               style.width = imageWidth + "px";
 
               // Fix user given x-coordinate to include the combined image offset
               if (style.left != null) {
                 style.left = (parseInt(style.left) + data.left) + "px";
               } else if (style.right != null) {
-                style.right = (parseInt(style.right) + showWidth - imageWidth - data.left) + "px";
+                style.right = (parseInt(style.right) + width - imageWidth - data.left) + "px";
               }
 
               return {
@@ -273,15 +289,15 @@ qx.Class.define("qx.bom.element.Decoration",
           {
             if (qx.core.Variant.isSet("qx.debug", "on"))
             {
-              if (source.indexOf("qx/icon") == -1) {
+              if (this.DEBUG && ResourceManager.has(source) && source.indexOf("qx/icon") == -1) {
                 qx.log.Logger.debug("Potential clipped image candidate: " + source);
               }
             }
 
             if (repeat == "scale-x") {
-              style.height = ResourceManager.getImageHeight(source) + "px";
+              style.height = height == null ? null : height + "px";
             } else if (repeat == "scale-y") {
-              style.width = ResourceManager.getImageWidth(source) + "px";
+              style.width = width == null ? null : width + "px";
             }
 
             var uri = ResourceManager.toUri(source);
@@ -305,11 +321,11 @@ qx.Class.define("qx.bom.element.Decoration",
             }
 
             if (repeat == "repeat-y" || repeat === "no-repeat") {
-              style.width = ResourceManager.getImageWidth(source) + "px";
+              style.width = width == null ? width : width + "px";
             }
 
             if (repeat == "repeat-x" || repeat === "no-repeat") {
-              style.height = ResourceManager.getImageHeight(source) + "px";
+              style.height = height == null ? height : height + "px";
             }
 
             return {
@@ -320,7 +336,7 @@ qx.Class.define("qx.bom.element.Decoration",
           {
             if (qx.core.Variant.isSet("qx.debug", "on"))
             {
-              if (repeat !== "repeat" && source.indexOf("qx/icon") == -1) {
+              if (this.DEBUG && ResourceManager.has(source) && repeat !== "repeat" && source.indexOf("qx/icon") == -1) {
                 qx.log.Logger.debug("Potential clipped image candidate: " + source);
               }
             }
@@ -330,8 +346,8 @@ qx.Class.define("qx.bom.element.Decoration",
               style[key] = bg[key];
             }
 
-            style.width = ResourceManager.getImageWidth(source) + "px";
-            style.height = ResourceManager.getImageHeight(source) + "px";
+            style.width = width == null ? width : width + "px";
+            style.height = height == null ? height : height + "px";
 
             return {
               style : style
