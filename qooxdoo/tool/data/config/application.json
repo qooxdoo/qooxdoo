@@ -79,7 +79,8 @@
       "let" :
       {
         "TESTRUNNER_ROOT" : "${QOOXDOO_PATH}/../component/testrunner",
-        "BUILD_PATH" : "./test"
+        "TEST_INCLUDE"    : "${APPLICATION}.test.*",
+        "BUILD_PATH"      : "./test"
       },
 
       "library" :

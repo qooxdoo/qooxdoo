@@ -9,6 +9,7 @@
     "QOOXDOO_URI"  : "../${QOOXDOO_PATH}",
     "TESTRUNNER_ROOT" : ".",
     "TESTRUNNER"   : "testrunner",
+    "TEST_INCLUDE"   : "${APPLICATION}.test.*",
     "BUILD_PATH"   : "build",
     "THEME"        : "qx.theme.Modern"
   },
@@ -79,7 +80,7 @@
         }
       ],
 
-      "include" : ["testrunner.TestLoader", "${APPLICATION}.test.*"],
+      "include" : ["testrunner.TestLoader", "${TEST_INCLUDE}"],
 
       "cache" :
       {
