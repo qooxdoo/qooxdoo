@@ -42,6 +42,28 @@
  * Variants are used to implement browser optimized builds and to remove
  * debugging code from the build version. It is very similar to conditional
  * compilation in C/C++.
+ *
+ * Here is a list of pre-defined variant names, the possilbe values they take,
+ * and their system default:
+ * <table>
+ *  <tr>
+ *  <th>Variant name</th><th>Possible values</th><th>System default</th>
+ *  </tr><tr>
+ *  <td>qx.client          <td>[ "gecko", "mshtml", "opera", "webkit" ]   <td>&lt;auto-detected&gt;
+ *  </tr><tr>
+ *  <td>qx.debug                   <td>[ "on", "off" ]                    <td>"on"
+ *  </tr><tr>
+ *  <td>qx.compatibility           <td>[ "on", "off" ]                    <td>"on"
+ *  </tr><tr>
+ *  <td>qx.eventMonitorNoListeners <td>[ "on", "off" ]                    <td>"off"
+ *  </tr><tr>
+ *  <td>qx.aspects                 <td>[ "on", "off" ]                    <td>"off"
+ *  </tr><tr>
+ *  <td>qx.deprecationWarnings     <td>[ "on", "off" ]                    <td>"on"
+ *  </tr><tr>
+ *  <td>qx.dynamicLocaleSwitch     <td>[ "on", "off" ]                    <td>"on"
+ *  </tr>
+ * </table>
  */
 qx.Bootstrap.define("qx.core.Variant",
 {
