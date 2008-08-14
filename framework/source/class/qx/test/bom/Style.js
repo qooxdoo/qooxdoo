@@ -24,7 +24,7 @@ qx.Class.define("qx.test.bom.Style",
   members :
   {
     /**
-     * Test setting string like values e.g. instances of qx.lang.BaseString
+     * Test setting string like values e.g. instances of qx.core.BaseString
      * as values for CSS styles. IE has some problems with this for special
      * styles (backgroundColor, color).
      */
@@ -33,16 +33,16 @@ qx.Class.define("qx.test.bom.Style",
       var el = document.createElement("div");
       var Style = qx.bom.element.Style;
 
-      var border = new qx.lang.BaseString("solid")
+      var border = new qx.core.BaseString("solid")
       Style.set(el, "borderStyleTop", border);
 
       this.assertEquals(border.toString(), Style.get(el, "borderStyleTop", Style.LOCAL_MODE));
 
-      var borderColor = new qx.lang.BaseString("#00ff00")
+      var borderColor = new qx.core.BaseString("#00ff00")
       Style.set(el, "borderColorTop", borderColor);
       this.assertEquals(borderColor.toString(), Style.get(el, "borderColorTop", Style.LOCAL_MODE));
 
-      var textColor = new qx.lang.BaseString("#00fe00")
+      var textColor = new qx.core.BaseString("#00fe00")
       Style.set(el, "color", textColor);
       this.assertCssColor(textColor.toString(), Style.get(el, "color", Style.LOCAL_MODE));
 
@@ -52,7 +52,7 @@ qx.Class.define("qx.test.bom.Style",
       Style.set(el, "backgroundColor", color);
       this.assertCssColor(color.toString(), Style.get(el, "backgroundColor", Style.LOCAL_MODE));
 
-      var color = new qx.lang.BaseString("#ff0000")
+      var color = new qx.core.BaseString("#ff0000")
       Style.set(el, "backgroundColor", color);
       this.assertCssColor(color.toString(), Style.get(el, "backgroundColor", Style.LOCAL_MODE));
     }

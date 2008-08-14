@@ -387,15 +387,16 @@ qx.Class.define("qx.ui.table.model.Simple",
       this.__rowArr = rowArr;
 
       // Inform the listeners
-      var data =
+      if (this.hasListener(qx.ui.table.ITableModel.EVENT_TYPE_DATA_CHANGED))
       {
-        firstRow    : 0,
-        lastRow     : rowArr.length - 1,
-        firstColumn : 0,
-        lastColumn  : this.getColumnCount() - 1
-      };
+        var data =
+        {
+          firstRow    : 0,
+          lastRow     : rowArr.length - 1,
+          firstColumn : 0,
+          lastColumn  : this.getColumnCount() - 1
+        };
 
-      if (this.hasListener(qx.ui.table.ITableModel.EVENT_TYPE_DATA_CHANGED)) {
         this.fireDataEvent(qx.ui.table.ITableModel.EVENT_TYPE_DATA_CHANGED, data);
       }
 

@@ -49,7 +49,6 @@ qx.Class.define("qx.ui.table.cellrenderer.Image",
     }
 
     this.__am = qx.util.AliasManager.getInstance();
-    this.__rm = qx.util.ResourceManager;
   },
 
 
@@ -64,7 +63,6 @@ qx.Class.define("qx.ui.table.cellrenderer.Image",
   members :
   {
     __am : null,
-    __rm : null,
     __imageHeight : 16,
     __imageWidth : 16,
 
@@ -81,7 +79,7 @@ qx.Class.define("qx.ui.table.cellrenderer.Image",
       if (cellInfo.value == "") {
         imageHints.url = null;
       } else {
-        imageHints.url = this.__rm.toUri(this.__am.resolve(cellInfo.value));
+        imageHints.url = this.__am.resolve(cellInfo.value);
       }
 
       return imageHints;
