@@ -617,7 +617,7 @@ qx.Class.define("qx.ui.layout.Dock",
             left = nextLeft + util.computeHorizontalAlignOffset(child.getAlignX()||"left", width, availWidth, marginLeft, marginRight);
 
             // Render the separator
-            if (separatorWidths.x)
+            if (separatorWidths.y)
             {
               if (edge == 1) {
                 separatorTop = nextTop + height + marginTop + spacingY + marginBottom;
