@@ -30,6 +30,37 @@ qx.Class.define("qx.ui.decoration.Single",
 
 
 
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  /**
+   * @param width {Integer} Width of the border
+   * @param style {String} Any supported border style
+   * @param color {Color} The border color
+   */
+  construct : function(width, style, color)
+  {
+    this.base(arguments);
+
+    // Initialize properties
+    if (width != null) {
+      this.setWidth(width);
+    }
+
+    if (style != null) {
+      this.setStyle(style);
+    }
+
+    if (color != null) {
+      this.setColor(color);
+    }
+  },
+
+
+
 
   /*
   *****************************************************************************
