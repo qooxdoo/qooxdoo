@@ -21,7 +21,7 @@
 /**
  * An implementation of a dialog layout using a grid.
  */
-qx.Class.define("demobrowser.demo.ui.Dialog_Resize",
+qx.Class.define("demobrowser.demo.ui.Label_Reflow",
 {
   extend : qx.application.Standalone,
 
