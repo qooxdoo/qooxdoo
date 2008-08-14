@@ -180,12 +180,17 @@ qx.Class.define("qx.bom.element.Decoration",
         style.position = "absolute";
       }
 
-      // Add a fix for small blocks where IE has a minHeight
-      // of the fontSize in quirks mode
       if (qx.core.Variant.isSet("qx.client", "mshtml"))
       {
+        // Add a fix for small blocks where IE has a minHeight
+        // of the fontSize in quirks mode
         style.fontSize = 0;
         style.lineHeight = 0;
+      }
+      else if (qx.core.Variant.isSet("qx.client", "webkit"))
+      {
+        // This stops images from being dragable in webkit
+        style.WebkitUserDrag = "none";
       }
 
       // Cache image sizes
