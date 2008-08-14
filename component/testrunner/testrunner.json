@@ -181,6 +181,11 @@
     {
       "extend" : ["common-tests"],
 
+      "variants": 
+      {
+        "qx.debug" : ["off"]
+      },
+
       "compile-dist" :
       {
         "target" : "${BUILD_PATH}",
