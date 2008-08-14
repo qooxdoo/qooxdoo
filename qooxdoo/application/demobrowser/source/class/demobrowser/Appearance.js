@@ -55,7 +55,7 @@ qx.Theme.define("demobrowser.Appearance",
       {
         return {
           decorator : new qx.ui.decoration.Single().set({
-		        colorBottom: "border-dark-shadow",
+		        colorBottom: "frame",
 		        widthBottom: 1
 				  })
 			  }

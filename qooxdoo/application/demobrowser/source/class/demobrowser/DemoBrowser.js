@@ -573,7 +573,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       menu.add(t2);
 
       // Create opener button
-      var splitButton = new qx.ui.toolbar.SplitButton("Classic", "icon/16/apps/utilities-color-chooser.png", menu).set({
+      var splitButton = new qx.ui.toolbar.SplitButton("Modern", "icon/16/apps/utilities-color-chooser.png", menu).set({
         focusable: false
       });
       this._splitButton = splitButton;
