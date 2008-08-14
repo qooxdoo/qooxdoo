@@ -35,7 +35,7 @@
 
 /* ************************************************************************
 
-#asset(qx/static/history/helper.html)
+#asset(qx/static/blank.html)
 
 ************************************************************************ */
 
@@ -97,7 +97,7 @@ qx.Class.define("qx.bom.History",
        * Setting the source before adding the iframe to the document.
        * Otherwise IE will bring up a "Unsecure items ..." warning in SSL mode
        */
-      this.__iframe.src = qx.util.ResourceManager.toUri("qx/static/html/blank.html");
+      this.__iframe.src = qx.util.ResourceManager.toUri("qx/static/blank.html");
       document.body.appendChild(this.__iframe);
 
       this.__titles = {};

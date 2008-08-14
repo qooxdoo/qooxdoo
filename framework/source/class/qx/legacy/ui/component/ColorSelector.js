@@ -20,10 +20,8 @@
 
 /* ************************************************************************
 
-#asset(qx/decoration/Classic/colorselector/*)
 #asset(qx/icon/Compat/16/actions/dialog-cancel.png)
 #asset(qx/icon/Compat/16/actions/dialog-ok.png)
-#asset(qx/static/image/dotted_white.gif)
 
 ************************************************************************ */
 
@@ -537,7 +535,6 @@ qx.Class.define("qx.legacy.ui.component.ColorSelector",
       this._oldColorPreview = new qx.legacy.ui.basic.Terminator;
       this._oldColorPreview.setBorder("inset-thin");
       this._oldColorPreview.setWidth("1*");
-      this._oldColorPreview.setBackgroundImage("static/image/dotted_white.gif");
       this._oldColorPreview.setParent(this._previewLayout);
 
       this._newColorPreview = new qx.legacy.ui.basic.Terminator;

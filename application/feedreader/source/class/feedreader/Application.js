@@ -196,7 +196,6 @@ qx.Class.define("feedreader.Application",
     {
       // Create main layout
       var dockLayout = new qx.ui.layout.Dock();
-      dockLayout.setSeparatorX("separator-horizontal");
       dockLayout.setSeparatorY("separator-vertical");
       var dockLayoutComposite = new qx.ui.container.Composite(dockLayout);
       this.getRoot().add(dockLayoutComposite, {edge:0});
@@ -208,18 +207,18 @@ qx.Class.define("feedreader.Application",
       // Create horizontal splitpane for tree and list+article view
       this._horizontalSplitPane = new qx.ui.splitpane.Pane();
       dockLayoutComposite.add(this._horizontalSplitPane);
-      
+
       // Create tree view
       this._treeView = new feedreader.view.Tree(this._feedList);
       this._treeView.setWidth(250);
       this._treeView.setDecorator("frame");
       this._horizontalSplitPane.add(this._treeView, 0);
-      
+
       // Create vertical splitpane for list and detail view
       this._verticalSplitPane = new qx.ui.splitpane.Pane("vertical");
-      // manually remove the decorator
+      // manually remove the padding
       this._verticalSplitPane.setDecorator(null);
-      
+
       this._horizontalSplitPane.add(this._verticalSplitPane, 1);
 
       // Create the list view

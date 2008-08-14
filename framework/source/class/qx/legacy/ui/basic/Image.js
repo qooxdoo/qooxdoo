@@ -20,7 +20,7 @@
 
 /* ************************************************************************
 
-#asset(qx/static/image/blank.gif)
+#asset(qx/static/blank.gif)
 
 ************************************************************************ */
 
@@ -51,7 +51,7 @@ qx.Class.define("qx.legacy.ui.basic.Image",
   {
     this.base(arguments);
 
-    this._blank = qx.util.ResourceManager.toUri("qx/static/image/blank.gif");
+    this._blank = qx.util.ResourceManager.toUri("qx/static/blank.gif");
 
     // Source
     if (vSource != null) {
