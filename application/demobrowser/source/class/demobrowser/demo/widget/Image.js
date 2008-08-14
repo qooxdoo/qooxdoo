@@ -21,6 +21,8 @@
 /* ************************************************************************
 
 #asset(demobrowser/demo/icons/*)
+#asset(qx/icon/${qx.icontheme}/32/actions/format-*)
+#asset(qx/icon/${qx.icontheme}/32/actions/go-home.png)
 
 ************************************************************************ */
 
@@ -41,13 +43,26 @@ qx.Class.define("demobrowser.demo.widget.Image",
       container.setPadding(20);
       this.getRoot().add(container, {left:0,top:0});
 
-      var base = "demobrowser/demo/icons/"
-      container.add(new qx.ui.basic.Image(base + "feed-reader.png"));
-      container.add(new qx.ui.basic.Image(base + "graphics-viewer-document.png"));
-      container.add(new qx.ui.basic.Image(base + "format-justify-fill.png"));
-      container.add(new qx.ui.basic.Image(base + "format-justify-left.png"));
-      container.add(new qx.ui.basic.Image(base + "format-justify-right.png"));
-      container.add(new qx.ui.basic.Image(base + "multimedia-player.png"));
+      container.add(new qx.ui.basic.Image("demobrowser/demo/icons/multimedia-player.png"));
+
+      var ileft = new qx.ui.basic.Image("icon/32/actions/format-justify-left.png");
+      container.add(ileft);
+
+      var iright = new qx.ui.basic.Image("icon/32/actions/format-justify-right.png");
+      container.add(iright);
+
+      var ifill = new qx.ui.basic.Image("icon/32/actions/format-justify-fill.png");
+      container.add(ifill);
+
+      var icenter = new qx.ui.basic.Image("icon/32/actions/format-justify-center.png");
+      container.add(icenter);
+
+      var big = new qx.ui.basic.Image("icon/32/actions/go-home.png");
+      big.setScale(true);
+      big.setWidth(64);
+      big.setHeight(64);
+      container.add(big);
+
 
       // toggle button
       var btn = new qx.ui.form.ToggleButton("Toggle enabled");
@@ -56,7 +71,7 @@ qx.Class.define("demobrowser.demo.widget.Image",
         container.setEnabled(e.getData());
       });
 
-      this.getRoot().add(btn, {left:10, top:140});
+      this.getRoot().add(btn, {left:10, top:180});
     }
   }
 });
