@@ -34,6 +34,37 @@ qx.Class.define("qx.ui.decoration.Beveled",
 
 
 
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  /**
+   * @param outerColor {Color} The outer border color
+   * @param innerColor {Color} The inner border color
+   * @param innerOpacity {Float} Opacity of inner border
+   */
+  construct : function(outerColor, innerColor, innerOpacity)
+  {
+    this.base(arguments);
+
+    // Initialize properties
+    if (outerColor != null) {
+      this.setOuterColor(outerColor);
+    }
+
+    if (innerColor != null) {
+      this.setInnerColor(innerColor);
+    }
+
+    if (innerOpacity != null) {
+      this.setInnerOpacity(innerOpacity);
+    }
+  },
+
+
+
 
   /*
   *****************************************************************************
@@ -261,11 +292,11 @@ qx.Class.define("qx.ui.decoration.Beveled",
     {
       var dom = element.getDomElement();
       var Color = qx.theme.manager.Color.getInstance();
-      
+
       if (bgcolor == null) {
         bgcolor = this.getBackgroundColor();
       }
-      
+
       dom.childNodes[3].style.backgroundColor = Color.resolve(bgcolor);
     },
 
