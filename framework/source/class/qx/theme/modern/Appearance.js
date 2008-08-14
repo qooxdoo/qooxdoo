@@ -84,7 +84,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
     },
 
     "resize-frame" : "move-frame",
-    
+
     "dragdrop-cursor" :
     {
       style : function(states)
@@ -143,7 +143,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
     ---------------------------------------------------------------------------
     */
 
-    "button" :
+    "button-frame" :
     {
       alias : "atom",
 
@@ -178,9 +178,22 @@ qx.Theme.define("qx.theme.modern.Appearance",
         }
 
         return {
-          padding    : [ 2, 8 ],
-          textColor  : textColor,
-          decorator  : decorator
+          decorator : decorator,
+          textColor : textColor
+        }
+      }
+    },
+
+    "button" :
+    {
+      alias : "button-frame",
+      include : "button-frame",
+
+      style : function(states)
+      {
+        return {
+          padding : [ 2, 8 ],
+          center : true,
         };
       }
     },
@@ -334,8 +347,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
 
     "spinner/upbutton" :
     {
-      alias : "button",
-      include : "button",
+      alias : "button-frame",
+      include : "button-frame",
 
       style : function(states)
       {
@@ -348,8 +361,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
 
     "spinner/downbutton" :
     {
-      alias : "button",
-      include : "button",
+      alias : "button-frame",
+      include : "button-frame",
 
       style : function(states)
       {
@@ -579,10 +592,10 @@ qx.Theme.define("qx.theme.modern.Appearance",
         }
       }
     },
-    
+
     "scrollbar/slider/knob" :
     {
-      include : "button",
+      include : "button-frame",
 
       style : function(states)
       {
@@ -596,8 +609,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
 
     "scrollbar/button" :
     {
-      alias : "button",
-      include : "button",
+      alias : "button-frame",
+      include : "button-frame",
 
       style : function(states)
       {
@@ -615,7 +628,6 @@ qx.Theme.define("qx.theme.modern.Appearance",
         if (states.left || states.right)
         {
           return {
-            center : false,
             padding : [0, 0, 0, states.left ? 3 : 4],
             icon : icon,
             width: 15,
@@ -626,7 +638,6 @@ qx.Theme.define("qx.theme.modern.Appearance",
         else
         {
           return {
-            center : false,
             padding : [0, 0, 0, 2],
             icon : icon,
             width: 14,
@@ -662,7 +673,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
 
     "slider/knob" :
     {
-      include : "button",
+      include : "button-frame",
 
       style : function(states)
       {
@@ -707,8 +718,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         return {
           padding   : 4,
           textColor : states.selected ? "text-selected" : "undefined",
-          decorator : states.selected ? "listitem" : "undefined",
-          center    : false
+          decorator : states.selected ? "listitem" : "undefined"
         };
       }
     },
@@ -731,6 +741,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
     {
       alias : "button",
       include : "button",
+
       style : function(states)
       {
         return {
@@ -743,6 +754,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
     {
       alias : "button",
       include : "button",
+
       style : function(states)
       {
         return {
@@ -1376,7 +1388,19 @@ qx.Theme.define("qx.theme.modern.Appearance",
     ---------------------------------------------------------------------------
     */
 
-    "selectbox" : "button",
+    "selectbox" :
+    {
+      alias : "button-frame",
+      include : "button-frame",
+
+      style : function(states)
+      {
+        return {
+          padding : [ 2, 8 ]
+        };
+      }
+    },
+
     "selectbox/atom" : "atom",
     "selectbox/popup" : "popup",
     "selectbox/list" : "list",
@@ -1551,8 +1575,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
 
     "combobox/button" :
     {
-      include : "button",
-      alias   : "button",
+      include : "button-frame",
+      alias   : "button-frame",
 
       style : function(states)
       {
@@ -1958,7 +1982,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
 
     "table/column-button" :
     {
-      alias : "button",
+      alias : "button-frame",
       style : function(states)
       {
         return {

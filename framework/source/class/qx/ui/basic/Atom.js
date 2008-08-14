@@ -162,7 +162,7 @@ qx.Class.define("qx.ui.basic.Atom",
      */
     center :
     {
-      init : true,
+      init : false,
       check : "Boolean",
       themeable : true,
       apply : "_applyCenter"
