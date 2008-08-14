@@ -282,7 +282,15 @@ qx.Class.define("qx.ui.table.model.Filtered",
       }
 
       // Inform the listeners
-      this.createDispatchEvent(qx.ui.table.ITableModel.EVENT_TYPE_DATA_CHANGED);
+      var data =
+      {
+        firstRow    : 0,
+        lastRow     : rowArr - 1,
+        firstColumn : 0,
+        lastColumn  : this.getColumnCount() - 1
+      };
+      
+      this.createDispatchDataEvent(qx.ui.table.ITableModel.EVENT_TYPE_DATA_CHANGED, data);
     },
 
 
@@ -319,7 +327,18 @@ qx.Class.define("qx.ui.table.model.Filtered",
       this.removeRows(kludge, numOfRows);
 
       // Inform the listeners
-      this.createDispatchEvent(qx.ui.table.ITableModel.EVENT_TYPE_DATA_CHANGED);
+      if (dispatchEvent)
+      {
+        var data =
+        {
+          firstRow    : 0,
+          lastRow     : rowArr.length - 1,
+          firstColumn : 0,
+          lastColumn  : this.getColumnCount() - 1
+        };
+        
+        this.createDispatchDataEvent(qx.ui.table.ITableModel.EVENT_TYPE_DATA_CHANGED, data);
+      }  
     },
 
 
@@ -333,11 +352,13 @@ qx.Class.define("qx.ui.table.model.Filtered",
      */
     resetHiddenRows : function()
     {
-      this.Filters = new Array();
-      this._rowArr = this._fullArr.slice();
+      if (!this._fullArr) {
+        // nothing to reset
+        return;
+      }
+      this.Filters = [];
 
-      // Inform the listeners
-      this.createDispatchEvent(qx.ui.table.ITableModel.EVENT_TYPE_DATA_CHANGED);
+      this.setData(this._fullArr);
     }
   },
 
