@@ -304,8 +304,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         return {
           decorator       : states.focused ? "input-focused" : "input",
           padding         : [ 1, 3 ],
-          textColor       : states.disabled ? "text-disabled" : "text-field",
-          backgroundColor : "background-field"
+          textColor       : states.disabled ? "text-disabled" : "text-field"
         };
       }
     },
@@ -1121,7 +1120,6 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          backgroundColor : "#ffffdd",
           decorator : "tooltip",
           padding : [ 1, 3, 2, 3 ],
           offset : [ 1, 1, 20, 1 ]
@@ -1157,7 +1155,6 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          backgroundColor : "#f6f6f6",
           decorator       : "window-border"
         };
       }
@@ -1298,7 +1295,6 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          backgroundColor : "white",
           decorator : "iframe"
         };
       }
@@ -1501,8 +1497,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          decorator       : "date-chooser-pane",
-          backgroundColor : "background-light"
+          decorator       : "date-chooser-pane"
         };
       }
     },
@@ -1512,11 +1507,10 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          decorator       : "date-chooser-weekday",
+          decorator       : states.weekend ? "date-chooser-weekend" : "date-chooser-weekday",
           font            : "bold",
           textAlign       : "center",
           textColor       : states.weekend ? "background-selected" : "text-selected",
-          backgroundColor : states.weekend ? "background-light" : "background-selected",
           paddingTop      : 2
         };
       }
@@ -1564,8 +1558,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          decorator       : states.focused ? "input-focused" : "input",
-          backgroundColor : "background-field"
+          decorator       : states.focused ? "input-focused" : "input"
         };
       }
     },
