@@ -2143,6 +2143,10 @@ qx.Class.define("qx.ui.core.Widget",
         if (typeof value === "object")
         {
           valueId = value.toHashCode();
+
+          if (qx.core.Variant.isSet("qx.debug", "on")) {
+            this.debug("Decorator instances may increase memory usage and processing time. Often it is better to lay them out to a theme file. Hash code of decorator object: " + value);
+          }
         }
         else
         {

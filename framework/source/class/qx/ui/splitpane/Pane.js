@@ -314,7 +314,6 @@ qx.Class.define("qx.ui.splitpane.Pane",
      */
     _onMouseOut : function(e)
     {
-      return;
       // Force mouse positions to -1
       this.__lastMouseX = -1;
       this.__lastMouseY = -1;
@@ -427,20 +426,22 @@ qx.Class.define("qx.ui.splitpane.Pane",
     {
       var splitter = this._getChildControl("splitter");
       var splitterBounds = splitter.getBounds();
-      var paneLocation = this.getContentLocation();
+      var splitterLocation = splitter.getContainerLocation();
 
       // Check whether created
-      if (!paneLocation) {
+      if (!splitterLocation) {
         return;
       }
 
       // Check horizontal
       var mouse = this.__lastMouseX;
       var size = splitterBounds.width;
-      var pos = paneLocation.left + splitterBounds.left;
+      var pos = splitterLocation.left;
 
-      if (size < 5) {
-        pos -= Math.floor((5 - size) / 2);
+      if (size < 6)
+      {
+        pos -= Math.floor((6 - size) / 2);
+        size = 6;
       }
 
       if (mouse < pos || mouse > (pos + size)) {
@@ -450,10 +451,12 @@ qx.Class.define("qx.ui.splitpane.Pane",
       // Check vertical
       var mouse = this.__lastMouseY;
       var size = splitterBounds.height;
-      var pos = paneLocation.top + splitterBounds.top;
+      var pos = splitterLocation.top;
 
-      if (size < 5) {
-        pos -= Math.floor((5 - size) / 2);
+      if (size < 6)
+      {
+        pos -= Math.floor((6 - size) / 2);
+        size = 6;
       }
 
       if (mouse < pos || mouse > (pos + size)) {

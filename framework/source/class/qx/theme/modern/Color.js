@@ -33,16 +33,15 @@ qx.Theme.define("qx.theme.modern.Color",
       BACKGROUND
     ---------------------------------------------------------------------------
     */
-        
+
     "background" : "#dfdfdf",
     "background-light" : "#F2F2F2",
-
-    // TODO: adjust these colors to Modern theme
     "background-focused" : "#F3F8FD",
     "background-focused-inner" : "#DBEAF9",
     "background-disabled" : "#F4F4F4",
     "background-selected" : "#3E6CA8",
     "background-field" : "#FCFCFC",
+    "background-splitpane" : "#AFAFAF",
 
 
 
@@ -51,7 +50,7 @@ qx.Theme.define("qx.theme.modern.Color",
       TEXT
     ---------------------------------------------------------------------------
     */
-    
+
     "text" : "#1a1a1a",
     "text-disabled" : [ 107, 106, 110 ],
     "text-selected" : "#fffefe",
@@ -63,20 +62,20 @@ qx.Theme.define("qx.theme.modern.Color",
       OTHER
     ---------------------------------------------------------------------------
     */
-    
+
     "text-field" : "black",
-    
+
     // Used for the "input-focused" and "focus" decorator
     "focus" : "#92B1DC",
 
 
-    
+
     /*
     ---------------------------------------------------------------------------
-      BORDER
+      BASIC BORDERS
     ---------------------------------------------------------------------------
     */
-        
+
     "border" : "#2D405A",
 
     // these two borders are used in the appearance theme and for decorators
@@ -106,15 +105,15 @@ qx.Theme.define("qx.theme.modern.Color",
 
     "table-row-line" : "#EEE",
     "table-column-line" : "#EEE",
-    
 
-    
+
+
     /*
     ---------------------------------------------------------------------------
       PROGRESSIVE TABLE
     ---------------------------------------------------------------------------
     */
-    
+
     "progressive-table-header"              : "#AAAAAA",
 
     "progressive-table-row-background-even" : "#F4F4F4",

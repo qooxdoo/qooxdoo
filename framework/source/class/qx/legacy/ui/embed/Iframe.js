@@ -21,8 +21,8 @@
 
 /* ************************************************************************
 
-#asset(qx/static/image/blank.gif)
-#asset(qx/static/html/blank.html)
+#asset(qx/static/blank.gif)
+#asset(qx/static/blank.html)
 
 ************************************************************************ */
 
@@ -550,7 +550,7 @@ qx.Class.define("qx.legacy.ui.embed.Iframe",
       var currentSource = this.getSource();
 
       if (currentSource == null || currentSource === "") {
-        currentSource = qx.util.ResourceManager.toUri("qx/static/html/blank.html");
+        currentSource = qx.util.ResourceManager.toUri("qx/static/blank.html");
       }
 
       this._isLoaded = false;

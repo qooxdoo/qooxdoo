@@ -1293,7 +1293,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
     ---------------------------------------------------------------------------
     */
 
-    "splitpane" : {
+    "splitpane" :
+    {
       style : function(states)
       {
         return {
@@ -1309,7 +1310,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         return {
           width : states.horizontal ? 3 : "undefined",
           height : states.vertical ? 3 : "undefined",
-          backgroundColor : "#adadad"
+          backgroundColor : "background-splitpane"
         };
       }
     },
@@ -1331,7 +1332,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         return {
           width : states.horizontal ? 3 : "undefined",
           height : states.vertical ? 3 : "undefined",
-          backgroundColor : "#adadad"
+          backgroundColor : "background-splitpane"
         };
       }
     },

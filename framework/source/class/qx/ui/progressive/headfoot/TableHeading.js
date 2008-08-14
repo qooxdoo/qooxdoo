@@ -46,7 +46,7 @@ qx.Class.define("qx.ui.progressive.headfoot.TableHeading",
 
     // Save the Widths object containing all of our column widths
     this._columnWidths = columnWidths;
-    
+
     // Get the array of column width data
     var columnData = columnWidths.getData();
 
@@ -73,10 +73,10 @@ qx.Class.define("qx.ui.progressive.headfoot.TableHeading",
     // Add a spacer to take up the scroll-bar width
     var spacer = new qx.ui.core.Widget();
     spacer.set(
-      {
-        height : 16,
-        backgroundColor : colorMgr.resolve("progressive-table-header")
-      });
+    {
+      height : 16,
+      appearance : "progressive-table-header-cell"
+    });
     this.add(spacer, { flex : 1 });
 
     // Arrange to be called when the window appears or is resized, so we

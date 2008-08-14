@@ -53,19 +53,19 @@ qx.Class.define("qx.ui.progressive.headfoot.Progress",
       colorMgr.resolve("progressive-progressbar-percent-background");
     this.__colors.percentText =
       colorMgr.resolve("progressive-progressbar-percent-text");
-    
+
     this.set(
-      {
-        backgroundColor : this.__colors.background
-      });
+    {
+      backgroundColor : this.__colors.background
+    });
 
     // Create a widget that continually increases its width for progress bar
     this.__progressBar = new qx.ui.core.Widget();
     this.__progressBar.set(
-      {
-        width : 0,
-        backgroundColor : this.__colors.indicatorDone
-      });
+    {
+      width : 0,
+      backgroundColor : this.__colors.indicatorDone
+    });
     this.add(this.__progressBar);
 
     // Create a flex area between the progress bar and the percent done
@@ -79,11 +79,11 @@ qx.Class.define("qx.ui.progressive.headfoot.Progress",
     // We also like to show progress as a percentage done string.
     this.__percentDone = new qx.ui.basic.Atom("0%");
     this.__percentDone.set(
-      {
-        width           : 100,
-        backgroundColor : this.__colors.percentBackground,
-        textColor       : this.__colors.percentText
-      });
+    {
+      width           : 100,
+      backgroundColor : this.__colors.percentBackground,
+      textColor       : this.__colors.percentText
+    });
     this.add(this.__percentDone);
 
     // We're initially invisible
@@ -92,7 +92,6 @@ qx.Class.define("qx.ui.progressive.headfoot.Progress",
 
   members :
   {
-
     __total : null,
     __colors : null,
     __progressBar : null,
