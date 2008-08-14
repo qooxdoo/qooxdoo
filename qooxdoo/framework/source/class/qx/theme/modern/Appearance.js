@@ -1323,17 +1323,23 @@ qx.Theme.define("qx.theme.modern.Appearance",
     ---------------------------------------------------------------------------
     */
 
-    "splitpane" : {},
+    "splitpane" : {
+      style : function(states)
+      {
+        return {
+          decorator : "splitpane"
+        };
+      }
+    },
 
     "splitpane/splitter" :
     {
       style : function(states)
       {
         return {
-          width : states.horizontal ? 7 : "undefined",
-          height : states.vertical ? 7 : "undefined",
-          backgroundColor : "background",
-          decorator : states.horizontal ? "splitpane-splitter-horizontal" : "splitpane-splitter-vertical"
+          width : states.horizontal ? 3 : "undefined",
+          height : states.vertical ? 3 : "undefined",
+          backgroundColor : "#adadad"
         };
       }
     },
@@ -1353,9 +1359,9 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          width : states.horizontal ? 5 : "undefined",
-          height : states.vertical ? 5 : "undefined",
-          backgroundColor : "background"
+          width : states.horizontal ? 3 : "undefined",
+          height : states.vertical ? 3 : "undefined",
+          backgroundColor : "#adadad"
         };
       }
     },

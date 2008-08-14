@@ -72,7 +72,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
       style :
       {
         width : 1,
-        color : "border-dark-shadow"
+        color : "frame"
       }
     },
 
@@ -649,6 +649,18 @@ qx.Theme.define("qx.theme.modern.Decoration",
     ---------------------------------------------------------------------------
     */
 
+    "splitpane" :
+    {
+      decorator : qx.ui.decoration.Single,
+      
+      style :
+      {
+        width : 3,
+        color : "#afafaf",
+        style : "solid"
+      }
+    },
+    
     "splitpane-splitter-vertical" :
     {
       decorator : qx.ui.decoration.Single,
@@ -656,10 +668,10 @@ qx.Theme.define("qx.theme.modern.Decoration",
       style :
       {
         widthTop : 1,
-        colorTop : "#b8b8b8",
+        colorTop : "frame",
         
         widthBottom : 1,
-        colorBottom : "#b8b8b8",
+        colorBottom : "frame",
         
         style : "solid"
       }
@@ -672,10 +684,10 @@ qx.Theme.define("qx.theme.modern.Decoration",
       style :
       {
         widthLeft : 1,
-        colorLeft : "#b8b8b8",
+        colorLeft : "frame",
         
         widthRight : 1,
-        colorRight : "#b8b8b8",
+        colorRight : "frame",
         
         style : "solid"
       }
@@ -746,7 +758,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
       style :
       {
         width : 1,
-        color : "border-dark-shadow",
+        color : "frame",
         style : "solid"
       }
     },
@@ -758,7 +770,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
      style :
      {
        widthTop : 1,
-       colorTop : "border-dark-shadow",
+       colorTop : "frame",
        style    : "solid"
      }
    },
@@ -773,7 +785,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
        backgroundRepeat : "scale",
 
        widthBottom : 1,
-       colorBottom : "border-dark-shadow",
+       colorBottom : "frame",
        style       : "solid"
      }
    },
@@ -829,7 +841,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
        backgroundRepeat : "scale",
 
        widthBottom : 1,
-       colorBottom : "border-dark-shadow",
+       colorBottom : "frame",
        style       : "solid"
      }
    },
@@ -863,7 +875,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
       style :
       {
         width       : 1,
-        color       : "border-dark-shadow",
+        color       : "frame",
         style       : "solid"
       }
    },
@@ -902,7 +914,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
        backgroundRepeat : "scale",
 
        width : 1,
-       color : "border-dark-shadow",
+       color : "frame",
        style : "solid"
      }
    },
