@@ -45,7 +45,7 @@ qx.Bootstrap.define("qx.util.ResourceManager",
      * Get information about an resource.
      *
      * @param id {String} The resource to get the information for
-     * @return {Array} Registered data
+     * @return {Array} Registered data or <code>null</code>
      */
     getData : function(id) {
       return this.__registry[id] || null;
@@ -93,41 +93,6 @@ qx.Bootstrap.define("qx.util.ResourceManager",
     {
       var entry = this.__registry[id];
       return entry && entry.length > 4;
-    },
-
-
-    /**
-     * Returns the source and location of a image when
-     * it is clipped. Otherwise returns pseudo values
-     * to work with a simple image
-     *
-     * @param id {String} Resource identifier
-     * @return {Map} Image data for a clipped image. Has the keys
-     *    <code>source</code>, <code>left</code> and <code>top</code>.
-     */
-    getClippedImageData : function(id)
-    {
-      var entry = this.__registry[id];
-      if (!entry) {
-        return null;
-      }
-
-      if (entry.length < 5)
-      {
-        return {
-          source : id,
-          left : 0,
-          top : 0
-        };
-      }
-      else
-      {
-        return {
-          source : entry[4],
-          left : entry[5],
-          top : entry[6]
-        };
-      }
     },
 
 
