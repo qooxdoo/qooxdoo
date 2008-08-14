@@ -58,32 +58,32 @@ qx.Class.define("qx.io.remote.transport.Iframe",
     // Using this method is the only (known) working to register the frame
     // to the known elements of the Internet Explorer.
     if (qx.core.Variant.isSet("qx.client", "mshtml")) {
-      this._frame = document.createElement('<iframe name="' + vFrameName + '"></iframe>');
+      this.__frame = document.createElement('<iframe name="' + vFrameName + '"></iframe>');
     } else {
-      this._frame = document.createElement("iframe");
+      this.__frame = document.createElement("iframe");
     }
 
-    this._frame.src = "javascript:void(0)";
-    this._frame.id = this._frame.name = vFrameName;
-    this._frame.onload = qx.lang.Function.bind(this._onload, this);
+    this.__frame.src = "javascript:void(0)";
+    this.__frame.id = this.__frame.name = vFrameName;
+    this.__frame.onload = qx.lang.Function.bind(this._onload, this);
 
-    this._frame.style.display = "none";
+    this.__frame.style.display = "none";
 
-    document.body.appendChild(this._frame);
+    document.body.appendChild(this.__frame);
 
-    this._form = document.createElement("form");
-    this._form.target = vFrameName;
-    this._form.id = this._form.name = vFormName;
+    this.__form = document.createElement("form");
+    this.__form.target = vFrameName;
+    this.__form.id = this.__form.name = vFormName;
 
-    this._form.style.display = "none";
+    this.__form.style.display = "none";
 
-    document.body.appendChild(this._form);
+    document.body.appendChild(this.__form);
 
     this._data = document.createElement("textarea");
     this._data.id = this._data.name = "_data_";
-    this._form.appendChild(this._data);
+    this.__form.appendChild(this._data);
 
-    this._frame.onreadystatechange = qx.lang.Function.bind(this._onreadystatechange, this);
+    this.__frame.onreadystatechange = qx.lang.Function.bind(this._onreadystatechange, this);
   },
 
 
@@ -148,10 +148,10 @@ qx.Class.define("qx.io.remote.transport.Iframe",
 
   members :
   {
-    _lastReadyState : 0,
 
-
-
+    __lastReadyState : 0,
+    __form : null,
+    __frame : null,
 
     /*
     ---------------------------------------------------------------------------
@@ -205,20 +205,20 @@ qx.Class.define("qx.io.remote.transport.Iframe",
         var vField = document.createElement("textarea");
         vField.name = vId;
         vField.appendChild(document.createTextNode(vFormFields[vId]));
-        this._form.appendChild(vField);
+        this.__form.appendChild(vField);
       }
 
       // --------------------------------------
       //   Preparing form
       // --------------------------------------
-      this._form.action = vUrl;
-      this._form.method = vMethod;
+      this.__form.action = vUrl;
+      this.__form.method = vMethod;
 
       // --------------------------------------
       //   Sending data
       // --------------------------------------
       this._data.appendChild(document.createTextNode(this.getData()));
-      this._form.submit();
+      this.__form.submit();
       this.setState("sending");
     },
 
@@ -231,7 +231,7 @@ qx.Class.define("qx.io.remote.transport.Iframe",
      */
     _onload : function(e)
     {
-      if (this._form.src) {
+      if (this.__form.src) {
         return;
       }
 
@@ -246,7 +246,7 @@ qx.Class.define("qx.io.remote.transport.Iframe",
      * @return {void}
      */
     _onreadystatechange : function(e) {
-      this._switchReadyState(qx.io.remote.transport.Iframe._numericMap[this._frame.readyState]);
+      this._switchReadyState(qx.io.remote.transport.Iframe._numericMap[this.__frame.readyState]);
     },
 
 
@@ -270,8 +270,8 @@ qx.Class.define("qx.io.remote.transport.Iframe",
       }
 
       // Updating internal state
-      while (this._lastReadyState < vReadyState) {
-        this.setState(qx.io.remote.Exchange._nativeMap[++this._lastReadyState]);
+      while (this.__lastReadyState < vReadyState) {
+        this.setState(qx.io.remote.Exchange._nativeMap[++this.__lastReadyState]);
       }
     },
 
@@ -364,7 +364,7 @@ qx.Class.define("qx.io.remote.transport.Iframe",
      * @return {var} TODOC
      */
     getIframeWindow : function() {
-      return qx.bom.Iframe.getWindow(this._frame);
+      return qx.bom.Iframe.getWindow(this.__frame);
     },
 
 
@@ -374,7 +374,7 @@ qx.Class.define("qx.io.remote.transport.Iframe",
      * @return {var} TODOC
      */
     getIframeDocument : function() {
-      return qx.bom.Iframe.getDocument(this._frame);
+      return qx.bom.Iframe.getDocument(this.__frame);
     },
 
 
@@ -384,7 +384,7 @@ qx.Class.define("qx.io.remote.transport.Iframe",
      * @return {var} TODOC
      */
     getIframeBody : function() {
-      return qx.bom.Iframe.getBody(this._frame);
+      return qx.bom.Iframe.getBody(this.__frame);
     },
 
 
@@ -576,25 +576,25 @@ qx.Class.define("qx.io.remote.transport.Iframe",
 
   destruct : function()
   {
-    if (this._frame)
+    if (this.__frame)
     {
-      this._frame.onload = null;
-      this._frame.onreadystatechange = null;
+      this.__frame.onload = null;
+      this.__frame.onreadystatechange = null;
 
       // Reset source to a blank image for gecko
       // Otherwise it will switch into a load-without-end behaviour
       if (qx.core.Variant.isSet("qx.client", "gecko")) {
-        this._frame.src = qx.util.ResourceManager.toUri("qx/static/image/blank.gif");
+        this.__frame.src = qx.util.ResourceManager.toUri("qx/static/image/blank.gif");
       }
 
       // Finally remove element node
-      document.body.removeChild(this._frame);
+      document.body.removeChild(this.__frame);
     }
 
-    if (this._form) {
-      document.body.removeChild(this._form);
+    if (this.__form) {
+      document.body.removeChild(this.__form);
     }
 
-    this._disposeFields("_frame", "_form");
+    this._disposeFields("__frame", "__form");
   }
 });

@@ -55,18 +55,18 @@ qx.Class.define("qx.event.handler.Keyboard",
     this.base(arguments);
 
     // Define shorthands
-    this._manager = manager;
-    this._window = manager.getWindow();
+    this.__manager = manager;
+    this.__window = manager.getWindow();
 
     // Gecko ignore keyevents when not explicitely clicked in the document.
     if (qx.core.Variant.isSet("qx.client", "gecko")) {
-      this._root = this._window;
+      this.__root = this.__window;
     } else {
-      this._root = this._window.document.documentElement;
+      this.__root = this.__window.document.documentElement;
     }
 
     // Internal sequence cache
-    this._lastUpDownType = {};
+    this.__lastUpDownType = {};
 
     // Initialize observer
     this._initKeyObserver();
@@ -154,6 +154,13 @@ qx.Class.define("qx.event.handler.Keyboard",
 
   members :
   {
+
+    __onKeyUpDownWrapper  : null,
+    __manager : null,
+    __window : null,
+    __root : null,
+    __lastUpDownType : null,
+
     /*
     ---------------------------------------------------------------------------
       EVENT HANDLER INTERFACE
@@ -193,7 +200,7 @@ qx.Class.define("qx.event.handler.Keyboard",
      */
     _fireInputEvent : function(domEvent, charCode)
     {
-      var focusHandler = this._manager.getHandler(qx.event.handler.Focus);
+      var focusHandler = this.__manager.getHandler(qx.event.handler.Focus);
       var target = focusHandler.getActive();
 
       // Fallback to focused element when active is null or invisible
@@ -205,11 +212,11 @@ qx.Class.define("qx.event.handler.Keyboard",
       if (target && target.offsetWidth != 0)
       {
         var event = qx.event.Registration.createEvent("keyinput", qx.event.type.KeyInput, [domEvent, target, charCode]);
-        this._manager.dispatchEvent(target, event);
+        this.__manager.dispatchEvent(target, event);
       }
 
       // Fire user action event
-      qx.event.Registration.fireEvent(this._window, "useraction", qx.event.type.Data, ["keyinput"]);
+      qx.event.Registration.fireEvent(this.__window, "useraction", qx.event.type.Data, ["keyinput"]);
     },
 
 
@@ -222,7 +229,7 @@ qx.Class.define("qx.event.handler.Keyboard",
      */
     _fireSequenceEvent : function(domEvent, type, keyIdentifier)
     {
-      var focusHandler = this._manager.getHandler(qx.event.handler.Focus);
+      var focusHandler = this.__manager.getHandler(qx.event.handler.Focus);
       var target = focusHandler.getActive();
 
       // Fallback to focused element when active is null or invisible
@@ -232,15 +239,15 @@ qx.Class.define("qx.event.handler.Keyboard",
 
       // Fallback to body when focused is null or invisible
       if (!target || target.offsetWidth == 0) {
-        target = this._manager.getWindow().document.body;
+        target = this.__manager.getWindow().document.body;
       }
 
       // Fire key event
       var event = qx.event.Registration.createEvent(type, qx.event.type.KeySequence, [domEvent, target, keyIdentifier]);
-      this._manager.dispatchEvent(target, event);
+      this.__manager.dispatchEvent(target, event);
 
       // Fire user action event
-      qx.event.Registration.fireEvent(this._window, "useraction", qx.event.type.Data, [type]);
+      qx.event.Registration.fireEvent(this.__window, "useraction", qx.event.type.Data, [type]);
     },
 
 
@@ -263,14 +270,14 @@ qx.Class.define("qx.event.handler.Keyboard",
      */
     _initKeyObserver : function()
     {
-      this._onKeyUpDownWrapper = qx.lang.Function.listener(this._onKeyUpDown, this);
+      this.__onKeyUpDownWrapper = qx.lang.Function.listener(this._onKeyUpDown, this);
       this._onKeyPressWrapper = qx.lang.Function.listener(this._onKeyPress, this);
 
       var Event = qx.bom.Event;
 
-      Event.addNativeListener(this._root, "keyup", this._onKeyUpDownWrapper);
-      Event.addNativeListener(this._root, "keydown", this._onKeyUpDownWrapper);
-      Event.addNativeListener(this._root, "keypress", this._onKeyPressWrapper);
+      Event.addNativeListener(this.__root, "keyup", this.__onKeyUpDownWrapper);
+      Event.addNativeListener(this.__root, "keydown", this.__onKeyUpDownWrapper);
+      Event.addNativeListener(this.__root, "keypress", this._onKeyPressWrapper);
     },
 
 
@@ -284,9 +291,9 @@ qx.Class.define("qx.event.handler.Keyboard",
     {
       var Event = qx.bom.Event;
 
-      Event.removeNativeListener(this._root, "keyup", this._onKeyUpDownWrapper);
-      Event.removeNativeListener(this._root, "keydown", this._onKeyUpDownWrapper);
-      Event.removeNativeListener(this._root, "keypress", this._onKeyPressWrapper);
+      Event.removeNativeListener(this.__root, "keyup", this.__onKeyUpDownWrapper);
+      Event.removeNativeListener(this.__root, "keydown", this.__onKeyUpDownWrapper);
+      Event.removeNativeListener(this.__root, "keypress", this._onKeyPressWrapper);
     },
 
 
@@ -316,7 +323,7 @@ qx.Class.define("qx.event.handler.Keyboard",
         var type = domEvent.type;
 
         // Ignore the down in such sequences dp dp dp
-        if (!(this._lastUpDownType[keyCode] == "keydown" && type == "keydown")) {
+        if (!(this.__lastUpDownType[keyCode] == "keydown" && type == "keydown")) {
           this._idealKeyHandler(keyCode, charCode, type, domEvent);
         }
 
@@ -330,7 +337,7 @@ qx.Class.define("qx.event.handler.Keyboard",
         }
 
         // Store last type
-        this._lastUpDownType[keyCode] = type;
+        this.__lastUpDownType[keyCode] = type;
       },
 
       "gecko" : function(domEvent)
@@ -344,12 +351,12 @@ qx.Class.define("qx.event.handler.Keyboard",
         {
           var keyIdentifier = keyCode ? this._keyCodeToIdentifier(keyCode) : this._charCodeToIdentifier(charCode);
 
-          if (!(this._lastUpDownType[keyIdentifier] == "keydown" && type == "keydown")) {
+          if (!(this.__lastUpDownType[keyIdentifier] == "keydown" && type == "keydown")) {
             this._idealKeyHandler(keyCode, charCode, type, domEvent);
           }
 
           // Store last type
-          this._lastUpDownType[keyIdentifier] = type;
+          this.__lastUpDownType[keyIdentifier] = type;
         }
 
         // all other OSes
@@ -390,7 +397,7 @@ qx.Class.define("qx.event.handler.Keyboard",
           var keyCode = domEvent.keyCode;
 
           // Ignore the down in such sequences dp dp dp
-          if (!(this._lastUpDownType[keyCode] == "keydown" && type == "keydown")) {
+          if (!(this.__lastUpDownType[keyCode] == "keydown" && type == "keydown")) {
             this._idealKeyHandler(keyCode, charCode, type, domEvent);
           }
 
@@ -404,7 +411,7 @@ qx.Class.define("qx.event.handler.Keyboard",
           }
 
           // Store last type
-          this._lastUpDownType[keyCode] = type;
+          this.__lastUpDownType[keyCode] = type;
         }
 
       },
@@ -746,7 +753,7 @@ qx.Class.define("qx.event.handler.Keyboard",
   destruct : function()
   {
     this._stopKeyObserver();
-    this._disposeFields("_manager", "_window", "_root", "_lastUpDownType");
+    this._disposeFields("__manager", "__window", "__root", "__lastUpDownType");
   },
 
 
