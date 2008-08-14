@@ -237,19 +237,19 @@ qx.Class.define("qx.bom.element.Decoration",
             if (repeat === "scale-x")
             {
               // Use clipped image (multi-images on x-axis)
-              var data = ResourceManager.getClippedImageData(source);
-              var imageHeight = ResourceManager.getImageHeight(data.source);
-              var uri = ResourceManager.toUri(data.source);
+              var data = ResourceManager.getData(source);
+              var imageHeight = ResourceManager.getImageHeight(data[4]);
+              var uri = ResourceManager.toUri(data[4]);
 
               // Add size and clipping
-              style.clip = {top: -data.top, height: height};
+              style.clip = {top: -data[6], height: height};
               style.height = imageHeight + "px";
 
               // Fix user given y-coordinate to include the combined image offset
               if (style.top != null) {
-                style.top = (parseInt(style.top) + data.top) + "px";
+                style.top = (parseInt(style.top) + data[6]) + "px";
               } else if (style.bottom != null) {
-                style.bottom = (parseInt(style.bottom) + height - imageHeight - data.top) + "px";
+                style.bottom = (parseInt(style.bottom) + height - imageHeight - data[6]) + "px";
               }
 
               return {
@@ -262,19 +262,19 @@ qx.Class.define("qx.bom.element.Decoration",
             else
             {
               // Use clipped image (multi-images on x-axis)
-              var data = ResourceManager.getClippedImageData(source);
-              var imageWidth = ResourceManager.getImageWidth(data.source);
-              var uri = ResourceManager.toUri(data.source);
+              var data = ResourceManager.getData(source);
+              var imageWidth = ResourceManager.getImageWidth(data[4]);
+              var uri = ResourceManager.toUri(data[4]);
 
               // Add size and clipping
-              style.clip = {left: -data.left, width: width};
+              style.clip = {left: -data[5], width: width};
               style.width = imageWidth + "px";
 
               // Fix user given x-coordinate to include the combined image offset
               if (style.left != null) {
-                style.left = (parseInt(style.left) + data.left) + "px";
+                style.left = (parseInt(style.left) + data[5]) + "px";
               } else if (style.right != null) {
-                style.right = (parseInt(style.right) + width - imageWidth - data.left) + "px";
+                style.right = (parseInt(style.right) + width - imageWidth - data[5]) + "px";
               }
 
               return {
@@ -314,8 +314,8 @@ qx.Class.define("qx.bom.element.Decoration",
           // Double axis repeats cannot be clipped
           if (clipped && repeat !== "repeat")
           {
-            var data = ResourceManager.getClippedImageData(source);
-            var bg = Background.getStyles(data.source, repeat, data.left, data.top);
+            var data = ResourceManager.getData(source);
+            var bg = Background.getStyles(data[4], repeat, data[5], data[6]);
             for (var key in bg) {
               style[key] = bg[key];
             }
