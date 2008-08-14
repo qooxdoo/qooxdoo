@@ -33,7 +33,7 @@
 
       "let" :
       {
-        "API_INCLUDE"  : ["=${APPLICATION}.*"]
+        "API_INCLUDE"  : ["${APPLICATION}.*"]
       }
     },
 
@@ -43,7 +43,7 @@
 
       "let" :
       {
-        "API_INCLUDE"  : ["=${APPLICATION}.*"]
+        "API_INCLUDE"  : ["${APPLICATION}.*"]
       }
     }
   }
