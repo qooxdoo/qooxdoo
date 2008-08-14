@@ -117,7 +117,6 @@ qx.Theme.define("qx.theme.modern.Appearance",
       }
     },
 
-
     "atom" : {},
     "atom/label" : "label",
     "atom/icon" : "image",
@@ -397,7 +396,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         };
       }
     },
-    
+
     "datefield/list" : "datechooser",
 
 
@@ -489,7 +488,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
     */
 
     "scrollarea" : "widget",
-    
+
     "scrollarea/corner" :
     {
       style : function(states)
@@ -904,15 +903,26 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          padding : states.pressed||states.checked ? 4 : states.hovered ? 4 : 6,
+          padding : states.pressed || states.checked || states.hovered ? 3 : 5,
           margin : 2,
-          decorator : states.pressed||states.checked ? "toolbar-button-checked" : states.hovered ? "toolbar-button-hovered" : "undefined",
+          decorator : states.pressed || states.checked ? "toolbar-button-checked" :
+            states.hovered ? "toolbar-button-hovered" : "undefined",
+
           textColor: states.disabled ? "text-disabled" : "text"
         };
       }
     },
 
-    "toolbar-splitbutton" : {},
+    "toolbar-splitbutton" :
+    {
+      style : function(states)
+      {
+        return {
+          margin : 2
+        }
+      }
+    },
+
     "toolbar-splitbutton/button" :
     {
       alias : "toolbar-button",
@@ -921,7 +931,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          marginRight: 0,
+          margin: 0,
           icon : "decoration/arrows/down.png"
         };
       }
@@ -936,7 +946,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       {
         return {
           padding : states.pressed||states.checked ? 1 : states.hovered ? 1 : 3,
-          marginLeft : 0,
+          margin : 0,
           icon : "decoration/arrows/down.png"
         };
       }
