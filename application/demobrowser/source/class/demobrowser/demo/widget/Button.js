@@ -76,7 +76,7 @@ qx.Class.define("demobrowser.demo.widget.Button",
       l1.setDecorator("black");
       l1.setPadding(2, 4);
       l1.setBackgroundColor("white");
-      this.getRoot().add(l1, {left:350, top:60});
+      container.add(l1);
 
       // Listener
       btnRepeat.addListener("execute", function()

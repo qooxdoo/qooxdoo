@@ -1,5 +1,5 @@
 .script {
-  padding: 5;
+  padding: 5px;
 }
 
 #qx_srcview pre{
@@ -22,7 +22,7 @@
 }
 
 #qx_srcview .ident {
-	
+
 }
 
 #qx_srcview .comment {
