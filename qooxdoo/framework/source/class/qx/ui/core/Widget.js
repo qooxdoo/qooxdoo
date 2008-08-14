@@ -2828,7 +2828,8 @@ qx.Class.define("qx.ui.core.Widget",
         // Blur when focused
         if (this.isFocusable())
         {
-          this.blur();
+          // Remove focused state
+          this.removeState("focused");
 
           // Remove tabIndex
           this._applyFocusable(false, true);
