@@ -61,9 +61,6 @@ qx.Class.define("qx.html.Element",
 
     // {String} Set tag name
     this._nodeName = tagName || "div";
-
-    // {Array} Stores the children (each one is a qx.html.Element itself)
-    this._children = [];
   },
 
 
@@ -453,16 +450,18 @@ qx.Class.define("qx.html.Element",
         }
       }
 
-      var children = this._children;
-      var length = children.length;
-
-      var child;
-      for (var i=0; i<length; i++)
+      var children = this.__children;
+      if (children)
       {
-        child = children[i];
+        var length = children.length;
+        var child;
+        for (var i=0; i<length; i++)
+        {
+          child = children[i];
 
-        if (child._visible && child._included && !child._element) {
-          child.__flush();
+          if (child._visible && child._included && !child._element) {
+            child.__flush();
+          }
         }
       }
 
@@ -473,7 +472,7 @@ qx.Class.define("qx.html.Element",
 
         this._copyData(false);
 
-        if (length > 0) {
+        if (children && length > 0) {
           this._insertChildren();
         }
       }
@@ -509,7 +508,7 @@ qx.Class.define("qx.html.Element",
      */
     _insertChildren : function()
     {
-      var children = this._children;
+      var children = this.__children;
       var length = children.length;
       var child;
 
@@ -551,7 +550,7 @@ qx.Class.define("qx.html.Element",
     {
       var ObjectRegistry = qx.core.ObjectRegistry;
 
-      var dataChildren = this._children;
+      var dataChildren = this.__children;
       var dataLength = dataChildren.length
       var dataChild;
       var dataEl;
@@ -571,7 +570,7 @@ qx.Class.define("qx.html.Element",
         domEl = domChildren[i];
         dataEl = ObjectRegistry.fromHashCode(domEl.$$hash);
 
-        if (!dataEl || !dataEl._included || dataEl._parent !== this)
+        if (!dataEl || !dataEl._included || dataEl.__parent !== this)
         {
           domParent.removeChild(domEl);
 
@@ -820,7 +819,7 @@ qx.Class.define("qx.html.Element",
           return false;
         }
 
-        pa = pa._parent;
+        pa = pa.__parent;
       }
 
       return false;
@@ -862,7 +861,7 @@ qx.Class.define("qx.html.Element",
      */
     __addChildHelper : function(child)
     {
-      if (child._parent === this) {
+      if (child.__parent === this) {
         throw new Error("Child is already in: " + child);
       }
 
@@ -871,12 +870,17 @@ qx.Class.define("qx.html.Element",
       }
 
       // Remove from previous parent
-      if (child._parent) {
-        child._parent.remove(child);
+      if (child.__parent) {
+        child.__parent.remove(child);
       }
 
       // Convert to child of this object
-      child._parent = this;
+      child.__parent = this;
+
+      // Prepare array
+      if (!this.__children) {
+        this.__children = [];
+      }
 
       // Schedule children update
       if (this._element) {
@@ -894,7 +898,7 @@ qx.Class.define("qx.html.Element",
      */
     __removeChildHelper : function(child)
     {
-      if (child._parent !== this) {
+      if (child.__parent !== this) {
         throw new Error("Has no child: " + child);
       }
 
@@ -904,7 +908,7 @@ qx.Class.define("qx.html.Element",
       }
 
       // Remove reference to old parent
-      delete child._parent;
+      delete child.__parent;
     },
 
 
@@ -917,7 +921,7 @@ qx.Class.define("qx.html.Element",
      */
     __moveChildHelper : function(child)
     {
-      if (child._parent !== this) {
+      if (child.__parent !== this) {
         throw new Error("Has no child: " + child);
       }
 
@@ -939,12 +943,15 @@ qx.Class.define("qx.html.Element",
     /**
      * Returns a copy of the internal children structure.
      *
+     * Please do not modify the array in place. If you need
+     * to work with the data in such a way make yourself
+     * a copy of the data first.
+     *
      * @return {Array} the children list
      */
     getChildren : function()
     {
-      // protect structure using a copy
-      return qx.lang.Array.copy(this._children);
+      return this.__children || null;
     },
 
 
@@ -955,18 +962,22 @@ qx.Class.define("qx.html.Element",
      * @return {qx.html.Element|null} The child element or <code>null</code> if
      *     no child is found at that index.
      */
-    getChild : function(index) {
-      return this._children[index] || null;
+    getChild : function(index)
+    {
+      var children = this.__children;
+      return children && children[index] || null;
     },
 
 
     /**
      * Returns whether the element has any child nodes
      *
-     *  @return {Boolean} Whether the element has any child nodes
+     * @return {Boolean} Whether the element has any child nodes
      */
-    hasChildren : function() {
-      return this._children[0] == undefined;
+    hasChildren : function()
+    {
+      var children = this.__children;
+      return children && children[0] !== undefined;
     },
 
 
@@ -977,8 +988,10 @@ qx.Class.define("qx.html.Element",
      * @return {Integer} returns the position. If the element
      *     is not a child <code>-1</code> will be returned.
      */
-    indexOf : function(child) {
-      return this._children.indexOf(child);
+    indexOf : function(child)
+    {
+      var children = this.__children;
+      return children ? children.indexOf(child) : -1;
     },
 
 
@@ -989,8 +1002,10 @@ qx.Class.define("qx.html.Element",
      * @return {Boolean} Returns <code>true</code> when the given
      *    element is a child of this element.
      */
-    hasChild : function(child) {
-      return this._children.indexOf(child) !== -1;
+    hasChild : function(child)
+    {
+      var children = this.__children;
+      return children && children.indexOf(child) !== -1;
     },
 
 
@@ -1002,20 +1017,18 @@ qx.Class.define("qx.html.Element",
      */
     add : function(childs)
     {
-      var children = this._children;
-
       if (arguments[1])
       {
         for (var i=0, l=arguments.length; i<l; i++) {
           this.__addChildHelper(arguments[i]);
         }
 
-        children.push.apply(children, arguments);
+        this.__children.push.apply(children, arguments);
       }
       else
       {
         this.__addChildHelper(childs);
-        children.push(childs);
+        this.__children.push(childs);
       }
 
       // Chaining support
@@ -1035,7 +1048,7 @@ qx.Class.define("qx.html.Element",
     addAt : function(child, index)
     {
       this.__addChildHelper(child);
-      qx.lang.Array.insertAt(this._children, child, index);
+      qx.lang.Array.insertAt(this.__children, child, index);
 
       // Chaining support
       return this;
@@ -1050,6 +1063,11 @@ qx.Class.define("qx.html.Element",
      */
     remove : function(childs)
     {
+      var children = this.__children;
+      if (!children) {
+        return;
+      }
+
       if (arguments[1])
       {
         var child;
@@ -1058,13 +1076,13 @@ qx.Class.define("qx.html.Element",
           child = arguments[i];
 
           this.__removeChildHelper(child);
-          qx.lang.Array.remove(this._children, child);
+          qx.lang.Array.remove(children, child);
         }
       }
       else
       {
         this.__removeChildHelper(childs);
-        qx.lang.Array.remove(this._children, childs);
+        qx.lang.Array.remove(children, childs);
       }
 
       // Chaining support
@@ -1081,14 +1099,18 @@ qx.Class.define("qx.html.Element",
      */
     removeAt : function(index)
     {
-      var child = this._children[index];
+      var children = this.__children;
+      if (!children) {
+        throw new Error("Has no children!");
+      }
 
+      var child = children[index];
       if (!child) {
         throw new Error("Has no child at this position!");
       }
 
       this.__removeChildHelper(child);
-      qx.lang.Array.removeAt(this._children, index);
+      qx.lang.Array.removeAt(this.__children, index);
 
       // Chaining support
       return this;
@@ -1102,13 +1124,16 @@ qx.Class.define("qx.html.Element",
      */
     removeAll : function()
     {
-      var children = this._children;
-      for (var i=0, l=children.length; i<l; i++) {
-        this.__removeChildHelper(children[i]);
-      }
+      var children = this.__children;
+      if (children)
+      {
+        for (var i=0, l=children.length; i<l; i++) {
+          this.__removeChildHelper(children[i]);
+        }
 
-      // Clear array
-      children.length = 0;
+        // Clear array
+        children.length = 0;
+      }
 
       // Chaining support
       return this;
@@ -1131,7 +1156,7 @@ qx.Class.define("qx.html.Element",
      * @return {qx.html.Element|null} The parent of this element
      */
     getParent : function() {
-      return this._parent || null;
+      return this.__parent || null;
     },
 
 
@@ -1149,9 +1174,9 @@ qx.Class.define("qx.html.Element",
       parent.__addChildHelper(this);
 
       if (index == null) {
-        parent._children.push(this);
+        parent.__children.push(this);
       } else {
-        qx.lang.Array.insertAt(this._children, this, index);
+        qx.lang.Array.insertAt(this.__children, this, index);
       }
 
       return this;
@@ -1166,10 +1191,10 @@ qx.Class.define("qx.html.Element",
      */
     insertBefore : function(rel)
     {
-      var parent = rel._parent;
+      var parent = rel.__parent;
 
       parent.__addChildHelper(this);
-      qx.lang.Array.insertBefore(parent._children, this, rel);
+      qx.lang.Array.insertBefore(parent.__children, this, rel);
 
       return this;
     },
@@ -1183,10 +1208,10 @@ qx.Class.define("qx.html.Element",
      */
     insertAfter : function(rel)
     {
-      var parent = rel._parent;
+      var parent = rel.__parent;
 
       parent.__addChildHelper(this);
-      qx.lang.Array.insertAfter(parent._children, this, rel);
+      qx.lang.Array.insertAfter(parent.__children, this, rel);
 
       return this;
     },
@@ -1202,11 +1227,11 @@ qx.Class.define("qx.html.Element",
      */
     moveTo : function(index)
     {
-      var parent = this._parent;
+      var parent = this.__parent;
 
       parent.__moveChildHelper(this);
 
-      var oldIndex = parent._children.indexOf(this);
+      var oldIndex = parent.__children.indexOf(this);
 
       if (oldIndex === index) {
         throw new Error("Could not move to same index!");
@@ -1214,8 +1239,8 @@ qx.Class.define("qx.html.Element",
         index--;
       }
 
-      qx.lang.Array.removeAt(parent._children, oldIndex);
-      qx.lang.Array.insertAt(parent._children, this, index);
+      qx.lang.Array.removeAt(parent.__children, oldIndex);
+      qx.lang.Array.insertAt(parent.__children, this, index);
 
       return this;
     },
@@ -1229,8 +1254,8 @@ qx.Class.define("qx.html.Element",
      */
     moveBefore : function(rel)
     {
-      var parent = this._parent;
-      return this.moveTo(parent._children.indexOf(rel));
+      var parent = this.__parent;
+      return this.moveTo(parent.__children.indexOf(rel));
     },
 
 
@@ -1242,8 +1267,8 @@ qx.Class.define("qx.html.Element",
      */
     moveAfter : function(rel)
     {
-      var parent = this._parent;
-      return this.moveTo(parent._children.indexOf(rel) + 1);
+      var parent = this.__parent;
+      return this.moveTo(parent.__children.indexOf(rel) + 1);
     },
 
 
@@ -1254,14 +1279,17 @@ qx.Class.define("qx.html.Element",
      */
     free : function()
     {
-      var parent = this._parent;
-
+      var parent = this.__parent;
       if (!parent) {
         throw new Error("Has no parent to remove from.");
       }
 
+      if (!parent.__children) {
+        return;
+      }
+
       parent.__removeChildHelper(this);
-      qx.lang.Array.remove(parent._children, this);
+      qx.lang.Array.remove(parent.__children, this);
 
       return this;
     },
@@ -1384,8 +1412,8 @@ qx.Class.define("qx.html.Element",
 
       delete this._included;
 
-      if (this._parent) {
-        this._parent._scheduleChildrenUpdate();
+      if (this.__parent) {
+        this.__parent._scheduleChildrenUpdate();
       }
 
       return this;
@@ -1406,8 +1434,8 @@ qx.Class.define("qx.html.Element",
 
       this._included = false;
 
-      if (this._parent) {
-        this._parent._scheduleChildrenUpdate();
+      if (this.__parent) {
+        this.__parent._scheduleChildrenUpdate();
       }
 
       return this;
@@ -1454,8 +1482,8 @@ qx.Class.define("qx.html.Element",
       }
 
       // Must be sure that the element gets included into the DOM.
-      if (this._parent) {
-        this._parent._scheduleChildrenUpdate();
+      if (this.__parent) {
+        this.__parent._scheduleChildrenUpdate();
       }
 
       delete this._visible;
@@ -2327,13 +2355,13 @@ qx.Class.define("qx.html.Element",
       qx.event.Registration.getManager(el).removeAllListeners(el);
     }
 
-    if (this._parent) {
-      this._parent.remove(this);
+    if (this.__parent) {
+      this.__parent.remove(this);
     }
 
-    this._disposeArray("_children");
+    this._disposeArray("__children");
     this._disposeFields("__attribValues", "__styleValues", "__eventValues",
       "__propertyValues", "__attribJobs", "__styleJobs", "__propertyJobs",
-      "_element", "_parent");
+      "_element", "__parent");
   }
 });
