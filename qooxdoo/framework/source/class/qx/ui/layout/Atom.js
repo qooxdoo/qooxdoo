@@ -88,7 +88,7 @@ qx.Class.define("qx.ui.layout.Atom",
     center :
     {
       check : "Boolean",
-      init : true,
+      init : false,
       apply : "_applyLayoutChange"
     }
   },

@@ -88,7 +88,6 @@ qx.Class.define("demobrowser.demo.widget.Window",
       this.getRoot().add(win, {left:350, top:120});
 
       var atom = new qx.ui.basic.Atom("The second window", "icon/22/apps/utilities-calculator.png");
-      atom.setCenter(false);
       win.add(atom);
 
 

@@ -148,6 +148,7 @@ qx.Class.define("demobrowser.demo.widget.Atom",
       container3.add(new qx.ui.basic.Atom("Wider Atom").set({
         backgroundColor : "#E6EDFA",
         decorator : "black",
+        center : true,
         padding : 5,
         width : 100,
         allowGrowY: false
@@ -156,6 +157,7 @@ qx.Class.define("demobrowser.demo.widget.Atom",
       container3.add(new qx.ui.basic.Atom("Wider Atom", "icon/32/apps/utilities-notes.png").set({
         backgroundColor : "#E6EDFA",
         decorator : "black",
+        center : true,
         padding : 5,
         width : 140,
         allowGrowY: false
@@ -166,6 +168,7 @@ qx.Class.define("demobrowser.demo.widget.Atom",
         backgroundColor : "#E6EDFA",
         decorator : "black",
         iconPosition : "top",
+        center : true,
         padding : 5,
         height : 100,
         allowGrowY: false

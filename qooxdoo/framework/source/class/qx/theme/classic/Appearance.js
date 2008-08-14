@@ -270,8 +270,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
           padding         : states.lead ? [ 2, 4 ] : [ 3, 5 ],
           backgroundColor : states.selected ? "background-selected" : "undefined",
           textColor       : states.selected ? "text-selected" : "undefined",
-          decorator       : states.lead ? "lead-item" : "undefined",
-          center          : false
+          decorator       : states.lead ? "lead-item" : "undefined"
         };
       }
     },
@@ -907,7 +906,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
         }
 
         return {
-          center : false,
           padding : padding,
           icon : icon
         }
@@ -1629,8 +1627,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     // TODO: "control-bar"
     "colorselector/control-bar" : "widget",
-    
-    
+
+
     "coloselector/control-pane":
     {
       style : function(states)
@@ -1644,8 +1642,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     // TODO: "preset-grid"
     "colorselector/preset-grid" : "widget",
-    
-    
+
+
     "colorselector-colorbucket":
     {
       style : function(states)
@@ -1712,19 +1710,19 @@ qx.Theme.define("qx.theme.classic.Appearance",
         }
       }
     },
-    
-    
+
+
     "colorselector/hue-saturation-field":
     {
       style : function(states)
       {
         return {
           decorator : "inset-thin",
-          margin : 5      
+          margin : 5
         }
       }
     },
-    
+
     "colorselector/hue-saturation-handle" : "widget",
 
     "colorselector/brightness-pane":
@@ -1736,7 +1734,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
         }
       }
     },
-    
+
     "colorselector/brightness-field":
     {
       style : function(states)
@@ -1747,7 +1745,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
         }
       }
     },
-    
+
     "colorselector/brightness-handle" : "widget",
 
 
