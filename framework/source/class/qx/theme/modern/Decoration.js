@@ -1054,7 +1054,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
     ---------------------------------------------------------------------------
     */   
     
-    "colorselector-preview-content" :
+    "border" :
     {
       decorator : qx.ui.decoration.Single,
 

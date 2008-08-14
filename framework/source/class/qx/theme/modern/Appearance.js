@@ -1789,7 +1789,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          decorator : "tooltip",
+          decorator : "border",
           width : 18,
           height : 14
         }
@@ -1821,7 +1821,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          decorator : "tooltip",
+          decorator : "border",
           width : 50,
           height : 20
         }
@@ -1833,7 +1833,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          decorator : "tooltip",
+          decorator : "border",
           backgroundColor : "white",
           width : 50,
           height : 20
@@ -1857,7 +1857,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          decorator : "tooltip",
+          decorator : "border",
           margin : 5
         }
       }
@@ -1880,7 +1880,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          decorator : "tooltip",
+          decorator : "border",
           margin : [5, 7]
         }
       }
@@ -1916,7 +1916,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          decorator : "tooltip",
+          decorator : "border",
           margin : 2,
           width : 14,
           height : 14,
@@ -1932,7 +1932,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         return {
           height : 20,
           padding: 4,
-          decorator : "tooltip",
+          decorator : "border",
           allowGrowX : true
         }
       }
