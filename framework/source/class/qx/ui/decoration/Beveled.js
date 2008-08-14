@@ -260,9 +260,9 @@ qx.Class.define("qx.ui.decoration.Beveled",
     tint : function(element, bgcolor)
     {
       var dom = element.getDomElement();
-      var innerBackground = dom.childNodes[3].style;
-      var resolvedColor = qx.theme.manager.Color.getInstance().resolve(bgcolor);
-      innerBackground.backgroundColor = resolvedColor;
+      var Color = qx.theme.manager.Color.getInstance();
+
+      dom.childNodes[3].style.backgroundColor = Color.resolve(bgcolor);
     },
 
 
