@@ -393,61 +393,12 @@ qx.Theme.define("qx.theme.modern.Appearance",
         return {
           icon : "icon/16/apps/office-calendar.png",
           padding : [0, 3],
-          backgroundColor : states.disabled ? "background-disabled" : states.focused ? "background-focused" : "background-field",
           decorator : "undefined"
         };
       }
     },
-
-    "datefield/list" :
-    {
-      alias : "datechooser",
-      include : "datechooser"
-    },
-
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      COLORFIELD
-    ---------------------------------------------------------------------------
-    */
-
-    "colorfield" : "combobox",
-
-    "colorfield/button" :
-    {
-      alias : "combobox/button",
-      include : "combobox/button",
-
-      style : function(states)
-      {
-        return {
-          icon : "icon/16/apps/utilities-color-chooser.png",
-          padding : [0, 3],
-          backgroundColor : states.disabled ? "background-disabled" : states.focused ? "background-focused" : "background-field",
-          decorator : "undefined"
-        };
-      }
-    },
-
-    "colorfield/list" : "list",
-
-
-    "colorfield/popup" : {
-      alias : "widget",
-      include : "widget",
-      style : function(states)
-      {
-        return {
-          shadow : "popup-shadow"
-        }
-      }
-    },
-
-
+    
+    "datefield/list" : "datechooser",
 
 
 
