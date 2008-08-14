@@ -19,7 +19,29 @@
 
 /**
  * This class represents a test suite for a unit test class.
+ * 
+ * To create your own unit tests, create a class that derives from this one, and
+ * add member methods that start with "test*". You can use assertion methods
+ * inherited from *TestClass* to ease the implementation process.
+ *
+ * A simple example:
+ * <pre class='javascript'>
+ * qx. Class.define("myapp.test.MyUnitTest"),
+ * {
+ *   extend  : qx.dev.unit.TestCase,
+ *
+ *   members :
+ *   {
+ *     testMe : function ()
+ *     {
+ *       // 'assertEquals' is from the parent
+ *       this.assertEquals(4, 3+1, "failure message");
+ *     }
+ *   }
+ * }
+ * </pre>
  */
+
 qx.Class.define("qx.dev.unit.TestClass",
 {
   extend : qx.dev.unit.TestSuite,
