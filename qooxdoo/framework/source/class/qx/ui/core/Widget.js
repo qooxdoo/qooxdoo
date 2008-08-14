@@ -2146,7 +2146,7 @@ qx.Class.define("qx.ui.core.Widget",
 
         // Tint decorator
         var bgcolor = this.getBackgroundColor();
-        mgr.resolve(value).tint(elem, bgcolor ? mgr.resolve(bgcolor) : null);
+        mgr.resolve(value).tint(elem, bgcolor ? bgcolor : null);
 
         // Add to container
         container.add(elem);
@@ -2157,6 +2157,12 @@ qx.Class.define("qx.ui.core.Widget",
       else
       {
         delete this.__decoratorElement;
+      }
+
+
+      // Remove background color from container
+      if (value && !old && bgcolor) {
+        this.getContainerElement().setStyle("backgroundColor", null);
       }
 
 
@@ -2572,7 +2578,7 @@ qx.Class.define("qx.ui.core.Widget",
           for (var prop in newData)
           {
             if (!this[styler[prop]]) {
-              throw new Error(this.classname + ' has no themeable property "' + prop + '"');
+              throw new Error(this.classname + ' has no themeable property "' + prop + '" while styling ' + selector);
             }
           }
         }
