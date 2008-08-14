@@ -276,7 +276,7 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
      * @param e {qx.event.type.Data} Data event
      */
     _onResize : function(e){
-      this._getChildControl("list").setMinWidth(e.getData().width);
+      this._getChildControl("popup").setMinWidth(e.getData().width);
     },
 
 
