@@ -36,7 +36,7 @@ qx.Class.define("qx.util.format.DateFormat",
 
   /**
    * @param format {String} The format to use. If null, the
-   *    {@link #DEFAULT_DATE_TIME_FORMAT} is used.
+   *    {@link #DEFAULT_DATE_TIME__format} is used.
    * @param locale {String} optional locale to be used
    */
   construct : function(format, locale)
@@ -44,15 +44,15 @@ qx.Class.define("qx.util.format.DateFormat",
     this.base(arguments);
 
     if (!locale) {
-      this._locale = qx.locale.Manager.getInstance().getLocale();
+      this.__locale = qx.locale.Manager.getInstance().getLocale();
     } else {
-      this._locale = locale;
+      this.__locale = locale;
     }
 
     if (format != null) {
-      this._format = format.toString();
+      this.__format = format.toString();
     } else {
-      this._format = qx.locale.Date.getDateFormat("long", this._locale) + " " + qx.locale.Date.getDateTimeFormat("HHmmss", "HH:mm:ss", this._locale);
+      this.__format = qx.locale.Date.getDateFormat("long", this.__locale) + " " + qx.locale.Date.getDateTimeFormat("HHmmss", "HH:mm:ss", this.__locale);
     }
   },
 
@@ -69,7 +69,7 @@ qx.Class.define("qx.util.format.DateFormat",
   {
     /**
      * Returns a <code>DateFomat</code> instance that uses the
-     * {@link #DEFAULT_DATE_TIME_FORMAT}.
+     * {@link #DEFAULT_DATE_TIME__format}.
      *
      * @return {String} the date/time instance.
      */
@@ -79,7 +79,7 @@ qx.Class.define("qx.util.format.DateFormat",
 
       var format = qx.locale.Date.getDateFormat("long") + " " + qx.locale.Date.getDateTimeFormat("HHmmss", "HH:mm:ss");
 
-      if (DateFormat._dateInstance == null || DateFormat._format != format) {
+      if (DateFormat._dateInstance == null || DateFormat.__format != format) {
         DateFormat._dateTimeInstance = new DateFormat();
       }
 
@@ -89,7 +89,7 @@ qx.Class.define("qx.util.format.DateFormat",
 
     /**
      * Returns a <code>DateFomat</code> instance that uses the
-     * {@link #DEFAULT_DATE_FORMAT}.
+     * {@link #DEFAULT_DATE__format}.
      *
      * @return {String} the date instance.
      */
@@ -99,7 +99,7 @@ qx.Class.define("qx.util.format.DateFormat",
 
       var format = qx.locale.Date.getDateFormat("short") + "";
 
-      if (DateFormat._dateInstance == null || DateFormat._format != format) {
+      if (DateFormat._dateInstance == null || DateFormat.__format != format) {
         DateFormat._dateInstance = new DateFormat(format);
       }
 
@@ -116,7 +116,7 @@ qx.Class.define("qx.util.format.DateFormat",
     ASSUME_YEAR_2000_THRESHOLD : 30,
 
     /** {String} The date format used for logging. */
-    LOGGING_DATE_TIME_FORMAT : "yyyy-MM-dd HH:mm:ss",
+    LOGGING_DATE_TIME__format : "yyyy-MM-dd HH:mm:ss",
 
     /** {String} The am marker. */
     AM_MARKER : "am",
@@ -144,6 +144,12 @@ qx.Class.define("qx.util.format.DateFormat",
 
   members :
   {
+
+    __locale : null,
+    __format : null,
+    __parseFeed : null,
+    __parseRules : null,
+
     /**
      * Fills a number with leading zeros ("25" -> "0025").
      *
@@ -237,7 +243,7 @@ qx.Class.define("qx.util.format.DateFormat",
     format : function(date)
     {
       var DateFormat = qx.util.format.DateFormat;
-      var locale = this._locale;
+      var locale = this.__locale;
 
       var fullYear = date.getFullYear();
       var month = date.getMonth();
@@ -253,9 +259,9 @@ qx.Class.define("qx.util.format.DateFormat",
       this.__initFormatTree();
       var output = "";
 
-      for (var i=0; i<this.__formatTree.length; i++)
+      for (var i=0; i<this.___formatTree.length; i++)
       {
-        var currAtom = this.__formatTree[i];
+        var currAtom = this.___formatTree[i];
 
         if (currAtom.type == "literal") {
           output += currAtom.text;
@@ -390,10 +396,10 @@ qx.Class.define("qx.util.format.DateFormat",
       this.__initParseFeed();
 
       // Apply the regex
-      var hit = this._parseFeed.regex.exec(dateStr);
+      var hit = this.__parseFeed.regex.exec(dateStr);
 
       if (hit == null) {
-        throw new Error("Date string '" + dateStr + "' does not match the date format: " + this._format);
+        throw new Error("Date string '" + dateStr + "' does not match the date format: " + this.__format);
       }
 
       // Apply the rules
@@ -411,9 +417,9 @@ qx.Class.define("qx.util.format.DateFormat",
 
       var currGroup = 1;
 
-      for (var i=0; i<this._parseFeed.usedRules.length; i++)
+      for (var i=0; i<this.__parseFeed.usedRules.length; i++)
       {
-        var rule = this._parseFeed.usedRules[i];
+        var rule = this.__parseFeed.usedRules[i];
 
         var value = hit[currGroup];
 
@@ -446,16 +452,16 @@ qx.Class.define("qx.util.format.DateFormat",
      */
     __initFormatTree : function()
     {
-      if (this.__formatTree != null) {
+      if (this.___formatTree != null) {
         return;
       }
 
-      this.__formatTree = [];
+      this.___formatTree = [];
 
       var currWildcardChar;
       var currWildcardSize = 0;
       var currLiteral = "";
-      var format = this._format;
+      var format = this.__format;
 
       var state = "default";
 
@@ -517,7 +523,7 @@ qx.Class.define("qx.util.format.DateFormat",
             else
             {
               // It does not -> The current wildcard is done
-              this.__formatTree.push(
+              this.___formatTree.push(
               {
                 type      : "wildcard",
                 character : currWildcardChar,
@@ -571,7 +577,7 @@ qx.Class.define("qx.util.format.DateFormat",
               // Add the literal
               if (currLiteral.length > 0)
               {
-                this.__formatTree.push(
+                this.___formatTree.push(
                 {
                   type : "literal",
                   text : currLiteral
@@ -594,7 +600,7 @@ qx.Class.define("qx.util.format.DateFormat",
       // Add the last wildcard or literal
       if (currWildcardChar != null)
       {
-        this.__formatTree.push(
+        this.___formatTree.push(
         {
           type      : "wildcard",
           character : currWildcardChar,
@@ -603,7 +609,7 @@ qx.Class.define("qx.util.format.DateFormat",
       }
       else if (currLiteral.length > 0)
       {
-        this.__formatTree.push(
+        this.___formatTree.push(
         {
           type : "literal",
           text : currLiteral
@@ -623,13 +629,13 @@ qx.Class.define("qx.util.format.DateFormat",
      */
     __initParseFeed : function()
     {
-      if (this._parseFeed != null)
+      if (this.__parseFeed != null)
       {
         // We already have the parse feed
         return ;
       }
 
-      var format = this._format;
+      var format = this.__format;
 
       // Initialize the rules
       this.__initParseRules();
@@ -639,9 +645,9 @@ qx.Class.define("qx.util.format.DateFormat",
       var usedRules = [];
       var pattern = "^";
 
-      for (var atomIdx=0; atomIdx<this.__formatTree.length; atomIdx++)
+      for (var atomIdx=0; atomIdx<this.___formatTree.length; atomIdx++)
       {
-        var currAtom = this.__formatTree[atomIdx];
+        var currAtom = this.___formatTree[atomIdx];
 
         if (currAtom.type == "literal") {
           pattern += qx.lang.String.escapeRegexpChars(currAtom.text);
@@ -655,9 +661,9 @@ qx.Class.define("qx.util.format.DateFormat",
           // Get the rule for this wildcard
           var wildcardRule;
 
-          for (var ruleIdx=0; ruleIdx<this._parseRules.length; ruleIdx++)
+          for (var ruleIdx=0; ruleIdx<this.__parseRules.length; ruleIdx++)
           {
-            var rule = this._parseRules[ruleIdx];
+            var rule = this.__parseRules[ruleIdx];
 
             if (wildcardChar == rule.pattern.charAt(0) && wildcardSize == rule.pattern.length)
             {
@@ -699,8 +705,8 @@ qx.Class.define("qx.util.format.DateFormat",
         throw new Error("Malformed date format: " + format);
       }
 
-      // Create the this._parseFeed
-      this._parseFeed =
+      // Create the this.__parseFeed
+      this.__parseFeed =
       {
         regex       : regex,
         "usedRules" : usedRules,
@@ -718,13 +724,13 @@ qx.Class.define("qx.util.format.DateFormat",
     {
       var DateFormat = qx.util.format.DateFormat;
 
-      if (this._parseRules != null)
+      if (this.__parseRules != null)
       {
         // The parse rules are already initialized
         return ;
       }
 
-      this._parseRules = [];
+      this.__parseRules = [];
 
       var yearManipulator = function(dateValues, value)
       {
@@ -759,7 +765,7 @@ qx.Class.define("qx.util.format.DateFormat",
         return;
       };
 
-      var shortMonthNames = qx.locale.Date.getMonthNames("abbreviated", this._locale);
+      var shortMonthNames = qx.locale.Date.getMonthNames("abbreviated", this.__locale);
       for (var i=0; i<shortMonthNames.length; i++) {
         shortMonthNames[i] = qx.lang.String.escapeRegexpChars(shortMonthNames[i].toString());
       }
@@ -769,7 +775,7 @@ qx.Class.define("qx.util.format.DateFormat",
         dateValues.month = shortMonthNames.indexOf(value);
       }
 
-      var fullMonthNames = qx.locale.Date.getMonthNames("wide", this._locale);
+      var fullMonthNames = qx.locale.Date.getMonthNames("wide", this.__locale);
       for (var i=0; i<fullMonthNames.length; i++) {
         fullMonthNames[i] = qx.lang.String.escapeRegexpChars(fullMonthNames[i].toString());
       }
@@ -779,7 +785,7 @@ qx.Class.define("qx.util.format.DateFormat",
         dateValues.month = fullMonthNames.indexOf(value);
       }
 
-      var narrowDayNames = qx.locale.Date.getDayNames("narrow", this._locale);
+      var narrowDayNames = qx.locale.Date.getDayNames("narrow", this.__locale);
       for (var i=0; i<narrowDayNames.length; i++) {
         narrowDayNames[i] = qx.lang.String.escapeRegexpChars(narrowDayNames[i].toString());
       }
@@ -789,7 +795,7 @@ qx.Class.define("qx.util.format.DateFormat",
         dateValues.month = narrowDayNames.indexOf(value);
       }
 
-      var abbrDayNames = qx.locale.Date.getDayNames("abbreviated", this._locale);
+      var abbrDayNames = qx.locale.Date.getDayNames("abbreviated", this.__locale);
       for (var i=0; i<abbrDayNames.length; i++) {
         abbrDayNames[i] = qx.lang.String.escapeRegexpChars(abbrDayNames[i].toString());
       }
@@ -799,7 +805,7 @@ qx.Class.define("qx.util.format.DateFormat",
         dateValues.month = abbrDayNames.indexOf(value);
       }
 
-      var fullDayNames = qx.locale.Date.getDayNames("wide", this._locale);
+      var fullDayNames = qx.locale.Date.getDayNames("wide", this.__locale);
       for (var i=0; i<fullDayNames.length; i++) {
         fullDayNames[i] = qx.lang.String.escapeRegexpChars(fullDayNames[i].toString());
       }
@@ -812,7 +818,7 @@ qx.Class.define("qx.util.format.DateFormat",
       // Unsupported: w (Week in year), W (Week in month), D (Day in year),
       // F (Day of week in month), z (time zone) reason: no setter in Date class,
       // Z (RFC 822 time zone) reason: no setter in Date class
-      this._parseRules.push(
+      this.__parseRules.push(
       {
         pattern     : "yyyy",
         regex       : "(\\d\\d(\\d\\d)?)",
@@ -820,182 +826,182 @@ qx.Class.define("qx.util.format.DateFormat",
         manipulator : yearManipulator
       });
 
-      this._parseRules.push(
+      this.__parseRules.push(
       {
         pattern     : "yy",
         regex       : "(\\d\\d)",
         manipulator : yearManipulator
       });
 
-      this._parseRules.push(
+      this.__parseRules.push(
       {
         pattern     : "M",
         regex       : "(\\d\\d?)",
         manipulator : monthManipulator
       });
 
-      this._parseRules.push(
+      this.__parseRules.push(
       {
         pattern     : "MM",
         regex       : "(\\d\\d?)",
         manipulator : monthManipulator
       });
 
-      this._parseRules.push(
+      this.__parseRules.push(
       {
         pattern     : "MMM",
         regex       : "(" + shortMonthNames.join("|") + ")",
         manipulator : shortMonthNamesManipulator
       });
 
-      this._parseRules.push(
+      this.__parseRules.push(
       {
         pattern     : "MMMM",
         regex       : "(" + fullMonthNames.join("|") + ")",
         manipulator : fullMonthNamesManipulator
       });
 
-      this._parseRules.push(
+      this.__parseRules.push(
       {
         pattern : "dd",
         regex   : "(\\d\\d?)",
         field   : "day"
       });
 
-      this._parseRules.push(
+      this.__parseRules.push(
       {
         pattern : "d",
         regex   : "(\\d\\d?)",
         field   : "day"
       });
 
-      this._parseRules.push(
+      this.__parseRules.push(
       {
         pattern     : "EE",
         regex       : "(" + narrowDayNames.join("|") + ")",
         manipulator : narrowDayNamesManipulator
       });
 
-      this._parseRules.push(
+      this.__parseRules.push(
       {
         pattern     : "EEE",
         regex       : "(" + abbrDayNames.join("|") + ")",
         manipulator : abbrDayNamesManipulator
       });
 
-      this._parseRules.push(
+      this.__parseRules.push(
       {
         pattern     : "EEEE",
         regex       : "(" + fullDayNames.join("|") + ")",
         manipulator : fullDayNamesManipulator
       });
 
-      this._parseRules.push(
+      this.__parseRules.push(
       {
         pattern     : "a",
         regex       : "(" + DateFormat.AM_MARKER + "|" + DateFormat.PM_MARKER + ")",
         manipulator : ampmManipulator
       });
 
-      this._parseRules.push(
+      this.__parseRules.push(
       {
         pattern : "HH",
         regex   : "(\\d\\d?)",
         field   : "hour"
       });
 
-      this._parseRules.push(
+      this.__parseRules.push(
       {
         pattern : "H",
         regex   : "(\\d\\d?)",
         field   : "hour"
       });
 
-      this._parseRules.push(
+      this.__parseRules.push(
       {
         pattern     : "kk",
         regex       : "(\\d\\d?)",
         manipulator : noZeroHourManipulator
       });
 
-      this._parseRules.push(
+      this.__parseRules.push(
       {
         pattern     : "k",
         regex       : "(\\d\\d?)",
         manipulator : noZeroHourManipulator
       });
 
-      this._parseRules.push(
+      this.__parseRules.push(
       {
         pattern : "KK",
         regex   : "(\\d\\d?)",
         field   : "hour"
       });
 
-      this._parseRules.push(
+      this.__parseRules.push(
       {
         pattern : "K",
         regex   : "(\\d\\d?)",
         field   : "hour"
       });
 
-      this._parseRules.push(
+      this.__parseRules.push(
       {
         pattern     : "hh",
         regex       : "(\\d\\d?)",
         manipulator : noZeroAmPmHourManipulator
       });
 
-      this._parseRules.push(
+      this.__parseRules.push(
       {
         pattern     : "h",
         regex       : "(\\d\\d?)",
         manipulator : noZeroAmPmHourManipulator
       });
 
-      this._parseRules.push(
+      this.__parseRules.push(
       {
         pattern : "mm",
         regex   : "(\\d\\d?)",
         field   : "min"
       });
 
-      this._parseRules.push(
+      this.__parseRules.push(
       {
         pattern : "m",
         regex   : "(\\d\\d?)",
         field   : "min"
       });
 
-      this._parseRules.push(
+      this.__parseRules.push(
       {
         pattern : "ss",
         regex   : "(\\d\\d?)",
         field   : "sec"
       });
 
-      this._parseRules.push(
+      this.__parseRules.push(
       {
         pattern : "s",
         regex   : "(\\d\\d?)",
         field   : "sec"
       });
 
-      this._parseRules.push(
+      this.__parseRules.push(
       {
         pattern : "SSS",
         regex   : "(\\d\\d?\\d?)",
         field   : "ms"
       });
 
-      this._parseRules.push(
+      this.__parseRules.push(
       {
         pattern : "SS",
         regex   : "(\\d\\d?\\d?)",
         field   : "ms"
       });
 
-      this._parseRules.push(
+      this.__parseRules.push(
       {
         pattern : "S",
         regex   : "(\\d\\d?\\d?)",
@@ -1003,7 +1009,7 @@ qx.Class.define("qx.util.format.DateFormat",
       });
 
       // TODO: Needs implementation
-      this._parseRules.push(
+      this.__parseRules.push(
       {
         pattern     : "Z",
         regex       : "((\\+|\\-)\\d\\d:?\\d\\d)",
@@ -1011,7 +1017,7 @@ qx.Class.define("qx.util.format.DateFormat",
       });
 
       // TODO: Needs implementation
-      this._parseRules.push(
+      this.__parseRules.push(
       {
         pattern     : "z",
         regex       : "([a-zA-Z]+)",
@@ -1030,6 +1036,6 @@ qx.Class.define("qx.util.format.DateFormat",
   */
 
   destruct : function() {
-    this._disposeFields("_format", "_locale", "__formatTree", "_parseFeed", "_parseRules");
+    this._disposeFields("__format", "__locale", "___formatTree", "__parseFeed", "__parseRules");
   }
 });
