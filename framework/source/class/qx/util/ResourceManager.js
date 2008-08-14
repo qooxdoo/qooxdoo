@@ -58,12 +58,12 @@ qx.Bootstrap.define("qx.util.ResourceManager",
      * returned.
      *
      * @param id {String} Resource identifier
-     * @return {Integer} The image width
+     * @return {Integer} The image width, maybe <code>null</code> when the width is unknown
      */
     getImageWidth : function(id)
     {
       var entry = this.__registry[id];
-      return entry ? entry[0] : 0;
+      return entry ? entry[0] : null;
     },
 
 
@@ -73,12 +73,12 @@ qx.Bootstrap.define("qx.util.ResourceManager",
      * returned.
      *
      * @param id {String} Resource identifier
-     * @return {Integer} The image height
+     * @return {Integer} The image height, maybe <code>null</code> when the height is unknown
      */
     getImageHeight : function(id)
     {
       var entry = this.__registry[id];
-      return entry ? entry[1] : 0;
+      return entry ? entry[1] : null;
     },
 
 
@@ -92,7 +92,7 @@ qx.Bootstrap.define("qx.util.ResourceManager",
     isClippedImage : function(id)
     {
       var entry = this.__registry[id];
-      return entry.length > 4;
+      return entry && entry.length > 4;
     },
 
 

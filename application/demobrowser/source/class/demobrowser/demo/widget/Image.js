@@ -63,6 +63,9 @@ qx.Class.define("demobrowser.demo.widget.Image",
       big.setHeight(64);
       container.add(big);
 
+      var external = new qx.ui.basic.Image("http://resources.qooxdoo.org/images/logo.gif");
+      container.add(external);
+
 
       // toggle button
       var btn = new qx.ui.form.ToggleButton("Toggle enabled");
