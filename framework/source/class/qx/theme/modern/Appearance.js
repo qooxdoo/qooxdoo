@@ -193,7 +193,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       {
         return {
           padding : [ 2, 8 ],
-          center : true,
+          center : true
         };
       }
     },
