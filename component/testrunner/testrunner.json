@@ -8,6 +8,7 @@
     "QOOXDOO_PATH" : "../../framework",
     "QOOXDOO_URI"  : "../${QOOXDOO_PATH}",
     "TESTRUNNER_ROOT" : ".",
+    "TESTRUNNER"   : "testrunner",
     "BUILD_PATH"   : "build",
     "THEME"        : "qx.theme.Modern"
   },
@@ -37,8 +38,11 @@
 
       "settings" :
       {
-        "qx.application" : "testrunner.runner.Application",
-        "qx.theme"       : "${THEME}"
+        "qx.application"   : "testrunner.runner.Application",
+        "qx.theme"         : "${THEME}",
+        "qx.testPageUri"   : "html/tests.html",
+        "qx.testNameSpace" : "${APPLICATION}.test",  // this is common, but not mandatory
+        "testrunner.title" : "${APPLICATION}"
       },
 
       "themes" :
@@ -76,13 +80,6 @@
       ],
 
       "include" : ["testrunner.TestLoader", "${APPLICATION}.test.*"],
-
-      "settings" : 
-      {
-        "qx.testPageUri"   : "html/tests.html",
-        "qx.testNameSpace" : "${APPLICATION}.test",
-        "testrunner.title" : "${APPLICATION}"
-      },
 
       "cache" :
       {
@@ -172,8 +169,8 @@
       "compile-dist" :
       {
         "target" : "${BUILD_PATH}",
-        "file"   : "${BUILD_PATH}/script/${APPLICATION}.js", // this should be relative to 'target'
-        "uri"    : "script/${APPLICATION}.js",  // this should be calculated from 'root'
+        "file"   : "${BUILD_PATH}/script/${TESTRUNNER}.js", // this should be relative to 'target'
+        "uri"    : "script/${TESTRUNNER}.js",  // this should be calculated from 'root'
         "root"   : "${BUILD_PATH}"  // should be relative to 'target'?
       }
     },
