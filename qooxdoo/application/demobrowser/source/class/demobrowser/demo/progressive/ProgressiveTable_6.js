@@ -41,7 +41,6 @@ qx.Class.define("demobrowser.demo.progressive.ProgressiveTable_6",
       // doLoad function.
       this.__loadCount = 0;
 
-      var am = qx.util.AliasManager.getInstance();
       var aliasManager = qx.util.AliasManager.getInstance();
       var resourceManager = qx.util.ResourceManager;
       var resolved;
