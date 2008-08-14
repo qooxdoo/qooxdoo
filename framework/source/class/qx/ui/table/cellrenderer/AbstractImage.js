@@ -123,30 +123,28 @@ qx.Class.define("qx.ui.table.cellrenderer.AbstractImage",
     // overridden
     _getContentHtml : function(cellInfo)
     {
-      var content = ['<div style="display:-moz-inline-box;display:inline-block;vertical-align:top;'];
       var urlAndToolTip = this._getImageInfos(cellInfo);
+
+      var content = "<div></div>";
 
       // set image
       if (urlAndToolTip.url) {
-        content.push(qx.bom.element.Background.compile(urlAndToolTip.url, "no-repeat"));
-      }
-
-      // set size
-      if (urlAndToolTip.imageWidth && urlAndToolTip.imageHeight) {
-        content.push(
-          'width:', urlAndToolTip.imageWidth, 'px;height:',
-          urlAndToolTip.imageHeight, 'px"'
-        );
-      }
+        var content = qx.bom.element.Decoration.create(urlAndToolTip.url, "no-repeat", {
+          width: urlAndToolTip.imageWidth ? urlAndToolTip.imageWidth + "px" : null,
+          height: urlAndToolTip.imageHeight ? urlAndToolTip.imageHeight + "px" : null,
+          display: qx.bom.client.Engine.GECKO && qx.bom.client.Engine.VERSION < 1.9 ? "-moz-inline-box" : "inline-block",
+          verticalAlign: "top",
+          position: "static"
+        });
+      };
 
       // set tool tip
       var tooltip = urlAndToolTip.tooltip;
       if (tooltip != null) {
-        content.push('title="', tooltip, '" ');
+        content.replace("></div>", "title='"+tooltip+"'></div>");
       }
-      content.push("></div>");
 
-      return content.join("");
+      return content;
     }
   }
 });

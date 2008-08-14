@@ -176,7 +176,9 @@ qx.Class.define("qx.bom.element.Decoration",
         style = {};
       }
 
-      style.position = "absolute";
+      if (!style.position) {
+        style.position = "absolute";
+      }
 
       // Add a fix for small blocks where IE has a minHeight
       // of the fontSize in quirks mode
