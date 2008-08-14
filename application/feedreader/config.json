@@ -17,6 +17,7 @@
     "CACHE"        : "../../cache",
     "QXTHEME"      : "qx.theme.Modern",
     "LOCALES"      : ["en", "de", "es", "it", "pl"],
+    "TEST_INCLUDE"   : "${APPLICATION}.*",
     "ROOT"         : "."
   }
 }

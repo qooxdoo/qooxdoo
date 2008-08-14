@@ -13,6 +13,7 @@
   {
     "APPLICATION"  : "demobrowser",
     "API_EXCLUDE"  : ["${APPLICATION}.demo.*"],
+    "TEST_INCLUDE"   : "${APPLICATION}.*",
     "CACHE"        : "../../cache",
     "QOOXDOO_PATH" : "../../framework",
     "QOOXDOO_URI"  : "../${QOOXDOO_PATH}",
