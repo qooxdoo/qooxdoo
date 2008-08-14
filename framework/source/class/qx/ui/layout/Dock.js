@@ -38,6 +38,24 @@
  * <li><strong>edge</strong> <em>(String)</em>: The edge where the layout item
  *   should be docked. This may be one of <code>north</code>, <code>east</code>,
  *   <code>south</code>, <code>west</code> or <code>center</code>.</li>
+ * <li><strong>width</strong> <em>(String)</em>: Defines a percent
+ *   width for the item. The percent width,
+ *   when specified, is used instead of the width defined by the size hint.
+ *   This is only supported for children added to the north or south edge or
+ *   are centered in the middle of the layout.
+ *   The minimum and maximum width still takes care of the elements limitations.
+ *   It has no influence on the layout's size hint. Percents are mainly useful for
+ *   widgets which are sized by the outer hierarchy.
+ * </li>
+ * <li><strong>height</strong> <em>(String)</em>: Defines a percent
+ *   height for the item. The percent height,
+ *   when specified, is used instead of the height defined by the size hint.
+ *   This is only supported for children added to the west or east edge or
+ *   are centered in the middle of the layout.
+ *   The minimum and maximum height still takes care of the elements limitations.
+ *   It has no influence on the layout's size hint. Percents are mainly useful for
+ *   widgets which are sized by the outer hierarchy.
+ * </li>
  * </ul>
  *
  * *Example*
@@ -152,7 +170,7 @@ qx.Class.define("qx.ui.layout.Dock",
      * Whether separators should be collapsed so when a spacing is
      * configured the line go over into each other
      */
-    collapseSeparators :
+    connectSeparators :
     {
       check : "Boolean",
       init : false,
@@ -555,7 +573,7 @@ qx.Class.define("qx.ui.layout.Dock",
 
       // Prepare loop
       var separatorX=this.getSeparatorX(), separatorY=this.getSeparatorY();
-      var collapseSeparators=this.getCollapseSeparators();
+      var connectSeparators=this.getConnectSeparators();
       var nextTop=0, nextLeft=0;
       var left, top, width, height, used, edge;
       var separatorLeft, separatorTop, separatorWidth, separatorHeight;
@@ -610,7 +628,7 @@ qx.Class.define("qx.ui.layout.Dock",
               separatorLeft = left;
               separatorWidth = availWidth;
 
-              if (collapseSeparators && separatorLeft > 0)
+              if (connectSeparators && separatorLeft > 0)
               {
                 separatorLeft -= spacingX + marginLeft;
                 separatorWidth += (spacingX) * 2;
@@ -676,7 +694,7 @@ qx.Class.define("qx.ui.layout.Dock",
               separatorTop = top;
               separatorHeight = availHeight;
 
-              if (collapseSeparators && separatorTop > 0)
+              if (connectSeparators && separatorTop > 0)
               {
                 separatorTop -= spacingY + marginTop;
                 separatorHeight += (spacingY) * 2;
