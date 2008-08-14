@@ -5,7 +5,8 @@
   "include" :
   [
     {
-      "path" : "./api.json"
+      "path" : "./api.json",
+      "as"   : "apiconf"
     }, 
 
     {
@@ -17,9 +18,34 @@
 
   "let" : 
   {
-    "APPLICATION" : "apiviewer",
-    "TEST_INCLUDE"   : "${APPLICATION}.*"
-  }
+    "APPLICATION"  : "apiviewer",
+    "QOOXDOO_PATH" : "../../framework",
+    "QOOXDOO_URI"  : "../${QOOXDOO_PATH}",
+    "CACHE"        : "../../cache",
+    "TEST_INCLUDE" : "${APPLICATION}.*"
+  },
 
+  "jobs" :
+  {
+    "source" :
+    {
+      "extend" : [ "apiconf::source" ],
+
+      "let" :
+      {
+        "API_INCLUDE"  : ["=${APPLICATION}.*"]
+      }
+    },
+
+    "build" : 
+    {
+      "extend" : [ "apiconf::build" ],
+
+      "let" :
+      {
+        "API_INCLUDE"  : ["=${APPLICATION}.*"]
+      }
+    }
+  }
 }
 

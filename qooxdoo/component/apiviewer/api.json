@@ -19,7 +19,7 @@
         "API_EXCLUDE"    : [],
         "API_THEME"      : "apiviewer.Theme",
         "BUILD_PATH"     : "${APIVIEWER_ROOT}/build",
-        "CACHE"       : "../../cache"
+        "CACHE"          : "../../cache"
       },
 
       "library" :
