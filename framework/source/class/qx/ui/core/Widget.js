@@ -949,7 +949,10 @@ qx.Class.define("qx.ui.core.Widget",
 
           instance.resize(element, width, height);
         }
+      }
 
+      if (changes.size)
+      {
         var shadow = this.getShadow();
         if (shadow)
         {
@@ -1011,7 +1014,6 @@ qx.Class.define("qx.ui.core.Widget",
       }
 
       var pool = qx.ui.core.Widget.__decoratorPool;
-      var mgr = qx.theme.manager.Decoration.getInstance();
       var content = this.__contentElement;
       var separator, elem;
 
@@ -1041,14 +1043,24 @@ qx.Class.define("qx.ui.core.Widget",
     {
       var pool = qx.ui.core.Widget.__decoratorPool;
       var mgr = qx.theme.manager.Decoration.getInstance();
-      var instance = mgr.resolve(separator);
+
+      if (typeof separator == "object")
+      {
+        var id = separator.toHashCode();
+        var instance = separator;
+      }
+      else
+      {
+        var id = separator;
+        var instance = mgr.resolve(separator);
+      }
 
       // Instance Managment
       var list = pool[separator];
       if (list && list.length > 0) {
         var elem = list.pop();
       } else {
-        var elem = this._createDecoratorElement(separator);
+        var elem = this._createDecoratorElement(instance);
       }
 
       // Insert
@@ -1070,7 +1082,7 @@ qx.Class.define("qx.ui.core.Widget",
       }
 
       // Remember separator used
-      elem.$$separator = separator;
+      elem.$$separator = id;
     },
 
 
@@ -2091,7 +2103,7 @@ qx.Class.define("qx.ui.core.Widget",
         left: 0
       });
 
-      qx.theme.manager.Decoration.getInstance().resolve(decorator).init(element);
+      decorator.init(element);
 
       return element;
     },
@@ -2110,33 +2122,56 @@ qx.Class.define("qx.ui.core.Widget",
         this._createProtectorElement();
       }
 
-      if (value != null && typeof value === "object") {
-        this.debug("Oops, Sebastian, here is something wrong!");
+      // Support for decorator objects and identifiers
+      var oldId;
+      if (old)
+      {
+        if (typeof old === "object")
+        {
+          oldId = old.toHashCode();
+        }
+        else
+        {
+          oldId = old;
+          old = mgr.resolve(old);
+        }
       }
 
+      var valueId;
+      if (value)
+      {
+        if (typeof value === "object")
+        {
+          valueId = value.toHashCode();
+        }
+        else
+        {
+          valueId = value;
+          value = mgr.resolve(value);
+        }
+      }
 
       // Process old value
       if (old)
       {
         // Dynamically created needed pool
-        if (!pool[old]) {
-          pool[old] = [];
+        if (!pool[oldId]) {
+          pool[oldId] = [];
         }
 
         // Remove from container
         container.remove(elem);
 
         // Add to pool
-        pool[old].push(elem);
+        pool[oldId].push(elem);
       }
-
 
       // Process new value
       if (value)
       {
         // Reuse or create element
-        if (pool[value] && pool[value].length > 0) {
-          elem = pool[value].pop();
+        if (pool[valueId] && pool[valueId].length > 0) {
+          elem = pool[valueId].pop();
         }
         else
         {
@@ -2146,7 +2181,7 @@ qx.Class.define("qx.ui.core.Widget",
 
         // Tint decorator
         var bgcolor = this.getBackgroundColor();
-        mgr.resolve(value).tint(elem, bgcolor);
+        value.tint(elem, bgcolor);
 
         // Add to container
         container.add(elem);
@@ -2159,12 +2194,10 @@ qx.Class.define("qx.ui.core.Widget",
         delete this.__decoratorElement;
       }
 
-
       // Remove background color from container
       if (value && !old && bgcolor) {
         this.getContainerElement().setStyle("backgroundColor", null);
       }
-
 
       // Apply change
       if (qx.ui.decoration.Util.insetsModified(old, value))
@@ -2193,47 +2226,83 @@ qx.Class.define("qx.ui.core.Widget",
       var mgr = qx.theme.manager.Decoration.getInstance();
       var container = this.__containerElement;
 
+      // Support for decorator objects and identifiers
+      var oldId;
+      if (old)
+      {
+        if (typeof old === "object")
+        {
+          oldId = old.toHashCode();
+        }
+        else
+        {
+          oldId = old;
+          old = mgr.resolve(old);
+        }
+      }
+
+      var valueId;
+      if (value)
+      {
+        if (typeof value === "object")
+        {
+          valueId = value.toHashCode();
+        }
+        else
+        {
+          valueId = value;
+          value = mgr.resolve(value);
+        }
+      }
+
       // Clear old value
       if (old)
       {
         // Dynamically created needed pool
-        if (!pool[old]) {
-          pool[old] = [];
+        if (!pool[oldId]) {
+          pool[oldId] = [];
         }
 
         // Remove from container
         container.remove(this.__shadowElement);
 
         // Add to pool
-        pool[old].push(this.__shadowElement);
+        pool[oldId].push(this.__shadowElement);
       }
 
       // Apply new value
       if (value)
       {
         // Reuse or create element
-        var newElement;
-        if (pool[value] && pool[value].length > 0) {
-          newElement = pool[value].pop();
+        var elem;
+        if (pool[valueId] && pool[valueId].length > 0) {
+          elem = pool[valueId].pop();
         } else {
-          newElement = this._createDecoratorElement(value);
+          elem = this._createDecoratorElement(value);
         }
 
         // Add to container
-        container.add(newElement);
+        container.add(elem);
 
         // Register element
-        this.__shadowElement = newElement;
-
-        // Get decorator instance
-        var newDecorator = mgr.resolve(value);
+        this.__shadowElement = elem;
 
         // Move out of container by top/left inset
-        var insets = newDecorator.getInsets();
-        newElement.setStyles({
+        var insets = value.getInsets();
+        elem.setStyles({
           left: (-insets.left) + "px",
           top: (-insets.top) + "px"
         });
+
+        // Directly update for size when possible
+        var bounds = this.getBounds();
+        if (bounds)
+        {
+          var shadowWidth = bounds.width + insets.left + insets.right;
+          var shadowHeight = bounds.height + insets.top + insets.bottom;
+
+          value.resize(elem, shadowWidth, shadowHeight);
+        }
       }
       else
       {
