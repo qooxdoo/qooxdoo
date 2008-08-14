@@ -80,7 +80,7 @@ qx.Theme.define("qx.theme.modern.Color",
     "border" : "#2D405A",
 
     // these two borders are used in the appearance theme and for decorators
-    "border-dark-shadow" : "#4d4d4d",
+    "frame" : "#4d4d4d",
     "border-dark" : "#85878C",
 
 
