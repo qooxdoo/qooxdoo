@@ -664,8 +664,6 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     {
       this.base(arguments);
 
-      this.getElement().onselectstart = qx.lang.Function.returnFalse;
-
       this._updateContent();
       this._header._updateContent();
       this._updateHorScrollBarMaximum();
@@ -2035,6 +2033,18 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     _applyScrollTimeout : function(value, old)
     {
       this._startInterval(value);
+    },
+
+
+    // property apply method
+    _applyElement : function (value, old)
+    {
+      this.base(arguments, value, old);
+
+      if (value)
+      {
+        value.onselectstart = qx.lang.Function.returnFalse;
+      }
     },
 
 
