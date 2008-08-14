@@ -64,7 +64,8 @@ qx.Class.define("demobrowser.demo.widget.Spinner",
         width: 140,
         font: qx.bom.Font.fromString("30px sans-serif"),
         backgroundColor: "#FABBBB",
-        contentPadding: [10, 10, 10, 10]
+        contentPadding: [10, 10, 10, 10],
+        decorator : "frame"
       });
       container.add(new qx.ui.basic.Label("Big font"), {column: 0, row: row});
       container.add(new qx.ui.basic.Label("0"), {column: 1, row: row});
@@ -163,12 +164,12 @@ qx.Class.define("demobrowser.demo.widget.Spinner",
             style : function(states)
             {
               return {
-                decorator       : "outset",
+                decorator       : "frame",
                 textColor       : states.disabled ? "text-disabled" : "undefined",
                 // TODO: Restore this line as soon as the value checks work correctly
                 //backgroundColor : states.focused ? "#C1E9F5" : "field",
                 backgroundColor : states.focused ? "#C1E9F5" : "#ebe9ed",
-                font : "large"
+                font : qx.bom.Font.fromString("30px Verdana")
               };
             }
           },
