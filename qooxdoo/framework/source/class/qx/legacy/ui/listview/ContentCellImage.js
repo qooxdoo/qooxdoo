@@ -20,7 +20,7 @@
 
 /* ************************************************************************
 
-#asset(qx/static/image/blank.gif)
+#asset(qx/static/blank.gif)
 
 ************************************************************************ */
 
@@ -105,7 +105,7 @@ qx.Class.define("qx.legacy.ui.listview.ContentCellImage",
         if (vSource == "") {
           return this._updateContent(qx.util.ResourceManager.toUri(qx.legacy.util.AliasManager.getInstance().resolve(vSource)));
         } else {
-          return this._updateContent(qx.util.ResourceManager.toUri("qx/static/image/blank.gif"));
+          return this._updateContent(qx.util.ResourceManager.toUri("qx/static/blank.gif"));
         }
       }
       else

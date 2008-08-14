@@ -88,16 +88,18 @@ qx.Theme.define("qx.theme.modern.Decoration",
     },
 
 
+
+
     /*
     ---------------------------------------------------------------------------
       POPUP
     ---------------------------------------------------------------------------
     */
-    
+
     "popup" :
     {
       decorator : qx.ui.decoration.Single,
-      
+
       style :
       {
         width : 1,
@@ -107,12 +109,14 @@ qx.Theme.define("qx.theme.modern.Decoration",
     },
 
 
+
+
     /*
     ---------------------------------------------------------------------------
       SEPARATOR
     ---------------------------------------------------------------------------
     */
-    
+
     "separator-horizontal" :
     {
       decorator: qx.ui.decoration.Single,
@@ -120,10 +124,10 @@ qx.Theme.define("qx.theme.modern.Decoration",
       style :
       {
         widthLeft : 1,
-        colorLeft : "border"
-      }      
+        colorLeft : "frame"
+      }
     },
-    
+
     "separator-vertical" :
     {
       decorator: qx.ui.decoration.Single,
@@ -131,10 +135,10 @@ qx.Theme.define("qx.theme.modern.Decoration",
       style :
       {
         widthTop : 1,
-        colorTop : "border"
-      }      
-    },    
-    
+        colorTop : "frame"
+      }
+    },
+
 
 
 
@@ -143,7 +147,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
       SHADOWS
     ---------------------------------------------------------------------------
     */
-    
+
     "window-shadow" :
     {
       decorator : qx.ui.decoration.Grid,
@@ -182,7 +186,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
         insets    : [0, 2, 3, 0]
       }
     },
-    
+
 
 
 
@@ -230,7 +234,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
         backgroundRepeat : "repeat-y"
       }
     },
-    
+
     "scrollbar-button-horizontal" :
     {
       decorator : qx.ui.decoration.Beveled,
@@ -242,7 +246,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
         innerColor : "#e1e1e1"
       }
     },
-    
+
     "scrollbar-button-vertical" :
     {
       decorator : qx.ui.decoration.Beveled,
@@ -253,7 +257,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
         outerColor : "#4d4d4d",
         innerColor : "#e1e1e1"
       }
-    },    
+    },
 
     "slider-knob" :
     {
@@ -360,7 +364,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
         insets    : 2
       }
     },
-    
+
 
 
 
@@ -407,7 +411,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
       LIST
     ---------------------------------------------------------------------------
     */
-    
+
     "listitem" :
     {
       decorator : qx.ui.decoration.Single,
@@ -575,10 +579,10 @@ qx.Theme.define("qx.theme.modern.Decoration",
         baseImage : "decoration/tabview/tab-button-right-inactive.png"
       }
     },
-    
-    
-    
-    
+
+
+
+
 
 
     /*
@@ -630,13 +634,13 @@ qx.Theme.define("qx.theme.modern.Decoration",
         width : 1,
         color : "#666",
         style : "solid",
-        
+
         backgroundColor : "#ffffdd"
       }
     },
-    
-    
-    
+
+
+
 
 
     /*
@@ -652,7 +656,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
       style :
       {
         backgroundColor : "white",
-        
+
         width : 1,
         innerWidth : 1,
 
@@ -662,7 +666,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
         style : "solid"
       }
     },
-    
+
 
 
 
@@ -674,44 +678,12 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
     "splitpane" :
     {
-      decorator : qx.ui.decoration.Single,
-      
+      decorator : qx.ui.decoration.Uniform,
+
       style :
       {
         width : 3,
-        color : "#afafaf",
-        style : "solid"
-      }
-    },
-    
-    "splitpane-splitter-vertical" :
-    {
-      decorator : qx.ui.decoration.Single,
-
-      style :
-      {
-        widthTop : 1,
-        colorTop : "frame",
-        
-        widthBottom : 1,
-        colorBottom : "frame",
-        
-        style : "solid"
-      }
-    },
-
-    "splitpane-splitter-horizontal" :
-    {
-      decorator : qx.ui.decoration.Single,
-
-      style :
-      {
-        widthLeft : 1,
-        colorLeft : "frame",
-        
-        widthRight : 1,
-        colorRight : "frame",
-        
+        color : "background-splitpane",
         style : "solid"
       }
     },
@@ -733,10 +705,10 @@ qx.Theme.define("qx.theme.modern.Decoration",
       style :
       {
         backgroundColor : "#f6f6f6",
-        
+
         width : 1,
         color : "#00204D",
-        
+
         widthTop : 0
       }
     },
@@ -768,8 +740,8 @@ qx.Theme.define("qx.theme.modern.Decoration",
       }
     },
 
-    
-    
+
+
     /*
     ---------------------------------------------------------------------------
       TABLE
@@ -971,7 +943,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
 
 
-    
+
     /*
     ---------------------------------------------------------------------------
       DATE CHOOSER
@@ -999,45 +971,45 @@ qx.Theme.define("qx.theme.modern.Decoration",
       style :
       {
         backgroundColor : "background-light",
-        
+
         widthTop : 1,
         colorTop : "border-dark",
         style    : "solid"
       }
     },
-    
+
     "date-chooser-weekday" :
     {
       decorator : qx.ui.decoration.Single,
-      
+
       style :
       {
         backgroundColor : "background-selected",
-      
+
         widthBottom : 1,
         colorBottom : "border-dark",
         style       : "solid"
       }
     },
-    
+
     "date-chooser-weekend" :
     {
       decorator : qx.ui.decoration.Single,
-      
+
       style :
       {
         backgroundColor : "background-light",
-      
+
         widthBottom : 1,
         colorBottom : "border-dark",
         style       : "solid"
       }
     },
-    
+
     "date-chooser-week" :
     {
       decorator : qx.ui.decoration.Single,
-      
+
       style :
       {
         widthRight : 1,
@@ -1045,32 +1017,32 @@ qx.Theme.define("qx.theme.modern.Decoration",
         style       : "solid"
       }
     },
-    
+
     "date-chooser-week-header" :
     {
       decorator : qx.ui.decoration.Single,
-      
+
       style :
       {
         widthRight : 1,
         colorRight : "border-dark",
-      
+
         widthBottom : 1,
         colorBottom : "border-dark",
-        
+
         style       : "solid"
       }
     },
-    
-    
-    
-    
+
+
+
+
     /*
     ---------------------------------------------------------------------------
       COLOR SELECTOR
     ---------------------------------------------------------------------------
-    */   
-    
+    */
+
     "border" :
     {
       decorator : qx.ui.decoration.Single,
@@ -1080,7 +1052,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
         width : 1,
         color : "#666",
         style : "solid",
-        
+
         backgroundColor : "white"
       }
     }

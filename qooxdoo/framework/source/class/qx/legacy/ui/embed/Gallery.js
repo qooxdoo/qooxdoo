@@ -20,7 +20,7 @@
 
 /* ************************************************************************
 
-#asset(qx/static/image/blank.gif)
+#asset(qx/static/blank.gif)
 #optional(qx.legacy.ui.popup.ToolTipManager)
 
 ************************************************************************ */
@@ -43,7 +43,7 @@ qx.Class.define("qx.legacy.ui.embed.Gallery",
   {
     this.base(arguments);
 
-    this._blank = qx.util.ResourceManager.toUri("qx/static/image/blank.gif");
+    this._blank = qx.util.ResourceManager.toUri("qx/static/blank.gif");
     this._list = vGalleryList;
     this._listSize = vGalleryList.length;
     this._processedImages = 0;
