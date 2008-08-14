@@ -17,18 +17,33 @@
 
 ************************************************************************ */
 
+/**
+ * This class demonstrates how to define unit tests for an application.
+ */
 qx.Class.define("testrunner.test.DemoTest",
 {
   extend : qx.dev.unit.TestCase,
 
   members :
   {
-    testBasics : function()
+    /*
+     ---------------------------------------------------------------------------
+       TESTS
+     ---------------------------------------------------------------------------
+     */
+
+    /**
+     * Here are some simple tests
+     */
+    testSimple : function()
     {
       this.assertEquals(4, 3+1, "This should never fail!");
       this.assertFalse(false, "Can false be true?!");
     },
 
+    /**
+     * Here are some more advanced tests
+     */
     testAdvanced: function () 
     {
       var a = 3;
