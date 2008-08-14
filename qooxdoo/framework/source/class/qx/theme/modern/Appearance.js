@@ -538,6 +538,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
     ---------------------------------------------------------------------------
     */
 
+    "scrollarea" : "widget",
+    
     "scrollarea/corner" :
     {
       style : function(states)
