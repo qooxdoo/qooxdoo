@@ -51,14 +51,10 @@ qx.Class.define("qx.dev.unit.TestLoader",
 
   members :
   {
-    /**
-     * TODOC
-     *
-     * @return {void}
-     */
+    // overridden
     main : function()
     {
-      this.base(arguments); 
+      this.base(arguments);
 
       this.setTestNamespace(this.__getClassNameFromUrl());
 

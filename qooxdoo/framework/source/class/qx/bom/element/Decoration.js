@@ -93,12 +93,12 @@ qx.Class.define("qx.bom.element.Decoration",
       }
 
       // Fix for old background position
-      if (element.style.backgroundPosition != null && ret.style.backgroundPosition == null) {
+      if (element.style.backgroundPosition != "" && ret.style.backgroundPosition === undefined) {
         ret.style.backgroundPosition = null;
       }
 
       // Fix for old clip
-      if (element.style.clip != null && ret.style.clip == null) {
+      if (element.style.clip != "" && ret.style.clip === undefined) {
         ret.style.clip = null;
       }
 
