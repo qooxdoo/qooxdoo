@@ -21,12 +21,7 @@
 /* ************************************************************************
 
 #module(treevirtual)
-#embed(qx.icontheme/16/status/folder-open.png)
-#embed(qx.icontheme/16/places/folder.png)
-#embed(qx.icontheme/16/actions/document-open.png)
-#embed(qx.icontheme/16/actions/document-new.png)
-#embed(qx.widgettheme/tree/*)
-#embed(qx.static/blank.gif)
+#asset(qx/static/image/blank.gif)
 
 ************************************************************************ */
 
@@ -69,14 +64,14 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
     imageLoader.load(uri + "line.gif");
     imageLoader.load(uri + "minus.gif");
     imageLoader.load(uri + "plus.gif");
-    imageLoader.load(uri + "only_minus.gif");
-    imageLoader.load(uri + "only_plus.gif");
-    imageLoader.load(uri + "start_minus.gif");
-    imageLoader.load(uri + "start_plus.gif");
-    imageLoader.load(uri + "end_minus.gif");
-    imageLoader.load(uri + "end_plus.gif");
-    imageLoader.load(uri + "cross_minus.gif");
-    imageLoader.load(uri + "cross_plus.gif");
+    imageLoader.load(uri + "only-minus.gif");
+    imageLoader.load(uri + "only-plus.gif");
+    imageLoader.load(uri + "start-minus.gif");
+    imageLoader.load(uri + "start-plus.gif");
+    imageLoader.load(uri + "end-minus.gif");
+    imageLoader.load(uri + "end-plus.gif");
+    imageLoader.load(uri + "cross-minus.gif");
+    imageLoader.load(uri + "cross-plus.gif");
     imageLoader.load(uri + "end.gif");
     imageLoader.load(uri + "cross.gif");
     imageLoader.load(uri + "line.gif");
@@ -191,18 +186,18 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
 
       if (qx.core.Variant.isSet("qx.client", "mshtml") &&
           /\.png$/i.test(urlAndToolTip.url))
-        {
-          html +=
-            this.STATIC_IMAGE_URI +
-            "blank.gif" +
-            '" style="filter:' +
-            "progid:DXImageTransform.Microsoft.AlphaImageLoader(" +
-            "  src='" + source + "',sizingMethod='scale')";
-        }
+      {
+        html +=
+          this.STATIC_IMAGE_URI +
+          "blank.gif" +
+          '" style="filter:' +
+          "progid:DXImageTransform.Microsoft.AlphaImageLoader(" +
+          "  src='" + source + "',sizingMethod='scale')";
+      }
       else
-        {
-          html += source + '" style="';
-        }
+      {
+        html += source + '" style="';
+      }
 
       if (urlAndToolTip.imageWidth && urlAndToolTip.imageHeight)
       {
@@ -279,24 +274,18 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
 
       if (!imageUrl)
       {
-        /****************************************************************
-         * LOOK INTO RETRIEVING THESE VIA THE APPEARANCE MANAGER LIKE SO:
-         *
-         * var mgr = qx.theme.manager.Appearance.getInstance();
-         * var o = mgr.styleFrom("tree-folder");
-         * this.warn(o.icon);
-         ****************************************************************/
+        var tm = qx.theme.manager.Appearance.getInstance();
         if (node.type == qx.ui.treevirtual.SimpleTreeDataModel.Type.LEAF)
         {
-          imageUrl = "icon/16/mimetypes/text-plain.png";
+          var o = tm.styleFrom("tree-folder");
         }
         else
         {
-          imageUrl =
-            (node.bOpened
-             ? "icon/16/places/folder-open.png"
-             : "icon/16/places/folder.png");
+          var states = { opened : node.bOpened };
+          var o = tm.styleFrom( "tree-folder", states);
         }
+
+        imageUrl = o.icon;
       }
 
       html += this.__addImage(
@@ -407,15 +396,15 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
             {
               // ... then use no tree lines.
               return (node.bOpened
-                      ? this.DECOR_TREE_URI + "only_minus.gif"
-                      : this.DECOR_TREE_URI + "only_plus.gif");
+                      ? this.DECOR_TREE_URI + "only-minus.gif"
+                      : this.DECOR_TREE_URI + "only-plus.gif");
             }
             else
             {
               // otherwise, use descender lines but no ascender.
               return (node.bOpened
-                      ? this.DECOR_TREE_URI + "start_minus.gif"
-                      : this.DECOR_TREE_URI + "start_plus.gif");
+                      ? this.DECOR_TREE_URI + "start-minus.gif"
+                      : this.DECOR_TREE_URI + "start-plus.gif");
             }
           }
 
@@ -425,14 +414,14 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
           {
             // Yup.  Return an ending plus or minus.
             return (node.bOpened
-                    ? this.DECOR_TREE_URI + "end_minus.gif"
-                    : this.DECOR_TREE_URI + "end_plus.gif");
+                    ? this.DECOR_TREE_URI + "end-minus.gif"
+                    : this.DECOR_TREE_URI + "end-plus.gif");
           }
 
           // Otherwise, return a crossing plus or minus.
           return (node.bOpened
-                  ? this.DECOR_TREE_URI + "cross_minus.gif"
-                  : this.DECOR_TREE_URI + "cross_plus.gif");
+                  ? this.DECOR_TREE_URI + "cross-minus.gif"
+                  : this.DECOR_TREE_URI + "cross-plus.gif");
         }
       }
 
