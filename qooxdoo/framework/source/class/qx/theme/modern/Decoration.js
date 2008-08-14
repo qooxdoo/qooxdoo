@@ -359,10 +359,11 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
       style :
       {
-        outerColor      : "border",
-        innerColor      : "white",
+        outerColor : "border",
+        innerColor : "white",
         backgroundImage : "decoration/form/input.png",
-        backgroundRepeat : "repeat-x"
+        backgroundRepeat : "repeat-x",
+        backgroundColor : "background-field"
       }
     },
 
@@ -372,10 +373,11 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
       style :
       {
-        outerColor: "border",
-        innerColor: "focus",
+        outerColor : "border",
+        innerColor : "focus",
         backgroundImage : "decoration/form/input.png",
-        backgroundRepeat : "repeat-x"
+        backgroundRepeat : "repeat-x",
+        backgroundColor : "background-field"
       }
     },
 
@@ -610,7 +612,9 @@ qx.Theme.define("qx.theme.modern.Decoration",
       {
         width : 1,
         color : "#666",
-        style : "solid"
+        style : "solid",
+        
+        backgroundColor : "#ffffdd"
       }
     },
     
@@ -630,6 +634,8 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
       style :
       {
+        backgroundColor : "white",
+        
         width : 1,
         innerWidth : 1,
 
@@ -709,6 +715,8 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
       style :
       {
+        backgroundColor : "#f6f6f6",
+        
         width : 1,
         color : "#00204D",
         
@@ -973,6 +981,8 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
       style :
       {
+        backgroundColor : "background-light",
+        
         widthTop : 1,
         colorTop : "border-dark",
         style    : "solid"
@@ -985,6 +995,22 @@ qx.Theme.define("qx.theme.modern.Decoration",
       
       style :
       {
+        backgroundColor : "background-selected",
+      
+        widthBottom : 1,
+        colorBottom : "border-dark",
+        style       : "solid"
+      }
+    },
+    
+    "date-chooser-weekend" :
+    {
+      decorator : qx.ui.decoration.Single,
+      
+      style :
+      {
+        backgroundColor : "background-light",
+      
         widthBottom : 1,
         colorBottom : "border-dark",
         style       : "solid"
@@ -1016,6 +1042,29 @@ qx.Theme.define("qx.theme.modern.Decoration",
         colorBottom : "border-dark",
         
         style       : "solid"
+      }
+    },
+    
+    
+    
+    
+    /*
+    ---------------------------------------------------------------------------
+      COLOR SELECTOR
+    ---------------------------------------------------------------------------
+    */   
+    
+    "colorselector-preview-content" :
+    {
+      decorator : qx.ui.decoration.Single,
+
+      style :
+      {
+        width : 1,
+        color : "#666",
+        style : "solid",
+        
+        backgroundColor : "white"
       }
     }
   }
