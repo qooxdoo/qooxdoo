@@ -945,11 +945,6 @@ qx.Class.define("qx.ui.table.Table",
     {
       var scrollerArr = this._getPaneScrollerArr();
 
-      // update selection if rows were removed
-      if (data.removeCount) {
-        this.getSelectionModel().removeSelectionInterval(data.removeStart, data.removeStart + data.removeCount);
-      }      
-      
       for (var i=0; i<scrollerArr.length; i++) {
         scrollerArr[i]._onTableModelMetaDataChanged(evt);
       }
@@ -968,7 +963,14 @@ qx.Class.define("qx.ui.table.Table",
     _onTableModelDataChanged : function(evt)
     {
       var scrollerArr = this._getPaneScrollerArr();
+      
+      var data = evt.getData();
 
+      // update selection if rows were removed
+      if (data.removeCount) {
+        this.getSelectionModel().removeSelectionInterval(data.removeStart, data.removeStart + data.removeCount);
+      }
+      
       for (var i=0; i<scrollerArr.length; i++) {
         scrollerArr[i]._onTableModelDataChanged(evt);
       }
