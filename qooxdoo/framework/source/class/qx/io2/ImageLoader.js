@@ -35,6 +35,14 @@ qx.Bootstrap.define("qx.io2.ImageLoader",
     __data : {},
 
 
+    /** {Map} Default image size */
+    __defaultSize :
+    {
+      width : null,
+      height : null
+    },
+
+
     /**
      * Whether the given image has previously been loaded using the
      * {@link #load} method.
@@ -81,10 +89,10 @@ qx.Bootstrap.define("qx.io2.ImageLoader",
      *
      * @param source {String} Image source to query
      * @return {Map} The dimension of the image. If the image is not yet loaded,
-     *    the dimensions are given as 0x0 pixel.
+     *    the dimensions are given as nullxnull pixel.
      */
     getSize : function(source) {
-      return this.__data[source] || { width : 0, height : 0 };
+      return this.__data[source] || this.__defaultSize;
     },
 
 
@@ -92,12 +100,12 @@ qx.Bootstrap.define("qx.io2.ImageLoader",
      * Returns the image width
      *
      * @param source {String} Image source to query
-     * @return {Boolean} The width
+     * @return {Boolean} The width or <code>null</code> when the image is not loaded
      */
     getWidth : function(source)
     {
       var entry = this.__data[source];
-      return entry ? entry.width : 0;
+      return entry ? entry.width : null;
     },
 
 
@@ -105,12 +113,12 @@ qx.Bootstrap.define("qx.io2.ImageLoader",
      * Returns the image height
      *
      * @param source {String} Image source to query
-     * @return {Boolean} The height
+     * @return {Boolean} The height or <code>null</code> when the image is not loaded
      */
     getHeight : function(source)
     {
       var entry = this.__data[source];
-      return entry ? entry.height : 0;
+      return entry ? entry.height : null;
     },
 
 
