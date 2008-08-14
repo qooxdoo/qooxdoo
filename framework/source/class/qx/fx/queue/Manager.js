@@ -52,7 +52,7 @@ qx.Class.define("qx.fx.queue.Manager",
 
   members :
   {
-    _instances : {},
+    __instances : {},
 
     /**
      * Returns existing queue by name or creates a new queue object and returns it.
@@ -61,10 +61,10 @@ qx.Class.define("qx.fx.queue.Manager",
      */
     getQueue : function(queueName)
     {
-     if(typeof(this._instances[queueName]) == "object") {
-       return this._instances[queueName];
+     if(typeof(this.__instances[queueName]) == "object") {
+       return this.__instances[queueName];
      } else {
-       return this._instances[queueName] = new qx.fx.queue.Queue;
+       return this.__instances[queueName] = new qx.fx.queue.Queue;
      }
     },
 
@@ -88,6 +88,6 @@ qx.Class.define("qx.fx.queue.Manager",
 
   destruct : function()
   {
-    this._disposeMap("_instances");
+    this._disposeMap("__instances");
   }
 });

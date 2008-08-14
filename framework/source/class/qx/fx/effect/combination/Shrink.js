@@ -59,9 +59,9 @@ qx.Class.define("qx.fx.effect.combination.Shrink",
   {
     this.base(arguments, element);
 
-    this._moveEffect = new qx.fx.effect.core.Move(this._element);
-    this._scaleEffect = new qx.fx.effect.core.Scale(this._element);
-    this._mainEffect = new qx.fx.effect.core.Parallel(this._moveEffect, this._scaleEffect);
+    this.__moveEffect = new qx.fx.effect.core.Move(element);
+    this.__scaleEffect = new qx.fx.effect.core.Scale(element);
+    this.__mainEffect = new qx.fx.effect.core.Parallel(this.__moveEffect, this.__scaleEffect);
   },
 
 
@@ -126,31 +126,37 @@ qx.Class.define("qx.fx.effect.combination.Shrink",
    members :
    {
 
+     __oldStyle : null,
+     __moveEffect : null,
+     __scaleEffect : null,
+     __mainEffect : null,
+
     setup : function()
     {
       this.base(arguments);
 
-      qx.bom.element.Style.set(this._element, "overflow", "hidden");
+      qx.bom.element.Style.set(this._getElement(), "overflow", "hidden");
     },
 
     afterFinishInternal : function()
     {
       this.base(arguments);
+      var element = this._getElement();
 
-      qx.bom.element.Style.set(this._element, "overflow", "visible");
+      qx.bom.element.Style.set(element, "overflow", "visible");
 
       var value;
-      for (var property in this._oldStyle)
+      for (var property in this.__oldStyle)
       {
-        value = this._oldStyle[property];
+        value = this.__oldStyle[property];
         if(property != "overflow"){
           value += "px";
         }
-        qx.bom.element.Style.set(this._element, property, value);
+        qx.bom.element.Style.set(element, property, value);
       }
 
       if (this.getModifyDisplay()) {
-        qx.bom.element.Style.set(this._element, "display", "none");
+        qx.bom.element.Style.set(element, "display", "none");
       }
     },
 
@@ -160,14 +166,15 @@ qx.Class.define("qx.fx.effect.combination.Shrink",
         return;
       }
 
+      var element = this._getElement();
       var moveX, moveY;
 
-      this._oldStyle = {
-        top      : qx.bom.element.Location.getTop(this._element, "scroll"),
-        left     : qx.bom.element.Location.getLeft(this._element, "scroll"),
-        width    : qx.bom.element.Dimension.getWidth(this._element),
-        height   : qx.bom.element.Dimension.getHeight(this._element),
-        opacity  : qx.bom.element.Style.get(this._element, "opacity")
+      this.__oldStyle = {
+        top      : qx.bom.element.Location.getTop(element, "scroll"),
+        left     : qx.bom.element.Location.getLeft(element, "scroll"),
+        width    : qx.bom.element.Dimension.getWidth(element),
+        height   : qx.bom.element.Dimension.getHeight(element),
+        opacity  : qx.bom.element.Style.get(element, "opacity")
       };
 
 
@@ -179,42 +186,42 @@ qx.Class.define("qx.fx.effect.combination.Shrink",
         break;
 
         case 'top-right':
-          moveX = this._oldStyle.width;
+          moveX = this.__oldStyle.width;
           moveY = 0;
         break;
 
         case 'bottom-left':
           moveX = 0;
-          moveY = this._oldStyle.height;
+          moveY = this.__oldStyle.height;
         break;
 
         case 'bottom-right':
-          moveX = this._oldStyle.width;
-          moveY = this._oldStyle.height;
+          moveX = this.__oldStyle.width;
+          moveY = this.__oldStyle.height;
         break;
 
         case 'center':
-          moveX = this._oldStyle.width / 2;
-          moveY = this._oldStyle.height / 2;
+          moveX = this.__oldStyle.width / 2;
+          moveY = this.__oldStyle.height / 2;
         break;
 
       }
 
-      this._moveEffect.set({
+      this.__moveEffect.set({
         x: moveX,
         y: moveY,
         sync: true,
         transition: this.getMoveTransition()
       });
 
-      this._scaleEffect.set({
+      this.__scaleEffect.set({
         scaleTo : 0,
         sync: true,
         transition: this.getScaleTransition(),
         restoreAfterFinish: true
       });
 
-      this._mainEffect.start();
+      this.__mainEffect.start();
 
     }
 
@@ -228,6 +235,6 @@ qx.Class.define("qx.fx.effect.combination.Shrink",
    */
 
    destruct : function() {
-     this._disposeObjects("_moveEffect", "_scaleEffect", "_mainEffect");
+     this._disposeObjects("__moveEffect", "__scaleEffect", "__mainEffect");
    }
 });

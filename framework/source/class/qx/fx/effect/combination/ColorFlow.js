@@ -60,9 +60,9 @@ qx.Class.define("qx.fx.effect.combination.ColorFlow",
   {
     this.base(arguments, element);
 
-    this._highlightEffects = [
-      new qx.fx.effect.core.Highlight(this._element),
-      new qx.fx.effect.core.Highlight(this._element)
+    this.__highlightEffects = [
+      new qx.fx.effect.core.Highlight(element),
+      new qx.fx.effect.core.Highlight(element)
     ];
 
   },
@@ -183,20 +183,24 @@ qx.Class.define("qx.fx.effect.combination.ColorFlow",
   members :
   {
 
+    __oldStyle : null,
+    __highlightEffects : null,
+
     start : function()
     {
       if (!this.base(arguments)) {
         return;
       }
+      var element = this._getElement();
 
       this.setDuration(this.getForwardDuration() + this.getDelayBetween() + this.getBackwardDuration());
 
-      this._oldStyle = {
-        backgroundImage : qx.bom.element.Style.get(this._element, "backgroundImage"),
-        backgroundColor : qx.bom.element.Style.get(this._element, "backgroundColor")
+      this.__oldStyle = {
+        backgroundImage : qx.bom.element.Style.get(element, "backgroundImage"),
+        backgroundColor : qx.bom.element.Style.get(element, "backgroundColor")
       };
 
-      this._highlightEffects[0].set({
+      this.__highlightEffects[0].set({
         startColor          : this.getStartColor(),
         endColor            : this.getEndColor(),
         duration            : this.getForwardDuration(),
@@ -205,7 +209,7 @@ qx.Class.define("qx.fx.effect.combination.ColorFlow",
         keepBackgroundImage : this.getKeepBackgroundImage()
       });
 
-      this._highlightEffects[1].set({
+      this.__highlightEffects[1].set({
         startColor          : this.getEndColor(),
         endColor            : this.getStartColor(),
         duration            : this.getBackwardDuration(),
@@ -216,11 +220,11 @@ qx.Class.define("qx.fx.effect.combination.ColorFlow",
       });
 
       var self = this;
-      this._highlightEffects[0].afterFinishInternal = function() {
-        self._highlightEffects[1].start();
+      this.__highlightEffects[0].afterFinishInternal = function() {
+        self.__highlightEffects[1].start();
       }
 
-      this._highlightEffects[0].start();
+      this.__highlightEffects[0].start();
     }
   },
 
@@ -231,9 +235,7 @@ qx.Class.define("qx.fx.effect.combination.ColorFlow",
  *****************************************************************************
  */
 
-  destruct : function()
-  {
-    this._disposeArray("_highlightEffects");
-    this._disposeObjects("_mainEffect");
+  destruct : function() {
+    this._disposeArray("__highlightEffects");
   }
 });

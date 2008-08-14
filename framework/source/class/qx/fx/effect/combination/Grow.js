@@ -60,9 +60,9 @@ qx.Class.define("qx.fx.effect.combination.Grow",
   {
     this.base(arguments, element);
 
-    this._moveEffect = new qx.fx.effect.core.Move(this._element);
-    this._scaleEffect = new qx.fx.effect.core.Scale(this._element);
-    this._mainEffect = new qx.fx.effect.core.Parallel(this._moveEffect, this._scaleEffect);
+    this.__moveEffect = new qx.fx.effect.core.Move(element);
+    this.__scaleEffect = new qx.fx.effect.core.Scale(element);
+    this.__mainEffect = new qx.fx.effect.core.Parallel(this.__moveEffect, this.__scaleEffect);
 
   },
 
@@ -118,6 +118,10 @@ qx.Class.define("qx.fx.effect.combination.Grow",
    members :
    {
 
+     __scaleEffect : null,
+     __moveEffect : null,
+     __mainEffect : null,
+
     setup : function()
     {
       this.base(arguments);
@@ -128,25 +132,27 @@ qx.Class.define("qx.fx.effect.combination.Grow",
       if (!this.base(arguments)) {
         return;
       }
+      var element = this._getElement();
 
       // Element must be visible for move effect
-      qx.bom.element.Style.set(this._element, "display", "block");
-      qx.bom.element.Style.set(this._element, "overflow", "hidden");
+      qx.bom.element.Style.set(element, "display", "block");
+      qx.bom.element.Style.set(element, "overflow", "hidden");
 
       var initialMoveX, initialMoveY;
       var moveX, moveY;
 
       var oldStyle = {
-        top    : qx.bom.element.Location.getTop(this._element),
-        left   : qx.bom.element.Location.getLeft(this._element),
-        width  : qx.bom.element.Dimension.getWidth(this._element),
-        height : qx.bom.element.Dimension.getHeight(this._element),
+        top    : qx.bom.element.Location.getTop(element),
+        left   : qx.bom.element.Location.getLeft(element),
+        width  : qx.bom.element.Dimension.getWidth(element),
+        height : qx.bom.element.Dimension.getHeight(element),
         overflow : "visible"
       };
 
-      this._scaleEffect.afterFinishInternal = function()
+      this.__scaleEffect.afterFinishInternal = function()
       {
         var value;
+        var element = this._getElement();
 
         for (var property in oldStyle)
         {
@@ -154,7 +160,7 @@ qx.Class.define("qx.fx.effect.combination.Grow",
           if (property != "overflow") {
             value += "px";
           }
-          qx.bom.element.Style.set(this._element, property, value);
+          qx.bom.element.Style.set(element, property, value);
         }
       };
 
@@ -192,14 +198,14 @@ qx.Class.define("qx.fx.effect.combination.Grow",
         break;
       }
 
-      this._moveEffect.set({
+      this.__moveEffect.set({
         x          : moveX,
         y          : moveY,
         sync       : true,
         transition : this.getMoveTransition()
       });
 
-      this._scaleEffect.set({
+      this.__scaleEffect.set({
         scaleTo              : 100,
         sync                 : true,
         scaleFrom            : 0,
@@ -208,13 +214,13 @@ qx.Class.define("qx.fx.effect.combination.Grow",
         alternateDimensions  : [oldStyle.width, oldStyle.height]
       });
 
-      qx.bom.element.Style.set(this._element, "top", (oldStyle.top + initialMoveY) + "px");
-      qx.bom.element.Style.set(this._element, "left", (oldStyle.left + initialMoveX) + "px");
+      qx.bom.element.Style.set(element, "top", (oldStyle.top + initialMoveY) + "px");
+      qx.bom.element.Style.set(element, "left", (oldStyle.left + initialMoveX) + "px");
 
-      qx.bom.element.Style.set(this._element, "height", "0px");
-      qx.bom.element.Style.set(this._element, "width", "0px");
+      qx.bom.element.Style.set(element, "height", "0px");
+      qx.bom.element.Style.set(element, "width", "0px");
 
-      this._mainEffect.start();
+      this.__mainEffect.start();
     }
 
 
@@ -229,7 +235,7 @@ qx.Class.define("qx.fx.effect.combination.Grow",
 
    destruct : function()
    {
-     this._disposeObjects("_moveEffect", "_scaleEffect", "_mainEffect");
+     this._disposeObjects("__moveEffect", "__scaleEffect", "__mainEffect");
    }
 
 });

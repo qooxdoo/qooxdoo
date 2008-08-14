@@ -92,45 +92,53 @@ qx.Class.define("qx.fx.effect.core.Move",
   members :
   {
 
+    __x : null,
+    __y : null,
+    __originalLeft : null,
+    __originalTop : null,
+    __originalPosition : null,
+
     setup : function()
     {
+      var element = this._getElement();
       this.base(arguments);
 
-      if(this._element.parentNode)
+      if(element.parentNode)
       {
-        this._originalLeft = qx.bom.element.Location.getLeft(this._element) - qx.bom.element.Location.getLeft(this._element.parentNode);
-        this._originalTop = qx.bom.element.Location.getTop(this._element) - qx.bom.element.Location.getTop(this._element.parentNode);
+        this.__originalLeft = qx.bom.element.Location.getLeft(element) - qx.bom.element.Location.getLeft(element.parentNode);
+        this.__originalTop = qx.bom.element.Location.getTop(element) - qx.bom.element.Location.getTop(element.parentNode);
       }
       else
       {
-        this._originalLeft = qx.bom.element.Location.getLeft(this._element);
-        this._originalTop = qx.bom.element.Location.getTop(this._element);
+        this.__originalLeft = qx.bom.element.Location.getLeft(element);
+        this.__originalTop = qx.bom.element.Location.getTop(element);
       }
-      this._originalPosition = qx.bom.element.Style.get(this._element, "position");
+      this.__originalPosition = qx.bom.element.Style.get(element, "position");
 
       if (this.getMode() == 'absolute') {
-        this._x = this.getX() - this._originalLeft;
-        this._y = this.getY() - this._originalTop;
+        this.__x = this.getX() - this.__originalLeft;
+        this.__y = this.getY() - this.__originalTop;
       }else{
-        this._x = this.getX();
-        this._y = this.getY();
+        this.__x = this.getX();
+        this.__y = this.getY();
       }
     },
 
 
     update : function(position)
     {
+      var element = this._getElement();
       this.base(arguments);
 
-      var left = Math.round(this._x  * position + this._originalLeft);
-      var top = Math.round(this._y  * position + this._originalTop);
+      var left = Math.round(this.__x  * position + this.__originalLeft);
+      var top = Math.round(this.__y  * position + this.__originalTop);
 
-      qx.bom.element.Style.set(this._element, "left", left + "px");
-      qx.bom.element.Style.set(this._element, "top", top + "px");
+      qx.bom.element.Style.set(element, "left", left + "px");
+      qx.bom.element.Style.set(element, "top", top + "px");
     },
 
     afterFinishInternal : function() {
-      qx.bom.element.Style.set(this._element, "position", this._originalPosition);
+      qx.bom.element.Style.set(this._getElement(), "position", this.__originalPosition);
     }
   }
 });

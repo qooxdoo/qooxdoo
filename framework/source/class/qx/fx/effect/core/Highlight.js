@@ -103,26 +103,32 @@ qx.Class.define("qx.fx.effect.core.Highlight",
   members :
   {
 
+    __oldStyle : null,
+    __startColor : null,
+    __endColor : null,
+    __deltaColor : null,
+
     setup : function()
     {
       this.base(arguments);
+      var element = this._getElement();
 
-      this._oldStyle = {
-        backgroundImage : qx.bom.element.Style.get(this._element, "backgroundImage"),
-        backgroundColor : qx.bom.element.Style.get(this._element, "backgroundColor")
+      this.__oldStyle = {
+        backgroundImage : qx.bom.element.Style.get(element, "backgroundImage"),
+        backgroundColor : qx.bom.element.Style.get(element, "backgroundColor")
       };
 
       if (!this.getKeepBackgroundImage()) {
-        qx.bom.element.Style.set(this._element, "backgroundImage", "none");
+        qx.bom.element.Style.set(element, "backgroundImage", "none");
       }
 
-      this._startColor = qx.util.ColorUtil.cssStringToRgb(this.getStartColor());
-      this._endColor = qx.util.ColorUtil.cssStringToRgb(this.getEndColor());
+      this.__startColor = qx.util.ColorUtil.cssStringToRgb(this.getStartColor());
+      this.__endColor = qx.util.ColorUtil.cssStringToRgb(this.getEndColor());
 
-      this._deltaColor = [
-        this._endColor[0] - this._startColor[0],
-        this._endColor[1] - this._startColor[1],
-        this._endColor[2] - this._startColor[2]
+      this.__deltaColor = [
+        this.__endColor[0] - this.__startColor[0],
+        this.__endColor[1] - this.__startColor[1],
+        this.__endColor[2] - this.__startColor[2]
       ];
     },
 
@@ -131,14 +137,14 @@ qx.Class.define("qx.fx.effect.core.Highlight",
       this.base(arguments);
 
       var color = [
-        this._startColor[0] + Math.round(this._deltaColor[0] * position),
-        this._startColor[1] + Math.round(this._deltaColor[1] * position),
-        this._startColor[2] + Math.round(this._deltaColor[2] * position)
+        this.__startColor[0] + Math.round(this.__deltaColor[0] * position),
+        this.__startColor[1] + Math.round(this.__deltaColor[1] * position),
+        this.__startColor[2] + Math.round(this.__deltaColor[2] * position)
       ];
 
       var hexColor = "#" + qx.util.ColorUtil.rgbToHexString([color[0].toString(16), color[1].toString(16), color[2].toString(16)]);
 
-      qx.bom.element.Style.set(this._element, "backgroundColor", hexColor);
+      qx.bom.element.Style.set(this._getElement(), "backgroundColor", hexColor);
     },
 
 
@@ -158,8 +164,9 @@ qx.Class.define("qx.fx.effect.core.Highlight",
      */
     _restore : function()
     {
-      for(var property in this._oldStyle) {
-        qx.bom.element.Style.set(this._element, property, this._oldStyle[property]);
+      var element = this._getElement();
+      for(var property in this.__oldStyle) {
+        qx.bom.element.Style.set(element, property, this.__oldStyle[property]);
       }
     }
 
@@ -174,7 +181,7 @@ qx.Class.define("qx.fx.effect.core.Highlight",
 
   destruct : function()
   {
-    this._disposeFields("_startColor", "_endColor", "_deltaColor");
+    this._disposeFields("__startColor", "__endColor", "__deltaColor");
   }
 
 });

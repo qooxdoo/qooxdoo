@@ -61,18 +61,18 @@ qx.Class.define("qx.fx.effect.combination.Pulsate",
     var duration = this.getDuration() / 6;
     var counter = 0;
 
-    this._fadeEffects = [
-      new qx.fx.effect.core.Fade(this._element),
-      new qx.fx.effect.core.Fade(this._element),
-      new qx.fx.effect.core.Fade(this._element),
-      new qx.fx.effect.core.Fade(this._element),
-      new qx.fx.effect.core.Fade(this._element),
-      new qx.fx.effect.core.Fade(this._element)
+    this.__fadeEffects = [
+      new qx.fx.effect.core.Fade(element),
+      new qx.fx.effect.core.Fade(element),
+      new qx.fx.effect.core.Fade(element),
+      new qx.fx.effect.core.Fade(element),
+      new qx.fx.effect.core.Fade(element),
+      new qx.fx.effect.core.Fade(element)
     ];
 
-    for (var i=0, l=this._fadeEffects.length; i<l; i++)
+    for (var i=0, l=this.__fadeEffects.length; i<l; i++)
     {
-      this._fadeEffects[i].set({
+      this.__fadeEffects[i].set({
         duration : duration,
         to : ( (counter % 2) != 0) ? 1 : 0,
         from : ( (counter % 2) != 0) ? 0 : 1,
@@ -115,9 +115,11 @@ qx.Class.define("qx.fx.effect.combination.Pulsate",
    members :
    {
 
-    beforeSetup : function()
-    {
-      this._oldValue = qx.bom.element.Style.get(this._element, "opacity");
+    __oldValue : null,
+    __fadeEffects : null,
+
+    beforeSetup : function() {
+      this.__oldValue = qx.bom.element.Style.get(this._getElement(), "opacity");
     },
 
 
@@ -130,23 +132,23 @@ qx.Class.define("qx.fx.effect.combination.Pulsate",
       var counter = 0;
       var self = this;
 
-      for (var i=0, l=this._fadeEffects.length; i<l; i++)
+      for (var i=0, l=this.__fadeEffects.length; i<l; i++)
       {
-        this._fadeEffects[i].id = counter;
+        this.__fadeEffects[i].id = counter;
         if (counter < 5)
         {
-          this._fadeEffects[i].afterFinishInternal = function(){
-            self._fadeEffects[this.id + 1].start();
+          this.__fadeEffects[i].afterFinishInternal = function(){
+            self.__fadeEffects[this.id + 1].start();
           };
         }
         counter++;
       }
-      this._fadeEffects[0].start();
+      this.__fadeEffects[0].start();
     },
 
 
     afterFinish : function() {
-      qx.bom.element.Style.set(this._element, "opacity", this._oldValue);
+      qx.bom.element.Style.set(this._getElement(), "opacity", this.__oldValue);
     }
 
    },
@@ -159,6 +161,6 @@ qx.Class.define("qx.fx.effect.combination.Pulsate",
    */
 
    destruct : function() {
-     this._disposeArray("_fadeEffects");
+     this._disposeArray("__fadeEffects");
    }
 });
