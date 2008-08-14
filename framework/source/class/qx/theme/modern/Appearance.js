@@ -127,7 +127,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          decorator : "black",
+          decorator : "popup",
           shadow : "popup-shadow"
         }
       }

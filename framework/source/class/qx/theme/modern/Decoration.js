@@ -88,6 +88,23 @@ qx.Theme.define("qx.theme.modern.Decoration",
     },
 
 
+    /*
+    ---------------------------------------------------------------------------
+      POPUP
+    ---------------------------------------------------------------------------
+    */
+    
+    "popup" :
+    {
+      decorator : qx.ui.decoration.Single,
+      
+      style :
+      {
+        width : 1,
+        color : "#666",
+        style : "solid"
+      }
+    },
 
 
     /*
