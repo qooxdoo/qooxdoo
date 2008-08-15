@@ -1098,6 +1098,282 @@ qx.Theme.define("qx.theme.modern.Appearance",
 
     /*
     ---------------------------------------------------------------------------
+      TREE
+    ---------------------------------------------------------------------------
+    */
+
+    "tree" :
+    {
+      include : "list",
+      alias : "list",
+
+      style : function(states)
+      {
+        return {
+          contentPadding : [4, 4, 4, 4]
+        }
+      }
+    },
+
+    "tree-folder" :
+    {
+      style : function(states)
+      {
+        return {
+          padding    : [ 1, 4 ],
+          textColor  : states.selected ? "text-selected" : "undefined",
+          decorator  : states.selected ? "tree-folder-selected" : "tree-folder",
+          icon       : states.opened ? "icon/16/places/folder-open.png" : "icon/16/places/folder.png"
+        }
+      }
+    },
+
+    "tree-file" :
+    {
+      include : "tree-folder",
+      alias : "tree-folder",
+
+      style : function(states)
+      {
+        return {
+          icon : "icon/16/mimetypes/text-plain.png"
+        }
+      }
+    },
+
+    "tree-folder/icon" :
+    {
+      style : function(states)
+      {
+        return {
+          paddingRight : 5
+        }
+      }
+    },
+
+    "tree-folder/label" :
+    {
+      include : "label",
+
+      style : function(states)
+      {
+        return {
+
+        }
+      }
+    },
+
+    "tree-folder/open" :
+    {
+      style : function(states)
+      {
+        var icon;
+        if (states.selected && states.opened)
+        {
+          icon = "decoration/tree/tree-open-selected.png";
+        }
+        else if (states.selected && !states.opened)
+        {
+          icon = "decoration/tree/tree-closed-selected.png";
+        }
+        else if (states.opened)
+        {
+          icon = "decoration/tree/tree-open.png";
+        }
+        else
+        {
+          icon = "decoration/tree/tree-closed.png";
+        }
+
+        return {
+          padding : [0, 5, 0, 2],
+          source  : icon
+        }
+      }
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
+      TREEVIRTUAL
+    ---------------------------------------------------------------------------
+    */
+
+    "treevirtual-folder" :
+    {
+      style : function(states)
+      {
+        return {
+          icon       : (states.opened
+                        ? "icon/16/places/folder-open.png"
+                        : "icon/16/places/folder.png")
+        }
+      }
+    },
+
+    "treevirtual-file" :
+    {
+      include : "treevirtual-folder",
+      alias : "treevirtual-folder",
+
+      style : function(states)
+      {
+        return {
+          icon : "icon/16/mimetypes/text-plain.png"
+        }
+      }
+    },
+
+    "treevirtual-folder/open" :
+    {
+      style : function(states)
+      {
+        return {
+          icon       : (states.opened
+                        ? "decoration/tree/tree-open.png"
+                        : "decoration/tree/tree-closed.png")
+        }
+      }
+    },
+      
+    "treevirtual-line" :
+    {
+      style : function(states)
+      {
+        return {
+          icon       : "static/blank.gif"
+        }
+      }
+    },
+
+    "treevirtual-minus" :
+    {
+      style : function(states)
+      {
+        return {
+          icon       : "static/blank.gif"
+        }
+      }
+    },
+
+    "treevirtual-plus" :
+    {
+      style : function(states)
+      {
+        return {
+          icon       : "static/blank.gif"
+        }
+      }
+    },
+      
+    "treevirtual-only-minus" :
+    {
+      style : function(states)
+      {
+        return {
+          icon       : "static/blank.gif"
+        }
+      }
+    },
+
+    "treevirtual-only-plus" :
+    {
+      style : function(states)
+      {
+        return {
+          icon       : "static/blank.gif"
+        }
+      }
+    },
+
+    "treevirtual-start-minus" :
+    {
+      style : function(states)
+      {
+        return {
+          icon       : "static/blank.gif"
+        }
+      }
+    },
+
+    "treevirtual-start-plus" :
+    {
+      style : function(states)
+      {
+        return {
+          icon       : "static/blank.gif"
+        }
+      }
+    },
+
+    "treevirtual-end-minus" :
+    {
+      style : function(states)
+      {
+        return {
+          icon       : "static/blank.gif"
+        }
+      }
+    },
+
+    "treevirtual-end-plus" :
+    {
+      style : function(states)
+      {
+        return {
+          icon       : "static/blank.gif"
+        }
+      }
+    },
+
+    "treevirtual-cross-minus" :
+    {
+      style : function(states)
+      {
+        return {
+          icon       : "static/blank.gif"
+        }
+      }
+    },
+
+    "treevirtual-cross-plus" :
+    {
+      style : function(states)
+      {
+        return {
+          icon       : "static/blank.gif"
+        }
+      }
+    },
+
+    "treevirtual-end" :
+    {
+      style : function(states)
+      {
+        return {
+          icon       : "static/blank.gif"
+        }
+      }
+    },
+
+    "treevirtual-cross" :
+    {
+      style : function(states)
+      {
+        return {
+          icon       : "static/blank.gif"
+        }
+      }
+    },
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
       TOOL TIP
     ---------------------------------------------------------------------------
     */
