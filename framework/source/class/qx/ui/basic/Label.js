@@ -48,6 +48,8 @@ qx.Class.define("qx.ui.basic.Label",
   {
     this.base(arguments);
 
+    this.initFont();
+
     if (content != null) {
       this.setContent(content);
     }
@@ -129,7 +131,16 @@ qx.Class.define("qx.ui.basic.Label",
     {
       refine : true,
       init : false
+    },
+
+
+    // overridden
+    font :
+    {
+      refine : true,
+      init : "default"
     }
+
   },
 
 
