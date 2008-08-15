@@ -218,9 +218,9 @@ qx.Class.define("qx.core.Property",
       set          : {},
       reset        : {},
       init         : {},
-      refresh      : {},      
+      refresh      : {},
       setRuntime   : {},
-      resetRuntime : {},      
+      resetRuntime : {},
       setThemed    : {},
       resetThemed  : {}
     },
@@ -434,7 +434,7 @@ qx.Class.define("qx.core.Property",
               throw new Error("Cannot add the non themable property '" + a[i] + "' to the themable property group '"+ name +"'");
             }
           }
-          
+
           styler.push("this.", this.$$method.setThemed[a[i]], "(a[", i, "]);");
           unstyler.push("this.", this.$$method.resetThemed[a[i]], "();");
         }
@@ -526,7 +526,7 @@ qx.Class.define("qx.core.Property",
           return qx.core.Property.executeOptimizedSetter(this, clazz, name, "refresh", arguments);
         }
       }
-      
+
       method.setRuntime[name] = "setRuntime" + upname;
       members[method.setRuntime[name]] = function(value) {
         return qx.core.Property.executeOptimizedSetter(this, clazz, name, "setRuntime", arguments);
@@ -535,7 +535,7 @@ qx.Class.define("qx.core.Property",
       method.resetRuntime[name] = "resetRuntime" + upname;
       members[method.resetRuntime[name]] = function() {
         return qx.core.Property.executeOptimizedSetter(this, clazz, name, "resetRuntime");
-      }      
+      }
 
       if (config.themeable)
       {
@@ -659,14 +659,14 @@ qx.Class.define("qx.core.Property",
 
       code.push('if(this.', store.runtime[name], '!==undefined)');
       code.push('return this.', store.runtime[name], ';');
-      
+
       if (config.inheritable)
       {
         code.push('else if(this.', store.inherit[name], '!==undefined)');
         code.push('return this.', store.inherit[name], ';');
         code.push('else ');
       }
-      
+
       code.push('if(this.', store.user[name], '!==undefined)');
       code.push('return this.', store.user[name], ';');
 
@@ -894,7 +894,7 @@ qx.Class.define("qx.core.Property",
       {
         if (variant === "setRuntime")
         {
-          code.push('this.', this.$$store.runtime[name], '=value;');          
+          code.push('this.', this.$$store.runtime[name], '=value;');
         }
         else if (variant === "resetRuntime")
         {
@@ -939,19 +939,19 @@ qx.Class.define("qx.core.Property",
 
 
         // OLD = RUNTIME VALUE
-        
+
         code.push('if(this.', this.$$store.runtime[name], '!==undefined){');
-        
+
         if (variant === "setRuntime")
         {
           // Replace it with new value
-          code.push('computed=this.', this.$$store.runtime[name], '=value;');          
+          code.push('computed=this.', this.$$store.runtime[name], '=value;');
         }
         else if (variant === "resetRuntime")
         {
           // Delete field
-          code.push('delete this.', this.$$store.runtime[name], ';');          
-          
+          code.push('delete this.', this.$$store.runtime[name], ';');
+
           // Complex compution of new value
           code.push('if(this.', this.$$store.user[name], '!==undefined)')
           code.push('computed=this.', this.$$store.user[name], ';');
@@ -960,13 +960,13 @@ qx.Class.define("qx.core.Property",
           code.push('else if(this.', this.$$store.init[name], '!==undefined){');
           code.push('computed=this.', this.$$store.init[name], ';');
           code.push('this.', this.$$store.useinit[name], '=true;');
-          code.push('}');          
+          code.push('}');
         }
         else
         {
           // Use runtime value as it has higher priority
           code.push('old=computed=this.', this.$$store.runtime[name], ';');
-            
+
           // Store incoming value
           if (variant === "set")
           {
@@ -987,12 +987,12 @@ qx.Class.define("qx.core.Property",
           else if (variant === "init" && incomingValue)
           {
             code.push('this.', this.$$store.init[name], '=value;');
-          }                      
-        }       
-        
+          }
+        }
+
         code.push('}');
-        
-        
+
+
 
 
         // OLD = USER VALUE
@@ -1085,7 +1085,7 @@ qx.Class.define("qx.core.Property",
           {
             code.push('computed=this.', this.$$store.runtime[name], '=value;');
           }
-          
+
           else if (variant === "set")
           {
             code.push('computed=this.', this.$$store.user[name], '=value;');
@@ -1265,7 +1265,7 @@ qx.Class.define("qx.core.Property",
 
         // After storage finally normalize computed and old value
         code.push('if(old===undefined)old=null;');
-        code.push('if(computed===undefined)computed=null;');
+        code.push('if(computed===undefined||computed==inherit)computed=null;');
       }
       else if (hasCallback)
       {
