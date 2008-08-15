@@ -119,6 +119,10 @@ qx.Class.define("qx.ui.table.headerrenderer.HeaderCell",
             anonymous: true,
             allowShrinkX: true
           });
+
+          // TODO for Fabian
+          // This may be problematic when fonts are modified,
+          // or the label is modified or ...
           this.getLayout().setColumnMaxWidth(1, control.getSizeHint().width);
           this._add(control, {row: 0, column: 1});
           break;
