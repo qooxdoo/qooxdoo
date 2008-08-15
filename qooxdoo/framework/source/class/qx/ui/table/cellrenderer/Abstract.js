@@ -144,7 +144,7 @@ qx.Class.define("qx.ui.table.cellrenderer.Abstract",
         height -= insetY;
       }
 
-      style += ";width:" +  width + "px;";
+      style += "width:" +  width + "px;";
       style += "height:" + height + "px;";
       return style;
     },
