@@ -102,8 +102,8 @@ qx.Class.define("qx.ui.toolbar.Part",
       switch(id)
       {
         case "handle":
-          control = new qx.ui.core.Widget();
-          control.setHeight(0);
+          control = new qx.ui.basic.Image();
+          control.setAlignY("middle");
           this._add(control);
           break;
 

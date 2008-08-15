@@ -487,18 +487,16 @@ qx.Theme.define("qx.theme.modern.Decoration",
       }
     },
 
-    "toolbar-part-handle" :
+    "toolbar-part" :
     {
       decorator : qx.ui.decoration.Uniform,
-
+      
       style :
       {
-        backgroundImage : "decoration/toolbar/toolbar-handle.png",
-        backgroundRepeat : "no-repeat"
+        backgroundImage  : "decoration/toolbar/toolbar-part.png",
+        backgroundRepeat : "repeat-y"
       }
     },
-
-
 
 
 
