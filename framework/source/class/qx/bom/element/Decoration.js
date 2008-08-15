@@ -296,8 +296,17 @@ qx.Class.define("qx.bom.element.Decoration",
           {
             if (qx.core.Variant.isSet("qx.debug", "on"))
             {
-              if (this.DEBUG && ResourceManager.has(source) && source.indexOf("qx/icon") == -1) {
-                qx.log.Logger.debug("Potential clipped image candidate: " + source);
+              if (this.DEBUG && ResourceManager.has(source) && source.indexOf("qx/icon") == -1)
+              {
+                if (!this.__warnings) {
+                  this.__warnings = {};
+                }
+
+                if (!this.__warnings[source])
+                {
+                  qx.log.Logger.debug("Potential clipped image candidate: " + source);
+                  this.__warnings[source] = true;
+                }
               }
             }
 
@@ -343,8 +352,17 @@ qx.Class.define("qx.bom.element.Decoration",
           {
             if (qx.core.Variant.isSet("qx.debug", "on"))
             {
-              if (this.DEBUG && ResourceManager.has(source) && repeat !== "repeat" && source.indexOf("qx/icon") == -1) {
-                qx.log.Logger.debug("Potential clipped image candidate: " + source);
+              if (this.DEBUG && ResourceManager.has(source) && repeat !== "repeat" && source.indexOf("qx/icon") == -1)
+              {
+                if (!this.__warnings) {
+                  this.__warnings = {};
+                }
+
+                if (!this.__warnings[source])
+                {
+                  qx.log.Logger.debug("Potential clipped image candidate: " + source);
+                  this.__warnings[source] = true;
+                }
               }
             }
 
