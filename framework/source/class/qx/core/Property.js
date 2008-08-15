@@ -684,9 +684,19 @@ qx.Class.define("qx.core.Property",
 
       code.push('else ');
 
-      if (config.init !== undefined) {
-        code.push('return this.', store.init[name], ';');
-      } else if (config.inheritable || config.nullable) {
+      if (config.init !== undefined)
+      {
+        if (config.inheritable)
+        {
+          code.push('var init=this.', store.init[name],
+            ';if(init==qx.core.Property.$$inherit)init=null;return init;');
+        }
+        else
+        {
+          code.push('return this.', store.init[name], ';');
+        }
+      }
+      else if (config.inheritable || config.nullable) {
         code.push('return null;');
       } else {
         code.push('throw new Error("Property ', name, ' of an instance of ', clazz.classname, ' is not (yet) ready!");');
