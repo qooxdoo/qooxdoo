@@ -181,7 +181,7 @@ qx.Class.define("apiviewer.ui.SearchView",
         {
           var search = this._validateInput(svalue);
           new RegExp(search[0]);
-         this.__button.setEnabled(true);
+          this.__button.setEnabled(true);
         }
         catch(ex)
         {
@@ -196,11 +196,11 @@ qx.Class.define("apiviewer.ui.SearchView",
         }
 
 
-       sresult = this._searchIndex(search[0], search[1]);
+        sresult = this._searchIndex(search[0], search[1]);
 
-       this._tableModel.setColumns([ "", (sresult.length + " Result" + ((sresult.length != 1) ? "s" : "")) ]);
-       this._tableModel.setData(sresult);
-       this._table.show();
+        this._tableModel.setColumns([ "", (sresult.length + " Result" + ((sresult.length != 1) ? "s" : "")) ]);
+        this._tableModel.setData(sresult);
+        this._table.show();
 
         var searchEnd = new Date();
         var results = sresult.length;
