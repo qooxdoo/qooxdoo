@@ -77,9 +77,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
        ? ''
        : ';-moz-user-select:none;'),
 
-    __icon : { },
-    __initialized : false,
-    __imagesPending : 0
+    __icon : { }
   },
 
 
@@ -319,12 +317,12 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
       {
         if (node.type == qx.ui.treevirtual.SimpleTreeDataModel.Type.LEAF)
         {
-          var o = this.__tm.styleFrom("tree-folder");
+          var o = this.__tm.styleFrom("treevirtual-file");
         }
         else
         {
           var states = { opened : node.bOpened };
-          var o = this.__tm.styleFrom( "tree-folder", states);
+          var o = this.__tm.styleFrom( "treevirtual-folder", states);
         }
 
         imageUrl = o.icon;
@@ -519,85 +517,55 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
     qx.theme.manager.Meta.getInstance().initialize();
 
     var STDCR = qx.ui.treevirtual.SimpleTreeDataCellRenderer;
-    if (! STDCR.__initialized)
+
+    var ImageLoader = qx.io2.ImageLoader;
+
+    var am = qx.util.AliasManager.getInstance();
+    var rm = qx.util.ResourceManager;
+    var tm = qx.theme.manager.Appearance.getInstance();
+
+    var loadImage = function(f)
     {
-      var ImageLoader = qx.io2.ImageLoader;
+      ImageLoader.load(rm.toUri(am.resolve(f)));
+    };
 
-      var am = qx.util.AliasManager.getInstance();
-      var rm = qx.util.ResourceManager;
-      var tm = qx.theme.manager.Appearance.getInstance();
+    STDCR.__icon.line = tm.styleFrom("treevirtual-line").icon;
+    loadImage(STDCR.__icon.line);
 
-      var loadImage = function(f)
-      {
-        ImageLoader.load(rm.toUri(am.resolve(f)));
-      };
-      
-      STDCR.__icon.line =
-        tm.styleFrom("treevirtual-line").icon;
-      loadImage(STDCR.__icon.line);
-      ++STDCR.__imagesPending;
+    STDCR.__icon.minus = tm.styleFrom("treevirtual-minus").icon;
+    loadImage(STDCR.__icon.minus);
 
-      STDCR.__icon.minus =
-        tm.styleFrom("treevirtual-minus").icon;
-      loadImage(STDCR.__icon.minus);
-      ++STDCR.__imagesPending;
-      
-      STDCR.__icon.plus =
-        tm.styleFrom("treevirtual-plus").icon;
-      loadImage(STDCR.__icon.plus);
-      ++STDCR.__imagesPending;
-      
-      STDCR.__icon.onlyMinus =
-        tm.styleFrom("treevirtual-only-minus").icon;
-      loadImage(STDCR.__icon.onlyMinus);
-      ++STDCR.__imagesPending;
-      
-      STDCR.__icon.onlyPlus =
-        tm.styleFrom("treevirtual-only-plus").icon;
-      loadImage(STDCR.__icon.onlyPlus);
-      ++STDCR.__imagesPending;
-      
-      STDCR.__icon.startMinus =
-        tm.styleFrom("treevirtual-start-minus").icon;
-      loadImage(STDCR.__icon.startMinus);
-      ++STDCR.__imagesPending;
-      
-      STDCR.__icon.startPlus =
-        tm.styleFrom("treevirtual-start-plus").icon;
-      loadImage(STDCR.__icon.startPlus);
-      ++STDCR.__imagesPending;
-      
-      STDCR.__icon.endMinus =
-        tm.styleFrom("treevirtual-end-minus").icon;
-      loadImage(STDCR.__icon.endMinus);
-      ++STDCR.__imagesPending;
-      
-      STDCR.__icon.endPlus =
-        tm.styleFrom("treevirtual-end-plus").icon;
-      loadImage(STDCR.__icon.endPlus);
-      ++STDCR.__imagesPending;
-      
-      STDCR.__icon.crossMinus =
-        tm.styleFrom("treevirtual-cross-minus").icon;
-      loadImage(STDCR.__icon.crossMinus);
-      ++STDCR.__imagesPending;
-      
-      STDCR.__icon.crossPlus =
-        tm.styleFrom("treevirtual-cross-plus").icon;
-      loadImage(STDCR.__icon.crossPlus);
-      ++STDCR.__imagesPending;
-      
-      STDCR.__icon.end =
-        tm.styleFrom("treevirtual-end").icon;
-      loadImage(STDCR.__icon.end);
-      ++STDCR.__imagesPending;
-      
-      STDCR.__icon.cross =
-        tm.styleFrom("treevirtual-cross").icon;
-      loadImage(STDCR.__icon.cross);
-      ++STDCR.__imagesPending;
+    STDCR.__icon.plus = tm.styleFrom("treevirtual-plus").icon;
+    loadImage(STDCR.__icon.plus);
 
-      STDCR.__initialized = true;
-    }
+    STDCR.__icon.onlyMinus = tm.styleFrom("treevirtual-only-minus").icon;
+    loadImage(STDCR.__icon.onlyMinus);
+
+    STDCR.__icon.onlyPlus = tm.styleFrom("treevirtual-only-plus").icon;
+    loadImage(STDCR.__icon.onlyPlus);
+
+    STDCR.__icon.startMinus = tm.styleFrom("treevirtual-start-minus").icon;
+    loadImage(STDCR.__icon.startMinus);
+
+    STDCR.__icon.startPlus = tm.styleFrom("treevirtual-start-plus").icon;
+    loadImage(STDCR.__icon.startPlus);
+
+    STDCR.__icon.endMinus = tm.styleFrom("treevirtual-end-minus").icon;
+    loadImage(STDCR.__icon.endMinus);
+
+    STDCR.__icon.endPlus = tm.styleFrom("treevirtual-end-plus").icon;
+    loadImage(STDCR.__icon.endPlus);
+
+    STDCR.__icon.crossMinus = tm.styleFrom("treevirtual-cross-minus").icon;
+    loadImage(STDCR.__icon.crossMinus);
+
+    STDCR.__icon.crossPlus = tm.styleFrom("treevirtual-cross-plus").icon;
+    loadImage(STDCR.__icon.crossPlus);
+
+    STDCR.__icon.end = tm.styleFrom("treevirtual-end").icon;
+    loadImage(STDCR.__icon.end);
+
+    STDCR.__icon.cross = tm.styleFrom("treevirtual-cross").icon;
+    loadImage(STDCR.__icon.cross);
   }
 });
