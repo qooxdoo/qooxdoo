@@ -149,6 +149,7 @@ qx.Class.define("qx.ui.basic.Label",
     __invalidContentSize : null,
 
 
+
     /*
     ---------------------------------------------------------------------------
       WIDGET API
@@ -202,12 +203,6 @@ qx.Class.define("qx.ui.basic.Label",
     },
 
 
-    /*
-    ---------------------------------------------------------------------------
-      TEXT COLOR SUPPORT
-    ---------------------------------------------------------------------------
-    */
-
     // overridden
     _applyTextColor : function(value, old)
     {
@@ -217,6 +212,8 @@ qx.Class.define("qx.ui.basic.Label",
         this.getContentElement().removeStyle("color");
       }
     },
+
+
 
 
     /*
