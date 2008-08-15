@@ -238,13 +238,17 @@ qx.Class.define("qx.ui.basic.Label",
     {
       // Apply
     	var styles;
-    	if (value) {
+    	if (value)
+    	{
     		this.__font = qx.theme.manager.Font.getInstance().resolve(value);
     		styles = this.__font.getStyles();
-    	} else {
+    	}
+    	else
+    	{
     		this.__font = null;
     		styles = qx.bom.Font.getDefaultStyles();
     	}
+
     	this.getContentElement().setStyles(styles);
 
       // Invalidate text size
@@ -263,17 +267,7 @@ qx.Class.define("qx.ui.basic.Label",
     __computeContentSize : function()
     {
       var Label = qx.bom.Label;
-
       var font = this.getFont();
-
-      if (qx.core.Variant.isSet("qx.debug", "on"))
-      {
-        if (font === "inherit")
-        {
-          this.debug("Could not resolve inheritable font!");
-          font = null;
-        }
-      }
 
       var styles = font ? this.__font.getStyles() : qx.bom.Font.getDefaultStyles();
       var content = this.getContent() || "A";
