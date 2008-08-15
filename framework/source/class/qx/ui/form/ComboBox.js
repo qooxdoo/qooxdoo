@@ -48,7 +48,6 @@ qx.Class.define("qx.ui.form.ComboBox",
     this._createChildControl("button");
 
     this.addListener("click", this._onClick);
-    this.addListener("keydown", this._onKeyDown);
   },
 
 
@@ -182,39 +181,18 @@ qx.Class.define("qx.ui.form.ComboBox",
     ---------------------------------------------------------------------------
     */
 
-    /**
-     * Event handler for keydown. Used to toggle the list.
-     *
-     * @param e {qx.event.type.KeyEvent} Keypress event
-     */
-    _onKeyDown : function(e)
-    {
-      var iden = e.getKeyIdentifier();
-      if (e.isAltPressed() && iden == "Down")
-      {
-        this.toggle();
-        e.stopPropagation();
-
-        // Focus popup, this is a hack for Firefox 3.0
-        // until bug #1161 is fixed.
-        if (qx.core.Variant.isSet("qx.client", "gecko"))
-        {
-          var popup = this._getChildControl("popup");
-          if (popup.isVisible()) {
-            this.getContainerElement().getDomElement().focus();
-          }
-        }
-      }
-    },
-
-
     // overridden
     _onKeyPress : function(e)
     {
       var popup = this._getChildControl("popup");
       var iden = e.getKeyIdentifier();
 
-      if (iden == "Enter")
+      if (iden == "Down" && e.isAltPressed())
+      {
+        this.toggle();
+        e.stopPropagation();
+      }
+      else if (iden == "Enter")
       {
         if (popup.isVisible())
         {
