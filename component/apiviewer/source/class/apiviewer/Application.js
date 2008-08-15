@@ -54,9 +54,6 @@ qx.Class.define("apiviewer.Application",
         qx.log.appender.Console;
       }
 
-      // Include CSS file
-      qx.bom.Stylesheet.includeFile("apiviewer/css/apiviewer.css");
-
       qx.Class.include(qx.ui.core.Widget, apiviewer.MWidgetRegistry);
 
       this.viewer = new apiviewer.Viewer();
@@ -67,12 +64,26 @@ qx.Class.define("apiviewer.Application",
       // Load data file
       qx.event.Timer.once(this._load, this, 0);
     },
-  
+
     _load : function()
     {
       // Finally load the data
       this.controller.load("script/apidata.js");
     }
-    
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     DEFER
+  *****************************************************************************
+  */
+
+  defer : function()
+  {
+    // Include CSS file
+    qx.bom.Stylesheet.includeFile("apiviewer/css/apiviewer.css");
   }
 });
