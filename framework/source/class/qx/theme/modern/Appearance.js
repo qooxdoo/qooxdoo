@@ -1232,8 +1232,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
       {
         return {
           icon       : (states.opened
-                        ? "decoration/tree/tree-open.png"
-                        : "decoration/tree/tree-closed.png")
+                        ? "decoration/tree/open.png"
+                        : "decoration/tree/closed.png")
         }
       }
     },
@@ -1243,7 +1243,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          icon       : "static/blank.gif"
+          icon       : "decoration/tree/open.png"
         }
       }
     },
@@ -1253,7 +1253,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          icon       : "static/blank.gif"
+          icon       : "decoration/tree/closed.png"
         }
       }
     },
@@ -1263,7 +1263,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          icon       : "static/blank.gif"
+          icon       : "decoration/tree/open.png"
         }
       }
     },
@@ -1273,7 +1273,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          icon       : "static/blank.gif"
+          icon       : "decoration/tree/closed.png"
         }
       }
     },
@@ -1283,7 +1283,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          icon       : "static/blank.gif"
+          icon       : "decoration/tree/open.png"
         }
       }
     },
@@ -1293,7 +1293,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          icon       : "static/blank.gif"
+          icon       : "decoration/tree/closed.png"
         }
       }
     },
@@ -1303,7 +1303,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          icon       : "static/blank.gif"
+          icon       : "decoration/tree/open.png"
         }
       }
     },
@@ -1313,7 +1313,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          icon       : "static/blank.gif"
+          icon       : "decoration/tree/closed.png"
         }
       }
     },
@@ -1323,7 +1323,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          icon       : "static/blank.gif"
+          icon       : "decoration/tree/open.png"
         }
       }
     },
@@ -1333,7 +1333,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          icon       : "static/blank.gif"
+          icon       : "decoration/tree/closed.png"
         }
       }
     },
