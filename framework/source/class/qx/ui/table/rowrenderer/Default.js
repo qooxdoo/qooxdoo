@@ -161,12 +161,11 @@ qx.Class.define("qx.ui.table.rowrenderer.Default",
      */
     getRowHeightStyle : function(height)
     {
-      if (qx.bom.client.Feature.CONTENT_BOX)
-      {
+      if (qx.bom.client.Feature.CONTENT_BOX) {
         height -= this._insetY;
       }
 
-      return ";height:" + height + "px;";
+      return "height:" + height + "px;";
     },
 
 

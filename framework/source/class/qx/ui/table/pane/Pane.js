@@ -509,7 +509,7 @@ qx.Class.define("qx.ui.table.pane.Pane",
         }
 
         var rowStyle = rowRenderer.createRowStyle(cellInfo);
-        rowStyle += ";position:relative;height:" + rowRenderer.getRowHeightStyle(rowHeight)+ "px; width:100%;";
+        rowStyle += ";position:relative;" + rowRenderer.getRowHeightStyle(rowHeight)+ "width:100%;";
         if (rowStyle) {
           rowHtml.push('style="', rowStyle, '" ');
         }
