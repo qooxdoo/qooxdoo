@@ -129,7 +129,8 @@ qx.Class.define("qx.bom.Font",
 
 
     /** {Map} Default (empty) CSS styles */
-    __defaultStyles : {
+    __defaultStyles :
+    {
       fontFamily: "",
       fontSize: "",
       fontWeight: "",
