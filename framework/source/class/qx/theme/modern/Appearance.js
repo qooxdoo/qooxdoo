@@ -1226,24 +1226,12 @@ qx.Theme.define("qx.theme.modern.Appearance",
       }
     },
 
-    "treevirtual-folder/open" :
-    {
-      style : function(states)
-      {
-        return {
-          icon       : (states.opened
-                        ? "decoration/tree/open.png"
-                        : "decoration/tree/closed.png")
-        }
-      }
-    },
-      
     "treevirtual-line" :
     {
       style : function(states)
       {
         return {
-          icon       : "decoration/tree/open.png"
+          icon       : "static/blank.gif"
         }
       }
     },
@@ -1253,7 +1241,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          icon       : "decoration/tree/closed.png"
+          icon       : "decoration/tree/open.png"
         }
       }
     },
@@ -1263,7 +1251,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          icon       : "decoration/tree/open.png"
+          icon       : "decoration/tree/closed.png"
         }
       }
     },
@@ -1273,7 +1261,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          icon       : "decoration/tree/closed.png"
+          icon       : "decoration/tree/open.png"
         }
       }
     },
@@ -1283,7 +1271,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          icon       : "decoration/tree/open.png"
+          icon       : "decoration/tree/closed.png"
         }
       }
     },
@@ -1293,7 +1281,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          icon       : "decoration/tree/closed.png"
+          icon       : "decoration/tree/open.png"
         }
       }
     },
@@ -1303,7 +1291,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          icon       : "decoration/tree/open.png"
+          icon       : "decoration/tree/closed.png"
         }
       }
     },
@@ -1313,7 +1301,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          icon       : "decoration/tree/closed.png"
+          icon       : "decoration/tree/open.png"
         }
       }
     },
@@ -1323,7 +1311,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          icon       : "decoration/tree/open.png"
+          icon       : "decoration/tree/closed.png"
         }
       }
     },
@@ -1333,7 +1321,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          icon       : "decoration/tree/closed.png"
+          icon       : "decoration/tree/open.png"
         }
       }
     },
@@ -1343,7 +1331,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          icon       : "static/blank.gif"
+          icon       : "decoration/tree/closed.png"
         }
       }
     },
