@@ -153,6 +153,9 @@ qx.Class.define("qx.bom.element.Style",
       {
         // read value
         value = map[name];
+        if (value == null) {
+          continue;
+        }
 
         // normalize name
         name = names[name] || name;
