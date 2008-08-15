@@ -290,8 +290,6 @@ qx.Class.define("qx.ui.form.List",
         item = this.findItem(splitted[i]);
         if (item) {
           result.push(item);
-        } else {
-          this.warn("Could not find item: " + splitted[i] + "!");
         }
       }
 

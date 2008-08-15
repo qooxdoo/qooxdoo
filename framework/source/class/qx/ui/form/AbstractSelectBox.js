@@ -259,7 +259,7 @@ qx.Class.define("qx.ui.form.AbstractSelectBox",
       else if (!listPopup.isHidden() && identifier == "Escape")
       {
         this.close();
-        e.stopPropagation();
+        e.stop();
       }
 
       // forward the rest of the events to the list

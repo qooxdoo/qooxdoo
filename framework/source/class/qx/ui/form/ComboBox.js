@@ -95,6 +95,8 @@ qx.Class.define("qx.ui.form.ComboBox",
   {
     __preSelectedItem : null,
 
+
+
     /*
     ---------------------------------------------------------------------------
       WIDGET API
@@ -197,7 +199,7 @@ qx.Class.define("qx.ui.form.ComboBox",
         if (popup.isVisible())
         {
           this.close();
-          e.stopPropagation();
+          e.stop();
         }
       }
       else if (popup.isVisible())
@@ -238,6 +240,12 @@ qx.Class.define("qx.ui.form.ComboBox",
     // overridden
     _onListChangeSelection : function(e)
     {
+      if (this.__initialAfterOpen)
+      {
+        delete this.__initialAfterOpen;
+        return;
+      }
+
       var current = e.getData();
       if (current.length > 0)
       {
@@ -268,6 +276,7 @@ qx.Class.define("qx.ui.form.ComboBox",
       var popup = this._getChildControl("popup");
       if (popup.isVisible())
       {
+        this.__initialAfterOpen = true;
         var list = this._getChildControl("list");
         list.setValue(this.getValue());
       }
