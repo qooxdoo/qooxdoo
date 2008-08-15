@@ -355,6 +355,16 @@ qx.Class.define("qx.event.handler.Keyboard",
             this._idealKeyHandler(keyCode, charCode, type, domEvent);
           }
 
+          // Firefox as of version 3.0 do not fire Down/Up keypress events
+          // but as it fires keydown events we emulate these keypress events
+          if (type === "keydown" && (keyCode == 38 || keyCode == 40))
+          {
+            var target = domEvent.target;
+            if (target.nodeType == 1 && target.type == "text" && target.tagName.toLowerCase() === "input") {
+              this._idealKeyHandler(keyCode, charCode, "keypress", domEvent);
+            }
+          }
+
           // Store last type
           this.__lastUpDownType[keyIdentifier] = type;
         }
