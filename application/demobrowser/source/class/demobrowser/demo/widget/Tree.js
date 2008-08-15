@@ -18,7 +18,7 @@
 
 ************************************************************************ */
 
-qx.Class.define("demobrowser.demo.widget.Tree_Simple",
+qx.Class.define("demobrowser.demo.widget.Tree",
 {
   extend : qx.application.Standalone,
 
