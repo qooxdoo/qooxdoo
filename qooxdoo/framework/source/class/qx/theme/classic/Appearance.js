@@ -588,7 +588,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
           decorator : "toolbar-part-handle",
           backgroundColor : "background",
           width     : 4,
-          margin    : [ 3, 2 ]
+          margin    : [ 3, 2 ],
+          allowGrowY : true
         };
       }
     },

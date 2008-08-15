@@ -893,16 +893,32 @@ qx.Theme.define("qx.theme.modern.Appearance",
       }
     },
 
-    "toolbar/part" : {},
-    "toolbar/part/container" : {},
+    "toolbar/part" : {
+      style : function(states)
+      {
+        return {
+          decorator : "toolbar-part",
+          marginRight : 4
+        };
+      }
+    },
+    
+    "toolbar/part/container" : {
+      style : function(states)
+      {
+        return {
+          marginLeft : 2
+        };
+      }      
+    },
 
     "toolbar/part/handle" :
     {
       style : function(states)
       {
         return {
-          decorator : "toolbar-part-handle",
-          width     : 7
+          source : "decoration/toolbar/toolbar-handle-knob.png",
+          marginLeft : 3
         };
       }
     },
