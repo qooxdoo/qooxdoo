@@ -195,9 +195,12 @@ qx.Class.define("qx.ui.form.AbstractField",
         "margin": 0,
         "background": "transparent",
         "outline": "none",
-        "resize": "none",
         "appearance": "none"
       });
+
+      if (qx.core.Variant.isSet("qx.client", "webkit")) {
+        el.setStyle("resize", "none");
+      }
 
       return el;
     },
