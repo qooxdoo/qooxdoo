@@ -49,7 +49,8 @@ RELEASE_BUILD = release/temp/build/qooxdoo-$(FRAMEWORK_VERSION)-build
 RELEASE_SDK = release/temp/sdk/qooxdoo-$(FRAMEWORK_VERSION)-sdk
 
 APPLICATIONS = demobrowser feedreader portal
-COMPONENTS = apiviewer testrunner skeleton
+COMPONENTS = apiviewer testrunner
+FRAMEWORK_TARGETS = api test
 SDK_COPY = index.html
 
 
@@ -332,18 +333,32 @@ distclean:
 	@$(CMD_REMOVE) application/*.zip
 	@$(CMD_REMOVE) release
 
-build:
+build: build-apps build-components
+build-apps:
 	@time for APPLICATION in $(APPLICATIONS); do ( cd application/$$APPLICATION && $(CMD_GENERATOR) build ) || exit 1; done
+
+build-components:
 	@time for APPLICATION in $(COMPONENTS); do ( cd component/$$APPLICATION && $(CMD_GENERATOR) build ) || exit 1; done
+
+build-framework:
+	@for TARGET in $(FRAMEWORK_TARGETS); do ( cd framework && $(CMD_GENERATOR) $$TARGET ) || exit 1; done
 
 source:
 	@time for APPLICATION in $(APPLICATIONS); do ( cd application/$$APPLICATION && $(CMD_GENERATOR) source ) || exit 1; done
 	@time for APPLICATION in $(COMPONENTS); do ( cd component/$$APPLICATION && $(CMD_GENERATOR) source ) || exit 1; done
 
-publish:
+publish-build: build-apps build-framework
+
+publish-check:
+	@echo "  * Checking kit is complete..."
+	@for TARGET in $(APPLICATIONS); do F="application/$$TARGET/build/script/$$TARGET.js"; [ -s $$F ] || ( echo "Missing $$F; run 'make publish-build' first!"; exit 1 ); done
+	@for TARGET in $(FRAMEWORK_TARGETS); do F="framework/$$TARGET/script"; [ -d $$F ] || ( echo "Missing $$F; run 'make publish-build' first!"; exit 1 ); done
+	@echo "    - Looks good"
+
+publish: publish-check
 	@echo "  * Preparing index.html..."
 	@$(CMD_DIR) temp/
-	@cat application/index.html | \
+	@cat tool/data/publish/index.html | \
 		sed 's/class="local"/class="local hide"/g' | \
 		sed 's/ class="publish"//g' > temp/index.html
 	@echo "  * Syncing index.html..."
@@ -356,6 +371,11 @@ publish:
 	done
 	@for APPLICATION in $(COMPONENTS); do \
 	  echo "    - $$APPLICATION..."; \
-	  rsync --checksum --compress --recursive --delete --inplace --links --safe-links --exclude .svn component/$$APPLICATION/build/* root@qooxdoo.org:/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$APPLICATION || exit 1; \
+		if [ "$$APPLICATION" = "apiviewer" ]; then \
+			rsync --checksum --compress --recursive --delete --inplace --links --safe-links --exclude .svn framework/api/* root@qooxdoo.org:/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$APPLICATION || exit 1; \
+		fi; \
+		if [ "$$APPLICATION" = "testrunner" ]; then \
+			rsync --checksum --compress --recursive --delete --inplace --links --safe-links --exclude .svn framework/test/* root@qooxdoo.org:/var/www/qooxdoo/demo/$(FRAMEWORK_VERSION)/$$APPLICATION || exit 1; \
+		fi; \
 	done
 
