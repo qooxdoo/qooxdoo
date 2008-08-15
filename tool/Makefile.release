@@ -16,6 +16,7 @@
 #    * Sebastian Werner (wpbasti)
 #    * Andreas Ecker (ecker)
 #    * Fabian Jakobs (fjakobs)
+#    * Thomas Herchenroeder (thron7)
 #
 ################################################################################
 
@@ -56,82 +57,20 @@ SDK_COPY = index.html
 
 
 
-
-
 ################################################################################
 # RELEASE TARGETS
 ################################################################################
 
 release: release-sdk
 
-release-build: build release-build-sans-build
-release-build-sans-build: release-build-info release-build-collect quickstart release-build-archive
-
-release-build-info:
-	@echo
-	@echo "****************************************************************************"
-	@echo "  GENERATING BUILD VERSION OF RELEASE $(FRAMEWORK_VERSION)"
-	@echo "****************************************************************************"
-
-release-build-collect:
-	@echo
-	@echo "  SYNCHRONISATION OF BUILD RELEASE"
-	@echo "----------------------------------------------------------------------------"
-
-	@echo "  * Copying info files..."
-	@$(CMD_DIR) $(RELEASE_BUILD)
-	@for FILE in `find ../ -maxdepth 1 -type f -name "*.txt"`; do \
-	  echo "    - `basename $$FILE`"; \
-	  cp -f $$FILE $(RELEASE_BUILD); \
-	done
-
-	@echo "  * Synchronizing applications..."
-	@for APPLICATION in $(APPLICATIONS); do \
-		echo "    - $$APPLICATION"; \
-	  $(CMD_DIR) $(RELEASE_BUILD)/$$APPLICATION; \
-		if [ ! -r application/$$APPLICATION/build ]; then \
-		  echo "      - Missing build folder! Run $(CMD_GENERATOR) build first!"; \
-		  exit 1; \
-		fi; \
-	  $(CMD_SYNC_OFFLINE) application/$$APPLICATION/build/* $(RELEASE_BUILD)/$$APPLICATION; \
-	done
-
-	@echo "  * Synchronizing components..."
-	@for APPLICATION in $(COMPONENTS); do \
-		echo "    - $$APPLICATION"; \
-	  $(CMD_DIR) $(RELEASE_BUILD)/$$APPLICATION; \
-		if [ ! -r component/$$APPLICATION/build ]; then \
-		  echo "      - Missing build folder! Run $(CMD_GENERATOR) build first!"; \
-		  exit 1; \
-		fi; \
-	  $(CMD_SYNC_OFFLINE) component/$$APPLICATION/build/* $(RELEASE_BUILD)/$$APPLICATION; \
-	done
-
-	@echo "  * Generating index.html..."
-	@cat application/index.html | \
-		sed 's/class="local"/class="local hide"/g' | \
-		sed 's/ class="publish"//g' > $(RELEASE_BUILD)/index.html
-
-	@echo "  * Switching to Unix line endings..."
-	@$(CMD_FIND) $(RELEASE_BUILD) $(FILES_TEXT) $(CMD_ANY2UNIX)
-
-release-build-archive:
-	@echo "  * Synchronizing quickstart..."
-	@$(CMD_SYNC_OFFLINE) component/qooxdoo-$(FRAMEWORK_VERSION)-quickstart.zip $(RELEASE_BUILD)/
-
-	@echo "  * Generating zip archive..."
-	@cd release/temp/build; $(CMD_REMOVE) ../../qooxdoo-$(FRAMEWORK_VERSION)-build.zip; $(CMD_NICE) zip -rq ../../qooxdoo-$(FRAMEWORK_VERSION)-build.zip qooxdoo-$(FRAMEWORK_VERSION)-build
-
-	@echo "  * Cleaning up..."
-	@rm -rf release/temp
-
-
-
-
-
-
 release-sdk: distclean release-sdk-sans-clean
 release-sdk-sans-clean: release-sdk-info apiviewer release-sdk-svn-collect release-sdk-archive
+
+release-sdk-info:
+	@echo
+	@echo "****************************************************************************"
+	@echo "  GENERATING SDK VERSION OF RELEASE $(FRAMEWORK_VERSION)"
+	@echo "****************************************************************************"
 
 
 release-sdk-svn-collect:
@@ -152,12 +91,6 @@ release-sdk-svn-collect:
 	@echo "  * Switching to Unix line endings..."
 	@$(CMD_FIND) $(RELEASE_SDK) $(FILES_TEXT) $(CMD_ANY2UNIX)
 
-
-release-sdk-info:
-	@echo
-	@echo "****************************************************************************"
-	@echo "  GENERATING SDK VERSION OF RELEASE $(FRAMEWORK_VERSION)"
-	@echo "****************************************************************************"
 
 release-sdk-collect:
 	@echo
