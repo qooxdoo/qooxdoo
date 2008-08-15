@@ -1,0 +1,132 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>qooxdoo &raquo; Demo</title>
+  <style type="text/css">
+*{
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body{
+  font-size: 12px;
+  font-family: Arial, "Bitstream Vera Sans", Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+p{
+  margin: 6px 0;
+}
+
+.hide, .publish {
+	display: none;
+}
+
+#demoHead,
+#demoFoot{
+  position: absolute;
+  left: 0px;
+  right: 0px;
+  width: 100%;
+  background: #134275;
+  padding: 5px 8px;
+  color: #DEFF83;
+  font-weight: bold;
+  overflow: hidden;
+  z-index: 1000000000;
+}
+
+#demoHead{
+  top: 0px;
+}
+
+#demoHead span{
+  font-weight: normal;
+  color: white;
+}
+
+img{
+  box-sizing: content-box;
+  -moz-box-sizing: content-box;
+}
+
+#content{
+  margin: 40px 20px 0;
+  width: 400px;
+}
+
+h1{
+  font-size: 22px;
+  margin-bottom: 20px;
+  color: #134275;
+}
+
+h2{
+  font-size: 14px;
+  color: #1D65B3;
+}
+
+a{
+  color: #335EA8;
+}
+
+li{
+  margin-left: 16px;
+  list-style: square;
+  margin-bottom: 20px;
+}
+
+p{
+  font-size: 12px;
+}
+
+ul ul{
+  margin-top: 20px;
+}
+  </style>
+</head>
+<body>
+  <div id="demoHead">qooxdoo: <span>The new era of web interface development</span></div>
+
+  <div id="content" style="position:absolute;top:0px;left:0px">
+
+    <h1>Demo</h1>
+
+    <ul>
+      <li>
+        <h2>Feed Reader</h2>
+        <p>qooxdoo RSS feed reader using dummy RSS feed data.</p>
+      	<span class="local"><a href="feedreader/build/index.html"><b>Build</b></a> | <a href="feedreader/source/index.html">Source (Developer)</a></span>
+      	<span class="publish"><a href="feedreader/index.html"><b>Open Feed Reader</b></a></span>
+      </li>
+      <li>
+        <h2>Portal</h2>
+        <p>A small application implementing dynamic portal functionality, based only on qooxdoo's low-level DOM API.</p>
+      	<span class="local"><a href="portal/build/index.html"><b>Build</b></a> | <a href="portal/source/index.html">Source (Developer)</a></span>
+      	<span class="publish"><a href="portal/index.html"><b>Open Portal</b></a></span>
+      </li>
+      <li>
+        <h2>API Viewer</h2>
+        <p>qooxdoo-based API viewer featuring an (almost) complete API reference.</p>
+        <span class="local"><a href="apiviewer/build/index.html"><b>Build</b></a> | <a href="apiviewer/source/index.html">Source (Developer)</a></span>
+        <span class="publish"><a href="apiviewer/index.html"><b>Open API Viewer</b></a></span>
+      </li>
+      <li>
+        <h2>Demo Browser</h2>
+        <p>Contains examples and tests for widgets and other framework functionalities.</p>
+        <span class="local"><a href="demobrowser/build/index.html"><b>Build</b></a> | <a href="demobrowser/source/index.html">Source (Developer)</a></span>
+        <span class="publish"><a href="demobrowser/index.html"><b>Open Demo Browser</b></a></span>
+      </li>
+      <li>
+        <h2>Test Runner</h2>
+        <p>Client-side testing framework similar to JSUnit.</p>
+        <span class="local"><a href="testrunner/build/index.html"><b>Build</b></a> | <a href="testrunner/source/index.html">Source (Developer)</a></span>
+        <span class="publish"><a href="testrunner/index.html"><b>Open Test Runner</b></a></span>
+      </li>
+    </ul>
+  </div>
+</body>
+</html>
