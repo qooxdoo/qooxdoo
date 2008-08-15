@@ -49,36 +49,15 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
     this.__rm = qx.util.ResourceManager;
 
     // Base URL used for tree lines
-    this.DECOR_TREE_URI =
-      this.__rm.toUri(this.__am.resolve("decoration/tree/"));
+    this.DECOR_URI =
+      this.__rm.toUri(this.__am.resolve("decoration/treevirtual/"));
 
     // Base URL used for indentation
-    this.STATIC_IMAGE_URI =
-      this.__rm.toUri(this.__am.resolve("static/image/"));
+    this.STATIC_URI =
+      this.__rm.toUri(this.__am.resolve("static/"));
 
     // Get the image loader class.  The load() method is static.
-    var imageLoader = qx.io2.ImageLoader;
-
-    // Pre-load the tree widgets so they always show up quickly
-    var uri = this.DECOR_TREE_URI;
-    imageLoader.load(uri + "line.gif");
-    imageLoader.load(uri + "minus.gif");
-    imageLoader.load(uri + "plus.gif");
-    imageLoader.load(uri + "only-minus.gif");
-    imageLoader.load(uri + "only-plus.gif");
-    imageLoader.load(uri + "start-minus.gif");
-    imageLoader.load(uri + "start-plus.gif");
-    imageLoader.load(uri + "end-minus.gif");
-    imageLoader.load(uri + "end-plus.gif");
-    imageLoader.load(uri + "cross-minus.gif");
-    imageLoader.load(uri + "cross-plus.gif");
-    imageLoader.load(uri + "end.gif");
-    imageLoader.load(uri + "cross.gif");
-    imageLoader.load(uri + "line.gif");
-
-    // We also use a blank image, so preload it as well.
-    uri = this.STATIC_IMAGE_URI;
-    imageLoader.load(uri + "blank.gif");
+    this.ImageLoader = qx.io2.ImageLoader;
   },
 
 
@@ -97,11 +76,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
       'padding-left:2px;padding-right:2px;cursor:default' +
       (qx.core.Variant.isSet("qx.client", "mshtml")
        ? ''
-       : ';-moz-user-select:none;'),
-
-    IMG_START       : '<img src="',
-    IMG_END         : '"/>',
-    IMG_TITLE_START : '" title="'
+       : ';-moz-user-select:none;')
   },
 
 
@@ -179,7 +154,48 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
     __addImage : function(urlAndToolTip)
     {
       var Stdcr = qx.ui.treevirtual.SimpleTreeDataCellRenderer;
-      var html = Stdcr.IMG_START;
+      var html = [];
+
+      // If we've been given positioning attributes, enclose image in a div
+      if (urlAndToolTip.position)
+      {
+        html.push('<div style="position:absolute;');
+        var pos = urlAndToolTip.position;
+
+        if (pos.top !== undefined)
+        {
+          html.push('top:' + pos.top + 'px;');
+        }
+
+        if (pos.right !== undefined)
+        {
+          html.push('right:' + pos.right + 'px;');
+        }
+
+        if (pos.bottom !== undefined)
+        {
+          html.push('bottom:' + pos.bottom + 'px;');
+        }
+
+        if (pos.left !== undefined)
+        {
+          html.push('left:' + pos.left + 'px;');
+        }
+
+        if (pos.width !== undefined)
+        {
+          html.push('width:' + pos.width + 'px;');
+        }
+
+        if (pos.height !== undefined)
+        {
+          html.push('height:' + pos.height + 'px;');
+        }
+
+        html.push('">');
+      }
+
+      html.push('<img src="');
 
       // Resolve the URI
       var source = this.__rm.toUri(this.__am.resolve(urlAndToolTip.url));
@@ -187,39 +203,44 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
       if (qx.core.Variant.isSet("qx.client", "mshtml") &&
           /\.png$/i.test(urlAndToolTip.url))
       {
-        html +=
-          this.STATIC_IMAGE_URI +
+        html.push(
+          this.STATIC_URI +
           "blank.gif" +
           '" style="filter:' +
           "progid:DXImageTransform.Microsoft.AlphaImageLoader(" +
-          "  src='" + source + "',sizingMethod='scale')";
+          "  src='" + source + "',sizingMethod='scale')");
       }
       else
       {
-        html += source + '" style="';
+        html.push(source + '" style="');
       }
 
       if (urlAndToolTip.imageWidth && urlAndToolTip.imageHeight)
       {
-        html +=
+        html.push(
           ';width:' +
           urlAndToolTip.imageWidth +
           'px' +
           ';height:' +
           urlAndToolTip.imageHeight +
-          'px';
+          'px');
       }
 
       var tooltip = urlAndToolTip.tooltip;
 
       if (tooltip != null)
       {
-        html += Stdcr.IMG_TITLE_START + tooltip;
+        html.push('" title="' + tooltip);
       }
 
-      html += Stdcr.IMG_END;
+      html.push('"/>');
 
-      return html;
+      if (urlAndToolTip.position)
+      {
+        html.push('</div>');
+      }
+
+      return html.join("");
     },
 
 
@@ -291,8 +312,13 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
       html += this.__addImage(
       {
         url         : imageUrl,
-        imageWidth  : 16,
-        imageHeight : 16
+        position    :
+        {
+          top         : 0,
+          left        : pos,
+          width       : 19,
+          height      : 16
+        }
       });
 
       // Add the node's label.  We calculate the "left" property with: each
@@ -365,8 +391,8 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
         // then return either a line or a blank icon, depending on
         // bUseTreeLines
         return (bUseTreeLines && ! node.lastChild[column]
-                 ? this.DECOR_TREE_URI + "line.gif"
-                 : this.STATIC_IMAGE_URI + "blank.gif");
+                ? this.DECOR_URI + "line.gif"
+                : this.STATIC_URI + "blank.gif");
       }
 
       var bLastChild = node.lastChild[node.lastChild.length - 1];
@@ -384,8 +410,8 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
           {
             // ... then just use a plus or minus
             return (node.bOpened
-                    ? this.DECOR_TREE_URI + "minus.gif"
-                    : this.DECOR_TREE_URI + "plus.gif");
+                    ? this.DECOR_URI + "minus.gif"
+                    : this.DECOR_URI + "plus.gif");
           }
 
           // Are we looking at a top-level, first child of its parent?
@@ -396,15 +422,15 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
             {
               // ... then use no tree lines.
               return (node.bOpened
-                      ? this.DECOR_TREE_URI + "only-minus.gif"
-                      : this.DECOR_TREE_URI + "only-plus.gif");
+                      ? this.DECOR_URI + "only-minus.gif"
+                      : this.DECOR_URI + "only-plus.gif");
             }
             else
             {
               // otherwise, use descender lines but no ascender.
               return (node.bOpened
-                      ? this.DECOR_TREE_URI + "start-minus.gif"
-                      : this.DECOR_TREE_URI + "start-plus.gif");
+                      ? this.DECOR_URI + "start-minus.gif"
+                      : this.DECOR_URI + "start-plus.gif");
             }
           }
 
@@ -414,14 +440,14 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
           {
             // Yup.  Return an ending plus or minus.
             return (node.bOpened
-                    ? this.DECOR_TREE_URI + "end-minus.gif"
-                    : this.DECOR_TREE_URI + "end-plus.gif");
+                    ? this.DECOR_URI + "end-minus.gif"
+                    : this.DECOR_URI + "end-plus.gif");
           }
 
           // Otherwise, return a crossing plus or minus.
           return (node.bOpened
-                  ? this.DECOR_TREE_URI + "cross-minus.gif"
-                  : this.DECOR_TREE_URI + "cross-plus.gif");
+                  ? this.DECOR_URI + "cross-minus.gif"
+                  : this.DECOR_URI + "cross-plus.gif");
         }
       }
 
@@ -436,31 +462,65 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
           if (bLastChild && node.bFirstChild)
           {
             // ... then return a blank.
-            return this.STATIC_IMAGE_URI + "blank.gif";
+            return this.STATIC_URI + "blank.gif";
           }
 
           // Otherwise, if this is the last child...
           if (bLastChild)
           {
             // ... then return an end line.
-            return this.DECOR_TREE_URI + "end.gif";
+            return this.DECOR_URI + "end.gif";
           }
 
           // Otherwise if this is the first child...
           if (node.bFirstChild)
           {
             // ... then return a start line.
-            return this.DECOR_TREE_URI + "start.gif";
+            return this.DECOR_URI + "start.gif";
           }
         }
 
         // If this is a last child, return and ending line; otherwise cross.
         return (bLastChild
-                ? this.DECOR_TREE_URI + "end.gif"
-                : this.DECOR_TREE_URI + "cross.gif");
+                ? this.DECOR_URI + "end.gif"
+                : this.DECOR_URI + "cross.gif");
       }
 
-      return this.STATIC_IMAGE_URI + "blank.gif";
+      return this.STATIC_URI + "blank.gif";
     }
+  },
+
+  defer : function()
+  {
+    var ImageLoader = qx.io2.ImageLoader;
+    var AM = qx.util.AliasManager.getInstance();
+
+    // Base URL used for tree lines
+    var DECOR_URI =
+      qx.util.ResourceManager.toUri(AM.resolve("decoration/treevirtual/"));
+
+    // Base URL used for indentation
+    var STATIC_URI =
+      qx.util.ResourceManager.toUri(AM.resolve("static/"));
+
+    // Pre-load the tree widgets so they always show up quickly
+    var uri = DECOR_URI;
+    ImageLoader.load(uri + "line.gif");
+    ImageLoader.load(uri + "minus.gif");
+    ImageLoader.load(uri + "plus.gif");
+    ImageLoader.load(uri + "only-minus.gif");
+    ImageLoader.load(uri + "only-plus.gif");
+    ImageLoader.load(uri + "start-minus.gif");
+    ImageLoader.load(uri + "start-plus.gif");
+    ImageLoader.load(uri + "end-minus.gif");
+    ImageLoader.load(uri + "end-plus.gif");
+    ImageLoader.load(uri + "cross-minus.gif");
+    ImageLoader.load(uri + "cross-plus.gif");
+    ImageLoader.load(uri + "end.gif");
+    ImageLoader.load(uri + "cross.gif");
+
+    // We also use a blank image, so preload it as well.
+    uri = STATIC_URI;
+    ImageLoader.load(uri + "blank.gif");
   }
 });
