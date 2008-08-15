@@ -40,7 +40,7 @@ qx.Class.define("qx.bom.element.BoxSizing",
     {
       "mshtml" : null,
       "webkit" : ["boxSizing", "KhtmlBoxSizing", "WebkitBoxSizing"],
-      "gecko" : ["MozBoxSizing", "boxSizing"],
+      "gecko" : ["MozBoxSizing"],
       "opera" : ["boxSizing"]
     }),
 
@@ -50,7 +50,7 @@ qx.Class.define("qx.bom.element.BoxSizing",
     {
       "mshtml" : null,
       "webkit" : ["box-sizing", "-khtml-box-sizing", "-webkit-box-sizing"],
-      "gecko" : ["-moz-box-sizing", "box-sizing"],
+      "gecko" : ["-moz-box-sizing"],
       "opera" : ["box-sizing"]
     }),
 
