@@ -36,6 +36,8 @@ qx.Class.define("qx.ui.table.cellrenderer.Abstract",
 
   construct : function()
   {
+    this.base(arguments);
+
     var cr = qx.ui.table.cellrenderer.Abstract;
     if (!cr.__clazz)
     {
@@ -146,6 +148,7 @@ qx.Class.define("qx.ui.table.cellrenderer.Abstract",
 
       style += "width:" +  width + "px;";
       style += "height:" + height + "px;";
+
       return style;
     },
 
