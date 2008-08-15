@@ -396,6 +396,17 @@ qx.Theme.define("qx.theme.modern.Appearance",
         };
       }
     },
+    
+    "datefield/textfield" :
+    {
+      style : function(states)
+      {
+        return {
+          padding : [ 3, 0, 0, 0 ]
+        }
+      }
+    },
+    
 
     "datefield/list" : "datechooser",
 
