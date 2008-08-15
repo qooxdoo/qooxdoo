@@ -1236,104 +1236,66 @@ qx.Theme.define("qx.theme.modern.Appearance",
       }
     },
 
-    "treevirtual-minus" :
+    "treevirtual-contract" :
     {
       style : function(states)
       {
         return {
-          icon       : "decoration/tree/open.png"
+          icon        : "decoration/tree/open.png",
+          paddingLeft : 3
         }
       }
     },
 
-    "treevirtual-plus" :
+    "treevirtual-expand" :
     {
       style : function(states)
       {
         return {
-          icon       : "decoration/tree/closed.png"
+          icon        : "decoration/tree/closed.png",
+          paddingLeft : 5
         }
       }
     },
       
-    "treevirtual-only-minus" :
+    "treevirtual-only-contract" :
     {
-      style : function(states)
-      {
-        return {
-          icon       : "decoration/tree/open.png"
-        }
-      }
+      include : "treevirtual-contract"
     },
 
-    "treevirtual-only-plus" :
+    "treevirtual-only-expand" :
     {
-      style : function(states)
-      {
-        return {
-          icon       : "decoration/tree/closed.png"
-        }
-      }
+      include : "treevirtual-expand"
     },
 
-    "treevirtual-start-minus" :
+    "treevirtual-start-contract" :
     {
-      style : function(states)
-      {
-        return {
-          icon       : "decoration/tree/open.png"
-        }
-      }
+      include : "treevirtual-contract"
     },
 
-    "treevirtual-start-plus" :
+    "treevirtual-start-expand" :
     {
-      style : function(states)
-      {
-        return {
-          icon       : "decoration/tree/closed.png"
-        }
-      }
+      include : "treevirtual-expand"
     },
 
-    "treevirtual-end-minus" :
+    "treevirtual-end-contract" :
     {
-      style : function(states)
-      {
-        return {
-          icon       : "decoration/tree/open.png"
-        }
-      }
+      include : "treevirtual-contract"
     },
 
-    "treevirtual-end-plus" :
+    "treevirtual-end-expand" :
     {
-      style : function(states)
-      {
-        return {
-          icon       : "decoration/tree/closed.png"
-        }
-      }
+      include : "treevirtual-expand"
     },
 
-    "treevirtual-cross-minus" :
+    "treevirtual-cross-contract" :
     {
-      style : function(states)
-      {
-        return {
-          icon       : "decoration/tree/open.png"
-        }
-      }
+      include : "treevirtual-contract"
     },
 
-    "treevirtual-cross-plus" :
+    "treevirtual-cross-expand" :
     {
-      style : function(states)
-      {
-        return {
-          icon       : "decoration/tree/closed.png"
-        }
-      }
+      include : "treevirtual-expand"
     },
 
     "treevirtual-end" :

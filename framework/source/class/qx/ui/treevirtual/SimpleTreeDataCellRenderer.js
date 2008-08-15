@@ -162,26 +162,13 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
       // If we've been given positioning attributes, enclose image in a div
       if (urlAndToolTip.position)
       {
-        html.push('<div style="position:absolute;');
         var pos = urlAndToolTip.position;
-        var shiftRight = 0;
-        var shiftDown = 0;
 
-        if (pos.centerX)
-        {
-          var entry = qx.io2.ImageLoader.getSize(source);
-          shiftRight = entry.width / 2;
-        }
-
-        if (pos.centerY)
-        {
-          var entry = qx.io2.ImageLoader.getSize(source);
-          shiftDown = entry.height / 2;
-        }
+        html.push('<div style="position:absolute;');
 
         if (pos.top !== undefined)
         {
-          html.push('top:' + (pos.top + shiftDown) + 'px;');
+          html.push('top:' + pos.top + 'px;');
         }
 
         if (pos.right !== undefined)
@@ -196,7 +183,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
 
         if (pos.left !== undefined)
         {
-          html.push('left:' + (pos.left + shiftRight) + 'px;');
+          html.push('left:' + pos.left + 'px;');
         }
 
         if (pos.width !== undefined)
@@ -274,7 +261,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
     {
       var html = "";
       var node = cellInfo.value;
-      var imageUrl;
+      var imageData;
 
       // Generate the indentation.  Obtain icon determination values once
       // rather than each time through the loop.
@@ -287,20 +274,19 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
 
       for (var i=0; i<node.level; i++)
       {
-        imageUrl = this._getIndentSymbol(i, node, bUseTreeLines,
-                                         bAlwaysShowOpenCloseSymbol,
-                                         bExcludeFirstLevelTreeLines);
+        imageData = this._getIndentSymbol(i, node, bUseTreeLines,
+                                          bAlwaysShowOpenCloseSymbol,
+                                          bExcludeFirstLevelTreeLines);
 
         html += this.__addImage(
         {
-          url         : imageUrl,
+          url         : imageData.icon,
           position    :
           {
-            top         : 0,
-            left        : pos,
+            top         : 0 + (imageData.paddingTop || 0),
+            left        : pos + (imageData.paddingLeft || 0),
             width       : 19,
-            height      : 16,
-            centerX     : true
+            height      : 16
           }
         });
         pos += 19;
@@ -413,7 +399,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
         // bUseTreeLines
         return (bUseTreeLines && ! node.lastChild[column]
                 ? STDCR.__icon.line
-                : this.STATIC_URI + "blank.gif");
+                : { icon : this.STATIC_URI + "blank.gif" });
       }
 
       var bLastChild = node.lastChild[node.lastChild.length - 1];
@@ -429,10 +415,10 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
           // If we're not showing tree lines...
           if (!bUseTreeLines)
           {
-            // ... then just use a plus or minus
+            // ... then just use a expand or contract
             return (node.bOpened
-                    ? STDCR.__icon.minus
-                    : STDCR.__icon.plus);
+                    ? STDCR.__icon.contract
+                    : STDCR.__icon.expand);
           }
 
           // Are we looking at a top-level, first child of its parent?
@@ -443,15 +429,15 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
             {
               // ... then use no tree lines.
               return (node.bOpened
-                      ? STDCR.__icon.onlyMinus
-                      : STDCR.__icon.onlyPlus);
+                      ? STDCR.__icon.onlyContract
+                      : STDCR.__icon.onlyExpand);
             }
             else
             {
               // otherwise, use descender lines but no ascender.
               return (node.bOpened
-                      ? STDCR.__icon.startMinus
-                      : STDCR.__icon.startPlus);
+                      ? STDCR.__icon.startContract
+                      : STDCR.__icon.startExpand);
             }
           }
 
@@ -459,16 +445,16 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
           // parent?
           if (bLastChild)
           {
-            // Yup.  Return an ending plus or minus.
+            // Yup.  Return an ending expand or contract.
             return (node.bOpened
-                    ? STDCR.__icon.endMinus
-                    : STDCR.__icon.endPlus);
+                    ? STDCR.__icon.endContract
+                    : STDCR.__icon.endExpand);
           }
 
-          // Otherwise, return a crossing plus or minus.
+          // Otherwise, return a crossing expand or contract.
           return (node.bOpened
-                  ? STDCR.__icon.crossMinus
-                  : STDCR.__icon.crossPlus);
+                  ? STDCR.__icon.crossContract
+                  : STDCR.__icon.crossExpand);
         }
       }
 
@@ -483,7 +469,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
           if (bLastChild && node.bFirstChild)
           {
             // ... then return a blank.
-            return this.STATIC_URI + "blank.gif";
+            return { icon : this.STATIC_URI + "blank.gif" };
           }
 
           // Otherwise, if this is the last child...
@@ -507,7 +493,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
                 : STDCR.__icon.cross);
       }
 
-      return this.STATIC_URI + "blank.gif";
+      return { icon : this.STATIC_URI + "blank.gif" };
     }
   },
 
@@ -529,43 +515,43 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
       ImageLoader.load(rm.toUri(am.resolve(f)));
     };
 
-    STDCR.__icon.line = tm.styleFrom("treevirtual-line").icon;
-    loadImage(STDCR.__icon.line);
+    STDCR.__icon.line = tm.styleFrom("treevirtual-line");
+    loadImage(STDCR.__icon.line.icon);
 
-    STDCR.__icon.minus = tm.styleFrom("treevirtual-minus").icon;
-    loadImage(STDCR.__icon.minus);
+    STDCR.__icon.contract = tm.styleFrom("treevirtual-contract");
+    loadImage(STDCR.__icon.contract.icon);
 
-    STDCR.__icon.plus = tm.styleFrom("treevirtual-plus").icon;
-    loadImage(STDCR.__icon.plus);
+    STDCR.__icon.expand = tm.styleFrom("treevirtual-expand");
+    loadImage(STDCR.__icon.expand.icon);
 
-    STDCR.__icon.onlyMinus = tm.styleFrom("treevirtual-only-minus").icon;
-    loadImage(STDCR.__icon.onlyMinus);
+    STDCR.__icon.onlyContract = tm.styleFrom("treevirtual-only-contract");
+    loadImage(STDCR.__icon.onlyContract.icon);
 
-    STDCR.__icon.onlyPlus = tm.styleFrom("treevirtual-only-plus").icon;
-    loadImage(STDCR.__icon.onlyPlus);
+    STDCR.__icon.onlyExpand = tm.styleFrom("treevirtual-only-expand");
+    loadImage(STDCR.__icon.onlyExpand.icon);
 
-    STDCR.__icon.startMinus = tm.styleFrom("treevirtual-start-minus").icon;
-    loadImage(STDCR.__icon.startMinus);
+    STDCR.__icon.startContract = tm.styleFrom("treevirtual-start-contract");
+    loadImage(STDCR.__icon.startContract.icon);
 
-    STDCR.__icon.startPlus = tm.styleFrom("treevirtual-start-plus").icon;
-    loadImage(STDCR.__icon.startPlus);
+    STDCR.__icon.startExpand = tm.styleFrom("treevirtual-start-expand");
+    loadImage(STDCR.__icon.startExpand.icon);
 
-    STDCR.__icon.endMinus = tm.styleFrom("treevirtual-end-minus").icon;
-    loadImage(STDCR.__icon.endMinus);
+    STDCR.__icon.endContract = tm.styleFrom("treevirtual-end-contract");
+    loadImage(STDCR.__icon.endContract.icon);
 
-    STDCR.__icon.endPlus = tm.styleFrom("treevirtual-end-plus").icon;
-    loadImage(STDCR.__icon.endPlus);
+    STDCR.__icon.endExpand = tm.styleFrom("treevirtual-end-expand");
+    loadImage(STDCR.__icon.endExpand.icon);
 
-    STDCR.__icon.crossMinus = tm.styleFrom("treevirtual-cross-minus").icon;
-    loadImage(STDCR.__icon.crossMinus);
+    STDCR.__icon.crossContract = tm.styleFrom("treevirtual-cross-contract");
+    loadImage(STDCR.__icon.crossContract.icon);
 
-    STDCR.__icon.crossPlus = tm.styleFrom("treevirtual-cross-plus").icon;
-    loadImage(STDCR.__icon.crossPlus);
+    STDCR.__icon.crossExpand = tm.styleFrom("treevirtual-cross-expand");
+    loadImage(STDCR.__icon.crossExpand.icon);
 
-    STDCR.__icon.end = tm.styleFrom("treevirtual-end").icon;
-    loadImage(STDCR.__icon.end);
+    STDCR.__icon.end = tm.styleFrom("treevirtual-end");
+    loadImage(STDCR.__icon.end.icon);
 
-    STDCR.__icon.cross = tm.styleFrom("treevirtual-cross").icon;
-    loadImage(STDCR.__icon.cross);
+    STDCR.__icon.cross = tm.styleFrom("treevirtual-cross");
+    loadImage(STDCR.__icon.cross.icon);
   }
 });
