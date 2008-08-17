@@ -24,14 +24,99 @@
  */
 qx.Class.define("qx.event.message.Bus",
 {
+  type : "singleton",
+  
+  extend : qx.core.Target,
+
   statics :
   {
+
     /**
+     * gets the hash map of message subscriptions
+     *
+     * @type static
+     * @return {Object} TODOC
+     */
+    getSubscriptions : function() {
+      return this.getInstance().getSubscriptions();
+    },
+
+
+    /**
+     * subscribes to a message
+     *
+     * @type static
+     * @param message {String} name of message, can be truncated by *
+     * @param subscriber {Function} subscribing callback function
+     * @param context {Object} The execution context of the callback (i.e. "this")
+     * @return {Boolean} Success
+     */
+    subscribe : function(message, subscriber, context)
+    {
+      return this.getInstance().subscribe(message, subscriber, context);  
+
+    },
+
+    /**
+     * checks if subsciption is already present
+     * if you supply the callback function, match only the exact message monitor
+     * otherwise match all monitors that have the given message
+     *
+     * @type static
+     * @param message {String} Name of message, can be truncated by *
+     * @param subscriber {Function} Callback Function
+     * @param context {Object} execution context
+     * @return {Boolean} Whether monitor is present or not
+     */
+    checkSubscription : function(message, subscriber, context)
+    {
+      return this.getInstance().checkSubscription(message, subscriber, context);
+    },
+
+    /**
+     * unsubscribe a listening method
+     * if you supply the callback function and execution context,
+     * remove only this exact subscription
+     * otherwise remove all subscriptions
+     *
+     * @type static
+     * @param message {String} Name of message, can be truncated by *
+     * @param subscriber {Function} Callback Function
+     * @param context {Object} execution context
+     * @return {Boolean} Whether monitor was removed or not
+     */
+    unsubscribe : function(message, subscriber, context)
+    {
+      return this.getInstance().unsubscribe(message, subscriber, context)
+    },
+
+    /**
+     * dispatch message and call subscribed functions
+     *
+     * @type static
+     * @param msg {qx.messagebus.Message|String} message which is being dispatched
+     * @return {boolean} TODOC
+     */
+    dispatch : function(msg)
+    {
+      return this.getInstance().dispatch.apply(this,arguments);
+    }
+  },
+  
+  /**
+   * constructor
+   */
+  construct : function()
+  {
+    /*
      * message subscriptions database
      */
-    __subscriptions : {},
-
-
+    this.__subscriptions = {};
+  }, 
+  
+  members :
+  {
+    
     /**
      * gets the hash map of message subscriptions
      *
@@ -54,7 +139,8 @@ qx.Class.define("qx.event.message.Bus",
     {
       if (!message || typeof subscriber != "function")
       {
-        this.error("Invalid parameters!");
+        this.error("Invalid parameters! "+ [message, subscriber, context]);
+        
         return false;
       }
 
@@ -168,7 +254,7 @@ qx.Class.define("qx.event.message.Bus",
      * @return {boolean} TODOC
      */
     dispatch : function(msg)
-    {
+    { 
       // if string value has been supplied, create new message
       if ( typeof msg == "string" )
       {
