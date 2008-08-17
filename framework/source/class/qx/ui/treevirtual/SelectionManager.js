@@ -115,7 +115,7 @@ qx.Class.define("qx.ui.treevirtual.SelectionManager",
         var tableModel = table.getTableModel();
 
         // If the cell hasn't been focused automatically...
-        if (evt instanceof qx.event.type.MouseEvent)
+        if (evt instanceof qx.event.type.Mouse)
         {
           if (! table.getFocusCellOnMouseMove())
           {
@@ -137,23 +137,24 @@ qx.Class.define("qx.ui.treevirtual.SelectionManager",
         }
 
         // Was this a mouse event?
-        if (evt instanceof qx.event.type.MouseEvent)
+        if (evt instanceof qx.event.type.Mouse)
         {
           // Yup.  Get the order of the columns
           var tcm = table.getTableColumnModel();
           var columnPositions = tcm._getColToXPosMap();
 
           // Calculate the position of the beginning of the tree column
-          var left = qx.bom.element.Location.getLeft(table.getElement());
+          var left = qx.bom.element.Location.getLeft(
+            table.getContentElement().getDomElement());
 
           for (i=0; i<columnPositions[treeCol].visX; i++) {
             left += tcm.getColumnWidth(columnPositions[i].visX);
           }
 
           // Was the click on the open/close button?  That button begins at
-          // (node.level - 1) * 19 + 2 (the latter for padding), and has width 19.
-          // We add a bit of latitude to that.
-          var x = evt.getClientX();
+          // (node.level - 1) * 19 + 2 (the latter for padding), and has width
+          // 19.  We add a bit of latitude to that.
+          var x = evt.getViewportLeft();
           var latitude = 2;
 
           var buttonPos = left + (node.level - 1) * 19 + 2;
