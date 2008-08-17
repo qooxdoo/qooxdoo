@@ -933,7 +933,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
           {
             // We're closing.  If there are listeners, generate a treeClose
             // event.
-            tree.createDispatchDataEvent("treeClose", node);
+            tree.fireDataEvent("treeClose", node);
           }
           else
           {
@@ -942,13 +942,13 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
             {
               // Yup.  If there any listeners, generate a "treeOpenWithContent"
               // event.
-              tree.createDispatchDataEvent("treeOpenWithContent", node);
+              tree.fireDataEvent("treeOpenWithContent", node);
             }
             else
             {
               // No children.  If there are listeners, generate a
               // "treeOpenWhileEmpty" event.
-              tree.createDispatchDataEvent("treeOpenWhileEmpty", node);
+              tree.fireDataEvent("treeOpenWhileEmpty", node);
             }
           }
 
