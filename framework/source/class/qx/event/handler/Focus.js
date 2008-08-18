@@ -553,7 +553,7 @@ qx.Class.define("qx.event.handler.Focus",
       "gecko" : function(e)
       {
         if (!this.__isSelectable(e.target)) {
-          e.preventDefault();
+          qx.bom.Event.preventDefault(e);
         }
       },
 

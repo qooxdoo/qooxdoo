@@ -37,13 +37,15 @@ qx.Class.define("qx.ui.table.pane.CellEvent",
     /** The table row of the event target */
     row :
     {
-      check : "Integer"
+      check : "Integer",
+      nullable: true
     },
 
     /** The table column of the event target */
     column :
     {
-      check : "Integer"
+      check : "Integer",
+      nullable: true
     }
   },
 
