@@ -3,7 +3,7 @@
  * This also demonstrates how the minimum row height can be set by a
  * cell renderer.
  */
-qx.Class.define("demobrowser.demo.progressive.ProgressiveLoader_1",
+qx.Class.define("demobrowser.demo.progressive.ProgressiveLoader",
 {
   extend : qx.application.Standalone,
 
