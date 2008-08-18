@@ -38,6 +38,7 @@ qx.Class.define("demobrowser.demo.table.TableDemo",
       this._container = new qx.ui.window.Window(this.getCaption(), "icon/16/apps/office-spreadsheet.png").set({
         width: 600,
         height: 400,
+        contentPadding : [ 0, 0, 0, 0 ],
         showClose: false,
         showMinimize: false
       });
