@@ -43,8 +43,7 @@ qx.Class.define("demobrowser.demo.widget.Resizer",
         width: 100,
         height: 200,
         minWidth: 50,
-        minHeight: 100,
-        decorator : "black"
+        minHeight: 100
       });
 
       for (var i = 0; i < 100; i++) {

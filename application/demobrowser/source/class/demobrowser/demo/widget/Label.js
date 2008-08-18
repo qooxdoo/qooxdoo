@@ -28,40 +28,38 @@ qx.Class.define("demobrowser.demo.widget.Label",
     {
       this.base(arguments);
 
-      var decor = new qx.ui.decoration.Single(1, "solid", "black");
-
       var label1 = new qx.ui.basic.Label("My Label").set({
-        decorator: decor
+        decorator: "main"
       });
       this.getRoot().add(label1, {left:20, top:20});
 
       var label2 = new qx.ui.basic.Label("My First Long Label").set({
-        decorator: decor
+        decorator: "main"
       });
       this.getRoot().add(label2, {left:20, top:60});
 
       var label3 = new qx.ui.basic.Label("My First Long Label Cutted").set({
-        decorator: decor,
+        decorator: "main",
         width: 80
       });
       this.getRoot().add(label3, {left:20, top:100});
 
       var label4 = new qx.ui.basic.Label().set({
         content: "A long label text with auto-wrapping. This also may contain <b style='color:red'>rich HTML</b> markup.",
-        decorator: decor,
+        decorator: "main",
         rich : true,
         width: 120
       });
       this.getRoot().add(label4, {left:20, top:140});
 
       var label5 = new qx.ui.basic.Label("Big Long Label").set({
-        decorator: decor,
+        decorator: "main",
         font : new qx.bom.Font(28, ["Verdana", "sans-serif"])
       });
       this.getRoot().add(label5, {left:20, top:220});
 
       var label6 = new qx.ui.basic.Label("Big Long Label Cutted").set({
-        decorator: decor,
+        decorator: "main",
         font : new qx.bom.Font(28, ["Verdana", "sans-serif"]),
         width : 150
       });

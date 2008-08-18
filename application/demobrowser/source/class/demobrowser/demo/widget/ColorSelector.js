@@ -30,11 +30,9 @@ qx.Class.define("demobrowser.demo.widget.ColorSelector",
     main: function()
     {
       this.base(arguments);
-      
+
       var selector = new qx.ui.control.ColorSelector();
-      selector.setDecorator("black");
       this.getRoot().add(selector, {left: 20, top: 20});
- 
     }
   }
 });

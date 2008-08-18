@@ -56,7 +56,7 @@ qx.Class.define("demobrowser.demo.widget.ColorPopup",
         padding : [3, 6],
         width : 120,
         height : 30,
-        decorator : "black"
+        decorator : "main"
       });
 
       doc.add(myview, {

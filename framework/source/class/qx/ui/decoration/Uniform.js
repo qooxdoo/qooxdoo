@@ -153,6 +153,8 @@ qx.Class.define("qx.ui.decoration.Uniform",
         return this.__markup;
       }
 
+      var Color = qx.theme.manager.Color.getInstance();
+
       // Init styles
       var styles = "position:absolute;top:0;left:0;";
 
@@ -164,9 +166,7 @@ qx.Class.define("qx.ui.decoration.Uniform",
 
       // Add border
       var width = this.getWidth();
-      if (width > 0)
-      {
-        var Color = qx.theme.manager.Color.getInstance();
+      if (width > 0) {
         styles += "border:" + width + "px " + this.getStyle() + " " + Color.resolve(this.getColor()) + ";";
       }
 

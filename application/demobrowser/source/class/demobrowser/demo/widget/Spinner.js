@@ -64,8 +64,8 @@ qx.Class.define("demobrowser.demo.widget.Spinner",
         width: 140,
         font: qx.bom.Font.fromString("30px sans-serif"),
         backgroundColor: "#FABBBB",
-        contentPadding: [10, 10, 10, 10],
-        decorator : "frame"
+        contentPadding: [6, 6, 6, 6],
+        decorator : "main"
       });
       container.add(new qx.ui.basic.Label("Big font"), {column: 0, row: row});
       container.add(new qx.ui.basic.Label("0"), {column: 1, row: row});
@@ -110,24 +110,6 @@ qx.Class.define("demobrowser.demo.widget.Spinner",
       container.add(new qx.ui.basic.Label("3000"), {column: 3, row: row++});
     },
 
-    addThemedSpinner : function(container, row)
-    {
-      var spinner = new qx.ui.form.Spinner(-30, 30, 30);
-      spinner.setAllowGrowY(false);
-      container.add(new qx.ui.basic.Label("Styled"), {column: 0, row: row});
-      container.add(new qx.ui.basic.Label("-30"), {column: 1, row: row});
-      container.add(spinner, {column: 2, row: row});
-      container.add(new qx.ui.basic.Label("30"), {column: 3, row: row});
-
-      var button = new qx.ui.form.ToggleButton("Custom Style");
-      button.setAllowGrowY(false);
-      button.addListener("changeChecked", function(e) {
-        spinner.setAppearance(e.getData() ? "colored-spinner" : "spinner");
-      });
-      container.add(button, {column: 4, row: row++});
-    },
-
-
     main: function()
     {
       this.base(arguments);
@@ -149,74 +131,6 @@ qx.Class.define("demobrowser.demo.widget.Spinner",
       this.addSteppedSpinner(container, 4);
       this.addDisabledSpinner(container, 5);
       this.addFormattedSpinner(container, 6);
-      this.addThemedSpinner(container, 7);
-
-      qx.Theme.define("coloredspinner",
-      {
-        "title" : "Color Spinner Extension",
-
-        "appearances" :
-        {
-          "colored-spinner" :
-          {
-            states : [ "focused", "disabled" ],
-
-            style : function(states)
-            {
-              return {
-                decorator       : "frame",
-                textColor       : states.disabled ? "text-disabled" : "undefined",
-                // TODO: Restore this line as soon as the value checks work correctly
-                //backgroundColor : states.focused ? "#C1E9F5" : "field",
-                backgroundColor : states.focused ? "#C1E9F5" : "#ebe9ed",
-                font : qx.bom.Font.fromString("30px Verdana")
-              };
-            }
-          },
-
-          "colored-spinner/textfield" :
-          {
-            style : function(states)
-            {
-              return {
-                padding: [3, 5]
-              };
-            }
-          },
-
-          "colored-spinner/upbutton" :
-          {
-            alias : "button",
-            states : [ "pressed" ],
-
-            style : function(states)
-            {
-              return {
-                icon : "decoration/arrows/up-small.gif",
-                backgroundColor : states.pressed ? "#8ED721" : "#679C18",
-                padding : [ 4, 8 ]
-              }
-            }
-          },
-
-          "colored-spinner/downbutton" :
-          {
-            alias : "button",
-            states : [ "pressed" ],
-
-            style : function(states)
-            {
-              return {
-                icon : "decoration/arrows/down-small.gif",
-                backgroundColor : states.pressed ? "#E96241" : "#D53E18",
-                padding : [ 4, 8 ]
-              };
-            }
-          }
-        }
-      });
-
-      qx.Theme.include(qx.theme.manager.Appearance.getInstance().getAppearanceTheme(), coloredspinner);
     }
   }
 });

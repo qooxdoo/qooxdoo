@@ -73,7 +73,7 @@ qx.Class.define("demobrowser.demo.widget.Button",
 
       // Label
       var l1 = new qx.ui.basic.Label("0");
-      l1.setDecorator("frame");
+      l1.setDecorator("main");
       l1.setPadding(2, 4);
       l1.setBackgroundColor("white");
       container.add(l1);
