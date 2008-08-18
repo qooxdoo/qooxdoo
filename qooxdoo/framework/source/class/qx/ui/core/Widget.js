@@ -1055,7 +1055,7 @@ qx.Class.define("qx.ui.core.Widget",
         var instance = mgr.resolve(separator);
       }
 
-      // Instance Managment
+      // Instance management
       var list = pool[separator];
       if (list && list.length > 0) {
         var elem = list.pop();
