@@ -1982,17 +1982,14 @@ qx.Theme.define("qx.theme.modern.Appearance",
     "colorselector/input-field-set" : "groupbox",
     "colorselector/preview-field-set" : "groupbox",
 
-    // TODO: "hex-field-composite"
     "colorselector/hex-field-composite" : "widget",
     "colorselector/hex-field" : "textfield",
 
-    // TODO: "rgb-spinner-composite"
     "colorselector/rgb-spinner-composite" : "widget",
     "colorselector/rgb-spinner-red" : "spinner",
     "colorselector/rgb-spinner-green" : "spinner",
     "colorselector/rgb-spinner-blue" : "spinner",
 
-    // TODO: "hsb-spinner-composite"
     "colorselector/hsb-spinner-composite" : "widget",
     "colorselector/hsb-spinner-hue" : "spinner",
     "colorselector/hsb-spinner-saturation" : "spinner",
