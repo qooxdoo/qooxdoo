@@ -29,8 +29,10 @@ qx.Class.define("apiviewer.ui.AbstractViewer",
   {
     this.base(arguments);
 
-    this.setOverflowX("scroll");
-    this.setOverflowY("scroll");
+    this.setOverflowX("auto");
+    this.setOverflowY("auto");
+    
+    this.setAppearance("detailviewer");
 
     this._infoPanelHash = {};
     this._infoPanels = [];
