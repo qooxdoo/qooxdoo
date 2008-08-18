@@ -43,28 +43,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
     ---------------------------------------------------------------------------
     */
 
-    "black" :
-    {
-      decorator: qx.ui.decoration.Uniform,
-
-      style :
-      {
-        width : 1,
-        color : "black"
-      }
-    },
-
-    "white" :
-    {
-      decorator: qx.ui.decoration.Uniform,
-
-      style :
-      {
-        width : 1,
-        color : "white"
-      }
-    },
-
     "frame" :
     {
       decorator: qx.ui.decoration.Uniform,
@@ -204,6 +182,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
         baseImage : "decoration/groupbox/groupbox.png"
       }
     },
+
 
 
 
@@ -490,13 +469,14 @@ qx.Theme.define("qx.theme.modern.Decoration",
     "toolbar-part" :
     {
       decorator : qx.ui.decoration.Uniform,
-      
+
       style :
       {
         backgroundImage  : "decoration/toolbar/toolbar-part.png",
         backgroundRepeat : "repeat-y"
       }
     },
+
 
 
 
@@ -589,28 +569,14 @@ qx.Theme.define("qx.theme.modern.Decoration",
     ---------------------------------------------------------------------------
     */
 
-    "tree-folder" :
-    {
-      decorator : qx.ui.decoration.Single,
-
-      style :
-      {
-        widthBottom: 1,
-        colorBottom: "#F2F2F2"
-      }
-    },
-
-    "tree-folder-selected" :
+    "tree-item-selected" :
     {
       decorator : qx.ui.decoration.Single,
 
       style :
       {
         backgroundImage  : "decoration/selection.png",
-        backgroundRepeat : "scale",
-
-        widthBottom : 1,
-        colorBottom : "#F2F2F2"
+        backgroundRepeat : "scale"
       }
     },
 
