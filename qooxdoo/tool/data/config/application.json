@@ -32,6 +32,7 @@
     "publish",
     "source",
     "test",
+    "test-source",
     "translate"
   ],
 
@@ -75,6 +76,26 @@
     "test" :
     {
       "extend" : ["testrunner::build"],
+
+      "let" :
+      {
+        "TESTRUNNER_ROOT" : "${QOOXDOO_PATH}/../component/testrunner",
+        "TEST_INCLUDE"    : "${APPLICATION}.test.*",
+        "BUILD_PATH"      : "./test"
+      },
+
+      "library" :
+      [
+        {
+          "manifest" : "Manifest.json",
+          "uri"      : ".."
+        }
+      ]
+    },
+
+    "test-source" :
+    {
+      "extend" : ["testrunner::build-with-tests-source"],
 
       "let" :
       {

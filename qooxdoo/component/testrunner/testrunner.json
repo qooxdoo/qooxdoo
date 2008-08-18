@@ -1,7 +1,7 @@
 {
   "name" : "Testrunner (export) config",
 
-  //"export" : [ "source", "build", "clean" ],
+  "export" : [ "source", "build", "clean", "build-with-tests-source" ],
 
   "let" :
   {
@@ -205,6 +205,31 @@
         "build-files",
         "build-script",
         "build-tests"
+      ]
+    },
+
+    // -- testrunner build & tests source ---------------------
+
+    "source-tests-in-build-path" : 
+    {
+      "extend" : ["common-tests"],
+
+      "compile-source" :
+      {
+        "file" : "${BUILD_PATH}/script/tests-source.js",
+        "locales" : "${LOCALES}",
+        "root" : "${BUILD_PATH}/html"
+      }
+    },
+
+    "build-with-tests-source" :
+    {
+      "run" :
+      [
+        "build-resources",
+        "build-files",
+        "build-script",
+        "source-tests-in-build-path"
       ]
     },
 
