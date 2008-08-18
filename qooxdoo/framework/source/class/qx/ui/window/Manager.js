@@ -76,7 +76,7 @@ qx.Class.define("qx.ui.window.Manager",
         }
 
         // ensure that at least one window is active
-        hasActive = hasActive || win.getActive();
+        hasActive = hasActive || win.isActive();
         last = win;
       }
 
@@ -105,7 +105,7 @@ qx.Class.define("qx.ui.window.Manager",
     {
       var windows = this.__desktop.getWindows();
 
-      var removed = qx.lang.Array.remove(_windows, win);
+      var removed = qx.lang.Array.remove(windows, win);
       if (removed)
       {
         windows.unshift(win);
