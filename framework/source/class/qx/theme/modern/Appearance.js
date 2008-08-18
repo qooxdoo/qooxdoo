@@ -54,8 +54,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          backgroundColor : "background",
-          textColor       : "text",
+          backgroundColor : "background-application",
+          textColor       : "text-label",
           font            : "default"
         };
       }
@@ -67,7 +67,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       {
         return {
           textColor : states.disabled ? "text-disabled" :
-                      states.focused ? "text" :
+                      states.focused ? "text-label" :
                       "undefined"
         };
       }
@@ -152,28 +152,28 @@ qx.Theme.define("qx.theme.modern.Appearance",
 
         if (states.checked && states.focused) {
           decorator = "button-checked-focused";
-          textColor = "text";
+          textColor = "text-label";
         } else if (states.checked) {
           decorator = "button-checked";
-          textColor = "text";
+          textColor = "text-label";
         } else if (states.pressed) {
           decorator = "button-pressed";
-          textColor = "#001533";
+          textColor = "text-hovered";
         } else if (states.hovered) {
           decorator = "button-hovered";
-          textColor = "#001533";
+          textColor = "text-hovered";
         } else if (states.preselected && states.focused) {
           decorator = "button-preselected-focused";
-          textColor = "#001533";
+          textColor = "text-hovered";
         } else if (states.preselected) {
           decorator = "button-preselected";
-          textColor = "#001533";
+          textColor = "text-hovered";
         } else if (states.focused) {
           decorator = "button-focused";
-          textColor = "text";
+          textColor = "text-label";
         } else {
           decorator = "button";
-          textColor = "text";
+          textColor = "text-label";
         }
 
         return {
@@ -407,8 +407,9 @@ qx.Theme.define("qx.theme.modern.Appearance",
       }
     },
 
-
     "datefield/list" : "datechooser",
+
+
 
 
 
@@ -679,7 +680,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         return {
           padding   : 4,
           textColor : states.selected ? "text-selected" : "undefined",
-          decorator : states.selected ? "listitem" : "undefined"
+          decorator : states.selected ? "selected" : "undefined"
         };
       }
     },
@@ -935,7 +936,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
           decorator : states.pressed || states.checked ? "toolbar-button-checked" :
             states.hovered ? "toolbar-button-hovered" : "undefined",
 
-          textColor: states.disabled ? "text-disabled" : "text"
+          textColor: states.disabled ? "text-disabled" : "text-label"
         };
       }
     },
@@ -1023,7 +1024,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         return {
           padding    : [ 1, 4 ],
           textColor  : states.selected ? "text-selected" : "undefined",
-          decorator  : states.selected ? "tree-item-selected" : "undefined",
+          decorator  : states.selected ? "selected" : "undefined",
           icon       : states.opened ? "icon/16/places/folder-open.png" : "icon/16/places/folder.png"
         }
       }
@@ -1111,7 +1112,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         return {
           padding    : [ 2, 6 ],
           textColor  : states.selected ? "text-selected" : "undefined",
-          decorator  : states.selected ? "tree-item-selected" : "undefined"
+          decorator  : states.selected ? "selected" : "undefined"
         }
       }
     },
@@ -1457,7 +1458,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       {
         return {
           font      : "small",
-          textColor : "text"
+          textColor : "text-label"
         };
       }
     },
@@ -1608,122 +1609,67 @@ qx.Theme.define("qx.theme.modern.Appearance",
     ---------------------------------------------------------------------------
     */
 
-    "datechooser" : "widget",
+    "datechooser" :
+    {
+      style : function(states)
+      {
+        return {
+          padding : 2,
+          decorator : "popup",
+          backgroundColor : "background-light"
+        };
+      }
+    },
 
     "datechooser/navigation-bar" :
     {
       style : function(states)
       {
         return {
-          backgroundColor : "background-light",
-          padding : [2, 10]
+
         };
       }
     },
-    
-    "datechooser/last-year-button"  : 
+
+    "datechooser/nav-button"  :
     {
-      include : "button",
-      alias   : "button",
-      
+      include : "button-frame",
+      alias : "button-frame",
+
       style : function(states)
       {
         var result = {
-            width  : 17,
-            show   : "icon"
+          padding : [ 2, 4 ]
         };
-        
+
         if (states.lastYear) {
           result.icon = "decoration/arrows/rewind.png";
+          result.marginRight = 1;
         } else if (states.lastMonth) {
           result.icon = "decoration/arrows/left.png";
         } else if (states.nextYear) {
           result.icon = "decoration/arrows/forward.png";
+          result.marginLeft = 1;
         } else if (states.nextMonth) {
           result.icon = "decoration/arrows/right.png";
         }
-        
-        if (states.pressed || states.checked || states.abandoned) {
-          result.decorator = "button-pressed";
-        } else if (states.hovered) {
-          result.decorator = "button";
-        } else {
-          result.decorator = "undefined";
-        }
-        
-        if ( states.pressed || states.checked || states.abandoned)
-        {
-          result.padding = [ 2, 0, 0, 2 ];
-        }
-        else if (states.hovered)
-        {
-          result.padding = [ 2, 1, 1, 2 ];
-        }
-        else
-        {
-          result.padding = 2;
-        }
-        
+
         return result;
       }
     },
-    "datechooser/next-year-button"  : "datechooser/last-year-button",
-    
-    "datechooser/last-month-button" : 
-    {
-      include : "button",
-      alias   : "button",
-      
-      style : function(states)
-      {
-        var result = {
-            width  : 17,
-            show   : "icon"
-        };
-        
-        if (states.lastYear) {
-          result.icon = "decoration/arrows/rewind.png";
-        } else if (states.lastMonth) {
-          result.icon = "decoration/arrows/left.png";
-        } else if (states.nextYear) {
-          result.icon = "decoration/arrows/forward.png";
-        } else if (states.nextMonth) {
-          result.icon = "decoration/arrows/right.png";
-        }
-        
-        if (states.pressed || states.checked || states.abandoned) {
-          result.decorator = "button-pressed";
-        } else if (states.hovered) {
-          result.decorator = "button";
-        } else {
-          result.decorator = "undefined";
-        }
-        
-        if ( states.pressed || states.checked || states.abandoned)
-        {
-          result.padding = [ 2, 0, 0, 2 ];
-        }
-        else if (states.hovered)
-        {
-          result.padding = [ 1, 1, 1, 1 ];
-        }
-        else
-        {
-          result.padding = 2;
-        }
-        
-        return result;
-      }
-    },    
-    "datechooser/next-month-button" : "datechooser/last-month-button",
-    
+
+    "datechooser/last-year-button" : "datechooser/nav-button",
+    "datechooser/last-month-button" : "datechooser/nav-button",
+    "datechooser/next-month-button" : "datechooser/nav-button",
+    "datechooser/next-year-button" : "datechooser/nav-button",
+
     "datechooser/month-year-label" :
     {
       style : function(states)
       {
         return {
-          font          : "bold",
-          textAlign     : "center"
+          font      : "bold",
+          textAlign : "center"
         };
       }
     },
@@ -1733,7 +1679,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          decorator       : "date-chooser-pane"
+          marginTop : 2
         };
       }
     },
@@ -1743,25 +1689,10 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          decorator       : states.weekend ? "date-chooser-weekend" : "date-chooser-weekday",
-          font            : "bold",
-          textAlign       : "center",
-          textColor       : states.weekend ? "background-selected" : "text-selected",
-          paddingTop      : 2
-        };
-      }
-    },
-
-    "datechooser-day" :
-    {
-      style : function(states)
-      {
-        return {
-          textAlign       : "center",
-          decorator       : states.today ? "focus" : "undefined",
-          textColor       : states.selected ? "text-selected" : states.otherMonth ? "text-disabled" : "undefined",
-          backgroundColor : states.selected ? "background-selected" : "undefined",
-          padding         : [ 2, 4 ]
+          textColor : states.weekend ? "text-light" : "undefined",
+          textAlign : "center",
+          paddingTop : 2,
+          backgroundColor : "background-medium"
         };
       }
     },
@@ -1772,12 +1703,28 @@ qx.Theme.define("qx.theme.modern.Appearance",
       {
         return {
           textAlign : "center",
-          textColor : "text",
+          textColor : "text-label",
           padding   : [ 2, 4 ],
-          decorator : states.header ? "date-chooser-week-header" : "date-chooser-week"
+          backgroundColor : "background-medium"
         };
       }
     },
+
+    "datechooser-day" :
+    {
+      style : function(states)
+      {
+        return {
+          textAlign : "center",
+          decorator : states.selected ? "selected" : "undefined",
+          textColor : states.selected ? "text-selected" : states.otherMonth ? "text-light" : "undefined",
+          font      : states.today ? "bold" : "undefined",
+          padding   : [ 2, 4 ]
+        };
+      }
+    },
+
+
 
 
 
@@ -1884,7 +1831,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          decorator : states.selected ? "menu-button-selected" : "undefined",
+          decorator : states.selected ? "selected" : "undefined",
           textColor : states.selected ? "text-selected" : "undefined",
           padding   : [ 4, 6 ]
         };
@@ -2136,7 +2083,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       {
         return {
           padding : 5,
-          backgroundColor : "background"
+          backgroundColor : "background-application"
         }
       }
     },
