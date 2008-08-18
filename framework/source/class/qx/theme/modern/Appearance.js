@@ -516,11 +516,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          backgroundColor : "#e4e4e4",
-
-          // Functional!
-          width: 0,
-          height: 0
+          backgroundColor : "#e4e4e4"
         };
       }
     },
@@ -572,7 +568,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          decorator : states.horizontal ? "scrollbar-button-horizontal" : "scrollbar-button-vertical",
+          decorator : states.horizontal ? "scrollbar-slider-horizontal" : "scrollbar-slider-vertical",
           height : 14,
           width : 14
         };
@@ -603,8 +599,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
             padding : [0, 0, 0, states.left ? 3 : 4],
             icon : icon,
             width: 15,
-            height: 14,
-            decorator : states.pressed ? "slider-knob-pressed-horizontal" : "slider-knob"
+            height: 14
           }
         }
         else
@@ -613,8 +608,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
             padding : [0, 0, 0, 2],
             icon : icon,
             width: 14,
-            height: 15,
-            decorator : states.pressed ? "slider-knob-pressed-vertical" : "slider-knob"
+            height: 15
           }
         }
       }

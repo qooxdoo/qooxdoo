@@ -184,6 +184,8 @@ qx.Class.define("qx.ui.core.AbstractScrollArea",
 
         case "corner":
           control = new qx.ui.core.Widget();
+          control.setWidth(0);
+          control.setHeight(0);
           control.exclude();
 
           this._add(control, {row: 1, column: 1});

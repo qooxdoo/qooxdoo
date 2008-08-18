@@ -187,7 +187,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
       }
     },
 
-    "scrollbar-button-horizontal" :
+    "scrollbar-slider-horizontal" :
     {
       decorator : qx.ui.decoration.Beveled,
 
@@ -200,7 +200,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
       }
     },
 
-    "scrollbar-button-vertical" :
+    "scrollbar-slider-vertical" :
     {
       decorator : qx.ui.decoration.Beveled,
 
@@ -210,43 +210,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
         outerColor : "border-main",
         innerColor : "white",
         innerOpacity : 0.5
-      }
-    },
-
-    "slider-knob" :
-    {
-      decorator : qx.ui.decoration.Beveled,
-
-      style : {
-        backgroundImage : "decoration/scrollbar/slider-knob-background.png",
-        backgroundRepeat : "scale",
-        outerColor : "border-main",
-        innerColor : "white",
-        innerOpacity : 0.5
-      }
-    },
-
-    "slider-knob-pressed-vertical" :
-    {
-      decorator : qx.ui.decoration.Beveled,
-
-      style : {
-        backgroundImage : "decoration/scrollbar/scrollbar-bg-pressed-vertical.png",
-        backgroundRepeat : "scale",
-        outerColor : "#192433",
-        innerColor : "#e9f5ff"
-      }
-    },
-
-    "slider-knob-pressed-horizontal" :
-    {
-      decorator : qx.ui.decoration.Beveled,
-
-      style : {
-        backgroundImage : "decoration/scrollbar/scrollbar-bg-pressed-horizontal.png",
-        backgroundRepeat : "scale",
-        outerColor : "#192433",
-        innerColor : "#e9f5ff"
       }
     },
 

@@ -34,17 +34,18 @@ qx.Theme.define("qx.theme.modern.Color",
     ---------------------------------------------------------------------------
     */
 
-    // types
+    // core types
     "background-application" : "#DFDFDF",
     "background-light" : "#FCFCFC",
     "background-medium" : "#EAEAEA",
 
+    // splitpane
     "background-splitpane" : "#AFAFAF",
 
     // tooltip, ...
     "background-tip" : "#ffffdd",
 
-    // tables
+    // tables, ...
     "background-odd" : "#E4E4E4",
 
 
@@ -89,12 +90,6 @@ qx.Theme.define("qx.theme.modern.Color",
 
     // buttons
     "border-button" : "#666666",
-
-
-
-
-
-
 
     // tables (vertical line)
     "border-column" : "#CCCCCC",
