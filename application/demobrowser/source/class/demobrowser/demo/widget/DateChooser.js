@@ -54,7 +54,7 @@ qx.Class.define("demobrowser.demo.widget.DateChooser",
             
       // set current Date control      
       var setDateButton = new qx.ui.form.Button("Set current date");
-      setDateButton.setWidth(120);
+      setDateButton.setWidth(130);
       setDateButton.setAlignX("center");
       this.getRoot().add(setDateButton, {left: 250, top: 20});
       setDateButton.addListener("execute", function(e) {
@@ -63,7 +63,7 @@ qx.Class.define("demobrowser.demo.widget.DateChooser",
       
       // show a specific month
       var setMonthButton = new qx.ui.form.Button("Show January 1981");
-      setMonthButton.setWidth(120);   
+      setMonthButton.setWidth(130);   
       this.getRoot().add(setMonthButton, {left: 250, top: 50});  
       setMonthButton.addListener("execute", function(e) {
         chooser.showMonth(0, 1981);        
@@ -71,7 +71,7 @@ qx.Class.define("demobrowser.demo.widget.DateChooser",
       
       // reset the selection
       var removeSelectionButton = new qx.ui.form.Button("Remove the selection");
-      removeSelectionButton.setWidth(120);
+      removeSelectionButton.setWidth(130);
       this.getRoot().add(removeSelectionButton, {left: 250, top: 80});
       removeSelectionButton.addListener("execute", function(e) {
         chooser.setDate(null);
@@ -80,7 +80,6 @@ qx.Class.define("demobrowser.demo.widget.DateChooser",
       // set value stuff
       var textField = new qx.ui.form.TextField(new Date().toString());
       textField.setWidth(200);
-      textField.setHeight(24);
       this.getRoot().add(textField, {left: 250, top: 110});
       var setValueButton = new qx.ui.form.Button("Set Value");      
       this.getRoot().add(setValueButton, {left: 455, top: 109});
@@ -91,11 +90,11 @@ qx.Class.define("demobrowser.demo.widget.DateChooser",
       // Description
       var headerLabel = new qx.ui.basic.Label("Description");
       headerLabel.setFont("bold");
-      this.getRoot().add(headerLabel, {left: 400, top: 20}); 
-      this.getRoot().add(new qx.ui.basic.Label("- Use the cursors keys to move the selection."), {left: 400, top: 35});
-      this.getRoot().add(new qx.ui.basic.Label("- Page-keys / shift + page-keys switch months/years."), {left: 400, top: 50});
-      this.getRoot().add(new qx.ui.basic.Label("- Double-click or enter/space-key will fire an execute event."), {left: 400, top: 65});
-      this.getRoot().add(new qx.ui.basic.Label("- Escape will remove the selection."), {left: 400, top: 80});        
+      this.getRoot().add(headerLabel, {left: 410, top: 20}); 
+      this.getRoot().add(new qx.ui.basic.Label("- Use the cursors keys to move the selection."), {left: 410, top: 35});
+      this.getRoot().add(new qx.ui.basic.Label("- Page-keys / shift + page-keys switch months/years."), {left: 410, top: 50});
+      this.getRoot().add(new qx.ui.basic.Label("- Double-click or enter/space-key will fire an execute event."), {left: 410, top: 65});
+      this.getRoot().add(new qx.ui.basic.Label("- Escape will remove the selection."), {left: 410, top: 80});        
 
     }
   }
