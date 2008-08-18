@@ -92,6 +92,8 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
       style :
       {
+        backgroundColor : "background-light",
+
         width : 1,
         color : "#666",
         style : "solid"
