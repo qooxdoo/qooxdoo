@@ -466,6 +466,8 @@ class Generator:
             self.runDependencyDebug(partPackages, packageClasses, variants)
             self.runPrivateDebug()
 
+        self._console.info("Done")
+
 
     def runPrivateDebug(self):
         if not self._config.get("debug/privates", False):
@@ -846,7 +848,6 @@ class Generator:
         else:
             #sourceContent = self._optimizeJavaScript("".join(sourceBlocks))
             sourceContent = "".join(sourceBlocks)
-        self._console.info("Done")
 
         # Construct file name
         resolvedFilePath = self._resolveFileName(filePath, variants, settings)
