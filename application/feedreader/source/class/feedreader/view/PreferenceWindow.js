@@ -84,7 +84,6 @@ qx.Class.define("feedreader.view.PreferenceWindow",
       
       // Create and add a groupbox
       var groupBox = new qx.ui.groupbox.GroupBox(this.tr("Language"), "icon/16/apps/preferences-locale.png");
-      groupBox.setMargin(6, 4);
       groupBox.setMinWidth(150);
       groupBox.setLayout(new qx.ui.layout.VBox());
       this.add(groupBox);
