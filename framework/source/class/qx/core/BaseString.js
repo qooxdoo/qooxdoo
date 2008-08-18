@@ -43,11 +43,23 @@ qx.Class.define("qx.core.BaseString",
 
   members :
   {
+    /**
+     * Returns the value as plain string.
+     * Overrides the default implementation.
+     *
+     * @return {String} The string value
+     */
     toString : function() {
       return this._txt;
     },
 
 
+    /**
+     * Returns the value as plain string.
+     * Overrides the default implementation.
+     *
+     * @return {String} The string value
+     */
     valueOf : function() {
       return this._txt;
     },
