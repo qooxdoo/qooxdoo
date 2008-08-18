@@ -202,6 +202,7 @@ qx.Class.define("qx.ui.layout.Atom",
         var allocatedWidth = 0;
         var shrinkTarget = null;
 
+        var count=0;
         for (var i=start; i!=end; i+=increment)
         {
           child = children[i];
@@ -218,22 +219,23 @@ qx.Class.define("qx.ui.layout.Atom",
               remainingWidth -= width;
             }
 
-            if (i != start)
-            {
-              remainingWidth -= gap;
-              allocatedWidth += gap;
-            }
-
             allocatedWidth += width;
           }
         }
-
+        
+        if (count > 1)
+        {
+          var gapSum = (count - 1) * gap;
+          remainingWidth -= gapSum;
+          allocatedWidth += gapSum;
+        }
+        
         if (center && allocatedWidth < availWidth) {
           left = Math.round((availWidth - allocatedWidth) / 2);
         } else {
           left = 0;
         }
-
+        
         for (var i=start; i!=end; i+=increment)
         {
           child = children[i];
@@ -292,6 +294,7 @@ qx.Class.define("qx.ui.layout.Atom",
 
         if (iconPosition === "top" || iconPosition === "bottom")
         {
+          var count = 0;
           for (var i=0; i<length; i++)
           {
             hint = children[i].getSizeHint();
@@ -305,17 +308,20 @@ qx.Class.define("qx.ui.layout.Atom",
             {
               height += hint.height;
               minHeight += hint.minHeight;
-
-              if (i < (length-1))
-              {
-                height += gap;
-                minHeight += gap;
-              }
+              count++;
             }
+          }
+          
+          if (count > 1)
+          {
+            var gapSum = (count-1) * gap;
+            height += gapSum;
+            minHeight += gapSum;
           }
         }
         else
         {
+          var count=0;
           for (var i=0; i<length; i++)
           {
             hint = children[i].getSizeHint();
@@ -329,13 +335,15 @@ qx.Class.define("qx.ui.layout.Atom",
             {
               width += hint.width;
               minWidth += hint.minWidth;
-
-              if (i < (length-1))
-              {
-                width += gap;
-                minWidth += gap;
-              }
+              count++;
             }
+          }
+          
+          if (count > 1)
+          {
+            var gapSum = (count-1) * gap;
+            width += gapSum;
+            minWidth += gapSum;
           }
         }
 
