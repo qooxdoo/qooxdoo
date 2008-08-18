@@ -251,17 +251,23 @@ qx.Class.define("qx.ui.form.DateField",
      */
     _onKeyPress : function(e)
     {
+      // get the key identifier
+      var iden = e.getKeyIdentifier();
+      if (iden == "Down" && e.isAltPressed())
+      {
+        this.toggle();
+        e.stopPropagation();
+        return;
+      }
+
       // if the popup is closed, ignore all
       var popup = this._getChildControl("popup");
       if (popup.getVisibility() == "hidden") {
         return;
       }
 
-      // get the key identifier
-      var identifier = e.getKeyIdentifier();
-
       // hide the list always on escape
-      if (identifier == "Escape")
+      if (iden == "Escape")
       {
         this.close();
         e.stopPropagation();
