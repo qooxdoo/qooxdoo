@@ -19,88 +19,57 @@
 ************************************************************************* */
 
 /**
- * Mixin for the default qooxdoo appearance theme.
+ * Extends the default qooxdoo appearance theme.
  */
 qx.Theme.define("apiviewer.Appearance",
 {
-  title: "Theme for APIViewer",
+  title: "Theme for API Viewer",
   extend : qx.theme.modern.Appearance,
 
   appearances :
   {
-    "api-tabview" :
-    {
-      include : "tabview",
-      alias : "tabview",
-
-      style : function(states)
-      {
-        return {
-          width: 270
-        };
-      }
-    },
-
-    "detail-frame" :
+    "toggleview" :
     {
       style : function(states)
       {
         return {
-          decorator: "pane",
-          padding: 2
+          width : 240,
+          decorator : "main"
         };
-      }
+      }      
     },
-
-    "main-splitpane" :
+    
+    "detailviewer" :
     {
-      extend : "splitpane",
-      alias : "splitpane",
-
       style : function(states)
       {
         return {
-          margin : [2, 0, 0, 2]
-        };
+          backgroundColor : "white",
+          decorator : "main"
+        }
       }
     },
-
+    
     "legend" :
     {
-      extend : "scrollarea",
+      include : "scrollarea",
       alias : "scrollarea",
-
+      
       style : function(states)
       {
         return {
-          contentPadding: [5, 5, 5, 5]
+          contentPadding : [ 10, 10, 10, 10 ]
         };
       }
     },
-
-    "package-page" : "tabview-page",
-    "info-page" : "tabview-page",
-    "search-page" :
-    {
-      extend : "tabview-page",
-      alias : "tabview-page",
-
-      style : function(states)
-      {
-        return {
-          padding: [5, 5, 5, 5]
-        };
-      }
-    },
-
 
     "legendview-label-important" :
     {
       style : function(states)
       {
         return {
-          font : new qx.bom.Font(16, [ "Segoe UI", "Lucida Grande", "Candara", "Liberation Sans", "Arial" ]),
-          textColor: "#134275"
+          textColor: "#134275",
+          font : "bold"
         };
       }
     },
@@ -111,17 +80,6 @@ qx.Theme.define("apiviewer.Appearance",
       {
         return {
           textColor: "#134275"
-        };
-      }
-    },
-
-    "splitpane/splitter" :
-    {
-      style : function(states)
-      {
-        return {
-          paddingRight : 1,
-          backgroundColor : "#dfdfdf"
         };
       }
     }

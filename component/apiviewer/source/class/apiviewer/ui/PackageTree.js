@@ -31,10 +31,10 @@ qx.Class.define("apiviewer.ui.PackageTree",
 
   construct : function()
   {
-    this.base(arguments, "API Documentation");
+    this.base(arguments, "Documentation");
     
     this.setDecorator(null);
-    this.setBackgroundColor(null);
+    
     this.__root = new qx.ui.tree.TreeFolder("Packages");
     this.__root.setOpen(true);
     this.setRoot(this.__root);
