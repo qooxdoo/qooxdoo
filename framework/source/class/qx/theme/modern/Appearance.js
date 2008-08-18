@@ -902,14 +902,14 @@ qx.Theme.define("qx.theme.modern.Appearance",
         };
       }
     },
-    
+
     "toolbar/part/container" : {
       style : function(states)
       {
         return {
           marginLeft : 2
         };
-      }      
+      }
     },
 
     "toolbar/part/handle" :
@@ -1023,7 +1023,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         return {
           padding    : [ 1, 4 ],
           textColor  : states.selected ? "text-selected" : "undefined",
-          decorator  : states.selected ? "tree-folder-selected" : "tree-folder",
+          decorator  : states.selected ? "tree-item-selected" : "undefined",
           icon       : states.opened ? "icon/16/places/folder-open.png" : "icon/16/places/folder.png"
         }
       }
@@ -1102,46 +1102,21 @@ qx.Theme.define("qx.theme.modern.Appearance",
     ---------------------------------------------------------------------------
     */
 
-    "tree" :
-    {
-      include : "list",
-      alias : "list",
+    "tree" : "list",
 
-      style : function(states)
-      {
-        return {
-          contentPadding : [4, 4, 4, 4]
-        }
-      }
-    },
-
-    "tree-folder" :
+    "tree-item" :
     {
       style : function(states)
       {
         return {
-          padding    : [ 1, 4 ],
+          padding    : [ 2, 6 ],
           textColor  : states.selected ? "text-selected" : "undefined",
-          decorator  : states.selected ? "tree-folder-selected" : "tree-folder",
-          icon       : states.opened ? "icon/16/places/folder-open.png" : "icon/16/places/folder.png"
+          decorator  : states.selected ? "tree-item-selected" : "undefined"
         }
       }
     },
 
-    "tree-file" :
-    {
-      include : "tree-folder",
-      alias : "tree-folder",
-
-      style : function(states)
-      {
-        return {
-          icon : "icon/16/mimetypes/text-plain.png"
-        }
-      }
-    },
-
-    "tree-folder/icon" :
+    "tree-item/icon" :
     {
       style : function(states)
       {
@@ -1151,7 +1126,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       }
     },
 
-    "tree-folder/label" :
+    "tree-item/label" :
     {
       include : "label",
 
@@ -1163,7 +1138,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       }
     },
 
-    "tree-folder/open" :
+    "tree-item/open" :
     {
       style : function(states)
       {
@@ -1192,6 +1167,33 @@ qx.Theme.define("qx.theme.modern.Appearance",
       }
     },
 
+    "tree-folder" :
+    {
+      include : "tree-item",
+      alias : "tree-item",
+
+      style : function(states)
+      {
+        return {
+          icon : states.opened ? "icon/16/places/folder-open.png" : "icon/16/places/folder.png"
+        }
+      }
+    },
+
+    "tree-file" :
+    {
+      include : "tree-item",
+      alias : "tree-item",
+
+      style : function(states)
+      {
+        return {
+          icon : "icon/16/mimetypes/text-plain.png"
+        }
+      }
+    },
+
+
 
 
 
@@ -1206,9 +1208,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          icon       : (states.opened
-                        ? "icon/16/places/folder-open.png"
-                        : "icon/16/places/folder.png")
+          icon : states.opened ? "icon/16/places/folder-open.png" : "icon/16/places/folder.png"
         }
       }
     },
@@ -1257,53 +1257,22 @@ qx.Theme.define("qx.theme.modern.Appearance",
         }
       }
     },
-      
-    "treevirtual-only-contract" :
-    {
-      include : "treevirtual-contract"
-    },
 
-    "treevirtual-only-expand" :
-    {
-      include : "treevirtual-expand"
-    },
-
-    "treevirtual-start-contract" :
-    {
-      include : "treevirtual-contract"
-    },
-
-    "treevirtual-start-expand" :
-    {
-      include : "treevirtual-expand"
-    },
-
-    "treevirtual-end-contract" :
-    {
-      include : "treevirtual-contract"
-    },
-
-    "treevirtual-end-expand" :
-    {
-      include : "treevirtual-expand"
-    },
-
-    "treevirtual-cross-contract" :
-    {
-      include : "treevirtual-contract"
-    },
-
-    "treevirtual-cross-expand" :
-    {
-      include : "treevirtual-expand"
-    },
+    "treevirtual-only-contract" : "treevirtual-contract",
+    "treevirtual-only-expand" : "treevirtual-expand",
+    "treevirtual-start-contract" : "treevirtual-contract",
+    "treevirtual-start-expand" : "treevirtual-expand",
+    "treevirtual-end-contract" : "treevirtual-contract",
+    "treevirtual-end-expand" : "treevirtual-expand",
+    "treevirtual-cross-contract" : "treevirtual-contract",
+    "treevirtual-cross-expand" : "treevirtual-expand",
 
     "treevirtual-end" :
     {
       style : function(states)
       {
         return {
-          icon       : "static/blank.gif"
+          icon : "qx/static/blank.gif"
         }
       }
     },
@@ -1313,7 +1282,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          icon       : "static/blank.gif"
+          icon : "qx/static/blank.gif"
         }
       }
     },
@@ -1370,7 +1339,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          decorator       : "window-border"
+          decorator : "window-border"
         };
       }
     },
@@ -1380,9 +1349,9 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          decorator : states.active ? "window-captionbar-active" : "window-captionbar-inactive",
-          textColor : states.active ? "#ffffff" : "#4a4a4a",
-          minHeight : 26,
+          decorator    : states.active ? "window-captionbar-active" : "window-captionbar-inactive",
+          textColor    : states.active ? "#ffffff" : "#4a4a4a",
+          minHeight    : 26,
           paddingRight : 2
         };
       }
@@ -1774,7 +1743,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          decorator       : states.focused ? "input-focused" : "input"
+          decorator : states.focused ? "input-focused" : "input"
         };
       }
     },
@@ -1984,7 +1953,6 @@ qx.Theme.define("qx.theme.modern.Appearance",
 
     "colorselector/control-bar" : "widget",
 
-
     "colorselector/control-pane":
     {
       style : function(states)
@@ -1996,9 +1964,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       }
     },
 
-    // TODO: "preset-grid"
     "colorselector/preset-grid" : "widget",
-
 
     "colorselector-colorbucket":
     {
@@ -2339,6 +2305,10 @@ qx.Theme.define("qx.theme.modern.Appearance",
         };
       }
     },
+
+
+
+
 
     /*
     ---------------------------------------------------------------------------
