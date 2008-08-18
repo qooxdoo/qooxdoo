@@ -30,31 +30,34 @@ qx.Theme.define("qx.theme.modern.Color",
   {
     /*
     ---------------------------------------------------------------------------
-      BACKGROUND
+      BACKGROUND COLORS
     ---------------------------------------------------------------------------
     */
 
+    // types
     "background-application" : "#DFDFDF",
-
     "background-light" : "#FCFCFC",
     "background-medium" : "#EAEAEA",
+    "background-splitpane" : "#AFAFAF",
 
+    // states
     "background-focused" : "#F3F8FD",
     "background-disabled" : "#F4F4F4",
-
-    "background-splitpane" : "#AFAFAF",
 
 
 
     /*
     ---------------------------------------------------------------------------
-      TEXT
+      TEXT COLORS
     ---------------------------------------------------------------------------
     */
 
+    // types
     "text-label" : "#1a1a1a",
     "text-light" : "#909090",
+    "text-input" : "#000000",
 
+    // states
     "text-hovered"  : "#001533",
     "text-disabled" : "#6B6A6E",
     "text-selected" : "#fffefe",
@@ -64,21 +67,7 @@ qx.Theme.define("qx.theme.modern.Color",
 
     /*
     ---------------------------------------------------------------------------
-      OTHER
-    ---------------------------------------------------------------------------
-    */
-
-    // Really black here?
-    "text-field" : "black",
-
-    // Used for the "input-focused" and "focus" decorator
-    "focus" : "#92B1DC",
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      BASIC BORDERS
+      BORDER COLORS
     ---------------------------------------------------------------------------
     */
 
@@ -88,14 +77,18 @@ qx.Theme.define("qx.theme.modern.Color",
     "frame" : "#4d4d4d",
     "border-dark" : "#85878C",
 
-    // button rounded border color
+    // button rounded border color, unused
     "border-xxx" : "#666666",
+
+    // states
+    "border-focus" : "#92B1DC",
+
 
 
 
     /*
     ---------------------------------------------------------------------------
-      TABLE
+      TABLE COLORS
     ---------------------------------------------------------------------------
     */
 
@@ -119,7 +112,7 @@ qx.Theme.define("qx.theme.modern.Color",
 
     /*
     ---------------------------------------------------------------------------
-      PROGRESSIVE TABLE
+      PROGRESSIVE TABLE COLORS
     ---------------------------------------------------------------------------
     */
 
