@@ -257,12 +257,12 @@ qx.Class.define("testrunner.runner.TestRunner",
       var pane = new qx.ui.splitpane.Pane("horizontal");
       this.widgets["tabview"] = pane;
       var p1 = new qx.ui.container.Composite(new qx.ui.layout.VBox(10)).set({
-        width : 400,
-        decorator : "black"
+        //decorator : "main",
+        width : 400
       });
       
       var p2 = new qx.ui.container.Composite(new qx.ui.layout.VBox()).set({
-        decorator : "black"
+        //decorator : "main"
       });
 
       var caption1 = new qx.ui.basic.Label("Test Results").set({
@@ -347,7 +347,7 @@ qx.Class.define("testrunner.runner.TestRunner",
     __makeLeft : function()
     {
       var container = new qx.ui.container.Composite(new qx.ui.layout.VBox).set({
-        decorator : "black"
+        //decorator : "main"
       });
 
       var caption = new qx.ui.basic.Label("Tests").set({
