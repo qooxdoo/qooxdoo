@@ -1,7 +1,7 @@
 /*
  * Example of using the Conditional cell renderer with Progressive's Table.
  */
-qx.Class.define("demobrowser.demo.progressive.ProgressiveTable_4",
+qx.Class.define("demobrowser.demo.progressive.ProgressiveTable_Conditional",
 {
   extend : qx.application.Standalone,
 
