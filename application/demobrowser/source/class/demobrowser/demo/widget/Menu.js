@@ -570,7 +570,6 @@ qx.Class.define("demobrowser.demo.widget.Menu",
     getList : function()
     {
       var list = new qx.ui.form.List;
-      list.setDecorator("black");
       list.setContextMenu(this.getContextMenu());
 
       for (var i=0; i<20; i++) {

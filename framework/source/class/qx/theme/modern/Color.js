@@ -38,11 +38,15 @@ qx.Theme.define("qx.theme.modern.Color",
     "background-application" : "#DFDFDF",
     "background-light" : "#FCFCFC",
     "background-medium" : "#EAEAEA",
+
     "background-splitpane" : "#AFAFAF",
 
-    // states
-    "background-focused" : "#F3F8FD",
-    "background-disabled" : "#F4F4F4",
+    // tooltip, ...
+    "background-tip" : "#ffffdd",
+
+    // tables
+    "background-odd" : "#E4E4E4",
+
 
 
 
@@ -71,16 +75,38 @@ qx.Theme.define("qx.theme.modern.Color",
     ---------------------------------------------------------------------------
     */
 
-    // types
-    "border" : "#2D405A",
-    "frame" : "#4d4d4d",
-    "border-dark" : "#85878C",
+    // menus, tables, scrollbars, list, etc.
+    "border-main" : "#4d4d4d",
 
-    // button
-    "border-xxx" : "#666666",
+    // between toolbars
+    "border-separator" : "#808080",
 
-    // states
-    "border-focused" : "#92B1DC",
+    // text fields
+    "border-input" : "#334866",
+
+    // tab view, window
+    "border-pane" : "#00204D",
+
+    // buttons
+    "border-button" : "#666666",
+
+
+
+
+
+
+
+    // tables (vertical line)
+    "border-column" : "#CCCCCC",
+
+    // groupbox
+    "border-group" : "#B6B6B6",
+
+    // focus state: text fields
+    "border-focused" : "#99C3FE",
+
+    // background tabs
+    "border-xxx" : "#667180",
 
 
 

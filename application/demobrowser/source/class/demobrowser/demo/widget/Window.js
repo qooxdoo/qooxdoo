@@ -207,7 +207,6 @@ qx.Class.define("demobrowser.demo.widget.Window",
       win.setMaxHeight(400);
       win.setAllowMaximize(false);
       win.open();
-      win.setContentPadding([10, 10, 10, 10]);
       this.getRoot().add(win, {left:100, top:250});
 
       var wm1 = this.getModalWindow1();
@@ -220,7 +219,6 @@ qx.Class.define("demobrowser.demo.widget.Window",
     getModalWindow1 : function()
     {
       var wm1 = new qx.ui.window.Window("First Modal Dialog");
-      wm1.setContentPadding([10, 10, 10, 10]);
       wm1.setLayout(new qx.ui.layout.VBox(10));
       wm1.setModal(true);
       wm1.moveTo(150, 150);

@@ -66,9 +66,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          textColor : states.disabled ? "text-disabled" :
-                      states.focused ? "text-label" :
-                      "undefined"
+          textColor : states.disabled ? "text-disabled" : "undefined"
         };
       }
     },
@@ -78,7 +76,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          decorator : "frame"
+          decorator : "main"
         };
       }
     },
@@ -126,8 +124,9 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          decorator : "popup",
-          shadow : "popup-shadow"
+          decorator : "main",
+          backgroundColor : "background-light",
+          shadow : "shadow-popup"
         }
       }
     },
@@ -460,7 +459,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       {
         return {
           padding   : 12,
-          decorator : "groupbox-frame"
+          decorator : "group"
         };
       }
     },
@@ -675,7 +674,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          backgroundColor : "white"
+          backgroundColor : "white",
+          decorator : "main"
         };
       }
     },
@@ -777,7 +777,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       {
         return {
           decorator : "pane",
-          padding : 2,
+          padding : 16,
           marginBottom : states.barBottom ? -1 : 0,
           marginTop : states.barTop ? -1 : 0,
           marginLeft : states.barLeft ? -1 : 0,
@@ -947,7 +947,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
           decorator : states.pressed || states.checked ? "toolbar-button-checked" :
             states.hovered ? "toolbar-button-hovered" : "undefined",
 
-          textColor: states.disabled ? "text-disabled" : "text-label"
+          textColor: states.disabled ? "text-disabled" : "undefined"
         };
       }
     },
@@ -1015,18 +1015,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
     ---------------------------------------------------------------------------
     */
 
-    "tree" :
-    {
-      include : "list",
-      alias : "list",
-
-      style : function(states)
-      {
-        return {
-          contentPadding : [4, 4, 4, 4]
-        }
-      }
-    },
+    "tree" : "list",
 
     "tree-folder" :
     {
@@ -1064,17 +1053,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       }
     },
 
-    "tree-folder/label" :
-    {
-      include : "label",
-
-      style : function(states)
-      {
-        return {
-
-        }
-      }
-    },
+    "tree-folder/label" : "label",
 
     "tree-folder/open" :
     {
@@ -1316,7 +1295,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          decorator : "tooltip",
+          backgroundColor : "background-tip",
           padding : [ 1, 3, 2, 3 ],
           offset : [ 1, 1, 20, 1 ]
         };
@@ -1340,8 +1319,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          shadow : "window-shadow",
-          contentPadding : [ 4, 4, 4, 4 ]
+          shadow : "shadow-window",
+          contentPadding : [ 10, 10, 10, 10 ]
         };
       }
     },
@@ -1491,7 +1470,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          decorator : "iframe"
+          decorator : "main"
         };
       }
     },
@@ -1596,7 +1575,10 @@ qx.Theme.define("qx.theme.modern.Appearance",
 
     "selectbox/atom" : "atom",
     "selectbox/popup" : "popup",
-    "selectbox/list" : "list",
+
+    "selectbox/list" : {
+      alias : "list"
+    },
 
     "selectbox/arrow" :
     {
@@ -1626,7 +1608,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       {
         return {
           padding : 2,
-          decorator : "popup",
+          decorator : "main",
           backgroundColor : "background-light"
         };
       }
@@ -1750,7 +1732,10 @@ qx.Theme.define("qx.theme.modern.Appearance",
     },
 
     "combobox/popup" : "popup",
-    "combobox/list" : "list",
+
+    "combobox/list" : {
+      alias : "list"
+    },
 
     "combobox/button" :
     {
@@ -1797,7 +1782,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         var result =
         {
           decorator : "menu",
-          shadow : "popup-shadow",
+          shadow : "shadow-popup",
           spacingX : 6,
           spacingY : 1,
           iconColumnWidth : 16,
@@ -1935,11 +1920,12 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-    		  padding : 5
+    		  padding : 5,
+    		  decorator : "main",
+    		  backgroundColor : "background-light"
   		  }
       }
     },
-
 
     "colorselector/button-bar":
     {
@@ -1971,7 +1957,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          decorator : "border",
+          decorator : "main",
           width : 18,
           height : 14
         }
@@ -2000,7 +1986,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          decorator : "border",
+          decorator : "main",
           width : 50,
           height : 20
         }
@@ -2012,7 +1998,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          decorator : "border",
+          decorator : "main",
           backgroundColor : "white",
           width : 50,
           height : 20
@@ -2036,7 +2022,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          decorator : "border",
+          decorator : "main",
           margin : 5
         }
       }
@@ -2059,7 +2045,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          decorator : "border",
+          decorator : "main",
           margin : [5, 7]
         }
       }
@@ -2095,7 +2081,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          decorator : "border",
+          decorator : "main",
           margin : 2,
           width : 14,
           height : 14,
@@ -2111,7 +2097,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         return {
           height : 20,
           padding: 4,
-          decorator : "border",
+          decorator : "main",
           allowGrowX : true
         }
       }
@@ -2155,6 +2141,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
     "table/column-button" :
     {
       alias : "button-frame",
+
       style : function(states)
       {
         return {

@@ -39,38 +39,38 @@ qx.Class.define("demobrowser.demo.widget.HtmlEmbed",
       container.setPadding(20);
 
       this.getRoot().add(container);
-    
-    
-      // Example HTML embed 
-      var html1 = "<div style='background-color: white; text-align: center;'>" + 
+
+
+      // Example HTML embed
+      var html1 = "<div style='background-color: white; text-align: center;'>" +
                     "<i style='color: red;'><b>H</b></i>" +
-                    "<b>T</b>" + 
-                    "<u>M</u>" + 
-                    "<i>L</i>" + 
-                    " Text" + 
+                    "<b>T</b>" +
+                    "<u>M</u>" +
+                    "<i>L</i>" +
+                    " Text" +
                   "</div>";
       var embed1 = new qx.ui.embed.Html(html1);
       embed1.setWidth(300);
       embed1.setHeight(20);
-      embed1.setDecorator("black");
+      embed1.setDecorator("main");
       container.add(embed1);
-      
-      
+
+
       // Example HTML embed with set font
-      var html2 = "Text with set font (monospace)!";
+      var html2 = "Text with set font (bold)!";
       var embed2 = new qx.ui.embed.Html(html2);
-      embed2.setFont("monospace");
+      embed2.setFont("bold");
       embed2.setHeight(20);
-      embed2.setDecorator("black");      
-      container.add(embed2);   
-      
-      
+      embed2.setDecorator("main");
+      container.add(embed2);
+
+
       // Example HTML embed with text color
       var html3 = "<b>Text with set text color (green)!</b>";
       var embed3 = new qx.ui.embed.Html(html3);
       embed3.setTextColor("green");
       embed3.setHeight(20);
-      embed3.setDecorator("black");       
+      embed3.setDecorator("main");
       container.add(embed3);
     }
   }

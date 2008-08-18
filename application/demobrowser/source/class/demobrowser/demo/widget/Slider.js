@@ -68,8 +68,6 @@ qx.Class.define("demobrowser.demo.widget.Slider",
       var grid = new qx.ui.layout.Grid();
       var container = new qx.ui.container.Composite(grid);
 
-      container.setBackgroundColor("white");
-      container.setDecorator("black");
       container.setPadding(20);
       container.setWidth(530);
       container.setHeight(300);
@@ -142,8 +140,6 @@ qx.Class.define("demobrowser.demo.widget.Slider",
       var grid = new qx.ui.layout.Grid();
       var container = new qx.ui.container.Composite(grid);
 
-      container.setBackgroundColor("white");
-      container.setDecorator("black");
       container.setPadding(20);
       container.setWidth(400);
       container.setHeight(400);
