@@ -1621,15 +1621,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       }
     },
 
-    "datechooser/navigation-bar" :
-    {
-      style : function(states)
-      {
-        return {
-
-        };
-      }
-    },
+    "datechooser/navigation-bar" : {},
 
     "datechooser/nav-button"  :
     {
