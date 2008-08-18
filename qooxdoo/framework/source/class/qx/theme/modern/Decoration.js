@@ -61,7 +61,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
       style :
       {
         width : 1,
-        color : "focus"
+        color : "border-focus"
       }
     },
 
@@ -394,7 +394,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
       style :
       {
         outerColor : "border",
-        innerColor : "focus",
+        innerColor : "border-focus",
         backgroundImage : "decoration/form/input.png",
         backgroundRepeat : "repeat-x",
         backgroundColor : "background-light"

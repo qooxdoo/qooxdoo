@@ -303,7 +303,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         return {
           decorator       : states.focused ? "input-focused" : "input",
           padding         : [ 1, 3 ],
-          textColor       : states.disabled ? "text-disabled" : "text-field"
+          textColor       : states.disabled ? "text-disabled" : "text-input"
         };
       }
     },
@@ -1774,8 +1774,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       {
         return {
           decorator : null,
-          padding   : [ 2, 3 ],
-          textColor : states.disabled ? "text-disabled" : "text-field"
+          padding   : [ 2, 3 ]
         };
       }
     },
