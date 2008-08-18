@@ -152,6 +152,11 @@ qx.Class.define("qx.util.ObjectPool",
      */
     poolObject : function(obj)
     {
+      // Dispose check
+      if (!this.__pool) {
+        return;
+      }
+
       var classname = obj.classname;
       var pool = this.__pool[classname];
 
