@@ -124,12 +124,15 @@ qx.Class.define("apiviewer.ui.ClassViewer",
       "undefined" : true,
       "arguments" : true,
       "null"      : true,
+      "varargs"   : true,
 
       "Boolean"   : true,
       "String"    : true,
 
       "Number"    : true,
       "Integer"   : true,
+      "PositiveNumber" : true,
+      "PositiveInteger" : true,
       "Float"     : true,
       "Double"    : true,
 
@@ -153,7 +156,11 @@ qx.Class.define("apiviewer.ui.ClassViewer",
       "List"      : true,
       "Mixin"     : true,
       "Interface" : true,
-      "Theme"     : true
+      "Theme"     : true,
+
+      "Color"     : true,
+      "Decorator" : true,
+      "Font"      : true
     },
 
 

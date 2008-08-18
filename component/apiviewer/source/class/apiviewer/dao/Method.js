@@ -59,7 +59,7 @@ qx.Class.define("apiviewer.dao.Method",
       if (this._params != null) {
         return this._params;
       } else {
-        var paramsNode = apiviewer.TreeUtil.getChild(this.getNode(), "params");
+        var paramsNode = apiviewer.TreeUtil.getChild(this.getDocNode().getNode(), "params");
         this._params = paramsNode ? this._createNodeList(paramsNode, apiviewer.dao.Param, this.getClass(), this) : [];
         return this._params;
       }
@@ -70,7 +70,7 @@ qx.Class.define("apiviewer.dao.Method",
       if (this._return != null) {
         return this._return;
       } else {
-        var returnNode = apiviewer.TreeUtil.getChild(this.getNode(), "return");
+        var returnNode = apiviewer.TreeUtil.getChild(this.getDocNode().getNode(), "return");
         this._return = returnNode ? new apiviewer.dao.Param(returnNode, this.getClass(), this) : "";
         return this._return;
       }

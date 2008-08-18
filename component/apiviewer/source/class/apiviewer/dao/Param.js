@@ -59,13 +59,11 @@ qx.Class.define("apiviewer.dao.Param", {
       return this._method;
     },
 
-    getArrayDimensions : function()
-    {
+    getArrayDimensions : function() {
       return this._docNode.attributes.arrayDimensions;
     },
 
-    getType : function()
-    {
+    getType : function() {
       return this._docNode.attributes.type;
     },
 
