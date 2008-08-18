@@ -1929,6 +1929,16 @@ qx.Class.define("qx.ui.core.Widget",
 
       // Remove from old parent
       var parent = child.getLayoutParent();
+
+      // this widget is already the parent of the child
+      if (parent == this)
+      {
+        if (options) {
+          child.setLayoutProperties(options);
+        }
+        return;
+      }
+
       if (parent) {
         parent._remove(child);
       }

@@ -39,6 +39,16 @@ qx.Class.define("demobrowser.demo.widget.Window",
 
   members :
   {
+    main: function()
+    {
+      this.base(arguments);
+
+      this.createWindow1();
+      this.createWindow2();
+      this.createWindow3();
+    },
+
+
     createWindow1 : function()
     {
       // Create the Window
@@ -271,15 +281,6 @@ qx.Class.define("demobrowser.demo.widget.Window",
       box.add(btn4);
 
       return wm2;
-    },
-
-    main: function()
-    {
-      this.base(arguments);
-
-      this.createWindow1();
-      this.createWindow2();
-      this.createWindow3();
     }
   }
 });
