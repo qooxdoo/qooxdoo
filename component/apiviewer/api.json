@@ -38,9 +38,8 @@
       "settings" :
       {
         "qx.application"  : "${APIVIEWER}.Application",
-        "qx.resourceUri"  : "${QOOXDOO_URI}/source/resource",
         "qx.theme"        : "${API_THEME}",
-        "qx.version"      : "0.8-beta1"
+        "qx.version"      : "0.8-rc1"
       },
 
       "cache" :
@@ -54,11 +53,6 @@
     {
       "extend" : ["common"],
       "include" : ["${APIVIEWER}.*","${API_THEME}"],
-
-      "settings" :
-      {
-        "${APIVIEWER}.resourceUri" : "./resource"
-      },
 
       "compile-source" :
       {
@@ -82,11 +76,6 @@
     {
       "extend" : ["common"],
       "include" : ["${APIVIEWER}.*","${API_THEME}"],
-
-      "settings" :
-      {
-        "${APIVIEWER}.resourceUri" : "./resource"
-      },
       
       "variants" :
       {
