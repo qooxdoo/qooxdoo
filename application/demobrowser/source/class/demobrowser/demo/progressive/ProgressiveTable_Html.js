@@ -1,7 +1,7 @@
 /*
  * Example of using the HTML cell renderer with Progressive''s Table.
  */
-qx.Class.define("demobrowser.demo.progressive.ProgressiveTable_5",
+qx.Class.define("demobrowser.demo.progressive.ProgressiveTable_Html",
 {
   extend : qx.application.Standalone,
 

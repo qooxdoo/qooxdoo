@@ -7,7 +7,7 @@
  * This also demonstrates how the minimum row height can be set by a
  * cell renderer.
  */
-qx.Class.define("demobrowser.demo.progressive.ProgressiveTable_6",
+qx.Class.define("demobrowser.demo.progressive.ProgressiveTable_VarRowHeight",
 {
   extend : qx.application.Standalone,
 

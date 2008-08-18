@@ -1,23 +1,7 @@
-/* ************************************************************************
-
-   qooxdoo - the new era of web development
-
-   http://qooxdoo.org
-
-   Copyright:
-     2008 Derrell LIpman
-
-   License:
-     LGPL: http://www.gnu.org/licenses/lgpl.html
-     EPL: http://www.eclipse.org/org/documents/epl-v10.php
-     See the LICENSE file in the project's top-level directory for details.
-
-   Authors:
-     * Derrell Lipman (derrell)
-
-************************************************************************ */
-
-qx.Class.define("demobrowser.demo.progressive.ProgressiveTable_1",
+/*
+ * Example of using the Boolean cell renderer with Progressive's Table.
+ */
+qx.Class.define("demobrowser.demo.progressive.ProgressiveTable_Boolean",
 {
   extend : qx.application.Standalone,
 
@@ -37,24 +21,23 @@ qx.Class.define("demobrowser.demo.progressive.ProgressiveTable_1",
           rowData.push(
                        {
                          renderer : "row",
-                         location : row == rowCount - 1 ? "start" : "end",
+                         location : "end",
                          data     : [
                                      nextId++,
-                                     Math.random() * 10000,
-                                     date
+                                     (Math.floor(Math.random() * 2) == 0
+                                      ? false
+                                      : true)
                                     ]
                        });
         }
         return rowData;
       };
 
-      var columnWidths = new qx.ui.progressive.renderer.table.Widths(3);
+      var columnWidths = new qx.ui.progressive.renderer.table.Widths(2);
       columnWidths.setWidth(0, 100);
-      columnWidths.setWidth(1, "1*");
-      columnWidths.setMaxWidth(1, 200);
-      columnWidths.setWidth(2, 300);
+      columnWidths.setWidth(1, 100);
 
-      var columnNames = [ "Id", "Number", "Date" ];
+      var columnNames = [ "Id", "Boolean" ];
 
       // Instantiate a Progressive with a default structure with header
       var header = new qx.ui.progressive.headfoot.TableHeading(columnWidths,
@@ -65,35 +48,30 @@ qx.Class.define("demobrowser.demo.progressive.ProgressiveTable_1",
                                                               footer);
       var progressive = new qx.ui.progressive.Progressive(structure);
 
-      // Add a message
-      var message = new qx.ui.basic.Atom("<span style='color:red;'>" +
-                                         "Last item is intentionally " +
-                                         "inserted at the top to show how " +
-                                         "it's done" +
-                                         "</span>");
-      message.setRich(true);
-      message.setHeight(16);
-      progressive.add(message);
-
       // Instantiate a data model and populate it.
       var dataModel = new qx.ui.progressive.model.Default();
-      var rowData = createRandomRows(500);
+      var rowData = createRandomRows(20);
       dataModel.addElements(rowData);
 
       // Tell Progressive about its data model
       progressive.setDataModel(dataModel);
 
       // Instantiate a table row renderer
-      var renderer =
+      var rowRenderer =
         new qx.ui.progressive.renderer.table.Row(columnWidths);
 
       // Give Progressive the renderer, and assign a name
-      progressive.addRenderer("row", renderer);
+      progressive.addRenderer("row", rowRenderer);
+
+      // Tell the row renderer to use a boolean renderer for column 1
+      var boolRenderer = new qx.ui.progressive.renderer.table.cell.Boolean();
+      boolRenderer.setAllowToggle(true);
+      rowRenderer.addRenderer(1, boolRenderer);
 
       progressive.set(
         {
-          width : 500,
-          maxWidth : 500
+          width : 200 + qx.bom.element.Overflow.getScrollbarWidth(),
+          maxWidth : 200 + qx.bom.element.Overflow.getScrollbarWidth()
         });
       this.getRoot().add(progressive, { left : 50, top : 50, bottom : 50 });
 
