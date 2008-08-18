@@ -95,18 +95,18 @@ qx.Mixin.define("qx.ui.core.MExecutable",
       if (value)
       {
         value.addListener("changeEnabled", this._onChangeEnabledCommand, this);
-        this.setEnabled(value.getEnabled());
+        this.getCommand().setEnabled(value.getEnabled());
       }
     },
 
 
     /**
-     * Event Listener. Listen for enabled changes in the assiciated command
+     * Event Listener. Listen for enabled changes in the associated command
      *
      * @param e {qx.event.type.Data} The change event
      */
     _onChangeEnabledCommand : function(e) {
-      this.setEnabled(e.getData());
+      this.getCommand().setEnabled(e.getData());
     }
   }
 });
