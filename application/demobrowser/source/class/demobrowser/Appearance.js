@@ -49,17 +49,7 @@ qx.Theme.define("demobrowser.Appearance",
 
 		"demo-header" : {
       extend : "toolbar",
-      alias : "toolbar",
-
-      style : function(states)
-      {
-        return {
-          decorator : new qx.ui.decoration.Single().set({
-		        colorBottom: "frame",
-		        widthBottom: 1
-				  })
-			  }
-		  }
+      alias : "toolbar"
 		},
 
     "demo-menubar" : "toolbar",
