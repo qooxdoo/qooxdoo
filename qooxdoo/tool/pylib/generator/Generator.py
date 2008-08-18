@@ -818,7 +818,7 @@ class Generator:
 
         # The place where the app HTML ("index.html") lives
         if self._config.get("compile-source/root", False):
-            self.approot = self._config.get("compile-source/root")
+            self.approot = self._config1.absPath(self._config.get("compile-source/root"))
             # e.g. for: liburi = Path.rel_from_to(approot, lib['path'])
 
         # Read in settings
@@ -826,6 +826,9 @@ class Generator:
 
         # Get resource list
         libs = self._config.get("library", [])
+        # patch uri entry
+        for lib in libs:
+            lib['uri'] = Path.rel_from_to(self.approot, lib['path'])
 
         # Get translation maps
         locales = self._config.get("compile-source/locales", [])
@@ -1309,7 +1312,9 @@ class Generator:
         for packageId, package in enumerate(packages):
             packageUris = []
             for fileId in package:
-                packageUris.append('"%s"' % Path.posifyPath(self._classes[fileId]["uri"]))
+                cUri = Path.posifyPath(self._classes[fileId]["uri"])
+                cUri = Path.rel_from_to(self.approot, cUri)
+                packageUris.append('"%s"' % cUri)
 
             allUris.append("[" + ",".join(packageUris) + "]")
 
