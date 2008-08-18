@@ -37,7 +37,7 @@ qx.Mixin.define("qx.ui.core.MNativeOverflow",
      */
     overflowX :
     {
-      check : ["hidden", "visible", "scroll"],
+      check : ["hidden", "visible", "scroll", "auto"],
       nullable : true,
       apply : "_applyOverflowX"
     },
@@ -47,7 +47,7 @@ qx.Mixin.define("qx.ui.core.MNativeOverflow",
      */
     overflowY :
     {
-      check : ["hidden", "visible", "scroll"],
+      check : ["hidden", "visible", "scroll", "auto"],
       nullable : true,
       apply : "_applyOverflowY"
     }
