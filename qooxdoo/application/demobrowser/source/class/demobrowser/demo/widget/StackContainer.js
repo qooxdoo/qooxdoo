@@ -43,8 +43,7 @@ qx.Class.define("demobrowser.demo.widget.StackContainer",
     addSimpleStack : function()
     {
       var container = new qx.ui.container.Stack();
-      container.setBackgroundColor("white");
-      container.setDecorator("black");
+      container.setDecorator("main");
       container.setWidth(200);
       container.setHeight(120);
       this.getRoot().add(container, {left:20, top:20});
@@ -80,8 +79,7 @@ qx.Class.define("demobrowser.demo.widget.StackContainer",
     addDynamicStack : function()
     {
       var container = new qx.ui.container.Stack();
-      container.setBackgroundColor("white");
-      container.setDecorator("black");
+      container.setDecorator("main");
       container.setDynamic(true);
       this.getRoot().add(container, {left:250, top:20});
 

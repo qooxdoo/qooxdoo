@@ -23,10 +23,9 @@
 #asset(qx/icon/${qx.icontheme}/16/apps/utilities-terminal.png)
 #asset(qx/icon/${qx.icontheme}/16/apps/utilities-notes.png)
 #asset(qx/icon/${qx.icontheme}/16/apps/utilities-calculator.png)
-#asset(qx/icon/${qx.icontheme}/16/apps/help-browser.png)
+#asset(qx/icon/${qx.icontheme}/16/apps/utilities-help.png)
 #asset(qx/icon/${qx.icontheme}/16/apps/utilities-terminal.png)
 #asset(qx/icon/${qx.icontheme}/32/apps/utilities-terminal.png)
-
 
 ************************************************************************ */
 
@@ -80,7 +79,7 @@ qx.Class.define("demobrowser.demo.widget.TabView",
 
 
       ////////////////// TEST PAGE 4 ////////////////////
-      var page4 = new qx.ui.tabview.Page("Help", "icon/16/apps/help-browser.png");
+      var page4 = new qx.ui.tabview.Page("Help", "icon/16/apps/utilities-help.png");
       page4.setLayout(new qx.ui.layout.VBox());
       page4.add(new qx.ui.basic.Label("Help..."));
       tabView.add(page4);

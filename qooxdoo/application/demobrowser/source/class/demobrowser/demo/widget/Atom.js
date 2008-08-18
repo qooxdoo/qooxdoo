@@ -50,7 +50,7 @@ qx.Class.define("demobrowser.demo.widget.Atom",
       // Icon Position Property
       container1.add(new qx.ui.basic.Atom("Icon Left", "icon/32/actions/go-previous.png").set({
         backgroundColor : "#E6FAED",
-        decorator : "frame",
+        decorator : "main",
         iconPosition : "left",
         padding : 5,
         allowGrowY: false
@@ -58,7 +58,7 @@ qx.Class.define("demobrowser.demo.widget.Atom",
 
       container1.add(new qx.ui.basic.Atom("Icon Top", "icon/32/actions/go-up.png").set({
         backgroundColor : "#E6FAED",
-        decorator : "frame",
+        decorator : "main",
         iconPosition : "top",
         padding : 5,
         allowGrowY: false
@@ -66,7 +66,7 @@ qx.Class.define("demobrowser.demo.widget.Atom",
 
       container1.add(new qx.ui.basic.Atom("Icon Right", "icon/32/actions/go-next.png").set({
         backgroundColor : "#E6FAED",
-        decorator : "frame",
+        decorator : "main",
         iconPosition : "right",
         padding : 5,
         allowGrowY: false
@@ -74,7 +74,7 @@ qx.Class.define("demobrowser.demo.widget.Atom",
 
       container1.add(new qx.ui.basic.Atom("Icon Bottom", "icon/32/actions/go-down.png").set({
         backgroundColor : "#E6FAED",
-        decorator : "frame",
+        decorator : "main",
         iconPosition : "bottom",
         padding : 5,
         allowGrowY: false
@@ -90,7 +90,7 @@ qx.Class.define("demobrowser.demo.widget.Atom",
       // Show Property
       container1.add(new qx.ui.basic.Atom("Atom Without Label", "icon/32/apps/internet-feed-reader.png").set({
         backgroundColor : "#FAF8E6",
-        decorator : "frame",
+        decorator : "main",
         show : "icon",
         padding : 5,
         allowGrowY: false
@@ -98,7 +98,7 @@ qx.Class.define("demobrowser.demo.widget.Atom",
 
       container1.add(new qx.ui.basic.Atom("Atom Without Icon", "icon/32/apps/internet-feed-reader.png").set({
         backgroundColor : "#FAF8E6",
-        decorator : "frame",
+        decorator : "main",
         show : "label",
         padding : 5,
         allowGrowY: false
@@ -115,7 +115,7 @@ qx.Class.define("demobrowser.demo.widget.Atom",
       // Shrinking (horizontally)
       container2.add(new qx.ui.basic.Atom("Atom With Long Label").set({
         backgroundColor : "#E6EDFA",
-        decorator : "frame",
+        decorator : "main",
         padding : 5,
         width : 100,
         allowGrowY: false
@@ -123,7 +123,7 @@ qx.Class.define("demobrowser.demo.widget.Atom",
 
       container2.add(new qx.ui.basic.Atom("Atom With Long Label", "icon/32/apps/internet-feed-reader.png").set({
         backgroundColor : "#E6EDFA",
-        decorator : "frame",
+        decorator : "main",
         padding : 5,
         width : 150,
         allowGrowY: false
@@ -131,7 +131,7 @@ qx.Class.define("demobrowser.demo.widget.Atom",
 
       container2.add(new qx.ui.basic.Atom("Atom With Long Label", "icon/32/apps/internet-feed-reader.png").set({
         backgroundColor : "#EAE6FA",
-        decorator : "frame",
+        decorator : "main",
         iconPosition : "top",
         padding : 5,
         width : 100,
@@ -147,7 +147,7 @@ qx.Class.define("demobrowser.demo.widget.Atom",
 
       container3.add(new qx.ui.basic.Atom("Wider Atom").set({
         backgroundColor : "#E6EDFA",
-        decorator : "frame",
+        decorator : "main",
         center : true,
         padding : 5,
         width : 100,
@@ -156,7 +156,7 @@ qx.Class.define("demobrowser.demo.widget.Atom",
 
       container3.add(new qx.ui.basic.Atom("Wider Atom", "icon/32/apps/utilities-notes.png").set({
         backgroundColor : "#E6EDFA",
-        decorator : "frame",
+        decorator : "main",
         center : true,
         padding : 5,
         width : 140,
@@ -166,7 +166,7 @@ qx.Class.define("demobrowser.demo.widget.Atom",
 
       container3.add(new qx.ui.basic.Atom("Higher Atom", "icon/32/apps/utilities-notes.png").set({
         backgroundColor : "#E6EDFA",
-        decorator : "frame",
+        decorator : "main",
         iconPosition : "top",
         center : true,
         padding : 5,

@@ -45,7 +45,7 @@ qx.Class.define("demobrowser.demo.widget.List",
 
       var configList = new qx.ui.form.List;
 
-      configList.set({ height: 280, width: 150, selectionMode : "multi", decorator : "black" });
+      configList.set({ height: 280, width: 150, selectionMode : "multi" });
 
       var item;
       for( var i=1; i<=25; i++ )
@@ -158,7 +158,7 @@ qx.Class.define("demobrowser.demo.widget.List",
       this.getRoot().add(oneLabel, {left: 330, top: 20});
 
       var oneList = new qx.ui.form.List();
-      oneList.set({ height: 280, width: 150, selectionMode : "one", decorator : "black" });
+      oneList.set({ height: 280, width: 150, selectionMode : "one" });
       var item;
       for( var i=1; i<=25; i++ )
       {
@@ -187,7 +187,7 @@ qx.Class.define("demobrowser.demo.widget.List",
       var additiveList = new qx.ui.form.List;
       var item3;
 
-      additiveList.set({ width: 150, selectionMode : "additive", decorator : "black" });
+      additiveList.set({ width: 150, selectionMode : "additive" });
 
       var l3l = [ "Leon","Lukas","Luca","Finn","Tim","Felix","Jonas","Luis",
       "Maximilian","Julian","Max","Paul","Niclas","Jan","Ben","Elias","Jannick",
@@ -221,7 +221,7 @@ qx.Class.define("demobrowser.demo.widget.List",
       var l4 = new qx.ui.form.List(true);
       var item4;
 
-      l4.set({ width: 550, selectionMode : "multi", height : null, decorator : "black" });
+      l4.set({ width: 550, selectionMode : "multi", height : null });
 
       var l4l = [ "audio-card.png","audio-input-microphone.png","battery.png",
       "camera-photo.png","camera-web.png","computer.png","display.png",

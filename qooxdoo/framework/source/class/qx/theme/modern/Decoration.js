@@ -43,39 +43,25 @@ qx.Theme.define("qx.theme.modern.Decoration",
     ---------------------------------------------------------------------------
     */
 
-    "frame" :
+    "main" :
     {
       decorator: qx.ui.decoration.Uniform,
 
       style :
       {
         width : 1,
-        color : "frame"
+        color : "border-main"
       }
     },
 
-    "border" :
-    {
-      decorator : qx.ui.decoration.Single,
-
-      style :
-      {
-        width : 1,
-        color : "#666",
-        style : "solid",
-
-        backgroundColor : "white"
-      }
-    },
-
-    "focus" :
+    "block" :
     {
       decorator: qx.ui.decoration.Uniform,
 
       style :
       {
         width : 1,
-        color : "border-focused"
+        color : "border-separator"
       }
     },
 
@@ -90,29 +76,22 @@ qx.Theme.define("qx.theme.modern.Decoration",
       }
     },
 
-
-
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      POPUP
-    ---------------------------------------------------------------------------
-    */
-
-    "popup" :
+    "pane" :
     {
-      decorator : qx.ui.decoration.Single,
+      decorator : qx.ui.decoration.Grid,
 
-      style :
-      {
-        backgroundColor : "background-light",
+      style : {
+        baseImage : "decoration/pane/pane.png",
+        insets    : [0, 2, 3, 0]
+      }
+    },
 
-        width : 1,
-        color : "#666",
-        style : "solid"
+    "group" :
+    {
+      decorator : qx.ui.decoration.Grid,
+
+      style : {
+        baseImage : "decoration/groupbox/groupbox.png"
       }
     },
 
@@ -132,7 +111,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
       style :
       {
         widthLeft : 1,
-        colorLeft : "frame"
+        colorLeft : "border-separator"
       }
     },
 
@@ -143,7 +122,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
       style :
       {
         widthTop : 1,
-        colorTop : "frame"
+        colorTop : "border-separator"
       }
     },
 
@@ -156,7 +135,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
     ---------------------------------------------------------------------------
     */
 
-    "window-shadow" :
+    "shadow-window" :
     {
       decorator : qx.ui.decoration.Grid,
 
@@ -166,7 +145,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
       }
     },
 
-    "popup-shadow" :
+    "shadow-popup" :
     {
       decorator : qx.ui.decoration.Grid,
 
@@ -176,42 +155,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
       }
     },
 
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      PANE
-    ---------------------------------------------------------------------------
-    */
-
-    "pane" :
-    {
-      decorator : qx.ui.decoration.Grid,
-
-      style : {
-        baseImage : "decoration/pane/pane.png",
-        insets    : [0, 2, 3, 0]
-      }
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      GROUPBOX
-    ---------------------------------------------------------------------------
-    */
-
-    "groupbox-frame" :
-    {
-      decorator : qx.ui.decoration.Grid,
-
-      style : {
-        baseImage : "decoration/groupbox/groupbox.png"
-      }
-    },
 
 
 
@@ -251,8 +194,9 @@ qx.Theme.define("qx.theme.modern.Decoration",
       style : {
         backgroundImage : "decoration/scrollbar/scrollbar-button-bg-horizontal.png",
         backgroundRepeat : "scale",
-        outerColor : "#4d4d4d",
-        innerColor : "#e1e1e1"
+        outerColor : "border-main",
+        innerColor : "white",
+        innerOpacity : 0.5
       }
     },
 
@@ -263,8 +207,9 @@ qx.Theme.define("qx.theme.modern.Decoration",
       style : {
         backgroundImage : "decoration/scrollbar/scrollbar-button-bg-vertical.png",
         backgroundRepeat : "scale",
-        outerColor : "#4d4d4d",
-        innerColor : "#e1e1e1"
+        outerColor : "border-main",
+        innerColor : "white",
+        innerOpacity : 0.5
       }
     },
 
@@ -275,8 +220,9 @@ qx.Theme.define("qx.theme.modern.Decoration",
       style : {
         backgroundImage : "decoration/scrollbar/slider-knob-background.png",
         backgroundRepeat : "scale",
-        outerColor : "#4d4d4d",
-        innerColor : "#e1e1e1"
+        outerColor : "border-main",
+        innerColor : "white",
+        innerOpacity : 0.5
       }
     },
 
@@ -395,8 +341,9 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
       style :
       {
-        outerColor : "border",
+        outerColor : "border-input",
         innerColor : "white",
+        innerOpacity : 0.5,
         backgroundImage : "decoration/form/input.png",
         backgroundRepeat : "repeat-x",
         backgroundColor : "background-light"
@@ -409,7 +356,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
       style :
       {
-        outerColor : "border",
+        outerColor : "border-input",
         innerColor : "border-focused",
         backgroundImage : "decoration/form/input.png",
         backgroundRepeat : "repeat-x",
@@ -433,6 +380,9 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
       style :
       {
+        width : 1,
+        color : "border-separator",
+
         backgroundImage : "decoration/toolbar/toolbar-gradient.png",
         backgroundRepeat : "scale"
       }
@@ -576,59 +526,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
 
 
-
-
-    /*
-    ---------------------------------------------------------------------------
-      TOOLTIP
-    ---------------------------------------------------------------------------
-    */
-
-    "tooltip" :
-    {
-      decorator : qx.ui.decoration.Single,
-
-      style :
-      {
-        width : 1,
-        color : "#666",
-        style : "solid",
-
-        backgroundColor : "#ffffdd"
-      }
-    },
-
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      IFRAME
-    ---------------------------------------------------------------------------
-    */
-
-    "iframe" :
-    {
-      decorator : qx.ui.decoration.Double,
-
-      style :
-      {
-        backgroundColor : "white",
-
-        width : 1,
-        innerWidth : 1,
-
-        color : "border",
-        innerColor : "white",
-
-        style : "solid"
-      }
-    },
-
-
-
-
     /*
     ---------------------------------------------------------------------------
       SPLITPANE
@@ -714,7 +611,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
       style :
       {
         width : 1,
-        color : "frame",
+        color : "border-main",
         style : "solid"
       }
     },
@@ -726,7 +623,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
      style :
      {
        widthTop : 1,
-       colorTop : "frame",
+       colorTop : "border-main",
        style    : "solid"
      }
    },
@@ -741,7 +638,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
        backgroundRepeat : "scale",
 
        widthBottom : 1,
-       colorBottom : "frame",
+       colorBottom : "border-main",
        style       : "solid"
      }
    },
@@ -797,7 +694,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
        backgroundRepeat : "scale",
 
        widthBottom : 1,
-       colorBottom : "frame",
+       colorBottom : "border-main",
        style       : "solid"
      }
    },
@@ -831,7 +728,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
       style :
       {
         width       : 1,
-        color       : "frame",
+        color       : "border-main",
         style       : "solid"
       }
    },
@@ -870,7 +767,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
        backgroundRepeat : "scale",
 
        width : 1,
-       color : "frame",
+       color : "border-main",
        style : "solid"
      }
    },
@@ -886,29 +783,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
         widthBottom : 1,
         colorBottom : "#FAFAFA"
-      }
-    },
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      DATE CHOOSER
-    ---------------------------------------------------------------------------
-    */
-
-    "date-chooser" :
-    {
-      decorator : qx.ui.decoration.Double,
-
-      style :
-      {
-        width      : 1,
-        innerWidth : 1,
-
-        color      : "border-dark",
-        innerColor : "white"
       }
     }
   }
