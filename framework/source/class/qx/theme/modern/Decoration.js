@@ -498,6 +498,8 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
       style :
       {
+        backgroundColor : "background-pane",
+        
         width : 3,
         color : "background-splitpane",
         style : "solid"
