@@ -54,6 +54,20 @@ qx.Theme.define("qx.theme.modern.Decoration",
       }
     },
 
+    "border" :
+    {
+      decorator : qx.ui.decoration.Single,
+
+      style :
+      {
+        width : 1,
+        color : "#666",
+        style : "solid",
+
+        backgroundColor : "white"
+      }
+    },
+
     "focus" :
     {
       decorator: qx.ui.decoration.Uniform,
@@ -61,7 +75,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
       style :
       {
         width : 1,
-        color : "border-focus"
+        color : "border-focused"
       }
     },
 
@@ -75,6 +89,8 @@ qx.Theme.define("qx.theme.modern.Decoration",
         backgroundRepeat : "scale"
       }
     },
+
+
 
 
 
@@ -394,7 +410,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
       style :
       {
         outerColor : "border",
-        innerColor : "border-focus",
+        innerColor : "border-focused",
         backgroundImage : "decoration/form/input.png",
         backgroundRepeat : "repeat-x",
         backgroundColor : "background-light"
@@ -893,30 +909,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
         color      : "border-dark",
         innerColor : "white"
-      }
-    },
-
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      COLOR SELECTOR
-    ---------------------------------------------------------------------------
-    */
-
-    "border" :
-    {
-      decorator : qx.ui.decoration.Single,
-
-      style :
-      {
-        width : 1,
-        color : "#666",
-        style : "solid",
-
-        backgroundColor : "white"
       }
     }
   }
