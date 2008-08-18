@@ -768,10 +768,10 @@ qx.Class.define("qx.ui.control.DateChooser",
 
   destruct : function()
   {
-    qx.locale.Manager.getInstance().removeEventListener("changeLocale", this._updateDatePane, this);
+    qx.locale.Manager.getInstance().removeListener("changeLocale", this._updateDatePane, this);
 
-    this._disposeObjectDeep("__weekdayLabelArr", 1);
-    this._disposeObjectDeep("__dayLabelArr", 1);
-    this._disposeObjectDeep("__weekLabelArr", 1);
+    this._disposeArray("__weekdayLabelArr", 1);
+    this._disposeArray("__dayLabelArr", 1);
+    this._disposeArray("__weekLabelArr", 1);
   }
 });
