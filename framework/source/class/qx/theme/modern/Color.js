@@ -34,13 +34,14 @@ qx.Theme.define("qx.theme.modern.Color",
     ---------------------------------------------------------------------------
     */
 
-    "background" : "#dfdfdf",
-    "background-light" : "#F2F2F2",
+    "background-application" : "#DFDFDF",
+
+    "background-light" : "#FCFCFC",
+    "background-medium" : "#EAEAEA",
+
     "background-focused" : "#F3F8FD",
-    "background-focused-inner" : "#DBEAF9",
     "background-disabled" : "#F4F4F4",
-    "background-selected" : "#3E6CA8",
-    "background-field" : "#FCFCFC",
+
     "background-splitpane" : "#AFAFAF",
 
 
@@ -51,9 +52,13 @@ qx.Theme.define("qx.theme.modern.Color",
     ---------------------------------------------------------------------------
     */
 
-    "text" : "#1a1a1a",
-    "text-disabled" : [ 107, 106, 110 ],
+    "text-label" : "#1a1a1a",
+    "text-light" : "#909090",
+
+    "text-hovered"  : "#001533",
+    "text-disabled" : "#6B6A6E",
     "text-selected" : "#fffefe",
+
 
 
 
@@ -63,6 +68,7 @@ qx.Theme.define("qx.theme.modern.Color",
     ---------------------------------------------------------------------------
     */
 
+    // Really black here?
     "text-field" : "black",
 
     // Used for the "input-focused" and "focus" decorator
@@ -81,6 +87,9 @@ qx.Theme.define("qx.theme.modern.Color",
     // these two borders are used in the appearance theme and for decorators
     "frame" : "#4d4d4d",
     "border-dark" : "#85878C",
+
+    // button rounded border color
+    "border-xxx" : "#666666",
 
 
 

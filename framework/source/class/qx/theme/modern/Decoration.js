@@ -65,6 +65,18 @@ qx.Theme.define("qx.theme.modern.Decoration",
       }
     },
 
+    "selected" :
+    {
+      decorator : qx.ui.decoration.Single,
+
+      style :
+      {
+        backgroundImage  : "decoration/selection.png",
+        backgroundRepeat : "scale"
+      }
+    },
+
+
 
 
 
@@ -288,7 +300,8 @@ qx.Theme.define("qx.theme.modern.Decoration",
     {
       decorator : qx.ui.decoration.Grid,
 
-      style : {
+      style :
+      {
         baseImage : "decoration/form/button.png",
         insets    : 2
       }
@@ -298,7 +311,8 @@ qx.Theme.define("qx.theme.modern.Decoration",
     {
       decorator : qx.ui.decoration.Grid,
 
-      style : {
+      style :
+      {
         baseImage : "decoration/form/button-focused.png",
         insets    : 2
       }
@@ -308,7 +322,8 @@ qx.Theme.define("qx.theme.modern.Decoration",
     {
       decorator : qx.ui.decoration.Grid,
 
-      style : {
+      style :
+      {
         baseImage : "decoration/form/button-hovered.png",
         insets    : 2
       }
@@ -318,7 +333,8 @@ qx.Theme.define("qx.theme.modern.Decoration",
     {
       decorator : qx.ui.decoration.Grid,
 
-      style : {
+      style :
+      {
         baseImage : "decoration/form/button-pressed.png",
         insets    : 2
       }
@@ -328,7 +344,8 @@ qx.Theme.define("qx.theme.modern.Decoration",
     {
       decorator : qx.ui.decoration.Grid,
 
-      style : {
+      style :
+      {
         baseImage : "decoration/form/button-checked.png",
         insets    : 2
       }
@@ -338,7 +355,8 @@ qx.Theme.define("qx.theme.modern.Decoration",
     {
       decorator : qx.ui.decoration.Grid,
 
-      style : {
+      style :
+      {
         baseImage : "decoration/form/button-checked-focused.png",
         insets    : 2
       }
@@ -363,7 +381,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
         innerColor : "white",
         backgroundImage : "decoration/form/input.png",
         backgroundRepeat : "repeat-x",
-        backgroundColor : "background-field"
+        backgroundColor : "background-light"
       }
     },
 
@@ -377,28 +395,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
         innerColor : "focus",
         backgroundImage : "decoration/form/input.png",
         backgroundRepeat : "repeat-x",
-        backgroundColor : "background-field"
-      }
-    },
-
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      LIST
-    ---------------------------------------------------------------------------
-    */
-
-    "listitem" :
-    {
-      decorator : qx.ui.decoration.Single,
-
-      style :
-      {
-        backgroundImage  : "decoration/selection.png",
-        backgroundRepeat : "scale"
+        backgroundColor : "background-light"
       }
     },
 
@@ -559,26 +556,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
     },
 
 
-
-
-
-
-    /*
-    ---------------------------------------------------------------------------
-      TREE
-    ---------------------------------------------------------------------------
-    */
-
-    "tree-item-selected" :
-    {
-      decorator : qx.ui.decoration.Single,
-
-      style :
-      {
-        backgroundImage  : "decoration/selection.png",
-        backgroundRepeat : "scale"
-      }
-    },
 
 
 
@@ -880,17 +857,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
      }
    },
 
-   "menu-button-selected" :
-   {
-     decorator : qx.ui.decoration.Single,
-
-     style :
-     {
-       backgroundImage  : "decoration/selection.png",
-       backgroundRepeat : "scale"
-     }
-   },
-
    "menu-separator" :
     {
       decorator :  qx.ui.decoration.Single,
@@ -928,75 +894,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
       }
     },
 
-    "date-chooser-pane" :
-    {
-      decorator : qx.ui.decoration.Single,
-
-      style :
-      {
-        backgroundColor : "background-light",
-
-        widthTop : 1,
-        colorTop : "border-dark",
-        style    : "solid"
-      }
-    },
-
-    "date-chooser-weekday" :
-    {
-      decorator : qx.ui.decoration.Single,
-
-      style :
-      {
-        backgroundColor : "background-selected",
-
-        widthBottom : 1,
-        colorBottom : "border-dark",
-        style       : "solid"
-      }
-    },
-
-    "date-chooser-weekend" :
-    {
-      decorator : qx.ui.decoration.Single,
-
-      style :
-      {
-        backgroundColor : "background-light",
-
-        widthBottom : 1,
-        colorBottom : "border-dark",
-        style       : "solid"
-      }
-    },
-
-    "date-chooser-week" :
-    {
-      decorator : qx.ui.decoration.Single,
-
-      style :
-      {
-        widthRight : 1,
-        colorRight : "border-dark",
-        style       : "solid"
-      }
-    },
-
-    "date-chooser-week-header" :
-    {
-      decorator : qx.ui.decoration.Single,
-
-      style :
-      {
-        widthRight : 1,
-        colorRight : "border-dark",
-
-        widthBottom : 1,
-        colorBottom : "border-dark",
-
-        style       : "solid"
-      }
-    },
 
 
 
