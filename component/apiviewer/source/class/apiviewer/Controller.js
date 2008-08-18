@@ -47,7 +47,9 @@ qx.Class.define("apiviewer.Controller",
 
     this._widgetRegistry = apiviewer.MWidgetRegistry;
 
-    this._titlePrefix = qx.core.Setting.get("apiviewer.title") + " API Documentation";
+    // TODO: Somehow the data version should be integrated here.
+    var version = qx.core.Setting.get("qx.version");
+    this._titlePrefix = "API Documentation of " + qx.core.Setting.get("apiviewer.title") + version;
     document.title = this._titlePrefix;
 
     this._classLoader = new apiviewer.ClassLoader("./script");
@@ -89,14 +91,14 @@ qx.Class.define("apiviewer.Controller",
       req.addListener("completed", function(evt)
       {
         var loadEnd = new Date();
-        this.debug("Time to load data from server: " + (loadEnd.getTime() - loadStart.getTime()) + "ms");
+        // this.debug("Time to load data from server: " + (loadEnd.getTime() - loadStart.getTime()) + "ms");
 
         var content = evt.getContent();
 
         var start = new Date();
         var treeData = eval("(" + content + ")");
         var end = new Date();
-        this.debug("Time to eval tree data: " + (end.getTime() - start.getTime()) + "ms");
+        // this.debug("Time to eval tree data: " + (end.getTime() - start.getTime()) + "ms");
 
         // give the browser a chance to update its UI before doing more
         qx.event.Timer.once(function() {
@@ -156,13 +158,14 @@ qx.Class.define("apiviewer.Controller",
         }
       }, this);
 
+      /*
       this._tree.addListener("appear", function(e) {
         var item =  this._tree.getSelectedItem();
         if (item) {
           this._tree.scrollChildIntoView(item);
         }
       }, this);
-
+      */
     },
 
 
@@ -217,12 +220,12 @@ qx.Class.define("apiviewer.Controller",
       var start = new Date();
       var rootPackage = new apiviewer.dao.Package(docTree);
       var end = new Date();
-      this.debug("Time to build data tree: " + (end.getTime() - start.getTime()) + "ms");
+      // this.debug("Time to build data tree: " + (end.getTime() - start.getTime()) + "ms");
 
       var start = new Date();
       this._tree.setTreeData(rootPackage);
       var end = new Date();
-      this.debug("Time to update tree: " + (end.getTime() - start.getTime()) + "ms");
+      // this.debug("Time to update tree: " + (end.getTime() - start.getTime()) + "ms");
 
       return true;
     },
@@ -332,13 +335,11 @@ qx.Class.define("apiviewer.Controller",
     },
 
 
-    __encodeState : function(state)
-    {
+    __encodeState : function(state) {
       return state.replace(/(.*)#(.*)/g, "$1~$2")
     },
 
-    __decodeState : function(encodedState)
-    {
+    __decodeState : function(encodedState) {
       return encodedState.replace(/(.*)~(.*)/g, "$1#$2")
     }
   },

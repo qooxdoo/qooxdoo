@@ -269,12 +269,6 @@ qx.Class.define("apiviewer.TreeUtil",
     /** {string} The URL of the blank icon. */
     ICON_BLANK : "apiviewer/image/blank.gif",
 
-    /** {string} The URL of the info icon. */
-    ICON_INFO : "apiviewer/image/information18.png",
-
-    /** {string} The URL of the search icon. */
-    ICON_SEARCH : "apiviewer/image/search18.png",
-
     /** {string} The URL of the overlay "abstract". */
     OVERLAY_ABSTRACT : "apiviewer/image/overlay_abstract18.gif",
 

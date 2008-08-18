@@ -35,8 +35,11 @@ qx.Class.define("apiviewer.ui.SearchView",
   construct : function()
   {
     this.base(arguments);
-    this.setLayout(new qx.ui.layout.VBox(8))
-
+    
+    var layout = new qx.ui.layout.VBox(4);
+    layout.setSeparator("separator-vertical");
+    this.setLayout(layout);    
+    
     this.__initresult = false;
     this.listdata = [];
 
@@ -70,6 +73,7 @@ qx.Class.define("apiviewer.ui.SearchView",
       // Search form
       var layout = new qx.ui.layout.HBox(4);
       var sform = new qx.ui.container.Composite(layout);
+      sform.setPadding(10);
 
       // Search form - input field
       this.sinput = new qx.ui.form.TextField().set({
@@ -105,6 +109,7 @@ qx.Class.define("apiviewer.ui.SearchView",
 
       // table
       var table = new qx.ui.table.Table(tableModel, customModel);
+      table.setDecorator(null);
       table.exclude();
       table.setShowCellFocusIndicator(false);
       table.setStatusBarVisible(false);
