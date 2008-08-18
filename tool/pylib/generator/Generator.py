@@ -1009,7 +1009,7 @@ class Generator:
         self._shellCmd  = ShellCmd()
 
         qxPath      = self._config.get('let',{})['QOOXDOO_PATH']
-        migratorCmd = os.path.join(qxPath, os.pardir, 'tool', "migrator.py")
+        migratorCmd = os.path.join(qxPath, os.pardir, 'tool', "bin", "migrator.py")
 
         libPaths = []
         for lib in libs:
