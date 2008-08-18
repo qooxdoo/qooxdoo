@@ -71,17 +71,16 @@ qx.Theme.define("qx.theme.modern.Color",
     ---------------------------------------------------------------------------
     */
 
+    // types
     "border" : "#2D405A",
-
-    // these two borders are used in the appearance theme and for decorators
     "frame" : "#4d4d4d",
     "border-dark" : "#85878C",
 
-    // button rounded border color, unused
+    // button
     "border-xxx" : "#666666",
 
     // states
-    "border-focus" : "#92B1DC",
+    "border-focused" : "#92B1DC",
 
 
 
