@@ -1620,22 +1620,19 @@ qx.Theme.define("qx.theme.modern.Appearance",
         };
       }
     },
-
-    "datechooser/last-year-button"  : "datechooser/button",
-    "datechooser/last-month-button" : "datechooser/button",
-    "datechooser/next-year-button"  : "datechooser/button",
-    "datechooser/next-month-button" : "datechooser/button",
-    "datechooser/button/icon" : {},
-
-    "datechooser/button" :
+    
+    "datechooser/last-year-button"  : 
     {
+      include : "button",
+      alias   : "button",
+      
       style : function(states)
       {
         var result = {
-          width  : 17,
-          show   : "icon"
+            width  : 17,
+            show   : "icon"
         };
-
+        
         if (states.lastYear) {
           result.icon = "decoration/arrows/rewind.png";
         } else if (states.lastMonth) {
@@ -1645,7 +1642,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         } else if (states.nextMonth) {
           result.icon = "decoration/arrows/right.png";
         }
-
+        
         if (states.pressed || states.checked || states.abandoned) {
           result.decorator = "button-pressed";
         } else if (states.hovered) {
@@ -1653,19 +1650,73 @@ qx.Theme.define("qx.theme.modern.Appearance",
         } else {
           result.decorator = "undefined";
         }
-
-        if (states.pressed || states.checked || states.abandoned) {
+        
+        if ( states.pressed || states.checked || states.abandoned)
+        {
           result.padding = [ 2, 0, 0, 2 ];
-        } else if (states.hovered) {
-          result.padding = 1;
-        } else {
+        }
+        else if (states.hovered)
+        {
+          result.padding = [ 2, 1, 1, 2 ];
+        }
+        else
+        {
           result.padding = 2;
         }
-
+        
         return result;
       }
     },
-
+    "datechooser/next-year-button"  : "datechooser/last-year-button",
+    
+    "datechooser/last-month-button" : 
+    {
+      include : "button",
+      alias   : "button",
+      
+      style : function(states)
+      {
+        var result = {
+            width  : 17,
+            show   : "icon"
+        };
+        
+        if (states.lastYear) {
+          result.icon = "decoration/arrows/rewind.png";
+        } else if (states.lastMonth) {
+          result.icon = "decoration/arrows/left.png";
+        } else if (states.nextYear) {
+          result.icon = "decoration/arrows/forward.png";
+        } else if (states.nextMonth) {
+          result.icon = "decoration/arrows/right.png";
+        }
+        
+        if (states.pressed || states.checked || states.abandoned) {
+          result.decorator = "button-pressed";
+        } else if (states.hovered) {
+          result.decorator = "button";
+        } else {
+          result.decorator = "undefined";
+        }
+        
+        if ( states.pressed || states.checked || states.abandoned)
+        {
+          result.padding = [ 2, 0, 0, 2 ];
+        }
+        else if (states.hovered)
+        {
+          result.padding = [ 1, 1, 1, 1 ];
+        }
+        else
+        {
+          result.padding = 2;
+        }
+        
+        return result;
+      }
+    },    
+    "datechooser/next-month-button" : "datechooser/last-month-button",
+    
     "datechooser/month-year-label" :
     {
       style : function(states)
