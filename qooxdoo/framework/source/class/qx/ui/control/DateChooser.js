@@ -195,10 +195,12 @@ qx.Class.define("qx.ui.control.DateChooser",
 
   members :
   {
-
     __weekdayLabelArr : null,
     __dayLabelArr : null,
     __weekLabelArr : null,
+
+
+
 
     /*
     ---------------------------------------------------------------------------
@@ -231,6 +233,8 @@ qx.Class.define("qx.ui.control.DateChooser",
     },
 
 
+
+
     /*
     ---------------------------------------------------------------------------
       WIDGET INTERNALS
@@ -246,10 +250,9 @@ qx.Class.define("qx.ui.control.DateChooser",
       {
         // NAVIGATION BAR STUFF
         case "navigation-bar":
-          // Create the navigation bar
           control = new qx.ui.container.Composite(new qx.ui.layout.HBox());
 
-          // add the navigation bar elements
+          // Add the navigation bar elements
           control.add(this._getChildControl("last-year-button"));
           control.add(this._getChildControl("last-month-button"));
           control.add(this._getChildControl("month-year-label"), {flex: 1});
@@ -263,7 +266,7 @@ qx.Class.define("qx.ui.control.DateChooser",
           control = new qx.ui.form.Button();
           control.addState("lastYear");
           control.setFocusable(false);
-          control.setToolTip(new qx.ui.tooltip.ToolTip("Last year"));
+          control.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Last year")));
           control.addListener("click", this._onNavButtonClicked, this);
           break;
 
@@ -271,7 +274,7 @@ qx.Class.define("qx.ui.control.DateChooser",
           control = new qx.ui.toolbar.Button();
           control.addState("lastMonth");
           control.setFocusable(false);
-          control.setToolTip(new qx.ui.tooltip.ToolTip("Last month"));
+          control.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Last month")));
           control.addListener("click", this._onNavButtonClicked, this);
           break;
 
@@ -279,7 +282,7 @@ qx.Class.define("qx.ui.control.DateChooser",
           control = new qx.ui.toolbar.Button();
           control.addState("nextMonth");
           control.setFocusable(false);
-          control.setToolTip(new qx.ui.tooltip.ToolTip("Next month"));
+          control.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Next month")));
           control.addListener("click", this._onNavButtonClicked, this);
           break;
 
@@ -287,7 +290,7 @@ qx.Class.define("qx.ui.control.DateChooser",
           control = new qx.ui.toolbar.Button();
           control.addState("nextYear");
           control.setFocusable(false);
-          control.setToolTip(new qx.ui.tooltip.ToolTip("Next year"));
+          control.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Next year")));
           control.addListener("click", this._onNavButtonClicked, this);
           break;
 
@@ -350,7 +353,6 @@ qx.Class.define("qx.ui.control.DateChooser",
             label.setAllowGrowY(true);
             label.setAppearance("datechooser-week");
             label.setAnonymous(true);
-            label.setSelectable(false);
             label.setCursor("default");
 
             control.add(label, {column: 0, row: y + 1});
@@ -363,7 +365,6 @@ qx.Class.define("qx.ui.control.DateChooser",
               label.setAllowGrowX(true);
               label.setAllowGrowY(true);
               label.setAppearance("datechooser-day");
-              label.setSelectable(false);
               label.setCursor("default");
 
               label.addListener("mousedown", this._onDayClicked, this);
