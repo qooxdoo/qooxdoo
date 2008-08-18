@@ -216,9 +216,9 @@
 
       "compile-source" :
       {
-        "file" : "${BUILD_PATH}/script/tests-source.js",
+        "file"    : "${BUILD_PATH}/script/tests-source.js",
         "locales" : "${LOCALES}",
-        "root" : "${BUILD_PATH}/html"
+        "root"    : "${BUILD_PATH}/html"
       }
     },
 
