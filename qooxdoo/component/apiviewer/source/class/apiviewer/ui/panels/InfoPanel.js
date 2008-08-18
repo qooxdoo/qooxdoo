@@ -915,7 +915,7 @@ qx.Class.define("apiviewer.ui.panels.InfoPanel", {
         for (var i=0; i<currNodeArr.length; i++)
         {
           var name = currNodeArr[i].getName();
-          if (!fromClassHash[name])
+          if (!(Object.prototype.hasOwnProperty.call(fromClassHash, name)))
           {
             fromClassHash[name] = currClassNode;
             nodeArr.push(currNodeArr[i]);
