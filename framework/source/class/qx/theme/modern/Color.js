@@ -36,6 +36,7 @@ qx.Theme.define("qx.theme.modern.Color",
 
     // core types
     "background-application" : "#DFDFDF",
+    "background-pane" : "#F3F3F3",
     "background-light" : "#FCFCFC",
     "background-medium" : "#EAEAEA",
 

@@ -343,9 +343,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
       style :
       {
-        width : 1,
-        color : "border-separator",
-
         backgroundImage : "decoration/toolbar/toolbar-gradient.png",
         backgroundRepeat : "scale"
       }
@@ -523,11 +520,10 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
       style :
       {
-        backgroundColor : "#f6f6f6",
+        backgroundColor : "background-pane",
 
         width : 1,
-        color : "#00204D",
-
+        color : "border-main",
         widthTop : 0
       }
     },
@@ -558,6 +554,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
         baseImage : "decoration/window/statusbar.png"
       }
     },
+
 
 
 
