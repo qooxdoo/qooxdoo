@@ -439,11 +439,14 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
 
 
+
+
     /*
     ---------------------------------------------------------------------------
       DATEFIELD
     ---------------------------------------------------------------------------
     */
+
     "datefield" : "combobox",
 
     "datefield/button" :
@@ -462,16 +465,20 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
-    "datefield/list" : {
+    "datefield/list" :
+    {
       alias : "datechooser",
       include : "datechooser",
 
-      style : function(states) {
+      style : function(states)
+      {
         return {
           decorator: states.focused ? "focused-inset" : "inset"
         }
       }
     },
+
+
 
 
 

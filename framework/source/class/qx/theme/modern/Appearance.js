@@ -407,7 +407,18 @@ qx.Theme.define("qx.theme.modern.Appearance",
       }
     },
 
-    "datefield/list" : "datechooser",
+    "datefield/list" :
+    {
+      alias : "datechooser",
+      include : "datechooser",
+
+      style : function(states)
+      {
+        return {
+          decorator : "undefined"
+        }
+      }
+    },
 
 
 
