@@ -211,25 +211,22 @@ qx.Class.define("feedreader.Application",
       // Create tree view
       this._treeView = new feedreader.view.Tree(this._feedList);
       this._treeView.setWidth(250);
-      this._treeView.setDecorator("frame");
       this._horizontalSplitPane.add(this._treeView, 0);
 
       // Create vertical splitpane for list and detail view
       this._verticalSplitPane = new qx.ui.splitpane.Pane("vertical");
-      // manually remove the padding
       this._verticalSplitPane.setDecorator(null);
-
       this._horizontalSplitPane.add(this._verticalSplitPane, 1);
 
       // Create the list view
       this._listView = new feedreader.view.List(this._feedList);
       this._listView.setHeight(200);
-      this._listView.setDecorator("frame");
+      this._listView.setDecorator("main");
       this._verticalSplitPane.add(this._listView, 0);
 
       // Create article view
       this._articleView = new feedreader.view.Article();
-      this._articleView.setDecorator("frame");
+      this._articleView.setDecorator("main");
       this._verticalSplitPane.add(this._articleView, 1);
     },
 
