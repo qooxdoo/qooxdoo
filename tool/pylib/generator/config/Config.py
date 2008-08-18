@@ -422,6 +422,10 @@ class Config:
                         # absolutize paths (this might not be the best place to do that)
                         for entry in ('path',):
                             lib[entry] = self.absPath(lib[entry])
+                        # patch uri: set it to 'path' here, let Generator.scanLib append suffix for classes
+                        # and correct it in Generator.runSource, which knows the prefix and relativizes the
+                        # result
+                        lib['uri'] = lib['path']
 
         console.outdent()
 
