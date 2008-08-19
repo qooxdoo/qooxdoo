@@ -32,7 +32,6 @@
  */
 qx.Theme.define("qx.theme.modern.Decoration",
 {
-  title : "Modern",
   resource : "qx/decoration/Modern",
 
   decorations :
@@ -499,7 +498,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
       style :
       {
         backgroundColor : "background-pane",
-        
+
         width : 3,
         color : "background-splitpane",
         style : "solid"
@@ -516,7 +515,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
     ---------------------------------------------------------------------------
     */
 
-    "window-border" :
+    "window" :
     {
       decorator: qx.ui.decoration.Single,
 

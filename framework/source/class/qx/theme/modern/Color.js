@@ -24,8 +24,6 @@
  */
 qx.Theme.define("qx.theme.modern.Color",
 {
-  title : "Modern",
-
   colors :
   {
     /*
@@ -34,10 +32,16 @@ qx.Theme.define("qx.theme.modern.Color",
     ---------------------------------------------------------------------------
     */
 
-    // core types
+    // application, desktop, ...
     "background-application" : "#DFDFDF",
+
+    // pane color for windows, splitpanes, ...
     "background-pane" : "#F3F3F3",
+
+    // textfields, ...
     "background-light" : "#FCFCFC",
+
+    // headers, ...
     "background-medium" : "#EAEAEA",
 
     // splitpane
@@ -95,14 +99,8 @@ qx.Theme.define("qx.theme.modern.Color",
     // tables (vertical line)
     "border-column" : "#CCCCCC",
 
-    // groupbox
-    "border-group" : "#B6B6B6",
-
-    // focus state: text fields
+    // focus state of text fields
     "border-focused" : "#99C3FE",
-
-    // background tabs
-    "border-xxx" : "#667180",
 
 
 
@@ -115,7 +113,6 @@ qx.Theme.define("qx.theme.modern.Color",
 
     "table-pane" : "white",
 
-    // TODO: check these four colors
     "table-focus-indicator" : "#0073FF",
     "table-row-background-focused-selected" : "#084CA6",
     "table-row-background-focused" : "#0053DD",

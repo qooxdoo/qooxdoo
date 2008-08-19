@@ -28,8 +28,6 @@
  */
 qx.Theme.define("qx.theme.modern.Font",
 {
-  title : "Modern",
-
   fonts :
   {
     "default" :

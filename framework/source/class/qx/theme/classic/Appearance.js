@@ -37,8 +37,6 @@
  */
 qx.Theme.define("qx.theme.classic.Appearance",
 {
-  title : "Classic",
-
   appearances :
   {
     /*
