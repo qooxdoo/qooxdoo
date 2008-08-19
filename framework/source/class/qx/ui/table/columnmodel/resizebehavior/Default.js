@@ -19,7 +19,7 @@
 
 /* ************************************************************************
 
-#require(qx.ui.util.ColumnData)
+#require(qx.ui.core.ColumnData)
 
 ************************************************************************ */
 
@@ -108,7 +108,7 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Default",
       check : "Function",
       init : function(obj)
       {
-        return new qx.ui.util.ColumnData();
+        return new qx.ui.core.ColumnData();
       }
     },
 
