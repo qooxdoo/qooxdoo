@@ -113,24 +113,49 @@ qx.Bootstrap.define("qx.bom.Event",
      * This is useful to stop native keybindings, native selection
      * and other native funtionality behind events.
      *
+     * @signature function(e)
      * @param e {Event} Native event object
-     * @return {void}
      */
-    preventDefault : function(e)
+    preventDefault : qx.core.Variant.select("qx.client",
     {
-      if (e.preventDefault) {
+      "gecko" : function(e)
+      {
+        // Firefox 3 does not fire a "contextmenu" event if the mousedown
+        // called "preventDefault" => don't prevent the default behavior for
+        // right clicks.
+        if (
+          qx.bom.client.Engine.VERSION >= 1.9 &&
+          e.type == "mousedown" &&
+          e.button == 2
+        ) {
+          return;
+        }
+        e.preventDefault();
+
+        try
+        {
+          // this allows us to prevent some key press events in IE and Firefox.
+          // See bug #1049
+          e.keyCode = 0;
+        } catch(e) {}
+      },
+
+      "mshtml" : function(e)
+      {
+        try
+        {
+          // this allows us to prevent some key press events in IE and Firefox.
+          // See bug #1049
+          e.keyCode = 0;
+        } catch(e) {}
+
+        e.returnValue = false;
+      },
+
+      "default" : function(e) {
         e.preventDefault();
       }
-
-      try
-      {
-        // this allows us to prevent some key press events in IE and Firefox.
-        // See bug #1049
-        e.keyCode = 0;
-      } catch(e) {}
-
-      e.returnValue = false;
-    },
+    }),
 
 
     /**
