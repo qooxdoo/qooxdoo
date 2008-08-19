@@ -46,7 +46,11 @@ qx.Class.define("testrunner.runner.TestRunner",
   {
     this.base(arguments);
 
-    this.setLayout(new qx.ui.layout.VBox);
+    var layout = new qx.ui.layout.VBox().set({
+      separatorY :"separator-vertical"
+    });
+
+    this.setLayout(layout);
 
     // Dependencies to loggers
     qx.log.appender.Native;
@@ -62,16 +66,11 @@ qx.Class.define("testrunner.runner.TestRunner",
     // Main Pane
     // split
     var mainsplit = new qx.ui.splitpane.Pane("horizontal");
-    mainsplit.setPadding(5, 5, 0, 5);
     this.add(mainsplit, {flex : 1});
     this.mainsplit = mainsplit;
 
     var deco = new qx.ui.decoration.Single().set({
-      backgroundImage  : "decoration/table/header-cell.png",
-      backgroundRepeat : "scale",
-      widthBottom : 1,
-      colorBottom : "border-main",
-      style       : "solid"
+      backgroundColor : "background-medium"
     });
 
     this._labelDeco = deco;
@@ -185,9 +184,6 @@ qx.Class.define("testrunner.runner.TestRunner",
       this.testSuiteUrl.set(
       {
         width       : 300,
-        marginRight : 5,
-        marginTop : 2,
-        marginBottom : 2,
         alignY : "middle"
       });
 
@@ -239,20 +235,24 @@ qx.Class.define("testrunner.runner.TestRunner",
     {
       // Main Container
       var pane = new qx.ui.splitpane.Pane("horizontal");
+      pane.setDecorator(null);
       this.widgets["tabview"] = pane;
 
 
+      var layout = new qx.ui.layout.VBox();
+      layout.setSeparator("separator-vertical");
+
       // First Page
-      var p1 = new qx.ui.container.Composite(new qx.ui.layout.VBox(10)).set({
-        //decorator : "main",
-        width : 400
+      var p1 = new qx.ui.container.Composite(layout).set({
+        width : 400,
+        decorator : "main"
       });
       pane.add(p1, 0);
 
       var caption1 = new qx.ui.basic.Label("Test Results").set({
         font : "bold",
         decorator : this._labelDeco,
-        padding : [4, 3],
+        padding : 5,
         allowGrowX : true,
         allowGrowY : true
       });
@@ -266,17 +266,23 @@ qx.Class.define("testrunner.runner.TestRunner",
 
       // Second Page
       var pane2 = new qx.ui.splitpane.Pane("vertical");
+      pane2.setDecorator(null);
       pane.add(pane2, 1);
 
 
+      var layout2 = new qx.ui.layout.VBox();
+      layout2.setSeparator("separator-vertical");
+
       // Last but not least: IFrame for test runs
-      var pp3 = new qx.ui.container.Composite(new qx.ui.layout.VBox());
+      var pp3 = new qx.ui.container.Composite(layout2).set({
+        decorator : "main"
+      });
       pane2.add(pp3, 1);
 
       var caption3 = new qx.ui.basic.Label("Application under test").set({
         font : "bold",
         decorator : this._labelDeco,
-        padding : [4, 3],
+        padding : 5,
         allowGrowX : true,
         allowGrowY : true
       });
@@ -290,16 +296,22 @@ qx.Class.define("testrunner.runner.TestRunner",
       iframe.set({
         width : 50,
         height : 50,
-        zIndex : 5
+        zIndex : 5,
+        decorator : null
       });
 
       // Get the TestLoader from the Iframe (in the event handler)
       iframe.addListener("load", this._ehIframeOnLoad, this);
 
 
+
+      var layout3 = new qx.ui.layout.VBox();
+      layout3.setSeparator("separator-vertical");
+
+
       // log frame
-      var pp2 = new qx.ui.container.Composite(new qx.ui.layout.VBox()).set({
-        //decorator : "main"
+      var pp2 = new qx.ui.container.Composite(layout3).set({
+        decorator : "main"
       });
       pane2.add(pp2, 1);
 
@@ -347,14 +359,17 @@ qx.Class.define("testrunner.runner.TestRunner",
      */
     __makeLeft : function()
     {
-      var container = new qx.ui.container.Composite(new qx.ui.layout.VBox).set({
-        //decorator : "main"
+      var layout = new qx.ui.layout.VBox();
+      layout.setSeparator("separator-vertical");
+
+      var container = new qx.ui.container.Composite(layout).set({
+        decorator : "main"
       });
 
       var caption = new qx.ui.basic.Label("Tests").set({
         font : "bold",
         decorator : this._labelDeco,
-        padding : [4, 3],
+        padding : 5,
         allowGrowX : true,
         allowGrowY : true
       });
@@ -402,8 +417,8 @@ qx.Class.define("testrunner.runner.TestRunner",
       progress.add(labelBox);
 
       progressb.set({
-        barColor       : "#ffffff",
-        marginBottom   : 8
+        barColor : "#ffffff",
+        margin : 5
       });
 
       this.widgets["progresspane"] = progress;
@@ -461,8 +476,9 @@ qx.Class.define("testrunner.runner.TestRunner",
     {
       var layout = new qx.ui.layout.HBox(10);
       var statuspane = new qx.ui.container.Composite(layout);
-      statuspane.setPadding(2, 2, 2, 7);
-      statuspane.setMarginTop(2)
+      statuspane.set({
+        margin : 4
+      });
 
       // Test Info
       statuspane.add(new qx.ui.basic.Label("Selected Test: ").set({
