@@ -2135,8 +2135,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       {
         return {
           decorator : "table-statusbar",
-          paddingLeft : 2,
-          paddingRight : 2
+          padding   : [ 0, 2 ]
         };
       }
     },
@@ -2165,7 +2164,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          decorator       : "table-scroller-header"
+          decorator : "table-scroller-header"
         };
       }
     },
@@ -2195,8 +2194,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          backgroundColor: "#D6D5D9",
-          width: 3
+          backgroundColor : "border-separator",
+          width : 2
         };
       }
     },
@@ -2207,10 +2206,9 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          minWidth : 40,
+          minWidth  : 40,
           minHeight : 25,
-          padding   : [ 3, 4 ],
-          marginBottom : states.hovered ? 0 : 1,
+          padding   : states.hovered ? [ 3, 4, 2, 4 ] : [ 3, 4 ],
           decorator : states.hovered ? "table-header-cell-hovered" : "table-header-cell",
           sortIcon  : states.sorted ?
               (states.sortedAscending ? "decoration/table/ascending.png" : "decoration/table/descending.png")
