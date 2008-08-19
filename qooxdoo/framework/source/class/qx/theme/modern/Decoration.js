@@ -595,31 +595,26 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
     "table-header-cell" :
     {
-      decorator :  qx.ui.decoration.Double,
+      decorator :  qx.ui.decoration.Single,
 
-   "table-header-cell" :
-   {
-     decorator :  qx.ui.decoration.Single,
-
+      style :
+      {
         widthRight : 1,
-        colorRight : "#F2F2F2",
+        colorRight : "border-separator",
+       
+        style      : "solid"
+      }
+    },
 
-       widthRight : 1,
-       colorRight : "border-separator",
-
+    
     "table-header-cell-hovered" :
     {
-      decorator :  qx.ui.decoration.Double,
+      decorator :  qx.ui.decoration.Single,
 
-   "table-header-cell-hovered" :
-   {
-     decorator :  qx.ui.decoration.Single,
-
+      style :
+      {
         widthRight : 1,
-        colorRight : "#F2F2F2",
-
-       widthRight : 1,
-       colorRight : "border-separator",
+        colorRight : "border-separator",
 
         style      : "solid"
       }
