@@ -335,7 +335,9 @@ qx.Class.define("feedreader.Application",
         this._prefWindow = new feedreader.view.PreferenceWindow();
         this.getRoot().add(this._prefWindow);
       }
+
       // open the window
+      this._prefWindow.center();
       this._prefWindow.open();
     },
 
@@ -362,6 +364,7 @@ qx.Class.define("feedreader.Application",
       }
 
       // open the window
+      this._addFeedWindow.center();
       this._addFeedWindow.open();
     },
 
