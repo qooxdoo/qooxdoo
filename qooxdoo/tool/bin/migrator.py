@@ -134,7 +134,8 @@ def getPatchDirectory():
     Returns the directory where the patches are located
     """
     basePath = os.path.dirname(os.path.abspath(sys.argv[0]))
-    return os.path.join(basePath, os.pardir, 'framework', 'tool', "migration")
+    return os.path.normpath(
+        os.path.join(basePath, os.pardir, os.pardir, 'framework', 'tool', "migration"))
 
 
 
@@ -570,7 +571,7 @@ NOTE:    It is advised to do a 'make distclean' before migrating any files.
 Do you want to run 'make distclean' now? [yes] : """)
 
     if choice.lower() in ["j", "ja", "y", "yes", ""]:
-        os.system("make distclean")
+        os.system("python ./generate.py distclean")
 
     choice = raw_input("""
 
