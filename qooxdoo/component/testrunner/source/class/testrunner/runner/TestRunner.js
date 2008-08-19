@@ -70,7 +70,7 @@ qx.Class.define("testrunner.runner.TestRunner",
       backgroundImage  : "decoration/table/header-cell.png",
       backgroundRepeat : "scale",
       widthBottom : 1,
-      colorBottom : "border-dark",
+      colorBottom : "border-main",
       style       : "solid"
     });
     
