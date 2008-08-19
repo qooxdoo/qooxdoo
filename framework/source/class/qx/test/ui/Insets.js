@@ -50,7 +50,7 @@ qx.Class.define("qx.test.ui.Insets",
       var widget = new qx.ui.core.Widget();
       this.getRoot().add(widget);
 
-      var deco = new qx.ui.decoration.Single(0);
+      var deco = new qx.ui.decoration.Background();
       widget.setDecorator(deco);
       this.assertPadding(widget, 0, 0, 0, 0);
 

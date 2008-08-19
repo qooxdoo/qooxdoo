@@ -29,6 +29,38 @@ qx.Class.define("qx.ui.decoration.Double",
 
 
 
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
+  /**
+   * @param width {Integer} Width of the border
+   * @param style {String} Any supported border style
+   * @param color {Color} The border color
+   * @param innerWidth {String} Width of the inner border
+   * @param innerColor {Color} The inner border color
+   */
+  construct : function(width, style, color, innerWidth, innerColor)
+  {
+    this.base(arguments, width, style, color, innerWidth, innerColor);
+
+    // Initialize properties
+    if (innerWidth != null) {
+      this.setInnerWidth(innerWidth);
+    }
+
+    if (innerColor != null) {
+      this.setInnerColor(innerColor);
+    }
+  },
+
+
+
+
+
   /*
   *****************************************************************************
      PROPERTIES
