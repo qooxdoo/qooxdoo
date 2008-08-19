@@ -47,7 +47,7 @@ qx.Class.define("testrunner.runner.TestRunner",
     this.base(arguments);
 
     var layout = new qx.ui.layout.VBox().set({
-      separatorY :"separator-vertical"
+      separator :"separator-vertical"
     });
 
     this.setLayout(layout);
@@ -207,7 +207,7 @@ qx.Class.define("testrunner.runner.TestRunner",
       var part = new qx.ui.toolbar.Part();
       //part.setVerticalChildrenAlign("middle");
       toolbar.add(part);
-      this.reloadswitch = new qx.ui.toolbar.CheckBox("Reload before Test", "testrunner/image/yellow_diamond_hollow18.gif");
+      this.reloadswitch = new qx.ui.toolbar.CheckBox("Auto Reload", "testrunner/image/yellow_diamond_hollow18.gif");
       part.add(this.reloadswitch);
       this.reloadswitch.setShow("both");
       this.reloadswitch.setToolTip(new qx.ui.tooltip.ToolTip("Always reload test backend before testing"));
@@ -408,6 +408,8 @@ qx.Class.define("testrunner.runner.TestRunner",
       var layout = new qx.ui.layout.VBox();
       var progress = new qx.ui.container.Composite(layout);
       progress.setMarginLeft(10)
+
+
       var labelBox = new qx.ui.container.Composite(new qx.ui.layout.HBox(10));
       labelBox.setPadding(2);
       labelBox.setMarginTop(2)
