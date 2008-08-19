@@ -2263,7 +2263,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
       {
         return {
           decorator : "undefined",
-          padding : [ 2, 2 ]
+          padding : [ 2, 2 ],
+          backgroundColor : "background-light"
         };
       }
     },
@@ -2276,7 +2277,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          padding : [ 0, 2 ]
+          padding : [ 0, 2 ],
+          backgroundColor : "background-light"
         };
       }
     },
@@ -2289,7 +2291,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          decorator : "undefined"
+          decorator : "undefined",
+          backgroundColor : "background-light"
         };
       }
     },
