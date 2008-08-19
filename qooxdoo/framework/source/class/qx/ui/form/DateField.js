@@ -274,6 +274,11 @@ qx.Class.define("qx.ui.form.DateField",
         return;
       }
 
+      // Stop navigation keys when popup is open
+      if (iden === "Left" || iden === "Right" || iden === "Down" || iden === "Up") {
+        e.preventDefault();
+      }
+
       // forward the rest of the events to the date chooser
       this._getChildControl("list").handleKeyPress(e);
     }
