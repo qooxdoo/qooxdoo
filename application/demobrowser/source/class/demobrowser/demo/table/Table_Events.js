@@ -20,6 +20,9 @@
 /* ************************************************************************
 
 #asset(qx/icon/${qx.icontheme}/22/actions/media-record.png)
+#asset(qx/icon/${qx.icontheme}/16/actions/edit-cut.png)
+#asset(qx/icon/${qx.icontheme}/16/actions/edit-copy.png)
+#asset(qx/icon/${qx.icontheme}/16/actions/edit-paste.png)
 
 ************************************************************************ */
 
@@ -105,6 +108,8 @@ qx.Class.define("demobrowser.demo.table.Table_Events",
       table.addListener("cellDblclick", logCellEvent, this);
       table.addListener("cellContextmenu", logCellEvent, this);
 
+      table.setContextMenu(this.getContextMenu());
+
       return table;
     },
 
@@ -135,6 +140,22 @@ qx.Class.define("demobrowser.demo.table.Table_Events",
       }, this);
 
       return bar;
+    },
+
+
+    getContextMenu : function()
+    {
+      var menu = new qx.ui.menu.Menu();
+
+      var cutButton = new qx.ui.menu.Button("Cut", "icon/16/actions/edit-cut.png");
+      var copyButton = new qx.ui.menu.Button("Copy", "icon/16/actions/edit-copy.png");
+      var pasteButton = new qx.ui.menu.Button("Paste", "icon/16/actions/edit-paste.png");
+
+      menu.add(cutButton);
+      menu.add(copyButton);
+      menu.add(pasteButton);
+
+      return menu;
     }
   }
 });
