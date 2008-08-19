@@ -260,7 +260,7 @@ qx.Class.define("qx.ui.form.Spinner",
           control = new qx.ui.form.RepeatButton();
           control.addState("inner");
           control.setFocusable(false);
-          control.addListener("execute", this._countUp, this);
+          control.addListener("execute", this.__countUp, this);
           this._add(control, {column: 1, row: 0});
           break;
 
@@ -268,7 +268,7 @@ qx.Class.define("qx.ui.form.Spinner",
           control = new qx.ui.form.RepeatButton();
           control.addState("inner");
           control.setFocusable(false);
-          control.addListener("execute", this._countDown, this);
+          control.addListener("execute", this.__countDown, this);
           this._add(control, {column:1, row: 1});
           break;
       }
@@ -455,6 +455,8 @@ qx.Class.define("qx.ui.form.Spinner",
     },
 
 
+
+
     /*
     ---------------------------------------------------------------------------
       KEY EVENT-HANDLING
@@ -549,8 +551,12 @@ qx.Class.define("qx.ui.form.Spinner",
      */
     _onMouseWheel: function(e)
     {
-      var direction = e.getWheelDelta() > 0 ? -1 : 1;
-      this.gotoValue(this.getValue() + (direction * this.getSingleStep()));
+      if (e.getWheelDelta() > 0) {
+        this.__countDown();
+      } else {
+        this.__countUp();
+      }
+
       e.stopPropagation();
     },
 
@@ -628,7 +634,7 @@ qx.Class.define("qx.ui.form.Spinner",
      * or page Step up.
      *
      */
-    _countUp: function()
+    __countUp: function()
     {
       if (this.__pageUpMode) {
         var newValue = this.getValue() + this.getPageStep();
@@ -655,7 +661,7 @@ qx.Class.define("qx.ui.form.Spinner",
      * or page Step down.
      *
      */
-    _countDown: function()
+    __countDown: function()
     {
       if (this.__pageDownMode) {
         var newValue = this.getValue() - this.getPageStep();
