@@ -75,7 +75,7 @@ qx.Class.define("qx.event.type.Native",
 
 
     /**
-     * Prevent browser default behaviour, e.g. opening the context menu, ...
+     * Prevent browser default behavior, e.g. opening the context menu, ...
      */
     preventDefault : function()
     {
