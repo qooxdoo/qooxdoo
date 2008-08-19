@@ -52,10 +52,8 @@ qx.Class.define("demobrowser.demo.widget.ColorPopup",
       });
 
       var myview = new qx.ui.basic.Label("Selected Color").set({
-        marginLeft: 40,
+        marginLeft: 10,
         padding : [3, 6],
-        width : 120,
-        height : 30,
         decorator : "main"
       });
 
