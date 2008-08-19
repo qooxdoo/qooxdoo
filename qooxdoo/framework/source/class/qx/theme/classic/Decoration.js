@@ -24,14 +24,13 @@
 
 #asset(qx/decoration/Classic/*)
 
-************************************************************************ */
+************************************************************************* */
 
 /**
  * The classic qooxdoo decoration theme.
  */
 qx.Theme.define("qx.theme.classic.Decoration",
 {
-  title : "Classic",
   resource : "qx/decoration/Classic",
 
   decorations :

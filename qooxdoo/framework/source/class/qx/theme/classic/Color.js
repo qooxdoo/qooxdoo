@@ -23,12 +23,8 @@
  */
 qx.Theme.define("qx.theme.classic.Color",
 {
-  title : "Windows Classic",
-
   colors :
   {
-
-
     "background" : "#EBE9ED",
     "background-light" : "#F3F0F5",
     "background-focused" : "#F3F8FD",
