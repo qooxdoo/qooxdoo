@@ -78,9 +78,10 @@ qx.Class.define("qx.ui.treevirtual.SelectionManager",
         case 0:
           break;
 
-        case qx.event.type.DomEvent.SHIFT_MASK:
+        case qx.event.type.Dom.SHIFT_MASK:
           var anchor = selectionModel.getAnchorSelectionIndex();
 
+this.warn("anchor=" + anchor + ", index=" + index);
           if (anchor == -1) {
             selectionModel.setSelectionInterval(index, index);
           } else {
