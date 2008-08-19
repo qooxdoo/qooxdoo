@@ -39,7 +39,10 @@
 qx.Class.define("qx.ui.tree.Tree",
 {
   extend : qx.ui.core.AbstractScrollArea,
-  include : [ qx.ui.core.MSelectionHandling ],
+  include : [
+    qx.ui.core.MSelectionHandling,
+    qx.ui.core.MContentPadding
+  ],
 
 
   /*
@@ -152,21 +155,6 @@ qx.Class.define("qx.ui.tree.Tree",
       apply : "_applyRootOpenClose"
     },
 
-
-    /**
-     * The padding of the tree content pane. Don't use the
-     * {@link qx.ui.core.Widget#padding} property because this would move the
-     * scrollbars as well.
-     */
-    contentPadding :
-    {
-      check : "Array",
-      nullable : true,
-      init : null,
-      apply : "_applyContentPadding",
-      themeable : true
-    },
-
     // overridden
     appearance :
     {
@@ -273,12 +261,13 @@ qx.Class.define("qx.ui.tree.Tree",
     },
 
 
-    // property apply
-    _applyContentPadding : function(value, old)
-    {
-      if (value) {
-        this.__content.setPadding(value);
-      }
+    /**
+     * Returns the element, to which the content padding should be applied.
+     *
+     * @return {qx.ui.core.Widget} The content padding target.
+     */
+    _getContentPaddingTarget : function() {
+      return this.__content;
     },
 
 
