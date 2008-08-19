@@ -20,13 +20,9 @@
 ************************************************************************ */
 
 /* ************************************************************************
-#asset(qx/icon/${qx.icontheme}/16/apps/video-player.png)
-#asset(qx/icon/${qx.icontheme}/16/apps/photo-album.png)
-#asset(qx/icon/${qx.icontheme}/16/actions/view-refresh.png)
-#asset(qx/icon/${qx.icontheme}/16/actions/media-playback-start.png)
-#asset(qx/icon/${qx.icontheme}/16/apps/network-manager.png)
-#asset(qx/icon/${qx.icontheme}/16/apps/preferences-display.png)
-
+#asset(qx/icon/${qx.icontheme}/22/actions/media-playback-start.png)
+#asset(qx/icon/${qx.icontheme}/22/actions/view-refresh.png)
+#asset(qx/icon/${qx.icontheme}/22/actions/system-run.png)
 ************************************************************************ */
 
 /**
@@ -165,26 +161,39 @@ qx.Class.define("testrunner.runner.TestRunner",
     {
       var toolbar = new qx.ui.toolbar.ToolBar;
 
+      var part1 = new qx.ui.toolbar.Part();
+      toolbar.add(part1);
+
       // -- run button
-      this.runbutton = new qx.ui.toolbar.Button(null, "icon/16/actions/media-playback-start.png");
-      toolbar.add(this.runbutton);
+      this.runbutton = new qx.ui.toolbar.Button(null, "icon/22/actions/media-playback-start.png");
+      part1.add(this.runbutton);
+
+      // -- reload button
+      this.reloadbutton = new qx.ui.toolbar.Button(null, "icon/22/actions/view-refresh.png");
+      part1.add(this.reloadbutton);
+      this.reloadbutton.setToolTip(new qx.ui.tooltip.ToolTip("Reload application under test"));
+      this.reloadbutton.addListener("execute", this.reloadTestSuite, this);
+
       this.widgets["toolbar.runbutton"] = this.runbutton;
       this.runbutton.addListener("execute", this.runTest, this);
       this.runbutton.setToolTip(new qx.ui.tooltip.ToolTip("Run selected test(s)"));
-
-      toolbar.add(new qx.ui.toolbar.Separator);
 
       var testUri   = qx.core.Setting.get("qx.testPageUri");
       var nameSpace = qx.core.Setting.get("qx.testNameSpace");
       this.__testSuiteUrl = testUri+"?testclass="+nameSpace;
       this.testSuiteUrl = new qx.ui.form.TextField(this.__testSuiteUrl);
-      toolbar.add(this.testSuiteUrl);
-      this.testSuiteUrl.setToolTip(new qx.ui.tooltip.ToolTip("Test backend application URL"));
+
+      var part2 = new qx.ui.toolbar.Part();
+      toolbar.add(part2);
+
+      part2.add(this.testSuiteUrl);
+      this.testSuiteUrl.setToolTip(new qx.ui.tooltip.ToolTip("Application under test URL"));
 
       this.testSuiteUrl.set(
       {
-        width       : 300,
-        alignY : "middle"
+        width : 300,
+        alignY : "middle",
+        marginLeft : 3
       });
 
       this.testSuiteUrl.addListener("keydown", function(e)
@@ -195,32 +204,15 @@ qx.Class.define("testrunner.runner.TestRunner",
       },
       this);
 
-      // -- reload button
-      this.reloadbutton = new qx.ui.toolbar.Button(null, "icon/16/actions/view-refresh.png");
-      toolbar.add(this.reloadbutton);
-      this.reloadbutton.setToolTip(new qx.ui.tooltip.ToolTip("Reload test backend application"));
-      this.reloadbutton.addListener("execute", this.reloadTestSuite, this);
-
       toolbar.addSpacer();
 
       // -- reload switch
-      var part = new qx.ui.toolbar.Part();
-      //part.setVerticalChildrenAlign("middle");
-      toolbar.add(part);
-      this.reloadswitch = new qx.ui.toolbar.CheckBox("Auto Reload", "testrunner/image/yellow_diamond_hollow18.gif");
-      part.add(this.reloadswitch);
+      var part3 = new qx.ui.toolbar.Part();
+      toolbar.add(part3);
+      this.reloadswitch = new qx.ui.toolbar.CheckBox("Auto Reload", "icon/22/actions/system-run.png");
+      part3.add(this.reloadswitch);
       this.reloadswitch.setShow("both");
-      this.reloadswitch.setToolTip(new qx.ui.tooltip.ToolTip("Always reload test backend before testing"));
-
-      this.reloadswitch.addListener("changeChecked", function(e)
-      {
-        if (this.reloadswitch.getChecked()) {
-          this.reloadswitch.setIcon("testrunner/image/yellow_diamond_full18.gif");
-        } else {
-          this.reloadswitch.setIcon("testrunner/image/yellow_diamond_hollow18.gif");
-        }
-      },
-      this);
+      this.reloadswitch.setToolTip(new qx.ui.tooltip.ToolTip("Always reload application under test before testing"));
 
       return toolbar;
     },  // makeToolbar
