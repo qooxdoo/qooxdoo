@@ -3702,8 +3702,8 @@ qx.Class.define("qx.ui.core.Widget",
   {
     this._disposeChildControls();
     this._disposeArray("__widgetChildren");
+    this._disposeFields("__states");
     this._disposeObjects(
-      "__states",
       "__containerElement",
       "__contentElement",
       "__decoratorElement",
