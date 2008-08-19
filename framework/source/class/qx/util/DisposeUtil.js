@@ -64,7 +64,7 @@ qx.Class.define("qx.util.DisposeUtil",
       {
         var name = arr[i]
 
-        if (obj[name] == null || !this.hasOwnProperty(name)) {
+        if (obj[name] == null || !obj.hasOwnProperty(name)) {
           continue;
         }
 
