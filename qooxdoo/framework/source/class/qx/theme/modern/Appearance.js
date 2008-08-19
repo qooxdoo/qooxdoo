@@ -149,7 +149,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       {
         var decorator, textColor;
 
-        if (states.checked && states.focused)
+        if (states.checked && states.focused && !states.inner)
         {
           decorator = "button-checked-focused";
           textColor = "text-label";
@@ -169,7 +169,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
           decorator = "button-hovered";
           textColor = "text-hovered";
         }
-        else if (states.preselected && states.focused)
+        else if (states.preselected && states.focused && !states.inner)
         {
           decorator = "button-preselected-focused";
           textColor = "text-hovered";
@@ -179,7 +179,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
           decorator = "button-preselected";
           textColor = "text-hovered";
         }
-        else if (states.focused)
+        else if (states.focused && !states.inner)
         {
           decorator = "button-focused";
           textColor = "text-label";
