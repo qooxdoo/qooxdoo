@@ -149,28 +149,43 @@ qx.Theme.define("qx.theme.modern.Appearance",
       {
         var decorator, textColor;
 
-        if (states.checked && states.focused) {
+        if (states.checked && states.focused)
+        {
           decorator = "button-checked-focused";
           textColor = "text-label";
-        } else if (states.checked) {
+        }
+        else if (states.checked)
+        {
           decorator = "button-checked";
           textColor = "text-label";
-        } else if (states.pressed) {
+        }
+        else if (states.pressed)
+        {
           decorator = "button-pressed";
           textColor = "text-hovered";
-        } else if (states.hovered) {
+        }
+        else if (states.hovered)
+        {
           decorator = "button-hovered";
           textColor = "text-hovered";
-        } else if (states.preselected && states.focused) {
+        }
+        else if (states.preselected && states.focused)
+        {
           decorator = "button-preselected-focused";
           textColor = "text-hovered";
-        } else if (states.preselected) {
+        }
+        else if (states.preselected)
+        {
           decorator = "button-preselected";
           textColor = "text-hovered";
-        } else if (states.focused) {
+        }
+        else if (states.focused)
+        {
           decorator = "button-focused";
           textColor = "text-label";
-        } else {
+        }
+        else
+        {
           decorator = "button";
           textColor = "text-label";
         }
