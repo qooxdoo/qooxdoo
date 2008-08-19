@@ -55,7 +55,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
     "selected" :
     {
-      decorator : qx.ui.decoration.Single,
+      decorator : qx.ui.decoration.Background,
 
       style :
       {
@@ -68,7 +68,8 @@ qx.Theme.define("qx.theme.modern.Decoration",
     {
       decorator : qx.ui.decoration.Grid,
 
-      style : {
+      style :
+      {
         baseImage : "decoration/pane/pane.png",
         insets    : [0, 2, 3, 0]
       }
@@ -155,7 +156,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
     "scrollbar-horizontal" :
     {
-      decorator : qx.ui.decoration.Uniform,
+      decorator : qx.ui.decoration.Background,
 
       style :
       {
@@ -166,7 +167,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
     "scrollbar-vertical" :
     {
-      decorator : qx.ui.decoration.Uniform,
+      decorator : qx.ui.decoration.Background,
 
       style :
       {
@@ -327,7 +328,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
     "toolbar" :
     {
-      decorator : qx.ui.decoration.Uniform,
+      decorator : qx.ui.decoration.Background,
 
       style :
       {
@@ -381,7 +382,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
     "toolbar-part" :
     {
-      decorator : qx.ui.decoration.Uniform,
+      decorator : qx.ui.decoration.Background,
 
       style :
       {
@@ -601,12 +602,11 @@ qx.Theme.define("qx.theme.modern.Decoration",
       {
         widthRight : 1,
         colorRight : "border-separator",
-       
-        style      : "solid"
+        styleRight : "solid"
       }
     },
 
-    
+
     "table-header-cell-hovered" :
     {
       decorator :  qx.ui.decoration.Single,
@@ -615,11 +615,11 @@ qx.Theme.define("qx.theme.modern.Decoration",
       {
         widthRight : 1,
         colorRight : "border-separator",
-        
+        styleRight : "solid",
+
         widthBottom : 1,
         colorBottom : "white",
-
-        style      : "solid"
+        styleBottom : "solid"
       }
     },
 
