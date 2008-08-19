@@ -96,9 +96,9 @@ qx.Mixin.define("qx.ui.core.MExecutable",
       {
         value.addListener("changeEnabled", this._onChangeEnabledCommand, this);
 
-        if (!this.getEnabled()) {
+        if (this.getEnabled() === false) {
           value.setEnabled(false);
-        } else if (!value.getEnabled()) {
+        } else if (value.getEnabled() === false) {
           this.setEnabled(false);
         }
       }
