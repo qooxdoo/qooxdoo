@@ -128,7 +128,7 @@ qx.Class.define("qx.ui.progressive.headfoot.TableHeading",
       }
       else
       {
-        return this.getChildren();
+        return this.base(arguments);
       }
     },
 
