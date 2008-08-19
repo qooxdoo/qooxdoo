@@ -144,9 +144,9 @@ qx.Class.define("qx.ui.progressive.headfoot.TableHeading",
      */
     _resizeColumns : function(e)
     {
+this.warn("_resizeColumns called with width=" + this.getBounds().width);
       var width =
         this.getBounds().width - qx.bom.element.Overflow.getScrollbarWidth();
-this.warn("_resizeColumns called with width=" + width);
 
       // Compute the column widths
       this.__bCalculateWidths = true;
