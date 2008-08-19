@@ -40,7 +40,7 @@ qx.Class.define("qx.test.ui.BackgroundColor",
       this.assertStyle(widget, "backgroundColor", "");
 
       this.getRoot().remove(widget);
-      widget.dispose();
+      widget.destroy();
     },
 
 
@@ -80,7 +80,7 @@ qx.Class.define("qx.test.ui.BackgroundColor",
       this.assertStyle(widget, "backgroundColor", "red");
 
       // only create on demand
-      this.assertUndefined(widget._decorationElement);
+      this.assertNull(widget.getDecoratorElement());
 
       // set decoration
       var deco = new qx.ui.decoration.Single(1);
@@ -105,7 +105,7 @@ qx.Class.define("qx.test.ui.BackgroundColor",
       this.assertStyle(widget, "backgroundColor", "");
 
       // only create on demand
-      this.assertUndefined(widget._decorationElement);
+      this.assertNull(widget.getDecoratorElement());
 
       // set decoration
       var deco = new qx.ui.decoration.Single(1);
@@ -171,6 +171,7 @@ qx.Class.define("qx.test.ui.BackgroundColor",
       deco.setBackgroundColor("red");
       widget.setDecorator(deco);
       // widget color taks preference over decorator color
+
       this.assertDecoratorStyle(widget, "backgroundColor", "green");
       this.assertStyle(widget, "backgroundColor", "");
 

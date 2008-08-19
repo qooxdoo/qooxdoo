@@ -57,6 +57,8 @@ qx.Class.define("qx.test.ui.ChildrenHandling",
       qx.lang.Array.remove(children, child);
       children.push(child);
       this.assertArrayEquals(children, parent.getChildren());
+
+      parent.destroy();
     }
   }
 });

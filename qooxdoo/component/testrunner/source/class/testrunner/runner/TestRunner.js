@@ -73,7 +73,7 @@ qx.Class.define("testrunner.runner.TestRunner",
       colorBottom : "border-main",
       style       : "solid"
     });
-    
+
     this._labelDeco = deco;
 
     // Left -- is done when iframe is loaded
@@ -97,26 +97,10 @@ qx.Class.define("testrunner.runner.TestRunner",
     // Log Appender
     this.debug("This should go to the dedicated log window ...");
 
-    // Last but not least:
-    // Hidden IFrame for test runs (will be added to statusbar)
-    var iframe = new qx.ui.embed.Iframe;
-    iframe.setSource(null)
-    this.iframe = iframe;
-
-    iframe.set({
-      width  : 0,
-      height : 0,
-      zIndex : 5
-    });
-
     // status
     var statuspane = this.__makeStatus();
     this.widgets["statuspane"] = statuspane;
     this.add(statuspane);
-
-
-    // Get the TestLoader from the Iframe (in the event handler)
-    iframe.addListener("load", this._ehIframeOnLoad, this);
   },
 
 
@@ -256,14 +240,14 @@ qx.Class.define("testrunner.runner.TestRunner",
       // Main Container
       var pane = new qx.ui.splitpane.Pane("horizontal");
       this.widgets["tabview"] = pane;
+
+
+      // First Page
       var p1 = new qx.ui.container.Composite(new qx.ui.layout.VBox(10)).set({
         //decorator : "main",
         width : 400
       });
-      
-      var p2 = new qx.ui.container.Composite(new qx.ui.layout.VBox()).set({
-        //decorator : "main"
-      });
+      pane.add(p1, 0);
 
       var caption1 = new qx.ui.basic.Label("Test Results").set({
         font : "bold",
@@ -272,7 +256,53 @@ qx.Class.define("testrunner.runner.TestRunner",
         allowGrowX : true,
         allowGrowY : true
       });
-      
+      p1.add(caption1);
+
+      var f1 = new testrunner.runner.TestResultView();
+      this.f1 = f1;
+      p1.add(this._progress);
+      p1.add(f1, {flex : 1});
+
+
+      // Second Page
+      var pane2 = new qx.ui.splitpane.Pane("vertical");
+      pane.add(pane2, 1);
+
+
+      // Last but not least: IFrame for test runs
+      var pp3 = new qx.ui.container.Composite(new qx.ui.layout.VBox());
+      pane2.add(pp3, 1);
+
+      var caption3 = new qx.ui.basic.Label("Application under test").set({
+        font : "bold",
+        decorator : this._labelDeco,
+        padding : [4, 3],
+        allowGrowX : true,
+        allowGrowY : true
+      });
+      pp3.add(caption3);
+
+      var iframe = new qx.ui.embed.Iframe();
+      iframe.setSource(null);
+      this.iframe = iframe;
+      pp3.add(iframe, {flex: 1});
+
+      iframe.set({
+        width : 50,
+        height : 50,
+        zIndex : 5
+      });
+
+      // Get the TestLoader from the Iframe (in the event handler)
+      iframe.addListener("load", this._ehIframeOnLoad, this);
+
+
+      // log frame
+      var pp2 = new qx.ui.container.Composite(new qx.ui.layout.VBox()).set({
+        //decorator : "main"
+      });
+      pane2.add(pp2, 1);
+
       var caption2 = new qx.ui.basic.Label("Log").set({
         font : "bold",
         decorator : this._labelDeco,
@@ -280,37 +310,7 @@ qx.Class.define("testrunner.runner.TestRunner",
         allowGrowX : true,
         allowGrowY : true
       });
-
-      pane.add(p1, 0);
-      pane.add(p2, 1);
-      
-      p1.add(caption1);
-      p2.add(caption2);
-
-      // First Page
-      var f1 = new testrunner.runner.TestResultView();
-
-      this.f1 = f1;
-      p1.add(this._progress);
-      p1.add(f1, {flex : 1});
-
-      // Second Page
-      var pp2 = new qx.ui.container.Composite(new qx.ui.layout.VBox(20));
-      p2.add(pp2, {flex : 1});
-
-      // toolbar
-      /*
-      var ff1_b1 = new qx.ui.form.Button("Clear");
-      ff1_b1.set({
-        allowGrowX : false,
-        alignX : "right"
-      });
-      ff1_b1.addListener("execute", function(e) {
-        this.logelem.innerHTML = "";
-      }, this);
-
-      pp2.add(ff1_b1);
-      */
+      pp2.add(caption2);
 
       // main output area
       this.f2 = new qx.ui.embed.Html('');
@@ -318,7 +318,7 @@ qx.Class.define("testrunner.runner.TestRunner",
         backgroundColor : "white",
         overflowY : "scroll"
       });
-      pp2.add(this.f2, {flex:1});
+      pp2.add(this.f2, {flex: 1});
       this.f2.getContentElement().setAttribute("id", "sessionlog");
 
       // log appender
@@ -332,6 +332,7 @@ qx.Class.define("testrunner.runner.TestRunner",
       this.f2.addListenerOnce("appear", function(){
         this.f2.getContentElement().getDomElement().appendChild(this.logelem);
       }, this);
+
 
       return pane;
     },  // makeOutputViews
@@ -418,9 +419,9 @@ qx.Class.define("testrunner.runner.TestRunner",
         textAlign : "right"
       });
       labelBox.add(queuecnt);
-      
-      
-      
+
+
+
       labelBox.add(new qx.ui.basic.Label("Failed: ").set({
         alignY : "middle"
       }));
@@ -473,8 +474,8 @@ qx.Class.define("testrunner.runner.TestRunner",
         readOnly : true
       });
       statuspane.add(l1);
-      
-      
+
+
       this.widgets["statuspane.current"] = l1;
       statuspane.add(new qx.ui.basic.Label("Number of Tests: ").set({
         alignY : "middle"
@@ -501,11 +502,6 @@ qx.Class.define("testrunner.runner.TestRunner",
       this.widgets["statuspane.systeminfo"] = l3;
       this.widgets["statuspane.systeminfo"].setContent("Loading...");
 
-
-      statuspane.add(this.iframe);
-      this.iframe.setDecorator(null)
-
-      
       return statuspane;
     },  // makeStatus
 
@@ -810,7 +806,7 @@ qx.Class.define("testrunner.runner.TestRunner",
           var state = that.currentTestData.getState();
 
           this.__fetchLog();
-          
+
           if (state == "start")
           {
             that.currentTestData.setState("success");
@@ -987,7 +983,7 @@ qx.Class.define("testrunner.runner.TestRunner",
 
       this.loader = this.frameWindow.testrunner.TestLoader.getInstance();
       // Avoid errors in slow browsers
-      
+
       if(
         qx.bom.client.Engine.GECKO &&
         (qx.bom.client.Engine.VERSION < 1.9) &&
@@ -1087,7 +1083,7 @@ qx.Class.define("testrunner.runner.TestRunner",
     appender : function(str) {
 
     },
-    
+
     __fetchLog : function()
     {
       var w = this.iframe.getWindow();
@@ -1099,10 +1095,10 @@ qx.Class.define("testrunner.runner.TestRunner",
 
         // Register to flush the log queue into the appender.
         logger.register(this.logappender)
-  
+
         // Clear buffer
         logger.clear();
-  
+
         // Unregister again, so that the logger can flush again the next time the tab is clicked.
         logger.unregister(this.logappender);
       }

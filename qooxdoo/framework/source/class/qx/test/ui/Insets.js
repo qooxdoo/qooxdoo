@@ -63,19 +63,25 @@ qx.Class.define("qx.test.ui.Insets",
     {
       var widget = new qx.ui.core.Widget();
       this.getRoot().add(widget);
+      var deco;
 
+      debugger;
       this.assertPadding(widget, 0, 0, 0, 0);
 
-      var deco = new qx.ui.decoration.Single(1);
+      deco = new qx.ui.decoration.Single(1);
       widget.setDecorator(deco);
       this.assertPadding(widget, 1, 1, 1, 1);
 
-      widget.setPadding(2)
+      deco = new qx.ui.decoration.Single(1);
       deco.setWidth(2);
+      widget.setDecorator(deco);
+      widget.setPadding(2)
       this.assertPadding(widget, 4, 4, 4, 4);
 
-      widget.setPadding(1, 4, 16, 64)
+      deco = new qx.ui.decoration.Single(1);
       deco.setWidth(2, 3, 5, 7);
+      widget.setDecorator(deco);
+      widget.setPadding(1, 4, 16, 64)
       this.assertPadding(widget, 3, 7, 21, 71);
 
       widget.setDecorator(null);
