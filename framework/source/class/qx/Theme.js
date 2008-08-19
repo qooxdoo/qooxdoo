@@ -41,7 +41,6 @@ qx.Class.define("qx.Theme",
      * <pre class='javascript'>
      * qx.Theme.define("name",
      * {
-     *   title : "MyThemeTitle",
      *   resource : "resourceFolderOrUri",
      *   extend : otherTheme,
      *   include : [MMixinTheme],
@@ -330,11 +329,6 @@ qx.Class.define("qx.Theme",
           if (allowed[key] !== null && typeof config[key] !== allowed[key]) {
             throw new Error('Invalid type of key "' + key + '" in theme "' + name + '"! The type of the key must be "' + allowed[key] + '"!');
           }
-        }
-
-        // Test for title
-        if (config.title === undefined) {
-          throw new Error("Missing title definition in theme: " + name);
         }
 
         // Validate maps

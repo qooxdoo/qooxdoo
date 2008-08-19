@@ -28,6 +28,7 @@
 #asset(qx/icon/Tango/16/mimetypes/text-plain.png)
 #asset(qx/icon/Tango/16/apps/office-calendar.png)
 #asset(qx/icon/Tango/16/apps/utilities-color-chooser.png)
+
 #asset(qx/decoration/Modern/*)
 
 ************************************************************************* */
@@ -37,8 +38,6 @@
  */
 qx.Theme.define("qx.theme.modern.Appearance",
 {
-  title : "Modern",
-
   appearances :
   {
     /*
@@ -1334,7 +1333,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          decorator : "window-border"
+          decorator : "window"
         };
       }
     },

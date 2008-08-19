@@ -23,8 +23,6 @@
  */
 qx.Theme.define("qx.theme.classic.Font",
 {
-  title : "Classic",
-
   fonts :
   {
     "default" :
