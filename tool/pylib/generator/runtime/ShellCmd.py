@@ -19,7 +19,7 @@
 #
 ################################################################################
 
-import sys, os, re, subprocess
+import sys, os, re, subprocess, shutil
 
 class ShellCmd(object):
     def __init__(self):
@@ -77,5 +77,39 @@ class ShellCmd(object):
         rc = self.eval_wait(rcode)
 
         return rc
+
+
+    def execvp(self, cmd, args):
+        '''this is just a dummy method, to have this code as a template for later use
+           Overlay the current process with a new (python) command'''
+        CMD_PYTHON = 'python'
+
+        argList = []
+        argList.append(CMD_PYTHON)
+        argList.append(cmd)
+        argList.extend(args)
+
+        os.execvp(CMD_PYTHON, argList)
+
+
+    def rm_rf(self, fileOrDir):
+        '''Deletes files and directories recursively'''
+
+        def handleRemoveReadonly(func, path, exc):
+        # For Windows the 'readonly' must not be set for resources to be removed    
+            excvalue = exc[1]
+            if func in (os.rmdir, os.remove) and excvalue.errno == errno.EACCES:
+                os.chmod(path, 0777)
+                func(path)
+            else:
+                raise
+    
+        if not os.path.exists(fileOrDir):  # nothing to delete
+            return
+
+        if os.path.isdir(fileOrDir):
+            shutil.rmtree(fileOrDir, ignore_errors=False, onerror=handleRemoveReadonly)
+        else:
+            os.unlink(fileOrDir)
 
 

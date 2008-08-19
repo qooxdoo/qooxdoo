@@ -43,4 +43,4 @@ class JobLib(object):
                 # safety first
                 if os.path.splitdrive(file)[1] == os.sep:
                     raise RuntimeError, "!!! I'm not going to delete '/' recursively !!!"
-                self._shellCmd.execute ("rm -rf %s" % file)
+                self._shellCmd.rm_rf(file)
