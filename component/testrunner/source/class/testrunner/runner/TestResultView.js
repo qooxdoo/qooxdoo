@@ -38,10 +38,11 @@ qx.Class.define("testrunner.runner.TestResultView",
   {
     this.base(arguments);
     this._testResults = [];
-    
+
     this.setBackgroundColor("white");
     this.setOverflowY("scroll");
-    
+    this.setOverflowX("auto");
+
     this.setCssClass("resultPane");
 
     this.setHtml(this.__createHtml());
