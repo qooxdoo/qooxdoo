@@ -27,6 +27,7 @@
 qx.Class.define("qx.ui.container.Scroll",
 {
   extend : qx.ui.core.AbstractScrollArea,
+  include : [qx.ui.core.MContentPadding],
 
 
 
@@ -46,27 +47,6 @@ qx.Class.define("qx.ui.container.Scroll",
 
     if (content) {
       this.add(content);
-    }
-  },
-
-
-
-  /*
-  *****************************************************************************
-     PROPERTIES
-  *****************************************************************************
-  */
-
-  properties :
-  {
-    /** Padding of the spinner's input field */
-    contentPadding :
-    {
-      check : "Array",
-      nullable : true,
-      init : null,
-      apply : "_applyContentPadding",
-      themeable : true
     }
   },
 
@@ -123,13 +103,13 @@ qx.Class.define("qx.ui.container.Scroll",
     },
 
 
-    // property apply
-    _applyContentPadding : function(value, old)
-    {
-      var child = this.getChild();
-      if (value && child) {
-        child.setPadding(value);
-      }
+    /**
+     * Returns the element, to which the content padding should be applied.
+     *
+     * @return {qx.ui.core.Widget} The content padding target.
+     */
+    _getContentPaddingTarget : function() {
+      return this.getChild();
     }
   }
 });

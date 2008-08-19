@@ -37,7 +37,8 @@ qx.Class.define("qx.ui.window.Window",
     qx.ui.core.MRemoteLayoutHandling,
     qx.ui.core.MResizable,
     qx.ui.core.MMovable,
-    qx.ui.core.MBlocker
+    qx.ui.core.MBlocker,
+    qx.ui.core.MContentPadding
   ],
 
 
@@ -218,19 +219,6 @@ qx.Class.define("qx.ui.window.Window",
       init : false,
       apply : "_applyActive",
       event : "changeActive"
-    },
-
-
-    /**
-     * Padding of the window pane
-     */
-    contentPadding :
-    {
-      check : "Array",
-      nullable : true,
-      init : null,
-      apply : "_applyContentPadding",
-      themeable : true
     },
 
 
@@ -793,12 +781,13 @@ qx.Class.define("qx.ui.window.Window",
     },
 
 
-    // property apply
-    _applyContentPadding : function(value, old)
-    {
-      if (value) {
-        this._getChildControl("pane").setPadding(value);
-      }
+    /**
+     * Returns the element, to which the content padding should be applied.
+     *
+     * @return {qx.ui.core.Widget} The content padding target.
+     */
+    _getContentPaddingTarget : function() {
+      return this._getChildControl("pane");
     },
 
 
