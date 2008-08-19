@@ -28,6 +28,7 @@
 #asset(qx/icon/Tango/16/mimetypes/text-plain.png)
 #asset(qx/icon/Tango/16/apps/office-calendar.png)
 #asset(qx/icon/Tango/16/apps/utilities-color-chooser.png)
+#asset(qx/icon/Tango/16/actions/view-refresh.png)
 
 #asset(qx/decoration/Modern/*)
 
@@ -2154,6 +2155,19 @@ qx.Theme.define("qx.theme.modern.Appearance",
           padding   : [ 3, 1, 3, 2],
           icon      : "decoration/table/select-column-order.png"
         };
+      }
+    },
+    
+    "table-column-reset-button" :
+    {
+      include : "menu-button",
+      alias : "menu-button",
+
+      style : function()
+      {
+        return {
+          icon : "icon/16/actions/view-refresh.png"
+        }
       }
     },
 

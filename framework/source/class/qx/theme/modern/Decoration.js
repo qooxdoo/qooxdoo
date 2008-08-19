@@ -615,6 +615,9 @@ qx.Theme.define("qx.theme.modern.Decoration",
       {
         widthRight : 1,
         colorRight : "border-separator",
+        
+        widthBottom : 1,
+        colorBottom : "white",
 
         style      : "solid"
       }
