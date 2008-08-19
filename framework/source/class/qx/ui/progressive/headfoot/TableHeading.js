@@ -146,6 +146,7 @@ qx.Class.define("qx.ui.progressive.headfoot.TableHeading",
     {
       var width =
         this.getBounds().width - qx.bom.element.Overflow.getScrollbarWidth();
+this.warn("_resizeColumns called with width=" + width);
 
       // Compute the column widths
       this.__bCalculateWidths = true;
@@ -158,6 +159,7 @@ qx.Class.define("qx.ui.progressive.headfoot.TableHeading",
       // Get the column width data.  For each label...
       for (var i = 0; i < columnData.length; i++)
       {
+this.debug("column " + i + ": width=" + columnData[i].getComputedWidth());
         // ... reset the width of the corresponding column (label)
         this.__labels[i].setWidth(columnData[i].getComputedWidth());
       }
