@@ -282,7 +282,7 @@ qx.Class.define("qx.util.ColorUtil",
      * @return {Boolean} true when the incoming value is a valid qooxdoo color
      */
     isValidPropertyValue : function(str) {
-      return this.isThemedColor(str) || this.isNamedColor(str) || this.isHex3String(str) || this.isHex6String(str);
+      return this.isThemedColor(str) || this.isNamedColor(str) || this.isHex3String(str) || this.isHex6String(str) || this.isRgbString(str);
     },
 
 
