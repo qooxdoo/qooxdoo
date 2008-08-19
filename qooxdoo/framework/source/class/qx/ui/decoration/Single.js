@@ -324,12 +324,6 @@ qx.Class.define("qx.ui.decoration.Single",
       // Styles
       var styles = "position:absolute;top:0;left:0;";
 
-      // Add background color
-      var bgcolor = this.getBackgroundColor();
-      if (bgcolor) {
-        styles += "background-color:" + Color.resolve(bgcolor) + ";";
-      }
-
       // Add borders
       var width = this.getWidthTop();
       if (width > 0) {
