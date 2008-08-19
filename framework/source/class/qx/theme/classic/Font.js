@@ -40,6 +40,20 @@ qx.Theme.define("qx.theme.classic.Font",
       lineHeight : 1.4,
       family : [ "Lucida Grande", "Tahoma", "Verdana", "Bitstream Vera Sans", "Liberation Sans" ],
       bold : true
+    },
+
+    "small" :
+    {
+      size : 10,
+      lineHeight : 1.4,
+      family : [ "Lucida Grande", "Tahoma", "Verdana", "Bitstream Vera Sans", "Liberation Sans" ]
+    },
+
+    "monospace" :
+    {
+      size : 11,
+      lineHeight : 1.4,
+      family : [ "DejaVu Sans Mono", "Courier New", "monospace" ]
     }
   }
 });
