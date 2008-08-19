@@ -169,7 +169,7 @@
           "${RESPATH}/source/Modern/groupbox.png" :
           {
             "prefix" : "../../${MODERN}/groupbox/groupbox",
-            "border-width" : 5
+            "border-width" : 4
           }
         }
       }
