@@ -111,20 +111,28 @@ qx.Theme.define("qx.theme.modern.Color",
     ---------------------------------------------------------------------------
     */
 
-    "table-pane" : "white",
+    // equal to "background-pane"
+    "table-pane" : "#F3F3F3",
 
-    "table-focus-indicator" : "#0073FF",
-    "table-row-background-focused-selected" : "#084CA6",
-    "table-row-background-focused" : "#0053DD",
-    "table-row-background-selected" : "#084CA6",
+    // own table colors
+    // "table-row-background-selected" and "table-row-background-focused-selected"
+    // are inspired by the colors of the selection decorator
+    "table-focus-indicator" : "#0880EF",
+    "table-row-background-focused-selected" : "#084FAB",
+    "table-row-background-focused" : "#80B4EF",
+    "table-row-background-selected" : "#084FAB",
 
-    "table-row-background-even" : "#F4F4F4",
+    // equal to "background-pane" and "background-odd"
+    "table-row-background-even" : "#F3F3F3",
     "table-row-background-odd" : "#E4E4E4",
-    "table-row-selected" : "white",
+    
+    // equal to "text-selected" and "text-label"
+    "table-row-selected" : "#fffefe",
     "table-row" : "#1a1a1a",
 
-    "table-row-line" : "#EEE",
-    "table-column-line" : "#EEE",
+    // equal to "border-collumn"
+    "table-row-line" : "#CCCCCC",
+    "table-column-line" : "#CCCCCC",
 
 
 

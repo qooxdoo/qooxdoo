@@ -597,38 +597,29 @@ qx.Theme.define("qx.theme.modern.Decoration",
     {
       decorator :  qx.ui.decoration.Double,
 
-      style :
-      {
-        backgroundImage  : "decoration/table/header-cell.png",
-        backgroundRepeat : "scale",
+   "table-header-cell" :
+   {
+     decorator :  qx.ui.decoration.Single,
 
         widthRight : 1,
         colorRight : "#F2F2F2",
 
-        innerWidthRight : 1,
-        innerColorRight : "#A6A6A6",
-
-        style      : "solid"
-      }
-    },
+       widthRight : 1,
+       colorRight : "border-separator",
 
     "table-header-cell-hovered" :
     {
       decorator :  qx.ui.decoration.Double,
 
-      style :
-      {
-        backgroundImage  : "decoration/table/header-cell.png",
-        backgroundRepeat : "scale",
+   "table-header-cell-hovered" :
+   {
+     decorator :  qx.ui.decoration.Single,
 
         widthRight : 1,
         colorRight : "#F2F2F2",
 
-        innerWidthRight : 1,
-        innerColorRight : "#A6A6A6",
-
-        widthBottom : 1,
-        colorBottom : "white",
+       widthRight : 1,
+       colorRight : "border-separator",
 
         style      : "solid"
       }
