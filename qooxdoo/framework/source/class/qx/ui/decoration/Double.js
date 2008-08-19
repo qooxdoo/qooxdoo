@@ -138,6 +138,8 @@ qx.Class.define("qx.ui.decoration.Double",
     __markup : null,
     __insets : null,
 
+
+
     /*
     ---------------------------------------------------------------------------
       INTERFACE IMPLEMENTATION
@@ -178,38 +180,50 @@ qx.Class.define("qx.ui.decoration.Double",
         innerStyles += "border-left:" + width + "px " + this.getStyleLeft() + " " + Color.resolve(this.getInnerColorLeft()) + ";";
       }
 
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        if (innerStyles.length === 0) {
+          throw new Error("Invalid Double decorator (zero inner border width). Use qx.ui.decoration.Single instead!");
+        }
+      }
+
       // Generate inner HTML
       var innerHtml = qx.ui.decoration.Util.generateBackgroundMarkup(this.getBackgroundImage(), this.getBackgroundRepeat(), innerStyles);
 
 
       // Generate outer HTML
-      var outerHtml = '<div style="position:absolute;top:0;left:0;';
+      var outerStyles = '';
 
       var width = this.getWidthTop();
       if (width > 0) {
-        outerHtml += "border-top:" + width + "px " + this.getStyleTop() + " " + Color.resolve(this.getColorTop()) + ";";
+        outerStyles += "border-top:" + width + "px " + this.getStyleTop() + " " + Color.resolve(this.getColorTop()) + ";";
       }
 
       var width = this.getWidthRight();
       if (width > 0) {
-        outerHtml += "border-right:" + width + "px " + this.getStyleRight() + " " + Color.resolve(this.getColorRight()) + ";";
+        outerStyles += "border-right:" + width + "px " + this.getStyleRight() + " " + Color.resolve(this.getColorRight()) + ";";
       }
 
       var width = this.getWidthBottom();
       if (width > 0) {
-        outerHtml += "border-bottom:" + width + "px " + this.getStyleBottom() + " " + Color.resolve(this.getColorBottom()) + ";";
+        outerStyles += "border-bottom:" + width + "px " + this.getStyleBottom() + " " + Color.resolve(this.getColorBottom()) + ";";
       }
 
       var width = this.getWidthLeft();
       if (width > 0) {
-        outerHtml += "border-left:" + width + "px " + this.getStyleLeft() + " " + Color.resolve(this.getColorLeft()) + ";";
+        outerStyles += "border-left:" + width + "px " + this.getStyleLeft() + " " + Color.resolve(this.getColorLeft()) + ";";
       }
 
-      outerHtml += '">' + innerHtml + '</div>';
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        if (outerStyles.length === 0) {
+          throw new Error("Invalid Double decorator (zero outer border width). Use qx.ui.decoration.Single instead!");
+        }
+      }
 
 
       // Store
-      return this.__markup = outerHtml;
+      return this.__markup = '<div style="position:absolute;top:0;left:0;' + outerStyles + '">' + innerHtml + '</div>';
     },
 
 
