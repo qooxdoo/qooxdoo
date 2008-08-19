@@ -75,7 +75,9 @@ qx.Class.define("qx.ui.progressive.headfoot.TableHeading",
     spacer.set(
     {
       height : 16,
-      appearance : "progressive-table-header-cell"
+      appearance : "progressive-table-header-cell",
+      minWidth : 0,
+      width : 0
     });
     this.add(spacer, { flex : 1 });
 
