@@ -45,7 +45,7 @@ qx.Class.define("qx.ui.control.ColorPopup",
   construct : function()
   {
     this.base(arguments);
-    
+
     this.setLayout(new qx.ui.layout.VBox(5));
 
     this._createAutoBtn();
@@ -132,7 +132,7 @@ qx.Class.define("qx.ui.control.ColorPopup",
     __colorSelector : null,
     __recentTableId : "recent",
     __fieldNumber : 12,
-        
+
 
     /*
     ---------------------------------------------------------------------------
@@ -201,12 +201,12 @@ qx.Class.define("qx.ui.control.ColorPopup",
 
       this.__selectedPreview = new qx.ui.container.Composite(new qx.ui.layout.Basic);
       this.__currentPreview = new qx.ui.container.Composite(new qx.ui.layout.Basic);
-      
+
       this.__selectedPreview.set({
         appearance :"colorpopup/preview-pane",
         marginRight : 4
       });
-        
+
       this.__currentPreview.set({
         appearance :"colorpopup/preview-pane",
         marginLeft : 4
@@ -249,17 +249,17 @@ qx.Class.define("qx.ui.control.ColorPopup",
       this.__colorSelector.addListener("dialogok", this._onColorSelectorOk, this);
       this.__colorSelector.addListener("dialogcancel", this._onColorSelectorCancel, this);
       win.add(this.__colorSelector);
-      
-      var buttonBar = new qx.ui.container.Composite(new qx.ui.layout.HBox(4, "right"));      
+
+      var buttonBar = new qx.ui.container.Composite(new qx.ui.layout.HBox(4, "right"));
       buttonBar.setPaddingTop(3);
       win.add(buttonBar);
 
-      var btnCancel = new qx.ui.form.Button(this.tr("Cancel"), "icon/16/actions/dialog-cancel.png"); 
+      var btnCancel = new qx.ui.form.Button(this.tr("Cancel"), "icon/16/actions/dialog-cancel.png");
       btnCancel.addListener("execute", function(e){
          this.fireEvent("dialogcancel");
       }, this.__colorSelector);
 
-      var btnOk = new qx.ui.form.Button(this.tr("OK"), "icon/16/actions/dialog-ok.png"); 
+      var btnOk = new qx.ui.form.Button(this.tr("OK"), "icon/16/actions/dialog-ok.png");
       btnOk.addListener("execute", function(e){
          this.fireEvent("dialogok");
       }, this.__colorSelector);
@@ -268,12 +268,15 @@ qx.Class.define("qx.ui.control.ColorPopup",
       buttonBar.add(btnOk);
     },
 
+
+
+
+
     /*
     ---------------------------------------------------------------------------
       APPLY ROUTINES
     ---------------------------------------------------------------------------
     */
-
 
     // Property apply
     _applyValue : function(value, old)
@@ -304,11 +307,11 @@ qx.Class.define("qx.ui.control.ColorPopup",
      */
     _rotatePreviousColors : function()
     {
-      
+
       if(!this._tables){
         return;
       }
-      
+
       var vRecentTable = this._tables[this.__recentTableId].values;
       var vRecentBox = this.__boxes[this.__recentTableId];
 
