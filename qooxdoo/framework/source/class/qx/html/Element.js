@@ -1012,10 +1012,10 @@ qx.Class.define("qx.html.Element",
     /**
      * Append all given children at the end of this element.
      *
-     * @param childs {qx.html.Element...} elements to insert
+     * @param varargs {qx.html.Element...} elements to insert
      * @return {qx.html.Element} this object (for chaining support)
      */
-    add : function(childs)
+    add : function(varargs)
     {
       if (arguments[1])
       {
@@ -1023,12 +1023,12 @@ qx.Class.define("qx.html.Element",
           this.__addChildHelper(arguments[i]);
         }
 
-        this.__children.push.apply(children, arguments);
+        this.__children.push.apply(this.__children, arguments);
       }
       else
       {
-        this.__addChildHelper(childs);
-        this.__children.push(childs);
+        this.__addChildHelper(varargs);
+        this.__children.push(varargs);
       }
 
       // Chaining support

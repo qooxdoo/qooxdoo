@@ -3,7 +3,8 @@
   "include" :
   [
     {
-      "path" : "../tool/data/config/application.json"
+      "path" : "../tool/data/config/application.json",      
+      "as"   : "appconf"
     },
     {
       "path" : "image.json"
@@ -36,10 +37,60 @@
             "publish-api"
         ]
     },
+    
+    "test" :
+    {
+      "extend" : ["appconf::test"],
+      
+      "let" :
+      {
+        "LOCALES" : ["de", "de_DE"]
+      }
+    },
+    
+    "test-source" :
+    {
+      "extend" : ["appconf::test-source"],
+      
+      "let" :
+      {
+        "LOCALES" : ["de", "de_DE"]
+      }
+    },
 
     "machet" :
     {
       "run" : [ "image-clipping", "image-combine" ]
+    },
+    
+    "api" :
+    {
+      "extend" : ["appconf::api"]
+    },
+
+    "clean" :
+    {
+      "extend" : ["appconf::clean"]
+    },
+
+    "distclean" :
+    {
+      "extend" : ["appconf::distclean"]
+    },
+
+    "fix" :
+    {
+      "extend" : ["appconf::fix"]
+    },
+    
+    "lint" :
+    {
+      "extend" : ["appconf::lint"]
+    },
+    
+    "translate" :
+    {
+      "extend" : ["appconf::translate"]
     }
   }
 }
