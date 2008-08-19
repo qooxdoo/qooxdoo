@@ -99,16 +99,9 @@ qx.Class.define("apiviewer.ui.SearchView",
       tableModel.setColumns([ "", "Results" ]);
       tableModel.setData(rowData);
 
-      var customModel =
-      {
-        tableColumnModel : function(obj) {
-          return new qx.ui.table.columnmodel.Resize(obj);
-        }
-      };
-
 
       // table
-      var table = new qx.ui.table.Table(tableModel, customModel);
+      var table = new qx.ui.table.Table(tableModel);
       table.setDecorator(null);
       table.exclude();
       table.setShowCellFocusIndicator(false);
@@ -120,16 +113,13 @@ qx.Class.define("apiviewer.ui.SearchView",
       this._selectionModel.addListener("changeSelection", this._onChangeSelection, this);
 
       this._table = table;
-      // resize behavior
-      var tcm = table.getTableColumnModel();
-      var resizeBehavior = tcm.getBehavior();
-      resizeBehavior.set(0, {width:"0*", minWidth : 30, maxWidth : 30});
-      resizeBehavior.set(1, {width:"1*"});
-
 
       var tcm = table.getTableColumnModel();
       tcm.setDataCellRenderer(0, new qx.ui.table.cellrenderer.Image());
-
+      tcm.setColumnWidth(0, 40);
+      tcm.setColumnWidth(1, 400);
+      
+      
       this.__initresult = true;
 
       this.add(table, {flex : 1})
