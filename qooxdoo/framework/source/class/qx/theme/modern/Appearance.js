@@ -908,21 +908,23 @@ qx.Theme.define("qx.theme.modern.Appearance",
       }
     },
 
-    "toolbar/part" : {
+    "toolbar/part" : 
+    {
       style : function(states)
       {
         return {
           decorator : "toolbar-part",
-          marginRight : 4
+          marginRight : 6
         };
       }
     },
 
-    "toolbar/part/container" : {
+    "toolbar/part/container" : 
+    {
       style : function(states)
       {
         return {
-          marginLeft : 2
+          padding : 2
         };
       }
     },
@@ -933,7 +935,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
       {
         return {
           source : "decoration/toolbar/toolbar-handle-knob.png",
-          marginLeft : 3
+          marginLeft : 3,
+          marginRight : 3
         };
       }
     },
@@ -945,8 +948,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
+          marginRight : 2,
           padding : states.pressed || states.checked || states.hovered ? 3 : 5,
-          margin : 2,
           decorator : states.pressed || states.checked ? "toolbar-button-checked" :
             states.hovered ? "toolbar-button-hovered" : "undefined",
 
