@@ -58,17 +58,23 @@ qx.Class.define("qx.util.DisposeUtil",
      */
     disposeObjects : function(obj, arr)
     {
-      var name;
+      var name, entry;
 
       for (var i=0, l=arr.length; i<l; i++)
       {
-        var name = arr[i]
+        name = arr[i]
+        entry = obj[name];
 
-        if (obj[name] == null || !obj.hasOwnProperty(name)) {
+        if (entry == null || !obj.hasOwnProperty(name)) {
           continue;
         }
 
-        obj[name].dispose();
+        if (entry.dispose) {
+          entry.dispose();
+        } else {
+          throw new Error("Has no disposable object under key: " + name + "!");
+        }
+
         obj[name] = null;
       }
     },
