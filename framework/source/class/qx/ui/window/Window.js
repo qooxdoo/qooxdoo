@@ -234,6 +234,7 @@ qx.Class.define("qx.ui.window.Window",
     },
 
 
+
     /*
     ---------------------------------------------------------------------------
       BASIC OPTIONS
@@ -380,8 +381,12 @@ qx.Class.define("qx.ui.window.Window",
 
   members :
   {
+    /** {Integer} Original top value before maximation had occoured */
     __restoredTop : null,
+
+    /** {Integer} Original left value before maximation had occoured */
     __restoredLeft : null,
+
 
 
     /*
@@ -628,6 +633,34 @@ qx.Class.define("qx.ui.window.Window",
       this.show();
       this.setActive(true);
       this.focus();
+    },
+
+
+    /**
+     * Centers the window to the parent. This is ideally
+     * called when the parent is rendered immediately
+     * before calling {@link #open}.
+     */
+    center : function()
+    {
+      var parent = this.getLayoutParent();
+      if (parent)
+      {
+        var bounds = parent.getBounds();
+        if (bounds)
+        {
+          var hint = this.getSizeHint();
+
+          var left = Math.round((bounds.width - hint.width) / 2);
+          var top = Math.round((bounds.height - hint.height) / 2);
+
+          this.moveTo(left, top);
+
+          return;
+        }
+      }
+
+      this.warn("Centering depends on parent bounds!");
     },
 
 
