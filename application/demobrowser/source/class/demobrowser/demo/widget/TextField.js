@@ -62,10 +62,13 @@ qx.Class.define("demobrowser.demo.widget.TextField",
       var input9 = new qx.ui.form.TextArea("text\narea");
       container.add(input9);
 
-      var input10 = new qx.ui.form.TextArea("text\narea\nnowrap").set({
-        wrap : false
-      });
+      var input10 = new qx.ui.form.TextArea("text\narea\nnowrap");
+      input10.setWrap(false);
       container.add(input10);
+
+      var input11 = new qx.ui.form.TextArea("text\narea\nmonospace");
+      input11.setFont("monospace");
+      container.add(input11);
 
 
 

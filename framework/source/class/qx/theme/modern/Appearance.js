@@ -300,14 +300,24 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          decorator       : states.focused ? "input-focused" : "input",
-          padding         : [ 1, 3 ],
-          textColor       : states.disabled ? "text-disabled" : "text-input"
+          decorator : states.focused ? "input-focused" : "input",
+          padding   : [ 1, 3 ],
+          textColor : states.disabled ? "text-disabled" : "text-input"
         };
       }
     },
 
-    "textarea" : "textfield",
+    "textarea" :
+    {
+      style : function(states)
+      {
+        return {
+          decorator : states.focused ? "input-focused" : "input",
+          padding   : 3,
+          textColor : states.disabled ? "text-disabled" : "text-input"
+        };
+      }
+    },
 
 
 
