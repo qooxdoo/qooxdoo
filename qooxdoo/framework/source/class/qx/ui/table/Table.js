@@ -175,6 +175,7 @@ qx.Class.define("qx.ui.table.Table",
 
     // Make focusable
     this.setTabIndex(1);
+    this.__scrollerParent.setKeepActive(true);
     this.addListener("keypress", this._onKeyPress);
     this.addListener("focus", this._onFocusChanged);
     this.addListener("blur", this._onFocusChanged);
@@ -1392,7 +1393,9 @@ qx.Class.define("qx.ui.table.Table",
       {
         var x = this.getTableColumnModel().getVisibleX(this.__focusedCol);
         var metaColumn = this._getMetaColumnAtColumnX(x);
-        return this.getPaneScroller(metaColumn).startEditing();
+        var started = this.getPaneScroller(metaColumn).startEditing();
+        this.__scrollerParent.setKeepActive(!started);
+        return started;
       }
 
       return false;
@@ -1409,6 +1412,7 @@ qx.Class.define("qx.ui.table.Table",
         var x = this.getTableColumnModel().getVisibleX(this.__focusedCol);
         var metaColumn = this._getMetaColumnAtColumnX(x);
         this.getPaneScroller(metaColumn).stopEditing();
+        this.__scrollerParent.setKeepActive(true);
       }
     },
 
@@ -1423,6 +1427,7 @@ qx.Class.define("qx.ui.table.Table",
         var x = this.getTableColumnModel().getVisibleX(this.__focusedCol);
         var metaColumn = this._getMetaColumnAtColumnX(x);
         this.getPaneScroller(metaColumn).cancelEditing();
+        this.__scrollerParent.setKeepActive(true);
       }
     },
 

@@ -629,9 +629,9 @@ qx.Class.define("qx.ui.core.Widget",
 
 
     /**
-     * When this property is enabled the widget force a focus blocking e.g.
+     * When this property is enabled the widget forces a focus blocking e.g.
      * also prevents underlying widgets from getting focused. This only
-     * work for widgets which are not {@link focusable}.
+     * works for widgets which are not {@link focusable}.
      *
      * This is mainly useful for widget authors. Please use with caution!
      */
@@ -644,7 +644,7 @@ qx.Class.define("qx.ui.core.Widget",
 
 
     /**
-     * When this property is enabled the widget force a active blocking e.g.
+     * When this property is enabled the widget forces an active blocking e.g.
      * also prevents underlying widgets from getting active.
      *
      * This is mainly useful for widget authors. Please use with caution!
