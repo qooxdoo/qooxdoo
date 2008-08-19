@@ -2208,6 +2208,7 @@ qx.Class.define("qx.ui.core.Widget",
       else
       {
         delete this.__decoratorElement;
+        this._applyBackgroundColor(this.getBackgroundColor());
       }
 
       // Remove background color from container
