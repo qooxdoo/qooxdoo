@@ -79,7 +79,9 @@ qx.Class.define("qx.ui.control.DateChooser",
     this.showMonth(shownDate.getMonth(), shownDate.getFullYear());
 
     // listen for locale changes
-    qx.locale.Manager.getInstance().addListener("changeLocale", this._updateDatePane, this);
+    if (qx.core.Variant.isSet("qx.dynamicLocaleSwitch", "on")) {
+      qx.locale.Manager.getInstance().addListener("changeLocale", this._updateDatePane, this);
+    }
 
     // register mouse up and down handler
     this.addListener("mousedown", this._onMouseUpDown, this);
@@ -768,7 +770,9 @@ qx.Class.define("qx.ui.control.DateChooser",
 
   destruct : function()
   {
-    qx.locale.Manager.getInstance().removeListener("changeLocale", this._updateDatePane, this);
+    if (qx.core.Variant.isSet("qx.dynamicLocaleSwitch", "on")) {
+      qx.locale.Manager.getInstance().removeListener("changeLocale", this._updateDatePane, this);
+    }
 
     this._disposeArray("__weekdayLabelArr", 1);
     this._disposeArray("__dayLabelArr", 1);
