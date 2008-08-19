@@ -73,7 +73,7 @@ qx.Class.define("qx.ui.decoration.Uniform",
     width :
     {
       check : "PositiveInteger",
-      init : 0,
+      init : 1,
       apply : "_applyWidth"
     },
 
@@ -153,16 +153,21 @@ qx.Class.define("qx.ui.decoration.Uniform",
         return this.__markup;
       }
 
-      var Color = qx.theme.manager.Color.getInstance();
-
       // Init styles
       var styles = "position:absolute;top:0;left:0;";
 
-      // Add border
+      // Check
       var width = this.getWidth();
-      if (width > 0) {
-        styles += "border:" + width + "px " + this.getStyle() + " " + Color.resolve(this.getColor()) + ";";
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        if (width === 0) {
+          throw new Error("Invalid Uniform decorator (zero border width). Use qx.ui.decorator.Background instead!");
+        }
       }
+
+      // Add styles
+      var Color = qx.theme.manager.Color.getInstance();
+      styles += "border:" + width + "px " + this.getStyle() + " " + Color.resolve(this.getColor()) + ";";
 
       // Generate markup
       var html = qx.ui.decoration.Util.generateBackgroundMarkup(this.getBackgroundImage(), this.getBackgroundRepeat(), styles);
@@ -208,12 +213,12 @@ qx.Class.define("qx.ui.decoration.Uniform",
     // interface implementation
     getInsets : function()
     {
-      if (this._insets) {
-        return this._insets;
+      if (this.__insets) {
+        return this.__insets;
       }
 
       var width = this.getWidth();
-      this._insets =
+      this.__insets =
       {
         top : width,
         right : width,
@@ -221,7 +226,7 @@ qx.Class.define("qx.ui.decoration.Uniform",
         left : width
       };
 
-      return this._insets;
+      return this.__insets;
     },
 
 
@@ -243,7 +248,7 @@ qx.Class.define("qx.ui.decoration.Uniform",
         }
       }
 
-      this._insets = null;
+      this.__insets = null;
     },
 
 

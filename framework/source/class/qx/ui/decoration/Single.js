@@ -322,7 +322,7 @@ qx.Class.define("qx.ui.decoration.Single",
       var Color = qx.theme.manager.Color.getInstance();
 
       // Styles
-      var styles = "position:absolute;top:0;left:0;";
+      var styles = "";
 
       // Add borders
       var width = this.getWidthTop();
@@ -344,6 +344,17 @@ qx.Class.define("qx.ui.decoration.Single",
       if (width > 0) {
         styles += "border-left:" + width + "px " + this.getStyleLeft() + " " + Color.resolve(this.getColorLeft()) + ";";
       }
+
+      // Check if valid
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        if (styles.length === 0) {
+          throw new Error("Invalid Single decorator (zero border width). Use qx.ui.decorator.Background instead!");
+        }
+      }
+
+      // Add basic styles
+      styles += "position:absolute;top:0;left:0;";
 
       // Generate markup
       var html = qx.ui.decoration.Util.generateBackgroundMarkup(this.getBackgroundImage(), this.getBackgroundRepeat(), styles);
@@ -389,11 +400,11 @@ qx.Class.define("qx.ui.decoration.Single",
     // interface implementation
     getInsets : function()
     {
-      if (this._insets) {
-        return this._insets;
+      if (this.__insets) {
+        return this.__insets;
       }
 
-      this._insets =
+      this.__insets =
       {
         top : this.getWidthTop(),
         right : this.getWidthRight(),
@@ -401,7 +412,7 @@ qx.Class.define("qx.ui.decoration.Single",
         left : this.getWidthLeft()
       };
 
-      return this._insets;
+      return this.__insets;
     },
 
 
@@ -423,7 +434,7 @@ qx.Class.define("qx.ui.decoration.Single",
         }
       }
 
-      this._insets = null;
+      this.__insets = null;
     },
 
 
