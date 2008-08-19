@@ -152,8 +152,7 @@ qx.Class.define("qx.test.ui.BackgroundColor",
       this.assertDecoratorStyle(widget, "backgroundColor", "");
       this.assertStyle(widget, "backgroundColor", "red");
 
-      this.getRoot().remove(widget);
-      widget.dispose();
+      widget.destroy();
     },
 
 

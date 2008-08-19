@@ -118,6 +118,11 @@ qx.Class.define("qx.test.ui.LayoutTestCase",
     assertDecoratorStyle : function(widget, style, value)
     {
       qx.ui.core.queue.Manager.flush();
+
+      if (!value && !widget.getDecoratorElement()) {
+        return;
+      }
+
       this.assertNotNull(widget.getDecoratorElement());
       var widgetStyle = widget.getDecoratorElement().getDomElement().style[style];
       if (value && style.match(/color/i)) {
