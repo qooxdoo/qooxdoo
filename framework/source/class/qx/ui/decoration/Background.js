@@ -19,10 +19,10 @@
 ************************************************************************ */
 
 /**
- * A simple decorator featuring background images and colors and a simple
- * uniform border based on CSS styles.
+ * A very simple decorator featuring background images and colors. No
+ * border is supported.
  */
-qx.Class.define("qx.ui.decoration.Uniform",
+qx.Class.define("qx.ui.decoration.Background",
 {
   extend : qx.core.Object,
   implement : [qx.ui.decoration.IDecorator],
@@ -36,26 +36,12 @@ qx.Class.define("qx.ui.decoration.Uniform",
   */
 
   /**
-   * @param width {Integer} Width of the border
-   * @param style {String} Any supported border style
-   * @param color {Color} The border color
    */
-  construct : function(width, style, color)
+  construct : function()
   {
     this.base(arguments);
 
-    // Initialize properties
-    if (width != null) {
-      this.setWidth(width);
-    }
 
-    if (style != null) {
-      this.setStyle(style);
-    }
-
-    if (color != null) {
-      this.setColor(color);
-    }
   },
 
 
@@ -69,34 +55,6 @@ qx.Class.define("qx.ui.decoration.Uniform",
 
   properties :
   {
-    /** Set the border width of all sides */
-    width :
-    {
-      check : "PositiveInteger",
-      init : 0,
-      apply : "_applyWidth"
-    },
-
-
-    /** The border style of all sides */
-    style :
-    {
-      nullable : true,
-      check : [ "solid", "dotted", "dashed", "double"],
-      init : "solid",
-      apply : "_applyStyle"
-    },
-
-
-    /** Set the border color of all sides */
-    color :
-    {
-      nullable : true,
-      check : "Color",
-      apply : "_applyStyle"
-    },
-
-
     /** The URL of the background image */
     backgroundImage :
     {
@@ -104,7 +62,6 @@ qx.Class.define("qx.ui.decoration.Uniform",
       nullable : true,
       apply : "_applyStyle"
     },
-
 
     /** How the background image should be repeated */
     backgroundRepeat :
@@ -158,12 +115,6 @@ qx.Class.define("qx.ui.decoration.Uniform",
       // Init styles
       var styles = "position:absolute;top:0;left:0;";
 
-      // Add border
-      var width = this.getWidth();
-      if (width > 0) {
-        styles += "border:" + width + "px " + this.getStyle() + " " + Color.resolve(this.getColor()) + ";";
-      }
-
       // Generate markup
       var html = qx.ui.decoration.Util.generateBackgroundMarkup(this.getBackgroundImage(), this.getBackgroundRepeat(), styles);
 
@@ -175,16 +126,6 @@ qx.Class.define("qx.ui.decoration.Uniform",
     // interface implementation
     resize : function(element, width, height)
     {
-      // Fix box model
-      // Note: Scaled images are always using content box
-      var scaledImage = this.getBackgroundImage() && this.getBackgroundRepeat() == "scale";
-      if (scaledImage || qx.bom.client.Feature.CONTENT_BOX)
-      {
-        var inset = this.getWidth() * 2;
-        width -= inset;
-        height -= inset;
-      }
-
       var dom = element.getDomElement();
       dom.style.width = width + "px";
       dom.style.height = height + "px";
@@ -205,22 +146,18 @@ qx.Class.define("qx.ui.decoration.Uniform",
     },
 
 
-    // interface implementation
-    getInsets : function()
+    // overridden
+    _insets :
     {
-      if (this._insets) {
-        return this._insets;
-      }
+      top : 0,
+      right : 0,
+      bottom : 0,
+      left : 0
+    },
 
-      var width = this.getWidth();
-      this._insets =
-      {
-        top : width,
-        right : width,
-        bottom : width,
-        left : width
-      };
 
+    // interface implementation
+    getInsets : function() {
       return this._insets;
     },
 
@@ -232,20 +169,6 @@ qx.Class.define("qx.ui.decoration.Uniform",
       PROPERTY APPLY ROUTINES
     ---------------------------------------------------------------------------
     */
-
-    // property apply
-    _applyWidth : function()
-    {
-      if (qx.core.Variant.isSet("qx.debug", "on"))
-      {
-        if (this.__markup) {
-          throw new Error("This decorator is already in-use. Modification is not possible anymore!");
-        }
-      }
-
-      this._insets = null;
-    },
-
 
     // property apply
     _applyStyle : function()
