@@ -53,7 +53,7 @@ qx.Class.define("qx.ui.basic.Label",
     }
 
     if (qx.core.Variant.isSet("qx.dynamicLocaleSwitch", "on")) {
-      qx.locale.Manager.getInstance().addListener("changeLocale", this._onChangeLocale, this)
+      qx.locale.Manager.getInstance().addListener("changeLocale", this._onChangeLocale, this);
     }
   },
 
@@ -337,7 +337,7 @@ qx.Class.define("qx.ui.basic.Label",
   destruct : function()
   {
     if (qx.core.Variant.isSet("qx.dynamicLocaleSwitch", "on")) {
-      qx.locale.Manager.getInstance().removeListener("changeLocale", this._onChangeLocale, this)
+      qx.locale.Manager.getInstance().removeListener("changeLocale", this._onChangeLocale, this);
     }
   }
 });

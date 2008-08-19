@@ -61,7 +61,7 @@ qx.Class.define("qx.legacy.ui.basic.Label",
     }
 
     if (qx.core.Variant.isSet("qx.dynamicLocaleSwitch", "on")) {
-      qx.locale.Manager.getInstance().addListener("changeLocale", this._onChangeLocale, this)
+      qx.locale.Manager.getInstance().addListener("changeLocale", this._onChangeLocale, this);
     }
 
     // Property init
@@ -596,6 +596,14 @@ qx.Class.define("qx.legacy.ui.basic.Label",
         element.innerHTML = "";
         qx.bom.element.Attribute.set(element, "text", html);
       }
+    }
+  },
+
+
+  destruct : function()
+  {
+    if (qx.core.Variant.isSet("qx.dynamicLocaleSwitch", "on")) {
+      qx.locale.Manager.getInstance().removeListener("changeLocale", this._onChangeLocale, this);
     }
   }
 });
