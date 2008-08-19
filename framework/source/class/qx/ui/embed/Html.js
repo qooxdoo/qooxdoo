@@ -96,28 +96,12 @@ qx.Class.define("qx.ui.embed.Html",
     },
 
 
-    /** Block inheritance as default for font property */
-    font :
-    {
-      refine : true,
-      init : null
-    },
-
-
-    /** Block inheritance as default for textColor property */
-    textColor :
-    {
-      refine : true,
-      init : null
-    },
-
     // overridden
     selectable :
     {
       refine : true,
       init : true
     }
-
   },
 
 
