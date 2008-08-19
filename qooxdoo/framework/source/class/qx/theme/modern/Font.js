@@ -58,6 +58,15 @@ qx.Theme.define("qx.theme.modern.Font",
       family : qx.bom.client.Platform.MAC ? [ "Lucida Grande" ] :
         qx.bom.client.System.WINVISTA ? [ "Segoe UI", "Candara" ] :
         [ "Tahoma", "Liberation Sans", "Arial" ]
+    },
+
+    "monospace" :
+    {
+      size: 11,
+      lineHeight : 1.4,
+      family : qx.bom.client.Platform.MAC ? [ "Lucida Grande" ] :
+        qx.bom.client.System.WINVISTA ? [ "Consolas" ] :
+        [ "Consolas", "DejaVu Sans Mono", "Courier New", "monospace" ]
     }
   }
 });
