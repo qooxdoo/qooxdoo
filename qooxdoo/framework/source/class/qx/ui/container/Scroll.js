@@ -69,12 +69,7 @@ qx.Class.define("qx.ui.container.Scroll",
      * @param widget {qx.ui.core.Widget} Widget to insert
      * @return {void}
      */
-    add : function(widget)
-    {
-      var padding = this.getContentPadding();
-      if (padding) {
-        widget.setPadding(padding);
-      }
+    add : function(widget) {
       this._getChildControl("pane").add(widget);
     },
 
@@ -109,7 +104,7 @@ qx.Class.define("qx.ui.container.Scroll",
      * @return {qx.ui.core.Widget} The content padding target.
      */
     _getContentPaddingTarget : function() {
-      return this.getChild();
+      return this._getChildControl("pane");
     }
   }
 });
