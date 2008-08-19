@@ -1556,6 +1556,17 @@ qx.Class.define("qx.ui.core.Widget",
     },
 
 
+    /**
+     * Returns the element wrapper of the widget's decorator element.
+     * This method exposes widget internals and must be used with caution!
+     *
+     * @return {qx.html.Element|null} The widget's decorator element (may be null)
+     */
+    getDecoratorElement : function() {
+      return this.__decoratorElement;
+    },
+
+
 
     /*
     ---------------------------------------------------------------------------

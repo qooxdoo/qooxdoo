@@ -68,6 +68,10 @@ qx.Class.define("qx.test.ui.LayoutTestCase",
     assertPadding : function(widget, top, right, bottom, left, msg)
     {
       qx.ui.core.queue.Manager.flush();
+
+      this.assertNotNull(widget.getContainerElement());
+      this.assertNotNull(widget.getContainerElement().getDomElement());
+
       var container = widget.getContainerElement().getDomElement();
       var width = parseInt(container.style.width) || 0;
       var height = parseInt(container.style.height) || 0;
@@ -114,7 +118,8 @@ qx.Class.define("qx.test.ui.LayoutTestCase",
     assertDecoratorStyle : function(widget, style, value)
     {
       qx.ui.core.queue.Manager.flush();
-      var widgetStyle = widget._decorationElement.getDomElement().style[style];
+      this.assertNotNull(widget.getDecoratorElement());
+      var widgetStyle = widget.getDecoratorElement().getDomElement().style[style];
       if (value && style.match(/color/i)) {
         this.assertCssColor(value, widgetStyle);
       } else {
