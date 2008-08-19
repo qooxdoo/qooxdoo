@@ -677,7 +677,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          backgroundColor : "white",
+          backgroundColor : "background-light",
           decorator : "main"
         };
       }
@@ -2002,7 +2002,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       {
         return {
           decorator : "main",
-          backgroundColor : "white",
+          backgroundColor : "background-light",
           width : 50,
           height : 20
         }
@@ -2088,7 +2088,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
           margin : 2,
           width : 14,
           height : 14,
-          backgroundColor : "white"
+          backgroundColor : "background-light"
         }
       }
     },
