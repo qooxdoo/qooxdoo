@@ -143,7 +143,8 @@ qx.Class.define("qx.test.ui.BackgroundColor",
       this.assertStyle(widget, "backgroundColor", "");
 
       // change decorator
-      widget.setDecorator(new qx.ui.decoration.Double());
+      var repl = new qx.ui.decoration.Double(1, "solid", "green", 1, "black");
+      widget.setDecorator(repl);
       this.assertDecoratorStyle(widget, "backgroundColor", "red");
       this.assertStyle(widget, "backgroundColor", "");
 
