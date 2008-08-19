@@ -1062,7 +1062,28 @@ qx.Class.define("qx.ui.table.Table",
       else
       {
         // No editing mode
-        if (evt.getModifiers() == 0)
+        if (evt.isCtrlPressed())
+        {
+          // Handle keys that depend on modifiers
+          consumed = true;
+
+          switch(identifier)
+          {
+            case "A": // Ctrl + A
+              var rowCount = this.getTableModel().getRowCount();
+
+              if (rowCount > 0) {
+                this.getSelectionModel().setSelectionInterval(0, rowCount - 1);
+              }
+
+              break;
+
+            default:
+              consumed = false;
+              break;
+          }
+        }
+        else
         {
           // Handle keys that are independent from the modifiers
           switch(identifier)
@@ -1114,27 +1135,6 @@ qx.Class.define("qx.ui.table.Table",
 
             default:
               consumed = false;
-          }
-        }
-        else if (evt.isCtrlPressed())
-        {
-          // Handle keys that depend on modifiers
-          consumed = true;
-
-          switch(identifier)
-          {
-            case "A": // Ctrl + A
-              var rowCount = this.getTableModel().getRowCount();
-
-              if (rowCount > 0) {
-                this.getSelectionModel().setSelectionInterval(0, rowCount - 1);
-              }
-
-              break;
-
-            default:
-              consumed = false;
-              break;
           }
         }
       }
