@@ -487,12 +487,15 @@ qx.Class.define("demobrowser.DemoBrowser",
       var bar = new qx.ui.toolbar.ToolBar().set({
         appearance: "demo-menubar"
       });
+      var part = new qx.ui.toolbar.Part();
+      bar.add(part);
+
       for (var i=0; i<menuData.length; i++)
       {
         var btn = new qx.ui.toolbar.MenuButton(menuData[i].label);
         btn.setMenu(createMenu(menuData[i].items));
         setWidgetProperties(btn, menuData[i]);
-        bar.add(btn);
+        part.add(btn);
       }
       return bar;
     }, //makeMenuBar
@@ -510,7 +513,6 @@ qx.Class.define("demobrowser.DemoBrowser",
       });
 
       var mb = new qx.ui.toolbar.Part();
-			mb.addSeparator();
 
       toolbar.add(mb);
       this.widgets["toolbar.controlbutts"] = mb;
