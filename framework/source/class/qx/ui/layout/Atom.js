@@ -220,22 +220,23 @@ qx.Class.define("qx.ui.layout.Atom",
             }
 
             allocatedWidth += width;
+            count++;
           }
         }
-        
+
         if (count > 1)
         {
           var gapSum = (count - 1) * gap;
           remainingWidth -= gapSum;
           allocatedWidth += gapSum;
         }
-        
+
         if (center && allocatedWidth < availWidth) {
           left = Math.round((availWidth - allocatedWidth) / 2);
         } else {
           left = 0;
         }
-        
+
         for (var i=start; i!=end; i+=increment)
         {
           child = children[i];
@@ -311,7 +312,7 @@ qx.Class.define("qx.ui.layout.Atom",
               count++;
             }
           }
-          
+
           if (count > 1)
           {
             var gapSum = (count-1) * gap;
@@ -338,7 +339,7 @@ qx.Class.define("qx.ui.layout.Atom",
               count++;
             }
           }
-          
+
           if (count > 1)
           {
             var gapSum = (count-1) * gap;
