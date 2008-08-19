@@ -65,7 +65,7 @@ qx.Class.define("testrunner.runner.TestRunner",
     this.add(mainsplit, {flex : 1});
     this.mainsplit = mainsplit;
 
-    var deco = new qx.ui.decoration.Single().set({
+    var deco = new qx.ui.decoration.Background().set({
       backgroundColor : "background-medium"
     });
 
