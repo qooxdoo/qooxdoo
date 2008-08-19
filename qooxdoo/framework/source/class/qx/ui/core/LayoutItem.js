@@ -407,6 +407,9 @@ qx.Class.define("qx.ui.core.LayoutItem",
         this.assertInteger(top, "Wrong 'top' argument. " + msg);
         this.assertInteger(width, "Wrong 'width' argument. " + msg);
         this.assertInteger(height, "Wrong 'height' argument. " + msg);
+
+        // this.assertInRange(width, this.getMinWidth() || -1, this.getMaxWidth() || 32000);
+        // this.assertInRange(height, this.getMinHeight() || -1, this.getMaxHeight() || 32000);
       }
 
 
