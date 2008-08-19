@@ -1505,7 +1505,7 @@ qx.Bootstrap.define("qx.Class",
           // add abstract and singleton checks
           if (type === "abstract")
           {
-            if(this.classname===name) {
+            if (this.classname===name) {
               throw new Error("The class '," + name + "' is abstract! It is not possible to instantiate it.");
             }
           }
@@ -1517,10 +1517,13 @@ qx.Bootstrap.define("qx.Class",
           }
         }
 
-        if(!clazz.$$propertiesAttached){qx.core.Property.attach(clazz);}
+        // Attach properties
+        if (!clazz.$$propertiesAttached) {
+          qx.core.Property.attach(clazz);
+        }
 
         // Execute default constructor
-        var retval=clazz.$$original.apply(this,arguments);;
+        var retval=clazz.$$original.apply(this,arguments);
 
         // Initialize local mixins
         if (clazz.$$includes)
@@ -1533,59 +1536,15 @@ qx.Bootstrap.define("qx.Class",
             }
           }
         }
-
+        
         // Mark instance as initialized
-        if(this.classname===name.classname) {
+        if (this.classname===name.classname) {
           this.$$initialized=true;
         }
 
         // Return optional return value
         return retval;
       };
-
-
-      // ALTERNATIVE CODE FOR NON-IPHONES
-      // Seems to be a problem in a restricted environment. Needs further investigation.
-
-      /*
-      var code = [];
-
-      // We can access the class/statics using arguments.callee
-      code.push('var clazz=arguments.callee.constructor;');
-
-      if (qx.core.Variant.isSet("qx.debug", "on"))
-      {
-        // new keyword check
-        code.push('if(!(this instanceof clazz))throw new Error("Please initialize ', name, ' objects using the new keyword!");');
-
-        // add abstract and singleton checks
-        if (type === "abstract") {
-          code.push('if(this.classname===', name, '.classname)throw new Error("The class ', name, ' is abstract! It is not possible to instantiate it.");');
-        } else if (type === "singleton") {
-          code.push('if(!clazz.$$allowconstruct)throw new Error("The class ', name, ' is a singleton! It is not possible to instantiate it directly. Use the static getInstance() method instead.");');
-        }
-      }
-
-      // Attach local properties
-      code.push('if(!clazz.$$propertiesAttached)qx.core.Property.attach(clazz);');
-
-      // Execute default constructor
-      code.push('var retval=clazz.$$original.apply(this,arguments);');
-
-      // Initialize local mixins
-      code.push('if(clazz.$$includes){var mixins=clazz.$$flatIncludes;');
-      code.push('for(var i=0,l=mixins.length;i<l;i++){');
-      code.push('if(mixins[i].$$constructor){mixins[i].$$constructor.apply(this,arguments);}}}');
-
-      // Mark instance as initialized
-      code.push('if(this.classname===', name, '.classname)this.$$initialized=true;');
-
-      // Return optional return value
-      code.push('return retval;');
-
-      // Parse code as function
-      var wrapper = new Function(code.join(""));
-      */
 
       if (qx.core.Variant.isSet("qx.aspects", "on"))
       {
