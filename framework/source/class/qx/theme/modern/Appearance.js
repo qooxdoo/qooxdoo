@@ -909,7 +909,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       }
     },
 
-    "toolbar/part" : 
+    "toolbar/part" :
     {
       style : function(states)
       {
@@ -920,7 +920,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       }
     },
 
-    "toolbar/part/container" : 
+    "toolbar/part/container" :
     {
       style : function(states)
       {
@@ -1972,8 +1972,32 @@ qx.Theme.define("qx.theme.modern.Appearance",
     },
 
     "colorselector/preset-field-set" : "groupbox",
-    "colorselector/input-field-set" : "groupbox",
-    "colorselector/preview-field-set" : "groupbox",
+    "colorselector/input-field-set" :
+    {
+      include : "groupbox",
+      alias : "groupbox",
+
+      style : function()
+      {
+        return {
+          marginTop : 10
+        };
+      }
+    },
+
+    "colorselector/preview-field-set" :
+    {
+      include : "groupbox",
+      alias : "groupbox",
+
+      style : function()
+      {
+        return {
+          marginTop : 10,
+          marginBottom : 3
+        };
+      }
+    },
 
     "colorselector/hex-field-composite" : "widget",
     "colorselector/hex-field" : "textfield",
@@ -2157,7 +2181,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         };
       }
     },
-    
+
     "table-column-reset-button" :
     {
       include : "menu-button",

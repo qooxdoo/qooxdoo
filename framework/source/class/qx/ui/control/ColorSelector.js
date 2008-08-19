@@ -45,7 +45,7 @@ qx.Class.define("qx.ui.control.ColorSelector",
   construct : function()
   {
     this.base(arguments);
-    
+
     // add the basic layout
     this._setLayout(new qx.ui.layout.VBox());
 
@@ -148,7 +148,6 @@ qx.Class.define("qx.ui.control.ColorSelector",
 
   members :
   {
-
     /*
     ---------------------------------------------------------------------------
       CONTEXT HANDLING
@@ -163,7 +162,9 @@ qx.Class.define("qx.ui.control.ColorSelector",
     /**
      * {Array} Map containing the preset colors.
      */
-    __presetTable : [ "maroon", "red", "orange", "yellow", "olive", "purple", "fuchsia", "lime", "green", "navy", "blue", "aqua", "teal", "black", "#333", "#666", "#999", "#BBB", "#EEE", "white" ],
+    __presetTable : [ "maroon", "red", "orange", "yellow", "olive", "purple",
+      "fuchsia", "lime", "green", "navy", "blue", "aqua", "teal", "black",
+      "#333", "#666", "#999", "#BBB", "#EEE", "white" ],
 
     /**
      * {String} Name of child control which is captured.
@@ -185,6 +186,8 @@ qx.Class.define("qx.ui.control.ColorSelector",
      */
     __hueSaturationSubtractLeft : 0,
 
+
+
     // overridden
     _createChildControlImpl : function(id)
     {
@@ -196,16 +199,16 @@ qx.Class.define("qx.ui.control.ColorSelector",
         ---------------------------------------------------------------------------
           CREATE #1: BASE STRUCTURE
         ---------------------------------------------------------------------------
-        */                
+        */
         case "control-bar":
           control = new qx.ui.container.Composite(new qx.ui.layout.HBox().set({
             alignY : "bottom"
           }));
-                    
+
           control.add(this._getChildControl("control-pane"));
           control.add(this._getChildControl("hue-saturation-pane"));
           control.add(this._getChildControl("brightness-pane"));
-          
+
           this._add(control);
           break;
 
@@ -214,71 +217,72 @@ qx.Class.define("qx.ui.control.ColorSelector",
           CREATE #2: PANES
         ---------------------------------------------------------------------------
         */
+
         case "control-pane":
           control = new qx.ui.container.Composite(new qx.ui.layout.VBox());
           control.add(this._getChildControl("preset-field-set"));
           control.add(this._getChildControl("input-field-set"));
           control.add(this._getChildControl("preview-field-set"), {flex: 1});
           break;
-          
+
         case "hue-saturation-pane":
           control = new qx.ui.container.Composite(new qx.ui.layout.Canvas());
           control.setAllowGrowY(false);
           control.addListener("mouseup", this._onHueSaturationPaneMouseWheel, this);
-          control.add(this._getChildControl("hue-saturation-field"));      
+          control.add(this._getChildControl("hue-saturation-field"));
           control.add(this._getChildControl("hue-saturation-handle"), {left: 0, top: 256});
           break;
-          
+
         case "hue-saturation-field":
-            control = new qx.ui.basic.Image("decoration/colorselector/huesaturation-field.jpg");
-            control.addListener("mousedown", this._onHueSaturationFieldMouseDown, this);        
+          control = new qx.ui.basic.Image("decoration/colorselector/huesaturation-field.jpg");
+          control.addListener("mousedown", this._onHueSaturationFieldMouseDown, this);
           break;
-          
+
         case "hue-saturation-handle":
           control = new qx.ui.basic.Image("decoration/colorselector/huesaturation-handle.gif");
           control.addListener("mousedown", this._onHueSaturationHandleMouseDown, this);
           control.addListener("mouseup", this._onHueSaturationHandleMouseUp, this);
-          control.addListener("mousemove", this._onHueSaturationHandleMouseMove, this);        
+          control.addListener("mousemove", this._onHueSaturationHandleMouseMove, this);
           break;
-          
+
         case "brightness-pane":
-          control = new qx.ui.container.Composite(new qx.ui.layout.Canvas());          
+          control = new qx.ui.container.Composite(new qx.ui.layout.Canvas());
           control.setAllowGrowY(false);
-          control.addListener("mousewheel", this._onBrightnessPaneMouseWheel, this);            
+          control.addListener("mousewheel", this._onBrightnessPaneMouseWheel, this);
           control.add(this._getChildControl("brightness-field"));
           control.add(this._getChildControl("brightness-handle"));
           break;
-          
+
         case "brightness-field":
-            control = new qx.ui.basic.Image("decoration/colorselector/brightness-field.jpg");
-            control.addListener("mousedown", this._onBrightnessFieldMouseDown, this);
+          control = new qx.ui.basic.Image("decoration/colorselector/brightness-field.jpg");
+          control.addListener("mousedown", this._onBrightnessFieldMouseDown, this);
           break;
-          
+
         case "brightness-handle":
           control = new qx.ui.basic.Image("decoration/colorselector/brightness-handle.gif");
           control.addListener("mousedown", this._onBrightnessHandleMouseDown, this);
           control.addListener("mouseup", this._onBrightnessHandleMouseUp, this);
           control.addListener("mousemove", this._onBrightnessHandleMouseMove, this);
           break;
-        
-          
+
+
         /*
         ---------------------------------------------------------------------------
           CREATE #3: CONTROL PANE CONTENT
         ---------------------------------------------------------------------------
-        */       
+        */
         case "preset-field-set":
           control = new qx.ui.groupbox.GroupBox(this.tr("Presets"));
           control.setLayout(new qx.ui.layout.Grow());
           control.add(this._getChildControl("preset-grid"));
           break;
-          
+
         case "preset-grid":
           controlLayout = new qx.ui.layout.Grid(2, 2);
           control = new qx.ui.container.Composite(controlLayout);
 
           var colorField;
-    
+
           for (var i=0; i<2; i++)
           {
             for (var j=0; j<10; j++)
@@ -287,67 +291,67 @@ qx.Class.define("qx.ui.control.ColorSelector",
               colorField.setAppearance("colorselector-colorbucket");
               colorField.setBackgroundColor(this.__presetTable[i * 10 + j]);
               colorField.addListener("mousedown", this._onColorFieldClick, this);
-    
+
               control.add(colorField, {column: j, row: i});
             }
-          }        
-          break;     
-          
+          }
+          break;
+
         case "input-field-set":
-            control = new qx.ui.groupbox.GroupBox(this.tr("Details"));
-            var controlLayout = new qx.ui.layout.VBox(); 
-            controlLayout.setSpacing(10);
-            control.setLayout(controlLayout);
-            
-            control.add(this._getChildControl("hex-field-composite"));
-            control.add(this._getChildControl("rgb-spinner-composite"));
-            control.add(this._getChildControl("hsb-spinner-composite"));
-          break;    
-          
+          control = new qx.ui.groupbox.GroupBox(this.tr("Details"));
+          var controlLayout = new qx.ui.layout.VBox();
+          controlLayout.setSpacing(10);
+          control.setLayout(controlLayout);
+
+          control.add(this._getChildControl("hex-field-composite"));
+          control.add(this._getChildControl("rgb-spinner-composite"));
+          control.add(this._getChildControl("hsb-spinner-composite"));
+          break;
+
         case "preview-field-set":
           control = new qx.ui.groupbox.GroupBox(this.tr("Preview (Old/New)"));
           var controlLayout = new qx.ui.layout.HBox();
           controlLayout.setSpacing(10);
           control.setLayout(controlLayout);
-          
+
           control.add(this._getChildControl("preview-content-old"), {flex: 1});
           control.add(this._getChildControl("preview-content-new"), {flex: 1});
           break;
-          
+
         /*
         ---------------------------------------------------------------------------
           CREATE #4: INPUT FIELDSET CONTENT
         ---------------------------------------------------------------------------
-        */    
+        */
         case "hex-field-composite":
           var layout = new qx.ui.layout.HBox(4);
           layout.setAlignY("middle");
           control = new qx.ui.container.Composite(layout);
-    
+
           var hexLabel = new qx.ui.basic.Label(this.tr("Hex"));
           control.add(hexLabel);
-    
+
           var hexHelper = new qx.ui.basic.Label("#");
           control.add(hexHelper);
-    
+
           control.add(this._getChildControl("hex-field"));
-          break;   
-        
+          break;
+
         case "hex-field":
           control = new qx.ui.form.TextField("FFFFFF");
           control.setWidth(55);
-          control.addListener("changeValue", this._onHexFieldChange, this);        
+          control.addListener("changeValue", this._onHexFieldChange, this);
           break;
-          
+
         case "rgb-spinner-composite":
           var layout = new qx.ui.layout.HBox(4);
           layout.setAlignY("middle");
           control = new qx.ui.container.Composite(layout);
-    
+
           var rgbSpinLabel = new qx.ui.basic.Label(this.tr("RGB"));
           rgbSpinLabel.setWidth(25);
           control.add(rgbSpinLabel);
-          
+
           control.add(this._getChildControl("rgb-spinner-red"));
           control.add(this._getChildControl("rgb-spinner-green"));
           control.add(this._getChildControl("rgb-spinner-blue"));
@@ -358,24 +362,24 @@ qx.Class.define("qx.ui.control.ColorSelector",
           control.setWidth(50);
           control.addListener("changeValue", this._setRedFromSpinner, this);
           break;
-          
+
         case "rgb-spinner-green":
           control = new qx.ui.form.Spinner(0, 255, 255);
           control.setWidth(50);
           control.addListener("changeValue", this._setGreenFromSpinner, this);
           break;
-        
+
         case "rgb-spinner-blue":
           control = new qx.ui.form.Spinner(0, 255, 255);
           control.setWidth(50);
-          control.addListener("changeValue", this._setBlueFromSpinner, this);   
-          break;        
-       
+          control.addListener("changeValue", this._setBlueFromSpinner, this);
+          break;
+
         case "hsb-spinner-composite":
           var layout = new qx.ui.layout.HBox(4);
           layout.setAlignY("middle");
-          control = new qx.ui.container.Composite(layout); 
-    
+          control = new qx.ui.container.Composite(layout);
+
           var hsbSpinLabel = new qx.ui.basic.Label(this.tr("HSB"));
           hsbSpinLabel.setWidth(25);
           control.add(hsbSpinLabel);
@@ -384,26 +388,26 @@ qx.Class.define("qx.ui.control.ColorSelector",
           control.add(this._getChildControl("hsb-spinner-saturation"));
           control.add(this._getChildControl("hsb-spinner-brightness"));
           break;
-        
-        case "hsb-spinner-hue":    
+
+        case "hsb-spinner-hue":
           control = new qx.ui.form.Spinner(0, 0, 360);
           control.setWidth(50);
           control.addListener("changeValue", this._setHueFromSpinner, this);
           break;
-          
+
         case "hsb-spinner-saturation":
           control = new qx.ui.form.Spinner(0, 0, 100);
           control.setWidth(50);
           control.addListener("changeValue", this._setSaturationFromSpinner, this);
           break;
-          
+
         case "hsb-spinner-brightness":
           control = new qx.ui.form.Spinner(0, 100, 100);
           control.setWidth(50);
           control.addListener("changeValue", this._setBrightnessFromSpinner, this);
           break;
-          
-          
+
+
         /*
         ---------------------------------------------------------------------------
           CREATE #5: PREVIEW CONTENT
@@ -412,12 +416,12 @@ qx.Class.define("qx.ui.control.ColorSelector",
         case "preview-content-old":
           control = new qx.ui.core.Widget();
           break;
-      
+
         case "preview-content-new":
           control = new qx.ui.core.Widget();
           break;
       }
-      
+
       return control || this.base(arguments, id);
     },
 
@@ -548,7 +552,7 @@ qx.Class.define("qx.ui.control.ColorSelector",
 
       if (this.__updateContext !== "hueSaturationField")
       {
-        if (this._getChildControl("hue-saturation-handle").getBounds()) {          
+        if (this._getChildControl("hue-saturation-handle").getBounds()) {
           this._getChildControl("hue-saturation-handle").setDomLeft(Math.round(value / 1.40625) + this._getChildControl("hue-saturation-pane").getPaddingLeft());
         } else {
           this._getChildControl("hue-saturation-handle").setLeft(Math.round(value / 1.40625));
@@ -772,7 +776,7 @@ qx.Class.define("qx.ui.control.ColorSelector",
      */
     _onHueSaturationHandleMouseDown : function(e)
     {
-      // Activate Capturing      
+      // Activate Capturing
       this._getChildControl("hue-saturation-handle").capture();
       this.__capture = "hue-saturation-handle";
 
@@ -802,7 +806,7 @@ qx.Class.define("qx.ui.control.ColorSelector",
      * @param e {qx.event.type.Mouse} Incoming event object
      */
     _onHueSaturationHandleMouseMove : function(e)
-    {      
+    {
       // Update if captured currently (through previous mousedown)
       if (this.__capture === "hue-saturation-handle") {
         this._setHueSaturationOnFieldEvent(e);
@@ -858,9 +862,9 @@ qx.Class.define("qx.ui.control.ColorSelector",
       var vLeft = qx.lang.Number.limit(e.getDocumentLeft() - this.__hueSaturationSubtractLeft, 0, 256);
 
       if (this._getChildControl("hue-saturation-handle").getBounds()) {
-        this._getChildControl("hue-saturation-handle").setDomPosition(vLeft, vTop);        
+        this._getChildControl("hue-saturation-handle").setDomPosition(vLeft, vTop);
       } else {
-        this._getChildControl("hue-saturation-handle").setLayoutProperties({top: vTop, left: vLeft});        
+        this._getChildControl("hue-saturation-handle").setLayoutProperties({top: vTop, left: vLeft});
       }
 
       this.__updateContext = "hueSaturationField";
@@ -1031,7 +1035,7 @@ qx.Class.define("qx.ui.control.ColorSelector",
     /**
      * Listener of click event on the color field.
      * Sets red, green and blue values to clicked color field's background color.
-     * 
+     *
      * @param e {qx.event.type.Mouse} Incoming event object
      */
     _onColorFieldClick : function(e)
@@ -1119,7 +1123,7 @@ qx.Class.define("qx.ui.control.ColorSelector",
 
     /**
      * Sets previous color's to given values.
-     * 
+     *
      * @param vRed {Number} Red color value.
      * @param vGreen {Number} Green color value.
      * @param vBlue {Number} Blue color value.
