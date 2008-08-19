@@ -674,7 +674,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
     "progressive-table-header-cell" :
     {
-      decorator :  qx.ui.decoration.Double,
+      decorator :  qx.ui.decoration.Single,
 
       style :
       {
