@@ -53,17 +53,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
       }
     },
 
-    "block" :
-    {
-      decorator: qx.ui.decoration.Uniform,
-
-      style :
-      {
-        width : 1,
-        color : "border-separator"
-      }
-    },
-
     "selected" :
     {
       decorator : qx.ui.decoration.Single,
@@ -577,100 +566,101 @@ qx.Theme.define("qx.theme.modern.Decoration",
       }
     },
 
-   "table-statusbar" :
-   {
-     decorator : qx.ui.decoration.Single,
+    "table-statusbar" :
+    {
+      decorator : qx.ui.decoration.Single,
 
-     style :
-     {
-       widthTop : 1,
-       colorTop : "border-main",
-       style    : "solid"
-     }
-   },
+      style :
+      {
+        widthTop : 1,
+        colorTop : "border-main",
+        style    : "solid"
+      }
+    },
 
-   "table-scroller-header" :
-   {
-     decorator : qx.ui.decoration.Single,
+    "table-scroller-header" :
+    {
+      decorator : qx.ui.decoration.Single,
 
-     style :
-     {
-       backgroundImage  : "decoration/table/header-cell.png",
-       backgroundRepeat : "scale",
+      style :
+      {
+        backgroundImage  : "decoration/table/header-cell.png",
+        backgroundRepeat : "scale",
 
-       widthBottom : 1,
-       colorBottom : "border-main",
-       style       : "solid"
-     }
-   },
+        widthBottom : 1,
+        colorBottom : "border-main",
+        style       : "solid"
+      }
+    },
 
-   "table-header-cell" :
-   {
-     decorator :  qx.ui.decoration.Double,
+    "table-header-cell" :
+    {
+      decorator :  qx.ui.decoration.Double,
 
-     style :
-     {
-       backgroundImage  : "decoration/table/header-cell.png",
-       backgroundRepeat : "scale",
+      style :
+      {
+        backgroundImage  : "decoration/table/header-cell.png",
+        backgroundRepeat : "scale",
 
-       widthRight : 1,
-       colorRight : "#F2F2F2",
+        widthRight : 1,
+        colorRight : "#F2F2F2",
 
-       innerWidthRight : 1,
-       innerColorRight : "#A6A6A6",
+        innerWidthRight : 1,
+        innerColorRight : "#A6A6A6",
 
-       style      : "solid"
-     }
-   },
+        style      : "solid"
+      }
+    },
 
-   "table-header-cell-hovered" :
-   {
-     decorator :  qx.ui.decoration.Double,
+    "table-header-cell-hovered" :
+    {
+      decorator :  qx.ui.decoration.Double,
 
-     style :
-     {
-       backgroundImage  : "decoration/table/header-cell.png",
-       backgroundRepeat : "scale",
+      style :
+      {
+        backgroundImage  : "decoration/table/header-cell.png",
+        backgroundRepeat : "scale",
 
-       widthRight : 1,
-       colorRight : "#F2F2F2",
+        widthRight : 1,
+        colorRight : "#F2F2F2",
 
-       innerWidthRight : 1,
-       innerColorRight : "#A6A6A6",
+        innerWidthRight : 1,
+        innerColorRight : "#A6A6A6",
 
-       widthBottom : 1,
-       colorBottom : "white",
+        widthBottom : 1,
+        colorBottom : "white",
 
-       style      : "solid"
-     }
-   },
+        style      : "solid"
+      }
+    },
 
-   "table-column-button" :
-   {
-     decorator : qx.ui.decoration.Single,
+    "table-column-button" :
+    {
+      decorator : qx.ui.decoration.Single,
 
-     style :
-     {
-       backgroundImage  : "decoration/table/header-cell.png",
-       backgroundRepeat : "scale",
+      style :
+      {
+        backgroundImage  : "decoration/table/header-cell.png",
+        backgroundRepeat : "scale",
 
-       widthBottom : 1,
-       colorBottom : "border-main",
-       style       : "solid"
-     }
-   },
+        widthBottom : 1,
+        colorBottom : "border-main",
+        style       : "solid"
+      }
+    },
 
-   "table-scroller-focus-indicator" :
-   {
-     decorator : qx.ui.decoration.Single,
+    "table-scroller-focus-indicator" :
+    {
+      decorator : qx.ui.decoration.Single,
 
-     style :
-     {
-       width : 2,
-       color : "table-focus-indicator",
-       style : "solid"
-     }
-   },
+      style :
+      {
+        width : 2,
+        color : "table-focus-indicator",
+        style : "solid"
+      }
+    },
+
 
 
 
@@ -681,33 +671,32 @@ qx.Theme.define("qx.theme.modern.Decoration",
     ---------------------------------------------------------------------------
     */
 
+    "progressive-table-header" :
+    {
+       decorator : qx.ui.decoration.Single,
 
-   "progressive-table-header" :
-   {
-      decorator : qx.ui.decoration.Single,
+       style :
+       {
+         width       : 1,
+         color       : "border-main",
+         style       : "solid"
+       }
+    },
+
+    "progressive-table-header-cell" :
+    {
+      decorator :  qx.ui.decoration.Double,
 
       style :
       {
-        width       : 1,
-        color       : "border-main",
-        style       : "solid"
+        backgroundImage  : "decoration/table/header-cell.png",
+        backgroundRepeat : "scale",
+
+        widthRight : 1,
+        colorRight : "#F2F2F2",
+        style      : "solid"
       }
-   },
-
-   "progressive-table-header-cell" :
-   {
-     decorator :  qx.ui.decoration.Double,
-
-     style :
-     {
-       backgroundImage  : "decoration/table/header-cell.png",
-       backgroundRepeat : "scale",
-
-       widthRight : 1,
-       colorRight : "#F2F2F2",
-       style      : "solid"
-     }
-   },
+    },
 
 
 
@@ -718,22 +707,22 @@ qx.Theme.define("qx.theme.modern.Decoration",
     ---------------------------------------------------------------------------
     */
 
-   "menu" :
-   {
-     decorator : qx.ui.decoration.Single,
+    "menu" :
+    {
+      decorator : qx.ui.decoration.Single,
 
-     style :
-     {
-       backgroundImage  : "decoration/menu/background.png",
-       backgroundRepeat : "scale",
+      style :
+      {
+        backgroundImage  : "decoration/menu/background.png",
+        backgroundRepeat : "scale",
 
-       width : 1,
-       color : "border-main",
-       style : "solid"
-     }
-   },
+        width : 1,
+        color : "border-main",
+        style : "solid"
+      }
+    },
 
-   "menu-separator" :
+    "menu-separator" :
     {
       decorator :  qx.ui.decoration.Single,
 
