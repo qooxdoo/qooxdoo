@@ -797,6 +797,9 @@ qx.Class.define("qx.ui.core.Widget",
     __shadowElement : null,
     __protectorElement : null,
 
+
+
+
     /*
     ---------------------------------------------------------------------------
       LAYOUT INTERFACE
