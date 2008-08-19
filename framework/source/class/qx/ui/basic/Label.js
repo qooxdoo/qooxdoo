@@ -324,5 +324,20 @@ qx.Class.define("qx.ui.basic.Label",
       // Update layout
       qx.ui.core.queue.Layout.add(this);
     }
+  },
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function()
+  {
+    if (qx.core.Variant.isSet("qx.dynamicLocaleSwitch", "on")) {
+      qx.locale.Manager.getInstance().removeListener("changeLocale", this._onChangeLocale, this)
+    }
   }
 });
