@@ -38,10 +38,32 @@ qx.Theme.define("qx.theme.classic.Decoration",
   {
     /*
     ---------------------------------------------------------------------------
+      COMPAT
+    ---------------------------------------------------------------------------
+    */
+
+    "main" :
+    {
+      decorator: qx.ui.decoration.Uniform,
+
+      style :
+      {
+        width : 1,
+        color : "border-dark"
+      }
+    },
+
+
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
       CORE
     ---------------------------------------------------------------------------
     */
-        
+
     "black" :
     {
       decorator: qx.ui.decoration.Uniform,
@@ -233,7 +255,7 @@ qx.Theme.define("qx.theme.classic.Decoration",
       TOOL TIP
     ---------------------------------------------------------------------------
     */
-    
+
     "tooltip" :
     {
       decorator: qx.ui.decoration.Uniform,
@@ -253,7 +275,7 @@ qx.Theme.define("qx.theme.classic.Decoration",
       TOOLBAR
     ---------------------------------------------------------------------------
     */
-    
+
     "toolbar-separator" :
     {
       decorator : qx.ui.decoration.Single,
