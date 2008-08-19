@@ -154,7 +154,7 @@ qx.Class.define("qx.core.Property",
       "Interface" : 'value !== null && value.$$type === "Interface"',
       "Theme"     : 'value !== null && value.$$type === "Theme"',
 
-      "Color"     : '(typeof value === "string" || value instanceof String) && qx.util.ColorUtil.isValid(value)',
+      "Color"     : '(typeof value === "string" || value instanceof String) && qx.util.ColorUtil.isValidPropertyValue(value)',
       "Decorator" : 'value !== null && qx.theme.manager.Decoration.getInstance().isDynamic(value)',
       "Font"      : 'value !== null && qx.theme.manager.Font.getInstance().isDynamic(value)'
     },

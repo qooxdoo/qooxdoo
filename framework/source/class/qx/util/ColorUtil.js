@@ -281,8 +281,8 @@ qx.Class.define("qx.util.ColorUtil",
      * @param str {String} any string
      * @return {Boolean} true when the incoming value is a valid qooxdoo color
      */
-    isValid : function(str) {
-      return this.isThemedColor(str) || this.isCssString(str);
+    isValidPropertyValue : function(str) {
+      return this.isThemedColor(str) || this.isNamedColor(str) || this.isHex3String(str) || this.isHex6String(str);
     },
 
 
