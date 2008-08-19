@@ -192,7 +192,9 @@ qx.Class.define("qx.ui.table.Table",
     this.__focusedRow = null;
 
     // add an event listener which updates the table content on locale change
-    qx.locale.Manager.getInstance().addListener("changeLocale", this._onChangeLocale, this);
+    if (qx.core.Variant.isSet("qx.dynamicLocaleSwitch", "on")) {
+      qx.locale.Manager.getInstance().addListener("changeLocale", this._onChangeLocale, this);
+    }
   },
 
 
@@ -1749,11 +1751,9 @@ qx.Class.define("qx.ui.table.Table",
   destruct : function()
   {
     // remove the event listener which handled the locale change
-    qx.locale.Manager.getInstance().removeListener(
-      "changeLocale",
-      this._onChangeLocale,
-      this
-    );
+    if (qx.core.Variant.isSet("qx.dynamicLocaleSwitch", "on")) {
+      qx.locale.Manager.getInstance().removeListener("changeLocale", this._onChangeLocale, this);
+    }
 
     // we allocated these objects on init so we have to clean them up.
     var selectionModel = this.getSelectionModel();
