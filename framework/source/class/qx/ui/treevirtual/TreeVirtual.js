@@ -710,7 +710,7 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
             break;
         }
       }
-      else if (modifiers == qx.event.type.DomEvent.CTRL_MASK)
+      else if (modifiers == qx.event.type.Dom.CTRL_MASK)
       {
         switch(identifier)
         {
@@ -765,7 +765,7 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
             break;
         }
       }
-      else if (modifiers == qx.event.type.DomEvent.SHIFT_MASK)
+      else if (modifiers == qx.event.type.Dom.SHIFT_MASK)
       {
         switch(identifier)
         {
