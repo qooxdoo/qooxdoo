@@ -90,32 +90,32 @@ qx.Class.define("qx.test.ui.LayoutTestCase",
     },
 
 
-    assertStyle : function(widget, style, value)
+    assertStyle : function(widget, style, value, msg)
     {
       qx.ui.core.queue.Manager.flush();
       var widgetStyle = widget.getContainerElement().getDomElement().style[style];
 
       if (value && style.match(/color/i)) {
-        this.assertCssColor(value, widgetStyle);
+        this.assertCssColor(value, widgetStyle, msg);
       } else {
-        this.assertEquals(value, widgetStyle);
+        this.assertEquals(value, widgetStyle, msg);
       }
     },
 
 
-    assertContentStyle : function(widget, style, value)
+    assertContentStyle : function(widget, style, value, msg)
     {
       qx.ui.core.queue.Manager.flush();
       var widgetStyle = widget.getContainerElement().getDomElement().style[style];
       if (value && style.match(/color/i)) {
-        this.assertCssColor(value, widgetStyle);
+        this.assertCssColor(value, widgetStyle, msg);
       } else {
-        this.assertEquals(value, widgetStyle);
+        this.assertEquals(value, widgetStyle, msg);
       }
     },
 
 
-    assertDecoratorStyle : function(widget, style, value)
+    assertDecoratorStyle : function(widget, style, value, msg)
     {
       qx.ui.core.queue.Manager.flush();
 
@@ -123,12 +123,12 @@ qx.Class.define("qx.test.ui.LayoutTestCase",
         return;
       }
 
-      this.assertNotNull(widget.getDecoratorElement());
+      this.assertNotNull(widget.getDecoratorElement(), msg);
       var widgetStyle = widget.getDecoratorElement().getDomElement().style[style];
       if (value && style.match(/color/i)) {
-        this.assertCssColor(value, widgetStyle);
+        this.assertCssColor(value, widgetStyle, msg);
       } else {
-        this.assertEquals(value, widgetStyle);
+        this.assertEquals(value, widgetStyle, msg);
       }
     }
 

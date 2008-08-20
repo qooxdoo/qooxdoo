@@ -206,7 +206,7 @@ qx.Class.define("qx.ui.decoration.Uniform",
         bgcolor = this.getBackgroundColor();
       }
 
-      dom.style.backgroundColor = Color.resolve(bgcolor);
+      dom.style.backgroundColor = Color.resolve(bgcolor) || "";
     },
 
 
