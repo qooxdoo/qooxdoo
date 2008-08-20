@@ -870,7 +870,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          decorator : "pane",
+          decorator : "tabview-pane",
+          minHeight : 100,
 
           marginBottom : states.barBottom ? -1 : 0,
           marginTop : states.barTop ? -1 : 0,
@@ -903,23 +904,23 @@ qx.Theme.define("qx.theme.modern.Appearance",
           else if (states.barBottom)
           {
             decorator = "tabview-page-button-bottom-active";
-            padding = [ 6, 10 ];
+            padding = [ 6, 14 ];
             marginLeft = states.firstTab ? 0 : -5;
             marginRight = states.lastTab ? 0 : -5;
           }
           else if (states.barRight)
           {
             decorator = "tabview-page-button-right-active";
-            padding = [ 6, 10 ];
-            marginTop = states.firstTab ? 0 : -6;
-            marginBottom = states.lastTab ? 0 : -6;
+            padding = [ 6, 13 ];
+            marginTop = states.firstTab ? 0 : -5;
+            marginBottom = states.lastTab ? 0 : -5;
           }
           else
           {
             decorator = "tabview-page-button-left-active";
-            padding = [ 6, 10 ];
-            marginTop = states.firstTab ? 0 : -6;
-            marginBottom = states.lastTab ? 0 : -6;
+            padding = [ 6, 13 ];
+            marginTop = states.firstTab ? 0 : -5;
+            marginBottom = states.lastTab ? 0 : -5;
           }
         }
         else
@@ -943,19 +944,19 @@ qx.Theme.define("qx.theme.modern.Appearance",
           else if (states.barRight)
           {
             decorator = "tabview-page-button-right-inactive";
-            padding = [ 6, 10 ];
-            marginRight = 4;
-            marginTop = 1;
+            padding = [ 4, 10 ];
+            marginRight = 5;
+            marginTop = states.firstTab ? 5 : 1;
             marginBottom = 1;
             marginLeft = 1;
           }
           else
           {
             decorator = "tabview-page-button-left-inactive";
-            padding = [ 6, 10 ];
-            marginLeft = 4;
-            marginTop = 2;
-            marginBottom = 2;
+            padding = [ 4, 10 ];
+            marginLeft = 5;
+            marginTop = states.firstTab ? 5 : 1;
+            marginBottom = 1;
             marginRight = 1;
           }
         }

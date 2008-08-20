@@ -93,6 +93,12 @@
             "prefix" : "../../${MODERN}/window/statusbar",
             "border-width" : 4
           },
+          // tabview-pane split
+          "${RESPATH}/source/Modern/tabview-pane.png" :
+          {
+            "prefix" : "../../${MODERN}/tabview/tabview-pane",
+            "border-width" : 30
+          },          
           // active top tabview button split
           "${RESPATH}/source/Modern/tab-button-top-active.png" :
           {
@@ -492,6 +498,27 @@
               [
                 "${RESPATH}/${MODERN}/groupbox/groupbox-l.png",
                 "${RESPATH}/${MODERN}/groupbox/groupbox-r.png"
+              ],
+             "layout" : "horizontal"
+          },
+          
+          // tabview-pane - top and bottom
+          "${RESPATH}/${MODERN}/tabview-pane-tb-combined.png":
+          {
+            "input"  :
+              [
+                "${RESPATH}/${MODERN}/tabview/tabview-pane-t*.png",
+                "${RESPATH}/${MODERN}/tabview/tabview-pane-b*.png"
+              ],
+             "layout" : "vertical"
+          },
+          
+          // tabview-pane - left and right
+          "${RESPATH}/${MODERN}/tabview-pane-lr-combined.png":
+          {
+            "input"  :
+              [
+                "${RESPATH}/${MODERN}/tabview/tabview-pane-[lr].png"
               ],
              "layout" : "horizontal"
           },
