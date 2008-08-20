@@ -254,5 +254,17 @@ qx.Class.define("qx.ui.embed.Canvas",
      * @param context {CanvasRenderingContext2D} The rendering context to draw to
      */
     _draw : function(width, height, context) {}
+  },
+  
+  
+  
+  /*
+   *****************************************************************************
+      DESTRUCT
+   *****************************************************************************
+   */
+  destruct : function()
+  {
+    this._disposeFields("__deferredDraw");
   }
 });
