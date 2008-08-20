@@ -164,7 +164,7 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Abstract",
       var lastScroller = scrollerArr[scrollerArr.length-1];
 
       var topRight = lastScroller.getTopRightWidget();
-      var topRightWidth = topRight ? topRight.getBounds().width : 0;
+      var topRightWidth = topRight && topRight.getBounds() ? topRight.getBounds().width : 0;
 
       var scrollBarWidth = lastScroller.getVerticalScrollBarWidth();
 
