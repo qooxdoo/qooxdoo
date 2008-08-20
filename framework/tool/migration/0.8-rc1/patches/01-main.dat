@@ -1,1 +1,3 @@
 \b_postLoad\s*:\s*function\b=finalize : function
+^#resource.*$=
+^#embed\((\w+)\.(\w+)/(.*)\)=#asset(\1/\2/\3)
