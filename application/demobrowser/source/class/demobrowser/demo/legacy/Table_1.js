@@ -20,7 +20,7 @@
 /* ************************************************************************
 
 #use(qx.legacy.theme.ClassicRoyale)
-#asset(qx/icon/Compat/16/apps/accessories-date.png)
+#asset(qx/compat/icon/CrystalClear/16/apps/accessories-date.png)
 
 ************************************************************************ */
 
