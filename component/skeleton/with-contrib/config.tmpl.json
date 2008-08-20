@@ -26,7 +26,7 @@
       "library": 
       [
         {
-          "manifest" : "contrib://SkeletonWidget/trunk/Manifest.json",
+          "manifest" : "contrib://SkeletonApplication/trunk/Manifest.json",
           "uri"      : ".."
         }
       ]
