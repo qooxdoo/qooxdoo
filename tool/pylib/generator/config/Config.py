@@ -445,7 +445,7 @@ class Config:
 
 
     def _stripComments(self,jsonstr):
-        eolComment = re.compile(r'//.*$', re.M)
+        eolComment = re.compile(r'(<!contrib:)//.*$', re.M)
         mulComment = re.compile(r'/\*.*?\*/', re.S)
         result = eolComment.sub('',jsonstr)
         result = mulComment.sub('',result)
