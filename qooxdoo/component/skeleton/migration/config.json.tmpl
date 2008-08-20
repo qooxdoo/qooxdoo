@@ -1,0 +1,20 @@
+{
+  "name"    : "${Name}",
+
+  "include" :
+  [
+    {
+      "path" : "${REL_QOOXDOO_PATH}/tool/data/config/application.json"
+    }
+  ],
+
+  "let" :
+  {
+    "APPLICATION"  : "${Namespace}",
+    "QOOXDOO_PATH" : "${REL_QOOXDOO_PATH}/framework",
+    "QOOXDOO_URI"  : "../$${QOOXDOO_PATH}",
+    "QXTHEME"      : "qx.theme.Modern",
+    "LOCALES"      : [ "en" ],
+    "ROOT"         : "."
+  }
+}
