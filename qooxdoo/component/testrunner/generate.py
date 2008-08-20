@@ -22,7 +22,7 @@
 # This is a stub proxy for the real generator.py
 ##
 
-import sys, os
+import sys, os, subprocess
 
 CMD_PYTHON     = 'python'
 REAL_GENERATOR = os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])),
@@ -33,4 +33,4 @@ argList.append(CMD_PYTHON)
 argList.append(REAL_GENERATOR)
 argList.extend(sys.argv[1:])  # skip $0 (this script's name)
 
-os.execvp(CMD_PYTHON, argList)
+subprocess.call(" ".join(argList), shell=True)
