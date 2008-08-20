@@ -146,6 +146,15 @@ qx.Class.define("qx.ui.container.SlideBar",
       return control || this.base(arguments, id);
     },
 
+    // overridden
+    _forwardStates :
+    {
+      barLeft : true,
+      barTop : true,
+      barRight : true,
+      barBottom : true
+    },
+
 
 
 
