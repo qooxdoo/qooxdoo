@@ -1873,10 +1873,12 @@ qx.Class.define("qx.ui.core.Widget",
         return;
       }
 
-      var children = this.__widgetChildren;
-      children.length = 0;
+      // Working on a copy to make it possible to clear the 
+      // internal array before calling setLayoutParent()
+      var children = this.__widgetChildren.concat();
+      this.__widgetChildren.length = 0;
 
-      for (var i = children.length-1; i>=0; i--) {
+      for (var i=children.length-1; i>=0; i--) {
         children[i].setLayoutParent(null);
       }
 
