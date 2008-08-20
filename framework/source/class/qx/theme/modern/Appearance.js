@@ -788,20 +788,30 @@ qx.Theme.define("qx.theme.modern.Appearance",
 
       style : function(states)
       {
-        var paddingX = states.barLeft || states.barRight ? 0 : 10;
-        var paddingY = states.barTop || states.barBottom ? 0 : 10;
-
-        return {
-          paddingLeft     : paddingX,
-          paddingRight    : paddingX,
-          paddingTop      : paddingY,
-          paddingBottom   : paddingY,
-
-          marginBottom    : states.barTop ? -1 : 0,
-          marginTop       : states.barBottom ? -4 : 0,
-          marginLeft      : states.barRight ? -3 : 0,
-          marginRight     : states.barLeft ? -1 : 0
+        var result =
+        {
+          marginBottom : states.barTop ? -1 : 0,
+          marginTop : states.barBottom ? -4 : 0,
+          marginLeft : states.barRight ? -3 : 0,
+          marginRight : states.barLeft ? -1 : 0,
+          paddingTop : 0,
+          paddingRight : 0,
+          paddingBottom : 0,
+          paddingLeft : 0
         }
+
+        if (states.barTop || states.barBottom)
+        {
+          result.paddingLeft = 5;
+          result.paddingRight = 7;
+        }
+        else
+        {
+          result.paddingTop = 5;
+          result.paddingBottom = 7;
+        }
+
+        return result;
       }
     },
 

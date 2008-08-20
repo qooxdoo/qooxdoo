@@ -3164,11 +3164,13 @@ qx.Class.define("qx.ui.core.Widget",
      *   <code>top</code> or <code>bottom</code>. Could also be null.
      *   Without a given alignment the method tries to scroll the widget
      *   with the minimum effort needed.
+     * @param direct {Boolean?true} Whether the execution should be made
+     *   directly when possible
      */
-    scrollChildIntoView : function(child, alignX, alignY)
+    scrollChildIntoView : function(child, alignX, alignY, direct)
     {
-      this.scrollChildIntoViewX(child, alignX);
-      this.scrollChildIntoViewY(child, alignY);
+      this.scrollChildIntoViewX(child, alignX, direct);
+      this.scrollChildIntoViewY(child, alignY, direct);
     },
 
 
@@ -3180,9 +3182,11 @@ qx.Class.define("qx.ui.core.Widget",
      *   <code>left</code> or <code>right</code>. Could also be null.
      *   Without a given alignment the method tries to scroll the widget
      *   with the minimum effort needed.
+     * @param direct {Boolean?true} Whether the execution should be made
+     *   directly when possible
      */
-    scrollChildIntoViewX : function(child, align) {
-      this.__contentElement.scrollChildIntoViewX(child.getContainerElement(), align);
+    scrollChildIntoViewX : function(child, align, direct) {
+      this.__contentElement.scrollChildIntoViewX(child.getContainerElement(), align, direct);
     },
 
 
@@ -3194,9 +3198,11 @@ qx.Class.define("qx.ui.core.Widget",
      *   <code>top</code> or <code>bottom</code>. Could also be null.
      *   Without a given alignment the method tries to scroll the widget
      *   with the minimum effort needed.
+     * @param direct {Boolean?true} Whether the execution should be made
+     *   directly when possible
      */
-    scrollChildIntoViewY : function(child, align) {
-      this.__contentElement.scrollChildIntoViewY(child.getContainerElement(), align);
+    scrollChildIntoViewY : function(child, align, direct) {
+      this.__contentElement.scrollChildIntoViewY(child.getContainerElement(), align, direct);
     },
 
 

@@ -1548,13 +1548,15 @@ qx.Class.define("qx.html.Element",
      *   <code>left</code> or <code>right</code>. Could also be null.
      *   Without a given alignment the method tries to scroll the widget
      *   with the minimum effort needed.
+     * @param direct {Boolean?true} Whether the execution should be made
+     *   directly when possible
      */
-    scrollChildIntoViewX : function(elem, align)
+    scrollChildIntoViewX : function(elem, align, direct)
     {
       var thisEl = this._element;
       var childEl = elem.getDomElement();
 
-      if (thisEl && thisEl.offsetWidth && childEl && childEl.offsetWidth)
+      if (direct !== false && thisEl && thisEl.offsetWidth && childEl && childEl.offsetWidth)
       {
         qx.bom.element.Scroll.intoViewX(childEl, thisEl, align);
       }
@@ -1586,13 +1588,15 @@ qx.Class.define("qx.html.Element",
      *   <code>top</code> or <code>bottom</code>. Could also be null.
      *   Without a given alignment the method tries to scroll the widget
      *   with the minimum effort needed.
+     * @param direct {Boolean?true} Whether the execution should be made
+     *   directly when possible
      */
-    scrollChildIntoViewY : function(elem, align)
+    scrollChildIntoViewY : function(elem, align, direct)
     {
       var thisEl = this._element;
       var childEl = elem.getDomElement();
 
-      if (thisEl && thisEl.offsetWidth && childEl && childEl.offsetWidth)
+      if (direct !== false && thisEl && thisEl.offsetWidth && childEl && childEl.offsetWidth)
       {
         qx.bom.element.Scroll.intoViewY(childEl, thisEl, align);
       }
