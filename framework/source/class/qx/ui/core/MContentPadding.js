@@ -33,7 +33,7 @@ qx.Mixin.define("qx.ui.core.MContentPadding",
      PROPERTIES
   *****************************************************************************
   */
-    
+
   properties :
   {
     /** Top padding of the content pane */
@@ -91,9 +91,9 @@ qx.Mixin.define("qx.ui.core.MContentPadding",
       themeable : true
     }
   },
-  
-  
-  
+
+
+
 
 
   /*
@@ -101,26 +101,42 @@ qx.Mixin.define("qx.ui.core.MContentPadding",
      MEMBERS
   *****************************************************************************
   */
-  
+
   members :
   {
     /** {Map} Maps property names of content padding to the setter of the padding */
-    __contentPaddingMap : 
+    __contentPaddingSetter :
     {
       contentPaddingTop : "setPaddingTop",
       contentPaddingRight : "setPaddingRight",
       contentPaddingBottom : "setPaddingBottom",
-      contentPaddingLeft : "setPaddingLeft"                  
+      contentPaddingLeft : "setPaddingLeft"
     },
-    
-    
+
+    /** {Map} Maps property names of content padding to the resetter of the padding */
+    __contentPaddingResetter :
+    {
+      contentPaddingTop : "resetPaddingTop",
+      contentPaddingRight : "resetPaddingRight",
+      contentPaddingBottom : "resetPaddingBottom",
+      contentPaddingLeft : "resetPaddingLeft"
+    },
+
     // property apply
     _applyContentPadding : function(value, old, name)
     {
       var target = this._getContentPaddingTarget();
-      var setter = this.__contentPaddingMap[name];
-      
-      target[setter](value);
+
+      if (value == null)
+      {
+        var resetter = this.__contentPaddingResetter[name];
+        target[resetter]();
+      }
+      else
+      {
+        var setter = this.__contentPaddingSetter[name];
+        target[setter](value);
+      }
     }
   }
 });
