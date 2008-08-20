@@ -323,6 +323,68 @@ qx.Theme.define("qx.theme.classic.Decoration",
         colorTop : "border-dark",
         colorBottom : "border-light"
       }
+    },
+    
+    
+    
+    
+    
+    /*
+    ---------------------------------------------------------------------------
+      DATE CHOOSER
+    ---------------------------------------------------------------------------
+    */
+    
+    "datechooser-date-pane" :
+    {
+      decorator : qx.ui.decoration.Single,
+
+      style :
+      {
+        widthTop: 1,
+        colorTop : "gray",
+        style : "solid"
+      }
+    },
+    
+    
+    "datechooser-weekday" :
+    {
+      decorator : qx.ui.decoration.Single,
+
+      style :
+      {
+        widthBottom: 1,
+        colorBottom : "gray",
+        style : "solid"
+      }
+    },
+    
+    "datechooser-week" :
+    {
+      decorator : qx.ui.decoration.Single,
+
+      style :
+      {
+        widthRight: 1,
+        colorRight : "gray",
+        style : "solid"
+      }
+    },
+    
+    "datechooser-week-header" :
+    {
+      decorator : qx.ui.decoration.Single,
+
+      style :
+      {
+        widthBottom : 1,
+        colorBottom : "gray",
+        widthRight: 1,
+        colorRight : "gray",
+        
+        style : "solid"
+      }
     }
   }
 });
