@@ -393,7 +393,7 @@ qx.Class.define("qx.ui.decoration.Single",
         bgcolor = this.getBackgroundColor();
       }
 
-      dom.style.backgroundColor = Color.resolve(bgcolor);
+      dom.style.backgroundColor = Color.resolve(bgcolor) || "";
     },
 
 

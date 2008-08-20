@@ -297,7 +297,7 @@ qx.Class.define("qx.ui.decoration.Beveled",
         bgcolor = this.getBackgroundColor();
       }
 
-      dom.childNodes[3].style.backgroundColor = Color.resolve(bgcolor);
+      dom.childNodes[3].style.backgroundColor = Color.resolve(bgcolor) || "";
     },
 
 
