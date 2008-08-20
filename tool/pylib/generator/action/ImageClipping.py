@@ -60,7 +60,7 @@ class ImageClipping(object):
         os.system(crop_cmd % (source_file, border, border, width-border, 0, dest_file + "-tr.png"))
 
         os.system(crop_cmd % (source_file, border, height-2*border, 0, border, dest_file + "-l.png"))
-        os.system(crop_cmd % (source_file, 40, height-2*border, border, border, dest_file + "-c.png"))
+        os.system(crop_cmd % (source_file, min(20, width-2*border), height-2*border, border, border, dest_file + "-c.png"))
         os.system(crop_cmd % (source_file, border, height-2*border, width-border, border, dest_file + "-r.png"))
 
         os.system(crop_cmd % (source_file, border, border, 0, height-border, dest_file + "-bl.png"))
