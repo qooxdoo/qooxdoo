@@ -23,7 +23,7 @@
 
 #asset(feedreader/*)
 #asset(qx/icon/Tango/22/apps/internet-feed-reader.png)
-#asset(qx/icon/Oxygen/22/apps/internet-feed-reader.png)
+#asset(qx/icon/Tango/22/actions/process-stop.png)
 
 ************************************************************************ */
 
@@ -134,12 +134,20 @@ qx.Class.define("feedreader.view.Tree",
      */
     _updateFolderState : function(folder, state)
     {
-      if (state == "new" || state == "loading") {
+      if (state == "new" || state == "loading") 
+      {
         folder.setIcon("feedreader/images/loading22.gif");
-      } else if (state == "loaded") {
+        folder.resetEnabled();
+      }
+      else if (state == "loaded")
+      {
         folder.setIcon("icon/22/apps/internet-feed-reader.png");
-      } else if (folder.getParent()) {
-        folder.getParent().remove(folder);
+        folder.resetEnabled();
+      }
+      else if (folder.getParent())
+      {
+        folder.setIcon("icon/22/actions/process-stop.png");
+        folder.setEnabled(false);
       }
     },
 
