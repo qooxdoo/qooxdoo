@@ -294,6 +294,6 @@ qx.Mixin.define("qx.ui.core.MMovable",
   */
 
   destruct : function() {
-    this._disposeObjects("__moveFrame");
+    this._disposeObjects("__moveFrame", "__moveHandle");
   }
 });
