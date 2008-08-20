@@ -692,6 +692,8 @@ qx.Class.define("qx.core.Property",
 
           if (config.nullable) {
             code.push('if(init==qx.core.Property.$$inherit)init=null;');
+          } else if (config.init !== undefined) {
+            code.push('return this.', store.init[name], ';');
           } else {
             code.push('if(init==qx.core.Property.$$inherit)throw new Error("Inheritable property ', name, ' of an instance of ', clazz.classname, ' is not (yet) ready!");');
           }
