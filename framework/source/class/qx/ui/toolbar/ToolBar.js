@@ -83,8 +83,7 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
     show :
     {
       init : "both",
-      check : [ "both", "label", "icon", "none"],
-      nullable : true,
+      check : [ "both", "label", "icon" ],
       inheritable : true,
       event : "changeShow"
     }
