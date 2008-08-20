@@ -124,7 +124,6 @@ qx.Class.define("qx.ui.core.selection.Abstract",
 
   members :
   {
-    
     __scrollStepX : 0,
     __scrollStepY : 0,
     __scrollTimer : null,
@@ -145,8 +144,8 @@ qx.Class.define("qx.ui.core.selection.Abstract",
     __selection : null,
     __anchorItem : null,
     __mouseDownOnSelected : null,
-    
-    
+
+
     /*
     ---------------------------------------------------------------------------
       USER APIS
@@ -1692,6 +1691,7 @@ qx.Class.define("qx.ui.core.selection.Abstract",
   destruct : function()
   {
     this._disposeObjects("__scrollTimer");
-    this._disposeFields("__selection");
+    this._disposeFields("__selection", "__mouseDownOnSelected",
+      "__anchorItem", "__leadItem");
   }
 });
