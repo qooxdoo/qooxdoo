@@ -6,12 +6,10 @@
   function init()
   {
     detachEvents();
-    insertSourceLink();
   }
 
   function getDataFromLocation()
   {
-
     var defaultParameters =
     {
       "aspects" : "off",
@@ -56,57 +54,6 @@
     jsSourceURL = "../../script/demobrowser.demo." + category + "." + base + ".src.js";
   }
 
-  function emit(text)
-  {
-    var body = document.getElementsByTagName("body")[0];
-    if (!body)
-    {
-      body = document.createElement('body');
-      var html = document.getElementsByTagName("html")[0];
-      html.appendChild(body);
-    }
-    var textNode = document.createTextNode(text);
-    body.appendChild(textNode);
-  }
-
-  function insertSourceLink()
-  {
-    // if the current frame is the top frame
-    if(window.top != window) {
-      return;
-    }
-
-    // create a div element
-    var div = document.createElement("div");
-    var style = div.style;
-    style.position = "absolute";
-    style.top = "6px";
-    style.right = "6px";
-    style.zIndex = "5000";
-    style.padding = "4px 6px";
-    style.font = "11px verdana,sans-serif bold";
-    style.background = "white";
-    style.border = "1px solid black";
-
-
-    // set the link
-    div.innerHTML ="<a style='color:black;text-decoration:none' href='" + jsSourceURL + "' target='_blank'>Show Javascript Source</a>";
-
-    // append the div to the document
-    document.body.appendChild(div);
-  }
-
-  function updateTitle()
-  {
-    var splits = location.href.split("/");
-    var length = splits.length;
-    var div = " " + String.fromCharCode(187) + " ";
-    var category = splits[length-2].toUpperCase();
-    var file = splits[length-1].split("?")[0].replace(".html", "").replace("_", " ");
-
-    document.title = "qooxdoo" + div + "Demo Browser" + div + category + div + file;
-  }
-
   function attachEvents()
   {
     if (window.attachEvent) {
@@ -137,5 +84,4 @@
   getDataFromLocation();
   loadScript();
   attachEvents();
-  updateTitle();
 })();
