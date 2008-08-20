@@ -22,8 +22,8 @@
 
 /* ************************************************************************
 
-#asset(qx/icon/Compat/16/status/folder-open.png)
-#asset(qx/icon/Compat/16/places/folder.png)
+#asset(qx/compat/icon/CrystalClear/16/status/folder-open.png)
+#asset(qx/compat/icon/CrystalClear/16/places/folder.png)
 
 ************************************************************************ */
 
