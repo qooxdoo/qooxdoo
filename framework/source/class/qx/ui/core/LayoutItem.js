@@ -978,6 +978,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
       "$$subparent",
       "__layoutProperties",
       "__computedLayout",
+      "__userBounds",
       "__sizeHint");
   }
 });

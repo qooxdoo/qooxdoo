@@ -700,6 +700,6 @@ qx.Class.define("qx.ui.table.pane.Pane",
   */
 
   destruct : function() {
-    this._disposeFields("__tableContainer", "__paneScroller");
+    this._disposeFields("__tableContainer", "__paneScroller", "__rowCache");
   }
 });
