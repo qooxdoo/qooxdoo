@@ -4,7 +4,8 @@
   "include" :
   [
     {
-      "path" : "${REL_QOOXDOO_PATH}/tool/data/config/application.json"
+      "path" : "${REL_QOOXDOO_PATH}/tool/data/config/application.json",
+      "as"   : "appconf"
     }
   ],
 
@@ -16,5 +17,74 @@
     "QXTHEME"      : "qx.theme.Modern",
     "LOCALES"      : [ "en" ],
     "ROOT"         : "."
+  }
+
+  "jobs" :
+  {
+    "api" :
+    {
+      "extend" : ["appconf::api"]
+    },
+
+    "build" :
+    {
+      "extend" : ["appconf::build"]
+    },
+
+    "clean" :
+    {
+      "extend" : ["appconf::clean"]
+    },
+
+    "distclean" :
+    {
+      "extend" : ["appconf::distclean"]
+    },
+
+    "fix" :
+    {
+      "extend" : ["appconf::fix"]
+    },
+
+    "lint" :
+    {
+      "extend" : ["appconf::lint"]
+    },
+
+    "migration" :
+    {
+      "extend" : ["appconf::migration"]
+    },
+
+    "pretty" :
+    {
+      "extend" : ["appconf::pretty"]
+    },
+
+    "publish" :
+    {
+      "extend" : ["appconf::publish"]
+    },
+
+    "source" :
+    {
+      "extend" : ["appconf::source"]
+    },
+
+    "test" :
+    {
+      "extend" : ["appconf::test"]
+    },
+
+    "test-source" :
+    {
+      "extend" : ["appconf::test-source"]
+    },
+
+    "translate" :
+    {
+      "extend" : ["appconf::translate"]
+    }
+
   }
 }
