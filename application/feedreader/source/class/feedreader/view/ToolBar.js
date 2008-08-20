@@ -27,12 +27,6 @@
 #asset(qx/icon/Tango/22/apps/preferences-theme.png)
 #asset(qx/icon/Tango/22/actions/help-about.png)
 
-#asset(qx/icon/Oxygen/22/actions/dialog-ok.png)
-#asset(qx/icon/Oxygen/22/actions/dialog-cancel.png)
-#asset(qx/icon/Oxygen/22/actions/view-refresh.png)
-#asset(qx/icon/Oxygen/22/apps/preferences-theme.png)
-#asset(qx/icon/Oxygen/22/actions/help-about.png)
-
 ************************************************************************ */
 
 /**
