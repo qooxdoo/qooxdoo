@@ -27,7 +27,7 @@
  * within the defined range.
  *
  * The Slider has very few of its own functions; most of the functionality
- * is in {@link AbstractSlider}. The most useful functions are slideTo()
+ * is in {@link BaseSlider}. The most useful functions are slideTo()
  * to set the slider directly to some value; setSingleStep(), setPageStep()
  * to set the steps; and setMinimum() and setMaximum() to define the
  * range of the slider.
@@ -44,7 +44,7 @@
  */
 qx.Class.define("qx.ui.form.Slider",
 {
-  extend : qx.ui.form.AbstractSlider,
+  extend : qx.ui.form.BaseSlider,
 
 
 
