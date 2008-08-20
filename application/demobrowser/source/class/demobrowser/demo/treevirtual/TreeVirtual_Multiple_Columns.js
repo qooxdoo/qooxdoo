@@ -3,9 +3,9 @@
  * getHierarchy() method to retrieve the entire tree path of a node.
  * Allows various options to be manipulated.
  */
-qx.Class.define("BasicSample",
+qx.Class.define("demobrowser.demo.treevirtual.TreeVirtual_Multiple_Columns",
 {
-  extend : qx.application.Gui,
+  extend : qx.application.Standalone,
 
   members :
   {
@@ -25,13 +25,10 @@ qx.Class.define("BasicSample",
             "Permissions",
             "Last Accessed"
           ]);
-      tree.set({
-              left   : 10,
-              top    : 30,
-              width  : "40%",
-              bottom : 30,
-              border : "inset-thin"
-            });
+      tree.set(
+        {
+          width  : "40%"
+        });
       tree.setAlwaysShowOpenCloseSymbol(true);
   
       // Obtain the resize behavior object to manipulate
@@ -40,7 +37,12 @@ qx.Class.define("BasicSample",
       // Ensure that the tree column remains sufficiently wide
       resizeBehavior.set(0, { width:"1*", minWidth:180  });
   
-      tree.addToDocument();
+      this.getRoot().add(tree,
+                         {
+                           left : 10,
+                           top : 30,
+                           bottom : 30
+                         });
   
       // tree data model
       var dataModel = tree.getDataModel();
@@ -95,7 +97,7 @@ qx.Class.define("BasicSample",
       o = new qx.ui.form.TextField();
       o.set({ left: 4, right: 0, top: 20, readOnly: true });
       commandFrame.add(o);
-      tree.addEventListener(
+      tree.addListener(
         "changeSelection",
         function(e)
         {
@@ -110,7 +112,7 @@ qx.Class.define("BasicSample",
       var buttonRemove = new qx.ui.form.Button("Remove");
       buttonRemove.set({ top: 42, left: 0, enabled: false });
       commandFrame.add(buttonRemove);
-      buttonRemove.addEventListener(
+      buttonRemove.addListener(
         "execute",
         function(e)
         {
@@ -125,66 +127,66 @@ qx.Class.define("BasicSample",
       o = new qx.ui.form.CheckBox("Use tree lines?");
       o.set({ top: 80, left: 0, checked: true });
       commandFrame.add(o);
-      o.addEventListener("changeChecked",
-                         function(e)
-                         {
-                           tree.setUseTreeLines(e.getData());
-                         });
+      o.addListener("changeChecked",
+                    function(e)
+                    {
+                      tree.setUseTreeLines(e.getData());
+                    });
   
       o = new qx.ui.form.CheckBox("Exclude first-level tree lines?");
       o.set({ top: 100, left: 0, checked: false });
       commandFrame.add(o);
-      o.addEventListener("changeChecked",
-                         function(e)
-                         {
-                           tree.setExcludeFirstLevelTreeLines(e.getData());
-                         });
+      o.addListener("changeChecked",
+                    function(e)
+                    {
+                      tree.setExcludeFirstLevelTreeLines(e.getData());
+                    });
   
       o = new qx.ui.form.CheckBox("Always show open/close symbol?");
       o.set({ top: 120, left: 0, checked: true });
       commandFrame.add(o);
-      o.addEventListener("changeChecked",
-                         function(e)
-                         {
-                           tree.setAlwaysShowOpenCloseSymbol(e.getData());
-                         });
+      o.addListener("changeChecked",
+                    function(e)
+                    {
+                      tree.setAlwaysShowOpenCloseSymbol(e.getData());
+                    });
   
       o = new qx.ui.form.CheckBox("Remove open/close if found empty?");
       o.set({ top: 140, left: 0, checked: true });
       commandFrame.add(o);
-      tree.addEventListener("treeOpenWhileEmpty",
-                            function(e)
-                            {
-                              if (this.getChecked())
-                              {
-                                var node = e.getData();
-                                tree.nodeSetHideOpenClose(node, true);
-                              }
-                            },
-                            o);
+      tree.addListener("treeOpenWhileEmpty",
+                       function(e)
+                       {
+                         if (this.getChecked())
+                         {
+                           var node = e.getData();
+                           tree.nodeSetHideOpenClose(node, true);
+                         }
+                       },
+                       o);
   
       o = new qx.ui.form.CheckBox("Open/close click selects row?");
       o.set({ top: 160, left: 0, checked: false });
       commandFrame.add(o);
-      o.addEventListener("changeChecked",
-                         function(e)
-                         {
-                           tree.setOpenCloseClickSelectsRow(e.getData());
-                         });
+      o.addListener("changeChecked",
+                    function(e)
+                    {
+                      tree.setOpenCloseClickSelectsRow(e.getData());
+                    });
   
       o = new qx.ui.form.CheckBox("Disable the tree?");
       o.set({ top: 180, left: 0, checked: false });
       commandFrame.add(o);
-      o.addEventListener("changeChecked",
-                         function(e)
-                         {
-                           tree.setEnabled(! e.getData());
-                         });
+      o.addListener("changeChecked",
+                    function(e)
+                    {
+                      tree.setEnabled(! e.getData());
+                    });
   
       o = new qx.ui.form.CheckBox("Display a cell focus indicator?");
       o.set({ top: 200, left: 0, checked: true });
       commandFrame.add(o);
-      o.addEventListener(
+      o.addListener(
         "changeChecked",
         function(e)
         {
