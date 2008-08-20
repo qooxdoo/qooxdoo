@@ -16,8 +16,17 @@ qx.Class.define("demobrowser.demo.treevirtual.TreeVirtual_Selections",
       qx.Class.include(qx.ui.treevirtual.TreeVirtual,
                        qx.ui.treevirtual.MNode);
       
+      // Use an HBox to hold the tree and the groupbox
+      var hBox = new qx.ui.container.Composite(new qx.ui.layout.HBox(20));
+      this.getRoot().add(hBox, { edge : 30 });
+
       // tree
       var tree = new qx.ui.treevirtual.TreeVirtual("Tree");
+      tree.set(
+        {
+          width  : 400
+        });
+
       tree.setColumnWidth(0, 400);
       tree.setAlwaysShowOpenCloseSymbol(true);
   
@@ -25,13 +34,7 @@ qx.Class.define("demobrowser.demo.treevirtual.TreeVirtual_Selections",
                 qx.ui.treevirtual.TreeVirtual.SelectionMode.MULTIPLE_INTERVAL);
   
       // Add the tree to the document
-      this.getRoot().add(tree,
-                         {
-                           left   : 10,
-                           top    : 30,
-                           width  : 400,
-                           bottom : 30
-                         });
+      hBox.add(tree);
   
       // tree data model
       var dataModel = tree.getDataModel();
@@ -69,17 +72,15 @@ qx.Class.define("demobrowser.demo.treevirtual.TreeVirtual_Selections",
       var newItem = 1;
   
       var commandFrame = new qx.ui.groupbox.GroupBox("Control");
-      commandFrame.set({ top: 48, left: 520, right: 290, height: "auto" });
-      commandFrame.addToDocument();
+      commandFrame.setLayout(new qx.ui.layout.VBox(2));
+
+      hBox.add(commandFrame);
   
       // Create a combo box for the selection type
       var o = new qx.ui.basic.Atom("Selection Mode: ");
-      o.set({ top: 6, left: 0 });
       commandFrame.add(o);
   
-      o = new qx.ui.form.ComboBox();
-      o.set({ top: 20, left: 4, width: "100%" });
-      o.setEditable(false);
+      o = new qx.ui.form.SelectBox();
   
       // Add the various selection types
       var item = new qx.ui.form.ListItem("No Selection");
@@ -94,7 +95,7 @@ qx.Class.define("demobrowser.demo.treevirtual.TreeVirtual_Selections",
     
       // We want to be notified if the selection changes
       o.addListener(
-        "changeSelected",
+        "changeValue",
         function()
         {
           switch(this.getValue())
