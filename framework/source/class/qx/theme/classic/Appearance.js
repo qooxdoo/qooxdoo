@@ -1049,6 +1049,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
+          contentPadding : [ 10, 10, 10, 10 ],
           backgroundColor : "background",
           decorator : states.maximized ? "undefined" : "outset",
           shadow : "shadow-small"
@@ -1638,7 +1639,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
     "colorselector/control-bar" : "widget",
 
 
-    "coloselector/control-pane":
+    "colorselector/control-pane":
     {
       style : function(states)
       {
