@@ -974,6 +974,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
   destruct : function()
   {
     this._disposeFields(
+      "$$parent",
       "__layoutProperties",
       "__computedLayout",
       "__sizeHint");

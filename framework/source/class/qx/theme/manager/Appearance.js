@@ -40,11 +40,7 @@ qx.Class.define("qx.theme.manager.Appearance",
     this.base(arguments);
 
     this.__styleCache = {};
-
     this.__aliasMap = {};
-
-    // To give the style method a unified interface when no states are specified
-    this.__defaultStates = {};
   },
 
 
@@ -79,6 +75,9 @@ qx.Class.define("qx.theme.manager.Appearance",
 
   members :
   {
+    __defaultStates : {},
+
+
     _applyAppearanceTheme : function(value, old)
     {
 
