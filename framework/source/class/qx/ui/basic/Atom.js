@@ -31,7 +31,6 @@ qx.Class.define("qx.ui.basic.Atom",
   extend : qx.ui.core.Widget,
 
 
-
   /*
   *****************************************************************************
      CONSTRUCTOR
@@ -136,7 +135,6 @@ qx.Class.define("qx.ui.basic.Atom",
       init : "both",
       check : [ "both", "label", "icon" ],
       themeable : true,
-      nullable : true,
       inheritable : true,
       apply : "_applyShow",
       event : "changeShow"
