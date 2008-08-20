@@ -764,7 +764,15 @@ qx.Theme.define("qx.theme.modern.Appearance",
     ---------------------------------------------------------------------------
     */
 
-    "tabview" : {},
+    "tabview" :
+    {
+      style : function(states)
+      {
+        return {
+          contentPadding : 16
+        }
+      }
+    },
 
     "tabview/bar" :
     {
@@ -772,18 +780,47 @@ qx.Theme.define("qx.theme.modern.Appearance",
 
       style : function(states)
       {
-        return {
-          zIndex          : 10, // TODO: functional?
+        var paddingX = states.barLeft || states.barRight ? 0 : 10;
+        var paddingY = states.barTop || states.barBottom ? 0 : 10;
 
-          paddingLeft     : (states.barLeft || states.barRight) ? 0 : 10,
-          paddingRight    : (states.barLeft || states.barRight) ? 0 : 10,
-          paddingTop      : (states.barTop || states.barBottom) ? 0 : 10,
-          paddingBottom   : (states.barTop || states.barBottom) ? 0 : 10,
+        return {
+          paddingLeft     : paddingX,
+          paddingRight    : paddingX,
+          paddingTop      : paddingY,
+          paddingBottom   : paddingY,
 
           marginBottom    : states.barTop ? -1 : 0,
           marginTop       : states.barBottom ? -4 : 0,
           marginLeft      : states.barRight ? -3 : 0,
           marginRight     : states.barLeft ? -1 : 0
+        }
+      }
+    },
+
+    "tabview/bar/button-forward" :
+    {
+      include : "slidebar/button-forward",
+      alias : "slidebar/button-forward",
+
+      style : function(states)
+      {
+        return {
+          marginTop : 3,
+          marginBottom: 3
+        }
+      }
+    },
+
+    "tabview/bar/button-backward" :
+    {
+      include : "slidebar/button-backward",
+      alias : "slidebar/button-backward",
+
+      style : function(states)
+      {
+        return {
+          marginTop : 3,
+          marginBottom: 3
         }
       }
     },
@@ -796,7 +833,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       {
         return {
           decorator : "pane",
-          padding : 16,
+
           marginBottom : states.barBottom ? -1 : 0,
           marginTop : states.barTop ? -1 : 0,
           marginLeft : states.barLeft ? -1 : 0,
@@ -807,19 +844,14 @@ qx.Theme.define("qx.theme.modern.Appearance",
 
     "tabview-page" : "widget",
 
-    /*
-     * TODO
-     *   - last button has own appearance
-     *   - middle deactivated buttons have own appearance
-     *   - different bar positions
-     */
     "tabview-page/button" :
     {
       alias : "atom",
 
       style : function(states)
       {
-        var decorator, padding = 0, marginTop = 0, marginBottom = 0, marginLeft = 0, marginRight = 0;
+        var decorator, padding=0;
+        var marginTop=0, marginBottom=0, marginLeft=0, marginRight=0;
 
         if (states.checked)
         {

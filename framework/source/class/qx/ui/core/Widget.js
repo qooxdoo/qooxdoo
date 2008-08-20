@@ -3203,7 +3203,6 @@ qx.Class.define("qx.ui.core.Widget",
 
 
 
-
     /*
     ---------------------------------------------------------------------------
       FOCUS SYSTEM USER ACCESS
