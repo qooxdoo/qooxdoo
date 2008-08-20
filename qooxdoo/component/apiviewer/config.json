@@ -1,4 +1,3 @@
-// Apiviewer - config.json
 {
   "name"    : "Apiviewer (application) config",
 
@@ -11,6 +10,7 @@
 
     {
       "path"   : "../../tool/data/config/application.json",
+      
       // select everything except 'source' and 'build' which are defined locally
       "block"  : [ "source", "build" ]
     }
