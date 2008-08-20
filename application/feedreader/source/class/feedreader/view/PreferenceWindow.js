@@ -21,10 +21,9 @@
 
 /* ************************************************************************
 
-#asset(qx/icon/Tango/16/apps/preferences-theme.png)
-#asset(qx/icon/Oxygen/16/apps/preferences-theme.png)
 #asset(qx/icon/Tango/16/actions/dialog-ok.png)
 #asset(qx/icon/Tango/16/actions/dialog-cancel.png)
+#asset(qx/icon/Tango/16/apps/preferences-theme.png)
 #asset(qx/icon/Tango/16/apps/preferences-locale.png)
 
 ************************************************************************ */
