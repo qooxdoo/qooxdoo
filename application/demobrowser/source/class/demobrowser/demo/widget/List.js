@@ -44,6 +44,7 @@ qx.Class.define("demobrowser.demo.widget.List",
       this.getRoot().add(configureLabel, {left: 20, top: 20});
 
       var configList = new qx.ui.form.List;
+      configList.setScrollbarX("on");
 
       configList.set({ height: 280, width: 150, selectionMode : "multi" });
 
