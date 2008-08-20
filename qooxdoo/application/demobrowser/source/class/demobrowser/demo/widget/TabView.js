@@ -75,7 +75,6 @@ qx.Class.define("demobrowser.demo.widget.TabView",
       page3.setLayout(new qx.ui.layout.VBox());
       page3.add(new qx.ui.basic.Label("Calculator..."));
       tabView.add(page3);
-      page3.setEnabled(false);
 
 
       ////////////////// TEST PAGE 4 ////////////////////
@@ -84,8 +83,6 @@ qx.Class.define("demobrowser.demo.widget.TabView",
       page4.add(new qx.ui.basic.Label("Help..."));
       tabView.add(page4);
 
-      // show the first page
-      tabView.setSelected(page1);
 
       return tabView;
     },
