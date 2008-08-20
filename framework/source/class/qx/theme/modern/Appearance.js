@@ -731,26 +731,34 @@ qx.Theme.define("qx.theme.modern.Appearance",
 
     "slidebar/button-forward" :
     {
-      alias : "button",
-      include : "button",
+      alias : "button-frame",
+      include : "button-frame",
 
       style : function(states)
       {
         return {
-          icon : "decoration/arrows/right.png"
+          padding : 5,
+          center : true,
+          icon : states.barLeft || states.barRight ?
+            "decoration/arrows/down.png" :
+            "decoration/arrows/right.png"
         };
       }
     },
 
     "slidebar/button-backward" :
     {
-      alias : "button",
-      include : "button",
+      alias : "button-frame",
+      include : "button-frame",
 
       style : function(states)
       {
         return {
-          icon : "decoration/arrows/left.png"
+          padding : 5,
+          center : true,
+          icon : states.barLeft || states.barRight ?
+            "decoration/arrows/up.png" :
+            "decoration/arrows/left.png"
         };
       }
     },
@@ -804,9 +812,19 @@ qx.Theme.define("qx.theme.modern.Appearance",
 
       style : function(states)
       {
-        return {
-          marginTop : 3,
-          marginBottom: 3
+        if (states.barTop || states.barBottom)
+        {
+          return {
+            marginTop : 2,
+            marginBottom: 2
+          }
+        }
+        else
+        {
+          return {
+            marginLeft : 2,
+            marginRight : 2
+          }
         }
       }
     },
@@ -818,9 +836,19 @@ qx.Theme.define("qx.theme.modern.Appearance",
 
       style : function(states)
       {
-        return {
-          marginTop : 3,
-          marginBottom: 3
+        if (states.barTop || states.barBottom)
+        {
+          return {
+            marginTop : 2,
+            marginBottom: 2
+          }
+        }
+        else
+        {
+          return {
+            marginLeft : 2,
+            marginRight : 2
+          }
         }
       }
     },
