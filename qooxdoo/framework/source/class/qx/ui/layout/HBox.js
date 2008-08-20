@@ -524,5 +524,22 @@ qx.Class.define("qx.ui.layout.HBox",
         height : height
       };
     }
+  },
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function()
+  {
+    this._disposeFields(
+      "__widths",
+      "__flexs",
+      "__children"
+    );
   }
 });
