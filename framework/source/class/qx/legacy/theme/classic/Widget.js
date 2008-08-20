@@ -20,7 +20,7 @@
 
 /* ************************************************************************
 
-#asset(qx/decoration/Classic/*)
+#asset(qx/compat/decoration/Windows/*)
 
 ************************************************************************* */
 
@@ -30,6 +30,6 @@
 qx.Theme.define("qx.legacy.theme.classic.Widget",
 {
   title : "Windows",
-  resource : "qx/decoration/Classic",
+  resource : "qx/compat/decoration/Windows",
   widgets : {}
 });
