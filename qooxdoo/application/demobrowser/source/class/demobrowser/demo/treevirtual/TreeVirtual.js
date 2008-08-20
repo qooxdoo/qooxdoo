@@ -1,9 +1,9 @@
 /**
  * Test large trees.  This one adds a Spam branch with 3000 leaf nodes.
  */
-qx.Class.define("BasicSample",
+qx.Class.define("demobrowser.demo.treevirtual.TreeVirtual",
 {
-  extend : qx.application.Gui,
+  extend : qx.application.Standalone,
 
   members :
   {
@@ -16,21 +16,20 @@ qx.Class.define("BasicSample",
       qx.Class.include(qx.ui.treevirtual.TreeVirtual,
                        qx.ui.treevirtual.MNode);
       
-      var d = qx.ui.core.ClientDocument.getInstance();
-  
       // tree
       var tree = new qx.ui.treevirtual.TreeVirtual("Tree");
       tree.set({
-              left   : 10,
-              top    : 30,
-              width  : 400,
-              bottom : 30,
-              border : "inset-thin"
+              width  : 400
             });
       tree.setColumnWidth(0, 400);
       tree.setAlwaysShowOpenCloseSymbol(true);
   
-      d.add(tree);
+      this.getRoot().add(tree,
+                         {
+                           left : 10,
+                           top : 30,
+                           bottom : 30
+                         });
   
       // tree data model
       var dataModel = tree.getDataModel();
