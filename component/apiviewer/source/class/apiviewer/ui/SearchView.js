@@ -250,21 +250,30 @@ qx.Class.define("apiviewer.ui.SearchView",
       for (var key in index) {
         if (mo.test(key))
         {
-          for (var i=0, l=index[key].length; i<l; i++) {
-            var elemtype = types[index[key][i][0]].toUpperCase();
-            if (spath) {
-              var fullname = fullNames[index[key][i][1]];
+          if (spath) {
+            for (var i=0, l=index[key].length; i<l; i++) {
+              fullname = fullNames[index[key][i][1]];
               if (new RegExp(spath, "i").test(fullname)) {
-                var icon = apiviewer.TreeUtil["ICON_" + elemtype];
+                elemtype = types[index[key][i][0]].toUpperCase();
+                icon = apiviewer.TreeUtil["ICON_" + elemtype];
                 sresult.push([icon, fullname + key]);
               }
-            } else {
-              var icon = apiviewer.TreeUtil["ICON_" + elemtype];
-              var addKey = "";
-              if (elemtype != "PACKAGE" && elemtype != "CLASS" && elemtype != "INTERFACE" && elemtype != "MIXIN") {
-                addKey = key;
+            }
+          } else {
+            
+            for (var i=0, l=index[key].length; i<l; i++) {
+              elemtype = types[index[key][i][0]].toUpperCase();
+              fullname = fullNames[index[key][i][1]];
+  
+              if (elemtype == "CLASS") {
+                icon = apiviewer.TreeUtil.getIconUrl(apiviewer.dao.Class.getClassByName(fullname));
+              } else {
+                if (elemtype != "PACKAGE") {
+                  fullname += key;
+                }
+                icon = apiviewer.TreeUtil["ICON_" + elemtype];                
               }
-              var fullname = fullNames[index[key][i][1]] + addKey;
+              
               sresult.push([icon, fullname]);
             }
           }
