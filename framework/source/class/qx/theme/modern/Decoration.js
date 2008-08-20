@@ -399,6 +399,17 @@ qx.Theme.define("qx.theme.modern.Decoration",
       TABVIEW
     ---------------------------------------------------------------------------
     */
+    
+    "tabview-pane" :
+    {
+      decorator : qx.ui.decoration.Grid,
+
+      style :
+      {
+        baseImage : "decoration/tabview/tabview-pane.png",
+        insets    : [0, 2, 3, 0]
+      }
+    },
 
     "tabview-page-button-top-active" :
     {

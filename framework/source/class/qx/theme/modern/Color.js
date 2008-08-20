@@ -42,7 +42,7 @@ qx.Theme.define("qx.theme.modern.Color",
     "background-light" : "#FCFCFC",
 
     // headers, ...
-    "background-medium" : "#EAEAEA",
+    "background-medium" : "#EEEEEE",
 
     // splitpane
     "background-splitpane" : "#AFAFAF",
