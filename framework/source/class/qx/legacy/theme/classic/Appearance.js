@@ -1766,7 +1766,7 @@ qx.Theme.define("qx.legacy.theme.classic.Appearance",
           padding : padding,
           verticalChildrenAlign : "middle",
           backgroundColor       : states.abandoned ? "button-abandoned" : "button",
-          icon : "widget/table/select-column-order.png"
+          icon : "widget/table/selectColumnOrder.png"
         };
       }
     },
