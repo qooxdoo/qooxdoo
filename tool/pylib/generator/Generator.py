@@ -1312,8 +1312,8 @@ class Generator:
         for packageId, package in enumerate(packages):
             packageUris = []
             for fileId in package:
-                cUri = Path.posifyPath(self._classes[fileId]["uri"])
-                cUri = Path.rel_from_to(self.approot, cUri)
+                cUri = Path.rel_from_to(self.approot, self._classes[fileId]["uri"])
+                cUri = Path.posifyPath(cUri) 
                 packageUris.append('"%s"' % cUri)
 
             allUris.append("[" + ",".join(packageUris) + "]")
