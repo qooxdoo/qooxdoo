@@ -301,5 +301,17 @@ qx.Class.define("qx.ui.decoration.Double",
 
       return this.__insets;
     }
+  },
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function() {
+    this._disposeFields("__markup", "__insets");
   }
 });
