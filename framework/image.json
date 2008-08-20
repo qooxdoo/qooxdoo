@@ -28,7 +28,30 @@
       {
         "images" :
         {
-         // this is the input file
+          //
+          // CLASSIC
+          //
+          
+          // large shadow e.g. for windows
+          "${RESPATH}/source/Modern/shadow.png" :
+          {
+            "prefix" : "../../${CLASSIC}/shadow/shadow",
+            "border-width" : 15
+          },
+          // small shadow e.g. for menus
+          "${RESPATH}/source/Modern/shadow-small.png" :
+          {
+            "prefix" : "../../${CLASSIC}/shadow/shadow-small",
+            "border-width" : 5
+          },
+          
+          
+          
+          //
+          // MODERN
+          //
+                    
+          // this is the input file
           "${RESPATH}/source/Modern/button-checked-focused.png" :
           {
             "prefix" : "../../${MODERN}/form/button-checked-focused",
@@ -159,18 +182,6 @@
             "prefix" : "../../${MODERN}/shadow/shadow-small",
             "border-width" : 5
           },
-          // large shadow e.g. for windows
-          "${RESPATH}/source/Modern/shadow.png" :
-          {
-            "prefix" : "../../${CLASSIC}/shadow/shadow",
-            "border-width" : 15
-          },
-          // small shadow e.g. for menus
-          "${RESPATH}/source/Modern/shadow-small.png" :
-          {
-            "prefix" : "../../${CLASSIC}/shadow/shadow-small",
-            "border-width" : 5
-          },
           // groupBox
           "${RESPATH}/source/Modern/groupbox.png" :
           {
@@ -190,6 +201,96 @@
       {
         "images" :
         {
+          //
+          // CLASSIC
+          //
+          
+          // shadows combined - top and bottom
+          "${RESPATH}/${CLASSIC}/shadow-tb-combined.png":
+          {
+            "input"  :
+            [
+              "${RESPATH}/${CLASSIC}/shadow/shadow-[tb]*.png"
+            ],
+            "layout" : "vertical"
+          },
+          
+          // shadows combined - left and right
+          "${RESPATH}/${CLASSIC}/shadow-lr-combined.png":
+          {
+            "input"  :
+            [
+              "${RESPATH}/${CLASSIC}/shadow/shadow-[lr].png"
+            ],
+            "layout" : "horizontal"
+          },
+          
+          // small shadows combined - top and bottom
+          "${RESPATH}/${CLASSIC}/shadow-small-tb-combined.png":
+          {
+            "input"  :
+            [
+              "${RESPATH}/${CLASSIC}/shadow/shadow-small-[tb]*.png"
+            ],
+            "layout" : "vertical"
+          },
+
+          // small shadows combined - left and right
+          "${RESPATH}/${MODERN}/shadow-small-lr-combined.png":
+          {
+            "input"  :
+            [
+              "${RESPATH}/${CLASSIC}/shadow/shadow-small-[lr].png"
+            ],
+            "layout" : "horizontal"
+          },
+
+          // cursor images combined
+          "${RESPATH}/${CLASSIC}/cursors-combined.png":
+          {
+            "input"  :
+              [
+                "${RESPATH}/${CLASSIC}/cursors/*.gif"
+              ],
+             "layout" : "horizontal"
+          },
+          
+          // window captionbar buttons combined
+          "${RESPATH}/${CLASSIC}/window-captionbar-buttons-combined.png":
+          {
+            "input"  :
+              [
+                "${RESPATH}/${CLASSIC}/window/*.gif"
+              ],
+             "layout" : "horizontal"
+          },
+          
+          // colorselector images combined
+          "${RESPATH}/${CLASSIC}/colorselector-combined.png":
+          {
+            "input"  :
+              [
+                "${RESPATH}/${CLASSIC}/colorselector/*.*"
+              ],
+             "layout" : "horizontal"
+          },
+          
+          // arrow images
+          "${RESPATH}/${CLASSIC}/arrows-combined.png":
+          {
+            "input"  :
+              [
+                "${RESPATH}/${CLASSIC}/arrows/*.*"
+              ],
+             "layout" : "horizontal"
+          },
+          
+          
+          
+          //
+          // MODERN
+          //
+          
           // this is the output file
           "${RESPATH}/${MODERN}/button-tb-combined.png":
           {
@@ -356,50 +457,6 @@
             "layout" : "horizontal"
           },
 
-          "${RESPATH}/${CLASSIC}/shadow-tb-combined.png":
-          {
-            "input"  :
-            [
-              "${RESPATH}/${CLASSIC}/shadow/shadow-[tb]*.png"
-            ],
-            "layout" : "vertical"
-          },
-
-          "${RESPATH}/${CLASSIC}/shadow-lr-combined.png":
-          {
-            "input"  :
-            [
-              "${RESPATH}/${CLASSIC}/shadow/shadow-[lr].png"
-            ],
-            "layout" : "horizontal"
-          },
-
-          "${RESPATH}/${CLASSIC}/shadow-small-tb-combined.png":
-          {
-            "input"  :
-            [
-              "${RESPATH}/${CLASSIC}/shadow/shadow-small-[tb]*.png"
-            ],
-            "layout" : "vertical"
-          },
-
-          "${RESPATH}/${MODERN}/shadow-small-lr-combined.png":
-          {
-            "input"  :
-            [
-              "${RESPATH}/${CLASSIC}/shadow/shadow-small-[lr].png"
-            ],
-            "layout" : "horizontal"
-          },
-
-          "${RESPATH}/${CLASSIC}/cursors-combined.png":
-          {
-            "input"  :
-              [
-                "${RESPATH}/${CLASSIC}/cursors/*.gif"
-              ],
-             "layout" : "horizontal"
-          },
 
           "${RESPATH}/${MODERN}/cursors-combined.png":
           {
