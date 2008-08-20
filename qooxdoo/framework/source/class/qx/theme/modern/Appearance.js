@@ -472,7 +472,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       {
         return {
           padding   : [1, 0, 1, 4],
-          textColor : "#314a6e",
+          textColor : "text-title",
           font      : "bold"
         };
       }
@@ -501,7 +501,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       {
         return {
           padding   : [1, 0, 1, 4],
-          textColor : "#314a6e",
+          textColor : "text-title",
           font      : "bold"
         };
       }
@@ -518,7 +518,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       {
         return {
           padding   : [1, 0, 1, 4],
-          textColor : "#314a6e"
+          textColor : "text-title"
         };
       }
     },
@@ -541,7 +541,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          backgroundColor : "#e4e4e4"
+          backgroundColor : "background-application"
         };
       }
     },
@@ -968,7 +968,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
           marginBottom : marginBottom,
           marginLeft : marginLeft,
           marginRight : marginRight,
-          textColor : states.checked ? "#26364D" : "#404955"
+          textColor : states.checked ? "text-active" : "text-inactive"
         };
       }
     },
@@ -1433,7 +1433,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       {
         return {
           decorator    : states.active ? "window-captionbar-active" : "window-captionbar-inactive",
-          textColor    : states.active ? "#ffffff" : "#4a4a4a",
+          textColor    : states.active ? "white" : "text-gray",
           minHeight    : 26,
           paddingRight : 2
         };
