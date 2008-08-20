@@ -1,4 +1,3 @@
-// Apiviewer - config.json
 {
   "name"    : "Apiviewer (export) config",
 
@@ -15,9 +14,8 @@
         "APPLICATION"    : "apiviewer",
         "QOOXDOO_PATH"   : "../../framework",
         "QOOXDOO_URI"    : "../${QOOXDOO_PATH}",
-        "API_INCLUDE"    : ["qx.*"],
+        "API_INCLUDE"    : ["*"],
         "API_EXCLUDE"    : [],
-        "API_THEME"      : "apiviewer.Theme",
         "BUILD_PATH"     : "${APIVIEWER_ROOT}/build",
         "CACHE"          : "../../cache"
       },
@@ -38,7 +36,7 @@
       "settings" :
       {
         "qx.application"  : "${APIVIEWER}.Application",
-        "qx.theme"        : "${API_THEME}",
+        "qx.theme"        : "${APIVIEWER}.Theme",
         "qx.version"      : "0.8-rc1"
       },
 
@@ -52,7 +50,7 @@
     "source-script" :
     {
       "extend" : ["common"],
-      "include" : ["${APIVIEWER}.*","${API_THEME}"],
+      "include" : ["${APIVIEWER}.*"],
 
       "compile-source" :
       {
@@ -75,7 +73,7 @@
     "build-script" :
     {
       "extend" : ["common"],
-      "include" : ["${APIVIEWER}.*","${API_THEME}"],
+      "include" : ["${APIVIEWER}.*"],
       
       "variants" :
       {
@@ -88,7 +86,7 @@
         "target" : "${BUILD_PATH}",
         "file" : "${BUILD_PATH}/script/${APIVIEWER}.js",
         "format" : "off",
-        "optimize" : ["strings", "basecalls", "variables"],
+        "optimize" : ["strings", "basecalls", "variables", "privates"],
         "uri"  : "script/${APIVIEWER}.js",
         "root" : "${BUILD_PATH}"
       }

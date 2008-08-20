@@ -1,4 +1,3 @@
-// qooxdoo framework - config.json
 {
   "include" :
   [
@@ -6,6 +5,7 @@
       "path" : "../tool/data/config/application.json",      
       "as"   : "appconf"
     },
+    
     {
       "path" : "image.json"
     }
@@ -16,6 +16,7 @@
     "APPLICATION"  : "qx",
     "QOOXDOO_PATH" : ".",
     "QOOXDOO_URI"  : "../${QOOXDOO_PATH}",
+    "API_EXCLUDE"  : ["qx.legacy.*"],
     "CACHE"        : "../cache"
   },
 
@@ -25,17 +26,16 @@
     {
       "shell" :
       {
-        "command" : "rsync --checksum --compress --recursive --delete --inplace --links --safe-links --exclude .svn api/* root@qooxdoo.org:/var/www/qooxdoo/demo/0.8-rc1-pre/apiviewer"
+        "command" : "rsync --checksum --compress --recursive --delete --inplace --links --safe-links --exclude .svn api/* root@qooxdoo.org:/var/www/qooxdoo/demo/0.8-rc1/apiviewer"
       }
     },
 
     "publish-framework" :
     {
-        "run" :
-        [
-            //"publish-test",
-            "publish-api"
-        ]
+      "run" :
+      [
+        "publish-api"
+      ]
     },
     
     "test" :
@@ -58,7 +58,7 @@
       }
     },
 
-    "machet" :
+    "images" :
     {
       "run" : [ "image-clipping", "image-combine" ]
     },
