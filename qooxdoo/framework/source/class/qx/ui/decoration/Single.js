@@ -375,6 +375,14 @@ qx.Class.define("qx.ui.decoration.Single",
         var insets = this.getInsets();
         width -= insets.left + insets.right;
         height -= insets.top + insets.bottom;
+
+        if (width < 0) {
+          width = 0;
+        }
+
+        if (height < 0) {
+          height = 0;
+        }
       }
 
       var dom = element.getDomElement();
