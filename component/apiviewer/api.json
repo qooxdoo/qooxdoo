@@ -85,7 +85,7 @@
       {
         "target" : "${BUILD_PATH}",
         "file" : "${BUILD_PATH}/script/${APIVIEWER}.js",
-        "format" : "off",
+        "format" : false,
         "optimize" : ["strings", "basecalls", "variables", "privates"],
         "uri"  : "script/${APIVIEWER}.js",
         "root" : "${BUILD_PATH}"
