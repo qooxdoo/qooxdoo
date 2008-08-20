@@ -157,6 +157,17 @@ qx.Class.define("qx.ui.table.columnmodel.resizebehavior.Abstract",
     {
       // Get the inner width off the table
       var table = tableColumnModel.getTable();
-      return table.getPaneScroller(0).getLayoutParent().getBounds().width;
+
+      var scrollerArr = table._getPaneScrollerArr();
+      var scrollerParentWidth = scrollerArr[0].getLayoutParent().getBounds().width;
+
+      var lastScroller = scrollerArr[scrollerArr.length-1];
+
+      var topRight = lastScroller.getTopRightWidget();
+      var topRightWidth = topRight ? topRight.getBounds().width : 0;
+
+      var scrollBarWidth = lastScroller.getVerticalScrollBarWidth();
+
+      return scrollerParentWidth - Math.max(topRightWidth, scrollBarWidth);
     }
   }});

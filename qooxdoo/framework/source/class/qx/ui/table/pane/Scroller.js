@@ -58,6 +58,10 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     this.__header = this._showChildControl("header");
     this.__tablePane = this._showChildControl("pane");
 
+    // the top line containing the header clipper and the top right widget
+    this._top = new qx.ui.container.Composite(new qx.ui.layout.HBox());
+    this._add(this._top, {row: 0, column: 0, colSpan: 2});
+
     // embed header into a scrollable container
     this.__headerClipper = new qx.ui.table.pane.Clipper();
     this.__headerClipper.add(this.__header);
@@ -66,7 +70,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     this.__headerClipper.addListener("mousedown", this._onMousedownHeader, this);
     this.__headerClipper.addListener("mouseup", this._onMouseupHeader, this);
     this.__headerClipper.addListener("click", this._onClickHeader, this);
-    this._add(this.__headerClipper, {row: 0, column: 0});
+    this._top.add(this.__headerClipper, {flex: 1});
 
     // embed pane into a scrollable container
     this.__paneClipper = new qx.ui.table.pane.Clipper();
@@ -1845,20 +1849,24 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       var oldWidget = this.__topRightWidget;
 
       if (oldWidget != null) {
-        this._remove(oldWidget);
+        this._top.remove(oldWidget);
       }
 
       if (widget != null) {
-        widget.set({
-          width: 0,
-          height: 0,
-          minWidth: 0,
-          minHeight: 0
-        });
-        this._add(widget, {row: 0, column: 1});
+        this._top.add(widget);
       }
 
       this.__topRightWidget = widget;
+    },
+
+
+    /**
+     * Get the top right widget
+     *
+     * @return {qx.ui.core.Widget} The top right widget.
+     */
+    getTopRightWidget : function() {
+      return this.__topRightWidget;
     },
 
 
@@ -1879,6 +1887,20 @@ qx.Class.define("qx.ui.table.pane.Scroller",
      */
     getTablePane : function() {
       return this.__tablePane;
+    },
+
+
+    /**
+     * Get the rendered width of the vertical scroll bar. The return value is
+     * <code>0</code> if the scroll bar is invisible or not yet rendered.
+     *
+     * @internal
+     * @return {Integer} The width of the vertical scroll bar
+     */
+    getVerticalScrollBarWidth : function()
+    {
+      var scrollBar = this.__verScrollBar;
+      return scrollBar.isVisible() ? (scrollBar.getSizeHint().width || 0) : 0;
     },
 
 
