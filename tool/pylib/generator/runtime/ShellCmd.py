@@ -19,7 +19,7 @@
 #
 ################################################################################
 
-import sys, os, re, subprocess, shutil
+import sys, os, re, subprocess, shutil, errno
 
 class ShellCmd(object):
     def __init__(self):
