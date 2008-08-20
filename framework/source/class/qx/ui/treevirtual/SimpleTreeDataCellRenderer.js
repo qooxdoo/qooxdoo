@@ -70,13 +70,6 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
 
   statics :
   {
-    MAIN_DIV_STYLE  :
-      ';overflow:hidden;white-space:nowrap;border-right:1px solid #eeeeee;' +
-      'padding-left:2px;padding-right:2px;cursor:default' +
-      (qx.core.Variant.isSet("qx.client", "mshtml")
-       ? ''
-       : ';-moz-user-select:none;'),
-
     __icon : { }
   },
 
@@ -147,7 +140,6 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
       // style information provided, append it.
       var html =
         this.base(arguments, cellInfo) +
-        qx.ui.treevirtual.SimpleTreeDataCellRenderer.MAIN_DIV_STYLE +
         (node.cellStyle ? node.cellStyle + ";" : "");
       return html;
     },
