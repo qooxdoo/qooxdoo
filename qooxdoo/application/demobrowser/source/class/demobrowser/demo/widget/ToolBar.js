@@ -38,11 +38,10 @@ qx.Class.define("demobrowser.demo.widget.ToolBar",
       this.base(arguments);
 
       // create a container for the main layout and set the main layout
-      var mainContainer = new qx.ui.container.Composite(new qx.ui.layout.HBox());
-      mainContainer.setPadding(20);
+      var mainContainer = new qx.ui.container.Composite(new qx.ui.layout.VBox(20));
 
       // add the main container to the root
-      this.getRoot().add(mainContainer, {left:0, top:30, right:0});
+      this.getRoot().add(mainContainer, {left:20, top:20, right:20});
 
       ///////////////////////////////////////////////////////////////
       // Toolbar stuff
@@ -50,7 +49,7 @@ qx.Class.define("demobrowser.demo.widget.ToolBar",
 
       // create the toolbar
       toolbar = new qx.ui.toolbar.ToolBar();
-      mainContainer.add(toolbar, {flex: 1});
+      mainContainer.add(toolbar);
 
       // create and add Part 1 to the toolbar
       var part1 = new qx.ui.toolbar.Part();
@@ -102,8 +101,7 @@ qx.Class.define("demobrowser.demo.widget.ToolBar",
       var controlGrid = new qx.ui.layout.Grid();
       controlGrid.setSpacing(10);
       var controlContainer = new qx.ui.container.Composite(controlGrid);
-      controlContainer.setPadding(20);
-      this.getRoot().add(controlContainer, {left: 0, top: 100});
+      mainContainer.add(controlContainer);
 
 
       //////////////////////// icon size stuff
