@@ -22,7 +22,7 @@
 # This is a stub proxy for the real generator.py
 ##
 
-import sys, os
+import sys, os, subprocess
 
 CMD_PYTHON = 'python'
 QOOXDOO_PATH = '${REL_QOOXDOO_PATH}'
@@ -37,4 +37,4 @@ argList.append(CMD_PYTHON)
 argList.append(REAL_GENERATOR)
 argList.extend(sys.argv[1:])
 
-os.execvp(CMD_PYTHON, argList)
+subprocess.call(" ".join(argList), shell=True)
