@@ -43,7 +43,7 @@ class ContribLoader(object):
 
         # get external revision nr
         externalRevision = ""
-        if False:  # disable version check until sf.net ViewVC is back again (24jul08)
+        if True:  # enable version check since sf.net ViewVC is back again (20aug08)
             try:
                 externalRevision = self.getRevision(contrib)
             except IOError:
