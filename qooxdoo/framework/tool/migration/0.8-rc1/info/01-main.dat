@@ -1,0 +1,2 @@
+[\"\']activeborder[\"\']=This color is not supported anymore. There is no replacement available.
+^#resource.*$=Resource hints are not supported anymore and will be removed.

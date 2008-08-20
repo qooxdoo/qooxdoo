@@ -100,7 +100,7 @@ def entryCompiler(line):
     orig = orig.replace("----EQUAL----", "=")
     repl = repl.replace("----EQUAL----", "=")
 
-    return {"expr":re.compile(orig), "orig":orig, "repl":repl}
+    return {"expr":re.compile(orig, re.M), "orig":orig, "repl":repl}
 
 
 
@@ -432,7 +432,7 @@ def main():
     migrator_options.add_option(
           "--from-version", dest="from_version",
           metavar="VERSION", default="",
-          help="qooxdoo version used for the project e.g. '0.6.3'"
+          help="qooxdoo version used for the project e.g. '0.7.3'"
     )
     migrator_options.add_option(
           "--migrate-html",
@@ -474,24 +474,17 @@ def main():
 
     (options, args) = parser.parse_args()
 
-    if options.from_version == "":
-        if options.makefile:
-            print """
-WARNING: The qooxdoo version this project uses is unknown.
+    while options.from_version == "":
+        choice = raw_input("""
+NOTE:    To apply only the necessary changes to your project, we
+         need to know the qooxdoo version it currently works with.
 
-Please set the variable QOOXDOO_VERSION in your Makefile to the qooxdoo
-version this project currently uses.
+Please enter your current qooxdoo version [0.7.3] : """)
 
-Example:
-
-QOOXDOO_VERSION = 0.6.4
-"""
-        else:
-            print """
-ERROR: Please specify the qooxdoo version you migrate from using '--from-version'!
-"""
-
-        sys.exit(1)
+        if choice == "":
+            options.from_version = "0.7.3"
+        elif re.match(r'\d\.\d(\.\d)?', choice):
+            options.from_version = choice
 
     if not isValidVersion(options.from_version):
         print "\nERROR: The version '%s' is not a valid version string!\n" % options.from_version

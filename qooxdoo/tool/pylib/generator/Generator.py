@@ -1019,9 +1019,9 @@ class Generator:
         for lib in libs:
             libPaths.append(os.path.join(lib['path'], lib['class']))
 
-        if not migSettings.get('from-version', False):
-            raise RuntimeError, "Need mandatory config setting \"migrate-files/from-version\""
-        mig_opts  = "--from-version %s" % migSettings.get('from-version')
+        mig_opts = ""
+        if migSettings.get('from-version', False):
+            mig_opts += "--from-version %s" % migSettings.get('from-version')
         if migSettings.get('migrate-html'):
             mig_opts += " --migrate-html"
         mig_opts += " --class-path %s" % ",".join(libPaths)

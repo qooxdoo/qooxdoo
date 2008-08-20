@@ -292,8 +292,8 @@
 
       "migrate-files" :
       {
-        "from-version" : "0.7",
-        "migrate-html" : true
+        //"from-version" : "0.7",
+        "migrate-html" : false
       }
     },
 
