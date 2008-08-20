@@ -288,7 +288,7 @@ qx.Class.define("qx.core.Property",
         if (qx.core.Variant.isSet("qx.debug", "on"))
         {
           if (qx.core.Setting.get("qx.propertyDebugLevel") > 1) {
-            widget.debug("Update widget: " + widget);
+            widget.debug("Update property inheritance");
           }
         }
 
