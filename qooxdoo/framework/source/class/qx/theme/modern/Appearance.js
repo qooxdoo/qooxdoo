@@ -990,7 +990,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          decorator : "toolbar"
+          decorator : "toolbar",
+          spacing : 2
         };
       }
     },
@@ -1001,7 +1002,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       {
         return {
           decorator : "toolbar-part",
-          marginRight : 6
+          spacing : 2
         };
       }
     },
@@ -1011,7 +1012,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          padding : 2
+          paddingLeft : 2,
+          paddingRight : 2
         };
       }
     },
@@ -1035,7 +1037,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          marginRight : 2,
+          marginTop : 2,
+          marginBottom : 2,
           padding : states.pressed || states.checked || states.hovered ? 3 : 5,
           decorator : states.pressed || states.checked ? "toolbar-button-checked" :
             states.hovered ? "toolbar-button-hovered" : "undefined",
@@ -1050,8 +1053,9 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          margin : 2
-        }
+          marginTop : 2,
+          marginBottom : 2
+        };
       }
     },
 
@@ -1063,8 +1067,9 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          margin: 0,
-          icon : "decoration/arrows/down.png"
+          icon : "decoration/arrows/down.png",
+          marginTop : "undefined",
+          marginBottom : "undefined"
         };
       }
     },
@@ -1077,9 +1082,10 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          padding : states.pressed||states.checked ? 1 : states.hovered ? 1 : 3,
-          margin : 0,
-          icon : "decoration/arrows/down.png"
+          padding : states.pressed || states.checked ? 1 : states.hovered ? 1 : 3,
+          icon : "decoration/arrows/down.png",
+          marginTop : "undefined",
+          marginBottom : "undefined"
         };
       }
     },
@@ -1090,9 +1096,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       {
         return {
           decorator : "toolbar-separator",
-          margin    : 7,
-          width     : 0,
-          height    : 0
+          margin    : 7
         };
       }
     },
