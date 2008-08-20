@@ -278,6 +278,14 @@ qx.Class.define("qx.ui.decoration.Double",
         var innerHeight = height - this.getWidthTop() - this.getWidthBottom();
       }
 
+      if (innerWidth < 0) {
+        innerWidth = 0;
+      }
+
+      if (innerHeight < 0) {
+        innerHeight = 0;
+      }
+
       var dom = element.getDomElement();
       dom.firstChild.style.width = innerWidth + "px";
       dom.firstChild.style.height = innerHeight + "px";
