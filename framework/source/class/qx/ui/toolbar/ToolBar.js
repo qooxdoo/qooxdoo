@@ -86,6 +86,15 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
       check : [ "both", "label", "icon" ],
       inheritable : true,
       event : "changeShow"
+    },
+
+    /** The spacing between every child of the toolbar */
+    spacing :
+    {
+      nullable : true,
+      check : "Integer",
+      themeable : true,
+      apply : "_applySpacing"
     }
   },
 
@@ -100,6 +109,21 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
 
   members :
   {
+    /*
+    ---------------------------------------------------------------------------
+      PROPERTY APPLY ROUTINES
+    ---------------------------------------------------------------------------
+    */
+
+    _applySpacing : function(value, old)
+    {
+      var layout = this._getLayout();
+      value == null ? layout.resetSpacing() : layout.setSpacing(value);
+    },
+
+
+
+
     /*
     ---------------------------------------------------------------------------
       UTILITIES
