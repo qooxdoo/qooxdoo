@@ -116,24 +116,26 @@ def patchSkeleton(dir, name, namespace):
             
         
     for root, dirs, files in os.walk(dir):
-        for file in [file[:-5] for file in files if file.endswith(".tmpl")]:
-            outFile = os.path.join(root, file)
-            inFile = os.path.join(root, file + ".tmpl")
-            console.log("Patching file '%s'" % outFile)
-        
-            config = Template(open(inFile).read())
-            out = open(outFile, "w")
-            out.write(
-                config.substitute({
-                    "Name": name,
-                    "Namespace": namespace,
-                    "REL_QOOXDOO_PATH": relPath,
-                    "ABS_QOOXDOO_PATH": absPath,
-                    "QOOXDOO_VERSION": "0.8"
-                })
-            )
-            out.close()
-            os.remove(inFile)
+        for file in files:
+            split = file.split(".")
+            if len(split) >= 3 and split[1] == "tmpl":
+                outFile = os.path.join(root, split[0] + "." + ".".join(split[2:]))
+                inFile = os.path.join(root, file)
+                console.log("Patching file '%s'" % outFile)
+            
+                config = Template(open(inFile).read())
+                out = open(outFile, "w")
+                out.write(
+                    config.substitute({
+                        "Name": name,
+                        "Namespace": namespace,
+                        "REL_QOOXDOO_PATH": relPath,
+                        "ABS_QOOXDOO_PATH": absPath,
+                        "QOOXDOO_VERSION": "0.8"
+                    })
+                )
+                out.close()
+                os.remove(inFile)
             
     for root, dirs, files in os.walk(dir):
         for file in [file for file in files if file.endswith(".py")]:
