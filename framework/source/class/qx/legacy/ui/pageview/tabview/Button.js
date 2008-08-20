@@ -20,7 +20,7 @@
 
 /* ************************************************************************
 
-#asset(qx/icon/Compat/16/actions/dialog-cancel.png)
+#asset(qx/compat/icon/CrystalClear/16/actions/dialog-cancel.png)
 
 ************************************************************************ */
 
