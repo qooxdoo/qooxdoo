@@ -3704,8 +3704,17 @@ qx.Class.define("qx.ui.core.Widget",
   destruct : function()
   {
     this._disposeChildControls();
+
     this._disposeArray("__widgetChildren");
-    this._disposeFields("__states");
+
+    this._disposeFields(
+      "$$parent",
+      "$$subparent",
+      "__states",
+      "__computedLayout",
+      "__sizeHint"
+    );
+
     this._disposeObjects(
       "__containerElement",
       "__contentElement",
