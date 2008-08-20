@@ -1,71 +1,90 @@
 {
- "let" :
+  "name"    : "${Name}",
+
+  "include" :
+  [
+    {
+      "path" : "${REL_QOOXDOO_PATH}/tool/data/config/application.json",
+      "as"   : "appconf"
+    }
+  ],
+
+  "let" :
   {
-    "APPLICATION"    : "bom",
-    "QOOXDOO_PATH"   : "${REL_QOOXDOO_PATH}/framework",
-    "QOOXDOO_URI"    : "../$${QOOXDOO_PATH}",
-    "BUILD_PATH"     : "./build",
-    "ROOT"           : "."
-  },
+    "APPLICATION"  : "${Namespace}",
+    "QOOXDOO_PATH" : "${REL_QOOXDOO_PATH}/framework",
+    "QOOXDOO_URI"  : "../$${QOOXDOO_PATH}",
+    "QXTHEME"      : "qx.theme.Modern",
+    "LOCALES"      : [ "en" ],
+    "ROOT"         : "."
+  }
 
   "jobs" :
   {
-    "common" :
+    "api" :
     {
-      "library" :
-      [
-        {
-          "manifest" : "${REL_QOOXDOO_PATH}/framework/Manifest.json",
-          "uri" : ".."          
-        }
-      ],
-
-      "cache" :
-      {
-        "path" : "./cache"
-      }
+      "extend" : ["appconf::api"]
     },
-
 
     "build" :
     {
-      "run" : ["compile", "merge"]
+      "extend" : ["appconf::build"]
     },
-    
 
-    "compile" :
+    "clean" :
     {
-      "extend" : ["common"],
-
-      "include" : [
-        "qx.bom.Element",
-        "qx.event.handler.Keyboard"
-      ],
-
-      "variants" :
-      {
-        "qx.debug" : ["off"],
-        "qx.aspects" : ["off"]
-      },
-
-      "compile-dist" :
-      {
-        "file" : "compile-bom.js",
-        "target" : "$${BUILD_PATH}",
-        "uri" : ".",
-        "format": "on",
-        "root" : "$${BUILD_PATH}",
-        "optimize" : [ "variables", "basecalls", "privates" ]
-      }
+      "extend" : ["appconf::clean"]
     },
-    
-    
-    "merge" :
+
+    "distclean" :
     {
-      "shell" :
-      {
-        "command" : "$${PYTHON} ./merge.py"
-      }
-    }   
+      "extend" : ["appconf::distclean"]
+    },
+
+    "fix" :
+    {
+      "extend" : ["appconf::fix"]
+    },
+
+    "lint" :
+    {
+      "extend" : ["appconf::lint"]
+    },
+
+    "migration" :
+    {
+      "extend" : ["appconf::migration"]
+    },
+
+    "pretty" :
+    {
+      "extend" : ["appconf::pretty"]
+    },
+
+    "publish" :
+    {
+      "extend" : ["appconf::publish"]
+    },
+
+    "source" :
+    {
+      "extend" : ["appconf::source"]
+    },
+
+    "test" :
+    {
+      "extend" : ["appconf::test"]
+    },
+
+    "test-source" :
+    {
+      "extend" : ["appconf::test-source"]
+    },
+
+    "translate" :
+    {
+      "extend" : ["appconf::translate"]
+    }
+
   }
 }
