@@ -37,7 +37,7 @@ FRAMEWORK_DIR = os.path.normpath(os.path.join(SCRIPT_DIR, os.pardir, os.pardir))
 SKELETON_DIR  = os.path.normpath(os.path.join(FRAMEWORK_DIR, "component", "skeleton"))
 
 
-def createApplication(name, out, namespace):
+def createApplication(name, out, namespace, app_type, skeleton_path):
 
     if sys.platform == 'win32' and re.match( r'^[a-zA-Z]:$', out):
         out = out + '\\'
@@ -51,35 +51,43 @@ def createApplication(name, out, namespace):
         
 
     outDir = os.path.join(out, name)
-    copySkeleton(outDir, namespace)
+    copySkeleton(skeleton_path, app_type, outDir, namespace)
     patchSkeleton(outDir, name, namespace)
     
     
-def copySkeleton(dir, namespace):
+def copySkeleton(skeleton_path, app_type, dir, namespace):
     console.log("Copy skeleton into the output directory: %s" % dir)
    
+    template = os.path.join(skeleton_path, app_type)
+    if not os.path.isdir(template):
+        console.error("Unknown application type '%s'." % app_type)
+        sys.exit(1)
+        
     try:
-        shutil.copytree(SKELETON_DIR, dir)
+        shutil.copytree(template, dir)
     except OSError:
         console.error("Failed to copy skeleton, maybe the directory already exists")
         sys.exit(1)
        
     # rename namespace
-    os.rename(
-        os.path.join(dir, "source", "class", "custom"),
-        os.path.join(dir, "source", "class", namespace)
-    )
+    source_dir = os.path.join(dir, "source", "class", "custom") 
+    if os.path.isdir(source_dir):
+        os.rename(
+            source_dir,
+            os.path.join(dir, "source", "class", namespace)
+        )
 
-    os.rename(
-        os.path.join(dir, "source", "resource", "custom"),
-        os.path.join(dir, "source", "resource", namespace)
-    )
+    resource_dir = os.path.join(dir, "source", "resource", "custom")
+    if os.path.isdir(resource_dir):
+        os.rename(
+            resource_dir,
+            os.path.join(dir, "source", "resource", namespace)
+        )
     
     #clean svn directories
     for root, dirs, files in os.walk(dir, topdown=False):
         if ".svn" in dirs:
             filename = os.path.join(root, ".svn")
-#            console.log("Removing %s" % filename)
             shutil.rmtree(filename, ignore_errors=False, onerror=handleRemoveReadonly)  
             
 
@@ -125,8 +133,12 @@ def patchSkeleton(dir, name, namespace):
                 })
             )
             out.close()
-            
             os.remove(inFile)
+            
+    for root, dirs, files in os.walk(dir):
+        for file in [file for file in files if file.endswith(".py")]:
+            os.chmod(os.path.join(root, file), 0755)
+            
 
 
 def handleRemoveReadonly(func, path, exc):
@@ -180,8 +192,21 @@ def main():
         help="The applications's top-level namespace (Defaults to 'custom')"
     )
     parser.add_option(
+        "-t", "--type", dest="type", metavar="TYPE", default="gui",
+        help="The type of the application to create: 'gui', 'migration' or 'bom'. " + 
+          "'gui' builds a standard qooxdoo GUI application, 'migration' should " +
+          "be used to migrate 0.7 qooxdoo applications and 'bom' can be used " +
+          "to build low level qooxdoo applications."
+     )
+    parser.add_option(
         "-l", "--logfile", dest="logfile", metavar="FILENAME",
         default=None, type="string", help="Log file"
+    )
+    parser.add_option(
+        "--skeleton-path", dest="skeleton_path", metavar="TYPE", default=SKELETON_DIR,
+        help="(Advanced) Configure the path, where the script will look for " +
+          "the skeletons. The directory must contain sub directories named by " +
+          "the application type containing the application templates."
     )
     
     (options, args) = parser.parse_args(sys.argv[1:])
@@ -193,8 +218,14 @@ def main():
     # Initialize console
     global console
     console = Log(options.logfile, "info")
-        
-    createApplication(options.name, options.out, options.namespace)
+            
+    createApplication(
+        options.name,
+        options.out,
+        options.namespace,
+        options.type,
+        options.skeleton_path
+    )
     
     console.log("DONE")
 
