@@ -393,5 +393,19 @@ qx.Class.define("qx.ui.tabview.TabView",
     _onRadioChangeValue : function(e) {
       this.setSelected(qx.core.ObjectRegistry.fromHashCode(e.getData()));
     }
+  },
+
+
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function() {
+    this._disposeObjects("__radioGroup");
   }
 });

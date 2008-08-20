@@ -25,6 +25,14 @@ qx.Class.define("qx.ui.window.Manager",
   extend : qx.core.Object,
   implement : qx.ui.window.IWindowManager,
 
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
   members :
   {
     __desktop : null,
@@ -112,5 +120,19 @@ qx.Class.define("qx.ui.window.Manager",
         this.updateStack();
       }
     }
+  },
+
+
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function() {
+    this._disposeObjects("__desktop");
   }
 });
