@@ -1,9 +1,9 @@
 /**
  * Demonstrate providing initially-selected tree nodes.
  */
-qx.Class.define("BasicSample",
+qx.Class.define("demobrowser.demo.treevirtual.TreeVirtual_Selections",
 {
-  extend : qx.application.Gui,
+  extend : qx.application.Standalone,
 
   members :
   {
@@ -18,13 +18,6 @@ qx.Class.define("BasicSample",
       
       // tree
       var tree = new qx.ui.treevirtual.TreeVirtual("Tree");
-      tree.set({
-              left   : 10,
-              top    : 30,
-              width  : 400,
-              bottom : 30,
-              border : "inset-thin"
-            });
       tree.setColumnWidth(0, 400);
       tree.setAlwaysShowOpenCloseSymbol(true);
   
@@ -32,7 +25,13 @@ qx.Class.define("BasicSample",
                 qx.ui.treevirtual.TreeVirtual.SelectionMode.MULTIPLE_INTERVAL);
   
       // Add the tree to the document
-      tree.addToDocument();
+      this.getRoot().add(tree,
+                         {
+                           left   : 10,
+                           top    : 30,
+                           width  : 400,
+                           bottom : 30
+                         });
   
       // tree data model
       var dataModel = tree.getDataModel();
@@ -94,7 +93,7 @@ qx.Class.define("BasicSample",
       o.setSelected(item);
     
       // We want to be notified if the selection changes
-      o.addEventListener(
+      o.addListener(
         "changeSelected",
         function()
         {

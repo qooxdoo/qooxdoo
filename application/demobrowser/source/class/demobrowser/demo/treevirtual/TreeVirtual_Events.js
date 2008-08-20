@@ -5,9 +5,9 @@
  *
  * Allows controlling selection mode.  Labels of selected items are displayed.
  */
-qx.Class.define("BasicSample",
+qx.Class.define("demobrowser.demo.treevirtual.TreeVirtual_Events",
 {
-  extend : qx.application.Gui,
+  extend : qx.application.Standalone,
 
   members :
   {
@@ -22,18 +22,23 @@ qx.Class.define("BasicSample",
       
       // tree
       var tree = new qx.ui.treevirtual.TreeVirtual("Tree");
-      tree.set({
-              left   : 10,
-              top    : 30,
-              width  : 400,
-              bottom : 30,
-              border : "inset-thin"
-            });
+      tree.set(
+        {
+          width  : 400,
+          decorator : "pane",
+          backgroundColor : "white"
+        });
       tree.setColumnWidth(0, 400);
       tree.setAlwaysShowOpenCloseSymbol(true);
   
       // Add the tree to the document
-      tree.addToDocument();
+      this.getRoot().add(
+        tree,
+        {
+          left   : 10,
+          top    : 30,
+          bottom : 30
+        });
   
       // tree data model
       var dataModel = tree.getDataModel();
@@ -71,20 +76,20 @@ qx.Class.define("BasicSample",
        * Each time we get a treeOpenWithContent event, add yet another leaf node
        * to the node being opened.
        */
-      tree.addEventListener("treeOpenWithContent",
-                            function(e)
-                            {
-                              alert('treeOpenWithContent ');
-                              var node = e.getData();
-                              dataModel.addLeaf(node.nodeId, newItem.toString());
-                              newItem++;
-                            });
+      tree.addListener("treeOpenWithContent",
+                       function(e)
+                       {
+                         alert('treeOpenWithContent ');
+                         var node = e.getData();
+                         dataModel.addLeaf(node.nodeId, newItem.toString());
+                         newItem++;
+                       });
   
-      tree.addEventListener("treeClose",
-                            function(e)
-                            {
-                              alert('treeClose ');
-                            });
+      tree.addListener("treeClose",
+                       function(e)
+                       {
+                         alert('treeClose ');
+                       });
   
       /*
        * We handle opening an empty folder specially.  We demonstrate how to
@@ -93,32 +98,36 @@ qx.Class.define("BasicSample",
        * contents of the folder, and if nothing is available, indicate it by
        * removing the open/close symbol.
        */
-      tree.addEventListener("treeOpenWhileEmpty",
-                            function(e)
-                            {
-                              alert('treeOpenWhileEmpty');
-                              var node = e.getData();
-                              tree.nodeSetHideOpenClose(node, true);
-                            });
+      tree.addListener("treeOpenWhileEmpty",
+                       function(e)
+                       {
+                         alert('treeOpenWhileEmpty');
+                         var node = e.getData();
+                         tree.nodeSetHideOpenClose(node, true);
+                       });
   
   
-      tree.addEventListener("changeSelection",
-                            function(e)
-                            {
-                              var text = "Selected labels:";
-                              var selectedNodes = e.getData();
-                              for (i = 0; i < selectedNodes.length; i++)
-                              {
-                                text += "\n  " + selectedNodes[i].label;
-                              }
-                              alert('changeSelection: ' + text);
-                            });
+      tree.addListener("changeSelection",
+                       function(e)
+                       {
+                         var text = "Selected labels:";
+                         var selectedNodes = e.getData();
+                         for (i = 0; i < selectedNodes.length; i++)
+                           {
+                             text += "\n  " + selectedNodes[i].label;
+                           }
+                         alert('changeSelection: ' + text);
+                       });
   
   
   
       var commandFrame = new qx.ui.groupbox.GroupBox("Control");
-      commandFrame.set({ top: 48, left: 520, right: 290, height: "auto" });
-      commandFrame.addToDocument();
+      this.getRoot().add(commandFrame,
+                         {
+                           top: 48,
+                           left: 520,
+                           right: 290
+                         });
   
       // Create a combo box for the selection type
       var o = new qx.ui.basic.Atom("Selection Mode: ");
@@ -126,22 +135,21 @@ qx.Class.define("BasicSample",
       commandFrame.add(o);
   
       o = new qx.ui.form.ComboBox();
-      o.set({ top: 20, left: 4, width: "100%" });
-      o.setEditable(false);
+//      o.setEditable(false);
   
       // Add the various selection types
       var item = new qx.ui.form.ListItem("No Selection");
       o.add(item);
       var item = new qx.ui.form.ListItem("Single Selection");
       o.add(item);
-      o.setSelected(item);
+      item.getManager().setSelected(this);
       var item = new qx.ui.form.ListItem("Single Interval Selection");
       o.add(item);
       var item = new qx.ui.form.ListItem("Multiple Interval Selection");
       o.add(item);
     
       // We want to be notified if the selection changes
-      o.addEventListener(
+      o.addListener(
         "changeSelected",
         function()
         {
@@ -169,7 +177,12 @@ qx.Class.define("BasicSample",
           }
         });
   
-      commandFrame.add(o);
+      commandFrame.add(o,
+                       {
+                         top : 20,
+                         left : 4,
+                         right : 4
+                       });
     }
   }
 });
