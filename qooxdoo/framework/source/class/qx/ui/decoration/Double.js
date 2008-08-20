@@ -278,6 +278,8 @@ qx.Class.define("qx.ui.decoration.Double",
         var innerHeight = height - this.getWidthTop() - this.getWidthBottom();
       }
 
+      // Fix to keep applied size above zero
+      // Makes issues in IE7 when applying value like '-4px'
       if (innerWidth < 0) {
         innerWidth = 0;
       }
