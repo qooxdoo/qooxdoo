@@ -28,6 +28,7 @@
 qx.Class.define("qx.ui.tabview.TabView",
 {
   extend : qx.ui.core.Widget,
+  include : [qx.ui.core.MContentPadding],
 
 
   /*
@@ -142,6 +143,15 @@ qx.Class.define("qx.ui.tabview.TabView",
       return control || this.base(arguments, id);
     },
 
+
+    /**
+     * Returns the element, to which the content padding should be applied.
+     *
+     * @return {qx.ui.core.Widget} The content padding target.
+     */
+    _getContentPaddingTarget : function() {
+      return this._getChildControl("pane");
+    },
 
 
 
@@ -363,15 +373,23 @@ qx.Class.define("qx.ui.tabview.TabView",
     // property apply
     _applySelected : function(value, old)
     {
+      var pane = this._getChildControl("pane");
+      var group = this.__radioGroup;
+
       if (value)
       {
-        this._getChildControl("pane").setSelected(value);
-        this.__radioGroup.setSelected(value.getButton());
+        var button = value.getButton();
+
+        pane.setSelected(value);
+        group.setSelected(button);
+
+        button.focus();
+        this.scrollChildIntoView(button);
       }
       else
       {
-        this._getChildControl("pane").resetSelected();
-        this.__radioGroup.resetSelected();
+        pane.resetSelected();
+        group.resetSelected();
       }
     },
 

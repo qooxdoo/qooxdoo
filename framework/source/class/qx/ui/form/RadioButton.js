@@ -146,6 +146,10 @@ qx.Class.define("qx.ui.form.RadioButton",
       value ?
         this.addState("checked") :
         this.removeState("checked");
+
+      if (value && this.getFocusable()) {
+        this.focus();
+      }
     },
 
 
