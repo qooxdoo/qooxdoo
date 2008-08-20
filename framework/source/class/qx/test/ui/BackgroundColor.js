@@ -51,20 +51,20 @@ qx.Class.define("qx.test.ui.BackgroundColor",
 
       var deco = new qx.ui.decoration.Single(1);
       widget.setDecorator(deco);
-      this.assertStyle(widget, "backgroundColor", "");
-      this.assertDecoratorStyle(widget, "backgroundColor", "");
+      this.assertStyle(widget, "backgroundColor", "", "no bg color");
+      this.assertDecoratorStyle(widget, "backgroundColor", "", "no bg color");
 
       widget.setBackgroundColor("red");
-      this.assertStyle(widget, "backgroundColor", "");
-      this.assertDecoratorStyle(widget, "backgroundColor", "red");
+      this.assertStyle(widget, "backgroundColor", "", "red bg color");
+      this.assertDecoratorStyle(widget, "backgroundColor", "red", "red bg color");
 
       widget.setBackgroundColor("green");
-      this.assertStyle(widget, "backgroundColor", "");
-      this.assertDecoratorStyle(widget, "backgroundColor", "green");
+      this.assertStyle(widget, "backgroundColor", "", "green bg color");
+      this.assertDecoratorStyle(widget, "backgroundColor", "green", "green bg color");
 
       widget.setBackgroundColor(null);
-      this.assertStyle(widget, "backgroundColor", "");
-      this.assertDecoratorStyle(widget, "backgroundColor", "");
+      this.assertStyle(widget, "backgroundColor", "", "null bg color");
+      this.assertDecoratorStyle(widget, "backgroundColor", "", "null bg color");
 
       this.getRoot().remove(widget);
       widget.dispose();
