@@ -242,6 +242,16 @@ qx.Class.define("qx.ui.decoration.Beveled",
     // interface implementation
     resize : function(element, width, height)
     {
+      // Fix to keep applied size above zero
+      // Makes issues in IE7 when applying value like '-4px'
+      if (width < 4) {
+        width = 4;
+      }
+
+      if (height < 4) {
+        height = 4;
+      }
+
       // Fix box model
       if (qx.bom.client.Feature.CONTENT_BOX)
       {
