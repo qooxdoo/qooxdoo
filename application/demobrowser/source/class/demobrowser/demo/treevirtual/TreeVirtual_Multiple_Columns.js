@@ -27,7 +27,7 @@ qx.Class.define("demobrowser.demo.treevirtual.TreeVirtual_Multiple_Columns",
           ]);
       tree.set(
         {
-          width  : "40%"
+          width  : 400
         });
       tree.setAlwaysShowOpenCloseSymbol(true);
   
@@ -206,6 +206,6 @@ qx.Class.define("demobrowser.demo.treevirtual.TreeVirtual_Multiple_Columns",
               });
           }
         });
-       }
     }
+  }
 });
