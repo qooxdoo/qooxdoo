@@ -405,11 +405,10 @@ qx.Class.define("qx.ui.form.RadioGroup",
 
     /**
      * Select the item following the given item
-     *
-     * @param item {IRadioItem} The item to select the next item of
      */
-    selectNext : function(item)
+    selectNext : function()
     {
+      var item = this.getSelected();
       var items = this.__items;
       var index = items.indexOf(item);
       if (index == -1) {
@@ -438,11 +437,10 @@ qx.Class.define("qx.ui.form.RadioGroup",
 
     /**
      * Select the item previous the given item
-     *
-     * @param item {IRadioItem} The item to select the previous item of
      */
-    selectPrevious : function(item)
+    selectPrevious : function()
     {
+      var item = this.getSelected();
       var items = this.__items;
       var index = items.indexOf(item);
       if (index == -1) {
