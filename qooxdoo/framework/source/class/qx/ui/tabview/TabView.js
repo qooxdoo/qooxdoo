@@ -384,7 +384,7 @@ qx.Class.define("qx.ui.tabview.TabView",
         group.setSelected(button);
 
         button.focus();
-        this.scrollChildIntoView(button);
+        this.scrollChildIntoView(button, null, null, false);
       }
       else
       {
