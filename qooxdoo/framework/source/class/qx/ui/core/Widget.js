@@ -3709,7 +3709,6 @@ qx.Class.define("qx.ui.core.Widget",
     this._disposeArray("__layoutChildren");
 
     this._disposeFields(
-      "$$parent",
       "$$subparent",
       "__states"
     );
