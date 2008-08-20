@@ -1,0 +1,71 @@
+{
+ "let" :
+  {
+    "APPLICATION"    : "bom",
+    "QOOXDOO_PATH"   : "${REL_QOOXDOO_PATH}/framework",
+    "QOOXDOO_URI"    : "../$${QOOXDOO_PATH}",
+    "BUILD_PATH"     : "./build",
+    "ROOT"           : "."
+  },
+
+  "jobs" :
+  {
+    "common" :
+    {
+      "library" :
+      [
+        {
+          "manifest" : "${REL_QOOXDOO_PATH}/framework/Manifest.json",
+          "uri" : ".."          
+        }
+      ],
+
+      "cache" :
+      {
+        "path" : "./cache"
+      }
+    },
+
+
+    "build" :
+    {
+      "run" : ["compile", "merge"]
+    },
+    
+
+    "compile" :
+    {
+      "extend" : ["common"],
+
+      "include" : [
+        "qx.bom.Element",
+        "qx.event.handler.Keyboard"
+      ],
+
+      "variants" :
+      {
+        "qx.debug" : ["off"],
+        "qx.aspects" : ["off"]
+      },
+
+      "compile-dist" :
+      {
+        "file" : "compile-bom.js",
+        "target" : "$${BUILD_PATH}",
+        "uri" : ".",
+        "format": "on",
+        "root" : "$${BUILD_PATH}",
+        "optimize" : [ "variables", "basecalls", "privates" ]
+      }
+    },
+    
+    
+    "merge" :
+    {
+      "shell" :
+      {
+        "command" : "$${PYTHON} ./merge.py"
+      }
+    }   
+  }
+}
