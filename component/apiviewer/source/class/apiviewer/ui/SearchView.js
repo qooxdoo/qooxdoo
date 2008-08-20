@@ -35,11 +35,11 @@ qx.Class.define("apiviewer.ui.SearchView",
   construct : function()
   {
     this.base(arguments);
-    
-    var layout = new qx.ui.layout.VBox(4);
+
+    var layout = new qx.ui.layout.VBox();
     layout.setSeparator("separator-vertical");
-    this.setLayout(layout);    
-    
+    this.setLayout(layout);
+
     this.__initresult = false;
     this.listdata = [];
 
@@ -103,13 +103,11 @@ qx.Class.define("apiviewer.ui.SearchView",
       // table
       var table = new qx.ui.table.Table(tableModel);
       table.setDecorator(null);
-      table.exclude();
       table.setShowCellFocusIndicator(false);
       table.setStatusBarVisible(false);
       table.setColumnVisibilityButtonVisible(false);
 
       this._selectionModel = table.getSelectionManager().getSelectionModel();
-
       this._selectionModel.addListener("changeSelection", this._onChangeSelection, this);
 
       this._table = table;
@@ -118,8 +116,8 @@ qx.Class.define("apiviewer.ui.SearchView",
       tcm.setDataCellRenderer(0, new qx.ui.table.cellrenderer.Image());
       tcm.setColumnWidth(0, 40);
       tcm.setColumnWidth(1, 400);
-      
-      
+
+
       this.__initresult = true;
 
       this.add(table, {flex : 1})
@@ -164,8 +162,6 @@ qx.Class.define("apiviewer.ui.SearchView",
         }
 
         this.__button.setEnabled(false);
-        this._table.exclude();
-
         return;
       }
       else
@@ -185,7 +181,6 @@ qx.Class.define("apiviewer.ui.SearchView",
             this.listdata.splice(0, this.listdata.length);
           }
 
-          this._table.exclude();
           this.__button.setEnabled(false);
           return;
         }
@@ -195,7 +190,6 @@ qx.Class.define("apiviewer.ui.SearchView",
 
         this._tableModel.setColumns([ "", (sresult.length + " Result" + ((sresult.length != 1) ? "s" : "")) ]);
         this._tableModel.setData(sresult);
-        this._table.show();
 
         var searchEnd = new Date();
         var results = sresult.length;
@@ -437,6 +431,7 @@ qx.Class.define("apiviewer.ui.SearchView",
     {
       var tree = this.getWidgetById("tree");
       var column = this._selectionModel.getAnchorSelectionIndex();
+
       var selectedClass = this._tableModel.getData()[column][1];
 
       if(selectedClass.indexOf("#"))

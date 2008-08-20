@@ -631,7 +631,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
 
       var scrollBar = this.__horScrollBar;
 
-      if (paneSize.height < scrollSize)
+      if (paneSize.width < scrollSize)
       {
         var max = Math.max(0, scrollSize - paneSize.width);
 
