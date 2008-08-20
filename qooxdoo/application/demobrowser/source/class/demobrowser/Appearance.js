@@ -53,21 +53,7 @@ qx.Theme.define("demobrowser.Appearance",
 		},
 
     "demo-menubar" : "toolbar",
-    "demo-toolbar" :
-    {
-      extend : "toolbar",
-      alias : "toolbar",
-
-      style : function(states)
-      {
-        return {
-          decorator : new qx.ui.decoration.Uniform().set({
-            backgroundImage : "decoration/toolbar/toolbar-gradient.png",
-            backgroundRepeat : "scale"
-          })
-        };
-      }
-    },
+    "demo-toolbar" : "toolbar",
 
     "main-splitpane" :
     {
