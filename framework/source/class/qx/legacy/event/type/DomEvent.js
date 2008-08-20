@@ -224,6 +224,6 @@ qx.Class.define("qx.legacy.event.type.DomEvent",
   */
 
   destruct : function() {
-    this._disposeFields("_valueDomEvent", "_valueDomTarget");
+    this._disposeFields("_valueDomEvent", "_valueDomTarget", "_valueOriginalTarget", "_valueRelatedTarget");
   }
 });
