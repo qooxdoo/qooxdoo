@@ -343,14 +343,8 @@ qx.Class.define("qx.ui.form.RadioGroup",
         old.setChecked(false);
       }
 
-      if (value)
-      {
+      if (value) {
         value.setChecked(true);
-
-        // If the old one was focused, now switch focus to the new item
-        if (old && old.hasState("focused")) {
-          value.focus();
-        }
       }
 
       // Fire value change event
