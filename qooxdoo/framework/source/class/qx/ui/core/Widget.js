@@ -3706,16 +3706,16 @@ qx.Class.define("qx.ui.core.Widget",
     this._disposeChildControls();
 
     this._disposeArray("__widgetChildren");
+    this._disposeArray("__layoutChildren");
 
     this._disposeFields(
       "$$parent",
       "$$subparent",
-      "__states",
-      "__computedLayout",
-      "__sizeHint"
+      "__states"
     );
 
     this._disposeObjects(
+      "__layout",
       "__containerElement",
       "__contentElement",
       "__decoratorElement",

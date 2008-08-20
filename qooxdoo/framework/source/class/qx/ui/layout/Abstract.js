@@ -50,6 +50,7 @@ qx.Class.define("qx.ui.layout.Abstract",
     __widget : null,
 
 
+
     /*
     ---------------------------------------------------------------------------
       LAYOUT INTERFACE
@@ -220,6 +221,6 @@ qx.Class.define("qx.ui.layout.Abstract",
   */
 
   destruct : function() {
-    this._disposeFields("__widget");
+    this._disposeFields("__widget", "__sizeHint");
   }
 });
