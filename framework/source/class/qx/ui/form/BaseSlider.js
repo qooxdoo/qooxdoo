@@ -29,13 +29,13 @@
  *
  * Here are the main properties of the class:
  *
- * # <code>value</code>: The bounded integer that QAbstractSlider maintains.
+ * # <code>value</code>: The bounded integer that BaseSlider maintains.
  * # <code>minimum</code>: The lowest possible value.
  * # <code>maximum</code>: The highest possible value.
  * # <code>singleStep</code>: The smaller of two natural steps that an abstract sliders provides and typically corresponds to the user pressing an arrow key.
  * # <code>pageStep</code>: The larger of two natural steps that an abstract slider provides and typically corresponds to the user pressing PageUp or PageDown.
  */
-qx.Class.define("qx.ui.form.AbstractSlider",
+qx.Class.define("qx.ui.form.BaseSlider",
 {
   extend : qx.ui.core.Widget,
   implement : qx.ui.form.IFormElement,
