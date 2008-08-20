@@ -2191,7 +2191,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       {
         return {
           decorator : "table-column-button",
-          padding   : [ 3, 1, 3, 2],
+          padding   : 3,
           icon      : "decoration/table/select-column-order.png"
         };
       }
@@ -2263,7 +2263,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       {
         return {
           minWidth  : 40,
-          minHeight : 25,
+          minHeight : 20,
           padding   : states.hovered ? [ 3, 4, 2, 4 ] : [ 3, 4 ],
           decorator : states.hovered ? "table-header-cell-hovered" : "table-header-cell",
           sortIcon  : states.sorted ?
