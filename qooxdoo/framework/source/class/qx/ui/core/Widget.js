@@ -1741,13 +1741,13 @@ qx.Class.define("qx.ui.core.Widget",
      */
     _add : function(child, options)
     {
-      this.__addHelper(child, options);
-
       if (this.__widgetChildren) {
         this.__widgetChildren.push(child);
       } else {
         this.__widgetChildren = [ child ];
       }
+
+      this.__addHelper(child, options);
     },
 
 
@@ -1770,13 +1770,13 @@ qx.Class.define("qx.ui.core.Widget",
         return child.setLayoutProperties(options);
       }
 
-      this.__addHelper(child, options);
-
       if (ref) {
         qx.lang.Array.insertBefore(this.__widgetChildren, child, ref);
       } else {
         this.__widgetChildren.push(child);
       }
+
+      this.__addHelper(child, options);
     },
 
 
@@ -1794,13 +1794,13 @@ qx.Class.define("qx.ui.core.Widget",
         this.assertNotIdentical(child, before, "Invalid parameters for _addBefore!");
       }
 
-      this.__addHelper(child, options);
-
       if (!this.__widgetChildren) {
         this.__widgetChildren = [];
       }
 
       qx.lang.Array.insertBefore(this.__widgetChildren, child, before);
+
+      this.__addHelper(child, options);
     },
 
 
@@ -1818,13 +1818,13 @@ qx.Class.define("qx.ui.core.Widget",
         this.assertNotIdentical(child, after, "Invalid parameters for _addAfter!");
       }
 
-      this.__addHelper(child, options);
-
       if (!this.__widgetChildren) {
         this.__widgetChildren = [];
       }
 
       qx.lang.Array.insertAfter(this.__widgetChildren, child, after);
+
+      this.__addHelper(child, options);
     },
 
 
@@ -1840,8 +1840,8 @@ qx.Class.define("qx.ui.core.Widget",
         throw new Error("This widget has no children!");
       }
 
-      this.__removeHelper(child);
       qx.lang.Array.remove(this.__widgetChildren, child);
+      this.__removeHelper(child);
     },
 
 
@@ -1859,8 +1859,8 @@ qx.Class.define("qx.ui.core.Widget",
 
       var child = this.__widgetChildren[index];
 
-      this.__removeHelper(child);
       qx.lang.Array.removeAt(this.__widgetChildren, index);
+      this.__removeHelper(child);
     },
 
 
@@ -1874,12 +1874,12 @@ qx.Class.define("qx.ui.core.Widget",
       }
 
       var children = this.__widgetChildren;
+      children.length = 0;
 
       for (var i = children.length-1; i>=0; i--) {
         children[i].setLayoutParent(null);
       }
 
-      children.length = 0;
       qx.ui.core.queue.Layout.add(this);
     },
 
