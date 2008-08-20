@@ -74,7 +74,7 @@ qx.Class.define("qx.ui.menu.Manager",
 
   /*
   *****************************************************************************
-  MEMBERS
+     MEMBERS
   *****************************************************************************
   */
 
@@ -792,6 +792,12 @@ qx.Class.define("qx.ui.menu.Manager",
 
 
 
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
   destruct : function()
   {
     var root = qx.core.Init.getApplication().getRoot();
@@ -807,5 +813,7 @@ qx.Class.define("qx.ui.menu.Manager",
       root.removeListener("keyup", this._onKeyUpDown, this, true);
       root.removeListener("keypress", this._onKeyPress, this, true);
     }
+
+    this._disposeObjects("__showTimer", "__hideTimer");
   }
 });

@@ -169,9 +169,9 @@ qx.Class.define("qx.ui.root.Abstract",
       {
         var Stylesheet = qx.bom.Stylesheet;
 
-        var sheet = this._globalCursorStyleSheet;
+        var sheet = this.__globalCursorStyleSheet;
         if (!sheet) {
-          this._globalCursorStyleSheet = sheet = Stylesheet.createElement();
+          this.__globalCursorStyleSheet = sheet = Stylesheet.createElement();
         }
 
         Stylesheet.removeAllRules(sheet);
@@ -202,6 +202,18 @@ qx.Class.define("qx.ui.root.Abstract",
     _onNativeContextMenu : function(e) {
       e.preventDefault();
     }
+  },
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function() {
+    this._disposeFields("__globalCursorStyleSheet");
   },
 
 
