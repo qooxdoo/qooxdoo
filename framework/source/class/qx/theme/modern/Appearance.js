@@ -1122,6 +1122,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
 
     "tree-item/icon" :
     {
+      include : "image",
+      
       style : function(states)
       {
         return {
@@ -1144,6 +1146,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
 
     "tree-item/open" :
     {
+      include : "image",
+      
       style : function(states)
       {
         var icon;
