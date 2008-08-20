@@ -198,6 +198,7 @@ qx.Class.define("qx.ui.form.RadioButton",
      */
     _onKeyPress : function(e)
     {
+
       var grp = this.getGroup();
       if (!grp) {
         return;
@@ -207,12 +208,12 @@ qx.Class.define("qx.ui.form.RadioButton",
       {
         case "Left":
         case "Up":
-          grp.selectPrevious(this);
+          grp.selectPrevious();
           break;
 
         case "Right":
         case "Down":
-          grp.selectNext(this);
+          grp.selectNext();
           break;
       }
     }
