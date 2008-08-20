@@ -188,6 +188,16 @@ qx.Class.define("qx.ui.decoration.Uniform",
         var inset = this.getWidth() * 2;
         width -= inset;
         height -= inset;
+
+        // Fix to keep applied size above zero
+        // Makes issues in IE7 when applying value like '-4px'
+        if (width < 0) {
+          width = 0;
+        }
+
+        if (height < 0) {
+          height = 0;
+        }
       }
 
       var dom = element.getDomElement();
