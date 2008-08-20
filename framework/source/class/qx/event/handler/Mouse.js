@@ -110,14 +110,17 @@ qx.Class.define("qx.event.handler.Mouse",
 
   members :
   {
-
     __onButtonEventWrapper : null,
     __onMoveEventWrapper : null,
     __onWheelEventWrapper : null,
     __lastEventType : null,
+    __lastMouseDownTarget : null,
     __manager : null,
     __window : null,
     __root : null,
+
+
+
 
     /*
     ---------------------------------------------------------------------------
@@ -529,7 +532,7 @@ qx.Class.define("qx.event.handler.Mouse",
     this._stopMoveObserver();
     this._stopWheelObserver();
 
-    this._disposeFields("__manager", "__window", "__root");
+    this._disposeFields("__manager", "__window", "__root", "__lastMouseDownTarget");
   },
 
 
