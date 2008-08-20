@@ -148,7 +148,6 @@ qx.Class.define("qx.ui.form.SplitButton",
       init : "both",
       check : [ "both", "label", "icon" ],
       themeable : true,
-      nullable : true,
       inheritable : true,
       apply : "_applyShow",
       event : "changeShow"

@@ -690,14 +690,10 @@ qx.Class.define("qx.core.Property",
         {
           code.push('var init=this.', store.init[name], ';');
 
-          // This is a bit problematic. We want return a valid value,
-          // but do not conflict with, 'null' is falsy, but 'true' makes
-          // more sense for boolean properties like enabled. Still this
-          // is not the one solution which is good for all.
-          if (config.check === "Boolean") {
-            code.push('if(init==qx.core.Property.$$inherit)init=true;');
-          } else {
+          if (config.nullable) {
             code.push('if(init==qx.core.Property.$$inherit)init=null;');
+          } else {
+            code.push('if(init==qx.core.Property.$$inherit)throw new Error("Inheritable property ', name, ' of an instance of ', clazz.classname, ' is not (yet) ready!");');
           }
 
           code.push('return init;');
