@@ -50,20 +50,24 @@ qx.Class.define("feedreader.view.ToolBar",
   construct : function(controller)
   {
     this.base(arguments);
+    
+    
+    var mainPart = new qx.ui.toolbar.Part;
+    this.add(mainPart);
 
 
     // Add/Remove buttons
     var addBtn = new qx.ui.toolbar.Button(this.tr("Add feed"), "icon/22/actions/dialog-ok.png");
     addBtn.setCommand(controller.getCommand("addFeed"));
-    this.add(addBtn);
+    mainPart.add(addBtn);
 
     var removeBtn = new qx.ui.toolbar.Button(this.tr("Remove feed"), "icon/22/actions/dialog-cancel.png");
     removeBtn.setCommand(controller.getCommand("removeFeed"));
-    this.add(removeBtn);
+    mainPart.add(removeBtn);
 
 
     // Add a sepearator
-    this.add(new qx.ui.toolbar.Separator());
+    mainPart.addSeparator();
 
 
     // Reload button
@@ -71,29 +75,33 @@ qx.Class.define("feedreader.view.ToolBar",
     var reloadCmd = controller.getCommand("reload");
     reloadBtn.setCommand(reloadCmd);
     reloadBtn.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Reload the feeds. (%1)", reloadCmd.toString())));
-    this.add(reloadBtn);
+    mainPart.add(reloadBtn);
 
 
     // Add a sepearator
-    this.add(new qx.ui.toolbar.Separator());
+    mainPart.addSeparator();
 
 
     // Preferences button
     var prefBtn = new qx.ui.toolbar.Button(this.tr("Preferences"), "icon/22/apps/preferences-theme.png");
     prefBtn.setCommand(controller.getCommand("preferences"));
     prefBtn.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Open preferences window.")));
-    this.add(prefBtn);
+    mainPart.add(prefBtn);
 
 
     // Add a spacer
     this.addSpacer();
 
 
+    // Info part
+    var infoPart = new qx.ui.toolbar.Part;
+    this.add(infoPart);
+
     // About button
-    var about_btn = new qx.ui.toolbar.Button(this.tr("Help"), "icon/22/actions/help-about.png");
+    var aboutBtn = new qx.ui.toolbar.Button(this.tr("Help"), "icon/22/actions/help-about.png");
     var aboutCmd = controller.getCommand("about");
-    about_btn.setCommand(aboutCmd);
-    about_btn.setToolTip(new qx.ui.tooltip.ToolTip("(" + aboutCmd.toString() + ")"));
-    this.add(about_btn);
+    aboutBtn.setCommand(aboutCmd);
+    aboutBtn.setToolTip(new qx.ui.tooltip.ToolTip("(" + aboutCmd.toString() + ")"));
+    infoPart.add(aboutBtn);
   }
 });
