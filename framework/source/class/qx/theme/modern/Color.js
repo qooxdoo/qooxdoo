@@ -56,21 +56,36 @@ qx.Theme.define("qx.theme.modern.Color",
 
 
 
+
+
     /*
     ---------------------------------------------------------------------------
       TEXT COLORS
     ---------------------------------------------------------------------------
     */
 
-    // types
-    "text-label" : "#1a1a1a",
+    // other types
     "text-light" : "#909090",
+    "text-gray" : "#4a4a4a",
+
+    // labels
+    "text-label" : "#1a1a1a",
+
+    // group boxes
+    "text-title" : "#314a6e",
+
+    // text fields
     "text-input" : "#000000",
 
     // states
     "text-hovered"  : "#001533",
     "text-disabled" : "#6B6A6E",
     "text-selected" : "#fffefe",
+    "text-active" : "#26364D",
+    "text-inactive" : "#404955",
+
+
+
 
 
 
@@ -125,7 +140,7 @@ qx.Theme.define("qx.theme.modern.Color",
     // equal to "background-pane" and "background-odd"
     "table-row-background-even" : "#F3F3F3",
     "table-row-background-odd" : "#E4E4E4",
-    
+
     // equal to "text-selected" and "text-label"
     "table-row-selected" : "#fffefe",
     "table-row" : "#1a1a1a",
