@@ -59,7 +59,7 @@ qx.Class.define("qx.ui.core.queue.Layout",
       // get sorted widgets to (re-)layout
       var queue = this.__getSortedQueue();
 
-      // iterate in reversed order to process widgets with the smalles nesting
+      // iterate in reversed order to process widgets with the smallest nesting
       // level first because these may affect the inner lying children
       for (var i=queue.length-1; i>=0; i--)
       {
