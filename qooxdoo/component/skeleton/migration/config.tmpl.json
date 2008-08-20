@@ -17,7 +17,7 @@
     "QXTHEME"      : "qx.theme.Modern",
     "LOCALES"      : [ "en" ],
     "ROOT"         : "."
-  }
+  },
 
   "jobs" :
   {
@@ -28,7 +28,7 @@
 
     "build" :
     {
-      "extend" : ["appconf::build"]
+      "extend" : ["appconf::build"],
 
       "settings" :
       {
