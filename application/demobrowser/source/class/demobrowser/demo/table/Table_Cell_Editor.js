@@ -189,6 +189,9 @@ qx.Class.define("demobrowser.demo.table.Table_Cell_Editor",
       var propertyEditor_resizeBehaviour = { tableColumnModel : function(obj){ return new qx.ui.table.columnmodel.Resize(obj); } };
       var propertyEditor = new qx.ui.table.Table(propertyEditor_tableModel,propertyEditor_resizeBehaviour);
 
+      // remove decor
+      propertyEditor.setDecorator(null);
+
       // layout
       propertyEditor.setColumnVisibilityButtonVisible(false);
       propertyEditor.setKeepFirstVisibleRowComplete(true);
