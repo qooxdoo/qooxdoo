@@ -29,6 +29,11 @@
     "build" :
     {
       "extend" : ["appconf::build"]
+
+      "settings" :
+      {
+        "qx.legacy.theme" : "qx.legacy.theme.ClassicRoyale"
+      }
     },
 
     "clean" :
@@ -68,7 +73,12 @@
 
     "source" :
     {
-      "extend" : ["appconf::source"]
+      "extend" : ["appconf::source"],
+
+      "settings" :
+      {
+        "qx.legacy.theme" : "qx.legacy.theme.ClassicRoyale"
+      }
     },
 
     "test" :
