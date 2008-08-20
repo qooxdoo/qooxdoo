@@ -1341,7 +1341,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          decorator       : new qx.ui.decoration.Single().set({top : [ 1, "solid", "gray" ]}),
+          decorator       : "datechooser-date-pane",
           backgroundColor : "date-chooser"
         };
       }
@@ -1351,12 +1351,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
     {
       style : function(states)
       {
-        var border = new qx.ui.decoration.Single().set({
-          bottom : [ 1, "solid", "gray" ]
-        });
-
         return {
-          decorator       : border,
+          decorator       : "datechooser-weekday",
           font            : "bold",
           textAlign       : "center",
           textColor       : states.weekend ? "date-chooser-title" : "date-chooser",
@@ -1383,25 +1379,11 @@ qx.Theme.define("qx.theme.classic.Appearance",
     {
       style : function(states)
       {
-        if (states.header)
-        {
-          var border = new qx.ui.decoration.Single().set({
-            right : [ 1, "solid", "gray" ],
-            bottom : [ 1, "solid", "gray" ]
-          });
-        }
-        else
-        {
-          var border = new qx.ui.decoration.Single().set({
-            right : [ 1, "solid", "gray" ]
-          });
-        }
-
         return {
           textAlign : "center",
           textColor : "date-chooser-title",
           padding   : [ 2, 4 ],
-          decorator : border
+          decorator : states.header ? "datechooser-week-header" : "datechooser-week"
         };
       }
     },
