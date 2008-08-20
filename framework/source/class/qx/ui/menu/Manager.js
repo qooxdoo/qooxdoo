@@ -86,6 +86,9 @@ qx.Class.define("qx.ui.menu.Manager",
     __closeTimer : null,
     __objects : null,
 
+
+
+
     /*
     ---------------------------------------------------------------------------
       HELPER METHODS
@@ -194,7 +197,10 @@ qx.Class.define("qx.ui.menu.Manager",
         }
       }
 
-      qx.lang.Array.remove(this.__objects, obj);
+      var reg = this.__objects;
+      if (reg) {
+        qx.lang.Array.remove(reg, obj);
+      }
     },
 
 
@@ -204,8 +210,11 @@ qx.Class.define("qx.ui.menu.Manager",
     hideAll : function()
     {
       var reg = this.__objects;
-      for (var i=reg.length-1; i>=0; i--) {
-        reg[i].exclude();
+      if (reg)
+      {
+        for (var i=reg.length-1; i>=0; i--) {
+          reg[i].exclude();
+        }
       }
     },
 
@@ -778,6 +787,25 @@ qx.Class.define("qx.ui.menu.Manager",
         // Finally dispatch the clone
         button.dispatchEvent(clone);
       }
+    }
+  },
+
+
+
+  destruct : function()
+  {
+    var root = qx.core.Init.getApplication().getRoot();
+
+    if (root)
+    {
+      // React on mousedown/mouseup events
+      root.removeListener("mousedown", this._onMouseDown, this, true);
+      root.removeListener("mouseup", this._onMouseUp, this);
+
+      // React on keypress events
+      root.removeListener("keydown", this._onKeyUpDown, this, true);
+      root.removeListener("keyup", this._onKeyUpDown, this, true);
+      root.removeListener("keypress", this._onKeyPress, this, true);
     }
   }
 });

@@ -61,9 +61,9 @@ qx.Class.define("qx.ui.popup.Manager",
 
   members :
   {
-    
     __objects : null,
-    
+
+
     /**
      * Registers a visible popup.
      *
@@ -97,8 +97,12 @@ qx.Class.define("qx.ui.popup.Manager",
         }
       }
 
-      delete this.__objects[obj.$$hash];
-      this.__updateIndexes();
+      var reg = this.__objects;
+      if (reg)
+      {
+        delete reg[obj.$$hash];
+        this.__updateIndexes();
+      }
     },
 
 
@@ -108,8 +112,11 @@ qx.Class.define("qx.ui.popup.Manager",
     hideAll : function()
     {
       var reg = this.__objects;
-      for (var hash in reg) {
-        reg[hash].exclude();
+      if (reg)
+      {
+        for (var hash in reg) {
+          reg[hash].exclude();
+        }
       }
     },
 
@@ -177,7 +184,13 @@ qx.Class.define("qx.ui.popup.Manager",
   *****************************************************************************
   */
 
-  destruct : function() {
+  destruct : function()
+  {
+    var root = qx.core.Init.getApplication().getRoot();
+    if (root) {
+      root.removeListener("mousedown", this.__onMouseDown, this, true);
+    }
+
     this._disposeMap("__objects");
   }
 });

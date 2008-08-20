@@ -333,6 +333,15 @@ qx.Class.define("qx.ui.tooltip.Manager",
 
   destruct : function()
   {
+    // Deregister events
+    var root = qx.core.Init.getApplication().getRoot();
+    if (root)
+    {
+      root.addListener("mouseover", this.__onMouseOverRoot, this, true);
+      root.addListener("focusin", this.__onFocusInRoot, this, true);
+    }
+
+    // Dispose timers
     this._disposeObjects("__showTimer", "__hideTimer");
     this._disposeFields("__mousePosition");
   }
