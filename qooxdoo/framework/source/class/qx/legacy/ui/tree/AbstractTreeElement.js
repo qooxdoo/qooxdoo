@@ -21,7 +21,7 @@
 
 /* ************************************************************************
 
-#asset(qx/icon/Compat/16/actions/document-new.png)
+#asset(qx/compat/icon/CrystalClear/16/actions/document-new.png)
 
 ************************************************************************ */
 
