@@ -960,5 +960,22 @@ qx.Class.define("qx.ui.core.LayoutItem",
 
       return result;
     }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function()
+  {
+    this._disposeFields(
+      "__layoutProperties",
+      "__computedLayout",
+      "__sizeHint");
   }
 });
