@@ -1137,27 +1137,5 @@ qx.Class.define("qx.ui.control.ColorSelector",
       this.setGreen(vGreen);
       this.setBlue(vBlue);
     }
-  },
-
-
-
-
-  /*
-  *****************************************************************************
-     DESTRUCTOR
-  *****************************************************************************
-  */
-
-  destruct : function()
-  {
-    this._disposeObjects("_controlBar", "_btnbar", "_btncancel", "_btnok", "_controlPane", "_hueSaturationPane",
-      "_hueSaturationField", "_hueSaturationHandle", "_brightnessPane", "_brightnessField",
-      "_brightnessHandle", "_presetFieldSet", "_presetGrid", "_inputFieldSet", "_inputLayout",
-      "_previewFieldSet", "_previewLayout", "_hexLayout", "_hexLabel", "_hexHelper",
-      "_hexField", "_rgbSpinLayout", "_rgbSpinLabel", "_rgbSpinRed", "_rgbSpinGreen",
-      "_rgbSpinBlue", "_hsbSpinLayout", "_hsbSpinLabel", "_hsbSpinHue", "_hsbSpinSaturation",
-      "_hsbSpinBrightness", "_oldColorPreview", "_newColorPreview");
-
-    this._disposeFields("__presetTable");
   }
 });
