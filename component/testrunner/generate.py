@@ -32,5 +32,7 @@ argList = []
 argList.append(CMD_PYTHON)
 argList.append(REAL_GENERATOR)
 argList.extend(sys.argv[1:])  # skip $0 (this script's name)
-
-subprocess.call(" ".join(argList), shell=True)
+if sys.platform != "win32":
+    argList = ['"%s"' % x for x in argList]  # quote argv elements
+cmd = " ".join(argList)
+subprocess.call(cmd, shell=True)
