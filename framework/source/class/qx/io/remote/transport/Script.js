@@ -437,6 +437,6 @@ qx.Class.define("qx.io.remote.transport.Script",
       document.body.removeChild(this._element);
     }
 
-    this._disposeFields("_element");
+    this._disposeFields("_element", "_responseContent");
   }
 });
