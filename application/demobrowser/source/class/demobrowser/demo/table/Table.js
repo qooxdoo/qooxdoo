@@ -62,7 +62,8 @@ qx.Class.define("demobrowser.demo.table.Table",
 
       table.set({
         width: 600,
-        height: 400
+        height: 400,
+        decorator : null
       });
 
       table.getSelectionModel().setSelectionMode(qx.ui.table.selection.Model.MULTIPLE_INTERVAL_SELECTION);
