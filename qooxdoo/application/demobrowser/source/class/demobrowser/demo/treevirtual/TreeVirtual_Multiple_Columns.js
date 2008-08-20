@@ -18,6 +18,10 @@ qx.Class.define("demobrowser.demo.treevirtual.TreeVirtual_Multiple_Columns",
       qx.Class.include(qx.ui.treevirtual.TreeVirtual,
                        qx.ui.treevirtual.MNode);
   
+      // Use an HBox to hold the tree and the groupbox
+      var hBox = new qx.ui.container.Composite(new qx.ui.layout.HBox(20));
+      this.getRoot().add(hBox, { edge : 30 });
+
       // tree
       var tree = new qx.ui.treevirtual.TreeVirtual(
           [
@@ -37,12 +41,7 @@ qx.Class.define("demobrowser.demo.treevirtual.TreeVirtual_Multiple_Columns",
       // Ensure that the tree column remains sufficiently wide
       resizeBehavior.set(0, { width:"1*", minWidth:180  });
   
-      this.getRoot().add(tree,
-                         {
-                           left : 10,
-                           top : 30,
-                           bottom : 30
-                         });
+      hBox.add(tree);
   
       // tree data model
       var dataModel = tree.getDataModel();
@@ -87,16 +86,18 @@ qx.Class.define("demobrowser.demo.treevirtual.TreeVirtual_Multiple_Columns",
       dataModel.setData();
   
       var commandFrame = new qx.ui.groupbox.GroupBox("Control");
-      commandFrame.set({ top: 48, left: 520, width: "auto", height: "auto" });
-      commandFrame.addToDocument();
+      commandFrame.setLayout(new qx.ui.layout.Canvas());
+
+      hBox.add(commandFrame)
   
       var o = new qx.ui.basic.Atom("Current Selection: ");
       o.set({ left: 0, top: 6 });
       commandFrame.add(o);
   
       o = new qx.ui.form.TextField();
-      o.set({ left: 4, right: 0, top: 20, readOnly: true });
-      commandFrame.add(o);
+      o.set({ readOnly: true });
+      commandFrame.add(o, { left : 4, right : 0, top : 20 });
+
       tree.addListener(
         "changeSelection",
         function(e)
@@ -110,8 +111,8 @@ qx.Class.define("demobrowser.demo.treevirtual.TreeVirtual_Multiple_Columns",
         o);
   
       var buttonRemove = new qx.ui.form.Button("Remove");
-      buttonRemove.set({ top: 42, left: 0, enabled: false });
-      commandFrame.add(buttonRemove);
+      buttonRemove.set({ enabled: false });
+      commandFrame.add(buttonRemove, { top : 50, left : 0 });
       buttonRemove.addListener(
         "execute",
         function(e)
@@ -125,8 +126,8 @@ qx.Class.define("demobrowser.demo.treevirtual.TreeVirtual_Multiple_Columns",
         });
   
       o = new qx.ui.form.CheckBox("Use tree lines?");
-      o.set({ top: 80, left: 0, checked: true });
-      commandFrame.add(o);
+      o.set({ checked: true });
+      commandFrame.add(o, { top : 80, left : 0 });
       o.addListener("changeChecked",
                     function(e)
                     {
@@ -134,8 +135,8 @@ qx.Class.define("demobrowser.demo.treevirtual.TreeVirtual_Multiple_Columns",
                     });
   
       o = new qx.ui.form.CheckBox("Exclude first-level tree lines?");
-      o.set({ top: 100, left: 0, checked: false });
-      commandFrame.add(o);
+      o.set({ checked: false });
+      commandFrame.add(o, { top : 100, left : 0 });
       o.addListener("changeChecked",
                     function(e)
                     {
@@ -143,8 +144,8 @@ qx.Class.define("demobrowser.demo.treevirtual.TreeVirtual_Multiple_Columns",
                     });
   
       o = new qx.ui.form.CheckBox("Always show open/close symbol?");
-      o.set({ top: 120, left: 0, checked: true });
-      commandFrame.add(o);
+      o.set({ checked: true });
+      commandFrame.add(o, { top : 120, left : 0 });
       o.addListener("changeChecked",
                     function(e)
                     {
@@ -152,8 +153,8 @@ qx.Class.define("demobrowser.demo.treevirtual.TreeVirtual_Multiple_Columns",
                     });
   
       o = new qx.ui.form.CheckBox("Remove open/close if found empty?");
-      o.set({ top: 140, left: 0, checked: true });
-      commandFrame.add(o);
+      o.set({ checked: true });
+      commandFrame.add(o, { top : 140, left : 0 });
       tree.addListener("treeOpenWhileEmpty",
                        function(e)
                        {
@@ -166,8 +167,8 @@ qx.Class.define("demobrowser.demo.treevirtual.TreeVirtual_Multiple_Columns",
                        o);
   
       o = new qx.ui.form.CheckBox("Open/close click selects row?");
-      o.set({ top: 160, left: 0, checked: false });
-      commandFrame.add(o);
+      o.set({ checked: false });
+      commandFrame.add(o, { top : 160, left : 0 });
       o.addListener("changeChecked",
                     function(e)
                     {
@@ -175,8 +176,8 @@ qx.Class.define("demobrowser.demo.treevirtual.TreeVirtual_Multiple_Columns",
                     });
   
       o = new qx.ui.form.CheckBox("Disable the tree?");
-      o.set({ top: 180, left: 0, checked: false });
-      commandFrame.add(o);
+      o.set({ checked: false });
+      commandFrame.add(o, { top : 180, left : 0 });
       o.addListener("changeChecked",
                     function(e)
                     {
@@ -184,8 +185,8 @@ qx.Class.define("demobrowser.demo.treevirtual.TreeVirtual_Multiple_Columns",
                     });
   
       o = new qx.ui.form.CheckBox("Display a cell focus indicator?");
-      o.set({ top: 200, left: 0, checked: true });
-      commandFrame.add(o);
+      o.set({ checked: true });
+      commandFrame.add(o, { top : 200, left : 0 });
       o.addListener(
         "changeChecked",
         function(e)
