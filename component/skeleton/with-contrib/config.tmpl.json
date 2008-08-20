@@ -21,34 +21,45 @@
 
   "jobs" :
   {
+    "include-contrib" :
+    {
+      "library": 
+      [
+        {
+          "manifest" : "contrib://SkeletonWidget/trunk/Manifest.json",
+          "uri"      : ".."
+        }
+      ]
+    },
+
     "api" :
     {
-      "extend" : ["appconf::api"]
+      "extend" : ["include-contrib", "appconf::api"]
     },
 
     "build" :
     {
-      "extend" : ["appconf::build"]
+      "extend" : ["include-contrib", "appconf::build"]
     },
 
     "clean" :
     {
-      "extend" : ["appconf::clean"]
+      "extend" : ["include-contrib", "appconf::clean"]
     },
 
     "distclean" :
     {
-      "extend" : ["appconf::distclean"]
+      "extend" : ["include-contrib", "appconf::distclean"]
     },
 
     "fix" :
     {
-      "extend" : ["appconf::fix"]
+      "extend" : ["include-contrib", "appconf::fix"]
     },
 
     "lint" :
     {
-      "extend" : ["appconf::lint"]
+      "extend" : ["include-contrib", "appconf::lint"]
     },
 
     "migration" :
@@ -68,7 +79,7 @@
 
     "source" :
     {
-      "extend" : ["appconf::source"]
+      "extend" : ["include-contrib", "appconf::source"]
     },
 
     "test" :
