@@ -73,7 +73,7 @@ qx.Class.define("qx.ui.decoration.Uniform",
     width :
     {
       check : "PositiveInteger",
-      init : 1,
+      init : 0,
       apply : "_applyWidth"
     },
 
