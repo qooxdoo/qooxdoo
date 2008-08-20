@@ -3457,8 +3457,16 @@ qx.Class.define("qx.ui.core.Widget",
         return;
       }
 
-      for (var id in controls) {
-        controls[id].dispose();
+      var Widget = qx.ui.core.Widget;
+
+      for (var id in controls)
+      {
+        var control = controls[id];
+        if (!Widget.contains(this, control)) {
+          control.destroy();
+        } else {
+          control.dispose();
+        }
       }
 
       delete this.__childControls;
@@ -3632,7 +3640,7 @@ qx.Class.define("qx.ui.core.Widget",
     {
       var parent = this.getLayoutParent();
       if (parent) {
-        parent.remove(this);
+        parent._remove(this);
       }
 
       qx.ui.core.queue.Dispose.add(this);
