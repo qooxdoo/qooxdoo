@@ -52,6 +52,8 @@
     // create the URI to the source script
     jsFileURL = "../../script/demobrowser.demo." + category + "." + base + filevar + ".js";
     jsSourceURL = "../../script/demobrowser.demo." + category + "." + base + ".src.js";
+
+    document.title = category + "/" + base + " - qooxdoo demo browser";
   }
 
   function attachEvents()
