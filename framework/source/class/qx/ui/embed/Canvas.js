@@ -30,7 +30,7 @@
  * Note that this widget operates on two different coordinate systems. The canvas
  * has its own coordinate system for drawing operations. This canvas coordinate
  * system is scaled to fit actual size of the DOM element. Each time the size of
- * the canvas dimensions is changes a redraw is required. In this case the
+ * the canvas dimensions is changed a redraw is required. In this case the
  * protected method {@link #_draw} is called and the event {@link #redraw}
  * is fired. You can synchronize the internal canvas dimension with the
  * CSS dimension of the canvas element by setting {@link #syncDimension} to
@@ -255,9 +255,9 @@ qx.Class.define("qx.ui.embed.Canvas",
      */
     _draw : function(width, height, context) {}
   },
-  
-  
-  
+
+
+
   /*
    *****************************************************************************
       DESTRUCT
