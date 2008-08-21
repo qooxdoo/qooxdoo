@@ -1040,6 +1040,181 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     /*
     ---------------------------------------------------------------------------
+      TREEVIRTUAL
+    ---------------------------------------------------------------------------
+    */
+
+    "treevirtual" :
+    {
+      style : function(states)
+      {
+        return {
+          decorator : "black"
+        }
+      }
+    },
+
+    "treevirtual-folder" :
+    {
+      style : function(states)
+      {
+        return {
+          icon : (states.opened
+                  ? "icon/16/places/folder-open.png"
+                  : "icon/16/places/folder.png")
+        }
+      }
+    },
+
+    "treevirtual-file" :
+    {
+      include : "treevirtual-folder",
+      alias : "treevirtual-folder",
+
+      style : function(states)
+      {
+        return {
+          icon : "icon/16/mimetypes/text-plain.png"
+        }
+      }
+    },
+
+    "treevirtual-line" :
+    {
+      style : function(states)
+      {
+        return {
+          icon       : "decoration/treevirtual/line.gif"
+        }
+      }
+    },
+
+    "treevirtual-contract" :
+    {
+      style : function(states)
+      {
+        return {
+          icon        : "decoration/treevirtual/minus.gif"
+        }
+      }
+    },
+
+    "treevirtual-expand" :
+    {
+      style : function(states)
+      {
+        return {
+          icon        : "decoration/treevirtual/plus.gif"
+        }
+      }
+    },
+
+    "treevirtual-only-contract" : 
+    {
+      style : function(states)
+      {
+        return {
+          icon        : "decoration/treevirtual/only_minus.gif"
+        }
+      }
+    },
+
+    "treevirtual-only-expand" : 
+    {
+      style : function(states)
+      {
+        return {
+          icon        : "decoration/treevirtual/only_plus.gif"
+        }
+      }
+    },
+
+    "treevirtual-start-contract" : 
+    {
+      style : function(states)
+      {
+        return {
+          icon        : "decoration/treevirtual/start_minus.gif"
+        }
+      }
+    },
+
+    "treevirtual-start-expand" : 
+    {
+      style : function(states)
+      {
+        return {
+          icon        : "decoration/treevirtual/start_plus.gif"
+        }
+      }
+    },
+
+    "treevirtual-end-contract" : 
+    {
+      style : function(states)
+      {
+        return {
+          icon        : "decoration/treevirtual/end_minus.gif"
+        }
+      }
+    },
+
+    "treevirtual-end-expand" : 
+    {
+      style : function(states)
+      {
+        return {
+          icon        : "decoration/treevirtual/end_plus.gif"
+        }
+      }
+    },
+
+    "treevirtual-cross-contract" : 
+    {
+      style : function(states)
+      {
+        return {
+          icon        : "decoration/treevirtual/cross_minus.gif"
+        }
+      }
+    },
+
+    "treevirtual-cross-expand" : 
+    {
+      style : function(states)
+      {
+        return {
+          icon        : "decoration/treevirtual/cross_plus.gif"
+        }
+      }
+    },
+
+
+    "treevirtual-end" :
+    {
+      style : function(states)
+      {
+        return {
+          icon        : "decoration/treevirtual/end.gif"
+        }
+      }
+    },
+
+    "treevirtual-cross" :
+    {
+      style : function(states)
+      {
+        return {
+          icon        : "decoration/treevirtual/cross.gif"
+        }
+      }
+    },
+
+
+
+
+    /*
+    ---------------------------------------------------------------------------
       WINDOW
     ---------------------------------------------------------------------------
     */
