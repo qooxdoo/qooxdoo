@@ -460,6 +460,7 @@ qx.Class.define("qx.ui.progressive.Progressive",
     // Clean up references
     this._disposeFields(
       "__t1",
-      "__renderer");
+      "__renderer",
+      "__structure");
   }
 });
