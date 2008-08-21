@@ -91,8 +91,7 @@ qx.Class.define("demobrowser.demo.treevirtual.TreeVirtual_Multiple_Columns",
       hBox.add(commandFrame)
   
       var o = new qx.ui.basic.Atom("Current Selection: ");
-      o.set({ left: 0, top: 6 });
-      commandFrame.add(o);
+      commandFrame.add(o, { left: 0, top: 6 });
   
       o = new qx.ui.form.TextField();
       o.set({ readOnly: true });
