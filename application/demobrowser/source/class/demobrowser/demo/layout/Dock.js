@@ -42,7 +42,8 @@ qx.Class.define("demobrowser.demo.layout.Dock",
       var widget = new qx.ui.container.Composite(new qx.ui.layout.Dock()).set(
       {
         decorator: "black",
-        backgroundColor: "yellow"
+        backgroundColor: "yellow",
+        allowGrowX : false
       });
 
       var w1 = new qx.ui.core.Widget().set({decorator: "black", backgroundColor: "red"});
@@ -69,7 +70,8 @@ qx.Class.define("demobrowser.demo.layout.Dock",
       var widget = (new qx.ui.container.Composite(dock)).set(
       {
         decorator: "black",
-        backgroundColor: "yellow"
+        backgroundColor: "yellow",
+        allowGrowX : false
       });
 
       var w1 = new qx.ui.core.Widget().set({decorator: "black", backgroundColor: "red"});
@@ -97,7 +99,8 @@ qx.Class.define("demobrowser.demo.layout.Dock",
       var widget = (new qx.ui.container.Composite(dock)).set(
       {
         decorator: "black",
-        backgroundColor: "yellow"
+        backgroundColor: "yellow",
+        allowGrowX : false
       });
 
       var w1 = new qx.ui.core.Widget().set({decorator: "black", backgroundColor: "red"});
