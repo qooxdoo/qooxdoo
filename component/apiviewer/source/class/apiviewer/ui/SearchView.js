@@ -161,7 +161,7 @@ qx.Class.define("apiviewer.ui.SearchView",
           this.listdata.splice(0, this.listdata.length);
         }
 
-        this.__button.setEnabled(false);
+        this._resetElements();
         return;
       }
       else
@@ -181,7 +181,7 @@ qx.Class.define("apiviewer.ui.SearchView",
             this.listdata.splice(0, this.listdata.length);
           }
 
-          this.__button.setEnabled(false);
+          this._resetElements();
           return;
         }
 
@@ -452,6 +452,13 @@ qx.Class.define("apiviewer.ui.SearchView",
       {
         tree.selectTreeNodeByClassName(selectedClass);
       }
+    },
+    
+    _resetElements : function()
+    {
+      this._tableModel.setData([]);
+      this._tableModel.setColumns([ "", ""]);
+      this.__button.setEnabled(false);
     }
 
   },
