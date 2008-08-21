@@ -74,9 +74,10 @@ qx.Class.define("qx.ui.progressive.structure.Abstract",
     if (this.__container)
     {
       this.__container.dispose();
-      this.__container = null;
     }
 
-    this.__pane = null;
+    this._disposeFields(
+      "__container",
+      "__pane");
   }
 });

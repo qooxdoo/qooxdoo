@@ -60,5 +60,11 @@ qx.Class.define("qx.ui.progressive.headfoot.Abstract",
   settings :
   {
     "qx.tableResizeDebug" : false
+  },
+
+  destruct : function()
+  {
+    this._disposeFields(
+      "__progressive");
   }
 });
