@@ -1215,12 +1215,16 @@ qx.Theme.define("qx.theme.modern.Appearance",
     ---------------------------------------------------------------------------
     */
 
+    "treevirtual" : "table",
+
     "treevirtual-folder" :
     {
       style : function(states)
       {
         return {
-          icon : states.opened ? "icon/16/places/folder-open.png" : "icon/16/places/folder.png"
+          icon : (states.opened
+                  ? "icon/16/places/folder-open.png"
+                  : "icon/16/places/folder.png")
         }
       }
     },

@@ -300,6 +300,12 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
     {
       check : "Boolean",
       init : false
+    },
+
+    appearance :
+    {
+      refine : true,
+      init : "treevirtual"
     }
   },
 
