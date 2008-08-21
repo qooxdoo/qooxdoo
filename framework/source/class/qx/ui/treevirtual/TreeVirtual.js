@@ -334,6 +334,10 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
 
     /**
      * Set whether lines linking tree children shall be drawn on the tree.
+     * Note that not all themes support tree lines.  As of the time of this
+     * writing, the Classic theme supports tree lines (and uses +/- icons
+     * which lend themselves to tree lines), while the Modern theme, which
+     * uses right-facing and downward-facing arrows instead of +/-, does not.
      *
      * @type member
      *
