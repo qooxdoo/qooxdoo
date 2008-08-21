@@ -32,6 +32,7 @@ qx.Theme.define("qx.theme.classic.Color",
     "background-disabled" : "#F4F4F4",
     "background-selected" : "#3E6CA8",
     "background-field" : "white",
+    "background-pane" : "#FAFBFE",
 
     "border-lead" : "#888888",
 
