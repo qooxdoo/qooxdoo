@@ -743,7 +743,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          backgroundColor : "background",
+          backgroundColor : "background-pane",
           decorator : "outset",
           padding : 10
         };
@@ -758,12 +758,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
       style : function(states)
       {
-        var decorator = new qx.ui.decoration.Double;
-        decorator.setWidth(1);
-        decorator.setInnerWidth(1);
-        decorator.setColor([ "border-light-shadow", "border-dark", "border-dark", "border-light-shadow" ]);
-        decorator.setInnerColor([ "border-light", "border-dark-shadow", "border-dark-shadow", "border-light" ]);
-
+        var decorator;
         var marginTop=0, marginRight=0, marginBottom=0, marginLeft=0;
 
         if (states.barTop || states.barBottom) {
@@ -774,23 +769,19 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
         if (states.barTop)
         {
-          decorator.setWidthBottom(0);
-          decorator.setInnerWidthBottom(0);
+          decorator = "tabview-page-button-top";
         }
         else if (states.barRight)
         {
-          decorator.setWidthLeft(0);
-          decorator.setInnerWidthLeft(0);
+          decorator = "tabview-page-button-right";
         }
         else if (states.barBottom)
         {
-          decorator.setWidthTop(0);
-          decorator.setInnerWidthTop(0);
+          decorator = "tabview-page-button-bottom";
         }
         else
         {
-          decorator.setWidthRight(0);
-          decorator.setInnerWidthRight(0);
+          decorator = "tabview-page-button-left";
         }
 
         if (states.checked)
@@ -843,7 +834,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
         return {
           zIndex : states.checked ? 10 : 5,
-          backgroundColor : "background",
+          backgroundColor : states.checked ? "background-pane" : "background",
           decorator : decorator,
           iconPosition : states.barLeft || states.barRight ? "top" : "left",
           padding : [ paddingTop, paddingRight, paddingBottom, paddingLeft ],
@@ -1933,7 +1924,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          decorator : new qx.ui.decoration.Single().set({ top : [ 1, "solid", "border-dark-shadow" ] }),
+          decorator : "table-statusbar",
           paddingLeft : 2,
           paddingRight : 2
         };
@@ -1995,9 +1986,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          decorator : new qx.ui.decoration.Single().set({
-            bottom : [ 1, "solid", "table-header-border" ]
-          }),
+          decorator : "table-scroller-header",
           backgroundColor : "table-header"
         };
       }
@@ -2018,7 +2007,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          decorator : new qx.ui.decoration.Single(2, "solid", "table-focus-indicator")
+          decorator : "table-scroller-focus-indicator"
         };
       }
     },
@@ -2028,6 +2017,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
+          // TODO: check this color
           backgroundColor: "#D6D5D9",
           width: 3
         };
@@ -2039,33 +2029,12 @@ qx.Theme.define("qx.theme.classic.Appearance",
       alias : "atom",
       style : function(states)
       {
-
-        if (states.hovered)
-        {
-          deco = new qx.ui.decoration.Single().set({
-            right : [ 1, "solid", "table-header-border" ],
-            bottom : [ 2, "solid", "effect" ]
-          });
-
-          paddingBottom = 0;
-          backgroundColor = "table-header-cell-hover";
-        }
-        else
-        {
-          deco = new qx.ui.decoration.Single().set({
-            right : [ 1, "solid", "table-header-border" ]
-          });
-
-          paddingBottom = 2;
-          backgroundColor = "table-header-cell";
-        }
-
         return {
           paddingLeft : 2,
           paddingRight : 2,
-          paddingBottom : paddingBottom,
-          decorator : deco,
-          backgroundColor : backgroundColor,
+          paddingBottom : states.hovered ? 0 : 2,
+          decorator : states.hovered ? "table-header-cell-hovered" : "table-header-cell",
+          backgroundColor : states.hovered ? "table-header-cell-hover" : "table-header-cell",
           sortIcon : states.sorted ?
               (states.sortedAscending ? "decoration/table/ascending.png" : "decoration/table/descending.png")
               : "undefined"
