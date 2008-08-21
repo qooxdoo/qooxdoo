@@ -1127,7 +1127,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
     "tree-item/icon" :
     {
       include : "image",
-      
+
       style : function(states)
       {
         return {
@@ -1151,7 +1151,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
     "tree-item/open" :
     {
       include : "image",
-      
+
       style : function(states)
       {
         var icon;
@@ -1945,10 +1945,10 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-    		  padding : 5,
-    		  decorator : "main",
-    		  backgroundColor : "background-light"
-  		  }
+          padding : 5,
+          decorator : "main",
+          backgroundColor : "background-light"
+        }
       }
     },
 

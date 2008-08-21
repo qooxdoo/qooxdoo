@@ -1,3 +1,3 @@
 /**
- * The qx.io package.
+ * Input/Output
  */

@@ -1,0 +1,4 @@
+/**
+ * qx.bom.client package
+ *
+ */

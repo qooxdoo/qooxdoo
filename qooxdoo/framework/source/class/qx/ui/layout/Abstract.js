@@ -27,7 +27,7 @@
  */
 qx.Class.define("qx.ui.layout.Abstract",
 {
-	type : "abstract",
+  type : "abstract",
   extend : qx.core.Object,
 
 

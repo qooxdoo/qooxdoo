@@ -78,9 +78,9 @@ qx.Class.define("qx.ui.table.celleditor.ComboBox",
 
   members :
   {
-    
+
     __done : null,
-    
+
     // interface implementation
     createCellEditor : function(cellInfo)
     {

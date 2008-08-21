@@ -73,12 +73,12 @@ qx.Class.define("qx.util.ValueManager",
     isDynamic : function(value) {
       return !!this._dynamic[value];
     },
-    
+
     /**
-     * Returns the dynamically interpreted result for the incoming value, 
-     * (if available), otherwise returns the original value  
+     * Returns the dynamically interpreted result for the incoming value,
+     * (if available), otherwise returns the original value
      * @param value {String} Value to resolve
-     * @return {var} either returns the (translated) result of the incoming 
+     * @return {var} either returns the (translated) result of the incoming
      * value or the value itself
      */
     resolve : function(value)
@@ -88,7 +88,7 @@ qx.Class.define("qx.util.ValueManager",
       }
 
       return value;
-    }	
+    }
   },
 
 

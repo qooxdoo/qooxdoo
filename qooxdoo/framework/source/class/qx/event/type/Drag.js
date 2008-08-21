@@ -242,7 +242,7 @@ qx.Class.define("qx.event.type.Drag",
      * supported actions of the source target and the modification
      * keys pressed by the user.
      *
-     * Used in the <code>droprequest</code> listener.     
+     * Used in the <code>droprequest</code> listener.
      *
      * @return {String} The action. May be one of <code>move</code>,
      *    <code>copy</code> or <code>alias</code>.

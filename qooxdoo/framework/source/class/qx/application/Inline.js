@@ -24,12 +24,11 @@
 ************************************************************************ */
 
 /**
- * Base call for all GUI applications which are used in conjunction with
- * HTML code on a normal website. This is the ideal environment for
- * typical portal sites which just use a few GUI components.
+ * For a GUI application on a traditional, HTML-dominated web page.
  *
- * This class is typically used in combination with {qx.ui.root.Inline} widgets
- * to embed qooxdoo widgets into the page flow.
+ * The ideal environment for typical portal sites which use just a few qooxdoo
+ * widgets. {qx.ui.root.Inline} can be used to embed qooxdoo widgets
+ * into the page flow.
  */
 qx.Class.define("qx.application.Inline",
 {

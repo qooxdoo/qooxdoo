@@ -1536,7 +1536,7 @@ qx.Bootstrap.define("qx.Class",
             }
           }
         }
-        
+
         // Mark instance as initialized
         if (this.classname===name.classname) {
           this.$$initialized=true;

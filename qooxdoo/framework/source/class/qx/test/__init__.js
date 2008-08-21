@@ -1,7 +1,8 @@
 /**
  * This package contains the framework unit tests.
  *
- * The can be build by calling <code>./generate.py test</code> from the
- * framework directory and run by running the test runnner in
+ * The testrunner application can be built by executing 
+ * <code>./generate.py test</code> from within the
+ * framework directory. It can then be started by opening 
  * <code>framework/test/index.html</code>.
  */

@@ -1,4 +1,3 @@
 /**
- * A collection of useful utility functions, which work the buildin JavaSript
- * types.
+ * Collection of utility classes for the native JavaScript types.
  */

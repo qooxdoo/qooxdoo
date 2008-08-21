@@ -139,8 +139,8 @@ qx.Class.define("qx.ui.table.selection.Model",
     __anchorSelectionIndex : null,
     __leadSelectionIndex : null,
     __selectedRangeArr : null,
-    
-    
+
+
     // selectionMode property modifier
     _applySelectionMode : function(selectionMode) {
       this.clearSelection();

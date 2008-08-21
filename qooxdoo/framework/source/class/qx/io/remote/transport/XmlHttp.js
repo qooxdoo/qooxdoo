@@ -290,7 +290,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
       //   Applying request header
       // --------------------------------------
       // Add a Referer header
-     
+
       // The Java backend uses the referer header, and Firefox doesn't send one by
       // default (see here:
       // http://www.mercurytide.co.uk/whitepapers/issues-working-with-ajax/ ). Even when
@@ -301,7 +301,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
         // avoid "Refused to set unsafe header Referer" in Safari and other Webkit-based browsers
         vRequest.setRequestHeader('Referer', window.location.href);
       }
-      
+
       var vRequestHeaders = this.getRequestHeaders();
 
       for (var vId in vRequestHeaders) {

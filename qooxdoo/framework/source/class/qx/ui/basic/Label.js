@@ -234,19 +234,19 @@ qx.Class.define("qx.ui.basic.Label",
     _applyFont : function(value, old)
     {
       // Apply
-    	var styles;
-    	if (value)
-    	{
-    		this.__font = qx.theme.manager.Font.getInstance().resolve(value);
-    		styles = this.__font.getStyles();
-    	}
-    	else
-    	{
-    		this.__font = null;
-    		styles = qx.bom.Font.getDefaultStyles();
-    	}
+      var styles;
+      if (value)
+      {
+        this.__font = qx.theme.manager.Font.getInstance().resolve(value);
+        styles = this.__font.getStyles();
+      }
+      else
+      {
+        this.__font = null;
+        styles = qx.bom.Font.getDefaultStyles();
+      }
 
-    	this.getContentElement().setStyles(styles);
+      this.getContentElement().setStyles(styles);
 
       // Invalidate text size
       this.__invalidContentSize = true;
