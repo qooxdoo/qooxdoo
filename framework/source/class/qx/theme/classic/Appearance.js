@@ -1094,7 +1094,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          icon        : "decoration/treevirtual/minus.gif"
+          icon        : "decoration/tree/minus.gif"
         }
       }
     },
@@ -1104,7 +1104,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          icon        : "decoration/treevirtual/plus.gif"
+          icon        : "decoration/tree/plus.gif"
         }
       }
     },
