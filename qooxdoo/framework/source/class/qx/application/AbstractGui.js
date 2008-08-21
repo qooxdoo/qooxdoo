@@ -24,10 +24,11 @@
 ************************************************************************ */
 
 /**
- * Abstract base class for applications using qooxdoo widgets
+ * Abstract base class for GUI applications using qooxdoo widgets.
  */
 qx.Class.define("qx.application.AbstractGui",
 {
+	type : "abstract",
   extend : qx.core.Object,
   implement : [qx.application.IApplication],
   include : qx.locale.MTranslation,

@@ -23,6 +23,7 @@
 
 qx.Class.define("apiviewer.ui.AbstractViewer",
 {
+	type : "abstract",
   extend : qx.ui.embed.Html,
 
   construct : function()
