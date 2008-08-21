@@ -1,5 +1,5 @@
 About
-===========================================================================
+=====
 
 qooxdoo is a comprehensive and innovative Ajax application
 framework. Leveraging object-oriented JavaScript allows developers to
@@ -10,9 +10,11 @@ It includes a platform-independent development tool chain, a
 state-of-the-art GUI toolkit and an advanced client-server
 communication layer.
 
+For more information please see http://qooxdoo.org/about
+
 
 License
-===========================================================================
+=======
 
 qooxdoo may be used under the terms of either the GNU Lesser General
 Public License (LGPL) or the Eclipse Public License (EPL). As a
@@ -20,29 +22,39 @@ recipient of qooxdoo, you may choose which license to receive the code
 under.
 
 Please make sure you understand the dual license of qooxdoo and the
-rights and obligations that come with it. See the top-level LICENSE
+rights and obligations that come with it. See the top-level LICENSE.txt
 file for more details.
+
+For more information please see http://qooxdoo.org/license
 
 
 Quick start
-===========================================================================
+===========
 
-Use the 'create-application.py' script to start a new application,
-This will create a minimal application directory structure in a
-convenient path which is ready to be built and run. Use the contained
-'generate.py' script and run the command 'generate.py source', in
-order to build a development version of the application. Run it by
-opening the 'source/index.html' file in your browser. You can then go
-on and extend it into an application of your liking, by changing the
+It is easy to get started with qooxdoo. For detailed information please
+see http://qooxdoo.org/documentation/0.8/helloworld
+
+For the impatient, here is a short version:
+
+Use the 'tool/bin/create-application.py' script to start a new application,
+This will create a minimal application directory structure, which is ready to 
+be built and run. Within the newly created application run the command 
+'generate.py source', in order to build a development version of your app. 
+Open 'source/index.html' in your browser to startup the application. You can 
+then go on and extend it into an application of your liking, by changing the
 'source/class/<namespace>/Application.js' source file.
 
-You might also want to open the Apiviewer in a separate browser window,
+
+API Reference
+=============
+
+You might also want to open the API viewer in a separate browser window,
 which offers the qooxdoo framework API in a convenient way (See the
-index.html file).
+top-level 'index.html' file next to the README.txt).
 
 
 Learn more
-===========================================================================
+==========
 
 * About qooxdoo
   http://qooxdoo.org/about
@@ -54,4 +66,4 @@ Learn more
   http://qooxdoo.org/documentation
 
 * API documentation
-  http://api.qooxdoo.org
+  http://api.qooxdoo.org/devel
