@@ -97,7 +97,7 @@ def patchSkeleton(dir, name, namespace):
         absPath = absPath[:-1]
     
     if sys.platform == 'cygwin':
-        if re.match( r'^\.\.', dir ):
+        if re.match( r'^\.{1,2}\/', dir ):
             relPath = Path.rel_from_to(normalizePath(dir), FRAMEWORK_DIR)
         elif re.match( r'^/cygdrive\b', dir):
             relPath = Path.rel_from_to(dir, FRAMEWORK_DIR)
