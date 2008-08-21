@@ -178,7 +178,9 @@ qx.Class.define("qx.core.Property",
       "Class"     : true,
       "Mixin"     : true,
       "Interface" : true,
-      "Theme"     : true
+      "Theme"     : true,
+      "Font"      : true,
+      "Decorator" : true
     },
 
 
