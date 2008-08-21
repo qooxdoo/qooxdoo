@@ -44,7 +44,8 @@ qx.Class.define("demobrowser.demo.layout.Dock_FlexShrinking",
         decorator: "black",
         backgroundColor: "yellow",
         width:150,
-        height:100
+        height:100,
+        allowGrowX : false
       });
 
       var w1 = new qx.ui.core.Widget().set({decorator: "black", backgroundColor: "red"});
@@ -73,7 +74,8 @@ qx.Class.define("demobrowser.demo.layout.Dock_FlexShrinking",
         decorator: "black",
         backgroundColor: "yellow",
         width:150,
-        height:100
+        height:100,
+        allowGrowX : false
       });
 
       var w1 = new qx.ui.core.Widget().set({decorator: "black", backgroundColor: "red"});
@@ -103,7 +105,8 @@ qx.Class.define("demobrowser.demo.layout.Dock_FlexShrinking",
         decorator: "black",
         backgroundColor: "yellow",
         width:150,
-        height:100
+        height:100,
+        allowGrowX : false
       });
 
       var w1 = new qx.ui.core.Widget().set({decorator: "black", backgroundColor: "red"});
