@@ -669,7 +669,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          decorator : "slider-knob",
+          decorator : "scrollbar-slider-horizontal",
           height : 14,
           width : 14
         };
