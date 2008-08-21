@@ -45,7 +45,7 @@
     "QOOXDOO_URI"  : "../${QOOXDOO_PATH}",
     "CACHE"        : "cache",
     "QXTHEME"      : "qx.theme.Classic",
-    "QXVERSION"    : "0.8-rc1",
+    "QXVERSION"    : "0.8-pre",
     "LOCALES"      : [ "en" ],
     "BUILD_PATH"   : "${ROOT}/build"
   },
