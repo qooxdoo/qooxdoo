@@ -18,16 +18,15 @@
 ************************************************************************ */
 
 /**
- * This class can be used to declare classes to list like data structures
- * which. This is useful for exampleto build queues, string builders,
- * etc.
+ * This class may be used to declare classes for array-like data structures.
+ * Useful to create queues, string builders, etc.
  */
 qx.Bootstrap.define("qx.List",
 {
   statics :
   {
     /**
-     * Defines a new array like data structure class.
+     * Defines a new array-like data structure class.
      *
      * @param name {String} Name of the class
      * @param config {Map ? null} Class definition structure. The configuration map has the following keys:

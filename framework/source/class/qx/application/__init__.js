@@ -1,4 +1,5 @@
 /**
- * This package contains qooxdoo applications to choose from.
+ * Various application types for different scenarios: from non-GUI to low-level 
+ * to RIA.
  *
  */

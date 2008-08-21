@@ -24,8 +24,8 @@
 ************************************************************************ */
 
 /**
- * This class is the base class for all non-GUI qooxdoo applications.
- * It is ideal for low-level DOM/BOM operations and AJAX communication.
+ * For a Non-GUI application, supporting low-level DOM operations and AJAX
+ * communication.
  */
 qx.Class.define("qx.application.Native",
 {

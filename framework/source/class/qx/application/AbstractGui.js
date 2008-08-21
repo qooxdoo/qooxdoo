@@ -28,7 +28,7 @@
  */
 qx.Class.define("qx.application.AbstractGui",
 {
-	type : "abstract",
+  type : "abstract",
   extend : qx.core.Object,
   implement : [qx.application.IApplication],
   include : qx.locale.MTranslation,

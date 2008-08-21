@@ -85,11 +85,11 @@ qx.Class.define("qx.legacy.ui.util.column.Widths",
         case "width":
           this.setWidth(column, map[key]);
           break;
-          
+
         case "minWidth":
           this.setMinWidth(column, map[key]);
           break;
-          
+
         case "maxWidth":
           this.setMaxWidth(column, map[key]);
           break;
@@ -99,7 +99,7 @@ qx.Class.define("qx.legacy.ui.util.column.Widths",
         }
       }
     },
-      
+
     /**
      * Set the width of a column.
      *
@@ -126,7 +126,7 @@ qx.Class.define("qx.legacy.ui.util.column.Widths",
 
       this._columnData[column].setWidth(width);
     },
-      
+
     /**
      * Set the minimum width of a column.
      *
@@ -151,7 +151,7 @@ qx.Class.define("qx.legacy.ui.util.column.Widths",
 
       this._columnData[column].setMinWidth(width);
     },
-      
+
     /**
      * Set the maximum width of a column.
      *

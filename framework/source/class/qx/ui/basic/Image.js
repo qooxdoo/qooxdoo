@@ -177,7 +177,7 @@ qx.Class.define("qx.ui.basic.Image",
     _applyEnabled : function(value, old)
     {
       this.base(arguments, value, old);
-      
+
       if (this.getSource()) {
         this._styleSource();
       }

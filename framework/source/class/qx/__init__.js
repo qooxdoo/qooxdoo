@@ -1,3 +1,3 @@
 /**
- * The qx package.
+ * The qooxdoo top-level package.
  */

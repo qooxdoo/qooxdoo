@@ -230,9 +230,9 @@ qx.Class.define("qx.ui.menu.Menu",
 
   members :
   {
-    
+
     __scheduledOpen : null,
-    
+
     /*
     ---------------------------------------------------------------------------
       PUBLIC API

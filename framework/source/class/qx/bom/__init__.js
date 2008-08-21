@@ -1,0 +1,4 @@
+/**
+ * BOM - Browser Object Model.
+ *
+ */

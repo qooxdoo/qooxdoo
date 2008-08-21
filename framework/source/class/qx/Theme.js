@@ -19,10 +19,14 @@
 ************************************************************************ */
 
 /**
- * This class helps to create and manager so-named theme classes.
+ * Theme classes contain styling information for certain aspects of the
+ * graphical user interface.
  *
- * Supported are: color, border, decorations, fonts, icons, widgets,
- * appearances and meta themes.
+ * Supported themes are: colors, decorations, fonts, icons, appearances.
+ * The additional meta theme allows for grouping of the individual
+ * themes.
+ *
+ * The following themes are deprecated in 0.8: borders, widgets
  */
 qx.Class.define("qx.Theme",
 {

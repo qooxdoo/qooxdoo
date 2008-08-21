@@ -18,11 +18,12 @@
 ************************************************************************ */
 
 /**
- * Super simple application which executes the global methods
- * <code>qxmain</code> (at load) and <code>qxterminate</code> (at shutdown).
+ * Very simple application, which calls the global methods
+ * <code>qxmain()</code> at load time and <code>qxterminate()</code> at
+ * shutdown.
  *
- * The methods are executed in context of this application which means
- * that all feature of <code>qx.core.Object</code> and co are available.
+ * The methods are executed in the context of this application, which means
+ * that all features of <code>qx.core.Object</code> and similar are available.
  */
 qx.Class.define("qx.application.Simple",
 {

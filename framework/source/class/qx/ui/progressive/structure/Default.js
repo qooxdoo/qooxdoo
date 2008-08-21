@@ -64,7 +64,7 @@ qx.Class.define("qx.ui.progressive.structure.Default",
 
   members :
   {
-    
+
     __nullHeader : null,
     __header : null,
 

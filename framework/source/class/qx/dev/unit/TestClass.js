@@ -19,7 +19,7 @@
 
 /**
  * This class represents a test suite for a unit test class.
- * 
+ *
  * To create your own unit tests, create a class that derives from this one, and
  * add member methods that start with "test*". You can use assertion methods
  * inherited from *TestClass* to ease the implementation process.

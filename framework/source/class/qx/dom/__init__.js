@@ -1,0 +1,4 @@
+/**
+ * DOM - Document Object Model.
+ *
+ */

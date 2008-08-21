@@ -357,7 +357,7 @@ qx.Class.define("qx.core.Assert",
      * @param value {var} Value to check
      * @param msg {String} Message to be shown if the assertion fails.
      */
-    assertFunction : function(value, msg) 
+    assertFunction : function(value, msg)
     {
       this.__assert(
         typeof value === "function",
@@ -479,7 +479,7 @@ qx.Class.define("qx.core.Assert",
      * @param max {Number} upper bound
      * @param msg {String} Message to be shown if the assertion fails.
      */
-    assertInRange : function(value, min, max, msg) 
+    assertInRange : function(value, min, max, msg)
     {
       this.__assert(
         value >= min && value <= max,

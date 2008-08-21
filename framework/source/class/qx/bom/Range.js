@@ -29,12 +29,12 @@ qx.Class.define("qx.bom.Range",
      STATICS
   *****************************************************************************
   */
- 
+
   statics :
   {
     /**
      * Returns the range object of the given node.
-     * 
+     *
      * @signature function(node)
      * @param node {Node} node to get the range of
      * @return {Range} valid range of given selection
@@ -44,15 +44,15 @@ qx.Class.define("qx.bom.Range",
       "mshtml" : function(node)
       {
         // check for the type of the given node
-        // for IE the nodes input, textarea, button and body 
+        // for IE the nodes input, textarea, button and body
         // have access to own TextRange objects. Everything else is
-        // gathered via the selection object. 
+        // gathered via the selection object.
         if (qx.dom.Node.isElement(node))
         {
           switch(node.nodeName.toLowerCase())
           {
             case "input":
-              
+
               switch(node.type)
               {
                 case "text":
@@ -63,19 +63,19 @@ qx.Class.define("qx.bom.Range",
                 case "file":
                 case "submit":
                   return node.createTextRange();
-                  break;  
-                
+                  break;
+
                 default:
                   return qx.bom.Selection.getSelectionObject(qx.dom.Node.getDocument(node)).createRange();
               }
             break;
-            
+
             case "textarea":
             case "body":
             case "button":
               return node.createTextRange();
             break;
-            
+
             default:
               return qx.bom.Selection.getSelectionObject(qx.dom.Node.getDocument(node)).createRange();
           }
@@ -83,18 +83,18 @@ qx.Class.define("qx.bom.Range",
         else
         {
           // need to pass the document node to work with multi-documents
-          return qx.bom.Selection.getSelectionObject(qx.dom.Node.getDocument(node)).createRange();          
-        }        
+          return qx.bom.Selection.getSelectionObject(qx.dom.Node.getDocument(node)).createRange();
+        }
       },
-      
+
       // suitable for gecko, opera and webkit
       "default" : function(node)
       {
         var doc = qx.dom.Node.getDocument(node);
-        
+
         // get the selection object of the corresponding document
         var sel = qx.bom.Selection.getSelectionObject(doc);
-        
+
         if (sel.rangeCount > 0)
         {
           return sel.getRangeAt(0);
@@ -105,5 +105,5 @@ qx.Class.define("qx.bom.Range",
         }
       }
     })
-  } 
+  }
 });

@@ -121,15 +121,15 @@ qx.Class.define("qx.html.Canvas",
       return this.__canvas.getContext("2d");
     }
   },
-  
-  
-  
+
+
+
   /*
    *****************************************************************************
       DESTRUCT
    *****************************************************************************
    */
-  
+
   destruct : function()
   {
     this._disposeFields("__canvas");

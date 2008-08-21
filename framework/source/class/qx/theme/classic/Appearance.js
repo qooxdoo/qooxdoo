@@ -1109,7 +1109,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
-    "treevirtual-only-contract" : 
+    "treevirtual-only-contract" :
     {
       style : function(states)
       {
@@ -1119,7 +1119,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
-    "treevirtual-only-expand" : 
+    "treevirtual-only-expand" :
     {
       style : function(states)
       {
@@ -1129,7 +1129,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
-    "treevirtual-start-contract" : 
+    "treevirtual-start-contract" :
     {
       style : function(states)
       {
@@ -1139,7 +1139,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
-    "treevirtual-start-expand" : 
+    "treevirtual-start-expand" :
     {
       style : function(states)
       {
@@ -1149,7 +1149,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
-    "treevirtual-end-contract" : 
+    "treevirtual-end-contract" :
     {
       style : function(states)
       {
@@ -1159,7 +1159,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
-    "treevirtual-end-expand" : 
+    "treevirtual-end-expand" :
     {
       style : function(states)
       {
@@ -1169,7 +1169,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
-    "treevirtual-cross-contract" : 
+    "treevirtual-cross-contract" :
     {
       style : function(states)
       {
@@ -1179,7 +1179,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
-    "treevirtual-cross-expand" : 
+    "treevirtual-cross-expand" :
     {
       style : function(states)
       {
@@ -1776,8 +1776,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-    		  padding : 5
-  		  }
+          padding : 5
+        }
       }
     },
 
