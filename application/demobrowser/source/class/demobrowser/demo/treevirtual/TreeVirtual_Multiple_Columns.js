@@ -182,30 +182,6 @@ qx.Class.define("demobrowser.demo.treevirtual.TreeVirtual_Multiple_Columns",
                     {
                       tree.setEnabled(! e.getData());
                     });
-  
-      o = new qx.ui.form.CheckBox("Display a cell focus indicator?");
-      o.set({ checked: true });
-      commandFrame.add(o, { top : 200, left : 0 });
-      o.addListener(
-        "changeChecked",
-        function(e)
-        {
-          if (e.getData())
-          {
-            var bgColor = qx.util.ExtendedColor.toRgbString("lightblue");
-            tree.setCellFocusAttributes(
-              {
-                backgroundColor : bgColor
-              });
-          }
-          else
-          {
-            tree.setCellFocusAttributes(
-              {
-                backgroundColor : "transparent"
-              });
-          }
-        });
     }
   }
 });
