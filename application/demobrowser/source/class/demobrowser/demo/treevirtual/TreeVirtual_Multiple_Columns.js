@@ -125,7 +125,7 @@ qx.Class.define("demobrowser.demo.treevirtual.TreeVirtual_Multiple_Columns",
           }
         });
   
-      o = new qx.ui.form.CheckBox("Use tree lines?");
+      o = new qx.ui.form.CheckBox("Use tree lines if theme supports them?");
       o.set({ checked: true });
       commandFrame.add(o, { top : 80, left : 0 });
       o.addListener("changeChecked",
