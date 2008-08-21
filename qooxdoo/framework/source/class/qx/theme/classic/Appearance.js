@@ -120,7 +120,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          decorator : "dark-shadow"
+          decorator : "black"
         };
       }
     },
@@ -130,7 +130,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          decorator : "dark-shadow"
+          decorator : "black"
         };
       }
     },
