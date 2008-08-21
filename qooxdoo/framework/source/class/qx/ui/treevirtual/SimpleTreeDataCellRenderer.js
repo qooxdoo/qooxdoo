@@ -545,5 +545,15 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
 
     STDCR.__icon.cross = tm.styleFrom("treevirtual-cross");
     loadImage(STDCR.__icon.cross.icon);
+  },
+
+  destruct : function()
+  {
+    this._disposeFields(
+      "__am",
+      "__rm",
+      "__tm",
+      "STATIC_URI",
+      "ImageLoader");
   }
 });
