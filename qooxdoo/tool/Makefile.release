@@ -281,8 +281,8 @@ exec-skeleton-archive:
 # BASIC TARGETS
 ################################################################################
 distclean:
-	#@for APPLICATION in $(APPLICATIONS); do ( cd application/$$APPLICATION && $(CMD_GENERATOR) distclean ) || exit 1; done
-	#@for APPLICATION in $(COMPONENTS); do ( cd component/$$APPLICATION && $(CMD_GENERATOR) distclean ) || exit 1; done
+	@for APPLICATION in $(APPLICATIONS); do ( cd application/$$APPLICATION && $(CMD_GENERATOR) distclean ) || exit 1; done
+	@for APPLICATION in $(COMPONENTS); do ( cd component/$$APPLICATION && $(CMD_GENERATOR) distclean ) || exit 1; done
 	@cd framework && $(CMD_GENERATOR) distclean
 	@$(CMD_REMOVE) application/*.zip
 	@$(CMD_REMOVE) release
