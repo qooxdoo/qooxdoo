@@ -135,7 +135,7 @@ def getPatchDirectory():
     """
     basePath = os.path.dirname(os.path.abspath(sys.argv[0]))
     return os.path.normpath(
-        os.path.join(basePath, os.pardir, os.pardir, 'framework', 'tool', "migration"))
+        os.path.join(basePath, os.pardir, 'data', "migration"))
 
 
 
