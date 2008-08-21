@@ -385,6 +385,158 @@ qx.Theme.define("qx.theme.classic.Decoration",
 
         style : "solid"
       }
-    }
+    },
+    
+    
+    
+    
+    
+    /*
+    ---------------------------------------------------------------------------
+      TAB VIEW
+    ---------------------------------------------------------------------------
+    */
+    
+    "tabview-page-button-top" :
+    {
+      decorator : qx.ui.decoration.Double,
+      
+      style :
+      {
+        width : 1,
+        color : [ "border-light-shadow", "border-dark", "border-dark", "border-light-shadow" ],
+        
+        innerWidth : 1,
+        innerColor : [ "border-light", "border-dark-shadow", "border-dark-shadow", "border-light" ],
+         
+        widthBottom : 0,
+        innerWidthBottom : 0
+      }
+    },
+    
+    "tabview-page-button-bottom" :
+    {
+      decorator : qx.ui.decoration.Double,
+      
+      style :
+      {
+        width : 1,
+        color : [ "border-light-shadow", "border-dark", "border-dark", "border-light-shadow" ],
+        
+        innerWidth : 1,
+        innerColor : [ "border-light", "border-dark-shadow", "border-dark-shadow", "border-light" ],
+         
+        widthTop : 0,
+        innerWidthTop : 0
+      }
+    },
+    
+    "tabview-page-button-left" :
+    {
+      decorator : qx.ui.decoration.Double,
+      
+      style :
+      {
+        width : 1,
+        color : [ "border-light-shadow", "border-dark", "border-dark", "border-light-shadow" ],
+        
+        innerWidth : 1,
+        innerColor : [ "border-light", "border-dark-shadow", "border-dark-shadow", "border-light" ],
+         
+        widthRight : 0,
+        innerWidthRight : 0
+      }
+    },
+    
+    "tabview-page-button-right" :
+    {
+      decorator : qx.ui.decoration.Double,
+      
+      style :
+      {
+        width : 1,
+        color : [ "border-light-shadow", "border-dark", "border-dark", "border-light-shadow" ],
+        
+        innerWidth : 1,
+        innerColor : [ "border-light", "border-dark-shadow", "border-dark-shadow", "border-light" ],
+         
+        widthLeft : 0,
+        innerWidthLeft : 0
+      }
+    },
+    
+    
+    
+    
+    
+    /*
+    ---------------------------------------------------------------------------
+      TABLE
+    ---------------------------------------------------------------------------
+    */
+    
+    "table-statusbar" :
+    {
+      decorator : qx.ui.decoration.Single,
+      
+      style :
+      {
+        widthTop : 1,
+        colorTop : "border-dark-shadow",
+        styleTop : "solid"
+      }
+    },
+    
+    "table-scroller-header" :
+    {
+      decorator : qx.ui.decoration.Single,
+      
+      style :
+      {
+        widthBottom : 1,
+        colorBottom : "table-header-border",
+        styleBottom : "solid"
+      }
+    },
+    
+    "table-scroller-focus-indicator" :
+    {
+      decorator : qx.ui.decoration.Single,
+      
+      style : 
+      {
+        width : 2, 
+        color : "table-focus-indicator",
+        style : "solid"
+      }
+    },
+    
+    "table-header-cell" :
+    {
+      decorator : qx.ui.decoration.Single,
+      
+      style :
+      {
+        widthRight : 1,
+        colorRight : "table-header-border",
+        styleRight : "solid"
+      }
+    },
+    
+    "table-header-cell-hovered" :
+    {
+      decorator : qx.ui.decoration.Single,
+      
+      style :
+      {
+        widthRight : 1,
+        colorRight : "table-header-border",
+        styleRight : "solid",
+        
+        widthBottom : 2,
+        colorBottom : "effect",
+        styleBottom : "solid"
+      }
+    }      
   }
 });
