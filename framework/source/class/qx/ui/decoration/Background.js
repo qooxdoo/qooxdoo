@@ -140,7 +140,7 @@ qx.Class.define("qx.ui.decoration.Background",
         bgcolor = this.getBackgroundColor();
       }
 
-      dom.style.backgroundColor = Color.resolve(bgcolor);
+      dom.style.backgroundColor = Color.resolve(bgcolor) || "";
     },
 
 
