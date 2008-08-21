@@ -1873,7 +1873,7 @@ qx.Class.define("qx.ui.core.Widget",
         return;
       }
 
-      // Working on a copy to make it possible to clear the 
+      // Working on a copy to make it possible to clear the
       // internal array before calling setLayoutParent()
       var children = this.__widgetChildren.concat();
       this.__widgetChildren.length = 0;
