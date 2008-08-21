@@ -24,11 +24,13 @@
 ************************************************************************ */
 
 /**
- * Base class for all GUI applications which should be used
- * without fundamental parts of HTML code e.g. like an real
- * native application. A standalone application normally
- * creates all content dynamically and is normally executed for
- * more than 15 minutes (updates happen through AJAX).
+ * For a GUI application that looks & feels like native desktop application
+ * (often called "RIA" - Rich Internet Application).
+ *
+ * Such a stand-alone application typically creates and updates all content
+ * dynamically. Often it is called a "single-page application", since the
+ * document itself is never reloaded or changed. Communication with the server
+ * is done with AJAX.
  */
 qx.Class.define("qx.application.Standalone",
 {

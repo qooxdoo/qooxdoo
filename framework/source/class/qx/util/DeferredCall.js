@@ -65,11 +65,11 @@ qx.Class.define("qx.util.DeferredCall",
 
   members :
   {
-    
+
     __callback : null,
     __context : null,
     __manager : null,
-    
+
     /**
      * Prevent the callback from being called.
      */

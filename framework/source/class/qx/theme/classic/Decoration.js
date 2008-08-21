@@ -324,17 +324,17 @@ qx.Theme.define("qx.theme.classic.Decoration",
         colorBottom : "border-light"
       }
     },
-    
-    
-    
-    
-    
+
+
+
+
+
     /*
     ---------------------------------------------------------------------------
       DATE CHOOSER
     ---------------------------------------------------------------------------
     */
-    
+
     "datechooser-date-pane" :
     {
       decorator : qx.ui.decoration.Single,
@@ -346,8 +346,8 @@ qx.Theme.define("qx.theme.classic.Decoration",
         style : "solid"
       }
     },
-    
-    
+
+
     "datechooser-weekday" :
     {
       decorator : qx.ui.decoration.Single,
@@ -359,7 +359,7 @@ qx.Theme.define("qx.theme.classic.Decoration",
         style : "solid"
       }
     },
-    
+
     "datechooser-week" :
     {
       decorator : qx.ui.decoration.Single,
@@ -371,7 +371,7 @@ qx.Theme.define("qx.theme.classic.Decoration",
         style : "solid"
       }
     },
-    
+
     "datechooser-week-header" :
     {
       decorator : qx.ui.decoration.Single,
@@ -382,7 +382,7 @@ qx.Theme.define("qx.theme.classic.Decoration",
         colorBottom : "gray",
         widthRight: 1,
         colorRight : "gray",
-        
+
         style : "solid"
       }
     }

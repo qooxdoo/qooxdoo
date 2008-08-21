@@ -43,9 +43,9 @@ qx.Class.define("qx.ui.progressive.renderer.table.Widths",
 
   members :
   {
-    
+
     __columnData : null,
-    
+
     /**
      * Get the array of column data.
      *
@@ -82,11 +82,11 @@ qx.Class.define("qx.ui.progressive.renderer.table.Widths",
         case "width":
           this.setWidth(column, map[key]);
           break;
-          
+
         case "minWidth":
           this.setMinWidth(column, map[key]);
           break;
-          
+
         case "maxWidth":
           this.setMaxWidth(column, map[key]);
           break;
@@ -96,7 +96,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.Widths",
         }
       }
     },
-      
+
     /**
      * Set the width of a column.
      *
@@ -123,7 +123,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.Widths",
 
       this.__columnData[column].setColumnWidth(width);
     },
-      
+
     /**
      * Set the minimum width of a column.
      *
@@ -148,7 +148,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.Widths",
 
       this.__columnData[column].setMinWidth(width);
     },
-      
+
     /**
      * Set the maximum width of a column.
      *

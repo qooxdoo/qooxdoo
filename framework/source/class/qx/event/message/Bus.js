@@ -25,7 +25,7 @@
 qx.Class.define("qx.event.message.Bus",
 {
   type : "singleton",
-  
+
   extend : qx.core.Target,
 
   statics :
@@ -53,7 +53,7 @@ qx.Class.define("qx.event.message.Bus",
      */
     subscribe : function(message, subscriber, context)
     {
-      return this.getInstance().subscribe(message, subscriber, context);  
+      return this.getInstance().subscribe(message, subscriber, context);
 
     },
 
@@ -102,7 +102,7 @@ qx.Class.define("qx.event.message.Bus",
       return this.getInstance().dispatch.apply(this,arguments);
     }
   },
-  
+
   /**
    * constructor
    */
@@ -112,11 +112,11 @@ qx.Class.define("qx.event.message.Bus",
      * message subscriptions database
      */
     this.__subscriptions = {};
-  }, 
-  
+  },
+
   members :
   {
-    
+
     /**
      * gets the hash map of message subscriptions
      *
@@ -140,7 +140,7 @@ qx.Class.define("qx.event.message.Bus",
       if (!message || typeof subscriber != "function")
       {
         this.error("Invalid parameters! "+ [message, subscriber, context]);
-        
+
         return false;
       }
 
@@ -254,7 +254,7 @@ qx.Class.define("qx.event.message.Bus",
      * @return {boolean} TODOC
      */
     dispatch : function(msg)
-    { 
+    {
       // if string value has been supplied, create new message
       if ( typeof msg == "string" )
       {

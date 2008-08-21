@@ -100,11 +100,11 @@ qx.Class.define("qx.legacy.ui.table.pane.FocusIndicator",
       }
     }
   },
-  
+
   destruct : function ()
   {
      this._disposeObjects(
        "_scroller"
-     ); 
+     );
   }
 });

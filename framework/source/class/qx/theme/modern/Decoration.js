@@ -399,7 +399,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
       TABVIEW
     ---------------------------------------------------------------------------
     */
-    
+
     "tabview-pane" :
     {
       decorator : qx.ui.decoration.Grid,

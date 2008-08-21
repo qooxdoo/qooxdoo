@@ -57,7 +57,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
       colorMgr.resolve("progressive-table-row-background-even");
     this.__colors.bgcol[1] =
       colorMgr.resolve("progressive-table-row-background-odd");
-    
+
     // This layout is not connected to a widget but to this class. This class
     // must implement the method "getLayoutChildren", which must return all
     // columns (LayoutItems) which should be recalcutated. The call
@@ -108,7 +108,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
 
   members :
   {
-    
+
     __progressive : null,
     __name : null,
     __hash : null,
@@ -117,7 +117,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
     __defaultCellRenderer : null,
     __colors : null,
     __layout : null,
-    
+
     // overridden
     join : function(progressive, name)
     {
@@ -458,7 +458,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
           "0px " + qx.ui.progressive.renderer.table.Row.__padding + "px;";
 
         var leftRule = left + "px;";
-        
+
         var rule =
           tr.__tableCellStyleSheet +
           "width: " + widthRule +

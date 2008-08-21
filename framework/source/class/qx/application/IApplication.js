@@ -18,8 +18,7 @@
 ************************************************************************ */
 
 /**
- * This interface is used to define what a application class
- * in qooxdoo has to implement.
+ * This interface defines what an application class has to implement.
  */
 qx.Interface.define("qx.application.IApplication",
 {

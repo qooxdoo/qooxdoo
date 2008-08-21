@@ -221,7 +221,7 @@ qx.Class.define("qx.fx.Base",
     _getElement : function() {
       return this.__element;
     },
-    
+
     /**
      * Sets the element to be animated.
      * @param element {Object} the element

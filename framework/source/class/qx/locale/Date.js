@@ -28,8 +28,8 @@ qx.Class.define("qx.locale.Date",
   statics :
   {
     __mgr : qx.locale.Manager.getInstance(),
-    
-    
+
+
     /**
      * Get AM marker for time definitions
      *

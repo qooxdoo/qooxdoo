@@ -76,7 +76,7 @@ qx.Class.define("qx.ui.progressive.structure.Abstract",
       this.__container.dispose();
       this.__container = null;
     }
-    
+
     this.__pane = null;
   }
 });
