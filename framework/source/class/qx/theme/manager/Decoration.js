@@ -108,6 +108,20 @@ qx.Class.define("qx.theme.manager.Decoration",
     },
 
 
+    isValidPropertyValue : function(value)
+    {
+      if (typeof value === "string") {
+        return this.isDynamic(value);
+      }
+      else if (typeof value === "object")
+      {
+        var clazz = value.constructor;
+        return qx.Class.hasInterface(clazz, qx.ui.decoration.IDecorator);
+      }
+
+      return false;
+    },
+
     /**
      * Whether a value is interpreted dynamically
      *
