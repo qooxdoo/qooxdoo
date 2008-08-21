@@ -478,9 +478,6 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
   {
     var name;
 
-    this._disposeFields("__name");
-    this._disposeObjects("__defaultCellRenderer", "__columnData");
-
     for (name in this.__renderers)
     {
       this.__renderers[name] = null;
@@ -520,7 +517,21 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
       }
     }
 
-    this.__renderers = null;
-    this.__progressive = null;
+    var rendererData = this.__progressive.getRendererData();
+    if (rendererData &&
+        rendererData[this.__name] &&
+        rendererData[this.__name].end !== undefined)
+    {
+      rendererData[this.__name] = null;
+    }
+
+    this._disposeFields(
+      "__name",
+      "__renderers",
+      "__progressive");
+
+    this._disposeObjects(
+      "__defaultCellRenderer",
+      "__columnData");
   }
 });
