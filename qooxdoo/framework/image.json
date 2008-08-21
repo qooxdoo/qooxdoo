@@ -285,6 +285,36 @@
              "layout" : "horizontal"
           },
           
+          // checkboxes/radiobuttons
+          "${RESPATH}/${CLASSIC}/checkbox-radiobutton-combined.png":
+          {
+            "input"  :
+              [
+                "${RESPATH}/${CLASSIC}/form/*.png"
+              ],
+             "layout" : "horizontal"
+          },
+          
+          // images used in table widget
+          "${RESPATH}/${CLASSIC}/table-combined.png":
+          {
+            "input"  :
+              [
+                "${RESPATH}/${CLASSIC}/table/*.png"
+              ],
+             "layout" : "horizontal"
+          },
+          
+          // menu images
+          "${RESPATH}/${CLASSIC}/menu-combined.png":
+          {
+            "input"  :
+              [
+                "${RESPATH}/${CLASSIC}/menu/*.gif"
+              ],
+             "layout" : "horizontal"
+          },
+           
           
           
           //
