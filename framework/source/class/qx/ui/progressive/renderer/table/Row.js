@@ -517,20 +517,26 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
       }
     }
 
-    var rendererData = this.__progressive.getRendererData();
-    if (rendererData &&
-        rendererData[this.__name] &&
-        rendererData[this.__name].end !== undefined)
+    if (this.__progressive && this.__progressive.getRendererData)
     {
-      rendererData[this.__name] = null;
+      var rendererData = this.__progressive.getRendererData();
+      if (rendererData &&
+          rendererData[this.__name] &&
+          rendererData[this.__name].end !== undefined)
+      {
+        rendererData[this.__name] = null;
+      }
     }
 
     this._disposeFields(
       "__name",
+      "__colors",
       "__renderers",
-      "__progressive");
+      "__progressive",
+      "__columnWidths");
 
     this._disposeObjects(
+      "__layout",
       "__defaultCellRenderer",
       "__columnData");
   }
