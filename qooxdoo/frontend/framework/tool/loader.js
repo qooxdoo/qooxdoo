@@ -175,11 +175,15 @@ window.qxloader =
         this.loadedPackages[pkg] = true;
       }
       this.runningPackages = {};
-
+      
+      // Remember the loaded parts to execute the callbacks
+      var executeCallbacksForParts = [];
+      
       for (var part in this.runningParts)
       {
         this._log("Part " + part + " successfully loaded");
         this.loadedParts[part] = true;
+        executeCallbacksForParts.push(part);
       }
       this.runningParts = {};
 
@@ -187,17 +191,21 @@ window.qxloader =
       this.inFlushQueue = false;
 
       // Execute callbacks
-      var callbacks = this.__getCallbacksForPart(part).concat();
-      delete this.__callbacksByPartname[part];
-      for (var i=0, l=callbacks.length; i<l; i++) {
-        callbacks[i].callback.call(callbacks[i].self);
+      for (var i=0; i<executeCallbacksForParts.length; i++) 
+      { 
+        var part = executeCallbacksForParts[i];
+        var callbacks = this.__getCallbacksForPart(part).concat();
+        delete this.__callbacksByPartname[part];
+        for (var k=0, l=callbacks.length; k<l; k++) {
+          callbacks[k].callback.call(callbacks[k].self);
+        }
+        
+        // Is this the boot module? => start init process
+        if (part == this.boot && this._pageLoaded && window.qx && qx.core && qx.core.Init) {
+          qx.core.Init.getInstance()._onload();
+        }
       }
-
-      // Is this the boot module? => start init process
-      if (part == this.boot && this._pageLoaded && window.qx && qx.core && qx.core.Init) {
-        qx.core.Init.getInstance()._onload();
-      }
-
+      
       // Finally return
       return;
     }
