@@ -25,7 +25,7 @@
 qx.Class.define("qx.theme.manager.Decoration",
 {
   type : "singleton",
-  extend : qx.util.ValueManager,
+  extend : qx.core.Object,
 
 
 
@@ -38,13 +38,12 @@ qx.Class.define("qx.theme.manager.Decoration",
 
   properties :
   {
-    /** the currently selected decoration theme */
+    /** Selected decoration theme */
     theme :
     {
       check : "Theme",
       nullable : true,
-      apply : "_applyTheme",
-      event : "changeTheme"
+      apply : "_applyTheme"
     }
   },
 
@@ -65,8 +64,47 @@ qx.Class.define("qx.theme.manager.Decoration",
      * @param value {String} dynamically interpreted idenfier
      * @return {var} return the (translated) result of the incoming value
      */
-    resolveDynamic : function(value) {
-      return typeof value === "object" ? value : this._dynamic[value];
+    resolve : function(value)
+    {
+      if (!value) {
+        return null;
+      }
+
+      if (typeof value === "object") {
+        return value;
+      }
+
+      var theme = this.getTheme();
+      if (!theme) {
+        return null;
+      }
+
+      var theme = this.getTheme();
+      if (!theme) {
+        return null;
+      }
+
+      var cache = this.__dynamic;
+      if (!cache) {
+        cache = this.__dynamic = {};
+      }
+
+      var resolved = cache[value];
+      if (resolved) {
+        return resolved;
+      }
+
+      var entry = theme.decorations[value];
+      if (!entry) {
+        return null;
+      }
+
+      var clazz = entry.decorator;
+      if (clazz == null) {
+        throw new Error("Missing definition of which decorator to use in entry: " + key + "!");
+      }
+
+      return cache[value] = (new clazz).set(entry.style);
     },
 
 
@@ -76,8 +114,18 @@ qx.Class.define("qx.theme.manager.Decoration",
      * @param value {String} dynamically interpreted idenfier
      * @return {Boolean} returns true if the value is interpreted dynamically
      */
-    isDynamic : function(value) {
-      return value && (typeof value == "object" || this._dynamic[value] !== undefined);
+    isDynamic : function(value)
+    {
+      if (!value) {
+        return false;
+      }
+
+      var theme = this.getTheme();
+      if (!theme) {
+        return false;
+      }
+
+      return !!theme.decorations[value];
     },
 
 
@@ -86,36 +134,18 @@ qx.Class.define("qx.theme.manager.Decoration",
     {
       var alias = qx.util.AliasManager.getInstance();
       value ? alias.add("decoration", value.resource) : alias.remove("decoration");
-
-      var dest = this._dynamic;
-
-      for (var key in dest)
-      {
-        if (dest[key].themed)
-        {
-          dest[key].dispose();
-          delete dest[key];
-        }
-      }
-
-      if (value)
-      {
-        var source = value.decorations;
-        var entry, clazz;
-
-        for (var key in source)
-        {
-          entry = source[key];
-          clazz = entry.decorator;
-
-          if (clazz == null) {
-            throw new Error("Missing definition of which decorator to use in entry: " + key + "!");
-          }
-
-          dest[key] = (new clazz).set(entry.style);
-          dest[key].themed = true;
-        }
-      }
     }
+  },
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function() {
+    this._disposeMap("__dynamic");
   }
 });
