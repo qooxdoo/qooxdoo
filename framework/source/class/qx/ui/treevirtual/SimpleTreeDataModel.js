@@ -1073,7 +1073,8 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
       "_nodeArr",
       "_nodeRowMap",
       "_treeColumn",
-      "_selections"
+      "_selections",
+      "__tree"
     );
   }
 });
