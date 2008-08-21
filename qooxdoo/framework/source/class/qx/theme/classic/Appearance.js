@@ -83,7 +83,17 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
-    "popup" : "widget",
+    "popup" : 
+    {
+      style : function(states)
+      {
+        return {
+          decorator : "main",
+          backgroundColor : "background-pane",
+          shadow : "shadow-small"
+        }
+      }
+    },
 
     "tooltip" :
     {
