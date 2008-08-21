@@ -179,36 +179,43 @@ def normalizePath(path):
 def main():
     parser = optparse.OptionParser()
     
-    parser.set_usage("%prog --name ApplicationName [--out dir] [--namespace custom] [-l logfile]")
-    parser.set_description("Script to create a new qooxdoo application");
+    parser.set_usage('''\
+%prog --name APPLICATIONNAME [--out DIRECTORY]
+                                [--namespace NAMESPACE] [--type TYPE]
+                                  [-logfile LOGFILE] [--skeleton-path PATH]
+                    
+Script to create a new qooxdoo application.
+
+Example: For creating a regular GUI application \'myapp\' you could execute:
+''' + "tool" + os.sep + "bin" + os.sep + "%prog --name myapp --out .. --namespace myapp");
     parser.add_option(
         "-n", "--name", dest="name", metavar="APPLICATIONNAME",
-        help="Name of the application. Its top-level directory will be named accordingly."
+        help="Name of the application. An application folder with identical name will be created. (Required)"
     )
     parser.add_option(
         "-o", "--out", dest="out", metavar="DIRECTORY", default=".",
-        help="The output directory for the application folder (Defaults to the current directory)"
+        help="Output directory for the application folder. (Defaults to the current directory)"
     )
     parser.add_option(
-        "--namespace", dest="namespace", default="custom",
-        help="The applications's top-level namespace (Defaults to 'custom')"
+        "--namespace", dest="namespace", metavar="NAMESPACE", default="custom",
+        help="Applications's top-level namespace. (Defaults to 'custom')"
     )
     parser.add_option(
         "-t", "--type", dest="type", metavar="TYPE", default="gui",
-        help="The type of the application to create: 'gui', 'migration' or 'bom'. " + 
+        help="Type of the application to create: 'gui', 'migration' or 'bom'. " + 
           "'gui' builds a standard qooxdoo GUI application, 'migration' should " +
-          "be used to migrate 0.7 qooxdoo applications and 'bom' can be used " +
-          "to build low level qooxdoo applications."
+          "be used to migrate qooxdoo 0.7 applications and 'bom' can be used " +
+          "to build low-level qooxdoo applications. (Defaults to 'gui')"
      )
     parser.add_option(
-        "-l", "--logfile", dest="logfile", metavar="FILENAME",
+        "-l", "--logfile", dest="logfile", metavar="LOGFILE",
         default=None, type="string", help="Log file"
     )
     parser.add_option(
-        "--skeleton-path", dest="skeleton_path", metavar="TYPE", default=SKELETON_DIR,
-        help="(Advanced) Configure the path, where the script will look for " +
-          "the skeletons. The directory must contain sub directories named by " +
-          "the application type containing the application templates."
+        "--skeleton-path", dest="skeleton_path", metavar="PATH", default=SKELETON_DIR,
+        help="(Advanced) Path where the script looks for skeletons. " +
+          "The directory must contain sub directories named by " +
+          "the application types. (Defaults to standard skeleton directory)"
     )
     
     (options, args) = parser.parse_args(sys.argv[1:])
