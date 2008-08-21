@@ -106,6 +106,10 @@ qx.Class.define("qx.ui.progressive.structure.Default",
       this.__nullFooter.dispose();
       this.__nullFooter = null;
     }
+
+    this._disposeFields(
+      "__header",
+      "__footer");
   }
 
 });
