@@ -146,5 +146,16 @@ qx.Class.define("qx.ui.progressive.headfoot.Progress",
         },
         this);
     }
+  },
+
+  destruct : function()
+  {
+    this._disposeFields(
+      "__colors",
+      "__progressive");
+
+    this._disposeObjects(
+      "__progressBar",
+      "__percentDone");
   }
 });
