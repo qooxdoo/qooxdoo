@@ -23,6 +23,7 @@
  */
 qx.Class.define("qx.ui.root.Abstract",
 {
+	type : "abstract",
   extend : qx.ui.core.Widget,
 
   include :
