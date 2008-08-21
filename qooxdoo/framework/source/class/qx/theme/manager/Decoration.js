@@ -108,6 +108,13 @@ qx.Class.define("qx.theme.manager.Decoration",
     },
 
 
+    /**
+     * Whether the given value is valid for being used in a property
+     * with the 'check' configured to 'Decorator'.
+     *
+     * @param value {var} Incoming value
+     * @return {Boolean} Whether the value is valid for being used in a Decorator property
+     */
     isValidPropertyValue : function(value)
     {
       if (typeof value === "string") {
@@ -121,6 +128,7 @@ qx.Class.define("qx.theme.manager.Decoration",
 
       return false;
     },
+
 
     /**
      * Whether a value is interpreted dynamically
