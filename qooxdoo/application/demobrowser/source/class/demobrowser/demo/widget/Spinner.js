@@ -58,21 +58,6 @@ qx.Class.define("demobrowser.demo.widget.Spinner",
       container.add(new qx.ui.basic.Label("30"), {column: 3, row: row});
     },
 
-    addStyledSpinner : function(container, row)
-    {
-      var spinner = new qx.ui.form.Spinner().set({
-        width: 140,
-        font: qx.bom.Font.fromString("30px sans-serif"),
-        backgroundColor: "#FABBBB",
-        contentPadding: [6, 6, 6, 6],
-        decorator : "main"
-      });
-      container.add(new qx.ui.basic.Label("Big font"), {column: 0, row: row});
-      container.add(new qx.ui.basic.Label("0"), {column: 1, row: row});
-      container.add(spinner, {column: 2, row: row});
-      container.add(new qx.ui.basic.Label("100"), {column: 3, row: row});
-    },
-
     addSteppedSpinner : function(container, row)
     {
       var spinner = new qx.ui.form.Spinner(-3000, 0, 3000).set({
@@ -96,7 +81,7 @@ qx.Class.define("demobrowser.demo.widget.Spinner",
 
     addFormattedSpinner : function(container, row)
     {
-      var spinner = new qx.ui.form.Spinner(0, 2000, 3000);
+      var spinner = new qx.ui.form.Spinner(0, 200, 300);
       spinner.setSingleStep(0.5);
 
       // Number format Test
@@ -107,7 +92,7 @@ qx.Class.define("demobrowser.demo.widget.Spinner",
       container.add(new qx.ui.basic.Label("Number format"), {column: 0, row: row});
       container.add(new qx.ui.basic.Label("0"), {column: 1, row: row});
       container.add(spinner, {column: 2, row: row});
-      container.add(new qx.ui.basic.Label("3000"), {column: 3, row: row++});
+      container.add(new qx.ui.basic.Label("300"), {column: 3, row: row++});
     },
 
     main: function()
@@ -127,10 +112,9 @@ qx.Class.define("demobrowser.demo.widget.Spinner",
       this.addSimpleSpinner(container, 0);
       this.addNonEditableSpinner(container, 1);
       this.addWrappingSpinner(container, 2);
-      this.addStyledSpinner(container, 3);
-      this.addSteppedSpinner(container, 4);
-      this.addDisabledSpinner(container, 5);
-      this.addFormattedSpinner(container, 6);
+      this.addSteppedSpinner(container, 3);
+      this.addDisabledSpinner(container, 4);
+      this.addFormattedSpinner(container, 5);
     }
   }
 });
