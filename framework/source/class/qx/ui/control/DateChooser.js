@@ -105,6 +105,8 @@ qx.Class.define("qx.ui.control.DateChooser",
   },
 
 
+
+
   /*
   *****************************************************************************
      EVENTS
@@ -116,6 +118,7 @@ qx.Class.define("qx.ui.control.DateChooser",
     /** Fired when the value was modified */
     changeValue : "qx.event.type.Data"
   },
+
 
 
 
@@ -173,8 +176,7 @@ qx.Class.define("qx.ui.control.DateChooser",
       init : null,
       nullable : true,
       apply : "_applyDate",
-      event : "changeDate",
-      transform : "_checkDate"
+      event : "changeDate"
     },
 
     /** The name of the widget. Mainly used for serialization proposes. */
@@ -209,8 +211,9 @@ qx.Class.define("qx.ui.control.DateChooser",
       FORM API IMPLEMENTATION
     ---------------------------------------------------------------------------
     */
+
     /**
-     * Sets the element's string value. The String should bye excepted by the
+     * Sets the element's string value. The String should by excepted by the
      * JavaScript Date-Object.
      *
      * @param value {String} The new date value as a JavaScript confrom date string.
@@ -218,7 +221,10 @@ qx.Class.define("qx.ui.control.DateChooser",
      */
     setValue : function(value)
     {
-      this.assertType(value, "string");
+      if (qx.core.Variant.isSet("qx.debug", "on")) {
+        this.assertType(value, "string");
+      }
+
       this.setDate(new Date(value));
       return value;
     },
@@ -229,8 +235,7 @@ qx.Class.define("qx.ui.control.DateChooser",
      *
      * @return {String} The current set date.
      */
-    getValue : function()
-    {
+    getValue : function() {
       return this.getDate().toString();
     },
 
@@ -381,21 +386,6 @@ qx.Class.define("qx.ui.control.DateChooser",
       }
 
       return control || this.base(arguments, id);
-    },
-
-
-    // property checker
-    /**
-     * Returns a clone of the given date if one is given. If the value is
-     * <code>null</code>, <code>null</code> will be returned.
-     *
-     * @param value {Date} Current date.
-     * @return {Date | null} A clone of the set Date.
-     */
-    _checkDate : function(value)
-    {
-      // Use a clone of the date internally since date instances may be changed
-      return (value == null) ? null : new Date(value.getTime());
     },
 
 
