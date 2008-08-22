@@ -194,7 +194,7 @@ qx.Bootstrap.define("qx.Class",
           this.__addEvents(clazz, config.events, true);
         }
 
-        // Include mixins.
+        // Include mixins
         // Must be the last here to detect conflicts
         if (config.include)
         {
