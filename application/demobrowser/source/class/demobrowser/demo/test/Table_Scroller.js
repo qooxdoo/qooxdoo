@@ -52,7 +52,7 @@ qx.Class.define("demobrowser.demo.table.Scroller.DummyTable",
     this.setAppearance("table");
 
     this.set({
-      decorator : "black",
+      decorator : "main",
       backgroundColor : "#FFE",
       width: 600,
       height: 400

@@ -39,7 +39,7 @@ qx.Class.define("demobrowser.demo.ui.Label_Reflow",
 
       var dialog = new qx.ui.container.Composite(layout).set({
          backgroundColor: "#EEE",
-         decorator: "black",
+         decorator: "main",
          padding: 10
       });
       this.getRoot().add(dialog);
@@ -49,7 +49,7 @@ qx.Class.define("demobrowser.demo.ui.Label_Reflow",
 
       var btn_toggle = new qx.ui.basic.Label("Toggle first paragraph").set({
         backgroundColor : "#CCC",
-        decorator: "black",
+        decorator: "main",
         padding: [4, 8]
       });
       dialog.add(btn_toggle, {row: 1, column: 1});
@@ -69,7 +69,7 @@ qx.Class.define("demobrowser.demo.ui.Label_Reflow",
 
       var btn_resize = new qx.ui.basic.Label("Resize Pane").set({
         backgroundColor : "#CCC",
-        decorator: "black",
+        decorator: "main",
         padding: [4, 8]
       });
       dialog.add(btn_resize, {row: 1, column: 2});
@@ -91,7 +91,7 @@ qx.Class.define("demobrowser.demo.ui.Label_Reflow",
       var pane = new qx.ui.container.Composite(new qx.ui.layout.VBox(14)).set({
         backgroundColor : "#FFF",
         width: 600,
-        decorator: "black",
+        decorator: "main",
         padding: 10
       });
 

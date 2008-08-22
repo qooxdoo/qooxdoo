@@ -55,7 +55,7 @@ qx.Class.define("demobrowser.demo.layout.HSplit",
       var splitpane = new qx.ui.splitpane.Pane("horizontal");
       splitpane.setWidth(400);
       splitpane.setHeight(60);
-      splitpane.setDecorator("black");
+      splitpane.setDecorator("main");
       this.getRoot().add(splitpane, {left:20, top:20});
 
       // Left
@@ -77,7 +77,7 @@ qx.Class.define("demobrowser.demo.layout.HSplit",
       var splitpane = new qx.ui.splitpane.Pane("horizontal");
       splitpane.setWidth(400);
       splitpane.setHeight(60);
-      splitpane.setDecorator("black");
+      splitpane.setDecorator("main");
       this.getRoot().add(splitpane, {left:20, top:100});
 
       // Left
@@ -100,7 +100,7 @@ qx.Class.define("demobrowser.demo.layout.HSplit",
       var splitpane = new qx.ui.splitpane.Pane("horizontal");
       splitpane.setWidth(400);
       splitpane.setHeight(60);
-      splitpane.setDecorator("black");
+      splitpane.setDecorator("main");
       this.getRoot().add(splitpane, {left:20, top:180});
 
       // Left
@@ -123,7 +123,7 @@ qx.Class.define("demobrowser.demo.layout.HSplit",
       var splitpane = new qx.ui.splitpane.Pane("horizontal");
       splitpane.setWidth(400);
       splitpane.setHeight(60);
-      splitpane.setDecorator("black");
+      splitpane.setDecorator("main");
       this.getRoot().add(splitpane, {left:20, top:260});
 
       // Left
@@ -147,7 +147,7 @@ qx.Class.define("demobrowser.demo.layout.HSplit",
       var splitpane = new qx.ui.splitpane.Pane("horizontal");
       splitpane.setWidth(400);
       splitpane.setHeight(60);
-      splitpane.setDecorator("black");
+      splitpane.setDecorator("main");
       this.getRoot().add(splitpane, {left:20, top:340});
 
       // Left
@@ -175,7 +175,7 @@ qx.Class.define("demobrowser.demo.layout.HSplit",
       var splitpane = new qx.ui.splitpane.Pane("horizontal");
       splitpane.setWidth(400);
       splitpane.setHeight(60);
-      splitpane.setDecorator("black");
+      splitpane.setDecorator("main");
       this.getRoot().add(splitpane, {left:500, top:20});
 
       // Left
@@ -197,7 +197,7 @@ qx.Class.define("demobrowser.demo.layout.HSplit",
       var splitpane = new qx.ui.splitpane.Pane("horizontal");
       splitpane.setWidth(400);
       splitpane.setHeight(60);
-      splitpane.setDecorator("black");
+      splitpane.setDecorator("main");
       this.getRoot().add(splitpane, {left:500, top:100});
 
       // Left
@@ -220,7 +220,7 @@ qx.Class.define("demobrowser.demo.layout.HSplit",
       var splitpane = new qx.ui.splitpane.Pane("horizontal");
       splitpane.setWidth(400);
       splitpane.setHeight(60);
-      splitpane.setDecorator("black");
+      splitpane.setDecorator("main");
       this.getRoot().add(splitpane, {left:500, top:180});
 
       // Left
@@ -245,7 +245,7 @@ qx.Class.define("demobrowser.demo.layout.HSplit",
     addSplitPaneAuto : function()
     {
       var splitpane = new qx.ui.splitpane.Pane("horizontal");
-      splitpane.setDecorator("black");
+      splitpane.setDecorator("main");
       this.getRoot().add(splitpane, {left:500, top:340});
 
       // Left

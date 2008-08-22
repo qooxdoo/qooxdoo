@@ -32,7 +32,7 @@ qx.Class.define("demobrowser.demo.layout.HBox_ShrinkY",
       var box = new qx.ui.layout.HBox();
       var container = (new qx.ui.container.Composite(box)).set(
       {
-        decorator: "black",
+        decorator: "main",
         backgroundColor: "yellow",
         maxHeight : 100
       });
@@ -40,15 +40,15 @@ qx.Class.define("demobrowser.demo.layout.HBox_ShrinkY",
       box.setSpacing(5);
 
       var w1 = new qx.ui.core.Widget().set({
-        decorator: "black",
+        decorator: "main",
         backgroundColor: "green"
       });
       var w2 = new qx.ui.core.Widget().set({
-        decorator: "black",
+        decorator: "main",
         backgroundColor: "green"
       });
       var w3 = new qx.ui.core.Widget().set({
-        decorator: "black",
+        decorator: "main",
         backgroundColor: "green"
       });
 

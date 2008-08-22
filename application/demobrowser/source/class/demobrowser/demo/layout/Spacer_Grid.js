@@ -49,24 +49,24 @@ qx.Class.define("demobrowser.demo.layout.Spacer_Grid",
     {
       // auto size
       var box = new qx.ui.container.Composite(new qx.ui.layout.Grid()).set({
-        decorator: "black",
+        decorator: "main",
         backgroundColor: "yellow",
         allowGrowX: false,
         allowGrowY: false
       });
 
-      box.add(new qx.ui.core.Widget().set({decorator: "black", backgroundColor: "green"}), {row: 0, column: 0});
-      box.add(new qx.ui.core.Widget().set({decorator: "black", backgroundColor: "green"}), {row: 0, column: 1});
+      box.add(new qx.ui.core.Widget().set({decorator: "main", backgroundColor: "green"}), {row: 0, column: 0});
+      box.add(new qx.ui.core.Widget().set({decorator: "main", backgroundColor: "green"}), {row: 0, column: 1});
 
       box.add(new qx.ui.core.Spacer(0, 10), {row: 1, column: 0});
 
-      box.add(new qx.ui.core.Widget().set({decorator: "black", backgroundColor: "green"}), {row: 2, column: 0});
-      box.add(new qx.ui.core.Widget().set({decorator: "black", backgroundColor: "green"}), {row: 2, column: 1});
+      box.add(new qx.ui.core.Widget().set({decorator: "main", backgroundColor: "green"}), {row: 2, column: 0});
+      box.add(new qx.ui.core.Widget().set({decorator: "main", backgroundColor: "green"}), {row: 2, column: 1});
 
       box.add(new qx.ui.core.Spacer(0, 20), {row: 3, column: 0});
 
-      box.add(new qx.ui.core.Widget().set({decorator: "black", backgroundColor: "green"}), {row: 4, column: 0});
-      box.add(new qx.ui.core.Widget().set({decorator: "black", backgroundColor: "green"}), {row: 4, column: 1});
+      box.add(new qx.ui.core.Widget().set({decorator: "main", backgroundColor: "green"}), {row: 4, column: 0});
+      box.add(new qx.ui.core.Widget().set({decorator: "main", backgroundColor: "green"}), {row: 4, column: 1});
 
       return box;
     },
@@ -75,23 +75,23 @@ qx.Class.define("demobrowser.demo.layout.Spacer_Grid",
     {
       // auto size
       var box = new qx.ui.container.Composite(new qx.ui.layout.Grid()).set({
-        decorator: "black",
+        decorator: "main",
         backgroundColor: "yellow",
         allowGrowX: false,
         allowGrowY: false
       });
 
-      box.add(new qx.ui.core.Widget().set({decorator: "black", backgroundColor: "green"}), {row: 0, column: 0});
+      box.add(new qx.ui.core.Widget().set({decorator: "main", backgroundColor: "green"}), {row: 0, column: 0});
       box.add(new qx.ui.core.Spacer(10, 0), {row: 0, column: 2});
-      box.add(new qx.ui.core.Widget().set({decorator: "black", backgroundColor: "green"}), {row: 0, column: 3});
+      box.add(new qx.ui.core.Widget().set({decorator: "main", backgroundColor: "green"}), {row: 0, column: 3});
       box.add(new qx.ui.core.Spacer(30, 0), {row: 1, column: 4});
-      box.add(new qx.ui.core.Widget().set({decorator: "black", backgroundColor: "green"}), {row: 0, column: 5});
+      box.add(new qx.ui.core.Widget().set({decorator: "main", backgroundColor: "green"}), {row: 0, column: 5});
 
       box.add(new qx.ui.core.Spacer(0, 5), {row: 1, column: 0});
 
-      box.add(new qx.ui.core.Widget().set({decorator: "black", backgroundColor: "green"}), {row: 2, column: 0});
-      box.add(new qx.ui.core.Widget().set({decorator: "black", backgroundColor: "green"}), {row: 2, column: 3});
-      box.add(new qx.ui.core.Widget().set({decorator: "black", backgroundColor: "green"}), {row: 2, column: 5});
+      box.add(new qx.ui.core.Widget().set({decorator: "main", backgroundColor: "green"}), {row: 2, column: 0});
+      box.add(new qx.ui.core.Widget().set({decorator: "main", backgroundColor: "green"}), {row: 2, column: 3});
+      box.add(new qx.ui.core.Widget().set({decorator: "main", backgroundColor: "green"}), {row: 2, column: 5});
 
       return box;
     }

@@ -41,18 +41,18 @@ qx.Class.define("demobrowser.demo.layout.Dock_FlexShrinking",
       // default layout, flex shrinking
       var widget = new qx.ui.container.Composite(new qx.ui.layout.Dock()).set(
       {
-        decorator: "black",
+        decorator: "main",
         backgroundColor: "yellow",
         width:150,
         height:100,
         allowGrowX : false
       });
 
-      var w1 = new qx.ui.core.Widget().set({decorator: "black", backgroundColor: "red"});
-      var w2 = new qx.ui.core.Widget().set({decorator: "black", backgroundColor: "blue"});
-      var w3 = new qx.ui.core.Widget().set({decorator: "black", backgroundColor: "orange"});
-      var w4 = new qx.ui.core.Widget().set({decorator: "black", backgroundColor: "green"});
-      var w5 = new qx.ui.core.Widget().set({decorator: "black", backgroundColor: "fuchsia"});
+      var w1 = new qx.ui.core.Widget().set({decorator: "main", backgroundColor: "red"});
+      var w2 = new qx.ui.core.Widget().set({decorator: "main", backgroundColor: "blue"});
+      var w3 = new qx.ui.core.Widget().set({decorator: "main", backgroundColor: "orange"});
+      var w4 = new qx.ui.core.Widget().set({decorator: "main", backgroundColor: "green"});
+      var w5 = new qx.ui.core.Widget().set({decorator: "main", backgroundColor: "fuchsia"});
 
       widget.add(w1, {edge:"north", flex:1});
       widget.add(w2, {edge:"west", flex:1});
@@ -71,18 +71,18 @@ qx.Class.define("demobrowser.demo.layout.Dock_FlexShrinking",
 
       var widget = (new qx.ui.container.Composite(dock)).set(
       {
-        decorator: "black",
+        decorator: "main",
         backgroundColor: "yellow",
         width:150,
         height:100,
         allowGrowX : false
       });
 
-      var w1 = new qx.ui.core.Widget().set({decorator: "black", backgroundColor: "red"});
-      var w2 = new qx.ui.core.Widget().set({decorator: "black", backgroundColor: "blue"});
-      var w3 = new qx.ui.core.Widget().set({decorator: "black", backgroundColor: "orange"});
-      var w4 = new qx.ui.core.Widget().set({decorator: "black", backgroundColor: "green"});
-      var w5 = new qx.ui.core.Widget().set({decorator: "black", backgroundColor: "fuchsia"});
+      var w1 = new qx.ui.core.Widget().set({decorator: "main", backgroundColor: "red"});
+      var w2 = new qx.ui.core.Widget().set({decorator: "main", backgroundColor: "blue"});
+      var w3 = new qx.ui.core.Widget().set({decorator: "main", backgroundColor: "orange"});
+      var w4 = new qx.ui.core.Widget().set({decorator: "main", backgroundColor: "green"});
+      var w5 = new qx.ui.core.Widget().set({decorator: "main", backgroundColor: "fuchsia"});
 
       widget.add(w1, {edge:"north", flex:1});
       widget.add(w2, {edge:"west", flex:1});
@@ -102,18 +102,18 @@ qx.Class.define("demobrowser.demo.layout.Dock_FlexShrinking",
 
       var widget = (new qx.ui.container.Composite(dock)).set(
       {
-        decorator: "black",
+        decorator: "main",
         backgroundColor: "yellow",
         width:150,
         height:100,
         allowGrowX : false
       });
 
-      var w1 = new qx.ui.core.Widget().set({decorator: "black", backgroundColor: "red"});
-      var w2 = new qx.ui.core.Widget().set({decorator: "black", backgroundColor: "blue"});
-      var w3 = new qx.ui.core.Widget().set({decorator: "black", backgroundColor: "orange"});
-      var w4 = new qx.ui.core.Widget().set({decorator: "black", backgroundColor: "green"});
-      var w5 = new qx.ui.core.Widget().set({decorator: "black", backgroundColor: "fuchsia"});
+      var w1 = new qx.ui.core.Widget().set({decorator: "main", backgroundColor: "red"});
+      var w2 = new qx.ui.core.Widget().set({decorator: "main", backgroundColor: "blue"});
+      var w3 = new qx.ui.core.Widget().set({decorator: "main", backgroundColor: "orange"});
+      var w4 = new qx.ui.core.Widget().set({decorator: "main", backgroundColor: "green"});
+      var w5 = new qx.ui.core.Widget().set({decorator: "main", backgroundColor: "fuchsia"});
 
       widget.add(w1, {edge:"north", flex:1});
       widget.add(w2, {edge:"west", flex:1});

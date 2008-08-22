@@ -35,7 +35,7 @@ qx.Class.define("demobrowser.demo.ui.Shadow",
 
       var shadow = new qx.ui.core.Widget().set({
         shadow: "window-shadow",
-        decorator : "black",
+        decorator : "main",
         backgroundColor: "yellow"
       });
       this.getRoot().add(shadow, {top: 10, left: 150});
