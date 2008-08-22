@@ -316,7 +316,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       {
         return {
           decorator : states.focused ? "input-focused" : "input",
-          padding   : [ 1, 3 ],
+          padding   : [ 2, 4, 1 ],
           textColor : states.disabled ? "text-disabled" : "text-input"
         };
       }
@@ -328,7 +328,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       {
         return {
           decorator : states.focused ? "input-focused" : "input",
-          padding   : 3,
+          padding   : 4,
           textColor : states.disabled ? "text-disabled" : "text-input"
         };
       }
@@ -361,7 +361,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       {
         return {
           decorator : "undefined",
-          padding: [2, 3]
+          padding: [ 2, 4, 1 ]
         };
       }
     },
@@ -426,7 +426,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          padding : [ 3, 0, 0, 0 ]
+          padding: [ 2, 4, 1 ]
         }
       }
     },
@@ -1784,7 +1784,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       {
         return {
           decorator : null,
-          padding   : [ 2, 3 ]
+          padding: [ 2, 4, 1 ]
         };
       }
     },
