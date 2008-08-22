@@ -68,7 +68,6 @@ qx.Class.define("demobrowser.demo.widget.List",
       });
 
       this.getRoot().add(configList, {left: 20, top: 40});
-      // configList.scrollToY(100);
 
       // Configure Elements
       var mode1 = new qx.ui.form.RadioButton("Single Selection");
@@ -148,6 +147,7 @@ qx.Class.define("demobrowser.demo.widget.List",
 
         configList.setQuickSelection(e.getData());
       });
+
       ////////////////////////////////////////////////////////////////
 
 
