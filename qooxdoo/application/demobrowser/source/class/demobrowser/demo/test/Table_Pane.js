@@ -36,7 +36,7 @@ qx.Class.define("demobrowser.demo.test.Table_Pane",
       this.base(arguments);
 
       var table = new qx.ui.container.Composite(new qx.ui.layout.Canvas()).set({
-        decorator : "black",
+        decorator : "main",
         backgroundColor : "#FFE",
         width: 600,
         height: 400

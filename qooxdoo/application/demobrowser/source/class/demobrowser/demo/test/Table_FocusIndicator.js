@@ -36,7 +36,7 @@ qx.Class.define("demobrowser.demo.test.Table_FocusIndicator",
       this.base(arguments);
 
       var table = new qx.ui.container.Composite(new qx.ui.layout.Canvas()).set({
-        decorator : "black",
+        decorator : "main",
         backgroundColor : "#FFE",
         width: 600,
         height: 400
@@ -44,7 +44,7 @@ qx.Class.define("demobrowser.demo.test.Table_FocusIndicator",
       this.getRoot().add(table, {left: 10, top: 10});
 
       var fi = new qx.ui.table.pane.FocusIndicator(this.getScrollerMock()).set({
-        decorator : "black"
+        decorator : "main"
       })
       table.add(fi);
 

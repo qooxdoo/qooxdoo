@@ -30,27 +30,27 @@ qx.Class.define("demobrowser.demo.root.Application",
 
       var w1 = new qx.ui.core.Widget().set({
         backgroundColor: "red",
-        decorator: "black",
+        decorator: "main",
         padding: 10
       });
 
       var w2 = new qx.ui.core.Widget().set({
         backgroundColor: "blue",
-        decorator: "black"
+        decorator: "main"
       });
 
       var w3 = new qx.ui.core.Widget().set({
         backgroundColor: "green",
-        decorator: "black"
+        decorator: "main"
       });
 
       var w4 = new qx.ui.core.Widget().set({
         backgroundColor: "yellow",
-        decorator: "black"
+        decorator: "main"
       });
 
       var container = new qx.ui.container.Composite(new qx.ui.layout.HBox());
-      container.setDecorator("black");
+      container.setDecorator("main");
 
       container.add(w1);
       container.add(w2);

@@ -51,7 +51,7 @@ qx.Class.define("demobrowser.demo.layout.VBox_Percent",
       // one percent child which is not flexible
       var box = new qx.ui.layout.VBox();
       var container = new qx.ui.container.Composite(box).set({
-        decorator: "black",
+        decorator: "main",
         backgroundColor: "yellow",
         height: 300,
         allowGrowY: false
@@ -60,15 +60,15 @@ qx.Class.define("demobrowser.demo.layout.VBox_Percent",
       box.setSpacing(5);
 
       var w1 = new qx.ui.core.Widget().set({
-        decorator: "black",
+        decorator: "main",
         backgroundColor: "green"
       });
       var w2 = new qx.ui.core.Widget().set({
-        decorator: "black",
+        decorator: "main",
         backgroundColor: "green"
       });
       var w3 = new qx.ui.core.Widget().set({
-        decorator: "black",
+        decorator: "main",
         backgroundColor: "green"
       });
 
@@ -86,7 +86,7 @@ qx.Class.define("demobrowser.demo.layout.VBox_Percent",
       // child (=> perfect result, last one a bit bigger)
       var box = new qx.ui.layout.VBox();
       var container = new qx.ui.container.Composite(box).set({
-        decorator: "black",
+        decorator: "main",
         backgroundColor: "yellow",
         height: 300,
         allowGrowY: false
@@ -95,15 +95,15 @@ qx.Class.define("demobrowser.demo.layout.VBox_Percent",
       box.setSpacing(5);
 
       var w1 = new qx.ui.core.Widget().set({
-        decorator: "black",
+        decorator: "main",
         backgroundColor: "green"
       });
       var w2 = new qx.ui.core.Widget().set({
-        decorator: "black",
+        decorator: "main",
         backgroundColor: "green"
       });
       var w3 = new qx.ui.core.Widget().set({
-        decorator: "black",
+        decorator: "main",
         backgroundColor: "green"
       });
 
@@ -120,7 +120,7 @@ qx.Class.define("demobrowser.demo.layout.VBox_Percent",
       // one percent child which is not flexible + auto sizing
       var box = new qx.ui.layout.VBox();
       var container = new qx.ui.container.Composite(box).set({
-        decorator: "black",
+        decorator: "main",
         backgroundColor: "yellow",
         allowGrowY: false
       });
@@ -128,15 +128,15 @@ qx.Class.define("demobrowser.demo.layout.VBox_Percent",
       box.setSpacing(5);
 
       var w1 = new qx.ui.core.Widget().set({
-        decorator: "black",
+        decorator: "main",
         backgroundColor: "green"
       });
       var w2 = new qx.ui.core.Widget().set({
-        decorator: "black",
+        decorator: "main",
         backgroundColor: "green"
       });
       var w3 = new qx.ui.core.Widget().set({
-        decorator: "black",
+        decorator: "main",
         backgroundColor: "green"
       });
 
@@ -153,7 +153,7 @@ qx.Class.define("demobrowser.demo.layout.VBox_Percent",
       // all child in percents + auto sizing + flex enabled
       var box = new qx.ui.layout.VBox();
       var container = new qx.ui.container.Composite(box).set({
-        decorator: "black",
+        decorator: "main",
         backgroundColor: "yellow",
         allowGrowY: false
       });
@@ -161,15 +161,15 @@ qx.Class.define("demobrowser.demo.layout.VBox_Percent",
       box.setSpacing(5);
 
       var w1 = new qx.ui.core.Widget().set({
-        decorator: "black",
+        decorator: "main",
         backgroundColor: "green"
       });
       var w2 = new qx.ui.core.Widget().set({
-        decorator: "black",
+        decorator: "main",
         backgroundColor: "green"
       });
       var w3 = new qx.ui.core.Widget().set({
-        decorator: "black",
+        decorator: "main",
         backgroundColor: "green"
       });
 
@@ -186,7 +186,7 @@ qx.Class.define("demobrowser.demo.layout.VBox_Percent",
       // all child in percents + flex enabled (shrinking)
       var box = new qx.ui.layout.VBox();
       var container = new qx.ui.container.Composite(box).set({
-        decorator: "black",
+        decorator: "main",
         backgroundColor: "yellow",
         height: 100,
         allowGrowY: false
@@ -195,15 +195,15 @@ qx.Class.define("demobrowser.demo.layout.VBox_Percent",
       box.setSpacing(5);
 
       var w1 = new qx.ui.core.Widget().set({
-        decorator: "black",
+        decorator: "main",
         backgroundColor: "green"
       });
       var w2 = new qx.ui.core.Widget().set({
-        decorator: "black",
+        decorator: "main",
         backgroundColor: "green"
       });
       var w3 = new qx.ui.core.Widget().set({
-        decorator: "black",
+        decorator: "main",
         backgroundColor: "green"
       });
 
@@ -220,7 +220,7 @@ qx.Class.define("demobrowser.demo.layout.VBox_Percent",
       // all child in percents + flex enabled (growing)
       var box = new qx.ui.layout.VBox();
       var container = new qx.ui.container.Composite(box).set({
-        decorator: "black",
+        decorator: "main",
         backgroundColor: "yellow",
         height: 300,
         allowGrowY: false
@@ -229,15 +229,15 @@ qx.Class.define("demobrowser.demo.layout.VBox_Percent",
       box.setSpacing(5);
 
       var w1 = new qx.ui.core.Widget().set({
-        decorator: "black",
+        decorator: "main",
         backgroundColor: "green"
       });
       var w2 = new qx.ui.core.Widget().set({
-        decorator: "black",
+        decorator: "main",
         backgroundColor: "green"
       });
       var w3 = new qx.ui.core.Widget().set({
-        decorator: "black",
+        decorator: "main",
         backgroundColor: "green"
       });
 

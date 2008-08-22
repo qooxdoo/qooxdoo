@@ -32,16 +32,16 @@ qx.Class.define("demobrowser.demo.layout.VBox_ShrinkX",
       var box = new qx.ui.layout.VBox();
       var container = (new qx.ui.container.Composite(box)).set(
       {
-        decorator: "black",
+        decorator: "main",
         backgroundColor: "yellow",
         maxWidth : 100
       });
 
       box.setSpacing(5);
 
-      var w1 = new qx.ui.core.Widget().set({decorator: "black", backgroundColor: "green"});
-      var w2 = new qx.ui.core.Widget().set({decorator: "black", backgroundColor: "green"});
-      var w3 = new qx.ui.core.Widget().set({decorator: "black", backgroundColor: "green"});
+      var w1 = new qx.ui.core.Widget().set({decorator: "main", backgroundColor: "green"});
+      var w2 = new qx.ui.core.Widget().set({decorator: "main", backgroundColor: "green"});
+      var w3 = new qx.ui.core.Widget().set({decorator: "main", backgroundColor: "green"});
 
       w1.setWidth(200);
       w2.setWidth(300);

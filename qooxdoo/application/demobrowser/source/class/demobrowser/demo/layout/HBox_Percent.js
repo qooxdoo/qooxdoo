@@ -50,15 +50,15 @@ qx.Class.define("demobrowser.demo.layout.HBox_Percent",
     {
       // one percent child which is not flexible
       var container = new qx.ui.container.Composite(new qx.ui.layout.HBox(5)).set({
-        decorator: "black",
+        decorator: "main",
         backgroundColor: "yellow",
         width: 500,
         allowGrowX: false
       });
 
-      var w1 = new qx.ui.core.Widget().set({decorator: "black", backgroundColor: "green"});
-      var w2 = new qx.ui.core.Widget().set({decorator: "black", backgroundColor: "green"});
-      var w3 = new qx.ui.core.Widget().set({decorator: "black", backgroundColor: "green"});
+      var w1 = new qx.ui.core.Widget().set({decorator: "main", backgroundColor: "green"});
+      var w2 = new qx.ui.core.Widget().set({decorator: "main", backgroundColor: "green"});
+      var w3 = new qx.ui.core.Widget().set({decorator: "main", backgroundColor: "green"});
 
       container.add(w1, { width: "50%" });
       container.add(w2, { flex : 1 });
@@ -72,15 +72,15 @@ qx.Class.define("demobrowser.demo.layout.HBox_Percent",
     {
       // all percent child, using 99% in sum, flex enabled for last child (=> perfect result, last one a bit bigger)
       var container = new qx.ui.container.Composite(new qx.ui.layout.HBox(5)).set({
-        decorator: "black",
+        decorator: "main",
         backgroundColor: "yellow",
         width: 500,
         allowGrowX: false
       });
 
-      var w1 = new qx.ui.core.Widget().set({decorator: "black", backgroundColor: "green"});
-      var w2 = new qx.ui.core.Widget().set({decorator: "black", backgroundColor: "green"});
-      var w3 = new qx.ui.core.Widget().set({decorator: "black", backgroundColor: "green"});
+      var w1 = new qx.ui.core.Widget().set({decorator: "main", backgroundColor: "green"});
+      var w2 = new qx.ui.core.Widget().set({decorator: "main", backgroundColor: "green"});
+      var w3 = new qx.ui.core.Widget().set({decorator: "main", backgroundColor: "green"});
 
       container.add(w1, {width: "33%"});
       container.add(w2, {width: "33%"});
@@ -94,14 +94,14 @@ qx.Class.define("demobrowser.demo.layout.HBox_Percent",
     {
       // one percent child which is not flexible + auto sizing
       var container = new qx.ui.container.Composite(new qx.ui.layout.HBox(5)).set({
-        decorator: "black",
+        decorator: "main",
         backgroundColor: "yellow",
         allowGrowX: false
       });
 
-      var w1 = new qx.ui.core.Widget().set({decorator: "black", backgroundColor: "green"});
-      var w2 = new qx.ui.core.Widget().set({decorator: "black", backgroundColor: "green"});
-      var w3 = new qx.ui.core.Widget().set({decorator: "black", backgroundColor: "green"});
+      var w1 = new qx.ui.core.Widget().set({decorator: "main", backgroundColor: "green"});
+      var w2 = new qx.ui.core.Widget().set({decorator: "main", backgroundColor: "green"});
+      var w3 = new qx.ui.core.Widget().set({decorator: "main", backgroundColor: "green"});
 
       container.add(w1, {width: "50%"});
       container.add(w2, {flex: 1});
@@ -115,14 +115,14 @@ qx.Class.define("demobrowser.demo.layout.HBox_Percent",
     {
       // all child in percents + auto sizing + flex enabled (remaining space distributed under all childs)
       var container = new qx.ui.container.Composite(new qx.ui.layout.HBox(5)).set({
-        decorator: "black",
+        decorator: "main",
         backgroundColor: "yellow",
         allowGrowX: false
       });
 
-      var w1 = new qx.ui.core.Widget().set({decorator: "black", backgroundColor: "green"});
-      var w2 = new qx.ui.core.Widget().set({decorator: "black", backgroundColor: "green"});
-      var w3 = new qx.ui.core.Widget().set({decorator: "black", backgroundColor: "green"});
+      var w1 = new qx.ui.core.Widget().set({decorator: "main", backgroundColor: "green"});
+      var w2 = new qx.ui.core.Widget().set({decorator: "main", backgroundColor: "green"});
+      var w3 = new qx.ui.core.Widget().set({decorator: "main", backgroundColor: "green"});
 
       container.add(w1, {width: "33%", flex: 1});
       container.add(w2, {width: "33%", flex: 1});
@@ -136,15 +136,15 @@ qx.Class.define("demobrowser.demo.layout.HBox_Percent",
     {
       // all child in percents + flex enabled (shrinking)
       var container = new qx.ui.container.Composite(new qx.ui.layout.HBox(5)).set({
-        decorator: "black",
+        decorator: "main",
         backgroundColor: "yellow",
         width: 200,
         allowGrowX: false
       });
 
-      var w1 = new qx.ui.core.Widget().set({decorator: "black", backgroundColor: "green"});
-      var w2 = new qx.ui.core.Widget().set({decorator: "black", backgroundColor: "green"});
-      var w3 = new qx.ui.core.Widget().set({decorator: "black", backgroundColor: "green"});
+      var w1 = new qx.ui.core.Widget().set({decorator: "main", backgroundColor: "green"});
+      var w2 = new qx.ui.core.Widget().set({decorator: "main", backgroundColor: "green"});
+      var w3 = new qx.ui.core.Widget().set({decorator: "main", backgroundColor: "green"});
 
       container.add(w1, {width: "33%", flex: 1});
       container.add(w2, {width: "33%", flex: 1});
@@ -158,15 +158,15 @@ qx.Class.define("demobrowser.demo.layout.HBox_Percent",
     {
       // all child in percents + flex enabled (growing)
       var container = new qx.ui.container.Composite(new qx.ui.layout.HBox(5)).set({
-        decorator: "black",
+        decorator: "main",
         backgroundColor: "yellow",
         width: 500,
         allowGrowX: false
       });
 
-      var w1 = new qx.ui.core.Widget().set({decorator: "black", backgroundColor: "green"});
-      var w2 = new qx.ui.core.Widget().set({decorator: "black", backgroundColor: "green"});
-      var w3 = new qx.ui.core.Widget().set({decorator: "black", backgroundColor: "green"});
+      var w1 = new qx.ui.core.Widget().set({decorator: "main", backgroundColor: "green"});
+      var w2 = new qx.ui.core.Widget().set({decorator: "main", backgroundColor: "green"});
+      var w3 = new qx.ui.core.Widget().set({decorator: "main", backgroundColor: "green"});
 
       container.add(w1, {width: "33%", flex: 1});
       container.add(w2, {width: "33%", flex: 1});

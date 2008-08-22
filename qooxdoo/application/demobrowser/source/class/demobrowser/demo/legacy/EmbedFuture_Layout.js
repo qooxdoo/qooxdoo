@@ -77,7 +77,7 @@ qx.Class.define("demobrowser.demo.legacy.EmbedFuture_Layout",
     {
       // auto size
       var box = new qx.ui.container.Composite().set({
-        decorator: "black",
+        decorator: "main",
         backgroundColor: "yellow"
       });
 
@@ -87,22 +87,22 @@ qx.Class.define("demobrowser.demo.legacy.EmbedFuture_Layout",
       box.setLayout(layout);
 
       box.add(new qx.ui.core.Widget().set({
-        decorator: "black",
+        decorator: "main",
         backgroundColor: "green"
       }), {row: 0, column: 0});
 
       box.add(new qx.ui.core.Widget().set({
-        decorator: "black",
+        decorator: "main",
         backgroundColor: "green"
       }), {row: 0, column: 1});
 
       box.add(new qx.ui.core.Widget().set({
-        decorator: "black",
+        decorator: "main",
         backgroundColor: "green"
       }), {row: 1, column: 0});
 
       box.add(new qx.ui.core.Widget().set({
-        decorator: "black",
+        decorator: "main",
         backgroundColor: "green"
       }), {row: 1, column: 1});
 

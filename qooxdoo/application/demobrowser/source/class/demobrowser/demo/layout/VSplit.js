@@ -59,7 +59,7 @@ qx.Class.define("demobrowser.demo.layout.VSplit",
     {
       var splitpane = new qx.ui.splitpane.Pane("vertical");
       splitpane.setHeight(400);
-      splitpane.setDecorator("black");
+      splitpane.setDecorator("main");
 
       // Left
       var topWidget = new qx.ui.form.TextArea("Flex:1");
@@ -81,7 +81,7 @@ qx.Class.define("demobrowser.demo.layout.VSplit",
     {
       var splitpane = new qx.ui.splitpane.Pane("vertical");
       splitpane.setHeight(400);
-      splitpane.setDecorator("black");
+      splitpane.setDecorator("main");
 
       // Left
       var topWidget = new qx.ui.form.TextArea("Flex:1; Min:250");
@@ -104,7 +104,7 @@ qx.Class.define("demobrowser.demo.layout.VSplit",
     {
       var splitpane = new qx.ui.splitpane.Pane("vertical");
       splitpane.setHeight(400);
-      splitpane.setDecorator("black");
+      splitpane.setDecorator("main");
 
       // Left
       var topWidget = new qx.ui.form.TextArea("Flex:1");
@@ -127,7 +127,7 @@ qx.Class.define("demobrowser.demo.layout.VSplit",
     {
       var splitpane = new qx.ui.splitpane.Pane("vertical");
       splitpane.setHeight(400);
-      splitpane.setDecorator("black");
+      splitpane.setDecorator("main");
 
       // Left
       var topWidget = new qx.ui.form.TextArea("Flex:1; Min:250");
@@ -151,7 +151,7 @@ qx.Class.define("demobrowser.demo.layout.VSplit",
     {
       var splitpane = new qx.ui.splitpane.Pane("vertical");
       splitpane.setHeight(400);
-      splitpane.setDecorator("black");
+      splitpane.setDecorator("main");
 
       // Left
       var topWidget = new qx.ui.form.TextArea("Flex:1; Max:100");
@@ -175,7 +175,7 @@ qx.Class.define("demobrowser.demo.layout.VSplit",
     {
       var splitpane = new qx.ui.splitpane.Pane("vertical");
       splitpane.setHeight(400);
-      splitpane.setDecorator("black");
+      splitpane.setDecorator("main");
 
       // Left
       var topWidget = new qx.ui.form.TextArea("Flex:0");
@@ -196,7 +196,7 @@ qx.Class.define("demobrowser.demo.layout.VSplit",
     {
       var splitpane = new qx.ui.splitpane.Pane("vertical");
       splitpane.setHeight(400);
-      splitpane.setDecorator("black");
+      splitpane.setDecorator("main");
 
       // Left
       var topWidget = new qx.ui.form.TextArea("Flex:0");
@@ -219,7 +219,7 @@ qx.Class.define("demobrowser.demo.layout.VSplit",
     {
       var splitpane = new qx.ui.splitpane.Pane("vertical");
       splitpane.setHeight(400);
-      splitpane.setDecorator("black");
+      splitpane.setDecorator("main");
 
       // Left
       var topWidget = new qx.ui.form.TextArea("Flex:0; Min:350");
@@ -241,7 +241,7 @@ qx.Class.define("demobrowser.demo.layout.VSplit",
     getSplitPaneAuto : function()
     {
       var splitpane = new qx.ui.splitpane.Pane("vertical");
-      splitpane.setDecorator("black");
+      splitpane.setDecorator("main");
 
       // Left
       var topWidget = new qx.ui.form.TextArea("Auto");

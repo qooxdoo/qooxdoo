@@ -98,7 +98,7 @@ qx.Class.define("demobrowser.demo.layout.Grid_Animated",
     getAnimGrid : function()
     {
       var box = new qx.ui.container.Composite().set({
-        decorator: "black",
+        decorator: "main",
         backgroundColor: "yellow",
         width: 500,
         height: 500

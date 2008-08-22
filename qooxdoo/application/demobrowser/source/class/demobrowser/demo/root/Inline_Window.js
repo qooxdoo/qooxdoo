@@ -29,7 +29,7 @@ qx.Class.define("demobrowser.demo.root.Inline_Window",
       this.base(arguments);
 
       var isle = new qx.ui.root.Inline(document.getElementById("isle")).set({
-        decorator: "black",
+        decorator: "main",
         padding: 10,
         backgroundColor: "white"
       });
