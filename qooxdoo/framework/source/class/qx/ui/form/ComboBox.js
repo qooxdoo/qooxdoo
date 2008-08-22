@@ -79,7 +79,10 @@ qx.Class.define("qx.ui.form.ComboBox",
   events :
   {
     /** The input event is fired on every keystroke modifying the value of the field */
-    "input" : "qx.event.type.Data"
+    "input" : "qx.event.type.Data",
+
+    /** Whenever the value is changed this event is fired */
+    "changeValue" : "qx.event.type.Data"
   },
 
 
@@ -157,8 +160,10 @@ qx.Class.define("qx.ui.form.ComboBox",
         return;
       }
 
+      // Apply to text field
       textfield.setValue(value);
 
+      // Sync to list
       var list = this._getChildControl("list");
       var item = list.findItem(value);
       if (item) {
@@ -299,8 +304,21 @@ qx.Class.define("qx.ui.form.ComboBox",
      *
      * @param e {qx.event.type.Data} Change event
      */
-    _onTextFieldChangeValue : function(e) {
-      this.setValue(e.getData());
+    _onTextFieldChangeValue : function(e)
+    {
+      var value = e.getData();
+
+      // Select item when possible
+      var list = this._getChildControl("list");
+      var item = list.findItem(value);
+      if (item) {
+        list.select(item);
+      } else {
+        list.clearSelection();
+      }
+
+      // Fire event
+      this.fireDataEvent("changeValue", value);
     },
 
 
