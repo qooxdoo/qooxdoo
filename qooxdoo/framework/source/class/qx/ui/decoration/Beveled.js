@@ -200,7 +200,7 @@ qx.Class.define("qx.ui.decoration.Beveled",
       var innerStyle = "1px solid " + Color.resolve(this.getInnerColor()) + ";";
 
       // Outer frame
-      html.push('<div>');
+      html.push('<div style="overflow:hidden;font-size:0;line-height:0;">');
 
       // Background frame
       html.push('<div style="');
@@ -253,6 +253,7 @@ qx.Class.define("qx.ui.decoration.Beveled",
       }
 
       // Fix box model
+      this.debug("XXX: " + qx.bom.client.Feature.CONTENT_BOX);
       if (qx.bom.client.Feature.CONTENT_BOX)
       {
         var outerWidth = width - 2;
