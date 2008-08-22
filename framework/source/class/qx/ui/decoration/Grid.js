@@ -190,7 +190,7 @@ qx.Class.define("qx.ui.decoration.Grid",
       // Outer frame
       // Note: Overflow=hidden is needed for Safari 3.1 to omit scrolling through
       // dragging when the cursor is in the text field in Spinners etc.
-      html.push('<div style="position:absolute;top:0;left:0;overflow:hidden">');
+      html.push('<div style="position:absolute;top:0;left:0;overflow:hidden;font-size:0;line-height:0;">');
 
       // Top: left, center, right
       html.push(Decoration.create(images.tl, "no-repeat", { top: 0, left: 0 }));
