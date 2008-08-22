@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE ldml SYSTEM "http://www.unicode.org/cldr/dtd/1.5/ldml.dtd">
+<!DOCTYPE ldml SYSTEM "http://www.unicode.org/cldr/dtd/1.6/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 1.43 $"/>
-		<generation date="$Date: 2007/07/19 22:31:38 $"/>
+		<version number="$Revision: 1.46 $"/>
+		<generation date="$Date: 2008/06/17 14:12:15 $"/>
 		<language type="ar"/>
 		<territory type="LB"/>
 	</identity>
@@ -23,6 +23,7 @@
 							<month type="3">آذار</month>
 							<month type="4">نيسان</month>
 							<month type="5">نوار</month>
+							<month type="5" alt="proposed-x1001" draft="unconfirmed">أيار</month>
 							<month type="6">حزيران</month>
 							<month type="7">تموز</month>
 							<month type="8">آب</month>
@@ -37,6 +38,7 @@
 							<month type="3">آذار</month>
 							<month type="4">نيسان</month>
 							<month type="5">نوار</month>
+							<month type="5" alt="proposed-x1001" draft="unconfirmed">أيار</month>
 							<month type="6">حزيران</month>
 							<month type="7">تموز</month>
 							<month type="8">آب</month>
