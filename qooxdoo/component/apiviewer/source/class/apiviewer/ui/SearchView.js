@@ -108,7 +108,7 @@ qx.Class.define("apiviewer.ui.SearchView",
       table.setColumnVisibilityButtonVisible(false);
 
       this._selectionModel = table.getSelectionManager().getSelectionModel();
-      this._selectionModel.addListener("changeSelection", this._onChangeSelection, this);
+      this._selectionModel.addListener("changeSelection", this._callDetailFrame, this);
 
       this._table = table;
 
@@ -292,15 +292,15 @@ qx.Class.define("apiviewer.ui.SearchView",
     {
       sresult.sort(function(a, b)
       {
-          if (a[1] < b[1])
-          {
-            return -1;
-          }
-          if (a[1] > b[1])
-          {
-            return 1;
-          }
-          return 0;
+        if (a[1] < b[1])
+        {
+          return -1;
+        }
+        if (a[1] > b[1])
+        {
+          return 1;
+        }
+        return 0;
       });
       for (var i=0, l=sresult.length; i<l; i++) {
         var iconDisplay = sresult[i][0];
@@ -381,86 +381,68 @@ qx.Class.define("apiviewer.ui.SearchView",
      */
     _callDetailFrame : function(sel)
     {
-        var selected = this._tableModel.getData()[sel];
-        var fullItemName = selected[1];
-        var itemType = selected[0];
+      var sel = this._selectionModel.getAnchorSelectionIndex();
+      var selected = this._tableModel.getData()[sel];
+      var fullItemName = selected[1];
+      var itemType = selected[0];
 
-        var className = fullItemName;
-        var itemName = null;
-        var hashPos = fullItemName.indexOf("#");
+      var className = fullItemName;
+      var itemName = null;
+      var hashPos = fullItemName.indexOf("#");
 
-        if (hashPos != -1)
-        {
-          className = fullItemName.substring(0, hashPos);
-          itemName = fullItemName.substring(hashPos + 1);
+      if (hashPos != -1)
+      {
+        className = fullItemName.substring(0, hashPos);
+        itemName = fullItemName.substring(hashPos + 1);
+      }
+
+      var controller = qx.core.Init.getApplication().controller;
+      var classViewer = controller._classViewer;
+
+      // Display protected stated items
+      if (/protected/.test(itemType))
+      {
+        var btn_protected = controller._widgetRegistry.getWidgetById("btn_protected");
+        if (btn_protected.getChecked() === false) {
+          btn_protected.setChecked(true);
+          classViewer.setShowProtected(true);
         }
-
-        var controller = qx.core.Init.getApplication().controller;
-        var classViewer = controller._classViewer;
-
-        // Display protected stated items
-        if (/protected/.test(itemType))
-        {
-          var btn_protected = controller._widgetRegistry.getWidgetById("btn_protected");
-          if (btn_protected.getChecked() === false) {
-            btn_protected.setChecked(true);
-            classViewer.setShowProtected(true);
-          }
+      }
+      // Display private stated items
+      else if (/private/.test(itemType))
+      {
+        var btn_private = controller._widgetRegistry.getWidgetById("btn_private");
+        if (btn_private.getChecked() === false) {
+          btn_private.setChecked(true);
+          classViewer.setShowPrivate(true);
         }
-        // Display private stated items
-        else if (/private/.test(itemType))
-        {
-          var btn_private = controller._widgetRegistry.getWidgetById("btn_private");
-          if (btn_private.getChecked() === false) {
-            btn_private.setChecked(true);
-            classViewer.setShowPrivate(true);
+      }
+
+      // Highlight item
+      controller._selectClass(apiviewer.dao.Class.getClassByName(className), function()
+      {
+        if (itemName) {
+          if (!classViewer.showItem(itemName))
+          {
+            controller.error("Unknown item of class '"+ className +"': " + itemName);
+            alert("Unknown item of class '"+ className +"': " + itemName);
+            return;
           }
+        } else {
+          classViewer.getContainerElement().scrollToY(0);
         }
+        controller._updateHistory(fullItemName);
 
-        // Highlight item
-        controller._selectClass(apiviewer.dao.Class.getClassByName(className), function()
-        {
-          if (itemName) {
-            if (!classViewer.showItem(itemName))
-            {
-              controller.error("Unknown item of class '"+ className +"': " + itemName);
-              alert("Unknown item of class '"+ className +"': " + itemName);
-              return;
-            }
-          } else {
-            classViewer.getContainerElement().scrollToY(0);
-          }
-          controller._updateHistory(fullItemName);
-
-        }, controller);
+      }, controller);
     },
 
 
-    _onChangeSelection : function(e)
-    {
-      var tree = this.getWidgetById("tree");
-      var column = this._selectionModel.getAnchorSelectionIndex();
-
-      var selectedClass = this._tableModel.getData()[column][1];
-
-      if(selectedClass.indexOf("#"))
-      {
-        var tmp = selectedClass.split("#");
-        tree.selectTreeNodeByClassName(tmp[0]);
-      }
-      else
-      {
-        tree.selectTreeNodeByClassName(selectedClass);
-      }
-    },
-    
     _resetElements : function()
     {
       this._tableModel.setData([]);
       this._tableModel.setColumns([ "", ""]);
       this.__button.setEnabled(false);
     }
-
   },
 
   /*

@@ -53,6 +53,11 @@ qx.Class.define("apiviewer.dao.Method",
       return this._docNode.attributes.isCtor || false;
     },
 
+    isFromProperty : function()
+    {
+      return !!this._docNode.attributes.fromProperty;
+    },
+    
 
     getParams : function()
     {
