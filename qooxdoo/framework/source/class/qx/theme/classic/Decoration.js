@@ -51,28 +51,7 @@ qx.Theme.define("qx.theme.classic.Decoration",
         color : "border-dark"
       }
     },
-
-    "black" :
-    {
-      decorator: qx.ui.decoration.Uniform,
-
-      style :
-      {
-        width : 1,
-        color : "black"
-      }
-    },
-
-    "white" :
-    {
-      decorator: qx.ui.decoration.Uniform,
-
-      style :
-      {
-        width : 1,
-        color : "white"
-      }
-    },
+ 
 
 
 
