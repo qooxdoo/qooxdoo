@@ -96,6 +96,8 @@ qx.Class.define("feedreader.view.PreferenceWindow",
                         "es" : "Espanol", 
                         "it" : "Italiano" };
       
+      var localeManager = qx.locale.Manager.getInstance();
+      
       var radioButton;
       for (var lang in languages )
       {
@@ -105,8 +107,12 @@ qx.Class.define("feedreader.view.PreferenceWindow",
         // add to radioManager and groupBox
         radioManager.add(radioButton);
         groupBox.add(radioButton);
+
+        // Select entry containing current language
+        if (localeManager.getLanguage() == lang) {
+          radioManager.setSelected(radioButton);
+        }
       }
-      radioManager.getItems()[0].setChecked(true);
  
       // add the button bar
       var buttonBarLayout = new qx.ui.layout.HBox(10, "right");
