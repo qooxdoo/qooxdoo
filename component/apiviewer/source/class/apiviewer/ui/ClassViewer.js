@@ -538,6 +538,16 @@ qx.Class.define("apiviewer.ui.ClassViewer",
         return false;
       }
 
+      if(itemNode.isFromProperty())
+      {
+        var controller = qx.core.Init.getApplication().controller;
+        var btn_expand = controller._widgetRegistry.getWidgetById("btn_expand");
+        if (btn_expand.getChecked() === false) {
+          btn_expand.setChecked(true);
+          this.setExpandProperties(true);
+        }
+      }
+
       var panel = this._getPanelForItemNode(itemNode);
 
       var itemElement = panel.getItemElement(itemNode.getName());
