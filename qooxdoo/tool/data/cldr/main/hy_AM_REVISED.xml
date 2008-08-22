@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE ldml SYSTEM "http://www.unicode.org/cldr/dtd/1.5/ldml.dtd">
+<!DOCTYPE ldml SYSTEM "http://www.unicode.org/cldr/dtd/1.6/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 1.43 $"/>
-		<generation date="$Date: 2007/07/19 22:31:39 $"/>
+		<version number="$Revision: 1.45 $"/>
+		<generation date="$Date: 2008/05/28 15:49:32 $"/>
 		<language type="hy"/>
 		<territory type="AM"/>
 		<variant type="REVISED"/>
@@ -50,4 +50,3 @@ URL: http://oss.software.ibm.com/cvs/icu/icu/source/data/locales/hy_AM_REVISED.t
 Just use the data from the parent.
 The original data in this locale looked suspicious.
 -->
-

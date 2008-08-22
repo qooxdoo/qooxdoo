@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE ldml SYSTEM "http://www.unicode.org/cldr/dtd/1.5/ldml.dtd">
+<!DOCTYPE ldml SYSTEM "http://www.unicode.org/cldr/dtd/1.6/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 1.48 $"/>
-		<generation date="$Date: 2007/07/20 18:19:17 $"/>
+		<version number="$Revision: 1.51 $"/>
+		<generation date="$Date: 2008/05/28 15:49:30 $"/>
 		<language type="es"/>
 		<territory type="MX"/>
 	</identity>
 	<numbers>
+		<symbols>
+			<decimal>.</decimal>
+			<group>,</group>
+		</symbols>
 		<currencies>
 			<currency type="MXN">
 				<symbol>$</symbol>
@@ -15,4 +19,3 @@
 		</currencies>
 	</numbers>
 </ldml>
-

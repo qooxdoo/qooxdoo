@@ -1,42 +1,37 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE ldml SYSTEM "http://www.unicode.org/cldr/dtd/1.5/ldml.dtd">
+<!DOCTYPE ldml SYSTEM "http://www.unicode.org/cldr/dtd/1.6/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 1.91 $"/>
-		<generation date="$Date: 2007/07/26 04:29:36 $"/>
+		<version number="$Revision: 1.107 $"/>
+		<generation date="$Date: 2008/06/17 14:19:19 $"/>
 		<language type="tr"/>
 	</identity>
 	<localeDisplayNames>
+		<localeDisplayPattern>
+			<localePattern>{0} ({1})</localePattern>
+			<localeSeparator>, </localeSeparator>
+		</localeDisplayPattern>
 		<languages>
 			<language type="aa">Afar</language>
 			<language type="ab">Abazca</language>
-			<language type="ab" alt="proposed-x1001" draft="unconfirmed">Abhazca</language>
+			<language type="ab" alt="proposed-x1001" draft="unconfirmed">Abazaca</language>
 			<language type="ace">Achinese</language>
 			<language type="ach">Acoli</language>
 			<language type="ada">Adangme</language>
 			<language type="ady">Çerkezce</language>
-			<language type="ady" alt="proposed-x1001" draft="unconfirmed">Adige</language>
 			<language type="ae">Avestçe</language>
 			<language type="af">Afrikaan Dili</language>
-			<language type="af" alt="proposed-x1001" draft="unconfirmed">Afrikaanca</language>
-			<language type="af" alt="proposed-x1002" draft="unconfirmed">Afrikaan</language>
 			<language type="afa">Diğer Afro-Asyatik Diller</language>
-			<language type="afa" alt="proposed-x1001" draft="unconfirmed">Afro Asya Dilleri (Diğer)</language>
 			<language type="afh">Afrihili</language>
 			<language type="ain">Ainu</language>
 			<language type="ak">Akan</language>
 			<language type="akk">Akad Dili</language>
-			<language type="akk" alt="proposed-x1001" draft="unconfirmed">Akadca</language>
 			<language type="ale">Aleut</language>
 			<language type="alg">Algonquian Dilleri</language>
-			<language type="alt" draft="unconfirmed">Güney Altay</language>
-			<language type="alt" alt="proposed-x1001" draft="unconfirmed">Güney Altayca</language>
+			<language type="alt">Güney Altayca</language>
 			<language type="am">Amharik</language>
-			<language type="am" alt="proposed-x1001" draft="unconfirmed">Amharca</language>
-			<language type="am" alt="proposed-x1002" draft="unconfirmed">Habeşçe</language>
 			<language type="an">Aragonca</language>
 			<language type="ang">Eski İngilizce</language>
-			<language type="ang" alt="proposed-x1001" draft="unconfirmed">Eski İngilizce (450-1100)</language>
 			<language type="anp">Angika</language>
 			<language type="apa">Apaçi Dilleri</language>
 			<language type="ar">Arapça</language>
@@ -44,35 +39,26 @@
 			<language type="arn">Araucanian Dili</language>
 			<language type="arp">Arapaho Dili</language>
 			<language type="art">Diğer Yapay Diller</language>
-			<language type="art" alt="proposed-x1001" draft="unconfirmed">Yapay (Diğer)</language>
 			<language type="arw">Arawak Dili</language>
 			<language type="as">Assamca</language>
-			<language type="as" alt="proposed-x1001" draft="unconfirmed">Assamese</language>
 			<language type="ast">Asturyasca</language>
 			<language type="ath">Atabaşkan Dilleri</language>
-			<language type="ath" alt="proposed-x1001" draft="unconfirmed">Athapascan Dilleri</language>
 			<language type="aus">Avustralya Dilleri</language>
 			<language type="av">Avar Dili</language>
-			<language type="av" alt="proposed-x1001" draft="unconfirmed">Avarca</language>
 			<language type="awa">Awadhi</language>
 			<language type="ay">Aymara</language>
 			<language type="az">Azerice</language>
 			<language type="ba">Başkırt Dili</language>
-			<language type="ba" alt="proposed-x1001" draft="unconfirmed">Başkırtça</language>
-			<language type="ba" alt="proposed-x1002" draft="unconfirmed">Başkırca</language>
 			<language type="bad">Banda Dili</language>
 			<language type="bai">Bamileke Dilleri</language>
 			<language type="bal">Baluchi</language>
 			<language type="ban">Bali Dili</language>
 			<language type="bas">Basa Dili</language>
 			<language type="bat">Diğer Baltık Dilleri</language>
-			<language type="bat" alt="proposed-x1001" draft="unconfirmed">Baltık (Diğer)</language>
 			<language type="be">Beyaz Rusça</language>
-			<language type="be" alt="proposed-x1001" draft="unconfirmed">Belarusça</language>
 			<language type="bej">Beja Dili</language>
 			<language type="bem">Bemba</language>
 			<language type="ber">Berberi</language>
-			<language type="ber" alt="proposed-x1001" draft="unconfirmed">Berberice</language>
 			<language type="bg">Bulgarca</language>
 			<language type="bh">Bihari</language>
 			<language type="bho">Bhojpuri</language>
@@ -82,72 +68,49 @@
 			<language type="bla">Siksika</language>
 			<language type="bm">Bambara</language>
 			<language type="bn">Bengal Dili</language>
-			<language type="bn" alt="proposed-x1001" draft="unconfirmed">Bengali</language>
-			<language type="bn" alt="proposed-x1002" draft="unconfirmed">Bengalce</language>
 			<language type="bnt">Bantu Dili</language>
 			<language type="bo">Tibetçe</language>
 			<language type="br">Breton Dili</language>
-			<language type="br" alt="proposed-x1001" draft="unconfirmed">Bretonca</language>
-			<language type="br" alt="proposed-x1002" draft="unconfirmed">Breton</language>
 			<language type="bra">Braj</language>
 			<language type="bs">Boşnakça</language>
-			<language type="bs" alt="proposed-x1001" draft="unconfirmed">Bosna Dili</language>
 			<language type="btk">Batak</language>
 			<language type="bua">Buryat</language>
 			<language type="bug">Bugis</language>
 			<language type="byn">Blin</language>
 			<language type="ca">Katalanca</language>
-			<language type="ca" alt="proposed-x1001" draft="unconfirmed">Katalan</language>
-			<language type="ca" alt="proposed-x1002" draft="unconfirmed">Katalan Dili</language>
 			<language type="cad">Caddo</language>
 			<language type="cai">Diğer Orta Amerika Yerli Dilleri</language>
-			<language type="cai" alt="proposed-x1001" draft="unconfirmed">Orta Amerika Yerlileri (Diğer)</language>
 			<language type="car">Carib</language>
 			<language type="cau">Diğer Kafkas Dilleri</language>
-			<language type="cau" alt="proposed-x1001" draft="unconfirmed">Kafkasça (Diğer)</language>
 			<language type="cch">Atsam</language>
 			<language type="ce">Çeçence</language>
 			<language type="ceb">Cebuano</language>
 			<language type="cel">Diğer Kelt Dilleri</language>
-			<language type="cel" alt="proposed-x1001" draft="unconfirmed">Keltçe (Diğer)</language>
 			<language type="ch">Chamorro</language>
 			<language type="chb">Chibcha</language>
 			<language type="chg">Çağatay Dili</language>
-			<language type="chg" alt="proposed-x1001" draft="unconfirmed">Çağatayca</language>
 			<language type="chk">Chuukese</language>
 			<language type="chm">Mari</language>
 			<language type="chn">Chinook Jargon</language>
 			<language type="cho">Choctaw</language>
 			<language type="chp">Chipewyan</language>
 			<language type="chr">Çeroki</language>
-			<language type="chr" alt="proposed-x1001" draft="unconfirmed">Çeroki Dili</language>
 			<language type="chy">Şayen Dili</language>
-			<language type="chy" alt="proposed-x1001" draft="unconfirmed">Çeyen</language>
 			<language type="cmc">Chamic Dilleri</language>
 			<language type="co">Korsika Dili</language>
-			<language type="co" alt="proposed-x1001" draft="unconfirmed">Korsikaca</language>
 			<language type="cop">Kiptice</language>
 			<language type="cpe">Diğer İngilizce tabanlı Creole ve Pidgin Dilleri</language>
-			<language type="cpe" alt="proposed-x1001" draft="unconfirmed">Creoles ve Pidgins, İngilizce tabanlı (Diğer)</language>
 			<language type="cpf">Diğer Fransızca tabanlı Creole ve Pidgin Dilleri</language>
-			<language type="cpf" alt="proposed-x1001" draft="unconfirmed">Creoles ve Pidgins, Fransızca tabanlı (Diğer)</language>
 			<language type="cpp">Diğer Portekizce tabanlı Creole ve Pidgin Dilleri</language>
-			<language type="cpp" alt="proposed-x1001" draft="unconfirmed">Creoles ve Pidgins, Portekizce tabanlı (Diğer)</language>
 			<language type="cr">Cree</language>
 			<language type="crh">Kırım Türkçesi</language>
-			<language type="crh" alt="proposed-x1001" draft="unconfirmed">Kırım Türkçesi; Kırım Tatarcası</language>
 			<language type="crp">Diğer Creole ve Pidgin Dilleri</language>
-			<language type="crp" alt="proposed-x1001" draft="unconfirmed">Creoles ve Pidgins (Diğer)</language>
 			<language type="cs">Çekçe</language>
 			<language type="csb">Kashubian</language>
 			<language type="cu">Kilise Slavcası</language>
 			<language type="cus">Diğer Kuşitik Diller</language>
-			<language type="cus" alt="proposed-x1001" draft="unconfirmed">Kushi (Diğer)</language>
-			<language type="cus" alt="proposed-x1002" draft="unconfirmed">Cushitic (Diğer)</language>
 			<language type="cv">Çuvaş</language>
-			<language type="cv" alt="proposed-x1001" draft="unconfirmed">Çuvaşça</language>
 			<language type="cy">Galce</language>
-			<language type="cy" alt="proposed-x1001" draft="unconfirmed">Gal Dili</language>
 			<language type="da">Danca</language>
 			<language type="dak">Dakota</language>
 			<language type="dar">Dargva</language>
@@ -161,105 +124,76 @@
 			<language type="din">Dinka</language>
 			<language type="doi">Dogri</language>
 			<language type="dra">Diğer Dravid Dilleri</language>
-			<language type="dra" alt="proposed-x1001" draft="unconfirmed">Dravidian (Diğer)</language>
 			<language type="dsb">Aşağı Sorbça</language>
 			<language type="dua">Duala</language>
 			<language type="dum">Ortaçağ Felemenkçesi</language>
-			<language type="dum" alt="proposed-x1001" draft="unconfirmed">Felemenkçe (1050-1350)</language>
 			<language type="dv">Divehi</language>
 			<language type="dyu">Dyula</language>
 			<language type="dz">Butan Dili</language>
-			<language type="dz" alt="proposed-x1001" draft="unconfirmed">Bhutan Dili</language>
-			<language type="dz" alt="proposed-x1002" draft="unconfirmed">Bhutanca</language>
 			<language type="ee">Ewe</language>
 			<language type="efi">Efik</language>
 			<language type="egy">Eski Mısır Dili</language>
-			<language type="egy" alt="proposed-x1001" draft="unconfirmed">Mısır Dili (Eski)</language>
 			<language type="eka">Ekajuk</language>
 			<language type="el">Yunanca</language>
 			<language type="elx">Elam</language>
-			<language type="elx" alt="proposed-x1001" draft="unconfirmed">Elamite</language>
 			<language type="en">İngilizce</language>
 			<language type="en_AU">Avustralya İngilizcesi</language>
 			<language type="en_CA">Kanada İngilizcesi</language>
 			<language type="en_GB">İngiliz İngilizcesi</language>
-			<language type="en_GB" alt="proposed-x1001" draft="unconfirmed">İngilizce (İngiliz)</language>
 			<language type="en_US">Amerikan İngilizcesi</language>
-			<language type="en_US" alt="proposed-x1001" draft="unconfirmed">İngilizce (ABD)</language>
 			<language type="enm">Ortaçağ İngilizcesi</language>
-			<language type="enm" alt="proposed-x1001" draft="unconfirmed">İngilizce (1100-1500)</language>
 			<language type="eo">Esperanto</language>
 			<language type="es">İspanyolca</language>
 			<language type="es_419">Latin Amerika İspanyolcası</language>
 			<language type="es_ES">İber İspanyolcası</language>
 			<language type="et">Estonya Dili</language>
 			<language type="eu">Baskça</language>
-			<language type="eu" alt="proposed-x1001" draft="unconfirmed">Bask Dili</language>
 			<language type="ewo">Ewondo</language>
 			<language type="fa">Farsça</language>
-			<language type="fa" alt="proposed-x1001" draft="unconfirmed">Pers</language>
 			<language type="fan">Fang</language>
 			<language type="fat">Fanti</language>
 			<language type="ff">Fulah</language>
 			<language type="fi">Fince</language>
 			<language type="fil">Filipino</language>
-			<language type="fil" alt="proposed-x1001" draft="unconfirmed">Filipince</language>
 			<language type="fiu">Diğer Finno - Ugrik Dilleri</language>
-			<language type="fiu" alt="proposed-x1001" draft="unconfirmed">Finno - Ugrian (Diğer)</language>
-			<language type="fiu" alt="proposed-x1002" draft="unconfirmed">Diğer Fino - Ugrik Dilleri</language>
 			<language type="fj">Fiji Dili</language>
 			<language type="fo">Faroe Dili</language>
-			<language type="fo" alt="proposed-x1001" draft="unconfirmed">Faroece</language>
 			<language type="fon">Fon</language>
 			<language type="fr">Fransızca</language>
 			<language type="fr_CA">Kanada Fransızcası</language>
 			<language type="fr_CH">İsviçre Fransızcası</language>
 			<language type="frm">Ortaçağ Fransızcası</language>
-			<language type="frm" alt="proposed-x1001" draft="unconfirmed">Fransızca (1400-1600)</language>
 			<language type="fro">Eski Fransızca</language>
-			<language type="fro" alt="proposed-x1001" draft="unconfirmed">Fransızca (842-1400)</language>
 			<language type="frr">Kuzey Frizce</language>
 			<language type="frs">Doğu Frizcesi</language>
 			<language type="fur">Friulian</language>
 			<language type="fy">Batı Frizcesi</language>
-			<language type="fy" alt="proposed-x1001" draft="unconfirmed">Frizye Dili</language>
-			<language type="fy" alt="proposed-x1002" draft="unconfirmed">Frisian</language>
 			<language type="ga">İrlanda Dili</language>
-			<language type="ga" alt="proposed-x1001" draft="unconfirmed">İrlandaca</language>
 			<language type="gaa">Ga</language>
 			<language type="gay">Gayo</language>
 			<language type="gba">Gbaya</language>
 			<language type="gd">İskoç Gal Dili</language>
-			<language type="gd" alt="proposed-x1001" draft="unconfirmed">İskoç Dili</language>
-			<language type="gd" alt="proposed-x1002" draft="unconfirmed">İskoç Galcesi</language>
 			<language type="gem">Diğer Germen Dilleri</language>
-			<language type="gem" alt="proposed-x1001" draft="unconfirmed">Almanca tabanlı (Diğer)</language>
 			<language type="gez">Geez</language>
 			<language type="gil">Gilbertese</language>
 			<language type="gl">Galiçya Dili</language>
-			<language type="gl" alt="proposed-x1001" draft="unconfirmed">Galiçyaca</language>
 			<language type="gmh">Ortaçağ Yüksek Almancası</language>
-			<language type="gmh" alt="proposed-x1001" draft="unconfirmed">Almanca (1050-1500)</language>
 			<language type="gn">Guarani</language>
 			<language type="goh">Eski Yüksek Almanca</language>
-			<language type="goh" alt="proposed-x1001" draft="unconfirmed">Almanca (750-1050)</language>
 			<language type="gon">Gondi</language>
 			<language type="gor">Gorontalo</language>
 			<language type="got">Gotça</language>
 			<language type="grb">Grebo</language>
 			<language type="grc">Antik Yunanca</language>
-			<language type="grc" alt="proposed-x1001" draft="unconfirmed">Antik Yunan (1453'e kadar)</language>
 			<language type="gsw">İsviçre Almancası</language>
 			<language type="gu">Gujarati</language>
 			<language type="gv">Manks</language>
-			<language type="gv" alt="proposed-x1001" draft="unconfirmed">Manx</language>
 			<language type="gwi">Gwichʼin</language>
 			<language type="ha">Hausa</language>
 			<language type="hai">Haida</language>
 			<language type="haw">Hawaii Dili</language>
 			<language type="he">İbranice</language>
 			<language type="hi">Hintçe</language>
-			<language type="hi" alt="proposed-x1001" draft="unconfirmed">Hint Dili</language>
 			<language type="hil">Hiligaynon</language>
 			<language type="him">Himachali</language>
 			<language type="hit">Hititçe</language>
@@ -275,23 +209,17 @@
 			<language type="ia">Interlingua</language>
 			<language type="iba">Iban</language>
 			<language type="id">Endonezya Dili</language>
-			<language type="id" alt="proposed-x1001" draft="unconfirmed">Endonezce</language>
 			<language type="ie">Interlingue</language>
 			<language type="ig">Igbo</language>
 			<language type="ii">Sichuan Yi</language>
 			<language type="ijo">Ijo</language>
 			<language type="ik">Inupiak</language>
-			<language type="ik" alt="proposed-x1001" draft="unconfirmed">Inupiaq</language>
 			<language type="ilo">Iloko</language>
 			<language type="inc">Diğer Hint Dilleri</language>
-			<language type="inc" alt="proposed-x1001" draft="unconfirmed">Hintçe (Diğer)</language>
 			<language type="ine">Diğer Hint-Avrupa Dilleri</language>
-			<language type="ine" alt="proposed-x1001" draft="unconfirmed">Hint-Avrupa (Diğer)</language>
 			<language type="inh">İnguş Dili</language>
-			<language type="inh" alt="proposed-x1001" draft="unconfirmed">İnguşça</language>
 			<language type="io">Ido</language>
 			<language type="ira">Diğer İran Dilleri</language>
-			<language type="ira" alt="proposed-x1001" draft="unconfirmed">İran Dili</language>
 			<language type="iro">Iroquoian Dilleri</language>
 			<language type="is">İzlandaca</language>
 			<language type="it">İtalyanca</language>
@@ -301,8 +229,6 @@
 			<language type="jpr">Yahudi Farsçası</language>
 			<language type="jrb">Yahudi Arapçası</language>
 			<language type="jv">Java Dili</language>
-			<language type="jv" alt="proposed-x1001" draft="unconfirmed">Cavaca</language>
-			<language type="jv" alt="proposed-x1002" draft="unconfirmed">Cava Dili</language>
 			<language type="ka">Gürcüce</language>
 			<language type="kaa">Karakalpakça</language>
 			<language type="kab">Kabile</language>
@@ -317,17 +243,12 @@
 			<language type="kg">Kongo</language>
 			<language type="kha">Khasi</language>
 			<language type="khi">Diğer Hoisan Dilleri</language>
-			<language type="khi" alt="proposed-x1001" draft="unconfirmed">Khoisan (Diğer)</language>
 			<language type="kho">Hotanca</language>
 			<language type="ki">Kikuyu</language>
 			<language type="kj">Kuanyama</language>
 			<language type="kk">Kazak Dili</language>
-			<language type="kk" alt="proposed-x1001" draft="unconfirmed">Kazakça</language>
 			<language type="kl">Grönland Dili</language>
-			<language type="kl" alt="proposed-x1001" draft="unconfirmed">Grönlandca</language>
 			<language type="km">Kamboçya Dili</language>
-			<language type="km" alt="proposed-x1001" draft="unconfirmed">Kamboçça</language>
-			<language type="km" alt="proposed-x1002" draft="unconfirmed">Khmer</language>
 			<language type="kmb">Kimbundu</language>
 			<language type="kn">Kannada</language>
 			<language type="ko">Korece</language>
@@ -340,7 +261,6 @@
 			<language type="kro">Kru</language>
 			<language type="kru">Kurukh</language>
 			<language type="ks">Keşmirce</language>
-			<language type="ks" alt="proposed-x1001" draft="unconfirmed">Kashmiri</language>
 			<language type="ku">Kürtçe</language>
 			<language type="kum">Kumukça</language>
 			<language type="kut">Kutenai</language>
@@ -352,18 +272,14 @@
 			<language type="lah">Lahnda</language>
 			<language type="lam">Lamba</language>
 			<language type="lb">Lüksemburg Dili</language>
-			<language type="lb" alt="proposed-x1001" draft="unconfirmed">Lüksemburgca</language>
 			<language type="lez">Lezgice</language>
 			<language type="lg">Ganda</language>
 			<language type="li">Limburgish</language>
 			<language type="ln">Lingala</language>
 			<language type="lo">Laos Dili</language>
-			<language type="lo" alt="proposed-x1001" draft="unconfirmed">Lathiyan</language>
-			<language type="lo" alt="proposed-x1002" draft="unconfirmed">Lao Dili</language>
 			<language type="lol">Mongo</language>
 			<language type="loz">Lozi</language>
 			<language type="lt">Litvanya Dili</language>
-			<language type="lt" alt="proposed-x1001" draft="unconfirmed">Litvanyaca</language>
 			<language type="lu">Luba-Katanga</language>
 			<language type="lua">Luba-Lulua</language>
 			<language type="lui">Luiseno</language>
@@ -371,7 +287,6 @@
 			<language type="luo">Luo</language>
 			<language type="lus">Lushai</language>
 			<language type="lv">Letonya Dili</language>
-			<language type="lv" alt="proposed-x1001" draft="unconfirmed">Letonca</language>
 			<language type="mad">Madura Dili</language>
 			<language type="mag">Magahi</language>
 			<language type="mai">Maithili</language>
@@ -383,74 +298,49 @@
 			<language type="mdr">Mandar</language>
 			<language type="men">Mende</language>
 			<language type="mg">Malaga Dili</language>
-			<language type="mg" alt="proposed-x1001" draft="unconfirmed">Madagaskarca</language>
-			<language type="mg" alt="proposed-x1002" draft="unconfirmed">Malagasi</language>
 			<language type="mga">Ortaçağ İrlandacası</language>
-			<language type="mga" alt="proposed-x1001" draft="unconfirmed">İrlanda Dili (900-1200)</language>
 			<language type="mh">Marshall Adaları Dili</language>
 			<language type="mi">Maori</language>
-			<language type="mi" alt="proposed-x1001" draft="unconfirmed">Yeni Zelanda Yerli dili</language>
 			<language type="mic">Micmac</language>
 			<language type="min">Minangkabau</language>
 			<language type="mis">Çeşitli Diller</language>
 			<language type="mk">Makedonca</language>
 			<language type="mkh">Diğer Mon-Khmer Dilleri</language>
-			<language type="mkh" alt="proposed-x1001" draft="unconfirmed">Mon-Khmer (Diğer)</language>
 			<language type="ml">Malayalam</language>
 			<language type="mn">Moğolca</language>
-			<language type="mn" alt="proposed-x1001" draft="unconfirmed">Moğol Dili</language>
 			<language type="mnc">Mançurya Dili</language>
-			<language type="mnc" alt="proposed-x1001" draft="unconfirmed">Mançu Dili</language>
 			<language type="mni">Manipuri</language>
 			<language type="mno">Manobo Dilleri</language>
 			<language type="mo">Moldovaca</language>
-			<language type="mo" alt="proposed-x1001" draft="unconfirmed">Moldovca</language>
-			<language type="mo" alt="proposed-x1002" draft="unconfirmed">Moldavya Dili</language>
 			<language type="moh">Mohawk</language>
 			<language type="mos">Mossi</language>
 			<language type="mr">Marathi</language>
 			<language type="ms">Malay</language>
-			<language type="ms" alt="proposed-x1001" draft="unconfirmed">Malayca</language>
 			<language type="mt">Malta Dili</language>
-			<language type="mt" alt="proposed-x1001" draft="unconfirmed">Maltaca</language>
 			<language type="mul">Birden Fazla Dil</language>
-			<language type="mul" alt="proposed-x1001" draft="unconfirmed">Birden Fazla Diller</language>
 			<language type="mun">Munda Dilleri</language>
 			<language type="mus">Creek</language>
 			<language type="mwl">Miranda Dili</language>
 			<language type="mwr">Marwari</language>
 			<language type="my">Birmanya Dili</language>
-			<language type="my" alt="proposed-x1001" draft="unconfirmed">Birmanca</language>
-			<language type="my" alt="proposed-x1002" draft="unconfirmed">Burmaca</language>
 			<language type="myn">Maya Dilleri</language>
 			<language type="myv">Erzya</language>
 			<language type="na">Nauru Dili</language>
-			<language type="na" alt="proposed-x1001" draft="unconfirmed">Nauru</language>
 			<language type="nah">Nahuatl</language>
 			<language type="nai">Diğer Kuzey Amerika Yerli Dilleri</language>
-			<language type="nai" alt="proposed-x1001" draft="unconfirmed">Kuzey Amerika Yerlileri Dili (Diğer)</language>
 			<language type="nap">Napolice</language>
 			<language type="nb">Norveççe Bokmål</language>
-			<language type="nb" alt="proposed-x1001" draft="unconfirmed">Norveç Kitap Dili</language>
 			<language type="nd">Kuzey Ndebele</language>
 			<language type="nds">Aşağı Almanca</language>
-			<language type="nds" alt="proposed-x1001" draft="unconfirmed">Aşağı Almanca; Aşağı Sakson</language>
 			<language type="ne">Nepalce</language>
-			<language type="ne" alt="proposed-x1001" draft="unconfirmed">Nepal Dili</language>
 			<language type="new">Newari</language>
 			<language type="ng">Ndonga</language>
 			<language type="nia">Nias</language>
 			<language type="nic">Diğer Nijer-Kordofan Dilleri</language>
-			<language type="nic" alt="proposed-x1001" draft="unconfirmed">Nijer - Kordofanian (Diğer)</language>
 			<language type="niu">Niuean</language>
 			<language type="nl">Hollanda Dili</language>
-			<language type="nl" alt="proposed-x1001" draft="unconfirmed">Felemenkçe</language>
-			<language type="nl" alt="proposed-x1002" draft="unconfirmed">Hollandaca</language>
-			<language type="nl" alt="proposed-x1003" draft="unconfirmed">Felemekçe</language>
 			<language type="nl_BE">Felemenkçe</language>
-			<language type="nl_BE" alt="proposed-x1001" draft="unconfirmed">Flamanca</language>
 			<language type="nn">Norveççe Nynorsk</language>
-			<language type="nn" alt="proposed-x1001" draft="unconfirmed">Norveççe</language>
 			<language type="no">Norveççe</language>
 			<language type="nog">Nogay Dili</language>
 			<language type="non">Old Norse</language>
@@ -466,63 +356,42 @@
 			<language type="nyo">Nyoro</language>
 			<language type="nzi">Nzima</language>
 			<language type="oc">Occitan</language>
-			<language type="oc" alt="proposed-x1001" draft="unconfirmed">Occitan (1500 sonrası); Provençal</language>
 			<language type="oj">Ojibwa</language>
 			<language type="om">Oromo</language>
-			<language type="om" alt="proposed-x1001" draft="unconfirmed">Oromo (Afan)</language>
 			<language type="or">Oriya</language>
 			<language type="os">Oset</language>
-			<language type="os" alt="proposed-x1001" draft="unconfirmed">Osetçe</language>
 			<language type="osa">Osage</language>
 			<language type="ota">Osmanlı Türkçesi</language>
-			<language type="ota" alt="proposed-x1001" draft="unconfirmed">Osmanlıca (1500-1928)</language>
 			<language type="oto">Otomi Dilleri</language>
-			<language type="oto" alt="proposed-x1001" draft="unconfirmed">Osmanlı Dilleri</language>
 			<language type="pa">Pencap Dili</language>
-			<language type="pa" alt="proposed-x1001" draft="unconfirmed">Pencapça</language>
 			<language type="paa">Diğer Papua Dilleri</language>
-			<language type="paa" alt="proposed-x1001" draft="unconfirmed">Papua Dili (Diğer)</language>
 			<language type="pag">Pangasinan</language>
-			<language type="pal" draft="unconfirmed">Pehlevi</language>
-			<language type="pal" alt="proposed-x1001" draft="unconfirmed">Pehlevi Dili</language>
+			<language type="pal">Pehlevi</language>
 			<language type="pam">Pampanga</language>
 			<language type="pap">Papiamento</language>
 			<language type="pau">Palau Dili</language>
 			<language type="peo">Eski Farsça</language>
-			<language type="peo" alt="proposed-x1001" draft="unconfirmed">Eski Farsça (600-400 M.Ö.)</language>
 			<language type="phi">Diğer Filipinler Dilleri</language>
-			<language type="phi" alt="proposed-x1001" draft="unconfirmed">Filipinler Dili (Diğer)</language>
 			<language type="phn">Fenike Dili</language>
 			<language type="pi">Pali</language>
 			<language type="pl">Lehçe</language>
-			<language type="pl" alt="proposed-x1001" draft="unconfirmed">Polonya Dili</language>
 			<language type="pon">Pohnpeian</language>
 			<language type="pra">Prakrit Dilleri</language>
 			<language type="pro">Eski Provensal</language>
-			<language type="pro" alt="proposed-x1001" draft="unconfirmed">Eski Provençal (1500'e kadar)</language>
 			<language type="ps">Peştuca</language>
-			<language type="ps" alt="proposed-x1001" draft="unconfirmed">Peştun Dili</language>
 			<language type="pt">Portekizce</language>
 			<language type="pt_BR">Brezilya Portekizcesi</language>
 			<language type="pt_PT">İber Portekizcesi</language>
-			<language type="pt_PT" alt="proposed-x1001" draft="unconfirmed">Portekizce</language>
 			<language type="qu">Quechua</language>
-			<language type="qu" alt="proposed-x1001" draft="unconfirmed">Eski Peruca</language>
 			<language type="raj">Rajasthani</language>
 			<language type="rap">Rapanui</language>
 			<language type="rar">Rarotongan</language>
 			<language type="rm">Rhaeto-Roman Dili</language>
-			<language type="rm" alt="proposed-x1001" draft="unconfirmed">Rhaeto-Romance</language>
 			<language type="rn">Kirundi</language>
 			<language type="ro">Romence</language>
-			<language type="ro" alt="proposed-x1001" draft="unconfirmed">Romanca</language>
 			<language type="roa">Diğer Roman Dilleri</language>
-			<language type="roa" alt="proposed-x1001" draft="unconfirmed">Diğer Romans Dilleri</language>
-			<language type="roa" alt="proposed-x1002" draft="unconfirmed">Roman Dili (Diğer)</language>
 			<language type="rom">Romanca</language>
-			<language type="rom" alt="proposed-x1001" draft="unconfirmed">Çingene Dili</language>
-			<language type="root" draft="unconfirmed">Köken</language>
-			<language type="root" alt="proposed-x1001" draft="unconfirmed">Root</language>
+			<language type="root">Köken</language>
 			<language type="ru">Rusça</language>
 			<language type="rup">Aromanca</language>
 			<language type="rw">Kinyarwanda</language>
@@ -530,53 +399,40 @@
 			<language type="sad">Sandawe</language>
 			<language type="sah">Yakutça</language>
 			<language type="sai">Diğer Güney Amerika Yerli Dilleri</language>
-			<language type="sai" alt="proposed-x1001" draft="unconfirmed">Güney Amerika Yerlileri Dili (Diğer)</language>
 			<language type="sal">Salishan Dilleri</language>
 			<language type="sam">Samarit Aramcası</language>
-			<language type="sam" alt="proposed-x1001" draft="unconfirmed">Samaritan Aramcası</language>
 			<language type="sas">Sasak</language>
 			<language type="sat">Santali</language>
 			<language type="sc">Sardunya Dili</language>
-			<language type="scn" draft="unconfirmed">Sicilya Dili</language>
-			<language type="scn" alt="proposed-x1001" draft="unconfirmed">Sicilyaca</language>
+			<language type="scn">Sicilyaca</language>
+			<language type="scn" alt="proposed-x1001" draft="unconfirmed">Sicilya aksanı</language>
+			<language type="scn" alt="proposed-x1002" draft="unconfirmed">Sicilya Dili</language>
 			<language type="sco">İskoç</language>
-			<language type="sco" alt="proposed-x1001" draft="unconfirmed">Scots</language>
 			<language type="sd">Sindhi</language>
-			<language type="sd" alt="proposed-x1001" draft="unconfirmed">Sintçe</language>
 			<language type="se">Kuzey Sami</language>
 			<language type="sel">Selkup</language>
 			<language type="sem">Diğer Semitik Diller</language>
-			<language type="sem" alt="proposed-x1001" draft="unconfirmed">Sami (Diğer)</language>
 			<language type="sg">Sangho</language>
-			<language type="sg" alt="proposed-x1001" draft="unconfirmed">Sango</language>
 			<language type="sga">Eski İrlandaca</language>
-			<language type="sga" alt="proposed-x1001" draft="unconfirmed">Eski İrlandaca (900'e kadar)</language>
 			<language type="sgn">İşaret Dilleri</language>
 			<language type="sh">Sırp-Hırvat Dili</language>
-			<language type="sh" alt="proposed-x1001" draft="unconfirmed">Serbo-Hırvatça</language>
 			<language type="shn">Shan Dili</language>
 			<language type="si">Sinhal Dili</language>
-			<language type="si" alt="proposed-x1001" draft="unconfirmed">Singalaca</language>
 			<language type="sid">Sidamo</language>
 			<language type="sio">Siu Dilleri</language>
 			<language type="sit">Diğer Sino-Tibet Dilleri</language>
-			<language type="sit" alt="proposed-x1001" draft="unconfirmed">Çin-Tibet (Diğer)</language>
 			<language type="sk">Slovakça</language>
 			<language type="sl">Slovence</language>
 			<language type="sla">Diğer Slav Dilleri</language>
-			<language type="sla" alt="proposed-x1001" draft="unconfirmed">Slav Dilleri (Diğer)</language>
 			<language type="sm">Samoa Dili</language>
-			<language type="sm" alt="proposed-x1001" draft="unconfirmed">Samoaca</language>
 			<language type="sma">Güney Sami</language>
 			<language type="smi">Diğer Sami Dilleri</language>
-			<language type="smi" alt="proposed-x1001" draft="unconfirmed">Sami Dilleri (Diğer)</language>
 			<language type="smj">Lule Sami</language>
 			<language type="smn">Inari Sami</language>
 			<language type="sms">Skolt Sami</language>
 			<language type="sn">Shona</language>
 			<language type="snk">Soninke</language>
 			<language type="so">Somali Dili</language>
-			<language type="so" alt="proposed-x1001" draft="unconfirmed">Somalice</language>
 			<language type="sog">Sogdiana Dili</language>
 			<language type="son">Songhai</language>
 			<language type="sq">Arnavutça</language>
@@ -585,50 +441,35 @@
 			<language type="srr">Serer</language>
 			<language type="ss">Siswati</language>
 			<language type="ssa">Diğer Nil-Sahara Dilleri</language>
-			<language type="ssa" alt="proposed-x1001" draft="unconfirmed">Nil-Sahara (Diğer)</language>
 			<language type="st">Güney Sotho</language>
-			<language type="st" alt="proposed-x1001" draft="unconfirmed">Sesotho</language>
 			<language type="su">Sunda Dili</language>
-			<language type="su" alt="proposed-x1001" draft="unconfirmed">Sundanese</language>
-			<language type="su" alt="proposed-x1002" draft="unconfirmed">Sudan Dili</language>
 			<language type="suk">Sukuma</language>
 			<language type="sus">Susu</language>
 			<language type="sux">Sümerce</language>
-			<language type="sux" alt="proposed-x1001" draft="unconfirmed">Sümer</language>
 			<language type="sv">İsveççe</language>
 			<language type="sw">Swahili</language>
+			<language type="syc">Klasik Süryanice</language>
 			<language type="syr">Süryanice</language>
 			<language type="ta">Tamil</language>
-			<language type="ta" alt="proposed-x1001" draft="unconfirmed">Tamil Dili</language>
-			<language type="ta" alt="proposed-x1002" draft="unconfirmed">Tamilce</language>
-			<language type="tai">Tay Dili (Diğer)</language>
-			<language type="tai" alt="proposed-x1001" draft="unconfirmed">Diğer Dai Dilleri</language>
-			<language type="tai" alt="proposed-x1002" draft="unconfirmed">Diğer Tay Dilleri</language>
+			<language type="tai">Tai Dili</language>
+			<language type="tai" alt="proposed-x1001" draft="unconfirmed">Tay Dili (Diğer)</language>
 			<language type="te">Telugu</language>
 			<language type="tem">Timne</language>
 			<language type="ter">Tereno</language>
 			<language type="tet">Tetum</language>
 			<language type="tg">Tacik Dili</language>
-			<language type="tg" alt="proposed-x1001" draft="unconfirmed">Tacikçe</language>
-			<language type="tg" alt="proposed-x1002" draft="unconfirmed">Tacikce</language>
 			<language type="th">Tay Dili</language>
-			<language type="th" alt="proposed-x1001" draft="unconfirmed">Tayca</language>
 			<language type="ti">Tigrinya</language>
-			<language type="ti" alt="proposed-x1001" draft="unconfirmed">Tigrince</language>
 			<language type="tig">Tigre</language>
 			<language type="tiv">Tiv</language>
 			<language type="tk">Türkmence</language>
 			<language type="tkl">Tokelau</language>
 			<language type="tl">Tagalog</language>
-			<language type="tl" alt="proposed-x1001" draft="unconfirmed">Tagalogca</language>
-			<language type="tl" alt="proposed-x1002" draft="unconfirmed">Takalotça</language>
 			<language type="tlh">Klingon</language>
 			<language type="tli">Tlingit</language>
 			<language type="tmh">Tamaşek</language>
 			<language type="tn">Setswana</language>
-			<language type="tn" alt="proposed-x1001" draft="unconfirmed">Tsvana</language>
 			<language type="to">Tonga</language>
-			<language type="to" alt="proposed-x1001" draft="unconfirmed">Tonga (Tonga Adaları)</language>
 			<language type="tog">Nyasa Tonga</language>
 			<language type="tpi">Tok Pisin</language>
 			<language type="tr">Türkçe</language>
@@ -638,27 +479,22 @@
 			<language type="tum">Tumbuka</language>
 			<language type="tup">Tupi dilleri</language>
 			<language type="tut">Diğer Altay Dilleri</language>
-			<language type="tut" alt="proposed-x1001" draft="unconfirmed">Altay Dilleri (Diğer)</language>
 			<language type="tvl">Tuvalu</language>
 			<language type="tw">Twi</language>
 			<language type="ty">Tahiti Dili</language>
 			<language type="tyv">Tuvaca</language>
-			<language type="tyv" alt="proposed-x1001" draft="unconfirmed">Tuva Dili</language>
 			<language type="udm">Udmurtça</language>
 			<language type="ug">Uygurca</language>
 			<language type="uga">Ugarit Dili</language>
 			<language type="uk">Ukraynaca</language>
 			<language type="umb">Umbundu</language>
 			<language type="und">Bilinmeyen veya Geçersiz Dil</language>
-			<language type="und" alt="proposed-x1001" draft="unconfirmed">Belirsiz</language>
 			<language type="ur">Urduca</language>
 			<language type="uz">Özbekçe</language>
 			<language type="vai">Vai</language>
 			<language type="ve">Venda</language>
 			<language type="vi">Vietnamca</language>
-			<language type="vi" alt="proposed-x1001" draft="unconfirmed">Vietnam Dili</language>
 			<language type="vo">Volapük</language>
-			<language type="vo" alt="proposed-x1001" draft="unconfirmed">Volapuk</language>
 			<language type="vot">Votic</language>
 			<language type="wa">Walloon</language>
 			<language type="wak">Wakashan Dilleri</language>
@@ -668,77 +504,68 @@
 			<language type="wen">Sorb Dilleri</language>
 			<language type="wo">Wolof</language>
 			<language type="xal">Kalmık</language>
-			<language type="xal" alt="proposed-x1001" draft="unconfirmed">Kalmuk Dili</language>
 			<language type="xh">Xhosa</language>
 			<language type="yao">Yao</language>
 			<language type="yap">Yapça</language>
 			<language type="yi">Yiddiş</language>
-			<language type="yi" alt="proposed-x1001" draft="unconfirmed">Yidiş</language>
 			<language type="yo">Yoruba</language>
 			<language type="ypk">Yupik Dilleri</language>
 			<language type="za">Zhuang</language>
 			<language type="zap">Zapotek Dili</language>
+			<language type="zbl">Blis Sembolleri</language>
 			<language type="zen">Zenaga</language>
 			<language type="zh">Çince</language>
 			<language type="zh_Hans">Basitleştirilmiş Çince</language>
-			<language type="zh_Hans" alt="proposed-x1001" draft="unconfirmed">Çince (Basitleştirilmiş)</language>
 			<language type="zh_Hant">Geleneksel Çince</language>
-			<language type="zh_Hant" alt="proposed-x1001" draft="unconfirmed">Çince (Geleneksel)</language>
 			<language type="znd">Zande</language>
 			<language type="zu">Zulu</language>
 			<language type="zun">Zuni</language>
-			<language type="zxx" draft="unconfirmed">Dil içeriği yok</language>
-			<language type="zxx" alt="proposed-x1001" draft="unconfirmed">Dilbilim içeriği yok</language>
+			<language type="zxx">Dilbilim içeriği yok</language>
 			<language type="zza">Zazaca</language>
 		</languages>
 		<scripts>
 			<script type="Arab">Arapça</script>
+			<script type="Armi">Armi</script>
 			<script type="Armn">Ermenice</script>
+			<script type="Avst">Avestçe</script>
 			<script type="Bali">Bali Dili</script>
 			<script type="Batk">Batak</script>
 			<script type="Beng">Bengalce</script>
-			<script type="Beng" alt="proposed-x1001" draft="unconfirmed">Bengal</script>
 			<script type="Blis">Blis Sembolleri</script>
-			<script type="Blis" alt="proposed-x1001" draft="unconfirmed">Blis</script>
 			<script type="Bopo">Bopomofo</script>
 			<script type="Brah">Brahmi</script>
 			<script type="Brai">Braille</script>
 			<script type="Bugi">Bugis</script>
 			<script type="Buhd">Buhid</script>
+			<script type="Cakm">Cakm</script>
 			<script type="Cans">UCAS</script>
 			<script type="Cari">Karya</script>
 			<script type="Cham">Cham</script>
 			<script type="Cher">Çeroki</script>
 			<script type="Cirt">Cirth</script>
 			<script type="Copt">Koptik</script>
-			<script type="Copt" alt="proposed-x1001" draft="unconfirmed">Copt</script>
 			<script type="Cprt">Kıbrıs</script>
+			<script type="Cprt" alt="proposed-x1001" draft="unconfirmed">Kıbrıslı</script>
 			<script type="Cyrl">Kiril</script>
-			<script type="Cyrs" draft="unconfirmed">Eski Kilise Slavca</script>
+			<script type="Cyrs">Eski Kilise Slavca</script>
 			<script type="Cyrs" alt="proposed-x1001" draft="unconfirmed">Kiril (Eski Kilise Slavcası varyantı)</script>
 			<script type="Deva">Devanagari</script>
 			<script type="Dsrt">Deseret</script>
 			<script type="Egyd">Mısır Yazısı - Demotik</script>
-			<script type="Egyd" alt="proposed-x1001" draft="unconfirmed">Egyd</script>
 			<script type="Egyh">Mısır Yazısı - Hiyeratik</script>
-			<script type="Egyh" alt="proposed-x1001" draft="unconfirmed">Mısır Yazısı - Hieratik</script>
 			<script type="Egyp">Mısır Yazısı - Hiyeroglif</script>
 			<script type="Ethi">Etiyopya</script>
-			<script type="Ethi" alt="proposed-x1001" draft="unconfirmed">Etiyopya Dili</script>
 			<script type="Geok">Hutsuri Gürcüce</script>
 			<script type="Geor">Gürcüce</script>
 			<script type="Glag">Glagolit</script>
 			<script type="Goth">Gotik</script>
 			<script type="Grek">Yunan</script>
-			<script type="Grek" alt="proposed-x1001" draft="unconfirmed">Yunanca</script>
 			<script type="Gujr">Gujarati</script>
 			<script type="Guru">Gurmukhi</script>
 			<script type="Hang">Hangul</script>
 			<script type="Hani">Hun</script>
-			<script type="Hani" alt="proposed-x1001" draft="unconfirmed">Han</script>
 			<script type="Hano">Hanunoo</script>
 			<script type="Hans">Basitleştirilmiş Han</script>
-			<script type="Hans" alt="proposed-x1001" draft="unconfirmed">Basit Han</script>
 			<script type="Hant">Geleneksel Han</script>
 			<script type="Hebr">İbranice</script>
 			<script type="Hira">Hiragana</script>
@@ -754,9 +581,10 @@
 			<script type="Khar">Kharoshthi</script>
 			<script type="Khmr">Khmer</script>
 			<script type="Knda">Kannada</script>
+			<script type="Kore">Korece</script>
+			<script type="Kthi">Kthi</script>
 			<script type="Lana">Lanna</script>
 			<script type="Laoo">Lao Dili</script>
-			<script type="Laoo" alt="proposed-x1001" draft="unconfirmed">Laos</script>
 			<script type="Latf">Fraktur Latin</script>
 			<script type="Latg">Gael Latin</script>
 			<script type="Latn">Latin</script>
@@ -767,6 +595,7 @@
 			<script type="Lyci">Likya Dili</script>
 			<script type="Lydi">Lidya DIli</script>
 			<script type="Mand">Mandaean</script>
+			<script type="Mani">Mani Alfabesi</script>
 			<script type="Maya">Maya Hiyeroglifleri</script>
 			<script type="Mero">Meroitik</script>
 			<script type="Mlym">Malayalam</script>
@@ -782,12 +611,17 @@
 			<script type="Osma">Osmanya</script>
 			<script type="Perm">Eski Permic</script>
 			<script type="Phag">Phags-pa</script>
+			<script type="Phli">Phli</script>
+			<script type="Phlp">Phlp</script>
+			<script type="Phlv">Kitap Pehlevi Dili</script>
 			<script type="Phnx">Fonetik</script>
 			<script type="Plrd">Pollard Fonetik</script>
+			<script type="Prti">Prti</script>
 			<script type="Qaai">Kalıtsal</script>
 			<script type="Rjng">Rejang</script>
 			<script type="Roro">Rongorongo</script>
 			<script type="Runr">Runik</script>
+			<script type="Samr">Samarit</script>
 			<script type="Sara">Sarati</script>
 			<script type="Saur">Saurashtra</script>
 			<script type="Sgnw">İşaret Dili Yazımı</script>
@@ -796,35 +630,34 @@
 			<script type="Sund">Sunda</script>
 			<script type="Sylo">Syloti Nagri</script>
 			<script type="Syrc">Süryanice</script>
-			<script type="Syre" draft="unconfirmed">Estrangela Süryanice</script>
+			<script type="Syre">Estrangela Süryanice</script>
 			<script type="Syre" alt="proposed-x1001" draft="unconfirmed">Süryanice (Estrangela varyantı)</script>
-			<script type="Syrj" draft="unconfirmed">Batı Süryanice</script>
+			<script type="Syrj">Batı Süryanice</script>
 			<script type="Syrj" alt="proposed-x1001" draft="unconfirmed">Süryanice (Batı varyantı)</script>
-			<script type="Syrn" draft="unconfirmed">Doğu Süryanice</script>
+			<script type="Syrn">Doğu Süryanice</script>
 			<script type="Syrn" alt="proposed-x1001" draft="unconfirmed">Süryanice (Doğu varyantı)</script>
 			<script type="Tagb">Tagbanwa</script>
 			<script type="Tale">Tai Le</script>
 			<script type="Talu">New Tai Lue</script>
 			<script type="Taml">Tamil</script>
+			<script type="Tavt">Tavt</script>
 			<script type="Telu">Telugu</script>
 			<script type="Teng">Tengwar</script>
 			<script type="Tfng">Tifinagh</script>
-			<script type="Tglg" draft="unconfirmed">Tagolagca</script>
-			<script type="Tglg" alt="proposed-x1001" draft="unconfirmed">Takalotça</script>
+			<script type="Tglg">Takalotça</script>
 			<script type="Thaa">Thaana</script>
 			<script type="Thai">Tayca</script>
 			<script type="Tibt">Tibetçe</script>
 			<script type="Ugar">Ugarit Çivi Yazısı</script>
-			<script type="Ugar" alt="proposed-x1001" draft="unconfirmed">Çivi Yazısı</script>
 			<script type="Vaii">Vai</script>
 			<script type="Visp">Konuşma Sesleri Çizimlemesi</script>
-			<script type="Visp" alt="proposed-x1001" draft="unconfirmed">Görülebilir Konuşma</script>
 			<script type="Xpeo">Eski Farsça</script>
 			<script type="Xsux">Sümer-Akad Çivi Yazısı</script>
 			<script type="Yiii">Yi</script>
+			<script type="Zmth">Zmth</script>
+			<script type="Zsym">Zsym</script>
 			<script type="Zxxx">Yazılı Olmayan</script>
 			<script type="Zyyy">Common</script>
-			<script type="Zyyy" alt="proposed-x1001" draft="unconfirmed">Ortak</script>
 			<script type="Zzzz">Bilinmeyen veya Geçersiz Betik</script>
 		</scripts>
 		<territories>
@@ -837,12 +670,10 @@
 			<territory type="013">Orta Amerika</territory>
 			<territory type="014">Doğu Afrika</territory>
 			<territory type="015">Kuzey Afrika</territory>
-			<territory type="015" alt="proposed-x1001" draft="unconfirmed">Afrika'nın Kuzeyi</territory>
 			<territory type="017">Orta Afrika</territory>
 			<territory type="018">Güney Afrika [018]</territory>
-			<territory type="018" alt="proposed-x1001" draft="unconfirmed">Afrika'nın Güneyi</territory>
 			<territory type="019">Amerika</territory>
-			<territory type="021" draft="provisional">Amerika'nın Kuzeyi</territory>
+			<territory type="021">Amerika'nın Kuzeyi</territory>
 			<territory type="021" alt="proposed-x1001" draft="unconfirmed">Kuzey Amerika</territory>
 			<territory type="029">Karayipler</territory>
 			<territory type="030">Doğu Asya</territory>
@@ -872,7 +703,6 @@
 			<territory type="AL">Arnavutluk</territory>
 			<territory type="AM">Ermenistan</territory>
 			<territory type="AN">Hollanda Antilleri</territory>
-			<territory type="AN" alt="proposed-x1001" draft="unconfirmed">Hollanda Adaları</territory>
 			<territory type="AO">Angola</territory>
 			<territory type="AQ">Antarktika</territory>
 			<territory type="AR">Arjantin</territory>
@@ -881,7 +711,6 @@
 			<territory type="AU">Avustralya</territory>
 			<territory type="AW">Aruba</territory>
 			<territory type="AX">Aland Adaları</territory>
-			<territory type="AX" alt="proposed-x1001" draft="unconfirmed">Åland Adaları</territory>
 			<territory type="AZ">Azerbaycan</territory>
 			<territory type="BA">Bosna Hersek</territory>
 			<territory type="BB">Barbados</territory>
@@ -892,30 +721,24 @@
 			<territory type="BH">Bahreyn</territory>
 			<territory type="BI">Burundi</territory>
 			<territory type="BJ">Benin</territory>
+			<territory type="BL">Saint Barthelemy</territory>
 			<territory type="BM">Bermuda</territory>
 			<territory type="BN">Brunei</territory>
 			<territory type="BO">Bolivya</territory>
 			<territory type="BR">Brezilya</territory>
 			<territory type="BS">Bahamalar</territory>
-			<territory type="BS" alt="proposed-x1001" draft="unconfirmed">Bahama</territory>
 			<territory type="BT">Bhutan</territory>
 			<territory type="BV">Bouvet Adası</territory>
 			<territory type="BW">Botsvana</territory>
-			<territory type="BW" alt="proposed-x1001" draft="unconfirmed">Botswana</territory>
 			<territory type="BY">Beyaz Rusya</territory>
 			<territory type="BZ">Belize</territory>
 			<territory type="CA">Kanada</territory>
 			<territory type="CC">Cocos Adaları</territory>
-			<territory type="CC" alt="proposed-x1001" draft="unconfirmed">Cocos (Keeling) Adaları</territory>
 			<territory type="CD">Kongo Demokratik Cumhuriyeti</territory>
-			<territory type="CD" alt="proposed-x1001" draft="unconfirmed">Kongo - Kinşasa</territory>
-			<territory type="CD" alt="proposed-x1002" draft="unconfirmed">Kongo Cumhuriyeti</territory>
 			<territory type="CF">Orta Afrika Cumhuriyeti</territory>
 			<territory type="CG">Kongo</territory>
-			<territory type="CG" alt="proposed-x1001" draft="unconfirmed">Kongo - Brazzaville</territory>
 			<territory type="CH">İsviçre</territory>
 			<territory type="CI">Fildişi Sahilleri</territory>
-			<territory type="CI" alt="proposed-x1001" draft="unconfirmed">Fildişi Sahili</territory>
 			<territory type="CK">Cook Adaları</territory>
 			<territory type="CL">Şili</territory>
 			<territory type="CM">Kamerun</territory>
@@ -923,19 +746,15 @@
 			<territory type="CO">Kolombiya</territory>
 			<territory type="CR">Kosta Rika</territory>
 			<territory type="CS">Sırbistan-Karadağ</territory>
-			<territory type="CS" alt="proposed-x1001" draft="unconfirmed">Sırbistan Karadağ</territory>
 			<territory type="CU">Küba</territory>
 			<territory type="CV">Cape Verde</territory>
-			<territory type="CV" alt="proposed-x1001" draft="unconfirmed">Yeşilburun</territory>
 			<territory type="CX">Christmas Adası</territory>
 			<territory type="CY">Güney Kıbrıs Rum Kesimi</territory>
-			<territory type="CY" alt="proposed-x1001" draft="unconfirmed">Kıbrıs</territory>
 			<territory type="CZ">Çek Cumhuriyeti</territory>
 			<territory type="DE">Almanya</territory>
 			<territory type="DJ">Cibuti</territory>
 			<territory type="DK">Danimarka</territory>
 			<territory type="DM">Dominik</territory>
-			<territory type="DM" alt="proposed-x1001" draft="unconfirmed">Dominika</territory>
 			<territory type="DO">Dominik Cumhuriyeti</territory>
 			<territory type="DZ">Cezayir</territory>
 			<territory type="EC">Ekvator</territory>
@@ -947,16 +766,13 @@
 			<territory type="ET">Etiyopya</territory>
 			<territory type="FI">Finlandiya</territory>
 			<territory type="FJ">Fiji</territory>
-			<territory type="FK">Falkland Adaları (Malvinalar)</territory>
-			<territory type="FK" alt="proposed-x1001" draft="unconfirmed">Falkland Adaları</territory>
-			<territory type="FK" alt="proposed-x1002" draft="unconfirmed">Falkland Adaları</territory>
+			<territory type="FK">Falkland Adaları</territory>
+			<territory type="FK" alt="proposed-x1001" draft="unconfirmed">Falkland Adaları (Malvinalar)</territory>
 			<territory type="FM">Mikronezya Federal Eyaletleri</territory>
-			<territory type="FM" alt="proposed-x1001" draft="unconfirmed">Mikronezya</territory>
 			<territory type="FO">Faroe Adaları</territory>
 			<territory type="FR">Fransa</territory>
 			<territory type="GA">Gabon</territory>
 			<territory type="GB">Birleşik Krallık</territory>
-			<territory type="GB" alt="proposed-x1001" draft="unconfirmed">İngiltere</territory>
 			<territory type="GD">Granada</territory>
 			<territory type="GE">Gürcistan</territory>
 			<territory type="GF">Fransız Guyanası</territory>
@@ -965,23 +781,18 @@
 			<territory type="GI">Cebelitarık</territory>
 			<territory type="GL">Grönland</territory>
 			<territory type="GM">Gambia</territory>
-			<territory type="GM" alt="proposed-x1001" draft="unconfirmed">Gambiya</territory>
 			<territory type="GN">Gine</territory>
 			<territory type="GP">Guadeloupe</territory>
 			<territory type="GQ">Ekvator Ginesi</territory>
 			<territory type="GR">Yunanistan</territory>
 			<territory type="GS">Güney Georgia ve Güney Sandwich Adaları</territory>
-			<territory type="GS" alt="proposed-x1001" draft="unconfirmed">Güney Georgia ve Güney Sandviç Adaları</territory>
 			<territory type="GT">Guatemala</territory>
 			<territory type="GU">Guam</territory>
 			<territory type="GW">Gine-Bissau</territory>
-			<territory type="GW" alt="proposed-x1001" draft="unconfirmed">Gine-Biso</territory>
 			<territory type="GY">Guyana</territory>
 			<territory type="HK">Hong Kong SAR - Çin</territory>
-			<territory type="HK" alt="proposed-x1001" draft="unconfirmed">Hong Kong SAR Çin</territory>
 			<territory type="HK" alt="short">Hong Kong</territory>
 			<territory type="HM">Heard Adası ve McDonald Adaları</territory>
-			<territory type="HM" alt="proposed-x1001" draft="unconfirmed">Heard Adası ve McDonald Adası</territory>
 			<territory type="HN">Honduras</territory>
 			<territory type="HR">Hırvatistan</territory>
 			<territory type="HT">Haiti</territory>
@@ -992,7 +803,6 @@
 			<territory type="IM">Man Adası</territory>
 			<territory type="IN">Hindistan</territory>
 			<territory type="IO">Hint Okyanusu İngiliz Bölgesi</territory>
-			<territory type="IO" alt="proposed-x1001" draft="unconfirmed">İngiliz Hint Okyanusu Teritoryası</territory>
 			<territory type="IQ">Irak</territory>
 			<territory type="IR">İran</territory>
 			<territory type="IS">İzlanda</territory>
@@ -1006,24 +816,19 @@
 			<territory type="KH">Kamboçya</territory>
 			<territory type="KI">Kiribati</territory>
 			<territory type="KM">Komorlar</territory>
-			<territory type="KM" alt="proposed-x1001" draft="unconfirmed">Komoros</territory>
 			<territory type="KN">Saint Kitts ve Nevis</territory>
-			<territory type="KN" alt="proposed-x1001" draft="unconfirmed">Saint Kittler ve Neviler</territory>
 			<territory type="KP">Kuzey Kore</territory>
 			<territory type="KR">Güney Kore</territory>
 			<territory type="KW">Kuveyt</territory>
 			<territory type="KY">Kayman Adaları</territory>
-			<territory type="KY" alt="proposed-x1001" draft="unconfirmed">Cayman Adaları</territory>
 			<territory type="KZ">Kazakistan</territory>
 			<territory type="LA">Laos</territory>
 			<territory type="LB">Lübnan</territory>
 			<territory type="LC">Saint Lucia</territory>
 			<territory type="LI">Liechtenstein</territory>
-			<territory type="LI" alt="proposed-x1001" draft="unconfirmed">Lihtenştayn</territory>
 			<territory type="LK">Sri Lanka</territory>
 			<territory type="LR">Liberya</territory>
 			<territory type="LS">Lesotho</territory>
-			<territory type="LS" alt="proposed-x1001" draft="unconfirmed">Lesoto</territory>
 			<territory type="LT">Litvanya</territory>
 			<territory type="LU">Lüksemburg</territory>
 			<territory type="LV">Letonya</territory>
@@ -1031,20 +836,15 @@
 			<territory type="MA">Fas</territory>
 			<territory type="MC">Monako</territory>
 			<territory type="MD">Moldovya Cumhuriyeti</territory>
-			<territory type="MD" alt="proposed-x1001" draft="unconfirmed">Moldova</territory>
-			<territory type="MD" alt="proposed-x1002" draft="unconfirmed">Moldovya</territory>
 			<territory type="ME">Karadağ</territory>
+			<territory type="MF">Saint Martin</territory>
 			<territory type="MG">Madagaskar</territory>
 			<territory type="MH">Marshall Adaları</territory>
-			<territory type="MH" alt="proposed-x1001" draft="unconfirmed">Marşal Adaları</territory>
 			<territory type="MK">Makedonya</territory>
-			<territory type="MK" alt="proposed-x1001" draft="unconfirmed">Makedonya Cumhuriyeti</territory>
 			<territory type="ML">Mali</territory>
 			<territory type="MM">Myanmar</territory>
-			<territory type="MM" alt="proposed-x1001" draft="unconfirmed">Birmanya</territory>
 			<territory type="MN">Moğolistan</territory>
 			<territory type="MO">Makao S.A.R. Çin</territory>
-			<territory type="MO" alt="proposed-x1001" draft="unconfirmed">Macao</territory>
 			<territory type="MO" alt="short">Makao</territory>
 			<territory type="MP">Kuzey Mariana Adaları</territory>
 			<territory type="MQ">Martinik</territory>
@@ -1059,7 +859,6 @@
 			<territory type="MZ">Mozambik</territory>
 			<territory type="NA">Namibya</territory>
 			<territory type="NC">Yeni Kaledonya</territory>
-			<territory type="NC" alt="proposed-x1001" draft="unconfirmed">Yeni İskoçya</territory>
 			<territory type="NE">Nijer</territory>
 			<territory type="NF">Norfolk Adası</territory>
 			<territory type="NG">Nijerya</territory>
@@ -1068,15 +867,12 @@
 			<territory type="NO">Norveç</territory>
 			<territory type="NP">Nepal</territory>
 			<territory type="NR">Nauru</territory>
-			<territory type="NR" alt="proposed-x1001" draft="unconfirmed">Nauru Adası</territory>
 			<territory type="NU">Niue</territory>
-			<territory type="NU" alt="proposed-x1001" draft="unconfirmed">Niue Adaları</territory>
 			<territory type="NZ">Yeni Zelanda</territory>
 			<territory type="OM">Umman</territory>
 			<territory type="PA">Panama</territory>
 			<territory type="PE">Peru</territory>
 			<territory type="PF">Fransız Polinezyası</territory>
-			<territory type="PF" alt="proposed-x1001" draft="unconfirmed">Fransız Polynesia</territory>
 			<territory type="PG">Papua Yeni Gine</territory>
 			<territory type="PH">Filipinler</territory>
 			<territory type="PK">Pakistan</territory>
@@ -1085,7 +881,6 @@
 			<territory type="PN">Pitcairn</territory>
 			<territory type="PR">Porto Riko</territory>
 			<territory type="PS">Filistin Bölgesi</territory>
-			<territory type="PS" alt="proposed-x1001" draft="unconfirmed">Filistin</territory>
 			<territory type="PT">Portekiz</territory>
 			<territory type="PW">Palau</territory>
 			<territory type="PY">Paraguay</territory>
@@ -1096,12 +891,10 @@
 			<territory type="RO">Romanya</territory>
 			<territory type="RS">Sırbistan</territory>
 			<territory type="RU">Rusya Federasyonu</territory>
-			<territory type="RU" alt="proposed-x1001" draft="unconfirmed">Rusya</territory>
 			<territory type="RW">Ruanda</territory>
 			<territory type="SA">Suudi Arabistan</territory>
 			<territory type="SB">Solomon Adaları</territory>
 			<territory type="SC">Seyşeller</territory>
-			<territory type="SC" alt="proposed-x1001" draft="unconfirmed">Seychelles</territory>
 			<territory type="SD">Sudan</territory>
 			<territory type="SE">İsveç</territory>
 			<territory type="SG">Singapur</territory>
@@ -1115,16 +908,12 @@
 			<territory type="SO">Somali</territory>
 			<territory type="SR">Surinam</territory>
 			<territory type="ST">Sao Tome ve Principe</territory>
-			<territory type="ST" alt="proposed-x1001" draft="unconfirmed">São Tomé and Príncipe</territory>
 			<territory type="SV">El Salvador</territory>
 			<territory type="SY">Suriye</territory>
 			<territory type="SZ">Svaziland</territory>
-			<territory type="SZ" alt="proposed-x1001" draft="unconfirmed">Swaziland</territory>
 			<territory type="TC">Turks ve Caicos Adaları</territory>
-			<territory type="TC" alt="proposed-x1001" draft="unconfirmed">Türk ve Caicos Adaları</territory>
 			<territory type="TD">Çad</territory>
 			<territory type="TF">Fransız Güney Bölgeleri</territory>
-			<territory type="TF" alt="proposed-x1001" draft="unconfirmed">Güney Fransız Teritöryaları</territory>
 			<territory type="TG">Togo</territory>
 			<territory type="TH">Tayland</territory>
 			<territory type="TJ">Tacikistan</territory>
@@ -1141,20 +930,14 @@
 			<territory type="UA">Ukrayna</territory>
 			<territory type="UG">Uganda</territory>
 			<territory type="UM">Amerika Birleşik Devletleri Küçük Dış Adaları</territory>
-			<territory type="UM" alt="proposed-x1001" draft="unconfirmed">Birleşik Devletler etrafındaki adalar</territory>
 			<territory type="US">Amerika Birleşik Devletleri</territory>
-			<territory type="US" alt="proposed-x1001" draft="unconfirmed">ABD</territory>
 			<territory type="UY">Uruguay</territory>
 			<territory type="UZ">Özbekistan</territory>
 			<territory type="VA">Vatikan</territory>
-			<territory type="VA" alt="proposed-x1001" draft="unconfirmed">Kutsal Devlet (Vatikan Şehir Devleti)</territory>
 			<territory type="VC">Saint Vincent ve Grenadinler</territory>
-			<territory type="VC" alt="proposed-x1001" draft="unconfirmed">Saint Vincent ve Grenadines</territory>
 			<territory type="VE">Venezuela</territory>
 			<territory type="VG">İngiliz Virgin Adaları</territory>
-			<territory type="VG" alt="proposed-x1001" draft="unconfirmed">Virgin Adaları, İngiliz</territory>
 			<territory type="VI">ABD Virgin Adaları</territory>
-			<territory type="VI" alt="proposed-x1001" draft="unconfirmed">Virgin Adaları, ABD</territory>
 			<territory type="VN">Vietnam</territory>
 			<territory type="VU">Vanuatu</territory>
 			<territory type="WF">Wallis ve Futuna</territory>
@@ -1164,95 +947,89 @@
 			<territory type="ZA">Güney Afrika</territory>
 			<territory type="ZM">Zambiya</territory>
 			<territory type="ZW">Zimbabve</territory>
-			<territory type="ZW" alt="proposed-x1001" draft="unconfirmed">Zimbabwe</territory>
 			<territory type="ZZ">Bilinmeyen veya Geçersiz Bölge</territory>
 		</territories>
 		<variants>
-			<variant type="1901" draft="unconfirmed">Geleneksel Alman Yazım Kuralları</variant>
-			<variant type="1901" alt="proposed-x1001" draft="unconfirmed">Geleneksel Almanca Ortografi</variant>
-			<variant type="1996" draft="unconfirmed">1996 Alman Yazım Kuralları</variant>
-			<variant type="1996" alt="proposed-x1001" draft="unconfirmed">Almanca Ortografi, 1996</variant>
-			<variant type="1996" alt="proposed-x1002" draft="unconfirmed">Almanca ortografi - 1966</variant>
-			<variant type="1996" alt="proposed-x1003" draft="unconfirmed">Almanca Ortografi (1996)</variant>
+			<variant type="1901">Geleneksel Alman Yazım Kuralları</variant>
+			<variant type="1994">Standart Resia Yazım Kuralları</variant>
+			<variant type="1996">1996 Alman Yazım Kuralları</variant>
+			<variant type="1606NICT">1606'ya Dek Geç Ortaçağ Fransızcası</variant>
 			<variant type="AREVELA">Doğu Ermenicesi</variant>
 			<variant type="AREVMDA">Batı Ermenicesi</variant>
+			<variant type="BAKU1926">Birleştirilmiş Yeni Türk Alfabesi</variant>
+			<variant type="BISKE">San Giorgio/Bila Lehçesi</variant>
 			<variant type="BOONT">Boontling</variant>
-			<variant type="FONIPA" draft="unconfirmed">IPA Fonetik</variant>
-			<variant type="FONIPA" alt="proposed-x1001" draft="unconfirmed">IPA Ses Bilimi</variant>
-			<variant type="FONUPA" draft="unconfirmed">UPA Fonetik</variant>
-			<variant type="FONUPA" alt="proposed-x1001" draft="unconfirmed">UPA Ses Bilimi</variant>
+			<variant type="FONIPA">IPA Ses Bilimi</variant>
+			<variant type="FONIPA" alt="proposed-x1001" draft="unconfirmed">IPA Fonetik</variant>
+			<variant type="FONUPA">UPA Ses Bilimi</variant>
+			<variant type="FONUPA" alt="proposed-x1001" draft="unconfirmed">UPA Fonetik</variant>
+			<variant type="LIPAW">Resia Lipovaz Lehçesi</variant>
 			<variant type="MONOTON">Monotonik</variant>
 			<variant type="NEDIS">Natisone Lehçesi</variant>
+			<variant type="NJIVA">Gniva/Njiva Lehçesi</variant>
+			<variant type="OSOJS">Oseacco/Osojane Lehçesi</variant>
 			<variant type="POLYTON">Politonik</variant>
 			<variant type="POSIX">Bilgisayar</variant>
-			<variant type="REVISED" draft="unconfirmed">Gözden Geçirilmiş Yazım Kuralları</variant>
-			<variant type="REVISED" alt="proposed-x1001" draft="unconfirmed">Yeni Ortografi</variant>
+			<variant type="REVISED">Gözden Geçirilmiş Yazım Kuralları</variant>
 			<variant type="ROZAJ">Resia Lehçesi</variant>
 			<variant type="SAAHO">Saho</variant>
+			<variant type="SCOTLAND">İskoç Standart İngilizcesi</variant>
 			<variant type="SCOUSE">Scouse</variant>
+			<variant type="SOLBA">Stolvizza/Solbica Lehçesi</variant>
+			<variant type="TARASK">Taraskievica Yazım Kuralları</variant>
 		</variants>
 		<keys>
 			<key type="calendar">Takvim</key>
 			<key type="collation">Sıralama</key>
+			<key type="collation" alt="proposed-x1001" draft="unconfirmed">harmanlama</key>
 			<key type="currency">Para Birimi</key>
 		</keys>
 		<types>
 			<type type="big5han" key="collation">Geleneksel Çince Sıralaması - Big5</type>
-			<type type="big5han" key="collation" alt="proposed-x1001" draft="unconfirmed">Geleneksel Çince (Big5)</type>
 			<type type="buddhist" key="calendar">Budist Takvimi</type>
 			<type type="chinese" key="calendar">Çin Takvimi</type>
 			<type type="direct" key="collation">Düz Sıralama</type>
 			<type type="gb2312han" key="collation">Basitleştirilmiş Çince Sıralaması - GB2312</type>
-			<type type="gb2312han" key="collation" alt="proposed-x1001" draft="unconfirmed">Basitleştirilmiş Çince (GB2312)</type>
 			<type type="gregorian" key="calendar">Miladi Takvim</type>
 			<type type="hebrew" key="calendar">Yahudi Takvimi</type>
+			<type type="indian" key="calendar">Ulusal Hint Takvimi</type>
 			<type type="islamic" key="calendar">Hicri Takvim</type>
 			<type type="islamic-civil" key="calendar">Arap Takvimi</type>
 			<type type="japanese" key="calendar">Japon Takvimi</type>
 			<type type="phonebook" key="collation">Telefon Defteri Sıralaması</type>
 			<type type="pinyin" key="collation">Pinyin Sıralaması</type>
+			<type type="roc" key="calendar">Çin Cumhuriyeti Takvimi</type>
 			<type type="stroke" key="collation">Stroke Sıralaması</type>
 			<type type="traditional" key="collation">Geleneksel Sıralama</type>
-			<type type="traditional" key="collation" alt="proposed-x1001" draft="unconfirmed">Geleneksel</type>
 		</types>
 		<measurementSystemNames>
 			<measurementSystemName type="US">ABD</measurementSystemName>
 			<measurementSystemName type="metric">Metrik</measurementSystemName>
 		</measurementSystemNames>
+		<codePatterns>
+			<codePattern type="language">Dil: {0}</codePattern>
+			<codePattern type="script">Betik: {0}</codePattern>
+			<codePattern type="territory">Bölge: {0}</codePattern>
+		</codePatterns>
 	</localeDisplayNames>
 	<characters>
-		<exemplarCharacters>[a-c ç d-g ğ h ı i İ j-o ö p r s ş t u ü v y z]</exemplarCharacters>
+		<exemplarCharacters>[a-c ç d-g ğ h ı i İ {i̇} j-o ö p r s ş t u ü v y z]</exemplarCharacters>
 		<exemplarCharacters type="auxiliary">[á à ă â å ä ā æ é è ĕ ê ë ē í ì ĭ î ï ī ñ ó ò ŏ ô ø ō œ q ß ú ù ŭ û ū w x ÿ]</exemplarCharacters>
-		<exemplarCharacters type="auxiliary" alt="proposed-x1001" draft="unconfirmed">[]</exemplarCharacters>
 		<exemplarCharacters type="currencySymbol">[a-z]</exemplarCharacters>
-		<exemplarCharacters alt="proposed-x1001" draft="unconfirmed">[]</exemplarCharacters>
 	</characters>
 	<delimiters>
 		<quotationStart>“</quotationStart>
-		<quotationStart alt="proposed-x1001" draft="unconfirmed">‘</quotationStart>
 		<quotationEnd>”</quotationEnd>
-		<quotationEnd alt="proposed-x1001" draft="unconfirmed">’</quotationEnd>
 		<alternateQuotationStart>‘</alternateQuotationStart>
-		<alternateQuotationStart alt="proposed-x1001" draft="unconfirmed">“</alternateQuotationStart>
 		<alternateQuotationEnd>’</alternateQuotationEnd>
-		<alternateQuotationEnd alt="proposed-x1001" draft="unconfirmed">”</alternateQuotationEnd>
 	</delimiters>
 	<dates>
 		<localizedPatternChars>GanjkHmsSEDFwWxhKzAeugXZvcL</localizedPatternChars>
 		<calendars>
-			<calendar type="buddhist">
-				<dateTimeFormats>
-					<availableFormats>
-						<dateFormatItem id="MMMMd" alt="proposed-x1001" draft="unconfirmed">MMMM d</dateFormatItem>
-						<dateFormatItem id="yyMMM" alt="proposed-x1001" draft="unconfirmed">yy MMM</dateFormatItem>
-					</availableFormats>
-				</dateTimeFormats>
-			</calendar>
 			<calendar type="chinese">
 				<dateTimeFormats>
 					<availableFormats>
-						<dateFormatItem id="MMMMd" alt="proposed-x1002" draft="unconfirmed">MMMM d</dateFormatItem>
-						<dateFormatItem id="yyMMM" alt="proposed-x1002" draft="unconfirmed">yy MMM</dateFormatItem>
+						<dateFormatItem id="yyMMM" draft="unconfirmed">yy MMM</dateFormatItem>
 					</availableFormats>
 				</dateTimeFormats>
 			</calendar>
@@ -1283,14 +1060,12 @@
 						<monthWidth type="abbreviated">
 							<month type="1">Oca</month>
 							<month type="2">Şub</month>
-							<month type="2" alt="proposed-x1001" draft="unconfirmed">Þub</month>
 							<month type="3">Mar</month>
 							<month type="4">Nis</month>
 							<month type="5">May</month>
 							<month type="6">Haz</month>
 							<month type="7">Tem</month>
 							<month type="8">Ağu</month>
-							<month type="8" alt="proposed-x1001" draft="unconfirmed">Aðu</month>
 							<month type="9">Eyl</month>
 							<month type="10">Eki</month>
 							<month type="11">Kas</month>
@@ -1338,7 +1113,6 @@
 							<day type="thu">Per</day>
 							<day type="fri">Cum</day>
 							<day type="sat">Cmt</day>
-							<day type="sat" alt="proposed-x1001" draft="unconfirmed">Cts</day>
 						</dayWidth>
 						<dayWidth type="wide">
 							<day type="sun">Pazar</day>
@@ -1391,9 +1165,7 @@
 				<eras>
 					<eraNames>
 						<era type="0">Milattan Önce</era>
-						<era type="0" alt="proposed-x1001" draft="unconfirmed">BCE</era>
 						<era type="1">Milattan Sonra</era>
-						<era type="1" alt="proposed-x1001" draft="unconfirmed">CE</era>
 					</eraNames>
 					<eraAbbr>
 						<era type="0">MÖ</era>
@@ -1409,7 +1181,6 @@
 					<dateFormatLength type="long">
 						<dateFormat>
 							<pattern>d MMMM yyyy</pattern>
-							<pattern alt="proposed-x1001" draft="unconfirmed">dd MMMM yyyy EEEE</pattern>
 						</dateFormat>
 					</dateFormatLength>
 					<dateFormatLength type="medium">
@@ -1456,18 +1227,107 @@
 						<dateFormatItem id="H">H</dateFormatItem>
 						<dateFormatItem id="HHmm">HH:mm</dateFormatItem>
 						<dateFormatItem id="HHmmss">HH:mm:ss</dateFormatItem>
+						<dateFormatItem id="Hm">HH:mm</dateFormatItem>
+						<dateFormatItem id="M">L</dateFormatItem>
+						<dateFormatItem id="MEd">d-M E</dateFormatItem>
+						<dateFormatItem id="MMM">LLL</dateFormatItem>
 						<dateFormatItem id="MMMEd">d MMM E</dateFormatItem>
+						<dateFormatItem id="MMMMEd">d MMMM E</dateFormatItem>
 						<dateFormatItem id="MMMMd">d MMMM</dateFormatItem>
+						<dateFormatItem id="MMMd">d MMM</dateFormatItem>
 						<dateFormatItem id="Md">d/M</dateFormatItem>
+						<dateFormatItem id="d">d</dateFormatItem>
 						<dateFormatItem id="hhmm" draft="provisional">hh:mm a</dateFormatItem>
 						<dateFormatItem id="hhmmss" draft="provisional">hh:mm:ss a</dateFormatItem>
 						<dateFormatItem id="mmss">mm:ss</dateFormatItem>
+						<dateFormatItem id="ms">mm:ss</dateFormatItem>
+						<dateFormatItem id="y">yyyy</dateFormatItem>
+						<dateFormatItem id="yM">M/yyyy</dateFormatItem>
+						<dateFormatItem id="yMEd">d/M/yyyy EEE</dateFormatItem>
+						<dateFormatItem id="yMMM">MMM yyyy</dateFormatItem>
+						<dateFormatItem id="yMMMEd">d MMM yyyy EEE</dateFormatItem>
+						<dateFormatItem id="yMMMM">MMMM yyyy</dateFormatItem>
+						<dateFormatItem id="yQ">Q yyyy</dateFormatItem>
+						<dateFormatItem id="yQQQ">QQQ yyyy</dateFormatItem>
 						<dateFormatItem id="yyMM">MM/yy</dateFormatItem>
 						<dateFormatItem id="yyMMM">MMM yy</dateFormatItem>
 						<dateFormatItem id="yyQ">Q yy</dateFormatItem>
-						<dateFormatItem id="yyQQQQ" alt="proposed-x1001" draft="unconfirmed">QQQQ yy</dateFormatItem>
+						<dateFormatItem id="yyQQQQ" draft="unconfirmed">QQQQ yy</dateFormatItem>
 						<dateFormatItem id="yyyy">yyyy</dateFormatItem>
 					</availableFormats>
+					<intervalFormats>
+						<intervalFormatFallback>{0} - {1}</intervalFormatFallback>
+						<intervalFormatItem id="M">
+							<greatestDifference id="M">M-M</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="MEd">
+							<greatestDifference id="M">dd.MM E - dd.MM E</greatestDifference>
+							<greatestDifference id="d">dd.MM E - dd.MM E</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="MMM">
+							<greatestDifference id="M">MMM-MMM</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="MMMEd">
+							<greatestDifference id="M">d MMM E - d MMM E</greatestDifference>
+							<greatestDifference id="d">d MMM E - d MMM E</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="MMMd">
+							<greatestDifference id="M">d MMM - d MMM</greatestDifference>
+							<greatestDifference id="d">d-d MMM</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="Md">
+							<greatestDifference id="M">dd.MM - dd.MM</greatestDifference>
+							<greatestDifference id="d">dd.MM - dd.MM</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="d">
+							<greatestDifference id="d">d-d</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="h">
+							<greatestDifference id="h">HH-HH</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="hm">
+							<greatestDifference id="h">HH:mm-HH:mm</greatestDifference>
+							<greatestDifference id="m">HH:mm-HH:mm</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="hmv">
+							<greatestDifference id="h">HH:mm-HH:mm v</greatestDifference>
+							<greatestDifference id="m">HH:mm-HH:mm v</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="hv">
+							<greatestDifference id="h">HH-HH v</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="y">
+							<greatestDifference id="y">y-y</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="yM">
+							<greatestDifference id="M">MM.yyyy - MM.yyyy</greatestDifference>
+							<greatestDifference id="y">MM.yyyy - MM.yyyy</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="yMEd">
+							<greatestDifference id="M">dd.MM.yyyy E - dd.MM.yyyy E</greatestDifference>
+							<greatestDifference id="d">dd.MM.yyyy E - dd.MM.yyyy E</greatestDifference>
+							<greatestDifference id="y">dd.MM.yyyy E - dd.MM.yyyy E</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="yMMM">
+							<greatestDifference id="M">MMM-MMM yyyy</greatestDifference>
+							<greatestDifference id="y">MMM yyyy - MMM yyyy</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="yMMMEd">
+							<greatestDifference id="M">dd MMM yyyy E - dd MMM yyyy E</greatestDifference>
+							<greatestDifference id="d">dd MMM yyyy E - dd MMM yyyy E</greatestDifference>
+							<greatestDifference id="y">dd MMM yyyy E - dd MMM yyyy E</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="yMMMd">
+							<greatestDifference id="M">d MMM - d MMM yyyy</greatestDifference>
+							<greatestDifference id="d">d-d MMM yyyy</greatestDifference>
+							<greatestDifference id="y">d MMM yyyy - d MMM yyyy</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="yMd">
+							<greatestDifference id="M">dd.MM.yyyy - dd.MM.yyyy</greatestDifference>
+							<greatestDifference id="d">dd.MM.yyyy - dd.MM.yyyy</greatestDifference>
+							<greatestDifference id="y">dd.MM.yyyy - dd.MM.yyyy</greatestDifference>
+						</intervalFormatItem>
+					</intervalFormats>
 				</dateTimeFormats>
 				<fields>
 					<field type="era">
@@ -1496,8 +1356,7 @@
 						<displayName>Haftanın Günü</displayName>
 					</field>
 					<field type="dayperiod">
-						<displayName draft="unconfirmed">AM/PM</displayName>
-						<displayName alt="proposed-x1001" draft="unconfirmed">Günün Bölümü</displayName>
+						<displayName>AM/PM</displayName>
 					</field>
 					<field type="hour">
 						<displayName>Saat</displayName>
@@ -1522,7 +1381,6 @@
 							<month type="5">Şevat</month>
 							<month type="6">Veadar</month>
 							<month type="9">İyar</month>
-							<month type="13" alt="proposed-x1001" draft="unconfirmed">Ellul</month>
 						</monthWidth>
 						<monthWidth type="wide">
 							<month type="1">Tişri</month>
@@ -1530,7 +1388,6 @@
 							<month type="5">Şevat</month>
 							<month type="6">Veadar</month>
 							<month type="9">İyar</month>
-							<month type="13" alt="proposed-x1001" draft="unconfirmed">Ellul</month>
 						</monthWidth>
 					</monthContext>
 				</months>
@@ -1573,18 +1430,18 @@
 				<months>
 					<monthContext type="format">
 						<monthWidth type="wide">
-							<month type="1" draft="provisional">Muharrem</month>
-							<month type="2" draft="provisional">Safer</month>
-							<month type="3" draft="provisional">Rebiülevvel</month>
-							<month type="4" draft="provisional">Rebiülahir</month>
-							<month type="5" draft="provisional">Cemaziyelevvel</month>
-							<month type="6" draft="provisional">Cemaziyelahir</month>
-							<month type="7" draft="provisional">Recep</month>
-							<month type="8" draft="provisional">Şaban</month>
-							<month type="9" draft="provisional">Ramazan</month>
-							<month type="10" draft="provisional">Şevval</month>
-							<month type="11" draft="provisional">Zilkade</month>
-							<month type="12" draft="provisional">Zilhicce</month>
+							<month type="1">Muharrem</month>
+							<month type="2">Safer</month>
+							<month type="3">Rebiülevvel</month>
+							<month type="4">Rebiülahir</month>
+							<month type="5">Cemaziyelevvel</month>
+							<month type="6">Cemaziyelahir</month>
+							<month type="7">Recep</month>
+							<month type="8">Şaban</month>
+							<month type="9">Ramazan</month>
+							<month type="10">Şevval</month>
+							<month type="11">Zilkade</month>
+							<month type="12">Zilhicce</month>
 						</monthWidth>
 					</monthContext>
 				</months>
@@ -1593,40 +1450,22 @@
 				<months>
 					<monthContext type="format">
 						<monthWidth type="abbreviated">
-							<month type="1" draft="provisional">Ferverdin</month>
-							<month type="1" alt="proposed-x1001" draft="unconfirmed">Ferwerdin</month>
-							<month type="2" draft="provisional">Ordibeheşt</month>
-							<month type="3" draft="provisional">Hordad</month>
-							<month type="3" alt="proposed-x1001" draft="unconfirmed">Hordâd</month>
-							<month type="5" alt="proposed-x1001" draft="unconfirmed">Mordâd</month>
-							<month type="6" draft="provisional">Şehriver</month>
-							<month type="6" alt="proposed-x1001" draft="unconfirmed">Şehrivar</month>
-							<month type="8" alt="proposed-x1001" draft="unconfirmed">Âbân</month>
-							<month type="9" draft="provisional">Azer</month>
-							<month type="9" alt="proposed-x1001" draft="unconfirmed">Âzar</month>
-							<month type="10" alt="proposed-x1001" draft="unconfirmed">Daî</month>
-							<month type="11" draft="provisional">Behmen</month>
-							<month type="11" alt="proposed-x1001" draft="unconfirmed">Behman</month>
-							<month type="12" draft="provisional">Esfend</month>
-							<month type="12" alt="proposed-x1001" draft="unconfirmed">İsfand</month>
+							<month type="1">Ferverdin</month>
+							<month type="2">Ordibeheşt</month>
+							<month type="3">Hordad</month>
+							<month type="6">Şehriver</month>
+							<month type="9">Azer</month>
+							<month type="11">Behmen</month>
+							<month type="12">Esfend</month>
 						</monthWidth>
 						<monthWidth type="wide">
-							<month type="1" draft="provisional">Ferverdin</month>
-							<month type="1" alt="proposed-x1001" draft="unconfirmed">Ferwerdin</month>
-							<month type="2" draft="provisional">Ordibeheşt</month>
-							<month type="3" draft="provisional">Hordad</month>
-							<month type="3" alt="proposed-x1001" draft="unconfirmed">Hordâd</month>
-							<month type="5" alt="proposed-x1001" draft="unconfirmed">Mordâd</month>
-							<month type="6" draft="provisional">Şehriver</month>
-							<month type="6" alt="proposed-x1001" draft="unconfirmed">Şehrivar</month>
-							<month type="8" alt="proposed-x1001" draft="unconfirmed">Âbân</month>
-							<month type="9" draft="provisional">Azer</month>
-							<month type="9" alt="proposed-x1001" draft="unconfirmed">Âzar</month>
-							<month type="10" alt="proposed-x1001" draft="unconfirmed">Daî</month>
-							<month type="11" draft="provisional">Behmen</month>
-							<month type="11" alt="proposed-x1001" draft="unconfirmed">Behman</month>
-							<month type="12" draft="provisional">Esfend</month>
-							<month type="12" alt="proposed-x1001" draft="unconfirmed">İsfand</month>
+							<month type="1">Ferverdin</month>
+							<month type="2">Ordibeheşt</month>
+							<month type="3">Hordad</month>
+							<month type="6">Şehriver</month>
+							<month type="9">Azer</month>
+							<month type="11">Behmen</month>
+							<month type="12">Esfend</month>
 						</monthWidth>
 					</monthContext>
 				</months>
@@ -1636,7 +1475,7 @@
 			<hourFormat>+HH:mm;-HH:mm</hourFormat>
 			<gmtFormat>GMT{0}</gmtFormat>
 			<regionFormat>{0} Saati</regionFormat>
-			<regionFormat alt="proposed-x1001" draft="unconfirmed">{0}</regionFormat>
+			<fallbackFormat>{1} ({0})</fallbackFormat>
 			<zone type="Etc/Unknown">
 				<exemplarCity>Bilinmeyen</exemplarCity>
 			</zone>
@@ -1650,13 +1489,10 @@
 				<exemplarCity>Güney Kutbu</exemplarCity>
 			</zone>
 			<zone type="Antarctica/DumontDUrville">
-				<exemplarCity alt="proposed-x1001" draft="unconfirmed">Dumont D'Urville</exemplarCity>
+				<exemplarCity>Dumont D'Urville</exemplarCity>
 			</zone>
 			<zone type="Europe/Vienna">
 				<exemplarCity draft="provisional">Viyana</exemplarCity>
-			</zone>
-			<zone type="Australia/Melbourne">
-				<exemplarCity alt="proposed-x1001" draft="unconfirmed">Melborn</exemplarCity>
 			</zone>
 			<zone type="Australia/Sydney">
 				<exemplarCity>Sidney</exemplarCity>
@@ -1673,18 +1509,8 @@
 			<zone type="Asia/Bahrain">
 				<exemplarCity draft="provisional">Bahreyn</exemplarCity>
 			</zone>
-			<!-- Democratic Republic of the Congo -->
-			<zone type="Africa/Kinshasa">
-				<exemplarCity alt="proposed-x1001" draft="unconfirmed">Kinşasa</exemplarCity>
-			</zone>
-			<zone type="Africa/Lubumbashi">
-				<exemplarCity alt="proposed-x1001" draft="unconfirmed">Lubumbaşi</exemplarCity>
-			</zone>
 			<zone type="Europe/Zurich">
 				<exemplarCity draft="provisional">Zürih</exemplarCity>
-			</zone>
-			<zone type="Pacific/Easter">
-				<exemplarCity alt="proposed-x1001" draft="unconfirmed">Easter Adası</exemplarCity>
 			</zone>
 			<!-- China -->
 			<zone type="Asia/Kashgar">
@@ -1706,7 +1532,6 @@
 			</zone>
 			<zone type="Asia/Shanghai">
 				<exemplarCity>Şangay</exemplarCity>
-				<exemplarCity alt="proposed-x1001" draft="unconfirmed">Şanghay</exemplarCity>
 			</zone>
 			<zone type="America/Costa_Rica">
 				<exemplarCity draft="provisional">Kosta Rika</exemplarCity>
@@ -1738,14 +1563,12 @@
 			<!-- Spain -->
 			<zone type="Atlantic/Canary">
 				<exemplarCity>Kanarya Adaları</exemplarCity>
-				<exemplarCity alt="proposed-x1001" draft="unconfirmed">Kanarya</exemplarCity>
 			</zone>
 			<!-- Ecuador
 				 Spain
 			-->
 			<zone type="Africa/Ceuta">
 				<exemplarCity>Septe</exemplarCity>
-				<exemplarCity alt="proposed-x1001" draft="unconfirmed">Ceuta</exemplarCity>
 			</zone>
 			<zone type="Europe/London">
 				<exemplarCity>Londra</exemplarCity>
@@ -1772,7 +1595,6 @@
 			-->
 			<zone type="Asia/Jakarta">
 				<exemplarCity>Cakarta</exemplarCity>
-				<exemplarCity alt="proposed-x1001" draft="unconfirmed">Jakarta</exemplarCity>
 			</zone>
 			<zone type="Asia/Jerusalem">
 				<exemplarCity draft="provisional">Kudüs</exemplarCity>
@@ -1809,22 +1631,18 @@
 			-->
 			<zone type="Asia/Aqtau">
 				<exemplarCity>Şevçenko</exemplarCity>
-				<exemplarCity alt="proposed-x1001" draft="unconfirmed">Aktau</exemplarCity>
 			</zone>
 			<zone type="Asia/Oral">
 				<exemplarCity>Uralsk</exemplarCity>
 			</zone>
 			<zone type="Asia/Aqtobe">
 				<exemplarCity>Aktöbe</exemplarCity>
-				<exemplarCity alt="proposed-x1001" draft="unconfirmed">Aktyubinsk</exemplarCity>
 			</zone>
 			<zone type="Asia/Qyzylorda">
 				<exemplarCity>Kızılorda</exemplarCity>
-				<exemplarCity alt="proposed-x1001" draft="unconfirmed">Kızıl-Orda</exemplarCity>
 			</zone>
 			<zone type="Asia/Almaty">
 				<exemplarCity>Almatı</exemplarCity>
-				<exemplarCity alt="proposed-x1001" draft="unconfirmed">Alma ata</exemplarCity>
 			</zone>
 			<zone type="Asia/Beirut">
 				<exemplarCity draft="provisional">Beyrut</exemplarCity>
@@ -1853,15 +1671,12 @@
 			-->
 			<zone type="Asia/Hovd">
 				<exemplarCity>Kobdo</exemplarCity>
-				<exemplarCity alt="proposed-x1001" draft="unconfirmed">Hovd</exemplarCity>
 			</zone>
 			<zone type="Asia/Ulaanbaatar">
 				<exemplarCity>Ulanbator</exemplarCity>
-				<exemplarCity alt="proposed-x1001" draft="unconfirmed">Ulaanbaatar</exemplarCity>
 			</zone>
 			<zone type="Asia/Choibalsan">
 				<exemplarCity>Çoybalsan</exemplarCity>
-				<exemplarCity alt="proposed-x1001" draft="unconfirmed">Choibalsan</exemplarCity>
 			</zone>
 			<zone type="Asia/Macau">
 				<exemplarCity draft="provisional">Makau</exemplarCity>
@@ -1877,10 +1692,6 @@
 			</zone>
 			<zone type="America/Mexico_City">
 				<exemplarCity>Meksiko City</exemplarCity>
-				<exemplarCity alt="proposed-x1001" draft="unconfirmed">Mexico</exemplarCity>
-			</zone>
-			<zone type="America/Cancun">
-				<exemplarCity alt="proposed-x1001" draft="unconfirmed">Kankun</exemplarCity>
 			</zone>
 			<!-- Mexico
 				 Malaysia
@@ -1896,7 +1707,6 @@
 			-->
 			<zone type="Pacific/Marquesas">
 				<exemplarCity>Markiz</exemplarCity>
-				<exemplarCity alt="proposed-x1001" draft="unconfirmed">Marquesas</exemplarCity>
 			</zone>
 			<zone type="Asia/Karachi">
 				<exemplarCity draft="provisional">Karaçi</exemplarCity>
@@ -1916,7 +1726,6 @@
 			<!-- Portugal -->
 			<zone type="Atlantic/Azores">
 				<exemplarCity>Azor Adaları</exemplarCity>
-				<exemplarCity alt="proposed-x1001" draft="unconfirmed">Azores</exemplarCity>
 			</zone>
 			<zone type="Europe/Lisbon">
 				<exemplarCity>Lizbon</exemplarCity>
@@ -1984,16 +1793,21 @@
 			<zone type="Europe/Zaporozhye">
 				<exemplarCity>Zaporojye</exemplarCity>
 			</zone>
-			<zone type="America/Anchorage">
-				<exemplarCity alt="proposed-x1001" draft="unconfirmed">Alaska Saati</exemplarCity>
+			<zone type="America/North_Dakota/New_Salem">
+				<exemplarCity>New Salem, Kuzey Dakota</exemplarCity>
+			</zone>
+			<zone type="America/North_Dakota/Center">
+				<exemplarCity>Merkez, Kuzey Dakota</exemplarCity>
+				<exemplarCity alt="proposed-x1001" draft="unconfirmed">Center, North Dakota</exemplarCity>
 			</zone>
 			<zone type="America/Chicago">
 				<exemplarCity alt="proposed-x1001" draft="unconfirmed">Şikago</exemplarCity>
 			</zone>
-			<zone type="America/Indianapolis">
-				<long>
-					<daylight alt="proposed-x1001" draft="unconfirmed">Doğu (Indianapolis) Yaz Saati</daylight>
-				</long>
+			<zone type="America/Indiana/Knox">
+				<exemplarCity>Knox</exemplarCity>
+			</zone>
+			<zone type="America/Indiana/Marengo">
+				<exemplarCity>Marengo</exemplarCity>
 			</zone>
 			<!-- Uzbekistan -->
 			<zone type="Asia/Samarkand">
@@ -2019,95 +1833,67 @@
 					<standard>Acre Saati</standard>
 					<daylight>Acre Yaz Saati</daylight>
 				</long>
-				<short>
-					<standard>ACT</standard>
-					<daylight>ACST</daylight>
-				</short>
 			</metazone>
 			<metazone type="Afghanistan">
 				<long>
 					<standard>Afganistan Saati</standard>
 				</long>
-				<short>
-					<standard>AFT</standard>
-				</short>
 			</metazone>
 			<metazone type="Africa_Central">
 				<long>
 					<standard>Orta Afrika Saati</standard>
 				</long>
-				<short>
-					<standard>CAT</standard>
-				</short>
 			</metazone>
 			<metazone type="Africa_Eastern">
 				<long>
 					<standard>Doğu Afrika Saati</standard>
 				</long>
-				<short>
-					<standard>EAT</standard>
-				</short>
 			</metazone>
 			<metazone type="Africa_Southern">
 				<long>
+					<generic>Güney Afrika Saati</generic>
 					<standard>Güney Afrika Standart Saati</standard>
 				</long>
-				<short>
-					<standard>SAST</standard>
-				</short>
 			</metazone>
 			<metazone type="Africa_Western">
 				<long>
 					<standard>Batı Afrika Saati</standard>
 					<daylight>Batı Afrika Yaz Saati</daylight>
 				</long>
-				<short>
-					<standard>WAT</standard>
-					<daylight>WAST</daylight>
-				</short>
 			</metazone>
 			<metazone type="Aktyubinsk">
 				<long>
 					<standard>Aktyubinsk Saati</standard>
 					<daylight>Aktyubinsk Yaz Saati</daylight>
 				</long>
-				<short>
-					<standard>AKTT</standard>
-					<daylight>AKTST</daylight>
-				</short>
 			</metazone>
 			<metazone type="Alaska">
 				<long>
 					<generic>Alaska Saati</generic>
-					<generic alt="proposed-x1001" draft="unconfirmed">Alaska Saati</generic>
 					<standard>Alaska Standart Saati</standard>
 					<daylight>Alaska Yaz Saati</daylight>
 				</long>
-				<short>
-					<generic>AKT</generic>
-					<standard>AKST</standard>
-					<daylight>AKDT</daylight>
-				</short>
 			</metazone>
 			<metazone type="Alaska_Hawaii">
 				<long>
+					<generic>Alaska-Hawaii Saati</generic>
 					<standard>Alaska-Hawaii Standart Saati</standard>
 					<daylight>Alaska-Hawaii Yaz Saati</daylight>
 				</long>
-				<short>
-					<standard>AHST</standard>
-					<daylight>AHDT</daylight>
-				</short>
+			</metazone>
+			<metazone type="Almaty">
+				<long>
+					<standard>Almatı Saati</standard>
+					<standard alt="proposed-x1001" draft="unconfirmed">Almati Saati</standard>
+					<daylight>Almatı Yaz Saati</daylight>
+					<daylight alt="proposed-x1001" draft="unconfirmed">Almati Yaz Saati</daylight>
+				</long>
 			</metazone>
 			<metazone type="Amazon">
 				<long>
 					<standard>Amazon Saati</standard>
 					<daylight>Amazon Yaz Saati</daylight>
 				</long>
-				<short>
-					<standard>AMT</standard>
-					<daylight>AMST</daylight>
-				</short>
 			</metazone>
 			<metazone type="America_Central">
 				<long>
@@ -2115,11 +1901,6 @@
 					<standard>Merkezi Standart Saati</standard>
 					<daylight>Merkezi Yaz Saati</daylight>
 				</long>
-				<short>
-					<generic>CT</generic>
-					<standard>CST</standard>
-					<daylight>CDT</daylight>
-				</short>
 			</metazone>
 			<metazone type="America_Eastern">
 				<long>
@@ -2127,11 +1908,6 @@
 					<standard>Doğu Standart Saati</standard>
 					<daylight>Doğu Yaz Saati</daylight>
 				</long>
-				<short>
-					<generic>ET</generic>
-					<standard>EST</standard>
-					<daylight>EDT</daylight>
-				</short>
 			</metazone>
 			<metazone type="America_Mountain">
 				<long>
@@ -2139,11 +1915,6 @@
 					<standard>ABD Sıradağlar Standart Saati</standard>
 					<daylight>ABD Sıradağlar Yaz Saati</daylight>
 				</long>
-				<short>
-					<generic>MT</generic>
-					<standard>MST</standard>
-					<daylight>MDT</daylight>
-				</short>
 			</metazone>
 			<metazone type="America_Pacific">
 				<long>
@@ -2151,21 +1922,12 @@
 					<standard>Pasifik Standart Saati</standard>
 					<daylight>Pasifik Yaz Saati</daylight>
 				</long>
-				<short>
-					<generic>PT</generic>
-					<standard>PST</standard>
-					<daylight>PDT</daylight>
-				</short>
 			</metazone>
 			<metazone type="Anadyr">
 				<long>
 					<standard>Anadır Saati</standard>
 					<daylight>Anadır Yaz Saati</daylight>
 				</long>
-				<short>
-					<standard>ANAT</standard>
-					<daylight>ANAST</daylight>
-				</short>
 			</metazone>
 			<metazone type="Aqtau">
 				<long>
@@ -2194,7 +1956,7 @@
 					<daylight>Arap Yaz Saati</daylight>
 				</long>
 				<short>
-					<generic draft="provisional">13:25 S. Arabistan Saati</generic>
+					<generic>AT (Arabistan)</generic>
 					<standard>AST (Arap)</standard>
 					<daylight>ADT (Arap)</daylight>
 				</short>
@@ -2204,18 +1966,11 @@
 					<standard>Arjantin Saati</standard>
 					<daylight>Arjantin Yaz Saati</daylight>
 				</long>
-				<short>
-					<standard>ART</standard>
-					<daylight>ARST</daylight>
-				</short>
 			</metazone>
 			<metazone type="Argentina_Western">
 				<long>
 					<standard>Batı Arjantin Saati</standard>
 				</long>
-				<short>
-					<standard>WART</standard>
-				</short>
 			</metazone>
 			<metazone type="Armenia">
 				<long>
@@ -2232,10 +1987,6 @@
 					<standard>Aşkabat Saati</standard>
 					<daylight>Aşkabat Yaz Saati</daylight>
 				</long>
-				<short>
-					<standard>ASHT</standard>
-					<daylight>ASHST</daylight>
-				</short>
 			</metazone>
 			<metazone type="Atlantic">
 				<long>
@@ -2243,11 +1994,6 @@
 					<standard>Atlantik Standart Saati</standard>
 					<daylight>Atlantik Yaz Saati</daylight>
 				</long>
-				<short>
-					<generic>AT</generic>
-					<standard>AST</standard>
-					<daylight>ADT</daylight>
-				</short>
 			</metazone>
 			<metazone type="Australia_Central">
 				<long>
@@ -2255,23 +2001,15 @@
 					<standard>Orta Avustralya Standart Saati</standard>
 					<daylight>Orta Avustralya Yaz Saati</daylight>
 				</long>
-				<short>
-					<generic draft="provisional">13:25 Avustralya (Adelaide)</generic>
-					<standard>ACST</standard>
-					<daylight>ACDT</daylight>
-				</short>
 			</metazone>
 			<metazone type="Australia_CentralWestern">
 				<long>
 					<generic>Orta Batı Saati</generic>
+					<generic alt="proposed-x1001" draft="unconfirmed">Avustralya Batı Merkezi Saati</generic>
 					<standard>Batı Merkezi Standart Saati</standard>
-					<daylight draft="provisional">13:25 GMT+09:45</daylight>
+					<standard alt="proposed-x1001" draft="unconfirmed">Avustralya Batı Merkezi Standart Saati</standard>
+					<daylight>Avustralya Batı Merkezi Yaz Saati</daylight>
 				</long>
-				<short>
-					<generic>CWT</generic>
-					<standard>CWST</standard>
-					<daylight draft="provisional">13:25 GMT+09:45</daylight>
-				</short>
 			</metazone>
 			<metazone type="Australia_Eastern">
 				<long>
@@ -2279,11 +2017,6 @@
 					<standard>Doğu Avustralya Standart Saati</standard>
 					<daylight>Doğu Avustralya Yaz Saati</daylight>
 				</long>
-				<short>
-					<generic draft="provisional">13:25 Avustralya (Sidney)</generic>
-					<standard>AEST</standard>
-					<daylight>AEDT</daylight>
-				</short>
 			</metazone>
 			<metazone type="Australia_Western">
 				<long>
@@ -2291,39 +2024,29 @@
 					<standard>Batı Avustralya Standart Saati</standard>
 					<daylight>Batı Avustralya Yaz Saati</daylight>
 				</long>
-				<short>
-					<generic draft="provisional">13:25 Avustralya (Perth)</generic>
-					<standard>AWST</standard>
-					<daylight>AWDT</daylight>
-				</short>
+			</metazone>
+			<metazone type="Azerbaijan">
+				<long>
+					<standard>Azerbaycan Saati</standard>
+					<daylight>Azerbaycan Yaz Saati</daylight>
+				</long>
 			</metazone>
 			<metazone type="Azores">
 				<long>
 					<standard>Azor Saati</standard>
 					<daylight>Azor Yaz Saati</daylight>
 				</long>
-				<short>
-					<standard>AZOT</standard>
-					<daylight>AZOST</daylight>
-				</short>
 			</metazone>
 			<metazone type="Baku">
 				<long>
 					<standard>Bakü Saati</standard>
 					<daylight>Bakü Yaz Saati</daylight>
 				</long>
-				<short>
-					<standard>BAKT</standard>
-					<daylight>BAKST</daylight>
-				</short>
 			</metazone>
 			<metazone type="Bangladesh">
 				<long>
 					<standard>Bangladeş Saati</standard>
 				</long>
-				<short>
-					<standard>BDT</standard>
-				</short>
 			</metazone>
 			<metazone type="Bering">
 				<long>
@@ -2331,109 +2054,73 @@
 					<standard>Bering Standart Saati</standard>
 					<daylight>Bering Yaz Saati</daylight>
 				</long>
-				<short>
-					<standard>BST (Bering)</standard>
-					<daylight>BDT (Bering)</daylight>
-				</short>
 			</metazone>
 			<metazone type="Bhutan">
 				<long>
 					<standard>Bhutan Saati</standard>
 				</long>
-				<short>
-					<standard>BTT</standard>
-				</short>
 			</metazone>
 			<metazone type="Bolivia">
 				<long>
 					<standard>Bolivya Saati</standard>
 				</long>
-				<short>
-					<standard>BOT</standard>
-				</short>
 			</metazone>
 			<metazone type="Borneo">
 				<long>
 					<standard>Borneo Saati</standard>
 					<daylight>Borneo Yaz Saati</daylight>
 				</long>
-				<short>
-					<standard>BORT</standard>
-					<daylight>BORST</daylight>
-				</short>
 			</metazone>
 			<metazone type="Brasilia">
 				<long>
-					<standard draft="unconfirmed">Brasilia Saati</standard>
+					<standard>Brasilia Saati</standard>
 					<standard alt="proposed-x1001" draft="unconfirmed">Brezilya Saati</standard>
-					<daylight draft="unconfirmed">Brasilia Yaz Saati</daylight>
+					<daylight>Brasilia Yaz Saati</daylight>
 					<daylight alt="proposed-x1001" draft="unconfirmed">Brezilya Yaz Saati</daylight>
 				</long>
-				<short>
-					<standard>BRT</standard>
-					<daylight>BRST</daylight>
-				</short>
 			</metazone>
 			<metazone type="Brunei">
 				<long>
 					<standard>Brunei Saati</standard>
 				</long>
-				<short>
-					<standard>BNT</standard>
-				</short>
 			</metazone>
 			<metazone type="Cape_Verde">
 				<long>
 					<standard>Cape Verde Saati</standard>
 					<daylight>Cape Verde Yaz Saati</daylight>
 				</long>
-				<short>
-					<standard>CVT</standard>
-					<daylight>CVST</daylight>
-				</short>
 			</metazone>
 			<metazone type="Chamorro">
 				<long>
+					<generic>Chamorro Saati</generic>
 					<standard>Chamorro Standart Saati</standard>
 				</long>
-				<short>
-					<standard>ChST</standard>
-				</short>
 			</metazone>
 			<metazone type="Changbai">
 				<long>
 					<standard>Changbai Saati</standard>
 				</long>
-				<short>
-					<standard>CHAT</standard>
-				</short>
 			</metazone>
 			<metazone type="Chatham">
 				<long>
 					<standard>Chatham Standart Saati</standard>
 					<daylight>Chatham Yaz Saati</daylight>
 				</long>
-				<short>
-					<standard>CHAST</standard>
-					<daylight>CHADT</daylight>
-				</short>
 			</metazone>
 			<metazone type="Chile">
 				<long>
 					<standard>Şili Saati</standard>
 					<daylight>Şili Yaz Saati</daylight>
 				</long>
-				<short>
-					<standard>CLT</standard>
-					<daylight>CLST</daylight>
-				</short>
 			</metazone>
 			<metazone type="China">
 				<long>
+					<generic>Çin Saati</generic>
 					<standard>Çin Standart Saati</standard>
 					<daylight>Çin Yaz Saati</daylight>
 				</long>
 				<short>
+					<generic>CT (Çin)</generic>
 					<standard>CST (Çin)</standard>
 					<daylight>CDT (Çin)</daylight>
 				</short>
@@ -2443,46 +2130,28 @@
 					<standard>Çoybalsan Saati</standard>
 					<daylight>Çoybalsan Yaz Saati</daylight>
 				</long>
-				<short>
-					<standard>CHOT</standard>
-					<daylight>CHOST</daylight>
-				</short>
 			</metazone>
 			<metazone type="Christmas">
 				<long>
 					<standard>Christmas Adası Saati</standard>
 				</long>
-				<short>
-					<standard>CXT</standard>
-				</short>
 			</metazone>
 			<metazone type="Cocos">
 				<long>
 					<standard>Cocos Adaları Saati</standard>
 				</long>
-				<short>
-					<standard>CCT</standard>
-				</short>
 			</metazone>
 			<metazone type="Colombia">
 				<long>
 					<standard>Kolombiya Saati</standard>
 					<daylight>Kolombiya Yaz Saati</daylight>
 				</long>
-				<short>
-					<standard>COT</standard>
-					<daylight>COST</daylight>
-				</short>
 			</metazone>
 			<metazone type="Cook">
 				<long>
 					<standard>Cook Adaları Saati</standard>
 					<daylight>Cook Adaları Yarı Yaz Saati</daylight>
 				</long>
-				<short>
-					<standard>CKT</standard>
-					<daylight>CKHST</daylight>
-				</short>
 			</metazone>
 			<metazone type="Cuba">
 				<long>
@@ -2499,217 +2168,133 @@
 				<long>
 					<standard>Dakka Saati</standard>
 				</long>
-				<short>
-					<standard>DACT</standard>
-				</short>
 			</metazone>
 			<metazone type="Davis">
 				<long>
 					<standard>Davis Saati</standard>
 				</long>
-				<short>
-					<standard>DAVT</standard>
-				</short>
 			</metazone>
 			<metazone type="DumontDUrville">
 				<long>
 					<standard>Dumont-d'Urville Saati</standard>
 				</long>
-				<short>
-					<standard>DDUT</standard>
-				</short>
 			</metazone>
 			<metazone type="Dushanbe">
 				<long>
 					<standard>Duşanbe Saati</standard>
 					<daylight>Duşanbe Yaz Saati</daylight>
 				</long>
-				<short>
-					<standard>DUST</standard>
-					<daylight>DUSST</daylight>
-				</short>
 			</metazone>
 			<metazone type="Dutch_Guiana">
 				<long>
 					<standard>Hollanda Guyanası Saati</standard>
 				</long>
-				<short>
-					<standard>NEGT</standard>
-				</short>
 			</metazone>
 			<metazone type="East_Timor">
 				<long>
 					<standard>Doğu Timor Saati</standard>
 				</long>
-				<short>
-					<standard>TLT</standard>
-				</short>
 			</metazone>
 			<metazone type="Easter">
 				<long>
 					<standard>Easter Adası Saati</standard>
 					<daylight>Easter Adası Yaz Saati</daylight>
 				</long>
-				<short>
-					<standard>EAST</standard>
-					<daylight>EASST</daylight>
-				</short>
 			</metazone>
 			<metazone type="Ecuador">
 				<long>
 					<standard>Ekvator Saati</standard>
 				</long>
-				<short>
-					<standard>ECT</standard>
-				</short>
 			</metazone>
 			<metazone type="Europe_Central">
 				<long>
 					<standard>Orta Avrupa Saati</standard>
 					<daylight>Orta Avrupa Yaz Saati</daylight>
 				</long>
-				<short>
-					<standard>CET</standard>
-					<daylight>CEST</daylight>
-				</short>
 			</metazone>
 			<metazone type="Europe_Eastern">
 				<long>
 					<standard>Doğu Avrupa Saati</standard>
 					<daylight>Doğu Avrupa Yaz Saati</daylight>
 				</long>
-				<short>
-					<standard>EET</standard>
-					<daylight>EEST</daylight>
-				</short>
 			</metazone>
 			<metazone type="Europe_Western">
 				<long>
 					<standard>Batı Avrupa Saati</standard>
 					<daylight>Batı Avrupa Yaz Saati</daylight>
 				</long>
-				<short>
-					<standard>WET</standard>
-					<daylight>WEST</daylight>
-				</short>
 			</metazone>
 			<metazone type="Falkland">
 				<long>
 					<standard>Falkland Adaları Saati</standard>
 					<daylight>Falkland Adaları Yaz Saati</daylight>
 				</long>
-				<short>
-					<standard>FKT</standard>
-					<daylight>FKST</daylight>
-				</short>
 			</metazone>
 			<metazone type="Fiji">
 				<long>
 					<standard>Fiji Saati</standard>
 					<daylight>Fiji Yaz Saati</daylight>
 				</long>
-				<short>
-					<standard>FJT</standard>
-					<daylight>FJST</daylight>
-				</short>
 			</metazone>
 			<metazone type="French_Guiana">
 				<long>
 					<standard>Fransız Guyanası Saati</standard>
 				</long>
-				<short>
-					<standard>GFT</standard>
-				</short>
 			</metazone>
 			<metazone type="French_Southern">
 				<long>
 					<standard>Fransız Güney Bölgeleri Saati</standard>
 				</long>
-				<short>
-					<standard>TFT</standard>
-				</short>
 			</metazone>
 			<metazone type="Frunze">
 				<long>
 					<standard>Bişkek Saati</standard>
 					<daylight>Bişkek Yaz Saati</daylight>
 				</long>
-				<short>
-					<standard>FRUT</standard>
-					<daylight>FRUST</daylight>
-				</short>
 			</metazone>
 			<metazone type="GMT">
 				<long>
 					<standard>Greenwich Merkez Saati</standard>
 				</long>
-				<short>
-					<standard>GMT</standard>
-				</short>
 			</metazone>
 			<metazone type="Galapagos">
 				<long>
 					<standard>Galapagos Saati</standard>
 				</long>
-				<short>
-					<standard>GALT</standard>
-				</short>
 			</metazone>
 			<metazone type="Gambier">
 				<long>
 					<standard>Gambier Saati</standard>
 				</long>
-				<short>
-					<standard>GAMT</standard>
-				</short>
 			</metazone>
 			<metazone type="Georgia">
 				<long>
 					<standard>Gürcistan Saati</standard>
 					<daylight>Gürcistan Yaz Saati</daylight>
 				</long>
-				<short>
-					<standard>GET</standard>
-					<daylight>GEST</daylight>
-				</short>
 			</metazone>
 			<metazone type="Gilbert_Islands">
 				<long>
 					<standard>Gilbert Adaları Saati</standard>
 				</long>
-				<short>
-					<standard>GILT</standard>
-				</short>
 			</metazone>
 			<metazone type="Greenland_Central">
 				<long>
 					<standard>Orta Grönland Saati</standard>
 					<daylight>Orta Grönland Yaz Saati</daylight>
 				</long>
-				<short>
-					<standard>CGT</standard>
-					<daylight>CGST</daylight>
-				</short>
 			</metazone>
 			<metazone type="Greenland_Eastern">
 				<long>
 					<standard>Doğu Grönland Saati</standard>
 					<daylight>Doğu Grönland Yaz Saati</daylight>
 				</long>
-				<short>
-					<standard>EGT</standard>
-					<daylight>EGST</daylight>
-				</short>
 			</metazone>
 			<metazone type="Greenland_Western">
 				<long>
 					<standard>Batı Grönland Saati</standard>
 					<daylight>Batı Grönland Yaz Saati</daylight>
 				</long>
-				<short>
-					<standard>WGT</standard>
-					<daylight>WGST</daylight>
-				</short>
 			</metazone>
 			<metazone type="Guam">
 				<long>
@@ -2721,203 +2306,124 @@
 			</metazone>
 			<metazone type="Gulf">
 				<long>
+					<generic>Körfez Saati</generic>
 					<standard>Gulf Standart Saati</standard>
 				</long>
-				<short>
-					<standard>GST</standard>
-				</short>
 			</metazone>
 			<metazone type="Guyana">
 				<long>
 					<standard>Guyana Saati</standard>
 				</long>
-				<short>
-					<standard>GYT</standard>
-				</short>
-			</metazone>
-			<metazone type="Hawaii">
-				<long>
-					<generic>Hawaii Saati</generic>
-					<standard>Hawaii Standart Saati</standard>
-					<daylight>Hawaii Yaz Saati</daylight>
-				</long>
-				<short>
-					<generic>HT</generic>
-					<standard>HST</standard>
-					<daylight>HDT</daylight>
-				</short>
 			</metazone>
 			<metazone type="Hawaii_Aleutian">
 				<long>
-					<generic>Hawaii-Aleutian Saati</generic>
 					<standard>Hawaii-Aleutian Standart Saati</standard>
-					<daylight>Hawaii-Aleutian Yaz Saati</daylight>
 				</long>
-				<short>
-					<generic>HAT</generic>
-					<standard>HAST</standard>
-					<daylight>HADT</daylight>
-				</short>
 			</metazone>
 			<metazone type="Hong_Kong">
 				<long>
 					<standard>Hong Kong Saati</standard>
 					<daylight>Hong Kong Yaz Saati</daylight>
 				</long>
-				<short>
-					<standard>HKT</standard>
-					<daylight>HKST</daylight>
-				</short>
 			</metazone>
 			<metazone type="Hovd">
 				<long>
 					<standard>Hovd Saati</standard>
 					<daylight>Hovd Yaz Saati</daylight>
 				</long>
-				<short>
-					<standard>HOVT</standard>
-					<daylight>HOVST</daylight>
-				</short>
 			</metazone>
 			<metazone type="India">
 				<long>
 					<standard>Hindistan Standart Saati</standard>
 				</long>
-				<short>
-					<standard>IST</standard>
-				</short>
 			</metazone>
 			<metazone type="Indian_Ocean">
 				<long>
 					<standard>Hint Okyanusu Saati</standard>
 				</long>
-				<short>
-					<standard>IOT</standard>
-				</short>
 			</metazone>
 			<metazone type="Indochina">
 				<long>
-					<standard draft="provisional">13:25 GMT+07:00</standard>
+					<standard>Çinhindi Saati</standard>
 				</long>
-				<short>
-					<standard draft="provisional">13:25 GMT+07:00</standard>
-				</short>
 			</metazone>
 			<metazone type="Indonesia_Central">
 				<long>
 					<standard>Orta Endonezya Saati</standard>
 				</long>
-				<short>
-					<standard>CIT</standard>
-				</short>
 			</metazone>
 			<metazone type="Indonesia_Eastern">
 				<long>
 					<standard>Doğu Endonezya Saati</standard>
 				</long>
-				<short>
-					<standard>EIT</standard>
-				</short>
 			</metazone>
 			<metazone type="Indonesia_Western">
 				<long>
 					<standard>Batı Endonezya Saati</standard>
 				</long>
-				<short>
-					<standard>WIT</standard>
-				</short>
 			</metazone>
 			<metazone type="Iran">
 				<long>
 					<standard>İran Standart Saati</standard>
 					<daylight>İran Yaz Saati</daylight>
 				</long>
-				<short>
-					<standard>IRST</standard>
-					<daylight>IRDT</daylight>
-				</short>
 			</metazone>
 			<metazone type="Irkutsk">
 				<long>
 					<standard>Irkutsk Saati</standard>
 					<daylight>Irkutsk Yaz Saati</daylight>
 				</long>
-				<short>
-					<standard>IRKT</standard>
-					<daylight>IRKST</daylight>
-				</short>
 			</metazone>
 			<metazone type="Israel">
 				<long>
+					<generic>İsrail Saati</generic>
 					<standard>İsrail Standart Saati</standard>
 					<daylight>İsrail Yaz Saati</daylight>
 				</long>
 				<short>
 					<standard>IST (İsrail)</standard>
-					<daylight>IDT</daylight>
 				</short>
 			</metazone>
 			<metazone type="Japan">
 				<long>
+					<generic>Japonya Saati</generic>
 					<standard>Japonya Standart Saati</standard>
 					<daylight>Japonya Yaz Saati</daylight>
 				</long>
-				<short>
-					<standard>JST</standard>
-					<daylight>JDT</daylight>
-				</short>
 			</metazone>
 			<metazone type="Kamchatka">
 				<long>
 					<standard>Petropavlovsk-Kamçatski Saati</standard>
 					<daylight>Petropavlovsk-Kamçatski Yaz Saati</daylight>
 				</long>
-				<short>
-					<standard>PETT</standard>
-					<daylight>PETST</daylight>
-				</short>
 			</metazone>
 			<metazone type="Karachi">
 				<long>
 					<standard>Karaçi Saati</standard>
 				</long>
-				<short>
-					<standard>KART</standard>
-				</short>
 			</metazone>
 			<metazone type="Kashgar">
 				<long>
 					<standard>Kaşgar Saati</standard>
 				</long>
-				<short>
-					<standard>KAST</standard>
-				</short>
 			</metazone>
 			<metazone type="Kazakhstan_Eastern">
 				<long>
+					<generic>Doğu Kazakistan Saati</generic>
 					<standard>Doğu Kazakistan Standart Saati</standard>
 				</long>
-				<short>
-					<standard>EKST</standard>
-				</short>
 			</metazone>
 			<metazone type="Kazakhstan_Western">
 				<long>
+					<generic>Batı Kazakistan Saati</generic>
 					<standard>Batı Kazakistan Standart Saati</standard>
 				</long>
-				<short>
-					<standard>WKST</standard>
-				</short>
 			</metazone>
 			<metazone type="Kizilorda">
 				<long>
 					<standard>Kızılorda Saati</standard>
 					<daylight>Kızılorda Yaz Saati</daylight>
 				</long>
-				<short>
-					<standard>KIZT</standard>
-					<daylight>KIZST</daylight>
-				</short>
 			</metazone>
 			<metazone type="Korea">
 				<long>
@@ -2925,78 +2431,48 @@
 					<standard>Kore Standart Saati</standard>
 					<daylight>Kore Yaz Saati</daylight>
 				</long>
-				<short>
-					<standard>KST</standard>
-					<daylight>KDT</daylight>
-				</short>
 			</metazone>
 			<metazone type="Kosrae">
 				<long>
 					<standard>Kosrae Saati</standard>
 				</long>
-				<short>
-					<standard>KOST</standard>
-				</short>
 			</metazone>
 			<metazone type="Krasnoyarsk">
 				<long>
 					<standard>Krasnoyarsk Saati</standard>
 					<daylight>Krasnoyarsk Yaz Saati</daylight>
 				</long>
-				<short>
-					<standard>KRAT</standard>
-					<daylight>KRAST</daylight>
-				</short>
 			</metazone>
 			<metazone type="Kuybyshev">
 				<long>
 					<standard>Kuybişev Saati</standard>
 					<daylight>Kuybişev Yaz Saati</daylight>
 				</long>
-				<short>
-					<standard>KUYT</standard>
-					<daylight>KUYST</daylight>
-				</short>
 			</metazone>
 			<metazone type="Kwajalein">
 				<long>
 					<standard>Kwajalein Saati</standard>
 				</long>
-				<short>
-					<standard>KWAT</standard>
-				</short>
 			</metazone>
 			<metazone type="Kyrgystan">
 				<long>
 					<standard>Kırgızistan Saati</standard>
 				</long>
-				<short>
-					<standard>KGT</standard>
-				</short>
 			</metazone>
 			<metazone type="Lanka">
 				<long>
 					<standard>Lanka Saati</standard>
 				</long>
-				<short>
-					<standard>LKT</standard>
-				</short>
 			</metazone>
 			<metazone type="Line_Islands">
 				<long>
 					<standard>Line Adaları Saati</standard>
 				</long>
-				<short>
-					<standard>LINT</standard>
-				</short>
 			</metazone>
 			<metazone type="Long_Shu">
 				<long>
 					<standard>Long-Shu Saati</standard>
 				</long>
-				<short>
-					<standard>LONT</standard>
-				</short>
 			</metazone>
 			<metazone type="Lord_Howe">
 				<long>
@@ -3004,139 +2480,87 @@
 					<standard>Lord Howe Standart Saati</standard>
 					<daylight>Lord Howe Yaz Saati</daylight>
 				</long>
-				<short>
-					<standard>LHDT</standard>
-				</short>
 			</metazone>
 			<metazone type="Macau">
 				<long>
 					<standard>Makao Saati</standard>
 					<daylight>Makao Yaz Saati</daylight>
 				</long>
-				<short>
-					<standard>MOT</standard>
-					<daylight>MOST</daylight>
-				</short>
 			</metazone>
 			<metazone type="Magadan">
 				<long>
 					<standard>Magadan Saati</standard>
 					<daylight>Magadan Yaz Saati</daylight>
 				</long>
-				<short>
-					<standard>MAGT</standard>
-					<daylight>MAGST</daylight>
-				</short>
 			</metazone>
 			<metazone type="Malaya">
 				<long>
 					<standard>Malaya Saati</standard>
 				</long>
-				<short>
-					<standard>MALT</standard>
-				</short>
 			</metazone>
 			<metazone type="Malaysia">
 				<long>
 					<standard>Malezya Saati</standard>
 				</long>
-				<short>
-					<standard>MYT</standard>
-				</short>
 			</metazone>
 			<metazone type="Maldives">
 				<long>
 					<standard>Maldivler Saati</standard>
 				</long>
-				<short>
-					<standard>MVT</standard>
-				</short>
 			</metazone>
 			<metazone type="Marquesas">
 				<long>
 					<standard>Markiz Saati</standard>
 				</long>
-				<short>
-					<standard>MART</standard>
-				</short>
 			</metazone>
 			<metazone type="Marshall_Islands">
 				<long>
 					<standard>Marshall Adaları Saati</standard>
 				</long>
-				<short>
-					<standard>MHT</standard>
-				</short>
 			</metazone>
 			<metazone type="Mauritius">
 				<long>
 					<standard>Mauritius Saati</standard>
 				</long>
-				<short>
-					<standard>MUT</standard>
-				</short>
 			</metazone>
 			<metazone type="Mawson">
 				<long>
 					<standard>Mawson Saati</standard>
 				</long>
-				<short>
-					<standard>MAWT</standard>
-				</short>
 			</metazone>
 			<metazone type="Mongolia">
 				<long>
 					<standard>Ulan Batur Saati</standard>
 					<daylight>Ulan Batur Yaz Saati</daylight>
 				</long>
-				<short>
-					<standard>ULAT</standard>
-					<daylight>ULAST</daylight>
-				</short>
 			</metazone>
 			<metazone type="Moscow">
 				<long>
-					<standard draft="provisional">13:25 GMT+03:00</standard>
-					<daylight draft="provisional">3:25 GMT+04:00</daylight>
+					<generic>Moskova Saati</generic>
+					<standard>Moskova Standart Saati</standard>
+					<daylight>Moskova Yaz Saati</daylight>
 				</long>
-				<short>
-					<standard draft="provisional">13:25 GMT+03:00</standard>
-					<daylight draft="provisional">13:25 GMT+04:00</daylight>
-				</short>
 			</metazone>
 			<metazone type="Myanmar">
 				<long>
 					<standard>Myanmar Saati</standard>
 				</long>
-				<short>
-					<standard>MMT</standard>
-				</short>
 			</metazone>
 			<metazone type="Nauru">
 				<long>
 					<standard>Nauru Saati</standard>
 				</long>
-				<short>
-					<standard>NRT</standard>
-				</short>
 			</metazone>
 			<metazone type="Nepal">
 				<long>
 					<standard>Nepal Saati</standard>
 				</long>
-				<short>
-					<standard>NPT</standard>
-				</short>
 			</metazone>
 			<metazone type="New_Caledonia">
 				<long>
 					<standard>Yeni Kaledonya Saati</standard>
 					<daylight>Yeni Kaledonya Yaz Saati</daylight>
 				</long>
-				<short>
-					<standard>NCT</standard>
-					<daylight>NCST</daylight>
-				</short>
 			</metazone>
 			<metazone type="New_Zealand">
 				<long>
@@ -3144,11 +2568,6 @@
 					<standard>Yeni Zelanda Standart Saati</standard>
 					<daylight>Yeni Zelanda Yaz Saati</daylight>
 				</long>
-				<short>
-					<generic draft="provisional">13:25 Yeni Zelanda Saati</generic>
-					<standard>NZST</standard>
-					<daylight>NZDT</daylight>
-				</short>
 			</metazone>
 			<metazone type="Newfoundland">
 				<long>
@@ -3156,129 +2575,78 @@
 					<standard>Newfoundland Standart Saati</standard>
 					<daylight>Newfoundland Yaz Saati</daylight>
 				</long>
-				<short>
-					<generic>NT</generic>
-					<standard>NST</standard>
-					<daylight>NDT</daylight>
-				</short>
 			</metazone>
 			<metazone type="Niue">
 				<long>
 					<standard>Niue Saati</standard>
 				</long>
-				<short>
-					<standard>NUT</standard>
-				</short>
 			</metazone>
 			<metazone type="Norfolk">
 				<long>
 					<standard>Norfolk Adası Saati</standard>
 				</long>
-				<short>
-					<standard>NFT</standard>
-				</short>
 			</metazone>
 			<metazone type="Noronha">
 				<long>
 					<standard>Fernando de Noronha Saati</standard>
 					<daylight>Fernando de Noronha Yaz Saati</daylight>
 				</long>
-				<short>
-					<standard>FNT</standard>
-					<daylight>FNST</daylight>
-				</short>
 			</metazone>
 			<metazone type="North_Mariana">
 				<long>
 					<standard>Kuzey Mariana Adaları Saati</standard>
 				</long>
-				<short>
-					<standard>MPT</standard>
-				</short>
 			</metazone>
 			<metazone type="Novosibirsk">
 				<long>
 					<standard>Novosibirsk Saati</standard>
 					<daylight>Novosibirsk Yaz Saati</daylight>
 				</long>
-				<short>
-					<standard>NOVT</standard>
-					<daylight>NOVST</daylight>
-				</short>
 			</metazone>
 			<metazone type="Omsk">
 				<long>
 					<standard>Omsk Saati</standard>
 					<daylight>Omsk Yaz Saati</daylight>
 				</long>
-				<short>
-					<standard>OMST</standard>
-					<daylight>OMSST</daylight>
-				</short>
 			</metazone>
 			<metazone type="Pakistan">
 				<long>
 					<standard>Pakistan Saati</standard>
 					<daylight>Pakistan Yaz Saati</daylight>
 				</long>
-				<short>
-					<standard>PKT</standard>
-					<daylight>PKST</daylight>
-				</short>
 			</metazone>
 			<metazone type="Palau">
 				<long>
 					<standard>Palau Saati</standard>
 				</long>
-				<short>
-					<standard>PWT</standard>
-				</short>
 			</metazone>
 			<metazone type="Papua_New_Guinea">
 				<long>
 					<standard>Papua Yeni Gine Saati</standard>
 				</long>
-				<short>
-					<standard>PGT</standard>
-				</short>
 			</metazone>
 			<metazone type="Paraguay">
 				<long>
 					<standard>Paraguay Saati</standard>
 					<daylight>Paraguay Yaz Saati</daylight>
 				</long>
-				<short>
-					<standard>PYT</standard>
-					<daylight>PYST</daylight>
-				</short>
 			</metazone>
 			<metazone type="Peru">
 				<long>
 					<standard>Peru Saati</standard>
 					<daylight>Peru Yaz Saati</daylight>
 				</long>
-				<short>
-					<standard>PET</standard>
-					<daylight>PEST</daylight>
-				</short>
 			</metazone>
 			<metazone type="Philippines">
 				<long>
 					<standard>Filipinler Saati</standard>
 					<daylight>Filipinler Yaz Saati</daylight>
 				</long>
-				<short>
-					<standard>PHT</standard>
-					<daylight>PHST</daylight>
-				</short>
 			</metazone>
 			<metazone type="Phoenix_Islands">
 				<long>
 					<standard>Phoenix Adaları Saati</standard>
 				</long>
-				<short>
-					<standard>PHOT</standard>
-				</short>
 			</metazone>
 			<metazone type="Pierre_Miquelon">
 				<long>
@@ -3286,72 +2654,44 @@
 					<standard>Pierre ve Miquelon Standart Saati</standard>
 					<daylight>Pierre ve Miquelon Yaz Saati</daylight>
 				</long>
-				<short>
-					<standard>PMST</standard>
-					<daylight>PMDT</daylight>
-				</short>
 			</metazone>
 			<metazone type="Pitcairn">
 				<long>
 					<standard>Pitcairn Saati</standard>
 				</long>
-				<short>
-					<standard>PNT</standard>
-				</short>
 			</metazone>
 			<metazone type="Ponape">
 				<long>
 					<standard>Ponape Saati</standard>
 				</long>
-				<short>
-					<standard>PONT</standard>
-				</short>
 			</metazone>
 			<metazone type="Qyzylorda">
 				<long>
 					<standard>Kızılorda Saati</standard>
 					<daylight>Kızılorda Yaz Saati</daylight>
 				</long>
-				<short>
-					<standard>QYZT</standard>
-					<daylight>QYZST</daylight>
-				</short>
 			</metazone>
 			<metazone type="Reunion">
 				<long>
 					<standard>Reunion Saati</standard>
 				</long>
-				<short>
-					<standard>RET</standard>
-				</short>
 			</metazone>
 			<metazone type="Rothera">
 				<long>
 					<standard>Rothera Saati</standard>
 				</long>
-				<short>
-					<standard>ROTT</standard>
-				</short>
 			</metazone>
 			<metazone type="Sakhalin">
 				<long>
 					<standard>Sakhalin Saati</standard>
 					<daylight>Sakhalin Yaz Saati</daylight>
 				</long>
-				<short>
-					<standard>SAKT</standard>
-					<daylight>SAKST</daylight>
-				</short>
 			</metazone>
 			<metazone type="Samara">
 				<long>
 					<standard>Samara Saati</standard>
 					<daylight>Samara Yaz Saati</daylight>
 				</long>
-				<short>
-					<standard>SAMT</standard>
-					<daylight>SAMST</daylight>
-				</short>
 			</metazone>
 			<metazone type="Samarkand">
 				<long>
@@ -3367,299 +2707,187 @@
 				<long>
 					<standard>Samoa Standart Saati</standard>
 				</long>
-				<short>
-					<standard>SST</standard>
-				</short>
 			</metazone>
 			<metazone type="Seychelles">
 				<long>
 					<standard>Seyşeller Saati</standard>
 				</long>
-				<short>
-					<standard>SCT</standard>
-				</short>
 			</metazone>
 			<metazone type="Shevchenko">
 				<long>
 					<standard>Şevçenko Saati</standard>
 					<daylight>Şevçenko Yaz Saati</daylight>
 				</long>
-				<short>
-					<standard>SHET</standard>
-					<daylight>SHEST</daylight>
-				</short>
 			</metazone>
 			<metazone type="Singapore">
 				<long>
 					<standard>Singapur Standart Saati</standard>
 				</long>
-				<short>
-					<standard>SGT</standard>
-				</short>
 			</metazone>
 			<metazone type="Solomon">
 				<long>
 					<standard>Solomon Adaları Saati</standard>
 				</long>
-				<short>
-					<standard>SBT</standard>
-				</short>
 			</metazone>
 			<metazone type="South_Georgia">
 				<long>
 					<standard>Güney Georgia Saati</standard>
 				</long>
 				<short>
-					<standard>GST (S. Georgia)</standard>
+					<standard>GST (Güney Georgia)</standard>
 				</short>
 			</metazone>
 			<metazone type="Suriname">
 				<long>
 					<standard>Surinam Saati</standard>
 				</long>
-				<short>
-					<standard>SRT</standard>
-				</short>
 			</metazone>
 			<metazone type="Sverdlovsk">
 				<long>
 					<standard>Sverdlovsk Saati</standard>
 					<daylight>Sverdlovsk Yaz Saati</daylight>
 				</long>
-				<short>
-					<standard>SVET</standard>
-					<daylight>SVEST</daylight>
-				</short>
 			</metazone>
 			<metazone type="Syowa">
 				<long>
 					<standard>Showa Saati</standard>
 				</long>
-				<short>
-					<standard>SYOT</standard>
-				</short>
 			</metazone>
 			<metazone type="Tahiti">
 				<long>
 					<standard>Tahiti Saati</standard>
 				</long>
-				<short>
-					<standard>TAHT</standard>
-				</short>
 			</metazone>
 			<metazone type="Tajikistan">
 				<long>
 					<standard>Tacikistan Saati</standard>
 				</long>
-				<short>
-					<standard>TJT</standard>
-				</short>
 			</metazone>
 			<metazone type="Tashkent">
 				<long>
 					<standard>Taşkent Saati</standard>
 					<daylight>Taşkent Yaz Saati</daylight>
 				</long>
-				<short>
-					<standard>TAST</standard>
-					<daylight>TASST</daylight>
-				</short>
 			</metazone>
 			<metazone type="Tbilisi">
 				<long>
 					<standard>Tiflis Saati</standard>
 					<daylight>Tiflis Yaz Saati</daylight>
 				</long>
-				<short>
-					<standard>TBIT</standard>
-					<daylight>TBIST</daylight>
-				</short>
 			</metazone>
 			<metazone type="Tokelau">
 				<long>
 					<standard>Tokelau Saati</standard>
 				</long>
-				<short>
-					<standard>TKT</standard>
-				</short>
 			</metazone>
 			<metazone type="Tonga">
 				<long>
 					<standard>Tonga Saati</standard>
 					<daylight>Tonga Yaz Saati</daylight>
 				</long>
-				<short>
-					<standard>TOT</standard>
-					<daylight>TOST</daylight>
-				</short>
 			</metazone>
 			<metazone type="Truk">
 				<long>
 					<standard>Truk Saati</standard>
 				</long>
-				<short>
-					<standard>TRUT</standard>
-				</short>
 			</metazone>
 			<metazone type="Turkey">
 				<long>
 					<standard>Türkiye Saati</standard>
 					<daylight>Türkiye Yaz Saati</daylight>
 				</long>
-				<short>
-					<standard>TRT</standard>
-					<daylight>TRST</daylight>
-				</short>
 			</metazone>
 			<metazone type="Turkmenistan">
 				<long>
 					<standard>Türkmenistan Saati</standard>
 					<daylight>Türkmenistan Yaz Saati</daylight>
 				</long>
-				<short>
-					<standard>TMT</standard>
-					<daylight>TMST</daylight>
-				</short>
 			</metazone>
 			<metazone type="Tuvalu">
 				<long>
 					<standard>Tuvalu Saati</standard>
 				</long>
-				<short>
-					<standard>TVT</standard>
-				</short>
 			</metazone>
 			<metazone type="Uralsk">
 				<long>
-					<standard draft="unconfirmed">Kazakistan</standard>
-					<standard alt="proposed-x1001" draft="unconfirmed">Oral Saati</standard>
-					<daylight draft="unconfirmed">Kazakistan Yaz Saati</daylight>
-					<daylight alt="proposed-x1001" draft="unconfirmed">Oral Yaz Saati</daylight>
+					<standard>Oral Saati</standard>
+					<standard alt="proposed-x1001" draft="unconfirmed">Ural Saati</standard>
+					<daylight>Oral Yaz Saati</daylight>
+					<daylight alt="proposed-x1001" draft="unconfirmed">Ural Yaz Saati</daylight>
 				</long>
-				<short>
-					<standard>URAT</standard>
-					<daylight>URAST</daylight>
-				</short>
 			</metazone>
 			<metazone type="Uruguay">
 				<long>
 					<standard>Uruguay Saati</standard>
 					<daylight>Uruguay Yaz Saati</daylight>
 				</long>
-				<short>
-					<standard>UYT</standard>
-					<daylight>UYST</daylight>
-				</short>
 			</metazone>
 			<metazone type="Urumqi">
 				<long>
 					<standard>Urumçi Saati</standard>
 				</long>
-				<short>
-					<standard>URUT</standard>
-				</short>
 			</metazone>
 			<metazone type="Uzbekistan">
 				<long>
 					<standard>Özbekistan Saati</standard>
 					<daylight>Özbekistan Yaz Saati</daylight>
 				</long>
-				<short>
-					<standard>UZT</standard>
-					<daylight>UZST</daylight>
-				</short>
 			</metazone>
 			<metazone type="Vanuatu">
 				<long>
 					<standard>Vanuatu Saati</standard>
 					<daylight>Vanuatu Yaz Saati</daylight>
 				</long>
-				<short>
-					<standard>VUT</standard>
-					<daylight>VUST</daylight>
-				</short>
 			</metazone>
 			<metazone type="Venezuela">
 				<long>
 					<standard>Venezuela Saati</standard>
 				</long>
-				<short>
-					<standard>VET</standard>
-				</short>
 			</metazone>
 			<metazone type="Vladivostok">
 				<long>
 					<standard>Vladivostok Saati</standard>
 					<daylight>Vladivostok Yaz Saati</daylight>
 				</long>
-				<short>
-					<standard>VLAT</standard>
-					<daylight>VLAST</daylight>
-				</short>
 			</metazone>
 			<metazone type="Volgograd">
 				<long>
 					<standard>Volgograd Saati</standard>
 					<daylight>Volgograd Yaz Saati</daylight>
 				</long>
-				<short>
-					<standard>VOLT</standard>
-					<daylight>VOLST</daylight>
-				</short>
 			</metazone>
 			<metazone type="Vostok">
 				<long>
 					<standard>Vostok Saati</standard>
 				</long>
-				<short>
-					<standard>VOST</standard>
-				</short>
 			</metazone>
 			<metazone type="Wake">
 				<long>
 					<standard>Wake Adası Saati</standard>
 				</long>
-				<short>
-					<standard>WAKT</standard>
-				</short>
 			</metazone>
 			<metazone type="Wallis">
 				<long>
 					<standard>Wallis ve Futuna Saati</standard>
 				</long>
-				<short>
-					<standard>WFT</standard>
-				</short>
 			</metazone>
 			<metazone type="Yakutsk">
 				<long>
 					<standard>Yakutsk Saati</standard>
 					<daylight>Yakutsk Yaz Saati</daylight>
 				</long>
-				<short>
-					<standard>YAKT</standard>
-					<daylight>YAKST</daylight>
-				</short>
 			</metazone>
 			<metazone type="Yekaterinburg">
 				<long>
 					<standard>Yekaterinburg Saati</standard>
 					<daylight>Yekaterinburg Yaz Saati</daylight>
 				</long>
-				<short>
-					<standard>YEKT</standard>
-					<daylight>YEKST</daylight>
-				</short>
 			</metazone>
 			<metazone type="Yerevan">
 				<long>
 					<standard>Erivan Saati</standard>
 					<daylight>Erivan Yaz Saati</daylight>
 				</long>
-				<short>
-					<standard>YERT</standard>
-					<daylight>YERST</daylight>
-				</short>
 			</metazone>
 			<metazone type="Yukon">
 				<long>
@@ -3667,20 +2895,23 @@
 					<standard>Yukon Standart Saati</standard>
 					<daylight>Yukon Yaz Saati</daylight>
 				</long>
-				<short>
-					<generic>YT</generic>
-					<standard>YST</standard>
-					<daylight>YDT</daylight>
-				</short>
 			</metazone>
 		</timeZoneNames>
 	</dates>
 	<numbers>
 		<symbols>
 			<decimal>,</decimal>
-			<decimal alt="proposed-x1001" draft="unconfirmed">.</decimal>
 			<group>.</group>
-			<group alt="proposed-x1001" draft="unconfirmed">,</group>
+			<list>;</list>
+			<percentSign>%</percentSign>
+			<nativeZeroDigit>0</nativeZeroDigit>
+			<patternDigit>#</patternDigit>
+			<plusSign>+</plusSign>
+			<minusSign>-</minusSign>
+			<exponential>E</exponential>
+			<perMille>‰</perMille>
+			<infinity>∞</infinity>
+			<nan>NaN</nan>
 		</symbols>
 		<decimalFormats>
 			<decimalFormatLength>
@@ -3699,32 +2930,30 @@
 		<percentFormats>
 			<percentFormatLength>
 				<percentFormat>
-					<pattern>% #,##0</pattern>
+					<pattern>% #,##0</pattern>
 				</percentFormat>
 			</percentFormatLength>
 		</percentFormats>
 		<currencyFormats>
 			<currencyFormatLength>
 				<currencyFormat>
-					<pattern>#,##0.00 ¤</pattern>
+					<pattern>#,##0.00 ¤</pattern>
 				</currencyFormat>
 			</currencyFormatLength>
+			<unitPattern count="other">{0} {1}</unitPattern>
 		</currencyFormats>
 		<currencies>
 			<currency type="ADP">
 				<displayName>Andora Pesetası</displayName>
-				<displayName alt="proposed-x1001" draft="unconfirmed">Andora Pezetası</displayName>
 			</currency>
 			<currency type="AED">
 				<displayName>Birleşik Arap Emirlikleri Dirhemi</displayName>
 			</currency>
 			<currency type="AFA">
 				<displayName>Afganistan Afganisi (1927-2002)</displayName>
-				<displayName alt="proposed-x1001" draft="unconfirmed">Afgani (1927-2002)</displayName>
 			</currency>
 			<currency type="AFN">
 				<displayName>Afganistan Afganisi</displayName>
-				<displayName alt="proposed-x1001" draft="unconfirmed">Afgani</displayName>
 				<symbol>Af</symbol>
 			</currency>
 			<currency type="ALL">
@@ -3733,7 +2962,6 @@
 			</currency>
 			<currency type="AMD">
 				<displayName>Ermenistan Dramı</displayName>
-				<displayName alt="proposed-x1001" draft="unconfirmed">Ermeni Dramı</displayName>
 				<symbol>dram</symbol>
 			</currency>
 			<currency type="ANG">
@@ -3774,7 +3002,6 @@
 			</currency>
 			<currency type="AZM">
 				<displayName>Azerbaycan Manatı</displayName>
-				<displayName alt="proposed-x1001" draft="unconfirmed">Azeri Manatı (1993-2006)</displayName>
 			</currency>
 			<currency type="AZN">
 				<displayName>Azeri Manatı</displayName>
@@ -3810,7 +3037,6 @@
 			</currency>
 			<currency type="BGN">
 				<displayName>Yeni Bulgar Levası</displayName>
-				<displayName alt="proposed-x1001" draft="unconfirmed">Bulgar</displayName>
 			</currency>
 			<currency type="BHD">
 				<displayName>Bahreyn Dinarı</displayName>
@@ -3829,7 +3055,6 @@
 			</currency>
 			<currency type="BOB">
 				<displayName>Bolivya Bolivyanosu</displayName>
-				<displayName alt="proposed-x1001" draft="unconfirmed">Bolivya Para Birimi</displayName>
 				<symbol>Bs</symbol>
 			</currency>
 			<currency type="BOP">
@@ -3879,7 +3104,6 @@
 			<currency type="BZD">
 				<displayName>Belize Doları</displayName>
 				<symbol>BZ$</symbol>
-				<symbol alt="proposed-x1001" draft="unconfirmed">BZD</symbol>
 			</currency>
 			<currency type="CAD">
 				<displayName>Kanada Doları</displayName>
@@ -3890,11 +3114,9 @@
 			</currency>
 			<currency type="CHE">
 				<displayName>WIR Avrosu</displayName>
-				<displayName alt="proposed-x1001" draft="unconfirmed">WIR Euro</displayName>
 			</currency>
 			<currency type="CHF">
 				<displayName>İsviçre Frangı</displayName>
-				<displayName alt="proposed-x1001" draft="unconfirmed">İsveç Frankı</displayName>
 				<symbol>SwF</symbol>
 			</currency>
 			<currency type="CHW">
@@ -3909,7 +3131,6 @@
 			</currency>
 			<currency type="CNY">
 				<displayName>Çin Yuanı Renminbi</displayName>
-				<displayName alt="proposed-x1001" draft="unconfirmed">Yuan Renminbisi</displayName>
 				<symbol>Y</symbol>
 			</currency>
 			<currency type="COP">
@@ -3925,7 +3146,6 @@
 			</currency>
 			<currency type="CSD">
 				<displayName>Eski Sırbistan Dinarı</displayName>
-				<displayName alt="proposed-x1001" draft="unconfirmed">Sırbistan Dinarı</displayName>
 			</currency>
 			<currency type="CSK">
 				<displayName>Çekoslavak Korunası (Hard)</displayName>
@@ -3956,7 +3176,6 @@
 			</currency>
 			<currency type="DKK">
 				<displayName>Danimarka Kronu</displayName>
-				<displayName alt="proposed-x1001" draft="unconfirmed">Danimarka Kroneri</displayName>
 				<symbol>DKr</symbol>
 			</currency>
 			<currency type="DOP">
@@ -3975,11 +3194,9 @@
 			</currency>
 			<currency type="EEK">
 				<displayName>Estonya Krunu</displayName>
-				<displayName alt="proposed-x1001" draft="unconfirmed">Estonya</displayName>
 			</currency>
 			<currency type="EGP">
 				<displayName>Mısır Lirası</displayName>
-				<displayName alt="proposed-x1001" draft="unconfirmed">Mısır Poundu</displayName>
 			</currency>
 			<currency type="EQE">
 				<displayName>Ekuele</displayName>
@@ -3989,15 +3206,12 @@
 			</currency>
 			<currency type="ESA">
 				<displayName>İspanyol Pesetası (A hesabı)</displayName>
-				<displayName alt="proposed-x1001" draft="unconfirmed">İspanyol Pezetası (A hesabı)</displayName>
 			</currency>
 			<currency type="ESB">
 				<displayName>İspanyol Pesetası (konvertibl hesap)</displayName>
-				<displayName alt="proposed-x1001" draft="unconfirmed">İspanyol Pezetası (konvertibl hesap)</displayName>
 			</currency>
 			<currency type="ESP">
 				<displayName>İspanyol Pezetası</displayName>
-				<displayName alt="proposed-x1001" draft="unconfirmed">İspanyol Pesetası</displayName>
 				<symbol>₧</symbol>
 			</currency>
 			<currency type="ETB">
@@ -4006,7 +3220,6 @@
 			</currency>
 			<currency type="EUR">
 				<displayName>Euro</displayName>
-				<displayName alt="proposed-x1001" draft="unconfirmed">Avro</displayName>
 			</currency>
 			<currency type="FIM">
 				<displayName>Fin Markkası</displayName>
@@ -4020,11 +3233,9 @@
 			</currency>
 			<currency type="FRF">
 				<displayName>Fransız Frangı</displayName>
-				<displayName alt="proposed-x1001" draft="unconfirmed">Fransız Frankı</displayName>
 			</currency>
 			<currency type="GBP">
 				<displayName>İngiliz Sterlini</displayName>
-				<displayName alt="proposed-x1001" draft="unconfirmed">İngiliz Pound Sterlini</displayName>
 				<symbol>£</symbol>
 			</currency>
 			<currency type="GEK">
@@ -4035,6 +3246,9 @@
 				<symbol>lari</symbol>
 			</currency>
 			<currency type="GHC">
+				<displayName>Gana Sedisi (1979-2007)</displayName>
+			</currency>
+			<currency type="GHS">
 				<displayName>Gana Sedisi</displayName>
 			</currency>
 			<currency type="GIP">
@@ -4042,7 +3256,6 @@
 			</currency>
 			<currency type="GMD">
 				<displayName>Gambiya Dalasisi</displayName>
-				<displayName alt="proposed-x1001" draft="unconfirmed">Gambia Dalasisi</displayName>
 			</currency>
 			<currency type="GNF">
 				<displayName>Gine Frangı</displayName>
@@ -4090,7 +3303,6 @@
 			</currency>
 			<currency type="HUF">
 				<displayName>Macar Forinti</displayName>
-				<displayName alt="proposed-x1001" draft="unconfirmed">Macar</displayName>
 				<symbol>Ft</symbol>
 			</currency>
 			<currency type="IDR">
@@ -4106,11 +3318,9 @@
 			</currency>
 			<currency type="ILS">
 				<displayName>Yeni İsrail Şekeli</displayName>
-				<displayName alt="proposed-x1001" draft="unconfirmed">İsrail Şekeli</displayName>
 			</currency>
 			<currency type="INR">
 				<displayName>Hindistan Rupisi</displayName>
-				<displayName alt="proposed-x1001" draft="unconfirmed">Hint Rupesi</displayName>
 				<symbol>INR</symbol>
 			</currency>
 			<currency type="IQD">
@@ -4208,7 +3418,6 @@
 			</currency>
 			<currency type="LUL">
 				<displayName>Finansal Lüksemburg Frangı</displayName>
-				<displayName alt="proposed-x1001" draft="unconfirmed">Mali Lüksemburg Frangı</displayName>
 			</currency>
 			<currency type="LVL">
 				<displayName>Letonya Latı</displayName>
@@ -4262,7 +3471,6 @@
 			</currency>
 			<currency type="MTP">
 				<displayName>Malta Sterlini</displayName>
-				<displayName alt="proposed-x1001" draft="unconfirmed">Malta Sterlingi</displayName>
 			</currency>
 			<currency type="MUR">
 				<displayName>Mauritius Rupisi</displayName>
@@ -4276,7 +3484,6 @@
 			</currency>
 			<currency type="MXN">
 				<displayName>Meksika Pezosu</displayName>
-				<displayName alt="proposed-x1001" draft="unconfirmed">Meksika Pesosu</displayName>
 				<symbol>MEX$</symbol>
 			</currency>
 			<currency type="MXP">
@@ -4294,7 +3501,6 @@
 			</currency>
 			<currency type="MZM">
 				<displayName>Eski Mozambik Metikali</displayName>
-				<displayName alt="proposed-x1001" draft="unconfirmed">Mozambik Meticalı</displayName>
 				<symbol>Mt</symbol>
 			</currency>
 			<currency type="MZN">
@@ -4319,7 +3525,6 @@
 			</currency>
 			<currency type="NOK">
 				<displayName>Norveç Kronu</displayName>
-				<displayName alt="proposed-x1001" draft="unconfirmed">Norveç Kroneri</displayName>
 				<symbol>NKr</symbol>
 			</currency>
 			<currency type="NPR">
@@ -4342,7 +3547,6 @@
 			</currency>
 			<currency type="PEN">
 				<displayName>Yeni Peru Solu</displayName>
-				<displayName alt="proposed-x1001" draft="unconfirmed">Peru Nuevo Solu</displayName>
 			</currency>
 			<currency type="PES">
 				<displayName>Peru Solu</displayName>
@@ -4352,17 +3556,14 @@
 			</currency>
 			<currency type="PHP">
 				<displayName>Filipinler Pezosu</displayName>
-				<displayName alt="proposed-x1001" draft="unconfirmed">Filipin Pezosu</displayName>
 				<symbol>Php</symbol>
 			</currency>
 			<currency type="PKR">
 				<displayName>Pakistan Rupisi</displayName>
-				<displayName alt="proposed-x1001" draft="unconfirmed">Pakistan Rupesi</displayName>
 				<symbol>Pra</symbol>
 			</currency>
 			<currency type="PLN">
 				<displayName>Polonya Zlotisi</displayName>
-				<displayName alt="proposed-x1001" draft="unconfirmed">Polonya Yeni Zlotu</displayName>
 				<symbol>Zl</symbol>
 			</currency>
 			<currency type="PLZ">
@@ -4383,12 +3584,10 @@
 			</currency>
 			<currency type="ROL">
 				<displayName>Eski Romen Leyi</displayName>
-				<displayName alt="proposed-x1001" draft="unconfirmed">Romen Leyi</displayName>
 				<symbol>leu</symbol>
 			</currency>
 			<currency type="RON">
 				<displayName>Romen Leyi</displayName>
-				<displayName alt="proposed-x1001" draft="unconfirmed">Yeni Romanya Leusu</displayName>
 			</currency>
 			<currency type="RSD">
 				<displayName>Sırp Dinarı</displayName>
@@ -4417,12 +3616,14 @@
 			<currency type="SDD">
 				<displayName>Sudan Dinarı</displayName>
 			</currency>
-			<currency type="SDP">
+			<currency type="SDG">
 				<displayName>Sudan Lirası</displayName>
+			</currency>
+			<currency type="SDP">
+				<displayName>Eski Sudan Lirası</displayName>
 			</currency>
 			<currency type="SEK">
 				<displayName>İsveç Kronu</displayName>
-				<displayName alt="proposed-x1001" draft="unconfirmed">İsveç Kroneri</displayName>
 				<symbol>SKr</symbol>
 			</currency>
 			<currency type="SGD">
@@ -4437,7 +3638,6 @@
 			</currency>
 			<currency type="SKK">
 				<displayName>Slovak Korunası</displayName>
-				<displayName alt="proposed-x1001" draft="unconfirmed">Slovakya Korunası</displayName>
 				<symbol>Sk</symbol>
 			</currency>
 			<currency type="SLL">
@@ -4445,8 +3645,7 @@
 			</currency>
 			<currency type="SOS">
 				<displayName>Somali Şilini</displayName>
-				<symbol>So. Sh.</symbol>
-				<symbol alt="proposed-x1001" draft="unconfirmed">SOS</symbol>
+				<symbol>Sh.</symbol>
 			</currency>
 			<currency type="SRD">
 				<displayName>Surinam Doları</displayName>
@@ -4471,7 +3670,6 @@
 			</currency>
 			<currency type="SZL">
 				<displayName>Swaziland Lilangenisi</displayName>
-				<displayName alt="proposed-x1001" draft="unconfirmed">Svaziland Lilangenisi</displayName>
 				<symbol>E</symbol>
 			</currency>
 			<currency type="THB">
@@ -4497,11 +3695,11 @@
 				<displayName>Timor Esküdosu</displayName>
 			</currency>
 			<currency type="TRL">
-				<displayName>Türk Lirası</displayName>
+				<displayName>Eski Türk Lirası</displayName>
 				<symbol>TL</symbol>
 			</currency>
 			<currency type="TRY">
-				<displayName>Yeni Türk Lirası</displayName>
+				<displayName>Türk Lirası</displayName>
 			</currency>
 			<currency type="TTD">
 				<displayName>Trinidad ve Tobago Doları</displayName>
@@ -4517,11 +3715,9 @@
 			</currency>
 			<currency type="UAH">
 				<displayName>Ukrayna Grivnası</displayName>
-				<displayName alt="proposed-x1001" draft="unconfirmed">Ukrayna Hryvniası</displayName>
 			</currency>
 			<currency type="UAK">
 				<displayName>Ukrayna Karbovanetz</displayName>
-				<displayName alt="proposed-x1001" draft="unconfirmed">Ukrayna Karbovanetsi</displayName>
 			</currency>
 			<currency type="UGS">
 				<displayName>Uganda Şilini (1966-1987)</displayName>
@@ -4540,6 +3736,9 @@
 			<currency type="USS">
 				<displayName>ABD Doları (Aynı gün)</displayName>
 			</currency>
+			<currency type="UYI">
+				<displayName>Uruguay Peso en Unidades Indexadas</displayName>
+			</currency>
 			<currency type="UYP">
 				<displayName>Uruguay Pezosu (1975-1993)</displayName>
 			</currency>
@@ -4553,6 +3752,10 @@
 			<currency type="VEB">
 				<displayName>Venezuela Bolivarı</displayName>
 				<symbol>Be</symbol>
+			</currency>
+			<currency type="VEF">
+				<displayName>Güçlü Venezuela Bolivarı</displayName>
+				<symbol>BsF</symbol>
 			</currency>
 			<currency type="VND">
 				<displayName>Vietnam Dongu</displayName>
@@ -4594,7 +3797,6 @@
 			</currency>
 			<currency type="XEU">
 				<displayName>Avrupa Para Birimi</displayName>
-				<displayName alt="proposed-x1001" draft="unconfirmed">Avrupa Para Birimi (ECU)</displayName>
 			</currency>
 			<currency type="XFO">
 				<displayName>Fransız Altın Frangı</displayName>
@@ -4623,7 +3825,6 @@
 			</currency>
 			<currency type="XXX">
 				<displayName>Bilinmeyen veya Geçersiz Para Birimi</displayName>
-				<displayName alt="proposed-x1001" draft="unconfirmed">Para Birimi Yok</displayName>
 			</currency>
 			<currency type="YDD">
 				<displayName>Yemen Dinarı</displayName>
@@ -4659,15 +3860,38 @@
 			</currency>
 			<currency type="ZWD">
 				<displayName>Zimbabwe Doları</displayName>
-				<displayName alt="proposed-x1001" draft="unconfirmed">Zimbabve Doları</displayName>
 				<symbol>Z$</symbol>
 			</currency>
 		</currencies>
 	</numbers>
+	<units>
+		<unit type="day">
+			<unitPattern count="other">{0} gün</unitPattern>
+		</unit>
+		<unit type="hour">
+			<unitPattern count="other">{0} saat</unitPattern>
+		</unit>
+		<unit type="minute">
+			<unitPattern count="other">{0} dakika</unitPattern>
+		</unit>
+		<unit type="month">
+			<unitPattern count="other">{0} ay</unitPattern>
+		</unit>
+		<unit type="second">
+			<unitPattern count="other">{0} saniye</unitPattern>
+		</unit>
+		<unit type="week">
+			<unitPattern count="other">{0} hafta</unitPattern>
+		</unit>
+		<unit type="year">
+			<unitPattern count="other">{0} yıl</unitPattern>
+		</unit>
+	</units>
 	<posix>
 		<messages>
 			<yesstr>evet:e</yesstr>
 			<nostr>hayır:hayir:h</nostr>
+			<nostr alt="proposed-x1001" draft="unconfirmed">hayır:h</nostr>
 		</messages>
 	</posix>
 </ldml>
@@ -4720,5 +3944,9 @@ Comments without bases
 					 United States Minor Outlying Islands
 					 United States
 					 - was on: //ldml/dates/timeZoneNames/zone[@type="Pacific/Marquesas"]/exemplarCity[@alt="proposed-x650"]
+
+Comments without bases
+
+ Democratic Republic of the Congo 	 - was on: //ldml/dates/timeZoneNames/zone[@type="Africa/Kinshasa"]
 -->
 

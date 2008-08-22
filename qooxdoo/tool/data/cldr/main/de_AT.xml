@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE ldml SYSTEM "http://www.unicode.org/cldr/dtd/1.5/ldml.dtd">
+<!DOCTYPE ldml SYSTEM "http://www.unicode.org/cldr/dtd/1.6/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 1.49 $"/>
-		<generation date="$Date: 2007/07/19 22:31:38 $"/>
+		<version number="$Revision: 1.57 $"/>
+		<generation date="$Date: 2008/06/17 14:12:12 $"/>
 		<language type="de"/>
 		<territory type="AT"/>
 	</identity>
@@ -15,7 +15,6 @@
 						<monthWidth type="abbreviated">
 							<month type="1">Jän</month>
 							<month type="3">Mär</month>
-							<month type="3" alt="proposed-x1001" draft="unconfirmed">Mrz</month>
 						</monthWidth>
 						<monthWidth type="wide">
 							<month type="1">Jänner</month>
@@ -34,13 +33,28 @@
 						</dateFormat>
 					</dateFormatLength>
 				</dateFormats>
-				<timeFormats>
-					<timeFormatLength type="full">
-						<timeFormat>
-							<pattern alt="proposed-x1001" draft="unconfirmed">HH:mm 'Uhr' v</pattern>
-						</timeFormat>
-					</timeFormatLength>
-				</timeFormats>
+				<dateTimeFormats>
+					<intervalFormats>
+						<intervalFormatItem id="MMMEd">
+							<greatestDifference id="M" draft="unconfirmed">E, dd. MMM - E, dd. MMM</greatestDifference>
+							<greatestDifference id="d" draft="unconfirmed">E, dd. - E, dd. MMM</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="MMMd">
+							<greatestDifference id="M" draft="unconfirmed">dd. MMM - dd. MMM</greatestDifference>
+							<greatestDifference id="d" draft="unconfirmed">dd.-dd. MMM</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="yMMMEd">
+							<greatestDifference id="M" draft="unconfirmed">E, dd. MMM - E, dd. MMM yyyy</greatestDifference>
+							<greatestDifference id="d" draft="unconfirmed">E, dd. - E, dd. MMM yyyy</greatestDifference>
+							<greatestDifference id="y" draft="unconfirmed">E, dd. MMM yyyy - E, dd. MMM yyyy</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="yMMMd">
+							<greatestDifference id="M" draft="unconfirmed">dd. MMM - dd. MMM yyyy</greatestDifference>
+							<greatestDifference id="d" draft="unconfirmed">dd.-dd. MMM yyyy</greatestDifference>
+							<greatestDifference id="y" draft="unconfirmed">dd. MMM yyyy - dd. MMM yyyy</greatestDifference>
+						</intervalFormatItem>
+					</intervalFormats>
+				</dateTimeFormats>
 			</calendar>
 		</calendars>
 	</dates>
@@ -48,7 +62,7 @@
 		<currencyFormats>
 			<currencyFormatLength>
 				<currencyFormat>
-					<pattern>¤ #,##0.00</pattern>
+					<pattern>¤ #,##0.00</pattern>
 				</currencyFormat>
 			</currencyFormatLength>
 		</currencyFormats>

@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE ldml SYSTEM "http://www.unicode.org/cldr/dtd/1.5/ldml.dtd">
+<!DOCTYPE ldml SYSTEM "http://www.unicode.org/cldr/dtd/1.6/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 1.119 $"/>
-		<generation date="$Date: 2007/07/20 20:09:03 $"/>
+		<version number="$Revision: 1.162 $"/>
+		<generation date="$Date: 2008/07/09 17:41:17 $"/>
 		<language type="root"/>
 	</identity>
 	<fallback/>
 	<localeDisplayNames>
+		<localeDisplayPattern>
+			<localePattern>{0} ({1})</localePattern>
+			<localeSeparator>, </localeSeparator>
+		</localeDisplayPattern>
 		<measurementSystemNames>
 			<measurementSystemName type="US">US</measurementSystemName>
 			<measurementSystemName type="metric">Metric</measurementSystemName>
@@ -543,18 +547,25 @@
 						</dateTimeFormat>
 					</dateTimeFormatLength>
 					<availableFormats>
-						<dateFormatItem id="Ed">E d</dateFormatItem>
-						<dateFormatItem id="H">H</dateFormatItem>
-						<dateFormatItem id="HHmm">HH:mm</dateFormatItem>
-						<dateFormatItem id="HHmmss">HH:mm:ss</dateFormatItem>
+						<dateFormatItem id="Hm">H:mm</dateFormatItem>
+						<dateFormatItem id="M">L</dateFormatItem>
+						<dateFormatItem id="MEd">E, M-d</dateFormatItem>
+						<dateFormatItem id="MMM">LLL</dateFormatItem>
 						<dateFormatItem id="MMMEd">E MMM d</dateFormatItem>
+						<dateFormatItem id="MMMMEd">E MMMM d</dateFormatItem>
 						<dateFormatItem id="MMMMd">MMMM d</dateFormatItem>
+						<dateFormatItem id="MMMd">MMM d</dateFormatItem>
 						<dateFormatItem id="Md">M-d</dateFormatItem>
-						<dateFormatItem id="mmss">mm:ss</dateFormatItem>
-						<dateFormatItem id="yyMM">yy-MM</dateFormatItem>
-						<dateFormatItem id="yyMMM">yy MMM</dateFormatItem>
-						<dateFormatItem id="yyQ">yy Q</dateFormatItem>
-						<dateFormatItem id="yyyy">yyyy</dateFormatItem>
+						<dateFormatItem id="d">d</dateFormatItem>
+						<dateFormatItem id="ms">mm:ss</dateFormatItem>
+						<dateFormatItem id="y">yyyy</dateFormatItem>
+						<dateFormatItem id="yM">yyyy-M</dateFormatItem>
+						<dateFormatItem id="yMEd">EEE, yyyy-M-d</dateFormatItem>
+						<dateFormatItem id="yMMM">yyyy MMM</dateFormatItem>
+						<dateFormatItem id="yMMMEd">EEE, yyyy MMM d</dateFormatItem>
+						<dateFormatItem id="yMMMM">yyyy MMMM</dateFormatItem>
+						<dateFormatItem id="yQ">yyyy Q</dateFormatItem>
+						<dateFormatItem id="yQQQ">yyyy QQQ</dateFormatItem>
 					</availableFormats>
 					<appendItems>
 						<appendItem request="Day">{0} ({2}: {1})</appendItem>
@@ -569,6 +580,90 @@
 						<appendItem request="Week">{0} ({2}: {1})</appendItem>
 						<appendItem request="Year">{0} {1}</appendItem>
 					</appendItems>
+					<intervalFormats>
+						<intervalFormatFallback>{0} – {1}</intervalFormatFallback>
+						<intervalFormatItem id="M">
+							<greatestDifference id="M">M-M</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="MEd">
+							<greatestDifference id="M">E, MM-dd – E, MM-dd</greatestDifference>
+							<greatestDifference id="d">E, MM-dd – E, MM-dd</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="MMM">
+							<greatestDifference id="M">LLL-LLL</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="MMMEd">
+							<greatestDifference id="M">E, MM-d – E, MM-d</greatestDifference>
+							<greatestDifference id="d">E, MM-d – E, MM-d</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="MMMM">
+							<greatestDifference id="M">LLLL-LLLL</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="MMMd">
+							<greatestDifference id="M">MM-d – MM-d</greatestDifference>
+							<greatestDifference id="d">MM-d – d</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="Md">
+							<greatestDifference id="M">MM-dd – MM-dd</greatestDifference>
+							<greatestDifference id="d">MM-dd – dd</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="d">
+							<greatestDifference id="d">d-d</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="h">
+							<greatestDifference id="a">HH-HH</greatestDifference>
+							<greatestDifference id="h">HH-HH</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="hm">
+							<greatestDifference id="a">HH:mm-HH:mm</greatestDifference>
+							<greatestDifference id="h">HH:mm-HH:mm</greatestDifference>
+							<greatestDifference id="m">HH:mm-HH:mm</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="hmv">
+							<greatestDifference id="a">HH:mm-HH:mm v</greatestDifference>
+							<greatestDifference id="h">HH:mm-HH:mm v</greatestDifference>
+							<greatestDifference id="m">HH:mm-HH:mm v</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="hv">
+							<greatestDifference id="a">HH-HH v</greatestDifference>
+							<greatestDifference id="h">HH-HH v</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="y">
+							<greatestDifference id="y">y-y</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="yM">
+							<greatestDifference id="M">yyyy-MM – MM</greatestDifference>
+							<greatestDifference id="y">yyyy-MM – yyyy-MM</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="yMEd">
+							<greatestDifference id="M">E, yyyy-MM-dd – E, yyyy-MM-dd</greatestDifference>
+							<greatestDifference id="d">E, yyyy-MM-dd – E, yyyy-MM-dd</greatestDifference>
+							<greatestDifference id="y">E, yyyy-MM-dd – E, yyyy-MM-dd</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="yMMM">
+							<greatestDifference id="M">yyyy-MM – MM</greatestDifference>
+							<greatestDifference id="y">yyyy-MM – yyyy-MM</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="yMMMEd">
+							<greatestDifference id="M">E, yyyy-MM-dd – E, yyyy-MM-dd</greatestDifference>
+							<greatestDifference id="d">E, yyyy-MM-dd – E, yyyy-MM-dd</greatestDifference>
+							<greatestDifference id="y">E, yyyy-MM-dd – E, yyyy-MM-dd</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="yMMMM">
+							<greatestDifference id="M">yyyy-MM – MM</greatestDifference>
+							<greatestDifference id="y">yyyy-MM – yyyy-MM</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="yMMMd">
+							<greatestDifference id="M">yyyy-MM-dd – MM-d</greatestDifference>
+							<greatestDifference id="d">yyyy-MM-d – d</greatestDifference>
+							<greatestDifference id="y">yyyy-MM-dd – yyyy-MM-dd</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="yMd">
+							<greatestDifference id="M">yyyy-MM-dd – MM-dd</greatestDifference>
+							<greatestDifference id="d">yyyy-MM-dd – dd</greatestDifference>
+							<greatestDifference id="y">yyyy-MM-dd – yyyy-MM-dd</greatestDifference>
+						</intervalFormatItem>
+					</intervalFormats>
 				</dateTimeFormats>
 				<fields>
 					<field type="era">
@@ -678,6 +773,84 @@
 							 = -180799862400000 milliseconds since 1/1/1970 AD
 							 See: http://dev.icu-project.org/cgi-bin/viewcvs.cgi/*checkout*/icu/source/i18n/hebrwcal.cpp
 						-->
+					</eraAbbr>
+					<eraNarrow>
+						<alias source="locale" path="../eraAbbr"/>
+					</eraNarrow>
+				</eras>
+				<dateFormats>
+					<alias source="locale" path="../../calendar[@type='gregorian']/dateFormats"/>
+				</dateFormats>
+				<timeFormats>
+					<alias source="locale" path="../../calendar[@type='gregorian']/timeFormats"/>
+				</timeFormats>
+				<dateTimeFormats>
+					<alias source="locale" path="../../calendar[@type='gregorian']/dateTimeFormats"/>
+				</dateTimeFormats>
+			</calendar>
+			<calendar type="indian">
+				<months>
+					<default choice="format"/>
+					<monthContext type="format">
+						<default choice="wide"/>
+						<monthWidth type="abbreviated">
+							<alias source="locale" path="../monthWidth[@type='wide']"/>
+						</monthWidth>
+						<monthWidth type="narrow">
+							<alias source="locale" path="../../monthContext[@type='stand-alone']/monthWidth[@type='narrow']"/>
+						</monthWidth>
+						<monthWidth type="wide">
+							<month type="1">Chaitra</month>
+							<month type="2">Vaisakha</month>
+							<month type="3">Jyaistha</month>
+							<month type="4">Asadha</month>
+							<month type="5">Sravana</month>
+							<month type="6">Bhadra</month>
+							<month type="7">Asvina</month>
+							<month type="8">Kartika</month>
+							<month type="9">Agrahayana</month>
+							<month type="10">Pausa</month>
+							<month type="11">Magha</month>
+							<month type="12">Phalguna</month>
+						</monthWidth>
+					</monthContext>
+					<monthContext type="stand-alone">
+						<monthWidth type="abbreviated">
+							<alias source="locale" path="../../monthContext[@type='format']/monthWidth[@type='abbreviated']"/>
+						</monthWidth>
+						<monthWidth type="narrow">
+							<month type="1">1</month>
+							<month type="2">2</month>
+							<month type="3">3</month>
+							<month type="4">4</month>
+							<month type="5">5</month>
+							<month type="6">6</month>
+							<month type="7">7</month>
+							<month type="8">8</month>
+							<month type="9">9</month>
+							<month type="10">10</month>
+							<month type="11">11</month>
+							<month type="12">12</month>
+						</monthWidth>
+						<monthWidth type="wide">
+							<alias source="locale" path="../../monthContext[@type='format']/monthWidth[@type='wide']"/>
+						</monthWidth>
+					</monthContext>
+				</months>
+				<days>
+					<alias source="locale" path="../../calendar[@type='gregorian']/days"/>
+				</days>
+				<quarters>
+					<alias source="locale" path="../../calendar[@type='gregorian']/quarters"/>
+				</quarters>
+				<am>AM</am>
+				<pm>PM</pm>
+				<eras>
+					<eraNames>
+						<alias source="locale" path="../eraAbbr"/>
+					</eraNames>
+					<eraAbbr>
+						<era type="0">SAKA</era>
 					</eraAbbr>
 					<eraNarrow>
 						<alias source="locale" path="../eraAbbr"/>
@@ -1071,7 +1244,39 @@
 					<alias source="locale" path="../../calendar[@type='gregorian']/timeFormats"/>
 				</timeFormats>
 				<dateTimeFormats>
-					<alias source="locale" path="../../calendar[@type='gregorian']/dateTimeFormats"/>
+					<dateTimeFormatLength>
+						<dateTimeFormat>
+							<pattern>{1} {0}</pattern>
+						</dateTimeFormat>
+					</dateTimeFormatLength>
+					<availableFormats>
+						<!-- The following are copied from gregorian (previously included via alias) -->
+						<dateFormatItem id="Ed">E d</dateFormatItem>
+						<dateFormatItem id="H">H</dateFormatItem>
+						<dateFormatItem id="Hm">HH:mm</dateFormatItem>
+						<dateFormatItem id="Hms">HH:mm:ss</dateFormatItem>
+						<dateFormatItem id="MMMEd">E MMM d</dateFormatItem>
+						<dateFormatItem id="MMMMd">MMMM d</dateFormatItem>
+						<dateFormatItem id="Md">M-d</dateFormatItem>
+						<dateFormatItem id="ms">mm:ss</dateFormatItem>
+						<dateFormatItem id="y">yyyy GGG</dateFormatItem>
+						<dateFormatItem id="yM">GGGGG yy-MM</dateFormatItem>
+						<dateFormatItem id="yMMM">GGGGG yy MMM</dateFormatItem>
+						<dateFormatItem id="yQ">GGGGG yy Q</dateFormatItem>
+					</availableFormats>
+					<appendItems>
+						<appendItem request="Day">{0} ({2}: {1})</appendItem>
+						<appendItem request="Day-Of-Week">{0} {1}</appendItem>
+						<appendItem request="Era">{0} {1}</appendItem>
+						<appendItem request="Hour">{0} ({2}: {1})</appendItem>
+						<appendItem request="Minute">{0} ({2}: {1})</appendItem>
+						<appendItem request="Month">{0} ({2}: {1})</appendItem>
+						<appendItem request="Quarter">{0} ({2}: {1})</appendItem>
+						<appendItem request="Second">{0} ({2}: {1})</appendItem>
+						<appendItem request="Timezone">{0} {1}</appendItem>
+						<appendItem request="Week">{0} ({2}: {1})</appendItem>
+						<appendItem request="Year">{0} {1}</appendItem>
+					</appendItems>
 				</dateTimeFormats>
 			</calendar>
 			<calendar type="persian">
@@ -1152,6 +1357,61 @@
 					<alias source="locale" path="../../calendar[@type='gregorian']/dateTimeFormats"/>
 				</dateTimeFormats>
 			</calendar>
+			<calendar type="roc">
+				<months>
+					<alias source="locale" path="../../calendar[@type='gregorian']/months"/>
+				</months>
+				<days>
+					<alias source="locale" path="../../calendar[@type='gregorian']/days"/>
+				</days>
+				<quarters>
+					<alias source="locale" path="../../calendar[@type='gregorian']/quarters"/>
+				</quarters>
+				<am>AM</am>
+				<pm>PM</pm>
+				<eras>
+					<eraNames>
+						<alias source="locale" path="../eraAbbr"/>
+					</eraNames>
+					<!-- = 1912 AD     gregorian. See: http://en.wikipedia.org/wiki/Minguo_calendar -->
+					<eraAbbr>
+						<era type="0">Before R.O.C.</era>
+						<era type="1">R.O.C.</era>
+					</eraAbbr>
+					<eraNarrow>
+						<alias source="locale" path="../eraAbbr"/>
+					</eraNarrow>
+				</eras>
+				<dateFormats>
+					<default choice="medium"/>
+					<dateFormatLength type="full">
+						<dateFormat>
+							<pattern>EEEE, MMMM d, G y</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="long">
+						<dateFormat>
+							<pattern>MMMM d, G y</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="medium">
+						<dateFormat>
+							<pattern>MMM d, G y</pattern>
+						</dateFormat>
+					</dateFormatLength>
+					<dateFormatLength type="short">
+						<dateFormat>
+							<pattern>G y/M/d</pattern>
+						</dateFormat>
+					</dateFormatLength>
+				</dateFormats>
+				<timeFormats>
+					<alias source="locale" path="../../calendar[@type='gregorian']/timeFormats"/>
+				</timeFormats>
+				<dateTimeFormats>
+					<alias source="locale" path="../../calendar[@type='gregorian']/dateTimeFormats"/>
+				</dateTimeFormats>
+			</calendar>
 		</calendars>
 		<timeZoneNames>
 			<hourFormat>+HH:mm;-HH:mm</hourFormat>
@@ -1161,1329 +1421,1039 @@
 			<fallbackFormat>{1} ({0})</fallbackFormat>
 			<abbreviationFallback choice="standard"/>
 			<preferenceOrdering choice=""/>
-			<singleCountries list="Africa/Bamako America/Godthab America/Santiago America/Guayaquil Asia/Shanghai Asia/Tashkent Asia/Kuala_Lumpur Europe/Madrid Europe/Lisbon Europe/London Pacific/Auckland Pacific/Tahiti"/>
-			<zone type="Europe/Andorra">
-				<usesMetazone mzone="Europe_Central"/>
-			</zone>
-			<zone type="Asia/Dubai">
-				<usesMetazone mzone="Gulf"/>
-			</zone>
-			<zone type="Asia/Kabul">
-				<usesMetazone mzone="Afghanistan"/>
-			</zone>
-			<zone type="America/Antigua">
-				<usesMetazone mzone="Atlantic"/>
-			</zone>
-			<zone type="America/Anguilla">
-				<usesMetazone mzone="Atlantic"/>
-			</zone>
-			<zone type="Europe/Tirane">
-				<usesMetazone mzone="Europe_Central"/>
-			</zone>
-			<zone type="Asia/Yerevan">
-				<usesMetazone to="1991-09-23" mzone="Yerevan"/>
-				<usesMetazone from="1991-09-23" mzone="Armenia"/>
-			</zone>
-			<zone type="America/Curacao">
-				<usesMetazone mzone="Atlantic"/>
-			</zone>
-			<zone type="Africa/Luanda">
-				<usesMetazone mzone="Africa_Western"/>
-			</zone>
-			<zone type="Antarctica/Rothera">
-				<usesMetazone mzone="Rothera"/>
-			</zone>
-			<zone type="Antarctica/Palmer">
-				<usesMetazone to="1982-01-01" mzone="Argentina"/>
-				<usesMetazone from="1982-01-01" mzone="Chile"/>
-			</zone>
-			<zone type="Antarctica/Syowa">
-				<usesMetazone mzone="Syowa"/>
-			</zone>
-			<zone type="Antarctica/Mawson">
-				<usesMetazone mzone="Mawson"/>
-			</zone>
-			<zone type="Antarctica/Davis">
-				<usesMetazone mzone="Davis"/>
-			</zone>
-			<zone type="Antarctica/Vostok">
-				<usesMetazone mzone="Vostok"/>
-			</zone>
-			<zone type="Antarctica/Casey">
-				<usesMetazone mzone="Australia_Western"/>
+			<singleCountries list="Europe/Kiev Pacific/Majuro Africa/Bamako America/Godthab America/Santiago America/Guayaquil Asia/Shanghai Asia/Tashkent Asia/Kuala_Lumpur Europe/Madrid Europe/Lisbon Europe/London Pacific/Auckland Pacific/Tahiti"/>
+			<zone type="Etc/Unknown">
+				<exemplarCity>Unknown</exemplarCity>
 			</zone>
 			<zone type="Antarctica/DumontDUrville">
-				<usesMetazone mzone="DumontDUrville"/>
-			</zone>
-			<zone type="Antarctica/McMurdo">
-				<usesMetazone mzone="New_Zealand"/>
-			</zone>
-			<zone type="America/Argentina/Rio_Gallegos">
-				<usesMetazone to="2004-06-01" mzone="Argentina"/>
-				<usesMetazone to="2004-06-20" from="2004-06-01" mzone="Argentina_Western"/>
-				<usesMetazone from="2004-06-20" mzone="Argentina"/>
-			</zone>
-			<zone type="America/Mendoza">
-				<usesMetazone to="1991-03-04" mzone="Argentina"/>
-				<usesMetazone to="1992-10-18" from="1991-03-04" mzone="Argentina_Western"/>
-				<usesMetazone to="2004-05-23" from="1992-10-18" mzone="Argentina"/>
-				<usesMetazone to="2004-09-26" from="2004-05-23" mzone="Argentina_Western"/>
-				<usesMetazone from="2004-09-26" mzone="Argentina"/>
-			</zone>
-			<zone type="America/Argentina/San_Juan">
-				<usesMetazone to="1991-03-01" mzone="Argentina"/>
-				<usesMetazone to="1991-05-07" from="1991-03-01" mzone="Argentina_Western"/>
-				<usesMetazone to="2004-05-31" from="1991-05-07" mzone="Argentina"/>
-				<usesMetazone to="2004-07-25" from="2004-05-31" mzone="Argentina_Western"/>
-				<usesMetazone from="2004-07-25" mzone="Argentina"/>
-			</zone>
-			<zone type="America/Argentina/Ushuaia">
-				<usesMetazone to="2004-05-30" mzone="Argentina"/>
-				<usesMetazone to="2004-06-20" from="2004-05-30" mzone="Argentina_Western"/>
-				<usesMetazone from="2004-06-20" mzone="Argentina"/>
-			</zone>
-			<zone type="America/Argentina/La_Rioja">
-				<usesMetazone to="1991-03-01" mzone="Argentina"/>
-				<usesMetazone to="1991-05-07" from="1991-03-01" mzone="Argentina_Western"/>
-				<usesMetazone to="2004-06-01" from="1991-05-07" mzone="Argentina"/>
-				<usesMetazone to="2004-06-20" from="2004-06-01" mzone="Argentina_Western"/>
-				<usesMetazone from="2004-06-20" mzone="Argentina"/>
-			</zone>
-			<zone type="America/Catamarca">
-				<usesMetazone to="1991-03-04" mzone="Argentina"/>
-				<usesMetazone to="1991-10-20" from="1991-03-04" mzone="Argentina_Western"/>
-				<usesMetazone to="2004-06-01" from="1991-10-20" mzone="Argentina"/>
-				<usesMetazone to="2004-06-20" from="2004-06-01" mzone="Argentina_Western"/>
-				<usesMetazone from="2004-06-20" mzone="Argentina"/>
-			</zone>
-			<zone type="America/Jujuy">
-				<usesMetazone to="1990-03-04" mzone="Argentina"/>
-				<usesMetazone to="1991-10-06" from="1990-03-04" mzone="Argentina_Western"/>
-				<usesMetazone from="1991-10-06" mzone="Argentina"/>
-			</zone>
-			<zone type="America/Argentina/Tucuman">
-				<usesMetazone to="1991-03-03" mzone="Argentina"/>
-				<usesMetazone to="1991-10-20" from="1991-03-03" mzone="Argentina_Western"/>
-				<usesMetazone to="2004-06-01" from="1991-10-20" mzone="Argentina"/>
-				<usesMetazone to="2004-06-13" from="2004-06-01" mzone="Argentina_Western"/>
-				<usesMetazone from="2004-06-13" mzone="Argentina"/>
-			</zone>
-			<zone type="America/Cordoba">
-				<usesMetazone to="1991-03-03" mzone="Argentina"/>
-				<usesMetazone to="1991-10-20" from="1991-03-03" mzone="Argentina_Western"/>
-				<usesMetazone from="1991-10-20" mzone="Argentina"/>
-			</zone>
-			<zone type="America/Buenos_Aires">
-				<usesMetazone mzone="Argentina"/>
-			</zone>
-			<zone type="Pacific/Pago_Pago">
-				<usesMetazone to="1983-11-30" mzone="Bering"/>
-				<usesMetazone from="1983-11-30" mzone="Samoa"/>
-			</zone>
-			<zone type="Europe/Vienna">
-				<usesMetazone mzone="Europe_Central"/>
-			</zone>
-			<zone type="Australia/Perth">
-				<usesMetazone mzone="Australia_Western"/>
-			</zone>
-			<zone type="Australia/Eucla">
-				<usesMetazone mzone="Australia_CentralWestern"/>
-			</zone>
-			<zone type="Australia/Darwin">
-				<usesMetazone mzone="Australia_Central"/>
-			</zone>
-			<zone type="Australia/Adelaide">
-				<usesMetazone mzone="Australia_Central"/>
-			</zone>
-			<zone type="Australia/Broken_Hill">
-				<usesMetazone mzone="Australia_Central"/>
-			</zone>
-			<zone type="Australia/Currie">
-				<usesMetazone mzone="Australia_Eastern"/>
-			</zone>
-			<zone type="Australia/Melbourne">
-				<usesMetazone mzone="Australia_Eastern"/>
-			</zone>
-			<zone type="Australia/Hobart">
-				<usesMetazone mzone="Australia_Eastern"/>
-			</zone>
-			<zone type="Australia/Lindeman">
-				<usesMetazone mzone="Australia_Eastern"/>
-			</zone>
-			<zone type="Australia/Sydney">
-				<usesMetazone mzone="Australia_Eastern"/>
-			</zone>
-			<zone type="Australia/Brisbane">
-				<usesMetazone mzone="Australia_Eastern"/>
-			</zone>
-			<zone type="Australia/Lord_Howe">
-				<usesMetazone to="1981-03-01" mzone="Australia_Eastern"/>
-				<usesMetazone from="1981-03-01" mzone="Lord_Howe"/>
-			</zone>
-			<zone type="America/Aruba">
-				<usesMetazone mzone="Atlantic"/>
-			</zone>
-			<zone type="Asia/Baku">
-				<usesMetazone to="1991-08-30" mzone="Baku"/>
-				<usesMetazone from="1991-08-30" mzone="Azerbaijan"/>
-			</zone>
-			<zone type="Europe/Sarajevo">
-				<usesMetazone mzone="Europe_Central"/>
-			</zone>
-			<zone type="America/Barbados">
-				<usesMetazone mzone="Atlantic"/>
-			</zone>
-			<zone type="Asia/Dhaka">
-				<usesMetazone to="1971-03-26" mzone="Dacca"/>
-				<usesMetazone from="1971-03-26" mzone="Bangladesh"/>
-			</zone>
-			<zone type="Europe/Brussels">
-				<usesMetazone mzone="Europe_Central"/>
-			</zone>
-			<zone type="Africa/Ouagadougou">
-				<usesMetazone mzone="GMT"/>
-			</zone>
-			<zone type="Europe/Sofia">
-				<usesMetazone mzone="Europe_Eastern"/>
-			</zone>
-			<zone type="Asia/Bahrain">
-				<usesMetazone to="1972-06-01" mzone="Gulf"/>
-				<usesMetazone from="1972-06-01" mzone="Arabian"/>
-			</zone>
-			<zone type="Africa/Bujumbura">
-				<usesMetazone mzone="Africa_Central"/>
-			</zone>
-			<zone type="Africa/Porto-Novo">
-				<usesMetazone mzone="Africa_Western"/>
-			</zone>
-			<zone type="Atlantic/Bermuda">
-				<usesMetazone mzone="Atlantic"/>
-			</zone>
-			<zone type="Asia/Brunei">
-				<usesMetazone mzone="Brunei"/>
-			</zone>
-			<zone type="America/La_Paz">
-				<usesMetazone mzone="Bolivia"/>
-			</zone>
-			<zone type="America/Eirunepe">
-				<usesMetazone mzone="Acre"/>
-			</zone>
-			<zone type="America/Rio_Branco">
-				<usesMetazone mzone="Acre"/>
-			</zone>
-			<zone type="America/Porto_Velho">
-				<usesMetazone mzone="Amazon"/>
-			</zone>
-			<zone type="America/Boa_Vista">
-				<usesMetazone mzone="Amazon"/>
-			</zone>
-			<zone type="America/Manaus">
-				<usesMetazone mzone="Amazon"/>
-			</zone>
-			<zone type="America/Cuiaba">
-				<usesMetazone mzone="Amazon"/>
-			</zone>
-			<zone type="America/Campo_Grande">
-				<usesMetazone mzone="Amazon"/>
-			</zone>
-			<zone type="America/Belem">
-				<usesMetazone mzone="Brasilia"/>
-			</zone>
-			<zone type="America/Araguaina">
-				<usesMetazone mzone="Brasilia"/>
-			</zone>
-			<zone type="America/Sao_Paulo">
-				<usesMetazone mzone="Brasilia"/>
-			</zone>
-			<zone type="America/Bahia">
-				<usesMetazone mzone="Brasilia"/>
-			</zone>
-			<zone type="America/Fortaleza">
-				<usesMetazone mzone="Brasilia"/>
-			</zone>
-			<zone type="America/Maceio">
-				<usesMetazone mzone="Brasilia"/>
-			</zone>
-			<zone type="America/Recife">
-				<usesMetazone mzone="Brasilia"/>
-			</zone>
-			<zone type="America/Noronha">
-				<usesMetazone mzone="Noronha"/>
-			</zone>
-			<zone type="America/Nassau">
-				<usesMetazone mzone="America_Eastern"/>
-			</zone>
-			<zone type="Asia/Thimphu">
-				<usesMetazone to="1987-10-01" mzone="India"/>
-				<usesMetazone from="1987-10-01" mzone="Bhutan"/>
-			</zone>
-			<zone type="Africa/Gaborone">
-				<usesMetazone mzone="Africa_Central"/>
-			</zone>
-			<zone type="Europe/Minsk">
-				<usesMetazone to="1991-03-31 02:00" mzone="Moscow"/>
-				<usesMetazone from="1991-03-31 02:00" mzone="Europe_Eastern"/>
-			</zone>
-			<zone type="America/Belize">
-				<usesMetazone mzone="America_Central"/>
-			</zone>
-			<zone type="America/Dawson">
-				<usesMetazone to="1973-10-28" mzone="Yukon"/>
-				<usesMetazone from="1973-10-28" mzone="America_Pacific"/>
-			</zone>
-			<zone type="America/Whitehorse">
-				<usesMetazone mzone="America_Pacific"/>
-			</zone>
-			<zone type="America/Inuvik">
-				<usesMetazone to="1979-04-29 02:00" mzone="America_Pacific"/>
-				<usesMetazone from="1979-04-29 02:00" mzone="America_Mountain"/>
-			</zone>
-			<zone type="America/Vancouver">
-				<usesMetazone mzone="America_Pacific"/>
-			</zone>
-			<zone type="America/Dawson_Creek">
-				<usesMetazone to="1972-08-30 02:00" mzone="America_Pacific"/>
-				<usesMetazone from="1972-08-30 02:00" mzone="America_Mountain"/>
-			</zone>
-			<zone type="America/Yellowknife">
-				<usesMetazone mzone="America_Mountain"/>
-			</zone>
-			<zone type="America/Edmonton">
-				<usesMetazone mzone="America_Mountain"/>
-			</zone>
-			<zone type="America/Swift_Current">
-				<usesMetazone to="1972-04-30 02:00" mzone="America_Mountain"/>
-				<usesMetazone from="1972-04-30 02:00" mzone="America_Central"/>
-			</zone>
-			<zone type="America/Cambridge_Bay">
-				<usesMetazone to="1999-10-31 02:00" mzone="America_Mountain"/>
-				<usesMetazone to="2000-10-29 02:00" from="1999-10-31 02:00" mzone="America_Central"/>
-				<usesMetazone to="2000-11-05" from="2000-10-29 02:00" mzone="America_Eastern"/>
-				<usesMetazone to="2001-04-01 03:00" from="2000-11-05" mzone="America_Central"/>
-				<usesMetazone from="2001-04-01 03:00" mzone="America_Mountain"/>
-			</zone>
-			<zone type="America/Regina">
-				<usesMetazone mzone="America_Central"/>
-			</zone>
-			<zone type="America/Winnipeg">
-				<usesMetazone mzone="America_Central"/>
-			</zone>
-			<zone type="America/Rainy_River">
-				<usesMetazone mzone="America_Central"/>
-			</zone>
-			<zone type="America/Rankin_Inlet">
-				<usesMetazone to="2000-10-29 02:00" mzone="America_Central"/>
-				<usesMetazone to="2001-04-01 03:00" from="2000-10-29 02:00" mzone="America_Eastern"/>
-				<usesMetazone from="2001-04-01 03:00" mzone="America_Central"/>
-			</zone>
-			<zone type="America/Coral_Harbour">
-				<usesMetazone mzone="America_Eastern"/>
-			</zone>
-			<zone type="America/Thunder_Bay">
-				<usesMetazone mzone="America_Eastern"/>
-			</zone>
-			<zone type="America/Nipigon">
-				<usesMetazone mzone="America_Eastern"/>
-			</zone>
-			<zone type="America/Toronto">
-				<usesMetazone mzone="America_Eastern"/>
-			</zone>
-			<zone type="America/Montreal">
-				<usesMetazone mzone="America_Eastern"/>
-			</zone>
-			<zone type="America/Iqaluit">
-				<usesMetazone to="1999-10-31 02:00" mzone="America_Eastern"/>
-				<usesMetazone to="2000-10-29 02:00" from="1999-10-31 02:00" mzone="America_Central"/>
-				<usesMetazone from="2000-10-29 02:00" mzone="America_Eastern"/>
-			</zone>
-			<zone type="America/Pangnirtung">
-				<usesMetazone to="1995-04-02 02:00" mzone="Atlantic"/>
-				<usesMetazone to="1999-10-31 02:00" from="1995-04-02 02:00" mzone="America_Eastern"/>
-				<usesMetazone to="2000-10-29 02:00" from="1999-10-31 02:00" mzone="America_Central"/>
-				<usesMetazone from="2000-10-29 02:00" mzone="America_Eastern"/>
-			</zone>
-			<zone type="America/Moncton">
-				<usesMetazone mzone="Atlantic"/>
-			</zone>
-			<zone type="America/Halifax">
-				<usesMetazone mzone="Atlantic"/>
-			</zone>
-			<zone type="America/Goose_Bay">
-				<usesMetazone mzone="Atlantic"/>
-			</zone>
-			<zone type="America/Glace_Bay">
-				<usesMetazone mzone="Atlantic"/>
-			</zone>
-			<zone type="America/Blanc-Sablon">
-				<usesMetazone mzone="Atlantic"/>
+				<exemplarCity>Dumont d'Urville</exemplarCity>
 			</zone>
 			<zone type="America/St_Johns">
-				<usesMetazone mzone="Newfoundland"/>
-			</zone>
-			<zone type="Indian/Cocos">
-				<usesMetazone mzone="Cocos"/>
-			</zone>
-			<zone type="Africa/Kinshasa">
-				<usesMetazone mzone="Africa_Western"/>
-			</zone>
-			<zone type="Africa/Lubumbashi">
-				<usesMetazone mzone="Africa_Central"/>
-			</zone>
-			<zone type="Africa/Bangui">
-				<usesMetazone mzone="Africa_Western"/>
-			</zone>
-			<zone type="Africa/Brazzaville">
-				<usesMetazone mzone="Africa_Western"/>
-			</zone>
-			<zone type="Europe/Zurich">
-				<usesMetazone mzone="Europe_Central"/>
-			</zone>
-			<zone type="Africa/Abidjan">
-				<usesMetazone mzone="GMT"/>
-			</zone>
-			<zone type="Pacific/Rarotonga">
-				<usesMetazone mzone="Cook"/>
-			</zone>
-			<zone type="Pacific/Easter">
-				<usesMetazone mzone="Easter"/>
-			</zone>
-			<zone type="America/Santiago">
-				<usesMetazone mzone="Chile"/>
-			</zone>
-			<zone type="Africa/Douala">
-				<usesMetazone mzone="Africa_Western"/>
-			</zone>
-			<zone type="Asia/Kashgar">
-				<usesMetazone to="1980-05-01" mzone="Kashgar"/>
-				<usesMetazone from="1980-05-01" mzone="China"/>
-			</zone>
-			<zone type="Asia/Urumqi">
-				<usesMetazone to="1980-05-01" mzone="Urumqi"/>
-				<usesMetazone from="1980-05-01" mzone="China"/>
-			</zone>
-			<zone type="Asia/Chongqing">
-				<usesMetazone to="1980-05-01" mzone="Long_Shu"/>
-				<usesMetazone from="1980-05-01" mzone="China"/>
-			</zone>
-			<zone type="Asia/Shanghai">
-				<usesMetazone mzone="China"/>
-			</zone>
-			<zone type="Asia/Harbin">
-				<usesMetazone to="1980-05-01" mzone="Changbai"/>
-				<usesMetazone from="1980-05-01" mzone="China"/>
-			</zone>
-			<zone type="America/Bogota">
-				<usesMetazone mzone="Colombia"/>
-			</zone>
-			<zone type="America/Costa_Rica">
-				<usesMetazone mzone="America_Central"/>
-			</zone>
-			<zone type="America/Havana">
-				<usesMetazone mzone="Cuba"/>
-			</zone>
-			<zone type="Atlantic/Cape_Verde">
-				<usesMetazone mzone="Cape_Verde"/>
-			</zone>
-			<zone type="Indian/Christmas">
-				<usesMetazone mzone="Christmas"/>
-			</zone>
-			<zone type="Asia/Nicosia">
-				<usesMetazone mzone="Europe_Eastern"/>
-			</zone>
-			<zone type="Europe/Prague">
-				<usesMetazone mzone="Europe_Central"/>
-			</zone>
-			<zone type="Europe/Berlin">
-				<usesMetazone mzone="Europe_Central"/>
-			</zone>
-			<zone type="Africa/Djibouti">
-				<usesMetazone mzone="Africa_Eastern"/>
-			</zone>
-			<zone type="Europe/Copenhagen">
-				<usesMetazone mzone="Europe_Central"/>
-			</zone>
-			<zone type="America/Dominica">
-				<usesMetazone mzone="Atlantic"/>
-			</zone>
-			<zone type="America/Santo_Domingo">
-				<usesMetazone to="1974-10-27" mzone="America_Eastern"/>
-				<usesMetazone to="2000-10-29 02:00" from="1974-10-27" mzone="Atlantic"/>
-				<usesMetazone to="2000-12-03 01:00" from="2000-10-29 02:00" mzone="America_Eastern"/>
-				<usesMetazone from="2000-12-03 01:00" mzone="Atlantic"/>
-			</zone>
-			<zone type="Africa/Algiers">
-				<usesMetazone to="1977-10-21" mzone="Europe_Western"/>
-				<usesMetazone to="1979-10-26" from="1977-10-21" mzone="Europe_Central"/>
-				<usesMetazone to="1981-05-01" from="1979-10-26" mzone="Europe_Western"/>
-				<usesMetazone from="1981-05-01" mzone="Europe_Central"/>
-			</zone>
-			<zone type="Pacific/Galapagos">
-				<usesMetazone to="1986-01-01" mzone="Ecuador"/>
-				<usesMetazone from="1986-01-01" mzone="Galapagos"/>
-			</zone>
-			<zone type="America/Guayaquil">
-				<usesMetazone mzone="Ecuador"/>
-			</zone>
-			<zone type="Europe/Tallinn">
-				<usesMetazone to="1989-03-26 02:00" mzone="Moscow"/>
-				<usesMetazone from="1989-03-26 02:00" mzone="Europe_Eastern"/>
-			</zone>
-			<zone type="Africa/Cairo">
-				<usesMetazone mzone="Europe_Eastern"/>
-			</zone>
-			<zone type="Africa/El_Aaiun">
-				<usesMetazone to="1976-04-14" mzone="Africa_FarWestern"/>
-				<usesMetazone from="1976-04-14" mzone="Europe_Western"/>
-			</zone>
-			<zone type="Africa/Asmera">
-				<usesMetazone mzone="Africa_Eastern"/>
-			</zone>
-			<zone type="Atlantic/Canary">
-				<usesMetazone mzone="Europe_Western"/>
-			</zone>
-			<zone type="Africa/Ceuta">
-				<usesMetazone to="1984-03-16" mzone="Europe_Western"/>
-				<usesMetazone from="1984-03-16" mzone="Europe_Central"/>
-			</zone>
-			<zone type="Europe/Madrid">
-				<usesMetazone mzone="Europe_Central"/>
-			</zone>
-			<zone type="Africa/Addis_Ababa">
-				<usesMetazone mzone="Africa_Eastern"/>
-			</zone>
-			<zone type="Europe/Helsinki">
-				<usesMetazone mzone="Europe_Eastern"/>
-			</zone>
-			<zone type="Pacific/Fiji">
-				<usesMetazone mzone="Fiji"/>
-			</zone>
-			<zone type="Atlantic/Stanley">
-				<usesMetazone mzone="Falkland"/>
-			</zone>
-			<zone type="Pacific/Truk">
-				<usesMetazone mzone="Truk"/>
-			</zone>
-			<zone type="Pacific/Ponape">
-				<usesMetazone mzone="Ponape"/>
-			</zone>
-			<zone type="Pacific/Kosrae">
-				<usesMetazone mzone="Kosrae"/>
-			</zone>
-			<zone type="Atlantic/Faeroe">
-				<usesMetazone mzone="Europe_Western"/>
-			</zone>
-			<zone type="Europe/Paris">
-				<usesMetazone mzone="Europe_Central"/>
-			</zone>
-			<zone type="Africa/Libreville">
-				<usesMetazone mzone="Africa_Western"/>
-			</zone>
-			<zone type="Europe/London">
-				<usesMetazone mzone="GMT"/>
-			</zone>
-			<zone type="America/Grenada">
-				<usesMetazone mzone="Atlantic"/>
-			</zone>
-			<zone type="Asia/Tbilisi">
-				<usesMetazone to="1991-04-09" mzone="Tbilisi"/>
-				<usesMetazone from="1991-04-09" mzone="Georgia"/>
-			</zone>
-			<zone type="America/Cayenne">
-				<usesMetazone mzone="French_Guiana"/>
-			</zone>
-			<zone type="Africa/Accra">
-				<usesMetazone mzone="GMT"/>
-			</zone>
-			<zone type="Europe/Gibraltar">
-				<usesMetazone mzone="Europe_Central"/>
-			</zone>
-			<zone type="America/Thule">
-				<usesMetazone mzone="Atlantic"/>
-			</zone>
-			<zone type="America/Godthab">
-				<usesMetazone mzone="Greenland_Western"/>
-			</zone>
-			<zone type="America/Scoresbysund">
-				<usesMetazone to="1981-03-29" mzone="Greenland_Central"/>
-				<usesMetazone from="1981-03-29" mzone="Greenland_Eastern"/>
-			</zone>
-			<zone type="America/Danmarkshavn">
-				<usesMetazone to="1996-01-01" mzone="Greenland_Western"/>
-				<usesMetazone from="1996-01-01" mzone="GMT"/>
-			</zone>
-			<zone type="Africa/Banjul">
-				<usesMetazone mzone="GMT"/>
-			</zone>
-			<zone type="Africa/Conakry">
-				<usesMetazone mzone="GMT"/>
-			</zone>
-			<zone type="America/Guadeloupe">
-				<usesMetazone mzone="Atlantic"/>
-			</zone>
-			<zone type="Africa/Malabo">
-				<usesMetazone mzone="Africa_Western"/>
-			</zone>
-			<zone type="Europe/Athens">
-				<usesMetazone mzone="Europe_Eastern"/>
-			</zone>
-			<zone type="Atlantic/South_Georgia">
-				<usesMetazone mzone="South_Georgia"/>
-			</zone>
-			<zone type="America/Guatemala">
-				<usesMetazone mzone="America_Central"/>
-			</zone>
-			<zone type="Pacific/Guam">
-				<usesMetazone to="2000-12-23" mzone="Guam"/>
-				<usesMetazone from="2000-12-23" mzone="Chamorro"/>
-			</zone>
-			<zone type="Africa/Bissau">
-				<usesMetazone to="1975-01-01" mzone="Africa_FarWestern"/>
-				<usesMetazone from="1975-01-01" mzone="GMT"/>
-			</zone>
-			<zone type="America/Guyana">
-				<usesMetazone mzone="Guyana"/>
-			</zone>
-			<zone type="Asia/Hong_Kong">
-				<usesMetazone mzone="Hong_Kong"/>
-			</zone>
-			<zone type="America/Tegucigalpa">
-				<usesMetazone mzone="America_Central"/>
-			</zone>
-			<zone type="Europe/Zagreb">
-				<usesMetazone mzone="Europe_Central"/>
-			</zone>
-			<zone type="America/Port-au-Prince">
-				<usesMetazone mzone="America_Eastern"/>
-			</zone>
-			<zone type="Europe/Budapest">
-				<usesMetazone mzone="Europe_Central"/>
-			</zone>
-			<zone type="Asia/Jakarta">
-				<usesMetazone mzone="Indonesia_Western"/>
-			</zone>
-			<zone type="Asia/Pontianak">
-				<usesMetazone to="1988-01-01" mzone="Indonesia_Central"/>
-				<usesMetazone from="1988-01-01" mzone="Indonesia_Western"/>
-			</zone>
-			<zone type="Asia/Makassar">
-				<usesMetazone mzone="Indonesia_Central"/>
-			</zone>
-			<zone type="Asia/Jayapura">
-				<usesMetazone mzone="Indonesia_Eastern"/>
-			</zone>
-			<zone type="Europe/Dublin">
-				<usesMetazone mzone="GMT"/>
-			</zone>
-			<zone type="Asia/Jerusalem">
-				<usesMetazone mzone="Israel"/>
-			</zone>
-			<zone type="Asia/Calcutta">
-				<usesMetazone mzone="India"/>
-			</zone>
-			<zone type="Indian/Chagos">
-				<usesMetazone mzone="Indian_Ocean"/>
-			</zone>
-			<zone type="Asia/Baghdad">
-				<usesMetazone mzone="Arabian"/>
-			</zone>
-			<zone type="Asia/Tehran">
-				<usesMetazone mzone="Iran"/>
-			</zone>
-			<zone type="Atlantic/Reykjavik">
-				<usesMetazone mzone="GMT"/>
-			</zone>
-			<zone type="Europe/Rome">
-				<usesMetazone mzone="Europe_Central"/>
-			</zone>
-			<zone type="America/Jamaica">
-				<usesMetazone mzone="America_Eastern"/>
-			</zone>
-			<zone type="Asia/Amman">
-				<usesMetazone mzone="Europe_Eastern"/>
-			</zone>
-			<zone type="Asia/Tokyo">
-				<usesMetazone mzone="Japan"/>
-			</zone>
-			<zone type="Africa/Nairobi">
-				<usesMetazone mzone="Africa_Eastern"/>
-			</zone>
-			<zone type="Asia/Bishkek">
-				<usesMetazone to="1991-08-31 02:00" mzone="Frunze"/>
-				<usesMetazone from="1991-08-31 02:00" mzone="Kyrgystan"/>
-			</zone>
-			<zone type="Asia/Phnom_Penh">
-				<usesMetazone mzone="Indochina"/>
-			</zone>
-			<zone type="Pacific/Enderbury">
-				<usesMetazone mzone="Phoenix_Islands"/>
-			</zone>
-			<zone type="Pacific/Kiritimati">
-				<usesMetazone mzone="Line_Islands"/>
-			</zone>
-			<zone type="Pacific/Tarawa">
-				<usesMetazone mzone="Gilbert_Islands"/>
-			</zone>
-			<zone type="Indian/Comoro">
-				<usesMetazone mzone="Africa_Eastern"/>
-			</zone>
-			<zone type="America/St_Kitts">
-				<usesMetazone mzone="Atlantic"/>
-			</zone>
-			<zone type="Asia/Pyongyang">
-				<usesMetazone mzone="Korea"/>
-			</zone>
-			<zone type="Asia/Seoul">
-				<usesMetazone mzone="Korea"/>
-			</zone>
-			<zone type="Asia/Kuwait">
-				<usesMetazone mzone="Arabian"/>
-			</zone>
-			<zone type="America/Cayman">
-				<usesMetazone mzone="America_Eastern"/>
-			</zone>
-			<zone type="Asia/Aqtau">
-				<usesMetazone to="1991-12-16" mzone="Shevchenko"/>
-				<usesMetazone to="2005-03-15" from="1991-12-16" mzone="Aqtau"/>
-				<usesMetazone from="2005-03-15" mzone="Kazakhstan_Western"/>
-			</zone>
-			<zone type="Asia/Oral">
-				<usesMetazone to="1991-12-16" mzone="Uralsk"/>
-				<usesMetazone from="1991-12-16" mzone="Kazakhstan_Western"/>
-			</zone>
-			<zone type="Asia/Aqtobe">
-				<usesMetazone to="1991-12-16" mzone="Aktyubinsk"/>
-				<usesMetazone to="2005-03-15" from="1991-12-16" mzone="Aqtobe"/>
-				<usesMetazone from="2005-03-15" mzone="Kazakhstan_Western"/>
-			</zone>
-			<zone type="Asia/Qyzylorda">
-				<usesMetazone to="1991-12-16" mzone="Kizilorda"/>
-				<usesMetazone to="2005-03-15" from="1991-12-16" mzone="Qyzylorda"/>
-				<usesMetazone from="2005-03-15" mzone="Kazakhstan_Eastern"/>
-			</zone>
-			<zone type="Asia/Almaty">
-				<usesMetazone to="2005-03-15" mzone="Almaty"/>
-				<usesMetazone from="2005-03-15" mzone="Kazakhstan_Eastern"/>
-			</zone>
-			<zone type="Asia/Vientiane">
-				<usesMetazone mzone="Indochina"/>
-			</zone>
-			<zone type="Asia/Beirut">
-				<usesMetazone mzone="Europe_Eastern"/>
-			</zone>
-			<zone type="America/St_Lucia">
-				<usesMetazone mzone="Atlantic"/>
-			</zone>
-			<zone type="Europe/Vaduz">
-				<usesMetazone mzone="Europe_Central"/>
-			</zone>
-			<zone type="Asia/Colombo">
-				<usesMetazone to="1996-05-25" mzone="India"/>
-				<usesMetazone to="2006-04-15 00:30" from="1996-05-25" mzone="Lanka"/>
-				<usesMetazone from="2006-04-15 00:30" mzone="India"/>
-			</zone>
-			<zone type="Africa/Monrovia">
-				<usesMetazone mzone="GMT"/>
-			</zone>
-			<zone type="Africa/Maseru">
-				<usesMetazone mzone="Africa_Southern"/>
-			</zone>
-			<zone type="Europe/Vilnius">
-				<usesMetazone to="1991-03-31 02:00" mzone="Moscow"/>
-				<usesMetazone to="1998-03-29 01:00" from="1991-03-31 02:00" mzone="Europe_Eastern"/>
-				<usesMetazone to="1999-10-31 01:00" from="1998-03-29 01:00" mzone="Europe_Central"/>
-				<usesMetazone from="1999-10-31 01:00" mzone="Europe_Eastern"/>
-			</zone>
-			<zone type="Europe/Luxembourg">
-				<usesMetazone mzone="Europe_Central"/>
-			</zone>
-			<zone type="Europe/Riga">
-				<usesMetazone to="1989-03-26 02:00" mzone="Moscow"/>
-				<usesMetazone from="1989-03-26 02:00" mzone="Europe_Eastern"/>
-			</zone>
-			<zone type="Africa/Tripoli">
-				<usesMetazone to="1982-01-01" mzone="Europe_Eastern"/>
-				<usesMetazone to="1990-05-04" from="1982-01-01" mzone="Europe_Central"/>
-				<usesMetazone to="1996-09-30" from="1990-05-04" mzone="Europe_Eastern"/>
-				<usesMetazone to="1997-10-04" from="1996-09-30" mzone="Europe_Central"/>
-				<usesMetazone from="1997-10-04" mzone="Europe_Eastern"/>
-			</zone>
-			<zone type="Africa/Casablanca">
-				<usesMetazone to="1984-03-16" mzone="Europe_Western"/>
-				<usesMetazone to="1986-01-01" from="1984-03-16" mzone="Europe_Central"/>
-				<usesMetazone from="1986-01-01" mzone="Europe_Western"/>
-			</zone>
-			<zone type="Europe/Monaco">
-				<usesMetazone mzone="Europe_Central"/>
-			</zone>
-			<zone type="Europe/Chisinau">
-				<usesMetazone to="1990-05-06" mzone="Moscow"/>
-				<usesMetazone from="1990-05-06" mzone="Europe_Eastern"/>
-			</zone>
-			<zone type="Europe/Podgorica">
-				<usesMetazone mzone="Europe_Central"/>
-			</zone>
-			<zone type="Indian/Antananarivo">
-				<usesMetazone mzone="Africa_Eastern"/>
-			</zone>
-			<zone type="Pacific/Kwajalein">
-				<usesMetazone to="1993-08-20" mzone="Kwajalein"/>
-				<usesMetazone from="1993-08-20" mzone="Marshall_Islands"/>
-			</zone>
-			<zone type="Pacific/Majuro">
-				<usesMetazone mzone="Marshall_Islands"/>
-			</zone>
-			<zone type="Europe/Skopje">
-				<usesMetazone mzone="Europe_Central"/>
-			</zone>
-			<zone type="Africa/Bamako">
-				<usesMetazone mzone="GMT"/>
-			</zone>
-			<zone type="Asia/Rangoon">
-				<usesMetazone mzone="Myanmar"/>
-			</zone>
-			<zone type="Asia/Hovd">
-				<usesMetazone mzone="Hovd"/>
-			</zone>
-			<zone type="Asia/Ulaanbaatar">
-				<usesMetazone mzone="Mongolia"/>
-			</zone>
-			<zone type="Asia/Choibalsan">
-				<usesMetazone to="1983-04-01" mzone="Mongolia"/>
-				<usesMetazone from="1983-04-01" mzone="Choibalsan"/>
-			</zone>
-			<zone type="Asia/Macau">
-				<usesMetazone to="1999-12-20" mzone="Macau"/>
-				<usesMetazone from="1999-12-20" mzone="China"/>
-			</zone>
-			<zone type="Pacific/Saipan">
-				<usesMetazone to="2000-12-23" mzone="North_Mariana"/>
-				<usesMetazone from="2000-12-23" mzone="Chamorro"/>
-			</zone>
-			<zone type="America/Martinique">
-				<usesMetazone mzone="Atlantic"/>
-			</zone>
-			<zone type="Africa/Nouakchott">
-				<usesMetazone mzone="GMT"/>
-			</zone>
-			<zone type="America/Montserrat">
-				<usesMetazone mzone="Atlantic"/>
-			</zone>
-			<zone type="Europe/Malta">
-				<usesMetazone mzone="Europe_Central"/>
-			</zone>
-			<zone type="Indian/Mauritius">
-				<usesMetazone mzone="Mauritius"/>
-			</zone>
-			<zone type="Indian/Maldives">
-				<usesMetazone mzone="Maldives"/>
-			</zone>
-			<zone type="Africa/Blantyre">
-				<usesMetazone mzone="Africa_Central"/>
-			</zone>
-			<zone type="America/Tijuana">
-				<usesMetazone mzone="America_Pacific"/>
-			</zone>
-			<zone type="America/Hermosillo">
-				<usesMetazone mzone="America_Mountain"/>
-			</zone>
-			<zone type="America/Mazatlan">
-				<usesMetazone mzone="America_Mountain"/>
-			</zone>
-			<zone type="America/Chihuahua">
-				<usesMetazone to="1998-04-05 03:00" mzone="America_Central"/>
-				<usesMetazone from="1998-04-05 03:00" mzone="America_Mountain"/>
-			</zone>
-			<zone type="America/Monterrey">
-				<usesMetazone mzone="America_Central"/>
-			</zone>
-			<zone type="America/Mexico_City">
-				<usesMetazone mzone="America_Central"/>
-			</zone>
-			<zone type="America/Merida">
-				<usesMetazone to="1981-12-23" mzone="America_Central"/>
-				<usesMetazone to="1982-12-02" from="1981-12-23" mzone="America_Eastern"/>
-				<usesMetazone from="1982-12-02" mzone="America_Central"/>
-			</zone>
-			<zone type="America/Cancun">
-				<usesMetazone to="1981-12-23" mzone="America_Central"/>
-				<usesMetazone to="1998-08-02 02:00" from="1981-12-23" mzone="America_Eastern"/>
-				<usesMetazone from="1998-08-02 02:00" mzone="America_Central"/>
-			</zone>
-			<zone type="Asia/Kuala_Lumpur">
-				<usesMetazone to="1982-01-01" mzone="Malaya"/>
-				<usesMetazone from="1982-01-01" mzone="Malaysia"/>
-			</zone>
-			<zone type="Asia/Kuching">
-				<usesMetazone to="1982-01-01" mzone="Borneo"/>
-				<usesMetazone from="1982-01-01" mzone="Malaysia"/>
-			</zone>
-			<zone type="Africa/Maputo">
-				<usesMetazone mzone="Africa_Central"/>
-			</zone>
-			<zone type="Africa/Windhoek">
-				<usesMetazone to="1990-03-21" mzone="Africa_Southern"/>
-				<usesMetazone to="1994-04-03" from="1990-03-21" mzone="Africa_Central"/>
-				<usesMetazone from="1994-04-03" mzone="Africa_Western"/>
-			</zone>
-			<zone type="Pacific/Noumea">
-				<usesMetazone mzone="New_Caledonia"/>
-			</zone>
-			<zone type="Africa/Niamey">
-				<usesMetazone mzone="Africa_Western"/>
-			</zone>
-			<zone type="Pacific/Norfolk">
-				<usesMetazone mzone="Norfolk"/>
-			</zone>
-			<zone type="Africa/Lagos">
-				<usesMetazone mzone="Africa_Western"/>
-			</zone>
-			<zone type="America/Managua">
-				<usesMetazone to="1973-05-01" mzone="America_Central"/>
-				<usesMetazone to="1975-02-16" from="1973-05-01" mzone="America_Eastern"/>
-				<usesMetazone to="1992-01-01 04:00" from="1975-02-16" mzone="America_Central"/>
-				<usesMetazone to="1992-09-24" from="1992-01-01 04:00" mzone="America_Eastern"/>
-				<usesMetazone to="1993-01-01" from="1992-09-24" mzone="America_Central"/>
-				<usesMetazone to="1997-01-01" from="1993-01-01" mzone="America_Eastern"/>
-				<usesMetazone from="1997-01-01" mzone="America_Central"/>
-			</zone>
-			<zone type="Europe/Amsterdam">
-				<usesMetazone mzone="Europe_Central"/>
-			</zone>
-			<zone type="Europe/Oslo">
-				<usesMetazone mzone="Europe_Central"/>
-			</zone>
-			<zone type="Asia/Katmandu">
-				<usesMetazone mzone="Nepal"/>
-			</zone>
-			<zone type="Pacific/Nauru">
-				<usesMetazone mzone="Nauru"/>
-			</zone>
-			<zone type="Pacific/Niue">
-				<usesMetazone mzone="Niue"/>
-			</zone>
-			<zone type="Pacific/Chatham">
-				<usesMetazone mzone="Chatham"/>
-			</zone>
-			<zone type="Pacific/Auckland">
-				<usesMetazone mzone="New_Zealand"/>
-			</zone>
-			<zone type="Asia/Muscat">
-				<usesMetazone mzone="Gulf"/>
-			</zone>
-			<zone type="America/Panama">
-				<usesMetazone mzone="America_Eastern"/>
-			</zone>
-			<zone type="America/Lima">
-				<usesMetazone mzone="Peru"/>
-			</zone>
-			<zone type="Pacific/Tahiti">
-				<usesMetazone mzone="Tahiti"/>
-			</zone>
-			<zone type="Pacific/Marquesas">
-				<usesMetazone mzone="Marquesas"/>
-			</zone>
-			<zone type="Pacific/Gambier">
-				<usesMetazone mzone="Gambier"/>
-			</zone>
-			<zone type="Pacific/Port_Moresby">
-				<usesMetazone mzone="Papua_New_Guinea"/>
-			</zone>
-			<zone type="Asia/Manila">
-				<usesMetazone mzone="Philippines"/>
-			</zone>
-			<zone type="Asia/Karachi">
-				<usesMetazone to="1971-03-26" mzone="Karachi"/>
-				<usesMetazone from="1971-03-26" mzone="Pakistan"/>
-			</zone>
-			<zone type="Europe/Warsaw">
-				<usesMetazone mzone="Europe_Central"/>
-			</zone>
-			<zone type="America/Miquelon">
-				<usesMetazone to="1980-05-01" mzone="Atlantic"/>
-				<usesMetazone from="1980-05-01" mzone="Pierre_Miquelon"/>
-			</zone>
-			<zone type="Pacific/Pitcairn">
-				<usesMetazone mzone="Pitcairn"/>
-			</zone>
-			<zone type="America/Puerto_Rico">
-				<usesMetazone mzone="Atlantic"/>
-			</zone>
-			<zone type="Asia/Gaza">
-				<usesMetazone to="1996-01-01" mzone="Israel"/>
-				<usesMetazone from="1996-01-01" mzone="Europe_Eastern"/>
-			</zone>
-			<zone type="Atlantic/Azores">
-				<usesMetazone to="1992-09-27 01:00" mzone="Azores"/>
-				<usesMetazone to="1993-03-28 01:00" from="1992-09-27 01:00" mzone="Europe_Western"/>
-				<usesMetazone from="1993-03-28 01:00" mzone="Azores"/>
-			</zone>
-			<zone type="Atlantic/Madeira">
-				<usesMetazone mzone="Europe_Western"/>
-			</zone>
-			<zone type="Europe/Lisbon">
-				<usesMetazone to="1976-09-26 01:00" mzone="Europe_Central"/>
-				<usesMetazone to="1992-09-27 01:00" from="1976-09-26 01:00" mzone="Europe_Western"/>
-				<usesMetazone to="1996-03-31 01:00" from="1992-09-27 01:00" mzone="Europe_Central"/>
-				<usesMetazone from="1996-03-31 01:00" mzone="Europe_Western"/>
-			</zone>
-			<zone type="Pacific/Palau">
-				<usesMetazone mzone="Palau"/>
-			</zone>
-			<zone type="America/Asuncion">
-				<usesMetazone mzone="Paraguay"/>
-			</zone>
-			<zone type="Asia/Qatar">
-				<usesMetazone to="1972-06-01" mzone="Gulf"/>
-				<usesMetazone from="1972-06-01" mzone="Arabian"/>
-			</zone>
-			<zone type="Indian/Reunion">
-				<usesMetazone mzone="Reunion"/>
-			</zone>
-			<zone type="Europe/Bucharest">
-				<usesMetazone mzone="Europe_Eastern"/>
-			</zone>
-			<zone type="Europe/Belgrade">
-				<usesMetazone mzone="Europe_Central"/>
-			</zone>
-			<zone type="Europe/Kaliningrad">
-				<usesMetazone to="1991-03-31 02:00" mzone="Moscow"/>
-				<usesMetazone from="1991-03-31 02:00" mzone="Europe_Eastern"/>
-			</zone>
-			<zone type="Europe/Moscow">
-				<usesMetazone to="1991-03-31 02:00" mzone="Moscow"/>
-				<usesMetazone to="1992-01-19 02:00" from="1991-03-31 02:00" mzone="Europe_Eastern"/>
-				<usesMetazone from="1992-01-19 02:00" mzone="Moscow"/>
-			</zone>
-			<zone type="Europe/Volgograd">
-				<usesMetazone mzone="Volgograd"/>
-			</zone>
-			<zone type="Europe/Samara">
-				<usesMetazone to="1991-10-20 03:00" mzone="Kuybyshev"/>
-				<usesMetazone from="1991-10-20 03:00" mzone="Samara"/>
-			</zone>
-			<zone type="Asia/Yekaterinburg">
-				<usesMetazone to="1992-01-19 02:00" mzone="Sverdlovsk"/>
-				<usesMetazone from="1992-01-19 02:00" mzone="Yekaterinburg"/>
-			</zone>
-			<zone type="Asia/Omsk">
-				<usesMetazone mzone="Omsk"/>
-			</zone>
-			<zone type="Asia/Novosibirsk">
-				<usesMetazone mzone="Novosibirsk"/>
-			</zone>
-			<zone type="Asia/Krasnoyarsk">
-				<usesMetazone mzone="Krasnoyarsk"/>
-			</zone>
-			<zone type="Asia/Irkutsk">
-				<usesMetazone mzone="Irkutsk"/>
-			</zone>
-			<zone type="Asia/Yakutsk">
-				<usesMetazone mzone="Yakutsk"/>
-			</zone>
-			<zone type="Asia/Vladivostok">
-				<usesMetazone mzone="Vladivostok"/>
-			</zone>
-			<zone type="Asia/Sakhalin">
-				<usesMetazone mzone="Sakhalin"/>
-			</zone>
-			<zone type="Asia/Magadan">
-				<usesMetazone mzone="Magadan"/>
-			</zone>
-			<zone type="Asia/Kamchatka">
-				<usesMetazone mzone="Kamchatka"/>
-			</zone>
-			<zone type="Asia/Anadyr">
-				<usesMetazone mzone="Anadyr"/>
-			</zone>
-			<zone type="Africa/Kigali">
-				<usesMetazone mzone="Africa_Central"/>
-			</zone>
-			<zone type="Asia/Riyadh">
-				<usesMetazone mzone="Arabian"/>
-			</zone>
-			<zone type="Pacific/Guadalcanal">
-				<usesMetazone mzone="Solomon"/>
-			</zone>
-			<zone type="Indian/Mahe">
-				<usesMetazone mzone="Seychelles"/>
-			</zone>
-			<zone type="Africa/Khartoum">
-				<usesMetazone to="2000-01-15 12:00" mzone="Africa_Central"/>
-				<usesMetazone from="2000-01-15 12:00" mzone="Africa_Eastern"/>
-			</zone>
-			<zone type="Europe/Stockholm">
-				<usesMetazone mzone="Europe_Central"/>
-			</zone>
-			<zone type="Asia/Singapore">
-				<usesMetazone mzone="Singapore"/>
-			</zone>
-			<zone type="Atlantic/St_Helena">
-				<usesMetazone mzone="GMT"/>
-			</zone>
-			<zone type="Europe/Ljubljana">
-				<usesMetazone mzone="Europe_Central"/>
-			</zone>
-			<zone type="Europe/Bratislava">
-				<usesMetazone mzone="Europe_Central"/>
-			</zone>
-			<zone type="Africa/Freetown">
-				<usesMetazone mzone="GMT"/>
-			</zone>
-			<zone type="Africa/Dakar">
-				<usesMetazone mzone="GMT"/>
-			</zone>
-			<zone type="Africa/Mogadishu">
-				<usesMetazone mzone="Africa_Eastern"/>
-			</zone>
-			<zone type="America/Paramaribo">
-				<usesMetazone to="1975-11-20" mzone="Dutch_Guiana"/>
-				<usesMetazone from="1975-11-20" mzone="Suriname"/>
-			</zone>
-			<zone type="Africa/Sao_Tome">
-				<usesMetazone mzone="GMT"/>
-			</zone>
-			<zone type="America/El_Salvador">
-				<usesMetazone mzone="America_Central"/>
-			</zone>
-			<zone type="Asia/Damascus">
-				<usesMetazone mzone="Europe_Eastern"/>
-			</zone>
-			<zone type="Africa/Mbabane">
-				<usesMetazone mzone="Africa_Southern"/>
-			</zone>
-			<zone type="America/Grand_Turk">
-				<usesMetazone mzone="America_Eastern"/>
-			</zone>
-			<zone type="Africa/Ndjamena">
-				<usesMetazone mzone="Africa_Western"/>
-			</zone>
-			<zone type="Indian/Kerguelen">
-				<usesMetazone mzone="French_Southern"/>
-			</zone>
-			<zone type="Africa/Lome">
-				<usesMetazone mzone="GMT"/>
-			</zone>
-			<zone type="Asia/Bangkok">
-				<usesMetazone mzone="Indochina"/>
-			</zone>
-			<zone type="Asia/Dushanbe">
-				<usesMetazone to="1991-09-09 02:00" mzone="Dushanbe"/>
-				<usesMetazone from="1991-09-09 02:00" mzone="Tajikistan"/>
-			</zone>
-			<zone type="Pacific/Fakaofo">
-				<usesMetazone mzone="Tokelau"/>
-			</zone>
-			<zone type="Asia/Dili">
-				<usesMetazone to="1976-05-03" mzone="East_Timor"/>
-				<usesMetazone to="2000-09-17" from="1976-05-03" mzone="Indonesia_Central"/>
-				<usesMetazone from="2000-09-17" mzone="East_Timor"/>
-			</zone>
-			<zone type="Asia/Ashgabat">
-				<usesMetazone to="1991-10-27" mzone="Ashkhabad"/>
-				<usesMetazone from="1991-10-27" mzone="Turkmenistan"/>
-			</zone>
-			<zone type="Africa/Tunis">
-				<usesMetazone mzone="Europe_Central"/>
-			</zone>
-			<zone type="Pacific/Tongatapu">
-				<usesMetazone mzone="Tonga"/>
-			</zone>
-			<zone type="Europe/Istanbul">
-				<usesMetazone to="1978-10-15" mzone="Europe_Eastern"/>
-				<usesMetazone to="1985-04-20" from="1978-10-15" mzone="Turkey"/>
-				<usesMetazone from="1985-04-20" mzone="Europe_Eastern"/>
-			</zone>
-			<zone type="America/Port_of_Spain">
-				<usesMetazone mzone="Atlantic"/>
-			</zone>
-			<zone type="Pacific/Funafuti">
-				<usesMetazone mzone="Tuvalu"/>
-			</zone>
-			<zone type="Asia/Taipei">
-				<usesMetazone mzone="China"/>
-			</zone>
-			<zone type="Africa/Dar_es_Salaam">
-				<usesMetazone mzone="Africa_Eastern"/>
-			</zone>
-			<zone type="Europe/Uzhgorod">
-				<usesMetazone to="1990-07-01 02:00" mzone="Moscow"/>
-				<usesMetazone to="1991-03-31 03:00" from="1990-07-01 02:00" mzone="Europe_Central"/>
-				<usesMetazone from="1991-03-31 03:00" mzone="Europe_Eastern"/>
-			</zone>
-			<zone type="Europe/Kiev">
-				<usesMetazone to="1990-07-01 02:00" mzone="Moscow"/>
-				<usesMetazone from="1990-07-01 02:00" mzone="Europe_Eastern"/>
-			</zone>
-			<zone type="Europe/Simferopol">
-				<usesMetazone to="1990-07-01 02:00" mzone="Moscow"/>
-				<usesMetazone from="1990-07-01 02:00" mzone="Europe_Eastern"/>
-			</zone>
-			<zone type="Europe/Zaporozhye">
-				<usesMetazone to="1991-03-31 02:00" mzone="Moscow"/>
-				<usesMetazone from="1991-03-31 02:00" mzone="Europe_Eastern"/>
-			</zone>
-			<zone type="Africa/Kampala">
-				<usesMetazone mzone="Africa_Eastern"/>
-			</zone>
-			<zone type="Pacific/Midway">
-				<usesMetazone to="1983-11-30" mzone="Bering"/>
-				<usesMetazone from="1983-11-30" mzone="Samoa"/>
-			</zone>
-			<zone type="Pacific/Johnston">
-				<usesMetazone mzone="Hawaii"/>
-			</zone>
-			<zone type="Pacific/Wake">
-				<usesMetazone mzone="Wake"/>
-			</zone>
-			<zone type="America/Adak">
-				<usesMetazone to="1983-10-30 02:00" mzone="Bering"/>
-				<usesMetazone to="1983-11-30" from="1983-10-30 02:00" mzone="Alaska_Hawaii"/>
-				<usesMetazone from="1983-11-30" mzone="Hawaii_Aleutian"/>
-			</zone>
-			<zone type="America/Nome">
-				<usesMetazone to="1983-10-30 02:00" mzone="Bering"/>
-				<usesMetazone to="1983-11-30" from="1983-10-30 02:00" mzone="Yukon"/>
-				<usesMetazone from="1983-11-30" mzone="Alaska"/>
-			</zone>
-			<zone type="Pacific/Honolulu">
-				<usesMetazone mzone="Hawaii"/>
-			</zone>
-			<zone type="America/Anchorage">
-				<usesMetazone to="1983-10-30 02:00" mzone="Alaska_Hawaii"/>
-				<usesMetazone to="1983-11-30" from="1983-10-30 02:00" mzone="Yukon"/>
-				<usesMetazone from="1983-11-30" mzone="Alaska"/>
-			</zone>
-			<zone type="America/Yakutat">
-				<usesMetazone to="1983-11-30" mzone="Yukon"/>
-				<usesMetazone from="1983-11-30" mzone="Alaska"/>
-			</zone>
-			<zone type="America/Juneau">
-				<usesMetazone to="1983-10-30 02:00" mzone="America_Pacific"/>
-				<usesMetazone to="1983-11-30" from="1983-10-30 02:00" mzone="Yukon"/>
-				<usesMetazone from="1983-11-30" mzone="Alaska"/>
-			</zone>
-			<zone type="America/Los_Angeles">
-				<usesMetazone mzone="America_Pacific"/>
-			</zone>
-			<zone type="America/Boise">
-				<usesMetazone mzone="America_Mountain"/>
-			</zone>
-			<zone type="America/Phoenix">
-				<usesMetazone mzone="America_Mountain"/>
-			</zone>
-			<zone type="America/Shiprock">
-				<usesMetazone mzone="America_Mountain"/>
-			</zone>
-			<zone type="America/Denver">
-				<usesMetazone mzone="America_Mountain"/>
+				<exemplarCity>St. John's</exemplarCity>
 			</zone>
 			<zone type="America/North_Dakota/New_Salem">
-				<usesMetazone to="2003-10-26 02:00" mzone="America_Mountain"/>
-				<usesMetazone from="2003-10-26 02:00" mzone="America_Central"/>
+				<exemplarCity>New Salem, North Dakota</exemplarCity>
 			</zone>
 			<zone type="America/North_Dakota/Center">
-				<usesMetazone to="1992-10-25 02:00" mzone="America_Mountain"/>
-				<usesMetazone from="1992-10-25 02:00" mzone="America_Central"/>
-			</zone>
-			<zone type="America/Chicago">
-				<usesMetazone mzone="America_Central"/>
-			</zone>
-			<zone type="America/Menominee">
-				<usesMetazone to="1973-04-29 02:00" mzone="America_Eastern"/>
-				<usesMetazone from="1973-04-29 02:00" mzone="America_Central"/>
+				<exemplarCity>Center, North Dakota</exemplarCity>
 			</zone>
 			<zone type="America/Indiana/Vincennes">
-				<usesMetazone to="2006-04-02 02:00" mzone="America_Eastern"/>
-				<usesMetazone from="2006-04-02 02:00" mzone="America_Central"/>
+				<exemplarCity>Vincennes, Indiana</exemplarCity>
 			</zone>
 			<zone type="America/Indiana/Petersburg">
-				<usesMetazone to="1977-10-30 02:00" mzone="America_Central"/>
-				<usesMetazone to="2006-04-02 02:00" from="1977-10-30 02:00" mzone="America_Eastern"/>
-				<usesMetazone from="2006-04-02 02:00" mzone="America_Central"/>
+				<exemplarCity>Petersburg, Indiana</exemplarCity>
+			</zone>
+			<zone type="America/Indiana/Tell_City">
+				<exemplarCity>Tell City, Indiana</exemplarCity>
 			</zone>
 			<zone type="America/Indiana/Knox">
-				<usesMetazone to="1991-10-27 02:00" mzone="America_Central"/>
-				<usesMetazone to="2006-04-02 02:00" from="1991-10-27 02:00" mzone="America_Eastern"/>
-				<usesMetazone from="2006-04-02 02:00" mzone="America_Central"/>
+				<exemplarCity>Knox, Indiana</exemplarCity>
+			</zone>
+			<zone type="America/Indiana/Winamac">
+				<exemplarCity>Winamac, Indiana</exemplarCity>
 			</zone>
 			<zone type="America/Indiana/Marengo">
-				<usesMetazone to="1974-01-06 02:00" mzone="America_Eastern"/>
-				<usesMetazone to="1974-10-27 02:00" from="1974-01-06 02:00" mzone="America_Central"/>
-				<usesMetazone from="1974-10-27 02:00" mzone="America_Eastern"/>
-			</zone>
-			<zone type="America/Indianapolis">
-				<usesMetazone mzone="America_Eastern"/>
-			</zone>
-			<zone type="America/Louisville">
-				<usesMetazone to="1974-01-06 02:00" mzone="America_Eastern"/>
-				<usesMetazone to="1974-10-27 02:00" from="1974-01-06 02:00" mzone="America_Central"/>
-				<usesMetazone from="1974-10-27 02:00" mzone="America_Eastern"/>
+				<exemplarCity>Marengo, Indiana</exemplarCity>
 			</zone>
 			<zone type="America/Indiana/Vevay">
-				<usesMetazone mzone="America_Eastern"/>
+				<exemplarCity>Vevay, Indiana</exemplarCity>
 			</zone>
 			<zone type="America/Kentucky/Monticello">
-				<usesMetazone to="2000-10-29 02:00" mzone="America_Central"/>
-				<usesMetazone from="2000-10-29 02:00" mzone="America_Eastern"/>
+				<exemplarCity>Monticello, Kentucky</exemplarCity>
 			</zone>
-			<zone type="America/Detroit">
-				<usesMetazone mzone="America_Eastern"/>
-			</zone>
-			<zone type="America/New_York">
-				<usesMetazone mzone="America_Eastern"/>
-			</zone>
-			<zone type="America/Montevideo">
-				<usesMetazone mzone="Uruguay"/>
-			</zone>
-			<zone type="Asia/Samarkand">
-				<usesMetazone to="1981-10-01" mzone="Samarkand"/>
-				<usesMetazone to="1982-04-01" from="1981-10-01" mzone="Tashkent"/>
-				<usesMetazone to="1991-09-01" from="1982-04-01" mzone="Samarkand"/>
-				<usesMetazone from="1991-09-01" mzone="Uzbekistan"/>
-			</zone>
-			<zone type="Asia/Tashkent">
-				<usesMetazone to="1991-09-01" mzone="Tashkent"/>
-				<usesMetazone from="1991-09-01" mzone="Uzbekistan"/>
-			</zone>
-			<zone type="America/St_Vincent">
-				<usesMetazone mzone="Atlantic"/>
-			</zone>
-			<zone type="America/Caracas">
-				<usesMetazone mzone="Venezuela"/>
-			</zone>
-			<zone type="America/Tortola">
-				<usesMetazone mzone="Atlantic"/>
-			</zone>
-			<zone type="America/St_Thomas">
-				<usesMetazone mzone="Atlantic"/>
-			</zone>
-			<zone type="Asia/Saigon">
-				<usesMetazone mzone="Indochina"/>
-			</zone>
-			<zone type="Pacific/Efate">
-				<usesMetazone mzone="Vanuatu"/>
-			</zone>
-			<zone type="Pacific/Wallis">
-				<usesMetazone mzone="Wallis"/>
-			</zone>
-			<zone type="Pacific/Apia">
-				<usesMetazone mzone="Samoa"/>
-			</zone>
-			<zone type="Asia/Aden">
-				<usesMetazone mzone="Arabian"/>
-			</zone>
-			<zone type="Indian/Mayotte">
-				<usesMetazone mzone="Africa_Eastern"/>
-			</zone>
-			<zone type="Africa/Johannesburg">
-				<usesMetazone mzone="Africa_Southern"/>
-			</zone>
-			<zone type="Africa/Lusaka">
-				<usesMetazone mzone="Africa_Central"/>
-			</zone>
-			<zone type="Africa/Harare">
-				<usesMetazone mzone="Africa_Central"/>
-			</zone>
+			<metazone type="Acre">
+				<short>
+					<standard>ACT (Acre)</standard>
+					<daylight>ACST (Acre)</daylight>
+				</short>
+			</metazone>
+			<metazone type="Afghanistan">
+				<short>
+					<standard>AFT</standard>
+				</short>
+			</metazone>
+			<metazone type="Africa_Central">
+				<short>
+					<standard>CAT</standard>
+				</short>
+			</metazone>
+			<metazone type="Africa_Eastern">
+				<short>
+					<standard>EAT</standard>
+				</short>
+			</metazone>
+			<metazone type="Africa_Southern">
+				<short>
+					<standard>SAST</standard>
+				</short>
+			</metazone>
+			<metazone type="Africa_Western">
+				<short>
+					<standard>WAT</standard>
+					<daylight>WAST</daylight>
+				</short>
+			</metazone>
+			<metazone type="Aktyubinsk">
+				<short>
+					<standard>AKTT</standard>
+					<daylight>AKTST</daylight>
+				</short>
+			</metazone>
+			<metazone type="Alaska">
+				<short>
+					<standard>AKST</standard>
+					<daylight>AKDT</daylight>
+				</short>
+			</metazone>
+			<metazone type="Alaska_Hawaii">
+				<short>
+					<standard>AHST</standard>
+					<daylight>AHDT</daylight>
+				</short>
+			</metazone>
+			<metazone type="Almaty">
+				<short>
+					<standard>ALMT</standard>
+					<daylight>ALMST</daylight>
+				</short>
+			</metazone>
+			<metazone type="Amazon">
+				<short>
+					<standard>AMT</standard>
+					<daylight>AMST</daylight>
+				</short>
+			</metazone>
+			<metazone type="America_Central">
+				<short>
+					<standard>CST</standard>
+					<daylight>CDT</daylight>
+				</short>
+			</metazone>
+			<metazone type="America_Eastern">
+				<short>
+					<standard>EST</standard>
+					<daylight>EDT</daylight>
+				</short>
+			</metazone>
+			<metazone type="America_Mountain">
+				<short>
+					<standard>MST</standard>
+					<daylight>MDT</daylight>
+				</short>
+			</metazone>
+			<metazone type="America_Pacific">
+				<short>
+					<standard>PST</standard>
+					<daylight>PDT</daylight>
+				</short>
+			</metazone>
+			<metazone type="Anadyr">
+				<short>
+					<standard>ANAT</standard>
+					<daylight>ANAST</daylight>
+				</short>
+			</metazone>
+			<metazone type="Aqtau">
+				<short>
+					<standard>AQTT (Aqtau)</standard>
+					<daylight>AQTST (Aqtau)</daylight>
+				</short>
+			</metazone>
+			<metazone type="Aqtobe">
+				<short>
+					<standard>AQTT (Aqtobe)</standard>
+					<daylight>AQTST (Aqtobe)</daylight>
+				</short>
+			</metazone>
+			<metazone type="Arabian">
+				<short>
+					<standard>AST (SA)</standard>
+					<daylight>ADT (SA)</daylight>
+				</short>
+			</metazone>
+			<metazone type="Argentina">
+				<short>
+					<standard>ART</standard>
+					<daylight>ARST</daylight>
+				</short>
+			</metazone>
+			<metazone type="Argentina_Western">
+				<short>
+					<standard>WART</standard>
+				</short>
+			</metazone>
+			<metazone type="Armenia">
+				<short>
+					<standard>AMT (AM)</standard>
+					<daylight>AMST (AM)</daylight>
+				</short>
+			</metazone>
+			<metazone type="Ashkhabad">
+				<short>
+					<standard>ASHT</standard>
+					<daylight>ASHST</daylight>
+				</short>
+			</metazone>
+			<metazone type="Atlantic">
+				<short>
+					<standard>AST</standard>
+					<daylight>ADT</daylight>
+				</short>
+			</metazone>
+			<metazone type="Australia_Central">
+				<short>
+					<standard>ACST</standard>
+					<daylight>ACDT</daylight>
+				</short>
+			</metazone>
+			<metazone type="Australia_CentralWestern">
+				<short>
+					<standard>ACWST</standard>
+					<daylight>ACWDT</daylight>
+				</short>
+			</metazone>
+			<metazone type="Australia_Eastern">
+				<short>
+					<standard>AEST</standard>
+					<daylight>AEDT</daylight>
+				</short>
+			</metazone>
+			<metazone type="Australia_Western">
+				<short>
+					<standard>AWST</standard>
+					<daylight>AWDT</daylight>
+				</short>
+			</metazone>
+			<metazone type="Azerbaijan">
+				<short>
+					<standard>AZT</standard>
+					<daylight>AZST</daylight>
+				</short>
+			</metazone>
+			<metazone type="Azores">
+				<short>
+					<standard>AZOT</standard>
+					<daylight>AZOST</daylight>
+				</short>
+			</metazone>
+			<metazone type="Baku">
+				<short>
+					<standard>BAKT</standard>
+					<daylight>BAKST</daylight>
+				</short>
+			</metazone>
+			<metazone type="Bangladesh">
+				<short>
+					<standard>BDT</standard>
+				</short>
+			</metazone>
+			<metazone type="Bering">
+				<short>
+					<standard>BST (Bering)</standard>
+					<daylight>BDT (Bering)</daylight>
+				</short>
+			</metazone>
+			<metazone type="Bhutan">
+				<short>
+					<standard>BTT</standard>
+				</short>
+			</metazone>
+			<metazone type="Bolivia">
+				<short>
+					<standard>BOT</standard>
+				</short>
+			</metazone>
+			<metazone type="Borneo">
+				<short>
+					<standard>BORT</standard>
+					<daylight>BORST</daylight>
+				</short>
+			</metazone>
+			<metazone type="Brasilia">
+				<short>
+					<standard>BRT</standard>
+					<daylight>BRST</daylight>
+				</short>
+			</metazone>
+			<metazone type="Brunei">
+				<short>
+					<standard>BNT</standard>
+				</short>
+			</metazone>
+			<metazone type="Cape_Verde">
+				<short>
+					<standard>CVT</standard>
+					<daylight>CVST</daylight>
+				</short>
+			</metazone>
+			<metazone type="Chamorro">
+				<short>
+					<standard>ChST</standard>
+				</short>
+			</metazone>
+			<metazone type="Changbai">
+				<short>
+					<standard>CHAT</standard>
+				</short>
+			</metazone>
+			<metazone type="Chatham">
+				<short>
+					<standard>CHAST</standard>
+					<daylight>CHADT</daylight>
+				</short>
+			</metazone>
+			<metazone type="Chile">
+				<short>
+					<standard>CLT</standard>
+					<daylight>CLST</daylight>
+				</short>
+			</metazone>
+			<metazone type="China">
+				<short>
+					<standard>CST (CN)</standard>
+					<daylight>CDT (CN)</daylight>
+				</short>
+			</metazone>
+			<metazone type="Choibalsan">
+				<short>
+					<standard>CHOT</standard>
+					<daylight>CHOST</daylight>
+				</short>
+			</metazone>
+			<metazone type="Christmas">
+				<short>
+					<standard>CXT</standard>
+				</short>
+			</metazone>
+			<metazone type="Cocos">
+				<short>
+					<standard>CCT</standard>
+				</short>
+			</metazone>
+			<metazone type="Colombia">
+				<short>
+					<standard>COT</standard>
+					<daylight>COST</daylight>
+				</short>
+			</metazone>
+			<metazone type="Cook">
+				<short>
+					<standard>CKT</standard>
+					<daylight>CKHST</daylight>
+				</short>
+			</metazone>
+			<metazone type="Cuba">
+				<short>
+					<standard>CST (CU)</standard>
+					<daylight>CDT (CU)</daylight>
+				</short>
+			</metazone>
+			<metazone type="Dacca">
+				<short>
+					<standard>DACT</standard>
+				</short>
+			</metazone>
+			<metazone type="Davis">
+				<short>
+					<standard>DAVT</standard>
+				</short>
+			</metazone>
+			<metazone type="DumontDUrville">
+				<short>
+					<standard>DDUT</standard>
+				</short>
+			</metazone>
+			<metazone type="Dushanbe">
+				<short>
+					<standard>DUST</standard>
+					<daylight>DUSST</daylight>
+				</short>
+			</metazone>
+			<metazone type="Dutch_Guiana">
+				<short>
+					<standard>NEGT</standard>
+				</short>
+			</metazone>
+			<metazone type="East_Timor">
+				<short>
+					<standard>TLT</standard>
+				</short>
+			</metazone>
+			<metazone type="Easter">
+				<short>
+					<standard>EAST</standard>
+					<daylight>EASST</daylight>
+				</short>
+			</metazone>
+			<metazone type="Ecuador">
+				<short>
+					<standard>ECT</standard>
+				</short>
+			</metazone>
+			<metazone type="Europe_Central">
+				<short>
+					<standard>CET</standard>
+					<daylight>CEST</daylight>
+				</short>
+			</metazone>
+			<metazone type="Europe_Eastern">
+				<short>
+					<standard>EET</standard>
+					<daylight>EEST</daylight>
+				</short>
+			</metazone>
+			<metazone type="Europe_Western">
+				<short>
+					<standard>WET</standard>
+					<daylight>WEST</daylight>
+				</short>
+			</metazone>
+			<metazone type="Falkland">
+				<short>
+					<standard>FKT</standard>
+					<daylight>FKST</daylight>
+				</short>
+			</metazone>
+			<metazone type="Fiji">
+				<short>
+					<standard>FJT</standard>
+					<daylight>FJST</daylight>
+				</short>
+			</metazone>
+			<metazone type="French_Guiana">
+				<short>
+					<standard>GFT</standard>
+				</short>
+			</metazone>
+			<metazone type="French_Southern">
+				<short>
+					<standard>TFT</standard>
+				</short>
+			</metazone>
+			<metazone type="Frunze">
+				<short>
+					<standard>FRUT</standard>
+					<daylight>FRUST</daylight>
+				</short>
+			</metazone>
+			<metazone type="GMT">
+				<short>
+					<standard>GMT</standard>
+				</short>
+			</metazone>
+			<metazone type="Galapagos">
+				<short>
+					<standard>GALT</standard>
+				</short>
+			</metazone>
+			<metazone type="Gambier">
+				<short>
+					<standard>GAMT</standard>
+				</short>
+			</metazone>
+			<metazone type="Georgia">
+				<short>
+					<standard>GET</standard>
+					<daylight>GEST</daylight>
+				</short>
+			</metazone>
+			<metazone type="Gilbert_Islands">
+				<short>
+					<standard>GILT</standard>
+				</short>
+			</metazone>
+			<metazone type="Greenland_Central">
+				<short>
+					<standard>CGT</standard>
+					<daylight>CGST</daylight>
+				</short>
+			</metazone>
+			<metazone type="Greenland_Eastern">
+				<short>
+					<standard>EGT</standard>
+					<daylight>EGST</daylight>
+				</short>
+			</metazone>
+			<metazone type="Greenland_Western">
+				<short>
+					<standard>WGT</standard>
+					<daylight>WGST</daylight>
+				</short>
+			</metazone>
+			<metazone type="Guam">
+				<short>
+					<standard>GST (GU)</standard>
+				</short>
+			</metazone>
+			<metazone type="Gulf">
+				<short>
+					<standard>GST</standard>
+				</short>
+			</metazone>
+			<metazone type="Guyana">
+				<short>
+					<standard>GYT</standard>
+				</short>
+			</metazone>
+			<metazone type="Hawaii_Aleutian">
+				<short>
+					<standard>HST</standard>
+				</short>
+			</metazone>
+			<metazone type="Hong_Kong">
+				<short>
+					<standard>HKT</standard>
+					<daylight>HKST</daylight>
+				</short>
+			</metazone>
+			<metazone type="Hovd">
+				<short>
+					<standard>HOVT</standard>
+					<daylight>HOVST</daylight>
+				</short>
+			</metazone>
+			<metazone type="India">
+				<short>
+					<standard>IST</standard>
+				</short>
+			</metazone>
+			<metazone type="Indian_Ocean">
+				<short>
+					<standard>IOT</standard>
+				</short>
+			</metazone>
+			<metazone type="Indochina">
+				<short>
+					<standard>ICT</standard>
+				</short>
+			</metazone>
+			<metazone type="Indonesia_Central">
+				<short>
+					<standard>CIT</standard>
+				</short>
+			</metazone>
+			<metazone type="Indonesia_Eastern">
+				<short>
+					<standard>EIT</standard>
+				</short>
+			</metazone>
+			<metazone type="Indonesia_Western">
+				<short>
+					<standard>WIT</standard>
+				</short>
+			</metazone>
+			<metazone type="Iran">
+				<short>
+					<standard>IRST</standard>
+					<daylight>IRDT</daylight>
+				</short>
+			</metazone>
+			<metazone type="Irkutsk">
+				<short>
+					<standard>IRKT</standard>
+					<daylight>IRKST</daylight>
+				</short>
+			</metazone>
+			<metazone type="Israel">
+				<short>
+					<standard>IST (IL)</standard>
+					<daylight>IDT</daylight>
+				</short>
+			</metazone>
+			<metazone type="Japan">
+				<short>
+					<standard>JST</standard>
+					<daylight>JDT</daylight>
+				</short>
+			</metazone>
+			<metazone type="Kamchatka">
+				<short>
+					<standard>PETT</standard>
+					<daylight>PETST</daylight>
+				</short>
+			</metazone>
+			<metazone type="Karachi">
+				<short>
+					<standard>KART</standard>
+				</short>
+			</metazone>
+			<metazone type="Kashgar">
+				<short>
+					<standard>KAST</standard>
+				</short>
+			</metazone>
+			<metazone type="Kazakhstan_Eastern">
+				<short>
+					<standard>EKST</standard>
+				</short>
+			</metazone>
+			<metazone type="Kazakhstan_Western">
+				<short>
+					<standard>WKST</standard>
+				</short>
+			</metazone>
+			<metazone type="Kizilorda">
+				<short>
+					<standard>KIZT</standard>
+					<daylight>KIZST</daylight>
+				</short>
+			</metazone>
+			<metazone type="Korea">
+				<short>
+					<standard>KST</standard>
+					<daylight>KDT</daylight>
+				</short>
+			</metazone>
+			<metazone type="Kosrae">
+				<short>
+					<standard>KOST</standard>
+				</short>
+			</metazone>
+			<metazone type="Krasnoyarsk">
+				<short>
+					<standard>KRAT</standard>
+					<daylight>KRAST</daylight>
+				</short>
+			</metazone>
+			<metazone type="Kuybyshev">
+				<short>
+					<standard>KUYT</standard>
+					<daylight>KUYST</daylight>
+				</short>
+			</metazone>
+			<metazone type="Kwajalein">
+				<short>
+					<standard>KWAT</standard>
+				</short>
+			</metazone>
+			<metazone type="Kyrgystan">
+				<short>
+					<standard>KGT</standard>
+				</short>
+			</metazone>
+			<metazone type="Lanka">
+				<short>
+					<standard>LKT</standard>
+				</short>
+			</metazone>
+			<metazone type="Line_Islands">
+				<short>
+					<standard>LINT</standard>
+				</short>
+			</metazone>
+			<metazone type="Long_Shu">
+				<short>
+					<standard>LONT</standard>
+				</short>
+			</metazone>
+			<metazone type="Lord_Howe">
+				<short>
+					<standard>LHST</standard>
+					<daylight>LHDT</daylight>
+				</short>
+			</metazone>
+			<metazone type="Macau">
+				<short>
+					<standard>MOT</standard>
+					<daylight>MOST</daylight>
+				</short>
+			</metazone>
+			<metazone type="Magadan">
+				<short>
+					<standard>MAGT</standard>
+					<daylight>MAGST</daylight>
+				</short>
+			</metazone>
+			<metazone type="Malaya">
+				<short>
+					<standard>MALT</standard>
+				</short>
+			</metazone>
+			<metazone type="Malaysia">
+				<short>
+					<standard>MYT</standard>
+				</short>
+			</metazone>
+			<metazone type="Maldives">
+				<short>
+					<standard>MVT</standard>
+				</short>
+			</metazone>
+			<metazone type="Marquesas">
+				<short>
+					<standard>MART</standard>
+				</short>
+			</metazone>
+			<metazone type="Marshall_Islands">
+				<short>
+					<standard>MHT</standard>
+				</short>
+			</metazone>
+			<metazone type="Mauritius">
+				<short>
+					<standard>MUT</standard>
+					<daylight>MUST</daylight>
+				</short>
+			</metazone>
+			<metazone type="Mawson">
+				<short>
+					<standard>MAWT</standard>
+				</short>
+			</metazone>
+			<metazone type="Mongolia">
+				<short>
+					<standard>ULAT</standard>
+					<daylight>ULAST</daylight>
+				</short>
+			</metazone>
+			<metazone type="Moscow">
+				<short>
+					<standard>MSK</standard>
+					<daylight>MSKS</daylight>
+				</short>
+			</metazone>
+			<metazone type="Myanmar">
+				<short>
+					<standard>MMT</standard>
+				</short>
+			</metazone>
+			<metazone type="Nauru">
+				<short>
+					<standard>NRT</standard>
+				</short>
+			</metazone>
+			<metazone type="Nepal">
+				<short>
+					<standard>NPT</standard>
+				</short>
+			</metazone>
+			<metazone type="New_Caledonia">
+				<short>
+					<standard>NCT</standard>
+					<daylight>NCST</daylight>
+				</short>
+			</metazone>
+			<metazone type="New_Zealand">
+				<short>
+					<standard>NZST</standard>
+					<daylight>NZDT</daylight>
+				</short>
+			</metazone>
+			<metazone type="Newfoundland">
+				<short>
+					<standard>NST</standard>
+					<daylight>NDT</daylight>
+				</short>
+			</metazone>
+			<metazone type="Niue">
+				<short>
+					<standard>NUT</standard>
+				</short>
+			</metazone>
+			<metazone type="Norfolk">
+				<short>
+					<standard>NFT</standard>
+				</short>
+			</metazone>
+			<metazone type="Noronha">
+				<short>
+					<standard>FNT</standard>
+					<daylight>FNST</daylight>
+				</short>
+			</metazone>
+			<metazone type="North_Mariana">
+				<short>
+					<standard>MPT</standard>
+				</short>
+			</metazone>
+			<metazone type="Novosibirsk">
+				<short>
+					<standard>NOVT</standard>
+					<daylight>NOVST</daylight>
+				</short>
+			</metazone>
+			<metazone type="Omsk">
+				<short>
+					<standard>OMST</standard>
+					<daylight>OMSST</daylight>
+				</short>
+			</metazone>
+			<metazone type="Pakistan">
+				<short>
+					<standard>PKT</standard>
+					<daylight>PKST</daylight>
+				</short>
+			</metazone>
+			<metazone type="Palau">
+				<short>
+					<standard>PWT</standard>
+				</short>
+			</metazone>
+			<metazone type="Papua_New_Guinea">
+				<short>
+					<standard>PGT</standard>
+				</short>
+			</metazone>
+			<metazone type="Paraguay">
+				<short>
+					<standard>PYT</standard>
+					<daylight>PYST</daylight>
+				</short>
+			</metazone>
+			<metazone type="Peru">
+				<short>
+					<standard>PET</standard>
+					<daylight>PEST</daylight>
+				</short>
+			</metazone>
+			<metazone type="Philippines">
+				<short>
+					<standard>PHT</standard>
+					<daylight>PHST</daylight>
+				</short>
+			</metazone>
+			<metazone type="Phoenix_Islands">
+				<short>
+					<standard>PHOT</standard>
+				</short>
+			</metazone>
+			<metazone type="Pierre_Miquelon">
+				<short>
+					<standard>PMST</standard>
+					<daylight>PMDT</daylight>
+				</short>
+			</metazone>
+			<metazone type="Pitcairn">
+				<short>
+					<standard>PNT</standard>
+				</short>
+			</metazone>
+			<metazone type="Ponape">
+				<short>
+					<standard>PONT</standard>
+				</short>
+			</metazone>
+			<metazone type="Qyzylorda">
+				<short>
+					<standard>QYZT</standard>
+					<daylight>QYZST</daylight>
+				</short>
+			</metazone>
+			<metazone type="Reunion">
+				<short>
+					<standard>RET</standard>
+				</short>
+			</metazone>
+			<metazone type="Rothera">
+				<short>
+					<standard>ROTT</standard>
+				</short>
+			</metazone>
+			<metazone type="Sakhalin">
+				<short>
+					<standard>SAKT</standard>
+					<daylight>SAKST</daylight>
+				</short>
+			</metazone>
+			<metazone type="Samara">
+				<short>
+					<standard>SAMT</standard>
+					<daylight>SAMST</daylight>
+				</short>
+			</metazone>
+			<metazone type="Samarkand">
+				<short>
+					<standard>SAMT (Samarkand)</standard>
+					<daylight>SAMST (Samarkand)</daylight>
+				</short>
+			</metazone>
+			<metazone type="Samoa">
+				<short>
+					<standard>SST</standard>
+				</short>
+			</metazone>
+			<metazone type="Seychelles">
+				<short>
+					<standard>SCT</standard>
+				</short>
+			</metazone>
+			<metazone type="Shevchenko">
+				<short>
+					<standard>SHET</standard>
+					<daylight>SHEST</daylight>
+				</short>
+			</metazone>
+			<metazone type="Singapore">
+				<short>
+					<standard>SGT</standard>
+				</short>
+			</metazone>
+			<metazone type="Solomon">
+				<short>
+					<standard>SBT</standard>
+				</short>
+			</metazone>
+			<metazone type="South_Georgia">
+				<short>
+					<standard>GST (GS)</standard>
+				</short>
+			</metazone>
+			<metazone type="Suriname">
+				<short>
+					<standard>SRT</standard>
+				</short>
+			</metazone>
+			<metazone type="Sverdlovsk">
+				<short>
+					<standard>SVET</standard>
+					<daylight>SVEST</daylight>
+				</short>
+			</metazone>
+			<metazone type="Syowa">
+				<short>
+					<standard>SYOT</standard>
+				</short>
+			</metazone>
+			<metazone type="Tahiti">
+				<short>
+					<standard>TAHT</standard>
+				</short>
+			</metazone>
+			<metazone type="Tajikistan">
+				<short>
+					<standard>TJT</standard>
+				</short>
+			</metazone>
+			<metazone type="Tashkent">
+				<short>
+					<standard>TAST</standard>
+					<daylight>TASST</daylight>
+				</short>
+			</metazone>
+			<metazone type="Tbilisi">
+				<short>
+					<standard>TBIT</standard>
+					<daylight>TBIST</daylight>
+				</short>
+			</metazone>
+			<metazone type="Tokelau">
+				<short>
+					<standard>TKT</standard>
+				</short>
+			</metazone>
+			<metazone type="Tonga">
+				<short>
+					<standard>TOT</standard>
+					<daylight>TOST</daylight>
+				</short>
+			</metazone>
+			<metazone type="Truk">
+				<short>
+					<standard>TRUT</standard>
+				</short>
+			</metazone>
+			<metazone type="Turkey">
+				<short>
+					<standard>TRT</standard>
+					<daylight>TRST</daylight>
+				</short>
+			</metazone>
+			<metazone type="Turkmenistan">
+				<short>
+					<standard>TMT</standard>
+					<daylight>TMST</daylight>
+				</short>
+			</metazone>
+			<metazone type="Tuvalu">
+				<short>
+					<standard>TVT</standard>
+				</short>
+			</metazone>
+			<metazone type="Uralsk">
+				<short>
+					<standard>URAT</standard>
+					<daylight>URAST</daylight>
+				</short>
+			</metazone>
+			<metazone type="Uruguay">
+				<short>
+					<standard>UYT</standard>
+					<daylight>UYST</daylight>
+				</short>
+			</metazone>
+			<metazone type="Urumqi">
+				<short>
+					<standard>URUT</standard>
+				</short>
+			</metazone>
+			<metazone type="Uzbekistan">
+				<short>
+					<standard>UZT</standard>
+					<daylight>UZST</daylight>
+				</short>
+			</metazone>
+			<metazone type="Vanuatu">
+				<short>
+					<standard>VUT</standard>
+					<daylight>VUST</daylight>
+				</short>
+			</metazone>
+			<metazone type="Venezuela">
+				<short>
+					<standard>VET</standard>
+				</short>
+			</metazone>
+			<metazone type="Vladivostok">
+				<short>
+					<standard>VLAT</standard>
+					<daylight>VLAST</daylight>
+				</short>
+			</metazone>
+			<metazone type="Volgograd">
+				<short>
+					<standard>VOLT</standard>
+					<daylight>VOLST</daylight>
+				</short>
+			</metazone>
+			<metazone type="Vostok">
+				<short>
+					<standard>VOST</standard>
+				</short>
+			</metazone>
+			<metazone type="Wake">
+				<short>
+					<standard>WAKT</standard>
+				</short>
+			</metazone>
+			<metazone type="Wallis">
+				<short>
+					<standard>WFT</standard>
+				</short>
+			</metazone>
+			<metazone type="Yakutsk">
+				<short>
+					<standard>YAKT</standard>
+					<daylight>YAKST</daylight>
+				</short>
+			</metazone>
+			<metazone type="Yekaterinburg">
+				<short>
+					<standard>YEKT</standard>
+					<daylight>YEKST</daylight>
+				</short>
+			</metazone>
+			<metazone type="Yerevan">
+				<short>
+					<standard>YERT</standard>
+					<daylight>YERST</daylight>
+				</short>
+			</metazone>
+			<metazone type="Yukon">
+				<short>
+					<standard>YST</standard>
+					<daylight>YDT</daylight>
+				</short>
+			</metazone>
 		</timeZoneNames>
 	</dates>
 	<numbers>
@@ -2537,9 +2507,10 @@
 			</currencySpacing>
 			<currencyFormatLength>
 				<currencyFormat>
-					<pattern>¤ #,##0.00</pattern>
+					<pattern>¤ #,##0.00</pattern>
 				</currencyFormat>
 			</currencyFormatLength>
+			<unitPattern count="other">{0} {1}</unitPattern>
 		</currencyFormats>
 		<currencies>
 			<currency type="BRL">
@@ -2572,6 +2543,30 @@
 			</currency>
 		</currencies>
 	</numbers>
+	<units>
+		<!-- http://physics.nist.gov/cuu/Units/outside.html -->
+		<unit type="day">
+			<unitPattern count="other">{0} d</unitPattern>
+		</unit>
+		<unit type="hour">
+			<unitPattern count="other">{0} h</unitPattern>
+		</unit>
+		<unit type="minute">
+			<unitPattern count="other">{0} min</unitPattern>
+		</unit>
+		<unit type="month">
+			<unitPattern count="other">{0} m</unitPattern>
+		</unit>
+		<unit type="second">
+			<unitPattern count="other">{0} s</unitPattern>
+		</unit>
+		<unit type="week">
+			<unitPattern count="other">{0} w</unitPattern>
+		</unit>
+		<unit type="year">
+			<unitPattern count="other">{0} y</unitPattern>
+		</unit>
+	</units>
 	<posix>
 		<messages>
 			<yesstr>yes:y</yesstr>
@@ -2664,5 +2659,9 @@ The values in root must always be capitalized because the signify the values are
 codes not translations
 NY      { "NY" }        // No longer valid variant. Here for backwards compatibility.
 EURO    { "EURO" }      // EURO variant display name
+
+Comments without bases
+
+ The following are altered since era should be included with year    - was on: //ldml/dates/calendars/calendar[@type="japanese"]/dateTimeFormats/availableFormats/dateFormatItem[@id="yyMM"]
 -->
 

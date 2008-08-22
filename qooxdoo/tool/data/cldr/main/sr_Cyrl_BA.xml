@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE ldml SYSTEM "http://www.unicode.org/cldr/dtd/1.5/ldml.dtd">
+<!DOCTYPE ldml SYSTEM "http://www.unicode.org/cldr/dtd/1.6/ldml.dtd">
 <ldml>
 	<!-- IDENTIFICATION of the locale -->
 	<identity>
-		<version number="$Revision: 1.29 $"/>
-		<generation date="$Date: 2007/07/24 23:39:15 $"/>
+		<version number="$Revision: 1.35 $"/>
+		<generation date="$Date: 2008/06/17 14:12:15 $"/>
 		<language type="sr"/>
 		<script type="Cyrl"/>
 		<territory type="BA"/>
@@ -65,6 +65,32 @@
 						</timeFormat>
 					</timeFormatLength>
 				</timeFormats>
+				<dateTimeFormats>
+					<intervalFormats>
+						<intervalFormatItem id="MEd">
+							<greatestDifference id="M" draft="unconfirmed">E, MM-dd - E, MM-dd</greatestDifference>
+							<greatestDifference id="d" draft="unconfirmed">E, MM-dd - E, MM-dd</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="Md">
+							<greatestDifference id="M" draft="unconfirmed">MM-dd - MM-dd</greatestDifference>
+							<greatestDifference id="d" draft="unconfirmed">MM-dd - MM-dd</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="yM">
+							<greatestDifference id="M" draft="unconfirmed">yy-MM - yy-MM</greatestDifference>
+							<greatestDifference id="y" draft="unconfirmed">yy-MM - yy-MM</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="yMEd">
+							<greatestDifference id="M" draft="unconfirmed">E, yy-MM-dd - E, yy-MM-dd</greatestDifference>
+							<greatestDifference id="d" draft="unconfirmed">E, yy-MM-dd - E, yy-MM-dd</greatestDifference>
+							<greatestDifference id="y" draft="unconfirmed">E, yy-MM-dd - E, yy-MM-dd</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="yMd">
+							<greatestDifference id="M" draft="unconfirmed">yy-MM-dd - yy-MM-dd</greatestDifference>
+							<greatestDifference id="d" draft="unconfirmed">yy-MM-dd - yy-MM-dd</greatestDifference>
+							<greatestDifference id="y" draft="unconfirmed">yy-MM-dd - yy-MM-dd</greatestDifference>
+						</intervalFormatItem>
+					</intervalFormats>
+				</dateTimeFormats>
 			</calendar>
 		</calendars>
 	</dates>
@@ -75,8 +101,8 @@
 			<currency type="BAM">
 				<displayName>Конвертибилна Марка</displayName>
 				<symbol>КМ.</symbol>
-				<!-- decimal draft="true">,</decimal
-					 group draft="true">.</group
+				<!-- decimal draft="unconfirmed">,</decimal
+					 group draft="unconfirmed">.</group
 				-->
 			</currency>
 		</currencies>
