@@ -170,12 +170,8 @@ qx.Class.define("qx.ui.form.AbstractField",
      *
      * @return {qx.html.Input} a new input element.
      */
-    _createInputElement : function()
-    {
-      var input =  new qx.html.Input("text");
-      input.setStyle("overflow", "hidden");
-
-      return input;
+    _createInputElement : function() {
+      return new qx.html.Input("text");
     },
 
 
@@ -193,7 +189,8 @@ qx.Class.define("qx.ui.form.AbstractField",
         "border": "none",
         "padding": 0,
         "margin": 0,
-        "background": "transparent",
+        "display" : "block",
+        "background" : "transparent",
         "outline": "none",
         "appearance": "none"
       });
