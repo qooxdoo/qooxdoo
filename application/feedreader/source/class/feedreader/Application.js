@@ -86,8 +86,6 @@ qx.Class.define("feedreader.Application",
         qx.log.appender.Console;
       }
 
-      qx.locale.Manager.getInstance().setLocale("de");
-
       // Initialize the model
       this._initializeModel();
 
