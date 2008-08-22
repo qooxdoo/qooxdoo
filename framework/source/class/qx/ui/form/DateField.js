@@ -98,6 +98,7 @@ qx.Class.define("qx.ui.form.DateField",
       PUBLIC METHODS
     ---------------------------------------------------------------------------
     */
+    
     /**
      * This method sets the date corresponding to the {@link dateFormat} to the
      * date field. It will also select the date in the calender popup.
@@ -204,7 +205,7 @@ qx.Class.define("qx.ui.form.DateField",
 
     /*
     ---------------------------------------------------------------------------
-      WIDGET APIß
+      WIDGET API
     ---------------------------------------------------------------------------
     */
 
