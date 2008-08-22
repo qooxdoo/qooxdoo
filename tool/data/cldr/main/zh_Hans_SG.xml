@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE ldml SYSTEM "http://www.unicode.org/cldr/dtd/1.5/ldml.dtd">
+<!DOCTYPE ldml SYSTEM "http://www.unicode.org/cldr/dtd/1.6/ldml.dtd">
 <ldml>
 	<identity>
-		<version number="$Revision: 1.46 $"/>
-		<generation date="$Date: 2007/07/19 22:31:40 $"/>
+		<version number="$Revision: 1.58 $"/>
+		<generation date="$Date: 2008/06/17 14:12:12 $"/>
 		<language type="zh"/>
 		<script type="Hans"/>
 		<territory type="SG"/>
@@ -12,61 +12,91 @@
 		<calendars>
 			<calendar type="gregorian">
 				<dateFormats>
-					<dateFormatLength type="full">
-						<dateFormat>
-							<pattern alt="proposed-x1001" draft="unconfirmed">dd MMMM yyyy</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="long">
-						<dateFormat>
-							<pattern>dd MMM yyyy</pattern>
-							<pattern alt="proposed-x1001" draft="unconfirmed">yyyy年M月d日</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="medium">
-						<dateFormat>
-							<pattern alt="proposed-x1001" draft="unconfirmed">dd-MMM-yy</pattern>
-						</dateFormat>
-					</dateFormatLength>
 					<dateFormatLength type="short">
 						<dateFormat>
 							<pattern>dd/MM/yy</pattern>
-							<pattern alt="proposed-x1001" draft="unconfirmed">yy-M-d</pattern>
 						</dateFormat>
 					</dateFormatLength>
 				</dateFormats>
 				<timeFormats>
-					<timeFormatLength type="full">
-						<timeFormat>
-							<pattern alt="proposed-x1001" draft="unconfirmed">a hh:mm:ss</pattern>
-						</timeFormat>
-					</timeFormatLength>
 					<timeFormatLength type="long">
 						<timeFormat>
-							<pattern>a hh:mm:ss z</pattern>
-							<pattern alt="proposed-x1001" draft="unconfirmed">ahh时mm分ss秒</pattern>
-							<pattern alt="proposed-x1002" draft="unconfirmed">z ahh时mm分ss秒</pattern>
-							<pattern alt="proposed-x1003" draft="unconfirmed">EST ahh时mm分ss秒</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="medium">
-						<timeFormat>
-							<pattern alt="proposed-x1001" draft="unconfirmed">a hh:mm</pattern>
+							<pattern>ahh:mm:ssz</pattern>
 						</timeFormat>
 					</timeFormatLength>
 					<timeFormatLength type="short">
 						<timeFormat>
-							<pattern>a hh:mm</pattern>
-							<pattern alt="proposed-x1001" draft="unconfirmed">ah:mm</pattern>
+							<pattern>ahh:mm</pattern>
 						</timeFormat>
 					</timeFormatLength>
 				</timeFormats>
 				<dateTimeFormats>
 					<availableFormats>
-						<dateFormatItem id="MMMMd" draft="provisional">MMMM d</dateFormatItem>
 						<dateFormatItem id="Md" draft="provisional">M月d日</dateFormatItem>
-						<dateFormatItem id="yyMM" alt="proposed-x1001" draft="unconfirmed">MM/yy</dateFormatItem>
 					</availableFormats>
+					<intervalFormats>
+						<intervalFormatFallback draft="unconfirmed">{0}至{1}</intervalFormatFallback>
+						<intervalFormatItem id="MEd">
+							<greatestDifference id="M" draft="unconfirmed">dd/MME至dd/MME</greatestDifference>
+							<greatestDifference id="d" draft="unconfirmed">dd/MME至dd/MME</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="MMMEd">
+							<greatestDifference id="M" draft="unconfirmed">ddMMME至ddMMME</greatestDifference>
+							<greatestDifference id="d" draft="unconfirmed">ddMMME至ddMMME</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="MMMd">
+							<greatestDifference id="M" draft="unconfirmed">ddMMM至dMMM</greatestDifference>
+							<greatestDifference id="d" draft="unconfirmed">dd至ddMMM</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="Md">
+							<greatestDifference id="M" draft="unconfirmed">dd/MM至dd/MM</greatestDifference>
+							<greatestDifference id="d" draft="unconfirmed">dd/MM至dd/MM</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="h">
+							<greatestDifference id="a" draft="unconfirmed">ahh至ahh</greatestDifference>
+							<greatestDifference id="h" draft="unconfirmed">ahh至hh</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="hm">
+							<greatestDifference id="a" draft="unconfirmed">ahh:mm至ahh:mm</greatestDifference>
+							<greatestDifference id="h" draft="unconfirmed">ahh:mm至hh:mm</greatestDifference>
+							<greatestDifference id="m" draft="unconfirmed">ahh:mm至hh:mm</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="hmv">
+							<greatestDifference id="a" draft="unconfirmed">ahh:mm至ahh:mmv</greatestDifference>
+							<greatestDifference id="h" draft="unconfirmed">ahh:mm至hh:mmv</greatestDifference>
+							<greatestDifference id="m" draft="unconfirmed">ahh:mm至hh:mmv</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="hv">
+							<greatestDifference id="a" draft="unconfirmed">ahh至ahhv</greatestDifference>
+							<greatestDifference id="h" draft="unconfirmed">ahh至hhv</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="y">
+							<greatestDifference id="y" draft="unconfirmed">y-y</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="yM">
+							<greatestDifference id="M" draft="unconfirmed">MM/yy至MM/yy</greatestDifference>
+							<greatestDifference id="y" draft="unconfirmed">MM/yy至MM/yy</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="yMEd">
+							<greatestDifference id="M" draft="unconfirmed">dd/MM/yyE至dd/MM/yyE</greatestDifference>
+							<greatestDifference id="d" draft="unconfirmed">dd/MM/yyE至dd/MM/yyE</greatestDifference>
+							<greatestDifference id="y" draft="unconfirmed">dd/MM/yyE至dd/MM/yyE</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="yMMM">
+							<greatestDifference id="M" draft="unconfirmed">MMM至MMMyyyy</greatestDifference>
+							<greatestDifference id="y" draft="unconfirmed">MMMyyyy至MMMyyyy</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="yMMMd">
+							<greatestDifference id="M" draft="unconfirmed">ddMMM至ddMMMyyyy</greatestDifference>
+							<greatestDifference id="d" draft="unconfirmed">dd至ddMMMyyyy</greatestDifference>
+							<greatestDifference id="y" draft="unconfirmed">ddMMMyyyy至ddMMMyyyy</greatestDifference>
+						</intervalFormatItem>
+						<intervalFormatItem id="yMd">
+							<greatestDifference id="M" draft="unconfirmed">dd/MM/yy至dd/MM/yy</greatestDifference>
+							<greatestDifference id="d" draft="unconfirmed">dd/MM/yy至dd/MM/yy</greatestDifference>
+							<greatestDifference id="y" draft="unconfirmed">dd/MM/yy至dd/MM/yy</greatestDifference>
+						</intervalFormatItem>
+					</intervalFormats>
 				</dateTimeFormats>
 			</calendar>
 		</calendars>
