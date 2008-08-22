@@ -106,7 +106,7 @@ qx.Class.define("qx.ui.form.TextField",
      */
     _createInputElement : function()
     {
-      var input =  new qx.html.Input("text");
+      var input = new qx.html.Input("text");
       input.addListener("input", this._onHtmlInput, this);
       return input;
     },
