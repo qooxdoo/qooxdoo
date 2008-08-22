@@ -130,20 +130,12 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          decorator : "black"
+          decorator : "main"
         };
       }
     },
 
-    "resize-frame" :
-    {
-      style : function(states)
-      {
-        return {
-          decorator : "black"
-        };
-      }
-    },
+    "resize-frame" : "move-frame",
 
     "dragdrop-cursor" :
     {
