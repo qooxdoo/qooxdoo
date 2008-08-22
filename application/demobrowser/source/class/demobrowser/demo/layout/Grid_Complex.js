@@ -45,24 +45,24 @@ qx.Class.define("demobrowser.demo.layout.Grid_Complex",
     {
       // auto size
       var box = new qx.ui.container.Composite().set({
-        decorator: "black",
+        decorator: "main",
         backgroundColor: "yellow"
       });
 
       box.setLayout(new qx.ui.layout.Grid(5, 20));
 
       box.add(new qx.ui.core.Widget().set({
-        decorator: "black",
+        decorator: "main",
         backgroundColor: "green"
       }), {row: 0, column: 0});
 
       box.add(new qx.ui.core.Widget().set({
-        decorator: "black",
+        decorator: "main",
         backgroundColor: "green"
       }), {row: 0, column: 1});
 
       box.add(new qx.ui.core.Widget().set({
-        decorator: "black",
+        decorator: "main",
         backgroundColor: "green",
         width:150,
         maxWidth:150
@@ -76,7 +76,7 @@ qx.Class.define("demobrowser.demo.layout.Grid_Complex",
     {
       // flex columns
       var box = new qx.ui.container.Composite().set({
-        decorator: "black",
+        decorator: "main",
         backgroundColor: "yellow",
         width:500,
         allowShrinkX: false,
@@ -94,22 +94,22 @@ qx.Class.define("demobrowser.demo.layout.Grid_Complex",
       box.setLayout(layout);
 
       box.add(new qx.ui.core.Widget().set({
-        decorator: "black",
+        decorator: "main",
         backgroundColor: "green"
       }), {row: 0, column: 0});
 
       box.add(new qx.ui.core.Widget().set({
-        decorator: "black",
+        decorator: "main",
         backgroundColor: "green"
       }), {row: 0, column: 1, rowSpan: 1, colSpan: 2});
 
       box.add(new qx.ui.core.Widget().set({
-        decorator: "black",
+        decorator: "main",
         backgroundColor: "green"
       }), {row: 1, column: 0});
 
       var innerBox = new qx.ui.container.Composite().set({
-        decorator: "black",
+        decorator: "main",
         backgroundColor: "orange",
         width:400,
         padding: 5
@@ -117,17 +117,17 @@ qx.Class.define("demobrowser.demo.layout.Grid_Complex",
       box.add(innerBox, {row: 1, column: 1, rowSpan: 2, colSpan: 2});
 
       box.add(new qx.ui.core.Widget().set({
-        decorator: "black",
+        decorator: "main",
         backgroundColor: "green"
       }), {row: 2, column: 0});
 
       box.add(new qx.ui.core.Widget().set({
-        decorator: "black",
+        decorator: "main",
         backgroundColor: "green"
       }), {row: 3, column: 0, rowSpan: 1, colSpan: 2});
 
       box.add(new qx.ui.core.Widget().set({
-        decorator: "black",
+        decorator: "main",
         backgroundColor: "green"
       }), {row: 3, column: 2});
 
@@ -144,13 +144,13 @@ qx.Class.define("demobrowser.demo.layout.Grid_Complex",
       innerLayout.setColumnFlex(1, 1);
 
       innerBox.add(new qx.ui.core.Widget().set({
-        decorator: "black",
+        decorator: "main",
         backgroundColor: "green",
         width:150
       }), {row: 0, column: 0});
 
       innerBox.add(new qx.ui.core.Widget().set({
-        decorator: "black",
+        decorator: "main",
         backgroundColor: "green",
         allowGrowX: false,
         height: 70,
@@ -158,14 +158,14 @@ qx.Class.define("demobrowser.demo.layout.Grid_Complex",
       }), {row: 0, column: 1});
 
       innerBox.add(new qx.ui.core.Widget().set({
-        decorator: "black",
+        decorator: "main",
         backgroundColor: "green",
         maxHeight: 60,
         allowGrowX: false
       }), {row: 1, column: 0});
 
       innerBox.add(new qx.ui.core.Widget().set({
-        decorator: "black",
+        decorator: "main",
         backgroundColor: "green",
         minWidth:170
       }), {row: 2, column: 0});

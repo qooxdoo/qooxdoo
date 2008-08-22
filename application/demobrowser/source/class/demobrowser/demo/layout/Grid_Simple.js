@@ -46,29 +46,29 @@ qx.Class.define("demobrowser.demo.layout.Grid_Simple",
     {
       // auto size
       var container = new qx.ui.container.Composite(new qx.ui.layout.Grid(10, 20)).set({
-        decorator: "black",
+        decorator: "main",
         backgroundColor: "yellow",
         allowGrowX: false,
         allowGrowY: false
       });
 
       container.add(new qx.ui.core.Widget().set({
-        decorator: "black",
+        decorator: "main",
         backgroundColor: "green"
       }), {row: 0, column: 0});
 
       container.add(new qx.ui.core.Widget().set({
-        decorator: "black",
+        decorator: "main",
         backgroundColor: "green"
       }), {row: 0, column: 1});
 
       container.add(new qx.ui.core.Widget().set({
-        decorator: "black",
+        decorator: "main",
         backgroundColor: "green"
       }), {row: 1, column: 0});
 
       container.add(new qx.ui.core.Widget().set({
-        decorator: "black",
+        decorator: "main",
         backgroundColor: "green"
       }), {row: 1, column: 1});
 
@@ -84,19 +84,19 @@ qx.Class.define("demobrowser.demo.layout.Grid_Simple",
       layout.setSpacing(5);
 
       var container = new qx.ui.container.Composite(layout).set({
-        decorator: "black",
+        decorator: "main",
         backgroundColor: "yellow",
         allowGrowX: false
       });
 
       container.add(new qx.ui.core.Widget().set({
-        decorator: "black",
+        decorator: "main",
         backgroundColor: "green",
         width:150
       }), {row: 0, column: 0});
 
       var resizeWidget = new qx.ui.basic.Label("click me").set({
-        decorator: "black",
+        decorator: "main",
         backgroundColor: "green",
         allowGrowX: false,
         width:50,
@@ -105,24 +105,24 @@ qx.Class.define("demobrowser.demo.layout.Grid_Simple",
       container.add(resizeWidget, {row: 0, column: 1});
 
       container.add(new qx.ui.core.Widget().set({
-        decorator: "black", backgroundColor: "green",
+        decorator: "main", backgroundColor: "green",
         maxHeight: 60,
         allowGrowX: false
       }), {row: 1, column: 0});
 
       container.add(new qx.ui.core.Widget().set({
-        decorator: "black",
+        decorator: "main",
         backgroundColor: "green",
         height: 80
       }), {row: 1, column: 1});
 
       container.add(new qx.ui.core.Widget().set({
-        decorator: "black",
+        decorator: "main",
         backgroundColor: "green"
       }), {row: 2, column: 0});
 
       container.add(new qx.ui.core.Widget().set({
-        decorator: "black",
+        decorator: "main",
         backgroundColor: "green"
       }), {row: 2, column: 1});
 
@@ -141,7 +141,7 @@ qx.Class.define("demobrowser.demo.layout.Grid_Simple",
     {
       // flex columns
       var container = new qx.ui.container.Composite().set({
-        decorator: "black",
+        decorator: "main",
         backgroundColor: "yellow",
         width:400,
         height : 300,
@@ -156,22 +156,22 @@ qx.Class.define("demobrowser.demo.layout.Grid_Simple",
       container.setLayout(layout);
 
       container.add(new qx.ui.core.Widget().set({
-        decorator: "black",
+        decorator: "main",
         backgroundColor: "green"
       }), {row: 0, column: 0});
 
       container.add(new qx.ui.core.Widget().set({
-        decorator: "black",
+        decorator: "main",
         backgroundColor: "green"
       }), {row: 0, column: 1});
 
       container.add(new qx.ui.core.Widget().set({
-        decorator: "black",
+        decorator: "main",
         backgroundColor: "green"
       }), {row: 1, column: 0});
 
       container.add(new qx.ui.core.Widget().set({
-        decorator: "black",
+        decorator: "main",
         backgroundColor: "green"
       }), {row: 1, column: 1});
 

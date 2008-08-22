@@ -42,16 +42,16 @@ qx.Class.define("demobrowser.demo.layout.Dock_Margin",
       // default layout, auto-sized
       var widget = new qx.ui.container.Composite(new qx.ui.layout.Dock(3, 10)).set(
       {
-        decorator: "black",
+        decorator: "main",
         backgroundColor: "yellow",
         allowGrowX : false
       });
 
-      var w1 = new qx.ui.core.Widget().set({decorator: "black", backgroundColor: "red"});
-      var w2 = new qx.ui.core.Widget().set({decorator: "black", backgroundColor: "blue", marginLeft : 20 });
-      var w3 = new qx.ui.core.Widget().set({decorator: "black", backgroundColor: "orange", marginTop : 20});
-      var w4 = new qx.ui.core.Widget().set({decorator: "black", backgroundColor: "green", maxHeight:20, alignY : "bottom"});
-      var w5 = new qx.ui.core.Widget().set({decorator: "black", backgroundColor: "fuchsia"});
+      var w1 = new qx.ui.core.Widget().set({decorator: "main", backgroundColor: "red"});
+      var w2 = new qx.ui.core.Widget().set({decorator: "main", backgroundColor: "blue", marginLeft : 20 });
+      var w3 = new qx.ui.core.Widget().set({decorator: "main", backgroundColor: "orange", marginTop : 20});
+      var w4 = new qx.ui.core.Widget().set({decorator: "main", backgroundColor: "green", maxHeight:20, alignY : "bottom"});
+      var w5 = new qx.ui.core.Widget().set({decorator: "main", backgroundColor: "fuchsia"});
 
       widget.add(w1, {edge:"north"});
       widget.add(w2, {edge:"west"});
@@ -70,16 +70,16 @@ qx.Class.define("demobrowser.demo.layout.Dock_Margin",
 
       var widget = (new qx.ui.container.Composite(dock)).set(
       {
-        decorator: "black",
+        decorator: "main",
         backgroundColor: "yellow",
         allowGrowX : false
       });
 
-      var w1 = new qx.ui.core.Widget().set({decorator: "black", backgroundColor: "red"});
-      var w2 = new qx.ui.core.Widget().set({decorator: "black", backgroundColor: "blue", marginLeft : 20 });
-      var w3 = new qx.ui.core.Widget().set({decorator: "black", backgroundColor: "orange", marginTop : 20});
-      var w4 = new qx.ui.core.Widget().set({decorator: "black", backgroundColor: "green", maxHeight:20, alignY : "bottom"});
-      var w5 = new qx.ui.core.Widget().set({decorator: "black", backgroundColor: "fuchsia"});
+      var w1 = new qx.ui.core.Widget().set({decorator: "main", backgroundColor: "red"});
+      var w2 = new qx.ui.core.Widget().set({decorator: "main", backgroundColor: "blue", marginLeft : 20 });
+      var w3 = new qx.ui.core.Widget().set({decorator: "main", backgroundColor: "orange", marginTop : 20});
+      var w4 = new qx.ui.core.Widget().set({decorator: "main", backgroundColor: "green", maxHeight:20, alignY : "bottom"});
+      var w5 = new qx.ui.core.Widget().set({decorator: "main", backgroundColor: "fuchsia"});
 
       widget.add(w1, {edge:"north"});
       widget.add(w2, {edge:"west"});
@@ -99,16 +99,16 @@ qx.Class.define("demobrowser.demo.layout.Dock_Margin",
 
       var widget = (new qx.ui.container.Composite(dock)).set(
       {
-        decorator: "black",
+        decorator: "main",
         backgroundColor: "yellow",
         allowGrowX : false
       });
 
-      var w1 = new qx.ui.core.Widget().set({decorator: "black", backgroundColor: "red"});
-      var w2 = new qx.ui.core.Widget().set({decorator: "black", backgroundColor: "blue", marginLeft : 20 });
-      var w3 = new qx.ui.core.Widget().set({decorator: "black", backgroundColor: "orange", marginTop : 20});
-      var w4 = new qx.ui.core.Widget().set({decorator: "black", backgroundColor: "green", maxHeight:20, alignY : "bottom"});
-      var w5 = new qx.ui.core.Widget().set({decorator: "black", backgroundColor: "fuchsia"});
+      var w1 = new qx.ui.core.Widget().set({decorator: "main", backgroundColor: "red"});
+      var w2 = new qx.ui.core.Widget().set({decorator: "main", backgroundColor: "blue", marginLeft : 20 });
+      var w3 = new qx.ui.core.Widget().set({decorator: "main", backgroundColor: "orange", marginTop : 20});
+      var w4 = new qx.ui.core.Widget().set({decorator: "main", backgroundColor: "green", maxHeight:20, alignY : "bottom"});
+      var w5 = new qx.ui.core.Widget().set({decorator: "main", backgroundColor: "fuchsia"});
 
       widget.add(w1, {edge:"north"});
       widget.add(w2, {edge:"west"});

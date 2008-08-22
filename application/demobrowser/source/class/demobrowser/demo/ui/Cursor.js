@@ -72,7 +72,7 @@ qx.Class.define("demobrowser.demo.ui.Cursor",
       for (var i=0; i<15; i++)
       {
         container.add(new qx.ui.basic.Label(cursors[i]).set({
-          decorator: "black",
+          decorator: "main",
           backgroundColor: "#555",
           cursor: cursors[i],
           padding: 5,

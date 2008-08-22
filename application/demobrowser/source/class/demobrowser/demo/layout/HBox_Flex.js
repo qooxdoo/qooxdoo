@@ -52,16 +52,16 @@ qx.Class.define("demobrowser.demo.layout.HBox_Flex",
       var box = new qx.ui.layout.HBox();
       var container = new qx.ui.container.Composite(box).set({
         width: 500,
-        decorator: "black",
+        decorator: "main",
         backgroundColor: "yellow",
         allowGrowX: false
       });
 
       box.setSpacing(5);
 
-      container.add(new qx.ui.core.Widget().set({decorator: "black", backgroundColor: "green"}), { flex : 1 });
-      container.add(new qx.ui.core.Widget().set({decorator: "black", backgroundColor: "green"}), { flex : 2 });
-      container.add(new qx.ui.core.Widget().set({decorator: "black", backgroundColor: "green"}), { flex : 3 });
+      container.add(new qx.ui.core.Widget().set({decorator: "main", backgroundColor: "green"}), { flex : 1 });
+      container.add(new qx.ui.core.Widget().set({decorator: "main", backgroundColor: "green"}), { flex : 2 });
+      container.add(new qx.ui.core.Widget().set({decorator: "main", backgroundColor: "green"}), { flex : 3 });
 
       return container;
     },
@@ -73,16 +73,16 @@ qx.Class.define("demobrowser.demo.layout.HBox_Flex",
       var box = new qx.ui.layout.HBox();
       var container = new qx.ui.container.Composite(box).set({
         width: 500,
-        decorator: "black",
+        decorator: "main",
         backgroundColor: "yellow",
         allowGrowX: false
       });
 
       box.setSpacing(5);
 
-      container.add(new qx.ui.core.Widget().set({decorator: "black", backgroundColor: "green", maxWidth:30}), { flex : 1 });
-      container.add(new qx.ui.core.Widget().set({decorator: "black", backgroundColor: "green"}), { flex : 2 });
-      container.add(new qx.ui.core.Widget().set({decorator: "black", backgroundColor: "green", maxWidth:150}), { flex : 3 });
+      container.add(new qx.ui.core.Widget().set({decorator: "main", backgroundColor: "green", maxWidth:30}), { flex : 1 });
+      container.add(new qx.ui.core.Widget().set({decorator: "main", backgroundColor: "green"}), { flex : 2 });
+      container.add(new qx.ui.core.Widget().set({decorator: "main", backgroundColor: "green", maxWidth:150}), { flex : 3 });
 
       return container;
     },
@@ -94,7 +94,7 @@ qx.Class.define("demobrowser.demo.layout.HBox_Flex",
       var box = new qx.ui.layout.HBox();
       var container = new qx.ui.container.Composite(box).set({
         width: 500,
-        decorator: "black",
+        decorator: "main",
         backgroundColor: "yellow",
         allowGrowX: false
       });
@@ -104,7 +104,7 @@ qx.Class.define("demobrowser.demo.layout.HBox_Flex",
       for (var i=0; i<25; i++)
       {
         var widget = new qx.ui.core.Widget();
-        widget.set({decorator: "black", backgroundColor: "green", width:5});
+        widget.set({decorator: "main", backgroundColor: "green", width:5});
         container.add(widget, {flex: 1});
       }
 
@@ -119,16 +119,16 @@ qx.Class.define("demobrowser.demo.layout.HBox_Flex",
       var container = new qx.ui.container.Composite(box).set({
         width: 600,
         minWidth: 600,
-        decorator: "black",
+        decorator: "main",
         backgroundColor: "yellow",
         allowGrowX: false
       });
 
       box.setSpacing(5);
 
-      container.add(new qx.ui.core.Widget().set({decorator: "black", backgroundColor: "green", maxWidth: 120}), { flex : 1 });
-      container.add(new qx.ui.core.Widget().set({decorator: "black", backgroundColor: "green", maxWidth: 120}), { flex : 2 });
-      container.add(new qx.ui.core.Widget().set({decorator: "black", backgroundColor: "green", maxWidth: 120}), { flex : 3 });
+      container.add(new qx.ui.core.Widget().set({decorator: "main", backgroundColor: "green", maxWidth: 120}), { flex : 1 });
+      container.add(new qx.ui.core.Widget().set({decorator: "main", backgroundColor: "green", maxWidth: 120}), { flex : 2 });
+      container.add(new qx.ui.core.Widget().set({decorator: "main", backgroundColor: "green", maxWidth: 120}), { flex : 3 });
 
       return container;
     },
@@ -141,16 +141,16 @@ qx.Class.define("demobrowser.demo.layout.HBox_Flex",
       var container = new qx.ui.container.Composite(box).set({
         width: 300,
         minWidth : 0,
-        decorator: "black",
+        decorator: "main",
         backgroundColor: "yellow",
         allowGrowX: false
       });
 
       box.setSpacing(5);
 
-      container.add(new qx.ui.core.Widget().set({decorator: "black", backgroundColor: "green", minWidth: 120}), { flex : 1 });
-      container.add(new qx.ui.core.Widget().set({decorator: "black", backgroundColor: "green", minWidth: 120}), { flex : 2 });
-      container.add(new qx.ui.core.Widget().set({decorator: "black", backgroundColor: "green", minWidth: 120}), { flex : 3 });
+      container.add(new qx.ui.core.Widget().set({decorator: "main", backgroundColor: "green", minWidth: 120}), { flex : 1 });
+      container.add(new qx.ui.core.Widget().set({decorator: "main", backgroundColor: "green", minWidth: 120}), { flex : 2 });
+      container.add(new qx.ui.core.Widget().set({decorator: "main", backgroundColor: "green", minWidth: 120}), { flex : 3 });
 
       return container;
     },
@@ -162,16 +162,16 @@ qx.Class.define("demobrowser.demo.layout.HBox_Flex",
       var box = new qx.ui.layout.HBox();
       var container = new qx.ui.container.Composite(box).set({
         width: 300,
-        decorator: "black",
+        decorator: "main",
         backgroundColor: "yellow",
         allowGrowX: false
       });
 
       box.setSpacing(5);
 
-      container.add(new qx.ui.core.Widget().set({decorator: "black", backgroundColor: "green", minWidth: 120}), { flex : 1 });
-      container.add(new qx.ui.core.Widget().set({decorator: "black", backgroundColor: "green", minWidth: 120}), { flex : 2 });
-      container.add(new qx.ui.core.Widget().set({decorator: "black", backgroundColor: "green", minWidth: 120}), { flex : 3 });
+      container.add(new qx.ui.core.Widget().set({decorator: "main", backgroundColor: "green", minWidth: 120}), { flex : 1 });
+      container.add(new qx.ui.core.Widget().set({decorator: "main", backgroundColor: "green", minWidth: 120}), { flex : 2 });
+      container.add(new qx.ui.core.Widget().set({decorator: "main", backgroundColor: "green", minWidth: 120}), { flex : 3 });
 
       return container;
     }

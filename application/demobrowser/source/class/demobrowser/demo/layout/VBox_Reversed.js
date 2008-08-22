@@ -30,19 +30,19 @@ qx.Class.define("demobrowser.demo.layout.VBox_Reversed",
 
       // auto height + reversed
       var box = new qx.ui.layout.VBox();
-      var container = new qx.ui.container.Composite(box).set({decorator: "black", backgroundColor: "yellow", width: 120});
+      var container = new qx.ui.container.Composite(box).set({decorator: "main", backgroundColor: "yellow", width: 120});
 
       box.setSpacing(5);
       box.setReversed(true);
 
       var w1 = new qx.ui.core.Widget().set({
-        decorator: "black",
+        decorator: "main",
         backgroundColor: "blue",
         maxHeight:60,
         alignY:"top"}
       );
       var w2 = new qx.ui.basic.Label("click to reverse").set({
-        decorator: "black",
+        decorator: "main",
         rich: true,
         backgroundColor: "green",
         padding : 5,
@@ -53,7 +53,7 @@ qx.Class.define("demobrowser.demo.layout.VBox_Reversed",
         allowGrowY: true
       });
       var w3 = new qx.ui.core.Widget().set({
-        decorator: "black",
+        decorator: "main",
         backgroundColor: "grey",
         maxHeight:60,
         alignY:"bottom"

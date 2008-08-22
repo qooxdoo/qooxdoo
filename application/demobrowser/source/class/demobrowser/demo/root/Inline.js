@@ -29,7 +29,7 @@ qx.Class.define("demobrowser.demo.root.Inline",
       this.base(arguments);
 
       var isle = new qx.ui.root.Inline(document.getElementById("isle")).set({
-        decorator: "black",
+        decorator: "main",
         padding: 10,
         textColor: "black",
         backgroundColor: "white"
@@ -37,23 +37,23 @@ qx.Class.define("demobrowser.demo.root.Inline",
 
       var w1 = new qx.ui.core.Widget().set({
         backgroundColor: "red",
-        decorator: "black",
+        decorator: "main",
         padding: 10
       });
 
       var w2 = new qx.ui.core.Widget().set({
         backgroundColor: "blue",
-        decorator: "black"
+        decorator: "main"
       });
 
       var w3 = new qx.ui.core.Widget().set({
         backgroundColor: "green",
-        decorator: "black"
+        decorator: "main"
       });
 
       var w4 = new qx.ui.core.Widget().set({
         backgroundColor: "yellow",
-        decorator: "black"
+        decorator: "main"
       });
 
       isle.add(w1);

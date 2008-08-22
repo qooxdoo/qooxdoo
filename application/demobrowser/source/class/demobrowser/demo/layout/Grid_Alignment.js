@@ -49,7 +49,7 @@ qx.Class.define("demobrowser.demo.layout.Grid_Alignment",
     getNewWidget : function()
     {
       var widget = new qx.ui.core.Widget().set({
-        decorator: "black",
+        decorator: "main",
         backgroundColor: "green",
         allowGrowX: false,
         allowGrowY: false,
@@ -63,7 +63,7 @@ qx.Class.define("demobrowser.demo.layout.Grid_Alignment",
     getColumnAlignGrid : function()
     {
       var box = new qx.ui.container.Composite().set({
-        decorator: "black",
+        decorator: "main",
         backgroundColor: "yellow",
         allowGrowX: false,
         allowGrowY: false
@@ -89,7 +89,7 @@ qx.Class.define("demobrowser.demo.layout.Grid_Alignment",
     getRowAlignGrid : function()
     {
       var box = new qx.ui.container.Composite().set({
-        decorator: "black",
+        decorator: "main",
         backgroundColor: "yellow",
         allowGrowX: false,
         allowGrowY: false
@@ -115,7 +115,7 @@ qx.Class.define("demobrowser.demo.layout.Grid_Alignment",
     getCellAlignGrid : function()
     {
       var box = new qx.ui.container.Composite().set({
-        decorator: "black",
+        decorator: "main",
         backgroundColor: "yellow",
         allowGrowX: false,
         allowGrowY: false
@@ -166,7 +166,7 @@ qx.Class.define("demobrowser.demo.layout.Grid_Alignment",
       // vAlign is taken from the column
 
       var box = new qx.ui.container.Composite().set({
-        decorator: "black",
+        decorator: "main",
         backgroundColor: "yellow",
         allowGrowX: false,
         allowGrowY: false

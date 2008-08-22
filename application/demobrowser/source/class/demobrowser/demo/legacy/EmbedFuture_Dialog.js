@@ -64,7 +64,7 @@ qx.Class.define("demobrowser.demo.legacy.EmbedFuture_Dialog",
     {
       var dialog = new qx.ui.container.Composite().set({
          backgroundColor: "yellow",
-         decorator: "black",
+         decorator: "main",
          padding: 10
       });
 
@@ -78,7 +78,7 @@ qx.Class.define("demobrowser.demo.legacy.EmbedFuture_Dialog",
         backgroundColor : "green",
         width: 600,
         height: 300,
-        decorator: "black",
+        decorator: "main",
         padding: 10
       });
 
@@ -86,7 +86,7 @@ qx.Class.define("demobrowser.demo.legacy.EmbedFuture_Dialog",
 
       var ok = new qx.ui.basic.Label("OK").set({
         backgroundColor : "green",
-        decorator: "black",
+        decorator: "main",
         padding: [2, 5]
       });
       dialog.add(ok, {row: 1, column: 1});
@@ -95,7 +95,7 @@ qx.Class.define("demobrowser.demo.legacy.EmbedFuture_Dialog",
 
       var cancel = new qx.ui.basic.Label("Cancel").set({
         backgroundColor : "green",
-        decorator: "black",
+        decorator: "main",
         padding: [2, 5]
       });
       dialog.add(cancel, {row: 1, column: 2});
