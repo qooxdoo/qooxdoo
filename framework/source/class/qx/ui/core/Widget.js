@@ -796,8 +796,6 @@ qx.Class.define("qx.ui.core.Widget",
     __protectorElement : null,
 
 
-
-
     /*
     ---------------------------------------------------------------------------
       LAYOUT INTERFACE
@@ -807,7 +805,7 @@ qx.Class.define("qx.ui.core.Widget",
     /**
      * {qx.ui.layout.Abstract} The connected layout manager
      */
-    __layout : null,
+    __layoutManager : null,
 
 
     /**
@@ -816,7 +814,7 @@ qx.Class.define("qx.ui.core.Widget",
      * @return {qx.ui.layout.Abstract} The widget's layout manager
      */
     _getLayout : function() {
-      return this.__layout;
+      return this.__layoutManager;
     },
 
 
@@ -837,15 +835,15 @@ qx.Class.define("qx.ui.core.Widget",
         }
       }
 
-      if (this.__layout) {
-        this.__layout.connectToWidget(null);
+      if (this.__layoutManager) {
+        this.__layoutManager.connectToWidget(null);
       }
 
       if (layout) {
         layout.connectToWidget(this);
       }
 
-      this.__layout = layout;
+      this.__layoutManager = layout;
       qx.ui.core.queue.Layout.add(this);
     },
 
@@ -969,8 +967,8 @@ qx.Class.define("qx.ui.core.Widget",
 
       if (inner || changes.local || changes.margin)
       {
-        if (this.__layout && this.hasLayoutChildren()) {
-          this.__layout.renderLayout(innerWidth, innerHeight);
+        if (this.__layoutManager && this.hasLayoutChildren()) {
+          this.__layoutManager.renderLayout(innerWidth, innerHeight);
         } else if (this.hasLayoutChildren()) {
           throw new Error("At least one child in control " + this._findTopControl() + " requires a layout, but no one was defined!");
         }
@@ -1180,8 +1178,8 @@ qx.Class.define("qx.ui.core.Widget",
     {
       this.base(arguments);
 
-      if (this.__layout) {
-        this.__layout.invalidateLayoutCache();
+      if (this.__layoutManager) {
+        this.__layoutManager.invalidateLayoutCache();
       }
     },
 
@@ -1200,7 +1198,7 @@ qx.Class.define("qx.ui.core.Widget",
      */
     _getContentHint : function()
     {
-      var layout = this.__layout;
+      var layout = this.__layoutManager;
       if (layout)
       {
         if (this.hasLayoutChildren())
@@ -1612,7 +1610,7 @@ qx.Class.define("qx.ui.core.Widget",
      */
     invalidateLayoutChildren : function()
     {
-      var layout = this.__layout;
+      var layout = this.__layoutManager;
       if (layout) {
         layout.invalidateChildrenCache();
       }
@@ -1965,8 +1963,8 @@ qx.Class.define("qx.ui.core.Widget",
       child.setLayoutParent(null);
 
       // clear the layout's children cache
-      if (this.__layout) {
-        this.__layout.invalidateChildrenCache();
+      if (this.__layoutManager) {
+        this.__layoutManager.invalidateChildrenCache();
       }
 
       // invalidate cached layout children
@@ -3712,7 +3710,7 @@ qx.Class.define("qx.ui.core.Widget",
     );
 
     this._disposeObjects(
-      "__layout",
+      "__layoutManager",
       "__containerElement",
       "__contentElement",
       "__decoratorElement",
