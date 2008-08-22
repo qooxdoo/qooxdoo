@@ -1061,7 +1061,7 @@ qx.Class.define("qx.ui.core.Widget",
       if (list && list.length > 0) {
         var elem = list.pop();
       } else {
-        var elem = this._createDecoratorElement(instance);
+        var elem = this.__createDecoratorElement(instance);
       }
 
       // Insert
@@ -1462,40 +1462,13 @@ qx.Class.define("qx.ui.core.Widget",
     {
       var el = new qx.html.Element("div");
 
+      if (qx.core.Variant.isSet("qx.debug", "on")) {
+        el.setAttribute("qxType", "container");
+      }
+
       el.setStyle("position", "absolute");
       el.setStyle("zIndex", 0);
 
-      return el;
-    },
-
-
-    /**
-     * Create the widget's decoration HTML element.
-     *
-     * @return {qx.html.Element} The decoration HTML element
-     */
-    __createDecorationElement : function()
-    {
-      var el = new qx.html.Element("div");
-
-      el.setStyle("zIndex", 5);
-      el.setStyle("position", "absolute");
-      el.setStyle("left", 0);
-      el.setStyle("top", 0);
-
-      return el;
-    },
-
-
-    /**
-     * Create the widget's shadow HTML element.
-     *
-     * @return {qx.html.Element} The shadow HTML element
-     */
-    __createShadowElement : function()
-    {
-      var el = new qx.html.Element("div");
-      el.setStyle("position", "absolute");
       return el;
     },
 
@@ -1508,6 +1481,10 @@ qx.Class.define("qx.ui.core.Widget",
     __createContentElement : function()
     {
       var el = this._createContentElement();
+
+      if (qx.core.Variant.isSet("qx.debug", "on")) {
+        el.setAttribute("qxType", "content");
+      }
 
       el.setStyle("position", "absolute");
       el.setStyle("zIndex", 10);
@@ -2079,6 +2056,11 @@ qx.Class.define("qx.ui.core.Widget",
       }
 
       var protect = this.__protectorElement = new qx.html.Element;
+
+      if (qx.core.Variant.isSet("qx.debug", "on")) {
+        protect.setAttribute("qxType", "protector");
+      }
+
       protect.setStyles(
       {
         position: "absolute",
@@ -2109,7 +2091,7 @@ qx.Class.define("qx.ui.core.Widget",
      * @param decorator {qx.ui.decoration.IDecorator} Any instance implementing the decorator interface
      * @return {qx.html.Element} The element to be used for decorations/shadows
      */
-    _createDecoratorElement : function(decorator)
+    __createDecoratorElement : function(decorator)
     {
       var element = new qx.html.Element;
       element.setStyles({
@@ -2117,6 +2099,10 @@ qx.Class.define("qx.ui.core.Widget",
         top: 0,
         left: 0
       });
+
+      if (qx.core.Variant.isSet("qx.debug", "on")) {
+        element.setAttribute("qxType", "decorator");
+      }
 
       decorator.init(element);
 
@@ -2194,7 +2180,7 @@ qx.Class.define("qx.ui.core.Widget",
         }
         else
         {
-          elem = this._createDecoratorElement(value);
+          elem = this.__createDecoratorElement(value);
           elem.setStyle("zIndex", 5);
         }
 
@@ -2298,7 +2284,7 @@ qx.Class.define("qx.ui.core.Widget",
         if (pool[valueId] && pool[valueId].length > 0) {
           elem = pool[valueId].pop();
         } else {
-          elem = this._createDecoratorElement(value);
+          elem = this.__createDecoratorElement(value);
         }
 
         // Add to container
