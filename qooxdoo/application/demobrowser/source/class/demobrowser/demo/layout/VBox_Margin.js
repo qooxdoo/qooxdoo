@@ -42,7 +42,6 @@ qx.Class.define("demobrowser.demo.layout.VBox_Margin",
       root.add(this.getBox3());
       root.add(this.getBox4());
       root.add(this.getBox5());
-      root.add(this.getBox6());
     },
 
 
@@ -163,7 +162,7 @@ qx.Class.define("demobrowser.demo.layout.VBox_Margin",
     },
 
 
-    getBox6 : function()
+    getBox5 : function()
     {
       // auto size + static height + middle aligned + enabled x grow + huge marginRight
       var box = new qx.ui.layout.VBox();
