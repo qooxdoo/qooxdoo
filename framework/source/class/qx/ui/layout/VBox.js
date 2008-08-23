@@ -229,12 +229,12 @@ qx.Class.define("qx.ui.layout.VBox",
       var children = this._getLayoutChildren();
       var length = children.length;
       var enableFlex = false;
-      var reuse = this.__heights && this.__heights.length != length && this._flexs && this._heights;
+      var reuse = this.__heights && this.__heights.length != length && this.__flexs && this.__heights;
       var props;
 
       // Sparse array (keep old one if lengths has not been modified)
-      var heights = reuse ? this._heights : new Array(length);
-      var flexs = reuse ? this._flexs : new Array(length);
+      var heights = reuse ? this.__heights : new Array(length);
+      var flexs = reuse ? this.__flexs : new Array(length);
 
       // Reverse support
       if (this.getReversed()) {
