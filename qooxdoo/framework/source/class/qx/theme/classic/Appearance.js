@@ -739,13 +739,62 @@ qx.Theme.define("qx.theme.classic.Appearance",
         };
       }
     },
+    
+
+    "tabview/bar/button-forward" :
+    {
+      include : "slidebar/button-forward",
+      alias : "slidebar/button-forward",
+
+      style : function(states)
+      {
+        if (states.barTop || states.barBottom)
+        {
+          return {
+            marginTop : 2,
+            marginBottom: 2
+          }
+        }
+        else
+        {
+          return {
+            marginLeft : 2,
+            marginRight : 2
+          }
+        }
+      }
+    },
+
+    "tabview/bar/button-backward" :
+    {
+      include : "slidebar/button-backward",
+      alias : "slidebar/button-backward",
+
+      style : function(states)
+      {
+        if (states.barTop || states.barBottom)
+        {
+          return {
+            marginTop : 2,
+            marginBottom: 2
+          }
+        }
+        else
+        {
+          return {
+            marginLeft : 2,
+            marginRight : 2
+          }
+        }
+      }
+    },    
 
     "tabview/pane" :
     {
       style : function(states)
       {
         return {
-          backgroundColor : "background-pane",
+          backgroundColor : "background",
           decorator : "outset",
           padding : 10
         };
@@ -836,8 +885,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
         return {
           zIndex : states.checked ? 10 : 5,
-          backgroundColor : states.checked ? "background-pane" : "background",
           decorator : decorator,
+          backgroundColor : "background",
           iconPosition : states.barLeft || states.barRight ? "top" : "left",
           padding : [ paddingTop, paddingRight, paddingBottom, paddingLeft ],
           margin : [ marginTop, marginRight, marginBottom, marginLeft ]
