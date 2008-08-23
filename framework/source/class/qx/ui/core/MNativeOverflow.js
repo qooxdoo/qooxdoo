@@ -50,6 +50,13 @@ qx.Mixin.define("qx.ui.core.MNativeOverflow",
       check : ["hidden", "visible", "scroll", "auto"],
       nullable : true,
       apply : "_applyOverflowY"
+    },
+    
+    /**
+     * Overflow group property
+     */
+    overflow : {
+      group : [ "overflowX", "overflowY" ]
     }
   },
 
