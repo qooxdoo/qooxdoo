@@ -25,7 +25,16 @@
 
 #asset(qx/icon/Tango/16/places/folder-open.png)
 #asset(qx/icon/Tango/16/places/folder.png)
-#asset(qx/icon/Tango/16/mimetypes/text-plain.png)
+#asset(qx/icon/Tango/16/mimetypes/office-document.png)
+
+#asset(qx/icon/Tango/22/places/folder-open.png)
+#asset(qx/icon/Tango/22/places/folder.png)
+#asset(qx/icon/Tango/22/mimetypes/office-document.png)
+
+#asset(qx/icon/Tango/32/places/folder-open.png)
+#asset(qx/icon/Tango/32/places/folder.png)
+#asset(qx/icon/Tango/32/mimetypes/office-document.png)
+
 #asset(qx/icon/Tango/16/apps/office-calendar.png)
 #asset(qx/icon/Tango/16/apps/utilities-color-chooser.png)
 #asset(qx/icon/Tango/16/actions/view-refresh.png)
@@ -1136,17 +1145,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       }
     },
 
-    "tree-item/label" :
-    {
-      include : "label",
-
-      style : function(states)
-      {
-        return {
-
-        }
-      }
-    },
+    "tree-item/label" : "label",
 
     "tree-item/open" :
     {
@@ -1186,8 +1185,17 @@ qx.Theme.define("qx.theme.modern.Appearance",
 
       style : function(states)
       {
+        var icon;
+        if (states.small) {
+          icon = states.opened ? "icon/16/places/folder-open.png" : "icon/16/places/folder.png";
+        } else if (states.large) {
+          icon = states.opened ? "icon/32/places/folder-open.png" : "icon/32/places/folder.png";
+        } else {
+          icon = states.opened ? "icon/22/places/folder-open.png" : "icon/22/places/folder.png";
+        }
+
         return {
-          icon : states.opened ? "icon/16/places/folder-open.png" : "icon/16/places/folder.png"
+          icon : icon            
         }
       }
     },
@@ -1200,7 +1208,10 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          icon : "icon/16/mimetypes/text-plain.png"
+          icon : 
+            states.small ? "icon/16/mimetypes/office-document.png" : 
+            states.large ? "icon/32/mimetypes/office-document.png" : 
+            "icon/22/mimetypes/office-document.png"
         }
       }
     },
@@ -1237,7 +1248,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          icon : "icon/16/mimetypes/text-plain.png"
+          icon : "icon/16/mimetypes/office-document.png"
         }
       }
     },
