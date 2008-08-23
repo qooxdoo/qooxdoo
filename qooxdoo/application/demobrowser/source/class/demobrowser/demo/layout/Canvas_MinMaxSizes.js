@@ -44,8 +44,12 @@ qx.Class.define("demobrowser.demo.layout.Canvas_MinMaxSizes",
         backgroundColor: "green",
         decorator: border,
         padding: 5,
-        maxHeight: 300
+        maxHeight: 300,
+        allowStretchX : true,
+        allowStretchY : true
       });
+      
+      console.debug(w3.getSizeHint())
 
       w4 = new qx.ui.core.Widget().set({
         backgroundColor: "yellow",
@@ -61,7 +65,9 @@ qx.Class.define("demobrowser.demo.layout.Canvas_MinMaxSizes",
         backgroundColor: "teal",
         decorator: border,
         padding: 5,
-        minWidth: 400
+        minWidth: 400,
+        allowStretchX : true,
+        allowStretchY : true
       });
 
       var container = new qx.ui.container.Composite(new qx.ui.layout.Canvas());
