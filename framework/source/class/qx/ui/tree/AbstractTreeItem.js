@@ -864,5 +864,21 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
         this.remove(this.__children[i]);
       }
     }
-  }
+  },
+  
+  
+  
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+    
+  destruct : function()
+  {
+    this._disposeArray("__children");
+    this._disposeObjects("__spacer", "__childrenContainer");
+  }  
 });
