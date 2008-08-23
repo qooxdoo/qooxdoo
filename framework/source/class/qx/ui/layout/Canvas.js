@@ -247,7 +247,7 @@ qx.Class.define("qx.ui.layout.Canvas",
           // Limit computed value
           if (height < size.minHeight) {
             height = size.minHeight;
-          } else if (width > size.maxHeight) {
+          } else if (height > size.maxHeight) {
             height = size.maxHeight;
           }
 
@@ -270,7 +270,7 @@ qx.Class.define("qx.ui.layout.Canvas",
             // Limit computed value
             if (height < size.minHeight) {
               height = size.minHeight;
-            } else if (width > size.maxHeight) {
+            } else if (height > size.maxHeight) {
               height = size.maxHeight;
             }
           }
