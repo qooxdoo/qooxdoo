@@ -32,9 +32,12 @@ qx.Class.define("demobrowser.TreeDataHandler",
   construct : function(testRep)
   {
     this.base(arguments);
+    
     this.tmap = testRep;
     this.ttree = this.__readTestRep(testRep);
   },
+
+
 
 
   /*

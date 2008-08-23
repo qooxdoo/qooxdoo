@@ -21,18 +21,18 @@
 
 /* ************************************************************************
 
-#asset(demobrowser/image/*)
-#asset(demobrowser/css/*)
+#asset(demobrowser/*)
 
 ************************************************************************ */
 
 /**
  * The main application class.
  */
-
 qx.Class.define("demobrowser.Application",
 {
   extend : qx.application.Standalone,
+  
+  
 
   /*
   *****************************************************************************
@@ -42,42 +42,45 @@ qx.Class.define("demobrowser.Application",
 
   members :
   {
-    /**
-     * TODOC
-     *
-     * @return {void}
-     */
+    // overridden
     main : function()
     {
       this.base(arguments);
 
+      // Enable logging in source (or debug build)
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         qx.log.appender.Native;
         qx.log.appender.Console;
       }
 
-      // Include CSS files
-      qx.bom.Stylesheet.includeFile("demobrowser/css/style.css");
-      qx.bom.Stylesheet.includeFile("demobrowser/css/sourceview.css");
-
       // Initialize the viewer
       this.viewer = new demobrowser.DemoBrowser;
       this.getRoot().add(this.viewer, {edge:0});
-
-      // Load data file
-      qx.event.Timer.once(this._load, this, 0);
     },
 
-
-    /**
-     * TODOC
-     *
-     * @return {void}
-     */
-    _load : function() {
+    // overridden
+    finalize : function() 
+    {
+      this.base(arguments);
+      
       this.viewer.dataLoader("script/demodata.js");
     }
+  },
+  
+  
+  
+  /*
+  *****************************************************************************
+     DEFER
+  *****************************************************************************
+  */
+
+  defer : function()
+  {
+    // Include CSS files
+    qx.bom.Stylesheet.includeFile("demobrowser/css/style.css");
+    qx.bom.Stylesheet.includeFile("demobrowser/css/sourceview.css");
   },
 
 
