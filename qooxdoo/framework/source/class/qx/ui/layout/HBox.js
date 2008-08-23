@@ -229,12 +229,12 @@ qx.Class.define("qx.ui.layout.HBox",
       var children = this._getLayoutChildren();
       var length = children.length;
       var enableFlex = false;
-      var reuse = this.__widths && this.__widths.length != length && this._flexs && this._widths;
+      var reuse = this.__widths && this.__widths.length != length && this.__flexs && this.__widths;
       var props;
 
       // Sparse array (keep old one if lengths has not been modified)
-      var widths = reuse ? this._widths : new Array(length);
-      var flexs = reuse ? this._flexs : new Array(length);
+      var widths = reuse ? this.__widths : new Array(length);
+      var flexs = reuse ? this.__flexs : new Array(length);
 
       // Reverse support
       if (this.getReversed()) {
