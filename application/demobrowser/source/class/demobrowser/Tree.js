@@ -33,7 +33,7 @@ qx.Class.define("demobrowser.Tree",
   construct : function()
   {
     this.base(arguments);
-
+    
     this.label = arguments[0] || "";
     this.children = [];
     this.parent = null;

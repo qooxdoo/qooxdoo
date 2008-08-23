@@ -2,6 +2,41 @@
 {
   var jsFileURL;
   var jsSourceURL;
+  
+  /*
+  	parseUri 1.2.1
+  	(c) 2007 Steven Levithan <stevenlevithan.com>
+  	MIT License
+  */
+
+  function parseUri (str) {
+  	var	o   = parseUri.options,
+  		m   = o.parser[o.strictMode ? "strict" : "loose"].exec(str),
+  		uri = {},
+  		i   = 14;
+
+  	while (i--) uri[o.key[i]] = m[i] || "";
+
+  	uri[o.q.name] = {};
+  	uri[o.key[12]].replace(o.q.parser, function ($0, $1, $2) {
+  		if ($1) uri[o.q.name][$1] = $2;
+  	});
+
+  	return uri;
+  };
+
+  parseUri.options = {
+  	strictMode: false,
+  	key: ["source","protocol","authority","userInfo","user","password","host","port","relative","path","directory","file","query","anchor"],
+  	q:   {
+  		name:   "queryKey",
+  		parser: /(?:^|&)([^&=]*)=?([^&]*)/g
+  	},
+  	parser: {
+  		strict: /^(?:([^:\/?#]+):)?(?:\/\/((?:(([^:@]*):?([^:@]*))?@)?([^:\/?#]*)(?::(\d*))?))?((((?:[^?#\/]*\/)*)([^?#]*))(?:\?([^#]*))?(?:#(.*))?)/,
+  		loose:  /^(?:(?![^:@]+:[^:@\/]*@)([^:\/?#.]+):)?(?:\/\/)?((?:(([^:@]*):?([^:@]*))?@)?([^:\/?#]*)(?::(\d*))?)(((\/(?:[^?#](?![^?#\/]*\.[^?#\/.]+(?:[?#]|$)))*\/?)?([^?#\/]*))(?:\?([^#]*))?(?:#(.*))?)/
+  	}
+  };  
 
   function init()
   {
@@ -10,50 +45,18 @@
 
   function getDataFromLocation()
   {
-    var defaultParameters =
-    {
-      "aspects" : "off",
-      "theme" : "qx.theme.Modern"
-    };
-
-    // extract category and file
-    var splits = location.href.split("/");
-    var length = splits.length;
-    var div = " " + String.fromCharCode(187) + " ";
-    var category = splits[length-2];
-    var filevar = "";  // variable part of .js file name
-    var i;
-
-    // 'tmp' mirror line: "Atom.html?qxvariant:qx.aspects:off&theme_qx.theme.Classic"
-    var tmp = splits[splits.length - 1];
-    var fileAndParms = tmp.split("?");
-    var base = fileAndParms[0].replace(".html", "");  // "Atom"
-
-    var parametes;
-    if (fileAndParms.length < 2) // no url parameters
-    {
-      parameters = ['','',''];
-    }
-    else
-    {
-      parameters = fileAndParms[1].split("&");  // the url parameters "?...&..&.."
-    }
-
-    // add theme part of filename
-    tmp = parameters[1].split("_");   // read this from "theme_qx.theme..."
-
-    filevar += "-theme_";
-    if(tmp[0] && tmp[0] == "theme"){
-      filevar += tmp[1];
-    }else{
-      filevar += defaultParameters.theme;
-    }
-
+    var uri = parseUri(location.href);
+    var base = uri.file.substring(0, uri.file.indexOf("."));   
+    var theme = uri.queryKey["qx.theme"] || "qx.theme.Modern";
+    var directory = uri.directory.split("/");
+    var category = directory[directory.length-2];
+    
     // create the URI to the source script
-    jsFileURL = "../../script/demobrowser.demo." + category + "." + base + filevar + ".js";
+    jsFileURL = "../../script/demobrowser.demo." + category + "." + base + "-theme_" + theme + ".js";
     jsSourceURL = "../../script/demobrowser.demo." + category + "." + base + ".src.js";
 
-    document.title = category + "/" + base + " - qooxdoo demo browser";
+    // Apply document title
+    document.title = base + " (" + category + ")";
   }
 
   function attachEvents()
