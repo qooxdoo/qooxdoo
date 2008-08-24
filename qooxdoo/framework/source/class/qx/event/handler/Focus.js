@@ -884,7 +884,7 @@ qx.Class.define("qx.event.handler.Focus",
         var target = e.target;
         var focusTarget = this.__findFocusableElement(target);
 
-        if(!this.__isSelectable(target))
+        if (!this.__isSelectable(target))
         {
           qx.bom.Event.preventDefault(e);
 
