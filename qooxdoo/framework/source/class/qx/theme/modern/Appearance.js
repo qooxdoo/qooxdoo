@@ -1780,10 +1780,16 @@ qx.Theme.define("qx.theme.modern.Appearance",
 
       style : function(states)
       {
-        return {
+        var ret = {
           icon : "decoration/arrows/down.png",
           padding : 2
         };
+        
+        if (states.selected) {
+          ret.decorator = "button-focused";
+        }
+        
+        return ret;
       }
     },
 
