@@ -148,6 +148,7 @@ qx.Class.define("qx.bom.Iframe",
       return doc ? doc.getElementsByTagName("body")[0] : null;
     },
 
+
     /**
      * Sets iframe's source attribute to given value
      *
@@ -157,7 +158,6 @@ qx.Class.define("qx.bom.Iframe",
      */
     setSource : function(iframe, source)
     {
-
       try
       {
         // the guru says ...
@@ -177,7 +177,7 @@ qx.Class.define("qx.bom.Iframe",
           }
           catch(ex)
           {
-           iframe.src = source;
+            iframe.src = source;
           }
         }
         else
@@ -186,9 +186,10 @@ qx.Class.define("qx.bom.Iframe",
         }
       }
       catch(ex) {
-        qx.log.Logger.warn("Iframe source could not be set! This may be related to AdBlock Plus Firefox Extension.");
+        qx.log.Logger.warn("Iframe source could not be set!");
       }
     },
+    
 
     /**
      * Returns the current (served) URL inside the iframe

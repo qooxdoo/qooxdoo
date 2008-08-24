@@ -561,7 +561,12 @@ qx.Class.define("demobrowser.DemoBrowser",
         url = this.defaultUrl;
       }
 
-      this.__iframe.setSource(url);
+      if (this.__iframe.getSource() == url) {
+        this.__iframe.reload();
+      } else {
+        this.__iframe.setSource(url);
+      }
+
       this._currentSample = value;
       this._currentSampleUrl = url;
     },

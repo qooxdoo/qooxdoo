@@ -188,7 +188,6 @@ qx.Class.define("qx.html.Iframe",
 
     /**
      * Reloads iframe
-     *
      */
     reload : function()
     {
