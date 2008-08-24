@@ -1322,7 +1322,7 @@ qx.Class.define("qx.core.Property",
         // Fire event
         if (config.event) {
           code.push(
-            "reg = qx.event.Registration;",
+            "var reg=qx.event.Registration;",
             "if(reg.hasListener(this, '", config.event, "')){",
             "reg.fireEvent(this, '", config.event, "', qx.event.type.Data, [computed, old]", ")}"
           );

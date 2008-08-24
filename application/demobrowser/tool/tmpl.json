@@ -24,8 +24,7 @@
         "qx.log.appender.Native",
         "qx.log.appender.Console",
         "qx.dev.ObjectSummary",
-        "qx.dev.Pollution",
-        "qx.dev.Profile"
+        "qx.dev.Pollution"
       ],
 
       "require" :
@@ -63,7 +62,7 @@
 
       "compile-source" :
       {
-        "file" : "source/script/YYY-theme_{qx.theme}.js",
+        "file" : "source/script/YYY-{qx.theme}.js",
         "locales" : "${LOCALES}",
         "root" : "source/demo/yyy"
       }
@@ -76,13 +75,14 @@
       "variants" :
       {
         "qx.debug" : ["off"],
+        "qx.aspects" : ["off"],
         "qx.theme" : ["qx.theme.Modern", "qx.theme.Classic"]
       },
 
       "compile-dist" :
       {
-        "file" : "build/script/YYY-theme_{qx.theme}.js",
-        "uri"  : "../../script/YYY-theme_{qx.theme}.js",
+        "file" : "build/script/YYY-{qx.theme}.js",
+        "uri"  : "../../script/YYY-{qx.theme}.js",
         "resourceUri" : "../..",
         "root" : "build/demo/yyy",
         "locales" : "${LOCALES}",
