@@ -148,8 +148,8 @@ qx.Class.define("qx.bom.Input",
 
       "gecko" : function(element, wrap)
       {
-        var wrapValue  = wrap ? "soft" : "off";
-        var styleValue = wrap ? ""     : "auto";
+        var wrapValue = wrap ? "soft" : "off";
+        var styleValue = wrap ? "" : "auto";
 
         element.setAttribute('wrap', wrapValue);
         element.style.overflow = styleValue;
