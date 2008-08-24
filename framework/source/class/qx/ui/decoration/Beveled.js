@@ -200,10 +200,10 @@ qx.Class.define("qx.ui.decoration.Beveled",
       var innerStyle = "1px solid " + Color.resolve(this.getInnerColor()) + ";";
 
       // Outer frame
-      html.push('<div style="overflow:hidden;font-size:0;line-height:0;">');
+      html.push('<div style="position:absolute;top:0;left:0;overflow:hidden;font-size:0;line-height:0;">');
 
       // Background frame
-      html.push('<div style="');
+      html.push('<div style="position:absolute;top:0;left:0;');
       html.push('border:', outerStyle);
       html.push(qx.bom.element.Opacity.compile(0.35));
       html.push('"></div>');
@@ -274,6 +274,9 @@ qx.Class.define("qx.ui.decoration.Beveled",
 
       var dom = element.getDomElement();
       var pixel = "px";
+      
+      dom.style.width = width + pixel;
+      dom.style.height = height + pixel;      
 
       var backgroundFrame = dom.childNodes[0].style;
       backgroundFrame.width = outerWidth + pixel;
