@@ -180,8 +180,10 @@ qx.Class.define("qx.ui.form.AbstractField",
     {
       var el = this._createInputElement();
 
-      // Disable non-crossbrowser spellcheck
-      el.setAttribute("spellcheck", "false");
+      // Disable spellcheck in gecko
+      if (qx.core.Variant.isSet("qx.client", "gecko")) {
+        el.setAttribute("spellcheck", "false");
+      }
 
       // Apply styles
       el.setStyles(
@@ -195,6 +197,7 @@ qx.Class.define("qx.ui.form.AbstractField",
         "appearance": "none"
       });
 
+      // Block resize handle in Safari
       if (qx.core.Variant.isSet("qx.client", "webkit")) {
         el.setStyle("resize", "none");
       }
