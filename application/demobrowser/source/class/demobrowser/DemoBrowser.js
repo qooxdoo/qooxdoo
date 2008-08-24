@@ -405,8 +405,6 @@ qx.Class.define("demobrowser.DemoBrowser",
     {
       var tree1 = new qx.ui.tree.Tree();
       var root = new qx.ui.tree.TreeFolder("Demos");
-      tree1.setHideRoot(true);
-      tree1.setOpenMode("click");
       tree1.setAppearance("demo-tree");
       tree1.setRoot(root);
       tree1.select(root);

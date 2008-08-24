@@ -815,6 +815,7 @@ qx.Class.define("qx.ui.menu.Manager",
       root.removeListener("keypress", this._onKeyPress, this, true);
     }
 
-    this._disposeObjects("__openTimer", "__closeTimer", "__objects");
+    this._disposeObjects("__openTimer", "__closeTimer");
+    this._disposeArray("__objects");
   }
 });
