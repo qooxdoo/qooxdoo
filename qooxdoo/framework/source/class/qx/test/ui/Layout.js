@@ -33,9 +33,8 @@ qx.Class.define("qx.test.ui.Layout",
         var sumMin = 0;
         var sumMax = 0;
         var sumValue = 0;
-        var flexibles = [];
+        var flexibles = {};
 
-        //var potentialBackup = [];
         for (var j=0; j<len; j++)
         {
           var min = Math.round(Math.random() * 20);
@@ -63,6 +62,7 @@ qx.Class.define("qx.test.ui.Layout",
         for (var i in result)
         {
           var newSize = flexibles[i].value + result[i].offset;
+
           sum += newSize;
           this.assert(flexibles[i].min <= newSize);
           this.assert(flexibles[i].max >= newSize);
@@ -91,7 +91,7 @@ qx.Class.define("qx.test.ui.Layout",
         var sumMax = 0;
         var sumValue = 0;
         var sumWeights = 0;
-        var flexibles = [];
+        var flexibles = {};
 
         for (var j=0; j<len; j++)
         {
