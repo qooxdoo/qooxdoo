@@ -144,7 +144,7 @@ qx.Class.define("demobrowser.demo.layout.VBox",
         decorator: "main",
         backgroundColor: "green",
         marginBottom: 10,
-        marginTop: 10
+        marginTop: 20
       });
       var w3 = new qx.ui.core.Widget().set({
         decorator: "main",
@@ -183,7 +183,7 @@ qx.Class.define("demobrowser.demo.layout.VBox",
         decorator: "main",
         backgroundColor: "green",
         marginBottom: 10,
-        marginTop: 10
+        marginTop: 20
       });
       var w3 = new qx.ui.core.Widget().set({
         decorator: "main",
@@ -222,7 +222,7 @@ qx.Class.define("demobrowser.demo.layout.VBox",
         decorator: "main",
         backgroundColor: "green",
         marginBottom: 10,
-        marginTop: 10
+        marginTop: 20
       });
       var w3 = new qx.ui.core.Widget().set({
         decorator: "main",
