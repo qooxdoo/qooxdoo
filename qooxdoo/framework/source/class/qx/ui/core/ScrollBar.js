@@ -170,6 +170,7 @@ qx.Class.define("qx.ui.core.ScrollBar",
         case "slider":
           control = new qx.ui.form.BaseSlider;
           control.setPageStep(100);
+          control.setFocusable(false);
           control.addListener("changeValue", this._onChangeSliderValue, this);
           this._add(control, {flex: 1});
           break;
@@ -205,6 +206,7 @@ qx.Class.define("qx.ui.core.ScrollBar",
 
     // property apply
     _applyMaximum : function(value) {
+      this.debug("SCROLLBAR MAX: " + value);
       this._getChildControl("slider").setMaximum(value);
     },
 

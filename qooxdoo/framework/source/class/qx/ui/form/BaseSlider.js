@@ -19,13 +19,28 @@
 ************************************************************************ */
 
 /**
- * Includes a basic slider without keyboard navigation.
+ * The Slider widget provides a vertical or horizontal slider.
  *
- * This class is quite versatile. It is designed as a common super class
- * for widgets like {@link qx.ui.core.Slider}, {@link qx.ui.core.ScrollBar}, ...
+ * The Slider is the classic widget for controlling a bounded value.
+ * It lets the user move a slider handle along a horizontal or vertical
+ * groove and translates the handle's position into an integer value
+ * within the defined range.
  *
- * The {@link Slider} is ready to use widget for applications looking
- * for the classical slider component.
+ * The Slider has very few of its own functions; most of the functionality
+ * is in {@link BaseSlider}. The most useful functions are slideTo()
+ * to set the slider directly to some value; setSingleStep(), setPageStep()
+ * to set the steps; and setMinimum() and setMaximum() to define the
+ * range of the slider.
+ *
+ * A slider accepts focus on Tab and provides both a mouse wheel and
+ * a keyboard interface. The keyboard interface is the following:
+ *
+ * * Left/Right move a horizontal slider by one single step.
+ * * Up/Down move a vertical slider by one single step.
+ * * PageUp moves up one page.
+ * * PageDown moves down one page.
+ * * Home moves to the start (mininum).
+ * * End moves to the end (maximum).
  *
  * Here are the main properties of the class:
  *
@@ -59,6 +74,8 @@ qx.Class.define("qx.ui.form.BaseSlider",
     this._setLayout(new qx.ui.layout.Canvas());
 
     // Add listeners
+    this.addListener("keypress", this._onKeyPress);
+    this.addListener("mousewheel", this._onMouseWheel);
     this.addListener("mousedown", this._onMouseDown);
     this.addListener("mouseup", this._onMouseUp);
     this.addListener("losecapture", this._onMouseUp);
@@ -88,6 +105,22 @@ qx.Class.define("qx.ui.form.BaseSlider",
 
   properties :
   {
+    // overridden
+    appearance :
+    {
+      refine : true,
+      init : "slider"
+    },
+
+
+    // overridden
+    focusable :
+    {
+      refine : true,
+      init : true
+    },
+
+
     /** Whether the slider is horizontal or vertical. */
     orientation :
     {
@@ -231,6 +264,69 @@ qx.Class.define("qx.ui.form.BaseSlider",
       EVENT HANDLER
     ---------------------------------------------------------------------------
     */
+
+    /**
+     * Listener of mousewheel event
+     *
+     * @param e {qx.event.type.Mouse} Incoming event object
+     * @return {void}
+     */
+    _onMouseWheel : function(e)
+    {
+      var direction = e.getWheelDelta() > 0 ? 1 : -1;
+      this.slideBy(direction * this.getSingleStep());
+      e.stop();
+    },
+
+
+    /**
+     * Event handler for keypress events.
+     *
+     * Adds support for arrow keys, page up, page down, home and end keys.
+     *
+     * @param e {qx.event.type.Keypress} Incoming keypress event
+     * @return {void}
+     */
+    _onKeyPress : function(e)
+    {
+      var isHorizontal = this.getOrientation() === "horizontal";
+      var backward = isHorizontal ? "Left" : "Up";
+      var forward = isHorizontal ? "Right" : "Down";
+
+      switch(e.getKeyIdentifier())
+      {
+        case forward:
+          this.slideForward();
+          break;
+
+        case backward:
+          this.slideBack();
+          break;
+
+        case "PageDown":
+          this.slidePageForward();
+          break;
+
+        case "PageUp":
+          this.slidePageBack();
+          break;
+
+        case "Home":
+          this.slideToBegin();
+          break;
+
+        case "End":
+          this.slideToEnd();
+          break;
+
+        default:
+          return;
+      }
+
+      // Stop processed events
+      e.stop();
+    },
+
 
     /**
      * Listener of mousedown event. Initializes drag or tracking mode.
