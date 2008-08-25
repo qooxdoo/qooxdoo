@@ -95,24 +95,34 @@ qx.Class.define("feedreader.io.FeedLoader",
       {
         // Read content
         var json = response.getContent();
-        try 
-        {
-          // Clear old articles
-          feed.clearArticles();
-          
-          // Normalize json feed data to article list
-          var articles = feedreader.io.FeedParser.parseFeed(json);
-          for (var i=0; i<articles.length; i++) {
-            feed.addArticle(articles[i]);
-          }
 
-          // mark the feed as not loading
-          feed.setState("loaded");
-        }
-        catch(ex)
+        // Test content
+        if (json == null)
         {
+          this.warn("Empty feed content: " + feed.getUrl());
           feed.setState("error");
-          this.warn("Could not parse feed: " + feed.getUrl());
+        }
+        else
+        {
+          try
+          {
+            // Clear old articles
+            feed.clearArticles();
+
+            // Normalize json feed data to article list
+            var articles = feedreader.io.FeedParser.parseFeed(json);
+            for (var i=0; i<articles.length; i++) {
+              feed.addArticle(articles[i]);
+            }
+
+            // mark the feed as not loading
+            feed.setState("loaded");
+          }
+          catch(ex)
+          {
+            feed.setState("error");
+            this.warn("Could not parse feed: " + feed.getUrl());
+          }
         }
       }
     }
