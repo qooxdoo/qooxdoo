@@ -243,10 +243,7 @@ qx.Class.define("qx.ui.form.Slider",
       switch(id)
       {
         case "knob":
-          control = new qx.ui.core.Widget().set({
-            minWidth: 4,
-            minHeight: 4
-          });
+          control = new qx.ui.core.Widget();
           control.addListener("resize", this._onUpdate, this);
           this._add(control);
           break;
