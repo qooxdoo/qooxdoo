@@ -93,7 +93,7 @@ qx.Class.define("apiviewer.ui.SearchView",
 
       // Create the initial data
       var rowData = [];
-
+/*
       // table model
       var tableModel = this._tableModel = new qx.ui.table.model.Simple();
       tableModel.setColumns([ "", "Results" ]);
@@ -116,6 +116,42 @@ qx.Class.define("apiviewer.ui.SearchView",
       tcm.setDataCellRenderer(0, new qx.ui.table.cellrenderer.Image());
       tcm.setColumnWidth(0, 40);
       tcm.setColumnWidth(1, 400);
+*/
+
+
+      // table model
+      var tableModel = this._tableModel = new qx.ui.table.model.Simple();
+      tableModel.setColumns([ "", "Results" ]);
+      tableModel.setData(rowData);
+
+      var customModel =
+      {
+        tableColumnModel : function(obj) {
+          return new qx.ui.table.columnmodel.Resize(obj);
+        }
+      };
+
+
+      // table
+      var table = new qx.ui.table.Table(tableModel, customModel);
+      table.setShowCellFocusIndicator(false);
+      table.setStatusBarVisible(false);
+      table.setColumnVisibilityButtonVisible(false);
+
+      this._selectionModel = table.getSelectionManager().getSelectionModel();
+
+      this._selectionModel.addListener("changeSelection", this._callDetailFrame, this);
+
+      this._table = table;
+      // resize behavior
+      var tcm = table.getTableColumnModel();
+      var resizeBehavior = tcm.getBehavior();
+      resizeBehavior.set(0, {width:"0*", minWidth : 42, maxWidth : 100});
+      resizeBehavior.set(1, {width:"1*"});
+
+
+      var tcm = table.getTableColumnModel();
+      tcm.setDataCellRenderer(0, new qx.ui.table.cellrenderer.Image());
 
 
       this.__initresult = true;
