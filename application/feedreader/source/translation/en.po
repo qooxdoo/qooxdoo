@@ -1,4 +1,4 @@
-# English translation
+# English
 # 
 msgid ""
 msgstr ""
@@ -13,87 +13,87 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: feedreader/Application.js:340
+#: feedreader/Application.js:347
 msgid "FeedReader (qooxdoo powered)"
 msgstr ""
 
-#: feedreader/view/AddFeedWindow.js:51
+#: feedreader/view/AddFeedWindow.js:49
 msgid "Add a feed"
 msgstr ""
 
-#: feedreader/view/AddFeedWindow.js:95
+#: feedreader/view/AddFeedWindow.js:86
 msgid "Feed Information"
 msgstr ""
 
-#: feedreader/view/AddFeedWindow.js:102
+#: feedreader/view/AddFeedWindow.js:93
 msgid "Title:"
 msgstr ""
 
-#: feedreader/view/AddFeedWindow.js:105
+#: feedreader/view/AddFeedWindow.js:96
 msgid "URL:"
 msgstr ""
 
-#: feedreader/view/AddFeedWindow.js:117
+#: feedreader/view/AddFeedWindow.js:108
 msgid "Add"
 msgstr ""
 
-#: feedreader/view/AddFeedWindow.js:139
+#: feedreader/view/AddFeedWindow.js:130
 msgid "Please enter a title."
 msgstr ""
 
-#: feedreader/view/AddFeedWindow.js:147
+#: feedreader/view/AddFeedWindow.js:138
 msgid "Please enter a url."
 msgstr ""
 
-#: feedreader/view/List.js:43
+#: feedreader/view/List.js:45
 msgid "Posts"
 msgstr ""
 
-#: feedreader/view/PreferenceWindow.js:49 feedreader/view/ToolBar.js:88
+#: feedreader/view/PreferenceWindow.js:48 feedreader/view/ToolBar.js:86
 msgid "Preferences"
 msgstr ""
 
-#: feedreader/view/PreferenceWindow.js:90
+#: feedreader/view/PreferenceWindow.js:85
 msgid "Language"
 msgstr ""
 
-#: feedreader/view/PreferenceWindow.js:122
+#: feedreader/view/PreferenceWindow.js:121
 msgid "Cancel"
 msgstr ""
 
-#: feedreader/view/PreferenceWindow.js:125
+#: feedreader/view/PreferenceWindow.js:124
 msgid "OK"
 msgstr ""
 
-#: feedreader/view/ToolBar.js:62
+#: feedreader/view/ToolBar.js:60
 msgid "Add feed"
 msgstr ""
 
-#: feedreader/view/ToolBar.js:66
+#: feedreader/view/ToolBar.js:64
 msgid "Remove feed"
 msgstr ""
 
-#: feedreader/view/ToolBar.js:76
+#: feedreader/view/ToolBar.js:74
 msgid "Reload"
 msgstr ""
 
-#: feedreader/view/ToolBar.js:79
+#: feedreader/view/ToolBar.js:77
 msgid "Reload the feeds. (%1)"
 msgstr ""
 
-#: feedreader/view/ToolBar.js:90
+#: feedreader/view/ToolBar.js:88
 msgid "Open preferences window."
 msgstr ""
 
-#: feedreader/view/ToolBar.js:99
+#: feedreader/view/ToolBar.js:101
 msgid "Help"
 msgstr ""
 
-#: feedreader/view/Tree.js:66
+#: feedreader/view/Tree.js:65
 msgid "Static Feeds"
 msgstr ""
 
-#: feedreader/view/Tree.js:70
+#: feedreader/view/Tree.js:69
 msgid "User Feeds"
 msgstr ""
 
