@@ -334,7 +334,7 @@ qx.Bootstrap.define("qx.lang.Array",
      * numeric values only.
      *
      * @param arr {Number[]} Array to process
-     * @return {Number | undefined} The highest of all values or undefined if array is empty.
+     * @return {Number | null} The highest of all values or undefined if array is empty.
      */
     max : function(arr)
     {
@@ -351,7 +351,7 @@ qx.Bootstrap.define("qx.lang.Array",
         }
       }
 
-      return result;
+      return result === undefined ? null : result;
     },
 
     /**
@@ -359,7 +359,7 @@ qx.Bootstrap.define("qx.lang.Array",
      * numeric values only.
      *
      * @param arr {Number[]} Array to process
-     * @return {Number | undefined} The lowest of all values or undefined if array is empty.
+     * @return {Number | null} The lowest of all values or undefined if array is empty.
      */
     min : function(arr)
     {
@@ -376,7 +376,7 @@ qx.Bootstrap.define("qx.lang.Array",
         }
       }
 
-      return result;
+      return result === undefined ? null : result;
     }
   }
 });
