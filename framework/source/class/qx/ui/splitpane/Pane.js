@@ -294,10 +294,12 @@ qx.Class.define("qx.ui.splitpane.Pane",
 
         // Update slider position
         var slider = this._getChildControl("slider");
+        var pos = this.__beginSize;
+
         if(this.__isHorizontal) {
-          slider.setDomLeft(this.__beginSize);
+          slider.setDomLeft(pos);
         } else {
-          slider.setDomTop(this.__beginSize);
+          slider.setDomTop(pos);
         }
       }
       else
@@ -427,6 +429,7 @@ qx.Class.define("qx.ui.splitpane.Pane",
       var splitter = this._getChildControl("splitter");
       var splitterBounds = splitter.getBounds();
       var splitterLocation = splitter.getContainerLocation();
+      var min = 6;
 
       // Check whether created
       if (!splitterLocation) {
@@ -438,10 +441,10 @@ qx.Class.define("qx.ui.splitpane.Pane",
       var size = splitterBounds.width;
       var pos = splitterLocation.left;
 
-      if (size < 6)
+      if (size < min)
       {
-        pos -= Math.floor((6 - size) / 2);
-        size = 6;
+        pos -= Math.floor((min - size) / 2);
+        size = min;
       }
 
       if (mouse < pos || mouse > (pos + size)) {
@@ -453,10 +456,10 @@ qx.Class.define("qx.ui.splitpane.Pane",
       var size = splitterBounds.height;
       var pos = splitterLocation.top;
 
-      if (size < 6)
+      if (size < min)
       {
-        pos -= Math.floor((6 - size) / 2);
-        size = 6;
+        pos -= Math.floor((min - size) / 2);
+        size = min;
       }
 
       if (mouse < pos || mouse > (pos + size)) {
