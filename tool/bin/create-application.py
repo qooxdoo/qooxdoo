@@ -227,7 +227,7 @@ Example: For creating a regular GUI application \'myapp\' you could execute:
         sys.exit(1)
 
     if not options.namespace:
-        options.namespace = options.name.lower.replace(" ", "_")
+        options.namespace = options.name.lower().replace(" ", "_")
 
     # Initialize console
     global console
