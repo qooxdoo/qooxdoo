@@ -134,6 +134,7 @@ qx.Class.define("apiviewer.ui.SearchView",
 
       // table
       var table = new qx.ui.table.Table(tableModel, customModel);
+      table.setDecorator(null);
       table.setShowCellFocusIndicator(false);
       table.setStatusBarVisible(false);
       table.setColumnVisibilityButtonVisible(false);
