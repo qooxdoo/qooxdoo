@@ -96,12 +96,12 @@ qx.Class.define("feedreader.Application",
       this._createLayout();
 
       // Add static feeds
-      this._feedList.addFeed(new feedreader.model.Feed("qooxdoo News", "http://feeds.feedburner.com/qooxdoo/news/content", "static"));
+      this._feedList.addFeed(new feedreader.model.Feed("qooxdoo News", "http://feedproxy.feedburner.com/qooxdoo/news/content", "static"));
       this._feedList.addFeed(new feedreader.model.Feed("Mozilla Developer News", "http://developer.mozilla.org/devnews/index.php/feed/", "static"));
       this._feedList.addFeed(new feedreader.model.Feed("JScript Team Blog", "http://blogs.msdn.com/jscript/rss.xml", "static"));
       this._feedList.addFeed(new feedreader.model.Feed("Daring Fireball", "http://daringfireball.net/index.xml", "static"));
       this._feedList.addFeed(new feedreader.model.Feed("Surfin' Safari", "http://webkit.org/blog/?feed=rss2", "static"));
-      this._feedList.addFeed(new feedreader.model.Feed("Ajaxian", "http://feeds.feedburner.com/ajaxian", "static"));
+      this._feedList.addFeed(new feedreader.model.Feed("Ajaxian", "http://feedproxy.feedburner.com/ajaxian", "static"));
 
       // Add user feeds
       this._feedList.addFeed(new feedreader.model.Feed("Heise", "http://www.heise.de/newsticker/heise-atom.xml", "user"));
