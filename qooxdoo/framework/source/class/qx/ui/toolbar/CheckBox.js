@@ -34,9 +34,9 @@ qx.Class.define("qx.ui.toolbar.CheckBox",
   *****************************************************************************
   */
 
-  construct : function(label, icon, command)
+  construct : function(label, icon)
   {
-    this.base(arguments, label, icon, command);
+    this.base(arguments, label, icon);
 
     // Toolbar buttons should not support the keyboard events
     this.removeListener("keydown", this._onKeyDown);
