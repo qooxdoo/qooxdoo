@@ -58,7 +58,7 @@ qx.Class.define("qx.event.handler.Keyboard",
     this.__manager = manager;
     this.__window = manager.getWindow();
 
-    // Gecko ignore keyevents when not explicitely clicked in the document.
+    // Gecko ignores key events when not explicitly clicked in the document.
     if (qx.core.Variant.isSet("qx.client", "gecko")) {
       this.__root = this.__window;
     } else {
@@ -368,6 +368,7 @@ qx.Class.define("qx.event.handler.Keyboard",
 
       "webkit" : function(domEvent)
       {
+        var keyCode = 0;
         var charCode = 0;
         var type = domEvent.type;
 
@@ -375,8 +376,6 @@ qx.Class.define("qx.event.handler.Keyboard",
         // handling to match the IE behaviour.
         if (qx.bom.client.Engine.VERSION < 525.13)
         {
-          var keyCode = 0;
-
           if (type == "keyup" || type == "keydown")
           {
             keyCode = this._charCode2KeyCode[domEvent.charCode] || domEvent.keyCode;
@@ -394,7 +393,7 @@ qx.Class.define("qx.event.handler.Keyboard",
         }
         else
         {
-          var keyCode = domEvent.keyCode;
+          keyCode = domEvent.keyCode;
 
           // Ignore the down in such sequences dp dp dp
           if (!(this.__lastUpDownType[keyCode] == "keydown" && type == "keydown")) {
@@ -432,7 +431,7 @@ qx.Class.define("qx.event.handler.Keyboard",
     {
       "mshtml" : function(domEvent)
       {
-        var domEvent = window.event || domEvent;
+        domEvent = window.event || domEvent;
 
         if (this._charCode2KeyCode[domEvent.keyCode]) {
           this._idealKeyHandler(this._charCode2KeyCode[domEvent.keyCode], 0, domEvent.type, domEvent);
@@ -446,7 +445,7 @@ qx.Class.define("qx.event.handler.Keyboard",
         var keyCode = this._keyCodeFix[domEvent.keyCode] || domEvent.keyCode;
         var charCode = domEvent.charCode;
         var type = domEvent.type;
-        
+
         this._idealKeyHandler(keyCode, charCode, type, domEvent);
       },
 
