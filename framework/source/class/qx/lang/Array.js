@@ -334,13 +334,17 @@ qx.Bootstrap.define("qx.lang.Array",
      * numeric values only.
      *
      * @param arr {Number[]} Array to process
-     * @return {Number} The highest of all values.
+     * @return {Number | undefined} The highest of all values or undefined if array is empty.
      */
     max : function(arr)
     {
-      var result = Number.MIN_VALUE;
+      if (qx.core.Variant.isSet("qx.debug", "on")) {
+        qx.core.Assert.assertArray(arr, "Parameter must be an array.");
+      }
 
-      for (var i=0, l=arr.length; i<l; i++)
+      var i, len=arr.length, result = arr[0];
+
+      for (i = 1; i < len; i++)
       {
         if (arr[i] > result) {
           result = arr[i];
@@ -350,19 +354,22 @@ qx.Bootstrap.define("qx.lang.Array",
       return result;
     },
 
-
     /**
      * Returns the lowest value in the given arr. Supports
      * numeric values only.
      *
      * @param arr {Number[]} Array to process
-     * @return {Number} The lowest of all values.
+     * @return {Number | undefined} The lowest of all values or undefined if array is empty.
      */
     min : function(arr)
     {
-      var result = Number.MAX_VALUE;
+      if (qx.core.Variant.isSet("qx.debug", "on")) {
+        qx.core.Assert.assertArray(arr, "Parameter must be an array.");
+      }
 
-      for (var i=0, l=arr.length; i<l; i++)
+      var i, len=arr.length, result = arr[0];
+
+      for (i = 1; i < len; i++)
       {
         if (arr[i] < result) {
           result = arr[i];
