@@ -175,7 +175,6 @@ qx.Class.define("qx.ui.table.Table",
 
     // Make focusable
     this.setTabIndex(1);
-    this.__scrollerParent.setKeepActive(true);
     this.addListener("keypress", this._onKeyPress);
     this.addListener("focus", this._onFocusChanged);
     this.addListener("blur", this._onFocusChanged);
@@ -1396,7 +1395,6 @@ qx.Class.define("qx.ui.table.Table",
         var x = this.getTableColumnModel().getVisibleX(this.__focusedCol);
         var metaColumn = this._getMetaColumnAtColumnX(x);
         var started = this.getPaneScroller(metaColumn).startEditing();
-        this.__scrollerParent.setKeepActive(!started);
         return started;
       }
 
@@ -1414,7 +1412,6 @@ qx.Class.define("qx.ui.table.Table",
         var x = this.getTableColumnModel().getVisibleX(this.__focusedCol);
         var metaColumn = this._getMetaColumnAtColumnX(x);
         this.getPaneScroller(metaColumn).stopEditing();
-        this.__scrollerParent.setKeepActive(true);
       }
     },
 
@@ -1429,7 +1426,6 @@ qx.Class.define("qx.ui.table.Table",
         var x = this.getTableColumnModel().getVisibleX(this.__focusedCol);
         var metaColumn = this._getMetaColumnAtColumnX(x);
         this.getPaneScroller(metaColumn).cancelEditing();
-        this.__scrollerParent.setKeepActive(true);
       }
     },
 
@@ -1447,7 +1443,7 @@ qx.Class.define("qx.ui.table.Table",
 
     /**
      * Gets the meta column at a certain x position in the page. If there is no
-     * meta column at this postion, -1 is returned.
+     * meta column at this position, -1 is returned.
      *
      * @param pageX {Integer} the position in the page to check (in pixels).
      * @return {Integer} the index of the meta column or -1.

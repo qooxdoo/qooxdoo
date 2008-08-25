@@ -152,6 +152,7 @@ qx.Class.define("qx.ui.core.FocusHandler",
     {
       var target = e.getTarget();
       this.__activeChild = target;
+      //this.debug("active: " + target);
 
       var root = this.__findFocusRoot(target);
       if (root != this.__currentRoot) {
@@ -187,6 +188,8 @@ qx.Class.define("qx.ui.core.FocusHandler",
       if (target != this.__focusedChild)
       {
         this.__focusedChild = target;
+        //this.debug("focus: " + target);
+        
         target.visualizeFocus();
       }
     },

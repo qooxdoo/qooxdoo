@@ -32,6 +32,7 @@ qx.Class.define("qx.ui.table.pane.FocusIndicator",
     this.base(arguments);
     this.__scroller = scroller;
 
+    this.setKeepActive(true);
     this.addListener("keypress", this._onKeyPress, this);
   },
 
