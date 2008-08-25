@@ -215,6 +215,14 @@ qx.Class.define("qx.ui.embed.Canvas",
     },
 
 
+		/**
+		 * Redraw the canvas
+     */ 
+    update : function() {
+      this.__deferredDraw.schedule();
+    },
+
+
     /**
      * Widget resize event handler. Updates the canvas dimension if needed.
      *
