@@ -406,8 +406,8 @@ class Config:
                             contrib = manidir.replace("contrib://","")
                             cacheMap = jobObj.getFeature('cache')
                             if cacheMap and cacheMap.has_key('downloads'):
-                                contribCachePath = cacheMap('downloads')
-                                contribCachePath = self._config1.absPath(contribCachePath)
+                                contribCachePath = cacheMap['downloads']
+                                contribCachePath = self.absPath(contribCachePath)
                             else:
                                 contribCachePath = "cache-downloads"
                             self._download_contrib(newlib, contrib, contribCachePath)
