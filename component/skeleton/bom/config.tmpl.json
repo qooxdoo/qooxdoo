@@ -5,8 +5,11 @@
     "QOOXDOO_PATH"   : "${REL_QOOXDOO_PATH}/framework",
     "QOOXDOO_URI"    : "../$${QOOXDOO_PATH}",
     "BUILD_PATH"     : "./build",
+    "PYTHON"         : "python",
     "ROOT"           : "."
   },
+
+  "export" : [ "build" ],
 
   "jobs" :
   {
