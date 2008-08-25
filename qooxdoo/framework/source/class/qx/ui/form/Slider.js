@@ -498,13 +498,15 @@ qx.Class.define("qx.ui.form.Slider",
       var knobSize = this._getChildControl("knob").getBounds();
       var sizeProperty = this.__isHorizontal ? "width" : "height";
 
-      // Sync knob position and size
+      // Sync knob size
       this._updateKnobSize();
-      this._updateKnobPosition();
 
       // Store knob size
       this.__slidingSpace = availSize[sizeProperty] - knobSize[sizeProperty];
       this.__knobSize = knobSize[sizeProperty];
+
+      // Update knob position (sliding space must be updated first)
+      this._updateKnobPosition();
     },
 
 
@@ -894,14 +896,23 @@ qx.Class.define("qx.ui.form.Slider",
 
 
     // property apply
-    _applyMinimum : function(value, old) {
+    _applyMinimum : function(value, old)
+    {
+      if (this.getValue() < value) {
+        this.setValue(value);
+      }
+
       this._updateKnobPosition();
     },
 
 
     // property apply
-    _applyMaximum : function(value, old) {
-      this.debug("SLIDER MAX: " + value);
+    _applyMaximum : function(value, old)
+    {
+      if (this.getValue() > value) {
+        this.setValue(value);
+      }
+
       this._updateKnobPosition();
     }
   }
