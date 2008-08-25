@@ -142,12 +142,6 @@ qx.Bootstrap.define("qx.bom.Event",
 
       "mshtml" : function(e)
       {
-        // if the keydown is prevented no keypress event is fired but we expect
-        // keypress to be fired always.
-        if (e.type == "keydown") {
-          return;
-        }
-
         try
         {
           // this allows us to prevent some key press events in IE and Firefox.
@@ -156,15 +150,6 @@ qx.Bootstrap.define("qx.bom.Event",
         } catch(e) {}
 
         e.returnValue = false;
-      },
-
-      "webkit" : function(e)
-      {
-        // if the keydown is prevented no keypress event is fired but we expect
-        // keypress to be fired always.
-        if (e.type !== "keydown") {
-          e.preventDefault();
-        }
       },
 
       "default" : function(e) {
