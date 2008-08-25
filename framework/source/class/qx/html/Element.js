@@ -1342,36 +1342,47 @@ qx.Class.define("qx.html.Element",
       }
 
       // Prepare extraction
-      var helper = qx.html.Element.__markupHelper;
-      if (!helper) {
-        helper = qx.html.Element.__markupHelper = document.createElement("DIV");
+      // We have a IE specific issue with "Unknown error" messages
+      // when we try to use the same DOM node again. I am not sure
+      // why this happens. Would be a good performance improvement,
+      // but does not seem to work.
+      if (qx.core.Variant.isSet("qx.client", "mshtml"))
+      {
+        var helper = document.createElement("div");
       }
-      helper.innerHTML = html;
+      else
+      {
+        var helper = qx.html.Element.__markupHelper;
+        if (!helper) {
+          helper = qx.html.Element.__markupHelper = document.createElement("div");
+        }
+      }
 
       // Extract first element
+      helper.innerHTML = html;
       this._element = helper.firstChild;
       this._element.$$hash = this.$$hash;
 
       // Copy currently existing data over to element
       this._copyData(true);
-      
+
       // Return element
       return this._element;
     },
-    
+
 
     /**
      * Uses an existing element instead of creating one. This may be interesting
      * when the DOM element is directly needed to add content etc.
      *
      * @param elem {Element} Element to reuse
-     */    
+     */
     useElement : function(elem)
     {
       if (this._element) {
         throw new Error("Could not overwrite existing element!");
       }
-            
+
       // Use incoming element
       this._element = elem;
       this._element.$$hash = this.$$hash;
