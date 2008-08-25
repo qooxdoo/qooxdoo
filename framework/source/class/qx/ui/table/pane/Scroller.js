@@ -472,7 +472,6 @@ qx.Class.define("qx.ui.table.pane.Scroller",
      * @param scrollX {Integer} The new scroll position.
      */
     setScrollX : function(scrollX) {
-      this.debug("scrollX: " + scrollX);
       this.__horScrollBar.scrollTo(scrollX);
     },
 
@@ -1016,8 +1015,6 @@ qx.Class.define("qx.ui.table.pane.Scroller",
      */
     _onMousedownPane : function(e)
     {
-      this.debug("pane down");
-
       var table = this.getTable();
 
       if (! table.getEnabled()) {
