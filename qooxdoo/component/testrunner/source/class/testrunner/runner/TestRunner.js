@@ -564,7 +564,7 @@ qx.Class.define("testrunner.runner.TestRunner",
        *        model root for the tree from which the widgets representation
        *        will be built
        */
-      function buildSubTree(widgetR, modelR)
+      function buildSubTree(widgetR, modelR, level)
       {
         var children = modelR.getChildren();
         var t;
@@ -598,30 +598,19 @@ qx.Class.define("testrunner.runner.TestRunner",
         for (var i=0; i<children.length; i++)
         {
           var currNode = children[i];
-
           var firstChar = currNode.label.charAt(0);
-
-          if (currNode.__type === 2)
-          {
-            ico = "testrunner/image/class18.gif";
-          }
-          else if (currNode.__type === 4)
-          {
-            ico = "testrunner/image/package18.gif";
-          }
-          else
-          {
-            ico = "testrunner/image/method_public18.gif";
-          }
 
           if (currNode.hasChildren())
           {
-            t = new qx.ui.tree.TreeFolder(currNode.label, ico);
-            buildSubTree(t, currNode);
+            t = new qx.ui.tree.TreeFolder(currNode.label);
+            if (level < 2) {
+              t.setOpen(true);
+            }
+            buildSubTree(t, currNode, level+1);
           }
           else
           {
-            t = new qx.ui.tree.TreeFile(currNode.label, ico);
+            t = new qx.ui.tree.TreeFile(currNode.label);
           }
 
           // make connections
@@ -634,53 +623,6 @@ qx.Class.define("testrunner.runner.TestRunner",
           }
         }
       }
-        // buildSubTree;
-
-      function buildSubTreeFlat(widgetR, modelR)
-      {
-        var iter = modelR.getIterator("depth");
-        var currNode;
-
-        while (currNode = iter())
-        {
-          if (currNode.type && currNode.type == "test")
-          {
-            ;
-          } else  // it's a container
-          {
-            if (handler.hasTests(currNode))
-            {
-              var fullName = handler.getFullName(currNode);
-              var t = new qx.ui.tree.TreeFolder(fullName, "testrunner/image/class18.gif");
-              widgetR.add(t);
-              t.setUserData("modelLink", currNode);
-              currNode.widgetLinkFlat = t;
-
-              if (that.tests.handler.getFullName(currNode) == that.tests.selected) {
-                selectedElement = currNode;
-              }
-
-              var children = currNode.getChildren();
-
-              for (var i=0; i<children.length; i++)
-              {
-                if (children[i].type && children[i].type == "test")
-                {
-                  var c = new qx.ui.tree.TreeFile(children[i].label, "testrunner/image/method_public18.gif");
-                  t.add(c);
-                  c.setUserData("modelLink", children[i]);
-                  children[i].widgetLinkFlat = c;
-
-                  if (that.tests.handler.getFullName(children[i]) == that.tests.selected) {
-                    selectedElement = children[i];
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-        // buildSubTreeFlat
 
       // -- Main --------------------------------
       var ttree = this.tests.handler.ttree;
@@ -705,7 +647,7 @@ qx.Class.define("testrunner.runner.TestRunner",
       fulltree.setRoot(root1);
       fulltree.setHideRoot(true);
 
-      buildSubTree(this.widgets["treeview.full"].getRoot(), ttree);
+      buildSubTree(this.widgets["treeview.full"].getRoot(), ttree, 0);
 
       if (selectedElement)  // try to re-select previously selected element
       {
