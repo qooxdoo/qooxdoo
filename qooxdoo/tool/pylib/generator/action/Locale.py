@@ -1,4 +1,4 @@
-import os, sys
+import os, sys, re
 
 from polib import polib
 from ecmascript.frontend import treeutil, tree
@@ -60,7 +60,7 @@ class Locale:
             # convert to polib style
             obj.occurrences = []
             for location in strings[msgid]["occurrences"]:
-                obj.occurrences.append((location["file"], location["line"]))
+                obj.occurrences.append((re.sub(r'\\', "/", location["file"]), location["line"]))
 
         pot.sort()
 
