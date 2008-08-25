@@ -98,7 +98,7 @@ Arguments:
     config.resolveIncludes()
 
     # Check jobs
-    availableJobs = config.getJobsList()
+    availableJobs = config.getExportedJobsList()
     if len(options.jobs) == 0:
         listJobs(console, availableJobs)
         sys.exit(1)
