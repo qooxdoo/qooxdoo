@@ -916,6 +916,23 @@ qx.Theme.define("qx.theme.classic.Appearance",
         }
       }
     },
+    
+    "scrollbar/slider/knob" :
+    {
+      include : "button",
+
+      style : function(states)
+      {
+        return {
+          height    : 14,
+          width     : 14,
+          
+          minHeight : states.horizontal ? "undefined" : 14,
+          minWidth  : states.horizontal ? 14 : "undefined"
+        };
+      }
+    },
+    
 
     "scrollbar/button" :
     {
