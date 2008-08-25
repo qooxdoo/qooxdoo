@@ -1195,7 +1195,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         }
 
         return {
-          icon : icon            
+          icon : icon
         }
       }
     },
@@ -1208,9 +1208,9 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          icon : 
-            states.small ? "icon/16/mimetypes/office-document.png" : 
-            states.large ? "icon/32/mimetypes/office-document.png" : 
+          icon :
+            states.small ? "icon/16/mimetypes/office-document.png" :
+            states.large ? "icon/32/mimetypes/office-document.png" :
             "icon/22/mimetypes/office-document.png"
         }
       }
@@ -1399,9 +1399,10 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          alignY     : "middle",
-          font       : "bold",
-          marginLeft : 6
+          alignY      : "middle",
+          font        : "bold",
+          marginLeft  : 6,
+          marginRight : 12
         };
       }
     },
@@ -1784,11 +1785,11 @@ qx.Theme.define("qx.theme.modern.Appearance",
           icon : "decoration/arrows/down.png",
           padding : 2
         };
-        
+
         if (states.selected) {
           ret.decorator = "button-focused";
         }
-        
+
         return ret;
       }
     },
