@@ -168,7 +168,7 @@ qx.Class.define("qx.ui.core.ScrollBar",
       switch(id)
       {
         case "slider":
-          control = new qx.ui.form.BaseSlider;
+          control = new qx.ui.core.ScrollSlider;
           control.setPageStep(100);
           control.setFocusable(false);
           control.addListener("changeValue", this._onChangeSliderValue, this);
