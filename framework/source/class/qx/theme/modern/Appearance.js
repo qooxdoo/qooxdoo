@@ -603,8 +603,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
       {
         return {
           decorator : states.horizontal ? "scrollbar-slider-horizontal" : "scrollbar-slider-vertical",
-          height : 14,
-          width : 14
+          minHeight : states.horizontal ? "undefined" : 14,
+          minWidth  : states.horizontal ? 14 : "undefined"
         };
       }
     },
