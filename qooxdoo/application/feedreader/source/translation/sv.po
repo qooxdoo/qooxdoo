@@ -1,4 +1,4 @@
-# Swedish translation
+# Swedish
 # 
 msgid ""
 msgstr ""
@@ -7,86 +7,86 @@ msgstr ""
 "POT-Creation-Date: 2007-11-09 22:22+0100\n"
 "PO-Revision-Date: 2006-12-19 11:10+0100\n"
 "Last-Translator: Henric Johansson <henric.johansson@mindset.se>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language-Team: none\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: feedreader/Application.js:340
+#: feedreader/Application.js:347
 msgid "FeedReader (qooxdoo powered)"
 msgstr ""
 
-#: feedreader/view/AddFeedWindow.js:51
+#: feedreader/view/AddFeedWindow.js:49
 msgid "Add a feed"
 msgstr ""
 
-#: feedreader/view/AddFeedWindow.js:95
+#: feedreader/view/AddFeedWindow.js:86
 msgid "Feed Information"
 msgstr ""
 
-#: feedreader/view/AddFeedWindow.js:102
+#: feedreader/view/AddFeedWindow.js:93
 msgid "Title:"
 msgstr ""
 
-#: feedreader/view/AddFeedWindow.js:105
+#: feedreader/view/AddFeedWindow.js:96
 msgid "URL:"
 msgstr ""
 
-#: feedreader/view/AddFeedWindow.js:117
+#: feedreader/view/AddFeedWindow.js:108
 msgid "Add"
 msgstr ""
 
-#: feedreader/view/AddFeedWindow.js:139
+#: feedreader/view/AddFeedWindow.js:130
 msgid "Please enter a title."
 msgstr ""
 
-#: feedreader/view/AddFeedWindow.js:147
+#: feedreader/view/AddFeedWindow.js:138
 msgid "Please enter a url."
 msgstr ""
 
-#: feedreader/view/List.js:43
+#: feedreader/view/List.js:45
 msgid "Posts"
 msgstr ""
 
-#: feedreader/view/PreferenceWindow.js:49 feedreader/view/ToolBar.js:88
+#: feedreader/view/PreferenceWindow.js:48 feedreader/view/ToolBar.js:86
 msgid "Preferences"
 msgstr ""
 
-#: feedreader/view/PreferenceWindow.js:90
+#: feedreader/view/PreferenceWindow.js:85
 msgid "Language"
 msgstr ""
 
-#: feedreader/view/ToolBar.js:62
+#: feedreader/view/ToolBar.js:60
 #, fuzzy
 msgid "Add feed"
 msgstr "Lägg till feed"
 
-#: feedreader/view/ToolBar.js:66
+#: feedreader/view/ToolBar.js:64
 msgid "Remove feed"
 msgstr "Ta bort feed"
 
-#: feedreader/view/ToolBar.js:76
+#: feedreader/view/ToolBar.js:74
 msgid "Reload"
 msgstr "Uppdatera"
 
-#: feedreader/view/ToolBar.js:79
+#: feedreader/view/ToolBar.js:77
 msgid "Reload the feeds. (%1)"
 msgstr ""
 
-#: feedreader/view/ToolBar.js:90
+#: feedreader/view/ToolBar.js:88
 msgid "Open preferences window."
 msgstr ""
 
-#: feedreader/view/ToolBar.js:99
+#: feedreader/view/ToolBar.js:101
 msgid "Help"
 msgstr "Hjälp"
 
-#: feedreader/view/Tree.js:66
+#: feedreader/view/Tree.js:65
 msgid "Static Feeds"
 msgstr ""
 
-#: feedreader/view/Tree.js:70
+#: feedreader/view/Tree.js:69
 msgid "User Feeds"
 msgstr ""
 

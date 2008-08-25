@@ -7,320 +7,365 @@ msgstr ""
 "POT-Creation-Date: 2008-05-20 17:10+0200\n"
 "PO-Revision-Date: 2006-12-19 00:49-0500\n"
 "Last-Translator: Camilo Aguilar <camilo.aguilar@gmail.com>\n"
-"Language-Team:  <camilo.aguilar@gmail.com>\n"
+"Language-Team: none\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Poedit-Language: Spanish\n"
 "X-Poedit-Country: COLOMBIA\n"
+"X-Poedit-Language: Spanish\n"
 
-#: class/qx/legacy/ui/component/ColorPopup.js:161
+#: qx/legacy/ui/component/ColorPopup.js:159 qx/ui/control/ColorPopup.js:148
 msgid "Automatic"
 msgstr "Automático"
 
-#: class/qx/legacy/ui/component/ColorPopup.js:229
-#: class/qx/legacy/ui/component/ColorSelector.js:413
-msgid "Preview (Old/New)"
-msgstr "Vista previa (viejo/nuevo)"
-
-#: class/qx/legacy/ui/component/ColorPopup.js:262
+#: qx/legacy/ui/component/ColorPopup.js:257 qx/ui/control/ColorPopup.js:228
 msgid "Open ColorSelector"
 msgstr "Abrir selector de color"
 
-#: class/qx/legacy/ui/component/ColorPopup.js:283
+#: qx/legacy/ui/component/ColorPopup.js:277 qx/ui/control/ColorPopup.js:243
 msgid "Color Selector"
 msgstr "Selector de color"
 
-#: class/qx/legacy/ui/component/ColorSelector.js:229
+#: qx/legacy/ui/component/ColorSelector.js:225 qx/ui/control/ColorPopup.js:257
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: class/qx/legacy/ui/component/ColorSelector.js:230
+#: qx/legacy/ui/component/ColorSelector.js:226 qx/ui/control/ColorPopup.js:262
 msgid "OK"
 msgstr "Aceptar"
 
-#: class/qx/legacy/ui/component/ColorSelector.js:343
-msgid "Presets"
-msgstr "Preselecciones"
-
-#: class/qx/legacy/ui/component/ColorSelector.js:394
-msgid "Details"
-msgstr "Detalles"
-
-#: class/qx/legacy/ui/component/ColorSelector.js:448
-msgid "Hex"
-msgstr "Hex"
-
-#: class/qx/legacy/ui/component/ColorSelector.js:477
-msgid "RGB"
-msgstr "RGB"
-
-#: class/qx/legacy/ui/component/ColorSelector.js:512
-msgid "HSB"
-msgstr "HSB"
-
-#: class/qx/legacy/ui/component/DateChooser.js:85
+#: qx/legacy/ui/component/DateChooser.js:85 qx/ui/control/DateChooser.js:276
 msgid "Last year"
 msgstr "Último año"
 
-#: class/qx/legacy/ui/component/DateChooser.js:92
+#: qx/legacy/ui/component/DateChooser.js:92 qx/ui/control/DateChooser.js:284
 msgid "Last month"
 msgstr "Último mes"
 
-#: class/qx/legacy/ui/component/DateChooser.js:98
+#: qx/legacy/ui/component/DateChooser.js:98 qx/ui/control/DateChooser.js:292
 msgid "Next month"
 msgstr "Mes siguiente"
 
-#: class/qx/legacy/ui/component/DateChooser.js:104
+#: qx/legacy/ui/component/DateChooser.js:104 qx/ui/control/DateChooser.js:300
 msgid "Next year"
 msgstr "Año siguiente"
 
-#: class/qx/legacy/ui/component/DateChooserButton.js:61
+#: qx/legacy/ui/component/DateChooserButton.js:61
 msgid "Choose a date"
 msgstr "Seleccione una fecha"
 
-#: class/qx/legacy/ui/form/ComboBoxEx.js:269
+#: qx/legacy/ui/form/ComboBoxEx.js:269
 msgid "Description"
 msgstr "Descripción"
 
-#: class/qx/legacy/ui/form/ComboBoxEx.js:269
+#: qx/legacy/ui/form/ComboBoxEx.js:269
 msgid "ID"
 msgstr "Código"
 
-#: class/qx/legacy/ui/form/ComboBoxEx.js:953
+#: qx/legacy/ui/form/ComboBoxEx.js:929
 msgid "Search"
 msgstr "Buscar"
 
-#: class/qx/legacy/ui/form/ComboBoxEx.js:1069
+#: qx/legacy/ui/form/ComboBoxEx.js:1042
 msgid "Case sensitive"
 msgstr "Sensible a mayúscula"
 
-#: class/qx/legacy/ui/form/ComboBoxEx.js:1111
+#: qx/legacy/ui/form/ComboBoxEx.js:1084
 msgid "Search next occurrence"
 msgstr "Buscar siguiente"
 
-#: class/qx/legacy/ui/form/ComboBoxEx.js:1155
+#: qx/legacy/ui/form/ComboBoxEx.js:1128
 msgid "Search items in list"
 msgstr "Buscar elementos en la lista"
 
-#: class/qx/legacy/ui/table/Table.js:1522
+#: qx/legacy/ui/table/Table.js:1541 qx/ui/table/Table.js:1513
 msgid "one row"
 msgid_plural "%1 rows"
 msgstr[0] ""
 msgstr[1] ""
 
-#: class/qx/legacy/ui/table/Table.js:1524
+#: qx/legacy/ui/table/Table.js:1543 qx/ui/table/Table.js:1515
 msgid "one of one row"
 msgid_plural "%1 of %2 rows"
 msgstr[0] ""
 msgstr[1] ""
 
-#. TRANSLATION: short representation of key names
-#: class/qx/locale/Key.js:77
+#: qx/legacy/ui/table/columnmodel/Resize.js:205
+#: qx/ui/table/columnmodel/Resize.js:209
+msgid "Reset column widths"
+msgstr ""
+
+#: qx/locale/Key.js:76
 msgid "key_short_Backspace"
 msgstr "Retroceso"
 
-#: class/qx/locale/Key.js:78
+#: qx/locale/Key.js:77
 msgid "key_short_Tab"
 msgstr "Tab"
 
-#: class/qx/locale/Key.js:79
+#: qx/locale/Key.js:78
 msgid "key_short_Space"
 msgstr "Espacio"
 
-#: class/qx/locale/Key.js:80
+#: qx/locale/Key.js:79
 msgid "key_short_Enter"
 msgstr "Intro"
 
-#: class/qx/locale/Key.js:81
+#: qx/locale/Key.js:80
 msgid "key_short_Shift"
 msgstr "Mayús"
 
-#: class/qx/locale/Key.js:82
+#: qx/locale/Key.js:81
 msgid "key_short_Control"
 msgstr "Ctrl"
 
-#: class/qx/locale/Key.js:83
+#: qx/locale/Key.js:82
 msgid "key_short_Alt"
 msgstr "Alt"
 
-#: class/qx/locale/Key.js:84
+#: qx/locale/Key.js:83
 msgid "key_short_CapsLock"
 msgstr "BloqMayús"
 
-#: class/qx/locale/Key.js:85
+#: qx/locale/Key.js:84
 msgid "key_short_Meta"
 msgstr "Meta"
 
-#: class/qx/locale/Key.js:86
+#: qx/locale/Key.js:85
 msgid "key_short_Escape"
 msgstr "Esc"
 
-#: class/qx/locale/Key.js:87
+#: qx/locale/Key.js:86
 msgid "key_short_Left"
 msgstr "Izquierda"
 
-#: class/qx/locale/Key.js:88
+#: qx/locale/Key.js:87
 msgid "key_short_Up"
 msgstr "Arriba"
 
-#: class/qx/locale/Key.js:89
+#: qx/locale/Key.js:88
 msgid "key_short_Right"
 msgstr "Derecha"
 
-#: class/qx/locale/Key.js:90
+#: qx/locale/Key.js:89
 msgid "key_short_Down"
 msgstr "Abajo"
 
-#: class/qx/locale/Key.js:91
+#: qx/locale/Key.js:90
 msgid "key_short_PageUp"
 msgstr "RePág"
 
-#: class/qx/locale/Key.js:92
+#: qx/locale/Key.js:91
 msgid "key_short_PageDown"
 msgstr "AvPág"
 
-#: class/qx/locale/Key.js:93
+#: qx/locale/Key.js:92
 msgid "key_short_End"
 msgstr "Fin"
 
-#: class/qx/locale/Key.js:94
+#: qx/locale/Key.js:93
 msgid "key_short_Home"
 msgstr "Inicio"
 
-#: class/qx/locale/Key.js:95
+#: qx/locale/Key.js:94
 msgid "key_short_Insert"
 msgstr "Insert"
 
-#: class/qx/locale/Key.js:96
+#: qx/locale/Key.js:95
 msgid "key_short_Delete"
 msgstr "Supr"
 
-#: class/qx/locale/Key.js:97
+#: qx/locale/Key.js:96
 msgid "key_short_NumLock"
 msgstr "BloqNum"
 
-#: class/qx/locale/Key.js:98
+#: qx/locale/Key.js:97
 msgid "key_short_PrintScreen"
 msgstr "ImprPant"
 
-#: class/qx/locale/Key.js:99
+#: qx/locale/Key.js:98
 msgid "key_short_Scroll"
 msgstr "BloqDespl"
 
-#: class/qx/locale/Key.js:100
+#: qx/locale/Key.js:99
 msgid "key_short_Pause"
 msgstr "Pausa"
 
-#: class/qx/locale/Key.js:101
+#: qx/locale/Key.js:100
 msgid "key_short_Win"
 msgstr "Win"
 
-#: class/qx/locale/Key.js:102
+#: qx/locale/Key.js:101
 msgid "key_short_Apps"
 msgstr "Aplic"
 
-#. TRANSLATION: full/long representation of key names
-#: class/qx/locale/Key.js:105
+#: qx/locale/Key.js:104
 msgid "key_full_Backspace"
 msgstr "Retroceso"
 
-#: class/qx/locale/Key.js:106
+#: qx/locale/Key.js:105
 msgid "key_full_Tab"
 msgstr "Tabulador"
 
-#: class/qx/locale/Key.js:107
+#: qx/locale/Key.js:106
 msgid "key_full_Space"
 msgstr "Espacio"
 
-#: class/qx/locale/Key.js:108
+#: qx/locale/Key.js:107
 msgid "key_full_Enter"
 msgstr "Intro"
 
-#: class/qx/locale/Key.js:109
+#: qx/locale/Key.js:108
 msgid "key_full_Shift"
 msgstr "Mayúscula"
 
-#: class/qx/locale/Key.js:110
+#: qx/locale/Key.js:109
 msgid "key_full_Control"
 msgstr "Control"
 
-#: class/qx/locale/Key.js:111
+#: qx/locale/Key.js:110
 msgid "key_full_Alt"
 msgstr "Alt"
 
-#: class/qx/locale/Key.js:112
+#: qx/locale/Key.js:111
 msgid "key_full_CapsLock"
 msgstr "Bloqueo Mayúsculas"
 
-#: class/qx/locale/Key.js:113
+#: qx/locale/Key.js:112
 msgid "key_full_Meta"
 msgstr "Meta"
 
-#: class/qx/locale/Key.js:114
+#: qx/locale/Key.js:113
 msgid "key_full_Escape"
 msgstr "Escape"
 
-#: class/qx/locale/Key.js:115
+#: qx/locale/Key.js:114
 msgid "key_full_Left"
 msgstr "Flecha izquierda"
 
-#: class/qx/locale/Key.js:116
+#: qx/locale/Key.js:115
 msgid "key_full_Up"
 msgstr "Flecha arriba"
 
-#: class/qx/locale/Key.js:117
+#: qx/locale/Key.js:116
 msgid "key_full_Right"
 msgstr "Flecha derecha"
 
-#: class/qx/locale/Key.js:118
+#: qx/locale/Key.js:117
 msgid "key_full_Down"
 msgstr "Flecha abajo"
 
-#: class/qx/locale/Key.js:119
+#: qx/locale/Key.js:118
 msgid "key_full_PageUp"
 msgstr "Retroceder Página"
 
-#: class/qx/locale/Key.js:120
+#: qx/locale/Key.js:119
 msgid "key_full_PageDown"
 msgstr "Avanzar Página"
 
-#: class/qx/locale/Key.js:121
+#: qx/locale/Key.js:120
 msgid "key_full_End"
 msgstr "Fin"
 
-#: class/qx/locale/Key.js:122
+#: qx/locale/Key.js:121
 msgid "key_full_Home"
 msgstr "Inicio"
 
-#: class/qx/locale/Key.js:123
+#: qx/locale/Key.js:122
 msgid "key_full_Insert"
 msgstr "Insertar"
 
-#: class/qx/locale/Key.js:124
+#: qx/locale/Key.js:123
 msgid "key_full_Delete"
 msgstr "Suprimir"
 
-#: class/qx/locale/Key.js:125
+#: qx/locale/Key.js:124
 msgid "key_full_NumLock"
 msgstr "Bloqueo Numérico"
 
-#: class/qx/locale/Key.js:126
+#: qx/locale/Key.js:125
 msgid "key_full_PrintScreen"
 msgstr "Imprimir Pantalla"
 
-#: class/qx/locale/Key.js:127
+#: qx/locale/Key.js:126
 msgid "key_full_Scroll"
 msgstr "Bloq. Despl."
 
-#: class/qx/locale/Key.js:128
+#: qx/locale/Key.js:127
 msgid "key_full_Pause"
 msgstr "Pausa"
 
-#: class/qx/locale/Key.js:129
+#: qx/locale/Key.js:128
 msgid "key_full_Win"
 msgstr "Windows"
 
-#: class/qx/locale/Key.js:130
+#: qx/locale/Key.js:129
 msgid "key_full_Apps"
 msgstr "Aplicaciones"
+
+#: qx/test/locale/Locale.js:72 qx/test/locale/Locale.js:75
+#: qx/test/locale/Locale.js:78
+msgid "test One car"
+msgstr ""
+
+#: qx/test/ui/LocaleSwitch.js:62 qx/test/locale/Locale.js:60
+msgid "test one"
+msgstr ""
+
+#: qx/test/ui/LocaleSwitch.js:70 qx/test/locale/Locale.js:64
+#: qx/test/locale/Locale.js:68
+msgid "test Hello %1!"
+msgstr ""
+
+#: qx/test/ui/LocaleSwitch.js:70 qx/test/locale/Locale.js:68
+msgid "test Jonny"
+msgstr ""
+
+#: qx/test/ui/LocaleSwitch.js:76
+msgid "test two"
+msgstr ""
+
+#: qx/ui/control/ColorSelector.js:275
+#: qx/legacy/ui/component/ColorSelector.js:335
+msgid "Presets"
+msgstr "Preselecciones"
+
+#: qx/ui/control/ColorSelector.js:301
+#: qx/legacy/ui/component/ColorSelector.js:385
+msgid "Details"
+msgstr "Detalles"
+
+#: qx/ui/control/ColorSelector.js:312 qx/legacy/ui/component/ColorPopup.js:225
+#: qx/legacy/ui/component/ColorSelector.js:403 qx/ui/control/ColorPopup.js:199
+msgid "Preview (Old/New)"
+msgstr "Vista previa (viejo/nuevo)"
+
+#: qx/ui/control/ColorSelector.js:331
+#: qx/legacy/ui/component/ColorSelector.js:437
+msgid "Hex"
+msgstr "Hex"
+
+#: qx/ui/control/ColorSelector.js:351
+#: qx/legacy/ui/component/ColorSelector.js:465
+msgid "RGB"
+msgstr "RGB"
+
+#: qx/ui/control/ColorSelector.js:383
+#: qx/legacy/ui/component/ColorSelector.js:499
+msgid "HSB"
+msgstr "HSB"
+
+#~ msgid "Hello %1!"
+#~ msgstr ""
+
+#~ msgid "Jony"
+#~ msgstr ""
+
+#~ msgid "One car"
+#~ msgstr ""
+
+#~ msgid "one"
+#~ msgstr ""
+
+#~ msgid "two"
+#~ msgstr ""
