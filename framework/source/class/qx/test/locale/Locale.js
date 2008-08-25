@@ -36,20 +36,20 @@ qx.Class.define("qx.test.locale.Locale",
 
       // add dummy translations
       manager.addTranslation("en_QX", {
-        "one": "one",
-        "two": "two",
-        "Hello %1!": "Hello %1!",
-        "Jony": "Jony",
-        "One car": "One car",
-        "%1 cars": "%1 cars"
+        "test one": "test one",
+        "test two": "test two",
+        "test Hello %1!": "test Hello %1!",
+        "test Jonny": "test Jonny",
+        "test One car": "test One car",
+        "test %1 cars": "test %1 cars"
       });
       manager.addTranslation("de_QX", {
-        "one": "Eins",
-        "two": "Zwei",
-        "Hello %1!": "Servus %1!",
-        "Jony": "Jonathan",
-        "One car": "One car",
-        "%1 cars": "%1 cars"
+        "test one": "Eins",
+        "test two": "Zwei",
+        "test Hello %1!": "Servus %1!",
+        "test Jonny": "Jonathan",
+        "test One car": "Ein Auto",
+        "test %1 cars": "%1 Autos"
       });
       manager.setLocale("en_QX");
 
@@ -57,26 +57,26 @@ qx.Class.define("qx.test.locale.Locale",
       this.assertEquals("QX", manager.getTerritory());
 
       // simple case
-      var one = this.tr("one");
-      this.assertEquals("one", one);
+      var one = this.tr("test one");
+      this.assertEquals("test one", one);
 
       // format string
-      var hello = this.tr("Hello %1!", "Fabian");
-      this.assertEquals("Hello Fabian!", hello);
+      var hello = this.tr("test Hello %1!", "Fabian");
+      this.assertEquals("test Hello Fabian!", hello);
 
       // format string with translated arguments
-      var hiJony = this.tr("Hello %1!", this.tr("Jony"));
-      this.assertEquals("Hello Jony!", hiJony);
+      var hiJonny = this.tr("test Hello %1!", this.tr("test Jonny"));
+      this.assertEquals("test Hello test Jonny!", hiJonny);
 
       // plural
-      var car = this.trn("One car", "%1 cars", 0, 0);
-      this.assertEquals("0 cars", car);
+      var car = this.trn("test One car", "test %1 cars", 0, 0);
+      this.assertEquals("test 0 cars", car);
 
-      var car = this.trn("One car", "%1 cars", 1);
-      this.assertEquals("One car", car);
+      var car = this.trn("test One car", "test %1 cars", 1);
+      this.assertEquals("test One car", car);
 
-      var cars = this.trn("One car", "%1 cars", 5, 5);
-      this.assertEquals("5 cars", cars);
+      var cars = this.trn("test One car", "test %1 cars", 5, 5);
+      this.assertEquals("test 5 cars", cars);
 
 
 
@@ -103,15 +103,15 @@ qx.Class.define("qx.test.locale.Locale",
       this.assertEquals("Servus Fabian!", hello);
 
       // format string with translated arguments
-      hiJony = hiJony.translate();
-      this.assertEquals("Servus Jonathan!", hiJony);
+      hiJonny = hiJonny.translate();
+      this.assertEquals("Servus Jonathan!", hiJonny);
 
       // plural
       car = car.translate();
-      this.assertEquals("One car", car);
+      this.assertEquals("Ein Auto", car);
 
       cars = cars.translate();
-      this.assertEquals("5 cars", cars);
+      this.assertEquals("5 Autos", cars);
     }
 
   }
