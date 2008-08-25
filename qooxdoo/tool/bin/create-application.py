@@ -205,10 +205,15 @@ Example: For creating a regular GUI application \'myapp\' you could execute:
     parser.add_option(
         "-t", "--type", dest="type", metavar="TYPE", default="gui",
         help="Type of the application to create, one of: "+str(APP_TYPES)+"." +
-          "'gui' builds a standard qooxdoo GUI application, 'migration' should " +
-          "be used to migrate qooxdoo 0.7 applications and 'bom' can be used " +
+          "'gui' builds a standard qooxdoo GUI application, " +
+          "'with-contrib' builds a standard qooxdoo GUI application that " +
+          "also uses a qooxdoo-contrib library, " +
+          "'migration' should " +
+          "be used to migrate qooxdoo 0.7 applications and " +
+          "'bom' can be used " +
           "to build low-level qooxdoo applications. (Default: %default)"
      )
+
     parser.add_option(
         "-l", "--logfile", dest="logfile", metavar="LOGFILE",
         default=None, type="string", help="Log file"
