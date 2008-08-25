@@ -188,7 +188,7 @@ qx.Class.define("qx.ui.form.ComboBox",
       EVENT LISTENERS
     ---------------------------------------------------------------------------
     */
-    
+
     /**
      * Event listener for <code>keydown</code> event.
      *
@@ -196,20 +196,20 @@ qx.Class.define("qx.ui.form.ComboBox",
      */
     _onKeyDown : function(e)
     {
-      if (e.getKeyIdentifier() === "Alt")
+      if (e.isAltPressed())
       {
         this._getChildControl("button").addState("selected");
-        this.focus();        
+        this.focus();
       }
     },
-    
-    
+
+
     // overridden
     _onKeyPress : function(e)
     {
       var popup = this._getChildControl("popup");
       var iden = e.getKeyIdentifier();
-      
+
       if (iden == "Down" && e.isAltPressed())
       {
         this.toggle();
