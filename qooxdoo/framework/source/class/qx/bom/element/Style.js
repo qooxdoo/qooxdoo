@@ -108,6 +108,7 @@ qx.Class.define("qx.bom.element.Style",
         bottom : "pixelBottom"
       },
 
+      // Whether a special class is available for the processing of this style.
       special :
       {
         clip : 1,
