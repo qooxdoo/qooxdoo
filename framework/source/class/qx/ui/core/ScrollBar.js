@@ -206,7 +206,6 @@ qx.Class.define("qx.ui.core.ScrollBar",
 
     // property apply
     _applyMaximum : function(value) {
-      this.debug("SCROLLBAR MAX: " + value);
       this._getChildControl("slider").setMaximum(value);
     },
 
