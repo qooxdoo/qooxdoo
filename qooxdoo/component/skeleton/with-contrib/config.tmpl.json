@@ -27,7 +27,7 @@
       [
         {
           "manifest" : "contrib://SkeletonApplication/trunk/Manifest.json",
-          "uri"      : ".."
+          "uri"      : "../cache-downloads/SkeletonApplication/trunk"
         }
       ]
     },
