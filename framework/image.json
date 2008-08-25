@@ -609,6 +609,11 @@
               ],
              "layout" : "horizontal"
           },
+          
+          // TABVIEW INFO
+          // Due a rendering bug in Firefox 2 under Linux it is not
+          // possible to combine the top and bottom images of the INACTIVE
+          // tab buttons.
 
           // tabview-button-active-top - top and bottom
           "${RESPATH}/${MODERN}/tabview-button-top-active-tb-combined.png":
@@ -698,17 +703,6 @@
              "layout" : "horizontal"
           },
 
-          // tabview-button-inactive-top - top and bottom
-          "${RESPATH}/${MODERN}/tabview-button-top-inactive-tb-combined.png":
-          {
-            "input"  :
-              [
-                "${RESPATH}/${MODERN}/tabview/tab-button-top-inactive-t*.png",
-                "${RESPATH}/${MODERN}/tabview/tab-button-top-inactive-b*.png"
-              ],
-             "layout" : "vertical"
-          },
-
           // tabview-button-inactive-top - left and right
           "${RESPATH}/${MODERN}/tabview-button-top-inactive-lr-combined.png":
           {
@@ -718,17 +712,6 @@
                 "${RESPATH}/${MODERN}/tabview/tab-button-top-inactive-r.png"
               ],
              "layout" : "horizontal"
-          },
-
-          // tabview-button-inactive-bottom - top and bottom
-          "${RESPATH}/${MODERN}/tabview-button-bottom-inactive-tb-combined.png":
-          {
-            "input"  :
-              [
-                "${RESPATH}/${MODERN}/tabview/tab-button-bottom-inactive-t*.png",
-                "${RESPATH}/${MODERN}/tabview/tab-button-bottom-inactive-b*.png"
-              ],
-             "layout" : "vertical"
           },
 
           // tabview-button-inactive-bottom - left and right
@@ -742,17 +725,6 @@
              "layout" : "horizontal"
           },
 
-          // tabview-button-inactive-left - top and bottom
-          "${RESPATH}/${MODERN}/tabview-button-left-inactive-tb-combined.png":
-          {
-            "input"  :
-              [
-                "${RESPATH}/${MODERN}/tabview/tab-button-left-inactive-t*.png",
-                "${RESPATH}/${MODERN}/tabview/tab-button-left-inactive-b*.png"
-              ],
-             "layout" : "vertical"
-          },
-
           // tabview-button-inactive-left - left and right
           "${RESPATH}/${MODERN}/tabview-button-left-inactive-lr-combined.png":
           {
@@ -762,17 +734,6 @@
                 "${RESPATH}/${MODERN}/tabview/tab-button-left-inactive-r.png"
               ],
              "layout" : "horizontal"
-          },
-
-          // tabview-button-inactive-right - top and bottom
-          "${RESPATH}/${MODERN}/tabview-button-right-inactive-tb-combined.png":
-          {
-            "input"  :
-              [
-                "${RESPATH}/${MODERN}/tabview/tab-button-right-inactive-t*.png",
-                "${RESPATH}/${MODERN}/tabview/tab-button-right-inactive-b*.png"
-              ],
-             "layout" : "vertical"
           },
 
           // tabview-button-inactive-right - left and right
