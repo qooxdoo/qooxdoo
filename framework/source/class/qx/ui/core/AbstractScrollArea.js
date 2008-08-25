@@ -473,6 +473,8 @@ qx.Class.define("qx.ui.core.AbstractScrollArea",
      */
     _computeScrollbars : function()
     {
+      this.debug("_computeScrollbars");
+
       var pane = this._getChildControl("pane");
       var content = pane.getChild();
       if (!content)
@@ -486,6 +488,8 @@ qx.Class.define("qx.ui.core.AbstractScrollArea",
       var innerSize = this.getInnerSize();
       var paneSize = pane.getBounds();
       var scrollSize = pane.getScrollSize();
+
+      console.debug("SIZES: ", innerSize, "|", paneSize, "|", scrollSize);
 
       // if the widget has not yet been rendered, return and try again in the
       // resize event
