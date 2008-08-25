@@ -88,7 +88,7 @@ qx.Class.define("testrunner.runner.TestResultData",
       {
         if (this.getException())
         {
-          var msg = this.getException().message;
+          var msg = this.getException().message + "";
 
           if (msg.indexOf("Backtrace:") < 0) {
             return this.getException().toString();
