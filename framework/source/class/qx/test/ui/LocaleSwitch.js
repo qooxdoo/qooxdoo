@@ -76,7 +76,7 @@ qx.Class.define("qx.test.ui.LocaleSwitch",
       label.setContent(this.tr("test two"));
       this.assertEquals("Zwei", label.getContent());
       manager.setLocale("en_QX");
-      this.assertEquals("two", label.getContent());
+      this.assertEquals("test two", label.getContent());
 
       this.getRoot().remove(label);
       label.dispose();
