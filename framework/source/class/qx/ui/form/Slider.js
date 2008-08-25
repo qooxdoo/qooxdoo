@@ -904,6 +904,7 @@ qx.Class.define("qx.ui.form.Slider",
 
     // property apply
     _applyMaximum : function(value, old) {
+      this.debug("SLIDER MAX: " + value);
       this._updateKnobPosition();
     }
   }

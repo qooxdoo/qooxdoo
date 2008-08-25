@@ -489,7 +489,7 @@ qx.Class.define("qx.ui.core.AbstractScrollArea",
       var paneSize = pane.getBounds();
       var scrollSize = pane.getScrollSize();
 
-      console.debug("SIZES: ", innerSize, "|", paneSize, "|", scrollSize);
+      //console.debug("SIZES: ", innerSize, "|", paneSize, "|", scrollSize);
 
       // if the widget has not yet been rendered, return and try again in the
       // resize event
