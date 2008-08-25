@@ -44,6 +44,55 @@ qx.Class.define("qx.test.lang.Array",
       }
 
       this.assert(error);
+    },
+
+
+    testMinNumeric : function()
+    {
+      var a = [ -3, -2, -1, 0, 1, 2, 3 ];
+      var result = qx.lang.Array.min(a);
+      this.assertEquals(-3, result);
+    },
+
+
+    testMaxNumeric : function()
+    {
+      var a = [ -3, -2, -1, 0, 1, 2, 3 ];
+      var result = qx.lang.Array.max(a);
+      this.assertEquals(3, result);
+    },
+
+
+    testMinMixed : function()
+    {
+      var a = [ -3, -2, -1, 0, 1, 2, 3, 'foo', 'bar', undefined, null ];
+      var result = qx.lang.Array.min(a);
+      this.assertEquals(-3, result);
+    },
+
+
+    testMaxMixed : function()
+    {
+      var a = [ -3, -2, -1, 0, 1, 2, 3, 'foo', 'bar', undefined, null ];
+      var result = qx.lang.Array.max(a);
+      this.assertEquals(3, result);
+    },
+
+
+    testMinEmpty : function()
+    {
+      var a = [ ];
+      var result = qx.lang.Array.min(a);
+      this.assertEquals(undefined, result);
+    },
+
+
+    testMaxEmpty : function()
+    {
+      var a = [ ];
+      var result = qx.lang.Array.max(a);
+      this.assertEquals(undefined, result);
     }
+
   }
 });
