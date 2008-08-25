@@ -22,6 +22,49 @@
 
   "jobs":
   {
+    "source" :
+    {
+      "extend" : ["appconf::source"],
+      "include": ["qx.*"]
+    },
+
+    "build" :
+    {
+      "library" :
+      [
+        {
+          "manifest" : "Manifest.json",
+          "uri"      : ".."
+        }
+      ],
+      "cache"  : { "compile" : "${CACHE}" },
+      "include": ["qx.*"],
+      "exclude": ["=qx.legacy.*"],
+      "variants" :
+      {
+        "qx.debug" : ["on"],
+        "qx.aspects" : ["off"]
+      },
+      // Static application class (which is not included in build)
+      "settings" :
+      {
+        "qx.application" : "Application"
+      },
+      "compile-dist" :
+      {
+        "target"   : "build",
+        "file"     : "build/script/qx.js",
+        "uri"      : "script/qx.js",
+        "format"   : "on",
+        "optimize" : ["basecalls", "variables", "privates"],
+        "root"     : "build"
+      },
+      "copy-resources" :
+      {
+        "target" : "build"
+      }
+    },
+
     "publish-api" :
     {
       "shell" :
