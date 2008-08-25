@@ -35,6 +35,7 @@ from misc import Path
 SCRIPT_DIR    = qxenviron.scriptDir
 FRAMEWORK_DIR = os.path.normpath(os.path.join(SCRIPT_DIR, os.pardir, os.pardir))
 SKELETON_DIR  = os.path.normpath(os.path.join(FRAMEWORK_DIR, "component", "skeleton"))
+APP_TYPES     = [x for x in os.listdir(SKELETON_DIR) if not re.match(r'^\.',x)]
 
 
 def createApplication(name, out, namespace, app_type, skeleton_path):
@@ -181,41 +182,42 @@ def main():
     
     parser.set_usage('''\
 %prog --name APPLICATIONNAME [--out DIRECTORY]
-                                [--namespace NAMESPACE] [--type TYPE]
-                                  [-logfile LOGFILE] [--skeleton-path PATH]
+                             [--namespace NAMESPACE] [--type TYPE]
+                             [-logfile LOGFILE] [--skeleton-path PATH]
                     
 Script to create a new qooxdoo application.
 
 Example: For creating a regular GUI application \'myapp\' you could execute:
-''' + "tool" + os.sep + "bin" + os.sep + "%prog --name myapp --out .. --namespace myapp");
+  %prog --name myapp''')
+
     parser.add_option(
         "-n", "--name", dest="name", metavar="APPLICATIONNAME",
         help="Name of the application. An application folder with identical name will be created. (Required)"
     )
     parser.add_option(
         "-o", "--out", dest="out", metavar="DIRECTORY", default=".",
-        help="Output directory for the application folder. (Defaults to the current directory)"
+        help="Output directory for the application folder. (Default: %default)"
     )
     parser.add_option(
-        "--namespace", dest="namespace", metavar="NAMESPACE", default="custom",
-        help="Applications's top-level namespace. (Defaults to 'custom')"
+        "-s", "--namespace", dest="namespace", metavar="NAMESPACE", default=None,
+        help="Applications's top-level namespace. (Default: APPLICATIONNAME)"
     )
     parser.add_option(
         "-t", "--type", dest="type", metavar="TYPE", default="gui",
-        help="Type of the application to create: 'gui', 'migration' or 'bom'. " + 
+        help="Type of the application to create, one of: "+str(APP_TYPES)+"." + 
           "'gui' builds a standard qooxdoo GUI application, 'migration' should " +
           "be used to migrate qooxdoo 0.7 applications and 'bom' can be used " +
-          "to build low-level qooxdoo applications. (Defaults to 'gui')"
+          "to build low-level qooxdoo applications. (Default: %default)"
      )
     parser.add_option(
         "-l", "--logfile", dest="logfile", metavar="LOGFILE",
         default=None, type="string", help="Log file"
     )
     parser.add_option(
-        "--skeleton-path", dest="skeleton_path", metavar="PATH", default=SKELETON_DIR,
+        "-p", "--skeleton-path", dest="skeleton_path", metavar="PATH", default=SKELETON_DIR,
         help="(Advanced) Path where the script looks for skeletons. " +
           "The directory must contain sub directories named by " +
-          "the application types. (Defaults to standard skeleton directory)"
+          "the application types. (Default: %default)"
     )
     
     (options, args) = parser.parse_args(sys.argv[1:])
@@ -223,6 +225,9 @@ Example: For creating a regular GUI application \'myapp\' you could execute:
     if not options.name:
         parser.print_help()
         sys.exit(1)
+
+    if not options.namespace:
+        options.namespace = options.name
 
     # Initialize console
     global console
