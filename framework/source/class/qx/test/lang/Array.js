@@ -83,7 +83,7 @@ qx.Class.define("qx.test.lang.Array",
     {
       var a = [ ];
       var result = qx.lang.Array.min(a);
-      this.assertEquals(undefined, result);
+      this.assertEquals(null, result);
     },
 
 
@@ -91,7 +91,7 @@ qx.Class.define("qx.test.lang.Array",
     {
       var a = [ ];
       var result = qx.lang.Array.max(a);
-      this.assertEquals(undefined, result);
+      this.assertEquals(null, result);
     }
 
   }
