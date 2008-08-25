@@ -3533,7 +3533,7 @@ qx.Class.define("qx.ui.core.Widget",
      */
     getContentLocation : function(mode)
     {
-      var domEl = this.getContainerElement().getDomElement();
+      var domEl = this.getContentElement().getDomElement();
       return domEl ? qx.bom.element.Location.get(domEl, mode) : null;
     },
 
