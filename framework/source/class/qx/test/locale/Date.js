@@ -59,7 +59,7 @@ qx.Class.define("qx.test.locale.Date",
       // german
       qx.locale.Manager.getInstance().setLocale("de_DE");
 
-      var abbrDays = ["So","Mo","Di","Mi","Do","Fr","Sa"];
+      var abbrDays = ["So.","Mo.","Di.","Mi.","Do.","Fr.","Sa."];
       this.assertJsonEquals(abbrDays, Date.getDayNames("abbreviated").map(function(v) {return v+"";}));
       for (var i=0; i<7; i++) {
         this.assertEquals(abbrDays[i], Date.getDayName("abbreviated", i));
