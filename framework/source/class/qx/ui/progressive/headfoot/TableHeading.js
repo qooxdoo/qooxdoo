@@ -92,8 +92,8 @@ qx.Class.define("qx.ui.progressive.headfoot.TableHeading",
     // column data object The advantage of the use of the normal layout
     // manager is that the samantics of flex and percent are exectly the same
     // as in the widget code.
-    this._layout = new qx.ui.layout.HBox();
-    this._layout.connectToWidget(this);
+    this.__layout = new qx.ui.layout.HBox();
+    this.__layout.connectToWidget(this);
   },
 
   properties :
@@ -110,6 +110,7 @@ qx.Class.define("qx.ui.progressive.headfoot.TableHeading",
 
     __bCalculateWidths : null,
     __labels : null,
+    __layout : null,
 
     // overridden
     join : function(progressive)
@@ -151,7 +152,7 @@ qx.Class.define("qx.ui.progressive.headfoot.TableHeading",
 
       // Compute the column widths
       this.__bCalculateWidths = true;
-      this._layout.renderLayout(width, 100);
+      this.__layout.renderLayout(width, 100);
       this.__bCalculateWidths = false;
 
       // Get the column data
