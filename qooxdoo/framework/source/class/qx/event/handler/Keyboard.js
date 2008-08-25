@@ -246,6 +246,20 @@ qx.Class.define("qx.event.handler.Keyboard",
       var event = qx.event.Registration.createEvent(type, qx.event.type.KeySequence, [domEvent, target, keyIdentifier]);
       this.__manager.dispatchEvent(target, event);
 
+      // IE and Safari suppress a "keypress" event if the "keydown" event's
+      // default action was prevented. In this case we emulate the "keypress"
+      if (qx.core.Variant.isSet("qx.client", "mshtml|webkit"))
+      {
+        if (type == "keydown" && event.getDefaultPrevented())
+        {
+          // some key press events are already emulated. Ignore these events.
+          var keyCode = domEvent.keyCode;
+          if (!(this._isNonPrintableKeyCode(keyCode) || keyCode == 8 || keyCode == 9)) {
+            this._fireSequenceEvent(domEvent, "keypress", keyIdentifier);
+          }
+        }
+      }
+
       // Fire user action event
       qx.event.Registration.fireEvent(this.__window, "useraction", qx.event.type.Data, [type]);
     },
