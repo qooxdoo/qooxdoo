@@ -742,18 +742,19 @@ qx.Class.define("qx.ui.control.ColorSelector",
     /**
      * Sets the brightness and moves the brightness handle.
      *
-     * @param e {qx.event.type.Mouse} Incoming event object
+     * @param e {qx.event.type.Mouse} Incomingming event object
      */
     _setBrightnessOnFieldEvent : function(e)
     {
       var value = qx.lang.Number.limit(e.getDocumentTop() - this.__brightnessSubtract, 0, 256);
+      var fieldBounds = this._getChildControl("brightness-field").getBounds();
 
       this.__updateContext = "brightnessField";
 
       if (this._getChildControl("brightness-handle").getBounds()) {
-        this._getChildControl("brightness-handle").setDomTop(value + this._getChildControl("brightness-pane").getPaddingTop());
+        this._getChildControl("brightness-handle").setDomTop(value + this._getChildControl("brightness-pane").getPaddingTop() - fieldBounds.top);
       } else {
-        this._getChildControl("brightness-handle").setTop(value);
+        this._getChildControl("brightness-handle").setTop(value - fieldBounds.top);
       }
 
       this.setBrightness(100 - Math.round(value / 2.56));
