@@ -472,6 +472,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
      * @param scrollX {Integer} The new scroll position.
      */
     setScrollX : function(scrollX) {
+      this.debug("scrollX: " + scrollX);
       this.__horScrollBar.scrollTo(scrollX);
     },
 
@@ -1015,6 +1016,8 @@ qx.Class.define("qx.ui.table.pane.Scroller",
      */
     _onMousedownPane : function(e)
     {
+      this.debug("pane down");
+
       var table = this.getTable();
 
       if (! table.getEnabled()) {
@@ -1651,6 +1654,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
 
           this.__focusIndicator.add(this.__cellEditor);
           this.__focusIndicator.addState("editing");
+          this.__focusIndicator.setKeepActive(false);
 
           this.__cellEditor.focus();
           this.__cellEditor.activate();
@@ -1705,6 +1709,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
         else
         {
           this.__focusIndicator.removeState("editing");
+          this.__focusIndicator.setKeepActive(true);
           this.__cellEditor.destroy();
           this.__cellEditor = null;
           this.__cellEditorFactory = null;
