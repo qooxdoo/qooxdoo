@@ -110,8 +110,10 @@ qx.Class.define("qx.ui.layout.Dock",
   /**
    * @param spacingX {Integer?0} The horizontal spacing. Sets {@link #spacingX}.
    * @param spacingY {Integer?0} The vertical spacing. Sets {@link #spacingY}.
+   * @param separatorX {Decorator} Separator to render between columns
+   * @param separatorY {Decorator} Separator to render between rows
    */
-  construct : function(spacingX, spacingY)
+  construct : function(spacingX, spacingY, separatorX, separatorY)
   {
     this.base(arguments);
 
@@ -121,6 +123,14 @@ qx.Class.define("qx.ui.layout.Dock",
 
     if (spacingY) {
       this.setSpacingY(spacingY);
+    }
+
+    if (separatorX) {
+      this.setSeparatorX(separatorX);
+    }
+
+    if (separatorY) {
+      this.setSeparatorY(separatorY);
     }
   },
 
