@@ -40,9 +40,6 @@ qx.Class.define("demobrowser.demo.ui.Placement",
       root.add(this.createTestField("right-top"), { left: 20, top: 250 });
       root.add(this.createTestField("left-bottom"), { right: 20, top: 250 });
 
-      // Add root click test
-      // root.add(this.createRootClick(), { left: 300, top: 100 });
-
       // DOM align test
       root.add(this.createDomClick(), { left: 500, top: 100 });
     },
@@ -55,8 +52,6 @@ qx.Class.define("demobrowser.demo.ui.Placement",
       var popup = new qx.ui.popup.Popup(new qx.ui.layout.Grow);
       popup.add(new qx.ui.basic.Atom("Content"));
       popup.setPadding(20);
-      popup.setBackgroundColor("background");
-      popup.setDecorator("outset");
 
       var selectBox = new qx.ui.form.SelectBox;
       selectBox.add(new qx.ui.form.ListItem("bottom-left"));
@@ -87,48 +82,6 @@ qx.Class.define("demobrowser.demo.ui.Placement",
     },
 
 
-    createRootClick : function()
-    {
-      var composite = new qx.ui.container.Composite(new qx.ui.layout.VBox(4));
-
-      var label = new qx.ui.basic.Label("Mouse align options");
-      composite.add(label);
-
-      var popup = new qx.ui.popup.Popup(new qx.ui.layout.Grow);
-      popup.add(new qx.ui.basic.Atom("Mouse Popup"));
-      popup.setPadding(20);
-      popup.setBackgroundColor("background");
-      popup.setDecorator("outset");
-
-      var selectBox = new qx.ui.form.SelectBox;
-      selectBox.add(new qx.ui.form.ListItem("bottom-left"));
-      selectBox.add(new qx.ui.form.ListItem("bottom-right"));
-      selectBox.add(new qx.ui.form.ListItem("top-left"));
-      selectBox.add(new qx.ui.form.ListItem("top-right"));
-      selectBox.add(new qx.ui.form.ListItem("right-top"));
-      selectBox.add(new qx.ui.form.ListItem("right-bottom"));
-      selectBox.add(new qx.ui.form.ListItem("left-top"));
-      selectBox.add(new qx.ui.form.ListItem("left-bottom"));
-      composite.add(selectBox);
-
-      selectBox.addListener("changeValue", function(e) {
-        popup.setPosition(e.getData());
-      });
-
-      var root = this.getRoot();
-      root.addListener("mousedown", function(event)
-      {
-        if (event.getTarget() == root)
-        {
-          popup.placeToMouse(event);
-          popup.show();
-        }
-      });
-
-      return composite;
-    },
-
-
     createDomClick : function()
     {
       var composite = new qx.ui.container.Composite(new qx.ui.layout.VBox(4));
@@ -139,8 +92,6 @@ qx.Class.define("demobrowser.demo.ui.Placement",
       var popup = new qx.ui.popup.Popup(new qx.ui.layout.Grow);
       popup.add(new qx.ui.basic.Atom("DOM Popup"));
       popup.setPadding(20);
-      popup.setBackgroundColor("background");
-      popup.setDecorator("outset");
 
       var selectBox = new qx.ui.form.SelectBox;
       selectBox.add(new qx.ui.form.ListItem("bottom-left"));

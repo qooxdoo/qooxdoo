@@ -36,8 +36,7 @@ qx.Class.define("demobrowser.demo.ui.ScrollContainer_EdgeCaseHeight",
       scrollContainer = new qx.ui.container.Scroll();
       scrollContainer.set({
         width: 200,
-        height: 300,
-        backgroundColor : "yellow"
+        height: 300
       });
 
       this.getRoot().add(scrollContainer, {left: 10, top: 10});
@@ -67,12 +66,12 @@ qx.Class.define("demobrowser.demo.ui.ScrollContainer_EdgeCaseHeight",
       var mgr1 = this.generateScrollbarConfig("ScrollbarX:", 100);
       var mgr2 = this.generateScrollbarConfig("ScrollbarY:", 120);
 
-      mgr1.addListener("change", function(e) {
-        scrollContainer.setScrollbarX(e.getData().getValue());
+      mgr1.addListener("changeValue", function(e) {
+        scrollContainer.setScrollbarX(e.getData());
       });
 
-      mgr2.addListener("change", function(e) {
-        scrollContainer.setScrollbarY(e.getData().getValue());
+      mgr2.addListener("changeValue", function(e) {
+        scrollContainer.setScrollbarY(e.getData());
       });
     },
 
