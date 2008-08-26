@@ -2157,19 +2157,38 @@ qx.Theme.define("qx.theme.modern.Appearance",
       }
     },
 
-    "colorpopup/preview-pane":
+    "colorpopup/selector-button" : "button",
+    "colorpopup/auto-button" : "button",
+    
+    "colorpopup/preview-pane" : "groupbox",
+
+    "colorpopup/current-preview":
     {
       style : function(state)
       {
         return {
           height : 20,
           padding: 4,
+          marginLeft : 4,
           decorator : "main",
           allowGrowX : true
         }
       }
     },
 
+    "colorpopup/selected-preview":
+    {
+      style : function(state)
+      {
+        return {
+          height : 20,
+          padding: 4,
+          marginRight : 4,
+          decorator : "main",
+          allowGrowX : true
+        }
+      }
+    },
 
 
 
