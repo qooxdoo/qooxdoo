@@ -67,9 +67,6 @@ qx.Class.define("qx.ui.progressive.headfoot.TableHeading",
       this.__labels[i] = label;
     }
 
-    // link to color theme
-    var colorMgr = qx.theme.manager.Color.getInstance();
-
     // Add a spacer to take up the scroll-bar width
     var spacer = new qx.ui.core.Widget();
     spacer.set(
@@ -169,7 +166,7 @@ qx.Class.define("qx.ui.progressive.headfoot.TableHeading",
 
   destruct : function()
   {
-    this._disposeFields( 
+    this._disposeFields(
       "_columnWidths",
       "__bCalculateWidths",
       "__labels");

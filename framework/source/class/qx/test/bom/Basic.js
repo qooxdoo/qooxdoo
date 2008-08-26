@@ -52,7 +52,6 @@ qx.Class.define("qx.test.bom.Basic",
 
     testElementAttributes : function()
     {
-      var util = qx.bom.element.Visibility;
       var attrib = qx.bom.element.Attribute;
       var style = qx.bom.element.Style;
       var opac = qx.bom.element.Opacity;
@@ -86,8 +85,6 @@ qx.Class.define("qx.test.bom.Basic",
 
       this.info("test6");
       this.assert(qx.lang.String.endsWith(attrib.get(document.getElementById("test6"), "href"), "/foo.html"));
-      //this.assertEquals("", attrib.get(document.getElementById("test6"), "style"));
-      //this.assertEquals("", util.getCss(document.getElementById("test6")));
 
       var test6Color = style.get(document.getElementById("test6"), "color");
       this.assertCssColor("red", test6Color);

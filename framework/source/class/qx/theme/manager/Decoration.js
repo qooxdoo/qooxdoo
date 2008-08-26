@@ -101,7 +101,7 @@ qx.Class.define("qx.theme.manager.Decoration",
 
       var clazz = entry.decorator;
       if (clazz == null) {
-        throw new Error("Missing definition of which decorator to use in entry: " + key + "!");
+        throw new Error("Missing definition of which decorator to use in entry: " + value + "!");
       }
 
       return cache[value] = (new clazz).set(entry.style);
