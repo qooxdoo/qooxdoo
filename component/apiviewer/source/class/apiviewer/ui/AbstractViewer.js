@@ -227,10 +227,8 @@ qx.Class.define("apiviewer.ui.AbstractViewer",
       {
         // _initContentDocument was not called yet
         // -> Do nothing, the class will be shown in _initContentDocument.
-        this.debug("not ready")
         return;
       }
-      this.debug("ready")
       
       this._titleElem.innerHTML = this._getTitleHtml(classNode);
       this._classDescElem.innerHTML = this._getDescriptionHtml(classNode);
