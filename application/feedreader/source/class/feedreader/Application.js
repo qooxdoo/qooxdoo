@@ -405,7 +405,8 @@ qx.Class.define("feedreader.Application",
 
   destruct : function()
   {
-    this._disposeObjects("_toolbarView", "_listView", "_articleView",
-      "_treeView", "_feedList");
+    this._disposeFields("__commands");
+    this._disposeObjects("_toolbarView", "_listView", "_articleView", "_treeView", 
+        "_feedList", "_horizontalSplitPane", "_verticalSplitPane");
   }
 });

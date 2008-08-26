@@ -240,5 +240,19 @@ qx.Class.define("feedreader.view.Tree",
         this.addToSelection(folder);
       }
     }
+  },
+  
+  
+  
+  /*
+   *****************************************************************************
+      DESTRUCTOR
+   *****************************************************************************
+   */
+  
+  destruct : function()
+  {
+    this._disposeFields("_feedList");
+    this._disposeObjects("_root", "_staticFeedsFolder", "_userFeedsFolder");
   }
 });
