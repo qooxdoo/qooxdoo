@@ -26,7 +26,7 @@
     "profiling",
     "publish",
     "source",
-    "translate"
+    "translation"
   ],
 
 
@@ -172,11 +172,11 @@
 
     // -- various jobs -------------------------------------------------
 
-    "translate" :
+    "translation" :
     {
       "extend" : ["common"],
 
-      "translation" :
+      "translate" :
       {
         "locales": "${LOCALES}",
         "namespaces" : ["${APPLICATION}"]
