@@ -298,5 +298,11 @@ qx.Class.define("demobrowser.demo.util.PropertyEditor",
       this.updateLayoutPropertyEditor(value);
       this.updateWidgetLayoutPropertyEditor(value);
     }
+  },
+
+
+  destruct : function()
+  {
+    this._disposeFields("_pane", "_editorGroups", "_widgetIndicator", "_layoutControls");
   }
 });
