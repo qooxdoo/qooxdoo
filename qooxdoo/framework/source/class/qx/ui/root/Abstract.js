@@ -74,6 +74,13 @@ qx.Class.define("qx.ui.root.Abstract",
       init : true
     },
 
+    // overridden
+    focusable :
+    {
+      refine : true,
+      init : true
+    },
+
     /**
      *  Sets the global cursor style
      *
