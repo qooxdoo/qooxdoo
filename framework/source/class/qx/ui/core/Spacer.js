@@ -47,5 +47,23 @@ qx.Class.define("qx.ui.core.Spacer",
 
     this.setWidth(width != null ? width : 0);
     this.setHeight(height != null ? height : 0);
+  },
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
+  members :
+  {
+    /**
+     * Destroys the spacer.
+     */
+    destroy : function() {
+      // placeholder to improve compability with Widget.
+    }
   }
 });
