@@ -723,6 +723,9 @@ qx.Class.define("qx.ui.core.Widget",
 
   statics :
   {
+    /** Whether the widget should print out hints and debug messages */
+    DEBUG : true,
+
     /**
      * Returns the widget, which contains the given DOM element.
      *
@@ -1742,6 +1745,11 @@ qx.Class.define("qx.ui.core.Widget",
         this.__widgetChildren = [];
       }
 
+      // When moving in the same widget, remove widget first
+      if (child.getLayoutParent() == this) {
+        qx.lang.Array.remove(this.__widgetChildren, child);
+      }
+
       var ref = this.__widgetChildren[index];
 
       if (ref === child) {
@@ -1776,6 +1784,11 @@ qx.Class.define("qx.ui.core.Widget",
         this.__widgetChildren = [];
       }
 
+      // When moving in the same widget, remove widget first
+      if (child.getLayoutParent() == this) {
+        qx.lang.Array.remove(this.__widgetChildren, child);
+      }
+
       qx.lang.Array.insertBefore(this.__widgetChildren, child, before);
 
       this.__addHelper(child, options);
@@ -1798,6 +1811,11 @@ qx.Class.define("qx.ui.core.Widget",
 
       if (!this.__widgetChildren) {
         this.__widgetChildren = [];
+      }
+
+      // When moving in the same widget, remove widget first
+      if (child.getLayoutParent() == this) {
+        qx.lang.Array.remove(this.__widgetChildren, child);
       }
 
       qx.lang.Array.insertAfter(this.__widgetChildren, child, after);
@@ -1921,8 +1939,7 @@ qx.Class.define("qx.ui.core.Widget",
 
       // Remove from old parent
       var parent = child.getLayoutParent();
-
-      if (parent) {
+      if (parent && parent != this) {
         parent._remove(child);
       }
 
@@ -2146,8 +2163,11 @@ qx.Class.define("qx.ui.core.Widget",
         {
           valueId = value.toHashCode();
 
-          if (qx.core.Variant.isSet("qx.debug", "on")) {
-            this.debug("Decorator instances may increase memory usage and processing time. Often it is better to lay them out to a theme file. Hash code of decorator object: " + value);
+          if (qx.core.Variant.isSet("qx.debug", "on"))
+          {
+            if (qx.ui.core.Widget.DEBUG) {
+              this.warn("Decorator instances may increase memory usage and processing time. Often it is better to lay them out to a theme file. Hash code of decorator object: " + value);
+            }
           }
         }
         else
