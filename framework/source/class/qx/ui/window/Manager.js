@@ -59,6 +59,18 @@ qx.Class.define("qx.ui.window.Manager",
     // interface implementation
     updateStack : function()
     {
+      // we use the widget queue to do the sorting one before the queues are
+      // flushed. The queue will call "syncWidget"
+      qx.ui.core.queue.Widget.add(this);
+    },
+
+
+    /**
+     * This method is called during the flush of the
+     * {@link qx.ui.core.queue.Widget widget queue}.
+     */
+    syncWidget : function()
+    {
       this.__desktop.unblockContent();
 
       var windows = this.__desktop.getWindows();
