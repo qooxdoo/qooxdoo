@@ -59,6 +59,10 @@ qx.Class.define("demobrowser.demo.util.LayoutApplication",
         this._editor.handleWidgetClick(e);
       }
     }
-  }
+  },
 
+
+  destruct : function() {
+    this._disposeFields("_root", "_editor");
+  }
 });
