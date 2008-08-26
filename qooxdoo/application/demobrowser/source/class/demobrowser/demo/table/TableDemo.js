@@ -129,6 +129,11 @@ qx.Class.define("demobrowser.demo.table.TableDemo",
       this.__dlg.open();
       this.__dlg.getChildren()[2].focus();
     }
+  },
+
+
+  destruct : function() {
+    this._disposeFields("_table", "_controls", "_container");
   }
 });
 
