@@ -52,12 +52,11 @@ qx.Class.define("qx.util.DeferredCallManager",
 
   members :
   {
-
     __timeoutId : null,
     __currentQueue : null,
     __calls : null,
     __hasCalls : null,
-    __currentQueue : null,
+
 
     /**
      * Schedule a deferred call
