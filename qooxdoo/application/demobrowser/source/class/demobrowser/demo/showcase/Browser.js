@@ -46,8 +46,12 @@ qx.Class.define("demobrowser.demo.showcase.Browser",
         "icon/16/categories/internet.png"
       );
 
-      win.setLayout(new qx.ui.layout.VBox());
+      var layout = new qx.ui.layout.VBox();
+      layout.setSeparator("separator-vertical");
+
+      win.setLayout(layout);
       win.setAllowClose(false);
+      win.setContentPadding(0);
       win.open();
 
       var toolbar = new qx.ui.toolbar.ToolBar();
@@ -90,7 +94,8 @@ qx.Class.define("demobrowser.demo.showcase.Browser",
         height: 300,
         minWidth: 200,
         minHeight: 150,
-        source: this.txtUrl.getValue()
+        source: this.txtUrl.getValue(),
+        decorator : null
       });
       win.add(this.iframe, {flex: 1});
 
