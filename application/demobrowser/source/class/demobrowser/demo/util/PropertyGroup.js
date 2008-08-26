@@ -325,5 +325,11 @@ qx.Class.define("demobrowser.demo.util.PropertyGroup",
       }
     }
 
+  },
+
+
+  destruct : function()
+  {
+    this._disposeFields("_properties");
   }
 });
