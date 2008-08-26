@@ -456,5 +456,17 @@ qx.Class.define("qx.ui.tree.Tree",
       treeItem.setOpen(!treeItem.isOpen());
       e.stopPropagation();
     }
+  },
+
+
+
+  /*
+  *****************************************************************************
+     DESTRUCTOR
+  *****************************************************************************
+  */
+
+  destruct : function() {
+    this._disposeObjects("__content");
   }
 });
