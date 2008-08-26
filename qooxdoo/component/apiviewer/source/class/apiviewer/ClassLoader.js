@@ -80,25 +80,32 @@ qx.Class.define("apiviewer.ClassLoader",
 
     __loadClassList : function(classes, callback, self)
     {
-      var classesToLoad = 0;
+      var classesToLoad = [];
       var loadedClasses = 0;
+      var clazz, i;
 
-      for (var i=0; i<classes.length; i++)
+      for (i=0; i<classes.length; i++)
       {
-        var clazz = classes[i];
+        clazz = classes[i];
         if (!clazz.isLoaded()) {
-          this.load(clazz.getFullName(), true, function(cls)
-          {
-            loadedClasses += 1;
-            if (loadedClasses >= classesToLoad) {
-              this.__runCallback(apiviewer.dao.Class.getClassByName(classes[0].getFullName()), callback, self);
-            }
-          }, this);
-
-          classesToLoad += 1;
+          classesToLoad.push(clazz);
         }
       }
-      if (classesToLoad == 0) {
+
+      for (i=0; i<classesToLoad.length; i++)
+      {
+        clazz = classesToLoad[i];
+
+        this.load(clazz.getFullName(), true, function(cls)
+        {
+          loadedClasses += 1;
+          if (loadedClasses == classesToLoad.length) {
+            this.__runCallback(cls, callback, self);
+          }
+        }, this);
+
+      }
+      if (classesToLoad.length == 0) {
         this.__runCallback(classes[0], callback, self);
       }
     },
