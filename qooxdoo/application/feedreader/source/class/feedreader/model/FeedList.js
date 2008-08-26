@@ -132,5 +132,18 @@ qx.Class.define("feedreader.model.FeedList",
         this.setSelected(null);
       }
     }
+  },
+  
+  
+  
+  /*
+   *****************************************************************************
+      DESTRUCTOR
+   *****************************************************************************
+   */
+  
+  destruct : function()
+  {
+    this._disposeArray("__feeds");
   }
 })

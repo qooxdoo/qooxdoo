@@ -42,6 +42,13 @@ qx.Class.define("portal.Application",
     main : function()
     {
       this.base(arguments);
+      
+      // Add log appenders
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        qx.log.appender.Native;
+        qx.log.appender.Console;
+      }
 
       /* Initialize box- and DragAndDrop-Manager */
       var boxManager      = portal.box.Manager.getInstance().load();
