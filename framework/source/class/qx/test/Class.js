@@ -201,7 +201,7 @@ qx.Class.define("qx.test.Class",
       if (this.isDebugOn())
       {
         this.assertException(function() {
-          var s = new qx.Single1();
+          new qx.Single1();
         }, Error, new RegExp("The class .* is a singleton"));
       };
     },

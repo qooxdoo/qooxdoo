@@ -70,7 +70,7 @@ qx.Class.define("qx.test.Xml",
      */
     testFromString : function()
     {
-      data = "<Root><Row>test1</Row><Row>test2</Row><Row>test3</Row></Root>";
+      var data = "<Root><Row>test1</Row><Row>test2</Row><Row>test3</Row></Root>";
 
       var xml = qx.xml.Document.fromString(data);
       this.debug("Converted to XML Document " + xml);
