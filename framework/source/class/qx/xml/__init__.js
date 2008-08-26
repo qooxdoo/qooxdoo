@@ -1,3 +1,3 @@
 /**
- * XML handling
+ * XML handling.
  */
