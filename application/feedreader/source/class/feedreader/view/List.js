@@ -183,5 +183,18 @@ qx.Class.define("feedreader.view.List",
         this.getFeed().setSelected(article);
       }
     }
+  },
+  
+  
+  
+  /*
+   *****************************************************************************
+      DESTRUCTOR
+   *****************************************************************************
+   */
+  
+  destruct : function()
+  {
+    this._disposeObjects("_list", "_stack", "_listLoadImage");
   }
 });

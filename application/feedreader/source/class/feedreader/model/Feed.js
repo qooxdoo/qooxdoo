@@ -192,5 +192,18 @@ qx.Class.define("feedreader.model.Feed",
     getArticles : function() {
       return this.__articles;
     }
+  },
+  
+  
+  
+  /*
+   *****************************************************************************
+      DESTRUCTOR
+   *****************************************************************************
+   */
+  
+  destruct : function()
+  {
+    this._disposeArray("__articles");
   }
 });
