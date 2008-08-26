@@ -101,6 +101,14 @@ qx.Class.define("qx.ui.embed.Html",
     {
       refine : true,
       init : true
+    },
+
+
+    // overridden
+    focusable :
+    {
+      refine : true,
+      init : true
     }
   },
 
@@ -115,6 +123,19 @@ qx.Class.define("qx.ui.embed.Html",
 
   members :
   {
+    /*
+    ---------------------------------------------------------------------------
+      WIDGET API
+    ---------------------------------------------------------------------------
+    */
+
+    getFocusElement : function() {
+      return this.getContentElement();
+    },
+
+
+
+
     /*
     ---------------------------------------------------------------------------
       APPLY ROUTINES
