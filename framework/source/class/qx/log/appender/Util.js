@@ -18,8 +18,7 @@
 ************************************************************************ */
 
 /**
- * Contains some common methods to be available to all
- * log appenders.
+ * Contains some common methods available to all log appenders.
  */
 qx.Class.define("qx.log.appender.Util",
 {
