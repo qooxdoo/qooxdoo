@@ -154,7 +154,7 @@ class Generator:
 
     def listJobTriggers(self): return {
 
-      "translation" :
+      "translate" :
       {
         "action" : Generator.runUpdateTranslation,
         "type"   : "JSimpleJob"
@@ -540,11 +540,11 @@ class Generator:
     # update .po files
     #
     def runUpdateTranslation(self):
-        namespaces = self._config.get("translation/namespaces")
+        namespaces = self._config.get("translate/namespaces")
         if not namespaces:
             return
 
-        locales = self._config.get("translation/locales", None)
+        locales = self._config.get("translate/locales", None)
         self._console.info("Updating translations...")
         self._console.indent()
         for namespace in namespaces:
