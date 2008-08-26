@@ -74,8 +74,12 @@ class ApiLoader:
             if not hasErrors:
                 self._mergeApiNodes(docTree, fileApi)
                 pkgId = self._classes[fileId]["package"]
-                if not pkgId in packages:
-                    packages.append(pkgId)
+                # make sure all parent packages are included
+                nsparts = pkgId.split('.')
+                for i in range(len(nsparts)+1):
+                    parentPkg = ".".join(nsparts[0:i])
+                    if not parentPkg in packages:
+                        packages.append(parentPkg)
 
         self._console.outdent()
 

@@ -1,3 +1,3 @@
 /**
- * Utility and helper classes
+ * Utility and helper classes.
  */
