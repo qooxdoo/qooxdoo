@@ -48,11 +48,10 @@ qx.Class.define("qx.ui.control.ColorPopup",
 
     this.setLayout(new qx.ui.layout.VBox(5));
 
-    this._createAutoBtn();
+    this._createChildControl("auto-button");
     this._createBoxes();
-
-    this._createPreview();
-    this._createSelectorBtn();
+    this._createChildControl("preview-pane");
+    this._createChildControl("selector-button");
   },
 
 
@@ -125,8 +124,6 @@ qx.Class.define("qx.ui.control.ColorPopup",
     __automaticBtn : null,
     __boxes : null,
     __previewBox : null,
-    __selectedPreview : null,
-    __currentPreview : null,
     __selectorButton : null,
     __colorSelectorWindow : null,
     __colorSelector : null,
@@ -134,24 +131,57 @@ qx.Class.define("qx.ui.control.ColorPopup",
     __fieldNumber : 12,
 
 
+    // overridden
+    _createChildControlImpl : function(id)
+    {
+      var control;
+
+      switch(id)
+      {
+        case "auto-button":
+          control = new qx.ui.form.Button(this.tr("Automatic"));
+          control.setAllowStretchX(true);
+          control.addListener("execute", this._onAutomaticBtnExecute, this);
+
+          this.add(control);
+          break;
+
+        case "selector-button":
+          control = new qx.ui.form.Button(this.tr("Open ColorSelector"));
+          control.addListener("execute", this._onSelectorButtonExecute, this);
+
+          this.add(control);
+          break;
+
+        case "preview-pane":
+          control = new qx.ui.groupbox.GroupBox(this.tr("Preview (Old/New)"));
+          control.setLayout(new qx.ui.layout.HBox);
+
+          control.add(this._createChildControl("selected-preview", true), {flex : 1});
+          control.add(this._createChildControl("current-preview", true), {flex : 1});
+
+          this.add(control);
+          break;
+
+        case "selected-preview":
+          control = new qx.ui.container.Composite(new qx.ui.layout.Basic);
+          break;
+
+        case "current-preview":
+          control = new qx.ui.container.Composite(new qx.ui.layout.Basic);
+          break;
+
+      }
+
+      return control || this.base(arguments, id);
+    },
+
+
     /*
     ---------------------------------------------------------------------------
       CREATOR SUBS
     ---------------------------------------------------------------------------
     */
-
-    /**
-     * Creates the button labeled "Automatic"
-     */
-    _createAutoBtn : function()
-    {
-      this.__automaticBtn = new qx.ui.form.Button(this.tr("Automatic"));
-      this.__automaticBtn.setAllowStretchX(true);
-      this.__automaticBtn.addListener("execute", this._onAutomaticBtnExecute, this);
-
-      this.add(this.__automaticBtn);
-    },
-
 
     /**
      * Creates the GroupBoxes containing the colored fields.
@@ -188,46 +218,6 @@ qx.Class.define("qx.ui.control.ColorPopup",
           box.add(field);
         }
       }
-    },
-
-
-    /**
-     * Creates the GroupBox containing the panes for the old and current color.
-     */
-    _createPreview : function()
-    {
-      this.__previewBox = new qx.ui.groupbox.GroupBox(this.tr("Preview (Old/New)"));
-      this.__previewBox.setLayout(new qx.ui.layout.HBox);
-
-      this.__selectedPreview = new qx.ui.container.Composite(new qx.ui.layout.Basic);
-      this.__currentPreview = new qx.ui.container.Composite(new qx.ui.layout.Basic);
-
-      this.__selectedPreview.set({
-        appearance :"colorpopup/preview-pane",
-        marginRight : 4
-      });
-
-      this.__currentPreview.set({
-        appearance :"colorpopup/preview-pane",
-        marginLeft : 4
-      });
-
-      this.__previewBox.add(this.__selectedPreview, {flex : 1});
-      this.__previewBox.add(this.__currentPreview, {flex : 1});
-
-      this.add(this.__previewBox);
-
-    },
-
-
-    /**
-     * Creates the GroupBox containing the panes for the old and current color.
-     */
-    _createSelectorBtn : function()
-    {
-      this.__selectorButton = new qx.ui.form.Button(this.tr("Open ColorSelector"));
-      this.__selectorButton.addListener("execute", this._onSelectorButtonExecute, this);
-      this.add(this.__selectorButton);
     },
 
 
@@ -295,7 +285,7 @@ qx.Class.define("qx.ui.control.ColorPopup",
         this.setBlue(rgb[2]);
       }
 
-      this.__selectedPreview.setBackgroundColor(value);
+      this._getChildControl("selected-preview").setBackgroundColor(value);
       this._rotatePreviousColors();
     },
 
@@ -361,7 +351,7 @@ qx.Class.define("qx.ui.control.ColorPopup",
      */
     _onFieldMouseDown : function(e)
     {
-      var vValue = this.__currentPreview.getBackgroundColor();
+      var vValue = this._getChildControl("current-preview").getBackgroundColor();
       this.setValue(vValue);
 
       if (vValue) {
@@ -377,7 +367,7 @@ qx.Class.define("qx.ui.control.ColorPopup",
      * @param e {qx.event.type.Mouse} Incoming event object
      */
     _onFieldMouseOver : function(e) {
-      this.__currentPreview.setBackgroundColor(e.getTarget().getBackgroundColor());
+      this._getChildControl("current-preview").setBackgroundColor(e.getTarget().getBackgroundColor());
     },
 
     /**
@@ -463,7 +453,7 @@ qx.Class.define("qx.ui.control.ColorPopup",
   destruct : function()
   {
     this._disposeObjects("_layout", "__automaticBtn", "__previewBox", "_previewLayout",
-      "__selectedPreview", "__currentPreview", "__selectorButton", "__colorSelectorWindow",
+      "__selectorButton", "__colorSelectorWindow",
       "__colorSelector");
 
     this._disposeFields("_tables", "__boxes");
