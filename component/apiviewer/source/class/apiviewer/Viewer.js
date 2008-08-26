@@ -53,8 +53,9 @@ qx.Class.define("apiviewer.Viewer",
     this.base(arguments);
 
     var layout = new qx.ui.layout.VBox;
-    layout.setSeparator("separator-vertical");
     this.setLayout(layout);    
+    
+    this.add(this.__createHeader(), {flex : 1});
     
     this.add(this.__createToolbar());
 
@@ -247,6 +248,32 @@ qx.Class.define("apiviewer.Viewer",
       mainSplitPane.add(leftWidget, 0);
       mainSplitPane.add(rightWidget, 1);
       return mainSplitPane;
+    },
+    
+    
+    __createHeader : function()
+    {
+      var layout = new qx.ui.layout.HBox();
+      var header = new qx.ui.container.Composite(layout).set({
+        maxHeight : 26,
+        decorator : "window-captionbar-inactive"
+      });
+      
+      var title = new qx.ui.basic.Label("API Viewer").set({
+        appearance : "window/title"
+      });
+
+      var version = new qx.ui.basic.Label("qooxdoo 0.8 &mdash; r16098").set({
+        rich : true,
+        appearance : "window/title",
+        font : "default"
+      });
+
+      header.add(title);
+      header.add(new qx.ui.core.Spacer, {flex : 1});
+      header.add(version);
+
+      return header;
     }
   },
 
