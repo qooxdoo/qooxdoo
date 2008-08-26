@@ -108,8 +108,9 @@ qx.Class.define("qx.ui.layout.VBox",
    * @param spacing {Integer?0} The spacing between child widgets {@link #spacing}.
    * @param alignY {String?"top"} Vertical alignment of the whole children
    *     block {@link #alignY}.
+   * @param separator {Decorator} A separator to render between the items
    */
-  construct : function(spacing, alignY)
+  construct : function(spacing, alignY, separator)
   {
     this.base(arguments);
 
@@ -119,6 +120,10 @@ qx.Class.define("qx.ui.layout.VBox",
 
     if (alignY) {
       this.setAlignY(alignY);
+    }
+
+    if (separator) {
+      this.setSeparator(separator);
     }
   },
 
