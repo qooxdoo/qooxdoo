@@ -31,8 +31,7 @@ qx.Class.define("demobrowser.demo.ui.ScrollContainer_ResizeMatch",
       scrollContainer = new qx.ui.container.Scroll();
       scrollContainer.set({
         width: 200,
-        height: 200,
-        backgroundColor : "yellow"
+        height: 200
       });
 
       this.getRoot().add(scrollContainer, {left: 10, top: 10});

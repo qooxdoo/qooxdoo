@@ -31,8 +31,7 @@ qx.Class.define("demobrowser.demo.ui.ScrollContainer_Simple",
       scrollContainer = new qx.ui.container.Scroll();
       scrollContainer.set({
         width: 300,
-        height: 200,
-        backgroundColor : "yellow"
+        height: 200
       });
 
       scrollContainer.add(this.generateBoxes());
