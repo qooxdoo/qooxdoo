@@ -197,7 +197,7 @@ class PartBuilder:
             toId = partPackages[partId][collapsePos]
             for fromId in partPackages[partId][collapsePos+1:]:
                 self._console.debug("Merging package #%s into #%s" % (fromId, toId))
-                self._mergePackage(fromId, toId, partPackages, packageClasses)
+                self._mergePackage(fromId, toId, partPackages, packageClasses, collapseParts)
 
             self._console.outdent()
         self._console.outdent()
@@ -250,7 +250,7 @@ class PartBuilder:
             if toId != None:
                 self._console.indent()
                 self._console.debug("Merge package #%s into #%s" % (fromId, toId))
-                self._mergePackage(fromId, toId, partPackages, packageClasses)
+                self._mergePackage(fromId, toId, partPackages, packageClasses, None)
                 self._console.outdent()
 
         self._console.outdent()
@@ -296,13 +296,16 @@ class PartBuilder:
 
 
 
-    def _mergePackage(self, fromId, toId, partPackages, packageClasses):
+    def _mergePackage(self, fromId, toId, partPackages, packageClasses, collapseParts):
         # Update part information
         for partId in partPackages:
             partContent = partPackages[partId]
 
             if fromId in partContent:
-                if not toId in partPackages[partId]:
+                # When collapsing parts, check if the toId is available in the packages of
+                # the parts that should be collapsed. In all other parts beside the parts 
+                # that should be collapsed, the toId is allowed to be not available.
+                if collapseParts != None and partId in collapseParts and not toId in partPackages[partId]:
                     self._console.error("Could not merge these packages!")
                     sys.exit(0)
 
