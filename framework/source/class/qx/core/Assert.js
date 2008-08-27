@@ -297,6 +297,8 @@ qx.Class.define("qx.core.Assert",
       var exception = exception || Error;
       var error;
 
+      qx.log.Logger.warn("This exception is expected:");
+
       try {
         callback();
       } catch(e) {
@@ -328,7 +330,7 @@ qx.Class.define("qx.core.Assert",
         array.indexOf(value) !== -1,
         msg || "",
         "The value '" + value + "' must have any of the values defined in the array '"
-        + qx.util.Json.stringify(array) + "'"
+        + array.join(", ") + "'"
       );
     },
 
