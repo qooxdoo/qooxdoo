@@ -18,6 +18,9 @@
 
 ************************************************************************ */
 
+/**
+ * This class is used to work with the result of a HTTP request.
+ */
 qx.Class.define("qx.io.remote.Response",
 {
   extend : qx.event.type.Event,
