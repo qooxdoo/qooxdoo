@@ -94,20 +94,22 @@ qx.Class.define("apiviewer.ClassLoader",
 
       for (i=0; i<classesToLoad.length; i++)
       {
-        clazz = classesToLoad[i];
+        clazz = classesToLoad[i];        
 
         this.load(clazz.getFullName(), true, function(cls)
         {
+          classesToLoad[loadedClasses] = cls
           loadedClasses += 1;
+          
           if (loadedClasses == classesToLoad.length) {
-            this.__runCallback(classes[0], callback, self);
+            this.__runCallback(classes[0].isLoaded() ? classes[0] : classesToLoad[0], callback, self);
           }
         }, this);
 
       }
       if (classesToLoad.length == 0) {
         this.__runCallback(classes[0], callback, self);
-      }
+      }      
     },
 
 
