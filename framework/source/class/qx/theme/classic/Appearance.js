@@ -1108,7 +1108,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          decorator : "black"
+          decorator : "main"
         }
       }
     },
@@ -1825,10 +1825,10 @@ qx.Theme.define("qx.theme.classic.Appearance",
         }
       }
     },
-    
-    
-    
-    
+
+
+
+
     /*
     ---------------------------------------------------------------------------
       MENU BAR
@@ -1845,11 +1845,11 @@ qx.Theme.define("qx.theme.classic.Appearance",
         };
       }
     },
-   
+
     "menubar-button" :
     {
       alias : "atom",
-     
+
       style : function(states)
       {
         return {
@@ -2236,7 +2236,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     "colorpopup/selector-button" : "button",
     "colorpopup/auto-button" : "button",
-    
+
     "colorpopup/preview-pane" : "groupbox",
 
     "colorpopup/current-preview":
