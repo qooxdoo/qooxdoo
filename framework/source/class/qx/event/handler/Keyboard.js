@@ -216,7 +216,10 @@ qx.Class.define("qx.event.handler.Keyboard",
       }
 
       // Fire user action event
-      qx.event.Registration.fireEvent(this.__window, "useraction", qx.event.type.Data, ["keyinput"]);
+      // Needs to check if still alive first
+      if (this.__window) {
+        qx.event.Registration.fireEvent(this.__window, "useraction", qx.event.type.Data, ["keyinput"]);
+      }
     },
 
 
@@ -261,7 +264,10 @@ qx.Class.define("qx.event.handler.Keyboard",
       }
 
       // Fire user action event
-      qx.event.Registration.fireEvent(this.__window, "useraction", qx.event.type.Data, [type]);
+      // Needs to check if still alive first
+      if (this.__window) {
+        qx.event.Registration.fireEvent(this.__window, "useraction", qx.event.type.Data, [type]);
+      }
     },
 
 
