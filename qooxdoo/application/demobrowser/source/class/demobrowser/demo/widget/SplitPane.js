@@ -101,6 +101,8 @@ qx.Class.define("demobrowser.demo.widget.SplitPane",
 
       this.getRoot().add(controlContainer, {left:645, top:42});
 
+      button.focus();
+
     },
 
     /**
