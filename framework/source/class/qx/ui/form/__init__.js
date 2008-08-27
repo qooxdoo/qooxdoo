@@ -1,4 +1,4 @@
 /**
- * qx.ui.form package
+ * Classical form elements like textfield, textarea, button, checkbox, etc.
  *
  */

@@ -1,3 +1,3 @@
 /**
- * The qx.ui.groupbox package.
+ * Group boxes are used to group a set of form elements.
  */
