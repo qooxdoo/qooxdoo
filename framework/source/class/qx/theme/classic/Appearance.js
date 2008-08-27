@@ -1855,7 +1855,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
         return {
           padding : [ 2, 6 ],
           backgroundColor : states.pressed || states.hovered ? "background-selected" : "undefined",
-          textColor : states.pressed || states.hovered ? "text-selected" : "undefined",
+          textColor : states.pressed || states.hovered ? "text-selected" : "undefined"
         };
       }
     },
