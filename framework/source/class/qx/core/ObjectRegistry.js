@@ -42,8 +42,12 @@ qx.Bootstrap.define("qx.core.ObjectRegistry",
     __registry : {},
 
 
-    /** {Integer} Next free hash code. */
+    /** {Integer} Next new hash code. */
     __nextHash : 0,
+
+
+    /** {Array} List of all free hash codes */
+    __freeHashes : [],
 
 
     /**
@@ -67,12 +71,25 @@ qx.Bootstrap.define("qx.core.ObjectRegistry",
       }
 
       var hash = obj.$$hash;
-      if (hash == null) {
-        hash = obj.$$hash = (this.__nextHash++).toString(36);
+      if (hash == null)
+      {
+        // Create new hash code
+        var cache = this.__freeHashes;
+        if (cache.length > 0) {
+          hash = cache.pop();
+        } else {
+          hash = (this.__nextHash++).toString(36);
+        }
+
+        // Store hash code
+        obj.$$hash = hash;
       }
 
-      if (!obj.dispose) {
-        throw new Error("Invalid object: " + obj);
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        if (!obj.dispose) {
+          throw new Error("Invalid object: " + obj);
+        }
       }
 
       registry[hash] = obj;
@@ -93,8 +110,10 @@ qx.Bootstrap.define("qx.core.ObjectRegistry",
       }
 
       var registry = this.__registry;
-      if (registry && registry[hash]) {
+      if (registry && registry[hash])
+      {
         delete registry[hash];
+        this.__freeHashes.push(hash);
       }
     },
 
@@ -117,11 +136,21 @@ qx.Bootstrap.define("qx.core.ObjectRegistry",
         }
       }
 
-      if (obj.$$hash != null) {
-        return obj.$$hash;
+      var hash = obj.$$hash;
+      if (hash != null) {
+        return hash;
       }
 
-      return obj.$$hash = (this.__nextHash++).toString(36);
+      // Create new hash code
+      var cache = this.__freeHashes;
+      if (cache.length > 0) {
+        hash = cache.pop();
+      } else {
+        hash = (this.__nextHash++).toString(36);
+      }
+
+      // Store
+      return obj.$$hash = hash;
     },
 
 
