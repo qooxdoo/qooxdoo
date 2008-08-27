@@ -55,13 +55,16 @@ qx.Class.define("qx.ui.table.cellrenderer.Abstract",
           padding : "0px 6px",
           cursor : "default",
           textOverflow : "ellipsis",
-          userSelect : "none",
-          boxSizing : "content-box"
+          userSelect : "none"
         }) +
         "} " +
         ".qooxdoo-table-cell-right { text-align:right } " +
         ".qooxdoo-table-cell-italic { font-style:italic} " +
         ".qooxdoo-table-cell-bold { font-weight:bold } ";
+
+      if (!qx.core.Variant.isSet("qx.client", "mshtml")) {
+        stylesheet += ".qooxdoo-table-cell {" + qx.bom.element.BoxSizing.compile("content-box") + "}";
+      }
 
       cr.__clazz.stylesheet = qx.bom.Stylesheet.createElement(stylesheet);
     }
