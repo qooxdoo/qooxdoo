@@ -59,7 +59,6 @@ msgid "Language"
 msgstr ""
 
 #: feedreader/view/ToolBar.js:60
-#, fuzzy
 msgid "Add feed"
 msgstr "Добавить канал"
 

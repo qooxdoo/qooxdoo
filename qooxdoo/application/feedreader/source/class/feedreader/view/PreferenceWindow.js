@@ -91,10 +91,12 @@ qx.Class.define("feedreader.view.PreferenceWindow",
       var radioManager = new qx.ui.form.RadioGroup();
       
       // Create the radio buttons for the languages
-      var languages = { "de" : "Deutsch", 
-                        "en" : "English", 
+      var languages = { "en" : "English", 
+                        "de" : "Deutsch", 
                         "es" : "Espanol", 
-                        "it" : "Italiano" };
+                        "fr" : "Français",
+                        "it" : "Italiano",
+                        "sv" : "Svenska" };
       
       var localeManager = qx.locale.Manager.getInstance();
       
