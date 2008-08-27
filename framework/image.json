@@ -236,7 +236,7 @@
           },
 
           // small shadows combined - left and right
-          "${RESPATH}/${MODERN}/shadow-small-lr-combined.png":
+          "${RESPATH}/${CLASSIC}/shadow-small-lr-combined.png":
           {
             "input"  :
             [
@@ -826,6 +826,17 @@
                 "${RESPATH}/${MODERN}/tabview/tab-button-right-inactive-r.png"
               ],
              "layout" : "horizontal"
+          },
+          
+          
+          // splitpane-knobs
+          "${RESPATH}/${MODERN}/splitpane-knobs-combined.png":
+          {
+            "input"  :
+              [
+                "${RESPATH}/${MODERN}/splitpane/*.png"
+              ],
+             "layout" : "vertical"
           }
         }
       }
