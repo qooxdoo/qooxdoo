@@ -1,4 +1,4 @@
 /**
- * qx.ui.control package
+ * A collection of high-level GUI controls, like ColorSelector, DataChooser.
  *
  */

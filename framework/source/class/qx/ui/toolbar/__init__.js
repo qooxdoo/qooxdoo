@@ -1,5 +1,7 @@
 /**
- * <b><i>TODO:</i></b> Describe the widget or package in a common way.
+ * Toolbars are used to show a collection of menus or buttons that provide tools
+ * for the application; they are usually aligned and attached to the edge of the
+ * main application area.
  *
  * *Example*
  *
