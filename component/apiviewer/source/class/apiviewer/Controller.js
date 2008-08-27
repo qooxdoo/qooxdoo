@@ -47,9 +47,7 @@ qx.Class.define("apiviewer.Controller",
 
     this._widgetRegistry = apiviewer.MWidgetRegistry;
 
-    // TODO: Somehow the data version should be integrated here.
-    var version = qx.core.Setting.get("qx.version");
-    this._titlePrefix = "API Documentation of " + qx.core.Setting.get("apiviewer.title") + version;
+    this._titlePrefix = "API Documentation";
     document.title = this._titlePrefix;
 
     this._classLoader = new apiviewer.ClassLoader("./script");
@@ -238,7 +236,7 @@ qx.Class.define("apiviewer.Controller",
      */
     _updateHistory : function(className)
     {
-      var newTitle = this._titlePrefix + " - class " + className;
+      var newTitle = className + " - " + this._titlePrefix;
       qx.bom.History.getInstance().addToHistory(this.__encodeState(className), newTitle);
     },
 
@@ -313,8 +311,8 @@ qx.Class.define("apiviewer.Controller",
       }
 
       var nodeName = this._tree.getSelectedItem().getUserData("nodeName");
-      
-      
+
+
       this._selectClass(apiviewer.dao.Class.getClassByName(nodeName), function()
       {
         if (itemName)
