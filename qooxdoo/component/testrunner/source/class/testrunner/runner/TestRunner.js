@@ -55,6 +55,9 @@ qx.Class.define("testrunner.runner.TestRunner",
     this.widgets = {};
     this.tests = {};
 
+    // Header
+    this.add(this.__createHeader());
+
     // Toolbar
     this.toolbar = this.__makeToolbar();
     this.add(this.toolbar);
@@ -459,6 +462,27 @@ qx.Class.define("testrunner.runner.TestRunner",
 
       return progress;
     },  // makeProgress
+
+
+    /**
+     * Creates the application header.
+     */    
+    __createHeader : function()
+    {
+      var layout = new qx.ui.layout.HBox();
+      var header = new qx.ui.container.Composite(layout);
+      header.setAppearance("app-header");
+
+      var title = new qx.ui.basic.Label("Test Runner");
+      var version = new qx.ui.basic.Label("qooxdoo " + qx.core.Setting.get("qx.version"));
+
+      header.add(title);
+      header.add(new qx.ui.core.Spacer, {flex : 1});
+      header.add(version);
+
+      return header;
+    },
+
 
     // -------------------------------------------------------------------------
     /**
