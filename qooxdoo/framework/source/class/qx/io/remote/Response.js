@@ -39,6 +39,7 @@ qx.Class.define("qx.io.remote.Response",
     ---------------------------------------------------------------------------
     */
 
+    /** State of the response. */
     state :
     {
       check    : "Integer",
@@ -52,11 +53,13 @@ qx.Class.define("qx.io.remote.Response",
       nullable : true
     },
 
+    /** Content of the response. */
     content :
     {
       nullable : true
     },
 
+    /** The headers of the response. */
     responseHeaders :
     {
       check    : "Object",
@@ -95,12 +98,11 @@ qx.Class.define("qx.io.remote.Response",
 
 
     /**
-     * TODOC
+     * Retrieves the response headers.
      *
-     * @param vHeader {var} TODOC
-     * @return {var | null} TODOC
+     * @return {Object | null} TODOC
      */
-    getResponseHeader : function(vHeader)
+    getResponseHeader : function()
     {
       var vAll = this.getResponseHeaders();
 
