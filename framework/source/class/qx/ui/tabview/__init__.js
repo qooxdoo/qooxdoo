@@ -1,16 +1,33 @@
 /**
- * TEMPLATE
- * <b><i>TODO:</i></b> Describe the widget or package in a common way.
- * <br>
- * <h4>Extended Documentation</h4>
- * <a href='http://qooxdoo.org/documentation/0.8/widget' target='_blank'>
- * Documentation of this widget in the qooxdoo wiki.</a>
- * <b><i>TODO:</i></b> Set the proper link.
+ * The tab view stacks several pages above each other and allows to switch
+ * between them by using a list of buttons.
  *
- * <h2>Example</h2>
+ * The buttons are positioned on on of the tab view's edges.
+ *
+ * *Example*
+ *
  * Here is a little example of how to use the widget.
+ *
  * <pre class='javascript'>
- *   // Add a little example here
+ *   var tabView = new qx.ui.tabview.TabView();
+ *
+ *   var page1 = new qx.ui.tabview.Page("Layout", "icon/16/apps/utilities-terminal.png");
+ *   page1.setLayout(new qx.ui.layout.VBox());
+ *   page1.add(new qx.ui.basic.Label("Page Content"));
+ *   tabView.add(page1);
+ *
+ *   var page2 = new qx.ui.tabview.Page("Notes", "icon/16/apps/utilities-notes.png");
+ *   tabView.add(page2);
+ *
+ *   this.getRoot(tabView);
  * </pre>
- * <b><i>TODO:</i></b> Add a explaining text to the demo. What is the effect of this example.
+ *
+ * This example builds a tab view with two pages called "Layout" and "Notes".
+ * Each page is a container widget, which can contain any other widget. Note
+ * that the pages need layout to render their children.
+ *
+ * *External Documentation*
+ *
+ * <a href='http://qooxdoo.org/documentation/0.8/widget/tabview' target='_blank'>
+ * Documentation of this widget in the qooxdoo wiki.</a>
  */
