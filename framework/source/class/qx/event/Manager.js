@@ -536,6 +536,7 @@ qx.Bootstrap.define("qx.event.Manager",
       {
         if (targetMap[entryKey].length > 0)
         {
+          // This is quite expensive, see bug #1283
           split = entryKey.split('|');
 
           type = split[0];
