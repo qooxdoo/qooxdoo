@@ -113,6 +113,7 @@
     "build-resources":
     {
       "extend" : ["common"],
+      "include" : ["${APIVIEWER}.*"],
 
       "copy-resources" :
       {
