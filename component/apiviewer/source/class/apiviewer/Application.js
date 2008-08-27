@@ -56,7 +56,6 @@ qx.Class.define("apiviewer.Application",
         qx.log.appender.Native;
         qx.log.appender.Console;
       }
-      qx.log.appender.Console;
 
       qx.Class.include(qx.ui.core.Widget, apiviewer.MWidgetRegistry);
 
