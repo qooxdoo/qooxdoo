@@ -1994,41 +1994,10 @@ qx.Theme.define("qx.theme.modern.Appearance",
     ---------------------------------------------------------------------------
     */
 
-    "colorselector" :
-    {
-      style : function(states)
-      {
-        return {
-          padding : 5,
-          decorator : "main",
-          backgroundColor : "background-light"
-        }
-      }
-    },
-
-    "colorselector/button-bar":
-    {
-      style : function(states)
-      {
-        return {
-          padding : [2, 4]
-        }
-      }
-    },
-
+    "colorselector" : "widget",
     "colorselector/control-bar" : "widget",
-
-    "colorselector/control-pane":
-    {
-      style : function(states)
-      {
-        return {
-          padding : 4,
-          paddingBottom : 7
-        }
-      }
-    },
-
+    "colorselector/control-pane": "widget",
+    "colorselector/visual-pane" : "groupbox",
     "colorselector/preset-grid" : "widget",
 
     "colorselector-colorbucket":
@@ -2037,39 +2006,15 @@ qx.Theme.define("qx.theme.modern.Appearance",
       {
         return {
           decorator : "main",
-          width : 18,
-          height : 14
+          width : 16,
+          height : 16
         }
       }
     },
 
     "colorselector/preset-field-set" : "groupbox",
-    "colorselector/input-field-set" :
-    {
-      include : "groupbox",
-      alias : "groupbox",
-
-      style : function()
-      {
-        return {
-          marginTop : 10
-        };
-      }
-    },
-
-    "colorselector/preview-field-set" :
-    {
-      include : "groupbox",
-      alias : "groupbox",
-
-      style : function()
-      {
-        return {
-          marginTop : 10,
-          marginBottom : 3
-        };
-      }
-    },
+    "colorselector/input-field-set" : "groupbox",
+    "colorselector/preview-field-set" : "groupbox",
 
     "colorselector/hex-field-composite" : "widget",
     "colorselector/hex-field" : "textfield",
@@ -2091,7 +2036,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         return {
           decorator : "main",
           width : 50,
-          height : 20
+          height : 10
         }
       }
     },
@@ -2104,17 +2049,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
           decorator : "main",
           backgroundColor : "background-light",
           width : 50,
-          height : 20
-        }
-      }
-    },
-
-    "colorselector/hue-saturation-pane":
-    {
-      style : function(states)
-      {
-        return {
-          padding : [6, 4]
+          height : 10
         }
       }
     },
@@ -2131,18 +2066,6 @@ qx.Theme.define("qx.theme.modern.Appearance",
       }
     },
 
-    "colorselector/hue-saturation-handle" : "widget",
-
-    "colorselector/brightness-pane":
-    {
-      style : function(states)
-      {
-        return {
-          padding : [6, 4]
-        }
-      }
-    },
-
     "colorselector/brightness-field":
     {
       style : function(states)
@@ -2154,6 +2077,9 @@ qx.Theme.define("qx.theme.modern.Appearance",
       }
     },
 
+    "colorselector/hue-saturation-pane": "widget",
+    "colorselector/hue-saturation-handle" : "widget",
+    "colorselector/brightness-pane": "widget",
     "colorselector/brightness-handle" : "widget",
 
 
