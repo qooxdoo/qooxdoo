@@ -58,21 +58,21 @@ qx.Class.define("qx.util.DisposeUtil",
      */
     disposeObjects : function(obj, arr)
     {
-      var name, entry;
-
+      var name;
       for (var i=0, l=arr.length; i<l; i++)
       {
-        name = arr[i]
-        entry = obj[name];
-
-        if (entry == null || !obj.hasOwnProperty(name)) {
+        name = arr[i];
+        if (obj[name] == null || !obj.hasOwnProperty(name)) {
           continue;
         }
 
-        if (entry.dispose) {
-          entry.dispose();
-        } else {
-          throw new Error("Has no disposable object under key: " + name + "!");
+        if (!qx.core.ObjectRegistry.inShutDown)
+        {
+          if (obj[name].dispose) {
+            obj[name].dispose();
+          } else {
+            throw new Error("Has no disposable object under key: " + name + "!");
+          }
         }
 
         obj[name] = null;
@@ -92,6 +92,13 @@ qx.Class.define("qx.util.DisposeUtil",
     {
       var data = obj[field];
       if (!data) {
+        return;
+      }
+
+      // Fast path for application shutdown
+      if (qx.core.ObjectRegistry.inShutDown)
+      {
+        obj[field] = null;
         return;
       }
 
@@ -131,6 +138,13 @@ qx.Class.define("qx.util.DisposeUtil",
     {
       var data = obj[field];
       if (!data) {
+        return;
+      }
+
+      // Fast path for application shutdown
+      if (qx.core.ObjectRegistry.inShutDown)
+      {
+        obj[field] = null;
         return;
       }
 
