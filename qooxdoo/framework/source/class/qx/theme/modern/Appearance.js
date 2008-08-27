@@ -2424,6 +2424,26 @@ qx.Theme.define("qx.theme.modern.Appearance",
           decorator : "progressive-table-header-cell"
         }
       }
+    },
+
+    /*
+    ---------------------------------------------------------------------------
+      APPLICATION
+    ---------------------------------------------------------------------------
+    */
+
+    "app-header" :
+    {
+      style : function(states)
+      {
+        return {
+          font : "bold",
+          textColor : "text-selected",
+          padding : [8, 12],
+          decorator : "app-header"
+        }
+      }
     }
+
   }
 });
