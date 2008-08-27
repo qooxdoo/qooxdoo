@@ -80,13 +80,13 @@ msgstr "Recherchez les éléments dans une liste"
 msgid "one row"
 msgid_plural "%1 rows"
 msgstr[0] "une ligne"
-msgstr[1] ""
+msgstr[1] "%1 lignes"
 
 #: qx/legacy/ui/table/Table.js:1543 qx/ui/table/Table.js:1515
 msgid "one of one row"
 msgid_plural "%1 of %2 rows"
 msgstr[0] "ligne une de une"
-msgstr[1] ""
+msgstr[1] "ligne %1 de %2"
 
 #: qx/legacy/ui/table/columnmodel/Resize.js:205
 #: qx/ui/table/columnmodel/Resize.js:209
