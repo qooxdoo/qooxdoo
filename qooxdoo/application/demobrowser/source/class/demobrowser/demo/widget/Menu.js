@@ -195,8 +195,12 @@ qx.Class.define("demobrowser.demo.widget.Menu",
 
     getMenuBar : function()
     {
+      var frame = new qx.ui.container.Composite(new qx.ui.layout.Grow);
+      frame.setDecorator("main");
+
       var toolbar = new qx.ui.toolbar.ToolBar;
       toolbar.setWidth(600);
+      frame.add(toolbar);
 
       var basicPart = new qx.ui.toolbar.Part;
       var menuPart = new qx.ui.toolbar.Part;
@@ -253,7 +257,7 @@ qx.Class.define("demobrowser.demo.widget.Menu",
       helpMenu.setMenu(this.getHelpMenu());
       helpPart.add(helpMenu);
 
-      return toolbar;
+      return frame;
     },
 
     getBackMenu : function()
