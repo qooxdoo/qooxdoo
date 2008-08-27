@@ -31,17 +31,20 @@ qx.Class.define("demobrowser.demo.test.Destructor",
       // Call super class
       this.base(arguments);
 
-      this.__timer = new qx.event.Timer(300);
+      // Test labels
+      // this.currentTest = this.testLabels;
+      this.currentTest = this.testWindows;
+
+      // Init rounds
+      this.__round = 0;
+
+      // Init timer
+      this.__timer = new qx.event.Timer(1000);
       this.__timer.addListener("interval", this.runTest, this);
       this.__timer.start();
 
-      // make global for demo use
+      // Make global for demo use
       timer = this.__timer;
-
-      this.__round = 0;
-
-      // Test labels
-      this.currentTest = this.testLabels;
     },
 
     runTest : function()
@@ -74,9 +77,9 @@ qx.Class.define("demobrowser.demo.test.Destructor",
 
     testLabels: function()
     {
-      for ( var i=0; i<100; i++)
+      for ( var i=0; i<250; i++)
       {
-        var label=new qx.ui.basic.Label("Label: " + i);
+        var label = new qx.ui.basic.Label("Label: " + i);
 
         this.getRoot().add(label, {
           left : 50,
@@ -84,6 +87,17 @@ qx.Class.define("demobrowser.demo.test.Destructor",
         });
 
         this.__data.push(label);
+      }
+    },
+
+    testWindows : function()
+    {
+      for ( var i=0; i<5; i++)
+      {
+        var win = new qx.ui.window.Window("Window: " + i);
+        win.open();
+
+        this.__data.push(win);
       }
     }
   }
