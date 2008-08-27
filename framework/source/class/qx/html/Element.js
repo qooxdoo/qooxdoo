@@ -2397,8 +2397,9 @@ qx.Class.define("qx.html.Element",
       qx.event.Registration.getManager(el).removeAllListeners(el);
     }
 
-    if (this.__parent) {
-      this.__parent.remove(this);
+    var parent = this.__parent;
+    if (parent && !parent.$$disposed) {
+      parent.remove(this);
     }
 
     this._disposeArray("__children");
