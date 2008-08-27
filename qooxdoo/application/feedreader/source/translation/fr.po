@@ -15,130 +15,76 @@ msgstr ""
 
 #: feedreader/Application.js:347
 msgid "FeedReader (qooxdoo powered)"
-msgstr ""
+msgstr "Agrégateur de fils de syndications (fait à l'aide de qooxdoo)"
 
 #: feedreader/view/AddFeedWindow.js:49
 msgid "Add a feed"
-msgstr ""
+msgstr "Ajouter un fil"
 
 #: feedreader/view/AddFeedWindow.js:86
 msgid "Feed Information"
-msgstr ""
+msgstr "Information sur le fil"
 
 #: feedreader/view/AddFeedWindow.js:93
 msgid "Title:"
-msgstr ""
+msgstr "Titre:"
 
 #: feedreader/view/AddFeedWindow.js:96
 msgid "URL:"
-msgstr ""
+msgstr "URL:"
 
 #: feedreader/view/AddFeedWindow.js:108
 msgid "Add"
-msgstr ""
+msgstr "Ajouter"
 
 #: feedreader/view/AddFeedWindow.js:130
 msgid "Please enter a title."
-msgstr ""
+msgstr "S'il-vous-plaît, entrez un titre."
 
 #: feedreader/view/AddFeedWindow.js:138
 msgid "Please enter a url."
-msgstr ""
+msgstr "S'il-vous-plaît, entrez une url."
 
 #: feedreader/view/List.js:45
 msgid "Posts"
-msgstr ""
+msgstr "Messages"
 
 #: feedreader/view/PreferenceWindow.js:48 feedreader/view/ToolBar.js:86
 msgid "Preferences"
-msgstr ""
+msgstr "Préférences"
 
 #: feedreader/view/PreferenceWindow.js:85
 msgid "Language"
-msgstr ""
+msgstr "Langue"
 
 #: feedreader/view/ToolBar.js:60
 msgid "Add feed"
-msgstr ""
+msgstr "Ajouter un fil"
 
 #: feedreader/view/ToolBar.js:64
 msgid "Remove feed"
-msgstr ""
+msgstr "Enlever un fil"
 
 #: feedreader/view/ToolBar.js:74
 msgid "Reload"
-msgstr ""
+msgstr "Rafraichir"
 
 #: feedreader/view/ToolBar.js:77
 msgid "Reload the feeds. (%1)"
-msgstr ""
+msgstr "Rafraichir les fils. (%1)"
 
 #: feedreader/view/ToolBar.js:88
 msgid "Open preferences window."
-msgstr ""
+msgstr "Ouvrir la fenêtre de préférences"
 
 #: feedreader/view/ToolBar.js:101
 msgid "Help"
-msgstr ""
+msgstr "Aide"
 
 #: feedreader/view/Tree.js:65
 msgid "Static Feeds"
-msgstr ""
+msgstr "Fils statiques"
 
 #: feedreader/view/Tree.js:69
 msgid "User Feeds"
-msgstr ""
-
-#~ msgid "(%1) Reload the feeds."
-#~ msgstr ""
-
-#~ msgid "Cancel"
-#~ msgstr ""
-
-#~ msgid "Classic"
-#~ msgstr ""
-
-#~ msgid "Date"
-#~ msgstr ""
-
-#~ msgid "English"
-#~ msgstr ""
-
-#~ msgid "German"
-#~ msgstr ""
-
-#~ msgid "ID"
-#~ msgstr ""
-
-#~ msgid "Italian"
-#~ msgstr ""
-
-#~ msgid "Modern"
-#~ msgstr ""
-
-#~ msgid "News feeds"
-#~ msgstr ""
-
-#~ msgid "Theme"
-#~ msgstr ""
-
-#~ msgid "OK"
-#~ msgstr ""
-
-#~ msgid "Russian"
-#~ msgstr ""
-
-#~ msgid "Spanish"
-#~ msgstr ""
-
-#~ msgid "Subject"
-#~ msgstr ""
-
-#~ msgid "Swedish"
-#~ msgstr ""
-
-#~ msgid "Turkish"
-#~ msgstr ""
-
-#~ msgid "read more ..."
-#~ msgstr ""
+msgstr "Fils de l'utilisateur"

@@ -54,44 +54,44 @@ msgstr "Välj ett datum"
 
 #: qx/legacy/ui/form/ComboBoxEx.js:269
 msgid "Description"
-msgstr ""
+msgstr "Beskrivning"
 
 #: qx/legacy/ui/form/ComboBoxEx.js:269
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #: qx/legacy/ui/form/ComboBoxEx.js:929
 msgid "Search"
-msgstr ""
+msgstr "Sök"
 
 #: qx/legacy/ui/form/ComboBoxEx.js:1042
 msgid "Case sensitive"
-msgstr ""
+msgstr "Versalkänslig"
 
 #: qx/legacy/ui/form/ComboBoxEx.js:1084
 msgid "Search next occurrence"
-msgstr ""
+msgstr "Sök nästa förekomst"
 
 #: qx/legacy/ui/form/ComboBoxEx.js:1128
 msgid "Search items in list"
-msgstr ""
+msgstr "Sök artiklar i en lista"
 
 #: qx/legacy/ui/table/Table.js:1541 qx/ui/table/Table.js:1513
 msgid "one row"
 msgid_plural "%1 rows"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "En rad"
+msgstr[1] "%1 rader"
 
 #: qx/legacy/ui/table/Table.js:1543 qx/ui/table/Table.js:1515
 msgid "one of one row"
 msgid_plural "%1 of %2 rows"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "en av en rad"
+msgstr[1] "%1 of %2 rader"
 
 #: qx/legacy/ui/table/columnmodel/Resize.js:205
 #: qx/ui/table/columnmodel/Resize.js:209
 msgid "Reset column widths"
-msgstr ""
+msgstr "Återställ kolumnbredder"
 
 #: qx/locale/Key.js:76
 msgid "key_short_Backspace"
@@ -353,17 +353,3 @@ msgstr "RGB"
 msgid "HSB"
 msgstr "HSB"
 
-#~ msgid "Hello %1!"
-#~ msgstr ""
-
-#~ msgid "Jony"
-#~ msgstr ""
-
-#~ msgid "One car"
-#~ msgstr ""
-
-#~ msgid "one"
-#~ msgstr ""
-
-#~ msgid "two"
-#~ msgstr ""
