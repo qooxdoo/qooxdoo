@@ -143,7 +143,7 @@ window.qxloader =
 
 
   // Loading issue seems to be fixed in recent webkits
-  _isWebkit : /AppleWebKit\/([^ ]+)/.test(navigator.userAgent) && parseInt(RegExp.$1, 10) < 528,
+  _isWebkit : /AppleWebKit\/([^ ]+)/.test(navigator.userAgent),
 
   _flushQueue : function()
   {
