@@ -297,20 +297,20 @@ qx.Class.define("apiviewer.ui.SearchView",
               }
             }
           } else {
-            
+
             for (var i=0, l=index[key].length; i<l; i++) {
               elemtype = types[index[key][i][0]].toUpperCase();
               fullname = fullNames[index[key][i][1]];
-  
+
               if (elemtype == "CLASS") {
                 icon = apiviewer.TreeUtil.getIconUrl(apiviewer.dao.Class.getClassByName(fullname));
               } else {
                 if (elemtype != "PACKAGE") {
                   fullname += key;
                 }
-                icon = apiviewer.TreeUtil["ICON_" + elemtype];                
+                icon = apiviewer.TreeUtil["ICON_" + elemtype];
               }
-              
+
               sresult.push([icon, fullname]);
             }
           }
@@ -400,11 +400,11 @@ qx.Class.define("apiviewer.ui.SearchView",
       req.addListener("completed", function(evt) {
         this.apiindex = eval("(" + evt.getContent() + ")");
         var loadEnd = new Date();
-        this.debug("Time to load api indexfile from server: " + (loadEnd.getTime() - loadStart.getTime()) + "ms");
+        //this.debug("Time to load api indexfile from server: " + (loadEnd.getTime() - loadStart.getTime()) + "ms");
       }, this);
 
       req.addListener("failed", function(evt) {
-        alert("Couldn't load file: " + url);
+        this.warn("Couldn't load file: " + url);
       }, this);
 
       req.send();
