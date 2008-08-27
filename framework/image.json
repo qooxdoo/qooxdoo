@@ -537,12 +537,23 @@
              "layout" : "horizontal"
           },
 
-          // menu images
-          "${RESPATH}/${MODERN}/menu-combined.png":
+          // menu and menubar background images
+          "${RESPATH}/${MODERN}/menu-background-combined.png":
           {
             "input"  :
               [
-                "${RESPATH}/${MODERN}/menu/*.png"
+                "${RESPATH}/${MODERN}/menu/background.png",
+                "${RESPATH}/${MODERN}/menu/bar-background.png"
+              ],
+             "layout" : "horizontal"
+          },
+          
+          // menu checkbox and radiobutton
+          "${RESPATH}/${MODERN}/menu-checkradio-combined.png":
+          {
+            "input"  :
+              [
+                "${RESPATH}/${MODERN}/menu/*.gif"
               ],
              "layout" : "horizontal"
           },
