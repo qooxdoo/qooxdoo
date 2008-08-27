@@ -34,6 +34,8 @@ qx.Class.define("apiviewer.Application",
 {
   extend : qx.application.Standalone,
 
+
+
   /*
   *****************************************************************************
      MEMBERS
@@ -42,6 +44,7 @@ qx.Class.define("apiviewer.Application",
 
   members :
   {
+    // overridden
     main : function()
     {
       // Call super class
@@ -53,6 +56,7 @@ qx.Class.define("apiviewer.Application",
         qx.log.appender.Native;
         qx.log.appender.Console;
       }
+      qx.log.appender.Console;
 
       qx.Class.include(qx.ui.core.Widget, apiviewer.MWidgetRegistry);
 
@@ -60,13 +64,14 @@ qx.Class.define("apiviewer.Application",
       this.controller = new apiviewer.Controller();
 
       this.getRoot().add(this.viewer, {edge : 0});
-
-      // Load data file
-      qx.event.Timer.once(this._load, this, 0);
     },
 
-    _load : function()
+
+    // overridden
+    finalize : function()
     {
+      this.base(arguments);
+
       // Finally load the data
       this.controller.load("script/apidata.js");
     }
