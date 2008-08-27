@@ -45,6 +45,9 @@ qx.Bootstrap.define("qx.core.ObjectRegistry",
     /** {Integer} Next new hash code. */
     __nextHash : 0,
 
+    /** {Boolean} Whether the application is in the shutdown phase */
+    inShutDown : false,
+
 
     /** {Array} List of all free hash codes */
     __freeHashes : [],
@@ -175,6 +178,8 @@ qx.Bootstrap.define("qx.core.ObjectRegistry",
      */
     shutdown : function()
     {
+      this.inShutDown = true;
+
       var registry = this.__registry;
       var hashes = [];
 
@@ -224,7 +229,7 @@ qx.Bootstrap.define("qx.core.ObjectRegistry",
      * @return {Object} The registry
      */
     getRegistry : function() {
-     return this.__registry;
+      return this.__registry;
     }
   }
 });
