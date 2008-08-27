@@ -1,0 +1,39 @@
+{
+  // APIVIEWER IMAGE COMBINING
+  "jobs" :
+  {
+    "common" :
+    {
+      "let" :
+      {
+        "RESPATH" : "./source/resource/apiviewer"
+      },
+
+      "cache" :
+      {
+        "compile" : "../../cache"
+      }
+    },
+
+    "image-combine" :
+    {
+      "extend" : ["common"],
+
+      "combine-images" :
+      {
+        "images" :
+        {
+          // 18x18 symbols combined
+          "${RESPATH}/imagesCombined/symbols.png":
+          {
+            "input"  :
+            [
+              "${RESPATH}/image/*18.gif"
+            ],
+            "layout" : "vertical"
+          }          
+        }
+      }
+    }
+  }
+}
