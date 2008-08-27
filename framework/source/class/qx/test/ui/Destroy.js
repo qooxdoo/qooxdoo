@@ -23,114 +23,6 @@ qx.Class.define("qx.test.ui.Destroy",
 
   members :
   {
-
-    setUp : function() {
-      this.getRoot();
-    },
-
-
-    tearDown : function() {
-      this.getRoot().removeAll();
-    },
-
-
-    assertDestroy : function(fcn, context, msg)
-    {
-      // call function
-      fcn.call(context);
-      qx.ui.core.queue.Manager.flush();
-      qx.ui.core.queue.Manager.flush();
-
-
-      // copy object registry
-      var regCopy = qx.lang.Object.copy(qx.core.ObjectRegistry.getRegistry());
-
-      // copy event listener structure
-      var eventMgr = qx.event.Registration.getManager(window);
-      var listeners= eventMgr.__listeners;
-      var listenersCopy = {};
-      for (var hash in listeners)
-      {
-        listenersCopy[hash] = {};
-        for (var key in listeners[hash]) {
-          listenersCopy[hash][key] = qx.lang.Array.copy(listeners[hash][key]);
-        }
-      }
-
-      // call function
-      fcn.call(context);
-      qx.ui.core.queue.Manager.flush();
-      qx.ui.core.queue.Manager.flush();
-
-      // measure increase in object counts
-
-      // check object registry
-      var reg = qx.core.ObjectRegistry.getRegistry();
-      for (key in reg)
-      {
-        var obj = reg[key];
-        this.assertNotUndefined(
-          regCopy[key],
-          msg + ": The object '" + obj + "' has not been disposed!"
-        );
-      }
-
-      listeners = eventMgr.__listeners;
-
-      for (var hash in listeners)
-      {
-        if (!listenersCopy[hash]) {
-          listenersCopy[hash] = {};
-        }
-
-        for (key in listeners[hash])
-        {
-          if (!listenersCopy[hash][key]) {
-            listenersCopy[hash][key] = [];
-          }
-
-          for (var i=0; i<listeners[hash][key].length; i++)
-          {
-            if (listenersCopy[hash][key].indexOf(listeners[hash][key][i]) == -1) {
-              this.fail(
-                  msg + ": The event listener '"+ key + ":" +
-                  listeners[hash][key][i] + "'for the object '" +
-                  hash + ":" + qx.core.ObjectRegistry.fromHashCode(hash) +
-                  "' has not been removed."
-                );
-            }
-          }
-        }
-      }
-
-      // check root children length
-      this.assertIdentical(
-        0, this.getRoot().getChildren().length,
-        msg + ": The root Children array must be empty"
-      );
-    },
-
-
-    assertWidgetDispose : function(clazz, args, msg)
-    {
-      this.assertDestroy(function()
-      {
-        var argStr = [];
-        for (var i=0; i<args.length; i++) {
-          argStr.push("args[" + i + "]");
-        }
-        var widget;
-        var str = "var widget = new clazz(" + argStr.join(", ") + ");"
-        eval(str);
-
-        this.getRoot().add(widget);
-        qx.ui.core.queue.Manager.flush();
-
-        widget.destroy();
-      }, this, msg);
-    },
-
-
     assertLayoutDispose : function(clazz, args, layoutArgsArr)
     {
       this.assertDestroy(function()
@@ -182,7 +74,6 @@ qx.Class.define("qx.test.ui.Destroy",
         [qx.ui.form.Button, ["Juhu"]],
         [qx.ui.form.ComboBox, []],
         [qx.ui.form.CheckBox, ["Juhu"]],
-        [qx.ui.form.MenuButton, []],
         [qx.ui.form.PasswordField, []],
         [qx.ui.form.RadioButton, []],
         [qx.ui.form.SelectBox, []],
@@ -196,6 +87,17 @@ qx.Class.define("qx.test.ui.Destroy",
       for (var i=0; i<forms.length; i++) {
         this.assertWidgetDispose(forms[i][0], forms[i][1], "Disposing " + forms[i][0].classname);
       }
+
+      this.assertDestroy(function()
+      {
+        var widget = new qx.ui.form.MenuButton();
+        widget.setMenu(this.__createMenu());
+
+        this.getRoot().add(widget);
+        qx.ui.core.queue.Manager.flush();
+
+        widget.destroy();
+      }, this, "Dispose menu button");
     },
 
 
@@ -230,12 +132,33 @@ qx.Class.define("qx.test.ui.Destroy",
     testControls : function()
     {
       var forms = [
-        [qx.ui.control.ColorPopup, []],
         [qx.ui.control.ColorSelector, []],
         [qx.ui.control.DateChooser, []]
       ];
       for (var i=0; i<forms.length; i++) {
-        this.warn("Disposing " + forms[i][0].classname);
+        this.assertWidgetDispose(forms[i][0], forms[i][1], "Disposing " + forms[i][0].classname);
+      }
+
+      this.assertDestroy(function()
+      {
+        var widget = new qx.ui.control.ColorPopup();
+        widget.show();
+        qx.ui.core.queue.Manager.flush();
+
+        widget.destroy();
+      }, this, "Dispose color popup");
+    },
+
+
+    testCore : function()
+    {
+      var forms = [
+        [qx.ui.core.ScrollBar, []],
+        [qx.ui.core.ScrollPane, []],
+        [qx.ui.core.ScrollSlider, []],
+        [qx.ui.core.Widget, []]
+      ];
+      for (var i=0; i<forms.length; i++) {
         this.assertWidgetDispose(forms[i][0], forms[i][1], "Disposing " + forms[i][0].classname);
       }
     },
@@ -251,6 +174,210 @@ qx.Class.define("qx.test.ui.Destroy",
       for (var i=0; i<forms.length; i++) {
         this.assertWidgetDispose(forms[i][0], forms[i][1], "Disposing " + forms[i][0].classname);
       }
+    },
+
+
+    testGroupBox : function()
+    {
+      var forms = [
+        [qx.ui.groupbox.CheckGroupBox, []],
+        [qx.ui.groupbox.GroupBox, []],
+        [qx.ui.groupbox.RadioGroupBox, []]
+      ];
+      for (var i=0; i<forms.length; i++) {
+        this.assertWidgetDispose(forms[i][0], forms[i][1], "Disposing " + forms[i][0].classname);
+      }
+    },
+
+
+    testMenu : function()
+    {
+      this.assertDestroy(function()
+      {
+        var menu = new qx.ui.menu.Menu();
+        var btn = new qx.ui.menu.Button("Juhu");
+        menu.add(btn);
+        menu.add(new qx.ui.menu.CheckBox("Juhu"));
+        menu.add(new qx.ui.menu.RadioButton("Juhu"));
+        menu.add(new qx.ui.menu.Separator("Juhu"));
+
+        var subMenu = new qx.ui.menu.Menu();
+        subMenu.add(new qx.ui.menu.Button("Juhu"));
+        btn.setMenu(subMenu);
+
+        menu.setOpener(this.getRoot());
+        menu.open();
+        qx.ui.core.queue.Manager.flush();
+
+        menu.destroy();
+      }, this, "Dispose configured menu");
+    },
+
+
+    testPopup : function()
+    {
+      this.assertDestroy(function()
+      {
+        var widget = new qx.ui.popup.Popup();
+        widget.show();
+        qx.ui.core.queue.Manager.flush();
+
+        widget.destroy();
+      }, this, "Dispose configured menu");
+    },
+
+
+    testProgressive : function()
+    {
+      // TODO
+    },
+
+
+    testSplitPane : function()
+    {
+      this.assertDestroy(function()
+      {
+        var widget = new qx.ui.splitpane.Pane();
+        widget.add(new qx.ui.core.Widget(), 1);
+        widget.add(new qx.ui.core.Widget());
+
+        this.getRoot().add(widget);
+        qx.ui.core.queue.Manager.flush();
+
+        widget.destroy();
+      }, this, "Dispose split pane");
+    },
+
+
+    testTabView : function()
+    {
+      this.assertDestroy(function()
+      {
+        var widget = new qx.ui.tabview.TabView();
+        widget.add(new qx.ui.tabview.Page("Juhu"));
+        widget.add(new qx.ui.tabview.Page("Kinners"));
+
+        this.getRoot().add(widget);
+        qx.ui.core.queue.Manager.flush();
+
+        widget.destroy();
+      }, this, "Dispose tabview");
+    },
+
+
+    testToolbar : function()
+    {
+      var forms = [
+        [qx.ui.toolbar.Button, ["Juhu"]],
+        [qx.ui.toolbar.CheckBox, ["Juhu"]],
+        [qx.ui.toolbar.Part, []],
+        [qx.ui.toolbar.PartContainer, []],
+        [qx.ui.toolbar.RadioButton, ["Juhu"]],
+        [qx.ui.toolbar.Separator, []],
+        [qx.ui.toolbar.ToolBar, []]
+      ];
+      for (var i=0; i<forms.length; i++) {
+        this.assertWidgetDispose(forms[i][0], forms[i][1], "Disposing " + forms[i][0].classname);
+      }
+
+      this.assertDestroy(function()
+      {
+        var widget = new qx.ui.toolbar.MenuButton("juhu");
+        widget.setMenu(this.__createMenu());
+
+        this.getRoot().add(widget);
+        qx.ui.core.queue.Manager.flush();
+
+        widget.destroy();
+      }, this, "Dispose toolbar menu button");
+
+      this.assertDestroy(function()
+      {
+        var widget = new qx.ui.toolbar.SplitButton("Juhu");
+        widget.setMenu(this.__createMenu());
+
+        this.getRoot().add(widget);
+        qx.ui.core.queue.Manager.flush();
+
+        widget.destroy();
+      }, this, "Dispose toolbar split button");
+
+      this.assertDestroy(function()
+      {
+        var widget = new qx.ui.toolbar.ToolBar();
+        widget.add(new qx.ui.toolbar.Button("juhu"));
+
+        var part = new qx.ui.toolbar.Part();
+        part.add(new qx.ui.toolbar.RadioButton());
+        widget.add(part);
+
+        this.getRoot().add(widget);
+        qx.ui.core.queue.Manager.flush();
+
+        widget.destroy();
+      }, this, "Dispose configured toolbar");
+    },
+
+
+    testTooltip : function()
+    {
+      this.assertDestroy(function()
+      {
+        var widget = new qx.ui.tooltip.ToolTip();
+        widget.show();
+        qx.ui.core.queue.Manager.flush();
+
+        widget.destroy();
+      }, this, "Dispose tool tip");
+    },
+
+
+    testTree : function()
+    {
+      this.assertDestroy(function()
+      {
+        var widget = new qx.ui.tree.Tree();
+
+        var root = new qx.ui.tree.TreeFolder("folder");
+        root.setOpen(true);
+        root.add(new qx.ui.tree.TreeFile("file"));
+        widget.setRoot(root);
+
+        widget.show();
+        qx.ui.core.queue.Manager.flush();
+
+        widget.destroy();
+      }, this, "Dispose tool tip");
+    },
+
+
+    testTreeVirtual : function()
+    {
+      // TODO
+    },
+
+
+    testWindow : function()
+    {
+      this.assertDestroy(function()
+      {
+        var widget = new qx.ui.window.Window();
+        widget.show();
+        qx.ui.core.queue.Manager.flush();
+
+        widget.destroy();
+      }, this, "Dispose tool tip");
+    },
+
+    __createMenu : function()
+    {
+      var menu = new qx.ui.menu.Menu();
+      menu.add(new qx.ui.menu.Button("Juhu"));
+      menu.add(new qx.ui.menu.CheckBox("Juhu"));
+      menu.add(new qx.ui.menu.RadioButton("Juhu"));
+      menu.add(new qx.ui.menu.Separator("Juhu"));
+
+      return menu;
     }
 
   }

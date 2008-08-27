@@ -1722,6 +1722,11 @@ qx.Class.define("qx.ui.core.Widget",
      */
     _add : function(child, options)
     {
+      // When moving in the same widget, remove widget first
+      if (child.getLayoutParent() == this) {
+        qx.lang.Array.remove(this.__widgetChildren, child);
+      }
+
       if (this.__widgetChildren) {
         this.__widgetChildren.push(child);
       } else {
@@ -1777,7 +1782,11 @@ qx.Class.define("qx.ui.core.Widget",
     _addBefore : function(child, before, options)
     {
       if (qx.core.Variant.isSet("qx.debug", "on")) {
-        this.assertNotIdentical(child, before, "Invalid parameters for _addBefore!");
+        this.assertInArray(before, this.__widgetChildren, "The 'before' widget is not a child of this widget!");
+      }
+
+      if (child == before) {
+        return;
       }
 
       if (!this.__widgetChildren) {
@@ -1806,7 +1815,11 @@ qx.Class.define("qx.ui.core.Widget",
     _addAfter : function(child, after, options)
     {
       if (qx.core.Variant.isSet("qx.debug", "on")) {
-        this.assertNotIdentical(child, after, "Invalid parameters for _addAfter!");
+        this.assertInArray(after, this.__widgetChildren, "The 'before' widget is not a child of this widget!");
+      }
+
+      if (child == after) {
+        return;
       }
 
       if (!this.__widgetChildren) {
@@ -3647,6 +3660,10 @@ qx.Class.define("qx.ui.core.Widget",
      */
     destroy : function()
     {
+      if (this.$$disposed) {
+        return;
+      }
+
       var parent = this.getLayoutParent();
       if (parent) {
         parent._remove(this);
@@ -3723,7 +3740,9 @@ qx.Class.define("qx.ui.core.Widget",
 
   destruct : function()
   {
-    if (!qx.core.ObjectRegistry.inShutDown) {
+    if (!qx.core.ObjectRegistry.inShutDown)
+    {
+      this.__containerElement.setAttribute("$$widget", null, true);
       this._disposeChildControls();
     }
 

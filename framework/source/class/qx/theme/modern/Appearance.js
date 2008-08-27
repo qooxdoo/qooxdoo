@@ -1680,6 +1680,11 @@ qx.Theme.define("qx.theme.modern.Appearance",
       }
     },
 
+    "datechooser/last-year-button-tooltip" : "tooltip",
+    "datechooser/last-month-button-tooltip" : "tooltip",
+    "datechooser/next-year-button-tooltip" : "tooltip",
+    "datechooser/next-month-button-tooltip" : "tooltip",
+
     "datechooser/last-year-button" : "datechooser/nav-button",
     "datechooser/last-month-button" : "datechooser/nav-button",
     "datechooser/next-month-button" : "datechooser/nav-button",
@@ -2159,7 +2164,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
 
     "colorpopup/selector-button" : "button",
     "colorpopup/auto-button" : "button",
-    
+
     "colorpopup/preview-pane" : "groupbox",
 
     "colorpopup/current-preview":
