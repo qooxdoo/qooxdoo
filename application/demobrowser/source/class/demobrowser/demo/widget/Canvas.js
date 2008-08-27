@@ -33,12 +33,24 @@ qx.Class.define("demobrowser.demo.widget.Canvas",
       });
       win1.setLayout(new qx.ui.layout.Canvas());
 
-      var canvas1 = new qx.ui.embed.Canvas().set({
-        canvasWidth: 200,
-        canvasHeight: 200,
-        syncDimension: false
-      });
-      canvas1.addListener("redraw", this.draw, this);
+      if (qx.core.Variant.isSet("qx.client", "mshtml"))
+      {
+        var canvas1 = new qx.ui.container.Composite(new qx.ui.layout.HBox());
+        canvas1.add(new qx.ui.basic.Label("Canvas is not support in Internet Explorer!").set({
+          rich : true,
+          alignX: "center",
+          alignY: "middle"
+        }));
+      }
+      else
+      {
+        var canvas1 = new qx.ui.embed.Canvas().set({
+          canvasWidth: 200,
+          canvasHeight: 200,
+          syncDimension: false
+        });
+        canvas1.addListener("redraw", this.draw, this);
+      }
 
       win1.add(canvas1, {edge: 0});
       this.getRoot().add(win1, {left: 30, top: 40});
@@ -51,12 +63,24 @@ qx.Class.define("demobrowser.demo.widget.Canvas",
       });
       win2.setLayout(new qx.ui.layout.Canvas());
 
-      var canvas2 = new qx.ui.embed.Canvas().set({
-        canvasWidth: 200,
-        canvasHeight: 200,
-        syncDimension: true
-      });
-      canvas2.addListener("redraw", this.draw, this);
+      if (qx.core.Variant.isSet("qx.client", "mshtml"))
+      {
+        var canvas2 = new qx.ui.container.Composite(new qx.ui.layout.HBox());
+        canvas2.add(new qx.ui.basic.Label("Canvas is not support in Internet Explorer!").set({
+          rich : true,
+          alignX: "center",
+          alignY: "middle"
+        }));
+      }
+      else
+      {
+        var canvas2 = new qx.ui.embed.Canvas().set({
+          canvasWidth: 200,
+          canvasHeight: 200,
+          syncDimension: true
+        });
+        canvas2.addListener("redraw", this.draw, this);
+      }
 
       win2.add(canvas2, {edge: 0});
       this.getRoot().add(win2, {left: 130, top: 140});
