@@ -171,12 +171,12 @@ qx.Class.define("testrunner.runner.TestRunner",
       // -- reload button
       this.reloadbutton = new qx.ui.toolbar.Button(null, "icon/22/actions/view-refresh.png");
       part1.add(this.reloadbutton);
-      this.reloadbutton.setToolTip(new qx.ui.tooltip.ToolTip("Reload application under test"));
+      this.reloadbutton.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Reload application under test")));
       this.reloadbutton.addListener("execute", this.reloadTestSuite, this);
 
       this.widgets["toolbar.runbutton"] = this.runbutton;
       this.runbutton.addListener("execute", this.runTest, this);
-      this.runbutton.setToolTip(new qx.ui.tooltip.ToolTip("Run selected test(s)"));
+      this.runbutton.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Run selected test(s)")));
 
       var testUri   = qx.core.Setting.get("qx.testPageUri");
       var nameSpace = qx.core.Setting.get("qx.testNameSpace");
@@ -187,7 +187,7 @@ qx.Class.define("testrunner.runner.TestRunner",
       toolbar.add(part2);
 
       part2.add(this.testSuiteUrl);
-      this.testSuiteUrl.setToolTip(new qx.ui.tooltip.ToolTip("Application under test URL"));
+      this.testSuiteUrl.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Application under test URL")));
 
       this.testSuiteUrl.set(
       {
@@ -209,10 +209,10 @@ qx.Class.define("testrunner.runner.TestRunner",
       // -- reload switch
       var part3 = new qx.ui.toolbar.Part();
       toolbar.add(part3);
-      this.reloadswitch = new qx.ui.toolbar.CheckBox("Auto Reload", "icon/22/actions/system-run.png");
+      this.reloadswitch = new qx.ui.toolbar.CheckBox(this.tr("Auto Reload"), "icon/22/actions/system-run.png");
       part3.add(this.reloadswitch);
       this.reloadswitch.setShow("both");
-      this.reloadswitch.setToolTip(new qx.ui.tooltip.ToolTip("Always reload application under test before testing"));
+      this.reloadswitch.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Always reload application under test before testing")));
 
       return toolbar;
     },  // makeToolbar
@@ -241,7 +241,7 @@ qx.Class.define("testrunner.runner.TestRunner",
       });
       pane.add(p1, 0);
 
-      var caption1 = new qx.ui.basic.Label("Test Results").set({
+      var caption1 = new qx.ui.basic.Label(this.tr("Test Results")).set({
         font : "bold",
         decorator : this._labelDeco,
         padding : 5,
@@ -271,7 +271,7 @@ qx.Class.define("testrunner.runner.TestRunner",
       });
       pane2.add(pp3, 1);
 
-      var caption3 = new qx.ui.basic.Label("Application under test").set({
+      var caption3 = new qx.ui.basic.Label(this.tr("Application under test")).set({
         font : "bold",
         decorator : this._labelDeco,
         padding : 5,
@@ -358,7 +358,7 @@ qx.Class.define("testrunner.runner.TestRunner",
         decorator : "main"
       });
 
-      var caption = new qx.ui.basic.Label("Tests").set({
+      var caption = new qx.ui.basic.Label(this.tr("Tests")).set({
         font : "bold",
         decorator : this._labelDeco,
         padding : 5,
@@ -367,7 +367,7 @@ qx.Class.define("testrunner.runner.TestRunner",
       });
       container.add(caption)
 
-      var tree = new qx.ui.tree.Tree("Tests");
+      var tree = new qx.ui.tree.Tree(this.tr("Tests"));
       tree.set({
         decorator : null,
         selectionMode : "single"
@@ -418,7 +418,7 @@ qx.Class.define("testrunner.runner.TestRunner",
       this.widgets["progresspane"] = progress;
       this.widgets["progresspane.progressbar"] = progressb;
 
-      labelBox.add(new qx.ui.basic.Label("Queued: ").set({
+      labelBox.add(new qx.ui.basic.Label(this.tr("Queued: ")).set({
         alignY : "middle"
       }));
       var queuecnt = new qx.ui.form.TextField("0").set({
@@ -431,7 +431,7 @@ qx.Class.define("testrunner.runner.TestRunner",
 
 
 
-      labelBox.add(new qx.ui.basic.Label("Failed: ").set({
+      labelBox.add(new qx.ui.basic.Label(this.tr("Failed: ")).set({
         alignY : "middle"
       }));
       var failcnt = new qx.ui.form.TextField("0").set({
@@ -442,7 +442,7 @@ qx.Class.define("testrunner.runner.TestRunner",
       });
       labelBox.add(failcnt);
 
-      labelBox.add(new qx.ui.basic.Label("Succeeded: ").set({
+      labelBox.add(new qx.ui.basic.Label(this.tr("Succeeded: ")).set({
         alignY : "middle"
       }));
       var succcnt = new qx.ui.form.TextField("0").set({
@@ -475,7 +475,7 @@ qx.Class.define("testrunner.runner.TestRunner",
       });
 
       // Test Info
-      statuspane.add(new qx.ui.basic.Label("Selected Test: ").set({
+      statuspane.add(new qx.ui.basic.Label(this.tr("Selected Test: ")).set({
         alignY : "middle"
       }));
       var l1 = new qx.ui.form.TextField("").set({
@@ -487,7 +487,7 @@ qx.Class.define("testrunner.runner.TestRunner",
 
 
       this.widgets["statuspane.current"] = l1;
-      statuspane.add(new qx.ui.basic.Label("Number of Tests: ").set({
+      statuspane.add(new qx.ui.basic.Label(this.tr("Number of Tests: ")).set({
         alignY : "middle"
       }));
       var l2 = new qx.ui.form.TextField("").set({
@@ -501,7 +501,7 @@ qx.Class.define("testrunner.runner.TestRunner",
       this.widgets["statuspane.number"] = l2;
 
       // System Info
-      statuspane.add(new qx.ui.basic.Label("System Status: ").set({
+      statuspane.add(new qx.ui.basic.Label(this.tr("System Status: ")).set({
         alignY : "middle"
       }));
       var l3 = new qx.ui.basic.Label("").set({
@@ -510,7 +510,7 @@ qx.Class.define("testrunner.runner.TestRunner",
       statuspane.add(l3);
       l3.set({ width : 150 });
       this.widgets["statuspane.systeminfo"] = l3;
-      this.widgets["statuspane.systeminfo"].setContent("Loading...");
+      this.widgets["statuspane.systeminfo"].setContent(this.tr("Loading..."));
 
       return statuspane;
     },  // makeStatus
@@ -542,7 +542,7 @@ qx.Class.define("testrunner.runner.TestRunner",
       // update selection in other tree
       // -- not working!
 
-      this.widgets["statuspane.systeminfo"].setContent("Tests selected");
+      this.widgets["statuspane.systeminfo"].setContent(this.tr("Tests selected"));
     },  // treeGetSelection
 
     // -------------------------------------------------------------------------
@@ -685,13 +685,13 @@ qx.Class.define("testrunner.runner.TestRunner",
       }
 
       // this.tree.setEnabled(false);
-      this.widgets["statuspane.systeminfo"].setContent("Preparing...");
+      this.widgets["statuspane.systeminfo"].setContent(this.tr("Preparing..."));
 
       this.resetGui();
       var bar = this.widgets["progresspane.progressbar"];
 
       // Make initial entry in output windows (test result, log, ...)
-      this.appender("Now running: " + this.tests.selected);
+      this.appender(this.tr("Now running: ") + this.tests.selected);
 
       var tstCnt = this.tests.selected_cnt;
       var tstCurr = 1;
@@ -718,7 +718,7 @@ qx.Class.define("testrunner.runner.TestRunner",
           var test = e.getData();
           that.currentTestData = new testrunner.runner.TestResultData(test.getFullName());
           that.f1.addTestResult(that.currentTestData);
-          that.appender("Test '" + test.getFullName() + "' started.");
+          that.appender(this.tr("Test '") + test.getFullName() + this.tr("' started."));
         },
         that);
 
@@ -732,7 +732,7 @@ qx.Class.define("testrunner.runner.TestRunner",
           var val = that.getFailCnt();
           that.setFailCnt(++val);
           that.setQueCnt(that.getQueCnt() - 1);
-          that.appender("Test '" + test.getFullName() + "' failed: " + ex.message() + " - " + ex.getComment());
+          that.appender(this.tr("Test '") + test.getFullName() + this.tr("' failed: ") + ex.message() + " - " + ex.getComment());
           that.widgets["progresspane.progressbar"].update(String(tstCurr + "/" + tstCnt));
           tstCurr++;
         },
@@ -747,7 +747,7 @@ qx.Class.define("testrunner.runner.TestRunner",
           var val = that.getFailCnt();
           that.setFailCnt(++val);
           that.setQueCnt(that.getQueCnt() - 1);
-          that.appender("The test '" + e.getData().test.getFullName() + "' had an error: " + ex, ex);
+          that.appender(this.tr("The test '") + e.getData().test.getFullName() + this.tr("' had an error: ") + ex, ex);
           that.widgets["progresspane.progressbar"].update(String(tstCurr + "/" + tstCnt));
           tstCurr++;
         },
@@ -784,7 +784,7 @@ qx.Class.define("testrunner.runner.TestRunner",
 
       function runtest()
       {
-        that.widgets["statuspane.systeminfo"].setContent("Running tests...");
+        that.widgets["statuspane.systeminfo"].setContent(this.tr("Running tests..."));
         that.toolbar.setEnabled(false);  // if we are run as run_pending
 
         if (tlist.length)
@@ -802,11 +802,11 @@ qx.Class.define("testrunner.runner.TestRunner",
           {
             that.reloadswitch.setChecked(true);
             that.tests.firstrun = false;
-            that.widgets["statuspane.systeminfo"].setContent("Enabled auto-reload");
+            that.widgets["statuspane.systeminfo"].setContent(this.tr("Enabled auto-reload"));
           }
           else
           {
-            that.widgets["statuspane.systeminfo"].setContent("Ready");
+            that.widgets["statuspane.systeminfo"].setContent(this.tr("Ready"));
           }
         }
       }
@@ -852,7 +852,7 @@ qx.Class.define("testrunner.runner.TestRunner",
       }
       else
       {  // no selected tree node - this should never happen here!
-        alert("Please select a test node from the tree!");
+        alert(this.tr("Please select a test node from the tree!"));
         that.toolbar.setEnabled(true);
         return;
       }
@@ -868,7 +868,7 @@ qx.Class.define("testrunner.runner.TestRunner",
           testResult = init_testResult();
 
           if (!testResult) {
-            that.debug("Alarm: no testResult!");
+            that.debug(this.tr("Alarm: no testResult!"));
           } else {
             runtest();
           }
@@ -897,7 +897,7 @@ qx.Class.define("testrunner.runner.TestRunner",
       var curr = this.iframe.getSource();
       var neu = this.testSuiteUrl.getValue();
       this.toolbar.setEnabled(false);
-      this.widgets["statuspane.systeminfo"].setContent("Reloading test suite...");
+      this.widgets["statuspane.systeminfo"].setContent(this.tr("Reloading test suite..."));
 
       // reset status information
       this.resetGui();
@@ -957,7 +957,7 @@ qx.Class.define("testrunner.runner.TestRunner",
         delete this.tests.run_pending;
       }
 
-      this.widgets["statuspane.systeminfo"].setContent("Ready");
+      this.widgets["statuspane.systeminfo"].setContent(this.tr("Ready"));
     },  // _ehIframeOnLoad
 
     // ------------------------------------------------------------------------
