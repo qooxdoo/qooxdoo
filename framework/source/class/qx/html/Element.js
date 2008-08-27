@@ -2392,19 +2392,19 @@ qx.Class.define("qx.html.Element",
 
   destruct : function()
   {
-    if (!qx.core.ObjectRegistry.inShutDown)
+    var el = this._element;
+    if (el)
     {
-      var el = this._element;
-      if (el)
-      {
-        qx.event.Registration.getManager(el).removeAllListeners(el);
-        el.$$hash = "";
-      }
+      qx.event.Registration.getManager(el).removeAllListeners(el);
+      el.$$hash = "";
     }
 
-    var parent = this.__parent;
-    if (parent && !parent.$$disposed) {
-      parent.remove(this);
+    if (!qx.core.ObjectRegistry.inShutDown)
+    {
+      var parent = this.__parent;
+      if (parent && !parent.$$disposed) {
+        parent.remove(this);
+      }
     }
 
     this._disposeArray("__children");
