@@ -230,12 +230,18 @@ qx.Class.define("qx.ui.control.ColorPopup",
         return;
       }
 
+      // TODO: Use singleton color selector to improve number of needed objects
+
       var win = new qx.ui.window.Window(this.tr("Color Selector"));
       this.__colorSelectorWindow = win;
       win.setLayout(new qx.ui.layout.VBox);
       win.setResizable(false);
+      win.moveTo(20, 20);
 
       this.__colorSelector = new qx.ui.control.ColorSelector;
+      this.__colorSelector.setDecorator(null);
+      this.__colorSelector.setBackgroundColor(null);
+      this.__colorSelector.setPadding(0);
       this.__colorSelector.addListener("dialogok", this._onColorSelectorOk, this);
       this.__colorSelector.addListener("dialogcancel", this._onColorSelectorCancel, this);
       win.add(this.__colorSelector);
@@ -392,8 +398,6 @@ qx.Class.define("qx.ui.control.ColorPopup",
     _onSelectorButtonExecute : function(e)
     {
       this._createColorSelector();
-
-      this.__colorSelectorWindow.show();
 
       this.exclude();
       this.__colorSelectorWindow.open();
