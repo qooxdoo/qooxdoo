@@ -2121,7 +2121,6 @@ qx.Theme.define("qx.theme.modern.Appearance",
 
     "colorpopup/selector-button" : "button",
     "colorpopup/auto-button" : "button",
-
     "colorpopup/preview-pane" : "groupbox",
 
     "colorpopup/current-preview":
