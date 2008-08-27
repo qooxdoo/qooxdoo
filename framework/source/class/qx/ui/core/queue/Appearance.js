@@ -81,6 +81,7 @@ qx.Class.define("qx.ui.core.queue.Appearance",
       }
 
       // Recreate the map is cheaper compared to keep a holey map over time
+      // This is especially true for IE7
       this.__queue = {};
     }
   }
