@@ -167,8 +167,14 @@ qx.Class.define("qx.ui.core.EventHandler",
       }
 
       // Correcting target for focus events
-      if (this.__focusEvents[domEvent.getType()]) {
+      if (this.__focusEvents[domEvent.getType()])
+      {
         widgetTarget = widgetTarget.getFocusTarget();
+
+        // Whether nothing is returned
+        if (!widgetTarget) {
+          return;
+        }
       }
 
 
