@@ -83,7 +83,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
-    "popup" : 
+    "popup" :
     {
       style : function(states)
       {
@@ -739,7 +739,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
         };
       }
     },
-    
+
 
     "tabview/bar/button-forward" :
     {
@@ -787,7 +787,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
           }
         }
       }
-    },    
+    },
 
     "tabview/pane" :
     {
@@ -916,7 +916,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
         }
       }
     },
-    
+
     "scrollbar/slider/knob" :
     {
       include : "button",
@@ -926,13 +926,13 @@ qx.Theme.define("qx.theme.classic.Appearance",
         return {
           height    : 14,
           width     : 14,
-          
+
           minHeight : states.horizontal ? "undefined" : 14,
           minWidth  : states.horizontal ? 14 : "undefined"
         };
       }
     },
-    
+
 
     "scrollbar/button" :
     {
@@ -1601,7 +1601,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       {
         return {
           textAlign       : "center",
-          decorator       : states.today ? "black" : "undefined",
+          decorator       : states.today ? "main" : "undefined",
           textColor       : states.selected ? "text-selected" : states.otherMonth ? "text-disabled" : "undefined",
           backgroundColor : states.selected ? "date-chooser-selected" : "undefined",
           padding         : [ 2, 4 ]

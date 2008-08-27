@@ -269,35 +269,51 @@ qx.Class.define("qx.ui.control.DateChooser",
           this._add(control);
           break;
 
+        case "last-year-button-tooltip":
+          control = new qx.ui.tooltip.ToolTip(this.tr("Last year"));
+          break;
+
         case "last-year-button":
           control = new qx.ui.form.Button();
           control.addState("lastYear");
           control.setFocusable(false);
-          control.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Last year")));
+          control.setToolTip(this._getChildControl("last-year-button-tooltip"));
           control.addListener("click", this._onNavButtonClicked, this);
+          break;
+
+        case "last-month-button-tooltip":
+          control = new qx.ui.tooltip.ToolTip(this.tr("Last month"));
           break;
 
         case "last-month-button":
           control = new qx.ui.toolbar.Button();
           control.addState("lastMonth");
           control.setFocusable(false);
-          control.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Last month")));
+          control.setToolTip(this._getChildControl("last-month-button-tooltip"));
           control.addListener("click", this._onNavButtonClicked, this);
+          break;
+
+        case "next-month-button-tooltip":
+          control = new qx.ui.tooltip.ToolTip(this.tr("Next month"));
           break;
 
         case "next-month-button":
           control = new qx.ui.toolbar.Button();
           control.addState("nextMonth");
           control.setFocusable(false);
-          control.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Next month")));
+          control.setToolTip(this._getChildControl("next-month-button-tooltip"));
           control.addListener("click", this._onNavButtonClicked, this);
+          break;
+
+        case "next-year-button-tooltip":
+          control = new qx.ui.tooltip.ToolTip(this.tr("Next year"));
           break;
 
         case "next-year-button":
           control = new qx.ui.toolbar.Button();
           control.addState("nextYear");
           control.setFocusable(false);
-          control.setToolTip(new qx.ui.tooltip.ToolTip(this.tr("Next year")));
+          control.setToolTip(this._getChildControl("next-year-button-tooltip"));
           control.addListener("click", this._onNavButtonClicked, this);
           break;
 
@@ -675,7 +691,8 @@ qx.Class.define("qx.ui.control.DateChooser",
       // Create a help date that points to the first of the current month
       var helpDate = new Date(this.getShownYear(), this.getShownMonth(), 1);
 
-      this._getChildControl("month-year-label").setContent((new qx.util.format.DateFormat(DateChooser.MONTH_YEAR_FORMAT)).format(helpDate));
+      var monthYearFormat = new qx.util.format.DateFormat(DateChooser.MONTH_YEAR_FORMAT);
+      this._getChildControl("month-year-label").setContent(monthYearFormat.format(helpDate));
 
       // Show the day names
       var firstDayOfWeek = helpDate.getDay();
@@ -746,6 +763,10 @@ qx.Class.define("qx.ui.control.DateChooser",
           helpDate.setDate(helpDate.getDate() + 1);
         }
       }
+
+      monthYearFormat.dispose();
+      weekDayFormat.dispose();
+      weekFormat.dispose();
     }
   },
 
