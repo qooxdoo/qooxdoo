@@ -16,7 +16,7 @@
     "QOOXDOO_URI"  : "../${QOOXDOO_PATH}",
     "CACHE"        : "../../cache",
     "QXTHEME"      : "qx.theme.Modern",
-    "LOCALES"      : ["en", "de", "es", "it", "pl"],
+    "LOCALES"      : ["en", "de", "es", "fr", "it", "sv"],
     "TEST_INCLUDE"   : "${APPLICATION}.*",
     "ROOT"         : "."
   }
