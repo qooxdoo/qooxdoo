@@ -1436,7 +1436,7 @@ qx.Class.define("qx.ui.table.Table",
     updateContent : function() {
       var scrollerArr = this._getPaneScrollerArr();
       for (var i=0; i<scrollerArr.length; i++) {
-        scrollerArr[i]._tablePane._updateContent();
+        scrollerArr[i].getTablePane().updateContent();
       }
     },
 
