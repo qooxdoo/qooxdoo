@@ -534,7 +534,7 @@ qx.Class.define("apiviewer.ui.ClassViewer",
     {
       var itemNode = this.getDocNode().getItem(itemName);
 
-      if (!itemNode) {
+      if (!itemNode || !itemNode.isFromProperty) {
         return false;
       }
 
