@@ -852,7 +852,7 @@ qx.Class.define("qx.event.handler.Focus",
 
             // The unselectable attribute stops focussing as well.
             // Do this manually.
-            target.focus();
+            focusTarget.focus();
           }
         }
         else
