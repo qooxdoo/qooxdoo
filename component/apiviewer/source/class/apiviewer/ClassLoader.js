@@ -100,7 +100,7 @@ qx.Class.define("apiviewer.ClassLoader",
         {
           loadedClasses += 1;
           if (loadedClasses == classesToLoad.length) {
-            this.__runCallback(cls, callback, self);
+            this.__runCallback(classes[0], callback, self);
           }
         }, this);
 
