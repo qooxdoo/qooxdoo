@@ -60,12 +60,24 @@ qx.Class.define("qx.ui.core.queue.Widget",
      */
     flush : function()
     {
+      // Process all registered widgets
       var queue = this.__queue;
+      var obj;
       for (var hash in queue)
       {
-        queue[hash].syncWidget();
+        // Order is important to allow the same widget to be requeued directly
+        obj = queue[hash];
         delete queue[hash];
+        obj.syncWidget();
       }
+
+      // Empty check
+      for (var hash in queue) {
+        return;
+      }
+
+      // Recreate the map is cheaper compared to keep a holey map over time
+      this.__queue = {};
     }
   }
 });

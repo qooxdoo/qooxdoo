@@ -59,12 +59,29 @@ qx.Class.define("qx.ui.core.queue.Appearance",
      */
     flush : function()
     {
+      // TODO: The performance may be improved when this is done
+      // only for visible widgets (e.g. do not flush for hidden menus,
+      // windows, etc.). The layout queue already has a few things for
+      // testing for visibility. Maybe it would be a good idea to have a
+      // globabally available visibility information anywhere.
+      // See also bug #1279.
       var queue = this.__queue;
+      var obj;
       for (var hash in queue)
       {
-        queue[hash].syncAppearance();
+        // Order is important to allow the same widget to be requeued directly
+        obj = queue[hash];
         delete queue[hash];
+        obj.syncAppearance();
       }
+
+      // Empty check
+      for (var hash in queue) {
+        return;
+      }
+
+      // Recreate the map is cheaper compared to keep a holey map over time
+      this.__queue = {};
     }
   }
 });
