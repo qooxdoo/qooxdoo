@@ -35,6 +35,9 @@ qx.Class.define("demobrowser.demo.test.Destructor",
       this.__timer.addListener("interval", this.runTest, this);
       this.__timer.start();
 
+      // make global for demo use
+      timer = this.__timer;
+
       this.__round = 0;
 
       // Test labels
