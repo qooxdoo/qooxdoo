@@ -16,6 +16,7 @@
      * Sebastian Werner (wpbasti)
      * Andreas Ecker (ecker)
      * Jonathan Rass (jonathan_rass)
+     * Matthew Gregory
 
 ************************************************************************ */
 
@@ -254,7 +255,7 @@ qx.Class.define("qx.ui.control.ColorSelector",
           break;
 
         case "brightness-field":
-          control = new qx.ui.basic.Image("decoration/colorselector/brightness-field.jpg");
+          control = new qx.ui.basic.Image("decoration/colorselector/brightness-field.png");
           control.addListener("mousedown", this._onBrightnessFieldMouseDown, this);
           break;
 
@@ -1117,8 +1118,16 @@ qx.Class.define("qx.ui.control.ColorSelector",
     /**
      * Sets preview pane's background color to corresponding red, green and blue color values.
      */
-    _setPreviewFromRgb : function() {
-      this._getChildControl("preview-content-new").setBackgroundColor(qx.util.ColorUtil.rgbToRgbString([this.getRed(), this.getGreen(), this.getBlue()]));
+    _setPreviewFromRgb : function()
+    {
+      var ColorUtil = qx.util.ColorUtil;
+
+      var rgbString = ColorUtil.rgbToRgbString([this.getRed(), this.getGreen(), this.getBlue()]);
+      this._getChildControl("preview-content-new").setBackgroundColor(rgbString);
+
+      var helpRgb = ColorUtil.hsbToRgb([this.getHue(), this.getSaturation(), 255]);
+      var helpRgbString = ColorUtil.rgbToRgbString([helpRgb.red, helpRgb.green, helpRgb.blue])
+      this._getChildControl("brightness-field").setBackgroundColor(helpRgbString);
     },
 
 
