@@ -188,8 +188,6 @@ qx.Class.define("qx.ui.core.FocusHandler",
       if (target != this.__focusedChild)
       {
         this.__focusedChild = target;
-        //this.debug("focus: " + target);
-        
         target.visualizeFocus();
       }
     },
