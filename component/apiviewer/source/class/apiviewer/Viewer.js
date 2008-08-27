@@ -255,28 +255,12 @@ qx.Class.define("apiviewer.Viewer",
     
     __createHeader : function()
     {
-      var backgroundDecorator = new qx.ui.decoration.Background().set({
-        backgroundImage : "decoration/toolbar/toolbar-gradient-blue.png",
-        backgroundRepeat : "scale"
-      });
-
       var layout = new qx.ui.layout.HBox();
-      var header = new qx.ui.container.Composite(layout).set({
-        height : 26,
-        decorator : backgroundDecorator
-      });
+      var header = new qx.ui.container.Composite(layout);
+      header.setAppearance("app-header");
 
-      var title = new qx.ui.basic.Label("API Documentation").set({
-        appearance : "window/title",
-        textColor : "white"
-      });
-
-      var version = new qx.ui.basic.Label("qooxdoo 0.8 &mdash; r16098").set({
-        rich : true,
-        appearance : "window/title",
-        font : "default",
-        textColor : "white"
-      });
+      var title = new qx.ui.basic.Label("API Documentation");
+      var version = new qx.ui.basic.Label("qooxdoo " + qx.core.Setting.get("qx.version"));
 
       header.add(title);
       header.add(new qx.ui.core.Spacer, {flex : 1});
