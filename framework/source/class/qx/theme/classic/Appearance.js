@@ -2165,6 +2165,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
     ---------------------------------------------------------------------------
     */
 
+
     "colorpopup" :
     {
       alias : "popup",
@@ -2189,22 +2190,43 @@ qx.Theme.define("qx.theme.classic.Appearance",
           margin : 2,
           width : 14,
           height : 14,
-          backgroundColor : "white"
+          backgroundColor : "background"
         }
       }
     },
 
-    "colorpopup/preview-pane":
+    "colorpopup/selector-button" : "button",
+    "colorpopup/auto-button" : "button",
+    
+    "colorpopup/preview-pane" : "groupbox",
+
+    "colorpopup/current-preview":
     {
       style : function(state)
       {
         return {
           height : 20,
           padding: 4,
+          marginLeft : 4,
+          decorator : "inset-thin",
+          allowGrowX : true
+        }
+      }
+    },
+
+    "colorpopup/selected-preview":
+    {
+      style : function(state)
+      {
+        return {
+          height : 20,
+          padding: 4,
+          marginRight : 4,
           decorator : "inset-thin",
           allowGrowX : true
         }
       }
     }
+
   }
 });
