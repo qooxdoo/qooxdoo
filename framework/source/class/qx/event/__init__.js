@@ -1,5 +1,6 @@
 /**
- * Generic Event Layer
+ * qooxdoo event layer; in a standard qooxdoo application these are the events
+ * you have to deal with.
  *
  * The classes in this namespace provide a cross browser event layer. It
  * normalizes not only the registration API but also normalizes behavior.

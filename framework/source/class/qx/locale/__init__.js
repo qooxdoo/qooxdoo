@@ -1,3 +1,3 @@
 /**
- * Support for internationalization (i18n) and localization (l10n)
+ * Support for internationalization (i18n) and localization (l10n).
  */
