@@ -231,31 +231,21 @@ qx.Class.define("qx.ui.control.ColorPopup",
 
       var win = new qx.ui.window.Window(this.tr("Color Selector"));
       this.__colorSelectorWindow = win;
-      win.setLayout(new qx.ui.layout.VBox);
+      win.setLayout(new qx.ui.layout.VBox(16));
       win.setResizable(false);
       win.moveTo(20, 20);
 
       this.__colorSelector = new qx.ui.control.ColorSelector;
-      this.__colorSelector.setDecorator(null);
-      this.__colorSelector.setBackgroundColor(null);
-      this.__colorSelector.setPadding(0);
-      this.__colorSelector.addListener("dialogok", this._onColorSelectorOk, this);
-      this.__colorSelector.addListener("dialogcancel", this._onColorSelectorCancel, this);
       win.add(this.__colorSelector);
 
-      var buttonBar = new qx.ui.container.Composite(new qx.ui.layout.HBox(4, "right"));
-      buttonBar.setPaddingTop(3);
+      var buttonBar = new qx.ui.container.Composite(new qx.ui.layout.HBox(8, "right"));
       win.add(buttonBar);
 
       var btnCancel = new qx.ui.form.Button(this.tr("Cancel"), "icon/16/actions/dialog-cancel.png");
-      btnCancel.addListener("execute", function(e){
-         this.fireEvent("dialogcancel");
-      }, this.__colorSelector);
+      btnCancel.addListener("execute", this._onColorSelectorCancel, this);
 
       var btnOk = new qx.ui.form.Button(this.tr("OK"), "icon/16/actions/dialog-ok.png");
-      btnOk.addListener("execute", function(e){
-         this.fireEvent("dialogok");
-      }, this.__colorSelector);
+      btnOk.addListener("execute", this._onColorSelectorOk, this);
 
       buttonBar.add(btnCancel);
       buttonBar.add(btnOk);
