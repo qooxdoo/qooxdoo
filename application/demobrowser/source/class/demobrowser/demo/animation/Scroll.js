@@ -32,7 +32,6 @@ qx.Class.define("demobrowser.demo.animation.Scroll",
 
       var doc = new qx.ui.root.Inline(document.getElementById("qooxdoo"));
 
-      //var doc = this.getRoot();
       myElement = document.getElementById("testDiv");
 
       // Only one effect should be executed at the same time in gloabl queue
