@@ -121,10 +121,7 @@ qx.Class.define("qx.ui.control.ColorPopup",
   members :
   {
     __minZIndex : 1e5,
-    __automaticBtn : null,
     __boxes : null,
-    __previewBox : null,
-    __selectorButton : null,
     __colorSelectorWindow : null,
     __colorSelector : null,
     __recentTableId : "recent",
@@ -303,7 +300,6 @@ qx.Class.define("qx.ui.control.ColorPopup",
      */
     _rotatePreviousColors : function()
     {
-
       if(!this._tables){
         return;
       }
@@ -400,6 +396,11 @@ qx.Class.define("qx.ui.control.ColorPopup",
       this._createColorSelector();
 
       this.exclude();
+
+      this.__colorSelector.setRed(this.getRed());
+      this.__colorSelector.setGreen(this.getGreen());
+      this.__colorSelector.setBlue(this.getBlue());
+
       this.__colorSelectorWindow.open();
     },
 
@@ -442,7 +443,6 @@ qx.Class.define("qx.ui.control.ColorPopup",
         values : [ ]
       }
     }
-
   },
 
 
@@ -456,10 +456,7 @@ qx.Class.define("qx.ui.control.ColorPopup",
 
   destruct : function()
   {
-    this._disposeObjects("_layout", "__automaticBtn", "__previewBox", "_previewLayout",
-      "__selectorButton", "__colorSelectorWindow",
-      "__colorSelector");
-
+    this._disposeObjects("__colorSelectorWindow", "__colorSelector");
     this._disposeFields("_tables", "__boxes");
   }
 });
