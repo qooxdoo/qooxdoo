@@ -1782,7 +1782,7 @@ qx.Class.define("qx.ui.core.Widget",
     _addBefore : function(child, before, options)
     {
       if (qx.core.Variant.isSet("qx.debug", "on")) {
-        this.assertInArray(before, this.__widgetChildren, "The 'before' widget is not a child of this widget!");
+        this.assertInArray(before, this._getChildren(), "The 'before' widget is not a child of this widget!");
       }
 
       if (child == before) {
@@ -1815,7 +1815,7 @@ qx.Class.define("qx.ui.core.Widget",
     _addAfter : function(child, after, options)
     {
       if (qx.core.Variant.isSet("qx.debug", "on")) {
-        this.assertInArray(after, this.__widgetChildren, "The 'before' widget is not a child of this widget!");
+        this.assertInArray(after, this._getChildren(), "The 'before' widget is not a child of this widget!");
       }
 
       if (child == after) {
@@ -1846,7 +1846,7 @@ qx.Class.define("qx.ui.core.Widget",
     _remove : function(child)
     {
       if (!this.__widgetChildren) {
-        throw new Error("This widget has no children!");
+        return;
       }
 
       qx.lang.Array.remove(this.__widgetChildren, child);
