@@ -60,12 +60,21 @@ qx.Class.define("qx.ui.core.queue.Dispose",
      */
     flush : function()
     {
+      // Dispose all registered objects
       var queue = this.__queue;
       for (var hash in queue)
       {
         queue[hash].dispose();
         delete queue[hash];
       }
+
+      // Empty check
+      for (var hash in queue) {
+        return;
+      }
+
+      // Recreate the map is cheaper compared to keep a holey map over time
+      this.__queue = {};
     }
   }
 });
