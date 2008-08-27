@@ -145,7 +145,9 @@ qx.Class.define("qx.io.remote.RequestQueue",
 
 
     /**
-     * TODOC
+     * Checks the queue if any request is left to send and uses the transport
+     * layer to send the open requests.
+     * This method calls itself until every request in the queue is send. 
      *
      * @return {void}
      */
@@ -216,9 +218,10 @@ qx.Class.define("qx.io.remote.RequestQueue",
 
 
     /**
-     * TODOC
+     * Removes a transport object from the active queue and disposes the 
+     * transport object in order stop the request.
      *
-     * @param vTransport {var} TODOC
+     * @param vTransport {qx.io.remote.Exchange} Transport object
      * @return {void}
      */
     _remove : function(vTransport)
@@ -246,9 +249,10 @@ qx.Class.define("qx.io.remote.RequestQueue",
 
 
     /**
-     * TODOC
+     * Listens for the "sending" event of the transport object and increases
+     * the counter for active requests.
      *
-     * @param e {Event} TODOC
+     * @param e {qx.event.type.Event} event object
      * @return {void}
      */
     _onsending : function(e)
@@ -267,9 +271,10 @@ qx.Class.define("qx.io.remote.RequestQueue",
 
 
     /**
-     * TODOC
+     * Listens for the "completed" event of the transport object and decreases
+     * the counter for active requests.
      *
-     * @param e {Event} TODOC
+     * @param e {qx.event.type.Event} event object
      * @return {void}
      */
     _oncompleted : function(e)
@@ -299,9 +304,10 @@ qx.Class.define("qx.io.remote.RequestQueue",
     */
 
     /**
-     * TODOC
+     * Listens for the "interval" event of the transport object and checks
+     * if the active requests are timed out. 
      *
-     * @param e {Event} TODOC
+     * @param e {qx.event.type.Event} event object
      * @return {void}
      */
     _oninterval : function(e)
