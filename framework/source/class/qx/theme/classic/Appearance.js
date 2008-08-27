@@ -1825,6 +1825,40 @@ qx.Theme.define("qx.theme.classic.Appearance",
         }
       }
     },
+    
+    
+    
+    
+    /*
+    ---------------------------------------------------------------------------
+      MENU BAR
+    ---------------------------------------------------------------------------
+    */
+
+    "menubar" :
+    {
+      style : function(states)
+      {
+        return {
+          backgroundColor : "background",
+          decorator       : "outset"
+        };
+      }
+    },
+   
+    "menubar-button" :
+    {
+      alias : "atom",
+     
+      style : function(states)
+      {
+        return {
+          padding : [ 2, 6 ],
+          backgroundColor : states.pressed || states.hovered ? "background-selected" : "undefined",
+          textColor : states.pressed || states.hovered ? "text-selected" : "undefined",
+        };
+      }
+    },
 
 
 
