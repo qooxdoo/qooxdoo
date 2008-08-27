@@ -1,5 +1,5 @@
 /**
- * An internal window based on qooxdoo widgets
+ * An internal window, similar to Windows' MDI child windows, based on qooxdoo widgets.
  *
  * *Example*
  *
