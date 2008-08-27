@@ -26,7 +26,7 @@ qx.Class.define("qx.event.message.Bus",
 {
   type : "singleton",
 
-  extend : qx.core.Target,
+  extend : qx.core.Object,
 
   statics :
   {
