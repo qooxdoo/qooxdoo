@@ -51,6 +51,92 @@ qx.Class.define("qx.test.ui.ChildrenHandling",
     },
 
 
+    testRemove : function()
+    {
+      var parent = new qx.ui.container.Composite(new qx.ui.layout.Basic());
+
+      var c1 = new qx.ui.core.Widget();
+      var c2 = new qx.ui.core.Widget();
+      var c3 = new qx.ui.core.Widget();
+
+      var w1 = new qx.ui.core.Widget();
+
+      var children = [c1, c2, c3];
+      this._setChildren(parent, children);
+
+      parent.remove(c1);
+      this.assertArrayEquals([c2, c3], parent.getChildren(), "remove first");
+      this._setChildren(parent, children);
+
+      parent.remove(c2);
+      this.assertArrayEquals([c1, c3], parent.getChildren(), "remove middle");
+      this._setChildren(parent, children);
+
+      parent.remove(c3);
+      this.assertArrayEquals([c1, c2], parent.getChildren(), "remove last");
+      this._setChildren(parent, children);
+
+      parent.remove(w1);
+      this.assertArrayEquals([c1, c2, c3], parent.getChildren(), "remove non child");
+      this._setChildren(parent, children);
+
+      c1.destroy();
+      c2.destroy();
+      c3.destroy();
+      w1.destroy();
+      parent.destroy();
+    },
+
+
+    testRemoveAt : function()
+    {
+      var parent = new qx.ui.container.Composite(new qx.ui.layout.Basic());
+
+      var c1 = new qx.ui.core.Widget();
+      var c2 = new qx.ui.core.Widget();
+      var c3 = new qx.ui.core.Widget();
+
+      var w1 = new qx.ui.core.Widget();
+
+      var children = [c1, c2, c3];
+
+
+      this._setChildren(parent, children);
+      parent.removeAt(0);
+      this.assertArrayEquals([c2, c3], parent.getChildren(), "remove first");
+
+      this._setChildren(parent, children);
+      parent.removeAt(1);
+      this.assertArrayEquals([c1, c3], parent.getChildren(), "remove middle");
+
+      this._setChildren(parent, children);
+      parent.removeAt(2);
+      this.assertArrayEquals([c1, c2], parent.getChildren(), "remove last");
+
+      if (this.isDebugOn())
+      {
+        this._setChildren(parent, children);
+        this.assertException(function() {
+          parent.removeAt(-1);
+        }, qx.core.AssertionError, "", "remove at negative index");
+      }
+
+      if (this.isDebugOn())
+      {
+        this._setChildren(parent, children);
+        this.assertException(function() {
+          parent.removeAt(-1);
+        }, qx.core.AssertionError, "", "remove at negative index");
+      }
+
+      c1.destroy();
+      c2.destroy();
+      c3.destroy();
+      w1.destroy();
+      parent.destroy();
+    },
+
+
     testAddBefore : function()
     {
       var parent = new qx.ui.container.Composite(new qx.ui.layout.Basic());
