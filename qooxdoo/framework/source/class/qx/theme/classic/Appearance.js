@@ -1514,6 +1514,11 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
+    "datechooser/last-year-button-tooltip" : "tooltip",
+    "datechooser/last-month-button-tooltip" : "tooltip",
+    "datechooser/next-year-button-tooltip" : "tooltip",
+    "datechooser/next-month-button-tooltip" : "tooltip",
+
     "datechooser/last-year-button"  : "datechooser/button",
     "datechooser/last-month-button" : "datechooser/button",
     "datechooser/next-year-button"  : "datechooser/button",

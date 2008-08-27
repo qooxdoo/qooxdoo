@@ -118,6 +118,10 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
     __overallColumnArr : null,
     __columnDataArr : null,
 
+    __headerRenderer : null,
+    __dataRenderer : null,
+    __editorFactory : null,
+
 
     /**
      * Initializes the column model.
@@ -130,9 +134,9 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
       this.__columnDataArr = [];
 
       var width = qx.ui.table.columnmodel.Basic.DEFAULT_WIDTH;
-      var headerRenderer = new qx.ui.table.columnmodel.Basic.DEFAULT_HEADER_RENDERER();
-      var dataRenderer = new qx.ui.table.columnmodel.Basic.DEFAULT_DATA_RENDERER();
-      var editorFactory = new qx.ui.table.columnmodel.Basic.DEFAULT_EDITOR_FACTORY();
+      var headerRenderer = this.__headerRenderer = new qx.ui.table.columnmodel.Basic.DEFAULT_HEADER_RENDERER();
+      var dataRenderer = this.__dataRenderer = new qx.ui.table.columnmodel.Basic.DEFAULT_DATA_RENDERER();
+      var editorFactory = this.__editorFactory = new qx.ui.table.columnmodel.Basic.DEFAULT_EDITOR_FACTORY();
       this.__overallColumnArr = [];
       this.__visibleColumnArr = [];
 
@@ -210,7 +214,13 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
      *      should get.
      * @return {void}
      */
-    setHeaderCellRenderer : function(col, renderer) {
+    setHeaderCellRenderer : function(col, renderer)
+    {
+      var oldRenderer = this.__columnDataArr[col].headerRenderer;
+      if (oldRenderer !== this.__headerRenderer) {
+        oldRenderer.dispose();
+      }
+
       this.__columnDataArr[col].headerRenderer = renderer;
     },
 
@@ -233,7 +243,13 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
      * @param renderer {DataCellRenderer} the new data renderer the column should get.
      * @return {void}
      */
-    setDataCellRenderer : function(col, renderer) {
+    setDataCellRenderer : function(col, renderer)
+    {
+      var oldRenderer = this.__columnDataArr[col].headerRenderer;
+      if (oldRenderer !== this.__dataRenderer) {
+        oldRenderer.dispose();
+      }
+
       this.__columnDataArr[col].dataRenderer = renderer;
     },
 
@@ -256,7 +272,13 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
      * @param factory {CellEditorFactory} the new cell editor factory the column should get.
      * @return {void}
      */
-    setCellEditorFactory : function(col, factory) {
+    setCellEditorFactory : function(col, factory)
+    {
+      var oldRenderer = this.__columnDataArr[col].headerRenderer;
+      if (oldRenderer !== this.__editorFactory) {
+        oldRenderer.dispose();
+      }
+
       this.__columnDataArr[col].editorFactory = factory;
     },
 
@@ -505,7 +527,22 @@ qx.Class.define("qx.ui.table.columnmodel.Basic",
 
   destruct : function()
   {
-    this._disposeFields("__overallColumnArr", "__visibleColumnArr",
-      "__columnDataArr", "__colToXPosMap");
+    for (var i=0; i< this.__columnDataArr.length; i++)
+    {
+      this.__columnDataArr[i].headerRenderer.dispose();
+      this.__columnDataArr[i].dataRenderer.dispose();
+      this.__columnDataArr[i].editorFactory.dispose();
+    }
+
+    this._disposeFields(
+      "__overallColumnArr", "__visibleColumnArr",
+      "__columnDataArr", "__colToXPosMap"
+    );
+
+    this._disposeObjects(
+      "__headerRenderer",
+      "__dataRenderer",
+      "__editorFactory"
+    );
   }
 });

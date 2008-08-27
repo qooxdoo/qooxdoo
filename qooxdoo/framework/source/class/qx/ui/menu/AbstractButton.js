@@ -264,6 +264,24 @@ qx.Class.define("qx.ui.menu.AbstractButton",
         this._excludeChildControl("arrow");
       }
     }
-  }
+  },
+
+
+
+  /*
+   *****************************************************************************
+      DESTRUCTOR
+   *****************************************************************************
+   */
+
+   destruct : function()
+   {
+     if (this.getMenu())
+     {
+       if (!qx.core.ObjectRegistry.inShutDown) {
+         this.getMenu().destroy();
+       }
+     }
+   }
 });
 
