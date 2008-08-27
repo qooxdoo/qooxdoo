@@ -202,13 +202,10 @@ qx.Class.define("qx.ui.control.ColorSelector",
         ---------------------------------------------------------------------------
         */
         case "control-bar":
-          control = new qx.ui.container.Composite(new qx.ui.layout.HBox().set({
-            alignY : "bottom"
-          }));
+          control = new qx.ui.container.Composite(new qx.ui.layout.HBox(10));
 
           control.add(this._getChildControl("control-pane"));
-          control.add(this._getChildControl("hue-saturation-pane"));
-          control.add(this._getChildControl("brightness-pane"));
+          control.add(this._getChildControl("visual-pane"));
 
           this._add(control);
           break;
@@ -219,8 +216,15 @@ qx.Class.define("qx.ui.control.ColorSelector",
         ---------------------------------------------------------------------------
         */
 
+        case "visual-pane":
+          control = new qx.ui.groupbox.GroupBox(this.tr("Visual"));
+          control.setLayout(new qx.ui.layout.HBox(10));
+          control.add(this._getChildControl("hue-saturation-pane"));
+          control.add(this._getChildControl("brightness-pane"));
+          break;
+
         case "control-pane":
-          control = new qx.ui.container.Composite(new qx.ui.layout.VBox());
+          control = new qx.ui.container.Composite(new qx.ui.layout.VBox(12));
           control.add(this._getChildControl("preset-field-set"));
           control.add(this._getChildControl("input-field-set"));
           control.add(this._getChildControl("preview-field-set"), {flex: 1});
@@ -279,7 +283,7 @@ qx.Class.define("qx.ui.control.ColorSelector",
           break;
 
         case "preset-grid":
-          controlLayout = new qx.ui.layout.Grid(2, 2);
+          controlLayout = new qx.ui.layout.Grid(3, 3);
           control = new qx.ui.container.Composite(controlLayout);
 
           var colorField;
@@ -311,8 +315,7 @@ qx.Class.define("qx.ui.control.ColorSelector",
 
         case "preview-field-set":
           control = new qx.ui.groupbox.GroupBox(this.tr("Preview (Old/New)"));
-          var controlLayout = new qx.ui.layout.HBox();
-          controlLayout.setSpacing(10);
+          var controlLayout = new qx.ui.layout.HBox(10);
           control.setLayout(controlLayout);
 
           control.add(this._getChildControl("preview-content-old"), {flex: 1});
@@ -556,7 +559,7 @@ qx.Class.define("qx.ui.control.ColorSelector",
         if (this._getChildControl("hue-saturation-handle").getBounds()) {
           this._getChildControl("hue-saturation-handle").setDomLeft(Math.round(value / 1.40625) + this._getChildControl("hue-saturation-pane").getPaddingLeft());
         } else {
-          this._getChildControl("hue-saturation-handle").setLeft(Math.round(value / 1.40625));
+          this._getChildControl("hue-saturation-handle").setLayoutProperties({ left : Math.round(value / 1.40625) });
         }
       }
 
@@ -587,11 +590,10 @@ qx.Class.define("qx.ui.control.ColorSelector",
 
       if (this.__updateContext !== "hueSaturationField")
       {
-        var offset = this._getChildControl("hue-saturation-field").getBounds().top;
         if (this._getChildControl("hue-saturation-handle").getBounds()) {
-          this._getChildControl("hue-saturation-handle").setDomTop(256 - offset - Math.round(value * 2.56) + this._getChildControl("hue-saturation-pane").getPaddingTop());
+          this._getChildControl("hue-saturation-handle").setDomTop(256 - Math.round(value * 2.56) + this._getChildControl("hue-saturation-pane").getPaddingTop());
         } else {
-          this._getChildControl("hue-saturation-handle").setTop(256 - offset - Math.round(value * 2.56));
+          this._getChildControl("hue-saturation-handle").setLayoutProperties({ top : 256 - Math.round(value * 2.56)});
         }
       }
 
@@ -622,12 +624,12 @@ qx.Class.define("qx.ui.control.ColorSelector",
 
       if (this.__updateContext !== "brightnessField")
       {
-        var topValue = 256 - Math.round(value * 2.56) - this._getChildControl("hue-saturation-field").getBounds().top;
+        var topValue = 256 - Math.round(value * 2.56);
 
         if (this._getChildControl("brightness-handle").getBounds()) {
           this._getChildControl("brightness-handle").setDomTop(topValue + this._getChildControl("brightness-pane").getPaddingTop());
         } else {
-          this._getChildControl("brightness-handle").setTop(topValue);
+          this._getChildControl("brightness-handle").setLayoutProperties({ top : topValue });
         }
       }
 
@@ -748,14 +750,13 @@ qx.Class.define("qx.ui.control.ColorSelector",
     _setBrightnessOnFieldEvent : function(e)
     {
       var value = qx.lang.Number.limit(e.getDocumentTop() - this.__brightnessSubtract, 0, 256);
-      var fieldBounds = this._getChildControl("brightness-field").getBounds();
 
       this.__updateContext = "brightnessField";
 
       if (this._getChildControl("brightness-handle").getBounds()) {
-        this._getChildControl("brightness-handle").setDomTop(value + this._getChildControl("brightness-pane").getPaddingTop() - fieldBounds.top);
+        this._getChildControl("brightness-handle").setDomTop(value);
       } else {
-        this._getChildControl("brightness-handle").setTop(value - fieldBounds.top);
+        this._getChildControl("brightness-handle").setLayoutProperties({ top : value });
       }
 
       this.setBrightness(100 - Math.round(value / 2.56));
