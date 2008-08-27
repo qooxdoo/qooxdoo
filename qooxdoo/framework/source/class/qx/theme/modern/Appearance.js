@@ -1952,8 +1952,39 @@ qx.Theme.define("qx.theme.modern.Appearance",
         }
       }
     },
+    
+    
+    
+    
+    /*
+    ---------------------------------------------------------------------------
+      MENU BAR
+    ---------------------------------------------------------------------------
+    */
 
-
+   "menubar" :
+   {
+      style : function(states)
+      {
+        return {
+          decorator : "menubar"
+        }
+      }
+   },
+   
+   "menubar-button" :
+   {
+     alias : "atom",
+     
+     style : function(states)
+     {
+       return {
+         decorator : states.pressed || states.hovered ? "selected" : "undefined",
+         textColor : states.pressed || states.hovered ? "text-selected" : "text-label",
+         padding   : [ 5, 8 ]
+       }
+     }
+   },
 
 
 

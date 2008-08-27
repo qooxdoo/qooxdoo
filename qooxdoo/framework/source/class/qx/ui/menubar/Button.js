@@ -22,7 +22,7 @@
  */
 qx.Class.define("qx.ui.menubar.Button",
 {
-  extend : qx.ui.toolbar.Button,
+  extend : qx.ui.toolbar.MenuButton,
 
 
 
