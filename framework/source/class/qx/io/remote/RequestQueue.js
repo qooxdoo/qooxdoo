@@ -67,6 +67,10 @@ qx.Class.define("qx.io.remote.RequestQueue",
 
   properties :
   {
+
+    /**
+     * Indicates whether queue is enabled or not.
+     */
     enabled :
     {
       init : true,
@@ -122,9 +126,7 @@ qx.Class.define("qx.io.remote.RequestQueue",
     */
 
     /**
-     * TODOC
-     *
-     * @return {void}
+     * Generates debug output
      */
     _debug : function()
     {
@@ -360,12 +362,8 @@ qx.Class.define("qx.io.remote.RequestQueue",
     ---------------------------------------------------------------------------
     */
 
-    /**
-     * TODOC
-     *
-     * @param value {var} Current value
-     * @param old {var} Previous value
-     */
+
+    // property apply
     _applyEnabled : function(value, old)
     {
       if (value) {
@@ -387,7 +385,7 @@ qx.Class.define("qx.io.remote.RequestQueue",
     /**
      * Add the request to the pending requests queue.
      *
-     * @param vRequest {var} TODOC
+     * @param vRequest {var} The request
      * @return {void}
      */
     add : function(vRequest)
@@ -411,7 +409,7 @@ qx.Class.define("qx.io.remote.RequestQueue",
      *  signal are notified about the event. If the request isn't in the
      *  pending requests queue, this method is a noop.
      *
-     * @param vRequest {var} TODOC
+     * @param vRequest {var} The request
      * @return {void}
      */
     abort : function(vRequest)

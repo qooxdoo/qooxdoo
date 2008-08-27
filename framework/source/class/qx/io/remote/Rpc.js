@@ -131,9 +131,24 @@ qx.Class.define("qx.io.remote.Rpc",
 
   events :
   {
+    /**
+     * Fired when call is completed.
+     */
     "completed" : "qx.event.type.Event",
+
+    /**
+     * Fired when call aborted.
+     */
     "aborted" : "qx.event.type.Event",
+
+    /**
+     * Fired when call failed.
+     */
     "failed" : "qx.event.type.Event",
+
+    /**
+     * Fired when call timed out.
+     */
     "timeout" : "qx.event.type.Event"
   },
 
