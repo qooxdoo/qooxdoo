@@ -466,7 +466,7 @@ qx.Class.define("testrunner.runner.TestRunner",
 
     /**
      * Creates the application header.
-     */    
+     */
     __createHeader : function()
     {
       var layout = new qx.ui.layout.HBox();
@@ -808,7 +808,7 @@ qx.Class.define("testrunner.runner.TestRunner",
 
       function runtest()
       {
-        that.widgets["statuspane.systeminfo"].setContent(this.tr("Running tests..."));
+        that.widgets["statuspane.systeminfo"].setContent(that.tr("Running tests..."));
         that.toolbar.setEnabled(false);  // if we are run as run_pending
 
         if (tlist.length)
@@ -826,11 +826,11 @@ qx.Class.define("testrunner.runner.TestRunner",
           {
             that.reloadswitch.setChecked(true);
             that.tests.firstrun = false;
-            that.widgets["statuspane.systeminfo"].setContent(this.tr("Enabled auto-reload"));
+            that.widgets["statuspane.systeminfo"].setContent(that.tr("Enabled auto-reload"));
           }
           else
           {
-            that.widgets["statuspane.systeminfo"].setContent(this.tr("Ready"));
+            that.widgets["statuspane.systeminfo"].setContent(that.tr("Ready"));
           }
         }
       }
