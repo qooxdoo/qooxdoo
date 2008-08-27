@@ -140,13 +140,13 @@ qx.Class.define("qx.ui.table.pane.Pane",
 
     // property modifier
     _applyFirstVisibleRow : function(value, old) {
-      this._updateContent(false, value-old);
+      this.updateContent(false, value-old);
     },
 
 
     // property modifier
     _applyVisibleRowCount : function(value, old) {
-      this._updateContent();
+      this.updateContent();
     },
 
 
@@ -193,10 +193,10 @@ qx.Class.define("qx.ui.table.pane.Pane",
           if (row !== null && oldRow !== null)
           {
             // NOTE: Only the old and the new row need update
-            this._updateContent(false, null, oldRow, true);
-            this._updateContent(false, null, row, true);
+            this.updateContent(false, null, oldRow, true);
+            this.updateContent(false, null, row, true);
           } else {
-            this._updateContent();
+            this.updateContent();
           }
         }
       }
@@ -207,7 +207,7 @@ qx.Class.define("qx.ui.table.pane.Pane",
      * Event handler. Called when the selection has changed.
      */
     onSelectionChanged : function() {
-      this._updateContent(false, null, null, true);
+      this.updateContent(false, null, null, true);
     },
 
 
@@ -215,7 +215,7 @@ qx.Class.define("qx.ui.table.pane.Pane",
      * Event handler. Called when the table gets or looses the focus.
      */
     onFocusChanged : function() {
-      this._updateContent(false, null, null, true);
+      this.updateContent(false, null, null, true);
     },
 
 
@@ -227,7 +227,7 @@ qx.Class.define("qx.ui.table.pane.Pane",
      * @return {void}
      */
     setColumnWidth : function(col, width) {
-      this._updateContent(true);
+      this.updateContent(true);
     },
 
 
@@ -237,7 +237,7 @@ qx.Class.define("qx.ui.table.pane.Pane",
      * @return {void}
      */
     onColOrderChanged : function() {
-      this._updateContent(true);
+      this.updateContent(true);
     },
 
 
@@ -245,7 +245,7 @@ qx.Class.define("qx.ui.table.pane.Pane",
      * Event handler. Called when the pane model has changed.
      */
     onPaneModelChanged : function() {
-      this._updateContent(true);
+      this.updateContent(true);
     },
 
 
@@ -267,7 +267,7 @@ qx.Class.define("qx.ui.table.pane.Pane",
       if (lastRow == -1 || lastRow >= paneFirstRow && firstRow < paneFirstRow + rowCount)
       {
         // The change intersects this pane
-        this._updateContent();
+        this.updateContent();
       }
     },
 
@@ -278,7 +278,7 @@ qx.Class.define("qx.ui.table.pane.Pane",
      * @return {void}
      */
     onTableModelMetaDataChanged : function() {
-      this._updateContent(true);
+      this.updateContent(true);
     },
 
 
@@ -349,7 +349,7 @@ qx.Class.define("qx.ui.table.pane.Pane",
      *          be updated. Only the row background will.
      * @return {void}
      */
-    _updateContent : function(completeUpdate, scrollOffset, onlyRow, onlySelectionOrFocusChanged)
+    updateContent : function(completeUpdate, scrollOffset, onlyRow, onlySelectionOrFocusChanged)
     {
       if (completeUpdate) {
         this.__rowCacheClear();
