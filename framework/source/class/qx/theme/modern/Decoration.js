@@ -734,6 +734,25 @@ qx.Theme.define("qx.theme.modern.Decoration",
         widthBottom : 1,
         colorBottom : "#FAFAFA"
       }
+    },
+    
+    /*
+    ---------------------------------------------------------------------------
+      APPLICATION
+    ---------------------------------------------------------------------------
+    */
+    
+    "app-header":
+    {
+      decorator : qx.ui.decoration.Background,
+      
+      style :
+      {
+        backgroundImage : "decoration/app-header.png",
+        backgroundRepeat : "scale"
+      }
+
     }
+    
   }
 });
