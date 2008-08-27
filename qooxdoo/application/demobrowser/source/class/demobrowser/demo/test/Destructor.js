@@ -24,76 +24,64 @@ qx.Class.define("demobrowser.demo.test.Destructor",
 
   members :
   {
-    map : new Array(),
-    htmlRootElement : null,
-    offset : 0,
-    masterLabel : null,
+    __data : [],
 
-    testHTMLElement: function()
+    main : function()
     {
-      var popped;
-      while (popped=this.map.pop()) {
-        popped.dispose();
-        popped=null;
-      }
+      // Call super class
+      this.base(arguments);
 
-      for ( var i = 0; i < 500; i++)
-      {
-        var qxElement = new qx.html.Label;
-        qxElement.setContent(this.offset + "Test");
+      this.__timer = new qx.event.Timer(300);
+      this.__timer.addListener("interval", this.runTest, this);
+      this.__timer.start();
 
-        this.htmlRootElement.add(qxElement);
+      this.__round = 0;
 
-        this.map.push(qxElement);
-        this.offset++;
-      }
-
-      this.masterLabel.setContent("Widget Count: "+this.offset);
-      qx.event.Timer.once(this.testHTMLElement, this, 300);
+      // Test labels
+      this.currentTest = this.testLabels;
     },
 
-    testWidgets: function()
+    runTest : function()
     {
-      var popped;
-      while (popped=this.map.pop()) {
-        popped.destroy();
-        popped=null;
-      }
+      // Debug
+      this.__round++;
+      var len = qx.lang.Object.getLength(qx.core.ObjectRegistry.getRegistry());
+      this.debug("Round: " + this.__round + " (Registry: " + len + ")");
 
-      for ( var i = 0; i < 100; i++)
+      // Test labels
+      this.currentTest();
+
+      // Render content
+      qx.ui.core.queue.Manager.flush();
+
+      // Clear
+      var data = this.__data;
+      for (var i=0, l=data.length; i<l; i++) {
+        data[i].destroy();
+      }
+      data.length = 0;
+
+      // Clear content
+      qx.ui.core.queue.Manager.flush();
+
+      // Debug
+      var len = qx.lang.Object.getLength(qx.core.ObjectRegistry.getRegistry());
+      this.debug("Done! (Registry: " + len + ")");
+    },
+
+    testLabels: function()
+    {
+      for ( var i=0; i<100; i++)
       {
-        var label=new qx.ui.basic.Label(this.offset + "Test");
+        var label=new qx.ui.basic.Label("Label: " + i);
 
         this.getRoot().add(label, {
           left : 50,
           top : 50 + i*20
         });
 
-        this.map.push(label);
-        this.offset++;
+        this.__data.push(label);
       }
-
-      this.masterLabel.setContent("Widget Count: " + this.offset);
-      qx.event.Timer.once(this.testWidgets, this, 300);
-    },
-
-
-    main : function()
-    {
-      // Call super class
-      this.base(arguments);
-      this.masterLabel = new qx.ui.basic.Label();
-      this.getRoot().add(this.masterLabel, {
-        left : 200,
-        top : 10
-      });
-
-      var body = qx.dom.Node.getBodyElement(document);
-      this.htmlRootElement = new qx.html.Root(body);
-
-      // toggle comment for different tests
-      //this.testHTMLElement();
-      this.testWidgets();
     }
   }
 });
