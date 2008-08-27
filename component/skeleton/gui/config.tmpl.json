@@ -14,6 +14,7 @@
     "QOOXDOO_PATH" : "${REL_QOOXDOO_PATH}/framework",
     "QOOXDOO_URI"  : "../$${QOOXDOO_PATH}",
     "QXTHEME"      : "qx.theme.Modern",
+    "API_EXCLUDE"  : ["qx.legacy.*"],
     "LOCALES"      : [ "en" ],
     "ROOT"         : "."
   }
