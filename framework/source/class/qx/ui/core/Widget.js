@@ -724,7 +724,7 @@ qx.Class.define("qx.ui.core.Widget",
   statics :
   {
     /** Whether the widget should print out hints and debug messages */
-    DEBUG : true,
+    DEBUG : false,
 
     /**
      * Returns the widget, which contains the given DOM element.
