@@ -31,7 +31,8 @@
 ************************************************************************ */
 
 /**
- *
+ * Transport layer to control which transport class (XmlHttp, Iframe or Script)
+ * can be used.
  *
  * @internal
  */
@@ -48,6 +49,11 @@ qx.Class.define("qx.io.remote.Exchange",
   *****************************************************************************
   */
 
+  /**
+   * Contructor method.
+   *
+   * @param vRequest {qx.io.remote.Request} request object
+   */
   construct : function(vRequest)
   {
     this.base(arguments);
@@ -66,11 +72,22 @@ qx.Class.define("qx.io.remote.Exchange",
   */
 
   events : {
+    /** Fired whenever a request is send */
     "sending" : "qx.event.type.Event",
+    
+    /** Fired whenever a request is received */
     "receiving" : "qx.event.type.Event",
+    
+    /** Fired whenever a request is completed */
     "completed" : "qx.io.remote.Response",
+    
+    /** Fired whenever a request is aborted */
     "aborted" : "qx.io.remote.Response",
+    
+    /** Fired whenever a request has failed */
     "failed" : "qx.io.remote.Response",
+    
+    /** Fired whenever a request has timed out */
     "timeout" : "qx.io.remote.Response"
   },
 
@@ -103,10 +120,11 @@ qx.Class.define("qx.io.remote.Exchange",
 
 
     /**
-     * TODOC
+     * Registers a transport type.
+     * At the moment one out of XmlHttp, Iframe or Script. 
      *
-     * @param vClass {var} TODOC
-     * @param vId {var} TODOC
+     * @param vClass {Object} transport class
+     * @param vId {String} unique id
      * @return {void}
      */
     registerType : function(vClass, vId) {
@@ -115,10 +133,11 @@ qx.Class.define("qx.io.remote.Exchange",
 
 
     /**
-     * TODOC
+     * Initializes the available type of transport classes and
+     * checks for the supported ones.
      *
      * @return {void}
-     * @throws TODOC
+     * @throws an error if no supported transport type is available
      */
     initTypes : function()
     {
@@ -144,11 +163,12 @@ qx.Class.define("qx.io.remote.Exchange",
 
 
     /**
-     * TODOC
+     * Checks which supported transport class can handle the request with the
+     * given content type.
      *
-     * @param vImpl {var} TODOC
-     * @param vNeeds {var} TODOC
-     * @param vResponseType {var} TODOC
+     * @param vImpl {Object} transport implementation
+     * @param vNeeds {Map} requirements for the request like e.g. "cross-domain"
+     * @param vResponseType {String} content type
      */
     canHandle : function(vImpl, vNeeds, vResponseType)
     {
@@ -213,12 +233,12 @@ qx.Class.define("qx.io.remote.Exchange",
     */
 
     /**
-     * TODOC
+     * Called from the transport class when a request was completed.
      *
-     * @param vStatusCode {var} TODOC
-     * @param vReadyState {var} TODOC
-     * @param vIsLocal {var} TODOC
-     * @return {boolean | var} TODOC
+     * @param vStatusCode {Integer} status code of the request
+     * @param vReadyState {String} readystate of the request
+     * @param vIsLocal {Boolean} whether the request is a local one
+     * @return {Boolean | var} Returns boolean value depending on the status code 
      * @throws TODOC
      */
     wasSuccessful : function(vStatusCode, vReadyState, vIsLocal)
@@ -351,10 +371,10 @@ qx.Class.define("qx.io.remote.Exchange",
 
 
     /**
-     * TODOC
+     * Status code to string conversion
      *
-     * @param vStatusCode {var} TODOC
-     * @return {string} TODOC
+     * @param vStatusCode {Integer} request status code
+     * @return {string} String presentation of status code
      */
     statusCodeToString : function(vStatusCode)
     {
@@ -512,6 +532,7 @@ qx.Class.define("qx.io.remote.Exchange",
       apply : "_applyImplementation"
     },
 
+    /** Current state of the transport layer. */
     state :
     {
       check : [ "configured", "sending", "receiving", "completed", "aborted", "timeout", "failed" ],
@@ -539,9 +560,9 @@ qx.Class.define("qx.io.remote.Exchange",
     */
 
     /**
-     * TODOC
+     * Sends the request.
      *
-     * @return {var | Boolean} TODOC
+     * @return {var | Boolean} Returns true if the request was sent.
      */
     send : function()
     {
@@ -699,9 +720,9 @@ qx.Class.define("qx.io.remote.Exchange",
     */
 
     /**
-     * TODOC
+     * Event listener for "sending" event.
      *
-     * @param e {Event} TODOC
+     * @param e {qx.event.type.Event} event object
      * @return {void}
      */
     _onsending : function(e) {
@@ -710,9 +731,9 @@ qx.Class.define("qx.io.remote.Exchange",
 
 
     /**
-     * TODOC
+     * Event listener for "receiving" event.
      *
-     * @param e {Event} TODOC
+     * @param e {qx.event.type.Event} event object
      * @return {void}
      */
     _onreceiving : function(e) {
@@ -721,9 +742,9 @@ qx.Class.define("qx.io.remote.Exchange",
 
 
     /**
-     * TODOC
+     * Event listener for "completed" event.
      *
-     * @param e {Event} TODOC
+     * @param e {qx.event.type.Event} event object
      * @return {void}
      */
     _oncompleted : function(e) {
@@ -732,9 +753,9 @@ qx.Class.define("qx.io.remote.Exchange",
 
 
     /**
-     * TODOC
+     * Event listener for "abort" event.
      *
-     * @param e {Event} TODOC
+     * @param e {qx.event.type.Event} event object
      * @return {void}
      */
     _onabort : function(e) {
@@ -743,9 +764,9 @@ qx.Class.define("qx.io.remote.Exchange",
 
 
     /**
-     * TODOC
+     * Event listener for "failed" event.
      *
-     * @param e {Event} TODOC
+     * @param e {qx.event.type.Event} event object
      * @return {void}
      */
     _onfailed : function(e) {
@@ -754,9 +775,9 @@ qx.Class.define("qx.io.remote.Exchange",
 
 
     /**
-     * TODOC
+     * Event listener for "timeout" event.
      *
-     * @param e {Event} TODOC
+     * @param e {qx.event.type.Event} event object
      * @return {void}
      */
     _ontimeout : function(e) {
@@ -773,7 +794,7 @@ qx.Class.define("qx.io.remote.Exchange",
     */
 
     /**
-     * TODOC
+     * Apply method for the implementation property.
      *
      * @param value {var} Current value
      * @param old {var} Previous value
@@ -819,7 +840,7 @@ qx.Class.define("qx.io.remote.Exchange",
 
 
     /**
-     * TODOC
+     * Apply method for the state property.
      *
      * @param value {var} Current value
      * @param old {var} Previous value
