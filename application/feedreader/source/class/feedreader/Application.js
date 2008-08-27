@@ -198,6 +198,10 @@ qx.Class.define("feedreader.Application",
       var dockLayoutComposite = new qx.ui.container.Composite(dockLayout);
       this.getRoot().add(dockLayoutComposite, {edge:0});
 
+      // Create header
+      this._header = new feedreader.view.Header();
+      dockLayoutComposite.add(this._header, {edge: "north"});
+
       // Create toolbar
       this._toolBarView = new feedreader.view.ToolBar(this);
       dockLayoutComposite.add(this._toolBarView, {edge: "north"});

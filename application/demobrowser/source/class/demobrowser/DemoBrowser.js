@@ -61,6 +61,8 @@ qx.Class.define("demobrowser.DemoBrowser",
     layout.setSeparator("separator-vertical");
     this.setLayout(layout);
 
+    // Header
+    this.add(this.__createHeader());
 
     // Data
     this.widgets = {};
@@ -960,6 +962,27 @@ qx.Class.define("demobrowser.DemoBrowser",
       this.__currentTheme = e.getData();
       this.runSample();
     },
+
+
+    /**
+     * Creates the application header.
+     */    
+    __createHeader : function()
+    {
+      var layout = new qx.ui.layout.HBox();
+      var header = new qx.ui.container.Composite(layout);
+      header.setAppearance("app-header");
+
+      var title = new qx.ui.basic.Label("Demo Browser");
+      var version = new qx.ui.basic.Label("qooxdoo " + qx.core.Setting.get("qx.version"));
+
+      header.add(title);
+      header.add(new qx.ui.core.Spacer, {flex : 1});
+      header.add(version);
+
+      return header;
+    },
+
 
     defaultUrl : "demo/welcome.html"
   },

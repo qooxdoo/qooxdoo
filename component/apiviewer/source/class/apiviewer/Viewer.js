@@ -252,7 +252,9 @@ qx.Class.define("apiviewer.Viewer",
       return mainSplitPane;
     },
     
-    
+    /**
+     * Creates the application header.
+     */    
     __createHeader : function()
     {
       var layout = new qx.ui.layout.HBox();
