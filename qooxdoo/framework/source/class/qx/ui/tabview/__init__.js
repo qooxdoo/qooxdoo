@@ -2,7 +2,7 @@
  * The tab view stacks several pages above each other and allows to switch
  * between them by using a list of buttons.
  *
- * The buttons are positioned on on of the tab view's edges.
+ * The buttons are positioned on one of the tab view's edges.
  *
  * *Example*
  *
