@@ -81,7 +81,7 @@ qx.Class.define("qx.html.Element",
     */
 
     /** {Boolean} If debugging should be enabled */
-    _debug : false,
+    DEBUG : false,
 
 
     /** {Map} Contains the modified {@link qx.html.Element}s. The key is the hash code. */
@@ -165,7 +165,7 @@ qx.Class.define("qx.html.Element",
 
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        if (this._debug) {
+        if (this.DEBUG) {
           qx.log.Logger.debug(this, "Flushing elements...");
         }
       }
@@ -192,7 +192,7 @@ qx.Class.define("qx.html.Element",
           {
             if (qx.core.Variant.isSet("qx.debug", "on"))
             {
-              if (this._debug) {
+              if (this.DEBUG) {
                 obj.debug("Flush invisible element");
               }
             }
@@ -211,7 +211,7 @@ qx.Class.define("qx.html.Element",
 
         if (qx.core.Variant.isSet("qx.debug", "on"))
         {
-          if (this._debug) {
+          if (this.DEBUG) {
             obj.debug("Flush rendered element");
           }
         }
@@ -257,7 +257,7 @@ qx.Class.define("qx.html.Element",
 
         if (qx.core.Variant.isSet("qx.debug", "on"))
         {
-          if (this._debug) {
+          if (this.DEBUG) {
             qx.log.Logger.debug(this, "Switching visibility to: " + obj._visible);
           }
         }
@@ -445,7 +445,7 @@ qx.Class.define("qx.html.Element",
     {
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        if (this._debug) {
+        if (this.DEBUG) {
           this.debug("Flush: " + this.getAttribute("id"));
         }
       }
@@ -620,7 +620,7 @@ qx.Class.define("qx.html.Element",
       // User feedback
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
-        if (qx.html.Element._debug) {
+        if (qx.html.Element.DEBUG) {
           this.debug("Synced DOM with " + domOperations + " operations");
         }
       }

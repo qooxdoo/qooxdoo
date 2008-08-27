@@ -769,7 +769,7 @@ qx.Class.define("qx.core.Object",
   */
 
   settings : {
-    "qx.disposerDebugLevel" : 1
+    "qx.disposerDebugLevel" : 0
   },
 
 
