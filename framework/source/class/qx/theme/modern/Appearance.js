@@ -1156,19 +1156,19 @@ qx.Theme.define("qx.theme.modern.Appearance",
         var icon;
         if (states.selected && states.opened)
         {
-          icon = "decoration/tree/tree-open-selected.png";
+          icon = "decoration/tree/open-selected.png";
         }
         else if (states.selected && !states.opened)
         {
-          icon = "decoration/tree/tree-closed-selected.png";
+          icon = "decoration/tree/closed-selected.png";
         }
         else if (states.opened)
         {
-          icon = "decoration/tree/tree-open.png";
+          icon = "decoration/tree/open.png";
         }
         else
         {
-          icon = "decoration/tree/tree-closed.png";
+          icon = "decoration/tree/closed.png";
         }
 
         return {
