@@ -46,8 +46,8 @@ qx.Class.define("qx.event.handler.UserAction",
     this.base(arguments);
 
     // Define shorthands
-    this._manager = manager;
-    this._window = manager.getWindow();
+    this.__manager = manager;
+    this.__window = manager.getWindow();
   },
 
 
@@ -114,7 +114,6 @@ qx.Class.define("qx.event.handler.UserAction",
 
 
 
-
   /*
   *****************************************************************************
      DESTRUCTOR
@@ -122,9 +121,8 @@ qx.Class.define("qx.event.handler.UserAction",
   */
 
   destruct : function() {
-    this._disposeFields("_manager", "_window");
+    this._disposeFields("__manager", "__window");
   },
-
 
 
 
