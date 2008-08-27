@@ -309,7 +309,12 @@ qx.Class.define("qx.ui.embed.Iframe",
   *****************************************************************************
   */
 
-  destruct : function() {
-    this._disposeObjects("__blockerElement")
+  destruct : function()
+  {
+    this._disposeObjects("__blockerElement");
+
+    qx.event.Registration.removeListener(document.body, "mousedown", this.block, this, true);
+    qx.event.Registration.removeListener(document.body, "mouseup", this.release, this, true);
+    qx.event.Registration.removeListener(document.body, "losecapture", this.release, this, true);
   }
 });

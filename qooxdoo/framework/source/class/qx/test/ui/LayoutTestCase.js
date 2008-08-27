@@ -32,9 +32,19 @@ qx.Class.define("qx.test.ui.LayoutTestCase",
       var cls = qx.test.ui.LayoutTestCase;
       qx.theme.manager.Meta.getInstance().initialize();
 
-      if (!cls._root) {
+      if (!cls._root)
+      {
         cls._root = new qx.ui.root.Application(document);
+
+        qx.core.Init.getApplication = function() {
+          return {
+            getRoot : function() {
+              return cls._root;
+            }
+          }
+        }
       }
+
       return cls._root;
     },
 

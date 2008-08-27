@@ -217,7 +217,7 @@ qx.Class.define("qx.ui.embed.Canvas",
 
 		/**
 		 * Redraw the canvas
-     */ 
+     */
     update : function() {
       this.__deferredDraw.schedule();
     },
@@ -271,8 +271,7 @@ qx.Class.define("qx.ui.embed.Canvas",
       DESTRUCT
    *****************************************************************************
    */
-  destruct : function()
-  {
-    this._disposeFields("__deferredDraw");
+  destruct : function() {
+    this._disposeObjects("__deferredDraw");
   }
 });
