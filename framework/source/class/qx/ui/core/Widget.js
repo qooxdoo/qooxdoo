@@ -3723,7 +3723,9 @@ qx.Class.define("qx.ui.core.Widget",
 
   destruct : function()
   {
-    this._disposeChildControls();
+    if (!qx.core.ObjectRegistry.inShutDown) {
+      this._disposeChildControls();
+    }
 
     this._disposeArray("__widgetChildren");
     this._disposeArray("__layoutChildren");

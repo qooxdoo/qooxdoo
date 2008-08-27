@@ -2392,14 +2392,17 @@ qx.Class.define("qx.html.Element",
 
   destruct : function()
   {
-    var el = this._element;
-    if (el) {
-      qx.event.Registration.getManager(el).removeAllListeners(el);
-    }
+    if (!qx.core.ObjectRegistry.inShutDown)
+    {
+      var el = this._element;
+      if (el) {
+        qx.event.Registration.getManager(el).removeAllListeners(el);
+      }
 
-    var parent = this.__parent;
-    if (parent && !parent.$$disposed) {
-      parent.remove(this);
+      var parent = this.__parent;
+      if (parent && !parent.$$disposed) {
+        parent.remove(this);
+      }
     }
 
     this._disposeArray("__children");
