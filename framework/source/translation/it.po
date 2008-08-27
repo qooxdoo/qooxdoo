@@ -1,11 +1,11 @@
 # Italian
-# 
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: qooxdoo framework\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-01-15 10:00+0100\n"
-"PO-Revision-Date: 2007-01-06 13:26+0100\n"
+"PO-Revision-Date: 2008-08-26 17:59+0100\n"
 "Last-Translator: Alessandro Sala <alessandro.sala@mclink.net>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -64,7 +64,7 @@ msgstr "ID"
 
 #: qx/legacy/ui/form/ComboBoxEx.js:929
 msgid "Search"
-msgstr ""
+msgstr "Cerca"
 
 #: qx/legacy/ui/form/ComboBoxEx.js:1042
 msgid "Case sensitive"
@@ -81,19 +81,19 @@ msgstr "Cerca tra le voci della lista"
 #: qx/legacy/ui/table/Table.js:1541 qx/ui/table/Table.js:1513
 msgid "one row"
 msgid_plural "%1 rows"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "una riga"
+msgstr[1] "%1 righe"
 
 #: qx/legacy/ui/table/Table.js:1543 qx/ui/table/Table.js:1515
 msgid "one of one row"
 msgid_plural "%1 of %2 rows"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "una di una riga"
+msgstr[1] "%1 di %2 righe"
 
 #: qx/legacy/ui/table/columnmodel/Resize.js:205
 #: qx/ui/table/columnmodel/Resize.js:209
 msgid "Reset column widths"
-msgstr ""
+msgstr "Ripristina le larghezze delle colonne"
 
 #: qx/locale/Key.js:76
 msgid "key_short_Backspace"
@@ -354,18 +354,3 @@ msgstr "RGB"
 #: qx/legacy/ui/component/ColorSelector.js:499
 msgid "HSB"
 msgstr "TSL"
-
-#~ msgid "Hello %1!"
-#~ msgstr ""
-
-#~ msgid "Jony"
-#~ msgstr ""
-
-#~ msgid "One car"
-#~ msgstr ""
-
-#~ msgid "one"
-#~ msgstr ""
-
-#~ msgid "two"
-#~ msgstr ""

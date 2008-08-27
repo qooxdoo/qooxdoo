@@ -1,11 +1,11 @@
 # Italian
-# 
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: qooxdoo feedreader\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2007-11-09 22:22+0100\n"
-"PO-Revision-Date: 2006-12-21 22:55+0100\n"
+"PO-Revision-Date: 2008-08-26 18:49+0100\n"
 "Last-Translator: Alessandro Sala <alessandro.sala@mclink.net>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -16,56 +16,56 @@ msgstr ""
 
 #: feedreader/Application.js:347
 msgid "FeedReader (qooxdoo powered)"
-msgstr ""
+msgstr "FeedReader (realizzato con qooxdoo)"
 
 #: feedreader/view/AddFeedWindow.js:49
 msgid "Add a feed"
-msgstr ""
+msgstr "Aggiungi un feed"
 
 #: feedreader/view/AddFeedWindow.js:86
 msgid "Feed Information"
-msgstr ""
+msgstr "Informazioni sul Feed"
 
 #: feedreader/view/AddFeedWindow.js:93
 msgid "Title:"
-msgstr ""
+msgstr "Titolo:"
 
 #: feedreader/view/AddFeedWindow.js:96
 msgid "URL:"
-msgstr ""
+msgstr "URL:"
 
 #: feedreader/view/AddFeedWindow.js:108
 msgid "Add"
-msgstr ""
+msgstr "Aggiungi"
 
 #: feedreader/view/AddFeedWindow.js:130
 msgid "Please enter a title."
-msgstr ""
+msgstr "Inserisci un titolo."
 
 #: feedreader/view/AddFeedWindow.js:138
 msgid "Please enter a url."
-msgstr ""
+msgstr "Inserisci un URL."
 
 #: feedreader/view/List.js:45
 msgid "Posts"
-msgstr ""
+msgstr "Messaggi"
 
-#: feedreader/view/PreferenceWindow.js:48 feedreader/view/ToolBar.js:86
+#: feedreader/view/PreferenceWindow.js:48
+#: feedreader/view/ToolBar.js:86
 msgid "Preferences"
-msgstr ""
+msgstr "Preferenze"
 
 #: feedreader/view/PreferenceWindow.js:85
 msgid "Language"
-msgstr ""
+msgstr "Lingua"
 
 #: feedreader/view/ToolBar.js:60
-#, fuzzy
 msgid "Add feed"
 msgstr "Aggiungi un feed"
 
 #: feedreader/view/ToolBar.js:64
 msgid "Remove feed"
-msgstr "Rimuovi un feed"
+msgstr "Rimuovi il feed"
 
 #: feedreader/view/ToolBar.js:74
 msgid "Reload"
@@ -73,11 +73,11 @@ msgstr "Ricarica"
 
 #: feedreader/view/ToolBar.js:77
 msgid "Reload the feeds. (%1)"
-msgstr ""
+msgstr "Ricarica i feed. (%1)"
 
 #: feedreader/view/ToolBar.js:88
 msgid "Open preferences window."
-msgstr ""
+msgstr "Apri la finestra delle preferenze."
 
 #: feedreader/view/ToolBar.js:101
 msgid "Help"
@@ -85,62 +85,8 @@ msgstr "Aiuto"
 
 #: feedreader/view/Tree.js:65
 msgid "Static Feeds"
-msgstr ""
+msgstr "Feed statici"
 
 #: feedreader/view/Tree.js:69
 msgid "User Feeds"
-msgstr ""
-
-#~ msgid "(%1) Reload the feeds."
-#~ msgstr "(%1) Ricarica i feed"
-
-#~ msgid "Cancel"
-#~ msgstr ""
-
-#~ msgid "Classic"
-#~ msgstr ""
-
-#~ msgid "Date"
-#~ msgstr "Data"
-
-#~ msgid "English"
-#~ msgstr "Inglese"
-
-#~ msgid "German"
-#~ msgstr "Tedesco"
-
-#~ msgid "ID"
-#~ msgstr ""
-
-#~ msgid "Italian"
-#~ msgstr "Italiano"
-
-#~ msgid "Modern"
-#~ msgstr ""
-
-#~ msgid "News feeds"
-#~ msgstr "Feed di notizie"
-
-#~ msgid "Theme"
-#~ msgstr ""
-
-#~ msgid "OK"
-#~ msgstr ""
-
-#~ msgid "Russian"
-#~ msgstr "Russo"
-
-#~ msgid "Spanish"
-#~ msgstr "Spagnolo"
-
-#~ msgid "Subject"
-#~ msgstr "Oggetto"
-
-#~ msgid "Swedish"
-#~ msgstr "Svedese"
-
-#~ msgid "Turkish"
-#~ msgstr "Turco"
-
-#~ msgid "read more ..."
-#~ msgstr "continua..."
+msgstr "Feed utente"
