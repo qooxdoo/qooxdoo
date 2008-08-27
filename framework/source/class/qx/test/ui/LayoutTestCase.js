@@ -27,6 +27,16 @@ qx.Class.define("qx.test.ui.LayoutTestCase",
 
   members :
   {
+    setUp : function() {
+      this.getRoot();
+    },
+
+
+    tearDown : function() {
+      this.getRoot().removeAll();
+    },
+
+
     getRoot : function()
     {
       var cls = qx.test.ui.LayoutTestCase;
@@ -46,6 +56,103 @@ qx.Class.define("qx.test.ui.LayoutTestCase",
       }
 
       return cls._root;
+    },
+
+
+    assertDestroy : function(fcn, context, msg)
+    {
+      // call function
+      fcn.call(context);
+      qx.ui.core.queue.Manager.flush();
+      qx.ui.core.queue.Manager.flush();
+
+
+      // copy object registry
+      var regCopy = qx.lang.Object.copy(qx.core.ObjectRegistry.getRegistry());
+
+      // copy event listener structure
+      var eventMgr = qx.event.Registration.getManager(window);
+      var listeners= eventMgr.__listeners;
+      var listenersCopy = {};
+      for (var hash in listeners)
+      {
+        listenersCopy[hash] = {};
+        for (var key in listeners[hash]) {
+          listenersCopy[hash][key] = qx.lang.Array.copy(listeners[hash][key]);
+        }
+      }
+
+      // call function
+      fcn.call(context);
+      qx.ui.core.queue.Manager.flush();
+      qx.ui.core.queue.Manager.flush();
+
+      // measure increase in object counts
+
+      // check object registry
+      var reg = qx.core.ObjectRegistry.getRegistry();
+      for (key in reg)
+      {
+        var obj = reg[key];
+        this.assertNotUndefined(
+          regCopy[key],
+          msg + ": The object '" + obj + "' has not been disposed!"
+        );
+      }
+
+      listeners = eventMgr.__listeners;
+
+      for (var hash in listeners)
+      {
+        if (!listenersCopy[hash]) {
+          listenersCopy[hash] = {};
+        }
+
+        for (key in listeners[hash])
+        {
+          if (!listenersCopy[hash][key]) {
+            listenersCopy[hash][key] = [];
+          }
+
+          for (var i=0; i<listeners[hash][key].length; i++)
+          {
+            if (listenersCopy[hash][key].indexOf(listeners[hash][key][i]) == -1) {
+              this.fail(
+                  msg + ": The event listener '"+ key + ":" +
+                  listeners[hash][key][i] + "'for the object '" +
+                  hash + ":" + qx.core.ObjectRegistry.fromHashCode(hash) +
+                  "' has not been removed."
+                );
+            }
+          }
+        }
+      }
+
+      // check root children length
+      this.assertIdentical(
+        0, this.getRoot().getChildren().length,
+        msg + ": The root Children array must be empty but found: " + this.getRoot().getChildren().join(", ")
+      );
+    },
+
+
+    assertWidgetDispose : function(clazz, args, msg)
+    {
+      this.assertDestroy(function()
+      {
+        var argStr = [];
+        for (var i=0; i<args.length; i++) {
+          argStr.push("args[" + i + "]");
+        }
+        var widget;
+        var str = "var widget = new clazz(" + argStr.join(", ") + ");"
+        eval(str);
+
+        this.getRoot().add(widget);
+        qx.ui.core.queue.Manager.flush();
+
+        widget.destroy();
+      }, this, msg);
     },
 
 
