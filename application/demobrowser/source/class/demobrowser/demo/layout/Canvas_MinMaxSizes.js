@@ -48,8 +48,6 @@ qx.Class.define("demobrowser.demo.layout.Canvas_MinMaxSizes",
         allowStretchX : true,
         allowStretchY : true
       });
-      
-      console.debug(w3.getSizeHint())
 
       w4 = new qx.ui.core.Widget().set({
         backgroundColor: "yellow",
