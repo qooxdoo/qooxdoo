@@ -27,6 +27,7 @@ qx.Class.define("demobrowser.demo.test.Table_RowRenderer",
     main: function()
     {
       this.base(arguments);
+      qx.theme.manager.Meta.getInstance().initialize();
 
       this.setUp();
       this.testDefaultRenderer();
