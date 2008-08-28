@@ -109,8 +109,9 @@ qx.Class.define("qx.io.remote.transport.Iframe",
 
 
     /**
-     * TODOC
-     *
+     * Returns always true, because iframe transport is supported by all browsers. 
+     * 
+     * @return {Boolean}
      */
     isSupported : function() {
       return true;
@@ -160,7 +161,7 @@ qx.Class.define("qx.io.remote.transport.Iframe",
     */
 
     /**
-     * TODOC
+     * Sends a request with the use of a form.
      *
      * @return {void}
      */
@@ -226,7 +227,7 @@ qx.Class.define("qx.io.remote.transport.Iframe",
     /**
      * Converting complete state to numeric value and update state property
      *
-     * @param e {Event} TODOC
+     * @param e {qx.event.type.Event} event object
      * @return {void}
      */
     _onload : function(e)
@@ -242,7 +243,7 @@ qx.Class.define("qx.io.remote.transport.Iframe",
     /**
      * Converting named readyState to numeric value and update state property
      *
-     * @param e {Event} TODOC
+     * @param e {qx.event.type.Event} event object
      * @return {void}
      */
     _onreadystatechange : function(e) {
@@ -251,9 +252,9 @@ qx.Class.define("qx.io.remote.transport.Iframe",
 
 
     /**
-     * TODOC
+     * Switches the readystate by setting the internal state.
      *
-     * @param vReadyState {var} TODOC
+     * @param vReadyState {String} readystate value
      * @return {void}
      */
     _switchReadyState : function(vReadyState)
@@ -285,10 +286,12 @@ qx.Class.define("qx.io.remote.transport.Iframe",
     */
 
     /**
-     * TODOC
+     * Sets a request header with the given value. 
+     * 
+     * This method is not implemented at the moment.
      *
-     * @param vLabel {var} TODOC
-     * @param vValue {var} TODOC
+     * @param vLabel {String} request header name
+     * @param vValue {var} request header value
      * @return {void}
      */
     setRequestHeader : function(vLabel, vValue) {},
@@ -302,10 +305,12 @@ qx.Class.define("qx.io.remote.transport.Iframe",
     */
 
     /**
-     * TODOC
+     * Returns the value of the given response header.
+     * 
+     * This method is not implemented at the moment and returns always "null".
      *
-     * @param vLabel {var} TODOC
-     * @return {Object} TODOC
+     * @param vLabel {String} Response header name
+     * @return {null} Returns null
      */
     getResponseHeader : function(vLabel) {
       return null;
@@ -315,8 +320,10 @@ qx.Class.define("qx.io.remote.transport.Iframe",
     // this.error("Need implementation", "getResponseHeader");
     /**
      * Provides an hash of all response headers.
+     * 
+     * This method is not implemented at the moment and returns an empty map.
      *
-     * @return {Map} TODOC
+     * @return {Map} empty map
      */
     getResponseHeaders : function() {
       return {};
@@ -332,8 +339,9 @@ qx.Class.define("qx.io.remote.transport.Iframe",
 
     /**
      * Returns the current status code of the request if available or -1 if not.
+     * This method needs implementation (returns always 200).
      *
-     * @return {Integer} TODOC
+     * @return {Integer} status code
      */
     getStatusCode : function() {
       return 200;
@@ -343,8 +351,9 @@ qx.Class.define("qx.io.remote.transport.Iframe",
     // this.error("Need implementation", "getStatusCode");
     /**
      * Provides the status text for the current request if available and null otherwise.
+     * This method needs implementation (returns always an empty string)
      *
-     * @return {string} TODOC
+     * @return {String} status code text
      */
     getStatusText : function() {
       return "";
@@ -359,9 +368,9 @@ qx.Class.define("qx.io.remote.transport.Iframe",
     */
 
     /**
-     * TODOC
+     * Returns the DOM window object of the used iframe.
      *
-     * @return {var} TODOC
+     * @return {Object} DOM window object
      */
     getIframeWindow : function() {
       return qx.bom.Iframe.getWindow(this.__frame);
@@ -369,9 +378,9 @@ qx.Class.define("qx.io.remote.transport.Iframe",
 
 
     /**
-     * TODOC
+     * Returns the document node of the used iframe.
      *
-     * @return {var} TODOC
+     * @return {Object} document node
      */
     getIframeDocument : function() {
       return qx.bom.Iframe.getDocument(this.__frame);
@@ -379,9 +388,9 @@ qx.Class.define("qx.io.remote.transport.Iframe",
 
 
     /**
-     * TODOC
+     * Returns the body node of the used iframe.
      *
-     * @return {var} TODOC
+     * @return {Object} body node
      */
     getIframeBody : function() {
       return qx.bom.Iframe.getBody(this.__frame);
@@ -397,9 +406,9 @@ qx.Class.define("qx.io.remote.transport.Iframe",
     */
 
     /**
-     * TODOC
+     * Returns the iframe content (innerHTML) as text.
      *
-     * @return {null | var} TODOC
+     * @return {String} iframe content as text
      */
     getIframeTextContent : function()
     {
@@ -425,9 +434,9 @@ qx.Class.define("qx.io.remote.transport.Iframe",
 
 
     /**
-     * TODOC
+     * Returns the iframe content as HTML.
      *
-     * @return {var} TODOC
+     * @return {String} iframe content as HTML
      */
     getIframeHtmlContent : function()
     {
@@ -437,9 +446,10 @@ qx.Class.define("qx.io.remote.transport.Iframe",
 
 
     /**
-     * Returns the length of the content as fetched thus far
+     * Returns the length of the content as fetched thus far.
+     * This method needs implementation (returns always 0).
      *
-     * @return {Integer} TODOC
+     * @return {Integer} Returns 0
      */
     getFetchedLength : function() {
       return 0;
@@ -448,9 +458,9 @@ qx.Class.define("qx.io.remote.transport.Iframe",
     // TODO
     // throw new Error("getFetchedLength is abstract");
     /**
-     * TODOC
+     * Returns the content of the response
      *
-     * @return {null | var} TODOC
+     * @return {null | String} null or text of the response (=iframe content).
      */
     getResponseContent : function()
     {
