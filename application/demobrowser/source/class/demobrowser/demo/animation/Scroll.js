@@ -31,7 +31,7 @@ qx.Class.define("demobrowser.demo.animation.Scroll",
       this.base(arguments);
 
       var doc = new qx.ui.root.Inline(document.getElementById("qooxdoo"));
-      doc.setDecorator(null);
+      doc.setBackgroundColor(null);
 
       myElement = document.getElementById("testDiv");
 
