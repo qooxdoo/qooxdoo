@@ -30,7 +30,7 @@ qx.Class.define("demobrowser.demo.bom.Location",
 
       var links = document.getElementById("list").getElementsByTagName("a");
       for (var i=0, l=links.length; i<l; i++) {
-        links[i].onclick = demobrowser.demo.bom.Location_1.jump;
+        links[i].onclick = demobrowser.demo.bom.Location.jump;
       }
     }
   },
