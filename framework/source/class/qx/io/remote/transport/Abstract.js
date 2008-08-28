@@ -51,25 +51,25 @@ qx.Class.define("qx.io.remote.transport.Abstract",
   events : {
     /** Event when a request is created */
     "created" : "qx.event.type.Event",
-    
+
     /** Event when a request is configured */
     "configured" : "qx.event.type.Event",
-    
+
     /** Event when a request is send */
     "sending" : "qx.event.type.Event",
-    
+
     /** Event when a request is received */
     "receiving" : "qx.event.type.Event",
-    
+
     /** Event when a request is completed */
     "completed" : "qx.event.type.Event",
-    
+
     /** Event when a request is aborted */
     "aborted" : "qx.event.type.Event",
-    
+
     /** Event when a request has failed */
     "failed" : "qx.event.type.Event",
-    
+
     /** Event when a request has timed out */
     "timeout" : "qx.event.type.Event"
   },
@@ -201,7 +201,7 @@ qx.Class.define("qx.io.remote.transport.Abstract",
 
     /**
      * Sending a request.
-     * 
+     *
      * This method is virtual and concrete subclasses are supposed to
      * implement it.
      *
@@ -236,7 +236,7 @@ qx.Class.define("qx.io.remote.transport.Abstract",
 
     /**
      * Force the transport into the timeout state ("timeout").
-     * 
+     *
      * Listeners of the "timeout" signal are notified about the event.
      *
      * @return {void}
@@ -309,7 +309,7 @@ qx.Class.define("qx.io.remote.transport.Abstract",
 
     /**
      * Returns the request header of the request.
-     * 
+     *
      * This method is virtual and concrete subclasses are supposed to
      * implement it.
      *
@@ -325,7 +325,7 @@ qx.Class.define("qx.io.remote.transport.Abstract",
 
     /**
      * Provides an hash of all response headers.
-     * 
+     *
      * This method is virtual and concrete subclasses are supposed to
      * implement it.
      *
@@ -348,7 +348,7 @@ qx.Class.define("qx.io.remote.transport.Abstract",
 
     /**
      * Returns the current status code of the request if available or -1 if not.
-     * 
+     *
      * This method is virtual and concrete subclasses are supposed to
      * implement it.
      *
@@ -363,7 +363,7 @@ qx.Class.define("qx.io.remote.transport.Abstract",
 
     /**
      * Provides the status text for the current request if available and null otherwise.
-     * 
+     *
      * This method is virtual and concrete subclasses are supposed to
      * implement it.
      *
@@ -388,7 +388,7 @@ qx.Class.define("qx.io.remote.transport.Abstract",
      * Provides the response text from the request when available and null otherwise.
      * By passing true as the "partial" parameter of this method, incomplete data will
      * be made available to the caller.
-     *  
+     *
      * This method is virtual and concrete subclasses are supposed to
      * implement it.
      *
@@ -405,7 +405,7 @@ qx.Class.define("qx.io.remote.transport.Abstract",
      * Provides the XML provided by the response if any and null otherwise.
      * By passing true as the "partial" parameter of this method, incomplete data will
      * be made available to the caller.
-     * 
+     *
      * This method is virtual and concrete subclasses are supposed to
      * implement it.
      *
@@ -420,7 +420,7 @@ qx.Class.define("qx.io.remote.transport.Abstract",
 
     /**
      * Returns the length of the content as fetched thus far.
-     * 
+     *
      * This method is virtual and concrete subclasses are supposed to
      * implement it.
      *
@@ -443,7 +443,7 @@ qx.Class.define("qx.io.remote.transport.Abstract",
 
     /**
      * Apply method for "state" property. For each state value a corresponding
-     * event is fired to inform the listeners. 
+     * event is fired to inform the listeners.
      *
      * @param value {var} Current value
      * @param old {var} Previous value

@@ -58,25 +58,25 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
   events : {
     /** Event when a request is created */
     "created" : "qx.event.type.Event",
-    
+
     /** Event when a request is configured */
     "configured" : "qx.event.type.Event",
-    
+
     /** Event when a request is sent */
     "sending" : "qx.event.type.Event",
-    
+
     /** Event when a request is received */
     "receiving" : "qx.event.type.Event",
-    
+
     /** Event when a request is completed */
     "completed" : "qx.event.type.Event",
-    
+
     /** Event when a request is aborted */
     "aborted" : "qx.event.type.Event",
-    
+
     /** Event when a request has failed */
     "failed" : "qx.event.type.Event",
-    
+
     /** Event when a request has timed out */
     "timeout" : "qx.event.type.Event"
   },
@@ -196,7 +196,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
     */
 
     /**
-     * Implementation for sending the request 
+     * Implementation for sending the request
      *
      * @return {void}
      */
@@ -518,7 +518,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
     /**
      * Returns all response headers of the request.
      *
-     * @return {var} response headers 
+     * @return {var} response headers
      */
     getStringResponseHeaders : function()
     {

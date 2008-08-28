@@ -74,19 +74,19 @@ qx.Class.define("qx.io.remote.Exchange",
   events : {
     /** Fired whenever a request is send */
     "sending" : "qx.event.type.Event",
-    
+
     /** Fired whenever a request is received */
     "receiving" : "qx.event.type.Event",
-    
+
     /** Fired whenever a request is completed */
     "completed" : "qx.io.remote.Response",
-    
+
     /** Fired whenever a request is aborted */
     "aborted" : "qx.io.remote.Response",
-    
+
     /** Fired whenever a request has failed */
     "failed" : "qx.io.remote.Response",
-    
+
     /** Fired whenever a request has timed out */
     "timeout" : "qx.io.remote.Response"
   },
@@ -121,7 +121,7 @@ qx.Class.define("qx.io.remote.Exchange",
 
     /**
      * Registers a transport type.
-     * At the moment one out of XmlHttp, Iframe or Script. 
+     * At the moment one out of XmlHttp, Iframe or Script.
      *
      * @param vClass {Object} transport class
      * @param vId {String} unique id
@@ -238,7 +238,7 @@ qx.Class.define("qx.io.remote.Exchange",
      * @param vStatusCode {Integer} status code of the request
      * @param vReadyState {String} readystate of the request
      * @param vIsLocal {Boolean} whether the request is a local one
-     * @return {Boolean | var} Returns boolean value depending on the status code 
+     * @return {Boolean | var} Returns boolean value depending on the status code
      * @throws TODOC
      */
     wasSuccessful : function(vStatusCode, vReadyState, vIsLocal)

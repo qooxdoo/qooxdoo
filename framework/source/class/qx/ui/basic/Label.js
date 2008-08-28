@@ -27,7 +27,7 @@
  *
  * The label supports heightForWidth when used in HTML mode. This means
  * that multi line HTML automatically computes the correct preferred height.
- * 
+ *
  * *Example*
  *
  * Here is a little example of how to use the widget.
@@ -37,7 +37,7 @@
  *   var label1 = new qx.ui.basic.Label("Simple text label");
  *   this.getRoot().add(label1, {left:20, top:10});
  *
- *   // a HTML label with automatic line wrapping 
+ *   // a HTML label with automatic line wrapping
  *   var label2 = new qx.ui.basic.Label().set({
  *     content: "A <b>long label</b> text with auto-wrapping. This also may contain <b style='color:red'>rich HTML</b> markup.",
  *     rich : true,

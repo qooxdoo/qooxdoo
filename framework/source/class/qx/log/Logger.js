@@ -56,7 +56,7 @@ qx.Bootstrap.define("qx.log.Logger",
 
 
     /**
-     * Returns the currently configured minimum log level required for new 
+     * Returns the currently configured minimum log level required for new
      * messages.
      *
      * @return {Integer} Debug level
@@ -78,7 +78,7 @@ qx.Bootstrap.define("qx.log.Logger",
 
 
     /**
-     * Returns the currently configured number of messages to be kept in the 
+     * Returns the currently configured number of messages to be kept in the
      * buffer.
      *
      * @return {Integer} Treshold value
@@ -162,8 +162,8 @@ qx.Bootstrap.define("qx.log.Logger",
      * Sending a message at level "debug" to the logger.
      *
      * @param object {Object} Contextual object (either instance or static class)
-     * @param message {var} Any number of arguments supported. An argument may 
-     *   have any JavaScript data type. All data is serialized immediately and 
+     * @param message {var} Any number of arguments supported. An argument may
+     *   have any JavaScript data type. All data is serialized immediately and
      *   does not keep references to other objects.
      * @return {void}
      */
@@ -176,8 +176,8 @@ qx.Bootstrap.define("qx.log.Logger",
      * Sending a message at level "info" to the logger.
      *
      * @param object {Object} Contextual object (either instance or static class)
-     * @param message {var} Any number of arguments supported. An argument may 
-     *   have any JavaScript data type. All data is serialized immediately and 
+     * @param message {var} Any number of arguments supported. An argument may
+     *   have any JavaScript data type. All data is serialized immediately and
      *   does not keep references to other objects.
      * @return {void}
      */
@@ -190,8 +190,8 @@ qx.Bootstrap.define("qx.log.Logger",
      * Sending a message at level "warn" to the logger.
      *
      * @param object {Object} Contextual object (either instance or static class)
-     * @param message {var} Any number of arguments supported. An argument may 
-     *   have any JavaScript data type. All data is serialized immediately and 
+     * @param message {var} Any number of arguments supported. An argument may
+     *   have any JavaScript data type. All data is serialized immediately and
      *   does not keep references to other objects.
      * @return {void}
      */
@@ -204,8 +204,8 @@ qx.Bootstrap.define("qx.log.Logger",
      * Sending a message at level "error" to the logger.
      *
      * @param object {Object} Contextual object (either instance or static class)
-     * @param message {var} Any number of arguments supported. An argument may 
-     *   have any JavaScript data type. All data is serialized immediately and 
+     * @param message {var} Any number of arguments supported. An argument may
+     *   have any JavaScript data type. All data is serialized immediately and
      *   does not keep references to other objects.
      * @return {void}
      */
@@ -413,7 +413,7 @@ qx.Bootstrap.define("qx.log.Logger",
 
     /**
      * Serializes the incoming value. If it is a singular value, the result is
-     * a simple string. For an array or a map the result can also be a 
+     * a simple string. For an array or a map the result can also be a
      * serialized string of a limited number of individual items.
      *
      * @param value {var} Incoming value

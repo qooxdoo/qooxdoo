@@ -34,17 +34,17 @@
  *
  * <pre class='javascript'>
  *   var button = new qx.ui.form.Button("Hello World");
- *   
+ *
  *   button.addListener("execute", function(e) {
  *     alert("Button was clicked");
  *   }, this);
  *
  *   this.getRoot.add(button);
  * </pre>
- * 
+ *
  * This example creates a button with the label "Hello World" and atached an
  * event listener to the {@link #execute} event.
- * 
+ *
  * *External Documentation*
  *
  * <a href='http://qooxdoo.org/documentation/0.8/widget/button' target='_blank'>

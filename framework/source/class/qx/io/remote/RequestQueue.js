@@ -147,7 +147,7 @@ qx.Class.define("qx.io.remote.RequestQueue",
     /**
      * Checks the queue if any request is left to send and uses the transport
      * layer to send the open requests.
-     * This method calls itself until every request in the queue is send. 
+     * This method calls itself until every request in the queue is send.
      *
      * @return {void}
      */
@@ -218,7 +218,7 @@ qx.Class.define("qx.io.remote.RequestQueue",
 
 
     /**
-     * Removes a transport object from the active queue and disposes the 
+     * Removes a transport object from the active queue and disposes the
      * transport object in order stop the request.
      *
      * @param vTransport {qx.io.remote.Exchange} Transport object
@@ -305,7 +305,7 @@ qx.Class.define("qx.io.remote.RequestQueue",
 
     /**
      * Listens for the "interval" event of the transport object and checks
-     * if the active requests are timed out. 
+     * if the active requests are timed out.
      *
      * @param e {qx.event.type.Event} event object
      * @return {void}

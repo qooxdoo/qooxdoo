@@ -109,8 +109,8 @@ qx.Class.define("qx.io.remote.transport.Iframe",
 
 
     /**
-     * Returns always true, because iframe transport is supported by all browsers. 
-     * 
+     * Returns always true, because iframe transport is supported by all browsers.
+     *
      * @return {Boolean}
      */
     isSupported : function() {
@@ -286,8 +286,8 @@ qx.Class.define("qx.io.remote.transport.Iframe",
     */
 
     /**
-     * Sets a request header with the given value. 
-     * 
+     * Sets a request header with the given value.
+     *
      * This method is not implemented at the moment.
      *
      * @param vLabel {String} request header name
@@ -306,7 +306,7 @@ qx.Class.define("qx.io.remote.transport.Iframe",
 
     /**
      * Returns the value of the given response header.
-     * 
+     *
      * This method is not implemented at the moment and returns always "null".
      *
      * @param vLabel {String} Response header name
@@ -320,7 +320,7 @@ qx.Class.define("qx.io.remote.transport.Iframe",
     // this.error("Need implementation", "getResponseHeader");
     /**
      * Provides an hash of all response headers.
-     * 
+     *
      * This method is not implemented at the moment and returns an empty map.
      *
      * @return {Map} empty map

@@ -735,40 +735,40 @@ qx.Theme.define("qx.theme.modern.Decoration",
         colorBottom : "#FAFAFA"
       }
     },
-    
-    
+
+
     /*
     ---------------------------------------------------------------------------
       MENU BAR
     ---------------------------------------------------------------------------
     */
-    
+
     "menubar" :
     {
       decorator : qx.ui.decoration.Single,
-      
+
       style :
       {
         backgroundImage  : "decoration/menu/bar-background.png",
         backgroundRepeat : "scale",
-      
+
         width : 1,
         color : "border-separator",
         style : "solid"
-      }      
+      }
     },
-    
-    
+
+
     /*
     ---------------------------------------------------------------------------
       APPLICATION
     ---------------------------------------------------------------------------
     */
-    
+
     "app-header":
     {
       decorator : qx.ui.decoration.Background,
-      
+
       style :
       {
         backgroundImage : "decoration/app-header.png",
@@ -776,6 +776,6 @@ qx.Theme.define("qx.theme.modern.Decoration",
       }
 
     }
-    
+
   }
 });
