@@ -15,7 +15,7 @@ msgstr ""
 
 #: feedreader/Application.js:351
 msgid "FeedReader (qooxdoo powered)"
-msgstr "Agrégateur de fils de syndications (fait à l'aide de qooxdoo)"
+msgstr "Agrégateur de fils de syndication (fait à l'aide de qooxdoo)"
 
 #: feedreader/view/AddFeedWindow.js:49
 msgid "Add a feed"
@@ -59,7 +59,7 @@ msgstr "Langue"
 
 #: feedreader/view/PreferenceWindow.js:123
 msgid "Cancel"
-msgstr "Annuller"
+msgstr "Annuler"
 
 #: feedreader/view/PreferenceWindow.js:126
 msgid "OK"
