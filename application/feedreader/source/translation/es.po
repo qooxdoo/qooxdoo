@@ -1,5 +1,5 @@
 # Spanish
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: qooxdoo feedreader\n"
@@ -58,13 +58,25 @@ msgstr "Preferencias"
 msgid "Language"
 msgstr "Lenguaje"
 
-#: feedreader/view/PreferenceWindow.js:121
+#: feedreader/view/PreferenceWindow.js:123
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: feedreader/view/PreferenceWindow.js:124
+#: feedreader/view/PreferenceWindow.js:126
 msgid "OK"
 msgstr "OK"
+
+#: feedreader/view/ToolBar.js:60
+msgid "Add feed"
+msgstr "Agregar feed"
+
+#: feedreader/view/ToolBar.js:64
+msgid "Remove feed"
+msgstr "Eliminar feed"
+
+#: feedreader/view/ToolBar.js:74
+msgid "Reload"
+msgstr "Actualizar"
 
 #: feedreader/view/ToolBar.js:77
 msgid "Reload the feeds. (%1)"
@@ -73,6 +85,10 @@ msgstr "Recargar los feeds (%1)"
 #: feedreader/view/ToolBar.js:88
 msgid "Open preferences window."
 msgstr "Abre la ventana de preferencias"
+
+#: feedreader/view/ToolBar.js:101
+msgid "Help"
+msgstr "Ayuda"
 
 #: feedreader/view/Tree.js:65
 msgid "Static Feeds"
