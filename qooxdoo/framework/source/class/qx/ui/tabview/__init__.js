@@ -19,7 +19,7 @@
  *   var page2 = new qx.ui.tabview.Page("Notes", "icon/16/apps/utilities-notes.png");
  *   tabView.add(page2);
  *
- *   this.getRoot(tabView);
+ *   this.getRoot().add(tabView);
  * </pre>
  *
  * This example builds a tab view with two pages called "Layout" and "Notes".

@@ -27,6 +27,28 @@
  *
  * If the {@link qx.ui.core.MExecutable#command} property is set, the
  * command is executed as well.
+ *
+ * *Example*
+ *
+ * Here is a little example of how to use the widget.
+ *
+ * <pre class='javascript'>
+ *   var button = new qx.ui.form.Button("Hello World");
+ *   
+ *   button.addListener("execute", function(e) {
+ *     alert("Button was clicked");
+ *   }, this);
+ *
+ *   this.getRoot.add(button);
+ * </pre>
+ * 
+ * This example creates a button with the label "Hello World" and atached an
+ * event listener to the {@link #execute} event.
+ * 
+ * *External Documentation*
+ *
+ * <a href='http://qooxdoo.org/documentation/0.8/widget/button' target='_blank'>
+ * Documentation of this widget in the qooxdoo wiki.</a>
  */
 qx.Class.define("qx.ui.form.Button",
 {
