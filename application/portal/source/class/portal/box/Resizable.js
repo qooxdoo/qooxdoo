@@ -21,14 +21,18 @@
 
 /**
  * Decorator to implement resizing of a box
- *
- * @param container {portal.box.Box} box instance to decorate
- * @param options {Map} Map to pass optional settings
  */
 qx.Class.define("portal.box.Resizable",
 {
   extend : qx.core.Object,
 
+  
+  /**
+   * Constructor method
+   * 
+   * @param box {portal.box.Box} box instance to decorate
+   * @param options {Map} Map to pass optional settings
+   */
   construct : function(box, options)
   {
     this.base(arguments);

@@ -40,6 +40,7 @@ qx.Class.define("portal.dragdrop.Manager",
       nullable : true
     },
     
+    /** Indicates whether a drag and drop session is currently active */
     sessionActive :
     {
       check : "Boolean",
@@ -251,8 +252,6 @@ qx.Class.define("portal.dragdrop.Manager",
      *
      * @param top {Integer} top coordinate of the drag event
      * @param left {Integer} left coordinate of the drag event
-     * @param offsetTop {Integer} offsetTop of the drag event
-     * @param offsetLeft {Integer} offsetLeft of the drag event 
      * @return {void} 
      */
     onDragMove : function(top, left)
