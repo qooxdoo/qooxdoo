@@ -29,6 +29,7 @@ body {
   width: 500px;
   xheight : 2000px;
   margin-left: 10px;
+  -moz-user-select:none;
 }
 
 #groupBoxLeft {
