@@ -19,12 +19,28 @@
 ************************************************************************ */
 
 /**
- * A multi-purpose widget used by many more complex widgets.
+ * A multi-purpose widget, which combines a label with an icon.
  *
  * The intended purpose of qx.ui.basic.Atom is to easily align the common icon-text
  * combination in different ways.
  *
  * This is useful for all types of buttons, tooltips, ...
+ *
+ * *Example*
+ *
+ * Here is a little example of how to use the widget.
+ *
+ * <pre class='javascript'>
+ *   var atom = new qx.ui.basic.Atom("Icon Right", "icon/32/actions/go-next.png");
+ *   this.getRoot().add(atom);
+ * </pre>
+ *
+ * This example creates an atom with the label "Icon Right" and an icon.
+ *
+ * *External Documentation*
+ *
+ * <a href='http://qooxdoo.org/documentation/0.8/widget/Atom' target='_blank'>
+ * Documentation of this widget in the qooxdoo wiki.</a>
  */
 qx.Class.define("qx.ui.basic.Atom",
 {

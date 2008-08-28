@@ -19,12 +19,28 @@
 ************************************************************************ */
 
 /**
- * The image class is used for buttons, toolbars, menus, ...
+ * The image class displays an image file
  *
  * This class supports image clipping, which means that multiple images can be combined
  * into one large image and only the relevant part is shown.
  *
- * Please note that this widget can not be stretched.
+ * *Example*
+ *
+ * Here is a little example of how to use the widget.
+ *
+ * <pre class='javascript'>
+ *   var image = new qx.ui.basic.Image("icon/32/actions/format-justify-left.png");
+ *
+ *   this.getRoot().add(image);
+ * </pre>
+ *
+ * This example create a widget to display the image
+ * <code>icon/32/actions/format-justify-left.png</code>.
+ *
+ * *External Documentation*
+ *
+ * <a href='http://qooxdoo.org/documentation/0.8/widget/Image' target='_blank'>
+ * Documentation of this widget in the qooxdoo wiki.</a>
  */
 qx.Class.define("qx.ui.basic.Image",
 {
