@@ -386,7 +386,7 @@ qx.Theme.define("qx.theme.modern.Decoration",
 
       style :
       {
-        backgroundImage  : "decoration/toolbar/toolbar-part.png",
+        backgroundImage  : "decoration/toolbar/toolbar-part.gif",
         backgroundRepeat : "repeat-y"
       }
     },
