@@ -69,7 +69,7 @@
     {
       "shell" :
       {
-        "command" : "rsync --checksum --compress --recursive --delete --inplace --links --safe-links --exclude .svn api/* root@qooxdoo.org:/var/www/qooxdoo/demo/0.8-rc1/apiviewer"
+        "command" : "rsync --checksum --compress --recursive --delete --inplace --links --safe-links --exclude .svn api/* root@qooxdoo.org:/var/www/qooxdoo/demo/0.8/apiviewer"
       }
     },
 

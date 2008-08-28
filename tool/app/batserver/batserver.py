@@ -12,7 +12,7 @@ servconf = {
     'downloadhost'  : '172.17.12.117',
     'downloadport'  : 80,
     'reportfile'    : "bat_client_reports.log",
-    'defaultTarget' : 'qooxdoo-0.8-pre-sdk',
+    'defaultTarget' : 'qooxdoo-0.8-sdk',
 }
 
 workpackopts = [
