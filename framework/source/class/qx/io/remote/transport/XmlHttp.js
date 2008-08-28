@@ -20,6 +20,11 @@
 
 ************************************************************************ */
 
+/**
+ * Transports requests to a server using the native XmlHttpRequest object.
+ *
+ * This class should not be used directly by client programmers.
+ */
 qx.Class.define("qx.io.remote.transport.XmlHttp",
 {
   extend : qx.io.remote.transport.Abstract,
@@ -51,13 +56,28 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
   */
 
   events : {
+    /** Event when a request is created */
     "created" : "qx.event.type.Event",
+    
+    /** Event when a request is configured */
     "configured" : "qx.event.type.Event",
+    
+    /** Event when a request is sent */
     "sending" : "qx.event.type.Event",
+    
+    /** Event when a request is received */
     "receiving" : "qx.event.type.Event",
+    
+    /** Event when a request is completed */
     "completed" : "qx.event.type.Event",
+    
+    /** Event when a request is aborted */
     "aborted" : "qx.event.type.Event",
+    
+    /** Event when a request has failed */
     "failed" : "qx.event.type.Event",
+    
+    /** Event when a request has timed out */
     "timeout" : "qx.event.type.Event"
   },
 
@@ -88,7 +108,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
     /**
      * Return a new XMLHttpRequest object suitable for the client browser.
      *
-     * @return {Object} TODOC
+     * @return {Object} native XMLHttpRequest object
      * @signature function()
      */
     createRequestObject : qx.core.Variant.select("qx.client",
@@ -121,9 +141,9 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
 
 
     /**
-     * TODOC
+     * Whether the transport type is supported by the client.
      *
-     * @return {var} TODOC
+     * @return {Boolean} supported or not
      */
     isSupported : function() {
       return !!this.createRequestObject();
@@ -132,8 +152,6 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
 
     /**
      * Dummy function to use for onreadystatechange after disposal
-     *
-     * @return {var} none
      */
     __dummy : function() {}
   },
@@ -160,9 +178,9 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
 
 
     /**
-     * TODOC
+     * Returns the native request object
      *
-     * @return {var} TODOC
+     * @return {Object} native XmlHTTPRequest object
      */
     getRequest : function() {
       return this._req;
@@ -178,7 +196,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
     */
 
     /**
-     * TODOC
+     * Implementation for sending the request 
      *
      * @return {void}
      */
@@ -346,11 +364,10 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
 
 
     /**
-     * Force the transport into the failed state
-     *  ("failed").
+     * Force the transport into the failed state ("failed").
      *
-     *  This method should be used only if the requests URI was local
-     *  access. I.e. it started with "file://".
+     * This method should be used only if the requests URI was local
+     * access. I.e. it started with "file://".
      *
      * @return {void}
      */
@@ -376,10 +393,11 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
     */
 
     /**
-     * TODOC
+     * Listener method for change of the "readystate".
+     * Sets the internal state and informs the transport layer.
      *
-     * @param e {Event} TODOC
-     * @return {void | var} TODOC
+     * @param e {Event} native event
+     * @return {void}
      */
     _onreadystatechange : function(e)
     {
@@ -433,7 +451,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
      *
      * For qx.io.remote.transport.XmlHttp, ready state is a number between 1 to 4.
      *
-     * @return {var} TODOC
+     * @return {Integer} ready state number
      */
     getReadyState : function()
     {
@@ -458,8 +476,8 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
     /**
      * Set a request header to this transports request.
      *
-     * @param vLabel {var} TODOC
-     * @param vValue {var} TODOC
+     * @param vLabel {String} Request header name
+     * @param vValue {var} Request header value
      * @return {void}
      */
     setRequestHeader : function(vLabel, vValue) {
@@ -477,13 +495,13 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
 
     /**
      * Returns a specific header provided by the server upon sending a request,
-     *  with header name determined by the argument headerName.
+     * with header name determined by the argument headerName.
      *
-     *  Only available at readyState 3 and 4 universally and in readyState 2
-     *  in Gecko.
+     * Only available at readyState 3 and 4 universally and in readyState 2
+     * in Gecko.
      *
-     * @param vLabel {var} TODOC
-     * @return {var} TODOC
+     * @param vLabel {String} Response header name
+     * @return {var} Response header value
      */
     getResponseHeader : function(vLabel)
     {
@@ -498,9 +516,9 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
 
 
     /**
-     * TODOC
+     * Returns all response headers of the request.
      *
-     * @return {var} TODOC
+     * @return {var} response headers 
      */
     getStringResponseHeaders : function()
     {
@@ -523,7 +541,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
     /**
      * Provides a hash of all response headers.
      *
-     * @return {var} TODOC
+     * @return {var} hash of all response headers
      */
     getResponseHeaders : function()
     {
@@ -559,7 +577,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
     /**
      * Returns the current status code of the request if available or -1 if not.
      *
-     * @return {Integer} TODOC
+     * @return {Integer} current status code
      */
     getStatusCode : function()
     {
@@ -575,9 +593,9 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
 
     /**
      * Provides the status text for the current request if available and null
-     *  otherwise.
+     * otherwise.
      *
-     * @return {String} TODOC
+     * @return {String} current status code text
      */
     getStatusText : function()
     {
@@ -601,10 +619,10 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
 
     /**
      * Provides the response text from the request when available and null
-     *  otherwise.  By passing true as the "partial" parameter of this method,
-     *  incomplete data will be made available to the caller.
+     * otherwise.  By passing true as the "partial" parameter of this method,
+     * incomplete data will be made available to the caller.
      *
-     * @return {String} TODOC
+     * @return {String} Content of the response as string
      */
     getResponseText : function()
     {
@@ -626,10 +644,10 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
 
     /**
      * Provides the XML provided by the response if any and null otherwise.  By
-     *  passing true as the "partial" parameter of this method, incomplete data will
-     *  be made available to the caller.
+     * passing true as the "partial" parameter of this method, incomplete data will
+     * be made available to the caller.
      *
-     * @return {var} TODOC
+     * @return {String} Content of the response as XML
      * @throws TODOC
      */
     getResponseXml : function()
@@ -681,7 +699,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
     /**
      * Returns the length of the content as fetched thus far
      *
-     * @return {Integer} TODOC
+     * @return {Integer} Length of the response text.
      */
     getFetchedLength : function()
     {
@@ -691,9 +709,9 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
 
 
     /**
-     * TODOC
+     * Returns the content of the response
      *
-     * @return {null | var} TODOC
+     * @return {null | String} Response content if available
      */
     getResponseContent : function()
     {
@@ -803,10 +821,12 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
     */
 
     /**
-     * TODOC
+     * Apply method for the "state" property.
+     * Fires an event for each state value to inform the listeners.
      *
      * @param value {var} Current value
      * @param old {var} Previous value
+     * @return {void}
      */
     _applyState : function(value, old)
     {
