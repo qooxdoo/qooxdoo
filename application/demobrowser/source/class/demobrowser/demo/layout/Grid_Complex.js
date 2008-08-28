@@ -46,7 +46,8 @@ qx.Class.define("demobrowser.demo.layout.Grid_Complex",
       // auto size
       var box = new qx.ui.container.Composite().set({
         decorator: "main",
-        backgroundColor: "yellow"
+        backgroundColor: "yellow",
+        allowGrowX: false
       });
 
       box.setLayout(new qx.ui.layout.Grid(5, 20));
@@ -80,7 +81,8 @@ qx.Class.define("demobrowser.demo.layout.Grid_Complex",
         backgroundColor: "yellow",
         width:500,
         allowShrinkX: false,
-        allowShrinkY: false
+        allowShrinkY: false,
+        allowGrowX: false
       });
 
       var layout = new qx.ui.layout.Grid();
