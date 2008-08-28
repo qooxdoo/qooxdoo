@@ -39,6 +39,7 @@ qx.Class.define("demobrowser.demo.legacy.EmbedFuture_Dialog",
     {
       this.base(arguments);
       this.compat();
+      qx.theme.manager.Meta.getInstance().initialize();
 
       var root = new qx.ui.root.Page(document);
 
