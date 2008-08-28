@@ -1032,7 +1032,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          source : "decoration/toolbar/toolbar-handle-knob.png",
+          source : "decoration/toolbar/toolbar-handle-knob.gif",
           marginLeft : 3,
           marginRight : 3
         };
