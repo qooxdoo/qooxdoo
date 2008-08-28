@@ -234,7 +234,7 @@ qx.Class.define("testrunner.runner.ProgressBar",
       // alternative use properties, e.g. this.setPcntStatus(..)
       else if (val[val.length - 1] = "%")
       {  // ends in '%'
-        console.error("percentage found")
+        this.error("percentage found")
         return true;
 
         // handle percent spec
