@@ -66,8 +66,8 @@ qx.Class.define("demobrowser.demo.table.Scroller.DummyTable",
 
     scroller._onPaneModelChanged();
 
-    scroller._tablePane.setVisibleRowCount(20);
-    scroller._tablePane._updateAllRows();
+    scroller.getTablePane().setVisibleRowCount(20);
+    scroller.getTablePane()._updateAllRows();
   }
 });
 
