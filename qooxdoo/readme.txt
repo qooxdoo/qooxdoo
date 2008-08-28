@@ -32,7 +32,7 @@ Quick start
 ===========
 
 It is easy to get started with qooxdoo. For detailed information please
-see http://qooxdoo.org/documentation/0.8/helloworld
+see http://qooxdoo.org/documentation/0.8#getting_started
 
 For the impatient, here is a short version:
 
@@ -63,8 +63,8 @@ Learn more
   http://qooxdoo.org/about/release_notes
 
 * User manual
-  http://qooxdoo.org/documentation
+  http://qooxdoo.org/documentation/0.8
 
 * API documentation
-  http://api.qooxdoo.org/devel
+  http://api.qooxdoo.org
 
