@@ -25,7 +25,7 @@
 /**
  * Transports requests to a server using dynamic script tags.
  *
- *  This class should not be used directly by client programmers.
+ * This class should not be used directly by client programmers.
  */
 qx.Class.define("qx.io.remote.transport.Script",
 {
@@ -84,7 +84,7 @@ qx.Class.define("qx.io.remote.transport.Script",
 
 
     /**
-     * TODOC
+     * Returns always true, because script transport is supported by all browsers.
      *
      */
     isSupported : function() {
@@ -165,7 +165,7 @@ qx.Class.define("qx.io.remote.transport.Script",
     */
 
     /**
-     * TODOC
+     * Sends the request using "script" elements
      *
      * @return {void}
      */
@@ -236,9 +236,9 @@ qx.Class.define("qx.io.remote.transport.Script",
 
 
     /**
-     * TODOC
+     * Switches the readystate by setting the internal state.
      *
-     * @param vReadyState {var} TODOC
+     * @param vReadyState {String} readystate value
      * @return {void}
      */
     _switchReadyState : function(vReadyState)
@@ -270,10 +270,12 @@ qx.Class.define("qx.io.remote.transport.Script",
     */
 
     /**
-     * TODOC
+     * Sets a request header with the given value.
+     * 
+     * This method is not implemented at the moment.
      *
-     * @param vLabel {var} TODOC
-     * @param vValue {var} TODOC
+     * @param vLabel {String} Request header name
+     * @param vValue {var} Request header value
      * @return {void}
      */
     setRequestHeader : function(vLabel, vValue) {},
@@ -287,10 +289,12 @@ qx.Class.define("qx.io.remote.transport.Script",
     */
 
     /**
-     * TODOC
+     * Returns the value of the given response header.
+     * 
+     * This method is not implemented at the moment and returns always "null".
      *
-     * @param vLabel {var} TODOC
-     * @return {Object} TODOC
+     * @param vLabel {String} Response header name
+     * @return {null} Returns null
      */
     getResponseHeader : function(vLabel) {
       return null;
@@ -300,8 +304,10 @@ qx.Class.define("qx.io.remote.transport.Script",
     // this.error("Need implementation", "getResponseHeader");
     /**
      * Provides an hash of all response headers.
+     * 
+     * This method is not implemented at the moment and returns an empty map.
      *
-     * @return {Map} TODOC
+     * @return {Map} empty map
      */
     getResponseHeaders : function() {
       return {};
@@ -317,8 +323,9 @@ qx.Class.define("qx.io.remote.transport.Script",
 
     /**
      * Returns the current status code of the request if available or -1 if not.
+     * This method needs implementation (returns always 200).
      *
-     * @return {Integer} TODOC
+     * @return {Integer} status code
      */
     getStatusCode : function() {
       return 200;
@@ -328,6 +335,7 @@ qx.Class.define("qx.io.remote.transport.Script",
     // this.error("Need implementation", "getStatusCode");
     /**
      * Provides the status text for the current request if available and null otherwise.
+     * This method needs implementation (returns always an empty string)
      *
      * @return {string} TODOC
      */
@@ -344,9 +352,10 @@ qx.Class.define("qx.io.remote.transport.Script",
     */
 
     /**
-     * Returns the length of the content as fetched thus far
+     * Returns the length of the content as fetched thus far.
+     * This method needs implementation (returns always 0).
      *
-     * @return {Integer} TODOC
+     * @return {Integer} Returns 0
      */
     getFetchedLength : function() {
       return 0;
@@ -355,9 +364,9 @@ qx.Class.define("qx.io.remote.transport.Script",
     // TODO
     // throw new Error("getFetchedLength is abstract");
     /**
-     * TODOC
+     * Returns the content of the response.
      *
-     * @return {null | var} TODOC
+     * @return {null | String} If successful content of response as string.
      */
     getResponseContent : function()
     {
