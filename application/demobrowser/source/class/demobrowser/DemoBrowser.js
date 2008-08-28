@@ -368,10 +368,13 @@ qx.Class.define("demobrowser.DemoBrowser",
       qx.log.Logger.unregister(this.logappender);
 
       // Directly create DOM element to use
-      this.logelem = document.createElement("DIV");
-      this.logelem.style.margin = "8px";
+      var wrap = document.createElement("div");
+      this.logelem = document.createElement("div");
+      this.logelem.style.padding="8px";
       this.logappender.setElement(this.logelem);
-      this.f2.getContentElement().useElement(this.logelem);
+      wrap.appendChild(this.logelem);
+
+      this.f2.getContentElement().useElement(wrap);
 
       return this.f2;
     },
