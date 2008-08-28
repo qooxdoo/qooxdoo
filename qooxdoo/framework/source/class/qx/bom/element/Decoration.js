@@ -35,7 +35,7 @@ qx.Class.define("qx.bom.element.Decoration",
   statics :
   {
     /** {Boolean} Whether clipping hints should be logged */
-    DEBUG : true,
+    DEBUG : false,
 
 
     /** {Boolean} Whether the alpha image loader is needed */
