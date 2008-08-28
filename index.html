@@ -1,162 +1,177 @@
-<html>
-<head>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head profile="http://dublincore.org/documents/dcq-html">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
   <title>qooxdoo &raquo; Welcome</title>
   <style type="text/css">
-*{
-  box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  margin: 0;
+
+html,body{
   padding: 0;
+  margin: 0;
+  background: #FAFFED;
 }
 
 body{
+  font-family: Verdana, "Bitstream Vera Sans", "Lucida Grande", Tahoma, "Lucida Sans Unicode", Arial, sans-serif;
   font-size: 12px;
-  font-family: Arial, "Bitstream Vera Sans", Verdana, sans-serif;
-  margin: 0;
+  line-height: 160%;
+}
+
+*{
   padding: 0;
+  margin: 0;
 }
 
-p{
-  margin: 6px 0;
+a:link,
+a:visited{
+  text-decoration: underline;
+  color: #444444;
 }
 
-.hide, .publish {
-	display: none;
-}
-
-#demoHead,
-#demoFoot{
-  position: absolute;
-  left: 0px;
-  right: 0px;
-  width: 100%;
-  background: #134275;
-  padding: 5px 8px;
-  color: #DEFF83;
-  font-weight: bold;
-  overflow: hidden;
-  z-index: 1000000000;
-}
-
-#demoHead{
-  top: 0px;
-}
-
-#demoFoot,
-#demoHead span{
-  font-weight: normal;
-  color: white;
-}
-
-img{
-  box-sizing: content-box;
-  -moz-box-sizing: content-box;
-}
-
-#content{
-  margin: 40px 20px 0;
-  width: 400px;
+a:hover,
+a:active{
+  text-decoration: underline;
+  color: #83B300;
 }
 
 h1{
-  font-size: 22px;
-  margin-bottom: 20px;
-  color: #134275;
+  color: white;
+  font-size: 14px;
 }
 
 h2{
+  color: #83B343;
   font-size: 14px;
-  color: #1D65B3;
 }
 
-a{
-  color: #335EA8;
-}
-
-li{
-  margin-left: 16px;
-  list-style: square;
-  margin-bottom: 20px;
+h3{
+  font-size: 12px;
+  font-weight: bold;
+  color: #565656;
 }
 
 p{
-  font-size: 12px;
+  margin: 12px 0;
+  max-width: 800px;
 }
 
-ul ul{
-  margin-top: 20px;
+ul{
+  list-style: square;
+  padding-left: 16px;
+  color: #565656;
+}
+
+li{
+  margin-bottom: 10px;
+}
+
+li p{
+  color: black;
+  margin: 0;
+}
+
+pre,
+code{
+  font-family: Consolas, "Bitstream Vera Sans Mono", "Courier New", monospace;
+  font-size: 11px;
+  line-height: 160%;
+  padding: 1px 4px;
+  background: #FAFFED;
+}
+
+.head{
+  background: #134275;
+  color: white;
+  padding: 16px 40px;
+}
+
+.main{
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+  background: #DEFF83;
+  padding: 16px 40px;
+}
+
+.block{
+  width: 300px;
+  margin: 16px 40px;
+  margin-top: 40px;
+  float: left;
 }
   </style>
 </head>
 <body>
-  <div id="demoHead">qooxdoo: <span>The new era of web interface development</span></div>
+  <div class="head">
+    <h1>qooxdoo JavaScript Framework</h1>
+  </div>
 
-  <div id="content" style="position:absolute;top:0px;left:0px">
-
-    <h1>Welcome to qooxdoo</h1>
-
-    Please see the <a href="readme.txt">readme.txt</a> and the <a href="license.txt">license.txt</a>.
+  <div class="main">
     <p>
-    <h1>Quick Start</h1>
+      It is easy to get started with qooxdoo. For detailed information please
+      see the external documentation on how to
+      <a href="http://qooxdoo.org/documentation/0.8#getting_started">get started</a>.
+      For the impatient, here is a short version as well:
+    </p>
     <p>
-It is easy to get started with qooxdoo. For detailed information please
-see the external documentation on how to 
-<a href="http://qooxdoo.org/documentation/0.8#getting_started">get started</a>
-</p>
-<p>
-For the impatient, here is a short version as well:
-</p>
-<p>
-Use the 'tool/bin/create-application.py' script to start a new application,
-This will create a minimal application directory structure, which is ready to 
-be built and run. Within the newly created application run the command 
-'generate.py source', in order to build a development version of your app. 
-Open 'source/index.html' in your browser to startup the application. You can 
-then go on and extend it into an application of your liking, by changing the
-'source/class/<namespace>/Application.js' source file.
-</p>
-<p>
-You might also want to open the included <a href="framework/api/index.html">API viewer</a> in a separate browser window,
-which offers the qooxdoo framework API in a convenient way (see below).
-</p>
-    <h1>Demos</h1>
+      Use the <code>tool/bin/create-application.py</code> script to start a new application,
+      This will create a minimal application directory structure, which is ready to
+      be built and run. Within the newly created application run the command
+      <code>generate.py source</code>, in order to build a development version of your app.
+      Open <code>source/index.html</code> in your browser to startup the application. You can
+      then go on and extend it into an application of your liking, by changing the
+      <code>source/class/&lt;namespace&gt;/Application.js</code> source file.
+    </p>
+    <p>
+      You might also want to open the included <a href="framework/api/index.html">API viewer</a> in a separate browser window,
+      which offers the qooxdoo framework API in a convenient way (see below).
+    </p>
+    <p>Please also have a look at the <a href="readme.txt">readme.txt</a> and the <a href="license.txt">license.txt</a>.</p>
+  </div>
+
+  <div class="block">
+    <h2>Demos</h2>
+    <p>Please note that you need to build these demos yourself first.</p>
     <ul>
       <li>
-        <h2>Demo Browser</h2>
+        <h3>Demo Browser</h3>
         <p>Contains examples and tests for widgets and other framework functionality.</p>
-        <span class="local"><a href="application/demobrowser/build/index.html"><b>Build</b></a> | <a href="application/demobrowser/source/index.html">Source (Developer)</a></span>
-        <span class="publish"><a href="demobrowser/index.html"><b>Open Demo Browser</b></a></span>
+        <a href="application/demobrowser/build/index.html">Build</a> |
+        <a href="application/demobrowser/source/index.html">Source</a>
       </li>
       <li>
-        <h2>Feed Reader</h2>
+        <h3>Feed Reader</h3>
         <p>qooxdoo RSS feed reader using dummy RSS feed data.</p>
-      	<span class="local"><a href="application/feedreader/build/index.html"><b>Build</b></a> | <a href="application/feedreader/source/index.html">Source (Developer)</a></span>
-      	<span class="publish"><a href="feedreader/index.html"><b>Open Feed Reader</b></a></span>
+      	<a href="application/feedreader/build/index.html">Build</a> |
+      	<a href="application/feedreader/source/index.html">Source</a>
       </li>
       <li>
-        <h2>Portal</h2>
+        <h3>Portal</h3>
         <p>A small application implementing dynamic portal functionality, based only on qooxdoo's low-level DOM API.</p>
-      	<span class="local"><a href="application/portal/build/index.html"><b>Build</b></a> | <a href="application/portal/source/index.html">Source (Developer)</a></span>
-      	<span class="publish"><a href="portal/index.html"><b>Open Portal</b></a></span>
+      	<a href="application/portal/build/index.html">Build</a> |
+      	<a href="application/portal/source/index.html">Source</a>
       </li>
     </ul>
+  </div>
 
-    <h1>Developer Tools</h1>
+  <div class="block">
+    <h2>Developer Tools</h2>
+    <p>These are meant to be used by custom applications as well. These are
+      the framework variants just working with data available from the
+      qooxdoo framework. The API Viewer works out-of-the-box. The Test Runner
+      needs to be build before first usage.</p>
     <ul>
       <li>
-        <h2>API Viewer</h2>
+        <h3>API Viewer</h3>
         <p>qooxdoo-based API viewer featuring the qooxdoo framework API.</p>
-        <span class="local"><a href="framework/api/index.html"><b>Framework API</b></a>
+        <a href="framework/api/index.html">Framework API</a>
       </li>
       <li>
-        <h2>Test Runner</h2>
+        <h3>Test Runner</h3>
         <p>Client-side testing framework similar to JSUnit.</p>
-        <span class="local"><a href="component/testrunner/build/index.html"><b>Framework Tests</b></a>
+        <a href="framework/test/index.html">Framework Tests</a>
       </li>
     </ul>
-
-    <div id="demoFoot">External links: <span><a href="http://qooxdoo.org">qooxdoo Home</a> <a href="http://demo.qooxdoo.org">Demos</a> <a href="http://qooxdoo.org/documentation/0.8">Manual</a> <a href="http://api.qooxdoo.org">API</a></span></div>
   </div>
 </body>
 </html>
