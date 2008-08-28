@@ -189,7 +189,7 @@ qx.Class.define("qx.bom.Iframe",
         qx.log.Logger.warn("Iframe source could not be set!");
       }
     },
-    
+
 
     /**
      * Returns the current (served) URL inside the iframe

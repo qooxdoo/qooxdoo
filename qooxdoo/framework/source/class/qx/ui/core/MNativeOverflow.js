@@ -51,7 +51,7 @@ qx.Mixin.define("qx.ui.core.MNativeOverflow",
       nullable : true,
       apply : "_applyOverflowY"
     },
-    
+
     /**
      * Overflow group property
      */
