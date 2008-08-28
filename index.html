@@ -45,10 +45,15 @@ h2{
   font-size: 14px;
 }
 
-h3, .h3{
+h3{
   font-size: 12px;
   font-weight: bold;
   color: #565656;
+}
+
+h3 span{
+  font-weight: normal;
+  font-size: 11px;
 }
 
 p{
@@ -77,7 +82,7 @@ code{
   font-size: 11px;
   line-height: 160%;
   padding: 1px 4px;
-  background: #FAFFED;
+
 }
 
 .head{
@@ -91,6 +96,16 @@ code{
   border-bottom: 1px solid black;
   background: #DEFF83;
   padding: 16px 40px;
+}
+
+.main pre,
+.main code{
+  background: #FAFFED;
+}
+
+.block pre,
+.block code{
+  background: #F0FFC9;
 }
 
 .block{
@@ -126,31 +141,31 @@ code{
       You might also want to open the included <a href="framework/api/index.html">API viewer</a> in a separate browser window,
       which offers the qooxdoo framework API in a convenient way (see below).
     </p>
-    <p>PAlso have a look at the <a href="readme.txt">readme.txt</a> and <a href="license.txt">license.txt</a>.</p>
+    <p>Also have a look at the <a href="readme.txt">readme.txt</a> and <a href="license.txt">license.txt</a>.</p>
   </div>
 
   <div class="block">
     <h2>Demos</h2>
-    <p>Please note that the following applications are not pre-built. To 
-    <a href="<a href="http://qooxdoo.org/documentation/0.8/helloworld">create working applications</a> locally use 
+    <p>Please note that the following applications are not pre-built. To
+    <a href="<a href="http://qooxdoo.org/documentation/0.8/helloworld">create working applications</a> locally use
     the appropriate commands <code>generate.py source</code> or <code>generate.py</code></p>
     <ul>
       <li>
-        <span class="h3">Demo Browser</span>  (<a href="http://demo.qooxdoo.org/current/demobrowser">Online</a>)
+        <h3>Demo Browser <span>(<a href="http://demo.qooxdoo.org/current/demobrowser">Online</a>)</span></h3>
         <p>Contains many examples and tests for widgets, layouts and other framework functionality.</p>
-        <a href="application/demobrowser/source/index.html">Source</a> | 
+        <a href="application/demobrowser/source/index.html">Source</a> |
         <a href="application/demobrowser/build/index.html">Build</a> <i>(needs generation)</i>
       </li>
       <li>
-        <span class="h3">Feed Reader</span> (<a href="http://demo.qooxdoo.org/current/feedreader">Online</a>)
+        <h3>Feed Reader <span>(<a href="http://demo.qooxdoo.org/current/feedreader">Online</a>)</span></h3>
         <p>A typical rich internet application (RIA) using dummy RSS feed data.</p>
-      	<a href="application/feedreader/source/index.html">Source</a> | 
+      	<a href="application/feedreader/source/index.html">Source</a> |
         <a href="application/feedreader/build/index.html">Build</a> <i>(needs generation)</i>
       </li>
       <li>
-        <span class="h3">Portal</span> (<a href="http://demo.qooxdoo.org/current/portal">Online</a>)
+        <h3>Portal <span>(<a href="http://demo.qooxdoo.org/current/portal">Online</a>)</span></h3>
         <p>A low-level, DOM-oriented application without any advanced qooxdoo widgets.</p>
-      	<a href="application/portal/source/index.html">Source</a> | 
+      	<a href="application/portal/source/index.html">Source</a> |
         <a href="application/portal/build/index.html">Build</a> <i>(needs generation)</i>
       </li>
     </ul>
@@ -158,18 +173,18 @@ code{
 
   <div class="block">
     <h2>Developer Tools</h2>
-    <p>The following applications work with data from the qooxdoo framework itself. 
+    <p>The following applications work with data from the qooxdoo framework itself.
       Versions can also be generated that are specific to your custom application.
       While the API Viewer is pre-built and runs out-of-the-box, you need to generate
       the Test Runner yourself.</p>
     <ul>
       <li>
-        <span class="h3">API Viewer</span> (<a href="framework/api/index.html">Offline</a>)
+        <h3>API Viewer <span>(<a href="framework/api/index.html">Offline</a>)</span></h3>
         <p>Seaechable API reference of the qooxdoo framework.</p>
         <a href="framework/api/index.html">Framework API</a>
       </li>
       <li>
-        <span class="h3">Test Runner</span> (<a href="http://demo.qooxdoo.org/current/testrunner">Online</a>)
+        <h3>Test Runner <span>(<a href="http://demo.qooxdoo.org/current/testrunner">Online</a>)</span></h3>
         <p>Integrated unit testing framework similar to JSUnit.</p>
         <a href="framework/test/index.html">Framework Tests</a> <i>(needs generation)</i>
       </li>
