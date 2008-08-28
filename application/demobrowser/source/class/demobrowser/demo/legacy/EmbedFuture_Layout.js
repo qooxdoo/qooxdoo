@@ -38,6 +38,7 @@ qx.Class.define("demobrowser.demo.legacy.EmbedFuture_Layout",
     {
       this.base(arguments);
       this.compat();
+      qx.theme.manager.Meta.getInstance().initialize();
 
       // Create button
       var button1 = new qx.legacy.ui.form.Button("Resize HBox");

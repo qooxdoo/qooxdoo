@@ -47,7 +47,8 @@
       {
         "qx.application" : "YYY",
         "qx.allowUrlVariants": "true",
-        "qx.allowUrlSettings" : "true"
+        "qx.allowUrlSettings" : "true",
+        "qx.legacy.theme" : "qx.legacy.theme.ClassicRoyale"
       }
     },
 
