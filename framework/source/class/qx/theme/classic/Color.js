@@ -46,6 +46,8 @@ qx.Theme.define("qx.theme.classic.Color",
     "border-focused-dark-shadow" : "#7CA0CF",
     "border-focused-dark" : "#3E6CA8",
 
+    "border-separator" : "#808080",
+
     "text" : "black",
     "text-disabled" : "#A7A6AA",
     "text-selected" : "white",
