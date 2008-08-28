@@ -32,13 +32,13 @@ qx.Class.define("apiviewer.ui.AbstractViewer",
 
     this.setOverflowX("auto");
     this.setOverflowY("auto");
-    
+
     this.setAppearance("detailviewer");
 
     this._infoPanelHash = {};
     this._infoPanels = [];
 
-    apiviewer.ObjectRegistry.register(this);    
+    apiviewer.ObjectRegistry.register(this);
   },
 
 
@@ -114,7 +114,7 @@ qx.Class.define("apiviewer.ui.AbstractViewer",
         this.exclude();
       }, this);
     },
-    
+
     __initHtml : function()
     {
       var html = new qx.util.StringBuilder();
@@ -136,11 +136,11 @@ qx.Class.define("apiviewer.ui.AbstractViewer",
         html.add(panel.getPanelHtml(this));
       }
 
-      html.add('</div>');      
-      
+      html.add('</div>');
+
       this.setHtml(html.get());
    },
-    
+
     /**
      * Returns the HTML fragment for the title
      *
@@ -175,7 +175,7 @@ qx.Class.define("apiviewer.ui.AbstractViewer",
 
       this._titleElem = divArr[0];
       this._classDescElem = divArr[1];
-      
+
       for (var i=0; i<panels.length; i++)
       {
         var panel = panels[i];
@@ -228,14 +228,14 @@ qx.Class.define("apiviewer.ui.AbstractViewer",
     {
 
       this.__classNode = classNode;
-      
+
       if (!this._titleElem)
       {
         // _initContentDocument was not called yet
         // -> Do nothing, the class will be shown in _initContentDocument.
         return;
       }
-      
+
       this._titleElem.innerHTML = this._getTitleHtml(classNode);
       this._classDescElem.innerHTML = this._getDescriptionHtml(classNode);
       apiviewer.ui.AbstractViewer.fixLinks(this._classDescElem);
@@ -261,7 +261,7 @@ qx.Class.define("apiviewer.ui.AbstractViewer",
         panel.setIsOpen(!panel.getIsOpen());
 
         var imgElem = panel.getTitleElement().getElementsByTagName("img")[0];
-        imgElem.src = panel.getIsOpen() ? 'apiviewer/image/close.gif' : 'apiviewer/image/open.gif';
+        imgElem.src = qx.util.ResourceManager.toUri(panel.getIsOpen() ? 'apiviewer/image/close.gif' : 'apiviewer/image/open.gif');
 
         panel.update(this, this.getDocNode()
         );
