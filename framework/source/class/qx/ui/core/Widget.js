@@ -2083,7 +2083,7 @@ qx.Class.define("qx.ui.core.Widget",
     _createProtectorElement : function()
     {
       if (this.__protectorElement) {
-        return
+        return;
       }
 
       var protect = this.__protectorElement = new qx.html.Element;
@@ -2104,10 +2104,9 @@ qx.Class.define("qx.ui.core.Widget",
       // block events.
       if (qx.core.Variant.isSet("qx.client", "mshtml"))
       {
-        protect.setStyles(
-        {
-          backgroundColor: "white",
-          opacity: 0
+        protect.setStyles({
+          backgroundImage: "url(" + qx.util.ResourceManager.toUri("qx/static/blank.gif") + ")",
+          backgroundRepeat: "repeat"
         });
       }
 
