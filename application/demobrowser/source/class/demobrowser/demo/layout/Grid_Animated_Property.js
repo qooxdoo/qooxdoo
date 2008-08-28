@@ -14,7 +14,7 @@ qx.Class.define("demobrowser.demo.layout.Grid_Animated_Property",
     {
       var properties = {};
       properties[this._propName] = Math.round(value);
-      this._element.set(properties);
+      this._getElement().set(properties);
     }
   }
 });
