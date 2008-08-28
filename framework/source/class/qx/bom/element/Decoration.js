@@ -38,9 +38,15 @@ qx.Class.define("qx.bom.element.Decoration",
     DEBUG : false,
 
 
-    /** {Boolean} Whether the alpha image loader is needed */
+    /**
+     * {Boolean} Whether the alpha image loader is needed
+     * We enable this for IE7 as well because of issues reported by Maria
+     * Siebert and others in combination with the opacity filter applied
+     * to e.g. disabled icons. Hopefully this is better in IE8, that
+     * we do not need the AlphaImageLoader anymore. Thanks Maria.
+     */
     __enableAlphaFix : qx.core.Variant.isSet("qx.client", "mshtml") &&
-      qx.bom.client.Engine.VERSION < 7,
+      qx.bom.client.Engine.VERSION < 8,
 
 
     /** {Map} List of repeat modes which supports the IE AlphaImageLoader */
@@ -196,9 +202,10 @@ qx.Class.define("qx.bom.element.Decoration",
       // Cache image sizes
       var width = ResourceManager.getImageWidth(source) || ImageLoader.getWidth(source);
       var height = ResourceManager.getImageHeight(source) || ImageLoader.getHeight(source);
+      var format = ResourceManager.getImageFormat(source);
 
       // Enable AlphaImageLoader in IE6
-      if (this.__enableAlphaFix && this.__alphaFixRepeats[repeat])
+      if (this.__enableAlphaFix && this.__alphaFixRepeats[repeat] && format === "png")
       {
         if (style.width == null) {
           style.width = width == null ? width : width + "px";
@@ -210,6 +217,8 @@ qx.Class.define("qx.bom.element.Decoration",
 
         style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='"
           + ResourceManager.toUri(source) + "', sizingMethod='scale')";
+
+        style.backgroundImage = style.backgroundRepeat = "";
 
         return {
           style : style
