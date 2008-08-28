@@ -271,7 +271,7 @@ qx.Class.define("qx.io.remote.transport.Script",
 
     /**
      * Sets a request header with the given value.
-     * 
+     *
      * This method is not implemented at the moment.
      *
      * @param vLabel {String} Request header name
@@ -290,7 +290,7 @@ qx.Class.define("qx.io.remote.transport.Script",
 
     /**
      * Returns the value of the given response header.
-     * 
+     *
      * This method is not implemented at the moment and returns always "null".
      *
      * @param vLabel {String} Response header name
@@ -304,7 +304,7 @@ qx.Class.define("qx.io.remote.transport.Script",
     // this.error("Need implementation", "getResponseHeader");
     /**
      * Provides an hash of all response headers.
-     * 
+     *
      * This method is not implemented at the moment and returns an empty map.
      *
      * @return {Map} empty map

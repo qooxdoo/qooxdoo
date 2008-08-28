@@ -215,8 +215,8 @@ qx.Class.define("qx.ui.embed.Canvas",
     },
 
 
-		/**
-		 * Redraw the canvas
+    /**
+     * Redraw the canvas
      */
     update : function() {
       this.__deferredDraw.schedule();
