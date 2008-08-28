@@ -998,7 +998,7 @@ class Generator:
         lint_opts = "".join(map(lambda x: " -g"+x, allowedGlobals))
         numClasses = len(classes)
         for pos, classId in enumerate(classes):
-            self._shellCmd.execute("python %s %s %s" % (lintCommand, lint_opts, self._classes[classId]['path']))
+            self._shellCmd.execute('python "%s" %s "%s"' % (lintCommand, lint_opts, self._classes[classId]['path']))
 
         self._console.outdent()
 
