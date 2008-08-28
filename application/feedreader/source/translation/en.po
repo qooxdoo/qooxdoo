@@ -13,7 +13,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: feedreader/Application.js:347
+#: feedreader/Application.js:351
 msgid "FeedReader (qooxdoo powered)"
 msgstr ""
 
@@ -57,11 +57,11 @@ msgstr ""
 msgid "Language"
 msgstr ""
 
-#: feedreader/view/PreferenceWindow.js:121
+#: feedreader/view/PreferenceWindow.js:123
 msgid "Cancel"
 msgstr ""
 
-#: feedreader/view/PreferenceWindow.js:124
+#: feedreader/view/PreferenceWindow.js:126
 msgid "OK"
 msgstr ""
 

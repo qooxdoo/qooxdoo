@@ -1,5 +1,5 @@
 # Italian
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: qooxdoo feedreader\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: KBabel 1.11.4\n"
 
-#: feedreader/Application.js:347
+#: feedreader/Application.js:351
 msgid "FeedReader (qooxdoo powered)"
 msgstr "FeedReader (realizzato con qooxdoo)"
 
@@ -50,14 +50,21 @@ msgstr "Inserisci un URL."
 msgid "Posts"
 msgstr "Messaggi"
 
-#: feedreader/view/PreferenceWindow.js:48
-#: feedreader/view/ToolBar.js:86
+#: feedreader/view/PreferenceWindow.js:48 feedreader/view/ToolBar.js:86
 msgid "Preferences"
 msgstr "Preferenze"
 
 #: feedreader/view/PreferenceWindow.js:85
 msgid "Language"
 msgstr "Lingua"
+
+#: feedreader/view/PreferenceWindow.js:123
+msgid "Cancel"
+msgstr "Annulla"
+
+#: feedreader/view/PreferenceWindow.js:126
+msgid "OK"
+msgstr "OK"
 
 #: feedreader/view/ToolBar.js:60
 msgid "Add feed"
