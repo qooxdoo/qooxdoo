@@ -12,9 +12,9 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: KBabel 1.11.4\n"
 
-#: feedreader/Application.js:347
+#: feedreader/Application.js:351
 msgid "FeedReader (qooxdoo powered)"
-msgstr ""
+msgstr "FeedReader (qooxdoo powered)"
 
 #: feedreader/view/AddFeedWindow.js:49
 msgid "Add a feed"
@@ -30,7 +30,7 @@ msgstr "Titel:"
 
 #: feedreader/view/AddFeedWindow.js:96
 msgid "URL:"
-msgstr ""
+msgstr "URL:"
 
 #: feedreader/view/AddFeedWindow.js:108
 msgid "Add"
@@ -56,11 +56,11 @@ msgstr "Einstellungen"
 msgid "Language"
 msgstr "Sprache"
 
-#: feedreader/view/PreferenceWindow.js:121
+#: feedreader/view/PreferenceWindow.js:123
 msgid "Cancel"
 msgstr "Abbrechen"
 
-#: feedreader/view/PreferenceWindow.js:124
+#: feedreader/view/PreferenceWindow.js:126
 msgid "OK"
 msgstr "OK"
 
