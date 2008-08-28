@@ -87,7 +87,7 @@ qx.Class.define("demobrowser.DemoBrowser",
 
     mainsplit.add(this.__makeTree(), 0);
     mainsplit.add(infosplit, 1);
-    
+
     var demoView = this.__makeDemoView();
     infosplit.add(demoView, 2);
 
@@ -95,14 +95,14 @@ qx.Class.define("demobrowser.DemoBrowser",
     var htmlView = this.__makeHtmlCodeView();
     var jsView = this.__makeJsCodeView();
     var logView = this.__makeLogView();
-    
+
     var stack = new qx.ui.container.Stack;
     stack.setDecorator("main");
     stack.add(htmlView);
     stack.add(jsView);
     stack.add(logView);
-    
-    this.viewGroup.addListener("changeValue", function(e) 
+
+    this.viewGroup.addListener("changeValue", function(e)
     {
       switch(e.getData())
       {
@@ -116,22 +116,22 @@ qx.Class.define("demobrowser.DemoBrowser",
           stack.show();
           break;
 
-        case "log":                
+        case "log":
           this.setSelected(logView);
           stack.show();
           break;
-          
+
         default:
           this.resetSelected();
           stack.exclude();
       }
     }, stack);
-    
+
     infosplit.add(stack, 1);
     stack.resetSelected();
     stack.exclude();
-    
-  
+
+
 
     // Back button and bookmark support
     this._history = qx.bom.History.getInstance();
@@ -144,8 +144,8 @@ qx.Class.define("demobrowser.DemoBrowser",
       }
     },
     this);
-    
-    
+
+
     this.__logSync = new qx.event.Timer(250);
     this.__logSync.addListener("interval", this.__onLogInterval, this);
     this.__logSync.start();
@@ -233,9 +233,9 @@ qx.Class.define("demobrowser.DemoBrowser",
     __makeToolBar : function()
     {
       var bar = new qx.ui.toolbar.ToolBar();
-      
-      
-      
+
+
+
       // NAVIGATION BUTTONS
       // -----------------------------------------------------
 
@@ -262,103 +262,105 @@ qx.Class.define("demobrowser.DemoBrowser",
       sobutt.addListener("execute", this.__openWindow, this);
       navPart.add(sobutt);
 
-      
-      
+
+
       // THEME MENU
       // -----------------------------------------------------
-      
+
       var menuPart = new qx.ui.toolbar.Part;
       bar.add(menuPart);
-            
+
       var themeMenu = new qx.ui.menu.Menu;
 
       var t1 = new qx.ui.menu.RadioButton("Modern Theme");
       var t2 = new qx.ui.menu.RadioButton("Classic Theme");
-      
+
       t1.setValue("qx.theme.Modern");
       t1.setChecked(true);
       t2.setValue("qx.theme.Classic");
-      
+
       var group = new qx.ui.form.RadioGroup(t1, t2);
       group.addListener("changeValue", this.__onChangeTheme, this);
 
       themeMenu.add(t1);
       themeMenu.add(t2);
-      
+
       var themeButton = new qx.ui.toolbar.MenuButton(this.tr("Theme"), "icon/22/apps/utilities-color-chooser.png", themeMenu);
       menuPart.add(themeButton);
-      
-      
-            
+
+
+
       // DEBUG MENU
-      // -----------------------------------------------------            
-      
+      // -----------------------------------------------------
+
       var menu = new qx.ui.menu.Menu;
-      
+
       var summaryBtn = new qx.ui.menu.Button(this.tr("Object Summary"));
       summaryBtn.setCommand(this._cmdObjectSummary);
       menu.add(summaryBtn);
-      
+
       var namespaceBtn = new qx.ui.menu.Button(this.tr("Global Namespace Pollution"));
       namespaceBtn.setCommand(this._cmdNamespacePollution);
-      menu.add(namespaceBtn);      
+      menu.add(namespaceBtn);
 
       var disposeBtn = new qx.ui.menu.Button(this.tr("Dispose Demo"));
       disposeBtn.setCommand(this._cmdDisposeSample);
       menu.add(disposeBtn);
-      
+
       var debugButton = new qx.ui.toolbar.MenuButton(this.tr("Debug"), "icon/22/apps/office-spreadsheet.png", menu);
-      menuPart.add(debugButton);      
-      
-      
-      
+      menuPart.add(debugButton);
+
+
+
       // VIEWS
-      // -----------------------------------------------------         
+      // -----------------------------------------------------
 
       var viewPart = new qx.ui.toolbar.Part;
       bar.addSpacer();
       bar.add(viewPart);
-      
+
       var htmlView = new qx.ui.toolbar.RadioButton("HTML Code", "icon/22/apps/internet-web-browser.png");
       var jsView = new qx.ui.toolbar.RadioButton("JS Code", "icon/22/mimetypes/executable.png");
       var logView = new qx.ui.toolbar.RadioButton("Log File", "icon/22/apps/utilities-log-viewer.png");
-      
+
       htmlView.setValue("html");
       jsView.setValue("js");
-      logView.setValue("log");            
-      
+      logView.setValue("log");
+
       viewPart.add(htmlView);
       viewPart.add(jsView);
       viewPart.add(logView);
-      
+
       var viewGroup = this.viewGroup = new qx.ui.form.RadioGroup;
       viewGroup.add(htmlView, jsView, logView);
       viewGroup.resetSelected();
-      
-      
-      
-      
-      
+
+
+
+
+
       // DONE
       // -----------------------------------------------------
 
       return bar;
     },
-    
-    
+
+
     __makeDemoView : function()
     {
       var iframe = new qx.ui.embed.Iframe();
       iframe.addListener("load", this.__ehIframeLoaded, this);
       this.__iframe = iframe;
-      
-      return iframe;      
+
+      return iframe;
     },
 
     __makeLogView : function()
     {
       this.f2 = new qx.ui.embed.Html();
       this.f2.setOverflow("auto", "auto");
+      this.f2.setFont("monospace");
+      this.f2.setBackgroundColor("white");
 
       // Create appender and unregister from this logger
       // (we are interested in demo messages only)
@@ -367,20 +369,23 @@ qx.Class.define("demobrowser.DemoBrowser",
 
       // Directly create DOM element to use
       this.logelem = document.createElement("DIV");
+      this.logelem.style.margin = "8px";
       this.logappender.setElement(this.logelem);
       this.f2.getContentElement().useElement(this.logelem);
 
-      return this.f2;      
+      return this.f2;
     },
 
     __makeHtmlCodeView : function()
     {
       var f3 = new qx.ui.embed.Html("<div class='script'>The sample source will be displayed here.</div>");
       f3.setOverflow("auto", "auto");
+      f3.setFont("monospace");
+      f3.setBackgroundColor("white");
       this.widgets["outputviews.sourcepage.html.page"] = f3;
 
-      f3.getContentElement().setAttribute("id", "qx_srcview");      
-      
+      f3.getContentElement().setAttribute("id", "qx_srcview");
+
       return f3;
     },
 
@@ -388,10 +393,12 @@ qx.Class.define("demobrowser.DemoBrowser",
     {
       var f4 = new qx.ui.embed.Html("<div class='script'>The sample JS source will be displayed here.</div>");
       f4.setOverflow("auto", "auto");
+      f4.setFont("monospace");
+      f4.setBackgroundColor("white");
       this.widgets["outputviews.sourcepage.js.page"] = f4;
 
       f4.getContentElement().setAttribute("id", "qx_srcview");
-      
+
       return f4;
     },
 
@@ -420,9 +427,9 @@ qx.Class.define("demobrowser.DemoBrowser",
 
       return tree1;
     },
-    
-    
-    
+
+
+
 
     // ------------------------------------------------------------------------
     //   EVENT HANDLER
@@ -581,7 +588,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       if (splitIndex != -1) {
         fpath = fpath.substring(0, splitIndex + 1);
       }
-      
+
       // local files in the IE6 use \ insted of /
       if (window.location.protocol == "file:" && qx.bom.client.Engine.MSHTML == true && qx.bom.client.Engine.VERSION < 7) {
         var path = fpath.split("\\");
@@ -615,40 +622,40 @@ qx.Class.define("demobrowser.DemoBrowser",
 
       }
     },
-  
-  
+
+
     __onLogInterval : function(e)
     {
       var fwindow = this.__iframe.getWindow();
-      if (fwindow && fwindow.qx && fwindow.qx.log && fwindow.qx.log.appender) 
+      if (fwindow && fwindow.qx && fwindow.qx.log && fwindow.qx.log.appender)
       {
-        if (!this.__logDone) 
+        if (!this.__logDone)
         {
           this.__logDone = true;
-          
+
           this.debug("Demo loaded: " + this._currentSample);
 
           // Register to logger
           this.logappender.$$id = null;
           this.logappender.clear();
           fwindow.qx.log.Logger.register(this.logappender);
-          
+
           // update state on example change
           this._history.addToHistory(this._currentSample.replace("/", "-"), this._currentSample);
 
           // load sample source code
           if (this._currentSampleUrl != this.defaultUrl) {
             this.__getPageSource(this._currentSampleUrl);
-          }          
+          }
         }
       }
       else
       {
         this.__logDone = false;
-      }    
+      }
     },
-    
-    
+
+
 
 
     // ------------------------------------------------------------------------
@@ -667,12 +674,12 @@ qx.Class.define("demobrowser.DemoBrowser",
      * @param url {var} TODOC
      * @return {String} TODOC
      */
-    __getPageSource : function(url) 
+    __getPageSource : function(url)
     {
       if( typeof(url) != "string" ){
         return;
       }
-      
+
       // create a and config request to the given url
       var req = new qx.io.remote.Request(url);
       req.setTimeout(180000);
@@ -957,7 +964,7 @@ qx.Class.define("demobrowser.DemoBrowser",
       }
     },
 
-    __onChangeTheme : function(e) 
+    __onChangeTheme : function(e)
     {
       this.__currentTheme = e.getData();
       this.runSample();
@@ -966,7 +973,7 @@ qx.Class.define("demobrowser.DemoBrowser",
 
     /**
      * Creates the application header.
-     */    
+     */
     __createHeader : function()
     {
       var layout = new qx.ui.layout.HBox();

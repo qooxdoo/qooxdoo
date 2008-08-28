@@ -1,11 +1,9 @@
-.script {
-  padding: 5px;
-}
-
 #qx_srcview pre{
   /* repeat it, needed to fix display in MSHTML */
   font-family: Consolas, "Bitstream Vera Sans Mono", "Courier New", monospace !important;
   font-size: 11px !important;
+  margin: 0;
+  margin: 8px;
 }
 
 #qx_srcview .keyword {
