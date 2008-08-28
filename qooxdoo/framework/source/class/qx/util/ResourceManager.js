@@ -83,6 +83,21 @@ qx.Bootstrap.define("qx.util.ResourceManager",
 
 
     /**
+     * Returns the format of the given resource ID,
+     * when it is not a known image <code>null</code>
+     * is returned.
+     *
+     * @param id {String} Resource identifier
+     * @return {String} File format of the image
+     */
+    getImageFormat : function(id)
+    {
+      var entry = this.__registry[id];
+      return entry ? entry[2] : null;
+    },
+
+
+    /**
      * Whether the given resource identifier is a image
      * with clipping information available.
      *
