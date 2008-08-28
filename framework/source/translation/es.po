@@ -1,11 +1,11 @@
 # Spanish
-# 
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: qooxdoo framework\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2008-05-20 17:10+0200\n"
-"PO-Revision-Date: 2006-12-19 00:49-0500\n"
+"PO-Revision-Date: 2008-08-25 19:59-0500\n"
 "Last-Translator: Camilo Aguilar <camilo.aguilar@gmail.com>\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -20,7 +20,7 @@ msgstr "Automático"
 
 #: qx/legacy/ui/component/ColorPopup.js:257 qx/ui/control/ColorPopup.js:228
 msgid "Open ColorSelector"
-msgstr "Abrir selector de color"
+msgstr "Abrir Selector de Color"
 
 #: qx/legacy/ui/component/ColorPopup.js:277 qx/ui/control/ColorPopup.js:243
 msgid "Color Selector"
@@ -68,7 +68,7 @@ msgstr "Buscar"
 
 #: qx/legacy/ui/form/ComboBoxEx.js:1042
 msgid "Case sensitive"
-msgstr "Sensible a mayúscula"
+msgstr "Sensible a mayúsculas y minúsculas"
 
 #: qx/legacy/ui/form/ComboBoxEx.js:1084
 msgid "Search next occurrence"
@@ -81,19 +81,19 @@ msgstr "Buscar elementos en la lista"
 #: qx/legacy/ui/table/Table.js:1541 qx/ui/table/Table.js:1513
 msgid "one row"
 msgid_plural "%1 rows"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "una fila"
+msgstr[1] "%1 filas"
 
 #: qx/legacy/ui/table/Table.js:1543 qx/ui/table/Table.js:1515
 msgid "one of one row"
 msgid_plural "%1 of %2 rows"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "una de una fila"
+msgstr[1] "%1 de %2 filas"
 
 #: qx/legacy/ui/table/columnmodel/Resize.js:205
 #: qx/ui/table/columnmodel/Resize.js:209
 msgid "Reset column widths"
-msgstr ""
+msgstr "Reestablecer anchos de columnas"
 
 #: qx/locale/Key.js:76
 msgid "key_short_Backspace"
@@ -338,7 +338,7 @@ msgstr "Detalles"
 #: qx/ui/control/ColorSelector.js:312 qx/legacy/ui/component/ColorPopup.js:225
 #: qx/legacy/ui/component/ColorSelector.js:403 qx/ui/control/ColorPopup.js:199
 msgid "Preview (Old/New)"
-msgstr "Vista previa (viejo/nuevo)"
+msgstr "Vista previa (Viejo/Nuevo)"
 
 #: qx/ui/control/ColorSelector.js:331
 #: qx/legacy/ui/component/ColorSelector.js:437
@@ -354,18 +354,3 @@ msgstr "RGB"
 #: qx/legacy/ui/component/ColorSelector.js:499
 msgid "HSB"
 msgstr "HSB"
-
-#~ msgid "Hello %1!"
-#~ msgstr ""
-
-#~ msgid "Jony"
-#~ msgstr ""
-
-#~ msgid "One car"
-#~ msgstr ""
-
-#~ msgid "one"
-#~ msgstr ""
-
-#~ msgid "two"
-#~ msgstr ""
