@@ -2,10 +2,10 @@
   "include" :
   [
     {
-      "path" : "../tool/data/config/application.json",      
+      "path" : "../tool/data/config/application.json",
       "as"   : "appconf"
     },
-    
+
     {
       "path" : "image.json"
     }
@@ -37,28 +37,34 @@
           "uri"      : ".."
         }
       ],
+
       "cache"  : { "compile" : "${CACHE}" },
+
       "include": ["qx.*"],
       "exclude": ["=qx.legacy.*"],
+
       "variants" :
       {
         "qx.debug" : ["on"],
         "qx.aspects" : ["off"]
       },
+
       // Static application class (which is not included in build)
       "settings" :
       {
         "qx.application" : "Application"
       },
+
       "compile-dist" :
       {
         "target"   : "build",
         "file"     : "build/script/qx.js",
         "uri"      : "script/qx.js",
         "format"   : "on",
-        "optimize" : ["basecalls", "variables", "privates"],
+        "optimize" : ["basecalls", "variables", "privates", "strings"],
         "root"     : "build"
       },
+
       "copy-resources" :
       {
         "target" : "build"
@@ -73,31 +79,40 @@
       }
     },
 
+    "publish-test" :
+    {
+      "shell" :
+      {
+        "command" : "rsync --checksum --compress --recursive --delete --inplace --links --safe-links --exclude .svn test/* root@qooxdoo.org:/var/www/qooxdoo/demo/0.8/testrunner"
+      }
+    },
+
     "publish-framework" :
     {
       "run" :
       [
-        "publish-api"
+        "publish-api",
+        "publish-test"
       ]
     },
-    
+
     "test" :
     {
       "extend" : ["appconf::test"],
-      
+
       "let" :
       {
-        "LOCALES" : ["de", "de_DE"]
+        "LOCALES" : ["de", "de_DE", "en", "en_GB"]
       }
     },
-    
+
     "test-source" :
     {
       "extend" : ["appconf::test-source"],
-      
+
       "let" :
       {
-        "LOCALES" : ["de", "de_DE"]
+        "LOCALES" : ["de", "de_DE", "en", "en_GB"]
       }
     },
 
@@ -105,7 +120,7 @@
     {
       "run" : [ "image-clipping", "image-combine" ]
     },
-    
+
     "api" :
     {
       "extend" : ["appconf::api"]
@@ -125,12 +140,12 @@
     {
       "extend" : ["appconf::fix"]
     },
-    
+
     "lint" :
     {
       "extend" : ["appconf::lint"]
     },
-    
+
     "translate" :
     {
       "include": [],
