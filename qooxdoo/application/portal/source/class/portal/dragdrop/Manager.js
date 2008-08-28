@@ -403,7 +403,7 @@ qx.Class.define("portal.dragdrop.Manager",
      * Checks over which groupBox the dragged box is and sets the current
      * groupBox. 
      * 
-     * @param {Integer} current x coordinate
+     * @param left {Integer} current x coordinate
      * @return {void}
      */
     checkGroupBox : function(left)
