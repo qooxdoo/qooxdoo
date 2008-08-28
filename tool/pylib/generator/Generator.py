@@ -20,6 +20,7 @@
 ################################################################################
 
 import re, os, sys, zlib, optparse, types
+import urllib
 
 from misc import filetool, textutil, idlist, Path
 from ecmascript import compiler
@@ -1137,6 +1138,7 @@ class Generator:
                 liburi = forceUri
             else:
                 liburi = Path.posifyPath(os.path.join(lib['uri'],lib['resource']))
+            liburi = urllib.quote(liburi)
             result += 'qxlibraries["%s"]={"resourceUri":"%s"};' % (lib['namespace'], liburi)
         return result
 
