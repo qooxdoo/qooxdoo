@@ -93,7 +93,7 @@ msgstr[1] "%1 von %2 Zeilen"
 #: qx/legacy/ui/table/columnmodel/Resize.js:205
 #: qx/ui/table/columnmodel/Resize.js:209
 msgid "Reset column widths"
-msgstr ""
+msgstr "Spaltenbreite zurücksetzen"
 
 #: qx/locale/Key.js:76
 msgid "key_short_Backspace"
