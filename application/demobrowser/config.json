@@ -48,7 +48,7 @@
 
       "settings" :
       {
-        "qx.version" : "0.8-pre",
+        "qx.version" : "0.8",
         "qx.application" : "${APPLICATION}.Application",
         "qx.theme" : "${THEME}"
       },
