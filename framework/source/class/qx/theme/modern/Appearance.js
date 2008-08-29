@@ -1051,8 +1051,33 @@ qx.Theme.define("qx.theme.modern.Appearance",
           padding : states.pressed || states.checked || states.hovered ? 3 : 5,
           decorator : states.pressed || states.checked ? "toolbar-button-checked" :
             states.hovered ? "toolbar-button-hovered" : "undefined",
-
           textColor: states.disabled ? "text-disabled" : "undefined"
+        };
+      }
+    },
+
+    "toolbar-menubutton" :
+    {
+      alias : "toolbar-button",
+      include : "toolbar-button",
+
+      style : function(states)
+      {
+        return {
+          showArrow : true
+        };
+      }
+    },
+
+    "toolbar-menubutton/arrow" :
+    {
+      alias : "image",
+      include : "image",
+
+      style : function(states)
+      {
+        return {
+          source : "decoration/arrows/down-small.png"
         };
       }
     },
