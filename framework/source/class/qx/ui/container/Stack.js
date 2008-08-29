@@ -19,8 +19,44 @@
 ************************************************************************ */
 
 /**
- * The stack container puts its child widgets on top of each other. Only the
- * topmost widget is visible. This is used e.g. in the tab view widget.
+ * The stack container puts its child widgets on top of each other and only the
+ * topmost widget is visible.
+ *
+ * This is used e.g. in the tab view widget. Which widget is visible can be
+ * controlled by using the {@link #selected} property.
+ *
+ * *Example*
+ *
+ * Here is a little example of how to use the widget.
+ *
+ * <pre class='javascript'>
+ *   // create stack container
+ *   var stack = new qx.ui.container.Stack();
+ *
+ *   // add some children
+ *   stack.add(new qx.ui.core.Widget().set({
+ *    backgroundColor: "red";
+ *   }));
+ *   stack.add(new qx.ui.core.Widget().set({
+ *    backgroundColor: "green";
+ *   }));
+ *   stack.add(new qx.ui.core.Widget().set({
+ *    backgroundColor: "blue";
+ *   }));
+ *
+ *   // select green widget
+ *   stack.setSelected(stack.getChildren()[1]);
+ *
+ *   this.getRoot().add(stack);
+ * </pre>
+ *
+ * This example creates an stack with three children. Only the selected "green"
+ * widget is visible.
+ *
+ * *External Documentation*
+ *
+ * <a href='http://qooxdoo.org/documentation/0.8/widget/Stack' target='_blank'>
+ * Documentation of this widget in the qooxdoo wiki.</a>
  */
 qx.Class.define("qx.ui.container.Stack",
 {

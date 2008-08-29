@@ -18,6 +18,12 @@
 
 ************************************************************************ */
 
+/* ************************************************************************
+
+#asset(qx/icon/${qx.icontheme}/48/devices/*)
+
+************************************************************************ */
+
 qx.Class.define("demobrowser.demo.widget.SlideBar",
 {
   extend : qx.application.Standalone,
@@ -33,17 +39,22 @@ qx.Class.define("demobrowser.demo.widget.SlideBar",
         width: 300
       });
 
-      slideBar.setLayout(new qx.ui.layout.HBox());
+      slideBar.setLayout(new qx.ui.layout.HBox(3));
 
-      for (var i=0; i<10; i++)
+      var icons = [
+        "audio-card.png","audio-input-microphone.png","battery.png",
+        "camera-photo.png","camera-web.png","computer.png","display.png",
+        "drive-harddisk.png","drive-optical.png","input-keyboard.png",
+        "network-wired.png","network-wireless.png"
+      ];
+
+      for (var i=0; i<icons.length; i++)
       {
-        slideBar.add((new qx.ui.core.Widget()).set({
-          backgroundColor : (i % 2 == 0) ? "red" : "blue",
-          width : 60,
-          minWidth : 40
-        }), {flex: 1});
+        slideBar.add((new qx.ui.basic.Image("icon/48/devices/" + icons[i])).set({
+          decorator: "group",
+          padding: 4
+        }));
       }
-
 
       var toggle = new qx.ui.form.ToggleButton("Toggle size");
 
@@ -51,7 +62,7 @@ qx.Class.define("demobrowser.demo.widget.SlideBar",
         slideBar.setWidth(e.getData() ? 800 : 300);
       });
 
-      this.getRoot().add(toggle, {left:20, top:80});
+      this.getRoot().add(toggle, {left:20, top:100});
       this.getRoot().add(slideBar, {left:20, top:20});
     }
   }

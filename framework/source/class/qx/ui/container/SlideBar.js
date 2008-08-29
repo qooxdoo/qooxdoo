@@ -21,7 +21,40 @@
 
 /**
  * Container, which provides scrolling in one dimension (vertical or horizontal).
- */
+ * 
+ * *Example*
+ *
+ * Here is a little example of how to use the widget.
+ *
+ * <pre class='javascript'>
+ *   // create slide bar container
+ *   slideBar = new qx.ui.container.SlideBar().set({
+ *     width: 300
+ *   });
+ *
+ *   // set layout
+ *   slideBar.setLayout(new qx.ui.layout.HBox());
+ *
+ *   // add some widgets
+ *   for (var i=0; i<10; i++)
+ *   {
+ *     slideBar.add((new qx.ui.core.Widget()).set({
+ *       backgroundColor : (i % 2 == 0) ? "red" : "blue",
+ *       width : 60          
+ *     }));
+ *   }
+ *
+ *   this.getRoot().add(slideBar);
+ * </pre>
+ *
+ * This example creates a SlideBar and add some widgets with alternating
+ * background colors. Since the content is larger than the container, two
+ * scroll buttons at the left and the right edge are shown.
+ *
+ * *External Documentation*
+ *
+ * <a href='http://qooxdoo.org/documentation/0.8/widget/SlideBar' target='_blank'>
+ * Documentation of this widget in the qooxdoo wiki.</a> */
 qx.Class.define("qx.ui.container.SlideBar",
 {
   extend : qx.ui.core.Widget,
