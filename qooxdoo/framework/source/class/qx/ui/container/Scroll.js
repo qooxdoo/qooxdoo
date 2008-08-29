@@ -22,7 +22,39 @@
  * Container, which allows vertical and horizontal scrolling if the contents is
  * larger than the container.
  *
- * Note that this class can only have one child widget.
+ * Note that this class can only have one child widget. This container has a
+ * fixed layout, which cannot be changed.
+ *
+ * *Example*
+ *
+ * Here is a little example of how to use the widget.
+ *
+ * <pre class='javascript'>
+ *   // create scroll container
+ *   var scroll = new qx.ui.container.Scroll().set({
+ *     width: 300,
+ *     height: 200
+ *   });
+ *
+ *   // add a widget which is larger than the container
+ *   scroll.add(new qx.ui.core.Widget().set({
+ *     width: 600,
+ *     minWidth: 600,
+ *     height: 400,
+ *     minHeight: 400
+ *   });
+ *
+ *   this.getRoot().add(scroll);
+ * </pre>
+ *
+ * This example creates a scroll container and adds a widget, which is larger
+ * than the container. This will cause the container to display vertical
+ * and horizontal toolbars.
+ *
+ * *External Documentation*
+ *
+ * <a href='http://qooxdoo.org/documentation/0.8/widget/Scroll' target='_blank'>
+ * Documentation of this widget in the qooxdoo wiki.</a>
  */
 qx.Class.define("qx.ui.container.Scroll",
 {
