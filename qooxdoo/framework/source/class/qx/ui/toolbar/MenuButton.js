@@ -26,6 +26,7 @@ qx.Class.define("qx.ui.toolbar.MenuButton",
 
 
 
+
   /*
   *****************************************************************************
      PROPERTIES
@@ -38,7 +39,56 @@ qx.Class.define("qx.ui.toolbar.MenuButton",
     appearance :
     {
       refine : true,
-      init : "toolbar-button"
+      init : "toolbar-menubutton"
+    },
+
+    /** Whether the button should show an arrow to indicate the menu behind it */
+    showArrow :
+    {
+      check : "Boolean",
+      init : false,
+      themeable : true,
+      apply : "_applyShowArrow"
+    }
+  },
+
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
+  members :
+  {
+    // overridden
+    _createChildControlImpl : function(id)
+    {
+      var control;
+
+      switch(id)
+      {
+        case "arrow":
+          control = new qx.ui.basic.Image();
+          control.setAnonymous(true);
+          this._addAt(control, 10);
+          break;
+      }
+
+      return control || this.base(arguments, id);
+    },
+
+
+    // property apply routine
+    _applyShowArrow : function(value, old)
+    {
+      if (value) {
+        this._showChildControl("arrow");
+      } else {
+        this._excludeChildControl("arrow");
+      }
     }
   }
 });

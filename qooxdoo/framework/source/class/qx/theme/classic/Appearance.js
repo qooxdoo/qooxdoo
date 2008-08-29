@@ -645,6 +645,32 @@ qx.Theme.define("qx.theme.classic.Appearance",
       }
     },
 
+    "toolbar-menubutton" :
+    {
+      alias : "toolbar-button",
+      include : "toolbar-button",
+
+      style : function(states)
+      {
+        return {
+          showArrow : true
+        };
+      }
+    },
+
+    "toolbar-menubutton/arrow" :
+    {
+      alias : "image",
+      include : "image",
+
+      style : function(states)
+      {
+        return {
+          source : "decoration/arrows/down-small.gif"
+        };
+      }
+    },
+
     "toolbar-splitbutton" : {},
     "toolbar-splitbutton/button" : "toolbar-button",
     "toolbar-splitbutton/arrow" :
