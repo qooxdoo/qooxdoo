@@ -106,7 +106,15 @@ qx.Class.define("qx.core.Init",
 
   defer : function(statics)
   {
-    qx.event.Registration.addListener(window, "ready", statics.__ready, statics);
+    if (/complete|interactive/.test(document.readyState))
+    {
+      setTimeout(function() {
+        statics.__ready();
+      }, 0)
+    } else {
+      qx.event.Registration.addListener(window, "ready", statics.__ready, statics);
+    }
+    
     qx.event.Registration.addListener(window, "shutdown", statics.__shutdown, statics);
   }
 });
