@@ -136,10 +136,10 @@ qx.Class.define("qx.event.Command",
     /**
      * Fire the "execute" event on this command.
      *
-     * @param vTarget {Object} Object which issued the execute event
+     * @param target {Object} Object which issued the execute event
      */
-    execute : function(vTarget) {
-      this.fireDataEvent("execute", vTarget);
+    execute : function(target) {
+      this.fireDataEvent("execute", target);
     },
 
 

@@ -162,7 +162,7 @@ qx.Bootstrap.define("qx.event.Registration",
 
 
     /**
-     * Get an inevent instance of the given class, which can be dispatched using
+     * Get an event instance of the given class, which can be dispatched using
      * an event manager. The created events must be initialized using
      * {@link qx.event.type.Event#init}.
      *
@@ -209,7 +209,8 @@ qx.Bootstrap.define("qx.event.Registration",
      * Dispatch an event object on the given target.
      *
      * It is normally better to use {@link #fireEvent} because it uses
-     * the event pooling and is quite handy otherwise as well.
+     * the event pooling and is quite handy otherwise as well. After dispatching
+     * the event object will be pooled for later reuse or disposed.
      *
      * @param target {Object} Any valid event target
      * @param event {qx.event.type.Event} The event object to dispatch. The event
