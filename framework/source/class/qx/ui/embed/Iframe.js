@@ -30,7 +30,7 @@
  *
  * <pre class='javascript'>
  * var document = this.getRoot();
- * var iframe = new qx.ui.toolbar.Iframe("http://www.qooxdoo.org");
+ * var iframe = new qx.ui.embed.Iframe("http://www.qooxdoo.org");
  * document.add(iframe);
  * </pre>
  *
