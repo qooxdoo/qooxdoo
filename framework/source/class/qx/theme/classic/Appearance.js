@@ -161,6 +161,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
 
 
+
+
     /*
     ---------------------------------------------------------------------------
       BUTTON
@@ -578,7 +580,6 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          decorator       : "outset-thin",
           backgroundColor : "background"
         };
       }
