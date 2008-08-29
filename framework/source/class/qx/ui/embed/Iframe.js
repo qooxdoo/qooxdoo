@@ -184,10 +184,14 @@ qx.Class.define("qx.ui.embed.Iframe",
       el.setStyle("position", "absolute");
       el.setStyle("display", "none");
 
-      if (qx.bom.client.Engine.MSHTML)
+      // IE needs some extra love here to convince him to
+      // block events.
+      if (qx.core.Variant.isSet("qx.client", "mshtml"))
       {
-        el.setStyle("backgroundColor", "white");
-        el.setStyle("filter", "Alpha(Opacity=0)");
+        el.setStyles({
+          backgroundImage: "url(" + qx.util.ResourceManager.toUri("qx/static/blank.gif") + ")",
+          backgroundRepeat: "repeat"
+        });
       }
 
       return el;
