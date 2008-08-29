@@ -121,6 +121,17 @@ qx.Mixin.define("qx.ui.core.MBlocker",
         opacity : this.getBlockerOpacity(),
         backgroundColor : qx.theme.manager.Color.getInstance().resolve(this.getBlockerColor())
       });
+      
+      // IE needs some extra love here to convince him to
+      // block events.
+      if (qx.core.Variant.isSet("qx.client", "mshtml"))
+      {
+        blocker.setStyles({
+          backgroundImage: "url(" + qx.util.ResourceManager.toUri("qx/static/blank.gif") + ")",
+          backgroundRepeat: "repeat"
+        });
+      }
+      
       return blocker;
     },
 
