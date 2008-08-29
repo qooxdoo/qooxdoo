@@ -70,7 +70,14 @@ def main():
 
     # Load from json configuration
     obj = open(options.config)
-    config = simplejson.loads(obj.read())
+    
+    # Strip comment lines starting with # 
+    jsonstr = ''
+    for line in obj:
+      if not line.startswith('#'): 
+        jsonstr += line
+        
+    config = simplejson.loads(jsonstr)
     obj.close()
 
     # Resolve "extend"-Keys
