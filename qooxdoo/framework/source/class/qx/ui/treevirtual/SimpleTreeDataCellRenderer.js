@@ -54,9 +54,6 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
     // Base URL used for indentation
     this.STATIC_URI =
       this._rm.toUri(this._am.resolve("static/"));
-
-    // Get the image loader class.  The load() method is static.
-    this.ImageLoader = qx.io2.ImageLoader;
   },
 
 
@@ -85,7 +82,8 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
   properties :
   {
     /**
-     * Set whether lines linking tree children shall be drawn on the tree.
+     * Set whether lines linking tree children shall be drawn on the tree
+     * if the theme supports tree lines.
      */
     useTreeLines :
     {
@@ -152,7 +150,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
       pos = extra.pos;
 
       // Add the indentation (optionally with tree lines)
-      var indentation = this._addIndentation(cellInfo);
+      var indentation = this._addIndentation(cellInfo, pos);
       html += indentation.html
       pos = indentation.pos;
 
@@ -177,17 +175,17 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
       return html;
     },
 
-    _addImage : function(urlAndToolTip)
+    _addImage : function(imageInfo)
     {
       var html = [];
 
       // Resolve the URI
-      var source = this._rm.toUri(this._am.resolve(urlAndToolTip.url));
+      var source = this._rm.toUri(this._am.resolve(imageInfo.url));
 
       // If we've been given positioning attributes, enclose image in a div
-      if (urlAndToolTip.position)
+      if (imageInfo.position)
       {
-        var pos = urlAndToolTip.position;
+        var pos = imageInfo.position;
 
         html.push('<div style="position:absolute;');
 
@@ -227,7 +225,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
       html.push('<img src="');
 
       if (qx.core.Variant.isSet("qx.client", "mshtml") &&
-          /\.png$/i.test(urlAndToolTip.url))
+          /\.png$/i.test(imageInfo.url))
       {
         html.push(
           this.STATIC_URI +
@@ -241,18 +239,18 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
         html.push(source + '" style="');
       }
 
-      if (urlAndToolTip.imageWidth && urlAndToolTip.imageHeight)
+      if (imageInfo.imageWidth && imageInfo.imageHeight)
       {
         html.push(
           ';width:' +
-          urlAndToolTip.imageWidth +
+          imageInfo.imageWidth +
           'px' +
           ';height:' +
-          urlAndToolTip.imageHeight +
+          imageInfo.imageHeight +
           'px');
       }
 
-      var tooltip = urlAndToolTip.tooltip;
+      var tooltip = imageInfo.tooltip;
 
       if (tooltip != null)
       {
@@ -261,7 +259,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
 
       html.push('"/>');
 
-      if (urlAndToolTip.position)
+      if (imageInfo.position)
       {
         html.push('</div>');
       }
@@ -294,6 +292,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
     {
       var node = cellInfo.value;
       var imageData;
+      var html = "";
 
       // Generate the indentation.  Obtain icon determination values once
       // rather than each time through the loop.
@@ -359,7 +358,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
         else
         {
           var states = { opened : node.bOpened };
-          var o = this._tm.styleFrom( "treevirtual-folder", states);
+          var o = this._tm.styleFrom("treevirtual-folder", states);
         }
 
         imageUrl = o.icon;
@@ -389,6 +388,9 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
      *
      * @param cellInfo {Map} The information about the cell.
      *   See {@link qx.ui.table.cellrenderer.Abstract#createDataCellHtml}.
+     *   Additionally, if defined, the labelSpanStyle member is used to apply
+     *   style to the span containing the label.  (This member is for use by
+     *   subclasses; it's not otherwise used by this class.)
      *
      * @param pos {Integer}
      *   The position from the left edge of the column at which to render this
@@ -397,7 +399,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
      * @return {String}
      *   The html for the label.
      */
-    _addLabel : function(cellInfo, pos)
+    _addLabel : function(cellInfo, pos, extraStyle)
     {
       var node = cellInfo.value;
 
@@ -407,13 +409,15 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
       // 2 pixels between the folder icon and the label
       var html =
         '<div style="position:absolute;' +
-        'left:' +
-        ((node.level * 19) + 16 + 2 + 2) +
-        'px;' +
-        'top:0' +
-        (node.labelStyle ? ";" + node.labelStyle : "") +
-        ';">' +
+        'left:' + pos + 'px;' +
+        'top:0;' +
+        (node.labelStyle ? node.labelStyle + ";" : "") +
+        '">' +
+        '<span' + (cellInfo.labelSpanStyle
+                   ? 'style="' + cellInfo.labelSpanStyle + ';"'
+                   : "") + '>' +
         node.label +
+        '</span>' +
         '</div>';
 
       return html;
@@ -696,7 +700,6 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
       "__am",
       "__rm",
       "__tm",
-      "STATIC_URI",
-      "ImageLoader");
+      "STATIC_URI");
   }
 });
