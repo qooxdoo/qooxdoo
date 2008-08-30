@@ -47,13 +47,13 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
   {
     this.base(arguments);
 
-    this.__am = qx.util.AliasManager.getInstance();
-    this.__rm = qx.util.ResourceManager;
-    this.__tm = qx.theme.manager.Appearance.getInstance();
+    this._am = qx.util.AliasManager.getInstance();
+    this._rm = qx.util.ResourceManager;
+    this._tm = qx.theme.manager.Appearance.getInstance();
 
     // Base URL used for indentation
     this.STATIC_URI =
-      this.__rm.toUri(this.__am.resolve("static/"));
+      this._rm.toUri(this._am.resolve("static/"));
 
     // Get the image loader class.  The load() method is static.
     this.ImageLoader = qx.io2.ImageLoader;
@@ -125,12 +125,6 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
 
   members :
   {
-
-    useTreeLines : function()
-    {
-      return this.getUseTreeLines();
-    },
-
     // overridden
     _getCellStyle : function(cellInfo)
     {
@@ -144,12 +138,51 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
       return html;
     },
 
-    __addImage : function(urlAndToolTip)
+    // overridden
+    _getContentHtml : function(cellInfo)
+    {
+      var html = "";
+
+      // Horizontal position
+      var pos = 0;
+
+      // If needed, add extra content before indentation
+      var extra = this._addExtraContentBeforeIndentation(cellInfo, pos);
+      html += extra.html;
+      pos = extra.pos;
+
+      // Add the indentation (optionally with tree lines)
+      var indentation = this._addIndentation(cellInfo);
+      html += indentation.html
+      pos = indentation.pos;
+
+      // If needed, add extra content before icon
+      extra = this._addExtraContentBeforeIcon(cellInfo, pos);
+      html += extra.html;
+      pos = extra.pos;
+
+      // Add the node icon
+      var icon = this._addIcon(cellInfo, pos);
+      html += icon.html;
+      pos = icon.pos;
+
+      // If needed, add extra content before label
+      extra = this._addExtraContentBeforeLabel(cellInfo, pos);
+      html += extra.html;
+      pos = extra.pos;
+
+      // Add the node's label
+      html += this._addLabel(cellInfo, pos);
+
+      return html;
+    },
+
+    _addImage : function(urlAndToolTip)
     {
       var html = [];
 
       // Resolve the URI
-      var source = this.__rm.toUri(this.__am.resolve(urlAndToolTip.url));
+      var source = this._rm.toUri(this._am.resolve(urlAndToolTip.url));
 
       // If we've been given positioning attributes, enclose image in a div
       if (urlAndToolTip.position)
@@ -238,20 +271,27 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
 
 
     /**
-     * Adds extra content just before the icon.
+     * Add the indentation for this node of the tree.
+     *
+     * The indentation optionally includes tree lines.  Whether tree lines are
+     * used depends on (a) the properties 'useTreeLines' and
+     * 'excludeFirstLevelTreelines' within this class; and (b) the widget
+     * theme in use (some themes don't support tree lines).
+     *
      * @param cellInfo {Map} The information about the cell.
-     *      See {@link qx.ui.table.cellrenderer.Abstract#createDataCellHtml}.
-     * @return {Map} with the HTML and width in pixels of the rendered content.
+     *   See {@link qx.ui.table.cellrenderer.Abstract#createDataCellHtml}.
+     *
+     * @param pos {Integer}
+     *   The position from the left edge of the column at which to render this
+     *   item.
+     *
+     * @return {Map}
+     *   The returned map contains an 'html' member which contains the html for
+     *   the indentation, and a 'pos' member which is the starting position
+     *   plus the width of the indentation.
      */
-    _addExtraContentBeforeIcon : function(cellInfo)
+    _addIndentation : function(cellInfo, pos)
     {
-      return { html: '', width: 0 };
-    },
-
-    // overridden
-    _getContentHtml : function(cellInfo)
-    {
-      var html = "";
       var node = cellInfo.value;
       var imageData;
 
@@ -261,16 +301,13 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
       var bExcludeFirstLevelTreeLines = this.getExcludeFirstLevelTreeLines();
       var bAlwaysShowOpenCloseSymbol = this.getAlwaysShowOpenCloseSymbol();
 
-      // Horizontal position
-      var pos = 0;
-
       for (var i=0; i<node.level; i++)
       {
         imageData = this._getIndentSymbol(i, node, bUseTreeLines,
                                           bAlwaysShowOpenCloseSymbol,
                                           bExcludeFirstLevelTreeLines);
 
-        html += this.__addImage(
+        html += this._addImage(
         {
           url         : imageData.icon,
           position    :
@@ -284,9 +321,31 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
         pos += 19;
       }
 
-      var extra = this._addExtraContentBeforeIcon(cellInfo);
-      html += extra.html;
-      pos += extra.width;
+      return (
+        {
+          html : html,
+          pos  : pos
+        });
+    },
+
+    /**
+     * Add the icon for this node of the tree.
+     *
+     * @param cellInfo {Map} The information about the cell.
+     *   See {@link qx.ui.table.cellrenderer.Abstract#createDataCellHtml}.
+     *
+     * @param pos {Integer}
+     *   The position from the left edge of the column at which to render this
+     *   item.
+     *
+     * @return {Map}
+     *   The returned map contains an 'html' member which contains the html for
+     *   the icon, and a 'pos' member which is the starting position plus the
+     *   width of the icon.
+     */
+    _addIcon : function(cellInfo, pos)
+    {
+      var node = cellInfo.value;
 
       // Add the node's icon
       var imageUrl = (node.bSelected ? node.iconSelected : node.icon);
@@ -295,18 +354,18 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
       {
         if (node.type == qx.ui.treevirtual.SimpleTreeDataModel.Type.LEAF)
         {
-          var o = this.__tm.styleFrom("treevirtual-file");
+          var o = this._tm.styleFrom("treevirtual-file");
         }
         else
         {
           var states = { opened : node.bOpened };
-          var o = this.__tm.styleFrom( "treevirtual-folder", states);
+          var o = this._tm.styleFrom( "treevirtual-folder", states);
         }
 
         imageUrl = o.icon;
       }
 
-      html += this.__addImage(
+      var html = this._addImage(
       {
         url         : imageUrl,
         position    :
@@ -318,11 +377,35 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
         }
       });
 
+      return (
+        {
+          html : html,
+          pos  : pos + 19
+        });
+    },
+
+    /**
+     * Add the label for this node of the tree.
+     *
+     * @param cellInfo {Map} The information about the cell.
+     *   See {@link qx.ui.table.cellrenderer.Abstract#createDataCellHtml}.
+     *
+     * @param pos {Integer}
+     *   The position from the left edge of the column at which to render this
+     *   item.
+     *
+     * @return {String}
+     *   The html for the label.
+     */
+    _addLabel : function(cellInfo, pos)
+    {
+      var node = cellInfo.value;
+
       // Add the node's label.  We calculate the "left" property with: each
       // tree line (indentation) icon is 19 pixels wide; the folder icon is 16
       // pixels wide, there are two pixels of padding at the left, and we want
       // 2 pixels between the folder icon and the label
-      html +=
+      var html =
         '<div style="position:absolute;' +
         'left:' +
         ((node.level * 19) + 16 + 2 + 2) +
@@ -334,6 +417,66 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
         '</div>';
 
       return html;
+    },
+
+    /**
+     * Adds extra content just before the indentation.
+     *
+     * @param cellInfo {Map} The information about the cell.
+     *      See {@link qx.ui.table.cellrenderer.Abstract#createDataCellHtml}.
+     *
+     * @param pos {Integer}
+     *   The position from the left edge of the column at which to render this
+     *   item.
+     *
+     * @return {Map}
+     *   The returned map contains an 'html' member which contains the html for
+     *   the indentation, and a 'pos' member which is the starting position
+     *   plus the width of the indentation.
+     */
+    _addExtraContentBeforeIndentation : function(cellInfo, pos)
+    {
+      return { html: '', pos: pos };
+    },
+
+    /**
+     * Adds extra content just before the icon.
+     *
+     * @param cellInfo {Map} The information about the cell.
+     *      See {@link qx.ui.table.cellrenderer.Abstract#createDataCellHtml}.
+     *
+     * @param pos {Integer}
+     *   The position from the left edge of the column at which to render this
+     *   item.
+     *
+     * @return {Map}
+     *   The returned map contains an 'html' member which contains the html for
+     *   the indentation, and a 'pos' member which is the starting position
+     *   plus the width of the indentation.
+     */
+    _addExtraContentBeforeIcon : function(cellInfo, pos)
+    {
+      return { html: '', pos: pos };
+    },
+
+    /**
+     * Adds extra content just before the label.
+     *
+     * @param cellInfo {Map} The information about the cell.
+     *      See {@link qx.ui.table.cellrenderer.Abstract#createDataCellHtml}.
+     *
+     * @param pos {Integer}
+     *   The position from the left edge of the column at which to render this
+     *   item.
+     *
+     * @return {Map}
+     *   The returned map contains an 'html' member which contains the html for
+     *   the indentation, and a 'pos' member which is the starting position
+     *   plus the width of the indentation.
+     */
+    _addExtraContentBeforeLabel : function(cellInfo, pos)
+    {
+      return { html: '', pos: pos };
     },
 
 
