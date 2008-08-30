@@ -94,8 +94,13 @@ qx.Class.define("qx.Theme",
       }
 
       // Copy over resource path
-      if (config.resource) {
+      if (config.resource)
+      {
         theme.resource = config.resource;
+      }
+      else if (config.extend && config.extend.resource)
+      {
+        theme.resource = config.extend.resource;
       }
 
       // Assign to namespace
