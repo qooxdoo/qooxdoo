@@ -106,12 +106,20 @@ qx.Class.define("qx.core.Init",
 
   defer : function(statics)
   {
-    if (/complete|interactive/.test(document.readyState))
+    // if the document is already loaded call "__ready" immediately
+    if (qx.core.Variant.isSet("qx.client", "mshtml"))
     {
-      setTimeout(function() {
-        statics.__ready();
-      }, 0)
-    } else {
+      if (/complete|interactive/.test(document.readyState))
+      {
+        setTimeout(function() {
+          statics.__ready();
+        }, 0)
+      } else {
+        qx.event.Registration.addListener(window, "ready", statics.__ready, statics);
+      }
+    }
+    else
+    {
       qx.event.Registration.addListener(window, "ready", statics.__ready, statics);
     }
     
