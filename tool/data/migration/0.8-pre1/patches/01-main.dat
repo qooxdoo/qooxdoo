@@ -112,7 +112,7 @@
 \bqx\.legacy\.event\.message\b=qx.event.message
 \bqx\.core\.Target\b=qx.core.Object
 
-\b\.setPropagationStopped\(true\)=stopPropagation()
+\b\.setPropagationStopped\(true\)=.stopPropagation()
 
 \bcreateDispatchEvent\b=fireEvent
 \bcreateDispatchDataEvent\b=fireDataEvent
