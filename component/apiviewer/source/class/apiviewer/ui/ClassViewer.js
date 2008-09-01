@@ -534,11 +534,11 @@ qx.Class.define("apiviewer.ui.ClassViewer",
     {
       var itemNode = this.getDocNode().getItem(itemName);
 
-      if (!itemNode || !itemNode.isFromProperty) {
+      if (!itemNode) {
         return false;
       }
 
-      if(itemNode.isFromProperty())
+      if(itemNode.isFromProperty && itemNode.isFromProperty())
       {
         var controller = qx.core.Init.getApplication().controller;
         var btn_expand = controller._widgetRegistry.getWidgetById("btn_expand");
