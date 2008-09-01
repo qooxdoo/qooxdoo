@@ -208,6 +208,12 @@ qx.Class.define("apiviewer.ui.ClassViewer",
       var html = '<span style="display:inline-block;display:inline;padding-right:18px;position:relative;top:-2px;left:0;width:' + width + 'px;height:' + height + 'px' + ((styleAttributes == null) ? '' : (';' + styleAttributes)) + '">';
       var style;
 
+      if(qx.bom.client.Engine.OPERA){
+        style = "margin-right:-18px;";
+      }else{
+        style = "position:absolute;top:0px;left:0px";
+      }
+
       for (var i=0; i<imgUrlArr.length; i++)
       {
         html += '<img';
@@ -216,14 +222,7 @@ qx.Class.define("apiviewer.ui.ClassViewer",
           html += ' title="' + toolTip + '"';
         }
 
-        if(qx.bom.client.Engine.OPERA){
-          style = "margin-right:-18px;";
-        }else{
-          style = "position:absolute;top:0px;left:0px";
-        }
-
         html += ' style="' + style + '" src="' + qx.util.ResourceManager.toUri(imgUrlArr[i]) + '"/>';
-
       }
 
       html += '</span>';
