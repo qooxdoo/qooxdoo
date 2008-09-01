@@ -94,15 +94,12 @@ qx.Class.define("apiviewer.ClassLoader",
 
       for (i=0; i<classesToLoad.length; i++)
       {
-        clazz = classesToLoad[i];        
-
-        this.load(clazz.getFullName(), true, function(cls)
+        this.load(classesToLoad[i].getFullName(), true, function(cls)
         {
-          classesToLoad[loadedClasses] = cls
           loadedClasses += 1;
           
           if (loadedClasses == classesToLoad.length) {
-            this.__runCallback(classes[0].isLoaded() ? classes[0] : classesToLoad[0], callback, self);
+            this.__runCallback(apiviewer.dao.Class.getClassByName(classes[0].getFullName()), callback, self);
           }
         }, this);
 
