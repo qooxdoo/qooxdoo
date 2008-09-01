@@ -85,7 +85,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
 
 
     /**
-     * The number of piel to indent the tree item for each level.
+     * The number of pixel to indent the tree item for each level.
      */
     indent :
     {

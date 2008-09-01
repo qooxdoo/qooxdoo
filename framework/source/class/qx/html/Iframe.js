@@ -182,7 +182,7 @@ qx.Class.define("qx.html.Iframe",
      * @return {String} The iframe's name.
      */
     getName : function() {
-      return this.setAttribute("name");
+      return this.getAttribute("name");
     },
 
 
