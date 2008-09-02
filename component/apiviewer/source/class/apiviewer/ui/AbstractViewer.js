@@ -77,12 +77,6 @@ qx.Class.define("apiviewer.ui.AbstractViewer",
 
     highlightCode : function(el)
     {
-
-      // TODO: Fix javascriptToHtml() for IE.
-      if (qx.bom.client.Engine.MSHTML) {
-        return;
-      }
-
       var pres = el.getElementsByTagName("pre");
 
       for (var i=0; i<pres.length; i++) {
