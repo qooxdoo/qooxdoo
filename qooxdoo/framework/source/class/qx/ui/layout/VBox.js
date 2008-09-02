@@ -19,8 +19,10 @@
 ************************************************************************ */
 
 /**
- * A full featured vertical box layout. It lays out widgets in a
- * vertical column, from top to bottom.
+ * A vertical box layout. 
+ * 
+ * The vertical box layout lays out widgets in a vertical column, from top
+ * to bottom.
  *
  * *Features*
  *
@@ -78,12 +80,6 @@
  *
  * <a href='http://qooxdoo.org/documentation/0.8/layout/vbox'>
  * Extended documentation</a> and links to demos of this layout in the qooxdoo wiki.
- *
- * *Alternative Names*
- *
- * * QVBoxLayout (Qt)
- * * StackPanel (XAML)
- * * RowLayout (SWT)
  *
  * *Copyright Notes*
  *
