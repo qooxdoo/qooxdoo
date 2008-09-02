@@ -26,7 +26,7 @@
  * * Percent width for left/right/center attached children
  * * Percent height for top/bottom/center attached children
  * * Minimum and maximum dimensions
- * * Priorized growing/shrinking (flex)
+ * * Prioritized growing/shrinking (flex)
  * * Auto sizing
  * * Margins and Spacings
  * * Alignment in orthogonal axis (e.g. alignX of north attached)
@@ -37,7 +37,7 @@
  * <ul>
  * <li><strong>edge</strong> <em>(String)</em>: The edge where the layout item
  *   should be docked. This may be one of <code>north</code>, <code>east</code>,
- *   <code>south</code>, <code>west</code> or <code>center</code>.</li>
+ *   <code>south</code>, <code>west</code> or <code>center</code>. (Required)</li>
  * <li><strong>width</strong> <em>(String)</em>: Defines a percent
  *   width for the item. The percent width,
  *   when specified, is used instead of the width defined by the size hint.
@@ -85,15 +85,8 @@
  *
  * *External Documentation*
  *
- * <a href='http://qooxdoo.org/documentation/0.8/layout/dock'>
+ * <a href='http://qooxdoo.org/documentation/0.8/layout/Dock'>
  * Extended documentation</a> and links to demos of this layout in the qooxdoo wiki.
- *
- * *Alternative Names*
- *
- * * BorderLayout (Qt)
- * * DockPanel (XAML)
- * * BorderLayout (Java)
- * * BorderLayout (ExtJS)
  */
 qx.Class.define("qx.ui.layout.Dock",
 {
