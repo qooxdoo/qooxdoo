@@ -19,8 +19,10 @@
 ************************************************************************ */
 
 /**
- * A full featured horizontal box layout. It lays out widgets in a
- * horizontal row, from left to right.
+ * A horizontal box layout.
+ * 
+ * The horizontal box layout lays out widgets in a horizontal row, from left
+ * to right.
  *
  * *Features*
  *
@@ -76,14 +78,8 @@
  *
  * *External Documentation*
  *
- * <a href='http://qooxdoo.org/documentation/0.8/layout/hbox'>
+ * <a href='http://qooxdoo.org/documentation/0.8/layout/Box'>
  * Extended documentation</a> and links to demos of this layout in the qooxdoo wiki.
- *
- * *Alternative Names*
- *
- * * QHBoxLayout (Qt)
- * * StackPanel (XAML)
- * * RowLayout (SWT)
  *
  * *Copyright Notes*
  *

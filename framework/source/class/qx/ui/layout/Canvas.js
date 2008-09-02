@@ -19,16 +19,21 @@
 ************************************************************************ */
 
 /**
- * Advanced canvas layout. Children will be positioned by coordinates
- * which should be given by the user.
+ * The Canvas is an extended Basic layout.
+ *
+ * It is possible to position a widget relative to the right or bottom edge of
+ * the available space. It further supports stretching between left and right
+ * or top and bottom e.g. <code>left=20</code> and <code>right=20<code> would
+ * keep a margin of 20 pixels to both edges. The Canvas layout has support for
+ * percent dimensions and locations.
  *
  * *Features*
  *
- * * Integer dimensions and locations
+ * * Pixel dimensions and locations
  * * Percent dimensions and locations
  * * Stretching between left+right and top+bottom
  * * Minimum and maximum dimensions
- * * Children are automatically shrinked to their minimum dimensions if not enough space is available
+ * * Children are automatically shrunk to their minimum dimensions if not enough space is available
  * * Auto sizing (ignoring percent values)
  * * Margins (also negative ones)
  *
@@ -74,10 +79,6 @@
  *
  * <a href='http://qooxdoo.org/documentation/0.8/layout/canvas'>
  * Extended documentation</a> and links to demos of this layout in the qooxdoo wiki.
- *
- * *Alternative Names*
- *
- * None
  */
 qx.Class.define("qx.ui.layout.Canvas",
 {

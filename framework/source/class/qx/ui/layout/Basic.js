@@ -19,18 +19,16 @@
 ************************************************************************ */
 
 /**
- * A basic layout, which supports positioning of child widgets by static
- * left/top coordinates. This layout is extremely basic but should also
- * perform best and is the ideal candidate for all animations and things
- * like this.
+ * A basic layout, which supports positioning of child widgets by absolute
+ * left/top coordinates. This layout is very simple but should also
+ * perform best.
  *
  * *Features*
  *
- * * Integer dimensions
- * * Basic location using <code>left</code> and <code>top</code>
- * * Minimum and maximum dimensions without skrinking/growing
+ * * Basic positioning using <code>left</code> and <code>top</code> properties
+ * * Respects minimum and maximum dimensions without skrinking/growing
  * * Margins for top and left side (including negative ones)
- * * Only size hint relevant margins for right and bottom
+ * * Respects right and bottom margins in the size hint
  * * Auto-sizing
  *
  * *Item Properties*
@@ -61,10 +59,6 @@
  *
  * <a href='http://qooxdoo.org/documentation/0.8/layout/basic'>
  * Extended documentation</a> and links to demos of this layout in the qooxdoo wiki.
- *
- * *Alternative Names*
- *
- * * AbsoluteLayout (ExtJS)
  */
 qx.Class.define("qx.ui.layout.Basic",
 {
