@@ -103,7 +103,7 @@ qx.Class.define("qx.dev.Tokenizer",
       var re_nl = /^\r\n|\r|\n$/;
       var re_space = /^\s$/;
       var re_re = /^\/(?:\\.|[^\/])+\/[gimy]*$/;
-      var re_token = /\/\/.*?[\n\r$]|\/\*(?:.|\n|\r)*?\*\/|\/(?:\\.|[^\/])+\/[gimy]*|\w+\b|[+-]?\d+(([.]\d+)*([eE][+-]?\d+))?|["][^"]*["]|['][^']*[']|\n|\r|./g
+      var re_token = /\/\/.*?[\n\r$]|\/\*(?:.|\n|\r)*?\*\/|\/(?:\\.|[^\/])+\/[gimy]*|\w+\b|[+-]?\d+(([.]\d+)*([eE][+-]?\d+))?|["][^"]*["]|['][^']*[']|\r\n|\r|\n|./g
 
       var tokens = [];
 
@@ -215,7 +215,13 @@ qx.Class.define("qx.dev.Tokenizer",
             break;
 
           case "nl":
-            js.add("\n");
+            var nl = qx.bom.client.Engine.MSHTML ? "<br>" : "\n"; 
+            js.add(nl);
+            break;
+
+          case "ws":
+            var ws = qx.bom.client.Engine.MSHTML ? "&nbsp;" : " "; 
+            js.add(ws);
             break;
 
           default:
