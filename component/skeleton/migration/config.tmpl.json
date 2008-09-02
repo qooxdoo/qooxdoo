@@ -21,6 +21,15 @@
 
   "jobs" :
   {
+    "common" :
+    {
+      "include" : ["qx.legacy.theme.ClassicRoyale"],
+      "settings" :
+      {
+        "qx.legacy.theme" : "qx.legacy.theme.ClassicRoyale"
+      }
+    },
+
     "api" :
     {
       "extend" : ["appconf::api"]
@@ -28,12 +37,7 @@
 
     "build" :
     {
-      "extend" : ["appconf::build"],
-
-      "settings" :
-      {
-        "qx.legacy.theme" : "qx.legacy.theme.ClassicRoyale"
-      }
+      "extend" : ["common", "appconf::build"]
     },
 
     "clean" :
@@ -73,12 +77,7 @@
 
     "source" :
     {
-      "extend" : ["appconf::source"],
-
-      "settings" :
-      {
-        "qx.legacy.theme" : "qx.legacy.theme.ClassicRoyale"
-      }
+      "extend" : ["common", "appconf::source"]
     },
 
     "test" :
