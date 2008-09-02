@@ -203,7 +203,7 @@ qx.Class.define("demobrowser.DemoBrowser",
     __openWindow : function()
     {
       var sampUrl = this.__iframe.getWindow().location.href;
-      window.open(sampUrl, "Sample", "width=850,height=650");
+      window.open(sampUrl, "_blank");
     },
 
     __disposeSample : function(e)
