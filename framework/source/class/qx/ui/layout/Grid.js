@@ -36,11 +36,11 @@
  * *Item Properties*
  *
  * <ul>
- * <li><strong>row</strong> <em>(Integer)</em>: The row of the cell, where the
+ * <li><strong>row</strong> <em>(Integer)</em>: The row of the cell the
  *   widget should occupy. Each cell can only contain one widget. This layout
  *   property is mandatory.
  * </li>
- * <li><strong>column</strong> <em>(Integer)</em>: The column of the cell, where the
+ * <li><strong>column</strong> <em>(Integer)</em>: The column of the cell the
  *   widget should occupy. Each cell can only contain one widget. This layout
  *   property is mandatory.
  * </li>
@@ -71,14 +71,8 @@
  *
  * *External Documentation*
  *
- * <a href='http://qooxdoo.org/documentation/0.8/layout/grid'>
+ * <a href='http://qooxdoo.org/documentation/0.8/layout/Grid'>
  * Extended documentation</a> and links to demos of this layout in the qooxdoo wiki.
- *
- * *Alternative Names*
- *
- * * "QGridLayout":http://doc.trolltech.com/4.3/qgridlayout.html (Qt)
- * * Grid (XAML)
- * * TableLayout (ExtJS)
  */
 qx.Class.define("qx.ui.layout.Grid",
 {

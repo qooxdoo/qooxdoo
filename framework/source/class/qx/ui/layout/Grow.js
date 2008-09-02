@@ -18,8 +18,8 @@
 ************************************************************************ */
 
 /**
- * A grow layout, which stretches all children into the full available size
- * but still respecting limits configured through min/max values.
+ * The grow layout stretches all children to the full available size
+ * but still respects limits configured by min/max values.
  *
  * It will place all children over each other with the top and left coordinates
  * set to <code>0</code>. The {@link qx.ui.container.Stack} and the
@@ -27,8 +27,8 @@
  *
  * *Features*
  *
- * * Integer dimensions
- * * Minimum and maximum dimensions
+ * * Auto-sizing
+ * * Respects minimum and maximum child dimensions
  *
  * *Item Properties*
  *
@@ -51,12 +51,8 @@
  *
  * *External Documentation*
  *
- * <a href='http://qooxdoo.org/documentation/0.8/layout/grow'>
+ * <a href='http://qooxdoo.org/documentation/0.8/layout/Grow'>
  * Extended documentation</a> and links to demos of this layout in the qooxdoo wiki.
- *
- * *Alternative Names*
- *
- * * FitLayout (ExtJS)
  */
 qx.Class.define("qx.ui.layout.Grow",
 {
