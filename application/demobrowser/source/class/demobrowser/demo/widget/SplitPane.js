@@ -31,28 +31,28 @@ qx.Class.define("demobrowser.demo.widget.SplitPane",
 
       // Create a horizontal split pane
       var pane = new qx.ui.splitpane.Pane("horizontal").set({
-        width : 600,
-        height : 400
+        width : 450,
+        height : 300
       });
 
       this.__pane = pane;
 
       // Create container with fixed dimensions for the left:
       var container1 = new qx.ui.container.Composite(new qx.ui.layout.Grow).set({
-        padding : 10,
-        width : 100,
+        width : 200,
         height: 100,
         decorator : "main"
       });
 
       // Create container for the right:
-      var container2 = new qx.ui.container.Composite(new qx.ui.layout.Grow).set({
+      var container2 = new qx.ui.container.Composite(new qx.ui.layout.VBox(10)).set({
         padding : 10,
+        maxWidth : 450,
         decorator : "main"
       });
 
       // Create some content here ...
-      var label = new qx.ui.basic.Label("First pane");
+      var tree = this.__createDummyTree();
       var button = new qx.ui.form.Button("Toggle Splitpane Orientation").set({
         allowGrowX : false,
         allowGrowY : false
@@ -60,10 +60,13 @@ qx.Class.define("demobrowser.demo.widget.SplitPane",
 
       // Add a listener to the button
       button.addListener("execute", this._toggle, this);
+      var label = new qx.ui.basic.Label("Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.");
+      label.setRich(true);
 
       // ... and add it to the containers
-      container1.add(label);
+      container1.add(tree);
       container2.add(button);
+      container2.add(label);
 
       this._container1 = container1;
       this._container2 = container2;
@@ -116,6 +119,7 @@ qx.Class.define("demobrowser.demo.widget.SplitPane",
     
     /**
      * Changes the SplitPane's children visibility
+     * @param e {qx.event.type.Data} Incoming data event
      */
     _changeVisiblity : function(e)
     {
@@ -136,7 +140,55 @@ qx.Class.define("demobrowser.demo.widget.SplitPane",
         this._container1.exclude();
         this._container2.show();
       }
+    },
 
+    /**
+     * Returns a tree filled with dummy values.
+     * @return {qx.ui.tree.Tree} The tree
+     */
+    __createDummyTree : function()
+    {
+      var tree = new qx.ui.tree.Tree();
+      tree.setDecorator(null);
+
+      var root = new qx.ui.tree.TreeFolder("/");
+      root.setOpen(true);
+      tree.setRoot(root);
+
+      var te1 = new qx.ui.tree.TreeFolder("Desktop");
+      te1.setOpen(true)
+      root.add(te1);
+
+      var te1_1 = new qx.ui.tree.TreeFolder("Files");
+      var te1_2 = new qx.ui.tree.TreeFolder("Workspace");
+      var te1_3 = new qx.ui.tree.TreeFolder("Network");
+      var te1_4 = new qx.ui.tree.TreeFolder("Trash");
+      te1.add(te1_1, te1_2, te1_3, te1_4);
+
+      var te1_2_1 = new qx.ui.tree.TreeFile("Windows (C:)");
+      var te1_2_2 = new qx.ui.tree.TreeFile("Documents (D:)");
+      te1_2.add(te1_2_1, te1_2_2);
+
+
+
+      var te2 = new qx.ui.tree.TreeFolder("Inbox");
+
+      var te2_1 = new qx.ui.tree.TreeFolder("Presets");
+      var te2_2 = new qx.ui.tree.TreeFolder("Sent");
+      var te2_3 = new qx.ui.tree.TreeFolder("Trash");
+
+      for (var i=0; i<100; i++) {
+        te2_3.add(new qx.ui.tree.TreeFile("Junk #" + i));
+      }
+
+      var te2_4 = new qx.ui.tree.TreeFolder("Data");
+      var te2_5 = new qx.ui.tree.TreeFolder("Edit");
+
+      te2.add(te2_1, te2_2, te2_3, te2_4, te2_5);
+
+      root.add(te2);
+
+      return tree;
     }
 
   }
