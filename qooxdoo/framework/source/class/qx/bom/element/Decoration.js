@@ -90,7 +90,7 @@ qx.Class.define("qx.bom.element.Decoration",
      */
     update : function(element, source, repeat, style)
     {
-      var tag = this.getTagName(repeat);
+      var tag = this.getTagName(repeat, source);
       if (tag != element.tagName.toLowerCase()) {
         throw new Error("Image modification not possible because elements could not be replaced at runtime anymore!");
       }
@@ -128,7 +128,7 @@ qx.Class.define("qx.bom.element.Decoration",
      */
     create : function(source, repeat, style)
     {
-      var tag = this.getTagName(repeat);
+      var tag = this.getTagName(repeat, source);
       var ret = this.getAttributes(source, repeat, style);
       var css = qx.bom.element.Style.compile(ret.style);
 
@@ -148,13 +148,14 @@ qx.Class.define("qx.bom.element.Decoration",
      * @param repeat {String} One of <code>scale-x</code>, <code>scale-y</code>,
      *   <code>scale</code>, <code>repeat</code>, <code>repeat-x</code>,
      *   <code>repeat-y</code>, <code>repeat</code>
+     * @param source {String?null} Source used to identify the image format
      * @return {String} The tag name: <code>div</code> or <code>img</code>
      */
-    getTagName : function(repeat)
+    getTagName : function(repeat, source)
     {
       if (qx.core.Variant.isSet("qx.client", "mshtml"))
       {
-        if (this.__enableAlphaFix && this.__alphaFixRepeats[repeat]) {
+        if (source && this.__enableAlphaFix && this.__alphaFixRepeats[repeat] && qx.lang.String.endsWith(source, ".png")) {
           return "div";
         }
       }
@@ -226,8 +227,6 @@ qx.Class.define("qx.bom.element.Decoration",
       }
       else
       {
-        var clipped = ResourceManager.isClippedImage(source);
-
         if (repeat === "scale")
         {
           var uri = ResourceManager.toUri(source);
@@ -245,7 +244,10 @@ qx.Class.define("qx.bom.element.Decoration",
             style : style
           };
         }
-        else if (repeat === "scale-x" || repeat === "scale-y")
+
+        var clipped = ResourceManager.isClippedImage(source);
+
+        if (repeat === "scale-x" || repeat === "scale-y")
         {
           if (clipped)
           {
@@ -263,9 +265,9 @@ qx.Class.define("qx.bom.element.Decoration",
 
               // Fix user given y-coordinate to include the combined image offset
               if (style.top != null) {
-                style.top = (parseInt(style.top) + data[6]) + "px";
+                style.top = (parseInt(style.top, 10) + data[6]) + "px";
               } else if (style.bottom != null) {
-                style.bottom = (parseInt(style.bottom) + height - imageHeight - data[6]) + "px";
+                style.bottom = (parseInt(style.bottom, 10) + height - imageHeight - data[6]) + "px";
               }
 
               return {
@@ -288,9 +290,9 @@ qx.Class.define("qx.bom.element.Decoration",
 
               // Fix user given x-coordinate to include the combined image offset
               if (style.left != null) {
-                style.left = (parseInt(style.left) + data[5]) + "px";
+                style.left = (parseInt(style.left, 10) + data[5]) + "px";
               } else if (style.right != null) {
-                style.right = (parseInt(style.right) + width - imageWidth - data[5]) + "px";
+                style.right = (parseInt(style.right, 10) + width - imageWidth - data[5]) + "px";
               }
 
               return {

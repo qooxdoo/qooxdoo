@@ -264,6 +264,14 @@ qx.Class.define("qx.ui.basic.Image",
         this._updateSize(ResourceManager.getImageWidth(source),
           ResourceManager.getImageHeight(source));
       }
+      else if (this.getScale() && this.getWidth() != null && this.getHeight() != null)
+      {
+        // Apply source
+        el.setSource(source);
+
+        // Update size based on hard-coded size
+        this._updateSize(this.getWidth(), this.getHeight());
+      }
       else if (ImageLoader.isLoaded(source))
       {
         // Apply source
