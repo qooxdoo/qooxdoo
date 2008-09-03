@@ -36,12 +36,11 @@ qx.Class.define("demobrowser.demo.widget.Image",
     {
       this.base(arguments);
 
-      layout = new qx.ui.layout.HBox();
-      layout.setSpacing(10);
+      var layout = new qx.ui.layout.HBox();
+      layout.setSpacing(20);
 
       var container = new qx.ui.container.Composite(layout);
-      container.setPadding(20);
-      this.getRoot().add(container, {left:0,top:0});
+      this.getRoot().add(container, {left:20,top:20});
 
       container.add(new qx.ui.basic.Image("demobrowser/demo/icons/multimedia-player.png"));
 
@@ -66,6 +65,12 @@ qx.Class.define("demobrowser.demo.widget.Image",
       var external = new qx.ui.basic.Image("http://resources.qooxdoo.org/images/logo.gif");
       container.add(external);
 
+      var externalSmall = new qx.ui.basic.Image("http://resources.qooxdoo.org/images/logo.gif");
+      externalSmall.setWidth(136);
+      externalSmall.setHeight(40);
+      externalSmall.setScale(true);
+      container.add(externalSmall);
+
 
       // toggle button
       var btn = new qx.ui.form.ToggleButton("Toggle enabled");
@@ -74,7 +79,7 @@ qx.Class.define("demobrowser.demo.widget.Image",
         container.setEnabled(e.getData());
       });
 
-      this.getRoot().add(btn, {left:10, top:180});
+      this.getRoot().add(btn, {left:20, top:180});
     }
   }
 });

@@ -2028,6 +2028,16 @@ qx.Class.define("qx.html.Element",
     },
 
 
+    /**
+     * Returns a map of all styles. Do not modify the result map!
+     *
+     * @return {Map} All styles or <code>null</code> when none are configured.
+     */
+    getAllStyles : function() {
+      return this.__styleValues || null;
+    },
+
+
 
 
 
@@ -2232,8 +2242,15 @@ qx.Class.define("qx.html.Element",
      * @param key {String} name of the misc
      * @return {var} the value of the misc
      */
-    _getProperty : function(key) {
-      return this.__propertyValues ? this.__propertyValues[key] : null;
+    _getProperty : function(key)
+    {
+      var db = this.__propertyValues;
+      if (!db) {
+        return null;
+      }
+
+      var value = db[key];
+      return value == null ? null : value;
     },
 
 
