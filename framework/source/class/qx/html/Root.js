@@ -31,6 +31,14 @@ qx.Class.define("qx.html.Root",
 {
   extend : qx.html.Element,
 
+
+
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
   /**
    * Creates a root element
    *
@@ -46,6 +54,15 @@ qx.Class.define("qx.html.Root",
     }
   },
 
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
+
   members :
   {
     /**
@@ -59,15 +76,8 @@ qx.Class.define("qx.html.Root",
      */
     useElement : function(elem)
     {
-      if (this._element) {
-        throw new Error("Elements could not be replaced!");
-      }
-
-      // Store hashcode
-      elem.$$hash = this.$$hash;
-
-      // Initialize based on given element
-      this._element = elem;
+      // Base call
+      this.base(arguments, elem);
 
       // Mark as root
       this._root = true;
