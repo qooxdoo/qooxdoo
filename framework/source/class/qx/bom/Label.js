@@ -61,6 +61,13 @@ qx.Class.define("qx.bom.Label",
       if (qx.core.Variant.isSet("qx.client", "gecko"))
       {
         var inner = document.createElementNS("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul", "label");
+
+        // Force style inheritance for font styles to omit usage of
+        // CSS "label" selector, See bug #1349 for details.
+        for (var key in this.__styles) {
+          inner.style[key] = "inherit";
+        }
+
         el.appendChild(inner);
       }
 
@@ -133,6 +140,12 @@ qx.Class.define("qx.bom.Label",
         xulel.style.cursor = "inherit";
         xulel.style.overflow = "hidden";
         xulel.style.maxWidth = "100%";
+
+        // Force style inheritance for font styles to omit usage of
+        // CSS "label" selector, See bug #1349 for details.
+        for (var key in this.__styles) {
+          xulel.style[key] = "inherit";
+        }
 
         xulel.setAttribute("crop", "end");
 
