@@ -1,0 +1,77 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>qooxdoo &raquo; Demo Browser</title>
+  <script type="text/javascript" src="../helper.js"></script>
+
+  <style type="text/css">
+
+		#output {
+		    font-family: monospace;
+		    overflow: auto;
+		}
+
+		.keyword {
+			color : blue;
+		}
+
+		.atom {
+			color: orange;
+		}
+
+		.ident {
+			font-weight: bold;
+		}
+
+		.comment {
+			color: darkgray;
+		}
+
+		.string {
+			color: green;
+		}
+        
+        .regexp {
+            color: brown;
+        }
+
+  </style>
+
+</head>
+<body>
+  <div id="description">
+    <p>Test qx.dev.Tokenizer.</p>
+  </div>
+
+	<p>Text to Tokenize:</p>
+
+	<textarea id="input" rows=20 cols=80>
+/**
+ * Java Doc string.
+ */
+function tokenizeDemo() {
+  /* this is an example of the tokenizer in action */
+  var s = "So how's the weather?" + "\n";
+  for (i = 0; i < a.length; i++) {
+    s = s + a[i] + "\n";
+  }
+  if (s.length > 10) {
+    print('you have a lot say!');
+  }
+  // this is a single line comment test
+  // /* this is a commented
+  // comment test */
+  /****/
+
+}
+	</textarea>
+	<p>
+	  <input type="button" id="btn" value="tokenize">
+	  <input type="button" id="js" value="JavaScript">
+	  <input type="button" id="html" value="Html">
+	</p>
+
+	<div id="output" style='padding:10px; border: 1px solid black;width:600px'>
+	</div>
+</body>
+</html>
