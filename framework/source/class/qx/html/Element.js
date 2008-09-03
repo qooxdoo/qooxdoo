@@ -949,8 +949,7 @@ qx.Class.define("qx.html.Element",
      *
      * @return {Array} the children list
      */
-    getChildren : function()
-    {
+    getChildren : function() {
       return this.__children || null;
     },
 
