@@ -1471,7 +1471,9 @@ qx.Class.define("qx.ui.core.Widget",
       }
 
       el.setStyle("position", "absolute");
-      el.setStyle("zIndex", 0);
+
+      // What was the reason for this (wpbasti)?
+      // el.setStyle("zIndex", 0);
 
       return el;
     },
@@ -2389,7 +2391,7 @@ qx.Class.define("qx.ui.core.Widget",
 
     // property apply
     _applyOpacity : function(value, old) {
-      this.__containerElement.setStyle("opacity", value);
+      this.__containerElement.setStyle("opacity", value == 1 ? null : value);
     },
 
 
