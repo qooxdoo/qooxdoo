@@ -570,7 +570,7 @@ qx.Class.define("qx.ui.control.ColorSelector",
         case "hueModifier":
           this._setRgbFromHue();
       }
-
+      this._setBrightnessGradiant();
       if (this.__updateContext === "hueModifier") {
         this.__updateContext = null;
       }
@@ -590,6 +590,7 @@ qx.Class.define("qx.ui.control.ColorSelector",
 
       if (this.__updateContext !== "hueSaturationField")
       {
+        this._setBrightnessGradiant();
         if (this._getChildControl("hue-saturation-handle").getBounds()) {
           this._getChildControl("hue-saturation-handle").setDomTop(256 - Math.round(value * 2.56) + this._getChildControl("hue-saturation-pane").getPaddingTop());
         } else {
@@ -1121,14 +1122,8 @@ qx.Class.define("qx.ui.control.ColorSelector",
      */
     _setPreviewFromRgb : function()
     {
-      var ColorUtil = qx.util.ColorUtil;
-
-      var rgbString = ColorUtil.rgbToRgbString([this.getRed(), this.getGreen(), this.getBlue()]);
+      var rgbString = qx.util.ColorUtil.rgbToRgbString([this.getRed(), this.getGreen(), this.getBlue()]);
       this._getChildControl("preview-content-new").setBackgroundColor(rgbString);
-
-      var helpRgb = ColorUtil.hsbToRgb([this.getHue(), this.getSaturation(), 255]);
-      var helpRgbString = ColorUtil.rgbToRgbString([helpRgb.red, helpRgb.green, helpRgb.blue])
-      this._getChildControl("brightness-field").setBackgroundColor(helpRgbString);
     },
 
 
@@ -1147,6 +1142,17 @@ qx.Class.define("qx.ui.control.ColorSelector",
       this.setRed(vRed);
       this.setGreen(vGreen);
       this.setBlue(vBlue);
+    },
+    
+    /**
+     * Updates the background of the brightness field to give a nicer gradiant 
+     */
+    _setBrightnessGradiant : function()
+    {
+      var ColorUtil = qx.util.ColorUtil;
+      var helpRgb = ColorUtil.hsbToRgb([this.getHue(), this.getSaturation(), 255]);
+      var helpRgbString = ColorUtil.rgbToRgbString([helpRgb.red, helpRgb.green, helpRgb.blue])
+      this._getChildControl("brightness-field").setBackgroundColor(helpRgbString);      
     }
   }
 });
