@@ -92,18 +92,57 @@ qx.Class.define("qx.dev.Tokenizer",
         "implement" : 1
       }
 
-      var re_line_comment = /^\/\/.*[\n\r$]$/;
-      var re_full_comment = /^\/\*(?:.|[\n\r])*?\*\/$/;
-      var re_ident = /^[a-zA-Z_][a-zA-Z0-9_]*\b$/;
-      var re_integer = /^[+-]?\d+$/;
-      var re_float = /^[+-]?\d+(([.]\d+)*([eE][+-]?\d+))?$/;
-      var re_doublequote = /^["][^"]*["]$/;
-      var re_singlequote = /^['][^']*[']$/;
-      var re_tab = /^\t$/;
-      var re_nl = /^\r\n|\r|\n$/;
-      var re_space = /^\s$/;
-      var re_re = /^\/(?:\\.|[^\/])+\/[gimy]*$/;
-      var re_token = /\/\/.*?[\n\r$]|\/\*(?:.|\n|\r)*?\*\/|\/(?:\\.|[^\/])+\/[gimy]*|\w+\b|[+-]?\d+(([.]\d+)*([eE][+-]?\d+))?|["][^"]*["]|['][^']*[']|\r\n|\r|\n|./g
+      var reg = function(str) {
+        return new RegExp("^" + str + "$");
+      };
+
+      var str_re_line_comment = "\\/\\/.*?[\\n\\r$]";
+      var str_re_full_comment = "\\/\\*(?:.|[\\n\\r])*?\\*\\/";
+      var str_re_ident = "[a-zA-Z_][a-zA-Z0-9_]*\\b";
+      var str_re_integer = "[+-]?\\d+";
+      var str_re_float = "[+-]?\\d+(([.]\\d+)*([eE][+-]?\\d+))?";
+      var str_re_doublequote = '["][^"]*["]';
+      var str_re_singlequote = "['][^']*[']";
+      var str_re_tab = "\\t";
+      var str_re_nl = "\\r\\n|\\r|\\n";
+      var str_re_space = "\\s";
+
+      var re_regexp_part = "(?:\\/(?!\\*)[^\\t\\n\\r\\f\\v\\/]+?\\/[mgi]*)";
+      str_re_regexp_all = [
+        "\\.(?:match|search|split)\\s*\\(\\s*\\(*\\s*" + re_regexp_part + "\\s*\\)*\\s*\\)",
+        "\\.(?:replace)\\s*\\(\\s*\\(*\\s*" + re_regexp_part + "\\s*\\)*\\s*?,?",
+        "\\s*\\(*\\s*" + re_regexp_part + "\\)*\\.(?:test|exec)\\s*\\(\\s*",
+        "(?::|=|\\?)\\s*\\(*\\s*" + re_regexp_part + "\\s*\\)*",
+        "[\\(,]\\s*" + re_regexp_part + "\\s*[,\\)]"
+      ].join("|");
+
+      var re_line_comment = reg(str_re_line_comment);
+      var re_full_comment = reg(str_re_full_comment);
+      var re_ident = reg(str_re_ident);
+      var re_integer = reg(str_re_integer);
+      var re_float = reg(str_re_float);
+      var re_doublequote = reg(str_re_doublequote);
+      var re_singlequote = reg(str_re_singlequote);
+      var re_tab = reg(str_re_tab);
+      var re_nl = reg(str_re_nl);
+      var re_space = reg(str_re_space);
+      var re_regexp_all = reg(str_re_regexp_all);
+
+      var re_token = new RegExp([
+        str_re_line_comment,
+        str_re_full_comment,
+        str_re_ident,
+        str_re_integer,
+        str_re_float,
+        str_re_doublequote,
+        str_re_singlequote,
+        str_re_singlequote,
+        str_re_tab,
+        str_re_nl,
+        str_re_space,
+        str_re_regexp_all,
+        "."
+      ].join("|"), "g");
 
       var tokens = [];
 
@@ -118,7 +157,7 @@ qx.Class.define("qx.dev.Tokenizer",
         else if (token.match(re_full_comment)) {
           tokens.push({type: "fullcomment", value: token});
         }
-        else if (token.match(re_re)) {
+        else if (token.match(re_regexp_all)) {
           tokens.push({type: "regexp", value: token});
         }
         else if (token.match(re_singlequote)) {
@@ -148,7 +187,7 @@ qx.Class.define("qx.dev.Tokenizer",
         else if (token.match(re_nl)) {
           tokens.push({type: "nl", value: token});
         }
-        else if (token.match(re_space)) {
+        else if (token.match(reg(re_space))) {
           tokens.push({type: "ws", value: token});
         }
         else if (token.match(re_tab)) {
@@ -215,12 +254,12 @@ qx.Class.define("qx.dev.Tokenizer",
             break;
 
           case "nl":
-            var nl = qx.bom.client.Engine.MSHTML ? "<br>" : "\n"; 
+            var nl = qx.bom.client.Engine.MSHTML ? "<br>" : "\n";
             js.add(nl);
             break;
 
           case "ws":
-            var ws = qx.bom.client.Engine.MSHTML ? "&nbsp;" : " "; 
+            var ws = qx.bom.client.Engine.MSHTML ? "&nbsp;" : " ";
             js.add(ws);
             break;
 
