@@ -50,11 +50,12 @@ qx.Class.define("qx.html.Image",
       {
         var elem = this._element;
 
+        var styles = this.getAllStyles();
         var source = this._getProperty("source");
         var scale = this._getProperty("scale");
         var repeat = scale ? "scale" : "no-repeat";
 
-        qx.bom.element.Decoration.update(elem, source, repeat);
+        qx.bom.element.Decoration.update(elem, source, repeat, styles);
       }
     },
 
@@ -65,7 +66,15 @@ qx.Class.define("qx.html.Image",
       var scale = this._getProperty("scale");
       var repeat = scale ? "scale" : "no-repeat";
 
-      this._nodeName = qx.bom.element.Decoration.getTagName(repeat);
+      if (qx.core.Variant.isSet("qx.client", "mshtml"))
+      {
+        var source = this._getProperty("source");
+        this._nodeName = qx.bom.element.Decoration.getTagName(repeat, source);
+      }
+      else
+      {
+        this._nodeName = qx.bom.element.Decoration.getTagName(repeat);
+      }
 
       return this.base(arguments);
     },
