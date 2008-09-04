@@ -24,7 +24,8 @@
 ************************************************************************ */
 
 /**
- *
+ * Utility functions for working with nodes.  These methods allow reference
+ * to a node by either the object itself or the object's node id.
  */
 qx.Mixin.define("qx.ui.treevirtual.MNode",
 {
