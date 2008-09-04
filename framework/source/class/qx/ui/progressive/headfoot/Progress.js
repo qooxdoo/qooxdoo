@@ -31,6 +31,16 @@ qx.Class.define("qx.ui.progressive.headfoot.Progress",
 {
   extend     : qx.ui.progressive.headfoot.Abstract,
 
+  /**
+   * @param columnWidths {qx.ui.progressive.renderer.table.Widths}
+   *   The set of widths, minimum widths, and maximum widths to be used for
+   *   each of the columns in the table.
+   *
+   * @param labelArr {Array}
+   *   Array of labels, one for each of the columns.
+   *
+   * @return {Void}
+   */
   construct : function(columnWidths, labelArr)
   {
     this.base(arguments);

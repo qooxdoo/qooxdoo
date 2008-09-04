@@ -167,11 +167,19 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
 
   members :
   {
+    /**
+     * Set the tree object for which this data model is used.
+     */
     setTree : function(tree)
     {
       this.__tree = tree;
     },
 
+    /**
+     * Get the tree object for which this data model is used.
+     *
+     * @return {qx.ui.treevirtual.TreeVirtual}
+     */
     getTree : function()
     {
       return this.__tree;
@@ -200,8 +208,6 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
      * Returns the column index the model is sorted by. This model is never
      * sorted, so -1 is returned.
      *
-     * @type member
-     *
      * @return {Integer}
      *   -1, to indicate that the model is not sorted.
      */
@@ -215,8 +221,6 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
      * Specifies which column the tree is to be displayed in.  The tree is
      * displayed using the SimpleTreeDataCellRenderer.  Other columns may be
      * provided which use different cell renderers.
-     *
-     * @type member
      *
      * @param columnIndex {Integer}
      *   The index of the column in which the tree should be displayed.
@@ -232,8 +236,6 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
     /**
      * Get the column in which the tree is to be displayed.
      *
-     * @type member
-     *
      * @return {Integer}
      *   The column in whcih the tree is to be displayed
      */
@@ -243,9 +245,6 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
     },
 
     // overridden
-    /**
-     * @return {Integer}
-     */
     getRowCount : function()
     {
       return this._rowArr.length;
@@ -258,9 +257,6 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
     },
 
     // overridden
-    /**
-     * @return {Object}
-     */
     getValue : function(columnIndex, rowIndex)
     {
       if (rowIndex < 0 || rowIndex >= this._rowArr.length)
@@ -324,8 +320,6 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
      *       users of this class.  Instead, call {@link #addBranch} or {@link
      *       #addLeaf}.  There is no guarantee that the interface to this
      *       method will remain unchanged over time.
-     *
-     * @type member
      *
      * @param parentNodeId {Integer}
      *   The node id of the parent of the node being added
@@ -442,8 +436,6 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
     /**
      * Add a branch to the tree.
      *
-     * @type member
-     *
      * @param parentNodeId {Integer}
      *   The node id of the parent of the node being added
      *
@@ -489,8 +481,6 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
     /**
      * Add a leaf to the tree.
      *
-     * @type member
-     *
      * @param parentNodeId {Integer}
      *   The node id of the parent of the node being added
      *
@@ -525,8 +515,6 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
     /**
      * Prune the tree by removing, recursively, all of a node's children.  If
      * requested, also remove the node itself.
-     *
-     * @type member
      *
      * @param nodeReference {Object | Integer}
      *   The node to be pruned from the tree.  The node can be represented
@@ -588,8 +576,6 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
     /**
      * Sets the whole data en bulk, or notifies the data model that node
      * modifications are complete.
-     *
-     * @type member
      *
      * @param nodeArr {Array | null}
      *   Pass either an Array of node objects, or null.
@@ -772,8 +758,6 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
     /**
      * Return the array of node data.
      *
-     * @type member
-     *
      * @return {Array}
      *  Array of node objects.
      *  See {@link qx.ui.treevirtual.SimpleTreeDataModel} for a description
@@ -801,8 +785,6 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
      * Add data to an additional column (a column other than the tree column)
      * of the tree.
      *
-     * @type member
-     *
      * @param nodeId {Integer}
      *   A node identifier, as previously returned by {@link #addBranch} or
      *   {@link addLeaf}.
@@ -825,8 +807,6 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
      * Retrieve the data from an additional column (a column other than the
      * tree column) of the tree.
      *
-     * @type member
-     *
      * @param nodeId {Integer}
      *   A node identifier, as previously returned by {@link #addBranch} or
      *   {@link addLeaf}.
@@ -844,8 +824,6 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
 
     /**
      * Set state attributes of a node.
-     *
-     * @type member
      *
      * @param nodeReference {Object | Integer}
      *   The node to have its attributes set.  The node can be represented
@@ -984,8 +962,6 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
      * for use by the cell renderer, not by users of this class.
      * It is also useful to select a node.
      *
-     * @type member
-     *
      * @return {Array}
      *   The array containing mappings of nodes to rendered rows.
      */
@@ -996,8 +972,6 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
 
     /**
      * This operation maps nodes to rowIndexes.  It does the opposite job to {@link #getNodeFromRow}.
-     *
-     * @type member
      *
      * @param nodeId {Integer}
      *   The id of the node (as would have been returned by addBranch(),
@@ -1012,8 +986,6 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
      * This operation maps rowIndexes to nodes.  It does the opposite job to {@link #getRowFromNodeId}.
      * This function is useful to map selection (row based) to nodes.
      *
-     * @type member
-     *
      * @param rowIndex {Integer} zero-based row index.
      * @return {Object} node associated to <tt>rowIndex</tt>.
      */
@@ -1027,8 +999,6 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
      * Clear all selections in the data model.  This method does not clear
      * selections displayed in the widget, and is intended for internal use,
      * not by users of this class.
-     *
-     * @type member
      *
      * @return {void}
      */
@@ -1047,8 +1017,6 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
 
     /**
      * Return the nodes that are currently selected.
-     *
-     * @type member
      *
      * @return {Array}
      *   An array containing the nodes that are currently selected.

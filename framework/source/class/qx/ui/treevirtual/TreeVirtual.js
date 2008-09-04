@@ -26,12 +26,6 @@
 /**
  * A "virtual" tree
  * <p>
- * WARNING: This widget is still in development and the interface to it is
- *          likely to change.  If you choose to use this widget, be aware that
- *          you may need to make manual changes in accordance with interface
- *          changes.
- * </p>
- * <p>
  *   A number of convenience methods are available in the following mixins:
  *   <ul>
  *     <li>{@link qx.ui.treevirtual.MNode}</li>
@@ -208,11 +202,7 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
     // For each scroller...
     for (var i=0; i<scrollers.length; i++)
     {
-      // ... remove the outline on focus,
-// djl FIXME
-//      scrollers[i]._focusIndicator.setAppearance("treevirtual-focus-indicator");
-
-      // ... and set the pane scrollers to handle the selection before
+      // Set the pane scrollers to handle the selection before
       // displaying the focus, so we can manipulate the selected icon.
       scrollers[i].setSelectBeforeFocus(true);
     }
@@ -229,9 +219,16 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
 
   events :
   {
+    /** Fired when a tree branch which already has content is opened */
     "treeOpenWithContent" : "qx.event.type.DataEvent",
+
+    /** Fired when an empty tree branch is opened */
     "treeOpenWhileEmpty"  : "qx.event.type.DataEvent",
+
+    /** Fired when a tree branch is closed */
     "treeClose"           : "qx.event.type.DataEvent",
+
+    /** Fired when the selected rows change */
     "changeSelection"     : "qx.event.type.DataEvent"
   },
 
@@ -322,7 +319,6 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
     /**
      * Return the data model for this tree.
      *
-     * @type member
      * @return {var} TODOC
      */
     getDataModel : function()
@@ -337,8 +333,6 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
      * writing, the Classic theme supports tree lines (and uses +/- icons
      * which lend themselves to tree lines), while the Modern theme, which
      * uses right-facing and downward-facing arrows instead of +/-, does not.
-     *
-     * @type member
      *
      * @param b {Boolean}
      *   <i>true</i> if tree lines should be shown; <i>false</i> otherwise.
@@ -371,8 +365,6 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
     /**
      * Get whether lines linking tree children shall be drawn on the tree.
      *
-     * @type member
-     *
      * @return {Boolean}
      *   <i>true</i> if tree lines are in use;
      *   <i>false</i> otherwise.
@@ -388,8 +380,6 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
     /**
      * Set whether the open/close button should be displayed on a branch,
      * even if the branch has no children.
-     *
-     * @type member
      *
      * @param b {Boolean}
      *   <i>true</i> if the open/close button should be shown;
@@ -423,8 +413,6 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
     /**
      * Set whether drawing of first-level tree-node lines are disabled even
      * if drawing of tree lines is enabled.
-     *
-     * @type member
      *
      * @param b {Boolean}
      *   <i>true</i> if first-level tree lines should be disabled;
@@ -460,8 +448,6 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
      * if drawing of tree lines is enabled.
      * (See also {@link #getUseTreeLines})
      *
-     * @type member
-     *
      * @return {Boolean}
      *   <i>true</i> if tree lines are in use;
      *   <i>false</i> otherwise.
@@ -478,8 +464,6 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
      * Set whether the open/close button should be displayed on a branch,
      * even if the branch has no children.
      *
-     * @type member
-     *
      * @return {Boolean}
      *   <i>true</i> if tree lines are in use;
      *   <i>false</i> otherwise.
@@ -494,8 +478,6 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
 
     /**
      * Set the selection mode.
-     *
-     * @type member
      *
      * @param mode {Integer}
      *   The selection mode to be used.  It may be any of:
@@ -524,14 +506,10 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
     /**
      * Get the selection mode currently in use.
      *
-     * @type member
-     *
-     * @param mode {var} TODOC
-     *
      * @return {Integer}
      *   One of the values documented in {@link #setSelectionMode}
      */
-    getSelectionMode : function(mode)
+    getSelectionMode : function()
     {
       return this.getSelectionModel().getSelectionMode();
     },
@@ -539,8 +517,6 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
 
     /**
      * Set the attributes used to indicate the cell that has the focus.
-     *
-     * @type member
      *
      * @param attributes {Map}
      *   The set of attributes that the cell focus indicator should have.
@@ -585,8 +561,6 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
     /**
      * Obtain the entire hierarchy of labels from the root down to the
      * specified node.
-     *
-     * @type member
      *
      * @param nodeReference {Object | Integer}
      *   The node for which the hierarchy is desired.  The node can be
@@ -648,8 +622,6 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
     /**
      * Return the nodes that are currently selected.
      *
-     * @type member
-     *
      * @return {Array}
      *   An array containing the nodes that are currently selected.
      */
@@ -664,8 +636,6 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
      *
      * We handle the Enter key to toggle opened/closed tree state.  All
      * other keydown events are passed to our superclass.
-     *
-     * @type member
      *
      * @param evt {Map}
      *   The event.
@@ -851,7 +821,6 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
     /**
      * TODOC
      *
-     * @type member
      * @param evt {Event} TODOC
      * @return {void}
      */
@@ -892,8 +861,6 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
     /**
      * Event handler. Called when the selection has changed.
      *
-     * @type member
-     *
      * @param evt {Map}
      *   The event.
      *
@@ -927,8 +894,6 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
      * property to true, and all previously-selected nodes have their
      * <i>bSelected</i> property reset to false.
      *
-     * @type member
-     *
      * @return {Array}
      *   An array of nodes matching the set of rows which are selected on the
      *   screen.
@@ -960,7 +925,7 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
 
 
     /**
-     * @type member
+     * Set the overflow mode.
      *
      * @param s {String}
      *   Overflow mode.  The only allowable mode is "hidden".
