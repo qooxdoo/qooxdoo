@@ -24,7 +24,7 @@
 ************************************************************************ */
 
 /**
- *
+ * A set of methods which may be used to retrieve various siblings of nodes.
  */
 qx.Mixin.define("qx.ui.treevirtual.MFamily",
 {
