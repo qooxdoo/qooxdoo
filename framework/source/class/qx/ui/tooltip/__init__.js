@@ -1,6 +1,6 @@
  /**
   * A Tooltip provides additional information for widgets when the user hovers over a widget.
-  * This information can consist in plain text, but also in complex HTML containing images or other elements.
+  * This information can consist in plain text, but also include an icon and complex HTML code.
   *
   * *Example*
   *
