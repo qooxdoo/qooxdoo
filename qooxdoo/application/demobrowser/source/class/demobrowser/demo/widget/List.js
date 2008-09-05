@@ -87,11 +87,7 @@ qx.Class.define("demobrowser.demo.widget.List",
       this.getRoot().add(mode3, {left: 180, top: 80});
       this.getRoot().add(mode4, {left: 180, top: 100});
 
-      var rbm = new qx.ui.form.RadioGroup(mode1, mode2, mode3, mode4);
-
-      rbm.addListener("changeValue", function(e) {
-        configList.setSelectionMode(e.getData());
-      });
+      var rbm1 = new qx.ui.form.RadioGroup(mode1, mode2, mode3, mode4);
 
       var show1 = new qx.ui.form.RadioButton("Show Label");
       var show2 = new qx.ui.form.RadioButton("Show Icon");
@@ -107,9 +103,9 @@ qx.Class.define("demobrowser.demo.widget.List",
       this.getRoot().add(show2, {left: 180, top: 160});
       this.getRoot().add(show3, {left: 180, top: 180});
 
-      var rbm = new qx.ui.form.RadioGroup(show1, show2, show3);
+      var rbm2 = new qx.ui.form.RadioGroup(show1, show2, show3);
 
-      rbm.addListener("changeValue", function(e)
+      rbm2.addListener("changeValue", function(e)
       {
         for( var i=0; i<configList.getChildren().length; i++ ) {
           configList.getChildren()[i].setShow(e.getData());
@@ -117,7 +113,7 @@ qx.Class.define("demobrowser.demo.widget.List",
       });
 
       var dragCheck = new qx.ui.form.CheckBox("Enable drag selection");
-      var quickCheck = new qx.ui.form.CheckBox("Enable quick selection");
+      var quickCheck = new qx.ui.form.CheckBox("Enable quick selection").set({enabled : false});
 
       this.getRoot().add(dragCheck, {left: 180, top: 220});
       this.getRoot().add(quickCheck, {left: 180, top: 240});
@@ -146,6 +142,24 @@ qx.Class.define("demobrowser.demo.widget.List",
         }
 
         configList.setQuickSelection(e.getData());
+      });
+
+      rbm1.addListener("changeValue", function(e)
+      {
+        var value = e.getData();
+        configList.setSelectionMode(value);
+
+        if (value == "single" || value == "one")
+        {
+          dragCheck.setEnabled(false);
+          quickCheck.setEnabled(true);
+        }
+        else if (value == "multi" || value == "addaptive") 
+        {
+          dragCheck.setEnabled(true);
+          quickCheck.setEnabled(false);
+        }
+
       });
 
       ////////////////////////////////////////////////////////////////
