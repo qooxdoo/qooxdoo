@@ -98,5 +98,10 @@ qx.Class.define("qx.ui.core.ColumnData",
         width: percent
       });
     }
+  },
+
+  settings :
+  {
+    "qx.tableResizeDebug" : false
   }
 })
