@@ -65,6 +65,10 @@ qx.Class.define("demobrowser.demo.widget.SelectBox",
         this.debug("ChangeValue: " + e.getData());
       });
 
+      selectBox.addListener("changeSelected", function(e) {
+        this.debug("ChangeSelected: " + e.getData());
+      });
+
       container.add(selectBox);
 
       return container;

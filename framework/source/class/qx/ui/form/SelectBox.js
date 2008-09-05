@@ -73,7 +73,8 @@ qx.Class.define("qx.ui.form.SelectBox",
     selected :
     {
       check : "qx.ui.form.ListItem",
-      apply : "_applySelected"
+      apply : "_applySelected",
+      event : "changeSelected"
     }
   },
 
