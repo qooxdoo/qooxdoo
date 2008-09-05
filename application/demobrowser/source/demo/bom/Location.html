@@ -3,9 +3,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <script type="text/javascript" src="../helper.js"></script>
 	<style>
-		#moveable{ font-size: 0px; line-height: 0px; position: absolute; top: 110px; left: 250px; width: 30px; height: 30px; border: 6px dashed red; }
-
-		#forceScroll { height: 2000px; width:2000px }
+	  #moveable{ font-size: 0px; line-height: 0px; position: absolute; top: 110px; left: 250px; width: 30px; height: 30px; border: 6px dashed red; }
 
 		#static { position: static; margin: 5px; border: 2px solid #000; padding: 3px; width: 200px; height: 200px; background-color: #822; }
 		#staticChild1 { position: static; margin: 5px; border: 2px solid #000; padding: 3px; width: 150px; height: 150px; background-color:  #092; }
@@ -26,13 +24,13 @@
 		#absolute3 { position: absolute; top: 30px; right: -90px; margin: 5px; border: 2px solid #000; padding: 3px; width: 200px; height: 200px; background-color: #092; }
 		#static3 { position: static; margin: 10px; border: 2px solid #000; padding: 3px; width: 250px; height: 250px; background-color: #980; }
 
-		#inline, #inline2 { display: inline; border: 2px solid #000; }
+		#inline { display: inline; border: 2px solid #000; }
 	</style>
 </head>
-<body style="border:20px solid red; margin: 10px">
+<body>
 
 	<p>
-	  Select a div to move the grey box too. (Quirks-Mode; Box-Model-Correction:OFF)
+	  Select a div to move the grey box too. (Quirks-Mode)
   	<select id="mode">
   	  <option value="margin">margin</option>
   	  <option value="box" selected="selected">box</option>
@@ -40,7 +38,7 @@
   	  <option value="scroll">scroll</option>
   	  <option value="padding">padding</option>
   	</select>
-  	<a href="javascript:demobrowser.demo.bom.Location_1.randomize()">Randomize</a>
+  	<a href="javascript:demobrowser.demo.bom.Location.randomize()">Randomize</a>
 	</p>
 
 	<ul id="list">
@@ -95,7 +93,5 @@
 	</div>
 
 	<div id="moveable"></div>
-	<div id="forceScroll"></div>
-
 </body>
 </html>
