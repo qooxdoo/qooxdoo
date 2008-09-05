@@ -369,8 +369,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          decorator : "undefined",
-          padding: [ 2, 4, 1 ]
+          decorator : "undefined"
         };
       }
     },
