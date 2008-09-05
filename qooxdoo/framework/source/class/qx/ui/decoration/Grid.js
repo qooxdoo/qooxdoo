@@ -236,6 +236,45 @@ qx.Class.define("qx.ui.decoration.Grid",
       frame.childNodes[6].style.height = innerHeight + "px";
       frame.childNodes[7].style.height = innerHeight + "px";
       frame.childNodes[8].style.height = innerHeight + "px";
+
+      if (qx.core.Variant.isSet("qx.client", "mshtml"))
+      {
+        // Internet Explorer as of version 6 or version 7 in quirks mode
+        // have rounding issues when working with odd dimensions:
+        // right and bottom positioned elements are rendered with a
+        // one pixel negative offset which results into some ugly
+        // render effects. We use the margin to correct this here
+        // as all other options conflict with styles applied by the
+        // the decoration class.
+        if (qx.bom.client.Engine.VERSION < 7 || qx.bom.client.Feature.QUIRKS_MODE)
+        {
+          if (width%2==1)
+          {
+            frame.childNodes[2].style.marginRight = "-1px";
+            frame.childNodes[5].style.marginRight = "-1px";
+            frame.childNodes[8].style.marginRight = "-1px";
+          }
+          else
+          {
+            frame.childNodes[2].style.marginRight = "0px";
+            frame.childNodes[5].style.marginRight = "0px";
+            frame.childNodes[8].style.marginRight = "0px";
+          }
+
+          if (height%2==1)
+          {
+            frame.childNodes[3].style.marginBottom = "-1px";
+            frame.childNodes[4].style.marginBottom = "-1px";
+            frame.childNodes[5].style.marginBottom = "-1px";
+          }
+          else
+          {
+            frame.childNodes[3].style.marginBottom = "0px";
+            frame.childNodes[4].style.marginBottom = "0px";
+            frame.childNodes[5].style.marginBottom = "0px";
+          }
+        }
+      }
     },
 
 
