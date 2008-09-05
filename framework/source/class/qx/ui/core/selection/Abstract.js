@@ -170,6 +170,11 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      */
     selectAll : function()
     {
+      var mode = this.getMode();
+      if (mode == "single" || mode == "one") {
+        throw new Error("Can not select all items in selection mode: " + mode);
+      }
+
       this._selectAllItems();
       this._fireChange();
     },
