@@ -140,23 +140,16 @@ qx.Class.define("qx.bom.element.Location",
         var doc = qx.dom.Node.getDocument(elem);
         var body = doc.body;
 
-        // Start with the offset
-        var left = body.offsetLeft;
-        var top = body.offsetTop;
+        var left = 0;
+        var top = 0;
 
-        // IE 6 and 7 quirks mode the border width is overwritable by the following css html { border: 0; }
-        // IE 7 standards mode, the border is always 2px
-        // This border/offset is typically represented by the clientLeft and clientTop properties
-        // However, in IE6 and 7 quirks mode the clientLeft and clientTop properties are not updated when overwriting it via CSS
-        // Therefore this method will be off by 2px in IE while in quirksmode
-        left -= body.parentNode.clientLeft;
-        top -= body.parentNode.clientTop;
+        left -= body.clientLeft + doc.documentElement.clientLeft;
+        top -= body.clientTop + doc.documentElement.clientTop;
 
-        // Add the margin when running in standard mode
-        if (doc.compatMode === "CSS1Compat")
+        if (qx.bom.client.Feature.STANDARD_MODE)
         {
-          left += this.__num(body, "marginLeft");
-          top += this.__num(body, "marginTop");
+          left += this.__num(body, "borderLeftWidth");
+          top += this.__num(body, "borderTopWidth");
         }
 
         return {
@@ -292,14 +285,6 @@ qx.Class.define("qx.bom.element.Location",
 
           var left = rect.left;
           var top = rect.top;
-
-          // Internet Explorer (at least version 7.0) adds the border
-          // when running in standard mode
-          if (doc.compatMode === "CSS1Compat")
-          {
-            left -= this.__num(elem, "borderLeftWidth");
-            top -= this.__num(elem, "borderTopWidth");
-          }
         }
         else
         {
