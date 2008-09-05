@@ -278,6 +278,11 @@ qx.Class.define("qx.ui.core.selection.Abstract",
      */
     selectItemRange : function(begin, end)
     {
+      var mode = this.getMode();
+      if (mode == "single" || mode == "one") {
+        throw new Error("Can not select items in selection mode: " + mode);
+      }
+
       this._selectItemRange(begin, end);
 
       this._setAnchorItem(begin);
