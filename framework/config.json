@@ -41,18 +41,12 @@
       "cache"  : { "compile" : "${CACHE}" },
 
       "include": ["qx.*"],
-      "exclude": ["=qx.legacy.*"],
+      "exclude": ["=qx.legacy.*", "=qx.test.*"],
 
       "variants" :
       {
         "qx.debug" : ["on"],
         "qx.aspects" : ["off"]
-      },
-
-      // Static application class (which is not included in build)
-      "settings" :
-      {
-        "qx.application" : "Application"
       },
 
       "compile-dist" :
