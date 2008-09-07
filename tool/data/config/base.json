@@ -226,10 +226,6 @@
         [
           "${ROOT}/cache",
           "${ROOT}/source/script/${APPLICATION}.js"
-        ],
-        "Cleaning up framework" :
-        [
-
         ]
       }
     },
@@ -245,29 +241,23 @@
         [
           "${BUILD_PATH}"
         ],
-        "Deleting api" :
-        [
-          "${ROOT}/api"
-        ],
-        "Deleting debug" :
-        [
-        ],
-        "Deleting AIR application" :
-        [
-        ],
-        "Deleting buildtool" :
-        [
-          "${ROOT}/tool/buildtool"
-        ],
-        "Deleting test" :
-        [
-          "${ROOT}/test"
-        ],
         "Cleaning up source" :
         [
           "${ROOT}/source/script"
         ],
-        "Cleaning up framework" :
+        "Deleting API Viewer" :
+        [
+          "${ROOT}/api"
+        ],
+        "Deleting Test Runner" :
+        [
+          "${ROOT}/test"
+        ],
+        "Deleting Build Tool" :
+        [
+          "${ROOT}/tool/buildtool"
+        ],
+        "Cleaning up cache" :
         [
           "${CACHE}"
         ]
