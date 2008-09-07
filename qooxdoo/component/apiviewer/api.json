@@ -96,6 +96,7 @@
     "build-files" :
     {
       "extend" : ["common"],
+      "include" : ["${APIVIEWER}.*"],
 
       "copy-files" :
       {
