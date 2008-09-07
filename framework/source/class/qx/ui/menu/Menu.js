@@ -244,6 +244,11 @@ qx.Class.define("qx.ui.menu.Menu",
      */
     open : function()
     {
+      // A little bit hacky. Force appearance to be in sync to have
+      // correct offset and position properties before calling placeToWidget.
+      this.syncAppearance();
+      
+      // Place the menu and open it.
       this.placeToWidget(this.getOpener());
       this.show();
     },
