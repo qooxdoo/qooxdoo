@@ -132,54 +132,6 @@ qx.Class.define("qx.ui.core.queue.Layout",
 
 
     /**
-     * Whether the given widget is visible.
-     *
-     * @param widget {qx.ui.core.Widget} The widget to test
-     * @return {Boolean} <code>true</code> when the widget is visible.
-     */
-    isWidgetVisible : function(widget)
-    {
-      var cache = this.__visibility;
-      var parent = widget;
-      var value = false;
-
-      // Detecting visibility
-      while (parent)
-      {
-        // Try to read value from cache
-        if (cache[parent.$$hash] != null)
-        {
-          value = cache[parent.$$hash];
-          break;
-        }
-
-        // Root widgets are always visible
-        if (parent.isRootWidget())
-        {
-          value = true;
-          break;
-        }
-
-        // Detection using local value
-        if (!parent.shouldBeLayouted()) {
-          break;
-        }
-
-        parent = parent.$$parent;
-      }
-
-      // Update the processed hierarchy
-      while (widget && widget !== parent)
-      {
-        cache[widget.$$hash] = value;
-        widget = widget.$$parent;
-      }
-
-      return value;
-    },
-
-
-    /**
      * Group widget by their nesting level.
      *
      * @return {Map[]} A sparse array. Each entry of the array contains a widget
@@ -187,8 +139,9 @@ qx.Class.define("qx.ui.core.queue.Layout",
      */
     __getLevelGroupedWidgets : function()
     {
-      // clear caches
-      this.__visibility = {};
+      var VisibilityQueue = qx.ui.core.queue.Visibility;
+
+      // clear cache
       this.__nesting = {};
 
       // sparse level array
@@ -200,7 +153,7 @@ qx.Class.define("qx.ui.core.queue.Layout",
       {
         widget = queue[hash];
 
-        if (this.isWidgetVisible(widget))
+        if (VisibilityQueue.isVisible(widget))
         {
           level = this.getNestingLevel(widget);
 
