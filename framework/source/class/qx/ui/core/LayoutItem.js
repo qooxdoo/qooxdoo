@@ -475,15 +475,10 @@ qx.Class.define("qx.ui.core.LayoutItem",
       // Returns changes, especially for deriving classes
       return changes;
     },
-
-
-    /**
-     * Whether the element should be rendered.
-     *
-     * @return {Boolean} Whether the item should be rendered.
-     */
-    shouldBeLayouted : function() {
-      return true;
+    
+    
+    isExcluded : function() {
+      return false;
     },
 
 

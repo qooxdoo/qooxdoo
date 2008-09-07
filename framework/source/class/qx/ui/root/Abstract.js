@@ -47,6 +47,9 @@ qx.Class.define("qx.ui.root.Abstract",
 
     // Register as root for the focus handler
     qx.ui.core.FocusHandler.getInstance().addRoot(this);
+    
+    // Directly add to visibility queue
+    qx.ui.core.queue.Visibility.add(this);
   },
 
 

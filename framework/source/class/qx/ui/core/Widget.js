@@ -874,6 +874,9 @@ qx.Class.define("qx.ui.core.Widget",
 
       // Update inheritable properties
       qx.core.Property.refresh(this);
+      
+      // Update visibility cache
+      qx.ui.core.queue.Visibility.add(this);
     },
 
 
@@ -1592,7 +1595,7 @@ qx.Class.define("qx.ui.core.Widget",
       for (var i=0, l=children.length; i<l; i++)
       {
         var child = children[i];
-        if (!child.hasUserBounds() && child.shouldBeLayouted()) {
+        if (!child.hasUserBounds() && !child.isExcluded()) {
           layoutChildren.push(child);
         }
       }
@@ -1627,12 +1630,6 @@ qx.Class.define("qx.ui.core.Widget",
       this.__layoutChildren = null;
 
       qx.ui.core.queue.Layout.add(this);
-    },
-
-
-    // overridden
-    shouldBeLayouted : function() {
-      return this.getVisibility() !== "excluded";
     },
 
 
@@ -1708,6 +1705,26 @@ qx.Class.define("qx.ui.core.Widget",
     {
       var children = this.__widgetChildren;
       return children && (!!children[0]);
+    },
+
+
+    addChildrenToQueue : function(queue)
+    {
+      var children = this.__widgetChildren;
+      if (!children) {
+        return;
+      }
+      
+      var child;
+      for (var i=0, l=children.length; i<l; i++)
+      {
+        child = children[i];
+        queue[child.$$hash] = child;
+        
+        if (child.addChildrenToQueue) {
+          child.addChildrenToQueue(queue);
+        }
+      }
     },
 
 
@@ -2386,6 +2403,9 @@ qx.Class.define("qx.ui.core.Widget",
       if (parent && (old == null || value == null || old === "excluded" || value === "excluded")) {
         parent.invalidateLayoutChildren();
       }
+      
+      // Update visibility cache
+      qx.ui.core.queue.Visibility.add(this);
     },
 
 

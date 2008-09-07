@@ -14,15 +14,14 @@
 
    Authors:
      * Sebastian Werner (wpbasti)
-     * Fabian Jakobs (fjakobs)
 
 ************************************************************************ */
 
 /**
- * The AppearanceQueue registers all widgets which are influences through
- * state changes.
+ * Manages the widgets which have modified parent and re-apply inherited
+ * properties to the hierarchy starting with them.
  */
-qx.Class.define("qx.ui.core.queue.Appearance",
+qx.Class.define("qx.ui.core.queue.Inheritance",
 {
   statics :
   {
@@ -46,48 +45,20 @@ qx.Class.define("qx.ui.core.queue.Appearance",
       }
 
       queue[widget.$$hash] = widget;
-      qx.ui.core.queue.Manager.scheduleFlush("appearance");      
-    },
-    
-    
-    has : function(widget) {
-      return !!this.__queue[widget.$$hash];
-    },
-    
-    
-    schedule : function(widget)
-    {
-      if (this.__queue[widget.$$hash]) {
-        qx.ui.core.queue.Manager.scheduleFlush("appearance");
-      }
+      qx.ui.core.queue.Manager.scheduleFlush("inheritance");
     },
 
 
     /**
-     * Flushes the appearance queue.
+     * Flushes the dispose queue.
      *
-     * This is used exclusively by the {@link qx.ui.core.queue.Manager}.
+     * This is used exclusively by the {@link qx.ui.core.QueueManager}.
      *
      * @return {void}
      */
     flush : function()
     {
-      var Visibility = qx.ui.core.queue.Visibility;
-      
-      var queue = this.__queue;
-      var obj;
-
-      for (var hash in queue)
-      {
-        // Order is important to allow the same widget to be requeued directly
-        obj = queue[hash];
-        
-        if (Visibility.isVisible(obj)) 
-        {
-          delete queue[hash];
-          obj.syncAppearance();
-        }
-      }
+      // TODO
     }
   }
 });
