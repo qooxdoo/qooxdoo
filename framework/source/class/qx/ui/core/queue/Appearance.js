@@ -46,15 +46,15 @@ qx.Class.define("qx.ui.core.queue.Appearance",
       }
 
       queue[widget.$$hash] = widget;
-      qx.ui.core.queue.Manager.scheduleFlush("appearance");      
+      qx.ui.core.queue.Manager.scheduleFlush("appearance");
     },
-    
-    
+
+
     has : function(widget) {
       return !!this.__queue[widget.$$hash];
     },
-    
-    
+
+
     /**
      * Flushes the appearance queue.
      *
@@ -65,7 +65,7 @@ qx.Class.define("qx.ui.core.queue.Appearance",
     flush : function()
     {
       var Visibility = qx.ui.core.queue.Visibility;
-      
+
       var queue = this.__queue;
       var obj;
 
@@ -73,8 +73,8 @@ qx.Class.define("qx.ui.core.queue.Appearance",
       {
         // Order is important to allow the same widget to be requeued directly
         obj = queue[hash];
-        
-        if (Visibility.isVisible(obj)) 
+
+        if (Visibility.isVisible(obj))
         {
           delete queue[hash];
           obj.syncAppearance();
