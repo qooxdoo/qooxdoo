@@ -60,6 +60,14 @@ qx.Class.define("qx.ui.core.Spacer",
   members :
   {
     /**
+     * Checks for appearance updates
+     */
+    checkAppearanceNeeds : function() {
+      // placeholder to improve compability with Widget.
+    },
+
+
+    /**
      * Destroys the spacer.
      */
     destroy : function() {
