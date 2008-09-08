@@ -97,38 +97,43 @@ qx.Class.define("qx.ui.core.queue.Visibility",
       // Dispose all registered objects
       var queue = this.__queue;
       var data = this.__data;
-      var old, value, widget;
   
-      // Add children to queue
+      // Dynamically add children to queue
+      // Only respect already known widgets because otherwise the children
+      // are also already in the queue (added on their own)
       for (var hash in queue) 
       {
-        widget = queue[hash];  
-        widget.addChildrenToQueue(queue);
+        if (data[hash] != null) {
+          queue[hash].addChildrenToQueue(queue);
+        }
       }
       
       // Cache old data, clear current data
+      // Do this before starting with recompution because
+      // new data may also be added by related widgets and not
+      // only the widget itself.
       var oldData = {};
       for (var hash in queue) 
       {
-        widget = queue[hash];         
         oldData[hash] = data[hash];
         data[hash] = null;
       }
       
       // Finally recompute
+      var appearanceQueued = false;
       for (var hash in queue)
       {
-        widget = queue[hash];         
-        
         // Only update when not already updated by another widget
         if (data[hash] == null) {
-          this.computeVisible(widget);
+          this.computeVisible(queue[hash]);
         }
         
         // Invisible widgets are ignored for appearance (better performance)
         // Need to inform appearance queue about the visibility change
-        if (oldData[hash] != null && data[hash] && data[hash] != oldData[hash]) {
-          Appearance.schedule(widget);
+        if (!appearanceQueued && data[hash] && data[hash] != oldData[hash] && Appearance.has(queue[hash])) 
+        {
+          qx.ui.core.queue.Manager.scheduleFlush("appearance");
+          appearanceQueued = true;
         }
       }
 
