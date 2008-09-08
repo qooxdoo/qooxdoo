@@ -50,7 +50,7 @@ qx.Class.define("qx.ui.core.queue.Visibility",
     /**
      * Computes the visibility for the given widget
      *
-     * @param {qx.ui.core.Widget} The widget to update
+     * @param widget {qx.ui.core.Widget} The widget to update
      * @return {Boolean} Whether the widget is visible
      */
     __computeVisible : function(widget)
