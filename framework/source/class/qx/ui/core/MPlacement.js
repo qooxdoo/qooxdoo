@@ -318,6 +318,7 @@ qx.Mixin.define("qx.ui.core.MPlacement",
       else if (this.__resizePlacement)
       {
         coords = this.__resizePlacement;
+        delete this.__resizePlacement;
         this.removeListener("resize", this.__place);
       }
       
