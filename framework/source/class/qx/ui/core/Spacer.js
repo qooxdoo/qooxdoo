@@ -45,6 +45,10 @@ qx.Class.define("qx.ui.core.Spacer",
   {
     this.base(arguments);
 
+    // Directly add to visibility queue
+    qx.ui.core.queue.Visibility.add(this);
+
+    // Initialize dimensions
     this.setWidth(width != null ? width : 0);
     this.setHeight(height != null ? height : 0);
   },
