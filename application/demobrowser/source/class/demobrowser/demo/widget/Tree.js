@@ -69,18 +69,18 @@ qx.Class.define("demobrowser.demo.widget.Tree",
       var te1_2_1 = new qx.ui.tree.TreeFile("Windows (C:)");
       var te1_2_2 = new qx.ui.tree.TreeFile("Documents (D:)");
       te1_2.add(te1_2_1, te1_2_2);
-      arbeitsplatz = te1_2;
+      workspace = te1_2;
 
 
 
       var te2 = new qx.ui.tree.TreeFolder("Inbox");
-      posteingang = te2;
+      inbox = te2;
 
       var te2_1 = new qx.ui.tree.TreeFolder("Presets");
       var te2_2 = new qx.ui.tree.TreeFolder("Sent");
       var te2_3 = new qx.ui.tree.TreeFolder("Trash");
 
-      for (var i=0; i<100; i++) {
+      for (var i=0; i<30; i++) {
         te2_3.add(new qx.ui.tree.TreeFile("Junk #" + i));
       }
 
