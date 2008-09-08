@@ -87,7 +87,7 @@ qx.Class.define("qx.bom.client.Engine",
           throw new Error("Could not detect Opera version: " + agent + "!");
         }
       }
-      else if (navigator.vendor && (navigator.vendor === "Apple Computer, Inc." || navigator.vendor === "Adobe Systems Incorporated"))
+      else if (navigator.userAgent.indexOf("AppleWebKit/") != -1)
       {
         engine = "webkit";
         this.WEBKIT = true;
