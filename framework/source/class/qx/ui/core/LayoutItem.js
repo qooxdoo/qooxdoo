@@ -475,8 +475,8 @@ qx.Class.define("qx.ui.core.LayoutItem",
       // Returns changes, especially for deriving classes
       return changes;
     },
-    
-    
+
+
     isExcluded : function() {
       return false;
     },
@@ -880,8 +880,13 @@ qx.Class.define("qx.ui.core.LayoutItem",
      *
      * @param parent {qx.ui.core.Widget|null} The new parent.
      */
-    setLayoutParent : function(parent) {
-      this.$$parent = parent;
+    setLayoutParent : function(parent)
+    {
+      // Store parent
+      this.$$parent = parent || null;
+
+      // Update visibility cache
+      qx.ui.core.queue.Visibility.add(this);
     },
 
 
