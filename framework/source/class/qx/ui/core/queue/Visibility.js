@@ -28,16 +28,32 @@ qx.Class.define("qx.ui.core.queue.Visibility",
     /** {Map} This contains all the queued widgets for the next flush. */
     __queue : {},
     
+    
     /** {Map} Maps hash codes to visibility */
     __data : {},
     
     
+    /**
+     * Whether the given widget is visible.
+     *
+     * Please note that the information given by this method is queued and may not be accurate
+     * until the next queue flush happens.
+     *
+     * @param widget {qx.ui.core.Widget} The widget to query
+     * @return {Boolean} Whether the widget is visible
+     */
     isVisible : function(widget) {
       return this.__data[widget.$$hash] || false;
     },
     
     
-    computeVisible : function(widget)
+    /**
+     * Computes the visibility for the given widget
+     *
+     * @param {qx.ui.core.Widget} The widget to update
+     * @return {Boolean} Whether the widget is visible
+     */
+    __computeVisible : function(widget)
     {
       var data = this.__data;
       var hash = widget.$$hash;
@@ -53,7 +69,7 @@ qx.Class.define("qx.ui.core.queue.Visibility",
         // Parent hierarchy
         var parent = widget.$$parent;
         if (parent) {
-          visible = this.computeVisible(parent);
+          visible = this.__computeVisible(parent);
         } else {
           visible = widget.isRootWidget();
         }
@@ -125,7 +141,7 @@ qx.Class.define("qx.ui.core.queue.Visibility",
       {
         // Only update when not already updated by another widget
         if (data[hash] == null) {
-          this.computeVisible(queue[hash]);
+          this.__computeVisible(queue[hash]);
         }
         
         // Invisible widgets are ignored for appearance (better performance)
