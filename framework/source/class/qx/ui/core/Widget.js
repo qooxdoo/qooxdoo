@@ -1701,7 +1701,7 @@ qx.Class.define("qx.ui.core.Widget",
     _hasChildren : function()
     {
       var children = this.__widgetChildren;
-      return children && (!!children[0]);
+      return children != null && (!!children[0]);
     },
 
 
