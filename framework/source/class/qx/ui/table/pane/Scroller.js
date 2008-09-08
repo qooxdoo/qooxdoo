@@ -90,8 +90,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     this.__focusIndicator = this._getChildControl("focus-indicator");
 
     // force creation of the resize line
-    this._getChildControl("resize-line");
-    this._excludeChildControl("resize-line");
+    this._getChildControl("resize-line").hide();
 
     this.addListener("mouseout", this._onMouseout, this);
     this.addListener("appear", this._onAppear, this);
@@ -1134,10 +1133,12 @@ qx.Class.define("qx.ui.table.pane.Scroller",
         this.__lastMoveTargetScroller.hideColumnMoveFeedback();
       }
 
-      if (this.__lastMoveTargetX != null) {
+      if (this.__lastMoveTargetX != null)
+      {
         var fromVisXPos = paneModel.getFirstColumnX() + paneModel.getX(this.__moveColumn);
         var toVisXPos = this.__lastMoveTargetX;
-        if (toVisXPos != fromVisXPos && toVisXPos != fromVisXPos + 1) {
+        if (toVisXPos != fromVisXPos && toVisXPos != fromVisXPos + 1)
+        {
           // The column was really moved to another position
           // (and not moved before or after itself, which is a noop)
 
