@@ -871,7 +871,7 @@ qx.Class.define("qx.ui.core.Widget",
 
       // Update inheritable properties
       qx.core.Property.refresh(this);
-      
+
       // Update visibility cache
       qx.ui.core.queue.Visibility.add(this);
     },
@@ -1472,8 +1472,11 @@ qx.Class.define("qx.ui.core.Widget",
 
       el.setStyle("position", "absolute");
 
+      // TODO
       // What was the reason for this (wpbasti)?
-      // el.setStyle("zIndex", 0);
+      // Seems that it at least fixes issue with the SplitPane
+      // where the slider is not seeable during dragging it around.
+      el.setStyle("zIndex", 0);
 
       return el;
     },
@@ -1711,13 +1714,13 @@ qx.Class.define("qx.ui.core.Widget",
       if (!children) {
         return;
       }
-      
+
       var child;
       for (var i=0, l=children.length; i<l; i++)
       {
         child = children[i];
         queue[child.$$hash] = child;
-        
+
         if (child.addChildrenToQueue) {
           child.addChildrenToQueue(queue);
         }
@@ -2400,7 +2403,7 @@ qx.Class.define("qx.ui.core.Widget",
       if (parent && (old == null || value == null || old === "excluded" || value === "excluded")) {
         parent.invalidateLayoutChildren();
       }
-      
+
       // Update visibility cache
       qx.ui.core.queue.Visibility.add(this);
     },
@@ -2476,12 +2479,12 @@ qx.Class.define("qx.ui.core.Widget",
 
     /** {Map} The current widget states */
     __states : null,
-    
-    
+
+
     /** {Boolean} Whether the widget has state changes which are not yet queued */
     __hasStateChanges : null,
-    
-    
+
+
     /**
      * Returns whether a state is set.
      *
@@ -2764,19 +2767,19 @@ qx.Class.define("qx.ui.core.Widget",
         qx.ui.core.queue.Appearance.add(this);
         this.__initialAppearanceApplied = true;
       }
-      
+
       // CASE 2: Widget has got a appearance before, but was hidden for some time
       // which results into maybe omitted state changes have not been applied.
       // In this case the widget is already queued in the appearance. This is basically
       // what all addState/removeState do, but the queue itself may not have been registered
       // to be flushed
-      else if (this.__hasStateChanges) 
+      else if (this.__hasStateChanges)
       {
         qx.ui.core.queue.Appearance.add(this);
         delete this.__hasStateChanges;
-      }      
+      }
     },
-    
+
 
     /**
      * Refreshes the appearance of this widget and all
