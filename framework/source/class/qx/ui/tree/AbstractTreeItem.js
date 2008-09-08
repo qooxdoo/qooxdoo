@@ -468,7 +468,13 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
         if (this._shouldShowOpenSymbol())
         {
           open.show();
-          openWidth = open.getSizeHint().width;
+
+          var openBounds = open.getBounds();
+          if (openBounds) {
+            openWidth = openBounds.width;
+          } else {
+            return;
+          }
         }
         else
         {
@@ -525,6 +531,8 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
     syncWidget : function() {
       this._updateIndent();
     },
+
+
 
 
     /*
