@@ -108,8 +108,6 @@ qx.Class.define("qx.ui.core.queue.Visibility",
      */
     flush : function()
     {
-      var Appearance = qx.ui.core.queue.Appearance;
-      
       // Dispose all registered objects
       var queue = this.__queue;
       var data = this.__data;
@@ -136,7 +134,6 @@ qx.Class.define("qx.ui.core.queue.Visibility",
       }
       
       // Finally recompute
-      var appearanceQueued = false;
       for (var hash in queue)
       {
         // Only update when not already updated by another widget
@@ -144,12 +141,10 @@ qx.Class.define("qx.ui.core.queue.Visibility",
           this.__computeVisible(queue[hash]);
         }
         
-        // Invisible widgets are ignored for appearance (better performance)
-        // Need to inform appearance queue about the visibility change
-        if (!appearanceQueued && data[hash] && data[hash] != oldData[hash] && Appearance.has(queue[hash])) 
-        {
-          qx.ui.core.queue.Manager.scheduleFlush("appearance");
-          appearanceQueued = true;
+        // Check for updates required to the appearance.
+        // Hint: Invisible widgets are ignored inside appearance flush
+        if (data[hash] && data[hash] != oldData[hash]) {
+          queue[hash].checkAppearanceNeeds();
         }
       }
 
