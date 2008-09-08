@@ -80,9 +80,6 @@ qx.Class.define("qx.ui.core.Widget",
       this.__containerElement.setAttribute("qxClass", this.classname);
     }
 
-    // Add to appearance queue for initial apply of styles
-    qx.ui.core.queue.Appearance.add(this);
-
     // Initialize properties
     this.initFocusable();
     this.initSelectable();
@@ -2477,6 +2474,14 @@ qx.Class.define("qx.ui.core.Widget",
     ---------------------------------------------------------------------------
     */
 
+    /** {Map} The current widget states */
+    __states : null,
+    
+    
+    /** {Boolean} Whether the widget has state changes which are not yet queued */
+    __hasStateChanges : null,
+    
+    
     /**
      * Returns whether a state is set.
      *
@@ -2489,9 +2494,6 @@ qx.Class.define("qx.ui.core.Widget",
       return states && states[state];
     },
 
-
-    /** {Map} The current widget states */
-    __states : null,
 
     /**
      * Sets a state.
@@ -2517,6 +2519,8 @@ qx.Class.define("qx.ui.core.Widget",
       // Fast path for hovered state
       if (state === "hovered") {
         this.syncAppearance();
+      } else if (!qx.ui.core.queue.Visibility.isVisible(this)) {
+        this.__hasStateChanges = true;
       } else {
         qx.ui.core.queue.Appearance.add(this);
       }
@@ -2559,6 +2563,8 @@ qx.Class.define("qx.ui.core.Widget",
       // Fast path for hovered state
       if (state === "hovered") {
         this.syncAppearance();
+      } else if (!qx.ui.core.queue.Visibility.isVisible(this)) {
+        this.__hasStateChanges = true;
       } else {
         qx.ui.core.queue.Appearance.add(this);
       }
@@ -2604,7 +2610,11 @@ qx.Class.define("qx.ui.core.Widget",
         delete states[old];
       }
 
-      qx.ui.core.queue.Appearance.add(this);
+      if (!qx.ui.core.queue.Visibility.isVisible(this)) {
+        this.__hasStateChanges = true;
+      } else {
+        qx.ui.core.queue.Appearance.add(this);
+      }
 
       // Forward state change to child controls
       var forward = this._forwardStates;
@@ -2738,6 +2748,35 @@ qx.Class.define("qx.ui.core.Widget",
       this.updateAppearance();
     },
 
+
+    /**
+     * Helper method called from the visibility queue to detect outstanding changes
+     * to the appearance.
+     *
+     * @internal
+     */
+    checkAppearanceNeeds : function()
+    {
+      // CASE 1: Widget has never got a appearance already because it was never
+      // visible before. Normally add it to the queue is the easiest way to update it.
+      if (!this.__initialAppearanceApplied)
+      {
+        qx.ui.core.queue.Appearance.add(this);
+        this.__initialAppearanceApplied = true;
+      }
+      
+      // CASE 2: Widget has got a appearance before, but was hidden for some time
+      // which results into maybe omitted state changes have not been applied.
+      // In this case the widget is already queued in the appearance. This is basically
+      // what all addState/removeState do, but the queue itself may not have been registered
+      // to be flushed
+      else if (this.__hasStateChanges) 
+      {
+        qx.ui.core.queue.Appearance.add(this);
+        delete this.__hasStateChanges;
+      }      
+    },
+    
 
     /**
      * Refreshes the appearance of this widget and all
