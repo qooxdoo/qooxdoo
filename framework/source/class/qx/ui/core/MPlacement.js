@@ -305,7 +305,22 @@ qx.Mixin.define("qx.ui.core.MPlacement",
      */
     __place : function(coords)
     {
-      var size = this.getSizeHint();
+      var size = this.getBounds();
+      if (size == null)
+      {
+        if (!this.__resizePlacement) {
+          this.addListener("resize", this.__place);
+        }
+        
+        this.__resizePlacement = coords;
+        return;
+      }
+      else if (this.__resizePlacement)
+      {
+        coords = this.__resizePlacement;
+        this.removeListener("resize", this.__place);
+      }
+      
       var area = this.getLayoutParent().getBounds();
       var position = this.getPosition();
       var smart = this.getSmart();
