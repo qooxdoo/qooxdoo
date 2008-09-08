@@ -55,14 +55,6 @@ qx.Class.define("qx.ui.core.queue.Appearance",
     },
     
     
-    schedule : function(widget)
-    {
-      if (this.__queue[widget.$$hash]) {
-        qx.ui.core.queue.Manager.scheduleFlush("appearance");
-      }
-    },
-
-
     /**
      * Flushes the appearance queue.
      *
