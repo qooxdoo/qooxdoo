@@ -32,7 +32,7 @@ qx.Class.define("demobrowser.demo.bom.Request",
       el.value = "Loading...";
 
       var req = new qx.bom.Request;
-      req.open("GET", "Request_1.html", true);
+      req.open("GET", "Request.html", true);
 
       req.onreadystatechange = function()
       {
