@@ -197,6 +197,7 @@ qx.Class.define("demobrowser.demo.ui.DragDrop",
       }));
       indicator.setHeight(0);
       indicator.setOpacity(0.5);
+      indicator.setZIndex(100);
       indicator.setLayoutProperties({left: -1000, top: -1000});
       this.getRoot().add(indicator);
 
