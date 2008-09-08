@@ -27,12 +27,12 @@ qx.Class.define("qx.ui.core.queue.Visibility",
   {
     /** {Map} This contains all the queued widgets for the next flush. */
     __queue : {},
-    
-    
+
+
     /** {Map} Maps hash codes to visibility */
     __data : {},
-    
-    
+
+
     /**
      * Whether the given widget is visible.
      *
@@ -45,8 +45,8 @@ qx.Class.define("qx.ui.core.queue.Visibility",
     isVisible : function(widget) {
       return this.__data[widget.$$hash] || false;
     },
-    
-    
+
+
     /**
      * Computes the visibility for the given widget
      *
@@ -58,9 +58,9 @@ qx.Class.define("qx.ui.core.queue.Visibility",
       var data = this.__data;
       var hash = widget.$$hash;
       var visible;
-      
+
       // Respect local value
-      if (widget.isExcluded()) 
+      if (widget.isExcluded())
       {
         visible = false;
       }
@@ -74,7 +74,7 @@ qx.Class.define("qx.ui.core.queue.Visibility",
           visible = widget.isRootWidget();
         }
       }
-      
+
       return data[hash] = visible;
     },
 
@@ -111,28 +111,28 @@ qx.Class.define("qx.ui.core.queue.Visibility",
       // Dispose all registered objects
       var queue = this.__queue;
       var data = this.__data;
-  
+
       // Dynamically add children to queue
       // Only respect already known widgets because otherwise the children
       // are also already in the queue (added on their own)
-      for (var hash in queue) 
+      for (var hash in queue)
       {
         if (data[hash] != null) {
           queue[hash].addChildrenToQueue(queue);
         }
       }
-      
+
       // Cache old data, clear current data
       // Do this before starting with recompution because
       // new data may also be added by related widgets and not
       // only the widget itself.
       var oldData = {};
-      for (var hash in queue) 
+      for (var hash in queue)
       {
         oldData[hash] = data[hash];
         data[hash] = null;
       }
-      
+
       // Finally recompute
       for (var hash in queue)
       {
@@ -140,7 +140,7 @@ qx.Class.define("qx.ui.core.queue.Visibility",
         if (data[hash] == null) {
           this.__computeVisible(queue[hash]);
         }
-        
+
         // Check for updates required to the appearance.
         // Hint: Invisible widgets are ignored inside appearance flush
         if (data[hash] && data[hash] != oldData[hash]) {
