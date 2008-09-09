@@ -158,6 +158,7 @@ qx.Class.define("qx.ui.basic.Image",
     __height : null,
 
 
+
     /*
     ---------------------------------------------------------------------------
       WIDGET API
@@ -261,16 +262,8 @@ qx.Class.define("qx.ui.basic.Image",
         el.setSource(source);
 
         // Compare with old sizes and relayout if necessary
-        this._updateSize(ResourceManager.getImageWidth(source),
+        this.__updateContentHint(ResourceManager.getImageWidth(source),
           ResourceManager.getImageHeight(source));
-      }
-      else if (this.getScale() && this.getWidth() != null && this.getHeight() != null)
-      {
-        // Apply source
-        el.setSource(source);
-
-        // Update size based on hard-coded size
-        this._updateSize(this.getWidth(), this.getHeight());
       }
       else if (ImageLoader.isLoaded(source))
       {
@@ -280,7 +273,7 @@ qx.Class.define("qx.ui.basic.Image",
         // Compare with old sizes and relayout if necessary
         var width = ImageLoader.getWidth(source);
         var height = ImageLoader.getHeight(source);
-        this._updateSize(width, height);
+        this.__updateContentHint(width, height);
       }
       else
       {
@@ -334,13 +327,13 @@ qx.Class.define("qx.ui.basic.Image",
 
 
     /**
-     * Updates the size if size has changed
+     * Updates the content hint when the image size has been changed
      *
      * @param width {Integer} width of the image
      * @param height {Integer} height of the image
      * @return {void}
      */
-    _updateSize : function(width, height)
+    __updateContentHint : function(width, height)
     {
       // Compare with old sizes and relayout if necessary
       if (width !== this.__width || height !== this.__height)

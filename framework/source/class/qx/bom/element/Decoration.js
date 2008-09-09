@@ -208,16 +208,24 @@ qx.Class.define("qx.bom.element.Decoration",
       // Enable AlphaImageLoader in IE6
       if (this.__enableAlphaFix && this.__alphaFixRepeats[repeat] && format === "png")
       {
-        if (style.width == null) {
-          style.width = width == null ? width : width + "px";
+        if (style.width == null && width != null) {
+          style.width = width + "px";
         }
 
-        if (style.height == null) {
-          style.height = height == null ? height : height + "px";
+        if (style.height == null && height != null) {
+          style.height = height + "px";
         }
 
-        style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='"
-          + ResourceManager.toUri(source) + "', sizingMethod='scale')";
+        if (repeat == "no-repeat")
+        {
+          style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='"
+            + ResourceManager.toUri(source) + "', sizingMethod='crop')";
+        }
+        else
+        {
+          style.filter = "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='"
+            + ResourceManager.toUri(source) + "', sizingMethod='scale')";
+        }
 
         style.backgroundImage = style.backgroundRepeat = "";
 
@@ -231,12 +239,12 @@ qx.Class.define("qx.bom.element.Decoration",
         {
           var uri = ResourceManager.toUri(source);
 
-          if (!style.width) {
-            style.width = width == null ? width : width + "px";
+          if (style.width == null && width != null) {
+            style.width = width + "px";
           }
 
-          if (!style.height) {
-            style.height = height == null ? height : height + "px";
+          if (style.height == null && height != null) {
+            style.height = height + "px";
           }
 
           return {
@@ -263,6 +271,8 @@ qx.Class.define("qx.bom.element.Decoration",
               style.clip = {top: -data[6], height: height};
               style.height = imageHeight + "px";
 
+              // note: width is given by the user
+
               // Fix user given y-coordinate to include the combined image offset
               if (style.top != null) {
                 style.top = (parseInt(style.top, 10) + data[6]) + "px";
@@ -287,6 +297,8 @@ qx.Class.define("qx.bom.element.Decoration",
               // Add size and clipping
               style.clip = {left: -data[5], width: width};
               style.width = imageWidth + "px";
+
+              // note: height is given by the user
 
               // Fix user given x-coordinate to include the combined image offset
               if (style.left != null) {
@@ -321,10 +333,15 @@ qx.Class.define("qx.bom.element.Decoration",
               }
             }
 
-            if (repeat == "scale-x") {
+            if (repeat == "scale-x")
+            {
               style.height = height == null ? null : height + "px";
-            } else if (repeat == "scale-y") {
+              // note: width is given by the user
+            }
+            else if (repeat == "scale-y")
+            {
               style.width = width == null ? null : width + "px";
+              // note: height is given by the user
             }
 
             var uri = ResourceManager.toUri(source);
@@ -347,12 +364,12 @@ qx.Class.define("qx.bom.element.Decoration",
               style[key] = bg[key];
             }
 
-            if (repeat == "repeat-y" || repeat === "no-repeat") {
-              style.width = width == null ? width : width + "px";
+            if (width = null && style.width == null && (repeat == "repeat-y" || repeat === "no-repeat")) {
+              style.width = width + "px";
             }
 
-            if (repeat == "repeat-x" || repeat === "no-repeat") {
-              style.height = height == null ? height : height + "px";
+            if (height != null && style.height == null && (repeat == "repeat-x" || repeat === "no-repeat")) {
+              style.height = height + "px";
             }
 
             return {
@@ -382,8 +399,13 @@ qx.Class.define("qx.bom.element.Decoration",
               style[key] = bg[key];
             }
 
-            style.width = width == null ? width : width + "px";
-            style.height = height == null ? height : height + "px";
+            if (width != null && style.width == null) {
+              style.width = width + "px";
+            }
+
+            if (height != null && style.height == null) {
+              style.height = height + "px";
+            }
 
             return {
               style : style
