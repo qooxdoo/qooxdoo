@@ -52,7 +52,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          textColor : states.disabled ? "text-disabled" : "undefined"
+          textColor : states.disabled ? "text-disabled" : undefined
         };
       }
     },
@@ -62,7 +62,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          opacity : !states.replacement && states.disabled ? 0.3 : "undefined"
+          opacity : !states.replacement && states.disabled ? 0.3 : undefined
         }
       }
     },
@@ -270,9 +270,9 @@ qx.Theme.define("qx.theme.classic.Appearance",
         return {
           gap             : 4,
           padding         : states.lead ? [ 2, 4 ] : [ 3, 5 ],
-          backgroundColor : states.selected ? "background-selected" : "undefined",
-          textColor       : states.selected ? "text-selected" : "undefined",
-          decorator       : states.lead ? "lead-item" : "undefined"
+          backgroundColor : states.selected ? "background-selected" : undefined,
+          textColor       : states.selected ? "text-selected" : undefined,
+          decorator       : states.lead ? "lead-item" : undefined
         };
       }
     },
@@ -294,7 +294,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
         return {
           decorator       : states.focused ? "focused-inset" : "inset",
           padding         : [ 2, 3 ],
-          textColor       : states.disabled ? "text-disabled" : "undefined",
+          textColor       : states.disabled ? "text-disabled" : undefined,
           backgroundColor : states.disabled ? "background-disabled" : states.focused ? "background-focused" : "background-field"
         };
       }
@@ -390,7 +390,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       {
         return {
           decorator       : states.focused ? "focused-inset" : "inset",
-          textColor       : states.disabled ? "text-disabled" : "undefined"
+          textColor       : states.disabled ? "text-disabled" : undefined
         };
       }
     },
@@ -402,7 +402,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          decorator : "undefined",
+          decorator : undefined,
           padding: [2, 3]
         };
       }
@@ -462,7 +462,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
           icon : "icon/16/apps/office-calendar.png",
           padding : [0, 3],
           backgroundColor : states.disabled ? "background-disabled" : states.focused ? "background-focused" : "background-field",
-          decorator : "undefined"
+          decorator : undefined
         };
       }
     },
@@ -632,7 +632,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
         }
         else
         {
-          var border = "undefined";
+          var border = undefined;
           var padding = [ 3, 4 ];
         }
 
@@ -954,8 +954,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
           height    : 14,
           width     : 14,
 
-          minHeight : states.horizontal ? "undefined" : 14,
-          minWidth  : states.horizontal ? 14 : "undefined"
+          minHeight : states.horizontal ? undefined : 14,
+          minWidth  : states.horizontal ? 14 : undefined
         };
       }
     },
@@ -1088,8 +1088,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
       {
         return {
           padding : [ 1, 2 ],
-          backgroundColor : states.selected ? "background-selected" : "undefined",
-          textColor : states.selected ? "text-selected" : "undefined"
+          backgroundColor : states.selected ? "background-selected" : undefined,
+          textColor : states.selected ? "text-selected" : undefined
         };
       }
     },
@@ -1312,7 +1312,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
         return {
           contentPadding : [ 10, 10, 10, 10 ],
           backgroundColor : "background",
-          decorator : states.maximized ? "undefined" : "outset",
+          decorator : states.maximized ? undefined : "outset",
           shadow : "shadow-small"
         };
       }
@@ -1576,7 +1576,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
         } else if (states.hovered) {
           result.decorator = "outset-thin";
         } else {
-          result.decorator = "undefined";
+          result.decorator = undefined;
         }
 
         if (states.pressed || states.checked || states.abandoned) {
@@ -1633,9 +1633,9 @@ qx.Theme.define("qx.theme.classic.Appearance",
       {
         return {
           textAlign       : "center",
-          decorator       : states.today ? "main" : "undefined",
-          textColor       : states.selected ? "text-selected" : states.otherMonth ? "text-disabled" : "undefined",
-          backgroundColor : states.selected ? "date-chooser-selected" : "undefined",
+          decorator       : states.today ? "main" : undefined,
+          textColor       : states.selected ? "text-selected" : states.otherMonth ? "text-disabled" : undefined,
+          backgroundColor : states.selected ? "date-chooser-selected" : undefined,
           padding         : [ 2, 4 ]
         };
       }
@@ -1669,7 +1669,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       {
         return {
           decorator       : states.focused ? "focused-inset" : "inset",
-          textColor       : states.disabled ? "text-disabled" : "undefined",
+          textColor       : states.disabled ? "text-disabled" : undefined,
           backgroundColor : "background-field"
         };
       }
@@ -1699,7 +1699,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          decorator : "undefined",
+          decorator : undefined,
           padding: [2, 3]
         };
       }
@@ -1766,8 +1766,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          backgroundColor : states.selected ? "background-selected" : "undefined",
-          textColor : states.selected ? "text-selected" : "undefined",
+          backgroundColor : states.selected ? "background-selected" : undefined,
+          textColor : states.selected ? "text-selected" : undefined,
           padding : [ 2, 6 ]
         };
       }
@@ -1831,7 +1831,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          icon : !states.checked ? "undefined" :
+          icon : !states.checked ? undefined :
             states.selected ? "decoration/menu/checkbox-invert.gif" :
               "decoration/menu/checkbox.gif"
         }
@@ -1846,7 +1846,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          icon : !states.checked ? "undefined" :
+          icon : !states.checked ? undefined :
             states.selected ? "decoration/menu/radiobutton-invert.gif" :
               "decoration/menu/radiobutton.gif"
         }
@@ -1881,8 +1881,8 @@ qx.Theme.define("qx.theme.classic.Appearance",
       {
         return {
           padding : [ 2, 6 ],
-          backgroundColor : states.pressed || states.hovered ? "background-selected" : "undefined",
-          textColor : states.pressed || states.hovered ? "text-selected" : "undefined"
+          backgroundColor : states.pressed || states.hovered ? "background-selected" : undefined,
+          textColor : states.pressed || states.hovered ? "text-selected" : undefined
         };
       }
     },
@@ -2028,7 +2028,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
         }
         else
         {
-          border = "undefined";
+          border = undefined;
           padding = [ 3, 4 ];
         }
 
@@ -2115,7 +2115,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
           backgroundColor : states.hovered ? "table-header-cell-hover" : "table-header-cell",
           sortIcon : states.sorted ?
               (states.sortedAscending ? "decoration/table/ascending.png" : "decoration/table/descending.png")
-              : "undefined"
+              : undefined
         }
       }
     },
@@ -2136,7 +2136,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          decorator : "undefined",
+          decorator : undefined,
           padding : [ 2, 2 ]
         };
       }
@@ -2163,7 +2163,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
       style : function(states)
       {
         return {
-          decorator : "undefined"
+          decorator : undefined
         };
       }
     },
