@@ -364,7 +364,7 @@ qx.Class.define("qx.bom.element.Decoration",
               style[key] = bg[key];
             }
 
-            if (width = null && style.width == null && (repeat == "repeat-y" || repeat === "no-repeat")) {
+            if (width != null && style.width == null && (repeat == "repeat-y" || repeat === "no-repeat")) {
               style.width = width + "px";
             }
 
