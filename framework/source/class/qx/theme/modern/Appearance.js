@@ -75,7 +75,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          textColor : states.disabled ? "text-disabled" : "undefined"
+          textColor : states.disabled ? "text-disabled" : undefined
         };
       }
     },
@@ -369,7 +369,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          decorator : "undefined"
+          decorator : undefined
         };
       }
     },
@@ -424,7 +424,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
         return {
           icon : "icon/16/apps/office-calendar.png",
           padding : [0, 3],
-          decorator : "undefined"
+          decorator : undefined
         };
       }
     },
@@ -447,7 +447,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          decorator : "undefined"
+          decorator : undefined
         }
       }
     },
@@ -574,8 +574,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          width     : states.horizontal ? "undefined" : 16,
-          height    : states.horizontal ? 16 : "undefined",
+          width     : states.horizontal ? undefined : 16,
+          height    : states.horizontal ? 16 : undefined,
           decorator : states.horizontal ? "scrollbar-horizontal" : "scrollbar-vertical",
           padding   : 1
         };
@@ -602,8 +602,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
       {
         return {
           decorator : states.horizontal ? "scrollbar-slider-horizontal" : "scrollbar-slider-vertical",
-          minHeight : states.horizontal ? "undefined" : 14,
-          minWidth  : states.horizontal ? 14 : "undefined"
+          minHeight : states.horizontal ? undefined : 14,
+          minWidth  : states.horizontal ? 14 : undefined
         };
       }
     },
@@ -717,8 +717,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
       {
         return {
           padding   : 4,
-          textColor : states.selected ? "text-selected" : "undefined",
-          decorator : states.selected ? "selected" : "undefined"
+          textColor : states.selected ? "text-selected" : undefined,
+          decorator : states.selected ? "selected" : undefined
         };
       }
     },
@@ -1049,8 +1049,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
           marginBottom : 2,
           padding : states.pressed || states.checked || states.hovered ? 3 : 5,
           decorator : states.pressed || states.checked ? "toolbar-button-checked" :
-            states.hovered ? "toolbar-button-hovered" : "undefined",
-          textColor: states.disabled ? "text-disabled" : "undefined"
+            states.hovered ? "toolbar-button-hovered" : undefined,
+          textColor: states.disabled ? "text-disabled" : undefined
         };
       }
     },
@@ -1101,8 +1101,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
       {
         return {
           icon : "decoration/arrows/down.png",
-          marginTop : "undefined",
-          marginBottom : "undefined"
+          marginTop : undefined,
+          marginBottom : undefined
         };
       }
     },
@@ -1117,8 +1117,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
         return {
           padding : states.pressed || states.checked ? 1 : states.hovered ? 1 : 3,
           icon : "decoration/arrows/down.png",
-          marginTop : "undefined",
-          marginBottom : "undefined"
+          marginTop : undefined,
+          marginBottom : undefined
         };
       }
     },
@@ -1151,8 +1151,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
       {
         return {
           padding    : [ 2, 6 ],
-          textColor  : states.selected ? "text-selected" : "undefined",
-          decorator  : states.selected ? "selected" : "undefined"
+          textColor  : states.selected ? "text-selected" : undefined,
+          decorator  : states.selected ? "selected" : undefined
         }
       }
     },
@@ -1257,9 +1257,9 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          icon : (states.opened
-                  ? "icon/16/places/folder-open.png"
-                  : "icon/16/places/folder.png")
+          icon : states.opened ?
+            "icon/16/places/folder-open.png" :
+            "icon/16/places/folder.png"
         }
       }
     },
@@ -1282,7 +1282,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          icon       : "static/blank.gif"
+          icon : "static/blank.gif"
         }
       }
     },
@@ -1292,7 +1292,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          icon        : "decoration/tree/open.png",
+          icon : "decoration/tree/open.png",
           paddingLeft : 3
         }
       }
@@ -1303,7 +1303,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          icon        : "decoration/tree/closed.png",
+          icon : "decoration/tree/closed.png",
           paddingLeft : 5
         }
       }
@@ -1582,8 +1582,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          width : states.horizontal ? 3 : "undefined",
-          height : states.vertical ? 3 : "undefined",
+          width : states.horizontal ? 3 : undefined,
+          height : states.vertical ? 3 : undefined,
           backgroundColor : "background-splitpane"
         };
       }
@@ -1604,8 +1604,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          width : states.horizontal ? 3 : "undefined",
-          height : states.vertical ? 3 : "undefined",
+          width : states.horizontal ? 3 : undefined,
+          height : states.vertical ? 3 : undefined,
           backgroundColor : "background-splitpane"
         };
       }
@@ -1740,7 +1740,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          textColor : states.weekend ? "text-light" : "undefined",
+          textColor : states.weekend ? "text-light" : undefined,
           textAlign : "center",
           paddingTop : 2,
           backgroundColor : "background-medium"
@@ -1767,9 +1767,9 @@ qx.Theme.define("qx.theme.modern.Appearance",
       {
         return {
           textAlign : "center",
-          decorator : states.selected ? "selected" : "undefined",
-          textColor : states.selected ? "text-selected" : states.otherMonth ? "text-light" : "undefined",
-          font      : states.today ? "bold" : "undefined",
+          decorator : states.selected ? "selected" : undefined,
+          textColor : states.selected ? "text-selected" : states.otherMonth ? "text-light" : undefined,
+          font      : states.today ? "bold" : undefined,
           padding   : [ 2, 4 ]
         };
       }
@@ -1830,7 +1830,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          decorator : "undefined"
+          decorator : undefined
         };
       }
     },
@@ -1889,8 +1889,8 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          decorator : states.selected ? "selected" : "undefined",
-          textColor : states.selected ? "text-selected" : "undefined",
+          decorator : states.selected ? "selected" : undefined,
+          textColor : states.selected ? "text-selected" : undefined,
           padding   : [ 4, 6 ]
         };
       }
@@ -1954,7 +1954,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          icon : !states.checked ? "undefined" :
+          icon : !states.checked ? undefined :
             states.selected ? "decoration/menu/checkbox-invert.gif" :
               "decoration/menu/checkbox.gif"
         }
@@ -1969,7 +1969,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          icon : !states.checked ? "undefined" :
+          icon : !states.checked ? undefined :
             states.selected ? "decoration/menu/radiobutton-invert.gif" :
               "decoration/menu/radiobutton.gif"
         }
@@ -2002,7 +2002,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
      style : function(states)
      {
        return {
-         decorator : states.pressed || states.hovered ? "selected" : "undefined",
+         decorator : states.pressed || states.hovered ? "selected" : undefined,
          textColor : states.pressed || states.hovered ? "text-selected" : "text-label",
          padding   : [ 3, 8 ]
        }
@@ -2292,7 +2292,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
           decorator : states.hovered ? "table-header-cell-hovered" : "table-header-cell",
           sortIcon  : states.sorted ?
               (states.sortedAscending ? "decoration/table/ascending.png" : "decoration/table/descending.png")
-              : "undefined"
+              : undefined
         }
       }
     },
@@ -2339,7 +2339,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          decorator : "undefined",
+          decorator : undefined,
           padding : [ 2, 2 ],
           backgroundColor : "background-light"
         };
@@ -2368,7 +2368,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          decorator : "undefined",
+          decorator : undefined,
           backgroundColor : "background-light"
         };
       }

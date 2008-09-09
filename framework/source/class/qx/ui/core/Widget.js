@@ -2650,12 +2650,13 @@ qx.Class.define("qx.ui.core.Widget",
     ---------------------------------------------------------------------------
     */
 
-
     /** {String} The currently compiled selector to lookup the matching appearance */
     __appearanceSelector : null,
 
+
     /** {Boolean} Whether the selectors needs to be recomputed before updating appearance */
     __updateSelector : null,
+
 
     /**
      * Renders the appearance using the current widget states.
@@ -2732,13 +2733,21 @@ qx.Class.define("qx.ui.core.Widget",
         }
 
         // Apply new data
-        var value;
-        var undef = "undefined";
-
-        for (var prop in newData)
+        // TODO: Compat mode to 0.8 final, remove this warning with 0.8.2
+        if (qx.core.Variant.isSet("qx.debug", "on"))
         {
-          value = newData[prop];
-          value === undef ? this[unstyler[prop]]() : this[styler[prop]](value);
+          for (var prop in newData)
+          {
+            if (newData[prop] === "undefined")
+            {
+              this.warn("Old undefined value. Please use the identifier undefined instead of the string value.");
+              newData[prop] = undefined;
+            }
+          }
+        }
+
+        for (var prop in newData) {
+          newData[prop] === undefined ? this[unstyler[prop]]() : this[styler[prop]](newData[prop]);
         }
       }
       else if (oldData)
