@@ -50,6 +50,11 @@ qx.Class.define("qx.ui.core.queue.Appearance",
     },
 
 
+    /**
+     * Whether the given widget is already queued
+     *
+     * @param widget {qx.ui.core.Widget} The widget to check
+     */
     has : function(widget) {
       return !!this.__queue[widget.$$hash];
     },

@@ -28,35 +28,60 @@
  */
 qx.Bootstrap.define("qx.io2.ScriptLoader",
 {
+  /*
+  *****************************************************************************
+     CONSTRUCTOR
+  *****************************************************************************
+  */
+
   construct : function()
   {
     this.__oneventWrapped = qx.lang.Function.bind(this.__onevent, this);
     this.__elem = document.createElement("script");
   },
 
+
+
+  /*
+  *****************************************************************************
+     STATICS
+  *****************************************************************************
+  */
+
   statics :
   {
+    /** {Array} Internal pool for script loaders */
     __pool : [],
 
+
+    /**
+     * Gets a new script loader instance.
+     *
+     * @return {qx.io2.ScriptLoader} A loader instance
+     */
     get : function() {
       return this.__pool.pop() || new qx.io2.ScriptLoader;
     },
 
+
+    /**
+     * Pools a loader for re-usage.
+     *
+     * @param loader {qx.io2.ScriptLoader} Loader instance
+     */
     pool : function(loader) {
       this.__pool.push(loader);
-    },
-
-    load : function(url, callback, context)
-    {
-      var loader = this.get();
-      loader.load(url, function(status)
-      {
-        callback.call(context||window, status);
-        this.pool(loader);
-      },
-      this);
     }
   },
+
+
+
+
+  /*
+  *****************************************************************************
+     MEMBERS
+  *****************************************************************************
+  */
 
   members :
   {
@@ -67,8 +92,9 @@ qx.Bootstrap.define("qx.io2.ScriptLoader",
      * The callback is executed when the process is done with any
      * of these status messages: success, fail or abort.
      *
-     * @param options {var} TODOC
-     * @param callback {var} TODOC
+     * @param url {String} URL of the script
+     * @param callback {Function} Callback to execute
+     * @param context {Object?window} Context in which the function should be executed
      * @return {void}
      */
     load : function(url, callback, context)
