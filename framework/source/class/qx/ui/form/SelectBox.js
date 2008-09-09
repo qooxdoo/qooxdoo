@@ -320,9 +320,9 @@ qx.Class.define("qx.ui.form.SelectBox",
       if (!popup.isVisible())
       {
         var list = this._getChildControl("list");
+
         // check if the list has any children before selecting
-        if (list.hasChildren())
-        {
+        if (list.hasChildren()) {
           list.select(this.getSelected());
         }
       }
