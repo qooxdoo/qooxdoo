@@ -571,9 +571,13 @@ qx.Class.define("demobrowser.DemoBrowser",
         url = this.defaultUrl;
       }
 
-      if (this.__iframe.getSource() == url) {
+      if (this.__iframe.getSource() == url)
+      {
         this.__iframe.reload();
-      } else {
+      }
+      else
+      {
+        this.__logDone = false;        
         this.__iframe.setSource(url);
       }
 
