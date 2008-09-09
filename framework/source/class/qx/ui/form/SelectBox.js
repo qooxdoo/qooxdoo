@@ -148,10 +148,10 @@ qx.Class.define("qx.ui.form.SelectBox",
 
       var atom = this._getChildControl("atom");
 
-      var label = value.getLabel();
+      var label = value ? value.getLabel() : "";
       label == null ? atom.resetLabel() : atom.setLabel(label);
 
-      var icon = value.getIcon();
+      var icon = value ? value.getIcon() : "";
       icon == null ? atom.resetIcon() : atom.setIcon(icon);
 
       // Fire value event
@@ -305,6 +305,10 @@ qx.Class.define("qx.ui.form.SelectBox",
           this.setSelected(current[0]);
           this.__preSelectedItem = null;
         }
+      }
+      else
+      {
+        this.resetSelected();
       }
     },
 
