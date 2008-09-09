@@ -1907,7 +1907,7 @@ qx.Class.define("qx.ui.core.Widget",
       this.__widgetChildren.length = 0;
 
       for (var i=children.length-1; i>=0; i--) {
-        children[i].setLayoutParent(null);
+        this.__removeHelper(children[i]);
       }
 
       qx.ui.core.queue.Layout.add(this);
