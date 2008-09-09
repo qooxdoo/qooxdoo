@@ -477,6 +477,11 @@ qx.Class.define("qx.ui.core.LayoutItem",
     },
 
 
+    /**
+     * Wether the item should be excluded from the layout
+     *
+     * @return {Boolean} Should the item be excluded by the layout
+     */
     isExcluded : function() {
       return false;
     },

@@ -1708,6 +1708,11 @@ qx.Class.define("qx.ui.core.Widget",
     },
 
 
+    /**
+     * Recursively adds all children to the given queue
+     *
+     * @param queue {Map} The queue to add widgets to
+     */
     addChildrenToQueue : function(queue)
     {
       var children = this.__widgetChildren;
