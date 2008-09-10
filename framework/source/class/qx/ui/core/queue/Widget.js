@@ -31,8 +31,19 @@ qx.Class.define("qx.ui.core.queue.Widget",
   {
     /** {Map} This contains all the queued widgets for the next flush. */
     __queue : {},
+    
 
-
+    /**
+     * Clears the widget from the internal queue. Normally only used
+     * during interims disposes of one or a few widgets.
+     *
+     * @param widget {qx.ui.core.Widget} The widget to clear
+     */
+    remove : function(widget) {
+      delete this.__queue[widget.$$hash];      
+    },
+    
+    
     /**
      * Adds a widget to the queue.
      *

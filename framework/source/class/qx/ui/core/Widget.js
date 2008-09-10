@@ -72,20 +72,9 @@ qx.Class.define("qx.ui.core.Widget",
     this.__contentElement = this.__createContentElement();
     this.__containerElement.add(this.__contentElement);
 
-    // Store "weak" reference to the widget in the DOM element.
-    this.__containerElement.setAttribute("$$widget", this.toHashCode());
-
-    // Add class name hint for better debugging
-    if (qx.core.Variant.isSet("qx.debug", "on")) {
-      this.__containerElement.setAttribute("qxClass", this.classname);
-    }
-
     // Initialize properties
     this.initFocusable();
     this.initSelectable();
-    this.initCursor();
-    this.initKeepFocus();
-    this.initKeepActive();
   },
 
 
@@ -851,7 +840,6 @@ qx.Class.define("qx.ui.core.Widget",
     },
 
 
-
     // overridden
     setLayoutParent : function(parent)
     {
@@ -865,7 +853,7 @@ qx.Class.define("qx.ui.core.Widget",
 
       this.$$parent = parent || null;
 
-      if (this.$$parent) {
+      if (parent) {
         this.$$parent.getContentElement().add(this.__containerElement);
       }
 
@@ -1477,6 +1465,14 @@ qx.Class.define("qx.ui.core.Widget",
       // Seems that it at least fixes issue with the SplitPane
       // where the slider is not seeable during dragging it around.
       el.setStyle("zIndex", 0);
+      
+      // Store "weak" reference to the widget in the DOM element.
+      el.setAttribute("$$widget", this.toHashCode());
+
+      // Add class name hint for better debugging
+      if (qx.core.Variant.isSet("qx.debug", "on")) {
+        el.setAttribute("qxClass", this.classname);
+      }      
 
       return el;
     },
@@ -1563,14 +1559,7 @@ qx.Class.define("qx.ui.core.Widget",
 
     /** {qx.ui.core.LayoutItem[]} List of all child widgets */
     __widgetChildren : null,
-
-
-    /**
-     * {qx.ui.core.LayoutItem[]} List of child widget, which should be considered
-     *    by the layout manager.
-     */
-    __layoutChildren: null,
-
+    
 
     /**
      * Returns all children, which are layout relevant. This excludes all widgets,
@@ -1585,23 +1574,22 @@ qx.Class.define("qx.ui.core.Widget",
       if (!children) {
         return this.__emptyChildren;
       }
-
-      if (this.__layoutChildren) {
-        return this.__layoutChildren;
-      }
-
-      var layoutChildren = [];
-
+      
+      var layoutChildren;
       for (var i=0, l=children.length; i<l; i++)
       {
         var child = children[i];
-        if (!child.hasUserBounds() && !child.isExcluded()) {
-          layoutChildren.push(child);
+        if (child.hasUserBounds() || child.isExcluded()) 
+        {
+          if (layoutChildren == null) {
+            layoutChildren = children.concat();
+          }
+          
+          qx.lang.Array.remove(layoutChildren, child);
         }
       }
-
-      this.__layoutChildren = layoutChildren;
-      return layoutChildren;
+      
+      return layoutChildren || children;
     },
 
 
@@ -1616,8 +1604,6 @@ qx.Class.define("qx.ui.core.Widget",
 
     /**
      * Resets the cache for children which should be layouted.
-     *
-     * @return {void}
      */
     invalidateLayoutChildren : function()
     {
@@ -1625,9 +1611,6 @@ qx.Class.define("qx.ui.core.Widget",
       if (layout) {
         layout.invalidateChildrenCache();
       }
-
-      // invalidate cached layout children
-      this.__layoutChildren = null;
 
       qx.ui.core.queue.Layout.add(this);
     },
@@ -1642,8 +1625,21 @@ qx.Class.define("qx.ui.core.Widget",
      */
     hasLayoutChildren : function()
     {
-      var children = this.getLayoutChildren();
-      return children && children.length > 0;
+      var children = this.__widgetChildren;
+      if (!children) {
+        return false;
+      }
+
+      var child;
+      for (var i=0, l=children.length; i<l; i++)
+      {
+        child = children[i];
+        if (!child.hasUserBounds() && !child.isExcluded()) {
+          return true;
+        }
+      }
+      
+      return false;
     },
 
 
@@ -1726,9 +1722,7 @@ qx.Class.define("qx.ui.core.Widget",
         child = children[i];
         queue[child.$$hash] = child;
 
-        if (child.addChildrenToQueue) {
-          child.addChildrenToQueue(queue);
-        }
+        child.addChildrenToQueue(queue);
       }
     },
 
@@ -1992,9 +1986,6 @@ qx.Class.define("qx.ui.core.Widget",
         this.updateLayoutProperties();
       }
 
-      // invalidate cached layout children
-      this.__layoutChildren = null;
-
       // call the template method
       if (this._afterAddChild) {
         this._afterAddChild(child);
@@ -2023,9 +2014,6 @@ qx.Class.define("qx.ui.core.Widget",
       if (this.__layoutManager) {
         this.__layoutManager.invalidateChildrenCache();
       }
-
-      // invalidate cached layout children
-      this.__layoutChildren = null;
 
       // Add to layout queue
       qx.ui.core.queue.Layout.add(this);
@@ -3741,7 +3729,7 @@ qx.Class.define("qx.ui.core.Widget",
         return;
       }
 
-      var parent = this.getLayoutParent();
+      var parent = this.$$parent;
       if (parent) {
         parent._remove(this);
       }
@@ -3817,20 +3805,35 @@ qx.Class.define("qx.ui.core.Widget",
 
   destruct : function()
   {
+    // Some dispose stuff is only needed in global shutdown, otherwise
+    // it just slows down things a bit, so do not do them.
     if (!qx.core.ObjectRegistry.inShutDown)
     {
+      // Remove widget pointer from DOM
       this.__containerElement.setAttribute("$$widget", null, true);
+      
+      // Clean up all child controls
       this._disposeChildControls();
+      
+      // Remove from ui queues
+      qx.ui.core.queue.Appearance.remove(this);
+      qx.ui.core.queue.Layout.remove(this);
+      qx.ui.core.queue.Visibility.remove(this);
+      qx.ui.core.queue.Widget.remove(this);
     }
 
+    // Clear children array
     this._disposeArray("__widgetChildren");
-    this._disposeArray("__layoutChildren");
+    
+    // Clear separator elements
     this._disposeArray("__separators");
 
+    // Cleanup map of appearance states
     this._disposeFields(
       "__states"
     );
 
+    // Dispose layout manager and HTML elements
     this._disposeObjects(
       "__layoutManager",
       "__containerElement",

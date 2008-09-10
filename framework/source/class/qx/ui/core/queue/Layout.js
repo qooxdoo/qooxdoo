@@ -32,6 +32,17 @@ qx.Class.define("qx.ui.core.queue.Layout",
 
 
     /**
+     * Clears the widget from the internal queue. Normally only used
+     * during interims disposes of one or a few widgets.
+     *
+     * @param widget {qx.ui.core.Widget} The widget to clear
+     */
+    remove : function(widget) {
+      delete this.__queue[widget.$$hash];      
+    },
+    
+
+    /**
      * Mark a widget's layout as invalid and add its layout root to
      * the queue.
      *

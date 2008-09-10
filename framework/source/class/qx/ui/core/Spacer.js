@@ -61,7 +61,10 @@ qx.Class.define("qx.ui.core.Spacer",
   members :
   {
     /**
-     * Checks for appearance updates
+     * Helper method called from the visibility queue to detect outstanding changes
+     * to the appearance.
+     *
+     * @internal
      */
     checkAppearanceNeeds : function() {
       // placeholder to improve compability with Widget.
@@ -69,10 +72,35 @@ qx.Class.define("qx.ui.core.Spacer",
 
 
     /**
-     * Destroys the spacer.
+     * Recursively adds all children to the given queue
+     *
+     * @param queue {Map} The queue to add widgets to
      */
-    destroy : function() {
+    addChildrenToQueue : function(queue) {
       // placeholder to improve compability with Widget.
+    },
+
+
+    /**
+     * Removes this widget from its parent and dispose it.
+     *
+     * Please note that the widget is not disposed synchronously. The
+     * real dispose happens after the next queue flush.
+     *
+     * @return {void}
+     */
+    destroy : function()
+    {
+      if (this.$$disposed) {
+        return;
+      }
+
+      var parent = this.$$parent;
+      if (parent) {
+        parent._remove(this);
+      }
+
+      qx.ui.core.queue.Dispose.add(this);
     }
   }
 });
