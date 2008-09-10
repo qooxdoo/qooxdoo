@@ -38,6 +38,37 @@
     "resource"    : "source/resource",
     "translation" : "source/translation",
     "type"        : "library"
+  },
+  
+  "setup" :
+  {
+    "qx.debug" : 
+    {
+      "values" : [ "on", "off" ],
+      "default" : "on"  
+    },
+    
+    "qx.aspects" : 
+    {
+      "values" : [ "on", "off" ],
+      "default" : "off"  
+    },
+    
+    "qx.dynlocale" : 
+    {
+      "values" : [ "on", "off" ],
+      "default" : "off"  
+    },
+    
+    "qx.theme" :
+    {
+      "default" : "qx.theme.Modern"
+    },
+    
+    "qx.legacy.theme" :
+    {
+      "default" : "qx.legacy.theme.ClassicRoyale"
+    }
   }
 }
 
