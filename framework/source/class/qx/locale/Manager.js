@@ -337,7 +337,7 @@ qx.Class.define("qx.locale.Manager",
         txt = qx.lang.String.format(txt, translatedArgs);
       }
 
-      if (qx.core.Variant.isSet("qx.dynamicLocaleSwitch", "on")) {
+      if (qx.core.Variant.isSet("qx.dynlocale", "on")) {
         txt = new qx.locale.LocalizedString(txt, messageId, args);
       }
 
@@ -402,7 +402,7 @@ qx.Class.define("qx.locale.Manager",
         txt = qx.lang.String.format(txt, translatedArgs);
       }
 
-      if (qx.core.Variant.isSet("qx.dynamicLocaleSwitch", "on")) {
+      if (qx.core.Variant.isSet("qx.dynlocale", "on")) {
         txt = new qx.locale.LocalizedString(txt, messageId, args);
       }
 
