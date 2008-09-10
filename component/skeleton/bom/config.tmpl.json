@@ -1,19 +1,21 @@
 {
- "let" :
+  "let" :
   {
-    "APPLICATION"    : "bom",
-    "QOOXDOO_PATH"   : "${REL_QOOXDOO_PATH}/framework",
-    "QOOXDOO_URI"    : "../$${QOOXDOO_PATH}",
-    "BUILD_PATH"     : "./build",
-    "PYTHON"         : "python",
-    "ROOT"           : "."
+    "APPLICATION"  : "bom",
+    "QOOXDOO_PATH" : "${REL_QOOXDOO_PATH}/framework",
+    "ROOT"         : "."
   },
 
   "export" : [ "build" ],
 
   "jobs" :
   {
-    "common" :
+    "build" :
+    {
+      "run" : ["compile", "merge"]
+    },
+
+    "compile" :
     {
       "library" :
       [
@@ -26,24 +28,16 @@
       "cache" :
       {
         "path" : "./cache"
-      }
-    },
+      },
 
-
-    "build" :
-    {
-      "run" : ["compile", "merge"]
-    },
-    
-
-    "compile" :
-    {
-      "extend" : ["common"],
-
-      "include" : [
+      "include" : 
+      [
         "qx.bom.Element",
-        "qx.bom.element.*",
-        "qx.event.handler.Keyboard"
+        "qx.bom.element.Style",
+        "qx.bom.element.Attribute",        
+        "qx.dom.*",
+        "qx.event.handler.Keyboard",
+        "qx.event.handler.Mouse"
       ],
 
       "variants" :
@@ -55,20 +49,18 @@
       "compile-dist" :
       {
         "file" : "compile-bom.js",
-        "target" : "$${BUILD_PATH}",
+        "target" : "build",
         "uri" : ".",
-        "format": "on",
-        "root" : "$${BUILD_PATH}",
-        "optimize" : [ "variables", "basecalls", "privates" ]
+        "root" : "build",
+        "optimize" : [ "variables", "basecalls", "privates", "strings" ]
       }
     },
-    
     
     "merge" :
     {
       "shell" :
       {
-        "command" : "$${PYTHON} ./merge.py"
+        "command" : "python ./merge.py"
       }
     }   
   }
