@@ -42,6 +42,7 @@
 
       "include" : [
         "qx.bom.Element",
+        "qx.bom.element.*",
         "qx.event.handler.Keyboard"
       ],
 
