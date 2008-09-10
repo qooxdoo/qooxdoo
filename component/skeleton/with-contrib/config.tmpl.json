@@ -13,7 +13,7 @@
   {
     "APPLICATION"  : "${Namespace}",
     "QOOXDOO_PATH" : "${REL_QOOXDOO_PATH}/framework",
-    "QOOXDOO_URI"  : "../$${QOOXDOO_PATH}",
+    "QOOXDOO_URI"  : "../${REL_QOOXDOO_PATH}/framework",
     "QXTHEME"      : "qx.theme.Modern",
     "LOCALES"      : [ "en" ],
     "ROOT"         : "."
@@ -96,6 +96,5 @@
     {
       "extend" : ["appconf::translate"]
     }
-
   }
 }

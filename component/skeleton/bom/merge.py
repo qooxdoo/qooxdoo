@@ -6,7 +6,7 @@ for line in open("compile-bom.js"):
     header = ";".join(split[:4])
     break
     
-qx = open("qx.js", "wc")
+qx = open("qx-bom.js", "wc")
 qx.write(header)
 
 for line in open("compile-bom-0.js"):
