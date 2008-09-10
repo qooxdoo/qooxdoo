@@ -161,12 +161,12 @@ qx.Theme.define("qx.theme.modern.Appearance",
         if (states.checked && states.focused && !states.inner)
         {
           decorator = "button-checked-focused";
-          textColor = "text-label";
+          textColor = undefined;
         }
         else if (states.checked)
         {
           decorator = "button-checked";
-          textColor = "text-label";
+          textColor = undefined;
         }
         else if (states.pressed)
         {
@@ -191,12 +191,12 @@ qx.Theme.define("qx.theme.modern.Appearance",
         else if (states.focused && !states.inner)
         {
           decorator = "button-focused";
-          textColor = "text-label";
+          textColor = undefined;
         }
         else
         {
           decorator = "button";
-          textColor = "text-label";
+          textColor = undefined;
         }
 
         return {
@@ -1049,8 +1049,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
           marginBottom : 2,
           padding : states.pressed || states.checked || states.hovered ? 3 : 5,
           decorator : states.pressed || states.checked ? "toolbar-button-checked" :
-            states.hovered ? "toolbar-button-hovered" : undefined,
-          textColor: states.disabled ? "text-disabled" : undefined
+            states.hovered ? "toolbar-button-hovered" : undefined
         };
       }
     },
@@ -1508,8 +1507,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          font      : "small",
-          textColor : "text-label"
+          font : "small"
         };
       }
     },
@@ -1754,7 +1752,6 @@ qx.Theme.define("qx.theme.modern.Appearance",
       {
         return {
           textAlign : "center",
-          textColor : "text-label",
           padding   : [ 2, 4 ],
           backgroundColor : "background-medium"
         };
@@ -2003,7 +2000,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
      {
        return {
          decorator : states.pressed || states.hovered ? "selected" : undefined,
-         textColor : states.pressed || states.hovered ? "text-selected" : "text-label",
+         textColor : states.pressed || states.hovered ? "text-selected" : undefined,
          padding   : [ 3, 8 ]
        }
      }
