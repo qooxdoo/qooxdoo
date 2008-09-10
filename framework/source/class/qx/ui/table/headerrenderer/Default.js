@@ -14,6 +14,7 @@
 
    Authors:
      * Til Schneider (til132)
+     * Sebastian Werner (wpbasti)
 
 ************************************************************************ */
 
@@ -88,12 +89,7 @@ qx.Class.define("qx.ui.table.headerrenderer.Default",
     // overridden
     createHeaderCell : function(cellInfo)
     {
-      //var widget = new qx.ui.basic.Atom();
-      //widget.setAppearance("table-header-cell");
-      //widget.setSelectable(false);
       var widget = new qx.ui.table.headerrenderer.HeaderCell();
-      widget.syncAppearance();
-
       this.updateHeaderCell(cellInfo, widget);
 
       return widget;
@@ -111,11 +107,14 @@ qx.Class.define("qx.ui.table.headerrenderer.Default",
       var widgetToolTip = cellWidget.getToolTip();
       if (this.getToolTip() != null)
       {
-        if (widgetToolTip == null) {
+        if (widgetToolTip == null) 
+        {
           // We have no tooltip yet -> Create one
           widgetToolTip = new qx.ui.tooltip.ToolTip(this.getToolTip());
           cellWidget.setToolTip(widgetToolTip);
-        } else {
+        }
+        else 
+        {
           // Update tooltip text
           widgetToolTip.setLabel(this.getToolTip());
         }

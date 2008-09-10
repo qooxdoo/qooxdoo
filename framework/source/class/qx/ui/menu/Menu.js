@@ -53,8 +53,10 @@ qx.Class.define("qx.ui.menu.Menu",
     this.addListener("mouseover", this._onMouseOver);
     this.addListener("mouseout", this._onMouseOut);
 
-    // Initialize visibiltiy
+    // Initialize properties
     this.initVisibility();
+    this.initKeepFocus();
+    this.initKeepActive();    
   },
 
 
