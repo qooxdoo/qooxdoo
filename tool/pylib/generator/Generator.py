@@ -1134,12 +1134,19 @@ class Generator:
         result = 'if(!window.qxlibraries)qxlibraries={};'
 
         for lib in libs:
+            result += 'qxlibraries["%s"]={' % lib['namespace']
+
             if forceUri:
                 liburi = forceUri
             else:
                 liburi = Path.posifyPath(os.path.join(lib['uri'],lib['resource']))
-            liburi = urllib.quote(liburi)
-            result += 'qxlibraries["%s"]={"resourceUri":"%s"};' % (lib['namespace'], liburi)
+                
+            result += '"resourceUri":"%s"' % urllib.quote(liburi)
+            
+            # TODO: Add version, svn revision, maybe even authors, but at least homepage link, ...
+
+            result += '};'
+
         return result
 
 
