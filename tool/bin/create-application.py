@@ -39,7 +39,6 @@ APP_TYPES     = [x for x in os.listdir(SKELETON_DIR) if not re.match(r'^\.',x)]
 
 
 def createApplication(name, out, namespace, app_type, skeleton_path):
-
     if sys.platform == 'win32' and re.match( r'^[a-zA-Z]:$', out):
         out = out + '\\'
 
