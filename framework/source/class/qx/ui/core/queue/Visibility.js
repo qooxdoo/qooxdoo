@@ -117,7 +117,7 @@ qx.Class.define("qx.ui.core.queue.Visibility",
       // are also already in the queue (added on their own)
       for (var hash in queue)
       {
-        if (data[hash] != null) {
+        if (data[hash] != null && queue[hash].addChildrenToQueue) {
           queue[hash].addChildrenToQueue(queue);
         }
       }
