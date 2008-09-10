@@ -84,19 +84,13 @@ qx.Class.define("qx.ui.core.queue.Manager",
 
       // Process jobs
       var jobs = self.__jobs;
-      while (jobs.inheritance || jobs.visibility || jobs.widget || jobs.appearance || jobs.layout)
+      while (jobs.visibility || jobs.widget || jobs.appearance || jobs.layout)
       {
         // No else blocks here because each flush can influence the following flushes!
         if (jobs.widget)
         {
           delete jobs.widget;
           qx.ui.core.queue.Widget.flush();
-        }
-
-        if (jobs.inheritance)
-        {
-          delete jobs.inheritance;
-          qx.ui.core.queue.Inheritance.flush();
         }
 
         if (jobs.visibility)
@@ -112,7 +106,7 @@ qx.Class.define("qx.ui.core.queue.Manager",
         }
 
         // Omit layout as long as possible
-        if (jobs.widget || jobs.inheritance || jobs.visibility || jobs.appearance) {
+        if (jobs.widget || jobs.visibility || jobs.appearance) {
           continue;
         }
 
