@@ -12,9 +12,9 @@
   {
     "APPLICATION"  : "${Namespace}",
     "QOOXDOO_PATH" : "${REL_QOOXDOO_PATH}/framework",
-    "QOOXDOO_URI"  : "../$${QOOXDOO_PATH}",
+    "QOOXDOO_URI"  : "../${REL_QOOXDOO_PATH}/framework",
     "QXTHEME"      : "qx.theme.Modern",
-    "API_EXCLUDE"  : ["qx.legacy.*"],
+    "API_EXCLUDE"  : ["qx.legacy.*","qx.test.*"],
     "LOCALES"      : [ "en" ],
     "ROOT"         : "."
   }
