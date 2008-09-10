@@ -38,14 +38,14 @@ qx.Bootstrap.define("qx.core.ObjectRegistry",
 
   statics :
   {
+    /** {Boolean} Whether the application is in the shutdown phase */
+    inShutDown : false,
+
     /** {Map} Internal data structure to store objects */
     __registry : {},
 
     /** {Integer} Next new hash code. */
     __nextHash : 0,
-
-    /** {Boolean} Whether the application is in the shutdown phase */
-    inShutDown : false,
 
     /** {Array} List of all free hash codes */
     __freeHashes : [],
@@ -220,6 +220,7 @@ qx.Bootstrap.define("qx.core.ObjectRegistry",
 
       delete this.__registry;
     },
+    
 
     /**
      * Returns the object registry.
