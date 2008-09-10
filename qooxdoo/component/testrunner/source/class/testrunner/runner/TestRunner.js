@@ -930,7 +930,10 @@ qx.Class.define("testrunner.runner.TestRunner",
       {
         if (curr == neu) {
           this.iframe.reload();
-        } else {
+        }
+        else
+        {
+          this.runbutton.setEnabled(false);
           this.iframe.setSource(neu);
         }
       },
@@ -981,7 +984,15 @@ qx.Class.define("testrunner.runner.TestRunner",
         delete this.tests.run_pending;
       }
 
-      this.widgets["statuspane.systeminfo"].setContent(this.tr("Ready"));
+      if(this.widgets["treeview.full"].getRoot().getChildren().length > 0)
+      {
+        this.widgets["statuspane.systeminfo"].setContent(this.tr("Ready"));
+        this.runbutton.setEnabled(true);
+      }
+      else
+      {
+        this.widgets["statuspane.systeminfo"].setContent(this.tr("No test file selected!"));
+      }
     },  // _ehIframeOnLoad
 
     // ------------------------------------------------------------------------
