@@ -53,15 +53,9 @@
  *  </tr><tr>
  *  <td>qx.debug                   <td>[ "on", "off" ]                    <td>"on"
  *  </tr><tr>
- *  <td>qx.compatibility           <td>[ "on", "off" ]                    <td>"on"
- *  </tr><tr>
- *  <td>qx.eventMonitorNoListeners <td>[ "on", "off" ]                    <td>"off"
- *  </tr><tr>
  *  <td>qx.aspects                 <td>[ "on", "off" ]                    <td>"off"
  *  </tr><tr>
- *  <td>qx.deprecationWarnings     <td>[ "on", "off" ]                    <td>"on"
- *  </tr><tr>
- *  <td>qx.dynamicLocaleSwitch     <td>[ "on", "off" ]                    <td>"on"
+ *  <td>qx.dynlocale     <td>[ "on", "off" ]                    <td>"on"
  *  </tr>
  * </table>
  */
@@ -398,11 +392,8 @@ qx.Bootstrap.define("qx.core.Variant",
   {
     statics.define("qx.client", [ "gecko", "mshtml", "opera", "webkit" ], qx.bom.client.Engine.NAME);
     statics.define("qx.debug", [ "on", "off" ], "on");
-    statics.define("qx.compatibility", [ "on", "off" ], "on");
-    statics.define("qx.eventMonitorNoListeners", [ "on", "off" ], "off");
     statics.define("qx.aspects", [ "on", "off" ], "off");
-    statics.define("qx.deprecationWarnings", [ "on", "off" ], "on");
-    statics.define("qx.dynamicLocaleSwitch", [ "on", "off" ], "on");
+    statics.define("qx.dynlocale", [ "on", "off" ], "on");
 
     statics.__init();
   }

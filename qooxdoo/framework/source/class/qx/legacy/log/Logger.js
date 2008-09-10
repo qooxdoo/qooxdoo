@@ -60,7 +60,7 @@ qx.Class.define("qx.legacy.log.Logger",
 
     /**
      * Prints a method deprecation warning and a stack trace if the setting
-     * <code>"qx.deprecationWarnings"</code> is set to <code>on</code>.
+     * <code>"qx.debug"</code> is set to <code>on</code>.
      *
      * @param fcn {Function} reference to the deprecated function. This is
      *     arguments.callee is the calling method is deprecated.
@@ -68,7 +68,7 @@ qx.Class.define("qx.legacy.log.Logger",
      */
     deprecatedMethodWarning : function(fcn, msg)
     {
-      if (qx.core.Variant.isSet("qx.deprecationWarnings", "on"))
+      if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         var logger = qx.legacy.log.Logger.getClassLogger(fcn.self||this);
 
@@ -85,14 +85,14 @@ qx.Class.define("qx.legacy.log.Logger",
 
     /**
      * Prints a class deprecation warning and a stack trace if the setting
-     * <code>"qx.deprecationWarnings"</code> is set to <code>on</code>.
+     * <code>"qx.debug"</code> is set to <code>on</code>.
      *
      * @param clazz {Class} reference to the deprecated class.
      * @param msg {String?} Optional message which is printed.
      */
     deprecatedClassWarning : function(clazz, msg)
     {
-      if (qx.core.Variant.isSet("qx.deprecationWarnings", "on"))
+      if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         var logger = qx.legacy.log.Logger.getClassLogger(clazz);
 
@@ -146,6 +146,7 @@ qx.Class.define("qx.legacy.log.Logger",
 
       return logger;
     },
+    
 
     /** {Integer} The current indent. */
     _indent : 0,
@@ -157,13 +158,11 @@ qx.Class.define("qx.legacy.log.Logger",
      */
     LEVEL_ALL : 0,
 
-
     /**
      * {Integer} The DEBUG Level designates fine-grained informational events that are
      * most useful to debug an application.
      */
     LEVEL_DEBUG : 200,
-
 
     /**
      * {Integer} The INFO level designates informational messages that highlight the
@@ -174,20 +173,17 @@ qx.Class.define("qx.legacy.log.Logger",
     /** {Integer} The WARN level designates potentially harmful situations. */
     LEVEL_WARN : 600,
 
-
     /**
      * {Integer} The ERROR level designates error events that might still allow the
      * application to continue running.
      */
     LEVEL_ERROR : 700,
 
-
     /**
      * {Integer} The FATAL level designates very severe error events that will
      * presumably lead the application to abort.
      */
     LEVEL_FATAL : 800,
-
 
     /**
      * {Integer} The OFF has the highest possible rank and is intended to turn off

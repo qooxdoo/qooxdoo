@@ -79,7 +79,7 @@ qx.Class.define("qx.ui.control.DateChooser",
     this.showMonth(shownDate.getMonth(), shownDate.getFullYear());
 
     // listen for locale changes
-    if (qx.core.Variant.isSet("qx.dynamicLocaleSwitch", "on")) {
+    if (qx.core.Variant.isSet("qx.dynlocale", "on")) {
       qx.locale.Manager.getInstance().addListener("changeLocale", this._updateDatePane, this);
     }
 
@@ -781,7 +781,7 @@ qx.Class.define("qx.ui.control.DateChooser",
 
   destruct : function()
   {
-    if (qx.core.Variant.isSet("qx.dynamicLocaleSwitch", "on")) {
+    if (qx.core.Variant.isSet("qx.dynlocale", "on")) {
       qx.locale.Manager.getInstance().removeListener("changeLocale", this._updateDatePane, this);
     }
 
