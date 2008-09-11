@@ -33,8 +33,7 @@
       "include" : 
       [
         "qx.bom.Element",
-        "qx.bom.element.Style",
-        "qx.bom.element.Attribute",        
+        "qx.bom.element.*",
         "qx.dom.*",
         "qx.event.handler.Keyboard",
         "qx.event.handler.Mouse"
