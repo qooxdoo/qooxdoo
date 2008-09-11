@@ -24,13 +24,22 @@
 ************************************************************************ */
 
 /**
- * Structure definition for Progressive
+ * Abstract structure definition for Progressive
  */
 qx.Class.define("qx.ui.progressive.structure.Abstract",
 {
   type       : "abstract",
   extend     : qx.core.Object,
 
+  /**
+   * The abstract structure for use by Progressive.  It defines the pane
+   * container in which items are progressively rendered.
+   *
+   * @param pane {qx.ui.core.Widget|null}
+   *   The container to use as the pane, applied to the Progressive
+   *   structure.  If null, a qx.ui.core.Widget will be instantiated for
+   *   use as the pane.
+   */
   construct : function(pane)
   {
     this.base(arguments);
