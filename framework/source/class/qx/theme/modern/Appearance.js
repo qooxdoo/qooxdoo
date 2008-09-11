@@ -1047,9 +1047,9 @@ qx.Theme.define("qx.theme.modern.Appearance",
         return {
           marginTop : 2,
           marginBottom : 2,
-          padding : states.pressed || states.checked || states.hovered ? 3 : 5,
-          decorator : states.pressed || states.checked ? "toolbar-button-checked" :
-            states.hovered ? "toolbar-button-hovered" : undefined
+          padding : (states.pressed || states.checked || states.hovered) && !states.disabled ? 3 : 5,
+          decorator : (states.pressed || states.checked) && !states.hovered ? "toolbar-button-checked" :
+                      states.hovered && !states.disabled ? "toolbar-button-hovered" : undefined
         };
       }
     },
