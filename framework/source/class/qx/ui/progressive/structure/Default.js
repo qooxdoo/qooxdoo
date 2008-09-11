@@ -31,6 +31,21 @@ qx.Class.define("qx.ui.progressive.structure.Default",
   extend     : qx.ui.progressive.structure.Abstract,
 
   /**
+   * The default structure for use by Progressive.  It includes a header, a
+   * footer, and a pane.
+   *
+   * @param header {qx.ui.progressive.headfoot.Abstract|null}
+   *   The heading to apply to the Progressive structure.  If null, then no
+   *   header will be visible.
+   *
+   * @param footer {qx.ui.progressive.headfoot.Abstract|null}
+   *   The footer to apply to the Progressive structure.  If null then no
+   *   footer will be visible.
+   *
+   * @param pane {qx.ui.core.Widget|null}
+   *   The container to use as the pane, applied to the Progressive
+   *   structure.  If null, a qx.ui.core.Widget will be instantiated for
+   *   use as the pane.
    */
   construct : function(header, footer, pane)
   {
