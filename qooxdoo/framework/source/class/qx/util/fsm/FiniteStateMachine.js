@@ -248,7 +248,7 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
       // (qx.util.fsm.FiniteStateMachine.DebugFlags.EVENTS |
       //  qx.util.fsm.FiniteStateMachine.DebugFlags.TRANSITIONS |
       //  qx.util.fsm.FiniteStateMachine.DebugFlags.OBJECT_NOT_FOUND)
-      init : 7
+      init  : 7
     }
   },
 
@@ -263,18 +263,6 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
 
   members :
   {
-    /*
-    ---------------------------------------------------------------------------
-      APPLY ROUTINES
-    ---------------------------------------------------------------------------
-    */
-
-    /*
-    ---------------------------------------------------------------------------
-      UTILITIES
-    ---------------------------------------------------------------------------
-    */
-
     /**
      * Add a state to the finite state machine.
      *
@@ -669,25 +657,6 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
 
 
     /**
-     * Copy an event
-     *
-     * @param event {qx.event.type.Event} The event to be copied
-     * @return {qx.event.type.Event} The new copy of the provided event
-     */
-    copyEvent : function(event)
-    {
-      var e = {};
-
-      for (var prop in event)
-      {
-        e[prop] = event[prop];
-      }
-
-      return e;
-    },
-
-
-    /**
      * Enqueue an event for processing
      *
      *
@@ -743,14 +712,43 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
       // event dispatcher to free the source event upon our return, so we'll
       // clone it and enqueue our clone.  The source event can then be
       // disposed upon our return.
-
-      var e = this.copyEvent(event);
+      var e = event.clone();
 
       // Enqueue the new event on the tail of the queue
       this.enqueueEvent(e, false);
 
       // Process events
       this.__processEvents();
+    },
+
+
+    /**
+     * Create an event and send it immediately to the finite state machine.
+     *
+     * @param type {String}
+     *   The type of event, e.g. "execute"
+     *
+     * @param target {qx.core.Object}
+     *   The target of the event
+     *
+     * @param data {Object|null}
+     *   The data, if any, to issue in the event.  If this parameter is null
+     *   then a qx.event.type.Event is instantiated.  Otherwise, an event of
+     *   type qx.event.type.Data is instantiated and this data is applied to
+     *   it.
+     *
+     * @return {void}
+     */
+    fireEvent : function(type, target, data)
+    {
+      var event =
+        qx.event.Registration.createEvent("execute",
+                                          (data
+                                           ? qx.event.type.Data
+                                           : qx.event.type.Event),
+                                          data);
+      event.setTarget(target);
+      this.eventListener(event);
     },
 
 
