@@ -144,20 +144,20 @@ qx.Class.define("qx.ui.form.Spinner",
       init : 10
     },
 
-    /** minimal value of the Range object */
-    min:
-    {
-      check : "Number",
-      apply : "_applyMin",
-      init : 0
-    },
-
     /** The name of the widget. Mainly used for serialization proposes. */
     name :
     {
       check : "String",
       nullable : true,
       event : "changeName"
+    },
+
+    /** minimal value of the Range object */
+    min:
+    {
+      check : "Number",
+      apply : "_applyMin",
+      init : 0
     },
 
     /** The value of the spinner. */
@@ -304,8 +304,13 @@ qx.Class.define("qx.ui.form.Spinner",
      */
     _applyMin : function(value, old)
     {
-      this.setMax(Math.max(this.getMax(), value));
-      this.setValue(Math.max(this.getValue(), value));
+      if (this.getMax() < value) {
+        this.setMax(value);
+      }
+
+      if (this.getValue() < value) {
+        this.setValue(value);
+      }
     },
 
 
@@ -320,8 +325,13 @@ qx.Class.define("qx.ui.form.Spinner",
      */
     _applyMax : function(value, old)
     {
-      this.setMin(Math.min(this.getMin(), value));
-      this.setValue(Math.min(this.getValue(), value));
+      if (this.getMin() > value) {
+        this.setMin(value);
+      }
+
+      if (this.getValue() > value) {
+        this.setValue(value);
+      }
     },
 
 
