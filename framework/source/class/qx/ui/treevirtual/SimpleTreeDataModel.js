@@ -529,6 +529,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
      */
     prune : function(nodeReference, bSelfAlso)
     {
+      var node;
       var nodeId;
 
       if (typeof(nodeReference) == "object")
@@ -555,7 +556,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
       if (bSelfAlso && nodeId != 0)
       {
         // Delete ourself from our parent's children list
-        var node = this._nodeArr[nodeId];
+        node = this._nodeArr[nodeId];
         qx.lang.Array.remove(this._nodeArr[node.parentNodeId].children,
                              nodeId);
 
@@ -840,7 +841,8 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
      */
     setState : function(nodeReference, attributes)
     {
-      var nodeId, node;
+      var node;
+      var nodeId;
 
       if (typeof(nodeReference) == "object")
       {
