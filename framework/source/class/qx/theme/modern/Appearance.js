@@ -1292,7 +1292,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       {
         return {
           icon : "decoration/tree/open.png",
-          paddingLeft : 3
+          padding : [0, 5, 0, 2]
         }
       }
     },
@@ -1303,7 +1303,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       {
         return {
           icon : "decoration/tree/closed.png",
-          paddingLeft : 5
+          padding : [0, 5, 0, 2]
         }
       }
     },
