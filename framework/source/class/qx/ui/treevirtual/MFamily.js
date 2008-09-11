@@ -123,6 +123,7 @@ qx.Mixin.define("qx.ui.treevirtual.MFamily",
      */
     familyGetNextSibling : function(nodeReference)
     {
+      var node;
       var nodeId;
       var nodes = this.getTableModel().getData();
 
@@ -133,7 +134,7 @@ qx.Mixin.define("qx.ui.treevirtual.MFamily",
       else if (typeof(nodeReference) == "number")
       {
         nodeId = nodeReference;
-        var node = nodes[nodeId];
+        node = nodes[nodeId];
       }
       else
       {
@@ -178,6 +179,7 @@ qx.Mixin.define("qx.ui.treevirtual.MFamily",
      */
     familyGetPrevSibling : function(nodeReference)
     {
+      var node;
       var nodeId;
       var nodes = this.getTableModel().getData();
 
@@ -188,7 +190,7 @@ qx.Mixin.define("qx.ui.treevirtual.MFamily",
       else if (typeof(nodeReference) == "number")
       {
         nodeId = nodeReference;
-        var node = nodes[nodeId];
+        node = nodes[nodeId];
       }
       else
       {
