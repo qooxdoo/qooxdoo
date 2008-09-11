@@ -253,7 +253,7 @@ qx.Class.define("qx.theme.manager.Appearance",
           {
             for (var key in base)
             {
-              if (incl[key] === undefined && local[key] === undefined) {
+              if (!incl.hasOwnProperty(key) && !local.hasOwnProperty(key)) {
                 result[key] = base[key];
               }
             }
@@ -262,7 +262,7 @@ qx.Class.define("qx.theme.manager.Appearance",
           {
             for (var key in base)
             {
-              if (local[key] === undefined) {
+              if (!local.hasOwnProperty(key)) {
                 result[key] = base[key];
               }
             }
@@ -274,7 +274,7 @@ qx.Class.define("qx.theme.manager.Appearance",
         {
           for (var key in incl)
           {
-            if (local[key] === undefined) {
+            if (!local.hasOwnProperty(key)) {
               result[key] = incl[key];
             }
           }
