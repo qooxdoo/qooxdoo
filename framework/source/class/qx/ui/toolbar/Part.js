@@ -178,7 +178,7 @@ qx.Class.define("qx.ui.toolbar.Part",
       {
         child = children[i];
 
-        if (child instanceof qx.ui.toolbar.MenuButton) {
+        if (child instanceof qx.ui.menubar.Button) {
           buttons.push(child);
         }
       }
