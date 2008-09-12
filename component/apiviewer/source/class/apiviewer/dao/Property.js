@@ -49,12 +49,16 @@ qx.Class.define("apiviewer.dao.Property",
     getCheck : function()
     {
       var attributes = this.getDocNode()._docNode.attributes;
-      if (
-        attributes.check &&
-        !apiviewer.dao.Class.getClassByName(attributes.check) &&
-        !apiviewer.ui.ClassViewer.PRIMITIVES[attributes.check]
-        ) {
-        return attributes.check;
+      if (attributes.check)
+      {
+        if(
+          apiviewer.dao.Class.getClassByName(attributes.check) &&
+          apiviewer.ui.ClassViewer.PRIMITIVES[attributes.check]
+        ){
+          return attributes.check;          
+        } else {
+          return "custom";
+        }
       } else {
         return "";
       }
