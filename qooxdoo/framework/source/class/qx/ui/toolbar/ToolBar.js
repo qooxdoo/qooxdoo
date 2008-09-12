@@ -115,6 +115,7 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
     ---------------------------------------------------------------------------
     */
 
+    // property apply
     _applySpacing : function(value, old)
     {
       var layout = this._getLayout();
@@ -169,7 +170,7 @@ qx.Class.define("qx.ui.toolbar.ToolBar",
       {
         child = children[i];
 
-        if (child instanceof qx.ui.toolbar.MenuButton) {
+        if (child instanceof qx.ui.menubar.Button) {
           buttons.push(child);
         } else if (child instanceof qx.ui.toolbar.Part) {
           buttons.push.apply(buttons, child.getMenuButtons());

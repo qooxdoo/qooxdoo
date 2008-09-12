@@ -620,7 +620,7 @@ qx.Class.define("qx.ui.menu.Manager",
       }
 
       // Goto the previous toolbar button
-      else if (menuOpener instanceof qx.ui.toolbar.MenuButton)
+      else if (menuOpener instanceof qx.ui.menubar.Button)
       {
         var buttons = menuOpener.getToolBar().getMenuButtons();
         var index = buttons.indexOf(menuOpener);
@@ -700,7 +700,7 @@ qx.Class.define("qx.ui.menu.Manager",
           if (menuOpener instanceof qx.ui.menu.Menu)
           {
             menuOpener = menuOpener.getOpener();
-            if (menuOpener instanceof qx.ui.toolbar.MenuButton) {
+            if (menuOpener instanceof qx.ui.menubar.Button) {
               break;
             }
           }
@@ -716,7 +716,7 @@ qx.Class.define("qx.ui.menu.Manager",
       }
 
       // Ask the toolbar for the next menu button
-      if (menuOpener instanceof qx.ui.toolbar.MenuButton)
+      if (menuOpener instanceof qx.ui.menubar.Button)
       {
         var buttons = menuOpener.getToolBar().getMenuButtons();
         var index = buttons.indexOf(menuOpener);

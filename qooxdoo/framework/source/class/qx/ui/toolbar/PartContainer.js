@@ -27,6 +27,8 @@
 qx.Class.define("qx.ui.toolbar.PartContainer",
 {
   extend : qx.ui.container.Composite,
+  
+  
 
   /*
   *****************************************************************************
@@ -39,6 +41,8 @@ qx.Class.define("qx.ui.toolbar.PartContainer",
     this.base(arguments);
     this._setLayout(new qx.ui.layout.HBox);
   },
+
+
 
 
   /*
