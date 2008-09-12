@@ -103,6 +103,9 @@ qx.Class.define("qx.ui.root.Application",
       var root = new qx.html.Root(elem);
       root.setStyle("position", "absolute");
 
+      // Store "weak" reference to the widget in the DOM element.
+      root.setAttribute("$$widget", this.toHashCode());
+
       return root;
     },
 
