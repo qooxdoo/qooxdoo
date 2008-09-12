@@ -80,6 +80,9 @@ qx.Class.define("qx.ui.root.Inline",
       // Make relative
       el.style.position = "relative";
 
+      // Store "weak" reference to the widget in the DOM element.
+      root.setAttribute("$$widget", this.toHashCode());
+
       return root;
     }
   },
