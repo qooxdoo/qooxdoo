@@ -165,6 +165,7 @@ qx.Class.define("qx.ui.form.Spinner",
     {
       check : function(value) { return this._checkValue(value) },
       apply : "_applyValue",
+      transform : "_transformValue",
       init : 0,
       event : "changeValue"
     },
@@ -419,6 +420,25 @@ qx.Class.define("qx.ui.form.Spinner",
       } else {
         textField.setValue(value + "");
       }
+    },
+
+
+    /**
+     * This may be overridden to transform the value being saved.  This may be
+     * used, for example, to accept integer values but always save them as two
+     * digits with leading zeros if necessary (e.g. hours:minutes formats).
+     *
+     * @param value {Any}
+     *   The value being set
+     *
+     * @return {Any}
+     *   The transformed value.  Note that the transformed value must be
+     *   acceptable to {@link #_checkValue}
+     *
+     */
+    _transformValue : function(value)
+    {
+      return value;
     },
 
 
