@@ -720,7 +720,7 @@ qx.Class.define("qx.ui.core.Widget",
      */
     getWidgetByElement : function(element)
     {
-      // in FF 2 the related target of mouse events is sometimes an
+      // In Firefox 2 the related target of mouse events is sometimes an
       // anonymous div inside of text area, which raise an exception if
       // the parent node is read. This is why the try/catch block is needed.
       try
@@ -1465,14 +1465,14 @@ qx.Class.define("qx.ui.core.Widget",
       // Seems that it at least fixes issue with the SplitPane
       // where the slider is not seeable during dragging it around.
       el.setStyle("zIndex", 0);
-      
+
       // Store "weak" reference to the widget in the DOM element.
       el.setAttribute("$$widget", this.toHashCode());
 
       // Add class name hint for better debugging
       if (qx.core.Variant.isSet("qx.debug", "on")) {
         el.setAttribute("qxClass", this.classname);
-      }      
+      }
 
       return el;
     },
@@ -1559,7 +1559,7 @@ qx.Class.define("qx.ui.core.Widget",
 
     /** {qx.ui.core.LayoutItem[]} List of all child widgets */
     __widgetChildren : null,
-    
+
 
     /**
      * Returns all children, which are layout relevant. This excludes all widgets,
@@ -1574,21 +1574,21 @@ qx.Class.define("qx.ui.core.Widget",
       if (!children) {
         return this.__emptyChildren;
       }
-      
+
       var layoutChildren;
       for (var i=0, l=children.length; i<l; i++)
       {
         var child = children[i];
-        if (child.hasUserBounds() || child.isExcluded()) 
+        if (child.hasUserBounds() || child.isExcluded())
         {
           if (layoutChildren == null) {
             layoutChildren = children.concat();
           }
-          
+
           qx.lang.Array.remove(layoutChildren, child);
         }
       }
-      
+
       return layoutChildren || children;
     },
 
@@ -1638,7 +1638,7 @@ qx.Class.define("qx.ui.core.Widget",
           return true;
         }
       }
-      
+
       return false;
     },
 
@@ -3811,10 +3811,10 @@ qx.Class.define("qx.ui.core.Widget",
     {
       // Remove widget pointer from DOM
       this.__containerElement.setAttribute("$$widget", null, true);
-      
+
       // Clean up all child controls
       this._disposeChildControls();
-      
+
       // Remove from ui queues
       qx.ui.core.queue.Appearance.remove(this);
       qx.ui.core.queue.Layout.remove(this);
@@ -3824,7 +3824,7 @@ qx.Class.define("qx.ui.core.Widget",
 
     // Clear children array
     this._disposeArray("__widgetChildren");
-    
+
     // Clear separator elements
     this._disposeArray("__separators");
 
