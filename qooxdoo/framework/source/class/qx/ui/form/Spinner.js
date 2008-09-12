@@ -597,6 +597,7 @@ qx.Class.define("qx.ui.form.Spinner",
     _onTextChange : function(e)
     {
       var textField = this._getChildControl("textfield");
+      var value;
 
       // if a number format is set
       if (this.getNumberFormat())
@@ -604,18 +605,18 @@ qx.Class.define("qx.ui.form.Spinner",
         // try to parse the current number using the number format
         try
         {
-          var value = this.getNumberFormat().parse(textField.getValue());
-          // if the parsing succeeded, set the value and done
-          this.gotoValue(value);
-          return;
+          value = this.getNumberFormat().parse(textField.getValue());
         }
         catch(e) {
           // otherwise, process further
         }
       }
 
-      // try to parse the number as a float
-      var value = parseFloat(textField.getValue(), 10);
+      if (value === undefined)
+      {
+        // try to parse the number as a float
+        value = parseFloat(textField.getValue(), 10);
+      }
 
       // if the result is a number
       if (!isNaN(value))
