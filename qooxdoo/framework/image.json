@@ -370,7 +370,7 @@
               [
                 "${RESPATH}/${MODERN}/form/checkbox*.png",
                 "${RESPATH}/${MODERN}/form/radiobutton*.png",
-                "${RESPATH}/${MODERN}/form/input.png"
+                "${RESPATH}/${MODERN}/form/input*.png"
               ],
              "layout" : "horizontal"
           },

@@ -321,6 +321,21 @@ qx.Theme.define("qx.theme.modern.Decoration",
       {
         outerColor : "border-input",
         innerColor : "border-focused",
+        backgroundImage : "decoration/form/input-focused.png",
+        backgroundRepeat : "repeat-x",
+        backgroundColor : "background-light"
+      }
+    },
+    
+    "input-disabled" :
+    {
+      decorator : qx.ui.decoration.Beveled,
+
+      style :
+      {
+        outerColor : "border-disabled",
+        innerColor : "white",
+        innerOpacity : 0.5,
         backgroundImage : "decoration/form/input.png",
         backgroundRepeat : "repeat-x",
         backgroundColor : "background-light"
