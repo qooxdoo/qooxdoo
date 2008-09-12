@@ -85,6 +85,11 @@
             "prefix" : "../../${MODERN}/form/button-focused",
             "border-width" : 4
           },
+          "${RESPATH}/source/Modern/button-disabled.png" :
+          {
+            "prefix" : "../../${MODERN}/form/button-disabled",
+            "border-width" : 4
+          },
           "${RESPATH}/source/Modern/button.png" :
           {
             "prefix" : "../../${MODERN}/form/button",

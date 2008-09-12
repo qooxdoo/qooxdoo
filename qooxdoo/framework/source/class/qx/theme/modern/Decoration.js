@@ -222,6 +222,17 @@ qx.Theme.define("qx.theme.modern.Decoration",
         insets    : 2
       }
     },
+    
+    "button-disabled" :
+    {
+      decorator : qx.ui.decoration.Grid,
+
+      style :
+      {
+        baseImage : "decoration/form/button-disabled.png",
+        insets    : 2
+      }
+    },
 
     "button-focused" :
     {
