@@ -405,7 +405,7 @@ qx.Class.define("qx.ui.menu.Manager",
       }
 
       // All clicks not inside a menu will hide all currently open menus
-      if (!this._isInMenu(target)) {
+      if (this.__objects.length > 0 && !this._isInMenu(target)) {
         this.hideAll();
       }
     },
