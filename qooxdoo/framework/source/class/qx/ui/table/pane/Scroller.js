@@ -1627,8 +1627,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
           this.__cellEditor.addListener(
             "close",
             this._onCellEditorModalWindowClose,
-            this
-          );
+            this);
 
           // If there's a pre-open function defined for the table...
           var f = table.getModalCellEditorPreOpenFunction();
