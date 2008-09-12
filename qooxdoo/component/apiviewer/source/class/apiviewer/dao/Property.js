@@ -52,16 +52,14 @@ qx.Class.define("apiviewer.dao.Property",
       if (attributes.check)
       {
         if(
-          apiviewer.dao.Class.getClassByName(attributes.check) &&
-          apiviewer.ui.ClassViewer.PRIMITIVES[attributes.check]
+          !apiviewer.dao.Class.getClassByName(attributes.check) &&
+          !apiviewer.ui.ClassViewer.PRIMITIVES[attributes.check]
         ){
-          return attributes.check;          
-        } else {
-          return "custom";
+          return attributes.check;
         }
-      } else {
-        return "";
       }
+
+      return null;
     },
 
 

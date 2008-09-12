@@ -176,7 +176,6 @@ qx.Class.define("apiviewer.ui.panels.PropertyPanel", {
         var allowedValue = null;
 
         var possibleValues = qx.lang.Array.clone(node.getPossibleValues());
-
         if (possibleValues.length > 0)
         {
           if (node.isNullable()) {
@@ -205,8 +204,8 @@ qx.Class.define("apiviewer.ui.panels.PropertyPanel", {
         {
           textHtml.add(
             '<div class="item-detail-headline">', "Check:", '</div>',
-            '<div class="item-detail-text">',
-            node.getCheck(),
+            '<div class="javascript">',
+            qx.dev.Tokenizer.javaScriptToHtml(node.getCheck()),
             '</div>'
           );
         }
