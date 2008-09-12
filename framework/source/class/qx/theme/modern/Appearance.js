@@ -163,9 +163,9 @@ qx.Theme.define("qx.theme.modern.Appearance",
           decorator = "button-checked-focused";
           textColor = undefined;
         }
-        else if (states.checked)
+        else if (states.disabled)
         {
-          decorator = "button-checked";
+          decorator = "button-disabled";
           textColor = undefined;
         }
         else if (states.pressed)
@@ -177,6 +177,11 @@ qx.Theme.define("qx.theme.modern.Appearance",
         {
           decorator = "button-hovered";
           textColor = "text-hovered";
+        }
+        else if (states.checked)
+        {
+          decorator = "button-checked";
+          textColor = undefined;
         }
         else if (states.preselected && states.focused && !states.inner)
         {
@@ -202,6 +207,16 @@ qx.Theme.define("qx.theme.modern.Appearance",
         return {
           decorator : decorator,
           textColor : textColor
+        }
+      }
+    },
+    
+    "button-frame/image" :
+    {
+      style : function(states)
+      {
+        return {
+          opacity : !states.replacement && states.disabled ? 0.5 : 1
         }
       }
     },
