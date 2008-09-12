@@ -163,9 +163,8 @@ qx.Class.define("qx.ui.form.Spinner",
     /** The value of the spinner. */
     value:
     {
-      check : function(value) { return this._checkValue(value) },
+      check : "this._checkValue(value)",
       apply : "_applyValue",
-      transform : "_transformValue",
       init : 0,
       event : "changeValue"
     },
@@ -344,23 +343,19 @@ qx.Class.define("qx.ui.form.Spinner",
     /**
      * Check whether the value being applied is allowed.
      *
-     * NOTE: If you override this to change the allowed type, you will also
-     *       want to override {@link #_applyValue}, {@link #countUp},
-     *       {@link #_countDown}, and {@link #_onTextChange} methods as
-     *       those cater specifically to numeric values.
+     * If you override this to change the allowed type, you will also
+     * want to override {@link #_applyValue}, {@link #_applyMin}, {@link #_applyMax}, 
+     * {@link #countUp}, {@link #_countDown}, and {@link #_onTextChange} methods as
+     * those cater specifically to numeric values.
      *
      * @param value {Any}
      *   The value being set
-     *
      * @return {Boolean}
      *   <i>true</i> if the value is allowed;
      *   <i>false> otherwise.
      */
-    _checkValue : function(value)
-    {
-      return (typeof value === 'number' &&
-              value >= this.getMin() &&
-              value <= this.getMax());
+    _checkValue : function(value) {
+      return typeof value === "number" && value >= this.getMin() && value <= this.getMax();
     },
 
 
@@ -420,25 +415,6 @@ qx.Class.define("qx.ui.form.Spinner",
       } else {
         textField.setValue(value + "");
       }
-    },
-
-
-    /**
-     * This may be overridden to transform the value being saved.  This may be
-     * used, for example, to accept integer values but always save them as two
-     * digits with leading zeros if necessary (e.g. hours:minutes formats).
-     *
-     * @param value {Any}
-     *   The value being set
-     *
-     * @return {Any}
-     *   The transformed value.  Note that the transformed value must be
-     *   acceptable to {@link #_checkValue}
-     *
-     */
-    _transformValue : function(value)
-    {
-      return value;
     },
 
 
@@ -623,11 +599,9 @@ qx.Class.define("qx.ui.form.Spinner",
       if (this.getNumberFormat())
       {
         // try to parse the current number using the number format
-        try
-        {
+        try {
           value = this.getNumberFormat().parse(textField.getValue());
-        }
-        catch(e) {
+        } catch(e) {
           // otherwise, process further
         }
       }
