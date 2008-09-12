@@ -2475,7 +2475,7 @@ qx.Class.define("qx.ui.core.Widget",
 
 
     /** {Boolean} Whether the widget has state changes which are not yet queued */
-    __hasStateChanges : null,
+    $$stateChanges : null,
 
 
     /**
@@ -2516,7 +2516,7 @@ qx.Class.define("qx.ui.core.Widget",
       if (state === "hovered") {
         this.syncAppearance();
       } else if (!qx.ui.core.queue.Visibility.isVisible(this)) {
-        this.__hasStateChanges = true;
+        this.$$stateChanges = true;
       } else {
         qx.ui.core.queue.Appearance.add(this);
       }
@@ -2560,7 +2560,7 @@ qx.Class.define("qx.ui.core.Widget",
       if (state === "hovered") {
         this.syncAppearance();
       } else if (!qx.ui.core.queue.Visibility.isVisible(this)) {
-        this.__hasStateChanges = true;
+        this.$$stateChanges = true;
       } else {
         qx.ui.core.queue.Appearance.add(this);
       }
@@ -2607,7 +2607,7 @@ qx.Class.define("qx.ui.core.Widget",
       }
 
       if (!qx.ui.core.queue.Visibility.isVisible(this)) {
-        this.__hasStateChanges = true;
+        this.$$stateChanges = true;
       } else {
         qx.ui.core.queue.Appearance.add(this);
       }
@@ -2775,10 +2775,10 @@ qx.Class.define("qx.ui.core.Widget",
       // In this case the widget is already queued in the appearance. This is basically
       // what all addState/removeState do, but the queue itself may not have been registered
       // to be flushed
-      else if (this.__hasStateChanges)
+      else if (this.$$stateChanges)
       {
         qx.ui.core.queue.Appearance.add(this);
-        delete this.__hasStateChanges;
+        delete this.$$stateChanges;
       }
     },
 

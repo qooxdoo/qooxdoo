@@ -89,11 +89,13 @@ qx.Class.define("qx.ui.core.queue.Appearance",
       {
         // Order is important to allow the same widget to be requeued directly
         obj = queue[hash];
-
-        if (Visibility.isVisible(obj))
-        {
-          delete queue[hash];
+        delete queue[hash];
+        
+        // Only apply to currently visible widgets
+        if (Visibility.isVisible(obj)) {
           obj.syncAppearance();
+        } else {
+          obj.$$stateChanges = true;
         }
       }
     }
