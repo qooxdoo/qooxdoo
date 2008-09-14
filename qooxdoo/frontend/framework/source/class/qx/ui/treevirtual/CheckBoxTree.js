@@ -57,21 +57,33 @@ qx.Class.define("qx.ui.treevirtual.CheckBoxTree",
     }
     if (! custom.dataRowRenderer)
     {
-      var r = custom.dataRowRenderer =
+      var rowRenderer = custom.dataRowRenderer =
         new qx.ui.treevirtual.SimpleTreeDataRowRenderer();
       // Disable highlight of selected rows with background colors.
-      r.setRowColors({
-        bgcolFocusedSelected     : "#f0f0f0",
-        bgcolFocusedSelectedBlur : "#f0f0f0",
-        bgcolFocused             : "#f0f0f0",
-        bgcolFocusedBlur         : "#f0f0f0",
-        bgcolSelected            : "white",
-        bgcolSelectedBlur        : "white",
-        bgcolOdd                 : "white",
-        bgcolEven                : "white",
-        colNormal                : "black",
-        colSelected              : "black"
-      });
+      // FIXME: ugly usage of renderer's protected methods!
+      // TODO: we should probably be using theme colors...
+      var colorManager = qx.theme.manager.Color.getInstance();
+      colorManager.connect(rowRenderer._styleBgcolFocusedSelected,
+                           rowRenderer,
+                           "#f0f0f0");
+      colorManager.connect(rowRenderer._styleBgcolFocused,
+                           rowRenderer,
+                           "#f0f0f0");
+      colorManager.connect(rowRenderer._styleBgcolSelected,
+                           rowRenderer,
+                           "#ffffff"); // "white"
+      colorManager.connect(rowRenderer._styleBgcolEven,
+                           rowRenderer,
+                           "#ffffff"); // "white"
+      colorManager.connect(rowRenderer._styleBgcolOdd,
+                           rowRenderer,
+                           "#ffffff"); // "white"
+      colorManager.connect(rowRenderer._styleColSelected,
+                           rowRenderer,
+                           "#000000"); // "black"
+      colorManager.connect(rowRenderer._styleColNormal,
+                           rowRenderer,
+                           "#000000"); // "black"
     }
 
     this.base(arguments, headings, custom);
