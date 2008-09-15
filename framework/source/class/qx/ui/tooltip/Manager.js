@@ -43,7 +43,6 @@ qx.Class.define("qx.ui.tooltip.Manager",
     // Register events
     var root = qx.core.Init.getApplication().getRoot();
     root.addListener("mouseover", this.__onMouseOverRoot, this, true);
-    root.addListener("focusin", this.__onFocusInRoot, this, true);
 
     // Instantiate timers
     this.__showTimer = new qx.event.Timer();
@@ -279,24 +278,6 @@ qx.Class.define("qx.ui.tooltip.Manager",
     ---------------------------------------------------------------------------
     */
 
-    /**
-     * If a widget with a tooltip get focused, bind the tooltip
-     * to the target widget and set the {@link #currentToolTip} property.
-     *
-     * @param e {qx.event.type.Focus} focus event
-     * @return {void}
-     */
-    __onFocusInRoot : function(e)
-    {
-      var target = e.getTarget();
-      var tooltip = target.getToolTip();
-
-      // Only set new tooltip if focus widget has one
-      if (tooltip != null) {
-        this.setCurrent(tooltip);
-      }
-    },
-
 
     /**
      * Reset the property {@link #currentToolTip} if the
@@ -338,7 +319,6 @@ qx.Class.define("qx.ui.tooltip.Manager",
     if (root)
     {
       root.addListener("mouseover", this.__onMouseOverRoot, this, true);
-      root.addListener("focusin", this.__onFocusInRoot, this, true);
     }
 
     // Dispose timers
