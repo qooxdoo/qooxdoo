@@ -739,7 +739,7 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
      *
      * @return {void}
      */
-    fireEvent : function(type, target, data)
+    fireImmediateEvent : function(type, target, data)
     {
       var event =
         qx.event.Registration.createEvent(type,
