@@ -172,7 +172,20 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     "cellDblclick" : "qx.ui.table.pane.CellEvent",
 
     /**See {@link qx.ui.table.Table#cellContextmenu}.*/
-    "cellContextmenu" : "qx.ui.table.pane.CellEvent"
+    "cellContextmenu" : "qx.ui.table.pane.CellEvent",
+
+    /**
+     * Dispatched after a cell editor is flushed.
+     *
+     * The data is a map containing this properties:
+     * <ul>
+     *   <li>row</li>
+     *   <li>col</li>
+     *   <li>value</li>
+     *   <li>oldValue</li>
+     * </ul>
+     */
+    "dataEdited" : "qx.event.type.Data"
   },
 
 
@@ -1682,9 +1695,19 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       if (this.isEditing())
       {
         var value = this.__cellEditorFactory.getCellEditorValue(this.__cellEditor);
+        var oldValue = this.getTable().getTableModel().getValue(this.__focusedCol, this.__focusedRow);
         this.getTable().getTableModel().setValue(this.__focusedCol, this.__focusedRow, value);
 
         this.__table.focus();
+
+        // Fire an event containing the value change.
+        this.__table.fireDataEvent("dataEdited",
+                                   {
+                                     row      : this.__focusedRow,
+                                     col      : this.__focusedCol,
+                                     oldValue : oldValue,
+                                     value    : value
+                                   });
       }
     },
 

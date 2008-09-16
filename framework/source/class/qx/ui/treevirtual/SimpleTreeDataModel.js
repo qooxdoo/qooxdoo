@@ -173,6 +173,14 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
     setTree : function(tree)
     {
       this.__tree = tree;
+
+      // Arrange to redisplay edited data following editing
+      tree.addListener("dataEdited",
+                       function(e)
+                       {
+                         this.setData();
+                       },
+                       this);
     },
 
     /**
