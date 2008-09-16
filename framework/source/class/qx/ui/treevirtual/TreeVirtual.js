@@ -161,6 +161,14 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
     // Call our superclass constructor
     this.base(arguments, custom.dataModel, custom);
 
+    // Arrange to redisplay edited data following editing
+    this.addListener("dataEdited",
+                     function(e)
+                     {
+                       this.getDataModel().setData();
+                     },
+                     this);
+
     // By default, present the column visibility button only if there are
     // multiple columns.
     this.setColumnVisibilityButtonVisible(headings.length > 1);

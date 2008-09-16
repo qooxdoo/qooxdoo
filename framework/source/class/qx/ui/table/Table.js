@@ -248,7 +248,20 @@ qx.Class.define("qx.ui.table.Table",
     /**
      * Dispatched when the context menu is needed in a data cell
      */
-    "cellContextmenu" : "qx.ui.table.pane.CellEvent"
+    "cellContextmenu" : "qx.ui.table.pane.CellEvent",
+
+    /**
+     * Dispatched after a cell editor is flushed.
+     *
+     * The data is a map containing this properties:
+     * <ul>
+     *   <li>row</li>
+     *   <li>col</li>
+     *   <li>value</li>
+     *   <li>oldValue</li>
+     * </ul>
+     */
+    "dataEdited" : "qx.event.type.Data"
   },
 
 

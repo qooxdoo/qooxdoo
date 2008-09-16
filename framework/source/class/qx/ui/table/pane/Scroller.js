@@ -172,20 +172,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     "cellDblclick" : "qx.ui.table.pane.CellEvent",
 
     /**See {@link qx.ui.table.Table#cellContextmenu}.*/
-    "cellContextmenu" : "qx.ui.table.pane.CellEvent",
-
-    /**
-     * Dispatched after a cell editor is flushed.
-     *
-     * The data is a map containing this properties:
-     * <ul>
-     *   <li>row</li>
-     *   <li>col</li>
-     *   <li>value</li>
-     *   <li>oldValue</li>
-     * </ul>
-     */
-    "dataEdited" : "qx.event.type.Data"
+    "cellContextmenu" : "qx.ui.table.pane.CellEvent"
   },
 
 
