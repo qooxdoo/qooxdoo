@@ -741,12 +741,20 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
      */
     fireImmediateEvent : function(type, target, data)
     {
-      var event =
-        qx.event.Registration.createEvent(type,
-                                          (data
-                                           ? qx.event.type.Data
-                                           : qx.event.type.Event),
-                                          data);
+      if (data)
+      {
+        var event =
+          qx.event.Registration.createEvent(type,
+                                            qx.event.type.Data,
+                                            [ data, null, false ]);
+      }
+      else
+      {
+        var event =
+          qx.event.Registration.createEvent(type,
+                                            qx.event.type.Event,
+                                            [ false, false ]);
+      }
       event.setTarget(target);
       this.eventListener(event);
     },
