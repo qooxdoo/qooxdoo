@@ -769,6 +769,24 @@ qx.Class.define("qx.ui.table.Table",
     {
       var metaColumnCounts = value;
       var scrollerArr = this._getPaneScrollerArr();
+      var handlers = { };
+
+      if (value > old)
+      {
+        // Save event listeners on the redirected events so we can re-apply
+        // them to new scrollers.
+        var manager = qx.event.Registration.getManager(scrollerArr[0]);
+        for (var evName in qx.ui.table.Table.__redirectEvents)
+        {
+          handlers[evName] = { };
+          handlers[evName].capture = manager.getListeners(scrollerArr[0],
+                                                          evName,
+                                                          true);
+          handlers[evName].bubble = manager.getListeners(scrollerArr[0],
+                                                         evName,
+                                                         false);
+        }
+      }
 
       // Remove the panes not needed any more
       this._cleanUpMetaColumns(metaColumnCounts.length);
@@ -802,6 +820,77 @@ qx.Class.define("qx.ui.table.Table",
 
           // Register event listener for vertical scrolling
           paneScroller.addListener("changeScrollY", this._onScrollY, this);
+
+          // Apply redirected events to this new scroller
+          for (evName in qx.ui.table.Table.__redirectEvents)
+          {
+            // On first setting of meta columns (constructing phase), there
+            // are no handlers to deal with yet.
+            if (! handlers[evName])
+            {
+              break;
+            }
+
+            if (handlers[evName].capture &&
+                handlers[evName].capture.length > 0)
+            {
+              var capture = handlers[evName].capture;
+              for (var i = 0; i < capture.length; i++)
+              {
+                // Determine what context to use.  If the context does not
+                // exist, we assume that the context is this table.  If it
+                // does exist and it equals the first pane scroller (from
+                // which we retrieved the listeners) then set the context
+                // to be this new pane scroller.  Otherwise leave the context
+                // as it was set.
+                var context = capture[i].context;
+                if (! context)
+                {
+                  context = this;
+                }
+                else if (context == scrollerArr[0])
+                {
+                  context = paneScroller;
+                }
+
+                paneScroller.addListener(
+                  evName,
+                  capture[i].handler,
+                  context,
+                  true);
+              }
+            }
+
+            if (handlers[evName].bubble &&
+                handlers[evName].bubble.length > 0)
+            {
+              var bubble = handlers[evName].bubble;
+              for (var i = 0; i < bubble.length; i++)
+              {
+                // Determine what context to use.  If the context does not
+                // exist, we assume that the context is this table.  If it
+                // does exist and it equals the first pane scroller (from
+                // which we retrieved the listeners) then set the context
+                // to be this new pane scroller.  Otherwise leave the context
+                // as it was set.
+                var context = bubble[i].context;
+                if (! context)
+                {
+                  context = this;
+                }
+                else if (context == scrollerArr[0])
+                {
+                  context = paneScroller;
+                }
+
+                paneScroller.addListener(
+                  evName,
+                  bubble[i].handler,
+                  context,
+                  false);
+              }
+            }
+          }
 
           // last meta column is flexible
           var flex = (i == metaColumnCounts.length - 1) ? 1 : 0;
