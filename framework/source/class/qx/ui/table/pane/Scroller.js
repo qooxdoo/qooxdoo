@@ -1310,8 +1310,34 @@ qx.Class.define("qx.ui.table.pane.Scroller",
         col == this.__lastMouseDownCell.col
       ) {
         this.__lastMouseDownCell = {};
-        this.fireEvent("cellContextmenu", qx.ui.table.pane.CellEvent, [this, e, row, col], true);
+        this.fireEvent("cellContextmenu",
+                       qx.ui.table.pane.CellEvent,
+                       [this, e, row, col],
+                       true);
+
+        // Now that the cellContextmenu handler has had a chance to build
+        // the menu for this cell, display it (if there is one).
+        var menu = this.getTable().getContextMenu();
+        if (menu)
+        {
+          menu.placeToMouse(e);
+          menu.show();
+
+          // Do not show native menu
+          e.preventDefault();
+        }
       }
+    },
+
+
+    // overridden
+    _onContextMenuOpen : function(e)
+    {
+      // This is Widget's context menu handler which typically retrieves
+      // and displays the menu as soon as it receives a "contextmenu" event.
+      // We want to allow the cellContextmenu handler to create the menu,
+      // so we'll override this method with a null one, and do the menu
+      // placement and display handling in our _onContextMenu method.
     },
 
 
