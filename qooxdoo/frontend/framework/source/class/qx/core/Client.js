@@ -181,6 +181,7 @@ qx.Class.define("qx.core.Client",
       var vPlatformWindows = false;
       var vPlatformMacintosh = false;
       var vPlatformUnix = false;
+      var vPlatformIphone = false;
       var vPlatformOther = false;
 
       if (vBrowserPlatform.indexOf("Windows") != -1 || vBrowserPlatform.indexOf("Win32") != -1 || vBrowserPlatform.indexOf("Win64") != -1)
@@ -197,6 +198,11 @@ qx.Class.define("qx.core.Client",
       {
         vPlatformUnix = true;
         vPlatform = "unix";
+      }
+      else if (vBrowserPlatform.indexOf("Iphone") != -1)
+      {
+        vPlatformIphone = true;
+        vPlatform = "iphone";
       }
       else
       {
@@ -249,6 +255,7 @@ qx.Class.define("qx.core.Client",
       this._browserPlatformWindows = vPlatformWindows;
       this._browserPlatformMacintosh = vPlatformMacintosh;
       this._browserPlatformUnix = vPlatformUnix;
+      this._browserPlatformIphone = vPlatformIphone;
       this._browserPlatformOther = vPlatformOther;
       this._browserLocale = vBrowserLocale;
       this._browserLocaleVariant = vBrowserLocaleVariant;
@@ -540,6 +547,17 @@ qx.Class.define("qx.core.Client",
      */
     runsOnUnix : function() {
       return this._browserPlatformUnix;
+    },
+
+
+    /**
+     * Returns whether the client platform is a iphone.
+     *
+     * @type member
+     * @return {Boolean} whether the client platform is a iphone.
+     */
+    runsOnIphone : function() {
+      return this._browserPlatformIphone;
     },
 
 
