@@ -1299,7 +1299,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       style : function(states)
       {
         return {
-          icon : "static/blank.gif"
+          icon : "qx/static/blank.gif"
         }
       }
     },

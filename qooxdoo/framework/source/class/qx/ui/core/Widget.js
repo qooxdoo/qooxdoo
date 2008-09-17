@@ -23,6 +23,8 @@
 #use(qx.ui.core.EventHandler)
 #use(qx.event.handler.DragDrop)
 
+#asset(qx/static/blank.gif)
+
 ************************************************************************ */
 
 /**

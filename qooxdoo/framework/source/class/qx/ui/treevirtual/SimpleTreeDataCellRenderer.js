@@ -23,7 +23,6 @@
 #require(qx.theme.Modern)
 #require(qx.theme.Classic)
 #require(qx.log.Logger)
-#asset(qx/static/blank.gif)
 
 ************************************************************************ */
 
@@ -53,7 +52,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
 
     // Base URL used for indentation
     this.STATIC_URI =
-      this._rm.toUri(this._am.resolve("static/"));
+      this._rm.toUri(this._am.resolve("qx/static/"));
   },
 
 
