@@ -199,7 +199,7 @@ qx.Class.define("qx.core.Client",
         vPlatformUnix = true;
         vPlatform = "unix";
       }
-      else if (vBrowserPlatform.indexOf("Iphone") != -1)
+      else if (vBrowserPlatform.indexOf("iPhone") != -1 || vBrowserPlatform.indexOf("iPod") != -1)
       {
         vPlatformIphone = true;
         vPlatform = "iphone";
