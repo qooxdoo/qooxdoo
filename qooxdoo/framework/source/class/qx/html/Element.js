@@ -1502,7 +1502,7 @@ qx.Class.define("qx.html.Element",
     /**
      * Marks the element as visible which means that a previously applied
      * CSS style of display=none gets removed and the element will inserted
-     * into the DOM, when this had not already happend before.
+     * into the DOM, when this had not already happened before.
      *
      * @return {qx.html.Element} this object (for chaining support)
      */
