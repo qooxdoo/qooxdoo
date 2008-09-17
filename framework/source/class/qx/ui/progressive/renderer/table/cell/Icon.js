@@ -41,7 +41,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Icon",
 
     var aliasManager = qx.util.AliasManager.getInstance();
     var resourceManager = qx.util.ResourceManager;
-    var blankImg = aliasManager.resolve("static/image/blank.gif");
+    var blankImg = aliasManager.resolve("qx/static/blank.gif");
 
     this._imageBlank = resourceManager.toUri(blankImg);
   },
