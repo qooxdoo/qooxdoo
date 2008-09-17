@@ -45,7 +45,7 @@ qx.Class.define("demobrowser.demo.showcase.FormDemo",
 
 
       var container = new qx.ui.container.Composite(layout).set({
-        decorator: "pane",
+        decorator: "main",
         padding: 16
       });
 
