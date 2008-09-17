@@ -1279,10 +1279,12 @@ qx.Class.define("qx.ui.table.pane.Scroller",
         table.getSelectionManager().handleClick(row, e);
 
         if (
-          this.__lastMouseDownCell &&
-          row == this.__lastMouseDownCell.row &&
-          col == this.__lastMouseDownCell.col
-        ) {
+          this.__focusIndicator.isHidden() ||
+            (this.__lastMouseDownCell &&
+             row == this.__lastMouseDownCell.row &&
+             col == this.__lastMouseDownCell.col
+            ))
+        {
           this.__lastMouseDownCell = {};
 
           this.fireEvent("cellClick", qx.ui.table.pane.CellEvent, [this, e, row, col], true);
@@ -1305,10 +1307,12 @@ qx.Class.define("qx.ui.table.pane.Scroller",
       var col = this._getColumnForPageX(pageX);
 
       if (
-        this.__lastMouseDownCell &&
-        row == this.__lastMouseDownCell.row &&
-        col == this.__lastMouseDownCell.col
-      ) {
+        this.__focusIndicator.isHidden() ||
+          (this.__lastMouseDownCell &&
+           row == this.__lastMouseDownCell.row &&
+           col == this.__lastMouseDownCell.col
+          ))
+      {
         this.__lastMouseDownCell = {};
         this.fireEvent("cellContextmenu",
                        qx.ui.table.pane.CellEvent,
