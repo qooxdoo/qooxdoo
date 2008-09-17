@@ -783,6 +783,11 @@ qx.Bootstrap.define("qx.Class",
         if (config.type && !(config.type === "static" || config.type === "abstract" || config.type === "singleton")) {
           throw new Error('Invalid type "' + config.type + '" definition for class "' + name + '"!');
         }
+        
+        // Validate non-static class on the "extend" key
+        if (config.type && config.type !== "static" && !config.extend) {
+          throw new Error('Invalid config in class "' + name + '"! Every non-static class has to extend at least the "qx.core.Object" class.');
+        }
 
         // Validate keys
         var allowed = config.type === "static" ? this.__staticAllowedKeys : this.__allowedKeys;
