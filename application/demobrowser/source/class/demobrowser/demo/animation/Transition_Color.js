@@ -58,15 +58,15 @@ members :
    var lblName = new qx.ui.basic.Label("Name");
    var lblDesc = new qx.ui.basic.Label("Description");
    var lblDur = new qx.ui.basic.Label("Duration");
-   var lblDesc =new qx.ui.basic.Label;
+   var lblDesc =new qx.ui.basic.Label(transitionData.linear);
    var spDuration = new qx.ui.form.Spinner;
 
    for (var transition in transitionData) {
      combo.add(new qx.ui.form.ListItem(transition));
    }
 
-   combo.addListener("changeValue", function(){
-     lblDesc.setText(transitionData[this.getSelected().getLabel()]);
+   combo.addListener("changeValue", function(e) {
+     lblDesc.setContent(transitionData[lblDesc.setContent(e.getData())]);
    });
 
    spDuration.set({
@@ -82,14 +82,6 @@ members :
    });
 
    var moveBack = false;
-   animMove.addListener("finish", function()
-   {
-     animMove.set({
-       x: moveBack ? 90 : 600,
-       y: moveBack ? 90 : 300
-     });
-     moveBack = !moveBack;
-   });
 
    var nf = new qx.util.format.NumberFormat();
    nf.setMaximumFractionDigits(2);
