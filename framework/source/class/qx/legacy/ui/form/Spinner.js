@@ -38,7 +38,7 @@
  *
  * A brief, but non-trivial example:
  *
- * <pre>
+ * <pre class='javascript'>
  * var s = new qx.legacy.ui.form.Spinner;
  * s.set({
  *   max: 3000,
