@@ -137,7 +137,7 @@ qx.Class.define("demobrowser.DemoBrowser",
     this._history = qx.bom.History.getInstance();
     this._history.addListener("request", function(e)
     {
-      var newSample = e.getData().replace("-", "/");
+      var newSample = e.getData().replace("~", "/");
 
       if (this._currentSample != newSample) {
         this.setCurrentSample(newSample);
@@ -461,7 +461,7 @@ qx.Class.define("demobrowser.DemoBrowser",
 
       // set a section to open initially
       var state = this._history.getState();
-      var section =  state.match(/([^-]+)-/);
+      var section =  state.match(/([^~]+)~/);
       if (section) {
         _initialSection = section[1];
       }
@@ -648,7 +648,7 @@ qx.Class.define("demobrowser.DemoBrowser",
           fwindow.qx.log.Logger.register(this.logappender);
 
           // update state on example change
-          this._history.addToHistory(this._currentSample.replace("/", "-"), this._currentSample);
+          this._history.addToHistory(this._currentSample.replace("/", "~"), this._currentSample);
 
           // load sample source code
           if (this._currentSampleUrl != this.defaultUrl) {
@@ -776,7 +776,7 @@ qx.Class.define("demobrowser.DemoBrowser",
           var state = this._history.getState();
 
           if (state) {
-            this.setCurrentSample(state.replace("-", "/"));
+            this.setCurrentSample(state.replace("~", "/"));
           } else {
             this.setCurrentSample(this.defaultUrl);
           }
