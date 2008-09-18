@@ -34,7 +34,7 @@ qx.Class.define("qx.locale.Date",
      * @return {qx.locale.LocalizedString} translated AM marker.
      */
     getAmMarker : function(locale) {
-      return qx.locale.Manager.getInstance().translate("cldr_am", [], locale);
+      return new qx.locale.LocalizedString("cldr_am", [], locale);
     },
 
 
@@ -46,7 +46,7 @@ qx.Class.define("qx.locale.Date",
      * @return {qx.locale.LocalizedString} translated PM marker.
      */
     getPmMarker : function(locale) {
-      return qx.locale.Manager.getInstance().translate("cldr_pm", [], locale);
+      return new qx.locale.LocalizedString("cldr_pm", [], locale);
     },
 
 
@@ -72,7 +72,7 @@ qx.Class.define("qx.locale.Date",
       for (var i=0; i<days.length; i++)
       {
         var key = "cldr_day_" + length + "_" + days[i];
-        names.push(qx.locale.Manager.getInstance().translate(key, [], locale));
+        names.push(new qx.locale.LocalizedString(key, [], locale));
       }
 
       return names;
@@ -99,7 +99,7 @@ qx.Class.define("qx.locale.Date",
       var days = [ "sun", "mon", "tue", "wed", "thu", "fri", "sat" ];
 
       var key = "cldr_day_" + length + "_" + days[day];
-      return qx.locale.Manager.getInstance().translate(key, [], locale);
+      return new qx.locale.LocalizedString(key, [], locale);
     },
 
 
@@ -124,7 +124,7 @@ qx.Class.define("qx.locale.Date",
       for (var i=0; i<12; i++)
       {
         var key = "cldr_month_" + length + "_" + (i + 1);
-        names.push(qx.locale.Manager.getInstance().translate(key, [], locale));
+        names.push(new qx.locale.LocalizedString(key, [], locale));
       }
 
       return names;
@@ -149,7 +149,7 @@ qx.Class.define("qx.locale.Date",
       }
 
       var key = "cldr_month_" + length + "_" + (month + 1);
-      return qx.locale.Manager.getInstance().translate(key, [], locale);
+      return new qx.locale.LocalizedString(key, [], locale);
     },
 
 
@@ -170,7 +170,7 @@ qx.Class.define("qx.locale.Date",
       }
 
       var key = "cldr_date_format_" + size;
-      return qx.locale.Manager.getInstance().translate(key, [], locale);
+      return new qx.locale.LocalizedString(key, [], locale);
     },
 
 
