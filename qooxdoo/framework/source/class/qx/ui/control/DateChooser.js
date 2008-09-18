@@ -29,7 +29,7 @@
  * The following example creates and adds a date chooser to the root element.
  * A listener alerts the user if a new date is selected.
  *
- * <pre>
+ * <pre class='javascript'>
  * var chooser = new qx.ui.control.DateChooser();
  * this.getRoot().add(chooser, { left : 20, top: 20});
  *
