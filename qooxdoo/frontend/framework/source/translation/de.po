@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: qooxdoo framework\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-01-14 10:53+0100\n"
+"POT-Creation-Date: 2008-08-19 07:27+0200\n"
 "PO-Revision-Date: 2007-01-23 17:53+0100\n"
 "Last-Translator: Fabian Jakobs <fabian DOT jakobs AT 1und1 DOT de>\n"
 "Language-Team: German\n"
@@ -289,7 +289,7 @@ msgstr "Nächster Monat"
 msgid "Next year"
 msgstr "Nächstes Jahr"
 
-#: class/qx/ui/component/DateChooserButton.js:111
+#: class/qx/ui/component/DateChooserButton.js:115
 msgid "Choose a date"
 msgstr "Datum auswählen"
 
@@ -317,16 +317,20 @@ msgstr "Weiter suchen"
 msgid "Search items in list"
 msgstr "Liste durchsuchen"
 
-#: class/qx/ui/table/Table.js:1497
+#: class/qx/ui/table/Table.js:1615
 #, fuzzy
 msgid "one row"
 msgid_plural "%1 rows"
 msgstr[0] "Eine Zeile"
 msgstr[1] "%1 Zeilen"
 
-#: class/qx/ui/table/Table.js:1499
+#: class/qx/ui/table/Table.js:1617
 #, fuzzy
 msgid "one of one row"
 msgid_plural "%1 of %2 rows"
 msgstr[0] "Eine von einer Zeile"
 msgstr[1] "%1 von %2 Zeilen"
+
+#: class/qx/ui/table/columnmodel/Resize.js:207
+msgid "Reset column widths"
+msgstr ""

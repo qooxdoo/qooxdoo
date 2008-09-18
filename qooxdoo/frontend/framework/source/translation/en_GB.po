@@ -2,12 +2,12 @@
 # Copyright (C) 2007 THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # Automatically generated, 2007.
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-12-13 11:44+0100\n"
+"POT-Creation-Date: 2008-08-19 07:27+0200\n"
 "PO-Revision-Date: 2007-04-05 16:31+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -287,7 +287,7 @@ msgstr "Next month"
 msgid "Next year"
 msgstr "Next year"
 
-#: class/qx/ui/component/DateChooserButton.js:111
+#: class/qx/ui/component/DateChooserButton.js:115
 msgid "Choose a date"
 msgstr "Choose a date"
 
@@ -315,14 +315,18 @@ msgstr "Search next occurrence"
 msgid "Search items in list"
 msgstr "Search items in list"
 
-#: class/qx/ui/table/Table.js:1502
+#: class/qx/ui/table/Table.js:1615
 msgid "one row"
 msgid_plural "%1 rows"
 msgstr[0] ""
 msgstr[1] ""
 
-#: class/qx/ui/table/Table.js:1504
+#: class/qx/ui/table/Table.js:1617
 msgid "one of one row"
 msgid_plural "%1 of %2 rows"
 msgstr[0] ""
 msgstr[1] ""
+
+#: class/qx/ui/table/columnmodel/Resize.js:207
+msgid "Reset column widths"
+msgstr ""
