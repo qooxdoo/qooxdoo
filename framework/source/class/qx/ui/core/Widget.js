@@ -246,7 +246,7 @@ qx.Class.define("qx.ui.core.Widget",
 
     /**
      * Fired on a potential drop target when reaching it via the mouse.
-     * This event is cancelable if none of the incoming data types
+     * This event can be canceled if none of the incoming data types
      * are supported.
      *
      * Modeled after the WHATWG specification of Drag&Drop:
