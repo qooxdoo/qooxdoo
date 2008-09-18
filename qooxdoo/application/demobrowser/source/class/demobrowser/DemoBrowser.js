@@ -461,7 +461,7 @@ qx.Class.define("demobrowser.DemoBrowser",
 
       // set a section to open initially
       var state = this._history.getState();
-      var section =  state.match(/([^~]+)~/);
+      var section =  state.match(/([^-]+)-/);
       if (section) {
         _initialSection = section[1];
       }
