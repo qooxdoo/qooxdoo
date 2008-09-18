@@ -27,7 +27,7 @@
  * The following example creates a date field and sets the current
  * date as selected.
  *
- * <pre>
+ * <pre class='javascript'>
  * var dateField = new qx.ui.form.DateField();
  * this.getRoot().add(dateField, {top: 20, left: 20});
  * dateField.setDate(new Date());
