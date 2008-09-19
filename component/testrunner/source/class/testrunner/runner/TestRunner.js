@@ -656,7 +656,7 @@ qx.Class.define("testrunner.runner.TestRunner",
       var ttree = this.tests.handler.ttree;
       var handler = this.tests.handler;
       var that = this;
-      var initalSelected;
+      var initalSelected = null;
 
       // Reset Status Pane Elements
       this.widgets["statuspane.current"].setValue("");
@@ -679,7 +679,9 @@ qx.Class.define("testrunner.runner.TestRunner",
       buildSubTree(this.widgets["treeview.full"].getRoot(), ttree, 0);
 
       // Now select item:
-      fulltree.select(initalSelected);
+      if (initalSelected) {
+        fulltree.select(initalSelected);
+      }
 
       if (selectedElement)  // try to re-select previously selected element
       {
