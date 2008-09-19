@@ -18,6 +18,8 @@
 ************************************************************************ */
 
 /**
+ * EXPERIMENTAL - NOT READY FOR PRODUCTION
+ * 
  * Loading of local or remote scripts.
  *
  * * Supports cross-domain communication
