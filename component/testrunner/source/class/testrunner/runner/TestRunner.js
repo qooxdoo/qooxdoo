@@ -553,6 +553,7 @@ qx.Class.define("testrunner.runner.TestRunner",
 
       var treeNode = this.tree.getSelectedElement();
       var modelNode = treeNode.getUserData("modelLink");
+
       this.tests.selected = this.tests.handler.getFullName(modelNode);
 
       // update status pane
@@ -627,8 +628,11 @@ qx.Class.define("testrunner.runner.TestRunner",
           if (currNode.hasChildren())
           {
             t = new qx.ui.tree.TreeFolder(currNode.label);
-            if (level < 2) {
+            if (level < 2)
+            {
               t.setOpen(true);
+              // Store node to select:
+              initalSelected = t;
             }
             buildSubTree(t, currNode, level+1);
           }
@@ -652,6 +656,7 @@ qx.Class.define("testrunner.runner.TestRunner",
       var ttree = this.tests.handler.ttree;
       var handler = this.tests.handler;
       var that = this;
+      var initalSelected;
 
       // Reset Status Pane Elements
       this.widgets["statuspane.current"].setValue("");
@@ -672,6 +677,9 @@ qx.Class.define("testrunner.runner.TestRunner",
       fulltree.setHideRoot(true);
 
       buildSubTree(this.widgets["treeview.full"].getRoot(), ttree, 0);
+
+      // Now select item:
+      fulltree.select(initalSelected);
 
       if (selectedElement)  // try to re-select previously selected element
       {
