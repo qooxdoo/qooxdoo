@@ -695,8 +695,7 @@ qx.Class.define("qx.ui.table.model.Remote",
       }
       else
       {
-        var columnId = this.getColumnId(columnIndex);
-        return rowData[columnId];
+        return rowData[columnIndex];
       }
     },
 
@@ -711,8 +710,7 @@ qx.Class.define("qx.ui.table.model.Remote",
       }
       else
       {
-        var columnId = this.getColumnId(columnIndex);
-        rowData[columnId] = value;
+        rowData[columnIndex] = value;
 
         // Inform the listeners
         if (this.hasListener(qx.ui.table.ITableModel.EVENT_TYPE_DATA_CHANGED))
