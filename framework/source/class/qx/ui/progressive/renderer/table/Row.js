@@ -31,6 +31,10 @@ qx.Class.define("qx.ui.progressive.renderer.table.Row",
   extend     : qx.ui.progressive.renderer.Abstract,
 
 
+  /**
+   * @param columnWidths {qx.ui.progressive.renderer.table.Widths}
+   *   Information that indicates how to resize each of the column widths
+   */
   construct : function(columnWidths)
   {
     this.base(arguments);

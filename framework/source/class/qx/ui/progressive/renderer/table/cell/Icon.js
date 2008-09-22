@@ -35,6 +35,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Icon",
   extend     : qx.ui.progressive.renderer.table.cell.Abstract,
 
 
+  /** Create a new instance of an Icon cell renderer */
   construct : function()
   {
     this.base(arguments);
@@ -167,6 +168,9 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Icon",
       return html.join("");
     },
 
+    /**
+     * Obtain the image data (url, tooltip) that's appropriate for this cell
+     */
     __getImageData : function(cellInfo)
     {
       // Query the subclass about image and tooltip

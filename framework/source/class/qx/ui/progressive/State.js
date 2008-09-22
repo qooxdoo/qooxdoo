@@ -31,6 +31,24 @@ qx.Class.define("qx.ui.progressive.State",
   extend     : qx.core.Object,
 
 
+  /**
+   * @param initialState {Map}
+   *   Map containing these members:
+   *   <dl>
+   *     <dt>progressive</dt>
+   *       <dd>see {@link #progressive}</dd>
+   *     <dt>model</dt>
+   *       <dd>see {@link #model}</dd>
+   *     <dt>pane</dt>
+   *       <dd>see {@link #pane}</dd>
+   *     <dt>batchSize</dt>
+   *       <dd>see {@link #batchSize}</dd>
+   *     <dt>rendererData</dt>
+   *       <dd>see {@link #rendererData}</dd>
+   *     <dt>userData</dt>
+   *       <dd>see {@link #userData}</dd>
+   *   </dl>
+   */
   construct : function(initialState)
   {
     this.base(arguments);
