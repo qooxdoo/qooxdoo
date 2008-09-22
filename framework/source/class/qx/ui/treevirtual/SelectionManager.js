@@ -43,6 +43,10 @@ qx.Class.define("qx.ui.treevirtual.SelectionManager",
   *****************************************************************************
   */
 
+  /**
+   * @param table {qx.ui.table.Table}
+   *    The table whose selections are being managed
+   */
   construct : function(table)
   {
     this.base(arguments);

@@ -40,6 +40,9 @@ qx.Class.define("qx.ui.treevirtual.DefaultDataCellRenderer",
   *****************************************************************************
   */
 
+  /**
+  * Create a new instance of a Default Data Cell Renderer
+  */
   construct : function() {
     this.base(arguments);
   },

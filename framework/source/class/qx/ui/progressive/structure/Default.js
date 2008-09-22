@@ -83,8 +83,7 @@ qx.Class.define("qx.ui.progressive.structure.Default",
     __nullHeader : null,
     __header : null,
 
-    /**
-     */
+    // overridden
     applyStructure : function(progressive)
     {
       // Tell the header/footer components who their Progressive is
@@ -97,11 +96,23 @@ qx.Class.define("qx.ui.progressive.structure.Default",
       progressive.add(this.__footer);
     },
 
+
+    /**
+     * Return the header
+     *
+     * @return {qx.ui.progressive.headfoot.Abstract}
+     */
     getHeader : function()
     {
       return this.__header;
     },
 
+
+    /**
+     * Return the footer
+     *
+     * @return {qx.ui.progressive.headfoot.Abstract}
+     */
     getFooter : function()
     {
       return this.__footer;

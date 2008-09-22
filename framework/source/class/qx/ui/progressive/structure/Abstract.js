@@ -66,12 +66,23 @@ qx.Class.define("qx.ui.progressive.structure.Abstract",
     __pane : null,
 
     /**
+     * Apply the structure typically defined in the constructor to the
+     * Progressive.
+     *
+     * @param progressive {qx.ui.progressive.Progressive}
+     *   The Progressive to which the structure is to be applied.
      */
     applyStructure : function(progressive)
     {
       throw new Error("applyStructure() is abstract");
     },
 
+
+    /**
+     * Get the pane in which this Progressive renders.
+     *
+     * @return {qx.ui.core.Widget}
+     */
     getPane : function()
     {
       return this.__pane;

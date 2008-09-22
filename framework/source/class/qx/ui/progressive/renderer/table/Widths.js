@@ -101,7 +101,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.Widths",
      * Set the width of a column.
      *
      *
-     * @param col {Integer} The column whose width is to be set
+     * @param column {Integer} The column whose width is to be set
      *
      * @param width {Integer, String}
      *   The width of the specified column.  The width may be specified as
@@ -128,7 +128,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.Widths",
      * Set the minimum width of a column.
      *
      *
-     * @param col {Integer}
+     * @param column {Integer}
      *   The column whose minimum width is to be set
      *
      * @param width {Integer}
@@ -153,7 +153,7 @@ qx.Class.define("qx.ui.progressive.renderer.table.Widths",
      * Set the maximum width of a column.
      *
      *
-     * @param col {Integer}
+     * @param column {Integer}
      *   The column whose maximum width is to be set
      *
      * @param width {Integer}
