@@ -761,6 +761,39 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
 
 
     /**
+     * Create and schedule an event to be sent to the finite state machine
+     * "shortly".  This allows such things as letting a progress cursor
+     * display prior to handling the event.
+     *
+     * @param type {String}
+     *   The type of event, e.g. "execute"
+     *
+     * @param target {qx.core.Object}
+     *   The target of the event
+     *
+     * @param data {Object|null}
+     *   See {@link #fireImmediateEvent} for details.
+     *
+     * @param timeout {Integer|null}
+     *   If provided, this is the number of milliseconds to wait before firing
+     *   the event.  If not provided, a default short interval (on the order
+     *   of 20 milliseconds) is used.
+     *
+     * @return {void}
+     */
+    scheduleEvent : function(type, target, data, timeout)
+    {
+      qx.event.Timer.once(
+        function()
+        {
+          this.fireImmediateEvent(type, target, data);
+        },
+        this,
+        timeout || 20);
+    },
+
+
+    /**
      * Process all of the events on the event queue.
      *
      * @return {void}
