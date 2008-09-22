@@ -23,7 +23,7 @@
 
 ************************************************************************ */
 
-/*
+/**
  * <i>Progressive</i>.  EXPERIMENTAL!  INTERFACE MAY CHANGE.
  *
  * Follow progressive instructions provided by a data model.  A variable
@@ -47,6 +47,7 @@ qx.Class.define("qx.ui.progressive.Progressive",
 
   /**
    * @param structure {qx.ui.progressive.structure.Abstract}
+   *   The structure of the Progressive pane.
    */
   construct : function(structure)
   {

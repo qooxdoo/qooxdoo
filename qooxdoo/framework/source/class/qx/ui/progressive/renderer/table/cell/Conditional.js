@@ -34,8 +34,6 @@ qx.Class.define("qx.ui.progressive.renderer.table.cell.Conditional",
 
 
   /**
-   */
-  /**
    * @param align {String}
    *   The default alignment to format the cell with if the condition matches.
    *

@@ -23,7 +23,7 @@
 
 ************************************************************************ */
 
-/*
+/**
  * Cell Renderer for Progressive's Table.  EXPERIMENTAL!  INTERFACE MAY CHANGE.
  *
  * Many of the methods in this class accept a parameter called cellInfo.  This
