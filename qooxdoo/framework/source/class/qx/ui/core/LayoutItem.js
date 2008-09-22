@@ -146,7 +146,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
     ---------------------------------------------------------------------------
     */
 
-    /** Whether the item can grow horitontally. */
+    /** Whether the item can grow horizontally. */
     allowGrowX :
     {
       check : "Boolean",
@@ -156,7 +156,7 @@ qx.Class.define("qx.ui.core.LayoutItem",
     },
 
 
-    /** Whether the item can shrink horitontally. */
+    /** Whether the item can shrink horizontally. */
     allowShrinkX :
     {
       check : "Boolean",
