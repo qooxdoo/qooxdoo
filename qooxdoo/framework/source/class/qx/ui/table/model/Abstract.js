@@ -219,27 +219,40 @@ qx.Class.define("qx.ui.table.model.Abstract",
      *       recreating your table.  If you must change the number of columns
      *       in a table then you should remove the table and add a new one.
      *
-     * @param columnNameArr {String[]} The column names. These names will be shown to
-     *          the user.
-     * @param columnIdArr {String[] ? null} The column IDs. These IDs may be used
-     *          internally to identify a column. If null, the column names are used as
-     *          IDs.
+     * @param columnNameArr {String[]}
+     *   The column names. These names will be shown to the user.
+     *
+     * @param columnIdArr {String[] ? null}
+     *   The column IDs. These IDs may be used internally to identify a
+     *   column. If null, the column names are used as IDs unless ID values
+     *   have already been set. If ID values have already been set, they will
+     *   continue to be used if no ID values are explicitly provided here.
+     *
      * @return {void}
-     * @throws TODOC
      */
     setColumns : function(columnNameArr, columnIdArr)
     {
+      var bSetIds = this.__columnIdArr.length == 0 || columnIdArr;
+
       if (columnIdArr == null) {
-        columnIdArr = columnNameArr;
+        if (this.__columnIdArr.length == 0) {
+          columnIdArr = columnNameArr;
+        } else {
+          columnIdArr = this.__columnIdArr;
+        }
       }
 
       if (columnIdArr.length != columnNameArr.length) {
         throw new Error("columnIdArr and columnNameArr have different length: " + columnIdArr.length + " != " + columnNameArr.length);
       }
 
-      this.__internalChange = true;
-      this.setColumnIds(columnIdArr);
-      this.__internalChange = false;
+      if (bSetIds)
+      {
+        this.__internalChange = true;
+        this.setColumnIds(columnIdArr);
+        this.__internalChange = false;
+      }
+      
       this.setColumnNamesByIndex(columnNameArr);
     }
   },
