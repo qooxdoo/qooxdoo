@@ -227,6 +227,9 @@ qx.Class.define("apiviewer.ui.SearchView",
 
         this._tableModel.setColumns([ "", (sresult.length + " Result" + ((sresult.length != 1) ? "s" : "")) ]);
         this._tableModel.setData(sresult);
+        
+        // Clear old selection
+        this._table.clearSelection();
 
         var searchEnd = new Date();
         var results = sresult.length;
@@ -420,57 +423,61 @@ qx.Class.define("apiviewer.ui.SearchView",
     {
       var sel = this._selectionModel.getAnchorSelectionIndex();
       var selected = this._tableModel.getData()[sel];
-      var fullItemName = selected[1];
-      var itemType = selected[0];
-
-      var className = fullItemName;
-      var itemName = null;
-      var hashPos = fullItemName.indexOf("#");
-
-      if (hashPos != -1)
+      
+      if (selected != undefined)
       {
-        className = fullItemName.substring(0, hashPos);
-        itemName = fullItemName.substring(hashPos + 1);
-      }
+        var fullItemName = selected[1];
+        var itemType = selected[0];
 
-      var controller = qx.core.Init.getApplication().controller;
-      var classViewer = controller._classViewer;
+        var className = fullItemName;
+        var itemName = null;
+        var hashPos = fullItemName.indexOf("#");
 
-      // Display protected stated items
-      if (/protected/.test(itemType))
-      {
-        var btn_protected = controller._widgetRegistry.getWidgetById("btn_protected");
-        if (btn_protected.getChecked() === false) {
-          btn_protected.setChecked(true);
-          classViewer.setShowProtected(true);
+        if (hashPos != -1)
+        {
+          className = fullItemName.substring(0, hashPos);
+          itemName = fullItemName.substring(hashPos + 1);
         }
-      }
-      // Display private stated items
-      else if (/private/.test(itemType))
-      {
-        var btn_private = controller._widgetRegistry.getWidgetById("btn_private");
-        if (btn_private.getChecked() === false) {
-          btn_private.setChecked(true);
-          classViewer.setShowPrivate(true);
-        }
-      }
 
-      // Highlight item
-      controller._selectClass(apiviewer.dao.Class.getClassByName(className), function()
-      {
-        if (itemName) {
-          if (!classViewer.showItem(itemName))
-          {
-            controller.error("Unknown item of class '"+ className +"': " + itemName);
-            alert("Unknown item of class '"+ className +"': " + itemName);
-            return;
+        var controller = qx.core.Init.getApplication().controller;
+        var classViewer = controller._classViewer;
+
+        // Display protected stated items
+        if (/protected/.test(itemType))
+        {
+          var btn_protected = controller._widgetRegistry.getWidgetById("btn_protected");
+          if (btn_protected.getChecked() === false) {
+            btn_protected.setChecked(true);
+            classViewer.setShowProtected(true);
           }
-        } else {
-          classViewer.getContainerElement().scrollToY(0);
         }
-        controller._updateHistory(fullItemName);
+        // Display private stated items
+        else if (/private/.test(itemType))
+        {
+          var btn_private = controller._widgetRegistry.getWidgetById("btn_private");
+          if (btn_private.getChecked() === false) {
+            btn_private.setChecked(true);
+            classViewer.setShowPrivate(true);
+          }
+        }
 
-      }, controller);
+        // Highlight item
+        controller._selectClass(apiviewer.dao.Class.getClassByName(className), function()
+        {
+          if (itemName) {
+            if (!classViewer.showItem(itemName))
+            {
+              controller.error("Unknown item of class '"+ className +"': " + itemName);
+              alert("Unknown item of class '"+ className +"': " + itemName);
+              return;
+            }
+          } else {
+            classViewer.getContainerElement().scrollToY(0);
+          }
+          controller._updateHistory(fullItemName);
+
+        }, controller);
+      }
     },
 
 
