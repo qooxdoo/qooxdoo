@@ -42,6 +42,9 @@
 #</pre>
 ##
 
+# !! this file is superseded by ecmascript.frontend.lang, and is only retained for the
+# porting of loader.py !!
+
 import re
 
 

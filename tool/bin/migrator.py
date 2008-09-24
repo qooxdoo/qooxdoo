@@ -28,9 +28,9 @@ from ecmascript.frontend import tokenizer
 from ecmascript.frontend import treegenerator
 from ecmascript import compiler
 
-sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), os.pardir, os.pardir, 'framework', 'tool'))
+#sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), os.pardir, os.pardir, 'framework', 'tool'))
 
-from modules import loader
+from misc import loader
 
 
 LOGFILE = "migration.log"

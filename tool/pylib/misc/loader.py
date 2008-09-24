@@ -43,8 +43,11 @@
 ##
 
 import sys, string, re, os, random, codecs
-import config, tokenizer, treegenerator, filetool, stringoptimizer, textutil
-import treeutil
+import config
+from ecmascript.frontend import tokenizer, treegenerator
+from misc import filetool, textutil
+from ecmascript.backend.optimizer import stringoptimizer
+from ecmascript.frontend import treeutil
 
 ##
 # Some nice short description of foo(); this can contain html and
