@@ -842,7 +842,7 @@ qx.Class.define("qx.ui.tree.AbstractTreeItem",
 
       var tree = this.getTree();
       if (tree) {
-        tree.fireNonBubblingEvent("addItem", qx.event.type.Data, [treeItem]);
+        tree.fireNonBubblingEvent("removeItem", qx.event.type.Data, [treeItem]);
       }
 
       qx.ui.core.queue.Widget.add(this);
