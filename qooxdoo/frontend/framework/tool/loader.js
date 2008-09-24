@@ -19,73 +19,27 @@ window.qxloader =
   inFlushQueue : false,
 
 
-  /**
-   * loads external scripts which are not defined in "this.parts"
-   * 
-   * @type member
-   * @param name {String}
-   * @param type {String} prefix of file, example: type-name.js
-   * @param callback {Function}
-   * @param self {Object} 
-   * @return {void}
-   */
-  loadExternals : function (name, callback, self)
+  // Simple log wrapper
+  _log : function(msg, type)
   {
-    if (this.loadedParts[name])
-    {
-      if (callback) {
-        callback.call(self);
-      }
-
+    if (window.qxvariants && qxvariants["qx.debug"] == "off") {
       return;
     }
 
-    if (this.runningParts[name])
-    {
-      if (callback)
-      {
-        for (var i=0, a=this.__getCallbacksForPart(name), l=a.length; i<l; i++)
-        {          
-          if (a[i].callback == callback && a[i].self == self)
-          {
-            return;
-          }
-        }
-
-        this.__getCallbacksForPart(name).push({
-          callback : callback,
-          self : self || null
-        });
-      }
-
+    if (window.qx && qx.core && qx.core.Variant && qx.core.Variant.get("qx.debug") == "off") {
       return;
     }
 
-    this.runningParts[name] = true;
-
-    this.scriptQueue.push.apply(this.scriptQueue, ["script/" + name + ".js"]);
-
-    if (this.scriptQueue.length == 0)
-    {
-      this.loadedParts[name] = true;
-
-      if (callback) {
-        self ? callback.call(self) : callback();
-      }
-
-      return;
+    if (!type) {
+      type = "debug";
     }
 
-    if (callback)
-    {
-      this.__getCallbacksForPart(name).push({
-        callback : callback,
-        self : self || null
-      });
+    if (window.qx && qx.core && qx.core.Log) {
+      return qx.core.Log[type](msg);
     }
 
-    if (!this.inFlushQueue) {
-      this._flushQueue();
+    if (window.console && console[type]) {
+      console[type](msg);
     }
   },
 
@@ -100,6 +54,8 @@ window.qxloader =
 
     if (this.parts[name]==null)
     {
+      this._log("No such part: " + name, "warn");
+
       if (callback) {
         callback.call(self);
       }
@@ -109,6 +65,7 @@ window.qxloader =
 
     if (this.loadedParts[name])
     {
+      // this._log("Part " + name + " is already loaded...");
       if (callback) {
         callback.call(self);
       }
@@ -118,16 +75,20 @@ window.qxloader =
 
     if (this.runningParts[name])
     {
+      this._log("The part " + name + " is already in loading state... checking callback");
+
       if (callback)
       {
         for (var i=0, a=this.__getCallbacksForPart(name), l=a.length; i<l; i++)
         {          
           if (a[i].callback == callback && a[i].self == self)
           {
+            this._log("Callback is already registered.");
             return;
           }
         }
 
+        // this._log("Registering callback");
         this.__getCallbacksForPart(name).push({
           callback : callback,
           self : self || null
@@ -138,6 +99,8 @@ window.qxloader =
     }
 
     this.runningParts[name] = true;
+
+    this._log("Loading part " + name + "...");
 
     var pkgs = this.parts[name];
     var pkg;
@@ -150,6 +113,7 @@ window.qxloader =
 
       if (this.loadedPackages[pkg])
       {
+        // this._log("Package: " + pkg + " is already loaded...");
         continue;
       }
 
@@ -157,9 +121,11 @@ window.qxloader =
         continue;
       }
 
+      // this._log("Loading package: " + pkg);
       this.runningPackages[pkg] = true;
 
       uris = this.uris[pkg];
+      // this._log("Queueing " + uris.length + " files");
       this.scriptQueue.push.apply(this.scriptQueue, uris);
     }
 
@@ -178,6 +144,7 @@ window.qxloader =
 
     if (callback)
     {
+      // this._log("Registering callback");
       this.__getCallbacksForPart(name).push({
         callback : callback,
         self : self || null
@@ -199,9 +166,12 @@ window.qxloader =
     // Queue empty?
     if (queue.length == 0)
     {
+      // this._log("Queue flushed successfully!");
+
       // Move running packages to loaded packages
       for (var pkg in this.runningPackages)
       {
+        // this._log("Package " + pkg + " successfully loaded");
         this.loadedPackages[pkg] = true;
       }
       this.runningPackages = {};
@@ -211,6 +181,7 @@ window.qxloader =
       
       for (var part in this.runningParts)
       {
+        this._log("Part " + part + " successfully loaded");
         this.loadedParts[part] = true;
         executeCallbacksForParts.push(part);
       }
@@ -254,6 +225,8 @@ window.qxloader =
 
     if (this.loadedScripts[uri])
     {
+      // this._log("Script is already loaded: " + uri);
+
       if (callback) {
         callback.call(self);
       }
