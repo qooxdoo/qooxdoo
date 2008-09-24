@@ -2652,7 +2652,6 @@ qx.Class.define("qx.ui.core.Widget",
      * Renders the appearance using the current widget states.
      *
      * Used exlusively by {qx.ui.core.queue.Appearance}.
-     *
      */
     syncAppearance : function()
     {
@@ -2693,7 +2692,9 @@ qx.Class.define("qx.ui.core.Widget",
           id.push(obj.$$subcontrol||obj.getAppearance());
         } while (obj = obj.$$subparent)
 
-        selector = this.__appearanceSelector = id.reverse().join("/");
+        // Combine parent control IDs, add top level appearance, filter result
+        // to not include positioning information anymore (e.g. #3)
+        selector = this.__appearanceSelector = id.reverse().join("/").replace(/#[0-9]+/g, "");        
       }
 
       // Query current selector
@@ -3491,7 +3492,12 @@ qx.Class.define("qx.ui.core.Widget",
       }
 
       // this.debug("Create child control: " + id);
-      var control = this._createChildControlImpl(id);
+      var pos = id.indexOf("#");
+      if (pos == -1) {
+        var control = this._createChildControlImpl(id);  
+      } else {
+        var control = this._createChildControlImpl(id.substring(0, pos));  
+      }
 
       if (!control) {
         throw new Error("Unsupported control: " + id);
