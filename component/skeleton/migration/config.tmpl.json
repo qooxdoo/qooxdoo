@@ -90,9 +90,9 @@
       "extend" : ["appconf::test-source"]
     },
 
-    "translate" :
+    "translation" :
     {
-      "extend" : ["appconf::translate"]
+      "extend" : ["appconf::translation"]
     }
   }
 }
