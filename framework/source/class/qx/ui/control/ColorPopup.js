@@ -135,6 +135,12 @@ qx.Class.define("qx.ui.control.ColorPopup",
 
       switch(id)
       {
+        case "field":
+          control = new qx.ui.core.Widget;        
+          control.addListener("mousedown", this._onFieldMouseDown, this);
+          control.addListener("mouseover", this._onFieldMouseOver, this);
+          break;
+                  
         case "auto-button":
           control = new qx.ui.form.Button(this.tr("Automatic"));
           control.setAllowStretchX(true);
@@ -174,6 +180,8 @@ qx.Class.define("qx.ui.control.ColorPopup",
     },
 
 
+
+
     /*
     ---------------------------------------------------------------------------
       CREATOR SUBS
@@ -189,6 +197,7 @@ qx.Class.define("qx.ui.control.ColorPopup",
 
       var tables = this._tables;
       var table, box, field;
+      var j=0;
 
       for (var tableId in tables)
       {
@@ -200,18 +209,10 @@ qx.Class.define("qx.ui.control.ColorPopup",
         this.__boxes[tableId] = box;
         this.add(box);
 
-        for (var i=0; i<this.__fieldNumber; i++)
+        for (var i=0; i<this.__fieldNumber; i++) 
         {
-          field = new qx.ui.container.Composite(new qx.ui.layout.Basic);
-
-          field.set({
-            appearance : "colorpopup/field",
-            backgroundColor : table.values[i] || "white"
-          });
-
-          field.addListener("mousedown", this._onFieldMouseDown, this);
-          field.addListener("mouseover", this._onFieldMouseOver, this);
-
+          field = this._getChildControl("field#" + (j++));
+          field.setBackgroundColor(table.values[i] || "white");
           box.add(field);
         }
       }
