@@ -140,10 +140,10 @@
       "extend" : ["appconf::lint"]
     },
 
-    "translate" :
+    "translation" :
     {
       "include": [],
-      "extend" : ["appconf::translate"]
+      "extend" : ["appconf::translation"]
     }
   }
 }
