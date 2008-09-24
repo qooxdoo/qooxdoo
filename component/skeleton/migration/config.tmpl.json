@@ -23,7 +23,12 @@
   {
     "common" :
     {
-      "include" : ["qx.legacy.theme.ClassicRoyale"],
+      "include" : 
+      [
+        "$${APPLICATION}.Application",
+        "$${QXTHEME}",
+        "qx.legacy.theme.ClassicRoyale"
+      ],
       "settings" :
       {
         "qx.legacy.theme" : "qx.legacy.theme.ClassicRoyale"
