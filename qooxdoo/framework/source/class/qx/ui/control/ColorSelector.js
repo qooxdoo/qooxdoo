@@ -281,21 +281,26 @@ qx.Class.define("qx.ui.control.ColorSelector",
           control.setLayout(new qx.ui.layout.Grow());
           control.add(this._getChildControl("preset-grid"));
           break;
+          
+        case "colorbucket":
+          control = new qx.ui.core.Widget();
+          control.addListener("mousedown", this._onColorFieldClick, this);
+          break;
 
         case "preset-grid":
           controlLayout = new qx.ui.layout.Grid(3, 3);
           control = new qx.ui.container.Composite(controlLayout);
 
           var colorField;
+          var colorPos;
 
           for (var i=0; i<2; i++)
           {
             for (var j=0; j<10; j++)
             {
-              colorField = new qx.ui.core.Widget();
-              colorField.setAppearance("colorselector-colorbucket");
-              colorField.setBackgroundColor(this.__presetTable[i * 10 + j]);
-              colorField.addListener("mousedown", this._onColorFieldClick, this);
+              colorPos = i * 10 + j;
+              colorField = this._getChildControl("colorbucket#" + colorPos);
+              colorField.setBackgroundColor(this.__presetTable[colorPos]);
 
               control.add(colorField, {column: j, row: i});
             }

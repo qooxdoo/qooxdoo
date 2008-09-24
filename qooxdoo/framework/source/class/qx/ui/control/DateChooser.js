@@ -323,43 +323,55 @@ qx.Class.define("qx.ui.control.DateChooser",
           control.setAnonymous(true);
           break;
 
+        case "week":
+          control = new qx.ui.basic.Label();
+          control.setAllowGrowX(true);
+          control.setAllowGrowY(true);
+          control.setSelectable(false);
+          control.setAnonymous(true);
+          control.setCursor("default");
+          break;
+          
+        case "weekday":
+          control = new qx.ui.basic.Label();
+          control.setAllowGrowX(true);
+          control.setAllowGrowY(true);
+          control.setSelectable(false);
+          control.setAnonymous(true);
+          control.setCursor("default");
+          break;
+          
+        case "day":
+          control = new qx.ui.basic.Label();
+          control.setAllowGrowX(true);
+          control.setAllowGrowY(true);
+          control.setCursor("default");
+          control.addListener("mousedown", this._onDayClicked, this);
+          control.addListener("dblclick", this._onDayDblClicked, this);
+          break;
 
-        // DATE PANE STUFF
         case "date-pane":
           var controlLayout = new qx.ui.layout.Grid()
           control = new qx.ui.container.Composite(controlLayout);
 
           for (var i = 0; i < 8; i++) {
-            // controlLayout.setColumnWidth(i, 24);
             controlLayout.setColumnFlex(i, 1);
           }
 
           for (var i = 0; i < 7; i++) {
             controlLayout.setRowFlex(i, 1);
-            // controlLayout.setRowHeight(i, 18);
           }
 
           // Create the weekdays
           // Add an empty label as spacer for the week numbers
-          var label = new qx.ui.basic.Label();
-          label.setAllowGrowX(true);
-          label.setAppearance("datechooser-week");
-          label.setAnonymous(true);
+          var label = this._getChildControl("week#0");
           label.addState("header");
           control.add(label, {column: 0, row: 0});
 
           this.__weekdayLabelArr = [];
-
           for (var i=0; i<7; i++)
           {
-            var label = new qx.ui.basic.Label();
-            label.setAllowGrowX(true);
-            label.setAllowGrowY(true);
-            label.setAppearance("datechooser-weekday");
-            label.setSelectable(false);
-            label.setAnonymous(true);
-            label.setCursor("default");
-
+            label = this._getChildControl("weekday#" + i);
             control.add(label, {column: i + 1, row: 0});
             this.__weekdayLabelArr.push(label);
           }
@@ -371,27 +383,14 @@ qx.Class.define("qx.ui.control.DateChooser",
           for (var y = 0; y < 6; y++)
           {
             // Add the week label
-            var label = new qx.ui.basic.Label();
-            label.setAllowGrowX(true);
-            label.setAllowGrowY(true);
-            label.setAppearance("datechooser-week");
-            label.setAnonymous(true);
-            label.setCursor("default");
-
+            var label = this._getChildControl("week#" + (y+1));
             control.add(label, {column: 0, row: y + 1});
             this.__weekLabelArr.push(label);
 
             // Add the day labels
             for (var x = 0; x < 7; x++)
             {
-              var label = new qx.ui.basic.Label();
-              label.setAllowGrowX(true);
-              label.setAllowGrowY(true);
-              label.setAppearance("datechooser-day");
-              label.setCursor("default");
-
-              label.addListener("mousedown", this._onDayClicked, this);
-              label.addListener("dblclick", this._onDayDblClicked, this);
+              var label = this._getChildControl("day#" + ((y*7)+x));
               control.add(label, {column:x + 1, row:y + 1});
               this.__dayLabelArr.push(label);
             }
@@ -785,8 +784,6 @@ qx.Class.define("qx.ui.control.DateChooser",
       qx.locale.Manager.getInstance().removeListener("changeLocale", this._updateDatePane, this);
     }
 
-    this._disposeArray("__weekdayLabelArr", 1);
-    this._disposeArray("__dayLabelArr", 1);
-    this._disposeArray("__weekLabelArr", 1);
+    this._disposeFields("__weekdayLabelArr", "__dayLabelArr", "__weekLabelArr");
   }
 });

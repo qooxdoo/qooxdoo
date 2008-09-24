@@ -1751,7 +1751,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       }
     },
 
-    "datechooser-weekday" :
+    "datechooser/weekday" :
     {
       style : function(states)
       {
@@ -1764,7 +1764,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       }
     },
 
-    "datechooser-week" :
+    "datechooser/week" :
     {
       style : function(states)
       {
@@ -1776,7 +1776,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
       }
     },
 
-    "datechooser-day" :
+    "datechooser/day" :
     {
       style : function(states)
       {
@@ -2038,7 +2038,7 @@ qx.Theme.define("qx.theme.modern.Appearance",
     "colorselector/visual-pane" : "groupbox",
     "colorselector/preset-grid" : "widget",
 
-    "colorselector-colorbucket":
+    "colorselector/colorbucket":
     {
       style : function(states)
       {
