@@ -152,7 +152,7 @@ qx.Class.define("demobrowser.demo.widget.Tree",
       btnMultiSelect.setChecked(tree.getSelectionMode() == "multi");
       commandFrame.add(btnMultiSelect, {row: row++, column: 1});
 
-      btnMultiSelect.addListener("changeValue", function(e)
+      btnMultiSelect.addListener("changeChecked", function(e)
       {
         var enable = e.getData();
         tree.setSelectionMode(enable ? "multi": "single");
@@ -168,7 +168,7 @@ qx.Class.define("demobrowser.demo.widget.Tree",
       btnDragSelect.setChecked(tree.getDragSelection());
       commandFrame.add(btnDragSelect, {row: row++, column: 1});
 
-      btnDragSelect.addListener("changeValue", function(e)
+      btnDragSelect.addListener("changeChecked", function(e)
       {
         var enable = e.getData();
         tree.setDragSelection(enable);
@@ -187,7 +187,7 @@ qx.Class.define("demobrowser.demo.widget.Tree",
       btnHideRoot.setChecked(tree.getHideRoot());
       commandFrame.add(btnHideRoot, {row: row++, column: 1});
 
-      btnHideRoot.addListener("changeValue", function(e) {
+      btnHideRoot.addListener("changeChecked", function(e) {
         tree.setHideRoot(e.getData());
       });
 
@@ -198,7 +198,7 @@ qx.Class.define("demobrowser.demo.widget.Tree",
       btnShowRootOpen.setChecked(tree.getRootOpenClose());
       commandFrame.add(btnShowRootOpen, {row: row++, column: 1});
 
-      btnShowRootOpen.addListener("changeValue", function(e) {
+      btnShowRootOpen.addListener("changeChecked", function(e) {
         tree.setRootOpenClose(e.getData());
       });
 
