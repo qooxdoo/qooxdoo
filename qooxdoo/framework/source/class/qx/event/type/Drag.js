@@ -227,8 +227,8 @@ qx.Class.define("qx.event.type.Drag",
 
 
     /**
-     * Returns the type which was requested last.
-     * Used in the <code>droprequest</code> listener.
+     * Returns the type which was requested last, to be used
+     * in the <code>droprequest</code> listener.
      *
      * @return {String} The last requested data type
      */
