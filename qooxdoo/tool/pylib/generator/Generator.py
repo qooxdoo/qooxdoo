@@ -368,7 +368,6 @@ class Generator:
         (self._namespaces,
          self._classes,
          self._docs,
-         #self._translations) = self.scanLibrary(config.extract("library"))
          self._translations,
          self._libs) = self.scanLibrary(config.get("library"))
 
@@ -396,7 +395,8 @@ class Generator:
         # Iterate through variant sets
         for variantSetNum, variants in enumerate(variantSets):
             if len(variantSets) > 1:
-                self._console.head("Processing variant set %s/%s" % (variantSetNum+1, len(variantSets)))
+                variantStr = simplejson.dumps(variants,ensure_ascii=False)
+                self._console.head("Processing variant set %s/%s (%s)" % (variantSetNum+1, len(variantSets), variantStr))
 
                 # Debug variant combination
                 self._console.debug("Switched variants:")
