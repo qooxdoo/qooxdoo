@@ -35,7 +35,7 @@ qx.Class.define("qx.ui.form.MenuButton",
 
   /**
    * @param label {String} Initial label
-   * @param icon {String} Initial icon
+   * @param icon {String?null} Initial icon
    * @param menu {qx.ui.menu.Menu} Connect to menu instance
    */
   construct : function(label, icon, menu)
