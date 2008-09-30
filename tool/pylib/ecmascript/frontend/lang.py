@@ -1,4 +1,5 @@
-BUILTIN = ["Object", "Array", "RegExp", "Math", "String", "Number", "Error", "Date"]
+BUILTIN = ["Object", "Array", "RegExp", "Math", "String", "Number", "Error", "Date",
+           "Element", "Event", "Image", "Node", "Option", "Window", "Function"]
 
 TOKENS = {
     "." : "DOT",

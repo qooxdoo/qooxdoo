@@ -37,7 +37,7 @@
 
 import sys, re
 
-from ecmascript.frontend import treeutil
+from ecmascript.frontend import treeutil, lang
 from misc import filetool, idlist
 
 
@@ -140,6 +140,12 @@ class DependencyLoader:
         except NameError, detail:
             raise NameError("Could not resolve dependencies of class: %s \n%s" % (item, detail))
 
+        if deps['undef']:
+            self._console.indent()
+            for id in deps['undef']:
+                self._console.warn("! Unknown class referenced: %s (in: %s)" % (id, item))
+            self._console.outdent()
+
 
 
     def getCombinedDeps(self, fileId, variants):
@@ -164,7 +170,8 @@ class DependencyLoader:
         # return dict
         return {
             "load" : loadFinal,
-            "run" : runFinal
+            "run"  : runFinal,
+            'undef' : static['undef']
         }
 
 
@@ -204,7 +211,7 @@ class DependencyLoader:
         run.extend(metaRun)
 
         # Read content data
-        (autoLoad, autoRun) = self._analyzeClassDeps(fileId, variants)
+        (autoLoad, autoRun, autoWarn) = self._analyzeClassDeps(fileId, variants)
         
         # Process content data
         if not "auto-require" in metaIgnore:
@@ -232,7 +239,8 @@ class DependencyLoader:
         # Build data structure
         deps = {
             "load" : load,
-            "run" : run
+            "run"  : run,
+            'undef' : autoWarn
         }
         
         self._cache.writemulti(cacheId, deps)
@@ -250,16 +258,17 @@ class DependencyLoader:
 
     def _analyzeClassDeps(self, fileId, variants):
         loadtimeDeps = []
-        runtimeDeps = []
+        runtimeDeps  = []
+        undefDeps    = []
 
         tree = self._treeLoader.getTree(fileId, variants)
-        self._analyzeClassDepsNode(fileId, tree, loadtimeDeps, runtimeDeps, False)
+        self._analyzeClassDepsNode(fileId, tree, loadtimeDeps, runtimeDeps, undefDeps, False)
 
-        return loadtimeDeps, runtimeDeps
+        return loadtimeDeps, runtimeDeps, undefDeps
 
 
 
-    def _analyzeClassDepsNode(self, fileId, node, loadtime, runtime, inFunction):
+    def _analyzeClassDepsNode(self, fileId, node, loadtime, runtime, warn, inFunction):
         if node.type == "variable":
             assembled = (treeutil.assembleVariable(node))[0]
 
@@ -268,7 +277,7 @@ class DependencyLoader:
                 if node.parent.type == "operand" and node.parent.parent.type == "call":
                     deferNode = treeutil.selectNode(node, "../../params/2/keyvalue[@key='defer']/value/function/body/block")
                     if deferNode != None:
-                        self._analyzeClassDepsNode(fileId, deferNode, loadtime, runtime, False)
+                        self._analyzeClassDepsNode(fileId, deferNode, loadtime, runtime, warn, False)
 
 
             # try to reduce to a class name
@@ -282,21 +291,37 @@ class DependencyLoader:
                         assembledId = entryId
                         break
 
-            if assembledId and assembledId != fileId and self._classes.has_key(assembledId):
-                if inFunction:
-                    target = runtime
-                else:
-                    target = loadtime
+            # warn about instantiations of unknown classes
+            ##if not assembledId:
+            ##    print assembled
+            if (not assembledId
+                and 'parent' in node.__dict__
+                and 'parent' in node.parent.__dict__
+                and 'parent' in node.parent.parent.__dict__
+                and 'parent' in node.parent.parent.parent.__dict__
+                and node.parent.parent.parent.parent.type == 'instantiation'  # we're inside a 'new' expression
+                and node.parent.type == 'operand' # it's the functor
+               ):
+                # skip built-in classes (Error, Document, RegExp, ...)
+                if not assembled in lang.BUILTIN + ['clazz']:
+                    warn.append(assembled)
 
-                if not assembledId in target:
-                    target.append(assembledId)
+            if assembledId and assembledId != fileId:
+                if self._classes.has_key(assembledId):
+                    if inFunction:
+                        target = runtime
+                    else:
+                        target = loadtime
+
+                    if not assembledId in target:
+                        target.append(assembledId)
 
         elif node.type == "body" and node.parent.type == "function":
             inFunction = True
 
         if node.hasChildren():
             for child in node.children:
-                self._analyzeClassDepsNode(fileId, child, loadtime, runtime, inFunction)
+                self._analyzeClassDepsNode(fileId, child, loadtime, runtime, warn, inFunction)
 
 
 
