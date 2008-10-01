@@ -64,7 +64,7 @@ qx.Class.define("qx.ui.form.Slider",
   */
 
   /**
-   * @param orientation {String} Configure the {@link #orientation} property
+   * @param orientation {String?"horizontal"} Configure the {@link #orientation} property
    */
   construct : function(orientation)
   {
@@ -156,7 +156,7 @@ qx.Class.define("qx.ui.form.Slider",
 
 
     /**
-     * The minimum slider value (may be nagative). This value must be smaller
+     * The minimum slider value (may be negative). This value must be smaller
      * than {@link #maximum}.
      */
     minimum :
@@ -168,7 +168,7 @@ qx.Class.define("qx.ui.form.Slider",
 
 
     /**
-     * The maximum slider value (may be nagative). This value must be larger
+     * The maximum slider value (may be negative). This value must be larger
      * than {@link #minimum}.
      */
     maximum :
