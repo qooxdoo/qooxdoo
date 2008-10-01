@@ -302,9 +302,12 @@ class DependencyLoader:
                 and node.parent.parent.parent.parent.type == 'instantiation'  # we're inside a 'new' expression
                 and node.parent.type == 'operand' # it's the functor
                ):
-                # skip built-in classes (Error, Document, RegExp, ...)
+                # skip built-in classes (Error, document, RegExp, ...)
                 if not assembled in lang.BUILTIN + ['clazz']:
                     warn.append(assembled)
+                    #if assembled == "Function":
+                    #    import pydb
+                    #    pydb.debugger()
 
             if assembledId and assembledId != fileId:
                 if self._classes.has_key(assembledId):
