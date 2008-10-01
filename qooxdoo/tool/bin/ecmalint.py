@@ -30,38 +30,8 @@ from ecmascript.frontend import treegenerator
 from ecmascript.frontend import tokenizer
 from ecmascript.frontend import treeutil
 from ecmascript.frontend import tree
+from ecmascript.frontend import lang
 from misc import filetool
-
-def getFunctionName(fcnNode):
-
-    if not fcnNode.hasParent() or not fcnNode.parent.hasParent():
-        return "global"
-
-    if fcnNode.type == "function" and fcnNode.get("name", False):
-        return fcnNode.get("name", False)
-
-    if fcnNode.parent.parent.type == "keyvalue":
-        return fcnNode.parent.parent.get("key")
-
-    if fcnNode.parent.type == "right" and fcnNode.parent.parent.type == "assignment":
-        return fcnNode.parent.parent.getFirstChild().getFirstChild().toJavascript().strip()
-
-    if fcnNode.parent.type == "assignment" and fcnNode.parent.parent.type == "definition":
-        return fcnNode.parent.parent.get("identifier")
-
-    return "unknown"
-
-
-def nodeIterator(node, nodetypes):
-    if node.type in nodetypes:
-        yield node
-
-    if node.hasChildren():
-        for child in node.children:
-            for fcn in nodeIterator(child, nodetypes):
-                yield fcn
-
-
 
 class Script:
     def __init__(self, rootNode, filename=""):
@@ -75,7 +45,7 @@ class Script:
         self.globalScope = Scope(self.root, self)
         scopes[self.root] = self.globalScope
 
-        for node in nodeIterator(self.root, ["function", "catch"]):
+        for node in treeutil.nodeIterator(self.root, ["function", "catch"]):
             scope = Scope(node, self)
             scopes[node] = scope
 
@@ -136,7 +106,7 @@ class Scope:
 Function %s(%s):
   - Defined variables: %s
   - Used Variables: %s""" % (
-            getFunctionName(self.node),
+            treeutil.getFunctionName(self.node),
             arguments, variables, uses
         )
 
@@ -393,14 +363,14 @@ class Lint:
 
 
     def checkRequiredBlocks(self):
-        for node in nodeIterator(self.tree, "loop"):
+        for node in treeutil.nodeIterator(self.tree, "loop"):
             block = treeutil.selectNode(node, "statement/block")
             if not block:
                 self.log(node, "The statement of loops and conditions must be enclosed by a block in braces '{}'")
 
 
     def checkMaps(self):
-        for node in nodeIterator(self.tree, "map"):
+        for node in treeutil.nodeIterator(self.tree, "map"):
             knownkeys = {}
             if node.hasChildren():
                 for child in node.children:
@@ -428,9 +398,9 @@ class Lint:
         members = treeutil.mapNodeToMap(classMap["members"].children[0])       
         restricted = [key for key in members if key.startswith("_")]
                 
-        assignNodes = [node for node in nodeIterator(classMap["members"], "assignment")]
+        assignNodes = [node for node in treeutil.nodeIterator(classMap["members"], "assignment")]
         if classMap.has_key("construct"):
-            for node in nodeIterator(classMap["construct"], "assignment"):
+            for node in treeutil.nodeIterator(classMap["construct"], "assignment"):
                 assignNodes.append(node)
         
         for node in assignNodes:
@@ -473,7 +443,10 @@ class Lint:
     def isBadGlobal(self, identifier):
         return identifier in Lint.DEPRECATED_IDENTIFIER
 
-    KNOWN_IDENTIFIER = set([
+    KNOWN_IDENTIFIER = set(lang.GLOBALS)
+    
+    # this array has formerly been assigned to KNOWN_IDENTIFIER and can be removed later
+    [
 
         "window", "document",
 
@@ -517,7 +490,7 @@ class Lint:
         "parseInt", "parseFloat", "isNaN", "isFinite",
 
         "this", "arguments", "undefined", "NaN", "Infinity"
-    ])
+    ]
 
     def isGoodGlobal(self, identifier):
         return identifier in Lint.KNOWN_IDENTIFIER

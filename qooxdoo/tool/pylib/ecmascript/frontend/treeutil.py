@@ -169,6 +169,17 @@ def selectNode(node, path):
     return node
 
 
+def nodeIterator(node, nodetypes):
+    if node.type in nodetypes:
+        yield node
+
+    if node.hasChildren():
+        for child in node.children:
+            for fcn in nodeIterator(child, nodetypes):
+                yield fcn
+
+
+
 def getDefinitions(node, definitions=None):
   if definitions == None:
     definitions = []
@@ -393,6 +404,26 @@ def variableOrArrayNodeToArray(node):
     else:
         raise tree.NodeAccessException("'node' is no variable or array node", node)
     return arr
+
+
+def getFunctionName(fcnNode):
+
+    if not fcnNode.hasParent() or not fcnNode.parent.hasParent():
+        return "global"
+
+    if fcnNode.type == "function" and fcnNode.get("name", False):
+        return fcnNode.get("name", False)
+
+    if fcnNode.parent.parent.type == "keyvalue":
+        return fcnNode.parent.parent.get("key")
+
+    if fcnNode.parent.type == "right" and fcnNode.parent.parent.type == "assignment":
+        return fcnNode.parent.parent.getFirstChild().getFirstChild().toJavascript().strip()
+
+    if fcnNode.parent.type == "assignment" and fcnNode.parent.parent.type == "definition":
+        return fcnNode.parent.parent.get("identifier")
+
+    return "unknown"
 
 
 def getLineAndColumnFromSyntaxItem(syntaxItem):

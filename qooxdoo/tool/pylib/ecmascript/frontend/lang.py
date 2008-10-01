@@ -1,5 +1,69 @@
-BUILTIN = ["Object", "Array", "RegExp", "Math", "String", "Number", "Error", "Date",
-           "Element", "Event", "Image", "Node", "Option", "Window", "Function"]
+# built-in classes
+BUILTIN = [
+          "ActiveXObject",
+          "Array",
+          "Boolean",
+          "Date",
+          "document",
+          "DOMParser",
+          "Element",
+          "Error",
+          "Event",
+          "Function",
+          "Image",
+          "Math",
+          "navigator",
+          "Node",
+          "Number",
+          "Object",
+          "Option",
+          "RegExp",
+          "String",
+          "window",
+          "XMLHttpRequest",
+          "XMLSerializer",
+          "XPathEvaluator",
+          "XPathResult",
+          ]
+
+GLOBALS = BUILTIN + [
+          # Java
+          "java", "sun", "Packages",
+  
+          # Firefox extension: Firebug
+          "console",
+  
+          # IE
+          "event", "offscreenBuffering", "clipboardData", "clientInformation",
+          "external", "screenTop", "screenLeft",
+  
+          # window
+          'addEventListener', '__firebug__', 'location', 'netscape',
+          'XPCNativeWrapper', 'Components', 'parent', 'top', 'scrollbars',
+          'name', 'scrollX', 'scrollY', 'scrollTo', 'scrollBy', 'getSelection',
+          'scrollByLines', 'scrollByPages', 'sizeToContent', 'dump',
+          'setTimeout', 'setInterval', 'clearTimeout', 'clearInterval',
+          'setResizable', 'captureEvents', 'releaseEvents', 'routeEvent',
+          'enableExternalCapture', 'disableExternalCapture', 'prompt', 'open',
+          'openDialog', 'frames', 'find', 'self', 'screen', 'history',
+          'content', 'menubar', 'toolbar', 'locationbar', 'personalbar',
+          'statusbar', 'directories', 'closed', 'crypto', 'pkcs11',
+          'controllers', 'opener', 'status', 'defaultStatus', 'innerWidth',
+          'innerHeight', 'outerWidth', 'outerHeight', 'screenX', 'screenY',
+          'pageXOffset', 'pageYOffset', 'scrollMaxX', 'scrollMaxY', 'length',
+          'fullScreen', 'alert', 'confirm', 'focus', 'blur', 'back', 'forward',
+          'home', 'stop', 'print', 'moveTo', 'moveBy', 'resizeTo', 'resizeBy',
+          'scroll', 'close', 'updateCommands',
+
+          'atob', 'btoa', 'frameElement', 'removeEventListener', 'dispatchEvent',
+          'getComputedStyle', 'sessionStorage', 'globalStorage',
+  
+          # Language
+          "decodeURI", "decodeURIComponent", "encodeURIComponent",
+          "escape", "unescape", "parseInt", "parseFloat", "isNaN", "isFinite",
+  
+          "this", "arguments", "undefined", "NaN", "Infinity"
+          ]
 
 TOKENS = {
     "." : "DOT",
