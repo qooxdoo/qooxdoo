@@ -38,6 +38,7 @@
 import sys, re
 
 from ecmascript.frontend import treeutil, lang
+from ecmascript.frontend.Script import Script
 from misc import filetool, idlist
 
 
@@ -303,11 +304,20 @@ class DependencyLoader:
                 and node.parent.type == 'operand' # it's the functor
                ):
                 # skip built-in classes (Error, document, RegExp, ...)
-                if not assembled in lang.BUILTIN + ['clazz']:
-                    warn.append(assembled)
-                    #if assembled == "Function":
+                if (assembled in lang.BUILTIN + ['clazz']
+                    or re.match(r'this\b', assembled)
+                   ):
+                   pass
+                else:
+                    #if assembled == "this.configureTreeItem" and False:
                     #    import pydb
                     #    pydb.debugger()
+                    # skip scoped vars
+                    isScopedVar = self._isScopedVar(assembled, node, fileId)
+                    if isScopedVar:
+                        pass
+                    else:
+                        warn.append(assembled)
 
             if assembledId and assembledId != fileId:
                 if self._classes.has_key(assembledId):
@@ -327,6 +337,38 @@ class DependencyLoader:
                 self._analyzeClassDepsNode(fileId, child, loadtime, runtime, warn, inFunction)
 
 
+    def _isScopedVar(self, idString, node, fileId):
+
+        def findScopeNodeAndRoot(node):
+            node1 = node
+            sNode = None
+            rNode = None
+            while True:
+                if not sNode and node1.type in ["function", "catch"]:
+                    sNode = node1
+                if node1.hasParent():
+                    node1 = node1.parent
+                else:
+                    if not sNode:
+                        sNode = node1
+                    rNode = node1
+                    break
+            return sNode, rNode
+
+        # check composite id a.b.c, check only first part
+        dotIdx = idString.find('.')
+        if dotIdx > -1:
+            idString = idString[:dotIdx]
+        scopeNode, rootNode  = findScopeNodeAndRoot(node)  # find the node of the enclosing scope (function - catch - global)
+        script = Script(rootNode, fileId)
+        if scopeNode == rootNode:
+            fcnScope = script.getGlobalScope()
+        else:
+            fcnScope = script.getScope(scopeNode)
+        varDef = script.getVariableDefinition(idString, fcnScope)
+        if varDef:
+            return True
+        return False
 
 
 
