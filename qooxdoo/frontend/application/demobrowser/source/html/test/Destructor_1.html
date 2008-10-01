@@ -1,0 +1,103 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>qooxdoo &raquo; Demo Browser</title>
+  <script type="text/javascript" src="../../script/demo.js"></script>
+  <script type="text/javascript" src="../util.js"></script>
+</head>
+<body>  
+  <div id="description">
+    <p>Destructor tests, checking for memory leaks.</p>
+  </div>
+
+  <script type="text/javascript">
+qx.Class.define("BasicSample",
+{
+  extend : qx.application.Gui,
+  
+  members :
+  {
+	  __data : [],
+
+	  main : function()
+    {
+	    // Call super class
+	    this.base(arguments);
+	
+	    this.doc = qx.ui.core.ClientDocument.getInstance();
+	    
+	    // Test labels
+	    this.currentTest = this.testLabels;
+	    //this.currentTest = this.testWindows;
+	
+	    // Init rounds
+	    this.__round = 0;
+	
+	    // Init timer
+	    this.__timer = new qx.client.Timer(1000);
+	    this.__timer.addEventListener("interval", this.runTest, this);
+	    this.__timer.start();
+	
+	    // Make global for demo use
+	    timer = this.__timer;
+    },
+
+    runTest : function()
+    {
+      // Debug
+      this.__round++;
+      var len = qx.core.Object.getDb().length;
+      this.debug("Round: " + this.__round + " (Registry: " + len + ")");
+
+      // Test labels
+      this.currentTest();
+
+      // Render content
+      qx.ui.core.Widget.flushGlobalQueues();
+
+      // Clear
+      var data = this.__data;
+      for (var i=0, l=data.length; i<l; i++) {
+          data[i].dispose();
+//          data[i].destroy();
+      }
+      data.length = 0;
+
+      // Clear content
+      qx.ui.core.Widget.flushGlobalQueues();
+
+      // Debug
+      var len = qx.core.Object.getDb().length;
+      this.debug("Done! (Registry: " + len + ")");
+    },
+
+    testLabels: function()
+    {
+      for ( var i=0; i<250; i++)
+      {
+        var label = new qx.ui.basic.Label("Label: " + i);
+
+        label.set({left: 50, top: 50 + i*20});
+        this.doc.add(label);
+
+        this.__data.push(label);
+      }
+    },
+
+    testWindows : function()
+    {
+      for ( var i=0; i<5; i++)
+      {
+        var win = new qx.ui.window.Window("Window: " + i);
+        win.open();
+
+        this.__data.push(win);
+      }
+    }
+  }
+});
+
+qx.core.Init.getInstance().setApplication(new BasicSample);
+  </script>
+</body>
+</html>
