@@ -224,8 +224,7 @@ qx.Class.define("qx.ui.table.pane.Header",
     {
       if (this.__moveFeedback != null)
       {
-        this.__moveFeedback.getLayoutParent().remove(this.__moveFeedback);
-        this.__moveFeedback.dispose();
+        this.__moveFeedback.destroy();
         this.__moveFeedback = null;
       }
     },
@@ -320,9 +319,7 @@ qx.Class.define("qx.ui.table.pane.Header",
       for (var x=children.length-1; x>=0; x--)
       {
         var cellWidget = children[x];
-
-        this._remove(cellWidget);
-        cellWidget.dispose();
+        cellWidget.destroy();
       }
     }
   },
