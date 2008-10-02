@@ -330,8 +330,14 @@ qx.Class.define("qx.ui.table.pane.Pane",
      */
     __rowCacheSet : function(row, rowString, selected, focused)
     {
-      if (!selected && !focused && !this.__rowCache[row]) {
-        this._applyMaxCacheLines(this.getMaxCacheLines());
+      var maxCacheLines = this.getMaxCacheLines();
+      if (
+        !selected &&
+        !focused &&
+        !this.__rowCache[row] &&
+        maxCacheLines > 0
+      ) {
+        this._applyMaxCacheLines(maxCacheLines);
         this.__rowCache[row] = rowString;
         this.__rowCacheCount += 1;
       }
