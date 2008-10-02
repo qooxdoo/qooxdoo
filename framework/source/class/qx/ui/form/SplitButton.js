@@ -194,7 +194,7 @@ qx.Class.define("qx.ui.form.SplitButton",
           control = new qx.ui.form.Button;
           control.addListener("execute", this._onButtonExecute, this);
           control.setFocusable(false);
-          this._addAt(control, 0);
+          this._addAt(control, 0, {flex: 1});
           break;
 
         case "arrow":
