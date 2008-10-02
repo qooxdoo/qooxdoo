@@ -997,7 +997,7 @@ qx.Class.define("qx.ui.table.Table",
       {
         for (var i=scrollerArr.length-1; i>=fromMetaColumn; i--)
         {
-          scrollerArr[i].dispose();
+          scrollerArr[i].destroy();
         }
       }
     },
