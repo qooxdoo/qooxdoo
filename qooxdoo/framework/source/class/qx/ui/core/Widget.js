@@ -1828,14 +1828,14 @@ qx.Class.define("qx.ui.core.Widget",
      * Add a widget after another already inserted widget
      *
      * @param child {LayoutItem} widget to add
-     * @param after {LayoutItem} widgert, after which the new widget will be inserted
+     * @param after {LayoutItem} widget, after which the new widget will be inserted
      * @param options {Map?null} Optional layout data for widget.
      * @return {void}
      */
     _addAfter : function(child, after, options)
     {
       if (qx.core.Variant.isSet("qx.debug", "on")) {
-        this.assertInArray(after, this._getChildren(), "The 'before' widget is not a child of this widget!");
+        this.assertInArray(after, this._getChildren(), "The 'after' widget is not a child of this widget!");
       }
 
       if (child == after) {
@@ -2694,7 +2694,7 @@ qx.Class.define("qx.ui.core.Widget",
 
         // Combine parent control IDs, add top level appearance, filter result
         // to not include positioning information anymore (e.g. #3)
-        selector = this.__appearanceSelector = id.reverse().join("/").replace(/#[0-9]+/g, "");        
+        selector = this.__appearanceSelector = id.reverse().join("/").replace(/#[0-9]+/g, "");
       }
 
       // Query current selector
@@ -3494,9 +3494,9 @@ qx.Class.define("qx.ui.core.Widget",
       // this.debug("Create child control: " + id);
       var pos = id.indexOf("#");
       if (pos == -1) {
-        var control = this._createChildControlImpl(id);  
+        var control = this._createChildControlImpl(id);
       } else {
-        var control = this._createChildControlImpl(id.substring(0, pos));  
+        var control = this._createChildControlImpl(id.substring(0, pos));
       }
 
       if (!control) {
