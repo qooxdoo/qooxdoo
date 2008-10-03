@@ -25,7 +25,7 @@ qx.Class.define("qx.dev.Debug",
   statics :
   {
     /**
-     * Recursively display an object (as debug messages)
+     * Recursively display an object (as a debug message)
      *
      *
      * @param obj {Object}
@@ -42,6 +42,37 @@ qx.Class.define("qx.dev.Debug",
      */
     debugObject : function(obj, initialMessage, maxLevel)
     {
+      // We've compiled the complete message.  Give 'em what they came for!
+      qx.log.Logger.debug(this,
+                          qx.dev.Debug.debugObjectToString(obj,
+                                                           initialMessage,
+                                                           maxLevel,
+                                                           false));
+    },
+
+    /**
+     * Recursively display an object (into a string)
+     *
+     *
+     * @param obj {Object}
+     *   The object to be recursively displayed
+     *
+     * @param initialMessage {String, null}
+     *   The initial message to be displayed.
+     *
+     * @param maxLevel {Integer ? 10}
+     *   The maximum level of recursion.  Objects beyond this level will not
+     *   be displayed.
+     *
+     * @param bHtml {Boolean ? false}
+     *   If true, then render the debug message in HTML;
+     *   Otherwise, use spaces for indentation and "\n" for end of line.
+     *
+     * @return {String}
+     *   The string containing the recursive display of the object
+     */
+    debugObjectToString : function(obj, initialMessage, maxLevel, bHtml)
+    {
       // If a maximum recursion level was not specified...
       if (!maxLevel)
       {
@@ -49,24 +80,43 @@ qx.Class.define("qx.dev.Debug",
         maxLevel = 10;
       }
 
+      // If they want html, the differences are "<br>" instead of "\n"
+      // and how we do the indentation.  Define the end-of-line string
+      // and a start-of-line function.
+      var eol = (bHtml ? "</span><br>" : "\n");
+      var sol = function(currentLevel)
+      {
+        var indentStr;
+        if (! bHtml)
+        {
+          indentStr = "";
+          for (var i = 0; i < currentLevel; i++)
+          {
+            indentStr += "  ";
+          }
+        }
+        else
+        {
+          indentStr =
+            "<span style='padding-left:" + (currentLevel * 8) + "px;'>";
+        }
+        return indentStr;
+      };
+
       // Initialize an empty message to be displayed
       var message = "";
 
       // Function to recursively display an object
       var displayObj = function(obj, level, maxLevel)
       {
-        // Calculate the indentation for this level
-        var indentStr = "";
-
-        for (var i=0; i<level; i++) {
-          indentStr += "  ";
-        }
-
         // If we've exceeded the maximum recursion level...
         if (level > maxLevel)
         {
           // ... then tell 'em so, and get outta dodge.
-          message += indentStr + "*** TOO MUCH RECURSION: not displaying ***\n";
+          message += (
+            sol(level) +
+              "*** TOO MUCH RECURSION: not displaying ***" +
+              eol);
           return;
         }
 
@@ -74,7 +124,7 @@ qx.Class.define("qx.dev.Debug",
         if (typeof (obj) != "object")
         {
           // Yup.  Just add it to the message.
-          message += indentStr + obj + "\n";
+          message += sol(level) + obj + eol;
           return;
         }
 
@@ -85,10 +135,23 @@ qx.Class.define("qx.dev.Debug",
           if (typeof (obj[prop]) == "object")
           {
             // Yup.  Determine the type and add it to the message
-            if (obj[prop] instanceof Array) {
-              message += indentStr + prop + ": " + "Array" + "\n";
-            } else {
-              message += indentStr + prop + ": " + "Object" + "\n";
+            if (obj[prop] instanceof Array)
+            {
+              message += sol(level) + prop + ": " + "Array" + eol;
+            }
+            else if (obj[prop] === null)
+            {
+              message += sol(level) + prop + ": " + "null" + eol;
+              continue;
+            }
+            else if (obj[prop] === undefined)
+            {
+              message += sol(level) + prop + ": " + "undefined" + eol;
+              continue;
+            }
+            else
+            {
+              message += sol(level) + prop + ": " + "Object" + eol;
             }
 
             // Recurse into it to display its children.
@@ -97,7 +160,7 @@ qx.Class.define("qx.dev.Debug",
           else
           {
             // We have an ordinary non-recursive item.  Add it to the message.
-            message += indentStr + prop + ": " + obj[prop] + "\n";
+            message += sol(level) + prop + ": " + obj[prop] + eol;
           }
         }
       };
@@ -106,12 +169,12 @@ qx.Class.define("qx.dev.Debug",
       if (initialMessage)
       {
         // Yup.  Add it to the displayable message.
-        message += initialMessage + "\n";
+        message += sol(0) + initialMessage + eol;
       }
 
       if (obj instanceof Array)
       {
-        message += "Array, length=" + obj.length + ":\n";
+        message += sol(0) + "Array, length=" + obj.length + ":" + eol;
       }
       else if (typeof(obj) == "object")
       {
@@ -120,11 +183,13 @@ qx.Class.define("qx.dev.Debug",
         {
           count++;
         }
-        message += "Object, count=" + count + ":\n";
+        message += sol(0) + "Object, count=" + count + ":" + eol;
       }
 
       message +=
-        "------------------------------------------------------------\n";
+        sol(0) +
+        "------------------------------------------------------------" +
+        eol;
 
       try
       {
@@ -133,14 +198,15 @@ qx.Class.define("qx.dev.Debug",
       }
       catch(ex)
       {
-        message += "*** EXCEPTION (" + ex + ") ***\n";
+        message += sol(0) + "*** EXCEPTION (" + ex + ") ***" + eol;
       }
 
       message +=
-        "============================================================\n";
+        sol(0) +
+        "============================================================" +
+        eol;
 
-      // We've compiled the complete message.  Give 'em what they came for!
-      qx.log.Logger.debug(this, message);
+      return message;
     },
 
 
