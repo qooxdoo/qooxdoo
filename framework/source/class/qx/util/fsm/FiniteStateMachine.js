@@ -605,18 +605,19 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
      * stack.
      *
      *
-     * @param bCurrent {Boolean}
+     * @param state {Boolean|String}
      *   When <i>true</i>, then push the current state onto the stack.  This
      *   might be used in a transition, before the state has changed.  When
      *   <i>false</i>, then push the previous state onto the stack.  This
      *   might be used in an on entry function to save the previous state to
-     *   return to.
+     *   return to.  If this parameter is a string, it is taken to be the
+     *   name of the state to transition to.
      *
      * @return {void}
      *
      * @throws TODOC
      */
-    pushState : function(bCurrent)
+    pushState : function(state)
     {
       // See if there's room on the state stack for a new state
       if (this._savedStates.length >= this.getMaxSavedStates())
@@ -625,10 +626,14 @@ qx.Class.define("qx.util.fsm.FiniteStateMachine",
         throw new Error("Saved-state stack is full");
       }
 
-      if (bCurrent)
+      if (state === true)
       {
         // Push the current state onto the saved-state stack
         this._savedStates.push(this.getState());
+      }
+      else if (state)
+      {
+        this._savedStates.push(state);
       }
       else
       {
