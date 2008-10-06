@@ -466,6 +466,7 @@ class Generator:
             # Debug tasks
             self.runDependencyDebug(partPackages, packageClasses, variants)
             self.runPrivateDebug()
+            self.runUnusedClasses(partPackages, packageClasses, variants)
 
         self._console.info("Done")
 
@@ -499,6 +500,46 @@ class Generator:
             apiContent.extend(classes)
 
         self._apiLoader.storeApi(apiContent, apiPath)
+
+
+    def runUnusedClasses(self, parts, packages, variants):
+        if not self._config.get("log/classes-unused", False):
+            return
+
+        if True:
+            import pydb
+            pydb.debugger()
+
+        namespaces = self._config.get("log/classes-unused", [])
+        
+        self._console.info("Find unused classes...");
+        self._console.indent()
+
+        usedClassesArr = {}
+        allClassesArr = {}
+        for namespace in namespaces:
+            usedClassesArr[namespace] = []
+            allClassesArr[namespace]  = []
+
+        # used classes of interest
+        for packageId, package in enumerate(packages):
+            for namespace in namespaces:
+                packageClasses = self._expandRegExps([namespace], package)
+                usedClassesArr[namespace].extend(packageClasses)
+        
+        # available classes of interest
+        for namespace in namespaces:
+            allClassesArr[namespace] = self._expandRegExps([namespace])
+        
+        # check
+        for namespace in namespaces:
+            self._console.info("Checking namespace: %s" % namespace);
+            self._console.indent()
+            for cid in allClassesArr[namespace]:
+                if cid not in usedClassesArr[namespace]:
+                    self._console.info("Unused class: %s" % cid)
+            self._console.outdent()
+        self._console.outdent()
 
 
 
@@ -1464,19 +1505,21 @@ class Generator:
 
 
 
-    def _expandRegExps(self, entries):
+    def _expandRegExps(self, entries, container=None):
         result = []
+        if not container:
+            container = self._classes
 
         for entry in entries:
             # Fast path: Try if a matching class could directly be found
-            if entry in self._classes:
+            if entry in container:
                 result.append(entry)
 
             else:
                 regexp = textutil.toRegExp(entry)
                 expanded = []
 
-                for classId in self._classes:
+                for classId in container:
                     if regexp.search(classId):
                         if not classId in expanded:
                             expanded.append(classId)

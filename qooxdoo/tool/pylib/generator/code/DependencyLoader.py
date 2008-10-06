@@ -348,7 +348,7 @@ class DependencyLoader:
                     sNode = node1
                 if node1.hasParent():
                     node1 = node1.parent
-                else:
+                else:  # we're at the root
                     if not sNode:
                         sNode = node1
                     rNode = node1
