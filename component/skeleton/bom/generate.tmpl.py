@@ -27,10 +27,10 @@ import sys, os, subprocess
 CMD_PYTHON = 'python'
 QOOXDOO_PATH = '${REL_QOOXDOO_PATH}'
 REAL_GENERATOR = os.path.normpath(
-                    os.path.join(os.path.abspath(os.path.dirname(sys.argv[0])),
+                    os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])),
                                  QOOXDOO_PATH, 'tool', 'bin', 'generator.py'))
                                  
-os.chdir(os.path.dirname(sys.argv[0]))  # switch to skeleton dir
+os.chdir(os.path.dirname(os.path.abspath(sys.argv[0])))  # switch to skeleton dir
 
 argList = []
 argList.append(CMD_PYTHON)
