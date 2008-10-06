@@ -506,10 +506,6 @@ class Generator:
         if not self._config.get("log/classes-unused", False):
             return
 
-        if True:
-            import pydb
-            pydb.debugger()
-
         namespaces = self._config.get("log/classes-unused", [])
         
         self._console.info("Find unused classes...");
