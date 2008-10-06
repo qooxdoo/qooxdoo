@@ -315,6 +315,8 @@ qx.Class.define("qx.ui.form.Spinner",
 
       if (this.getValue() < value) {
         this.setValue(value);
+      } else {
+        this._updateButtons();
       }
     },
 
@@ -322,7 +324,7 @@ qx.Class.define("qx.ui.form.Spinner",
     /**
      * Apply routine for the max property.
      *
-     * It sets the value of the spinner to the minnimum of the current spinner
+     * It sets the value of the spinner to the minimum of the current spinner
      * value and the given max property value.
      *
      * @param value {Number} The new value of the max property
@@ -336,6 +338,8 @@ qx.Class.define("qx.ui.form.Spinner",
 
       if (this.getValue() > value) {
         this.setValue(value);
+      } else {
+        this._updateButtons();
       }
     },
 
@@ -370,42 +374,10 @@ qx.Class.define("qx.ui.form.Spinner",
      */
     _applyValue: function(value, old)
     {
-      var upButton = this._getChildControl("upbutton");
-      var downButton = this._getChildControl("downbutton");
       var textField = this._getChildControl("textfield");
 
-      // up button enabled/disabled
-      if (value < this.getMax())
-      {
-        // only enable the button if the spinner itself is enabled
-        if (this.getEnabled()) {
-          upButton.resetEnabled();
-        }
-      }
-      else
-      {
-        // only disable the buttons if wrapping is disabled
-        if (!this.getWrap()) {
-          upButton.setEnabled(false);
-        }
-      }
-
-      // down button enabled/disabled
-      if (value > this.getMin())
-      {
-        // only enable the button if the spinner itself is enabled
-        if (this.getEnabled()) {
-          downButton.resetEnabled();
-        }
-      }
-      else
-      {
-        // only disable the buttons if wrapping is disabled
-        if (!this.getWrap()) {
-          downButton.setEnabled(false);
-        }
-      }
-
+      this._updateButtons();
+      
       // save the last valid value of the spinner
       this._lastValidValue = value;
 
@@ -479,7 +451,47 @@ qx.Class.define("qx.ui.form.Spinner",
       return this._getChildControl("textfield");
     },
 
+    /**
+     * Checks the min and max values, disables / enables the
+     * buttons and handles the wrap around.
+     */
+    _updateButtons : function() {
+      var upButton = this._getChildControl("upbutton");
+      var downButton = this._getChildControl("downbutton");
+      var value = this.getValue();
+      
+      // up button enabled/disabled
+      if (value < this.getMax())
+      {
+        // only enable the button if the spinner itself is enabled
+        if (this.getEnabled()) {
+          upButton.resetEnabled();
+        }
+      }
+      else
+      {
+        // only disable the buttons if wrapping is disabled
+        if (!this.getWrap()) {
+          upButton.setEnabled(false);
+        }
+      }
 
+      // down button enabled/disabled
+      if (value > this.getMin())
+      {
+        // only enable the button if the spinner itself is enabled
+        if (this.getEnabled()) {
+          downButton.resetEnabled();
+        }
+      }
+      else
+      {
+        // only disable the buttons if wrapping is disabled
+        if (!this.getWrap()) {
+          downButton.setEnabled(false);
+        }
+      }
+    },
 
     /*
     ---------------------------------------------------------------------------
