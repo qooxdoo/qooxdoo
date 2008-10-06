@@ -26,8 +26,11 @@ qx.Class.define("demobrowser.demo.widget.Canvas",
     main: function()
     {
       this.base(arguments);
+      
+      var label = new qx.ui.basic.Label("Resize the windows to see the effect.");
+      this.getRoot().add(label, {left: 10, top: 10});
 
-      var win1 = new qx.ui.window.Window("Canvas - static coordinates").set({
+      var win1 = new qx.ui.window.Window("Window containing a Canvas - static coordinates").set({
         width: 200,
         height: 200
       });
@@ -57,7 +60,7 @@ qx.Class.define("demobrowser.demo.widget.Canvas",
       win1.open();
 
 
-      var win2 = new qx.ui.window.Window("Canvas - synced coordinates").set({
+      var win2 = new qx.ui.window.Window("Window containing a Canvas - synced coordinates").set({
         width: 200,
         height: 200
       });
@@ -83,7 +86,7 @@ qx.Class.define("demobrowser.demo.widget.Canvas",
       }
 
       win2.add(canvas2, {edge: 0});
-      this.getRoot().add(win2, {left: 130, top: 140});
+      this.getRoot().add(win2, {left: 30, top: 250});
       win2.open();
     },
 
