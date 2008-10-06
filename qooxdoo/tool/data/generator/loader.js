@@ -289,10 +289,21 @@ window.qxloader =
   }
 };
 
-if (window.addEventListener) {
-  window.addEventListener("load", qxloader._pageLoad, false);
-} else {
-  window.attachEvent("onload", qxloader._pageLoad);
+
+var isMshtml = navigator.cpuClass && /MSIE\s+([^\);]+)(\)|;)/.test(navigator.userAgent);
+
+// first check whether the page is already loaded (IE only)
+if (isMshtml && /complete|interactive/.test(document.readyState)) {
+  qxloader._pageLoad();
 }
+else
+{
+  if (window.addEventListener) {
+    window.addEventListener("load", qxloader._pageLoad, false);
+  } else {
+    window.attachEvent("onload", qxloader._pageLoad);
+  }
+}
+
 
 qxloader.init();

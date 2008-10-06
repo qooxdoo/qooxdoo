@@ -106,31 +106,7 @@ qx.Class.define("qx.core.Init",
 
   defer : function(statics)
   {
-    /*
-     AB: This fix breaks the skeleton applications in their source version
-     when loaded with a webserver. The cause is, that the "readystate" is set
-     before every script is loaded completely which leads the IE to break.
-     */
-    
-    // if the document is already loaded call "__ready" immediately
-    /*if (qx.core.Variant.isSet("qx.client", "mshtml"))
-    {
-      if (/complete|interactive/.test(document.readyState))
-      {
-        setTimeout(function() {
-          statics.__ready();
-        }, 0)
-      } else {
-        qx.event.Registration.addListener(window, "ready", statics.__ready, statics);
-      }
-    }
-    else
-    {
-      qx.event.Registration.addListener(window, "ready", statics.__ready, statics);
-    }*/
-    
     qx.event.Registration.addListener(window, "ready", statics.__ready, statics);
-    
     qx.event.Registration.addListener(window, "shutdown", statics.__shutdown, statics);
   }
 });
