@@ -62,6 +62,8 @@ qx.Mixin.define("qx.ui.core.MMovable",
     __dragRange : null,
     __dragLeft : null,
     __dragTop : null,
+    __parentLeft : null,
+    __parentTop : null,
 
 
     /*
@@ -143,9 +145,15 @@ qx.Mixin.define("qx.ui.core.MMovable",
       var mouseLeft = Math.max(range.left, Math.min(range.right, e.getDocumentLeft()));
       var mouseTop = Math.max(range.top, Math.min(range.bottom, e.getDocumentTop()));
 
+      var viewportLeft = this.__dragLeft + mouseLeft;
+      var viewportTop = this.__dragTop + mouseTop;
+
       return {
-        left : this.__dragLeft + mouseLeft,
-        top : this.__dragTop + mouseTop
+        viewportLeft : viewportLeft,
+        viewportTop : viewportTop,
+
+        parentLeft : viewportLeft - this.__parentLeft,
+        parentTop : viewportTop - this.__parentTop
       };
     },
 
@@ -186,6 +194,9 @@ qx.Mixin.define("qx.ui.core.MMovable",
 
       // Compute drag positions
       var widgetLocation = this.getContainerLocation();
+      this.__parentLeft = parentLocation.left;
+      this.__parentTop = parentLocation.top;
+
       this.__dragLeft = widgetLocation.left - e.getDocumentLeft();
       this.__dragTop = widgetLocation.top - e.getDocumentTop();
 
@@ -222,9 +233,9 @@ qx.Mixin.define("qx.ui.core.MMovable",
       // Apply new coordinates using DOM
       var coords = this.__computeMoveCoordinates(e);
       if (this.getUseMoveFrame()) {
-        this.__getMoveFrame().setDomPosition(coords.left, coords.top);
+        this.__getMoveFrame().setDomPosition(coords.viewportLeft, coords.viewportTop);
       } else {
-        this.setDomPosition(coords.left, coords.top);
+        this.setDomPosition(coords.parentLeft, coords.parentTop);
       }
     },
 
@@ -252,7 +263,10 @@ qx.Mixin.define("qx.ui.core.MMovable",
 
       // Apply them to the layout
       var coords = this.__computeMoveCoordinates(e);
-      this.setLayoutProperties({ left: coords.left, top: coords.top });
+      this.setLayoutProperties({
+        left: coords.parentLeft,
+        top: coords.parentTop
+      });
 
       // Hide frame afterwards
       if (this.getUseMoveFrame()) {
