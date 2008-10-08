@@ -343,6 +343,14 @@ qx.Class.define("qx.ui.form.Spinner",
         this._updateButtons();
       }
     },
+    
+    
+    // overridden
+    _applyEnabled : function(value, old)
+    {
+    	this.base(arguments, value, old);
+    	this._updateButtons();
+    },
 
 
     /**
