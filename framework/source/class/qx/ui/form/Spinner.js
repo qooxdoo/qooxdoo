@@ -98,7 +98,7 @@ qx.Class.define("qx.ui.form.Spinner",
       this.setMax(max);
     }
 
-    if (value != null) {
+    if (value !== undefined) {
       this.setValue(value);
     } else {
       this.initValue();
@@ -164,6 +164,7 @@ qx.Class.define("qx.ui.form.Spinner",
     value:
     {
       check : "this._checkValue(value)",
+      nullable : true,
       apply : "_applyValue",
       init : 0,
       event : "changeValue"
@@ -382,10 +383,14 @@ qx.Class.define("qx.ui.form.Spinner",
       this._lastValidValue = value;
 
       // write the value of the spinner to the textfield
-      if (this.getNumberFormat()) {
-        textField.setValue(this.getNumberFormat().format(value));
+      if (value !== null) {
+        if (this.getNumberFormat()) {
+          textField.setValue(this.getNumberFormat().format(value));
+        } else {
+          textField.setValue(value + "");
+        }
       } else {
-        textField.setValue(value + "");
+        textField.setValue("");
       }
     },
 
@@ -439,7 +444,7 @@ qx.Class.define("qx.ui.form.Spinner",
      * @param old {Boolean} The former value of the numberFormat property
      */
     _applyNumberFormat : function(value, old) {
-      this._getChildControl("textfield").setValue(this.getNumberFormat().format(this._lastValidValue));
+        this._applyValue(this._lastValidValue, undefined);
     },
 
     /**
@@ -461,7 +466,7 @@ qx.Class.define("qx.ui.form.Spinner",
       var value = this.getValue();
 
       // up button enabled/disabled
-      if (value < this.getMax())
+      if (value !== null && value < this.getMax())
       {
         // only enable the button if the spinner itself is enabled
         if (this.getEnabled()) {
@@ -477,7 +482,7 @@ qx.Class.define("qx.ui.form.Spinner",
       }
 
       // down button enabled/disabled
-      if (value > this.getMin())
+      if (value !== null && value > this.getMin())
       {
         // only enable the button if the spinner itself is enabled
         if (this.getEnabled()) {
