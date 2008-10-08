@@ -104,12 +104,34 @@ qx.Class.define("qx.ui.core.FocusHandler",
 
 
     /**
+     * Get the active widget
+     *
+     * @return {qx.ui.core.Widget|null} The active widget or <code>null</code>
+     *    if no widget is active
+     */
+    getActiveWidget : function() {
+      return this.__activeChild;
+    },
+
+
+    /**
      * Whether the given widget is the active one
      *
      * @param widget {qx.ui.core.Widget} The widget to check
      */
     isActive : function(widget) {
       return this.__activeChild == widget;
+    },
+
+
+    /**
+     * Get the focused widget
+     *
+     * @return {qx.ui.core.Widget|null} The focused widget or <code>null</code>
+     *    if no widget has the focus
+     */
+    getFocusedWidget : function() {
+      return this.__focusedChild;
     },
 
 
