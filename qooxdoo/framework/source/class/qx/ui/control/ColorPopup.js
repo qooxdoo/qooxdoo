@@ -20,14 +20,6 @@
 
 ************************************************************************ */
 
-/* ************************************************************************
-
-#asset(qx/icon/${qx.icontheme}/16/actions/dialog-cancel.png)
-#asset(qx/icon/${qx.icontheme}/16/actions/dialog-ok.png)
-
-************************************************************************ */
-
-
 /**
  * A popup which contains paletts of colors and the possibility to open the
  * Colorselector to choose a color.
@@ -173,7 +165,16 @@ qx.Class.define("qx.ui.control.ColorPopup",
         case "current-preview":
           control = new qx.ui.container.Composite(new qx.ui.layout.Basic);
           break;
-
+        
+        case "colorselector-okbutton":
+          control = new qx.ui.form.Button(this.tr("Ok"));
+          control.addListener("execute", this._onColorSelectorOk, this);
+          break;
+          
+        case "colorselector-cancelbutton":
+          control = new qx.ui.form.Button(this.tr("Cancel"));
+          control.addListener("execute", this._onColorSelectorCancel, this);
+          break;
       }
 
       return control || this.base(arguments, id);
@@ -228,8 +229,6 @@ qx.Class.define("qx.ui.control.ColorPopup",
         return;
       }
 
-      // TODO: Use singleton color selector to improve number of needed objects
-
       var win = new qx.ui.window.Window(this.tr("Color Selector"));
       this.__colorSelectorWindow = win;
       win.setLayout(new qx.ui.layout.VBox(16));
@@ -242,12 +241,9 @@ qx.Class.define("qx.ui.control.ColorPopup",
       var buttonBar = new qx.ui.container.Composite(new qx.ui.layout.HBox(8, "right"));
       win.add(buttonBar);
 
-      var btnCancel = new qx.ui.form.Button(this.tr("Cancel"), "icon/16/actions/dialog-cancel.png");
-      btnCancel.addListener("execute", this._onColorSelectorCancel, this);
-
-      var btnOk = new qx.ui.form.Button(this.tr("OK"), "icon/16/actions/dialog-ok.png");
-      btnOk.addListener("execute", this._onColorSelectorOk, this);
-
+      var btnCancel = this._createChildControl("colorselector-cancelbutton");
+      var btnOk = this._createChildControl("colorselector-okbutton"); 
+      
       buttonBar.add(btnCancel);
       buttonBar.add(btnOk);
     },
