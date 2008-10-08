@@ -185,7 +185,7 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
     var stdcr = custom.treeDataCellRenderer;
     var ddcr = custom.defaultDataCellRenderer;
     var tcm = this.getTableColumnModel();
-    var treeCol = this.getTableModel().getTreeColumn();
+    var treeCol = this.getDataModel().getTreeColumn();
 
     for (var i=0; i<headings.length; i++)
     {
@@ -349,23 +349,23 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
      */
     setUseTreeLines : function(b)
     {
-      var stdcm = this.getTableModel();
-      var treeCol = stdcm.getTreeColumn();
+      var dataModel = this.getDataModel();
+      var treeCol = dataModel.getTreeColumn();
       var dcr = this.getTableColumnModel().getDataCellRenderer(treeCol);
       dcr.setUseTreeLines(b);
 
       // Inform the listeners
-      if (stdcm.hasListener("dataChanged"))
+      if (dataModel.hasListener("dataChanged"))
       {
         var data =
         {
           firstRow    : 0,
-          lastRow     : stdcm._rowArr.length - 1,
+          lastRow     : dataModel.getRowCount() - 1,
           firstColumn : 0,
-          lastColumn  : stdcm.getColumnCount() - 1
+          lastColumn  : dataModel.getColumnCount() - 1
         };
 
-        stdcm.fireDataEvent("dataChanged", data);
+        dataModel.fireDataEvent("dataChanged", data);
       }
     },
 
@@ -379,7 +379,7 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
      */
     getUseTreeLines : function()
     {
-      var treeCol = this.getTableModel().getTreeColumn();
+      var treeCol = this.getDataModel().getTreeColumn();
       var dcr = this.getTableColumnModel().getDataCellRenderer(treeCol);
       return dcr.getUseTreeLines();
     },
@@ -397,23 +397,23 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
      */
     setAlwaysShowOpenCloseSymbol : function(b)
     {
-      var stdcm = this.getTableModel();
-      var treeCol = stdcm.getTreeColumn();
+      var dataModel = this.getDataModel();
+      var treeCol = dataModel.getTreeColumn();
       var dcr = this.getTableColumnModel().getDataCellRenderer(treeCol);
       dcr.setAlwaysShowOpenCloseSymbol(b);
 
       // Inform the listeners
-      if (stdcm.hasListener("dataChanged"))
+      if (dataModel.hasListener("dataChanged"))
       {
         var data =
         {
           firstRow    : 0,
-          lastRow     : stdcm._rowArr.length - 1,
+          lastRow     : dataModel.getRowCount() - 1,
           firstColumn : 0,
-          lastColumn  : stdcm.getColumnCount() - 1
+          lastColumn  : dataModel.getColumnCount() - 1
         };
 
-        stdcm.fireDataEvent("dataChanged", data);
+        dataModel.fireDataEvent("dataChanged", data);
       }
     },
 
@@ -430,23 +430,23 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
      */
     setExcludeFirstLevelTreeLines : function(b)
     {
-      var stdcm = this.getTableModel();
-      var treeCol = stdcm.getTreeColumn();
+      var dataModel = this.getDataModel();
+      var treeCol = dataModel.getTreeColumn();
       var dcr = this.getTableColumnModel().getDataCellRenderer(treeCol);
       dcr.setExcludeFirstLevelTreeLines(b);
 
       // Inform the listeners
-      if (stdcm.hasListener("dataChanged"))
+      if (dataModel.hasListener("dataChanged"))
       {
         var data =
         {
           firstRow    : 0,
-          lastRow     : stdcm._rowArr.length - 1,
+          lastRow     : dataModel.getRowCount() - 1,
           firstColumn : 0,
-          lastColumn  : stdcm.getColumnCount() - 1
+          lastColumn  : dataModel.getColumnCount() - 1
         };
 
-        stdcm.fireDataEvent("dataChanged", data);
+        dataModel.fireDataEvent("dataChanged", data);
       }
     },
 
@@ -462,7 +462,7 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
      */
     getExcludeFirstLevelTreeLines : function()
     {
-      var treeCol = this.getTableModel().getTreeColumn();
+      var treeCol = this.getDataModel().getTreeColumn();
       var dcr = this.getTableColumnModel().getDataCellRenderer(treeCol);
       return dcr.getExcludeFirstLevelTreeLines();
     },
@@ -478,7 +478,7 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
      */
     getAlwaysShowOpenCloseSymbol : function()
     {
-      var treeCol = this.getTableModel().getTreeColumn();
+      var treeCol = this.getDataModel().getTreeColumn();
       var dcr = this.getTableColumnModel().getDataCellRenderer(treeCol);
       return dcr.getAlwaysShowOpenCloseSymbol();
     },
@@ -614,7 +614,7 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
         }
 
         // Get the requested node
-        var node = _this.getTableModel().getData()[nodeId];
+        var node = _this.getDataModel().getData()[nodeId];
 
         // Add its label to the hierarchy components
         components.unshift(node.label);
@@ -636,7 +636,7 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
      */
     getSelectedNodes : function()
     {
-      return this.getTableModel().getSelectedNodes();
+      return this.getDataModel().getSelectedNodes();
     },
 
 
@@ -669,7 +669,7 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
         {
           case "Enter":
             // Get the data model
-            var dm = this.getTableModel();
+            var dm = this.getDataModel();
 
             var focusedCol = this.getFocusedColumn();
             var treeCol = dm.getTreeColumn();
@@ -704,7 +704,7 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
         {
           case "Left":
             // Get the data model
-            var dm = this.getTableModel();
+            var dm = this.getDataModel();
 
             // Get the focused node
             var focusedRow = this.getFocusedRow();
@@ -729,7 +729,7 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
 
           case "Right":
             // Get the data model
-            var dm = this.getTableModel();
+            var dm = this.getDataModel();
 
             // Get the focused node
             var focusedRow = this.getFocusedRow();
@@ -759,7 +759,7 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
         {
           case "Left":
             // Get the data model
-            var dm = this.getTableModel();
+            var dm = this.getDataModel();
 
             // Get the focused node
             var focusedRow = this.getFocusedRow();
@@ -770,7 +770,7 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
             if (node.parentNodeId)
             {
               // Find out what rendered row our parent node is at
-              var rowIndex = dm.getRowFromNode(node.parentNodeId);
+              var rowIndex = dm.getRowFromNodeId(node.parentNodeId);
 
               // Set the focus to our parent
               this.setFocusedCell(this._focusedCol, rowIndex, true);
@@ -781,7 +781,7 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
 
           case "Right":
             // Get the data model
-            var dm = this.getTableModel();
+            var dm = this.getDataModel();
 
             // Get the focused node
             var focusedRow = this.getFocusedRow();
@@ -878,7 +878,7 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
     _onSelectionChanged : function(evt)
     {
       // Clear the old list of selected nodes
-      this.getTableModel()._clearSelections();
+      this.getDataModel()._clearSelections();
 
       // If selections are allowed, pass an event to our listeners
       if (this.getSelectionMode() !=
@@ -910,7 +910,7 @@ qx.Class.define("qx.ui.treevirtual.TreeVirtual",
     _calculateSelectedNodes : function()
     {
       // Create an array of nodes that are now selected
-      var stdcm = this.getTableModel();
+      var stdcm = this.getDataModel();
       var selectedRanges = this.getSelectionModel().getSelectedRanges();
       var selectedNodes = [];
       var node;
