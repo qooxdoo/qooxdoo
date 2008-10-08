@@ -221,9 +221,15 @@ qx.Mixin.define("qx.ui.core.MResizable",
         }
       }
 
+      var bounds = this.getBounds();
+
       return {
-        left : left,
-        top : top,
+        viewportLeft : left,
+        viewportTop : top,
+
+        parentLeft : bounds.left + left - start.left,
+        parentTop : bounds.top + top - start.top,
+
         width : width,
         height : height
       };
@@ -360,8 +366,8 @@ qx.Mixin.define("qx.ui.core.MResizable",
       if (this.getResizeAllEdges())
       {
         this.setLayoutProperties({
-          left : bounds.left,
-          top : bounds.top
+          left : bounds.parentLeft,
+          top : bounds.parentTop
         });
       }
 
@@ -423,7 +429,7 @@ qx.Mixin.define("qx.ui.core.MResizable",
         {
           // Sync new bounds to frame
           var frame = this.__getResizeFrame();
-          frame.setUserBounds(bounds.left, bounds.top, bounds.width, bounds.height);
+          frame.setUserBounds(bounds.viewportLeft, bounds.viewportTop, bounds.width, bounds.height);
         }
         else
         {
@@ -435,8 +441,8 @@ qx.Mixin.define("qx.ui.core.MResizable",
           if (this.getResizeAllEdges())
           {
             this.setLayoutProperties({
-              left : bounds.left,
-              top : bounds.top
+              left : bounds.parentLeft,
+              top : bounds.parentTop
             });
           }
         }
