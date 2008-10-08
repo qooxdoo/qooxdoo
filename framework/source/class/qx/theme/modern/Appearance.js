@@ -39,6 +39,9 @@
 #asset(qx/icon/Tango/16/apps/utilities-color-chooser.png)
 #asset(qx/icon/Tango/16/actions/view-refresh.png)
 
+#asset(qx/icon/Tango/16/actions/dialog-cancel.png)
+#asset(qx/icon/Tango/16/actions/dialog-ok.png)
+
 #asset(qx/decoration/Modern/*)
 
 ************************************************************************* */
@@ -2189,7 +2192,31 @@ qx.Theme.define("qx.theme.modern.Appearance",
       }
     },
 
+    "colorpopup/colorselector-okbutton":
+    {
+      alias : "button",
+      include : "button",
 
+      style : function(states)
+      {
+        return {
+          icon : "icon/16/actions/dialog-ok.png"
+        };
+      }
+    },
+
+    "colorpopup/colorselector-cancelbutton":
+   {
+      alias : "button",
+      include : "button",
+
+      style : function(states)
+      {
+        return {
+          icon : "icon/16/actions/dialog-cancel.png"
+        };
+      }
+    },
 
     /*
     ---------------------------------------------------------------------------
