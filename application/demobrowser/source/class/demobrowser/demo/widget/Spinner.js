@@ -86,6 +86,7 @@ qx.Class.define("demobrowser.demo.widget.Spinner",
 
       // Number format Test
       var nf = new qx.util.format.NumberFormat();
+      nf.setMinimumFractionDigits(2);
       nf.setMaximumFractionDigits(2);
       spinner.setNumberFormat(nf);
 
