@@ -160,8 +160,16 @@ qx.Class.define("qx.event.handler.ElementResize",
             el,
             "resize",
             qx.event.type.Data,
-            [{width: width, height: height}]
+            [{
+              width: width,
+              oldWidth: data.width,
+              height: height,
+              oldHeight: data.height
+            }]
           );
+
+          data.width = width;
+          data.height = height;
         }
       }
     }
