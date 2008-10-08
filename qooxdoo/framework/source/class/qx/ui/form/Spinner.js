@@ -377,7 +377,7 @@ qx.Class.define("qx.ui.form.Spinner",
       var textField = this._getChildControl("textfield");
 
       this._updateButtons();
-      
+
       // save the last valid value of the spinner
       this._lastValidValue = value;
 
@@ -459,7 +459,7 @@ qx.Class.define("qx.ui.form.Spinner",
       var upButton = this._getChildControl("upbutton");
       var downButton = this._getChildControl("downbutton");
       var value = this.getValue();
-      
+
       // up button enabled/disabled
       if (value < this.getMax())
       {
@@ -665,7 +665,7 @@ qx.Class.define("qx.ui.form.Spinner",
     */
 
     /**
-     * Checks if the spinner is in page mode and couts either the single
+     * Checks if the spinner is in page mode and counts either the single
      * or page Step up.
      *
      */
@@ -677,7 +677,7 @@ qx.Class.define("qx.ui.form.Spinner",
         var newValue = this.getValue() + this.getSingleStep();
       }
 
-      // handle the case that wraping is enabled
+      // handle the case where wrapping is enabled
       if (this.getWrap())
       {
         if (newValue > this.getMax())
@@ -692,7 +692,7 @@ qx.Class.define("qx.ui.form.Spinner",
 
 
     /**
-     * Checks if the spinner is in page mode and couts either the single
+     * Checks if the spinner is in page mode and counts either the single
      * or page Step down.
      *
      */
@@ -704,7 +704,7 @@ qx.Class.define("qx.ui.form.Spinner",
         var newValue = this.getValue() - this.getSingleStep();
       }
 
-      // handle the case that wraping is enabled
+      // handle the case where wrapping is enabled
       if (this.getWrap())
       {
         if (newValue < this.getMin())
@@ -720,7 +720,7 @@ qx.Class.define("qx.ui.form.Spinner",
 
     /**
      * Normalizes the incoming value to be in the valid range and
-     * applied it to the {@link #value} afterwards.
+     * applies it to the {@link #value} afterwards.
      *
      * @param value {Number} Any number
      * @return {Number} The normalized number
