@@ -92,7 +92,8 @@
  */
 qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
 {
-  extend : qx.ui.table.model.Simple,
+//  extend : qx.ui.table.model.Simple,
+  extend : qx.ui.table.model.Abstract,
 
 
 
@@ -121,6 +122,9 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
 
     // the root node, needed to store its children
     this._nodeArr.push(this.self(arguments).__getEmptyTree());
+
+    // Track which columns are editable
+    this.__editableColArr = null;
   },
 
 
@@ -167,6 +171,27 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
 
   members :
   {
+    __editableColArr : null,
+
+    /** Rows, resorted into tree order as necessary */
+    _rowArr : null,
+
+    /** Tree nodes, organized with hierarchy */
+    _nodeArr : null,
+
+    /**
+     * Map nodeArr index to rowArr index.  The index of this array is the
+     * index of _nodeArr, and the values in this array are the indexes into
+     * _rowArr.
+     */
+    _nodeRowMap : null,
+
+    /** Column for tree nodes */
+    _treeColumn : null,
+
+    /** list of indexes of selected nodes */
+    _selections : null,
+
     /**
      * Set the tree object for which this data model is used.
      */
@@ -185,11 +210,61 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataModel",
       return this.__tree;
     },
 
-    // overridden
+    /**
+     * Sets all columns editable or not editable.
+     *
+     * @param editable {Boolean}
+     *   Whether all columns are editable.
+     *
+     * @return {void}
+     */
+    setEditable : function(editable)
+    {
+      this.__editableColArr = [];
+
+      for (var col=0; col<this.getColumnCount(); col++)
+      {
+        this.__editableColArr[col] = editable;
+      }
+
+      this.fireEvent(qx.ui.table.ITableModel.EVENT_TYPE_META_DATA_CHANGED);
+    },
+
+
+    /**
+     * Sets whether a column is editable.
+     *
+     * @param columnIndex {Integer}
+     *   The column of which to set the editable state.
+     *
+     * @param editable {Boolean}
+     *   Whether the column should be editable.
+     *
+     * @return {void}
+     */
     setColumnEditable : function(columnIndex, editable)
     {
-      this.base(arguments, columnIndex, editable);
+      if (editable != this.isColumnEditable(columnIndex))
+      {
+        if (this.__editableColArr == null)
+        {
+          this.__editableColArr = [];
+        }
+
+        this.__editableColArr[columnIndex] = editable;
+
+        this.fireEvent(qx.ui.table.ITableModel.EVENT_TYPE_META_DATA_CHANGED);
+      }
     },
+
+    // overridden
+    isColumnEditable : function(columnIndex)
+    {
+      return(this.__editableColArr
+             ? this.__editableColArr[columnIndex] == true
+             : false);
+    },
+
 
     // overridden
     isColumnSortable : function(columnIndex)
