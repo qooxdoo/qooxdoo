@@ -247,7 +247,7 @@ qx.Class.define("qx.ui.control.ColorSelector",
 
         case "hue-saturation-handle":
           control = new qx.ui.basic.Image("decoration/colorselector/huesaturation-handle.gif");
-          control.addListener("mousedown", this._onHueSaturationHandleMouseDown, this);
+          control.addListener("mousedown", this._onHueSaturationFieldMouseDown, this);
           control.addListener("mouseup", this._onHueSaturationHandleMouseUp, this);
           control.addListener("mousemove", this._onHueSaturationHandleMouseMove, this);
           break;
@@ -780,23 +780,6 @@ qx.Class.define("qx.ui.control.ColorSelector",
 
 
     /**
-     * Listener of mousedown event on the saturation handle.
-     * Sets mouse capture.
-     *
-     * @param e {qx.event.type.Mouse} Incoming event object
-     */
-    _onHueSaturationHandleMouseDown : function(e)
-    {
-      // Activate Capturing
-      this._getChildControl("hue-saturation-handle").capture();
-      this.__capture = "hue-saturation-handle";
-
-      // Block field event handling
-      e.stopPropagation();
-    },
-
-
-    /**
      * Listener of mouseup event on the saturation handle.
      * Releases mouse capture.
      *
@@ -818,6 +801,7 @@ qx.Class.define("qx.ui.control.ColorSelector",
      */
     _onHueSaturationHandleMouseMove : function(e)
     {
+    	
       // Update if captured currently (through previous mousedown)
       if (this.__capture === "hue-saturation-handle") {
         this._setHueSaturationOnFieldEvent(e);
@@ -872,11 +856,7 @@ qx.Class.define("qx.ui.control.ColorSelector",
       var vTop = qx.lang.Number.limit(e.getDocumentTop() - this.__hueSaturationSubtractTop, 0, 256);
       var vLeft = qx.lang.Number.limit(e.getDocumentLeft() - this.__hueSaturationSubtractLeft, 0, 256);
 
-      if (this._getChildControl("hue-saturation-handle").getBounds()) {
-        this._getChildControl("hue-saturation-handle").setDomPosition(vLeft, vTop);
-      } else {
-        this._getChildControl("hue-saturation-handle").setLayoutProperties({top: vTop, left: vLeft});
-      }
+      this._getChildControl("hue-saturation-handle").setDomPosition(vLeft, vTop);
 
       this.__updateContext = "hueSaturationField";
 
