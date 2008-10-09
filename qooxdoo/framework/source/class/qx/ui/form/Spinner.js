@@ -349,7 +349,13 @@ qx.Class.define("qx.ui.form.Spinner",
     _applyEnabled : function(value, old)
     {
     	this.base(arguments, value, old);
-    	this._updateButtons();
+    	// if the spinner is disabled, disable the buttons for sure
+        if (!value) {
+          this._getChildControl("upbutton").setEnabled(false);
+          this._getChildControl("downbutton").setEnabled(false);
+        }
+    	
+        this._updateButtons();
     },
 
 
