@@ -79,50 +79,50 @@ class Lint:
                             self.log(child, "Map key '%s' redefined." % key)
                         else:
                             knownkeys[key] = child
-                          
-                            
-    def checkFields(self):        
+
+
+    def checkFields(self):
         define = treeutil.findQxDefine(self.tree)
         if not define:
             return
-        
+
         classMapNode = treeutil.selectNode(define, "params/2")
         if classMapNode is None:
             return
-        
+
         classMap = treeutil.mapNodeToMap(classMapNode)
         if not classMap.has_key("members"):
             return
-        
-        members = treeutil.mapNodeToMap(classMap["members"].children[0])       
+
+        members = treeutil.mapNodeToMap(classMap["members"].children[0])
         restricted = [key for key in members if key.startswith("_")]
-                
+
         assignNodes = [node for node in treeutil.nodeIterator(classMap["members"], "assignment")]
         if classMap.has_key("construct"):
             for node in treeutil.nodeIterator(classMap["construct"], "assignment"):
                 assignNodes.append(node)
-        
+
         for node in assignNodes:
             this = treeutil.selectNode(node, "left/variable/identifier[1]/@name")
             if this != "this":
                 continue
-            
+
             field = treeutil.selectNode(node, "left/variable/identifier[2]/@name")
             if field is None:
                 continue
-            
+
             if field[0] != "_":
                 continue
             elif field[1] == "_":
                 prot = "private"
             else:
                 prot = "protected"
-            
+
             if prot == "protected":
                 self.log(node, "Protected data field '%s'. Protected fields are deprecated. Better use private fileds in combination with getter and setter methods." % field)
             elif not field in restricted:
                 self.log(node, "Implicit declaration of %s field '%s'. You should list this field in the members section." % (prot, field))
-        
+
 
 
     def checkUnusedVariables(self):
@@ -143,7 +143,7 @@ class Lint:
         return identifier in Lint.DEPRECATED_IDENTIFIER
 
     KNOWN_IDENTIFIER = set(lang.GLOBALS)
-    
+
     # this array has formerly been assigned to KNOWN_IDENTIFIER and can be removed later
     [
 
@@ -261,10 +261,10 @@ misspelled identifier and missing 'var' statements. You can use the '-g' flag to
 
         if checkAll or "blocks" in options.actions:
             lint.checkRequiredBlocks()
-            
+
         if checkAll or "fields" in options.actions:
-            lint.checkFields()            
-            
+            lint.checkFields()
+
 
 
 if __name__ == "__main__":
