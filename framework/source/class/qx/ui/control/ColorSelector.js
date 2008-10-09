@@ -51,6 +51,8 @@ qx.Class.define("qx.ui.control.ColorSelector",
     this._setLayout(new qx.ui.layout.VBox());
 
     this._createChildControl("control-bar");
+    
+    this.addListener("appear", this._onAppear, this);
   },
 
 
@@ -1158,6 +1160,20 @@ qx.Class.define("qx.ui.control.ColorSelector",
       var helpRgb = ColorUtil.hsbToRgb([this.getHue(), this.getSaturation(), 255]);
       var helpRgbString = ColorUtil.rgbToRgbString([helpRgb.red, helpRgb.green, helpRgb.blue])
       this._getChildControl("brightness-field").setBackgroundColor(helpRgbString);      
+    },
+    
+    /**
+     * Listener for appear.
+     * Sets preview pane's background color to the current color.
+     * 
+     * @param e {qx.event.type.Data} Incoming event object
+     */
+    _onAppear : function(e) {
+      var color = qx.util.ColorUtil.rgbToRgbString([this.getRed(),
+      this.getGreen(), this.getBlue()]);
+        
+      this._getChildControl("preview-content-old").setBackgroundColor(color);
+      this._getChildControl("preview-content-new").setBackgroundColor(color);
     }
   }
 });
