@@ -44,6 +44,7 @@ qx.Class.define("demobrowser.demo.widget.Desktop",
       var windowManager = new qx.ui.window.Manager();
 
       var desktop = new qx.ui.window.Desktop(windowManager);
+      desktop.set({decorator: "main", backgroundColor: "background-pane"});
       page.add(desktop);
 
       var winDefs = [
