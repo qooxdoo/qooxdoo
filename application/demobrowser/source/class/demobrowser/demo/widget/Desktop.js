@@ -49,7 +49,7 @@ qx.Class.define("demobrowser.demo.widget.Desktop",
       var winDefs = [
         [300, 200, 30, 50],
         [250, 250, 150, 70],
-        [400, 300, 300, 60],
+        [400, 300, 300, 60]
       ];
 
       for (var i=0; i<winDefs.length; i++)
