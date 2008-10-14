@@ -2765,7 +2765,7 @@ qx.Class.define("qx.ui.core.Widget",
      */
     checkAppearanceNeeds : function()
     {
-      // CASE 1: Widget has never got a appearance already because it was never
+      // CASE 1: Widget has never got an appearance already because it was never
       // visible before. Normally add it to the queue is the easiest way to update it.
       if (!this.__initialAppearanceApplied)
       {
@@ -2773,7 +2773,7 @@ qx.Class.define("qx.ui.core.Widget",
         this.__initialAppearanceApplied = true;
       }
 
-      // CASE 2: Widget has got a appearance before, but was hidden for some time
+      // CASE 2: Widget has got an appearance before, but was hidden for some time
       // which results into maybe omitted state changes have not been applied.
       // In this case the widget is already queued in the appearance. This is basically
       // what all addState/removeState do, but the queue itself may not have been registered

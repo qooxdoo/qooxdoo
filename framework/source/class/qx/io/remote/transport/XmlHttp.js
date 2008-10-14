@@ -47,42 +47,6 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
   },
 
 
-
-
-  /*
-  *****************************************************************************
-     EVENTS
-  *****************************************************************************
-  */
-
-  events : {
-    /** Event when a request is created */
-    "created" : "qx.event.type.Event",
-
-    /** Event when a request is configured */
-    "configured" : "qx.event.type.Event",
-
-    /** Event when a request is sent */
-    "sending" : "qx.event.type.Event",
-
-    /** Event when a request is received */
-    "receiving" : "qx.event.type.Event",
-
-    /** Event when a request is completed */
-    "completed" : "qx.event.type.Event",
-
-    /** Event when a request is aborted */
-    "aborted" : "qx.event.type.Event",
-
-    /** Event when a request has failed */
-    "failed" : "qx.event.type.Event",
-
-    /** Event when a request has timed out */
-    "timeout" : "qx.event.type.Event"
-  },
-
-
-
   /*
   *****************************************************************************
      STATICS
