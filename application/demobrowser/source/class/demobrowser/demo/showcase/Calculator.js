@@ -18,8 +18,7 @@
 ************************************************************************ */
 
 /*
-#asset(qx/icon/${qx.icontheme}/22/actions/dialog-apply.png)
-#asset(qx/icon/${qx.icontheme}/22/actions/dialog-cancel.png)
+#asset(qx/icon/${qx.icontheme}/22/apps/utilities-calculator.png)
 */
 
 qx.Class.define("demobrowser.demo.showcase.Calculator",
@@ -74,7 +73,7 @@ qx.Class.define("demobrowser.demo.showcase.Calculator",
     createCalculator : function()
     {
       // Create the Window
-      var win = new qx.ui.window.Window("Calculator", "calculator/utilities-calculator.png");
+      var win = new qx.ui.window.Window("Calculator", "icon/22/apps/utilities-calculator.png");
       win.setLayout(new qx.ui.layout.VBox(20));
       var border = new qx.ui.decoration.Single(2, "solid", "black");
 
