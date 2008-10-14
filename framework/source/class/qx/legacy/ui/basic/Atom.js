@@ -46,7 +46,8 @@ qx.Class.define("qx.legacy.ui.basic.Atom",
    * @param vIcon {String?null} Icon URL of the atom
    * @param vIconWidth {Integer?null} desired width of the icon (the icon will be scaled to this size)
    * @param vIconHeight {Integer?null} desired height of the icon (the icon will be scaled to this size)
-   * @param vFlash {qx.legacy.ui.embed.Flash?null} optional flash animation for the Atom. Needs valid width and height values.
+   * @param vFlash {qx.legacy.ui.embed.Flash?null} optional flash animation for the Atom. 
+   *          Needs valid width and height values. (IMPORTANT: Disabled in legacy part of qooxdoo 0.8+)
    */
   construct : function(vLabel, vIcon, vIconWidth, vIconHeight, vFlash)
   {
@@ -60,6 +61,7 @@ qx.Class.define("qx.legacy.ui.basic.Atom",
       this.setLabel(vLabel);
     }
 
+    /* CAUTION: Flash embedding is disabled in legacy part of qooxdoo 0.8+
     // Simple flash wrapper
     if (qx.Class.isDefined("qx.legacy.ui.embed.Flash") && vFlash != null && vIconWidth != null && vIconHeight != null && qx.legacy.ui.embed.Flash.getPlayerVersion().getMajor() > 0)
     {
@@ -67,7 +69,7 @@ qx.Class.define("qx.legacy.ui.basic.Atom",
 
       this.setIcon(vFlash);
     }
-    else if (vIcon != null)
+    else */ if (vIcon != null)
     {
       this.setIcon(vIcon);
     }
@@ -310,11 +312,16 @@ qx.Class.define("qx.legacy.ui.basic.Atom",
      */
     _createIcon : function()
     {
+
+      /* CAUTION: Flash embedding is disabled in legacy part of qooxdoo 0.8+
       if (this._flashMode && qx.Class.isDefined("qx.legacy.ui.embed.Flash")) {
         var i = this._iconObject = new qx.legacy.ui.embed.Flash(this.getIcon());
       } else {
         var i = this._iconObject = new qx.legacy.ui.basic.Image();
       }
+      */
+
+      var i = this._iconObject = new qx.legacy.ui.basic.Image();
 
       i.setAnonymous(true);
 
