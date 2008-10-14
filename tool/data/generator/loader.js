@@ -144,6 +144,7 @@ window.qxloader =
 
   // Loading issue seems to be fixed in recent webkits
   _isWebkit : /AppleWebKit\/([^ ]+)/.test(navigator.userAgent),
+  _isMshtml : navigator.cpuClass && /MSIE\s+([^\);]+)(\)|;)/.test(navigator.userAgent),
 
   _flushQueue : function()
   {
@@ -284,26 +285,24 @@ window.qxloader =
   },
 
 
-  init : function() {
+  init : function()
+  {
+    // first check whether the page is already loaded (IE only)
+    if (this._isMshtml && /complete|interactive/.test(document.readyState)) {
+      qxloader._pageLoad();
+    }
+    else
+    {
+      if (window.addEventListener) {
+        window.addEventListener("load", this._pageLoad, false);
+      } else {
+        window.attachEvent("onload", this._pageLoad);
+      }
+    }
+
     this.loadPart(this.boot);
   }
 };
-
-
-var isMshtml = navigator.cpuClass && /MSIE\s+([^\);]+)(\)|;)/.test(navigator.userAgent);
-
-// first check whether the page is already loaded (IE only)
-if (isMshtml && /complete|interactive/.test(document.readyState)) {
-  qxloader._pageLoad();
-}
-else
-{
-  if (window.addEventListener) {
-    window.addEventListener("load", qxloader._pageLoad, false);
-  } else {
-    window.attachEvent("onload", qxloader._pageLoad);
-  }
-}
 
 
 qxloader.init();
