@@ -59,7 +59,7 @@ qx.Interface.define("qx.ui.window.IWindowManager",
     },
 
     /**
-     * Ask the manager to bring a window to the front.
+     * Ask the manager to send a window to the back.
      *
      * @param win {Window} window to sent to back
      */
