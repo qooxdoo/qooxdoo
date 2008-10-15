@@ -2114,6 +2114,15 @@ qx.Class.define("qx.ui.core.Widget",
         zIndex: 7
       });
 
+      var bounds = this.getBounds();
+      if (bounds)
+      {
+        this.__protectorElement.setStyles({
+          width : bounds.width + "px",
+          height : bounds.height + "px"
+        });
+      }
+
       // IE needs some extra love here to convince him to
       // block events.
       if (qx.core.Variant.isSet("qx.client", "mshtml"))
@@ -2265,8 +2274,16 @@ qx.Class.define("qx.ui.core.Widget",
         // When bounds are existing directly resize the decorator
         // otherwise wait for initial resize through layouter
         var bounds = this.getBounds();
-        if (bounds) {
+        if (bounds)
+        {
           mgr.resolve(value).resize(elem, bounds.width, bounds.height);
+
+          // Update protector element
+          this.__protectorElement.setStyles({
+            width : bounds.width + "px",
+            height : bounds.height + "px"
+          });
+
         }
       }
     },
