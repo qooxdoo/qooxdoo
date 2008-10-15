@@ -73,9 +73,6 @@ qx.Class.define("qx.ui.embed.Flash",
 {
   extend : qx.ui.basic.Terminator,
 
-
-
-
   /*
   *****************************************************************************
      CONSTRUCTOR
@@ -85,8 +82,9 @@ qx.Class.define("qx.ui.embed.Flash",
   /**
    * @param vSource {String} Url of the SWF file to embed
    * @param vVersion {String} Flash version of the SWF file
+   * @param vId {String} The unique id for the Flash element
    */
-  construct : function(vSource, vVersion)
+  construct : function(vSource, vVersion, vId)
   {
     this.base(arguments);
 
@@ -99,10 +97,15 @@ qx.Class.define("qx.ui.embed.Flash",
     }
 
     this.setVersion(vVersion != null ? vVersion : qx.ui.embed.Flash.MINREQUIRED);
+    
+    if (vId != null) {
+      this.setId(vId);
+    } else {
+      this.setId("flash" + this._hashCode);
+    }
+    
+    this.addEventListener("appear", this._onAppear, this);
   },
-
-
-
 
   /*
   *****************************************************************************
@@ -117,9 +120,6 @@ qx.Class.define("qx.ui.embed.Flash",
     PLAYERVERSION : null,
     PLUGINKEY : "Shockwave Flash",
     ACTIVEXKEY : "ShockwaveFlash.ShockwaveFlash",
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -185,9 +185,6 @@ qx.Class.define("qx.ui.embed.Flash",
     }
   },
 
-
-
-
   /*
   *****************************************************************************
      PROPERTIES
@@ -203,9 +200,16 @@ qx.Class.define("qx.ui.embed.Flash",
       apply : "_applySource"
     },
 
-    version : {
+    version :
+    {
       apply : "_applyVersion",
       nullable : true
+    },
+
+    id :
+    {
+      check : "String",
+      init : "flash"
     },
 
     enableExpressInstall :
@@ -249,7 +253,6 @@ qx.Class.define("qx.ui.embed.Flash",
 
     play :
     {
-
       check : "Boolean",
       init : true,
       apply : "_applyPlay"
@@ -270,9 +273,6 @@ qx.Class.define("qx.ui.embed.Flash",
     }
   },
 
-
-
-
   /*
   *****************************************************************************
      MEMBERS
@@ -290,6 +290,16 @@ qx.Class.define("qx.ui.embed.Flash",
     _version : null,
     _source : "",
 
+    /**
+     * TODOC
+     *
+     * @type member
+     * @return {void}
+     */
+    _onAppear : function() {
+      var myElem = this.getElement();
+      this._oldApplyElementData(myElem);
+    },
 
     /**
      * TODOC
@@ -298,10 +308,20 @@ qx.Class.define("qx.ui.embed.Flash",
      * @param el {Element} TODOC
      * @return {void}
      */
-    _applyElementData : function(el)
-    {
-      this.base(arguments, el);
+    _applyElementData : function(el) {
+      // intentionally left empty 
+      // see Bug: http://bugzilla.qooxdoo.org/show_bug.cgi?id=847
+    },
 
+    /**
+     * TODOC
+     *
+     * @type member
+     * @param el {Element} TODOC
+     * @return {void}
+     */
+    _oldApplyElementData : function(el)
+    {
       // Check for ExpressInstall
       this._expressInstall = false;
 
@@ -331,9 +351,6 @@ qx.Class.define("qx.ui.embed.Flash",
       }
     },
 
-
-
-
     /*
     ---------------------------------------------------------------------------
       HTML GENERATOR
@@ -360,9 +377,11 @@ qx.Class.define("qx.ui.embed.Flash",
           this.addVariable('MMplayerType', 'PlugIn');
         }
 
-        html.push("<embed type='application/x-shockwave-flash' width='100%' height='100%' src='");
-        html.push(this._source);
-        html.push("'");
+        html.push("<embed type='application/x-shockwave-flash'");
+        html.push(" width='100%' height='100%'");
+        html.push(" id='" + this.getId() + "'");
+        html.push(" name='" + this.getId() + "'");
+        html.push(" src='" + this._source + "'");
 
         var params = this.getParams();
 
@@ -408,7 +427,9 @@ qx.Class.define("qx.ui.embed.Flash",
           this.addVariable("MMplayerType", "ActiveX");
         }
 
-        html.push("<object classid='clsid:D27CDB6E-AE6D-11cf-96B8-444553540000' width='100%' height='100%'>");
+        html.push("<object width='100%' height='100%'");
+        html.push(" id='" + this.getId() + "'");
+        html.push(" classid='clsid:D27CDB6E-AE6D-11cf-96B8-444553540000'>");
         html.push("<param name='movie' value='");
         html.push(this._source);
         html.push("'/>");
@@ -434,8 +455,16 @@ qx.Class.define("qx.ui.embed.Flash",
       }
     }),
 
-
-
+    /**
+     * Return the DOM element of the flash file element.
+     * 
+     * @type member
+     * @return {Element} the flash DOM element.
+     */
+    getFlashElement : function()
+    {
+      return this.getElement().firstChild;
+    },
 
     /*
     ---------------------------------------------------------------------------
@@ -454,7 +483,6 @@ qx.Class.define("qx.ui.embed.Flash",
     _applySource : function(value, old, propName) {
       this._source = qx.util.Validation.isValidString(value) ? qx.io.Alias.getInstance().resolve(value) : "";
     },
-
 
     /**
      * TODOC
@@ -476,7 +504,6 @@ qx.Class.define("qx.ui.embed.Flash",
       }
     },
 
-
     /**
      * TODOC
      *
@@ -488,7 +515,6 @@ qx.Class.define("qx.ui.embed.Flash",
     {
       this.setParam("quality", value.toString());
     },
-
 
     /**
      * TODOC
@@ -502,7 +528,6 @@ qx.Class.define("qx.ui.embed.Flash",
       this.setParam("scale", value.toString());
     },
 
-
     /**
      * TODOC
      *
@@ -514,7 +539,6 @@ qx.Class.define("qx.ui.embed.Flash",
     {
       this.setParam("wmode", value.toString());
     },
-
 
     /**
      * TODOC
@@ -528,7 +552,6 @@ qx.Class.define("qx.ui.embed.Flash",
       this.setParam("play", value.toString());
     },
 
-
     /**
      * TODOC
      *
@@ -540,8 +563,6 @@ qx.Class.define("qx.ui.embed.Flash",
     {
       this.setParam("loop", value.toString());
     },
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -568,7 +589,6 @@ qx.Class.define("qx.ui.embed.Flash",
       }
     },
 
-
     /**
      * TODOC
      *
@@ -579,9 +599,6 @@ qx.Class.define("qx.ui.embed.Flash",
     _setBackgroundColorProperty : function(vNewValue) {
       this.setParam("bgcolor", vNewValue);
     },
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -601,7 +618,6 @@ qx.Class.define("qx.ui.embed.Flash",
       this._params[name] = value;
     },
 
-
     /**
      * TODOC
      *
@@ -613,7 +629,6 @@ qx.Class.define("qx.ui.embed.Flash",
       return this._params[name];
     },
 
-
     /**
      * TODOC
      *
@@ -623,9 +638,6 @@ qx.Class.define("qx.ui.embed.Flash",
     getParams : function() {
       return this._params;
     },
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -645,7 +657,6 @@ qx.Class.define("qx.ui.embed.Flash",
       this._variables[name] = value;
     },
 
-
     /**
      * TODOC
      *
@@ -657,7 +668,6 @@ qx.Class.define("qx.ui.embed.Flash",
       return this._variables[name];
     },
 
-
     /**
      * TODOC
      *
@@ -667,9 +677,6 @@ qx.Class.define("qx.ui.embed.Flash",
     getVariables : function() {
       return this._variables;
     },
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -700,7 +707,6 @@ qx.Class.define("qx.ui.embed.Flash",
       return vParamTags.join("");
     },
 
-
     /**
      * TODOC
      *
@@ -719,9 +725,6 @@ qx.Class.define("qx.ui.embed.Flash",
       return variablePairs.join("&");
     },
 
-
-
-
     /*
     ---------------------------------------------------------------------------
       METHODS TO GIVE THE LAYOUTERS INFORMATIONS
@@ -737,9 +740,6 @@ qx.Class.define("qx.ui.embed.Flash",
      * @signature function()
      */
     _isHeightEssential : qx.lang.Function.returnTrue,
-
-
-
 
     /*
     ---------------------------------------------------------------------------
@@ -760,9 +760,6 @@ qx.Class.define("qx.ui.embed.Flash",
     _computePreferredInnerHeight : qx.lang.Function.returnZero
   },
 
-
-
-
   /*
   *****************************************************************************
      DESTRUCTOR
@@ -774,8 +771,8 @@ qx.Class.define("qx.ui.embed.Flash",
     /* 
      * reset innerHTML to be sure that Flash stops
      * this is especially needed for mshtml browsers
-	 */ 
-	this.getElement().innerHTML = "";
+     */ 
+    this.getElement().innerHTML = "";
     
     this._disposeObjects("_version");
     this._disposeFields("_source", "_params", "_variables");
