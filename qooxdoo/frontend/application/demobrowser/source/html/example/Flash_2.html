@@ -1,0 +1,153 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>qooxdoo &raquo; Demo Browser</title>
+  <script type="text/javascript" src="../../script/demo.js"></script>
+  <script type="text/javascript" src="../util.js"></script>
+</head>
+<body>  
+  <div id="description">
+    <p>Show how to use the External API from Flash.</p>
+  </div>
+
+  <script type="text/javascript">
+  qx.Class.define("BasicSample",
+  {
+    extend : qx.application.Gui,
+
+    statics :
+    {
+      __callBackInstance : null,
+      
+      setCallBackInstance : function (CallBackInstance)
+      {
+        BasicSample.__callBackInstance = CallBackInstance;
+      },
+      
+      getCallBackInstance : function () 
+      {
+        return BasicSample.__callBackInstance;
+      }
+    },
+    
+    /*
+     *****************************************************************************
+       MEMBERS
+     *****************************************************************************
+     */
+    
+    members :
+    {
+      __flash : null,
+      
+      __messageFromFlash : null,
+      
+      __messageToFlash : null,
+      
+      __sendButton : null,
+          
+      main : function()
+      {
+        this.base(arguments);
+        
+        //Set for call back
+        BasicSample.setCallBackInstance(this);
+        
+        var mainLayout = new qx.ui.layout.HorizontalBoxLayout();
+        mainLayout.setTop(20);
+        mainLayout.setLeft(20);
+        mainLayout.setWidth("auto");
+        mainLayout.setHeight("auto"); 
+        mainLayout.setBorder("outset");
+        
+        /*
+         * Qooxdoo
+         */
+        var qooxdooLayout = new qx.ui.layout.VerticalBoxLayout();
+        qooxdooLayout.setWidth("auto");
+        qooxdooLayout.setHeight("auto"); 
+        qooxdooLayout.setSpacing(4);
+        qooxdooLayout.setPadding(8);
+        qooxdooLayout.add(new qx.ui.basic.Label("Qooxdoo:"));
+        mainLayout.add(qooxdooLayout);
+        
+        qooxdooLayout.add(new qx.ui.basic.Label("Message from Flash:"));
+        this.__messageFromFlash = new qx.ui.form.TextArea("No message.");
+        this.__messageFromFlash.setEnabled(false);
+        this.__messageFromFlash.setWidth(300);
+        this.__messageFromFlash.setHeight(100);
+        qooxdooLayout.add(this.__messageFromFlash);
+        
+        qooxdooLayout.add(new qx.ui.basic.Label("Message to Flash:"));
+        this.__messageToFlash = new qx.ui.form.TextArea("Qooxdoo is the best!");
+        this.__messageToFlash.setWidth(300);
+        this.__messageToFlash.setHeight(100);
+        qooxdooLayout.add(this.__messageToFlash);
+        
+        var buttonBar = new qx.ui.layout.HorizontalBoxLayout();
+        buttonBar.setHorizontalAlign("right");
+        buttonBar.setWidth("auto");
+        buttonBar.setHeight("auto"); 
+        
+        __sendButton = new qx.ui.form.Button("Send to Flash");
+        __sendButton.setEnabled(false);
+        __sendButton.addEventListener("execute", function(e) {
+          this.__flash.getFlashElement().sendMessage(this.__messageToFlash.getValue());
+        }, this);
+        
+        buttonBar.add(__sendButton); 
+        qooxdooLayout.add(buttonBar);
+        
+        /*
+         * Flash
+         */
+        var flashLayout = new qx.ui.layout.VerticalBoxLayout();
+        flashLayout.setWidth("auto");
+        flashLayout.setHeight("auto"); 
+        flashLayout.setSpacing(4);
+        flashLayout.setPadding(8);
+        flashLayout.add(new qx.ui.basic.Label("Flash:"));
+        mainLayout.add(flashLayout);
+        
+        this.__flash = new qx.ui.embed.Flash("./image/flash/TestFlash.swf")
+        this.__flash.addEventListener("appear", this.__onAppear, this);
+        this.__flash.setWidth(400);
+        this.__flash.setHeight(300);
+        this.__flash.setBorder("inset");
+        flashLayout.add(this.__flash);
+        
+        mainLayout.addToDocument();
+      },
+      
+      sendMessage : function(message)
+      { 
+        this.__messageFromFlash.setValue(message);  
+      },
+      
+      __onAppear : function(e)
+      {
+        var timer = new qx.client.Timer(50);
+        var count = 0;
+        timer.addEventListener("interval", function() {
+          try
+          {
+            count++;
+            if (count < 20) {
+              this.__flash.getFlashElement().setup("BasicSample.getCallBackInstance().sendMessage");
+              __sendButton.setEnabled(true);
+            } else {
+              alert("Couldn't connect to Flash Player! Perhaps an advertising blocker is activated.");
+            }
+            timer.stop();
+          } catch(e) {}
+        }, this);
+        
+        timer.start();
+      }
+    }
+  });
+  
+  qx.core.Init.getInstance().setApplication(new BasicSample);
+  </script>
+</body>
+</html>

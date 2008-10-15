@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" creationComplete="init()" width="100%" height="100%" horizontalAlign="left">
+	<mx:Script>
+		<![CDATA[
+			import flash.external.ExternalInterface;
+
+			private var callBack:String = "";
+			
+			private function init():void {
+				ExternalInterface.addCallback("setup", setup);
+				ExternalInterface.addCallback("sendMessage", sendMessage);
+			}
+			
+			private function setup(callBack:String):void {
+				this.callBack = callBack;
+				this.sendButton.enabled = true;
+			}
+
+			private function sendMessage(message:String):void {
+				this.messageQooxdoo.text = message;
+			}
+
+			private function sendToQooxdoo():void {
+				ExternalInterface.call(this.callBack, messageFlash.text);
+			}
+		]]>
+	</mx:Script>
+	
+	<mx:VBox width="100%" height="100%" verticalGap="4" horizontalAlign="left">
+		<mx:Label text="Message from Qooxdoo:"/>
+		<mx:TextArea text="No message." width="100%" height="45%" id="messageQooxdoo" editable="false"/>
+		<mx:Label text="Message to Qooxdoo:"/>
+		<mx:TextArea width="100%" height="45%" text="Let's Rock!" id="messageFlash"/>
+		<mx:HBox width="100%" horizontalAlign="right" horizontalGap="8">
+			<mx:Button label="Send to Qooxdoo" click="sendToQooxdoo()" enabled="false" id="sendButton"/>
+		</mx:HBox>
+	</mx:VBox>
+</mx:Application>
