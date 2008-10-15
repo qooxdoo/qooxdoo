@@ -42,6 +42,8 @@ qx.Class.define("demobrowser.demo.animation.Tree_Highlight",
       })
       treeGroup.setLayout(new qx.ui.layout.Canvas());
       this._container.add(treeGroup);
+      
+      this._treeGroup = treeGroup;
 
       var tree = this.getTree();
       treeGroup.add(tree, {edge: 0});
@@ -304,12 +306,14 @@ qx.Class.define("demobrowser.demo.animation.Tree_Highlight",
 
     _resetTree : function()
     {
-      this._container.getLayout().remove(this._tree);
+      this._treeGroup.remove(this._tree);
       this._tree = this.getTree();
-      this._container.getLayout().addAt(this._tree, 0);
+      this._treeGroup.add(this._tree, {edge: 0});
 
-      this._tree.addListener("change", this._updateControls, this);
-      this._updateControls();
+      this._tree.addListenerOnce("appear", function(){
+        this._tree.addListener("changeSelection", this._updateControls, this);
+      }, this);
+
     },
 
 
@@ -331,7 +335,9 @@ qx.Class.define("demobrowser.demo.animation.Tree_Highlight",
         return;
       }
 
-      var isTopLevel = current.getLevel() == 0;
+      var parent = current.getParent();
+
+      var isTopLevel = current.getLevel() == -1;
       var isFolder = current instanceof qx.ui.tree.TreeFolder;
       var isLastItem = this._tree.getNextSiblingOf(current) == null;
       var isFirstItem = this._tree.getPreviousSiblingOf(current) == null;
@@ -341,7 +347,7 @@ qx.Class.define("demobrowser.demo.animation.Tree_Highlight",
       this.btnAddBefore.setEnabled(true);
       this.btnAddAfter.setEnabled(true);
       this.btnAddBegin.setEnabled(true);
-      this.btnRemove.setEnabled(true);
+      this.btnRemove.setEnabled(!isTopLevel);
       this.btnRemoveAll.setEnabled(true);
       this.mgrShowRootOpen.setEnabled(isFolder);
       this.showOpenButtons[current.getOpenSymbolMode()].setChecked(true);
