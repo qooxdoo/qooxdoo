@@ -5,6 +5,7 @@
   "let" :
   {
     "ROOT"         : ".",
+    "APPLICATION_URI" : "..",
     "QOOXDOO_PATH" : "../../framework",
     "QOOXDOO_URI"  : "../${QOOXDOO_PATH}",
     "CACHE"        : "cache",
@@ -40,7 +41,7 @@
       [
         {
           "manifest" : "${ROOT}/Manifest.json",
-          "uri"      : ".."
+          "uri"      : "${APPLICATION_URI}"
         }
       ],
 
@@ -62,7 +63,7 @@
 
         {
           "manifest" : "${ROOT}/Manifest.json",
-          "uri"      : ".."
+          "uri"      : "${APPLICATION_URI}"
         }
       ],
 
