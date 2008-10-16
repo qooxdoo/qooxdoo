@@ -112,7 +112,7 @@ qx.Class.define("testrunner.runner.TestHandler",
         var target = createPath(root, path);
 
         if (!target) {
-          throw new Exception("No target to insert tests");
+          throw new Error("No target to insert tests");
         }
 
         that.readTree(el, target);
