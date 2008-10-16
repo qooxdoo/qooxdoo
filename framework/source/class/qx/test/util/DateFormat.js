@@ -40,7 +40,7 @@ qx.Class.define("qx.test.util.DateFormat",
       var formatStr = "EEEE dd. MMM yyyy";
       this.debug("Format string:" + formatStr.toString());
       var dateFmt = new qx.util.format.DateFormat(formatStr, "de_DE");
-      dateStr = dateFmt.format(date);
+      var dateStr = dateFmt.format(date);
       this.debug("Formatted Date: " + dateStr);
 
       var parsedDate = dateFmt.parse(dateStr);
