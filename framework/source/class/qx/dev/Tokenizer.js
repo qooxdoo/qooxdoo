@@ -108,7 +108,7 @@ qx.Class.define("qx.dev.Tokenizer",
       var str_re_space = "\\s";
 
       var re_regexp_part = "(?:\\/(?!\\*)[^\\t\\n\\r\\f\\v\\/]+?\\/[mgi]*)";
-      str_re_regexp_all = [
+      var str_re_regexp_all = [
         "\\.(?:match|search|split)\\s*\\(\\s*\\(*\\s*" + re_regexp_part + "\\s*\\)*\\s*\\)",
         "\\.(?:replace)\\s*\\(\\s*\\(*\\s*" + re_regexp_part + "\\s*\\)*\\s*?,?",
         "\\s*\\(*\\s*" + re_regexp_part + "\\)*\\.(?:test|exec)\\s*\\(\\s*",
