@@ -84,6 +84,8 @@ qx.Class.define("qx.test.util.NumberFormat",
         "10,1,12"
       ];
 
+      var badNumberStr;
+
       for (var i=0; i<badNumberStrings.length; i++)
       {
         badNumberStr = badNumberStrings[i];

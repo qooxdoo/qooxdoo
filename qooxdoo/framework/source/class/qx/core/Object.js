@@ -162,7 +162,6 @@ qx.Class.define("qx.core.Object",
       var clone = new clazz;
       var props = qx.Class.getProperties(clazz);
       var user = qx.core.Property.$$store.user;
-      var setter = qx.core.Property.$$method.set;
       var name;
 
       // Iterate through properties
@@ -190,7 +189,7 @@ qx.Class.define("qx.core.Object",
       var props = qx.Class.getProperties(clazz);
       var user = qx.core.Property.$$store.user;
       var setter = qx.core.Property.$$method.set;
-      var name;
+      var name, value;
 
       var result =
       {
