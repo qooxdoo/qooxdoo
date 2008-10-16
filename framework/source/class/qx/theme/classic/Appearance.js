@@ -172,10 +172,10 @@ qx.Theme.define("qx.theme.classic.Appearance",
     ---------------------------------------------------------------------------
     */
 
-    "button" :
+    "button-frame" :
     {
       alias : "atom",
-
+      
       style : function(states)
       {
         if (states.pressed || states.abandoned || states.checked) {
@@ -189,7 +189,19 @@ qx.Theme.define("qx.theme.classic.Appearance",
         return {
           backgroundColor : states.abandoned ? "button-abandoned" : states.hovered ? "button-hovered" : states.checked ? "button-checked" : "button",
           decorator : decorator,
-          padding : padding,
+          padding : padding
+        };
+      }
+    },
+    
+    "button" :
+    {
+      alias : "button-frame",
+      include : "button-frame",
+
+      style : function(states)
+      {
+        return {
           center : true
         };
       }
@@ -946,7 +958,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
 
     "scrollbar/slider/knob" :
     {
-      include : "button",
+      include : "button-frame",
 
       style : function(states)
       {
@@ -1495,7 +1507,7 @@ qx.Theme.define("qx.theme.classic.Appearance",
     ---------------------------------------------------------------------------
     */
 
-    "selectbox" : "button",
+    "selectbox" : "button-frame",
     "selectbox/atom" : "atom",
     "selectbox/popup" : "popup",
     "selectbox/list" : "list",
