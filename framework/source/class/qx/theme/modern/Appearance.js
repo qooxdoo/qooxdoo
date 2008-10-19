@@ -1311,9 +1311,20 @@ qx.Theme.define("qx.theme.modern.Appearance",
     {
       style : function(states)
       {
-        return {
-          icon : "decoration/tree/open.png",
-          padding : [0, 5, 0, 2]
+        if (qx.core.Variant.isSet("qx.client", "mshtml"))
+        {
+          return {
+            icon : "decoration/tree/open.png",
+            paddingLeft : 5,
+            paddingTop : 2
+          }
+        }
+        else
+        {
+          return {
+            icon : "decoration/tree/open.png",
+            paddingLeft : 5
+          }
         }
       }
     },
@@ -1322,9 +1333,20 @@ qx.Theme.define("qx.theme.modern.Appearance",
     {
       style : function(states)
       {
-        return {
-          icon : "decoration/tree/closed.png",
-          padding : [0, 5, 0, 2]
+        if (qx.core.Variant.isSet("qx.client", "mshtml"))
+        {
+          return {
+            icon : "decoration/tree/closed.png",
+            paddingLeft : 5,
+            paddingTop : 2
+          }
+        }
+        else
+        {
+          return {
+            icon : "decoration/tree/closed.png",
+            paddingLeft : 5
+          }
         }
       }
     },
