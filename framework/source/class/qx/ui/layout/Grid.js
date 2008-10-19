@@ -333,9 +333,9 @@ qx.Class.define("qx.ui.layout.Grid",
 
 
     /**
-     * Set the default cell alignment for a column. This alignmnet can be
-     * overridden on a per cell basis by using the layout properties
-     * <code>hAlign</code> and <code>vAlign</code>.
+     * Set the default cell alignment for a column. This alignment can be
+     * overridden on a per cell basis by setting the cell's content widget's
+     * <code>alignX</code> and <code>alignY</code> properties.
      *
      * If on a grid cell both row and a column alignmnet is set, the horizontal
      * alignmnet is taken from the column and the vertical alignment is taken
@@ -384,9 +384,9 @@ qx.Class.define("qx.ui.layout.Grid",
 
 
     /**
-     * Set the default cell alignment for a row. This alignmnet can be
-     * overridden on a per cell basis by using the layout properties
-     * <code>hAlign</code> and <code>vAlign</code>.
+     * Set the default cell alignment for a row. This alignment can be
+     * overridden on a per cell basis by setting the cell's content widget's
+     * <code>alignX</code> and <code>alignY</code> properties.
      *
      * If on a grid cell both row and a column alignmnet is set, the horizontal
      * alignmnet is taken from the column and the vertical alignment is taken
