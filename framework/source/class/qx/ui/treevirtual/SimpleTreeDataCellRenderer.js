@@ -51,8 +51,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
     this._tm = qx.theme.manager.Appearance.getInstance();
 
     // Base URL used for indentation
-    this.STATIC_URI =
-      this._rm.toUri(this._am.resolve("qx/static/"));
+    this.BLANK = this._rm.toUri(this._am.resolve("static/blank.gif"));
   },
 
 
@@ -221,22 +220,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
         html.push('">');
       }
 
-      html.push('<img src="');
-
-      if (qx.core.Variant.isSet("qx.client", "mshtml") &&
-          /\.png$/i.test(imageInfo.url))
-      {
-        html.push(
-          this.STATIC_URI +
-          "blank.gif" +
-          '" style="filter:' +
-          "progid:DXImageTransform.Microsoft.AlphaImageLoader(" +
-          "  src='" + source + "',sizingMethod='scale')");
-      }
-      else
-      {
-        html.push(source + '" style="');
-      }
+      html.push('<img src="' + source + '" style="');
 
       if (imageInfo.imageWidth && imageInfo.imageHeight)
       {
@@ -537,7 +521,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
         // bUseTreeLines
         return (bUseTreeLines && ! node.lastChild[column]
                 ? STDCR.__icon.line
-                : { icon : this.STATIC_URI + "blank.gif" });
+                : { icon : this.BLANK });
       }
 
       var bLastChild = node.lastChild[node.lastChild.length - 1];
@@ -607,7 +591,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
           if (bLastChild && node.bFirstChild)
           {
             // ... then return a blank.
-            return { icon : this.STATIC_URI + "blank.gif" };
+            return { icon : this.BLANK };
           }
 
           // Otherwise, if this is the last child...
@@ -631,7 +615,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
                 : STDCR.__icon.cross);
       }
 
-      return { icon : this.STATIC_URI + "blank.gif" };
+      return { icon : this.BLANK };
     }
   },
 
@@ -699,6 +683,6 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
       "__am",
       "__rm",
       "__tm",
-      "STATIC_URI");
+      "BLANK");
   }
 });
