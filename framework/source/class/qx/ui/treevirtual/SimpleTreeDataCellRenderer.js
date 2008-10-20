@@ -187,6 +187,11 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
 
         html.push('<div style="position:absolute;');
 
+        if (!qx.core.Variant.isSet("qx.client", "mshtml"))
+        {
+          html.push(qx.bom.element.BoxSizing.compile("content-box"));
+        }
+
         if (pos.top !== undefined)
         {
           html.push('top:' + pos.top + 'px;');
@@ -220,7 +225,12 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
         html.push('">');
       }
 
-      html.push('<img src="' + source + '" style="');
+      // Don't use an image tag.  They render differently in Firefox and IE7
+      // even if both are enclosed in a div specified as content box.  Instead,
+      // add the image as the background image of a div.
+      html.push('<div style="');
+      html.push('background-image:url(' + source + ');');
+      html.push('background-repeat:no-repeat;');
 
       if (imageInfo.imageWidth && imageInfo.imageHeight)
       {
@@ -240,7 +250,7 @@ qx.Class.define("qx.ui.treevirtual.SimpleTreeDataCellRenderer",
         html.push('" title="' + tooltip);
       }
 
-      html.push('"/>');
+      html.push('">&nbsp;</div>');
 
       if (imageInfo.position)
       {
