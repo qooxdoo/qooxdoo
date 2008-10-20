@@ -69,8 +69,8 @@
 
       "include" :
       [
-        "${APPLICATION}.Application",
-        "${QXTHEME}"
+        "${QXTHEME}",
+        "${APPLICATION}.Application"
       ],
 
       "cache" :

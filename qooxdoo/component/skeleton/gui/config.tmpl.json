@@ -13,7 +13,7 @@
     "APPLICATION"  : "${Namespace}",
     "QOOXDOO_PATH" : "${REL_QOOXDOO_PATH}/framework",
     "QOOXDOO_URI"  : "../${REL_QOOXDOO_PATH}/framework",
-    "QXTHEME"      : "qx.theme.Modern",
+    "QXTHEME"      : "${Namespace}.theme.Theme",
     "API_EXCLUDE"  : ["qx.legacy.*","qx.test.*"],
     "LOCALES"      : [ "en" ],
     "ROOT"         : "."
