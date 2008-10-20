@@ -49,9 +49,9 @@ qx.Class.define("qx.html.Input",
 
     // Update node name correctly
     if (type === "select" || type === "textarea") {
-      this._nodeName = type;
+      this.setNodeName(type);
     } else {
-      this._nodeName = "input";
+      this.setNodeName("input");
     }
   },
 
@@ -66,6 +66,9 @@ qx.Class.define("qx.html.Input",
 
   members :
   {
+
+    __type : null,
+
     /*
     ---------------------------------------------------------------------------
       ELEMENT API
@@ -82,11 +85,12 @@ qx.Class.define("qx.html.Input",
     _applyProperty : function(name, value)
     {
       this.base(arguments, name, value);
+      var element = this.getDomElement();
 
       if (name === "value") {
-        qx.bom.Input.setValue(this._element, value);
+        qx.bom.Input.setValue(element, value);
       } else if (name === "wrap") {
-        qx.bom.Input.setWrap(this._element, value);
+        qx.bom.Input.setWrap(element, value);
       }
     },
 
@@ -108,12 +112,14 @@ qx.Class.define("qx.html.Input",
      */
     setValue : function(value)
     {
-      if (this._element)
+      var element = this.getDomElement();
+
+      if (element)
       {
         // Do not overwrite when already correct (on input events)
         // This is needed to keep caret position while typing.
-        if (this._element.value != value) {
-          qx.bom.Input.setValue(this._element, value);
+        if (element.value != value) {
+          qx.bom.Input.setValue(element, value);
         }
       }
       else
@@ -132,8 +138,10 @@ qx.Class.define("qx.html.Input",
      */
     getValue : function()
     {
-      if (this._element) {
-        return qx.bom.Input.getValue(this._element);
+      var element = this.getDomElement();
+
+      if (element) {
+        return qx.bom.Input.getValue(element);
       }
 
       return this._getProperty("value") || "";

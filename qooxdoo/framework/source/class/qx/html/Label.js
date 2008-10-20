@@ -40,6 +40,9 @@ qx.Class.define("qx.html.Label",
 
   members :
   {
+
+    __rich : null,
+
     /*
     ---------------------------------------------------------------------------
       ELEMENT API
@@ -51,8 +54,10 @@ qx.Class.define("qx.html.Label",
     {
       this.base(arguments, name, value);
 
-      if (name == "content") {
-        qx.bom.Label.setContent(this._element, value);
+      if (name == "content")
+      {
+        var element = this.getDomElement();
+        qx.bom.Label.setContent(element, value);
       }
     },
 
@@ -90,7 +95,9 @@ qx.Class.define("qx.html.Label",
      */
     setRich : function(value)
     {
-      if (this._element) {
+      var element = this.getDomElement();
+
+      if (element) {
         throw new Error("The label mode cannot be modified after initial creation");
       }
 

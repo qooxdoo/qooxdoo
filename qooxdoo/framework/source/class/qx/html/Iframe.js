@@ -77,8 +77,10 @@ qx.Class.define("qx.html.Iframe",
     {
       this.base(arguments, name, value);
 
-      if (name == "source") {
-        qx.bom.Iframe.setSource(this._element, value);
+      if (name == "source")
+      {
+        var element = this.getDomElement();
+        qx.bom.Iframe.setSource(element, value);
       }
     },
 
@@ -103,9 +105,11 @@ qx.Class.define("qx.html.Iframe",
      */
     getWindow : function()
     {
-      if (this._element)
+      var element = this.getDomElement();
+
+      if (element)
       {
-        return qx.bom.Iframe.getWindow(this._element);
+        return qx.bom.Iframe.getWindow(element);
       } else {
         return null;
       }
@@ -119,8 +123,10 @@ qx.Class.define("qx.html.Iframe",
      */
     getDocument : function()
     {
-      if (this._element) {
-        return qx.bom.Iframe.getDocument(this._element);
+      var element = this.getDomElement();
+
+      if (element) {
+        return qx.bom.Iframe.getDocument(element);
       } else {
         return null;
       }
@@ -134,8 +140,10 @@ qx.Class.define("qx.html.Iframe",
      */
     getBody : function()
     {
-      if (this._element) {
-        return qx.bom.Iframe.getBody(this._element);
+      var element = this.getDomElement();
+
+      if (element) {
+        return qx.bom.Iframe.getBody(element);
       } else {
         return null;
       }
@@ -191,7 +199,9 @@ qx.Class.define("qx.html.Iframe",
      */
     reload : function()
     {
-      if (this._element)
+      var element = this.getDomElement();
+
+      if (element)
       {
         var url = this.getSource();
         this.setSource(null);

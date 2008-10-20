@@ -76,12 +76,6 @@ qx.Class.define("qx.bom.History",
   construct : qx.core.Variant.select("qx.client",
   {
 
-    __iframe : null,
-    __titles : null,
-    __state : null,
-    __timer : null,
-    __locationState : null,
-
     "mshtml" : function()
     {
       this.base(arguments);
@@ -177,6 +171,13 @@ qx.Class.define("qx.bom.History",
 
   members :
   {
+
+    __iframe : null,
+    __titles : null,
+    __state : null,
+    __timer : null,
+    __locationState : null,
+
     /**
      * Adds an entry to the browser history.
      *
