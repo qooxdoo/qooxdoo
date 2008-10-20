@@ -76,18 +76,21 @@ qx.Class.define("qx.bom.Flash",
      * It is possible to add these parameters as supported by Flash movies:
      * http://kb.adobe.com/selfservice/viewContent.do?externalId=tn_12701
      *
+     * @param element {Element} Parent DOM element node to add flash movie
      * @param movie {String} URI to the movie
+     * @param id {String} Id for the flash element
      * @param variables? {Map} Flash variable data (these are available in the movie later)
      * @param params? {Map} Flash parameter data (these are used to configure the movie itself)
      * @param win {Window} Window to create the element for
-     * @return {Element} DOM element node with the Flash movie
+     * @return {void}
      */
-    create : function(movie, variables, params, win)
+    create : function(element, movie, id, variables, params, win)
     {
       // Generates attributes for flash movie
       var attributes =
       {
         data : movie,
+        id : id,
         width : "100%",
         height : "100%"
       };
@@ -108,17 +111,43 @@ qx.Class.define("qx.bom.Flash",
         }
       }
 
+      if (!win) {
+        win = window;
+      }
+      
+      //Check if frame is in DOM, befor call create swf. 
+      if (qx.core.Variant.isSet("qx.debug", "on"))
+      {
+        if (!this.__isInDom(element, win)) {
+          qx.log.Logger.warn(this, "The parent DOM element is't in DOM! The External Interface does't work in IE!");
+        }
+      }
+      
       // Finally create the SWF
-      var swf = this.__createSwf(attributes, params, win);
-
-      // Objects do not allow styling well. We create a DIV wrapper around.
-      var frame = qx.bom.Element.create("div", win);
-      frame.appendChild(swf);
-
-      // Return element from cross-browser wrapper
-      return frame;
+      this.__createSwf(element, attributes, params, win);
     },
 
+    /**
+     * Checks if the element is in the DOM.
+     * 
+     * @param element {Element} The DOM element to check.
+     * @param win {Window} The window to ckeck for.
+     * @return {Boolean} True if the element is in the DOM, false otherwise.
+     */
+    __isInDom :function(element, win)
+    {
+      var domElements = win.document.getElementsByTagName(element.nodeName);
+      
+      for (var i = 0; i < domElements.length; i++) 
+      {
+        if (domElements[i] === element) {
+          return true;
+        }
+      }
+      
+      return false;
+    },
+    
 
     /**
      * Internal helper to prevent leaks in IE
@@ -127,6 +156,8 @@ qx.Class.define("qx.bom.Flash",
      */
     __fixOutOfMemoryError : function()
     {
+      //TODO: Improve memory leaks
+
       // IE Memory Leak Fix
       window.__flash_unloadHandler = function() {};
       window.__flash_savedUnloadHandler = function() {};
@@ -139,16 +170,16 @@ qx.Class.define("qx.bom.Flash",
     /**
      * Creates a DOM element with a flash movie
      *
+     * @param element {Element} DOM element node where the Flash element node will be added.
      * @param attributes {Map} Flash attribute data
      * @param params {Map} Flash parameter data
-     * @return {Element} DOM element node with the Flash movie
      */
     __createSwf : qx.core.Variant.select("qx.client",
     {
       // Note: Old webkit support < 312 was removed.
       // This is not needed in qooxdoo.
 
-      "mshtml" : function(attributes, params, win)
+      "mshtml" : function(element, attributes, params, win)
       {
         // Move data from params to attributes
         params.movie = attributes.data;
@@ -164,35 +195,22 @@ qx.Class.define("qx.bom.Flash",
         }
 
         // Create element
-        // Note: outerHTML seems not to work for me. At least in IE7/WinVista
-        var elem = qx.bom.Element.create("div", null, win);
-        elem.innerHTML = '<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000">' + paramsStr + '</object>';
-
-        // Extract relevant node
-        var swf = elem.firstChild;
+        element.innerHTML = '<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000">' + paramsStr + '</object>';
 
         // Apply attributes
-        delete attributes.classid;
         for (var name in attributes) {
-          swf.setAttribute(name, attributes[name]);
+          element.firstChild.setAttribute(name, attributes[name]);
         }
-
-        return swf;
       },
 
-      "default" : function(attributes, params, win)
+      "default" : function(element, attributes, params, win)
       {
-        var swf = qx.bom.Element.create("object", attributes, win);
-        swf.setAttribute("type", "application/x-shockwave-flash");
-
         // Cleanup
         delete attributes.classid;
         delete params.movie;
-
-        // Apply attributes
-        for (var name in attributes) {
-          swf.setAttribute(name, attributes[name]);
-        }
+        
+        var swf = qx.bom.Element.create("object", attributes, win);
+        swf.setAttribute("type", "application/x-shockwave-flash");
 
         // Add parameters
         var param;
@@ -204,7 +222,7 @@ qx.Class.define("qx.bom.Flash",
           swf.appendChild(param);
         }
 
-        return swf;
+        element.appendChild(swf)
       }
     })
   },
