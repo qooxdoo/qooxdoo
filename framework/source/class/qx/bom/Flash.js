@@ -119,7 +119,7 @@ qx.Class.define("qx.bom.Flash",
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
         if (!this.__isInDom(element, win)) {
-          qx.log.Logger.warn(this, "The parent DOM element is't in DOM! The External Interface does't work in IE!");
+          qx.log.Logger.warn(this, "The parent DOM element isn't in DOM! The External Interface doesn't work in IE!");
         }
       }
       
