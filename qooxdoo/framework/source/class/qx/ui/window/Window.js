@@ -625,9 +625,14 @@ qx.Class.define("qx.ui.window.Window",
 
 
     /**
-     * Centers the window to the parent. This is ideally
-     * called when the parent is rendered immediately
-     * before calling {@link #open}.
+     * Centers the window to the parent.
+     *
+     * This call works with the the size of the parent widget and the size of
+     * the window as calculated in the last layout flush. It is best to call
+     * this method just after rendering the window in the "resize" event:
+     * <pre class='javascript'>
+     *   win.addListenerOnce("resize", this.center, this);
+     * </pre>
      */
     center : function()
     {
