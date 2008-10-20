@@ -60,7 +60,7 @@ qx.Class.define("qx.html.Element",
     this.base(arguments);
 
     // {String} Set tag name
-    this._nodeName = tagName || "div";
+    this.__nodeName = tagName || "div";
   },
 
 
@@ -137,8 +137,8 @@ qx.Class.define("qx.html.Element",
     {
       "mshtml" : function(a, b)
       {
-        var al = a._element;
-        var bl = b._element;
+        var al = a.__element;
+        var bl = b.__element;
 
         if (al.contains(bl)) {
           return 1;
@@ -176,13 +176,13 @@ qx.Class.define("qx.html.Element",
       for (var hc in modified)
       {
         obj = modified[hc];
-
         // Ignore all hidden elements
         // but keep them until they get visible (again)
+
         if (obj.__willBeSeeable())
         {
           // Separately queue rendered elements
-          if (obj._element && qx.dom.Hierarchy.isRendered(obj._element))
+          if (obj.__element && qx.dom.Hierarchy.isRendered(obj.__element))
           {
             later.push(obj);
           }
@@ -258,11 +258,11 @@ qx.Class.define("qx.html.Element",
         if (qx.core.Variant.isSet("qx.debug", "on"))
         {
           if (this.DEBUG) {
-            qx.log.Logger.debug(this, "Switching visibility to: " + obj._visible);
+            qx.log.Logger.debug(this, "Switching visibility to: " + obj.__visible);
           }
         }
 
-        obj._element.style.display = obj._visible ? "" : "none";
+        obj.__element.style.display = obj.__visible ? "" : "none";
         delete visibility[hc];
       }
 
@@ -273,7 +273,7 @@ qx.Class.define("qx.html.Element",
       for (var hc in scroll)
       {
         obj = scroll[hc];
-        var elem = obj._element;
+        var elem = obj.__element;
 
         if (elem && elem.offsetWidth)
         {
@@ -282,14 +282,14 @@ qx.Class.define("qx.html.Element",
           // ScrollToX
           if (obj.__lazyScrollX != null)
           {
-            obj._element.scrollLeft = obj.__lazyScrollX;
+            obj.__element.scrollLeft = obj.__lazyScrollX;
             delete obj.__lazyScrollX;
           }
 
           // ScrollToY
           if (obj.__lazyScrollY != null)
           {
-            obj._element.scrollTop = obj.__lazyScrollY;
+            obj.__element.scrollTop = obj.__lazyScrollY;
             delete obj.__lazyScrollY;
           }
 
@@ -348,7 +348,7 @@ qx.Class.define("qx.html.Element",
 
         if (post[action])
         {
-          element = post[action]._element;
+          element = post[action].__element;
 
           if (element) {
             qx.bom.Element[action](element);
@@ -384,21 +384,33 @@ qx.Class.define("qx.html.Element",
     ---------------------------------------------------------------------------
     */
 
-    /** {Element} DOM element of this object */
-    _element : null,
+    __nodeName : null,
 
+    /** {Element} DOM element of this object */
+    __element : null,
 
     /** {Boolean} Marker for always visible root nodes (often the body node) */
-    _root : false,
-
+    __root : false,
 
     /** {Boolean} Whether the element should be included in the render result */
-    _included : true,
-
+    __included : true,
 
     /** {Boolean} Whether the element should be visible in the render result */
-    _visible : true,
+    __visible : true,
 
+    __lazyScrollIntoViewX : null,
+    __lazyScrollIntoViewY : null,
+
+    __styleJobs : null,
+    __attribJobs : null,
+    __propertyJobs : null,
+
+    __attribValues : null,
+    __propertyValues : null,
+    __eventValues : null,
+
+    __children : null,
+    __modifiedChildren : null,
 
     /**
      * Add the element to the global modification list.
@@ -407,11 +419,11 @@ qx.Class.define("qx.html.Element",
      */
     _scheduleChildrenUpdate : function()
     {
-      if (this._modifiedChildren) {
+      if (this.__modifiedChildren) {
         return;
       }
 
-      this._modifiedChildren = true;
+      this.__modifiedChildren = true;
       qx.html.Element._modified[this.$$hash] = this;
       qx.html.Element._scheduleFlush("element");
     },
@@ -422,7 +434,7 @@ qx.Class.define("qx.html.Element",
      *
      */
     _createDomElement : function() {
-      return qx.bom.Element.create(this._nodeName);
+      return qx.bom.Element.create(this.__nodeName);
     },
 
 
@@ -459,16 +471,16 @@ qx.Class.define("qx.html.Element",
         {
           child = children[i];
 
-          if (child._visible && child._included && !child._element) {
+          if (child.__visible && child.__included && !child.__element) {
             child.__flush();
           }
         }
       }
 
-      if (!this._element)
+      if (!this.__element)
       {
-        this._element = this._createDomElement();
-        this._element.$$hash = this.$$hash;
+        this.__element = this._createDomElement();
+        this.__element.$$hash = this.$$hash;
 
         this._copyData(false);
 
@@ -480,12 +492,12 @@ qx.Class.define("qx.html.Element",
       {
         this._syncData();
 
-        if (this._modifiedChildren) {
+        if (this.__modifiedChildren) {
           this._syncChildren();
         }
       }
 
-      delete this._modifiedChildren;
+      delete this.__modifiedChildren;
     },
 
 
@@ -518,21 +530,21 @@ qx.Class.define("qx.html.Element",
         for (var i=0; i<length; i++)
         {
           child = children[i];
-          if (child._element && child._included) {
-            domElement.appendChild(child._element);
+          if (child.__element && child.__included) {
+            domElement.appendChild(child.__element);
           }
         }
 
-        this._element.appendChild(domElement);
+        this.__element.appendChild(domElement);
       }
       else
       {
-        var domElement = this._element;
+        var domElement = this.__element;
         for (var i=0; i<length; i++)
         {
           child = children[i];
-          if (child._element && child._included) {
-            domElement.appendChild(child._element);
+          if (child.__element && child.__included) {
+            domElement.appendChild(child.__element);
           }
         }
       }
@@ -555,7 +567,7 @@ qx.Class.define("qx.html.Element",
       var dataChild;
       var dataEl;
 
-      var domParent = this._element;
+      var domParent = this.__element;
       var domChildren = domParent.childNodes;
       var domPos = 0;
       var domEl;
@@ -570,7 +582,7 @@ qx.Class.define("qx.html.Element",
         domEl = domChildren[i];
         dataEl = ObjectRegistry.fromHashCode(domEl.$$hash);
 
-        if (!dataEl || !dataEl._included || dataEl.__parent !== this)
+        if (!dataEl || !dataEl.__included || dataEl.__parent !== this)
         {
           domParent.removeChild(domEl);
 
@@ -587,9 +599,9 @@ qx.Class.define("qx.html.Element",
         dataChild = dataChildren[i];
 
         // Only process visible childs
-        if (dataChild._included)
+        if (dataChild.__included)
         {
-          dataEl = dataChild._element;
+          dataEl = dataChild.__element;
           domEl = domChildren[domPos];
 
           if (!dataEl) {
@@ -647,7 +659,7 @@ qx.Class.define("qx.html.Element",
      */
     _copyData : function(fromMarkup)
     {
-      var elem = this._element;
+      var elem = this.__element;
 
       // Copy attributes
       var data = this.__attribValues;
@@ -714,7 +726,7 @@ qx.Class.define("qx.html.Element",
      */
     _syncData : function()
     {
-      var elem = this._element;
+      var elem = this.__element;
 
       var Attribute = qx.bom.element.Attribute;
       var Style = qx.bom.element.Style;
@@ -811,11 +823,11 @@ qx.Class.define("qx.html.Element",
       // Any chance to cache this information in the parents?
       while(pa)
       {
-        if (pa._root) {
+        if (pa.__root) {
           return true;
         }
 
-        if (!pa._included || !pa._visible) {
+        if (!pa.__included || !pa.__visible) {
           return false;
         }
 
@@ -865,7 +877,7 @@ qx.Class.define("qx.html.Element",
         throw new Error("Child is already in: " + child);
       }
 
-      if (child._root) {
+      if (child.__root) {
         throw new Error("Root elements could not be inserted into other ones.");
       }
 
@@ -883,7 +895,7 @@ qx.Class.define("qx.html.Element",
       }
 
       // Schedule children update
-      if (this._element) {
+      if (this.__element) {
         this._scheduleChildrenUpdate();
       }
     },
@@ -903,7 +915,7 @@ qx.Class.define("qx.html.Element",
       }
 
       // Schedule children update
-      if (this._element) {
+      if (this.__element) {
         this._scheduleChildrenUpdate();
       }
 
@@ -926,7 +938,7 @@ qx.Class.define("qx.html.Element",
       }
 
       // Schedule children update
-      if (this._element) {
+      if (this.__element) {
         this._scheduleChildrenUpdate();
       }
     },
@@ -1312,7 +1324,7 @@ qx.Class.define("qx.html.Element",
      * @return {Element} The DOM element node
      */
     getDomElement : function() {
-      return this._element || null;
+      return this.__element || null;
     },
 
 
@@ -1322,9 +1334,26 @@ qx.Class.define("qx.html.Element",
      * @return {String} The node name
      */
     getNodeName : function() {
-      return this._nodeName;
+      return this.__nodeName;
     },
 
+    /**
+     * Sets the nodeName of the DOM element.
+     *
+     * @param name {String} The node name
+     */
+    setNodeName : function(name) {
+      this.__nodeName = name;
+    },
+
+    /**
+     * Sets the element's root flag, which indicates
+     * whether the element should be a root element or not.
+     * @param root {Boolean} The root flag.
+     */
+    setRoot : function(root) {
+      this.__root = root;
+    },
 
     /**
      * Uses existing markup for this element. This is mainly used
@@ -1336,7 +1365,7 @@ qx.Class.define("qx.html.Element",
      */
     useMarkup : function(html)
     {
-      if (this._element) {
+      if (this.__element) {
         throw new Error("Could not overwrite existing element!");
       }
 
@@ -1359,14 +1388,14 @@ qx.Class.define("qx.html.Element",
 
       // Extract first element
       helper.innerHTML = html;
-      this._element = helper.firstChild;
-      this._element.$$hash = this.$$hash;
+      this.__element = helper.firstChild;
+      this.__element.$$hash = this.$$hash;
 
       // Copy currently existing data over to element
       this._copyData(true);
 
       // Return element
-      return this._element;
+      return this.__element;
     },
 
 
@@ -1378,13 +1407,13 @@ qx.Class.define("qx.html.Element",
      */
     useElement : function(elem)
     {
-      if (this._element) {
+      if (this.__element) {
         throw new Error("Could not overwrite existing element!");
       }
 
       // Use incoming element
-      this._element = elem;
-      this._element.$$hash = this.$$hash;
+      this.__element = elem;
+      this.__element.$$hash = this.$$hash;
 
       // Copy currently existing data over to element
       this._copyData(true);
@@ -1404,7 +1433,7 @@ qx.Class.define("qx.html.Element",
       }
 
       var focusable = qx.event.handler.Focus.FOCUSABLE_ELEMENTS;
-      if (tabIndex >= 0 && focusable[this._nodeName]) {
+      if (tabIndex >= 0 && focusable[this.__nodeName]) {
         return true;
       }
 
@@ -1420,7 +1449,7 @@ qx.Class.define("qx.html.Element",
      * @return {Boolean} <code>true</code> when the element is focusable.
      */
     isNativelyFocusable : function() {
-      return !!qx.event.handler.Focus.FOCUSABLE_ELEMENTS[this._nodeName];
+      return !!qx.event.handler.Focus.FOCUSABLE_ELEMENTS[this.__nodeName];
     },
 
 
@@ -1443,11 +1472,11 @@ qx.Class.define("qx.html.Element",
      */
     include : function()
     {
-      if (this._included) {
+      if (this.__included) {
         return;
       }
 
-      delete this._included;
+      delete this.__included;
 
       if (this.__parent) {
         this.__parent._scheduleChildrenUpdate();
@@ -1465,11 +1494,11 @@ qx.Class.define("qx.html.Element",
      */
     exclude : function()
     {
-      if (!this._included) {
+      if (!this.__included) {
         return;
       }
 
-      this._included = false;
+      this.__included = false;
 
       if (this.__parent) {
         this.__parent._scheduleChildrenUpdate();
@@ -1485,7 +1514,7 @@ qx.Class.define("qx.html.Element",
      * @return {Boolean} Whether the element is part of the DOM.
      */
     isIncluded : function() {
-      return this._included === true;
+      return this.__included === true;
     },
 
 
@@ -1508,11 +1537,11 @@ qx.Class.define("qx.html.Element",
      */
     show : function()
     {
-      if (this._visible) {
+      if (this.__visible) {
         return;
       }
 
-      if (this._element)
+      if (this.__element)
       {
         qx.html.Element._visibility[this.$$hash] = this;
         qx.html.Element._scheduleFlush("element");
@@ -1523,7 +1552,7 @@ qx.Class.define("qx.html.Element",
         this.__parent._scheduleChildrenUpdate();
       }
 
-      delete this._visible;
+      delete this.__visible;
     },
 
 
@@ -1535,17 +1564,17 @@ qx.Class.define("qx.html.Element",
      */
     hide : function()
     {
-      if (!this._visible) {
+      if (!this.__visible) {
         return;
       }
 
-      if (this._element)
+      if (this.__element)
       {
         qx.html.Element._visibility[this.$$hash] = this;
         qx.html.Element._scheduleFlush("element");
       }
 
-      this._visible = false;
+      this.__visible = false;
     },
 
 
@@ -1558,7 +1587,7 @@ qx.Class.define("qx.html.Element",
      *   to be visible.
      */
     isVisible : function() {
-      return this._visible === true;
+      return this.__visible === true;
     },
 
 
@@ -1590,7 +1619,7 @@ qx.Class.define("qx.html.Element",
      */
     scrollChildIntoViewX : function(elem, align, direct)
     {
-      var thisEl = this._element;
+      var thisEl = this.__element;
       var childEl = elem.getDomElement();
 
       if (direct !== false && thisEl && thisEl.offsetWidth && childEl && childEl.offsetWidth)
@@ -1630,7 +1659,7 @@ qx.Class.define("qx.html.Element",
      */
     scrollChildIntoViewY : function(elem, align, direct)
     {
-      var thisEl = this._element;
+      var thisEl = this.__element;
       var childEl = elem.getDomElement();
 
       if (direct !== false && thisEl && thisEl.offsetWidth && childEl && childEl.offsetWidth)
@@ -1663,7 +1692,7 @@ qx.Class.define("qx.html.Element",
      */
     scrollToX : function(x, lazy)
     {
-      var thisEl = this._element;
+      var thisEl = this.__element;
       if (lazy !== true && thisEl && thisEl.offsetWidth)
       {
         thisEl.scrollLeft = x;
@@ -1686,7 +1715,7 @@ qx.Class.define("qx.html.Element",
      */
     getScrollX : function()
     {
-      var thisEl = this._element;
+      var thisEl = this.__element;
       if (thisEl) {
         return thisEl.scrollLeft;
       }
@@ -1705,7 +1734,7 @@ qx.Class.define("qx.html.Element",
      */
     scrollToY : function(y, lazy)
     {
-      var thisEl = this._element;
+      var thisEl = this.__element;
       if (lazy !== true && thisEl && thisEl.offsetWidth)
       {
         thisEl.scrollTop = y;
@@ -1728,7 +1757,7 @@ qx.Class.define("qx.html.Element",
      */
     getScrollY : function()
     {
-      var thisEl = this._element;
+      var thisEl = this.__element;
       if (thisEl) {
         return thisEl.scrollTop;
       }
@@ -1755,7 +1784,7 @@ qx.Class.define("qx.html.Element",
      */
     getSelection : function()
     {
-      var el = this._element;
+      var el = this.__element;
       if (el)
       {
         return qx.bom.Selection.get(el);
@@ -1775,7 +1804,7 @@ qx.Class.define("qx.html.Element",
      */
     getSelectionLength : function()
     {
-      var el = this._element;
+      var el = this.__element;
       if (el)
       {
         return qx.bom.Selection.getLength(el);
@@ -1797,7 +1826,7 @@ qx.Class.define("qx.html.Element",
      */
     setSelection : function(start, end)
     {
-      var el = this._element;
+      var el = this.__element;
       if (el)
       {
         qx.bom.Selection.set(el, start, end);
@@ -1814,7 +1843,7 @@ qx.Class.define("qx.html.Element",
      */
     clearSelection : function()
     {
-      var el = this._element;
+      var el = this.__element;
       if (el)
       {
         qx.bom.Selection.clear(el);
@@ -1840,7 +1869,7 @@ qx.Class.define("qx.html.Element",
      */
     focus : function()
     {
-      var el = this._element;
+      var el = this.__element;
       if (el) {
         return qx.bom.Element.focus(el);
       }
@@ -1857,7 +1886,7 @@ qx.Class.define("qx.html.Element",
      */
     blur : function()
     {
-      var el = this._element;
+      var el = this.__element;
       if (el) {
         qx.bom.Element.blur(el);
       }
@@ -1871,7 +1900,7 @@ qx.Class.define("qx.html.Element",
      */
     activate : function()
     {
-      var el = this._element;
+      var el = this.__element;
       if (el) {
         return qx.bom.Element.activate(el);
       }
@@ -1888,7 +1917,7 @@ qx.Class.define("qx.html.Element",
      */
     deactivate : function()
     {
-      var el = this._element;
+      var el = this.__element;
       if (el) {
         qx.bom.Element.deactivate(el);
       }
@@ -1900,7 +1929,7 @@ qx.Class.define("qx.html.Element",
      */
     capture : function()
     {
-      var el = this._element;
+      var el = this.__element;
       if (el) {
         return qx.bom.Element.capture(el);
       }
@@ -1915,7 +1944,7 @@ qx.Class.define("qx.html.Element",
      */
     releaseCapture : function()
     {
-      var el = this._element;
+      var el = this.__element;
       if (el) {
         qx.bom.Element.releaseCapture(el);
       }
@@ -1959,12 +1988,12 @@ qx.Class.define("qx.html.Element",
       // Uncreated elements simply copy all data
       // on creation. We don't need to remember any
       // jobs. It is a simple full list copy.
-      if (this._element)
+      if (this.__element)
       {
         // Omit queuing in direct mode
         if (direct)
         {
-          qx.bom.element.Style.set(this._element, key, value);
+          qx.bom.element.Style.set(this.__element, key, value);
           return this;
         }
 
@@ -2075,12 +2104,12 @@ qx.Class.define("qx.html.Element",
       // Uncreated elements simply copy all data
       // on creation. We don't need to remember any
       // jobs. It is a simple full list copy.
-      if (this._element)
+      if (this.__element)
       {
         // Omit queuing in direct mode
         if (direct)
         {
-          qx.bom.element.Attribute.set(this._element, key, value);
+          qx.bom.element.Attribute.set(this.__element, key, value);
           return this;
         }
 
@@ -2197,7 +2226,7 @@ qx.Class.define("qx.html.Element",
       // Uncreated elements simply copy all data
       // on creation. We don't need to remember any
       // jobs. It is a simple full list copy.
-      if (this._element)
+      if (this.__element)
       {
         // Omit queuing in direct mode
         if (direct)
@@ -2296,9 +2325,9 @@ qx.Class.define("qx.html.Element",
         }
       }
 
-      if (this._element)
+      if (this.__element)
       {
-        qx.event.Registration.addListener(this._element, type, listener, self, capture);
+        qx.event.Registration.addListener(this.__element, type, listener, self, capture);
       }
       else
       {
@@ -2356,9 +2385,9 @@ qx.Class.define("qx.html.Element",
         }
       }
 
-      if (this._element)
+      if (this.__element)
       {
-        qx.event.Registration.removeListener(this._element, type, listener, self, capture);
+        qx.event.Registration.removeListener(this.__element, type, listener, self, capture);
       }
       else
       {
@@ -2408,7 +2437,7 @@ qx.Class.define("qx.html.Element",
 
   destruct : function()
   {
-    var el = this._element;
+    var el = this.__element;
     if (el)
     {
       qx.event.Registration.getManager(el).removeAllListeners(el);
@@ -2426,6 +2455,6 @@ qx.Class.define("qx.html.Element",
     this._disposeArray("__children");
     this._disposeFields("__attribValues", "__styleValues", "__eventValues",
       "__propertyValues", "__attribJobs", "__styleJobs", "__propertyJobs",
-      "_element", "__parent", "__lazyScrollIntoViewX", "__lazyScrollIntoViewY");
+      "__element", "__parent", "__lazyScrollIntoViewX", "__lazyScrollIntoViewY");
   }
 });

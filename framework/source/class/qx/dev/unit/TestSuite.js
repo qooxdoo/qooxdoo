@@ -61,6 +61,9 @@ qx.Class.define("qx.dev.unit.TestSuite",
 
   members :
   {
+
+    __tests : null,
+
     /**
      * Add a test class or namespace to the suite
      *

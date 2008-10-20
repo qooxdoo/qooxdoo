@@ -48,7 +48,7 @@ qx.Class.define("qx.html.Image",
 
       if (name === "source")
       {
-        var elem = this._element;
+        var elem = this.getDomElement();
 
         var styles = this.getAllStyles();
         var source = this._getProperty("source");
@@ -69,11 +69,11 @@ qx.Class.define("qx.html.Image",
       if (qx.core.Variant.isSet("qx.client", "mshtml"))
       {
         var source = this._getProperty("source");
-        this._nodeName = qx.bom.element.Decoration.getTagName(repeat, source);
+        this.setNodeName(qx.bom.element.Decoration.getTagName(repeat, source));
       }
       else
       {
-        this._nodeName = qx.bom.element.Decoration.getTagName(repeat);
+        this.setNodeName(qx.bom.element.Decoration.getTagName(repeat));
       }
 
       return this.base(arguments);
