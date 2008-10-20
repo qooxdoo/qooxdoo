@@ -28,12 +28,12 @@ qx.Class.define("demobrowser.demo.bom.Flash",
     {
       this.base(arguments);
 
-      var movie = qx.bom.Flash.create("Flash.swf");
-
-      qx.bom.element.Style.set(movie, "width", "300px");
-      qx.bom.element.Style.set(movie, "height", "120px");
-
-      document.body.appendChild(movie);
+      var domElement = new qx.bom.Element.create("div");
+      qx.bom.element.Style.set(domElement, "width", "300px");
+      qx.bom.element.Style.set(domElement, "height", "120px");
+      document.body.appendChild(domElement);
+      
+      qx.bom.Flash.create(domElement, "Flash.swf", "flashMovie");
     }
   }
 });
