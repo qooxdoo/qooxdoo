@@ -38,11 +38,14 @@ qx.Class.define("qx.core.BaseString",
     }
 
     // no base call needed
-    this._txt = txt;
+    this.__txt = txt;
   },
 
   members :
   {
+
+    __txt : null,
+
     /**
      * Returns the value as plain string.
      * Overrides the default implementation.
@@ -50,7 +53,7 @@ qx.Class.define("qx.core.BaseString",
      * @return {String} The string value
      */
     toString : function() {
-      return this._txt;
+      return this.__txt;
     },
 
 
@@ -61,7 +64,7 @@ qx.Class.define("qx.core.BaseString",
      * @return {String} The string value
      */
     valueOf : function() {
-      return this._txt;
+      return this.__txt;
     },
 
 

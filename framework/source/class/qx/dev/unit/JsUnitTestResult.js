@@ -35,7 +35,7 @@ qx.Class.define("qx.dev.unit.JsUnitTestResult",
   construct : function()
   {
     this.base(arguments);
-    this._testFunctionNames = [];
+    this.__testFunctionNames = [];
   },
 
 
@@ -49,11 +49,14 @@ qx.Class.define("qx.dev.unit.JsUnitTestResult",
 
   members :
   {
+
+    __testFunctionNames : null,
+
     // overridden
     run : function(test, testFunction)
     {
       var testFunctionName = "$test_" + test.getFullName().replace(/\W/g, "_");
-      this._testFunctionNames.push(testFunctionName);
+      this.__testFunctionNames.push(testFunctionName);
       window[testFunctionName] = testFunction;
     },
 
@@ -67,7 +70,7 @@ qx.Class.define("qx.dev.unit.JsUnitTestResult",
 
       // global
       window.exposeTestFunctionNames = function() {
-        return self._testFunctionNames;
+        return self.__testFunctionNames;
       };
 
       // global
