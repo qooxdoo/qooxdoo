@@ -49,7 +49,7 @@ qx.Class.define("qx.locale.Manager",
     this.base(arguments);
 
     this.__translations = window.qxtranslations || {};
-    this.___locales      = window.qxlocales || {};
+    this.__locales      = window.qxlocales || {};
 
     var clazz = qx.bom.client.Locale;
 
@@ -221,7 +221,7 @@ qx.Class.define("qx.locale.Manager",
     {
       var locales = [];
 
-      for (var locale in this.___locales)
+      for (var locale in this.__locales)
       {
         if (locale != this.__defaultLocale) {
           locales.push(locale);
@@ -360,7 +360,7 @@ qx.Class.define("qx.locale.Manager",
     localize : function(messageId, args, locale)
     {
       var txt;
-      var catalog = this.___locales;
+      var catalog = this.__locales;
 
       if (!catalog) {
         return messageId;
@@ -422,6 +422,6 @@ qx.Class.define("qx.locale.Manager",
   */
 
   destruct : function() {
-    this._disposeFields("__translations", "___locales");
+    this._disposeFields("__translations", "__locales");
   }
 });
