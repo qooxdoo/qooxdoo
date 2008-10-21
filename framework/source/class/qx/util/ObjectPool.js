@@ -96,6 +96,9 @@ qx.Class.define("qx.util.ObjectPool",
 
   members :
   {
+
+    __pool : null,
+
     /*
     ---------------------------------------------------------------------------
       IMPL
