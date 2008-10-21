@@ -45,6 +45,8 @@ qx.Class.define("qx.ui.form.SelectBox",
     this._createChildControl("arrow");
 
     // Register listener
+    this.addListener("mouseover", this._onMouseOver, this);
+    this.addListener("mouseout", this._onMouseOut, this);
     this.addListener("click", this._onClick, this);
     this.addListener("mousewheel", this._onMouseWheel, this);
     this.addListener("keyinput", this._onKeyInput, this);
@@ -112,11 +114,15 @@ qx.Class.define("qx.ui.form.SelectBox",
         case "atom":
           control = new qx.ui.basic.Atom(" ");
           control.setCenter(false);
+          control.setAnonymous(true);
+
           this._add(control, {flex:1});
           break;
 
         case "arrow":
           control = new qx.ui.basic.Image();
+          control.setAnonymous(true);
+
           this._add(control);
           break;
       }
@@ -190,6 +196,57 @@ qx.Class.define("qx.ui.form.SelectBox",
     ---------------------------------------------------------------------------
     */
 
+    /**
+     * Listener method for "mouseover" event
+     * <ul>
+     * <li>Adds state "hovered"</li>
+     * <li>Removes "abandoned" and adds "pressed" state (if "abandoned" state is set)</li>
+     * </ul>
+     *
+     * @param e {Event} Mouse event
+     * @return {void}
+     */
+    _onMouseOver : function(e)
+    {
+      if (!this.isEnabled() || e.getTarget() !== this) {
+        return;
+      }
+
+      if (this.hasState("abandoned"))
+      {
+        this.removeState("abandoned");
+        this.addState("pressed");
+      }
+
+      this.addState("hovered");
+    },
+
+
+    /**
+     * Listener method for "mouseout" event
+     * <ul>
+     * <li>Removes "hovered" state</li>
+     * <li>Adds "abandoned" and removes "pressed" state (if "pressed" state is set)</li>
+     * </ul>
+     *
+     * @param e {Event} Mouse event
+     * @return {void}
+     */
+    _onMouseOut : function(e)
+    {
+      if (!this.isEnabled() || e.getTarget() !== this) {
+        return;
+      }
+
+      this.removeState("hovered");
+
+      if (this.hasState("pressed"))
+      {
+        this.removeState("pressed");
+        this.addState("abandoned");
+      }
+    },
+    
     /**
      * Toggles the popup's visibility.
      *
