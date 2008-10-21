@@ -227,8 +227,8 @@ qx.Class.define("qx.ui.form.AbstractField",
     _getContentHint : function()
     {
       return {
-        width : this._textSize.width * 10,
-        height : this._textSize.height || 16
+        width : this.__textSize.width * 10,
+        height : this.__textSize.height || 16
       };
     },
 
@@ -251,9 +251,9 @@ qx.Class.define("qx.ui.form.AbstractField",
 
       // Compute text size
       if (value) {
-        this._textSize = qx.bom.Label.getTextSize("A", styles);
+        this.__textSize = qx.bom.Label.getTextSize("A", styles);
       } else {
-        delete this._textSize;
+        delete this.__textSize;
       }
 
       // Update layout
@@ -280,7 +280,13 @@ qx.Class.define("qx.ui.form.AbstractField",
       this.selectAll();
     },
 
-
+    /**
+     * Returns the text size.
+     * @return {Map} The text size.
+     */
+    _getTextSize : function() {
+      return this.__textSize;
+    },
 
     /*
     ---------------------------------------------------------------------------
