@@ -59,8 +59,8 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     this.__tablePane = this._showChildControl("pane");
 
     // the top line containing the header clipper and the top right widget
-    this._top = new qx.ui.container.Composite(new qx.ui.layout.HBox());
-    this._add(this._top, {row: 0, column: 0, colSpan: 2});
+    this.__top = new qx.ui.container.Composite(new qx.ui.layout.HBox());
+    this._add(this.__top, {row: 0, column: 0, colSpan: 2});
 
     // embed header into a scrollable container
     this.__headerClipper = new qx.ui.table.pane.Clipper();
@@ -70,7 +70,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     this.__headerClipper.addListener("mousedown", this._onMousedownHeader, this);
     this.__headerClipper.addListener("mouseup", this._onMouseupHeader, this);
     this.__headerClipper.addListener("click", this._onClickHeader, this);
-    this._top.add(this.__headerClipper, {flex: 1});
+    this.__top.add(this.__headerClipper, {flex: 1});
 
     // embed pane into a scrollable container
     this.__paneClipper = new qx.ui.table.pane.Clipper();
@@ -321,7 +321,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     __cellEditor : null,
     __cellEditorFactory : null,
 
-    __topRightWidget : null,
+    ___topRightWidget : null,
     __horScrollBar : null,
     __verScrollBar : null,
     __header : null,
@@ -329,6 +329,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     __tablePane : null,
     __paneClipper : null,
     __focusIndicator : null,
+    __top : null,
 
 
     // overridden
@@ -1888,17 +1889,17 @@ qx.Class.define("qx.ui.table.pane.Scroller",
      */
     setTopRightWidget : function(widget)
     {
-      var oldWidget = this.__topRightWidget;
+      var oldWidget = this.___topRightWidget;
 
       if (oldWidget != null) {
-        this._top.remove(oldWidget);
+        this.__top.remove(oldWidget);
       }
 
       if (widget != null) {
-        this._top.add(widget);
+        this.__top.add(widget);
       }
 
-      this.__topRightWidget = widget;
+      this.___topRightWidget = widget;
     },
 
 
@@ -1908,7 +1909,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
      * @return {qx.ui.core.Widget} The top right widget.
      */
     getTopRightWidget : function() {
-      return this.__topRightWidget;
+      return this.___topRightWidget;
     },
 
 
@@ -2165,6 +2166,6 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     this._disposeFields("__lastMouseDownCell");
     this._disposeObjects("__table", "__horScrollBar", "__verScrollBar",
                          "__headerClipper", "__paneClipper", "__focusIndicator",
-                         "__header", "__tablePane", "_top", "__topRightWidget");
+                         "__header", "__tablePane", "__top", "___topRightWidget");
   }
 });

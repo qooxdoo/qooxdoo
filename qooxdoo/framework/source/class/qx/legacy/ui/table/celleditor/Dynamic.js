@@ -92,6 +92,9 @@ qx.Class.define("qx.legacy.ui.table.celleditor.Dynamic",
 
   members :
   {
+
+    __cellEditorFactory: null,
+
     /**
      * Creates the cell editor based on the cellEditorFactory instance
      * returned by the function stored in the cellEditorFactoryFunction
@@ -105,8 +108,8 @@ qx.Class.define("qx.legacy.ui.table.celleditor.Dynamic",
       {
         this.error("No function provided! Aborting.");
       }
-      this._cellEditorFactory = cellEditorFactoryFunction(cellInfo);
-      var cellEditor = this._cellEditorFactory.createCellEditor(cellInfo);
+      this.__cellEditorFactory = cellEditorFactoryFunction(cellInfo);
+      var cellEditor = this.__cellEditorFactory.createCellEditor(cellInfo);
 
       return cellEditor;
     },
@@ -124,7 +127,7 @@ qx.Class.define("qx.legacy.ui.table.celleditor.Dynamic",
       {
         this.error("No function provided! Aborting.");
       }
-      var value = this._cellEditorFactory.getCellEditorValue(cellEditor);
+      var value = this.__cellEditorFactory.getCellEditorValue(cellEditor);
       return value;
     }
   }
