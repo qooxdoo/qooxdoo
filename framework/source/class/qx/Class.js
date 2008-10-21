@@ -1279,7 +1279,6 @@ qx.Bootstrap.define("qx.Class",
         if (qx.core.Variant.isSet("qx.debug", "on"))
         {
           if (proto[key] !== undefined && key.charAt(0) == "_" && key.charAt(1) == "_") {
-            debugger;
             throw new Error('Overwriting private member "' + key + '" of Class "' + clazz.classname + '" is not allowed!');
           }
 

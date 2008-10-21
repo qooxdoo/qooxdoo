@@ -321,7 +321,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     __cellEditor : null,
     __cellEditorFactory : null,
 
-    ___topRightWidget : null,
+    __topRightWidget : null,
     __horScrollBar : null,
     __verScrollBar : null,
     __header : null,
@@ -1889,7 +1889,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
      */
     setTopRightWidget : function(widget)
     {
-      var oldWidget = this.___topRightWidget;
+      var oldWidget = this.__topRightWidget;
 
       if (oldWidget != null) {
         this.__top.remove(oldWidget);
@@ -1899,7 +1899,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
         this.__top.add(widget);
       }
 
-      this.___topRightWidget = widget;
+      this.__topRightWidget = widget;
     },
 
 
@@ -1909,7 +1909,7 @@ qx.Class.define("qx.ui.table.pane.Scroller",
      * @return {qx.ui.core.Widget} The top right widget.
      */
     getTopRightWidget : function() {
-      return this.___topRightWidget;
+      return this.__topRightWidget;
     },
 
 
@@ -2166,6 +2166,6 @@ qx.Class.define("qx.ui.table.pane.Scroller",
     this._disposeFields("__lastMouseDownCell");
     this._disposeObjects("__table", "__horScrollBar", "__verScrollBar",
                          "__headerClipper", "__paneClipper", "__focusIndicator",
-                         "__header", "__tablePane", "__top", "___topRightWidget");
+                         "__header", "__tablePane", "__top", "__topRightWidget");
   }
 });
