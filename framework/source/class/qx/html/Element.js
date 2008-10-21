@@ -401,10 +401,14 @@ qx.Class.define("qx.html.Element",
     __lazyScrollIntoViewX : null,
     __lazyScrollIntoViewY : null,
 
+    __lazyScrollX : null,
+    __lazyScrollY : null,
+
     __styleJobs : null,
     __attribJobs : null,
     __propertyJobs : null,
 
+    __styleValues : null,
     __attribValues : null,
     __propertyValues : null,
     __eventValues : null,

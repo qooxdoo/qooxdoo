@@ -52,6 +52,8 @@ qx.Class.define("qx.html.Canvas",
   members :
   {
 
+    __canvas : null,
+
     // overridden
     _createDomElement : function() {
       return this.__canvas;
