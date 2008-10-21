@@ -176,15 +176,15 @@ qx.Theme.define("qx.theme.modern.Appearance",
           decorator = "button-pressed";
           textColor = "text-hovered";
         }
-        else if (states.hovered)
-        {
-          decorator = "button-hovered";
-          textColor = "text-hovered";
-        }
         else if (states.checked)
         {
           decorator = "button-checked";
           textColor = undefined;
+        }
+        else if (states.hovered)
+        {
+          decorator = "button-hovered";
+          textColor = "text-hovered";
         }
         else if (states.preselected && states.focused && !states.inner)
         {
