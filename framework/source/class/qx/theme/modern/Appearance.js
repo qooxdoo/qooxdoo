@@ -1668,7 +1668,6 @@ qx.Theme.define("qx.theme.modern.Appearance",
       {
         return {
           source : "decoration/arrows/down.png",
-          paddingRight : 4,
           paddingLeft : 5
         };
       }
