@@ -723,7 +723,7 @@ qx.Class.define("qx.event.handler.DragAndDropHandler",
         doc.remove(this.__feedbackWidget);
 
         if (this.__feedbackAutoDispose) {
-          this.__feedbackWidget.dispose();
+          this.__feedbackWidget.destroy();
         }
 
         this.__feedbackWidget = null;

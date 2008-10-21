@@ -895,7 +895,7 @@ qx.Class.define("qx.ui.table.Table",
       {
         for (var i=scrollerArr.length-1; i>=fromMetaColumn; i--)
         {
-          scrollerArr[i].dispose();
+          scrollerArr[i].destroy();
         }
       }
     },
@@ -1825,11 +1825,7 @@ qx.Class.define("qx.ui.table.Table",
     {
       if (this._columnVisibilityMenu != null && !this._columnVisibilityMenu.getDisposed())
       {
-        var parent = this._columnVisibilityMenu.getParent();
-        if (parent) {
-          parent.remove(this._columnVisibilityMenu);
-        }
-        this._columnVisibilityMenu.dispose();
+        this._columnVisibilityMenu.destroy();
         this._columnVisibilityMenu = null;
       }
     },

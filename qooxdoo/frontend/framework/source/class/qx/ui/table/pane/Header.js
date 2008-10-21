@@ -264,8 +264,7 @@ qx.Class.define("qx.ui.table.pane.Header",
     {
       if (this._moveFeedback != null)
       {
-        this.getTopLevelWidget().remove(this._moveFeedback);
-        this._moveFeedback.dispose();
+        this._moveFeedback.destroy();
         this._moveFeedback = null;
       }
     },
@@ -364,10 +363,7 @@ qx.Class.define("qx.ui.table.pane.Header",
       for (var x=children.length-1; x>=0; x--)
       {
         var cellWidget = children[x];
-
-        // this.debug("disposed:" + cellWidget.getDisposed() + ",has parent: " + (cellWidget.getParent() != null) + ",x:"+x);
-        this.remove(cellWidget);
-        cellWidget.dispose();
+        cellWidget.destroy();
       }
     }
   },

@@ -58,8 +58,8 @@ qx.Class.define("BasicSample",
       // Clear
       var data = this.__data;
       for (var i=0, l=data.length; i<l; i++) {
-          data[i].dispose();
-//          data[i].destroy();
+//          data[i].dispose();
+          data[i].destroy();
       }
       data.length = 0;
 

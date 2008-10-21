@@ -230,8 +230,7 @@ qx.Class.define("qx.ui.listview.ListViewPane",
           for (var vCol in vColumns)
           {
             vCell = vChildren[vChildrenLength--];
-            this.remove(vCell);
-            vCell.dispose();
+            vCell.destroy();
           }
         }
       }

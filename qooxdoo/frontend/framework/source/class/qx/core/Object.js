@@ -51,19 +51,24 @@ qx.Class.define("qx.core.Object",
   *****************************************************************************
   */
 
-  /**
-   * Create a new instance
-   *
-   * @type constructor
-   */
+
   construct : function()
   {
     this._hashCode = qx.core.Object.__availableHashCode++;
 
     if (this._autoDispose)
     {
-      this.__dbKey = qx.core.Object.__db.length;
-      qx.core.Object.__db.push(this);
+      // try to get a re-usable key
+      this.__dbKey=qx.core.Object.__freeAvailableDbKeys.pop();
+      
+      if (!this.__dbKey) {
+        // no re-usable key found ==> append to registry
+        this.__dbKey = qx.core.Object.__db.length;
+        qx.core.Object.__db.push(this);
+      } else {
+        // re-use key
+        qx.core.Object.__db[this.__dbKey] = this;
+      }
     }
   },
 
@@ -80,6 +85,9 @@ qx.Class.define("qx.core.Object",
   {
     /** TODOC */
     __availableHashCode : 0,
+
+    /** TODOC */
+    __freeAvailableDbKeys : [],
 
 
     /** TODOC */
@@ -868,6 +876,7 @@ qx.Class.define("qx.core.Object",
       } else {
         delete qx.core.Object.__db[this.__dbKey];
       }
+      qx.core.Object.__freeAvailableDbKeys.push(this.__dbKey);
     }
   }
 });

@@ -492,6 +492,8 @@ qx.Class.define("qx.ui.tree.AbstractTreeElement",
       if (parentFolder) {
         parentFolder.remove(this);
       }
+      
+      this.setParent(null);
 
       // delay the dispose until return from current call stack.  if we were
       // called via an event, e.g. a mouse click, the global queue will be

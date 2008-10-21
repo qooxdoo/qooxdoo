@@ -1753,16 +1753,13 @@ qx.Class.define("qx.ui.table.pane.Scroller",
           // function.
           qx.client.Timer.once(function()
           {
-            var d = qx.ui.core.ClientDocument.getInstance();
-            d.remove(this._cellEditor);
-
             this._cellEditor.removeEventListener(
               "disappear",
               this._onCellEditorModalWindowClose,
               this
             );
 
-            this._cellEditor.dispose();
+            this._cellEditor.destroy();
             this._cellEditor = null;
             this._cellEditorFactory = null;
           }, this, 0);
@@ -1770,10 +1767,9 @@ qx.Class.define("qx.ui.table.pane.Scroller",
           this._cellEditor.pendingDispose = true;
         }
         else
-        {
-          this._focusIndicator.remove(this._cellEditor);
+        {          
           this._focusIndicator.removeState("editing");
-          this._cellEditor.dispose();
+          this._cellEditor.destroy();
           this._cellEditor = null;
           this._cellEditorFactory = null;
         }

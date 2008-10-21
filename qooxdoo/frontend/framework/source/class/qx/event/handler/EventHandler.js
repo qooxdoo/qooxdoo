@@ -468,8 +468,14 @@ qx.Class.define("qx.event.handler.EventHandler",
      * @param vCommand {var} TODOC
      * @return {void}
      */
-    removeCommand : function(vCommand) {
+    removeCommand : function(vCommand)
+    {
       delete this._commands[vCommand.toHashCode()];
+      
+      // reset list if it is empty. This frees some browser memory
+      if (qx.lang.Object.isEmpty(this._commands)) {
+        this._commands = {};
+      }
     },
 
 

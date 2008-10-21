@@ -281,6 +281,7 @@ qx.Class.define("qx.ui.core.Widget",
       qx.ui.core.Widget.flushGlobalJobQueue();
       qx.ui.core.Widget.flushGlobalLayoutQueue();
       qx.ui.core.Widget.flushGlobalDisplayQueue();
+      qx.ui.core.Widget.flushGlobalDisposeQueue();
 
       delete qx.ui.core.Widget._inFlushGlobalQueues;
     },
@@ -360,6 +361,8 @@ qx.Class.define("qx.ui.core.Widget",
 
         vQueue.splice(0, vLength);
       }
+      
+      qx.ui.core.Widget._globalWidgetQueue = [];
     },
 
 
@@ -436,6 +439,8 @@ qx.Class.define("qx.ui.core.Widget",
 
         vQueue.splice(0, vLength);
       }
+      
+      qx.ui.core.Widget._globalElementQueue = [];
     },
 
 
@@ -593,6 +598,8 @@ qx.Class.define("qx.ui.core.Widget",
 
         vQueue.splice(0, vLength);
       }
+      
+      qx.ui.core.Widget._globalJobQueue = [];
     },
 
 
@@ -669,6 +676,8 @@ qx.Class.define("qx.ui.core.Widget",
 
         vQueue.splice(0, vLength);
       }
+      
+      qx.ui.core.Widget._globalLayoutQueue = [];
     },
 
 
@@ -792,6 +801,7 @@ qx.Class.define("qx.ui.core.Widget",
         }
       }
 
+      
       // Work on lazy queues: Other widgets
       for (vKey in vLazyQueues)
       {
@@ -868,16 +878,97 @@ qx.Class.define("qx.ui.core.Widget",
         delete vLazyQueues[vKey];
       }
 
+      
+      // reset queue if it is empty. This frees some browser memory
+      if (qx.lang.Object.isEmpty(vLazyQueues)) {
+        qx.ui.core.Widget._lazyGlobalDisplayQueues = {};
+      }
+
+      
       // Reset display queue flag for widgets in fastQueue
       for (var i=0, l=vFastQueue.length; i<l; i++) {
         delete vFastQueue[i]._isInGlobalDisplayQueue;
       }
 
       // Remove fast queue entries
-      qx.lang.Array.removeAll(vFastQueue);
+      qx.ui.core.Widget._fastGlobalDisplayQueue = [];
     },
 
 
+    /*
+    ---------------------------------------------------------------------------
+      DISPOSE QUEUE
+
+      Contains the widgets which should be disposed
+    ---------------------------------------------------------------------------
+    */
+
+    _globalDisposeQueue : [],
+
+
+    /**
+     * TODOC
+     *
+     * @type static
+     * @param vWidget {var} TODOC
+     * @return {void}
+     */
+    addToGlobalDisposeQueue : function(vWidget)
+    {
+      if (!vWidget._isInGlobalDisposeQueue && !vWidget.isDisposed())
+      {
+        if (qx.ui.core.Widget._autoFlushTimeout == null) {
+          qx.ui.core.Widget._initAutoFlush();
+        }
+
+        qx.ui.core.Widget._globalDisposeQueue.push(vWidget);
+        vWidget._isInGlobalDisposeQueue = true;
+      }
+    },
+   
+
+    /**
+     * TODOC
+     *
+     * @type static
+     * @param vWidget {var} TODOC
+     * @return {void}
+     */
+    removeFromGlobalDisposeQueue : function(vWidget)
+    {
+      if (vWidget._isInGlobalDisposeQueue)
+      {
+        qx.lang.Array.remove(qx.ui.core.Widget._globalDisposeQueue, vWidget);
+        delete vWidget._isInGlobalDisposeQueue;
+      }
+    },
+
+
+    /**
+     * TODOC
+     *
+     * @type static
+     * @return {void}
+     */
+    flushGlobalDisposeQueue : function()
+    {
+      var vQueue = qx.ui.core.Widget._globalDisposeQueue, vLength, vWidget;
+
+      while ((vLength = vQueue.length) > 0)
+      {
+        for (var i=0; i<vLength; i++)
+        {
+          vWidget = vQueue[i];
+
+          vWidget.dispose();
+          delete vWidget._isInGlobalDisposeQueue;
+        }
+
+        vQueue.splice(0, vLength);
+      }     
+      
+      qx.ui.core.Widget._globalDisposeQueue = [];
+    },
 
 
     /*
@@ -3001,7 +3092,14 @@ qx.Class.define("qx.ui.core.Widget",
     },
 
 
-
+    /**
+     * Removes the widget from its parent and disposes it. Use this function if you want to free the widget's during the runtime of the application.
+     */
+    destroy : function () 
+    {
+      this.setParent(null);
+      qx.ui.core.Widget.addToGlobalDisposeQueue(this);      
+    },
 
 
 
@@ -7324,6 +7422,7 @@ qx.Class.define("qx.ui.core.Widget",
                 statics._globalStateQueue.length > 0 ||
                 statics._globalJobQueue.length > 0 ||
                 statics._globalLayoutQueue.length > 0 ||
+                statics._globalDisposeQueue.length > 0 ||
                 statics._fastGlobalDisplayQueue.length > 0 ||
                 !qx.lang.Object.isEmpty(statics._lazyGlobalDisplayQueue))) {
             return;
@@ -7334,6 +7433,7 @@ qx.Class.define("qx.ui.core.Widget",
           var globalStateQueueLength = statics._globalStateQueue.length;
           var globalJobQueueLength = statics._globalJobQueue.length;
           var globalLayoutQueueLength = statics._globalLayoutQueue.length;
+          var globalDisposeQueueLength = statics._globalDisposeQueue.length;
           var fastGlobalDisplayQueueLength = statics._fastGlobalDisplayQueue.length;
           var lazyGlobalDisplayQueueLength = statics._lazyGlobalDisplayQueue ? statics._lazyGlobalDisplayQueue.length : 0;
 
@@ -7363,6 +7463,11 @@ qx.Class.define("qx.ui.core.Widget",
           var vLayoutDuration = (new Date).valueOf() - start;
 
           start = (new Date).valueOf();
+          statics.flushGlobalDisposeQueue();
+          var vDisposeDuration = (new Date).valueOf() - start;
+          
+          
+          start = (new Date).valueOf();
           statics.flushGlobalDisplayQueue();
           var vDisplayDuration = (new Date).valueOf() - start;
 
@@ -7377,9 +7482,10 @@ qx.Class.define("qx.ui.core.Widget",
             logger.debug("Element: " + vElementDuration + "ms (" + globalElementQueueLength + ")");
             logger.debug("Job: " + vJobDuration + "ms (" + globalJobQueueLength + ")");
             logger.debug("Layout: " + vLayoutDuration + "ms (" + globalLayoutQueueLength + ")");
+            logger.debug("Dispose: " + vDisposeDuration + "ms (" + globalDisposeQueueLength + ")");
             logger.debug("Display: " + vDisplayDuration + "ms (fast:" + fastGlobalDisplayQueueLength + ",lazy:" + lazyGlobalDisplayQueueLength + ")");
 
-            window.status = "Flush: Widget:" + vWidgetDuration + " State:" + vStateDuration + " Element:" + vElementDuration + " Job:" + vJobDuration + " Layout:" + vLayoutDuration + " Display:" + vDisplayDuration;
+            window.status = "Flush: Widget:" + vWidgetDuration + " State:" + vStateDuration + " Element:" + vElementDuration + " Job:" + vJobDuration + " Layout:" + vLayoutDuration + " Dispose:" + vDisposeDuration + " Display:" + vDisplayDuration;
           }
 
           delete statics._inFlushGlobalQueues;
