@@ -120,7 +120,7 @@ qx.Class.define("qx.ui.form.TextArea",
       hint.height = hint.height * 4;
 
       // 20 character wide
-      hint.width = this._textSize.width * 20;
+      hint.width = this._getTextSize().width * 20;
 
       return hint;
     }

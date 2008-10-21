@@ -53,6 +53,9 @@ qx.Class.define("qx.util.ValueManager",
 
   members :
   {
+
+    __dynamic : null,
+
     /**
      * Returns the dynamically interpreted result for the incoming value
      *
