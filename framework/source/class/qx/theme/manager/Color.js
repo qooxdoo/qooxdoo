@@ -58,9 +58,10 @@ qx.Class.define("qx.theme.manager.Color",
 
   members :
   {
+
     _applyTheme : function(value)
     {
-      var dest = this._dynamic = {};
+      var dest = {};
 
       if (value)
       {
@@ -90,6 +91,8 @@ qx.Class.define("qx.theme.manager.Color",
           dest[key] = temp;
         }
       }
+      
+      this._setDynamic(dest);
     }
   }
 });

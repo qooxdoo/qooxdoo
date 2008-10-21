@@ -300,6 +300,10 @@ qx.Class.define("qx.ui.decoration.Single",
 
   members :
   {
+
+    __markup : null,
+    __insets : null,
+
     /*
     ---------------------------------------------------------------------------
       INTERFACE IMPLEMENTATION
@@ -315,6 +319,7 @@ qx.Class.define("qx.ui.decoration.Single",
     // interface implementation
     getMarkup : function(element)
     {
+
       if (this.__markup) {
         return this.__markup;
       }

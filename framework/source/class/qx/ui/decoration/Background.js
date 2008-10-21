@@ -94,6 +94,9 @@ qx.Class.define("qx.ui.decoration.Background",
 
   members :
   {
+
+    __markup : null,
+
     /*
     ---------------------------------------------------------------------------
       INTERFACE IMPLEMENTATION

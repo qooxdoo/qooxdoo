@@ -134,6 +134,11 @@ qx.Class.define("qx.ui.decoration.Uniform",
 
   members :
   {
+
+    __markup : null,
+    __insets : null,
+
+
     /*
     ---------------------------------------------------------------------------
       INTERFACE IMPLEMENTATION

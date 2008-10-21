@@ -40,6 +40,10 @@ qx.Class.define("qx.locale.LocalizedString",
 
   members :
   {
+
+    __messageId : null,
+    __args : null,
+
     /**
      * Get a translation of the string using the current locale.
      *

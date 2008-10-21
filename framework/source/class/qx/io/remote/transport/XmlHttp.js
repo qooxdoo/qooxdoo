@@ -42,8 +42,8 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
   {
     this.base(arguments);
 
-    this._req = qx.io.remote.transport.XmlHttp.createRequestObject();
-    this._req.onreadystatechange = qx.lang.Function.bind(this._onreadystatechange, this);
+    this.__req = qx.io.remote.transport.XmlHttp.createRequestObject();
+    this.__req.onreadystatechange = qx.lang.Function.bind(this._onreadystatechange, this);
   },
 
 
@@ -137,8 +137,9 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
     ---------------------------------------------------------------------------
     */
 
-    _localRequest : false,
-    _lastReadyState : 0,
+    __localRequest : false,
+    __lastReadyState : 0,
+    __req : null,
 
 
     /**
@@ -147,7 +148,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
      * @return {Object} native XmlHTTPRequest object
      */
     getRequest : function() {
-      return this._req;
+      return this.__req;
     },
 
 
@@ -166,7 +167,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
      */
     send : function()
     {
-      this._lastReadyState = 0;
+      this.__lastReadyState = 0;
 
       var vRequest = this.getRequest();
       var vMethod = this.getMethod();
@@ -177,7 +178,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
       //   Local handling
       // --------------------------------------
       var vLocalRequest = (window.location.protocol === "file:" && !(/^http(s){0,1}\:/.test(vUrl)));
-      this._localRequest = vLocalRequest;
+      this.__localRequest = vLocalRequest;
 
       // --------------------------------------
       //   Adding parameters
@@ -390,14 +391,14 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
         // The status code is only meaningful when we reach ready state 4.
         // (Important for Opera since it goes through other states before
         // reaching 4, and the status code is not valid before 4 is reached.)
-        if (!qx.io.remote.Exchange.wasSuccessful(this.getStatusCode(), vReadyState, this._localRequest)) {
+        if (!qx.io.remote.Exchange.wasSuccessful(this.getStatusCode(), vReadyState, this.__localRequest)) {
           return this.failed();
         }
       }
 
       // Updating internal state
-      while (this._lastReadyState < vReadyState) {
-        this.setState(qx.io.remote.Exchange._nativeMap[++this._lastReadyState]);
+      while (this.__lastReadyState < vReadyState) {
+        this.setState(qx.io.remote.Exchange._nativeMap[++this.__lastReadyState]);
       }
     },
 
@@ -422,7 +423,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
       var vReadyState = null;
 
       try {
-        vReadyState = this._req.readyState;
+        vReadyState = this.__req.readyState;
       } catch(ex) {}
 
       return vReadyState;
@@ -445,7 +446,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
      * @return {void}
      */
     setRequestHeader : function(vLabel, vValue) {
-      this._req.setRequestHeader(vLabel, vValue);
+      this.__req.setRequestHeader(vLabel, vValue);
     },
 
 
@@ -490,7 +491,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
 
       try
       {
-        var vLoadHeader = this._req.getAllResponseHeaders();
+        var vLoadHeader = this.__req.getAllResponseHeaders();
 
         if (vLoadHeader) {
           vSourceHeader = vLoadHeader;
@@ -595,7 +596,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
       var vStatus = this.getStatusCode();
       var vReadyState = this.getReadyState();
 
-      if (qx.io.remote.Exchange.wasSuccessful(vStatus, vReadyState, this._localRequest))
+      if (qx.io.remote.Exchange.wasSuccessful(vStatus, vReadyState, this.__localRequest))
       {
         try {
           vResponseText = this.getRequest().responseText;
@@ -621,7 +622,7 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
       var vStatus = this.getStatusCode();
       var vReadyState = this.getReadyState();
 
-      if (qx.io.remote.Exchange.wasSuccessful(vStatus, vReadyState, this._localRequest))
+      if (qx.io.remote.Exchange.wasSuccessful(vStatus, vReadyState, this.__localRequest))
       {
         try {
           vResponseXML = this.getRequest().responseXML;
@@ -885,6 +886,6 @@ qx.Class.define("qx.io.remote.transport.XmlHttp",
       }
     }
 
-    this._disposeFields("_req");
+    this._disposeFields("__req");
   }
 });

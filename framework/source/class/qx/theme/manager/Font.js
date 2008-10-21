@@ -63,8 +63,10 @@ qx.Class.define("qx.theme.manager.Font",
      * @param value {String} dynamically interpreted idenfier
      * @return {var} return the (translated) result of the incoming value
      */
-    resolveDynamic : function(value) {
-      return value instanceof qx.bom.Font ? value : this._dynamic[value];
+    resolveDynamic : function(value)
+    {
+      var dynamic = this._getDynamic();
+      return value instanceof qx.bom.Font ? value : dynamic[value];
     },
 
 
@@ -74,14 +76,16 @@ qx.Class.define("qx.theme.manager.Font",
      * @param value {String} dynamically interpreted idenfier
      * @return {Boolean} returns true if the value is interpreted dynamically
      */
-    isDynamic : function(value) {
-      return value && (value instanceof qx.bom.Font || this._dynamic[value] !== undefined);
+    isDynamic : function(value)
+    {
+      var dynamic = this._getDynamic();
+      return value && (value instanceof qx.bom.Font || dynamic[value] !== undefined);
     },
 
 
     _applyTheme : function(value)
     {
-      var dest = this._dynamic;
+      var dest = this._getDynamic();
 
       for (var key in dest)
       {
@@ -103,6 +107,7 @@ qx.Class.define("qx.theme.manager.Font",
           dest[key].themed = true;
         }
       }
+      this._setDynamic(dest);
     }
   }
 });

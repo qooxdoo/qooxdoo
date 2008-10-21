@@ -137,6 +137,9 @@ qx.Mixin.define("qx.ui.core.MPlacement",
 
   members :
   {
+
+    __resizePlacement : null,
+
     /**
      * Returns the location data like {qx.bom.element.Location#get} does
      * but do not rely on DOM elements coords be rendered. Instead this method

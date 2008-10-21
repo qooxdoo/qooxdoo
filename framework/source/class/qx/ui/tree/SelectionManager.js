@@ -34,7 +34,7 @@ qx.Class.define("qx.ui.tree.SelectionManager",
       var computed = item.getBounds();
       if (computed)
       {
-        var top = this._widget.getItemOffset(item);
+        var top = this._getWidget().getItemOffset(item);
         return {
           top: top,
           bottom: top+computed.height
@@ -51,13 +51,15 @@ qx.Class.define("qx.ui.tree.SelectionManager",
 
     // overridden
     _getSelectableFromTarget : function(target) {
-      return this._widget.getTreeItem(target);
+      return this._getWidget().getTreeItem(target);
     },
 
 
     // overridden
-    _getSelectables : function() {
-      return this._widget.getRoot().getItems(true, false, this._widget.getHideRoot());
+    _getSelectables : function()
+    {
+      var widget = this._getWidget();
+      return widget.getRoot().getItems(true, false, widget.getHideRoot());
     },
 
 
@@ -106,13 +108,16 @@ qx.Class.define("qx.ui.tree.SelectionManager",
     // overridden
     _getRelatedSelectable : function(item, relation)
     {
+
+      var widget = this._getWidget();
+
       switch (relation)
       {
         case "above":
-          return this._widget.getPreviousSiblingOf(item, false);
+          return widget.getPreviousSiblingOf(item, false);
 
         case "under":
-          return this._widget.getNextSiblingOf(item, false);
+          return widget.getNextSiblingOf(item, false);
 
         case "left":
           if (item.isOpenable() && item.isOpen()) {

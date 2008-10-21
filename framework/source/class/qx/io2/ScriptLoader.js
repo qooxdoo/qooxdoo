@@ -87,6 +87,13 @@ qx.Bootstrap.define("qx.io2.ScriptLoader",
 
   members :
   {
+
+    __running : null,
+    __callback : null,
+    __context : null,
+    __oneventWrapped : null,
+    __elem : null,
+
     /**
      * Loads the script from the given URL. It is possible to define
      * a callback and a context in which the callback is executed.

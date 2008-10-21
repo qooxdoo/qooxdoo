@@ -167,8 +167,8 @@ qx.Class.define("qx.ui.decoration.Double",
 
   members :
   {
-    __markup : null,
-    __insets : null,
+    __ownMarkup : null,
+    __ownInsets : null,
 
 
 
@@ -181,8 +181,8 @@ qx.Class.define("qx.ui.decoration.Double",
     // interface implementation
     getMarkup : function()
     {
-      if (this.__markup) {
-        return this.__markup;
+      if (this.__ownMarkup) {
+        return this.__ownMarkup;
       }
 
       var Color = qx.theme.manager.Color.getInstance();
@@ -255,7 +255,7 @@ qx.Class.define("qx.ui.decoration.Double",
 
 
       // Store
-      return this.__markup = '<div style="position:absolute;top:0;left:0;' + outerStyles + '">' + innerHtml + '</div>';
+      return this.__ownMarkup = '<div style="position:absolute;top:0;left:0;' + outerStyles + '">' + innerHtml + '</div>';
     },
 
 
@@ -297,11 +297,11 @@ qx.Class.define("qx.ui.decoration.Double",
     // interface implementation
     getInsets : function()
     {
-      if (this.__insets) {
-        return this.__insets;
+      if (this.__ownInsets) {
+        return this.__ownInsets;
       }
 
-      this.__insets =
+      this.__ownInsets =
       {
         top : this.getWidthTop() + this.getInnerWidthTop(),
         right : this.getWidthRight() + this.getInnerWidthRight(),
@@ -309,7 +309,7 @@ qx.Class.define("qx.ui.decoration.Double",
         left : this.getWidthLeft() + this.getInnerWidthLeft()
       };
 
-      return this.__insets;
+      return this.__ownInsets;
     }
   },
 
@@ -322,6 +322,6 @@ qx.Class.define("qx.ui.decoration.Double",
   */
 
   destruct : function() {
-    this._disposeFields("__markup", "__insets");
+    this._disposeFields("__ownMarkup", "__ownInsets");
   }
 });
