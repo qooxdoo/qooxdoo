@@ -214,6 +214,7 @@ qx.Class.define("qx.ui.layout.Dock",
   {
     __children : null,
     __edges : null,
+    __invalidChildrenCache : null,
 
 
     // overridden
@@ -244,7 +245,7 @@ qx.Class.define("qx.ui.layout.Dock",
     _applySort : function()
     {
       // easiest way is to invalidate the cache
-      this._invalidChildrenCache = true;
+      this.__invalidChildrenCache = true;
 
       // call normal layout change
       this._applyLayoutChange();
@@ -336,7 +337,7 @@ qx.Class.define("qx.ui.layout.Dock",
       this.__edges = edges;
 
       // Clear invalidation marker
-      delete this._invalidChildrenCache;
+      delete this.__invalidChildrenCache;
     },
 
 
@@ -352,7 +353,7 @@ qx.Class.define("qx.ui.layout.Dock",
     renderLayout : function(availWidth, availHeight)
     {
       // Rebuild flex/width caches
-      if (this._invalidChildrenCache) {
+      if (this.__invalidChildrenCache) {
         this.__rebuildCache();
       }
 
@@ -800,7 +801,7 @@ qx.Class.define("qx.ui.layout.Dock",
     _computeSizeHint : function()
     {
       // Rebuild flex/width caches
-      if (this._invalidChildrenCache) {
+      if (this.__invalidChildrenCache) {
         this.__rebuildCache();
       }
 

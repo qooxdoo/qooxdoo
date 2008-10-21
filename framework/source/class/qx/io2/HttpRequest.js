@@ -247,6 +247,10 @@ qx.Class.define("qx.io2.HttpRequest",
 
   members :
   {
+
+    __req : null,
+    __headers : null,
+
     /*
     ---------------------------------------------------------------------------
       REQUEST DATA

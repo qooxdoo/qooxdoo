@@ -39,7 +39,7 @@ qx.Class.define("qx.ui.core.selection.Widget",
   {
     this.base(arguments);
 
-    this._widget = widget;
+    this.__widget = widget;
   },
 
 
@@ -54,6 +54,9 @@ qx.Class.define("qx.ui.core.selection.Widget",
 
   members :
   {
+
+    __widget : null,
+
     /*
     ---------------------------------------------------------------------------
       BASIC SUPPORT
@@ -62,7 +65,7 @@ qx.Class.define("qx.ui.core.selection.Widget",
 
     // overridden
     _isSelectable : function(item) {
-      return item.isEnabled() && item.getLayoutParent() === this._widget;
+      return item.isEnabled() && item.getLayoutParent() === this.__widget;
     },
 
 
@@ -80,16 +83,23 @@ qx.Class.define("qx.ui.core.selection.Widget",
 
     // overridden
     _capture : function() {
-      this._widget.capture();
+      this.__widget.capture();
     },
 
 
     // overridden
     _releaseCapture : function() {
-      this._widget.releaseCapture();
+      this.__widget.releaseCapture();
     },
 
 
+    /**
+     * Returns the connected widget.
+     * @return {qx.ui.core.Widget} The widget
+     */
+    _getWidget : function() {
+      return this.__widget;
+    },
 
 
 
@@ -103,14 +113,14 @@ qx.Class.define("qx.ui.core.selection.Widget",
     // overridden
     _getLocation : function()
     {
-      var elem = this._widget.getContentElement().getDomElement();
+      var elem = this.__widget.getContentElement().getDomElement();
       return elem ? qx.bom.element.Location.get(elem) : null;
     },
 
 
     // overridden
     _getDimension : function() {
-      return this._widget.getInnerSize();
+      return this.__widget.getInnerSize();
     },
 
 
@@ -170,7 +180,7 @@ qx.Class.define("qx.ui.core.selection.Widget",
 
     // overridden
     _scrollItemIntoView : function(item) {
-      this._widget.scrollChildIntoView(item);
+      this.__widget.scrollChildIntoView(item);
     },
 
 
@@ -187,7 +197,7 @@ qx.Class.define("qx.ui.core.selection.Widget",
     // overridden
     _getSelectables : function()
     {
-      var children = this._widget.getChildren();
+      var children = this.__widget.getChildren();
       var result = [];
       var child;
 
@@ -214,7 +224,7 @@ qx.Class.define("qx.ui.core.selection.Widget",
 
       // Iterate over children and collect all items
       // between the given two (including them)
-      var children = this._widget.getChildren();
+      var children = this.__widget.getChildren();
       var result = [];
       var active = false;
       var child;
@@ -248,7 +258,7 @@ qx.Class.define("qx.ui.core.selection.Widget",
     // overridden
     _getFirstSelectable : function()
     {
-      var children = this._widget.getChildren();
+      var children = this.__widget.getChildren();
       for (var i=0, l=children.length; i<l; i++)
       {
         if (children[i].isEnabled()) {
@@ -263,7 +273,7 @@ qx.Class.define("qx.ui.core.selection.Widget",
     // overridden
     _getLastSelectable : function()
     {
-      var children = this._widget.getChildren();
+      var children = this.__widget.getChildren();
       for (var i=children.length-1; i>0; i--)
       {
         if (children[i].isEnabled()) {
@@ -278,8 +288,8 @@ qx.Class.define("qx.ui.core.selection.Widget",
     // overridden
     _getRelatedSelectable : function(item, relation)
     {
-      var vertical = this._widget.getOrientation() === "vertical";
-      var children = this._widget.getChildren();
+      var vertical = this.__widget.getOrientation() === "vertical";
+      var children = this.__widget.getChildren();
       var index = children.indexOf(item);
       var sibling;
 
@@ -329,6 +339,6 @@ qx.Class.define("qx.ui.core.selection.Widget",
   */
 
   destruct : function() {
-    this._disposeFields("_widget");
+    this._disposeFields("__widget");
   }
 });

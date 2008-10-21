@@ -46,14 +46,14 @@ qx.Class.define("qx.io.remote.RequestQueue",
   {
     this.base(arguments);
 
-    this._queue = [];
-    this._active = [];
+    this.__queue = [];
+    this.__active = [];
 
-    this._totalRequests = 0;
+    this.__totalRequests = 0;
 
     // timeout handling
-    this._timer = new qx.event.Timer(500);
-    this._timer.addListener("interval", this._oninterval, this);
+    this.__timer = new qx.event.Timer(500);
+    this.__timer.addListener("interval", this._oninterval, this);
   },
 
 
@@ -119,6 +119,12 @@ qx.Class.define("qx.io.remote.RequestQueue",
 
   members :
   {
+
+    __queue : null,
+    __active : null,
+    __totalRequests : null,
+    __timer : null,
+
     /*
     ---------------------------------------------------------------------------
       QUEUE HANDLING
@@ -135,7 +141,7 @@ qx.Class.define("qx.io.remote.RequestQueue",
         if (qx.core.Setting.get("qx.ioRemoteDebug"))
         {
           // Debug output
-          var vText = this._active.length + "/" + (this._queue.length + this._active.length);
+          var vText = this.__active.length + "/" + (this.__queue.length + this.__active.length);
 
           this.debug("Progress: " + vText);
           window.status = "Request-Queue Progress: " + vText;
@@ -157,8 +163,8 @@ qx.Class.define("qx.io.remote.RequestQueue",
       this._debug();
 
       // Check queues and stop timer if not needed anymore
-      if (this._active.length == 0 && this._queue.length == 0) {
-        this._timer.stop();
+      if (this.__active.length == 0 && this.__queue.length == 0) {
+        this.__timer.stop();
       }
 
       // Checking if enabled
@@ -167,23 +173,23 @@ qx.Class.define("qx.io.remote.RequestQueue",
       }
 
       // Checking active queue fill
-      if (this._active.length >= this.getMaxConcurrentRequests() || this._queue.length == 0) {
+      if (this.__active.length >= this.getMaxConcurrentRequests() || this.__queue.length == 0) {
         return;
       }
 
       // Checking number of total requests
-      if (this.getMaxTotalRequests() != null && this._totalRequests >= this.getMaxTotalRequests()) {
+      if (this.getMaxTotalRequests() != null && this.__totalRequests >= this.getMaxTotalRequests()) {
         return;
       }
 
-      var vRequest = this._queue.shift();
+      var vRequest = this.__queue.shift();
       var vTransport = new qx.io.remote.Exchange(vRequest);
 
       // Increment counter
-      this._totalRequests++;
+      this.__totalRequests++;
 
       // Add to active queue
-      this._active.push(vTransport);
+      this.__active.push(vTransport);
 
       // Debug output
       this._debug();
@@ -211,7 +217,7 @@ qx.Class.define("qx.io.remote.RequestQueue",
       vTransport.send();
 
       // Retry
-      if (this._queue.length > 0) {
+      if (this.__queue.length > 0) {
         this._check();
       }
     },
@@ -227,7 +233,7 @@ qx.Class.define("qx.io.remote.RequestQueue",
     _remove : function(vTransport)
     {
       // Remove from active transports
-      qx.lang.Array.remove(this._active, vTransport);
+      qx.lang.Array.remove(this.__active, vTransport);
 
       // Dispose transport object
       vTransport.dispose();
@@ -245,7 +251,7 @@ qx.Class.define("qx.io.remote.RequestQueue",
     ---------------------------------------------------------------------------
     */
 
-    _activeCount : 0,
+    __activeCount : 0,
 
 
     /**
@@ -261,10 +267,10 @@ qx.Class.define("qx.io.remote.RequestQueue",
       {
         if (qx.core.Setting.get("qx.ioRemoteDebug"))
         {
-          this._activeCount++;
+          this.__activeCount++;
           e.getTarget()._counted = true;
 
-          this.debug("ActiveCount: " + this._activeCount);
+          this.debug("ActiveCount: " + this.__activeCount);
         }
       }
     },
@@ -285,8 +291,8 @@ qx.Class.define("qx.io.remote.RequestQueue",
         {
           if (e.getTarget()._counted)
           {
-            this._activeCount--;
-            this.debug("ActiveCount: " + this._activeCount);
+            this.__activeCount--;
+            this.debug("ActiveCount: " + this.__activeCount);
           }
         }
       }
@@ -312,11 +318,11 @@ qx.Class.define("qx.io.remote.RequestQueue",
      */
     _oninterval : function(e)
     {
-      var vActive = this._active;
+      var vActive = this.__active;
 
       if (vActive.length == 0)
       {
-        this._timer.stop();
+        this.__timer.stop();
         return;
       }
 
@@ -376,7 +382,7 @@ qx.Class.define("qx.io.remote.RequestQueue",
         this._check();
       }
 
-      this._timer.setEnabled(value);
+      this.__timer.setEnabled(value);
     },
 
 
@@ -398,11 +404,11 @@ qx.Class.define("qx.io.remote.RequestQueue",
     {
       vRequest.setState("queued");
 
-      this._queue.push(vRequest);
+      this.__queue.push(vRequest);
       this._check();
 
       if (this.getEnabled()) {
-        this._timer.start();
+        this.__timer.start();
       }
     },
 
@@ -424,8 +430,8 @@ qx.Class.define("qx.io.remote.RequestQueue",
 
       if (vTransport) {
         vTransport.abort();
-      } else if (qx.lang.Array.contains(this._queue, vRequest)) {
-        qx.lang.Array.remove(this._queue, vRequest);
+      } else if (qx.lang.Array.contains(this.__queue, vRequest)) {
+        qx.lang.Array.remove(this.__queue, vRequest);
       }
     }
   },
@@ -441,8 +447,8 @@ qx.Class.define("qx.io.remote.RequestQueue",
 
   destruct : function()
   {
-    this._disposeArray("_active");
-    this._disposeObjects("_timer");
-    this._disposeFields("_queue");
+    this._disposeArray("__active");
+    this._disposeObjects("__timer");
+    this._disposeFields("__queue");
   }
 });

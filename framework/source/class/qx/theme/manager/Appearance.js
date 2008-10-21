@@ -75,8 +75,10 @@ qx.Class.define("qx.theme.manager.Appearance",
 
   members :
   {
-    __defaultStates : {},
 
+    __defaultStates : {},
+    __styleCache : null,
+    __aliasMap : null,
 
     _applyAppearanceTheme : function(value, old)
     {

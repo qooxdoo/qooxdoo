@@ -788,6 +788,7 @@ qx.Class.define("qx.ui.core.Widget",
     __decoratorElement : null,
     __shadowElement : null,
     __protectorElement : null,
+    __initialAppearanceApplied : null,
 
 
     /*

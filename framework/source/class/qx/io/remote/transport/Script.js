@@ -44,14 +44,14 @@ qx.Class.define("qx.io.remote.transport.Script",
   {
     this.base(arguments);
 
-    var vUniqueId = ++qx.io.remote.transport.Script._uniqueId;
+    var vUniqueId = ++qx.io.remote.transport.Script.__uniqueId;
 
     if (vUniqueId >= 2000000000) {
-      qx.io.remote.transport.Script._uniqueId = vUniqueId = 1;
+      qx.io.remote.transport.Script.__uniqueId = vUniqueId = 1;
     }
 
-    this._element = null;
-    this._uniqueId = vUniqueId;
+    this.__element = null;
+    this.__uniqueId = vUniqueId;
   },
 
 
@@ -65,7 +65,7 @@ qx.Class.define("qx.io.remote.transport.Script",
 
   statics :
   {
-    _uniqueId : 0,
+    __uniqueId : 0,
     _instanceRegistry : {},
 
     ScriptTransport_PREFIX : "_ScriptTransport_",
@@ -153,10 +153,10 @@ qx.Class.define("qx.io.remote.transport.Script",
 
   members :
   {
-    _lastReadyState : 0,
 
-
-
+    __lastReadyState : 0,
+    __element : null,
+    __uniqueId : null,
 
     /*
     ---------------------------------------------------------------------------
@@ -176,7 +176,7 @@ qx.Class.define("qx.io.remote.transport.Script",
       // --------------------------------------
       //   Adding parameters
       // --------------------------------------
-      vUrl += (vUrl.indexOf("?") >= 0 ? "&" : "?") + qx.io.remote.transport.Script.ScriptTransport_ID_PARAM + "=" + this._uniqueId;
+      vUrl += (vUrl.indexOf("?") >= 0 ? "&" : "?") + qx.io.remote.transport.Script.ScriptTransport_ID_PARAM + "=" + this.__uniqueId;
 
       var vParameters = this.getParameters();
       var vParametersList = [];
@@ -214,14 +214,14 @@ qx.Class.define("qx.io.remote.transport.Script",
         vUrl += "&" + qx.io.remote.transport.Script.ScriptTransport_DATA_PARAM + "=" + encodeURIComponent(vData);
       }
 
-      qx.io.remote.transport.Script._instanceRegistry[this._uniqueId] = this;
-      this._element = document.createElement("script");
+      qx.io.remote.transport.Script._instanceRegistry[this.__uniqueId] = this;
+      this.__element = document.createElement("script");
 
       // IE needs this (it ignores the
       // encoding from the header sent by the
       // server for dynamic script tags)
-      this._element.charset = "utf-8";
-      this._element.src = vUrl;
+      this.__element.charset = "utf-8";
+      this.__element.src = vUrl;
 
       if (qx.core.Variant.isSet("qx.debug", "on"))
       {
@@ -231,7 +231,7 @@ qx.Class.define("qx.io.remote.transport.Script",
         }
       }
 
-      document.body.appendChild(this._element);
+      document.body.appendChild(this.__element);
     },
 
 
@@ -255,8 +255,8 @@ qx.Class.define("qx.io.remote.transport.Script",
       }
 
       // Updating internal state
-      while (this._lastReadyState < vReadyState) {
-        this.setState(qx.io.remote.Exchange._nativeMap[++this._lastReadyState]);
+      while (this.__lastReadyState < vReadyState) {
+        this.setState(qx.io.remote.Exchange._nativeMap[++this.__lastReadyState]);
       }
     },
 
@@ -440,12 +440,12 @@ qx.Class.define("qx.io.remote.transport.Script",
 
   destruct : function()
   {
-    if (this._element)
+    if (this.__element)
     {
-      delete qx.io.remote.transport.Script._instanceRegistry[this._uniqueId];
-      document.body.removeChild(this._element);
+      delete qx.io.remote.transport.Script._instanceRegistry[this.__uniqueId];
+      document.body.removeChild(this.__element);
     }
 
-    this._disposeFields("_element", "_responseContent");
+    this._disposeFields("__element", "_responseContent");
   }
 });

@@ -50,9 +50,9 @@ qx.Class.define("qx.io.remote.Request",
   {
     this.base(arguments);
 
-    this._requestHeaders = {};
-    this._parameters = {};
-    this._formFields = {};
+    this.__requestHeaders = {};
+    this.__parameters = {};
+    this.__formFields = {};
 
     if (vUrl !== undefined) {
       this.setUrl(vUrl);
@@ -75,7 +75,7 @@ qx.Class.define("qx.io.remote.Request",
     //this.setRequestHeader("X-Qooxdoo-Version", qx.core.Setting.get("qx.version"));
 
     // Get the next sequence number for this request
-    this._seqNum = ++qx.io.remote.Request._seqNum;
+    this.__seqNum = ++qx.io.remote.Request.__seqNum;
   },
 
 
@@ -137,7 +137,7 @@ qx.Class.define("qx.io.remote.Request",
      * Sequence (id) number of a request, used to associate a response or error
      * with its initiating request.
      */
-    _seqNum : 0
+    __seqNum : 0
   },
 
 
@@ -333,6 +333,12 @@ qx.Class.define("qx.io.remote.Request",
 
   members :
   {
+
+    __requestHeaders : null,
+    __parameters : null,
+    __formFields : null,
+    __seqNum : null,
+
     /*
     ---------------------------------------------------------------------------
       CORE METHODS
@@ -736,7 +742,7 @@ qx.Class.define("qx.io.remote.Request",
      * @return {void}
      */
     setRequestHeader : function(vId, vValue) {
-      this._requestHeaders[vId] = vValue;
+      this.__requestHeaders[vId] = vValue;
     },
 
 
@@ -747,7 +753,7 @@ qx.Class.define("qx.io.remote.Request",
      * @return {void}
      */
     removeRequestHeader : function(vId) {
-      delete this._requestHeaders[vId];
+      delete this.__requestHeaders[vId];
     },
 
 
@@ -758,7 +764,7 @@ qx.Class.define("qx.io.remote.Request",
      * @return {String} The value of the header wiith the specified id
      */
     getRequestHeader : function(vId) {
-      return this._requestHeaders[vId] || null;
+      return this.__requestHeaders[vId] || null;
     },
 
 
@@ -770,7 +776,7 @@ qx.Class.define("qx.io.remote.Request",
      *     property corresponding to that id.
      */
     getRequestHeaders : function() {
-      return this._requestHeaders;
+      return this.__requestHeaders;
     },
 
 
@@ -792,7 +798,7 @@ qx.Class.define("qx.io.remote.Request",
      * @return {void}
      */
     setParameter : function(vId, vValue) {
-      this._parameters[vId] = vValue;
+      this.__parameters[vId] = vValue;
     },
 
 
@@ -803,7 +809,7 @@ qx.Class.define("qx.io.remote.Request",
      * @return {void}
      */
     removeParameter : function(vId) {
-      delete this._parameters[vId];
+      delete this.__parameters[vId];
     },
 
 
@@ -814,7 +820,7 @@ qx.Class.define("qx.io.remote.Request",
      * @return {var} TODOC
      */
     getParameter : function(vId) {
-      return this._parameters[vId] || null;
+      return this.__parameters[vId] || null;
     },
 
 
@@ -826,7 +832,7 @@ qx.Class.define("qx.io.remote.Request",
      *     of the property corresponding to that id.
      */
     getParameters : function() {
-      return this._parameters;
+      return this.__parameters;
     },
 
 
@@ -853,7 +859,7 @@ qx.Class.define("qx.io.remote.Request",
      * @return {void}
      */
     setFormField : function(vId, vValue) {
-      this._formFields[vId] = vValue;
+      this.__formFields[vId] = vValue;
     },
 
 
@@ -864,7 +870,7 @@ qx.Class.define("qx.io.remote.Request",
      * @return {void}
      */
     removeFormField : function(vId) {
-      delete this._formFields[vId];
+      delete this.__formFields[vId];
     },
 
 
@@ -875,7 +881,7 @@ qx.Class.define("qx.io.remote.Request",
      * @return {var} TODOC
      */
     getFormField : function(vId) {
-      return this._formFields[vId] || null;
+      return this.__formFields[vId] || null;
     },
 
 
@@ -887,7 +893,7 @@ qx.Class.define("qx.io.remote.Request",
      *     of the property corresponding to that id.
      */
     getFormFields : function() {
-      return this._formFields;
+      return this.__formFields;
     },
 
 
@@ -897,7 +903,7 @@ qx.Class.define("qx.io.remote.Request",
      * @return {Integer} The sequence number of this request
      */
     getSequenceNumber : function() {
-      return this._seqNum;
+      return this.__seqNum;
     }
   },
 
@@ -913,6 +919,6 @@ qx.Class.define("qx.io.remote.Request",
   destruct : function()
   {
     this.setTransport(null);
-    this._disposeFields("_requestHeaders", "_parameters", "_formFields");
+    this._disposeFields("__requestHeaders", "__parameters", "__formFields");
   }
 });

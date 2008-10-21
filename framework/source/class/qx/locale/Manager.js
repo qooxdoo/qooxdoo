@@ -49,7 +49,7 @@ qx.Class.define("qx.locale.Manager",
     this.base(arguments);
 
     this.__translations = window.qxtranslations || {};
-    this.__locales      = window.qxlocales || {};
+    this.___locales      = window.qxlocales || {};
 
     var clazz = qx.bom.client.Locale;
 
@@ -59,7 +59,7 @@ qx.Class.define("qx.locale.Manager",
       locale += "_" + variant;
     }
 
-    this.setLocale(locale || this._defaultLocale);
+    this.setLocale(locale || this.__defaultLocale);
   },
 
 
@@ -179,8 +179,12 @@ qx.Class.define("qx.locale.Manager",
 
   members :
   {
-    _defaultLocale : "C",
 
+    __defaultLocale : "C",
+    __locale : null,
+    __language : null,
+    __translations : null,
+    __locales : null,
 
     /**
      * Get the language code of the current locale
@@ -190,7 +194,7 @@ qx.Class.define("qx.locale.Manager",
      * @return {String} language code
      */
     getLanguage : function() {
-      return this._language;
+      return this.__language;
     },
 
 
@@ -217,9 +221,9 @@ qx.Class.define("qx.locale.Manager",
     {
       var locales = [];
 
-      for (var locale in this.__locales)
+      for (var locale in this.___locales)
       {
-        if (locale != this._defaultLocale) {
+        if (locale != this.__defaultLocale) {
           locales.push(locale);
         }
       }
@@ -252,8 +256,8 @@ qx.Class.define("qx.locale.Manager",
     // property apply
     _applyLocale : function(value, old)
     {
-      this._locale = value;
-      this._language = this.__extractLanguage(value);
+      this.__locale = value;
+      this.__language = this.__extractLanguage(value);
     },
 
 
@@ -302,8 +306,8 @@ qx.Class.define("qx.locale.Manager",
       }
       else
       {
-        locale = this._locale;
-        language = this._language;
+        locale = this.__locale;
+        language = this.__language;
       }
 
       if (!txt && catalog[locale]) {
@@ -314,8 +318,8 @@ qx.Class.define("qx.locale.Manager",
         txt = catalog[language][messageId];
       }
 
-      if (!txt && catalog[this._defaultLocale]) {
-        txt = catalog[this._defaultLocale][messageId];
+      if (!txt && catalog[this.__defaultLocale]) {
+        txt = catalog[this.__defaultLocale][messageId];
       }
 
       if (!txt) {
@@ -356,7 +360,7 @@ qx.Class.define("qx.locale.Manager",
     localize : function(messageId, args, locale)
     {
       var txt;
-      var catalog = this.__locales;
+      var catalog = this.___locales;
 
       if (!catalog) {
         return messageId;
@@ -367,8 +371,8 @@ qx.Class.define("qx.locale.Manager",
       }
       else
       {
-        locale = this._locale;
-        language = this._language;
+        locale = this.__locale;
+        language = this.__language;
       }
 
       if (!txt && catalog[locale]) {
@@ -379,8 +383,8 @@ qx.Class.define("qx.locale.Manager",
         txt = catalog[language][messageId];
       }
 
-      if (!txt && catalog[this._defaultLocale]) {
-        txt = catalog[this._defaultLocale][messageId];
+      if (!txt && catalog[this.__defaultLocale]) {
+        txt = catalog[this.__defaultLocale][messageId];
       }
 
       if (!txt) {
@@ -418,6 +422,6 @@ qx.Class.define("qx.locale.Manager",
   */
 
   destruct : function() {
-    this._disposeFields("__translations", "__locales");
+    this._disposeFields("__translations", "___locales");
   }
 });
