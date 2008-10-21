@@ -51,7 +51,7 @@ qx.Class.define("qx.ui.root.Page",
   construct : function(doc)
   {
     // Temporary storage of element to use
-    this._doc = doc;
+    this.__doc = doc;
 
     this.base(arguments);
 
@@ -83,11 +83,15 @@ qx.Class.define("qx.ui.root.Page",
 
   members :
   {
+
+    __timer : null,
+    __doc : null,
+
     // overridden
     _createContainerElement : function()
     {
-      var elem = this._doc.createElement("div");
-      this._doc.body.appendChild(elem);
+      var elem = this.__doc.createElement("div");
+      this.__doc.body.appendChild(elem);
 
       var root = new qx.html.Root(elem);
       root.setStyle("position", "absolute");
@@ -168,7 +172,7 @@ qx.Class.define("qx.ui.root.Page",
      */
     __syncBlocker : function()
     {
-      var body = this._doc.body;
+      var body = this.__doc.body;
 
       this._getContentBlocker().setStyles({
         height: body.offsetHeight + "px",
@@ -241,6 +245,6 @@ qx.Class.define("qx.ui.root.Page",
   */
 
   destruct : function() {
-    this._disposeFields("_doc");
+    this._disposeFields("__doc");
   }
 });
