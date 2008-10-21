@@ -149,6 +149,7 @@ qx.Class.define("qx.util.format.DateFormat",
     __format : null,
     __parseFeed : null,
     __parseRules : null,
+    __formatTree : null,
 
     /**
      * Fills a number with leading zeros ("25" -> "0025").
@@ -259,9 +260,9 @@ qx.Class.define("qx.util.format.DateFormat",
       this.__initFormatTree();
       var output = "";
 
-      for (var i=0; i<this.___formatTree.length; i++)
+      for (var i=0; i<this.__formatTree.length; i++)
       {
-        var currAtom = this.___formatTree[i];
+        var currAtom = this.__formatTree[i];
 
         if (currAtom.type == "literal") {
           output += currAtom.text;
@@ -452,11 +453,11 @@ qx.Class.define("qx.util.format.DateFormat",
      */
     __initFormatTree : function()
     {
-      if (this.___formatTree != null) {
+      if (this.__formatTree != null) {
         return;
       }
 
-      this.___formatTree = [];
+      this.__formatTree = [];
 
       var currWildcardChar;
       var currWildcardSize = 0;
@@ -523,7 +524,7 @@ qx.Class.define("qx.util.format.DateFormat",
             else
             {
               // It does not -> The current wildcard is done
-              this.___formatTree.push(
+              this.__formatTree.push(
               {
                 type      : "wildcard",
                 character : currWildcardChar,
@@ -577,7 +578,7 @@ qx.Class.define("qx.util.format.DateFormat",
               // Add the literal
               if (currLiteral.length > 0)
               {
-                this.___formatTree.push(
+                this.__formatTree.push(
                 {
                   type : "literal",
                   text : currLiteral
@@ -600,7 +601,7 @@ qx.Class.define("qx.util.format.DateFormat",
       // Add the last wildcard or literal
       if (currWildcardChar != null)
       {
-        this.___formatTree.push(
+        this.__formatTree.push(
         {
           type      : "wildcard",
           character : currWildcardChar,
@@ -609,7 +610,7 @@ qx.Class.define("qx.util.format.DateFormat",
       }
       else if (currLiteral.length > 0)
       {
-        this.___formatTree.push(
+        this.__formatTree.push(
         {
           type : "literal",
           text : currLiteral
@@ -645,9 +646,9 @@ qx.Class.define("qx.util.format.DateFormat",
       var usedRules = [];
       var pattern = "^";
 
-      for (var atomIdx=0; atomIdx<this.___formatTree.length; atomIdx++)
+      for (var atomIdx=0; atomIdx<this.__formatTree.length; atomIdx++)
       {
-        var currAtom = this.___formatTree[atomIdx];
+        var currAtom = this.__formatTree[atomIdx];
 
         if (currAtom.type == "literal") {
           pattern += qx.lang.String.escapeRegexpChars(currAtom.text);
@@ -1036,6 +1037,6 @@ qx.Class.define("qx.util.format.DateFormat",
   */
 
   destruct : function() {
-    this._disposeFields("__format", "__locale", "___formatTree", "__parseFeed", "__parseRules");
+    this._disposeFields("__format", "__locale", "__formatTree", "__parseFeed", "__parseRules");
   }
 });

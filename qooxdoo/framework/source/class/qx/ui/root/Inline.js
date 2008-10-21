@@ -63,7 +63,7 @@ qx.Class.define("qx.ui.root.Inline",
   construct : function(el, dynamicX, dynamicY)
   {
     // Temporary storage of element to use
-    this._elem = el;
+    this.__elem = el;
 
     this.__dynX = dynamicX || false;
     this.__dynY = dynamicY || false;
@@ -91,6 +91,7 @@ qx.Class.define("qx.ui.root.Inline",
   {
     __dynX : false,
     __dynY : false,
+    __elem : null,
 
 
     /**
@@ -99,7 +100,7 @@ qx.Class.define("qx.ui.root.Inline",
     __initDynamic : function()
     {
       if (this.__dynX || this.__dynY) {
-        qx.event.Registration.addListener(this._elem, "resize", this._onResize, this);
+        qx.event.Registration.addListener(this.__elem, "resize", this._onResize, this);
       }
     },
 
@@ -107,7 +108,7 @@ qx.Class.define("qx.ui.root.Inline",
     // overridden
     _createContainerElement : function()
     {
-      var el = this._elem;
+      var el = this.__elem;
 
       if (this.__dynX || this.__dynY)
       {
@@ -162,7 +163,7 @@ qx.Class.define("qx.ui.root.Inline",
 
       if (dynX)
       {
-        var width = this._elem.offsetWidth;
+        var width = this.__elem.offsetWidth;
         hint.width = width;
         hint.minWidth = width;
         hint.maxWidth = width;
@@ -170,7 +171,7 @@ qx.Class.define("qx.ui.root.Inline",
 
       if (dynY)
       {
-        var height = this._elem.offsetHeight;
+        var height = this.__elem.offsetHeight;
         hint.height = height;
         hint.minHeight = height;
         hint.maxHeight = height;
@@ -203,7 +204,7 @@ qx.Class.define("qx.ui.root.Inline",
 
   destruct : function()
   {
-    qx.event.Registration.removeListener(this._elem, "resize", this._onResize, this);
-    this._disposeFields("_elem");
+    qx.event.Registration.removeListener(this.__elem, "resize", this._onResize, this);
+    this._disposeFields("__elem");
   }
 });

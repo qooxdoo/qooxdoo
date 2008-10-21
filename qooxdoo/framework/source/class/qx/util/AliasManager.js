@@ -40,7 +40,7 @@ qx.Class.define("qx.util.AliasManager",
     this.base(arguments);
 
     // Contains defined aliases (like icons/, widgets/, application/, ...)
-    this._aliases = {};
+    this.__aliases = {};
 
     // Define static alias from setting
     this.add("static", "qx/static");
@@ -57,6 +57,9 @@ qx.Class.define("qx.util.AliasManager",
 
   members :
   {
+
+    __aliases : null,
+
     /**
      * pre process incoming dynamic value
      *
@@ -80,7 +83,7 @@ qx.Class.define("qx.util.AliasManager",
         }
 
         var alias = value.substring(0, value.indexOf("/"));
-        var resolved = this._aliases[alias];
+        var resolved = this.__aliases[alias];
 
         if (resolved !== undefined) {
           dynamics[value] = resolved + value.substring(alias.length);
@@ -101,7 +104,7 @@ qx.Class.define("qx.util.AliasManager",
     add : function(alias, base)
     {
       // Store new alias value
-      this._aliases[alias] = base;
+      this.__aliases[alias] = base;
 
       // Localify stores
       var dynamics = this._getDynamic();
@@ -129,7 +132,7 @@ qx.Class.define("qx.util.AliasManager",
      */
     remove : function(alias)
     {
-      delete this._aliases[alias];
+      delete this.__aliases[alias];
 
       // No signal for depending objects here. These
       // will informed with the new value using add().
@@ -167,6 +170,6 @@ qx.Class.define("qx.util.AliasManager",
   */
 
   destruct : function() {
-    this._disposeFields("_aliases");
+    this._disposeFields("__aliases");
   }
 });

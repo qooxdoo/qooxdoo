@@ -54,14 +54,14 @@ qx.Class.define("qx.ui.root.Application",
   construct : function(doc)
   {
     // Symbolic links
-    this._window = qx.dom.Node.getWindow(doc);
-    this._doc = doc;
+    this.__window = qx.dom.Node.getWindow(doc);
+    this.__doc = doc;
 
     // Base call
     this.base(arguments);
 
     // Resize handling
-    qx.event.Registration.addListener(this._window, "resize", this._onResize, this);
+    qx.event.Registration.addListener(this.__window, "resize", this._onResize, this);
 
     // Use a hard-coded canvas layout
     this._setLayout(new qx.ui.layout.Canvas());
@@ -84,10 +84,14 @@ qx.Class.define("qx.ui.root.Application",
 
   members :
   {
+    
+    __window : null,
+    __doc : null,
+
     // overridden
     _createContainerElement : function()
     {
-      var doc = this._doc;
+      var doc = this.__doc;
 
       // Apply application layout
       var hstyle = doc.documentElement.style;
@@ -124,8 +128,8 @@ qx.Class.define("qx.ui.root.Application",
     // overridden
     _computeSizeHint : function()
     {
-      var width = qx.bom.Viewport.getWidth(this._window);
-      var height = qx.bom.Viewport.getHeight(this._window);
+      var width = qx.bom.Viewport.getWidth(this.__window);
+      var height = qx.bom.Viewport.getHeight(this.__window);
 
       return {
         minWidth : width,
@@ -148,6 +152,6 @@ qx.Class.define("qx.ui.root.Application",
   */
 
   destruct : function() {
-    this._disposeFields("_window", "_doc");
+    this._disposeFields("__window", "__doc");
   }
 });
