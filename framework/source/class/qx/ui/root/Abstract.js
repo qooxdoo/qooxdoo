@@ -144,6 +144,9 @@ qx.Class.define("qx.ui.root.Abstract",
 
   members :
   {
+
+    __globalCursorStyleSheet : null,
+
     // overridden
     isRootWidget : function() {
       return true;

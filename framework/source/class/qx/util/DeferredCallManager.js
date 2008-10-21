@@ -56,6 +56,7 @@ qx.Class.define("qx.util.DeferredCallManager",
     __currentQueue : null,
     __calls : null,
     __hasCalls : null,
+    __timeoutWrapper : null,
 
 
     /**
