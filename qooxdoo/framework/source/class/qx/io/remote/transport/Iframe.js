@@ -80,7 +80,7 @@ qx.Class.define("qx.io.remote.transport.Iframe",
     document.body.appendChild(this.__form);
 
     this.__data = document.createElement("textarea");
-    this.__data.id = this.__data.name = "__data_";
+    this.__data.id = this.__data.name = "_data_";
     this.__form.appendChild(this.__data);
 
     this.__frame.onreadystatechange = qx.lang.Function.bind(this._onreadystatechange, this);
